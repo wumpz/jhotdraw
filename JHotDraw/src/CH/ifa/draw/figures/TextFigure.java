@@ -67,8 +67,8 @@ public  class TextFigure
 	public void moveBy(int x, int y) {
 		willChange();
 		basicMoveBy(x, y);
-		if (fLocator != null) {
-			fLocator.moveBy(x, y);
+		if (getLocator() != null) {
+			getLocator().moveBy(x, y);
 		}
 		changed();
 	}
@@ -111,6 +111,18 @@ public  class TextFigure
 	 */
 	public Font getFont() {
 		return fFont;
+	}
+
+	/**
+	 * Usually, a TextHolders is implemented by a Figure subclass. To avoid casting
+	 * a TextHolder to a Figure this method can be used for polymorphism (in this
+	 * case, let the (same) object appear to be of another type).
+	 * Note, that the figure returned is not the figure to which the TextHolder is
+	 * (and its representing figure) connected.
+	 * @return figure responsible for representing the content of this TextHolder
+	 */
+	public Figure getRepresentingFigure() {
+		return this;
 	}
 
 	/**
@@ -282,8 +294,8 @@ public  class TextFigure
 		dw.writeInt(fFont.getStyle());
 		dw.writeInt(fFont.getSize());
 		dw.writeBoolean(fIsReadOnly);
-		dw.writeStorable(fObservedFigure);
-		dw.writeStorable(fLocator);
+		dw.writeStorable(getObservedFigure());
+		dw.writeStorable(getLocator());
 	}
 
 	public void read(StorableInput dr) throws IOException {
@@ -295,30 +307,30 @@ public  class TextFigure
 		fFont = new Font(dr.readString(), dr.readInt(), dr.readInt());
 		fIsReadOnly = dr.readBoolean();
 
-		fObservedFigure = (Figure)dr.readStorable();
-		if (fObservedFigure != null) {
-			fObservedFigure.addFigureChangeListener(this);
+		setObservedFigure((Figure)dr.readStorable());
+		if (getObservedFigure() != null) {
+			getObservedFigure().addFigureChangeListener(this);
 		}
-		fLocator = (OffsetLocator)dr.readStorable();
+		setLocator((OffsetLocator)dr.readStorable());
 	}
 
 	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
 		s.defaultReadObject();
 
-		if (fObservedFigure != null) {
-			fObservedFigure.addFigureChangeListener(this);
+		if (getObservedFigure() != null) {
+			getObservedFigure().addFigureChangeListener(this);
 		}
 		markDirty();
 	}
 
 	public void connect(Figure figure) {
-		if (fObservedFigure != null) {
-			fObservedFigure.removeFigureChangeListener(this);
+		if (getObservedFigure() != null) {
+			getObservedFigure().removeFigureChangeListener(this);
 		}
 
-		fObservedFigure = figure;
-		fLocator = new OffsetLocator(figure.connectedTextLocator(this));
-		fObservedFigure.addFigureChangeListener(this);
+		setObservedFigure(figure);
+		setLocator(new OffsetLocator(getObservedFigure().connectedTextLocator(this)));
+		getObservedFigure().addFigureChangeListener(this);
 		updateLocation();
 	}
 
@@ -342,8 +354,8 @@ public  class TextFigure
 	 * The TextFigure is centered around the located point.
 	 */
 	protected void updateLocation() {
-		if (fLocator != null) {
-			Point p = fLocator.locate(fObservedFigure);
+		if (getLocator() != null) {
+			Point p = getLocator().locate(getObservedFigure());
 
 			p.x -= size().width/2 + fOriginX;
 			p.y -= size().height/2 + fOriginY;
@@ -357,8 +369,7 @@ public  class TextFigure
 
 	public void release() {
 		super.release();
-		disconnect(fObservedFigure);
-		fObservedFigure = null;
+		disconnect(getObservedFigure());
 	}
 
 	/**
@@ -368,7 +379,24 @@ public  class TextFigure
 		if (disconnectFigure != null) {
 			disconnectFigure.removeFigureChangeListener(this);
 		}
-		fLocator = null;
+		setLocator(null);
+		setObservedFigure(null);
+	}
+
+	protected void setObservedFigure(Figure newObservedFigure) {
+		fObservedFigure = newObservedFigure;
+	}
+
+	public Figure getObservedFigure() {
+		return fObservedFigure;
+	}
+
+	protected void setLocator(OffsetLocator newLocator) {
+		fLocator = newLocator;
+	}
+
+	protected OffsetLocator getLocator() {
+		return fLocator;
 	}
 
 	public TextHolder getTextHolder() {

@@ -23,7 +23,7 @@ import javax.swing.JPanel;
  * avoid null pointer exception. This concept is known as the Null-value object
  * bug pattern.
  *
- * @author  Wolfram Kaiser <mrfloppy@sourceforge.net>
+ * @author  Wolfram Kaiser <mrfloppy@users.sourceforge.net>
  * @version <$CURRENT_VERSION$>
  */
 public class NullDrawingView extends JPanel implements DrawingView {
@@ -35,7 +35,7 @@ public class NullDrawingView extends JPanel implements DrawingView {
 
 	private static Hashtable drawingViewManager = new Hashtable();
 
-	public NullDrawingView(DrawingEditor editor) {
+	protected NullDrawingView(DrawingEditor editor) {
 		setEditor(editor);
 		setDrawing(new StandardDrawing());
 	}
@@ -404,6 +404,10 @@ public class NullDrawingView extends JPanel implements DrawingView {
 
 	public void drawingRequestUpdate(DrawingChangeEvent e) {
 		// ignore: do nothing
+	}
+
+	public void drawingTitleChanged(DrawingChangeEvent e) {
+		// ignore: do nothing        
 	}
 
 	public boolean isInteractive() {
