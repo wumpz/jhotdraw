@@ -193,7 +193,7 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
 	public synchronized void unlock() {
 		if (fDrawingLockHolder != null) {
 			fDrawingLockHolder = null;
-			notifyAll();
+			notify();
 		}
 	}
 
