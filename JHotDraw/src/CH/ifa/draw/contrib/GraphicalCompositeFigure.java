@@ -17,6 +17,7 @@ import CH.ifa.draw.util.*;
 import CH.ifa.draw.figures.*;
 import java.awt.*;
 import java.io.*;
+import java.util.List;
 
 /**
  * The GraphicalCompositeFigure fills in the gap between a CompositeFigure
@@ -149,7 +150,10 @@ public class GraphicalCompositeFigure extends CompositeFigure implements Layouta
 	 * Return default handles from the presentation figure.
 	 */
 	public HandleEnumeration handles() {
-		return getPresentationFigure().handles();
+		List handles = CollectionsFactory.current().createList();
+		BoxHandleKit.addHandles(this, handles);
+		return new HandleEnumerator(handles);
+		//return getPresentationFigure().handles();
 	}
 
 	/**

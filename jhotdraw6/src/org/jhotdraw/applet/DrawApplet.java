@@ -64,6 +64,7 @@ public class DrawApplet
 	 * Initializes the applet and creates its contents.
 	 */
 	public void init() {
+		createIconkit();
 		getVersionControlStrategy().assertCompatibleVersion();
 		setUndoManager(new UndoManager());
 
@@ -94,6 +95,10 @@ public class DrawApplet
 	}
 
 	public void removeViewChangeListener(ViewChangeListener vsl) {
+	}
+
+	protected Iconkit createIconkit() {
+		return new Iconkit(this);
 	}
 
 	/*
