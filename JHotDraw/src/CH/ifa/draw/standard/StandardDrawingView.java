@@ -483,8 +483,8 @@ public class StandardDrawingView
 	 * Clears the current selection.
 	 */
 	public void clearSelection() {
-		// there is nothing selected
-		if (fSelectionHandles == null) {
+		// there is nothing selected - bug fix ID 628818
+		if (selectionCount() == 0) {
 			// avoid unnecessary selection changed event when nothing has to be cleared
 			return;
 		}
