@@ -78,9 +78,7 @@ public class InsertImageCommand extends AbstractCommand {
 		protected ImageFigure getImageFigure() {
 			// load image if it has not been loaded so far
 			if ((myAffectedImageFigure == null) || (myAffectedImageFigure.get() == null)) {
-				// ugly cast to component, but AWT wants a Component instead of an ImageObserver...
-				Image image = Iconkit.instance().registerAndLoadImage(
-					(Component)getDrawingView(), myAffectedImageName);
+				Image image = Iconkit.instance().loadImage(myAffectedImageName, true);
 				setImageFigure(new ImageFigure(
 					image, myAffectedImageName, getDrawingView().lastClick()));
 			}

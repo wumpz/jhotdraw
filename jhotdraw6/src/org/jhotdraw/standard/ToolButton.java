@@ -41,9 +41,9 @@ public class ToolButton extends PaletteButton implements ToolListener {
 		}
 
 		Image im[] = new Image[3];
-		im[0] = kit.loadImageResource(iconName+"1.gif");
-		im[1] = kit.loadImageResource(iconName+"2.gif");
-		im[2] = kit.loadImageResource(iconName+"3.gif");
+		im[0] = kit.loadImage(iconName+"1.gif");
+		im[1] = kit.loadImage(iconName+"2.gif");
+		im[2] = kit.loadImage(iconName+"3.gif");
 
 		MediaTracker tracker = new MediaTracker(this);
 		for (int i = 0; i < 3; i++) {

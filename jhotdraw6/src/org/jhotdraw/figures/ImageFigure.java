@@ -77,7 +77,7 @@ public  class ImageFigure
 
 	public void draw(Graphics g) {
 		if (fImage == null) {
-			fImage = Iconkit.instance().getImage(fFileName);
+			fImage = Iconkit.instance().loadImage(fFileName,true);
 		}
 		if (fImage != null) {
 			g.drawImage(fImage, fDisplayBox.x, fDisplayBox.y, fDisplayBox.width, fDisplayBox.height, this);

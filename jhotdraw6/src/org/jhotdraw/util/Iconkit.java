@@ -63,38 +63,94 @@ public class Iconkit {
 		return fgIconkit;
 	}
 
-	/**
-	 * Loads all registered images.
-	 * If component is null, the component supplied in the
-	 * constructor will be used.
-	 * @see #registerImage
-	 */
-	public void loadRegisteredImages(Component component) {
-		if (fRegisteredImages.size() == 0)
-			return;
+	/*********************************************************************
+	 *
+	 * Basic methods for image/icon retrieval.
+	 * 
+	 ********************************************************************/
 
-		if (component == null) {
-			component = fComponent;
+	/**
+	 * Just gets the image pointed to by the URL and doesn't store
+	 * it in cache.
+	 */
+	public Image loadImageUncachedURL(URL url) {
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		try {
+			return toolkit.createImage((ImageProducer) url.getContent());
+		}
+		catch (Exception ex) {
+			return null;
+		}
+	}
+
+	/**
+	 * Just gets the file but doesn't store it in cache.
+	 */
+	public Image loadImageUncached(String fileName) {
+		return loadImageUncachedURL(getResourceURL(fileName));
+	}
+
+	/**
+ 	 * Loads an image URL with the given name, caches it, and
+ 	 * optionally waits for it to finish loading.
+	 */
+	public Image loadImageURL(URL url, boolean waitForLoad) {
+		if (fMap.containsKey(url)) {
+			return (Image) fMap.get(url);
 		}
 
-		MediaTracker tracker = new MediaTracker(component);
-		// register images with MediaTracker
-		Iterator iter = fRegisteredImages.iterator();
-		while (iter.hasNext()) {
-			URL url = (URL)iter.next();
-			if (basicGetImageURL(url) == null) {
-				tracker.addImage(loadImageURL(url), ID);
+		Image image = loadImageUncachedURL(url);
+
+		if (image != null) {
+			fMap.put(url, image);
+			if (waitForLoad) {
+				waitForLoadedImage(image);
 			}
 		}
-		fRegisteredImages.clear();
 
-		// block until all images are loaded
-		try {
-			tracker.waitForAll();
+		return image;
+	}
+
+	/**
+ 	 * Loads an image file with the given name, caches it, and
+ 	 * optionally waits for it to finish loading.
+	 */
+	public Image loadImage(String fileName, boolean waitForLoad) {
+		return loadImageURL(getResourceURL(fileName), waitForLoad);
+	}
+	
+	/**
+	 * Loads an image URL with the given name and caches it
+	 */
+	public Image loadImageURL(URL url) {
+		return loadImageURL(url, false);
+	}
+
+	/**
+	 * Loads an image with the given fileName and caches it.
+	 */
+	public Image loadImage(String fileName) {
+		return loadImageURL(getResourceURL(fileName), false);
+	}
+
+	/**
+	 * Blocks while image loads and returns a completely loaded
+	 * version of image.
+	 */
+	public Image waitForLoadedImage(Image image) {
+		if (image!=null) {
+			ImageIcon icon = new ImageIcon(image);
+			// icon.getImage forces the wait to happen
+			image = icon.getImage();
 		}
-		catch (Exception e) {
-			// ignore: do nothing
-		}
+		return image;
+	}
+
+	/**
+	 * To translate between a resource and a URL
+	 */
+	private URL getResourceURL(String resourceName) {
+		return getClass().getResource(resourceName);
 	}
 
 	/**
@@ -115,106 +171,78 @@ public class Iconkit {
 	}
 
 	/**
-	 * Loads an image URL with the given name.
+	 * Loads all registered images.
+	 * If component is null, the component supplied in the
+	 * constructor will be used.
+	 * @see #registerImage
+	 * @see #registerImageURL
 	 */
-	public Image loadImageURL(URL url) {
-		if (fMap.containsKey(url)) {
-			return (Image) fMap.get(url);
-		}
-		Image image = loadImageResourceURL(url);
-		if (image != null) {
-			fMap.put(url, image);
-		}
-		return image;
-	}
+	public void loadRegisteredImages(Component component) {
+		if (fRegisteredImages.size() == 0)
+			return;
 
-	/**
-	 * Loads an image with the given name.
-	 */
-	public Image loadImage(String fileName) {
-		return loadImageURL(getResourceURL(fileName));
-	}
+		if (component == null) {
+			component = fComponent;
+		}
 
-	public Image loadImageResourceURL(URL url) {
-		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		MediaTracker tracker = new MediaTracker(component);
+		// register images with MediaTracker
+		Iterator iter = fRegisteredImages.iterator();
+		while (iter.hasNext()) {
+			URL url = (URL)iter.next();
+			if (! fMap.containsKey(url)) {
+				tracker.addImage(loadImageURL(url), ID);
+			}
+		}
+		fRegisteredImages.clear();
+
+		// block until all images are loaded
 		try {
-			return toolkit.createImage((ImageProducer) url.getContent());
+			tracker.waitForAll();
 		}
-		catch (Exception ex) {
-			return null;
+		catch (Exception e) {
+			// ignore: do nothing
 		}
 	}
 
-	public Image loadImageResource(String fileName) {
-		return loadImageResourceURL(getResourceURL(fileName));
-	}
+	/*********************************************************************
+	 *
+	 * Deprecated methods
+	 * 
+	 ********************************************************************/
 
-	/**
-	 * Registers and loads an image.
-	 * If component is null, the component supplied in the
-	 * constructor will be used.
-	 */
-	public Image registerAndLoadImageURL(Component component, URL url) {
-		registerImageURL(url);
-		loadRegisteredImages(component);
-		return getImageURL(url);
-	}
-	/**
-	 * Registers and loads an image.
-	 * If component is null, the component supplied in the
-	 * constructor will be used.
-	 */
-	public Image registerAndLoadImage(Component component, String fileName) {
-		return registerAndLoadImageURL(component, getResourceURL(fileName));
-	}
-
-	public Image loadImageURL(URL url, boolean waitForLoad) {
-		Image image = loadImageURL(url);
-		if (image!=null && waitForLoad) {
-			ImageIcon icon = new ImageIcon(image);
-			image = icon.getImage(); //this forces the wait to happen
-		}
-		return image;
-	}
-
-	public Image loadImage(String fileName, boolean waitForLoad) {
-		return loadImageURL(getResourceURL(fileName), waitForLoad);
-	}
-	
-	/**
-	 * Gets the image with the given URL. If the image can't be
-	 * found it tries it again after registering the image and
-	 * loading all the registered images.
-	 */
-	public Image getImageURL(URL url) {
-		Image image = basicGetImageURL(url);
-		if (image != null) {
-			return image;
-		}
-		registerImageURL(url);
-		// load registered images and try again
-		loadRegisteredImages(fComponent);
-		// try again
-		return basicGetImageURL(url);
-	}
 	/**
 	 * Gets the image with the given fileName. If the image can't
 	 * be found it tries it again after registering the image and
 	 * loading all the registered images.
+	 * 
+	 * @deprecated use loadImage instead
 	 */
 	public Image getImage(String fileName) {
-		return getImageURL(getResourceURL(fileName));
+		return loadImage(fileName, true);
 	}
 
-	private URL getResourceURL(String resourceName) {
-		return getClass().getResource(resourceName);
+	/**
+	 * Registers and loads an image.
+	 * If component is null, the component supplied in the
+	 * constructor will be used.
+	 * 
+	 * @deprecated use loadImage instead
+	 */
+	public Image registerAndLoadImage(Component component, String fileName) {
+		registerImage(fileName);
+		loadRegisteredImages(component);
+		return loadImage(fileName, true);
 	}
 
-	private Image basicGetImageURL(URL url) {
-		if (fMap.containsKey(url)) {
-			return (Image) fMap.get(url);
-		}
-		return null;
+	/**
+	 * Loads an image but does not put in in the cache.
+	 * 
+	 * @deprecated use loadImageUncached instead
+	 */
+	public Image loadImageResource(String fileName) {
+		return loadImageUncached(fileName);
 	}
+
 
 }
