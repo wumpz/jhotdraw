@@ -700,7 +700,7 @@ public	class DrawApplication
 		return field;
 	}
 
-	private void setStatusLine(JTextField newStatusLine) {
+	protected void setStatusLine(JTextField newStatusLine) {
 		fStatusLine = newStatusLine;
 	}
 
