@@ -47,4 +47,7 @@ public class NullHandle extends LocatorHandle {
 		g.setColor(Color.black);
 		g.drawRect(r.x, r.y, r.width, r.height);
 	}
+       public org.jhotdraw.framework.Cursor getCursor() {
+               return new AWTCursor(java.awt.Cursor.DEFAULT_CURSOR);
+       }
 }
