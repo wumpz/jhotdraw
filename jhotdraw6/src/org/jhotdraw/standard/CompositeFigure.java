@@ -506,14 +506,14 @@ public abstract class CompositeFigure
 	 * figure containing the given point.
 	 */
 	public Figure findFigureInside(int x, int y) {
-		FigureEnumeration fe = figuresReverse();
-		while (fe.hasNextFigure()) {
-			Figure figure = fe.nextFigure().findFigureInside(x, y);
-			if (figure != null) {
-				return figure;
+		Figure figure = findFigure(x,y);
+		if(figure instanceof CompositeFigure){
+			Figure figure2 = figure.findFigureInside(x,y);
+			if(figure2 != null) {
+				figure = figure2;
 			}
 		}
-		return null;
+		return figure;
 	}
 
 	/**
