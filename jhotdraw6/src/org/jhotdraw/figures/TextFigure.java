@@ -4,7 +4,7 @@
  * Project:		JHotdraw - a GUI framework for technical drawings
  *				http://www.jhotdraw.org
  *				http://jhotdraw.sourceforge.net
- * Copyright:	? by the original author(s) and all contributors
+ * Copyright:	© by the original author(s) and all contributors
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
@@ -276,7 +276,7 @@ public class TextFigure
 	public void drawFrame(Graphics g) {
 		g.setFont(fFont);
 		g.setColor((Color) getAttribute(FigureAttributeConstant.TEXT_COLOR));
-		FontMetrics metrics = g.getFontMetrics(fFont);
+		FontMetrics metrics = Toolkit.getDefaultToolkit().getFontMetrics(fFont);
 		Rectangle r = displayBox();
 		g.drawString(getText(), r.x, r.y + metrics.getAscent());
 	}
