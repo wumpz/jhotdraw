@@ -1,6 +1,12 @@
 /*
- * @(#)NullHandle.java 5.2
+ * @(#)NullHandle.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.standard;
@@ -18,26 +24,27 @@ import CH.ifa.draw.framework.*;
  * NullObject enables to treat handles that don't do
  * anything in the same way as other handles.
  *
+ * @version <$CURRENT_VERSION$>
  */
 public class NullHandle extends LocatorHandle {
 
-    /**
-     * The handle's locator.
-     */
-    protected Locator fLocator;
+	/**
+	 * The handle's locator.
+	 */
+	protected Locator fLocator;
 
-    public NullHandle(Figure owner, Locator locator) {
-        super(owner, locator);
-    }
+	public NullHandle(Figure owner, Locator locator) {
+		super(owner, locator);
+	}
 
-    /**
-     * Draws the NullHandle. NullHandles are drawn as a
-     * red framed rectangle.
-     */
-    public void draw(Graphics g) {
-        Rectangle r = displayBox();
+	/**
+	 * Draws the NullHandle. NullHandles are drawn as a
+	 * red framed rectangle.
+	 */
+	public void draw(Graphics g) {
+		Rectangle r = displayBox();
 
-        g.setColor(Color.black);
-        g.drawRect(r.x, r.y, r.width, r.height);
-    }
+		g.setColor(Color.black);
+		g.drawRect(r.x, r.y, r.width, r.height);
+	}
 }

@@ -1,6 +1,12 @@
 /*
- * @(#)Painter.java 5.2
+ * @(#)Painter.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.framework;
@@ -19,14 +25,16 @@ import java.io.Serializable;
  * Painter encapsulates an algorithm to render something in
  * the DrawingView. The DrawingView plays the role of the StrategyContext.
  * <hr>
+ *
  * @see DrawingView
+ *
+ * @version <$CURRENT_VERSION$>
  */
-
 public interface Painter extends Serializable {
 
-    /**
-     * Draws into the given DrawingView.
-     */
-    public void draw(Graphics g, DrawingView view);
+	/**
+	 * Draws into the given DrawingView.
+	 */
+	public void draw(Graphics g, DrawingView view);
 
 }

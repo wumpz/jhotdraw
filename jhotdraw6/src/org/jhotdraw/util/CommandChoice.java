@@ -1,6 +1,12 @@
 /*
- * @(#)CommandChoice.java 5.2
+ * @(#)CommandChoice.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.util;
@@ -16,37 +22,34 @@ import java.util.*;
  * corresponding command.
  *
  * @see Command
+ *
+ * @version <$CURRENT_VERSION$>
  */
+public  class CommandChoice extends JComboBox implements ItemListener {
 
+	private Vector   fCommands;
 
-public  class CommandChoice
-        extends JComboBox implements ItemListener {
+	public CommandChoice() {
+		super();
+		fCommands = new Vector(10);
+		addItemListener(this);
+	}
 
-    private Vector   fCommands;
+	/**
+	 * Adds a command to the menu.
+	 */
+	public synchronized void addItem(Command command) {
+		addItem(command.name());
+		fCommands.addElement(command);
+	}
 
-    public CommandChoice() {
-    	super();
-        fCommands = new Vector(10);
-        addItemListener(this);
-    }
-
-    /**
-     * Adds a command to the menu.
-     */
-    public synchronized void addItem(Command command) {
-        addItem(command.name());
-        fCommands.addElement(command);
-    }
-
-    /**
-     * Executes the command.
-     */
-    public void itemStateChanged(ItemEvent e) {
-    	if ((getSelectedIndex() >= 0) && (getSelectedIndex() < fCommands.size())) {
-    	    Command command = (Command)fCommands.elementAt(getSelectedIndex());
-	        command.execute();
-        }
-    }
+	/**
+	 * Executes the command.
+	 */
+	public void itemStateChanged(ItemEvent e) {
+		if ((getSelectedIndex() >= 0) && (getSelectedIndex() < fCommands.size())) {
+			Command command = (Command)fCommands.elementAt(getSelectedIndex());
+			command.execute();
+		}
+	}
 }
-
-

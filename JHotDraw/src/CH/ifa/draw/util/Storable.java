@@ -1,6 +1,12 @@
 /*
- * @(#)Storable.java 5.2
+ * @(#)Storable.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.util;
@@ -15,15 +21,17 @@ import java.io.*;
  *
  * @see StorableInput
  * @see StorableOutput
+ *
+ * @version <$CURRENT_VERSION$>
  */
 public interface Storable {
-    /**
-     * Writes the object to the StorableOutput.
-     */
-    public void write(StorableOutput dw);
+	/**
+	 * Writes the object to the StorableOutput.
+	 */
+	public void write(StorableOutput dw);
 
-    /**
-     * Reads the object from the StorableInput.
-     */
-    public void read(StorableInput dr) throws IOException;
+	/**
+	 * Reads the object from the StorableInput.
+	 */
+	public void read(StorableInput dr) throws IOException;
 }

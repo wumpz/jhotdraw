@@ -1,6 +1,12 @@
 /*
- * @(#)PertApplication.java 5.2
+ * @(#)PertApplication.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.samples.pert;
@@ -12,38 +18,41 @@ import CH.ifa.draw.figures.*;
 import CH.ifa.draw.util.*;
 import CH.ifa.draw.application.*;
 
+/**
+ * @version <$CURRENT_VERSION$>
+ */
 public  class PertApplication extends DrawApplication {
 
-    static private final String PERTIMAGES = "/CH/ifa/draw/samples/pert/images/";
+	static private final String PERTIMAGES = "/CH/ifa/draw/samples/pert/images/";
 
-    PertApplication() {
-        super("PERT Editor");
-    }
+	PertApplication() {
+		super("PERT Editor");
+	}
 
-    protected void createTools(JToolBar palette) {
-        super.createTools(palette);
+	protected void createTools(JToolBar palette) {
+		super.createTools(palette);
 
-        Tool tool = new TextTool(view(), new TextFigure());
-        palette.add(createToolButton(IMAGES+"TEXT", "Text Tool", tool));
+		Tool tool = new TextTool(view(), new TextFigure());
+		palette.add(createToolButton(IMAGES + "TEXT", "Text Tool", tool));
 
-        // the generic but slower version
-        //tool = new CreationTool(new PertFigure());
-        //palette.add(createToolButton(PERTIMAGES+"PERT", "Task Tool", tool));
+		// the generic but slower version
+		//tool = new CreationTool(new PertFigure());
+		//palette.add(createToolButton(PERTIMAGES + "PERT", "Task Tool", tool));
 
-        tool = new PertFigureCreationTool(view());
-        palette.add(createToolButton(PERTIMAGES+"PERT", "Task Tool", tool));
+		tool = new PertFigureCreationTool(view());
+		palette.add(createToolButton(PERTIMAGES + "PERT", "Task Tool", tool));
 
-        tool = new ConnectionTool(view(), new PertDependency());
-        palette.add(createToolButton(IMAGES+"CONN", "Dependency Tool", tool));
+		tool = new ConnectionTool(view(), new PertDependency());
+		palette.add(createToolButton(IMAGES + "CONN", "Dependency Tool", tool));
 
-        tool = new CreationTool(view(), new LineFigure());
-        palette.add(createToolButton(IMAGES+"Line", "Line Tool", tool));
-    }
+		tool = new CreationTool(view(), new LineFigure());
+		palette.add(createToolButton(IMAGES + "Line", "Line Tool", tool));
+	}
 
-    //-- main -----------------------------------------------------------
+	//-- main -----------------------------------------------------------
 
 	public static void main(String[] args) {
 		PertApplication pert = new PertApplication();
 		pert.open();
-    }
+	}
 }

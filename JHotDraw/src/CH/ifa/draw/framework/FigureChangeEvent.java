@@ -1,6 +1,12 @@
 /*
- * @(#)FigureChangeEvent.java 5.2
+ * @(#)FigureChangeEvent.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.framework;
@@ -11,37 +17,38 @@ import java.util.EventObject;
 /**
  * FigureChange event passed to FigureChangeListeners.
  *
+ * @version <$CURRENT_VERSION$>
  */
 public class FigureChangeEvent extends EventObject {
 
-    private Rectangle fRectangle;
-    private static final Rectangle  fgEmptyRectangle = new Rectangle(0, 0, 0, 0);
+	private Rectangle fRectangle;
+	private static final Rectangle  fgEmptyRectangle = new Rectangle(0, 0, 0, 0);
 
    /**
-    * Constructs an event for the given source Figure. The rectangle is the
-    * area to be invalvidated.
-    */
-    public FigureChangeEvent(Figure source, Rectangle r) {
-        super(source);
-        fRectangle = r;
-    }
+	* Constructs an event for the given source Figure. The rectangle is the
+	* area to be invalvidated.
+	*/
+	public FigureChangeEvent(Figure source, Rectangle r) {
+		super(source);
+		fRectangle = r;
+	}
 
-    public FigureChangeEvent(Figure source) {
-        super(source);
-        fRectangle = fgEmptyRectangle;
-    }
+	public FigureChangeEvent(Figure source) {
+		super(source);
+		fRectangle = fgEmptyRectangle;
+	}
 
-    /**
-     *  Gets the changed figure
-     */
-    public Figure getFigure() {
-        return (Figure)getSource();
-    }
+	/**
+	 *  Gets the changed figure
+	 */
+	public Figure getFigure() {
+		return (Figure)getSource();
+	}
 
-    /**
-     *  Gets the changed rectangle
-     */
-    public Rectangle getInvalidatedRectangle() {
-        return fRectangle;
-    }
+	/**
+	 *  Gets the changed rectangle
+	 */
+	public Rectangle getInvalidatedRectangle() {
+		return fRectangle;
+	}
 }

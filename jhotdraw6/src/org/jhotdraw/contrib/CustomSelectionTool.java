@@ -1,17 +1,23 @@
 /*
- * @(#)CustomSelectionTool.java 5.2
+ * @(#)CustomSelectionTool.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.contrib;
 
-import javax.swing.JPopupMenu;
-import java.awt.*;
-import java.awt.event.*;
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
 import CH.ifa.draw.figures.*;
 import CH.ifa.draw.util.*;
+import javax.swing.JPopupMenu;
+import java.awt.*;
+import java.awt.event.*;
 
 /**
  * A SelectionTool, which recognizes double clicks and popup menu triggers.
@@ -22,15 +28,15 @@ import CH.ifa.draw.util.*;
  * The key which associates a popup menu as an attribute is Figure.POPUP_MENU.
  *
  * @author  Wolfram Kaiser
- * @version JHotDraw 5.2    31.08.1999
+ * @version <$CURRENT_VERSION$>
  */
 public class CustomSelectionTool extends SelectionTool {
 
-    /**
-     * Create an instance of this SelectionTool for the given view
-     *
-     * @param   view    DrawingView for which the SelectionTool operates
-     */
+	/**
+	 * Create an instance of this SelectionTool for the given view
+	 *
+	 * @param   view    DrawingView for which the SelectionTool operates
+	 */
 	public CustomSelectionTool(DrawingView view) {
 		super(view);
 	}
@@ -46,7 +52,7 @@ public class CustomSelectionTool extends SelectionTool {
 	public void mouseDown(MouseEvent e, int x, int y) {
 		// isPopupTrigger() at mouseDown() is only notified at UNIX systems
 		if (e.isPopupTrigger()) {
-		    handlePopupMenu(e, x, y);
+			handlePopupMenu(e, x, y);
 		}
 		else {
 			super.mouseDown(e, x, y);
@@ -68,7 +74,7 @@ public class CustomSelectionTool extends SelectionTool {
 		}
 	}
 
-    /** 
+	/** 
 	 * MouseListener method for mouseUp events. Depending on the kind of event
 	 * the appropriate hook method is called (popupMenuUp for popup trigger,
 	 * doubleMouseClick for a double click, and mouseUp() and mouseClick() for
@@ -77,10 +83,10 @@ public class CustomSelectionTool extends SelectionTool {
 	 * @param   e   MouseEvent which should be interpreted
 	 * @param   x   x coordinate of the MouseEvent
 	 * @param   y   y coordinate of the MouseEvent
-     */
+	 */
 	public void mouseUp(MouseEvent e, int x, int y) {
 		if (e.isPopupTrigger()) {
-		    handlePopupMenu(e, x, y);
+			handlePopupMenu(e, x, y);
 		}
 		else if (e.getClickCount() == 2) {
 			handleMouseDoubleClick(e, x, y);
@@ -126,14 +132,14 @@ public class CustomSelectionTool extends SelectionTool {
 	 */
 	protected void handlePopupMenu(MouseEvent e, int x, int y) {
 		Figure figure = drawing().findFigure(e.getX(), e.getY());
-        if (figure != null) {
-            Object attribute = figure.getAttribute(Figure.POPUP_MENU);
-            if (attribute == null) {
-                figure = drawing().findFigureInside(e.getX(), e.getY());
-            }
-        	if (figure != null) {
-            	showPopupMenu(figure, e.getX(), e.getY(), e.getComponent());
-            }
+		if (figure != null) {
+			Object attribute = figure.getAttribute(Figure.POPUP_MENU);
+			if (attribute == null) {
+				figure = drawing().findFigureInside(e.getX(), e.getY());
+			}
+			if (figure != null) {
+				showPopupMenu(figure, e.getX(), e.getY(), e.getComponent());
+			}
 		}
 	}
 
@@ -148,18 +154,18 @@ public class CustomSelectionTool extends SelectionTool {
 	 * @param   component   Component which invoked the popup menu
 	 */
 	protected void showPopupMenu(Figure figure, int x, int y, Component comp) {
-        Object attribute = figure.getAttribute(Figure.POPUP_MENU);
-        if ((attribute != null) && (attribute instanceof JPopupMenu)) {
-    	    JPopupMenu popup = (JPopupMenu)attribute;
-    	    if (popup instanceof PopupMenuFigureSelection) {
-    	        ((PopupMenuFigureSelection)popup).setSelectedFigure(figure);
-    	    }
-    	    // calculate offsets for internal MDI frames
-    	    Point newLocation = new Point(x, y);
-    	    adjustOffsets(comp.getParent(), newLocation);
-    		popup.setLocation(newLocation);
-    		popup.setInvoker(comp);
-    		popup.setVisible(true);
+		Object attribute = figure.getAttribute(Figure.POPUP_MENU);
+		if ((attribute != null) && (attribute instanceof JPopupMenu)) {
+			JPopupMenu popup = (JPopupMenu)attribute;
+			if (popup instanceof PopupMenuFigureSelection) {
+				((PopupMenuFigureSelection)popup).setSelectedFigure(figure);
+			}
+			// calculate offsets for internal MDI frames
+			Point newLocation = new Point(x, y);
+			adjustOffsets(comp.getParent(), newLocation);
+			popup.setLocation(newLocation);
+			popup.setInvoker(comp);
+			popup.setVisible(true);
 		}
 	}
 	

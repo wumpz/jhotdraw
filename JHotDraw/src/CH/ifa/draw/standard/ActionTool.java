@@ -1,6 +1,12 @@
 /*
- * @(#)ActionTool.java 5.2
+ * @(#)ActionTool.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.standard;
@@ -13,31 +19,33 @@ import java.awt.event.MouseEvent;
 /**
  * A tool that performs an action when it is active and
  * the mouse is clicked.
+ *
+ * @version <$CURRENT_VERSION$>
  */
 public abstract class ActionTool extends AbstractTool {
 
-    public ActionTool(DrawingView itsView) {
-        super(itsView);
-    }
+	public ActionTool(DrawingView itsView) {
+		super(itsView);
+	}
 
-    /**
-     * Add the touched figure to the selection an invoke action
-     * @see #action
-     */
-    public void mouseDown(MouseEvent e, int x, int y) {
-        Figure target = drawing().findFigure(x, y);
-        if (target != null) {
-            view().addToSelection(target);
-            action(target);
-        }
-    }
+	/**
+	 * Add the touched figure to the selection an invoke action
+	 * @see #action
+	 */
+	public void mouseDown(MouseEvent e, int x, int y) {
+		Figure target = drawing().findFigure(x, y);
+		if (target != null) {
+			view().addToSelection(target);
+			action(target);
+		}
+	}
 
-    public void mouseUp(MouseEvent e, int x, int y) {
-        editor().toolDone();
-    }
+	public void mouseUp(MouseEvent e, int x, int y) {
+		editor().toolDone();
+	}
 
-    /**
-     * Performs an action with the touched figure.
-     */
-    public abstract void action(Figure figure);
+	/**
+	 * Performs an action with the touched figure.
+	 */
+	public abstract void action(Figure figure);
 }

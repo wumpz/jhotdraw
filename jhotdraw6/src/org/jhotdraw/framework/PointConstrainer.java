@@ -1,6 +1,12 @@
 /*
- * @(#)PointConstrainer.java 5.2
+ * @(#)PointConstrainer.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.framework;
@@ -17,24 +23,24 @@ import java.awt.*;
  * DrawingView is the StrategyContext.<br>
  *
  * @see DrawingView
+ *
+ * @version <$CURRENT_VERSION$>
  */
-
-
 public interface PointConstrainer {
-    /**
-     * Constrains the given point.
-     * @return constrained point.
-     */
-    public Point constrainPoint(Point p);
+	/**
+	 * Constrains the given point.
+	 * @return constrained point.
+	 */
+	public Point constrainPoint(Point p);
 
-    /**
-     * Gets the x offset to move an object.
-     */
-    public int getStepX();
+	/**
+	 * Gets the x offset to move an object.
+	 */
+	public int getStepX();
 
-    /**
-     * Gets the y offset to move an object.
-     */
-    public int getStepY();
+	/**
+	 * Gets the y offset to move an object.
+	 */
+	public int getStepY();
 
 }

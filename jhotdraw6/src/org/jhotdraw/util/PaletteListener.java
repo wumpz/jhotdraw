@@ -1,6 +1,12 @@
 /*
- * @(#)PaletteListener.java 5.2
+ * @(#)PaletteListener.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.util;
@@ -9,17 +15,18 @@ package CH.ifa.draw.util;
  * Interface for handling palette events.
  *
  * @see PaletteButton
+ *
+ * @version <$CURRENT_VERSION$>
  */
-
 public interface PaletteListener {
-    /**
-     * The user selected a palette entry. The selected button is
-     * passed as an argument.
-     */
-    void paletteUserSelected(PaletteButton button);
+	/**
+	 * The user selected a palette entry. The selected button is
+	 * passed as an argument.
+	 */
+	public void paletteUserSelected(PaletteButton button);
 
-    /**
-     * The user moved the mouse over the palette entry.
-     */
-    void paletteUserOver(PaletteButton button, boolean inside);
+	/**
+	 * The user moved the mouse over the palette entry.
+	 */
+	public void paletteUserOver(PaletteButton button, boolean inside);
 }

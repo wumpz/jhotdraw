@@ -1,6 +1,12 @@
 /*
- * @(#)Iconkit.java 5.2
+ * @(#)Iconkit.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.util;
@@ -22,119 +28,128 @@ import java.util.*;
  * <b><a href=../pattlets/sld031.htm>Singleton</a></b><br>
  * The Iconkit is a singleton.
  * <hr>
+ *
+ * @version <$CURRENT_VERSION$>
  */
 public class Iconkit {
-    private Hashtable           fMap;
-    private Vector              fRegisteredImages;
-    private Component           fComponent;
-    private final static int    ID = 123;
-    private static Iconkit      fgIconkit = null;
-    private static boolean      fgDebug = false;
+	private Hashtable           fMap;
+	private Vector              fRegisteredImages;
+	private Component           fComponent;
+	private final static int    ID = 123;
+	private static Iconkit      fgIconkit = null;
+	private static boolean      fgDebug = false;
 
-    /**
-     * Constructs an Iconkit that uses the given editor to
-     * resolve image path names.
-     */
-    public Iconkit(Component component) {
-        fMap = new Hashtable(53);
-        fRegisteredImages = new Vector(10);
-        fComponent = component;
-        fgIconkit = this;
-    }
+	/**
+	 * Constructs an Iconkit that uses the given editor to
+	 * resolve image path names.
+	 */
+	public Iconkit(Component component) {
+		fMap = new Hashtable(53);
+		fRegisteredImages = new Vector(10);
+		fComponent = component;
+		fgIconkit = this;
+	}
 
-    /**
-     * Gets the single instance
-     */
-    public static Iconkit instance() {
-        return fgIconkit;
-    }
+	/**
+	 * Gets the single instance
+	 */
+	public static Iconkit instance() {
+		return fgIconkit;
+	}
 
-    /**
-     * Loads all registered images.
-     * @see #registerImage
-     */
-    public void loadRegisteredImages(Component component) {
-        if (fRegisteredImages.size() == 0)
-            return;
+	/**
+	 * Loads all registered images.
+	 * @see #registerImage
+	 */
+	public void loadRegisteredImages(Component component) {
+		if (fRegisteredImages.size() == 0)
+			return;
 
-        MediaTracker tracker = new MediaTracker(component);
+		MediaTracker tracker = new MediaTracker(component);
 
-        // register images with MediaTracker
-        Enumeration k = fRegisteredImages.elements();
-        while (k.hasMoreElements()) {
-            String fileName = (String) k.nextElement();
-            if (basicGetImage(fileName) == null) {
-                tracker.addImage(loadImage(fileName), ID);
-            }
-        }
-        fRegisteredImages.removeAllElements();
+		// register images with MediaTracker
+		Enumeration k = fRegisteredImages.elements();
+		while (k.hasMoreElements()) {
+			String fileName = (String) k.nextElement();
+			if (basicGetImage(fileName) == null) {
+				tracker.addImage(loadImage(fileName), ID);
+			}
+		}
+		fRegisteredImages.removeAllElements();
 
-        // block until all images are loaded
-        try {
-            tracker.waitForAll();
-        } catch (Exception e) {  }
-    }
+		// block until all images are loaded
+		try {
+			tracker.waitForAll();
+		}
+		catch(Exception e) {  }
+	}
 
-    /**
-     * Registers an image that is then loaded together with
-     * the other registered images by loadRegisteredImages.
-     * @see #loadRegisteredImages
-     */
-    public void registerImage(String fileName) {
-        fRegisteredImages.addElement(fileName);
-    }
+	/**
+	 * Registers an image that is then loaded together with
+	 * the other registered images by loadRegisteredImages.
+	 * @see #loadRegisteredImages
+	 */
+	public void registerImage(String fileName) {
+		fRegisteredImages.addElement(fileName);
+	}
 
-    /**
-     * Registers and loads an image.
-     */
-    public Image registerAndLoadImage(Component component, String fileName) {
-        registerImage(fileName);
-        loadRegisteredImages(component);
-        return getImage(fileName);
-    }
+	/**
+	 * Registers and loads an image.
+	 */
+	public Image registerAndLoadImage(Component component, String fileName) {
+		registerImage(fileName);
+		loadRegisteredImages(component);
+		return getImage(fileName);
+	}
 
-    /**
-     * Loads an image with the given name.
-     */
-    public Image loadImage(String filename) {
-        if (fMap.containsKey(filename))
-            return (Image) fMap.get(filename);
-        Image image = loadImageResource(filename);
-        if (image != null)
-            fMap.put(filename, image);
-        return image;
-    }
+	/**
+	 * Loads an image with the given name.
+	 */
+	public Image loadImage(String filename) {
+		if (fMap.containsKey(filename)) {
+			return (Image) fMap.get(filename);
+		}
+		Image image = loadImageResource(filename);
+		if (image != null) {
+			fMap.put(filename, image);
+		}
+		return image;
+	}
 
-    public Image loadImageResource(String resourcename) {
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        try {
-            java.net.URL url = getClass().getResource(resourcename);
-            if (fgDebug)
-                System.out.println(resourcename);
-            return toolkit.createImage((ImageProducer) url.getContent());
-        } catch (Exception ex) {
-            return null;
-        }
-    }
+	public Image loadImageResource(String resourcename) {
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		try {
+			java.net.URL url = getClass().getResource(resourcename);
+			if (fgDebug) {
+				System.out.println(resourcename);
+			}
+			return toolkit.createImage((ImageProducer) url.getContent());
+		}
+		catch (Exception ex) {
+			return null;
+		}
+	}
 
-    /**
-     * Gets the image with the given name. If the image
-     * can't be found it tries it again after loading
-     * all the registered images.
-     */
-    public Image getImage(String filename) {
-        Image image = basicGetImage(filename);
-        if (image != null)
-            return image;
-        // load registered images and try again
-        loadRegisteredImages(fComponent);
-        // try again
-        return basicGetImage(filename);
-    }
+	/**
+	 * Gets the image with the given name. If the image
+	 * can't be found it tries it again after loading
+	 * all the registered images.
+	 */
+	public Image getImage(String filename) {
+		Image image = basicGetImage(filename);
+		if (image != null) {
+			return image;
+		}
+		// load registered images and try again
+		loadRegisteredImages(fComponent);
+		// try again
+		return basicGetImage(filename);
+	}
 
-    private Image basicGetImage(String filename) {
-        if (fMap.containsKey(filename))
-            return (Image) fMap.get(filename);
-        return null;
-    }
+	private Image basicGetImage(String filename) {
+		if (fMap.containsKey(filename)) {
+			return (Image) fMap.get(filename);
+		}
+		return null;
+	}
 }

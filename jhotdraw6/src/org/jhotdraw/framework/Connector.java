@@ -1,6 +1,12 @@
 /*
- * @(#)Connector.java 5.2
+ * @(#)Connector.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.framework;
@@ -29,39 +35,41 @@ import CH.ifa.draw.util.*;
  *
  * @see Figure#connectorAt
  * @see ConnectionFigure
+ *
+ * @version <$CURRENT_VERSION$>
  */
 public interface Connector extends Serializable, Storable {
 
-    /**
-     * Finds the start point for the connection.
-     */
-    public abstract Point findStart(ConnectionFigure connection);
+	/**
+	 * Finds the start point for the connection.
+	 */
+	public abstract Point findStart(ConnectionFigure connection);
 
-    /**
-     * Finds the end point for the connection.
-     */
-    public abstract Point findEnd(ConnectionFigure connection);
+	/**
+	 * Finds the end point for the connection.
+	 */
+	public abstract Point findEnd(ConnectionFigure connection);
 
-    /**
-     * Gets the connector's owner.
-     */
-    public abstract Figure owner();
+	/**
+	 * Gets the connector's owner.
+	 */
+	public abstract Figure owner();
 
-    /**
-     * Gets the display box of the connector.
-     */
-    public abstract Rectangle displayBox();
+	/**
+	 * Gets the display box of the connector.
+	 */
+	public abstract Rectangle displayBox();
 
-    /**
-     * Tests if a point is contained in the connector.
-     */
-    public abstract boolean containsPoint(int x, int y);
+	/**
+	 * Tests if a point is contained in the connector.
+	 */
+	public abstract boolean containsPoint(int x, int y);
 
-    /**
-     * Draws this connector. Connectors don't have to be visible
-     * and it is OK leave this method empty.
-     */
-    public abstract void draw(Graphics g);
+	/**
+	 * Draws this connector. Connectors don't have to be visible
+	 * and it is OK leave this method empty.
+	 */
+	public abstract void draw(Graphics g);
 
 }
 

@@ -1,89 +1,62 @@
 /*
- * @(#)OrderFigureElement.java 5.2
+ * @(#)OrderFigureElement.java
  *
- * INIT Copyright (C) 2000 All rights reserved
- *
- * File:            OrderedFigureElement.java
- * Description:     X
- * @author:         WMG
- * Created:         2000.03.28
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
- 
+
 package CH.ifa.draw.standard;
 
 import CH.ifa.draw.framework.Figure;
 
-
+/**
+ * @author: WMG (INIT Copyright (C) 2000 All rights reserved)
+ * @version <$CURRENT_VERSION$>
+ */
 class OrderedFigureElement implements Comparable {
 
+	//_________________________________________________________VARIABLES
 
+	private Figure  _theFigure;
+	private int     _nZ;
 
-  //_________________________________________________________VARIABLES
+	//______________________________________________________CONSTRUCTORS
 
+	public OrderedFigureElement(Figure aFigure, int nZ) {
+		_theFigure = aFigure;
+		_nZ = nZ;
+	}
 
+	private OrderedFigureElement() {
+	}
 
-  private Figure  _theFigure;
-  private int     _nZ;
+	//____________________________________________________PUBLIC METHODS
 
+	public Figure getFigure() {
+		return _theFigure;
+	}
 
+	public int getZValue() {
+		return _nZ;
+	}
 
-  //______________________________________________________CONSTRUCTORS
+	public int compareTo(Object o) {
+		OrderedFigureElement ofe = (OrderedFigureElement) o;
+		if (_nZ == ofe.getZValue()) {
+			return 0;
+		}
 
+		if (_nZ > ofe.getZValue()) {
+			return 1;
+		}
 
+		return -1;
+	}
 
-  public OrderedFigureElement(Figure aFigure, int nZ) {
-
-    _theFigure = aFigure;
-    _nZ = nZ;
-
-  }
-
-
-
-  private OrderedFigureElement() {
-
-  }
-
-
-
-  //____________________________________________________PUBLIC METHODS
-
-
-
-  public Figure getFigure() {
-
-    return _theFigure;
-
-  }
-
-
-
-  public int getZValue() {
-
-    return _nZ;
-
-  }
-
-
-
-  public int compareTo(Object o) {
-
-    OrderedFigureElement ofe = (OrderedFigureElement) o;
-
-    if (_nZ == ofe.getZValue()) {
-      return 0;
-    }
-
-    if (_nZ > ofe.getZValue()) {
-      return 1;
-    }
-
-    return -1;
-
-  }
-
-
-
-  //_______________________________________________________________END
+	//_______________________________________________________________END
 
 } //end of class OrderedFigureElement

@@ -1,6 +1,12 @@
 /*
- * @(#)GraphicalCompositeFigure.java 5.2
+ * @(#)GraphicalCompositeFigure.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
  
 package CH.ifa.draw.contrib;
@@ -24,6 +30,7 @@ import java.io.*;
  * purpose it is to draw the container for all contained figures.
  *
  * @author	Wolfram Kaiser
+ * @version <$CURRENT_VERSION$>
  */
 public class GraphicalCompositeFigure extends CompositeFigure implements Layoutable  {
 
@@ -42,7 +49,7 @@ public class GraphicalCompositeFigure extends CompositeFigure implements Layouta
 	private Layouter myLayouter;
 
 	private static final long serialVersionUID = 1265742491024232713L;
-    
+	
 	/**
 	 * Default constructor which uses a RectangleFigure as presentation
 	 * figure. This constructor is needed by the Storable mechanism.
@@ -73,22 +80,22 @@ public class GraphicalCompositeFigure extends CompositeFigure implements Layouta
 		setLayouter(new StandardLayouter(this));
 	}
 
-    /**
-     * Clones a figure and initializes it
-     *
-     * @see Figure#clone
-     */
-    public Object clone() {
-    	Object cloneObject = super.clone();
-    	((GraphicalCompositeFigure)cloneObject).initialize();
-    	return cloneObject;
-    }
+	/**
+	 * Clones a figure and initializes it
+	 *
+	 * @see Figure#clone
+	 */
+	public Object clone() {
+		Object cloneObject = super.clone();
+		((GraphicalCompositeFigure)cloneObject).initialize();
+		return cloneObject;
+	}
 
 	/**
 	 * Return the display area. This method is delegated to the encapsulated presentation figure.
 	 */
 	public Rectangle displayBox() {
-	    return getPresentationFigure().displayBox();
+		return getPresentationFigure().displayBox();
 	}
 
 	/**
@@ -237,8 +244,8 @@ public class GraphicalCompositeFigure extends CompositeFigure implements Layouta
 	 */
 	protected void change() {
 		if (listener() != null) {
-        	listener().figureRequestUpdate(new FigureChangeEvent(this));
-        }
+			listener().figureRequestUpdate(new FigureChangeEvent(this));
+		}
 	}
 
 	/**

@@ -1,5 +1,5 @@
 /*
- * @(#)SplitPaneDrawApplication.java 5.2
+ * @(#)SplitPaneDrawApplication.java
  *
  * Project:		JHotdraw - a GUI framework for technical drawings
  *				http://www.jhotdraw.org
