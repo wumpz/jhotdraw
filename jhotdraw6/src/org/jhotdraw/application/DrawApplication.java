@@ -343,7 +343,7 @@ public	class DrawApplication
 		menu.add(cmd);
 
 		cmd = new AbstractCommand("Buffered Update", this) {
-			public void executable() {
+			public void execute() {
 				this.view().setDisplayUpdate(new BufferedUpdateStrategy());
 			}
 		};
