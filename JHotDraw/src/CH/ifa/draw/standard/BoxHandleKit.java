@@ -15,7 +15,7 @@ import CH.ifa.draw.framework.*;
 import CH.ifa.draw.util.Undoable;
 import CH.ifa.draw.util.UndoableAdapter;
 import java.awt.*;
-import java.util.Vector;
+import java.util.List;
 
 /**
  * A set of utility methods to create Handles for the common
@@ -31,26 +31,26 @@ import java.util.Vector;
 public class BoxHandleKit {
 
 	/**
-	 * Fills the given Vector with handles at each corner of a
+	 * Fills the given collection with handles at each corner of a
 	 * figure.
 	 */
-	static public void addCornerHandles(Figure f, Vector handles) {
-		handles.addElement(southEast(f));
-		handles.addElement(southWest(f));
-		handles.addElement(northEast(f));
-		handles.addElement(northWest(f));
+	static public void addCornerHandles(Figure f, List handles) {
+		handles.add(southEast(f));
+		handles.add(southWest(f));
+		handles.add(northEast(f));
+		handles.add(northWest(f));
 	}
 
 	/**
-	 * Fills the given Vector with handles at each corner
+	 * Fills the given collection with handles at each corner
 	 * and the north, south, east, and west of the figure.
 	 */
-	static public void addHandles(Figure f, Vector handles) {
+	static public void addHandles(Figure f, List handles) {
 		addCornerHandles(f, handles);
-		handles.addElement(south(f));
-		handles.addElement(north(f));
-		handles.addElement(east(f));
-		handles.addElement(west(f));
+		handles.add(south(f));
+		handles.add(north(f));
+		handles.add(east(f));
+		handles.add(west(f));
 	}
 
 	static public Handle south(Figure owner) {
@@ -96,7 +96,7 @@ class ResizeHandle extends LocatorHandle {
 		getUndoActivity().setAffectedFigures(new SingleFigureEnumerator(owner()));
 		((ResizeHandle.UndoActivity)getUndoActivity()).setOldDisplayBox(owner().displayBox());
 	}
-	
+
 	public void invokeEnd(int x, int y, int anchorX, int anchorY, DrawingView view) {
 		Rectangle oldDisplayBox = ((ResizeHandle.UndoActivity)getUndoActivity()).getOldDisplayBox();
 		if (owner().displayBox().equals(oldDisplayBox)) {
@@ -114,13 +114,13 @@ class ResizeHandle extends LocatorHandle {
 
 	public static class UndoActivity extends UndoableAdapter {
 		private Rectangle myOldDisplayBox;
-		
+
 		public UndoActivity(DrawingView newView) {
 			super(newView);
 			setUndoable(true);
 			setRedoable(true);
 		}
-		
+
 		public boolean undo() {
 			if (!super.undo()) {
 				return false;
@@ -128,7 +128,7 @@ class ResizeHandle extends LocatorHandle {
 
 			return resetDisplayBox();
 		}
-	
+
 		public boolean redo() {
 			// do not call execute directly as the selection might has changed
 			if (!isRedoable()) {
@@ -140,17 +140,17 @@ class ResizeHandle extends LocatorHandle {
 
 		private boolean resetDisplayBox() {
 			FigureEnumeration fe = getAffectedFigures();
-			if (!fe.hasMoreElements()) {
+			if (!fe.hasNextFigure()) {
 				return false;
 			}
 			Figure currentFigure = fe.nextFigure();
-			
+
 			Rectangle figureDisplayBox = currentFigure.displayBox();
 			currentFigure.displayBox(getOldDisplayBox());
 			setOldDisplayBox(figureDisplayBox);
 			return true;
 		}
-		
+
 		protected void setOldDisplayBox(Rectangle newOldDisplayBox) {
 			myOldDisplayBox = newOldDisplayBox;
 		}

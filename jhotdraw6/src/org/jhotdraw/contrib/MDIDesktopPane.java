@@ -11,41 +11,211 @@
 
 package CH.ifa.draw.contrib;
 
+import CH.ifa.draw.framework.DrawingView;
+import CH.ifa.draw.application.DrawApplication;
+
 import javax.swing.*;
+import javax.swing.event.InternalFrameListener;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
 import java.awt.*;
-import java.awt.event.*;
 import java.beans.*;
 
 /**
- * An extension of WDesktopPane that supports often used MDI functionality. This
+ * An extension of JDesktopPane that supports often used MDI functionality. This
  * class also handles setting scroll bars for when windows move too far to the left or
  * bottom, providing the MDIDesktopPane is in a ScrollPane.
+ * Note by dnoyeb: I dont know why the container does not fire frame close events when the frames
+ * are removed from the container with remove as opposed to simply closed with the
+ * "x".  so if you say removeAll from container you wont be notified.  No biggie.
  *
  * @author Wolfram Kaiser (adapted from an article in JavaWorld)
+ * @author  C.L.Gilbert <dnoyeb@sourceforge.net>
  * @version <$CURRENT_VERSION$>
  */
-public class MDIDesktopPane extends JDesktopPane {
+public class MDIDesktopPane extends JDesktopPane implements Desktop {
 	private static int FRAME_OFFSET=20;
 	private MDIDesktopManager manager;
+	private DrawApplication myDrawApplication;
 
-	public MDIDesktopPane() {
+	/**
+	 * You need this if you are not using a component that inherits from
+	 * JComponent
+	 */
+	//private final EventListenerList listenerList = new EventListenerList();
+	protected DrawingView selectedView;
+
+	public MDIDesktopPane(DrawApplication newDrawApplication) {
+		setDrawApplication(newDrawApplication);
 		manager=new MDIDesktopManager(this);
 		setDesktopManager(manager);
 		setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
+		setAlignmentX(JComponent.LEFT_ALIGNMENT);
 	}
 
+	protected InternalFrameListener internalFrameListener = new InternalFrameAdapter() {
+	    /**
+	     * Invoked when a internal frame has been opened.
+         * @see javax.swing.JInternalFrame#show
+		 * if dv is null assert
+         */
+	    public void internalFrameOpened(InternalFrameEvent e){
+			DrawingView dv = Helper.getDrawingView(e.getInternalFrame());
+			fireDrawingViewAddedEvent(dv);
+	    }
+
+		/**
+		 * Invoked when an internal frame is in the process of being closed.
+		 * The close operation can be overridden at this point.
+		 * @see javax.swing.JInternalFrame#setDefaultCloseOperation
+		 */
+		//public void internalFrameClosing(InternalFrameEvent e){
+		//}
+
+		/**
+		 * Invoked when an internal frame has been closed.
+		 * if dv is null assert
+		 * if this is the last view set it to null
+		 * @see javax.swing.JInternalFrame#setClosed
+		 */
+		public void internalFrameClosed(InternalFrameEvent e){
+			DrawingView dv = Helper.getDrawingView(e.getInternalFrame());
+			if (getComponentCount() == 0){
+				selectedView = null;
+				fireDrawingViewSelectedEvent(selectedView);
+			}
+			fireDrawingViewRemovedEvent(dv);
+		}
+
+		/**
+		 * Invoked when an internal frame is iconified.
+		 * @see javax.swing.JInternalFrame#setIcon
+		 */
+		//public void internalFrameIconified(InternalFrameEvent e){
+		//}
+
+		/**
+		 * Invoked when an internal frame is de-iconified.
+		 * @see javax.swing.JInternalFrame#setIcon
+		 */
+		//public void internalFrameDeiconified(InternalFrameEvent e){
+		//}
+
+		/**
+		 * Invoked when an internal frame is activated.
+		 * @see javax.swing.JInternalFrame#setSelected
+		 * if this frame has a null drawingView then assert
+		 * because their should be no null frames being selected
+		 * this does not include NullDrawingView which is acceptable
+		 */
+		public void internalFrameActivated(InternalFrameEvent e){
+			DrawingView dv = Helper.getDrawingView(e.getInternalFrame());
+			selectedView = dv;
+			fireDrawingViewSelectedEvent(selectedView);
+		}
+
+		//public void internalFrameDeactivated(InternalFrameEvent e){
+		//}
+	};
+
+
+	private void fireDrawingViewAddedEvent(final DrawingView dv) {
+		final Object[] listeners = listenerList.getListenerList();
+		DesktopListener dpl;
+		DesktopEvent dpe = null;
+		for (int i = listeners.length-2; i>=0 ; i-=2)	{
+			if (listeners[i] == DesktopListener.class) {
+				if (dpe == null) {
+					dpe = new DesktopEvent(MDIDesktopPane.this, dv);
+				}
+				dpl = (DesktopListener)listeners[i+1];
+				dpl.drawingViewAdded(dpe);
+			}
+		}
+	}
+
+	private void fireDrawingViewRemovedEvent(final DrawingView dv) {
+		final Object[] listeners = listenerList.getListenerList();
+		DesktopListener dpl;
+		DesktopEvent dpe= null;
+		for (int i = listeners.length-2; i>=0 ; i-=2)	{
+			if (listeners[i] == DesktopListener.class) {
+				if (dpe == null) {
+					dpe = new DesktopEvent(MDIDesktopPane.this, dv);
+				}
+				dpl = (DesktopListener)listeners[i+1];
+				dpl.drawingViewRemoved(dpe);
+			}
+		}
+	}
+
+	private void fireDrawingViewSelectedEvent(final DrawingView dv) {
+		final Object[] listeners = listenerList.getListenerList();
+		DesktopListener dpl;
+		DesktopEvent dpe = null;
+		for (int i = listeners.length-2; i>=0 ; i-=2)	{
+			if (listeners[i] == DesktopListener.class) {
+				if (dpe == null) {
+					dpe = new DesktopEvent(MDIDesktopPane.this, dv);
+				}
+				dpl = (DesktopListener)listeners[i+1];
+				dpl.drawingViewSelected(dpe);
+			}
+		}
+	}
 /*	public void setBounds(int x, int y, int w, int h) {
 		super.setBounds(x,y,w,h);
 		checkDesktopSize();
 	}
 */
-	public Component add(JInternalFrame frame) {
+
+	protected Component createContents(DrawingView dv) {
+		JScrollPane sp = new JScrollPane((Component) dv);
+		sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		sp.setAlignmentX(LEFT_ALIGNMENT);
+
+		String applicationTitle;
+		if (dv.drawing().getTitle() == null) {
+			applicationTitle = getDrawApplication().getApplicationName() + " - " + getDrawApplication().getDefaultDrawingTitle();
+		}
+		else {
+			applicationTitle = getDrawApplication().getApplicationName() + " - " + dv.drawing().getTitle();
+		}
+		JInternalFrame internalFrame = new JInternalFrame(applicationTitle, true, true, true, true);
+		internalFrame.setName(applicationTitle);
+		internalFrame.getContentPane().add(sp);
+		internalFrame.setSize(200,200);
+		return internalFrame;
+	}
+
+	public DrawingView getActiveDrawingView(){
+		return selectedView;
+	}
+
+	/**
+	 * This must match the signature of the superclass it is overriding or the
+	 * method invocation may not resolve to this method unless it is called on
+	 * a reference of specifically MDIDesktopPane type.  So this must be
+	 * Component add(Component comp) in order to override its super class and
+	 * Component add(JInternalFrame frame) will not properly override the super-
+	 * class, but instead overload it.
+	 *
+	 * Note be sure to call this method and not add() when you want to add to the
+	 * desktop.  This allows complex desktops to be created.  For instance, you can
+	 * add split panes and scroll panes and such as normal with the add() method
+	 * but then to get to the actual desktop you would still call this method.
+	 */
+	public void addToDesktop(DrawingView dv, int location) {
+		JInternalFrame frame = (JInternalFrame)createContents(dv);
 		JInternalFrame[] array = getAllFrames();
-		Point p;
+		Point p = null;
 		int w;
 		int h;
 
+		frame.addInternalFrameListener(internalFrameListener);//should be done before added to desktop
 		Component retval = super.add(frame);
+
 		checkDesktopSize();
 		if (array.length > 0) {
 			p = array[0].getLocation();
@@ -75,12 +245,63 @@ public class MDIDesktopPane extends JDesktopPane {
 		catch (PropertyVetoException e) {
 			frame.toBack();
 		}
-		return retval;
 	}
 
-	public void remove(Component c) {
-		super.remove(c);
+	public void removeFromDesktop(DrawingView dv, int location) {
+		Component[] comps = getComponents();
+		for (int x=0; x<comps.length; x++) {
+			if (dv == Helper.getDrawingView(comps[x])) {
+				((JInternalFrame)comps[x]).dispose();
+			    break;
+			}
+		}
 		checkDesktopSize();
+	}
+
+	public void removeAllFromDesktop(int location) {
+		JInternalFrame[] jifs = getAllFrames();
+		for (int x=0; x < jifs.length; x++) {
+			jifs[x].dispose();
+		}
+	}
+
+	public DrawingView[] getAllFromDesktop(int location){
+		Component[] comps = getComponents();
+		java.util.ArrayList al = new java.util.ArrayList();
+		for (int x=0; x<comps.length; x++) {
+			DrawingView dv = Helper.getDrawingView(comps[x]);
+			if (dv != null) {
+				al.add(dv);
+			}
+		}
+		DrawingView[] dvs = new DrawingView[al.size()];
+		al.toArray(dvs);
+		return dvs;
+	}
+
+	public void setSelectedDrawingView(DrawingView dv) {
+		Component[] comps = getComponents();
+		for (int x=0;x<comps.length;x++) {
+			DrawingView dv2 = Helper.getDrawingView(comps[x]);
+		    if (dv == dv2) {
+				JInternalFrame frame = (JInternalFrame) comps[x];
+				try {
+					//moveToFront(frame);
+					frame.setSelected(true);
+				}
+				catch(java.beans.PropertyVetoException pve) {
+				    System.out.println(pve);
+				}
+		    }
+		}
+	}
+
+	public void addDesktopListener(DesktopListener dpl){
+		listenerList.add(DesktopListener.class, dpl);
+	}
+
+	public void removeDesktopListener(DesktopListener dpl){
+	    listenerList.remove(DesktopListener.class, dpl);
 	}
 
 	/**
@@ -89,7 +310,7 @@ public class MDIDesktopPane extends JDesktopPane {
 	public void cascadeFrames() {
 		int x = 0;
 		int y = 0;
-		JInternalFrame allFrames[] = getAllFrames();
+		JInternalFrame[] allFrames = getAllFrames();
 
 		// do nothing if no frames to work with
 		if (allFrames.length == 0) {
@@ -127,7 +348,7 @@ public class MDIDesktopPane extends JDesktopPane {
 	}
 
 	public void tileFramesHorizontally() {
-		java.awt.Component allFrames[] = getAllFrames();
+		Component[] allFrames = getAllFrames();
 
 		// do nothing if no frames to work with
 		if (allFrames.length == 0) {
@@ -154,7 +375,7 @@ public class MDIDesktopPane extends JDesktopPane {
 	}
 
 	public void tileFramesVertically() {
-		java.awt.Component allFrames[] = getAllFrames();
+		Component[] allFrames = getAllFrames();
 
 		// do nothing if no frames to work with
 		if (allFrames.length == 0) {
@@ -185,7 +406,7 @@ public class MDIDesktopPane extends JDesktopPane {
 	 *
 	 */
 	public void arrangeFramesVertically() {
-		java.awt.Component allFrames[] = getAllFrames();
+		Component[] allFrames = getAllFrames();
 		// do nothing if no frames to work with
 		if (allFrames.length == 0) {
 			return;
@@ -193,11 +414,8 @@ public class MDIDesktopPane extends JDesktopPane {
 
 		manager.setNormalSize();
 
-		int horFrames;
-		int vertFrames;
-
-		vertFrames = (int)Math.floor(Math.sqrt(allFrames.length));
-		horFrames = (int)Math.ceil(Math.sqrt(allFrames.length));
+		int vertFrames = (int)Math.floor(Math.sqrt(allFrames.length));
+		int horFrames = (int)Math.ceil(Math.sqrt(allFrames.length));
 
 		// first arrange the windows that have equal size
 		int frameWidth = getBounds().width / horFrames;
@@ -248,7 +466,7 @@ public class MDIDesktopPane extends JDesktopPane {
 	 *
 	 */
 	public void arrangeFramesHorizontally() {
-		java.awt.Component allFrames[] = getAllFrames();
+		Component[] allFrames = getAllFrames();
 		// do nothing if no frames to work with
 		if (allFrames.length == 0) {
 			return;
@@ -256,11 +474,8 @@ public class MDIDesktopPane extends JDesktopPane {
 
 		manager.setNormalSize();
 
-		int horFrames;
-		int vertFrames;
-
-		vertFrames = (int)Math.ceil(Math.sqrt(allFrames.length));
-		horFrames = (int)Math.floor(Math.sqrt(allFrames.length));
+		int vertFrames = (int)Math.ceil(Math.sqrt(allFrames.length));
+		int horFrames = (int)Math.floor(Math.sqrt(allFrames.length));
 
 		// first arrange the windows that have equal size
 		int frameWidth = getBounds().width / horFrames;
@@ -289,8 +504,7 @@ public class MDIDesktopPane extends JDesktopPane {
 		// height
 		frameWidth = getBounds().width / (allFrames.length - frameIdx);
 		x = 0;
-		for (; frameIdx < allFrames.length; frameIdx++)
-		{
+		for (; frameIdx < allFrames.length; frameIdx++) {
 			try {
 				((JInternalFrame)allFrames[frameIdx]).setMaximum(false);
 			}
@@ -309,7 +523,7 @@ public class MDIDesktopPane extends JDesktopPane {
 	 * Sets all component size properties ( maximum, minimum, preferred)
 	 * to the given dimension.
 	 */
-	public void setAllSize(Dimension d){
+	public void setAllSize(Dimension d) {
 		setMinimumSize(d);
 		setMaximumSize(d);
 		setPreferredSize(d);
@@ -320,12 +534,20 @@ public class MDIDesktopPane extends JDesktopPane {
 	 * Sets all component size properties ( maximum, minimum, preferred)
 	 * to the given width and height.
 	 */
-	public void setAllSize(int width, int height){
+	public void setAllSize(int width, int height) {
 		setAllSize(new Dimension(width,height));
 	}
 
 	private void checkDesktopSize() {
 		if (getParent()!=null&&isVisible()) manager.resizeDesktop();
+	}
+
+	private void setDrawApplication(DrawApplication newDrawApplication) {
+		myDrawApplication = newDrawApplication;
+	}
+
+	protected DrawApplication getDrawApplication() {
+		return myDrawApplication;
 	}
 }
 
@@ -336,8 +558,8 @@ public class MDIDesktopPane extends JDesktopPane {
 class MDIDesktopManager extends DefaultDesktopManager {
 	private MDIDesktopPane desktop;
 
-	public MDIDesktopManager(MDIDesktopPane desktop) {
-		this.desktop = desktop;
+	public MDIDesktopManager(MDIDesktopPane newDesktop) {
+		this.desktop = newDesktop;
 	}
 
 	public void endResizingFrame(JComponent f) {
@@ -352,8 +574,6 @@ class MDIDesktopManager extends DefaultDesktopManager {
 
 	public void setNormalSize() {
 		JScrollPane scrollPane = getScrollPane();
-		int x = 0;
-		int y = 0;
 		Insets scrollInsets = getScrollPaneInsets();
 
 		if (scrollPane != null) {

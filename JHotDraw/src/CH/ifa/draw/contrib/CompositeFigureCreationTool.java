@@ -16,6 +16,7 @@ import CH.ifa.draw.standard.CompositeFigure;
 import CH.ifa.draw.standard.DecoratorFigure;
 import CH.ifa.draw.framework.Figure;
 import CH.ifa.draw.framework.DrawingEditor;
+import CH.ifa.draw.framework.DrawingView;
 
 import java.awt.event.MouseEvent;
 
@@ -31,6 +32,7 @@ public class CompositeFigureCreationTool extends CreationTool {
 	}
 
 	public void mouseDown(MouseEvent e, int x, int y) {
+		setView((DrawingView)e.getSource());
 		Figure figure = getFigureWithoutDecoration(drawing().findFigure(e.getX(), e.getY()));
 		if ((figure != null) && (figure instanceof CompositeFigure)) {
 			setContainerFigure((CompositeFigure)figure);

@@ -11,12 +11,13 @@
 
 package CH.ifa.draw.figures;
 
-import java.awt.*;
-import java.util.*;
-import java.io.IOException;
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
 import CH.ifa.draw.util.*;
+import java.awt.*;
+import java.io.IOException;
+import java.util.List;
+import java.util.Iterator;
 
 /**
  * A poly line figure consists of a list of points.
@@ -33,7 +34,7 @@ public  class PolyLineFigure extends AbstractFigure {
 	public final static int ARROW_TIP_END   = 2;
 	public final static int ARROW_TIP_BOTH  = 3;
 
-	protected Vector              fPoints;
+	protected List                fPoints;
 	protected LineDecoration      fStartDecoration = null;
 	protected LineDecoration      fEndDecoration = null;
 	protected Color               fFrameColor = Color.black;
@@ -45,39 +46,45 @@ public  class PolyLineFigure extends AbstractFigure {
 	private int polyLineFigureSerializedDataVersion = 1;
 
 	public PolyLineFigure() {
-		fPoints = new Vector(4);
+		this(4);
 	}
 
 	public PolyLineFigure(int size) {
-		fPoints = new Vector(size);
+		fPoints = CollectionsFactory.current().createList(size);
 	}
 
 	public PolyLineFigure(int x, int y) {
-		fPoints = new Vector();
-		fPoints.addElement(new Point(x, y));
+		fPoints = CollectionsFactory.current().createList();
+		fPoints.add(new Point(x, y));
 	}
 
 	public Rectangle displayBox() {
-		Enumeration k = points();
-		Rectangle r = new Rectangle();
+		Iterator iter = points();
+		if (iter.hasNext()) {
+			// avoid starting with origin 0,0 because that would lead to a too large rectangle
+			Rectangle r = new Rectangle((Point)iter.next());
 
-		while (k.hasMoreElements()) {
-			r.add((Point) k.nextElement());
+			while (iter.hasNext()) {
+				r.add((Point)iter.next());
+			}
+
+			return r;
 		}
-
-		return r;
+		else {
+			return new Rectangle();
+		}
 	}
 
 	public boolean isEmpty() {
 		return (size().width < 3) && (size().height < 3);
 	}
 
-	public Vector handles() {
-		Vector handles = new Vector(fPoints.size());
+	public HandleEnumeration handles() {
+		List handles = CollectionsFactory.current().createList(fPoints.size());
 		for (int i = 0; i < fPoints.size(); i++) {
-			handles.addElement(new PolyLineHandle(this, locator(i), i));
+			handles.add(new PolyLineHandle(this, locator(i), i));
 		}
-		return handles;
+		return new HandleEnumerator(handles);
 	}
 
 	public void basicDisplayBox(Point origin, Point corner) {
@@ -87,12 +94,12 @@ public  class PolyLineFigure extends AbstractFigure {
 	 * Adds a node to the list of points.
 	 */
 	public void addPoint(int x, int y) {
-		fPoints.addElement(new Point(x, y));
+		fPoints.add(new Point(x, y));
 		changed();
 	}
 
-	public Enumeration points() {
-		return fPoints.elements();
+	public Iterator points() {
+		return fPoints.iterator();
 	}
 
 	public int pointCount() {
@@ -100,9 +107,9 @@ public  class PolyLineFigure extends AbstractFigure {
 	}
 
 	protected void basicMoveBy(int dx, int dy) {
-		Enumeration k = fPoints.elements();
-		while (k.hasMoreElements()) {
-			((Point) k.nextElement()).translate(dx, dy);
+		Iterator iter = points();
+		while (iter.hasNext()) {
+			((Point)iter.next()).translate(dx, dy);
 		}
 	}
 
@@ -111,7 +118,7 @@ public  class PolyLineFigure extends AbstractFigure {
 	 */
 	public void setPointAt(Point p, int i) {
 		willChange();
-		fPoints.setElementAt(p, i);
+		fPoints.set(i, p);
 		changed();
 	}
 
@@ -119,13 +126,13 @@ public  class PolyLineFigure extends AbstractFigure {
 	 * Insert a node at the given point.
 	 */
 	public void insertPointAt(Point p, int i) {
-		fPoints.insertElementAt(p, i);
+		fPoints.add(i, p);
 		changed();
 	}
 
 	public void removePointAt(int i) {
 		willChange();
-		fPoints.removeElementAt(i);
+		fPoints.remove(i);
 		changed();
 	}
 
@@ -142,7 +149,7 @@ public  class PolyLineFigure extends AbstractFigure {
 	}
 
 	public Point pointAt(int i) {
-		return (Point)fPoints.elementAt(i);
+		return (Point)fPoints.get(i);
 	}
 
 	/**
@@ -197,8 +204,8 @@ public  class PolyLineFigure extends AbstractFigure {
 		g.setColor(getFrameColor());
 		Point p1, p2;
 		for (int i = 0; i < fPoints.size()-1; i++) {
-			p1 = (Point) fPoints.elementAt(i);
-			p2 = (Point) fPoints.elementAt(i+1);
+			p1 = pointAt(i);
+			p2 = pointAt(i+1);
 			drawLine(g, p1.x, p1.y, p2.x, p2.y);
 		}
 		decorate(g);
@@ -219,10 +226,9 @@ public  class PolyLineFigure extends AbstractFigure {
 			return false;
 		}
 
-		Point p1, p2;
 		for (int i = 0; i < fPoints.size()-1; i++) {
-			p1 = (Point) fPoints.elementAt(i);
-			p2 = (Point) fPoints.elementAt(i+1);
+			Point p1 = pointAt(i);
+			Point p2 = pointAt(i+1);
 			if (Geom.lineContainsPoint(p1.x, p1.y, p2.x, p2.y, x, y)) {
 				return true;
 			}
@@ -236,10 +242,9 @@ public  class PolyLineFigure extends AbstractFigure {
 	 * @return the index of the segment or -1 if no segment was hit.
 	 */
 	public int findSegment(int x, int y) {
-		Point p1, p2;
 		for (int i = 0; i < fPoints.size()-1; i++) {
-			p1 = (Point) fPoints.elementAt(i);
-			p2 = (Point) fPoints.elementAt(i+1);
+			Point p1 = pointAt(i);
+			Point p2 = pointAt(i+1);
 			if (Geom.lineContainsPoint(p1.x, p1.y, p2.x, p2.y, x, y)) {
 				return i;
 			}
@@ -249,13 +254,13 @@ public  class PolyLineFigure extends AbstractFigure {
 
 	private void decorate(Graphics g) {
 		if (getStartDecoration() != null) {
-			Point p1 = (Point)fPoints.elementAt(0);
-			Point p2 = (Point)fPoints.elementAt(1);
+			Point p1 = pointAt(0);
+			Point p2 = pointAt(1);
 			getStartDecoration().draw(g, p1.x, p1.y, p2.x, p2.y);
 		}
 		if (getEndDecoration() != null) {
-			Point p3 = (Point)fPoints.elementAt(fPoints.size()-2);
-			Point p4 = (Point)fPoints.elementAt(fPoints.size()-1);
+			Point p3 = pointAt(fPoints.size()-2);
+			Point p4 = pointAt(fPoints.size()-1);
 			getEndDecoration().draw(g, p4.x, p4.y, p3.x, p3.y);
 		}
 	}
@@ -341,9 +346,9 @@ public  class PolyLineFigure extends AbstractFigure {
 	public void write(StorableOutput dw) {
 		super.write(dw);
 		dw.writeInt(fPoints.size());
-		Enumeration k = fPoints.elements();
-		while (k.hasMoreElements()) {
-			Point p = (Point) k.nextElement();
+		Iterator iter = points();
+		while (iter.hasNext()) {
+			Point p = (Point)iter.next();
 			dw.writeInt(p.x);
 			dw.writeInt(p.y);
 		}
@@ -355,11 +360,11 @@ public  class PolyLineFigure extends AbstractFigure {
 	public void read(StorableInput dr) throws IOException {
 		super.read(dr);
 		int size = dr.readInt();
-		fPoints = new Vector(size);
+		fPoints = CollectionsFactory.current().createList(size);
 		for (int i=0; i<size; i++) {
 			int x = dr.readInt();
 			int y = dr.readInt();
-			fPoints.addElement(new Point(x,y));
+			fPoints.add(new Point(x,y));
 		}
 		setStartDecoration((LineDecoration)dr.readStorable());
 		setEndDecoration((LineDecoration)dr.readStorable());
@@ -387,8 +392,12 @@ public  class PolyLineFigure extends AbstractFigure {
 	protected Rectangle invalidateRectangle(Rectangle r) {
 		// SF-bug id: 533953: provide this method to customize invalidated rectangle
 		Rectangle parentR = super.invalidateRectangle(r);
-		parentR.add(getStartDecoration().displayBox());
-		parentR.add(getEndDecoration().displayBox());
+		if (getStartDecoration() != null) {
+			parentR.add(getStartDecoration().displayBox());
+		}
+		if (getEndDecoration() != null) {
+			parentR.add(getEndDecoration().displayBox());
+		}
 		return parentR;
 	}
 }

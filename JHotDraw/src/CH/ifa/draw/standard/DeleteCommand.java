@@ -34,7 +34,7 @@ public class DeleteCommand extends FigureTransferCommand {
 	public void execute() {
 		super.execute();
 		setUndoActivity(createUndoActivity());
-		getUndoActivity().setAffectedFigures(view().selectionElements());
+		getUndoActivity().setAffectedFigures(view().selection());
 		deleteFigures(getUndoActivity().getAffectedFigures());
 		view().checkDamage();
 	}
@@ -61,7 +61,7 @@ public class DeleteCommand extends FigureTransferCommand {
 		}
 
 		public boolean undo() {
-			if (super.undo() && getAffectedFigures().hasMoreElements()) {
+			if (super.undo() && getAffectedFigures().hasNextFigure()) {
 				getDrawingView().clearSelection();
 				setAffectedFigures(myCommand.insertFigures(getAffectedFigures(), 0, 0));
 

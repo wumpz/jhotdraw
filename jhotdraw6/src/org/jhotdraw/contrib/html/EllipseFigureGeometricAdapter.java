@@ -17,13 +17,11 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
-import java.util.Vector;
 
 import CH.ifa.draw.figures.EllipseFigure;
 import CH.ifa.draw.framework.Connector;
 import CH.ifa.draw.framework.Figure;
 import CH.ifa.draw.framework.FigureChangeListener;
-import CH.ifa.draw.framework.FigureEnumeration;
 import CH.ifa.draw.framework.Locator;
 import CH.ifa.draw.util.StorableInput;
 import CH.ifa.draw.util.StorableOutput;

@@ -15,7 +15,7 @@ import CH.ifa.draw.util.*;
 import CH.ifa.draw.framework.*;
 
 import java.awt.*;
-import java.util.*;
+import java.util.List;
 import java.io.*;
 
 /**
@@ -101,19 +101,17 @@ public abstract class AbstractFigure implements Figure {
 	/**
 	 * Returns the handles of a Figure that can be used
 	 * to manipulate some of its attributes.
-	 * @return a Vector of handles
+	 * @return a type-safe iterator of handles
 	 * @see Handle
 	 */
-	public abstract Vector handles();
+	public abstract HandleEnumeration handles();
 
 	/**
 	 * Returns an Enumeration of the figures contained in this figure.
 	 * @see CompositeFigure
 	 */
 	public FigureEnumeration figures() {
-		Vector figures = new Vector(1);
-		figures.addElement(this);
-		return new FigureEnumerator(figures);
+		return new SingleFigureEnumerator(this);
 	}
 
 	/**
@@ -171,14 +169,13 @@ public abstract class AbstractFigure implements Figure {
 	}
 
 	/**
-	 * Decomposes a figure into its parts. It returns a Vector
+	 * Decomposes a figure into its parts. It returns a FigureEnumeration
 	 * that contains itself.
-	 * @return an Enumeration for a Vector with itself as the
-	 * only element.
+	 * @return an Enumeration with itself as the only element.
 	 */
 	public FigureEnumeration decompose() {
-		Vector figures = new Vector(1);
-		figures.addElement(this);
+		List figures = CollectionsFactory.current().createList(1);
+		figures.add(this);
 		return new FigureEnumerator(figures);
 	}
 
@@ -317,7 +314,7 @@ public abstract class AbstractFigure implements Figure {
 	 * Sets whether the connectors should be visible.
 	 * By default they are not visible
 	 */
-	public void connectorVisibility(boolean isVisible) {
+	public void connectorVisibility(boolean isVisible, ConnectionFigure connector) {
 	}
 
 	/**

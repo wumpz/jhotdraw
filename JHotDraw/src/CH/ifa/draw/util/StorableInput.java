@@ -11,9 +11,9 @@
 
 package CH.ifa.draw.util;
 
-import java.util.*;
 import java.io.*;
 import java.awt.Color;
+import java.util.List;
 
 /**
  * An input stream that can be used to resurrect Storable objects.
@@ -27,7 +27,7 @@ import java.awt.Color;
 public class StorableInput {
 
 	private StreamTokenizer fTokenizer;
-	private Vector          fMap;
+	private List            fMap;
 
 	/**
 	 * Initializes a Storable input with the given input stream.
@@ -37,7 +37,7 @@ public class StorableInput {
 		fTokenizer = new StreamTokenizer(r);
 		// include inner class separate in class names
 		fTokenizer.wordChars('$', '$');
-		fMap = new Vector();
+		fMap = CollectionsFactory.current().createList();
 	}
 
 	/**
@@ -145,11 +145,11 @@ public class StorableInput {
 
 	private void map(Storable storable) {
 		if (!fMap.contains(storable)) {
-			fMap.addElement(storable);
+			fMap.add(storable);
 		}
 	}
 
 	private Storable retrieve(int ref) {
-		return (Storable) fMap.elementAt(ref);
+		return (Storable)fMap.get(ref);
 	}
 }

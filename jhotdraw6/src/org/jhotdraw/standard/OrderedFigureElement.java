@@ -14,7 +14,7 @@ package CH.ifa.draw.standard;
 import CH.ifa.draw.framework.Figure;
 
 /**
- * @author: WMG (INIT Copyright (C) 2000 All rights reserved)
+ * @author WMG (INIT Copyright (C) 2000 All rights reserved)
  * @version <$CURRENT_VERSION$>
  */
 class OrderedFigureElement implements Comparable {
@@ -29,9 +29,6 @@ class OrderedFigureElement implements Comparable {
 	public OrderedFigureElement(Figure aFigure, int nZ) {
 		_theFigure = aFigure;
 		_nZ = nZ;
-	}
-
-	private OrderedFigureElement() {
 	}
 
 	//____________________________________________________PUBLIC METHODS

@@ -11,7 +11,6 @@
 
 package CH.ifa.draw.standard;
 
-import java.util.*;
 import CH.ifa.draw.util.*;
 import CH.ifa.draw.framework.*;
 
@@ -35,7 +34,7 @@ public class CopyCommand extends FigureTransferCommand {
 
 	public void execute() {
 		super.execute();
-		copyFigures(view().selectionElements(), view().selectionCount());
+		copyFigures(view().selection(), view().selectionCount());
 	}
 
 	protected boolean isExecutableWithView() {

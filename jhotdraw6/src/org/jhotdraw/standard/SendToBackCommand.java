@@ -35,9 +35,9 @@ public class SendToBackCommand extends AbstractCommand {
 	public void execute() {
 		super.execute();
 		setUndoActivity(createUndoActivity());
-		getUndoActivity().setAffectedFigures(new ReverseFigureEnumerator(view().selectionZOrdered()));
+		getUndoActivity().setAffectedFigures(view().selectionZOrdered());
 		FigureEnumeration fe = getUndoActivity().getAffectedFigures();
-		while (fe.hasMoreElements()) {
+		while (fe.hasNextFigure()) {
 			view().drawing().sendToBack(fe.nextFigure());
 		}
 		view().checkDamage();
@@ -67,7 +67,7 @@ public class SendToBackCommand extends AbstractCommand {
 			}
 
 			FigureEnumeration fe = getAffectedFigures();
-			while (fe.hasMoreElements()) {
+			while (fe.hasNextFigure()) {
 				Figure currentFigure = fe.nextFigure();
 				int currentFigureLayer = getOriginalLayer(currentFigure);
 				getDrawingView().drawing().sendToLayer(currentFigure, currentFigureLayer);
@@ -83,7 +83,7 @@ public class SendToBackCommand extends AbstractCommand {
 			}
 			
 			FigureEnumeration fe = getAffectedFigures();
-			while (fe.hasMoreElements()) {
+			while (fe.hasNextFigure()) {
 				sendToCommand(fe.nextFigure());
 			}
 			
@@ -107,7 +107,7 @@ public class SendToBackCommand extends AbstractCommand {
 			super.setAffectedFigures(fe);
 			// then get new FigureEnumeration of copy to save attributes
 			FigureEnumeration copyFe = getAffectedFigures();
-			while (copyFe.hasMoreElements()) {
+			while (copyFe.hasNextFigure()) {
 				Figure f = copyFe.nextFigure();
 				int originalLayer = getDrawingView().drawing().getLayer(f);
 				addOriginalLayer(f, originalLayer);

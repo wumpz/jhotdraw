@@ -16,7 +16,6 @@ import CH.ifa.draw.util.UndoableAdapter;
 import CH.ifa.draw.util.Undoable;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.util.*;
 
 /**
  * DragTracker implements the dragging of the clicked
@@ -43,13 +42,16 @@ public class DragTracker extends AbstractTool {
 		fLastY = y;
 
 		if (e.isShiftDown()) {
-		   view().toggleSelection(fAnchorFigure);
+		   getActiveView().toggleSelection(fAnchorFigure);
 		   fAnchorFigure = null;
 		}
-		else if (!view().isFigureSelected(fAnchorFigure)) {
-			view().clearSelection();
-			view().addToSelection(fAnchorFigure);
+		else if (!getActiveView().isFigureSelected(fAnchorFigure)) {
+			getActiveView().clearSelection();
+			getActiveView().addToSelection(fAnchorFigure);
 		}
+		setUndoActivity(createUndoActivity());
+		getUndoActivity().setAffectedFigures(getActiveView().selection());
+//		getUndoActivity().setAffectedFigures(view().selectionElements());
 	}
 
 	public void mouseDrag(MouseEvent e, int x, int y) {
@@ -58,7 +60,7 @@ public class DragTracker extends AbstractTool {
 
 		if (fMoved) {
 			FigureEnumeration figures = getUndoActivity().getAffectedFigures();
-			while (figures.hasMoreElements()) {
+			while (figures.hasNextFigure()) {
 				figures.nextFigure().moveBy(x - fLastX, y - fLastY);
 			}
 		}
@@ -69,8 +71,6 @@ public class DragTracker extends AbstractTool {
 	public void activate() {
 		// suppress clearSelection() and tool-activation-notification
 		// in superclass
-		setUndoActivity(createUndoActivity());
-		getUndoActivity().setAffectedFigures(view().selectionElements());
 	}
 
 	public void deactivate() {
@@ -86,7 +86,7 @@ public class DragTracker extends AbstractTool {
 	 * Factory method for undo activity
 	 */
 	protected Undoable createUndoActivity() {
-		return new DragTracker.UndoActivity(view(), new Point(fLastX, fLastY));
+		return new DragTracker.UndoActivity(getActiveView(), new Point(fLastX, fLastY));
 	}
 
 	public static class UndoActivity extends UndoableAdapter {
@@ -142,7 +142,7 @@ public class DragTracker extends AbstractTool {
 
 		public void moveAffectedFigures(Point startPoint, Point endPoint) {
 			FigureEnumeration figures = getAffectedFigures();
-			while (figures.hasMoreElements()) {
+			while (figures.hasNextFigure()) {
 				figures.nextFigure().moveBy(endPoint.x - startPoint.x,
 					endPoint.y - startPoint.y);
 			}

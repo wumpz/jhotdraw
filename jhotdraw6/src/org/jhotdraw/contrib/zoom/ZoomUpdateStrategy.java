@@ -19,13 +19,12 @@ import java.awt.*;
 /**
  * A variant of the BufferedUpdateStrategy that handles clipping
  * rectangles correctly in the presence of zooming.
- * @see BufferedUpdateStrategy
+ * @see CH.ifa.draw.standard.BufferedUpdateStrategy
  *
  * @author Andre Spiegel <spiegel@gnu.org>
  * @version <$CURRENT_VERSION$>
  */
-public class ZoomUpdateStrategy
-		implements Painter {
+public class ZoomUpdateStrategy implements Painter {
 
 	/**
 	 * The offscreen image

@@ -11,13 +11,14 @@
 
 package CH.ifa.draw.figures;
 
-import java.util.*;
+import CH.ifa.draw.util.*;
+import CH.ifa.draw.framework.*;
+
 import java.awt.Color;
 import java.io.IOException;
 import java.io.Serializable;
-
-import CH.ifa.draw.util.*;
-import CH.ifa.draw.framework.*;
+import java.util.Map;
+import java.util.Iterator;
 
 /**
  * A container for a figure's attributes. The attributes are stored
@@ -31,7 +32,7 @@ public  class   FigureAttributes
 		extends Object
 		implements Cloneable, Serializable {
 
-	private Hashtable fMap;
+	private Map fMap;
 
 	/*
 	 * Serialization support.
@@ -43,12 +44,12 @@ public  class   FigureAttributes
 	 * Constructs the FigureAttributes.
 	 */
 	public FigureAttributes() {
-		fMap = new Hashtable();
+		fMap = CollectionsFactory.current().createMap();
 	}
 
 	/**
 	 * Gets the attribute with the given name.
-	 * @returns attribute or null if the key is not defined
+	 * @return attribute or null if the key is not defined
 	 */
 	public Object get(FigureAttributeConstant attributeConstant) {
 		return fMap.get(attributeConstant);
@@ -80,7 +81,7 @@ public  class   FigureAttributes
    public Object clone() {
 		try {
 			FigureAttributes a = (FigureAttributes) super.clone();
-			a.fMap = (Hashtable) fMap.clone();
+			a.fMap = CollectionsFactory.current().createMap(fMap);
 			return a;
 		}
 		catch (CloneNotSupportedException e) {
@@ -103,7 +104,7 @@ public  class   FigureAttributes
 			throw new IOException("Attributes expected");
 		}
 
-		fMap = new Hashtable();
+		fMap = CollectionsFactory.current().createMap();
 		int size = dr.readInt();
 		for (int i=0; i<size; i++) {
 			String key = dr.readString();
@@ -150,9 +151,9 @@ public  class   FigureAttributes
 		dw.writeString("attributes");
 
 		dw.writeInt(fMap.size());   // number of attributes
-		Enumeration k = fMap.keys();
-		while (k.hasMoreElements()) {
-			String s = (String) k.nextElement();
+		Iterator iter = fMap.keySet().iterator();
+		while (iter.hasNext()) {
+			String s = (String)iter.next();
 			Object v = fMap.get(s);
 
 			dw.writeString(s);

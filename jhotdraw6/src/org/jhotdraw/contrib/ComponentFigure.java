@@ -13,14 +13,16 @@ package CH.ifa.draw.contrib;
 
 import CH.ifa.draw.figures.AttributeFigure;
 import CH.ifa.draw.standard.BoxHandleKit;
-import CH.ifa.draw.framework.DrawingEditor;
+import CH.ifa.draw.standard.HandleEnumerator;
+import CH.ifa.draw.framework.*;
+import CH.ifa.draw.util.CollectionsFactory;
 
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Rectangle;
 import java.awt.Point;
 import java.awt.Graphics;
-import java.util.Vector;
+import java.util.List;
 import javax.swing.CellRendererPane;
 
 /**
@@ -34,8 +36,11 @@ public class ComponentFigure extends AttributeFigure {
 	private Component component;
 	private transient DrawingEditor myDrawingEditor;
 
+	private ComponentFigure() {
+		// do nothing
+	}
 	/**
-	 * @param component a lightweight component
+	 * @param newComponent a lightweight component
 	 * @param container the container that provides the screen realestate for paint the component in
 	 * you may use StandardDrawingView
 	*/
@@ -83,13 +88,13 @@ public class ComponentFigure extends AttributeFigure {
 	 * the figure. Handles is a Factory Method for
 	 * creating handle objects.
 	 *
-	 * @return a Vector of handles
+	 * @return a type-safe iterator of handles
 	 * @see Handle
 	 */
-	public Vector handles() {
-		Vector handles = new Vector();
+	public HandleEnumeration handles() {
+		List handles = CollectionsFactory.current().createList();
 		BoxHandleKit.addHandles(this, handles);
-		return handles;
+		return new HandleEnumerator(handles);
 	}
 
 	/**
@@ -102,7 +107,7 @@ public class ComponentFigure extends AttributeFigure {
 
 	/**
 	 * Setter for property component.
-	 * @param component New value of property component.
+	 * @param newComponent New value of property component.
 	 */
 	protected void setComponent(Component newComponent) {
 		this.component = newComponent;

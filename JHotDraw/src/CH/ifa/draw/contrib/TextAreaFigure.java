@@ -20,18 +20,16 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Vector;
+import java.util.*;
+import java.util.List;
 
 import CH.ifa.draw.figures.AttributeFigure;
 import CH.ifa.draw.framework.Figure;
 import CH.ifa.draw.framework.FigureChangeEvent;
 import CH.ifa.draw.framework.FigureChangeListener;
+import CH.ifa.draw.framework.HandleEnumeration;
 import CH.ifa.draw.standard.*;
-import CH.ifa.draw.util.ColorMap;
-import CH.ifa.draw.util.StorableInput;
-import CH.ifa.draw.util.StorableOutput;
+import CH.ifa.draw.util.*;
 
 /**
  * A TextAreaFigure contains formatted text.<br>
@@ -67,7 +65,7 @@ public class TextAreaFigure extends AttributeFigure
 	private Rectangle fDisplayBox;
 
 	/** Paragraph cache resulting from splitting the text */
-	protected Vector fParagraphs = new Vector();
+	protected List fParagraphs;
 
 	/** The text */
 	protected String fText;
@@ -107,6 +105,7 @@ public class TextAreaFigure extends AttributeFigure
 
 	/** Constructor for the TextAreaFigure object */
 	public TextAreaFigure() {
+		fParagraphs = CollectionsFactory.current().createList();
 		fDisplayBox = new Rectangle(0, 0, 30, 15);
 		fFont = createFont();
 		fText = new String("");
@@ -289,14 +288,14 @@ public class TextAreaFigure extends AttributeFigure
 	}
 
 	/**
-	 * Returns a Vector of standard sizing handles to manipulate the figure
+	 * Returns an iterator of standard sizing handles to manipulate the figure
 	 *
 	 * @return   Description of the Return Value
 	 */
-	public Vector handles() {
-		Vector handles = new Vector();
+	public HandleEnumeration handles() {
+		List handles = CollectionsFactory.current().createList();
 		BoxHandleKit.addHandles(this, handles);
-		return handles;
+		return new HandleEnumerator(handles);
 	}
 
 	/**
@@ -384,7 +383,6 @@ public class TextAreaFigure extends AttributeFigure
 		Graphics2D g2 = null;
 		Shape savedClipArea = null;
 		Color savedFontColor = null;
-		Font savedFont = null;
 		Rectangle2D clipRect = null;
 		RenderingHints savedRenderingHints = null;
 
@@ -396,7 +394,7 @@ public class TextAreaFigure extends AttributeFigure
 			g2.setRenderingHint(RenderingHints.KEY_RENDERING,
 					RenderingHints.VALUE_RENDER_QUALITY);
 			savedClipArea = g2.getClip();
-			savedFont = g2.getFont();
+			Font savedFont = g2.getFont();
 			savedFontColor = g2.getColor();
 			clipRect = displayBox.createIntersection((Rectangle2D)savedClipArea);
 			g2.setClip(clipRect);
@@ -430,9 +428,9 @@ public class TextAreaFigure extends AttributeFigure
 
 		/** Iterate on the paragraphs displaying each one in turn */
 		float verticalPos = topMargin;
-		Enumeration paragraphs = fParagraphs.elements();
-		while (paragraphs.hasMoreElements()) {
-			String paragraphText = (String)paragraphs.nextElement();
+		Iterator paragraphs = fParagraphs.iterator();
+		while (paragraphs.hasNext()) {
+			String paragraphText = (String)paragraphs.next();
 
 			// prepare tabs. Here we build an array with the character positions
 			// of the tabs within the paragraph
@@ -466,9 +464,9 @@ public class TextAreaFigure extends AttributeFigure
 				// Lay out and draw each line.  All segments on a line
 				// must be computed before any drawing can occur, since
 				// we must know the largest ascent on the line.
-				// TextLayouts are computed and stored in a Vector;
+				// TextLayouts are computed and stored in a collection;
 				// their horizontal positions are stored in a parallel
-				// Vector.
+				// collection.
 
 				// lineContainsText is true after first segment is drawn
 				boolean lineContainsText = false;
@@ -476,8 +474,8 @@ public class TextAreaFigure extends AttributeFigure
 				float maxAscent = 0;
 				float maxDescent = 0;
 				float horizontalPos = leftMargin;
-				Vector layouts = new Vector(1);
-				Vector penPositions = new Vector(1);
+				List layouts = CollectionsFactory.current().createList(1);
+				List penPositions = CollectionsFactory.current().createList(1);
 
 				while (!lineComplete) {
 					float wrappingWidth = rightMargin - horizontalPos;
@@ -490,8 +488,8 @@ public class TextAreaFigure extends AttributeFigure
 
 					// layout can be null if lineContainsText is true
 					if (layout != null) {
-						layouts.addElement(layout);
-						penPositions.addElement(new Float(horizontalPos));
+						layouts.add(layout);
+						penPositions.add(new Float(horizontalPos));
 						horizontalPos += layout.getAdvance();
 						maxAscent = Math.max(maxAscent, layout.getAscent());
 						maxDescent = Math.max(maxDescent,
@@ -527,11 +525,11 @@ public class TextAreaFigure extends AttributeFigure
 				verticalPos += maxAscent;
 
 				// now iterate through layouts and draw them
-				Enumeration layoutEnum = layouts.elements();
-				Enumeration positionEnum = penPositions.elements();
-				while (layoutEnum.hasMoreElements()) {
-					TextLayout nextLayout = (TextLayout)layoutEnum.nextElement();
-					Float nextPosition = (Float)positionEnum.nextElement();
+				Iterator layoutEnum = layouts.iterator();
+				Iterator positionEnum = penPositions.iterator();
+				while (layoutEnum.hasNext()) {
+					TextLayout nextLayout = (TextLayout)layoutEnum.next();
+					Float nextPosition = (Float)positionEnum.next();
 					if (g2 != null) {
 						nextLayout.draw(g2, nextPosition.floatValue(), verticalPos);
 					}
@@ -580,7 +578,7 @@ public class TextAreaFigure extends AttributeFigure
 			return;
 		}
 
-		fParagraphs = new Vector();
+		fParagraphs = CollectionsFactory.current().createList();
 		String paragraphText;
 		Point pos = new Point(-1, -1);
 
@@ -775,13 +773,11 @@ public class TextAreaFigure extends AttributeFigure
 
 	/**
 	 * Description of the Method
+	 * @todo   Implement this CH.ifa.draw.framework.FigureChangeListener method
 	 *
 	 * @param e  Description of the Parameter
 	 */
 	public void figureInvalidated(FigureChangeEvent e) {
-		/**
-		 * @todo:   Implement this CH.ifa.draw.framework.FigureChangeListener method
-		 */
 	}
 
 	/**

@@ -11,15 +11,13 @@
 
 package CH.ifa.draw.contrib;
 
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.standard.*;
-import CH.ifa.draw.figures.*;
-import CH.ifa.draw.util.*;
+import CH.ifa.draw.util.CollectionsFactory;
+
 import javax.swing.JToolBar;
 import javax.swing.JComponent;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
+import java.util.List;
+import java.util.Iterator;
+import java.awt.Component;
 
 /**
  * This ToolBar allows to use several panels with tools. It manages each
@@ -27,25 +25,25 @@ import java.util.*;
  * tools be activated at a time. Currently, only two panels are supported
  * (standard tools and edit tools).
  *
- * @author  Wolfram Kaiser
+ * @author  Wolfram Kaiser <mrfloppy@sourceforge.net>
  * @version <$CURRENT_VERSION$>
  */
 public class CustomToolBar extends JToolBar {
 
 	/**
-	 * Vector containing all tools for the standard ToolBar
+	 * List containing all tools for the standard ToolBar
 	 */
-	private Vector standardTools;
+	private List standardTools;
 	
 	/**
-	 * Vector containing all tools for the edit ToolBar
+	 * List containing all tools for the edit ToolBar
 	 */
-	private Vector editTools;
+	private List editTools;
 	
 	/**
-	 * Vector containing all tools, which are currently activated
+	 * List containing all tools, which are currently activated
 	 */
-	private Vector currentTools;
+	private List currentTools;
 	
 	/**
 	 * Flag which determines whether the tool palette must be updated
@@ -57,8 +55,8 @@ public class CustomToolBar extends JToolBar {
 	 */
 	public CustomToolBar() {
 		super();
-		standardTools = new Vector();
-		editTools = new Vector();
+		standardTools = CollectionsFactory.current().createList();
+		editTools = CollectionsFactory.current().createList();
 		currentTools = standardTools;
 		needsUpdate = false;
 	}
@@ -106,9 +104,9 @@ public class CustomToolBar extends JToolBar {
 			removeAll();
 
 			JComponent currentTool = null;
-			Enumeration enum = currentTools.elements();
-			while (enum.hasMoreElements()) {
-				currentTool = (JComponent)enum.nextElement();
+			Iterator iter = currentTools.iterator();
+			while (iter.hasNext()) {
+				currentTool = (JComponent)iter.next();
 				super.add(currentTool);
 			}
 			validate();
@@ -121,10 +119,10 @@ public class CustomToolBar extends JToolBar {
 	 */
 	public Component add(Component newTool) {
 		if (currentTools == editTools) {
-			editTools.addElement(newTool);
+			editTools.add(newTool);
 		}
 		else {
-			standardTools.addElement(newTool);
+			standardTools.add(newTool);
 		}
 		needsUpdate = true;
 		return super.add(newTool);

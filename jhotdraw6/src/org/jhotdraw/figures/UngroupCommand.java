@@ -15,8 +15,6 @@ import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
 import CH.ifa.draw.util.UndoableAdapter;
 import CH.ifa.draw.util.Undoable;
-import java.awt.*;
-import java.util.*;
 
 /**
  * Command to ungroup the selected figures.
@@ -40,7 +38,7 @@ public  class UngroupCommand extends AbstractCommand {
 		super.execute();
 		setUndoActivity(createUndoActivity());
 		// selection of group figures
-		getUndoActivity().setAffectedFigures(view().selectionElements());
+		getUndoActivity().setAffectedFigures(view().selection());
 		view().clearSelection();
 
 		((UngroupCommand.UndoActivity)getUndoActivity()).ungroupFigures();
@@ -48,18 +46,18 @@ public  class UngroupCommand extends AbstractCommand {
 	}
 
 	public boolean isExecutableWithView() {
-		FigureEnumeration fe = view().selectionElements();
-		while (fe.hasMoreElements()) {
+		FigureEnumeration fe = view().selection();
+		while (fe.hasNextFigure()) {
 			Figure currentFigure = fe.nextFigure();
 			if (currentFigure instanceof DecoratorFigure) {
 				currentFigure = ((DecoratorFigure)currentFigure).getDecoratedFigure();
 			}
-			
+
 			if (!(currentFigure instanceof GroupFigure)) {
 				return false;
 			}
 		}
-		
+
 		return view().selectionCount() > 0;
 
 	}
@@ -83,20 +81,20 @@ public  class UngroupCommand extends AbstractCommand {
 				return false;
 			}
 			getDrawingView().clearSelection();
-			
+
 			FigureEnumeration groupFigures = getAffectedFigures();
-			while (groupFigures.hasMoreElements()) {
+			while (groupFigures.hasNextFigure()) {
 				Figure groupFigure = groupFigures.nextFigure();
 				// orphan individual figures from the group
 				getDrawingView().drawing().orphanAll(groupFigure.figures());
-				
+
 				Figure figure = getDrawingView().drawing().add(groupFigure);
 				getDrawingView().addToSelection(figure);
 			}
-			
+
 			return true;
 		}
-	
+
 		public boolean redo() {
 			// do not call execute directly as the selection might has changed
 			if (isRedoable()) {
@@ -110,14 +108,12 @@ public  class UngroupCommand extends AbstractCommand {
 
 		protected void ungroupFigures() {
 			FigureEnumeration fe = getAffectedFigures();
-			if (fe.hasMoreElements()) {
-				while (fe.hasMoreElements()) {
-					Figure selected = fe.nextFigure();
-					Figure group = getDrawingView().drawing().orphan(selected);
-		
-					getDrawingView().drawing().addAll(group.figures());
-					getDrawingView().addToSelectionAll(group.figures());
-				}            
+			while (fe.hasNextFigure()) {
+				Figure selected = fe.nextFigure();
+				Figure group = getDrawingView().drawing().orphan(selected);
+
+				getDrawingView().drawing().addAll(group.figures());
+				getDrawingView().addToSelectionAll(group.figures());
 			}
 		}
 	}

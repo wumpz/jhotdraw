@@ -58,7 +58,7 @@ public class HTMLLayouter implements Layouter {
 		/**
 		 * @todo:   Implement this CH.ifa.draw.contrib.Layouter method
 		 */
-		throw new java.lang.UnsupportedOperationException("Method calculateLayout() not yet implemented.");
+		throw new UnsupportedOperationException("Method calculateLayout() not yet implemented.");
 	}
 
 
@@ -73,7 +73,7 @@ public class HTMLLayouter implements Layouter {
 		/**
 		 * @todo:   Implement this CH.ifa.draw.contrib.Layouter method
 		 */
-		throw new java.lang.UnsupportedOperationException("Method layout() not yet implemented.");
+		throw new UnsupportedOperationException("Method layout() not yet implemented.");
 	}
 
 
@@ -86,7 +86,7 @@ public class HTMLLayouter implements Layouter {
 		/**
 		 * @todo:   Implement this CH.ifa.draw.contrib.Layouter method
 		 */
-		throw new java.lang.UnsupportedOperationException("Method setInsets() not yet implemented.");
+		throw new UnsupportedOperationException("Method setInsets() not yet implemented.");
 	}
 
 
@@ -99,7 +99,7 @@ public class HTMLLayouter implements Layouter {
 		/**
 		 * @todo:   Implement this CH.ifa.draw.contrib.Layouter method
 		 */
-		throw new java.lang.UnsupportedOperationException("Method getInsets() not yet implemented.");
+		throw new UnsupportedOperationException("Method getInsets() not yet implemented.");
 	}
 
 
@@ -112,7 +112,7 @@ public class HTMLLayouter implements Layouter {
 		/**
 		 * @todo:   Implement this CH.ifa.draw.util.Storable method
 		 */
-		throw new java.lang.UnsupportedOperationException("Method write() not yet implemented.");
+		throw new UnsupportedOperationException("Method write() not yet implemented.");
 	}
 
 
@@ -127,7 +127,7 @@ public class HTMLLayouter implements Layouter {
 		/**
 		 * @todo:   Implement this CH.ifa.draw.util.Storable method
 		 */
-		throw new java.lang.UnsupportedOperationException("Method read() not yet implemented.");
+		throw new UnsupportedOperationException("Method read() not yet implemented.");
 	}
 
 

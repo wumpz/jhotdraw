@@ -1,8 +1,12 @@
 /*
- * File:   DoubleBufferImage.java
- * Author: Andre Spiegel <spiegel@gnu.org>
+ * @(#)DoubleBufferImage.java
  *
- * $Id$
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.contrib.zoom;
@@ -17,6 +21,11 @@ import java.awt.image.ImageProducer;
  * is scaled, but when the image is written to the screen, no more
  * scaling occurs.  This is ensured by the implementation here and
  * by the corresponding drawImage methods in ScalingGraphics.
+ *
+ * Note: this class is only needed for a JDK1.1 compliant implementation
+ *
+ * @author Andre Spiegel <spiegel@gnu.org>
+ * @version <$CURRENT_VERSION$>
  */
 public class DoubleBufferImage extends java.awt.Image {
 

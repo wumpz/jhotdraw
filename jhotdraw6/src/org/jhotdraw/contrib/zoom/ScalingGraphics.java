@@ -1,8 +1,12 @@
 /*
- * File:   ScalingGraphics.java
- * Author: Andre Spiegel <spiegel@gnu.org>
+ * @(#)ScalingGraphics.java
  *
- * $Id$
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.contrib.zoom;
@@ -12,6 +16,11 @@ import java.awt.image.ImageObserver;
 
 /**
  * A graphics context that can scale to an arbitrary factor.
+ *
+ * Note: this class is only needed for a JDK1.1 compliant implementation
+ *
+ * @author Andre Spiegel <spiegel@gnu.org>
+ * @version <$CURRENT_VERSION$>
  */
 public class ScalingGraphics extends java.awt.Graphics {
 
@@ -81,8 +90,10 @@ public class ScalingGraphics extends java.awt.Graphics {
 			Rectangle r = (Rectangle) s;
 			return new Rectangle((int) (r.x * scale), (int) (r.y * scale),
 					(int) (r.width * scale), (int) (r.height * scale));
-		} else
+		}
+		else {
 			throw new RuntimeException("Cannot scale shape: " + s.getClass().getName());
+		}
 	}
 
 	// delegating implementations below this line

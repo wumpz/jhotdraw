@@ -19,9 +19,9 @@ import CH.ifa.draw.util.Undoable;
  * Command to select all figures in a view.
  *
  * @version <$CURRENT_VERSION$>
- */ 
+ */
 public class SelectAllCommand extends AbstractCommand {
- 
+
 	/**
 	 * Constructs a select all command.
 	 * @param name the command name
@@ -30,27 +30,26 @@ public class SelectAllCommand extends AbstractCommand {
 	public SelectAllCommand(String name, DrawingEditor newDrawingEditor) {
 		super(name, newDrawingEditor);
 	}
-	
+
 	public void execute() {
 		super.execute();
 		setUndoActivity(createUndoActivity());
-    	getUndoActivity().setAffectedFigures(view().selectionElements());
+    	getUndoActivity().setAffectedFigures(view().selection());
 		view().addToSelectionAll(view().drawing().figures());
 		view().checkDamage();
 	}
-	
+
 	/**
 	 * Used in enabling the properties menu item.
 	 * SelectAll menu item will be enabled only when there ia atleast one figure
 	 * in the selected drawing view.
 	 */
 	public boolean isExecutableWithView() {
-		FigureEnumeration e = view().drawing().figures();
-	
-		if(e.hasMoreElements() && e.nextFigure() != null) {
+		FigureEnumeration fe = view().drawing().figures();
+		if (fe.hasNextFigure() && (fe.nextFigure() != null)) {
 			return true;
 		}
-	
+
 		return false;
 	}
 
@@ -67,25 +66,25 @@ public class SelectAllCommand extends AbstractCommand {
 			setUndoable(true);
 			setRedoable(true);
 		}
-		
+
 		public boolean undo() {
 			if (!super.undo()) {
 	        	return false;
 			}
-	
+
 			getDrawingView().clearSelection();
 			getDrawingView().addToSelectionAll(getAffectedFigures());
-			
+
 		    return true;
 		}
-		
+
 		public boolean redo() {
 			// do not call execute directly as the selection might has changed
 			if (isRedoable()) {
 				getDrawingView().addToSelectionAll(getDrawingView().drawing().figures());
 				return true;
 			}
-			
+
 			return false;
 		}
 	}

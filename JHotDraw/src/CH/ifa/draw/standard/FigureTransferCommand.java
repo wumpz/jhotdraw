@@ -11,7 +11,6 @@
 
 package CH.ifa.draw.standard;
 
-import java.util.*;
 import CH.ifa.draw.util.*;
 import CH.ifa.draw.framework.*;
 
@@ -36,7 +35,7 @@ public abstract class FigureTransferCommand extends AbstractCommand {
 	* Deletes the selection from the drawing.
 	*/
 	protected void deleteFigures(FigureEnumeration fe) {
-		while (fe.hasMoreElements()) {
+		while (fe.hasNextFigure()) {
 			view().drawing().orphan(fe.nextFigure());
 		}
 
@@ -51,7 +50,7 @@ public abstract class FigureTransferCommand extends AbstractCommand {
 	}
 
    /**
-	* Inserts a vector of figures and translates them by the
+	* Inserts an enumeration of figures and translates them by the
 	* given offset.
 	*/
 	FigureEnumeration insertFigures(FigureEnumeration fe, int dx, int dy) {

@@ -140,7 +140,7 @@ public abstract class DecoratorFigure
 	/**
 	 * Forwards handles to its contained figure.
 	 */
-	public Vector handles() {
+	public HandleEnumeration handles() {
 		return getDecoratedFigure().handles();
 	}
 
@@ -273,8 +273,8 @@ public abstract class DecoratorFigure
 	/**
 	 * Forwards the connector visibility request to its component.
 	 */
-	public void connectorVisibility(boolean isVisible) {
-		getDecoratedFigure().connectorVisibility(isVisible);
+	public void connectorVisibility(boolean isVisible, ConnectionFigure courtingConnection) {
+		getDecoratedFigure().connectorVisibility(isVisible, null);
 	}
 
 	/**

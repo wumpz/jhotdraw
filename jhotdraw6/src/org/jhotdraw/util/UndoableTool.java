@@ -18,7 +18,7 @@ import java.awt.event.KeyEvent;
 import java.util.EventObject;
 
 /**
- * @author Wolfram Kaiser
+ * @author  Wolfram Kaiser <mrfloppy@sourceforge.net>
  * @version <$CURRENT_VERSION$>
  */
 public class UndoableTool implements Tool, ToolListener {
@@ -54,7 +54,7 @@ public class UndoableTool implements Tool, ToolListener {
 			editor().getUndoManager().pushUndo(undoActivity);
 			editor().getUndoManager().clearRedos();
 			// update menus
-			editor().figureSelectionChanged(view());
+			editor().figureSelectionChanged(getActiveView());
 		}
 	}
 
@@ -184,5 +184,9 @@ public class UndoableTool implements Tool, ToolListener {
 
 	public AbstractTool.EventDispatcher createEventDispatcher() {
 		return new AbstractTool.EventDispatcher(this);
+	}
+
+	public DrawingView getActiveView() {
+		return editor().view();
 	}
 }

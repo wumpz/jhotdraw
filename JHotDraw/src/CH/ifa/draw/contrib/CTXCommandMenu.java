@@ -36,7 +36,6 @@ public class CTXCommandMenu extends JMenu implements ActionListener, CommandList
 		super(name);
 	}
 
-
 	/**
 	 * Adds a command to the menu. The item's label is
 	 * the command's name.
@@ -44,7 +43,6 @@ public class CTXCommandMenu extends JMenu implements ActionListener, CommandList
 	public synchronized void add(Command command) {
 		addMenuItem(new CommandMenuItem(command));
 	}
-
 
 	/**
 	 * Adds a command with the given short cut to the menu. The item's label is
@@ -54,7 +52,6 @@ public class CTXCommandMenu extends JMenu implements ActionListener, CommandList
 		addMenuItem(new CommandMenuItem(command, shortcut.getKey()));
 	}
 
-
 	/**
 	 * Adds a command with the given short cut to the menu. The item's label is
 	 * the command's name.
@@ -62,7 +59,6 @@ public class CTXCommandMenu extends JMenu implements ActionListener, CommandList
 	public synchronized void addCheckItem(Command command) {
 		addMenuItem(new CommandCheckBoxMenuItem(command));
 	}
-
 
 	/**
 	 * Adds a command menu item
@@ -73,7 +69,6 @@ public class CTXCommandMenu extends JMenu implements ActionListener, CommandList
 		addMenuItem(item);
 	}
 
-
 	/**
 	 * Adds a command checkbox menu item
 	 *
@@ -82,7 +77,6 @@ public class CTXCommandMenu extends JMenu implements ActionListener, CommandList
 	public synchronized void add(CommandCheckBoxMenuItem checkItem) {
 		addMenuItem(checkItem);
 	}
-
 
 	/**
 	 * Adds a normal menu item to the menu
@@ -95,7 +89,6 @@ public class CTXCommandMenu extends JMenu implements ActionListener, CommandList
 		((CommandHolder)m).getCommand().addCommandListener(this);
 	}
 
-
 	/**
 	 * Removes a command item from the menu
 	 *
@@ -105,7 +98,6 @@ public class CTXCommandMenu extends JMenu implements ActionListener, CommandList
 		throw new JHotDrawRuntimeException("not implemented");
 	}
 
-
 	/**
 	 * Removes an item from the menu
 	 *
@@ -114,7 +106,6 @@ public class CTXCommandMenu extends JMenu implements ActionListener, CommandList
 	public synchronized void remove(MenuItem item) {
 		throw new JHotDrawRuntimeException("not implemented");
 	}
-
 
 	/**
 	 * Changes the enabling/disabling state of a named menu item.
@@ -131,7 +122,6 @@ public class CTXCommandMenu extends JMenu implements ActionListener, CommandList
 			}
 		}
 	}
-
 
 	/** Description of the Method */
 	public synchronized void checkEnabled() {
@@ -153,7 +143,6 @@ public class CTXCommandMenu extends JMenu implements ActionListener, CommandList
 			j++;
 		}
 	}
-
 
 	/**
 	 * Executes the command.
@@ -179,7 +168,6 @@ public class CTXCommandMenu extends JMenu implements ActionListener, CommandList
 		}
 	}
 
-
 	/**
 	 * Description of the Method
 	 *
@@ -189,7 +177,6 @@ public class CTXCommandMenu extends JMenu implements ActionListener, CommandList
 //		checkEnabled();
 	}
 
-
 	/**
 	 * Description of the Method
 	 *
@@ -198,7 +185,6 @@ public class CTXCommandMenu extends JMenu implements ActionListener, CommandList
 	public void commandExecutable(EventObject commandEvent) {
 //		checkEnabled();
 	}
-
 
 	/**
 	 * Description of the Method

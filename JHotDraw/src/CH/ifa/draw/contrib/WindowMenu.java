@@ -32,10 +32,10 @@ public class WindowMenu extends CommandMenu {
 	private Command cascadeCommand;
 	private Command tileCommand;
 
-	public WindowMenu(String newText, MDIDesktopPane desktop, DrawingEditor editor) {
+	public WindowMenu(String newText, MDIDesktopPane newDesktop, DrawingEditor newEditor) {
 		super(newText);
-		this.desktop=desktop;
-		cascadeCommand = new AbstractCommand("Cascade", editor) {
+		this.desktop = newDesktop;
+		cascadeCommand = new AbstractCommand("Cascade", newEditor) {
 			public void execute() {
 				WindowMenu.this.desktop.cascadeFrames();
 			}
@@ -43,7 +43,7 @@ public class WindowMenu extends CommandMenu {
 				return super.isExecutable() && (WindowMenu.this.desktop.getAllFrames().length > 0);
 			}
 		};
-		tileCommand = new AbstractCommand("Tile", editor) {
+		tileCommand = new AbstractCommand("Tile", newEditor) {
 			public void execute() {
 				WindowMenu.this.desktop.tileFrames();
 			}
@@ -69,8 +69,8 @@ public class WindowMenu extends CommandMenu {
 		ChildMenuItem menu;
 		JInternalFrame[] array = desktop.getAllFrames();
 
-		add(cascadeCommand);
-		add(tileCommand);
+		add(new CommandMenuItem(cascadeCommand));
+		add(new CommandMenuItem(tileCommand));
 		if (array.length > 0) {
 			addSeparator();
 		}

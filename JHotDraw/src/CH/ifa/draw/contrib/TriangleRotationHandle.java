@@ -12,8 +12,6 @@
 package CH.ifa.draw.contrib;
 
 import java.awt.*;
-import java.util.*;
-import java.io.IOException;
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.util.*;
 import CH.ifa.draw.standard.*;
@@ -41,7 +39,7 @@ class TriangleRotationHandle extends AbstractHandle {
 	 */
 	public void invokeStart(int x, int  y, DrawingView view) {
 		fOrigin = getOrigin();
-		TriangleRotationHandle.UndoActivity activity = 
+		TriangleRotationHandle.UndoActivity activity =
 			(TriangleRotationHandle.UndoActivity)createUndoActivity(view);
 		setUndoActivity(activity);
 		activity.setAffectedFigures(new SingleFigureEnumerator(owner()));
@@ -115,16 +113,16 @@ class TriangleRotationHandle extends AbstractHandle {
 	protected Undoable createUndoActivity(DrawingView newView) {
 		return new TriangleRotationHandle.UndoActivity(newView);
 	}
-	
+
 	public static class UndoActivity extends UndoableAdapter {
 		private double myRotationAngle;
-		
+
 		public UndoActivity(DrawingView newView) {
 			super(newView);
 			setUndoable(true);
 			setRedoable(true);
 		}
-		
+
 		public boolean undo() {
 			if (!super.undo()) {
 				return false;
@@ -132,7 +130,7 @@ class TriangleRotationHandle extends AbstractHandle {
 
 			return resetRotationAngle();
 		}
-	
+
 		public boolean redo() {
 			// do not call execute directly as the selection might has changed
 			if (!isRedoable()) {
@@ -144,7 +142,7 @@ class TriangleRotationHandle extends AbstractHandle {
 
 		protected boolean resetRotationAngle() {
 			FigureEnumeration fe = getAffectedFigures();
-			if (!fe.hasMoreElements()) {
+			if (!fe.hasNextFigure()) {
 				return false;
 			}
 			TriangleFigure figure = (TriangleFigure)fe.nextFigure();
@@ -155,11 +153,11 @@ class TriangleRotationHandle extends AbstractHandle {
 			setRotationAngle(backupAngle);
 			return true;
 		}
-		
+
 		protected void setRotationAngle(double newRotationAngle) {
 			myRotationAngle = newRotationAngle;
 		}
-		
+
 		public double getRotationAngle() {
 			return myRotationAngle;
 		}

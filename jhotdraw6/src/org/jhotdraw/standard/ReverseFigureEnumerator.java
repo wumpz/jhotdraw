@@ -12,36 +12,27 @@
 package CH.ifa.draw.standard;
 
 import java.util.*;
-import CH.ifa.draw.util.ReverseVectorEnumerator;
+import CH.ifa.draw.util.ReverseListEnumerator;
 import CH.ifa.draw.framework.*;
 
 /**
- * An Enumeration that enumerates a vector of figures back (size-1) to front (0).
+ * An Enumeration that enumerates a Collection of figures back (size-1) to front (0).
  *
  * @version <$CURRENT_VERSION$>
  */
 public final class ReverseFigureEnumerator implements FigureEnumeration {
-	ReverseVectorEnumerator fEnumeration;
+	private Iterator myIterator;
 
-	public ReverseFigureEnumerator(Vector v) {
-		fEnumeration = new ReverseVectorEnumerator(v);
+	public ReverseFigureEnumerator(List l) {
+		myIterator = new ReverseListEnumerator(l);
 	}
 
 	/**
 	 * Returns true if the enumeration contains more elements; false
 	 * if its empty.
 	 */
-	public boolean hasMoreElements() {
-		return fEnumeration.hasMoreElements();
-	}
-
-	/**
-	 * Returns the next element of the enumeration. Calls to this
-	 * method will enumerate successive elements.
-	 * @exception NoSuchElementException If no more elements exist.
-	 */
-	public Object nextElement() {
-		return fEnumeration.nextElement();
+	public boolean hasNextFigure() {
+		return myIterator.hasNext();
 	}
 
 	/**
@@ -50,6 +41,6 @@ public final class ReverseFigureEnumerator implements FigureEnumeration {
 	 * @exception NoSuchElementException If no more elements exist.
 	 */
 	public Figure nextFigure() {
-		return (Figure)fEnumeration.nextElement();
+		return (Figure)myIterator.next();
 	}
 }

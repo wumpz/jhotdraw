@@ -12,38 +12,31 @@
 package CH.ifa.draw.standard;
 
 import CH.ifa.draw.framework.*;
+import CH.ifa.draw.util.CollectionsFactory;
+
 import java.util.*;
 
 /**
- * An Enumeration for a Vector of Figures.
+ * An Enumeration for a Collection of Figures.
  *
  * @version <$CURRENT_VERSION$>
  */
 public final class FigureEnumerator implements FigureEnumeration {
-	private Enumeration fEnumeration;
+	private Iterator myIterator;
 
-	private static FigureEnumerator singletonEmptyEnumerator = 
-		new FigureEnumerator(new Vector());
+	private static FigureEnumerator singletonEmptyEnumerator =
+		new FigureEnumerator(CollectionsFactory.current().createList());
 
-	public FigureEnumerator(Vector v) {
-		fEnumeration = v.elements();
+	public FigureEnumerator(Collection c) {
+		myIterator = c.iterator();
 	}
 
 	/**
 	 * Returns true if the enumeration contains more elements; false
 	 * if its empty.
 	 */
-	public boolean hasMoreElements() {
-		return fEnumeration.hasMoreElements();
-	}
-
-	/**
-	 * Returns the next element of the enumeration. Calls to this
-	 * method will enumerate successive elements.
-	 * @exception NoSuchElementException If no more elements exist.
-	 */
-	public Object nextElement() {
-		return fEnumeration.nextElement();
+	public boolean hasNextFigure() {
+		return myIterator.hasNext();
 	}
 
 	/**
@@ -52,15 +45,15 @@ public final class FigureEnumerator implements FigureEnumeration {
 	 * @exception NoSuchElementException If no more elements exist.
 	 */
 	public Figure nextFigure() {
-		return (Figure)fEnumeration.nextElement();
+		return (Figure)myIterator.next();
 	}
-	
+
 	public static FigureEnumeration getEmptyEnumeration() {
 		return singletonEmptyEnumerator;
 	}
-	
+
 /*	public static FigureEnumeration getClonedFigures(FigureEnumeration toDuplicate) {
-		Vector v = new Vector();
+		List v = CollectionsFactory.current().createList();
 		while (toDuplicate.hasMoreElements()) {
 			try {
 				v.addElement(toDuplicate.nextFigure().clone());

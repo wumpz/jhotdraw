@@ -334,14 +334,14 @@ public class TextAreaTool extends CreationTool {
 
 			if (!isValidText(getOriginalText())) {
 				FigureEnumeration fe = getAffectedFigures();
-				while (fe.hasMoreElements()) {
+				while (fe.hasNextFigure()) {
 					getDrawingView().drawing().orphan(fe.nextFigure());
 				}
 			}
 			// add text figure if it has been removed (no backup text)
 			else if (!isValidText(getBackupText())) {
 				FigureEnumeration fe = getAffectedFigures();
-				while (fe.hasMoreElements()) {
+				while (fe.hasNextFigure()) {
 					getDrawingView().add(fe.nextFigure());
 				}
 				setText(getOriginalText());
@@ -372,14 +372,14 @@ public class TextAreaTool extends CreationTool {
 			// the text figure did exist but was remove
 			if (!isValidText(getBackupText())) {
 				FigureEnumeration fe = getAffectedFigures();
-				while (fe.hasMoreElements()) {
+				while (fe.hasNextFigure()) {
 					getDrawingView().drawing().orphan(fe.nextFigure());
 				}
 			}
 			// the text figure didn't exist before
 			else if (!isValidText(getOriginalText())) {
 				FigureEnumeration fe = getAffectedFigures();
-				while (fe.hasMoreElements()) {
+				while (fe.hasNextFigure()) {
 					getDrawingView().drawing().add(fe.nextFigure());
 					setText(getBackupText());
 				}
@@ -408,7 +408,7 @@ public class TextAreaTool extends CreationTool {
 		 */
 		protected void setText(String newText) {
 			FigureEnumeration fe = getAffectedFigures();
-			while (fe.hasMoreElements()) {
+			while (fe.hasNextFigure()) {
 				Figure currentFigure = fe.nextFigure();
 				if (currentFigure instanceof DecoratorFigure) {
 					currentFigure = ((DecoratorFigure)currentFigure).getDecoratedFigure();

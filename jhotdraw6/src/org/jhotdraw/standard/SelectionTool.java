@@ -14,8 +14,7 @@ package CH.ifa.draw.standard;
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.util.UndoableTool;
 import CH.ifa.draw.util.UndoableHandle;
-import CH.ifa.draw.contrib.DragNDropTool;
-import java.awt.*;
+import CH.ifa.draw.contrib.dnd.DragNDropTool;
 import java.awt.event.MouseEvent;
 
 /**
@@ -47,6 +46,7 @@ public class SelectionTool extends AbstractTool {
 	 * Handles mouse down events and starts the corresponding tracker.
 	 */
 	public void mouseDown(MouseEvent e, int x, int y) {
+		super.mouseDown(e, x, y);
 		// on MS-Windows NT: AWT generates additional mouse down events
 		// when the left button is down && right button is clicked.
 		// To avoid dead locks we ignore such events
@@ -72,8 +72,8 @@ public class SelectionTool extends AbstractTool {
 				fChild = createAreaTracker();
 			}
 		}
-		fChild.mouseDown(e, x, y);
 		fChild.activate();
+		fChild.mouseDown(e, x, y);
 	}
 
 	/**
@@ -81,7 +81,9 @@ public class SelectionTool extends AbstractTool {
 	 * Switches the cursors depending on whats under them.
 	 */
 	public void mouseMove(MouseEvent evt, int x, int y) {
-		DragNDropTool.setCursor(evt.getX(), evt.getY(), view());
+		if (evt.getSource() == getActiveView() ) {
+			DragNDropTool.setCursor(evt.getX(), evt.getY(), getActiveView());
+		}
 	}
 
 	/**
@@ -99,11 +101,13 @@ public class SelectionTool extends AbstractTool {
 	 * current tracker.
 	 */
 	public void mouseUp(MouseEvent e, int x, int y) {
-		view().unfreezeView();
 		if (fChild != null) { // JDK1.1 doesn't guarantee mouseDown, mouseDrag, mouseUp
 			fChild.mouseUp(e, x, y);
 			fChild.deactivate();
 			fChild = null;
+		}
+		if (view() != null) {
+			view().unfreezeView();
 		}
 	}
 

@@ -11,13 +11,15 @@
 
 package CH.ifa.draw.samples.pert;
 
-import java.awt.*;
-import java.util.*;
-import java.io.*;
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
 import CH.ifa.draw.figures.*;
 import CH.ifa.draw.util.*;
+
+import java.awt.*;
+import java.io.*;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @version <$CURRENT_VERSION$>
@@ -25,8 +27,8 @@ import CH.ifa.draw.util.*;
 public class PertFigure extends CompositeFigure {
 	private static final int BORDER = 3;
 	private Rectangle fDisplayBox;
-	private Vector fPreTasks;
-	private Vector fPostTasks;
+	private List fPreTasks;
+	private List fPostTasks;
 
 	/*
 	 * Serialization support.
@@ -40,9 +42,9 @@ public class PertFigure extends CompositeFigure {
 
 	public int start() {
 		int start = 0;
-		Enumeration i = fPreTasks.elements();
-		while (i.hasMoreElements()) {
-			PertFigure f = (PertFigure) i.nextElement();
+		Iterator iter = fPreTasks.iterator();
+		while (iter.hasNext()) {
+			PertFigure f = (PertFigure)iter.next();
 			start = Math.max(start, f.end());
 		}
 		return start;
@@ -62,22 +64,22 @@ public class PertFigure extends CompositeFigure {
 
 	public void addPreTask(PertFigure figure) {
 		if (!fPreTasks.contains(figure)) {
-			fPreTasks.addElement(figure);
+			fPreTasks.add(figure);
 		}
 	}
 
 	public void addPostTask(PertFigure figure) {
 		if (!fPostTasks.contains(figure)) {
-			fPostTasks.addElement(figure);
+			fPostTasks.add(figure);
 		}
 	}
 
 	public void removePreTask(PertFigure figure) {
-		fPreTasks.removeElement(figure);
+		fPreTasks.remove(figure);
 	}
 
 	public void removePostTask(PertFigure figure) {
-		fPostTasks.removeElement(figure);
+		fPostTasks.remove(figure);
 	}
 
 	private int asInt(int figureIndex) {
@@ -139,21 +141,21 @@ public class PertFigure extends CompositeFigure {
 		super.draw(g);
 	}
 
-	public Vector handles() {
-		Vector handles = new Vector();
-		handles.addElement(new NullHandle(this, RelativeLocator.northWest()));
-		handles.addElement(new NullHandle(this, RelativeLocator.northEast()));
-		handles.addElement(new NullHandle(this, RelativeLocator.southWest()));
-		handles.addElement(new NullHandle(this, RelativeLocator.southEast()));
-		handles.addElement(new ConnectionHandle(this, RelativeLocator.east(),
+	public HandleEnumeration handles() {
+		List handles = CollectionsFactory.current().createList();
+		handles.add(new NullHandle(this, RelativeLocator.northWest()));
+		handles.add(new NullHandle(this, RelativeLocator.northEast()));
+		handles.add(new NullHandle(this, RelativeLocator.southWest()));
+		handles.add(new NullHandle(this, RelativeLocator.southEast()));
+		handles.add(new ConnectionHandle(this, RelativeLocator.east(),
 								new PertDependency())
 						   );
-		return handles;
+		return new HandleEnumerator(handles);
 	}
 
 	private void initialize() {
-		fPostTasks = new Vector();
-		fPreTasks = new Vector();
+		fPostTasks = CollectionsFactory.current().createList();
+		fPreTasks = CollectionsFactory.current().createList();
 		fDisplayBox = new Rectangle(0, 0, 0, 0);
 
 		Font f = new Font("Helvetica", Font.PLAIN, 12);
@@ -182,9 +184,9 @@ public class PertFigure extends CompositeFigure {
 		partOrigin.translate(BORDER, BORDER);
 		Dimension extent = new Dimension(0, 0);
 
-		FigureEnumeration k = figures();
-		while (k.hasMoreElements()) {
-			Figure f = k.nextFigure();
+		FigureEnumeration fe = figures();
+		while (fe.hasNextFigure()) {
+			Figure f = fe.nextFigure();
 
 			Dimension partExtent = f.size();
 			Point corner = new Point(
@@ -203,9 +205,9 @@ public class PertFigure extends CompositeFigure {
 	private boolean needsLayout() {
 		Dimension extent = new Dimension(0, 0);
 
-		FigureEnumeration k = figures();
-		while (k.hasMoreElements()) {
-			Figure f = k.nextFigure();
+		FigureEnumeration fe = figures();
+		while (fe.hasNextFigure()) {
+			Figure f = fe.nextFigure();
 			extent.width = Math.max(extent.width, f.size().width);
 		}
 		int newExtent = extent.width + 2*BORDER;
@@ -233,9 +235,9 @@ public class PertFigure extends CompositeFigure {
 	}
 
 	public void notifyPostTasks() {
-		Enumeration i = fPostTasks.elements();
-		while (i.hasMoreElements()) {
-			((PertFigure) i.nextElement()).updateDurations();
+		Iterator iter = fPostTasks.iterator();
+		while (iter.hasNext()) {
+			((PertFigure)iter.next()).updateDurations();
 		}
 	}
 
@@ -251,9 +253,9 @@ public class PertFigure extends CompositeFigure {
 		if (start == this) {
 			return true;
 		}
-		Enumeration i = fPreTasks.elements();
-		while (i.hasMoreElements()) {
-			if (((PertFigure) i.nextElement()).hasCycle(start)) {
+		Iterator iter = fPreTasks.iterator();
+		while (iter.hasNext()) {
+			if (((PertFigure)iter.next()).hasCycle(start)) {
 				return true;
 			}
 		}
@@ -273,11 +275,11 @@ public class PertFigure extends CompositeFigure {
 		writeTasks(dw, fPostTasks);
 	}
 
-	public void writeTasks(StorableOutput dw, Vector v) {
-		dw.writeInt(v.size());
-		Enumeration i = v.elements();
-		while (i.hasMoreElements()) {
-			dw.writeStorable((Storable) i.nextElement());
+	public void writeTasks(StorableOutput dw, List l) {
+		dw.writeInt(l.size());
+		Iterator iter = l.iterator();
+		while (iter.hasNext()) {
+			dw.writeStorable((Storable)iter.next());
 		}
 	}
 
@@ -300,12 +302,12 @@ public class PertFigure extends CompositeFigure {
 		return new Insets(cy, cx, cy, cx);
 	}
 
-	public Vector readTasks(StorableInput dr) throws IOException {
+	public List readTasks(StorableInput dr) throws IOException {
 		int size = dr.readInt();
-		Vector v = new Vector(size);
+		List l = CollectionsFactory.current().createList(size);
 		for (int i=0; i<size; i++) {
-			v.addElement((Figure)dr.readStorable());
+			l.add((Figure)dr.readStorable());
 		}
-		return v;
+		return l;
 	}
 }

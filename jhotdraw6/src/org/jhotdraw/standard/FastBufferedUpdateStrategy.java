@@ -21,7 +21,7 @@ import CH.ifa.draw.framework.FigureEnumeration;
 import CH.ifa.draw.framework.Painter;
 
 /**
- * @author: WMG (INIT Copyright (C) 2000 All rights reserved)
+ * @author WMG (INIT Copyright (C) 2000 All rights reserved)
  * @version <$CURRENT_VERSION$>
  */
 public class FastBufferedUpdateStrategy implements Painter {

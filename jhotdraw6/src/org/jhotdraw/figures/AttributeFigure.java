@@ -16,7 +16,6 @@ import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
 
 import java.awt.*;
-import java.util.*;
 import java.io.*;
 
 /**
@@ -140,7 +139,7 @@ public abstract class AttributeFigure extends AbstractFigure {
 	 * to initialize it, but only the first initialization will be used.
 	 *
 	 * @see #getAttribute
-	 * @see @setDefaultAttribute
+	 * @see #setDefaultAttribute
 	 */
 	public static Object initDefaultAttribute(String name, Object value) {
 		// get current value

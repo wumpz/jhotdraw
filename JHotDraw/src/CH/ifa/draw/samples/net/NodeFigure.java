@@ -11,20 +11,21 @@
 
 package CH.ifa.draw.samples.net;
 
-import java.awt.*;
-import java.util.*;
-import java.io.IOException;
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
 import CH.ifa.draw.figures.*;
 import CH.ifa.draw.util.*;
+
+import java.util.*;
+import java.util.List;
+import java.awt.*;
 
 /**
  * @version <$CURRENT_VERSION$>
  */
 public class NodeFigure extends TextFigure {
 	private static final int BORDER = 6;
-	private Vector      fConnectors;
+	private List        fConnectors;
 	private boolean     fConnectorsVisible;
 
 	public NodeFigure() {
@@ -62,33 +63,33 @@ public class NodeFigure extends TextFigure {
 		drawConnectors(g);
 	}
 
-	public Vector handles() {
+	public HandleEnumeration handles() {
 		ConnectionFigure prototype = new LineConnection();
-		Vector handles = new Vector();
-		handles.addElement(new ConnectionHandle(this, RelativeLocator.east(), prototype));
-		handles.addElement(new ConnectionHandle(this, RelativeLocator.west(), prototype));
-		handles.addElement(new ConnectionHandle(this, RelativeLocator.south(), prototype));
-		handles.addElement(new ConnectionHandle(this, RelativeLocator.north(), prototype));
+		List handles = CollectionsFactory.current().createList();
+		handles.add(new ConnectionHandle(this, RelativeLocator.east(), prototype));
+		handles.add(new ConnectionHandle(this, RelativeLocator.west(), prototype));
+		handles.add(new ConnectionHandle(this, RelativeLocator.south(), prototype));
+		handles.add(new ConnectionHandle(this, RelativeLocator.north(), prototype));
 
-		handles.addElement(new NullHandle(this, RelativeLocator.southEast()));
-		handles.addElement(new NullHandle(this, RelativeLocator.southWest()));
-		handles.addElement(new NullHandle(this, RelativeLocator.northEast()));
-		handles.addElement(new NullHandle(this, RelativeLocator.northWest()));
-		return handles;
+		handles.add(new NullHandle(this, RelativeLocator.southEast()));
+		handles.add(new NullHandle(this, RelativeLocator.southWest()));
+		handles.add(new NullHandle(this, RelativeLocator.northEast()));
+		handles.add(new NullHandle(this, RelativeLocator.northWest()));
+		return new HandleEnumerator(handles);
 	}
 
 	private void drawConnectors(Graphics g) {
 		if (fConnectorsVisible) {
-			Enumeration e = connectors().elements();
-			while (e.hasMoreElements()) {
-				((Connector) e.nextElement()).draw(g);
+			Iterator iter = connectors();
+			while (iter.hasNext()) {
+				((Connector)iter.next()).draw(g);
 			}
 		}
 	}
 
 	/**
 	 */
-	public void connectorVisibility(boolean isVisible) {
+	public void connectorVisibility(boolean isVisible, ConnectionFigure courtingConnection) {
 		fConnectorsVisible = isVisible;
 		invalidate();
 	}
@@ -101,28 +102,28 @@ public class NodeFigure extends TextFigure {
 
 	/**
 	 */
-	private Vector connectors() {
+	private Iterator connectors() {
 		if (fConnectors == null) {
 			createConnectors();
 		}
-		return fConnectors;
+		return fConnectors.iterator();
 	}
 
 	private void createConnectors() {
-		fConnectors = new Vector(4);
-		fConnectors.addElement(new LocatorConnector(this, RelativeLocator.north()) );
-		fConnectors.addElement(new LocatorConnector(this, RelativeLocator.south()) );
-		fConnectors.addElement(new LocatorConnector(this, RelativeLocator.west()) );
-		fConnectors.addElement(new LocatorConnector(this, RelativeLocator.east()) );
+		fConnectors = CollectionsFactory.current().createList(4);
+		fConnectors.add(new LocatorConnector(this, RelativeLocator.north()) );
+		fConnectors.add(new LocatorConnector(this, RelativeLocator.south()) );
+		fConnectors.add(new LocatorConnector(this, RelativeLocator.west()) );
+		fConnectors.add(new LocatorConnector(this, RelativeLocator.east()) );
 	}
 
 	private Connector findConnector(int x, int y) {
 		// return closest connector
 		long min = Long.MAX_VALUE;
 		Connector closest = null;
-		Enumeration e = connectors().elements();
-		while (e.hasMoreElements()) {
-			Connector c = (Connector)e.nextElement();
+		Iterator iter = connectors();
+		while (iter.hasNext()) {
+			Connector c = (Connector)iter.next();
 			Point p2 = Geom.center(c.displayBox());
 			long d = Geom.length2(x, y, p2.x, p2.y);
 			if (d < min) {

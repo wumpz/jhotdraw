@@ -13,6 +13,7 @@ package CH.ifa.draw.figures;
 
 import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.io.*;
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
@@ -62,7 +63,7 @@ public  class LineConnection extends PolyLineFigure implements ConnectionFigure 
 	protected void basicMoveBy(int dx, int dy) {
 		// don't move the start and end point since they are connected
 		for (int i = 1; i < fPoints.size()-1; i++) {
-			((Point) fPoints.elementAt(i)).translate(dx, dy);
+			pointAt(i).translate(dx, dy);
 		}
 
 		updateConnection(); // make sure that we are still connected
@@ -73,7 +74,9 @@ public  class LineConnection extends PolyLineFigure implements ConnectionFigure 
 	 */
 	public void connectStart(Connector newStartConnector) {
 		setStartConnector(newStartConnector);
-		startFigure().addFigureChangeListener(this);
+		if (newStartConnector != null) {
+			startFigure().addFigureChangeListener(this);
+		}
 	}
 
 	/**
@@ -81,8 +84,10 @@ public  class LineConnection extends PolyLineFigure implements ConnectionFigure 
 	 */
 	public void connectEnd(Connector newEndConnector) {
 		setEndConnector(newEndConnector);
-		endFigure().addFigureChangeListener(this);
-		handleConnect(startFigure(), endFigure());
+		if (newEndConnector != null) {
+			endFigure().addFigureChangeListener(this);
+			handleConnect(startFigure(), endFigure());
+		}
 	}
 
 	/**
@@ -146,7 +151,7 @@ public  class LineConnection extends PolyLineFigure implements ConnectionFigure 
 	protected void setStartConnector(Connector newStartConnector) {
 		myStartConnector = newStartConnector;
 	}
-	
+
 	/**
 	 * Gets the start figure of the connection.
 	 */
@@ -157,7 +162,7 @@ public  class LineConnection extends PolyLineFigure implements ConnectionFigure 
 	protected void setEndConnector(Connector newEndConnector) {
 		myEndConnector = newEndConnector;
 	}
-	
+
 	/**
 	 * Gets the end figure of the connection.
 	 */
@@ -178,10 +183,10 @@ public  class LineConnection extends PolyLineFigure implements ConnectionFigure 
 	public void startPoint(int x, int y) {
 		willChange();
 		if (fPoints.size() == 0) {
-			fPoints.addElement(new Point(x, y));
+			fPoints.add(new Point(x, y));
 		}
 		else {
-			fPoints.setElementAt(new Point(x, y), 0);
+			fPoints.set(0, new Point(x, y));
 		}
 		changed();
 	}
@@ -192,10 +197,10 @@ public  class LineConnection extends PolyLineFigure implements ConnectionFigure 
 	public void endPoint(int x, int y) {
 		willChange();
 		if (fPoints.size() < 2) {
-			fPoints.addElement(new Point(x, y));
+			fPoints.add(new Point(x, y));
 		}
 		else {
-			fPoints.setElementAt(new Point(x, y), fPoints.size()-1);
+			fPoints.set(fPoints.size()-1, new Point(x, y));
 		}
 		changed();
 	}
@@ -203,8 +208,8 @@ public  class LineConnection extends PolyLineFigure implements ConnectionFigure 
 	/**
 	 * Gets the start point.
 	 */
-	public Point startPoint(){
-		Point p = (Point)fPoints.firstElement();
+	public Point startPoint() {
+		Point p = pointAt(0);
 		return new Point(p.x, p.y);
 	}
 
@@ -212,8 +217,13 @@ public  class LineConnection extends PolyLineFigure implements ConnectionFigure 
 	 * Gets the end point.
 	 */
 	public Point endPoint() {
-		Point p = (Point)fPoints.lastElement();
-		return new Point(p.x, p.y);
+		if (fPoints.size() > 0) {
+			Point p = pointAt(fPoints.size()-1);
+			return new Point(p.x, p.y);
+		}
+		else {
+			return null;
+		}
 	}
 
 	/**
@@ -221,14 +231,14 @@ public  class LineConnection extends PolyLineFigure implements ConnectionFigure 
 	 * PolyLineHandles but adds ChangeConnectionHandles at the
 	 * start and end.
 	 */
-	public Vector handles() {
-		Vector handles = new Vector(fPoints.size());
-		handles.addElement(new ChangeConnectionStartHandle(this));
+	public HandleEnumeration handles() {
+		List handles = CollectionsFactory.current().createList(fPoints.size());
+		handles.add(new ChangeConnectionStartHandle(this));
 		for (int i = 1; i < fPoints.size()-1; i++) {
-			handles.addElement(new PolyLineHandle(this, locator(i), i));
+			handles.add(new PolyLineHandle(this, locator(i), i));
 		}
-		handles.addElement(new ChangeConnectionEndHandle(this));
-		return handles;
+		handles.add(new ChangeConnectionEndHandle(this));
+		return new HandleEnumerator(handles);
 	}
 
 	/**
@@ -262,14 +272,14 @@ public  class LineConnection extends PolyLineFigure implements ConnectionFigure 
 		if (getStartConnector() != null) {
 			Point start = getStartConnector().findStart(this);
 
-			if(start != null) {
+			if (start != null) {
 				startPoint(start.x, start.y);
 			}
 		}
 		if (getEndConnector() != null) {
 			Point end = getEndConnector().findEnd(this);
-	  
-			if(end != null) {
+
+			if (end != null) {
 				endPoint(end.x, end.y);
 			}
 		}

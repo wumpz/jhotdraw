@@ -12,8 +12,6 @@
 package CH.ifa.draw.contrib;
 
 import CH.ifa.draw.framework.Figure;
-import java.io.Serializable;
-import java.awt.*;
 
 /**
  * A Layoutable is a target for a Layouter who lays out the Layoutable
@@ -39,7 +37,7 @@ public interface Layoutable extends Figure {
 	/**
 	 * Return the Layouter for this Layoutable
 	 *
-	 * @param layouter
+	 * @return layouter
 	 */
 	public Layouter getLayouter();
 }

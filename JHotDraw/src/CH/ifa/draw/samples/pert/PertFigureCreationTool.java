@@ -11,8 +11,6 @@
 
 package CH.ifa.draw.samples.pert;
 
-import java.awt.*;
-
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
 

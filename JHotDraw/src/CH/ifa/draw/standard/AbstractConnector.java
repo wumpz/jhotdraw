@@ -54,6 +54,9 @@ public abstract class AbstractConnector implements Connector {
 
 	/**
 	 * Gets the connector's owner.
+	 * Which is the figure this is attached too and NOT the connection it may be
+	 * attached too.
+	 *
 	 */
 	public Figure owner() {
 		return fOwner;
@@ -101,7 +104,7 @@ public abstract class AbstractConnector implements Connector {
 	 * Stores the connector and its owner to a StorableOutput.
 	 */
 	public void write(StorableOutput dw) {
-		dw.writeStorable(fOwner);
+		dw.writeStorable(owner());
 	}
 
 	/**
@@ -109,5 +112,15 @@ public abstract class AbstractConnector implements Connector {
 	 */
 	public void read(StorableInput dr) throws IOException {
 		fOwner = (Figure)dr.readStorable();
+	}
+
+	/**
+	 * Requests that the connector should show itself or hide itself.  The
+	 * ConnectionFigure which desires to connect to this Connector is passed in.
+	 * It a connector should show itself it should do so when draw is called, if
+	 * so desired.
+	 */
+	public void connectorVisibility(boolean isVisible, ConnectionFigure courtingConnection) {
+		//invisible by default
 	}
 }

@@ -17,6 +17,7 @@ import CH.ifa.draw.standard.*;
 import CH.ifa.draw.figures.*;
 import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.io.IOException;
 
 /**
@@ -65,13 +66,13 @@ public  class PolygonFigure extends AttributeFigure {
 				((size().width < TOO_CLOSE) && (size().height < TOO_CLOSE)));
 	}
 
-	public Vector handles() {
-		Vector handles = new Vector(pointCount());
+	public HandleEnumeration handles() {
+		List handles = CollectionsFactory.current().createList(pointCount());
 		for (int i = 0; i < pointCount(); i++) {
-			handles.addElement(new PolygonHandle(this, locator(i), i));
+			handles.add(new PolygonHandle(this, locator(i), i));
 		}
-		handles.addElement(new PolygonScaleHandle(this));
-		return handles;
+		handles.add(new PolygonScaleHandle(this));
+		return new HandleEnumerator(handles);
 	}
 
 
@@ -104,13 +105,13 @@ public  class PolygonFigure extends AttributeFigure {
 		return center(getInternalPolygon());
 	}
 
-	public Enumeration points() {
-		Vector pts = new Vector(pointCount());
+	public Iterator points() {
+		List pts = CollectionsFactory.current().createList(pointCount());
 		for (int i = 0; i < pointCount(); ++i) {
-			pts.addElement(new Point(getInternalPolygon().xpoints[i], 
+			pts.add(new Point(getInternalPolygon().xpoints[i],
 									 getInternalPolygon().ypoints[i]));
 		}
-		return pts.elements();
+		return pts.iterator();
 	}
 
 	public int pointCount() {
@@ -246,7 +247,7 @@ public  class PolygonFigure extends AttributeFigure {
 				int nxt = (i + 1) % n;
 				int prv = (i - 1 + n) % n;
 
-				if ((Geom.distanceFromLine(getInternalPolygon().xpoints[prv], 
+				if ((Geom.distanceFromLine(getInternalPolygon().xpoints[prv],
 						getInternalPolygon().ypoints[prv],
 						getInternalPolygon().xpoints[nxt],
 						getInternalPolygon().ypoints[nxt],
@@ -265,7 +266,7 @@ public  class PolygonFigure extends AttributeFigure {
 			}
 		} while(removed);
 		if (n != pointCount()) {
-			setInternalPolygon(new Polygon(getInternalPolygon().xpoints, 
+			setInternalPolygon(new Polygon(getInternalPolygon().xpoints,
 											getInternalPolygon().ypoints, n));
 		}
 		changed();
@@ -287,7 +288,7 @@ public  class PolygonFigure extends AttributeFigure {
 	}
 
 	public Point pointAt(int i) {
-		return new Point(getInternalPolygon().xpoints[i], 
+		return new Point(getInternalPolygon().xpoints[i],
 						 getInternalPolygon().ypoints[i]);
 	}
 
@@ -300,8 +301,8 @@ public  class PolygonFigure extends AttributeFigure {
 		long dist = 0;
 
 		for (int i = 0; i < pointCount(); ++i) {
-			long d = Geom.length2(ctr.x, ctr.y, 
-								getInternalPolygon().xpoints[i], 
+			long d = Geom.length2(ctr.x, ctr.y,
+								getInternalPolygon().xpoints[i],
 								getInternalPolygon().ypoints[i]);
 			if (d > dist) {
 				dist = d;
@@ -323,7 +324,7 @@ public  class PolygonFigure extends AttributeFigure {
 
 		for (int i = 0; i < pointCount(); i++) {
 			int n = (i + 1) % pointCount();
-			double d =  Geom.distanceFromLine(getInternalPolygon().xpoints[i], 
+			double d =  Geom.distanceFromLine(getInternalPolygon().xpoints[i],
 							getInternalPolygon().ypoints[i],
 							getInternalPolygon().xpoints[n],
 							getInternalPolygon().ypoints[n], x, y);

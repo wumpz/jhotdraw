@@ -14,8 +14,6 @@ package CH.ifa.draw.standard;
 import CH.ifa.draw.util.*;
 import CH.ifa.draw.framework.*;
 
-import java.awt.*;
-import java.util.*;
 import java.io.IOException;
 
 /**
@@ -41,7 +39,8 @@ public abstract class AbstractLocator implements Locator, Storable, Cloneable {
 	public Object clone() {
 		try {
 			return super.clone();
-		} catch (CloneNotSupportedException e) {
+		}
+		catch (CloneNotSupportedException e) {
 			throw new InternalError();
 		}
 	}

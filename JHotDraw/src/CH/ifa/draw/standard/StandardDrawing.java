@@ -11,10 +11,12 @@
 
 package CH.ifa.draw.standard;
 
-import CH.ifa.draw.util.*;
 import CH.ifa.draw.framework.*;
+import CH.ifa.draw.util.CollectionsFactory;
+
 import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.io.*;
 
 /**
@@ -31,7 +33,7 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
 	/**
 	 * the registered listeners
 	 */
-	private transient Vector              fListeners;
+	private transient List              fListeners;
 
 	/**
 	 * boolean that serves as a condition variable
@@ -53,7 +55,7 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
 	 */
 	public StandardDrawing() {
 		super();
-		fListeners = new Vector(2);
+		fListeners = CollectionsFactory.current().createList(2);
 		init(new Rectangle(-500, -500, 2000, 2000));
 	}
 
@@ -62,23 +64,23 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
 	 */
 	public void addDrawingChangeListener(DrawingChangeListener listener) {
 		if (fListeners == null) {
-			fListeners = new Vector(2);
+			fListeners = CollectionsFactory.current().createList(2);
 		}
-		fListeners.addElement(listener);
+		fListeners.add(listener);
 	}
 
 	/**
 	 * Removes a listener from this drawing.
 	 */
 	public void removeDrawingChangeListener(DrawingChangeListener listener) {
-		fListeners.removeElement(listener);
+		fListeners.remove(listener);
 	}
 
 	/**
 	 * Gets an enumeration with all listener for this drawing.
 	 */
-	public Enumeration drawingChangeListeners() {
-		return fListeners.elements();
+	public Iterator drawingChangeListeners() {
+		return fListeners.iterator();
 	}
 
 	/**
@@ -121,7 +123,7 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
 	public void figureInvalidated(FigureChangeEvent e) {
 		if (fListeners != null) {
 			for (int i = 0; i < fListeners.size(); i++) {
-				DrawingChangeListener l = (DrawingChangeListener)fListeners.elementAt(i);
+				DrawingChangeListener l = (DrawingChangeListener)fListeners.get(i);
 				l.drawingInvalidated(new DrawingChangeEvent(this, e.getInvalidatedRectangle()));
 			}
 		}
@@ -133,7 +135,7 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
 	public void figureRequestUpdate(FigureChangeEvent e) {
 		if (fListeners != null) {
 			for (int i = 0; i < fListeners.size(); i++) {
-				DrawingChangeListener l = (DrawingChangeListener)fListeners.elementAt(i);
+				DrawingChangeListener l = (DrawingChangeListener)fListeners.get(i);
 				l.drawingRequestUpdate(new DrawingChangeEvent(this, null));
 			}
 		}
@@ -143,13 +145,13 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
 	 * Return's the figure's handles. This is only used when a drawing
 	 * is nested inside another drawing.
 	 */
-	public Vector handles() {
-		Vector handles = new Vector();
-		handles.addElement(new NullHandle(this, RelativeLocator.northWest()));
-		handles.addElement(new NullHandle(this, RelativeLocator.northEast()));
-		handles.addElement(new NullHandle(this, RelativeLocator.southWest()));
-		handles.addElement(new NullHandle(this, RelativeLocator.southEast()));
-		return handles;
+	public HandleEnumeration handles() {
+		List handles = CollectionsFactory.current().createList();
+		handles.add(new NullHandle(this, RelativeLocator.northWest()));
+		handles.add(new NullHandle(this, RelativeLocator.northEast()));
+		handles.add(new NullHandle(this, RelativeLocator.southWest()));
+		handles.add(new NullHandle(this, RelativeLocator.southEast()));
+		return new HandleEnumerator(handles);
 	}
 
 	/**
@@ -157,12 +159,12 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
 	 */
 	public Rectangle displayBox() {
 		if (fFigures.size() > 0) {
-			FigureEnumeration k = figures();
+			FigureEnumeration fe = figures();
 
-			Rectangle r = k.nextFigure().displayBox();
+			Rectangle r = fe.nextFigure().displayBox();
 
-			while (k.hasMoreElements()) {
-				r.add(k.nextFigure().displayBox());
+			while (fe.hasNextFigure()) {
+				r.add(fe.nextFigure().displayBox());
 			}
 			return r;
 		}
@@ -205,7 +207,7 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
 
 		s.defaultReadObject();
 
-		fListeners = new Vector(2);
+		fListeners = CollectionsFactory.current().createList(2);
 	}
 
 	public String getTitle() {

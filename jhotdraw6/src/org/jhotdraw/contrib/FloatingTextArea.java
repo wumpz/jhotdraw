@@ -17,12 +17,9 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Rectangle;
-import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
-
-import javax.swing.JTextArea;
 
 /**
  * A FloatingTextArea overlays an editor on top of an area in a drawing<br>
@@ -113,8 +110,6 @@ public class FloatingTextArea {
 	 * @return The preferredSize value
 	 */
 	public Dimension getPreferredSize(int cols) {
-		int width = fEditWidget.getWidth();
-		int height = fEditWidget.getHeight();
 		return new Dimension(fEditWidget.getWidth(), fEditWidget.getHeight());
 	}
 

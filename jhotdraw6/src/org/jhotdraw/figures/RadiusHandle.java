@@ -110,7 +110,7 @@ class RadiusHandle extends AbstractHandle {
 
 		protected boolean resetRadius() {
 			FigureEnumeration fe = getAffectedFigures();
-			if (!fe.hasMoreElements()) {
+			if (!fe.hasNextFigure()) {
 				return false;
 			}
 			RoundRectangleFigure currentFigure = (RoundRectangleFigure)fe.nextFigure();

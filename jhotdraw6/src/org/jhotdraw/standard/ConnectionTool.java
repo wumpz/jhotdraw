@@ -93,22 +93,23 @@ public  class ConnectionTool extends AbstractTool {
 	 * mouse down hits a figure start a new connection. If the mousedown
 	 * hits a connection split a segment or join two segments.
 	 */
-	public void mouseDown(MouseEvent e, int x, int y)
-	{
+	public void mouseDown(MouseEvent e, int x, int y) {
+		super.mouseDown(e,x,y);
 		int ex = e.getX();
 		int ey = e.getY();
 		setTargetFigure(findConnectionStart(ex, ey, drawing()));
 		if (getTargetFigure() != null) {
 			setStartConnector(findConnector(ex, ey, getTargetFigure()));
 			if (getStartConnector() != null) {
-				Point p = new Point(ex, ey);
 				setConnection(createConnection());
-				getConnection().startPoint(p.x, p.y);
-				getConnection().endPoint(p.x, p.y);
+				getConnection().startPoint(ex, ey);
+				getConnection().endPoint(ex, ey);
 				setAddedFigure(view().add(getConnection()));
 			}
 		}
 		else {
+			// Since we can't connect to the figure, see if its a Connection
+			// object we can modify the appearance of.
 			ConnectionFigure connection = findConnection(ex, ey, drawing());
 			if (connection != null) {
 				if (!connection.joinSegments(ex, ey)) {
@@ -176,7 +177,7 @@ public  class ConnectionTool extends AbstractTool {
 	public void deactivate() {
 		super.deactivate();
 		if (getTargetFigure() != null) {
-			getTargetFigure().connectorVisibility(false);
+			getTargetFigure().connectorVisibility(false, null);
 		}
 	}
 
@@ -196,7 +197,11 @@ public  class ConnectionTool extends AbstractTool {
 	}
 
 	/**
-	 * Finds a connectable figure target.
+	 * Finds a connectable figure target at the current mouse location that can
+	 * 1.  Connect to things
+	 * 2.  Is not already connected to the current Connection (no self connection)
+	 * 3.  The current Connection can make a connection between it and the start
+	 *     figure.
 	 */
 	protected Figure findTarget(int x, int y, Drawing drawing) {
 		Figure target = findConnectableFigure(x, y, drawing);
@@ -216,9 +221,9 @@ public  class ConnectionTool extends AbstractTool {
 	 * Finds an existing connection figure.
 	 */
 	protected ConnectionFigure findConnection(int x, int y, Drawing drawing) {
-		Enumeration k = drawing.figuresReverse();
-		while (k.hasMoreElements()) {
-			Figure figure = (Figure) k.nextElement();
+		FigureEnumeration fe = drawing.figuresReverse();
+		while (fe.hasNextFigure()) {
+			Figure figure = fe.nextFigure();
 			figure = figure.findFigureInside(x, y);
 			if (figure != null && (figure instanceof ConnectionFigure)) {
 				return (ConnectionFigure)figure;
@@ -227,10 +232,10 @@ public  class ConnectionTool extends AbstractTool {
 		return null;
 	}
 
-	private void setConnection(ConnectionFigure newConnection) {
+	protected void setConnection(ConnectionFigure newConnection) {
 		myConnection = newConnection;
 	}
-	
+
 	/**
 	 * Gets the connection which is created by this tool
 	 */
@@ -238,27 +243,43 @@ public  class ConnectionTool extends AbstractTool {
 		return myConnection;
 	}
 
+	/**
+	 * Attempts to set the Connector to be connected to based on the current
+	 * location of the mouse.
+	 */
 	protected void trackConnectors(MouseEvent e, int x, int y) {
 		Figure c = null;
 
+		// If tool is not actively looking for a target for our current
+		// Connection, see if there are any connectable figures at at the
+		// current location(findSource).
 		if (getStartConnector() == null) {
-			c = findSource(x, y, drawing());
+			c = findSource(x, y, getActiveDrawing());
 		}
 		else {
-			c = findTarget(x, y, drawing());
+			c = findTarget(x, y, getActiveDrawing());
 		}
 
 		// track the figure containing the mouse
+		/**
+		 * If the current target is not the stored target then turn off the
+		 * stored targets connectors visibility and turn on the current targets
+		 * connectors visibility. Then set the stored target to the current target.
+		 * If the targets match then don't do anything.
+		 * Note:  the target may have more than one connector.
+		 */
 		if (c != getTargetFigure()) {
 			if (getTargetFigure() != null) {
-				getTargetFigure().connectorVisibility(false);
+				getTargetFigure().connectorVisibility(false, null);
 			}
 			setTargetFigure(c);
 			if (getTargetFigure() != null) {
-				getTargetFigure().connectorVisibility(true);
+				getTargetFigure().connectorVisibility(true, getConnection());
 			}
 		}
 
+		// Since you have a legitimate target, grab its connector and set it as
+		// the new target connector.
 		Connector cc = null;
 		if (c != null) {
 			cc = findConnector(e.getX(), e.getY(), c);
@@ -267,10 +288,11 @@ public  class ConnectionTool extends AbstractTool {
 			setTargetConnector(cc);
 		}
 
-		view().checkDamage();
+		// Clean up the view.
+		getActiveView().checkDamage();
 	}
 
-	private Connector findConnector(int x, int y, Figure f) {
+	protected Connector findConnector(int x, int y, Figure f) {
 		return f.connectorAt(x, y);
 	}
 
@@ -285,10 +307,14 @@ public  class ConnectionTool extends AbstractTool {
 		return null;
 	}
 
-	private Figure findConnectableFigure(int x, int y, Drawing drawing) {
-		FigureEnumeration k = drawing.figuresReverse();
-		while (k.hasMoreElements()) {
-			Figure figure = k.nextFigure();
+	/**
+	 * Returns the topmost? figure that can connect and is at the current mouse
+	 * location.
+	 */
+	protected Figure findConnectableFigure(int x, int y, Drawing drawing) {
+		FigureEnumeration fe = drawing.figuresReverse();
+		while (fe.hasNextFigure()) {
+			Figure figure = fe.nextFigure();
 			if (!figure.includes(getConnection()) && figure.canConnect()
 				&& figure.containsPoint(x, y)) {
 				return figure;
@@ -297,34 +323,34 @@ public  class ConnectionTool extends AbstractTool {
 		return null;
 	}
 
-	private void setStartConnector(Connector newStartConnector) {
+	protected void setStartConnector(Connector newStartConnector) {
 		myStartConnector = newStartConnector;
 	}
-	
+
 	protected Connector getStartConnector() {
 		return myStartConnector;
 	}
 
-	private void setEndConnector(Connector newEndConnector) {
+	protected void setEndConnector(Connector newEndConnector) {
 		myEndConnector = newEndConnector;
 	}
-	
+
 	protected Connector getEndConnector() {
 		return myEndConnector;
 	}
 
-	private void setTargetConnector(Connector newTargetConnector) {
+	protected void setTargetConnector(Connector newTargetConnector) {
 		myTargetConnector = newTargetConnector;
 	}
-	
+
 	protected Connector getTargetConnector() {
 		return myTargetConnector;
 	}
-	
-	private void setTargetFigure(Figure newTarget) {
+
+	protected void setTargetFigure(Figure newTarget) {
 		myTarget = newTarget;
 	}
-	
+
 	protected Figure getTargetFigure() {
 		return myTarget;
 	}
@@ -337,7 +363,7 @@ public  class ConnectionTool extends AbstractTool {
 		return myAddedFigure;
 	}
 
-	private void setAddedFigure(Figure newAddedFigure) {
+	protected void setAddedFigure(Figure newAddedFigure) {
 		myAddedFigure = newAddedFigure;
 	}
 
@@ -374,9 +400,9 @@ public  class ConnectionTool extends AbstractTool {
 
 			getConnection().disconnectStart();
 			getConnection().disconnectEnd();
-			
+
 			FigureEnumeration fe = getAffectedFigures();
-			while (fe.hasMoreElements()) {
+			while (fe.hasNextFigure()) {
 				getDrawingView().drawing().orphan(fe.nextFigure());
 			}
 
@@ -403,10 +429,10 @@ public  class ConnectionTool extends AbstractTool {
 			return true;
 		}
 
-		private void setConnection(ConnectionFigure newConnection) {
+		protected void setConnection(ConnectionFigure newConnection) {
 			myConnection = newConnection;
 		}
-		
+
 		/**
 		 * Gets the currently created figure
 		 */

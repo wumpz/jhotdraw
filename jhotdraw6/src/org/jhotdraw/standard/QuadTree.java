@@ -12,14 +12,17 @@
 
 package CH.ifa.draw.standard;
 
+import CH.ifa.draw.framework.FigureEnumeration;
+import CH.ifa.draw.util.CollectionsFactory;
+
 import java.awt.geom.Rectangle2D;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.Vector;
+import java.util.List;
 import java.io.Serializable;
 
 /**
- * @author: WMG (INIT Copyright (C) 2000 All rights reserved)
+ * @author WMG (INIT Copyright (C) 2000 All rights reserved)
  * @version <$CURRENT_VERSION$>
  */
 class QuadTree implements Serializable {
@@ -44,9 +47,6 @@ class QuadTree implements Serializable {
 	public QuadTree(int nMaxTreeDepth, Rectangle2D
 		absoluteBoundingRectangle2D) {
 		_init(nMaxTreeDepth, absoluteBoundingRectangle2D);
-	}
-
-	private QuadTree() {
 	}
 
 	//____________________________________________________PUBLIC METHODS
@@ -163,31 +163,31 @@ class QuadTree implements Serializable {
 	public int getMaxTreeDepth() {
 		return _nMaxTreeDepth;
 	}
-
-	public Vector getAll() {
-		Vector v = new Vector();
-		v.addAll(_theHashtable.keySet());
-		v.addAll(_outsideHashtable.keySet());
+/*
+	public FigureEnumeration getAll() {
+		List l = CollectionsFactory.current().createList();
+		l.add(_theHashtable.keySet());
+		l.add(_outsideHashtable.keySet());
 
 		if (_nMaxTreeDepth > 1) {
-			v.addAll(_nwQuadTree.getAll());
-			v.addAll(_neQuadTree.getAll());
-			v.addAll(_swQuadTree.getAll());
-			v.addAll(_seQuadTree.getAll());
+			l.add(_nwQuadTree.getAll().toList());
+			l.add(_neQuadTree.getAll().toList());
+			l.add(_swQuadTree.getAll().toList());
+			l.add(_seQuadTree.getAll().toList());
 		}
 
-		return v;
+		return new FigureEnumerator(l);
 	}
-
-	public Vector getAllWithin(Rectangle2D r) {
-		Vector v = new Vector();
+*/
+	public FigureEnumeration getAllWithin(Rectangle2D r) {
+		List l = CollectionsFactory.current().createList();
 		for (Iterator ii = _outsideHashtable.keySet().iterator(); ii.hasNext(); ) {
 			Object anObject = ii.next();
 			Rectangle2D itsAbsoluteBoundingRectangle2D = (Rectangle2D)
 			_outsideHashtable.get(anObject);
 
 			if (itsAbsoluteBoundingRectangle2D.intersects(r)) {
-				v.addElement(anObject);
+				l.add(anObject);
 			}
 		}
 
@@ -198,19 +198,19 @@ class QuadTree implements Serializable {
 				_theHashtable.get(anObject);
 
 				if (itsAbsoluteBoundingRectangle2D.intersects(r)) {
-					v.addElement(anObject);
+					l.add(anObject);
 				}
 			}
 
 			if (_nMaxTreeDepth > 1) {
-				v.addAll(_nwQuadTree.getAllWithin(r));
-				v.addAll(_neQuadTree.getAllWithin(r));
-				v.addAll(_swQuadTree.getAllWithin(r));
-				v.addAll(_seQuadTree.getAllWithin(r));
+				l.add(_nwQuadTree.getAllWithin(r));
+				l.add(_neQuadTree.getAllWithin(r));
+				l.add(_swQuadTree.getAllWithin(r));
+				l.add(_seQuadTree.getAllWithin(r));
 			}
 		}
 
-		return v;
+		return new FigureEnumerator(l);
 	}
 
 	public Rectangle2D getAbsoluteBoundingRectangle2D() {

@@ -34,7 +34,7 @@ public class AlignCommand extends AbstractCommand {
 				f.moveBy(anchor.x-rr.x, 0);
 			}
 		};
-	
+
 		/**
 		 * align centers (horizontally)
 		 */
@@ -44,7 +44,7 @@ public class AlignCommand extends AbstractCommand {
 				f.moveBy((anchor.x+anchor.width/2) - (rr.x+rr.width/2), 0);
 			}
 		};
-	
+
 		/**
 		 * align right sides
 		 */
@@ -54,7 +54,7 @@ public class AlignCommand extends AbstractCommand {
 				f.moveBy((anchor.x+anchor.width) - (rr.x+rr.width), 0);
 			}
 		};
-	
+
 		/**
 		 * align tops
 		 */
@@ -64,7 +64,7 @@ public class AlignCommand extends AbstractCommand {
 				f.moveBy(0, anchor.y-rr.y);
 			}
 		};
-	
+
 		/**
 		 * align middles (vertically)
 		 */
@@ -74,7 +74,7 @@ public class AlignCommand extends AbstractCommand {
 				f.moveBy(0, (anchor.y+anchor.height/2) - (rr.y+rr.height/2));
 			}
 		};
-	
+
 		/**
 		 * align bottoms
 		 */
@@ -84,9 +84,9 @@ public class AlignCommand extends AbstractCommand {
 				f.moveBy(0, (anchor.y+anchor.height) - (rr.y+rr.height));
 			}
 		};
-		
+
 		private String myDescription;
-		
+
 		private Alignment(String newDescription) {
 			setDescription(newDescription);
 		}
@@ -94,15 +94,15 @@ public class AlignCommand extends AbstractCommand {
 		public String toString() {
 			return getDescription();
 		}
-		
+
 		public String getDescription() {
 			return myDescription;
 		}
-	
+
 		private void setDescription(String newDescription) {
 			myDescription = newDescription;
 		}
-		
+
 		public abstract void moveBy(Figure f, Rectangle anchor);
 	}
 
@@ -126,15 +126,15 @@ public class AlignCommand extends AbstractCommand {
 		super.execute();
 		setUndoActivity(createUndoActivity());
 		// get selected figures in the order the figures have been selected
-		getUndoActivity().setAffectedFigures(new FigureEnumerator(view().selection()));
+		getUndoActivity().setAffectedFigures(view().selection());
 		((AlignCommand.UndoActivity)getUndoActivity()).alignAffectedFigures(getAlignment());
 		view().checkDamage();
 	}
-	
+
 	protected void setAlignment(Alignment newAlignment) {
 		myAlignment = newAlignment;
 	}
-	
+
 	public Alignment getAlignment() {
 		return myAlignment;
 	}
@@ -149,7 +149,7 @@ public class AlignCommand extends AbstractCommand {
 	public static class UndoActivity extends UndoableAdapter {
 		private Hashtable myOriginalPoints;
 		private Alignment myAppliedAlignment;
-		
+
 		public UndoActivity(DrawingView newView, Alignment newAlignment) {
 			super(newView);
 			myOriginalPoints = new Hashtable();
@@ -163,16 +163,16 @@ public class AlignCommand extends AbstractCommand {
 				return false;
 			}
 
-			FigureEnumeration k = getAffectedFigures();
-			while (k.hasMoreElements()) {
-				Figure f = k.nextFigure();
+			FigureEnumeration fe = getAffectedFigures();
+			while (fe.hasNextFigure()) {
+				Figure f = fe.nextFigure();
 				Point originalPoint = getOriginalPoint(f);
 				Point currentPoint = f.displayBox().getLocation();
 				// substract current lcoation to get to 0,0 and then move to original location
-				f.moveBy(-currentPoint.x + originalPoint.x, 
+				f.moveBy(-currentPoint.x + originalPoint.x,
 						 -currentPoint.y + originalPoint.y);
 			}
-			
+
 			return true;
 		}
 
@@ -182,12 +182,12 @@ public class AlignCommand extends AbstractCommand {
 			}
 			alignAffectedFigures(getAppliedAlignment());
 			return true;
-		}		
+		}
 
 		protected void setAppliedAlignment(Alignment newAlignment) {
 			myAppliedAlignment = newAlignment;
 		}
-		
+
 		public Alignment getAppliedAlignment() {
 			return myAppliedAlignment;
 		}
@@ -195,17 +195,17 @@ public class AlignCommand extends AbstractCommand {
 		protected void addOriginalPoint(Figure f) {
 			myOriginalPoints.put(f, f.displayBox().getLocation());
 		}
-		
+
 		public Point getOriginalPoint(Figure f) {
 			return (Point)myOriginalPoints.get(f);
 		}
-		
+
 		public void alignAffectedFigures(Alignment applyAlignment) {
 			FigureEnumeration fe = getAffectedFigures();
 			Figure anchorFigure = fe.nextFigure();
 			Rectangle r = anchorFigure.displayBox();
-	
-			while (fe.hasMoreElements()) {
+
+			while (fe.hasNextFigure()) {
 				Figure f = fe.nextFigure();
 				applyAlignment.moveBy(f, r);
 			}
@@ -216,7 +216,7 @@ public class AlignCommand extends AbstractCommand {
 			super.setAffectedFigures(fe);
 			// then get new FigureEnumeration of copy to save aligment
 			FigureEnumeration copyFe = getAffectedFigures();
-			while (copyFe.hasMoreElements()) {
+			while (copyFe.hasNextFigure()) {
 				addOriginalPoint(copyFe.nextFigure());
 			}
 		}

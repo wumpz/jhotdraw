@@ -12,10 +12,6 @@
 package CH.ifa.draw.figures;
 
 import java.awt.*;
-import java.util.*;
-import java.io.IOException;
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.util.*;
 
 /**
  * A line figure.

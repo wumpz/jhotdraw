@@ -11,10 +11,8 @@
 
 package CH.ifa.draw.util;
 
-import CH.ifa.draw.framework.*;
-
 /**
- * @author Wolfram Kaiser
+ * @author  Wolfram Kaiser <mrfloppy@sourceforge.net>
  * @version <$CURRENT_VERSION$>
  */
 public interface VersionControlStrategy {

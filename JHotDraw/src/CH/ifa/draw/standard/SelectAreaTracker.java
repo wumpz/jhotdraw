@@ -13,7 +13,6 @@ package CH.ifa.draw.standard;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.util.*;
 import CH.ifa.draw.framework.*;
 
 /**
@@ -49,9 +48,9 @@ public class SelectAreaTracker extends AbstractTool {
 	}
 
 	public void mouseUp(MouseEvent e, int x, int y) {
-		super.mouseUp(e, x, y);
 		eraseRubberBand();
 		selectGroup(e.isShiftDown());
+		super.mouseUp(e, x, y);
 	}
 
 	private void rubberBand(int x1, int y1, int x2, int y2) {
@@ -68,7 +67,7 @@ public class SelectAreaTracker extends AbstractTool {
 		Graphics g = view().getGraphics();
 		if ( g != null ) {
 			try {
-                if(g instanceof Graphics2D) {
+                if (g instanceof Graphics2D) {
                     // Do dotted-line in Java2
                     Stroke dashedStroke = new BasicStroke(1.0f,
                         BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER,
@@ -87,9 +86,9 @@ public class SelectAreaTracker extends AbstractTool {
 	}
 
 	private void selectGroup(boolean toggle) {
-		FigureEnumeration k = drawing().figuresReverse();
-		while (k.hasMoreElements()) {
-			Figure figure = k.nextFigure();
+		FigureEnumeration fe = drawing().figuresReverse();
+		while (fe.hasNextFigure()) {
+			Figure figure = fe.nextFigure();
 			Rectangle r2 = figure.displayBox();
 			if (fSelectGroup.contains(r2.x, r2.y) && fSelectGroup.contains(r2.x+r2.width, r2.y+r2.height)) {
 				if (toggle) {

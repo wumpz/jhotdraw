@@ -18,7 +18,6 @@ import javax.swing.event.*;
 import CH.ifa.draw.contrib.CTXCommandMenu;
 import CH.ifa.draw.framework.DrawingEditor;
 import CH.ifa.draw.standard.AbstractCommand;
-import CH.ifa.draw.util.Command;
 
 /**
  * Menu component that handles the functionality expected of a standard
@@ -37,7 +36,6 @@ public class CTXWindowMenu extends CTXCommandMenu {
 	private CommandMenuItem arrangeVCommand;
 	private int staticItems;
 
-
 	/**
 	 *Constructor for the CTXWindowsMenu object
 	 *
@@ -45,69 +43,59 @@ public class CTXWindowMenu extends CTXCommandMenu {
 	 * @param desktop  the MDI desktop
 	 * @param editor   the editor
 	 */
-	public CTXWindowMenu(String newText, MDIDesktopPane desktop, DrawingEditor editor) {
+	public CTXWindowMenu(String newText, MDIDesktopPane newDesktop, DrawingEditor newEditor) {
 		super(newText);
-		this.desktop = desktop;
+		this.desktop = newDesktop;
 
-		cascadeCommand =
-				new CommandMenuItem(
-			new AbstractCommand("Cascade", editor) {
+		cascadeCommand = new CommandMenuItem(
+			new AbstractCommand("Cascade", newEditor) {
 				public void execute() {
 					CTXWindowMenu.this.desktop.cascadeFrames();
 				}
 
-
 				public boolean isExecutable() {
 					return super.isExecutable() && (CTXWindowMenu.this.desktop.getAllFrames().length > 0);
 				}
 			});
 
-		tileHCommand =
-				new CommandMenuItem(
-			new AbstractCommand("Tile Horizontally", editor) {
+		tileHCommand = new CommandMenuItem(
+			new AbstractCommand("Tile Horizontally", newEditor) {
 				public void execute() {
 					CTXWindowMenu.this.desktop.tileFramesHorizontally();
 				}
 
-
 				public boolean isExecutable() {
 					return super.isExecutable() && (CTXWindowMenu.this.desktop.getAllFrames().length > 0);
 				}
 			});
 
-		tileVCommand =
-				new CommandMenuItem(
-			new AbstractCommand("Tile Vertically", editor) {
+		tileVCommand = new CommandMenuItem(
+			new AbstractCommand("Tile Vertically", newEditor) {
 				public void execute() {
 					CTXWindowMenu.this.desktop.tileFramesVertically();
 				}
 
-
 				public boolean isExecutable() {
 					return super.isExecutable() && (CTXWindowMenu.this.desktop.getAllFrames().length > 0);
 				}
 			});
 
-		arrangeHCommand =
-				new CommandMenuItem(
-			new AbstractCommand("Arrange Horizontally", editor) {
+		arrangeHCommand = new CommandMenuItem(
+			new AbstractCommand("Arrange Horizontally", newEditor) {
 				public void execute() {
 					CTXWindowMenu.this.desktop.arrangeFramesHorizontally();
 				}
 
-
 				public boolean isExecutable() {
 					return super.isExecutable() && (CTXWindowMenu.this.desktop.getAllFrames().length > 0);
 				}
 			});
 
-		arrangeVCommand =
-				new CommandMenuItem(
-			new AbstractCommand("Arrange Vertically", editor) {
+		arrangeVCommand = new CommandMenuItem(
+			new AbstractCommand("Arrange Vertically", newEditor) {
 				public void execute() {
 					CTXWindowMenu.this.desktop.arrangeFramesVertically();
 				}
-
 
 				public boolean isExecutable() {
 					return super.isExecutable() && (CTXWindowMenu.this.desktop.getAllFrames().length > 0);
@@ -118,11 +106,9 @@ public class CTXWindowMenu extends CTXCommandMenu {
 			new MenuListener() {
 				public void menuCanceled(MenuEvent e) { }
 
-
 				public void menuDeselected(MenuEvent e) {
 					removeWindowsList();
 				}
-
 
 				public void menuSelected(MenuEvent e) {
 					buildChildMenus();
@@ -137,7 +123,6 @@ public class CTXWindowMenu extends CTXCommandMenu {
 		staticItems = 5;
 	}
 
-
 	/** removes the windows names */
 	protected void removeWindowsList() {
 		// remove all items above static the items
@@ -146,13 +131,11 @@ public class CTXWindowMenu extends CTXCommandMenu {
 		}
 	}
 
-
 	/*
 	 *  Sets up the children menus depending on the current desktop state
 	 */
 	/** Description of the Method */
 	private void buildChildMenus() {
-		ChildMenuItem menu;
 		JInternalFrame[] array = desktop.getAllFrames();
 
 		// update window organization commands
@@ -169,7 +152,7 @@ public class CTXWindowMenu extends CTXCommandMenu {
 		addSeparator();
 
 		for (int i = 0; i < array.length; i++) {
-			menu = new ChildMenuItem(array[i]);
+			ChildMenuItem menu = new ChildMenuItem(array[i]);
 			menu.setState(i == 0);
 			menu.addActionListener(
 				new ActionListener() {
@@ -189,20 +172,12 @@ public class CTXWindowMenu extends CTXCommandMenu {
 		}
 	}
 
-
 	/*
 	 *  This JCheckBoxMenuItem descendant is used to track the child frame that corresponds
 	 *  to a give menu.
 	 */
-	/**
-	 * Description of the Class
-	 *
-	 * @author    gualo
-	 * @created   2 mai 2002
-	 */
 	class ChildMenuItem extends JCheckBoxMenuItem {
 		private JInternalFrame frame;
-
 
 		/**
 		 *Constructor for the ChildMenuItem object
@@ -213,7 +188,6 @@ public class CTXWindowMenu extends CTXCommandMenu {
 			super(frame.getTitle());
 			this.frame = frame;
 		}
-
 
 		/**
 		 * Gets the frame attribute of the ChildMenuItem object

@@ -20,7 +20,7 @@ public interface ViewChangeListener extends EventListener {
 
 	/**
 	 * Sent when the active view has changed.
-	 * @param DrawingView view
+	 * @param newView view
 	 */
 	public void viewSelectionChanged(DrawingView oldView, DrawingView newView);
 	
@@ -28,7 +28,7 @@ public interface ViewChangeListener extends EventListener {
 	 * Sent when a new view is created.  This should only be fired after the view
 	 * has a peer.  I believe that means the view has a component chain all the way
 	 * to a heavyweight container.
-	 * @param DrawingView view
+	 * @param view view
 	 */
 	public void viewCreated(DrawingView view);
 

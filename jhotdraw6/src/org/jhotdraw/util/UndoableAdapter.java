@@ -14,18 +14,19 @@ package CH.ifa.draw.util;
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.FigureEnumerator;
 import CH.ifa.draw.standard.StandardFigureSelection;
-import java.util.*;
+
+import java.util.List;
 
 /**
  * Most basic implementation for an Undoable activity. Subclasses should override
  * methods to provide specialized behaviour when necessary.
  *
- * @author Wolfram Kaiser
+ * @author  Wolfram Kaiser <mrfloppy@sourceforge.net>
  * @version <$CURRENT_VERSION$>
  */
 public class UndoableAdapter implements Undoable {
 
-	private Vector myAffectedFigures;
+	private List   myAffectedFigures;
 	private int    myAffectedFiguresCount;
 	private boolean myIsUndoable;
 	private boolean myIsRedoable;
@@ -74,7 +75,7 @@ public class UndoableAdapter implements Undoable {
 	}
 
 	public FigureEnumeration getAffectedFigures() {
-		return new FigureEnumerator((Vector)myAffectedFigures.clone());
+		return new FigureEnumerator(CollectionsFactory.current().createList(myAffectedFigures));
 	}
 	
 	public int getAffectedFiguresCount() {
@@ -82,10 +83,10 @@ public class UndoableAdapter implements Undoable {
 	}
 	
 	protected void rememberFigures(FigureEnumeration toBeRemembered) {
-		myAffectedFigures = new Vector();
+		myAffectedFigures = CollectionsFactory.current().createList();
 		myAffectedFiguresCount = 0;
-		while (toBeRemembered.hasMoreElements()) {
-			myAffectedFigures.addElement(toBeRemembered.nextElement());
+		while (toBeRemembered.hasNextFigure()) {
+			myAffectedFigures.add(toBeRemembered.nextFigure());
 			myAffectedFiguresCount++;
 		}
 	}
@@ -95,7 +96,7 @@ public class UndoableAdapter implements Undoable {
 	 */
 	public void release() {
 		FigureEnumeration fe = getAffectedFigures();
-		while (fe.hasMoreElements()) {
+		while (fe.hasNextFigure()) {
 			fe.nextFigure().release();
 		}
 		myAffectedFiguresCount = 0;

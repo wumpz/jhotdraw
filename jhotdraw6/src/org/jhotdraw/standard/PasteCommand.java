@@ -13,7 +13,6 @@ package CH.ifa.draw.standard;
 
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.util.*;
-import java.util.Enumeration;
 import java.awt.*;
 
 /**
@@ -43,7 +42,7 @@ public class PasteCommand extends FigureTransferCommand {
 			getUndoActivity().setAffectedFigures(
 				(FigureEnumerator)selection.getData(StandardFigureSelection.TYPE));
 
-			if (!getUndoActivity().getAffectedFigures().hasMoreElements()) {
+			if (!getUndoActivity().getAffectedFigures().hasNextFigure()) {
 				setUndoActivity(null);
 				return;
 			}
@@ -65,7 +64,7 @@ public class PasteCommand extends FigureTransferCommand {
 
 	private Rectangle getBounds(FigureEnumeration fe) {
 		Rectangle r = fe.nextFigure().displayBox();
-		while (fe.hasMoreElements()) {
+		while (fe.hasNextFigure()) {
 			r.add(fe.nextFigure().displayBox());
 		}
 		return r;
@@ -92,7 +91,7 @@ public class PasteCommand extends FigureTransferCommand {
 			}
 
 			FigureEnumeration fe = getAffectedFigures();
-			while (fe.hasMoreElements()) {
+			while (fe.hasNextFigure()) {
 				getDrawingView().drawing().orphan(fe.nextFigure());
 			}
 

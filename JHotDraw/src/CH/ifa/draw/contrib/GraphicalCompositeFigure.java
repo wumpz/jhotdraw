@@ -149,7 +149,7 @@ public class GraphicalCompositeFigure extends CompositeFigure implements Layouta
 	/**
 	 * Return default handles from the presentation figure.
 	 */
-	public Vector handles() {
+	public HandleEnumeration handles() {
 		return getPresentationFigure().handles();
 	}
 
@@ -179,7 +179,7 @@ public class GraphicalCompositeFigure extends CompositeFigure implements Layouta
 	 * presentation figure is found then the superclass' getAttribute()
 	 * will be invoked (which currently returns always "null").
 	 *
-	 * @param	attribute constant	attribute constant whose value should be returned
+	 * @param	attributeConstant	attribute constant whose value should be returned
 	 * @return	value of the attribute with the given name
 	 */
 	public Object getAttribute(FigureAttributeConstant attributeConstant) {

@@ -12,6 +12,7 @@
 package CH.ifa.draw.figures;
 
 import java.util.*;
+import java.util.List;
 import java.awt.*;
 import java.io.*;
 import CH.ifa.draw.framework.*;
@@ -263,13 +264,13 @@ public  class TextFigure
 		return columns;
 	}
 
-	public Vector handles() {
-		Vector handles = new Vector();
-		handles.addElement(new NullHandle(this, RelativeLocator.northWest()));
-		handles.addElement(new NullHandle(this, RelativeLocator.northEast()));
-		handles.addElement(new NullHandle(this, RelativeLocator.southEast()));
-		handles.addElement(new FontSizeHandle(this, RelativeLocator.southWest()));
-		return handles;
+	public HandleEnumeration handles() {
+		List handles = CollectionsFactory.current().createList();
+		handles.add(new NullHandle(this, RelativeLocator.northWest()));
+		handles.add(new NullHandle(this, RelativeLocator.northEast()));
+		handles.add(new NullHandle(this, RelativeLocator.southEast()));
+		handles.add(new FontSizeHandle(this, RelativeLocator.southWest()));
+		return new HandleEnumerator(handles);
 	}
 
 	public void write(StorableOutput dw) {

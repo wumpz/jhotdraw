@@ -13,7 +13,6 @@ package CH.ifa.draw.figures;
 
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
-import CH.ifa.draw.util.UndoableAdapter;
 import CH.ifa.draw.util.Undoable;
 import java.awt.event.MouseEvent;
 
@@ -83,7 +82,7 @@ public  class ConnectedTextTool extends TextTool {
 			}
 
 			FigureEnumeration fe = getAffectedFigures();
-			while (fe.hasMoreElements()) {
+			while (fe.hasNextFigure()) {
 				Figure currentFigure = fe.nextFigure();
 				if (currentFigure instanceof TextHolder) {
 					TextHolder currentTextHolder = (TextHolder)currentFigure;
@@ -111,7 +110,7 @@ public  class ConnectedTextTool extends TextTool {
 			}
 
 			FigureEnumeration fe = getAffectedFigures();
-			while (fe.hasMoreElements()) {
+			while (fe.hasNextFigure()) {
 				Figure currentFigure = fe.nextFigure();
 				if (currentFigure instanceof TextHolder) {
 					TextHolder currentTextHolder = (TextHolder)currentFigure;

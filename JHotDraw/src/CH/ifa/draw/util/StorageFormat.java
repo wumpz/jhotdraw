@@ -24,7 +24,7 @@ import CH.ifa.draw.framework.Drawing;
  * @see Drawing
  * @see StorageFormatManager
  *
- * @author Wolfram Kaiser
+ * @author  Wolfram Kaiser <mrfloppy@sourceforge.net>
  * @version <$CURRENT_VERSION$>
  */
 public interface StorageFormat {
@@ -50,7 +50,7 @@ public interface StorageFormat {
 	/**
 	 * Restore a Drawing from a file with a given name. 
 	 *
-	 * @param name of the file in which the Drawing has been saved
+	 * @param fileName of the file in which the Drawing has been saved
 	 * @return restored Drawing
 	 */
 	public Drawing restore(String fileName) throws IOException;

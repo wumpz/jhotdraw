@@ -11,12 +11,14 @@
 
 package CH.ifa.draw.contrib;
 
-import CH.ifa.draw.framework.*;
 import CH.ifa.draw.util.*;
-import CH.ifa.draw.standard.*;
 import CH.ifa.draw.figures.*;
+import CH.ifa.draw.framework.HandleEnumeration;
+import CH.ifa.draw.standard.HandleEnumerator;
+
 import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.io.IOException;
 
 /**
@@ -29,9 +31,9 @@ import java.io.IOException;
 public  class TriangleFigure extends RectangleFigure {
 
 	static double[] rotations = {
-		-Math.PI/2, -Math.PI/4, 
+		-Math.PI/2, -Math.PI/4,
 		0.0, Math.PI/4,
-		Math.PI/2, Math.PI * 3/4, 
+		Math.PI/2, Math.PI * 3/4,
 		Math.PI,  -Math.PI * 3/4
 	};
 
@@ -45,10 +47,10 @@ public  class TriangleFigure extends RectangleFigure {
 		super(origin, corner);
 	}
 
-	public Vector handles() {
-		Vector h = super.handles();
-		h.addElement(new TriangleRotationHandle(this));
-		return h;
+	public HandleEnumeration handles() {
+		List h = super.handles().toList();
+		h.add(new TriangleRotationHandle(this));
+		return new HandleEnumerator(h);
 	}
 
 	public void rotate(double angle) {
@@ -169,7 +171,7 @@ public  class TriangleFigure extends RectangleFigure {
 	public double getRotationAngle() {
 		return rotations[fRotation];
 	}
-	
+
 	//-- store / load ----------------------------------------------
 
 	public void write(StorableOutput dw) {

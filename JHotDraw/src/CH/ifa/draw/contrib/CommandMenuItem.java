@@ -20,7 +20,7 @@ import javax.swing.Icon;
  *
  * @author    Eduardo Francos - InContext
  * @created   2 mai 2002
- * @version   1.0
+ * @version   <$CURRENT_VERSION$>
  */
 
 public class CommandMenuItem extends JMenuItem implements CommandHolder{
@@ -49,7 +49,7 @@ public class CommandMenuItem extends JMenuItem implements CommandHolder{
 	 * Creates a menuItem with the specified text and
 	 * keyboard mnemonic.
 	 *
-	 * @param text the text of the MenuItem.
+	 * @param command the command to be executed upon menu selection
 	 * @param mnemonic the keyboard mnemonic for the MenuItem
 	 */
 	public CommandMenuItem(Command command, int mnemonic) {

@@ -11,7 +11,6 @@
 
 package CH.ifa.draw.util;
 
-import java.util.*;
 import CH.ifa.draw.standard.*;
 import CH.ifa.draw.framework.*;
 
@@ -23,7 +22,7 @@ import CH.ifa.draw.framework.*;
  * be redone several times, every time pushing a corresponding
  * undo activity as well).
  *
- * @author Wolfram Kaiser
+ * @author  Wolfram Kaiser <mrfloppy@sourceforge.net>
  * @version <$CURRENT_VERSION$>
  */ 
 public class UndoCommand extends AbstractCommand {

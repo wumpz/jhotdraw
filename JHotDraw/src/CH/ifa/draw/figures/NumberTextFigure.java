@@ -11,12 +11,6 @@
 
 package CH.ifa.draw.figures;
 
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.standard.*;
-import java.util.*;
-import java.awt.*;
-import java.io.IOException;
-
 /**
  * A TextFigure specialized to edit numbers.
  *

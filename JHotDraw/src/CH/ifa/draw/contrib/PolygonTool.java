@@ -17,13 +17,11 @@ import CH.ifa.draw.standard.*;
 import CH.ifa.draw.util.Undoable;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.util.*;
-import java.io.IOException;
 
 /**
  * Based on ScribbleTool
  *
- * @author Doug Lea  (dl at gee) - Fri Feb 28 07:47:05 1997 
+ * @author Doug Lea  (dl at gee) - Fri Feb 28 07:47:05 1997
  * @version <$CURRENT_VERSION$>
  */
 public class PolygonTool extends AbstractTool {
@@ -51,7 +49,7 @@ public class PolygonTool extends AbstractTool {
 			fPolygon.smoothPoints();
 			if (fPolygon.pointCount() < 3 ||
 					fPolygon.size().width < 4 || fPolygon.size().height < 4) {
-				drawing().remove(fPolygon);
+				getActiveView().drawing().remove(fPolygon);
 				// nothing to undo
 				setUndoActivity(null);
 			}
@@ -75,6 +73,7 @@ public class PolygonTool extends AbstractTool {
 	}
 
 	public void mouseDown(MouseEvent e, int x, int y) {
+		super.mouseDown(e,x,y);
 		// replace pts by actual event pts
 		x = e.getX();
 		y = e.getY();
@@ -85,7 +84,7 @@ public class PolygonTool extends AbstractTool {
 
 				// use undo activity from paste command...
 				setUndoActivity(createUndoActivity());
-				
+
 				// put created figure into a figure enumeration
 				getUndoActivity().setAffectedFigures(new SingleFigureEnumerator(getAddedFigure()));
 
@@ -103,10 +102,12 @@ public class PolygonTool extends AbstractTool {
 	}
 
 	public void mouseMove(MouseEvent e, int x, int y) {
-		if (fPolygon != null) {
-			if (fPolygon.pointCount() > 1) {
-				fPolygon.setPointAt(new Point(x, y), fPolygon.pointCount()-1);
-				view().checkDamage();
+		if (e.getSource() == getActiveView()) {
+			if (fPolygon != null) {
+				if (fPolygon.pointCount() > 1) {
+					fPolygon.setPointAt(new Point(x, y), fPolygon.pointCount()-1);
+					getActiveView().checkDamage();
+				}
 			}
 		}
 	}

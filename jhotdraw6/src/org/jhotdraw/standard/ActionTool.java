@@ -13,7 +13,6 @@ package CH.ifa.draw.standard;
 
 import CH.ifa.draw.framework.*;
 
-import java.awt.*;
 import java.awt.event.MouseEvent;
 
 /**
@@ -33,6 +32,7 @@ public abstract class ActionTool extends AbstractTool {
 	 * @see #action
 	 */
 	public void mouseDown(MouseEvent e, int x, int y) {
+		super.mouseDown(e,x,y);
 		Figure target = drawing().findFigure(x, y);
 		if (target != null) {
 			view().addToSelection(target);

@@ -12,7 +12,7 @@
 package CH.ifa.draw.util;
 
 /**
- * @author Wolfram Kaiser
+ * @author  Wolfram Kaiser <mrfloppy@sourceforge.net>
  * @version <$CURRENT_VERSION$>
  */
 public interface VersionRequester {

@@ -11,11 +11,10 @@
  
 package CH.ifa.draw.util;
 
-import java.util.*;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
-import java.io.*;
-import CH.ifa.draw.framework.Drawing;
+import java.util.List;
+import java.util.Iterator;
 
 /**
  * The StorageFormatManager is a contains StorageFormats.
@@ -26,15 +25,15 @@ import CH.ifa.draw.framework.Drawing;
  *
  * @see StorageFormat
  *
- * @author Wolfram Kaiser
+ * @author  Wolfram Kaiser <mrfloppy@sourceforge.net>
  * @version <$CURRENT_VERSION$>
  */
 public class StorageFormatManager {
 
 	/**
-	 * Vector containing all registered storage formats
+	 * List containing all registered storage formats
 	 */
-	private Vector myStorageFormats;
+	private List myStorageFormats;
 	
 	/**
 	 * Default storage format that should be selected in a javax.swing.JFileChooser
@@ -45,7 +44,7 @@ public class StorageFormatManager {
 	 * Create a new StorageFormatManager.
 	 */
 	public StorageFormatManager() {
-		myStorageFormats = new Vector();
+		myStorageFormats = CollectionsFactory.current().createList();
 	}
 	
 	/**

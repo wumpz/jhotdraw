@@ -87,7 +87,7 @@ public class GraphLayout extends FigureChangeAdapter {
 			  double vx = to.x - from.x;
 			  double vy = to.y - from.y;
 			  double len = Math.sqrt(vx * vx + vy * vy);
-			
+
 			  if (len>0) {
 				  double f = SPRING_STRENGTH * (targetlen - len) / len;
 					  double dx = f * vx;
@@ -97,7 +97,7 @@ public class GraphLayout extends FigureChangeAdapter {
 					  double dir=-Math.sin(4*phi);
 					  dx += TORQUE_STRENGTH*vy*dir/len;
 					  dy += -TORQUE_STRENGTH*vx*dir/len;
-					
+
 					  to.dx += dx;
 					  to.dy += dy;
 					  from.dx += -dx;
@@ -124,8 +124,9 @@ public class GraphLayout extends FigureChangeAdapter {
 					  if (len == 0) {
 						  dx += REPULSION_STRENGTH * Math.random();
 						  dy += REPULSION_STRENGTH * Math.random();
-					  } else if (len < REPULSION_LIMIT) {
-						  // Normalize length. 
+					  }
+					  else if (len < REPULSION_LIMIT) {
+						  // Normalize length.
 						  vx=vx/REPULSION_LIMIT;
 						  vy=vy/REPULSION_LIMIT;
 						  len=len/REPULSION_LIMIT;
@@ -221,6 +222,6 @@ class GraphNode {
 			  x = p.x;
 			  y = p.y;
 			  //System.out.println(this+" has new coords: "+x+","+y+"\n");
-		  } 
+		  }
 	}
 }

@@ -12,7 +12,6 @@
 package CH.ifa.draw.util;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 
 /**

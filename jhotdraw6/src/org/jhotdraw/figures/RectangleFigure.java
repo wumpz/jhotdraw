@@ -13,10 +13,10 @@ package CH.ifa.draw.figures;
 
 import java.awt.*;
 import java.io.IOException;
-import java.util.Vector;
-import CH.ifa.draw.framework.*;
+import java.util.List;
 import CH.ifa.draw.standard.*;
 import CH.ifa.draw.util.*;
+import CH.ifa.draw.framework.HandleEnumeration;
 
 
 /**
@@ -47,10 +47,10 @@ public class RectangleFigure extends AttributeFigure {
 		fDisplayBox.add(corner);
 	}
 
-	public Vector handles() {
-		Vector handles = new Vector();
+	public HandleEnumeration handles() {
+		List handles = CollectionsFactory.current().createList();
 		BoxHandleKit.addHandles(this, handles);
-		return handles;
+		return new HandleEnumerator(handles);
 	}
 
 	public Rectangle displayBox() {

@@ -13,7 +13,10 @@ package CH.ifa.draw.standard;
 
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.util.Undoable;
+import CH.ifa.draw.util.CollectionsFactory;
+
 import java.util.*;
+import java.util.List;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyEvent;
@@ -37,6 +40,13 @@ public abstract class AbstractTool implements Tool, ViewChangeListener {
     private int myAnchorX;
     private int myAnchorY;
 
+	/**
+	 * A tool can have a drawing view on which it operates
+	 * independingly of the currently active drawing view.
+	 * For example, if a tool can be used
+	 */
+	private DrawingView     myDrawingView;
+
 	private Undoable myUndoActivity;
 	private AbstractTool.EventDispatcher myEventDispatcher;
 
@@ -59,16 +69,18 @@ public abstract class AbstractTool implements Tool, ViewChangeListener {
 	}
 
 	/**
-     * Activates the tool for the given view. This method is called
+	 * Activates the tool for use on the given view. This method is called
 	 * whenever the user switches to this tool. Use this method to
 	 * reinitialize a tool.
-	 * Since tools will be disabled unless they are useable, there will always
-	 * be an active view when this method is called. based on isUsable()
+	 * Since tools will be disabled unless it is useable, there will always
+	 * be an active view when this is called. based on isUsable()
+	 * Tool should never be activated if the view is null.
+	 * Ideally, the dditor should take care of that.
 	 */
 	public void activate() {
-		if (view() != null) {
-			view().clearSelection();
-			view().checkDamage();
+		if (getActiveView() != null) {
+			getActiveView().clearSelection();
+			getActiveView().checkDamage();
 			getEventDispatcher().fireToolActivatedEvent();
 		}
 	}
@@ -78,11 +90,12 @@ public abstract class AbstractTool implements Tool, ViewChangeListener {
 	 * switches to another tool. Use this method to do some clean-up
 	 * when the tool is switched. Subclassers should always call
 	 * super.deactivate.
+	 * An inactive tool should never be deactivated
 	 */
 	public void deactivate() {
 		if (isActive()) {
-			if (view() != null) {
-				view().setCursor(Cursor.getDefaultCursor());
+			if (getActiveView() != null) {
+				getActiveView().setCursor(Cursor.getDefaultCursor());
 			}
 			getEventDispatcher().fireToolDeactivatedEvent();
 		}
@@ -120,6 +133,7 @@ public abstract class AbstractTool implements Tool, ViewChangeListener {
 	public void mouseDown(MouseEvent e, int x, int y) {
         setAnchorX(x);
         setAnchorY(y);
+		setView((DrawingView)e.getSource());
 	}
 
 	/**
@@ -132,6 +146,10 @@ public abstract class AbstractTool implements Tool, ViewChangeListener {
 	 * Handles mouse up in the drawing view.
 	 */
 	public void mouseUp(MouseEvent e, int x, int y) {
+//		setView(null);//This must be fixed!!! the view should not be held onto after mouse up??
+//unlike super.mousedown which is usually called immediately after a sub classes mouse down
+//method starts, super.mouseup should probably be called last before the method ends?
+//it must if its going to set the view to null.  getting messy.
 	}
 
 	/**
@@ -153,6 +171,10 @@ public abstract class AbstractTool implements Tool, ViewChangeListener {
 		return view().drawing();
 	}
 
+	public Drawing getActiveDrawing() {
+	    return getActiveView().drawing();
+	}
+
 	/**
 	 * Gets the tool's editor.
 	 */
@@ -160,10 +182,22 @@ public abstract class AbstractTool implements Tool, ViewChangeListener {
 		return myDrawingEditor;
 	}
 
+	protected void setEditor(DrawingEditor newDrawingEditor) {
+		myDrawingEditor = newDrawingEditor;
+	}
+
 	/**
 	 * Gets the tool's view (convienence method).
 	 */
 	public DrawingView view() {
+		return myDrawingView;
+	}
+
+	protected void setView(DrawingView newDrawingView) {
+		myDrawingView = newDrawingView;
+	}
+
+	public DrawingView getActiveView() {
 		return editor().view();
 	}
 
@@ -256,58 +290,58 @@ public abstract class AbstractTool implements Tool, ViewChangeListener {
 
 	protected void checkUsable() {
 		if (isEnabled()) {
-			setUsable((view() != null) && view().isInteractive());
+			setUsable((getActiveView() != null) && getActiveView().isInteractive());
 		}
 	}
 
 	public static class EventDispatcher {
-		private Vector myRegisteredListeners;
+		private List myRegisteredListeners;
 		private Tool myObservedTool;
 
 		public EventDispatcher(Tool newObservedTool) {
-			myRegisteredListeners = new Vector();
+			myRegisteredListeners = CollectionsFactory.current().createList();
 			myObservedTool = newObservedTool;
 		}
 
 		public void fireToolUsableEvent() {
-			Enumeration le = myRegisteredListeners.elements();
-			while (le.hasMoreElements()) {
-				((ToolListener)le.nextElement()).toolUsable(new EventObject(myObservedTool));
+			Iterator iter = myRegisteredListeners.iterator();
+			while (iter.hasNext()) {
+				((ToolListener)iter.next()).toolUsable(new EventObject(myObservedTool));
 			}
 		}
 
 		public void fireToolUnusableEvent() {
-			Enumeration le = myRegisteredListeners.elements();
-			while (le.hasMoreElements()) {
-				((ToolListener)le.nextElement()).toolUnusable(new EventObject(myObservedTool));
+			Iterator iter = myRegisteredListeners.iterator();
+			while (iter.hasNext()) {
+				((ToolListener)iter.next()).toolUnusable(new EventObject(myObservedTool));
 			}
 		}
 
 		public void fireToolActivatedEvent() {
-			Enumeration le = myRegisteredListeners.elements();
-			while (le.hasMoreElements()) {
-				((ToolListener)le.nextElement()).toolActivated(new EventObject(myObservedTool));
+			Iterator iter = myRegisteredListeners.iterator();
+			while (iter.hasNext()) {
+				((ToolListener)iter.next()).toolActivated(new EventObject(myObservedTool));
 			}
 		}
 
 		public void fireToolDeactivatedEvent() {
-			Enumeration le = myRegisteredListeners.elements();
-			while (le.hasMoreElements()) {
-				((ToolListener)le.nextElement()).toolDeactivated(new EventObject(myObservedTool));
+			Iterator iter = myRegisteredListeners.iterator();
+			while (iter.hasNext()) {
+				((ToolListener)iter.next()).toolDeactivated(new EventObject(myObservedTool));
 			}
 		}
 
 		public void fireToolEnabledEvent() {
-			Enumeration le = myRegisteredListeners.elements();
-			while (le.hasMoreElements()) {
-				((ToolListener)le.nextElement()).toolEnabled(new EventObject(myObservedTool));
+			Iterator iter = myRegisteredListeners.iterator();
+			while (iter.hasNext()) {
+				((ToolListener)iter.next()).toolEnabled(new EventObject(myObservedTool));
 			}
 		}
 
 		public void fireToolDisabledEvent() {
-			Enumeration le = myRegisteredListeners.elements();
-			while (le.hasMoreElements()) {
-				((ToolListener)le.nextElement()).toolDisabled(new EventObject(myObservedTool));
+			Iterator iter = myRegisteredListeners.iterator();
+			while (iter.hasNext()) {
+				((ToolListener)iter.next()).toolDisabled(new EventObject(myObservedTool));
 			}
 		}
 

@@ -47,7 +47,7 @@ public  class ConnectionHandle extends LocatorHandle {
 	/**
 	 * the current target
 	 */
-	private Figure fTarget = null;
+	private Figure myTargetFigure;
 
 	/**
 	 * Constructs a handle with the given owner, locator, and connection prototype
@@ -75,13 +75,13 @@ public  class ConnectionHandle extends LocatorHandle {
 		Point p = new Point(x,y);
 		Figure f = findConnectableFigure(x, y, view.drawing());
 		// track the figure containing the mouse
-		if (f != fTarget) {
-			if (fTarget != null) {
-				fTarget.connectorVisibility(false);
+		if (f != getTargetFigure()) {
+			if (getTargetFigure() != null) {
+				getTargetFigure().connectorVisibility(false, null);
 			}
-			fTarget = f;
-			if (fTarget != null) {
-				fTarget.connectorVisibility(true);
+			setTargetFigure(f);
+			if (getTargetFigure() != null) {
+				getTargetFigure().connectorVisibility(true, getConnection());
 			}
 		}
 
@@ -107,9 +107,9 @@ public  class ConnectionHandle extends LocatorHandle {
 			view.drawing().remove(getConnection());
 		}
 		setConnection(null);
-		if (fTarget != null) {
-			fTarget.connectorVisibility(false);
-			fTarget = null;
+		if (getTargetFigure() != null) {
+			getTargetFigure().connectorVisibility(false, null);
+			setTargetFigure(null);
 		}
 	}
 
@@ -140,9 +140,9 @@ public  class ConnectionHandle extends LocatorHandle {
 	}
 
 	private Figure findConnectableFigure(int x, int y, Drawing drawing) {
-		FigureEnumeration k = drawing.figuresReverse();
-		while (k.hasMoreElements()) {
-			Figure figure = k.nextFigure();
+		FigureEnumeration fe = drawing.figuresReverse();
+		while (fe.hasNextFigure()) {
+			Figure figure = fe.nextFigure();
 			if (!figure.includes(getConnection()) && figure.canConnect() 
 				&& figure.containsPoint(x, y)) {
 				return figure;
@@ -172,5 +172,13 @@ public  class ConnectionHandle extends LocatorHandle {
 	
 	protected ConnectionFigure getConnection() {
 		return myConnection;
+	}
+
+	protected Figure getTargetFigure() {
+		return myTargetFigure;
+	}
+
+	protected void setTargetFigure(Figure newTargetFigure) {
+		myTargetFigure = newTargetFigure;
 	}
 }

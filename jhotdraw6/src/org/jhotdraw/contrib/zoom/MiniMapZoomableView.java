@@ -9,9 +9,9 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.contrib;
+package CH.ifa.draw.contrib.zoom;
 
-import CH.ifa.draw.contrib.zoom.ZoomDrawingView;
+import CH.ifa.draw.contrib.MiniMapView;
 import CH.ifa.draw.framework.DrawingView;
 
 import java.awt.geom.AffineTransform;

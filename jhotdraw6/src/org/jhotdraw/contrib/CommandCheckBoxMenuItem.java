@@ -19,7 +19,7 @@ import javax.swing.Icon;
  * as a checkbox menu item
  *
  * @author Eduardo Francos - InContext
- * @version 1.0
+ * @version <$CURRENT_VERSION$>
  */
 
 public class CommandCheckBoxMenuItem extends JCheckBoxMenuItem
@@ -50,7 +50,7 @@ public class CommandCheckBoxMenuItem extends JCheckBoxMenuItem
 	/**
 	 * Creates a check box menu item with the specified command and selection state.
 	 *
-	 * @param text the text of the check box menu item.
+	 * @param command the command to be executed upon menu selection
 	 * @param b the selected state of the check box menu item
 	 */
 	public CommandCheckBoxMenuItem(Command command, boolean b) {
@@ -61,7 +61,7 @@ public class CommandCheckBoxMenuItem extends JCheckBoxMenuItem
 	/**
 	 * Creates a check box menu item with the specified text, icon, and selection state.
 	 *
-	 * @param text the text of the check box menu item
+	 * @param command the command to be executed upon menu selection
 	 * @param icon the icon of the check box menu item
 	 * @param b the selected state of the check box menu item
 	 */

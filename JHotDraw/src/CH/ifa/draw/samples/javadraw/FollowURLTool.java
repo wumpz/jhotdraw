@@ -12,10 +12,8 @@
 package CH.ifa.draw.samples.javadraw;
 
 import javax.swing.JApplet;
-import java.applet.*;
 import java.awt.event.*;
 import java.net.*;
-import java.util.*;
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.AbstractTool;
 
@@ -48,10 +46,11 @@ class FollowURLTool extends AbstractTool {
 	}
 
 	/**
-	 * Handles mouse up in the drawing view.
+	 * Handles mouse up in the drawing view
+	 * assuming mouseUp came from active drawing.
 	 */
 	public void mouseUp(MouseEvent e, int x, int y) {
-		Figure figure = drawing().findFigureInside(x, y);
+		Figure figure = getActiveDrawing().findFigureInside(x, y);
 		if (figure == null) {
 			return;
 		}

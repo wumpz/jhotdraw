@@ -11,12 +11,9 @@
 
 package CH.ifa.draw.standard;
 
-import CH.ifa.draw.util.*;
 import CH.ifa.draw.framework.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.util.*;
-import java.io.*;
 
 /**
  * Manages a list of FigureChangeListeners to be notified of

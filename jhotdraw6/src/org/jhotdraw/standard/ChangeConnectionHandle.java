@@ -95,11 +95,11 @@ public abstract class ChangeConnectionHandle extends AbstractHandle {
 		// track the figure containing the mouse
 		if (f != getTargetFigure()) {
 			if (getTargetFigure() != null) {
-				getTargetFigure().connectorVisibility(false);
+				getTargetFigure().connectorVisibility(false, null);
 			}
 			setTargetFigure(f);
 			if (getTargetFigure() != null) {
-				getTargetFigure().connectorVisibility(true);
+				getTargetFigure().connectorVisibility(true, getConnection());
 			}
 		}
 
@@ -137,7 +137,7 @@ public abstract class ChangeConnectionHandle extends AbstractHandle {
 		}
 
 		if (getTargetFigure() != null) {
-			getTargetFigure().connectorVisibility(false);
+			getTargetFigure().connectorVisibility(false, null);
 			setTargetFigure(null);
 		}
 	}
@@ -172,9 +172,9 @@ public abstract class ChangeConnectionHandle extends AbstractHandle {
 	}
 
 	private Figure findConnectableFigure(int x, int y, Drawing drawing) {
-		FigureEnumeration k = drawing.figuresReverse();
-		while (k.hasMoreElements()) {
-			Figure figure = k.nextFigure();
+		FigureEnumeration fe = drawing.figuresReverse();
+		while (fe.hasNextFigure()) {
+			Figure figure = fe.nextFigure();
 			if (!figure.includes(getConnection()) && figure.canConnect()) {
 				if (figure.containsPoint(x, y)) {
 					return figure;
@@ -235,7 +235,7 @@ public abstract class ChangeConnectionHandle extends AbstractHandle {
 
 		private void swapConnectors() {
 			FigureEnumeration fe = getAffectedFigures();
-			if (fe.hasMoreElements()) {
+			if (fe.hasNextFigure()) {
 				ConnectionFigure connection = (ConnectionFigure)fe.nextFigure();
 				setOldConnector(replaceConnector(connection));
 				connection.updateConnection();

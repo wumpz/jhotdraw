@@ -13,7 +13,8 @@ package CH.ifa.draw.figures;
 
 import java.awt.*;
 import java.util.*;
-import java.io.IOException;
+import java.util.List;
+
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
 import CH.ifa.draw.util.*;
@@ -47,17 +48,17 @@ public  class ElbowConnection extends LineConnection {
 	/**
 	 * Gets the handles of the figure.
 	 */
-	public Vector handles() {
-		Vector handles = new Vector(fPoints.size()*2);
-		handles.addElement(new ChangeConnectionStartHandle(this));
+	public HandleEnumeration handles() {
+		List handles = CollectionsFactory.current().createList(fPoints.size()*2);
+		handles.add(new ChangeConnectionStartHandle(this));
 		for (int i = 1; i < fPoints.size()-1; i++) {
-			handles.addElement(new NullHandle(this, locator(i)));
+			handles.add(new NullHandle(this, locator(i)));
 		}
-		handles.addElement(new ChangeConnectionEndHandle(this));
+		handles.add(new ChangeConnectionEndHandle(this));
 		for (int i = 0; i < fPoints.size()-1; i++) {
-			handles.addElement(new ElbowHandle(this, i));
+			handles.add(new ElbowHandle(this, i));
 		}
-		return handles;
+		return new HandleEnumerator(handles);
 	}
 
 	public Locator connectedTextLocator(Figure f) {
@@ -68,29 +69,28 @@ public  class ElbowConnection extends LineConnection {
 		willChange();
 		Point start = startPoint();
 		Point end = endPoint();
-		fPoints.removeAllElements();
-		fPoints.addElement(start);
+		fPoints.clear();
+		fPoints.add(start);
 
 		if (start.x == end.x || start.y == end.y) {
-			fPoints.addElement(end);
+			fPoints.add(end);
 		}
 		else {
-			
+
 			Rectangle r1 = getStartConnector().owner().displayBox();
 			Rectangle r2 = getEndConnector().owner().displayBox();
 
-			int x1, y1, x2, y2;
 			int dir = Geom.direction(r1.x + r1.width/2, r1.y + r1.height/2,
 						r2.x + r2.width/2, r2.y + r2.height/2);
 			if (dir == Geom.NORTH || dir == Geom.SOUTH) {
-				fPoints.addElement(new Point(start.x, (start.y + end.y)/2));
-				fPoints.addElement(new Point(end.x, (start.y + end.y)/2));
+				fPoints.add(new Point(start.x, (start.y + end.y)/2));
+				fPoints.add(new Point(end.x, (start.y + end.y)/2));
 			}
 			else {
-				fPoints.addElement(new Point((start.x + end.x)/2, start.y));
-				fPoints.addElement(new Point((start.x + end.x)/2, end.y));
+				fPoints.add(new Point((start.x + end.x)/2, start.y));
+				fPoints.add(new Point((start.x + end.x)/2, end.y));
 			}
-			fPoints.addElement(end);
+			fPoints.add(end);
 		}
 		changed();
 	}
@@ -99,7 +99,6 @@ public  class ElbowConnection extends LineConnection {
 class ElbowTextLocator extends AbstractLocator {
 	public Point locate(Figure owner) {
 		Point p = owner.center();
-		Rectangle r = owner.displayBox();
 		return new Point(p.x, p.y-10); // hack
 	}
 }

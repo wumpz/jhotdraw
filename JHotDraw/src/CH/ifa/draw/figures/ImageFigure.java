@@ -13,7 +13,7 @@ package CH.ifa.draw.figures;
 
 import java.awt.*;
 import java.io.*;
-import java.util.Vector;
+import java.util.List;
 import java.awt.image.ImageObserver;
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
@@ -56,10 +56,10 @@ public  class ImageFigure
 		fDisplayBox.add(corner);
 	}
 
-	public Vector handles() {
-		Vector handles = new Vector();
+	public HandleEnumeration handles() {
+		List handles = CollectionsFactory.current().createList();
 		BoxHandleKit.addHandles(this, handles);
-		return handles;
+		return new HandleEnumerator(handles);
 	}
 
 	public Rectangle displayBox() {
@@ -75,7 +75,6 @@ public  class ImageFigure
 	}
 
 	public void draw(Graphics g) {
-//		((Graphics2D)g).drawImage(fImage, null, null);
 		if (fImage == null) {
 			fImage = Iconkit.instance().getImage(fFileName);
 		}

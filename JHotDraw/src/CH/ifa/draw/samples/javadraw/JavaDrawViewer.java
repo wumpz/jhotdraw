@@ -17,8 +17,6 @@ import CH.ifa.draw.util.*;
 
 import javax.swing.JApplet;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.util.*;
 import java.io.*;
 import java.net.*;
 
@@ -30,7 +28,6 @@ public  class JavaDrawViewer extends JApplet implements DrawingEditor {
 	private Drawing         fDrawing;
 	private Tool            fTool;
 	private StandardDrawingView fView;
-	private Iconkit         fIconkit;
 	private transient 		UndoManager myUndoManager;
 
 	public void init() {
@@ -39,8 +36,6 @@ public  class JavaDrawViewer extends JApplet implements DrawingEditor {
 		fView = new StandardDrawingView(this, 400, 370);
 		getContentPane().add("Center", fView);
 		setTool(new FollowURLTool(this, this));
-
-		fIconkit = new Iconkit(this);
 
 		String filename = getParameter("Drawing");
 		if (filename != null) {

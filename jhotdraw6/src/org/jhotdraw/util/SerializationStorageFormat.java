@@ -11,7 +11,6 @@
 
 package CH.ifa.draw.util;
 
-import javax.swing.filechooser.FileFilter;
 import java.io.*;
 import CH.ifa.draw.framework.Drawing;
 
@@ -72,7 +71,7 @@ public class SerializationStorageFormat extends StandardStorageFormat {
 	 * Restore a Drawing from a file with a given name. The name must be should with regard to the
 	 * FileFilter that means, it should have the appropriate file extension.
 	 *
-	 * @param name of the file in which the Drawing has been saved
+	 * @param fileName of the file in which the Drawing has been saved
 	 * @return restored Drawing
 	 */
 	public Drawing restore(String fileName) throws IOException {

@@ -68,7 +68,7 @@ public class StandardStorageFormat implements StorageFormat {
 	/**
 	 * Set the file extension for the storage format
 	 *
-	 * @param file extension
+	 * @param newFileExtension extension
 	 */
 	public void setFileExtension(String newFileExtension) {
 		myFileExtension = newFileExtension;
@@ -175,7 +175,7 @@ public class StandardStorageFormat implements StorageFormat {
 	/**
 	 * Restore a Drawing from a file with a given name.
 	 *
-	 * @param name of the file in which the Drawing has been saved
+	 * @param fileName of the file in which the Drawing has been saved
 	 * @return restored Drawing
 	 */
 	public Drawing restore(String fileName) throws IOException {

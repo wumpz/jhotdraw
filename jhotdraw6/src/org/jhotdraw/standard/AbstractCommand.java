@@ -15,10 +15,13 @@ import CH.ifa.draw.framework.*;
 import CH.ifa.draw.util.Command;
 import CH.ifa.draw.util.CommandListener;
 import CH.ifa.draw.util.Undoable;
+import CH.ifa.draw.util.CollectionsFactory;
+
 import java.util.*;
 
 /**
- * @author: Helge Horch, Wolfram Kaiser
+ * @author Helge Horch
+ * @author Wolfram Kaiser
  * @version <$CURRENT_VERSION$>
  */
 public abstract class AbstractCommand implements Command, FigureSelectionListener, ViewChangeListener {
@@ -27,7 +30,7 @@ public abstract class AbstractCommand implements Command, FigureSelectionListene
 	private Undoable myUndoableActivity;
 	private boolean myIsViewRequired;
 	private AbstractCommand.EventDispatcher myEventDispatcher;
-		
+
 	/**
 	 * the DrawingEditor this command applies to
 	 */
@@ -35,7 +38,7 @@ public abstract class AbstractCommand implements Command, FigureSelectionListene
 
 	/**
 	 * Constructs a command with the given name that applies to the given view.
-	 * @param name java.lang.String
+	 * @param newName java.lang.String
 	 * @param newDrawingEditor the DrawingEditor which manages the views
 	 */
 	public AbstractCommand(String newName, DrawingEditor newDrawingEditor) {
@@ -91,11 +94,11 @@ public abstract class AbstractCommand implements Command, FigureSelectionListene
 
 	/**
 	 * @return DrawingEditor associated with this command
-	 */	
+	 */
 	public DrawingEditor getDrawingEditor() {
 		return myDrawingEditor;
 	}
-	
+
 	private void setDrawingEditor(DrawingEditor newDrawingEditor) {
 		myDrawingEditor = newDrawingEditor;
 	}
@@ -108,18 +111,18 @@ public abstract class AbstractCommand implements Command, FigureSelectionListene
 	public DrawingView view() {
 		return getDrawingEditor().view();
 	}
-	
+
 	/**
 	 * Gets the command name.
 	 */
 	public String name() {
 		return myName;
 	}
-	
+
 	public void setName(String newName) {
 		myName = newName;
 	}
-	
+
 	/**
 	 * Releases resources associated with this command
 	 */
@@ -145,7 +148,7 @@ public abstract class AbstractCommand implements Command, FigureSelectionListene
 	 * view.
 	 */
 	public boolean isExecutable() {
-		// test whether there is a view required and whether an existing view 
+		// test whether there is a view required and whether an existing view
 		// accepts user input
 		if (isViewRequired()) {
 			if ((view() == null) || !view().isInteractive()) {
@@ -162,7 +165,7 @@ public abstract class AbstractCommand implements Command, FigureSelectionListene
 	protected boolean isExecutableWithView() {
 		return true;
 	}
-	
+
 	public Undoable getUndoActivity() {
 		return myUndoableActivity;
 	}
@@ -174,7 +177,7 @@ public abstract class AbstractCommand implements Command, FigureSelectionListene
 	public void addCommandListener(CommandListener newCommandListener) {
 		getEventDispatcher().addCommandListener(newCommandListener);
 	}
-	
+
 	public void removeCommandListener(CommandListener oldCommandListener) {
 		getEventDispatcher().removeCommandListener(oldCommandListener);
 	}
@@ -192,32 +195,32 @@ public abstract class AbstractCommand implements Command, FigureSelectionListene
 	}
 
 	public static class EventDispatcher {
-		private Vector myRegisteredListeners;
+		private List myRegisteredListeners;
 		private Command myObservedCommand;
-		
+
 		public EventDispatcher(Command newObservedCommand) {
-			myRegisteredListeners = new Vector();
+			myRegisteredListeners = CollectionsFactory.current().createList();
 			myObservedCommand = newObservedCommand;
 		}
-		
+
 		public void fireCommandExecutedEvent() {
-			Enumeration le = myRegisteredListeners.elements();
-			while (le.hasMoreElements()) {
-				((CommandListener)le.nextElement()).commandExecuted(new EventObject(myObservedCommand));
+			Iterator iter = myRegisteredListeners.iterator();
+			while (iter.hasNext()) {
+				((CommandListener)iter.next()).commandExecuted(new EventObject(myObservedCommand));
 			}
 		}
-		
+
 		public void fireCommandExecutableEvent() {
-			Enumeration le = myRegisteredListeners.elements();
-			while (le.hasMoreElements()) {
-				((CommandListener)le.nextElement()).commandExecutable(new EventObject(myObservedCommand));
+			Iterator iter = myRegisteredListeners.iterator();
+			while (iter.hasNext()) {
+				((CommandListener)iter.next()).commandExecutable(new EventObject(myObservedCommand));
 			}
 		}
 
 		public void fireCommandNotExecutableEvent() {
-			Enumeration le = myRegisteredListeners.elements();
-			while (le.hasMoreElements()) {
-				((CommandListener)le.nextElement()).commandNotExecutable(new EventObject(myObservedCommand));
+			Iterator iter = myRegisteredListeners.iterator();
+			while (iter.hasNext()) {
+				((CommandListener)iter.next()).commandNotExecutable(new EventObject(myObservedCommand));
 			}
 		}
 
@@ -226,7 +229,7 @@ public abstract class AbstractCommand implements Command, FigureSelectionListene
 				myRegisteredListeners.add(newCommandListener);
 			}
 		}
-		
+
 		public void removeCommandListener(CommandListener oldCommandListener) {
 			if (myRegisteredListeners.contains(oldCommandListener)) {
 				myRegisteredListeners.remove(oldCommandListener);

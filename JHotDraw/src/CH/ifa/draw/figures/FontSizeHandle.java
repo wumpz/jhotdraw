@@ -103,7 +103,7 @@ public class FontSizeHandle extends LocatorHandle {
 		protected void swapFont() {
 			setOldFontSize(replaceFontSize());
 			FigureEnumeration fe = getAffectedFigures();
-			while (fe.hasMoreElements()) {
+			while (fe.hasNextFigure()) {
 				((TextFigure)fe.nextFigure()).setFont(getFont());
 			}
 		}

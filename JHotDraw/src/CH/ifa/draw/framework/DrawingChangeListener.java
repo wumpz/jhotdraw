@@ -11,7 +11,6 @@
 
 package CH.ifa.draw.framework;
 
-import java.awt.Rectangle;
 import java.util.EventListener;
 
 /**

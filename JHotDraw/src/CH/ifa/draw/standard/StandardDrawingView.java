@@ -12,12 +12,15 @@
 package CH.ifa.draw.standard;
 
 import CH.ifa.draw.contrib.AutoscrollHelper;
+import CH.ifa.draw.contrib.dnd.DNDHelper;
+import CH.ifa.draw.contrib.dnd.DNDInterface;
 import CH.ifa.draw.util.*;
 import CH.ifa.draw.framework.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+import java.util.List;
 import java.io.*;
 
 /**
@@ -29,23 +32,21 @@ import java.io.*;
  *
  * @version <$CURRENT_VERSION$>
  */
-
 public class StandardDrawingView
 		extends JPanel
 		implements DrawingView,
-				   java.awt.dnd.Autoscroll {
+		DNDInterface, java.awt.dnd.Autoscroll {
 
 	/**
 	 * The DrawingEditor of the view.
 	 * @see #tool
-	 * @see #setStatus
 	 */
 	transient private DrawingEditor   fEditor;
 
 	/**
 	 * the registered listeners for selection changes
 	 */
-	private transient Vector fSelectionListeners;
+	private transient List fSelectionListeners;
 
 	/**
 	 * The shown drawing.
@@ -60,12 +61,12 @@ public class StandardDrawingView
 	/**
 	 * The list of currently selected figures.
 	 */
-	transient private Vector fSelection;
+	transient private List fSelection;
 
 	/**
 	 * The shown selection handles.
 	 */
-	transient private Vector fSelectionHandles;
+	transient private List fSelectionHandles;
 
 	/**
 	 * The preferred size of the view
@@ -79,18 +80,18 @@ public class StandardDrawingView
 	private Point fLastClick;
 
 	/**
-	 * A vector of optional backgrounds. The vector maintains
-	 * a list a view painters that are drawn before the contents,
+	 * A List of optional backgrounds. The list contains
+	 * view painters that are drawn before the contents,
 	 * that is in the background.
 	 */
-	private Vector fBackgrounds;
+	private List fBackgrounds;
 
 	/**
-	 * A vector of optional foregrounds. The vector maintains
-	 * a list a view painters that are drawn after the contents,
+	 * A List of optional foregrounds. The list contains
+	 * view painters that are drawn after the contents,
 	 * that is in the foreground.
 	 */
-	private Vector fForegrounds;
+	private List fForegrounds;
 
 	/**
 	 * The update strategy used to repair the view.
@@ -114,6 +115,8 @@ public class StandardDrawingView
 	private static int counter;
 	private int myCounter = counter;
 
+	private DNDHelper dndh;
+
 	/*
 	 * Serialization support. In JavaDraw only the Drawing is serialized.
 	 * However, for beans support StandardDrawingView supports
@@ -135,11 +138,11 @@ public class StandardDrawingView
 		fEditor = editor;
 		fViewSize = new Dimension(width,height);
 		setSize(width, height);
-		fSelectionListeners = new Vector();
+		fSelectionListeners = CollectionsFactory.current().createList();
 		addFigureSelectionListener(editor());
 		setLastClick(new Point(0, 0));
 		fConstrainer = null;
-		fSelection = new Vector();
+		fSelection = CollectionsFactory.current().createList();
 		// JFC/Swing uses double buffering automatically as default
 		setDisplayUpdate(createDisplayUpdate());
 		// TODO: Test FastBufferedUpdateStrategy with JFC/Swing double buffering
@@ -233,23 +236,23 @@ public class StandardDrawingView
 	}
 
 	/**
-	 * Adds a vector of figures to the drawing.
+	 * Adds a Collection of figures to the drawing.
 	 */
-	public void addAll(Vector figures) {
-		FigureEnumeration k = new FigureEnumerator(figures);
-		while (k.hasMoreElements()) {
-			add(k.nextFigure());
+	public void addAll(Collection figures) {
+		FigureEnumeration fe = new FigureEnumerator(figures);
+		while (fe.hasNextFigure()) {
+			add(fe.nextFigure());
 		}
 	}
 
 	/**
 	 * Check existance of figure in the drawing
 	 */
-	public boolean figureExists(Figure inf, FigureEnumeration e) {
-		while(e.hasMoreElements()) {
-			Figure figure = e.nextFigure();
+	public boolean figureExists(Figure inf, FigureEnumeration fe) {
+		while (fe.hasNextFigure()) {
+			Figure figure = fe.nextFigure();
 
-			if(figure.includes(inf)) {
+			if (figure.includes(inf)) {
 				return true;
 			}
 		}
@@ -269,26 +272,26 @@ public class StandardDrawingView
 			return FigureEnumerator.getEmptyEnumeration();
 		}
 
-		Vector addedFigures = new Vector();
-		Vector vCF = new Vector(10);
+		List addedFigures = CollectionsFactory.current().createList();
+		List vCF = CollectionsFactory.current().createList(10);
 
-		while (fe.hasMoreElements()) {
+		while (fe.hasNextFigure()) {
 			Figure figure = fe.nextFigure();
 			if (figure instanceof ConnectionFigure) {
-				vCF.addElement(figure);
+				vCF.add(figure);
 			}
 			else if (figure != null) {
 				figure.moveBy(dx, dy);
 				figure = add(figure);
 				addToSelection(figure);
 				// figure might has changed during adding so add it afterwards
-				addedFigures.addElement(figure);
+				addedFigures.add(figure);
 			}
 		}
 
 		FigureEnumeration ecf = new FigureEnumerator(vCF);
 
-		while (ecf.hasMoreElements()) {
+		while (ecf.hasNextFigure()) {
 			ConnectionFigure cf = (ConnectionFigure) ecf.nextFigure();
 			Figure sf = cf.startFigure();
 			Figure ef = cf.endFigure();
@@ -313,7 +316,7 @@ public class StandardDrawingView
 				Figure nf = add(cf);
 				addToSelection(nf);
 				// figure might has changed during adding so add it afterwards
-				addedFigures.addElement(nf);
+				addedFigures.add(nf);
 			}
 		}
 
@@ -321,9 +324,9 @@ public class StandardDrawingView
 	}
 
 	/**
-	 * Returns a vector of connectionfigures attached to this figure
+	 * Returns a FigureEnumeration of connectionfigures attached to this figure
 	 */
-	public Vector getConnectionFigures(Figure inFigure) {
+	public FigureEnumeration getConnectionFigures(Figure inFigure) {
 		// If no figure or figure is non connectable, just return null
 		if (inFigure == null || !inFigure.canConnect()) {
 			return null;
@@ -332,11 +335,11 @@ public class StandardDrawingView
 		// if (inFigure instanceof ConnectionFigure)
 		//  return null;
 
-		Vector result = new Vector(5);
+		List result = CollectionsFactory.current().createList(5);
 		FigureEnumeration figures = drawing().figures();
 
 		// Find all connection figures
-		while (figures.hasMoreElements()) {
+		while (figures.hasNextFigure()) {
 			Figure f= figures.nextFigure();
 
 			if ((f instanceof ConnectionFigure) && !(isFigureSelected(f))) {
@@ -344,12 +347,12 @@ public class StandardDrawingView
 
 				if (cf.startFigure().includes(inFigure) ||
 					cf.endFigure().includes(inFigure)) {
-					result.addElement(f);
+					result.add(f);
 				}
 			}
 		}
 
-		return result;
+		return new FigureEnumerator(result);
    }
 
 	/**
@@ -383,39 +386,33 @@ public class StandardDrawingView
 	}
 
 	/**
-	 * Gets the currently selected figures.
-	 * @return a vector with the selected figures. The vector
-	 * is a copy of the current selection.
-	 */
-	public Vector selection() {
-		// protect the vector with the current selection
-		return (Vector)fSelection.clone();
-	}
-
-	/**
 	 * Gets an enumeration over the currently selected figures.
+	 * The selection is a snapshot of the current selection
+	 * which does not get changed anymore
+	 *
+	 * @return an enumeration with the currently selected figures.
 	 */
-	public FigureEnumeration selectionElements() {
-		return new FigureEnumerator(selectionZOrdered());
+	public FigureEnumeration selection() {
+		return selectionZOrdered();
 	}
 
 	/**
 	 * Gets the currently selected figures in Z order.
 	 * @see #selection
-	 * @return a vector with the selected figures. The vector
-	 * is a copy of the current selection.
+	 * @return a FigureEnumeration with the selected figures. The enumeration
+	 * represents a snapshot of the current selection.
 	 */
-	public Vector selectionZOrdered() {
-		Vector result = new Vector(selectionCount());
+	public FigureEnumeration selectionZOrdered() {
+		List result = CollectionsFactory.current().createList(selectionCount());
 		FigureEnumeration figures = drawing().figures();
 
-		while (figures.hasMoreElements()) {
+		while (figures.hasNextFigure()) {
 			Figure f= figures.nextFigure();
 			if (isFigureSelected(f)) {
-				result.addElement(f);
+				result.add(f);
 			}
 		}
-		return result;
+		return new ReverseFigureEnumerator(result);
 	}
 
 	/**
@@ -438,7 +435,7 @@ public class StandardDrawingView
 	 */
 	public void addToSelection(Figure figure) {
 		if (!isFigureSelected(figure) && drawing().includes(figure)) {
-			fSelection.addElement(figure);
+			fSelection.add(figure);
 			fSelectionHandles = null;
 			figure.invalidate();
 			fireSelectionChanged();
@@ -446,9 +443,9 @@ public class StandardDrawingView
 	}
 
 	/**
-	 * Adds a vector of figures to the current selection.
+	 * Adds a Collection of figures to the current selection.
 	 */
-	public void addToSelectionAll(Vector figures) {
+	public void addToSelectionAll(Collection figures) {
 		addToSelectionAll(new FigureEnumerator(figures));
 	}
 
@@ -456,7 +453,7 @@ public class StandardDrawingView
 	 * Adds a FigureEnumeration to the current selection.
 	 */
 	public void addToSelectionAll(FigureEnumeration fe) {
-		while (fe.hasMoreElements()) {
+		while (fe.hasNextFigure()) {
 			addToSelection(fe.nextFigure());
 		}
 	}
@@ -466,7 +463,7 @@ public class StandardDrawingView
 	 */
 	public void removeFromSelection(Figure figure) {
 		if (isFigureSelected(figure)) {
-			fSelection.removeElement(figure);
+			fSelection.remove(figure);
 			fSelectionHandles = null;
 			figure.invalidate();
 			fireSelectionChanged();
@@ -497,11 +494,11 @@ public class StandardDrawingView
 			return;
 		}
 
-		FigureEnumeration fe = selectionElements();
-		while (fe.hasMoreElements()) {
+		FigureEnumeration fe = selection();
+		while (fe.hasNextFigure()) {
 			fe.nextFigure().invalidate();
 		}
-		fSelection = new Vector();
+		fSelection = CollectionsFactory.current().createList();
 		fSelectionHandles = null;
 		fireSelectionChanged();
 	}
@@ -509,19 +506,19 @@ public class StandardDrawingView
 	/**
 	 * Gets an enumeration of the currently active handles.
 	 */
-	private Enumeration selectionHandles() {
+	private HandleEnumeration selectionHandles() {
 		if (fSelectionHandles == null) {
-			fSelectionHandles = new Vector();
-			FigureEnumeration k = selectionElements();
-			while (k.hasMoreElements()) {
-				Figure figure = k.nextFigure();
-				Enumeration kk = figure.handles().elements();
-				while (kk.hasMoreElements()) {
-					fSelectionHandles.addElement(kk.nextElement());
+			fSelectionHandles = CollectionsFactory.current().createList();
+			FigureEnumeration fe = selection();
+			while (fe.hasNextFigure()) {
+				Figure figure = fe.nextFigure();
+				HandleEnumeration kk = figure.handles();
+				while (kk.hasNextHandle()) {
+					fSelectionHandles.add(kk.nextHandle());
 				}
 			}
 		}
-		return fSelectionHandles.elements();
+		return new HandleEnumerator(fSelectionHandles);
 	}
 
 	/**
@@ -529,7 +526,7 @@ public class StandardDrawingView
 	 * can be cut, copied, pasted.
 	 */
 	public FigureSelection getFigureSelection() {
-		return new StandardFigureSelection(new FigureEnumerator(selectionZOrdered()), selectionCount());
+		return new StandardFigureSelection(selectionZOrdered(), selectionCount());
 	}
 
 	/**
@@ -539,9 +536,9 @@ public class StandardDrawingView
 	public Handle findHandle(int x, int y) {
 		Handle handle;
 
-		Enumeration k = selectionHandles();
-		while (k.hasMoreElements()) {
-			handle = (Handle) k.nextElement();
+		HandleEnumeration he = selectionHandles();
+		while (he.hasNextHandle()) {
+			handle = he.nextHandle();
 			if (handle.containsPoint(x, y)) {
 				return handle;
 			}
@@ -557,14 +554,14 @@ public class StandardDrawingView
 	protected void fireSelectionChanged() {
 		if (fSelectionListeners != null) {
 			for (int i = 0; i < fSelectionListeners.size(); i++) {
-				FigureSelectionListener l = (FigureSelectionListener)fSelectionListeners.elementAt(i);
+				FigureSelectionListener l = (FigureSelectionListener)fSelectionListeners.get(i);
 				l.figureSelectionChanged(this);
 			}
 		}
 	}
 
     protected Rectangle getDamage() {
-        return fDamage;
+        return fDamage; // clone?
     }
 
     protected void setDamage(Rectangle r) {
@@ -614,8 +611,8 @@ public class StandardDrawingView
 	}
 
 	private void moveSelection(int dx, int dy) {
-		FigureEnumeration figures = selectionElements();
-		while (figures.hasMoreElements()) {
+		FigureEnumeration figures = selection();
+		while (figures.hasNextFigure()) {
 			figures.nextFigure().moveBy(dx, dy);
 		}
 		checkDamage();
@@ -625,9 +622,9 @@ public class StandardDrawingView
 	 * Refreshes the drawing if there is some accumulated damage
 	 */
 	public synchronized void checkDamage() {
-		Enumeration each = drawing().drawingChangeListeners();
-		while (each.hasMoreElements()) {
-			Object l = each.nextElement();
+		Iterator each = drawing().drawingChangeListeners();
+		while (each.hasNext()) {
+			Object l = each.next();
 			if (l instanceof DrawingView) {
 				((DrawingView)l).repairDamage();
 			}
@@ -713,9 +710,9 @@ public class StandardDrawingView
 	 * Draws the currently active handles.
 	 */
 	public void drawHandles(Graphics g) {
-		Enumeration k = selectionHandles();
-		while (k.hasMoreElements()) {
-			((Handle) k.nextElement()).draw(g);
+		HandleEnumeration he = selectionHandles();
+		while (he.hasNextHandle()) {
+			(he.nextHandle()).draw(g);
 		}
 	}
 
@@ -736,9 +733,9 @@ public class StandardDrawingView
 		g.fillRect(0, 0, getBounds().width, getBounds().height);
 	}
 
-	protected void drawPainters(Graphics g, Vector v) {
+	protected void drawPainters(Graphics g, List v) {
 		for (int i = 0; i < v.size(); i++) {
-			((Painter)v.elementAt(i)).draw(g, this);
+			((Painter)v.get(i)).draw(g, this);
 		}
 	}
 
@@ -747,9 +744,9 @@ public class StandardDrawingView
 	 */
 	public void addBackground(Painter painter)  {
 		if (fBackgrounds == null) {
-			fBackgrounds = new Vector(3);
+			fBackgrounds = CollectionsFactory.current().createList(3);
 		}
-		fBackgrounds.addElement(painter);
+		fBackgrounds.add(painter);
 		repaint();
 	}
 
@@ -758,12 +755,12 @@ public class StandardDrawingView
 	 */
 	public void removeBackground(Painter painter)  {
 		if (fBackgrounds != null) {
-			fBackgrounds.removeElement(painter);
+			fBackgrounds.remove(painter);
 		}
 		repaint();
 	}
 
-    protected Vector getBackgrounds() {
+    protected List getBackgrounds() {
         return fBackgrounds;
     }
 
@@ -772,7 +769,7 @@ public class StandardDrawingView
 	 */
 	public void removeForeground(Painter painter)  {
 		if (fForegrounds != null) {
-			fForegrounds.removeElement(painter);
+			fForegrounds.remove(painter);
 		}
 		repaint();
 	}
@@ -782,13 +779,13 @@ public class StandardDrawingView
 	 */
 	public void addForeground(Painter painter)  {
 		if (fForegrounds == null) {
-			fForegrounds = new Vector(3);
+			fForegrounds = CollectionsFactory.current().createList(3);
 		}
-		fForegrounds.addElement(painter);
+		fForegrounds.add(painter);
 		repaint();
 	}
 
-    protected Vector getForegrounds() {
+    protected List getForegrounds() {
         return fForegrounds;
     }
 
@@ -813,11 +810,11 @@ public class StandardDrawingView
 
 		s.defaultReadObject();
 
-		fSelection = new Vector(); // could use lazy initialization instead
+		fSelection = CollectionsFactory.current().createList(); // could use lazy initialization instead
 		if (drawing() != null) {
 			drawing().addDrawingChangeListener(this);
 		}
-		fSelectionListeners= new Vector();
+		fSelectionListeners= CollectionsFactory.current().createList();
 	}
 
     protected void checkMinimumSize() {
@@ -835,10 +832,10 @@ public class StandardDrawingView
      * the drawing. This method is called by checkMinimumSize().
      */
     protected Dimension getDrawingSize() {
-		FigureEnumeration k = drawing().figures();
+		FigureEnumeration fe = drawing().figures();
 		Dimension d = new Dimension(0, 0);
-		while (k.hasMoreElements()) {
-			Rectangle r = k.nextFigure().displayBox();
+		while (fe.hasNextFigure()) {
+			Rectangle r = fe.nextFigure().displayBox();
 			d.width = Math.max(d.width, r.x+r.width);
 			d.height = Math.max(d.height, r.y+r.height);
 		}
@@ -914,13 +911,13 @@ public class StandardDrawingView
         JOptionPane.showMessageDialog(this,
             t.getClass().getName() + " - " + t.getMessage(),
             "Error", JOptionPane.ERROR_MESSAGE);
+		t.printStackTrace();
     }
 
 	public class DrawingViewMouseListener extends MouseAdapter {
 		 /**
 		 * Handles mouse down events. The event is delegated to the
 		 * currently active tool.
-		 * @return whether the event was handled.
 		 */
 		public void mousePressed(MouseEvent e) {
 			try {
@@ -938,7 +935,6 @@ public class StandardDrawingView
 		/**
 		 * Handles mouse up events. The event is delegated to the
 		 * currently active tool.
-		 * @return whether the event was handled.
 		 */
 		public void mouseReleased(MouseEvent e) {
 			try {
@@ -956,7 +952,6 @@ public class StandardDrawingView
 		/**
 		 * Handles mouse drag events. The event is delegated to the
 		 * currently active tool.
-		 * @return whether the event was handled.
 		 */
 		public void mouseDragged(MouseEvent e) {
 			try {
@@ -972,7 +967,6 @@ public class StandardDrawingView
 		/**
 		 * Handles mouse move events. The event is delegated to the
 		 * currently active tool.
-		 * @return whether the event was handled.
 		 */
 		public void mouseMoved(MouseEvent e) {
 			try {
@@ -989,7 +983,6 @@ public class StandardDrawingView
 		 * Handles key down events. Cursor keys are handled
 		 * by the view the other key events are delegated to the
 		 * currently active tool.
-		 * @return whether the event was handled.
 		 */
 		public void keyPressed(KeyEvent e) {
 			int code = e.getKeyCode();
@@ -1048,4 +1041,27 @@ public class StandardDrawingView
             // do nothing
         }
     }
+
+	protected DNDHelper createDNDHelper() {
+		return new DNDHelper () {
+				protected DrawingView view() {
+					return StandardDrawingView.this;
+				}
+			};
+	}
+
+	protected DNDHelper getDNDHelper() {
+		if (dndh == null) {
+			dndh = createDNDHelper();
+		}
+		return dndh;
+	}
+
+	public boolean setDragSourceActive(boolean state) {
+		return getDNDHelper().setDragSourceActive(state);
+	}
+
+	public boolean setDropTargetActive(boolean state) {
+		return getDNDHelper().setDropTargetActive(state);
+	}
 }

@@ -30,23 +30,23 @@ import java.io.*;
 public class StandardFigureSelection implements FigureSelection, Serializable {
 
 	private byte[] fData; // flattend figures, ready to be resurrected
-	
+
 	/**
 	 * The type identifier of the selection.
 	 */
 	public final static String TYPE = "CH.ifa.draw.Figures";
 
 	/**
-	 * Constructes the Figure selection for the vector of figures.
+	 * Constructes the Figure selection for the FigureEnumeration.
 	 */
-	public StandardFigureSelection(FigureEnumeration figures, int figureCount) {
+	public StandardFigureSelection(FigureEnumeration fe, int figureCount) {
 		// a FigureSelection is represented as a flattened ByteStream
 		// of figures.
 		ByteArrayOutputStream output = new ByteArrayOutputStream(200);
 		StorableOutput writer = new StorableOutput(output);
 		writer.writeInt(figureCount);
-		while (figures.hasMoreElements()) {
-			writer.writeStorable(figures.nextFigure());
+		while (fe.hasNextFigure()) {
+			writer.writeStorable(fe.nextFigure());
 		}
 		writer.close();
 		fData = output.toByteArray();
@@ -61,21 +61,21 @@ public class StandardFigureSelection implements FigureSelection, Serializable {
 
 	/**
 	 * Gets the data of the selection. The result is returned
-	 * as a Vector of Figures.
+	 * as a FigureEnumeration of Figures.
 	 *
 	 * @return a copy of the figure selection.
 	 */
 	public Object getData(String type) {
 		if (type.equals(TYPE)) {
 			InputStream input = new ByteArrayInputStream(fData);
-			Vector result = new Vector(10);
+			List result = CollectionsFactory.current().createList(10);
 			StorableInput reader = new StorableInput(input);
 			int numRead = 0;
 			try {
 				int count = reader.readInt();
 				while (numRead < count) {
 					Figure newFigure = (Figure) reader.readStorable();
-					result.addElement(newFigure);
+					result.add(newFigure);
 					numRead++;
 				}
 			}
@@ -86,7 +86,7 @@ public class StandardFigureSelection implements FigureSelection, Serializable {
 		}
 		return null;
 	}
-	
+
 	public static FigureEnumeration duplicateFigures(FigureEnumeration toBeCloned, int figureCount) {
 		StandardFigureSelection duplicater = new StandardFigureSelection(toBeCloned, figureCount);
 		return (FigureEnumeration)duplicater.getData(duplicater.getType());

@@ -13,9 +13,9 @@ package CH.ifa.draw.figures;
 
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
-import CH.ifa.draw.util.UndoableAdapter;
-import CH.ifa.draw.util.Undoable;
-import java.util.*;
+import CH.ifa.draw.util.*;
+
+import java.util.List;
 
 /**
  * Command to group the selection into a GroupFigure.
@@ -38,11 +38,11 @@ public  class GroupCommand extends AbstractCommand {
 	public void execute() {
 		super.execute();
 		setUndoActivity(createUndoActivity());
-		getUndoActivity().setAffectedFigures(view().selectionElements());
+		getUndoActivity().setAffectedFigures(view().selection());
 		((GroupCommand.UndoActivity)getUndoActivity()).groupFigures();
 		view().checkDamage();
 	}
-	
+
 	public boolean isExecutableWithView() {
 		return view().selectionCount() > 1;
 	}
@@ -65,57 +65,57 @@ public  class GroupCommand extends AbstractCommand {
 			if (!super.undo()) {
 				return false;
 			}
-			
+
 			getDrawingView().clearSelection();
-	
+
 			// orphan group figure(s)
 			getDrawingView().drawing().orphanAll(getAffectedFigures());
-								
-			// create a new vector with the grouped figures as elements
-			Vector affectedFigures = new Vector();
 
-			FigureEnumeration fe =getAffectedFigures();
-			while (fe.hasMoreElements()) {
+			// create a new collection with the grouped figures as elements
+			List affectedFigures = CollectionsFactory.current().createList();
+
+			FigureEnumeration fe = getAffectedFigures();
+			while (fe.hasNextFigure()) {
 				Figure currentFigure = fe.nextFigure();
-				// add contained figures			
+				// add contained figures
 				getDrawingView().drawing().addAll(currentFigure.figures());
 				getDrawingView().addToSelectionAll(currentFigure.figures());
-	
+
 				FigureEnumeration groupedFigures = currentFigure.figures();
-				while (groupedFigures.hasMoreElements()) {
-					affectedFigures.addElement(groupedFigures.nextFigure());
+				while (groupedFigures.hasNextFigure()) {
+					affectedFigures.add(groupedFigures.nextFigure());
 				}
 			}
 
 			setAffectedFigures(new FigureEnumerator(affectedFigures));
-	
+
 			return true;
 		}
-	
+
 		public boolean redo() {
 			// do not call execute directly as the selection might has changed
 			if (isRedoable()) {
 				groupFigures();
 				return true;
 			}
-			
+
 			return false;
 		}
 
 		public void groupFigures() {
 			getDrawingView().drawing().orphanAll(getAffectedFigures());
 			getDrawingView().clearSelection();
-	
+
 			// add new group figure instead
 			GroupFigure group = new GroupFigure();
 			group.addAll(getAffectedFigures());
-	
+
 			Figure figure = getDrawingView().drawing().add(group);
 			getDrawingView().addToSelection(figure);
-			
-			// create a new vector with the new group figure as element
-			Vector affectedFigures = new Vector();
-			affectedFigures.addElement(figure);
+
+			// create a new collection with the new group figure as element
+			List affectedFigures = CollectionsFactory.current().createList();
+			affectedFigures.add(figure);
 			setAffectedFigures(new FigureEnumerator(affectedFigures));
 		}
 	}

@@ -11,9 +11,9 @@
 
 package CH.ifa.draw.util;
 
-import java.util.*;
 import java.io.*;
 import java.awt.Color;
+import java.util.List;
 
 /**
  * An output stream that can be used to flatten Storable objects.
@@ -27,7 +27,7 @@ import java.awt.Color;
 public  class StorableOutput extends Object {
 
 	private PrintWriter     fStream;
-	private Vector          fMap;
+	private List            fMap;
 	private int             fIndent;
 
 	/**
@@ -35,7 +35,7 @@ public  class StorableOutput extends Object {
 	 */
 	public StorableOutput(OutputStream stream) {
 		fStream = new PrintWriter(stream);
-		fMap = new Vector();
+		fMap = CollectionsFactory.current().createList();
 		fIndent = 0;
 	}
 
@@ -133,7 +133,7 @@ public  class StorableOutput extends Object {
 
 	private void map(Storable storable) {
 		if (!fMap.contains(storable)) {
-			fMap.addElement(storable);
+			fMap.add(storable);
 		}
 	}
 

@@ -15,7 +15,6 @@ import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
 import CH.ifa.draw.util.*;
 import java.awt.*;
-import java.util.*;
 import java.lang.ref.WeakReference;
 
 /**
@@ -30,7 +29,7 @@ public class InsertImageCommand extends AbstractCommand {
 	/**
 	 * Constructs an insert image command.
 	 * @param name the command name
-	 * @param image the pathname of the image
+	 * @param newImageName the pathname of the image
 	 * @param newDrawingEditor the DrawingEditor which manages the views
 	 */
 	public InsertImageCommand(String name, String newImageName, DrawingEditor newDrawingEditor) {

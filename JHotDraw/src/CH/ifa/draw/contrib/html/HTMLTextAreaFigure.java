@@ -22,7 +22,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Vector;
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -37,10 +36,7 @@ import javax.swing.SwingUtilities;
 
 import CH.ifa.draw.contrib.TextAreaFigure;
 import CH.ifa.draw.figures.RectangleFigure;
-import CH.ifa.draw.framework.Figure;
-import CH.ifa.draw.framework.FigureAttributeConstant;
-import CH.ifa.draw.framework.FigureChangeEvent;
-import CH.ifa.draw.framework.FigureChangeListener;
+import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
 import CH.ifa.draw.util.ColorMap;
 import CH.ifa.draw.util.Geom;
@@ -246,15 +242,15 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 
 
 	/**
-	 * Returns a Vector of standard sizing handles to manipulate the figure
+	 * Returns an iterator of standard sizing handles to manipulate the figure
 	 *
 	 * @return   Description of the Return Value
 	 */
-	public Vector handles() {
+	public HandleEnumeration handles() {
 		return getFrameFigure().handles();
-//		Vector handles = new Vector();
+//		List handles = CollectionsFactory.current().createList();
 //		BoxHandleKit.addHandles(this, handles);
-//		return handles;
+//		return new HandleEnumerator(handles);
 	}
 
 

@@ -31,6 +31,7 @@ public class ZoomTool extends AbstractTool {
 	}
 
 	public void mouseDown(MouseEvent e, int x, int y) {
+		super.mouseDown(e,x,y);
 		//  Added handling for SHIFTed and CTRLed BUTTON3_MASK so that normal
 		//  BUTTON3_MASK does zoomOut, SHIFTed BUTTON3_MASK does zoomIn
 		//  and CTRLed BUTTON3_MASK does deZoom

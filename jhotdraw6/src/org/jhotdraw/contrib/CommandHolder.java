@@ -18,7 +18,7 @@ import CH.ifa.draw.util.Command;
  *
  * @author    Eduardo Francos - InContext
  * @created   8 mai 2002
- * @version   1.0
+ * @version   <$CURRENT_VERSION$>
  */
 
 public interface CommandHolder {

@@ -13,7 +13,6 @@ package CH.ifa.draw.framework;
 
 import java.awt.image.ImageObserver;
 import java.awt.*;
-import java.io.*;
 import java.util.*;
 
 /**
@@ -80,9 +79,9 @@ public interface DrawingView extends ImageObserver, DrawingChangeListener {
 	public Figure remove(Figure figure);
 
 	/**
-	 * Adds a vector of figures to the drawing.
+	 * Adds a collections of figures to the drawing.
 	 */
-	public void addAll(Vector figures);
+	public void addAll(Collection figures);
 
 	/**
 	 * Gets the size of the drawing.
@@ -112,24 +111,23 @@ public interface DrawingView extends ImageObserver, DrawingChangeListener {
 	public Painter getDisplayUpdate();
 
 	/**
-	 * Gets the currently selected figures.
-	 * @return a vector with the selected figures. The vector
-	 * is a copy of the current selection.
-	 */
-	public Vector selection();
-
-	/**
 	 * Gets an enumeration over the currently selected figures.
+	 * The selection is a snapshot of the current selection
+	 * which does not get changed anymore
+	 *
+	 * @return an enumeration with the currently selected figures.
 	 */
-	public FigureEnumeration selectionElements();
+	public FigureEnumeration selection();
 
 	/**
 	 * Gets the currently seleced figures in Z order.
+	 * The selection is a snapshot of the current selection
+	 * which does not get changed anymore
+	 *
 	 * @see #selection
-	 * @return a vector with the selected figures. The vector
-	 * is a copy of the current selection.
+	 * @return an enumeration with the currently selected figures.
 	 */
-	public Vector selectionZOrdered();
+	public FigureEnumeration selectionZOrdered();
 
 	/**
 	 * Gets the number of selected figures.
@@ -140,16 +138,16 @@ public interface DrawingView extends ImageObserver, DrawingChangeListener {
 	 * Test whether a given figure is selected.
 	 */
 	public boolean isFigureSelected(Figure checkFigure);
-	
+
 	/**
 	 * Adds a figure to the current selection.
 	 */
 	public void addToSelection(Figure figure);
 
 	/**
-	 * Adds a vector of figures to the current selection.
+	 * Adds a collections of figures to the current selection.
 	 */
-	public void addToSelectionAll(Vector figures);
+	public void addToSelectionAll(Collection figures);
 
 	/**
 	 * Adds a FigureEnumeration to the current selection.
@@ -249,7 +247,7 @@ public interface DrawingView extends ImageObserver, DrawingChangeListener {
 	 * The layers are drawn in back to front order.
 	 */
 	public void draw(Graphics g, FigureEnumeration fe);
-	
+
 	/**
 	 * Draws the currently active handles.
 	 */
@@ -289,7 +287,7 @@ public interface DrawingView extends ImageObserver, DrawingChangeListener {
 	 * @param fsl jhotdraw.framework.FigureSelectionListener
 	 */
 	public void addFigureSelectionListener(FigureSelectionListener fsl);
-	
+
 	/**
 	 * Remove a listener for selection changes in this DrawingView.
 	 * @param fsl jhotdraw.framework.FigureSelectionListener
@@ -297,9 +295,9 @@ public interface DrawingView extends ImageObserver, DrawingChangeListener {
 	public void removeFigureSelectionListener(FigureSelectionListener fsl);
 
 	/**
-	 * Returns the vector of connection figures
+	 * Returns a FigureEnumeration of connection figures
 	 */
-	public Vector getConnectionFigures(Figure inFigure);
+	public FigureEnumeration getConnectionFigures(Figure inFigure);
 
 	/**
 	 * Inserts figures in a drawing at given offset. Optional check for connection figures
@@ -307,11 +305,11 @@ public interface DrawingView extends ImageObserver, DrawingChangeListener {
 	 *  @return enumeration which has been added to the drawing. The figures in the enumeration
 	 *          can have changed during adding them (e.g. they could have been decorated).
 	 */
-	public FigureEnumeration insertFigures(FigureEnumeration inFigures, int dx, int dy, boolean bCheck);    
+	public FigureEnumeration insertFigures(FigureEnumeration inFigures, int dx, int dy, boolean bCheck);
 
 	/**
 	 * Check whether the DrawingView is interactive, i.e. whether it accepts user input
 	 * and whether it can display a drawing.
-	 */    
+	 */
 	public boolean isInteractive();
 }

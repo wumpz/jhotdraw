@@ -33,19 +33,8 @@ public final class SingleFigureEnumerator implements FigureEnumeration {
 	 * Returns true if the enumeration contains more elements; false
 	 * if its empty.
 	 */
-	public boolean hasMoreElements() {
+	public boolean hasNextFigure() {
 		return mySingleFigure != null;
-	}
-
-	/**
-	 * Returns the next element of the enumeration. Calls to this
-	 * method will enumerate successive elements.
-	 * @exception NoSuchElementException If no more elements exist.
-	 */
-	public Object nextElement() {
-		Object returnFigure = mySingleFigure;
-		mySingleFigure = null;
-		return returnFigure;
 	}
 
 	/**

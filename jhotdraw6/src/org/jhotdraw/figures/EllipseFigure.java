@@ -13,7 +13,7 @@ package CH.ifa.draw.figures;
 
 import java.awt.*;
 import java.io.IOException;
-import java.util.Vector;
+import java.util.List;
 import CH.ifa.draw.util.*;
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
@@ -41,10 +41,10 @@ public class EllipseFigure extends AttributeFigure {
 		basicDisplayBox(origin,corner);
 	}
 
-	public Vector handles() {
-		Vector handles = new Vector();
+	public HandleEnumeration handles() {
+		List handles = CollectionsFactory.current().createList();
 		BoxHandleKit.addHandles(this, handles);
-		return handles;
+		return new HandleEnumerator(handles);
 	}
 
 	public void basicDisplayBox(Point origin, Point corner) {

@@ -71,5 +71,11 @@ public interface Connector extends Serializable, Storable {
 	 */
 	public abstract void draw(Graphics g);
 
+	/**
+	 * Requests that the connector should show itself or hide itself.  The
+	 * ConnectionFigure which desires to connect to this Connector is passed in.
+	 * If a connector should show itself it should do so when draw is called, if
+	 * so desired.
+	 */
+	public void connectorVisibility(boolean isVisible, ConnectionFigure courtingConnection);
 }
-

@@ -15,6 +15,7 @@ import CH.ifa.draw.framework.FigureEnumeration;
 import CH.ifa.draw.framework.DrawingView;
 
 /**
+ * @author  Wolfram Kaiser <mrfloppy@sourceforge.net>
  * @version <$CURRENT_VERSION$>
  */
 public interface Undoable {

@@ -11,9 +11,11 @@
 
 package CH.ifa.draw.framework;
 
+import CH.ifa.draw.util.CollectionsFactory;
+
 import java.io.Serializable;
-import java.util.Vector;
-import java.util.Enumeration;
+import java.util.List;
+import java.util.Arrays;
 
 /**
  * A FigureAttribute is a constant for accessing a special figure attribute. It
@@ -50,7 +52,7 @@ public class FigureAttributeConstant implements Serializable, Cloneable {
 	public static final String URL_STR = "URL";
 	public static final FigureAttributeConstant URL = new FigureAttributeConstant(URL_STR, 8);
 
-	private static Vector attributeConstants;
+	private static FigureAttributeConstant[] attributeConstants;
 
 	private int myID;
 	private String myName;
@@ -62,7 +64,7 @@ public class FigureAttributeConstant implements Serializable, Cloneable {
 	}
 
 	public FigureAttributeConstant(String newName) {
-		this(newName, attributeConstants.size()+1);
+		this(newName, attributeConstants.length+1);
 	}
 
 	private void setName(String newName) {
@@ -114,23 +116,25 @@ public class FigureAttributeConstant implements Serializable, Cloneable {
 	 */
 	private static void addConstant(FigureAttributeConstant newConstant) {
 		int idPos = newConstant.getID() - 1;
-		// increase capacity if necessary
-		if (idPos >= attributeConstants.size()) {
-			attributeConstants.setSize(idPos + 1);
-		}
 		// attribute IDs must be unique, thus no two attributes
 		// with the same ID can be added
-		if (attributeConstants.elementAt(idPos) != null) {
+		if ((idPos < attributeConstants.length) && (attributeConstants[idPos] != null)) {
 			throw new JHotDrawRuntimeException("No unique FigureAttribute ID: " + newConstant.getID());
 		}
-		attributeConstants.setElementAt(newConstant, idPos);
+		// increase capacity if necessary
+		if (idPos >= attributeConstants.length) {
+			FigureAttributeConstant[] tempStrs = new FigureAttributeConstant[idPos + 1];
+			System.arraycopy(attributeConstants, 0, tempStrs, 0, attributeConstants.length);
+			attributeConstants = tempStrs;
+		}
+		attributeConstants[idPos] = newConstant;
 	}
 
 	/**
 	 * @return an existing constant for a given name or create a new one
 	 */
 	public static FigureAttributeConstant getConstant(String constantName) {
-		for (int i = 0; i < attributeConstants.size(); i++) {
+		for (int i = 0; i < attributeConstants.length; i++) {
 			FigureAttributeConstant currentAttr = getConstant(i);
 			if ((currentAttr != null) && (currentAttr.getName() != null) && (currentAttr.getName().equals(constantName))) {
 				return currentAttr;
@@ -140,15 +144,15 @@ public class FigureAttributeConstant implements Serializable, Cloneable {
 	}
 
 	public static FigureAttributeConstant getConstant(int constantId) {
-		return (FigureAttributeConstant)attributeConstants.elementAt(constantId);
+		return attributeConstants[constantId];
 	}
 
 	{
-		// use static initializer to create vector before any constant is created
-		// initialize Vector only for the first constant (during debugging it
+		// use static initializer to create List before any constant is created
+		// initialize List only for the first constant (during debugging it
 		// appeared that the static initializer is invoked for any constant)
 		if (attributeConstants == null) {
-			attributeConstants = new Vector();
+			attributeConstants = new FigureAttributeConstant[64];
 		}
 	}
 }

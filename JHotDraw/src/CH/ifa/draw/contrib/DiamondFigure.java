@@ -12,12 +12,8 @@
 package CH.ifa.draw.contrib;
 
 import CH.ifa.draw.framework.*;
-import CH.ifa.draw.util.*;
-import CH.ifa.draw.standard.*;
 import CH.ifa.draw.figures.*;
 import java.awt.*;
-import java.util.*;
-import java.io.IOException;
 
 /**
  * A diamond with vertices at the midpoints of its enclosing rectangle

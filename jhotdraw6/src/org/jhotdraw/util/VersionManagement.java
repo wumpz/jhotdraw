@@ -11,7 +11,6 @@
 
 package CH.ifa.draw.util;
 
-import CH.ifa.draw.framework.JHotDrawRuntimeException;
 import java.io.*;
 import java.util.*;
 import java.util.jar.*;
@@ -22,7 +21,7 @@ import java.util.jar.*;
  * methods also help comparing version information. The method getJHotDrawVersion()
  * can be used to retrieve the current version of JHotDraw as loaded by the class manager.
  *
- * @author Wolfram Kaiser
+ * @author  Wolfram Kaiser <mrfloppy@sourceforge.net>
  * @version <$CURRENT_VERSION$>
  */
 public class VersionManagement {

@@ -13,7 +13,7 @@ package CH.ifa.draw.figures;
 
 import java.awt.*;
 import java.io.IOException;
-import java.util.Vector;
+import java.util.List;
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
 import CH.ifa.draw.util.*;
@@ -71,13 +71,13 @@ public class RoundRectangleFigure extends AttributeFigure {
 		return new Point(fArcWidth, fArcHeight);
 	}
 
-	public Vector handles() {
-		Vector handles = new Vector();
+	public HandleEnumeration handles() {
+		List handles = CollectionsFactory.current().createList();
 		BoxHandleKit.addHandles(this, handles);
 
-		handles.addElement(new RadiusHandle(this));
+		handles.add(new RadiusHandle(this));
 
-		return handles;
+		return new HandleEnumerator(handles);
 	}
 
 	public Rectangle displayBox() {

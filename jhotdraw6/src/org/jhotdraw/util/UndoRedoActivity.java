@@ -18,7 +18,7 @@ import CH.ifa.draw.framework.*;
  * In this case, the redo() method of an encapsulated activity is called when
  * the undo() is executed, and undo() when redo() is executed.
  *
- * @author Wolfram Kaiser
+ * @author  Wolfram Kaiser <mrfloppy@sourceforge.net>
  * @version <$CURRENT_VERSION$>
  */
 public class UndoRedoActivity implements Undoable {

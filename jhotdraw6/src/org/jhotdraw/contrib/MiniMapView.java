@@ -11,14 +11,11 @@
 
 package CH.ifa.draw.contrib;
 
-import CH.ifa.draw.standard.StandardDrawingView;
 import CH.ifa.draw.framework.DrawingView;
 import CH.ifa.draw.framework.DrawingChangeEvent;
 import CH.ifa.draw.framework.DrawingChangeListener;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.awt.image.RescaleOp;
 import java.awt.event.*;
 import java.awt.geom.*;
 import javax.swing.*;
@@ -40,7 +37,6 @@ public class MiniMapView extends JComponent {
 	private SubjectListener m_subjectListener;
 	private DrawingChangeListener myDrawingChangeListener;
 	private Color m_viewBoxColor = Color.red;
-	private BufferedImage bufferedImage;
 
 // Constructors
 	public MiniMapView(DrawingView newMappedDrawingView, JScrollPane subject) {
@@ -92,7 +88,7 @@ public class MiniMapView extends JComponent {
 	/**
 	 * @return	The component that is actually being "mini-mapped", that is the component inside the scroll pane
 	 */
-	Component getMappedComponent() {
+	protected Component getMappedComponent() {
 		return (Component)getMappedDrawingView();
 	}
 
@@ -103,7 +99,7 @@ public class MiniMapView extends JComponent {
 		// Paint a small map representation of the subjects contents
 		Component mappedComponent = getMappedComponent();
 		AffineTransform at = getViewToMiniMapTransform(mappedComponent);
-		g2d.setTransform(at);
+		g2d.transform(at);
 
 		getMappedDrawingView().drawAll(g2d);
 
@@ -125,8 +121,7 @@ public class MiniMapView extends JComponent {
 		double scaleX = ((double)getWidth()) / ((double)mappedComponent.getWidth());
 		double scaleY = ((double)getHeight()) / ((double)mappedComponent.getHeight());
 
-		AffineTransform at = null;
-		at = getInverseSubjectTransform();		// for subclass flexibility
+		AffineTransform at = getInverseSubjectTransform();		// for subclass flexibility
 		at.concatenate(AffineTransform.getScaleInstance(scaleX, scaleY));
 		return at;
 	}

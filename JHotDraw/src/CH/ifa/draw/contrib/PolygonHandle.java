@@ -14,9 +14,7 @@ package CH.ifa.draw.contrib;
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
 import CH.ifa.draw.figures.PolyLineHandle;
-import CH.ifa.draw.util.Geom;
 import CH.ifa.draw.util.Undoable;
-import CH.ifa.draw.util.UndoableAdapter;
 import java.awt.Point;
 
 /**
@@ -34,8 +32,8 @@ public class PolygonHandle extends AbstractHandle {
 	/**
 	* Constructs a polygon handle.
 	* @param owner the owning polygon figure.
-	* @l the locator
-	* @index the index of the node associated with this handle.
+	* @param l the locator
+	* @param index the index of the node associated with this handle.
 	*/
 	public PolygonHandle(PolygonFigure owner, Locator l, int index) {
 		super(owner);
@@ -84,7 +82,7 @@ public class PolygonHandle extends AbstractHandle {
 		
 		protected boolean movePointToOldLocation() {
 			FigureEnumeration fe = getAffectedFigures();
-			if (!fe.hasMoreElements()) {
+			if (!fe.hasNextFigure()) {
 				return false;
 			}
 

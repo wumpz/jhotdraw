@@ -16,7 +16,7 @@ import CH.ifa.draw.standard.AbstractCommand;
 import java.util.EventObject;
 
 /**
- * @author Wolfram Kaiser
+ * @author  Wolfram Kaiser <mrfloppy@sourceforge.net>
  * @version <$CURRENT_VERSION$>
  */
 public class UndoableCommand implements Command, FigureSelectionListener, CommandListener {

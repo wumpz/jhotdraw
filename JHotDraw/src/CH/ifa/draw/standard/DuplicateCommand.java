@@ -13,7 +13,6 @@ package CH.ifa.draw.standard;
 
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.util.*;
-import java.util.*;
 
 /**
  * Duplicate the selection and select the duplicates.

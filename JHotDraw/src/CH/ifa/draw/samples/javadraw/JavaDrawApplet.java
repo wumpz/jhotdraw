@@ -20,9 +20,6 @@ import CH.ifa.draw.contrib.*;
 
 import javax.swing.*;
 import java.awt.event.*;
-import java.util.*;
-import java.io.*;
-import java.net.*;
 
 /**
  * @version <$CURRENT_VERSION$>

@@ -12,7 +12,6 @@
 package CH.ifa.draw.standard;
 
 import CH.ifa.draw.framework.*;
-import CH.ifa.draw.util.UndoableAdapter;
 import CH.ifa.draw.util.Undoable;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -81,7 +80,7 @@ public class CreationTool extends AbstractTool {
 	public void activate() {
 		super.activate();
 		if (isUsable()) {
-			view().setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+			getActiveView().setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
 		}
 	}
 
@@ -89,6 +88,7 @@ public class CreationTool extends AbstractTool {
 	 * Creates a new figure by cloning the prototype.
 	 */
 	public void mouseDown(MouseEvent e, int x, int y) {
+		setView((DrawingView)e.getSource());
 		fAnchorPoint = new Point(x,y);
 		setCreatedFigure(createFigure());
 		setAddedFigure((view().add(getCreatedFigure())));

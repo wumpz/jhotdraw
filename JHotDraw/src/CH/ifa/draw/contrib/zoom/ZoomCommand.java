@@ -11,7 +11,6 @@
 package CH.ifa.draw.contrib.zoom;
 
 import CH.ifa.draw.framework.DrawingEditor;
-import CH.ifa.draw.framework.DrawingView;
 import CH.ifa.draw.framework.JHotDrawRuntimeException;
 
 import CH.ifa.draw.standard.AbstractCommand;

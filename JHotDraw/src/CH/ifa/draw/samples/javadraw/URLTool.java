@@ -37,9 +37,8 @@ public  class URLTool extends AbstractTool {
 
 	public void mouseDown(MouseEvent e, int x, int y)
 	{
-		Figure pressedFigure;
-
-		pressedFigure =  drawing().findFigureInside(x, y);
+		super.mouseDown(e,x,y);
+		Figure pressedFigure = drawing().findFigureInside(x, y);
 		if (pressedFigure != null) {
 			beginEdit(pressedFigure);
 			return;

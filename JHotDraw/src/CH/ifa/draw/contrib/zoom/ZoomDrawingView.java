@@ -15,7 +15,6 @@ import CH.ifa.draw.framework.Drawing;
 import CH.ifa.draw.framework.DrawingChangeEvent;
 import CH.ifa.draw.framework.DrawingEditor;
 import CH.ifa.draw.framework.FigureEnumeration;
-import CH.ifa.draw.standard.SimpleUpdateStrategy;
 import CH.ifa.draw.standard.StandardDrawing;
 import CH.ifa.draw.standard.StandardDrawingView;
 import CH.ifa.draw.util.Geom;
@@ -45,8 +44,6 @@ public class ZoomDrawingView extends StandardDrawingView {
 	 * Can be changed dynamically by clients using the setter method
 	 */
 	private double zoomSpeed = 2.0;
-
-	private Rectangle damagedArea = null;
 
 	public ZoomDrawingView(DrawingEditor editor) {
 		this(editor, MINIMUM_WIDTH, MINIMUM_HEIGHT);
@@ -190,9 +187,11 @@ public class ZoomDrawingView extends StandardDrawingView {
 			revalidate();
 			viewport.setViewPosition(new Point(xOrigin, yOrigin));
 			forceRedraw();
-		} else
+		}
+		else {
 			throw new RuntimeException
 					("zooming only works if this view is contained in a ScrollPane");
+		}
 	}
 
 	/**
@@ -244,9 +243,11 @@ public class ZoomDrawingView extends StandardDrawingView {
 			revalidate();
 			viewport.setViewPosition(new Point(xOrigin, yOrigin));
 			forceRedraw();
-		} else
+		}
+		else {
 			throw new RuntimeException
 					("zooming only works if this view is contained in a ScrollPane");
+		}
 	}
 
 	/**
@@ -320,8 +321,8 @@ public class ZoomDrawingView extends StandardDrawingView {
 		int diffX = boundsCenter.x - drawingCenter.x;
 		int diffY = boundsCenter.y - drawingCenter.y;
 		if (diffX != 0 || diffY != 0) {
-			for (FigureEnumeration k = d.figures(); k.hasMoreElements();) {
-				k.nextFigure().moveBy(diffX, diffY);
+			for (FigureEnumeration fe = d.figures(); fe.hasNextFigure();) {
+				fe.nextFigure().moveBy(diffX, diffY);
 			}
 		}
 	}
@@ -368,12 +369,13 @@ public class ZoomDrawingView extends StandardDrawingView {
 	 * Overridden to scale damage to screen coordinates.
 	 */
 	public void repairDamage() {
+		Rectangle damagedArea = getDamage();
 		if (damagedArea != null) {
 			repaint((int) (damagedArea.x * getScale()),
 					(int) (damagedArea.y * getScale()),
 					(int) (damagedArea.width * getScale()),
 					(int) (damagedArea.height * getScale()));
-			damagedArea = null;
+			setDamage(null);
 		}
 	}
 
@@ -382,11 +384,14 @@ public class ZoomDrawingView extends StandardDrawingView {
 	 */
 	public void drawingInvalidated(DrawingChangeEvent e) {
 		Rectangle r = e.getInvalidatedRectangle();
-		if (damagedArea == null) {
-			damagedArea = r;
+		if (getDamage() == null) {
+			setDamage(r);
 		}
 		else {
+			Rectangle damagedArea = getDamage();
 			damagedArea.add(r);
+			// the returned rectange may be a clone so we better set it again
+			setDamage(damagedArea);
 		}
 	}
 

@@ -11,8 +11,6 @@
 
 package CH.ifa.draw.samples.javadraw;
 
-import java.awt.*;
-import java.util.*;
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.util.Animatable;
 

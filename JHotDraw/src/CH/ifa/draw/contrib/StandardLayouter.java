@@ -13,9 +13,7 @@ package CH.ifa.draw.contrib;
 
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.contrib.*;
-import CH.ifa.draw.util.*;
 import java.awt.*;
-import java.io.*;
 
 /**
  * A StandardLayouter contains standard algorithm for
@@ -31,19 +29,7 @@ import java.io.*;
  * @author	Wolfram Kaiser
  * @version <$CURRENT_VERSION$>
  */
-public class StandardLayouter implements Layouter {
-
-	/**
-	 * The Layoutable which should be laid out.
-	 */
-	private Layoutable myLayoutable;
-
-	/**
-	 * Insets to calculate a border
-	 */
-	private Insets myInsets;
-
-	static final long serialVersionUID = 2928651014089117493L;
+public class StandardLayouter extends SimpleLayouter {
 
 	/**
 	 * Default constructor which is needed for the Storable mechanism.
@@ -52,7 +38,7 @@ public class StandardLayouter implements Layouter {
 	 * with exactly one Layoutable.
 	 */
 	public StandardLayouter() {
-		setInsets(new Insets(0, 0, 0, 0));
+		this(null);
 	}
 
 	/**
@@ -62,8 +48,7 @@ public class StandardLayouter implements Layouter {
 	 * @param	newLayoutable	Layoutable to be laid out
 	 */
 	public StandardLayouter(Layoutable newLayoutable) {
-		this();
-		setLayoutable(newLayoutable);
+		super(newLayoutable);
 	}
 
 	/**
@@ -71,24 +56,6 @@ public class StandardLayouter implements Layouter {
 	 */
 	public Layouter create(Layoutable newLayoutable) {
 		return new StandardLayouter(newLayoutable);
-	}
-
-	/**
-	 * Get the figure upon which the layout strategy operates.
-	 *
-	 * @return associated figure which should be laid out
-	 */
-	public Layoutable getLayoutable() {
-		return myLayoutable;
-	}
-
-	/**
-	 * Set the figure upon which the layout strategy operates.
-	 *
-	 * @param	newLayoutable	Layoutable to be laid out
-	 */
-	public void setLayoutable(Layoutable newLayoutable) {
-		myLayoutable = newLayoutable;
 	}
 
 	/*
@@ -104,9 +71,9 @@ public class StandardLayouter implements Layouter {
 		int maxHeight = 0;
 
 		// layout enclosed Layoutable and find maximum width
-		FigureEnumeration enum = getLayoutable().figures();
-		while (enum.hasMoreElements()) {
-			Figure currentFigure = enum.nextFigure();
+		FigureEnumeration fe = getLayoutable().figures();
+		while (fe.hasNextFigure()) {
+			Figure currentFigure = fe.nextFigure();
 			Rectangle r = null;
 			if (currentFigure instanceof Layoutable) {
 				Layouter layoutStrategy = ((Layoutable)currentFigure).getLayouter();
@@ -141,9 +108,9 @@ public class StandardLayouter implements Layouter {
 		Rectangle r = calculateLayout(origin, corner);
 
 		int maxHeight = getInsets().top;
-		FigureEnumeration enum = getLayoutable().figures();
-		while (enum.hasMoreElements()) {
-			Figure currentFigure = enum.nextFigure();
+		FigureEnumeration fe = getLayoutable().figures();
+		while (fe.hasNextFigure()) {
+			Figure currentFigure = fe.nextFigure();
 
 			Point partOrigin = new Point(r.x + getInsets().left, r.y + maxHeight);
 
@@ -163,37 +130,5 @@ public class StandardLayouter implements Layouter {
 		//      Point partCorner = new Point(r.x + getInsets().left + r.width, r.y + currentFigure.displayBox().height);
 		// The right inset wasn't included in the calculation
 		return new Rectangle(r.x, r.y, r.width, maxHeight + getInsets().bottom);
-	}
-
-	/**
-	 * Reads the contained figures from StorableInput.
-	 */
-	public void read(StorableInput dr) throws IOException {
-		setLayoutable((Layoutable)dr.readStorable());
-	}
-
-	/**
-	 * Writes the contained figures to the StorableOutput.
-	 */
-	public void write(StorableOutput dw) {
-		dw.writeStorable(getLayoutable());
-	}
-
-	/**
-	 * Set the insets for spacing between the figure and its subfigures
-	 *
-	 * @param newInsets new spacing dimensions
-	 */
-	public void setInsets(Insets newInsets) {
-		myInsets = newInsets;
-	}
-
-	/**
-	 * Get the insets for spacing between the figure and its subfigures
-	 *
-	 * @return spacing dimensions
-	 */
-	public Insets getInsets() {
-		return myInsets;
 	}
 }

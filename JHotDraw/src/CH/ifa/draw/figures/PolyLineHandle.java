@@ -30,8 +30,8 @@ public class PolyLineHandle extends LocatorHandle {
    /**
 	* Constructs a poly line handle.
 	* @param owner the owning polyline figure.
-	* @l the locator
-	* @index the index of the node associated with this handle.
+	* @param l the locator
+	* @param index the index of the node associated with this handle.
 	*/
 	public PolyLineHandle(PolyLineFigure owner, Locator l, int index) {
 		super(owner, l);
@@ -96,7 +96,7 @@ public class PolyLineHandle extends LocatorHandle {
 
 		protected boolean movePointToOldLocation() {
 			FigureEnumeration fe = getAffectedFigures();
-			if (!fe.hasMoreElements()) {
+			if (!fe.hasNextFigure()) {
 				return false;
 			}
 

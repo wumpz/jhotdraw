@@ -49,8 +49,6 @@ public class StandardVersionControlStrategy implements VersionControlStrategy {
 	 * encountered. Applications can override this method to provide customized
 	 * exception handling for this case. In the default implementation, a
 	 * JHotDrawRuntimeException is thrown.
-	 *
-	 * @param exception that contains an informative text about incompatible versions
 	 */
 	protected void handleIncompatibleVersions() {
 		// collect version info

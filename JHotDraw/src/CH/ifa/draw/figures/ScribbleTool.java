@@ -14,9 +14,7 @@ package CH.ifa.draw.figures;
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
 import CH.ifa.draw.util.Undoable;
-import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.util.Vector;
 
 /**
  * Tool to scribble a PolyLineFigure
@@ -48,7 +46,7 @@ public class ScribbleTool extends AbstractTool {
 		super.deactivate();
 		if (fScribble != null) {
 			if (fScribble.size().width < 4 || fScribble.size().height < 4) {
-				drawing().remove(fScribble);
+				getActiveDrawing().remove(fScribble);
 				// nothing to undo
 				setUndoActivity(null);
 			}
@@ -70,14 +68,13 @@ public class ScribbleTool extends AbstractTool {
 	}
 
 	public void mouseDown(MouseEvent e, int x, int y) {
+		super.mouseDown(e,x,y);
 		if (e.getClickCount() >= 2) {
 			// use undo activity from paste command...
 			setUndoActivity(createUndoActivity());
-			
+
 			// put created figure into a figure enumeration
 			getUndoActivity().setAffectedFigures(new SingleFigureEnumerator(getAddedFigure()));
-
-			editor().toolDone();
 		}
 		else {
 			// use original event coordinates to avoid
@@ -90,6 +87,14 @@ public class ScribbleTool extends AbstractTool {
 	public void mouseDrag(MouseEvent e, int x, int y) {
 		if (fScribble != null) {
 			point(e.getX(), e.getY());
+		}
+	}
+
+	public void mouseUp(MouseEvent e, int x, int y) {
+		super.mouseUp(e, x, y);
+		// deactivate tool only when mouseUp was also fired
+		if (e.getClickCount() >= 2) {
+			editor().toolDone();
 		}
 	}
 

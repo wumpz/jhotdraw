@@ -42,13 +42,13 @@ public interface ConnectionFigure extends Figure, FigureChangeListener {
 
 	/**
 	 * Sets the start Connector of the connection.
-	 * @param figure the start figure of the connection
+	 * @param start the start connector of the connection
 	 */
 	public void connectStart(Connector start);
 
 	/**
 	 * Sets the end Connector of the connection.
-	 * @param figure the end figure of the connection
+	 * @param end the end connector of the connection
 	 */
 	public void connectEnd(Connector end);
 
@@ -125,7 +125,8 @@ public interface ConnectionFigure extends Figure, FigureChangeListener {
 
 	/**
 	 * Splits the hit segment.
-	 * @param x, y the position where the figure should be split
+	 * @param x the x position where the figure should be split
+	 * @param y the y position where the figure should be split
 	 * @return the index of the splitting point
 	 */
 	public int splitSegment(int x, int y);
@@ -133,7 +134,8 @@ public interface ConnectionFigure extends Figure, FigureChangeListener {
 
 	/**
 	 * Joins the hit segments.
-	 * @param x, y the position where the figure should be joined.
+	 * @param x the position where the figure should be joined.
+	 * @param y the position where the figure should be joined.
 	 * @return whether the segment was joined
 	 */
 	public boolean joinSegments(int x, int y);

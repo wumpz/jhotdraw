@@ -79,7 +79,7 @@ public class ContentProducerRegistry implements Serializable, Storable {
 	 * An autonomous registry does not have a parent hierarchy so resolution of
 	 * search requests stop do not propagate.
 	 *
-	 * @see   setParent(ContentProducerRegistry)
+	 * @see   #setParent(ContentProducerRegistry)
 	 */
 	public void setAutonomous() {
 		fParent = null;
@@ -100,7 +100,7 @@ public class ContentProducerRegistry implements Serializable, Storable {
 	 * Sets the parent attribute of the ContentProducerRegistry object
 	 *
 	 * @param newParent  The new parent value
-	 * @see              setAutonomous()
+	 * @see              #setAutonomous()
 	 */
 	public void setParent(ContentProducerRegistry newParent) {
 		fParent = newParent;

@@ -40,14 +40,14 @@ public abstract class AutoscrollHelper {
 
 	/**
 	 * Override this method to call getVisibleRect() on your JComponent
-	 * @see JComponent#getVisibleRect
+	 * @see javax.swing.JComponent#getVisibleRect
 	 */
 	public abstract Rectangle getVisibleRect();
 
 	/**
 	 * Override this method to call scrollRectToVisible(Rectangle aRect) on
 	 * your component
-	 * @see JComponent#scrollRectToVisible
+	 * @see javax.swing.JComponent#scrollRectToVisible
 	 */
 	public abstract void scrollRectToVisible(Rectangle aRect);
 	/**

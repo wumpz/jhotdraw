@@ -28,11 +28,11 @@ import java.util.*;
  */
 public  class CommandMenu extends JMenu implements ActionListener, CommandListener {
 
-	private Vector   fCommands;
+	private HashMap  hm;
 
 	public CommandMenu(String name) {
 		super(name);
-		fCommands = new Vector(10);
+		hm = new HashMap();
 	}
 
 	/**
@@ -63,8 +63,8 @@ public  class CommandMenu extends JMenu implements ActionListener, CommandListen
 		m.setName(command.name());
 		m.addActionListener(this);
 		add(m);
-		fCommands.addElement(command);
 		command.addCommandListener(this);
+		hm.put(m, command);
 //		checkEnabled();
 	}
 	
@@ -90,16 +90,13 @@ public  class CommandMenu extends JMenu implements ActionListener, CommandListen
 	}
 
 	public synchronized void checkEnabled() {
-		int j = 0;
+		// ignore separators (a separator has a hyphen as its label)
 		for (int i = 0; i < getMenuComponentCount(); i++) {
-			// ignore separators
-			// a separator has a hyphen as its label
-			if (getMenuComponent(i) instanceof JSeparator) {
-				continue;
+			Component c = getMenuComponent(i);
+			Command cmd = (Command) hm.get(c);
+			if (cmd != null) {
+				c.setEnabled(cmd.isExecutable());
 			}
-			Command cmd = (Command)fCommands.elementAt(j);
-			getMenuComponent(i).setEnabled(cmd.isExecutable());
-			j++;
 		}
 	}
 
@@ -107,21 +104,17 @@ public  class CommandMenu extends JMenu implements ActionListener, CommandListen
 	 * Executes the command.
 	 */
 	public void actionPerformed(ActionEvent e) {
-		int j = 0;
 		Object source = e.getSource();
 		for (int i = 0; i < getItemCount(); i++) {
 			JMenuItem item = getItem(i);
-			// ignore separators
-			// a separator has a hyphen as its label
-			if (getMenuComponent(i) instanceof JSeparator) {
-				continue;
-			}
+			// ignore separators (a separator has a hyphen as its label)
 			if (source == item) {
-				Command cmd = (Command)fCommands.elementAt(j);
-				cmd.execute();
+				Command cmd = (Command) hm.get(item);
+				if (cmd != null) {
+				    cmd.execute();
+				}
 				break;
 			}
-			j++;
 		}
 	}
 

@@ -23,7 +23,7 @@ import javax.swing.JPanel;
  * avoid null pointer exception. This concept is known as the Null-value object
  * bug pattern.
  *
- * @author Wolfram Kaiser
+ * @author  Wolfram Kaiser <mrfloppy@sourceforge.net>
  * @version <$CURRENT_VERSION$>
  */
 public class NullDrawingView extends JPanel implements DrawingView {
@@ -31,17 +31,15 @@ public class NullDrawingView extends JPanel implements DrawingView {
 	private DrawingEditor myDrawingEditor;
 	private Drawing myDrawing;
 	private Painter myUpdateStrategy;
-	private Tool myTool;
 	private Color myBackgroundColor;
 
 	private static Hashtable drawingViewManager = new Hashtable();
-	
+
 	public NullDrawingView(DrawingEditor editor) {
 		setEditor(editor);
-		myTool = new SelectionTool(editor());
 		setDrawing(new StandardDrawing());
 	}
-	
+
 	/**
 	 * Sets the view's editor.
 	 */
@@ -53,7 +51,7 @@ public class NullDrawingView extends JPanel implements DrawingView {
 	 * Gets the current tool.
 	 */
 	public Tool tool() {
-		return myTool;
+		return editor().tool();
 	}
 
 	/**
@@ -94,9 +92,9 @@ public class NullDrawingView extends JPanel implements DrawingView {
 	}
 
 	/**
-	 * Adds a vector of figures to the drawing.
+	 * Adds a collection of figures to the drawing.
 	 */
-	public void addAll(Vector figures) {
+	public void addAll(Collection figures) {
 		// ignore: do nothing
 	}
 
@@ -138,29 +136,24 @@ public class NullDrawingView extends JPanel implements DrawingView {
 	}
 
 	/**
-	 * Gets the currently selected figures.
-	 * @return a vector with the selected figures. The vector
-	 * is a copy of the current selection.
-	 */
-	public Vector selection() {
-		return new Vector(0);
-	}
-
-	/**
 	 * Gets an enumeration over the currently selected figures.
+	 * The selection is a snapshot of the current selection
+	 * which does not get changed anymore
+	 *
+	 * @return an enumeration with the currently selected figures.
 	 */
-	public FigureEnumeration selectionElements() {
+	public FigureEnumeration selection() {
 		return FigureEnumerator.getEmptyEnumeration();
 	}
 
 	/**
 	 * Gets the currently seleced figures in Z order.
 	 * @see #selection
-	 * @return a vector with the selected figures. The vector
-	 * is a copy of the current selection.
+	 * @return a FigureEnumeration with the selected figures. This enumeration
+	 * represents a snapshot of the current selection.
 	 */
-	public Vector selectionZOrdered() {
-		return new Vector(0);
+	public FigureEnumeration selectionZOrdered() {
+		return FigureEnumerator.getEmptyEnumeration();
 	}
 
 	/**
@@ -176,7 +169,7 @@ public class NullDrawingView extends JPanel implements DrawingView {
 	public boolean isFigureSelected(Figure checkFigure) {
 		return false;
 	}
-	
+
 	/**
 	 * Adds a figure to the current selection.
 	 */
@@ -185,9 +178,9 @@ public class NullDrawingView extends JPanel implements DrawingView {
 	}
 
 	/**
-	 * Adds a vector of figures to the current selection.
+	 * Adds a Collection of figures to the current selection.
 	 */
-	public void addToSelectionAll(Vector figures) {
+	public void addToSelectionAll(Collection figures) {
 		// ignore: do nothing
 	}
 
@@ -225,7 +218,7 @@ public class NullDrawingView extends JPanel implements DrawingView {
 	 * can be cut, copied, pasted.
 	 */
 	public FigureSelection getFigureSelection() {
-		return new StandardFigureSelection(selectionElements(), 0);
+		return new StandardFigureSelection(selection(), 0);
 	}
 
 	/**
@@ -389,10 +382,10 @@ public class NullDrawingView extends JPanel implements DrawingView {
 	}
 
 	/**
-	 * Returns the vector of connection figures
+	 * Returns a FigureEnumeration of connection figures
 	 */
-	public Vector getConnectionFigures(Figure inFigure) {
-		return new Vector(0);
+	public FigureEnumeration getConnectionFigures(Figure inFigure) {
+		return FigureEnumerator.getEmptyEnumeration();
 	}
 
 	/**
@@ -416,7 +409,7 @@ public class NullDrawingView extends JPanel implements DrawingView {
 	public boolean isInteractive() {
 		return false;
 	}
-	
+
 	public synchronized static DrawingView getManagedDrawingView(DrawingEditor editor) {
 		if (drawingViewManager.containsKey(editor)) {
 			return (DrawingView)drawingViewManager.get(editor);

@@ -15,7 +15,7 @@ import CH.ifa.draw.framework.*;
 import java.awt.*;
 
 /**
- * @author Wolfram Kaiser
+ * @author  Wolfram Kaiser <mrfloppy@sourceforge.net>
  * @version <$CURRENT_VERSION$>
  */
 public class UndoableHandle implements Handle {

@@ -14,7 +14,11 @@ package CH.ifa.draw.util;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.ImageProducer;
-import java.util.*;
+import java.net.URL;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Hashtable;
 
 /**
  * The Iconkit class supports the sharing of images. It maintains
@@ -33,8 +37,8 @@ import java.util.*;
  * @version <$CURRENT_VERSION$>
  */
 public class Iconkit {
-	private Hashtable           fMap;
-	private Vector              fRegisteredImages;
+	private Map                 fMap;
+	private List                fRegisteredImages;
 	private Component           fComponent;
 	private final static int    ID = 123;
 	private static Iconkit      fgIconkit = null;
@@ -46,7 +50,7 @@ public class Iconkit {
 	 */
 	public Iconkit(Component component) {
 		fMap = new Hashtable(53);
-		fRegisteredImages = new Vector(10);
+		fRegisteredImages = CollectionsFactory.current().createList(10);
 		fComponent = component;
 		fgIconkit = this;
 	}
@@ -69,20 +73,22 @@ public class Iconkit {
 		MediaTracker tracker = new MediaTracker(component);
 
 		// register images with MediaTracker
-		Enumeration k = fRegisteredImages.elements();
-		while (k.hasMoreElements()) {
-			String fileName = (String) k.nextElement();
+		Iterator iter = fRegisteredImages.iterator();
+		while (iter.hasNext()) {
+			String fileName = (String)iter.next();
 			if (basicGetImage(fileName) == null) {
 				tracker.addImage(loadImage(fileName), ID);
 			}
 		}
-		fRegisteredImages.removeAllElements();
+		fRegisteredImages.clear();
 
 		// block until all images are loaded
 		try {
 			tracker.waitForAll();
 		}
-		catch(Exception e) {  }
+		catch (Exception e) {
+			// ignore: do nothing
+		}
 	}
 
 	/**
@@ -91,7 +97,7 @@ public class Iconkit {
 	 * @see #loadRegisteredImages
 	 */
 	public void registerImage(String fileName) {
-		fRegisteredImages.addElement(fileName);
+		fRegisteredImages.add(fileName);
 	}
 
 	/**
@@ -117,9 +123,9 @@ public class Iconkit {
 		return image;
 	}
 
-	public Image loadImage(String filename, boolean waitForLoad){
+	public Image loadImage(String filename, boolean waitForLoad) {
 		Image image = loadImage(filename);
-		if (image!=null && waitForLoad){
+		if (image!=null && waitForLoad) {
 			ImageIcon icon = new ImageIcon(image);
 			image = icon.getImage(); //this forces the wait to happen
 		}
@@ -129,7 +135,7 @@ public class Iconkit {
 	public Image loadImageResource(String resourcename) {
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		try {
-			java.net.URL url = getClass().getResource(resourcename);
+			URL url = getClass().getResource(resourcename);
 			if (fgDebug) {
 				System.out.println(resourcename);
 			}

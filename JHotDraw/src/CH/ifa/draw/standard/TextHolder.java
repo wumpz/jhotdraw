@@ -12,7 +12,6 @@
 package CH.ifa.draw.standard;
 
 import java.awt.*;
-import java.util.*;
 import CH.ifa.draw.framework.*;
 
 /**

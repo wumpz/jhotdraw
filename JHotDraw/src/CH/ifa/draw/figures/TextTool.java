@@ -18,7 +18,6 @@ import CH.ifa.draw.util.UndoableAdapter;
 import CH.ifa.draw.util.Undoable;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Vector;
 
 /**
  * Tool to create new or edit existing text figures.
@@ -34,8 +33,8 @@ import java.util.Vector;
  */
 public class TextTool extends CreationTool {
 
-	private FloatingTextField   fTextField;
-	private TextHolder  fTypingTarget;
+	private FloatingTextField   myTextField;
+	private TextHolder  myTypingTarget;
 
 	public TextTool(DrawingEditor newDrawingEditor, Figure prototype) {
 		super(newDrawingEditor, prototype);
@@ -47,21 +46,22 @@ public class TextTool extends CreationTool {
 	 */
 	public void mouseDown(MouseEvent e, int x, int y)
 	{
+		setView((DrawingView)e.getSource());
 		TextHolder textHolder = null;
 		Figure pressedFigure = drawing().findFigureInside(x, y);
 		if (pressedFigure instanceof TextHolder) {
-			textHolder = (TextHolder) pressedFigure;
-			if (!textHolder.acceptsTyping())
+			textHolder = (TextHolder)pressedFigure;
+			if (!textHolder.acceptsTyping()) {
 				textHolder = null;
+			}
 		}
 		if (textHolder != null) {
 			beginEdit(textHolder);
-			return;
 		}
-		if (getTypingTarget() != null) {
-			endEdit();
-			editor().toolDone();
-		} else {
+		else if (getTypingTarget() != null) {
+			deactivate();
+		}
+		else {
 			super.mouseDown(e, x, y);
 			// update view so the created figure is drawn before the floating text
 			// figure is overlaid. (Note, fDamage should be null in StandardDrawingView
@@ -76,6 +76,9 @@ public class TextTool extends CreationTool {
 	}
 
 	public void mouseUp(MouseEvent e, int x, int y) {
+		if (!isActive()) {
+			editor().toolDone();
+		}
 	}
 
 	/**
@@ -101,30 +104,29 @@ public class TextTool extends CreationTool {
 	 *
 	 * @return true, if the text tool has a accepting target TextFigure for its input, false otherwise
 	 */
-	public boolean isActivated() {
-		return getTypingTarget() != null;
+	public boolean isActive() {
+		return (getTypingTarget() != null);
 	}
 
 	protected void beginEdit(TextHolder figure) {
-		if (fTextField == null) {
-			fTextField = new FloatingTextField();
+		if (getFloatingTextField() == null) {
+			setFloatingTextField(createFloatingTextField());
 		}
 
 		if (figure != getTypingTarget() && getTypingTarget() != null) {
 			endEdit();
 		}
 
-		fTextField.createOverlay((Container)view(), figure.getFont());
-		fTextField.setBounds(fieldBounds(figure), figure.getText());
+		getFloatingTextField().createOverlay((Container)view(), figure.getFont());
+		getFloatingTextField().setBounds(fieldBounds(figure), figure.getText());
 
 		setTypingTarget(figure);
-		setUndoActivity(createUndoActivity());
 	}
 
 	protected void endEdit() {
 		if (getTypingTarget() != null) {
-			if (fTextField.getText().length() > 0) {
-				getTypingTarget().setText(fTextField.getText());
+			if (getFloatingTextField().getText().length() > 0) {
+				getTypingTarget().setText(getFloatingTextField().getText());
 			}
 			else {
 				drawing().orphan((Figure)getAddedFigure());
@@ -134,13 +136,14 @@ public class TextTool extends CreationTool {
 			}
 
 			// put created figure into a figure enumeration
+			setUndoActivity(createUndoActivity());
 			getUndoActivity().setAffectedFigures(
 				new SingleFigureEnumerator(getAddedFigure()));
 			((TextTool.UndoActivity)getUndoActivity()).setBackupText(
 				getTypingTarget().getText());
 
 			setTypingTarget(null);
-			fTextField.endOverlay();
+			getFloatingTextField().endOverlay();
 //	        view().checkDamage();
 		}
 	}
@@ -148,16 +151,28 @@ public class TextTool extends CreationTool {
 	private Rectangle fieldBounds(TextHolder figure) {
 		Rectangle box = figure.textDisplayBox();
 		int nChars = figure.overlayColumns();
-		Dimension d = fTextField.getPreferredSize(nChars);
+		Dimension d = getFloatingTextField().getPreferredSize(nChars);
 		return new Rectangle(box.x, box.y, d.width, d.height);
 	}
 
 	protected void setTypingTarget(TextHolder newTypingTarget) {
-		fTypingTarget = newTypingTarget;
+		myTypingTarget = newTypingTarget;
 	}
 
 	protected TextHolder getTypingTarget() {
-		return fTypingTarget;
+		return myTypingTarget;
+	}
+
+	private FloatingTextField createFloatingTextField() {
+		return new FloatingTextField();
+	}
+
+	private void setFloatingTextField(FloatingTextField newFloatingTextField) {
+		myTextField = newFloatingTextField;
+	}
+
+	protected FloatingTextField getFloatingTextField() {
+		return myTextField;
 	}
 
 	/**
@@ -191,14 +206,14 @@ public class TextTool extends CreationTool {
 
 			if (!isValidText(getOriginalText())) {
 				FigureEnumeration fe  = getAffectedFigures();
-				while (fe.hasMoreElements()) {
+				while (fe.hasNextFigure()) {
 					getDrawingView().drawing().orphan(fe.nextFigure());
 				}
 			}
 			// add text figure if it has been removed (no backup text)
 			else if (!isValidText(getBackupText())) {
 				FigureEnumeration fe  = getAffectedFigures();
-				while (fe.hasMoreElements()) {
+				while (fe.hasNextFigure()) {
 					getDrawingView().add(fe.nextFigure());
 				}
 				setText(getOriginalText());
@@ -225,14 +240,14 @@ public class TextTool extends CreationTool {
 			// the text figure did exist but was remove
 			if (!isValidText(getBackupText())) {
 				FigureEnumeration fe  = getAffectedFigures();
-				while (fe.hasMoreElements()) {
+				while (fe.hasNextFigure()) {
 					getDrawingView().drawing().orphan(fe.nextFigure());
 				}
 			}
 			// the text figure didn't exist before
 			else if (!isValidText(getOriginalText())) {
 				FigureEnumeration fe  = getAffectedFigures();
-				while (fe.hasMoreElements()) {
+				while (fe.hasNextFigure()) {
 					getDrawingView().drawing().add(fe.nextFigure());
 					setText(getBackupText());
 				}
@@ -250,7 +265,7 @@ public class TextTool extends CreationTool {
 
 		protected void setText(String newText) {
 			FigureEnumeration fe = getAffectedFigures();
-			while (fe.hasMoreElements()) {
+			while (fe.hasNextFigure()) {
 				Figure currentFigure = fe.nextFigure();
 				if (currentFigure instanceof DecoratorFigure) {
 					currentFigure = ((DecoratorFigure)currentFigure).getDecoratedFigure();

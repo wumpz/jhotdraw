@@ -163,7 +163,7 @@ class PolygonScaleHandle extends AbstractHandle {
 
 		protected boolean resetPolygon() {
 			FigureEnumeration fe = getAffectedFigures();
-			if (!fe.hasMoreElements()) {
+			if (!fe.hasNextFigure()) {
 				return false;
 			}
 			PolygonFigure figure = (PolygonFigure)fe.nextFigure();

@@ -46,15 +46,14 @@ public interface Figure
 
 	/**
 	 * Moves the Figure to a new location.
-	 * @param x the x delta
-	 * @param y the y delta
+	 * @param dx the x delta
+	 * @param dy the y delta
 	 */
 	public void moveBy(int dx, int dy);
 
 	/**
 	 * Changes the display box of a figure. This method is
-	 * always implemented in figure subclasses.
-	 * It only changes
+	 * always implemented in figure subclasses. It only changes
 	 * the displaybox and does not announce any changes. It
 	 * is usually not called by the client. Clients typically call
 	 * displayBox to change the display box.
@@ -91,10 +90,10 @@ public interface Figure
 	 * the figure. Handles is a Factory Method for
 	 * creating handle objects.
 	 *
-	 * @return a Vector of handles
+	 * @return an type-safe iterator of handles
 	 * @see Handle
 	 */
-	public Vector handles();
+	public HandleEnumeration handles();
 
 	/**
 	 * Gets the size of the figure
@@ -236,7 +235,7 @@ public interface Figure
 	 * this method and react on isVisible to turn the
 	 * connectors on or off.
 	 */
-	public void connectorVisibility(boolean isVisible);
+	public void connectorVisibility(boolean isVisible, ConnectionFigure connection);
 
 	/**
 	 * Returns the connection inset. This is only a hint that

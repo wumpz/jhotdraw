@@ -43,9 +43,9 @@ public  class ChangeAttributeCommand extends AbstractCommand {
 	public void execute() {
 		super.execute();
 		setUndoActivity(createUndoActivity());
-		getUndoActivity().setAffectedFigures(view().selectionElements());
+		getUndoActivity().setAffectedFigures(view().selection());
 		FigureEnumeration fe = getUndoActivity().getAffectedFigures();
-		while (fe.hasMoreElements()) {
+		while (fe.hasNextFigure()) {
 			fe.nextFigure().setAttribute(fAttribute, fValue);
 		}
 		view().checkDamage();
@@ -81,9 +81,9 @@ public  class ChangeAttributeCommand extends AbstractCommand {
 				return false;
 			}
 
-			FigureEnumeration k = getAffectedFigures();
-			while (k.hasMoreElements()) {
-				Figure f = k.nextFigure();
+			FigureEnumeration fe = getAffectedFigures();
+			while (fe.hasNextFigure()) {
+				Figure f = fe.nextFigure();
 				if (getOriginalValue(f) != null) {
 					f.setAttribute(getAttributeName(), getOriginalValue(f));
 				}
@@ -97,9 +97,9 @@ public  class ChangeAttributeCommand extends AbstractCommand {
 				return false;
 			}
 
-			FigureEnumeration k = getAffectedFigures();
-			while (k.hasMoreElements()) {
-				Figure f = k.nextFigure();
+			FigureEnumeration fe = getAffectedFigures();
+			while (fe.hasNextFigure()) {
+				Figure f = fe.nextFigure();
 				if (getBackupValue() != null) {
 					f.setAttribute(getAttributeName(), getBackupValue());
 				}
@@ -142,7 +142,7 @@ public  class ChangeAttributeCommand extends AbstractCommand {
 			super.setAffectedFigures(fe);
 			// then get new FigureEnumeration of copy to save attributes
 			FigureEnumeration copyFe = getAffectedFigures();
-			while (copyFe.hasMoreElements()) {
+			while (copyFe.hasNextFigure()) {
 				Figure f = copyFe.nextFigure();
 				Object attributeValue = f.getAttribute(getAttributeName());
 				if (attributeValue != null) {

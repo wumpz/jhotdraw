@@ -78,10 +78,12 @@ public class ShortestDistanceConnector extends AbstractConnector {
 		if (r1x + r1width < r2x) {
 			x1 = r1x + r1width;
 			x2 = r2x;
-		} else if (r1x > r2x + r2width) {
+		}
+		else if (r1x > r2x + r2width) {
 			x1 = r1x;
 			x2 = r2x + r2width;
-		} else {
+		}
+		else {
 			xmax = Math.max(r1x, r2x);
 			xmin = Math.min(r1x+r1width, r2x+r2width);
 			x1 = x2 = (xmax + xmin) /2;
@@ -98,10 +100,12 @@ public class ShortestDistanceConnector extends AbstractConnector {
 		if (r1y + r1height < r2y) {
 			y1 = r1y + r1height;
 			y2 = r2y;
-		} else if (r1y > r2y + r2height) {
+		}
+		else if (r1y > r2y + r2height) {
 			y1 = r1y;
 			y2 = r2y + r2height;
-		} else {
+		}
+		else {
 			ymax = Math.max(r1y, r2y);
 			ymin = Math.min(r1y+r1height, r2y+r2height);
 			y1 = y2 = (ymax + ymin) /2;
@@ -145,10 +149,10 @@ public class ShortestDistanceConnector extends AbstractConnector {
 				len2 = l2;
 			}
 		}
-		if (getStart)
+		if (getStart) {
 			return start;
+		}
 		return end;
 	}
-
 }
 

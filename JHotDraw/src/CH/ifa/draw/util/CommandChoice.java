@@ -12,10 +12,9 @@
 package CH.ifa.draw.util;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.*;
+import java.util.List;
 
 /**
  * A Command enabled choice. Selecting a choice executes the
@@ -27,11 +26,11 @@ import java.util.*;
  */
 public  class CommandChoice extends JComboBox implements ItemListener {
 
-	private Vector   fCommands;
+	private List   fCommands;
 
 	public CommandChoice() {
 		super();
-		fCommands = new Vector(10);
+		fCommands = CollectionsFactory.current().createList(10);
 		addItemListener(this);
 	}
 
@@ -40,7 +39,7 @@ public  class CommandChoice extends JComboBox implements ItemListener {
 	 */
 	public synchronized void addItem(Command command) {
 		addItem(command.name());
-		fCommands.addElement(command);
+		fCommands.add(command);
 	}
 
 	/**
@@ -48,7 +47,7 @@ public  class CommandChoice extends JComboBox implements ItemListener {
 	 */
 	public void itemStateChanged(ItemEvent e) {
 		if ((getSelectedIndex() >= 0) && (getSelectedIndex() < fCommands.size())) {
-			Command command = (Command)fCommands.elementAt(getSelectedIndex());
+			Command command = (Command)fCommands.get(getSelectedIndex());
             if (command.isExecutable()) {
 				command.execute();
 			}
