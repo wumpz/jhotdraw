@@ -42,6 +42,6 @@ public  class MySelectionTool extends SelectionTool {
 	}
 
 	protected void inspectFigure(Figure f) {
-		System.out.println("inspect figure"+f);
+		System.out.println("inspect figure "+f);
 	}
 }

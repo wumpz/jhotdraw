@@ -926,4 +926,11 @@ public class TextAreaFigure extends AttributeFigure
 	public Figure getRepresentingFigure() {
 		return this;
 	}
+	
+	/**
+	 * @see org.jhotdraw.framework.Figure#getTextHolder()
+	 */
+	public TextHolder getTextHolder() {
+		return this;
+	}
 }
