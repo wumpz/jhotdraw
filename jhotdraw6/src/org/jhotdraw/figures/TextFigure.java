@@ -59,10 +59,13 @@ public  class TextFigure
 		fOriginY = 0;
 		fFont = createCurrentFont();
 		setAttribute(FigureAttributeConstant.FILL_COLOR, ColorMap.color("None"));
-		fText = new String("");
+		fText = "";
 		fSizeIsDirty = true;
 	}
 
+	/**
+	 * @see CH.ifa.draw.framework.Figure#moveBy(int, int)
+	 */
 	public void moveBy(int x, int y) {
 		willChange();
 		basicMoveBy(x, y);
@@ -77,16 +80,25 @@ public  class TextFigure
 		fOriginY += y;
 	}
 
+	/**
+	 * @see CH.ifa.draw.framework.Figure#basicDisplayBox(java.awt.Point, java.awt.Point)
+	 */
 	public void basicDisplayBox(Point newOrigin, Point newCorner) {
 		fOriginX = newOrigin.x;
 		fOriginY = newOrigin.y;
 	}
 
+	/**
+	 * @see CH.ifa.draw.framework.Figure#displayBox()
+	 */
 	public Rectangle displayBox() {
 		Dimension extent = textExtent();
 		return new Rectangle(fOriginX, fOriginY, extent.width, extent.height);
 	}
 
+	/**
+	 * @see CH.ifa.draw.standard.TextHolder#textDisplayBox()
+	 */
 	public Rectangle textDisplayBox() {
 		return displayBox();
 	}
@@ -107,6 +119,7 @@ public  class TextFigure
 
 	/**
 	 * Gets the font.
+	 * @see CH.ifa.draw.standard.TextHolder#getFont()
 	 */
 	public Font getFont() {
 		return fFont;
@@ -119,6 +132,7 @@ public  class TextFigure
 	 * Note, that the figure returned is not the figure to which the TextHolder is
 	 * (and its representing figure) connected.
 	 * @return figure responsible for representing the content of this TextHolder
+	 * @see CH.ifa.draw.standard.TextHolder#getRepresentingFigure()
 	 */
 	public Figure getRepresentingFigure() {
 		return this;
@@ -136,6 +150,7 @@ public  class TextFigure
 
 	/**
 	 * Updates the location whenever the figure changes itself.
+	 * @see CH.ifa.draw.framework.Figure#changed()
 	 */
 	public void changed() {
 		super.changed();
@@ -146,6 +161,7 @@ public  class TextFigure
 	 * A text figure understands the "FontSize", "FontStyle", and "FontName"
 	 * attributes.
 	 *
+	 * @see CH.ifa.draw.framework.Figure#getAttribute(java.lang.String)
 	 * @deprecated use getAttribute(FigureAttributeConstant) instead
 	 */
 	public Object getAttribute(String name) {
@@ -155,6 +171,7 @@ public  class TextFigure
 	/**
 	 * A text figure understands the "FontSize", "FontStyle", and "FontName"
 	 * attributes.
+	 * @see CH.ifa.draw.framework.Figure#getAttribute(CH.ifa.draw.framework.FigureAttributeConstant)
 	 */
 	public Object getAttribute(FigureAttributeConstant attributeConstant) {
 		Font font = getFont();
@@ -174,6 +191,7 @@ public  class TextFigure
 	 * A text figure understands the "FontSize", "FontStyle", and "FontName"
 	 * attributes.
 	 *
+	 * @see CH.ifa.draw.framework.Figure#setAttribute(java.lang.String, java.lang.Object)
 	 * @deprecated use setAttribute(FigureAttributeConstant, Object) instead
 	 */
 	public void setAttribute(String name, Object value) {
@@ -183,6 +201,7 @@ public  class TextFigure
 	/**
 	 * A text figure understands the "FontSize", "FontStyle", and "FontName"
 	 * attributes.
+	 * @see CH.ifa.draw.framework.Figure#setAttribute(CH.ifa.draw.framework.FigureAttributeConstant, java.lang.Object)
 	 */
 	public void setAttribute(FigureAttributeConstant attributeConstant, Object value) {
 		Font font = getFont();
@@ -212,6 +231,7 @@ public  class TextFigure
 
 	/**
 	 * Gets the text shown by the text figure.
+	 * @see CH.ifa.draw.standard.TextHolder#getText()
 	 */
 	public String getText() {
 		return fText;
@@ -219,11 +239,12 @@ public  class TextFigure
 
 	/**
 	 * Sets the text shown by the text figure.
+	 * @see CH.ifa.draw.standard.TextHolder#setText(java.lang.String)
 	 */
 	public void setText(String newText) {
 		if (!newText.equals(fText)) {
 			willChange();
-			fText = new String(newText);
+			fText = newText;
 			markDirty();
 			changed();
 		}
@@ -231,21 +252,28 @@ public  class TextFigure
 
 	/**
 	 * Tests whether the figure accepts typing.
+	 * @see CH.ifa.draw.standard.TextHolder#acceptsTyping()
 	 */
 	public boolean acceptsTyping() {
 		return !fIsReadOnly;
 	}
 
+	/**
+	 * @see CH.ifa.draw.figures.AttributeFigure#drawBackground(java.awt.Graphics)
+	 */
 	public void drawBackground(Graphics g) {
 		Rectangle r = displayBox();
 		g.fillRect(r.x, r.y, r.width, r.height);
 	}
 
+	/**
+	 * @see CH.ifa.draw.figures.AttributeFigure#drawFrame(java.awt.Graphics)
+	 */
 	public void drawFrame(Graphics g) {
 		g.setFont(fFont);
 		g.setColor((Color) getAttribute(FigureAttributeConstant.TEXT_COLOR));
 		FontMetrics metrics = g.getFontMetrics(fFont);
-		g.drawString(fText, fOriginX, fOriginY + metrics.getAscent());
+		g.drawString(getText(), fOriginX, fOriginY + metrics.getAscent());
 	}
 
 	protected Dimension textExtent() {
@@ -253,10 +281,10 @@ public  class TextFigure
 			return new Dimension(fWidth, fHeight);
 		}
 		FontMetrics metrics = Toolkit.getDefaultToolkit().getFontMetrics(fFont);
-		fWidth = metrics.stringWidth(fText);
+		fWidth = metrics.stringWidth(getText());
 		fHeight = metrics.getHeight();
 		fSizeIsDirty = false;
-		return new Dimension(metrics.stringWidth(fText), metrics.getHeight());
+		return new Dimension(metrics.stringWidth(getText()), metrics.getHeight());
 	}
 
 	protected void markDirty() {
@@ -265,6 +293,7 @@ public  class TextFigure
 
 	/**
 	 * Gets the number of columns to be overlaid when the figure is edited.
+	 * @see CH.ifa.draw.standard.TextHolder#overlayColumns()
 	 */
 	public int overlayColumns() {
 		int length = getText().length();
@@ -275,6 +304,9 @@ public  class TextFigure
 		return columns;
 	}
 
+	/**
+	 * @see CH.ifa.draw.framework.Figure#handles()
+	 */
 	public HandleEnumeration handles() {
 		List handles = CollectionsFactory.current().createList();
 		handles.add(new NullHandle(this, RelativeLocator.northWest()));
@@ -284,11 +316,14 @@ public  class TextFigure
 		return new HandleEnumerator(handles);
 	}
 
+	/**
+	 * @see CH.ifa.draw.util.Storable#write(CH.ifa.draw.util.StorableOutput)
+	 */
 	public void write(StorableOutput dw) {
 		super.write(dw);
 		dw.writeInt(fOriginX);
 		dw.writeInt(fOriginY);
-		dw.writeString(fText);
+		dw.writeString(getText());
 		dw.writeString(fFont.getName());
 		dw.writeInt(fFont.getStyle());
 		dw.writeInt(fFont.getSize());
@@ -297,12 +332,15 @@ public  class TextFigure
 		dw.writeStorable(getLocator());
 	}
 
+	/**
+	 * @see CH.ifa.draw.util.Storable#read(CH.ifa.draw.util.StorableInput)
+	 */
 	public void read(StorableInput dr) throws IOException {
 		super.read(dr);
 		markDirty();
 		fOriginX = dr.readInt();
 		fOriginY = dr.readInt();
-		fText = dr.readString();
+		setText(dr.readString());
 		fFont = new Font(dr.readString(), dr.readInt(), dr.readInt());
 		fIsReadOnly = dr.readBoolean();
 
@@ -322,6 +360,9 @@ public  class TextFigure
 		markDirty();
 	}
 
+	/**
+	 * @see CH.ifa.draw.standard.TextHolder#connect(CH.ifa.draw.framework.Figure)
+	 */
 	public void connect(Figure figure) {
 		if (getObservedFigure() != null) {
 			getObservedFigure().removeFigureChangeListener(this);
@@ -333,10 +374,16 @@ public  class TextFigure
 		updateLocation();
 	}
 
+	/**
+	 * @see CH.ifa.draw.framework.FigureChangeListener#figureChanged(CH.ifa.draw.framework.FigureChangeEvent)
+	 */
 	public void figureChanged(FigureChangeEvent e) {
 		updateLocation();
 	}
 
+	/**
+	 * @see CH.ifa.draw.framework.FigureChangeListener#figureRemoved(CH.ifa.draw.framework.FigureChangeEvent)
+	 */
 	public void figureRemoved(FigureChangeEvent e) {
 		if (listener() != null) {
 			Rectangle rect = invalidateRectangle(displayBox());
@@ -344,8 +391,19 @@ public  class TextFigure
 		}
 	}
 
+	/**
+	 * @see CH.ifa.draw.framework.FigureChangeListener#figureRequestRemove(CH.ifa.draw.framework.FigureChangeEvent)
+	 */
 	public void figureRequestRemove(FigureChangeEvent e) {}
+
+	/**
+	 * @see CH.ifa.draw.framework.FigureChangeListener#figureInvalidated(CH.ifa.draw.framework.FigureChangeEvent)
+	 */
 	public void figureInvalidated(FigureChangeEvent e) {}
+
+	/**
+	 * @see CH.ifa.draw.framework.FigureChangeListener#figureRequestUpdate(CH.ifa.draw.framework.FigureChangeEvent)
+	 */
 	public void figureRequestUpdate(FigureChangeEvent e) {}
 
 	/**
@@ -366,6 +424,9 @@ public  class TextFigure
 		}
 	}
 
+	/**
+	 * @see CH.ifa.draw.framework.Figure#release()
+	 */
 	public void release() {
 		super.release();
 		disconnect(getObservedFigure());
@@ -373,6 +434,7 @@ public  class TextFigure
 
 	/**
 	 * Disconnects a text holder from a connect figure.
+	 * @see CH.ifa.draw.standard.TextHolder#disconnect(CH.ifa.draw.framework.Figure)
 	 */
 	public void disconnect(Figure disconnectFigure) {
 		if (disconnectFigure != null) {
@@ -398,6 +460,9 @@ public  class TextFigure
 		return fLocator;
 	}
 
+	/**
+	 * @see CH.ifa.draw.framework.Figure#getTextHolder()
+	 */
 	public TextHolder getTextHolder() {
 		return this;
 	}
