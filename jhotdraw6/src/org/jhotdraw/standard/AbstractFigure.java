@@ -43,6 +43,7 @@ public abstract class AbstractFigure implements Figure {
      */
     private static final long serialVersionUID = -10857585979273442L;
     private int abstractFigureSerializedDataVersion = 1;
+    private int _nZ;
 
     protected AbstractFigure() { }
 
@@ -258,7 +259,6 @@ public abstract class AbstractFigure implements Figure {
         invalidate();
         if (fListener != null)
             fListener.figureChanged(new FigureChangeEvent(this));
-
     }
 
     /**
@@ -371,5 +371,25 @@ public abstract class AbstractFigure implements Figure {
      */
     public void read(StorableInput dr) throws IOException {
     }
+
+    /**
+     * Gets the z value (back-to-front ordering) of this figure.
+     */
+    public int getZValue() {
+
+      return _nZ;
+
+    }
+
+    /**
+     * Sets the z value (back-to-front ordering) of this figure.
+     */
+    public void setZValue(int z) {
+
+      _nZ = z;
+
+    }
+
+
 
 }
