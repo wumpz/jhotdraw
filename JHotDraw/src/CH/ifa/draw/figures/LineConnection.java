@@ -317,9 +317,11 @@ public  class LineConnection extends PolyLineFigure implements ConnectionFigure 
 		handleDisconnect(startFigure(), endFigure());
 		if (getStartConnector() != null) {
 			startFigure().removeFigureChangeListener(this);
+			startFigure().removeDependendFigure(this);
 		}
 		if (getEndConnector() != null) {
 			endFigure().removeFigureChangeListener(this);
+			endFigure().removeDependendFigure(this);
 		}
 	}
 
@@ -360,4 +362,13 @@ public  class LineConnection extends PolyLineFigure implements ConnectionFigure 
 	public void visit(FigureVisitor visitor) {
 		visitor.visitFigure(this);
 	}
+
+	/**
+	 * @see CH.ifa.draw.framework.Figure#removeFromContainer(CH.ifa.draw.framework.FigureChangeListener)
+	 */
+	public void removeFromContainer(FigureChangeListener c) {
+		super.removeFromContainer(c);
+		release();
+	}
+
 }
