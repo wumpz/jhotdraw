@@ -95,8 +95,8 @@ public	class DrawApplication
 	 */
 	public DrawApplication(String title) {
 		super(title);
+		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		setApplicationName(title);
-		winCount++;
 	}
 
 	/**
@@ -196,7 +196,10 @@ public	class DrawApplication
 		setStorageFormatManager(createStorageFormatManager());
 
 		//no work allowed to be done on GUI outside of AWT thread once
-		//setVisible(true) called.
+		//setVislble(true) must be called before drawing added to desktop, else 
+		//DND will fail. on drawing added before with a NPE.  note however that
+		//a nulldrawingView will not fail because it is never really added to the desltop
+		setVisible(true);
 		Runnable r = new Runnable() {
 			public void run() {
 				if (newDrawingView.isInteractive()) {
@@ -212,19 +215,16 @@ public	class DrawApplication
 			}
 			catch(java.lang.InterruptedException ie) {
 				System.err.println(ie.getMessage());
-				exit();
+				endApp();//would prefer a method that allowed cleanup
 			}
 			catch(java.lang.reflect.InvocationTargetException ite) {
 				System.err.println(ite.getMessage());
-				exit();
+				endApp();//would prefer a method that allowed cleanup
 			}
 		}
 		else {
 			r.run();
 		}
-
-		setVisible(true);
-		toolDone();
 	}
 
 	/**
@@ -235,6 +235,14 @@ public	class DrawApplication
 			new WindowAdapter() {
 				public void windowClosing(WindowEvent event) {
 					exit();
+				}
+				public void windowOpened(WindowEvent event) {
+					winCount++;
+				}
+				public void windowClosed(WindowEvent event) {
+					if (--winCount == 0) {
+						System.exit(0);
+					}					
 				}
 			}
 		);
@@ -882,15 +890,21 @@ public	class DrawApplication
 	 * Exits the application. You should never override this method
 	 */
 	public void exit() {
-		destroy();
-		setVisible(false);      // hide the JFrame
-		dispose();   // tell windowing system to free resources
-		winCount--;
-		if (winCount == 0) {
-			System.exit(0);
-		}
+//		int reply = JOptionPane.showConfirmDialog(this,
+//													  "Do you really want to exit?",
+//													  "JHotDraw - Exit" ,
+//													  JOptionPane.YES_NO_OPTION,
+//													  JOptionPane.QUESTION_MESSAGE);
+		// If the confirmation was affirmative, handle exiting.
+//		if (reply == JOptionPane.YES_OPTION) {
+			endApp();
+//		}
 	}
-
+	protected final void endApp(){
+		destroy();
+	   // tell windowing system to free resources
+		dispose();
+	}
 	/**
 	 * Handles additional clean up operations. Override to destroy
 	 * or release drawing editor resources.
