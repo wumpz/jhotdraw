@@ -13,7 +13,7 @@ import java.awt.Point;
  */
 public class Geom {
 
-    private Geom() {}; // never instantiated
+    private Geom() {} // never instantiated
 
     /**
      * Tests if a point is on a line.

@@ -25,11 +25,11 @@ public class DeleteCommand extends FigureTransferCommand {
 
     public void execute() {
         deleteSelection();
-        fView.checkDamage();
+        view().checkDamage();
     }
 
     public boolean isExecutable() {
-        return fView.selectionCount() > 0;
+        return view().selectionCount() > 0;
     }
 
 }

@@ -6,9 +6,6 @@
 package CH.ifa.draw.framework;
 
 import java.awt.Point;
-import java.io.Serializable;
-import CH.ifa.draw.util.*;
-import CH.ifa.draw.framework.*;
 
 /**
  * Figures to connect Connectors provided by Figures.

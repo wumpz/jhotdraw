@@ -5,8 +5,10 @@
  
 package CH.ifa.draw.contrib;
 
-import javax.swing.*;
-import javax.swing.event.*;
+import javax.swing.JComponent;
+import javax.swing.JDesktopPane;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.InternalFrameListener;
 import CH.ifa.draw.application.*;
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
@@ -37,7 +39,7 @@ public class MDI_DrawApplication extends DrawApplication implements InternalFram
 	 * If an internal frame gets activated, the StandardDrawingView is backed
 	 * up for later restorage.
 	 */
-	private StandardDrawingView backupDrawingView;
+	private DrawingView backupDrawingView;
 
 	/**
 	 * This component acts as a desktop for the content.
@@ -82,7 +84,7 @@ public class MDI_DrawApplication extends DrawApplication implements InternalFram
 	* frame. By default the DrawingView is returned in
 	* a JScrollPane.
 	*/
-	protected JComponent createContents(StandardDrawingView view) {
+	protected JComponent createContents(DrawingView view) {
 		JComponent contents = super.createContents(view);
 		MDI_InternalFrame internalFrame = createInternalFrame();
 		internalFrame.setDrawingView(view);
@@ -137,7 +139,7 @@ public class MDI_DrawApplication extends DrawApplication implements InternalFram
 	 * to create a new internal drawing view should call this method.
 	 */
     public void newWindow() {
-        StandardDrawingView fView = createDrawingView();
+        DrawingView fView = createDrawingView();
         Drawing fDrawing = createDrawing();
         fView.setDrawing(fDrawing);
         createContents(fView);
@@ -146,7 +148,7 @@ public class MDI_DrawApplication extends DrawApplication implements InternalFram
 
     public void newView() {
     	String copyTitle = getDrawingTitle();
-        StandardDrawingView fView = createDrawingView();
+        DrawingView fView = createDrawingView();
         fView.setDrawing(drawing());
         createContents(fView);
 		setDrawingTitle(copyTitle + " (View)");
@@ -203,7 +205,7 @@ public class MDI_DrawApplication extends DrawApplication implements InternalFram
 			currentFrame.validate();
 			currentFrame.getDrawingView().freezeView();
 			setDrawing(newFrame.getDrawingView().drawing());
-			backupDrawingView = newFrame.replaceDrawingView((StandardDrawingView)view());
+			backupDrawingView = newFrame.replaceDrawingView(view());
 			currentFrame = newFrame;
 		}
 	}

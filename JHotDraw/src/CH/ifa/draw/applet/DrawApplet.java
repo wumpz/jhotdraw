@@ -34,7 +34,7 @@ public class DrawApplet
     transient private Drawing         fDrawing;
     transient private Tool            fTool;
 
-    transient private StandardDrawingView fView;
+    transient private DrawingView     fView;
     transient private ToolButton      fDefaultToolButton;
     transient private ToolButton      fSelectedToolButton;
 
@@ -73,7 +73,7 @@ public class DrawApplet
         createTools(toolPanel);
         getContentPane().add("West", toolPanel);
 
-        getContentPane().add("Center", fView);
+        getContentPane().add("Center", (Component)view());
         JPanel buttonPalette = createButtonPanel();
         createButtons(buttonPalette);
         getContentPane().add("South", buttonPalette);
@@ -128,10 +128,10 @@ public class DrawApplet
         panel.add(new JLabel("Arrow"));
         CommandChoice choice = new CommandChoice();
         fArrowChoice = choice;
-        choice.addItem(new ChangeAttributeCommand("none",     "ArrowMode", new Integer(PolyLineFigure.ARROW_TIP_NONE),  fView));
-        choice.addItem(new ChangeAttributeCommand("at Start", "ArrowMode", new Integer(PolyLineFigure.ARROW_TIP_START), fView));
-        choice.addItem(new ChangeAttributeCommand("at End",   "ArrowMode", new Integer(PolyLineFigure.ARROW_TIP_END),   fView));
-        choice.addItem(new ChangeAttributeCommand("at Both",  "ArrowMode", new Integer(PolyLineFigure.ARROW_TIP_BOTH),  fView));
+        choice.addItem(new ChangeAttributeCommand("none",     "ArrowMode", new Integer(PolyLineFigure.ARROW_TIP_NONE),  view()));
+        choice.addItem(new ChangeAttributeCommand("at Start", "ArrowMode", new Integer(PolyLineFigure.ARROW_TIP_START), view()));
+        choice.addItem(new ChangeAttributeCommand("at End",   "ArrowMode", new Integer(PolyLineFigure.ARROW_TIP_END),   view()));
+        choice.addItem(new ChangeAttributeCommand("at Both",  "ArrowMode", new Integer(PolyLineFigure.ARROW_TIP_BOTH),  view()));
         panel.add(fArrowChoice);
 
         panel.add(new JLabel("Font"));
@@ -150,7 +150,7 @@ public class DrawApplet
                     ColorMap.name(i),
                     attribute,
                     ColorMap.color(i),
-                    fView
+                    view()
                 )
             );
         return choice;
@@ -164,7 +164,7 @@ public class DrawApplet
         CommandChoice choice = new CommandChoice();
         String fonts[] = Toolkit.getDefaultToolkit().getFontList();
         for (int i = 0; i < fonts.length; i++)
-            choice.addItem(new ChangeAttributeCommand(fonts[i], "FontName", fonts[i],  fView));
+            choice.addItem(new ChangeAttributeCommand(fonts[i], "FontName", fonts[i],  view()));
         return choice;
     }
 
@@ -213,16 +213,16 @@ public class DrawApplet
         panel.add(new Filler(6,20));
 
         JButton button;
-        button = new CommandButton(new DeleteCommand("Delete", fView));
+        button = new CommandButton(new DeleteCommand("Delete", view()));
         panel.add(button);
 
-        button = new CommandButton(new DuplicateCommand("Duplicate", fView));
+        button = new CommandButton(new DuplicateCommand("Duplicate", view()));
         panel.add(button);
 
-        button = new CommandButton(new GroupCommand("Group", fView));
+        button = new CommandButton(new GroupCommand("Group", view()));
         panel.add(button);
 
-        button = new CommandButton(new UngroupCommand("Ungroup", fView));
+        button = new CommandButton(new UngroupCommand("Ungroup", view()));
         panel.add(button);
 
         button = new JButton("Help");
@@ -303,7 +303,7 @@ public class DrawApplet
      * subclass in your application. By default a standard
      * DrawingView is returned.
      */
-    protected StandardDrawingView createDrawingView() {
+    protected DrawingView createDrawingView() {
         return new StandardDrawingView(this, 410, 370);
     }
 
@@ -322,10 +322,12 @@ public class DrawApplet
      * @see PaletteListener
      */
     public void paletteUserOver(PaletteButton button, boolean inside) {
-        if (inside)
+        if (inside) {
             showStatus(((ToolButton) button).name());
-        else
+        }
+        else {
             showStatus(fSelectedToolButton.name());
+        }
     }
 
     /**
@@ -366,13 +368,13 @@ public class DrawApplet
      * menu items that are selection sensitive.
      * @see DrawingEditor
      */
-    public void selectionChanged(DrawingView view) {
+    public void figureSelectionChanged(DrawingView view) {
         setupAttributes();
     }
 
     private void initDrawing() {
         fDrawing = createDrawing();
-        fView.setDrawing(fDrawing);
+        view().setDrawing(fDrawing);
         toolDone();
     }
 
@@ -425,7 +427,7 @@ public class DrawApplet
             fDrawing.release();
 
             fDrawing = (Drawing)input.readStorable();
-            fView.setDrawing(fDrawing);
+            view().setDrawing(fDrawing);
         } catch (IOException e) {
             initDrawing();
             showStatus("Error:"+e);
@@ -439,7 +441,7 @@ public class DrawApplet
             ObjectInput input = new ObjectInputStream(stream);
             fDrawing.release();
             fDrawing = (Drawing)input.readObject();
-            fView.setDrawing(fDrawing);
+            view().setDrawing(fDrawing);
         } catch (IOException e) {
             initDrawing();
             showStatus("Error: " + e);
@@ -464,7 +466,7 @@ public class DrawApplet
         Integer arrowMode  = (Integer) AttributeFigure.getDefaultAttribute("ArrowMode");
         String  fontName   = (String)  AttributeFigure.getDefaultAttribute("FontName");
 
-        FigureEnumeration k = fView.selectionElements();
+        FigureEnumeration k = view().selectionElements();
         while (k.hasMoreElements()) {
             Figure f = k.nextFigure();
             frameColor = (Color) f.getAttribute("FrameColor");
@@ -484,13 +486,13 @@ public class DrawApplet
     }
 
     protected void setSimpleDisplayUpdate() {
-        fView.setDisplayUpdate(new SimpleUpdateStrategy());
+        view().setDisplayUpdate(new SimpleUpdateStrategy());
         fUpdateButton.setText("Simple Update");
         fSimpleUpdate = true;
     }
 
     protected void setBufferedDisplayUpdate() {
-        fView.setDisplayUpdate(new BufferedUpdateStrategy());
+        view().setDisplayUpdate(new BufferedUpdateStrategy());
         fUpdateButton.setText("Buffered Update");
         fSimpleUpdate = false;
     }

@@ -22,38 +22,38 @@ import java.awt.*;
  * @see DrawingView
  * @see Drawing
  */
-public interface DrawingEditor {
+public interface DrawingEditor extends FigureSelectionListener {
 
     /**
      * Gets the editor's drawing view.
      */
-    DrawingView view();
+    public DrawingView view();
 
     /**
      * Gets the editor's drawing.
      */
-    Drawing     drawing();
+    public Drawing drawing();
 
     /**
      * Gets the editor's current tool.
      */
-    Tool        tool();
+    public Tool tool();
 
     /**
      * Informs the editor that a tool has done its interaction.
      * This method can be used to switch back to the default tool.
      */
-    void        toolDone();
+    public void toolDone();
 
     /**
      * Informs that the current selection has changed.
      * Override this method to handle selection changes.
      */
-    void        selectionChanged(DrawingView view);
+    public void figureSelectionChanged(DrawingView view);
 
     /**
      * Shows a status message in the editor's user interface
      */
-    void        showStatus(String string);
+    public void showStatus(String string);
 
 }

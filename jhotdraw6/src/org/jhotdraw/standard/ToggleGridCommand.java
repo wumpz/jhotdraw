@@ -13,9 +13,8 @@ import CH.ifa.draw.framework.*;
 /**
  * A command to toggle the snap to grid behavior.
  */
-public class ToggleGridCommand extends Command {
+public class ToggleGridCommand extends AbstractCommand {
 
-    private DrawingView fView;
     private Point fGrid;
 
    /**
@@ -25,18 +24,17 @@ public class ToggleGridCommand extends Command {
     * @param grid the grid size. A grid size of 1,1 turns grid snapping off.
     */
     public ToggleGridCommand(String name, DrawingView view, Point grid) {
-        super(name);
-        fView = view;
+        super(name, view);
         fGrid = new Point(grid.x, grid.y);
     }
 
     public void execute() {
-        PointConstrainer grid = fView.getConstrainer();
+        PointConstrainer grid = view().getConstrainer();
         if (grid != null) {
-            fView.setConstrainer(null);
+            view().setConstrainer(null);
         }
         else {
-            fView.setConstrainer(new GridConstrainer(fGrid.x, fGrid.y));
+            view().setConstrainer(new GridConstrainer(fGrid.x, fGrid.y));
         }
     }
 }

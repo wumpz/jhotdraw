@@ -6,7 +6,6 @@
 package CH.ifa.draw.standard;
 
 import java.util.*;
-import CH.ifa.draw.util.Command;
 import CH.ifa.draw.framework.*;
 
 /**
@@ -15,10 +14,7 @@ import CH.ifa.draw.framework.*;
  *
  * @see SendToBackCommand
  */
-public class BringToFrontCommand
-       extends Command {
-
-    private DrawingView fView;
+public class BringToFrontCommand extends AbstractCommand {
 
    /**
     * Constructs a bring to front command.
@@ -26,20 +22,19 @@ public class BringToFrontCommand
     * @param view the target view
     */
     public BringToFrontCommand(String name, DrawingView view) {
-        super(name);
-        fView = view;
+        super(name, view);
     }
 
     public void execute() {
-       FigureEnumeration k = new FigureEnumerator(fView.selectionZOrdered());
+       FigureEnumeration k = new FigureEnumerator(view().selectionZOrdered());
        while (k.hasMoreElements()) {
-            fView.drawing().bringToFront(k.nextFigure());
+            view().drawing().bringToFront(k.nextFigure());
         }
-        fView.checkDamage();
+        view().checkDamage();
     }
 
     public boolean isExecutable() {
-        return fView.selectionCount() > 0;
+        return view().selectionCount() > 0;
     }
 }
 

@@ -69,6 +69,7 @@ public class BoxHandleKit {
     static public Handle east(Figure owner) {
         return new EastHandle(owner);
     }
+
     static public Handle west(Figure owner) {
         return new WestHandle(owner);
     }

@@ -13,9 +13,7 @@ import CH.ifa.draw.framework.*;
  * Common base clase for commands that transfer figures
  * between a drawing and the clipboard.
  */
-abstract class FigureTransferCommand extends Command {
-
-    protected DrawingView fView;
+public abstract class FigureTransferCommand extends AbstractCommand {
 
    /**
     * Constructs a drawing command.
@@ -23,23 +21,22 @@ abstract class FigureTransferCommand extends Command {
     * @param view the target view
     */
     protected FigureTransferCommand(String name, DrawingView view) {
-        super(name);
-        fView = view;
+        super(name, view);
     }
 
    /**
     * Deletes the selection from the drawing.
     */
     protected void deleteSelection() {
-       fView.drawing().removeAll(fView.selection());
-       fView.clearSelection();
+       view().drawing().removeAll(view().selection());
+       view().clearSelection();
     }
 
    /**
     * Copies the selection to the clipboard.
     */
     protected void copySelection() {
-        FigureSelection selection = fView.getFigureSelection();
+        FigureSelection selection = view().getFigureSelection();
         Clipboard.getClipboard().setContents(selection);
     }
 
@@ -52,8 +49,8 @@ abstract class FigureTransferCommand extends Command {
         while (e.hasMoreElements()) {
             Figure figure = e.nextFigure();
             figure.moveBy(dx, dy);
-            figure = fView.add(figure);
-            fView.addToSelection(figure);
+            figure = view().add(figure);
+            view().addToSelection(figure);
         }
     }
 

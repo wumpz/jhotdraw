@@ -6,7 +6,6 @@
 package CH.ifa.draw.figures;
 
 import java.util.*;
-import CH.ifa.draw.util.Command;
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
 
@@ -15,9 +14,7 @@ import CH.ifa.draw.standard.*;
  *
  * @see GroupFigure
  */
-public  class GroupCommand extends Command {
-
-    private DrawingView fView;
+public  class GroupCommand extends AbstractCommand {
 
    /**
     * Constructs a group command.
@@ -25,26 +22,25 @@ public  class GroupCommand extends Command {
     * @param view the target view
     */
     public GroupCommand(String name, DrawingView view) {
-        super(name);
-        fView = view;
+        super(name, view);
     }
 
     public void execute() {
-        Vector selected = fView.selectionZOrdered();
-        Drawing drawing = fView.drawing();
+        Vector selected = view().selectionZOrdered();
+        Drawing drawing = view().drawing();
         if (selected.size() > 0) {
-            fView.clearSelection();
+            view().clearSelection();
             drawing.orphanAll(selected);
 
             GroupFigure group = new GroupFigure();
             group.addAll(selected);
-            fView.addToSelection(drawing.add(group));
+            view().addToSelection(drawing.add(group));
         }
-        fView.checkDamage();
+        view().checkDamage();
     }
 
     public boolean isExecutable() {
-        return fView.selectionCount() > 0;
+        return view().selectionCount() > 0;
     }
 
 }

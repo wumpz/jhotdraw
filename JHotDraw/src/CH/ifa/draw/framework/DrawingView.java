@@ -7,9 +7,8 @@ package CH.ifa.draw.framework;
 
 import java.awt.image.ImageObserver;
 import java.awt.*;
-import java.util.*;
 import java.io.*;
-import CH.ifa.draw.util.*;
+import java.util.*;
 
 /**
  * DrawingView renders a Drawing and listens to its changes.
@@ -99,6 +98,12 @@ public interface DrawingView extends ImageObserver, DrawingChangeListener {
      * @see Painter
      */
     public void setDisplayUpdate(Painter updateStrategy);
+
+    /**
+     * Gets the current display update strategy.
+     * @see Painter
+     */
+    public Painter getDisplayUpdate();
 
     /**
      * Gets the currently selected figures.
@@ -211,7 +216,7 @@ public interface DrawingView extends ImageObserver, DrawingChangeListener {
     public Color getBackground();
 
     /**
-     * Gets the background color of the DrawingView
+     * Sets the background color of the DrawingView
      */
     public void setBackground(Color c);
 
@@ -262,4 +267,16 @@ public interface DrawingView extends ImageObserver, DrawingChangeListener {
      * @see Drawing#unlock
      */
     public void unfreezeView();
+
+	/**
+	 * Add a listener for selection changes in this DrawingView.
+	 * @param fsl jhotdraw.framework.FigureSelectionListener
+	 */
+	public void addFigureSelectionListener(FigureSelectionListener fsl);
+	
+	/**
+	 * Remove a listener for selection changes in this DrawingView.
+	 * @param fsl jhotdraw.framework.FigureSelectionListener
+	 */
+	public void removeFigureSelectionListener(FigureSelectionListener fsl);
 }

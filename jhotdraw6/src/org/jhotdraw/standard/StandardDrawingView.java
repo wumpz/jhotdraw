@@ -35,6 +35,11 @@ public  class StandardDrawingView
     transient private DrawingEditor   fEditor;
 
     /**
+	 * the registered listeners for selection changes
+	 */
+	private transient Vector fSelectionListeners;
+	
+    /**
      * The shown drawing.
      */
     private Drawing         fDrawing;
@@ -104,6 +109,8 @@ public  class StandardDrawingView
     public StandardDrawingView(DrawingEditor editor, int width, int height) {
         fEditor = editor;
         fViewSize = new Dimension(width,height);
+		fSelectionListeners = new Vector();
+		addFigureSelectionListener(editor());
         fLastClick = new Point(0, 0);
         fConstrainer = null;
         fSelection = new Vector();
@@ -129,7 +136,7 @@ public  class StandardDrawingView
      * Gets the current tool.
      */
     public Tool tool() {
-        return fEditor.tool();
+        return editor().tool();
     }
 
     /**
@@ -212,6 +219,14 @@ public  class StandardDrawingView
     }
 
     /**
+     * Sets the current display update strategy.
+     * @see Painter
+     */
+    public Painter getDisplayUpdate() {
+        return fUpdateStrategy;
+    }
+
+    /**
      * Gets the currently selected figures.
      * @return a vector with the selected figures. The vector
      * is a copy of the current selection.
@@ -262,7 +277,7 @@ public  class StandardDrawingView
             fSelection.addElement(figure);
             fSelectionHandles = null;
             figure.invalidate();
-            selectionChanged();
+            fireSelectionChanged();
         }
     }
 
@@ -283,7 +298,7 @@ public  class StandardDrawingView
             fSelection.removeElement(figure);
             fSelectionHandles = null;
             figure.invalidate();
-            selectionChanged();
+            fireSelectionChanged();
         }
     }
 
@@ -296,7 +311,7 @@ public  class StandardDrawingView
             removeFromSelection(figure);
         else
             addToSelection(figure);
-        selectionChanged();
+        fireSelectionChanged();
     }
 
     /**
@@ -311,7 +326,7 @@ public  class StandardDrawingView
             k.nextFigure().invalidate();
         fSelection = new Vector();
         fSelectionHandles = null;
-        selectionChanged();
+        fireSelectionChanged();
     }
 
     /**
@@ -336,7 +351,7 @@ public  class StandardDrawingView
      * can be cut, copied, pasted.
      */
     public FigureSelection getFigureSelection() {
-        return new FigureSelection(selectionZOrdered());
+        return new StandardFigureSelection(selectionZOrdered());
     }
 
     /**
@@ -360,8 +375,13 @@ public  class StandardDrawingView
      * By default this event is forwarded to the
      * drawing editor.
      */
-    protected void selectionChanged() {
-        fEditor.selectionChanged(this);
+    protected void fireSelectionChanged() {
+		if (fSelectionListeners != null) {
+			for (int i = 0; i < fSelectionListeners.size(); i++) {
+				FigureSelectionListener l = (FigureSelectionListener)fSelectionListeners.elementAt(i);
+				l.figureSelectionChanged(this);
+    }
+		}
     }
 
     /**
@@ -495,7 +515,6 @@ public  class StandardDrawingView
         moveSelection(dx, dy);
     }
 
-
     private void moveSelection(int dx, int dy) {
         FigureEnumeration figures = selectionElements();
         while (figures.hasMoreElements())
@@ -535,21 +554,14 @@ public  class StandardDrawingView
         repairDamage();
     }
 
-    /**
-     * Updates the drawing view.
-     */
-    public void update(Graphics g) {
-        paint(g);
-    }
-
-    /**
-     * Paints the drawing view. The actual drawing is delegated to
-     * the current update strategy.
-     * @see Painter
-     */
-    public void paint(Graphics g) {
-        fUpdateStrategy.draw(g, this);
-    }
+	/**
+	 * Paints the drawing view. The actual drawing is delegated to
+	 * the current update strategy.
+	 * @see Painter
+	 */
+	protected void paintComponent(Graphics g) {
+		getDisplayUpdate().draw(g, this);
+	}
 
     /**
      * Draws the contents of the drawing view.
@@ -679,6 +691,7 @@ public  class StandardDrawingView
         fSelection = new Vector(); // could use lazy initialization instead
         if (fDrawing != null)
             fDrawing.addDrawingChangeListener(this);
+		fSelectionListeners= new Vector();
     }
 
     private void checkMinimumSize() {
@@ -706,4 +719,20 @@ public  class StandardDrawingView
     public void mouseClicked(MouseEvent e) {}
     public void keyTyped(KeyEvent e) {}
     public void keyReleased(KeyEvent e) {}
+
+	/**
+	 * Add a listener for selection changes.
+	 * @param fsl jhotdraw.framework.FigureSelectionListener
+	 */
+	public void addFigureSelectionListener(FigureSelectionListener fsl) {
+		fSelectionListeners.add(fsl);
+	}
+
+	/**
+	 * Remove a listener for selection changes.
+	 * @param fsl jhotdraw.framework.FigureSelectionListener
+	 */
+	public void removeFigureSelectionListener(FigureSelectionListener fsl) {
+		fSelectionListeners.remove(fsl);
+	}
 }
