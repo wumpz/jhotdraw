@@ -16,6 +16,7 @@ import CH.ifa.draw.standard.NullDrawingView;
 import CH.ifa.draw.util.CollectionsFactory;
 
 import java.util.List;
+import java.util.ListIterator;
 import java.awt.event.ContainerAdapter;
 import java.awt.event.ContainerListener;
 import java.awt.event.ContainerEvent;
@@ -65,7 +66,7 @@ public class DesktopEventService {
 
 	public void removeComponent(DrawingView dv) {
 		Component[] comps = getContainer().getComponents();
-		for (int x=0; x < comps.length; x++) {
+		for (int x = 0; x < comps.length; x++) {
 			if (dv == Helper.getDrawingView(comps[x])) {
 				getContainer().remove(comps[x]);
 			    break;
@@ -86,24 +87,18 @@ public class DesktopEventService {
 	}
 
 	protected void fireDrawingViewAddedEvent(final DrawingView dv) {
-		java.util.ListIterator li= listeners.listIterator(listeners.size());
-		DesktopEvent dpe = null;
-		while(li.hasPrevious()){
-			if (dpe == null) {
-				dpe = createDesktopEvent(getActiveDrawingView(), dv);
-			}
+		ListIterator li= listeners.listIterator(listeners.size());
+		DesktopEvent dpe = createDesktopEvent(getActiveDrawingView(), dv);
+		while (li.hasPrevious()) {
 			DesktopListener dpl = (DesktopListener)li.previous();
 			dpl.drawingViewAdded(dpe);
 		}
 	}
 
 	protected void fireDrawingViewRemovedEvent(final DrawingView dv) {
-		java.util.ListIterator li= listeners.listIterator(listeners.size());
-		DesktopEvent dpe = null;
-		while(li.hasPrevious()){
-			if (dpe == null) {
-				dpe = createDesktopEvent(getActiveDrawingView(), dv);
-			}
+		ListIterator li= listeners.listIterator(listeners.size());
+		DesktopEvent dpe = createDesktopEvent(getActiveDrawingView(), dv);
+		while (li.hasPrevious()) {
 			DesktopListener dpl = (DesktopListener)li.previous();
 			dpl.drawingViewRemoved(dpe);
 		}
@@ -113,12 +108,9 @@ public class DesktopEventService {
 	 * This method is only called if the selected drawingView has actually changed
 	 */
 	protected void fireDrawingViewSelectedEvent(final DrawingView oldView, final DrawingView newView) {
-		java.util.ListIterator li= listeners.listIterator(listeners.size());
-		DesktopEvent dpe = null;
-		while(li.hasPrevious()){
-			if (dpe == null) {
-				dpe = createDesktopEvent(oldView, newView);
-			}
+		ListIterator li= listeners.listIterator(listeners.size());
+		DesktopEvent dpe = createDesktopEvent(oldView, newView);
+		while (li.hasPrevious()) {
 			DesktopListener dpl = (DesktopListener)li.previous();
 			dpl.drawingViewSelected(dpe);
 		}

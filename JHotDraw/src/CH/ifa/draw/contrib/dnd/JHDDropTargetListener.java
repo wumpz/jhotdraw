@@ -103,7 +103,7 @@ public class JHDDropTargetListener implements java.awt.dnd.DropTargetListener {
 				dtde.acceptDrop(dtde.getDropAction());
 				try { /* protection from a malicious dropped object */
 					setTargetUndoActivity( createTargetUndoActivity( view() ) );
-					DNDFigures ff = (DNDFigures)DNDHelper.ProcessReceivedData(DNDFiguresTransferable.DNDFiguresFlavor, dtde.getTransferable());
+					DNDFigures ff = (DNDFigures)DNDHelper.processReceivedData(DNDFiguresTransferable.DNDFiguresFlavor, dtde.getTransferable());
 					getTargetUndoActivity().setAffectedFigures( ff.getFigures() );
 					Point theO = ff.getOrigin();
 					view().clearSelection();
@@ -141,7 +141,7 @@ public class JHDDropTargetListener implements java.awt.dnd.DropTargetListener {
 		else if (dtde.isDataFlavorSupported(DataFlavor.stringFlavor)) {
 			log("String flavor dropped.");
 			dtde.acceptDrop(dtde.getDropAction());
-			Object o = DNDHelper.ProcessReceivedData(DataFlavor.stringFlavor, dtde.getTransferable());
+			Object o = DNDHelper.processReceivedData(DataFlavor.stringFlavor, dtde.getTransferable());
 			if (o != null) {
 				log("Received string flavored data.");
 				dtde.getDropTargetContext().dropComplete(true);
@@ -153,7 +153,7 @@ public class JHDDropTargetListener implements java.awt.dnd.DropTargetListener {
 		else if (dtde.isDataFlavorSupported(DNDHelper.ASCIIFlavor) == true) {
 			log("ASCII Flavor dropped.");
 			dtde.acceptDrop(DnDConstants.ACTION_COPY);
-			Object o = DNDHelper.ProcessReceivedData(DNDHelper.ASCIIFlavor, dtde.getTransferable());
+			Object o = DNDHelper.processReceivedData(DNDHelper.ASCIIFlavor, dtde.getTransferable());
 			if (o!= null) {
 				log("Received ASCII Flavored data.");
 				dtde.getDropTargetContext().dropComplete(true);
@@ -166,7 +166,7 @@ public class JHDDropTargetListener implements java.awt.dnd.DropTargetListener {
 		else if (dtde.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
 			log("Java File List Flavor dropped.");
 			dtde.acceptDrop(DnDConstants.ACTION_COPY);
-			File [] fList = (File[]) DNDHelper.ProcessReceivedData(DataFlavor.javaFileListFlavor, dtde.getTransferable());
+			File [] fList = (File[]) DNDHelper.processReceivedData(DataFlavor.javaFileListFlavor, dtde.getTransferable());
 			if (fList != null) {
 				log("Got list of files.");
 				for (int x=0; x< fList.length; x++ ) {

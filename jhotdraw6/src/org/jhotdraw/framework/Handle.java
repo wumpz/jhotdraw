@@ -49,8 +49,10 @@ public interface Handle {
 	public void invokeStart(int  x, int  y, Drawing drawing);
 
 	/**
-	 * Tracks the start of the interaction. The default implementation does
-	 * nothing.
+	 * Tracks the start of the interaction. The default implementation
+	 * does nothing.
+	 * @deprecated As of version 4.1,
+	 * use invokeStart(x, y, drawingView)
 	 * @param x the x position where the interaction started
 	 * @param y the y position where the interaction started
 	 * @param view the handles container

@@ -569,5 +569,5 @@ public class DrawApplet
 		requiredVersions[0] = VersionManagement.getPackageVersion(DrawApplet.class.getPackage());
 		return requiredVersions;
 	}
-
 }
+

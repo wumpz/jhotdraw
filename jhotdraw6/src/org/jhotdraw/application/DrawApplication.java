@@ -21,6 +21,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.ListIterator;
 
 /**
  * DrawApplication defines a standard presentation for
@@ -230,6 +231,8 @@ public	class DrawApplication
 		else {
 			r.run();
 		}
+
+		toolDone();
 	}
 
 	/**
@@ -241,13 +244,15 @@ public	class DrawApplication
 				public void windowClosing(WindowEvent event) {
 					endApp();
 				}
+
 				public void windowOpened(WindowEvent event) {
 					winCount++;
 				}
+
 				public void windowClosed(WindowEvent event) {
 					if (--winCount == 0) {
 						System.exit(0);
-					}					
+					}
 				}
 			}
 		);
@@ -819,24 +824,24 @@ public	class DrawApplication
 	 * usually not needed in SDI environments.
 	 */
 	protected void fireViewSelectionChangedEvent(DrawingView oldView, DrawingView newView) {
-		java.util.ListIterator li= listeners.listIterator(listeners.size());
-		while(li.hasPrevious()){
+		ListIterator li= listeners.listIterator(listeners.size());
+		while (li.hasPrevious()) {
 			ViewChangeListener vsl = (ViewChangeListener)li.previous();
 			vsl.viewSelectionChanged(oldView, newView);
 		}
 	}
 
 	protected void fireViewCreatedEvent(DrawingView view) {
-		java.util.ListIterator li= listeners.listIterator(listeners.size());
-		while(li.hasPrevious()){
+		ListIterator li= listeners.listIterator(listeners.size());
+		while (li.hasPrevious()) {
 			ViewChangeListener vsl = (ViewChangeListener)li.previous();
 			vsl.viewCreated(view);
 		}
 	}
 
 	protected void fireViewDestroyingEvent(DrawingView view) {
-		java.util.ListIterator li= listeners.listIterator(listeners.size());
-		while(li.hasPrevious()){
+		ListIterator li= listeners.listIterator(listeners.size());
+		while (li.hasPrevious()) {
 			ViewChangeListener vsl = (ViewChangeListener)li.previous();
 			vsl.viewDestroying( view );
 		}
@@ -884,17 +889,17 @@ public	class DrawApplication
 
 	/**
 	 * Exits the application. You should never override this method
-	 *
 	 */
 	public void exit() {
 		destroy();
 	   // tell windowing system to free resources
 		dispose();	
-
 	}
+
 	protected boolean closeQuery(){
 		return true;
 	}
+
 	protected void endApp(){
 		if(closeQuery() == true) {
 			exit();
@@ -932,7 +937,8 @@ public	class DrawApplication
 			}
 			if (foundFormat != null) {
 				loadDrawing(foundFormat, openDialog.getSelectedFile().getAbsolutePath());
-			}	else {
+			}
+			else {
 				showStatus("Not a valid file format: " + openDialog.getFileFilter().getDescription());
 			}
 		}

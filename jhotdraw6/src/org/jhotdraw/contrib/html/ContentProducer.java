@@ -1,12 +1,12 @@
 /*
- *  @(#)TextAreaFigure.java
+ * @(#)ContentProducer.java
  *
- *  Project:		JHotdraw - a GUI framework for technical drawings
- *  http://www.jhotdraw.org
- *  http://jhotdraw.sourceforge.net
- *  Copyright:	© by the original author(s) and all contributors
- *  License:		Lesser GNU Public License (LGPL)
- *  http://www.opensource.org/licenses/lgpl-license.html
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 package CH.ifa.draw.contrib.html;
 
@@ -27,14 +27,14 @@ import CH.ifa.draw.util.Storable;
  * an in-memory object, a setting from a configuration file, or even a field in
  * a database record.</li>
  *
- * @author    Eduardo Francos - InContext
- * @created   30 avril 2002
- * @version   1.0
- * @todo      should entity names be merged with the attribute names defined
+ * @author  Eduardo Francos - InContext
+ * @created 30 avril 2002
+ * @version <$CURRENT_VERSION$>
+ * @todo    should entity names be merged with the attribute names defined
  * in FigureAttributeConstant?
  */
-
 public interface ContentProducer extends Storable {
+
 	/** Entity name for the figure's current x position in pixels */
 	public final static String ENTITY_FIGURE_POSX = "FigurePosX";
 
@@ -64,7 +64,6 @@ public interface ContentProducer extends Storable {
 
 	/** Entity name for the figure's current font style */
 	public final static String ENTITY_FONT_STYLE = "FontStyle";
-
 
 	/**
 	 * Produces the contents

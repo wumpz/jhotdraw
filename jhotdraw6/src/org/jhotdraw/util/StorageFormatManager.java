@@ -113,12 +113,13 @@ public class StorageFormatManager {
 				}
 			}
 
-			// set a current activated file filter if a default storage Format has been defined
+		// set a current activated file filter if a default storage Format has been defined
 			sf = getDefaultStorageFormat();
 			if (sf != null && sf.isRestoreFormat()) {
 				fileChooser.setFileFilter(sf.getFileFilter());
 			}
-		} else if (fileChooser.getDialogType() == JFileChooser.SAVE_DIALOG) {
+		}
+		else if (fileChooser.getDialogType() == JFileChooser.SAVE_DIALOG) {
 			// behavior for save dialogs
 			StorageFormat sf;
 			for (Iterator e = myStorageFormats.iterator(); e.hasNext();) {
@@ -133,7 +134,8 @@ public class StorageFormatManager {
 			if (sf != null && sf.isStoreFormat()) {
 				fileChooser.setFileFilter(sf.getFileFilter());
 			}
-		} else {
+		}
+		else {
 			// old behavior
 			StorageFormat sf;
 			for (Iterator e = myStorageFormats.iterator(); e.hasNext();) {

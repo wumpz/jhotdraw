@@ -26,9 +26,9 @@ import java.awt.dnd.*;
  * @version <$CURRENT_VERSION$>
  */
 public interface DNDInterface {
-//	public void setDragSourceState(boolean state);
 	public void DNDInitialize(DragGestureListener dgl);
 	public void DNDDeinitialize();
+
 	/**
 	 * When the DNDTool starts a drag action, it queries the interface for the
 	 * dragSourceListener of the source view.  It uses this listener to create

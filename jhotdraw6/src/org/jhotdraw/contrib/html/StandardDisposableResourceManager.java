@@ -1,12 +1,12 @@
 /*
- *  @(#)TextAreaFigure.java
+ * @(#)StandardDisposableResourceManager.java
  *
- *  Project:		JHotdraw - a GUI framework for technical drawings
- *  http://www.jhotdraw.org
- *  http://jhotdraw.sourceforge.net
- *  Copyright:	© by the original author(s) and all contributors
- *  License:		Lesser GNU Public License (LGPL)
- *  http://www.opensource.org/licenses/lgpl-license.html
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 package CH.ifa.draw.contrib.html;
 
@@ -18,18 +18,17 @@ import java.util.WeakHashMap;
  * StandardDisposableResourceManager implements disposable resource management
  * using a client supplied strategy.<br>
  *
- * @author    Eduardo Francos - InContext
- * @created   2 mai 2002
- * @version   1.0
+ * @author  Eduardo Francos - InContext
+ * @created 2 mai 2002
+ * @version <$CURRENT_VERSION$>
  */
-
 public class StandardDisposableResourceManager implements DisposableResourceManager {
+
 	/** The registered resources */
-	protected WeakHashMap resources;
+	private WeakHashMap resources;
 
 	/** The disposing strategy */
-	protected ResourceDisposabilityStrategy strategy;
-
+	private ResourceDisposabilityStrategy strategy;
 
 	/**
 	 *Constructor for the StandardDisposableResourceManager object
@@ -38,10 +37,9 @@ public class StandardDisposableResourceManager implements DisposableResourceMana
 	 */
 	public StandardDisposableResourceManager(ResourceDisposabilityStrategy strategy) {
 		resources = new WeakHashMap();
-		this.strategy = strategy;
-		strategy.setManager(this);
+		setStrategy(strategy);
+		getStrategy().setManager(this);
 	}
-
 
 	/**
 	 * Registers a resource to be automatically disposed of
@@ -51,7 +49,6 @@ public class StandardDisposableResourceManager implements DisposableResourceMana
 	public synchronized void registerResource(DisposableResourceHolder resource) {
 		resources.put(resource, resource);
 	}
-
 
 	/**
 	 * Unregisters a resource so it is not automatically GCed.<br>
@@ -63,7 +60,6 @@ public class StandardDisposableResourceManager implements DisposableResourceMana
 		resources.remove(resource);
 	}
 
-
 	/**
 	 * Gets an iterator on the managed resources
 	 *
@@ -72,7 +68,6 @@ public class StandardDisposableResourceManager implements DisposableResourceMana
 	public Iterator getResources() {
 		return resources.values().iterator();
 	}
-
 
 	/**
 	 * Description of the Method
@@ -84,7 +79,6 @@ public class StandardDisposableResourceManager implements DisposableResourceMana
 		return resources.containsValue(resource);
 	}
 
-
 	/**
 	 * Gets the strategy attribute of the StandardDisposableResourceManager object
 	 *
@@ -93,7 +87,6 @@ public class StandardDisposableResourceManager implements DisposableResourceMana
 	public ResourceDisposabilityStrategy getStrategy() {
 		return strategy;
 	}
-
 
 	/**
 	 * Sets the strategy attribute of the StandardDisposableResourceManager object
@@ -104,17 +97,14 @@ public class StandardDisposableResourceManager implements DisposableResourceMana
 		strategy = newStrategy;
 	}
 
-
 	/**
 	 * Activates the strategy which starts disposing of resources as fitted
 	 *
 	 * @exception ResourceManagerNotSetException  Description of the Exception
 	 */
-	public void startDisposing()
-		throws ResourceManagerNotSetException {
-		strategy.startDisposing();
+	public void startDisposing() throws ResourceManagerNotSetException {
+		getStrategy().startDisposing();
 	}
-
 
 	/**
 	 * Deactivates the strategy that stops automatic disposal of resource.<br>
@@ -125,6 +115,6 @@ public class StandardDisposableResourceManager implements DisposableResourceMana
 	 * @param millis  time to wait for disposal to stop
 	 */
 	public void stopDisposing(long millis) {
-		strategy.stopDisposing(millis);
+		getStrategy().stopDisposing(millis);
 	}
 }

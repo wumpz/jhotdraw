@@ -11,7 +11,6 @@
 
 package CH.ifa.draw.framework;
 
-
 /**
  * Listener interested in Drawing changes.
  *

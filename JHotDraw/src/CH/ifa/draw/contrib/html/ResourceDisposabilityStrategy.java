@@ -1,12 +1,12 @@
 /*
- *  @(#)TextAreaFigure.java
+ * @(#)ResourceDisposabilityStrategy.java
  *
- *  Project:		JHotdraw - a GUI framework for technical drawings
- *  http://www.jhotdraw.org
- *  http://jhotdraw.sourceforge.net
- *  Copyright:	© by the original author(s) and all contributors
- *  License:		Lesser GNU Public License (LGPL)
- *  http://www.opensource.org/licenses/lgpl-license.html
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 package CH.ifa.draw.contrib.html;
 
@@ -17,12 +17,12 @@ package CH.ifa.draw.contrib.html;
  * be efficiently disposed of. A smarter the strategy leads to few resource
  * regeneration.
  *
- * @author    Eduardo Francos - InContext
- * @created   2 mai 2002
- * @version   1.0
+ * @author  Eduardo Francos - InContext
+ * @created 2 mai 2002
+ * @version <$CURRENT_VERSION$>
  */
-
 public interface ResourceDisposabilityStrategy {
+
 	/**
 	 * Sets the manager holding the resources for this strategy
 	 *
@@ -38,15 +38,12 @@ public interface ResourceDisposabilityStrategy {
 	 */
 	public DisposableResourceManager getManager();
 
-
 	/**
 	 * Activates the strategy which starts disposing of resources as fitted
 	 *
 	 * @exception ResourceManagerNotSetException  Description of the Exception
 	 */
-	public void startDisposing()
-		throws ResourceManagerNotSetException;
-
+	public void startDisposing() throws ResourceManagerNotSetException;
 
 	/**
 	 * Deactivates the strategy that stops automatic disposal of resource.<br>

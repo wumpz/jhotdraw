@@ -1,12 +1,12 @@
 /*
- *  @(#)TextAreaFigure.java
+ * @(#)HTMLLayouter.java
  *
- *  Project:		JHotdraw - a GUI framework for technical drawings
- *  http://www.jhotdraw.org
- *  http://jhotdraw.sourceforge.net
- *  Copyright:	© by the original author(s) and all contributors
- *  License:		Lesser GNU Public License (LGPL)
- *  http://www.opensource.org/licenses/lgpl-license.html
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 package CH.ifa.draw.contrib.html;
 
@@ -24,16 +24,14 @@ import CH.ifa.draw.util.StorableOutput;
  * HTMLLayouter implements the logic for laying out figures based on an
  * HTML template.
  *
- * @author    Eduardo Francos - InContext
- * @created   4 mai 2002
- * @version   1.0
+ * @author  Eduardo Francos - InContext
+ * @created 4 mai 2002
+ * @version <$CURRENT_VERSION$>
  */
-
 public class HTMLLayouter implements Layouter {
 
 	/**Constructor for the HTMLLayouter object */
 	public HTMLLayouter() { }
-
 
 	/**
 	 * Constructor which associates a HTMLLayouter with
@@ -45,7 +43,6 @@ public class HTMLLayouter implements Layouter {
 		this();
 //		setLayoutable(newLayoutable);
 	}
-
 
 	/**
 	 * Description of the Method
@@ -61,7 +58,6 @@ public class HTMLLayouter implements Layouter {
 		throw new UnsupportedOperationException("Method calculateLayout() not yet implemented.");
 	}
 
-
 	/**
 	 * Description of the Method
 	 *
@@ -76,7 +72,6 @@ public class HTMLLayouter implements Layouter {
 		throw new UnsupportedOperationException("Method layout() not yet implemented.");
 	}
 
-
 	/**
 	 * Sets the insets attribute of the HTMLLayouter object
 	 *
@@ -88,7 +83,6 @@ public class HTMLLayouter implements Layouter {
 		 */
 		throw new UnsupportedOperationException("Method setInsets() not yet implemented.");
 	}
-
 
 	/**
 	 * Gets the insets attribute of the HTMLLayouter object
@@ -102,7 +96,6 @@ public class HTMLLayouter implements Layouter {
 		throw new UnsupportedOperationException("Method getInsets() not yet implemented.");
 	}
 
-
 	/**
 	 * Description of the Method
 	 *
@@ -115,21 +108,18 @@ public class HTMLLayouter implements Layouter {
 		throw new UnsupportedOperationException("Method write() not yet implemented.");
 	}
 
-
 	/**
 	 * Description of the Method
 	 *
 	 * @param dr               Description of the Parameter
 	 * @exception IOException  Description of the Exception
 	 */
-	public void read(StorableInput dr)
-		throws IOException {
+	public void read(StorableInput dr) throws IOException {
 		/**
 		 * @todo:   Implement this CH.ifa.draw.util.Storable method
 		 */
 		throw new UnsupportedOperationException("Method read() not yet implemented.");
 	}
-
 
 	/**
 	 * Create a new instance of this type and sets the layoutable

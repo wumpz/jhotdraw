@@ -1,10 +1,12 @@
 /*
- * Created by IntelliJ IDEA.
- * User: Wolframk
- * Date: 19.06.2002
- * Time: 11:01:52
- * To change template for new class use 
- * Code Style | Class Templates options (Tools | IDE Options).
+ * @(#)MiniMapDesktop.java
+ *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 package CH.ifa.draw.samples.minimap;
 
@@ -17,6 +19,10 @@ import CH.ifa.draw.figures.ImageFigure;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * @author  Wolfram Kaiser <mrfloppy@sourceforge.net>
+ * @version <$CURRENT_VERSION$>
+ */
 public class MiniMapDesktop extends SplitPaneDesktop {
 
 	private String imageName = "/CH/ifa/draw/samples/javadraw/sampleimages/view.gif";

@@ -36,15 +36,15 @@ public interface StorageFormat {
 	 *
 	 * @return FileFilter to be used with a javax.swing.JFileChooser
 	 */
-	FileFilter getFileFilter();
-
+	public FileFilter getFileFilter();
+	
 	/**
 	 * Every format has to identify itself as able to store and/or restore from
 	 * the format it represents. If the storage format can save to the format, it
 	 * should return true in this method.
 	 * @return boolean <code>true</code> if the format can save
 	 */
-	boolean isStoreFormat();
+	public boolean isStoreFormat();
 
 	/**
 	 * Every format has to identify itself as able to store and/or restore from
@@ -52,7 +52,7 @@ public interface StorageFormat {
 	 * it should return true in this method.
 	 * @return boolean <code>true</code> if the format can load
 	 */
-	boolean isRestoreFormat(); 
+	public boolean isRestoreFormat(); 
 
 	/**
 	 * Store a Drawing under a given name.
@@ -61,14 +61,13 @@ public interface StorageFormat {
 	 * @param saveDrawing drawing to be saved
 	 * @return file name with correct file extension
 	 */
-	String store(String fileName, Drawing saveDrawing) throws IOException;
-
+	public String store(String fileName, Drawing saveDrawing) throws IOException;
+	
 	/**
 	 * Restore a Drawing from a file with a given name. 
 	 *
 	 * @param fileName of the file in which the Drawing has been saved
 	 * @return restored Drawing
 	 */
-	Drawing restore(String fileName) throws IOException;
-
+	public Drawing restore(String fileName) throws IOException;
 }

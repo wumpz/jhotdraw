@@ -1,12 +1,12 @@
 /*
- *  @(#)TextAreaFigure.java
+ * @(#)URLContentProducer.java
  *
- *  Project:		JHotdraw - a GUI framework for technical drawings
- *  http://www.jhotdraw.org
- *  http://jhotdraw.sourceforge.net
- *  Copyright:	© by the original author(s) and all contributors
- *  License:		Lesser GNU Public License (LGPL)
- *  http://www.opensource.org/licenses/lgpl-license.html
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 package CH.ifa.draw.contrib.html;
 
@@ -26,23 +26,23 @@ import CH.ifa.draw.util.StorableOutput;
  * It can either be specific if set for a specific URL, or generic, retrieving
  * any URL passed to the getContents method.
  *
- * @author    Eduardo Francos - InContext
- * @created   4 mai 2002
- * @version   1.0
- * @todo      should we cache the contents for specific URLs? this can
+ * @author  Eduardo Francos - InContext
+ * @created 4 mai 2002
+ * @version <$CURRENT_VERSION$>
+ * @todo    should we cache the contents for specific URLs? this can
  * accelerate things a lot for static documents, but for dynamic ones it
  * will complicate things. If cached then if must be in a DisposableResourceHolder
  */
-
 public class URLContentProducer extends FigureDataContentProducer
 		 implements Serializable {
+
 	/** the specific URL */
-	protected URL fURL = null;
+	private URL fURL;
 
-
-	/**Constructor for the URLContentProducer object */
+	/**
+	 * Constructor for the URLContentProducer object
+	 */
 	public URLContentProducer() { }
-
 
 	/**
 	 *Constructor for the URLContentProducer object
@@ -50,9 +50,8 @@ public class URLContentProducer extends FigureDataContentProducer
 	 * @param url  the specific URL
 	 */
 	public URLContentProducer(URL url) {
-		fURL = url;
+		setURL(url);
 	}
-
 
 	/**
 	 * Retrieves the contents of the URL pointed object
@@ -66,7 +65,7 @@ public class URLContentProducer extends FigureDataContentProducer
 		try {
 			// if we have our own URL then use it
 			// otherwise use the one supplied
-			URL url = (fURL != null) ? new URL(fURL.toExternalForm()) : new URL(((URL)ctxAttrValue).toExternalForm());
+			URL url = (getURL() != null) ? new URL(getURL().toExternalForm()) : new URL(((URL)ctxAttrValue).toExternalForm());
 
 			InputStream reader = url.openStream();
 			int available = reader.available();
@@ -81,7 +80,6 @@ public class URLContentProducer extends FigureDataContentProducer
 		}
 	}
 
-
 	/**
 	 * Writes the storable
 	 *
@@ -89,12 +87,11 @@ public class URLContentProducer extends FigureDataContentProducer
 	 */
 	public void write(StorableOutput dw) {
 		super.write(dw);
-		dw.writeBoolean((fURL != null));
-		if (fURL != null) {
-			dw.writeString(fURL.toExternalForm());
+		dw.writeBoolean((getURL() != null));
+		if (getURL() != null) {
+			dw.writeString(getURL().toExternalForm());
 		}
 	}
-
 
 	/**
 	 * Writes the storable
@@ -102,12 +99,19 @@ public class URLContentProducer extends FigureDataContentProducer
 	 * @param dr               the storable input
 	 * @exception IOException  thrown by called methods
 	 */
-	public void read(StorableInput dr)
-		throws IOException {
+	public void read(StorableInput dr) throws IOException {
 		super.read(dr);
 		boolean hasURL = dr.readBoolean();
 		if (hasURL) {
-			fURL = new URL(dr.readString());
+			setURL(new URL(dr.readString()));
 		}
+	}
+
+	public URL getURL() {
+		return fURL;
+	}
+
+	protected void setURL(URL newURL) {
+		fURL = newURL;
 	}
 }

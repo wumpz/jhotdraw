@@ -36,7 +36,7 @@ import java.awt.event.MouseEvent;
 
 public class SelectionTool extends AbstractTool {
 
-	private Tool fChild = null;
+	private Tool myDelegationTool = null;
 
 	public SelectionTool(DrawingEditor newDrawingEditor) {
 		super(newDrawingEditor);
@@ -134,10 +134,10 @@ public class SelectionTool extends AbstractTool {
 	}
 
 	protected Tool getDelegateTool() {
-		return fChild;
+		return myDelegationTool;
 	}
 
-	private void setDelegateTool(Tool newDelegateTool) {
-		fChild = newDelegateTool;
+	protected final void setDelegateTool(Tool newDelegateTool) {
+		myDelegationTool = newDelegateTool;
 	}
 }

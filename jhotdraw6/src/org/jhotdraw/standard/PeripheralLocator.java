@@ -45,29 +45,34 @@ public class PeripheralLocator extends AbstractLocator {
 		/* subtrace corners spacing */
 		//int insets = 2 * 4 * CORNERSPACE;
 
-	  //int spacing = circumference/(fPPS*4 +4);
+		//int spacing = circumference/(fPPS*4 +4);
 		float hSpacing = (float)r.width / (fPPS +1);
 		float vSpacing = (float)r.height / (fPPS +1);
 
-		int x,y;
-		if (fIndex < fPPS) { //north
+		int x = 0;
+		int y = 0;
+		if (fIndex < fPPS) {
+			//north
 			x = Math.round((fIndex + 1.0f ) * hSpacing);
 			y = 0;
 		}
-		else if (fIndex < fPPS*2) { //east
-			x = Math.round((fPPS + 1 )* hSpacing) ;//r.width;
+		else if (fIndex < (fPPS*2)) {
+			//east
+			x = Math.round((fPPS + 1 ) * hSpacing) ;//r.width;
 			y = Math.round((fIndex +1 - fPPS) * vSpacing);  //should be negative?
 		}
-		else if (fIndex < fPPS*3) { //south
+		else if (fIndex < (fPPS*3)) {
+			//south
 			x = Math.round(((fPPS + 1 ) - (fIndex +1 - fPPS*2))* hSpacing);
 			y = Math.round((fPPS + 1 )* vSpacing) /*r.height*/;
 		}
-		else {    //west
-		    x = 0;
+		else {
+			//west
+			x = 0;
 			y = Math.round(((fPPS +1) - (fIndex +1 - fPPS*3))*vSpacing);
 		}
-		x=x+r.x;
-		y=y+r.y;
-		return new Point((int)x,(int)y);
+		x = x+r.x;
+		y = y+r.y;
+		return new Point((int)x, (int)y);
     }
 }

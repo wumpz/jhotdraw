@@ -1,12 +1,12 @@
 /*
- *  @(#)TextAreaFigure.java
+ * @(#)ResourceContentProducer.java
  *
- *  Project:		JHotdraw - a GUI framework for technical drawings
- *  http://www.jhotdraw.org
- *  http://jhotdraw.sourceforge.net
- *  Copyright:	© by the original author(s) and all contributors
- *  License:		Lesser GNU Public License (LGPL)
- *  http://www.opensource.org/licenses/lgpl-license.html
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 package CH.ifa.draw.contrib.html;
 
@@ -25,30 +25,29 @@ import CH.ifa.draw.util.StorableOutput;
  * It can either be specific if set for a specific resource, or generic, retrieving
  * any resource passed to the getContents method.
  *
- * @author    Eduardo Francos - InContext
- * @created   1 mai 2002
- * @version   1.0
+ * @author  Eduardo Francos - InContext
+ * @created 1 mai 2002
+ * @version <$CURRENT_VERSION$>
  */
-
 public class ResourceContentProducer extends AbstractContentProducer
 		 implements Serializable {
+
 	/** Description of the Field */
-	protected String fResourceName = null;
-
-
-	/**Constructor for the ResourceContentProducer object */
-	public ResourceContentProducer() { }
-
+	private String fResourceName;
 
 	/**
-	 *Constructor for the ResourceContentProducer object
+	 * Constructor for the ResourceContentProducer object
+	 */
+	public ResourceContentProducer() { }
+
+	/**
+	 * Constructor for the ResourceContentProducer object
 	 *
 	 * @param resourceName  Description of the Parameter
 	 */
 	public ResourceContentProducer(String resourceName) {
-		fResourceName = resourceName;
+		setResourceName(resourceName);
 	}
-
 
 	/**
 	 * Gets the content attribute of the ResourceContentProducer object
@@ -62,7 +61,7 @@ public class ResourceContentProducer extends AbstractContentProducer
 		try {
 			// if we have our own resource then use it
 			// otherwise use the one supplied
-			String resourceName = (fResourceName != null) ? fResourceName : (String)ctxAttrValue;
+			String resourceName = (getResourceName() != null) ? getResourceName() : (String)ctxAttrValue;
 
 			InputStream reader = this.getClass().getResourceAsStream(resourceName);
 			int available = reader.available();
@@ -77,7 +76,6 @@ public class ResourceContentProducer extends AbstractContentProducer
 		}
 	}
 
-
 	/**
 	 * Writes the storable
 	 *
@@ -85,9 +83,8 @@ public class ResourceContentProducer extends AbstractContentProducer
 	 */
 	public void write(StorableOutput dw) {
 		super.write(dw);
-		dw.writeString(fResourceName);
+		dw.writeString(getResourceName());
 	}
-
 
 	/**
 	 * Writes the storable
@@ -95,9 +92,16 @@ public class ResourceContentProducer extends AbstractContentProducer
 	 * @param dr               the storable input
 	 * @exception IOException  thrown by called methods
 	 */
-	public void read(StorableInput dr)
-		throws IOException {
-			super.read(dr);
-		fResourceName = (String)dr.readString();
+	public void read(StorableInput dr) throws IOException {
+		super.read(dr);
+		setResourceName (dr.readString());
+	}
+
+	public String getResourceName() {
+		return fResourceName;
+	}
+
+	protected void setResourceName(String newResourceName) {
+		fResourceName = newResourceName;
 	}
 }

@@ -84,6 +84,7 @@ public  class GroupFigure extends CompositeFigure {
 			fe.nextFigure().setAttribute(name, value);
 		}
 	}
+
 	/**
 	 * Sets the attribute of the GroupFigure as well as all contained Figures.
 	 */

@@ -42,7 +42,7 @@ public  class JavaDrawApp extends MDI_DrawApplication {
 
 	/**
 	 * Expose constructor for benefit of subclasses.
-	 * 
+	 *
 	 * @param title The window title for this application's frame.
 	 */
 	public JavaDrawApp(String title) {
@@ -59,8 +59,13 @@ public  class JavaDrawApp extends MDI_DrawApplication {
 		return new JavaDrawApp();
 	}
 
-	protected DrawingView createDrawingView() {
-		return new ZoomDrawingView(this);
+	protected DrawingView createDrawingView(Drawing newDrawing) {
+		Dimension d = getDrawingViewSize();
+		DrawingView newDrawingView = new ZoomDrawingView(this, d.width, d.height);
+		newDrawingView.setDrawing(newDrawing);
+		// notify listeners about created view when the view is added to the desktop
+		//fireViewCreatedEvent(newDrawingView);
+		return newDrawingView;
 	}
 
 	//-- application life cycle --------------------------------------------
@@ -249,19 +254,11 @@ public  class JavaDrawApp extends MDI_DrawApplication {
 
 		return menu;
 	}
-	protected boolean closeQuery(){
-		int reply = JOptionPane.showConfirmDialog(this,
-													  "Do you really want to exit?",
-													  "JHotDraw - Exit" ,
-													  JOptionPane.YES_NO_OPTION,
-													  JOptionPane.QUESTION_MESSAGE);
-		return (reply == JOptionPane.YES_OPTION);
-	}
+
 	//-- main -----------------------------------------------------------
 
 	public static void main(String[] args) {
 		JavaDrawApp window = new JavaDrawApp();
 		window.open();
 	}
-	
 }

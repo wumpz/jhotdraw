@@ -44,7 +44,7 @@ public class JHDDragSourceListener implements java.awt.dnd.DragSourceListener {
                 log("DragSourceDropEvent-ACTION_MOVE");
 				//get the flavor in order of ease of use here.
 				setSourceUndoActivity(  createSourceUndoActivity( view ) );
-				DNDFigures df = (DNDFigures)DNDHelper.ProcessReceivedData(DNDFiguresTransferable.DNDFiguresFlavor, dsde.getDragSourceContext().getTransferable());
+				DNDFigures df = (DNDFigures)DNDHelper.processReceivedData(DNDFiguresTransferable.DNDFiguresFlavor, dsde.getDragSourceContext().getTransferable());
 				getSourceUndoActivity().setAffectedFigures( df.getFigures() );
 
 				//all this visitation needs to be hidden in a view method.

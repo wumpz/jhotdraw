@@ -398,8 +398,9 @@ public class TextAreaFigure extends AttributeFigure
 			savedFontColor = g2.getColor();
 			savedClipArea = g2.getClip();
 			if(savedClipArea != null) {
-			clipRect = displayBox.createIntersection((Rectangle2D)savedClipArea);
-			} else {
+				clipRect = displayBox.createIntersection((Rectangle2D)savedClipArea);
+			}
+			else {
 				clipRect = displayBox;
 			}
 			g2.setClip(clipRect);
@@ -634,8 +635,8 @@ public class TextAreaFigure extends AttributeFigure
 	 * A text area figure uses the "LeftMargin", "RightMargin", "TopMargin",
 	 * "TabSize", "FontSize", "FontStyle", and "FontName" attributes
 	 *
-	 * @param name  the attribute's name
-	 * @return      The attribute value
+	 * @param name the attribute's name
+	 * @return     the attribute value
 	 * @deprecated use getAttribute(FigureAttributeConstant)
 	 */
 	public Object getAttribute(String name) {
@@ -648,8 +649,8 @@ public class TextAreaFigure extends AttributeFigure
 	 * "TopMargin", "TabSize", "FontSize", "FontStyle", and "FontName"
 	 * attributes
 	 *
-	 * @param name   The new attribute name
-	 * @param value  The new attribute value
+	 * @param name  the new attribute name
+	 * @param value the new attribute value
 	 * @deprecated use setAttribute(FigureAttributeConstant, Object)
 	 */
 	public void setAttribute(String name, Object value) {

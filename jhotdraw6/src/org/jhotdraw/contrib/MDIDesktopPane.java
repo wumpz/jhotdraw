@@ -12,7 +12,9 @@
 package CH.ifa.draw.contrib;
 
 import CH.ifa.draw.framework.DrawingView;
+import CH.ifa.draw.standard.NullDrawingView;
 import CH.ifa.draw.application.DrawApplication;
+import CH.ifa.draw.util.CollectionsFactory;
 
 import javax.swing.*;
 import javax.swing.event.InternalFrameListener;
@@ -20,6 +22,7 @@ import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 import java.awt.*;
 import java.beans.*;
+import java.util.ListIterator;
 
 /**
  * An extension of JDesktopPane that supports often used MDI functionality. This
@@ -37,16 +40,12 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 	private static int FRAME_OFFSET=20;
 	private MDIDesktopManager manager;
 	private DrawApplication myDrawApplication;
+	private DesktopEventService myDesktopEventService;
 
 	private DrawingView selectedView;
-	/**
-	 * The usage of this List for listeners is not thread safe, but should not
-	 * need to be.
-	 */
-	private java.util.List listeners;
-	
+
 	public MDIDesktopPane(DrawApplication newDrawApplication) {
-		listeners = CH.ifa.draw.util.CollectionsFactory.current().createList();
+		setDesktopEventService(createDesktopEventService());
 		setDrawApplication(newDrawApplication);
 		manager=new MDIDesktopManager(this);
 		setDesktopManager(manager);
@@ -82,8 +81,9 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 		public void internalFrameClosed(InternalFrameEvent e) {
 			DrawingView dv = Helper.getDrawingView(e.getInternalFrame());
 			if (getComponentCount() == 0){
-				setActiveDrawingView(null);
-				fireDrawingViewSelectedEvent(getActiveDrawingView());
+				DrawingView oldView = getActiveDrawingView();
+				setActiveDrawingView(NullDrawingView.getManagedDrawingView(oldView.editor()));
+				fireDrawingViewSelectedEvent(oldView, getActiveDrawingView());
 			}
 			fireDrawingViewRemovedEvent(dv);
 		}
@@ -111,8 +111,9 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 		 */
 		public void internalFrameActivated(InternalFrameEvent e) {
 			DrawingView dv = Helper.getDrawingView(e.getInternalFrame());
+			DrawingView oldView = getActiveDrawingView();
 			setActiveDrawingView(dv);
-			fireDrawingViewSelectedEvent(getActiveDrawingView());
+			fireDrawingViewSelectedEvent(oldView, getActiveDrawingView());
 		}
 
 		//public void internalFrameDeactivated(InternalFrameEvent e) {
@@ -121,39 +122,15 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 
 
 	protected void fireDrawingViewAddedEvent(final DrawingView dv) {
-		java.util.ListIterator li= listeners.listIterator(listeners.size());
-		DesktopEvent dpe = null;
-		while(li.hasPrevious()){
-			if (dpe == null) {
-				dpe = new DesktopEvent(MDIDesktopPane.this, dv);
-			}
-			DesktopListener dpl = (DesktopListener)li.previous();
-			dpl.drawingViewAdded(dpe);
-		}
+		getDesktopEventService().fireDrawingViewAddedEvent(dv);
 	}
 
 	protected void fireDrawingViewRemovedEvent(final DrawingView dv) {
-		java.util.ListIterator li= listeners.listIterator(listeners.size());
-		DesktopEvent dpe = null;
-		while(li.hasPrevious()){
-			if (dpe == null) {
-				dpe = new DesktopEvent(MDIDesktopPane.this, dv);
-			}
-			DesktopListener dpl = (DesktopListener)li.previous();
-			dpl.drawingViewRemoved(dpe);
-		}
+		getDesktopEventService().fireDrawingViewRemovedEvent(dv);
 	}
 
-	protected void fireDrawingViewSelectedEvent(final DrawingView dv) {
-		java.util.ListIterator li= listeners.listIterator(listeners.size());
-		DesktopEvent dpe = null;
-		while(li.hasPrevious()){
-			if (dpe == null) {
-				dpe = new DesktopEvent(MDIDesktopPane.this, dv);
-			}
-			DesktopListener dpl = (DesktopListener)li.previous();
-			dpl.drawingViewSelected(dpe);
-		}
+	protected void fireDrawingViewSelectedEvent(final DrawingView oldView, final DrawingView newView) {
+		getDesktopEventService().fireDrawingViewSelectedEvent(oldView, newView);
 	}
 
 /*	public void setBounds(int x, int y, int w, int h) {
@@ -216,9 +193,6 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 
 		//should be done before added to desktop
 		frame.addInternalFrameListener(internalFrameListener);
-		// ricardo_padilha: since retval is never used,
-		// there is no point in creating it
-		//Component retval = super.add(frame);
 		super.add(frame);
 
 		checkDesktopSize();
@@ -301,12 +275,24 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 		}
 	}
 */
-	public void addDesktopListener(DesktopListener dpl){
-		listeners.add(dpl);
+	protected DesktopEventService getDesktopEventService() {
+		return myDesktopEventService;
 	}
 
-	public void removeDesktopListener(DesktopListener dpl){
-		listeners.remove(dpl);
+	private void setDesktopEventService(DesktopEventService newDesktopEventService) {
+		myDesktopEventService = newDesktopEventService;
+	}
+
+	protected DesktopEventService createDesktopEventService() {
+		return new DesktopEventService(this, this);
+	}
+
+	public void addDesktopListener(DesktopListener dpl) {
+		getDesktopEventService().addDesktopListener(dpl);
+	}
+
+	public void removeDesktopListener(DesktopListener dpl) {
+		getDesktopEventService().removeDesktopListener(dpl);
 	}
 
 	/**

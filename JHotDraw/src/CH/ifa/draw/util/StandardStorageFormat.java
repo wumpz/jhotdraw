@@ -34,7 +34,7 @@ public class StandardStorageFormat implements StorageFormat {
 	 * extension "draw"
 	 */
 	private FileFilter myFileFilter;
-	
+
 	/**
 	 * File extension
 	 */
@@ -44,7 +44,7 @@ public class StandardStorageFormat implements StorageFormat {
 	 * Description of the file type when displaying the FileFilter
 	 */
 	private String myFileDescription;
-	
+
 	/**
 	 * Create a StandardStorageFormat for storing and restoring Drawings.
 	 */
@@ -64,7 +64,7 @@ public class StandardStorageFormat implements StorageFormat {
 	protected String createFileExtension() {
 		return myFileExtension = "draw";
 	}
-	
+
 	/**
 	 * Set the file extension for the storage format
 	 *
@@ -73,7 +73,7 @@ public class StandardStorageFormat implements StorageFormat {
 	public void setFileExtension(String newFileExtension) {
 		myFileExtension = newFileExtension;
 	}
-	
+
 	/**
 	 * Return the file extension for the storage format
 	 *
@@ -97,20 +97,20 @@ public class StandardStorageFormat implements StorageFormat {
 	 * Set the file description for the file type of the storage format
 	 *
 	 * @param newFileDescription description of the file type
-	 */	
+	 */
 	public void setFileDescription(String newFileDescription) {
 		myFileDescription = newFileDescription;
 	}
-	
+
 	/**
 	 * Return the file description for the file type of the storage format
 	 *
 	 * @return description of the file type
-	 */	
+	 */
 	public String getFileDescription() {
 		return myFileDescription;
 	}
-	
+
 	/**
 	 * Factory method to create a FileFilter that accepts file with the appropriate
 	 * file exention used by a javax.swing.JFileChooser. Subclasses can override this
@@ -126,7 +126,7 @@ public class StandardStorageFormat implements StorageFormat {
 					return true;
 				}
 				else {
-					return checkFile.getName().endsWith("." + getFileDescription());
+					return checkFile.getName().endsWith("." + getFileExtension());
 				}
 			}
 
@@ -135,7 +135,7 @@ public class StandardStorageFormat implements StorageFormat {
 			}
 		};
 	}
-	
+
 	/**
 	 * Set the FileFilter used to identify Drawing files with the correct file
 	 * extension for this StorageFormat.
@@ -145,7 +145,7 @@ public class StandardStorageFormat implements StorageFormat {
 	public void setFileFilter(FileFilter newFileFilter) {
 		myFileFilter = newFileFilter;
 	}
-	
+
 	/**
 	 * Return the FileFilter used to identify Drawing files with the correct file
 	 * extension for this StorageFormat.
@@ -202,7 +202,7 @@ public class StandardStorageFormat implements StorageFormat {
 			return (Drawing)input.readStorable();
 		}
 	}
-	
+
 	/**
 	 * Test, whether two StorageFormats are the same. They are the same if they both support the
 	 * same file extension.
@@ -223,7 +223,7 @@ public class StandardStorageFormat implements StorageFormat {
 	 *
 	 * @param testFileName file name to be tested for a correct file extension
 	 * @return testFileName + file extension if necessary
-	 */	
+	 */
 	protected String adjustFileName(String testFileName) {
 		if (!hasCorrectFileExtension(testFileName)) {
 			return testFileName + "." + getFileExtension();
@@ -232,7 +232,7 @@ public class StandardStorageFormat implements StorageFormat {
 			return testFileName;
 		}
 	}
-	
+
 	/**
 	 * Test whether the file name has the correct file extension
 	 *

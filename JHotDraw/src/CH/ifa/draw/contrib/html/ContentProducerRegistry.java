@@ -1,12 +1,12 @@
 /*
- *  @(#)TextAreaFigure.java
+ * @(#)ContentProducerRegistry.java
  *
- *  Project:		JHotdraw - a GUI framework for technical drawings
- *  http://www.jhotdraw.org
- *  http://jhotdraw.sourceforge.net
- *  Copyright:	© by the original author(s) and all contributors
- *  License:		Lesser GNU Public License (LGPL)
- *  http://www.opensource.org/licenses/lgpl-license.html
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 package CH.ifa.draw.contrib.html;
 
@@ -35,20 +35,20 @@ import CH.ifa.draw.util.StorableOutput;
  * producers are registered for classes in a derivation hierarchy, the producer
  * registered for the class closest to the requested class will be selected.
  *
- * @author    Eduardo Francos - InContext
- * @created   7 mai 2002
- * @version   1.0
+ * @author  Eduardo Francos - InContext
+ * @created 7 mai 2002
+ * @version <$CURRENT_VERSION$>
  */
-
 public class ContentProducerRegistry implements Serializable, Storable {
+
 	/** producers registered with this registry */
-	protected Hashtable fContentProducers = new Hashtable();
+	private Hashtable fContentProducers = new Hashtable();
 
 	/** parent registry for hierarchical searches */
-	protected transient ContentProducerRegistry fParent = null;
+	private transient ContentProducerRegistry fParent;
 
 	/** Application global producers */
-	protected static ContentProducerRegistry fDefaultRegistry =
+	private static ContentProducerRegistry fDefaultRegistry =
 			new ContentProducerRegistry(null);
 
 	// initialize the application wide default content producers
@@ -56,12 +56,10 @@ public class ContentProducerRegistry implements Serializable, Storable {
 		fDefaultRegistry.registerContentProducer(URL.class, new URLContentProducer());
 	}
 
-
 	/**Constructor for the ContentProducerRegistry object */
 	public ContentProducerRegistry() {
-		fParent = fDefaultRegistry;
+		setParent(fDefaultRegistry);
 	}
-
 
 	/**
 	 *Constructor for the ContentProducerRegistry object
@@ -69,9 +67,8 @@ public class ContentProducerRegistry implements Serializable, Storable {
 	 * @param parent  the parent for this producer
 	 */
 	public ContentProducerRegistry(ContentProducerRegistry parent) {
-		fParent = parent;
+		setParent(parent);
 	}
-
 
 	/**
 	 * Sets the autonomous attribute of the ContentProducerRegistry object.
@@ -82,9 +79,8 @@ public class ContentProducerRegistry implements Serializable, Storable {
 	 * @see   #setParent(ContentProducerRegistry)
 	 */
 	public void setAutonomous() {
-		fParent = null;
+		setParent(null);
 	}
-
 
 	/**
 	 * Gets the autonomous status of the ContentProducerRegistry object
@@ -92,9 +88,8 @@ public class ContentProducerRegistry implements Serializable, Storable {
 	 * @return   The autonomous value
 	 */
 	public boolean isAutonomous() {
-		return (fParent == null);
+		return (getParent() == null);
 	}
-
 
 	/**
 	 * Sets the parent attribute of the ContentProducerRegistry object
@@ -106,7 +101,6 @@ public class ContentProducerRegistry implements Serializable, Storable {
 		fParent = newParent;
 	}
 
-
 	/**
 	 * Gets the parent attribute of the ContentProducerRegistry object
 	 *
@@ -115,7 +109,6 @@ public class ContentProducerRegistry implements Serializable, Storable {
 	public ContentProducerRegistry getParent() {
 		return fParent;
 	}
-
 
 	/**
 	 * Registers an application global producer
@@ -127,7 +120,6 @@ public class ContentProducerRegistry implements Serializable, Storable {
 	public static ContentProducer registerDefaultContentProducer(Class targetClass, ContentProducer producer) {
 		return fDefaultRegistry.registerContentProducer(targetClass, producer);
 	}
-
 
 	/**
 	 * Unregisters ie: removes a registered producer for a target class.<br>
@@ -141,7 +133,6 @@ public class ContentProducerRegistry implements Serializable, Storable {
 		fDefaultRegistry.unregisterContentProducer(targetClass, producer);
 	}
 
-
 	/**
 	 * Gets the ContentProducer attribute of the HTMLTextAreaFigure object
 	 *
@@ -151,7 +142,6 @@ public class ContentProducerRegistry implements Serializable, Storable {
 	public static ContentProducer getDefaultContentProducer(Class targetClass) {
 		return fDefaultRegistry.getContentProducer(targetClass);
 	}
-
 
 	/**
 	 * Gets the exact application global Producer for the target class, ie:
@@ -163,7 +153,6 @@ public class ContentProducerRegistry implements Serializable, Storable {
 	public static ContentProducer getExactDefaultContentProducer(Class targetClass) {
 		return fDefaultRegistry.getExactContentProducer(targetClass);
 	}
-
 
 	/**
 	 * Registers a producer
@@ -177,7 +166,6 @@ public class ContentProducerRegistry implements Serializable, Storable {
 		fContentProducers.put(targetClass, producer);
 		return previousProducer;
 	}
-
 
 	/**
 	 * Unregisters a producer
@@ -193,7 +181,6 @@ public class ContentProducerRegistry implements Serializable, Storable {
 			fContentProducers.remove(targetClass);
 		}
 	}
-
 
 	/**
 	 * Finds the most appropriate producer for the target class. Will search
@@ -215,7 +202,6 @@ public class ContentProducerRegistry implements Serializable, Storable {
 		// a default producer defined for the Object class
 		return getSuperClassContentProducer(targetClass, null);
 	}
-
 
 	/**
 	 * Finds the exact producer for the target class, ie: no class hierarchy search
@@ -240,7 +226,6 @@ public class ContentProducerRegistry implements Serializable, Storable {
 		return null;
 	}
 
-
 	/**
 	 * Gets the producers for the closest super class of the target class
 	 *
@@ -248,8 +233,8 @@ public class ContentProducerRegistry implements Serializable, Storable {
 	 * @return             The producer
 	 */
 	protected ContentProducer getSuperClassContentProducer(Class targetClass, Class closestClass) {
-		Map.Entry entry;
-		Class entryClass;
+		Map.Entry entry = null;
+		Class entryClass = null;
 		ContentProducer closestProducer = null;
 
 		Iterator iter = fContentProducers.entrySet().iterator();
@@ -278,7 +263,6 @@ public class ContentProducerRegistry implements Serializable, Storable {
 		return closestProducer;
 	}
 
-
 	/**
 	 * Storable write support
 	 *
@@ -295,15 +279,13 @@ public class ContentProducerRegistry implements Serializable, Storable {
 		}
 	}
 
-
 	/**
 	 * Storable inoput support
 	 *
 	 * @param dr               storable input
 	 * @exception IOException  thrown by called methods
 	 */
-	public void read(StorableInput dr)
-		throws IOException {
+	public void read(StorableInput dr) throws IOException {
 		// read the default content producers, count first
 		int prodCount = dr.readInt();
 		String prodClass;
@@ -322,5 +304,4 @@ public class ContentProducerRegistry implements Serializable, Storable {
 		}
 
 	}
-
 }

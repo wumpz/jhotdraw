@@ -1,12 +1,12 @@
 /*
- *  @(#)TextAreaFigure.java
+ * @(#)RoundRectangleGeometricAdapter.java
  *
- *  Project:		JHotdraw - a GUI framework for technical drawings
- *  http://www.jhotdraw.org
- *  http://jhotdraw.sourceforge.net
- *  Copyright:	© by the original author(s) and all contributors
- *  License:		Lesser GNU Public License (LGPL)
- *  http://www.opensource.org/licenses/lgpl-license.html
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 package CH.ifa.draw.contrib.html;
 
@@ -19,19 +19,19 @@ import CH.ifa.draw.figures.RoundRectangleFigure;
 /**
  * Geometric adapter for the RoundRectangleFigure
  *
- * @author    Eduardo Francos - InContext
- * @created   4 mai 2002
- * @version   1.0
+ * @author  Eduardo Francos - InContext
+ * @created 4 mai 2002
+ * @version <$CURRENT_VERSION$>
  */
-
 public class RoundRectangleGeometricAdapter extends RoundRectangleFigure
 		 implements GeometricFigure {
 
-	/**Constructor for the RoundRectangleGeometricAdapter object */
+	/**
+	 * Constructor for the RoundRectangleGeometricAdapter object
+	 */
 	public RoundRectangleGeometricAdapter() {
 		super();
 	}
-
 
 	/**
 	 *Constructor for the RoundRectangleGeometricAdapter object
@@ -42,7 +42,6 @@ public class RoundRectangleGeometricAdapter extends RoundRectangleFigure
 	public RoundRectangleGeometricAdapter(Point origin, Point corner) {
 		super(origin, corner);
 	}
-
 
 	/**
 	 * Gets the shape attribute of the TriangleFigure object

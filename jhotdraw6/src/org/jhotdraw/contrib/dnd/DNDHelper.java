@@ -11,8 +11,12 @@
 
 package CH.ifa.draw.contrib.dnd;
 
+import CH.ifa.draw.framework.*;
+
 import java.awt.Component;
 import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.datatransfer.Transferable;
 import java.awt.dnd.*;
 import java.io.*;
 import java.util.List;
@@ -32,8 +36,7 @@ public abstract class DNDHelper {
 	private DropTargetListener dropTargetListener;
 	private boolean isDragSource = false;
 	private boolean isDropTarget = false;
-	
-	
+
 	public DNDHelper(boolean isDragSource, boolean isDropTarget){
 		this.isDragSource = isDragSource;
 		this.isDropTarget = isDropTarget;
@@ -42,24 +45,25 @@ public abstract class DNDHelper {
 	 * Do not call this from the constructor.  its methods are overridable.
 	 */
 	public void initialize(DragGestureListener dgl) {
-		if(isDragSource) {
-			setDragGestureListener( dgl );
-			setDragSourceListener( createDragSourceListener() );
+		if (isDragSource) {
+			setDragGestureListener(dgl);
+			setDragSourceListener(createDragSourceListener());
 			setDragGestureRecognizer(createDragGestureRecognizer(getDragGestureListener()));
 		}
-		if(isDropTarget) {
-			setDropTargetListener( createDropTargetListener() );
+		if (isDropTarget) {
+			setDropTargetListener(createDropTargetListener());
 			setDropTarget(createDropTarget());
 		}
 	}
+
 	public void deinitialize(){
-		if(getDragSourceListener() != null){
+		if (getDragSourceListener() != null) {
 			destroyDragGestreRecognizer();
-			setDragSourceListener( null );
+			setDragSourceListener(null);
 		}
-		if(getDropTargetListener() != null){
-			setDropTarget( null );
-			setDropTargetListener( null );
+		if (getDropTargetListener() != null) {
+			setDropTarget(null);
+			setDropTargetListener(null);
 		}
 	}
 //	public void setDragSourceState(boolean state) {
@@ -70,28 +74,26 @@ public abstract class DNDHelper {
 //			getDragGestureRecognizer().setSourceActions(getDragSourceActions());
 //		}
 //	}
-	protected abstract CH.ifa.draw.framework.DrawingView view();
-	protected abstract CH.ifa.draw.framework.DrawingEditor editor();
+	protected abstract DrawingView view();
+	protected abstract DrawingEditor editor();
 	
-	
-	
-	protected static Object ProcessReceivedData(DataFlavor flavor, java.awt.datatransfer.Transferable transferable) {
+	protected static Object processReceivedData(DataFlavor flavor, Transferable transferable) {
+		Object receivedData = null;
 		if (transferable == null) {
 			return null;
 		}
+
 		try {
 		    if (flavor.equals(DataFlavor.stringFlavor)) {
-				String str = (String) transferable.getTransferData(DataFlavor.stringFlavor);
-				return str;
+				receivedData = transferable.getTransferData(DataFlavor.stringFlavor);
 			}
 			else if (flavor.equals(DataFlavor.javaFileListFlavor)) {
 				List aList = (List)transferable.getTransferData(DataFlavor.javaFileListFlavor);
 				File fList [] = new File[aList.size()];
 				aList.toArray(fList);
-				return fList;
+				receivedData = fList;
 			}
 			else if (flavor.equals(ASCIIFlavor)) {
-				String txt = null;
 				/* this may be too much work for locally received data */
 				InputStream is = (InputStream)transferable.getTransferData(ASCIIFlavor);
 				int length = is.available();
@@ -108,31 +110,26 @@ public abstract class DNDHelper {
 					//        break;
 					//    }
 					//}
-					txt = new String(bytes, 0, n);
+					receivedData = new String(bytes, 0, n);
 				}
-				return txt;
 			}
 			else if (flavor.equals(DNDFiguresTransferable.DNDFiguresFlavor)) {
-				DNDFigures ff = (DNDFigures) transferable.getTransferData(DNDFiguresTransferable.DNDFiguresFlavor);
-				return ff;
-			}
-			else {
-				return null;
+				receivedData = transferable.getTransferData(DNDFiguresTransferable.DNDFiguresFlavor);
 			}
 		}
 		catch (java.io.IOException ioe) {
 			System.err.println(ioe);
-			return null;
 		}
-		catch (java.awt.datatransfer.UnsupportedFlavorException ufe) {
+		catch (UnsupportedFlavorException ufe) {
 			System.err.println(ufe);
-			return null;
 		}
 		catch (ClassCastException cce) {
 			System.err.println(cce);
-			return null;
 		}
+
+		return receivedData;
 	}
+
 	/**
 	 * This must reflect the capabilities of the dragSsource, not your desired
 	 * actions.  If you desire limited drag actions, then I suppose you need to
@@ -145,36 +142,43 @@ public abstract class DNDHelper {
 	protected int getDragSourceActions() {
 		return DnDConstants.ACTION_COPY_OR_MOVE;
 	}
+
 	protected int getDropTargetActions(){
 		return DnDConstants.ACTION_COPY_OR_MOVE;
 	}
+
 	protected void setDragGestureListener(DragGestureListener dragGestureListener){
 		this.dragGestureListener = dragGestureListener;
 	}
+
 	protected DragGestureListener getDragGestureListener(){
 		return dragGestureListener;
 	}
+
 	protected void setDragGestureRecognizer(DragGestureRecognizer dragGestureRecognizer){
 		dgr = dragGestureRecognizer;
 	}
+
 	protected DragGestureRecognizer getDragGestureRecognizer(){
 		return dgr;
 	}
+
 	protected void setDropTarget(DropTarget dropTarget){
-		if((dropTarget == null) && (this.dropTarget != null)){
+		if ((dropTarget == null) && (this.dropTarget != null)) {
 			this.dropTarget.setComponent(null);
-			this.dropTarget.removeDropTargetListener( getDropTargetListener() );
+			this.dropTarget.removeDropTargetListener(getDropTargetListener());
 		}
 		this.dropTarget = dropTarget;
 	}
+
 	protected DropTarget createDropTarget() {
 		DropTarget dt = null;
-		if (view() instanceof Component) {
+		if (Component.class.isInstance(view())) {
 			try {
 				dt = new DropTarget((Component)view(), getDropTargetActions(), getDropTargetListener());
 				//System.out.println(view().toString() + " Initialized to DND.");
 			}
-			catch (java.lang.NullPointerException npe) {
+			catch (NullPointerException npe) {
 				System.err.println("View Failed to initialize to DND.");
 				System.err.println("Container likely did not have peer before the DropTarget was added");
 				System.err.println(npe);
@@ -189,7 +193,7 @@ public abstract class DNDHelper {
 	 */
 	protected DragGestureRecognizer createDragGestureRecognizer(DragGestureListener dgl) {
 		DragGestureRecognizer aDgr = null;
-		if (view() instanceof Component) {
+		if (Component.class.isInstance(view())) {
 			Component c = (Component)view();
 			aDgr =	java.awt.dnd.DragSource.getDefaultDragSource().createDefaultDragGestureRecognizer(
 					c,
@@ -201,7 +205,7 @@ public abstract class DNDHelper {
 	}
 
 	/**
-	 * Used to destroy the gesture listener which in effect turns off dragability.
+	 * Used to destroy the gesture listener which ineffect turns off dragability.
 	 */
 	protected void destroyDragGestreRecognizer() {
 		//System.out.println("Destroying DGR " + view());
@@ -212,22 +216,26 @@ public abstract class DNDHelper {
 		}
 	}
 
-	
 	protected void setDropTargetListener(DropTargetListener dropTargetListener){
 		this.dropTargetListener = dropTargetListener;
 	}
+
 	protected DropTargetListener getDropTargetListener(){
 		return dropTargetListener;
-	}
+		}
+
 	protected DropTargetListener createDropTargetListener(){
 		return new JHDDropTargetListener(editor(),view());
 	}
+
 	public DragSourceListener getDragSourceListener(){
 		return dragSourceListener;
 	}
+
 	protected void setDragSourceListener(DragSourceListener dragSourceListener){
 		this.dragSourceListener = dragSourceListener;
 	}
+
 	protected DragSourceListener createDragSourceListener(){
 		return new JHDDragSourceListener(editor(),view());
 	}

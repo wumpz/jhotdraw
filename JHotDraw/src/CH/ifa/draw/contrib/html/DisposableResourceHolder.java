@@ -1,12 +1,12 @@
 /*
- *  @(#)TextAreaFigure.java
+ * @(#)DisposableResourceHolder.java
  *
- *  Project:		JHotdraw - a GUI framework for technical drawings
- *  http://www.jhotdraw.org
- *  http://jhotdraw.sourceforge.net
- *  Copyright:	© by the original author(s) and all contributors
- *  License:		Lesser GNU Public License (LGPL)
- *  http://www.opensource.org/licenses/lgpl-license.html
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 package CH.ifa.draw.contrib.html;
 
@@ -32,24 +32,22 @@ package CH.ifa.draw.contrib.html;
  *
  * @author    Eduardo Francos - InContext
  * @created   2 mai 2002
- * @version   1.0
+ * @version   <$CURRENT_VERSION$>
  * @see       DisposableResourceManager
  * @see       StandardDisposableResourceManager
  * @see       ResourceDisposabilityStrategy
  * @see       DisposableResourceManagerFactory
  * @see       StandardDisposableResourceHolder
  */
-
 public interface DisposableResourceHolder {
+
 	/**
 	 * Gets the resource
 	 *
 	 * @return                          The resource value
 	 * @exception NullPointerException  If the resource was disposed of
 	 */
-	public Object getResource()
-		throws NullPointerException;
-
+	public Object getResource() throws NullPointerException;
 
 	/**
 	 * Makes a clone the this
@@ -58,14 +56,12 @@ public interface DisposableResourceHolder {
 	 */
 	public Object clone();
 
-
 	/**
 	 * Sets the resource
 	 *
 	 * @param resource  The new resource value
 	 */
 	public void setResource(Object resource);
-
 
 	/**
 	 * Sets the disposableDelay
@@ -74,7 +70,6 @@ public interface DisposableResourceHolder {
 	 */
 	public void setDisposableDelay(long millis);
 
-
 	/**
 	 * Gets the disposableDelay
 	 *
@@ -82,10 +77,10 @@ public interface DisposableResourceHolder {
 	 */
 	public long getDisposableDelay();
 
-
-	/** Resets the disposing delay so as to restart the time counter */
+	/**
+	 * Resets the disposing delay so as to restart the time counter
+	 */
 	public void resetDelay();
-
 
 	/**
 	 * Gets the lastTimeAccessed attribute of the DisposableResourceHolder object
@@ -94,10 +89,8 @@ public interface DisposableResourceHolder {
 	 */
 	public long getLastTimeAccessed();
 
-
 	/** Disposes of the resource immediately. */
 	public void dispose();
-
 
 	/**
 	 * Returns true if the resource is still available
@@ -106,7 +99,6 @@ public interface DisposableResourceHolder {
 	 */
 	public boolean isAvailable();
 
-
 	/**
 	 * Locks the resource so it cannot be automatically disposed of until unlock
 	 * is called.<br>
@@ -114,13 +106,11 @@ public interface DisposableResourceHolder {
 	 */
 	public void lock();
 
-
 	/**
 	 * Unlocks the resource so it can be automatically disposed of again.<br>
 	 * Explicit disposing by calling dispose() is still possible though.
 	 */
 	public void unlock();
-
 
 	/**
 	 * True if the resource is locked

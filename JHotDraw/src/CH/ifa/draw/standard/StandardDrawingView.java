@@ -11,17 +11,6 @@
 
 package CH.ifa.draw.standard;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
 import CH.ifa.draw.contrib.AutoscrollHelper;
 import CH.ifa.draw.contrib.dnd.DNDHelper;
 import CH.ifa.draw.contrib.dnd.DNDInterface;
@@ -30,6 +19,19 @@ import CH.ifa.draw.util.CollectionsFactory;
 import CH.ifa.draw.util.Command;
 import CH.ifa.draw.util.Geom;
 import CH.ifa.draw.util.UndoableCommand;
+
+import java.awt.*;
+import java.awt.event.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.awt.dnd.DragGestureListener;
+import java.awt.dnd.DragSourceListener;
+
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  * The standard implementation of DrawingView.
@@ -41,14 +43,14 @@ import CH.ifa.draw.util.UndoableCommand;
  * @version <$CURRENT_VERSION$>
  */
 public class StandardDrawingView
-	extends JPanel
-	implements DrawingView, DNDInterface, java.awt.dnd.Autoscroll {
+		extends JPanel
+		implements DrawingView, DNDInterface, java.awt.dnd.Autoscroll {
 
 	/**
 	 * The DrawingEditor of the view.
 	 * @see #tool
 	 */
-	transient private DrawingEditor fEditor;
+	transient private DrawingEditor   fEditor;
 
 	/**
 	 * the registered listeners for selection changes
@@ -58,7 +60,7 @@ public class StandardDrawingView
 	/**
 	 * The shown drawing.
 	 */
-	private Drawing fDrawing;
+	private Drawing         fDrawing;
 
 	/**
 	 * the accumulated damaged area
@@ -78,12 +80,6 @@ public class StandardDrawingView
 	/**
 	 * The preferred size of the view
 	 */
-	/*
-	 * ricardo_padilha: this was removed because it interferes with proper
-	 * handling of sizes in Swing. For example, it prevents JScrollPane to receive
-	 * events about the changes of preferred and minimum sizes.
-	 */
-	//private Dimension fViewSize;
 
 	/**
 	 * The position of the last mouse click
@@ -165,14 +161,14 @@ public class StandardDrawingView
 		addMouseListener(createMouseListener());
 		addMouseMotionListener(createMouseMotionListener());
 		addKeyListener(createKeyListener());
-	}
+    }
 
 	protected MouseListener createMouseListener() {
 		return new DrawingViewMouseListener();
 	}
 
 	protected MouseMotionListener createMouseMotionListener() {
-		return new DrawingViewMouseMotionListener();
+		return  new DrawingViewMouseMotionListener();
 	}
 
 	protected KeyListener createKeyListener() {
@@ -271,21 +267,17 @@ public class StandardDrawingView
 			}
 		}
 
-		return false;
+	  return false;
 	}
 
 	/**
-	   * Inserts a FigureEnumeration of figures and translates them by the
+     * Inserts a FigureEnumeration of figures and translates them by the
 	 * given offset. This function is used to insert figures from clipboards (cut/copy)
 	 *
 	 * @return enumeration which has been added to the drawing. The figures in the enumeration
 	 *         can have changed during adding them (e.g. they could have been decorated).
 	 */
-	public FigureEnumeration insertFigures(
-		FigureEnumeration fe,
-		int dx,
-		int dy,
-		boolean bCheck) {
+	public FigureEnumeration insertFigures(FigureEnumeration fe, int dx, int dy, boolean bCheck) {
 		if (fe == null) {
 			return FigureEnumerator.getEmptyEnumeration();
 		}
@@ -297,7 +289,8 @@ public class StandardDrawingView
 			Figure figure = fe.nextFigure();
 			if (figure instanceof ConnectionFigure) {
 				vCF.add(figure);
-			} else if (figure != null) {
+			}
+			else if (figure != null) {
 				figure.moveBy(dx, dy);
 				figure.visit(visitor);
 			}
@@ -352,7 +345,7 @@ public class StandardDrawingView
 
 		// Find all connection figures
 		while (figures.hasNextFigure()) {
-			Figure f = figures.nextFigure();
+			Figure f= figures.nextFigure();
 
 			if ((f instanceof ConnectionFigure) && !(isFigureSelected(f))) {
 				ConnectionFigure cf = (ConnectionFigure) f;
@@ -364,7 +357,7 @@ public class StandardDrawingView
 		}
 
 		return new FigureEnumerator(result);
-	}
+   }
 
 	/**
 	 * Sets the current display update strategy.
@@ -401,16 +394,6 @@ public class StandardDrawingView
 	 */
 	public FigureEnumeration selectionZOrdered() {
 		List result = CollectionsFactory.current().createList(selectionCount());
-
-		// why do this? why not just take the vector fSelection?
-		/*FigureEnumeration figures = drawing().figures();
-		
-		while (figures.hasNextFigure()) {
-			Figure f= figures.nextFigure();
-			if (isFigureSelected(f)) {
-				result.add(f);
-			}
-		}*/
 
 		result.addAll(fSelection);
 		return new ReverseFigureEnumerator(result);
@@ -478,7 +461,8 @@ public class StandardDrawingView
 	public void toggleSelection(Figure figure) {
 		if (isFigureSelected(figure)) {
 			removeFromSelection(figure);
-		} else {
+		}
+		else {
 			addToSelection(figure);
 		}
 		fireSelectionChanged();
@@ -554,19 +538,19 @@ public class StandardDrawingView
 	protected void fireSelectionChanged() {
 		if (fSelectionListeners != null) {
 			for (int i = 0; i < fSelectionListeners.size(); i++) {
-				FigureSelectionListener l = (FigureSelectionListener) fSelectionListeners.get(i);
+				FigureSelectionListener l = (FigureSelectionListener)fSelectionListeners.get(i);
 				l.figureSelectionChanged(this);
 			}
 		}
 	}
 
-	protected Rectangle getDamage() {
-		return fDamage; // clone?
-	}
+    protected Rectangle getDamage() {
+        return fDamage; // clone?
+    }
 
-	protected void setDamage(Rectangle r) {
-		fDamage = r;
-	}
+    protected void setDamage(Rectangle r) {
+        fDamage = r;
+    }
 
 	/**
 	 * Gets the position of the last click inside the view.
@@ -604,7 +588,7 @@ public class StandardDrawingView
 		p.x = Geom.range(1, size.width, p.x);
 		p.y = Geom.range(1, size.height, p.y);
 
-		if (fConstrainer != null) {
+		if (fConstrainer != null ) {
 			return fConstrainer.constrainPoint(p);
 		}
 		return p;
@@ -626,7 +610,7 @@ public class StandardDrawingView
 		while (each.hasNext()) {
 			Object l = each.next();
 			if (l instanceof DrawingView) {
-				((DrawingView) l).repairDamage();
+				((DrawingView)l).repairDamage();
 			}
 		}
 	}
@@ -642,7 +626,8 @@ public class StandardDrawingView
 		Rectangle r = e.getInvalidatedRectangle();
 		if (getDamage() == null) {
 			setDamage(r);
-		} else {
+		}
+		else {
 			// don't manipulate rectangle returned by getDamage() directly
 			// because it could be a cloned rectangle.
 			Rectangle damagedR = getDamage();
@@ -655,7 +640,7 @@ public class StandardDrawingView
 		repairDamage();
 	}
 
-	public void drawingTitleChanged(DrawingChangeEvent e) {
+	public void drawingTitleChanged(DrawingChangeEvent e){
 	}
 
 	/**
@@ -693,7 +678,7 @@ public class StandardDrawingView
 	 * The layers are drawn in back to front order.
 	 * No background is drawn.
 	 */
-	public void draw(Graphics g, FigureEnumeration fe) {
+   public void draw(Graphics g, FigureEnumeration fe) {
 		boolean isPrinting = g instanceof PrintGraphics;
 		//drawBackground(g);
 		if ((fBackgrounds != null) && !isPrinting) {
@@ -737,14 +722,14 @@ public class StandardDrawingView
 
 	protected void drawPainters(Graphics g, List v) {
 		for (int i = 0; i < v.size(); i++) {
-			((Painter) v.get(i)).draw(g, this);
+			((Painter)v.get(i)).draw(g, this);
 		}
 	}
 
 	/**
 	 * Adds a background.
 	 */
-	public void addBackground(Painter painter) {
+	public void addBackground(Painter painter)  {
 		if (fBackgrounds == null) {
 			fBackgrounds = CollectionsFactory.current().createList(3);
 		}
@@ -755,21 +740,21 @@ public class StandardDrawingView
 	/**
 	 * Removes a background.
 	 */
-	public void removeBackground(Painter painter) {
+	public void removeBackground(Painter painter)  {
 		if (fBackgrounds != null) {
 			fBackgrounds.remove(painter);
 		}
 		repaint();
 	}
 
-	protected List getBackgrounds() {
-		return fBackgrounds;
-	}
+    protected List getBackgrounds() {
+        return fBackgrounds;
+    }
 
 	/**
 	 * Removes a foreground.
 	 */
-	public void removeForeground(Painter painter) {
+	public void removeForeground(Painter painter)  {
 		if (fForegrounds != null) {
 			fForegrounds.remove(painter);
 		}
@@ -779,7 +764,7 @@ public class StandardDrawingView
 	/**
 	 * Adds a foreground.
 	 */
-	public void addForeground(Painter painter) {
+	public void addForeground(Painter painter)  {
 		if (fForegrounds == null) {
 			fForegrounds = CollectionsFactory.current().createList(3);
 		}
@@ -787,9 +772,9 @@ public class StandardDrawingView
 		repaint();
 	}
 
-	protected List getForegrounds() {
-		return fForegrounds;
-	}
+    protected List getForegrounds() {
+        return fForegrounds;
+    }
 
 	/**
 	 * Freezes the view by acquiring the drawing lock.
@@ -812,30 +797,30 @@ public class StandardDrawingView
 
 		s.defaultReadObject();
 
-		fSelection = CollectionsFactory.current().createList();
+		fSelection = CollectionsFactory.current().createList(); // could use lazy initialization instead
 		// could use lazy initialization instead
 		if (drawing() != null) {
 			drawing().addDrawingChangeListener(this);
 		}
-		fSelectionListeners = CollectionsFactory.current().createList();
+		fSelectionListeners= CollectionsFactory.current().createList();
 	}
 
-	protected void checkMinimumSize() {
-		Dimension d = getDrawingSize();
+    protected void checkMinimumSize() {
+        Dimension d = getDrawingSize();
 		Dimension v = getPreferredSize();
 
 		if (v.height < d.height || v.width < d.width) {
 			v.height = d.height + SCROLL_OFFSET;
 			v.width = d.width + SCROLL_OFFSET;
 			setPreferredSize(v);
-		}
-	}
+        }
+    }
 
-	/**
-	 * Return the size of the area occupied by the contained figures inside
-	 * the drawing. This method is called by checkMinimumSize().
-	 */
-	protected Dimension getDrawingSize() {
+    /**
+     * Return the size of the area occupied by the contained figures inside
+     * the drawing. This method is called by checkMinimumSize().
+     */
+    protected Dimension getDrawingSize() {
 		Dimension d = new Dimension(0, 0);
 		// ricardo_padilha: this test had to be introduced because a drawing view
 		// can be assigned a null drawing (see setDrawing() ).
@@ -843,11 +828,11 @@ public class StandardDrawingView
 			FigureEnumeration fe = drawing().figures();
 			while (fe.hasNextFigure()) {
 				Rectangle r = fe.nextFigure().displayBox();
-				d.width = Math.max(d.width, r.x + r.width);
-				d.height = Math.max(d.height, r.y + r.height);
+				d.width = Math.max(d.width, r.x+r.width);
+				d.height = Math.max(d.height, r.y+r.height);
 			}
 		}
-		return d;
+        return d;
 	}
 
 	/**
@@ -862,10 +847,8 @@ public class StandardDrawingView
 		return true;
 	}
 
-	public void keyTyped(KeyEvent e) {
-	}
-	public void keyReleased(KeyEvent e) {
-	}
+	public void keyTyped(KeyEvent e) {}
+	public void keyReleased(KeyEvent e) {}
 
 	/**
 	 * Add a listener for selection changes.
@@ -916,24 +899,24 @@ public class StandardDrawingView
 	}
 
 	/**
-	   * Default action when any uncaught exception bubbled from
-	   * the mouse event handlers of the tools. Subclass may override it
-	   * to provide other action.
-	   */
-	protected void handleMouseEventException(Throwable t) {
+     * Default action when any uncaught exception bubbled from
+     * the mouse event handlers of the tools. Subclass may override it
+     * to provide other action.
+     */
+    protected void handleMouseEventException(Throwable t) {
 		JOptionPane.showMessageDialog(
 			this,
-			t.getClass().getName() + " - " + t.getMessage(),
+            t.getClass().getName() + " - " + t.getMessage(),
 			"Error",
 			JOptionPane.ERROR_MESSAGE);
 		t.printStackTrace();
-	}
+    }
 
 	public class DrawingViewMouseListener extends MouseAdapter {
-		/**
-		* Handles mouse down events. The event is delegated to the
-		* currently active tool.
-		*/
+		 /**
+		 * Handles mouse down events. The event is delegated to the
+		 * currently active tool.
+		 */
 		public void mousePressed(MouseEvent e) {
 			try {
 				requestFocus(); // JDK1.1
@@ -941,7 +924,8 @@ public class StandardDrawingView
 				setLastClick(new Point(e.getX(), e.getY()));
 				tool().mouseDown(e, p.x, p.y);
 				checkDamage();
-			} catch (Throwable t) {
+			}
+			catch (Throwable t) {
 				handleMouseEventException(t);
 			}
 		}
@@ -955,7 +939,8 @@ public class StandardDrawingView
 				Point p = constrainPoint(new Point(e.getX(), e.getY()));
 				tool().mouseUp(e, p.x, p.y);
 				checkDamage();
-			} catch (Throwable t) {
+			}
+			catch (Throwable t) {
 				handleMouseEventException(t);
 			}
 		}
@@ -971,7 +956,8 @@ public class StandardDrawingView
 				Point p = constrainPoint(new Point(e.getX(), e.getY()));
 				tool().mouseDrag(e, p.x, p.y);
 				checkDamage();
-			} catch (Throwable t) {
+			}
+			catch (Throwable t) {
 				handleMouseEventException(t);
 			}
 		}
@@ -983,7 +969,8 @@ public class StandardDrawingView
 		public void mouseMoved(MouseEvent e) {
 			try {
 				tool().mouseMove(e, e.getX(), e.getY());
-			} catch (Throwable t) {
+			}
+			catch (Throwable t) {
 				handleMouseEventException(t);
 			}
 		}
@@ -1006,15 +993,16 @@ public class StandardDrawingView
 			if ((code == KeyEvent.VK_BACK_SPACE) || (code == KeyEvent.VK_DELETE)) {
 				if (deleteCmd.isExecutable()) {
 					deleteCmd.execute();
-					//					deleteCmd.viewSelectionChanged(this);
+//					deleteCmd.viewSelectionChanged(this);
 				}
-			} else if (
-				(code == KeyEvent.VK_DOWN)
+			}
+			else if ((code == KeyEvent.VK_DOWN)
 					|| (code == KeyEvent.VK_UP)
 					|| (code == KeyEvent.VK_RIGHT)
 					|| (code == KeyEvent.VK_LEFT)) {
 				handleCursorKey(code);
-			} else {
+			}
+			else {
 				tool().keyDown(e, code);
 			}
 			checkDamage();
@@ -1034,45 +1022,44 @@ public class StandardDrawingView
 			}
 
 			switch (key) {
-				case KeyEvent.VK_DOWN :
-					dy = stepY;
-					break;
-				case KeyEvent.VK_UP :
-					dy = -stepY;
-					break;
-				case KeyEvent.VK_RIGHT :
-					dx = stepX;
-					break;
-				case KeyEvent.VK_LEFT :
-					dx = -stepX;
-					break;
+			case KeyEvent.VK_DOWN:
+				dy = stepY;
+				break;
+			case KeyEvent.VK_UP:
+				dy = -stepY;
+				break;
+			case KeyEvent.VK_RIGHT:
+				dx = stepX;
+				break;
+			case KeyEvent.VK_LEFT:
+				dx = -stepX;
+				break;
 			}
 			moveSelection(dx, dy);
 		}
 
-		public void keyTyped(KeyEvent event) {
-			// do nothing
-		}
+        public void keyTyped(KeyEvent event) {
+            // do nothing
+        }
 
-		public void keyReleased(KeyEvent event) {
-			// do nothing
-		}
+        public void keyReleased(KeyEvent event) {
+            // do nothing
+        }
 
 		protected Command createDeleteCommand() {
 			return new UndoableCommand(new DeleteCommand("Delete", editor()));
 		}
-	}
+    }
 
 	protected DNDHelper createDNDHelper() {
-		DNDHelper dndh = new DNDHelper (true,true) {
-				protected DrawingView view() {
-					return StandardDrawingView.this;
-				}
-				protected DrawingEditor editor() {
-					return StandardDrawingView.this.editor();
-				}
-			};
-		return dndh;
+		return new DNDHelper(true, true) {
+			protected DrawingView view() {
+				return StandardDrawingView.this;
+			}
+			protected DrawingEditor editor() {
+				return StandardDrawingView.this.editor();
+			}
+		};
 	}
 
 	protected DNDHelper getDNDHelper() {
@@ -1081,12 +1068,15 @@ public class StandardDrawingView
 		}
 		return dndh;
 	}
-	public java.awt.dnd.DragSourceListener getDragSourceListener(){
+
+	public DragSourceListener getDragSourceListener(){
 		return getDNDHelper().getDragSourceListener();
 	}
-	public void DNDInitialize(java.awt.dnd.DragGestureListener dgl){
+
+	public void DNDInitialize(DragGestureListener dgl){
 		getDNDHelper().initialize(dgl);
 	}
+
 	public void DNDDeinitialize() {
 		getDNDHelper().deinitialize();
 	}

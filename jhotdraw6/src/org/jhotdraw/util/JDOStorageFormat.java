@@ -323,5 +323,4 @@ public class JDOStorageFormat extends StandardStorageFormat {
 		}
 //		frame.setVisible(true);
 	}
-
 }

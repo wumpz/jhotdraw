@@ -1,12 +1,12 @@
 /*
- *  @(#)TextAreaFigure.java
+ * @(#)AttributeFigureContentProducer.java
  *
- *  Project:		JHotdraw - a GUI framework for technical drawings
- *  http://www.jhotdraw.org
- *  http://jhotdraw.sourceforge.net
- *  Copyright:	© by the original author(s) and all contributors
- *  License:		Lesser GNU Public License (LGPL)
- *  http://www.opensource.org/licenses/lgpl-license.html
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 package CH.ifa.draw.contrib.html;
 
@@ -20,17 +20,15 @@ import java.io.IOException;
  * It gives priority to base class supplied values, and if none, then it
  * gets the value from the supplied AttributeContentProducerContext.
  *
- * @author    Eduardo Francos - InContext
- * @created   30 avril 2002
- * @version   1.0
+ * @author  Eduardo Francos - InContext
+ * @created 30 avril 2002
+ * @version <$CURRENT_VERSION$>
  */
-
 public class AttributeFigureContentProducer extends FigureDataContentProducer
 		 implements Serializable {
 
 	/**Constructor for the AttributeFigureContentProducer object */
 	public AttributeFigureContentProducer() { }
-
 
 	/**
 	 * Produces the contents for the attribute
@@ -51,7 +49,6 @@ public class AttributeFigureContentProducer extends FigureDataContentProducer
 		return ((AttributeContentProducerContext)context).getAttribute(ctxAttrName);
 	}
 
-
 	/**
 	 * Writes the storable
 	 *
@@ -61,15 +58,13 @@ public class AttributeFigureContentProducer extends FigureDataContentProducer
 		super.write(dw);
 	}
 
-
 	/**
 	 * Writes the storable
 	 *
 	 * @param dr               the storable input
 	 * @exception IOException  thrown by called methods
 	 */
-	public void read(StorableInput dr)
-		throws IOException {
+	public void read(StorableInput dr) throws IOException {
 		super.read(dr);
 	}
 }

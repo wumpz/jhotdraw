@@ -1,12 +1,12 @@
 /*
- *  @(#)TextAreaFigure.java
+ * @(#)HTMLTextAreaFigure.java
  *
- *  Project:		JHotdraw - a GUI framework for technical drawings
- *  http://www.jhotdraw.org
- *  http://jhotdraw.sourceforge.net
- *  Copyright:	© by the original author(s) and all contributors
- *  License:		Lesser GNU Public License (LGPL)
- *  http://www.opensource.org/licenses/lgpl-license.html
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 package CH.ifa.draw.contrib.html;
 
@@ -134,7 +134,6 @@ import CH.ifa.draw.util.StorableOutput;
  * @created   7 May 2002
  * @version   <$CURRENT_VERSION$>
  */
-
 public class HTMLTextAreaFigure extends TextAreaFigure
 		 implements HTMLContentProducerContext, FigureChangeListener {
 
@@ -148,25 +147,25 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 	public final static char ESCAPE_CHAR = '\\';
 
 	/** holder for the image used for the display */
-	protected transient DisposableResourceHolder fImageHolder;
+	private transient DisposableResourceHolder fImageHolder;
 
 	/** The label used for in-memory display */
-	protected transient JLabel fDisplayDelegate;
+	private transient JLabel fDisplayDelegate;
 
 	/** True if using direct drawing, false if using the memory image */
-	protected boolean fUseDirectDraw = false;
+	private boolean fUseDirectDraw = false;
 
 	/** True if the memory image should be regenerated */
-	protected boolean fIsImageDirty = true;
+	private boolean fIsImageDirty = true;
 
 	/** Description of the Field */
-	protected boolean fRawHTML = false;
+	private boolean fRawHTML = false;
 
 	/** Supplier for intrinsic data */
-	protected transient ContentProducer fIntrinsicContentProducer;
+	private transient ContentProducer fIntrinsicContentProducer;
 
 	/** Description of the Field */
-	protected static ContentProducerRegistry fDefaultContentProducers = new ContentProducerRegistry();
+	private static ContentProducerRegistry fDefaultContentProducers = new ContentProducerRegistry();
 	// initialize the default content producers for HTMLTextAreaFigure figures
 	static {
 		fDefaultContentProducers.registerContentProducer(TextAreaFigure.class, new TextHolderContentProducer());
@@ -174,10 +173,10 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 	}
 
 	/** Description of the Field */
-	protected transient ContentProducerRegistry fContentProducers = null;
+	private transient ContentProducerRegistry fContentProducers = null;
 
 	/** The figure used to draw the frame of the area */
-	protected Figure fFrameFigure = null;
+	private Figure fFrameFigure = null;
 
 	// make sure required default attributes are set
 	static {
@@ -190,12 +189,10 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		initDefaultAttribute("TabSize", new Float(8));
 	}
 
-
 	/** Constructor for the HTMLTextAreaFigure object */
 	public HTMLTextAreaFigure() {
 		initialize();
 	}
-
 
 	/**
 	 * Clones a figure and initializes it
@@ -209,7 +206,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		return cloneObject;
 	}
 
-
 	/**
 	 * Sets the display box for the figure
 	 *
@@ -221,7 +217,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		super.basicDisplayBox(origin, corner);
 		getFrameFigure().displayBox(displayBox());
 	}
-
 
 	/**
 	 * Returns an iterator of standard sizing handles to manipulate the figure
@@ -235,7 +230,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 //		return new HandleEnumerator(handles);
 	}
 
-
 	/**
 	 * True if the figure contains the point. The call is relayed to the frame figure
 	 *
@@ -247,7 +241,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		return getFrameFigure().containsPoint(x, y);
 	}
 
-
 	/**
 	 * Moves the figure by the specified displacement
 	 *
@@ -258,7 +251,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		super.moveBy(dx, dy);
 		getFrameFigure().moveBy(dx, dy);
 	}
-
 
 	/** Initializes the figure */
 	protected void initialize() {
@@ -277,7 +269,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		setAttribute(Figure.POPUP_MENU, createPopupMenu());
 	}
 
-
 	/**
 	 * Called whenever the something changes that requires size recomputing
 	 */
@@ -285,7 +276,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		markImageDirty();
 		super.markSizeDirty();
 	}
-
 
 	/**
 	 * Called whenever the something changes that requires text recomputing
@@ -295,7 +285,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		super.markTextDirty();
 	}
 
-
 	/**
 	 * Called whenever the something changes that requires font recomputing
 	 */
@@ -303,7 +292,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		markImageDirty();
 		super.markFontDirty();
 	}
-
 
 	/**
 	 * Draws the figure in the given graphics. Draw is a template
@@ -329,7 +317,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		drawFrame(g);
 	}
 
-
 	/**
 	 * Draws the frame around the text. It gets the shape of the frame from the
 	 * enclosing figure
@@ -340,7 +327,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		((Graphics2D)g).draw(getClippingShape());
 	}
 
-
 	/**
 	 * Draws the background for the figure. It gets the shape of the frame from the
 	 * enclosing figure
@@ -350,7 +336,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 	public void drawBackground(Graphics g) {
 		((Graphics2D)g).fill(getClippingShape());
 	}
-
 
 	/**
 	 * Formats and draws the text for the figure
@@ -404,7 +389,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		return displayBox.height;
 	}
 
-
 	/**
 	 * Generates the HTML image to be used for fast BufferedDrawing
 	 *
@@ -420,7 +404,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		renderText(g2, finalBox);
 		g2.dispose();
 	}
-
 
 	/**
 	 * Draws the text directly onto the drawing, without using the cached figure
@@ -452,7 +435,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 			g2.setRenderingHints(savedRenderingHints);
 		}
 	}
-
 
 	/**
 	 * Renders the HTML formatted text onto the supplied Graphics.<br>
@@ -517,7 +499,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		return drawingBox.height;
 	}
 
-
 	/**
 	 * Builds the drawing box using the margins
 	 *
@@ -544,7 +525,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		return drawingBox;
 	}
 
-
 	/**
 	 * Gets the displayDelegate attribute of the HTMLTextAreaFigure object
 	 *
@@ -557,7 +537,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		}
 		return fDisplayDelegate;
 	}
-
 
 	/**
 	 * Creates the cached image, unless there is already one and it is
@@ -579,7 +558,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		// will always return with a valid image
 	}
 
-
 	/**
 	 * Builds the container for the drawing delegate
 	 *
@@ -591,7 +569,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		JPanel panel = new JPanel();
 		return panel;
 	}
-
 
 	/**
 	 * Returns a string that is valid HTML contents for a JLabel.<br>
@@ -608,6 +585,7 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 	 */
 	protected String getHTMLText(String text, Font font, String textColor,
 			String backColor, Rectangle displayBox) {
+
 		StringBuffer htmlText = new StringBuffer();
 		// add an <HTML>
 		htmlText.append("<html>");
@@ -660,7 +638,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		return htmlText.toString();
 	}
 
-
 	/**
 	 * Returns a new String with the entity keywords replaced by their
 	 * current attribute value.<br>
@@ -674,13 +651,11 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 	 * @return          The resulting string with its attributes replaced
 	 */
 	protected String substituteEntityKeywords(String template) {
-		int startPos;
-		int chunkEnd;
 		int endPos;
 		StringBuffer finalText = new StringBuffer();
 
-		startPos = 0;
-		chunkEnd = startPos;
+		int startPos = 0;
+		int chunkEnd = startPos;
 		try {
 			while ((startPos = template.indexOf(START_ENTITY_CHAR, startPos)) != -1) {
 				if (startPos != 0 && template.charAt(startPos - 1) == ESCAPE_CHAR) {
@@ -730,7 +705,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		return finalText.toString();
 	}
 
-
 	/**
 	 * Returns a string representation of the attribute according to its type
 	 *
@@ -738,10 +712,8 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 	 * @return          The attribute's HTML representation
 	 */
 	protected String getEntityHTMLRepresentation(String attrName) {
-		Object attrValue = null;
-
 		// get the attribute's raw value
-		attrValue = getIntrinsicContentProducer().getContent(this, attrName, attrValue);
+		Object attrValue = getIntrinsicContentProducer().getContent(this, attrName, null);
 
 		// no such attribute?
 		if (attrValue == null) {
@@ -773,7 +745,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		return (String)attrValue;
 	}
 
-
 	/**
 	 * Gets the image.
 	 *
@@ -786,7 +757,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		return null;
 	}
 
-
 	/**
 	 * Sets the image attribute of the HTMLTextAreaFigure object
 	 *
@@ -795,7 +765,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 	protected void setImage(BufferedImage newImage) {
 		fImageHolder.setResource(newImage);
 	}
-
 
 	/**
 	 * Factory method to create a popup menu which allows to set options
@@ -809,7 +778,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		return popupMenu;
 	}
 
-
 	/**
 	 * Adds items to the popup menu
 	 *
@@ -821,8 +789,7 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		JRadioButtonMenuItem rbOption;
 
 		drawingPopupGroup = new ButtonGroup();
-		rbOption =
-				new JRadioButtonMenuItem(
+		rbOption = new JRadioButtonMenuItem(
 			new AbstractAction("Direct drawing") {
 				public void actionPerformed(ActionEvent event) {
 					setUseDirectDraw(true);
@@ -835,8 +802,7 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		}
 		popupMenu.add(rbOption);
 
-		rbOption =
-				new JRadioButtonMenuItem(
+		rbOption = new JRadioButtonMenuItem(
 			new AbstractAction("Buffered drawing") {
 				public void actionPerformed(ActionEvent event) {
 					setUseDirectDraw(false);
@@ -851,8 +817,7 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		popupMenu.addSeparator();
 
 		drawingPopupGroup = new ButtonGroup();
-		rbOption =
-				new JRadioButtonMenuItem(
+		rbOption = new JRadioButtonMenuItem(
 			new AbstractAction("Normal HTML") {
 				public void actionPerformed(ActionEvent event) {
 					setRawHTML(false);
@@ -875,7 +840,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 
 	}
 
-
 	/**
 	 * Gets the usesDirectDraw status of the HTMLTextAreaFigure object
 	 *
@@ -884,7 +848,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 	public boolean usesDirectDraw() {
 		return fUseDirectDraw;
 	}
-
 
 	/**
 	 * Sets the useDirectDraw attribute of the HTMLTextAreaFigure object
@@ -897,7 +860,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		markSizeDirty();
 	}
 
-
 	/**
 	 * Sets the useBufferedDraw attribute of the HTMLTextAreaFigure object
 	 *
@@ -906,7 +868,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 	public void setUseBufferedDraw(boolean newUseBufferedDraw) {
 		setUseDirectDraw(!newUseBufferedDraw);
 	}
-
 
 	/**
 	 * Gets the usesBufferedDraw attribute of the HTMLTextAreaFigure object
@@ -917,14 +878,12 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		return !usesDirectDraw();
 	}
 
-
 	/**
 	 * Disposes of the image so it will be regenerated next time it is displayed
 	 */
 	protected void markImageDirty() {
 		fImageHolder.dispose();
 	}
-
 
 	/**
 	 * True if the image should be regenerated
@@ -935,15 +894,13 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		return !fImageHolder.isAvailable();
 	}
 
-
 	/**
 	 * Reads the figure from StorableInput
 	 *
 	 * @param dr            Description of the Parameter
 	 * @throws IOException  the inout storable
 	 */
-	public void read(StorableInput dr)
-		throws IOException {
+	public void read(StorableInput dr) throws IOException {
 		super.read(dr);
 
 		setFrameFigure((Figure)dr.readStorable());
@@ -956,7 +913,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 //        setAttribute(Figure.POPUP_MENU, createPopupMenu());
 
 	}
-
 
 	/**
 	 * Writes the figure to StorableOutput
@@ -973,7 +929,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 //		fContentProducers.write(dw);
 	}
 
-
 	/**
 	 * A text area figure uses the "LeftMargin", "RightMargin",
 	 * "TopMargin", "BottomMargin", "TabSize", "FontSize", "FontStyle", and "FontName"
@@ -987,7 +942,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		markImageDirty();
 	}
 
-
 	/**
 	 * Gets the rawHTML attribute of the HTMLTextAreaFigure object.<br>
 	 * In RawHTML mode, the figure does not add any HTML formatting information so it's
@@ -999,7 +953,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		return fRawHTML;
 	}
 
-
 	/**
 	 * Sets the rawHTML attribute of the HTMLTextAreaFigure object
 	 *
@@ -1009,7 +962,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		fRawHTML = newRawHTML;
 		setAttribute(Figure.POPUP_MENU, createPopupMenu());
 	}
-
 
 	/**
 	 * Gets the IntrinsicContentProducer attribute of the HTMLTextAreaFigure object.<br>
@@ -1021,7 +973,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		return fIntrinsicContentProducer;
 	}
 
-
 	/**
 	 * Sets the IntrinsicContentProducer attribute of the HTMLTextAreaFigure object
 	 *
@@ -1030,7 +981,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 	public void setIntrinsicContentProducer(ContentProducer newIntrinsicContentProducer) {
 		fIntrinsicContentProducer = newIntrinsicContentProducer;
 	}
-
 
 	/**
 	 * Registers a specific content producer for the target class
@@ -1043,7 +993,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		return fContentProducers.registerContentProducer(targetClass, producer);
 	}
 
-
 	/**
 	 * Unregisters a registered content producer.
 	 *
@@ -1054,7 +1003,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		fContentProducers.unregisterContentProducer(targetClass, producer);
 	}
 
-
 	/**
 	 * Retrieves a suitable content producer for the target class
 	 *
@@ -1064,7 +1012,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 	protected ContentProducer getContentProducer(Class targetClass) {
 		return fContentProducers.getContentProducer(targetClass);
 	}
-
 
 	/**
 	 * Makes a polygon with the same shape and dimensions as the current figure
@@ -1094,7 +1041,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		return polygon;
 	}
 
-
 	/**
 	 * Gets the frameFigure attribute of the HTMLTextAreaFigure object
 	 *
@@ -1103,7 +1049,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 	protected Figure getFrameFigure() {
 		return fFrameFigure;
 	}
-
 
 	/**
 	 * Sets the frameFigure attribute of the HTMLTextAreaFigure object
@@ -1118,7 +1063,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		fFrameFigure.addFigureChangeListener(this);
 	}
 
-
 	/**
 	 * Gets the clippingShape attribute of the HTMLTextAreaFigure object
 	 *
@@ -1132,14 +1076,12 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		return frame.displayBox();
 	}
 
-
 	/**
 	 * handles frame figure's invalidated events
 	 *
 	 * @param e  Description of the Parameter
 	 */
 	public void figureInvalidated(FigureChangeEvent e) { }
-
 
 	/**
 	 * handles frame figure's changed events.<br>
@@ -1154,7 +1096,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		changed();
 	}
 
-
 	/**
 	 * handles frame figure's invalidatedremoved events.<br>
 	 * Never happens because the frame figure is not part of the drawing
@@ -1162,7 +1103,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 	 * @param e  Description of the Parameter
 	 */
 	public void figureRemoved(FigureChangeEvent e) { }
-
 
 	/**
 	 * handles frame figure's remove requests events.<br>
@@ -1172,7 +1112,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 	 */
 	public void figureRequestRemove(FigureChangeEvent e) { }
 
-
 	/**
 	 * handles frame figure's update requests events.<br>
 	 * Never happens because the frame figure is not part of the drawing
@@ -1180,7 +1119,6 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 	 * @param e  Description of the Parameter
 	 */
 	public void figureRequestUpdate(FigureChangeEvent e) { }
-
 
 	/**
 	 * Thrown when an entity reference is not correctly encoded

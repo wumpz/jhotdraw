@@ -11,16 +11,16 @@
 
 package CH.ifa.draw.figures;
 
-import java.awt.*;
-import java.io.IOException;
-import java.util.List;
-
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
 import CH.ifa.draw.util.CollectionsFactory;
 import CH.ifa.draw.util.ColorMap;
 import CH.ifa.draw.util.StorableInput;
 import CH.ifa.draw.util.StorableOutput;
+
+import java.awt.*;
+import java.io.*;
+import java.util.List;
 
 /**
  * A text figure.
@@ -212,19 +212,23 @@ public class TextFigure
 		if (attributeConstant.equals(FigureAttributeConstant.FONT_SIZE)) {
 			Integer s = (Integer) value;
 			setFont(new Font(font.getName(), font.getStyle(), s.intValue()));
-		} else if (attributeConstant.equals(FigureAttributeConstant.FONT_STYLE)) {
+		}
+		else if (attributeConstant.equals(FigureAttributeConstant.FONT_STYLE)) {
 			Integer s = (Integer) value;
 			int style = font.getStyle();
 			if (s.intValue() == Font.PLAIN) {
 				style = Font.PLAIN;
-			} else {
+			}
+			else {
 				style = style ^ s.intValue();
 			}
 			setFont(new Font(font.getName(), style, font.getSize()));
-		} else if (attributeConstant.equals(FigureAttributeConstant.FONT_NAME)) {
+		}
+		else if (attributeConstant.equals(FigureAttributeConstant.FONT_NAME)) {
 			String n = (String) value;
 			setFont(new Font(n, font.getStyle(), font.getSize()));
-		} else {
+		}
+		else {
 			super.setAttribute(attributeConstant, value);
 		}
 	}
@@ -352,15 +356,14 @@ public class TextFigure
 		setLocator((OffsetLocator) dr.readStorable());
 	}
 
-	/*private void readObject(ObjectInputStream s)
-		throws ClassNotFoundException, IOException {
+	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
 		s.defaultReadObject();
 
 		if (getObservedFigure() != null) {
 			getObservedFigure().addFigureChangeListener(this);
 		}
 		markDirty();
-	}*/
+	}
 
 	/**
 	 * @see CH.ifa.draw.standard.TextHolder#connect(CH.ifa.draw.framework.Figure)
