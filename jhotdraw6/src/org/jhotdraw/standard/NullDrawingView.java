@@ -405,9 +405,7 @@ public class NullDrawingView extends JPanel implements DrawingView {
 	public void drawingRequestUpdate(DrawingChangeEvent e) {
 		// ignore: do nothing
 	}
-    public void drawingTitleChanged(DrawingChangeEvent e) {
-		// ignore: do nothing        
-    }
+
 	public boolean isInteractive() {
 		return false;
 	}

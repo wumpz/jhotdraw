@@ -54,11 +54,10 @@ public  class JavaDrawApp extends MDI_DrawApplication {
 		return new JavaDrawApp("JHotDraw");
 	}
 
-	protected DrawingView createDrawingView(Drawing newDrawing) {
-		Dimension d = getDrawingViewSize();
-		DrawingView newDrawingView = new ZoomDrawingView( newDrawing ,this,d.width, d.height);
-		return newDrawingView;
+	protected DrawingView createDrawingView() {
+		return new ZoomDrawingView(this);
 	}
+
 	//-- application life cycle --------------------------------------------
 
 	public void destroy() {
@@ -211,9 +210,7 @@ public  class JavaDrawApp extends MDI_DrawApplication {
 	}
 
 	protected Drawing createDrawing() {
-		Drawing dwg = new BouncingDrawing();
-        dwg.setTitle( getDefaultDrawingTitle() );
-		return dwg;
+		return new BouncingDrawing();
 		//return new StandardDrawing();
 	}
 
@@ -237,7 +234,6 @@ public  class JavaDrawApp extends MDI_DrawApplication {
 
 	public static void main(String[] args) {
 		JavaDrawApp window = new JavaDrawApp("JHotDraw");
-        window.open();
-        window.newWindow( );
+		window.open();
 	}
 }

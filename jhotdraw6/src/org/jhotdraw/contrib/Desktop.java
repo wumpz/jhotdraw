@@ -32,12 +32,6 @@ public interface Desktop {
 	public void removeAllFromDesktop(int location);
 	public DrawingView[] getAllFromDesktop(int location);
 
-    /**
-     *  desktops must listen to drawings for name changes if they have 
-     *  titles that need updating. 
-     *
-     * @deprecated
-     */
 	public void updateTitle(String newDrawingTitle);
 
 	public void addDesktopListener(DesktopListener dpl);

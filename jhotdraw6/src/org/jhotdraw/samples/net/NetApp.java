@@ -44,6 +44,5 @@ public  class NetApp extends DrawApplication {
 	public static void main(String[] args) {
 		DrawApplication window = new NetApp();
 		window.open();
-                window.newWindow();
 	}
 }

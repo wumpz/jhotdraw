@@ -68,6 +68,13 @@ public class MDI_DrawApplication extends DrawApplication {
 	}
 
 	/**
+	 * Opens a new internal frame containing a new drawing.
+	 */
+	public void promptNew() {
+		newWindow(createDrawing());
+	}
+
+	/**
 	 * Method to create a new internal frame.  Applications that want
 	 * to create a new internal drawing view should call this method.
 	 */
@@ -94,21 +101,29 @@ public class MDI_DrawApplication extends DrawApplication {
 	/**
 	 * Open a new view for this application containing a
 	 * view of the drawing of the currently activated window.
-     * interesting to check for interactive here.  should be context menu catches that
 	 */
 	public void newView() {
-		if (!getDesktop().getActiveDrawingView().isInteractive()) {
+		if (!view().isInteractive()) {
 			return;
 		}
+
 		// create new window with view to an existing drawing
-		newWindow(getDesktop().getActiveDrawingView().drawing());
+		newWindow(view().drawing());
+
+		String copyTitle = getDrawingTitle();
+		if (copyTitle != null) {
+			setDrawingTitle(copyTitle);
+		}
+		else {
+			setDrawingTitle(getDefaultDrawingTitle());
+		}
 	}
 
 	/**
 	 * Factory method to create a specialized desktop (manager) for MDI applications
 	 */
 	protected Desktop createDesktop() {
-		return new MDIDesktopPane();
+		return new MDIDesktopPane(this);
 	}
 
 	/**
@@ -119,24 +134,13 @@ public class MDI_DrawApplication extends DrawApplication {
 	}
 
 	public String getDefaultDrawingTitle() {
-		//return super.getDefaultDrawingTitle() + views().length;
-        DrawingView [] dvs = getDesktop().getAllFromDesktop(Desktop.PRIMARY);
-        int x=1;
-        while(true){
-            String name = super.getDefaultDrawingTitle() + x;
-            boolean good = true;
-            for(int i=0;i<dvs.length;i++){
-                if(dvs[i].drawing().getTitle().equals(name)){
-                    good = false;
-                    break;
-                }
-            }
-            if(good == true){
-                return name;
-            }
-            else {
-                x++;
-            }
-        }        
+		return super.getDefaultDrawingTitle() + views().length;
+	}
+
+	/**
+	 * Set the title of the currently selected drawing
+	 */
+	protected void setDrawingTitle(String drawingTitle) {
+		getDesktop().updateTitle(drawingTitle);
 	}
 }

@@ -131,7 +131,8 @@ public class StandardDrawingView
 	public StandardDrawingView(DrawingEditor editor) {
 		this(editor, MINIMUM_WIDTH, MINIMUM_HEIGHT);
 	}
-	public StandardDrawingView(Drawing drawing, DrawingEditor editor, int width, int height) {
+
+	public StandardDrawingView(DrawingEditor editor, int width, int height) {
 		setAutoscrolls(true);
 		counter++;
 		fEditor = editor;
@@ -151,10 +152,6 @@ public class StandardDrawingView
 		addMouseListener(createMouseListener());
 		addMouseMotionListener(createMouseMotionListener());
 		addKeyListener(createKeyListener());
-        setDrawing(drawing);
-    }
-	public StandardDrawingView(DrawingEditor editor, int width, int height) {
-        this(new StandardDrawing(),editor,width,height);
 	}
 
 	protected MouseListener createMouseListener() {
@@ -653,8 +650,7 @@ public class StandardDrawingView
 	public void drawingRequestUpdate(DrawingChangeEvent e) {
 		repairDamage();
 	}
-    public void drawingTitleChanged(DrawingChangeEvent e){
-    }
+
 	/**
 	 * Paints the drawing view. The actual drawing is delegated to
 	 * the current update strategy.

@@ -23,8 +23,10 @@ import CH.ifa.draw.framework.DrawingView;
 public class JPanelDesktop extends JPanel implements Desktop {
 
 	private DesktopEventService myDesktopEventService;
+	private DrawApplication myDrawApplication;
 
-    public JPanelDesktop() {
+    public JPanelDesktop(DrawApplication newDrawApplication) {
+		setDrawApplication(newDrawApplication);
 		setDesktopEventService(createDesktopEventService());
         setAlignmentX(LEFT_ALIGNMENT);
 		setLayout(new BorderLayout());
@@ -35,6 +37,16 @@ public class JPanelDesktop extends JPanel implements Desktop {
 		sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		sp.setAlignmentX(LEFT_ALIGNMENT);
+		String applicationTitle;
+		if (dv.drawing().getTitle() == null) {
+			applicationTitle = getDrawApplication().getApplicationName()
+					+ " - " + getDrawApplication().getDefaultDrawingTitle();
+		}
+		else {
+			applicationTitle = getDrawApplication().getApplicationName() + " - " + dv.drawing().getTitle();
+		}
+		// should be setTitle but a JPanelDesktop has no own title bar
+		sp.setName(applicationTitle);
 		return sp;
 	}
 
@@ -84,9 +96,15 @@ public class JPanelDesktop extends JPanel implements Desktop {
 	protected DesktopEventService createDesktopEventService() {
 		return new DesktopEventService(this, getContainer());
 	}
-    /**
-     *  @deprecated desktop will use listener
-     */
+
+	private void setDrawApplication(DrawApplication newDrawApplication) {
+		myDrawApplication = newDrawApplication;
+	}
+
+	protected DrawApplication getDrawApplication() {
+		return myDrawApplication;
+	}
+
 	public void updateTitle(String newDrawingTitle) {
 		// should be setTitle but a JPanelDesktop has no own title bar
 		setName(newDrawingTitle);

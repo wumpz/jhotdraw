@@ -226,10 +226,5 @@ public class MiniMapView extends JComponent {
 		public void drawingRequestUpdate(DrawingChangeEvent e) {
 			repaint();
 		}
-        
-        /**  
-         *  Sent when the drawing Title has changed
-         */
-        public void drawingTitleChanged(DrawingChangeEvent e) {
-        }
-	}}
+	}
+}

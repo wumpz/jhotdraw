@@ -17,7 +17,7 @@ import CH.ifa.draw.contrib.*;
 import CH.ifa.draw.framework.DrawingView;
 
 /**
- * @author  C.L.Gilbert <dnoyeb@users.sourceforge.net>
+ * @author  C.L.Gilbert <dnoyeb@sourceforge.net>
  * @version <$CURRENT_VERSION$>
  */
 public class JScrollPaneDesktop extends JScrollPane implements Desktop {
@@ -79,9 +79,7 @@ public class JScrollPaneDesktop extends JScrollPane implements Desktop {
 	protected DesktopEventService createDesktopEventService() {
 		return new DesktopEventService(this, getContainer());
 	}
-    /**
-     *  @deprecated desktop will use listener
-     */
+
 	public void updateTitle(String newDrawingTitle) {
 		// should be setTitle but a JPanelDesktop has no own title bar
 		setName(newDrawingTitle);
