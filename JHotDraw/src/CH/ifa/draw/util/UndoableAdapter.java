@@ -27,7 +27,6 @@ import java.util.List;
 public class UndoableAdapter implements Undoable {
 
 	private List   myAffectedFigures;
-	private int    myAffectedFiguresCount;
 	private boolean myIsUndoable;
 	private boolean myIsRedoable;
 	private DrawingView myDrawingView;
@@ -79,15 +78,13 @@ public class UndoableAdapter implements Undoable {
 	}
 	
 	public int getAffectedFiguresCount() {
-		return myAffectedFiguresCount;
+		return myAffectedFigures.size();
 	}
 	
 	protected void rememberFigures(FigureEnumeration toBeRemembered) {
 		myAffectedFigures = CollectionsFactory.current().createList();
-		myAffectedFiguresCount = 0;
 		while (toBeRemembered.hasNextFigure()) {
 			myAffectedFigures.add(toBeRemembered.nextFigure());
-			myAffectedFiguresCount++;
 		}
 	}
 	
@@ -99,7 +96,6 @@ public class UndoableAdapter implements Undoable {
 		while (fe.hasNextFigure()) {
 			fe.nextFigure().release();
 		}
-		myAffectedFiguresCount = 0;
 		setAffectedFigures(FigureEnumerator.getEmptyEnumeration());
 	}
 

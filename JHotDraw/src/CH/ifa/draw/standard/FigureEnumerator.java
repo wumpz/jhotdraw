@@ -14,7 +14,9 @@ package CH.ifa.draw.standard;
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.util.CollectionsFactory;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.Collection;
+
 
 /**
  * An Enumeration for a Collection of Figures.
@@ -23,12 +25,14 @@ import java.util.*;
  */
 public final class FigureEnumerator implements FigureEnumeration {
 	private Iterator myIterator;
+	private Collection myInitialCollection;
 
 	private static FigureEnumerator singletonEmptyEnumerator =
 		new FigureEnumerator(CollectionsFactory.current().createList());
 
 	public FigureEnumerator(Collection c) {
-		myIterator = c.iterator();
+		myInitialCollection = c;
+		reset();
 	}
 
 	/**
@@ -42,7 +46,7 @@ public final class FigureEnumerator implements FigureEnumeration {
 	/**
 	 * Returns the next element of the enumeration. Calls to this
 	 * method will enumerate successive elements.
-	 * @exception NoSuchElementException If no more elements exist.
+	 * @exception java.util.NoSuchElementException If no more elements exist.
 	 */
 	public Figure nextFigure() {
 		return (Figure)myIterator.next();
@@ -50,6 +54,16 @@ public final class FigureEnumerator implements FigureEnumeration {
 
 	public static FigureEnumeration getEmptyEnumeration() {
 		return singletonEmptyEnumerator;
+	}
+
+	/**
+	 * Reset the enumeration so it can be reused again. However, the
+	 * underlying collection might have changed since the last usage
+	 * so the elements and the order may vary when using an enumeration
+	 * which has been reset.
+	 */
+	public void reset() {
+		myIterator = myInitialCollection.iterator();
 	}
 
 /*	public static FigureEnumeration getClonedFigures(FigureEnumeration toDuplicate) {

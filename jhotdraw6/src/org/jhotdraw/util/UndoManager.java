@@ -84,7 +84,8 @@ public class UndoManager {
 	 */
 	private void removeFirstElementInFullList(List l) {
 		if (l.size() >= maxStackCapacity) {
-			l.remove(0);
+			Undoable removedActivity = (Undoable)l.remove(0);
+			removedActivity.release();
 		}
 	}
 

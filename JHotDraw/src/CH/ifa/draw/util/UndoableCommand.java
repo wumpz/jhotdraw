@@ -30,7 +30,7 @@ public class UndoableCommand implements Command, FigureSelectionListener, Comman
 		getWrappedCommand().addCommandListener(this);
 		setEventDispatcher(createEventDispatcher());
 	}
-	
+
 	/**
 	 * Executes the command.
 	 */
@@ -46,16 +46,16 @@ public class UndoableCommand implements Command, FigureSelectionListener, Comman
 			getDrawingEditor().getUndoManager().pushUndo(undoableCommand);
 			getDrawingEditor().getUndoManager().clearRedos();
 		}
-		
+
 		// initiate manual update of undo/redo menu states if it has not
 		// been done automatically during executing the wrapped command
 		if (!hasSelectionChanged || (getDrawingEditor().getUndoManager().getUndoSize() == 1)) {
 			getDrawingEditor().figureSelectionChanged(view());
 		}
 
-		// remove so not all commands are listeners that have to be notified
-		// all the time
-		view().addFigureSelectionListener(this);
+		// remove because not all commands are listeners that have to be notified
+		// all the time (bug-id 595461)
+		view().removeFigureSelectionListener(this);
 	}
 
 	/**
@@ -68,11 +68,11 @@ public class UndoableCommand implements Command, FigureSelectionListener, Comman
 	protected void setWrappedCommand(Command newWrappedCommand) {
 		myWrappedCommand = newWrappedCommand;
 	}
-	
+
 	protected Command getWrappedCommand() {
 		return myWrappedCommand;
 	}
-	
+
 	/**
 	 * Gets the command name.
 	 */
@@ -83,7 +83,7 @@ public class UndoableCommand implements Command, FigureSelectionListener, Comman
 	public DrawingEditor getDrawingEditor() {
 		return getWrappedCommand().getDrawingEditor();
 	}
-	
+
 	public DrawingView view() {
 		return getDrawingEditor().view();
 	}
@@ -103,7 +103,7 @@ public class UndoableCommand implements Command, FigureSelectionListener, Comman
 	public void addCommandListener(CommandListener newCommandListener) {
 		getEventDispatcher().addCommandListener(newCommandListener);
 	}
-	
+
 	public void removeCommandListener(CommandListener oldCommandListener) {
 		getEventDispatcher().removeCommandListener(oldCommandListener);
 	}
@@ -123,11 +123,11 @@ public class UndoableCommand implements Command, FigureSelectionListener, Comman
 	public void commandExecuted(EventObject commandEvent) {
 		getEventDispatcher().fireCommandExecutedEvent();
 	}
-	
+
 	public void commandExecutable(EventObject commandEvent) {
 		getEventDispatcher().fireCommandExecutableEvent();
 	}
-	
+
 	public void commandNotExecutable(EventObject commandEvent) {
 		getEventDispatcher().fireCommandNotExecutableEvent();
 	}

@@ -284,24 +284,6 @@ public interface Drawing
 	public void draw(Graphics g, FigureEnumeration fe);
 
 	/**
-	 * Invalidates a rectangle and merges it with the
-	 * existing damaged area.
-	 */
-	public void figureInvalidated(FigureChangeEvent e);
-
-	/**
-	 * Forces an update of the drawing change listeners.
-	 */
-	public void figureRequestUpdate(FigureChangeEvent e);
-
-	/**
-	 * Handles a removeFrfigureRequestRemove request that
-	 * is passed up the figure container hierarchy.
-	 * @see FigureChangeListener
-	 */
-	public void figureRequestRemove(FigureChangeEvent e);
-
-	/**
 	 * Acquires the drawing lock.
 	 */
 	public void lock();

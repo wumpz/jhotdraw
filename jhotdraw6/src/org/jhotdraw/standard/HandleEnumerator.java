@@ -25,12 +25,14 @@ import java.util.List;
  */
 public class HandleEnumerator implements HandleEnumeration {
 	private Iterator myIterator;
+	private Collection myInitialCollection;
 
 	private static HandleEnumerator singletonEmptyEnumerator =
 		new HandleEnumerator(CollectionsFactory.current().createList());
 
 	public HandleEnumerator(Collection c) {
-		myIterator = c.iterator();
+		myInitialCollection = c;
+		reset();
 	}
 
 	/**
@@ -44,7 +46,7 @@ public class HandleEnumerator implements HandleEnumeration {
 	/**
 	 * Returns the next element of the enumeration. Calls to this
 	 * method will enumerate successive elements.
-	 * @exception NoSuchElementException If no more elements exist.
+	 * @exception java.util.NoSuchElementException If no more elements exist.
 	 */
 	public Handle nextHandle() {
 		return (Handle)myIterator.next();
@@ -67,6 +69,16 @@ public class HandleEnumerator implements HandleEnumeration {
 		// copy/reset iterator to original content
 		myIterator = handles.iterator();
 		return handles;
+	}
+
+	/**
+	 * Reset the enumeration so it can be reused again. However, the
+	 * underlying collection might have changed since the last usage
+	 * so the elements and the order may vary when using an enumeration
+	 * which has been reset.
+	 */
+	public void reset() {
+		myIterator = myInitialCollection.iterator();
 	}
 
 	public static HandleEnumeration getEmptyEnumeration() {

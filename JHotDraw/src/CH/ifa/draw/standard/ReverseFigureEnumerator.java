@@ -11,9 +11,11 @@
 
 package CH.ifa.draw.standard;
 
-import java.util.*;
 import CH.ifa.draw.util.ReverseListEnumerator;
 import CH.ifa.draw.framework.*;
+
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * An Enumeration that enumerates a Collection of figures back (size-1) to front (0).
@@ -22,9 +24,11 @@ import CH.ifa.draw.framework.*;
  */
 public final class ReverseFigureEnumerator implements FigureEnumeration {
 	private Iterator myIterator;
+	private List myInitialList;
 
 	public ReverseFigureEnumerator(List l) {
-		myIterator = new ReverseListEnumerator(l);
+		myInitialList = l;
+		reset();
 	}
 
 	/**
@@ -38,9 +42,19 @@ public final class ReverseFigureEnumerator implements FigureEnumeration {
 	/**
 	 * Returns the next element casted as a figure of the enumeration. Calls to this
 	 * method will enumerate successive elements.
-	 * @exception NoSuchElementException If no more elements exist.
+	 * @exception java.util.NoSuchElementException If no more elements exist.
 	 */
 	public Figure nextFigure() {
 		return (Figure)myIterator.next();
+	}
+
+	/**
+	 * Reset the enumeration so it can be reused again. However, the
+	 * underlying collection might have changed since the last usage
+	 * so the elements and the order may vary when using an enumeration
+	 * which has been reset.
+	 */
+	public void reset() {
+		myIterator = new ReverseListEnumerator(myInitialList);
 	}
 }

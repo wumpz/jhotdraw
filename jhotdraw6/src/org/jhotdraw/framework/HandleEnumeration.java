@@ -40,4 +40,12 @@ public interface HandleEnumeration {
 	 * @return list with all elements currently available in the enumeration.
 	 */
 	public List toList();
+
+	/**
+	 * Reset the enumeration so it can be reused again. However, the
+	 * underlying collection might have changed since the last usage
+	 * so the elements and the order may vary when using an enumeration
+	 * which has been reset.
+	 */
+	public void reset();
 }
