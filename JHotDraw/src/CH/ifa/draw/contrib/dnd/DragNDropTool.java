@@ -11,15 +11,15 @@
 
 package CH.ifa.draw.contrib.dnd;
 
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.standard.*;
-
-import java.awt.Cursor;
-import java.awt.Point;
 import java.awt.Component;
+import java.awt.Point;
 import java.awt.dnd.DragGestureListener;
 import java.awt.event.MouseEvent;
+
 import javax.swing.JComponent;
+
+import CH.ifa.draw.framework.*;
+import CH.ifa.draw.standard.*;
 
 /**
  * This is a tool which handles drag and drop between Components in
@@ -56,6 +56,7 @@ import javax.swing.JComponent;
  * @version <$CURRENT_VERSION$>
  */
 public class DragNDropTool extends AbstractTool {
+
 	private Tool            fChild;
 	private DragGestureListener dragGestureListener;
 	private boolean dragOn;
@@ -126,43 +127,13 @@ public class DragNDropTool extends AbstractTool {
 		Figure figure = view.drawing().findFigure(x, y);
 
 		if (handle != null) {
-			if (LocatorHandle.class.isInstance(handle)) {
-				LocatorHandle lh = (LocatorHandle)handle;
-				Locator loc = lh.getLocator();
-				if (RelativeLocator.class.isInstance(loc)) {
-					RelativeLocator rl = (RelativeLocator) loc;
-					if (rl.equals( RelativeLocator.north())) {
-						view.setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
-					}
-					else if (rl.equals(RelativeLocator.northEast())) {
-						view.setCursor(new Cursor(Cursor.NE_RESIZE_CURSOR));
-					}
-					else if (rl.equals(RelativeLocator.east())) {
-						view.setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
-					}
-					else if (rl.equals(RelativeLocator.southEast())) {
-						view.setCursor(new Cursor(Cursor.SE_RESIZE_CURSOR));
-					}
-					else if (rl.equals(RelativeLocator.south())) {
-						view.setCursor(new Cursor(Cursor.S_RESIZE_CURSOR));
-					}
-					else if (rl.equals(RelativeLocator.southWest())) {
-						view.setCursor(new Cursor(Cursor.SW_RESIZE_CURSOR));
-					}
-					else if (rl.equals(RelativeLocator.west())) {
-						view.setCursor(new Cursor(Cursor.W_RESIZE_CURSOR));
-					}
-					else if (rl.equals(RelativeLocator.northWest())) {
-						view.setCursor(new Cursor(Cursor.NW_RESIZE_CURSOR));
-					}
-				}
-			}
+			view.setCursor(handle.getCursor());
 		}
 		else if (figure != null) {
-			view.setCursor(new Cursor(Cursor.MOVE_CURSOR));
+			view.setCursor(new AWTCursor(java.awt.Cursor.MOVE_CURSOR));
 		}
 		else {
-			view.setCursor(Cursor.getDefaultCursor());
+			view.setCursor(new AWTCursor(java.awt.Cursor.DEFAULT_CURSOR));
 		}
 	}
 

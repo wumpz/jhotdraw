@@ -44,8 +44,8 @@ public  class CommandButton
 	 */
 	public void actionPerformed(ActionEvent e) {
 		fCommand.execute();
-		if (!getLabel().equals(fCommand.name()) ) {
-			setLabel(fCommand.name());
+		if (!getText().equals(fCommand.name()) ) {
+			setText(fCommand.name());
 		}
 	}
 }

@@ -11,10 +11,13 @@
 
 package CH.ifa.draw.standard;
 
-import CH.ifa.draw.framework.*;
 import java.awt.*;
-import java.util.*;
+import java.util.Collection;
+import java.util.Hashtable;
+
 import javax.swing.JPanel;
+
+import CH.ifa.draw.framework.*;
 
 /**
  * This DrawingView provides a very basic implementation. It does not perform any
@@ -345,7 +348,7 @@ public class NullDrawingView extends JPanel implements DrawingView {
 	/**
 	 * Sets the cursor of the DrawingView
 	 */
-	public void setCursor(Cursor c) {
+	public void setCursor(CH.ifa.draw.framework.Cursor c) {
 		// ignore: do nothing
 	}
 

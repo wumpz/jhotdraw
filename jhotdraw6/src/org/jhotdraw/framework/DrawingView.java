@@ -11,9 +11,9 @@
 
 package CH.ifa.draw.framework;
 
-import java.awt.image.ImageObserver;
 import java.awt.*;
-import java.util.*;
+import java.awt.image.ImageObserver;
+import java.util.Collection;
 
 /**
  * DrawingView renders a Drawing and listens to its changes.

@@ -11,27 +11,28 @@
 
 package CH.ifa.draw.standard;
 
-import CH.ifa.draw.contrib.AutoscrollHelper;
-import CH.ifa.draw.contrib.dnd.DNDHelper;
-import CH.ifa.draw.contrib.dnd.DNDInterface;
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.util.CollectionsFactory;
-import CH.ifa.draw.util.Command;
-import CH.ifa.draw.util.Geom;
-import CH.ifa.draw.util.UndoableCommand;
-
 import java.awt.*;
+import java.awt.dnd.DragGestureListener;
+import java.awt.dnd.DragSourceListener;
 import java.awt.event.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.awt.dnd.DragGestureListener;
-import java.awt.dnd.DragSourceListener;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import CH.ifa.draw.contrib.AutoscrollHelper;
+import CH.ifa.draw.contrib.dnd.DNDHelper;
+import CH.ifa.draw.contrib.dnd.DNDInterface;
+import CH.ifa.draw.framework.*;
+import CH.ifa.draw.framework.Cursor;
+import CH.ifa.draw.util.CollectionsFactory;
+import CH.ifa.draw.util.Command;
+import CH.ifa.draw.util.Geom;
+import CH.ifa.draw.util.UndoableCommand;
 
 /**
  * The standard implementation of DrawingView.
@@ -1090,4 +1091,15 @@ public class StandardDrawingView
 	public void DNDDeinitialize() {
 		getDNDHelper().deinitialize();
 	}
+
+	/**
+	 * @see DrawingView#setCursor(Cursor)
+	 * @see java.awt.Component#setCursor(java.awt.Cursor)
+	 */
+	public void setCursor(Cursor cursor) {
+		if (cursor instanceof java.awt.Cursor) {
+			super.setCursor((java.awt.Cursor) cursor);
+		}
+	}
+
 }

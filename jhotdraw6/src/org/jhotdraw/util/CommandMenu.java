@@ -82,7 +82,7 @@ public  class CommandMenu extends JMenu implements ActionListener, CommandListen
 	public synchronized void enable(String name, boolean state) {
 		for (int i = 0; i < getItemCount(); i++) {
 			JMenuItem item = getItem(i);
-			if (name.equals(item.getLabel())) {
+			if (name.equals(item.getText())) {
 				item.setEnabled(state);
 				return;
 			}

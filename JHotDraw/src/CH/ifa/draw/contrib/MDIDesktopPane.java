@@ -14,7 +14,6 @@ package CH.ifa.draw.contrib;
 import CH.ifa.draw.framework.DrawingView;
 import CH.ifa.draw.standard.NullDrawingView;
 import CH.ifa.draw.application.DrawApplication;
-import CH.ifa.draw.util.CollectionsFactory;
 
 import javax.swing.*;
 import javax.swing.event.InternalFrameListener;
@@ -22,7 +21,6 @@ import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 import java.awt.*;
 import java.beans.*;
-import java.util.ListIterator;
 
 /**
  * An extension of JDesktopPane that supports often used MDI functionality. This
@@ -530,7 +528,7 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 	}
 
 	private void checkDesktopSize() {
-		if (getParent()!=null&&isVisible()) manager.resizeDesktop();
+		if ((getParent() != null) && isVisible()) manager.resizeDesktop();
 	}
 
 	private void setDrawApplication(DrawApplication newDrawApplication) {

@@ -11,8 +11,11 @@
 
 package CH.ifa.draw.framework;
 
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
+
 import CH.ifa.draw.util.Undoable;
-import java.awt.*;
 
 /**
  * Handles are used to change a figure by direct manipulation.
@@ -39,20 +42,8 @@ public interface Handle {
 	public Point locate();
 
 	/**
-	 * @deprecated As of version 4.1,
-	 * use invokeStart(x, y, drawingView)
 	 * Tracks the start of the interaction. The default implementation
 	 * does nothing.
-	 * @param x the x position where the interaction started
-	 * @param y the y position where the interaction started
-	 */
-	public void invokeStart(int  x, int  y, Drawing drawing);
-
-	/**
-	 * Tracks the start of the interaction. The default implementation
-	 * does nothing.
-	 * @deprecated As of version 4.1,
-	 * use invokeStart(x, y, drawingView)
 	 * @param x the x position where the interaction started
 	 * @param y the y position where the interaction started
 	 * @param view the handles container
@@ -60,14 +51,13 @@ public interface Handle {
 	public void invokeStart(int  x, int  y, DrawingView view);
 
 	/**
-	 * @deprecated As of version 4.1,
-	 * use invokeStep(x, y, anchorX, anchorY, drawingView)
-	 *
-	 * Tracks a step of the interaction.
-	 * @param dx x delta of this step
-	 * @param dy y delta of this step
+	 * Tracks the start of the interaction. The default implementation
+	 * does nothing.
+	 * @param x the x position where the interaction started
+	 * @param y the y position where the interaction started
+	 * @deprecated As of version 4.1, use invokeStart(x, y, drawingView)
 	 */
-	public void invokeStep (int dx, int dy, Drawing drawing);
+	public void invokeStart(int  x, int  y, Drawing drawing);
 
 	/**
 	 * Tracks a step of the interaction.
@@ -79,6 +69,15 @@ public interface Handle {
 	public void invokeStep (int x, int y, int anchorX, int anchorY, DrawingView view);
 
 	/**
+	 * Tracks a step of the interaction.
+	 * @param dx x delta of this step
+	 * @param dy y delta of this step
+	 * @deprecated As of version 4.1,
+	 * use invokeStep(x, y, anchorX, anchorY, drawingView)
+	 */
+	public void invokeStep (int dx, int dy, Drawing drawing);
+
+	/**
 	 * Tracks the end of the interaction.
 	 * @param x the current x position
 	 * @param y the current y position
@@ -88,12 +87,11 @@ public interface Handle {
 	public void invokeEnd(int x, int y, int anchorX, int anchorY, DrawingView view);
 
 	/**
+	 * Tracks the end of the interaction.
 	 * @deprecated As of version 4.1,
 	 * use invokeEnd(x, y, anchorX, anchorY, drawingView).
-	 *
-	 * Tracks the end of the interaction.
 	 */
-	public void invokeEnd  (int dx, int dy, Drawing drawing);
+	public void invokeEnd(int dx, int dy, Drawing drawing);
 
 	/**
 	 * Gets the handle's owner.
@@ -115,7 +113,21 @@ public interface Handle {
 	 */
 	public void draw(Graphics g);
 
+	/**
+	 * Returns an Undoable to be used by the Undo/Redo infrastructure.
+	 * @return Undoable
+	 */
 	public Undoable getUndoActivity();
 
+	/**
+	 * Sets an Undoable to be used by the Undo/Redo infrastructure.
+	 * @param newUndoableActivity
+	 */
 	public void setUndoActivity(Undoable newUndoableActivity);
+
+	/**
+	 * Returns the preferred Cursor for this Handle.
+	 * @return Cursor
+	 */
+	public Cursor getCursor();
 }

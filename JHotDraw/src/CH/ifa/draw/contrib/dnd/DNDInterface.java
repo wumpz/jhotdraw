@@ -11,8 +11,9 @@
 
 package CH.ifa.draw.contrib.dnd;
 
-import java.awt.datatransfer.*;
-import java.awt.dnd.*;
+import java.awt.dnd.DragGestureListener;
+import java.awt.dnd.DragSourceListener;
+
 /**
  * Interface for Components which wish to participate in drag and drop.
  *

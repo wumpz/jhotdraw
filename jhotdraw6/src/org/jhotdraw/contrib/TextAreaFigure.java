@@ -862,8 +862,7 @@ public class TextAreaFigure extends AttributeFigure
 		if (!isFontDirty()) {
 			return;
 		}
-		FontMetrics metrics = Toolkit.getDefaultToolkit().getFontMetrics(getFont());
-		fFontWidth = metrics.charWidth('W');
+		fFontWidth = (int) getFont().getMaxCharBounds(new FontRenderContext(null, false, false)).getWidth(); 
 
 		setFontDirty(false);
 	}

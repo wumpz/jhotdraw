@@ -11,10 +11,13 @@
 
 package CH.ifa.draw.standard;
 
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.util.Undoable;
-import java.awt.*;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
+
+import CH.ifa.draw.framework.DrawingEditor;
+import CH.ifa.draw.framework.Figure;
+import CH.ifa.draw.framework.JHotDrawRuntimeException;
+import CH.ifa.draw.util.Undoable;
 
 /**
  * A tool to create new figures. The figure to be
@@ -32,8 +35,6 @@ import java.awt.event.MouseEvent;
  *
  * @version <$CURRENT_VERSION$>
  */
-
-
 public class CreationTool extends AbstractTool {
 
 	/**
@@ -75,7 +76,7 @@ public class CreationTool extends AbstractTool {
 	public void activate() {
 		super.activate();
 		if (isUsable()) {
-			getActiveView().setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+			getActiveView().setCursor(new AWTCursor(java.awt.Cursor.CROSSHAIR_CURSOR));
 		}
 	}
 

@@ -16,7 +16,6 @@ import java.io.Serializable;
 import CH.ifa.draw.util.StorableInput;
 import CH.ifa.draw.util.StorableOutput;
 import CH.ifa.draw.standard.TextHolder;
-import CH.ifa.draw.framework.Figure;
 
 /**
  * TextAreaFigureContentProducer produces text contents from an existing

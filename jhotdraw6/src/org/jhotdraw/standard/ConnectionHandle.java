@@ -11,10 +11,15 @@
 
 package CH.ifa.draw.standard;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.util.Vector;
 
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.util.Geom;
+import CH.ifa.draw.util.Undoable;
 
 /**
  * A handle to connect figures.
@@ -31,7 +36,6 @@ import CH.ifa.draw.util.Geom;
  *
  * @version <$CURRENT_VERSION$>
  */
-
 public  class ConnectionHandle extends LocatorHandle {
 
 	/**
@@ -62,6 +66,12 @@ public  class ConnectionHandle extends LocatorHandle {
 	 */
 	public void invokeStart(int  x, int  y, DrawingView view) {
 		setConnection(createConnection());
+
+		setUndoActivity(createUndoActivity(view));
+		Vector v = new Vector();
+		v.add(getConnection());
+		getUndoActivity().setAffectedFigures(new FigureEnumerator(v));
+
 		Point p = locate();
 		getConnection().startPoint(p.x, p.y);
 		getConnection().endPoint(p.x, p.y);
@@ -105,6 +115,7 @@ public  class ConnectionHandle extends LocatorHandle {
 		}
 		else {
 			view.drawing().remove(getConnection());
+			setUndoActivity(null);
 		}
 		setConnection(null);
 		if (getTargetFigure() != null) {
@@ -124,6 +135,13 @@ public  class ConnectionHandle extends LocatorHandle {
 	 */
 	protected ConnectionFigure createConnection() {
 		return (ConnectionFigure)fPrototype.clone();
+	}
+
+	/**
+	 * Factory method for undo activity.
+	 */
+	protected Undoable createUndoActivity(DrawingView view) {
+		return new PasteCommand.UndoActivity(view);
 	}
 
 	/**
@@ -181,4 +199,12 @@ public  class ConnectionHandle extends LocatorHandle {
 	protected void setTargetFigure(Figure newTargetFigure) {
 		myTargetFigure = newTargetFigure;
 	}
+
+	/**
+	 * @see CH.ifa.draw.framework.Handle#getCursor()
+	 */
+	public Cursor getCursor() {
+		return new AWTCursor(java.awt.Cursor.HAND_CURSOR);
+	}
+
 }

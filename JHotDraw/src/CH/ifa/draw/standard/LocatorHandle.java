@@ -12,13 +12,16 @@
 package CH.ifa.draw.standard;
 
 import java.awt.Point;
-import CH.ifa.draw.framework.*;
+
+import CH.ifa.draw.framework.Cursor;
+import CH.ifa.draw.framework.Figure;
+import CH.ifa.draw.framework.Locator;
 
 /**
  * A LocatorHandle implements a Handle by delegating the location requests to
  * a Locator object.
  *
- * @see Locator
+ * @see LocatorHandle
  *
  * @version <$CURRENT_VERSION$>
  */
@@ -48,4 +51,40 @@ public class LocatorHandle extends AbstractHandle {
 	public Point locate() {
 		return fLocator.locate(owner());
 	}
+
+	/**
+	 * @see CH.ifa.draw.framework.Handle#getCursor()
+	 */
+	public Cursor getCursor() {
+		Cursor c = super.getCursor();
+		if (getLocator() instanceof RelativeLocator) {
+			RelativeLocator rl = (RelativeLocator) getLocator();
+			if (rl.equals( RelativeLocator.north())) {
+				c = new AWTCursor(java.awt.Cursor.N_RESIZE_CURSOR);
+			}
+			else if (rl.equals(RelativeLocator.northEast())) {
+				c = new AWTCursor(java.awt.Cursor.NE_RESIZE_CURSOR);
+			}
+			else if (rl.equals(RelativeLocator.east())) {
+				c = new AWTCursor(java.awt.Cursor.E_RESIZE_CURSOR);
+			}
+			else if (rl.equals(RelativeLocator.southEast())) {
+				c = new AWTCursor(java.awt.Cursor.SE_RESIZE_CURSOR);
+			}
+			else if (rl.equals(RelativeLocator.south())) {
+				c = new AWTCursor(java.awt.Cursor.S_RESIZE_CURSOR);
+			}
+			else if (rl.equals(RelativeLocator.southWest())) {
+				c = new AWTCursor(java.awt.Cursor.SW_RESIZE_CURSOR);
+			}
+			else if (rl.equals(RelativeLocator.west())) {
+				c = new AWTCursor(java.awt.Cursor.W_RESIZE_CURSOR);
+			}
+			else if (rl.equals(RelativeLocator.northWest())) {
+				c = new AWTCursor(java.awt.Cursor.NW_RESIZE_CURSOR);
+			}
+		}
+		return c;
+	}
+
 }

@@ -11,15 +11,15 @@
 
 package CH.ifa.draw.standard;
 
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.util.Undoable;
-import CH.ifa.draw.util.CollectionsFactory;
-
-import java.util.*;
-import java.util.List;
-import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.util.EventObject;
+import java.util.Iterator;
+import java.util.List;
+
+import CH.ifa.draw.framework.*;
+import CH.ifa.draw.util.CollectionsFactory;
+import CH.ifa.draw.util.Undoable;
 
 /**
  * Default implementation support for Tools.
@@ -96,7 +96,7 @@ public abstract class AbstractTool implements Tool {
 	public void deactivate() {
 		if (isActive()) {
 			if (getActiveView() != null) {
-				getActiveView().setCursor(Cursor.getDefaultCursor());
+				getActiveView().setCursor(new AWTCursor(java.awt.Cursor.DEFAULT_CURSOR));
 			}
 			getEventDispatcher().fireToolDeactivatedEvent();
 		}

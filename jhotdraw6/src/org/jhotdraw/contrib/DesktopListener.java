@@ -11,8 +11,6 @@
 
 package CH.ifa.draw.contrib;
 
-import java.util.*;
-
 /**
  * @author  C.L.Gilbert <dnoyeb@sourceforge.net>
  * @version <$CURRENT_VERSION$>
