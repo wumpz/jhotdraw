@@ -38,7 +38,7 @@ extends JHDTestCase
 	// JUnitDoclet begin class
 	// instance variables, helper methods, ... put them in this marker
 	private InsertImageCommand insertimagecommand;
-	private static String fgSampleImagesPath = "/CH/ifa/draw/samples/javadraw/sampleimages/DUKE.gif";
+	private static String fgSampleImagesPath = "/org/jhotdraw/samples/javadraw/sampleimages/DUKE.gif";
 	// JUnitDoclet end class
 
 	/**

@@ -4,7 +4,7 @@
  * Project:		JHotdraw - a GUI framework for technical drawings
  *				http://www.jhotdraw.org
  *				http://jhotdraw.sourceforge.net
- * Copyright:	? by the original author(s) and all contributors
+ * Copyright:	© by the original author(s) and all contributors
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
@@ -69,7 +69,7 @@ public	class DrawApplication
 	private Desktop              fDesktop;
 
 	// the image resource path
-	private static final String		fgDrawPath = "/CH/ifa/draw/";
+	private static final String		fgDrawPath = "/org/jhotdraw/";
 	public static final String		IMAGES = fgDrawPath + "images/";
 	protected static int 			winCount = 0;
 
