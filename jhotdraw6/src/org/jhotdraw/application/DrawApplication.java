@@ -215,11 +215,11 @@ public	class DrawApplication
 			}
 			catch(java.lang.InterruptedException ie) {
 				System.err.println(ie.getMessage());
-				endApp();//would prefer a method that allowed cleanup
+				exit();
 			}
 			catch(java.lang.reflect.InvocationTargetException ite) {
 				System.err.println(ite.getMessage());
-				endApp();//would prefer a method that allowed cleanup
+				exit();
 			}
 		}
 		else {
@@ -234,7 +234,7 @@ public	class DrawApplication
 		addWindowListener(
 			new WindowAdapter() {
 				public void windowClosing(WindowEvent event) {
-					exit();
+					endApp();
 				}
 				public void windowOpened(WindowEvent event) {
 					winCount++;
@@ -304,7 +304,7 @@ public	class DrawApplication
 
 		cmd = new AbstractCommand("Exit", this, true) {
 			public void execute() {
-				exit();
+				endApp();
 			}
 		};
 		menu.add(cmd);
@@ -888,22 +888,21 @@ public	class DrawApplication
 
 	/**
 	 * Exits the application. You should never override this method
+	 *
 	 */
 	public void exit() {
-//		int reply = JOptionPane.showConfirmDialog(this,
-//													  "Do you really want to exit?",
-//													  "JHotDraw - Exit" ,
-//													  JOptionPane.YES_NO_OPTION,
-//													  JOptionPane.QUESTION_MESSAGE);
-		// If the confirmation was affirmative, handle exiting.
-//		if (reply == JOptionPane.YES_OPTION) {
-			endApp();
-//		}
-	}
-	protected final void endApp(){
 		destroy();
 	   // tell windowing system to free resources
-		dispose();
+		dispose();	
+
+	}
+	protected boolean closeQuery(){
+		return true;
+	}
+	protected void endApp(){
+		if(closeQuery() == true) {
+			exit();
+		}
 	}
 	/**
 	 * Handles additional clean up operations. Override to destroy

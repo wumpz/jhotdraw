@@ -249,11 +249,19 @@ public  class JavaDrawApp extends MDI_DrawApplication {
 
 		return menu;
 	}
-
+	protected boolean closeQuery(){
+		int reply = JOptionPane.showConfirmDialog(this,
+													  "Do you really want to exit?",
+													  "JHotDraw - Exit" ,
+													  JOptionPane.YES_NO_OPTION,
+													  JOptionPane.QUESTION_MESSAGE);
+		return (reply == JOptionPane.YES_OPTION);
+	}
 	//-- main -----------------------------------------------------------
 
 	public static void main(String[] args) {
 		JavaDrawApp window = new JavaDrawApp();
 		window.open();
 	}
+	
 }
