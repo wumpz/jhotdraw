@@ -22,7 +22,7 @@ public  class Animator extends Thread {
 	private DrawingView     fView;
 	private Animatable      fAnimatable;
 
-	private boolean             fIsRunning;
+	private volatile boolean             fIsRunning;
 	private static final int    DELAY = 1000 / 16;
 
 	public Animator(Animatable animatable, DrawingView view) {
