@@ -11,15 +11,17 @@
 
 package org.jhotdraw.contrib;
 
-import org.jhotdraw.framework.DrawingView;
-import org.jhotdraw.framework.DrawingChangeEvent;
-import org.jhotdraw.framework.DrawingChangeListener;
-
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.*;
-import javax.swing.*;
-import javax.swing.event.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
+
+import javax.swing.JComponent;
+import javax.swing.JScrollPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import org.jhotdraw.framework.*;
 
 /**
  * Utility component for enhancing component scrolling.  It provides a "minature" view of the entire contents of a JScrollPane
@@ -37,6 +39,7 @@ public class MiniMapView extends JComponent {
 	private SubjectListener m_subjectListener;
 	private DrawingChangeListener myDrawingChangeListener;
 	private Color m_viewBoxColor = Color.red;
+	private AffineTransform originalTransform;
 
 // Constructors
 	public MiniMapView(DrawingView newMappedDrawingView, JScrollPane subject) {
@@ -96,6 +99,11 @@ public class MiniMapView extends JComponent {
 	public void paint(Graphics g) {
 		Graphics2D g2d = (Graphics2D)g;
 
+		/*
+		 * JP, 23-Jan-04: Save original transformation.
+		 */
+		originalTransform = g2d.getTransform();
+
 		// Paint a small map representation of the subjects contents
 		Component mappedComponent = getMappedComponent();
 		AffineTransform at = getViewToMiniMapTransform(mappedComponent);
@@ -109,10 +117,18 @@ public class MiniMapView extends JComponent {
 
 	// side-effect of setting the transform on g2d to identity
 	protected void drawViewRectangle(Graphics2D g2d, Rectangle viewPortRectangle) {
-		AffineTransform at = new AffineTransform();
-		at.setToIdentity();
-		g2d.setTransform(at);
+		//AffineTransform at = new AffineTransform();
+		//at.setToIdentity();
+		//g2d.setTransform(at);
 
+		/*
+		 * JP, 23-Jan-04: Restored original transformation instead of setting
+		 * another one. Solves problems with rectangle being outside minimap
+		 * initially. Seems also to conform to JDK specs which say that you must
+		 * never use setTransform() for anything but restoring the original
+		 * transformation.
+		 */
+		g2d.setTransform(originalTransform);
 		g2d.setColor(m_viewBoxColor);
 		g2d.draw(viewPortRectangle);
 	}
@@ -190,15 +206,18 @@ public class MiniMapView extends JComponent {
         /*
          * JP, 25-May-03: Avoid positioning of the rectangle outside the
          * available area. Resulted in very strange artifacts on the screen.
+         * 
+         * JP, 23-Jan-04: Some additional adjustments to ensure that rectangle
+         * is positioned properly.
          */
-        if (upperLeft[0] + oldRectangle.width > getX() + getWidth()) {
-            upperLeft[0] = getX() + getWidth() - oldRectangle.width;
-        }
-
-        if (upperLeft[1] + oldRectangle.height > getY() + getHeight()) {
-            upperLeft[1] = getY() + getHeight() - oldRectangle.height;
+        if (upperLeft[0] + oldRectangle.width >= getX() + getWidth()) {
+            upperLeft[0] = getX() + getWidth() - oldRectangle.width - 1;
         }
         
+        if (upperLeft[1] + oldRectangle.height >= getY() + getHeight()) {
+            upperLeft[1] = getY() + getHeight() - oldRectangle.height - 1;
+        }
+
 		return upperLeft;
 	}
 
