@@ -32,7 +32,7 @@ import java.awt.*;
  */
 public interface Layouter extends Serializable, Storable {
 
-	/*
+	/**
 	 * Calculate the layout for the figure and all its subelements. The
 	 * layout is not actually performed but just its dimensions are calculated.
 	 *
