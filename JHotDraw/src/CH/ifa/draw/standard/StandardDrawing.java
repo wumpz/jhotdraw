@@ -123,7 +123,17 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
 			}
 		}
 	}
-
+	/**
+	 * Forces an update of the drawing change listeners.
+	 */
+	public void fireDrawingTitleChanged() {
+		if (fListeners != null) {
+			for (int i = 0; i < fListeners.size(); i++) {
+				DrawingChangeListener l = (DrawingChangeListener)fListeners.get(i);
+				l.drawingTitleChanged(new DrawingChangeEvent(this, null));
+			}
+		}
+	}
 	/**
 	 * Forces an update of the drawing change listeners.
 	 */
@@ -211,5 +221,6 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
 
 	public void setTitle(String newTitle) {
 		myTitle = newTitle;
+        fireDrawingTitleChanged();
 	}
 }

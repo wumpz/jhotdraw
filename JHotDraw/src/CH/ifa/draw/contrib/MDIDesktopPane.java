@@ -11,7 +11,7 @@
 
 package CH.ifa.draw.contrib;
 
-import CH.ifa.draw.framework.DrawingView;
+import CH.ifa.draw.framework.*;
 import CH.ifa.draw.application.DrawApplication;
 
 import javax.swing.*;
@@ -36,8 +36,33 @@ import java.beans.*;
 public class MDIDesktopPane extends JDesktopPane implements Desktop {
 	private static int FRAME_OFFSET=20;
 	private MDIDesktopManager manager;
-	private DrawApplication myDrawApplication;
 
+    private DrawingChangeListener dcl = new DrawingChangeListener() {
+        /**  Sent when an area is invalid
+         *
+         */
+        public void drawingInvalidated(DrawingChangeEvent e) {
+        }    
+        /**  Sent when the drawing wants to be refreshed
+         *
+         */
+        public void drawingRequestUpdate(DrawingChangeEvent e) {
+        }
+        /**
+         *  Change all frames that contain this drawing.
+         */
+        public void drawingTitleChanged(DrawingChangeEvent e) {
+            Drawing dwg = e.getDrawing();
+            JInternalFrame[] jifs = getAllFrames();
+            
+            for (int x=0; x<jifs.length; x++) {
+                if (dwg == Helper.getDrawingView(jifs[x]).drawing()) {
+                    jifs[x].setTitle(dwg.getTitle());
+                }
+            }            
+        }
+    };
+    
 	/**
 	 * You need this if you are not using a component that inherits from
 	 * JComponent
@@ -45,12 +70,23 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 	//private final EventListenerList listenerList = new EventListenerList();
 	private DrawingView selectedView;
 
-	public MDIDesktopPane(DrawApplication newDrawApplication) {
-		setDrawApplication(newDrawApplication);
+	public MDIDesktopPane() {
 		manager=new MDIDesktopManager(this);
 		setDesktopManager(manager);
 		setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
 		setAlignmentX(JComponent.LEFT_ALIGNMENT);
+        addDesktopListener( new DesktopListener() {
+            public void drawingViewAdded(DesktopEvent dpe){
+                DrawingView dv = dpe.getDrawingView();
+                dv.drawing().addDrawingChangeListener(dcl);                
+            }
+            public void drawingViewRemoved(DesktopEvent dpe){
+                DrawingView dv = dpe.getDrawingView();
+                dv.drawing().removeDrawingChangeListener(dcl);
+            }
+            public void drawingViewSelected(DrawingView oldView, DesktopEvent dpe){
+            }
+        });
 	}
 
 	protected InternalFrameListener internalFrameListener = new InternalFrameAdapter() {
@@ -110,7 +146,8 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 		}
 
 		public void internalFrameDeactivated(InternalFrameEvent e) {
-			if (getComponentCount() == 0){ //could be a component without a DrawingView.  should use helper here.
+            int x = getComponentCount();
+			if (getComponentCount() == 1){ //could be a component without a DrawingView.  should use helper here.
 				setActiveDrawingView(null); //mrfloppy, investigate using NullDrawingView here please.( i will assist)
 			}                
 		}
@@ -173,16 +210,7 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 		sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		sp.setAlignmentX(LEFT_ALIGNMENT);
-
-		String applicationTitle;
-		if (dv.drawing().getTitle() == null) {
-			applicationTitle = getDrawApplication().getApplicationName() + " - " + getDrawApplication().getDefaultDrawingTitle();
-		}
-		else {
-			applicationTitle = getDrawApplication().getApplicationName() + " - " + dv.drawing().getTitle();
-		}
-		JInternalFrame internalFrame = new JInternalFrame(applicationTitle, true, true, true, true);
-		internalFrame.setName(applicationTitle);
+		JInternalFrame internalFrame = new JInternalFrame(dv.drawing().getTitle(), true, true, true, true);
 		internalFrame.getContentPane().add(sp);
 		internalFrame.setSize(200,200);
 		return internalFrame;
@@ -197,7 +225,9 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
             selectedView = newSelectedView;
             fireDrawingViewSelectedEvent(oldSelectedView, newSelectedView);
 	}
-
+    /**
+     *  @deprecated desktop will use drawing name change listener
+     */
 	public void updateTitle(String newDrawingTitle) {
 		getSelectedFrame().setTitle(newDrawingTitle);
 	}
@@ -550,15 +580,9 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 	private void checkDesktopSize() {
 		if (getParent()!=null&&isVisible()) manager.resizeDesktop();
 	}
-
-	private void setDrawApplication(DrawApplication newDrawApplication) {
-		myDrawApplication = newDrawApplication;
-	}
-
-	protected DrawApplication getDrawApplication() {
-		return myDrawApplication;
-	}
 }
+
+
 
 /**
  * Private class used to replace the standard DesktopManager for JDesktopPane.

@@ -653,7 +653,8 @@ public class StandardDrawingView
 	public void drawingRequestUpdate(DrawingChangeEvent e) {
 		repairDamage();
 	}
-
+    public void drawingTitleChanged(DrawingChangeEvent e){
+    }
 	/**
 	 * Paints the drawing view. The actual drawing is delegated to
 	 * the current update strategy.

@@ -48,10 +48,10 @@ public	class DrawApplication
 	private ToolButton				fDefaultToolButton;
 	private ToolButton				fSelectedToolButton;
 
-	private String					fApplicationName;
+	private static String			fApplicationName;
 	private StorageFormatManager	fStorageFormatManager;
 	private UndoManager				myUndoManager;
-	protected static String			fgUntitled = "untitled";
+	private String                  fgUntitled = "untitled";
 	private final EventListenerList listenerList = new EventListenerList();
 	private DesktopListener     fDesktopListener;
 
@@ -113,19 +113,20 @@ public	class DrawApplication
 	 * view of the drawing of the currently activated window.
 	 */
 	public void newView() {
-		if (view() == null) {
+        DrawingView dv = getDesktop().getActiveDrawingView();
+		if (dv == null || !dv.isInteractive()) {//this should be ASSERT and otherwise handled by context sensitive menus.
 			return;
 		}
 		DrawApplication window = createApplication();
 		window.open();
-        window.newWindow( view().drawing() );
+        window.newWindow( dv.drawing() );
 
-		if (view().drawing().getTitle() != null ) {
-			window.setDrawingTitle(view().drawing().getTitle() + " (View)");
+/*		if (dv.drawing().getTitle() != null ) {
+			window.setDrawingTitle(dv.drawing().getTitle() + " (View)");
 		}
 		else {
 			window.setDrawingTitle(getDefaultDrawingTitle() + " (View)");
-		}
+		}*/
 	}
 
 	/**
@@ -331,14 +332,14 @@ public	class DrawApplication
 
 		Command cmd = new AbstractCommand("Simple Update", this) {
 			public void execute() {
-				this.view().setDisplayUpdate(new SimpleUpdateStrategy());
+				getDesktop().getActiveDrawingView().setDisplayUpdate(new SimpleUpdateStrategy());
 			}
 		};
 		menu.add(cmd);
 
 		cmd = new AbstractCommand("Buffered Update", this) {
 			public void execute() {
-				this.view().setDisplayUpdate(new BufferedUpdateStrategy());
+				getDesktop().getActiveDrawingView().setDisplayUpdate(new BufferedUpdateStrategy());
 			}
 		};
 		menu.add(cmd);
@@ -582,7 +583,7 @@ public	class DrawApplication
 	}
 
 	protected Desktop createDesktop() {
-		return new JPanelDesktop(this);
+		return new JPanelDesktop();
 //		return new JScrollPaneDesktop();
 	}
 
@@ -702,7 +703,7 @@ public	class DrawApplication
 	}*/
 
 	public DrawingView[] views() {
-		return new DrawingView[] { view() };
+		return new DrawingView[] { getDesktop().getActiveDrawingView() };
 	}
 
 	/**
@@ -866,8 +867,6 @@ public	class DrawApplication
 	 */
 	public void promptNew() {
         newWindow( );
-		//toolDone();
-		//view().setDrawing(createDrawing());
 	}
 
 	/**
@@ -892,7 +891,7 @@ public	class DrawApplication
 	 * Shows a file dialog and saves drawing.
 	 */
 	public void promptSaveAs() {
-		if (view() != null) {
+		if (getDesktop().getActiveDrawingView() != null) {
 			toolDone();
 			JFileChooser saveDialog = createSaveFileChooser();
 			getStorageFormatManager().registerFileFilters(saveDialog);
@@ -940,7 +939,7 @@ public	class DrawApplication
 			Graphics pg = printJob.getGraphics();
 
 			if (pg != null) {
-				((StandardDrawingView)view()).printAll(pg);
+				((StandardDrawingView)getDesktop().getActiveDrawingView()).printAll(pg);
 				pg.dispose(); // flush page
 			}
 			printJob.end();
@@ -953,17 +952,17 @@ public	class DrawApplication
 	 */
 	protected void saveDrawing(StorageFormat storeFormat, String file) {
 		// Need a better alert than this.
-		if (view() == null) {
-			return;
-		}
-		try {
-			String name = storeFormat.store(file, view().drawing());
-			view().drawing().setTitle(name);
-			setDrawingTitle(name);
-		}
-		catch (IOException e) {
-			showStatus(e.toString());
-		}
+        DrawingView dv = getDesktop().getActiveDrawingView();
+		if (dv != null && dv.isInteractive() ) {
+            try {
+                String name = storeFormat.store(file, dv.drawing());
+                dv.drawing().setTitle(name);
+                updateApplicationTitle();
+            }
+            catch (IOException e) {
+                showStatus(e.toString());
+            }
+        }
 	}
 
 	/**
@@ -1001,20 +1000,17 @@ public	class DrawApplication
 	/**
 	 * Set the title of the currently selected drawing
 	 */
-	protected void setDrawingTitle(String drawingTitle) {
-		if (getDefaultDrawingTitle().equals(drawingTitle)) {
-			setTitle(getApplicationName());
-		}
-		else {
-			setTitle(getApplicationName() + " - " + drawingTitle);
-		}
-	}
-
-	/**
-	 * Return the title of the currently selected drawing
-	 */
-	protected String getDrawingTitle() {
-		return view().drawing().getTitle();
+	protected void updateApplicationTitle() {
+        DrawingView dv = getDesktop().getActiveDrawingView();
+        if(dv != null && dv.isInteractive()){ //mrfloppy, we can do away with null check and ASSERT once their is always at least a NullDrawingView
+            String drawingTitle = dv.drawing().getTitle();
+            if (!getDefaultDrawingTitle().equals(drawingTitle)) {
+                setTitle(getApplicationName() + " - " + drawingTitle);
+            }
+        }
+        else {
+            setTitle(getApplicationName());
+        }
 	}
 
 	/**
@@ -1027,7 +1023,7 @@ public	class DrawApplication
 	/**
 	 * Return the name of the application build from this skeleton application
 	 */
-	public String getApplicationName() {
+	public static String getApplicationName() {
 		return fApplicationName;
 	}
 
@@ -1058,7 +1054,13 @@ public	class DrawApplication
 		return requiredVersions;
 	}
 
-	public String getDefaultDrawingTitle() {
+    /**
+     *  I made this protected because it should only be used by the DrawApplication.
+     *  This is because all created drawings will be created through createDrawing()
+     *  which is a method of DrawApplication.
+     *  dnoyeb@users.sourceforge.net 12/31/02
+     */
+	protected String getDefaultDrawingTitle() {
 		return fgUntitled;
 	}
 
@@ -1087,7 +1089,8 @@ public	class DrawApplication
 					if (dv.drawing() != null)
 						dv.unfreezeView();
 				}
-                                fireViewSelectionChangedEvent(oldView, view());
+                fireViewSelectionChangedEvent(oldView, getDesktop().getActiveDrawingView());
+                updateApplicationTitle();
 			}
 	    };
 	}

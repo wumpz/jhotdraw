@@ -24,7 +24,10 @@ public interface DrawingChangeListener extends EventListener {
 	 *  Sent when an area is invalid
 	 */
 	public void drawingInvalidated(DrawingChangeEvent e);
-
+    /**
+     *  Sent when the drawing Title has changed
+     */
+    public void drawingTitleChanged(DrawingChangeEvent e);
 	/**
 	 *  Sent when the drawing wants to be refreshed
 	 */
