@@ -8,13 +8,15 @@ package CH.ifa.draw.standard;
 import java.util.*;
 import java.awt.*;
 
+import CH.ifa.draw.util.Command;
 import CH.ifa.draw.framework.*;
 
 /**
  * Align a selection of figures relative to each other.
  */
-public class AlignCommand extends AbstractCommand {
+public class AlignCommand extends Command {
 
+    private DrawingView fView;
     private int fOp;
 
    /**
@@ -50,16 +52,17 @@ public class AlignCommand extends AbstractCommand {
     * @param op the alignment operation (LEFTS, CENTERS, RIGHTS, etc.)
     */
     public AlignCommand(String name, DrawingView view, int op) {
-        super(name, view);
+        super(name);
+        fView = view;
         fOp = op;
     }
 
     public boolean isExecutable() {
-        return view().selectionCount() > 1;
+        return fView.selectionCount() > 1;
     }
 
     public void execute() {
-        FigureEnumeration selection = view().selectionElements();
+        FigureEnumeration selection = fView.selectionElements();
         Figure anchorFigure = selection.nextFigure();
         Rectangle r = anchorFigure.displayBox();
 
@@ -87,7 +90,7 @@ public class AlignCommand extends AbstractCommand {
                 break;
             }
         }
-        view().checkDamage();
+        fView.checkDamage();
     }
 }
 

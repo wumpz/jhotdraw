@@ -5,7 +5,7 @@
 
 package CH.ifa.draw.util;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.*;
 
 /**

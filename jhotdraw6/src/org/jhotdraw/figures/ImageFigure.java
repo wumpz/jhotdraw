@@ -68,15 +68,12 @@ public  class ImageFigure
     }
 
     public void draw(Graphics g) {
-        if (fImage == null) {
+        if (fImage == null)
             fImage = Iconkit.instance().getImage(fFileName);
-        }
-        if (fImage != null) {
+        if (fImage != null)
             g.drawImage(fImage, fDisplayBox.x, fDisplayBox.y, fDisplayBox.width, fDisplayBox.height, this);
-        }
-        else {
+        else
             drawGhost(g);
-        }
     }
 
     private void drawGhost(Graphics g) {

@@ -24,17 +24,17 @@ public class DuplicateCommand extends FigureTransferCommand {
     }
 
     public void execute() {
-        FigureSelection selection = view().getFigureSelection();
+        FigureSelection selection = fView.getFigureSelection();
 
-        view().clearSelection();
+        fView.clearSelection();
 
-        Vector figures = (Vector)selection.getData(StandardFigureSelection.TYPE);
+        Vector figures = (Vector)selection.getData(FigureSelection.TYPE);
         insertFigures(figures, 10, 10);
-        view().checkDamage();
+        fView.checkDamage();
     }
 
     public boolean isExecutable() {
-        return view().selectionCount() > 0;
+        return fView.selectionCount() > 0;
     }
 
 }

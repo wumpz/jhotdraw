@@ -9,7 +9,8 @@ import java.awt.*;
 import java.awt.event.*;
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
-import CH.ifa.draw.util.FloatingTextField;
+import CH.ifa.draw.util.*;
+
 
 /**
  * A tool to attach URLs to figures.

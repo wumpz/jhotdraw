@@ -48,6 +48,7 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
         init(new Rectangle(-500, -500, 2000, 2000));
     }
 
+
     /**
      * Adds a listener for this drawing.
      */
@@ -66,7 +67,7 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
     }
 
     /**
-     * Gets an enumeration with all listener for this drawing.
+     * Adds a listener for this drawing.
      */
     public Enumeration drawingChangeListeners() {
         return fListeners.elements();
@@ -84,6 +85,7 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
         }
         return null;
     }
+
 
     /**
      * Handles a removeFromDrawing request that

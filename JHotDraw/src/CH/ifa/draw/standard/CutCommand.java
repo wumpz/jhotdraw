@@ -27,11 +27,11 @@ public class CutCommand extends FigureTransferCommand {
     public void execute() {
         copySelection();
         deleteSelection();
-        view().checkDamage();
+        fView.checkDamage();
     }
 
     public boolean isExecutable() {
-        return view().selectionCount() > 0;
+        return fView.selectionCount() > 0;
     }
 
 }

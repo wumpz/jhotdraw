@@ -27,18 +27,18 @@ public class PasteCommand extends FigureTransferCommand {
     }
 
     public void execute() {
-        Point lastClick = view().lastClick();
+        Point lastClick = fView.lastClick();
         FigureSelection selection = (FigureSelection)Clipboard.getClipboard().getContents();
         if (selection != null) {
-            Vector figures = (Vector)selection.getData(StandardFigureSelection.TYPE);
+            Vector figures = (Vector)selection.getData(FigureSelection.TYPE);
             if (figures.size() == 0)
                 return;
 
             Rectangle r = bounds(figures.elements());
-            view().clearSelection();
+            fView.clearSelection();
 
             insertFigures(figures, lastClick.x-r.x, lastClick.y-r.y);
-            view().checkDamage();
+            fView.checkDamage();
         }
     }
 

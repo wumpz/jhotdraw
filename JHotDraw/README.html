@@ -1,77 +1,59 @@
 <html>
-
 <head>
-  <title>JHotDraw+</title>
+  <title>JHotDraw 5.2</title>
 </head>
-
 <body>
-<H1>JHotDraw+</H1>
-<HR>
-This document gives an overview of the JHotDraw directory structure, describes how
-to install it, and offers links for getting started.<p>
-JHotDraw+ is an open source release of an improved version of JHotDraw 5.1 by
-<a href="mailto:erich_gamma@acm.org">Erich Gamma</a>.
-Refer to the <a href=documentation/ReleaseNotes.html>release notes</a> for more
-information about the original JHotDraw 5.1 release.
-
-<H3>Contents</H3>
-
-<pre>
-JHotDraw
-    drawings                        sample drawings
-    doc                             documentation for JHotDraw+
-    pattlets                        pattern summary slides. They are referred
-                                    to from the javadoc documentation.
-
-    src
-        CH                          the JHotDraw source files
-            ifa
-                draw
-                    images          image resources
-                    util            common utilities that are independent of
-                                    JHotDraw
-                    framework       JHotDraw framework
-                    standard        standard implementations of the JHotDraw
-                                    framework abstractions
-                    figures         a set of figures and their support classes
-                    applet          standard UI for JHotDraw applets
-                    application     standard UI for JHotDraw applications
-                    contrib         a package with contributions to JHotDraw
-                    samples
-                        nothing     Nothing sample
-                        javadraw    JHotDraw sample
-                        pert        PERT sample
-                        net         A simple node and connections editor
-
-</pre>
-
+<h1>JHotDraw 5.2</h1>
+<hr>This document gives an overview of the JHotDraw distribution, describes
+howto install it, and offers links for getting started.Refer to the <a href="documentation/ReleaseNotes.html">
+release notes</a> for moreinformation about the 5.2 release.
+<h3>Contents</h3>
+<pre>JHotDraw<br>
+    drawings                    sample drawings<br>
+    documentation               documentation for JHotDraw<br>
+    javadoc                     javadoc generated documentation<br>
+    pattlets                    pattern summary slides. They are referred<br>
+                                to from the javadoc documentation.<br><br>
+    CH                          the JHotDraw class files<br>
+        ifa<br>
+            draw<br>
+                images          image resources<br>
+                util            common utilities that are independent of<br>
+                                JHotDraw<br>
+                framework       JHotDraw framework<br>
+                standard        standard implementations of the JHotDraw<br>
+                                framework abstractions<br>
+                figures         a set of figures and their support classes<br>
+                applet          standard UI for JHotDraw applets<br>
+                application     standard UI for JHotDraw applications<br>
+                contrib         a package with contributions to JHotDraw<br>
+                samples<br>
+                    nothing     Nothing sample<br>
+                    javadraw    JHotDraw sample<br>
+                    pert        PERT sample<br>
+                    net         A simple node and connections editor<br><br>
+    sources                     the java source files mirror the<br>
+                                hierarchy of the class files<br><br></pre>
 <h3>Installation</h3>
-
-The distribution only includes a batchfile to compile the java files. There
-currently is no makefile or other script for that purpose.
-<p>
-To run the applets doesn't require any further installation steps.
-Refer to the <a href=documentation/samples.html>samples</a> to view the sample
-applets.
-<p>
-To run the sample applications you should include the JHotDraw directory
+The distribution includes no development environment specificconfiguration
+or makefiles.
+<p>To run the applets doesn't require any further installation steps.Refer
+to the <a href="documentation/samples.html">samples</a> to view the sample
+applets.</p>
+<p>To run the sample applications you should include the JHotDraw directory
 in your CLASSPATH. <b>Note</b> using a relative path to refer to JHotDraw
 can result in class loading errors. You run into this problem when the application's
-working directory is changed with a file dialog.
+working directory is changed with a file dialog.</p>
 <h3>Getting Started</h3>
-To get started check out the <a href=documentation/samples.html>samples</a> and
-the <a href=documentation/documentation.html>documentation</a> delivered with
-JHotDraw.
+To get started check out the <a href="documentation/samples.html">samples</a>
+ andthe <a href="documentation/documentation.html">documentation</a> delivered
+withJHotDraw.
 <h3>Legal</h3>
 JHotDraw is copyright 1996, 1997 by IFA Informatik and Erich Gamma.
-<p>
-It is hereby granted that this software can be used, copied, modified, and
-distributed without fee provided that this copyright notice
-appears in all copies.
-<hr>
-Comments or questions about the original JHotDraw release to
-<a href="mailto:erich_gamma@acm.org">Erich Gamma</a>
-<p>
-
+<p>It is hereby granted that this software can be used, copied, modified,
+anddistributed without fee provided that this copyright noticeappears in
+all copies.</p>
+<hr>Comments or questions to <a href="mailto:erich_gamma@acm.org">Erich Gamma</a>
+<p></p>
 </body>
 </html>

@@ -17,13 +17,13 @@ import java.awt.event.*;
  *
  * @see CH.ifa.draw.figures.TextFigure
  */
-public  class FloatingTextField {
+public  class FloatingTextField extends Object {
 
-    private JTextField   fEditWidget;
+    private TextField   fEditWidget;
     private Container   fContainer;
 
     public FloatingTextField() {
-        fEditWidget = new JTextField(20);
+        fEditWidget = new TextField(20);
     }
 
     /**
@@ -80,7 +80,6 @@ public  class FloatingTextField {
      * Gets the preferred size of the overlay.
      */
     public Dimension getPreferredSize(int cols) {
-        fEditWidget.setColumns(cols);
         return fEditWidget.getPreferredSize();
     }
 

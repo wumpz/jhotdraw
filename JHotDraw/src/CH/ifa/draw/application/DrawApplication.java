@@ -37,7 +37,7 @@ public  class DrawApplication
     private Iconkit              fIconkit;
 
     private JTextField           fStatusLine;
-    private DrawingView  fView;
+    private StandardDrawingView  fView;
     private ToolButton           fDefaultToolButton;
     private ToolButton           fSelectedToolButton;
 
@@ -72,7 +72,7 @@ public  class DrawApplication
      * Constructs a drawing window with a default title.
      */
     public DrawApplication() {
-        this("JHotDraw");
+        super("JHotDraw");
     }
 
     /**
@@ -120,13 +120,15 @@ public  class DrawApplication
     public void open() {
         fIconkit = new Iconkit(this);
 		getContentPane().setLayout(new BorderLayout());
+		// Panel in which a JToolBar can be placed using a BoxLayout
+        JPanel fullPanel = new JPanel();
+        fullPanel.setLayout(new BoxLayout(fullPanel, BoxLayout.X_AXIS));
         fView = createDrawingView();
         JComponent contents = createContents((StandardDrawingView)view());
         contents.setAlignmentX(LEFT_ALIGNMENT);
 
         JToolBar tools = createToolPalette();
         createTools(tools);
-
 
         JPanel activePanel = new JPanel();
         activePanel.setAlignmentX(LEFT_ALIGNMENT);
@@ -135,8 +137,10 @@ public  class DrawApplication
         activePanel.add(tools, BorderLayout.NORTH);
         activePanel.add(contents, BorderLayout.CENTER);
 
+        fullPanel.add(activePanel);
+
         fStatusLine = createStatusLine();
-        getContentPane().add(activePanel, BorderLayout.CENTER);
+        getContentPane().add(fullPanel, BorderLayout.CENTER);
         getContentPane().add(fStatusLine, BorderLayout.SOUTH);
 
 		JMenuBar mb = new JMenuBar();
@@ -470,7 +474,7 @@ public  class DrawApplication
      * subclass in your application. By default a standard
      * DrawingView is returned.
      */
-    protected DrawingView createDrawingView() {
+    protected StandardDrawingView createDrawingView() {
         Dimension d = getDrawingViewSize();
         return new StandardDrawingView(this, d.width, d.height);
     }
@@ -497,8 +501,8 @@ public  class DrawApplication
      * frame. By default the DrawingView is returned in
      * a JScrollPane.
      */
-    protected JComponent createContents(DrawingView view) {
-        JScrollPane sp = new JScrollPane((StandardDrawingView)view);
+    protected JComponent createContents(StandardDrawingView view) {
+        JScrollPane sp = new JScrollPane(view);
         sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 
@@ -575,12 +579,10 @@ public  class DrawApplication
      */
     public void paletteUserOver(PaletteButton button, boolean inside) {
         ToolButton toolButton = (ToolButton) button;
-        if (inside) {
+        if (inside)
             showStatus(toolButton.name());
-        }
-        else {
+        else
             showStatus(fSelectedToolButton.name());
-        }
     }
 
     /**
@@ -623,7 +625,7 @@ public  class DrawApplication
      * menu items that are selection sensitive.
      * @see DrawingEditor
      */
-    public void figureSelectionChanged(DrawingView view) {
+    public void selectionChanged(DrawingView view) {
         JMenuBar mb = getJMenuBar();
         CommandMenu editMenu = (CommandMenu)mb.getMenu(EDIT_MENU);
         editMenu.checkEnabled();
@@ -644,19 +646,17 @@ public  class DrawApplication
             tool().deactivate();
         fTool = t;
         if (tool() != null) {
-            showStatus(name);
+            fStatusLine.setText(name);
             tool().activate();
         }
     }
 
     private void setSelected(ToolButton button) {
-        if (fSelectedToolButton != null) {
+        if (fSelectedToolButton != null)
             fSelectedToolButton.reset();
-        }
         fSelectedToolButton = button;
-        if (fSelectedToolButton != null) {
+        if (fSelectedToolButton != null)
             fSelectedToolButton.select();
-        }
     }
 
     /**

@@ -5,7 +5,11 @@
 
 package CH.ifa.draw.samples.pert;
 
-import javax.swing.JToolBar;
+import javax.swing.*;
+import java.awt.*;
+import java.util.*;
+import java.io.*;
+import java.net.*;
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
 import CH.ifa.draw.figures.*;

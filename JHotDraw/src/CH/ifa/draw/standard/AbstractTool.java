@@ -17,7 +17,7 @@ import CH.ifa.draw.framework.*;
  * @see Tool
  */
 
-public abstract class AbstractTool implements Tool {
+public class AbstractTool implements Tool {
 
     protected DrawingView  fView;
 

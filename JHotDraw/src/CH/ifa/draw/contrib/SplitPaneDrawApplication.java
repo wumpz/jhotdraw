@@ -5,10 +5,7 @@
 
 package CH.ifa.draw.contrib;
 
-import javax.swing.JSplitPane;
-import javax.swing.JScrollPane;
-import javax.swing.JList;
-import javax.swing.JComponent;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
@@ -49,7 +46,7 @@ public  class SplitPaneDrawApplication extends DrawApplication {
      * Opens the window and initializes its contents.
      * Clients usually only call but don't override it.
      */
-    protected JComponent createContents(DrawingView view) {
+    protected JComponent createContents(StandardDrawingView view) {
 		createLeftComponent(view);
 		createRightComponent(view);
 
@@ -71,12 +68,12 @@ public  class SplitPaneDrawApplication extends DrawApplication {
      * Method which creates the basic split pane. Subclasses may override
      * this method.
      *
-     * @param   view    DrawingView for which the JSplitPane should be created
+     * @param   view    StandardDrawingView for which the JSplitPane should be created
      * @return          the created JSplitPane
      */
- 	protected JSplitPane createSplitPane(DrawingView view) {
+ 	protected JSplitPane createSplitPane(StandardDrawingView view) {
         JSplitPane dividedContents = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, getLeftComponent(), getRightComponent());
-        dividedContents.setAlignmentX(JSplitPane.LEFT_ALIGNMENT);
+        dividedContents.setAlignmentX(LEFT_ALIGNMENT);
         dividedContents.setOneTouchExpandable(true);
         return dividedContents;
  	}
@@ -86,7 +83,7 @@ public  class SplitPaneDrawApplication extends DrawApplication {
      * Subclasses may override this method but should call setLeftComponent()
      * to associate the created component with the JSplitPane.
      */
-    protected void createLeftComponent(DrawingView view) {
+    protected void createLeftComponent(StandardDrawingView view) {
     	setLeftComponent(new JScrollPane(new JList()));
     }
 
@@ -113,7 +110,7 @@ public  class SplitPaneDrawApplication extends DrawApplication {
      * Subclasses may override this method but should call setLeftComponent()
      * to associate the created component with the JSplitPane.
      */
-    protected void createRightComponent(DrawingView view) {
+    protected void createRightComponent(StandardDrawingView view) {
         setRightComponent(super.createContents(view));
     }
 

@@ -23,11 +23,6 @@ import java.io.IOException;
 public abstract class AbstractLocator
                 implements Locator, Storable, Cloneable {
 
-	/*
-	 * Serialization support.
-	 */
-	private static final long serialVersionUID = -7742023180844048409L;
-
     protected AbstractLocator() {
     }
 

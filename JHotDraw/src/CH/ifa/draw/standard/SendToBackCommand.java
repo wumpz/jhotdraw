@@ -6,12 +6,15 @@
 package CH.ifa.draw.standard;
 
 import java.util.*;
+import CH.ifa.draw.util.*;
 import CH.ifa.draw.framework.*;
 
 /**
  * A command to send the selection to the back of the drawing.
  */
-public class SendToBackCommand extends AbstractCommand {
+public class SendToBackCommand extends Command {
+
+    private DrawingView fView;
 
    /**
     * Constructs a send to back command.
@@ -19,19 +22,20 @@ public class SendToBackCommand extends AbstractCommand {
     * @param view the target view
     */
     public SendToBackCommand(String name, DrawingView view) {
-        super(name, view);
+        super(name);
+        fView = view;
     }
 
     public void execute() {
-       FigureEnumeration k = new ReverseFigureEnumerator(view().selectionZOrdered());
+       FigureEnumeration k = new ReverseFigureEnumerator(fView.selectionZOrdered());
        while (k.hasMoreElements()) {
-            view().drawing().sendToBack(k.nextFigure());
+            fView.drawing().sendToBack(k.nextFigure());
         }
-        view().checkDamage();
+        fView.checkDamage();
     }
 
     public boolean isExecutable() {
-        return view().selectionCount() > 0;
+        return fView.selectionCount() > 0;
     }
 
 }

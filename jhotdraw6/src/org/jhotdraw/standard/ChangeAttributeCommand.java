@@ -7,12 +7,15 @@ package CH.ifa.draw.standard;
 
 import java.awt.Color;
 import CH.ifa.draw.framework.*;
+import CH.ifa.draw.util.*;
 
 /**
  * Command to change a named figure attribute.
  */
-public  class ChangeAttributeCommand extends AbstractCommand {
+public  class ChangeAttributeCommand
+        extends Command {
 
+    private DrawingView fView;
     private String      fAttribute;
     private Object      fValue;
 
@@ -25,22 +28,23 @@ public  class ChangeAttributeCommand extends AbstractCommand {
     */
     public ChangeAttributeCommand(String name, String attributeName,
                            Object value, DrawingView view) {
-        super(name, view);
+        super(name);
         fAttribute = attributeName;
         fValue = value;
+        fView = view;
     }
 
     public void execute() {
-        FigureEnumeration k = view().selectionElements();
+        FigureEnumeration k = fView.selectionElements();
         while (k.hasMoreElements()) {
             Figure f = k.nextFigure();
             f.setAttribute(fAttribute, fValue);
         }
-        view().checkDamage();
+        fView.checkDamage();
     }
 
     public boolean isExecutable() {
-        return view().selectionCount() > 0;
+        return fView.selectionCount() > 0;
     }
 
 }

@@ -29,7 +29,7 @@ public class CopyCommand extends FigureTransferCommand {
     }
 
     public boolean isExecutable() {
-        return view().selectionCount() > 0;
+        return fView.selectionCount() > 0;
     }
 
 }

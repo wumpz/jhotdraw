@@ -5,7 +5,7 @@
 
 package CH.ifa.draw.contrib;
 
-import javax.swing.JPopupMenu;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import CH.ifa.draw.framework.*;

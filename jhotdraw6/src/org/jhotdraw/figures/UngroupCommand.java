@@ -8,13 +8,15 @@ package CH.ifa.draw.figures;
 import java.awt.*;
 import java.util.*;
 import CH.ifa.draw.framework.*;
-import CH.ifa.draw.standard.AbstractCommand;
+import CH.ifa.draw.util.Command;
 
 /**
  * Command to ungroup the selected figures.
  * @see GroupCommand
  */
-public  class UngroupCommand extends AbstractCommand {
+public  class UngroupCommand extends Command {
+
+    private DrawingView fView;
 
    /**
     * Constructs a group command.
@@ -22,26 +24,27 @@ public  class UngroupCommand extends AbstractCommand {
     * @param view the target view
     */
     public UngroupCommand(String name, DrawingView view) {
-        super(name, view);
+        super(name);
+        fView = view;
     }
 
     public void execute() {
-        FigureEnumeration selection = view().selectionElements();
-        view().clearSelection();
+        FigureEnumeration selection = fView.selectionElements();
+        fView.clearSelection();
 
         Vector parts = new Vector();
         while (selection.hasMoreElements()) {
             Figure selected = selection.nextFigure();
-            Figure group = view().drawing().orphan(selected);
+            Figure group = fView.drawing().orphan(selected);
             FigureEnumeration k = group.decompose();
             while (k.hasMoreElements())
-                view().addToSelection(view().add(k.nextFigure()));
+                fView.addToSelection(fView.add(k.nextFigure()));
         }
-        view().checkDamage();
+        fView.checkDamage();
     }
 
     public boolean isExecutable() {
-        return view().selectionCount() > 0;
+        return fView.selectionCount() > 0;
     }
 
 }

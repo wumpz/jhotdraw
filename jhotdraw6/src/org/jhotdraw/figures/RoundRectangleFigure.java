@@ -15,7 +15,6 @@ import CH.ifa.draw.util.*;
 
 /**
  * A round rectangle figure.
- * @see RadiusHandle
  */
 public class RoundRectangleFigure extends AttributeFigure {
 

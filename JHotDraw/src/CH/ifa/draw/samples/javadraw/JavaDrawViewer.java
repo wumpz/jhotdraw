@@ -83,6 +83,6 @@ public  class JavaDrawViewer extends JApplet implements DrawingEditor {
     /**
      * Ignore selection changes, we don't show any selection
      */
-    public void figureSelectionChanged(DrawingView view) {}
+    public void selectionChanged(DrawingView view) {}
 }
 
