@@ -29,6 +29,16 @@ import java.util.List;
  * its graphical presentation to another (graphical) figure which
  * purpose it is to draw the container for all contained figures.
  *
+ * The GraphicalCompositeFigure adds to the {@link CompositeFigure CompositeFigure}
+ * by containing a presentation figure by default which can not be removed.  Normally,
+ * the {@link CompositeFigure CompositeFigure} can not be seen without containing a figure
+ * because it has no mechanism to draw itself.  It instead relies on its contained
+ * figures to draw themselves thereby giving the {@link CompositeFigure CompositeFigure} its
+ * appearance.  However, the <b>GraphicalCompositeFigure</b>'s presentation figure
+ * can draw itself even when the <b>GraphicalCompositeFigure</b> contains no other figures.
+ * The <b>GraphicalCompositeFigure</b> also uses a {@link Layouter Layouter} or layout
+ * its contained figures.
+ *
  * @author	Wolfram Kaiser
  * @version <$CURRENT_VERSION$>
  */
