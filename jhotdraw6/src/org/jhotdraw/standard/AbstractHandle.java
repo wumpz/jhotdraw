@@ -40,10 +40,8 @@ public abstract class AbstractHandle implements Handle {
 	}
 
 	/**
-	 * @ deprecated As of version 4.1,
-	 * use invokeStart(x, y, drawingView)
-	 * Tracks the start of the interaction. The default implementation
-	 * does nothing.
+	 * @deprecated As of version 4.1, use invokeStart(x, y, drawingView) Tracks
+	 * the start of the interaction. The default implementation does nothing.
 	 * @param x the x position where the interaction started
 	 * @param y the y position where the interaction started
 	 */
@@ -59,8 +57,8 @@ public abstract class AbstractHandle implements Handle {
 	}
 
 	/**
-	 * @ deprecated As of version 4.1,
-	 * use invokeStep(x, y, anchorX, anchorY, drawingView)
+	 * @deprecated As of version 4.1, use invokeStep(x, y, anchorX, anchorY,
+	 * drawingView)
 	 *
 	 * Tracks a step of the interaction.
 	 * @param dx x delta of this step
@@ -91,8 +89,8 @@ public abstract class AbstractHandle implements Handle {
 	}
 
 	/**
-	 * @deprecated As of version 4.1,
-	 * use invokeEnd(x, y, anchorX, anchorY, drawingView).
+	 * @deprecated As of version 4.1, use invokeEnd(x, y, anchorX, anchorY,
+	 * drawingView).
 	 *
 	 * Tracks the end of the interaction.
 	 */
