@@ -11,7 +11,10 @@
 
 package CH.ifa.draw.standard;
 
+import java.util.List;
+
 import CH.ifa.draw.framework.*;
+import CH.ifa.draw.util.CollectionsFactory;
 import CH.ifa.draw.util.Undoable;
 import CH.ifa.draw.util.UndoableAdapter;
 
@@ -34,30 +37,64 @@ public class CutCommand extends FigureTransferCommand {
 		super(name, newDrawingEditor);
 	}
 
+	/**
+	 * @see CH.ifa.draw.util.Command#execute()
+	 */
 	public void execute() {
 		super.execute();
 		setUndoActivity(createUndoActivity());
-		getUndoActivity().setAffectedFigures(view().selection());
-		copyFigures(getUndoActivity().getAffectedFigures(),
-			view().selectionCount());
+		/* ricardo_padilha: bugfix for correct delete/undelete behavior
+		 * When enumerating the affected figures we must not forget the dependent
+		 * figures, since they are deleted as well! 
+		 */
+		FigureEnumeration fe = view().selection();
+		List affected = CollectionsFactory.current().createList();
+		Figure f;
+		FigureEnumeration dfe;
+		while (fe.hasNextFigure()) {
+			f = fe.nextFigure();
+			affected.add(0, f);
+			dfe = f.getDependendFigures();
+			if (dfe != null) {
+				while (dfe.hasNextFigure()) {
+					affected.add(0, dfe.nextFigure());
+				}
+			}
+		}
+		fe = new FigureEnumerator(affected);
+		getUndoActivity().setAffectedFigures(fe);
+		UndoActivity ua = (UndoActivity) getUndoActivity();
+		ua.setSelectedFigures(view().selection());
+		copyFigures(ua.getSelectedFigures(), ua.getSelectedFiguresCount());
+		/* ricardo_padilha: end of bugfix */
 		deleteFigures(getUndoActivity().getAffectedFigures());
 		view().checkDamage();
 	}
 
+	/**
+	 * @see CH.ifa.draw.standard.AbstractCommand#isExecutableWithView()
+	 */
 	public boolean isExecutableWithView() {
 		return view().selectionCount() > 0;
 	}
 
 	/**
 	 * Factory method for undo activity
+	 * @return Undoable
 	 */
 	protected Undoable createUndoActivity() {
 		return new CutCommand.UndoActivity(this);
 	}
 
 	public static class UndoActivity extends UndoableAdapter {
-		private FigureTransferCommand myCommand;
 
+		private FigureTransferCommand myCommand;
+		private List mySelectedFigures;
+
+		/**
+		 * Constructor for <code>UndoActivity</code>.
+		 * @param newCommand
+		 */
 		public UndoActivity(FigureTransferCommand newCommand) {
 			super(newCommand.view());
 			myCommand = newCommand;
@@ -65,28 +102,80 @@ public class CutCommand extends FigureTransferCommand {
 			setRedoable(true);
 		}
 
+		/**
+		 * @see CH.ifa.draw.util.Undoable#undo()
+		 */
 		public boolean undo() {
 			if (super.undo() && getAffectedFigures().hasNextFigure()) {
 				getDrawingView().clearSelection();
+				myCommand.insertFigures(getAffectedFiguresReversed(), 0, 0);
+				return true;
+			}
+			return false;
+		}
 
-				setAffectedFigures(myCommand.insertFigures(
-					getAffectedFigures(), 0, 0));
-
+		/**
+		 * @see CH.ifa.draw.util.Undoable#redo()
+		 */
+		public boolean redo() {
+			// do not call execute directly as the selection might has changed
+			if (isRedoable()) {
+				myCommand.copyFigures(getSelectedFigures(), getSelectedFiguresCount());
+				myCommand.deleteFigures(getAffectedFigures());
 				return true;
 			}
 
 			return false;
 		}
 
-		public boolean redo() {
-			// do not call execute directly as the selection might has changed
-			if (isRedoable()) {
-				myCommand.copyFigures(getAffectedFigures(), getDrawingView().selectionCount());
-				myCommand.deleteFigures(getAffectedFigures());
-				return true;
-			}
+		/**
+		 * Preserve the selection of figures the moment the command was executed.
+		 * @param newSelectedFigures
+		 */
+		public void setSelectedFigures(FigureEnumeration newSelectedFigures) {
+			// the enumeration is not reusable therefore a copy is made
+			// to be able to undo-redo the command several time
+			rememberSelectedFigures(newSelectedFigures);
+		}
 
-			return false;
+		/**
+		 * Preserve a copy of the enumeration in a private list.
+		 * @param toBeRemembered
+		 */
+		protected void rememberSelectedFigures(FigureEnumeration toBeRemembered) {
+			mySelectedFigures = CollectionsFactory.current().createList();
+			while (toBeRemembered.hasNextFigure()) {
+				mySelectedFigures.add(toBeRemembered.nextFigure());
+			}
+		}
+	
+		/**
+		 * Returns the selection of figures to perform the command on.
+		 * @return
+		 */
+		public FigureEnumeration getSelectedFigures() {
+			return new FigureEnumerator(
+				CollectionsFactory.current().createList(mySelectedFigures));
+		}
+
+		/**
+		 * Returns the size of the selection.
+		 * @return
+		 */
+		public int getSelectedFiguresCount() {
+			return mySelectedFigures.size();
+		}
+
+		/**
+		 * @see CH.ifa.draw.util.UndoableAdapter#release()
+		 */
+		public void release() {
+			super.release();
+			FigureEnumeration fe = getSelectedFigures();
+			while (fe.hasNextFigure()) {
+				fe.nextFigure().release();
+			}
+			setSelectedFigures(FigureEnumerator.getEmptyEnumeration());
 		}
 	}
 }

@@ -27,15 +27,18 @@ import CH.ifa.draw.util.UndoableAdapter;
  */
 public class DeleteCommand extends FigureTransferCommand {
 
-   /**
-	* Constructs a delete command.
-	* @param name the command name
+	/**
+	 * Constructs a delete command.
+	 * @param name the command name
 	 * @param newDrawingEditor the DrawingEditor which manages the views
-	*/
+	 */
 	public DeleteCommand(String name, DrawingEditor newDrawingEditor) {
 		super(name, newDrawingEditor);
 	}
 
+	/**
+	 * @see CH.ifa.draw.util.Command#execute()
+	 */
 	public void execute() {
 		super.execute();
 		setUndoActivity(createUndoActivity());
@@ -64,20 +67,29 @@ public class DeleteCommand extends FigureTransferCommand {
 		view().checkDamage();
 	}
 
+	/**
+	 * @see CH.ifa.draw.standard.AbstractCommand#isExecutableWithView()
+	 */
 	protected boolean isExecutableWithView() {
 		return view().selectionCount() > 0;
 	}
 
 	/**
 	 * Factory method for undo activity
+	 * @return Undoable
 	 */
 	protected Undoable createUndoActivity() {
 		return new DeleteCommand.UndoActivity(this);
 	}
 
 	public static class UndoActivity extends UndoableAdapter {
+
 		private FigureTransferCommand myCommand;
 
+		/**
+		 * Constructor for <code>UndoActivity</code>.
+		 * @param newCommand parent command
+		 */
 		public UndoActivity(FigureTransferCommand newCommand) {
 			super(newCommand.view());
 			myCommand = newCommand;
@@ -85,26 +97,29 @@ public class DeleteCommand extends FigureTransferCommand {
 			setRedoable(true);
 		}
 
+		/**
+		 * @see CH.ifa.draw.util.Undoable#undo()
+		 */
 		public boolean undo() {
 			if (super.undo() && getAffectedFigures().hasNextFigure()) {
 				getDrawingView().clearSelection();
-				setAffectedFigures(myCommand.insertFigures(getAffectedFigures(), 0, 0));
-
+				setAffectedFigures(
+					myCommand.insertFigures(getAffectedFiguresReversed(), 0, 0));
 				return true;
 			}
-
 			return false;
 		}
 
+		/**
+		 * @see CH.ifa.draw.util.Undoable#redo()
+		 */
 		public boolean redo() {
 			// do not call execute directly as the selection might has changed
 			if (isRedoable()) {
 				myCommand.deleteFigures(getAffectedFigures());
 				getDrawingView().clearSelection();
-
 				return true;
 			}
-
 			return false;
 		}
 	}
