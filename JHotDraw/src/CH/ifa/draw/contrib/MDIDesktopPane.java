@@ -59,7 +59,7 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
          * @see javax.swing.JInternalFrame#show
 		 * if dv is null assert
          */
-	    public void internalFrameOpened(InternalFrameEvent e){
+	    public void internalFrameOpened(InternalFrameEvent e) {
 			DrawingView dv = Helper.getDrawingView(e.getInternalFrame());
 			fireDrawingViewAddedEvent(dv);
 	    }
@@ -69,7 +69,7 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 		 * The close operation can be overridden at this point.
 		 * @see javax.swing.JInternalFrame#setDefaultCloseOperation
 		 */
-		//public void internalFrameClosing(InternalFrameEvent e){
+		//public void internalFrameClosing(InternalFrameEvent e) {
 		//}
 
 		/**
@@ -78,10 +78,10 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 		 * if this is the last view set it to null
 		 * @see javax.swing.JInternalFrame#setClosed
 		 */
-		public void internalFrameClosed(InternalFrameEvent e){
+		public void internalFrameClosed(InternalFrameEvent e) {
 			DrawingView dv = Helper.getDrawingView(e.getInternalFrame());
 			if (getComponentCount() == 0){
-				selectedView = null;
+				setActiveDrawingView(null);
 				fireDrawingViewSelectedEvent(selectedView);
 			}
 			fireDrawingViewRemovedEvent(dv);
@@ -91,14 +91,14 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 		 * Invoked when an internal frame is iconified.
 		 * @see javax.swing.JInternalFrame#setIcon
 		 */
-		//public void internalFrameIconified(InternalFrameEvent e){
+		//public void internalFrameIconified(InternalFrameEvent e) {
 		//}
 
 		/**
 		 * Invoked when an internal frame is de-iconified.
 		 * @see javax.swing.JInternalFrame#setIcon
 		 */
-		//public void internalFrameDeiconified(InternalFrameEvent e){
+		//public void internalFrameDeiconified(InternalFrameEvent e) {
 		//}
 
 		/**
@@ -108,13 +108,13 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 		 * because their should be no null frames being selected
 		 * this does not include NullDrawingView which is acceptable
 		 */
-		public void internalFrameActivated(InternalFrameEvent e){
+		public void internalFrameActivated(InternalFrameEvent e) {
 			DrawingView dv = Helper.getDrawingView(e.getInternalFrame());
-			selectedView = dv;
+			setActiveDrawingView(dv);
 			fireDrawingViewSelectedEvent(selectedView);
 		}
 
-		//public void internalFrameDeactivated(InternalFrameEvent e){
+		//public void internalFrameDeactivated(InternalFrameEvent e) {
 		//}
 	};
 
@@ -123,7 +123,7 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 		final Object[] listeners = listenerList.getListenerList();
 		DesktopListener dpl;
 		DesktopEvent dpe = null;
-		for (int i = listeners.length-2; i>=0 ; i-=2)	{
+		for (int i = listeners.length-2; i >= 0; i -= 2) {
 			if (listeners[i] == DesktopListener.class) {
 				if (dpe == null) {
 					dpe = new DesktopEvent(MDIDesktopPane.this, dv);
@@ -138,7 +138,7 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 		final Object[] listeners = listenerList.getListenerList();
 		DesktopListener dpl;
 		DesktopEvent dpe= null;
-		for (int i = listeners.length-2; i>=0 ; i-=2)	{
+		for (int i = listeners.length-2; i >= 0; i -= 2) {
 			if (listeners[i] == DesktopListener.class) {
 				if (dpe == null) {
 					dpe = new DesktopEvent(MDIDesktopPane.this, dv);
@@ -153,7 +153,7 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 		final Object[] listeners = listenerList.getListenerList();
 		DesktopListener dpl;
 		DesktopEvent dpe = null;
-		for (int i = listeners.length-2; i>=0 ; i-=2)	{
+		for (int i = listeners.length-2; i >= 0; i -= 2) {
 			if (listeners[i] == DesktopListener.class) {
 				if (dpe == null) {
 					dpe = new DesktopEvent(MDIDesktopPane.this, dv);
@@ -163,6 +163,7 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 			}
 		}
 	}
+
 /*	public void setBounds(int x, int y, int w, int h) {
 		super.setBounds(x,y,w,h);
 		checkDesktopSize();
@@ -189,8 +190,16 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 		return internalFrame;
 	}
 
-	public DrawingView getActiveDrawingView(){
+	public DrawingView getActiveDrawingView() {
 		return selectedView;
+	}
+
+	protected void setActiveDrawingView(DrawingView newSelectedView) {
+		selectedView = newSelectedView;
+	}
+
+	public void updateTitle(String newDrawingTitle) {
+		getSelectedFrame().setTitle(newDrawingTitle);
 	}
 
 	/**
@@ -278,13 +287,13 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 		al.toArray(dvs);
 		return dvs;
 	}
-
+/*
 	public void setSelectedDrawingView(DrawingView dv) {
 		Component[] comps = getComponents();
-		for (int x=0;x<comps.length;x++) {
+		for (int x=0; x < comps.length; x++) {
 			DrawingView dv2 = Helper.getDrawingView(comps[x]);
 		    if (dv == dv2) {
-				JInternalFrame frame = (JInternalFrame) comps[x];
+				JInternalFrame frame = (JInternalFrame)comps[x];
 				try {
 					//moveToFront(frame);
 					frame.setSelected(true);
@@ -295,7 +304,7 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 		    }
 		}
 	}
-
+*/
 	public void addDesktopListener(DesktopListener dpl){
 		listenerList.add(DesktopListener.class, dpl);
 	}
@@ -323,7 +332,7 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 		int frameWidth = (getBounds().width - 5) - allFrames.length * FRAME_OFFSET;
 		for (int i = allFrames.length - 1; i >= 0; i--) {
 			try {
-				((JInternalFrame)allFrames[i]).setMaximum(false);
+				allFrames[i].setMaximum(false);
 			}
 			catch (PropertyVetoException e) {
 				e.printStackTrace();
@@ -592,10 +601,12 @@ class MDIDesktopManager extends DefaultDesktopManager {
 
 	private Insets getScrollPaneInsets() {
 		JScrollPane scrollPane = getScrollPane();
-		if (scrollPane == null) {
+		if ((scrollPane == null) || (getScrollPane().getBorder() == null)) {
 			return new Insets(0, 0, 0, 0);
 		}
-		else return getScrollPane().getBorder().getBorderInsets(scrollPane);
+		else {
+			return getScrollPane().getBorder().getBorderInsets(scrollPane);
+		}
 	}
 
 	public JScrollPane getScrollPane() {

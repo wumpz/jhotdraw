@@ -112,7 +112,7 @@ public  class JavaDrawApp extends MDI_DrawApplication {
 		palette.add(createToolButton(IMAGES + "BORDDEC", "Border Tool", tool));
 
 		Component button = new JButton("Hello World");
-		tool = new CreationTool(this, new ComponentFigure(button, this));
+		tool = new CreationTool(this, new ComponentFigure(button));
 		palette.add(createToolButton(IMAGES + "RECT", "Component Tool", tool));
 
 		tool = new TextAreaTool(this, new TextAreaFigure());
