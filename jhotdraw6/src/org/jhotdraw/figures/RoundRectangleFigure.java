@@ -94,7 +94,7 @@ public class RoundRectangleFigure extends AttributeFigure {
 
 	public void drawBackground(Graphics g) {
 		Rectangle r = displayBox();
-		g.fillRoundRect(r.x, r.y, r.width, r.height, fArcWidth, fArcHeight);
+		g.fillRoundRect(r.x, r.y, r.width-1, r.height-1, fArcWidth, fArcHeight);
 	}
 
 	public void drawFrame(Graphics g) {

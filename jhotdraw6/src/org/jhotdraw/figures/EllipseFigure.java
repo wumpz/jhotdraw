@@ -66,7 +66,7 @@ public class EllipseFigure extends AttributeFigure {
 
 	public void drawBackground(Graphics g) {
 		Rectangle r = displayBox();
-		g.fillOval(r.x, r.y, r.width, r.height);
+		g.fillOval(r.x, r.y, r.width-1, r.height-1);
 	}
 
 	public void drawFrame(Graphics g) {
