@@ -191,12 +191,12 @@ public class MiniMapView extends JComponent {
          * JP, 25-May-03: Avoid positioning of the rectangle outside the
          * available area. Resulted in very strange artifacts on the screen.
          */
-        if (upperLeft[0] + oldRectangle.width >= getX() + getWidth()) {
-            upperLeft[0] = getX() + getWidth() - oldRectangle.width - 1;
+        if (upperLeft[0] + oldRectangle.width > getX() + getWidth()) {
+            upperLeft[0] = getX() + getWidth() - oldRectangle.width;
         }
 
-        if (upperLeft[1] + oldRectangle.height >= getY() + getHeight()) {
-            upperLeft[1] = getY() + getHeight() - oldRectangle.height - 1;
+        if (upperLeft[1] + oldRectangle.height > getY() + getHeight()) {
+            upperLeft[1] = getY() + getHeight() - oldRectangle.height;
         }
         
 		return upperLeft;
