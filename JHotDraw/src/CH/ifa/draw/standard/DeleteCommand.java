@@ -49,11 +49,11 @@ public class DeleteCommand extends FigureTransferCommand {
 		FigureEnumeration dfe;
 		while (fe.hasNextFigure()) {
 			f = fe.nextFigure();
-			affected.add(f);
+			affected.add(0, f);
 			dfe = f.getDependendFigures();
 			if (dfe != null) {
 				while (dfe.hasNextFigure()) {
-					affected.add(dfe.nextFigure());
+					affected.add(0, dfe.nextFigure());
 				}
 			}
 		}
