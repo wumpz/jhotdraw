@@ -203,10 +203,11 @@ class QuadTree implements Serializable {
 			}
 
 			if (_nMaxTreeDepth > 1) {
-				l.add(_nwQuadTree.getAllWithin(r));
-				l.add(_neQuadTree.getAllWithin(r));
-				l.add(_swQuadTree.getAllWithin(r));
-				l.add(_seQuadTree.getAllWithin(r));
+				// bug-fix: 698988 - figures(Rectangle viewRectangle) bug
+				addFigureEnumerationToList(l, _nwQuadTree.getAllWithin(r));
+				addFigureEnumerationToList(l, _neQuadTree.getAllWithin(r));
+				addFigureEnumerationToList(l, _swQuadTree.getAllWithin(r));
+				addFigureEnumerationToList(l, _seQuadTree.getAllWithin(r));
 			}
 		}
 
@@ -254,6 +255,12 @@ class QuadTree implements Serializable {
 			r.getY() + r.getHeight() / 2.0, r.getWidth() / 2.0,
 			r.getHeight() / 2.0);
 	}
+
+	private void addFigureEnumerationToList(List l, FigureEnumeration fe) {
+        while (fe.hasNextFigure()) {
+            l.add(fe.nextFigure());
+        }
+    }
 
 //_______________________________________________________________END
 
