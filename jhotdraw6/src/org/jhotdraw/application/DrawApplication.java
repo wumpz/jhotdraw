@@ -158,8 +158,8 @@ public	class DrawApplication
 		getContentPane().setLayout(new BorderLayout());
 
 		// status line must be created before a tool is set
-		fStatusLine = createStatusLine();
-		getContentPane().add(fStatusLine, BorderLayout.SOUTH);
+		setStatusLine(createStatusLine());
+		getContentPane().add(getStatusLine(), BorderLayout.SOUTH);
 
 		// create dummy tool until the default tool is activated during toolDone()
 		setTool(new NullTool(this), "");
@@ -191,7 +191,7 @@ public	class DrawApplication
 		}
 		addListeners();
 		setVisible(true);
-		fStorageFormatManager = createStorageFormatManager();
+		setStorageFormatManager(createStorageFormatManager());
 		if (newDrawingView.isInteractive()) {
 	    	getDesktop().addToDesktop(newDrawingView , Desktop.PRIMARY);
 		}
@@ -621,8 +621,8 @@ public	class DrawApplication
 	 * Set the StorageFormatManager. The StorageFormatManager is used when storing and
 	 * restoring Drawing from the file system.
 	 */
-	protected final void setStorageFormatManager(StorageFormatManager storageFormatManager) {
-		fStorageFormatManager = storageFormatManager;
+	protected final void setStorageFormatManager(StorageFormatManager newStorageFormatManager) {
+		fStorageFormatManager = newStorageFormatManager;
 	}
 
 	/**
@@ -648,6 +648,14 @@ public	class DrawApplication
 		field.setBackground(Color.white);
 		field.setEditable(false);
 		return field;
+	}
+
+	private void setStatusLine(JTextField newStatusLine) {
+		fStatusLine = newStatusLine;
+	}
+
+	protected JTextField getStatusLine() {
+		return fStatusLine;
 	}
 
 	/**
@@ -802,7 +810,7 @@ public	class DrawApplication
 	 * @see DrawingEditor
 	 */
 	public void showStatus(String string) {
-		fStatusLine.setText(string);
+		getStatusLine().setText(string);
 	}
 
 	/**

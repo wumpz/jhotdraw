@@ -319,7 +319,7 @@ public  class PolyLineFigure extends AbstractFigure {
 			setFrameColor((Color)value);
 			changed();
 		}
-		else if (attributeConstant.equals(FigureAttributeConstant.ARROW_MODE.getName())) {
+		else if (attributeConstant.equals(FigureAttributeConstant.ARROW_MODE)) {
 			Integer intObj = (Integer)value;
 			if (intObj != null) {
 				int decoration = intObj.intValue();

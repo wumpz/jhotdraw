@@ -84,10 +84,24 @@ public class MDI_DrawApplication extends DrawApplication {
 		toolDone();
 	}
 
+	/**
+	 * Create the DrawingView that is active when the application is started.
+	 * This initial DrawingView might be different from DrawingView created
+	 * by the application, so subclasses can override this method to provide
+	 * a special drawing view for application startup time, e.g. a NullDrawingView
+	 * which does not display an internal frame in a multiple document interface
+	 * (MDI) application.
+	 *
+	 * @return drawing view that is active at application startup time
+	 */
 	protected DrawingView createInitialDrawingView() {
 		return NullDrawingView.getManagedDrawingView(this);
 	}
 
+	/**
+	 * Open a new view for this application containing a
+	 * view of the drawing of the currently activated window.
+	 */
 	public void newView() {
 		if (!view().isInteractive()) {
 			return;
@@ -105,6 +119,9 @@ public class MDI_DrawApplication extends DrawApplication {
 		}
 	}
 
+	/**
+	 * Factory method to create a specialized desktop (manager) for MDI applications
+	 */
 	protected Desktop createDesktop() {
 		return new MDIDesktopPane(this);
 	}
@@ -117,6 +134,6 @@ public class MDI_DrawApplication extends DrawApplication {
 	}
 
 	public String getDefaultDrawingTitle() {
-		return super.getDefaultDrawingTitle() + getDesktop().getAllFromDesktop(0).length;
+		return super.getDefaultDrawingTitle() + views().length;
 	}
 }

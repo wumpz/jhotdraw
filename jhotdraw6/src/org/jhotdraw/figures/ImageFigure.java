@@ -48,7 +48,8 @@ public  class ImageFigure
 	public ImageFigure(Image image, String fileName, Point origin) {
 		fFileName = fileName;
 		fImage = image;
-		basicDisplayBox(origin, new Point(fImage.getWidth(this), fImage.getHeight(this)));
+		// fix for bug-id: 593080 (ImageFigure calculates the image rectangle wrongly)
+		basicDisplayBox(origin, new Point(origin.x + fImage.getWidth(this), origin.y + fImage.getHeight(this)));
 	}
 
 	public void basicDisplayBox(Point origin, Point corner) {
