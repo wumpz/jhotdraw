@@ -76,9 +76,9 @@ public  class GroupFigure extends CompositeFigure {
 	*/
 	public void setAttribute(String name, Object value) {
 		super.setAttribute(name, value);
-		FigureEnumeration k = figures();
-		while (k.hasMoreElements()) {
-			k.nextFigure().setAttribute(name, value);
+		FigureEnumeration fe = figures();
+		while (fe.hasMoreElements()) {
+			fe.nextFigure().setAttribute(name, value);
 		}
 	}
 }

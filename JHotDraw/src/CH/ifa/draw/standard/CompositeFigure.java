@@ -49,7 +49,7 @@ public abstract class CompositeFigure
 	 */
 	private static final long serialVersionUID = 7408153435700021866L;
 	private int compositeFigureSerializedDataVersion = 1;
-	private QuadTree  _theQuadTree;
+	private transient QuadTree  _theQuadTree;
 	protected int _nLowestZ;
 	protected int _nHighestZ;
 
@@ -67,7 +67,7 @@ public abstract class CompositeFigure
 	 * @return the figure that was inserted (might be different from the figure specified).
 	 */
 	public Figure add(Figure figure) {
-		if (!fFigures.contains(figure)) {
+		if (!containsFigure(figure)) {
 			figure.setZValue(++_nHighestZ);
 			fFigures.addElement(figure);
 			figure.addToContainer(this);
@@ -129,7 +129,7 @@ public abstract class CompositeFigure
 			remove(fe.nextFigure());
 		}
 	}
-	
+
 	/**
 	 * Removes all children.
 	 * @see #remove
@@ -141,7 +141,7 @@ public abstract class CompositeFigure
 			figure.removeFromContainer(this);
 		}
 		fFigures.removeAllElements();
-		
+
 		_clearQuadTree();
 		_nLowestZ = 0;
 		_nHighestZ = 0;
@@ -155,7 +155,7 @@ public abstract class CompositeFigure
 	 * @param figure that is part of the drawing and should be added
 	 */
 	public synchronized Figure orphan(Figure figure) {
-		if (fFigures.contains(figure)) {
+		if (containsFigure(figure)) {
 			figure.removeFromContainer(this);
 			fFigures.removeElement(figure);
 			_removeFromQuadTree(figure);
@@ -179,7 +179,7 @@ public abstract class CompositeFigure
 			orphan(fe.nextFigure());
 		}
 	}
-	
+
 	/**
 	 * Replaces a figure in the drawing without
 	 * removing it from the drawing.
@@ -207,7 +207,7 @@ public abstract class CompositeFigure
 	 * @param figure that is part of the drawing
 	 */
 	public synchronized void sendToBack(Figure figure) {
-		if (fFigures.contains(figure)) {
+		if (containsFigure(figure)) {
 			fFigures.removeElement(figure);
 			fFigures.insertElementAt(figure,0);
 			_nLowestZ--;
@@ -222,7 +222,7 @@ public abstract class CompositeFigure
 	 * @param figure that is part of the drawing
 	 */
 	public synchronized void bringToFront(Figure figure) {
-		if (fFigures.contains(figure)) {
+		if (containsFigure(figure)) {
 			fFigures.removeElement(figure);
 			fFigures.addElement(figure);
 			_nHighestZ++;
@@ -238,10 +238,10 @@ public abstract class CompositeFigure
 	 * layer number have usually been added later and may overlay
 	 * figures in lower layers. Layers are counted from to (the number
 	 * of figures - 1).
-	 * The figure is removed from its current layer (if it has been already 
+	 * The figure is removed from its current layer (if it has been already
 	 * part of this drawing) and is transferred to the specified layers after
 	 * all figures between the original layer and the new layer are shifted to
-	 * one layer below to fill the layer sequence. It is not possible to skip a 
+	 * one layer below to fill the layer sequence. It is not possible to skip a
 	 * layer number and if the figure is sent to a layer beyond the latest layer
 	 * it will be added as the last figure to the drawing and its layer number
 	 * will be set to the be the one beyond the latest layer so far.
@@ -250,7 +250,7 @@ public abstract class CompositeFigure
 	 * @param layerNr target layer of the figure
 	 */
 	public void sendToLayer(Figure figure, int layerNr) {
-		if (fFigures.contains(figure)) {
+		if (containsFigure(figure)) {
 			if (layerNr >= fFigures.size()) {
 				layerNr = fFigures.size() - 1;
 			}
@@ -264,7 +264,7 @@ public abstract class CompositeFigure
 			else if (figureLayer > layerNr) {
 				assignFiguresToSuccessorZValue(layerNr, figureLayer - 1);
 			}
-			
+
 			fFigures.removeElement(figure);
 			fFigures.insertElementAt(figure, layerNr);
 			figure.setZValue(layerFigureZValue);
@@ -278,7 +278,7 @@ public abstract class CompositeFigure
 		if (upperBound >= fFigures.size()) {
 			upperBound = fFigures.size() - 1;
 		}
-		
+
 		for (int i = upperBound; i >= lowerBound; i--) {
 			Figure currentFigure = (Figure)fFigures.elementAt(i);
 			Figure predecessorFigure = (Figure)fFigures.elementAt(i - 1);
@@ -290,7 +290,7 @@ public abstract class CompositeFigure
 		if (upperBound >= fFigures.size()) {
 			upperBound = fFigures.size() - 1;
 		}
-		
+
 		for (int i = upperBound; i >= lowerBound; i--) {
 			Figure currentFigure = (Figure)fFigures.elementAt(i);
 			Figure successorFigure = (Figure)fFigures.elementAt(i + 1);
@@ -299,7 +299,7 @@ public abstract class CompositeFigure
 	}
 
 	/**
-	 * Gets the layer for a certain figure (first occurrence). The number 
+	 * Gets the layer for a certain figure (first occurrence). The number
 	 * returned is the number of the layer in which the figure is placed.
 	 *
 	 * @param figure figure to be queried for its layering place
@@ -308,14 +308,14 @@ public abstract class CompositeFigure
 	 * @see #sendToLayer
 	 */
 	public int getLayer(Figure figure) {
-		if (!fFigures.contains(figure)) {
+		if (!containsFigure(figure)) {
 			return -1;
 		}
 		else {
 			return fFigures.indexOf(figure);
 		}
 	}
-	
+
 	/**
 	 * Gets the figure from a certain layer.
 	 *
@@ -332,7 +332,7 @@ public abstract class CompositeFigure
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Draws all the contained figures
 	 * @see Figure#draw
@@ -363,6 +363,9 @@ public abstract class CompositeFigure
 
 	/**
 	 * Returns an Enumeration for accessing the contained figures.
+     * The enumeration is a snapshot of the current contained figures
+     * and is not a "live" enumeration and does not take subsequent
+     * changes of the CompositeFigure into account.
 	 * The figures are returned in the drawing order.
 	 */
 	public final FigureEnumeration figures() {
@@ -412,6 +415,13 @@ public abstract class CompositeFigure
 	}
 
 	/**
+	 * Check whether a given figure is a child figure of this CompositeFigure.
+	 */
+	public boolean containsFigure(Figure checkFigure) {
+		return fFigures.contains(checkFigure);
+	}
+
+    /**
 	 * Returns an Enumeration for accessing the contained figures
 	 * in the reverse drawing order.
 	 */

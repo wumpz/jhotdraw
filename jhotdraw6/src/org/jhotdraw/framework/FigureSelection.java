@@ -30,7 +30,7 @@ public interface FigureSelection {
 
 	/**
 	 * Gets the data of the selection. The result is returned
-	 * as a Vector of Figures.
+     * as a FigureEnumeration of Figures.
 	 *
 	 * @return a copy of the figure selection.
 	 */

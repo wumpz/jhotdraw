@@ -11,10 +11,9 @@
 
 package CH.ifa.draw.figures;
 
+import CH.ifa.draw.util.Storable;
 import java.awt.*;
 import java.io.Serializable;
-
-import CH.ifa.draw.util.Storable;
 
 /**
  * Decorate the start or end point of a line or poly line figure.
@@ -30,5 +29,10 @@ public interface LineDecoration
 	/**
 	 * Draws the decoration in the direction specified by the two points.
 	 */
-	public abstract void draw(Graphics g, int x1, int y1, int x2, int y2);
+	public void draw(Graphics g, int x1, int y1, int x2, int y2);
+
+	/**
+	 * @return the display box of a LineDecoration.
+	 */
+	public Rectangle displayBox();
 }

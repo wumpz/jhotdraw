@@ -206,14 +206,14 @@ public abstract class AbstractFigure implements Figure {
 	 * Adds a listener for this figure.
 	 */
 	public void addFigureChangeListener(FigureChangeListener l) {
-		fListener = FigureChangeEventMulticaster.add(fListener, l);
+		fListener = FigureChangeEventMulticaster.add(listener(), l);
 	}
 
 	/**
 	 * Removes a listener for this figure.
 	 */
 	public void removeFigureChangeListener(FigureChangeListener l) {
-		fListener = FigureChangeEventMulticaster.remove(fListener, l);
+		fListener = FigureChangeEventMulticaster.remove(listener(), l);
 	}
 
 	/**
@@ -229,8 +229,8 @@ public abstract class AbstractFigure implements Figure {
 	 * @see Figure#release
 	 */
 	public void release() {
-		if (fListener != null) {
-			fListener.figureRemoved(new FigureChangeEvent(this));
+		if (listener() != null) {
+			listener().figureRemoved(new FigureChangeEvent(this));
 		}
 	}
 
@@ -240,11 +240,18 @@ public abstract class AbstractFigure implements Figure {
 	 * refreshed.
 	 */
 	public void invalidate() {
-		if (fListener != null) {
-			Rectangle r = displayBox();
-			r.grow(Handle.HANDLESIZE, Handle.HANDLESIZE);
-			fListener.figureInvalidated(new FigureChangeEvent(this, r));
+		if (listener() != null) {
+			Rectangle r = invalidateRectangle(displayBox());
+			listener().figureInvalidated(new FigureChangeEvent(this, r));
 		}
+	}
+
+	/**
+	 * Hook method to change the rectangle that will be invalidated
+	 */
+	protected Rectangle invalidateRectangle(Rectangle r) {
+		r.grow(Handle.HANDLESIZE, Handle.HANDLESIZE);
+		return r;
 	}
 
 	/**
@@ -265,8 +272,8 @@ public abstract class AbstractFigure implements Figure {
 	 */
 	public void changed() {
 		invalidate();
-		if (fListener != null) {
-			fListener.figureChanged(new FigureChangeEvent(this));
+		if (listener() != null) {
+			listener().figureChanged(new FigureChangeEvent(this));
 		}
 	}
 
@@ -323,19 +330,39 @@ public abstract class AbstractFigure implements Figure {
 	/**
 	 * Returns the named attribute or null if a
 	 * a figure doesn't have an attribute.
-	 * By default
-	 * figures don't have any attributes getAttribute
+	 * By default figures don't have any attributes so getAttribute
 	 * returns null.
+	 *
+	 * @deprecated use getAttribute(FigureAttributeConstant) instead
 	 */
 	public Object getAttribute(String name) {
 		return null;
 	}
 
 	/**
+	 * Returns the named attribute or null if a
+	 * a figure doesn't have an attribute.
+	 * By default figures don't have any attributes getAttribute
+	 * returns null.
+	 */
+	public Object getAttribute(FigureAttributeConstant attributeConstant) {
+		return null;
+	}
+
+	/**
+	 * Sets the named attribute to the new value. By default
+	 * figures don't have any attributes and the request is ignored.
+	 *
+	 * @deprecated use setAttribute(FigureAttributeConstant, Object) instead
+	 */
+	public void setAttribute(String name, Object value) {
+	}
+
+	/**
 	 * Sets the named attribute to the new value. By default
 	 * figures don't have any attributes and the request is ignored.
 	 */
-	public void setAttribute(String name, Object value) {
+	public void setAttribute(FigureAttributeConstant attributeConstant, Object value) {
 	}
 
 	/**

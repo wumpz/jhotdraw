@@ -19,7 +19,6 @@ import CH.ifa.draw.applet.*;
 import CH.ifa.draw.contrib.*;
 
 import javax.swing.*;
-import java.applet.Applet;
 import java.awt.event.*;
 import java.util.*;
 import java.io.*;
@@ -30,7 +29,7 @@ import java.net.*;
  */
 public  class JavaDrawApplet extends DrawApplet {
 
-	transient private JButton          fAnimationButton;
+    transient private JButton   fAnimationButton;
 	transient private Animator        fAnimator;
 
 	//-- applet life cycle --------------------------------------------
@@ -68,7 +67,7 @@ public  class JavaDrawApplet extends DrawApplet {
 
 		tool = new CreationTool(this, new TriangleFigure());
 		palette.add(createToolButton(IMAGES + "TRIANGLE", "Triangle Tool", tool));
-		
+
 		tool = new CreationTool(this, new DiamondFigure());
 		palette.add(createToolButton(IMAGES + "DIAMOND", "Diamond Tool", tool));
 
@@ -111,7 +110,7 @@ public  class JavaDrawApplet extends DrawApplet {
 	//-- animation support ----------------------------------------------
 
 	public void startAnimation() {
-		if (drawing() instanceof Animatable && fAnimator == null) {
+		if ((drawing() instanceof Animatable) && (fAnimator == null)) {
 			fAnimator = new Animator((Animatable)drawing(), view());
 			fAnimator.start();
 			fAnimationButton.setText("End Animation");

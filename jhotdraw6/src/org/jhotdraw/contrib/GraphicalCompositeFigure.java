@@ -8,7 +8,7 @@
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
- 
+
 package CH.ifa.draw.contrib;
 
 import CH.ifa.draw.framework.*;
@@ -41,7 +41,7 @@ public class GraphicalCompositeFigure extends CompositeFigure implements Layouta
 	 * children.
 	 */
 	private Figure	myPresentationFigure;
-	
+
 	/**
 	 * A Layouter determines how the CompositeFigure should
 	 * be laid out graphically.
@@ -49,7 +49,7 @@ public class GraphicalCompositeFigure extends CompositeFigure implements Layouta
 	private Layouter myLayouter;
 
 	private static final long serialVersionUID = 1265742491024232713L;
-	
+
 	/**
 	 * Default constructor which uses a RectangleFigure as presentation
 	 * figure. This constructor is needed by the Storable mechanism.
@@ -57,7 +57,7 @@ public class GraphicalCompositeFigure extends CompositeFigure implements Layouta
 	public GraphicalCompositeFigure() {
 		this(new RectangleFigure());
 	}
-	
+
 	/**
 	 * Constructor which creates a GraphicalCompositeFigure with
 	 * a given graphical figure for presenting it.
@@ -103,7 +103,14 @@ public class GraphicalCompositeFigure extends CompositeFigure implements Layouta
 	 */
 	public void basicDisplayBox(Point origin, Point corner) {
 		Rectangle r = getLayouter().layout(origin, corner);
-		getPresentationFigure().basicDisplayBox(r.getLocation(), new Point(r.width, r.height));
+		 // Fix for bug request IDs 548000 and 548032
+		 // Previously was
+		 //     getPresentationFigure().basicDisplayBox(r.getLocation(), new Point(r.width, r.height));
+		 // The corner transferred to the presentation figure is wrong as it transfers
+		 // the dimension of the resulting rectangle from the layouter instead of the
+		 // lower right corner
+		getPresentationFigure().basicDisplayBox(r.getLocation(),
+			new Point((int)r.getMaxX(), (int)r.getMaxY()));
 	}
 
 	/**
@@ -148,13 +155,33 @@ public class GraphicalCompositeFigure extends CompositeFigure implements Layouta
 	 *
 	 * @param	name	name of the attribute whose value should be returned
 	 * @return	value of the attribute with the given name
+	 *
+	 * @deprecated use getAttribute(FigureAttributeConstant) instead
 	 */
 	public Object getAttribute(String name) {
-		if (getPresentationFigure() != null) {	
+		if (getPresentationFigure() != null) {
 			return getPresentationFigure().getAttribute(name);
 		}
 		else {
 			return super.getAttribute(name);
+		}
+	}
+
+	/**
+	 * Delegate capabilities for storing and retrieving attributes to a
+	 * CompositeFigure if the encapsulated presentation figure. If no
+	 * presentation figure is found then the superclass' getAttribute()
+	 * will be invoked (which currently returns always "null").
+	 *
+	 * @param	attribute constant	attribute constant whose value should be returned
+	 * @return	value of the attribute with the given name
+	 */
+	public Object getAttribute(FigureAttributeConstant attributeConstant) {
+		if (getPresentationFigure() != null) {
+			return getPresentationFigure().getAttribute(attributeConstant);
+		}
+		else {
+			return super.getAttribute(attributeConstant);
 		}
 	}
 
@@ -166,6 +193,8 @@ public class GraphicalCompositeFigure extends CompositeFigure implements Layouta
 	 *
 	 * @param	name	name of the attribute
 	 * @param	value	value associated with this attribute
+	 *
+	 * @deprecated use setAttribute(FigureAttributeConstant, Object) instead
 	 */
 	public void setAttribute(String name, Object value) {
 		if (getPresentationFigure() != null) {
@@ -173,6 +202,24 @@ public class GraphicalCompositeFigure extends CompositeFigure implements Layouta
 		}
 		else {
 			super.setAttribute(name, value);
+		}
+	}
+
+	/**
+	 * Delegate capabilities for storing and retrieving attributes to a
+	 * CompositeFigure if the encapsulated presentation figure. If no
+	 * presentation figure is found then the superclass' setAttribute()
+	 * will be invoked (which currently does not set an attribute).
+	 *
+	 * @param	attributeConstant	attribute constant
+	 * @param	value	value associated with this attribute
+	 */
+	public void setAttribute(FigureAttributeConstant attributeConstant, Object value) {
+		if (getPresentationFigure() != null) {
+			getPresentationFigure().setAttribute(attributeConstant, value);
+		}
+		else {
+			super.setAttribute(attributeConstant, value);
 		}
 	}
 
@@ -237,7 +284,7 @@ public class GraphicalCompositeFigure extends CompositeFigure implements Layouta
 	public Layouter getLayouter() {
 		return myLayouter;
 	}
-	
+
 	/**
 	 * Notify the registered change listener if an exlicit change
 	 * to the component (or one of its child components has occurred).

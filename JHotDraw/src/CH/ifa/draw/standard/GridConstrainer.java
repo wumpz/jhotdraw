@@ -11,10 +11,9 @@
 
 package CH.ifa.draw.standard;
 
+import CH.ifa.draw.framework.PointConstrainer;
 import java.awt.*;
 import java.io.Serializable;
-
-import CH.ifa.draw.framework.PointConstrainer;
 
 /**
  * Constrains a point such that it falls on a grid.

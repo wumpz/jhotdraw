@@ -14,7 +14,6 @@ package CH.ifa.draw.standard;
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.util.UndoableAdapter;
 import CH.ifa.draw.util.Undoable;
-import java.awt.Color;
 import java.util.Hashtable;
 
 /**

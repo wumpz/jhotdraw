@@ -26,4 +26,12 @@ public class NullTool extends AbstractTool {
 	public NullTool(DrawingEditor newDrawingEditor) {
 		super(newDrawingEditor);
 	}
+
+	public void activate() {
+		// suppress clearSelection() and tool-activation notification in superclass
+	}
+
+	public void deactivate() {
+		// suppress clearSelection() and tool-activation notification in superclass
+	}
 }

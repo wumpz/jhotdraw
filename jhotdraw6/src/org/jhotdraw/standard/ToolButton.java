@@ -61,9 +61,16 @@ public class ToolButton extends PaletteButton implements ToolListener {
 		fTool = tool;
 		fName = name;
 
-		setIcon(new ImageIcon(im[0]));
-		setPressedIcon(new ImageIcon(im[1]));
-		setSelectedIcon(new ImageIcon(im[2]));
+		// avoid null pointer exception if image could not be loaded
+		if (im[0] != null) {
+			setIcon(new ImageIcon(im[0]));
+		}
+		if (im[1] != null) {
+			setPressedIcon(new ImageIcon(im[1]));
+		}
+		if (im[2] != null) {
+			setSelectedIcon(new ImageIcon(im[2]));
+		}
 		setToolTipText(name);
 	}
 

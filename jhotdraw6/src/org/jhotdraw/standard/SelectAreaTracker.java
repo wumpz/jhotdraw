@@ -33,13 +33,13 @@ public class SelectAreaTracker extends AbstractTool {
 		// use event coordinates to supress any kind of
 		// transformations like constraining points to a grid
 		super.mouseDown(e, e.getX(), e.getY());
-		rubberBand(fAnchorX, fAnchorY, fAnchorX, fAnchorY);
+		rubberBand(getAnchorX(), getAnchorY(), getAnchorX(), getAnchorY());
 	}
 
 	public void mouseDrag(MouseEvent e, int x, int y) {
 		super.mouseDrag(e, x, y);
 		eraseRubberBand();
-		rubberBand(fAnchorX, fAnchorY, x, y);
+		rubberBand(getAnchorX(), getAnchorY(), x, y);
 	}
 
 	public void mouseUp(MouseEvent e, int x, int y) {

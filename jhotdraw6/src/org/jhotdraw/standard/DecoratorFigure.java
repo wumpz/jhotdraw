@@ -67,7 +67,7 @@ public abstract class DecoratorFigure
 	 */
 	protected void initialize() {
 	}
-	
+
 	/**
 	 * Forwards the connection insets to its contained figure..
 	 */
@@ -226,16 +226,34 @@ public abstract class DecoratorFigure
 
 	/**
 	 * Forwards setAttribute to its contained figure.
+	 *
+	 * @deprecated use setAttribute(FigureAttributeConstant, Object) instead
 	 */
 	public void setAttribute(String name, Object value) {
 		getDecoratedFigure().setAttribute(name, value);
 	}
 
 	/**
+	 * Forwards setAttribute to its contained figure.
+	 */
+	public void setAttribute(FigureAttributeConstant attributeConstant, Object value) {
+		getDecoratedFigure().setAttribute(attributeConstant, value);
+	}
+
+	/**
 	 * Forwards getAttribute to its contained figure.
+	 *
+	 * @deprecated use getAttribute(FigureAttributeConstant) instead
 	 */
 	public Object getAttribute(String name) {
 		return getDecoratedFigure().getAttribute(name);
+	}
+
+	/**
+	 * Forwards getAttribute to its contained figure.
+	 */
+	public Object getAttribute(FigureAttributeConstant attributeConstant) {
+		return getDecoratedFigure().getAttribute(attributeConstant);
 	}
 
 	/**

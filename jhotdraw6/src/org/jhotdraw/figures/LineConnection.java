@@ -324,7 +324,7 @@ public  class LineConnection extends PolyLineFigure implements ConnectionFigure 
 		if (end != null) {
 			connectEnd(end);
 		}
-		if (start != null && end != null) {
+		if ((start != null) && (end != null)) {
 			updateConnection();
 		}
 	}

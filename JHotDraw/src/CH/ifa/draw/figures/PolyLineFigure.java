@@ -178,7 +178,7 @@ public  class PolyLineFigure extends AbstractFigure {
 	public LineDecoration getStartDecoration() {
 		return fStartDecoration;
 	}
-	
+
 	/**
 	 * Sets the end decoration.
 	 */
@@ -192,7 +192,7 @@ public  class PolyLineFigure extends AbstractFigure {
 	public LineDecoration getEndDecoration() {
 		return fEndDecoration;
 	}
-	
+
 	public void draw(Graphics g) {
 		g.setColor(getFrameColor());
 		Point p1, p2;
@@ -204,14 +204,14 @@ public  class PolyLineFigure extends AbstractFigure {
 		decorate(g);
 	}
 
-	/** 
+	/**
 	 * Can be overriden in subclasses to draw different types of lines
 	 * (e.g. dotted lines)
 	 */
 	protected void drawLine(Graphics g, int x1, int y1, int x2, int y2) {
 		g.drawLine(x1, y1, x2, y2);
 	}
-	
+
 	public boolean containsPoint(int x, int y) {
 		Rectangle bounds = displayBox();
 		bounds.grow(4,4);
@@ -264,12 +264,23 @@ public  class PolyLineFigure extends AbstractFigure {
 	 * Gets the attribute with the given name.
 	 * PolyLineFigure maps "ArrowMode"to a
 	 * line decoration.
+	 *
+	 * @deprecated use getAttribute(FigureAttributeConstant) instead
 	 */
 	public Object getAttribute(String name) {
-		if (name.equals("FrameColor")) {
+		return getAttribute(FigureAttributeConstant.getConstant(name));
+	}
+
+	/**
+	 * Gets the attribute with the given name.
+	 * PolyLineFigure maps "ArrowMode"to a
+	 * line decoration.
+	 */
+	public Object getAttribute(FigureAttributeConstant attributeConstant) {
+		if (attributeConstant.equals(FigureAttributeConstant.FRAME_COLOR)) {
 			return getFrameColor();
 		}
-		else if (name.equals("ArrowMode")) {
+		else if (attributeConstant.equals(FigureAttributeConstant.ARROW_MODE)) {
 			int value = 0;
 			if (getStartDecoration() != null) {
 				value |= ARROW_TIP_START;
@@ -279,7 +290,18 @@ public  class PolyLineFigure extends AbstractFigure {
 			}
 			return new Integer(value);
 		}
-		return super.getAttribute(name);
+		return super.getAttribute(attributeConstant);
+	}
+
+	/**
+	 * Sets the attribute with the given name.
+	 * PolyLineFigure interprets "ArrowMode"to set
+	 * the line decoration.
+	 *
+	 * @deprecated use setAttribute(FigureAttributeConstant, Object) instead
+	 */
+	public void setAttribute(String name, Object value) {
+		setAttribute(FigureAttributeConstant.getConstant(name), value);
 	}
 
 	/**
@@ -287,13 +309,13 @@ public  class PolyLineFigure extends AbstractFigure {
 	 * PolyLineFigure interprets "ArrowMode"to set
 	 * the line decoration.
 	 */
-	public void setAttribute(String name, Object value) {
-		if (name.equals("FrameColor")) {
+	public void setAttribute(FigureAttributeConstant attributeConstant, Object value) {
+		if (attributeConstant.equals(FigureAttributeConstant.FRAME_COLOR)) {
 			setFrameColor((Color)value);
 			changed();
 		}
-		else if (name.equals("ArrowMode")) {
-			Integer intObj = (Integer) value;
+		else if (attributeConstant.equals(FigureAttributeConstant.ARROW_MODE.getName())) {
+			Integer intObj = (Integer)value;
 			if (intObj != null) {
 				int decoration = intObj.intValue();
 				if ((decoration & ARROW_TIP_START) != 0) {
@@ -312,7 +334,7 @@ public  class PolyLineFigure extends AbstractFigure {
 			changed();
 		}
 		else {
-			super.setAttribute(name, value);
+			super.setAttribute(attributeConstant, value);
 		}
 	}
 
@@ -357,5 +379,16 @@ public  class PolyLineFigure extends AbstractFigure {
 
 	protected void setFrameColor(Color c) {
 		fFrameColor = c;
+	}
+
+	/**
+	 * Hook method to change the rectangle that will be invalidated
+	 */
+	protected Rectangle invalidateRectangle(Rectangle r) {
+		// SF-bug id: 533953: provide this method to customize invalidated rectangle
+		Rectangle parentR = super.invalidateRectangle(r);
+		parentR.add(getStartDecoration().displayBox());
+		parentR.add(getEndDecoration().displayBox());
+		return parentR;
 	}
 }

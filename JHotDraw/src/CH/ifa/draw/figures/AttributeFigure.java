@@ -95,7 +95,7 @@ public abstract class AttributeFigure extends AbstractFigure {
 	 * @see #getAttribute
 	 */
 	public Color getFillColor() {
-		return (Color) getAttribute("FillColor");
+		return (Color) getAttribute(FigureAttributeConstant.FILL_COLOR);
 	}
 
 	/**
@@ -104,20 +104,55 @@ public abstract class AttributeFigure extends AbstractFigure {
 	 * @see #getAttribute
 	 */
 	public Color getFrameColor() {
-		return (Color) getAttribute("FrameColor");
+		return (Color) getAttribute(FigureAttributeConstant.FRAME_COLOR);
 	}
 
 	//---- figure attributes ----------------------------------
 
 	private static void initializeAttributes() {
 		fgDefaultAttributes = new FigureAttributes();
-		fgDefaultAttributes.set("FrameColor", Color.black);
-		fgDefaultAttributes.set("FillColor",  new Color(0x70DB93));
-		fgDefaultAttributes.set("TextColor",  Color.black);
-		fgDefaultAttributes.set("ArrowMode",  new Integer(0));
-		fgDefaultAttributes.set("FontName",  "Helvetica");
-		fgDefaultAttributes.set("FontSize",   new Integer(12));
-		fgDefaultAttributes.set("FontStyle",  new Integer(Font.PLAIN));
+		fgDefaultAttributes.set(FigureAttributeConstant.FRAME_COLOR, Color.black);
+		fgDefaultAttributes.set(FigureAttributeConstant.FILL_COLOR,  new Color(0x70DB93));
+		fgDefaultAttributes.set(FigureAttributeConstant.TEXT_COLOR,  Color.black);
+		fgDefaultAttributes.set(FigureAttributeConstant.ARROW_MODE,  new Integer(0));
+		fgDefaultAttributes.set(FigureAttributeConstant.FONT_NAME,  "Helvetica");
+		fgDefaultAttributes.set(FigureAttributeConstant.FONT_SIZE,   new Integer(12));
+		fgDefaultAttributes.set(FigureAttributeConstant.FONT_STYLE,  new Integer(Font.PLAIN));
+	}
+
+	/**
+	 * Sets or adds a default value for a named attribute
+	 * @see #getAttribute
+	 */
+	public static Object setDefaultAttribute(String name, Object value) {
+		// save current value to return it
+		Object currentValue = getDefaultAttribute(name);
+
+		fgDefaultAttributes.set(FigureAttributeConstant.getConstant(name), value);
+		return currentValue;
+	}
+
+	/**
+	 * Initializes a  default value for a named attribute
+	 * The difference between this method and setDefaultAttribute is that
+	 * if the attribute is already set then it will not be changed.<BR>
+	 * The purpose is to allow more than one source requiring the attribute
+	 * to initialize it, but only the first initialization will be used.
+	 *
+	 * @see #getAttribute
+	 * @see @setDefaultAttribute
+	 */
+	public static Object initDefaultAttribute(String name, Object value) {
+		// get current value
+		Object currentValue = getDefaultAttribute(name);
+
+		// if it's already there skip the setting
+		if (currentValue != null) {
+			return currentValue;
+		}
+
+		fgDefaultAttributes.set(FigureAttributeConstant.getConstant(name), value);
+		return null;
 	}
 
 	/**
@@ -125,11 +160,18 @@ public abstract class AttributeFigure extends AbstractFigure {
 	 * @see #getAttribute
 	 */
 	public static Object getDefaultAttribute(String name) {
-		if (fgDefaultAttributes == null)
+		if (fgDefaultAttributes == null) {
 			initializeAttributes();
-		return fgDefaultAttributes.get(name);
+		}
+		return fgDefaultAttributes.get(FigureAttributeConstant.getConstant(name));
 	}
 
+	public static Object getDefaultAttribute(FigureAttributeConstant attributeConstant) {
+		if (fgDefaultAttributes == null) {
+			initializeAttributes();
+		}
+		return fgDefaultAttributes.get(attributeConstant);
+	}
 	/**
 	 * Returns the named attribute or null if a
 	 * a figure doesn't have an attribute.
@@ -137,20 +179,30 @@ public abstract class AttributeFigure extends AbstractFigure {
 	 * FillColor and FrameColor
 	 */
 	public Object getAttribute(String name) {
+		return getAttribute(FigureAttributeConstant.getConstant(name));
+	}
+
+	public Object getAttribute(FigureAttributeConstant attributeConstant) {
 		if (fAttributes != null) {
-			if (fAttributes.hasDefined(name))
-				return fAttributes.get(name);
+			if (fAttributes.hasDefined(attributeConstant)) {
+				return fAttributes.get(attributeConstant);
+			}
 		}
-		return getDefaultAttribute(name);
+		return getDefaultAttribute(attributeConstant);
 	}
 
 	/**
 	 * Sets the named attribute to the new value
 	 */
 	public void setAttribute(String name, Object value) {
-		if (fAttributes == null)
+		setAttribute(FigureAttributeConstant.getConstant(name), value);
+	}
+
+	public void setAttribute(FigureAttributeConstant attributeConstant, Object value) {
+		if (fAttributes == null) {
 			fAttributes = new FigureAttributes();
-		fAttributes.set(name, value);
+		}
+		fAttributes.set(attributeConstant, value);
 		changed();
 	}
 
@@ -159,8 +211,9 @@ public abstract class AttributeFigure extends AbstractFigure {
 	 */
 	public void write(StorableOutput dw) {
 		super.write(dw);
-		if (fAttributes == null)
+		if (fAttributes == null) {
 			dw.writeString("no_attributes");
+		}
 		else {
 			dw.writeString("attributes");
 			fAttributes.write(dw);
@@ -186,9 +239,9 @@ public abstract class AttributeFigure extends AbstractFigure {
 		if (associatedMenu != null) {
 			setAttribute(Figure.POPUP_MENU, null);
 		}
-		
+
 		o.defaultWriteObject();
-		
+
 		if (associatedMenu != null) {
 			setAttribute(Figure.POPUP_MENU, associatedMenu);
 		}

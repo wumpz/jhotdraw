@@ -91,7 +91,6 @@ public class TextTool extends CreationTool {
 	 */
 	public void activate() {
 		super.activate();
-		view().clearSelection();
 		// JDK1.1 TEXT_CURSOR has an incorrect hot spot
 		//view().setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
 	}
@@ -105,7 +104,7 @@ public class TextTool extends CreationTool {
 	public boolean isActivated() {
 		return getTypingTarget() != null;
 	}
-	
+
 	protected void beginEdit(TextHolder figure) {
 		if (fTextField == null) {
 			fTextField = new FloatingTextField();
@@ -152,11 +151,11 @@ public class TextTool extends CreationTool {
 		Dimension d = fTextField.getPreferredSize(nChars);
 		return new Rectangle(box.x, box.y, d.width, d.height);
 	}
-	
+
 	protected void setTypingTarget(TextHolder newTypingTarget) {
 		fTypingTarget = newTypingTarget;
 	}
-	
+
 	protected TextHolder getTypingTarget() {
 		return fTypingTarget;
 	}
@@ -171,7 +170,7 @@ public class TextTool extends CreationTool {
 	public static class UndoActivity extends UndoableAdapter {
 		private String myOriginalText;
 		private String myBackupText;
-		
+
 		public UndoActivity(DrawingView newDrawingView, String newOriginalText) {
 			super(newDrawingView);
 			setOriginalText(newOriginalText);
@@ -207,7 +206,7 @@ public class TextTool extends CreationTool {
 			else {
 				setText(getOriginalText());
 			}
-			
+
 
 			return true;
 		}
@@ -222,7 +221,7 @@ public class TextTool extends CreationTool {
 			}
 
 			getDrawingView().clearSelection();
-				
+
 			// the text figure did exist but was remove
 			if (!isValidText(getBackupText())) {
 				FigureEnumeration fe  = getAffectedFigures();
@@ -244,11 +243,11 @@ public class TextTool extends CreationTool {
 
 			return true;
 		}
-		
+
 		protected boolean isValidText(String toBeChecked) {
 			return ((toBeChecked != null) && (toBeChecked.length() > 0));
 		}
-		
+
 		protected void setText(String newText) {
 			FigureEnumeration fe = getAffectedFigures();
 			while (fe.hasMoreElements()) {
@@ -261,19 +260,19 @@ public class TextTool extends CreationTool {
 				}
 			}
 		}
-		
+
 		public void setBackupText(String newBackupText) {
 			myBackupText = newBackupText;
 		}
-		
+
 		public String getBackupText() {
 			return myBackupText;
 		}
-		
+
 		public void setOriginalText(String newOriginalText) {
 			myOriginalText = newOriginalText;
 		}
-		
+
 		public String getOriginalText() {
 			return myOriginalText;
 		}

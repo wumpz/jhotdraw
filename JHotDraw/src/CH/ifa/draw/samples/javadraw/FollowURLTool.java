@@ -37,7 +37,7 @@ class FollowURLTool extends AbstractTool {
 		String urlstring = null;
 		Figure figure = drawing().findFigureInside(x,y);
 		if (figure != null) {
-			urlstring = (String) figure.getAttribute("URL");
+			urlstring = (String) figure.getAttribute(FigureAttributeConstant.URL);
 		}
 		if (urlstring != null) {
 			fApplet.showStatus(urlstring);
@@ -55,7 +55,7 @@ class FollowURLTool extends AbstractTool {
 		if (figure == null) {
 			return;
 		}
-		String urlstring = (String) figure.getAttribute("URL");
+		String urlstring = (String) figure.getAttribute(FigureAttributeConstant.URL);
 		if (urlstring == null) {
 			return;
 		}

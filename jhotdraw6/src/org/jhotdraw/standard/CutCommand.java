@@ -12,7 +12,8 @@
 package CH.ifa.draw.standard;
 
 import CH.ifa.draw.framework.*;
-import CH.ifa.draw.util.*;
+import CH.ifa.draw.util.Undoable;
+import CH.ifa.draw.util.UndoableAdapter;
 
 /**
  * Delete the selection and move the selected figures to
@@ -56,27 +57,27 @@ public class CutCommand extends FigureTransferCommand {
 
 	public static class UndoActivity extends UndoableAdapter {
 		private FigureTransferCommand myCommand;
-		
+
 		public UndoActivity(FigureTransferCommand newCommand) {
 			super(newCommand.view());
 			myCommand = newCommand;
 			setUndoable(true);
 			setRedoable(true);
 		}
-		
+
 		public boolean undo() {
 			if (super.undo() && getAffectedFigures().hasMoreElements()) {
 				getDrawingView().clearSelection();
-	
+
 				setAffectedFigures(myCommand.insertFigures(
 					getAffectedFigures(), 0, 0));
-	
+
 				return true;
 			}
-			
+
 			return false;
 		}
-	
+
 		public boolean redo() {
 			// do not call execute directly as the selection might has changed
 			if (isRedoable()) {
@@ -84,7 +85,7 @@ public class CutCommand extends FigureTransferCommand {
 				myCommand.deleteFigures(getAffectedFigures());
 				return true;
 			}
-			
+
 			return false;
 		}
 	}

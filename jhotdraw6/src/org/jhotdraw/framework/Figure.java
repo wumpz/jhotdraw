@@ -39,11 +39,11 @@ public interface Figure
 				extends Storable, Cloneable, Serializable {
 
 	/**
-	 * Constant that allows to identify a popup menu assigned 
+	 * Constant that allows to identify a popup menu assigned
 	 * as an attribute.
 	 */
 	public static String POPUP_MENU = "POPUP_MENU";
-	
+
 	/**
 	 * Moves the Figure to a new location.
 	 * @param x the x delta
@@ -257,13 +257,30 @@ public interface Figure
 	 * a figure doesn't have an attribute.
 	 * All figures support the attribute names
 	 * FillColor and FrameColor
+	 *
+	 * @deprecated use getAttribute(FigureAttributeConstant) instead
 	 */
 	public Object getAttribute(String name);
 
 	/**
+	 * Returns the named attribute or null if a
+	 * a figure doesn't have an attribute.
+	 * All figures support the attribute names
+	 * FillColor and FrameColor
+	 */
+	public Object getAttribute(FigureAttributeConstant attributeConstant);
+
+	/**
 	 * Sets the named attribute to the new value
+	 *
+	 * @deprecated use setAttribute(FigureAttributeConstant, Object) instead
 	 */
 	public void setAttribute(String name, Object value);
+
+	/**
+	 * Sets the named attribute to the new value
+	 */
+	public void setAttribute(FigureAttributeConstant attributeConstant, Object value);
 
 	/**
 	 * Gets the z value (back-to-front ordering) of this figure.

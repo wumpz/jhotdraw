@@ -50,28 +50,28 @@ public  class   FigureAttributes
 	 * Gets the attribute with the given name.
 	 * @returns attribute or null if the key is not defined
 	 */
-	public Object get(String name) {
-		return fMap.get(name);
+	public Object get(FigureAttributeConstant attributeConstant) {
+		return fMap.get(attributeConstant);
 	}
 
 	/**
 	 * Sets the attribute with the given name and
 	 * overwrites its previous value.
 	 */
-	public void set(String name, Object value) {
+	public void set(FigureAttributeConstant attributeConstant, Object value) {
 		if (value != null) {
-			fMap.put(name, value);
+			fMap.put(attributeConstant, value);
 		}
 		else {
-			fMap.remove(name);
+			fMap.remove(attributeConstant);
 		}
 	}
 
 	/**
 	 * Tests if an attribute is defined.
 	 */
-	public boolean hasDefined(String name) {
-		return fMap.containsKey(name);
+	public boolean hasDefined(FigureAttributeConstant attributeConstant) {
+		return fMap.containsKey(attributeConstant);
 	}
 
 	/**
@@ -131,7 +131,9 @@ public  class   FigureAttributes
 			else if (valtype.equals("UNKNOWN")) {
 				continue;
 			}
-			fMap.put(key,val);
+			// try to get defined constant
+			FigureAttributeConstant attributeConstant = FigureAttributeConstant.getConstant(key);
+			set(attributeConstant, val);
 		}
 	}
 
@@ -154,7 +156,7 @@ public  class   FigureAttributes
 			Object v = fMap.get(s);
 
 			dw.writeString(s);
-			
+
 			if (v instanceof String) {
 				dw.writeString("String");
 				dw.writeString((String) v);

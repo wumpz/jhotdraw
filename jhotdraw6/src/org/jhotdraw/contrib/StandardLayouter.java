@@ -18,7 +18,7 @@ import java.awt.*;
 import java.io.*;
 
 /**
- * A StandardLayouter contains standard algorithm for 
+ * A StandardLayouter contains standard algorithm for
  * layouting a Layoutable. As a standard behaviour
  * all child components of a Layoutable are laid out
  * underneath each other starting from top to bottom while the
@@ -37,12 +37,12 @@ public class StandardLayouter implements Layouter {
 	 * The Layoutable which should be laid out.
 	 */
 	private Layoutable myLayoutable;
-	
+
 	/**
 	 * Insets to calculate a border
 	 */
 	private Insets myInsets;
-	
+
 	static final long serialVersionUID = 2928651014089117493L;
 
 	/**
@@ -59,17 +59,17 @@ public class StandardLayouter implements Layouter {
 	 * a certain Layoutable.
 	 *
 	 * @param	newLayoutable	Layoutable to be laid out
-	 */	
+	 */
 	public StandardLayouter(Layoutable newLayoutable) {
 		setInsets(new Insets(0, 0, 0, 0));
 		setLayoutable(newLayoutable);
 	}
-	
+
 	/**
 	 * Get the figure upon which the layout strategy operates.
 	 *
 	 * @return associated figure which should be laid out
-	 */ 
+	 */
 	public Layoutable getLayoutable() {
 		return myLayoutable;
 	}
@@ -90,11 +90,11 @@ public class StandardLayouter implements Layouter {
 	 *
 	 * @param origin start point for the layout
 	 * @param corner minimum corner point for the layout
-	 */	
+	 */
 	public Rectangle calculateLayout(Point origin, Point corner) {
 		int maxWidth = Math.abs(corner.x - origin.x);
 		int maxHeight = 0;
-		
+
 		// layout enclosed Layoutable and find maximum width
 		FigureEnumeration enum = getLayoutable().figures();
 		while (enum.hasMoreElements()) {
@@ -127,7 +127,7 @@ public class StandardLayouter implements Layouter {
 	 *
 	 * @param origin start point for the layout
 	 * @param corner minimum corner point for the layout
-	 */	
+	 */
 	public Rectangle layout(Point origin, Point corner) {
 		// calculate the layout of the figure and its sub-figures first
 		Rectangle r = calculateLayout(origin, corner);
@@ -138,14 +138,23 @@ public class StandardLayouter implements Layouter {
 			Figure currentFigure = enum.nextFigure();
 
 			Point partOrigin = new Point(r.x + getInsets().left, r.y + maxHeight);
-			Point partCorner = new Point(r.x + getInsets().left + r.width, r.y + currentFigure.displayBox().height);
+
+			// Fix for bug request ID 548000
+			// Previously was
+			//      Point partCorner = new Point(r.x + getInsets().left + r.width, r.y + currentFigure.displayBox().height);
+			// The right inset wasn't included in the calculation
+			Point partCorner = new Point(r.x + getInsets().left - getInsets().right + r.width, r.y + currentFigure.displayBox().height);
 			currentFigure.displayBox(partOrigin, partCorner);
 
 			maxHeight += currentFigure.displayBox().height;
 		}
-		
+
 		// the maximum width has been already calculated
-		return new Rectangle(r.x, r.y, r.x + r.width, r.y + maxHeight + getInsets().bottom);
+		// Fix for bug request ID 548000
+		// Previously was
+		//      Point partCorner = new Point(r.x + getInsets().left + r.width, r.y + currentFigure.displayBox().height);
+		// The right inset wasn't included in the calculation
+		return new Rectangle(r.x, r.y, r.width, maxHeight + getInsets().bottom);
 	}
 
 	/**
@@ -154,7 +163,7 @@ public class StandardLayouter implements Layouter {
 	public void read(StorableInput dr) throws IOException {
 		setLayoutable((Layoutable)dr.readStorable());
 	}
-	
+
 	/**
 	 * Writes the contained figures to the StorableOutput.
 	 */
@@ -175,7 +184,7 @@ public class StandardLayouter implements Layouter {
 	 * Get the insets for spacing between the figure and its subfigures
 	 *
 	 * @return spacing dimensions
-	 */	
+	 */
 	public Insets getInsets() {
 		return myInsets;
 	}

@@ -54,7 +54,7 @@ public class DragTracker extends AbstractTool {
 
 	public void mouseDrag(MouseEvent e, int x, int y) {
 		super.mouseDrag(e, x, y);
-		fMoved = (Math.abs(x - fAnchorX) > 4) || (Math.abs(y - fAnchorY) > 4);
+		fMoved = (Math.abs(x - getAnchorX()) > 4) || (Math.abs(y - getAnchorY()) > 4);
 
 		if (fMoved) {
 			FigureEnumeration figures = getUndoActivity().getAffectedFigures();
@@ -67,6 +67,8 @@ public class DragTracker extends AbstractTool {
 	}
 
 	public void activate() {
+		// suppress clearSelection() and tool-activation-notification
+		// in superclass
 		setUndoActivity(createUndoActivity());
 		getUndoActivity().setAffectedFigures(view().selectionElements());
 	}
@@ -90,7 +92,7 @@ public class DragTracker extends AbstractTool {
 	public static class UndoActivity extends UndoableAdapter {
 		private Point myOriginalPoint;
 		private Point myBackupPoint;
-		
+
 		public UndoActivity(DrawingView newDrawingView, Point newOriginalPoint) {
 			super(newDrawingView);
 			setOriginalPoint(newOriginalPoint);
@@ -121,22 +123,23 @@ public class DragTracker extends AbstractTool {
 			moveAffectedFigures(getOriginalPoint(), getBackupPoint());
 			return true;
 		}
+
 		public void setBackupPoint(Point newBackupPoint) {
 			myBackupPoint = newBackupPoint;
 		}
-		
+
 		public Point getBackupPoint() {
 			return myBackupPoint;
 		}
-		
+
 		public void setOriginalPoint(Point newOriginalPoint) {
 			myOriginalPoint = newOriginalPoint;
 		}
-		
+
 		public Point getOriginalPoint() {
 			return myOriginalPoint;
 		}
-		
+
 		public void moveAffectedFigures(Point startPoint, Point endPoint) {
 			FigureEnumeration figures = getAffectedFigures();
 			while (figures.hasMoreElements()) {

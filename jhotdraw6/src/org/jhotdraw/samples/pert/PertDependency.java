@@ -37,7 +37,7 @@ public class PertDependency extends LineConnection {
 		PertFigure source = (PertFigure)start;
 		PertFigure target = (PertFigure)end;
 		if (source.hasCycle(target)) {
-			setAttribute("FrameColor", Color.red);
+			setAttribute(FigureAttributeConstant.FRAME_COLOR.getName(), Color.red);
 		}
 		else {
 			target.addPreTask(source);

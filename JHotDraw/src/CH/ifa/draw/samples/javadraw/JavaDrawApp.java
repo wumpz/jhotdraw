@@ -22,6 +22,8 @@ import CH.ifa.draw.figures.*;
 import CH.ifa.draw.util.*;
 import CH.ifa.draw.application.*;
 import CH.ifa.draw.contrib.*;
+import CH.ifa.draw.contrib.zoom.ZoomDrawingView;
+import CH.ifa.draw.contrib.zoom.ZoomTool;
 
 /**
  * @version <$CURRENT_VERSION$>
@@ -45,7 +47,11 @@ public  class JavaDrawApp extends MDI_DrawApplication {
 	protected DrawApplication createApplication() {
 		return new JavaDrawApp();
 	}
-	
+
+	protected DrawingView createDrawingView() {
+		return new ZoomDrawingView(this);
+	}
+
 	//-- application life cycle --------------------------------------------
 
 	public void destroy() {
@@ -58,7 +64,10 @@ public  class JavaDrawApp extends MDI_DrawApplication {
 	protected void createTools(JToolBar palette) {
 		super.createTools(palette);
 
-		Tool tool = new UndoableTool(new TextTool(this, new TextFigure()));
+		Tool tool = new ZoomTool(this);
+		palette.add(createToolButton(IMAGES + "ZOOM", "Zoom Tool", tool));
+
+		tool = new UndoableTool(new TextTool(this, new TextFigure()));
 		palette.add(createToolButton(IMAGES + "TEXT", "Text Tool", tool));
 
 		tool = new UndoableTool(new ConnectedTextTool(this, new TextFigure()));
@@ -99,6 +108,13 @@ public  class JavaDrawApp extends MDI_DrawApplication {
 
 		tool = new UndoableTool(new BorderTool(this));
 		palette.add(createToolButton(IMAGES + "BORDDEC", "Border Tool", tool));
+
+		Component button = new JButton("Hello World");
+		tool = new CreationTool(this, new ComponentFigure(button, this));
+		palette.add(createToolButton(IMAGES + "RECT", "Component Tool", tool));
+
+		tool = new TextAreaTool(this, new TextAreaFigure());
+		palette.add(createToolButton(IMAGES + "COOLTEXTAREA", "Component Tool", tool));
 	}
 
 	protected Tool createSelectionTool() {
@@ -146,8 +162,8 @@ public  class JavaDrawApp extends MDI_DrawApplication {
 		};
 		menu.add(cmd);
 
-		menu.addSeparator();
-		menu.add(new WindowMenu("Window List", (MDIDesktopPane)getDesktop(), this));
+//		menu.addSeparator();
+//		menu.add(new WindowMenu("Window List", (MDIDesktopPane)getDesktop(), this));
 				
 		return menu;
 	}

@@ -11,6 +11,7 @@
 
 package CH.ifa.draw.util;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.ImageProducer;
 import java.util.*;
@@ -112,6 +113,15 @@ public class Iconkit {
 		Image image = loadImageResource(filename);
 		if (image != null) {
 			fMap.put(filename, image);
+		}
+		return image;
+	}
+
+	public Image loadImage(String filename, boolean waitForLoad){
+		Image image = loadImage(filename);
+		if (image!=null && waitForLoad){
+			ImageIcon icon = new ImageIcon(image);
+			image = icon.getImage(); //this forces the wait to happen
 		}
 		return image;
 	}

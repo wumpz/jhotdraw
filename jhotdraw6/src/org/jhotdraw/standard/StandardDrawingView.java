@@ -12,13 +12,13 @@
 package CH.ifa.draw.standard;
 
 import CH.ifa.draw.contrib.AutoscrollHelper;
+import CH.ifa.draw.util.*;
+import CH.ifa.draw.framework.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import java.io.*;
-import CH.ifa.draw.util.*;
-import CH.ifa.draw.framework.*;
 
 /**
  * The standard implementation of DrawingView.
@@ -30,10 +30,9 @@ import CH.ifa.draw.framework.*;
  * @version <$CURRENT_VERSION$>
  */
 
-public  class StandardDrawingView
+public class StandardDrawingView
 		extends JPanel
 		implements DrawingView,
-				   KeyListener,
 				   java.awt.dnd.Autoscroll {
 
 	/**
@@ -47,7 +46,7 @@ public  class StandardDrawingView
 	 * the registered listeners for selection changes
 	 */
 	private transient Vector fSelectionListeners;
-	
+
 	/**
 	 * The shown drawing.
 	 */
@@ -56,7 +55,7 @@ public  class StandardDrawingView
 	/**
 	 * the accumulated damaged area
 	 */
-	private transient Rectangle fDamage = null;
+	private transient Rectangle fDamage;
 
 	/**
 	 * The list of currently selected figures.
@@ -84,14 +83,14 @@ public  class StandardDrawingView
 	 * a list a view painters that are drawn before the contents,
 	 * that is in the background.
 	 */
-	private Vector fBackgrounds = null;
+	private Vector fBackgrounds;
 
 	/**
 	 * A vector of optional foregrounds. The vector maintains
 	 * a list a view painters that are drawn after the contents,
 	 * that is in the foreground.
 	 */
-	private Vector fForegrounds = null;
+	private Vector fForegrounds;
 
 	/**
 	 * The update strategy used to repair the view.
@@ -111,7 +110,7 @@ public  class StandardDrawingView
 	public static final int MINIMUM_HEIGHT = 300;
 	public static final int SCROLL_INCR = 100;
 	public static final int SCROLL_OFFSET = 10;
-	 
+
 	/*
 	 * Serialization support. In JavaDraw only the Drawing is serialized.
 	 * However, for beans support StandardDrawingView supports
@@ -126,10 +125,10 @@ public  class StandardDrawingView
 	public StandardDrawingView(DrawingEditor editor) {
 		this(editor, MINIMUM_WIDTH, MINIMUM_HEIGHT);
 	}
-	
+
 	public StandardDrawingView(DrawingEditor editor, int width, int height) {
 		setAutoscrolls(true);
-counter++;
+		counter++;
 		fEditor = editor;
 		fViewSize = new Dimension(width,height);
 		fSelectionListeners = new Vector();
@@ -138,66 +137,34 @@ counter++;
 		fConstrainer = null;
 		fSelection = new Vector();
 		// JFC/Swing uses double buffering automatically as default
-		setDisplayUpdate(new SimpleUpdateStrategy());
+		setDisplayUpdate(createDisplayUpdate());
 		// TODO: Test FastBufferedUpdateStrategy with JFC/Swing double buffering
 		//setDisplayUpdate(new FastBufferedUpdateStrategy());
 		setBackground(Color.lightGray);
 
-		addMouseListener(ml);
-		addMouseMotionListener(mml);
-		addKeyListener(this);
+		addMouseListener(createMouseListener());
+		addMouseMotionListener(createMouseMotionListener());
+		addKeyListener(createKeyListener());
 	}
 
-	MouseListener ml = new MouseListener() {
-		// listener methods we are not interested in
-		public void mouseClicked(MouseEvent e) {}
-		public void mouseEntered(MouseEvent e) {}
-		public void mouseExited(MouseEvent e) {}
-		 /**
-		 * Handles mouse down events. The event is delegated to the
-		 * currently active tool.
-		 * @return whether the event was handled.
-		 */
-		public void mousePressed(MouseEvent e) {
-			requestFocus(); // JDK1.1
-			Point p = constrainPoint(new Point(e.getX(), e.getY()));
-			fLastClick = new Point(e.getX(), e.getY());
-			tool().mouseDown(e, p.x, p.y);
-			checkDamage();
-		}
-		/**
-		 * Handles mouse up events. The event is delegated to the
-		 * currently active tool.
-		 * @return whether the event was handled.
-		 */
-		public void mouseReleased(MouseEvent e) {
-			Point p = constrainPoint(new Point(e.getX(), e.getY()));
-			tool().mouseUp(e, p.x, p.y);
-			checkDamage();
-		}
-	};
+	protected MouseListener createMouseListener() {
+		return new DrawingViewMouseListener();
+	}
 
-	MouseMotionListener mml = new MouseMotionListener() {
-		/**
-		 * Handles mouse drag events. The event is delegated to the
-		 * currently active tool.
-		 * @return whether the event was handled.
-		 */
-		public void mouseDragged(MouseEvent e) {
-			Point p = constrainPoint(new Point(e.getX(), e.getY()));
-			tool().mouseDrag(e, p.x, p.y);
-			checkDamage();
-		}
+	protected MouseMotionListener createMouseMotionListener() {
+		return  new DrawingViewMouseMotionListener();
+	}
 
-		/**
-		 * Handles mouse move events. The event is delegated to the
-		 * currently active tool.
-		 * @return whether the event was handled.
-		 */
-		public void mouseMoved(MouseEvent e) {
-			tool().mouseMove(e, e.getX(), e.getY());
-		}
-	};
+	protected KeyListener createKeyListener() {
+		return new DrawingViewKeyListener();
+	}
+
+	/**
+	 * Factory method which can be overriden by subclasses
+	 */
+	protected Painter createDisplayUpdate() {
+		return new SimpleUpdateStrategy();
+	}
 
 	/**
 	 * Sets the view's editor.
@@ -224,14 +191,14 @@ counter++;
 	 * Sets and installs another drawing in the view.
 	 */
 	public void setDrawing(Drawing d) {
-		if (fDrawing != null) {
+		if (drawing() != null) {
 			clearSelection();
-			fDrawing.removeDrawingChangeListener(this);
+			drawing().removeDrawingChangeListener(this);
 		}
 
 		fDrawing = d;
-		if (fDrawing != null) {
-			fDrawing.addDrawingChangeListener(this);
+		if (drawing() != null) {
+			drawing().addDrawingChangeListener(this);
 		}
 
 		checkMinimumSize();
@@ -283,11 +250,11 @@ counter++;
 			}
 		}
 
-	  return false;    
+	  return false;
 	}
 
 	/**
-	 * Inserts a vector of figures and translates them by the
+     * Inserts a FigureEnumeration of figures and translates them by the
 	 * given offset. This function is used to insert figures from clipboards (cut/copy)
 	 *
 	 * @return enumeration which has been added to the drawing. The figures in the enumeration
@@ -297,10 +264,10 @@ counter++;
 		if (fe == null) {
 			return FigureEnumerator.getEmptyEnumeration();
 		}
-	
+
 		Vector addedFigures = new Vector();
 		Vector vCF = new Vector(10);
-	
+
 		while (fe.hasMoreElements()) {
 			Figure figure = fe.nextFigure();
 			if (figure instanceof ConnectionFigure) {
@@ -314,11 +281,11 @@ counter++;
 				addedFigures.addElement(figure);
 			}
 		}
-	
+
 		FigureEnumeration ecf = new FigureEnumerator(vCF);
-	  
+
 		while (ecf.hasMoreElements()) {
-			ConnectionFigure cf = (ConnectionFigure) ecf.nextFigure();      
+			ConnectionFigure cf = (ConnectionFigure) ecf.nextFigure();
 			Figure sf = cf.startFigure();
 			Figure ef = cf.endFigure();
 
@@ -328,24 +295,24 @@ counter++;
 
 				if (bCheck) {
 					Point sp = sf.center();
-					Point ep = ef.center();            
+					Point ep = ef.center();
 					Connector fStartConnector = cf.startFigure().connectorAt(ep.x, ep.y);
 					Connector fEndConnector = cf.endFigure().connectorAt(sp.x, sp.y);
-		
+
 					if (fEndConnector != null && fStartConnector != null) {
 						cf.connectStart(fStartConnector);
 						cf.connectEnd(fEndConnector);
 						cf.updateConnection();
 					}
 				}
-		
+
 				Figure nf = add(cf);
 				addToSelection(nf);
 				// figure might has changed during adding so add it afterwards
 				addedFigures.addElement(nf);
 			}
 		}
-		
+
 		return new FigureEnumerator(addedFigures);
 	}
 
@@ -357,7 +324,7 @@ counter++;
 		if (inFigure == null || !inFigure.canConnect()) {
 			return null;
 		}
-		
+
 		// if (inFigure instanceof ConnectionFigure)
 		//  return null;
 
@@ -367,10 +334,10 @@ counter++;
 		// Find all connection figures
 		while (figures.hasMoreElements()) {
 			Figure f= figures.nextFigure();
-		
+
 			if ((f instanceof ConnectionFigure) && !(isFigureSelected(f))) {
 				ConnectionFigure cf = (ConnectionFigure) f;
-		  
+
 				if (cf.startFigure().includes(inFigure) ||
 					cf.endFigure().includes(inFigure)) {
 					result.addElement(f);
@@ -617,7 +584,7 @@ counter++;
 	 * Constrains a point to the current grid.
 	 */
 	protected Point constrainPoint(Point p) {
-		// constrin to view size
+		// constrain to view size
 		Dimension size = getSize();
 		//p.x = Math.min(size.width, Math.max(1, p.x));
 		//p.y = Math.min(size.height, Math.max(1, p.y));
@@ -630,60 +597,6 @@ counter++;
 		return p;
 	}
 
-	/**
-	 * Handles key down events. Cursor keys are handled
-	 * by the view the other key events are delegated to the
-	 * currently active tool.
-	 * @return whether the event was handled.
-	 */
-	public void keyPressed(KeyEvent e) {
-		int code = e.getKeyCode();
-		if ((code == KeyEvent.VK_BACK_SPACE) || (code == KeyEvent.VK_DELETE)) {
-			Command cmd = new DeleteCommand("Delete", editor());
-//			cmd.viewSelectionChanged(this);
-			if(cmd.isExecutable()) {
-				cmd.execute();
-			}
-		}
-		else if (code == KeyEvent.VK_DOWN || code == KeyEvent.VK_UP ||
-			code == KeyEvent.VK_RIGHT || code == KeyEvent.VK_LEFT) {
-			handleCursorKey(code);
-		}
-		else {
-			tool().keyDown(e, code);
-		}
-		checkDamage();
-	}
-
-	/**
-	 * Handles cursor keys by moving all the selected figures
-	 * one grid point in the cursor direction.
-	 */
-	protected void handleCursorKey(int key) {
-		int dx = 0, dy = 0;
-		int stepX = 1, stepY = 1;
-		// should consider Null Object.
-		if (fConstrainer != null) {
-			stepX = fConstrainer.getStepX();
-			stepY = fConstrainer.getStepY();
-		}
-
-		switch (key) {
-		case KeyEvent.VK_DOWN:
-			dy = stepY;
-			break;
-		case KeyEvent.VK_UP:
-			dy = -stepY;
-			break;
-		case KeyEvent.VK_RIGHT:
-			dx = stepX;
-			break;
-		case KeyEvent.VK_LEFT:
-			dx = -stepX;
-			break;
-		}
-		moveSelection(dx, dy);
-	}
 
 	private void moveSelection(int dx, int dy) {
 		FigureEnumeration figures = selectionElements();
@@ -744,11 +657,11 @@ counter++;
 	public void drawAll(Graphics g) {
 		boolean isPrinting = g instanceof PrintGraphics;
 		drawBackground(g);
-		if (fBackgrounds != null && !isPrinting) {
+		if ((fBackgrounds != null) && !isPrinting) {
 			drawPainters(g, fBackgrounds);
 		}
 		drawDrawing(g);
-		if (fForegrounds != null && !isPrinting) {
+		if ((fForegrounds != null) && !isPrinting) {
 			drawPainters(g, fForegrounds);
 		}
 		if (!isPrinting) {
@@ -765,11 +678,11 @@ counter++;
    public void draw(Graphics g, FigureEnumeration fe) {
 		boolean isPrinting = g instanceof PrintGraphics;
 		//drawBackground(g);
-		if (fBackgrounds != null && !isPrinting) {
+		if ((fBackgrounds != null) && !isPrinting) {
 			drawPainters(g, fBackgrounds);
 		}
-		fDrawing.draw(g, fe);
-		if (fForegrounds != null && !isPrinting) {
+		drawing().draw(g, fe);
+		if ((fForegrounds != null) && !isPrinting) {
 			drawPainters(g, fForegrounds);
 		}
 		if (!isPrinting) {
@@ -791,7 +704,7 @@ counter++;
 	 * Draws the drawing.
 	 */
 	public void drawDrawing(Graphics g) {
-		fDrawing.draw(g);
+		drawing().draw(g);
 	}
 
 	/**
@@ -874,8 +787,8 @@ counter++;
 		s.defaultReadObject();
 
 		fSelection = new Vector(); // could use lazy initialization instead
-		if (fDrawing != null) {
-			fDrawing.addDrawingChangeListener(this);
+		if (drawing() != null) {
+			drawing().addDrawingChangeListener(this);
 		}
 		fSelectionListeners= new Vector();
 	}
@@ -902,7 +815,7 @@ counter++;
 	public boolean isInteractive() {
 		return true;
 	}
-	
+
 	public void keyTyped(KeyEvent e) {}
 	public void keyReleased(KeyEvent e) {}
 
@@ -950,11 +863,124 @@ counter++;
 			StandardDrawingView.this.scrollRectToVisible(aRect);
 		}
 	}
-	
+
 	public String toString() {
 		return "DrawingView Nr: " + myCounter;
 	}
-	
+
 	static int counter;
 	int myCounter = counter;
+
+	public class DrawingViewMouseListener extends MouseAdapter {
+		 /**
+		 * Handles mouse down events. The event is delegated to the
+		 * currently active tool.
+		 * @return whether the event was handled.
+		 */
+		public void mousePressed(MouseEvent e) {
+			requestFocus(); // JDK1.1
+			Point p = constrainPoint(new Point(e.getX(), e.getY()));
+			fLastClick = new Point(e.getX(), e.getY());
+			tool().mouseDown(e, p.x, p.y);
+			checkDamage();
+		}
+
+		/**
+		 * Handles mouse up events. The event is delegated to the
+		 * currently active tool.
+		 * @return whether the event was handled.
+		 */
+		public void mouseReleased(MouseEvent e) {
+			Point p = constrainPoint(new Point(e.getX(), e.getY()));
+			tool().mouseUp(e, p.x, p.y);
+			checkDamage();
+		}
+	}
+
+	public class DrawingViewMouseMotionListener implements MouseMotionListener {
+		/**
+		 * Handles mouse drag events. The event is delegated to the
+		 * currently active tool.
+		 * @return whether the event was handled.
+		 */
+		public void mouseDragged(MouseEvent e) {
+			Point p = constrainPoint(new Point(e.getX(), e.getY()));
+			tool().mouseDrag(e, p.x, p.y);
+			checkDamage();
+		}
+
+		/**
+		 * Handles mouse move events. The event is delegated to the
+		 * currently active tool.
+		 * @return whether the event was handled.
+		 */
+		public void mouseMoved(MouseEvent e) {
+			tool().mouseMove(e, e.getX(), e.getY());
+		}
+	}
+
+	public class DrawingViewKeyListener implements KeyListener {
+		/**
+		 * Handles key down events. Cursor keys are handled
+		 * by the view the other key events are delegated to the
+		 * currently active tool.
+		 * @return whether the event was handled.
+		 */
+		public void keyPressed(KeyEvent e) {
+			int code = e.getKeyCode();
+			if ((code == KeyEvent.VK_BACK_SPACE) || (code == KeyEvent.VK_DELETE)) {
+				Command cmd = new DeleteCommand("Delete", editor());
+				if (cmd.isExecutable()) {
+					cmd.execute();
+//					cmd.viewSelectionChanged(this);
+				}
+			}
+			else if ((code == KeyEvent.VK_DOWN) || (code == KeyEvent.VK_UP)
+					|| (code == KeyEvent.VK_RIGHT) || (code == KeyEvent.VK_LEFT)) {
+				handleCursorKey(code);
+			}
+			else {
+				tool().keyDown(e, code);
+			}
+			checkDamage();
+		}
+
+		/**
+		 * Handles cursor keys by moving all the selected figures
+		 * one grid point in the cursor direction.
+		 */
+		protected void handleCursorKey(int key) {
+			int dx = 0, dy = 0;
+			int stepX = 1, stepY = 1;
+			// should consider Null Object.
+			if (fConstrainer != null) {
+				stepX = fConstrainer.getStepX();
+				stepY = fConstrainer.getStepY();
+			}
+
+			switch (key) {
+			case KeyEvent.VK_DOWN:
+				dy = stepY;
+				break;
+			case KeyEvent.VK_UP:
+				dy = -stepY;
+				break;
+			case KeyEvent.VK_RIGHT:
+				dx = stepX;
+				break;
+			case KeyEvent.VK_LEFT:
+				dx = -stepX;
+				break;
+			}
+			moveSelection(dx, dy);
+		}
+
+        public void keyTyped(KeyEvent event) {
+            // do nothing
+        }
+
+        public void keyReleased(KeyEvent event) {
+            // do nothing
+        }
+    }
 }

@@ -17,8 +17,6 @@ import java.util.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyEvent;
-import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
 
 /**
  * Default implementation support for Tools.
@@ -36,7 +34,8 @@ public abstract class AbstractTool implements Tool, ViewChangeListener {
 	/**
 	 * The position of the initial mouse down.
 	 */
-	protected int     fAnchorX, fAnchorY;
+    private int myAnchorX;
+    private int myAnchorY;
 
 	private Undoable myUndoActivity;
 	private AbstractTool.EventDispatcher myEventDispatcher;
@@ -55,19 +54,21 @@ public abstract class AbstractTool implements Tool, ViewChangeListener {
 		myDrawingEditor = newDrawingEditor;
 		setEventDispatcher(createEventDispatcher());
 		setEnabled(true);
+		checkUsable();
 		editor().addViewChangeListener(this);
 	}
 
 	/**
-	 * Activates the tool for use on the given view. This method is called
+     * Activates the tool for the given view. This method is called
 	 * whenever the user switches to this tool. Use this method to
 	 * reinitialize a tool.
-	 * Since tools will be disabled unless it is useable, there will always
-	 * be an active view when this is called. based on isUsable()
+	 * Since tools will be disabled unless they are useable, there will always
+	 * be an active view when this method is called. based on isUsable()
 	 */
 	public void activate() {
 		if (view() != null) {
 			view().clearSelection();
+			view().checkDamage();
 			getEventDispatcher().fireToolActivatedEvent();
 		}
 	}
@@ -117,8 +118,8 @@ public abstract class AbstractTool implements Tool, ViewChangeListener {
 	 * Handles mouse down events in the drawing view.
 	 */
 	public void mouseDown(MouseEvent e, int x, int y) {
-		fAnchorX = x;
-		fAnchorY = y;
+        setAnchorX(x);
+        setAnchorY(y);
 	}
 
 	/**
@@ -203,6 +204,22 @@ public abstract class AbstractTool implements Tool, ViewChangeListener {
 
 	public boolean isEnabled() {
 		return myIsEnabled;
+	}
+
+	protected void setAnchorX(int newAnchorX) {
+		myAnchorX = newAnchorX;
+	}
+
+	protected int getAnchorX() {
+		return myAnchorX;
+	}
+
+	protected void setAnchorY(int newAnchorY) {
+		myAnchorY = newAnchorY;
+	}
+
+	protected int getAnchorY() {
+		return myAnchorY;
 	}
 
 	public Undoable getUndoActivity() {

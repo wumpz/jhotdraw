@@ -162,7 +162,7 @@ public class PertFigure extends CompositeFigure {
 		TextFigure name = new TextFigure();
 		name.setFont(fb);
 		name.setText("Task");
-		//name.setAttribute("TextColor",Color.white);
+		//name.setAttribute(FigureAttributeConstant.TEXT_COLOR.getName(), Color.white);
 		add(name);
 
 		NumberTextFigure duration = new NumberTextFigure();

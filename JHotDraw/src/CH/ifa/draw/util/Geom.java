@@ -104,6 +104,67 @@ public class Geom {
 	}
 
 	/**
+	 * Returns the corner (bottom right) of the rectangle
+	 *
+	 * @param r  the rectangle
+	 * @return   the corner
+	 */
+	public static Point corner(Rectangle r)
+	{
+		return new Point((int)r.getMaxX(), (int)r.getMaxY());
+	}
+
+
+	/**
+	 * Returns the top left corner of the rectangle
+	 *
+	 * @param r  the rectangle
+	 * @return   the corner
+	 */
+	public static Point topLeftCorner(Rectangle r)
+	{
+		return r.getLocation();
+	}
+
+
+	/**
+	 * Returns the top right corner of the rectangle
+	 *
+	 * @param r  the rectangle
+	 * @return   the corner
+	 */
+	public static Point topRightCorner(Rectangle r)
+	{
+		return new Point((int)r.getMaxX(), (int)r.getMinY());
+	}
+
+
+	/**
+	 * Returns the bottom left corner of the rectangle
+	 *
+	 * @param r  the rectangle
+	 * @return   the corner
+	 */
+	public static Point bottomLeftCorner(Rectangle r)
+	{
+		return new Point((int)r.getMinX(), (int)r.getMaxY());
+	}
+
+
+	/**
+	 * Returns the bottom right corner of the rectangle.
+	 * Same as corner, added for naming coherence with the other
+	 * corner extracting methods
+	 *
+	 * @param r  the rectangle
+	 * @return   the corner
+	 */
+	public static Point bottomRightCorner(Rectangle r)
+	{
+		return corner(r);
+	}
+
+	/**
 	 * Constains a value to the given range.
 	 * @return the constrained value
 	 */

@@ -16,7 +16,6 @@ import CH.ifa.draw.util.UndoableAdapter;
 import CH.ifa.draw.util.Undoable;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.util.Vector;
 
 /**
  * A tool to create new figures. The figure to be
@@ -73,8 +72,7 @@ public class CreationTool extends AbstractTool {
 	 * This is for subclassers overriding createFigure.
 	 */
 	protected CreationTool(DrawingEditor newDrawingEditor) {
-		super(newDrawingEditor);
-		fPrototype = null;
+		this(newDrawingEditor, null);
 	}
 
 	/**
@@ -111,7 +109,9 @@ public class CreationTool extends AbstractTool {
 	 * Adjusts the extent of the created figure
 	 */
 	public void mouseDrag(MouseEvent e, int x, int y) {
-		getAddedFigure().displayBox(fAnchorPoint, new Point(x,y));
+		if (getAddedFigure() != null) {
+			getAddedFigure().displayBox(fAnchorPoint, new Point(x,y));
+		}
 	}
 
 	/**
@@ -120,20 +120,22 @@ public class CreationTool extends AbstractTool {
 	 * @see Figure#isEmpty
 	 */
 	public void mouseUp(MouseEvent e, int x, int y) {
-		if (getCreatedFigure().isEmpty()) {
-			drawing().remove(getAddedFigure());
-			// nothing to undo
-			setUndoActivity(null);
-		}
-		else {
-			// use undo activity from paste command...
-			setUndoActivity(createUndoActivity());
+		if (getAddedFigure() != null) {
+			if (getCreatedFigure().isEmpty()) {
+				drawing().remove(getAddedFigure());
+				// nothing to undo
+				setUndoActivity(null);
+			}
+			else {
+				// use undo activity from paste command...
+				setUndoActivity(createUndoActivity());
 
-			// put created figure into a figure enumeration
-			getUndoActivity().setAffectedFigures(new SingleFigureEnumerator(getAddedFigure()));
+				// put created figure into a figure enumeration
+				getUndoActivity().setAffectedFigures(new SingleFigureEnumerator(getAddedFigure()));
+			}
+			setAddedFigure(null);
 		}
 		fCreatedFigure = null;
-		setAddedFigure(null);
 		editor().toolDone();
 	}
 
@@ -144,7 +146,10 @@ public class CreationTool extends AbstractTool {
 		return fCreatedFigure;
 	}
 
-	private void setCreatedFigure(Figure newCreatedFigure) {
+	/**
+	 * Sets the createdFigure attribute of the CreationTool object
+	 */
+	protected void setCreatedFigure(Figure newCreatedFigure) {
 		fCreatedFigure = newCreatedFigure;
 	}
 
@@ -156,7 +161,10 @@ public class CreationTool extends AbstractTool {
 		return myAddedFigure;
 	}
 
-	private void setAddedFigure(Figure newAddedFigure) {
+	/**
+	 * Sets the addedFigure attribute of the CreationTool object
+	 */
+	protected void setAddedFigure(Figure newAddedFigure) {
 		myAddedFigure = newAddedFigure;
 	}
 
@@ -176,5 +184,15 @@ public class CreationTool extends AbstractTool {
 	protected Point getAnchorPoint() {
 		// SF bug-report id: #490752
 		return fAnchorPoint;
+	}
+
+
+	/**
+	 * Sets the anchorPoint attribute of the CreationTool object
+	 *
+	 * @param newAnchorPoint  The new anchorPoint value
+	 */
+	protected void setAnchorPoint(Point newAnchorPoint) {
+		fAnchorPoint = newAnchorPoint;
 	}
 }

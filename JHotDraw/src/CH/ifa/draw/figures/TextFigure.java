@@ -58,7 +58,7 @@ public  class TextFigure
 		fOriginX = 0;
 		fOriginY = 0;
 		fFont = createCurrentFont();
-		setAttribute("FillColor", ColorMap.color("None"));
+		setAttribute(FigureAttributeConstant.FILL_COLOR.getName(), ColorMap.color("None"));
 		fText = new String("");
 		fSizeIsDirty = true;
 	}
@@ -133,32 +133,52 @@ public  class TextFigure
 	/**
 	 * A text figure understands the "FontSize", "FontStyle", and "FontName"
 	 * attributes.
+	 *
+	 * @deprecated use getAttribute(FigureAttributeConstant) instead
 	 */
 	public Object getAttribute(String name) {
-		Font font = getFont();
-		if (name.equals("FontSize")) {
-			return new Integer(font.getSize());
-		}
-		if (name.equals("FontStyle")) {
-			return new Integer(font.getStyle());
-		}
-		if (name.equals("FontName")) {
-			return font.getName();
-		}
-		return super.getAttribute(name);
+		return getAttribute(FigureAttributeConstant.getConstant(name));
 	}
 
 	/**
 	 * A text figure understands the "FontSize", "FontStyle", and "FontName"
 	 * attributes.
 	 */
-	public void setAttribute(String name, Object value) {
+	public Object getAttribute(FigureAttributeConstant attributeConstant) {
 		Font font = getFont();
-		if (name.equals("FontSize")) {
+		if (attributeConstant.equals(FigureAttributeConstant.FONT_SIZE)) {
+			return new Integer(font.getSize());
+		}
+		if (attributeConstant.equals(FigureAttributeConstant.FONT_STYLE)) {
+			return new Integer(font.getStyle());
+		}
+		if (attributeConstant.equals(FigureAttributeConstant.FONT_NAME)) {
+			return font.getName();
+		}
+		return super.getAttribute(attributeConstant);
+	}
+
+	/**
+	 * A text figure understands the "FontSize", "FontStyle", and "FontName"
+	 * attributes.
+	 *
+	 * @deprecated use setAttribute(FigureAttributeConstant, Object) instead
+	 */
+	public void setAttribute(String name, Object value) {
+		setAttribute(FigureAttributeConstant.getConstant(name), value);
+	}
+
+	/**
+	 * A text figure understands the "FontSize", "FontStyle", and "FontName"
+	 * attributes.
+	 */
+	public void setAttribute(FigureAttributeConstant attributeConstant, Object value) {
+		Font font = getFont();
+		if (attributeConstant.equals(FigureAttributeConstant.FONT_SIZE)) {
 			Integer s = (Integer)value;
 			setFont(new Font(font.getName(), font.getStyle(), s.intValue()) );
 		}
-		else if (name.equals("FontStyle")) {
+		else if (attributeConstant.equals(FigureAttributeConstant.FONT_STYLE)) {
 			Integer s = (Integer)value;
 			int style = font.getStyle();
 			if (s.intValue() == Font.PLAIN) {
@@ -169,12 +189,12 @@ public  class TextFigure
 			}
 			setFont(new Font(font.getName(), style, font.getSize()) );
 		}
-		else if (name.equals("FontName")) {
+		else if (attributeConstant.equals(FigureAttributeConstant.FONT_NAME)) {
 			String n = (String)value;
 			setFont(new Font(n, font.getStyle(), font.getSize()) );
 		}
 		else {
-			super.setAttribute(name, value);
+			super.setAttribute(attributeConstant, value);
 		}
 	}
 
@@ -211,12 +231,12 @@ public  class TextFigure
 
 	public void drawFrame(Graphics g) {
 		g.setFont(fFont);
-		g.setColor((Color) getAttribute("TextColor"));
+		g.setColor((Color) getAttribute(FigureAttributeConstant.TEXT_COLOR));
 		FontMetrics metrics = g.getFontMetrics(fFont);
 		g.drawString(fText, fOriginX, fOriginY + metrics.getAscent());
 	}
 
-	private Dimension textExtent() {
+	protected Dimension textExtent() {
 		if (!fSizeIsDirty) {
 			return new Dimension(fWidth, fHeight);
 		}
@@ -227,7 +247,7 @@ public  class TextFigure
 		return new Dimension(metrics.stringWidth(fText), metrics.getHeight());
 	}
 
-	private void markDirty() {
+	protected void markDirty() {
 		fSizeIsDirty = true;
 	}
 

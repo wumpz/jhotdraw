@@ -38,15 +38,16 @@ public class HandleTracker extends AbstractTool {
 
 	public void mouseDrag(MouseEvent e, int x, int y) {
 		super.mouseDrag(e, x, y);
-		fAnchorHandle.invokeStep(x, y, fAnchorX, fAnchorY, view());
+		fAnchorHandle.invokeStep(x, y, getAnchorX(), getAnchorY(), view());
 	}
 
 	public void mouseUp(MouseEvent e, int x, int y) {
 		super.mouseUp(e, x, y);
-		fAnchorHandle.invokeEnd(x, y, fAnchorX, fAnchorY, view());
+		fAnchorHandle.invokeEnd(x, y, getAnchorX(), getAnchorY(), view());
 	}
 
 	public void activate() {
-		// suppress clearSelection() in superclas by providing an empty implementation
+		// suppress clearSelection() and tool-activation-notification
+		// in superclass by providing an empty implementation
 	}
 }

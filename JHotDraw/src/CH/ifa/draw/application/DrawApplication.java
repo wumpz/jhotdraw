@@ -138,13 +138,16 @@ public	class DrawApplication
 	 * Opens a new window
 	 */
 	public void open() {
-		open(createInitialDrawingView());
+		DrawingView initialDrawingView = createInitialDrawingView();
+		initialDrawingView.setDrawing(createDrawing());
+		initialDrawingView.drawing().setTitle(getDefaultDrawingTitle());
+		open(initialDrawingView);
 	}
 
 	/**
 	 * Opens a new window with a drawing view.
 	 */
-	protected void open(DrawingView newDrawingView) {
+	protected synchronized void open(DrawingView newDrawingView) {
 		getVersionControlStrategy().assertCompatibleVersion();
 		setUndoManager(new UndoManager());
 		fIconkit = new Iconkit(this);
@@ -349,14 +352,14 @@ public	class DrawApplication
 	 */
 	protected JMenu createAttributesMenu() {
 		JMenu menu = new JMenu("Attributes");
-		menu.add(createColorMenu("Fill Color", "FillColor"));
-		menu.add(createColorMenu("Pen Color", "FrameColor"));
+		menu.add(createColorMenu("Fill Color", FigureAttributeConstant.FILL_COLOR.getName()));
+		menu.add(createColorMenu("Pen Color", FigureAttributeConstant.FRAME_COLOR.getName()));
 		menu.add(createArrowMenu());
 		menu.addSeparator();
 		menu.add(createFontMenu());
 		menu.add(createFontSizeMenu());
 		menu.add(createFontStyleMenu());
-		menu.add(createColorMenu("Text Color", "TextColor"));
+		menu.add(createColorMenu("Text Color", FigureAttributeConstant.TEXT_COLOR.getName()));
 		return menu;
 	}
 
@@ -383,15 +386,16 @@ public	class DrawApplication
 	 * Creates the arrows menu.
 	 */
 	protected JMenu createArrowMenu() {
+		String arrowModeStr = FigureAttributeConstant.ARROW_MODE.getName();
 		CommandMenu menu = new CommandMenu("Arrow");
 		menu.add(new UndoableCommand(
-			new ChangeAttributeCommand("none", "ArrowMode", new Integer(PolyLineFigure.ARROW_TIP_NONE), this)));
+			new ChangeAttributeCommand("none", arrowModeStr, new Integer(PolyLineFigure.ARROW_TIP_NONE), this)));
 		menu.add(new UndoableCommand(
-			new ChangeAttributeCommand("at Start", "ArrowMode", new Integer(PolyLineFigure.ARROW_TIP_START), this)));
+			new ChangeAttributeCommand("at Start", arrowModeStr, new Integer(PolyLineFigure.ARROW_TIP_START), this)));
 		menu.add(new UndoableCommand(
-			new ChangeAttributeCommand("at End", "ArrowMode", new Integer(PolyLineFigure.ARROW_TIP_END), this)));
+			new ChangeAttributeCommand("at End", arrowModeStr, new Integer(PolyLineFigure.ARROW_TIP_END), this)));
 		menu.add(new UndoableCommand(
-			new ChangeAttributeCommand("at Both", "ArrowMode", new Integer(PolyLineFigure.ARROW_TIP_BOTH), this)));
+			new ChangeAttributeCommand("at Both", arrowModeStr, new Integer(PolyLineFigure.ARROW_TIP_BOTH), this)));
 		return menu;
 	}
 
@@ -404,7 +408,7 @@ public	class DrawApplication
 		String fonts[] = Toolkit.getDefaultToolkit().getFontList();
 		for (int i = 0; i < fonts.length; i++) {
 			menu.add(new UndoableCommand(
-				new ChangeAttributeCommand(fonts[i], "FontName", fonts[i],  this)));
+				new ChangeAttributeCommand(fonts[i], FigureAttributeConstant.FONT_NAME.getName(), fonts[i],  this)));
 		}
 		return menu;
 	}
@@ -413,13 +417,14 @@ public	class DrawApplication
 	 * Creates the font style menu with entries (Plain, Italic, Bold).
 	 */
 	protected JMenu createFontStyleMenu() {
+		String fontStyleStr = FigureAttributeConstant.FONT_STYLE.getName();
 		CommandMenu menu = new CommandMenu("Font Style");
 		menu.add(new UndoableCommand(
-			new ChangeAttributeCommand("Plain", "FontStyle", new Integer(Font.PLAIN), this)));
+			new ChangeAttributeCommand("Plain", fontStyleStr, new Integer(Font.PLAIN), this)));
 		menu.add(new UndoableCommand(
-			new ChangeAttributeCommand("Italic","FontStyle", new Integer(Font.ITALIC), this)));
+			new ChangeAttributeCommand("Italic", fontStyleStr, new Integer(Font.ITALIC), this)));
 		menu.add(new UndoableCommand(
-			new ChangeAttributeCommand("Bold",  "FontStyle", new Integer(Font.BOLD), this)));
+			new ChangeAttributeCommand("Bold", fontStyleStr, new Integer(Font.BOLD), this)));
 		return menu;
 	}
 
@@ -434,7 +439,7 @@ public	class DrawApplication
 				new UndoableCommand(
 					new ChangeAttributeCommand(
 						Integer.toString(sizes[i]),
-						"FontSize",
+						FigureAttributeConstant.FONT_SIZE.getName(),
 						new Integer(sizes[i]),
 						this
 					)
@@ -587,7 +592,6 @@ public	class DrawApplication
 	/**
 	 * Set the StorageFormatManager. The StorageFormatManager is used when storing and
 	 * restoring Drawing from the file system.
-	 * Should we through IllegalArguementException if it is?
 	 */
 	protected final void setStorageFormatManager(StorageFormatManager storageFormatManager) {
 		fStorageFormatManager = storageFormatManager;
@@ -622,8 +626,8 @@ public	class DrawApplication
 	 * Handles a user selection in the palette.
 	 * @see PaletteListener
 	 */
-	public void paletteUserSelected(PaletteButton button) {
-		ToolButton toolButton = (ToolButton) button;
+	public void paletteUserSelected(PaletteButton paletteButton) {
+		ToolButton toolButton = (ToolButton)paletteButton;
 		setTool(toolButton.tool(), toolButton.name());
 		setSelected(toolButton);
 	}
@@ -632,8 +636,8 @@ public	class DrawApplication
 	 * Handles when the mouse enters or leaves a palette button.
 	 * @see PaletteListener
 	 */
-	public void paletteUserOver(PaletteButton button, boolean inside) {
-		ToolButton toolButton = (ToolButton) button;
+	public void paletteUserOver(PaletteButton paletteButton, boolean inside) {
+		ToolButton toolButton = (ToolButton)paletteButton;
 		if (inside) {
 			showStatus(toolButton.name());
 		}
@@ -682,9 +686,9 @@ public	class DrawApplication
 
 	/**
 	 * Fired by a view when the figure seleciton changes.  Since Commands and
-	 * Tools are Actions and they are registered to hear these events, they will
-	 * handle themselves.  So selection sensitive menuitems will update their
-	 * own states.
+	 * Tools are Actions they are registered to be notified about these events.
+	 * Any selection sensitive GUI component should update its
+	 * own state if the selection has changed.
 	 * @see DrawingEditor
 	 */
 	public void figureSelectionChanged(DrawingView view) {
@@ -908,7 +912,7 @@ public	class DrawApplication
 	 */
 	protected void saveDrawing(StorageFormat storeFormat, String file) {
 		// Need a better alert than this.
-		if(view() == null) {
+		if (view() == null) {
 			return;
 		}
 		try {

@@ -89,6 +89,7 @@ public class MDI_DrawApplication extends DrawApplication implements InternalFram
 		ToolButton tb = createToolButton(IMAGES+"SEL", "Drag N Drop Tool", tool);
 		palette.add( tb );
 	}
+	
 	/**
 	* Creates the contents component of the application
 	* frame. By default the DrawingView is returned in
@@ -173,10 +174,10 @@ public class MDI_DrawApplication extends DrawApplication implements InternalFram
 		if (!view().isInteractive()) {
 			return;
 		}
-		String copyTitle = view().drawing().getTitle();
-		DrawingView fView = createDrawingView();
-		fView.setDrawing( view().drawing() );
-		createContents(fView);
+		String copyTitle = getDrawingTitle();
+		DrawingView newView = createDrawingView();
+		newView.setDrawing(view().drawing());
+		createContents(newView);
 		if(copyTitle != null ) {
 			setDrawingTitle(copyTitle + " (View)");
 		}
@@ -232,21 +233,23 @@ public class MDI_DrawApplication extends DrawApplication implements InternalFram
 			if (newFrame.getDrawingView().drawing() != null) {
 				newFrame.getDrawingView().unfreezeView();
 			}
-			if(currentFrame != null )
-			{
+			if (currentFrame != null ) {
 				currentFrame.getDrawingView().freezeView();
-				currentFrame.getDrawingView().clearSelection();
 			}
 			currentFrame = newFrame;
 		}
 		setView( currentFrame.getDrawingView() );
 	}
+
 	/**
 	 * If the frame we are deactivating is the current frame, set the
 	 * currentFrame to null
 	 */
 	public void deactivateFrame(MDI_InternalFrame frame) {
-		if( currentFrame == frame ) {
+		if (frame != null) {
+			frame.getDrawingView().clearSelection();
+		}
+		if (currentFrame == frame ) {
 			currentFrame = null;
 		}
 	}

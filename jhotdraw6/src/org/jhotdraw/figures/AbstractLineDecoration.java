@@ -28,9 +28,10 @@ import CH.ifa.draw.util.*;
 public abstract class AbstractLineDecoration implements LineDecoration {
 
 	static final long serialVersionUID = 1577970039258356627L;
-	
+
 	private Color   fFillColor;
 	private Color   fBorderColor;
+	private transient Rectangle myBounds;
 
 	public AbstractLineDecoration() {
 	}
@@ -42,6 +43,7 @@ public abstract class AbstractLineDecoration implements LineDecoration {
 	public void draw(Graphics g, int x1, int y1, int x2, int y2) {
 		// TBD: reuse the Polygon object
 		Polygon p = outline(x1, y1, x2, y2);
+		myBounds = p.getBounds();
 		if (getFillColor() == null) {
 			g.fillPolygon(p.xpoints, p.ypoints, p.npoints);
 		}
@@ -51,12 +53,27 @@ public abstract class AbstractLineDecoration implements LineDecoration {
 			g.fillPolygon(p.xpoints, p.ypoints, p.npoints);
 			g.setColor(drawColor);
 		}
-		
+
 		if (getBorderColor() != getFillColor()) {
 			Color drawColor = g.getColor();
 			g.setColor(getBorderColor());
 			g.drawPolygon(p.xpoints, p.ypoints, p.npoints);
 			g.setColor(drawColor);
+		}
+	}
+
+	/**
+	 * The LineDecoration has only a displayBox after it has been drawn
+	 * at least once. If it has not yet been drawn then a rectangle of size 0
+	 * is returned.
+	 * @return the display box of a LineDecoration.
+	 */
+	public Rectangle displayBox() {
+		if (myBounds != null) {
+			return myBounds;
+		}
+		else {
+			return new Rectangle(0, 0);
 		}
 	}
 
@@ -70,17 +87,17 @@ public abstract class AbstractLineDecoration implements LineDecoration {
 	 */
 	public void write(StorableOutput dw) {
 		if (getFillColor() != null) {
-			FigureAttributes.writeColor(dw, "FillColor", getFillColor());
+			FigureAttributes.writeColor(dw, FigureAttributeConstant.FILL_COLOR.getName(), getFillColor());
 		}
 		else {
-			dw.writeString("noFillColor");
+			dw.writeString("no" + FigureAttributeConstant.FILL_COLOR.getName());
 		}
-		
+
 		if (getBorderColor() != null) {
-			FigureAttributes.writeColor(dw, "BorderColor", getBorderColor());
+			FigureAttributes.writeColor(dw, FigureAttributeConstant.FRAME_COLOR.getName(), getBorderColor());
 		}
 		else {
-			dw.writeString("noBorderColor");
+			dw.writeString("no" + FigureAttributeConstant.FRAME_COLOR.getName());
 		}
 	}
 
@@ -90,12 +107,13 @@ public abstract class AbstractLineDecoration implements LineDecoration {
 	public void read(StorableInput dr) throws IOException {
 		String fillColorId = dr.readString();
 		// read color only if one has been written
-		if (fillColorId.equals("FillColor")) {
+		if (fillColorId.equals(FigureAttributeConstant.FRAME_COLOR.getName())) {
 			setFillColor(FigureAttributes.readColor(dr));
 		}
 		String borderColorId = dr.readString();
 		// read color only if one has been written
-		if (borderColorId.equals("BorderColor")) {
+		if (borderColorId.equals("BorderColor")
+				||  borderColorId.equals(FigureAttributeConstant.FRAME_COLOR.getName())) {
 			setBorderColor(FigureAttributes.readColor(dr));
 		}
 	}
@@ -109,7 +127,7 @@ public abstract class AbstractLineDecoration implements LineDecoration {
 
 	/**
 	 * Returns color with which arrow is filled
-	 */    
+	 */
 	public Color getFillColor() {
 		return fFillColor;
 	}
@@ -123,7 +141,7 @@ public abstract class AbstractLineDecoration implements LineDecoration {
 
 	/**
 	 * Returns color of arrow's border
-	 */    
+	 */
 	public Color getBorderColor() {
 		return fBorderColor;
 	}

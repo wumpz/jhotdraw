@@ -42,19 +42,19 @@ public class PasteCommand extends FigureTransferCommand {
 			setUndoActivity(createUndoActivity());
 			getUndoActivity().setAffectedFigures(
 				(FigureEnumerator)selection.getData(StandardFigureSelection.TYPE));
-			
+
 			if (!getUndoActivity().getAffectedFigures().hasMoreElements()) {
 				setUndoActivity(null);
 				return;
 			}
 
-			Rectangle r = bounds(getUndoActivity().getAffectedFigures());
+			Rectangle r = getBounds(getUndoActivity().getAffectedFigures());
 			view().clearSelection();
 
 			// get an enumeration of inserted figures
 			FigureEnumeration fe = insertFigures(getUndoActivity().getAffectedFigures(), lastClick.x-r.x, lastClick.y-r.y);
 			getUndoActivity().setAffectedFigures(fe);
-			
+
 			view().checkDamage();
 		}
 	}
@@ -63,10 +63,10 @@ public class PasteCommand extends FigureTransferCommand {
 		return Clipboard.getClipboard().getContents() != null;
 	}
 
-	Rectangle bounds(Enumeration k) {
-		Rectangle r = ((Figure) k.nextElement()).displayBox();
-		while (k.hasMoreElements()) {
-			r.add(((Figure) k.nextElement()).displayBox());
+	private Rectangle getBounds(FigureEnumeration fe) {
+		Rectangle r = fe.nextFigure().displayBox();
+		while (fe.hasMoreElements()) {
+			r.add(fe.nextFigure().displayBox());
 		}
 		return r;
 	}
@@ -79,28 +79,28 @@ public class PasteCommand extends FigureTransferCommand {
 	}
 
 	public static class UndoActivity extends UndoableAdapter {
-		
+
 		public UndoActivity(DrawingView newDrawingView) {
 			super(newDrawingView);
 			setUndoable(true);
 			setRedoable(true);
 		}
-		
+
 		public boolean undo() {
 			if (!super.undo()) {
 				return false;
 			}
 
-			FigureEnumeration fe = getAffectedFigures();			
+			FigureEnumeration fe = getAffectedFigures();
 			while (fe.hasMoreElements()) {
 				getDrawingView().drawing().orphan(fe.nextFigure());
 			}
-	
+
 			getDrawingView().clearSelection();
 
 			return true;
 		}
-	
+
 		public boolean redo() {
 			// do not call execute directly as the selection might has changed
 			if (!isRedoable()) {

@@ -24,7 +24,7 @@ import java.awt.Color;
  *
  * @version <$CURRENT_VERSION$>s
  */
-public class StorableInput extends Object {
+public class StorableInput {
 
 	private StreamTokenizer fTokenizer;
 	private Vector          fMap;

@@ -16,12 +16,13 @@ import java.awt.geom.Rectangle2D;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Vector;
+import java.io.Serializable;
 
 /**
  * @author: WMG (INIT Copyright (C) 2000 All rights reserved)
  * @version <$CURRENT_VERSION$>
  */
-class QuadTree {
+class QuadTree implements Serializable {
 
 	//_________________________________________________________VARIABLES
 
