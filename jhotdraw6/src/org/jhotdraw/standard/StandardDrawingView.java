@@ -126,6 +126,27 @@ public class StandardDrawingView
 
 	private DNDHelper dndh;
 
+    /**
+     * Listener for mouse clicks.
+     */
+    private MouseListener mouseListener;
+    
+    /**
+     * Listener for mouse movements.
+     */
+    private MouseMotionListener motionListener;
+    
+    /**
+     * Listener for the keyboard.
+     */
+    private KeyListener keyListener;
+
+    /**
+     * Reflects whether the drawing view is in read-only mode (from a user's
+     * perspective).
+     */
+    private boolean readOnly;
+
 	/*
 	 * Serialization support. In JavaDraw only the Drawing is serialized.
 	 * However, for beans support StandardDrawingView supports
@@ -165,15 +186,18 @@ public class StandardDrawingView
     }
 
 	protected MouseListener createMouseListener() {
-		return new DrawingViewMouseListener();
+        mouseListener = new DrawingViewMouseListener();
+		return mouseListener;
 	}
 
 	protected MouseMotionListener createMouseMotionListener() {
-		return  new DrawingViewMouseMotionListener();
+        motionListener = new DrawingViewMouseMotionListener();
+		return  motionListener;
 	}
 
 	protected KeyListener createKeyListener() {
-		return new DrawingViewKeyListener();
+        keyListener = new DrawingViewKeyListener();
+		return keyListener;
 	}
 
 	/**
@@ -1091,6 +1115,37 @@ public class StandardDrawingView
 	public void DNDDeinitialize() {
 		getDNDHelper().deinitialize();
 	}
+
+    /**
+     * Asks whether the drawing view is in read-only mode. If so, the user can't
+     * modify it using mouse or keyboard actions. Yet, it can still be modified
+     * from inside the program.
+     */
+    public boolean getReadOnly() {
+        return readOnly;
+    }
+    
+    /**
+     * Determines whether the drawing view is in read-only mode. If so, the user can't
+     * modify it using mouse or keyboard actions. Yet, it can still be modified
+     * from inside the program.
+     */
+    public void setReadOnly(boolean readOnly) {
+        if (readOnly != this.readOnly) {
+            if (readOnly) {
+                removeMouseListener(mouseListener);
+                removeMouseMotionListener(motionListener);
+                removeKeyListener(keyListener);
+            }
+            else {
+                addMouseListener(mouseListener);
+                addMouseMotionListener(motionListener);
+                addKeyListener(keyListener);
+            }
+            
+            this.readOnly = readOnly;
+        }
+    }
 
 	/**
 	 * @see DrawingView#setCursor(Cursor)
