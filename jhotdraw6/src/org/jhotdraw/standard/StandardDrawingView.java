@@ -1025,16 +1025,21 @@ public class StandardDrawingView
 		 */
 		public void keyPressed(KeyEvent e) {
 			int code = e.getKeyCode();
-			if ((code == KeyEvent.VK_BACK_SPACE) || (code == KeyEvent.VK_DELETE)) {
+			// Only act on nonModified keys...
+			int modifiers = e.getModifiers();
+			if (modifiers == 0 &&
+			    ((code == KeyEvent.VK_BACK_SPACE) ||
+			     (code == KeyEvent.VK_DELETE))) {
 				if (deleteCmd.isExecutable()) {
 					deleteCmd.execute();
-//					deleteCmd.viewSelectionChanged(this);
+					//deleteCmd.viewSelectionChanged(this);
 				}
 			}
-			else if ((code == KeyEvent.VK_DOWN)
-					|| (code == KeyEvent.VK_UP)
-					|| (code == KeyEvent.VK_RIGHT)
-					|| (code == KeyEvent.VK_LEFT)) {
+			else if (modifiers == 0 && 
+				 ((code == KeyEvent.VK_DOWN)
+				  || (code == KeyEvent.VK_UP)
+				  || (code == KeyEvent.VK_RIGHT)
+				  || (code == KeyEvent.VK_LEFT))) {
 				handleCursorKey(code);
 			}
 			else {
