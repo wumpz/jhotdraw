@@ -979,6 +979,12 @@ public class StandardDrawingView
 	}
 
 	public class DrawingViewKeyListener implements KeyListener {
+		private Command deleteCmd;
+
+		public DrawingViewKeyListener() {
+			deleteCmd = createDeleteCommand();
+		}
+
 		/**
 		 * Handles key down events. Cursor keys are handled
 		 * by the view the other key events are delegated to the
@@ -987,10 +993,9 @@ public class StandardDrawingView
 		public void keyPressed(KeyEvent e) {
 			int code = e.getKeyCode();
 			if ((code == KeyEvent.VK_BACK_SPACE) || (code == KeyEvent.VK_DELETE)) {
-				Command cmd = new DeleteCommand("Delete", editor());
-				if (cmd.isExecutable()) {
-					cmd.execute();
-//					cmd.viewSelectionChanged(this);
+				if (deleteCmd.isExecutable()) {
+					deleteCmd.execute();
+//					deleteCmd.viewSelectionChanged(this);
 				}
 			}
 			else if ((code == KeyEvent.VK_DOWN) || (code == KeyEvent.VK_UP)
@@ -1040,6 +1045,10 @@ public class StandardDrawingView
         public void keyReleased(KeyEvent event) {
             // do nothing
         }
+
+		protected Command createDeleteCommand() {
+			return new UndoableCommand(new DeleteCommand("Delete", editor()));
+		}
     }
 
 	protected DNDHelper createDNDHelper() {
