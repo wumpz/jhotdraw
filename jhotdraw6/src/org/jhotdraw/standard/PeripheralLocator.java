@@ -41,11 +41,11 @@ public class PeripheralLocator extends AbstractLocator {
     public Point locate(Figure parm1) {
 		Rectangle r = parm1.displayBox();
 		/* calculate total length for spacing */
-		int circumference = r.width*2 + r.height*2;
+		//int circumference = r.width*2 + r.height*2;
 		/* subtrace corners spacing */
-		int insets = 2 * 4 * CORNERSPACE;
+		//int insets = 2 * 4 * CORNERSPACE;
 
-	    int spacing = circumference/(fPPS*4 +4);
+	  //int spacing = circumference/(fPPS*4 +4);
 		float hSpacing = (float)r.width / (fPPS +1);
 		float vSpacing = (float)r.height / (fPPS +1);
 
