@@ -43,6 +43,14 @@ public interface Drawing
 
     /**
      * Returns an enumeration to iterate in
+     * Z-order back to front over the figures
+     * that lie within the absolute bounds.
+     */
+    public FigureEnumeration figures(Rectangle
+     viewRectangle);
+
+    /**
+     * Returns an enumeration to iterate in
      * Z-order front to back over the figures.
      */
     public FigureEnumeration figuresReverse();
@@ -171,6 +179,11 @@ public interface Drawing
     public void draw(Graphics g);
 
     /**
+     * Draws only the given figures.
+     */
+    public void draw(Graphics g, FigureEnumeration fe);
+
+    /**
      * Invalidates a rectangle and merges it with the
      * existing damaged area.
      */
@@ -197,5 +210,15 @@ public interface Drawing
      * Releases the drawing lock.
      */
     public void unlock();
+
+    /**
+     * Used to optimize rendering.  Rendering of many objects may
+     * be slow until this method is called.  The view rectangle
+     * should at least approximately enclose the CompositeFigure.
+     * If the view rectangle is too small or too large, performance
+     * may suffer.
+     */
+    public void init(Rectangle viewRectangle);
+
 
 }
