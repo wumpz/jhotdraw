@@ -636,6 +636,7 @@ public class TextAreaFigure extends AttributeFigure
 	 *
 	 * @param name  the attribute's name
 	 * @return      The attribute value
+	 * @deprecated use getAttribute(FigureAttributeConstant)
 	 */
 	public Object getAttribute(String name) {
 		return super.getAttribute(name);
@@ -649,6 +650,7 @@ public class TextAreaFigure extends AttributeFigure
 	 *
 	 * @param name   The new attribute name
 	 * @param value  The new attribute value
+	 * @deprecated use setAttribute(FigureAttributeConstant, Object)
 	 */
 	public void setAttribute(String name, Object value) {
 		// we need to create a new font if one of the font attributes
