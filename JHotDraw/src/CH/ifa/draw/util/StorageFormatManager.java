@@ -13,6 +13,8 @@ package CH.ifa.draw.util;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
+
+import java.io.File;
 import java.util.List;
 import java.util.Iterator;
 
@@ -129,6 +131,26 @@ public class StorageFormatManager {
 			}
 		}
 		
+		return null;
+	}
+
+	/**
+	 * Find a StorageFormat that can be used according to a file object to store a
+	 * Drawing in a file or restore it from a file respectively.
+	 *
+	 * @param file a File object to be matched
+	 * @return StorageFormat, if a matching file extension could be found, <code>null</code>
+	 * otherwise
+	 */
+	public StorageFormat findStorageFormat(File file) {
+		Iterator formatsIterator = myStorageFormats.iterator();
+		StorageFormat currentStorageFormat;
+		while (formatsIterator.hasNext()) {
+			currentStorageFormat = (StorageFormat) formatsIterator.next();
+			if (currentStorageFormat.getFileFilter().accept(file)) {
+				return currentStorageFormat;
+			}
+		}
 		return null;
 	}
 }
