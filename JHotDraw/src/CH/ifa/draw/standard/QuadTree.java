@@ -38,7 +38,7 @@ class QuadTree implements Serializable {
 	//______________________________________________________CONSTRUCTORS
 
 	public QuadTree(Rectangle2D absoluteBoundingRectangle2D) {
-		this(6, absoluteBoundingRectangle2D);
+		this(2, absoluteBoundingRectangle2D);
 	}
 
 	public QuadTree(int nMaxTreeDepth, Rectangle2D

@@ -348,7 +348,7 @@ public class DrawApplet
 		if (inside) {
 			showStatus(((ToolButton) button).name());
 		}
-		else {
+		else if (fSelectedToolButton != null) {
 			showStatus(fSelectedToolButton.name());
 		}
 	}

@@ -59,7 +59,7 @@ public  class PolyLineFigure extends AbstractFigure {
 
 	public Rectangle displayBox() {
 		Enumeration k = points();
-		Rectangle r = new Rectangle((Point) k.nextElement());
+		Rectangle r = new Rectangle();
 
 		while (k.hasMoreElements()) {
 			r.add((Point) k.nextElement());

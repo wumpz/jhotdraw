@@ -77,7 +77,13 @@ public class GraphicalCompositeFigure extends CompositeFigure implements Layouta
 	 * A StandardLayouter is set.
 	 */
 	protected void initialize() {
-		setLayouter(new StandardLayouter(this));
+		if (getLayouter() != null) {
+			// use prototype to create new instance
+			setLayouter(getLayouter().create(this));
+		}
+		else {
+			setLayouter(new StandardLayouter(this));
+		}
 	}
 
 	/**

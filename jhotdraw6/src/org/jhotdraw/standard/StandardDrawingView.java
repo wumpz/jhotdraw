@@ -111,6 +111,9 @@ public class StandardDrawingView
 	public static final int SCROLL_INCR = 100;
 	public static final int SCROLL_OFFSET = 10;
 
+	private static int counter;
+	private int myCounter = counter;
+
 	/*
 	 * Serialization support. In JavaDraw only the Drawing is serialized.
 	 * However, for beans support StandardDrawingView supports
@@ -131,9 +134,10 @@ public class StandardDrawingView
 		counter++;
 		fEditor = editor;
 		fViewSize = new Dimension(width,height);
+		setSize(width, height);
 		fSelectionListeners = new Vector();
 		addFigureSelectionListener(editor());
-		fLastClick = new Point(0, 0);
+		setLastClick(new Point(0, 0));
 		fConstrainer = null;
 		fSelection = new Vector();
 		// JFC/Swing uses double buffering automatically as default
@@ -559,11 +563,23 @@ public class StandardDrawingView
 		}
 	}
 
+    protected Rectangle getDamage() {
+        return fDamage;
+    }
+
+    protected void setDamage(Rectangle r) {
+        fDamage = r;
+    }
+
 	/**
 	 * Gets the position of the last click inside the view.
 	 */
 	public Point lastClick() {
 		return fLastClick;
+	}
+
+	protected void setLastClick(Point newLastClick) {
+		fLastClick = newLastClick;
 	}
 
 	/**
@@ -597,7 +613,6 @@ public class StandardDrawingView
 		return p;
 	}
 
-
 	private void moveSelection(int dx, int dy) {
 		FigureEnumeration figures = selectionElements();
 		while (figures.hasMoreElements()) {
@@ -620,19 +635,23 @@ public class StandardDrawingView
 	}
 
 	public void repairDamage() {
-		if (fDamage != null) {
-			repaint(fDamage.x, fDamage.y, fDamage.width, fDamage.height);
-			fDamage = null;
+		if (getDamage() != null) {
+			repaint(getDamage().x, getDamage().y, getDamage().width, getDamage().height);
+			setDamage(null);
 		}
 	}
 
 	public void drawingInvalidated(DrawingChangeEvent e) {
 		Rectangle r = e.getInvalidatedRectangle();
-		if (fDamage == null) {
-			fDamage = r;
+		if (getDamage() == null) {
+			setDamage(r);
 		}
 		else {
-			fDamage.add(r);
+			// don't manipulate rectangle returned by getDamage() directly
+			// because it could be a cloned rectangle.
+			Rectangle damagedR = getDamage();
+			damagedR.add(r);
+			setDamage(damagedR);
 		}
 	}
 
@@ -717,7 +736,7 @@ public class StandardDrawingView
 		g.fillRect(0, 0, getBounds().width, getBounds().height);
 	}
 
-	private void drawPainters(Graphics g, Vector v) {
+	protected void drawPainters(Graphics g, Vector v) {
 		for (int i = 0; i < v.size(); i++) {
 			((Painter)v.elementAt(i)).draw(g, this);
 		}
@@ -744,6 +763,10 @@ public class StandardDrawingView
 		repaint();
 	}
 
+    protected Vector getBackgrounds() {
+        return fBackgrounds;
+    }
+
 	/**
 	 * Removes a foreground.
 	 */
@@ -764,6 +787,10 @@ public class StandardDrawingView
 		fForegrounds.addElement(painter);
 		repaint();
 	}
+
+    protected Vector getForegrounds() {
+        return fForegrounds;
+    }
 
 	/**
 	 * Freezes the view by acquiring the drawing lock.
@@ -793,7 +820,21 @@ public class StandardDrawingView
 		fSelectionListeners= new Vector();
 	}
 
-	private void checkMinimumSize() {
+    protected void checkMinimumSize() {
+        Dimension d = getDrawingSize();
+
+        if (fViewSize.height < d.height || fViewSize.width < d.width) {
+            fViewSize.height = d.height + SCROLL_OFFSET;
+            fViewSize.width = d.width + SCROLL_OFFSET;
+            setSize(fViewSize);
+        }
+    }
+
+    /**
+     * Return the size of the area occupied by the contained figures inside
+     * the drawing. This method is called by checkMinimumSize().
+     */
+    protected Dimension getDrawingSize() {
 		FigureEnumeration k = drawing().figures();
 		Dimension d = new Dimension(0, 0);
 		while (k.hasMoreElements()) {
@@ -801,11 +842,7 @@ public class StandardDrawingView
 			d.width = Math.max(d.width, r.x+r.width);
 			d.height = Math.max(d.height, r.y+r.height);
 		}
-		if (fViewSize.height < d.height || fViewSize.width < d.width) {
-			fViewSize.height = d.height + SCROLL_OFFSET;
-			fViewSize.width = d.width + SCROLL_OFFSET;
-			setSize(fViewSize);
-		}
+        return d;
 	}
 
 	public boolean isFocusTraversable() {
@@ -868,8 +905,16 @@ public class StandardDrawingView
 		return "DrawingView Nr: " + myCounter;
 	}
 
-	static int counter;
-	int myCounter = counter;
+	/**
+     * Default action when any uncaught exception bubbled from
+     * the mouse event handlers of the tools. Subclass may override it
+     * to provide other action.
+     */
+    protected void handleMouseEventException(Throwable t) {
+        JOptionPane.showMessageDialog(this,
+            t.getClass().getName() + " - " + t.getMessage(),
+            "Error", JOptionPane.ERROR_MESSAGE);
+    }
 
 	public class DrawingViewMouseListener extends MouseAdapter {
 		 /**
@@ -878,11 +923,16 @@ public class StandardDrawingView
 		 * @return whether the event was handled.
 		 */
 		public void mousePressed(MouseEvent e) {
-			requestFocus(); // JDK1.1
-			Point p = constrainPoint(new Point(e.getX(), e.getY()));
-			fLastClick = new Point(e.getX(), e.getY());
-			tool().mouseDown(e, p.x, p.y);
-			checkDamage();
+			try {
+				requestFocus(); // JDK1.1
+				Point p = constrainPoint(new Point(e.getX(), e.getY()));
+				setLastClick(new Point(e.getX(), e.getY()));
+				tool().mouseDown(e, p.x, p.y);
+				checkDamage();
+			}
+			catch (Throwable t) {
+				handleMouseEventException(t);
+			}
 		}
 
 		/**
@@ -891,9 +941,14 @@ public class StandardDrawingView
 		 * @return whether the event was handled.
 		 */
 		public void mouseReleased(MouseEvent e) {
-			Point p = constrainPoint(new Point(e.getX(), e.getY()));
-			tool().mouseUp(e, p.x, p.y);
-			checkDamage();
+			try {
+				Point p = constrainPoint(new Point(e.getX(), e.getY()));
+				tool().mouseUp(e, p.x, p.y);
+				checkDamage();
+			}
+			catch (Throwable t) {
+				handleMouseEventException(t);
+			}
 		}
 	}
 
@@ -904,9 +959,14 @@ public class StandardDrawingView
 		 * @return whether the event was handled.
 		 */
 		public void mouseDragged(MouseEvent e) {
-			Point p = constrainPoint(new Point(e.getX(), e.getY()));
-			tool().mouseDrag(e, p.x, p.y);
-			checkDamage();
+			try {
+				Point p = constrainPoint(new Point(e.getX(), e.getY()));
+				tool().mouseDrag(e, p.x, p.y);
+				checkDamage();
+			}
+			catch (Throwable t) {
+				handleMouseEventException(t);
+			}
 		}
 
 		/**
@@ -915,7 +975,12 @@ public class StandardDrawingView
 		 * @return whether the event was handled.
 		 */
 		public void mouseMoved(MouseEvent e) {
-			tool().mouseMove(e, e.getX(), e.getY());
+			try {
+				tool().mouseMove(e, e.getX(), e.getY());
+			}
+			catch (Throwable t) {
+				handleMouseEventException(t);
+			}
 		}
 	}
 

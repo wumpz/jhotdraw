@@ -13,6 +13,7 @@ package CH.ifa.draw.util;
 
 import java.awt.Rectangle;
 import java.awt.Point;
+import java.awt.geom.Line2D;
 
 /**
  * Some geometric utilities.
@@ -378,5 +379,16 @@ public class Geom {
 			double l = Math.sqrt((double)l2);
 			return = s * l;
 			*/
+	}
+
+	/**
+	 * compute distance of point from line segment.<br>
+	 * Uses AWT Line2D utility methods
+	 */
+	public static double distanceFromLine2D(int xa, int ya,
+										int xb, int yb,
+										int xc, int yc) {
+		Line2D.Double line = new Line2D.Double(xa, xb, ya, yb);
+		return line.ptSegDist(xc, yc);
 	}
 }

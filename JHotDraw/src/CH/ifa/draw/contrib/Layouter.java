@@ -64,4 +64,9 @@ public interface Layouter extends Serializable, Storable {
 	 * @return spacing dimensions
 	 */	
 	public Insets getInsets();
+
+	/**
+	 * Create a new instance of this type and sets the layoutable
+	 */
+	public Layouter create(Layoutable newLayoutable);
 }

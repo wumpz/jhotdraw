@@ -22,6 +22,8 @@ import CH.ifa.draw.figures.*;
 import CH.ifa.draw.util.*;
 import CH.ifa.draw.application.*;
 import CH.ifa.draw.contrib.*;
+import CH.ifa.draw.contrib.html.HTMLTextAreaFigure;
+import CH.ifa.draw.contrib.html.HTMLTextAreaTool;
 import CH.ifa.draw.contrib.zoom.ZoomDrawingView;
 import CH.ifa.draw.contrib.zoom.ZoomTool;
 
@@ -90,10 +92,10 @@ public  class JavaDrawApp extends MDI_DrawApplication {
 
 		tool = new UndoableTool(new CreationTool(this, new TriangleFigure()));
 		palette.add(createToolButton(IMAGES + "TRIANGLE", "Triangle Tool", tool));
-		
+
 		tool = new UndoableTool(new CreationTool(this, new DiamondFigure()));
 		palette.add(createToolButton(IMAGES + "DIAMOND", "Diamond Tool", tool));
-			
+
 		tool = new UndoableTool(new CreationTool(this, new LineFigure()));
 		palette.add(createToolButton(IMAGES + "LINE", "Line Tool", tool));
 
@@ -114,7 +116,18 @@ public  class JavaDrawApp extends MDI_DrawApplication {
 		palette.add(createToolButton(IMAGES + "RECT", "Component Tool", tool));
 
 		tool = new TextAreaTool(this, new TextAreaFigure());
-		palette.add(createToolButton(IMAGES + "COOLTEXTAREA", "Component Tool", tool));
+		palette.add(createToolButton(IMAGES + "TEXTAREA", "TextArea Tool", tool));
+
+		GraphicalCompositeFigure fig = new GraphicalCompositeFigure();
+		fig.setLayouter(new SimpleLayouter(fig));
+		tool = new CreationTool(this, fig);
+		palette.add(createToolButton(IMAGES + "RECT", "Container Figure Tool", tool));
+
+		tool = new CompositeFigureCreationTool(this, new RectangleFigure());
+		palette.add(createToolButton(IMAGES + "RECT", "Nested Figure Tool", tool));
+
+		tool = new HTMLTextAreaTool(this, new HTMLTextAreaFigure());
+		palette.add(createToolButton(IMAGES + "TEXTAREA", "HTML TextArea Tool", tool));
 	}
 
 	protected Tool createSelectionTool() {
@@ -162,9 +175,9 @@ public  class JavaDrawApp extends MDI_DrawApplication {
 		};
 		menu.add(cmd);
 
-//		menu.addSeparator();
-//		menu.add(new WindowMenu("Window List", (MDIDesktopPane)getDesktop(), this));
-				
+		menu.addSeparator();
+		menu.add(new WindowMenu("Window List", (MDIDesktopPane)getDesktop(), this));
+
 		return menu;
 	}
 

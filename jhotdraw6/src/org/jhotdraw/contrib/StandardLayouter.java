@@ -52,6 +52,7 @@ public class StandardLayouter implements Layouter {
 	 * with exactly one Layoutable.
 	 */
 	public StandardLayouter() {
+		setInsets(new Insets(0, 0, 0, 0));
 	}
 
 	/**
@@ -61,8 +62,15 @@ public class StandardLayouter implements Layouter {
 	 * @param	newLayoutable	Layoutable to be laid out
 	 */
 	public StandardLayouter(Layoutable newLayoutable) {
-		setInsets(new Insets(0, 0, 0, 0));
+		this();
 		setLayoutable(newLayoutable);
+	}
+
+	/**
+	 * Create a new instance of this type and sets the layoutable
+	 */
+	public Layouter create(Layoutable newLayoutable) {
+		return new StandardLayouter(newLayoutable);
 	}
 
 	/**

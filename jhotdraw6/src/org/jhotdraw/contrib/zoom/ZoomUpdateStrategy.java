@@ -1,8 +1,12 @@
 /*
- * File:   ZoomUpdateStrategy.java
- * Author: Andre Spiegel <spiegel@inf.fu-berlin.de>
+ * @(#)ZoomUpdateStrategy.java
  *
- * $Id$
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.contrib.zoom;
@@ -16,6 +20,9 @@ import java.awt.*;
  * A variant of the BufferedUpdateStrategy that handles clipping
  * rectangles correctly in the presence of zooming.
  * @see BufferedUpdateStrategy
+ *
+ * @author Andre Spiegel <spiegel@gnu.org>
+ * @version <$CURRENT_VERSION$>
  */
 public class ZoomUpdateStrategy
 		implements Painter {

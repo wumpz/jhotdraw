@@ -90,7 +90,7 @@ public class CreationTool extends AbstractTool {
 	 */
 	public void mouseDown(MouseEvent e, int x, int y) {
 		fAnchorPoint = new Point(x,y);
-		fCreatedFigure = createFigure();
+		setCreatedFigure(createFigure());
 		setAddedFigure((view().add(getCreatedFigure())));
 		getAddedFigure().displayBox(fAnchorPoint, fAnchorPoint);
 	}
@@ -135,7 +135,7 @@ public class CreationTool extends AbstractTool {
 			}
 			setAddedFigure(null);
 		}
-		fCreatedFigure = null;
+		setCreatedFigure(null);
 		editor().toolDone();
 	}
 

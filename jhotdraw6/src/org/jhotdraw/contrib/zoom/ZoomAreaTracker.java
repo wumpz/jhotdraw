@@ -1,8 +1,12 @@
 /*
- * File:   ZoomAreaTracker.java
- * Author: Andre Spiegel <spiegel@gnu.org>
+ * @(#)ZoomAreaTracker.java
  *
- * $Id$
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.contrib.zoom;
@@ -12,6 +16,10 @@ import CH.ifa.draw.framework.DrawingEditor;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
+/**
+ * @author Andre Spiegel <spiegel@gnu.org>
+ * @version <$CURRENT_VERSION$>
+ */
 public class ZoomAreaTracker extends AreaTracker {
 
 	public ZoomAreaTracker(DrawingEditor editor) {

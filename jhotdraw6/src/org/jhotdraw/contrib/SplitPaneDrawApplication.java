@@ -19,6 +19,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import java.io.*;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
+
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
 import CH.ifa.draw.figures.*;
@@ -36,12 +39,13 @@ public  class SplitPaneDrawApplication extends DrawApplication {
 
 	private JComponent leftComponent;
 	private JComponent rightComponent;
+	private PropertyChangeListener myPropertyChangeListener;
 
 	/**
 	 * Constructs a drawing window with a default title.
 	 */
 	public SplitPaneDrawApplication() {
-		super("JHotDraw");
+		this("JHotDraw");
 	}
 
 	/**
@@ -49,6 +53,12 @@ public  class SplitPaneDrawApplication extends DrawApplication {
 	 */
 	public SplitPaneDrawApplication(String title) {
 		super(title);
+		myPropertyChangeListener = new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent evt) {
+				getRightComponent().repaint();
+				getLeftComponent().repaint();
+			}
+		};
 	}
 
 	/**
@@ -56,8 +66,8 @@ public  class SplitPaneDrawApplication extends DrawApplication {
 	 * Clients usually only call but don't override it.
 	 */
 	protected JComponent createContents(DrawingView view) {
-		createLeftComponent(view);
 		createRightComponent(view);
+		createLeftComponent(view);
 
 		if ((getLeftComponent() == null) && (getRightComponent() == null)) {
 			return super.createContents(view);
@@ -72,7 +82,7 @@ public  class SplitPaneDrawApplication extends DrawApplication {
 			return createSplitPane(view);
 		}
 	}
- 
+
 	/**
 	 * Method which creates the basic split pane. Subclasses may override
 	 * this method.
@@ -81,10 +91,12 @@ public  class SplitPaneDrawApplication extends DrawApplication {
 	 * @return          the created JSplitPane
 	 */
 	protected JSplitPane createSplitPane(DrawingView view) {
-		JSplitPane dividedContents = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, 
+		JSplitPane dividedContents = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 			getLeftComponent(), getRightComponent());
 		dividedContents.setAlignmentX(JSplitPane.LEFT_ALIGNMENT);
 		dividedContents.setOneTouchExpandable(true);
+		dividedContents.addPropertyChangeListener(myPropertyChangeListener);
+		dividedContents.setDividerLocation(150);
 		return dividedContents;
 	}
 
@@ -105,7 +117,7 @@ public  class SplitPaneDrawApplication extends DrawApplication {
 	protected final void setLeftComponent(JComponent newLeftComponent) {
 		leftComponent = newLeftComponent;
 	}
-	
+
 	/**
 	 * Get the left component of the JSplitPane.
 	 *

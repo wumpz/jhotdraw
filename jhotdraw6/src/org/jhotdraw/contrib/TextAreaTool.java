@@ -1,32 +1,33 @@
 /*
  *  @(#)TextAreaTool.java
  *
- * Project:		JHotdraw - a GUI framework for technical drawings
- *				http://www.jhotdraw.org
- *				http://jhotdraw.sourceforge.net
- * Copyright:	© by the original author(s) and all contributors
- * License:		Lesser GNU Public License (LGPL)
- *				http://www.opensource.org/licenses/lgpl-license.html
+ *  Project:		JHotdraw - a GUI framework for technical drawings
+ *  http://www.jhotdraw.org
+ *  http://jhotdraw.sourceforge.net
+ *  Copyright:	© by the original author(s) and all contributors
+ *  License:		Lesser GNU Public License (LGPL)
+ *  http://www.opensource.org/licenses/lgpl-license.html
  */
 package CH.ifa.draw.contrib;
 
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.event.InputEvent;
-import java.awt.event.MouseEvent;
 import CH.ifa.draw.framework.DrawingEditor;
 import CH.ifa.draw.framework.DrawingView;
 import CH.ifa.draw.framework.Figure;
 import CH.ifa.draw.framework.FigureEnumeration;
-
 import CH.ifa.draw.standard.CreationTool;
 import CH.ifa.draw.standard.DecoratorFigure;
 import CH.ifa.draw.standard.SingleFigureEnumerator;
 import CH.ifa.draw.standard.TextHolder;
 import CH.ifa.draw.util.Undoable;
 import CH.ifa.draw.util.UndoableAdapter;
+
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.InputEvent;
+import java.awt.event.MouseEvent;
 
 /**
  * A TextAreaTool creates TextAreaFigures.<br>
@@ -37,37 +38,37 @@ import CH.ifa.draw.util.UndoableAdapter;
  * area's editor.<br>
  * When creating a new area, if the user leaves the text empty, the newly created
  * area figure is discarded.
- * @author Eduardo Francos - InContext
- * @version 1.0
  *
+ * @author    Eduardo Francos - InContext
+ * @created   29 april 2002
+ * @version   1.0
  */
+
 public class TextAreaTool extends CreationTool {
-	/**
-	 * The field used for editing
-	 */
+	/** The field used for editing */
 	protected FloatingTextArea fTextField;
 	/** The typing target */
 	protected TextHolder fTypingTarget;
 	/** The edited figure */
 	protected Figure fEditedFigure;
 
-
 	/**
 	 * Constructor for the TextAreaTool object
-	 * @param newDrawingEditor the managing drawing editor
-	 * @param prototype the prototype for the figure
+	 *
+	 * @param newDrawingEditor  the managing drawing editor
+	 * @param prototype         the prototype for the figure
 	 */
 	public TextAreaTool(DrawingEditor newDrawingEditor, Figure prototype) {
 		super(newDrawingEditor, prototype);
 	}
 
-
 	/**
 	 * If the pressed figure is a TextHolder and it accepts editing it can be edited.<br>
 	 * If there is no pressed figure a new text figure is created.
-	 * @param e Description of the Parameter
-	 * @param x Description of the Parameter
-	 * @param y Description of the Parameter
+	 *
+	 * @param e  Description of the Parameter
+	 * @param x  Description of the Parameter
+	 * @param y  Description of the Parameter
 	 */
 	public void mouseDown(MouseEvent e, int x, int y) {
 		TextHolder textHolder = null;
@@ -108,7 +109,6 @@ public class TextAreaTool extends CreationTool {
 		}
 	}
 
-
 	/**
 	 * Drags to set the initial text area display box
 	 *
@@ -123,7 +123,6 @@ public class TextAreaTool extends CreationTool {
 		}
 		super.mouseDrag(e, x, y);
 	}
-
 
 	/**
 	 * If creating a figure it ends the creation process and calls the editor
@@ -143,9 +142,13 @@ public class TextAreaTool extends CreationTool {
 		// when the overlay figure is drawn because a JTextField cannot be scrolled)
 		view().checkDamage();
 		TextHolder textHolder = (TextHolder)getCreatedFigure();
-		beginEdit(textHolder, getCreatedFigure());
+		if (textHolder.acceptsTyping()) {
+			beginEdit(textHolder, getCreatedFigure());
+		}
+		else {
+			editor().toolDone();
+		}
 	}
-
 
 	/**
 	 * Terminates the editing of a text figure.
@@ -155,7 +158,6 @@ public class TextAreaTool extends CreationTool {
 		super.deactivate();
 	}
 
-
 	/**
 	 * Activates the figure's editor
 	 */
@@ -164,21 +166,21 @@ public class TextAreaTool extends CreationTool {
 		view().clearSelection();
 	}
 
-
 	/**
 	 * Test whether the text tool is currently activated and is displaying
 	 * a overlay TextFigure for accepting input.
-	 * @return true, if the text tool has a accepting target TextFigure for its input, false otherwise
+	 *
+	 * @return   true, if the text tool has a accepting target TextFigure for its input, false otherwise
 	 */
 	public boolean isActivated() {
 		return getTypingTarget() != null;
 	}
 
-
 	/**
 	 * Begins editing the figure's text
-	 * @param figure the typing target
-	 * @param selectedFigure the edited figure
+	 *
+	 * @param figure          the typing target
+	 * @param selectedFigure  the edited figure
 	 */
 	protected void beginEdit(TextHolder figure, Figure selectedFigure) {
 		if (fTextField == null) {
@@ -189,7 +191,7 @@ public class TextAreaTool extends CreationTool {
 			endEdit();
 		}
 
-		fTextField.createOverlay((Container)view(), figure.getFont());
+		fTextField.createOverlay((Container)view(), getFont(figure));
 		fTextField.setBounds(fieldBounds(figure), figure.getText());
 
 		setTypingTarget(figure);
@@ -197,6 +199,15 @@ public class TextAreaTool extends CreationTool {
 		setUndoActivity(createUndoActivity());
 	}
 
+	/**
+	 * Gets the font to be used for editing the figure
+	 *
+	 * @param figure  the figure
+	 * @return        The font
+	 */
+	protected Font getFont(TextHolder figure) {
+		return figure.getFont();
+	}
 
 	/** Ends editing of the figure's text */
 	protected void endEdit() {
@@ -204,8 +215,6 @@ public class TextAreaTool extends CreationTool {
 			if (fTextField.getText().length() > 0) {
 				getTypingTarget().setText(fTextField.getText());
 				// put created figure into a figure enumeration
-//				getUndoActivity().setAffectedFigures(
-//						new SingleFigureEnumerator(getAddedFigure()));
 				getUndoActivity().setAffectedFigures(
 						new SingleFigureEnumerator(getEditedFigure()));
 				((TextAreaTool.UndoActivity)getUndoActivity()).setBackupText(
@@ -223,11 +232,11 @@ public class TextAreaTool extends CreationTool {
 		}
 	}
 
-
 	/**
 	 * Returns the bounds fo the figure
-	 * @param figure the edited figure
-	 * @return Description of the Return Value
+	 *
+	 * @param figure  the edited figure
+	 * @return        Description of the Return Value
 	 */
 	private Rectangle fieldBounds(TextHolder figure) {
 		return figure.textDisplayBox();
@@ -236,7 +245,8 @@ public class TextAreaTool extends CreationTool {
 
 	/**
 	 * Sets the typingTarget attribute of the TextAreaTool
-	 * @param newTypingTarget The new typingTarget value
+	 *
+	 * @param newTypingTarget  The new typingTarget value
 	 */
 	protected void setTypingTarget(TextHolder newTypingTarget) {
 		fTypingTarget = newTypingTarget;
@@ -252,10 +262,10 @@ public class TextAreaTool extends CreationTool {
 		return fEditedFigure;
 	}
 
-
 	/**
 	 * Sets the editedFigure attribute of the TextAreaTool
-	 * @param figure The new editedFigure value
+	 *
+	 * @param figure  The new editedFigure value
 	 */
 	protected void setEditedFigure(Figure figure) {
 		fEditedFigure = figure;
@@ -271,7 +281,6 @@ public class TextAreaTool extends CreationTool {
 		return fTypingTarget;
 	}
 
-
 	/**
 	 * Factory method for undo activity
 	 *
@@ -280,7 +289,6 @@ public class TextAreaTool extends CreationTool {
 	protected Undoable createUndoActivity() {
 		return new TextAreaTool.UndoActivity(view(), getTypingTarget().getText());
 	}
-
 
 	/**
 	 * Handles undo/redo for text areas
@@ -307,7 +315,6 @@ public class TextAreaTool extends CreationTool {
 			setUndoable(true);
 			setRedoable(true);
 		}
-
 
 		/*
 		 *  Undo the activity
@@ -346,7 +353,6 @@ public class TextAreaTool extends CreationTool {
 			return true;
 		}
 
-
 		/*
 		 *  Redo the activity
 		 *  @return true if the activity could be redone, false otherwise
@@ -356,8 +362,7 @@ public class TextAreaTool extends CreationTool {
 		 *
 		 * @return   Description of the Return Value
 		 */
-		public boolean redo()
-		{
+		public boolean redo() {
 			if (!super.redo()) {
 				return false;
 			}
@@ -386,7 +391,6 @@ public class TextAreaTool extends CreationTool {
 			return true;
 		}
 
-
 		/**
 		 * Validates the text in the undo activity
 		 *
@@ -396,7 +400,6 @@ public class TextAreaTool extends CreationTool {
 		protected boolean isValidText(String toBeChecked) {
 			return ((toBeChecked != null) && (toBeChecked.length() > 0));
 		}
-
 
 		/**
 		 * Sets the text attribute of the UndoActivity
@@ -416,7 +419,6 @@ public class TextAreaTool extends CreationTool {
 			}
 		}
 
-
 		/**
 		 * Sets the backupText attribute of the UndoActivity
 		 *
@@ -425,7 +427,6 @@ public class TextAreaTool extends CreationTool {
 		public void setBackupText(String newBackupText) {
 			myBackupText = newBackupText;
 		}
-
 
 		/**
 		 * Gets the backupText attribute of the UndoActivity
@@ -436,7 +437,6 @@ public class TextAreaTool extends CreationTool {
 			return myBackupText;
 		}
 
-
 		/**
 		 * Sets the originalText attribute of the UndoActivity
 		 *
@@ -445,7 +445,6 @@ public class TextAreaTool extends CreationTool {
 		public void setOriginalText(String newOriginalText) {
 			myOriginalText = newOriginalText;
 		}
-
 
 		/**
 		 * Gets the originalText attribute of the UndoActivity

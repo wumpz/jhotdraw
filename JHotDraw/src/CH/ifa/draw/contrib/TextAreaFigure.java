@@ -1,12 +1,12 @@
 /*
  *  @(#)TextAreaFigure.java
  *
- * Project:		JHotdraw - a GUI framework for technical drawings
- *				http://www.jhotdraw.org
- *				http://jhotdraw.sourceforge.net
- * Copyright:	© by the original author(s) and all contributors
- * License:		Lesser GNU Public License (LGPL)
- *				http://www.opensource.org/licenses/lgpl-license.html
+ *  Project:		JHotdraw - a GUI framework for technical drawings
+ *  http://www.jhotdraw.org
+ *  http://jhotdraw.sourceforge.net
+ *  Copyright:	© by the original author(s) and all contributors
+ *  License:		Lesser GNU Public License (LGPL)
+ *  http://www.opensource.org/licenses/lgpl-license.html
  */
 package CH.ifa.draw.contrib;
 
@@ -25,7 +25,6 @@ import java.util.Hashtable;
 import java.util.Vector;
 
 import CH.ifa.draw.figures.AttributeFigure;
-import CH.ifa.draw.figures.TextFigure;
 import CH.ifa.draw.framework.Figure;
 import CH.ifa.draw.framework.FigureChangeEvent;
 import CH.ifa.draw.framework.FigureChangeListener;
@@ -48,16 +47,16 @@ import CH.ifa.draw.util.StorableOutput;
  * bottom of the figure to indicate there is hidden text.<br>
  * TextAreFigure uses all standard attributes for the area rectangle,
  * ie: FillColor, PenColor for the border, FontSize, FontStyle, and FontName,
- * as well as four additional attributes LeftMargin, RightMargin, TopMargin
+ * as well as four additional attributes LeftMargin, RightMargin, TopMargin,
  * and TabSize.<br>
  *
  * @author    Eduardo Francos - InContext
  * @created   26 avril 2002
  * @version   <$CURRENT_VERSION$>
  */
+
 public class TextAreaFigure extends AttributeFigure
-		 implements FigureChangeListener, TextHolder
-{
+		 implements FigureChangeListener, TextHolder {
 
 	/** True if the paragraph's cache needs to be reconstructed */
 	protected boolean fTextIsDirty = true;
@@ -78,6 +77,7 @@ public class TextAreaFigure extends AttributeFigure
 	 * True if the font has changed and font related calculations need to be remade
 	 */
 	protected boolean fFontIsDirty = true;
+
 	/** The width of the current font */
 	protected float fFontWidth;
 	/**
@@ -104,16 +104,18 @@ public class TextAreaFigure extends AttributeFigure
 		initDefaultAttribute("TabSize", new Float(8));
 	}
 
+
 	/** Constructor for the TextAreaFigure object */
 	public TextAreaFigure() {
 		fDisplayBox = new Rectangle(0, 0, 30, 15);
 		fFont = createFont();
-		setAttribute("FillColor", ColorMap.color("None"));
 		fText = new String("");
 
 		fSizeIsDirty = true;
 		fTextIsDirty = true;
+		fFontIsDirty = true;
 	}
+
 
 	/**
 	 * Gets the text of the figure
@@ -123,6 +125,7 @@ public class TextAreaFigure extends AttributeFigure
 	public String getText() {
 		return fText;
 	}
+
 
 	/**
 	 * Sets the text of the figure
@@ -158,28 +161,79 @@ public class TextAreaFigure extends AttributeFigure
 				((Integer)getAttribute("FontSize")).intValue());
 	}
 
+	public boolean isReadOnly()
+	{
+		return fIsReadOnly;
+	}
+
+	public void setReadOnly(boolean newReadOnly)
+	{
+		fIsReadOnly = newReadOnly;
+	}
+
 	/**
 	 * Tests whether the figure accepts typing.
 	 *
 	 * @return   Description of the Return Value
 	 */
 	public boolean acceptsTyping() {
-		return !fIsReadOnly;
+		return !isReadOnly();
 	}
 
+
 	/**
-	 * Called whenever the text changes so that text related calculations
-	 * and caches are remade
+	 * Called whenever the something changes that requires text recomputing
 	 */
 	protected void markTextDirty() {
-		fTextIsDirty = true;
+		setTextDirty(true);
 	}
 
+
 	/**
-	 * Called whenever the something changes that requires size recomputing the size
+	 * Sets the textDirty attribute of the TextAreaFigure object
+	 *
+	 * @param newTextDirty  The new textDirty value
+	 */
+	protected void setTextDirty(boolean newTextDirty) {
+		fTextIsDirty = newTextDirty;
+	}
+
+
+	/**
+	 * Gets the textDirty attribute of the TextAreaFigure object
+	 *
+	 * @return   The textDirty value
+	 */
+	public boolean isTextDirty() {
+		return fTextIsDirty;
+	}
+
+
+	/**
+	 * Called whenever the something changes that requires size recomputing
 	 */
 	protected void markSizeDirty() {
-		fSizeIsDirty = true;
+		setSizeDirty(true);
+	}
+
+
+	/**
+	 * Called to set the dirty status of the size
+	 *
+	 * @param newSizeIsDirty  The new sizeDirty value
+	 */
+	public void setSizeDirty(boolean newSizeIsDirty) {
+		fSizeIsDirty = newSizeIsDirty;
+	}
+
+
+	/**
+	 * Returns the current size dirty status
+	 *
+	 * @return   The sizeDirty value
+	 */
+	public boolean isSizeDirty() {
+		return fSizeIsDirty;
 	}
 
 	/**
@@ -200,7 +254,7 @@ public class TextAreaFigure extends AttributeFigure
 		willChange();
 		fFont = newFont;
 		markSizeDirty();
-		fFontIsDirty = true;
+		markFontDirty();
 		attributesMap = new Hashtable(1);
 		attributesMap.put(TextAttribute.FONT, newFont);
 		changed();
@@ -226,8 +280,12 @@ public class TextAreaFigure extends AttributeFigure
 	 * @see           Figure
 	 */
 	public void basicDisplayBox(Point origin, Point corner) {
+		Dimension prevSize = fDisplayBox.getSize();
 		fDisplayBox = new Rectangle(origin);
 		fDisplayBox.add(corner);
+		if (!fDisplayBox.getSize().equals(prevSize)){
+		   markSizeDirty();
+		}
 	}
 
 	/**
@@ -253,6 +311,7 @@ public class TextAreaFigure extends AttributeFigure
 				fDisplayBox.width,
 				fDisplayBox.height);
 	}
+
 
 	/**
 	 * Moves the figure the supplied offset
@@ -356,7 +415,7 @@ public class TextAreaFigure extends AttributeFigure
 		float rightMargin = displayBox.x + displayBox.width - ((Float)getAttribute("RightMargin")).floatValue();
 		float topMargin = displayBox.y + ((Float)getAttribute("TopMargin")).floatValue();
 
-		/*
+		/**
 		 * @todo   we prepare stops for 40 tabs which should be enough to handle
 		 * all normal cases, but a better means should/could be implemented
 		 */
@@ -517,7 +576,7 @@ public class TextAreaFigure extends AttributeFigure
 	 * something to work with
 	 */
 	protected void prepareText() {
-		if (!fTextIsDirty) {
+		if (!isTextDirty()) {
 			return;
 		}
 
@@ -531,7 +590,7 @@ public class TextAreaFigure extends AttributeFigure
 			}
 			fParagraphs.add(paragraphText);
 		}
-		fTextIsDirty = false;
+		setTextDirty(false);
 	}
 
 	/**
@@ -615,6 +674,7 @@ public class TextAreaFigure extends AttributeFigure
 			super.setAttribute(name, value);
 		}
 		else {
+			// store the attribute
 			super.setAttribute(name, value);
 		}
 	}
@@ -644,8 +704,11 @@ public class TextAreaFigure extends AttributeFigure
 	 */
 	public void read(StorableInput dr) throws IOException {
 		super.read(dr);
+
 		markSizeDirty();
 		markTextDirty();
+		markFontDirty();
+
 		fDisplayBox.x = dr.readInt();
 		fDisplayBox.y = dr.readInt();
 		fDisplayBox.width = dr.readInt();
@@ -669,7 +732,9 @@ public class TextAreaFigure extends AttributeFigure
 	 * @throws ClassNotFoundException  thrown by called methods
 	 * @throws IOException             thrown by called methods
 	 */
-	protected void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+	protected void readObject(ObjectInputStream s)
+		throws ClassNotFoundException, IOException {
+
 		s.defaultReadObject();
 
 		if (fObservedFigure != null) {
@@ -677,6 +742,7 @@ public class TextAreaFigure extends AttributeFigure
 		}
 		markSizeDirty();
 		markTextDirty();
+		markFontDirty();
 	}
 
 	/**
@@ -729,7 +795,7 @@ public class TextAreaFigure extends AttributeFigure
 
 	/**
 	 * Updates the location relative to the connected figure.
-	 * The TextFigure is centered around the located point.
+	 * The TextAreaFigure is centered around the located point.
 	 */
 	protected void updateLocation() {
 		if (fLocator != null) {
@@ -762,18 +828,14 @@ public class TextAreaFigure extends AttributeFigure
 	 * @param e  Description of the Parameter
 	 */
 	public void figureRequestRemove(FigureChangeEvent e) {
-		/*
-		 * @todo:   Implement this CH.ifa.draw.framework.FigureChangeListener method
-		 */
+		// @todo:   Implement this CH.ifa.draw.framework.FigureChangeListener method
 	}
 
 	/**
 	 * @param e  Description of the Parameter
 	 */
 	public void figureRequestUpdate(FigureChangeEvent e) {
-		/*
-		 * @todo:   Implement this CH.ifa.draw.framework.FigureChangeListener method
-		 */
+		// @todo:   Implement this CH.ifa.draw.framework.FigureChangeListener method
 	}
 
 	/**
@@ -783,12 +845,19 @@ public class TextAreaFigure extends AttributeFigure
 	 * @return   The fontWidth value
 	 */
 	protected float getFontWidth() {
-		if (!fFontIsDirty) {
-			return fFontWidth;
+		updateFontInfo();
+		return fFontWidth;
+	}
+
+	/** Retrieve all Font information needed */
+	protected void updateFontInfo() {
+		if (!isFontDirty()) {
+			return;
 		}
 		FontMetrics metrics = Toolkit.getDefaultToolkit().getFontMetrics(getFont());
 		fFontWidth = metrics.charWidth('W');
-		return fFontWidth;
+
+		setFontDirty(false);
 	}
 
 	/**
@@ -809,5 +878,30 @@ public class TextAreaFigure extends AttributeFigure
 	 */
 	public boolean isEmpty() {
 		return (fText.length() == 0);
+	}
+
+	/**
+	 * Called whenever the something changes that requires font recomputing
+	 */
+	protected void markFontDirty() {
+		setFontDirty(true);
+	}
+
+	/**
+	 * Gets the fontDirty attribute of the TextAreaFigure object
+	 *
+	 * @return   The fontDirty value
+	 */
+	public boolean isFontDirty() {
+		return fFontIsDirty;
+	}
+
+	/**
+	 * Sets the fontDirty attribute of the TextAreaFigure object
+	 *
+	 * @param newFontIsDirty  The new fontDirty value
+	 */
+	public void setFontDirty(boolean newFontIsDirty) {
+		fFontIsDirty = newFontIsDirty;
 	}
 }

@@ -11,6 +11,7 @@
 package CH.ifa.draw.contrib.zoom;
 
 import CH.ifa.draw.framework.DrawingEditor;
+import CH.ifa.draw.framework.DrawingView;
 import CH.ifa.draw.framework.JHotDrawRuntimeException;
 
 import CH.ifa.draw.standard.AbstractCommand;
@@ -22,7 +23,7 @@ import CH.ifa.draw.standard.AbstractCommand;
  *
  * @author    Eduardo Francos
  * @created   26 april 2002
- * @version   1.0
+ * @version   <CURRENT_VERSION>
  */
 public class ZoomCommand extends AbstractCommand {
 	/** The scale factor to apply */
@@ -79,5 +80,15 @@ public class ZoomCommand extends AbstractCommand {
 	 */
 	public void setScale(float newScale) {
 		scale = newScale;
+	}
+
+
+	/**
+	 * Returns true if the command is executable with the current view
+	 *
+	 * @return   true iff the view is a ZoomDrawingView
+	 */
+	protected boolean isExecutableWithView() {
+		return (view() instanceof ZoomDrawingView);
 	}
 }

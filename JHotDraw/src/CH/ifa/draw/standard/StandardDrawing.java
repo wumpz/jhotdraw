@@ -102,8 +102,10 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
 	public void figureRequestRemove(FigureChangeEvent e) {
 		Figure figure = e.getFigure();
 		if (fFigures.contains(figure)) {
-			fFigures.removeElement(figure);
-			figure.removeFromContainer(this);   // will invalidate figure
+			// Bugfix: This call will cleans up the quad-tree as well [JY]
+			super.remove(figure);
+			//fFigures.removeElement(figure);
+			//figure.removeFromContainer(this);   // will invalidate figure
 			figure.release();
 		}
 		else {

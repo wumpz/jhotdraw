@@ -39,7 +39,7 @@ import java.awt.event.KeyEvent;
  * State changes are propagated to registered ToolListeners.
  *
  * @see DrawingView
- *
+ * 
  * @version <$CURRENT_VERSION$>
  */
 public interface Tool {
@@ -116,13 +116,13 @@ public interface Tool {
 	 */
 	public boolean isUsable();
 	public void setUsable(boolean newIsUsable);
-
+	
 	public DrawingEditor editor();
-
+	
 	public Undoable getUndoActivity();
 
 	public void setUndoActivity(Undoable newUndoableActivity);
-
+	
 	public void addToolListener(ToolListener newToolListener);
 	public void removeToolListener(ToolListener oldToolListener);
 }

@@ -1,8 +1,12 @@
 /*
- * File:   ZoomDrawingView.java
- * Author: Andre Spiegel <spiegel@gnu.org>
+ * @(#)ZoomDrawingView.java
  *
- * $Id$
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.contrib.zoom;
@@ -23,6 +27,9 @@ import java.awt.geom.AffineTransform;
 
 /**
  * A view that can display drawings at an arbitrary scale.
+ *
+ * @author Andre Spiegel <spiegel@gnu.org>
+ * @version <$CURRENT_VERSION$>
  */
 public class ZoomDrawingView extends StandardDrawingView {
 
@@ -30,6 +37,14 @@ public class ZoomDrawingView extends StandardDrawingView {
 	 * The current scaling factor
 	 */
 	private double scale = 1.0;
+
+	/**
+	 * The zooming speed, meaning the scaling factor change speed when doing
+	 * zoomIn/zoomOut operations.<br>
+	 * Default of 2.0 is increase 100% or decrease 50% the current factor.<br>
+	 * Can be changed dynamically by clients using the setter method
+	 */
+	private double zoomSpeed = 2.0;
 
 	private Rectangle damagedArea = null;
 
@@ -99,6 +114,14 @@ public class ZoomDrawingView extends StandardDrawingView {
 
 	protected boolean hasZoomSupport() {
 		return getParent() instanceof JViewport;
+	}
+
+	/**
+	 * Sets the coordinates of the left top corner displayed by the view.<br>
+	 */
+	public void setOriginPosition(Point newOrigin) {
+		setViewPosition(newOrigin);
+		forceRedraw();
 	}
 
 	protected void setViewPosition(Point newPosition) {
@@ -181,7 +204,7 @@ public class ZoomDrawingView extends StandardDrawingView {
 			Dimension viewportSize = getViewportSize();
 			// "de"-scale with old scale
 			Dimension userSize = getUserSize();
-			this.scale = getScale() / 2.0;
+			this.scale = getScale() / getZoomSpeed();
 			int xScreen = (int) (x * getScale());
 			int yScreen = (int) (y * getScale());
 			int xOrigin = xScreen - viewportSize.width / 2;
@@ -210,7 +233,7 @@ public class ZoomDrawingView extends StandardDrawingView {
 			JViewport viewport = (JViewport) getParent();
 			Dimension viewportSize = viewport.getSize();
 			Dimension userSize = getUserSize();
-			this.scale = getScale() * 1.1;
+			this.scale = getScale() * getZoomSpeed();
 			int xScreen = (int) (x * getScale());
 			int yScreen = (int) (y * getScale());
 			int xOrigin = xScreen - viewportSize.width / 2;
@@ -413,10 +436,10 @@ public class ZoomDrawingView extends StandardDrawingView {
 					forceRedraw();
 				}
 				else if (e.getKeyChar() == 'o') {
-					setScale(getScale() / 2);
+					setScale(getScale() / getZoomSpeed());
 				}
 				else if (e.getKeyChar() == 'i') {
-					setScale(getScale() * 2);
+					setScale(getScale() * getZoomSpeed());
 				}
 				else if (e.getKeyChar() == 'c') {
 					centralize(drawing());
@@ -426,5 +449,23 @@ public class ZoomDrawingView extends StandardDrawingView {
 				}
 			}
 		};
+	}
+
+	/**
+	 * Returns the current zoom speed
+	 */
+	public double getZoomSpeed()
+	{
+		return zoomSpeed;
+	}
+
+	/**
+	 * Set the zoom speed. Will be greater than 1.
+	 */
+	public void setZoomSpeed(double newZoomSpeed)
+	{
+		// check greater than 1. A smaller value would reverse the zooming
+		// operation, and a zero value would provoque divide by zero exceptions
+		zoomSpeed = Math.max(1.1, newZoomSpeed);
 	}
 }

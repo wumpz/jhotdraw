@@ -48,9 +48,7 @@ public  class ImageFigure
 	public ImageFigure(Image image, String fileName, Point origin) {
 		fFileName = fileName;
 		fImage = image;
-		fDisplayBox = new Rectangle(origin.x, origin.y, 0, 0);
-		fDisplayBox.width = fImage.getWidth(this);
-		fDisplayBox.height = fImage.getHeight(this);
+		basicDisplayBox(origin, new Point(fImage.getWidth(this), fImage.getHeight(this)));
 	}
 
 	public void basicDisplayBox(Point origin, Point corner) {
@@ -77,6 +75,7 @@ public  class ImageFigure
 	}
 
 	public void draw(Graphics g) {
+//		((Graphics2D)g).drawImage(fImage, null, null);
 		if (fImage == null) {
 			fImage = Iconkit.instance().getImage(fFileName);
 		}

@@ -488,7 +488,7 @@ public	class DrawApplication
 	 */
 	protected void createTools(JToolBar palette) {
 		Tool tool = createSelectionTool();
-		fDefaultToolButton = createToolButton(IMAGES+"SEL", "Selection Tool", tool);
+		setDefaultTool(createDefaultToo());
 		palette.add(fDefaultToolButton);
 	}
 
@@ -498,6 +498,28 @@ public	class DrawApplication
 	 */
 	protected Tool createSelectionTool() {
 		return new SelectionTool(this);
+	}
+
+	protected Tool createDefaultToo() {
+		return createSelectionTool();
+	}
+
+	protected void setDefaultTool(Tool newDefaultTool) {
+		if (newDefaultTool != null) {
+			fDefaultToolButton = createToolButton(IMAGES+"SEL", "Selection Tool", newDefaultTool);
+		}
+		else {
+			fDefaultToolButton = null;
+		}
+	}
+
+	public Tool getDefaultTool() {
+		if (fDefaultToolButton != null) {
+			return fDefaultToolButton.tool();
+		}
+		else {
+			return null;
+		}
 	}
 
 	/**
@@ -641,7 +663,7 @@ public	class DrawApplication
 		if (inside) {
 			showStatus(toolButton.name());
 		}
-		else {
+		else if (fSelectedToolButton != null) {
 			showStatus(fSelectedToolButton.name());
 		}
 	}

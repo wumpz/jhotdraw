@@ -22,11 +22,17 @@ import CH.ifa.draw.framework.*;
  * @version <$CURRENT_VERSION$>
  */
 public class SelectAreaTracker extends AbstractTool {
-
+    /** Selected rectangle in physical coordinates space */
 	private Rectangle fSelectGroup;
+    private Color fRubberBandColor;
 
 	public SelectAreaTracker(DrawingEditor newDrawingEditor) {
+        this(newDrawingEditor, Color.black);
+    }
+
+    public SelectAreaTracker(DrawingEditor newDrawingEditor, Color rubberBandColor) {
 		super(newDrawingEditor);
+        fRubberBandColor = rubberBandColor;
 	}
 
 	public void mouseDown(MouseEvent e, int x, int y) {
@@ -62,8 +68,16 @@ public class SelectAreaTracker extends AbstractTool {
 		Graphics g = view().getGraphics();
 		if ( g != null ) {
 			try {
+                if(g instanceof Graphics2D) {
+                    // Do dotted-line in Java2
+                    Stroke dashedStroke = new BasicStroke(1.0f,
+                        BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER,
+                        10.0f, new float[] {5f, 5f, 5f, 5f}, 5.0f);
+                    ((Graphics2D) g).setStroke(dashedStroke);
+                }
+
 				g.setXORMode(view().getBackground());
-				g.setColor(Color.black);
+                g.setColor(fRubberBandColor);
 				g.drawRect(r.x, r.y, r.width, r.height);
 			}
 			finally {
