@@ -13,7 +13,6 @@ package CH.ifa.draw.standard;
 
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.util.Undoable;
-import CH.ifa.draw.util.UndoableAdapter;
 import java.awt.Point;
 
 /**

@@ -10,7 +10,6 @@
  */
 package CH.ifa.draw.contrib.html;
 
-import CH.ifa.draw.framework.Figure;
 import CH.ifa.draw.util.Storable;
 
 /**

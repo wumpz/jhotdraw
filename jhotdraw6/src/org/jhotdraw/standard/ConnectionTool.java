@@ -17,7 +17,6 @@ import CH.ifa.draw.util.UndoableAdapter;
 import CH.ifa.draw.util.Undoable;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.util.*;
 
 /**
  * A tool that can be used to connect figures, to split

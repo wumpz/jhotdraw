@@ -11,9 +11,6 @@
 
 package CH.ifa.draw.contrib.dnd;
 
-import java.awt.dnd.DnDConstants;
-import java.awt.datatransfer.*;
-
 /**
  * Interface for Components which wish to participate in drag and drop.
  *

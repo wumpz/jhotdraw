@@ -11,7 +11,6 @@
 package CH.ifa.draw.contrib.html;
 
 import java.awt.Point;
-import java.awt.Polygon;
 import java.awt.Shape;
 
 import CH.ifa.draw.contrib.DiamondFigure;

@@ -10,10 +10,6 @@
  */
 package CH.ifa.draw.contrib.html;
 
-import java.awt.Font;
-
-import java.awt.Rectangle;
-
 /**
  * ContentProducerContext defines the base interface required of clients
  * of ContentProducers.<br>

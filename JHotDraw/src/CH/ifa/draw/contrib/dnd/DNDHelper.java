@@ -13,7 +13,6 @@ package CH.ifa.draw.contrib.dnd;
 
 import java.awt.dnd.*;
 import java.awt.*;
-import java.util.*;
 import CH.ifa.draw.framework.*;
 import java.awt.datatransfer.*;
 import java.io.*;

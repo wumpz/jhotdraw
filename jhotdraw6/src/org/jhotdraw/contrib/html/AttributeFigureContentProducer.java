@@ -11,7 +11,6 @@
 package CH.ifa.draw.contrib.html;
 
 import java.io.Serializable;
-import CH.ifa.draw.util.Storable;
 import CH.ifa.draw.util.StorableOutput;
 import CH.ifa.draw.util.StorableInput;
 import java.io.IOException;
