@@ -9,7 +9,7 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.util;
+package org.jhotdraw.util;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +21,7 @@ import java.awt.event.*;
  * In a first step the overlay is created and in a
  * second step it can be positioned.
  *
- * @see CH.ifa.draw.figures.TextFigure
+ * @see org.jhotdraw.figures.TextFigure
  *
  * @version <$CURRENT_VERSION$>
  */

@@ -9,14 +9,14 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.framework;
+package org.jhotdraw.framework;
 
 /**
  * FigureSelection enables to transfer the selected figures
  * to a clipboard.<p>
  * Will soon be converted to the JDK 1.1 Transferable interface.
  *
- * @see CH.ifa.draw.util.Clipboard
+ * @see org.jhotdraw.util.Clipboard
  *
  * @version <$CURRENT_VERSION$>
  */

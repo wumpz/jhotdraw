@@ -9,13 +9,13 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.figures;
+package org.jhotdraw.figures;
 
 import java.io.*;
 import java.awt.*;
 
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.util.*;
+import org.jhotdraw.framework.*;
+import org.jhotdraw.util.*;
 
 /**
  * An standard implementation of a line decoration.

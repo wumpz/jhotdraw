@@ -9,7 +9,7 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.util.collections.jdk11;
+package org.jhotdraw.util.collections.jdk11;
 
 import java.util.Iterator;
 import java.util.Enumeration;

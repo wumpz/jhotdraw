@@ -9,14 +9,14 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.samples.nothing;
+package org.jhotdraw.samples.nothing;
 
 import javax.swing.JToolBar;
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.standard.*;
-import CH.ifa.draw.figures.*;
-import CH.ifa.draw.contrib.*;
-import CH.ifa.draw.application.*;
+import org.jhotdraw.framework.*;
+import org.jhotdraw.standard.*;
+import org.jhotdraw.figures.*;
+import org.jhotdraw.contrib.*;
+import org.jhotdraw.application.*;
 
 /**
  * A very basic example for demonstraing JHotDraw's capabilities. It contains only

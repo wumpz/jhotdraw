@@ -9,10 +9,10 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.contrib.zoom;
+package org.jhotdraw.contrib.zoom;
 
-import CH.ifa.draw.contrib.MiniMapView;
-import CH.ifa.draw.framework.DrawingView;
+import org.jhotdraw.contrib.MiniMapView;
+import org.jhotdraw.framework.DrawingView;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;

@@ -9,13 +9,13 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.contrib;
+package org.jhotdraw.contrib;
 
-import CH.ifa.draw.standard.CreationTool;
-import CH.ifa.draw.standard.CompositeFigure;
-import CH.ifa.draw.framework.Figure;
-import CH.ifa.draw.framework.DrawingEditor;
-import CH.ifa.draw.framework.DrawingView;
+import org.jhotdraw.standard.CreationTool;
+import org.jhotdraw.standard.CompositeFigure;
+import org.jhotdraw.framework.Figure;
+import org.jhotdraw.framework.DrawingEditor;
+import org.jhotdraw.framework.DrawingView;
 
 import java.awt.event.MouseEvent;
 import java.awt.*;

@@ -8,10 +8,10 @@
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
-package CH.ifa.draw.samples.minimap;
+package org.jhotdraw.samples.minimap;
 
-import CH.ifa.draw.contrib.Desktop;
-import CH.ifa.draw.contrib.SplitPaneDrawApplication;
+import org.jhotdraw.contrib.Desktop;
+import org.jhotdraw.contrib.SplitPaneDrawApplication;
 
 /**
  * @author  Wolfram Kaiser <mrfloppy@sourceforge.net>

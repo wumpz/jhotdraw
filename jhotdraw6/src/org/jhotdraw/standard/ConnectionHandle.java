@@ -9,7 +9,7 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.standard;
+package org.jhotdraw.standard;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -17,9 +17,9 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.Vector;
 
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.util.Geom;
-import CH.ifa.draw.util.Undoable;
+import org.jhotdraw.framework.*;
+import org.jhotdraw.util.Geom;
+import org.jhotdraw.util.Undoable;
 
 /**
  * A handle to connect figures.
@@ -201,7 +201,7 @@ public  class ConnectionHandle extends LocatorHandle {
 	}
 
 	/**
-	 * @see CH.ifa.draw.framework.Handle#getCursor()
+	 * @see org.jhotdraw.framework.Handle#getCursor()
 	 */
 	public Cursor getCursor() {
 		return new AWTCursor(java.awt.Cursor.HAND_CURSOR);

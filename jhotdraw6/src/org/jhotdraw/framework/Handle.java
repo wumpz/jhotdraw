@@ -9,13 +9,13 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.framework;
+package org.jhotdraw.framework;
 
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-import CH.ifa.draw.util.Undoable;
+import org.jhotdraw.util.Undoable;
 
 /**
  * Handles are used to change a figure by direct manipulation.

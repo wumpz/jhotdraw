@@ -9,7 +9,7 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.util;
+package org.jhotdraw.util;
 
 import java.util.List;
 import java.util.NoSuchElementException;

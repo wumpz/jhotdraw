@@ -9,11 +9,11 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.util;
+package org.jhotdraw.util;
 
 import javax.swing.filechooser.FileFilter;
 import java.io.IOException;
-import CH.ifa.draw.framework.Drawing;
+import org.jhotdraw.framework.Drawing;
 
 /**
  * Interface to define a storage format. A StorageFormat is a strategy that knows how to store

@@ -9,9 +9,9 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.contrib;
+package org.jhotdraw.contrib;
 
-import CH.ifa.draw.application.*;
+import org.jhotdraw.application.*;
 
 /**
  * A specialised DrawApplication, which offers basic support for a simple

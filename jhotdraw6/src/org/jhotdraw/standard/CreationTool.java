@@ -9,17 +9,17 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.standard;
+package org.jhotdraw.standard;
 
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
-import CH.ifa.draw.framework.DrawingEditor;
-import CH.ifa.draw.framework.Figure;
-import CH.ifa.draw.framework.JHotDrawRuntimeException;
-import CH.ifa.draw.util.CollectionsFactory;
-import CH.ifa.draw.util.Undoable;
+import org.jhotdraw.framework.DrawingEditor;
+import org.jhotdraw.framework.Figure;
+import org.jhotdraw.framework.JHotDrawRuntimeException;
+import org.jhotdraw.util.CollectionsFactory;
+import org.jhotdraw.util.Undoable;
 
 /**
  * A tool to create new figures. The figure to be
@@ -94,7 +94,7 @@ public class CreationTool extends AbstractTool {
 	}
 
 	/**
-	 * @see CH.ifa.draw.framework.Tool#deactivate()
+	 * @see org.jhotdraw.framework.Tool#deactivate()
 	 */
 	public void deactivate() {
 		setCreatedFigure(null);

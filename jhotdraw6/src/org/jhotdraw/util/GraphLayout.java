@@ -30,11 +30,11 @@
  * redistribute the Software for such purposes.
  */
 
-package CH.ifa.draw.util;
+package org.jhotdraw.util;
 
 import java.util.*;
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.standard.*;
+import org.jhotdraw.framework.*;
+import org.jhotdraw.standard.*;
 import java.awt.*;
 
 /**

@@ -9,11 +9,11 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.contrib;
+package org.jhotdraw.contrib;
 
 import javax.swing.*;
 import java.awt.*;
-import CH.ifa.draw.framework.DrawingView;
+import org.jhotdraw.framework.DrawingView;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 

@@ -9,17 +9,17 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.contrib.zoom;
+package org.jhotdraw.contrib.zoom;
 
-import CH.ifa.draw.framework.DrawingView;
-import CH.ifa.draw.framework.Painter;
+import org.jhotdraw.framework.DrawingView;
+import org.jhotdraw.framework.Painter;
 
 import java.awt.*;
 
 /**
  * A variant of the BufferedUpdateStrategy that handles clipping
  * rectangles correctly in the presence of zooming.
- * @see CH.ifa.draw.standard.BufferedUpdateStrategy
+ * @see org.jhotdraw.standard.BufferedUpdateStrategy
  *
  * @author Andre Spiegel <spiegel@gnu.org>
  * @version <$CURRENT_VERSION$>

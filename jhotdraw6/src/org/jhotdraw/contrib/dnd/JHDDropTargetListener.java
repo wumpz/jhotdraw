@@ -4,12 +4,12 @@
  * Created on January 28, 2003, 4:23 PM
  */
 
-package CH.ifa.draw.contrib.dnd;
+package org.jhotdraw.contrib.dnd;
 
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.standard.DeleteFromDrawingVisitor;
+import org.jhotdraw.framework.*;
+import org.jhotdraw.standard.DeleteFromDrawingVisitor;
 import java.io.File;
-import CH.ifa.draw.util.Undoable;
+import org.jhotdraw.util.Undoable;
 import java.awt.Point;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.dnd.*;
@@ -246,7 +246,7 @@ public class JHDDropTargetListener implements java.awt.dnd.DropTargetListener {
 	protected Undoable getTargetUndoActivity(){
 		return targetUndoable;
 	}
-	public static class AddUndoActivity extends CH.ifa.draw.util.UndoableAdapter {
+	public static class AddUndoActivity extends org.jhotdraw.util.UndoableAdapter {
 		private boolean undone=false;
 		public AddUndoActivity(DrawingView newDrawingView) {
 			super(newDrawingView);
@@ -264,7 +264,7 @@ public class JHDDropTargetListener implements java.awt.dnd.DropTargetListener {
 			DeleteFromDrawingVisitor deleteVisitor = new DeleteFromDrawingVisitor(getDrawingView().drawing());
 			FigureEnumeration fe = getAffectedFigures();
 			while (fe.hasNextFigure()) {
-	    		CH.ifa.draw.framework.Figure f = fe.nextFigure();
+	    		org.jhotdraw.framework.Figure f = fe.nextFigure();
 				f.visit(deleteVisitor);
 			}
 			setAffectedFigures( deleteVisitor.getDeletedFigures() );
@@ -298,7 +298,7 @@ public class JHDDropTargetListener implements java.awt.dnd.DropTargetListener {
 					f.release();
 				}
 			}
-			setAffectedFigures(CH.ifa.draw.standard.FigureEnumerator.getEmptyEnumeration());
+			setAffectedFigures(org.jhotdraw.standard.FigureEnumerator.getEmptyEnumeration());
 		}
 	}
 	private static void log(String message){

@@ -9,7 +9,7 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.standard;
+package org.jhotdraw.standard;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -17,9 +17,9 @@ import java.util.EventObject;
 import java.util.Iterator;
 import java.util.List;
 
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.util.CollectionsFactory;
-import CH.ifa.draw.util.Undoable;
+import org.jhotdraw.framework.*;
+import org.jhotdraw.util.CollectionsFactory;
+import org.jhotdraw.util.Undoable;
 
 /**
  * Default implementation support for Tools.

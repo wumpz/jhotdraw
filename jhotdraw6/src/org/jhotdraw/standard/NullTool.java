@@ -9,9 +9,9 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.standard;
+package org.jhotdraw.standard;
 
-import CH.ifa.draw.framework.*;
+import org.jhotdraw.framework.*;
 
 /**
  * Default implementation support for Tools.

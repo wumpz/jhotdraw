@@ -8,7 +8,7 @@
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
-package CH.ifa.draw.test.samples.pert;
+package org.jhotdraw.test.samples.pert;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -24,7 +24,7 @@ public class AllTests {
 	}
 
 	public static Test suite() {
-		TestSuite suite = new TestSuite("Test for CH.ifa.draw.test.samples.pert");
+		TestSuite suite = new TestSuite("Test for org.jhotdraw.test.samples.pert");
 		//$JUnit-BEGIN$
 		suite.addTest(new TestSuite(PertAppletTest.class));
 		suite.addTest(new TestSuite(PertApplicationTest.class));

@@ -9,9 +9,9 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.framework;
+package org.jhotdraw.framework;
 
-import CH.ifa.draw.util.Undoable;
+import org.jhotdraw.util.Undoable;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyEvent;
 

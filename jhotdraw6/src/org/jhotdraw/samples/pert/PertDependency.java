@@ -9,15 +9,15 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.samples.pert;
+package org.jhotdraw.samples.pert;
 
 import java.awt.*;
 import java.util.List;
 
 // JUnitDoclet begin import
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.figures.*;
-import CH.ifa.draw.standard.*;
+import org.jhotdraw.framework.*;
+import org.jhotdraw.figures.*;
+import org.jhotdraw.standard.*;
 // JUnitDoclet end import
 
 /**

@@ -9,12 +9,12 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.contrib;
+package org.jhotdraw.contrib;
 
-import CH.ifa.draw.framework.FigureEnumeration;
-import CH.ifa.draw.framework.Figure;
-import CH.ifa.draw.util.StorableInput;
-import CH.ifa.draw.util.StorableOutput;
+import org.jhotdraw.framework.FigureEnumeration;
+import org.jhotdraw.framework.Figure;
+import org.jhotdraw.util.StorableInput;
+import org.jhotdraw.util.StorableOutput;
 
 import java.awt.*;
 import java.io.IOException;

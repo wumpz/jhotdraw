@@ -9,9 +9,9 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.contrib;
+package org.jhotdraw.contrib;
 
-import CH.ifa.draw.framework.Figure;
+import org.jhotdraw.framework.Figure;
 
 /**
  * A Layoutable is a target for a Layouter who lays out the Layoutable

@@ -15,18 +15,18 @@
   <ul>
         
     <li>Support for Multiple Document Interface (MDI) applications with several
-internal frames has been added. CH.ifa.draw.contrib.MDI_DrawApplicationis
+internal frames has been added. org.jhotdraw.contrib.MDI_DrawApplicationis
 the base class which must be subclasses to takeadvantage of managing internal
 frames. All examples are now derived from this class.</li>
         
     <li>Support for applications with splitted editor windows by deriving
-the drawing application from CH.ifa.draw.contrib.SplitPaneDrawApplication<br>
+the drawing application from org.jhotdraw.contrib.SplitPaneDrawApplication<br>
     </li>
         
     <li>Drawing windows have scrollbars</li>
         
     <li>Popup menus are available for additional functionality and control
-over graphical figures when using CH.ifa.draw.contrib.CustomSelectionTool</li>
+over graphical figures when using org.jhotdraw.contrib.CustomSelectionTool</li>
         
     <li>Toolbars can have different tools depending on the context of the
 currently selected figure and tool</li>
@@ -35,13 +35,13 @@ currently selected figure and tool</li>
 representation and figure attributes to another figure. Moreover, it canbe
 configured with an external layout algorithm that contains the logic forhow
 to lay out the child elements of the composite figure. The new compositefigure
-is CH.ifa.draw.contrib.GraphicalCompositeFigure and can be configuredby a
-class implementing CH.ifa.draw.contrib.FigureLayoutStrategy such asCH.ifa.draw.contrib.StandardFigureLayoutStrategy.
+is org.jhotdraw.contrib.GraphicalCompositeFigure and can be configuredby a
+class implementing org.jhotdraw.contrib.FigureLayoutStrategy such asorg.jhotdraw.contrib.StandardFigureLayoutStrategy.
     </li>
     
   </ul>
     
-  <li>New CH.ifa.draw.util.StorageFormats that allow to add new file formats
+  <li>New org.jhotdraw.util.StorageFormats that allow to add new file formats
 for storing and restoring drawings (e.g. using XML)<br>
   </li>
   <li>Build configuration for <a href="http://jakarta.apache.org/ant/">Ant</a>
@@ -107,7 +107,7 @@ to change some method signatures to refer to morespecific events. Returning
 a boolean to indicate the consumptionof an event was removed.
 <h3>Serialization</h3>
 This version supports to use of serialization to make adrawing persistent.
-CH.ifa.draw.applet.DrawApplet andCH.ifa.draw.application.DrawApplicationsupport
+org.jhotdraw.applet.DrawApplet andorg.jhotdraw.application.DrawApplicationsupport
 both the oldstorable and the serializable format. Support for thestorable
 formatwill be removed in the next version.
 <p>Serialization is used in the default implementation of Figure.clone().</p>
@@ -116,20 +116,20 @@ formatwill be removed in the next version.
 Thanks to 1.1 the access to resources could be drastically simplified.All
 the resources are now accessed relative to classes.The images directory with
 standard images is therefore part of thepackage hierarchy. 
-<p>IconKit could be decoupled from DrawingEditor and was moved fromCH.ifa.draw.standard
-to CH.ifa.draw.util.Refer to the sample applications for how toload and access
+<p>IconKit could be decoupled from DrawingEditor and was moved fromorg.jhotdraw.standard
+to org.jhotdraw.util.Refer to the sample applications for how toload and access
 resources like images.</p>
 <h3>Various UI Features</h3>
 <ul>
     
   <li>Tools support to use tool specific cursors.</li>
     
-  <li>CH.ifa.draw.application shows the DrawingView by default in a ScrollPane.
+  <li>org.jhotdraw.application shows the DrawingView by default in a ScrollPane.
 There is a new method createContents that can be overridden to customizethe
 default arrangement. The default size of the view can be customized byoverriding
 getDrawingViewSize().</li>
     
-  <li>CH.ifa.draw.application supports to print a drawing.</li>
+  <li>org.jhotdraw.application supports to print a drawing.</li>
 </ul>
 <h2>Packaging</h2>
 The packaging was changed to separate the framework interfacesfrom default

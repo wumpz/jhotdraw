@@ -8,7 +8,7 @@
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
-package CH.ifa.draw.contrib.html;
+package org.jhotdraw.contrib.html;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -17,9 +17,9 @@ import java.net.URL;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
-import CH.ifa.draw.util.Storable;
-import CH.ifa.draw.util.StorableInput;
-import CH.ifa.draw.util.StorableOutput;
+import org.jhotdraw.util.Storable;
+import org.jhotdraw.util.StorableInput;
+import org.jhotdraw.util.StorableOutput;
 
 /**
  * ContentProducerRegistry acts as a repository for ContentProducers. It allows

@@ -8,7 +8,7 @@
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
-package CH.ifa.draw.test.samples.pert;
+package org.jhotdraw.test.samples.pert;
 
 import junit.framework.TestSuite;
 // JUnitDoclet begin import
@@ -38,13 +38,13 @@ public class PertSuite
 
 		TestSuite suite;
 
-		suite = new TestSuite("CH.ifa.draw.test.samples.pert");
+		suite = new TestSuite("org.jhotdraw.test.samples.pert");
 
-		suite.addTestSuite(CH.ifa.draw.test.samples.pert.PertFigureCreationToolTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.samples.pert.PertFigureTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.samples.pert.PertDependencyTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.samples.pert.PertApplicationTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.samples.pert.PertAppletTest.class);
+		suite.addTestSuite(org.jhotdraw.test.samples.pert.PertFigureCreationToolTest.class);
+		suite.addTestSuite(org.jhotdraw.test.samples.pert.PertFigureTest.class);
+		suite.addTestSuite(org.jhotdraw.test.samples.pert.PertDependencyTest.class);
+		suite.addTestSuite(org.jhotdraw.test.samples.pert.PertApplicationTest.class);
+		suite.addTestSuite(org.jhotdraw.test.samples.pert.PertAppletTest.class);
 
 		// JUnitDoclet begin method suite()
 		// JUnitDoclet end method suite()

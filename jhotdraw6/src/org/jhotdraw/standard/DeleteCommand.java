@@ -9,16 +9,16 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.standard;
+package org.jhotdraw.standard;
 
 import java.util.List;
 
-import CH.ifa.draw.framework.DrawingEditor;
-import CH.ifa.draw.framework.Figure;
-import CH.ifa.draw.framework.FigureEnumeration;
-import CH.ifa.draw.util.CollectionsFactory;
-import CH.ifa.draw.util.Undoable;
-import CH.ifa.draw.util.UndoableAdapter;
+import org.jhotdraw.framework.DrawingEditor;
+import org.jhotdraw.framework.Figure;
+import org.jhotdraw.framework.FigureEnumeration;
+import org.jhotdraw.util.CollectionsFactory;
+import org.jhotdraw.util.Undoable;
+import org.jhotdraw.util.UndoableAdapter;
 
 /**
  * Command to delete the selection.
@@ -37,7 +37,7 @@ public class DeleteCommand extends FigureTransferCommand {
 	}
 
 	/**
-	 * @see CH.ifa.draw.util.Command#execute()
+	 * @see org.jhotdraw.util.Command#execute()
 	 */
 	public void execute() {
 		super.execute();
@@ -68,7 +68,7 @@ public class DeleteCommand extends FigureTransferCommand {
 	}
 
 	/**
-	 * @see CH.ifa.draw.standard.AbstractCommand#isExecutableWithView()
+	 * @see org.jhotdraw.standard.AbstractCommand#isExecutableWithView()
 	 */
 	protected boolean isExecutableWithView() {
 		return view().selectionCount() > 0;
@@ -98,7 +98,7 @@ public class DeleteCommand extends FigureTransferCommand {
 		}
 
 		/**
-		 * @see CH.ifa.draw.util.Undoable#undo()
+		 * @see org.jhotdraw.util.Undoable#undo()
 		 */
 		public boolean undo() {
 			if (super.undo() && getAffectedFigures().hasNextFigure()) {
@@ -111,7 +111,7 @@ public class DeleteCommand extends FigureTransferCommand {
 		}
 
 		/**
-		 * @see CH.ifa.draw.util.Undoable#redo()
+		 * @see org.jhotdraw.util.Undoable#redo()
 		 */
 		public boolean redo() {
 			// do not call execute directly as the selection might has changed

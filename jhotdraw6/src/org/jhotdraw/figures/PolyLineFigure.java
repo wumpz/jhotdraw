@@ -9,7 +9,7 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.figures;
+package org.jhotdraw.figures;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -20,16 +20,16 @@ import java.util.Iterator;
 import java.util.List;
 
 // JUnitDoclet begin import
-import CH.ifa.draw.framework.Connector;
-import CH.ifa.draw.framework.FigureAttributeConstant;
-import CH.ifa.draw.framework.HandleEnumeration;
-import CH.ifa.draw.framework.Locator;
-import CH.ifa.draw.standard.AbstractFigure;
-import CH.ifa.draw.standard.HandleEnumerator;
-import CH.ifa.draw.util.CollectionsFactory;
-import CH.ifa.draw.util.Geom;
-import CH.ifa.draw.util.StorableInput;
-import CH.ifa.draw.util.StorableOutput;
+import org.jhotdraw.framework.Connector;
+import org.jhotdraw.framework.FigureAttributeConstant;
+import org.jhotdraw.framework.HandleEnumeration;
+import org.jhotdraw.framework.Locator;
+import org.jhotdraw.standard.AbstractFigure;
+import org.jhotdraw.standard.HandleEnumerator;
+import org.jhotdraw.util.CollectionsFactory;
+import org.jhotdraw.util.Geom;
+import org.jhotdraw.util.StorableInput;
+import org.jhotdraw.util.StorableOutput;
 // JUnitDoclet end import
 
 /**

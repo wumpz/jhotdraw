@@ -9,10 +9,10 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.standard;
+package org.jhotdraw.standard;
 
-import CH.ifa.draw.util.*;
-import CH.ifa.draw.framework.*;
+import org.jhotdraw.util.*;
+import org.jhotdraw.framework.*;
 
 import java.awt.*;
 import java.io.*;

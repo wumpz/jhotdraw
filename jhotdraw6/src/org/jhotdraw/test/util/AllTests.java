@@ -8,7 +8,7 @@
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
-package CH.ifa.draw.test.util;
+package org.jhotdraw.test.util;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -24,7 +24,7 @@ public class AllTests {
 	}
 
 	public static Test suite() {
-		TestSuite suite = new TestSuite("Test for CH.ifa.draw.test.util");
+		TestSuite suite = new TestSuite("Test for org.jhotdraw.test.util");
 		//$JUnit-BEGIN$
 		suite.addTest(new TestSuite(BoundsTest.class));
 		suite.addTest(new TestSuite(ClipboardTest.class));

@@ -6,7 +6,7 @@ Sealed: true
 Specification-Title: JHotDraw Default Applet
 Specification-Version: 5.4
 Specification-Vendor: http://www.jhotdraw.org
-Implementation-Title: CH.ifa.draw.applet
+Implementation-Title: org.jhotdraw.applet
 Implementation-Version: 5.4
 Implementation-Vendor: http://www.jhotdraw.org
 
@@ -15,7 +15,7 @@ Sealed: true
 Specification-Title: JHotDraw Default Application
 Specification-Version: 5.4
 Specification-Vendor: http://www.jhotdraw.org
-Implementation-Title: CH.ifa.draw.application
+Implementation-Title: org.jhotdraw.application
 Implementation-Version: 5.4
 Implementation-Vendor: http://www.jhotdraw.org
 
@@ -24,7 +24,7 @@ Sealed: true
 Specification-Title: JHotDraw Contributions
 Specification-Version: 5.4
 Specification-Vendor: http://www.jhotdraw.org
-Implementation-Title: CH.ifa.draw.contrib
+Implementation-Title: org.jhotdraw.contrib
 Implementation-Version: 5.4
 Implementation-Vendor: http://www.jhotdraw.org
 
@@ -33,7 +33,7 @@ Sealed: true
 Specification-Title: JHotDraw Figures
 Specification-Version: 5.4
 Specification-Vendor: http://www.jhotdraw.org
-Implementation-Title: CH.ifa.draw.figures
+Implementation-Title: org.jhotdraw.figures
 Implementation-Version: 5.4
 Implementation-Vendor: http://www.jhotdraw.org
 
@@ -42,7 +42,7 @@ Sealed: true
 Specification-Title: JHotDraw Core Framework
 Specification-Version: 5.4
 Specification-Vendor: http://www.jhotdraw.org
-Implementation-Title: CH.ifa.draw.framework
+Implementation-Title: org.jhotdraw.framework
 Implementation-Version: 5.4
 Implementation-Vendor: http://www.jhotdraw.org
 
@@ -51,7 +51,7 @@ Sealed: true
 Specification-Title: JHotDraw Standard Implementation
 Specification-Version: 5.4
 Specification-Vendor: http://www.jhotdraw.org
-Implementation-Title: CH.ifa.draw.standard
+Implementation-Title: org.jhotdraw.standard
 Implementation-Version: 5.4
 Implementation-Vendor: http://www.jhotdraw.org
 
@@ -60,6 +60,6 @@ Sealed: true
 Specification-Title: JHotDraw Utilities
 Specification-Version: 5.4
 Specification-Vendor: http://www.jhotdraw.org
-Implementation-Title: CH.ifa.draw.util
+Implementation-Title: org.jhotdraw.util
 Implementation-Version: 5.4
 Implementation-Vendor: http://www.jhotdraw.org

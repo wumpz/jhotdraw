@@ -9,9 +9,9 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
  
-package CH.ifa.draw.contrib;
+package org.jhotdraw.contrib;
 
-import CH.ifa.draw.framework.*;
+import org.jhotdraw.framework.*;
 
 /**
  * An interface which allows a popup menu to interact with its Figure to

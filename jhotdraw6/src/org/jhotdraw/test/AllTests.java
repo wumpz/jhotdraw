@@ -8,7 +8,7 @@
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
-package CH.ifa.draw.test;
+package org.jhotdraw.test;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -24,21 +24,21 @@ public class AllTests {
 	}
 
 	public static Test suite() {
-		TestSuite suite = new TestSuite("Test for CH.ifa.draw.test");
+		TestSuite suite = new TestSuite("Test for org.jhotdraw.test");
 		//$JUnit-BEGIN$
 		
-		suite.addTest(CH.ifa.draw.test.contrib.AllTests.suite());
-		suite.addTest(CH.ifa.draw.test.figures.AllTests.suite());
-		suite.addTest(CH.ifa.draw.test.framework.AllTests.suite());
-		suite.addTest(CH.ifa.draw.test.samples.javadraw.AllTests.suite());
-		suite.addTest(CH.ifa.draw.test.samples.minimap.AllTests.suite());
-		suite.addTest(CH.ifa.draw.test.samples.net.AllTests.suite());
-		suite.addTest(CH.ifa.draw.test.samples.nothing.AllTests.suite());
-		suite.addTest(CH.ifa.draw.test.samples.pert.AllTests.suite());
-		suite.addTest(CH.ifa.draw.test.standard.AllTests.suite());
-		suite.addTest(CH.ifa.draw.test.util.AllTests.suite());
-		suite.addTest(CH.ifa.draw.test.util.collections.jdk11.AllTests.suite());
-		suite.addTest(CH.ifa.draw.test.util.collections.jdk12.AllTests.suite());
+		suite.addTest(org.jhotdraw.test.contrib.AllTests.suite());
+		suite.addTest(org.jhotdraw.test.figures.AllTests.suite());
+		suite.addTest(org.jhotdraw.test.framework.AllTests.suite());
+		suite.addTest(org.jhotdraw.test.samples.javadraw.AllTests.suite());
+		suite.addTest(org.jhotdraw.test.samples.minimap.AllTests.suite());
+		suite.addTest(org.jhotdraw.test.samples.net.AllTests.suite());
+		suite.addTest(org.jhotdraw.test.samples.nothing.AllTests.suite());
+		suite.addTest(org.jhotdraw.test.samples.pert.AllTests.suite());
+		suite.addTest(org.jhotdraw.test.standard.AllTests.suite());
+		suite.addTest(org.jhotdraw.test.util.AllTests.suite());
+		suite.addTest(org.jhotdraw.test.util.collections.jdk11.AllTests.suite());
+		suite.addTest(org.jhotdraw.test.util.collections.jdk12.AllTests.suite());
 		
 
 		//$JUnit-END$

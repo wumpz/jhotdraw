@@ -9,12 +9,12 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.contrib;
+package org.jhotdraw.contrib;
 
-import CH.ifa.draw.application.*;
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.standard.*;
-import CH.ifa.draw.contrib.dnd.DragNDropTool;
+import org.jhotdraw.application.*;
+import org.jhotdraw.framework.*;
+import org.jhotdraw.standard.*;
+import org.jhotdraw.contrib.dnd.DragNDropTool;
 
 import javax.swing.*;
 

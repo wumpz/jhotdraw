@@ -9,13 +9,13 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.samples.net;
+package org.jhotdraw.samples.net;
 
 import javax.swing.JToolBar;
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.standard.*;
-import CH.ifa.draw.figures.*;
-import CH.ifa.draw.application.DrawApplication;
+import org.jhotdraw.framework.*;
+import org.jhotdraw.standard.*;
+import org.jhotdraw.figures.*;
+import org.jhotdraw.application.DrawApplication;
 
 /**
  * @version <$CURRENT_VERSION$>

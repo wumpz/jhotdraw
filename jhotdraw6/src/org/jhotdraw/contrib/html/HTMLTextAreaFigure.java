@@ -8,7 +8,7 @@
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
-package CH.ifa.draw.contrib.html;
+package org.jhotdraw.contrib.html;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -19,12 +19,12 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-import CH.ifa.draw.contrib.TextAreaFigure;
-import CH.ifa.draw.figures.RectangleFigure;
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.util.Geom;
-import CH.ifa.draw.util.StorableInput;
-import CH.ifa.draw.util.StorableOutput;
+import org.jhotdraw.contrib.TextAreaFigure;
+import org.jhotdraw.figures.RectangleFigure;
+import org.jhotdraw.framework.*;
+import org.jhotdraw.util.Geom;
+import org.jhotdraw.util.StorableInput;
+import org.jhotdraw.util.StorableOutput;
 
 /**
  * An HTMLTextAreaFigure contains HTML formatted text.<br>

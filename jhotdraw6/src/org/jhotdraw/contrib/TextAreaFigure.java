@@ -8,7 +8,7 @@
  *  License:		Lesser GNU Public License (LGPL)
  *  http://www.opensource.org/licenses/lgpl-license.html
  */
-package CH.ifa.draw.contrib;
+package org.jhotdraw.contrib;
 
 import java.awt.*;
 import java.awt.font.FontRenderContext;
@@ -24,13 +24,13 @@ import java.text.CharacterIterator;
 import java.util.*;
 import java.util.List;
 
-import CH.ifa.draw.figures.AttributeFigure;
-import CH.ifa.draw.framework.Figure;
-import CH.ifa.draw.framework.FigureChangeEvent;
-import CH.ifa.draw.framework.FigureChangeListener;
-import CH.ifa.draw.framework.HandleEnumeration;
-import CH.ifa.draw.standard.*;
-import CH.ifa.draw.util.*;
+import org.jhotdraw.figures.AttributeFigure;
+import org.jhotdraw.framework.Figure;
+import org.jhotdraw.framework.FigureChangeEvent;
+import org.jhotdraw.framework.FigureChangeListener;
+import org.jhotdraw.framework.HandleEnumeration;
+import org.jhotdraw.standard.*;
+import org.jhotdraw.util.*;
 
 /**
  * A TextAreaFigure contains formatted text.<br>
@@ -786,7 +786,7 @@ public class TextAreaFigure extends AttributeFigure
 
 	/**
 	 * Description of the Method
-	 * @todo   Implement this CH.ifa.draw.framework.FigureChangeListener method
+	 * @todo   Implement this org.jhotdraw.framework.FigureChangeListener method
 	 *
 	 * @param e  Description of the Parameter
 	 */
@@ -846,7 +846,7 @@ public class TextAreaFigure extends AttributeFigure
 	 * @param e  Description of the Parameter
 	 */
 	public void figureRequestUpdate(FigureChangeEvent e) {
-		// @todo:   Implement this CH.ifa.draw.framework.FigureChangeListener method
+		// @todo:   Implement this org.jhotdraw.framework.FigureChangeListener method
 	}
 
 	/**

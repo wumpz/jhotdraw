@@ -9,9 +9,9 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.util;
+package org.jhotdraw.util;
 
-import CH.ifa.draw.framework.JHotDrawRuntimeException;
+import org.jhotdraw.framework.JHotDrawRuntimeException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;

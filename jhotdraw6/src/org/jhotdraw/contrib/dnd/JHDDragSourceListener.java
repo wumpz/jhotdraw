@@ -4,11 +4,11 @@
  * Created on January 28, 2003, 4:49 PM
  */
 
-package CH.ifa.draw.contrib.dnd;
+package org.jhotdraw.contrib.dnd;
 
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.standard.DeleteFromDrawingVisitor;
-import CH.ifa.draw.util.Undoable;
+import org.jhotdraw.framework.*;
+import org.jhotdraw.standard.DeleteFromDrawingVisitor;
+import org.jhotdraw.util.Undoable;
 import java.awt.Component;
 import java.awt.dnd.*;
 import javax.swing.JComponent;
@@ -129,7 +129,7 @@ public class JHDDragSourceListener implements java.awt.dnd.DragSourceListener {
 	protected Undoable getSourceUndoActivity(){
 		return sourceUndoable;
 	}
-	public static class RemoveUndoActivity extends CH.ifa.draw.util.UndoableAdapter {
+	public static class RemoveUndoActivity extends org.jhotdraw.util.UndoableAdapter {
 		private boolean undone = false;
 		public RemoveUndoActivity(DrawingView view) {
 			super( view );
@@ -180,7 +180,7 @@ public class JHDDragSourceListener implements java.awt.dnd.DragSourceListener {
 					f.release();
 				}
 			}
-			setAffectedFigures(CH.ifa.draw.standard.FigureEnumerator.getEmptyEnumeration());
+			setAffectedFigures(org.jhotdraw.standard.FigureEnumerator.getEmptyEnumeration());
 		}		
 	}
 	

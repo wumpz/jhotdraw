@@ -9,9 +9,9 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.util;
+package org.jhotdraw.util;
 
-import CH.ifa.draw.framework.DrawingEditor;
+import org.jhotdraw.framework.DrawingEditor;
 
 /**
  * Commands encapsulate an action to be executed. Commands have

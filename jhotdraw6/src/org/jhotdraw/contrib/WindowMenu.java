@@ -9,7 +9,7 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.contrib;
+package org.jhotdraw.contrib;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,10 +20,10 @@ import javax.swing.JInternalFrame;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
-import CH.ifa.draw.framework.DrawingEditor;
-import CH.ifa.draw.standard.AbstractCommand;
-import CH.ifa.draw.util.Command;
-import CH.ifa.draw.util.CommandMenu;
+import org.jhotdraw.framework.DrawingEditor;
+import org.jhotdraw.standard.AbstractCommand;
+import org.jhotdraw.util.Command;
+import org.jhotdraw.util.CommandMenu;
 
 /**
  * Menu component that handles the functionality expected of a standard

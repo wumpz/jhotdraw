@@ -9,9 +9,9 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.contrib.dnd;
+package org.jhotdraw.contrib.dnd;
 
-import CH.ifa.draw.framework.*;
+import org.jhotdraw.framework.*;
 
 import java.awt.Component;
 import java.awt.datatransfer.DataFlavor;

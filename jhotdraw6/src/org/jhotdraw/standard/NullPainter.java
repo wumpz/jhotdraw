@@ -8,12 +8,12 @@
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
-package CH.ifa.draw.standard;
+package org.jhotdraw.standard;
 
 import java.awt.Graphics;
 
-import CH.ifa.draw.framework.DrawingView;
-import CH.ifa.draw.framework.Painter;
+import org.jhotdraw.framework.DrawingView;
+import org.jhotdraw.framework.Painter;
 
 /**
  * Default implementation support for a Painter.
@@ -31,7 +31,7 @@ import CH.ifa.draw.framework.Painter;
 
 public class NullPainter implements Painter {
 	/* (non-Javadoc)
-	 * @see CH.ifa.draw.framework.Painter#draw(java.awt.Graphics, CH.ifa.draw.framework.DrawingView)
+	 * @see org.jhotdraw.framework.Painter#draw(java.awt.Graphics, org.jhotdraw.framework.DrawingView)
 	 */
 	public void draw(Graphics g, DrawingView view) {
 		// Do nothing in a reasonable way.

@@ -8,7 +8,7 @@
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
-package CH.ifa.draw.test.util.collections.jdk12;
+package org.jhotdraw.test.util.collections.jdk12;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -24,7 +24,7 @@ public class AllTests {
 	}
 
 	public static Test suite() {
-		TestSuite suite = new TestSuite("Test for CH.ifa.draw.test.util.collections.jdk12");
+		TestSuite suite = new TestSuite("Test for org.jhotdraw.test.util.collections.jdk12");
 		//$JUnit-BEGIN$
 		suite.addTest(new TestSuite(CollectionsFactoryJDK12Test.class));
 		//$JUnit-END$

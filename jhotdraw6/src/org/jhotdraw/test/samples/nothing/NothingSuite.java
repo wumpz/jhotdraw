@@ -8,7 +8,7 @@
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
-package CH.ifa.draw.test.samples.nothing;
+package org.jhotdraw.test.samples.nothing;
 
 import junit.framework.TestSuite;
 // JUnitDoclet begin import
@@ -38,10 +38,10 @@ public class NothingSuite
 
 		TestSuite suite;
 
-		suite = new TestSuite("CH.ifa.draw.test.samples.nothing");
+		suite = new TestSuite("org.jhotdraw.test.samples.nothing");
 
-		suite.addTestSuite(CH.ifa.draw.test.samples.nothing.NothingAppletTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.samples.nothing.NothingAppTest.class);
+		suite.addTestSuite(org.jhotdraw.test.samples.nothing.NothingAppletTest.class);
+		suite.addTestSuite(org.jhotdraw.test.samples.nothing.NothingAppTest.class);
 
 		// JUnitDoclet begin method suite()
 		// JUnitDoclet end method suite()

@@ -9,10 +9,10 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.standard;
+package org.jhotdraw.standard;
 
-import CH.ifa.draw.util.ReverseListEnumerator;
-import CH.ifa.draw.framework.*;
+import org.jhotdraw.util.ReverseListEnumerator;
+import org.jhotdraw.framework.*;
 
 import java.util.Iterator;
 import java.util.List;

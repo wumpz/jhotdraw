@@ -9,15 +9,15 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.contrib.zoom;
+package org.jhotdraw.contrib.zoom;
 
-import CH.ifa.draw.framework.Drawing;
-import CH.ifa.draw.framework.DrawingChangeEvent;
-import CH.ifa.draw.framework.DrawingEditor;
-import CH.ifa.draw.framework.FigureEnumeration;
-import CH.ifa.draw.standard.StandardDrawing;
-import CH.ifa.draw.standard.StandardDrawingView;
-import CH.ifa.draw.util.Geom;
+import org.jhotdraw.framework.Drawing;
+import org.jhotdraw.framework.DrawingChangeEvent;
+import org.jhotdraw.framework.DrawingEditor;
+import org.jhotdraw.framework.FigureEnumeration;
+import org.jhotdraw.standard.StandardDrawing;
+import org.jhotdraw.standard.StandardDrawingView;
+import org.jhotdraw.util.Geom;
 
 import javax.swing.JViewport;
 import java.awt.*;

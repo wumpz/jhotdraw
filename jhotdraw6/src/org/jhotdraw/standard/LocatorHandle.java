@@ -9,13 +9,13 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.standard;
+package org.jhotdraw.standard;
 
 import java.awt.Point;
 
-import CH.ifa.draw.framework.Cursor;
-import CH.ifa.draw.framework.Figure;
-import CH.ifa.draw.framework.Locator;
+import org.jhotdraw.framework.Cursor;
+import org.jhotdraw.framework.Figure;
+import org.jhotdraw.framework.Locator;
 
 /**
  * A LocatorHandle implements a Handle by delegating the location requests to
@@ -53,7 +53,7 @@ public class LocatorHandle extends AbstractHandle {
 	}
 
 	/**
-	 * @see CH.ifa.draw.framework.Handle#getCursor()
+	 * @see org.jhotdraw.framework.Handle#getCursor()
 	 */
 	public Cursor getCursor() {
 		Cursor c = super.getCursor();

@@ -9,12 +9,12 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.standard;
+package org.jhotdraw.standard;
 
 import java.awt.*;
 import java.io.IOException;
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.util.*;
+import org.jhotdraw.framework.*;
+import org.jhotdraw.util.*;
 
 /**
  * A LocatorConnector locates connection points with

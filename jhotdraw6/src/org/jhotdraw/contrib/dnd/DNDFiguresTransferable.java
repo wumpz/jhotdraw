@@ -9,7 +9,7 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.contrib.dnd;
+package org.jhotdraw.contrib.dnd;
 
 import java.awt.datatransfer.*;
 import java.io.*;

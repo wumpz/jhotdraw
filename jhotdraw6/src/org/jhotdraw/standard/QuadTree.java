@@ -10,10 +10,10 @@
  */
 
 
-package CH.ifa.draw.standard;
+package org.jhotdraw.standard;
 
-import CH.ifa.draw.framework.FigureEnumeration;
-import CH.ifa.draw.util.CollectionsFactory;
+import org.jhotdraw.framework.FigureEnumeration;
+import org.jhotdraw.util.CollectionsFactory;
 
 import java.awt.geom.Rectangle2D;
 import java.util.Hashtable;

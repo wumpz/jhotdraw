@@ -8,9 +8,9 @@
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
-package CH.ifa.draw.contrib;
+package org.jhotdraw.contrib;
 
-import CH.ifa.draw.util.Command;
+import org.jhotdraw.util.Command;
 import javax.swing.JMenuItem;
 import javax.swing.Icon;
 import java.awt.event.ActionListener;

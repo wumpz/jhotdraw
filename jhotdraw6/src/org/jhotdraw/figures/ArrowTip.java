@@ -9,12 +9,12 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.figures;
+package org.jhotdraw.figures;
 
 import java.io.*;
 import java.awt.*;
 
-import CH.ifa.draw.util.*;
+import org.jhotdraw.util.*;
 
 /**
  * An arrow tip line decoration.

@@ -9,7 +9,7 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.contrib;
+package org.jhotdraw.contrib;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -21,8 +21,8 @@ import org.apache.batik.svggen.SVGGraphics2D;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 
-import CH.ifa.draw.framework.Drawing;
-import CH.ifa.draw.util.StandardStorageFormat;
+import org.jhotdraw.framework.Drawing;
+import org.jhotdraw.util.StandardStorageFormat;
 
 
 /**
@@ -58,14 +58,14 @@ public class SVGStorageFormat extends StandardStorageFormat {
 
 
 	/**
-	 * @see CH.ifa.draw.util.StorageFormat#isRestoreFormat()
+	 * @see org.jhotdraw.util.StorageFormat#isRestoreFormat()
 	 */
 	public boolean isRestoreFormat() {
 		return false;
 	}
 
 	/**
-	 * @see CH.ifa.draw.util.StorageFormat#isStoreFormat()
+	 * @see org.jhotdraw.util.StorageFormat#isStoreFormat()
 	 */
 	public boolean isStoreFormat() {
 		return true;
@@ -77,7 +77,7 @@ public class SVGStorageFormat extends StandardStorageFormat {
 	 * @param fileName file name of the Drawing under which it should be stored
 	 * @param saveDrawing drawing to be saved
 	 * @return file name with correct file extension
-   * @see CH.ifa.draw.util.StorageFormat#store(java.lang.String, CH.ifa.draw.framework.Drawing)
+   * @see org.jhotdraw.util.StorageFormat#store(java.lang.String, org.jhotdraw.framework.Drawing)
    */
   public String store(String fileName, Drawing saveDrawing) throws IOException {
 		// Get a DOMImplementation
@@ -104,7 +104,7 @@ public class SVGStorageFormat extends StandardStorageFormat {
   }
 
   /**
-   * @see CH.ifa.draw.util.StorageFormat#restore(java.lang.String)
+   * @see org.jhotdraw.util.StorageFormat#restore(java.lang.String)
    */
   public Drawing restore(String fileName) throws IOException {
     throw new IOException("Not implemented");

@@ -9,9 +9,9 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.contrib.zoom;
+package org.jhotdraw.contrib.zoom;
 
-import CH.ifa.draw.framework.DrawingEditor;
+import org.jhotdraw.framework.DrawingEditor;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;

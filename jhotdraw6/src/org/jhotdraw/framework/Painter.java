@@ -9,7 +9,7 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.framework;
+package org.jhotdraw.framework;
 
 import java.awt.*;
 import java.io.Serializable;

@@ -9,11 +9,11 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.standard;
+package org.jhotdraw.standard;
 
 import java.awt.*;
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.util.Geom;
+import org.jhotdraw.framework.*;
+import org.jhotdraw.util.Geom;
 
 /**
  * A ChopBoxConnector locates connection points by

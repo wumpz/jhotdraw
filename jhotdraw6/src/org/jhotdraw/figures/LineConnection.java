@@ -9,14 +9,14 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.figures;
+package org.jhotdraw.figures;
 
 import java.awt.*;
 import java.util.List;
 import java.io.*;
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.standard.*;
-import CH.ifa.draw.util.*;
+import org.jhotdraw.framework.*;
+import org.jhotdraw.standard.*;
+import org.jhotdraw.util.*;
 
 /**
  * A LineConnection is a standard implementation of the
@@ -364,7 +364,7 @@ public  class LineConnection extends PolyLineFigure implements ConnectionFigure 
 	}
 
 	/**
-	 * @see CH.ifa.draw.framework.Figure#removeFromContainer(CH.ifa.draw.framework.FigureChangeListener)
+	 * @see org.jhotdraw.framework.Figure#removeFromContainer(org.jhotdraw.framework.FigureChangeListener)
 	 */
 	public void removeFromContainer(FigureChangeListener c) {
 		super.removeFromContainer(c);

@@ -9,10 +9,10 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.util;
+package org.jhotdraw.util;
 
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.standard.AbstractTool;
+import org.jhotdraw.framework.*;
+import org.jhotdraw.standard.AbstractTool;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyEvent;
 import java.util.EventObject;
@@ -77,7 +77,7 @@ public class UndoableTool implements Tool, ToolListener {
 	 * has been released, the associated tool activity can be undone
 	 * if the associated tool supports the undo operation from the Undoable interface.
 	 *
-	 * @see CH.ifa.draw.util.Undoable
+	 * @see org.jhotdraw.util.Undoable
 	 */
 	public void mouseUp(MouseEvent e, int x, int y) {
 		getWrappedTool().mouseUp(e, x, y);

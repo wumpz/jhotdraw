@@ -8,7 +8,7 @@
  * License:     Lesser GNU Public License (LGPL)
  *              http://www.opensource.org/licenses/lgpl-license.html
  */
-package CH.ifa.draw.test.samples.net;
+package org.jhotdraw.test.samples.net;
 
 import junit.framework.TestSuite;
 // JUnitDoclet begin import
@@ -38,10 +38,10 @@ public class NetSuite
 
 		TestSuite suite;
 
-		suite = new TestSuite("CH.ifa.draw.test.samples.net");
+		suite = new TestSuite("org.jhotdraw.test.samples.net");
 
-		suite.addTestSuite(CH.ifa.draw.test.samples.net.NodeFigureTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.samples.net.NetAppTest.class);
+		suite.addTestSuite(org.jhotdraw.test.samples.net.NodeFigureTest.class);
+		suite.addTestSuite(org.jhotdraw.test.samples.net.NetAppTest.class);
 
 		// JUnitDoclet begin method suite()
 		// JUnitDoclet end method suite()

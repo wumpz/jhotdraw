@@ -8,12 +8,12 @@
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
-package CH.ifa.draw.contrib.html;
+package org.jhotdraw.contrib.html;
 
 import java.awt.Point;
 import java.awt.Shape;
 
-import CH.ifa.draw.contrib.DiamondFigure;
+import org.jhotdraw.contrib.DiamondFigure;
 
 /**
  * Geometric adapter for the DiamondFigure

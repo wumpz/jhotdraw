@@ -8,13 +8,13 @@
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
-package CH.ifa.draw.contrib.html;
+package org.jhotdraw.contrib.html;
 
 import java.io.IOException;
 
 import java.io.Serializable;
-import CH.ifa.draw.util.StorableInput;
-import CH.ifa.draw.util.StorableOutput;
+import org.jhotdraw.util.StorableInput;
+import org.jhotdraw.util.StorableOutput;
 
 /**
  * FigureDataContentProducer produces content on behalf of Figures.<br>

@@ -8,7 +8,7 @@
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
-package CH.ifa.draw.test.samples.minimap;
+package org.jhotdraw.test.samples.minimap;
 
 import junit.framework.TestSuite;
 // JUnitDoclet begin import
@@ -38,10 +38,10 @@ public class MinimapSuite
 
 		TestSuite suite;
 
-		suite = new TestSuite("CH.ifa.draw.test.samples.minimap");
+		suite = new TestSuite("org.jhotdraw.test.samples.minimap");
 
-		suite.addTestSuite(CH.ifa.draw.test.samples.minimap.MiniMapDesktopTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.samples.minimap.MiniMapApplicationTest.class);
+		suite.addTestSuite(org.jhotdraw.test.samples.minimap.MiniMapDesktopTest.class);
+		suite.addTestSuite(org.jhotdraw.test.samples.minimap.MiniMapApplicationTest.class);
 
 		// JUnitDoclet begin method suite()
 		// JUnitDoclet end method suite()

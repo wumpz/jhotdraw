@@ -9,21 +9,21 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.standard;
+package org.jhotdraw.standard;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.util.Undoable;
+import org.jhotdraw.framework.*;
+import org.jhotdraw.util.Undoable;
 
 /**
  * AbstractHandle provides defaulf implementation for the Handle interface.
  *
- * @see CH.ifa.draw.framework.Figure
- * @see CH.ifa.draw.framework.Handle
+ * @see org.jhotdraw.framework.Figure
+ * @see org.jhotdraw.framework.Handle
  * @version <$CURRENT_VERSION$>
  */
 public abstract class AbstractHandle implements Handle {
@@ -49,7 +49,7 @@ public abstract class AbstractHandle implements Handle {
 	 * @param x the x position where the interaction started
 	 * @param y the y position where the interaction started
 	 * @param view the handles container
-	 * @see CH.ifa.draw.framework.Handle#invokeStart(int, int, CH.ifa.draw.framework.DrawingView)
+	 * @see org.jhotdraw.framework.Handle#invokeStart(int, int, org.jhotdraw.framework.DrawingView)
 	 */
 	public void invokeStart(int x, int  y, DrawingView view) {
 		invokeStart(x, y, view.drawing());
@@ -61,7 +61,7 @@ public abstract class AbstractHandle implements Handle {
 	 * does nothing.
 	 * @param x the x position where the interaction started
 	 * @param y the y position where the interaction started
-	 * @see CH.ifa.draw.framework.Handle#invokeStart(int, int, CH.ifa.draw.framework.Drawing)
+	 * @see org.jhotdraw.framework.Handle#invokeStart(int, int, org.jhotdraw.framework.Drawing)
 	 * @deprecated As of version 4.1,
 	 * use invokeStart(x, y, drawingView)
 	 */
@@ -73,7 +73,7 @@ public abstract class AbstractHandle implements Handle {
 	 * @param y the current y position
 	 * @param anchorX the x position where the interaction started
 	 * @param anchorY the y position where the interaction started
-	 * @see CH.ifa.draw.framework.Handle#invokeStep(int, int, int, int, CH.ifa.draw.framework.DrawingView)
+	 * @see org.jhotdraw.framework.Handle#invokeStep(int, int, int, int, org.jhotdraw.framework.DrawingView)
 	 */
 	public void invokeStep(int x, int y, int anchorX, int anchorY, DrawingView view) {
 		invokeStep(x-anchorX, y-anchorY, view.drawing());
@@ -83,7 +83,7 @@ public abstract class AbstractHandle implements Handle {
 	 * Tracks a step of the interaction.
 	 * @param dx x delta of this step
 	 * @param dy y delta of this step
-	 * @see CH.ifa.draw.framework.Handle#invokeStep(int, int, CH.ifa.draw.framework.Drawing)
+	 * @see org.jhotdraw.framework.Handle#invokeStep(int, int, org.jhotdraw.framework.Drawing)
 	 * @deprecated As of version 4.1,
 	 * use invokeStep(x, y, anchorX, anchorY, drawingView)
 	 */
@@ -95,7 +95,7 @@ public abstract class AbstractHandle implements Handle {
 	 * @param y the current y position
 	 * @param anchorX the x position where the interaction started
 	 * @param anchorY the y position where the interaction started
-	 * @see CH.ifa.draw.framework.Handle#invokeEnd(int, int, int, int, CH.ifa.draw.framework.DrawingView)
+	 * @see org.jhotdraw.framework.Handle#invokeEnd(int, int, int, int, org.jhotdraw.framework.DrawingView)
 	 */
 	public void invokeEnd(int x, int y, int anchorX, int anchorY, DrawingView view) {
 		invokeEnd(x-anchorX, y-anchorY, view.drawing());
@@ -103,7 +103,7 @@ public abstract class AbstractHandle implements Handle {
 
 	/**
 	 * Tracks the end of the interaction.
-	 * @see CH.ifa.draw.framework.Handle#invokeEnd(int, int, CH.ifa.draw.framework.Drawing)
+	 * @see org.jhotdraw.framework.Handle#invokeEnd(int, int, org.jhotdraw.framework.Drawing)
 	 * @deprecated As of version 4.1,
 	 * use invokeEnd(x, y, anchorX, anchorY, drawingView).
 	 */
@@ -111,7 +111,7 @@ public abstract class AbstractHandle implements Handle {
 
 	/**
 	 * Gets the handle's owner.
-	 * @see CH.ifa.draw.framework.Handle#owner()
+	 * @see org.jhotdraw.framework.Handle#owner()
 	 */
 	public Figure owner() {
 		return fOwner;
@@ -119,7 +119,7 @@ public abstract class AbstractHandle implements Handle {
 
 	/**
 	 * Gets the display box of the handle.
-	 * @see CH.ifa.draw.framework.Handle#displayBox()
+	 * @see org.jhotdraw.framework.Handle#displayBox()
 	 */
 	public Rectangle displayBox() {
 		Point p = locate();
@@ -132,7 +132,7 @@ public abstract class AbstractHandle implements Handle {
 
 	/**
 	 * Tests if a point is contained in the handle.
-	 * @see CH.ifa.draw.framework.Handle#containsPoint(int, int)
+	 * @see org.jhotdraw.framework.Handle#containsPoint(int, int)
 	 */
 	public boolean containsPoint(int x, int y) {
 		return displayBox().contains(x, y);
@@ -140,7 +140,7 @@ public abstract class AbstractHandle implements Handle {
 
 	/**
 	 * Draws this handle.
-	 * @see CH.ifa.draw.framework.Handle#draw(java.awt.Graphics)
+	 * @see org.jhotdraw.framework.Handle#draw(java.awt.Graphics)
 	 */
 	public void draw(Graphics g) {
 		Rectangle r = displayBox();
@@ -153,21 +153,21 @@ public abstract class AbstractHandle implements Handle {
 	}
 
 	/**
-	 * @see CH.ifa.draw.framework.Handle#getUndoActivity()
+	 * @see org.jhotdraw.framework.Handle#getUndoActivity()
 	 */
 	public Undoable getUndoActivity() {
 		return myUndoableActivity;
 	}
 
 	/**
-	 * @see CH.ifa.draw.framework.Handle#setUndoActivity(CH.ifa.draw.util.Undoable)
+	 * @see org.jhotdraw.framework.Handle#setUndoActivity(org.jhotdraw.util.Undoable)
 	 */
 	public void setUndoActivity(Undoable newUndoableActivity) {
 		myUndoableActivity = newUndoableActivity;
 	}
 
 	/**
-	 * @see CH.ifa.draw.framework.Handle#getCursor()
+	 * @see org.jhotdraw.framework.Handle#getCursor()
 	 */
 	public Cursor getCursor() {
 		return new AWTCursor(AWTCursor.DEFAULT_CURSOR);

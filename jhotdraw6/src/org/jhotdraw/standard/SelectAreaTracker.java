@@ -9,11 +9,11 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.standard;
+package org.jhotdraw.standard;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import CH.ifa.draw.framework.*;
+import org.jhotdraw.framework.*;
 
 /**
  * SelectAreaTracker implements a rubberband selection of an area.

@@ -9,13 +9,13 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.figures;
+package org.jhotdraw.figures;
 
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.standard.LocatorHandle;
-import CH.ifa.draw.standard.SingleFigureEnumerator;
-import CH.ifa.draw.util.Undoable;
-import CH.ifa.draw.util.UndoableAdapter;
+import org.jhotdraw.framework.*;
+import org.jhotdraw.standard.LocatorHandle;
+import org.jhotdraw.standard.SingleFigureEnumerator;
+import org.jhotdraw.util.Undoable;
+import org.jhotdraw.util.UndoableAdapter;
 import java.awt.*;
 
 /**

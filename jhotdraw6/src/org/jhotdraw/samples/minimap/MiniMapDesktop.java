@@ -8,13 +8,13 @@
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
-package CH.ifa.draw.samples.minimap;
+package org.jhotdraw.samples.minimap;
 
-import CH.ifa.draw.contrib.SplitPaneDesktop;
-import CH.ifa.draw.contrib.MiniMapView;
-import CH.ifa.draw.framework.DrawingView;
-import CH.ifa.draw.util.Iconkit;
-import CH.ifa.draw.figures.ImageFigure;
+import org.jhotdraw.contrib.SplitPaneDesktop;
+import org.jhotdraw.contrib.MiniMapView;
+import org.jhotdraw.framework.DrawingView;
+import org.jhotdraw.util.Iconkit;
+import org.jhotdraw.figures.ImageFigure;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,7 +32,7 @@ public class MiniMapDesktop extends SplitPaneDesktop {
 			(Component)view, imageName);
 		view.add(new ImageFigure(image, imageName, new Point(0,0)));
 		view.checkDamage();
-//		((CH.ifa.draw.standard.StandardDrawingView)view).checkMinimumSize();
+//		((org.jhotdraw.standard.StandardDrawingView)view).checkMinimumSize();
 		return super.createRightComponent(view);
 	}
 

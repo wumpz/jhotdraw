@@ -9,9 +9,9 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.standard;
+package org.jhotdraw.standard;
 
-import CH.ifa.draw.framework.DrawingEditor;
+import org.jhotdraw.framework.DrawingEditor;
 
 /**
  * Copy the selection to the clipboard.

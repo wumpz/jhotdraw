@@ -8,7 +8,7 @@
  * License:     Lesser GNU Public License (LGPL)
  *              http://www.opensource.org/licenses/lgpl-license.html
  */
-package CH.ifa.draw.test.figures;
+package org.jhotdraw.test.figures;
 
 import junit.framework.TestSuite;
 // JUnitDoclet begin import
@@ -38,37 +38,37 @@ public class FiguresSuite
 
 		TestSuite suite;
 
-		suite = new TestSuite("CH.ifa.draw.test.figures");
+		suite = new TestSuite("org.jhotdraw.test.figures");
 
-		suite.addTestSuite(CH.ifa.draw.test.figures.NullConnectorTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.figures.NullFigureTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.figures.UngroupCommandTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.figures.ShortestDistanceConnectorTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.figures.ScribbleToolTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.figures.RectangleFigureTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.figures.RoundRectangleFigureTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.figures.PolyLineHandleTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.figures.PolyLineConnectorTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.figures.NumberTextFigureTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.figures.LineFigureTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.figures.InsertImageCommandTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.figures.ImageFigureTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.figures.GroupFigureTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.figures.GroupCommandTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.figures.FontSizeHandleTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.figures.EllipseFigureTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.figures.ElbowHandleTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.figures.ElbowConnectionTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.figures.TextToolTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.figures.ConnectedTextToolTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.figures.ChopEllipseConnectorTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.figures.BorderToolTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.figures.BorderDecoratorTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.figures.ArrowTipTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.figures.FigureAttributesTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.figures.TextFigureTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.figures.PolyLineFigureTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.figures.LineConnectionTest.class);
+		suite.addTestSuite(org.jhotdraw.test.figures.NullConnectorTest.class);
+		suite.addTestSuite(org.jhotdraw.test.figures.NullFigureTest.class);
+		suite.addTestSuite(org.jhotdraw.test.figures.UngroupCommandTest.class);
+		suite.addTestSuite(org.jhotdraw.test.figures.ShortestDistanceConnectorTest.class);
+		suite.addTestSuite(org.jhotdraw.test.figures.ScribbleToolTest.class);
+		suite.addTestSuite(org.jhotdraw.test.figures.RectangleFigureTest.class);
+		suite.addTestSuite(org.jhotdraw.test.figures.RoundRectangleFigureTest.class);
+		suite.addTestSuite(org.jhotdraw.test.figures.PolyLineHandleTest.class);
+		suite.addTestSuite(org.jhotdraw.test.figures.PolyLineConnectorTest.class);
+		suite.addTestSuite(org.jhotdraw.test.figures.NumberTextFigureTest.class);
+		suite.addTestSuite(org.jhotdraw.test.figures.LineFigureTest.class);
+		suite.addTestSuite(org.jhotdraw.test.figures.InsertImageCommandTest.class);
+		suite.addTestSuite(org.jhotdraw.test.figures.ImageFigureTest.class);
+		suite.addTestSuite(org.jhotdraw.test.figures.GroupFigureTest.class);
+		suite.addTestSuite(org.jhotdraw.test.figures.GroupCommandTest.class);
+		suite.addTestSuite(org.jhotdraw.test.figures.FontSizeHandleTest.class);
+		suite.addTestSuite(org.jhotdraw.test.figures.EllipseFigureTest.class);
+		suite.addTestSuite(org.jhotdraw.test.figures.ElbowHandleTest.class);
+		suite.addTestSuite(org.jhotdraw.test.figures.ElbowConnectionTest.class);
+		suite.addTestSuite(org.jhotdraw.test.figures.TextToolTest.class);
+		suite.addTestSuite(org.jhotdraw.test.figures.ConnectedTextToolTest.class);
+		suite.addTestSuite(org.jhotdraw.test.figures.ChopEllipseConnectorTest.class);
+		suite.addTestSuite(org.jhotdraw.test.figures.BorderToolTest.class);
+		suite.addTestSuite(org.jhotdraw.test.figures.BorderDecoratorTest.class);
+		suite.addTestSuite(org.jhotdraw.test.figures.ArrowTipTest.class);
+		suite.addTestSuite(org.jhotdraw.test.figures.FigureAttributesTest.class);
+		suite.addTestSuite(org.jhotdraw.test.figures.TextFigureTest.class);
+		suite.addTestSuite(org.jhotdraw.test.figures.PolyLineFigureTest.class);
+		suite.addTestSuite(org.jhotdraw.test.figures.LineConnectionTest.class);
 
 		// JUnitDoclet begin method suite()
 		// JUnitDoclet end method suite()

@@ -8,13 +8,13 @@
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
-package CH.ifa.draw.contrib.html;
+package org.jhotdraw.contrib.html;
 
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
-import CH.ifa.draw.figures.RoundRectangleFigure;
+import org.jhotdraw.figures.RoundRectangleFigure;
 
 /**
  * Geometric adapter for the RoundRectangleFigure

@@ -9,14 +9,14 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.contrib;
+package org.jhotdraw.contrib;
 
 import java.awt.Point;
 import java.awt.Rectangle;
 
 // JUnitDoclet begin import
-import CH.ifa.draw.framework.Figure;
-import CH.ifa.draw.framework.FigureEnumeration;
+import org.jhotdraw.framework.Figure;
+import org.jhotdraw.framework.FigureEnumeration;
 // JUnitDoclet end import
 
 /**

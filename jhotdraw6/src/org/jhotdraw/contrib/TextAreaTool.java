@@ -8,17 +8,17 @@
  *  License:     Lesser GNU Public License (LGPL)
  *               http://www.opensource.org/licenses/lgpl-license.html
  */
-package CH.ifa.draw.contrib;
+package org.jhotdraw.contrib;
 
-import CH.ifa.draw.framework.DrawingEditor;
-import CH.ifa.draw.framework.DrawingView;
-import CH.ifa.draw.framework.Figure;
-import CH.ifa.draw.framework.FigureEnumeration;
-import CH.ifa.draw.standard.CreationTool;
-import CH.ifa.draw.standard.SingleFigureEnumerator;
-import CH.ifa.draw.standard.TextHolder;
-import CH.ifa.draw.util.Undoable;
-import CH.ifa.draw.util.UndoableAdapter;
+import org.jhotdraw.framework.DrawingEditor;
+import org.jhotdraw.framework.DrawingView;
+import org.jhotdraw.framework.Figure;
+import org.jhotdraw.framework.FigureEnumeration;
+import org.jhotdraw.standard.CreationTool;
+import org.jhotdraw.standard.SingleFigureEnumerator;
+import org.jhotdraw.standard.TextHolder;
+import org.jhotdraw.util.Undoable;
+import org.jhotdraw.util.UndoableAdapter;
 
 import java.awt.Container;
 import java.awt.Font;

@@ -9,10 +9,10 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.standard;
+package org.jhotdraw.standard;
 
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.util.*;
+import org.jhotdraw.framework.*;
+import org.jhotdraw.util.*;
 
 import java.util.*;
 import java.io.*;
@@ -34,7 +34,7 @@ public class StandardFigureSelection implements FigureSelection, Serializable {
 	/**
 	 * The type identifier of the selection.
 	 */
-	public final static String TYPE = "CH.ifa.draw.Figures";
+	public final static String TYPE = "org.jhotdraw.Figures";
 
 	/**
 	 * Constructes the Figure selection for the FigureEnumeration.

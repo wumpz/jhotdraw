@@ -1,8 +1,8 @@
-package CH.ifa.draw.contrib;
+package org.jhotdraw.contrib;
 
-import CH.ifa.draw.application.DrawApplication;
-import CH.ifa.draw.samples.javadraw.JavaDrawApp;
-import CH.ifa.draw.util.StorageFormatManager;
+import org.jhotdraw.application.DrawApplication;
+import org.jhotdraw.samples.javadraw.JavaDrawApp;
+import org.jhotdraw.util.StorageFormatManager;
 
 /**
  * @author mtnygard

@@ -9,9 +9,9 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.framework;
+package org.jhotdraw.framework;
 
-import CH.ifa.draw.util.UndoManager;
+import org.jhotdraw.util.UndoManager;
 
 /**
  * DrawingEditor defines the interface for coordinating

@@ -9,10 +9,10 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.standard;
+package org.jhotdraw.standard;
 
 import java.awt.*;
-import CH.ifa.draw.framework.*;
+import org.jhotdraw.framework.*;
 
 /**
  * The interface of a figure that has some editable text contents.

@@ -9,11 +9,11 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.contrib;
+package org.jhotdraw.contrib;
 
-import CH.ifa.draw.framework.DrawingView;
-import CH.ifa.draw.standard.NullDrawingView;
-import CH.ifa.draw.util.CollectionsFactory;
+import org.jhotdraw.framework.DrawingView;
+import org.jhotdraw.standard.NullDrawingView;
+import org.jhotdraw.util.CollectionsFactory;
 
 import java.util.List;
 import java.util.ListIterator;

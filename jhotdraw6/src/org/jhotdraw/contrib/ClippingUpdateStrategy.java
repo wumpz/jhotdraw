@@ -1,11 +1,11 @@
-package CH.ifa.draw.contrib;
+package org.jhotdraw.contrib;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.Vector;
 
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.standard.FigureEnumerator;
+import org.jhotdraw.framework.*;
+import org.jhotdraw.standard.FigureEnumerator;
 
 /**
  * The ClippingUpdateStrategy will only draw those Figures in the DrawingView
@@ -20,7 +20,7 @@ public class ClippingUpdateStrategy implements Painter {
 	}
 
 	/**
-	 * @see CH.ifa.draw.framework.Painter#draw(Graphics, DrawingView)
+	 * @see org.jhotdraw.framework.Painter#draw(Graphics, DrawingView)
 	 */
 	public void draw(Graphics g, DrawingView view) {
 		Rectangle viewClipRectangle = g.getClipBounds();

@@ -9,10 +9,10 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.util;
+package org.jhotdraw.util;
 
 import java.io.*;
-import CH.ifa.draw.framework.Drawing;
+import org.jhotdraw.framework.Drawing;
 
 /**
  * A SerializationStorageFormat is a straight-forward file format to store and restore

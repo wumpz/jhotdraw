@@ -1,4 +1,4 @@
-package CH.ifa.draw.framework;
+package org.jhotdraw.framework;
 
 import java.util.EventListener;
 

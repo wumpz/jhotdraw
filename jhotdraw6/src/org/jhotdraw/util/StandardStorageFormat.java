@@ -9,14 +9,14 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.util;
+package org.jhotdraw.util;
 
 import javax.swing.filechooser.FileFilter;
 import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.File;
-import CH.ifa.draw.framework.Drawing;
+import org.jhotdraw.framework.Drawing;
 
 /**
  * A StandardStorageFormat is an internal file format to store and restore
@@ -157,14 +157,14 @@ public class StandardStorageFormat implements StorageFormat {
 	}
 
 	/**
-	 * @see CH.ifa.draw.util.StorageFormat#isRestoreFormat()
+	 * @see org.jhotdraw.util.StorageFormat#isRestoreFormat()
 	 */
 	public boolean isRestoreFormat() {
 		return true;
 	}
 
 	/**
-	 * @see CH.ifa.draw.util.StorageFormat#isStoreFormat()
+	 * @see org.jhotdraw.util.StorageFormat#isStoreFormat()
 	 */
 	public boolean isStoreFormat() {
 		return true;

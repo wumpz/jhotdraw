@@ -8,11 +8,11 @@
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
-package CH.ifa.draw.test;
+package org.jhotdraw.test;
 
 import junit.framework.TestCase;
-import CH.ifa.draw.application.DrawApplication;
-import CH.ifa.draw.samples.javadraw.JavaDrawApp;
+import org.jhotdraw.application.DrawApplication;
+import org.jhotdraw.samples.javadraw.JavaDrawApp;
 
 public class JHDTestCase extends TestCase {
 	public JavaDrawApp myDrawingEditor;

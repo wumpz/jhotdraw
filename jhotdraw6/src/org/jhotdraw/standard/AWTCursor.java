@@ -8,12 +8,12 @@
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
-package CH.ifa.draw.standard;
+package org.jhotdraw.standard;
 
 import java.awt.Cursor;
 
 /**
- * Default implementation of the {@link CH.ifa.draw.framework.Cursor} interface
+ * Default implementation of the {@link org.jhotdraw.framework.Cursor} interface
  * for AWT/Swing.
  * 
  * <p>Created on: 08/05/2003.</p>
@@ -21,9 +21,9 @@ import java.awt.Cursor;
  * @version $Revision$
  * @author <a href="mailto:ricardo_padilha@users.sourceforge.net">Ricardo 
  * Sangoi Padilha</a>
- * @see CH.ifa.draw.framework.Cursor
+ * @see org.jhotdraw.framework.Cursor
  */
-public class AWTCursor extends Cursor implements CH.ifa.draw.framework.Cursor {
+public class AWTCursor extends Cursor implements org.jhotdraw.framework.Cursor {
 
 	/**
 	 * Constructor for <code>AWTCursor</code>.

@@ -9,16 +9,16 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.standard;
+package org.jhotdraw.standard;
 
-import CH.ifa.draw.framework.PointConstrainer;
+import org.jhotdraw.framework.PointConstrainer;
 import java.awt.*;
 import java.io.Serializable;
 
 /**
  * Constrains a point such that it falls on a grid.
  *
- * @see CH.ifa.draw.framework.DrawingView
+ * @see org.jhotdraw.framework.DrawingView
  *
  * @version <$CURRENT_VERSION$>
  */

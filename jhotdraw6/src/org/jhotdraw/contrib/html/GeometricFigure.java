@@ -8,11 +8,11 @@
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
-package CH.ifa.draw.contrib.html;
+package org.jhotdraw.contrib.html;
 
 import java.awt.Shape;
 
-import CH.ifa.draw.framework.Figure;
+import org.jhotdraw.framework.Figure;
 
 /**
  * GeometricFigure defines required of figures that can be used as shape providers

@@ -9,10 +9,10 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.util;
+package org.jhotdraw.util;
 
-import CH.ifa.draw.framework.FigureEnumeration;
-import CH.ifa.draw.framework.DrawingView;
+import org.jhotdraw.framework.FigureEnumeration;
+import org.jhotdraw.framework.DrawingView;
 
 /**
  * @author  Wolfram Kaiser <mrfloppy@sourceforge.net>

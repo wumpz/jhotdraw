@@ -9,7 +9,7 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.util;
+package org.jhotdraw.util;
 
 import java.io.*;
 import java.util.*;
@@ -25,17 +25,17 @@ import java.util.jar.*;
  * @version <$CURRENT_VERSION$>
  */
 public class VersionManagement {
-	public static String JHOTDRAW_COMPONENT = "CH.ifa.draw/";
+	public static String JHOTDRAW_COMPONENT = "org.jhotdraw/";
 	public static String JHOTDRAW_JAR = "jhotdraw.jar";
 	
 	public static Package[] packages = {
-			Package.getPackage("CH.ifa.draw.applet"),
-			Package.getPackage("CH.ifa.draw.application"),
-			Package.getPackage("CH.ifa.draw.contrib"),
-			Package.getPackage("CH.ifa.draw.figures"),
-			Package.getPackage("CH.ifa.draw.framework"),
-			Package.getPackage("CH.ifa.draw.standard"),
-			Package.getPackage("CH.ifa.draw.util")
+			Package.getPackage("org.jhotdraw.applet"),
+			Package.getPackage("org.jhotdraw.application"),
+			Package.getPackage("org.jhotdraw.contrib"),
+			Package.getPackage("org.jhotdraw.figures"),
+			Package.getPackage("org.jhotdraw.framework"),
+			Package.getPackage("org.jhotdraw.standard"),
+			Package.getPackage("org.jhotdraw.util")
 		};
 
 	/**

@@ -9,7 +9,7 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.standard;
+package org.jhotdraw.standard;
 
 import java.awt.*;
 import java.awt.dnd.DragGestureListener;
@@ -24,15 +24,15 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import CH.ifa.draw.contrib.AutoscrollHelper;
-import CH.ifa.draw.contrib.dnd.DNDHelper;
-import CH.ifa.draw.contrib.dnd.DNDInterface;
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.framework.Cursor;
-import CH.ifa.draw.util.CollectionsFactory;
-import CH.ifa.draw.util.Command;
-import CH.ifa.draw.util.Geom;
-import CH.ifa.draw.util.UndoableCommand;
+import org.jhotdraw.contrib.AutoscrollHelper;
+import org.jhotdraw.contrib.dnd.DNDHelper;
+import org.jhotdraw.contrib.dnd.DNDInterface;
+import org.jhotdraw.framework.*;
+import org.jhotdraw.framework.Cursor;
+import org.jhotdraw.util.CollectionsFactory;
+import org.jhotdraw.util.Command;
+import org.jhotdraw.util.Geom;
+import org.jhotdraw.util.UndoableCommand;
 
 /**
  * The standard implementation of DrawingView.

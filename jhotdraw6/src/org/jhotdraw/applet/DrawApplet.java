@@ -9,7 +9,7 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.applet;
+package org.jhotdraw.applet;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,10 +17,10 @@ import java.awt.event.*;
 import java.util.*;
 import java.io.*;
 import java.net.*;
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.standard.*;
-import CH.ifa.draw.figures.*;
-import CH.ifa.draw.util.*;
+import org.jhotdraw.framework.*;
+import org.jhotdraw.standard.*;
+import org.jhotdraw.figures.*;
+import org.jhotdraw.util.*;
 
 /**
  * DrawApplication defines a standard presentation for

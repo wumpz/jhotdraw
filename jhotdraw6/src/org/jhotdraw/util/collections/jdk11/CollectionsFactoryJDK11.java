@@ -8,9 +8,9 @@
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
-package CH.ifa.draw.util.collections.jdk11;
+package org.jhotdraw.util.collections.jdk11;
 
-import CH.ifa.draw.util.CollectionsFactory;
+import org.jhotdraw.util.CollectionsFactory;
 
 import java.util.*;
 

@@ -8,7 +8,7 @@
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
-package CH.ifa.draw.test.util;
+package org.jhotdraw.test.util;
 
 import junit.framework.TestSuite;
 // JUnitDoclet begin import
@@ -38,37 +38,37 @@ public class UtilSuite
 
 		TestSuite suite;
 
-		suite = new TestSuite("CH.ifa.draw.test.util");
+		suite = new TestSuite("org.jhotdraw.test.util");
 
-		suite.addTestSuite(CH.ifa.draw.test.util.ReverseListEnumeratorTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.util.StandardVersionControlStrategyTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.util.VersionManagementTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.util.UndoableHandleTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.util.UndoRedoActivityTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.util.UndoableAdapterTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.util.UndoableToolTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.util.RedoCommandTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.util.UndoCommandTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.util.UndoableCommandTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.util.GraphLayoutTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.util.BoundsTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.util.StorageFormatManagerTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.util.SerializationStorageFormatTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.util.StandardStorageFormatTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.util.PaletteLayoutTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.util.PaletteIconTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.util.IconkitTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.util.GeomTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.util.FloatingTextFieldTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.util.FillerTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.util.CommandMenuTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.util.CommandChoiceTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.util.CommandButtonTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.util.StorableInputTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.util.StorableOutputTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.util.UndoManagerTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.util.ColorMapTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.util.ClipboardTest.class);
+		suite.addTestSuite(org.jhotdraw.test.util.ReverseListEnumeratorTest.class);
+		suite.addTestSuite(org.jhotdraw.test.util.StandardVersionControlStrategyTest.class);
+		suite.addTestSuite(org.jhotdraw.test.util.VersionManagementTest.class);
+		suite.addTestSuite(org.jhotdraw.test.util.UndoableHandleTest.class);
+		suite.addTestSuite(org.jhotdraw.test.util.UndoRedoActivityTest.class);
+		suite.addTestSuite(org.jhotdraw.test.util.UndoableAdapterTest.class);
+		suite.addTestSuite(org.jhotdraw.test.util.UndoableToolTest.class);
+		suite.addTestSuite(org.jhotdraw.test.util.RedoCommandTest.class);
+		suite.addTestSuite(org.jhotdraw.test.util.UndoCommandTest.class);
+		suite.addTestSuite(org.jhotdraw.test.util.UndoableCommandTest.class);
+		suite.addTestSuite(org.jhotdraw.test.util.GraphLayoutTest.class);
+		suite.addTestSuite(org.jhotdraw.test.util.BoundsTest.class);
+		suite.addTestSuite(org.jhotdraw.test.util.StorageFormatManagerTest.class);
+		suite.addTestSuite(org.jhotdraw.test.util.SerializationStorageFormatTest.class);
+		suite.addTestSuite(org.jhotdraw.test.util.StandardStorageFormatTest.class);
+		suite.addTestSuite(org.jhotdraw.test.util.PaletteLayoutTest.class);
+		suite.addTestSuite(org.jhotdraw.test.util.PaletteIconTest.class);
+		suite.addTestSuite(org.jhotdraw.test.util.IconkitTest.class);
+		suite.addTestSuite(org.jhotdraw.test.util.GeomTest.class);
+		suite.addTestSuite(org.jhotdraw.test.util.FloatingTextFieldTest.class);
+		suite.addTestSuite(org.jhotdraw.test.util.FillerTest.class);
+		suite.addTestSuite(org.jhotdraw.test.util.CommandMenuTest.class);
+		suite.addTestSuite(org.jhotdraw.test.util.CommandChoiceTest.class);
+		suite.addTestSuite(org.jhotdraw.test.util.CommandButtonTest.class);
+		suite.addTestSuite(org.jhotdraw.test.util.StorableInputTest.class);
+		suite.addTestSuite(org.jhotdraw.test.util.StorableOutputTest.class);
+		suite.addTestSuite(org.jhotdraw.test.util.UndoManagerTest.class);
+		suite.addTestSuite(org.jhotdraw.test.util.ColorMapTest.class);
+		suite.addTestSuite(org.jhotdraw.test.util.ClipboardTest.class);
 
 		// JUnitDoclet begin method suite()
 		// JUnitDoclet end method suite()

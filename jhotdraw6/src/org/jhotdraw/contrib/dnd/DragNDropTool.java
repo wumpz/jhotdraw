@@ -9,7 +9,7 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.contrib.dnd;
+package org.jhotdraw.contrib.dnd;
 
 import java.awt.Component;
 import java.awt.Point;
@@ -18,8 +18,8 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JComponent;
 
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.standard.*;
+import org.jhotdraw.framework.*;
+import org.jhotdraw.standard.*;
 
 /**
  * This is a tool which handles drag and drop between Components in

@@ -9,16 +9,16 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.standard;
+package org.jhotdraw.standard;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import CH.ifa.draw.framework.Drawing;
-import CH.ifa.draw.framework.DrawingView;
-import CH.ifa.draw.framework.FigureEnumeration;
-import CH.ifa.draw.framework.Painter;
+import org.jhotdraw.framework.Drawing;
+import org.jhotdraw.framework.DrawingView;
+import org.jhotdraw.framework.FigureEnumeration;
+import org.jhotdraw.framework.Painter;
 
 /**
  * @author WMG (INIT Copyright (C) 2000 All rights reserved)

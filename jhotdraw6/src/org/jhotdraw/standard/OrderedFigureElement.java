@@ -9,9 +9,9 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.standard;
+package org.jhotdraw.standard;
 
-import CH.ifa.draw.framework.Figure;
+import org.jhotdraw.framework.Figure;
 
 /**
  * @author WMG (INIT Copyright (C) 2000 All rights reserved)

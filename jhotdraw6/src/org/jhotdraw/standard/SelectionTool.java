@@ -9,12 +9,12 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.standard;
+package org.jhotdraw.standard;
 
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.util.UndoableTool;
-import CH.ifa.draw.util.UndoableHandle;
-import CH.ifa.draw.contrib.dnd.DragNDropTool;
+import org.jhotdraw.framework.*;
+import org.jhotdraw.util.UndoableTool;
+import org.jhotdraw.util.UndoableHandle;
+import org.jhotdraw.contrib.dnd.DragNDropTool;
 import java.awt.event.MouseEvent;
 
 /**

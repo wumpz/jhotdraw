@@ -8,7 +8,7 @@
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
-package CH.ifa.draw.test.util.collections.jdk11;
+package org.jhotdraw.test.util.collections.jdk11;
 
 import junit.framework.TestSuite;
 // JUnitDoclet begin import
@@ -38,13 +38,13 @@ public class Jdk11Suite
 
 		TestSuite suite;
 
-		suite = new TestSuite("CH.ifa.draw.test.util.collections.jdk11");
+		suite = new TestSuite("org.jhotdraw.test.util.collections.jdk11");
 
-		suite.addTestSuite(CH.ifa.draw.test.util.collections.jdk11.SetWrapperTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.util.collections.jdk11.CollectionsFactoryJDK11Test.class);
-		suite.addTestSuite(CH.ifa.draw.test.util.collections.jdk11.MapWrapperTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.util.collections.jdk11.ListWrapperTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.util.collections.jdk11.IteratorWrapperTest.class);
+		suite.addTestSuite(org.jhotdraw.test.util.collections.jdk11.SetWrapperTest.class);
+		suite.addTestSuite(org.jhotdraw.test.util.collections.jdk11.CollectionsFactoryJDK11Test.class);
+		suite.addTestSuite(org.jhotdraw.test.util.collections.jdk11.MapWrapperTest.class);
+		suite.addTestSuite(org.jhotdraw.test.util.collections.jdk11.ListWrapperTest.class);
+		suite.addTestSuite(org.jhotdraw.test.util.collections.jdk11.IteratorWrapperTest.class);
 
 		// JUnitDoclet begin method suite()
 		// JUnitDoclet end method suite()

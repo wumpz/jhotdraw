@@ -8,12 +8,12 @@
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
-package CH.ifa.draw.contrib.html;
+package org.jhotdraw.contrib.html;
 
 import java.awt.Polygon;
 import java.awt.Shape;
 
-import CH.ifa.draw.contrib.PolygonFigure;
+import org.jhotdraw.contrib.PolygonFigure;
 
 /**
  * Geometric adapter for the PolygonFigure

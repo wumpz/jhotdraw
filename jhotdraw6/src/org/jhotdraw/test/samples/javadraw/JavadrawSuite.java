@@ -8,7 +8,7 @@
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
-package CH.ifa.draw.test.samples.javadraw;
+package org.jhotdraw.test.samples.javadraw;
 
 import junit.framework.TestSuite;
 // JUnitDoclet begin import
@@ -38,17 +38,17 @@ public class JavadrawSuite
 
 		TestSuite suite;
 
-		suite = new TestSuite("CH.ifa.draw.test.samples.javadraw");
+		suite = new TestSuite("org.jhotdraw.test.samples.javadraw");
 
-		suite.addTestSuite(CH.ifa.draw.test.samples.javadraw.URLToolTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.samples.javadraw.PatternPainterTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.samples.javadraw.MySelectionToolTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.samples.javadraw.JavaDrawViewerTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.samples.javadraw.JavaDrawAppletTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.samples.javadraw.JavaDrawAppTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.samples.javadraw.BouncingDrawingTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.samples.javadraw.AnimatorTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.samples.javadraw.AnimationDecoratorTest.class);
+		suite.addTestSuite(org.jhotdraw.test.samples.javadraw.URLToolTest.class);
+		suite.addTestSuite(org.jhotdraw.test.samples.javadraw.PatternPainterTest.class);
+		suite.addTestSuite(org.jhotdraw.test.samples.javadraw.MySelectionToolTest.class);
+		suite.addTestSuite(org.jhotdraw.test.samples.javadraw.JavaDrawViewerTest.class);
+		suite.addTestSuite(org.jhotdraw.test.samples.javadraw.JavaDrawAppletTest.class);
+		suite.addTestSuite(org.jhotdraw.test.samples.javadraw.JavaDrawAppTest.class);
+		suite.addTestSuite(org.jhotdraw.test.samples.javadraw.BouncingDrawingTest.class);
+		suite.addTestSuite(org.jhotdraw.test.samples.javadraw.AnimatorTest.class);
+		suite.addTestSuite(org.jhotdraw.test.samples.javadraw.AnimationDecoratorTest.class);
 
 		// JUnitDoclet begin method suite()
 		// JUnitDoclet end method suite()

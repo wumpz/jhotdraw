@@ -9,10 +9,10 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.samples.javadraw;
+package org.jhotdraw.samples.javadraw;
 
 import java.awt.*;
-import CH.ifa.draw.framework.*;
+import org.jhotdraw.framework.*;
 
 /**
  * PatternDrawer a background that can be added to a drawing.

@@ -9,7 +9,7 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.util;
+package org.jhotdraw.util;
 
 /**
  * @author  Wolfram Kaiser <mrfloppy@sourceforge.net>

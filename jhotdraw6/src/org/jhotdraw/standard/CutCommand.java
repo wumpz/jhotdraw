@@ -9,20 +9,20 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.standard;
+package org.jhotdraw.standard;
 
 import java.util.List;
 
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.util.CollectionsFactory;
-import CH.ifa.draw.util.Undoable;
-import CH.ifa.draw.util.UndoableAdapter;
+import org.jhotdraw.framework.*;
+import org.jhotdraw.util.CollectionsFactory;
+import org.jhotdraw.util.Undoable;
+import org.jhotdraw.util.UndoableAdapter;
 
 /**
  * Delete the selection and move the selected figures to
  * the clipboard.
  *
- * @see CH.ifa.draw.util.Clipboard
+ * @see org.jhotdraw.util.Clipboard
  *
  * @version <$CURRENT_VERSION$>
  */
@@ -38,7 +38,7 @@ public class CutCommand extends FigureTransferCommand {
 	}
 
 	/**
-	 * @see CH.ifa.draw.util.Command#execute()
+	 * @see org.jhotdraw.util.Command#execute()
 	 */
 	public void execute() {
 		super.execute();
@@ -72,7 +72,7 @@ public class CutCommand extends FigureTransferCommand {
 	}
 
 	/**
-	 * @see CH.ifa.draw.standard.AbstractCommand#isExecutableWithView()
+	 * @see org.jhotdraw.standard.AbstractCommand#isExecutableWithView()
 	 */
 	public boolean isExecutableWithView() {
 		return view().selectionCount() > 0;
@@ -103,7 +103,7 @@ public class CutCommand extends FigureTransferCommand {
 		}
 
 		/**
-		 * @see CH.ifa.draw.util.Undoable#undo()
+		 * @see org.jhotdraw.util.Undoable#undo()
 		 */
 		public boolean undo() {
 			if (super.undo() && getAffectedFigures().hasNextFigure()) {
@@ -115,7 +115,7 @@ public class CutCommand extends FigureTransferCommand {
 		}
 
 		/**
-		 * @see CH.ifa.draw.util.Undoable#redo()
+		 * @see org.jhotdraw.util.Undoable#redo()
 		 */
 		public boolean redo() {
 			// do not call execute directly as the selection might has changed
@@ -167,7 +167,7 @@ public class CutCommand extends FigureTransferCommand {
 		}
 
 		/**
-		 * @see CH.ifa.draw.util.UndoableAdapter#release()
+		 * @see org.jhotdraw.util.UndoableAdapter#release()
 		 */
 		public void release() {
 			super.release();

@@ -9,12 +9,12 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.util;
+package org.jhotdraw.util;
 
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.standard.FigureEnumerator;
-import CH.ifa.draw.standard.ReverseFigureEnumerator;
-import CH.ifa.draw.standard.StandardFigureSelection;
+import org.jhotdraw.framework.*;
+import org.jhotdraw.standard.FigureEnumerator;
+import org.jhotdraw.standard.ReverseFigureEnumerator;
+import org.jhotdraw.standard.StandardFigureSelection;
 
 import java.util.Collections;
 import java.util.List;

@@ -9,9 +9,9 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.contrib;
+package org.jhotdraw.contrib;
 
-import CH.ifa.draw.util.CollectionsFactory;
+import org.jhotdraw.util.CollectionsFactory;
 
 import javax.swing.JToolBar;
 import javax.swing.JComponent;

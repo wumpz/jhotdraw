@@ -9,10 +9,10 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.util;
+package org.jhotdraw.util;
 
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.standard.StandardDrawing;
+import org.jhotdraw.framework.*;
+import org.jhotdraw.standard.StandardDrawing;
 
 import java.io.*;
 import java.util.*;
@@ -72,14 +72,14 @@ public class JDOStorageFormat extends StandardStorageFormat {
 	}
 
 	/**
-	 * @see CH.ifa.draw.util.StorageFormat#isRestoreFormat()
+	 * @see org.jhotdraw.util.StorageFormat#isRestoreFormat()
 	 */
 	public boolean isRestoreFormat() {
 		return true;
 	}
 
 	/**
-	 * @see CH.ifa.draw.util.StorageFormat#isStoreFormat()
+	 * @see org.jhotdraw.util.StorageFormat#isStoreFormat()
 	 */
 	public boolean isStoreFormat() {
 		return true;

@@ -8,11 +8,11 @@
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
-package CH.ifa.draw.contrib.html;
+package org.jhotdraw.contrib.html;
 
 import java.awt.Point;
 import java.awt.Shape;
-import CH.ifa.draw.contrib.TriangleFigure;
+import org.jhotdraw.contrib.TriangleFigure;
 
 /**
  * Geometric adapter for the TriangleFigure

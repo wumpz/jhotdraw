@@ -9,11 +9,11 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.samples.javadraw;
+package org.jhotdraw.samples.javadraw;
 
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.standard.*;
-import CH.ifa.draw.util.FloatingTextField;
+import org.jhotdraw.framework.*;
+import org.jhotdraw.standard.*;
+import org.jhotdraw.util.FloatingTextField;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -22,7 +22,7 @@ import java.awt.event.*;
  * The URLs are stored in the figure's "URL" attribute.
  * The URL text is entered with a FloatingTextField.
  *
- * @see CH.ifa.draw.util.FloatingTextField
+ * @see org.jhotdraw.util.FloatingTextField
  *
  * @version <$CURRENT_VERSION$>
  */

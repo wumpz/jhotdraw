@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE jdo SYSTEM "jdo.dtd">
 <jdo>
-  <package name="CH.ifa.draw.figures">
+  <package name="org.jhotdraw.figures">
     <class name="AttributeFigure">
     </class>
     <class name="ArrowTip">

@@ -9,11 +9,11 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.contrib;
+package org.jhotdraw.contrib;
 
 import java.awt.*;
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.standard.*;
+import org.jhotdraw.framework.*;
+import org.jhotdraw.standard.*;
 
 /**
  * A ChopPolygonConnector locates a connection point by

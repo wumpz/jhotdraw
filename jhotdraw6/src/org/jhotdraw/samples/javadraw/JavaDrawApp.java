@@ -9,18 +9,18 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.samples.javadraw;
+package org.jhotdraw.samples.javadraw;
 
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.standard.*;
-import CH.ifa.draw.figures.*;
-import CH.ifa.draw.util.*;
-import CH.ifa.draw.application.*;
-import CH.ifa.draw.contrib.*;
-import CH.ifa.draw.contrib.html.HTMLTextAreaFigure;
-import CH.ifa.draw.contrib.html.HTMLTextAreaTool;
-import CH.ifa.draw.contrib.zoom.ZoomDrawingView;
-import CH.ifa.draw.contrib.zoom.ZoomTool;
+import org.jhotdraw.framework.*;
+import org.jhotdraw.standard.*;
+import org.jhotdraw.figures.*;
+import org.jhotdraw.util.*;
+import org.jhotdraw.application.*;
+import org.jhotdraw.contrib.*;
+import org.jhotdraw.contrib.html.HTMLTextAreaFigure;
+import org.jhotdraw.contrib.html.HTMLTextAreaTool;
+import org.jhotdraw.contrib.zoom.ZoomDrawingView;
+import org.jhotdraw.contrib.zoom.ZoomTool;
 
 import javax.swing.*;
 import java.awt.*;

@@ -9,14 +9,14 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.figures;
+package org.jhotdraw.figures;
 
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.standard.*;
-import CH.ifa.draw.util.CollectionsFactory;
-import CH.ifa.draw.util.ColorMap;
-import CH.ifa.draw.util.StorableInput;
-import CH.ifa.draw.util.StorableOutput;
+import org.jhotdraw.framework.*;
+import org.jhotdraw.standard.*;
+import org.jhotdraw.util.CollectionsFactory;
+import org.jhotdraw.util.ColorMap;
+import org.jhotdraw.util.StorableInput;
+import org.jhotdraw.util.StorableOutput;
 
 import java.awt.*;
 import java.io.*;
@@ -68,7 +68,7 @@ public class TextFigure
 	}
 
 	/**
-	 * @see CH.ifa.draw.framework.Figure#moveBy(int, int)
+	 * @see org.jhotdraw.framework.Figure#moveBy(int, int)
 	 */
 	public void moveBy(int x, int y) {
 		willChange();
@@ -85,7 +85,7 @@ public class TextFigure
 	}
 
 	/**
-	 * @see CH.ifa.draw.framework.Figure#basicDisplayBox(java.awt.Point, java.awt.Point)
+	 * @see org.jhotdraw.framework.Figure#basicDisplayBox(java.awt.Point, java.awt.Point)
 	 */
 	public void basicDisplayBox(Point newOrigin, Point newCorner) {
 		fOriginX = newOrigin.x;
@@ -93,7 +93,7 @@ public class TextFigure
 	}
 
 	/**
-	 * @see CH.ifa.draw.framework.Figure#displayBox()
+	 * @see org.jhotdraw.framework.Figure#displayBox()
 	 */
 	public Rectangle displayBox() {
 		Dimension extent = textExtent();
@@ -101,7 +101,7 @@ public class TextFigure
 	}
 
 	/**
-	 * @see CH.ifa.draw.standard.TextHolder#textDisplayBox()
+	 * @see org.jhotdraw.standard.TextHolder#textDisplayBox()
 	 */
 	public Rectangle textDisplayBox() {
 		return displayBox();
@@ -123,7 +123,7 @@ public class TextFigure
 
 	/**
 	 * Gets the font.
-	 * @see CH.ifa.draw.standard.TextHolder#getFont()
+	 * @see org.jhotdraw.standard.TextHolder#getFont()
 	 */
 	public Font getFont() {
 		return fFont;
@@ -136,7 +136,7 @@ public class TextFigure
 	 * Note, that the figure returned is not the figure to which the TextHolder is
 	 * (and its representing figure) connected.
 	 * @return figure responsible for representing the content of this TextHolder
-	 * @see CH.ifa.draw.standard.TextHolder#getRepresentingFigure()
+	 * @see org.jhotdraw.standard.TextHolder#getRepresentingFigure()
 	 */
 	public Figure getRepresentingFigure() {
 		return this;
@@ -154,7 +154,7 @@ public class TextFigure
 
 	/**
 	 * Updates the location whenever the figure changes itself.
-	 * @see CH.ifa.draw.framework.Figure#changed()
+	 * @see org.jhotdraw.framework.Figure#changed()
 	 */
 	public void changed() {
 		super.changed();
@@ -165,7 +165,7 @@ public class TextFigure
 	 * A text figure understands the "FontSize", "FontStyle", and "FontName"
 	 * attributes.
 	 *
-	 * @see CH.ifa.draw.framework.Figure#getAttribute(java.lang.String)
+	 * @see org.jhotdraw.framework.Figure#getAttribute(java.lang.String)
 	 * @deprecated use getAttribute(FigureAttributeConstant) instead
 	 */
 	public Object getAttribute(String name) {
@@ -175,7 +175,7 @@ public class TextFigure
 	/**
 	 * A text figure understands the "FontSize", "FontStyle", and "FontName"
 	 * attributes.
-	 * @see CH.ifa.draw.framework.Figure#getAttribute(CH.ifa.draw.framework.FigureAttributeConstant)
+	 * @see org.jhotdraw.framework.Figure#getAttribute(org.jhotdraw.framework.FigureAttributeConstant)
 	 */
 	public Object getAttribute(FigureAttributeConstant attributeConstant) {
 		Font font = getFont();
@@ -195,7 +195,7 @@ public class TextFigure
 	 * A text figure understands the "FontSize", "FontStyle", and "FontName"
 	 * attributes.
 	 *
-	 * @see CH.ifa.draw.framework.Figure#setAttribute(java.lang.String, java.lang.Object)
+	 * @see org.jhotdraw.framework.Figure#setAttribute(java.lang.String, java.lang.Object)
 	 * @deprecated use setAttribute(FigureAttributeConstant, Object) instead
 	 */
 	public void setAttribute(String name, Object value) {
@@ -205,7 +205,7 @@ public class TextFigure
 	/**
 	 * A text figure understands the "FontSize", "FontStyle", and "FontName"
 	 * attributes.
-	 * @see CH.ifa.draw.framework.Figure#setAttribute(CH.ifa.draw.framework.FigureAttributeConstant, java.lang.Object)
+	 * @see org.jhotdraw.framework.Figure#setAttribute(org.jhotdraw.framework.FigureAttributeConstant, java.lang.Object)
 	 */
 	public void setAttribute(FigureAttributeConstant attributeConstant, Object value) {
 		Font font = getFont();
@@ -235,7 +235,7 @@ public class TextFigure
 
 	/**
 	 * Gets the text shown by the text figure.
-	 * @see CH.ifa.draw.standard.TextHolder#getText()
+	 * @see org.jhotdraw.standard.TextHolder#getText()
 	 */
 	public String getText() {
 		return fText;
@@ -243,7 +243,7 @@ public class TextFigure
 
 	/**
 	 * Sets the text shown by the text figure.
-	 * @see CH.ifa.draw.standard.TextHolder#setText(java.lang.String)
+	 * @see org.jhotdraw.standard.TextHolder#setText(java.lang.String)
 	 */
 	public void setText(String newText) {
 		if (newText == null || !newText.equals(fText)) {
@@ -256,14 +256,14 @@ public class TextFigure
 
 	/**
 	 * Tests whether the figure accepts typing.
-	 * @see CH.ifa.draw.standard.TextHolder#acceptsTyping()
+	 * @see org.jhotdraw.standard.TextHolder#acceptsTyping()
 	 */
 	public boolean acceptsTyping() {
 		return !fIsReadOnly;
 	}
 
 	/**
-	 * @see CH.ifa.draw.figures.AttributeFigure#drawBackground(java.awt.Graphics)
+	 * @see org.jhotdraw.figures.AttributeFigure#drawBackground(java.awt.Graphics)
 	 */
 	public void drawBackground(Graphics g) {
 		Rectangle r = displayBox();
@@ -271,7 +271,7 @@ public class TextFigure
 	}
 
 	/**
-	 * @see CH.ifa.draw.figures.AttributeFigure#drawFrame(java.awt.Graphics)
+	 * @see org.jhotdraw.figures.AttributeFigure#drawFrame(java.awt.Graphics)
 	 */
 	public void drawFrame(Graphics g) {
 		g.setFont(fFont);
@@ -298,7 +298,7 @@ public class TextFigure
 
 	/**
 	 * Gets the number of columns to be overlaid when the figure is edited.
-	 * @see CH.ifa.draw.standard.TextHolder#overlayColumns()
+	 * @see org.jhotdraw.standard.TextHolder#overlayColumns()
 	 */
 	public int overlayColumns() {
 		int length = getText().length();
@@ -310,7 +310,7 @@ public class TextFigure
 	}
 
 	/**
-	 * @see CH.ifa.draw.framework.Figure#handles()
+	 * @see org.jhotdraw.framework.Figure#handles()
 	 */
 	public HandleEnumeration handles() {
 		List handles = CollectionsFactory.current().createList();
@@ -322,7 +322,7 @@ public class TextFigure
 	}
 
 	/**
-	 * @see CH.ifa.draw.util.Storable#write(CH.ifa.draw.util.StorableOutput)
+	 * @see org.jhotdraw.util.Storable#write(org.jhotdraw.util.StorableOutput)
 	 */
 	public void write(StorableOutput dw) {
 		super.write(dw);
@@ -339,7 +339,7 @@ public class TextFigure
 	}
 
 	/**
-	 * @see CH.ifa.draw.util.Storable#read(CH.ifa.draw.util.StorableInput)
+	 * @see org.jhotdraw.util.Storable#read(org.jhotdraw.util.StorableInput)
 	 */
 	public void read(StorableInput dr) throws IOException {
 		super.read(dr);
@@ -366,7 +366,7 @@ public class TextFigure
 	}
 
 	/**
-	 * @see CH.ifa.draw.standard.TextHolder#connect(CH.ifa.draw.framework.Figure)
+	 * @see org.jhotdraw.standard.TextHolder#connect(org.jhotdraw.framework.Figure)
 	 */
 	public void connect(Figure figure) {
 		if (getObservedFigure() != null) {
@@ -382,7 +382,7 @@ public class TextFigure
 	}
 
 	/**
-	 * @see CH.ifa.draw.framework.FigureChangeListener#figureChanged(CH.ifa.draw.framework.FigureChangeEvent)
+	 * @see org.jhotdraw.framework.FigureChangeListener#figureChanged(org.jhotdraw.framework.FigureChangeEvent)
 	 */
 	public void figureChanged(FigureChangeEvent e) {
 		willChange();
@@ -391,7 +391,7 @@ public class TextFigure
 	}
 
 	/**
-	 * @see CH.ifa.draw.framework.FigureChangeListener#figureRemoved(CH.ifa.draw.framework.FigureChangeEvent)
+	 * @see org.jhotdraw.framework.FigureChangeListener#figureRemoved(org.jhotdraw.framework.FigureChangeEvent)
 	 */
 	public void figureRemoved(FigureChangeEvent e) {
 		if (listener() != null) {
@@ -401,19 +401,19 @@ public class TextFigure
 	}
 
 	/**
-	 * @see CH.ifa.draw.framework.FigureChangeListener#figureRequestRemove(CH.ifa.draw.framework.FigureChangeEvent)
+	 * @see org.jhotdraw.framework.FigureChangeListener#figureRequestRemove(org.jhotdraw.framework.FigureChangeEvent)
 	 */
 	public void figureRequestRemove(FigureChangeEvent e) {
 	}
 
 	/**
-	 * @see CH.ifa.draw.framework.FigureChangeListener#figureInvalidated(CH.ifa.draw.framework.FigureChangeEvent)
+	 * @see org.jhotdraw.framework.FigureChangeListener#figureInvalidated(org.jhotdraw.framework.FigureChangeEvent)
 	 */
 	public void figureInvalidated(FigureChangeEvent e) {
 	}
 
 	/**
-	 * @see CH.ifa.draw.framework.FigureChangeListener#figureRequestUpdate(CH.ifa.draw.framework.FigureChangeEvent)
+	 * @see org.jhotdraw.framework.FigureChangeListener#figureRequestUpdate(org.jhotdraw.framework.FigureChangeEvent)
 	 */
 	public void figureRequestUpdate(FigureChangeEvent e) {
 	}
@@ -437,7 +437,7 @@ public class TextFigure
 	}
 
 	/**
-	 * @see CH.ifa.draw.framework.Figure#release()
+	 * @see org.jhotdraw.framework.Figure#release()
 	 */
 	public void release() {
 		super.release();
@@ -446,7 +446,7 @@ public class TextFigure
 
 	/**
 	 * Disconnects a text holder from a connect figure.
-	 * @see CH.ifa.draw.standard.TextHolder#disconnect(CH.ifa.draw.framework.Figure)
+	 * @see org.jhotdraw.standard.TextHolder#disconnect(org.jhotdraw.framework.Figure)
 	 */
 	public void disconnect(Figure disconnectFigure) {
 		if (disconnectFigure != null) {
@@ -473,7 +473,7 @@ public class TextFigure
 	}
 
 	/**
-	 * @see CH.ifa.draw.framework.Figure#getTextHolder()
+	 * @see org.jhotdraw.framework.Figure#getTextHolder()
 	 */
 	public TextHolder getTextHolder() {
 		return this;

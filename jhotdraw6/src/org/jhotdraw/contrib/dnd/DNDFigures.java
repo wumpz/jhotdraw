@@ -9,11 +9,11 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.contrib.dnd;
+package org.jhotdraw.contrib.dnd;
 
-import CH.ifa.draw.framework.FigureEnumeration;
-import CH.ifa.draw.standard.FigureEnumerator;
-import CH.ifa.draw.util.CollectionsFactory;
+import org.jhotdraw.framework.FigureEnumeration;
+import org.jhotdraw.standard.FigureEnumerator;
+import org.jhotdraw.util.CollectionsFactory;
 
 import java.awt.Point;
 import java.util.List;

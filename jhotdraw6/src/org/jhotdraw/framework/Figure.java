@@ -9,10 +9,10 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.framework;
+package org.jhotdraw.framework;
 
-import CH.ifa.draw.util.*;
-import CH.ifa.draw.standard.TextHolder;
+import org.jhotdraw.util.*;
+import org.jhotdraw.standard.TextHolder;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -41,7 +41,7 @@ import java.io.Serializable;
  *
  * @see Handle
  * @see Connector
- * @see CH.ifa.draw.standard.AbstractFigure
+ * @see org.jhotdraw.standard.AbstractFigure
  *
  * @version <$CURRENT_VERSION$>
  */
@@ -331,10 +331,10 @@ public interface Figure
 	 * Get the underlying figure in case the figure has been decorated.
 	 * If the figure has not been decorated the figure itself is returned.
 	 * The DecoratorFigure does not release the the decorated figure but
-	 * just returns it (in contrast to {@link CH.ifa.draw.standard.DecoratorFigure.peelDecoration}).
+	 * just returns it (in contrast to {@link org.jhotdraw.standard.DecoratorFigure.peelDecoration}).
 	 *
 	 * @return underlying, "real" without DecoratorFigure
-	 * @see CH.ifa.draw.standard.DecoratorFigure
+	 * @see org.jhotdraw.standard.DecoratorFigure
 	 */
 	public Figure getDecoratedFigure();
 }

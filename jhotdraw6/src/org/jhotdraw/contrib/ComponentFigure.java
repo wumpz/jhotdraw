@@ -9,13 +9,13 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.contrib;
+package org.jhotdraw.contrib;
 
-import CH.ifa.draw.figures.AttributeFigure;
-import CH.ifa.draw.standard.BoxHandleKit;
-import CH.ifa.draw.standard.HandleEnumerator;
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.util.CollectionsFactory;
+import org.jhotdraw.figures.AttributeFigure;
+import org.jhotdraw.standard.BoxHandleKit;
+import org.jhotdraw.standard.HandleEnumerator;
+import org.jhotdraw.framework.*;
+import org.jhotdraw.util.CollectionsFactory;
 
 import java.awt.Component;
 import java.awt.Rectangle;

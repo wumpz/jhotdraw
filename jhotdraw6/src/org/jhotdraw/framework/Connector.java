@@ -9,12 +9,12 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.framework;
+package org.jhotdraw.framework;
 
 import java.awt.*;
 import java.io.Serializable;
 
-import CH.ifa.draw.util.*;
+import org.jhotdraw.util.*;
 
 /**
  * Connectors know how to locate a connection point on a figure.

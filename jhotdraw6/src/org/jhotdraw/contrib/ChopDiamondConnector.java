@@ -9,12 +9,12 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.contrib;
+package org.jhotdraw.contrib;
 
 import java.awt.*;
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.standard.ChopBoxConnector;
-import CH.ifa.draw.util.Geom;
+import org.jhotdraw.framework.*;
+import org.jhotdraw.standard.ChopBoxConnector;
+import org.jhotdraw.util.Geom;
 
 /**
  * A ChopDiamondConnector locates connection points by choping the

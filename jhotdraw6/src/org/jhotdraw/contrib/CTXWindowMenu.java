@@ -8,16 +8,16 @@
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
-package CH.ifa.draw.contrib;
+package org.jhotdraw.contrib;
 
 import java.awt.event.*;
 import java.beans.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
-import CH.ifa.draw.contrib.CTXCommandMenu;
-import CH.ifa.draw.framework.DrawingEditor;
-import CH.ifa.draw.standard.AbstractCommand;
+import org.jhotdraw.contrib.CTXCommandMenu;
+import org.jhotdraw.framework.DrawingEditor;
+import org.jhotdraw.standard.AbstractCommand;
 
 /**
  * Menu component that handles the functionality expected of a standard

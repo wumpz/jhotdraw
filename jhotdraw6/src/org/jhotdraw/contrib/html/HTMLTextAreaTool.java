@@ -8,14 +8,14 @@
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
-package CH.ifa.draw.contrib.html;
+package org.jhotdraw.contrib.html;
 
 import java.awt.Font;
-import CH.ifa.draw.contrib.TextAreaTool;
+import org.jhotdraw.contrib.TextAreaTool;
 
-import CH.ifa.draw.framework.DrawingEditor;
-import CH.ifa.draw.framework.Figure;
-import CH.ifa.draw.standard.TextHolder;
+import org.jhotdraw.framework.DrawingEditor;
+import org.jhotdraw.framework.Figure;
+import org.jhotdraw.standard.TextHolder;
 
 /**
  * HTMLTextAreaTool creates or edits HTMLTextAreaFigures.<br>

@@ -8,7 +8,7 @@
  * License:     Lesser GNU Public License (LGPL)
  *              http://www.opensource.org/licenses/lgpl-license.html
  */
-package CH.ifa.draw.test.framework;
+package org.jhotdraw.test.framework;
 
 import junit.framework.TestSuite;
 // JUnitDoclet begin import
@@ -38,11 +38,11 @@ public class FrameworkSuite
 
 		TestSuite suite;
 
-		suite = new TestSuite("CH.ifa.draw.test.framework");
+		suite = new TestSuite("org.jhotdraw.test.framework");
 
-		suite.addTestSuite(CH.ifa.draw.test.framework.FigureAttributeConstantTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.framework.FigureChangeEventTest.class);
-		suite.addTestSuite(CH.ifa.draw.test.framework.DrawingChangeEventTest.class);
+		suite.addTestSuite(org.jhotdraw.test.framework.FigureAttributeConstantTest.class);
+		suite.addTestSuite(org.jhotdraw.test.framework.FigureChangeEventTest.class);
+		suite.addTestSuite(org.jhotdraw.test.framework.DrawingChangeEventTest.class);
 
 		// JUnitDoclet begin method suite()
 		// JUnitDoclet end method suite()

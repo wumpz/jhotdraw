@@ -9,9 +9,9 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.figures;
+package org.jhotdraw.figures;
 
-import CH.ifa.draw.util.Storable;
+import org.jhotdraw.util.Storable;
 import java.awt.*;
 import java.io.Serializable;
 

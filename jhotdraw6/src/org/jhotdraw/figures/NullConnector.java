@@ -9,10 +9,10 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.figures;
+package org.jhotdraw.figures;
 
-import CH.ifa.draw.standard.AbstractConnector;
-import CH.ifa.draw.framework.Figure;
+import org.jhotdraw.standard.AbstractConnector;
+import org.jhotdraw.framework.Figure;
 
 public class NullConnector extends AbstractConnector {
 	// AbstractConnector implements already all methods but cannot be instantiated

@@ -1,4 +1,4 @@
-package CH.ifa.draw.test.util.collections.jdk12;
+package org.jhotdraw.test.util.collections.jdk12;
 
 
 
@@ -31,9 +31,9 @@ public class Jdk12Suite
     
     TestSuite suite;
     
-    suite = new TestSuite("CH.ifa.draw.test.util.collections.jdk12");
+    suite = new TestSuite("org.jhotdraw.test.util.collections.jdk12");
     
-    suite.addTestSuite(CH.ifa.draw.test.util.collections.jdk12.CollectionsFactoryJDK12Test.class);
+    suite.addTestSuite(org.jhotdraw.test.util.collections.jdk12.CollectionsFactoryJDK12Test.class);
     
     
     

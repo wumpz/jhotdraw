@@ -9,10 +9,10 @@
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
-package CH.ifa.draw.standard;
+package org.jhotdraw.standard;
 
 import java.awt.Point;
-import CH.ifa.draw.framework.*;
+import org.jhotdraw.framework.*;
 
 /**
  * A command to toggle the snap to grid behavior.
