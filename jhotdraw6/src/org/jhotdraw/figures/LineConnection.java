@@ -72,6 +72,12 @@ public  class LineConnection extends PolyLineFigure implements ConnectionFigure 
 	 * Sets the start figure of the connection.
 	 */
 	public void connectStart(Connector newStartConnector) {
+//      cfm1 *******************************************************************
+
+		newStartConnector = newStartConnector.finalizeConnector(true);
+
+//      cfm1 *******************************************************************  
+
 		setStartConnector(newStartConnector);
 		if (newStartConnector != null) {
 			startFigure().addDependendFigure(this);
@@ -83,6 +89,12 @@ public  class LineConnection extends PolyLineFigure implements ConnectionFigure 
 	 * Sets the end figure of the connection.
 	 */
 	public void connectEnd(Connector newEndConnector) {
+//      cfm1 *******************************************************************
+
+        newEndConnector = newEndConnector.finalizeConnector(false);
+
+//      cfm1 *******************************************************************
+
 		setEndConnector(newEndConnector);
 		if (newEndConnector != null) {
 			endFigure().addDependendFigure(this);
@@ -180,6 +192,182 @@ public  class LineConnection extends PolyLineFigure implements ConnectionFigure 
 		return true;
 	}
 
+
+//  cfm1 *******************************************************************   
+
+  /**
+
+   * 
+
+   * 
+
+   *                             
+
+   *                           p1.............p2
+
+   *                            .              .
+
+   *            ...............po......        .      
+
+   *            .                     .        .
+
+   *            .                     .        .
+
+   *            .                     .        .
+
+   *            .                     .p4.....p3
+
+   *            .                     .
+
+   *            .                     .
+
+   *            .                     .
+
+   *            .......................            
+
+   * 
+
+   *
+
+   *
+
+   *
+
+   *
+
+   **/
+
+  private void resetSelfConnections() {
+
+      while (fPoints.size() > 5)
+
+             removePointAt(3);
+
+      while (fPoints.size() < 5)
+
+             insertPointAt(pointAt(1),1);    
+
+        
+
+      Rectangle r = myStartConnector.owner().displayBox();
+
+      int westX   = Geom.west(r).x;
+
+      int eastX   = Geom.east(r).x;
+
+      int northY  = Geom.north(r).y;
+
+      int southY  = Geom.south(r).y;       
+
+ 
+
+      // delta is a heuristic to make the self-connecting edge more visually appealing
+
+      int delta       = Math.min(24, r.width);
+
+      if (r.width > 200)
+
+          delta       = Math.min(36, r.width);
+
+      if (r.width < 100)
+
+          delta       = Math.min(12, r.width); 
+
+               
+
+      Point p0 = pointAt(0);
+
+      OffsetConnector start = (OffsetConnector) myStartConnector;
+
+      start.calculateFigureConstrainedOffsets(p0.x, p0.y);
+
+      p0.x = start.locateX();
+
+      p0.y = start.locateY();       
+
+        
+
+      // Calculate the coordinates of p4 from p0 (the start connecting point!)      
+
+      int p4X       = eastX;
+
+      double ratio1 = ((double)p0.x - (double)westX) / (double)r.width;
+
+      if (p0.x < westX + r.width/2) { 
+
+          p4X    = westX;
+
+          ratio1 = ((double)eastX - (double)p0.x) / (double)r.width;
+
+      }       
+
+      int p4Y = northY + (int)(ratio1*r.height);
+
+      if (p0.y > northY + r.height/2)
+
+          p4Y = southY - (int)(ratio1*r.height); 
+
+      OffsetConnector end = (OffsetConnector) myEndConnector;
+
+      end.calculateFigureConstrainedOffsets(p4X, p4Y);
+
+      Point p4 = new Point(end.locateX(), end.locateY());
+
+      fPoints.set(4, p4);         
+
+        
+
+//    Calculate the coordinates of p2 from p0 and p4
+
+      int p2X = p4X  + delta + (int)(ratio1*delta);      
+
+      if (p0.x < westX + r.width/2) 
+
+          p2X = p4X  - delta - (int)(ratio1*delta);
+
+      double ratio2 = 1 - ratio1;
+
+      int p2Y = northY - delta - (int)(ratio2*delta);
+
+      if (p0.y > northY + r.height/2) 
+
+          p2Y = southY + delta + (int)(ratio2*delta); 
+
+      Point p2 = new Point(p2X, p2Y);
+
+      fPoints.set(2, p2);
+
+        
+
+      //Calculate p1 and p3 from p0, p2, p4     
+
+      Point p1        = new Point(p0.x, p2.y);
+
+      Point p3        = new Point(p2.x, p4.y);      
+
+      fPoints.set(1, p1);
+
+      fPoints.set(3, p3);  
+
+  }
+
+
+
+//cfm1 *******************************************************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	/**
 	 * Sets the start point.
 	 */
@@ -205,6 +393,18 @@ public  class LineConnection extends PolyLineFigure implements ConnectionFigure 
 		else {
 			fPoints.set(fPoints.size()-1, new Point(x, y));
 		}
+//      cfm1 *******************************************************************		
+
+        if (myEndConnector != null 
+
+        &&  myStartConnector.owner() == myEndConnector.owner() 
+
+        &&  myEndConnector instanceof OffsetConnector) 
+
+            resetSelfConnections();
+
+//      cfm1 *******************************************************************
+
 		changed();
 	}
 

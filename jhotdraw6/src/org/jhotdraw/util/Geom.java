@@ -4,7 +4,7 @@
  * Project:		JHotdraw - a GUI framework for technical drawings
  *				http://www.jhotdraw.org
  *				http://jhotdraw.sourceforge.net
- * Copyright:	© by the original author(s) and all contributors
+ * Copyright:	ï¿½ by the original author(s) and all contributors
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
@@ -203,49 +203,146 @@ public class Geom {
 		return Math.atan2(py*r.width, px*r.height);
 	}
 
-	/**
-	 * Gets the point on a rectangle that corresponds to the given angle.
-	 */
-	static public Point angleToPoint(Rectangle r, double angle) {
-		double si = Math.sin(angle);
-		double co = Math.cos(angle);
-		double e = 0.0001;
 
-		int x= 0, y= 0;
-		if (Math.abs(si) > e) {
-			x= (int) ((1.0 + co/Math.abs(si))/2.0 * r.width);
-			x= range(0, r.width, x);
-		}
-		else if (co >= 0.0) {
-			x= r.width;
-		}
-		if (Math.abs(co) > e) {
-			y= (int) ((1.0 + si/Math.abs(co))/2.0 * r.height);
-			y= range(0, r.height, y);
-		}
-		else if (si >= 0.0) {
-			y= r.height;
-		}
-		return new Point(r.x + x, r.y + y);
-	}
+//  cfm1 *******************************************************************
 
-	/**
-	 * Converts a polar to a point
-	 */
-	static public Point polarToPoint(double angle, double fx, double fy) {
-		double si = Math.sin(angle);
-		double co = Math.cos(angle);
-		return new Point((int)(fx*co+0.5), (int)(fy*si+0.5));
-	}
+     /**
 
-	/**
-	 * Gets the point on an oval that corresponds to the given angle.
-	 */
-	static public Point ovalAngleToPoint(Rectangle r, double angle) {
-		Point center = Geom.center(r);
-		Point p = Geom.polarToPoint(angle, r.width/2, r.height/2);
-		return new Point(center.x + p.x, center.y + p.y);
-	}
+      * Gets the point on a rectangle that corresponds to the given angle.
+
+      */
+
+     static public Point angleToPoint(Rectangle r, double angle) {
+
+         return angleToPoint(r, angle, new Point());
+
+     }
+
+
+
+
+
+    /**
+
+    * Gets the point on a rectangle that corresponds to the given angle.
+
+    */
+
+   static public Point angleToPoint(Rectangle r, double angle, Point p) {
+
+       double si = Math.sin(angle);
+
+       double co = Math.cos(angle);
+
+       double e = 0.0001;
+
+
+
+       int x= 0, y= 0;
+
+       if (Math.abs(si) > e) {
+
+           x= (int) ((1.0 + co/Math.abs(si))/2.0 * r.width);
+
+           x= range(0, r.width, x);
+
+       } else if (co >= 0.0)
+
+           x= r.width;
+
+       if (Math.abs(co) > e) {
+
+           y= (int) ((1.0 + si/Math.abs(co))/2.0 * r.height);
+
+           y= range(0, r.height, y);
+
+       } else if (si >= 0.0)
+
+           y= r.height;
+
+        
+
+       p.x = r.x + x;
+
+       p.y = r.y + y;
+
+       return p;
+
+   }
+
+    
+
+   /**
+
+    * Converts a polar to a point
+
+    */
+
+   static public Point polarToPoint(double angle, double fx, double fy) {
+
+       return polarToPoint(angle, fx, fy, new Point());
+
+   }
+
+
+
+   /**
+
+    * Converts a polar to a point
+
+    */
+
+   static public Point polarToPoint(double angle, double fx, double fy, Point p) {
+
+       double si = Math.sin(angle);
+
+       double co = Math.cos(angle);
+
+       p.x = (int)(fx*co+0.5);
+
+       p.y =  (int)(fy*si+0.5);
+
+       return p;
+
+   }
+
+
+
+   /**
+
+     * Gets the point on an oval that corresponds to the given angle.
+
+     */
+
+    static public Point ovalAngleToPoint(Rectangle r, double angle) {
+
+        return ovalAngleToPoint(r, angle, new Point());
+
+    }    
+
+    
+
+    /**
+
+     * Gets the point on an oval that corresponds to the given angle.
+
+     */
+
+    static public Point ovalAngleToPoint(Rectangle r, double angle, Point p) {
+
+        p = Geom.polarToPoint(angle, r.width/2, r.height/2, p);
+
+        p.x = r.x + r.width /2 + p.x;
+
+        p.y = r.y + r.height/2 + p.y;
+
+        return p;
+
+    }
+
+//  cfm1 *******************************************************************
+
+
 
 	/**
 	 * Standard line intersection algorithm

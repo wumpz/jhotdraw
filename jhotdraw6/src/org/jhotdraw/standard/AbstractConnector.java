@@ -28,7 +28,11 @@ public abstract class AbstractConnector implements Connector {
 	/**
 	 * the owner of the connector
 	 */
-	private Figure      fOwner;
+//  cfm1 *******************************************************************
+
+    protected Figure      fOwner;
+//  cfm1 *******************************************************************
+
 
 	/*
 	 * Serialization support.
@@ -111,7 +115,11 @@ public abstract class AbstractConnector implements Connector {
 	 * Reads the connector and its owner from a StorableInput.
 	 */
 	public void read(StorableInput dr) throws IOException {
-		fOwner = (Figure)dr.readStorable();
+		try {fOwner = (Figure)dr.readStorable();}
+        catch (ClassCastException ex) {
+            Object o = dr.readStorable();
+            System.out.println("Class Cast Exception " + o.toString());
+        }
 	}
 
 	/**
@@ -123,4 +131,44 @@ public abstract class AbstractConnector implements Connector {
 	public void connectorVisibility(boolean isVisible, ConnectionFigure courtingConnection) {
 		//invisible by default
 	}
+
+
+//  cfm1 *******************************************************************   
+
+    /**
+
+     * SupportsConnector dragging.
+
+     * 
+
+     */
+
+    public Point connectorMovedTo(int x, int y){
+
+        return new Point(x,y);
+
+    }
+
+    
+
+    /**
+
+     * Returns a 'finalized' connector. Can be used to change Connector.
+
+     * 
+
+     * @param start - true if a startConnector
+
+     * @return - final Connector
+
+     */    
+
+    public Connector finalizeConnector(boolean start){
+
+         return this;
+
+    }
+
+//  cfm1 *******************************************************************    
+
 }

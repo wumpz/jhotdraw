@@ -108,6 +108,22 @@ public abstract class ChangeConnectionHandle extends AbstractHandle {
 			p = Geom.center(target.displayBox());
 		}
 		setPoint(p.x, p.y);
+
+
+//      cfm1 *******************************************************************      
+
+        if (target == fOriginalTarget) {
+
+           p = target.connectorMovedTo(x, y);
+
+           setPoint(p.x, p.y);
+
+        }
+
+//      cfm1 *******************************************************************            
+
+	
+
 	}
 
 	/**
@@ -119,6 +135,24 @@ public abstract class ChangeConnectionHandle extends AbstractHandle {
 		if (target == null) {
 			target = fOriginalTarget;
 		}
+        
+
+//      cfm1 *******************************************************************
+
+        if (target == fOriginalTarget) {
+
+            Point p = target.connectorMovedTo(x, y);
+
+            x=p.x;
+
+            y=p.y;
+
+        }
+
+//      cfm1 *******************************************************************
+
+
+
 
 		setPoint(x, y);
 		connect(target);
@@ -144,6 +178,20 @@ public abstract class ChangeConnectionHandle extends AbstractHandle {
 
 	private Connector findConnectionTarget(int x, int y, Drawing drawing) {
 		Figure target = findConnectableFigure(x, y, drawing);
+
+
+//      cfm1 *******************************************************************
+
+         if (target == fOriginalTarget.owner() && fOriginalTarget instanceof OffsetConnector)
+
+              return fOriginalTarget;
+
+//      cfm1 *******************************************************************
+
+
+
+
+
 
 		if ((target != null)
 			&& target.canConnect()

@@ -31,8 +31,12 @@ public  class OffsetLocator extends AbstractLocator {
 	private int offsetLocatorSerializedDataVersion = 1;
 
 	private Locator fBase;
-	private int     fOffsetX;
-	private int     fOffsetY;
+//  cfm1 *******************************************************************
+
+    protected int     fOffsetX;
+	protected int     fOffsetY;
+//  cfm1 *******************************************************************
+
 
 	public OffsetLocator() {
 		fBase = null;

@@ -65,6 +65,38 @@ public class ChangeConnectionEndHandle extends ChangeConnectionHandle {
 		return getConnection().endPoint();
 	}
 
+
+//  cfm1 *******************************************************************
+
+    /**
+
+    * Draws this handle.
+
+    */
+
+    public void draw(java.awt.Graphics g) {
+
+        if (getConnection().getEndConnector() instanceof OffsetConnector && 
+
+            getConnection().getStartConnector() != null &&
+
+            getConnection().getStartConnector().owner() != null &&
+
+            getConnection().getStartConnector().owner() == getConnection().getEndConnector().owner()) 
+
+            return;
+
+            
+
+        super.draw(g);   
+
+   }
+
+//  cfm1 *******************************************************************
+
+
+
+
 	/**
 	 * Factory method for undo activity
 	 */
