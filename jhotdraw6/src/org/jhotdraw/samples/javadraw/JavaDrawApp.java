@@ -55,7 +55,11 @@ public  class JavaDrawApp extends MDI_DrawApplication {
 	}
 
 	protected DrawingView createDrawingView() {
-		return new ZoomDrawingView(this);
+		Drawing d = createDrawing();
+		d.setTitle(getDefaultDrawingTitle());
+		DrawingView dv = new ZoomDrawingView(this);
+		dv.setDrawing(d);
+		return  dv;
 	}
 
 	//-- application life cycle --------------------------------------------
