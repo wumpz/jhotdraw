@@ -94,7 +94,8 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
 		Figure orphanedFigure = super.orphan(figure);
 		// ensure that we remove the top level figure in a drawing
 		if (orphanedFigure.listener() != null) {
-			orphanedFigure.listener().figureRequestRemove(new FigureChangeEvent(orphanedFigure, null));
+			Rectangle rect = invalidateRectangle(displayBox());
+			orphanedFigure.listener().figureRequestRemove(new FigureChangeEvent(orphanedFigure, rect));
 		}
 		return orphanedFigure;
 	}
@@ -102,7 +103,8 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
 	public synchronized Figure add(Figure figure) {
 		Figure addedFigure = super.add(figure);
 		if (addedFigure.listener() != null) {
-			addedFigure.listener().figureRequestUpdate(new FigureChangeEvent(figure, null));
+			Rectangle rect = invalidateRectangle(displayBox());
+			addedFigure.listener().figureRequestUpdate(new FigureChangeEvent(figure, rect));
 			return addedFigure;
 		}
 		return addedFigure;

@@ -328,7 +328,8 @@ public  class TextFigure
 
 	public void figureRemoved(FigureChangeEvent e) {
 		if (listener() != null) {
-			listener().figureRequestRemove(new FigureChangeEvent(this));
+			Rectangle rect = invalidateRectangle(displayBox());
+			listener().figureRemoved(new FigureChangeEvent(this, rect, e));
 		}
 	}
 

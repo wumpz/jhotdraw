@@ -132,7 +132,7 @@ public  class JavaDrawApp extends MDI_DrawApplication {
 		LineConnection lineConnection = new LineConnection();
 		lineConnection.setStartDecoration(null);
 		tool = new UndoableTool(new SplitConnectionTool(this, lineConnection));
-		palette.add(createToolButton(IMAGES + "OCONN", "Elbow Connection Tool", tool));
+		palette.add(createToolButton(IMAGES + "OCONN", "Split Connection Tool", tool));
 	}
 
 	protected Tool createSelectionTool() {

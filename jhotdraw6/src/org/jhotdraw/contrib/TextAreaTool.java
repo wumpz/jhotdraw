@@ -68,6 +68,7 @@ public class TextAreaTool extends CreationTool {
 	 * @param y  Description of the Parameter
 	 */
 	public void mouseDown(MouseEvent e, int x, int y) {
+		setView((DrawingView)e.getSource());
 		Figure pressedFigure = drawing().findFigureInside(x, y);
 		TextHolder textHolder = null;
 		if (pressedFigure != null) {
@@ -158,7 +159,7 @@ public class TextAreaTool extends CreationTool {
 	 */
 	public void activate() {
 		super.activate();
-		view().clearSelection();
+		getActiveView().clearSelection();
 	}
 
 	/**

@@ -22,6 +22,8 @@ import java.util.EventObject;
 public class FigureChangeEvent extends EventObject {
 
 	private Rectangle fRectangle;
+	private FigureChangeEvent myNestedEvent;
+
 	private static final Rectangle  fgEmptyRectangle = new Rectangle(0, 0, 0, 0);
 
    /**
@@ -38,6 +40,11 @@ public class FigureChangeEvent extends EventObject {
 		fRectangle = fgEmptyRectangle;
 	}
 
+	public FigureChangeEvent(Figure source, Rectangle r, FigureChangeEvent nestedEvent) {
+		this(source, r);
+		myNestedEvent = nestedEvent;
+	}
+
 	/**
 	 *  Gets the changed figure
 	 */
@@ -50,5 +57,9 @@ public class FigureChangeEvent extends EventObject {
 	 */
 	public Rectangle getInvalidatedRectangle() {
 		return fRectangle;
+	}
+
+	public FigureChangeEvent getNestedEvent() {
+		return myNestedEvent;
 	}
 }

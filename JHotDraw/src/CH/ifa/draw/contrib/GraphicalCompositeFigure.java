@@ -16,7 +16,6 @@ import CH.ifa.draw.standard.*;
 import CH.ifa.draw.util.*;
 import CH.ifa.draw.figures.*;
 import java.awt.*;
-import java.util.*;
 import java.io.*;
 
 /**
@@ -129,7 +128,7 @@ public class GraphicalCompositeFigure extends CompositeFigure implements Layouta
 	}
 
 	/**
-	 * Expicit update: an updated involves a layout for all contained figures.
+	 * Explicit update: an updated involves a layout for all contained figures.
 	 */
 	public void update() {
 		willChange();
@@ -238,9 +237,6 @@ public class GraphicalCompositeFigure extends CompositeFigure implements Layouta
 	 */
 	public void setPresentationFigure(Figure newPresentationFigure) {
 		myPresentationFigure = newPresentationFigure;
-		if (myPresentationFigure != null) {
-			myPresentationFigure.addDependendFigure(this);
-		}
 	}
 
 	/**
@@ -310,7 +306,8 @@ public class GraphicalCompositeFigure extends CompositeFigure implements Layouta
 	public void figureRequestRemove(FigureChangeEvent e) {
 		if (listener() != null) {
 			if (includes(e.getFigure())) {
-				listener().figureRequestRemove(new FigureChangeEvent(e.getFigure(), e.getInvalidatedRectangle()));
+				Rectangle r = invalidateRectangle(displayBox());
+				listener().figureRequestRemove(new FigureChangeEvent(this, r, e));
 			}
 			else {
 				super.figureRequestRemove(e);
@@ -338,10 +335,5 @@ public class GraphicalCompositeFigure extends CompositeFigure implements Layouta
 	public void write(StorableOutput dw) {
 		super.write(dw);
 		dw.writeStorable(getPresentationFigure());
-	}
-
-	public void visit(FigureVisitor visitor) {
-		super.visit(visitor);
-//		getPresentationFigure().visit(visitor);
 	}
 }

@@ -612,11 +612,14 @@ public abstract class CompositeFigure
 	}
 
 	public void figureChanged(FigureChangeEvent e) {
-	  _removeFromQuadTree(e.getFigure());
-	  _addToQuadTree(e.getFigure());
+		_removeFromQuadTree(e.getFigure());
+		_addToQuadTree(e.getFigure());
 	}
 
 	public void figureRemoved(FigureChangeEvent e) {
+		if (listener() != null) {
+			listener().figureRemoved(e);
+		}
 	}
 
 	/**

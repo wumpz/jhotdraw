@@ -93,6 +93,7 @@ public class SimpleLayouter implements Layouter {
 
 	public Rectangle calculateLayout(Point origin, Point corner) {
 		Rectangle maxRect = new Rectangle(origin);
+		maxRect.add(corner);
 		FigureEnumeration fe = getLayoutable().figures();
 		while (fe.hasNextFigure()) {
 			Figure currentFigure = fe.nextFigure();

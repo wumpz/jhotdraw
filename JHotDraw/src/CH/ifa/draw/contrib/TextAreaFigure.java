@@ -814,7 +814,7 @@ public class TextAreaFigure extends AttributeFigure
 	 */
 	public void figureRemoved(FigureChangeEvent e) {
 		if (listener() != null) {
-			listener().figureRequestRemove(new FigureChangeEvent(this));
+			listener().figureRemoved(new FigureChangeEvent(this));
 		}
 	}
 
@@ -824,7 +824,9 @@ public class TextAreaFigure extends AttributeFigure
 	 * @param e  Description of the Parameter
 	 */
 	public void figureRequestRemove(FigureChangeEvent e) {
-		// @todo:   Implement this CH.ifa.draw.framework.FigureChangeListener method
+		if (listener() != null) {
+			listener().figureRequestRemove(new FigureChangeEvent(this));
+		}
 	}
 
 	/**
