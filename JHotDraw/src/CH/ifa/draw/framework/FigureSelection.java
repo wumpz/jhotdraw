@@ -23,17 +23,17 @@ package CH.ifa.draw.framework;
 
 public interface FigureSelection {
 
-    /**
-     * Gets the type of the selection.
-     */
-    public String getType();
+	/**
+	 * Gets the type of the selection.
+	 */
+	public String getType();
 
-    /**
-     * Gets the data of the selection. The result is returned
-     * as a Vector of Figures.
-     *
-     * @return a copy of the figure selection.
-     */
-    public Object getData(String type);
+	/**
+	 * Gets the data of the selection. The result is returned
+	 * as a Vector of Figures.
+	 *
+	 * @return a copy of the figure selection.
+	 */
+	public Object getData(String type);
 }
 

@@ -35,10 +35,10 @@ public class CustomSelectionTool extends SelectionTool {
 	/**
 	 * Create an instance of this SelectionTool for the given view
 	 *
-	 * @param   view    DrawingView for which the SelectionTool operates
+	 * @param   editor    DrawingEditor for which the SelectionTool gets the active view
 	 */
-	public CustomSelectionTool(DrawingView view) {
-		super(view);
+	public CustomSelectionTool(DrawingEditor editor) {
+		super( editor );
 	}
 	
 	/**

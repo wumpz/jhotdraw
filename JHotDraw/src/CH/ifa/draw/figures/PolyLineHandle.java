@@ -25,53 +25,53 @@ import java.awt.*;
  */
 public class PolyLineHandle extends LocatorHandle {
 
-    private int fIndex;
+	private int fIndex;
 
    /**
-    * Constructs a poly line handle.
-    * @param owner the owning polyline figure.
-    * @l the locator
-    * @index the index of the node associated with this handle.
-    */
-    public PolyLineHandle(PolyLineFigure owner, Locator l, int index) {
-        super(owner, l);
-        fIndex = index;
-    }
+	* Constructs a poly line handle.
+	* @param owner the owning polyline figure.
+	* @l the locator
+	* @index the index of the node associated with this handle.
+	*/
+	public PolyLineHandle(PolyLineFigure owner, Locator l, int index) {
+		super(owner, l);
+		fIndex = index;
+	}
 
-    public void invokeStart(int  x, int  y, DrawingView view) {
-        setUndoActivity(createUndoActivity(fIndex));
-        getUndoActivity().setAffectedFigures(new SingleFigureEnumerator(owner()));
-        ((PolyLineHandle.UndoActivity)getUndoActivity()).setOldPoint(new Point(x,y));
-    }
+	public void invokeStart(int  x, int  y, DrawingView view) {
+		setUndoActivity(createUndoActivity(view, fIndex));
+		getUndoActivity().setAffectedFigures(new SingleFigureEnumerator(owner()));
+		((PolyLineHandle.UndoActivity)getUndoActivity()).setOldPoint(new Point(x,y));
+	}
 
-    public void invokeStep(int x, int y, int anchorX, int anchorY, DrawingView view) {
+	public void invokeStep(int x, int y, int anchorX, int anchorY, DrawingView view) {
 		int fIndex = ((PolyLineHandle.UndoActivity)getUndoActivity()).getPointIndex();
-        myOwner().setPointAt(new Point(x, y), fIndex);
-    }
+		myOwner().setPointAt(new Point(x, y), fIndex);
+	}
 
 	public void invokeEnd(int x, int y, int anchorX, int anchorY, DrawingView view) {
 		if ((x == anchorX) && (y == anchorY)) {
- 			setUndoActivity(null);
+			setUndoActivity(null);
 		}
 	}
 	
-    private PolyLineFigure myOwner() {
-        return (PolyLineFigure)owner();
-    }
+	private PolyLineFigure myOwner() {
+		return (PolyLineFigure)owner();
+	}
 
 	/**
 	 * Factory method for undo activity. To be overriden by subclasses.
 	 */
-	protected Undoable createUndoActivity(int newPointIndex) {
-		return new PolyLineHandle.UndoActivity(newPointIndex);
+	protected Undoable createUndoActivity(DrawingView newView, int newPointIndex) {
+		return new PolyLineHandle.UndoActivity(newView, newPointIndex);
 	}
 	
 	public static class UndoActivity extends UndoableAdapter {
 		private Point myOldPoint;
 		private int myPointIndex;
 
-		public UndoActivity(int newPointIndex) {
-			super(null);
+		public UndoActivity(DrawingView newView, int newPointIndex) {
+			super(newView);
 			setUndoable(true);
 			setRedoable(true);
 			setPointIndex(newPointIndex);

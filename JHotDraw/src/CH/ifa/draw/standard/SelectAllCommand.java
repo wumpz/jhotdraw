@@ -25,13 +25,14 @@ public class SelectAllCommand extends AbstractCommand {
 	/**
 	 * Constructs a select all command.
 	 * @param name the command name
-	 * @param view the target view
+	 * @param newDrawingEditor the DrawingEditor which manages the views
 	 */
-	public SelectAllCommand(String name, DrawingView inView) {
-		super(name, inView);
+	public SelectAllCommand(String name, DrawingEditor newDrawingEditor) {
+		super(name, newDrawingEditor);
 	}
 	
 	public void execute() {
+		super.execute();
 		setUndoActivity(createUndoActivity());
     	getUndoActivity().setAffectedFigures(view().selectionElements());
 		view().addToSelectionAll(view().drawing().figures());
@@ -43,7 +44,7 @@ public class SelectAllCommand extends AbstractCommand {
 	 * SelectAll menu item will be enabled only when there ia atleast one figure
 	 * in the selected drawing view.
 	 */
-	public boolean isExecutable() {
+	public boolean isExecutableWithView() {
 		FigureEnumeration e = view().drawing().figures();
 	
 		if(e.hasMoreElements() && e.nextFigure() != null) {

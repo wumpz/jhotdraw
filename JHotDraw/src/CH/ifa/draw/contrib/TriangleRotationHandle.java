@@ -42,7 +42,7 @@ class TriangleRotationHandle extends AbstractHandle {
 	public void invokeStart(int x, int  y, DrawingView view) {
 		fOrigin = getOrigin();
 		TriangleRotationHandle.UndoActivity activity = 
-			(TriangleRotationHandle.UndoActivity)createUndoActivity();
+			(TriangleRotationHandle.UndoActivity)createUndoActivity(view);
 		setUndoActivity(activity);
 		activity.setAffectedFigures(new SingleFigureEnumerator(owner()));
 		double rotation = ((TriangleFigure)(owner())).getRotationAngle();
@@ -112,15 +112,15 @@ class TriangleRotationHandle extends AbstractHandle {
 	/**
 	 * Factory method for undo activity. To be overriden by subclasses.
 	 */
-	protected Undoable createUndoActivity() {
-		return new TriangleRotationHandle.UndoActivity();
+	protected Undoable createUndoActivity(DrawingView newView) {
+		return new TriangleRotationHandle.UndoActivity(newView);
 	}
 	
 	public static class UndoActivity extends UndoableAdapter {
 		private double myRotationAngle;
 		
-		public UndoActivity() {
-			super(null);
+		public UndoActivity(DrawingView newView) {
+			super(newView);
 			setUndoable(true);
 			setRedoable(true);
 		}

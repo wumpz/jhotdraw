@@ -354,7 +354,7 @@ public abstract class AbstractFigure implements Figure {
 			writer.close();
 		}
 		catch (IOException e) {
-			System.out.println("Class not found: " + e);
+			System.err.println("Class not found: " + e);
 		}
 
 		InputStream input = new ByteArrayInputStream(output.toByteArray());
@@ -363,10 +363,10 @@ public abstract class AbstractFigure implements Figure {
 			clone = (Object) reader.readObject();
 		}
 		catch (IOException e) {
-			System.out.println(e.toString());
+			System.err.println(e.toString());
 		}
 		catch (ClassNotFoundException e) {
-			System.out.println("Class not found: " + e);
+			System.err.println("Class not found: " + e);
 		}
 		return clone;
 	}

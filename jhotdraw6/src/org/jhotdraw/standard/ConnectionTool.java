@@ -76,9 +76,9 @@ public  class ConnectionTool extends AbstractTool {
 	private ConnectionFigure  fPrototype;
 
 
-	public ConnectionTool(DrawingView view, ConnectionFigure prototype) {
-		super(view);
-		fPrototype = prototype;
+	public ConnectionTool(DrawingEditor newDrawingEditor, ConnectionFigure newPrototype) {
+		super(newDrawingEditor);
+		fPrototype = newPrototype;
 	}
 
 	/**
@@ -97,9 +97,9 @@ public  class ConnectionTool extends AbstractTool {
 	{
 		int ex = e.getX();
 		int ey = e.getY();
-		setTarget(findConnectionStart(ex, ey, drawing()));
-		if (getTarget() != null) {
-			setStartConnector(findConnector(ex, ey, getTarget()));
+		setTargetFigure(findConnectionStart(ex, ey, drawing()));
+		if (getTargetFigure() != null) {
+			setStartConnector(findConnector(ex, ey, getTargetFigure()));
 			if (getStartConnector() != null) {
 				Point p = new Point(ex, ey);
 				setConnection(createConnection());
@@ -169,13 +169,14 @@ public  class ConnectionTool extends AbstractTool {
 		setConnection(null);
 		setStartConnector(null);
 		setEndConnector(null);
+		setAddedFigure(null);
 		editor().toolDone();
 	}
 
 	public void deactivate() {
 		super.deactivate();
-		if (getTarget() != null) {
-			getTarget().connectorVisibility(false);
+		if (getTargetFigure() != null) {
+			getTargetFigure().connectorVisibility(false);
 		}
 	}
 
@@ -231,7 +232,7 @@ public  class ConnectionTool extends AbstractTool {
 	}
 	
 	/**
-	 * Gets the currently created figure
+	 * Gets the connection which is created by this tool
 	 */
 	protected ConnectionFigure getConnection() {
 		return myConnection;
@@ -248,13 +249,13 @@ public  class ConnectionTool extends AbstractTool {
 		}
 
 		// track the figure containing the mouse
-		if (c != getTarget()) {
-			if (getTarget() != null) {
-				getTarget().connectorVisibility(false);
+		if (c != getTargetFigure()) {
+			if (getTargetFigure() != null) {
+				getTargetFigure().connectorVisibility(false);
 			}
-			setTarget(c);
-			if (getTarget() != null) {
-				getTarget().connectorVisibility(true);
+			setTargetFigure(c);
+			if (getTargetFigure() != null) {
+				getTargetFigure().connectorVisibility(true);
 			}
 		}
 
@@ -320,11 +321,11 @@ public  class ConnectionTool extends AbstractTool {
 		return myTargetConnector;
 	}
 	
-	private void setTarget(Figure newTarget) {
+	private void setTargetFigure(Figure newTarget) {
 		myTarget = newTarget;
 	}
 	
-	protected Figure getTarget() {
+	protected Figure getTargetFigure() {
 		return myTarget;
 	}
 

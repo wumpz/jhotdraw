@@ -27,37 +27,37 @@ import java.awt.event.MouseEvent;
  */
 public  class ConnectedTextTool extends TextTool {
 
-    private boolean fConnected = false;
+	private boolean fConnected = false;
 
-    public ConnectedTextTool(DrawingView view, Figure prototype) {
-        super(view, prototype);
-    }
+	public ConnectedTextTool(DrawingEditor editor, Figure prototype) {
+		super(editor, prototype);
+	}
 
-    /**
-     * If the pressed figure is a TextHolder it can be edited otherwise
-     * a new text figure is created.
-     */
-    public void mouseDown(MouseEvent e, int x, int y) {
-        super.mouseDown(e, x, y);
+	/**
+	 * If the pressed figure is a TextHolder it can be edited otherwise
+	 * a new text figure is created.
+	 */
+	public void mouseDown(MouseEvent e, int x, int y) {
+		super.mouseDown(e, x, y);
 
-	    Figure pressedFigure =  drawing().findFigureInside(x, y);
-	    TextHolder textHolder = getTypingTarget();
-System.out.println("pressedFigure: " + pressedFigure);
-System.out.println("textHolder: " + textHolder);
-        if (!fConnected && pressedFigure != null &&
-                     textHolder != null && pressedFigure != textHolder) {
-            textHolder.connect(pressedFigure);
-            ((ConnectedTextTool.UndoActivity)getUndoActivity()).setConnectedFigure(pressedFigure);
-            fConnected = true;
-        }
-    }
+		Figure pressedFigure =  drawing().findFigureInside(x, y);
+		TextHolder textHolder = getTypingTarget();
+		if (!fConnected && pressedFigure != null &&
+					 textHolder != null && pressedFigure != textHolder) {
+			textHolder.connect(pressedFigure);
+			((ConnectedTextTool.UndoActivity)getUndoActivity()).setConnectedFigure(pressedFigure);
+			fConnected = true;
+		}
+	}
 
-    /**
-     * Activate this tool
-     */
-    public void activate() {
-        fConnected = false;
-    }
+	/**
+	 * If the pressed figure is a TextHolder it can be edited otherwise
+	 * a new text figure is created.
+	 */
+	public void activate() {
+		super.activate();
+		fConnected = false;
+	}
 
 	/**
 	 * Factory method for undo activity
@@ -66,20 +66,20 @@ System.out.println("textHolder: " + textHolder);
 		return new ConnectedTextTool.UndoActivity(view(), getTypingTarget().getText());
 	}
 
-    public static class UndoActivity extends TextTool.UndoActivity {
-    	private Figure myConnectedFigure;
-    	
-    	public UndoActivity(DrawingView newDrawingView, String newOriginalText) {
-    		super(newDrawingView, newOriginalText);
-    	}
+	public static class UndoActivity extends TextTool.UndoActivity {
+		private Figure myConnectedFigure;
+		
+		public UndoActivity(DrawingView newDrawingView, String newOriginalText) {
+			super(newDrawingView, newOriginalText);
+		}
 
 		/*
 		 * Undo the activity
 		 * @return true if the activity could be undone, false otherwise
 		 */
-    	public boolean undo() {
+		public boolean undo() {
 			if (!super.undo()) {
-	        	return false;
+				return false;
 			}
 
 			FigureEnumeration fe = getAffectedFigures();
@@ -105,9 +105,9 @@ System.out.println("textHolder: " + textHolder);
 		 * Redo the activity
 		 * @return true if the activity could be redone, false otherwise
 		 */
-    	public boolean redo() {
+		public boolean redo() {
 			if (!super.redo()) {
-	        	return false;
+				return false;
 			}
 
 			FigureEnumeration fe = getAffectedFigures();
@@ -136,5 +136,5 @@ System.out.println("textHolder: " + textHolder);
 		public Figure getConnectedFigure() {
 			return myConnectedFigure;
 		}
-    }
+	}
 }

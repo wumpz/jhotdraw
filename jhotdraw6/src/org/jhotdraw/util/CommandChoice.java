@@ -49,7 +49,9 @@ public  class CommandChoice extends JComboBox implements ItemListener {
 	public void itemStateChanged(ItemEvent e) {
 		if ((getSelectedIndex() >= 0) && (getSelectedIndex() < fCommands.size())) {
 			Command command = (Command)fCommands.elementAt(getSelectedIndex());
-			command.execute();
+            if (command.isExecutable()) {
+				command.execute();
+			}
 		}
 	}
 }

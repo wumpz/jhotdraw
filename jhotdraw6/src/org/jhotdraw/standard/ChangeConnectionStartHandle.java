@@ -69,13 +69,13 @@ public class ChangeConnectionStartHandle extends ChangeConnectionHandle {
 	/**
 	 * Factory method for undo activity
 	 */
-	protected Undoable createUndoActivity() {
-		return new ChangeConnectionStartHandle.UndoActivity();
+	protected Undoable createUndoActivity(DrawingView newView) {
+		return new ChangeConnectionStartHandle.UndoActivity(newView);
 	}
 
 	public static class UndoActivity extends ChangeConnectionHandle.UndoActivity {
-		public UndoActivity() {
-			super();
+		public UndoActivity(DrawingView newView) {
+			super(newView);
 		}
 		
 		protected Connector replaceConnector(ConnectionFigure connection) {

@@ -29,7 +29,7 @@ public class FontSizeHandle extends LocatorHandle {
 	}
 
 	public void invokeStart(int  x, int  y, DrawingView view) {
-		setUndoActivity(createUndoActivity());
+		setUndoActivity(createUndoActivity(view));
 		getUndoActivity().setAffectedFigures(new SingleFigureEnumerator(owner()));
 	}
 
@@ -38,7 +38,6 @@ public class FontSizeHandle extends LocatorHandle {
 
 		FontSizeHandle.UndoActivity activity = (FontSizeHandle.UndoActivity)getUndoActivity();
 		int newSize = activity.getFont().getSize() + y-anchorY;
-//System.out.println("newSize: " + newSize + " .. y: " + y + " .. anchorY: " + anchorY);
 		textOwner.setFont(new Font(activity.getFont().getName(), activity.getFont().getStyle(), newSize));
 	}
 
@@ -67,17 +66,17 @@ public class FontSizeHandle extends LocatorHandle {
 	/**
 	 * Factory method for undo activity
 	 */
-	protected Undoable createUndoActivity() {
-		TextFigure textOwner = (TextFigure) owner();
-		return new FontSizeHandle.UndoActivity(textOwner.getFont());
+	protected Undoable createUndoActivity(DrawingView newView) {
+		TextFigure textOwner = (TextFigure)owner();
+		return new FontSizeHandle.UndoActivity(newView, textOwner.getFont());
 	}
 
 	public static class UndoActivity extends UndoableAdapter {
 		private Font myFont;
 		private int  myOldFontSize;
 		
-		public UndoActivity(Font newFont) {
-			super(null);
+		public UndoActivity(DrawingView newView, Font newFont) {
+			super(newView);
 			setFont(newFont);
 			setOldFontSize(getFont().getSize());
 			setUndoable(true);
@@ -89,7 +88,6 @@ public class FontSizeHandle extends LocatorHandle {
 				return false;
 			}
 			swapFont();
-System.out.println("FontSizeHandle.undo()");
 			return true;
 		}
 
@@ -99,7 +97,6 @@ System.out.println("FontSizeHandle.undo()");
 				return false;
 			}
 			swapFont();
-System.out.println("FontSizeHandle.redo()");
 			return true;
 		}
 

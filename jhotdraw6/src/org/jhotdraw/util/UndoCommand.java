@@ -31,21 +31,21 @@ public class UndoCommand extends AbstractCommand {
 	/**
 	 * Constructs a properties command.
 	 * @param name the command name
-	 * @param view the target view
+	 * @param newDrawingEditor the DrawingEditor which manages the views
 	 */
-	public UndoCommand(String name, DrawingView inView) {
-		super(name, inView);
+	public UndoCommand(String name, DrawingEditor newDrawingEditor) {
+		super(name, newDrawingEditor);
 	}
 
 	public void execute() {
-		UndoManager um = view().getUndoManager();
+		super.execute();
+		UndoManager um = getDrawingEditor().getUndoManager();
 
 		if ((um == null) || !um.isUndoable()) {
 			return;
 		}
 		
 		Undoable lastUndoable = um.popUndo();
-
 		// Execute undo
 		boolean hasBeenUndone = lastUndoable.undo();
 
@@ -53,10 +53,9 @@ public class UndoCommand extends AbstractCommand {
 		if (hasBeenUndone && lastUndoable.isRedoable()) {
 			um.pushRedo(lastUndoable);
 		}
-
-		view().checkDamage();
+		lastUndoable.getDrawingView().checkDamage();
 		
-		view().editor().figureSelectionChanged(view());
+		getDrawingEditor().figureSelectionChanged(lastUndoable.getDrawingView());
 	}
   
 	/**
@@ -64,8 +63,8 @@ public class UndoCommand extends AbstractCommand {
 	 * Undo menu item will be enabled only when there is atleast one undoable
 	 * activity registered with UndoManager.
 	 */
-	public boolean isExecutable() {
-		UndoManager um = view().getUndoManager();
+	public boolean isExecutableWithView() {
+		UndoManager um = getDrawingEditor().getUndoManager();
 
 		if ((um != null) && (um.getUndoSize() > 0)) {
 			return true;

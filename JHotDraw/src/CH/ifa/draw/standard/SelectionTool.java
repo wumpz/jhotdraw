@@ -14,6 +14,7 @@ package CH.ifa.draw.standard;
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.util.UndoableTool;
 import CH.ifa.draw.util.UndoableHandle;
+import CH.ifa.draw.contrib.DragNDropTool;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
@@ -38,8 +39,8 @@ public class SelectionTool extends AbstractTool {
 
 	private Tool fChild = null;
 
-	public SelectionTool(DrawingView view) {
-		super(view);
+	public SelectionTool(DrawingEditor newDrawingEditor) {
+		super(newDrawingEditor);
 	}
 
 	/**
@@ -62,17 +63,33 @@ public class SelectionTool extends AbstractTool {
 		else {
 			Figure figure = drawing().findFigure(e.getX(), e.getY());
 			if (figure != null) {
-				fChild = createDragTracker(view(), figure);
+				fChild = createDragTracker(figure);
 			}
 			else {
 				if (!e.isShiftDown()) {
 					view().clearSelection();
 				}
-				fChild = createAreaTracker(view());
+				fChild = createAreaTracker();
 			}
 		}
 		fChild.mouseDown(e, x, y);
 		fChild.activate();
+	}
+
+	public void activate() {
+		super.activate();
+	}
+
+	public void deactivate() {
+		super.deactivate();
+	}
+
+	/**
+	 * Handles mouse moves (if the mouse button is up).
+	 * Switches the cursors depending on whats under them.
+	 */
+	public void mouseMove(MouseEvent evt, int x, int y) {
+		DragNDropTool.setCursor(evt.getX(), evt.getY(), view());
 	}
 
 	/**
@@ -102,21 +119,21 @@ public class SelectionTool extends AbstractTool {
 	 * Factory method to create a Handle tracker. It is used to track a handle.
 	 */
 	protected Tool createHandleTracker(DrawingView view, Handle handle) {
-		return new HandleTracker(view, new UndoableHandle(handle, view));
+		return new HandleTracker(editor(), new UndoableHandle(handle, view));
 	}
 
 	/**
 	 * Factory method to create a Drag tracker. It is used to drag a figure.
 	 */
-	protected Tool createDragTracker(DrawingView view, Figure f) {
-		return new UndoableTool(new DragTracker(view, f));
+	protected Tool createDragTracker(Figure f) {
+		return new UndoableTool(new DragTracker(editor(), f));
 	}
 
 	/**
 	 * Factory method to create an area tracker. It is used to select an
 	 * area.
 	 */
-	protected Tool createAreaTracker(DrawingView view) {
-		return new SelectAreaTracker(view);
+	protected Tool createAreaTracker() {
+		return new SelectAreaTracker(editor());
 	}
 }

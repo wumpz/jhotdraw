@@ -11,7 +11,6 @@
 
 package CH.ifa.draw.framework;
 
-import CH.ifa.draw.util.UndoManager;
 import java.awt.image.ImageObserver;
 import java.awt.*;
 import java.io.*;
@@ -43,247 +42,247 @@ import java.util.*;
  */
 public interface DrawingView extends ImageObserver, DrawingChangeListener {
 
-    /**
-     * Sets the view's editor.
-     */
-    public void setEditor(DrawingEditor editor);
+	/**
+	 * Sets the view's editor.
+	 */
+	public void setEditor(DrawingEditor editor);
 
-    /**
-     * Gets the current tool.
-     */
-    public Tool tool();
+	/**
+	 * Gets the current tool.
+	 */
+	public Tool tool();
 
-    /**
-     * Gets the drawing.
-     */
-    public Drawing drawing();
+	/**
+	 * Gets the drawing.
+	 */
+	public Drawing drawing();
 
-    /**
-     * Sets and installs another drawing in the view.
-     */
-    public void setDrawing(Drawing d);
+	/**
+	 * Sets and installs another drawing in the view.
+	 */
+	public void setDrawing(Drawing d);
 
-    /**
-     * Gets the editor.
-     */
-    public DrawingEditor editor();
+	/**
+	 * Gets the editor.
+	 */
+	public DrawingEditor editor();
 
-    /**
-     * Adds a figure to the drawing.
-     * @return the added figure.
-     */
-    public Figure add(Figure figure);
+	/**
+	 * Adds a figure to the drawing.
+	 * @return the added figure.
+	 */
+	public Figure add(Figure figure);
 
-    /**
-     * Removes a figure from the drawing.
-     * @return the removed figure
-     */
-    public Figure remove(Figure figure);
+	/**
+	 * Removes a figure from the drawing.
+	 * @return the removed figure
+	 */
+	public Figure remove(Figure figure);
 
-    /**
-     * Adds a vector of figures to the drawing.
-     */
-    public void addAll(Vector figures);
+	/**
+	 * Adds a vector of figures to the drawing.
+	 */
+	public void addAll(Vector figures);
 
-    /**
-     * Gets the size of the drawing.
-     */
-    public Dimension getSize();
+	/**
+	 * Gets the size of the drawing.
+	 */
+	public Dimension getSize();
 
-    /**
-     * Gets the minimum dimension of the drawing.
-     */
-    public Dimension getMinimumSize();
+	/**
+	 * Gets the minimum dimension of the drawing.
+	 */
+	public Dimension getMinimumSize();
 
-    /**
-     * Gets the preferred dimension of the drawing..
-     */
-    public Dimension getPreferredSize();
+	/**
+	 * Gets the preferred dimension of the drawing..
+	 */
+	public Dimension getPreferredSize();
 
-    /**
-     * Sets the current display update strategy.
-     * @see Painter
-     */
-    public void setDisplayUpdate(Painter updateStrategy);
+	/**
+	 * Sets the current display update strategy.
+	 * @see Painter
+	 */
+	public void setDisplayUpdate(Painter updateStrategy);
 
-    /**
-     * Gets the current display update strategy.
-     * @see Painter
-     */
-    public Painter getDisplayUpdate();
+	/**
+	 * Gets the current display update strategy.
+	 * @see Painter
+	 */
+	public Painter getDisplayUpdate();
 
-    /**
-     * Gets the currently selected figures.
-     * @return a vector with the selected figures. The vector
-     * is a copy of the current selection.
-     */
-    public Vector selection();
+	/**
+	 * Gets the currently selected figures.
+	 * @return a vector with the selected figures. The vector
+	 * is a copy of the current selection.
+	 */
+	public Vector selection();
 
-    /**
-     * Gets an enumeration over the currently selected figures.
-     */
-    public FigureEnumeration selectionElements();
+	/**
+	 * Gets an enumeration over the currently selected figures.
+	 */
+	public FigureEnumeration selectionElements();
 
-    /**
-     * Gets the currently seleced figures in Z order.
-     * @see #selection
-     * @return a vector with the selected figures. The vector
-     * is a copy of the current selection.
-     */
-    public Vector selectionZOrdered();
+	/**
+	 * Gets the currently seleced figures in Z order.
+	 * @see #selection
+	 * @return a vector with the selected figures. The vector
+	 * is a copy of the current selection.
+	 */
+	public Vector selectionZOrdered();
 
-    /**
-     * Gets the number of selected figures.
-     */
-    public int selectionCount();
+	/**
+	 * Gets the number of selected figures.
+	 */
+	public int selectionCount();
 
-    /**
+	/**
 	 * Test whether a given figure is selected.
 	 */
 	public boolean isFigureSelected(Figure checkFigure);
 	
-    /**
-     * Adds a figure to the current selection.
-     */
-    public void addToSelection(Figure figure);
+	/**
+	 * Adds a figure to the current selection.
+	 */
+	public void addToSelection(Figure figure);
 
-    /**
-     * Adds a vector of figures to the current selection.
-     */
-    public void addToSelectionAll(Vector figures);
+	/**
+	 * Adds a vector of figures to the current selection.
+	 */
+	public void addToSelectionAll(Vector figures);
 
-    /**
-     * Adds a FigureEnumeration to the current selection.
-     */
-    public void addToSelectionAll(FigureEnumeration fe);
+	/**
+	 * Adds a FigureEnumeration to the current selection.
+	 */
+	public void addToSelectionAll(FigureEnumeration fe);
 
-    /**
-     * Removes a figure from the selection.
-     */
-    public void removeFromSelection(Figure figure);
+	/**
+	 * Removes a figure from the selection.
+	 */
+	public void removeFromSelection(Figure figure);
 
-    /**
-     * If a figure isn't selected it is added to the selection.
-     * Otherwise it is removed from the selection.
-     */
-    public void toggleSelection(Figure figure);
+	/**
+	 * If a figure isn't selected it is added to the selection.
+	 * Otherwise it is removed from the selection.
+	 */
+	public void toggleSelection(Figure figure);
 
-    /**
-     * Clears the current selection.
-     */
-    public void clearSelection();
+	/**
+	 * Clears the current selection.
+	 */
+	public void clearSelection();
 
-    /**
-     * Gets the current selection as a FigureSelection. A FigureSelection
-     * can be cut, copied, pasted.
-     */
-    public FigureSelection getFigureSelection();
+	/**
+	 * Gets the current selection as a FigureSelection. A FigureSelection
+	 * can be cut, copied, pasted.
+	 */
+	public FigureSelection getFigureSelection();
 
-    /**
-     * Finds a handle at the given coordinates.
-     * @return the hit handle, null if no handle is found.
-     */
-    public Handle findHandle(int x, int y);
+	/**
+	 * Finds a handle at the given coordinates.
+	 * @return the hit handle, null if no handle is found.
+	 */
+	public Handle findHandle(int x, int y);
 
-    /**
-     * Gets the position of the last click inside the view.
-     */
-    public Point lastClick();
+	/**
+	 * Gets the position of the last click inside the view.
+	 */
+	public Point lastClick();
 
-    /**
-     * Sets the current point constrainer.
-     */
-    public void setConstrainer(PointConstrainer p);
+	/**
+	 * Sets the current point constrainer.
+	 */
+	public void setConstrainer(PointConstrainer p);
 
-    /**
-     * Gets the current grid setting.
-     */
-    public PointConstrainer getConstrainer();
+	/**
+	 * Gets the current grid setting.
+	 */
+	public PointConstrainer getConstrainer();
 
-    /**
-     * Checks whether the drawing has some accumulated damage
-     */
-    public void checkDamage();
+	/**
+	 * Checks whether the drawing has some accumulated damage
+	 */
+	public void checkDamage();
 
-    /**
-     * Repair the damaged area
-     */
-    public void repairDamage();
+	/**
+	 * Repair the damaged area
+	 */
+	public void repairDamage();
 
-    /**
-     * Paints the drawing view. The actual drawing is delegated to
-     * the current update strategy.
-     * @see Painter
-     */
-    public void paint(Graphics g);
+	/**
+	 * Paints the drawing view. The actual drawing is delegated to
+	 * the current update strategy.
+	 * @see Painter
+	 */
+	public void paint(Graphics g);
 
-    /**
-     * Creates an image with the given dimensions
-     */
-    public Image createImage(int width, int height);
+	/**
+	 * Creates an image with the given dimensions
+	 */
+	public Image createImage(int width, int height);
 
-    /**
-     * Gets a graphic to draw into
-     */
-    public Graphics getGraphics();
+	/**
+	 * Gets a graphic to draw into
+	 */
+	public Graphics getGraphics();
 
-    /**
-     * Gets the background color of the DrawingView
-     */
-    public Color getBackground();
+	/**
+	 * Gets the background color of the DrawingView
+	 */
+	public Color getBackground();
 
-    /**
-     * Sets the background color of the DrawingView
-     */
-    public void setBackground(Color c);
+	/**
+	 * Sets the background color of the DrawingView
+	 */
+	public void setBackground(Color c);
 
-    /**
-     * Draws the contents of the drawing view.
-     * The view has three layers: background, drawing, handles.
-     * The layers are drawn in back to front order.
-     */
-    public void drawAll(Graphics g);
+	/**
+	 * Draws the contents of the drawing view.
+	 * The view has three layers: background, drawing, handles.
+	 * The layers are drawn in back to front order.
+	 */
+	public void drawAll(Graphics g);
 
-    /**
-     * Draws the given figures.
-     * The view has three layers: background, drawing, handles.
-     * The layers are drawn in back to front order.
-     */
-    public void draw(Graphics g, FigureEnumeration fe);
-    
-    /**
-     * Draws the currently active handles.
-     */
-    public void drawHandles(Graphics g);
+	/**
+	 * Draws the given figures.
+	 * The view has three layers: background, drawing, handles.
+	 * The layers are drawn in back to front order.
+	 */
+	public void draw(Graphics g, FigureEnumeration fe);
+	
+	/**
+	 * Draws the currently active handles.
+	 */
+	public void drawHandles(Graphics g);
 
-    /**
-     * Draws the drawing.
-     */
-    public void drawDrawing(Graphics g);
+	/**
+	 * Draws the drawing.
+	 */
+	public void drawDrawing(Graphics g);
 
-    /**
-     * Draws the background. If a background pattern is set it
-     * is used to fill the background. Otherwise the background
-     * is filled in the background color.
-     */
-    public void drawBackground(Graphics g);
+	/**
+	 * Draws the background. If a background pattern is set it
+	 * is used to fill the background. Otherwise the background
+	 * is filled in the background color.
+	 */
+	public void drawBackground(Graphics g);
 
-    /**
-     * Sets the cursor of the DrawingView
-     */
-    public void setCursor(Cursor c);
+	/**
+	 * Sets the cursor of the DrawingView
+	 */
+	public void setCursor(Cursor c);
 
-    /**
-     * Freezes the view by acquiring the drawing lock.
-     * @see Drawing#lock
-     */
-    public void freezeView();
+	/**
+	 * Freezes the view by acquiring the drawing lock.
+	 * @see Drawing#lock
+	 */
+	public void freezeView();
 
-    /**
-     * Unfreezes the view by releasing the drawing lock.
-     * @see Drawing#unlock
-     */
-    public void unfreezeView();
+	/**
+	 * Unfreezes the view by releasing the drawing lock.
+	 * @see Drawing#unlock
+	 */
+	public void unfreezeView();
 
 	/**
 	 * Add a listener for selection changes in this DrawingView.
@@ -297,18 +296,22 @@ public interface DrawingView extends ImageObserver, DrawingChangeListener {
 	 */
 	public void removeFigureSelectionListener(FigureSelectionListener fsl);
 
-    /**
-     * Returns the vector of connection figures
-     */
-    public Vector getConnectionFigures(Figure inFigure);
+	/**
+	 * Returns the vector of connection figures
+	 */
+	public Vector getConnectionFigures(Figure inFigure);
 
-    /**
-     * Inserts figures in a drawing at given offset. Optional check for connection figures
-     *
-     *  @return enumeration which has been added to the drawing. The figures in the enumeration
-     *          can have changed during adding them (e.g. they could have been decorated).
-     */
-    public FigureEnumeration insertFigures(FigureEnumeration inFigures, int dx, int dy, boolean bCheck);    
+	/**
+	 * Inserts figures in a drawing at given offset. Optional check for connection figures
+	 *
+	 *  @return enumeration which has been added to the drawing. The figures in the enumeration
+	 *          can have changed during adding them (e.g. they could have been decorated).
+	 */
+	public FigureEnumeration insertFigures(FigureEnumeration inFigures, int dx, int dy, boolean bCheck);    
 
-	public UndoManager getUndoManager();
+	/**
+	 * Check whether the DrawingView is interactive, i.e. whether it accepts user input
+	 * and whether it can display a drawing.
+	 */    
+	public boolean isInteractive();
 }

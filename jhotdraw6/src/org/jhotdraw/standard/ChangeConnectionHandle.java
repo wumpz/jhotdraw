@@ -39,7 +39,7 @@ public abstract class ChangeConnectionHandle extends AbstractHandle {
 	protected ChangeConnectionHandle(Figure owner) {
 		super(owner);
 		setConnection((ConnectionFigure) owner());
-		setTarget(null);
+		setTargetFigure(null);
 	}
 
 	/**
@@ -80,7 +80,7 @@ public abstract class ChangeConnectionHandle extends AbstractHandle {
 		fOriginalTarget = target();
 		fStart = new Point(x, y);
 
-		setUndoActivity(createUndoActivity());
+		setUndoActivity(createUndoActivity(view));
 		((ChangeConnectionHandle.UndoActivity)getUndoActivity()).setOldConnector(target());
 
 		disconnect();
@@ -93,13 +93,13 @@ public abstract class ChangeConnectionHandle extends AbstractHandle {
 		Point p = new Point(x, y);
 		Figure f = findConnectableFigure(x, y, view.drawing());
 		// track the figure containing the mouse
-		if (f != getTarget()) {
-			if (getTarget() != null) {
-				getTarget().connectorVisibility(false);
+		if (f != getTargetFigure()) {
+			if (getTargetFigure() != null) {
+				getTargetFigure().connectorVisibility(false);
 			}
-			setTarget(f);
-			if (getTarget() != null) {
-				getTarget().connectorVisibility(true);
+			setTargetFigure(f);
+			if (getTargetFigure() != null) {
+				getTargetFigure().connectorVisibility(true);
 			}
 		}
 
@@ -136,9 +136,9 @@ public abstract class ChangeConnectionHandle extends AbstractHandle {
 			getUndoActivity().setAffectedFigures(new SingleFigureEnumerator(getConnection()));
 		}
 
-		if (getTarget() != null) {
-			getTarget().connectorVisibility(false);
-			setTarget(null);
+		if (getTargetFigure() != null) {
+			getTargetFigure().connectorVisibility(false);
+			setTargetFigure(null);
 		}
 	}
 
@@ -192,24 +192,24 @@ public abstract class ChangeConnectionHandle extends AbstractHandle {
 		return myConnection;
 	}
 	
-	protected void setTarget(Figure newTarget) {
+	protected void setTargetFigure(Figure newTarget) {
 		myTarget = newTarget;
 	}
 	
-	protected Figure getTarget() {
+	protected Figure getTargetFigure() {
 		return myTarget;
 	}
 
 	/**
 	 * Factory method for undo activity. To be overriden by subclasses.
 	 */
-	protected abstract Undoable createUndoActivity();
+	protected abstract Undoable createUndoActivity(DrawingView newView);
 	
 	public static abstract class UndoActivity extends UndoableAdapter {
 		private Connector myOldConnector;
 		
-		public UndoActivity() {
-			super(null);
+		public UndoActivity(DrawingView newView) {
+			super(newView);
 			setUndoable(true);
 			setRedoable(true);
 		}

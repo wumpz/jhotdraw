@@ -12,6 +12,7 @@
 package CH.ifa.draw.util;
 
 import CH.ifa.draw.framework.FigureEnumeration;
+import CH.ifa.draw.framework.DrawingView;
 
 /**
  * @version <$CURRENT_VERSION$>
@@ -42,6 +43,8 @@ public interface Undoable {
 	 */
 	public void release();
 
+	public DrawingView getDrawingView();
+	
 	public void setAffectedFigures(FigureEnumeration newAffectedFigures);
 	
 	public FigureEnumeration getAffectedFigures();

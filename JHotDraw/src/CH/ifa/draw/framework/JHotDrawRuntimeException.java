@@ -21,4 +21,9 @@ public class JHotDrawRuntimeException extends RuntimeException {
 	public JHotDrawRuntimeException(String msg) {
 		super(msg);
 	}
+
+	public JHotDrawRuntimeException(Exception nestedException) {
+		this(nestedException.getLocalizedMessage());
+		nestedException.fillInStackTrace();
+	}
 }

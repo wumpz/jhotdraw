@@ -58,6 +58,7 @@ class QuadTree {
 			else {
 				_outsideHashtable.put(anObject, absoluteBoundingRectangle2D);
 			}
+			return;
 		}
 
 		boolean bNW = absoluteBoundingRectangle2D.intersects(

@@ -58,38 +58,48 @@ public abstract class PaletteButton
 	}
 
 	public void reset() {
-		fState = NORMAL;
-		setSelected(false);
-		repaint();
+		if (isEnabled()) {
+			fState = NORMAL;
+			setSelected(false);
+			repaint();
+		}
 	}
 
 	public void select() {
-		fState = SELECTED;
-		setSelected(true);
-		repaint();
+		if (isEnabled()) {
+			fState = SELECTED;
+			setSelected(true);
+			repaint();
+		}
 	}
 
 	public void mousePressed(MouseEvent e) {
-		fOldState = fState;
-		fState = PRESSED;
-		repaint();
+		if (isEnabled()) {
+			fOldState = fState;
+			fState = PRESSED;
+			repaint();
+		}
 	}
 
 	public void mouseDragged(MouseEvent e) {
-		if (contains(e.getX(),e.getY())) {
-			fState = PRESSED;
+		if (isEnabled()) {
+			if (contains(e.getX(),e.getY())) {
+				fState = PRESSED;
+			}
+			else {
+				fState = fOldState;
+			}
+			repaint();
 		}
-		else {
-			fState = fOldState;
-		}
-		repaint();
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		fState = fOldState;
-		repaint();
-		if (contains(e.getX(),e.getY())) {
-			fListener.paletteUserSelected(this);
+		if (isEnabled()) {
+			fState = fOldState;
+			repaint();
+			if (contains(e.getX(),e.getY())) {
+				fListener.paletteUserSelected(this);
+			}
 		}
 	}
 

@@ -39,6 +39,15 @@ public class RelativeLocator extends AbstractLocator {
 		fRelativeY = 0.0;
 	}
 
+	public boolean equals(Object o) {
+		if(RelativeLocator.class.isInstance( o ) ) {
+			RelativeLocator rl = (RelativeLocator) o;
+			if( rl.fRelativeX == fRelativeX && rl.fRelativeY == fRelativeY )
+				return true;
+		}
+		return false;
+	}
+
 	public RelativeLocator(double relativeX, double relativeY) {
 		fRelativeX = relativeX;
 		fRelativeY = relativeY;

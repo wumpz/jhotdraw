@@ -36,8 +36,8 @@ public class ScribbleTool extends AbstractTool {
 	 */
 	private Figure myAddedFigure;
 
-	public ScribbleTool(DrawingView view) {
-		super(view);
+	public ScribbleTool(DrawingEditor newDrawingEditor) {
+		super(newDrawingEditor);
 	}
 
 	public void activate() {

@@ -29,9 +29,13 @@ class RadiusHandle extends AbstractHandle {
 
 	public RadiusHandle(RoundRectangleFigure owner) {
 		super(owner);
-		setUndoActivity(createUndoActivity());
+	}
+
+	public void invokeStart(int  x, int  y, DrawingView view) {
+		setUndoActivity(createUndoActivity(view));
 		getUndoActivity().setAffectedFigures(new SingleFigureEnumerator(owner()));
-		((RadiusHandle.UndoActivity)getUndoActivity()).setOldRadius(owner.getArc());
+		((RadiusHandle.UndoActivity)getUndoActivity()).
+			setOldRadius(((RoundRectangleFigure)owner()).getArc());
 	}
 
 	public void invokeStep (int x, int y, int anchorX, int anchorY, DrawingView view) {
@@ -74,15 +78,15 @@ class RadiusHandle extends AbstractHandle {
 	/**
 	 * Factory method for undo activity. To be overriden by subclasses.
 	 */
-	protected Undoable createUndoActivity() {
-		return new RadiusHandle.UndoActivity();
+	protected Undoable createUndoActivity(DrawingView newView) {
+		return new RadiusHandle.UndoActivity(newView);
 	}
 	
 	public static class UndoActivity extends UndoableAdapter {
 		private Point myOldRadius;
 		
-		public UndoActivity() {
-			super(null);
+		public UndoActivity(DrawingView newView) {
+			super(newView);
 			setUndoable(true);
 			setRedoable(true);
 		}

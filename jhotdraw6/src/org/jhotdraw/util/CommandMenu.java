@@ -11,8 +11,11 @@
 
 package CH.ifa.draw.util;
 
+import CH.ifa.draw.framework.JHotDrawRuntimeException;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.util.*;
 
 /**
@@ -23,111 +26,118 @@ import java.util.*;
  *
  * @version <$CURRENT_VERSION$>
  */
+public  class CommandMenu extends JMenu implements ActionListener, CommandListener {
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+	private Vector   fCommands;
 
-public  class CommandMenu
-        extends JMenu implements ActionListener {
+	public CommandMenu(String name) {
+		super(name);
+		fCommands = new Vector(10);
+	}
 
-    private Vector   fCommands;
+	/**
+	 * Adds a command to the menu. The item's label is
+	 * the command's name.
+	 */
+	public synchronized void add(Command command) {
+		addMenuItem(command, new JMenuItem(command.name()));
+	}
 
-    public CommandMenu(String name) {
-        super(name);
-        fCommands = new Vector(10);
-    }
+	/**
+	 * Adds a command with the given short cut to the menu. The item's label is
+	 * the command's name.
+	 */
+	public synchronized void add(Command command, MenuShortcut shortcut) {
+		addMenuItem(command, new JMenuItem(command.name(), shortcut.getKey()));
+	}
 
-    /**
-     * Adds a command to the menu. The item's label is
-     * the command's name.
-     */
-    public synchronized void add(Command command) {
-        JMenuItem m = new JMenuItem(command.name());
-        m.addActionListener(this);
-        add(m);
-        fCommands.addElement(command);
-    }
+	/**
+	 * Adds a command with the given short cut to the menu. The item's label is
+	 * the command's name.
+	 */
+	public synchronized void addCheckItem(Command command) {
+		addMenuItem(command, new JCheckBoxMenuItem(command.name()));
+	}
 
-    /**
-     * Adds a command with the given short cut to the menu. The item's label is
-     * the command's name.
-     */
-    public synchronized void add(Command command, MenuShortcut shortcut) {
-        JMenuItem m = new JMenuItem(command.name(), shortcut.getKey());
-        m.setName(command.name());
-        m.addActionListener(this);
-        add(m);
-        fCommands.addElement(command);
-    }
+	protected void addMenuItem(Command command, JMenuItem m) {
+		m.setName(command.name());
+		m.addActionListener(this);
+		add(m);
+		fCommands.addElement(command);
+		command.addCommandListener(this);
+		checkEnabled();
+	}
+	
+	public synchronized void remove(Command command) {
+		throw new JHotDrawRuntimeException("not implemented");
+	}
 
-    /**
-     * Adds a command with the given short cut to the menu. The item's label is
-     * the command's name.
-     */
-    public synchronized void addCheckItem(Command command) {
-        JCheckBoxMenuItem m = new JCheckBoxMenuItem(command.name());
-        m.setName(command.name());
-        m.addActionListener(this);
-        add(m);
-        fCommands.addElement(command);
-    }
+	public synchronized void remove(MenuItem item) {
+		throw new JHotDrawRuntimeException("not implemented");
+	}
 
-    public synchronized void remove(Command command) {
-        System.out.println("not implemented");
-    }
+	/**
+	 * Changes the enabling/disabling state of a named menu item.
+	 */
+	public synchronized void enable(String name, boolean state) {
+		for (int i = 0; i < getItemCount(); i++) {
+			JMenuItem item = getItem(i);
+			if (name.equals(item.getLabel())) {
+				item.setEnabled(state);
+				return;
+			}
+		}
+	}
 
-    public synchronized void remove(MenuItem item) {
-        System.out.println("not implemented");
-    }
+	public synchronized void checkEnabled() {
+		int j = 0;
+		// note: this does currently only work, if menu items that do not correspond
+		// to a command are added at the end of the menu
+		for (int i = 0; (i < getMenuComponentCount()) && (i < fCommands.size()); i++) {
+			// ignore separators
+			// a separator has a hyphen as its label
+			if (getMenuComponent(i) instanceof JSeparator) {
+				continue;
+			}
+			Command cmd = (Command)fCommands.elementAt(j);
+			getMenuComponent(i).setEnabled(cmd.isExecutable());
+			j++;
+		}
+	}
 
-    /**
-     * Changes the enabling/disabling state of a named menu item.
-     */
-    public synchronized void enable(String name, boolean state) {
-        for (int i = 0; i < getItemCount(); i++) {
-            JMenuItem item = getItem(i);
-            if (name.equals(item.getLabel())) {
-                item.setEnabled(state);
-                return;
-            }
-        }
-    }
+	/**
+	 * Executes the command.
+	 */
+	public void actionPerformed(ActionEvent e) {
+		int j = 0;
+		Object source = e.getSource();
+		for (int i = 0; i < getItemCount(); i++) {
+			JMenuItem item = getItem(i);
+			// ignore separators
+			// a separator has a hyphen as its label
+			if (getMenuComponent(i) instanceof JSeparator) {
+				continue;
+			}
+			if (source == item) {
+				Command cmd = (Command)fCommands.elementAt(j);
+				cmd.execute();
+				break;
+			}
+			j++;
+		}
+	}
 
-    public synchronized void checkEnabled() {
-        int j = 0;
-        for (int i = 0; i < getMenuComponentCount(); i++) {
-            // ignore separators
-            // a separator has a hyphen as its label
-            if (getMenuComponent(i) instanceof JSeparator) {
-                continue;
-            }
-            Command cmd = (Command)fCommands.elementAt(j);
-            getMenuComponent(i).setEnabled(cmd.isExecutable());
-            j++;
-        }
-    }
-
-    /**
-     * Executes the command.
-     */
-    public void actionPerformed(ActionEvent e) {
-        int j = 0;
-        Object source = e.getSource();
-        for (int i = 0; i < getItemCount(); i++) {
-            JMenuItem item = getItem(i);
-            // ignore separators
-            // a separator has a hyphen as its label
-            if (getMenuComponent(i) instanceof JSeparator) {
-                continue;
-            }
-            if (source == item) {
-                Command cmd = (Command)fCommands.elementAt(j);
-                cmd.execute();
-                break;
-            }
-            j++;
-        }
-    }
+	public void commandExecuted(EventObject commandEvent) {
+		checkEnabled();
+	}
+	
+	public void commandExecutable(EventObject commandEvent) {
+		checkEnabled();
+	}
+	
+	public void commandNotExecutable(EventObject commandEvent) {
+		checkEnabled();
+	}
 }
 
 

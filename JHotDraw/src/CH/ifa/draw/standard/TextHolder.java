@@ -25,41 +25,41 @@ import CH.ifa.draw.framework.*;
 
 public interface TextHolder {
 
-    public Rectangle textDisplayBox();
+	public Rectangle textDisplayBox();
 
-    /**
-     * Gets the text shown by the text figure.
-     */
-    public String getText();
+	/**
+	 * Gets the text shown by the text figure.
+	 */
+	public String getText();
 
-    /**
-     * Sets the text shown by the text figure.
-     */
-    public void setText(String newText);
+	/**
+	 * Sets the text shown by the text figure.
+	 */
+	public void setText(String newText);
 
-    /**
-     * Tests whether the figure accepts typing.
-     */
-    public boolean acceptsTyping();
+	/**
+	 * Tests whether the figure accepts typing.
+	 */
+	public boolean acceptsTyping();
 
-    /**
-     * Gets the number of columns to be overlaid when the figure is edited.
-     */
-    public int overlayColumns();
+	/**
+	 * Gets the number of columns to be overlaid when the figure is edited.
+	 */
+	public int overlayColumns();
 
-    /**
-     * Connects a text holder to another figure.
-     */
-    public void connect(Figure connectedFigure);
+	/**
+	 * Connects a text holder to another figure.
+	 */
+	public void connect(Figure connectedFigure);
 
-    /**
-     * Disconnects a text holder from a connect figure.
-     */
-    public void disconnect(Figure disconnectFigure);
-    
-    /**
-     * Gets the font.
-     */
-    public Font getFont();
+	/**
+	 * Disconnects a text holder from a connect figure.
+	 */
+	public void disconnect(Figure disconnectFigure);
+	
+	/**
+	 * Gets the font.
+	 */
+	public Font getFont();
 
 }

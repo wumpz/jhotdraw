@@ -24,8 +24,8 @@ import java.awt.event.MouseEvent;
  */
 public abstract class ActionTool extends AbstractTool {
 
-	public ActionTool(DrawingView itsView) {
-		super(itsView);
+	public ActionTool(DrawingEditor newDrawingEditor) {
+		super(newDrawingEditor);
 	}
 
 	/**

@@ -29,66 +29,67 @@ import java.io.*;
 
 public class StandardFigureSelection implements FigureSelection, Serializable {
 
-    private byte[] fData; // flattend figures, ready to be resurrected
-    
-    /**
-     * The type identifier of the selection.
-     */
-    public final static String TYPE = "CH.ifa.draw.Figures";
+	private byte[] fData; // flattend figures, ready to be resurrected
+	
+	/**
+	 * The type identifier of the selection.
+	 */
+	public final static String TYPE = "CH.ifa.draw.Figures";
 
-    /**
-     * Constructes the Figure selection for the vector of figures.
-     */
-    public StandardFigureSelection(FigureEnumeration figures, int figureCount) {
-        // a FigureSelection is represented as a flattened ByteStream
-        // of figures.
-        ByteArrayOutputStream output = new ByteArrayOutputStream(200);
-        StorableOutput writer = new StorableOutput(output);
-        writer.writeInt(figureCount);
-        while (figures.hasMoreElements()) {
-            writer.writeStorable(figures.nextFigure());
-        }
-        writer.close();
-        fData = output.toByteArray();
-    }
+	/**
+	 * Constructes the Figure selection for the vector of figures.
+	 */
+	public StandardFigureSelection(FigureEnumeration figures, int figureCount) {
+		// a FigureSelection is represented as a flattened ByteStream
+		// of figures.
+		ByteArrayOutputStream output = new ByteArrayOutputStream(200);
+		StorableOutput writer = new StorableOutput(output);
+		writer.writeInt(figureCount);
+		while (figures.hasMoreElements()) {
+			writer.writeStorable(figures.nextFigure());
+		}
+		writer.close();
+		fData = output.toByteArray();
+	}
 
-    /**
-     * Gets the type of the selection.
-     */
-    public String getType() {
-        return TYPE;
-    }
+	/**
+	 * Gets the type of the selection.
+	 */
+	public String getType() {
+		return TYPE;
+	}
 
-    /**
-     * Gets the data of the selection. The result is returned
-     * as a Vector of Figures.
-     *
-     * @return a copy of the figure selection.
-     */
-    public Object getData(String type) {
-        if (type.equals(TYPE)) {
-            InputStream input = new ByteArrayInputStream(fData);
-            Vector result = new Vector(10);
-            StorableInput reader = new StorableInput(input);
-            int numRead = 0;
-            try {
-                int count = reader.readInt();
-                while (numRead < count) {
-                    Figure newFigure = (Figure) reader.readStorable();
-                    result.addElement(newFigure);
-                    numRead++;
-                }
-            } catch (IOException e) {
-                System.out.println(e.toString());
-            }
-            return new FigureEnumerator(result);
-        }
-        return null;
-    }
-    
-    public static FigureEnumeration duplicateFigures(FigureEnumeration toBeCloned, int figureCount) {
-    	StandardFigureSelection duplicater = new StandardFigureSelection(toBeCloned, figureCount);
-    	return (FigureEnumeration)duplicater.getData(duplicater.getType());
-    }
+	/**
+	 * Gets the data of the selection. The result is returned
+	 * as a Vector of Figures.
+	 *
+	 * @return a copy of the figure selection.
+	 */
+	public Object getData(String type) {
+		if (type.equals(TYPE)) {
+			InputStream input = new ByteArrayInputStream(fData);
+			Vector result = new Vector(10);
+			StorableInput reader = new StorableInput(input);
+			int numRead = 0;
+			try {
+				int count = reader.readInt();
+				while (numRead < count) {
+					Figure newFigure = (Figure) reader.readStorable();
+					result.addElement(newFigure);
+					numRead++;
+				}
+			}
+			catch (IOException e) {
+				System.err.println(e.toString());
+			}
+			return new FigureEnumerator(result);
+		}
+		return null;
+	}
+	
+	public static FigureEnumeration duplicateFigures(FigureEnumeration toBeCloned, int figureCount) {
+		StandardFigureSelection duplicater = new StandardFigureSelection(toBeCloned, figureCount);
+		return (FigureEnumeration)duplicater.getData(duplicater.getType());
+	}
 }
 

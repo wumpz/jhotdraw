@@ -29,13 +29,13 @@ public  class NetApp extends DrawApplication {
 	protected void createTools(JToolBar palette) {
 		super.createTools(palette);
 
-		Tool tool = new TextTool(view(), new NodeFigure());
+		Tool tool = new TextTool(this, new NodeFigure());
 		palette.add(createToolButton(IMAGES + "TEXT", "Text Tool", tool));
 
-		tool = new CreationTool(view(), new NodeFigure());
+		tool = new CreationTool(this, new NodeFigure());
 		palette.add(createToolButton(IMAGES + "RECT", "Create Org Unit", tool));
 
-		tool = new ConnectionTool(view(), new LineConnection());
+		tool = new ConnectionTool(this, new LineConnection());
 		palette.add(createToolButton(IMAGES + "CONN", "Connection Tool", tool));
 	}
 

@@ -23,8 +23,8 @@ import CH.ifa.draw.standard.*;
  */
 public  class MySelectionTool extends SelectionTool {
 
-	public MySelectionTool(DrawingView view) {
-		super(view);
+	public MySelectionTool(DrawingEditor newDrawingEditor) {
+		super(newDrawingEditor);
 	}
 
 	/**

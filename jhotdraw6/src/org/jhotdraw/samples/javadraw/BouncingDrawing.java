@@ -21,45 +21,49 @@ import CH.ifa.draw.util.Animatable;
  * @version <$CURRENT_VERSION$>
  */
 public class BouncingDrawing extends StandardDrawing implements Animatable {
-    /*
-     * Serialization support.
-     */
-    private static final long serialVersionUID = -8566272817418441758L;
-    private int bouncingDrawingSerializedDataVersion = 1;
+	/*
+	 * Serialization support.
+	 */
+	private static final long serialVersionUID = -8566272817418441758L;
+	private int bouncingDrawingSerializedDataVersion = 1;
 
-    public synchronized Figure add(Figure figure) {
-        if (!(figure instanceof AnimationDecorator) &&
-            !(figure instanceof ConnectionFigure)) {
-            figure = new AnimationDecorator(figure);
-        }
-        return super.add(figure);
-    }
+	public synchronized Figure add(Figure figure) {
+		if (!(figure instanceof AnimationDecorator) &&
+			!(figure instanceof ConnectionFigure)) {
+			figure = new AnimationDecorator(figure);
+		}
+		return super.add(figure);
+	}
 
-    public synchronized Figure remove(Figure figure) {
-        return super.remove(figure);
-    }
+	public synchronized Figure remove(Figure figure) {
+		Figure f = super.remove(figure);
+		if (f instanceof AnimationDecorator) {
+			return ((AnimationDecorator) f).peelDecoration();
+		}
+		return f;
+	}
 
 	/**
 	 * @param figure figure to be replaced
 	 * @param replacement figure that should replace the specified figure
 	 * @return the figure that has been inserted (might be different from the figure specified)
 	 */
-    public synchronized Figure replace(Figure figure, Figure replacement) {
-        if (!(replacement instanceof AnimationDecorator) &&
-            !(replacement instanceof ConnectionFigure)) {
-            replacement = new AnimationDecorator(replacement);
-        }
-        return super.replace(figure, replacement);
-    }
+	public synchronized Figure replace(Figure figure, Figure replacement) {
+		if (!(replacement instanceof AnimationDecorator) &&
+			!(replacement instanceof ConnectionFigure)) {
+			replacement = new AnimationDecorator(replacement);
+		}
+		return super.replace(figure, replacement);
+	}
 
-    public void animationStep() {
-        Enumeration k = figures();
-        while (k.hasMoreElements()) {
-            Figure f = (Figure) k.nextElement();
-            
-            if(!(f instanceof ConnectionFigure)) {
-                ((AnimationDecorator) f).animationStep();
-            }
-        }
-    }
+	public void animationStep() {
+		Enumeration k = figures();
+		while (k.hasMoreElements()) {
+			Figure f = (Figure) k.nextElement();
+			
+			if(!(f instanceof ConnectionFigure)) {
+				((AnimationDecorator) f).animationStep();
+			}
+		}
+	}
 }

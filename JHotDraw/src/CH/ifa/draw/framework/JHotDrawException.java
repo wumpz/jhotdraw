@@ -21,4 +21,9 @@ public class JHotDrawException extends Exception {
 	public JHotDrawException(String msg) {
 		super(msg);
 	}
+	
+	public JHotDrawException(Exception nestedException) {
+		this(nestedException.getLocalizedMessage());
+		nestedException.fillInStackTrace();
+	}
 }

@@ -252,14 +252,12 @@ public abstract class CompositeFigure
 	public void sendToLayer(Figure figure, int layerNr) {
 		if (fFigures.contains(figure)) {
 			if (layerNr >= fFigures.size()) {
-System.out.println("original layerNr: " + layerNr);
 				layerNr = fFigures.size() - 1;
 			}
 			Figure layerFigure = getFigureFromLayer(layerNr);
 			int layerFigureZValue = layerFigure.getZValue();
 			int figureLayer = getLayer(figure);
 			// move figure forward
-System.out.println("figureLayer: "+figureLayer + " layerNr: " + layerNr);
 			if (figureLayer < layerNr) {
 				assignFiguresToPredecessorZValue(figureLayer + 1, layerNr);
 			}
@@ -271,24 +269,12 @@ System.out.println("figureLayer: "+figureLayer + " layerNr: " + layerNr);
 			fFigures.insertElementAt(figure, layerNr);
 			figure.setZValue(layerFigureZValue);
 			figure.changed();
-System.out.println("figureLayer(2): "+ figure.getZValue());
 		}
 	}
 
 	private void assignFiguresToPredecessorZValue(int lowerBound, int upperBound) {
 		// cannot shift figures to a lower layer if the lower bound is
 		// already the first layer.
-/*
-		if (lowerBound <= 0) {
-			return;
-		}
-		
-		if (upperBound >= fFigures.size()) {
-			upperBound = fFigures.size() - 1;
-		}
-		
-		for (int i = lowerBound; i <= upperBound; i++) {
-*/
 		if (upperBound >= fFigures.size()) {
 			upperBound = fFigures.size() - 1;
 		}
@@ -296,7 +282,6 @@ System.out.println("figureLayer(2): "+ figure.getZValue());
 		for (int i = upperBound; i >= lowerBound; i--) {
 			Figure currentFigure = (Figure)fFigures.elementAt(i);
 			Figure predecessorFigure = (Figure)fFigures.elementAt(i - 1);
-System.out.println("AssignPredeccessor " + i + " -> " + (i-1) + " with z: " + currentFigure.getZValue() + " -> " + predecessorFigure.getZValue());
 			currentFigure.setZValue(predecessorFigure.getZValue());
 		}
 	}
@@ -309,7 +294,6 @@ System.out.println("AssignPredeccessor " + i + " -> " + (i-1) + " with z: " + cu
 		for (int i = upperBound; i >= lowerBound; i--) {
 			Figure currentFigure = (Figure)fFigures.elementAt(i);
 			Figure successorFigure = (Figure)fFigures.elementAt(i + 1);
-System.out.println("AssignSuccessor " + i + " -> " + (i+1) + " with z: " + currentFigure.getZValue() + " -> " + successorFigure.getZValue());
 			currentFigure.setZValue(successorFigure.getZValue());
 		}
 	}

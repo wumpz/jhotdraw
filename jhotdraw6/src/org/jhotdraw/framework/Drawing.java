@@ -318,4 +318,7 @@ public interface Drawing
 	 * may suffer.
 	 */
 	public void init(Rectangle viewRectangle);
+
+	public String getTitle();
+	public void setTitle(String name);
 }

@@ -23,28 +23,29 @@ import java.util.*;
  */ 
 public class SendToBackCommand extends AbstractCommand {
 
-   /**
-    * Constructs a send to back command.
-    * @param name the command name
-    * @param view the target view
-    */
-    public SendToBackCommand(String name, DrawingView view) {
-        super(name, view);
-    }
+	/**
+	 * Constructs a send to back command.
+	 * @param name the command name
+	 * @param newDrawingEditor the DrawingEditor which manages the views
+	 */
+	public SendToBackCommand(String name, DrawingEditor newDrawingEditor) {
+		super(name, newDrawingEditor);
+	}
 
-    public void execute() {
-    	setUndoActivity(createUndoActivity());
-    	getUndoActivity().setAffectedFigures(new ReverseFigureEnumerator(view().selectionZOrdered()));
+	public void execute() {
+		super.execute();
+		setUndoActivity(createUndoActivity());
+		getUndoActivity().setAffectedFigures(new ReverseFigureEnumerator(view().selectionZOrdered()));
 		FigureEnumeration fe = getUndoActivity().getAffectedFigures();
-        while (fe.hasMoreElements()) {
-            view().drawing().sendToBack(fe.nextFigure());
-        }
-        view().checkDamage();
-    }
+		while (fe.hasMoreElements()) {
+			view().drawing().sendToBack(fe.nextFigure());
+		}
+		view().checkDamage();
+	}
 
-    public boolean isExecutable() {
-        return view().selectionCount() > 0;
-    }
+	protected boolean isExecutableWithView() {
+		return view().selectionCount() > 0;
+	}
 
 	protected Undoable createUndoActivity() {
 		return new SendToBackCommand.UndoActivity(view());
@@ -62,18 +63,17 @@ public class SendToBackCommand extends AbstractCommand {
 		
 		public boolean undo() {
 			if (!super.undo()) {
-	        	return false;
+				return false;
 			}
 
 			FigureEnumeration fe = getAffectedFigures();
 			while (fe.hasMoreElements()) {
 				Figure currentFigure = fe.nextFigure();
 				int currentFigureLayer = getOriginalLayer(currentFigure);
-System.out.println("CurrentFigure sendToBack: " + currentFigure + " .. " + currentFigureLayer);
 				getDrawingView().drawing().sendToLayer(currentFigure, currentFigureLayer);
 			}
 			
-		    return true;
+			return true;
 		}
 		
 		public boolean redo() {
@@ -106,12 +106,12 @@ System.out.println("CurrentFigure sendToBack: " + currentFigure + " .. " + curre
 			// first make copy of FigureEnumeration in superclass
 			super.setAffectedFigures(fe);
 			// then get new FigureEnumeration of copy to save attributes
-	        FigureEnumeration copyFe = getAffectedFigures();
-	        while (copyFe.hasMoreElements()) {
-	            Figure f = copyFe.nextFigure();
-	            int originalLayer = getDrawingView().drawing().getLayer(f);
-            	addOriginalLayer(f, originalLayer);
-	        }
+			FigureEnumeration copyFe = getAffectedFigures();
+			while (copyFe.hasMoreElements()) {
+				Figure f = copyFe.nextFigure();
+				int originalLayer = getDrawingView().drawing().getLayer(f);
+				addOriginalLayer(f, originalLayer);
+			}
 		}
 	}
 }

@@ -24,20 +24,21 @@ import CH.ifa.draw.framework.*;
  */
 public class CopyCommand extends FigureTransferCommand {
 
-   /**
-    * Constructs a copy command.
-    * @param name the command name
-    * @param view the target view
-    */
-    public CopyCommand(String name, DrawingView view) {
-        super(name, view);
-    }
+	/**
+	 * Constructs a copy command.
+	 * @param name the command name
+	 * @param newDrawingEditor the DrawingEditor which manages the views
+	 */
+	public CopyCommand(String name, DrawingEditor newDrawingEditor) {
+		super(name, newDrawingEditor);
+	}
 
-    public void execute() {
-        copyFigures(view().selectionElements(), view().selectionCount());
-    }
+	public void execute() {
+		super.execute();
+		copyFigures(view().selectionElements(), view().selectionCount());
+	}
 
-    public boolean isExecutable() {
-        return view().selectionCount() > 0;
-    }
+	protected boolean isExecutableWithView() {
+		return view().selectionCount() > 0;
+	}
 }

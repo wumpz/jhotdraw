@@ -37,8 +37,8 @@ public class PolygonTool extends AbstractTool {
 	 */
 	private Figure myAddedFigure;
 
-	public PolygonTool(DrawingView view) {
-		super(view);
+	public PolygonTool(DrawingEditor newDrawingEditor) {
+		super(newDrawingEditor);
 	}
 
 	public void activate() {
@@ -47,7 +47,6 @@ public class PolygonTool extends AbstractTool {
 	}
 
 	public void deactivate() {
-		super.deactivate();
 		if (fPolygon != null) {
 			fPolygon.smoothPoints();
 			if (fPolygon.pointCount() < 3 ||
@@ -58,6 +57,7 @@ public class PolygonTool extends AbstractTool {
 			}
 		}
 		fPolygon = null;
+		super.deactivate();
 	}
 
 	private void addPoint(int x, int y) {

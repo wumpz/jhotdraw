@@ -35,27 +35,28 @@ import CH.ifa.draw.util.*;
  */
 public class DrawApplet
 		extends JApplet
-		implements DrawingEditor, PaletteListener {
+		implements DrawingEditor, PaletteListener, VersionRequester {
 
-	transient private Drawing         fDrawing;
-	transient private Tool            fTool;
+	private transient Drawing         fDrawing;
+	private transient Tool            fTool;
 
-	transient private DrawingView     fView;
-	transient private ToolButton      fDefaultToolButton;
-	transient private ToolButton      fSelectedToolButton;
+	private transient DrawingView     fView;
+	private transient ToolButton      fDefaultToolButton;
+	private transient ToolButton      fSelectedToolButton;
 
-	transient private boolean         fSimpleUpdate;
-	transient private JButton          fUpdateButton;
+	private transient boolean         fSimpleUpdate;
+	private transient JButton          fUpdateButton;
 
-	transient private JComboBox          fFrameColor;
-	transient private JComboBox          fFillColor;
-	transient private JComboBox          fTextColor;
-	transient private JComboBox          fArrowChoice;
-	transient private JComboBox          fFontChoice;
+	private transient JComboBox          fFrameColor;
+	private transient JComboBox          fFillColor;
+	private transient JComboBox          fTextColor;
+	private transient JComboBox          fArrowChoice;
+	private transient JComboBox          fFontChoice;
 
-	transient private Thread          fSleeper;
+	private transient Thread          fSleeper;
 	private Iconkit                   fIconkit;
-
+	private transient 			UndoManager myUndoManager;
+	
 	static String                     fgUntitled = "untitled";
 
 	private static final String       fgDrawPath = "/CH/ifa/draw/";
@@ -65,6 +66,9 @@ public class DrawApplet
 	 * Initializes the applet and creates its contents.
 	 */
 	public void init() {
+		getVersionControlStrategy().assertCompatibleVersion();
+		setUndoManager(new UndoManager());
+		
 		fIconkit = new Iconkit(this);
 
 		getContentPane().setLayout(new BorderLayout());
@@ -88,6 +92,12 @@ public class DrawApplet
 		// JFC should have its own internal double buffering...
 		//setBufferedDisplayUpdate();
 		setupAttributes();
+	}
+
+	public void addViewChangeListener(ViewChangeListener vsl) {
+	}
+
+	public void removeViewChangeListener(ViewChangeListener vsl) {
 	}
 
 	/*
@@ -134,10 +144,10 @@ public class DrawApplet
 		panel.add(new JLabel("Arrow"));
 		CommandChoice choice = new CommandChoice();
 		fArrowChoice = choice;
-		choice.addItem(new ChangeAttributeCommand("none",     "ArrowMode", new Integer(PolyLineFigure.ARROW_TIP_NONE),  view()));
-		choice.addItem(new ChangeAttributeCommand("at Start", "ArrowMode", new Integer(PolyLineFigure.ARROW_TIP_START), view()));
-		choice.addItem(new ChangeAttributeCommand("at End",   "ArrowMode", new Integer(PolyLineFigure.ARROW_TIP_END),   view()));
-		choice.addItem(new ChangeAttributeCommand("at Both",  "ArrowMode", new Integer(PolyLineFigure.ARROW_TIP_BOTH),  view()));
+		choice.addItem(new ChangeAttributeCommand("none",     "ArrowMode", new Integer(PolyLineFigure.ARROW_TIP_NONE),  this));
+		choice.addItem(new ChangeAttributeCommand("at Start", "ArrowMode", new Integer(PolyLineFigure.ARROW_TIP_START), this));
+		choice.addItem(new ChangeAttributeCommand("at End",   "ArrowMode", new Integer(PolyLineFigure.ARROW_TIP_END),   this));
+		choice.addItem(new ChangeAttributeCommand("at Both",  "ArrowMode", new Integer(PolyLineFigure.ARROW_TIP_BOTH),  this));
 		panel.add(fArrowChoice);
 
 		panel.add(new JLabel("Font"));
@@ -156,7 +166,7 @@ public class DrawApplet
 					ColorMap.name(i),
 					attribute,
 					ColorMap.color(i),
-					view()
+					this
 				)
 			);
 		return choice;
@@ -170,7 +180,7 @@ public class DrawApplet
 		CommandChoice choice = new CommandChoice();
 		String fonts[] = Toolkit.getDefaultToolkit().getFontList();
 		for (int i = 0; i < fonts.length; i++) {
-			choice.addItem(new ChangeAttributeCommand(fonts[i], "FontName", fonts[i],  view()));
+			choice.addItem(new ChangeAttributeCommand(fonts[i], "FontName", fonts[i],  this));
 		}
 		return choice;
 	}
@@ -224,16 +234,16 @@ public class DrawApplet
 		panel.add(new Filler(6,20));
 
 		JButton button;
-		button = new CommandButton(new DeleteCommand("Delete", view()));
+		button = new CommandButton(new DeleteCommand("Delete", this));
 		panel.add(button);
 
-		button = new CommandButton(new DuplicateCommand("Duplicate", view()));
+		button = new CommandButton(new DuplicateCommand("Duplicate", this));
 		panel.add(button);
 
-		button = new CommandButton(new GroupCommand("Group", view()));
+		button = new CommandButton(new GroupCommand("Group", this));
 		panel.add(button);
 
-		button = new CommandButton(new UngroupCommand("Ungroup", view()));
+		button = new CommandButton(new UngroupCommand("Ungroup", this));
 		panel.add(button);
 
 		button = new JButton("Help");
@@ -290,7 +300,7 @@ public class DrawApplet
 	 * a custom selection tool.
 	 */
 	protected Tool createSelectionTool() {
-		return new SelectionTool(view());
+		return new SelectionTool(this);
 	}
 
 	/**
@@ -367,6 +377,10 @@ public class DrawApplet
 		return fView;
 	}
 
+	public DrawingView[] views() {
+		return new DrawingView[] { view() } ;
+	}
+
 	/**
 	 * Sets the default tool of the editor.
 	 * @see DrawingEditor
@@ -383,6 +397,9 @@ public class DrawApplet
 	 */
 	public void figureSelectionChanged(DrawingView view) {
 		setupAttributes();
+	}
+
+	public void viewSelectionChanged(DrawingView oldView, DrawingView newView) {
 	}
 
 	private void initDrawing() {
@@ -538,6 +555,33 @@ public class DrawApplet
 			showStatus("Help file not found");
 		}
 
+	}
+
+	protected void setUndoManager(UndoManager newUndoManager) {
+		myUndoManager = newUndoManager;
+	}
+	
+	public UndoManager getUndoManager() {
+		return myUndoManager;
+	}
+
+	protected VersionControlStrategy getVersionControlStrategy() {
+		return new StandardVersionControlStrategy(this);
+	}
+
+	/**
+	 * Subclasses should override this method to specify to which versions of
+	 * JHotDraw they are compatible. A string array is returned so it is possible
+	 * to specify several version numbers of JHotDraw to which the application
+	 * is compatible with.
+	 *
+	 * @return all versions number of JHotDraw the application is compatible with.
+	 */
+	public String[] getRequiredVersions() {
+		String[] requiredVersions = new String[1];
+		// return the version of the package we are in
+		requiredVersions[0] = VersionManagement.getPackageVersion(DrawApplet.class.getPackage());
+		return requiredVersions;
 	}
 
 	/**

@@ -32,20 +32,20 @@ public  class PertApplication extends DrawApplication {
 	protected void createTools(JToolBar palette) {
 		super.createTools(palette);
 
-		Tool tool = new TextTool(view(), new TextFigure());
+		Tool tool = new TextTool(this, new TextFigure());
 		palette.add(createToolButton(IMAGES + "TEXT", "Text Tool", tool));
 
 		// the generic but slower version
 		//tool = new CreationTool(new PertFigure());
 		//palette.add(createToolButton(PERTIMAGES + "PERT", "Task Tool", tool));
 
-		tool = new PertFigureCreationTool(view());
+		tool = new PertFigureCreationTool(this);
 		palette.add(createToolButton(PERTIMAGES + "PERT", "Task Tool", tool));
 
-		tool = new ConnectionTool(view(), new PertDependency());
+		tool = new ConnectionTool(this, new PertDependency());
 		palette.add(createToolButton(IMAGES + "CONN", "Dependency Tool", tool));
 
-		tool = new CreationTool(view(), new LineFigure());
+		tool = new CreationTool(this, new LineFigure());
 		palette.add(createToolButton(IMAGES + "Line", "Line Tool", tool));
 	}
 

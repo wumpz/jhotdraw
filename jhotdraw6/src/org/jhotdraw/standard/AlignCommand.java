@@ -25,71 +25,71 @@ import java.awt.*;
 public class AlignCommand extends AbstractCommand {
 
 	public static abstract class Alignment {
-	    /**
-	     * align left sides
-	     */
-	    public final static Alignment LEFTS = new Alignment("Lefts") {
-	    	public void moveBy(Figure f, Rectangle anchor) {
-	            Rectangle rr = f.displayBox();
-                f.moveBy(anchor.x-rr.x, 0);
-	    	}
-	    };
+		/**
+		 * align left sides
+		 */
+		public final static Alignment LEFTS = new Alignment("Lefts") {
+			public void moveBy(Figure f, Rectangle anchor) {
+				Rectangle rr = f.displayBox();
+				f.moveBy(anchor.x-rr.x, 0);
+			}
+		};
 	
-	    /**
-	     * align centers (horizontally)
-	     */
-	    public final static Alignment CENTERS = new Alignment("Centers") {
-	    	public void moveBy(Figure f, Rectangle anchor) {
-	            Rectangle rr = f.displayBox();
-                f.moveBy((anchor.x+anchor.width/2) - (rr.x+rr.width/2), 0);
-	    	}
-	    };
+		/**
+		 * align centers (horizontally)
+		 */
+		public final static Alignment CENTERS = new Alignment("Centers") {
+			public void moveBy(Figure f, Rectangle anchor) {
+				Rectangle rr = f.displayBox();
+				f.moveBy((anchor.x+anchor.width/2) - (rr.x+rr.width/2), 0);
+			}
+		};
 	
-	    /**
-	     * align right sides
-	     */
-	    public final static Alignment RIGHTS = new Alignment("Rights") {
-	    	public void moveBy(Figure f, Rectangle anchor) {
-	            Rectangle rr = f.displayBox();
-                f.moveBy((anchor.x+anchor.width) - (rr.x+rr.width), 0);
-	    	}
-	    };
+		/**
+		 * align right sides
+		 */
+		public final static Alignment RIGHTS = new Alignment("Rights") {
+			public void moveBy(Figure f, Rectangle anchor) {
+				Rectangle rr = f.displayBox();
+				f.moveBy((anchor.x+anchor.width) - (rr.x+rr.width), 0);
+			}
+		};
 	
-	    /**
-	     * align tops
-	     */
-	    public final static Alignment TOPS = new Alignment("Tops") {
-	    	public void moveBy(Figure f, Rectangle anchor) {
-	            Rectangle rr = f.displayBox();
-                f.moveBy(0, anchor.y-rr.y);
-	    	}
-	    };
+		/**
+		 * align tops
+		 */
+		public final static Alignment TOPS = new Alignment("Tops") {
+			public void moveBy(Figure f, Rectangle anchor) {
+				Rectangle rr = f.displayBox();
+				f.moveBy(0, anchor.y-rr.y);
+			}
+		};
 	
-	    /**
-	     * align middles (vertically)
-	     */
-	    public final static Alignment MIDDLES = new Alignment("Middles") {
-	    	public void moveBy(Figure f, Rectangle anchor) {
-	            Rectangle rr = f.displayBox();
-                f.moveBy(0, (anchor.y+anchor.height/2) - (rr.y+rr.height/2));
-	    	}
-	    };
+		/**
+		 * align middles (vertically)
+		 */
+		public final static Alignment MIDDLES = new Alignment("Middles") {
+			public void moveBy(Figure f, Rectangle anchor) {
+				Rectangle rr = f.displayBox();
+				f.moveBy(0, (anchor.y+anchor.height/2) - (rr.y+rr.height/2));
+			}
+		};
 	
-	    /**
-	     * align bottoms
-	     */
-	    public final static Alignment BOTTOMS = new Alignment("Bottoms") {
-	    	public void moveBy(Figure f, Rectangle anchor) {
-	            Rectangle rr = f.displayBox();
-                f.moveBy(0, (anchor.y+anchor.height) - (rr.y+rr.height));
-	    	}
-	    };
-	    
-	    private String myDescription;
-	    
-	    private Alignment(String newDescription) {
-	    	setDescription(newDescription);
-	    }
+		/**
+		 * align bottoms
+		 */
+		public final static Alignment BOTTOMS = new Alignment("Bottoms") {
+			public void moveBy(Figure f, Rectangle anchor) {
+				Rectangle rr = f.displayBox();
+				f.moveBy(0, (anchor.y+anchor.height) - (rr.y+rr.height));
+			}
+		};
+		
+		private String myDescription;
+		
+		private Alignment(String newDescription) {
+			setDescription(newDescription);
+		}
 
 		public String toString() {
 			return getDescription();
@@ -100,43 +100,44 @@ public class AlignCommand extends AbstractCommand {
 		}
 	
 		private void setDescription(String newDescription) {
-	    	myDescription = newDescription;
+			myDescription = newDescription;
 		}
 		
-	    public abstract void moveBy(Figure f, Rectangle anchor);
+		public abstract void moveBy(Figure f, Rectangle anchor);
 	}
 
-    private Alignment myAlignment;
+	private Alignment myAlignment;
 
-    /**
-     * Constructs an alignment command.
-     * @param newAlignment the alignment operation (LEFTS, CENTERS, RIGHTS, etc.)
-     * @param view the target view
-     */
-    public AlignCommand(Alignment newAlignment, DrawingView view) {
-        super(newAlignment.getDescription(), view);
-        setAlignment(newAlignment);
-    }
+	/**
+	 * Constructs an alignment command.
+	 * @param newAlignment the alignment operation (LEFTS, CENTERS, RIGHTS, etc.)
+	 * @param newDrawingEditor the DrawingEditor which manages the views
+	 */
+	public AlignCommand(Alignment newAlignment, DrawingEditor newDrawingEditor) {
+		super(newAlignment.getDescription(), newDrawingEditor);
+		setAlignment(newAlignment);
+	}
 
-    public boolean isExecutable() {
-        return view().selectionCount() > 1;
-    }
+	protected boolean isExecutableWithView() {
+		return view().selectionCount() > 1;
+	}
 
-    public void execute() {
-    	setUndoActivity(createUndoActivity());
-    	// get selected figures in the order the figures have been selected
-    	getUndoActivity().setAffectedFigures(new FigureEnumerator(view().selection()));
+	public void execute() {
+		super.execute();
+		setUndoActivity(createUndoActivity());
+		// get selected figures in the order the figures have been selected
+		getUndoActivity().setAffectedFigures(new FigureEnumerator(view().selection()));
 		((AlignCommand.UndoActivity)getUndoActivity()).alignAffectedFigures(getAlignment());
-        view().checkDamage();
-    }
-    
-    protected void setAlignment(Alignment newAlignment) {
-        myAlignment = newAlignment;
-    }
-    
-    public Alignment getAlignment() {
-    	return myAlignment;
-    }
+		view().checkDamage();
+	}
+	
+	protected void setAlignment(Alignment newAlignment) {
+		myAlignment = newAlignment;
+	}
+	
+	public Alignment getAlignment() {
+		return myAlignment;
+	}
 
 	/**
 	 * Factory method for undo activity
@@ -162,16 +163,16 @@ public class AlignCommand extends AbstractCommand {
 				return false;
 			}
 
-	        FigureEnumeration k = getAffectedFigures();
-	        while (k.hasMoreElements()) {
-	            Figure f = k.nextFigure();
-	            Point originalPoint = getOriginalPoint(f);
-	            Point currentPoint = f.displayBox().getLocation();
-	            // substract current lcoation to get to 0,0 and then move to original location
-	            f.moveBy(-currentPoint.x + originalPoint.x, 
-	            		 -currentPoint.y + originalPoint.y);
-	        }
-	        
+			FigureEnumeration k = getAffectedFigures();
+			while (k.hasMoreElements()) {
+				Figure f = k.nextFigure();
+				Point originalPoint = getOriginalPoint(f);
+				Point currentPoint = f.displayBox().getLocation();
+				// substract current lcoation to get to 0,0 and then move to original location
+				f.moveBy(-currentPoint.x + originalPoint.x, 
+						 -currentPoint.y + originalPoint.y);
+			}
+			
 			return true;
 		}
 
@@ -200,24 +201,24 @@ public class AlignCommand extends AbstractCommand {
 		}
 		
 		public void alignAffectedFigures(Alignment applyAlignment) {
-	        FigureEnumeration fe = getAffectedFigures();
-	        Figure anchorFigure = fe.nextFigure();
-	        Rectangle r = anchorFigure.displayBox();
+			FigureEnumeration fe = getAffectedFigures();
+			Figure anchorFigure = fe.nextFigure();
+			Rectangle r = anchorFigure.displayBox();
 	
-	        while (fe.hasMoreElements()) {
-	            Figure f = fe.nextFigure();
-	            applyAlignment.moveBy(f, r);
-	        }
+			while (fe.hasMoreElements()) {
+				Figure f = fe.nextFigure();
+				applyAlignment.moveBy(f, r);
+			}
 		}
 
 		public void setAffectedFigures(FigureEnumeration fe) {
 			// first make copy of FigureEnumeration in superclass
 			super.setAffectedFigures(fe);
 			// then get new FigureEnumeration of copy to save aligment
-	        FigureEnumeration copyFe = getAffectedFigures();
-	        while (copyFe.hasMoreElements()) {
-            	addOriginalPoint(copyFe.nextFigure());
-	        }
+			FigureEnumeration copyFe = getAffectedFigures();
+			while (copyFe.hasMoreElements()) {
+				addOriginalPoint(copyFe.nextFigure());
+			}
 		}
 	}
 }

@@ -26,8 +26,8 @@ public class HandleTracker extends AbstractTool {
 
 	private Handle  fAnchorHandle;
 
-	public HandleTracker(DrawingView view, Handle anchorHandle) {
-		super(view);
+	public HandleTracker(DrawingEditor newDrawingEditor, Handle anchorHandle) {
+		super(newDrawingEditor);
 		fAnchorHandle = anchorHandle;
 	}
 

@@ -45,49 +45,49 @@ public  class JavaDrawApplet extends DrawApplet {
 	protected void createTools(JPanel palette) {
 		super.createTools(palette);
 
-		Tool tool = new TextTool(view(), new TextFigure());
+		Tool tool = new TextTool(this, new TextFigure());
 		palette.add(createToolButton(IMAGES + "TEXT", "Text Tool", tool));
 
-		tool = new ConnectedTextTool(view(), new TextFigure());
+		tool = new ConnectedTextTool(this, new TextFigure());
 		palette.add(createToolButton(IMAGES + "ATEXT", "Connected Text Tool", tool));
 
-		tool = new URLTool(view());
+		tool = new URLTool(this);
 		palette.add(createToolButton(IMAGES + "URL", "URL Tool", tool));
 
-		tool = new CreationTool(view(), new RectangleFigure());
+		tool = new CreationTool(this, new RectangleFigure());
 		palette.add(createToolButton(IMAGES + "RECT", "Rectangle Tool", tool));
 
-		tool = new CreationTool(view(), new RoundRectangleFigure());
+		tool = new CreationTool(this, new RoundRectangleFigure());
 		palette.add(createToolButton(IMAGES + "RRECT", "Round Rectangle Tool", tool));
 
-		tool = new CreationTool(view(), new EllipseFigure());
+		tool = new CreationTool(this, new EllipseFigure());
 		palette.add(createToolButton(IMAGES + "ELLIPSE", "Ellipse Tool", tool));
 
-		tool = new PolygonTool(view());
+		tool = new PolygonTool(this);
 		palette.add(createToolButton(IMAGES + "POLYGON", "Polygon Tool", tool));
 
-		tool = new CreationTool(view(), new TriangleFigure());
+		tool = new CreationTool(this, new TriangleFigure());
 		palette.add(createToolButton(IMAGES + "TRIANGLE", "Triangle Tool", tool));
 		
-		tool = new CreationTool(view(), new DiamondFigure());
+		tool = new CreationTool(this, new DiamondFigure());
 		palette.add(createToolButton(IMAGES + "DIAMOND", "Diamond Tool", tool));
 
-		tool = new CreationTool(view(), new LineFigure());
+		tool = new CreationTool(this, new LineFigure());
 		palette.add(createToolButton(IMAGES + "LINE", "Line Tool", tool));
 
-		tool = new ConnectionTool(view(), new LineConnection());
+		tool = new ConnectionTool(this, new LineConnection());
 		palette.add(createToolButton(IMAGES + "CONN", "Connection Tool", tool));
 
-		tool = new ConnectionTool(view(), new ElbowConnection());
+		tool = new ConnectionTool(this, new ElbowConnection());
 		palette.add(createToolButton(IMAGES + "OCONN", "Elbow Connection Tool", tool));
 
-		tool = new ScribbleTool(view());
+		tool = new ScribbleTool(this);
 		palette.add(createToolButton(IMAGES + "SCRIBBL", "Scribble Tool", tool));
 
-		tool = new PolygonTool(view());
+		tool = new PolygonTool(this);
 		palette.add(createToolButton(IMAGES + "POLYGON", "Polygon Tool", tool));
 
-		tool = new BorderTool(view());
+		tool = new BorderTool(this);
 		palette.add(createToolButton(IMAGES + "BORDDEC", "Border Tool", tool));
 	}
 

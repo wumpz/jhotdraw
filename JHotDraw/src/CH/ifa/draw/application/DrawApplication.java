@@ -11,19 +11,21 @@
 
 package CH.ifa.draw.application;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import java.io.*;
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
 import CH.ifa.draw.figures.*;
 import CH.ifa.draw.util.*;
+import javax.swing.*;
+import javax.swing.event.EventListenerList;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
+import java.io.*;
 
 /**
- * DrawApplication defines a standard presentation for standalone drawing 
- * editors. The presentation is customized in subclasses.
+ * DrawApplication defines a standard presentation for
+ * standalone drawing editors. The presentation is
+ * customized in subclasses.
  * The application is started as follows:
  * <pre>
  * public static void main(String[] args) {
@@ -34,45 +36,45 @@ import CH.ifa.draw.util.*;
  *
  * @version <$CURRENT_VERSION$>
  */
-public  class DrawApplication
+public	class DrawApplication
 		extends JFrame
-		implements DrawingEditor, PaletteListener {
+		implements DrawingEditor, PaletteListener, VersionRequester {
 
-	private Drawing              fDrawing;
-	private Tool                 fTool;
-	private Iconkit              fIconkit;
+	private Tool					fTool;
+	private Iconkit					fIconkit;
 
-	private JTextField           fStatusLine;
-	private DrawingView  fView;
-	private ToolButton           fDefaultToolButton;
-	private ToolButton           fSelectedToolButton;
+	private JTextField				fStatusLine;
+	private DrawingView				fView;
+	private ToolButton				fDefaultToolButton;
+	private ToolButton				fSelectedToolButton;
 
-	private String               fApplicationName;
-	private String               fDrawingFilename;
-	private StorageFormatManager fStorageFormatManager;
-	static String                fgUntitled = "untitled";
+	private String					fApplicationName;
+	private StorageFormatManager	fStorageFormatManager;
+	private UndoManager				myUndoManager;
+	protected static String			fgUntitled = "untitled";
+	private final EventListenerList listenerList = new EventListenerList();
 
 	// the image resource path
-	private static final String fgDrawPath = "/CH/ifa/draw/";
-	public static final String IMAGES = fgDrawPath + "images/";
+	private static final String		fgDrawPath = "/CH/ifa/draw/";
+	public static final String		IMAGES = fgDrawPath + "images/";
+	protected static int 			winCount = 0;
 
 	/**
 	 * The index of the file menu in the menu bar.
 	 */
-	public static final int    FILE_MENU = 0;
+	public static final int			FILE_MENU = 0;
 	/**
 	 * The index of the edit menu in the menu bar.
 	 */
-	public static final int    EDIT_MENU = 1;
+	public static final int			EDIT_MENU = 1;
 	/**
 	 * The index of the alignment menu in the menu bar.
 	 */
-	public static final int    ALIGNMENT_MENU = 2;
+	public static final int			ALIGNMENT_MENU = 2;
 	/**
 	 * The index of the attributes menu in the menu bar.
 	 */
-	public static final int    ATTRIBUTES_MENU = 3;
-
+	public static final int			ATTRIBUTES_MENU = 3;
 
 	/**
 	 * Constructs a drawing window with a default title.
@@ -87,6 +89,7 @@ public  class DrawApplication
 	public DrawApplication(String title) {
 		super(title);
 		setApplicationName(title);
+		winCount++;
 	}
 
 	/**
@@ -104,35 +107,56 @@ public  class DrawApplication
 	 * view of the drawing of the currently activated window.
 	 */
 	public void newView() {
+		if (view() == null) {
+			return;
+		}
 		DrawApplication window = createApplication();
-		window.open();
-		window.setDrawing(drawing());
-		window.setDrawingTitle(getDrawingTitle() + " (View)");
+		window.open(view());
+		if (view().drawing().getTitle() != null ) {
+			window.setDrawingTitle(view().drawing().getTitle() + " (View)");
+		}
+		else {
+			window.setDrawingTitle(getDefaultDrawingTitle() + " (View)");
+		}
 	}
 
 	/**
-	 * Open a new window for this application containing
-	 * an new (empty) drawing.
+	 * Open a new window for this application containing the passed in drawing,
+	 * or a new drawing if the passed in drawing is null.
 	 */
-	public void newWindow() {
+	public void newWindow(Drawing initialDrawing) {
 		DrawApplication window = createApplication();
-		window.open();
+		if (initialDrawing == null) {
+			window.open();
+		}
+		else {
+			window.open(createDrawingView(initialDrawing));
+		}
 	}
 	
 	/**
-	 * Opens the window and initializes its contents.
-	 * Clients usually only call but don't override it.
+	 * Opens a new window
 	 */
 	public void open() {
+		open(NullDrawingView.getManagedDrawingView(this));
+//		open(createDrawingView());
+	}
+
+	/**
+	 * Opens a new window with a drawing view. 
+	 */
+	protected void open(DrawingView newDrawingView) {
+		getVersionControlStrategy().assertCompatibleVersion();
+		setUndoManager(new UndoManager());
 		fIconkit = new Iconkit(this);
 		getContentPane().setLayout(new BorderLayout());
-		fView = createDrawingView();
-		JComponent contents = createContents((StandardDrawingView)view());
+
+		setView(newDrawingView);
+		JComponent contents = createContents(view());
 		contents.setAlignmentX(LEFT_ALIGNMENT);
 
 		JToolBar tools = createToolPalette();
 		createTools(tools);
-
 
 		JPanel activePanel = new JPanel();
 		activePanel.setAlignmentX(LEFT_ALIGNMENT);
@@ -149,8 +173,6 @@ public  class DrawApplication
 		createMenus(mb);
 		setJMenuBar(mb);
 		
-		initDrawing();
-		
 		Dimension d = defaultSize();
 		if (d.width > mb.getPreferredSize().width) {
 			setSize(d.width, d.height);
@@ -161,6 +183,8 @@ public  class DrawApplication
 		addListeners();
 		setVisible(true);
 		fStorageFormatManager = createStorageFormatManager();
+
+		toolDone();
 	}
 
 	/**
@@ -174,13 +198,6 @@ public  class DrawApplication
 				}
 			}
 		);
-	}
-
-	protected void initDrawing() {
-		setDrawing(createDrawing());
-		setDrawingTitle(fgUntitled);
-		view().setDrawing(drawing());
-		toolDone();
 	}
 
 	/**
@@ -206,57 +223,43 @@ public  class DrawApplication
 	 * method to add additional menu items.
 	 */
 	protected JMenu createFileMenu() {
-		JMenu menu = new JMenu("File");
-		JMenuItem mi = new JMenuItem("New", new MenuShortcut('n').getKey());
-		mi.addActionListener(
-			new ActionListener() {
-				public void actionPerformed(ActionEvent event) {
-					promptNew();
-				}
+		CommandMenu menu = new CommandMenu("File");
+		Command cmd = new AbstractCommand("New", this, false) {
+			public void execute() {
+				promptNew();
 			}
-		);
-		menu.add(mi);
+		};
+		menu.add(cmd, new MenuShortcut('n'));
 
-		mi = new JMenuItem("Open...", new MenuShortcut('o').getKey());
-		mi.addActionListener(
-			new ActionListener() {
-				public void actionPerformed(ActionEvent event) {
-					promptOpen();
-				}
+		cmd = new AbstractCommand("Open...", this, false) {
+			public void execute() {
+				promptOpen();
 			}
-		);
-		menu.add(mi);
+		};
+		menu.add(cmd, new MenuShortcut('o'));
 
-		mi = new JMenuItem("Save As...", new MenuShortcut('s').getKey());
-		mi.addActionListener(
-			new ActionListener() {
-				public void actionPerformed(ActionEvent event) {
-					promptSaveAs();
-				}
+		cmd = new AbstractCommand("Save As...", this, true) {
+			public void execute() {
+				promptSaveAs();
 			}
-		);
-		menu.add(mi);
-
+		};
+		menu.add(cmd, new MenuShortcut('s'));
 		menu.addSeparator();
-		mi = new JMenuItem("Print...", new MenuShortcut('p').getKey());
-		mi.addActionListener(
-			new ActionListener() {
-				public void actionPerformed(ActionEvent event) {
-					print();
-				}
+
+		cmd = new AbstractCommand("Print...", this, true) {
+			public void execute() {
+				print();
 			}
-		);
-		menu.add(mi);
+		};
+		menu.add(cmd, new MenuShortcut('p'));
 		menu.addSeparator();
-		mi = new JMenuItem("Exit");
-		mi.addActionListener(
-			new ActionListener() {
-				public void actionPerformed(ActionEvent event) {
-					exit();
-				}
+
+		cmd = new AbstractCommand("Exit", this, true) {
+			public void execute() {
+				exit();
 			}
-		);
-		menu.add(mi);
+		};
+		menu.add(cmd);
 		return menu;
 	}
 
@@ -267,26 +270,26 @@ public  class DrawApplication
 	protected JMenu createEditMenu() {
 		CommandMenu menu = new CommandMenu("Edit");
 		menu.add(new UndoableCommand(
-			new SelectAllCommand("Select All", view())), new MenuShortcut('a'));
+			new SelectAllCommand("Select All", this)), new MenuShortcut('a'));
 		menu.addSeparator();
 		menu.add(new UndoableCommand(
-			new CutCommand("Cut", view())), new MenuShortcut('x'));
-		menu.add(new CopyCommand("Copy", view()), new MenuShortcut('c'));
+			new CutCommand("Cut", this)), new MenuShortcut('x'));
+		menu.add(new CopyCommand("Copy", this), new MenuShortcut('c'));
 		menu.add(new UndoableCommand(
-			new PasteCommand("Paste", view())), new MenuShortcut('v'));
+			new PasteCommand("Paste", this)), new MenuShortcut('v'));
 		menu.addSeparator();
 		menu.add(new UndoableCommand(
-			new DuplicateCommand("Duplicate", view())), new MenuShortcut('d'));
-		menu.add(new UndoableCommand(new DeleteCommand("Delete", view())));
+			new DuplicateCommand("Duplicate", this)), new MenuShortcut('d'));
+		menu.add(new UndoableCommand(new DeleteCommand("Delete", this)));
 		menu.addSeparator();
-		menu.add(new UndoableCommand(new GroupCommand("Group", view())));
-		menu.add(new UndoableCommand(new UngroupCommand("Ungroup", view())));
+		menu.add(new UndoableCommand(new GroupCommand("Group", this)));
+		menu.add(new UndoableCommand(new UngroupCommand("Ungroup", this)));
 		menu.addSeparator();
-		menu.add(new UndoableCommand(new SendToBackCommand("Send to Back", view())));
-		menu.add(new UndoableCommand(new BringToFrontCommand("Bring to Front", view())));
+		menu.add(new UndoableCommand(new SendToBackCommand("Send to Back", this)));
+		menu.add(new UndoableCommand(new BringToFrontCommand("Bring to Front", this)));
 		menu.addSeparator();
-		menu.add(new UndoCommand("Undo Command", view()));
-		menu.add(new RedoCommand("Redo Command", view()));
+		menu.add(new UndoCommand("Undo Command", this));
+		menu.add(new RedoCommand("Redo Command", this));
 		return menu;
 	}
 
@@ -296,21 +299,21 @@ public  class DrawApplication
 	 */
 	protected JMenu createAlignmentMenu() {
 		CommandMenu menu = new CommandMenu("Align");
-		menu.addCheckItem(new ToggleGridCommand("Toggle Snap to Grid", view(), new Point(4,4)));
+		menu.addCheckItem(new ToggleGridCommand("Toggle Snap to Grid", this, new Point(4,4)));
 		menu.addSeparator();
 		menu.add(new UndoableCommand(
-			new AlignCommand(AlignCommand.Alignment.LEFTS, view())));
+			new AlignCommand(AlignCommand.Alignment.LEFTS, this)));
 		menu.add(new UndoableCommand(
-			new AlignCommand(AlignCommand.Alignment.CENTERS, view())));
+			new AlignCommand(AlignCommand.Alignment.CENTERS, this)));
 		menu.add(new UndoableCommand(
-			new AlignCommand(AlignCommand.Alignment.RIGHTS, view())));
+			new AlignCommand(AlignCommand.Alignment.RIGHTS, this)));
 		menu.addSeparator();
 		menu.add(new UndoableCommand(
-			new AlignCommand(AlignCommand.Alignment.TOPS, view())));
+			new AlignCommand(AlignCommand.Alignment.TOPS, this)));
 		menu.add(new UndoableCommand(
-			new AlignCommand(AlignCommand.Alignment.MIDDLES, view())));
+			new AlignCommand(AlignCommand.Alignment.MIDDLES, this)));
 		menu.add(new UndoableCommand(
-			new AlignCommand(AlignCommand.Alignment.BOTTOMS, view())));
+			new AlignCommand(AlignCommand.Alignment.BOTTOMS, this)));
 		return menu;
 	}
 
@@ -319,27 +322,21 @@ public  class DrawApplication
 	 * method to add additional menu items.
 	 */
 	protected JMenu createDebugMenu() {
-		JMenu menu = new JMenu("Debug");
+		CommandMenu menu = new CommandMenu("Debug");
 
-		JMenuItem mi = new JMenuItem("Simple Update");
-		mi.addActionListener(
-			new ActionListener() {
-				public void actionPerformed(ActionEvent event) {
-					view().setDisplayUpdate(new SimpleUpdateStrategy());
-				}
+		Command cmd = new AbstractCommand("Simple Update", this) {
+			public void executable() {
+				this.view().setDisplayUpdate(new SimpleUpdateStrategy());
 			}
-		);
-		menu.add(mi);
+		};
+		menu.add(cmd);
 
-		mi = new JMenuItem("Buffered Update");
-		mi.addActionListener(
-			new ActionListener() {
-				public void actionPerformed(ActionEvent event) {
-					view().setDisplayUpdate(new BufferedUpdateStrategy());
-				}
+		cmd = new AbstractCommand("Buffered Update", this) {
+			public void executable() {
+				this.view().setDisplayUpdate(new BufferedUpdateStrategy());
 			}
-		);
-		menu.add(mi);
+		};
+		menu.add(cmd);
 		return menu;
 	}
 
@@ -372,7 +369,7 @@ public  class DrawApplication
 						ColorMap.name(i),
 						attribute,
 						ColorMap.color(i),
-						view()
+						this
 					)
 				)
 			);
@@ -385,13 +382,13 @@ public  class DrawApplication
 	protected JMenu createArrowMenu() {
 		CommandMenu menu = new CommandMenu("Arrow");
 		menu.add(new UndoableCommand(
-			new ChangeAttributeCommand("none", "ArrowMode", new Integer(PolyLineFigure.ARROW_TIP_NONE),  view())));
+			new ChangeAttributeCommand("none", "ArrowMode", new Integer(PolyLineFigure.ARROW_TIP_NONE), this)));
 		menu.add(new UndoableCommand(
-			new ChangeAttributeCommand("at Start", "ArrowMode", new Integer(PolyLineFigure.ARROW_TIP_START), view())));
+			new ChangeAttributeCommand("at Start", "ArrowMode", new Integer(PolyLineFigure.ARROW_TIP_START), this)));
 		menu.add(new UndoableCommand(
-			new ChangeAttributeCommand("at End", "ArrowMode", new Integer(PolyLineFigure.ARROW_TIP_END),   view())));
+			new ChangeAttributeCommand("at End", "ArrowMode", new Integer(PolyLineFigure.ARROW_TIP_END), this)));
 		menu.add(new UndoableCommand(
-			new ChangeAttributeCommand("at Both", "ArrowMode", new Integer(PolyLineFigure.ARROW_TIP_BOTH),  view())));
+			new ChangeAttributeCommand("at Both", "ArrowMode", new Integer(PolyLineFigure.ARROW_TIP_BOTH), this)));
 		return menu;
 	}
 
@@ -402,9 +399,10 @@ public  class DrawApplication
 	protected JMenu createFontMenu() {
 		CommandMenu menu = new CommandMenu("Font");
 		String fonts[] = Toolkit.getDefaultToolkit().getFontList();
-		for (int i = 0; i < fonts.length; i++)
+		for (int i = 0; i < fonts.length; i++) {
 			menu.add(new UndoableCommand(
-				new ChangeAttributeCommand(fonts[i], "FontName", fonts[i],  view())));
+				new ChangeAttributeCommand(fonts[i], "FontName", fonts[i],  this)));
+		}
 		return menu;
 	}
 
@@ -414,11 +412,11 @@ public  class DrawApplication
 	protected JMenu createFontStyleMenu() {
 		CommandMenu menu = new CommandMenu("Font Style");
 		menu.add(new UndoableCommand(
-			new ChangeAttributeCommand("Plain", "FontStyle", new Integer(Font.PLAIN), view())));
+			new ChangeAttributeCommand("Plain", "FontStyle", new Integer(Font.PLAIN), this)));
 		menu.add(new UndoableCommand(
-			new ChangeAttributeCommand("Italic","FontStyle", new Integer(Font.ITALIC),view())));
+			new ChangeAttributeCommand("Italic","FontStyle", new Integer(Font.ITALIC), this)));
 		menu.add(new UndoableCommand(
-			new ChangeAttributeCommand("Bold",  "FontStyle", new Integer(Font.BOLD),  view())));
+			new ChangeAttributeCommand("Bold",  "FontStyle", new Integer(Font.BOLD), this)));
 		return menu;
 	}
 
@@ -434,9 +432,11 @@ public  class DrawApplication
 					new ChangeAttributeCommand(
 						Integer.toString(sizes[i]),
 						"FontSize",
-						new Integer(sizes[i]),  view())
+						new Integer(sizes[i]),
+						this
 					)
-				);
+				)
+			);
 		}
 		return menu;
 	}
@@ -445,22 +445,18 @@ public  class DrawApplication
 	 * Create a menu which allows the user to select a different look and feel at runtime.
 	 */
 	public JMenu createLookAndFeelMenu() {
-		JMenu menu = new JMenu("Look'n'Feel");
+		CommandMenu menu = new CommandMenu("Look'n'Feel");
 
 		UIManager.LookAndFeelInfo[] lafs = UIManager.getInstalledLookAndFeels();
-		JMenuItem mi = null;
 
 		for (int i = 0; i < lafs.length; i++) {
-			mi = new JMenuItem(lafs[i].getName());
 			final String lnfClassName = lafs[i].getClassName(); 
-			mi.addActionListener(
-				new ActionListener() {
-					public void actionPerformed(ActionEvent event) {
-						newLookAndFeel(lnfClassName);
-					}
+			Command cmd = new AbstractCommand(lafs[i].getName(), this) {
+				public void execute() {
+					newLookAndFeel(lnfClassName);
 				}
-			);
-			menu.add(mi);
+			};
+			menu.add(cmd);
 		}
 		return menu;
 	}
@@ -493,7 +489,7 @@ public  class DrawApplication
 	 * a custom selection tool.
 	 */
 	protected Tool createSelectionTool() {
-		return new SelectionTool(view());
+		return new SelectionTool(this);
 	}
 
 	/**
@@ -510,8 +506,17 @@ public  class DrawApplication
 	 * DrawingView is returned.
 	 */
 	protected DrawingView createDrawingView() {
+		DrawingView createdDrawingView = createDrawingView(createDrawing());
+		createdDrawingView.drawing().setTitle(getDefaultDrawingTitle());
+		return createdDrawingView;
+	}
+
+	protected DrawingView createDrawingView(Drawing newDrawing) {
 		Dimension d = getDrawingViewSize();
-		return new StandardDrawingView(this, d.width, d.height);
+		DrawingView newDrawingView = new StandardDrawingView(this, d.width, d.height);
+		newDrawingView.setDrawing(newDrawing);
+		fireViewCreatedEvent(newDrawingView);
+		return newDrawingView;
 	}
 
 	/**
@@ -537,11 +542,16 @@ public  class DrawApplication
 	 * a JScrollPane.
 	 */
 	protected JComponent createContents(DrawingView view) {
-		JScrollPane sp = new JScrollPane((StandardDrawingView)view);
-		sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-
-		return sp;
+		if (view instanceof Component) {
+			JScrollPane sp = new JScrollPane((Component)view);
+			sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+			sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+	
+			return sp;
+		}
+		else {
+			return new JPanel();
+		}
 	}
 
 	/**
@@ -560,8 +570,9 @@ public  class DrawApplication
 	/**
 	 * Set the StorageFormatManager. The StorageFormatManager is used when storing and
 	 * restoring Drawing from the file system.
+	 * Should we through IllegalArguementException if it is?
 	 */
-	private void setStorageFormatManager(StorageFormatManager storageFormatManager) {
+	protected final void setStorageFormatManager(StorageFormatManager storageFormatManager) {
 		fStorageFormatManager = storageFormatManager;
 	}
 
@@ -573,14 +584,6 @@ public  class DrawApplication
 		return fStorageFormatManager;
 	}
 	
-	/**
-	 * Sets the drawing to be edited.
-	 */
-	public void setDrawing(Drawing drawing) {
-		view().setDrawing(drawing);
-		fDrawing = drawing;
-	}
-
 	/**
 	 * Gets the default size of the window.
 	 */
@@ -623,14 +626,6 @@ public  class DrawApplication
 	}
 
 	/**
-	 * Gets the current drawing.
-	 * @see DrawingEditor
-	 */
-	public Drawing drawing() {
-		return fDrawing;
-	}
-
-	/**
 	 * Gets the current tool.
 	 * @see DrawingEditor
 	 */
@@ -639,11 +634,22 @@ public  class DrawApplication
 	}
 
 	/**
+	 * Retrieve the active view from the window
 	 * Gets the current drawing view.
 	 * @see DrawingEditor
 	 */
 	public DrawingView view() {
 		return fView;
+	}
+
+	protected void setView(DrawingView newView) {
+		DrawingView oldView = fView;
+		fView = newView;
+		fireViewSelectionChangedEvent(oldView, view());
+	}
+	
+	public DrawingView[] views() {
+		return new DrawingView[] { view() };
 	}
 
 	/**
@@ -658,8 +664,10 @@ public  class DrawApplication
 	}
 
 	/**
-	 * Handles a change of the current selection. Updates all
-	 * menu items that are selection sensitive.
+	 * Fired by a view when the figure seleciton changes.  Since Commands and
+	 * Tools are Actions and they are registered to hear these events, they will
+	 * handle themselves.  So selection sensitive menuitems will update their
+	 * own states.
 	 * @see DrawingEditor
 	 */
 	public void figureSelectionChanged(DrawingView view) {
@@ -688,6 +696,58 @@ public  class DrawApplication
 	}
 
 	/**
+	 * Register to hear when the active view is changed.  For Single document
+	 * interface, this will happen when a new drawing is created.
+	 */
+	public void addViewChangeListener(ViewChangeListener vsl) {
+		listenerList.add(ViewChangeListener.class, vsl);
+	}
+
+	/**
+	 * Remove listener
+	 */
+	public void removeViewChangeListener(ViewChangeListener vsl) {
+		listenerList.remove(ViewChangeListener.class, vsl);
+	}
+
+	/**
+	 * Convience method for switching views.  This is uneeded in SDI
+	 * environments.
+	 */
+	protected void fireViewSelectionChangedEvent(DrawingView oldView, DrawingView newView) {
+		final Object[] listeners = listenerList.getListenerList();
+		ViewChangeListener vsl = null;
+		for (int i = listeners.length-2; i>=0 ; i-=2) {
+			if (listeners[i] == ViewChangeListener.class) {
+				vsl = (ViewChangeListener)listeners[i+1];
+				vsl.viewSelectionChanged(oldView, newView);
+			}
+		}
+	}
+
+	protected void fireViewCreatedEvent(DrawingView view) {
+		final Object[] listeners = listenerList.getListenerList();
+		ViewChangeListener vsl = null;
+		for (int i = listeners.length-2; i>=0 ; i-=2) {
+			if (listeners[i] == ViewChangeListener.class) {
+				vsl = (ViewChangeListener)listeners[i+1];
+				vsl.viewCreated(view);
+			}
+		}
+	}
+
+	protected void fireViewDestroyingEvent(DrawingView view) {
+		final Object[] listeners = listenerList.getListenerList();
+		ViewChangeListener vsl = null;
+		for (int i = listeners.length-2; i>=0 ; i-=2) {
+			if (listeners[i] == ViewChangeListener.class) {
+				vsl = (ViewChangeListener)listeners[i+1];
+				vsl.viewDestroying( view );
+			}
+		}
+	}
+
+	/**
 	 * Shows a status message.
 	 * @see DrawingEditor
 	 */
@@ -696,8 +756,10 @@ public  class DrawApplication
 	}
 
 	private void setTool(Tool t, String name) {
-		if (tool() != null)
+		// We should not really deactivate a tool which was never activated.
+		if (tool() != null) {
 			tool().deactivate();
+		}
 		fTool = t;
 		if (tool() != null) {
 			showStatus(name);
@@ -722,7 +784,10 @@ public  class DrawApplication
 		destroy();
 		setVisible(false);      // hide the JFrame
 		dispose();   // tell windowing system to free resources
-		System.exit(0);
+		winCount--;
+		if (winCount == 0) {
+			System.exit(0);
+		}
 	}
 
 	/**
@@ -737,7 +802,8 @@ public  class DrawApplication
 	 */
 	public void promptNew() {
 		toolDone();
-		initDrawing();
+		view().setDrawing(createDrawing());
+		view().drawing().setTitle(getDefaultDrawingTitle());
 	}
 
 	/**
@@ -820,8 +886,14 @@ public  class DrawApplication
 	 * Save a Drawing in a file
 	 */
 	protected void saveDrawing(StorageFormat storeFormat, String file) {
+		// Need a better alert than this.
+		if(view() == null) {
+			return;
+		}
 		try {
-			setDrawingTitle(storeFormat.store(file, drawing()));
+			String name = storeFormat.store(file, view().drawing());
+			view().drawing().setTitle(name);
+			setDrawingTitle(name);
 		}
 		catch (IOException e) {
 			showStatus(e.toString());
@@ -835,9 +907,8 @@ public  class DrawApplication
 		try {
 			Drawing restoredDrawing = restoreFormat.restore(file);
 			if (restoredDrawing != null) {
-				newWindow();
-				setDrawing(restoredDrawing);
-				setDrawingTitle(file);
+				restoredDrawing.setTitle(file);
+				newWindow(restoredDrawing);
 			}
 			else {
 			   showStatus("Unknown file type: could not open file '" + file + "'");
@@ -864,20 +935,19 @@ public  class DrawApplication
 	 * Set the title of the currently selected drawing
 	 */
 	protected void setDrawingTitle(String drawingTitle) {
-		fDrawingFilename = drawingTitle;
-		if (fgUntitled.equals(drawingTitle)) {
+		if (getDefaultDrawingTitle().equals(drawingTitle)) {
 			setTitle(getApplicationName());
 		}
 		else {
 			setTitle(getApplicationName() + " - " + drawingTitle);
 		}
 	}
-	
+
 	/**
 	 * Return the title of the currently selected drawing
 	 */
 	protected String getDrawingTitle() {
-		return fDrawingFilename;
+		return view().drawing().getTitle();
 	}
 
 	/**
@@ -892,5 +962,36 @@ public  class DrawApplication
 	 */	
 	public String getApplicationName() {
 		return fApplicationName;
+	}
+
+	protected void setUndoManager(UndoManager newUndoManager) {
+		myUndoManager = newUndoManager;
+	}
+	
+	public UndoManager getUndoManager() {
+		return myUndoManager;
+	}
+	
+	protected VersionControlStrategy getVersionControlStrategy() {
+		return new StandardVersionControlStrategy(this);
+	}
+
+	/**
+	 * Subclasses should override this method to specify to which versions of
+	 * JHotDraw they are compatible. A string array is returned so it is possible
+	 * to specify several version numbers of JHotDraw to which the application
+	 * is compatible with.
+	 *
+	 * @return all versions number of JHotDraw the application is compatible with.
+	 */
+	public String[] getRequiredVersions() {
+		String[] requiredVersions = new String[1];
+		// return the version of the package we are in
+		requiredVersions[0] = VersionManagement.getPackageVersion(DrawApplication.class.getPackage());
+		return requiredVersions;
+	}
+
+	protected String getDefaultDrawingTitle() {
+		return fgUntitled;
 	}
 }

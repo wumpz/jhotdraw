@@ -246,7 +246,7 @@ public  class PolygonFigure extends AttributeFigure {
 				int nxt = (i + 1) % n;
 				int prv = (i - 1 + n) % n;
 
-				if ((distanceFromLine(getInternalPolygon().xpoints[prv], 
+				if ((Geom.distanceFromLine(getInternalPolygon().xpoints[prv], 
 						getInternalPolygon().ypoints[prv],
 						getInternalPolygon().xpoints[nxt],
 						getInternalPolygon().ypoints[nxt],
@@ -323,7 +323,7 @@ public  class PolygonFigure extends AttributeFigure {
 
 		for (int i = 0; i < pointCount(); i++) {
 			int n = (i + 1) % pointCount();
-			double d =  distanceFromLine(getInternalPolygon().xpoints[i], 
+			double d =  Geom.distanceFromLine(getInternalPolygon().xpoints[i], 
 							getInternalPolygon().ypoints[i],
 							getInternalPolygon().xpoints[n],
 							getInternalPolygon().ypoints[n], x, y);
@@ -377,84 +377,8 @@ public  class PolygonFigure extends AttributeFigure {
 	}
 
 	/**
-	 * compute distance of point from line segment, or
-	 * Double.MAX_VALUE if perpendicular projection is outside segment; or
-	 * If pts on line are same, return distance from point
-	 **/
-	public static double distanceFromLine(int xa, int ya,
-										int xb, int yb,
-										int xc, int yc) {
-
-
-		// source:http://vision.dai.ed.ac.uk/andrewfg/c-g-a-faq.html#q7
-		//Let the point be C (XC,YC) and the line be AB (XA,YA) to (XB,YB).
-		//The length of the
-		//      line segment AB is L:
-		//
-		//                    ___________________
-		//                   |        2         2
-		//              L = \| (XB-XA) + (YB-YA)
-		//and
-		//
-		//                  (YA-YC)(YA-YB)-(XA-XC)(XB-XA)
-		//              r = -----------------------------
-		//                              L**2
-		//
-		//                  (YA-YC)(XB-XA)-(XA-XC)(YB-YA)
-		//              s = -----------------------------
-		//                              L**2
-		//
-		//      Let I be the point of perpendicular projection of C onto AB, the
-		//
-		//              XI=XA+r(XB-XA)
-		//              YI=YA+r(YB-YA)
-		//
-		//      Distance from A to I = r*L
-		//      Distance from C to I = s*L
-		//
-		//      If r < 0 I is on backward extension of AB
-		//      If r>1 I is on ahead extension of AB
-		//      If 0<=r<=1 I is on AB
-		//
-		//      If s < 0 C is left of AB (you can just check the numerator)
-		//      If s>0 C is right of AB
-		//      If s=0 C is on AB
-
-		int xdiff = xb - xa;
-		int ydiff = yb - ya;
-		long l2 = xdiff * xdiff + ydiff * ydiff;
-
-		if (l2 == 0) {
-			return Geom.length(xa, ya, xc, yc);
-		}
-
-		double rnum =  (ya - yc) * (ya - yb) - (xa - xc) * (xb - xa);
-		double r = rnum / l2;
-
-		if (r < 0.0 || r > 1.0) {
-			return Double.MAX_VALUE;
-		}
-
-		double xi = xa + r * xdiff;
-		double yi = ya + r * ydiff;
-		double xd = xc - xi;
-		double yd = yc - yi;
-		return Math.sqrt(xd * xd + yd * yd);
-
-		/*
-			for directional version, instead use
-			double snum =  (ya-yc) * (xb-xa) - (xa-xc) * (yb-ya);
-			double s = snum / l2;
-
-			double l = Math.sqrt((double)l2);
-			return = s * l;
-			*/
-	}
-
-	/**
 	 * replacement for builtin Polygon.getBounds that doesn't always update?
 	 */
-
 	public static Rectangle bounds(Polygon p) {
 		int minx = Integer.MAX_VALUE;
 		int miny = Integer.MAX_VALUE;

@@ -33,6 +33,13 @@ public class LocatorHandle extends AbstractHandle {
 		super(owner);
 		fLocator = l;
 	}
+	/**
+	 * This should be cloned or it gives the receiver the opportunity to alter
+	 * our internal behavior.
+	 */
+	public Locator getLocator() {
+		return fLocator;
+	}
 
 	/**
 	 * Locates the handle on the figure by forwarding the request

@@ -11,6 +11,7 @@
 
 package CH.ifa.draw.framework;
 
+import CH.ifa.draw.util.UndoManager;
 import java.awt.*;
 
 /**
@@ -37,10 +38,7 @@ public interface DrawingEditor extends FigureSelectionListener {
 	 */
 	public DrawingView view();
 
-	/**
-	 * Gets the editor's drawing.
-	 */
-	public Drawing drawing();
+	public DrawingView[] views();
 
 	/**
 	 * Gets the editor's current tool.
@@ -54,14 +52,18 @@ public interface DrawingEditor extends FigureSelectionListener {
 	public void toolDone();
 
 	/**
-	 * Informs that the current selection has changed.
+	 * Informs that the current figure selection has changed.
 	 * Override this method to handle selection changes.
 	 */
 	public void figureSelectionChanged(DrawingView view);
+
+	public void addViewChangeListener(ViewChangeListener vsl);
+	public void removeViewChangeListener(ViewChangeListener vsl);
 
 	/**
 	 * Shows a status message in the editor's user interface
 	 */
 	public void showStatus(String string);
 
+	public UndoManager getUndoManager();
 }

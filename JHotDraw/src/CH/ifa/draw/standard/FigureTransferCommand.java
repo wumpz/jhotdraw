@@ -23,40 +23,40 @@ import CH.ifa.draw.framework.*;
  */
 public abstract class FigureTransferCommand extends AbstractCommand {
 
-   /**
-    * Constructs a drawing command.
-    * @param name the command name
-    * @param view the target view
-    */
-    protected FigureTransferCommand(String name, DrawingView view) {
-        super(name, view);
-    }
+	/**
+	 * Constructs a drawing command.
+	 * @param name the command name
+	 * @param newDrawingEditor the DrawingEditor which manages the views
+	 */
+	protected FigureTransferCommand(String name, DrawingEditor newDrawingEditor) {
+		super(name, newDrawingEditor);
+	}
 
    /**
-    * Deletes the selection from the drawing.
-    */
-    protected void deleteFigures(FigureEnumeration fe) {
-        while (fe.hasMoreElements()) {
-            view().drawing().orphan(fe.nextFigure());
-        }
+	* Deletes the selection from the drawing.
+	*/
+	protected void deleteFigures(FigureEnumeration fe) {
+		while (fe.hasMoreElements()) {
+			view().drawing().orphan(fe.nextFigure());
+		}
 
-        view().clearSelection();
-    }
-
-   /**
-    * Copies the FigureEnumeration to the clipboard.
-    */
-    protected void copyFigures(FigureEnumeration fe, int figureCount) {
-        Clipboard.getClipboard().setContents(new StandardFigureSelection(fe, figureCount));
-    }
+		view().clearSelection();
+	}
 
    /**
-    * Inserts a vector of figures and translates them by the
-    * given offset.
-    */
-    FigureEnumeration insertFigures(FigureEnumeration fe, int dx, int dy) {
-        return view().insertFigures(fe, dx, dy, false);
-    }
+	* Copies the FigureEnumeration to the clipboard.
+	*/
+	protected void copyFigures(FigureEnumeration fe, int figureCount) {
+		Clipboard.getClipboard().setContents(new StandardFigureSelection(fe, figureCount));
+	}
+
+   /**
+	* Inserts a vector of figures and translates them by the
+	* given offset.
+	*/
+	FigureEnumeration insertFigures(FigureEnumeration fe, int dx, int dy) {
+		return view().insertFigures(fe, dx, dy, false);
+	}
 }
 
 

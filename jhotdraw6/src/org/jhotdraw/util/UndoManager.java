@@ -51,12 +51,10 @@ public class UndoManager {
 		if (undoActivity.isUndoable()) {
 			// If buffersize exceeds, remove the oldest command
 			if (getUndoSize() >= maxStackCapacity) {
-//				((Undoable)undoStack.elementAt(0)).release();
 				undoStack.removeElementAt(0);
 			}
 		
 			undoStack.addElement(undoActivity);
-System.out.println("pushUndo: " + undoStack.size() + " .. " + undoActivity);
 		}
 		else {
 			// a not undoable activity clears the stack because
@@ -70,7 +68,6 @@ System.out.println("pushUndo: " + undoStack.size() + " .. " + undoActivity);
 		if (redoActivity.isRedoable()) {
 			// If buffersize exceeds, remove the oldest command
 			if (getRedoSize() >= maxStackCapacity) {
-//				((Undoable)redoStack.elementAt(0)).release();
 				redoStack.removeElementAt(0);
 			}
 		
@@ -79,7 +76,6 @@ System.out.println("pushUndo: " + undoStack.size() + " .. " + undoActivity);
 			if ((getRedoSize() == 0) || (peekRedo() != redoActivity)) {
 				redoStack.addElement(redoActivity);
 			}
-System.out.println("pushRedo: " + redoStack.size() + " .. " + redoActivity);
 		}
 		else {
 			// a not undoable activity clears the tack because
@@ -171,15 +167,9 @@ System.out.println("pushRedo: " + redoStack.size() + " .. " + redoActivity);
 
 	public void clearRedos() {
 		clearStack(redoStack);
-System.out.println("Redos cleared: " + redoStack.size());
 	}
 	
 	protected void clearStack(Vector clearStack) {
-/*		Enumeration fe = clearStack.elements();
-		while (fe.hasMoreElements()) {
-			((Undoable)fe.nextElement()).release();
-		}
-*/
 		clearStack.removeAllElements();
 	}
 }

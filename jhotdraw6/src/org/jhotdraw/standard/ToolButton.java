@@ -11,10 +11,11 @@
 
 package CH.ifa.draw.standard;
 
-import javax.swing.*;
-import java.awt.*;
 import CH.ifa.draw.util.*;
 import CH.ifa.draw.framework.*;
+import javax.swing.*;
+import java.awt.*;
+import java.util.EventObject;
 
 /**
  * A PaletteButton that is associated with a tool.
@@ -23,7 +24,7 @@ import CH.ifa.draw.framework.*;
  *
  * @version <$CURRENT_VERSION$>
  */
-public class ToolButton extends PaletteButton {
+public class ToolButton extends PaletteButton implements ToolListener {
 
 	private String          fName;
 	private Tool            fTool;
@@ -31,6 +32,9 @@ public class ToolButton extends PaletteButton {
 
 	public ToolButton(PaletteListener listener, String iconName, String name, Tool tool) {
 		super(listener);
+		tool.addToolListener(this);
+		setEnabled(tool.isUsable());
+		
 		// use a Mediatracker to ensure that all the images are initially loaded
 		Iconkit kit = Iconkit.instance();
 		if (kit == null) {
@@ -117,5 +121,19 @@ public class ToolButton extends PaletteButton {
 			super.paint(g);
 		}
 	}
-}
 
+	public void toolUsable(EventObject toolEvent) {
+		setEnabled(true);
+	}
+	
+	public void toolUnusable(EventObject toolEvent) {
+		setEnabled(false);
+		setSelected(false);
+	}
+	
+	public void toolActivated(EventObject toolEvent) {
+	}
+	
+	public void toolDeactivated(EventObject toolEvent) {
+	}
+}

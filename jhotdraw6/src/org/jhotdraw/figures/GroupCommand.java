@@ -27,24 +27,25 @@ import java.util.*;
 public  class GroupCommand extends AbstractCommand {
 
    /**
-    * Constructs a group command.
-    * @param name the command name
-    * @param view the target view
-    */
-    public GroupCommand(String name, DrawingView view) {
-        super(name, view);
-    }
+	 * Constructs a group command.
+	 * @param name the command name
+	 * @param newDrawingEditor the DrawingEditor which manages the views
+	 */
+	public GroupCommand(String name, DrawingEditor newDrawingEditor) {
+		super(name, newDrawingEditor);
+	}
 
-    public void execute() {
-    	setUndoActivity(createUndoActivity());
-        getUndoActivity().setAffectedFigures(view().selectionElements());
+	public void execute() {
+		super.execute();
+		setUndoActivity(createUndoActivity());
+		getUndoActivity().setAffectedFigures(view().selectionElements());
 		((GroupCommand.UndoActivity)getUndoActivity()).groupFigures();
 		view().checkDamage();
-    }
+	}
 	
-    public boolean isExecutable() {
-        return view().selectionCount() > 1;
-    }
+	public boolean isExecutableWithView() {
+		return view().selectionCount() > 1;
+	}
 
 	/**
 	 * Factory method for undo activity
@@ -67,16 +68,11 @@ public  class GroupCommand extends AbstractCommand {
 			
 			getDrawingView().clearSelection();
 	
-			// duplicate before we orphan affected figures
-//			FigureEnumeration fe = StandardFigureSelection.duplicateFigures(
-//				getAffectedFigures(), getAffectedFiguresCount());
-	
 			// orphan group figure(s)
-//			getDrawingView().drawing().removeAll(getAffectedFigures());
 			getDrawingView().drawing().orphanAll(getAffectedFigures());
 								
-	        // create a new vector with the grouped figures as elements
-	        Vector affectedFigures = new Vector();
+			// create a new vector with the grouped figures as elements
+			Vector affectedFigures = new Vector();
 
 			FigureEnumeration fe =getAffectedFigures();
 			while (fe.hasMoreElements()) {
@@ -87,13 +83,13 @@ public  class GroupCommand extends AbstractCommand {
 	
 				FigureEnumeration groupedFigures = currentFigure.figures();
 				while (groupedFigures.hasMoreElements()) {
-	            	affectedFigures.addElement(groupedFigures.nextFigure());
+					affectedFigures.addElement(groupedFigures.nextFigure());
 				}
 			}
 
-	    	setAffectedFigures(new FigureEnumerator(affectedFigures));
+			setAffectedFigures(new FigureEnumerator(affectedFigures));
 	
-		    return true;
+			return true;
 		}
 	
 		public boolean redo() {
@@ -107,21 +103,20 @@ public  class GroupCommand extends AbstractCommand {
 		}
 
 		public void groupFigures() {
-		    getDrawingView().drawing().orphanAll(getAffectedFigures());
-	        getDrawingView().clearSelection();
+			getDrawingView().drawing().orphanAll(getAffectedFigures());
+			getDrawingView().clearSelection();
 	
 			// add new group figure instead
-	        GroupFigure group = new GroupFigure();
-	        group.addAll(getAffectedFigures());
+			GroupFigure group = new GroupFigure();
+			group.addAll(getAffectedFigures());
 	
-	        Figure figure = getDrawingView().drawing().add(group);
-	        getDrawingView().addToSelection(figure);
-	        
-	        // create a new vector with the new group figure as element
-	        Vector affectedFigures = new Vector();
-	        affectedFigures.addElement(figure);
+			Figure figure = getDrawingView().drawing().add(group);
+			getDrawingView().addToSelection(figure);
+			
+			// create a new vector with the new group figure as element
+			Vector affectedFigures = new Vector();
+			affectedFigures.addElement(figure);
 			setAffectedFigures(new FigureEnumerator(affectedFigures));
 		}
 	}
 }
- 

@@ -96,8 +96,8 @@ public class UndoableHandle implements Handle {
 
 		Undoable undoableActivity = getWrappedHandle().getUndoActivity();
 		if ((undoableActivity != null) && (undoableActivity.isUndoable())) {
-			getDrawingView().getUndoManager().pushUndo(undoableActivity);
-			getDrawingView().getUndoManager().clearRedos();
+			getDrawingView().editor().getUndoManager().pushUndo(undoableActivity);
+			getDrawingView().editor().getUndoManager().clearRedos();
 		}
 	}
 

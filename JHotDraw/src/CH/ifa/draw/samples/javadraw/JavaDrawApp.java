@@ -46,10 +46,6 @@ public  class JavaDrawApp extends MDI_DrawApplication {
 		return new JavaDrawApp();
 	}
 	
-	public void open() {
-		super.open();
-	}
-
 	//-- application life cycle --------------------------------------------
 
 	public void destroy() {
@@ -62,52 +58,51 @@ public  class JavaDrawApp extends MDI_DrawApplication {
 	protected void createTools(JToolBar palette) {
 		super.createTools(palette);
 
-		Tool tool = new UndoableTool(new TextTool(view(), new TextFigure()));
+		Tool tool = new UndoableTool(new TextTool(this, new TextFigure()));
 		palette.add(createToolButton(IMAGES + "TEXT", "Text Tool", tool));
 
-		tool = new UndoableTool(new ConnectedTextTool(view(), new TextFigure()));
-//        tool = new ConnectedTextTool(view(), new TextFigure());
+		tool = new UndoableTool(new ConnectedTextTool(this, new TextFigure()));
 		palette.add(createToolButton(IMAGES + "ATEXT", "Connected Text Tool", tool));
 
-		tool = new URLTool(view());
+		tool = new URLTool(this);
 		palette.add(createToolButton(IMAGES + "URL", "URL Tool", tool));
 
-		tool = new UndoableTool(new CreationTool(view(), new RectangleFigure()));
+		tool = new UndoableTool(new CreationTool(this, new RectangleFigure()));
 		palette.add(createToolButton(IMAGES + "RECT", "Rectangle Tool", tool));
 
-		tool = new UndoableTool(new CreationTool(view(), new RoundRectangleFigure()));
+		tool = new UndoableTool(new CreationTool(this, new RoundRectangleFigure()));
 		palette.add(createToolButton(IMAGES + "RRECT", "Round Rectangle Tool", tool));
 
-		tool = new UndoableTool(new CreationTool(view(), new EllipseFigure()));
+		tool = new UndoableTool(new CreationTool(this, new EllipseFigure()));
 		palette.add(createToolButton(IMAGES + "ELLIPSE", "Ellipse Tool", tool));
 
-		tool = new UndoableTool(new PolygonTool(view()));
+		tool = new UndoableTool(new PolygonTool(this));
 		palette.add(createToolButton(IMAGES + "POLYGON", "Polygon Tool", tool));
 
-		tool = new UndoableTool(new CreationTool(view(), new TriangleFigure()));
+		tool = new UndoableTool(new CreationTool(this, new TriangleFigure()));
 		palette.add(createToolButton(IMAGES + "TRIANGLE", "Triangle Tool", tool));
 		
-		tool = new UndoableTool(new CreationTool(view(), new DiamondFigure()));
+		tool = new UndoableTool(new CreationTool(this, new DiamondFigure()));
 		palette.add(createToolButton(IMAGES + "DIAMOND", "Diamond Tool", tool));
 			
-		tool = new UndoableTool(new CreationTool(view(), new LineFigure()));
+		tool = new UndoableTool(new CreationTool(this, new LineFigure()));
 		palette.add(createToolButton(IMAGES + "LINE", "Line Tool", tool));
 
-		tool = new UndoableTool(new ConnectionTool(view(), new LineConnection()));
+		tool = new UndoableTool(new ConnectionTool(this, new LineConnection()));
 		palette.add(createToolButton(IMAGES + "CONN", "Connection Tool", tool));
 
-		tool = new UndoableTool(new ConnectionTool(view(), new ElbowConnection()));
+		tool = new UndoableTool(new ConnectionTool(this, new ElbowConnection()));
 		palette.add(createToolButton(IMAGES + "OCONN", "Elbow Connection Tool", tool));
 
-		tool = new UndoableTool(new ScribbleTool(view()));
+		tool = new UndoableTool(new ScribbleTool(this));
 		palette.add(createToolButton(IMAGES + "SCRIBBL", "Scribble Tool", tool));
 
-		tool = new UndoableTool(new BorderTool(view()));
+		tool = new UndoableTool(new BorderTool(this));
 		palette.add(createToolButton(IMAGES + "BORDDEC", "Border Tool", tool));
 	}
 
 	protected Tool createSelectionTool() {
-		return new MySelectionTool(view());
+		return new MySelectionTool(this);
 	}
 
 	protected void createMenus(JMenuBar mb) {
@@ -118,52 +113,41 @@ public  class JavaDrawApp extends MDI_DrawApplication {
 	}
 
 	protected JMenu createAnimationMenu() {
-		JMenu menu = new JMenu("Animation");
-		JMenuItem mi = new JMenuItem("Start Animation");
-		mi.addActionListener(
-			new ActionListener() {
-				public void actionPerformed(ActionEvent event) {
-					startAnimation();
-				}
+		CommandMenu menu = new CommandMenu("Animation");
+		Command cmd = new AbstractCommand("Start Animation", this) {
+			public void execute() {
+				startAnimation();
 			}
-		);
-		menu.add(mi);
+		};
+		menu.add(cmd);
 
-		mi = new JMenuItem("Stop Animation");
-		mi.addActionListener(
-			new ActionListener() {
-				public void actionPerformed(ActionEvent event) {
-					endAnimation();
-				}
+		cmd = new AbstractCommand("Stop Animation", this) {
+			public void execute() {
+				endAnimation();
 			}
-		);
-		menu.add(mi);
+		};
+		menu.add(cmd);
 		return menu;
 	}
 
 	protected JMenu createWindowMenu() {
-		JMenu menu = new JMenu("Window");
-		JMenuItem mi = new JMenuItem("New View");
-		mi.addActionListener(
-			new ActionListener() {
-				public void actionPerformed(ActionEvent event) {
-					newView();
-				}
+		CommandMenu menu = new CommandMenu("Window");
+		Command cmd = new AbstractCommand("New View", this) {
+			public void execute() {
+				newView();
 			}
-		);
-		menu.add(mi);
-		mi = new JMenuItem("New Window");
-		mi.addActionListener(
-			new ActionListener() {
-				public void actionPerformed(ActionEvent event) {
-					newWindow();
-				}
+		};
+		menu.add(cmd);
+
+		cmd = new AbstractCommand("New Window", this, false) {
+			public void execute() {
+				newWindow(createDrawing());
 			}
-		);
-		menu.add(mi);
+		};
+		menu.add(cmd);
 
 		menu.addSeparator();
-		menu.add(new WindowMenu("Window List", (MDIDesktopPane)getDesktop()));
+		menu.add(new WindowMenu("Window List", (MDIDesktopPane)getDesktop(), this));
 				
 		return menu;
 	}
@@ -177,7 +161,7 @@ public  class JavaDrawApp extends MDI_DrawApplication {
 				String name = list[i];
 				String path = fgSampleImagesResourcePath+name;
 				menu.add(new UndoableCommand(
-					new InsertImageCommand(name, path, view())));
+					new InsertImageCommand(name, path, this)));
 			}
 		} catch (Exception e) {}
 		return menu;
@@ -191,8 +175,8 @@ public  class JavaDrawApp extends MDI_DrawApplication {
 	//---- animation support --------------------------------------------
 
 	public void startAnimation() {
-		if (drawing() instanceof Animatable && fAnimator == null) {
-			fAnimator = new Animator((Animatable)drawing(), view());
+		if (view().drawing() instanceof Animatable && fAnimator == null) {
+			fAnimator = new Animator((Animatable)view().drawing(), view());
 			fAnimator.start();
 		}
 	}

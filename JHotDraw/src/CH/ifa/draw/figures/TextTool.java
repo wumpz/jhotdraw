@@ -37,8 +37,8 @@ public class TextTool extends CreationTool {
 	private FloatingTextField   fTextField;
 	private TextHolder  fTypingTarget;
 
-	public TextTool(DrawingView view, Figure prototype) {
-		super(view, prototype);
+	public TextTool(DrawingEditor newDrawingEditor, Figure prototype) {
+		super(newDrawingEditor, prototype);
 	}
 
 	/**
@@ -82,8 +82,8 @@ public class TextTool extends CreationTool {
 	 * Terminates the editing of a text figure.
 	 */
 	public void deactivate() {
-		super.deactivate();
 		endEdit();
+        super.deactivate();
 	}
 
 	/**
@@ -120,7 +120,6 @@ public class TextTool extends CreationTool {
 
 		setTypingTarget(figure);
 		setUndoActivity(createUndoActivity());
-System.out.println("UndoActivity (1): " + getUndoActivity());
 	}
 
 	protected void endEdit() {
@@ -136,7 +135,6 @@ System.out.println("UndoActivity (1): " + getUndoActivity());
 			}
 
 			// put created figure into a figure enumeration
-System.out.println("UndoActivity (2): " + getUndoActivity());
 			getUndoActivity().setAffectedFigures(
 				new SingleFigureEnumerator(getAddedFigure()));
 			((TextTool.UndoActivity)getUndoActivity()).setBackupText(
@@ -152,7 +150,6 @@ System.out.println("UndoActivity (2): " + getUndoActivity());
 		Rectangle box = figure.textDisplayBox();
 		int nChars = figure.overlayColumns();
 		Dimension d = fTextField.getPreferredSize(nChars);
-//System.out.println("fieldBounds: " + box.x + " .. " + box.y + " -- " + d.width +" .. "+  d.height);
 		return new Rectangle(box.x, box.y, d.width, d.height);
 	}
 	

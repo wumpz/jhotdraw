@@ -28,35 +28,35 @@ import java.io.IOException;
  * @version <$CURRENT_VERSION$>
  */
 
-public abstract class AbstractLocator implements Locator {
+public abstract class AbstractLocator implements Locator, Storable, Cloneable {
 
 	/*
 	 * Serialization support.
 	 */
 	private static final long serialVersionUID = -7742023180844048409L;
 
-    protected AbstractLocator() {
-    }
+	protected AbstractLocator() {
+	}
 
-    public Object clone() {
-        try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {
-	        throw new InternalError();
-        }
-    }
+	public Object clone() {
+		try {
+			return super.clone();
+		} catch (CloneNotSupportedException e) {
+			throw new InternalError();
+		}
+	}
 
-    /**
-     * Stores the arrow tip to a StorableOutput.
-     */
-    public void write(StorableOutput dw) {
-    }
+	/**
+	 * Stores the arrow tip to a StorableOutput.
+	 */
+	public void write(StorableOutput dw) {
+	}
 
-    /**
-     * Reads the arrow tip from a StorableInput.
-     */
-    public void read(StorableInput dr) throws IOException {
-    }
+	/**
+	 * Reads the arrow tip from a StorableInput.
+	 */
+	public void read(StorableInput dr) throws IOException {
+	}
 }
 
 

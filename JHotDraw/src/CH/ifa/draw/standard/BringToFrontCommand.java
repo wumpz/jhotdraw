@@ -25,28 +25,31 @@ import java.util.*;
  */
 public class BringToFrontCommand extends AbstractCommand {
 
-   /**
-    * Constructs a bring to front command.
-    * @param name the command name
-    * @param view the target view
-    */
-    public BringToFrontCommand(String name, DrawingView view) {
-        super(name, view);
-    }
+	/**
+	 * Constructs a bring to front command.
+	 * @param name the command name
+	 * @param newDrawingEditor the DrawingEditor which manages the views
+	 */
+	public BringToFrontCommand(String name, DrawingEditor newDrawingEditor) {
+		super(name, newDrawingEditor);
+	}
 
-    public void execute() {
-    	setUndoActivity(createUndoActivity());
-    	getUndoActivity().setAffectedFigures(view().selectionElements());
+	public void execute() {
+		super.execute();
+		setUndoActivity(createUndoActivity());
+		getUndoActivity().setAffectedFigures(view().selectionElements());
 		FigureEnumeration fe = getUndoActivity().getAffectedFigures();
-        while (fe.hasMoreElements()) {
-            view().drawing().bringToFront(fe.nextFigure());
-        }
-        view().checkDamage();
-    }
+		while (fe.hasMoreElements()) {
+			view().drawing().bringToFront(fe.nextFigure());
+		}
+		view().checkDamage();
+	}
 
-    public boolean isExecutable() {
-        return view().selectionCount() > 0;
-    }
+	public boolean isExecutableWithView() {
+//if (true)
+//throw new RuntimeException();
+		return view().selectionCount() > 0;
+	}
 
 	protected Undoable createUndoActivity() {
 		return new BringToFrontCommand.UndoActivity(view());

@@ -27,42 +27,42 @@ import java.util.*;
  */
 public  class UngroupCommand extends AbstractCommand {
 
-   /**
-    * Constructs a group command.
-    * @param name the command name
-    * @param view the target view
-    */
-    public UngroupCommand(String name, DrawingView view) {
-        super(name, view);
-    }
+	/**
+	 * Constructs a group command.
+	 * @param name the command name
+	 * @param newDrawingEditor the DrawingEditor which manages the views
+	 */
+	public UngroupCommand(String name, DrawingEditor newDrawingEditor) {
+		super(name, newDrawingEditor);
+	}
 
-    public void execute() {
-    	setUndoActivity(createUndoActivity());
-    	// selection of group figures
-        getUndoActivity().setAffectedFigures(view().selectionElements());
-        view().clearSelection();
+	public void execute() {
+		super.execute();
+		setUndoActivity(createUndoActivity());
+		// selection of group figures
+		getUndoActivity().setAffectedFigures(view().selectionElements());
+		view().clearSelection();
 
 		((UngroupCommand.UndoActivity)getUndoActivity()).ungroupFigures();
-        view().checkDamage();
-    }
+		view().checkDamage();
+	}
 
-    public boolean isExecutable() {
-    	FigureEnumeration fe = view().selectionElements();
-    	while (fe.hasMoreElements()) {
-    		Figure currentFigure = fe.nextFigure();
-    		if (currentFigure instanceof DecoratorFigure) {
-    			currentFigure = ((DecoratorFigure)currentFigure).getDecoratedFigure();
-    		}
-    		
-    		if (!(currentFigure instanceof GroupFigure)) {
-    			return false;
-    		}
-    	}
-    	
-    	return true;
-//        return view().selectionCount() > 0;
+	public boolean isExecutableWithView() {
+		FigureEnumeration fe = view().selectionElements();
+		while (fe.hasMoreElements()) {
+			Figure currentFigure = fe.nextFigure();
+			if (currentFigure instanceof DecoratorFigure) {
+				currentFigure = ((DecoratorFigure)currentFigure).getDecoratedFigure();
+			}
+			
+			if (!(currentFigure instanceof GroupFigure)) {
+				return false;
+			}
+		}
+		
+		return view().selectionCount() > 0;
 
-    }
+	}
 
 	/**
 	 * Factory method for undo activity
@@ -82,16 +82,16 @@ public  class UngroupCommand extends AbstractCommand {
 			if (!super.undo()) {
 				return false;
 			}
-		    getDrawingView().clearSelection();
-		    
-		    FigureEnumeration groupFigures = getAffectedFigures();
-		    while (groupFigures.hasMoreElements()) {
-		    	Figure groupFigure = groupFigures.nextFigure();
-		    	// orphan individual figures from the group
-		    	getDrawingView().drawing().orphanAll(groupFigure.figures());
-		    	
-		        Figure figure = getDrawingView().drawing().add(groupFigure);
-		        getDrawingView().addToSelection(figure);
+			getDrawingView().clearSelection();
+			
+			FigureEnumeration groupFigures = getAffectedFigures();
+			while (groupFigures.hasMoreElements()) {
+				Figure groupFigure = groupFigures.nextFigure();
+				// orphan individual figures from the group
+				getDrawingView().drawing().orphanAll(groupFigure.figures());
+				
+				Figure figure = getDrawingView().drawing().add(groupFigure);
+				getDrawingView().addToSelection(figure);
 			}
 			
 			return true;
@@ -100,25 +100,25 @@ public  class UngroupCommand extends AbstractCommand {
 		public boolean redo() {
 			// do not call execute directly as the selection might has changed
 			if (isRedoable()) {
-	    	    getDrawingView().drawing().orphanAll(getAffectedFigures());
-		        getDrawingView().clearSelection();
-		        ungroupFigures();
-		        return true;
+				getDrawingView().drawing().orphanAll(getAffectedFigures());
+				getDrawingView().clearSelection();
+				ungroupFigures();
+				return true;
 			}
 			return false;
 		}
 
 		protected void ungroupFigures() {
 			FigureEnumeration fe = getAffectedFigures();
-	        if (fe.hasMoreElements()) {
-		        while (fe.hasMoreElements()) {
-		            Figure selected = fe.nextFigure();
-		            Figure group = getDrawingView().drawing().orphan(selected);
+			if (fe.hasMoreElements()) {
+				while (fe.hasMoreElements()) {
+					Figure selected = fe.nextFigure();
+					Figure group = getDrawingView().drawing().orphan(selected);
 		
 					getDrawingView().drawing().addAll(group.figures());
-		            getDrawingView().addToSelectionAll(group.figures());
-		        }            
-	        }
+					getDrawingView().addToSelectionAll(group.figures());
+				}            
+			}
 		}
 	}
 }

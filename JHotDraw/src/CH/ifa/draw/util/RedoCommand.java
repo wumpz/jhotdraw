@@ -25,32 +25,30 @@ public class RedoCommand extends AbstractCommand {
 	/**
 	 * Constructs a properties command.
 	 * @param name the command name
-	 * @param view the target view
+	 * @param newDrawingEditor the DrawingEditor which manages the views
 	 */
-	public RedoCommand(String name, DrawingView inView) {
-		super(name, inView);
+	public RedoCommand(String name, DrawingEditor newDrawingEditor) {
+		super(name, newDrawingEditor);
 	}
 
 	public void execute() {
-		UndoManager um = view().getUndoManager();
-System.out.println("UndoManager.isRedoable(): " + um.isRedoable() + " .. " + um.peekRedo());
+		super.execute();
+		UndoManager um = getDrawingEditor().getUndoManager();
 		if ((um == null) || !um.isRedoable()) {
 			return;
 		}
 		
 		Undoable lastRedoable = um.popRedo();
-
 		// Execute redo
 		boolean hasBeenUndone = lastRedoable.redo();
 		// Add to undo stack
 		if (hasBeenUndone && lastRedoable.isUndoable()) {
-System.out.println("hasBeenUndone: " + hasBeenUndone);
 			um.pushUndo(lastRedoable);
 		}
 			
-		view().checkDamage();
+		lastRedoable.getDrawingView().checkDamage();
 
-		view().editor().figureSelectionChanged(view());
+		getDrawingEditor().figureSelectionChanged(lastRedoable.getDrawingView());
 	}
   
 	/**
@@ -58,8 +56,8 @@ System.out.println("hasBeenUndone: " + hasBeenUndone);
 	 * Redo menu item will be enabled only when there is at least one redoable
 	 * activity in the UndoManager.
 	 */
-	public boolean isExecutable() {
-		UndoManager um = view().getUndoManager();
+	public boolean isExecutableWithView() {
+		UndoManager um = getDrawingEditor().getUndoManager();
 		if ((um != null) && (um.getRedoSize() > 0)) {
 			return true;
 		}

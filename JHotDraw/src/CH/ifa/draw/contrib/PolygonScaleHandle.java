@@ -40,7 +40,7 @@ class PolygonScaleHandle extends AbstractHandle {
 	 */
 	public void invokeStart(int x, int  y, DrawingView view) {
 		fCurrent = new Point(x, y);
-		PolygonScaleHandle.UndoActivity activity = (PolygonScaleHandle.UndoActivity)createUndoActivity();
+		PolygonScaleHandle.UndoActivity activity = (PolygonScaleHandle.UndoActivity)createUndoActivity(view);
 		setUndoActivity(activity);
 		activity.setAffectedFigures(new SingleFigureEnumerator(owner()));
 		activity.setPolygon(((PolygonFigure)(owner())).getPolygon());
@@ -131,15 +131,15 @@ class PolygonScaleHandle extends AbstractHandle {
 	/**
 	 * Factory method for undo activity. To be overriden by subclasses.
 	 */
-	protected Undoable createUndoActivity() {
-		return new PolygonScaleHandle.UndoActivity();
+	protected Undoable createUndoActivity(DrawingView newView) {
+		return new PolygonScaleHandle.UndoActivity(newView);
 	}
 	
 	public static class UndoActivity extends UndoableAdapter {
 		private Polygon myPolygon;
 		
-		public UndoActivity() {
-			super(null);
+		public UndoActivity(DrawingView newView) {
+			super(newView);
 			setUndoable(true);
 			setRedoable(true);
 		}

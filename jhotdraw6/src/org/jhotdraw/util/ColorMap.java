@@ -29,8 +29,7 @@ class ColorEntry {
  *
  * @version <$CURRENT_VERSION$>
  */
-public  class ColorMap
-		extends Object {
+public class ColorMap {
 
 	static ColorEntry fMap[] = {
 				new ColorEntry("Black",         Color.black),
@@ -57,31 +56,38 @@ public  class ColorMap
 	}
 
 	public static Color color(int index) {
-		if (index < size() && index >= 0)
+		if (index < size() && index >= 0) {
 			return fMap[index].fColor;
+		}
 
 		throw new ArrayIndexOutOfBoundsException("Color index: " + index);
 	}
 
 	public static Color color(String name) {
-		for (int i = 0; i < fMap.length; i++)
-			if (fMap[i].fName.equals(name))
+		for (int i = 0; i < fMap.length; i++) {
+			if (fMap[i].fName.equals(name)) {
 				return fMap[i].fColor;
+			}
+		}
 
 		return Color.black;
 	}
 
 	public static String name(int index) {
-		if (index < size() && index >= 0)
+		if (index < size() && index >= 0) {
 			return fMap[index].fName;
+		}
 
 		throw new ArrayIndexOutOfBoundsException("Color index: " + index);
 	}
 
 	public static int colorIndex(Color color) {
-		for (int i=0; i<fMap.length; i++)
-			if (fMap[i].fColor.equals(color))
+		for (int i=0; i<fMap.length; i++) {
+			if (fMap[i].fColor.equals(color)) {
 				return i;
+			}
+		}
+		
 		return 0;
 	}
 

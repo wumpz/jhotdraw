@@ -31,8 +31,8 @@ public  class URLTool extends AbstractTool {
 	private FloatingTextField   fTextField;
 	private Figure              fURLTarget;
 
-	public URLTool(DrawingView view) {
-		super(view);
+	public URLTool(DrawingEditor newDrawingEditor) {
+		super(newDrawingEditor);
 	}
 
 	public void mouseDown(MouseEvent e, int x, int y)

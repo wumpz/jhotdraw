@@ -24,8 +24,8 @@ import CH.ifa.draw.standard.*;
  */
 public  class PertFigureCreationTool extends CreationTool {
 
-	public PertFigureCreationTool(DrawingView view) {
-		super(view);
+	public PertFigureCreationTool(DrawingEditor newDrawingEditor) {
+		super(newDrawingEditor);
 	}
 
 	/**

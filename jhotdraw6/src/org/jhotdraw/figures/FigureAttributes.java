@@ -183,7 +183,7 @@ public  class   FigureAttributes
 				dw.writeString(Figure.POPUP_MENU);
 			}
 			else {
-				System.out.println("Unknown attribute: " + v);
+				System.err.println("Unknown attribute: " + v);
 				dw.writeString("UNKNOWN");
 			}
 		}

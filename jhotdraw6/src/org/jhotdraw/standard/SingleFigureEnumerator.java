@@ -23,39 +23,39 @@ import java.util.*;
  * @version <$CURRENT_VERSION$>
  */
 public final class SingleFigureEnumerator implements FigureEnumeration {
-    private Figure mySingleFigure;
+	private Figure mySingleFigure;
 
-    public SingleFigureEnumerator(Figure newSingleFigure) {
-	    mySingleFigure = newSingleFigure;
-    }
+	public SingleFigureEnumerator(Figure newSingleFigure) {
+		mySingleFigure = newSingleFigure;
+	}
 
-    /**
-     * Returns true if the enumeration contains more elements; false
-     * if its empty.
-     */
-    public boolean hasMoreElements() {
-	    return mySingleFigure != null;
-    }
+	/**
+	 * Returns true if the enumeration contains more elements; false
+	 * if its empty.
+	 */
+	public boolean hasMoreElements() {
+		return mySingleFigure != null;
+	}
 
-    /**
-     * Returns the next element of the enumeration. Calls to this
-     * method will enumerate successive elements.
-     * @exception NoSuchElementException If no more elements exist.
-     */
-    public Object nextElement() {
-    	Object returnFigure = mySingleFigure;
-    	mySingleFigure = null;
-        return returnFigure;
-    }
+	/**
+	 * Returns the next element of the enumeration. Calls to this
+	 * method will enumerate successive elements.
+	 * @exception NoSuchElementException If no more elements exist.
+	 */
+	public Object nextElement() {
+		Object returnFigure = mySingleFigure;
+		mySingleFigure = null;
+		return returnFigure;
+	}
 
-    /**
-     * Returns the next element of the enumeration. Calls to this
-     * method will enumerate successive elements.
-     * @exception NoSuchElementException If no more elements exist.
-     */
-    public Figure nextFigure() {
-    	Figure returnFigure = (Figure)mySingleFigure;
-    	mySingleFigure = null;
-        return returnFigure;
-    }
+	/**
+	 * Returns the next element of the enumeration. Calls to this
+	 * method will enumerate successive elements.
+	 * @exception NoSuchElementException If no more elements exist.
+	 */
+	public Figure nextFigure() {
+		Figure returnFigure = (Figure)mySingleFigure;
+		mySingleFigure = null;
+		return returnFigure;
+	}
 }

@@ -12,53 +12,58 @@
 package CH.ifa.draw.util;
 
 import CH.ifa.draw.framework.*;
+import CH.ifa.draw.standard.AbstractCommand;
+import java.util.EventObject;
 
 /**
  * @author Wolfram Kaiser
  * @version <$CURRENT_VERSION$>
  */
-public class UndoableCommand implements Command, FigureSelectionListener {
+public class UndoableCommand implements Command, FigureSelectionListener, CommandListener {
 
 	private Command myWrappedCommand;
 	private boolean hasSelectionChanged;
-	
+	private AbstractCommand.EventDispatcher myEventDispatcher;
+
 	public UndoableCommand(Command newWrappedCommand) {
 		setWrappedCommand(newWrappedCommand);
+		getWrappedCommand().addCommandListener(this);
+		setEventDispatcher(createEventDispatcher());
 	}
 	
-    /**
-     * Executes the command.
-     */
-    public void execute() {
-    	hasSelectionChanged = false;
-    	// listen for selection change events during executing the wrapped command
-    	view().addFigureSelectionListener(this);
+	/**
+	 * Executes the command.
+	 */
+	public void execute() {
+		hasSelectionChanged = false;
+		// listen for selection change events during executing the wrapped command
+		view().addFigureSelectionListener(this);
 
-    	getWrappedCommand().execute();
+		getWrappedCommand().execute();
 
-    	Undoable undoableCommand = getWrappedCommand().getUndoActivity();
-    	if ((undoableCommand != null) && (undoableCommand.isUndoable())) {
-		    view().getUndoManager().pushUndo(undoableCommand);
-			view().getUndoManager().clearRedos();
-    	}
-    	
-    	// initiate manual update of undo/redo menu states if it has not
-    	// been done automatically during executing the wrapped command
-    	if (!hasSelectionChanged || (view().getUndoManager().getUndoSize() == 1)) {
-    		view().editor().figureSelectionChanged(view());
-    	}
+		Undoable undoableCommand = getWrappedCommand().getUndoActivity();
+		if ((undoableCommand != null) && (undoableCommand.isUndoable())) {
+			getDrawingEditor().getUndoManager().pushUndo(undoableCommand);
+			getDrawingEditor().getUndoManager().clearRedos();
+		}
+		
+		// initiate manual update of undo/redo menu states if it has not
+		// been done automatically during executing the wrapped command
+		if (!hasSelectionChanged || (getDrawingEditor().getUndoManager().getUndoSize() == 1)) {
+			getDrawingEditor().figureSelectionChanged(view());
+		}
 
-    	// remove so not all commands are listeners that have to be notified
-    	// all the time
-    	view().addFigureSelectionListener(this);
-    }
+		// remove so not all commands are listeners that have to be notified
+		// all the time
+		view().addFigureSelectionListener(this);
+	}
 
-    /**
-     * Tests if the command can be executed.
-     */
-    public boolean isExecutable() {
-    	return getWrappedCommand().isExecutable();
-    }
+	/**
+	 * Tests if the command can be executed.
+	 */
+	public boolean isExecutable() {
+		return getWrappedCommand().isExecutable();
+	}
 
 	protected void setWrappedCommand(Command newWrappedCommand) {
 		myWrappedCommand = newWrappedCommand;
@@ -68,16 +73,20 @@ public class UndoableCommand implements Command, FigureSelectionListener {
 		return myWrappedCommand;
 	}
 	
-    /**
-     * Gets the command name.
-     */
-    public String name() {
-    	return getWrappedCommand().name();
-    }
+	/**
+	 * Gets the command name.
+	 */
+	public String name() {
+		return getWrappedCommand().name();
+	}
 
-    public DrawingView view() {
-    	return getWrappedCommand().view();
-    }
+	public DrawingEditor getDrawingEditor() {
+		return getWrappedCommand().getDrawingEditor();
+	}
+	
+	public DrawingView view() {
+		return getDrawingEditor().view();
+	}
 
 	public void figureSelectionChanged(DrawingView view) {
 		hasSelectionChanged = true;
@@ -89,5 +98,37 @@ public class UndoableCommand implements Command, FigureSelectionListener {
 
 	public void setUndoActivity(Undoable newUndoableActivity) {
 		// do nothing: always return default UndoableAdapter
+	}
+
+	public void addCommandListener(CommandListener newCommandListener) {
+		getEventDispatcher().addCommandListener(newCommandListener);
+	}
+	
+	public void removeCommandListener(CommandListener oldCommandListener) {
+		getEventDispatcher().removeCommandListener(oldCommandListener);
+	}
+
+	private void setEventDispatcher(AbstractCommand.EventDispatcher newEventDispatcher) {
+		myEventDispatcher = newEventDispatcher;
+	}
+
+	protected AbstractCommand.EventDispatcher getEventDispatcher() {
+		return myEventDispatcher;
+	}
+
+	public AbstractCommand.EventDispatcher createEventDispatcher() {
+		return new AbstractCommand.EventDispatcher(this);
+	}
+
+	public void commandExecuted(EventObject commandEvent) {
+		getEventDispatcher().fireCommandExecutedEvent();
+	}
+	
+	public void commandExecutable(EventObject commandEvent) {
+		getEventDispatcher().fireCommandExecutableEvent();
+	}
+	
+	public void commandNotExecutable(EventObject commandEvent) {
+		getEventDispatcher().fireCommandNotExecutableEvent();
 	}
 }

@@ -24,27 +24,28 @@ import CH.ifa.draw.util.*;
  */
 public class CutCommand extends FigureTransferCommand {
 
-   /**
-    * Constructs a cut command.
-    * @param name the command name
-    * @param view the target view
-    */
-    public CutCommand(String name, DrawingView view) {
-        super(name, view);
-    }
+	/**
+	 * Constructs a cut command.
+	 * @param name the command name
+	 * @param newDrawingEditor the DrawingEditor which manages the views
+	 */
+	public CutCommand(String name, DrawingEditor newDrawingEditor) {
+		super(name, newDrawingEditor);
+	}
 
-    public void execute() {
-    	setUndoActivity(createUndoActivity());
-    	getUndoActivity().setAffectedFigures(view().selectionElements());
-        copyFigures(getUndoActivity().getAffectedFigures(),
-        	view().selectionCount());
-        deleteFigures(getUndoActivity().getAffectedFigures());
-        view().checkDamage();
-    }
+	public void execute() {
+		super.execute();
+		setUndoActivity(createUndoActivity());
+		getUndoActivity().setAffectedFigures(view().selectionElements());
+		copyFigures(getUndoActivity().getAffectedFigures(),
+			view().selectionCount());
+		deleteFigures(getUndoActivity().getAffectedFigures());
+		view().checkDamage();
+	}
 
-    public boolean isExecutable() {
-        return view().selectionCount() > 0;
-    }
+	public boolean isExecutableWithView() {
+		return view().selectionCount() > 0;
+	}
 
 	/**
 	 * Factory method for undo activity
@@ -67,20 +68,20 @@ public class CutCommand extends FigureTransferCommand {
 			if (super.undo() && getAffectedFigures().hasMoreElements()) {
 				getDrawingView().clearSelection();
 	
-		        setAffectedFigures(myCommand.insertFigures(
-		        	getAffectedFigures(), 0, 0));
+				setAffectedFigures(myCommand.insertFigures(
+					getAffectedFigures(), 0, 0));
 	
-			    return true;
+				return true;
 			}
 			
-	        return false;
+			return false;
 		}
 	
 		public boolean redo() {
 			// do not call execute directly as the selection might has changed
 			if (isRedoable()) {
-	        	myCommand.copyFigures(getAffectedFigures(), getDrawingView().selectionCount());
-	        	myCommand.deleteFigures(getAffectedFigures());
+				myCommand.copyFigures(getAffectedFigures(), getDrawingView().selectionCount());
+				myCommand.deleteFigures(getAffectedFigures());
 				return true;
 			}
 			

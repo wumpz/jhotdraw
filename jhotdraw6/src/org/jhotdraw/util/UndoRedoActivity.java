@@ -92,6 +92,10 @@ public class UndoRedoActivity implements Undoable {
 		return getReversedActivity().getAffectedFiguresCount();
 	}
 
+	public DrawingView getDrawingView() {
+		return getReversedActivity().getDrawingView();
+	}
+	
 	public void release() {
 		getReversedActivity().release();
 	}

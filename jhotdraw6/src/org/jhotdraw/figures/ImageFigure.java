@@ -28,127 +28,127 @@ import CH.ifa.draw.util.*;
  * @version <$CURRENT_VERSION$>
  */
 public  class ImageFigure
-        extends AttributeFigure implements ImageObserver {
+		extends AttributeFigure implements ImageObserver {
 
-    private String   fFileName;
-    private transient Image fImage;
-    private Rectangle fDisplayBox;
-    /*
-     * Serialization support.
-     */
-    private static final long serialVersionUID = 148012030121282439L;
-    private int imageFigureSerializedDataVersion = 1;
+	private String   fFileName;
+	private transient Image fImage;
+	private Rectangle fDisplayBox;
+	/*
+	 * Serialization support.
+	 */
+	private static final long serialVersionUID = 148012030121282439L;
+	private int imageFigureSerializedDataVersion = 1;
 
-    public ImageFigure() {
-        fFileName = null;
-        fImage = null;
-        fDisplayBox = null;
-    }
+	public ImageFigure() {
+		fFileName = null;
+		fImage = null;
+		fDisplayBox = null;
+	}
 
-    public ImageFigure(Image image, String fileName, Point origin) {
-        fFileName = fileName;
-        fImage = image;
-        fDisplayBox = new Rectangle(origin.x, origin.y, 0, 0);
-        fDisplayBox.width = fImage.getWidth(this);
-        fDisplayBox.height = fImage.getHeight(this);
-    }
+	public ImageFigure(Image image, String fileName, Point origin) {
+		fFileName = fileName;
+		fImage = image;
+		fDisplayBox = new Rectangle(origin.x, origin.y, 0, 0);
+		fDisplayBox.width = fImage.getWidth(this);
+		fDisplayBox.height = fImage.getHeight(this);
+	}
 
-    public void basicDisplayBox(Point origin, Point corner) {
-        fDisplayBox = new Rectangle(origin);
-        fDisplayBox.add(corner);
-    }
+	public void basicDisplayBox(Point origin, Point corner) {
+		fDisplayBox = new Rectangle(origin);
+		fDisplayBox.add(corner);
+	}
 
-    public Vector handles() {
-        Vector handles = new Vector();
-        BoxHandleKit.addHandles(this, handles);
-        return handles;
-    }
+	public Vector handles() {
+		Vector handles = new Vector();
+		BoxHandleKit.addHandles(this, handles);
+		return handles;
+	}
 
-    public Rectangle displayBox() {
-        return new Rectangle(
-            fDisplayBox.x,
-            fDisplayBox.y,
-            fDisplayBox.width,
-            fDisplayBox.height);
-    }
+	public Rectangle displayBox() {
+		return new Rectangle(
+			fDisplayBox.x,
+			fDisplayBox.y,
+			fDisplayBox.width,
+			fDisplayBox.height);
+	}
 
-    protected void basicMoveBy(int x, int y) {
-        fDisplayBox.translate(x,y);
-    }
+	protected void basicMoveBy(int x, int y) {
+		fDisplayBox.translate(x,y);
+	}
 
-    public void draw(Graphics g) {
-        if (fImage == null) {
-            fImage = Iconkit.instance().getImage(fFileName);
-        }
-        if (fImage != null) {
-            g.drawImage(fImage, fDisplayBox.x, fDisplayBox.y, fDisplayBox.width, fDisplayBox.height, this);
-        }
-        else {
-            drawGhost(g);
-        }
-    }
+	public void draw(Graphics g) {
+		if (fImage == null) {
+			fImage = Iconkit.instance().getImage(fFileName);
+		}
+		if (fImage != null) {
+			g.drawImage(fImage, fDisplayBox.x, fDisplayBox.y, fDisplayBox.width, fDisplayBox.height, this);
+		}
+		else {
+			drawGhost(g);
+		}
+	}
 
-    private void drawGhost(Graphics g) {
-        g.setColor(Color.gray);
-        g.fillRect(fDisplayBox.x, fDisplayBox.y, fDisplayBox.width, fDisplayBox.height);
-    }
-
-   /**
-    * Handles asynchroneous image updates.
-    */
-    public boolean imageUpdate(Image img, int flags, int x, int y, int w, int h) {
-	    if ((flags & (FRAMEBITS|ALLBITS)) != 0) {
-	        invalidate();
-	        if (listener() != null) {
-	            listener().figureRequestUpdate(new FigureChangeEvent(this));
-	        }
-	    }
-	    return (flags & (ALLBITS|ABORT)) == 0;
-    }
-
-    /**
-     * Releases a figure's resources. Release is called when
-     * a figure is removed from a drawing. Informs the listeners that
-     * the figure is removed by calling figureRemoved.
-     */
-    public void release() {
-    	fImage.flush();
-    }
+	private void drawGhost(Graphics g) {
+		g.setColor(Color.gray);
+		g.fillRect(fDisplayBox.x, fDisplayBox.y, fDisplayBox.width, fDisplayBox.height);
+	}
 
    /**
-    * Writes the ImageFigure to a StorableOutput. Only a reference to the
-    * image, that is its pathname is saved.
-    */
-    public void write(StorableOutput dw) {
-        super.write(dw);
-        dw.writeInt(fDisplayBox.x);
-        dw.writeInt(fDisplayBox.y);
-        dw.writeInt(fDisplayBox.width);
-        dw.writeInt(fDisplayBox.height);
-        dw.writeString(fFileName);
-    }
+	* Handles asynchroneous image updates.
+	*/
+	public boolean imageUpdate(Image img, int flags, int x, int y, int w, int h) {
+		if ((flags & (FRAMEBITS|ALLBITS)) != 0) {
+			invalidate();
+			if (listener() != null) {
+				listener().figureRequestUpdate(new FigureChangeEvent(this));
+			}
+		}
+		return (flags & (ALLBITS|ABORT)) == 0;
+	}
+
+	/**
+	 * Releases a figure's resources. Release is called when
+	 * a figure is removed from a drawing. Informs the listeners that
+	 * the figure is removed by calling figureRemoved.
+	 */
+	public void release() {
+		fImage.flush();
+	}
 
    /**
-    * Reads the ImageFigure from a StorableInput. It registers the
-    * referenced figure to be loaded from the Iconkit.
-    * @see Iconkit#registerImage
-    */
-    public void read(StorableInput dr) throws IOException {
-        super.read(dr);
-        fDisplayBox = new Rectangle(
-            dr.readInt(),
-            dr.readInt(),
-            dr.readInt(),
-            dr.readInt());
-        fFileName = dr.readString();
-        Iconkit.instance().registerImage(fFileName);
-    }
+	* Writes the ImageFigure to a StorableOutput. Only a reference to the
+	* image, that is its pathname is saved.
+	*/
+	public void write(StorableOutput dw) {
+		super.write(dw);
+		dw.writeInt(fDisplayBox.x);
+		dw.writeInt(fDisplayBox.y);
+		dw.writeInt(fDisplayBox.width);
+		dw.writeInt(fDisplayBox.height);
+		dw.writeString(fFileName);
+	}
 
-    private void readObject(ObjectInputStream s)
-        throws ClassNotFoundException, IOException {
+   /**
+	* Reads the ImageFigure from a StorableInput. It registers the
+	* referenced figure to be loaded from the Iconkit.
+	* @see Iconkit#registerImage
+	*/
+	public void read(StorableInput dr) throws IOException {
+		super.read(dr);
+		fDisplayBox = new Rectangle(
+			dr.readInt(),
+			dr.readInt(),
+			dr.readInt(),
+			dr.readInt());
+		fFileName = dr.readString();
+		Iconkit.instance().registerImage(fFileName);
+	}
 
-        s.defaultReadObject();
-        Iconkit.instance().registerImage(fFileName);
-        fImage = null;
-    }
+	private void readObject(ObjectInputStream s)
+		throws ClassNotFoundException, IOException {
+
+		s.defaultReadObject();
+		Iconkit.instance().registerImage(fFileName);
+		fImage = null;
+	}
 }

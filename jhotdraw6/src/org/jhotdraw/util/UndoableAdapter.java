@@ -25,11 +25,11 @@ import java.util.*;
  */
 public class UndoableAdapter implements Undoable {
 
-    private Vector myAffectedFigures;
-    private int    myAffectedFiguresCount;
-    private boolean myIsUndoable;
-    private boolean myIsRedoable;
-    private DrawingView myDrawingView;
+	private Vector myAffectedFigures;
+	private int    myAffectedFiguresCount;
+	private boolean myIsUndoable;
+	private boolean myIsRedoable;
+	private DrawingView myDrawingView;
 
 	public UndoableAdapter(DrawingView newDrawingView) {
 		setDrawingView(newDrawingView);
@@ -114,11 +114,11 @@ public class UndoableAdapter implements Undoable {
 			getAffectedFigures(), getAffectedFiguresCount()));
 	}
 	
-	protected DrawingView getDrawingView() {
+	public DrawingView getDrawingView() {
 		return myDrawingView;
 	}
 	
-	private void setDrawingView(DrawingView newDrawingView) {
+	protected void setDrawingView(DrawingView newDrawingView) {
 		myDrawingView = newDrawingView;
 	}
 }

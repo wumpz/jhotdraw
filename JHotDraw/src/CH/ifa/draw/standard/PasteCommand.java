@@ -25,17 +25,17 @@ import java.awt.*;
  */
 public class PasteCommand extends FigureTransferCommand {
 
-   /**
-	* Constructs a paste command.
-	* @param name the command name
-	* @param image the pathname of the image
-	* @param view the target view
-	*/
-	public PasteCommand(String name, DrawingView view) {
-		super(name, view);
+	/**
+	 * Constructs a paste command.
+	 * @param name the command name
+	 * @param newDrawingEditor the DrawingEditor which manages the views
+	 */
+	public PasteCommand(String name, DrawingEditor newDrawingEditor) {
+		super(name, newDrawingEditor);
 	}
 
 	public void execute() {
+		super.execute();
 		Point lastClick = view().lastClick();
 		FigureSelection selection = (FigureSelection)Clipboard.getClipboard().getContents();
 		if (selection != null) {
@@ -55,6 +55,10 @@ public class PasteCommand extends FigureTransferCommand {
 			
 			view().checkDamage();
 		}
+	}
+
+	public boolean isExecutableWithView() {
+		return Clipboard.getClipboard().getContents() != null;
 	}
 
 	Rectangle bounds(Enumeration k) {

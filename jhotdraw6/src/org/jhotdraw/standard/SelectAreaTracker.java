@@ -25,8 +25,8 @@ public class SelectAreaTracker extends AbstractTool {
 
 	private Rectangle fSelectGroup;
 
-	public SelectAreaTracker(DrawingView view) {
-		super(view);
+	public SelectAreaTracker(DrawingEditor newDrawingEditor) {
+		super(newDrawingEditor);
 	}
 
 	public void mouseDown(MouseEvent e, int x, int y) {

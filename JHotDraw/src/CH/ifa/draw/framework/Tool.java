@@ -33,13 +33,13 @@ import java.awt.event.KeyEvent;
  * 
  * @version <$CURRENT_VERSION$>
  */
-
 public interface Tool {
 
 	/**
 	 * Activates the tool for the given view. This method is called
 	 * whenever the user switches to this tool. Use this method to
 	 * reinitialize a tool.
+	 * Note, a valid view must be present in order for the tool to accept activation
 	 */
 	public void activate();
 
@@ -76,9 +76,14 @@ public interface Tool {
 	 */
 	public void keyDown(KeyEvent evt, int key);
 
-	public DrawingView view();
+	public boolean isUsable();
+
+	public DrawingEditor editor();
 	
 	public Undoable getUndoActivity();
 
 	public void setUndoActivity(Undoable newUndoableActivity);
+	
+	public void addToolListener(ToolListener newToolListener);
+	public void removeToolListener(ToolListener oldToolListener);
 }

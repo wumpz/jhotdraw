@@ -26,8 +26,8 @@ import java.util.Vector;
  */
 public  class BorderTool extends ActionTool {
 
-	public BorderTool(DrawingView view) {
-		super(view);
+	public BorderTool(DrawingEditor editor) {
+		super(editor);
 	}
 
 	/**

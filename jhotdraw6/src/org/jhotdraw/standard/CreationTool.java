@@ -63,8 +63,8 @@ public class CreationTool extends AbstractTool {
 	/**
 	 * Initializes a CreationTool with the given prototype.
 	 */
-	public CreationTool(DrawingView view, Figure prototype) {
-		super(view);
+	public CreationTool(DrawingEditor newDrawingEditor, Figure prototype) {
+		super(newDrawingEditor);
 		fPrototype = prototype;
 	}
 
@@ -72,8 +72,8 @@ public class CreationTool extends AbstractTool {
 	 * Constructs a CreationTool without a prototype.
 	 * This is for subclassers overriding createFigure.
 	 */
-	protected CreationTool(DrawingView view) {
-		super(view);
+	protected CreationTool(DrawingEditor newDrawingEditor) {
+		super(newDrawingEditor);
 		fPrototype = null;
 	}
 
@@ -81,7 +81,10 @@ public class CreationTool extends AbstractTool {
 	 * Sets the cross hair cursor.
 	 */
 	public void activate() {
-		view().setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+		super.activate();
+		if (isUsable()) {
+			view().setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+		}
 	}
 
 	/**
@@ -156,7 +159,7 @@ public class CreationTool extends AbstractTool {
 	private void setAddedFigure(Figure newAddedFigure) {
 		myAddedFigure = newAddedFigure;
 	}
-	
+
 	/**
 	 * Factory method for undo activity
 	 */

@@ -43,23 +43,19 @@ public class PolygonHandle extends AbstractHandle {
 		fIndex = index;
 	}
 
-    public void invokeStart(int  x, int  y, DrawingView view) {
-		setUndoActivity(createUndoActivity(fIndex));
+	public void invokeStart(int  x, int  y, DrawingView view) {
+		setUndoActivity(createUndoActivity(view, fIndex));
 		getUndoActivity().setAffectedFigures(new SingleFigureEnumerator(owner()));
 		((PolygonHandle.UndoActivity)getUndoActivity()).setOldPoint(new Point(x, y));
 	}
 
 	public void invokeStep(int x, int y, int anchorX, int anchorY, DrawingView view) {
-		int fIndex = ((PolyLineHandle.UndoActivity)getUndoActivity()).getPointIndex();
-		myOwner().setPointAt(new Point(x, y), fIndex);
+		int index = ((PolyLineHandle.UndoActivity)getUndoActivity()).getPointIndex();
+		myOwner().setPointAt(new Point(x, y), index);
 	}
 	
 	public void invokeEnd(int x, int y, int anchorX, int anchorY, DrawingView view) {
 		myOwner().smoothPoints();
-//Point old = ((PolyLineHandle.UndoActivity)getUndoActivity()).getOldPoint();
-//int pointIndex = ((PolyLineHandle.UndoActivity)getUndoActivity()).getPointIndex();
-//		Point currentPoint = myOwner().pointAt(pointIndex);
-//System.out.println("invokeEnd: " + x + " .. " + y + " =? " + anchorX + " .. " + anchorY + " =? " + old.x + " .. " + old.y + " =? " + currentPoint.x + " .. " + currentPoint.y);
 		if ((x == anchorX) && (y == anchorY)) {
  			setUndoActivity(null);
 		}
@@ -76,14 +72,14 @@ public class PolygonHandle extends AbstractHandle {
 	/**
 	 * Factory method for undo activity. To be overriden by subclasses.
 	 */
-	protected Undoable createUndoActivity(int newPointIndex) {
-		return new PolygonHandle.UndoActivity(newPointIndex);
+	protected Undoable createUndoActivity(DrawingView newView, int newPointIndex) {
+		return new PolygonHandle.UndoActivity(newView, newPointIndex);
 	}
 	
 	public static class UndoActivity extends PolyLineHandle.UndoActivity {
 		
-		public UndoActivity(int newPointIndex) {
-			super(newPointIndex);
+		public UndoActivity(DrawingView newView, int newPointIndex) {
+			super(newView, newPointIndex);
 		}
 		
 		protected boolean movePointToOldLocation() {

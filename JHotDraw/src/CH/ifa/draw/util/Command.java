@@ -11,7 +11,7 @@
 
 package CH.ifa.draw.util;
 
-import CH.ifa.draw.framework.DrawingView;
+import CH.ifa.draw.framework.DrawingEditor;
 
 /**
  * Commands encapsulate an action to be executed. Commands have
@@ -33,24 +33,27 @@ import CH.ifa.draw.framework.DrawingView;
  */
 public interface Command {
 
-    /**
-     * Executes the command.
-     */
-    public void execute();
+	/**
+	 * Executes the command.
+	 */
+	public void execute();
 
-    /**
-     * Tests if the command can be executed.
-     */
-    public boolean isExecutable();
+	/**
+	 * Tests if the command can be executed.
+	 */
+	public boolean isExecutable();
 
-    /**
-     * Gets the command name.
-     */
-    public String name();
-    
-    public DrawingView view();
+	/**
+	 * Gets the command name.
+	 */
+	public String name();
+	
+	public DrawingEditor getDrawingEditor();
 
 	public Undoable getUndoActivity();
 
 	public void setUndoActivity(Undoable newUndoableActivity);
+	
+	public void addCommandListener(CommandListener newCommandListener);
+	public void removeCommandListener(CommandListener oldCommandListener);
 }

@@ -25,8 +25,8 @@ import CH.ifa.draw.standard.AbstractTool;
 class FollowURLTool extends AbstractTool {
 	 private JApplet         fApplet;
 
-	 FollowURLTool(DrawingView view, JApplet applet) {
-		super(view);
+	 FollowURLTool(DrawingEditor newDrawingEditor, JApplet applet) {
+		super(newDrawingEditor);
 		fApplet = applet;
 	 }
 

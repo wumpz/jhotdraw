@@ -31,12 +31,13 @@ public class ToggleGridCommand extends AbstractCommand {
 	* @param image the pathname of the image
 	* @param grid the grid size. A grid size of 1,1 turns grid snapping off.
 	*/
-	public ToggleGridCommand(String name, DrawingView view, Point grid) {
-		super(name, view);
+	public ToggleGridCommand(String name, DrawingEditor newDrawingEditor, Point grid) {
+		super(name, newDrawingEditor);
 		fGrid = new Point(grid.x, grid.y);
 	}
 
 	public void execute() {
+		super.execute();
 		PointConstrainer grid = view().getConstrainer();
 		if (grid != null) {
 			view().setConstrainer(null);

@@ -35,7 +35,7 @@ public  class TriangleFigure extends RectangleFigure {
 		Math.PI,  -Math.PI * 3/4
 	};
 
-	protected int fRotation = 0;
+	private int fRotation = 0;
 
 	public TriangleFigure() {
 		super(new Point(0,0), new Point(0,0));
