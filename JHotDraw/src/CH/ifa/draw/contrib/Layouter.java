@@ -33,11 +33,13 @@ import java.awt.*;
 public interface Layouter extends Serializable, Storable {
 
 	/**
-	 * Calculate the layout for the figure and all its subelements. The
-	 * layout is not actually performed but just its dimensions are calculated.
+	 * Calculate the layout for the figure and all its
+	 * subelements. The layout is not actually performed but just
+	 * its dimensions are calculated.
 	 *
 	 * @param origin start point for the layout
 	 * @param corner minimum corner point for the layout
+	 * @return size including space for insets
 	 */	
 	public Rectangle calculateLayout(Point origin, Point corner);
 

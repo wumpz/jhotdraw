@@ -58,17 +58,18 @@ public class StandardLayouter extends SimpleLayouter {
 		return new StandardLayouter(newLayoutable);
 	}
 
-	/*
-	 * Calculate the layout for the figure and all its subelements. The
-	 * layout is not actually performed but just its dimensions are calculated.
-	 * Insets are added for all non-top-level figures.
+	/**
+	 * Calculate the layout for the figure and all its
+	 * subelements. The layout is not actually performed but just
+	 * its dimensions are calculated.  The insets for this figure
+	 * are included in the return value.
 	 *
 	 * @param origin start point for the layout
 	 * @param corner minimum corner point for the layout
 	 */
 	public Rectangle calculateLayout(Point origin, Point corner) {
 		int maxWidth = Math.abs(corner.x - origin.x);
-		int maxHeight = 0;
+		int maxHeight = getInsets().top;
 
 		// layout enclosed Layoutable and find maximum width
 		FigureEnumeration fe = getLayoutable().figures();
@@ -79,16 +80,16 @@ public class StandardLayouter extends SimpleLayouter {
 				Layouter layoutStrategy = ((Layoutable)currentFigure).getLayouter();
 				r = layoutStrategy.calculateLayout(
 					new Point(0, 0), new Point(0, 0));
-				// add insets to calculated rectangle
-				r.grow(layoutStrategy.getInsets().left + layoutStrategy.getInsets().right,
-						layoutStrategy.getInsets().top + layoutStrategy.getInsets().bottom);
 			}
 			else {
 				r = new Rectangle(currentFigure.displayBox().getBounds());
 			}
-			maxWidth = Math.max(maxWidth, r.width);
+			maxWidth = Math.max(maxWidth,
+					    r.width + getInsets().left +
+					    getInsets().right);
 			maxHeight += r.height;
 		}
+		maxHeight += getInsets().bottom;
 
 		return new Rectangle(origin.x, origin.y, maxWidth, maxHeight);
 	}
@@ -113,22 +114,15 @@ public class StandardLayouter extends SimpleLayouter {
 			Figure currentFigure = fe.nextFigure();
 
 			Point partOrigin = new Point(r.x + getInsets().left, r.y + maxHeight);
-
-			// Fix for bug request ID 548000
-			// Previously was
-			//      Point partCorner = new Point(r.x + getInsets().left + r.width, r.y + currentFigure.displayBox().height);
-			// The right inset wasn't included in the calculation
-			Point partCorner = new Point(r.x + getInsets().left - getInsets().right + r.width, r.y + currentFigure.displayBox().height);
+			Point partCorner = new Point
+				(r.x + r.width - getInsets().right,
+				 r.y + maxHeight +
+				 currentFigure.displayBox().height);
 			currentFigure.displayBox(partOrigin, partCorner);
 
 			maxHeight += currentFigure.displayBox().height;
 		}
 
-		// the maximum width has been already calculated
-		// Fix for bug request ID 548000
-		// Previously was
-		//      Point partCorner = new Point(r.x + getInsets().left + r.width, r.y + currentFigure.displayBox().height);
-		// The right inset wasn't included in the calculation
 		return new Rectangle(r.x, r.y, r.width, maxHeight + getInsets().bottom);
 	}
 }
