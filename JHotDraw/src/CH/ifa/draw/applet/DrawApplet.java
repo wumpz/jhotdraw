@@ -52,7 +52,7 @@ public class DrawApplet
 	private transient JComboBox          fArrowChoice;
 	private transient JComboBox          fFontChoice;
 
-	private transient Thread          fSleeper;
+	//private transient Thread          fSleeper;
 	private transient 			UndoManager myUndoManager;
 
 	static String                     fgUntitled = "untitled";
@@ -506,7 +506,7 @@ public class DrawApplet
 	private void setupAttributes() {
 		Color   frameColor = (Color)   AttributeFigure.getDefaultAttribute(FigureAttributeConstant.FRAME_COLOR);
 		Color   fillColor  = (Color)   AttributeFigure.getDefaultAttribute(FigureAttributeConstant.FILL_COLOR);
-		Color   textColor  = (Color)   AttributeFigure.getDefaultAttribute(FigureAttributeConstant.TEXT_COLOR);
+		//Color   textColor  = (Color)   AttributeFigure.getDefaultAttribute(FigureAttributeConstant.TEXT_COLOR);
 		Integer arrowMode  = (Integer) AttributeFigure.getDefaultAttribute(FigureAttributeConstant.ARROW_MODE);
 		String  fontName   = (String)  AttributeFigure.getDefaultAttribute(FigureAttributeConstant.FONT_NAME);
 
@@ -515,7 +515,7 @@ public class DrawApplet
 			Figure f = fe.nextFigure();
 			frameColor = (Color) f.getAttribute(FigureAttributeConstant.FRAME_COLOR);
 			fillColor  = (Color) f.getAttribute(FigureAttributeConstant.FILL_COLOR);
-			textColor  = (Color) f.getAttribute(FigureAttributeConstant.TEXT_COLOR);
+			//textColor  = (Color) f.getAttribute(FigureAttributeConstant.TEXT_COLOR);
 			arrowMode  = (Integer) f.getAttribute(FigureAttributeConstant.ARROW_MODE);
 			fontName   = (String) f.getAttribute(FigureAttributeConstant.FONT_NAME);
 		}
@@ -589,18 +589,18 @@ public class DrawApplet
 	/**
 	 * *** netscape browser work around ***
 	 */
-	private void startSleeper() {
+	/*private void startSleeper() {
 		if (fSleeper == null) {
 			fSleeper = new SleeperThread(this);
 		}
 		fSleeper.start();
-	}
+	}*/
 
-	private void stopSleeper() {
+	/*private void stopSleeper() {
 		if (fSleeper != null) {
 			fSleeper.stop();
 		}
-	}
+	}*/
 }
 
 
