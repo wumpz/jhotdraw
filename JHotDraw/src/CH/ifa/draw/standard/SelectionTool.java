@@ -108,6 +108,7 @@ public class SelectionTool extends AbstractTool {
 		}
 		if (view() != null) {
 			view().unfreezeView();
+			editor().figureSelectionChanged(view());
 		}
 	}
 
@@ -115,7 +116,7 @@ public class SelectionTool extends AbstractTool {
 	 * Factory method to create a Handle tracker. It is used to track a handle.
 	 */
 	protected Tool createHandleTracker(DrawingView view, Handle handle) {
-		return new HandleTracker(editor(), new UndoableHandle(handle, view));
+		return new HandleTracker(editor(), new UndoableHandle(handle));
 	}
 
 	/**
