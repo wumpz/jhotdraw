@@ -83,4 +83,8 @@ public class ChangeConnectionStartHandle extends ChangeConnectionHandle {
 			return tempStartConnector;
 		}
 	}
+    
+    protected boolean canConnectTo(Figure figure) {
+        return getConnection().canConnect(figure, source().owner());
+}
 }
