@@ -1,6 +1,12 @@
 /*
- * @(#)TextFigure.java 5.2
+ * @(#)TextFigure.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.figures;
@@ -16,6 +22,8 @@ import CH.ifa.draw.util.*;
  * A text figure.
  *
  * @see TextTool
+ *
+ * @version <$CURRENT_VERSION$>
  */
 public  class TextFigure
         extends AttributeFigure
@@ -58,8 +66,9 @@ public  class TextFigure
     public void moveBy(int x, int y) {
         willChange();
         basicMoveBy(x, y);
-        if (fLocator != null)
+        if (fLocator != null) {
             fLocator.moveBy(x, y);
+        }
         changed();
     }
 
@@ -127,12 +136,15 @@ public  class TextFigure
      */
     public Object getAttribute(String name) {
         Font font = getFont();
-        if (name.equals("FontSize"))
+        if (name.equals("FontSize")) {
             return new Integer(font.getSize());
-        if (name.equals("FontStyle"))
+        }
+        if (name.equals("FontStyle")) {
             return new Integer(font.getStyle());
-        if (name.equals("FontName"))
+        }
+        if (name.equals("FontName")) {
             return font.getName();
+        }
         return super.getAttribute(name);
     }
 
@@ -149,18 +161,21 @@ public  class TextFigure
         else if (name.equals("FontStyle")) {
             Integer s = (Integer)value;
             int style = font.getStyle();
-            if (s.intValue() == Font.PLAIN)
+            if (s.intValue() == Font.PLAIN) {
                 style = font.PLAIN;
-            else
+            }
+            else {
                 style = style ^ s.intValue();
+            }
             setFont(new Font(font.getName(), style, font.getSize()) );
         }
         else if (name.equals("FontName")) {
             String n = (String)value;
             setFont(new Font(n, font.getStyle(), font.getSize()) );
         }
-        else
+        else {
             super.setAttribute(name, value);
+        }
     }
 
     /**
@@ -202,8 +217,9 @@ public  class TextFigure
     }
 
     private Dimension textExtent() {
-        if (!fSizeIsDirty)
+        if (!fSizeIsDirty) {
             return new Dimension(fWidth, fHeight);
+        }
         FontMetrics metrics = Toolkit.getDefaultToolkit().getFontMetrics(fFont);
         fWidth = metrics.stringWidth(fText);
         fHeight = metrics.getHeight();
@@ -221,8 +237,9 @@ public  class TextFigure
     public int overlayColumns() {
         int length = getText().length();
         int columns = 20;
-        if (length != 0)
+        if (length != 0) {
             columns = getText().length()+ 3;
+        }
         return columns;
     }
 
@@ -258,8 +275,9 @@ public  class TextFigure
         fIsReadOnly = dr.readBoolean();
 
         fObservedFigure = (Figure)dr.readStorable();
-        if (fObservedFigure != null)
+        if (fObservedFigure != null) {
             fObservedFigure.addFigureChangeListener(this);
+        }
         fLocator = (OffsetLocator)dr.readStorable();
     }
 
@@ -268,14 +286,16 @@ public  class TextFigure
 
         s.defaultReadObject();
 
-        if (fObservedFigure != null)
+        if (fObservedFigure != null) {
             fObservedFigure.addFigureChangeListener(this);
+        }
         markDirty();
     }
 
     public void connect(Figure figure) {
-        if (fObservedFigure != null)
+        if (fObservedFigure != null) {
             fObservedFigure.removeFigureChangeListener(this);
+        }
 
         fObservedFigure = figure;
         fLocator = new OffsetLocator(figure.connectedTextLocator(this));
@@ -288,8 +308,9 @@ public  class TextFigure
     }
 
     public void figureRemoved(FigureChangeEvent e) {
-        if (listener() != null)
+        if (listener() != null) {
             listener().figureRequestRemove(new FigureChangeEvent(this));
+        }
     }
 
     public void figureRequestRemove(FigureChangeEvent e) {}
@@ -303,11 +324,11 @@ public  class TextFigure
     protected void updateLocation() {
         if (fLocator != null) {
             Point p = fLocator.locate(fObservedFigure);
+
             p.x -= size().width/2 + fOriginX;
             p.y -= size().height/2 + fOriginY;
-
             if (p.x != 0 || p.y != 0) {
-                willChange();
+            	willChange();
                 basicMoveBy(p.x, p.y);
                 changed();
             }
@@ -316,16 +337,17 @@ public  class TextFigure
 
     public void release() {
         super.release();
-        if (fObservedFigure != null)
-            fObservedFigure.removeFigureChangeListener(this);
+		disconnect(fObservedFigure);
     }
 
     /**
-     * Disconnects the text figure.
+     * Disconnects a text holder from a connect figure.
      */
-    public void disconnect() {
-        fObservedFigure.removeFigureChangeListener(this);
-        fObservedFigure = null;
+    public void disconnect(Figure disconnectFigure) {
+        if (disconnectFigure != null) {
+    	    disconnectFigure.removeFigureChangeListener(this);
+	        disconnectFigure = null;
+        }
         fLocator = null;
     }
 

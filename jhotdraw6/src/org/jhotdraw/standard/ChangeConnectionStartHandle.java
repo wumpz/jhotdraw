@@ -1,60 +1,87 @@
 /*
- * @(#)ChangeConnectionStartHandle.java 5.2
+ * @(#)ChangeConnectionStartHandle.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.standard;
 
-import java.awt.Point;
-
 import CH.ifa.draw.framework.*;
+import CH.ifa.draw.util.Undoable;
+import CH.ifa.draw.util.UndoableAdapter;
+import java.awt.Point;
 
 /**
  * Handle to reconnect the
  * start of a connection to another figure.
+ *
+ * @version <$CURRENT_VERSION$>
  */
-
 public class ChangeConnectionStartHandle extends ChangeConnectionHandle {
 
-    /**
-     * Constructs the connection handle for the given start figure.
-     */
-    public ChangeConnectionStartHandle(Figure owner) {
-        super(owner);
-    }
+	/**
+	 * Constructs the connection handle for the given start figure.
+	 */
+	public ChangeConnectionStartHandle(Figure owner) {
+		super(owner);
+	}
 
-    /**
-     * Gets the start figure of a connection.
-     */
-    protected Connector target() {
-        return fConnection.start();
-    }
+	/**
+	 * Gets the start figure of a connection.
+	 */
+	protected Connector target() {
+		return getConnection().getStartConnector();
+	}
 
-    /**
-     * Disconnects the start figure.
-     */
-    protected void disconnect() {
-        fConnection.disconnectStart();
-    }
+	/**
+	 * Disconnects the start figure.
+	 */
+	protected void disconnect() {
+		getConnection().disconnectStart();
+	}
 
-    /**
-     * Sets the start of the connection.
-     */
-    protected void connect(Connector c) {
-        fConnection.connectStart(c);
-    }
+	/**
+	 * Sets the start of the connection.
+	 */
+	protected void connect(Connector c) {
+		getConnection().connectStart(c);
+	}
 
-    /**
-     * Sets the start point of the connection.
-     */
-    protected void setPoint(int x, int y) {
-        fConnection.startPoint(x, y);
-    }
+	/**
+	 * Sets the start point of the connection.
+	 */
+	protected void setPoint(int x, int y) {
+		getConnection().startPoint(x, y);
+	}
 
-    /**
-     * Returns the start point of the connection.
-     */
-    public Point locate() {
-        return fConnection.startPoint();
-    }
+	/**
+	 * Returns the start point of the connection.
+	 */
+	public Point locate() {
+		return getConnection().startPoint();
+	}
+
+	/**
+	 * Factory method for undo activity
+	 */
+	protected Undoable createUndoActivity() {
+		return new ChangeConnectionStartHandle.UndoActivity();
+	}
+
+	public static class UndoActivity extends ChangeConnectionHandle.UndoActivity {
+		public UndoActivity() {
+			super();
+		}
+		
+		protected Connector replaceConnector(ConnectionFigure connection) {
+			Connector tempStartConnector = connection.getStartConnector();
+			connection.connectStart(getOldConnector());
+			return tempStartConnector;
+		}
+	}
 }

@@ -5,8 +5,7 @@
 
 package CH.ifa.draw.samples.javadraw;
 
-import javax.swing.*;
-//import java.awt.*;
+import javax.swing.JApplet;
 import java.applet.*;
 import java.awt.event.*;
 import java.net.*;

@@ -25,7 +25,7 @@ public class ToolButton extends PaletteButton {
         // use a Mediatracker to ensure that all the images are initially loaded
         Iconkit kit = Iconkit.instance();
         if (kit == null)
-            throw new HJDError("Iconkit instance isn't set");
+            throw new JHotDrawRuntimeException("Iconkit instance isn't set");
 
         Image im[] = new Image[3];
         im[0] = kit.loadImageResource(iconName+"1.gif");

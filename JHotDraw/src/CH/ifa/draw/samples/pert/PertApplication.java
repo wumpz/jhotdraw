@@ -5,11 +5,7 @@
 
 package CH.ifa.draw.samples.pert;
 
-import javax.swing.*;
-import java.awt.*;
-import java.util.*;
-import java.io.*;
-import java.net.*;
+import javax.swing.JToolBar;
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
 import CH.ifa.draw.figures.*;
@@ -27,8 +23,7 @@ public  class PertApplication extends DrawApplication {
     protected void createTools(JToolBar palette) {
         super.createTools(palette);
 
-        Tool tool;
-        tool = new TextTool(view(), new TextFigure());
+        Tool tool = new TextTool(view(), new TextFigure());
         palette.add(createToolButton(IMAGES+"TEXT", "Text Tool", tool));
 
         // the generic but slower version
@@ -52,4 +47,3 @@ public  class PertApplication extends DrawApplication {
 		pert.open();
     }
 }
-

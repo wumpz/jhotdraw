@@ -5,14 +5,7 @@
 
 package CH.ifa.draw.samples.nothing;
 
-import javax.swing.*;
-import java.applet.Applet;
-//import java.awt.*;
-import java.util.*;
-import java.io.*;
-import java.net.*;
-
-import CH.ifa.draw.util.Iconkit;
+import javax.swing.JPanel;
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.figures.*;
 import CH.ifa.draw.standard.*;

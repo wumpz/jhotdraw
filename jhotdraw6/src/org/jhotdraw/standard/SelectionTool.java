@@ -1,14 +1,21 @@
 /*
- * @(#)SelectionTool.java 5.2
+ * @(#)SelectionTool.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.standard;
 
+import CH.ifa.draw.framework.*;
+import CH.ifa.draw.util.UndoableTool;
+import CH.ifa.draw.util.UndoableHandle;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.util.Vector;
-import CH.ifa.draw.framework.*;
 
 /**
  * Tool to select and manipulate figures.
@@ -23,87 +30,93 @@ import CH.ifa.draw.framework.*;
  * The SelectionTool delegates state specific
  * behavior to its current child tool.
  * <hr>
+ *
+ * @version <$CURRENT_VERSION$>
  */
 
 public class SelectionTool extends AbstractTool {
 
-    private Tool fChild = null;
+	private Tool fChild = null;
 
-    public SelectionTool(DrawingView view) {
-        super(view);
-    }
+	public SelectionTool(DrawingView view) {
+		super(view);
+	}
 
-    /**
-     * Handles mouse down events and starts the corresponding tracker.
-     */
-    public void mouseDown(MouseEvent e, int x, int y)
-    {
-        // on MS-Windows NT: AWT generates additional mouse down events
-        // when the left button is down && right button is clicked.
-        // To avoid dead locks we ignore such events
-        if (fChild != null)
-            return;
+	/**
+	 * Handles mouse down events and starts the corresponding tracker.
+	 */
+	public void mouseDown(MouseEvent e, int x, int y) {
+		// on MS-Windows NT: AWT generates additional mouse down events
+		// when the left button is down && right button is clicked.
+		// To avoid dead locks we ignore such events
+		if (fChild != null) {
+			return;
+		}
 
-        view().freezeView();
+		view().freezeView();
 
-        Handle handle = view().findHandle(e.getX(), e.getY());
-        if (handle != null) {
-            fChild = createHandleTracker(view(), handle);
-        }
-        else {
-            Figure figure = drawing().findFigure(e.getX(), e.getY());
-            if (figure != null) {
-                fChild = createDragTracker(view(), figure);
-            }
-            else {
-                if (!e.isShiftDown()) {
-                    view().clearSelection();
-                }
-                fChild = createAreaTracker(view());
-            }
-        }
-        fChild.mouseDown(e, x, y);
-    }
+		Handle handle = view().findHandle(e.getX(), e.getY());
+		if (handle != null) {
+			fChild = createHandleTracker(view(), handle);
+		}
+		else {
+			Figure figure = drawing().findFigure(e.getX(), e.getY());
+			if (figure != null) {
+				fChild = createDragTracker(view(), figure);
+			}
+			else {
+				if (!e.isShiftDown()) {
+					view().clearSelection();
+				}
+				fChild = createAreaTracker(view());
+			}
+		}
+		fChild.mouseDown(e, x, y);
+		fChild.activate();
+	}
 
-    /**
-     * Handles mouse drag events. The events are forwarded to the
-     * current tracker.
-     */
-    public void mouseDrag(MouseEvent e, int x, int y) {
-        if (fChild != null) // JDK1.1 doesn't guarantee mouseDown, mouseDrag, mouseUp
-            fChild.mouseDrag(e, x, y);
-    }
+	/**
+	 * Handles mouse drag events. The events are forwarded to the
+	 * current tracker.
+	 */
+	public void mouseDrag(MouseEvent e, int x, int y) {
+		if (fChild != null) { // JDK1.1 doesn't guarantee mouseDown, mouseDrag, mouseUp
+			fChild.mouseDrag(e, x, y);
+		}
+	}
 
-    /**
-     * Handles mouse up events. The events are forwarded to the
-     * current tracker.
-     */
-    public void mouseUp(MouseEvent e, int x, int y) {
-        view().unfreezeView();
-        if (fChild != null) // JDK1.1 doesn't guarantee mouseDown, mouseDrag, mouseUp
-            fChild.mouseUp(e, x, y);
-        fChild = null;
-    }
+	/**
+	 * Handles mouse up events. The events are forwarded to the
+	 * current tracker.
+	 */
+	public void mouseUp(MouseEvent e, int x, int y) {
+		view().unfreezeView();
+		if (fChild != null) { // JDK1.1 doesn't guarantee mouseDown, mouseDrag, mouseUp
+			fChild.mouseUp(e, x, y);
+			fChild.deactivate();
+			fChild = null;
+		}
+	}
 
-    /**
-     * Factory method to create a Handle tracker. It is used to track a handle.
-     */
-    protected Tool createHandleTracker(DrawingView view, Handle handle) {
-        return new HandleTracker(view, handle);
-    }
+	/**
+	 * Factory method to create a Handle tracker. It is used to track a handle.
+	 */
+	protected Tool createHandleTracker(DrawingView view, Handle handle) {
+		return new HandleTracker(view, new UndoableHandle(handle, view));
+	}
 
-    /**
-     * Factory method to create a Drag tracker. It is used to drag a figure.
-     */
-    protected Tool createDragTracker(DrawingView view, Figure f) {
-        return new DragTracker(view, f);
-    }
+	/**
+	 * Factory method to create a Drag tracker. It is used to drag a figure.
+	 */
+	protected Tool createDragTracker(DrawingView view, Figure f) {
+		return new UndoableTool(new DragTracker(view, f));
+	}
 
-    /**
-     * Factory method to create an area tracker. It is used to select an
-     * area.
-     */
-    protected Tool createAreaTracker(DrawingView view) {
-        return new SelectAreaTracker(view);
-    }
+	/**
+	 * Factory method to create an area tracker. It is used to select an
+	 * area.
+	 */
+	protected Tool createAreaTracker(DrawingView view) {
+		return new SelectAreaTracker(view);
+	}
 }

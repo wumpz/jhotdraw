@@ -1,6 +1,12 @@
 /*
- * @(#)BorderDecorator.java 5.2
+ * @(#)BorderDecorator.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.figures;
@@ -14,6 +20,8 @@ import CH.ifa.draw.standard.*;
 /**
  * BorderDecorator decorates an arbitrary Figure with
  * a border.
+ *
+ * @version <$CURRENT_VERSION$>
  */
 public  class BorderDecorator extends DecoratorFigure {
 
@@ -73,7 +81,7 @@ public  class BorderDecorator extends DecoratorFigure {
      * Gets the displaybox including the border.
      */
     public Rectangle displayBox() {
-        Rectangle r = fComponent.displayBox();
+        Rectangle r = getDecoratedFigure().displayBox();
         r.grow(getBorderOffset().x, getBorderOffset().y);
         return r;
     }

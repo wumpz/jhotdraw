@@ -1,6 +1,12 @@
 /*
- * @(#)FigureTransferCommand.java 5.2
+ * @(#)FigureTransferCommand.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.standard;
@@ -12,10 +18,10 @@ import CH.ifa.draw.framework.*;
 /**
  * Common base clase for commands that transfer figures
  * between a drawing and the clipboard.
+ *
+ * @version <$CURRENT_VERSION$>
  */
-abstract class FigureTransferCommand extends Command {
-
-    protected DrawingView fView;
+public abstract class FigureTransferCommand extends AbstractCommand {
 
    /**
     * Constructs a drawing command.
@@ -23,40 +29,34 @@ abstract class FigureTransferCommand extends Command {
     * @param view the target view
     */
     protected FigureTransferCommand(String name, DrawingView view) {
-        super(name);
-        fView = view;
+        super(name, view);
     }
 
    /**
     * Deletes the selection from the drawing.
     */
-    protected void deleteSelection() {
-       fView.drawing().removeAll(fView.selection());
-       fView.clearSelection();
+    protected void deleteFigures(FigureEnumeration fe) {
+        while (fe.hasMoreElements()) {
+            view().drawing().orphan(fe.nextFigure());
+        }
+
+        view().clearSelection();
     }
 
    /**
-    * Copies the selection to the clipboard.
+    * Copies the FigureEnumeration to the clipboard.
     */
-    protected void copySelection() {
-        FigureSelection selection = fView.getFigureSelection();
-        Clipboard.getClipboard().setContents(selection);
+    protected void copyFigures(FigureEnumeration fe, int figureCount) {
+        Clipboard.getClipboard().setContents(new StandardFigureSelection(fe, figureCount));
     }
 
    /**
     * Inserts a vector of figures and translates them by the
     * given offset.
     */
-    protected void insertFigures(Vector figures, int dx, int dy) {
-        FigureEnumeration e = new FigureEnumerator(figures);
-        while (e.hasMoreElements()) {
-            Figure figure = e.nextFigure();
-            figure.moveBy(dx, dy);
-            figure = fView.add(figure);
-            fView.addToSelection(figure);
-        }
+    FigureEnumeration insertFigures(FigureEnumeration fe, int dx, int dy) {
+        return view().insertFigures(fe, dx, dy, false);
     }
-
 }
 
 

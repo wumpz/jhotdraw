@@ -1,6 +1,12 @@
 /*
- * @(#)ShortestDistanceConnector.java 5.2
+ * @(#)ShortestDistanceConnector.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.figures;
@@ -14,9 +20,12 @@ import CH.ifa.draw.util.Geom;
  * A ShortestDistance locates connection points by
  * finding the shortest distance between the start and
  * end of the connection.
- * It doesn't connect to the ares defined by Figure.connectionInsets()
+ * It doesn't connect to the areas defined by Figure.connectionInsets()
+ *
  * @see Figure#connectionInsets
  * @see Connector
+ *
+ * @version <$CURRENT_VERSION$>
  */
 public class ShortestDistanceConnector extends AbstractConnector {
 
@@ -42,8 +51,8 @@ public class ShortestDistanceConnector extends AbstractConnector {
     }
 
     protected Point findPoint(ConnectionFigure connection, boolean getStart) {
-        Figure startFigure = connection.start().owner();
-        Figure endFigure = connection.end().owner();
+        Figure startFigure = connection.getStartConnector().owner();
+        Figure endFigure = connection.getEndConnector().owner();
 
         Rectangle r1 = startFigure.displayBox();
         Rectangle r2 = endFigure.displayBox();

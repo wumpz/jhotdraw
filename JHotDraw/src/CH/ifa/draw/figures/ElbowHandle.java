@@ -1,6 +1,12 @@
 /*
- * @(#)ElbowHandle.java 5.2
+ * @(#)ElbowHandle.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.figures;
@@ -12,6 +18,8 @@ import CH.ifa.draw.util.Geom;
 
 /**
  * A Handle to move an ElbowConnection left/right or up/down.
+ *
+ * @version <$CURRENT_VERSION$>
  */
 public class ElbowHandle extends AbstractHandle {
 
@@ -41,7 +49,8 @@ public class ElbowHandle extends AbstractHandle {
             int cx = constrainX(p1.x + ddx);
             np1 = new Point(cx, p1.y);
             np2 = new Point(cx, p2.y);
-        } else {
+        }
+        else {
             int cy = constrainY(p1.y + ddy);
             np1 = new Point(p1.x, cy);
             np2 = new Point(p2.x, cy);
@@ -76,8 +85,8 @@ public class ElbowHandle extends AbstractHandle {
 
     private int constrainX(int x) {
         LineConnection line = ownerConnection();
-        Figure startFigure = line.start().owner();
-        Figure endFigure = line.end().owner();
+        Figure startFigure = line.getStartConnector().owner();
+        Figure endFigure = line.getEndConnector().owner();
         Rectangle start = startFigure.displayBox();
         Rectangle end = endFigure.displayBox();
         Insets i1 = startFigure.connectionInsets();
@@ -90,17 +99,19 @@ public class ElbowHandle extends AbstractHandle {
         r2x = end.x + i2.left;
         r2width = end.width - i2.left - i2.right-1;
 
-        if (fSegment == 0)
+        if (fSegment == 0) {
             x = Geom.range(r1x, r1x + r1width, x);
-        if (fSegment == line.pointCount()-2)
+        }
+        if (fSegment == line.pointCount()-2) {
             x = Geom.range(r2x, r2x + r2width, x);
+        }
         return x;
     }
 
     private int constrainY(int y) {
         LineConnection line = ownerConnection();
-        Figure startFigure = line.start().owner();
-        Figure endFigure = line.end().owner();
+        Figure startFigure = line.getStartConnector().owner();
+        Figure endFigure = line.getEndConnector().owner();
         Rectangle start = startFigure.displayBox();
         Rectangle end = endFigure.displayBox();
         Insets i1 = startFigure.connectionInsets();
@@ -112,15 +123,16 @@ public class ElbowHandle extends AbstractHandle {
         r2y = end.y + i2.top;
         r2height = end.height - i2.top - i2.bottom-1;
 
-        if (fSegment == 0)
+        if (fSegment == 0) {
             y = Geom.range(r1y, r1y + r1height, y);
-        if (fSegment == line.pointCount()-2)
+        }
+        if (fSegment == line.pointCount()-2) {
             y = Geom.range(r2y, r2y + r2height, y);
+        }
         return y;
     }
 
     private LineConnection ownerConnection() {
         return (LineConnection)owner();
     }
-
 }

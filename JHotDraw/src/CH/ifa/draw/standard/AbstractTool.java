@@ -1,23 +1,32 @@
 /*
- * @(#)AbstractTool.java 5.2
+ * @(#)AbstractTool.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.standard;
 
+import CH.ifa.draw.framework.*;
+import CH.ifa.draw.util.Undoable;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyEvent;
-import CH.ifa.draw.framework.*;
 
 /**
  * Default implementation support for Tools.
  *
  * @see DrawingView
  * @see Tool
+ *
+ * @version <$CURRENT_VERSION$>
  */
 
-public class AbstractTool implements Tool {
+public abstract class AbstractTool implements Tool {
 
     protected DrawingView  fView;
 
@@ -26,6 +35,8 @@ public class AbstractTool implements Tool {
      */
     protected int     fAnchorX, fAnchorY;
 
+	private Undoable myUndoActivity;
+	
     /**
      * Constructs a tool for the given view.
      */
@@ -92,7 +103,7 @@ public class AbstractTool implements Tool {
     }
 
     /**
-     * Gets the tool's editor.
+     * Gets the tool's editor (convenience method).
      */
     public DrawingEditor editor() {
         return view().editor();
@@ -104,4 +115,12 @@ public class AbstractTool implements Tool {
     public DrawingView view() {
         return fView;
     }
+
+	public Undoable getUndoActivity() {
+		return myUndoActivity;
+	}
+
+	public void setUndoActivity(Undoable newUndoActivity) {
+		myUndoActivity = newUndoActivity;
+	}
 }

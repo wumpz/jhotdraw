@@ -1,13 +1,19 @@
 /*
- * @(#)FigureSelection.java 5.2
+ * @(#)FigureSelection.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.standard;
 
-import CH.ifa.draw.framework.FigureSelection;
-import CH.ifa.draw.framework.Figure;
+import CH.ifa.draw.framework.*;
 import CH.ifa.draw.util.*;
+
 import java.util.*;
 import java.io.*;
 
@@ -17,6 +23,8 @@ import java.io.*;
  * Will soon be converted to the JDK 1.1 Transferable interface.
  *
  * @see Clipboard
+ *
+ * @version <$CURRENT_VERSION$>
  */
 
 public class StandardFigureSelection implements FigureSelection, Serializable {
@@ -31,16 +39,14 @@ public class StandardFigureSelection implements FigureSelection, Serializable {
     /**
      * Constructes the Figure selection for the vector of figures.
      */
-    public StandardFigureSelection(Vector figures) {
+    public StandardFigureSelection(FigureEnumeration figures, int figureCount) {
         // a FigureSelection is represented as a flattened ByteStream
         // of figures.
         ByteArrayOutputStream output = new ByteArrayOutputStream(200);
         StorableOutput writer = new StorableOutput(output);
-        writer.writeInt(figures.size());
-        Enumeration selected = figures.elements();
-        while (selected.hasMoreElements()) {
-            Figure figure = (Figure) selected.nextElement();
-            writer.writeStorable(figure);
+        writer.writeInt(figureCount);
+        while (figures.hasMoreElements()) {
+            writer.writeStorable(figures.nextFigure());
         }
         writer.close();
         fData = output.toByteArray();
@@ -75,9 +81,14 @@ public class StandardFigureSelection implements FigureSelection, Serializable {
             } catch (IOException e) {
                 System.out.println(e.toString());
             }
-            return result;
+            return new FigureEnumerator(result);
         }
         return null;
+    }
+    
+    public static FigureEnumeration duplicateFigures(FigureEnumeration toBeCloned, int figureCount) {
+    	StandardFigureSelection duplicater = new StandardFigureSelection(toBeCloned, figureCount);
+    	return (FigureEnumeration)duplicater.getData(duplicater.getType());
     }
 }
 

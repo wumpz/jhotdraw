@@ -1,6 +1,12 @@
 /*
- * @(#)DecoratorFigure.java 5.2
+ * @(#)DecoratorFigure.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.standard;
@@ -24,6 +30,8 @@ import java.io.*;
  * DecoratorFigure is a decorator.
  *
  * @see Figure
+ *
+ * @version <$CURRENT_VERSION$>
  */
 
 public abstract class DecoratorFigure
@@ -33,7 +41,7 @@ public abstract class DecoratorFigure
     /**
      * The decorated figure.
      */
-    protected Figure fComponent;
+    private Figure fComponent;
 
     /*
      * Serialization support.
@@ -64,21 +72,21 @@ public abstract class DecoratorFigure
      * Forwards the connection insets to its contained figure..
      */
     public Insets connectionInsets() {
-        return fComponent.connectionInsets();
+        return getDecoratedFigure().connectionInsets();
     }
 
     /**
      * Forwards the canConnect to its contained figure..
      */
     public boolean canConnect() {
-        return fComponent.canConnect();
+        return getDecoratedFigure().canConnect();
     }
 
     /**
      * Forwards containsPoint to its contained figure.
      */
     public boolean containsPoint(int x, int y) {
-        return fComponent.containsPoint(x, y);
+        return getDecoratedFigure().containsPoint(x, y);
     }
 
     /**
@@ -93,7 +101,11 @@ public abstract class DecoratorFigure
      * Removes the decoration from the contained figure.
      */
     public Figure peelDecoration() {
-        fComponent.removeFromContainer(this); //??? set the container to the listener()?
+        getDecoratedFigure().removeFromContainer(this); //??? set the container to the listener()?
+        return getDecoratedFigure();
+    }
+
+	public Figure getDecoratedFigure() {
         return fComponent;
     }
 
@@ -101,49 +113,49 @@ public abstract class DecoratorFigure
      * Forwards displayBox to its contained figure.
      */
     public Rectangle displayBox() {
-        return fComponent.displayBox();
+        return getDecoratedFigure().displayBox();
     }
 
     /**
      * Forwards basicDisplayBox to its contained figure.
      */
     public void basicDisplayBox(Point origin, Point corner) {
-        fComponent.basicDisplayBox(origin, corner);
+        getDecoratedFigure().basicDisplayBox(origin, corner);
     }
 
     /**
      * Forwards draw to its contained figure.
      */
     public void draw(Graphics g) {
-        fComponent.draw(g);
+        getDecoratedFigure().draw(g);
     }
 
     /**
      * Forwards findFigureInside to its contained figure.
      */
     public Figure findFigureInside(int x, int y) {
-        return fComponent.findFigureInside(x, y);
+        return getDecoratedFigure().findFigureInside(x, y);
     }
 
     /**
      * Forwards handles to its contained figure.
      */
     public Vector handles() {
-        return fComponent.handles();
+        return getDecoratedFigure().handles();
     }
 
     /**
      * Forwards includes to its contained figure.
      */
     public boolean includes(Figure figure) {
-        return (super.includes(figure) || fComponent.includes(figure));
+        return (super.includes(figure) || getDecoratedFigure().includes(figure));
     }
 
     /**
      * Forwards moveBy to its contained figure.
      */
     public void moveBy(int x, int y) {
-        fComponent.moveBy(x, y);
+        getDecoratedFigure().moveBy(x, y);
     }
 
     /**
@@ -158,8 +170,8 @@ public abstract class DecoratorFigure
      */
     public void release() {
         super.release();
-        fComponent.removeFromContainer(this);
-        fComponent.release();
+        getDecoratedFigure().removeFromContainer(this);
+        getDecoratedFigure().release();
     }
 
     /**
@@ -167,8 +179,9 @@ public abstract class DecoratorFigure
      * @see FigureChangeListener
      */
     public void figureInvalidated(FigureChangeEvent e) {
-        if (listener() != null)
+        if (listener() != null) {
             listener().figureInvalidated(e);
+        }
     }
 
     public void figureChanged(FigureChangeEvent e) {
@@ -182,8 +195,9 @@ public abstract class DecoratorFigure
      * @see FigureChangeListener
      */
     public  void figureRequestUpdate(FigureChangeEvent e) {
-        if (listener() != null)
+        if (listener() != null) {
             listener().figureRequestUpdate(e);
+        }
     }
 
     /**
@@ -191,57 +205,58 @@ public abstract class DecoratorFigure
      * @see FigureChangeListener
      */
     public void figureRequestRemove(FigureChangeEvent e) {
-        if (listener() != null)
+        if (listener() != null) {
             listener().figureRequestRemove(new FigureChangeEvent(this));
+        }
     }
 
     /**
      * Forwards figures to its contained figure.
      */
     public FigureEnumeration figures() {
-        return fComponent.figures();
+        return getDecoratedFigure().figures();
     }
 
     /**
      * Forwards decompose to its contained figure.
      */
     public FigureEnumeration decompose() {
-        return fComponent.decompose();
+        return getDecoratedFigure().decompose();
     }
 
     /**
      * Forwards setAttribute to its contained figure.
      */
     public void setAttribute(String name, Object value) {
-        fComponent.setAttribute(name, value);
+        getDecoratedFigure().setAttribute(name, value);
     }
 
     /**
      * Forwards getAttribute to its contained figure.
      */
     public Object getAttribute(String name) {
-        return fComponent.getAttribute(name);
+        return getDecoratedFigure().getAttribute(name);
     }
 
     /**
      * Returns the locator used to located connected text.
      */
     public Locator connectedTextLocator(Figure text) {
-        return fComponent.connectedTextLocator(text);
+        return getDecoratedFigure().connectedTextLocator(text);
     }
 
     /**
      * Returns the Connector for the given location.
      */
     public Connector connectorAt(int x, int y) {
-        return fComponent.connectorAt(x, y);
+        return getDecoratedFigure().connectorAt(x, y);
     }
 
     /**
      * Forwards the connector visibility request to its component.
      */
     public void connectorVisibility(boolean isVisible) {
-        fComponent.connectorVisibility(isVisible);
+        getDecoratedFigure().connectorVisibility(isVisible);
     }
 
     /**
@@ -249,7 +264,7 @@ public abstract class DecoratorFigure
      */
     public void write(StorableOutput dw) {
         super.write(dw);
-        dw.writeStorable(fComponent);
+        dw.writeStorable(getDecoratedFigure());
     }
 
     /**
@@ -265,6 +280,6 @@ public abstract class DecoratorFigure
 
         s.defaultReadObject();
 
-        fComponent.addToContainer(this);
+        getDecoratedFigure().addToContainer(this);
     }
 }

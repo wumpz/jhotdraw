@@ -1,15 +1,21 @@
 /*
- * @(#)DrawingView.java 5.2
+ * @(#)DrawingView.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.framework;
 
+import CH.ifa.draw.util.UndoManager;
 import java.awt.image.ImageObserver;
 import java.awt.*;
-import java.util.*;
 import java.io.*;
-import CH.ifa.draw.util.*;
+import java.util.*;
 
 /**
  * DrawingView renders a Drawing and listens to its changes.
@@ -32,9 +38,9 @@ import CH.ifa.draw.util.*;
  * @see Drawing
  * @see Painter
  * @see Tool
+ *
+ * @version <$CURRENT_VERSION$>
  */
-
-
 public interface DrawingView extends ImageObserver, DrawingChangeListener {
 
     /**
@@ -101,6 +107,12 @@ public interface DrawingView extends ImageObserver, DrawingChangeListener {
     public void setDisplayUpdate(Painter updateStrategy);
 
     /**
+     * Gets the current display update strategy.
+     * @see Painter
+     */
+    public Painter getDisplayUpdate();
+
+    /**
      * Gets the currently selected figures.
      * @return a vector with the selected figures. The vector
      * is a copy of the current selection.
@@ -113,7 +125,7 @@ public interface DrawingView extends ImageObserver, DrawingChangeListener {
     public FigureEnumeration selectionElements();
 
     /**
-     * Gets the currently selected figures in Z order.
+     * Gets the currently seleced figures in Z order.
      * @see #selection
      * @return a vector with the selected figures. The vector
      * is a copy of the current selection.
@@ -126,6 +138,11 @@ public interface DrawingView extends ImageObserver, DrawingChangeListener {
     public int selectionCount();
 
     /**
+	 * Test whether a given figure is selected.
+	 */
+	public boolean isFigureSelected(Figure checkFigure);
+	
+    /**
      * Adds a figure to the current selection.
      */
     public void addToSelection(Figure figure);
@@ -134,6 +151,11 @@ public interface DrawingView extends ImageObserver, DrawingChangeListener {
      * Adds a vector of figures to the current selection.
      */
     public void addToSelectionAll(Vector figures);
+
+    /**
+     * Adds a FigureEnumeration to the current selection.
+     */
+    public void addToSelectionAll(FigureEnumeration fe);
 
     /**
      * Removes a figure from the selection.
@@ -211,7 +233,7 @@ public interface DrawingView extends ImageObserver, DrawingChangeListener {
     public Color getBackground();
 
     /**
-     * Gets the background color of the DrawingView
+     * Sets the background color of the DrawingView
      */
     public void setBackground(Color c);
 
@@ -262,4 +284,31 @@ public interface DrawingView extends ImageObserver, DrawingChangeListener {
      * @see Drawing#unlock
      */
     public void unfreezeView();
+
+	/**
+	 * Add a listener for selection changes in this DrawingView.
+	 * @param fsl jhotdraw.framework.FigureSelectionListener
+	 */
+	public void addFigureSelectionListener(FigureSelectionListener fsl);
+	
+	/**
+	 * Remove a listener for selection changes in this DrawingView.
+	 * @param fsl jhotdraw.framework.FigureSelectionListener
+	 */
+	public void removeFigureSelectionListener(FigureSelectionListener fsl);
+
+    /**
+     * Returns the vector of connection figures
+     */
+    public Vector getConnectionFigures(Figure inFigure);
+
+    /**
+     * Inserts figures in a drawing at given offset. Optional check for connection figures
+     *
+     *  @return enumeration which has been added to the drawing. The figures in the enumeration
+     *          can have changed during adding them (e.g. they could have been decorated).
+     */
+    public FigureEnumeration insertFigures(FigureEnumeration inFigures, int dx, int dy, boolean bCheck);    
+
+	public UndoManager getUndoManager();
 }

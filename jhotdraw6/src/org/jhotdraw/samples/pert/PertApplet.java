@@ -1,22 +1,25 @@
 /*
- * @(#)PertApplet.java 5.2
+ * @(#)PertApplet.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.samples.pert;
 
-import javax.swing.*;
-import java.applet.Applet;
-//import java.awt.*;
-import java.util.*;
-import java.io.*;
-import java.net.*;
+import javax.swing.JPanel;
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
 import CH.ifa.draw.figures.*;
-import CH.ifa.draw.util.*;
 import CH.ifa.draw.applet.*;
 
+/**
+ * @version <$CURRENT_VERSION$>
+ */
 public  class PertApplet extends DrawApplet {
 
     private final static String PERTIMAGES = "/CH/ifa/draw/samples/pert/images/";
@@ -24,8 +27,7 @@ public  class PertApplet extends DrawApplet {
     protected void createTools(JPanel palette) {
         super.createTools(palette);
 
-        Tool tool;
-        tool = new TextTool(view(), new TextFigure());
+        Tool tool = new TextTool(view(), new TextFigure());
         palette.add(createToolButton(IMAGES+"TEXT", "Text Tool", tool));
 
         tool = new PertFigureCreationTool(view());
@@ -38,4 +40,3 @@ public  class PertApplet extends DrawApplet {
         palette.add(createToolButton(IMAGES+"Line", "Line Tool", tool));
     }
 }
-

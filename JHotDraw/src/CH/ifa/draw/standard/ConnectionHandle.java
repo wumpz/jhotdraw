@@ -1,6 +1,12 @@
 /*
- * @(#)ConnectionHandle.java 5.2
+ * @(#)ConnectionHandle.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.standard;
@@ -22,6 +28,8 @@ import CH.ifa.draw.util.Geom;
  *
  * @see ConnectionFigure
  * @see Object#clone
+ *
+ * @version <$CURRENT_VERSION$>
  */
 
 public  class ConnectionHandle extends LocatorHandle {
@@ -29,7 +37,7 @@ public  class ConnectionHandle extends LocatorHandle {
     /**
      * the currently created connection
      */
-    private ConnectionFigure fConnection;
+    private ConnectionFigure myConnection;
 
     /**
      * the prototype of the connection to be created
@@ -53,11 +61,11 @@ public  class ConnectionHandle extends LocatorHandle {
      * Creates the connection
      */
     public void invokeStart(int  x, int  y, DrawingView view) {
-        fConnection = createConnection();
+        setConnection(createConnection());
         Point p = locate();
-        fConnection.startPoint(p.x, p.y);
-        fConnection.endPoint(p.x, p.y);
-        view.drawing().add(fConnection);
+        getConnection().startPoint(p.x, p.y);
+        getConnection().endPoint(p.x, p.y);
+        view.drawing().add(getConnection());
     }
 
     /**
@@ -68,17 +76,20 @@ public  class ConnectionHandle extends LocatorHandle {
         Figure f = findConnectableFigure(x, y, view.drawing());
         // track the figure containing the mouse
         if (f != fTarget) {
-            if (fTarget != null)
+            if (fTarget != null) {
                 fTarget.connectorVisibility(false);
+            }
             fTarget = f;
-            if (fTarget != null)
+            if (fTarget != null) {
                 fTarget.connectorVisibility(true);
+            }
         }
 
         Connector target = findConnectionTarget(p.x, p.y, view.drawing());
-        if (target != null)
+        if (target != null) {
             p = Geom.center(target.displayBox());
-        fConnection.endPoint(p.x, p.y);
+        }
+        getConnection().endPoint(p.x, p.y);
     }
 
     /**
@@ -88,12 +99,14 @@ public  class ConnectionHandle extends LocatorHandle {
     public void invokeEnd(int x, int y, int anchorX, int anchorY, DrawingView view) {
         Connector target = findConnectionTarget(x, y, view.drawing());
         if (target != null) {
-            fConnection.connectStart(startConnector());
-            fConnection.connectEnd(target);
-            fConnection.updateConnection();
-        } else
-            view.drawing().remove(fConnection);
-        fConnection = null;
+            getConnection().connectStart(startConnector());
+            getConnection().connectEnd(target);
+            getConnection().updateConnection();
+        }
+        else {
+            view.drawing().remove(getConnection());
+        }
+        setConnection(null);
         if (fTarget != null) {
             fTarget.connectorVisibility(false);
             fTarget = null;
@@ -120,7 +133,7 @@ public  class ConnectionHandle extends LocatorHandle {
         Figure target = findConnectableFigure(x, y, drawing);
         if ((target != null) && target.canConnect()
              && !target.includes(owner())
-             && fConnection.canConnect(owner(), target)) {
+             && getConnection().canConnect(owner(), target)) {
                 return findConnector(x, y, target);
         }
         return null;
@@ -130,9 +143,9 @@ public  class ConnectionHandle extends LocatorHandle {
         FigureEnumeration k = drawing.figuresReverse();
         while (k.hasMoreElements()) {
             Figure figure = k.nextFigure();
-            if (!figure.includes(fConnection) && figure.canConnect()) {
-                if (figure.containsPoint(x, y))
-                    return figure;
+            if (!figure.includes(getConnection()) && figure.canConnect() 
+                && figure.containsPoint(x, y)) {
+                return figure;
             }
         }
         return null;
@@ -153,4 +166,11 @@ public  class ConnectionHandle extends LocatorHandle {
         g.drawOval(r.x, r.y, r.width, r.height);
     }
 
+	protected void setConnection(ConnectionFigure newConnection) {
+		myConnection = newConnection;
+	}
+	
+	protected ConnectionFigure getConnection() {
+		return myConnection;
+	}
 }

@@ -1,68 +1,114 @@
 /*
- * @(#)ScribbleTool.java 5.2
+ * @(#)ScribbleTool.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.figures;
 
+import CH.ifa.draw.framework.*;
+import CH.ifa.draw.standard.*;
+import CH.ifa.draw.util.Undoable;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.standard.AbstractTool;
+import java.util.Vector;
 
 /**
  * Tool to scribble a PolyLineFigure
+ *
  * @see PolyLineFigure
+ *
+ * @version <$CURRENT_VERSION$>
  */
 public class ScribbleTool extends AbstractTool {
 
-    private PolyLineFigure  fScribble;
-    private int             fLastX, fLastY;
+	private PolyLineFigure  fScribble;
+	private int             fLastX, fLastY;
 
-    public ScribbleTool(DrawingView view) {
-        super(view);
-    }
+	/**
+	 * the figure that was actually added
+	 * Note, this can be a different figure from the one which has been created.
+	 */
+	private Figure myAddedFigure;
 
-    public void activate() {
-        super.activate();
-        fScribble = null;
-    }
+	public ScribbleTool(DrawingView view) {
+		super(view);
+	}
 
-    public void deactivate() {
-        super.deactivate();
-        if (fScribble != null) {
-            if (fScribble.size().width < 4 || fScribble.size().height < 4)
-                drawing().remove(fScribble);
-        }
-    }
+	public void activate() {
+		super.activate();
+	}
 
-    private void point(int x, int y) {
-        if (fScribble == null) {
-            fScribble = new PolyLineFigure(x, y);
-            view().add(fScribble);
-        } else if (fLastX != x || fLastY != y)
-            fScribble.addPoint(x, y);
+	public void deactivate() {
+		super.deactivate();
+		if (fScribble != null) {
+			if (fScribble.size().width < 4 || fScribble.size().height < 4) {
+				drawing().remove(fScribble);
+				// nothing to undo
+				setUndoActivity(null);
+			}
+			fScribble = null;
+		}
+	}
 
-        fLastX = x;
-        fLastY = y;
-    }
+	private void point(int x, int y) {
+		if (fScribble == null) {
+			fScribble = new PolyLineFigure(x, y);
+			setAddedFigure(view().add(fScribble));
+		}
+		else if (fLastX != x || fLastY != y) {
+			fScribble.addPoint(x, y);
+		}
 
-    public void mouseDown(MouseEvent e, int x, int y) {
-        if (e.getClickCount() >= 2) {
-            fScribble = null;
-            editor().toolDone();
-        }
-        else {
-            // use original event coordinates to avoid
-            // supress that the scribble is constrained to
-            // the grid
-            point(e.getX(), e.getY());
-        }
-    }
+		fLastX = x;
+		fLastY = y;
+	}
 
-    public void mouseDrag(MouseEvent e, int x, int y) {
-        if (fScribble != null)
-            point(e.getX(), e.getY());
-    }
+	public void mouseDown(MouseEvent e, int x, int y) {
+		if (e.getClickCount() >= 2) {
+			// use undo activity from paste command...
+			setUndoActivity(createUndoActivity());
+			
+			// put created figure into a figure enumeration
+			getUndoActivity().setAffectedFigures(new SingleFigureEnumerator(getAddedFigure()));
+
+			editor().toolDone();
+		}
+		else {
+			// use original event coordinates to avoid
+			// supress that the scribble is constrained to
+			// the grid
+			point(e.getX(), e.getY());
+		}
+	}
+
+	public void mouseDrag(MouseEvent e, int x, int y) {
+		if (fScribble != null) {
+			point(e.getX(), e.getY());
+		}
+	}
+
+	/**
+	 * Gets the figure that was actually added
+	 * Note, this can be a different figure from the one which has been created.
+	 */
+	protected Figure getAddedFigure() {
+		return myAddedFigure;
+	}
+
+	private void setAddedFigure(Figure newAddedFigure) {
+		myAddedFigure = newAddedFigure;
+	}
+
+	/**
+	 * Factory method for undo activity
+	 */
+	protected Undoable createUndoActivity() {
+		return new PasteCommand.UndoActivity(view());
+	}
 }

@@ -1,17 +1,23 @@
 /*
- * @(#)MDI_DrawApplication.java 5.2
+ * @(#)MDI_DrawApplication.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
  
 package CH.ifa.draw.contrib;
 
-import javax.swing.*;
-import javax.swing.event.*;
 import CH.ifa.draw.application.*;
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
 import CH.ifa.draw.figures.*;
 import CH.ifa.draw.util.*;
+import javax.swing.*;
+import javax.swing.event.*;
 import java.awt.*;
 import java.util.*;
 
@@ -23,7 +29,7 @@ import java.util.*;
  * and to manage the switching between them.
  *
  * @author  Wolfram Kaiser
- * @version JHotDraw 5.2    31.08.1999
+ * @version <$CURRENT_VERSION$>
  */
 public class MDI_DrawApplication extends DrawApplication implements InternalFrameListener {
 
@@ -37,7 +43,7 @@ public class MDI_DrawApplication extends DrawApplication implements InternalFram
 	 * If an internal frame gets activated, the StandardDrawingView is backed
 	 * up for later restorage.
 	 */
-	private StandardDrawingView backupDrawingView;
+	private DrawingView backupDrawingView;
 
 	/**
 	 * This component acts as a desktop for the content.
@@ -61,8 +67,8 @@ public class MDI_DrawApplication extends DrawApplication implements InternalFram
 	*/
 	public MDI_DrawApplication(String title) {
 		super(title);
-		setDesktop(new JDesktopPane());
-		getDesktop().setAlignmentX(LEFT_ALIGNMENT);
+		setDesktop(new MDIDesktopPane());
+		getDesktop().setAlignmentX(JComponent.LEFT_ALIGNMENT);
 		mdiListeners = new Vector();
 		addInternalFrameListener(this);
 	}
@@ -82,7 +88,7 @@ public class MDI_DrawApplication extends DrawApplication implements InternalFram
 	* frame. By default the DrawingView is returned in
 	* a JScrollPane.
 	*/
-	protected JComponent createContents(StandardDrawingView view) {
+	protected JComponent createContents(DrawingView view) {
 		JComponent contents = super.createContents(view);
 		MDI_InternalFrame internalFrame = createInternalFrame();
 		internalFrame.setDrawingView(view);
@@ -137,18 +143,18 @@ public class MDI_DrawApplication extends DrawApplication implements InternalFram
 	 * to create a new internal drawing view should call this method.
 	 */
     public void newWindow() {
-        StandardDrawingView fView = createDrawingView();
-        Drawing fDrawing = createDrawing();
-        fView.setDrawing(fDrawing);
-        createContents(fView);
+        DrawingView newView = createDrawingView();
+        Drawing newDrawing = createDrawing();
+        newView.setDrawing(newDrawing);
+        createContents(newView);
         toolDone();
     }
 
     public void newView() {
     	String copyTitle = getDrawingTitle();
-        StandardDrawingView fView = createDrawingView();
-        fView.setDrawing(drawing());
-        createContents(fView);
+        DrawingView newView = createDrawingView();
+        newView.setDrawing(drawing());
+        createContents(newView);
 		setDrawingTitle(copyTitle + " (View)");
         toolDone();
     }
@@ -203,7 +209,7 @@ public class MDI_DrawApplication extends DrawApplication implements InternalFram
 			currentFrame.validate();
 			currentFrame.getDrawingView().freezeView();
 			setDrawing(newFrame.getDrawingView().drawing());
-			backupDrawingView = newFrame.replaceDrawingView((StandardDrawingView)view());
+			backupDrawingView = newFrame.replaceDrawingView(view());
 			currentFrame = newFrame;
 		}
 	}

@@ -1,14 +1,22 @@
 /*
- * @(#)CreationTool.java 5.2
+ * @(#)CreationTool.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.standard;
 
+import CH.ifa.draw.framework.*;
+import CH.ifa.draw.util.UndoableAdapter;
+import CH.ifa.draw.util.Undoable;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-
-import CH.ifa.draw.framework.*;
+import java.util.Vector;
 
 /**
  * A tool to create new figures. The figure to be
@@ -20,95 +28,139 @@ import CH.ifa.draw.framework.*;
  * <b><a href=../pattlets/sld029.htm>Prototype</a></b><br>
  * CreationTool creates new figures by cloning a prototype.
  * <hr>
+ *
  * @see Figure
  * @see Object#clone
+ *
+ * @version <$CURRENT_VERSION$>
  */
 
 
 public class CreationTool extends AbstractTool {
 
-    /**
-     * the anchor point of the interaction
-     */
-    private Point   fAnchorPoint;
+	/**
+	 * the anchor point of the interaction
+	 */
+	private Point   fAnchorPoint;
 
-    /**
-     * the currently created figure
-     */
-    private Figure  fCreatedFigure;
+	/**
+	 * the currently created figure
+	 */
+	private Figure  fCreatedFigure;
 
-    /**
-     * the prototypical figure that is used to create new figures.
-     */
-    private Figure  fPrototype;
+	/**
+	 * the figure that was actually added
+	 * Note, this can be a different figure from the one which has been created.
+	 */
+	private Figure myAddedFigure;
+	
+	/**
+	 * the prototypical figure that is used to create new figures.
+	 */
+	private Figure  fPrototype;
 
 
-    /**
-     * Initializes a CreationTool with the given prototype.
-     */
-    public CreationTool(DrawingView view, Figure prototype) {
-        super(view);
-        fPrototype = prototype;
-    }
+	/**
+	 * Initializes a CreationTool with the given prototype.
+	 */
+	public CreationTool(DrawingView view, Figure prototype) {
+		super(view);
+		fPrototype = prototype;
+	}
 
-    /**
-     * Constructs a CreationTool without a prototype.
-     * This is for subclassers overriding createFigure.
-     */
-    protected CreationTool(DrawingView view) {
-        super(view);
-        fPrototype = null;
-    }
+	/**
+	 * Constructs a CreationTool without a prototype.
+	 * This is for subclassers overriding createFigure.
+	 */
+	protected CreationTool(DrawingView view) {
+		super(view);
+		fPrototype = null;
+	}
 
-    /**
-     * Sets the cross hair cursor.
-     */
-    public void activate() {
-        view().setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
-    }
+	/**
+	 * Sets the cross hair cursor.
+	 */
+	public void activate() {
+		view().setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+	}
 
-    /**
-     * Creates a new figure by cloning the prototype.
-     */
-    public void mouseDown(MouseEvent e, int x, int y) {
-        fAnchorPoint = new Point(x,y);
-        fCreatedFigure = createFigure();
-        fCreatedFigure.displayBox(fAnchorPoint, fAnchorPoint);
-        view().add(fCreatedFigure);
-    }
+	/**
+	 * Creates a new figure by cloning the prototype.
+	 */
+	public void mouseDown(MouseEvent e, int x, int y) {
+		fAnchorPoint = new Point(x,y);
+		fCreatedFigure = createFigure();
+		setAddedFigure((view().add(getCreatedFigure())));
+		getAddedFigure().displayBox(fAnchorPoint, fAnchorPoint);
+	}
 
-    /**
-     * Creates a new figure by cloning the prototype.
-     */
-    protected Figure createFigure() {
-        if (fPrototype == null)
-		    throw new HJDError("No protoype defined");
-        return (Figure) fPrototype.clone();
-    }
+	/**
+	 * Creates a new figure by cloning the prototype.
+	 */
+	protected Figure createFigure() {
+		if (fPrototype == null) {
+			throw new JHotDrawRuntimeException("No protoype defined");
+		}
+		return (Figure) fPrototype.clone();
+	}
 
-    /**
-     * Adjusts the extent of the created figure
-     */
-    public void mouseDrag(MouseEvent e, int x, int y) {
-        fCreatedFigure.displayBox(fAnchorPoint, new Point(x,y));
-    }
+	/**
+	 * Adjusts the extent of the created figure
+	 */
+	public void mouseDrag(MouseEvent e, int x, int y) {
+		getAddedFigure().displayBox(fAnchorPoint, new Point(x,y));
+	}
 
-    /**
-     * Checks if the created figure is empty. If it is, the figure
-     * is removed from the drawing.
-     * @see Figure#isEmpty
-     */
-    public void mouseUp(MouseEvent e, int x, int y) {
-        if (fCreatedFigure.isEmpty())
-            drawing().remove(fCreatedFigure);
-        fCreatedFigure = null;
-        editor().toolDone();
-    }
+	/**
+	 * Checks if the created figure is empty. If it is, the figure
+	 * is removed from the drawing.
+	 * @see Figure#isEmpty
+	 */
+	public void mouseUp(MouseEvent e, int x, int y) {
+		if (getCreatedFigure().isEmpty()) {
+			drawing().remove(getAddedFigure());
+			// nothing to undo
+			setUndoActivity(null);
+		}
+		else {
+			// use undo activity from paste command...
+			setUndoActivity(createUndoActivity());
+			
+			// put created figure into a figure enumeration
+			getUndoActivity().setAffectedFigures(new SingleFigureEnumerator(getAddedFigure()));
+		}
+		fCreatedFigure = null;
+		setAddedFigure(null);
+		editor().toolDone();
+	}
 
-    /**
-     * Gets the currently created figure
-     */
-    protected Figure createdFigure() {
-        return fCreatedFigure;
-    }
+	/**
+	 * Gets the currently created figure
+	 */
+	protected Figure getCreatedFigure() {
+		return fCreatedFigure;
+	}
+
+	private void setCreatedFigure(Figure newCreatedFigure) {
+		fCreatedFigure = newCreatedFigure;
+	}
+	
+	/**
+	 * Gets the figure that was actually added
+	 * Note, this can be a different figure from the one which has been created.
+	 */
+	protected Figure getAddedFigure() {
+		return myAddedFigure;
+	}
+
+	private void setAddedFigure(Figure newAddedFigure) {
+		myAddedFigure = newAddedFigure;
+	}
+	
+	/**
+	 * Factory method for undo activity
+	 */
+	protected Undoable createUndoActivity() {
+		return new PasteCommand.UndoActivity(view());
+	}
 }

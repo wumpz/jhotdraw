@@ -1,6 +1,12 @@
 /*
- * @(#)GroupFigure.java 5.2
+ * @(#)GroupFigure.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.figures;
@@ -12,6 +18,8 @@ import CH.ifa.draw.standard.*;
 
 /**
  * A Figure that groups a collection of figures.
+ *
+ * @version <$CURRENT_VERSION$>
  */
 public  class GroupFigure extends CompositeFigure {
 
@@ -33,11 +41,12 @@ public  class GroupFigure extends CompositeFigure {
     * of the contained figures.
     */
     public Rectangle displayBox() {
-        FigureEnumeration k = figures();
-        Rectangle r = k.nextFigure().displayBox();
+        FigureEnumeration fe = figures();
+        Rectangle r = fe.nextFigure().displayBox();
 
-        while (k.hasMoreElements())
-            r.add(k.nextFigure().displayBox());
+        while (fe.hasMoreElements()) {
+            r.add(fe.nextFigure().displayBox());
+        }
         return r;
     }
 
@@ -68,7 +77,8 @@ public  class GroupFigure extends CompositeFigure {
     public void setAttribute(String name, Object value) {
         super.setAttribute(name, value);
         FigureEnumeration k = figures();
-        while (k.hasMoreElements())
+        while (k.hasMoreElements()) {
             k.nextFigure().setAttribute(name, value);
+        }
     }
 }

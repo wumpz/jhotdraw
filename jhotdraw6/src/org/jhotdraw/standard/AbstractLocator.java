@@ -1,6 +1,12 @@
 /*
- * @(#)AbstractLocator.java 5.2
+ * @(#)AbstractLocator.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.standard;
@@ -18,10 +24,16 @@ import java.io.IOException;
  *
  * @see Locator
  * @see Handle
+ *
+ * @version <$CURRENT_VERSION$>
  */
 
-public abstract class AbstractLocator
-                implements Locator, Storable, Cloneable {
+public abstract class AbstractLocator implements Locator {
+
+	/*
+	 * Serialization support.
+	 */
+	private static final long serialVersionUID = -7742023180844048409L;
 
     protected AbstractLocator() {
     }

@@ -1,5 +1,5 @@
 /*
- * @(#)GraphLayout.java 5.2
+ * @(#)GraphLayout.java
  *
  * The original file Graph.java (1.5 99/11/29) is
  * Copyright (c) 1997 Sun Microsystems, Inc. All Rights Reserved.
@@ -37,6 +37,9 @@ import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
 import java.awt.*;
 
+/**
+ * @version <$CURRENT_VERSION$>
+ */
 public class GraphLayout extends FigureChangeAdapter {
     public double LENGTH_FACTOR=1.0;
     public double REPULSION_STRENGTH=0.5;
@@ -65,8 +68,8 @@ public class GraphLayout extends FigureChangeAdapter {
     }
 
     public void addEdge(ConnectionFigure edge, int addlen) {
-	      Dimension d1 = edge.start().owner().size();
-	      Dimension d2 = edge.end().owner().size();
+	      Dimension d1 = edge.getStartConnector().owner().size();
+	      Dimension d2 = edge.getEndConnector().owner().size();
 	      int len = Math.max(d1.width,d1.height)/2 +
 		        Math.max(d2.width,d2.height)/2 + addlen;
 	      edges.put(edge, new Double(len));
@@ -79,8 +82,8 @@ public class GraphLayout extends FigureChangeAdapter {
 	      while (edgeEnum.hasMoreElements()) {
 	          ConnectionFigure e = (ConnectionFigure)edgeEnum.nextElement();
 	          double targetlen = len(e);
-	          GraphNode from = getGraphNode(e.start().owner());
-	          GraphNode to = getGraphNode(e.end().owner());
+	          GraphNode from = getGraphNode(e.getStartConnector().owner());
+	          GraphNode to = getGraphNode(e.getEndConnector().owner());
 	          double vx = to.x - from.x;
 	          double vy = to.y - from.y;
 	          double len = Math.sqrt(vx * vx + vy * vy);

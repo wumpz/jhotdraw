@@ -1,14 +1,17 @@
 /*
- * @(#)NothingApp.java 5.2
+ * @(#)NothingApp.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.samples.nothing;
 
-import javax.swing.*;
-import java.awt.*;
-import java.util.*;
-import java.io.*;
+import javax.swing.JToolBar;
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
 import CH.ifa.draw.figures.*;
@@ -16,6 +19,16 @@ import CH.ifa.draw.contrib.*;
 import CH.ifa.draw.util.*;
 import CH.ifa.draw.application.*;
 
+/**
+ * A very basic example for demonstraing JHotDraw's capabilities. It contains only
+ * a few additional tools apart from the selection tool already provided by its superclass.
+ * It uses only a single document interface (SDI) and not a multiple document interface (MDI)
+ * because the applicateion frame is derived DrawApplication rather than MDI_DrawApplication.
+ * To enable MDI for this application, NothingApp must inherit from MDI_DrawApplication
+ * and be recompiled.
+ *
+ * @version <$CURRENT_VERSION$>
+ */
 public  class NothingApp extends DrawApplication {
 
     NothingApp() {

@@ -1,6 +1,12 @@
 /*
- * @(#)FloatingTextField.java 5.2
+ * @(#)FloatingTextField.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.util;
@@ -16,14 +22,16 @@ import java.awt.event.*;
  * second step it can be positioned.
  *
  * @see CH.ifa.draw.figures.TextFigure
+ *
+ * @version <$CURRENT_VERSION$>
  */
-public  class FloatingTextField extends Object {
+public  class FloatingTextField {
 
-    private TextField   fEditWidget;
+    private JTextField   fEditWidget;
     private Container   fContainer;
 
     public FloatingTextField() {
-        fEditWidget = new TextField(20);
+        fEditWidget = new JTextField(20);
     }
 
     /**
@@ -39,8 +47,9 @@ public  class FloatingTextField extends Object {
      */
     public void createOverlay(Container container, Font font) {
         container.add(fEditWidget, 0);
-        if (font != null)
+        if (font != null) {
             fEditWidget.setFont(font);
+        }
         fContainer = container;
     }
 
@@ -80,6 +89,7 @@ public  class FloatingTextField extends Object {
      * Gets the preferred size of the overlay.
      */
     public Dimension getPreferredSize(int cols) {
+        fEditWidget.setColumns(cols);
         return fEditWidget.getPreferredSize();
     }
 
@@ -88,13 +98,13 @@ public  class FloatingTextField extends Object {
      */
     public void endOverlay() {
 	    fContainer.requestFocus();
-	    if (fEditWidget == null)
-	        return;
-	    fEditWidget.setVisible(false);
-	    fContainer.remove(fEditWidget);
+	    if (fEditWidget != null) {
+		    fEditWidget.setVisible(false);
+		    fContainer.remove(fEditWidget);
 
-	    Rectangle bounds = fEditWidget.getBounds();
-	    fContainer.repaint(bounds.x, bounds.y, bounds.width, bounds.height);
+		    Rectangle bounds = fEditWidget.getBounds();
+		    fContainer.repaint(bounds.x, bounds.y, bounds.width, bounds.height);
+	    }
     }
 }
 

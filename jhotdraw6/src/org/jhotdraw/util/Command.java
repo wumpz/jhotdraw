@@ -1,9 +1,17 @@
 /*
- * @(#)Command.java 5.2
+ * @(#)Command.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.util;
+
+import CH.ifa.draw.framework.DrawingView;
 
 /**
  * Commands encapsulate an action to be executed. Commands have
@@ -20,34 +28,29 @@ package CH.ifa.draw.util;
  * @see CommandButton
  * @see CommandMenu
  * @see CommandChoice
+ *
+ * @version <$CURRENT_VERSION$>
  */
-public abstract class Command {
-
-    private String  fName;
-
-    /**
-     * Constructs a command with the given name.
-     */
-    public Command(String name) {
-        fName = name;
-    }
+public interface Command {
 
     /**
      * Executes the command.
      */
-    public abstract void execute();
+    public void execute();
 
     /**
      * Tests if the command can be executed.
      */
-    public boolean isExecutable() {
-        return true;
-    }
+    public boolean isExecutable();
 
     /**
      * Gets the command name.
      */
-    public String name() {
-        return fName;
-    }
+    public String name();
+    
+    public DrawingView view();
+
+	public Undoable getUndoActivity();
+
+	public void setUndoActivity(Undoable newUndoableActivity);
 }

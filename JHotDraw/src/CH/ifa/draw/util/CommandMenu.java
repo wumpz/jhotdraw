@@ -1,6 +1,12 @@
 /*
- * @(#)CommandMenu.java 5.2
+ * @(#)CommandMenu.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.util;
@@ -14,6 +20,8 @@ import java.util.*;
  * executes the corresponding command.
  *
  * @see Command
+ *
+ * @version <$CURRENT_VERSION$>
  */
 
 import java.awt.event.ActionListener;
@@ -52,6 +60,18 @@ public  class CommandMenu
         fCommands.addElement(command);
     }
 
+    /**
+     * Adds a command with the given short cut to the menu. The item's label is
+     * the command's name.
+     */
+    public synchronized void addCheckItem(Command command) {
+        JCheckBoxMenuItem m = new JCheckBoxMenuItem(command.name());
+        m.setName(command.name());
+        m.addActionListener(this);
+        add(m);
+        fCommands.addElement(command);
+    }
+
     public synchronized void remove(Command command) {
         System.out.println("not implemented");
     }
@@ -78,8 +98,9 @@ public  class CommandMenu
         for (int i = 0; i < getMenuComponentCount(); i++) {
             // ignore separators
             // a separator has a hyphen as its label
-            if (getMenuComponent(i) instanceof JSeparator)
+            if (getMenuComponent(i) instanceof JSeparator) {
                 continue;
+            }
             Command cmd = (Command)fCommands.elementAt(j);
             getMenuComponent(i).setEnabled(cmd.isExecutable());
             j++;
@@ -96,8 +117,9 @@ public  class CommandMenu
             JMenuItem item = getItem(i);
             // ignore separators
             // a separator has a hyphen as its label
-            if (getMenuComponent(i) instanceof JSeparator)
+            if (getMenuComponent(i) instanceof JSeparator) {
                 continue;
+            }
             if (source == item) {
                 Command cmd = (Command)fCommands.elementAt(j);
                 cmd.execute();

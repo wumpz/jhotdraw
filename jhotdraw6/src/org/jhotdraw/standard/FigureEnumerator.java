@@ -1,6 +1,12 @@
 /*
- * @(#)FigureEnumerator.java 5.2
+ * @(#)FigureEnumerator.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.standard;
@@ -10,9 +16,14 @@ import java.util.*;
 
 /**
  * An Enumeration for a Vector of Figures.
+ *
+ * @version <$CURRENT_VERSION$>
  */
 public final class FigureEnumerator implements FigureEnumeration {
-    Enumeration fEnumeration;
+    private Enumeration fEnumeration;
+
+	private static FigureEnumerator singletonEmptyEnumerator = 
+		new FigureEnumerator(new Vector());
 
     public FigureEnumerator(Vector v) {
 	    fEnumeration = v.elements();
@@ -43,4 +54,22 @@ public final class FigureEnumerator implements FigureEnumeration {
     public Figure nextFigure() {
         return (Figure)fEnumeration.nextElement();
     }
+    
+    public static FigureEnumeration getEmptyEnumeration() {
+    	return singletonEmptyEnumerator;
+    }
+    
+/*    public static FigureEnumeration getClonedFigures(FigureEnumeration toDuplicate) {
+    	Vector v = new Vector();
+    	while (toDuplicate.hasMoreElements()) {
+    		try {
+    			v.addElement(toDuplicate.nextFigure().clone());
+    		}
+    		catch (CloneNotSupportedException e) {
+    			e.printStackTrace();
+    		}
+    	}
+    	return new FigureEnumerator(v);
+    }
+*/
 }

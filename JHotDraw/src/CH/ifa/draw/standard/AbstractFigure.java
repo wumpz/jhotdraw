@@ -1,6 +1,12 @@
 /*
  * @(#)AbstractFigure.java 5.2
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.standard;
@@ -26,6 +32,8 @@ import java.io.*;
  *
  * @see Figure
  * @see Handle
+ *
+ * @version <$CURRENT_VERSION$>
  */
 
 public abstract class AbstractFigure implements Figure {
@@ -190,9 +198,8 @@ public abstract class AbstractFigure implements Figure {
      * it as a change listener.
      */
     public void removeFromContainer(FigureChangeListener c) {
-        invalidate();
+		invalidate();
         removeFigureChangeListener(c);
-        changed();
     }
 
     /**
@@ -300,7 +307,7 @@ public abstract class AbstractFigure implements Figure {
 
     /**
      * Sets whether the connectors should be visible.
-     * By default they are not visible and
+     * By default they are not visible
      */
     public void connectorVisibility(boolean isVisible) {
     }

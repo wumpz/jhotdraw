@@ -1,23 +1,30 @@
 /*
- * @(#)GroupCommand.java 5.2
+ * @(#)GroupCommand.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.figures;
 
-import java.util.*;
-import CH.ifa.draw.util.Command;
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
+import CH.ifa.draw.util.UndoableAdapter;
+import CH.ifa.draw.util.Undoable;
+import java.util.*;
 
 /**
  * Command to group the selection into a GroupFigure.
  *
  * @see GroupFigure
+ *
+ * @version <$CURRENT_VERSION$>
  */
-public  class GroupCommand extends Command {
-
-    private DrawingView fView;
+public  class GroupCommand extends AbstractCommand {
 
    /**
     * Constructs a group command.
@@ -25,28 +32,96 @@ public  class GroupCommand extends Command {
     * @param view the target view
     */
     public GroupCommand(String name, DrawingView view) {
-        super(name);
-        fView = view;
+        super(name, view);
     }
 
     public void execute() {
-        Vector selected = fView.selectionZOrdered();
-        Drawing drawing = fView.drawing();
-        if (selected.size() > 0) {
-            fView.clearSelection();
-            drawing.orphanAll(selected);
-
-            GroupFigure group = new GroupFigure();
-            group.addAll(selected);
-            fView.addToSelection(drawing.add(group));
-        }
-        fView.checkDamage();
+    	setUndoActivity(createUndoActivity());
+        getUndoActivity().setAffectedFigures(view().selectionElements());
+		((GroupCommand.UndoActivity)getUndoActivity()).groupFigures();
+		view().checkDamage();
     }
-
+	
     public boolean isExecutable() {
-        return fView.selectionCount() > 0;
+        return view().selectionCount() > 1;
     }
 
+	/**
+	 * Factory method for undo activity
+	 */
+	protected Undoable createUndoActivity() {
+		return new GroupCommand.UndoActivity(view());
+	}
+
+	public static class UndoActivity extends UndoableAdapter {
+		public UndoActivity(DrawingView newDrawingView) {
+			super(newDrawingView);
+			setUndoable(true);
+			setRedoable(true);
+		}
+
+		public boolean undo() {
+			if (!super.undo()) {
+				return false;
+			}
+			
+			getDrawingView().clearSelection();
+	
+			// duplicate before we orphan affected figures
+//			FigureEnumeration fe = StandardFigureSelection.duplicateFigures(
+//				getAffectedFigures(), getAffectedFiguresCount());
+	
+			// orphan group figure(s)
+//			getDrawingView().drawing().removeAll(getAffectedFigures());
+			getDrawingView().drawing().orphanAll(getAffectedFigures());
+								
+	        // create a new vector with the grouped figures as elements
+	        Vector affectedFigures = new Vector();
+
+			FigureEnumeration fe =getAffectedFigures();
+			while (fe.hasMoreElements()) {
+				Figure currentFigure = fe.nextFigure();
+				// add contained figures			
+				getDrawingView().drawing().addAll(currentFigure.figures());
+				getDrawingView().addToSelectionAll(currentFigure.figures());
+	
+				FigureEnumeration groupedFigures = currentFigure.figures();
+				while (groupedFigures.hasMoreElements()) {
+	            	affectedFigures.addElement(groupedFigures.nextFigure());
+				}
+			}
+
+	    	setAffectedFigures(new FigureEnumerator(affectedFigures));
+	
+		    return true;
+		}
+	
+		public boolean redo() {
+			// do not call execute directly as the selection might has changed
+			if (isRedoable()) {
+				groupFigures();
+				return true;
+			}
+			
+			return false;
+		}
+
+		public void groupFigures() {
+		    getDrawingView().drawing().orphanAll(getAffectedFigures());
+	        getDrawingView().clearSelection();
+	
+			// add new group figure instead
+	        GroupFigure group = new GroupFigure();
+	        group.addAll(getAffectedFigures());
+	
+	        Figure figure = getDrawingView().drawing().add(group);
+	        getDrawingView().addToSelection(figure);
+	        
+	        // create a new vector with the new group figure as element
+	        Vector affectedFigures = new Vector();
+	        affectedFigures.addElement(figure);
+			setAffectedFigures(new FigureEnumerator(affectedFigures));
+		}
+	}
 }
-
-
+ 

@@ -1,6 +1,12 @@
 /*
- * @(#)CopyCommand.java 5.2
+ * @(#)CopyCommand.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.standard;
@@ -11,7 +17,10 @@ import CH.ifa.draw.framework.*;
 
 /**
  * Copy the selection to the clipboard.
+ *
  * @see Clipboard
+ *
+ * @version <$CURRENT_VERSION$>
  */
 public class CopyCommand extends FigureTransferCommand {
 
@@ -25,13 +34,10 @@ public class CopyCommand extends FigureTransferCommand {
     }
 
     public void execute() {
-        copySelection();
+        copyFigures(view().selectionElements(), view().selectionCount());
     }
 
     public boolean isExecutable() {
-        return fView.selectionCount() > 0;
+        return view().selectionCount() > 0;
     }
-
 }
-
-

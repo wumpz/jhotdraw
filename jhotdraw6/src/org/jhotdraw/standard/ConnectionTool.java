@@ -1,16 +1,23 @@
 /*
- * @(#)ConnectionTool.java 5.2
+ * @(#)ConnectionTool.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.standard;
 
+import CH.ifa.draw.framework.*;
+import CH.ifa.draw.util.Geom;
+import CH.ifa.draw.util.UndoableAdapter;
+import CH.ifa.draw.util.Undoable;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.*;
-
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.util.Geom;
 
 /**
  * A tool that can be used to connect figures, to split
@@ -27,247 +34,383 @@ import CH.ifa.draw.util.Geom;
  *
  * @see ConnectionFigure
  * @see Object#clone
+ *
+ * @version <$CURRENT_VERSION$>
  */
-
 public  class ConnectionTool extends AbstractTool {
 
-    /**
-     * the anchor point of the interaction
-     */
-    private Connector   fStartConnector;
-    private Connector   fEndConnector;
-    private Connector   fConnectorTarget = null;
+	/**
+	 * the anchor point of the interaction
+	 */
+	private Connector   myStartConnector;
+	private Connector   myEndConnector;
+	private Connector   myTargetConnector;
 
-    private Figure fTarget = null;
+	private Figure myTarget;
 
-    /**
-     * the currently created figure
-     */
-    private ConnectionFigure  fConnection;
+	/**
+	 * the currently created figure
+	 */
+	private ConnectionFigure  myConnection;
 
-    /**
-     * the currently manipulated connection point
-     */
-    private int  fSplitPoint;
+	/**
+	 * the currently manipulated connection point
+	 */
+	private int  fSplitPoint;
 
-    /**
-     * the currently edited connection
-     */
-    private ConnectionFigure  fEditedConnection = null;
+	/**
+	 * the currently edited connection
+	 */
+	private ConnectionFigure  fEditedConnection;
 
-    /**
-     * the prototypical figure that is used to create new
-     * connections.
-     */
-    private ConnectionFigure  fPrototype;
+	/**
+	 * the figure that was actually added
+	 * Note, this can be a different figure from the one which has been created.
+	 */
+	private Figure myAddedFigure;
+
+	/**
+	 * the prototypical figure that is used to create new
+	 * connections.
+	 */
+	private ConnectionFigure  fPrototype;
 
 
-    public ConnectionTool(DrawingView view, ConnectionFigure prototype) {
-        super(view);
-        fPrototype = prototype;
-    }
+	public ConnectionTool(DrawingView view, ConnectionFigure prototype) {
+		super(view);
+		fPrototype = prototype;
+	}
 
-    /**
-     * Handles mouse move events in the drawing view.
-     */
-    public void mouseMove(MouseEvent e, int x, int y) {
-        trackConnectors(e, x, y);
-    }
+	/**
+	 * Handles mouse move events in the drawing view.
+	 */
+	public void mouseMove(MouseEvent e, int x, int y) {
+		trackConnectors(e, x, y);
+	}
 
-    /**
-     * Manipulates connections in a context dependent way. If the
-     * mouse down hits a figure start a new connection. If the mousedown
-     * hits a connection split a segment or join two segments.
-     */
-    public void mouseDown(MouseEvent e, int x, int y)
-    {
-        int ex = e.getX();
-        int ey = e.getY();
-        fTarget = findConnectionStart(ex, ey, drawing());
-        if (fTarget != null) {
-            fStartConnector = findConnector(ex, ey, fTarget);
-            if (fStartConnector != null) {
-                Point p = new Point(ex, ey);
-                fConnection = createConnection();
-                fConnection.startPoint(p.x, p.y);
-                fConnection.endPoint(p.x, p.y);
-                view().add(fConnection);
-            }
-        }
-        else {
-            ConnectionFigure connection = findConnection(ex, ey, drawing());
-            if (connection != null) {
-                if (!connection.joinSegments(ex, ey)) {
-                    fSplitPoint = connection.splitSegment(ex, ey);
-                    fEditedConnection = connection;
-                } else {
-                    fEditedConnection = null;
-                }
-            }
-        }
-    }
+	/**
+	 * Manipulates connections in a context dependent way. If the
+	 * mouse down hits a figure start a new connection. If the mousedown
+	 * hits a connection split a segment or join two segments.
+	 */
+	public void mouseDown(MouseEvent e, int x, int y)
+	{
+		int ex = e.getX();
+		int ey = e.getY();
+		setTarget(findConnectionStart(ex, ey, drawing()));
+		if (getTarget() != null) {
+			setStartConnector(findConnector(ex, ey, getTarget()));
+			if (getStartConnector() != null) {
+				Point p = new Point(ex, ey);
+				setConnection(createConnection());
+				getConnection().startPoint(p.x, p.y);
+				getConnection().endPoint(p.x, p.y);
+				setAddedFigure(view().add(getConnection()));
+			}
+		}
+		else {
+			ConnectionFigure connection = findConnection(ex, ey, drawing());
+			if (connection != null) {
+				if (!connection.joinSegments(ex, ey)) {
+					fSplitPoint = connection.splitSegment(ex, ey);
+					fEditedConnection = connection;
+				}
+				else {
+					fEditedConnection = null;
+				}
+			}
+		}
+	}
 
-    /**
-     * Adjust the created connection or split segment.
-     */
-    public void mouseDrag(MouseEvent e, int x, int y) {
-        Point p = new Point(e.getX(), e.getY());
-        if (fConnection != null) {
-            trackConnectors(e, x, y);
-            if (fConnectorTarget != null)
-                p = Geom.center(fConnectorTarget.displayBox());
-            fConnection.endPoint(p.x, p.y);
-        }
-        else if (fEditedConnection != null) {
-            Point pp = new Point(x, y);
-            fEditedConnection.setPointAt(pp, fSplitPoint);
-        }
-    }
+	/**
+	 * Adjust the created connection or split segment.
+	 */
+	public void mouseDrag(MouseEvent e, int x, int y) {
+		Point p = new Point(e.getX(), e.getY());
+		if (getConnection() != null) {
+			trackConnectors(e, x, y);
+			if (getTargetConnector() != null) {
+				p = Geom.center(getTargetConnector().displayBox());
+			}
+			getConnection().endPoint(p.x, p.y);
+		}
+		else if (fEditedConnection != null) {
+			Point pp = new Point(x, y);
+			fEditedConnection.setPointAt(pp, fSplitPoint);
+		}
+	}
 
-    /**
-     * Connects the figures if the mouse is released over another
-     * figure.
-     */
-    public void mouseUp(MouseEvent e, int x, int y) {
-        Figure c = null;
-        if (fStartConnector != null)
-            c = findTarget(e.getX(), e.getY(), drawing());
+	/**
+	 * Connects the figures if the mouse is released over another
+	 * figure.
+	 */
+	public void mouseUp(MouseEvent e, int x, int y) {
+		Figure c = null;
+		if (getStartConnector() != null) {
+			c = findTarget(e.getX(), e.getY(), drawing());
+		}
 
-        if (c != null) {
-            fEndConnector = findConnector(e.getX(), e.getY(), c);
-            if (fEndConnector != null) {
-                fConnection.connectStart(fStartConnector);
-                fConnection.connectEnd(fEndConnector);
-                fConnection.updateConnection();
-            }
-        } else if (fConnection != null)
-            view().remove(fConnection);
+		if (c != null) {
+			setEndConnector(findConnector(e.getX(), e.getY(), c));
+			if (getEndConnector() != null) {
+				getConnection().connectStart(getStartConnector());
+				getConnection().connectEnd(getEndConnector());
+				getConnection().updateConnection();
 
-        fConnection = null;
-        fStartConnector = fEndConnector = null;
-        editor().toolDone();
-    }
+				setUndoActivity(createUndoActivity());
+				getUndoActivity().setAffectedFigures(
+					new SingleFigureEnumerator(getAddedFigure()));
+			}
+		}
+		else if (getConnection() != null) {
+			view().remove(getConnection());
+		}
 
-    public void deactivate() {
-        super.deactivate();
-        if (fTarget != null)
-            fTarget.connectorVisibility(false);
-    }
+		setConnection(null);
+		setStartConnector(null);
+		setEndConnector(null);
+		editor().toolDone();
+	}
 
-    /**
-     * Creates the ConnectionFigure. By default the figure prototype is
-     * cloned.
-     */
-    protected ConnectionFigure createConnection() {
-        return (ConnectionFigure)fPrototype.clone();
-    }
+	public void deactivate() {
+		super.deactivate();
+		if (getTarget() != null) {
+			getTarget().connectorVisibility(false);
+		}
+	}
 
-    /**
-     * Finds a connectable figure target.
-     */
-    protected Figure findSource(int x, int y, Drawing drawing) {
-        return findConnectableFigure(x, y, drawing);
-    }
+	/**
+	 * Creates the ConnectionFigure. By default the figure prototype is
+	 * cloned.
+	 */
+	protected ConnectionFigure createConnection() {
+		return (ConnectionFigure)fPrototype.clone();
+	}
 
-    /**
-     * Finds a connectable figure target.
-     */
-    protected Figure findTarget(int x, int y, Drawing drawing) {
-        Figure target = findConnectableFigure(x, y, drawing);
-        Figure start = fStartConnector.owner();
+	/**
+	 * Finds a connectable figure target.
+	 */
+	protected Figure findSource(int x, int y, Drawing drawing) {
+		return findConnectableFigure(x, y, drawing);
+	}
 
-        if (target != null
-             && fConnection != null
-             && target.canConnect()
-             && !target.includes(start)
-             && fConnection.canConnect(start, target))
-            return target;
-        return null;
-    }
+	/**
+	 * Finds a connectable figure target.
+	 */
+	protected Figure findTarget(int x, int y, Drawing drawing) {
+		Figure target = findConnectableFigure(x, y, drawing);
+		Figure start = getStartConnector().owner();
 
-    /**
-     * Finds an existing connection figure.
-     */
-    protected ConnectionFigure findConnection(int x, int y, Drawing drawing) {
-        Enumeration k = drawing.figuresReverse();
-        while (k.hasMoreElements()) {
-            Figure figure = (Figure) k.nextElement();
-            figure = figure.findFigureInside(x, y);
-            if (figure != null && (figure instanceof ConnectionFigure))
-                return (ConnectionFigure)figure;
-        }
-        return null;
-    }
+		if (target != null
+			 && getConnection() != null
+			 && target.canConnect()
+			 && !target.includes(start)
+			 && getConnection().canConnect(start, target)) {
+			return target;
+		}
+		return null;
+	}
 
-    /**
-     * Gets the currently created figure
-     */
-    protected ConnectionFigure createdFigure() {
-        return fConnection;
-    }
+	/**
+	 * Finds an existing connection figure.
+	 */
+	protected ConnectionFigure findConnection(int x, int y, Drawing drawing) {
+		Enumeration k = drawing.figuresReverse();
+		while (k.hasMoreElements()) {
+			Figure figure = (Figure) k.nextElement();
+			figure = figure.findFigureInside(x, y);
+			if (figure != null && (figure instanceof ConnectionFigure)) {
+				return (ConnectionFigure)figure;
+			}
+		}
+		return null;
+	}
 
-    protected void trackConnectors(MouseEvent e, int x, int y) {
-        Figure c = null;
+	private void setConnection(ConnectionFigure newConnection) {
+		myConnection = newConnection;
+	}
+	
+	/**
+	 * Gets the currently created figure
+	 */
+	protected ConnectionFigure getConnection() {
+		return myConnection;
+	}
 
-        if (fStartConnector == null)
-            c = findSource(x, y, drawing());
-        else
-            c = findTarget(x, y, drawing());
+	protected void trackConnectors(MouseEvent e, int x, int y) {
+		Figure c = null;
 
-        // track the figure containing the mouse
-        if (c != fTarget) {
-            if (fTarget != null)
-                fTarget.connectorVisibility(false);
-            fTarget = c;
-            if (fTarget != null)
-                fTarget.connectorVisibility(true);
-        }
+		if (getStartConnector() == null) {
+			c = findSource(x, y, drawing());
+		}
+		else {
+			c = findTarget(x, y, drawing());
+		}
 
-        Connector cc = null;
-        if (c != null)
-            cc = findConnector(e.getX(), e.getY(), c);
-        if (cc != fConnectorTarget)
-            fConnectorTarget = cc;
+		// track the figure containing the mouse
+		if (c != getTarget()) {
+			if (getTarget() != null) {
+				getTarget().connectorVisibility(false);
+			}
+			setTarget(c);
+			if (getTarget() != null) {
+				getTarget().connectorVisibility(true);
+			}
+		}
 
-        view().checkDamage();
-    }
+		Connector cc = null;
+		if (c != null) {
+			cc = findConnector(e.getX(), e.getY(), c);
+		}
+		if (cc != getTargetConnector()) {
+			setTargetConnector(cc);
+		}
 
-    private Connector findConnector(int x, int y, Figure f) {
-        return f.connectorAt(x, y);
-    }
+		view().checkDamage();
+	}
 
-    /**
-     * Finds a connection start figure.
-     */
-    protected Figure findConnectionStart(int x, int y, Drawing drawing) {
-        Figure target = findConnectableFigure(x, y, drawing);
-        if ((target != null) && target.canConnect())
-            return target;
-        return null;
-    }
+	private Connector findConnector(int x, int y, Figure f) {
+		return f.connectorAt(x, y);
+	}
 
-    private Figure findConnectableFigure(int x, int y, Drawing drawing) {
-        FigureEnumeration k = drawing.figuresReverse();
-        while (k.hasMoreElements()) {
-            Figure figure = k.nextFigure();
-            if (!figure.includes(fConnection) && figure.canConnect()) {
-                if (figure.containsPoint(x, y))
-                    return figure;
-            }
-        }
-        return null;
-    }
+	/**
+	 * Finds a connection start figure.
+	 */
+	protected Figure findConnectionStart(int x, int y, Drawing drawing) {
+		Figure target = findConnectableFigure(x, y, drawing);
+		if ((target != null) && target.canConnect()) {
+			return target;
+		}
+		return null;
+	}
 
-    protected Connector getStartConnector() {
-        return fStartConnector;
-    }
+	private Figure findConnectableFigure(int x, int y, Drawing drawing) {
+		FigureEnumeration k = drawing.figuresReverse();
+		while (k.hasMoreElements()) {
+			Figure figure = k.nextFigure();
+			if (!figure.includes(getConnection()) && figure.canConnect()
+				&& figure.containsPoint(x, y)) {
+				return figure;
+			}
+		}
+		return null;
+	}
 
-    protected Connector getEndConnector() {
-        return fEndConnector;
-    }
+	private void setStartConnector(Connector newStartConnector) {
+		myStartConnector = newStartConnector;
+	}
+	
+	protected Connector getStartConnector() {
+		return myStartConnector;
+	}
 
-    protected Connector getTarget() {
-        return fConnectorTarget;
-    }
+	private void setEndConnector(Connector newEndConnector) {
+		myEndConnector = newEndConnector;
+	}
+	
+	protected Connector getEndConnector() {
+		return myEndConnector;
+	}
 
+	private void setTargetConnector(Connector newTargetConnector) {
+		myTargetConnector = newTargetConnector;
+	}
+	
+	protected Connector getTargetConnector() {
+		return myTargetConnector;
+	}
+	
+	private void setTarget(Figure newTarget) {
+		myTarget = newTarget;
+	}
+	
+	protected Figure getTarget() {
+		return myTarget;
+	}
+
+	/**
+	 * Gets the figure that was actually added
+	 * Note, this can be a different figure from the one which has been created.
+	 */
+	protected Figure getAddedFigure() {
+		return myAddedFigure;
+	}
+
+	private void setAddedFigure(Figure newAddedFigure) {
+		myAddedFigure = newAddedFigure;
+	}
+
+	/**
+	 * Factory method for undo activity
+	 */
+	protected Undoable createUndoActivity() {
+		return new ConnectionTool.UndoActivity(view(), getConnection());
+	}
+
+	public static class UndoActivity extends UndoableAdapter {
+
+		private ConnectionFigure  myConnection;
+		private Connector   myStartConnector;
+		private Connector   myEndConnector;
+
+		public UndoActivity(DrawingView newDrawingView, ConnectionFigure newConnection) {
+			super(newDrawingView);
+			setConnection(newConnection);
+			myStartConnector = getConnection().getStartConnector();
+			myEndConnector = getConnection().getEndConnector();
+	        setUndoable(true);
+			setRedoable(true);
+		}
+
+		/*
+		 * Undo the activity
+		 * @return true if the activity could be undone, false otherwise
+		 */
+		public boolean undo() {
+			if (!super.undo()) {
+				return false;
+			}
+
+			getConnection().disconnectStart();
+			getConnection().disconnectEnd();
+			
+			FigureEnumeration fe = getAffectedFigures();
+			while (fe.hasMoreElements()) {
+				getDrawingView().drawing().orphan(fe.nextFigure());
+			}
+
+			getDrawingView().clearSelection();
+
+			return true;
+		}
+
+		/*
+		 * Redo the activity
+		 * @return true if the activity could be redone, false otherwise
+		 */
+		public boolean redo() {
+			if (!super.redo()) {
+				return false;
+			}
+
+			getConnection().connectStart(myStartConnector);
+			getConnection().connectEnd(myEndConnector);
+			getConnection().updateConnection();
+
+			getDrawingView().insertFigures(getAffectedFigures(), 0, 0, false);
+
+			return true;
+		}
+
+		private void setConnection(ConnectionFigure newConnection) {
+			myConnection = newConnection;
+		}
+		
+		/**
+		 * Gets the currently created figure
+		 */
+		protected ConnectionFigure getConnection() {
+			return myConnection;
+		}
+	}
 }

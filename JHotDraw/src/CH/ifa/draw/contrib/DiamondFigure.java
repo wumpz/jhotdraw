@@ -55,8 +55,11 @@ public  class DiamondFigure extends RectangleFigure {
     return polygon().contains(x, y);
   }
 
-  /*public Point chop(Point p) {
+  public Point chop(Point p) {
     return PolygonFigure.chop(polygon(), p);
-  }*/
+  }
 
+  public Connector connectorAt(int x, int y) {
+    return new ChopDiamondConnector(this);
+  }  
 }

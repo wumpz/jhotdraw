@@ -1,6 +1,12 @@
 /*
- * @(#)StandardDrawing.java 5.2
+ * @(#)StandardDrawing.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.standard;
@@ -15,6 +21,8 @@ import java.io.*;
  * The standard implementation of the Drawing interface.
  *
  * @see Drawing
+ *
+ * @version <$CURRENT_VERSION$>
  */
 
 public class StandardDrawing extends CompositeFigure implements Drawing {
@@ -48,7 +56,6 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
         init(new Rectangle(-500, -500, 2000, 2000));
     }
 
-
     /**
      * Adds a listener for this drawing.
      */
@@ -67,7 +74,7 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
     }
 
     /**
-     * Adds a listener for this drawing.
+     * Gets an enumeration with all listener for this drawing.
      */
     public Enumeration drawingChangeListeners() {
         return fListeners.elements();
@@ -86,7 +93,6 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
         return null;
     }
 
-
     /**
      * Handles a removeFromDrawing request that
      * is passed up the figure container hierarchy.
@@ -98,8 +104,10 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
             fFigures.removeElement(figure);
             figure.removeFromContainer(this);   // will invalidate figure
             figure.release();
-        } else
+        }
+        else {
             System.out.println("Attempt to remove non-existing figure");
+        }
     }
 
     /**
@@ -150,8 +158,9 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
 
             Rectangle r = k.nextFigure().displayBox();
 
-            while (k.hasMoreElements())
+            while (k.hasMoreElements()) {
                 r.add(k.nextFigure().displayBox());
+            }
             return r;
         }
         return new Rectangle(0, 0, 0, 0);
@@ -166,10 +175,14 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
     public synchronized void lock() {
         // recursive lock
         Thread current = Thread.currentThread();
-        if (fDrawingLockHolder == current)
+        if (fDrawingLockHolder == current) {
             return;
+        }
         while (fDrawingLockHolder != null) {
-            try { wait(); } catch (InterruptedException ex) { }
+            try {
+            	wait();
+            }
+            catch (InterruptedException ex) { }
         }
         fDrawingLockHolder = current;
     }

@@ -1,6 +1,7 @@
 package CH.ifa.draw.contrib;
 
-import javax.swing.*;
+import javax.swing.JToolBar;
+import javax.swing.JComponent;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;

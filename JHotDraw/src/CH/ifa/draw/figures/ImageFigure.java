@@ -1,6 +1,12 @@
 /*
- * @(#)ImageFigure.java 5.2
+ * @(#)ImageFigure.java
  *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package CH.ifa.draw.figures;
@@ -16,7 +22,10 @@ import CH.ifa.draw.util.*;
 /**
  * A Figure that shows an Image.
  * Images shown by an image figure are shared by using the Iconkit.
+ *
  * @see Iconkit
+ *
+ * @version <$CURRENT_VERSION$>
  */
 public  class ImageFigure
         extends AttributeFigure implements ImageObserver {
@@ -68,12 +77,15 @@ public  class ImageFigure
     }
 
     public void draw(Graphics g) {
-        if (fImage == null)
+        if (fImage == null) {
             fImage = Iconkit.instance().getImage(fFileName);
-        if (fImage != null)
+        }
+        if (fImage != null) {
             g.drawImage(fImage, fDisplayBox.x, fDisplayBox.y, fDisplayBox.width, fDisplayBox.height, this);
-        else
+        }
+        else {
             drawGhost(g);
+        }
     }
 
     private void drawGhost(Graphics g) {
@@ -87,10 +99,20 @@ public  class ImageFigure
     public boolean imageUpdate(Image img, int flags, int x, int y, int w, int h) {
 	    if ((flags & (FRAMEBITS|ALLBITS)) != 0) {
 	        invalidate();
-	        if (listener() != null)
+	        if (listener() != null) {
 	            listener().figureRequestUpdate(new FigureChangeEvent(this));
+	        }
 	    }
 	    return (flags & (ALLBITS|ABORT)) == 0;
+    }
+
+    /**
+     * Releases a figure's resources. Release is called when
+     * a figure is removed from a drawing. Informs the listeners that
+     * the figure is removed by calling figureRemoved.
+     */
+    public void release() {
+    	fImage.flush();
     }
 
    /**

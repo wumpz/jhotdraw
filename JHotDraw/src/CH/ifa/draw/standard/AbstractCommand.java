@@ -1,18 +1,33 @@
+/*
+ * @(#)AbstractCommand.java
+ *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
+ */
+
 package CH.ifa.draw.standard;
 
-import CH.ifa.draw.framework.DrawingView;
-import CH.ifa.draw.framework.FigureSelectionListener;
+import CH.ifa.draw.framework.*;
 import CH.ifa.draw.util.Command;
+import CH.ifa.draw.util.Undoable;
+import java.util.*;
 
 /**
- * Creation date: (18.07.2000 13:23:20)
- * @author: Helge Horch
+ * @author: Helge Horch, Wolfram Kaiser
+ * @version <$CURRENT_VERSION$>
  */
 public abstract class AbstractCommand implements Command, FigureSelectionListener {
 
-    private String  fName;
+    private String  myName;
+	private Undoable myUndoableActivity;
 	
-	/** the DrawingView this command applies to */
+	/**
+	 * the DrawingView this command applies to
+	 */
 	private DrawingView fView;
 
 	/**
@@ -26,7 +41,7 @@ public abstract class AbstractCommand implements Command, FigureSelectionListene
 	}
 
 	/**
-	 * @param view jhotdraw.framework.DrawingView
+	 * @param view a DrawingView
 	 */
 	public void figureSelectionChanged(DrawingView view) {
 	}
@@ -46,16 +61,15 @@ public abstract class AbstractCommand implements Command, FigureSelectionListene
      * Gets the command name.
      */
     public String name() {
-        return fName;
+        return myName;
     }
     
-    private void setName(String newName)
-    {
-    	fName = newName;
+    public void setName(String newName) {
+    	myName = newName;
     }
     
 	/**
-	 * Insert the method's description here.
+	 * Releases resources associated with this command
 	 */
 	public void dispose() {
 		view().removeFigureSelectionListener(this);
@@ -73,4 +87,11 @@ public abstract class AbstractCommand implements Command, FigureSelectionListene
         return true;
     }
 
+	public Undoable getUndoActivity() {
+		return myUndoableActivity;
+	}
+
+	public void setUndoActivity(Undoable newUndoableActivity) {
+		myUndoableActivity = newUndoableActivity;
+	}
 }
