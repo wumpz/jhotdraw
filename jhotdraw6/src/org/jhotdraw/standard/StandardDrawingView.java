@@ -106,7 +106,7 @@ public  class StandardDrawingView
         fLastClick = new Point(0, 0);
         fConstrainer = null;
         fSelection = new Vector();
-        setDisplayUpdate(new BufferedUpdateStrategy());
+        setDisplayUpdate(new FastBufferedUpdateStrategy());
         setBackground(Color.lightGray);
 
         addMouseListener(this);
@@ -556,6 +556,24 @@ public  class StandardDrawingView
         if (fBackgrounds != null && !isPrinting)
             drawPainters(g, fBackgrounds);
         drawDrawing(g);
+        if (fForegrounds != null && !isPrinting)
+            drawPainters(g, fForegrounds);
+        if (!isPrinting)
+            drawHandles(g);
+    }
+
+    /**
+     * Draws the given figures.
+     * The view has three layers: background, drawing, handles.
+     * The layers are drawn in back to front order.
+     * No background is drawn.
+     */
+   public void draw(Graphics g, FigureEnumeration fe) {
+        boolean isPrinting = g instanceof PrintGraphics;
+        //drawBackground(g);
+        if (fBackgrounds != null && !isPrinting)
+            drawPainters(g, fBackgrounds);
+        fDrawing.draw(g, fe);
         if (fForegrounds != null && !isPrinting)
             drawPainters(g, fForegrounds);
         if (!isPrinting)
