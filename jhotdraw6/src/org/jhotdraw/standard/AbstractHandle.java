@@ -40,12 +40,6 @@ public abstract class AbstractHandle implements Handle {
 	}
 
 	/**
-	 * Locates the handle on the figure. The handle is drawn
-	 * centered around the returned point.
-	 */
-	public abstract Point locate();
-
-	/**
 	 * @ deprecated As of version 4.1,
 	 * use invokeStart(x, y, drawingView)
 	 * Tracks the start of the interaction. The default implementation
