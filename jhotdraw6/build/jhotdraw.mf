@@ -1,65 +1,65 @@
 Manifest-Version: 1.0
-Created-By: Ant 1.4
+Created-By: Ant 1.5
 
-Name: CH/ifa/draw/applet/
+Name: org/jhotdraw/applet/
 Sealed: true
 Specification-Title: JHotDraw Default Applet
-Specification-Version: 5.4
+Specification-Version: 6.0
 Specification-Vendor: http://www.jhotdraw.org
 Implementation-Title: org.jhotdraw.applet
-Implementation-Version: 5.4
+Implementation-Version: 6.0
 Implementation-Vendor: http://www.jhotdraw.org
 
-Name: CH/ifa/draw/application/
+Name: org/jhotdraw/application/
 Sealed: true
 Specification-Title: JHotDraw Default Application
-Specification-Version: 5.4
+Specification-Version: 6.0
 Specification-Vendor: http://www.jhotdraw.org
 Implementation-Title: org.jhotdraw.application
-Implementation-Version: 5.4
+Implementation-Version: 6.0
 Implementation-Vendor: http://www.jhotdraw.org
 
-Name: CH/ifa/draw/contrib/
+Name: org/jhotdraw/contrib/
 Sealed: true
 Specification-Title: JHotDraw Contributions
-Specification-Version: 5.4
+Specification-Version: 6.0
 Specification-Vendor: http://www.jhotdraw.org
 Implementation-Title: org.jhotdraw.contrib
-Implementation-Version: 5.4
+Implementation-Version: 6.0
 Implementation-Vendor: http://www.jhotdraw.org
 
-Name: CH/ifa/draw/figures/
+Name: org/jhotdraw/figures/
 Sealed: true
 Specification-Title: JHotDraw Figures
-Specification-Version: 5.4
+Specification-Version: 6.0
 Specification-Vendor: http://www.jhotdraw.org
 Implementation-Title: org.jhotdraw.figures
-Implementation-Version: 5.4
+Implementation-Version: 6.0
 Implementation-Vendor: http://www.jhotdraw.org
 
-Name: CH/ifa/draw/framework/
+Name: org/jhotdraw/framework/
 Sealed: true
 Specification-Title: JHotDraw Core Framework
-Specification-Version: 5.4
+Specification-Version: 6.0
 Specification-Vendor: http://www.jhotdraw.org
 Implementation-Title: org.jhotdraw.framework
-Implementation-Version: 5.4
+Implementation-Version: 6.0
 Implementation-Vendor: http://www.jhotdraw.org
 
-Name: CH/ifa/draw/standard/
+Name: org/jhotdraw/standard/
 Sealed: true
 Specification-Title: JHotDraw Standard Implementation
-Specification-Version: 5.4
+Specification-Version: 6.0
 Specification-Vendor: http://www.jhotdraw.org
 Implementation-Title: org.jhotdraw.standard
-Implementation-Version: 5.4
+Implementation-Version: 6.0
 Implementation-Vendor: http://www.jhotdraw.org
 
-Name: CH/ifa/draw/util/
+Name: org/jhotdraw/util/
 Sealed: true
 Specification-Title: JHotDraw Utilities
-Specification-Version: 5.4
+Specification-Version: 6.0
 Specification-Vendor: http://www.jhotdraw.org
 Implementation-Title: org.jhotdraw.util
-Implementation-Version: 5.4
+Implementation-Version: 6.0
 Implementation-Vendor: http://www.jhotdraw.org
