@@ -10,7 +10,7 @@
  */
 
 package CH.ifa.draw.contrib;
-
+import CH.ifa.draw.framework.DrawingView;
 import java.util.*;
 
 /**
@@ -20,5 +20,5 @@ import java.util.*;
 public interface DesktopListener extends EventListener {
 	public void drawingViewAdded(DesktopEvent dpe);
 	public void drawingViewRemoved(DesktopEvent dpe);
-	public void drawingViewSelected(DesktopEvent dpe);
+	public void drawingViewSelected(DrawingView oldView, DesktopEvent dpe);
 }

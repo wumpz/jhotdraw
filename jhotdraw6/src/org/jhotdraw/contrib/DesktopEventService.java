@@ -112,17 +112,17 @@ public class DesktopEventService {
 	/**
 	 * This method is only called if the selected drawingView has actually changed
 	 */
-	protected void fireDrawingViewSelectedEvent(final DrawingView dv) {
+	protected void fireDrawingViewSelectedEvent(final DrawingView oldView, final DrawingView newView) {
 		final Object[] listeners = listenerList.getListenerList();
 		DesktopListener dpl;
 		DesktopEvent dpe = null;
 		for (int i = listeners.length-2; i>=0 ; i-=2)	{
 			if (listeners[i] == DesktopListener.class) {
 				if (dpe == null ) {
-					dpe = createDesktopEvent(dv);
+					dpe = createDesktopEvent(newView);
 				}
 				dpl = (DesktopListener)listeners[i+1];
-				dpl.drawingViewSelected(dpe);
+				dpl.drawingViewSelected(oldView,dpe);
 			}
 		}
 	}
@@ -148,31 +148,41 @@ public class DesktopEventService {
 		return selectedView;
 	}
 
+        /**
+         *  I think this is the correct listener for drawingView add/remove events
+         *  but I think it is the wrong listener for Selected/deselected events.
+         */
 	protected ContainerListener createComponentListener() {
 		return new ContainerAdapter() {
 			/**
 			 * If the dv is null assert
+                         * does adding a component always make it the selected view?
+                         *
 			 */
             public void componentAdded(ContainerEvent e) {
 				DrawingView dv = Helper.getDrawingView((java.awt.Container)e.getChild());
+                                DrawingView oldView = getActiveDrawingView();
 				if (dv != null) {
 					fireDrawingViewAddedEvent(dv);
 					selectedView = dv;
-					fireDrawingViewSelectedEvent(selectedView);
+					fireDrawingViewSelectedEvent(oldView, getActiveDrawingView());
 				}
             }
 
-		    /**
-			 * If dv is null assert
-			 * if dv is not != selectedView assert
-			 */
+            /**
+             * If dv is null assert
+             * if dv is not != selectedView assert
+             * why should we assert? dont see a problem with removing a view thats not a selected view
+             * This definitely needs fixing!!! dnoyeb 1/1/2003
+             */
             public void componentRemoved(ContainerEvent e) {
 				DrawingView dv = Helper.getDrawingView((java.awt.Container)e.getChild());
 				if (dv != null) {
-					selectedView = null;
-					fireDrawingViewSelectedEvent(selectedView);
-					fireDrawingViewRemovedEvent(dv);
-				}
+                                    DrawingView oldView = getActiveDrawingView();
+                                    selectedView = null; //mrfloppy investigate NullDrawingView here
+                                    fireDrawingViewSelectedEvent(oldView, getActiveDrawingView());
+                                    fireDrawingViewRemovedEvent(dv);
+                                }
             }
         };
 	}

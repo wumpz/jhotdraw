@@ -43,7 +43,7 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 	 * JComponent
 	 */
 	//private final EventListenerList listenerList = new EventListenerList();
-	protected DrawingView selectedView;
+	private DrawingView selectedView;
 
 	public MDIDesktopPane(DrawApplication newDrawApplication) {
 		setDrawApplication(newDrawApplication);
@@ -75,15 +75,11 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 		/**
 		 * Invoked when an internal frame has been closed.
 		 * if dv is null assert
-		 * if this is the last view set it to null
+                 *
 		 * @see javax.swing.JInternalFrame#setClosed
 		 */
 		public void internalFrameClosed(InternalFrameEvent e) {
 			DrawingView dv = Helper.getDrawingView(e.getInternalFrame());
-			if (getComponentCount() == 0){
-				setActiveDrawingView(null);
-				fireDrawingViewSelectedEvent(selectedView);
-			}
 			fireDrawingViewRemovedEvent(dv);
 		}
 
@@ -111,11 +107,13 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 		public void internalFrameActivated(InternalFrameEvent e) {
 			DrawingView dv = Helper.getDrawingView(e.getInternalFrame());
 			setActiveDrawingView(dv);
-			fireDrawingViewSelectedEvent(selectedView);
 		}
 
-		//public void internalFrameDeactivated(InternalFrameEvent e) {
-		//}
+		public void internalFrameDeactivated(InternalFrameEvent e) {
+			if (getComponentCount() == 0){ //could be a component without a DrawingView.  should use helper here.
+				setActiveDrawingView(null); //mrfloppy, investigate using NullDrawingView here please.( i will assist)
+			}                
+		}
 	};
 
 
@@ -149,17 +147,17 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 		}
 	}
 
-	private void fireDrawingViewSelectedEvent(final DrawingView dv) {
+	private void fireDrawingViewSelectedEvent(final DrawingView oldView, final DrawingView newView) {
 		final Object[] listeners = listenerList.getListenerList();
 		DesktopListener dpl;
 		DesktopEvent dpe = null;
 		for (int i = listeners.length-2; i >= 0; i -= 2) {
 			if (listeners[i] == DesktopListener.class) {
 				if (dpe == null) {
-					dpe = new DesktopEvent(MDIDesktopPane.this, dv);
+					dpe = new DesktopEvent(MDIDesktopPane.this, newView);
 				}
 				dpl = (DesktopListener)listeners[i+1];
-				dpl.drawingViewSelected(dpe);
+				dpl.drawingViewSelected(oldView,dpe);
 			}
 		}
 	}
@@ -195,7 +193,9 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 	}
 
 	protected void setActiveDrawingView(DrawingView newSelectedView) {
-		selectedView = newSelectedView;
+            DrawingView oldSelectedView = selectedView;
+            selectedView = newSelectedView;
+            fireDrawingViewSelectedEvent(oldSelectedView, newSelectedView);
 	}
 
 	public void updateTitle(String newDrawingTitle) {
