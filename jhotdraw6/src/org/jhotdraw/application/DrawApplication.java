@@ -137,7 +137,7 @@ public	class DrawApplication
 			window.open();
 		}
 		else {
-			window.open(createDrawingView(initialDrawing));
+			window.open(window.createDrawingView(initialDrawing));
 		}
 	}
 
