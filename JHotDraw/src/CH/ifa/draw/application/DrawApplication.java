@@ -45,7 +45,6 @@ public	class DrawApplication
 	private Iconkit					fIconkit;
 
 	private JTextField				fStatusLine;
-	private DrawingView				fView;
 	private ToolButton				fDefaultToolButton;
 	private ToolButton				fSelectedToolButton;
 
@@ -118,7 +117,9 @@ public	class DrawApplication
 			return;
 		}
 		DrawApplication window = createApplication();
-		window.open(view());
+		window.open();
+        window.newWindow( view().drawing() );
+
 		if (view().drawing().getTitle() != null ) {
 			window.setDrawingTitle(view().drawing().getTitle() + " (View)");
 		}
@@ -131,27 +132,18 @@ public	class DrawApplication
 	 * Open a new window for this application containing the passed in drawing,
 	 * or a new drawing if the passed in drawing is null.
 	 */
-	public void newWindow(Drawing initialDrawing) {
-		DrawApplication window = createApplication();
-		if (initialDrawing == null) {
-			window.open();
-		}
-		else {
-			window.open(window.createDrawingView(initialDrawing));
-		}
+	public void newWindow(Drawing newDrawing) {
+        getDesktop().removeAllFromDesktop(Desktop.PRIMARY);
+		getDesktop().addToDesktop( createDrawingView( newDrawing ), Desktop.PRIMARY);
+		toolDone();
 	}
-
-	/**
-	 * Opens a new window
-	 */
-	public void open() {
-		open(createInitialDrawingView());
+	public final void newWindow() {
+        newWindow( createDrawing() );
 	}
-
 	/**
 	 * Opens a new window with a drawing view.
 	 */
-	protected synchronized void open(DrawingView newDrawingView) {
+	public synchronized void open() {
 		getVersionControlStrategy().assertCompatibleVersion();
 		setUndoManager(new UndoManager());
 		setIconkit(createIconkit());
@@ -161,24 +153,29 @@ public	class DrawApplication
 		setStatusLine(createStatusLine());
 		getContentPane().add(getStatusLine(), BorderLayout.SOUTH);
 
-		// create dummy tool until the default tool is activated during toolDone()
-		setTool(new NullTool(this), "");
-		setView(newDrawingView);
+        //Initialize Desktop, must be done before tools
+		setDesktopListener(createDesktopListener());
+		setDesktop(createDesktop());
 
+        //Initialize Tools
+        // create dummy tool until the default tool is activated during toolDone()
+        //why do we need a dummy tool?
+		setTool(new NullTool(this), "");
 		JToolBar tools = createToolPalette();
 		createTools(tools);
-
-		JPanel activePanel = new JPanel();
+        
+        JPanel activePanel = new JPanel();
 		activePanel.setAlignmentX(LEFT_ALIGNMENT);
 		activePanel.setAlignmentY(TOP_ALIGNMENT);
 		activePanel.setLayout(new BorderLayout());
 		activePanel.add(tools, BorderLayout.NORTH);
-		setDesktopListener(createDesktopListener());
-		setDesktop(createDesktop());
 		activePanel.add((Component)getDesktop(), BorderLayout.CENTER);
 		getContentPane().add(activePanel, BorderLayout.CENTER);
 
-		JMenuBar mb = new JMenuBar();
+
+ 
+        //Initialize Menus
+        JMenuBar mb = new JMenuBar();
 		createMenus(mb);
 		setJMenuBar(mb);
 
@@ -191,11 +188,8 @@ public	class DrawApplication
 		}
 		addListeners();
 		setVisible(true);
+      
 		setStorageFormatManager(createStorageFormatManager());
-		if (newDrawingView.isInteractive()) {
-	    	getDesktop().addToDesktop(newDrawingView , Desktop.PRIMARY);
-		}
-		toolDone();
 	}
 
 	/**
@@ -538,17 +532,17 @@ public	class DrawApplication
 	 * You need to override this method to use a DrawingView
 	 * subclass in your application. By default a standard
 	 * DrawingView is returned.
+     * Made this final so no one indavertently overrides it.  If you need to
+     * override, override createDrawingView(Drawing newDrawing) below.
+     * dnoyeb@users.sourceforge.net
 	 */
-	protected DrawingView createDrawingView() {
-		DrawingView createdDrawingView = createDrawingView(createDrawing());
-		createdDrawingView.drawing().setTitle(getDefaultDrawingTitle());
-		return createdDrawingView;
+	protected final DrawingView createDrawingView() {
+		return createDrawingView( createDrawing() );
 	}
 
 	protected DrawingView createDrawingView(Drawing newDrawing) {
 		Dimension d = getDrawingViewSize();
-		DrawingView newDrawingView = new StandardDrawingView(this, d.width, d.height);
-		newDrawingView.setDrawing(newDrawing);
+		DrawingView newDrawingView = new StandardDrawingView(newDrawing, this, d.width, d.height);
 		// notify listeners about created view when the view is added to the desktop
 		//fireViewCreatedEvent(newDrawingView);
 		return newDrawingView;
@@ -582,7 +576,9 @@ public	class DrawApplication
 	 * Drawing is returned.
 	 */
 	protected Drawing createDrawing() {
-		return new StandardDrawing();
+        Drawing dwg = new StandardDrawing();
+        dwg.setTitle( getDefaultDrawingTitle() );
+		return dwg;
 	}
 
 	protected Desktop createDesktop() {
@@ -696,14 +692,14 @@ public	class DrawApplication
 	 * @see DrawingEditor
 	 */
 	public DrawingView view() {
-		return fView;
+		return getDesktop().getActiveDrawingView();
 	}
 
-	protected void setView(DrawingView newView) {
+/*	protected void setView(DrawingView newView) {
 		DrawingView oldView = fView;
 		fView = newView;
 		fireViewSelectionChangedEvent(oldView, view());
-	}
+	}*/
 
 	public DrawingView[] views() {
 		return new DrawingView[] { view() };
@@ -869,7 +865,7 @@ public	class DrawApplication
 	 * Resets the drawing to a new empty drawing.
 	 */
 	public void promptNew() {
-		newWindow(createDrawing());
+        newWindow( );
 		//toolDone();
 		//view().setDrawing(createDrawing());
 	}
@@ -1084,14 +1080,14 @@ public	class DrawApplication
 				DrawingView dv = dpe.getDrawingView();
 				fireViewDestroyingEvent(dv);
 			}
-			public void drawingViewSelected(DesktopEvent dpe) {
+			public void drawingViewSelected(DrawingView oldView, DesktopEvent dpe) {
 				DrawingView dv = dpe.getDrawingView();
 				//get the current selection and freeze it.
 				if (dv != null) {
 					if (dv.drawing() != null)
 						dv.unfreezeView();
 				}
-				setView(dv);
+                                fireViewSelectionChangedEvent(oldView, view());
 			}
 	    };
 	}
