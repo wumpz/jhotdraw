@@ -376,7 +376,7 @@ public class OffsetConnector extends LocatorConnector {
 
      * a ChangeConnectionHandle.
 
-     * @see CH.ifa.draw.standard.ChangeConnectionHandle
+     * @see org.jhotdraw.standard.ChangeConnectionHandle
 
      *     
 
@@ -384,7 +384,7 @@ public class OffsetConnector extends LocatorConnector {
 
      * @param y - y coordinate of point moved to
 
-     * @see CH.ifa.draw.framework.Connector#connectorMovedTo(int, int)
+     * @see org.jhotdraw.framework.Connector#connectorMovedTo(int, int)
 
      */
 
@@ -448,7 +448,7 @@ public class OffsetConnector extends LocatorConnector {
 
      * resized figure.
 
-     * @see CH.ifa.draw.standard.AbstractConnector#findPoint(CH.ifa.draw.framework.ConnectionFigure)
+     * @see org.jhotdraw.standard.AbstractConnector#findPoint(org.jhotdraw.framework.ConnectionFigure)
 
      */ 
 
