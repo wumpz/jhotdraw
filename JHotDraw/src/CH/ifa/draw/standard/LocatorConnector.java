@@ -34,7 +34,7 @@ public class LocatorConnector extends AbstractConnector {
 	 */
 	public static final int SIZE = 8;
 
-	private Locator  fLocator;
+	private Locator  myLocator;
 
 	/*
 	 * Serialization support.
@@ -43,16 +43,12 @@ public class LocatorConnector extends AbstractConnector {
 	private int locatorConnectorSerializedDataVersion = 1;
 
 	public LocatorConnector() { // only used for Storable
-		fLocator = null;
+		setLocator(null);
 	}
 
 	public LocatorConnector(Figure owner, Locator l) {
 		super(owner);
-		fLocator = l;
-	}
-
-	protected Point locate(ConnectionFigure connection) {
-		return fLocator.locate(owner());
+		setLocator(l);
 	}
 
 	/**
@@ -66,7 +62,7 @@ public class LocatorConnector extends AbstractConnector {
 	 * Gets the display box of the connector.
 	 */
 	public Rectangle displayBox() {
-		Point p = fLocator.locate(owner());
+		Point p = getLocator().locate(owner());
 		return new Rectangle(
 				p.x - SIZE / 2,
 				p.y - SIZE / 2,
@@ -91,7 +87,7 @@ public class LocatorConnector extends AbstractConnector {
 	 */
 	public void write(StorableOutput dw) {
 		super.write(dw);
-		dw.writeStorable(fLocator);
+		dw.writeStorable(getLocator());
 	}
 
 	/**
@@ -99,6 +95,14 @@ public class LocatorConnector extends AbstractConnector {
 	 */
 	public void read(StorableInput dr) throws IOException {
 		super.read(dr);
-		fLocator = (Locator)dr.readStorable();
+		setLocator((Locator)dr.readStorable());
+	}
+
+	protected void setLocator(Locator newLocator) {
+		myLocator = newLocator;
+	}
+
+	public Locator getLocator() {
+		return myLocator;
 	}
 }
