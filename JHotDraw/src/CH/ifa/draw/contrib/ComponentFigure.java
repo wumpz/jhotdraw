@@ -28,18 +28,20 @@ import java.util.List;
  * @version <$CURRENT_VERSION$>
  */
 public class ComponentFigure extends AttributeFigure {
-	private Rectangle bounds = new Rectangle();
+	private Rectangle bounds;
 
 	/** Holds value of property component. */
 	private Component component;
 
 	private ComponentFigure() {
-		// do nothing
+		bounds = new Rectangle();
 	}
+
 	/**
 	 * @param newComponent a lightweight component
 	 */
 	public ComponentFigure(Component newComponent) {
+		this();
 		setComponent(newComponent);
 	}
 

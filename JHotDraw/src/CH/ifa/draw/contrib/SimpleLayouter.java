@@ -86,28 +86,25 @@ public class SimpleLayouter implements Layouter {
 	 * Create a new instance of this type and sets the layoutable
 	 */
 	public Layouter create(Layoutable newLayoutable) {
-		return new SimpleLayouter(newLayoutable);
+		SimpleLayouter newLayouter = new SimpleLayouter(newLayoutable);
+		newLayouter.setInsets((Insets)getInsets().clone());
+		return newLayouter;
 	}
 
 	public Rectangle calculateLayout(Point origin, Point corner) {
-		Rectangle maxRect = new Rectangle();
+		Rectangle maxRect = new Rectangle(origin);
 		FigureEnumeration fe = getLayoutable().figures();
 		while (fe.hasNextFigure()) {
 			Figure currentFigure = fe.nextFigure();
 			maxRect.union(currentFigure.displayBox());
 		}
+		maxRect.width += getInsets().left + getInsets().right;
+		maxRect.height += getInsets().top + getInsets().bottom;
 		return maxRect;
 	}
 
 	public Rectangle layout(Point origin, Point corner) {
-		FigureEnumeration fe = getLayoutable().figures();
-		while (fe.hasNextFigure()) {
-			Figure currentFigure = fe.nextFigure();
-			currentFigure.basicDisplayBox(origin, corner);
-		}
-		Rectangle r = new Rectangle(origin);
-		r.add(corner);
-		return r;
+		return calculateLayout(origin, corner);
 	}
 
 	/**

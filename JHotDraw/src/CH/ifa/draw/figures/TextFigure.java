@@ -59,7 +59,7 @@ public  class TextFigure
 		fOriginX = 0;
 		fOriginY = 0;
 		fFont = createCurrentFont();
-		setAttribute(FigureAttributeConstant.FILL_COLOR.getName(), ColorMap.color("None"));
+		setAttribute(FigureAttributeConstant.FILL_COLOR, ColorMap.color("None"));
 		fText = new String("");
 		fSizeIsDirty = true;
 	}

@@ -1100,7 +1100,7 @@ public	class DrawApplication
 		return new Iconkit(this);
 	}
 
-	private void setIconkit(Iconkit newIconkit) {
+	protected void setIconkit(Iconkit newIconkit) {
 		fIconkit = newIconkit;
 	}
 
