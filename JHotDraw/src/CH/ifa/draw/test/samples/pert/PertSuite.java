@@ -1,6 +1,14 @@
+/*
+ * @(#)Test.java
+ *
+ * Project:		JHotdraw - a GUI framework for technical drawings
+ *				http://www.jhotdraw.org
+ *				http://jhotdraw.sourceforge.net
+ * Copyright:	© by the original author(s) and all contributors
+ * License:		Lesser GNU Public License (LGPL)
+ *				http://www.opensource.org/licenses/lgpl-license.html
+ */
 package CH.ifa.draw.test.samples.pert;
-
-
 
 import junit.framework.TestSuite;
 // JUnitDoclet begin import
@@ -14,7 +22,6 @@ import junit.framework.TestSuite;
 * the tool, the licence and the authors.
 */
 
-
 // JUnitDoclet begin javadoc_class
 /**
 * TestSuite PertSuite
@@ -24,36 +31,34 @@ public class PertSuite
 // JUnitDoclet begin extends_implements
 // JUnitDoclet end extends_implements
 {
-  // JUnitDoclet begin class
-  // JUnitDoclet end class
-  
-  public static TestSuite suite() {
-    
-    TestSuite suite;
-    
-    suite = new TestSuite("CH.ifa.draw.test.samples.pert");
-    
-    suite.addTestSuite(CH.ifa.draw.test.samples.pert.PertFigureCreationToolTest.class);
-    suite.addTestSuite(CH.ifa.draw.test.samples.pert.PertFigureTest.class);
-    suite.addTestSuite(CH.ifa.draw.test.samples.pert.PertDependencyTest.class);
-    suite.addTestSuite(CH.ifa.draw.test.samples.pert.PertApplicationTest.class);
-    suite.addTestSuite(CH.ifa.draw.test.samples.pert.PertAppletTest.class);
-    
-    
-    
-    // JUnitDoclet begin method suite()
-    // JUnitDoclet end method suite()
-    
-    return suite;
-  }
-  
-  /**
-  * Method to execute the TestSuite from command line
-  * using JUnit's textui.TestRunner .
-  */
-  public static void main(String[] args) {
-    // JUnitDoclet begin method testsuite.main
-    junit.textui.TestRunner.run(suite());
-    // JUnitDoclet end method testsuite.main
-  }
+	// JUnitDoclet begin class
+	// JUnitDoclet end class
+
+	public static TestSuite suite() {
+
+		TestSuite suite;
+
+		suite = new TestSuite("CH.ifa.draw.test.samples.pert");
+
+		suite.addTestSuite(CH.ifa.draw.test.samples.pert.PertFigureCreationToolTest.class);
+		suite.addTestSuite(CH.ifa.draw.test.samples.pert.PertFigureTest.class);
+		suite.addTestSuite(CH.ifa.draw.test.samples.pert.PertDependencyTest.class);
+		suite.addTestSuite(CH.ifa.draw.test.samples.pert.PertApplicationTest.class);
+		suite.addTestSuite(CH.ifa.draw.test.samples.pert.PertAppletTest.class);
+
+		// JUnitDoclet begin method suite()
+		// JUnitDoclet end method suite()
+
+		return suite;
+	}
+
+	/**
+	* Method to execute the TestSuite from command line
+	* using JUnit's textui.TestRunner .
+	*/
+	public static void main(String[] args) {
+		// JUnitDoclet begin method testsuite.main
+		junit.textui.TestRunner.run(suite());
+		// JUnitDoclet end method testsuite.main
+	}
 }

@@ -81,7 +81,8 @@ public class UndoableAdapter implements Undoable {
 	public FigureEnumeration getAffectedFigures() {
 		if(myAffectedFigures == null) {
 			return new FigureEnumerator(Collections.EMPTY_LIST);
-		} else {
+		}
+		else {
 			return new FigureEnumerator(CollectionsFactory.current().createList(myAffectedFigures));
 		}
 	}

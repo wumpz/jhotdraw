@@ -23,8 +23,8 @@ public class JHDDragSourceListener implements java.awt.dnd.DragSourceListener {
 	private DrawingEditor editor;
 	
 	/** Creates a new instance of JHDDragSource */
-	public JHDDragSourceListener(DrawingEditor editor, DrawingView view) {
-		this.editor = editor;
+	public JHDDragSourceListener(DrawingEditor newEditor, DrawingView newView) {
+		this.editor = newEditor;
 	}
 //	protected DrawingView view(){
 //		return dv;

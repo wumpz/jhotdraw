@@ -47,8 +47,8 @@ public class StandardDisposableResourceHolder implements DisposableResourceHolde
 	 *
 	 * @param resource  Description of the Parameter
 	 */
-	public StandardDisposableResourceHolder(Object resource) {
-		this.resource = resource;
+	public StandardDisposableResourceHolder(Object newResource) {
+		resource = newResource;
 		resetDelay();
 	}
 
@@ -82,8 +82,8 @@ public class StandardDisposableResourceHolder implements DisposableResourceHolde
 	 *
 	 * @param resource  The new resource value
 	 */
-	public void setResource(Object resource) {
-		this.resource = resource;
+	public void setResource(Object newResource) {
+		resource = newResource;
 		resetDelay();
 	}
 

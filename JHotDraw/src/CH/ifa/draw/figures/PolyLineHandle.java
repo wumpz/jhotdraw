@@ -45,8 +45,8 @@ public class PolyLineHandle extends LocatorHandle {
 	}
 
 	public void invokeStep(int x, int y, int anchorX, int anchorY, DrawingView view) {
-		int fIndex = ((PolyLineHandle.UndoActivity)getUndoActivity()).getPointIndex();
-		myOwner().setPointAt(new Point(x, y), fIndex);
+		int currentIndex = ((PolyLineHandle.UndoActivity)getUndoActivity()).getPointIndex();
+		myOwner().setPointAt(new Point(x, y), currentIndex);
 	}
 
 	public void invokeEnd(int x, int y, int anchorX, int anchorY, DrawingView view) {

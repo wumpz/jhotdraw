@@ -107,9 +107,9 @@ public class WindowMenu extends CommandMenu {
 	class ChildMenuItem extends JCheckBoxMenuItem {
 		private JInternalFrame frame;
 
-		public ChildMenuItem(JInternalFrame frame) {
-			super(frame.getTitle());
-			this.frame=frame;
+		public ChildMenuItem(JInternalFrame newFrame) {
+			super(newFrame.getTitle());
+			frame=newFrame;
 		}
 
 		public JInternalFrame getFrame() {

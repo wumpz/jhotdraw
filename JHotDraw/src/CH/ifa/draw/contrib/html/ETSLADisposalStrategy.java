@@ -59,9 +59,9 @@ public class ETSLADisposalStrategy implements ResourceDisposabilityStrategy {
 	 * @param manager      the manager
 	 * @param periodicity  the periodicity at which to check for disposable resources
 	 */
-	public ETSLADisposalStrategy(DisposableResourceManager manager, long periodicity) {
-		setManager(manager);
-		setPeriodicity(periodicity);
+	public ETSLADisposalStrategy(DisposableResourceManager newManager, long newPeriodicity) {
+		setManager(newManager);
+		setPeriodicity(newPeriodicity);
 		initDisposalThread();
 	}
 
@@ -70,12 +70,12 @@ public class ETSLADisposalStrategy implements ResourceDisposabilityStrategy {
 	 *
 	 * @param manager  The new manager value
 	 */
-	public synchronized void setManager(DisposableResourceManager manager) {
+	public synchronized void setManager(DisposableResourceManager newManager) {
 		// if new manager is null the stop disposing
 		if (getManager() == null) {
 			stopDisposing(Long.MAX_VALUE);
 		}
-		this.manager = manager;
+		manager = newManager;
 	}
 
 	/**
@@ -209,9 +209,9 @@ class DisposalThread extends Thread {
 	 * @param strategy     the strategy
 	 * @param periodicity  the periodicity at which the strategy should be called
 	 */
-	DisposalThread(ETSLADisposalStrategy strategy, long periodicity) {
-		this.strategy = strategy;
-		this.periodicity = periodicity;
+	DisposalThread(ETSLADisposalStrategy newStrategy, long newPeriodicity) {
+		strategy = newStrategy;
+		periodicity = newPeriodicity;
 	}
 
 	/**

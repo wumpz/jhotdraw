@@ -47,8 +47,8 @@ public class Geom {
 			return (Math.abs(py - y1) < 3);
 		}
 
-		a = (double)(y1 - y2) / (double)(x1 - x2);
-		b = (double)y1 - a * (double)x1;
+		a = (y1 - y2) / (x1 - x2);
+		b = y1 - a * x1;
 		x = (py - b) / a;
 		y = a * px + b;
 

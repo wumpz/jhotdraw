@@ -35,9 +35,9 @@ public class ZoomCommand extends AbstractCommand {
 	 * @param scale             Description of the Parameter
 	 * @param newDrawingEditor  the DrawingEditor which manages the views
 	 */
-	public ZoomCommand(String name, float scale, DrawingEditor newDrawingEditor) {
-		super(name, newDrawingEditor, true);
-		this.scale = scale;
+	public ZoomCommand(String newSame, float newScale, DrawingEditor newDrawingEditor) {
+		super(newSame, newDrawingEditor, true);
+		scale = newScale;
 	}
 
 

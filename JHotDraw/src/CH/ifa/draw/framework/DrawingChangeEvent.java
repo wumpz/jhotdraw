@@ -21,14 +21,14 @@ import java.util.EventObject;
  */
 public class DrawingChangeEvent extends EventObject {
 
-	private Rectangle fRectangle;
+	private Rectangle myRectangle;
 
 	/**
 	 *  Constructs a drawing change event.
 	 */
-	public DrawingChangeEvent(Drawing source, Rectangle r) {
-		super(source);
-		fRectangle = r;
+	public DrawingChangeEvent(Drawing newSource, Rectangle newRect) {
+		super(newSource);
+		myRectangle = newRect;
 	}
 
 	/**
@@ -42,6 +42,6 @@ public class DrawingChangeEvent extends EventObject {
 	 *  Gets the changed rectangle
 	 */
 	public Rectangle getInvalidatedRectangle() {
-		return fRectangle;
+		return myRectangle;
 	}
 }

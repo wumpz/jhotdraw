@@ -24,8 +24,8 @@ import java.util.*;
 public class FigureChangeEventMulticaster extends
 	AWTEventMulticaster implements FigureChangeListener {
 
-	public FigureChangeEventMulticaster(EventListener a, EventListener b) {
-		super(a, b);
+	public FigureChangeEventMulticaster(EventListener newListenerA, EventListener newListenerB) {
+		super(newListenerA, newListenerB);
 	}
 
 	public void figureInvalidated(FigureChangeEvent e) {
@@ -70,8 +70,8 @@ public class FigureChangeEventMulticaster extends
 		if (oldl == b) {
 			return a;
 		}
-		EventListener a2 = removeInternal((FigureChangeListener)a, oldl);
-		EventListener b2 = removeInternal((FigureChangeListener)b, oldl);
+		EventListener a2 = removeInternal(a, oldl);
+		EventListener b2 = removeInternal(b, oldl);
 		if (a2 == a && b2 == b) {
 			return this;
 		}

@@ -27,12 +27,12 @@ public class DesktopEvent extends EventObject {
 	 */	
 	private DrawingView myPreviousDrawingView;
 
-	public DesktopEvent(Desktop source, DrawingView newDrawingView) {
-		this(source, newDrawingView, null);
+	public DesktopEvent(Desktop newSource, DrawingView newDrawingView) {
+		this(newSource, newDrawingView, null);
 	}
 
-	public DesktopEvent(Desktop source, DrawingView newDrawingView, DrawingView newPreviousDV) {
-		super(source);
+	public DesktopEvent(Desktop newSource, DrawingView newDrawingView, DrawingView newPreviousDV) {
+		super(newSource);
 		setDrawingView(newDrawingView);
 		setPreviousDrawingView(newPreviousDV);
 	}

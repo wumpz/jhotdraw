@@ -185,9 +185,9 @@ public class CTXWindowMenu extends CTXCommandMenu {
 		 *
 		 * @param frame  Description of the Parameter
 		 */
-		public ChildMenuItem(JInternalFrame frame) {
-			super(frame.getTitle());
-			this.frame = frame;
+		public ChildMenuItem(JInternalFrame newFrame) {
+			super(newFrame.getTitle());
+			frame = newFrame;
 		}
 
 		/**

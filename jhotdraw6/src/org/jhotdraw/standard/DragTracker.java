@@ -33,21 +33,21 @@ public class DragTracker extends AbstractTool {
 
 	public DragTracker(DrawingEditor newDrawingEditor, Figure anchor) {
 		super(newDrawingEditor);
-		fAnchorFigure = anchor;
+		setAnchorFigure(anchor);
 	}
 
 	public void mouseDown(MouseEvent e, int x, int y) {
 		super.mouseDown(e, x, y);
-		fLastX = x;
-		fLastY = y;
+		setLastMouseX(x);
+		setLastMouseY(y);
 
 		if (e.isShiftDown()) {
-		   getActiveView().toggleSelection(fAnchorFigure);
-		   fAnchorFigure = null;
+		   getActiveView().toggleSelection(getAnchorFigure());
+		   setAnchorFigure(null);
 		}
-		else if (!getActiveView().isFigureSelected(fAnchorFigure)) {
+		else if (!getActiveView().isFigureSelected(getAnchorFigure())) {
 			getActiveView().clearSelection();
-			getActiveView().addToSelection(fAnchorFigure);
+			getActiveView().addToSelection(getAnchorFigure());
 		}
 		setUndoActivity(createUndoActivity());
 		getUndoActivity().setAffectedFigures(getActiveView().selection());
@@ -56,26 +56,64 @@ public class DragTracker extends AbstractTool {
 
 	public void mouseDrag(MouseEvent e, int x, int y) {
 		super.mouseDrag(e, x, y);
-		fMoved = (Math.abs(x - getAnchorX()) > 4) || (Math.abs(y - getAnchorY()) > 4);
+		setHasMoved((Math.abs(x - getAnchorX()) > 4) || (Math.abs(y - getAnchorY()) > 4));
 
-		if (fMoved) {
+		if (hasMoved()) {
 			FigureEnumeration figures = getUndoActivity().getAffectedFigures();
 			while (figures.hasNextFigure()) {
-				figures.nextFigure().moveBy(x - fLastX, y - fLastY);
+				figures.nextFigure().moveBy(x - getLastMouseX(), y - getLastMouseY());
 			}
 		}
-		fLastX = x;
-		fLastY = y;
+		setLastMouseX(x);
+		setLastMouseY(y);
 	}
 
+	protected void setAnchorFigure(Figure newAnchorFigure) {
+		fAnchorFigure = newAnchorFigure;
+	}
+	
+	public Figure getAnchorFigure() {
+		return fAnchorFigure;
+	}
+
+	protected void setLastMouseX(int newLastMouseX) {
+		fLastX = newLastMouseX;
+	}
+	
+	protected int getLastMouseX() {
+		return fLastX;
+	}
+
+	protected void setLastMouseY(int newLastMouseY) {
+		fLastY = newLastMouseY;
+	}
+	
+	protected int getLastMouseY() {
+		return fLastY;
+	}
+
+	/**
+	 * Check whether the selected figure has been moved since
+	 * the tool has been activated.
+	 *
+	 * @return true if the selected figure has been moved
+	 */
+	public boolean hasMoved() {
+		return fMoved;
+	}
+	
+	protected void setHasMoved(boolean newMoved) {
+		fMoved = newMoved;
+	}
+	
 	public void activate() {
 		// suppress clearSelection() and tool-activation-notification
 		// in superclass
 	}
 
 	public void deactivate() {
-		if (fMoved) {
-			((DragTracker.UndoActivity)getUndoActivity()).setBackupPoint(new Point(fLastX, fLastY));
+		if (hasMoved()) {
+			((DragTracker.UndoActivity)getUndoActivity()).setBackupPoint(new Point(getLastMouseX(), getLastMouseY()));
 		}
 		else {
 			setUndoActivity(null);
@@ -86,7 +124,7 @@ public class DragTracker extends AbstractTool {
 	 * Factory method for undo activity
 	 */
 	protected Undoable createUndoActivity() {
-		return new DragTracker.UndoActivity(getActiveView(), new Point(fLastX, fLastY));
+		return new DragTracker.UndoActivity(getActiveView(), new Point(getLastMouseX(), getLastMouseY()));
 	}
 
 	public static class UndoActivity extends UndoableAdapter {

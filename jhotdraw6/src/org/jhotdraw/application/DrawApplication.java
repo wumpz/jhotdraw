@@ -150,6 +150,7 @@ public	class DrawApplication
 	public final void newWindow() {
         newWindow(createDrawing());
 	}
+
 	/**
 	 * Opens a new window
 	 */

@@ -1,12 +1,12 @@
 /*
  *  @(#)TextAreaTool.java
  *
- *  Project:		JHotdraw - a GUI framework for technical drawings
- *  http://www.jhotdraw.org
- *  http://jhotdraw.sourceforge.net
- *  Copyright:	© by the original author(s) and all contributors
- *  License:		Lesser GNU Public License (LGPL)
- *  http://www.opensource.org/licenses/lgpl-license.html
+ *  Project:     JHotdraw - a GUI framework for technical drawings
+ *               http://www.jhotdraw.org
+ *               http://jhotdraw.sourceforge.net
+ *  Copyright:   © by the original author(s) and all contributors
+ *  License:     Lesser GNU Public License (LGPL)
+ *               http://www.opensource.org/licenses/lgpl-license.html
  */
 package CH.ifa.draw.contrib;
 
@@ -28,7 +28,7 @@ import java.awt.event.MouseEvent;
 /**
  * A TextAreaTool creates TextAreaFigures.<br>
  * To create a new text area, the user drags a rectangle on the drawing on
- * a free spot.<BR>
+ * a free spot.<br>
  * When releasing the mouse the tool calls the area's editor to enter the text.<br>
  * If the tool is clicked on an existing area the tool simply calls the
  * area's editor.<br>
@@ -39,10 +39,10 @@ import java.awt.event.MouseEvent;
  * @created   29 april 2002
  * @version   1.0
  */
-
 public class TextAreaTool extends CreationTool {
 	/** The field used for editing */
 	protected FloatingTextArea fTextField;
+
 	/** The typing target */
 	protected TextHolder fTypingTarget;
 	/** The edited figure */
@@ -206,7 +206,7 @@ public class TextAreaTool extends CreationTool {
 
 	/** Ends editing of the figure's text */
 	protected void endEdit() {
-		if (getTypingTarget() != null) {
+		if ((getTypingTarget() != null) && (fTextField != null)) {
 			if (fTextField.getText().length() > 0) {
 				getTypingTarget().setText(fTextField.getText());
 				// put created figure into a figure enumeration
@@ -237,7 +237,6 @@ public class TextAreaTool extends CreationTool {
 		return figure.textDisplayBox();
 	}
 
-
 	/**
 	 * Sets the typingTarget attribute of the TextAreaTool
 	 *
@@ -246,7 +245,6 @@ public class TextAreaTool extends CreationTool {
 	protected void setTypingTarget(TextHolder newTypingTarget) {
 		fTypingTarget = newTypingTarget;
 	}
-
 
 	/**
 	 * Gets the editedFigure attribute of the TextAreaTool
@@ -265,7 +263,6 @@ public class TextAreaTool extends CreationTool {
 	protected void setEditedFigure(Figure figure) {
 		fEditedFigure = figure;
 	}
-
 
 	/**
 	 * Gets the typingTarget attribute of the TextAreaTool
@@ -295,7 +292,6 @@ public class TextAreaTool extends CreationTool {
 		private String myOriginalText;
 		/** The backup text */
 		private String myBackupText;
-
 
 		/**
 		 * Constructor for the UndoActivity object

@@ -16,6 +16,7 @@ import CH.ifa.draw.framework.*;
 
 import java.io.IOException;
 
+
 /**
  * AbstractLocator provides default implementations for
  * the Locator interface.
@@ -25,7 +26,6 @@ import java.io.IOException;
  *
  * @version <$CURRENT_VERSION$>
  */
-
 public abstract class AbstractLocator implements Locator, Storable, Cloneable {
 
 	/*

@@ -140,13 +140,15 @@ public class CreationTool extends AbstractTool {
 	public void mouseUp(MouseEvent e, int x, int y) {
 		if (getAddedFigure() != null && !getCreatedFigure().isEmpty()) {
 			getAddedFigures().add(getAddedFigure());
-		} else {
+		}
+		else {
 			getActiveView().remove(getAddedFigure());
 		}
 
 		if (getAddedFigures().isEmpty()) {
 			setUndoActivity(null);
-		} else {
+		}
+		else {
 			// use undo activity from paste command...
 			setUndoActivity(createUndoActivity());
 			// put created figure into a figure enumeration

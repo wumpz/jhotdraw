@@ -145,7 +145,7 @@ public class StandardDrawingView
      * Reflects whether the drawing view is in read-only mode (from a user's
      * perspective).
      */
-    private boolean readOnly;
+    private boolean myIsReadOnly;
 
 	/*
 	 * Serialization support. In JavaDraw only the Drawing is serialized.
@@ -1128,8 +1128,8 @@ public class StandardDrawingView
      * modify it using mouse or keyboard actions. Yet, it can still be modified
      * from inside the program.
      */
-    public boolean getReadOnly() {
-        return readOnly;
+    public boolean isReadOnly() {
+        return myIsReadOnly;
     }
     
     /**
@@ -1137,9 +1137,9 @@ public class StandardDrawingView
      * modify it using mouse or keyboard actions. Yet, it can still be modified
      * from inside the program.
      */
-    public void setReadOnly(boolean readOnly) {
-        if (readOnly != this.readOnly) {
-            if (readOnly) {
+    public void setReadOnly(boolean newIsReadOnly) {
+        if (newIsReadOnly != isReadOnly()) {
+            if (newIsReadOnly) {
                 removeMouseListener(mouseListener);
                 removeMouseMotionListener(motionListener);
                 removeKeyListener(keyListener);
@@ -1150,7 +1150,7 @@ public class StandardDrawingView
                 addKeyListener(keyListener);
             }
             
-            this.readOnly = readOnly;
+            myIsReadOnly = newIsReadOnly;
         }
     }
 

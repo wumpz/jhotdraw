@@ -53,7 +53,7 @@ public class StorableInput {
 
 		if (s.equals("REF")) {
 			int ref = readInt();
-			return (Storable) retrieve(ref);
+			return retrieve(ref);
 		}
 
 		storable = (Storable) makeInstance(s);

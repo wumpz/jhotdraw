@@ -210,8 +210,8 @@ class GraphNode {
 	double dy=0.0;
 	final Figure node;
 
-	GraphNode(Figure node) {
-		  this.node = node;
+	GraphNode(Figure newNode) {
+		  node = newNode;
 		  update();
 	}
 

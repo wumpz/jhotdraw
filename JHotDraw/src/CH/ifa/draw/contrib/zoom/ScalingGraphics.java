@@ -59,8 +59,8 @@ public class ScalingGraphics extends java.awt.Graphics {
 	 * scaling, smaller values shrink the picture, larger ones enlarge
 	 * it.
 	 */
-	public void setScale(double scale) {
-		this.scale = scale;
+	public void setScale(double newScale) {
+		scale = newScale;
 	}
 
 	/**
@@ -392,10 +392,10 @@ public class ScalingGraphics extends java.awt.Graphics {
 		 */
 		private Font userFont;
 
-		public ScalingFontMetrics(Font userFont, FontMetrics real) {
+		public ScalingFontMetrics(Font newUserFont, FontMetrics newReal) {
 			super(null);
-			this.userFont = userFont;
-			this.real = real;
+			userFont = newUserFont;
+			real = newReal;
 		}
 
 		// Delegating methods below this line.  Only those methods which

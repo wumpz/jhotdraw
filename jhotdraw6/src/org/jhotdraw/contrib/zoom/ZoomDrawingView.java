@@ -65,10 +65,10 @@ public class ZoomDrawingView extends StandardDrawingView {
 	 * Sets a new zoom scale for this view.  The dimensions of figures
 	 * are multiplied by this number before display.
 	 */
-	private void setScale(double scale) {
+	private void setScale(double newScale) {
 		// "de"-scale with old scale
 		Dimension oldSize = getUserSize();
-		this.scale = scale;
+		scale = newScale;
 		// re-scale with new scale
 		setUserSize(oldSize.width, oldSize.height);
 		centralize(drawing());
@@ -168,12 +168,12 @@ public class ZoomDrawingView extends StandardDrawingView {
 	/**
 	 * Set this view's scale factor
 	 */
-	public void zoom(float scale) {
+	public void zoom(float newScale) {
 		if (hasZoomSupport()) {
 			JViewport viewport = (JViewport) getParent();
 			Dimension viewportSize = viewport.getSize();
 			Dimension userSize = getUserSize();
-			this.scale = scale;
+			scale = newScale;
 			Point viewOrg = viewport.getViewPosition();
 			viewOrg.x = viewOrg.x + (viewportSize.width / 2);
 			viewOrg.y = viewOrg.y + (viewportSize.height / 2);
@@ -283,13 +283,13 @@ public class ZoomDrawingView extends StandardDrawingView {
 		return transformGraphics(super.getGraphics(), getScale());
 	}
 
-	private final Graphics transformGraphics(Graphics g, double scale) {
-		if (scale != 1.0) {
+	private final Graphics transformGraphics(Graphics g, double currentScale) {
+		if (currentScale != 1.0) {
 			Graphics2D g2 = (Graphics2D) g;
 			// Don't use setTransform() here because that would destroy
 			// any transformation that Swing sets for partial redrawing.
 			// Simply add our own transformation to any existing one.
-			g2.transform(AffineTransform.getScaleInstance(scale, scale));
+			g2.transform(AffineTransform.getScaleInstance(currentScale, currentScale));
 		}
         return g;
 	}

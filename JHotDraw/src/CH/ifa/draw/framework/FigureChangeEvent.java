@@ -21,27 +21,27 @@ import java.util.EventObject;
  */
 public class FigureChangeEvent extends EventObject {
 
-	private Rectangle fRectangle;
+	private Rectangle myRectangle;
 	private FigureChangeEvent myNestedEvent;
 
-	private static final Rectangle  fgEmptyRectangle = new Rectangle(0, 0, 0, 0);
+	private static final Rectangle EMPTY_RECTANGLE = new Rectangle(0, 0, 0, 0);
 
    /**
 	* Constructs an event for the given source Figure. The rectangle is the
 	* area to be invalvidated.
 	*/
-	public FigureChangeEvent(Figure source, Rectangle r) {
-		super(source);
-		fRectangle = r;
+	public FigureChangeEvent(Figure newSource, Rectangle newRect) {
+		super(newSource);
+		myRectangle = newRect;
 	}
 
-	public FigureChangeEvent(Figure source) {
-		super(source);
-		fRectangle = fgEmptyRectangle;
+	public FigureChangeEvent(Figure newSource) {
+		super(newSource);
+		myRectangle = EMPTY_RECTANGLE;
 	}
 
-	public FigureChangeEvent(Figure source, Rectangle r, FigureChangeEvent nestedEvent) {
-		this(source, r);
+	public FigureChangeEvent(Figure newSource, Rectangle newRect, FigureChangeEvent nestedEvent) {
+		this(newSource, newRect);
 		myNestedEvent = nestedEvent;
 	}
 
@@ -56,7 +56,7 @@ public class FigureChangeEvent extends EventObject {
 	 *  Gets the changed rectangle
 	 */
 	public Rectangle getInvalidatedRectangle() {
-		return fRectangle;
+		return myRectangle;
 	}
 
 	public FigureChangeEvent getNestedEvent() {

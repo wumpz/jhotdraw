@@ -258,8 +258,8 @@ public class DragNDropTool extends AbstractTool {
 		return dragOn;
 	}
 
-	protected void setDragOn(boolean dragOn){
-		this.dragOn = dragOn;
+	protected void setDragOn(boolean isNewDragOn){
+		this.dragOn = isNewDragOn;
 	}
 
 	private DragGestureListener createDragGestureListener() {

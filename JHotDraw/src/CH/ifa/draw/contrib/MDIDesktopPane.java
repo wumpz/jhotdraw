@@ -528,7 +528,9 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 	}
 
 	private void checkDesktopSize() {
-		if ((getParent() != null) && isVisible()) manager.resizeDesktop();
+		if ((getParent() != null) && isVisible()) {
+			manager.resizeDesktop();
+		}
 	}
 
 	private void setDrawApplication(DrawApplication newDrawApplication) {

@@ -32,9 +32,9 @@ public class DoubleBufferImage extends java.awt.Image {
 	private Image real;
 	private double scale;
 
-	public DoubleBufferImage(Image real, double scale) {
-		this.real = real;
-		this.scale = scale;
+	public DoubleBufferImage(Image newReal, double newScale) {
+		real = newReal;
+		scale = newScale;
 	}
 
 	public Image getRealImage() {

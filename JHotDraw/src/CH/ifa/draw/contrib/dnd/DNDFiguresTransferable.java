@@ -22,9 +22,9 @@ public class DNDFiguresTransferable implements Transferable , Serializable {
 	public static DataFlavor DNDFiguresFlavor = new DataFlavor(DNDFigures.class,"DNDFigures");
 	private Object o;
 
-	public DNDFiguresTransferable(Object o) {
+	public DNDFiguresTransferable(Object newObject) {
 		//if object is not serializable throw exception
-		this.o = o;
+		o = newObject;
 	}
 	public DataFlavor[] getTransferDataFlavors() {
 		return new DataFlavor [] {DNDFiguresFlavor };

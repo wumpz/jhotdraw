@@ -306,7 +306,7 @@ public class PertFigure extends CompositeFigure {
 		int size = dr.readInt();
 		List l = CollectionsFactory.current().createList(size);
 		for (int i=0; i<size; i++) {
-			l.add((Figure)dr.readStorable());
+			l.add(dr.readStorable());
 		}
 		return l;
 	}

@@ -37,9 +37,9 @@ public abstract class DNDHelper {
 	private boolean isDragSource = false;
 	private boolean isDropTarget = false;
 
-	public DNDHelper(boolean isDragSource, boolean isDropTarget){
-		this.isDragSource = isDragSource;
-		this.isDropTarget = isDropTarget;
+	public DNDHelper(boolean newIsDragSource, boolean newIsDropTarget){
+		isDragSource = newIsDragSource;
+		isDropTarget = newIsDropTarget;
 	}
 	/**
 	 * Do not call this from the constructor.  its methods are overridable.
@@ -163,12 +163,12 @@ public abstract class DNDHelper {
 		return dgr;
 	}
 
-	protected void setDropTarget(DropTarget dropTarget){
-		if ((dropTarget == null) && (this.dropTarget != null)) {
-			this.dropTarget.setComponent(null);
-			this.dropTarget.removeDropTargetListener(getDropTargetListener());
+	protected void setDropTarget(DropTarget newDropTarget){
+		if ((newDropTarget == null) && (dropTarget != null)) {
+			dropTarget.setComponent(null);
+			dropTarget.removeDropTargetListener(getDropTargetListener());
 		}
-		this.dropTarget = dropTarget;
+		dropTarget = newDropTarget;
 	}
 
 	protected DropTarget createDropTarget() {

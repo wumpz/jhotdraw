@@ -39,8 +39,8 @@ public class AWTCursor extends Cursor implements CH.ifa.draw.framework.Cursor {
 	 * @param name
 	 * @see Cursor#Cursor(java.lang.String)
 	 */
-	public AWTCursor(String name) {
-		super(name);
+	public AWTCursor(String newName) {
+		super(newName);
 	}
 
 }

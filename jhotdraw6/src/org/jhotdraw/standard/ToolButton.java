@@ -155,11 +155,11 @@ public class ToolButton extends PaletteButton implements ToolListener {
 		return myIcon;
 	}
 
-	private void setPaletteIcon(PaletteIcon myIcon) {
-		this.myIcon = myIcon;
+	private void setPaletteIcon(PaletteIcon newIcon) {
+		myIcon = newIcon;
 	}
 
-	private void setTool(Tool myTool) {
-		this.myTool = myTool;
+	private void setTool(Tool newTool) {
+		myTool = newTool;
 	}
 }

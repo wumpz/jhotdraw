@@ -35,9 +35,9 @@ public class StandardDisposableResourceManager implements DisposableResourceMana
 	 *
 	 * @param strategy  Description of the Parameter
 	 */
-	public StandardDisposableResourceManager(ResourceDisposabilityStrategy strategy) {
+	public StandardDisposableResourceManager(ResourceDisposabilityStrategy newStrategy) {
 		resources = new WeakHashMap();
-		setStrategy(strategy);
+		setStrategy(newStrategy);
 		getStrategy().setManager(this);
 	}
 
