@@ -2,7 +2,6 @@ package CH.ifa.draw.test.util.collections.jdk12;
 
 import junit.framework.TestCase;
 // JUnitDoclet begin import
-import CH.ifa.draw.util.collections.jdk12.CollectionsFactoryJDK12;
 // JUnitDoclet end import
 
 /*

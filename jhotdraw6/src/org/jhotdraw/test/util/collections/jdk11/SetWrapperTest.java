@@ -2,7 +2,6 @@ package CH.ifa.draw.test.util.collections.jdk11;
 
 import junit.framework.TestCase;
 // JUnitDoclet begin import
-import CH.ifa.draw.util.collections.jdk11.SetWrapper;
 // JUnitDoclet end import
 
 /*

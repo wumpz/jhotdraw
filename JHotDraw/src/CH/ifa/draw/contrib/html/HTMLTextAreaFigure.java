@@ -266,7 +266,7 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		markTextDirty();
 		markFontDirty();
 
-		setAttribute(Figure.POPUP_MENU, createPopupMenu());
+		setAttribute(FigureAttributeConstant.POPUP_MENU, createPopupMenu());
 	}
 
 	/**
@@ -483,8 +483,8 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		// ensure the label covers the whole area
 		displayDelegate.setLocation(0, 0);
 		displayDelegate.setSize(drawingBox.width, drawingBox.height);
-		displayDelegate.setHorizontalAlignment(((Integer)getAttribute("XAlignment")).intValue());
-		displayDelegate.setVerticalAlignment(((Integer)getAttribute("YAlignment")).intValue());
+		displayDelegate.setHorizontalAlignment(((Integer)getAttribute(FigureAttributeConstant.XALIGNMENT)).intValue());
+		displayDelegate.setVerticalAlignment(((Integer)getAttribute(FigureAttributeConstant.YALIGNMENT)).intValue());
 
 		// finally display it
 		SwingUtilities.paintComponent(
@@ -507,10 +507,10 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 	 */
 	protected Rectangle makeDrawingBox(Rectangle displayBox) {
 		// get alignment information
-		float leftMargin = ((Float)getAttribute("LeftMargin")).floatValue();
-		float rightMargin = ((Float)getAttribute("RightMargin")).floatValue();
-		float topMargin = ((Float)getAttribute("TopMargin")).floatValue();
-		float bottomMargin = ((Float)getAttribute("BottomMargin")).floatValue();
+		float leftMargin = ((Float)getAttribute(FigureAttributeConstant.LEFT_MARGIN)).floatValue();
+		float rightMargin = ((Float)getAttribute(FigureAttributeConstant.RIGHT_MARGIN)).floatValue();
+		float topMargin = ((Float)getAttribute(FigureAttributeConstant.TOP_MARGIN)).floatValue();
+		float bottomMargin = ((Float)getAttribute(FigureAttributeConstant.BOTTOM_MARGIN)).floatValue();
 
 		// inset the drawing box by 1 on every side so as not to overwrite
 		// the border
@@ -602,7 +602,7 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 		// set the font
 		htmlText.append("<font face='&FontName;' color='&TextColor;' size='&FontSize;'>");
 		// add alignment if required
-		if (((Integer)getAttribute("XAlignment")).intValue() == SwingConstants.CENTER) {
+		if (((Integer)getAttribute(FigureAttributeConstant.XALIGNMENT)).intValue() == SwingConstants.CENTER) {
 			htmlText.append("<center>");
 		}
 		// add italic and bold attributes if required
@@ -624,7 +624,7 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 			htmlText.append("</i>");
 		}
 		// close alignment if required
-		if (((Integer)getAttribute("XAlignment")).intValue() == SwingConstants.CENTER) {
+		if (((Integer)getAttribute(FigureAttributeConstant.XALIGNMENT)).intValue() == SwingConstants.CENTER) {
 			htmlText.append("</center>");
 		}
 		// close the font tag
@@ -856,7 +856,7 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 	 */
 	public void setUseDirectDraw(boolean newUseDirectDraw) {
 		fUseDirectDraw = newUseDirectDraw;
-		setAttribute(Figure.POPUP_MENU, createPopupMenu());
+		setAttribute(FigureAttributeConstant.POPUP_MENU, createPopupMenu());
 		markSizeDirty();
 	}
 
@@ -937,7 +937,7 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 	 * @param name   The new attribute name
 	 * @param value  The new attribute value
 	 */
-	public void setAttribute(String name, Object value) {
+	public void setAttribute(FigureAttributeConstant name, Object value) {
 		super.setAttribute(name, value);
 		markImageDirty();
 	}
@@ -960,7 +960,7 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 	 */
 	public void setRawHTML(boolean newRawHTML) {
 		fRawHTML = newRawHTML;
-		setAttribute(Figure.POPUP_MENU, createPopupMenu());
+		setAttribute(FigureAttributeConstant.POPUP_MENU, createPopupMenu());
 	}
 
 	/**

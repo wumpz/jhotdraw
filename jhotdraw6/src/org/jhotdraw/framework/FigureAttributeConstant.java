@@ -48,6 +48,30 @@ public class FigureAttributeConstant implements Serializable, Cloneable {
 	public static final String URL_STR = "URL";
 	public static final FigureAttributeConstant URL = new FigureAttributeConstant(URL_STR, 8);
 
+	public static final String LOCATION_STR = "Location";
+	public static final FigureAttributeConstant LOCATION = new FigureAttributeConstant(LOCATION_STR, 9);
+	
+	public static final String XALIGNMENT_STR = "XAlignment";
+	public static final FigureAttributeConstant XALIGNMENT = new FigureAttributeConstant(XALIGNMENT_STR, 10);
+	
+	public static final String YALIGNMENT_STR = "YAlignment";
+	public static final FigureAttributeConstant YALIGNMENT = new FigureAttributeConstant(YALIGNMENT_STR, 11);
+	
+	public static final String TOP_MARGIN_STR = "TopMargin";
+	public static final FigureAttributeConstant TOP_MARGIN = new FigureAttributeConstant(TOP_MARGIN_STR, 12);
+	
+	public static final String RIGHT_MARGIN_STR = "RightMargin";
+	public static final FigureAttributeConstant RIGHT_MARGIN = new FigureAttributeConstant(RIGHT_MARGIN_STR, 13);
+	
+	public static final String BOTTOM_MARGIN_STR = "BottomMargin";
+	public static final FigureAttributeConstant BOTTOM_MARGIN = new FigureAttributeConstant(BOTTOM_MARGIN_STR, 14);
+	
+	public static final String LEFT_MARGIN_STR = "LeftMargin";
+	public static final FigureAttributeConstant LEFT_MARGIN = new FigureAttributeConstant(LEFT_MARGIN_STR, 15);
+	
+	public static final String POPUP_MENU_STR = "PopupMenu";
+	public static final FigureAttributeConstant POPUP_MENU = new FigureAttributeConstant(POPUP_MENU_STR, 16);
+	
 	private static FigureAttributeConstant[] attributeConstants;
 
 	private int myID;

@@ -11,9 +11,13 @@
 
 package CH.ifa.draw.contrib;
 
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.contrib.*;
-import java.awt.*;
+import java.awt.Point;
+import java.awt.Rectangle;
+
+// JUnitDoclet begin import
+import CH.ifa.draw.framework.Figure;
+import CH.ifa.draw.framework.FigureEnumeration;
+// JUnitDoclet end import
 
 /**
  * A StandardLayouter contains standard algorithm for

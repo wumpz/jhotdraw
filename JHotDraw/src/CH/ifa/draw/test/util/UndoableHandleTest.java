@@ -1,14 +1,13 @@
 package CH.ifa.draw.test.util;
 
-import junit.framework.TestCase;
+import java.awt.Point;
+
 // JUnitDoclet begin import
-import CH.ifa.draw.util.UndoableHandle;
+import CH.ifa.draw.figures.RectangleFigure;
 import CH.ifa.draw.standard.BoxHandleKit;
 import CH.ifa.draw.standard.ChangeConnectionEndHandle;
 import CH.ifa.draw.test.JHDTestCase;
-import CH.ifa.draw.figures.RectangleFigure;
-
-import java.awt.*;
+import CH.ifa.draw.util.UndoableHandle;
 // JUnitDoclet end import
 
 /*
@@ -51,9 +50,9 @@ extends JHDTestCase
   /**
   * Factory method for instances of the class to be tested.
   */
-  public CH.ifa.draw.util.UndoableHandle createInstance() throws Exception {
+  public UndoableHandle createInstance() throws Exception {
     // JUnitDoclet begin method testcase.createInstance
-    return new CH.ifa.draw.util.UndoableHandle(BoxHandleKit.south(new RectangleFigure(new Point(44,44), new Point(88,88))), getDrawingEditor().view());
+    return new UndoableHandle(BoxHandleKit.south(new RectangleFigure(new Point(44,44), new Point(88,88))));
     // JUnitDoclet end method testcase.createInstance
   }
   

@@ -1,15 +1,13 @@
 package CH.ifa.draw.test.samples.javadraw;
 
-import junit.framework.TestCase;
-// JUnitDoclet begin import
-import CH.ifa.draw.samples.javadraw.Animator;
-import CH.ifa.draw.samples.javadraw.BouncingDrawing;
-import CH.ifa.draw.standard.StandardDrawing;
-import CH.ifa.draw.figures.RectangleFigure;
-import CH.ifa.draw.util.Animatable;
-import CH.ifa.draw.framework.Drawing;
-import CH.ifa.draw.test.JHDTestCase;
 import java.awt.Point;
+
+// JUnitDoclet begin import
+import CH.ifa.draw.figures.RectangleFigure;
+import CH.ifa.draw.framework.Drawing;
+import CH.ifa.draw.samples.javadraw.BouncingDrawing;
+import CH.ifa.draw.test.JHDTestCase;
+import CH.ifa.draw.util.Animatable;
 // JUnitDoclet end import
 
 /*

@@ -1,10 +1,9 @@
 package CH.ifa.draw.test.figures;
 
+import java.awt.Font;
+
 import junit.framework.TestCase;
 // JUnitDoclet begin import
-import CH.ifa.draw.figures.TextFigure;
-
-import java.awt.*;
 // JUnitDoclet end import
 
 /*

@@ -1,10 +1,7 @@
 package CH.ifa.draw.test.figures;
 
-import junit.framework.TestCase;
 // JUnitDoclet begin import
-import CH.ifa.draw.figures.PolyLineHandle;
 import CH.ifa.draw.figures.PolyLineFigure;
-import CH.ifa.draw.contrib.PolygonFigure;
 import CH.ifa.draw.test.JHDTestCase;
 // JUnitDoclet end import
 

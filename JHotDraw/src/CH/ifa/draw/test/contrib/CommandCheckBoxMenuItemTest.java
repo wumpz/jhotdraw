@@ -1,11 +1,9 @@
 package CH.ifa.draw.test.contrib;
 
-import junit.framework.TestCase;
 // JUnitDoclet begin import
-import CH.ifa.draw.contrib.CommandCheckBoxMenuItem;
-import CH.ifa.draw.util.Command;
 import CH.ifa.draw.standard.DeleteCommand;
 import CH.ifa.draw.test.JHDTestCase;
+import CH.ifa.draw.util.Command;
 // JUnitDoclet end import
 
 /*

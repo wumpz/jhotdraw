@@ -1,8 +1,6 @@
 package CH.ifa.draw.test.standard;
 
-import junit.framework.TestCase;
 // JUnitDoclet begin import
-import CH.ifa.draw.standard.CopyCommand;
 import CH.ifa.draw.test.JHDTestCase;
 // JUnitDoclet end import
 

@@ -1,15 +1,14 @@
 package CH.ifa.draw.test.util;
 
-import junit.framework.TestCase;
+import java.awt.Point;
+
 // JUnitDoclet begin import
-import CH.ifa.draw.util.UndoRedoActivity;
-import CH.ifa.draw.util.Undoable;
+import CH.ifa.draw.figures.RectangleFigure;
 import CH.ifa.draw.standard.PasteCommand;
 import CH.ifa.draw.standard.SingleFigureEnumerator;
 import CH.ifa.draw.test.JHDTestCase;
-import CH.ifa.draw.figures.RectangleFigure;
-
-import java.awt.*;
+import CH.ifa.draw.util.UndoRedoActivity;
+import CH.ifa.draw.util.Undoable;
 // JUnitDoclet end import
 
 /*

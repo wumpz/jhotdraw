@@ -2,7 +2,6 @@ package CH.ifa.draw.test.samples.javadraw;
 
 import junit.framework.TestCase;
 // JUnitDoclet begin import
-import CH.ifa.draw.samples.javadraw.AnimationDecorator;
 // JUnitDoclet end import
 
 /*

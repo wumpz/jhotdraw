@@ -1,8 +1,6 @@
 package CH.ifa.draw.test.figures;
 
-import junit.framework.TestCase;
 // JUnitDoclet begin import
-import CH.ifa.draw.figures.ScribbleTool;
 import CH.ifa.draw.test.JHDTestCase;
 // JUnitDoclet end import
 

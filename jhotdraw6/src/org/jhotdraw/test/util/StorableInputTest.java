@@ -1,9 +1,9 @@
 package CH.ifa.draw.test.util;
 
-import junit.framework.TestCase;
-// JUnitDoclet begin import
-import CH.ifa.draw.util.StorableInput;
 import java.io.FileInputStream;
+
+// JUnitDoclet begin import
+import junit.framework.TestCase;
 // JUnitDoclet end import
 
 /*

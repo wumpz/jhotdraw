@@ -1,10 +1,10 @@
 package CH.ifa.draw.test.standard;
 
+import java.awt.Point;
+
 import junit.framework.TestCase;
 // JUnitDoclet begin import
-import CH.ifa.draw.standard.ChangeConnectionEndHandle;
 import CH.ifa.draw.figures.RectangleFigure;
-import java.awt.Point;
 // JUnitDoclet end import
 
 /*

@@ -2,7 +2,6 @@ package CH.ifa.draw.test.contrib;
 
 import junit.framework.TestCase;
 // JUnitDoclet begin import
-import CH.ifa.draw.contrib.MDI_DrawApplication;
 // JUnitDoclet end import
 
 /*

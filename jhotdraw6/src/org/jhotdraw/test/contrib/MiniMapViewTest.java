@@ -1,12 +1,11 @@
 package CH.ifa.draw.test.contrib;
 
-import junit.framework.TestCase;
-// JUnitDoclet begin import
-import CH.ifa.draw.contrib.MiniMapView;
-import CH.ifa.draw.test.JHDTestCase;
+import java.awt.Component;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JScrollPane;
+
+// JUnitDoclet begin import
+import CH.ifa.draw.test.JHDTestCase;
 // JUnitDoclet end import
 
 /*

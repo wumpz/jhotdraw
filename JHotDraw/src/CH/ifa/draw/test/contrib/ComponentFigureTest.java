@@ -1,11 +1,9 @@
 package CH.ifa.draw.test.contrib;
 
-import junit.framework.TestCase;
-// JUnitDoclet begin import
-import CH.ifa.draw.contrib.ComponentFigure;
-import CH.ifa.draw.test.JHDTestCase;
+import javax.swing.JButton;
 
-import javax.swing.*;
+// JUnitDoclet begin import
+import CH.ifa.draw.test.JHDTestCase;
 // JUnitDoclet end import
 
 /*

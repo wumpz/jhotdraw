@@ -1,13 +1,10 @@
 package CH.ifa.draw.test.standard;
 
-import junit.framework.TestCase;
 // JUnitDoclet begin import
-import CH.ifa.draw.standard.ToolButton;
-import CH.ifa.draw.standard.DuplicateCommand;
-import CH.ifa.draw.standard.SelectionTool;
-import CH.ifa.draw.test.JHDTestCase;
 import CH.ifa.draw.application.DrawApplication;
 import CH.ifa.draw.framework.Tool;
+import CH.ifa.draw.standard.SelectionTool;
+import CH.ifa.draw.test.JHDTestCase;
 // JUnitDoclet end import
 
 /*

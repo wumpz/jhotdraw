@@ -11,10 +11,14 @@
 
 package CH.ifa.draw.contrib;
 
-import javax.swing.*;
-import java.awt.*;
-import CH.ifa.draw.contrib.*;
+import java.awt.Component;
+import java.awt.Container;
+
+// JUnitDoclet begin import
+import javax.swing.JScrollPane;
+
 import CH.ifa.draw.framework.DrawingView;
+// JUnitDoclet end import
 
 /**
  * @author  C.L.Gilbert <dnoyeb@users.sourceforge.net>

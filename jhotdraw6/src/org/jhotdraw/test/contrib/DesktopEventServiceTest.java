@@ -1,14 +1,12 @@
 package CH.ifa.draw.test.contrib;
 
-import junit.framework.TestCase;
-// JUnitDoclet begin import
-import CH.ifa.draw.contrib.DesktopEventService;
-import CH.ifa.draw.contrib.JPanelDesktop;
-import CH.ifa.draw.contrib.Desktop;
-import CH.ifa.draw.test.JHDTestCase;
-import CH.ifa.draw.application.DrawApplication;
+import java.awt.Container;
 
-import java.awt.*;
+// JUnitDoclet begin import
+import CH.ifa.draw.application.DrawApplication;
+import CH.ifa.draw.contrib.Desktop;
+import CH.ifa.draw.contrib.JPanelDesktop;
+import CH.ifa.draw.test.JHDTestCase;
 // JUnitDoclet end import
 
 /*

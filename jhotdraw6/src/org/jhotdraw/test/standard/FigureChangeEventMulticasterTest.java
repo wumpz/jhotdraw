@@ -1,13 +1,11 @@
 package CH.ifa.draw.test.standard;
 
-import junit.framework.TestCase;
+import java.util.EventListener;
+
 // JUnitDoclet begin import
-import CH.ifa.draw.standard.FigureChangeEventMulticaster;
-import CH.ifa.draw.test.JHDTestCase;
 import CH.ifa.draw.figures.TextFigure;
 import CH.ifa.draw.framework.Drawing;
-
-import java.util.EventListener;
+import CH.ifa.draw.test.JHDTestCase;
 // JUnitDoclet end import
 
 /*

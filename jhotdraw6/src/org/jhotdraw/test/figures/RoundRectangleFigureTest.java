@@ -2,7 +2,6 @@ package CH.ifa.draw.test.figures;
 
 import junit.framework.TestCase;
 // JUnitDoclet begin import
-import CH.ifa.draw.figures.RoundRectangleFigure;
 // JUnitDoclet end import
 
 /*

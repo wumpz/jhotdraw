@@ -1,10 +1,9 @@
 package CH.ifa.draw.test.contrib;
 
+import java.awt.Font;
+
 import junit.framework.TestCase;
 // JUnitDoclet begin import
-import CH.ifa.draw.contrib.TextAreaFigure;
-
-import java.awt.*;
 // JUnitDoclet end import
 
 /*

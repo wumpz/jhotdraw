@@ -14,9 +14,11 @@ package CH.ifa.draw.samples.pert;
 import java.awt.*;
 import java.util.List;
 
+// JUnitDoclet begin import
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.figures.*;
 import CH.ifa.draw.standard.*;
+// JUnitDoclet end import
 
 /**
  * @version <$CURRENT_VERSION$>
@@ -37,7 +39,7 @@ public class PertDependency extends LineConnection {
 		PertFigure source = (PertFigure)start;
 		PertFigure target = (PertFigure)end;
 		if (source.hasCycle(target)) {
-			setAttribute(FigureAttributeConstant.FRAME_COLOR.getName(), Color.red);
+			setAttribute(FigureAttributeConstant.FRAME_COLOR, Color.red);
 		}
 		else {
 			target.addPreTask(source);

@@ -159,7 +159,7 @@ public class GraphLayout extends FigureChangeAdapter {
 		  while (nodeEnum.hasMoreElements()) {
 			  Figure node = (Figure)nodeEnum.nextElement();
 			  GraphNode n = getGraphNode(node);
-			  if (!Boolean.TRUE.equals(node.getAttribute("Location"))) {
+			  if (!Boolean.TRUE.equals(node.getAttribute(FigureAttributeConstant.LOCATION))) {
 					n.x += Math.max(-5, Math.min(5, n.dx));
 					n.y += Math.max(-5, Math.min(5, n.dy));
 					Point c = node.center();

@@ -1,8 +1,8 @@
 package CH.ifa.draw.test.contrib;
 
 import junit.framework.TestCase;
+
 // JUnitDoclet begin import
-import CH.ifa.draw.contrib.ChopDiamondConnector;
 // JUnitDoclet end import
 
 /*

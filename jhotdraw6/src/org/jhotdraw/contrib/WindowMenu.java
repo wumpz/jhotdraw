@@ -11,14 +11,19 @@
 
 package CH.ifa.draw.contrib;
 
-import CH.ifa.draw.util.CommandMenu;
-import CH.ifa.draw.util.Command;
-import CH.ifa.draw.standard.AbstractCommand;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyVetoException;
+
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JInternalFrame;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
+
 import CH.ifa.draw.framework.DrawingEditor;
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.event.*;
-import java.beans.*;
+import CH.ifa.draw.standard.AbstractCommand;
+import CH.ifa.draw.util.Command;
+import CH.ifa.draw.util.CommandMenu;
 
 /**
  * Menu component that handles the functionality expected of a standard
@@ -45,7 +50,7 @@ public class WindowMenu extends CommandMenu {
 		};
 		tileCommand = new AbstractCommand("Tile", newEditor) {
 			public void execute() {
-				WindowMenu.this.desktop.tileFrames();
+				WindowMenu.this.desktop.tileFramesHorizontally();
 			}
 			public boolean isExecutable() {
 				return super.isExecutable() && (WindowMenu.this.desktop.getAllFrames().length > 0);

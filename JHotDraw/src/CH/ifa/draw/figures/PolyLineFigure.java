@@ -11,13 +11,26 @@
 
 package CH.ifa.draw.figures;
 
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.standard.*;
-import CH.ifa.draw.util.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.io.IOException;
-import java.util.List;
 import java.util.Iterator;
+import java.util.List;
+
+// JUnitDoclet begin import
+import CH.ifa.draw.framework.Connector;
+import CH.ifa.draw.framework.FigureAttributeConstant;
+import CH.ifa.draw.framework.HandleEnumeration;
+import CH.ifa.draw.framework.Locator;
+import CH.ifa.draw.standard.AbstractFigure;
+import CH.ifa.draw.standard.HandleEnumerator;
+import CH.ifa.draw.util.CollectionsFactory;
+import CH.ifa.draw.util.Geom;
+import CH.ifa.draw.util.StorableInput;
+import CH.ifa.draw.util.StorableOutput;
+// JUnitDoclet end import
 
 /**
  * A poly line figure consists of a list of points.

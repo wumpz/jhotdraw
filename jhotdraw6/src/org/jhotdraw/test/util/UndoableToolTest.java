@@ -1,12 +1,11 @@
 package CH.ifa.draw.test.util;
 
-import junit.framework.TestCase;
 // JUnitDoclet begin import
-import CH.ifa.draw.util.UndoableTool;
 import CH.ifa.draw.contrib.DiamondFigure;
 import CH.ifa.draw.standard.CreationTool;
 import CH.ifa.draw.standard.PasteCommand;
 import CH.ifa.draw.test.JHDTestCase;
+import CH.ifa.draw.util.UndoableTool;
 // JUnitDoclet end import
 
 /*

@@ -1,12 +1,11 @@
 package CH.ifa.draw.test.standard;
 
-import junit.framework.TestCase;
+import java.awt.Font;
+
 // JUnitDoclet begin import
+import CH.ifa.draw.framework.FigureAttributeConstant;
 import CH.ifa.draw.standard.ChangeAttributeCommand;
 import CH.ifa.draw.test.JHDTestCase;
-import CH.ifa.draw.framework.FigureAttributeConstant;
-
-import java.awt.*;
 // JUnitDoclet end import
 
 /*

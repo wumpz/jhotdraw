@@ -1,11 +1,11 @@
 package CH.ifa.draw.test.util;
 
-import junit.framework.TestCase;
-// JUnitDoclet begin import
-import CH.ifa.draw.util.ReverseListEnumerator;
-import CH.ifa.draw.util.CollectionsFactory;
-
 import java.util.List;
+
+import junit.framework.TestCase;
+
+// JUnitDoclet begin import
+import CH.ifa.draw.util.CollectionsFactory;
 // JUnitDoclet end import
 
 /*

@@ -1,14 +1,14 @@
 package CH.ifa.draw.test.standard;
 
-import junit.framework.TestCase;
-// JUnitDoclet begin import
-import CH.ifa.draw.standard.FigureEnumerator;
-import CH.ifa.draw.util.CollectionsFactory;
-import CH.ifa.draw.figures.RectangleFigure;
-import CH.ifa.draw.figures.PolyLineFigure;
-
+import java.awt.Point;
 import java.util.List;
-import java.awt.*;
+
+import junit.framework.TestCase;
+
+// JUnitDoclet begin import
+import CH.ifa.draw.figures.PolyLineFigure;
+import CH.ifa.draw.figures.RectangleFigure;
+import CH.ifa.draw.util.CollectionsFactory;
 // JUnitDoclet end import
 
 /*
