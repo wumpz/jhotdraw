@@ -58,7 +58,7 @@ public class NullFigure extends AbstractFigure {
 	 * @see #basicDisplayBox
 	 */
 	public Rectangle displayBox() {
-		return myDisplayBox;
+		return new Rectangle(myDisplayBox);
 	}
 
 	/**
