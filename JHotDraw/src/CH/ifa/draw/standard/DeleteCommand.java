@@ -11,7 +11,12 @@
 
 package CH.ifa.draw.standard;
 
-import CH.ifa.draw.framework.*;
+import java.util.List;
+
+import CH.ifa.draw.framework.DrawingEditor;
+import CH.ifa.draw.framework.Figure;
+import CH.ifa.draw.framework.FigureEnumeration;
+import CH.ifa.draw.util.CollectionsFactory;
 import CH.ifa.draw.util.Undoable;
 import CH.ifa.draw.util.UndoableAdapter;
 
@@ -34,7 +39,27 @@ public class DeleteCommand extends FigureTransferCommand {
 	public void execute() {
 		super.execute();
 		setUndoActivity(createUndoActivity());
-		getUndoActivity().setAffectedFigures(view().selection());
+		/* ricardo_padilha: bugfix for correct delete/undelete behavior
+		 * When enumerating the affected figures we must not forget the dependent
+		 * figures, since they are deleted as well! 
+		 */
+		FigureEnumeration fe = view().selection();
+		List affected = CollectionsFactory.current().createList();
+		Figure f;
+		FigureEnumeration dfe;
+		while (fe.hasNextFigure()) {
+			f = fe.nextFigure();
+			affected.add(f);
+			dfe = f.getDependendFigures();
+			if (dfe != null) {
+				while (dfe.hasNextFigure()) {
+					affected.add(dfe.nextFigure());
+				}
+			}
+		}
+		fe = new FigureEnumerator(affected);
+		getUndoActivity().setAffectedFigures(fe);
+		/* ricardo_padilha: end of bugfix */
 		deleteFigures(getUndoActivity().getAffectedFigures());
 		view().checkDamage();
 	}
