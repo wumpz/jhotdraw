@@ -273,7 +273,8 @@ public  class TextFigure
 		g.setFont(fFont);
 		g.setColor((Color) getAttribute(FigureAttributeConstant.TEXT_COLOR));
 		FontMetrics metrics = g.getFontMetrics(fFont);
-		g.drawString(getText(), fOriginX, fOriginY + metrics.getAscent());
+		Rectangle r = displayBox();
+		g.drawString(getText(), r.x, r.y + metrics.getAscent());
 	}
 
 	protected Dimension textExtent() {
@@ -284,7 +285,7 @@ public  class TextFigure
 		fWidth = metrics.stringWidth(getText());
 		fHeight = metrics.getHeight();
 		fSizeIsDirty = false;
-		return new Dimension(metrics.stringWidth(getText()), metrics.getHeight());
+		return new Dimension(fWidth, fHeight);
 	}
 
 	protected void markDirty() {
@@ -321,8 +322,9 @@ public  class TextFigure
 	 */
 	public void write(StorableOutput dw) {
 		super.write(dw);
-		dw.writeInt(fOriginX);
-		dw.writeInt(fOriginY);
+		Rectangle r = displayBox();
+		dw.writeInt(r.x);
+		dw.writeInt(r.y);
 		dw.writeString(getText());
 		dw.writeString(fFont.getName());
 		dw.writeInt(fFont.getStyle());
