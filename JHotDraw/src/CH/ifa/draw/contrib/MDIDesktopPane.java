@@ -82,7 +82,7 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 			DrawingView dv = Helper.getDrawingView(e.getInternalFrame());
 			if (getComponentCount() == 0){
 				setActiveDrawingView(null);
-				fireDrawingViewSelectedEvent(selectedView);
+				fireDrawingViewSelectedEvent(getActiveDrawingView());
 			}
 			fireDrawingViewRemovedEvent(dv);
 		}
@@ -111,7 +111,7 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 		public void internalFrameActivated(InternalFrameEvent e) {
 			DrawingView dv = Helper.getDrawingView(e.getInternalFrame());
 			setActiveDrawingView(dv);
-			fireDrawingViewSelectedEvent(selectedView);
+			fireDrawingViewSelectedEvent(getActiveDrawingView());
 		}
 
 		//public void internalFrameDeactivated(InternalFrameEvent e) {
@@ -119,7 +119,7 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 	};
 
 
-	private void fireDrawingViewAddedEvent(final DrawingView dv) {
+	protected void fireDrawingViewAddedEvent(final DrawingView dv) {
 		final Object[] listeners = listenerList.getListenerList();
 		DesktopListener dpl;
 		DesktopEvent dpe = null;
@@ -134,7 +134,7 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 		}
 	}
 
-	private void fireDrawingViewRemovedEvent(final DrawingView dv) {
+	protected void fireDrawingViewRemovedEvent(final DrawingView dv) {
 		final Object[] listeners = listenerList.getListenerList();
 		DesktopListener dpl;
 		DesktopEvent dpe= null;
@@ -149,7 +149,7 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 		}
 	}
 
-	private void fireDrawingViewSelectedEvent(final DrawingView dv) {
+	protected void fireDrawingViewSelectedEvent(final DrawingView dv) {
 		final Object[] listeners = listenerList.getListenerList();
 		DesktopListener dpl;
 		DesktopEvent dpe = null;
