@@ -222,8 +222,12 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 		int w;
 		int h;
 
-		frame.addInternalFrameListener(internalFrameListener);//should be done before added to desktop
-		Component retval = super.add(frame);
+		//should be done before added to desktop
+		frame.addInternalFrameListener(internalFrameListener);
+		// ricardo_padilha: since retval is never used,
+		// there is no point in creating it
+		//Component retval = super.add(frame);
+		super.add(frame);
 
 		checkDesktopSize();
 		if (array.length > 0) {
