@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
+import java.text.CharacterIterator;
 import java.util.*;
 import java.util.List;
 
@@ -442,7 +443,7 @@ public class TextAreaFigure extends AttributeFigure
 			AttributedCharacterIterator paragraphIter = attrText.getIterator();
 			int[] tabLocations = new int[paragraphText.length()];
 			int tabCount = 0;
-			for (char c = paragraphIter.first(); c != paragraphIter.DONE; c = paragraphIter.next()) {
+			for (char c = paragraphIter.first(); c != CharacterIterator.DONE; c = paragraphIter.next()) {
 				if (c == '\t') {
 					tabLocations[tabCount++] = paragraphIter.getIndex();
 				}
@@ -662,7 +663,7 @@ public class TextAreaFigure extends AttributeFigure
 			Integer s = (Integer)value;
 			int style = font.getStyle();
 			if (s.intValue() == Font.PLAIN) {
-				style = font.PLAIN;
+				style = Font.PLAIN;
 			}
 			else {
 				style = style ^ s.intValue();

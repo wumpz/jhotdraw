@@ -194,7 +194,7 @@ public  class TextFigure
 			Integer s = (Integer)value;
 			int style = font.getStyle();
 			if (s.intValue() == Font.PLAIN) {
-				style = font.PLAIN;
+				style = Font.PLAIN;
 			}
 			else {
 				style = style ^ s.intValue();
