@@ -50,30 +50,30 @@ public class SelectionTool extends AbstractTool {
 		// on MS-Windows NT: AWT generates additional mouse down events
 		// when the left button is down && right button is clicked.
 		// To avoid dead locks we ignore such events
-		if (fChild != null) {
+		if (getChild() != null) {
 			return;
 		}
 
 		view().freezeView();
 
-		Handle handle = view().findHandle(e.getX(), e.getY());
+		Handle handle = findHandle(e.getX(), e.getY());
 		if (handle != null) {
-			fChild = createHandleTracker(view(), handle);
+			setChild(createHandleTracker(view(), handle));
 		}
 		else {
-			Figure figure = drawing().findFigure(e.getX(), e.getY());
+			Figure figure = findFigure(e.getX(), e.getY());
 			if (figure != null) {
-				fChild = createDragTracker(figure);
+				setChild(createDragTracker(figure));
 			}
 			else {
 				if (!e.isShiftDown()) {
 					view().clearSelection();
 				}
-				fChild = createAreaTracker();
+				setChild(createAreaTracker());
 			}
 		}
-		fChild.activate();
-		fChild.mouseDown(e, x, y);
+		getChild().activate();
+		getChild().mouseDown(e, x, y);
 	}
 
 	/**
@@ -91,8 +91,8 @@ public class SelectionTool extends AbstractTool {
 	 * current tracker.
 	 */
 	public void mouseDrag(MouseEvent e, int x, int y) {
-		if (fChild != null) { // JDK1.1 doesn't guarantee mouseDown, mouseDrag, mouseUp
-			fChild.mouseDrag(e, x, y);
+		if (getChild() != null) { // JDK1.1 doesn't guarantee mouseDown, mouseDrag, mouseUp
+			getChild().mouseDrag(e, x, y);
 		}
 	}
 
@@ -101,10 +101,10 @@ public class SelectionTool extends AbstractTool {
 	 * current tracker.
 	 */
 	public void mouseUp(MouseEvent e, int x, int y) {
-		if (fChild != null) { // JDK1.1 doesn't guarantee mouseDown, mouseDrag, mouseUp
-			fChild.mouseUp(e, x, y);
-			fChild.deactivate();
-			fChild = null;
+		if (getChild() != null) { // JDK1.1 doesn't guarantee mouseDown, mouseDrag, mouseUp
+			getChild().mouseUp(e, x, y);
+			getChild().deactivate();
+			setChild(null);
 		}
 		if (view() != null) {
 			view().unfreezeView();
@@ -131,5 +131,21 @@ public class SelectionTool extends AbstractTool {
 	 */
 	protected Tool createAreaTracker() {
 		return new SelectAreaTracker(editor());
+	}
+	
+	protected Handle findHandle(int x, int y){
+		return view().findHandle(x,y);
+	}
+	
+	protected Figure findFigure(int x, int y){
+		return drawing().findFigure(x, y);
+	}
+	
+	protected void setChild(Tool tool){
+		fChild = tool;
+	}
+	
+	protected Tool getChild(){
+		return fChild;
 	}
 }
