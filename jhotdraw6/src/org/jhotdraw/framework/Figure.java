@@ -49,12 +49,6 @@ public interface Figure
 				extends Storable, Cloneable, Serializable {
 
 	/**
-	 * Constant that allows to identify a popup menu assigned
-	 * as an attribute.
-	 */
-	public static String POPUP_MENU = "POPUP_MENU";
-
-	/**
 	 * Moves the Figure to a new location.
 	 * @param dx the x delta
 	 * @param dy the y delta

@@ -125,7 +125,7 @@ public  class   FigureAttributes
 			else if (valtype.equals("Storable")) {
 				val = dr.readStorable();
 			}
-			else if (valtype.equals(Figure.POPUP_MENU)) {
+			else if (valtype.equals(FigureAttributeConstant.POPUP_MENU_STR)) {
 				// read String but don't store it
 				continue;
 			}
@@ -184,7 +184,7 @@ public  class   FigureAttributes
 				dw.writeStorable((Storable)attributeValue);
 			}
 			else if (attributeValue instanceof javax.swing.JPopupMenu) {
-				dw.writeString(Figure.POPUP_MENU);
+				dw.writeString(FigureAttributeConstant.POPUP_MENU_STR);
 			}
 			else {
 				System.err.println("Unknown attribute: " + attributeValue);

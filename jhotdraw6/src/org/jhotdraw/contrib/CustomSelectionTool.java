@@ -23,8 +23,9 @@ import java.awt.event.*;
  * If a double click or popup trigger is encountered a hook method is called,
  * which handles the event. This methods can be overriden in subclasse to 
  * provide customized behaviour. 
- * Popup menus must be registered with a Figure using the setAttribute() method.
- * The key which associates a popup menu as an attribute is Figure.POPUP_MENU.
+ * Popup menus must be registered with a Figure using the
+ * setAttribute() method.  The key which associates a popup menu as an
+ * attribute is FigureAttributeConstant.POPUP_MENU.
  *
  * @author  Wolfram Kaiser <mrfloppy@users.sourceforge.net>
  * @version <$CURRENT_VERSION$>
@@ -146,9 +147,11 @@ public class CustomSelectionTool extends SelectionTool {
 	}
 
 	/**
-	 * This method displays a popup menu, if there is one registered with the
-	 * Figure (the Figure's attributes are queried for Figure.POPUP_MENU which
-	 * is used to indicate an association of a popup menu with the Figure).
+	 * This method displays a popup menu, if there is one
+	 * registered with the Figure (the Figure's attributes are
+	 * queried for FigureAttributeConstant.POPUP_MENU which is
+	 * used to indicate an association of a popup menu with the
+	 * Figure).
 	 *
 	 * @param   figure      Figure for which a popup menu should be displayed
 	 * @param   x           x coordinate where the popup menu should be displayed

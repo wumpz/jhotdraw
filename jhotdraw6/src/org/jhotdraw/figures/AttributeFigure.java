@@ -236,15 +236,15 @@ public abstract class AttributeFigure extends AbstractFigure {
 	private void writeObject(ObjectOutputStream o) throws IOException {
 		// Filter out Popup menu: cannot serialize any associated action-Listeners
 		// Work-around for Java-Bug: 4240860
-		Object associatedMenu = getAttribute(Figure.POPUP_MENU);
+		Object associatedMenu = getAttribute(FigureAttributeConstant.POPUP_MENU);
 		if (associatedMenu != null) {
-			setAttribute(Figure.POPUP_MENU, null);
+			setAttribute(FigureAttributeConstant.POPUP_MENU, null);
 		}
 
 		o.defaultWriteObject();
 
 		if (associatedMenu != null) {
-			setAttribute(Figure.POPUP_MENU, associatedMenu);
+			setAttribute(FigureAttributeConstant.POPUP_MENU, associatedMenu);
 		}
 	}
 }

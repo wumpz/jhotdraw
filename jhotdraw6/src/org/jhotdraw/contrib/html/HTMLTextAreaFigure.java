@@ -910,7 +910,7 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 //		fContentProducers.read(dr);
 
 //        // finally add the popup menu
-//        setAttribute(Figure.POPUP_MENU, createPopupMenu());
+//        setAttribute(FigureAttributeConstant.POPUP_MENU, createPopupMenu());
 
 	}
 
