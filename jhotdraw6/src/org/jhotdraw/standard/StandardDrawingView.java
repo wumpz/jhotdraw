@@ -57,7 +57,7 @@ public class StandardDrawingView
 	 * the registered listeners for selection changes
 	 */
 	private transient List fSelectionListeners;
-
+	
 	/**
 	 * The shown drawing.
 	 */
@@ -126,26 +126,26 @@ public class StandardDrawingView
 
 	private DNDHelper dndh;
 
-    /**
-     * Listener for mouse clicks.
-     */
-    private MouseListener mouseListener;
-    
-    /**
-     * Listener for mouse movements.
-     */
-    private MouseMotionListener motionListener;
-    
-    /**
-     * Listener for the keyboard.
-     */
-    private KeyListener keyListener;
-
-    /**
-     * Reflects whether the drawing view is in read-only mode (from a user's
-     * perspective).
-     */
-    private boolean myIsReadOnly;
+	/**
+	 * Listener for mouse clicks.
+	 */
+	private MouseListener mouseListener;
+	
+	/**
+	 * Listener for mouse movements.
+	 */
+	private MouseMotionListener motionListener;
+	
+	/**
+	 * Listener for the keyboard.
+	 */
+	private KeyListener keyListener;
+	
+	/**
+	 * Reflects whether the drawing view is in read-only mode (from a user's
+	 * perspective).
+	 */
+	private boolean myIsReadOnly;
 
 	/*
 	 * Serialization support. In JavaDraw only the Drawing is serialized.
@@ -154,6 +154,12 @@ public class StandardDrawingView
 	 */
 	private static final long serialVersionUID = -3878153366174603336L;
 	private int drawingViewSerializedDataVersion = 1;
+
+	/**
+	 * Remembers the current tool tip location in order to support
+	 * tool tips for a figure.
+	 */
+	private Point toolTipLocation;
 
 	/**
 	 * Constructs the view.
@@ -183,7 +189,7 @@ public class StandardDrawingView
 		addMouseListener(createMouseListener());
 		addMouseMotionListener(createMouseMotionListener());
 		addKeyListener(createKeyListener());
-    }
+	}
 
 	protected MouseListener createMouseListener() {
         mouseListener = new DrawingViewMouseListener();
@@ -296,7 +302,7 @@ public class StandardDrawingView
 	}
 
 	/**
-     * Inserts a FigureEnumeration of figures and translates them by the
+	 * Inserts a FigureEnumeration of figures and translates them by the
 	 * given offset. This function is used to insert figures from clipboards (cut/copy)
 	 *
 	 * @return enumeration which has been added to the drawing. The figures in the enumeration
@@ -382,7 +388,7 @@ public class StandardDrawingView
 		}
 
 		return new FigureEnumerator(result);
-   }
+	}
 
 	/**
 	 * Sets the current display update strategy.
@@ -579,13 +585,13 @@ public class StandardDrawingView
 		}
 	}
 
-    protected Rectangle getDamage() {
-        return fDamage; // clone?
-    }
+	protected Rectangle getDamage() {
+		return fDamage; // clone?
+	}
 
-    protected void setDamage(Rectangle r) {
-        fDamage = r;
-    }
+	protected void setDamage(Rectangle r) {
+		fDamage = r;
+	}
 
 	/**
 	 * Gets the position of the last click inside the view.
@@ -715,7 +721,7 @@ public class StandardDrawingView
 	 * The layers are drawn in back to front order.
 	 * No background is drawn.
 	 */
-   public void draw(Graphics g, FigureEnumeration fe) {
+	public void draw(Graphics g, FigureEnumeration fe) {
 		boolean isPrinting = g instanceof PrintGraphics;
 		//drawBackground(g);
 		if ((fBackgrounds != null) && !isPrinting) {
@@ -784,9 +790,9 @@ public class StandardDrawingView
 		repaint();
 	}
 
-    protected List getBackgrounds() {
-        return fBackgrounds;
-    }
+	protected List getBackgrounds() {
+		return fBackgrounds;
+	}
 
 	/**
 	 * Removes a foreground.
@@ -809,9 +815,9 @@ public class StandardDrawingView
 		repaint();
 	}
 
-    protected List getForegrounds() {
-        return fForegrounds;
-    }
+	protected List getForegrounds() {
+		return fForegrounds;
+	}
 
 	/**
 	 * Freezes the view by acquiring the drawing lock.
@@ -842,22 +848,22 @@ public class StandardDrawingView
 		fSelectionListeners= CollectionsFactory.current().createList();
 	}
 
-    protected void checkMinimumSize() {
-        Dimension d = getDrawingSize();
+	protected void checkMinimumSize() {
+		Dimension d = getDrawingSize();
 		Dimension v = getPreferredSize();
 
 		if (v.height < d.height || v.width < d.width) {
 			v.height = d.height + SCROLL_OFFSET;
 			v.width = d.width + SCROLL_OFFSET;
 			setPreferredSize(v);
-        }
-    }
+		}
+	}
 
-    /**
-     * Return the size of the area occupied by the contained figures inside
-     * the drawing. This method is called by checkMinimumSize().
-     */
-    protected Dimension getDrawingSize() {
+	/**
+	 * Return the size of the area occupied by the contained figures inside
+	 * the drawing. This method is called by checkMinimumSize().
+	 */
+	protected Dimension getDrawingSize() {
 		Dimension d = new Dimension(0, 0);
 		// ricardo_padilha: this test had to be introduced because a drawing view
 		// can be assigned a null drawing (see setDrawing() ).
@@ -869,7 +875,7 @@ public class StandardDrawingView
 				d.height = Math.max(d.height, r.y+r.height);
 			}
 		}
-        return d;
+		return d;
 	}
 
 	/**
@@ -936,21 +942,21 @@ public class StandardDrawingView
 	}
 
 	/**
-     * Default action when any uncaught exception bubbled from
-     * the mouse event handlers of the tools. Subclass may override it
-     * to provide other action.
-     */
-    protected void handleMouseEventException(Throwable t) {
+	 * Default action when any uncaught exception bubbled from
+	 * the mouse event handlers of the tools. Subclass may override it
+	 * to provide other action.
+	 */
+	protected void handleMouseEventException(Throwable t) {
 		JOptionPane.showMessageDialog(
 			this,
-            t.getClass().getName() + " - " + t.getMessage(),
+			t.getClass().getName() + " - " + t.getMessage(),
 			"Error",
 			JOptionPane.ERROR_MESSAGE);
 		t.printStackTrace();
-    }
-
+	}
+	
 	public class DrawingViewMouseListener extends MouseAdapter {
-		 /**
+		/**
 		 * Handles mouse down events. The event is delegated to the
 		 * currently active tool.
 		 */
@@ -1123,36 +1129,38 @@ public class StandardDrawingView
 		getDNDHelper().deinitialize();
 	}
 
-    /**
-     * Asks whether the drawing view is in read-only mode. If so, the user can't
-     * modify it using mouse or keyboard actions. Yet, it can still be modified
-     * from inside the program.
-     */
-    public boolean isReadOnly() {
-        return myIsReadOnly;
-    }
-    
-    /**
-     * Determines whether the drawing view is in read-only mode. If so, the user can't
-     * modify it using mouse or keyboard actions. Yet, it can still be modified
-     * from inside the program.
-     */
-    public void setReadOnly(boolean newIsReadOnly) {
-        if (newIsReadOnly != isReadOnly()) {
-            if (newIsReadOnly) {
-                removeMouseListener(mouseListener);
-                removeMouseMotionListener(motionListener);
-                removeKeyListener(keyListener);
-            }
-            else {
-                addMouseListener(mouseListener);
-                addMouseMotionListener(motionListener);
-                addKeyListener(keyListener);
-            }
-            
-            myIsReadOnly = newIsReadOnly;
-        }
-    }
+	/**
+	 * Asks whether the drawing view is in read-only mode. If so,
+	 * the user can't modify it using mouse or keyboard
+	 * actions. Yet, it can still be modified from inside the
+	 * program.
+	 */
+	public boolean isReadOnly() {
+		return myIsReadOnly;
+	}
+	
+	/**
+	 * Determines whether the drawing view is in read-only
+	 * mode. If so, the user can't modify it using mouse or
+	 * keyboard actions. Yet, it can still be modified from inside
+	 * the program.
+	 */
+	public void setReadOnly(boolean newIsReadOnly) {
+		if (newIsReadOnly != isReadOnly()) {
+			if (newIsReadOnly) {
+				removeMouseListener(mouseListener);
+				removeMouseMotionListener(motionListener);
+				removeKeyListener(keyListener);
+			}
+			else {
+				addMouseListener(mouseListener);
+				addMouseMotionListener(motionListener);
+				addKeyListener(keyListener);
+			}
+			
+			myIsReadOnly = newIsReadOnly;
+		}
+	}
 
 	/**
 	 * @see DrawingView#setCursor(Cursor)
@@ -1179,5 +1187,43 @@ public class StandardDrawingView
 		return new Dimension(r.width, r.height);
 	}
 
+	/**
+	 * Return the location of the tool tip to Swing
+	 */
+	public Point getToolTipLocation(MouseEvent event) {
+		return toolTipLocation;
+	}
+	/**
+	 * Works along with setToolTipText() and when both are called, a
+	 * tool tip is shown at the Point p until clearToolTip() is called
+	 */
+	public void setToolTipLocation(Point p) {
+		toolTipLocation = p;
+	}
 
+	/**
+	 * Calls setToolTipLocation(Point p) with a standard position
+	 * relative to the given figure.
+	 */
+	public void setToolTipFigure(Figure f) {
+		Rectangle r = f.displayBox();
+		/* Show tool tip 10 below the figure's bottom left
+		 * corner... */
+		Point p = new Point (r.x, r.y + r.height + 10);
+		setToolTipLocation(p);
+	}
+
+	/**
+	 * Call this to ensure that the tool tip is no longer shown.
+	 */
+	public void clearToolTip() {
+		if (getToolTipText() != null) {
+			setToolTipText(null);
+ 			/* According to javadoc for JComponent calling
+			 * setToolTipText(null) should be enough to
+			 * clear the tool tip, but at least for
+			 * 1.4.2-b28 that is not sufficient... */
+			setToolTipLocation(null);
+		}
+	}
 }
