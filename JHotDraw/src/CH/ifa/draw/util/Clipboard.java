@@ -1,12 +1,9 @@
 /*
- * @(#)Clipboard.java 5.1
+ * @(#)Clipboard.java 5.2
  *
  */
 
 package CH.ifa.draw.util;
-
-import java.awt.*;
-import java.util.*;
 
 /**
  * A temporary replacement for a global clipboard.

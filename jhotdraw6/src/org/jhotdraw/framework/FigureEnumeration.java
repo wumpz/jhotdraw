@@ -1,5 +1,5 @@
 /*
- * @(#)FigureEnumeration.java 5.1
+ * @(#)FigureEnumeration.java 5.2
  *
  */
 

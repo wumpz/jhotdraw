@@ -1,5 +1,5 @@
 /*
- * @(#)BorderTool.java 5.1
+ * @(#)BorderTool.java 5.2
  *
  */
 

@@ -1,12 +1,9 @@
 /*
- * @(#)Command.java 5.1
+ * @(#)Command.java 5.2
  *
  */
 
 package CH.ifa.draw.util;
-
-import java.awt.*;
-import java.util.*;
 
 /**
  * Commands encapsulate an action to be executed. Commands have

@@ -1,5 +1,5 @@
 /*
- * @(#)FigureAttributes.java 5.1
+ * @(#)FigureAttributes.java 5.2
  *
  */
 
@@ -52,7 +52,12 @@ public  class   FigureAttributes
      * overwrites its previous value.
      */
     public void set(String name, Object value) {
-        fMap.put(name, value);
+    	if (value != null) {
+        	fMap.put(name, value);
+        }
+        else {
+        	fMap.remove(name);
+        }
     }
 
     /**
@@ -105,9 +110,12 @@ public  class   FigureAttributes
                 val = new Integer(dr.readInt());
             else if (valtype.equals("Storable"))
                 val = dr.readStorable();
+            else if (valtype.equals(Figure.POPUP_MENU)) {
+                // read String but don't store it
+            	continue;
+            }
             else if (valtype.equals("UNKNOWN"))
                 continue;
-
             fMap.put(key,val);
         }
     }
@@ -128,16 +136,15 @@ public  class   FigureAttributes
         Enumeration k = fMap.keys();
         while (k.hasMoreElements()) {
             String s = (String) k.nextElement();
-            dw.writeString(s);
             Object v = fMap.get(s);
+
+            dw.writeString(s);
+            
             if (v instanceof String) {
                 dw.writeString("String");
                 dw.writeString((String) v);
             } else if (v instanceof Color) {
-                dw.writeString("Color");
-                dw.writeInt(((Color)v).getRed());
-                dw.writeInt(((Color)v).getGreen());
-                dw.writeInt(((Color)v).getBlue());
+                writeColor(dw, "Color", (Color)v);
             } else if (v instanceof Boolean) {
                 dw.writeString("Boolean");
                 if (((Boolean)v).booleanValue())
@@ -150,11 +157,25 @@ public  class   FigureAttributes
             } else if (v instanceof Storable) {
                 dw.writeString("Storable");
                 dw.writeStorable((Storable)v);
+            } else if (v instanceof javax.swing.JPopupMenu) {
+                dw.writeString(Figure.POPUP_MENU);
             } else {
-                System.out.println(v);
+                System.out.println("Unknown attribute: " + v);
                 dw.writeString("UNKNOWN");
             }
         }
     }
-}
 
+    public static void writeColor(StorableOutput dw, String colorName, Color color) {
+       if (color != null) {
+            dw.writeString(colorName);
+            dw.writeInt(color.getRed());
+            dw.writeInt(color.getGreen());
+            dw.writeInt(color.getBlue());
+        }
+    }
+
+    public static Color readColor(StorableInput dr) throws IOException {
+        return new Color(dr.readInt(), dr.readInt(), dr.readInt());
+    }
+}

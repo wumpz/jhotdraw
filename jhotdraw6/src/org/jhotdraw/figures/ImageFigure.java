@@ -1,5 +1,5 @@
 /*
- * @(#)ImageFigure.java 5.1
+ * @(#)ImageFigure.java 5.2
  *
  */
 

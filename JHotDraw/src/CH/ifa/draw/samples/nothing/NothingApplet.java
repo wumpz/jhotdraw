@@ -1,12 +1,13 @@
 /*
- * @(#)NothingApplet.java 5.1
+ * @(#)NothingApplet.java 5.2
  *
  */
 
 package CH.ifa.draw.samples.nothing;
 
+import javax.swing.*;
 import java.applet.Applet;
-import java.awt.*;
+//import java.awt.*;
 import java.util.*;
 import java.io.*;
 import java.net.*;
@@ -22,7 +23,7 @@ public class NothingApplet extends DrawApplet {
 
     //-- DrawApplet overrides -----------------------------------------
 
-    protected void createTools(Panel palette) {
+    protected void createTools(JPanel palette) {
         super.createTools(palette);
 
         Tool tool = new TextTool(view(), new TextFigure());

@@ -1,5 +1,5 @@
 /*
- * @(#)RectangleFigure.java 5.1
+ * @(#)RectangleFigure.java 5.2
  *
  */
 

@@ -1,5 +1,5 @@
 /*
- * @(#)BoxHandleKit.java 5.1
+ * @(#)BoxHandleKit.java 5.2
  *
  */
 

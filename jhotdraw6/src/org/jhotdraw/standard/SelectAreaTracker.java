@@ -1,5 +1,5 @@
 /*
- * @(#)SelectAreaTracker.java 5.1
+ * @(#)SelectAreaTracker.java 5.2
  *
  */
 

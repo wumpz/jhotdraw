@@ -1,5 +1,5 @@
 /*
- * @(#)PasteCommand.java 5.1
+ * @(#)PasteCommand.java 5.2
  *
  */
 

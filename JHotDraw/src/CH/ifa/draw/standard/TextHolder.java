@@ -1,5 +1,5 @@
 /*
- * @(#)TextHolder.java 5.1
+ * @(#)TextHolder.java 5.2
  *
  */
 

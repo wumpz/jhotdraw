@@ -1,5 +1,5 @@
 /*
- * @(#)CopyCommand.java 5.1
+ * @(#)CopyCommand.java 5.2
  *
  */
 

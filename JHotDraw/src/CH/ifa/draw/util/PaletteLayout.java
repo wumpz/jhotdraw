@@ -1,5 +1,5 @@
 /*
- * @(#)PaletteLayout.java 5.1
+ * @(#)PaletteLayout.java 5.2
  *
  */
 

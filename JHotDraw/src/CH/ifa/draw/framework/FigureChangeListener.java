@@ -1,5 +1,5 @@
 /*
- * @(#)FigureChangeListener.java 5.1
+ * @(#)FigureChangeListener.java 5.2
  *
  */
 

@@ -1,5 +1,5 @@
 /*
- * @(#)PaletteIcon.java 5.1
+ * @(#)PaletteIcon.java 5.2
  *
  */
 

@@ -1,5 +1,5 @@
 /*
- * @(#)DuplicateCommand.java 5.1
+ * @(#)DuplicateCommand.java 5.2
  *
  */
 

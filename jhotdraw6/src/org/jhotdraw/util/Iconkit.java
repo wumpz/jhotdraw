@@ -1,5 +1,5 @@
 /*
- * @(#)Iconkit.java 5.1
+ * @(#)Iconkit.java 5.2
  *
  */
 

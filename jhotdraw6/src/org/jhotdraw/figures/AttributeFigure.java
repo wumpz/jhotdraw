@@ -1,5 +1,5 @@
 /*
- * @(#)AttributeFigure.java 5.1
+ * @(#)AttributeFigure.java 5.2
  *
  */
 
@@ -84,7 +84,7 @@ public abstract class AttributeFigure extends AbstractFigure {
     /**
      * Gets the fill color of a figure. This is a convenience
      * method.
-     @see getAttribute
+     * @see #getAttribute
      */
     public Color getFillColor() {
         return (Color) getAttribute("FillColor");
@@ -93,7 +93,7 @@ public abstract class AttributeFigure extends AbstractFigure {
     /**
      * Gets the frame color of a figure. This is a convenience
      * method.
-     @see getAttribute
+     * @see #getAttribute
      */
     public Color getFrameColor() {
         return (Color) getAttribute("FrameColor");
@@ -114,7 +114,7 @@ public abstract class AttributeFigure extends AbstractFigure {
 
     /**
      * Gets a the default value for a named attribute
-     * @see getAttribute
+     * @see #getAttribute
      */
     public static Object getDefaultAttribute(String name) {
         if (fgDefaultAttributes == null)
@@ -170,4 +170,19 @@ public abstract class AttributeFigure extends AbstractFigure {
             fAttributes.read(dr);
         }
     }
+
+	private void writeObject(ObjectOutputStream o) throws IOException {
+		// Filter out Popup menu: cannot serialize any associated action-Listeners
+		// Work-around for Java-Bug: 4240860
+		Object associatedMenu = getAttribute(Figure.POPUP_MENU);
+		if (associatedMenu != null) {
+			setAttribute(Figure.POPUP_MENU, null);
+		}
+		
+		o.defaultWriteObject();
+		
+		if (associatedMenu != null) {
+			setAttribute(Figure.POPUP_MENU, associatedMenu);
+		}
+	}
 }

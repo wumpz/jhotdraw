@@ -1,5 +1,5 @@
 /*
- * @(#)DrawingView.java 5.1
+ * @(#)DrawingView.java 5.2
  *
  */
 
@@ -96,7 +96,7 @@ public interface DrawingView extends ImageObserver, DrawingChangeListener {
 
     /**
      * Sets the current display update strategy.
-     * @see UpdateStrategy
+     * @see Painter
      */
     public void setDisplayUpdate(Painter updateStrategy);
 
@@ -228,7 +228,7 @@ public interface DrawingView extends ImageObserver, DrawingChangeListener {
      * The layers are drawn in back to front order.
      */
     public void draw(Graphics g, FigureEnumeration fe);
-
+    
     /**
      * Draws the currently active handles.
      */

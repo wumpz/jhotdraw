@@ -1,5 +1,5 @@
 /*
- * @(#)ScribbleTool.java 5.1
+ * @(#)ScribbleTool.java 5.2
  *
  */
 

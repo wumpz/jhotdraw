@@ -1,5 +1,5 @@
 /*
- * @(#)NumberTextFigure.java 5.1
+ * @(#)NumberTextFigure.java 5.2
  *
  */
 
@@ -24,7 +24,7 @@ public  class NumberTextFigure extends TextFigure {
 
     /**
      * Gets the number of columns to be used by the text overlay.
-     * @see FloatingTextField
+     * @see CH.ifa.draw.util.FloatingTextField
      */
     public int overlayColumns() {
         return Math.max(4, getText().length());

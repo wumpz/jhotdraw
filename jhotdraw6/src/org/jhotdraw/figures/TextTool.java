@@ -1,5 +1,5 @@
 /*
- * @(#)TextTool.java 5.1
+ * @(#)TextTool.java 5.2
  *
  */
 
@@ -36,10 +36,9 @@ public class TextTool extends CreationTool {
      */
     public void mouseDown(MouseEvent e, int x, int y)
     {
-	    Figure pressedFigure;
 	    TextHolder textHolder = null;
 
-	    pressedFigure = drawing().findFigureInside(x, y);
+	    Figure pressedFigure = drawing().findFigureInside(x, y);
 	    if (pressedFigure instanceof TextHolder) {
 	        textHolder = (TextHolder) pressedFigure;
 	        if (!textHolder.acceptsTyping())
@@ -49,7 +48,7 @@ public class TextTool extends CreationTool {
 	        beginEdit(textHolder);
 	        return;
 	    }
-	    if (fTypingTarget != null) {
+	    if (getTypingTarget() != null) {
 	        editor().toolDone();
 	        endEdit();
 	    } else {
@@ -80,28 +79,41 @@ public class TextTool extends CreationTool {
         super.activate();
         view().clearSelection();
         // JDK1.1 TEXT_CURSOR has an incorrect hot spot
-        //view.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
+        //view().setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
     }
 
+	/**
+	 * Test whether the text tool is currently activated and is displaying
+	 * a overlay TextFigure for accepting input.
+	 *
+	 * @return true, if the text tool has a accepting target TextFigure for its input, false otherwise
+	 */
+	public boolean isActivated() {
+		return getTypingTarget() != null;
+	}
+	
     protected void beginEdit(TextHolder figure) {
         if (fTextField == null)
             fTextField = new FloatingTextField();
 
-	    if (figure != fTypingTarget && fTypingTarget != null)
+	    if (figure != getTypingTarget() && getTypingTarget() != null)
 	        endEdit();
 
         fTextField.createOverlay((Container)view(), figure.getFont());
 	    fTextField.setBounds(fieldBounds(figure), figure.getText());
-	    fTypingTarget = figure;
+	    setTypingTarget(figure);
+
+	    view().checkDamage();
     }
 
     protected void endEdit() {
-	    if (fTypingTarget != null) {
+	    if (getTypingTarget() != null) {
 	        if (fTextField.getText().length() > 0)
-	            fTypingTarget.setText(fTextField.getText());
-	        else
-	            drawing().remove((Figure)fTypingTarget);
-	        fTypingTarget = null;
+	            getTypingTarget().setText(fTextField.getText());
+	        else {
+	            drawing().remove((Figure)getTypingTarget());
+	        }
+	        setTypingTarget(null);
 	        fTextField.endOverlay();
 	        view().checkDamage();
 	    }
@@ -112,6 +124,14 @@ public class TextTool extends CreationTool {
     	int nChars = figure.overlayColumns();
         Dimension d = fTextField.getPreferredSize(nChars);
         return new Rectangle(box.x, box.y, d.width, d.height);
+    }
+    
+    protected void setTypingTarget(TextHolder newTypingTarget) {
+        fTypingTarget = newTypingTarget;
+    }
+    
+    protected TextHolder getTypingTarget() {
+        return fTypingTarget;
     }
 }
 

@@ -1,5 +1,5 @@
 /*
- * @(#)ChopEllipseConnector.java 5.1
+ * @(#)ChopEllipseConnector.java 5.2
  *
  */
 

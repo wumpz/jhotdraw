@@ -1,5 +1,5 @@
 /*
- * @(#)SimpleUpdateStrategy.java 5.1
+ * @(#)SimpleUpdateStrategy.java 5.2
  *
  */
 

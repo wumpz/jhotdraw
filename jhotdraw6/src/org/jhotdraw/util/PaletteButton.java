@@ -1,10 +1,11 @@
 /*
- * @(#)PaletteButton.java 5.1
+ * @(#)PaletteButton.java 5.2
  *
  */
 
 package CH.ifa.draw.util;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -18,7 +19,7 @@ import java.awt.event.*;
 */
 
 public abstract class PaletteButton
-                extends Canvas
+                extends JButton
                 implements MouseListener, MouseMotionListener {
 
     static final int NORMAL = 1;
@@ -41,11 +42,6 @@ public abstract class PaletteButton
         addMouseMotionListener(this);
     }
 
-    public abstract void paintBackground(Graphics g);
-    public abstract void paintNormal(Graphics g);
-    public abstract void paintPressed(Graphics g);
-    public abstract void paintSelected(Graphics g);
-
     public Object value() {
         return null;
     }
@@ -56,11 +52,13 @@ public abstract class PaletteButton
 
     public void reset() {
         fState = NORMAL;
+        setSelected(false);
         repaint();
     }
 
     public void select() {
         fState = SELECTED;
+        setSelected(true);
         repaint();
     }
 
@@ -90,7 +88,7 @@ public abstract class PaletteButton
     }
 
     public void mouseExited(MouseEvent e) {
-        if (fState == PRESSED) // JDK1.1 on Windows sometimes looses mouse released
+        if (fState == PRESSED) // JDK1.1 on MS-Windows sometimes looses mouse released
             mouseDragged(e);
         fListener.paletteUserOver(this, false);
     }
@@ -98,10 +96,17 @@ public abstract class PaletteButton
     public void mouseClicked(MouseEvent e) {}
     public void mouseEntered(MouseEvent e) {}
 
+//  Not necessary anymore in JFC due to the support of Icons in JButton
+/*
+    public abstract void paintBackground(Graphics g);
+    public abstract void paintNormal(Graphics g);
+    public abstract void paintPressed(Graphics g);
+    public abstract void paintSelected(Graphics g);
+
     public void update(Graphics g) {
         paint(g);
     }
-
+    
     public void paint(Graphics g) {
         paintBackground(g);
 
@@ -118,4 +123,5 @@ public abstract class PaletteButton
             break;
         }
     }
+*/
 }

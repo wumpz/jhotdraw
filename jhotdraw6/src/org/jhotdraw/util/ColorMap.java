@@ -1,5 +1,5 @@
 /*
- * @(#)ColorMap.java 5.1
+ * @(#)ColorMap.java 5.2
  *
  */
 

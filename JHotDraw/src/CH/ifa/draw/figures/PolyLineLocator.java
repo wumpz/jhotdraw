@@ -1,5 +1,5 @@
 /*
- * @(#)PolyLineLocator.java 5.1
+ * @(#)PolyLineLocator.java 5.2
  *
  */
 

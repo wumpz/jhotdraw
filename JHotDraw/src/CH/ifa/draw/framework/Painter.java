@@ -1,5 +1,5 @@
 /*
- * @(#)Painter.java 5.1
+ * @(#)Painter.java 5.2
  *
  */
 

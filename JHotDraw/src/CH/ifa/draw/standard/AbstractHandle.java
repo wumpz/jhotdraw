@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractHandle.java 5.1
+ * @(#)AbstractHandle.java 5.2
  *
  */
 

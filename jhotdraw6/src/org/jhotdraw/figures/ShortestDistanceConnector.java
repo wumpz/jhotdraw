@@ -1,5 +1,5 @@
 /*
- * @(#)ShortestDistanceConnector.java 5.1
+ * @(#)ShortestDistanceConnector.java 5.2
  *
  */
 

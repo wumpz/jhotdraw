@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractConnector.java 5.1
+ * @(#)AbstractConnector.java 5.2
  *
  */
 

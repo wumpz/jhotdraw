@@ -1,5 +1,5 @@
 /*
- * @(#)URLTool.java 5.1
+ * @(#)URLTool.java 5.2
  *
  */
 
@@ -16,7 +16,7 @@ import CH.ifa.draw.util.*;
  * A tool to attach URLs to figures.
  * The URLs are stored in the figure's "URL" attribute.
  * The URL text is entered with a FloatingTextField.
- * @see FloatingTextField
+ * @see CH.ifa.draw.util.FloatingTextField
  */
 public  class URLTool extends AbstractTool {
 

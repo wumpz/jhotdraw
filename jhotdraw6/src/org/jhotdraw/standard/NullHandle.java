@@ -1,5 +1,5 @@
 /*
- * @(#)NullHandle.java 5.1
+ * @(#)NullHandle.java 5.2
  *
  */
 

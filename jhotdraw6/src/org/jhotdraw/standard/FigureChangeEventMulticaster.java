@@ -1,5 +1,5 @@
 /*
- * @(#)FigureChangeEventMulticaster.java 5.1
+ * @(#)FigureChangeEventMulticaster.java 5.2
  *
  */
 

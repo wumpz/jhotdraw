@@ -1,5 +1,5 @@
 /*
- * @(#)GroupFigure.java 5.1
+ * @(#)GroupFigure.java 5.2
  *
  */
 

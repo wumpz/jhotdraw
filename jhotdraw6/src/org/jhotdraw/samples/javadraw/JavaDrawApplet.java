@@ -1,12 +1,12 @@
 /*
- * @(#)JavaDrawApplet.java 5.1
+ * @(#)JavaDrawApplet.java 5.2
  *
  */
 
 package CH.ifa.draw.samples.javadraw;
 
+import javax.swing.*;
 import java.applet.Applet;
-import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import java.io.*;
@@ -22,7 +22,7 @@ import CH.ifa.draw.contrib.*;
 
 public  class JavaDrawApplet extends DrawApplet {
 
-    transient private Button          fAnimationButton;
+    transient private JButton          fAnimationButton;
     transient private Animator        fAnimator;
 
     //-- applet life cycle --------------------------------------------
@@ -34,7 +34,7 @@ public  class JavaDrawApplet extends DrawApplet {
 
     //-- DrawApplet overrides -----------------------------------------
 
-    protected void createTools(Panel palette) {
+    protected void createTools(JPanel palette) {
         super.createTools(palette);
 
         Tool tool = new TextTool(view(), new TextFigure());
@@ -74,9 +74,9 @@ public  class JavaDrawApplet extends DrawApplet {
         palette.add(createToolButton(IMAGES+"BORDDEC", "Border Tool", tool));
     }
 
-    protected void createButtons(Panel panel) {
+    protected void createButtons(JPanel panel) {
         super.createButtons(panel);
-        fAnimationButton = new Button("Start Animation");
+        fAnimationButton = new JButton("Start Animation");
 		fAnimationButton.addActionListener(
 		    new ActionListener() {
 		        public void actionPerformed(ActionEvent event) {
@@ -97,7 +97,7 @@ public  class JavaDrawApplet extends DrawApplet {
         if (drawing() instanceof Animatable && fAnimator == null) {
             fAnimator = new Animator((Animatable)drawing(), view());
             fAnimator.start();
-            fAnimationButton.setLabel("End Animation");
+            fAnimationButton.setText("End Animation");
         }
     }
 
@@ -105,7 +105,7 @@ public  class JavaDrawApplet extends DrawApplet {
         if (fAnimator != null) {
             fAnimator.end();
             fAnimator = null;
-            fAnimationButton.setLabel("Start Animation");
+            fAnimationButton.setText("Start Animation");
         }
     }
 

@@ -1,5 +1,5 @@
 /*
- * @(#)PertFigure.java 5.1
+ * @(#)PertFigure.java 5.2
  *
  */
 

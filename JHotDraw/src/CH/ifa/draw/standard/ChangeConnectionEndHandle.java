@@ -1,5 +1,5 @@
 /*
- * @(#)ChangeConnectionEndHandle.java 5.1
+ * @(#)ChangeConnectionEndHandle.java 5.2
  *
  */
 

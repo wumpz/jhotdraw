@@ -1,5 +1,5 @@
 /*
- * @(#)ElbowConnection.java 5.1
+ * @(#)ElbowConnection.java 5.2
  *
  */
 

@@ -1,5 +1,5 @@
 /*
- * @(#)DrawingChangeEvent.java 5.1
+ * @(#)DrawingChangeEvent.java 5.2
  *
  */
 

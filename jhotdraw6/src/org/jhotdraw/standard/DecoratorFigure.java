@@ -1,5 +1,5 @@
 /*
- * @(#)DecoratorFigure.java 5.1
+ * @(#)DecoratorFigure.java 5.2
  *
  */
 
@@ -41,15 +41,25 @@ public abstract class DecoratorFigure
     private static final long serialVersionUID = 8993011151564573288L;
     private int decoratorFigureSerializedDataVersion = 1;
 
-    public DecoratorFigure() { }
+    public DecoratorFigure() {
+        initialize();
+    }
 
     /**
      * Constructs a DecoratorFigure and decorates the passed in figure.
      */
     public DecoratorFigure(Figure figure) {
+    	initialize();
         decorate(figure);
     }
 
+    /**
+     * Performs additional initialization code before the figure is decorated.
+     * Subclasses may override this method.
+     */
+    protected void initialize() {
+    }
+	
     /**
      * Forwards the connection insets to its contained figure..
      */

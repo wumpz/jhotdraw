@@ -1,5 +1,5 @@
 /*
- * @(#)RoundRectangleFigure.java 5.1
+ * @(#)RoundRectangleFigure.java 5.2
  *
  */
 
@@ -15,9 +15,8 @@ import CH.ifa.draw.util.*;
 
 /**
  * A round rectangle figure.
- * @see RadiusHandle
  */
-public  class RoundRectangleFigure extends AttributeFigure {
+public class RoundRectangleFigure extends AttributeFigure {
 
     private Rectangle   fDisplayBox;
     private int         fArcWidth;

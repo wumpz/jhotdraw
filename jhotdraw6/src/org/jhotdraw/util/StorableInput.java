@@ -1,5 +1,5 @@
 /*
- * @(#)StorableInput.java 5.1
+ * @(#)StorableInput.java 5.2
  *
  */
 
@@ -29,6 +29,8 @@ public  class StorableInput
     public StorableInput(InputStream stream) {
         Reader r = new BufferedReader(new InputStreamReader(stream));
         fTokenizer = new StreamTokenizer(r);
+        // include inner class separate in class names
+        fTokenizer.wordChars('$', '$');
         fMap = new Vector();
     }
 
@@ -75,6 +77,8 @@ public  class StorableInput
             return (int) fTokenizer.nval;
 
         String msg = "Integer expected in line: " + fTokenizer.lineno();
+        IOException exception =  new IOException(msg);
+        exception.printStackTrace();
         throw new IOException(msg);
     }
 

@@ -1,10 +1,11 @@
 /*
- * @(#)DrawApplet.java 5.1
+ * @(#)DrawApplet.java 5.2
  *
  */
 
 package CH.ifa.draw.applet;
 
+import javax.swing.*;
 import java.applet.Applet;
 import java.awt.*;
 import java.awt.event.*;
@@ -27,7 +28,7 @@ import CH.ifa.draw.util.*;
  */
 
 public class DrawApplet
-        extends Applet
+        extends JApplet
 	    implements DrawingEditor, PaletteListener {
 
     transient private Drawing         fDrawing;
@@ -38,13 +39,13 @@ public class DrawApplet
     transient private ToolButton      fSelectedToolButton;
 
     transient private boolean         fSimpleUpdate;
-    transient private Button          fUpdateButton;
+    transient private JButton          fUpdateButton;
 
-    transient private Choice          fFrameColor;
-    transient private Choice          fFillColor;
-    //transient private Choice          fTextColor;
-    transient private Choice          fArrowChoice;
-    transient private Choice          fFontChoice;
+    transient private JComboBox          fFrameColor;
+    transient private JComboBox          fFillColor;
+    transient private JComboBox          fTextColor;
+    transient private JComboBox          fArrowChoice;
+    transient private JComboBox          fFontChoice;
 
     transient private Thread          fSleeper;
     private Iconkit                   fIconkit;
@@ -60,25 +61,26 @@ public class DrawApplet
     public void init() {
         fIconkit = new Iconkit(this);
 
-		setLayout(new BorderLayout());
+		getContentPane().setLayout(new BorderLayout());
 
         fView = createDrawingView();
-
-        Panel attributes = createAttributesPanel();
+        
+        JPanel attributes = createAttributesPanel();
         createAttributeChoices(attributes);
-        add("North", attributes);
+        getContentPane().add("North", attributes);
 
-        Panel toolPanel = createToolPalette();
+        JPanel toolPanel = createToolPalette();
         createTools(toolPanel);
-        add("West", toolPanel);
+        getContentPane().add("West", toolPanel);
 
-        add("Center", fView);
-        Panel buttonPalette = createButtonPanel();
+        getContentPane().add("Center", fView);
+        JPanel buttonPalette = createButtonPanel();
         createButtons(buttonPalette);
-        add("South", buttonPalette);
+        getContentPane().add("South", buttonPalette);
 
         initDrawing();
-        setBufferedDisplayUpdate();
+        // JFC should have its own internal double buffering...
+        //setBufferedDisplayUpdate();
         setupAttributes();
     }
 
@@ -100,8 +102,8 @@ public class DrawApplet
     /**
      * Creates the attributes panel.
      */
-    protected Panel createAttributesPanel() {
-        Panel panel = new Panel();
+    protected JPanel createAttributesPanel() {
+        JPanel panel = new JPanel();
         panel.setLayout(new PaletteLayout(2, new Point(2,2), false));
         return panel;
     }
@@ -110,20 +112,20 @@ public class DrawApplet
      * Creates the attribute choices. Override to add additional
      * choices.
      */
-    protected void createAttributeChoices(Panel panel) {
-        panel.add(new Label("Fill"));
+    protected void createAttributeChoices(JPanel panel) {
+        panel.add(new JLabel("Fill"));
         fFillColor = createColorChoice("FillColor");
         panel.add(fFillColor);
 
-        //panel.add(new Label("Text"));
-        //fTextColor = createColorChoice("TextColor");
-        //panel.add(fTextColor);
+        panel.add(new JLabel("Text"));
+        fTextColor = createColorChoice("TextColor");
+        panel.add(fTextColor);
 
-        panel.add(new Label("Pen"));
+        panel.add(new JLabel("Pen"));
         fFrameColor = createColorChoice("FrameColor");
         panel.add(fFrameColor);
 
-        panel.add(new Label("Arrow"));
+        panel.add(new JLabel("Arrow"));
         CommandChoice choice = new CommandChoice();
         fArrowChoice = choice;
         choice.addItem(new ChangeAttributeCommand("none",     "ArrowMode", new Integer(PolyLineFigure.ARROW_TIP_NONE),  fView));
@@ -132,7 +134,7 @@ public class DrawApplet
         choice.addItem(new ChangeAttributeCommand("at Both",  "ArrowMode", new Integer(PolyLineFigure.ARROW_TIP_BOTH),  fView));
         panel.add(fArrowChoice);
 
-        panel.add(new Label("Font"));
+        panel.add(new JLabel("Font"));
         fFontChoice = createFontChoice();
         panel.add(fFontChoice);
     }
@@ -140,7 +142,7 @@ public class DrawApplet
     /**
      * Creates the color choice for the given attribute.
      */
-    protected Choice createColorChoice(String attribute) {
+    protected JComboBox createColorChoice(String attribute) {
         CommandChoice choice = new CommandChoice();
         for (int i=0; i<ColorMap.size(); i++)
             choice.addItem(
@@ -158,7 +160,7 @@ public class DrawApplet
      * Creates the font choice. The choice is filled with
      * all the fonts supported by the toolkit.
      */
-    protected Choice createFontChoice() {
+    protected JComboBox createFontChoice() {
         CommandChoice choice = new CommandChoice();
         String fonts[] = Toolkit.getDefaultToolkit().getFontList();
         for (int i = 0; i < fonts.length; i++)
@@ -169,8 +171,8 @@ public class DrawApplet
     /**
      * Creates the buttons panel.
      */
-    protected Panel createButtonPanel() {
-        Panel panel = new Panel();
+    protected JPanel createButtonPanel() {
+        JPanel panel = new JPanel();
         panel.setLayout(new PaletteLayout(2, new Point(2,2), false));
         return panel;
     }
@@ -180,10 +182,10 @@ public class DrawApplet
      * add additional buttons.
      * @param panel the buttons panel.
      */
-    protected void createButtons(Panel panel) {
+    protected void createButtons(JPanel panel) {
         panel.add(new Filler(24,20));
 
-        Choice drawingChoice = new Choice();
+        JComboBox drawingChoice = new JComboBox();
         drawingChoice.addItem(fgUntitled);
 
 	    String param = getParameter("DRAWINGS");
@@ -196,7 +198,7 @@ public class DrawApplet
         if (drawingChoice.getItemCount() > 1)
             panel.add(drawingChoice);
         else
-            panel.add(new Label(fgUntitled));
+            panel.add(new JLabel(fgUntitled));
 
 		drawingChoice.addItemListener(
 		    new ItemListener() {
@@ -210,7 +212,7 @@ public class DrawApplet
 
         panel.add(new Filler(6,20));
 
-        Button button;
+        JButton button;
         button = new CommandButton(new DeleteCommand("Delete", fView));
         panel.add(button);
 
@@ -223,7 +225,7 @@ public class DrawApplet
         button = new CommandButton(new UngroupCommand("Ungroup", fView));
         panel.add(button);
 
-        button = new Button("Help");
+        button = new JButton("Help");
 		button.addActionListener(
 		    new ActionListener() {
 		        public void actionPerformed(ActionEvent event) {
@@ -233,7 +235,7 @@ public class DrawApplet
 		);
         panel.add(button);
 
-        fUpdateButton = new Button("Simple Update");
+        fUpdateButton = new JButton("Simple Update");
 		fUpdateButton.addActionListener(
 		    new ActionListener() {
 		        public void actionPerformed(ActionEvent event) {
@@ -251,8 +253,8 @@ public class DrawApplet
     /**
      * Creates the tools palette.
      */
-    protected Panel createToolPalette() {
-        Panel palette = new Panel();
+    protected JPanel createToolPalette() {
+        JPanel palette = new JPanel();
         palette.setLayout(new PaletteLayout(2,new Point(2,2)));
         return palette;
     }
@@ -263,7 +265,7 @@ public class DrawApplet
      * Call the inherited method to include the selection tool.
      * @param palette the palette where the tools are added.
      */
-    protected void createTools(Panel palette) {
+    protected void createTools(JPanel palette) {
         Tool tool = createSelectionTool();
 
         fDefaultToolButton = createToolButton(IMAGES+"SEL", "Selection Tool", tool);
@@ -472,24 +474,24 @@ public class DrawApplet
             fontName   = (String) f.getAttribute("FontName");
         }
 
-        fFrameColor.select(ColorMap.colorIndex(frameColor));
-        fFillColor.select(ColorMap.colorIndex(fillColor));
+        fFrameColor.setSelectedIndex(ColorMap.colorIndex(frameColor));
+        fFillColor.setSelectedIndex(ColorMap.colorIndex(fillColor));
         //fTextColor.select(ColorMap.colorIndex(textColor));
         if (arrowMode != null)
-            fArrowChoice.select(arrowMode.intValue());
+            fArrowChoice.setSelectedIndex(arrowMode.intValue());
         if (fontName != null)
-            fFontChoice.select(fontName);
+            fFontChoice.setSelectedItem(fontName);
     }
 
     protected void setSimpleDisplayUpdate() {
         fView.setDisplayUpdate(new SimpleUpdateStrategy());
-        fUpdateButton.setLabel("Simple Update");
+        fUpdateButton.setText("Simple Update");
         fSimpleUpdate = true;
     }
 
     protected void setBufferedDisplayUpdate() {
         fView.setDisplayUpdate(new BufferedUpdateStrategy());
-        fUpdateButton.setLabel("Buffered Update");
+        fUpdateButton.setText("Buffered Update");
         fSimpleUpdate = false;
     }
 
@@ -526,9 +528,9 @@ public class DrawApplet
 
 class SleeperThread extends Thread {
 
-    Applet  fApplet;
+    JApplet  fApplet;
 
-    SleeperThread(Applet applet) {
+    SleeperThread(JApplet applet) {
         fApplet = applet;
     }
 

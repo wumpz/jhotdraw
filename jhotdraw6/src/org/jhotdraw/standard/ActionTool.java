@@ -1,5 +1,5 @@
 /*
- * @(#)ActionTool.java 5.1
+ * @(#)ActionTool.java 5.2
  *
  */
 
@@ -22,7 +22,7 @@ public abstract class ActionTool extends AbstractTool {
 
     /**
      * Add the touched figure to the selection an invoke action
-     * @see #action()
+     * @see #action
      */
     public void mouseDown(MouseEvent e, int x, int y) {
         Figure target = drawing().findFigure(x, y);

@@ -1,5 +1,5 @@
 /*
- * @(#)DeleteCommand.java 5.1
+ * @(#)DeleteCommand.java 5.2
  *
  */
 

@@ -1,11 +1,11 @@
 /*
- * @(#)CommandButton.java 5.1
+ * @(#)CommandButton.java 5.2
  *
  */
 
 package CH.ifa.draw.util;
 
-import java.awt.*;
+import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.*;
@@ -17,7 +17,7 @@ import java.util.*;
  */
 
 public  class CommandButton
-        extends Button implements ActionListener {
+        extends JButton implements ActionListener {
 
     private Command   fCommand;
 

@@ -1,5 +1,5 @@
 /*
- * @(#)InsertImageCommand.java 5.1
+ * @(#)InsertImageCommand.java 5.2
  *
  */
 

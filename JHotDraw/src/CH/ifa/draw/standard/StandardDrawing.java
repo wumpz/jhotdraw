@@ -1,5 +1,5 @@
 /*
- * @(#)StandardDrawing.java 5.1
+ * @(#)StandardDrawing.java 5.2
  *
  */
 
@@ -53,6 +53,9 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
      * Adds a listener for this drawing.
      */
     public void addDrawingChangeListener(DrawingChangeListener listener) {
+    	if (fListeners == null) {
+    		fListeners = new Vector(2);
+    	}
         fListeners.addElement(listener);
     }
 

@@ -1,5 +1,5 @@
 /*
- * @(#)ArrowTip.java 5.1
+ * @(#)ArrowTip.java 5.2
  *
  */
 
@@ -16,7 +16,7 @@ import CH.ifa.draw.util.*;
  * An arrow tip line decoration.
  * @see PolyLineFigure
  */
-public  class ArrowTip implements LineDecoration {
+public  class ArrowTip extends AbstractLineDecoration {
 
     private double  fAngle;         // pointiness of arrow
     private double  fOuterRadius;
@@ -29,35 +29,23 @@ public  class ArrowTip implements LineDecoration {
     private int arrowTipSerializedDataVersion = 1;
 
 	public ArrowTip() {
-	    fAngle = 0.40;//0.35;
-	    fOuterRadius = 8;//15;
-	    fInnerRadius = 8;//12;
+	    this(0.40, 8, 8);  // this(0.35, 15, 12);
 	}
 
    /**
     * Constructs an arrow tip with the given angle and radius.
     */
 	public ArrowTip(double angle, double outerRadius, double innerRadius) {
-	    fAngle = angle;
-	    fOuterRadius = outerRadius;
-	    fInnerRadius = innerRadius;
+	    setAngle(angle);
+	    setOuterRadius(outerRadius);
+	    setInnerRadius(innerRadius);
 	}
-
-   /**
-    * Draws the arrow tip in the direction specified by the given two
-    * points..
-    */
-    public void draw(Graphics g, int x1, int y1, int x2, int y2) {
-        // TBD: reuse the Polygon object
-        Polygon p = outline(x1, y1, x2, y2);
-        g.fillPolygon(p.xpoints, p.ypoints, p.npoints);
-    }
-
+	
    /**
     * Calculates the outline of an arrow tip.
     */
     public Polygon outline(int x1, int y1, int x2, int y2) {
-        double dir = Math.PI/2 - Math.atan2(x2-x1, y1-y2);
+        double dir = Math.PI/2 - Math.atan2(x2-x1, y2-y1);
         return outline(x1, y1, dir);
     }
 
@@ -65,9 +53,9 @@ public  class ArrowTip implements LineDecoration {
         Polygon shape = new Polygon();
 
         shape.addPoint(x, y);
-        addPointRelative(shape, x, y, fOuterRadius, direction - fAngle);
-        addPointRelative(shape, x, y, fInnerRadius, direction);
-        addPointRelative(shape, x, y, fOuterRadius, direction + fAngle);
+        addPointRelative(shape, x, y, getOuterRadius(), direction - getAngle());
+        addPointRelative(shape, x, y, getInnerRadius(), direction);
+        addPointRelative(shape, x, y, getOuterRadius(), direction + getAngle());
         shape.addPoint(x,y); // Closing the polygon (TEG 97-04-23)
         return shape;
     }
@@ -75,19 +63,74 @@ public  class ArrowTip implements LineDecoration {
     private void addPointRelative(Polygon shape, int x, int y, double radius, double angle) {
         shape.addPoint(
             x + (int) (radius * Math.cos(angle)),
-            y - (int) (radius * Math.sin(angle)));
+            y + (int) (radius * Math.sin(angle)));
     }
 
     /**
      * Stores the arrow tip to a StorableOutput.
      */
     public void write(StorableOutput dw) {
+        dw.writeDouble(getAngle());
+        dw.writeDouble(getOuterRadius());
+        dw.writeDouble(getInnerRadius());
+        super.write(dw);
     }
 
     /**
      * Reads the arrow tip from a StorableInput.
      */
     public void read(StorableInput dr) throws IOException {
+        setAngle(dr.readDouble());
+        setOuterRadius(dr.readDouble());
+        setInnerRadius(dr.readDouble());
+		super.read(dr);
     }
 
+	/**
+	 * Sets point angle of arrow. A smaller angle leads to a pointier arrow.
+	 * The angle is measured between the arrow line and one of the points
+	 * at the side of the arrow. Thus, the total angle at the arrow tip
+	 * is the double of the angle specified.
+ 	 */
+    protected void setAngle(double newAngle) {
+        fAngle = newAngle;
+    }
+    
+	/**
+	 * Returns point angle of arrow. A smaller angle leads to a pointier arrow.
+	 * The angle is measured between the arrow line and one of the points
+	 * at the side of the arrow. Thus, the total angle at the arrow tip
+	 * is the double of the angle specified.
+ 	 */
+    protected double getAngle() {
+    	return fAngle;
+    }
+
+	/**
+	 * Sets the inner radius
+	 */
+    protected void setInnerRadius(double newInnerRadius) {
+        fInnerRadius = newInnerRadius;
+    }
+
+	/**
+	 * Returns the inner radius
+	 */        
+    protected double getInnerRadius() {
+    	return fInnerRadius;
+    }
+
+	/**
+	 * Sets the outer radius
+	 */
+    protected void setOuterRadius(double newOuterRadius) {
+        fOuterRadius = newOuterRadius;
+    }
+
+	/**
+	 * Returns the outer radius
+	 */
+    protected double getOuterRadius() {
+    	return fOuterRadius;
+    }
 }

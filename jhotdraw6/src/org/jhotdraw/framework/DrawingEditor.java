@@ -1,5 +1,5 @@
 /*
- * @(#)DrawingEditor.java 5.1
+ * @(#)DrawingEditor.java 5.2
  *
  */
 

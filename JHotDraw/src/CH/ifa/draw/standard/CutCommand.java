@@ -1,12 +1,10 @@
 /*
- * @(#)CutCommand.java 5.1
+ * @(#)CutCommand.java 5.2
  *
  */
 
 package CH.ifa.draw.standard;
 
-import java.util.*;
-import java.awt.*;
 import CH.ifa.draw.util.*;
 import CH.ifa.draw.framework.*;
 

@@ -1,5 +1,5 @@
 /*
- * @(#)AlignCommand.java 5.1
+ * @(#)AlignCommand.java 5.2
  *
  */
 

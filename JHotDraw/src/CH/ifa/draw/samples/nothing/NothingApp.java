@@ -1,10 +1,11 @@
 /*
- * @(#)NothingApp.java 5.1
+ * @(#)NothingApp.java 5.2
  *
  */
 
 package CH.ifa.draw.samples.nothing;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import java.io.*;
@@ -21,7 +22,7 @@ public  class NothingApp extends DrawApplication {
         super("Nothing");
     }
 
-    protected void createTools(Panel palette) {
+    protected void createTools(JToolBar palette) {
         super.createTools(palette);
 
         Tool tool = new TextTool(view(), new TextFigure());

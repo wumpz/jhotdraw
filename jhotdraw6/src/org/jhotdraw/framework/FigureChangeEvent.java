@@ -1,5 +1,5 @@
 /*
- * @(#)FigureChangeEvent.java 5.1
+ * @(#)FigureChangeEvent.java 5.2
  *
  */
 

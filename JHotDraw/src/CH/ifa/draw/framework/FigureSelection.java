@@ -1,5 +1,5 @@
 /*
- * @(#)FigureSelection.java 5.1
+ * @(#)FigureSelection.java 5.2
  *
  */
 
@@ -26,7 +26,7 @@ public class FigureSelection extends Object {
     public final static String TYPE = "CH.ifa.draw.Figures";
 
     /**
-     * Constructes the Figure selection for the vecotor of figures.
+     * Constructes the Figure selection for the vector of figures.
      */
     public FigureSelection(Vector figures) {
         // a FigureSelection is represented as a flattened ByteStream

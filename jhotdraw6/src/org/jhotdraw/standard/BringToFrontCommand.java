@@ -1,5 +1,5 @@
 /*
- * @(#)BringToFrontCommand.java 5.1
+ * @(#)BringToFrontCommand.java 5.2
  *
  */
 

@@ -1,10 +1,11 @@
 /*
- * @(#)FloatingTextField.java 5.1
+ * @(#)FloatingTextField.java 5.2
  *
  */
 
 package CH.ifa.draw.util;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -14,7 +15,7 @@ import java.awt.event.*;
  * In a first step the overlay is created and in a
  * second step it can be positioned.
  *
- * @see TextFigure
+ * @see CH.ifa.draw.figures.TextFigure
  */
 public  class FloatingTextField extends Object {
 
@@ -41,7 +42,6 @@ public  class FloatingTextField extends Object {
         if (font != null)
             fEditWidget.setFont(font);
         fContainer = container;
-
     }
 
     /**
@@ -80,7 +80,7 @@ public  class FloatingTextField extends Object {
      * Gets the preferred size of the overlay.
      */
     public Dimension getPreferredSize(int cols) {
-        return fEditWidget.getPreferredSize(cols);
+        return fEditWidget.getPreferredSize();
     }
 
     /**

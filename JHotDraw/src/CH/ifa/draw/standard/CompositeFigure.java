@@ -1,5 +1,5 @@
 /*
- * @(#)CompositeFigure.java 5.1
+ * @(#)CompositeFigure.java 5.2
  *
  */
 
@@ -41,16 +41,17 @@ public abstract class CompositeFigure
     private static final long serialVersionUID = 7408153435700021866L;
     private int compositeFigureSerializedDataVersion = 1;
     private QuadTree  _theQuadTree;
-    protected int _nLowestZ = 0;
-    protected int _nHighestZ = 0;
-
+    protected int _nLowestZ;
+    protected int _nHighestZ;
 
     protected CompositeFigure() {
-      fFigures = new Vector();
+        fFigures = new Vector();
+        _nLowestZ = 0;
+        _nHighestZ = 0;
     }
 
     /**
-     * Adds a figure to the list of figures. Initializes
+     * Adds a figure to the list of figures. Initializes the
      * the figure's container.
      */
     public Figure add(Figure figure) {
@@ -92,8 +93,9 @@ public abstract class CompositeFigure
      */
     public void removeAll(Vector figures) {
         Enumeration k = figures.elements();
-        while (k.hasMoreElements())
+        while (k.hasMoreElements()) {
             remove((Figure) k.nextElement());
+        }
     }
 
     /**
@@ -107,9 +109,8 @@ public abstract class CompositeFigure
             figure.removeFromContainer(this);
         }
         fFigures.removeAllElements();
-        if (_theQuadTree != null) {
-          _theQuadTree.clear();
-        }
+        
+        _clearQuadTree();
         _nLowestZ = 0;
         _nHighestZ = 0;
     }
@@ -128,7 +129,7 @@ public abstract class CompositeFigure
     /**
      * Removes a vector of figures from the figure's list
      * without releasing the figures.
-     * @see orphan
+     * @see #orphan
      */
     public void orphanAll(Vector newFigures) {
         Enumeration k = newFigures.elements();
@@ -246,8 +247,6 @@ public abstract class CompositeFigure
       return figures();
 
     }
-
-
 
     /**
      * Gets number of child figures.
@@ -388,7 +387,7 @@ public abstract class CompositeFigure
      * Moves all the given figures by x and y. Doesn't announce
      * any changes. Subclassers override
      * basicMoveBy. Clients usually call moveBy.
-     * @see moveBy
+     * @see #moveBy
      */
     protected void basicMoveBy(int x, int y) {
         FigureEnumeration k = figures();
@@ -477,17 +476,6 @@ public abstract class CompositeFigure
         }
     }
 
-
-    /**
-     * Invalidates the figure. This method informs the listeners
-     * that the figure's current display box is invalid and should be
-     * refreshed.
-     */
-    public void invalidate() {
-      super.invalidate();
-    }
-
-
     /**
      * Used to optimize rendering.  Rendering of many objects may
      * be slow until this method is called.  The view rectangle
@@ -500,7 +488,6 @@ public abstract class CompositeFigure
      * suffer.
      */
     public void init(Rectangle viewRectangle) {
-
       _theQuadTree = new QuadTree(new Bounds(viewRectangle).asRectangle2D());
 
       for(Enumeration e=fFigures.elements(); e.hasMoreElements(); ) {
@@ -510,25 +497,23 @@ public abstract class CompositeFigure
 
     }
 
-
-
     private void _addToQuadTree(Figure f) {
-
       if (_theQuadTree != null) {
         _theQuadTree.add(f, new Bounds(f.displayBox()).asRectangle2D());
       }
 
     }
 
-
     private void _removeFromQuadTree(Figure f) {
-
       if (_theQuadTree != null) {
         _theQuadTree.remove(f);
       }
 
     }
 
-
-
+    private void _clearQuadTree() {
+        if (_theQuadTree != null) {
+          _theQuadTree.clear();
+        }
+    }
 }

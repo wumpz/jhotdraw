@@ -1,12 +1,13 @@
 /*
- * @(#)PertApplet.java 5.1
+ * @(#)PertApplet.java 5.2
  *
  */
 
 package CH.ifa.draw.samples.pert;
 
+import javax.swing.*;
 import java.applet.Applet;
-import java.awt.*;
+//import java.awt.*;
 import java.util.*;
 import java.io.*;
 import java.net.*;
@@ -20,7 +21,7 @@ public  class PertApplet extends DrawApplet {
 
     private final static String PERTIMAGES = "/CH/ifa/draw/samples/pert/images/";
 
-    protected void createTools(Panel palette) {
+    protected void createTools(JPanel palette) {
         super.createTools(palette);
 
         Tool tool;

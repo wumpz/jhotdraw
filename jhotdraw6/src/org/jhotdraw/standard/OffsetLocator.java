@@ -1,5 +1,5 @@
 /*
- * @(#)OffsetLocator.java 5.1
+ * @(#)OffsetLocator.java 5.2
  *
  */
 

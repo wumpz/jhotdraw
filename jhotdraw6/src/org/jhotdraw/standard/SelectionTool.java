@@ -1,5 +1,5 @@
 /*
- * @(#)SelectionTool.java 5.1
+ * @(#)SelectionTool.java 5.2
  *
  */
 
@@ -38,7 +38,7 @@ public class SelectionTool extends AbstractTool {
      */
     public void mouseDown(MouseEvent e, int x, int y)
     {
-        // on Windows NT: AWT generates additional mouse down events
+        // on MS-Windows NT: AWT generates additional mouse down events
         // when the left button is down && right button is clicked.
         // To avoid dead locks we ignore such events
         if (fChild != null)

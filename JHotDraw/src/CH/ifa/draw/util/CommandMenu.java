@@ -1,10 +1,11 @@
 /*
- * @(#)CommandMenu.java 5.1
+ * @(#)CommandMenu.java 5.2
  *
  */
 
 package CH.ifa.draw.util;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 
@@ -19,7 +20,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public  class CommandMenu
-        extends Menu implements ActionListener {
+        extends JMenu implements ActionListener {
 
     private Vector   fCommands;
 
@@ -33,7 +34,7 @@ public  class CommandMenu
      * the command's name.
      */
     public synchronized void add(Command command) {
-        MenuItem m = new MenuItem(command.name());
+        JMenuItem m = new JMenuItem(command.name());
         m.addActionListener(this);
         add(m);
         fCommands.addElement(command);
@@ -44,7 +45,7 @@ public  class CommandMenu
      * the command's name.
      */
     public synchronized void add(Command command, MenuShortcut shortcut) {
-        MenuItem m = new MenuItem(command.name(), shortcut);
+        JMenuItem m = new JMenuItem(command.name(), shortcut.getKey());
         m.setName(command.name());
         m.addActionListener(this);
         add(m);
@@ -64,7 +65,7 @@ public  class CommandMenu
      */
     public synchronized void enable(String name, boolean state) {
         for (int i = 0; i < getItemCount(); i++) {
-            MenuItem item = getItem(i);
+            JMenuItem item = getItem(i);
             if (name.equals(item.getLabel())) {
                 item.setEnabled(state);
                 return;
@@ -74,14 +75,13 @@ public  class CommandMenu
 
     public synchronized void checkEnabled() {
         int j = 0;
-        for (int i = 0; i < getItemCount(); i++) {
-            MenuItem item = getItem(i);
+        for (int i = 0; i < getMenuComponentCount(); i++) {
             // ignore separators
             // a separator has a hyphen as its label
-            if (item.getLabel().equals("-"))
+            if (getMenuComponent(i) instanceof JSeparator)
                 continue;
             Command cmd = (Command)fCommands.elementAt(j);
-            item.setEnabled(cmd.isExecutable());
+            getMenuComponent(i).setEnabled(cmd.isExecutable());
             j++;
         }
     }
@@ -93,10 +93,10 @@ public  class CommandMenu
         int j = 0;
         Object source = e.getSource();
         for (int i = 0; i < getItemCount(); i++) {
-            MenuItem item = getItem(i);
+            JMenuItem item = getItem(i);
             // ignore separators
             // a separator has a hyphen as its label
-            if (item.getLabel().equals("-"))
+            if (getMenuComponent(i) instanceof JSeparator)
                 continue;
             if (source == item) {
                 Command cmd = (Command)fCommands.elementAt(j);

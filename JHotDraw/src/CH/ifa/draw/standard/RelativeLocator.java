@@ -1,5 +1,5 @@
 /*
- * @(#)RelativeLocator.java 5.1
+ * @(#)RelativeLocator.java 5.2
  *
  */
 

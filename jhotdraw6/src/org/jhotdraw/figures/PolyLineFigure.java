@@ -1,5 +1,5 @@
 /*
- * @(#)PolyLineFigure.java 5.1
+ * @(#)PolyLineFigure.java 5.2
  *
  */
 
@@ -160,6 +160,13 @@ public  class PolyLineFigure extends AbstractFigure {
         fStartDecoration = l;
     }
 
+	/**
+	 * Returns the start decoration.
+	 */
+	public LineDecoration getStartDecoration() {
+		return fStartDecoration;
+	}
+	
     /**
      * Sets the end decoration.
      */
@@ -167,17 +174,32 @@ public  class PolyLineFigure extends AbstractFigure {
         fEndDecoration = l;
     }
 
+	/**
+	 * Returns the end decoration.
+	 */
+	public LineDecoration getEndDecoration() {
+		return fEndDecoration;
+	}
+	
     public void draw(Graphics g) {
         g.setColor(getFrameColor());
         Point p1, p2;
         for (int i = 0; i < fPoints.size()-1; i++) {
             p1 = (Point) fPoints.elementAt(i);
             p2 = (Point) fPoints.elementAt(i+1);
-            g.drawLine(p1.x, p1.y, p2.x, p2.y);
+			drawLine(g, p1.x, p1.y, p2.x, p2.y);
         }
         decorate(g);
     }
 
+	/** 
+	 * Can be overriden in subclasses to draw different types of lines
+	 * (e.g. dotted lines)
+	 */
+	protected void drawLine(Graphics g, int x1, int y1, int x2, int y2) {
+        g.drawLine(x1, y1, x2, y2);
+    }
+    
     public boolean containsPoint(int x, int y) {
         Rectangle bounds = displayBox();
         bounds.grow(4,4);
@@ -211,15 +233,15 @@ public  class PolyLineFigure extends AbstractFigure {
     }
 
     private void decorate(Graphics g) {
-        if (fStartDecoration != null) {
+        if (getStartDecoration() != null) {
             Point p1 = (Point)fPoints.elementAt(0);
             Point p2 = (Point)fPoints.elementAt(1);
-            fStartDecoration.draw(g, p1.x, p1.y, p2.x, p2.y);
+            getStartDecoration().draw(g, p1.x, p1.y, p2.x, p2.y);
         }
-        if (fEndDecoration != null) {
+        if (getEndDecoration() != null) {
             Point p3 = (Point)fPoints.elementAt(fPoints.size()-2);
             Point p4 = (Point)fPoints.elementAt(fPoints.size()-1);
-            fEndDecoration.draw(g, p4.x, p4.y, p3.x, p3.y);
+            getEndDecoration().draw(g, p4.x, p4.y, p3.x, p3.y);
         }
     }
 
@@ -234,9 +256,9 @@ public  class PolyLineFigure extends AbstractFigure {
         }
         else if (name.equals("ArrowMode")) {
             int value = 0;
-            if (fStartDecoration != null)
+            if (getStartDecoration() != null)
                 value |= ARROW_TIP_START;
-            if (fEndDecoration != null)
+            if (getEndDecoration() != null)
                 value |= ARROW_TIP_END;
             return new Integer(value);
         }
@@ -258,13 +280,13 @@ public  class PolyLineFigure extends AbstractFigure {
             if (intObj != null) {
                 int decoration = intObj.intValue();
                 if ((decoration & ARROW_TIP_START) != 0)
-                    fStartDecoration = new ArrowTip();
+                    setStartDecoration(new ArrowTip());
                 else
-                    fStartDecoration = null;
+                    setStartDecoration(null);
                 if ((decoration & ARROW_TIP_END) != 0)
-                    fEndDecoration = new ArrowTip();
+                    setEndDecoration(new ArrowTip());
                 else
-                    fEndDecoration = null;
+                    setEndDecoration(null);
             }
             changed();
         }
@@ -295,8 +317,8 @@ public  class PolyLineFigure extends AbstractFigure {
             int y = dr.readInt();
             fPoints.addElement(new Point(x,y));
         }
-        fStartDecoration = (LineDecoration)dr.readStorable();
-        fEndDecoration = (LineDecoration)dr.readStorable();
+        setStartDecoration((LineDecoration)dr.readStorable());
+        setEndDecoration((LineDecoration)dr.readStorable());
         fFrameColor = dr.readColor();
     }
 

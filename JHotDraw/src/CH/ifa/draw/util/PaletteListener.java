@@ -1,5 +1,5 @@
 /*
- * @(#)PaletteListener.java 5.1
+ * @(#)PaletteListener.java 5.2
  *
  */
 

@@ -1,5 +1,5 @@
 /*
- * @(#)StorableOutput.java 5.1
+ * @(#)StorableOutput.java 5.2
  *
  */
 

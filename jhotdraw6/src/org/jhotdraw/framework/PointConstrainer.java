@@ -1,5 +1,5 @@
 /*
- * @(#)PointConstrainer.java 5.1
+ * @(#)PointConstrainer.java 5.2
  *
  */
 

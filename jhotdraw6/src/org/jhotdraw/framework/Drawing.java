@@ -1,5 +1,5 @@
 /*
- * @(#)Drawing.java 5.1
+ * @(#)Drawing.java 5.2
  *
  */
 
@@ -46,8 +46,7 @@ public interface Drawing
      * Z-order back to front over the figures
      * that lie within the absolute bounds.
      */
-    public FigureEnumeration figures(Rectangle
-     viewRectangle);
+    public FigureEnumeration figures(Rectangle viewRectangle);
 
     /**
      * Returns an enumeration to iterate in
@@ -147,13 +146,13 @@ public interface Drawing
     /**
      * Removes a vector of figures from the figure's list
      * without releasing the figures.
-     * @see orphan
+     * @see #orphan
      */
     public void orphanAll(Vector newFigures);
 
     /**
      * Removes a vector of figures .
-     * @see remove
+     * @see #remove
      */
     public void removeAll(Vector figures);
 
@@ -219,6 +218,4 @@ public interface Drawing
      * may suffer.
      */
     public void init(Rectangle viewRectangle);
-
-
 }

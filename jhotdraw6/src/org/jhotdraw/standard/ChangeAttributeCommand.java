@@ -1,5 +1,5 @@
 /*
- * @(#)ChangeAttributeCommand.java 5.1
+ * @(#)ChangeAttributeCommand.java 5.2
  *
  */
 

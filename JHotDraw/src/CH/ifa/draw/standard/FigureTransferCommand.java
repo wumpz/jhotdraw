@@ -1,5 +1,5 @@
 /*
- * @(#)FigureTransferCommand.java 5.1
+ * @(#)FigureTransferCommand.java 5.2
  *
  */
 

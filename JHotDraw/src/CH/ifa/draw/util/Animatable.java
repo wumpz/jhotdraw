@@ -1,5 +1,5 @@
 /*
- * @(#)Animatable.java 5.1
+ * @(#)Animatable.java 5.2
  *
  */
 

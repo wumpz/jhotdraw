@@ -1,5 +1,5 @@
 /*
- * @(#)Figure.java 5.1
+ * @(#)Figure.java 5.2
  *
  */
 
@@ -25,12 +25,18 @@ import java.io.Serializable;
  *
  * @see Handle
  * @see Connector
- * @see AbstractFigure
+ * @see CH.ifa.draw.standard.AbstractFigure
  */
 
 public interface Figure
                 extends Storable, Cloneable, Serializable {
 
+    /**
+     * Constant that allows to identify a popup menu assigned 
+     * as an attribute.
+     */
+    public static String POPUP_MENU = "POPUP_MENU";
+    
     /**
      * Moves the Figure to a new location.
      * @param x the x delta
@@ -252,7 +258,6 @@ public interface Figure
      */
     public void setAttribute(String name, Object value);
 
-
     /**
      * Gets the z value (back-to-front ordering) of this figure.
      * Z values are not guaranteed to not skip numbers.
@@ -264,5 +269,4 @@ public interface Figure
      * Z values are not guaranteed to not skip numbers.
      */
     public void setZValue(int z);
-
 }

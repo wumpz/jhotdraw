@@ -1,5 +1,5 @@
 /*
- * @(#)LineDecoration.java 5.1
+ * @(#)LineDecoration.java 5.2
  *
  */
 

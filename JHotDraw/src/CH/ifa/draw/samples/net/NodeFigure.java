@@ -1,5 +1,5 @@
 /*
- * @(#)NodeFigure.java 5.1
+ * @(#)NodeFigure.java 5.2
  *
  */
 

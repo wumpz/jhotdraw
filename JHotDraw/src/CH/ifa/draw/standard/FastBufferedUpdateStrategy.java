@@ -1,14 +1,13 @@
-/*____________________________________________________________________
-  INIT Copyright (C) 2000 All rights reserved
-        
-    File:            FastBufferedUpdateStrategy.java
-    Description:     X
-    Author:          WMG
-    Created:         2000.03.27
-  ____________________________________________________________________
-*/
-
-
+/*
+ * @(#)FastBufferedUpdateStrategy.java 5.2
+ *
+ * INIT Copyright (C) 2000 All rights reserved
+ *
+ * File:            FastBufferedUpdateStrategy.java
+ * Description:     X
+ * @author:         WMG
+ * Created:         2000.03.27
+ */
 
 package CH.ifa.draw.standard;
 
@@ -20,7 +19,6 @@ import CH.ifa.draw.framework.Drawing;
 import CH.ifa.draw.framework.DrawingView;
 import CH.ifa.draw.framework.FigureEnumeration;
 import CH.ifa.draw.framework.Painter;
-
 
 public class FastBufferedUpdateStrategy implements Painter {
 

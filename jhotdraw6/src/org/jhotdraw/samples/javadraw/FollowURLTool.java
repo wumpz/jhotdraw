@@ -1,11 +1,12 @@
 /*
- * @(#)FollowURLTool.java 5.1
+ * @(#)FollowURLTool.java 5.2
  *
  */
 
 package CH.ifa.draw.samples.javadraw;
 
-import java.awt.*;
+import javax.swing.*;
+//import java.awt.*;
 import java.applet.*;
 import java.awt.event.*;
 import java.net.*;
@@ -14,9 +15,9 @@ import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.AbstractTool;
 
 class FollowURLTool extends AbstractTool {
-     private Applet         fApplet;
+     private JApplet         fApplet;
 
-     FollowURLTool(DrawingView view, Applet applet) {
+     FollowURLTool(DrawingView view, JApplet applet) {
         super(view);
         fApplet = applet;
      }

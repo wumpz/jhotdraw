@@ -1,5 +1,5 @@
 /*
- * @(#)Storable.java 5.1
+ * @(#)Storable.java 5.2
  *
  */
 

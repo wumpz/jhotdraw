@@ -1,5 +1,5 @@
 /*
- * @(#)PolyLineConnector.java 5.1
+ * @(#)PolyLineConnector.java 5.2
  *
  */
 

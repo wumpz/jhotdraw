@@ -1,10 +1,11 @@
 /*
- * @(#)PertApplication.java 5.1
+ * @(#)PertApplication.java 5.2
  *
  */
 
 package CH.ifa.draw.samples.pert;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import java.io.*;
@@ -23,7 +24,7 @@ public  class PertApplication extends DrawApplication {
         super("PERT Editor");
     }
 
-    protected void createTools(Panel palette) {
+    protected void createTools(JToolBar palette) {
         super.createTools(palette);
 
         Tool tool;

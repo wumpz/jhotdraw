@@ -1,5 +1,5 @@
 /*
- * @(#)AnimationDecorator.java 5.1
+ * @(#)AnimationDecorator.java 5.2
  *
  */
 

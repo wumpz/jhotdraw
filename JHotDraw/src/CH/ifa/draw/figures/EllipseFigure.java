@@ -1,5 +1,5 @@
 /*
- * @(#)EllipseFigure.java 5.1
+ * @(#)EllipseFigure.java 5.2
  *
  */
 

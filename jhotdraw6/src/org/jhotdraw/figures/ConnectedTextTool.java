@@ -1,5 +1,5 @@
 /*
- * @(#)ConnectedTextTool.java 5.1
+ * @(#)ConnectedTextTool.java 5.2
  *
  */
 
@@ -14,7 +14,7 @@ import CH.ifa.draw.standard.*;
  * Tool to create new or edit existing text figures.
  * A new text figure is connected with the clicked figure.
  *
- * @see TextHolder
+ * @see CH.ifa.draw.standard.TextHolder
  */
 public  class ConnectedTextTool extends TextTool {
 
@@ -32,8 +32,7 @@ public  class ConnectedTextTool extends TextTool {
         super.mouseDown(e, x, y);
 
 	    Figure pressedFigure =  drawing().findFigureInside(x, y);
-
-	    TextHolder textHolder = (TextHolder)createdFigure();
+	    TextHolder textHolder = getTypingTarget();
         if (!fConnected && pressedFigure != null &&
                      textHolder != null && pressedFigure != textHolder) {
             textHolder.connect(pressedFigure);

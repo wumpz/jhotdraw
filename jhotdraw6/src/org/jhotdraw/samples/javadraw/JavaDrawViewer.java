@@ -1,10 +1,11 @@
 /*
- * @(#)JavaDrawViewer.java 5.1
+ * @(#)JavaDrawViewer.java 5.2
  *
  */
 
 package CH.ifa.draw.samples.javadraw;
 
+import javax.swing.*;
 import java.applet.Applet;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -17,7 +18,7 @@ import CH.ifa.draw.standard.*;
 import CH.ifa.draw.util.*;
 
 
-public  class JavaDrawViewer extends Applet implements DrawingEditor {
+public  class JavaDrawViewer extends JApplet implements DrawingEditor {
 
     private Drawing         fDrawing;
     private Tool            fTool;
@@ -25,9 +26,9 @@ public  class JavaDrawViewer extends Applet implements DrawingEditor {
     private Iconkit         fIconkit;
 
     public void init() {
-		setLayout(new BorderLayout());
+		getContentPane().setLayout(new BorderLayout());
 	    fView = new StandardDrawingView(this, 400, 370);
-        add("Center", fView);
+        getContentPane().add("Center", fView);
         fTool = new FollowURLTool(view(), this);
 
         fIconkit = new Iconkit(this);

@@ -1,10 +1,11 @@
 /*
- * @(#)NetApp.java 5.1
+ * @(#)NetApp.java 5.2
  *
  */
 
 package CH.ifa.draw.samples.net;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import java.io.*;
@@ -20,7 +21,7 @@ public  class NetApp extends DrawApplication {
         super("Net");
     }
 
-    protected void createTools(Panel palette) {
+    protected void createTools(JToolBar palette) {
         super.createTools(palette);
 
         Tool tool = new TextTool(view(), new NodeFigure());

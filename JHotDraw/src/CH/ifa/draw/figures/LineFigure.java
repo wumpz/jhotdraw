@@ -1,5 +1,5 @@
 /*
- * @(#)LineFigure.java 5.1
+ * @(#)LineFigure.java 5.2
  *
  */
 

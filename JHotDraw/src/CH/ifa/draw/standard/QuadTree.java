@@ -1,14 +1,13 @@
-/*____________________________________________________________________
-  INIT Copyright (C) 2000 All rights reserved
-        
-    File:            QuadTree.java
-    Description:     X
-    Author:          WMG
-    Created:         2000.03.27
-  ____________________________________________________________________
-*/
-
-
+/*
+ * @(#)QuadTree.java 5.2
+ *
+ * INIT Copyright (C) 2000 All rights reserved
+ *
+ * File:            QuadTree.java
+ * Description:     X
+ * @author          WMG
+ * Created:         2000.03.27
+ */
 
 package CH.ifa.draw.standard;
 

@@ -1,19 +1,17 @@
-/*____________________________________________________________________
-  INIT Copyright (C) 2000 All rights reserved
-        
-    File:            OrderedFigureElement.java
-    Description:     X
-    Author:          WMG
-    Created:         2000.03.28
-  ____________________________________________________________________
-*/
-
-
-
+/*
+ * @(#)OrderFigureElement.java 5.2
+ *
+ * INIT Copyright (C) 2000 All rights reserved
+ *
+ * File:            OrderedFigureElement.java
+ * Description:     X
+ * @author:         WMG
+ * Created:         2000.03.28
+ */
+ 
 package CH.ifa.draw.standard;
 
 import CH.ifa.draw.framework.Figure;
-
 
 
 class OrderedFigureElement implements Comparable {

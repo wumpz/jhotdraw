@@ -1,4 +1,6 @@
 /*
+ * @(#)GraphLayout.java 5.2
+ *
  * The original file Graph.java (1.5 99/11/29) is
  * Copyright (c) 1997 Sun Microsystems, Inc. All Rights Reserved.
  * Adapted by F. Wienberg, 1999
@@ -32,6 +34,7 @@ package CH.ifa.draw.util;
 
 import java.util.*;
 import CH.ifa.draw.framework.*;
+import CH.ifa.draw.standard.*;
 import java.awt.*;
 
 public class GraphLayout extends FigureChangeAdapter {

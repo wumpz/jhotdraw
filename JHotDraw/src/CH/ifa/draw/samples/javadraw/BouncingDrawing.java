@@ -1,5 +1,5 @@
 /*
- * @(#)BouncingDrawing.java 5.1
+ * @(#)BouncingDrawing.java 5.2
  *
  */
 

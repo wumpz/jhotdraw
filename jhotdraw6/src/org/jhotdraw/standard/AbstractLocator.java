@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractLocator.java 5.1
+ * @(#)AbstractLocator.java 5.2
  *
  */
 

@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractTool.java 5.1
+ * @(#)AbstractTool.java 5.2
  *
  */
 
@@ -39,7 +39,7 @@ public class AbstractTool implements Tool {
      * reinitialize a tool.
      */
     public void activate() {
-        fView.clearSelection();
+        view().clearSelection();
     }
 
     /**
@@ -49,7 +49,7 @@ public class AbstractTool implements Tool {
      * super.deactivate.
      */
     public void deactivate() {
-        fView.setCursor(Cursor.getDefaultCursor());
+        view().setCursor(Cursor.getDefaultCursor());
     }
 
     /**
@@ -88,14 +88,14 @@ public class AbstractTool implements Tool {
      * Gets the tool's drawing.
      */
     public Drawing drawing() {
-        return fView.drawing();
+        return view().drawing();
     }
 
     /**
      * Gets the tool's editor.
      */
     public DrawingEditor editor() {
-        return fView.editor();
+        return view().editor();
     }
 
     /**

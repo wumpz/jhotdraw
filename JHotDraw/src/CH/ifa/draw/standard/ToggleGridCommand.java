@@ -1,5 +1,5 @@
 /*
- * @(#)ToggleGridCommand.java 5.1
+ * @(#)ToggleGridCommand.java 5.2
  *
  */
 

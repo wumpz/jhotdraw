@@ -1,5 +1,5 @@
 /*
- * @(#)MySelectionTool.java 5.1
+ * @(#)MySelectionTool.java 5.2
  *
  */
 
@@ -37,5 +37,4 @@ public  class MySelectionTool extends SelectionTool {
     protected void inspectFigure(Figure f) {
         System.out.println("inspect figure"+f);
     }
-
 }

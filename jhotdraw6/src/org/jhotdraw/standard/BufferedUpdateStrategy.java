@@ -1,5 +1,5 @@
 /*
- * @(#)BufferedUpdateStrategy.java 5.1
+ * @(#)BufferedUpdateStrategy.java 5.2
  *
  */
 

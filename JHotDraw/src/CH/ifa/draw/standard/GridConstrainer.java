@@ -1,5 +1,5 @@
 /*
- * @(#)GridConstrainer.java 5.1
+ * @(#)GridConstrainer.java 5.2
  *
  */
 
@@ -13,7 +13,7 @@ import CH.ifa.draw.framework.PointConstrainer;
 /**
  * Constrains a point such that it falls on a grid.
  *
- * @see DrawingView
+ * @see CH.ifa.draw.framework.DrawingView
  */
 
 

@@ -1,10 +1,11 @@
 /*
- * @(#)StandardDrawingView.java 5.1
+ * @(#)StandardDrawingView.java 5.2
  *
  */
 
 package CH.ifa.draw.standard;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
@@ -20,7 +21,7 @@ import CH.ifa.draw.framework.*;
  */
 
 public  class StandardDrawingView
-        extends Panel
+        extends JPanel
         implements DrawingView,
                    MouseListener,
                    MouseMotionListener,
@@ -106,7 +107,10 @@ public  class StandardDrawingView
         fLastClick = new Point(0, 0);
         fConstrainer = null;
         fSelection = new Vector();
-        setDisplayUpdate(new FastBufferedUpdateStrategy());
+        // JFC/Swing uses double buffering automatically as default
+        setDisplayUpdate(new SimpleUpdateStrategy());
+        // TODO: Test FastBufferedUpdateStrategy with JFC/Swing double buffering
+        //setDisplayUpdate(new FastBufferedUpdateStrategy());
         setBackground(Color.lightGray);
 
         addMouseListener(this);
@@ -139,14 +143,16 @@ public  class StandardDrawingView
      * Sets and installs another drawing in the view.
      */
     public void setDrawing(Drawing d) {
-        clearSelection();
-
-        if (fDrawing != null)
+        if (fDrawing != null) {
+            clearSelection();
             fDrawing.removeDrawingChangeListener(this);
+        }
 
         fDrawing = d;
-        if (fDrawing != null)
+        if (fDrawing != null) {
             fDrawing.addDrawingChangeListener(this);
+        }
+
         checkMinimumSize();
         repaint();
     }
@@ -199,7 +205,7 @@ public  class StandardDrawingView
 
     /**
      * Sets the current display update strategy.
-     * @see UpdateStrategy
+     * @see Painter
      */
     public void setDisplayUpdate(Painter updateStrategy) {
         fUpdateStrategy = updateStrategy;

@@ -1,10 +1,11 @@
 /*
- * @(#)JavaDrawApp.java 5.1
+ * @(#)JavaDrawApp.java 5.2
  *
  */
 
 package CH.ifa.draw.samples.javadraw;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
@@ -16,7 +17,7 @@ import CH.ifa.draw.util.*;
 import CH.ifa.draw.application.*;
 import CH.ifa.draw.contrib.*;
 
-public  class JavaDrawApp extends DrawApplication {
+public  class JavaDrawApp extends MDI_DrawApplication {
 
     private Animator            fAnimator;
     private static String       fgSampleImagesPath = "CH/ifa/draw/samples/javadraw/sampleimages/";
@@ -26,6 +27,16 @@ public  class JavaDrawApp extends DrawApplication {
         super("JHotDraw");
     }
 
+    /**
+     * Factory method which create a new instance of this
+     * application.
+     *
+     * @return	newly created application
+     */
+	protected DrawApplication createApplication() {
+		return new JavaDrawApp();
+	}
+	
     public void open() {
         super.open();
     }
@@ -39,7 +50,7 @@ public  class JavaDrawApp extends DrawApplication {
 
     //-- DrawApplication overrides -----------------------------------------
 
-    protected void createTools(Panel palette) {
+    protected void createTools(JToolBar palette) {
         super.createTools(palette);
 
         Tool tool = new TextTool(view(), new TextFigure());
@@ -83,16 +94,16 @@ public  class JavaDrawApp extends DrawApplication {
         return new MySelectionTool(view());
     }
 
-    protected void createMenus(MenuBar mb) {
+    protected void createMenus(JMenuBar mb) {
 		super.createMenus(mb);
 		mb.add(createAnimationMenu());
 		mb.add(createImagesMenu());
 		mb.add(createWindowMenu());
     }
 
-    protected Menu createAnimationMenu() {
-		Menu menu = new Menu("Animation");
-		MenuItem mi = new MenuItem("Start Animation");
+    protected JMenu createAnimationMenu() {
+		JMenu menu = new JMenu("Animation");
+		JMenuItem mi = new JMenuItem("Start Animation");
 		mi.addActionListener(
 		    new ActionListener() {
 		        public void actionPerformed(ActionEvent event) {
@@ -102,7 +113,7 @@ public  class JavaDrawApp extends DrawApplication {
 		);
 		menu.add(mi);
 
-		mi = new MenuItem("Stop Animation");
+		mi = new JMenuItem("Stop Animation");
 		mi.addActionListener(
 		    new ActionListener() {
 		        public void actionPerformed(ActionEvent event) {
@@ -114,13 +125,22 @@ public  class JavaDrawApp extends DrawApplication {
 		return menu;
 	}
 
-    protected Menu createWindowMenu() {
-		Menu menu = new Menu("Window");
-		MenuItem mi = new MenuItem("New Window");
+    protected JMenu createWindowMenu() {
+		JMenu menu = new JMenu("Window");
+		JMenuItem mi = new JMenuItem("New View");
 		mi.addActionListener(
 		    new ActionListener() {
 		        public void actionPerformed(ActionEvent event) {
-		            openView();
+		            newView();
+		        }
+		    }
+		);
+		menu.add(mi);
+		mi = new JMenuItem("New Window");
+		mi.addActionListener(
+		    new ActionListener() {
+		        public void actionPerformed(ActionEvent event) {
+		            newWindow();
 		        }
 		    }
 		);
@@ -128,7 +148,7 @@ public  class JavaDrawApp extends DrawApplication {
 		return menu;
 	}
 
-    protected Menu createImagesMenu() {
+    protected JMenu createImagesMenu() {
 		CommandMenu menu = new CommandMenu("Images");
 		File imagesDirectory = new File(fgSampleImagesPath);
 		try {
@@ -161,14 +181,6 @@ public  class JavaDrawApp extends DrawApplication {
             fAnimator.end();
             fAnimator = null;
         }
-    }
-
-    public void openView() {
-		JavaDrawApp window = new JavaDrawApp();
-		window.open();
-		window.setDrawing(drawing());
-		window.setTitle("JHotDraw (View)");
-
     }
 
     //-- main -----------------------------------------------------------

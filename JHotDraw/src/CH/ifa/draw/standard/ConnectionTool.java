@@ -1,5 +1,5 @@
 /*
- * @(#)ConnectionTool.java 5.1
+ * @(#)ConnectionTool.java 5.2
  *
  */
 

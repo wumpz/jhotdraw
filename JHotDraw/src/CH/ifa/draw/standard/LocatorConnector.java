@@ -1,5 +1,5 @@
 /*
- * @(#)LocatorConnector.java 5.1
+ * @(#)LocatorConnector.java 5.2
  *
  */
 

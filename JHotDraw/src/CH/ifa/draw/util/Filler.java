@@ -1,10 +1,11 @@
 /*
- * @(#)Filler.java 5.1
+ * @(#)Filler.java 5.2
  *
  */
 
 package CH.ifa.draw.util;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -13,7 +14,7 @@ import java.awt.*;
 
 
 public  class Filler
-        extends Canvas {
+        extends JPanel {
 
     private int     fWidth;
     private int     fHeight;

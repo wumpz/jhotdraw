@@ -1,10 +1,11 @@
 /*
- * @(#)ToolButton.java 5.1
+ * @(#)ToolButton.java 5.2
  *
  */
 
 package CH.ifa.draw.standard;
 
+import javax.swing.*;
 import java.awt.*;
 import CH.ifa.draw.util.*;
 import CH.ifa.draw.framework.*;
@@ -42,6 +43,11 @@ public class ToolButton extends PaletteButton {
         fIcon = new PaletteIcon(new Dimension(24,24), im[0], im[1], im[2]);
         fTool = tool;
         fName = name;
+
+        setIcon(new ImageIcon(im[0]));
+        setPressedIcon(new ImageIcon(im[1]));
+        setSelectedIcon(new ImageIcon(im[2]));
+        setToolTipText(name);
     }
 
     public Tool tool() {
@@ -63,7 +69,13 @@ public class ToolButton extends PaletteButton {
     public Dimension getPreferredSize() {
         return new Dimension(fIcon.getWidth(), fIcon.getHeight());
     }
+    
+    public Dimension getMaximumSize() {
+        return new Dimension(fIcon.getWidth(), fIcon.getHeight());
+    }
 
+//  Not necessary anymore in JFC due to the support of Icons in JButton
+/*
     public void paintBackground(Graphics g) { }
 
     public void paintNormal(Graphics g) {
@@ -75,11 +87,21 @@ public class ToolButton extends PaletteButton {
         if (fIcon.pressed() != null)
             g.drawImage(fIcon.pressed(), 0, 0, this);
     }
-
+*/
     public void paintSelected(Graphics g) {
         if (fIcon.selected() != null)
             g.drawImage(fIcon.selected(), 0, 0, this);
     }
 
+    public void paint(Graphics g) {
+    	// selecting does not work as expected with JFC1.1
+    	// see JavaBug: 4228035, 4233965
+    	if (isSelected()) {
+        	paintSelected(g);
+    	}
+    	else {
+	    	super.paint(g);
+    	}
+    }
 }
 

@@ -1,5 +1,5 @@
 /*
- * @(#)LineConnection.java 5.1
+ * @(#)LineConnection.java 5.2
  *
  */
 

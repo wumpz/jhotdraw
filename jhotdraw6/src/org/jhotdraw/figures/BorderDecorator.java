@@ -1,5 +1,5 @@
 /*
- * @(#)BorderDecorator.java 5.1
+ * @(#)BorderDecorator.java 5.2
  *
  */
 
@@ -23,13 +23,36 @@ public  class BorderDecorator extends DecoratorFigure {
     private static final long serialVersionUID = 1205601808259084917L;
     private int borderDecoratorSerializedDataVersion = 1;
 
-    public BorderDecorator() { }
+	private Point myBorderOffset;
+	private Color myBorderColor;
+	private Color myShadowColor;
+
+    public BorderDecorator() {
+	}
+
     public BorderDecorator(Figure figure) {
         super(figure);
     }
 
-    private Point border() {
-        return new Point(3,3);
+	/**
+	 * Performs additional initialization code before the figure is decorated
+     * Subclasses may override this method.
+	 */
+    protected void initialize() {
+        setBorderOffset(new Point(3,3));
+    }
+
+    public void setBorderOffset(Point newBorderOffset) {
+        myBorderOffset = newBorderOffset;
+    }
+		
+    public Point getBorderOffset() {
+        if (myBorderOffset == null) {
+        	return new Point(0,0);
+        }
+        else {
+            return myBorderOffset;
+    	}
     }
 
     /**
@@ -51,7 +74,7 @@ public  class BorderDecorator extends DecoratorFigure {
      */
     public Rectangle displayBox() {
         Rectangle r = fComponent.displayBox();
-        r.grow(border().x, border().y);
+        r.grow(getBorderOffset().x, getBorderOffset().y);
         return r;
     }
 
@@ -60,16 +83,17 @@ public  class BorderDecorator extends DecoratorFigure {
      */
     public void figureInvalidated(FigureChangeEvent e) {
         Rectangle rect = e.getInvalidatedRectangle();
-        rect.grow(border().x, border().y);
+        rect.grow(getBorderOffset().x, getBorderOffset().y);
         super.figureInvalidated(new FigureChangeEvent(e.getFigure(), rect));
     }
 
     public Insets connectionInsets() {
         Insets i = super.connectionInsets();
-        i.top -= 3;
-        i.bottom -= 3;
-        i.left -= 3;
-        i.right -= 3;
+        i.top -= getBorderOffset().y;
+        i.bottom -= getBorderOffset().y;
+        i.left -= getBorderOffset().x;
+        i.right -= getBorderOffset().x;
+
         return i;
     }
 }
