@@ -66,7 +66,13 @@ public class EllipseFigure extends AttributeFigure {
 
 	public void drawBackground(Graphics g) {
 		Rectangle r = displayBox();
-		g.fillOval(r.x, r.y, r.width-1, r.height-1);
+        /*
+         * JP, 25-May-03: Changed from (width-1, height-1) to (width, height),
+         * because figures were not filled completely (JDK 1.4.x). Might invalidate
+         * fix for #661878. If the problem is JDK-dependant, maybe the JDK version
+         * should be taken into account here?
+         */
+		g.fillOval(r.x, r.y, r.width, r.height);
 	}
 
 	public void drawFrame(Graphics g) {
