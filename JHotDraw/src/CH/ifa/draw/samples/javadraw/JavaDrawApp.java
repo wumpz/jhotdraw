@@ -31,14 +31,18 @@ import java.net.URL;
  * @version <$CURRENT_VERSION$>
  */
 public  class JavaDrawApp extends MDI_DrawApplication {
-
 	private Animator            fAnimator;
 	private static String       fgSampleImagesPath = "/CH/ifa/draw/samples/javadraw/sampleimages";
 	private static String       fgSampleImagesResourcePath = fgSampleImagesPath + "/";
 
-	JavaDrawApp() {
-		super("JHotDraw");
-	}
+  /**
+   * Expose constructor for benefit of subclasses.
+   * 
+   * @param title The window title for this application's frame.
+   */
+  protected JavaDrawApp(String title) {
+  	super(title);
+  }
 
 	/**
 	 * Factory method which create a new instance of this
@@ -47,7 +51,7 @@ public  class JavaDrawApp extends MDI_DrawApplication {
 	 * @return	newly created application
 	 */
 	protected DrawApplication createApplication() {
-		return new JavaDrawApp();
+		return new JavaDrawApp("JHotDraw");
 	}
 
 	protected DrawingView createDrawingView() {
@@ -229,7 +233,7 @@ public  class JavaDrawApp extends MDI_DrawApplication {
 	//-- main -----------------------------------------------------------
 
 	public static void main(String[] args) {
-		JavaDrawApp window = new JavaDrawApp();
+		JavaDrawApp window = new JavaDrawApp("JHotDraw");
 		window.open();
 	}
 }

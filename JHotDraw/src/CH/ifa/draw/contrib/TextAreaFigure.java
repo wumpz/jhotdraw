@@ -393,10 +393,14 @@ public class TextAreaFigure extends AttributeFigure
 					RenderingHints.VALUE_ANTIALIAS_ON);
 			g2.setRenderingHint(RenderingHints.KEY_RENDERING,
 					RenderingHints.VALUE_RENDER_QUALITY);
-			savedClipArea = g2.getClip();
 			Font savedFont = g2.getFont();
 			savedFontColor = g2.getColor();
-			clipRect = displayBox.createIntersection((Rectangle2D)savedClipArea);
+			savedClipArea = g2.getClip();
+			if(savedClipArea != null) {
+				clipRect = displayBox.createIntersection((Rectangle2D)savedClipArea);
+			} else {
+				clipRect = displayBox;
+			}
 			g2.setClip(clipRect);
 			Color textColor = getTextColor();
 			if (!ColorMap.isTransparent(textColor)) {
@@ -559,7 +563,9 @@ public class TextAreaFigure extends AttributeFigure
 
 		// restore saved graphic attributes
 		if (g2 != null) {
-			g2.setClip(savedClipArea);
+			if(savedClipArea != null) {
+				g2.setClip(savedClipArea);
+			}
 			g2.setColor(savedFontColor);
 			g2.setRenderingHints(savedRenderingHints);
 		}
