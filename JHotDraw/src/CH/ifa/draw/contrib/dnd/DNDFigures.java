@@ -29,6 +29,7 @@ public class DNDFigures implements java.io.Serializable {
 	public DNDFigures(FigureEnumeration fe, Point origin) {
 		this.figures = CollectionsFactory.current().createList();
 		// copy figure enumeration because enumerations should not be fields
+		//the drop operation will serialize and deseralize which I believe is a form of copy!?
 		while (fe.hasNextFigure()) {
 			figures.add(fe.nextFigure());
 		}

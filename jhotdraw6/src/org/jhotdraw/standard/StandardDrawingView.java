@@ -1064,11 +1064,15 @@ public class StandardDrawingView
 	}
 
 	protected DNDHelper createDNDHelper() {
-		return new DNDHelper() {
-			protected DrawingView view() {
-				return StandardDrawingView.this;
-			}
-		};
+		DNDHelper dndh = new DNDHelper (true,true) {
+				protected DrawingView view() {
+					return StandardDrawingView.this;
+				}
+				protected DrawingEditor editor() {
+					return StandardDrawingView.this.editor();
+				}
+			};
+		return dndh;
 	}
 
 	protected DNDHelper getDNDHelper() {
@@ -1077,12 +1081,13 @@ public class StandardDrawingView
 		}
 		return dndh;
 	}
-
-	public boolean setDragSourceActive(boolean state) {
-		return getDNDHelper().setDragSourceActive(state);
+	public java.awt.dnd.DragSourceListener getDragSourceListener(){
+		return getDNDHelper().getDragSourceListener();
 	}
-
-	public boolean setDropTargetActive(boolean state) {
-		return getDNDHelper().setDropTargetActive(state);
+	public void DNDInitialize(java.awt.dnd.DragGestureListener dgl){
+		getDNDHelper().initialize(dgl);
+	}
+	public void DNDDeinitialize() {
+		getDNDHelper().deinitialize();
 	}
 }
