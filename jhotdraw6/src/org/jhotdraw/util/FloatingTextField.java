@@ -72,7 +72,8 @@ public  class FloatingTextField {
 	 */
 	public void setBounds(Rectangle r, String text) {
 		fEditWidget.setText(text);
-		fEditWidget.setBounds(r.x, r.y, r.width, r.height);
+		fEditWidget.setLocation(r.x, r.y);
+		fEditWidget.setSize(r.width, r.height);
 		fEditWidget.setVisible(true);
 		fEditWidget.selectAll();
 		fEditWidget.requestFocus();
