@@ -418,14 +418,20 @@ public class StandardDrawingView
 	 * it is also contained in the Drawing associated with this DrawingView.
 	 */
 	public void addToSelection(Figure figure) {
+		if(addToSelectionImpl(figure) == true){
+			fireSelectionChanged();			
+		}
+	}
+	protected boolean addToSelectionImpl(Figure figure){
+		boolean changed = false;
 		if (!isFigureSelected(figure) && drawing().includes(figure)) {
 			fSelection.add(figure);
 			fSelectionHandles = null;
 			figure.invalidate();
-			fireSelectionChanged();
+			changed = true;
 		}
+		return changed;
 	}
-
 	/**
 	 * Adds a Collection of figures to the current selection.
 	 */
@@ -437,8 +443,12 @@ public class StandardDrawingView
 	 * Adds a FigureEnumeration to the current selection.
 	 */
 	public void addToSelectionAll(FigureEnumeration fe) {
+		boolean changed = false;
 		while (fe.hasNextFigure()) {
-			addToSelection(fe.nextFigure());
+			changed |= addToSelectionImpl(fe.nextFigure());
+		}
+		if(changed == true){
+			fireSelectionChanged();
 		}
 	}
 
