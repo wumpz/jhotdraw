@@ -251,4 +251,18 @@ public interface Figure
      * Sets the named attribute to the new value
      */
     public void setAttribute(String name, Object value);
+
+
+    /**
+     * Gets the z value (back-to-front ordering) of this figure.
+     * Z values are not guaranteed to not skip numbers.
+     */
+    public int getZValue();
+
+    /**
+     * Sets the z value (back-to-front ordering) of this figure.
+     * Z values are not guaranteed to not skip numbers.
+     */
+    public void setZValue(int z);
+
 }
