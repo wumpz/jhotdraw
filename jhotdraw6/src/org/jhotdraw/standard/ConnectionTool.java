@@ -96,27 +96,33 @@ public  class ConnectionTool extends AbstractTool {
 		super.mouseDown(e,x,y);
 		int ex = e.getX();
 		int ey = e.getY();
-		setTargetFigure(findConnectionStart(ex, ey, drawing()));
-		if (getTargetFigure() != null) {
-			setStartConnector(findConnector(ex, ey, getTargetFigure()));
-			if (getStartConnector() != null) {
-				setConnection(createConnection());
-				getConnection().startPoint(ex, ey);
-				getConnection().endPoint(ex, ey);
-				setAddedFigure(view().add(getConnection()));
+
+        /*
+         * JP, 25-May-03: Swapped checking for underlying figure and
+         * existing connection. If figure is checked first (old version),
+         * it is not possible to insert new points into a connection that
+         * crosses or otherwise goes through an existing figure. New
+         * version checks for connection first.
+         */
+		ConnectionFigure connection = findConnection(ex, ey, drawing());
+		if (connection != null) {
+			if (!connection.joinSegments(ex, ey)) {
+				fSplitPoint = connection.splitSegment(ex, ey);
+				fEditedConnection = connection;
+			}
+			else {
+				fEditedConnection = null;
 			}
 		}
 		else {
-			// Since we can't connect to the figure, see if its a Connection
-			// object we can modify the appearance of.
-			ConnectionFigure connection = findConnection(ex, ey, drawing());
-			if (connection != null) {
-				if (!connection.joinSegments(ex, ey)) {
-					fSplitPoint = connection.splitSegment(ex, ey);
-					fEditedConnection = connection;
-				}
-				else {
-					fEditedConnection = null;
+			setTargetFigure(findConnectionStart(ex, ey, drawing()));
+			if (getTargetFigure() != null) {
+				setStartConnector(findConnector(ex, ey, getTargetFigure()));
+				if (getStartConnector() != null) {
+					setConnection(createConnection());
+					getConnection().startPoint(ex, ey);
+					getConnection().endPoint(ex, ey);
+					setAddedFigure(view().add(getConnection()));
 				}
 			}
 		}
