@@ -4,7 +4,7 @@
  * Project:		JHotdraw - a GUI framework for technical drawings
  *				http://www.jhotdraw.org
  *				http://jhotdraw.sourceforge.net
- * Copyright:	© by the original author(s) and all contributors
+ * Copyright:	? by the original author(s) and all contributors
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
@@ -26,7 +26,7 @@ public class ChangeConnectionEndHandle extends ChangeConnectionHandle {
 	/**
 	 * Constructs the connection handle.
 	 */
-	public ChangeConnectionEndHandle(Figure owner) {
+	public ChangeConnectionEndHandle(ConnectionFigure owner) {
 		super(owner);
 	}
 

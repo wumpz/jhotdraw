@@ -4,7 +4,7 @@
  * Project:		JHotdraw - a GUI framework for technical drawings
  *				http://www.jhotdraw.org
  *				http://jhotdraw.sourceforge.net
- * Copyright:	© by the original author(s) and all contributors
+ * Copyright:	? by the original author(s) and all contributors
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
@@ -16,6 +16,7 @@ import CH.ifa.draw.standard.FigureEnumerator;
 import CH.ifa.draw.standard.ReverseFigureEnumerator;
 import CH.ifa.draw.standard.StandardFigureSelection;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -71,11 +72,18 @@ public class UndoableAdapter implements Undoable {
 	public void setAffectedFigures(FigureEnumeration newAffectedFigures) {
 		// the enumeration is not reusable therefore a copy is made
 		// to be able to undo-redo the command several time
+		if(newAffectedFigures == null) {
+			throw new IllegalArgumentException();
+		}
 		rememberFigures(newAffectedFigures);
 	}
 
 	public FigureEnumeration getAffectedFigures() {
-		return new FigureEnumerator(CollectionsFactory.current().createList(myAffectedFigures));
+		if(myAffectedFigures == null) {
+			return new FigureEnumerator(Collections.EMPTY_LIST);
+		} else {
+			return new FigureEnumerator(CollectionsFactory.current().createList(myAffectedFigures));
+		}
 	}
 
 	public FigureEnumeration getAffectedFiguresReversed() {

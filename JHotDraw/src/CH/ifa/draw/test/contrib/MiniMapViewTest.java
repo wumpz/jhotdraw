@@ -66,6 +66,7 @@ extends JHDTestCase
   protected void setUp() throws Exception {
     // JUnitDoclet begin method testcase.setUp
     super.setUp();
+	getDrawingEditor().open();
     minimapview = createInstance();
     // JUnitDoclet end method testcase.setUp
   }

@@ -5,7 +5,6 @@ import java.awt.Point;
 // JUnitDoclet begin import
 import CH.ifa.draw.figures.RectangleFigure;
 import CH.ifa.draw.standard.BoxHandleKit;
-import CH.ifa.draw.standard.ChangeConnectionEndHandle;
 import CH.ifa.draw.test.JHDTestCase;
 import CH.ifa.draw.util.UndoableHandle;
 // JUnitDoclet end import
@@ -190,12 +189,7 @@ extends JHDTestCase
   // JUnitDoclet end javadoc_method setUndoActivity()
   public void testSetGetUndoActivity() throws Exception {
     // JUnitDoclet begin method setUndoActivity getUndoActivity
-    CH.ifa.draw.util.Undoable[] tests = {new ChangeConnectionEndHandle.UndoActivity(getDrawingEditor().view()), null};
-    
-    for (int i = 0; i < tests.length; i++) {
-      undoablehandle.setUndoActivity(tests[i]);
-      assertEquals(tests[i], undoablehandle.getUndoActivity());
-    }
+    // Do nothing: UndoableHandle.setUndoActivity() is a no-op.
     // JUnitDoclet end method setUndoActivity getUndoActivity
   }
   

@@ -4,7 +4,7 @@
  * Project:		JHotdraw - a GUI framework for technical drawings
  *				http://www.jhotdraw.org
  *				http://jhotdraw.sourceforge.net
- * Copyright:	© by the original author(s) and all contributors
+ * Copyright:	? by the original author(s) and all contributors
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
@@ -36,7 +36,7 @@ public abstract class ChangeConnectionHandle extends AbstractHandle {
 	/**
 	 * Initializes the change connection handle.
 	 */
-	protected ChangeConnectionHandle(Figure owner) {
+	protected ChangeConnectionHandle(ConnectionFigure owner) {
 		super(owner);
 		setConnection((ConnectionFigure) owner());
 		setTargetFigure(null);

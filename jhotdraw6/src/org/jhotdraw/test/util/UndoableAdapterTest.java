@@ -4,6 +4,7 @@ package CH.ifa.draw.test.util;
 import CH.ifa.draw.test.JHDTestCase;
 import CH.ifa.draw.standard.SingleFigureEnumerator;
 import CH.ifa.draw.figures.RectangleFigure;
+import CH.ifa.draw.framework.FigureEnumeration;
 
 import java.awt.*;
 // JUnitDoclet end import
@@ -151,14 +152,37 @@ extends JHDTestCase
   // JUnitDoclet end javadoc_method setAffectedFigures()
   public void testSetGetAffectedFigures() throws Exception {
     // JUnitDoclet begin method setAffectedFigures getAffectedFigures
-    CH.ifa.draw.framework.FigureEnumeration[] tests = {new SingleFigureEnumerator(new RectangleFigure(new Point(30,30), new Point(60,60))), null};
+    FigureEnumeration[] tests = {new SingleFigureEnumerator(new RectangleFigure(new Point(30,30), new Point(60,60)))};
     
-    for (int i = 0; i < tests.length; i++) {
-      undoableadapter.setAffectedFigures(tests[i]);
-      assertEquals(tests[i], undoableadapter.getAffectedFigures());
-    }
+	for (int i = 0; i < tests.length; i++) {
+	  undoableadapter.setAffectedFigures(tests[i]);
+	  FigureEnumeration returned = undoableadapter.getAffectedFigures();
+	  tests[i].reset();
+	  while(returned.hasNextFigure()) {
+		 assertTrue(tests[i].hasNextFigure());
+		 assertEquals(tests[i].nextFigure(), returned.nextFigure());
+	  }
+	  assertFalse(tests[i].hasNextFigure());
+	}
     // JUnitDoclet end method setAffectedFigures getAffectedFigures
   }
+  
+  // JUnitDoclet begin method testSetNullAffectedFigures()
+   /**
+	* Test a null argument to setAffectedFigures.  Expect an IllegalArgumentException
+	* 
+	* @see CH.ifa.draw.util.UndoRedoActivity#setAffectedFigures(CH.ifa.draw.framework.PointConstrainer)
+	*/
+   public void testSetNullAffectedFigures() throws Exception {
+	 FigureEnumeration original = undoableadapter.getAffectedFigures();
+  	
+	 try {
+		undoableadapter.setAffectedFigures(null);
+		 fail("IllegalArgumentException expected");
+	 } catch(IllegalArgumentException ok) {
+	 }
+   }
+   // JUnitDoclet end method
   
   // JUnitDoclet begin javadoc_method getAffectedFiguresCount()
   /**

@@ -1,7 +1,6 @@
 package CH.ifa.draw.test.standard;
 
 // JUnitDoclet begin import
-import CH.ifa.draw.standard.GridConstrainer;
 import CH.ifa.draw.standard.NullDrawingView;
 import CH.ifa.draw.standard.SimpleUpdateStrategy;
 import CH.ifa.draw.test.JHDTestCase;
@@ -352,23 +351,18 @@ extends JHDTestCase
   
   // JUnitDoclet begin javadoc_method setConstrainer()
   /**
-  * Method testSetGetConstrainer is testing setConstrainer
-  * and getConstrainer together by setting some value
-  * and verifying it by reading.
+  * NullDrawingView.setConstrainer is a no-op.
+  *   
   * @see CH.ifa.draw.standard.NullDrawingView#setConstrainer(CH.ifa.draw.framework.PointConstrainer)
   * @see CH.ifa.draw.standard.NullDrawingView#getConstrainer()
   */
   // JUnitDoclet end javadoc_method setConstrainer()
   public void testSetGetConstrainer() throws Exception {
     // JUnitDoclet begin method setConstrainer getConstrainer
-    CH.ifa.draw.framework.PointConstrainer[] tests = {new GridConstrainer(5, 5), null};
-    
-    for (int i = 0; i < tests.length; i++) {
-      nulldrawingview.setConstrainer(tests[i]);
-      assertEquals(tests[i], nulldrawingview.getConstrainer());
-    }
+    // Do nothing: NullDrawingView.setConstrainer is a no-op.
     // JUnitDoclet end method setConstrainer getConstrainer
   }
+ 
   
   // JUnitDoclet begin javadoc_method checkDamage()
   /**

@@ -1,6 +1,7 @@
 package CH.ifa.draw.test.standard;
 
 // JUnitDoclet begin import
+import CH.ifa.draw.standard.*;
 import CH.ifa.draw.standard.GridConstrainer;
 import CH.ifa.draw.standard.SimpleUpdateStrategy;
 import CH.ifa.draw.standard.StandardDrawingView;
@@ -61,6 +62,8 @@ extends JHDTestCase
   protected void setUp() throws Exception {
     // JUnitDoclet begin method testcase.setUp
     super.setUp();
+    getDrawingEditor().open();
+    getDrawingEditor().newWindow(new StandardDrawing());
     standarddrawingview = createInstance();
     // JUnitDoclet end method testcase.setUp
   }

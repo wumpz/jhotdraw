@@ -1,10 +1,8 @@
 package CH.ifa.draw.test.standard;
 
-import java.awt.Point;
-
-import junit.framework.TestCase;
 // JUnitDoclet begin import
-import CH.ifa.draw.figures.RectangleFigure;
+import junit.framework.TestCase;
+import CH.ifa.draw.figures.LineConnection;
 // JUnitDoclet end import
 
 /*
@@ -49,7 +47,7 @@ extends TestCase
   */
   public CH.ifa.draw.standard.ChangeConnectionStartHandle createInstance() throws Exception {
     // JUnitDoclet begin method testcase.createInstance
-    return new CH.ifa.draw.standard.ChangeConnectionStartHandle(new RectangleFigure(new Point(10,10), new Point(100,100)));
+    return new CH.ifa.draw.standard.ChangeConnectionStartHandle(new LineConnection());
     // JUnitDoclet end method testcase.createInstance
   }
   

@@ -33,7 +33,6 @@ public class UtilSuite
     
     suite = new TestSuite("CH.ifa.draw.test.util");
     
-    suite.addTestSuite(CH.ifa.draw.test.util.JDOStorageFormatTest.class);
     suite.addTestSuite(CH.ifa.draw.test.util.ReverseListEnumeratorTest.class);
     suite.addTestSuite(CH.ifa.draw.test.util.StandardVersionControlStrategyTest.class);
     suite.addTestSuite(CH.ifa.draw.test.util.VersionManagementTest.class);

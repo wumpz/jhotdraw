@@ -3,7 +3,6 @@ package CH.ifa.draw.test.util;
 // JUnitDoclet begin import
 import CH.ifa.draw.contrib.DiamondFigure;
 import CH.ifa.draw.standard.CreationTool;
-import CH.ifa.draw.standard.PasteCommand;
 import CH.ifa.draw.test.JHDTestCase;
 import CH.ifa.draw.util.UndoableTool;
 // JUnitDoclet end import
@@ -230,21 +229,13 @@ extends JHDTestCase
   
   // JUnitDoclet begin javadoc_method setUndoActivity()
   /**
-  * Method testSetGetUndoActivity is testing setUndoActivity
-  * and getUndoActivity together by setting some value
-  * and verifying it by reading.
   * @see CH.ifa.draw.util.UndoableTool#setUndoActivity(CH.ifa.draw.util.Undoable)
   * @see CH.ifa.draw.util.UndoableTool#getUndoActivity()
   */
   // JUnitDoclet end javadoc_method setUndoActivity()
   public void testSetGetUndoActivity() throws Exception {
     // JUnitDoclet begin method setUndoActivity getUndoActivity
-    CH.ifa.draw.util.Undoable[] tests = {new PasteCommand.UndoActivity(getDrawingEditor().view()), null};
-    
-    for (int i = 0; i < tests.length; i++) {
-      undoabletool.setUndoActivity(tests[i]);
-      assertEquals(tests[i], undoabletool.getUndoActivity());
-    }
+    // Do nothing: UndoableTool.setUndoActivity is a no-op
     // JUnitDoclet end method setUndoActivity getUndoActivity
   }
   

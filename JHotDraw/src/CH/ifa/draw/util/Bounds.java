@@ -4,7 +4,7 @@
  * Project:		JHotdraw - a GUI framework for technical drawings
  *				http://www.jhotdraw.org
  *				http://jhotdraw.sourceforge.net
- * Copyright:	© by the original author(s) and all contributors
+ * Copyright:	? by the original author(s) and all contributors
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
@@ -136,6 +136,9 @@ public class Bounds implements Serializable {
 	}
 
 	public void setCenter(Point2D centerPoint2D) {
+		if(centerPoint2D == null) {
+			throw new IllegalArgumentException();
+		}
 		Point2D currentCenterPoint2D = getCenter();
 		double dDeltaX = centerPoint2D.getX() - currentCenterPoint2D.getX();
 		double dDeltaY = centerPoint2D.getY() - currentCenterPoint2D.getY();

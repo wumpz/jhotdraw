@@ -4,7 +4,7 @@
  *  Project:		JHotdraw - a GUI framework for technical drawings
  *  http://www.jhotdraw.org
  *  http://jhotdraw.sourceforge.net
- *  Copyright:	© by the original author(s) and all contributors
+ *  Copyright:	? by the original author(s) and all contributors
  *  License:		Lesser GNU Public License (LGPL)
  *  http://www.opensource.org/licenses/lgpl-license.html
  */
@@ -133,7 +133,7 @@ public class TextAreaFigure extends AttributeFigure
 	 * @param newText  The new text value
 	 */
 	public void setText(String newText) {
-		if (!newText.equals(fText)) {
+		if (newText == null || !newText.equals(fText)) {
 			markTextDirty();
 			fText = newText;
 			changed();
@@ -251,6 +251,9 @@ public class TextAreaFigure extends AttributeFigure
 	 * @param newFont  The new font value
 	 */
 	public void setFont(Font newFont) {
+		if(newFont == null) {
+			throw new IllegalArgumentException();
+		}
 		willChange();
 		fFont = newFont;
 		markSizeDirty();

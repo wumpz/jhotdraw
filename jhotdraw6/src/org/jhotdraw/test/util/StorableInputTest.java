@@ -1,5 +1,6 @@
 package CH.ifa.draw.test.util;
 
+import java.io.File;
 import java.io.FileInputStream;
 
 // JUnitDoclet begin import
@@ -48,9 +49,9 @@ extends TestCase
   */
   public CH.ifa.draw.util.StorableInput createInstance() throws Exception {
     // JUnitDoclet begin method testcase.createInstance
-	// todo
-	String fileName = "";
-	FileInputStream stream = new FileInputStream(fileName);
+	File tempFile = File.createTempFile("StorableInputTest", "dat");
+	FileInputStream stream = new FileInputStream(tempFile);
+	tempFile.deleteOnExit();
     return new CH.ifa.draw.util.StorableInput(stream);
     // JUnitDoclet end method testcase.createInstance
   }

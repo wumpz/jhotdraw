@@ -87,7 +87,7 @@ extends TestCase
   // JUnitDoclet end javadoc_method setText()
   public void testSetGetText() throws Exception {
     // JUnitDoclet begin method setText getText
-    java.lang.String[] tests = {"", " ", "a", "A", "ä", "ß", "0123456789", "012345678901234567890", "\n", null};
+    java.lang.String[] tests = {"", " ", "a", "A", "?", "?", "0123456789", "012345678901234567890", "\n", null};
     
     for (int i = 0; i < tests.length; i++) {
       textareafigure.setText(tests[i]);
@@ -191,7 +191,7 @@ extends TestCase
   // JUnitDoclet end javadoc_method setFont()
   public void testSetGetFont() throws Exception {
     // JUnitDoclet begin method setFont getFont
-    java.awt.Font[] tests = {new Font("Helvetica", Font.PLAIN, 12), null};
+    Font[] tests = {new Font("Helvetica", Font.PLAIN, 12)};
     
     for (int i = 0; i < tests.length; i++) {
       textareafigure.setFont(tests[i]);
@@ -200,7 +200,26 @@ extends TestCase
     // JUnitDoclet end method setFont getFont
   }
   
-  // JUnitDoclet begin javadoc_method overlayColumns()
+  // JUnitDoclet begin method setNullFont()
+  /**
+   * Test a null argument to setFont.  Expect an IllegalArgumentException
+   * 
+   * @see CH.ifa.draw.contrib.TextAreaFigure#setFont(java.awt.Font)
+   */
+  public void testSetNullFont() throws Exception {
+	Font original = textareafigure.getFont();
+  	
+	try {
+		textareafigure.setFont(null);
+		fail("IllegalArgumentException expected");
+	} catch(IllegalArgumentException ok) {
+		assertEquals("setFont(null) altered property value", original, textareafigure.getFont());
+	}
+  }
+  // JUnitDoclet end method
+  
+
+  // JUnitDoclet begin javadoc_method overlayColumns()  
   /**
   * Method testOverlayColumns is testing overlayColumns
   * @see CH.ifa.draw.contrib.TextAreaFigure#overlayColumns()

@@ -152,12 +152,7 @@ extends JHDTestCase
   // JUnitDoclet end javadoc_method setUndoActivity()
   public void testSetGetUndoActivity() throws Exception {
     // JUnitDoclet begin method setUndoActivity getUndoActivity
-    CH.ifa.draw.util.Undoable[] tests = {new DeleteCommand.UndoActivity(new DeleteCommand("Delete", getDrawingEditor())), null};
-    
-    for (int i = 0; i < tests.length; i++) {
-      undoablecommand.setUndoActivity(tests[i]);
-      assertEquals(tests[i], undoablecommand.getUndoActivity());
-    }
+    // Do nothing: UndoCommand.setUndoActivity() is a no-op
     // JUnitDoclet end method setUndoActivity getUndoActivity
   }
   

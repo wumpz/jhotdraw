@@ -64,6 +64,7 @@ extends JHDTestCase
   protected void setUp() throws Exception {
     // JUnitDoclet begin method testcase.setUp
     super.setUp();
+	getDrawingEditor().open();
     figurechangeeventmulticaster = createInstance();
     // JUnitDoclet end method testcase.setUp
   }

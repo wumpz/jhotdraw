@@ -1,6 +1,7 @@
 package CH.ifa.draw.test.util;
 
 import java.awt.Dimension;
+import java.awt.geom.Point2D;
 
 import junit.framework.TestCase;
 // JUnitDoclet begin import
@@ -208,7 +209,7 @@ extends TestCase
   // JUnitDoclet end javadoc_method setCenter()
   public void testSetGetCenter() throws Exception {
     // JUnitDoclet begin method setCenter getCenter
-    java.awt.geom.Point2D[] tests = {new java.awt.geom.Point2D.Double(2.0, 3.0), null};
+    Point2D[] tests = {new Point2D.Double(2.0, 3.0)};
     
     for (int i = 0; i < tests.length; i++) {
       bounds.setCenter(tests[i]);
@@ -216,6 +217,24 @@ extends TestCase
     }
     // JUnitDoclet end method setCenter getCenter
   }
+  
+  // JUnitDoclet begin method setNullCenter()
+  /**
+   * Test a null argument to setCenter.  Expect an IllegalArgumentException
+   * 
+   * @see CH.ifa.draw.util.Bounds#setCenter(java.awt.geom.Point2D)
+   */
+  public void testSetNullCenter() throws Exception {
+  	Point2D original = bounds.getCenter();
+  	
+  	try {
+  		bounds.setCenter(null);
+  		fail("IllegalArgumentException expected");
+  	} catch(IllegalArgumentException ok) {
+  		assertEquals("setCenter(null) altered property value", original, bounds.getCenter());
+  	}
+  }
+  // JUnitDoclet end method
   
   // JUnitDoclet begin javadoc_method zoomBy()
   /**

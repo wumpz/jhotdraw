@@ -1,9 +1,9 @@
 package CH.ifa.draw.test.util;
 
 import java.awt.Point;
-
 // JUnitDoclet begin import
 import CH.ifa.draw.figures.RectangleFigure;
+import CH.ifa.draw.framework.FigureEnumeration;
 import CH.ifa.draw.standard.PasteCommand;
 import CH.ifa.draw.standard.SingleFigureEnumerator;
 import CH.ifa.draw.test.JHDTestCase;
@@ -156,14 +156,37 @@ extends JHDTestCase
   // JUnitDoclet end javadoc_method setAffectedFigures()
   public void testSetGetAffectedFigures() throws Exception {
     // JUnitDoclet begin method setAffectedFigures getAffectedFigures
-    CH.ifa.draw.framework.FigureEnumeration[] tests = {new SingleFigureEnumerator(new RectangleFigure(new Point(44,44), new Point(55,55))), null};
+    FigureEnumeration[] tests = {new SingleFigureEnumerator(new RectangleFigure(new Point(44,44), new Point(55,55)))};
     
     for (int i = 0; i < tests.length; i++) {
       undoredoactivity.setAffectedFigures(tests[i]);
-      assertEquals(tests[i], undoredoactivity.getAffectedFigures());
+      FigureEnumeration returned = undoredoactivity.getAffectedFigures();
+      tests[i].reset();
+      while(returned.hasNextFigure()) {
+      	 assertTrue(tests[i].hasNextFigure());
+         assertEquals(tests[i].nextFigure(), returned.nextFigure());
+      }
+      assertFalse(tests[i].hasNextFigure());
     }
     // JUnitDoclet end method setAffectedFigures getAffectedFigures
   }
+  
+  // JUnitDoclet begin method testSetNullAffectedFigures()
+  /**
+   * Test a null argument to setAffectedFigures.  Expect an IllegalArgumentException
+   * 
+   * @see CH.ifa.draw.util.UndoRedoActivity#setAffectedFigures(CH.ifa.draw.framework.PointConstrainer)
+   */
+  public void testSetNullAffectedFigures() throws Exception {
+	FigureEnumeration original = undoredoactivity.getAffectedFigures();
+  	
+	try {
+		undoredoactivity.setAffectedFigures(null);
+		fail("IllegalArgumentException expected");
+	} catch(IllegalArgumentException ok) {
+	}
+  }
+  // JUnitDoclet end method
   
   // JUnitDoclet begin javadoc_method getAffectedFiguresCount()
   /**

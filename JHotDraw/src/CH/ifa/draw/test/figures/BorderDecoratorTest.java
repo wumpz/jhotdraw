@@ -1,5 +1,7 @@
 package CH.ifa.draw.test.figures;
 
+import java.awt.Point;
+
 import junit.framework.TestCase;
 // JUnitDoclet begin import
 // JUnitDoclet end import
@@ -85,7 +87,7 @@ extends TestCase
   // JUnitDoclet end javadoc_method setBorderOffset()
   public void testSetGetBorderOffset() throws Exception {
     // JUnitDoclet begin method setBorderOffset getBorderOffset
-    java.awt.Point[] tests = {new java.awt.Point(), null};
+    Point[] tests = {new java.awt.Point()};
     
     for (int i = 0; i < tests.length; i++) {
       borderdecorator.setBorderOffset(tests[i]);
@@ -94,7 +96,21 @@ extends TestCase
     // JUnitDoclet end method setBorderOffset getBorderOffset
   }
   
-  // JUnitDoclet begin javadoc_method draw()
+  // JUnitDoclet begin method setNullBorderOffset()
+  /**
+   * Test a null argument to setBorderOffset.  Expect an Point(0, 0) to come back
+   * 
+   * @see CH.ifa.draw.figures.BorderDecorator#setBorderOffset(java.awt.Point)
+   */
+  public void setNullBorderOffset() throws Exception {
+	Point original = borderdecorator.getBorderOffset();
+  	
+		borderdecorator.setBorderOffset(null);
+		assertEquals(new Point(0,0), borderdecorator.getBorderOffset());
+  }
+  // JUnitDoclet end method
+  
+    // JUnitDoclet begin javadoc_method draw()
   /**
   * Method testDraw is testing draw
   * @see CH.ifa.draw.figures.BorderDecorator#draw(java.awt.Graphics)
