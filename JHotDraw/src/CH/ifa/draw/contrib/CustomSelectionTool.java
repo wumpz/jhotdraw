@@ -29,6 +29,7 @@ import java.awt.event.*;
  * @version <$CURRENT_VERSION$>
  */
 public class CustomSelectionTool extends SelectionTool {
+	protected FigureAttributeConstant popupMenuAttribute;
 
 	/**
 	 * Create an instance of this SelectionTool for the given view
@@ -37,6 +38,8 @@ public class CustomSelectionTool extends SelectionTool {
 	 */
 	public CustomSelectionTool(DrawingEditor editor) {
 		super( editor );
+		popupMenuAttribute =
+		    FigureAttributeConstant.getConstant(Figure.POPUP_MENU);
 	}
 	
 	/**
@@ -134,7 +137,7 @@ public class CustomSelectionTool extends SelectionTool {
 	protected void handlePopupMenu(MouseEvent e, int x, int y) {
 		Figure figure = drawing().findFigure(e.getX(), e.getY());
 		if (figure != null) {
-			Object attribute = figure.getAttribute(Figure.POPUP_MENU);
+			Object attribute = figure.getAttribute(popupMenuAttribute);
 			if (attribute == null) {
 				figure = drawing().findFigureInside(e.getX(), e.getY());
 			}
@@ -155,7 +158,7 @@ public class CustomSelectionTool extends SelectionTool {
 	 * @param   comp        Component which invoked the popup menu
 	 */
 	protected void showPopupMenu(Figure figure, int x, int y, Component comp) {
-		Object attribute = figure.getAttribute(Figure.POPUP_MENU);
+		Object attribute = figure.getAttribute(popupMenuAttribute);
 		if ((attribute != null) && (attribute instanceof JPopupMenu)) {
 			JPopupMenu popup = (JPopupMenu)attribute;
 			if (popup instanceof PopupMenuFigureSelection) {
