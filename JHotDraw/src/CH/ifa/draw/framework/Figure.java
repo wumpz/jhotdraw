@@ -12,8 +12,9 @@
 package CH.ifa.draw.framework;
 
 import CH.ifa.draw.util.*;
+import CH.ifa.draw.standard.TextHolder;
+
 import java.awt.*;
-import java.util.*;
 import java.io.Serializable;
 
 /**
@@ -163,6 +164,10 @@ public interface Figure
 	 */
 	public void removeFromContainer(FigureChangeListener c);
 
+	public void addDependendFigure(Figure newDependendFigure);
+	public void removeDependendFigure(Figure oldDependendFigure);
+	public FigureEnumeration getDependendFigures();
+
 	/**
 	 * Gets the Figure's listeners.
 	 */
@@ -292,4 +297,8 @@ public interface Figure
 	 * Z values are not guaranteed to not skip numbers.
 	 */
 	public void setZValue(int z);
+
+	public void visit(FigureVisitor visitor);
+
+	public TextHolder getTextHolder();
 }

@@ -35,8 +35,9 @@ public abstract class FigureTransferCommand extends AbstractCommand {
 	* Deletes the selection from the drawing.
 	*/
 	protected void deleteFigures(FigureEnumeration fe) {
+	   DeleteFromDrawingVisitor deleteVisitor = new DeleteFromDrawingVisitor(view().drawing());
 		while (fe.hasNextFigure()) {
-			view().drawing().orphan(fe.nextFigure());
+			fe.nextFigure().visit(deleteVisitor);
 		}
 
 		view().clearSelection();

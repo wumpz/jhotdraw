@@ -303,7 +303,6 @@ public  class TextFigure
 	}
 
 	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
-
 		s.defaultReadObject();
 
 		if (fObservedFigure != null) {
@@ -371,6 +370,9 @@ public  class TextFigure
 		fLocator = null;
 	}
 
+	public TextHolder getTextHolder() {
+		return this;
+	}
 
 	/**
 	 * Creates the current font to be used for new text figures.

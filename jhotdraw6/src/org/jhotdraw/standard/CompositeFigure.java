@@ -107,7 +107,11 @@ public abstract class CompositeFigure
 	 * @see #removeAll
 	 */
 	public Figure remove(Figure figure) {
-		return orphan(figure);
+		Figure orphanedFigure = orphan(figure);
+		if (orphanedFigure != null) {
+			orphanedFigure.release();
+		}
+		return orphanedFigure;
 	}
 
 	/**
@@ -118,7 +122,6 @@ public abstract class CompositeFigure
 	 */
 	public void removeAll(List figures) {
 		removeAll(new FigureEnumerator(figures));
-
 	}
 
 	/**
@@ -156,11 +159,9 @@ public abstract class CompositeFigure
 	 * @param figure that is part of the drawing and should be added
 	 */
 	public synchronized Figure orphan(Figure figure) {
-		if (containsFigure(figure)) {
-			figure.removeFromContainer(this);
-			fFigures.remove(figure);
-			_removeFromQuadTree(figure);
-		}
+		figure.removeFromContainer(this);
+		fFigures.remove(figure);
+		_removeFromQuadTree(figure);
 		return figure;
 	}
 
@@ -640,6 +641,7 @@ public abstract class CompositeFigure
 		for (int i=0; i<size; i++) {
 			add((Figure)dr.readStorable());
 		}
+		init(displayBox());
 	}
 
 	private void readObject(ObjectInputStream s)
@@ -652,6 +654,8 @@ public abstract class CompositeFigure
 			Figure figure = fe.nextFigure();
 			figure.addToContainer(this);
 		}
+
+		init(new Rectangle(0, 0));
 	}
 
 	/**

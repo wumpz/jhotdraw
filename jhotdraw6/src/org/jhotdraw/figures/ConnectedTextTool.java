@@ -27,6 +27,7 @@ import java.awt.event.MouseEvent;
 public  class ConnectedTextTool extends TextTool {
 
 	private boolean fConnected = false;
+	private Figure myConnectedFigure;
 
 	public ConnectedTextTool(DrawingEditor editor, Figure prototype) {
 		super(editor, prototype);
@@ -39,14 +40,31 @@ public  class ConnectedTextTool extends TextTool {
 	public void mouseDown(MouseEvent e, int x, int y) {
 		super.mouseDown(e, x, y);
 
-		Figure pressedFigure =  drawing().findFigureInside(x, y);
+		setConnectedFigure(drawing().findFigureInside(x, y));
 		TextHolder textHolder = getTypingTarget();
-		if (!fConnected && pressedFigure != null &&
-					 textHolder != null && pressedFigure != textHolder) {
-			textHolder.connect(pressedFigure);
-			((ConnectedTextTool.UndoActivity)getUndoActivity()).setConnectedFigure(pressedFigure);
+		if (!fConnected && (getConnectedFigure() != null) && (textHolder != null) && (getConnectedFigure() != textHolder)) {
+			textHolder.connect(getConnectedFigure());
+			getConnectedFigure().addDependendFigure(getAddedFigure());
 			fConnected = true;
 		}
+	}
+
+	protected void endEdit() {
+		super.endEdit();
+		if (getUndoActivity() != null) {
+			((ConnectedTextTool.UndoActivity)getUndoActivity()).setConnectedFigure(getConnectedFigure());
+		}
+		else {
+			getConnectedFigure().removeDependendFigure(getAddedFigure());
+		}
+	}
+
+	protected void setConnectedFigure(Figure pressedFigure) {
+		myConnectedFigure = pressedFigure;
+	}
+
+	public Figure getConnectedFigure() {
+		return myConnectedFigure;
 	}
 
 	/**
@@ -67,7 +85,7 @@ public  class ConnectedTextTool extends TextTool {
 
 	public static class UndoActivity extends TextTool.UndoActivity {
 		private Figure myConnectedFigure;
-		
+
 		public UndoActivity(DrawingView newDrawingView, String newOriginalText) {
 			super(newDrawingView, newOriginalText);
 		}
@@ -84,19 +102,19 @@ public  class ConnectedTextTool extends TextTool {
 			FigureEnumeration fe = getAffectedFigures();
 			while (fe.hasNextFigure()) {
 				Figure currentFigure = fe.nextFigure();
-				if (currentFigure instanceof TextHolder) {
-					TextHolder currentTextHolder = (TextHolder)currentFigure;
+
+				if (currentFigure.getTextHolder() != null) {
 					// the text figure didn't exist before
 					if (!isValidText(getOriginalText())) {
-						currentTextHolder.disconnect(getConnectedFigure());
+						currentFigure.getTextHolder().disconnect(getConnectedFigure());
 					}
 					// the text figure did exist but was remove
 					else if (!isValidText(getBackupText())) {
-						currentTextHolder.connect(getConnectedFigure());
+						currentFigure.getTextHolder().connect(getConnectedFigure());
 					}
 				}
 			}
-			
+
 			return true;
 		}
 
@@ -112,26 +130,25 @@ public  class ConnectedTextTool extends TextTool {
 			FigureEnumeration fe = getAffectedFigures();
 			while (fe.hasNextFigure()) {
 				Figure currentFigure = fe.nextFigure();
-				if (currentFigure instanceof TextHolder) {
-					TextHolder currentTextHolder = (TextHolder)currentFigure;
+				if (currentFigure.getTextHolder() != null) {
 					// the text figure did exist but was remove
 					if (!isValidText(getBackupText())) {
-						currentTextHolder.disconnect(getConnectedFigure());
+						currentFigure.getTextHolder().disconnect(getConnectedFigure());
 					}
 					// the text figure didn't exist before
 					else if (!isValidText(getOriginalText())) {
-						currentTextHolder.connect(getConnectedFigure());
+						currentFigure.getTextHolder().connect(getConnectedFigure());
 					}
 				}
 			}
 
 			return true;
 		}
-		
+
 		public void setConnectedFigure(Figure newConnectedFigure) {
 			myConnectedFigure = newConnectedFigure;
 		}
-		
+
 		public Figure getConnectedFigure() {
 			return myConnectedFigure;
 		}

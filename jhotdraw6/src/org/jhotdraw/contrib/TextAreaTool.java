@@ -22,11 +22,8 @@ import CH.ifa.draw.util.Undoable;
 import CH.ifa.draw.util.UndoableAdapter;
 
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 
 /**
@@ -71,15 +68,13 @@ public class TextAreaTool extends CreationTool {
 	 * @param y  Description of the Parameter
 	 */
 	public void mouseDown(MouseEvent e, int x, int y) {
-		TextHolder textHolder = null;
 		Figure pressedFigure = drawing().findFigureInside(x, y);
-		if (pressedFigure instanceof TextHolder) {
-			textHolder = (TextHolder)pressedFigure;
-			if (!textHolder.acceptsTyping()) {
-				textHolder = null;
-			}
+		TextHolder textHolder = null;
+		if (pressedFigure != null) {
+			textHolder = pressedFigure.getTextHolder();
 		}
-		if (textHolder != null) {
+
+		if ((textHolder != null) && (textHolder.acceptsTyping())) {
 			beginEdit(textHolder, pressedFigure);
 			return;
 		}
@@ -221,7 +216,7 @@ public class TextAreaTool extends CreationTool {
 						getTypingTarget().getText());
 			}
 			else {
-				drawing().orphan((Figure)getAddedFigure());
+				drawing().orphan(getAddedFigure());
 				// nothing to undo
 //	            setUndoActivity(null);
 			}
@@ -410,11 +405,8 @@ public class TextAreaTool extends CreationTool {
 			FigureEnumeration fe = getAffectedFigures();
 			while (fe.hasNextFigure()) {
 				Figure currentFigure = fe.nextFigure();
-				if (currentFigure instanceof DecoratorFigure) {
-					currentFigure = ((DecoratorFigure)currentFigure).getDecoratedFigure();
-				}
-				if (currentFigure instanceof TextHolder) {
-					((TextHolder)currentFigure).setText(newText);
+				if (currentFigure.getTextHolder() != null) {
+					currentFigure.getTextHolder().setText(newText);
 				}
 			}
 		}

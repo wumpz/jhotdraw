@@ -30,7 +30,9 @@ public interface Desktop {
 	public void addToDesktop(DrawingView dv, int location);
 	public void removeFromDesktop(DrawingView dv, int location);
 	public void removeAllFromDesktop(int location);
-	public DrawingView [] getAllFromDesktop(int location);
+	public DrawingView[] getAllFromDesktop(int location);
+
+	public void updateTitle(String newDrawingTitle);
 
 	public void addDesktopListener(DesktopListener dpl);
 	public void removeDesktopListener(DesktopListener dpl);

@@ -15,7 +15,6 @@ import CH.ifa.draw.util.*;
 import CH.ifa.draw.framework.*;
 
 import java.awt.*;
-import java.util.*;
 import java.io.*;
 
 /**
@@ -95,6 +94,7 @@ public abstract class DecoratorFigure
 	public void decorate(Figure figure) {
 		fComponent = figure;
 		fComponent.addToContainer(this);
+		addDependendFigure(fComponent);
 	}
 
 	/**
@@ -102,6 +102,7 @@ public abstract class DecoratorFigure
 	 */
 	public Figure peelDecoration() {
 		getDecoratedFigure().removeFromContainer(this); //??? set the container to the listener()?
+		removeDependendFigure(getDecoratedFigure());
 		return getDecoratedFigure();
 	}
 
@@ -299,5 +300,14 @@ public abstract class DecoratorFigure
 		s.defaultReadObject();
 
 		getDecoratedFigure().addToContainer(this);
+	}
+
+	public void visit(FigureVisitor visitor) {
+		super.visit(visitor);
+//		getDecoratedFigure().visit(visitor);
+	}
+
+	public TextHolder getTextHolder() {
+		return getDecoratedFigure().getTextHolder();
 	}
 }

@@ -143,4 +143,9 @@ public class SplitPaneDesktop extends JSplitPane implements Desktop {
 	protected DesktopEventService createDesktopEventService() {
 		return new DesktopEventService(this, getContainer());
 	}
+
+	public void updateTitle(String newDrawingTitle) {
+		// should be setTitle but a JPanelDesktop has no own title bar
+		setName(newDrawingTitle);
+	}
 }

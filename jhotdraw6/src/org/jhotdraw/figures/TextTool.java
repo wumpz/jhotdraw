@@ -47,19 +47,17 @@ public class TextTool extends CreationTool {
 	public void mouseDown(MouseEvent e, int x, int y)
 	{
 		setView((DrawingView)e.getSource());
-		TextHolder textHolder = null;
 		Figure pressedFigure = drawing().findFigureInside(x, y);
-		if (pressedFigure instanceof TextHolder) {
-			textHolder = (TextHolder)pressedFigure;
-			if (!textHolder.acceptsTyping()) {
-				textHolder = null;
-			}
+		TextHolder textHolder = null;
+		if (pressedFigure != null) {
+			textHolder = pressedFigure.getTextHolder();
 		}
-		if (textHolder != null) {
+
+		if ((textHolder != null) && textHolder.acceptsTyping()) {
 			beginEdit(textHolder);
 		}
 		else if (getTypingTarget() != null) {
-			deactivate();
+			editor().toolDone();
 		}
 		else {
 			super.mouseDown(e, x, y);
@@ -67,8 +65,7 @@ public class TextTool extends CreationTool {
 			// figure is overlaid. (Note, fDamage should be null in StandardDrawingView
 			// when the overlay figure is drawn because a JTextField cannot be scrolled)
 			view().checkDamage();
-			textHolder = (TextHolder)getCreatedFigure();
-			beginEdit(textHolder);
+			beginEdit(getCreatedFigure().getTextHolder());
 		}
 	}
 
@@ -121,6 +118,8 @@ public class TextTool extends CreationTool {
 		getFloatingTextField().setBounds(fieldBounds(figure), figure.getText());
 
 		setTypingTarget(figure);
+
+		setUndoActivity(createUndoActivity());
 	}
 
 	protected void endEdit() {
@@ -129,22 +128,22 @@ public class TextTool extends CreationTool {
 				getTypingTarget().setText(getFloatingTextField().getText());
 			}
 			else {
-				drawing().orphan((Figure)getAddedFigure());
-
-				// nothing to undo
-//	            setUndoActivity(null);
+				drawing().orphan(getAddedFigure());
 			}
 
-			// put created figure into a figure enumeration
-			setUndoActivity(createUndoActivity());
-			getUndoActivity().setAffectedFigures(
-				new SingleFigureEnumerator(getAddedFigure()));
-			((TextTool.UndoActivity)getUndoActivity()).setBackupText(
-				getTypingTarget().getText());
+			TextTool.UndoActivity undoActivity = ((TextTool.UndoActivity)getUndoActivity());
+			if ((undoActivity.getOriginalText() != null) || (getTypingTarget().getText() != null)) {
+				// put created figure into a figure enumeration
+				getUndoActivity().setAffectedFigures(
+					new SingleFigureEnumerator(getAddedFigure()));
+				undoActivity.setBackupText(getTypingTarget().getText());
+			}
+			else {
+				setUndoActivity(null);
+			}
 
 			setTypingTarget(null);
 			getFloatingTextField().endOverlay();
-//	        view().checkDamage();
 		}
 	}
 
@@ -222,7 +221,6 @@ public class TextTool extends CreationTool {
 				setText(getOriginalText());
 			}
 
-
 			return true;
 		}
 
@@ -267,11 +265,8 @@ public class TextTool extends CreationTool {
 			FigureEnumeration fe = getAffectedFigures();
 			while (fe.hasNextFigure()) {
 				Figure currentFigure = fe.nextFigure();
-				if (currentFigure instanceof DecoratorFigure) {
-					currentFigure = ((DecoratorFigure)currentFigure).getDecoratedFigure();
-				}
-				if (currentFigure instanceof TextHolder) {
-					((TextHolder)currentFigure).setText(newText);
+				if (currentFigure.getTextHolder() != null) {
+					currentFigure.getTextHolder().setText(newText);
 				}
 			}
 		}

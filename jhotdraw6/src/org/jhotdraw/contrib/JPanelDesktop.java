@@ -45,6 +45,7 @@ public class JPanelDesktop extends JPanel implements Desktop {
 		else {
 			applicationTitle = getDrawApplication().getApplicationName() + " - " + dv.drawing().getTitle();
 		}
+		// should be setTitle but a JPanelDesktop has no own title bar
 		sp.setName(applicationTitle);
 		return sp;
 	}
@@ -102,5 +103,10 @@ public class JPanelDesktop extends JPanel implements Desktop {
 
 	protected DrawApplication getDrawApplication() {
 		return myDrawApplication;
+	}
+
+	public void updateTitle(String newDrawingTitle) {
+		// should be setTitle but a JPanelDesktop has no own title bar
+		setName(newDrawingTitle);
 	}
 }

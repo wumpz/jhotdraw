@@ -272,8 +272,8 @@ public class StandardDrawingView
 			return FigureEnumerator.getEmptyEnumeration();
 		}
 
-		List addedFigures = CollectionsFactory.current().createList();
 		List vCF = CollectionsFactory.current().createList(10);
+		InsertIntoDrawingVisitor visitor = new InsertIntoDrawingVisitor(drawing());
 
 		while (fe.hasNextFigure()) {
 			Figure figure = fe.nextFigure();
@@ -282,10 +282,7 @@ public class StandardDrawingView
 			}
 			else if (figure != null) {
 				figure.moveBy(dx, dy);
-				figure = add(figure);
-				addToSelection(figure);
-				// figure might has changed during adding so add it afterwards
-				addedFigures.add(figure);
+				figure.visit(visitor);
 			}
 		}
 
@@ -313,14 +310,12 @@ public class StandardDrawingView
 					}
 				}
 
-				Figure nf = add(cf);
-				addToSelection(nf);
-				// figure might has changed during adding so add it afterwards
-				addedFigures.add(nf);
+				cf.visit(visitor);
 			}
 		}
 
-		return new FigureEnumerator(addedFigures);
+		addToSelectionAll(visitor.getInsertedFigures());
+		return visitor.getInsertedFigures();
 	}
 
 	/**

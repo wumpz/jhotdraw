@@ -90,9 +90,10 @@ public class PasteCommand extends FigureTransferCommand {
 				return false;
 			}
 
+			DeleteFromDrawingVisitor deleteVisitor = new DeleteFromDrawingVisitor(getDrawingView().drawing());
 			FigureEnumeration fe = getAffectedFigures();
 			while (fe.hasNextFigure()) {
-				getDrawingView().drawing().orphan(fe.nextFigure());
+	    		fe.nextFigure().visit(deleteVisitor);
 			}
 
 			getDrawingView().clearSelection();

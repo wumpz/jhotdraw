@@ -39,11 +39,17 @@ public abstract class AbstractFigure implements Figure {
 
 	/**
 	 * The listeners for a figure's changes.
+	 * It is only one listener but this one can be a (chained) MultiCastFigureChangeListener
 	 * @see #invalidate
 	 * @see #changed
 	 * @see #willChange
 	 */
 	private transient FigureChangeListener fListener;
+
+	/**
+	 * The dependend figures which have been added to this container.
+	 */
+	private List myDependendFigures;
 
 	/*
 	 * Serialization support.
@@ -52,7 +58,9 @@ public abstract class AbstractFigure implements Figure {
 	private int abstractFigureSerializedDataVersion = 1;
 	private int _nZ;
 
-	protected AbstractFigure() { }
+	protected AbstractFigure() {
+		 myDependendFigures = CollectionsFactory.current().createList();
+	}
 
 	/**
 	 * Moves the figure by the given offset.
@@ -111,7 +119,7 @@ public abstract class AbstractFigure implements Figure {
 	 * @see CompositeFigure
 	 */
 	public FigureEnumeration figures() {
-		return new SingleFigureEnumerator(this);
+		return FigureEnumerator.getEmptyEnumeration();
 	}
 
 	/**
@@ -202,21 +210,21 @@ public abstract class AbstractFigure implements Figure {
 	/**
 	 * Adds a listener for this figure.
 	 */
-	public void addFigureChangeListener(FigureChangeListener l) {
+	public synchronized void addFigureChangeListener(FigureChangeListener l) {
 		fListener = FigureChangeEventMulticaster.add(listener(), l);
 	}
 
 	/**
 	 * Removes a listener for this figure.
 	 */
-	public void removeFigureChangeListener(FigureChangeListener l) {
+	public synchronized void removeFigureChangeListener(FigureChangeListener l) {
 		fListener = FigureChangeEventMulticaster.remove(listener(), l);
 	}
 
 	/**
 	 * Gets the figure's listners.
 	 */
-	public FigureChangeListener listener() {
+	public synchronized FigureChangeListener listener() {
 		return fListener;
 	}
 
@@ -258,6 +266,7 @@ public abstract class AbstractFigure implements Figure {
 	 * @see Figure#willChange
 	 */
 	public void willChange() {
+		// call invalidate before the change occurs to invalidate the old display area
 		invalidate();
 	}
 
@@ -384,7 +393,7 @@ public abstract class AbstractFigure implements Figure {
 		InputStream input = new ByteArrayInputStream(output.toByteArray());
 		try {
 			ObjectInput reader = new ObjectInputStream(input);
-			clone = (Object) reader.readObject();
+			clone = reader.readObject();
 		}
 		catch (IOException e) {
 			System.err.println(e.toString());
@@ -419,5 +428,51 @@ public abstract class AbstractFigure implements Figure {
 	 */
 	public void setZValue(int z) {
 	  _nZ = z;
+	}
+
+	public void visit(FigureVisitor visitor) {
+		// remember original listener as listeners might be changed by a visitor
+		// (e.g. by calling addToContainer() or removeFromContainer())
+		FigureChangeListener originalListener = listener();
+		FigureEnumeration fe = getDependendFigures();
+
+		visitor.visitFigure(this);
+
+		FigureEnumeration visitFigures = figures();
+		while (visitFigures.hasNextFigure()) {
+			visitFigures.nextFigure().visit(visitor);
+		}
+
+		HandleEnumeration visitHandles = handles();
+		while (visitHandles.hasNextHandle()) {
+			visitor.visitHandle(visitHandles.nextHandle());
+		}
+/*
+		originalListener = listener();
+		if (originalListener != null) {
+			visitor.visitFigureChangeListener(originalListener);
+		}
+*/
+
+		while (fe.hasNextFigure()) {
+			fe.nextFigure().visit(visitor);
+			// or visitor.visitDependendFigure(fe.nextFigure());
+		}
+	}
+
+	public synchronized FigureEnumeration getDependendFigures() {
+		return new FigureEnumerator(myDependendFigures);
+	}
+
+	public synchronized void addDependendFigure(Figure newDependendFigure) {
+		myDependendFigures.add(newDependendFigure);
+	}
+
+	public synchronized void removeDependendFigure(Figure oldDependendFigure) {
+		myDependendFigures.remove(oldDependendFigure);
+	}
+
+	public TextHolder getTextHolder() {
+		return null;
 	}
 }

@@ -238,6 +238,9 @@ public class GraphicalCompositeFigure extends CompositeFigure implements Layouta
 	 */
 	public void setPresentationFigure(Figure newPresentationFigure) {
 		myPresentationFigure = newPresentationFigure;
+		if (myPresentationFigure != null) {
+			myPresentationFigure.addDependendFigure(this);
+		}
 	}
 
 	/**
@@ -335,5 +338,10 @@ public class GraphicalCompositeFigure extends CompositeFigure implements Layouta
 	public void write(StorableOutput dw) {
 		super.write(dw);
 		dw.writeStorable(getPresentationFigure());
+	}
+
+	public void visit(FigureVisitor visitor) {
+		super.visit(visitor);
+//		getPresentationFigure().visit(visitor);
 	}
 }

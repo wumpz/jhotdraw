@@ -84,35 +84,28 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
 	}
 
 	/**
-	 * Removes the figure from the drawing and releases it.
+	 * Removes a figure from the figure list, but
+	 * doesn't release it. Use this method to temporarily
+	 * manipulate a figure outside of the drawing.
+	 *
+	 * @param figure that is part of the drawing and should be added
 	 */
-
-	public synchronized Figure remove(Figure figure) {
+	public synchronized Figure orphan(Figure figure) {
+		Figure orphanedFigure = super.orphan(figure);
 		// ensure that we remove the top level figure in a drawing
-		if (figure.listener() != null) {
-			figure.listener().figureRequestRemove(new FigureChangeEvent(figure, null));
-			return figure;
+		if (orphanedFigure.listener() != null) {
+			orphanedFigure.listener().figureRequestRemove(new FigureChangeEvent(orphanedFigure, null));
 		}
-		return null;
+		return orphanedFigure;
 	}
 
-	/**
-	 * Handles a removeFromDrawing request that
-	 * is passed up the figure container hierarchy.
-	 * @see FigureChangeListener
-	 */
-	public void figureRequestRemove(FigureChangeEvent e) {
-		Figure figure = e.getFigure();
-		if (fFigures.contains(figure)) {
-			// Bugfix: This call will cleans up the quad-tree as well [JY]
-			super.remove(figure);
-			//fFigures.removeElement(figure);
-			//figure.removeFromContainer(this);   // will invalidate figure
-			figure.release();
+	public synchronized Figure add(Figure figure) {
+		Figure addedFigure = super.add(figure);
+		if (addedFigure.listener() != null) {
+			addedFigure.listener().figureRequestUpdate(new FigureChangeEvent(figure, null));
+			return addedFigure;
 		}
-		else {
-			System.err.println("Attempt to remove non-existing figure");
-		}
+		return addedFigure;
 	}
 
 	/**
@@ -130,7 +123,7 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
 	}
 
 	/**
-	 * Forces an update
+	 * Forces an update of the drawing change listeners.
 	 */
 	public void figureRequestUpdate(FigureChangeEvent e) {
 		if (fListeners != null) {

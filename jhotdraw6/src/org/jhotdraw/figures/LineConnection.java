@@ -75,6 +75,7 @@ public  class LineConnection extends PolyLineFigure implements ConnectionFigure 
 	public void connectStart(Connector newStartConnector) {
 		setStartConnector(newStartConnector);
 		if (newStartConnector != null) {
+			startFigure().addDependendFigure(this);
 			startFigure().addFigureChangeListener(this);
 		}
 	}
@@ -85,6 +86,7 @@ public  class LineConnection extends PolyLineFigure implements ConnectionFigure 
 	public void connectEnd(Connector newEndConnector) {
 		setEndConnector(newEndConnector);
 		if (newEndConnector != null) {
+			endFigure().addDependendFigure(this);
 			endFigure().addFigureChangeListener(this);
 			handleConnect(startFigure(), endFigure());
 		}
@@ -95,6 +97,7 @@ public  class LineConnection extends PolyLineFigure implements ConnectionFigure 
 	 */
 	public void disconnectStart() {
 		startFigure().removeFigureChangeListener(this);
+		startFigure().removeDependendFigure(this);
 		setStartConnector(null);
 	}
 
@@ -104,6 +107,7 @@ public  class LineConnection extends PolyLineFigure implements ConnectionFigure 
 	public void disconnectEnd() {
 		handleDisconnect(startFigure(), endFigure());
 		endFigure().removeFigureChangeListener(this);
+		endFigure().removeDependendFigure(this);
 		setEndConnector(null);
 	}
 
@@ -298,14 +302,16 @@ public  class LineConnection extends PolyLineFigure implements ConnectionFigure 
 	}
 
 	public void figureRemoved(FigureChangeEvent e) {
-		if (listener() != null) {
-			listener().figureRequestRemove(new FigureChangeEvent(this));
-		}
 	}
 
-	public void figureRequestRemove(FigureChangeEvent e) {}
-	public void figureInvalidated(FigureChangeEvent e) {}
-	public void figureRequestUpdate(FigureChangeEvent e) {}
+	public void figureRequestRemove(FigureChangeEvent e) {
+	}
+
+	public void figureInvalidated(FigureChangeEvent e) {
+	}
+
+	public void figureRequestUpdate(FigureChangeEvent e) {
+	}
 
 	public void release() {
 		super.release();
@@ -350,5 +356,9 @@ public  class LineConnection extends PolyLineFigure implements ConnectionFigure 
 		if (getEndConnector() != null) {
 			connectEnd(getEndConnector());
 		}
+	}
+
+	public void visit(FigureVisitor visitor) {
+		visitor.visitFigure(this);
 	}
 }

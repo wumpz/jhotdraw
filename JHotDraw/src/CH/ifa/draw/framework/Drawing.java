@@ -117,9 +117,19 @@ public interface Drawing
 	/**
 	 * Checks if the composite figure has the argument as one of
 	 * its children.
+	 *
+	 * @param figure figure to be searched in all descendants
 	 * @return true if the figure is part of this Drawing, else otherwise
 	 */
 	public boolean includes(Figure figure);
+
+	/**
+	 * Check whether a given figure is a (direct) child figure of this CompositeFigure.
+	 *
+	 * @param figure figure to be searched in all direct descendents
+	 * @return true if the figure is a direct child of this Drawing, else otherwise
+	 */
+	public boolean containsFigure(Figure figure);
 
 	/**
 	 * Adds a listener for this drawing.

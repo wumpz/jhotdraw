@@ -79,4 +79,9 @@ public class JScrollPaneDesktop extends JScrollPane implements Desktop {
 	protected DesktopEventService createDesktopEventService() {
 		return new DesktopEventService(this, getContainer());
 	}
+
+	public void updateTitle(String newDrawingTitle) {
+		// should be setTitle but a JPanelDesktop has no own title bar
+		setName(newDrawingTitle);
+	}
 }

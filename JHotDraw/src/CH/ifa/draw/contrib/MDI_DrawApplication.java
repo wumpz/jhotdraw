@@ -136,4 +136,11 @@ public class MDI_DrawApplication extends DrawApplication {
 	public String getDefaultDrawingTitle() {
 		return super.getDefaultDrawingTitle() + views().length;
 	}
+
+	/**
+	 * Set the title of the currently selected drawing
+	 */
+	protected void setDrawingTitle(String drawingTitle) {
+		getDesktop().updateTitle(drawingTitle);
+	}
 }
