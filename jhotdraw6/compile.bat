@@ -7,9 +7,9 @@ set OLD_CP=%CLASSPATH%
 set CLASSPATH=.
 set CLASSPATH=%CLASSPATH%;%JHD_DIR%
 
-javac -d %JHD_DIR% %JHD_DIR%\src\CH\ifa\draw\applet\*.java %JHD_DIR%\src\CH\ifa\draw\application\*.java %JHD_DIR%\src\CH\ifa\draw\contrib\*.java %JHD_DIR%\src\CH\ifa\draw\figures\*.java %JHD_DIR%\src\CH\ifa\draw\framework\*.java %JHD_DIR%\src\CH\ifa\draw\standard\*.java %JHD_DIR%\src\CH\ifa\draw\util\*.java
+javac -d %JHD_DIR% %JHD_DIR%\src\org\jhotdraw\applet\*.java %JHD_DIR%\src\org\jhotdraw\application\*.java %JHD_DIR%\src\org\jhotdraw\contrib\*.java %JHD_DIR%\src\org\jhotdraw\figures\*.java %JHD_DIR%\src\org\jhotdraw\framework\*.java %JHD_DIR%\src\org\jhotdraw\standard\*.java %JHD_DIR%\src\org\jhotdraw\util\*.java
 
-set SAMPLES=%JHD_DIR%\src\CH\ifa\draw\samples
+set SAMPLES=%JHD_DIR%\src\org\jhotdraw\samples
 javac -d %JHD_DIR% %SAMPLES%\javadraw\*.java %SAMPLES%\net\*.java %SAMPLES%\nothing\*.java %SAMPLES%\pert\*.java
 
 set CLASSPATH=%OLD_CP%

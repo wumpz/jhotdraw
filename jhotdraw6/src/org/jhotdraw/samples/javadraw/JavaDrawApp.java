@@ -33,7 +33,7 @@ import java.net.URL;
 public  class JavaDrawApp extends MDI_DrawApplication {
 
 	private Animator            fAnimator;
-	private static String       fgSampleImagesPath = "/CH/ifa/draw/samples/javadraw/sampleimages";
+	private static String       fgSampleImagesPath = "/org/jhotdraw/samples/javadraw/sampleimages";
 	private static String       fgSampleImagesResourcePath = fgSampleImagesPath + "/";
 
 	JavaDrawApp() {
@@ -202,6 +202,9 @@ public  class JavaDrawApp extends MDI_DrawApplication {
 	protected JMenu createImagesMenu() {
 		CommandMenu menu = new CommandMenu("Images");
 		URL url = getClass().getResource(fgSampleImagesPath);
+		if (url == null) {
+			throw new JHotDrawRuntimeException("Could not locate images: " + fgSampleImagesPath);
+		}
 		File imagesDirectory = new File(url.getFile());
 
 		try {

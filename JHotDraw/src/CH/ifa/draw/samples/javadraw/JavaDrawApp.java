@@ -202,6 +202,9 @@ public  class JavaDrawApp extends MDI_DrawApplication {
 	protected JMenu createImagesMenu() {
 		CommandMenu menu = new CommandMenu("Images");
 		URL url = getClass().getResource(fgSampleImagesPath);
+		if (url == null) {
+			throw new JHotDrawRuntimeException("Could not locate images: " + fgSampleImagesPath);
+		}
 		File imagesDirectory = new File(url.getFile());
 
 		try {
