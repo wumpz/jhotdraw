@@ -40,19 +40,25 @@ public abstract class CompositeFigure
      */
     private static final long serialVersionUID = 7408153435700021866L;
     private int compositeFigureSerializedDataVersion = 1;
+    private QuadTree  _theQuadTree;
+    protected int _nLowestZ = 0;
+    protected int _nHighestZ = 0;
+
 
     protected CompositeFigure() {
-        fFigures = new Vector();
+      fFigures = new Vector();
     }
 
     /**
-     * Adds a figure to the list of figures. Initializes the
+     * Adds a figure to the list of figures. Initializes
      * the figure's container.
      */
     public Figure add(Figure figure) {
         if (!fFigures.contains(figure)) {
+            figure.setZValue(++_nHighestZ);
             fFigures.addElement(figure);
             figure.addToContainer(this);
+            _addToQuadTree(figure);
         }
         return figure;
     }
@@ -75,6 +81,7 @@ public abstract class CompositeFigure
         if (fFigures.contains(figure)) {
             figure.removeFromContainer(this);
             fFigures.removeElement(figure);
+            _removeFromQuadTree(figure);
         }
         return figure;
     }
@@ -100,6 +107,11 @@ public abstract class CompositeFigure
             figure.removeFromContainer(this);
         }
         fFigures.removeAllElements();
+        if (_theQuadTree != null) {
+          _theQuadTree.clear();
+        }
+        _nLowestZ = 0;
+        _nHighestZ = 0;
     }
 
     /**
@@ -109,6 +121,7 @@ public abstract class CompositeFigure
      */
     public synchronized Figure orphan(Figure figure) {
         fFigures.removeElement(figure);
+        _removeFromQuadTree(figure);
         return figure;
     }
 
@@ -130,6 +143,7 @@ public abstract class CompositeFigure
     public synchronized void replace(Figure figure, Figure replacement) {
         int index = fFigures.indexOf(figure);
         if (index != -1) {
+            replacement.setZValue(figure.getZValue());
             replacement.addToContainer(this);   // will invalidate figure
             figure.changed();
             fFigures.setElementAt(replacement, index);
@@ -143,6 +157,7 @@ public abstract class CompositeFigure
         if (fFigures.contains(figure)) {
             fFigures.removeElement(figure);
             fFigures.insertElementAt(figure,0);
+            figure.setZValue(--_nLowestZ);
             figure.changed();
         }
     }
@@ -154,6 +169,7 @@ public abstract class CompositeFigure
         if (fFigures.contains(figure)) {
             fFigures.removeElement(figure);
             fFigures.addElement(figure);
+            figure.setZValue(++_nHighestZ);
             figure.changed();
         }
     }
@@ -166,6 +182,15 @@ public abstract class CompositeFigure
         FigureEnumeration k = figures();
         while (k.hasMoreElements())
             k.nextFigure().draw(g);
+    }
+
+    /**
+     * Draws only the given figures
+     * @see Figure#draw
+     */
+    public void draw(Graphics g, FigureEnumeration fe) {
+      while (fe.hasMoreElements())
+        fe.nextFigure().draw(g);
     }
 
     /**
@@ -182,6 +207,47 @@ public abstract class CompositeFigure
     public final FigureEnumeration figures() {
         return new FigureEnumerator(fFigures);
     }
+
+    /**
+     * Returns an enumeration to iterate in
+     * Z-order back to front over the figures
+     * that lie within the given bounds.
+     */
+    public FigureEnumeration figures(Rectangle
+     viewRectangle) {
+
+      if (_theQuadTree != null) {
+
+        Vector v =
+         _theQuadTree.getAllWithin(new Bounds(viewRectangle).asRectangle2D());
+
+        Vector v2 = new Vector();
+
+        for(Enumeration e=v.elements(); e.hasMoreElements(); ) {
+          Figure f = (Figure) e.nextElement();
+          //int z = fFigures.indexOf(f);
+          v2.addElement(new OrderedFigureElement(f, f.getZValue()));
+        }
+
+        Collections.sort(v2);
+
+        Vector v3 = new Vector();
+
+        for(Enumeration e=v2.elements(); e.hasMoreElements(); ) {
+          OrderedFigureElement ofe = (OrderedFigureElement)
+           e.nextElement();
+          v3.addElement(ofe.getFigure());
+        }
+
+        return new FigureEnumerator(v3);
+
+      }
+
+      return figures();
+
+    }
+
+
 
     /**
      * Gets number of child figures.
@@ -370,6 +436,8 @@ public abstract class CompositeFigure
     }
 
     public void figureChanged(FigureChangeEvent e) {
+      _removeFromQuadTree(e.getFigure());
+      _addToQuadTree(e.getFigure());
     }
 
     public void figureRemoved(FigureChangeEvent e) {
@@ -408,4 +476,59 @@ public abstract class CompositeFigure
             figure.addToContainer(this);
         }
     }
+
+
+    /**
+     * Invalidates the figure. This method informs the listeners
+     * that the figure's current display box is invalid and should be
+     * refreshed.
+     */
+    public void invalidate() {
+      super.invalidate();
+    }
+
+
+    /**
+     * Used to optimize rendering.  Rendering of many objects may
+     * be slow until this method is called.  The view rectangle
+     * should at least approximately enclose the CompositeFigure.
+     * If the view rectangle is too small or too large, performance
+     * may suffer.
+     *
+     * Don't forget to call this after loading or creating a
+     * new CompositeFigure.  If you forget, drawing performance may
+     * suffer.
+     */
+    public void init(Rectangle viewRectangle) {
+
+      _theQuadTree = new QuadTree(new Bounds(viewRectangle).asRectangle2D());
+
+      for(Enumeration e=fFigures.elements(); e.hasMoreElements(); ) {
+        Figure f = (Figure) e.nextElement();
+        _addToQuadTree(f);
+      }
+
+    }
+
+
+
+    private void _addToQuadTree(Figure f) {
+
+      if (_theQuadTree != null) {
+        _theQuadTree.add(f, new Bounds(f.displayBox()).asRectangle2D());
+      }
+
+    }
+
+
+    private void _removeFromQuadTree(Figure f) {
+
+      if (_theQuadTree != null) {
+        _theQuadTree.remove(f);
+      }
+
+    }
+
+
+
 }
