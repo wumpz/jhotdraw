@@ -17,7 +17,7 @@ import java.util.*;
  * @author  C.L.Gilbert <dnoyeb@sourceforge.net>
  * @version <$CURRENT_VERSION$>
  */
-public interface DesktopListener extends EventListener {
+public interface DesktopListener {
 	public void drawingViewAdded(DesktopEvent dpe);
 	public void drawingViewRemoved(DesktopEvent dpe);
 	public void drawingViewSelected(DesktopEvent dpe);

@@ -38,14 +38,15 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 	private MDIDesktopManager manager;
 	private DrawApplication myDrawApplication;
 
-	/**
-	 * You need this if you are not using a component that inherits from
-	 * JComponent
-	 */
-	//private final EventListenerList listenerList = new EventListenerList();
 	private DrawingView selectedView;
-
+	/**
+	 * The usage of this List for listeners is not thread safe, but should not
+	 * need to be.
+	 */
+	private java.util.List listeners;
+	
 	public MDIDesktopPane(DrawApplication newDrawApplication) {
+		listeners = CH.ifa.draw.util.CollectionsFactory.current().createList();
 		setDrawApplication(newDrawApplication);
 		manager=new MDIDesktopManager(this);
 		setDesktopManager(manager);
@@ -120,47 +121,38 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 
 
 	protected void fireDrawingViewAddedEvent(final DrawingView dv) {
-		final Object[] listeners = listenerList.getListenerList();
-		DesktopListener dpl;
+		java.util.ListIterator li= listeners.listIterator(listeners.size());
 		DesktopEvent dpe = null;
-		for (int i = listeners.length-2; i >= 0; i -= 2) {
-			if (listeners[i] == DesktopListener.class) {
-				if (dpe == null) {
-					dpe = new DesktopEvent(MDIDesktopPane.this, dv);
-				}
-				dpl = (DesktopListener)listeners[i+1];
-				dpl.drawingViewAdded(dpe);
+		while(li.hasPrevious()){
+			if (dpe == null) {
+				dpe = new DesktopEvent(MDIDesktopPane.this, dv);
 			}
+			DesktopListener dpl = (DesktopListener)li.previous();
+			dpl.drawingViewAdded(dpe);
 		}
 	}
 
 	protected void fireDrawingViewRemovedEvent(final DrawingView dv) {
-		final Object[] listeners = listenerList.getListenerList();
-		DesktopListener dpl;
-		DesktopEvent dpe= null;
-		for (int i = listeners.length-2; i >= 0; i -= 2) {
-			if (listeners[i] == DesktopListener.class) {
-				if (dpe == null) {
-					dpe = new DesktopEvent(MDIDesktopPane.this, dv);
-				}
-				dpl = (DesktopListener)listeners[i+1];
-				dpl.drawingViewRemoved(dpe);
+		java.util.ListIterator li= listeners.listIterator(listeners.size());
+		DesktopEvent dpe = null;
+		while(li.hasPrevious()){
+			if (dpe == null) {
+				dpe = new DesktopEvent(MDIDesktopPane.this, dv);
 			}
+			DesktopListener dpl = (DesktopListener)li.previous();
+			dpl.drawingViewRemoved(dpe);
 		}
 	}
 
 	protected void fireDrawingViewSelectedEvent(final DrawingView dv) {
-		final Object[] listeners = listenerList.getListenerList();
-		DesktopListener dpl;
+		java.util.ListIterator li= listeners.listIterator(listeners.size());
 		DesktopEvent dpe = null;
-		for (int i = listeners.length-2; i >= 0; i -= 2) {
-			if (listeners[i] == DesktopListener.class) {
-				if (dpe == null) {
-					dpe = new DesktopEvent(MDIDesktopPane.this, dv);
-				}
-				dpl = (DesktopListener)listeners[i+1];
-				dpl.drawingViewSelected(dpe);
+		while(li.hasPrevious()){
+			if (dpe == null) {
+				dpe = new DesktopEvent(MDIDesktopPane.this, dv);
 			}
+			DesktopListener dpl = (DesktopListener)li.previous();
+			dpl.drawingViewSelected(dpe);
 		}
 	}
 
@@ -310,11 +302,11 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 	}
 */
 	public void addDesktopListener(DesktopListener dpl){
-		listenerList.add(DesktopListener.class, dpl);
+		listeners.add(dpl);
 	}
 
 	public void removeDesktopListener(DesktopListener dpl){
-	    listenerList.remove(DesktopListener.class, dpl);
+		listeners.remove(dpl);
 	}
 
 	/**

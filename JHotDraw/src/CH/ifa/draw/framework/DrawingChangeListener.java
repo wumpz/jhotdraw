@@ -11,14 +11,13 @@
 
 package CH.ifa.draw.framework;
 
-import java.util.EventListener;
 
 /**
  * Listener interested in Drawing changes.
  *
  * @version <$CURRENT_VERSION$>
  */
-public interface DrawingChangeListener extends EventListener {
+public interface DrawingChangeListener {
 
 	/**
 	 *  Sent when an area is invalid

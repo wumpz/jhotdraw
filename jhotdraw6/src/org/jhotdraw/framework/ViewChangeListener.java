@@ -1,6 +1,5 @@
 package CH.ifa.draw.framework;
 import CH.ifa.draw.framework.DrawingView;
-import java.util.EventListener;
 
 /**
  * Title:
@@ -12,11 +11,7 @@ import java.util.EventListener;
  * @since       10/14/01
  */
 
- /**
-  *
-  * @see javax.swing.event.EventListenerList
-  */
-public interface ViewChangeListener extends EventListener {
+public interface ViewChangeListener  {
 
 	/**
 	 * Sent when the active view has changed.

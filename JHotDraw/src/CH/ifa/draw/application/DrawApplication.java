@@ -18,7 +18,6 @@ import CH.ifa.draw.util.*;
 import CH.ifa.draw.contrib.*;
 
 import javax.swing.*;
-import javax.swing.event.EventListenerList;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -53,7 +52,12 @@ public	class DrawApplication
 	private StorageFormatManager	fStorageFormatManager;
 	private UndoManager				myUndoManager;
 	protected static String			fgUntitled = "untitled";
-	private final EventListenerList listenerList = new EventListenerList();
+	/**
+	 * List is not thread safe, but should not need to be.  If it does we can 
+	 * safely synchronize the few methods that use this by synchronizing on 
+	 * the List object itself.
+	 */
+	private java.util.List			listeners;
 	private DesktopListener     fDesktopListener;
 
 	/**
@@ -95,6 +99,7 @@ public	class DrawApplication
 	 */
 	public DrawApplication(String title) {
 		super(title);
+		listeners = CollectionsFactory.current().createList();
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		setApplicationName(title);
 	}
@@ -797,14 +802,14 @@ public	class DrawApplication
 	 * interface, this will happen when a new drawing is created.
 	 */
 	public void addViewChangeListener(ViewChangeListener vsl) {
-		listenerList.add(ViewChangeListener.class, vsl);
+		listeners.add(vsl);
 	}
 
 	/**
 	 * Remove listener
 	 */
 	public void removeViewChangeListener(ViewChangeListener vsl) {
-		listenerList.remove(ViewChangeListener.class, vsl);
+		listeners.remove(vsl);
 	}
 
 	/**
@@ -814,35 +819,26 @@ public	class DrawApplication
 	 * usually not needed in SDI environments.
 	 */
 	protected void fireViewSelectionChangedEvent(DrawingView oldView, DrawingView newView) {
-		final Object[] listeners = listenerList.getListenerList();
-		ViewChangeListener vsl = null;
-		for (int i = listeners.length-2; i>=0 ; i-=2) {
-			if (listeners[i] == ViewChangeListener.class) {
-				vsl = (ViewChangeListener)listeners[i+1];
-				vsl.viewSelectionChanged(oldView, newView);
-			}
+		java.util.ListIterator li= listeners.listIterator(listeners.size());
+		while(li.hasPrevious()){
+			ViewChangeListener vsl = (ViewChangeListener)li.previous();
+			vsl.viewSelectionChanged(oldView, newView);
 		}
 	}
 
 	protected void fireViewCreatedEvent(DrawingView view) {
-		final Object[] listeners = listenerList.getListenerList();
-		ViewChangeListener vsl = null;
-		for (int i = listeners.length-2; i>=0 ; i-=2) {
-			if (listeners[i] == ViewChangeListener.class) {
-				vsl = (ViewChangeListener)listeners[i+1];
-				vsl.viewCreated(view);
-			}
+		java.util.ListIterator li= listeners.listIterator(listeners.size());
+		while(li.hasPrevious()){
+			ViewChangeListener vsl = (ViewChangeListener)li.previous();
+			vsl.viewCreated(view);
 		}
 	}
 
 	protected void fireViewDestroyingEvent(DrawingView view) {
-		final Object[] listeners = listenerList.getListenerList();
-		ViewChangeListener vsl = null;
-		for (int i = listeners.length-2; i>=0 ; i-=2) {
-			if (listeners[i] == ViewChangeListener.class) {
-				vsl = (ViewChangeListener)listeners[i+1];
-				vsl.viewDestroying( view );
-			}
+		java.util.ListIterator li= listeners.listIterator(listeners.size());
+		while(li.hasPrevious()){
+			ViewChangeListener vsl = (ViewChangeListener)li.previous();
+			vsl.viewDestroying( view );
 		}
 	}
 
