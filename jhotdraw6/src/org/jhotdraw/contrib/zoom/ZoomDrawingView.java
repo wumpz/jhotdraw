@@ -335,7 +335,7 @@ public class ZoomDrawingView extends StandardDrawingView {
 		super.setDrawing(d);
 
 		Rectangle r = ((StandardDrawing) d).displayBox();
-		Dimension drawingSize = new Dimension(r.width, r.height);
+		//Dimension drawingSize = new Dimension(r.width, r.height);
 		Dimension viewportSize = new Dimension(r.width, r.height);
 		if (getParent() != null) {
 			viewportSize = getViewportSize();

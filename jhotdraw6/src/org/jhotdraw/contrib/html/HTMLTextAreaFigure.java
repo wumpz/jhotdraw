@@ -14,33 +14,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.FlatteningPathIterator;
-import java.awt.geom.PathIterator;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.Iterator;
-import java.util.Map;
-import javax.swing.AbstractAction;
-import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JRadioButtonMenuItem;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
+
+import javax.swing.*;
 
 import CH.ifa.draw.contrib.TextAreaFigure;
 import CH.ifa.draw.figures.RectangleFigure;
 import CH.ifa.draw.framework.*;
-import CH.ifa.draw.standard.*;
-import CH.ifa.draw.util.ColorMap;
 import CH.ifa.draw.util.Geom;
-import CH.ifa.draw.util.Storable;
 import CH.ifa.draw.util.StorableInput;
 import CH.ifa.draw.util.StorableOutput;
 
@@ -449,19 +431,19 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 	protected void drawTextDirect(Graphics2D g2, Rectangle drawingBox) {
 		Shape savedClipArea = null;
 		Color savedFontColor = null;
-		Font savedFont = null;
-		Rectangle2D clipRect = null;
+		//Font savedFont = null;
+		//Rectangle2D clipRect = null;
 		RenderingHints savedRenderingHints = null;
 
 		if (g2 != null) {
 			savedRenderingHints = g2.getRenderingHints();
 			savedClipArea = g2.getClip();
-			savedFont = g2.getFont();
+			//savedFont = g2.getFont();
 			savedFontColor = g2.getColor();
 			g2.clip(drawingBox);
 		}
 
-		float finalHeight = renderText(g2, drawingBox);
+		//float finalHeight = renderText(g2, drawingBox);
 
 		// restore saved graphic attributes
 		if (g2 != null) {
@@ -1100,10 +1082,11 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 				1);
 
 		double[] coords = new double[6];
-		int pointType;
+		//int pointType;
 		// iterate on the segments adding the points to the polygon
 		while (!pIter.isDone()) {
-			pointType = pIter.currentSegment(coords);
+			//pointType = pIter.currentSegment(coords);
+			pIter.currentSegment(coords);
 			polygon.addPoint((int)coords[0], (int)coords[1]);
 			pIter.next();
 		}

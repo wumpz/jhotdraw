@@ -11,7 +11,6 @@
 
 package CH.ifa.draw.figures;
 
-import java.util.*;
 import java.util.List;
 import java.awt.*;
 import java.io.*;

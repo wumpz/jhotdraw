@@ -10,13 +10,9 @@
  */
 package CH.ifa.draw.contrib.html;
 
-import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Shape;
 
-import java.awt.geom.AffineTransform;
-import java.awt.geom.PathIterator;
-import java.util.Iterator;
 import CH.ifa.draw.contrib.PolygonFigure;
 
 /**

@@ -393,7 +393,7 @@ public class TextAreaFigure extends AttributeFigure
 					RenderingHints.VALUE_ANTIALIAS_ON);
 			g2.setRenderingHint(RenderingHints.KEY_RENDERING,
 					RenderingHints.VALUE_RENDER_QUALITY);
-			Font savedFont = g2.getFont();
+			//Font savedFont = g2.getFont();
 			savedFontColor = g2.getColor();
 			savedClipArea = g2.getClip();
 			if(savedClipArea != null) {

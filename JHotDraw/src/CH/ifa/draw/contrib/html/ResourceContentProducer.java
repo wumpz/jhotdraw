@@ -14,7 +14,6 @@ import java.io.IOException;
 
 import java.io.InputStream;
 import java.io.Serializable;
-import CH.ifa.draw.util.Storable;
 import CH.ifa.draw.util.StorableInput;
 import CH.ifa.draw.util.StorableOutput;
 

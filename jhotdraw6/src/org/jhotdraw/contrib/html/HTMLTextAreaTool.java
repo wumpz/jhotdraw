@@ -11,7 +11,6 @@
 package CH.ifa.draw.contrib.html;
 
 import java.awt.Font;
-import javax.swing.JPanel;
 import CH.ifa.draw.contrib.TextAreaTool;
 
 import CH.ifa.draw.framework.DrawingEditor;

@@ -10,13 +10,6 @@
  */
 package CH.ifa.draw.contrib.html;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Rectangle;
-
-
-
-
 /**
  * HTMLContentProducerContext defines the interface required of clients
  * requesting HTML based contents.<br>

@@ -17,7 +17,6 @@ import CH.ifa.draw.framework.HandleEnumeration;
 import CH.ifa.draw.standard.HandleEnumerator;
 
 import java.awt.*;
-import java.util.*;
 import java.util.List;
 import java.io.IOException;
 
