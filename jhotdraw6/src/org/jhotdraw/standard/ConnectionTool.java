@@ -96,12 +96,8 @@ public  class ConnectionTool extends AbstractTool {
 		super.mouseDown(e,x,y);
 		int ex = e.getX();
 		int ey = e.getY();
-//      cfm1 *******************************************************************       
 
-        OffsetConnector.trackingConnector1.reset(getActiveView());
-
-//      cfm1 *******************************************************************        
-
+		OffsetConnector.trackingConnector1.reset(getActiveView());
 
         /*
          * JP, 25-May-03: Swapped checking for underlying figure and
@@ -217,29 +213,16 @@ public  class ConnectionTool extends AbstractTool {
 	protected Figure findTarget(int x, int y, Drawing drawing) {
 		Figure target = findConnectableFigure(x, y, drawing);
 		Figure start = getStartConnector().owner();
-//      cfm1 *******************************************************************
-
-        boolean includesStart = (target != null && target.includes(start));
-
-        if (myStartConnector == OffsetConnector.trackingConnector1 || 
-
-            myStartConnector == OffsetConnector.trackingConnector2)
-
-            includesStart = false;
-
-//      cfm1 *******************************************************************
-
+		boolean includesStart = (target != null && target.includes(start));
+		if ((myStartConnector == OffsetConnector.trackingConnector1)
+			 || (myStartConnector == OffsetConnector.trackingConnector2)) {
+			includesStart = false;
+		}
 
 		if (target != null
 			 && getConnection() != null
 			 && target.canConnect()
-//      cfm1 *******************************************************************
-
 			 && !includesStart
-
-//      cfm1 *******************************************************************             
-
-            // && !target.includes(start)
 			 && getConnection().canConnect(start, target)) {
 			return target;
 		}

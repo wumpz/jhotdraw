@@ -28,11 +28,7 @@ public abstract class AbstractConnector implements Connector {
 	/**
 	 * the owner of the connector
 	 */
-//  cfm1 *******************************************************************
-
-    protected Figure      fOwner;
-//  cfm1 *******************************************************************
-
+	protected Figure      fOwner;
 
 	/*
 	 * Serialization support.
@@ -132,43 +128,21 @@ public abstract class AbstractConnector implements Connector {
 		//invisible by default
 	}
 
+	/**
+	 * SupportsConnector dragging.
+	 * 
+	 */
+	public Point connectorMovedTo(int x, int y){
+		return new Point(x,y);
+	}
 
-//  cfm1 *******************************************************************   
-
-    /**
-
-     * SupportsConnector dragging.
-
-     * 
-
-     */
-
-    public Point connectorMovedTo(int x, int y){
-
-        return new Point(x,y);
-
-    }
-
-    
-
-    /**
-
-     * Returns a 'finalized' connector. Can be used to change Connector.
-
-     * 
-
-     * @param start - true if a startConnector
-
-     * @return - final Connector
-
-     */    
-
-    public Connector finalizeConnector(boolean start){
-
-         return this;
-
-    }
-
-//  cfm1 *******************************************************************    
-
+	/**
+	 * Returns a 'finalized' connector. Can be used to change Connector.
+	 * 
+	 * @param start - true if a startConnector
+	 * @return - final Connector
+	 */    
+	public Connector finalizeConnector(boolean start){
+		return this;
+	}    
 }

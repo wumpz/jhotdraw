@@ -34,11 +34,7 @@ public class LocatorConnector extends AbstractConnector {
 	 */
 	public static final int SIZE = 8;
 
-//  cfm1 *******************************************************************
-
 	protected Locator  myLocator;
-//  cfm1 *******************************************************************
-
 
 	/*
 	 * Serialization support.

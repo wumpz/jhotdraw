@@ -78,38 +78,19 @@ public interface Connector extends Serializable, Storable {
 	 * so desired.
 	 */
 	public void connectorVisibility(boolean isVisible, ConnectionFigure courtingConnection);
-    //cfm1 *******************************************************************
 
-    /**
-
-     * Supports connector dragging.
-
-     * 
-
-     */
-
-     public abstract Point connectorMovedTo(int x, int y);
-
+	/**
+	 * Supports connector dragging.
+	 * 
+	 */
+	public abstract Point connectorMovedTo(int x, int y);
      
-
   
-
-    /**
-
-     * Returns a 'finalized' connector. Can be used to change Connector.
-
-     * 
-
-     * @param start - true if a startConnector
-
-     * @return - final Connector
-
-     */    
-
-    public Connector finalizeConnector(boolean start);
-
-//  cfm1 *******************************************************************
-
-
-
+	/**
+	 * Returns a 'finalized' connector. Can be used to change Connector.
+	 * 
+	 * @param start - true if a startConnector
+	 * @return - final Connector
+	 */    
+	public Connector finalizeConnector(boolean start);
 }
