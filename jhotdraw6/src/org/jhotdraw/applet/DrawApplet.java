@@ -53,7 +53,6 @@ public class DrawApplet
 	private transient JComboBox          fFontChoice;
 
 	private transient Thread          fSleeper;
-	private Iconkit                   fIconkit;
 	private transient 			UndoManager myUndoManager;
 
 	static String                     fgUntitled = "untitled";
@@ -67,8 +66,6 @@ public class DrawApplet
 	public void init() {
 		getVersionControlStrategy().assertCompatibleVersion();
 		setUndoManager(new UndoManager());
-
-		fIconkit = new Iconkit(this);
 
 		getContentPane().setLayout(new BorderLayout());
 
@@ -508,9 +505,9 @@ public class DrawApplet
 		Integer arrowMode  = (Integer) AttributeFigure.getDefaultAttribute(FigureAttributeConstant.ARROW_MODE);
 		String  fontName   = (String)  AttributeFigure.getDefaultAttribute(FigureAttributeConstant.FONT_NAME);
 
-		FigureEnumeration k = view().selectionElements();
-		while (k.hasMoreElements()) {
-			Figure f = k.nextFigure();
+		FigureEnumeration fe = view().selection();
+		while (fe.hasNextFigure()) {
+			Figure f = fe.nextFigure();
 			frameColor = (Color) f.getAttribute(FigureAttributeConstant.FRAME_COLOR);
 			fillColor  = (Color) f.getAttribute(FigureAttributeConstant.FILL_COLOR);
 			textColor  = (Color) f.getAttribute(FigureAttributeConstant.TEXT_COLOR);
