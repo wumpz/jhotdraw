@@ -71,6 +71,13 @@ public  class StorableOutput extends Object {
 		fStream.print(i);
 		space();
 	}
+	/**
+	 * Writes a long to the output stream.
+	 */
+	public void writeLong(long l) {
+		fStream.print(l);
+		space();
+	}
 
 	public void writeColor(Color c) {
 		writeInt(c.getRed());

@@ -89,6 +89,19 @@ public class StorableInput {
 		exception.printStackTrace();
 		throw new IOException(msg);
 	}
+	/**
+	 * Reads an int from the input stream.
+	 */
+	public long readLong() throws IOException {
+		long token = fTokenizer.nextToken();
+		if (token == StreamTokenizer.TT_NUMBER) {
+			return (long) fTokenizer.nval;
+		}
+		String msg = "Long expected in line: " + fTokenizer.lineno();
+		IOException exception =  new IOException(msg);
+		exception.printStackTrace();
+		throw new IOException(msg);
+	}
 
 	/**
 	 * Reads a color from the input stream.
