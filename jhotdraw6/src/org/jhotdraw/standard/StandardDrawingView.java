@@ -1194,6 +1194,7 @@ public class StandardDrawingView
 	public Point getToolTipLocation(MouseEvent event) {
 		return toolTipLocation;
 	}
+	
 	/**
 	 * Works along with setToolTipText() and when both are called, a
 	 * tool tip is shown at the Point p until clearToolTip() is called

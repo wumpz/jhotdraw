@@ -2,10 +2,14 @@ package org.jhotdraw.contrib;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.util.Vector;
+import java.util.List;
 
-import org.jhotdraw.framework.*;
+import org.jhotdraw.framework.DrawingView;
+import org.jhotdraw.framework.Figure;
+import org.jhotdraw.framework.FigureEnumeration;
+import org.jhotdraw.framework.Painter;
 import org.jhotdraw.standard.FigureEnumerator;
+import org.jhotdraw.util.CollectionsFactory;
 
 /**
  * The ClippingUpdateStrategy will only draw those Figures in the DrawingView
@@ -34,7 +38,7 @@ public class ClippingUpdateStrategy implements Painter {
 		FigureEnumeration fe = view.drawing().figures();
 		
 		// it's better to start big than to do Log(nFigures) reallocations 
-		Vector v = new Vector(1000);
+		List figuresList = CollectionsFactory.current().createList(1000);
 
 		// create a List of the figures within the clip rectangle
 		while (fe.hasNextFigure()) {
@@ -55,12 +59,12 @@ public class ClippingUpdateStrategy implements Painter {
 			}
 
 			if (r.intersects(viewClipRectangle)) {
-				v.add(fig);
+				figuresList.add(fig);
 			}
 		}
 
 		// draw the figures in the clip rectangle
-		FigureEnumeration clippedFE = new FigureEnumerator(v);
+		FigureEnumeration clippedFE = new FigureEnumerator(figuresList);
 		view.draw(g, clippedFE);
 	}
 }

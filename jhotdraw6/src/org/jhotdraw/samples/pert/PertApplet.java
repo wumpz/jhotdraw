@@ -22,7 +22,7 @@ import org.jhotdraw.applet.*;
  */
 public  class PertApplet extends DrawApplet {
 
-	private final static String PERTIMAGES = "/CH/ifa/draw/samples/pert/images/";
+	private final static String PERTIMAGES = "/org/jhotdraw/samples/pert/images/";
 
 	protected void createTools(JPanel palette) {
 		super.createTools(palette);

@@ -22,7 +22,7 @@ import org.jhotdraw.application.*;
  */
 public  class PertApplication extends DrawApplication {
 
-	static private final String PERTIMAGES = "/CH/ifa/draw/samples/pert/images/";
+	static private final String PERTIMAGES = "/org/jhotdraw/samples/pert/images/";
 
 	public PertApplication() {
 		super("PERT Editor");

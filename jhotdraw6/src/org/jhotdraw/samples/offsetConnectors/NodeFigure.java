@@ -11,19 +11,30 @@
 
 package org.jhotdraw.samples.offsetConnectors;
 
-import java.awt.*;
-import java.util.*;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.util.Iterator;
 import java.util.List;
 
-import org.jhotdraw.framework.*;
-import org.jhotdraw.standard.*;
-import org.jhotdraw.figures.*;
-import org.jhotdraw.util.*;
+import org.jhotdraw.figures.LineConnection;
+import org.jhotdraw.figures.TextFigure;
+import org.jhotdraw.framework.ConnectionFigure;
+import org.jhotdraw.framework.Connector;
+import org.jhotdraw.framework.HandleEnumeration;
+import org.jhotdraw.standard.ConnectionHandle;
+import org.jhotdraw.standard.HandleEnumerator;
+import org.jhotdraw.standard.LocatorConnector;
+import org.jhotdraw.standard.NullHandle;
+import org.jhotdraw.standard.RelativeLocator;
+import org.jhotdraw.util.CollectionsFactory;
+import org.jhotdraw.util.Geom;
 
 public class NodeFigure extends TextFigure {
 
 	private static final int BORDER = 6;
-	private Vector fConnectors;
+	private List fConnectors;
 	private boolean fConnectorsVisible;
 
 	public NodeFigure() {
@@ -82,9 +93,9 @@ public class NodeFigure extends TextFigure {
 
 	private void drawConnectors(Graphics g) {
 		if (fConnectorsVisible) {
-			Enumeration e = connectors().elements();
-			while (e.hasMoreElements())
-				((Connector) e.nextElement()).draw(g);
+			Iterator connectorsIterator = getConnectors().iterator();
+			while (connectorsIterator.hasNext())
+				((Connector) connectorsIterator.next()).draw(g);
 		}
 	}
 
@@ -103,30 +114,28 @@ public class NodeFigure extends TextFigure {
 
 	/**
 	 */
-	private Vector connectors() {
-		if (fConnectors == null) createConnectors();
+	private List getConnectors() {
+		if (fConnectors == null) {
+			createConnectors();
+		}
 		return fConnectors;
 	}
 
 	private void createConnectors() {
-		fConnectors = new Vector(4);
-		fConnectors.addElement(new LocatorConnector(this, RelativeLocator
-				.north()));
-		fConnectors.addElement(new LocatorConnector(this, RelativeLocator
-				.south()));
-		fConnectors.addElement(new LocatorConnector(this, RelativeLocator
-				.west()));
-		fConnectors.addElement(new LocatorConnector(this, RelativeLocator
-				.east()));
+		fConnectors = CollectionsFactory.current().createList(4);
+		fConnectors.add(new LocatorConnector(this, RelativeLocator.north()));
+		fConnectors.add(new LocatorConnector(this, RelativeLocator.south()));
+		fConnectors.add(new LocatorConnector(this, RelativeLocator.west()));
+		fConnectors.add(new LocatorConnector(this, RelativeLocator.east()));
 	}
 
 	private Connector findConnector(int x, int y) {
 		// return closest connector
 		long min = Long.MAX_VALUE;
 		Connector closest = null;
-		Enumeration e = connectors().elements();
-		while (e.hasMoreElements()) {
-			Connector c = (Connector) e.nextElement();
+		Iterator connectorsIterator = getConnectors().iterator();
+		while (connectorsIterator.hasNext()) {
+			Connector c = (Connector) connectorsIterator.next();
 			Point p2 = Geom.center(c.displayBox());
 			long d = Geom.length2(x, y, p2.x, p2.y);
 			if (d < min) {

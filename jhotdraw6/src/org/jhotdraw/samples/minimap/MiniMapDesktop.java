@@ -25,7 +25,7 @@ import java.awt.*;
  */
 public class MiniMapDesktop extends SplitPaneDesktop {
 
-	private String imageName = "/CH/ifa/draw/samples/javadraw/sampleimages/view.gif";
+	private String imageName = "/org/jhotdraw/samples/javadraw/sampleimages/view.gif";
 
 	protected Component createRightComponent(DrawingView view) {
 		Image image = Iconkit.instance().loadImage(imageName, true);

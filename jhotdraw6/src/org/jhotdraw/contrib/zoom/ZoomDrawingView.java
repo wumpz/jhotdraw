@@ -15,6 +15,7 @@ import org.jhotdraw.framework.Drawing;
 import org.jhotdraw.framework.DrawingChangeEvent;
 import org.jhotdraw.framework.DrawingEditor;
 import org.jhotdraw.framework.FigureEnumeration;
+import org.jhotdraw.framework.JHotDrawRuntimeException;
 import org.jhotdraw.standard.StandardDrawing;
 import org.jhotdraw.standard.StandardDrawingView;
 import org.jhotdraw.util.Geom;
@@ -160,7 +161,7 @@ public class ZoomDrawingView extends StandardDrawingView {
 			forceRedraw();
 		}
 		else {
-			throw new RuntimeException
+			throw new JHotDrawRuntimeException
 					("zooming only works if this view is contained in a ScrollPane");
 		}
 	}
@@ -189,7 +190,7 @@ public class ZoomDrawingView extends StandardDrawingView {
 			forceRedraw();
 		}
 		else {
-			throw new RuntimeException
+			throw new JHotDrawRuntimeException
 					("zooming only works if this view is contained in a ScrollPane");
 		}
 	}
@@ -217,7 +218,7 @@ public class ZoomDrawingView extends StandardDrawingView {
 			forceRedraw();
 		}
 		else {
-			throw new RuntimeException
+			throw new JHotDrawRuntimeException
 					("zooming only works if this view is contained in a ScrollPane");
 		}
 	}
@@ -245,7 +246,7 @@ public class ZoomDrawingView extends StandardDrawingView {
 			forceRedraw();
 		}
 		else {
-			throw new RuntimeException
+			throw new JHotDrawRuntimeException
 					("zooming only works if this view is contained in a ScrollPane");
 		}
 	}
@@ -270,7 +271,7 @@ public class ZoomDrawingView extends StandardDrawingView {
 			forceRedraw();
 		}
 		else {
-			throw new RuntimeException
+			throw new JHotDrawRuntimeException
 					("zooming only works if this view is contained in a ScrollPane");
 		}
 	}

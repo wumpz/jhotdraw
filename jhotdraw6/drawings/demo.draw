@@ -1,7 +1,7 @@
 
     org.jhotdraw.samples.javadraw.BouncingDrawing 19 
         org.jhotdraw.samples.javadraw.AnimationDecorator 
-            org.jhotdraw.figures.ImageFigure "attributes" "attributes" 1 "URL" "String" "http://www.javasoft.com" 220 160 100 116 "/CH/ifa/draw/samples/javadraw/sampleimages/joe.surf.yellow.small.gif"  4 4  
+            org.jhotdraw.figures.ImageFigure "attributes" "attributes" 1 "URL" "String" "http://www.javasoft.com" 220 160 100 116 "/org/jhotdraw/samples/javadraw/sampleimages/joe.surf.yellow.small.gif"  4 4  
         org.jhotdraw.samples.javadraw.AnimationDecorator 
             org.jhotdraw.figures.EllipseFigure "no_attributes" 121 16 75 36  4 4  
         org.jhotdraw.samples.javadraw.AnimationDecorator 

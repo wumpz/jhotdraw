@@ -15,9 +15,17 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.util.Vector;
+import java.util.List;
 
-import org.jhotdraw.framework.*;
+import org.jhotdraw.framework.ConnectionFigure;
+import org.jhotdraw.framework.Connector;
+import org.jhotdraw.framework.Cursor;
+import org.jhotdraw.framework.Drawing;
+import org.jhotdraw.framework.DrawingView;
+import org.jhotdraw.framework.Figure;
+import org.jhotdraw.framework.FigureEnumeration;
+import org.jhotdraw.framework.Locator;
+import org.jhotdraw.util.CollectionsFactory;
 import org.jhotdraw.util.Geom;
 import org.jhotdraw.util.Undoable;
 
@@ -68,9 +76,9 @@ public  class ConnectionHandle extends LocatorHandle {
 		setConnection(createConnection());
 
 		setUndoActivity(createUndoActivity(view));
-		Vector v = new Vector();
-		v.add(getConnection());
-		getUndoActivity().setAffectedFigures(new FigureEnumerator(v));
+		List connectionsList = CollectionsFactory.current().createList();
+		connectionsList.add(getConnection());
+		getUndoActivity().setAffectedFigures(new FigureEnumerator(connectionsList));
 
 		Point p = locate();
 		getConnection().startPoint(p.x, p.y);
