@@ -10,9 +10,7 @@
  */
 package CH.ifa.draw.contrib.html;
 
-import java.awt.Color;
 import java.io.Serializable;
-import CH.ifa.draw.util.Storable;
 
 /**
  * HTMLContentProducer produces HTML suitable  values and encoded strings for

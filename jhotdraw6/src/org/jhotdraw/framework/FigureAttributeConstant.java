@@ -11,11 +11,7 @@
 
 package CH.ifa.draw.framework;
 
-import CH.ifa.draw.util.CollectionsFactory;
-
 import java.io.Serializable;
-import java.util.List;
-import java.util.Arrays;
 
 /**
  * A FigureAttribute is a constant for accessing a special figure attribute. It

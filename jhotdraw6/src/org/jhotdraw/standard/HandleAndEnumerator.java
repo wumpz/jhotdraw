@@ -13,7 +13,6 @@ package CH.ifa.draw.standard;
 
 import CH.ifa.draw.framework.HandleEnumeration;
 import CH.ifa.draw.framework.Handle;
-import CH.ifa.draw.util.CollectionsFactory;
 
 import java.util.List;
 

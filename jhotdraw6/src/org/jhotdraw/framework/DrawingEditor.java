@@ -12,7 +12,6 @@
 package CH.ifa.draw.framework;
 
 import CH.ifa.draw.util.UndoManager;
-import java.awt.*;
 
 /**
  * DrawingEditor defines the interface for coordinating

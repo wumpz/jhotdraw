@@ -12,7 +12,6 @@ package CH.ifa.draw.contrib.html;
 
 import java.awt.Color;
 import java.io.Serializable;
-import CH.ifa.draw.util.Storable;
 
 /**
  * HTMLColorContentProducer produces RGB color HTML encoded strings.<br>
