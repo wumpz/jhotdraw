@@ -70,7 +70,7 @@ public class DragNDropTool extends CH.ifa.draw.standard.AbstractTool {
 	/**
 	 * Sent when a new view is created
 	 */
-	public void viewCreated(DrawingView view) {
+	protected void viewCreated(DrawingView view) {
 		super.viewCreated(view);
 		if (view instanceof DNDInterface) {
 			DNDInterface dndi = (DNDInterface)view;
@@ -82,7 +82,7 @@ public class DragNDropTool extends CH.ifa.draw.standard.AbstractTool {
 	/**
 	 * Send when an existing view is about to be destroyed.
 	 */
-	public void viewDestroying(DrawingView view) {
+	protected void viewDestroying(DrawingView view) {
 		if (view instanceof DNDInterface) {
 			DNDInterface dndi = (DNDInterface)view;
 			dndi.DNDDeinitialize();

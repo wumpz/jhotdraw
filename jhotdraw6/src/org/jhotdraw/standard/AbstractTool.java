@@ -30,7 +30,7 @@ import java.awt.event.KeyEvent;
  * @version <$CURRENT_VERSION$>
  */
 
-public abstract class AbstractTool implements Tool, ViewChangeListener {
+public abstract class AbstractTool implements Tool {
 
 	private DrawingEditor     myDrawingEditor;
 
@@ -58,6 +58,18 @@ public abstract class AbstractTool implements Tool, ViewChangeListener {
 	 */
 	private boolean myIsEnabled;
 
+	private final ViewChangeListener myViewChangeListener = new ViewChangeListener() {
+		public void viewSelectionChanged(DrawingView oldView, DrawingView newView){
+			AbstractTool.this.viewSelectionChanged(oldView, newView);
+		}
+		public void viewCreated(DrawingView view){
+			AbstractTool.this.viewCreated(view);
+		}
+		public void viewDestroying(DrawingView view){
+			AbstractTool.this.viewDestroying(view);
+		}
+	};
+		
 	/**
 	 * Constructs a tool for the given view.
 	 */
@@ -66,7 +78,7 @@ public abstract class AbstractTool implements Tool, ViewChangeListener {
 		setEventDispatcher(createEventDispatcher());
 		setEnabled(true);
 		checkUsable();
-		editor().addViewChangeListener(this);
+		editor().addViewChangeListener(myViewChangeListener);
 	}
 
 	/**
@@ -107,7 +119,7 @@ public abstract class AbstractTool implements Tool, ViewChangeListener {
 	 * Subclasses should always call super.  ViewSelectionChanged() this allows
 	 * the tools state to be updated and referenced to the new view.
 	 */
-	public void viewSelectionChanged(DrawingView oldView, DrawingView newView) {
+	protected void viewSelectionChanged(DrawingView oldView, DrawingView newView) {
 		if (isActive()) {
 			deactivate();
 			activate();
@@ -119,13 +131,13 @@ public abstract class AbstractTool implements Tool, ViewChangeListener {
 	/**
 	 * Sent when a new view is created
 	 */
-	public void viewCreated(DrawingView view) {
+	protected void viewCreated(DrawingView view) {
 	}
 
 	/**
 	 * Send when an existing view is about to be destroyed.
 	 */
-	public void viewDestroying(DrawingView view) {
+	protected void viewDestroying(DrawingView view) {
 	}
 
 	/**

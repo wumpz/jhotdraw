@@ -24,7 +24,7 @@ import java.util.*;
  * @author Wolfram Kaiser
  * @version <$CURRENT_VERSION$>
  */
-public abstract class AbstractCommand implements Command, FigureSelectionListener, ViewChangeListener {
+public abstract class AbstractCommand implements Command, FigureSelectionListener {
 
 	private String  myName;
 	private Undoable myUndoableActivity;
@@ -35,7 +35,18 @@ public abstract class AbstractCommand implements Command, FigureSelectionListene
 	 * the DrawingEditor this command applies to
 	 */
 	private DrawingEditor myDrawingEditor;
-
+	
+	private final ViewChangeListener myViewChangeListener = new ViewChangeListener() {
+		public void viewSelectionChanged(DrawingView oldView, DrawingView newView){
+			AbstractCommand.this.viewSelectionChanged(oldView, newView);
+		}
+		public void viewCreated(DrawingView view){
+			AbstractCommand.this.viewCreated(view);
+		}
+		public void viewDestroying(DrawingView view){
+			AbstractCommand.this.viewDestroying(view);
+		}
+	};
 	/**
 	 * Constructs a command with the given name that applies to the given view.
 	 * @param newName java.lang.String
@@ -48,12 +59,12 @@ public abstract class AbstractCommand implements Command, FigureSelectionListene
 	public AbstractCommand(String newName, DrawingEditor newDrawingEditor, boolean newIsViewRequired) {
 		setName(newName);
 		setDrawingEditor(newDrawingEditor);
-		getDrawingEditor().addViewChangeListener(this);
+		getDrawingEditor().addViewChangeListener(myViewChangeListener);
 		myIsViewRequired = newIsViewRequired;
 		setEventDispatcher(createEventDispatcher());
 	}
 
-	public void viewSelectionChanged(DrawingView oldView, DrawingView newView) {
+	protected void viewSelectionChanged(DrawingView oldView, DrawingView newView) {
 		if (oldView != null) {
 			oldView.removeFigureSelectionListener(this);
 		}
@@ -77,13 +88,13 @@ public abstract class AbstractCommand implements Command, FigureSelectionListene
 	/**
 	 * Sent when a new view is created
 	 */
-	public void viewCreated(DrawingView view) {
+	protected void viewCreated(DrawingView view) {
 	}
 
 	/**
 	 * Send when an existing view is about to be destroyed.
 	 */
-	public void viewDestroying(DrawingView view) {
+	protected void viewDestroying(DrawingView view) {
 	}
 
 	/**
