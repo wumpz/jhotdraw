@@ -52,7 +52,6 @@ public class DrawApplet
 	private transient JComboBox          fArrowChoice;
 	private transient JComboBox          fFontChoice;
 
-	//private transient Thread          fSleeper;
 	private transient 			UndoManager myUndoManager;
 
 	static String                     fgUntitled = "untitled";
@@ -100,21 +99,6 @@ public class DrawApplet
 	protected Iconkit createIconkit() {
 		return new Iconkit(this);
 	}
-
-	/*
-	 * Gets the iconkit to be used in the applet.
-	 */
-
-	 /**** not sure whether this will still be needed on 1.1 enabled browsers
-	 protected Iconkit iconkit() {
-		if (fIconkit == null) {
-
-			startSleeper();
-			loadAllImages(this); // blocks until images loaded
-			stopSleeper();
-		}
-		return fIconkit;
-	} */
 
 	/**
 	 * Creates the attributes panel.
@@ -586,43 +570,4 @@ public class DrawApplet
 		return requiredVersions;
 	}
 
-	/**
-	 * *** netscape browser work around ***
-	 */
-	/*private void startSleeper() {
-		if (fSleeper == null) {
-			fSleeper = new SleeperThread(this);
-		}
-		fSleeper.start();
-	}*/
-
-	/*private void stopSleeper() {
-		if (fSleeper != null) {
-			fSleeper.stop();
-		}
-	}*/
 }
-
-
-class SleeperThread extends Thread {
-
-	JApplet  fApplet;
-
-	SleeperThread(JApplet applet) {
-		fApplet = applet;
-	}
-
-	public void run() {
-		try {
-			for (;;) {
-				fApplet.showStatus("loading icons...");
-				sleep(50);
-			}
-		}
-		catch (InterruptedException e) {
-			return;
-		}
-	}
-
-}
-
