@@ -929,10 +929,14 @@ public	class DrawApplication
 		getStorageFormatManager().registerFileFilters(openDialog);
 		if (openDialog.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 			StorageFormat foundFormat = getStorageFormatManager().findStorageFormat(openDialog.getFileFilter());
+			// ricardo_padilha: if there is no format associated,
+			// try to find one that supports the file
+			if (foundFormat == null) {
+				foundFormat = getStorageFormatManager().findStorageFormat(openDialog.getSelectedFile());
+			}
 			if (foundFormat != null) {
 				loadDrawing(foundFormat, openDialog.getSelectedFile().getAbsolutePath());
-			}
-			else {
+			}	else {
 				showStatus("Not a valid file format: " + openDialog.getFileFilter().getDescription());
 			}
 		}
