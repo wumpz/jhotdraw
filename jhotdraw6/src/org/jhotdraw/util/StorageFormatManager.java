@@ -103,14 +103,49 @@ public class StorageFormatManager {
 	 * @param fileChooser javax.swing.JFileChooser to which FileFilters are added
 	 */
 	public void registerFileFilters(JFileChooser fileChooser) {
-		Iterator formatsIterator = myStorageFormats.iterator();
-		while (formatsIterator.hasNext()) {
-			fileChooser.addChoosableFileFilter(((StorageFormat)formatsIterator.next()).getFileFilter());
-		}
+		if (fileChooser.getDialogType() == JFileChooser.OPEN_DIALOG) {
+			// behavior for open dialogs
+			StorageFormat sf;
+			for (Iterator e = myStorageFormats.iterator(); e.hasNext();) {
+				sf = (StorageFormat) e.next();
+				if (sf.isRestoreFormat()) {
+					fileChooser.addChoosableFileFilter(sf.getFileFilter());
+				}
+			}
 
-		// set a current activated file filter if a default storage Format has been defined
-		if (getDefaultStorageFormat() != null) {
-			fileChooser.setFileFilter(getDefaultStorageFormat().getFileFilter());
+			// set a current activated file filter if a default storage Format has been defined
+			sf = getDefaultStorageFormat();
+			if (sf != null && sf.isRestoreFormat()) {
+				fileChooser.setFileFilter(sf.getFileFilter());
+			}
+		} else if (fileChooser.getDialogType() == JFileChooser.SAVE_DIALOG) {
+			// behavior for save dialogs
+			StorageFormat sf;
+			for (Iterator e = myStorageFormats.iterator(); e.hasNext();) {
+				sf = (StorageFormat) e.next();
+				if (sf.isStoreFormat()) {
+					fileChooser.addChoosableFileFilter(sf.getFileFilter());
+				}
+			}
+
+			// set a current activated file filter if a default storage Format has been defined
+			sf = getDefaultStorageFormat();
+			if (sf != null && sf.isStoreFormat()) {
+				fileChooser.setFileFilter(sf.getFileFilter());
+			}
+		} else {
+			// old behavior
+			StorageFormat sf;
+			for (Iterator e = myStorageFormats.iterator(); e.hasNext();) {
+				sf = (StorageFormat) e.next();
+				fileChooser.addChoosableFileFilter(sf.getFileFilter());
+			}
+
+			// set a current activated file filter if a default storage Format has been defined
+			sf = getDefaultStorageFormat();
+			if (sf != null) {
+				fileChooser.setFileFilter(sf.getFileFilter());
+			}
 		}
 	}
 

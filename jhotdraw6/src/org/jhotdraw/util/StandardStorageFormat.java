@@ -126,7 +126,7 @@ public class StandardStorageFormat implements StorageFormat {
 					return true;
 				}
 				else {
-					return checkFile.getName().endsWith("." + myFileExtension);
+					return checkFile.getName().endsWith("." + getFileDescription());
 				}
 			}
 
@@ -154,6 +154,20 @@ public class StandardStorageFormat implements StorageFormat {
 	 */
 	public FileFilter getFileFilter() {
 		return myFileFilter;
+	}
+
+	/**
+	 * @see CH.ifa.draw.util.StorageFormat#isRestoreFormat()
+	 */
+	public boolean isRestoreFormat() {
+		return true;
+	}
+
+	/**
+	 * @see CH.ifa.draw.util.StorageFormat#isStoreFormat()
+	 */
+	public boolean isStoreFormat() {
+		return true;
 	}
 
 	/**

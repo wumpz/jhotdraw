@@ -974,6 +974,7 @@ public	class DrawApplication
 	 */
 	protected JFileChooser createOpenFileChooser() {
 		JFileChooser openDialog = new JFileChooser();
+		openDialog.setDialogType(JFileChooser.OPEN_DIALOG);
 		openDialog.setDialogTitle("Open File...");
 		return openDialog;
 	}
@@ -984,6 +985,7 @@ public	class DrawApplication
 	 */
 	protected JFileChooser createSaveFileChooser() {
 		JFileChooser saveDialog = new JFileChooser();
+		saveDialog.setDialogType(JFileChooser.SAVE_DIALOG);
 		saveDialog.setDialogTitle("Save File...");
 		return saveDialog;
 	}

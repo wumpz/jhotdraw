@@ -72,6 +72,20 @@ public class JDOStorageFormat extends StandardStorageFormat {
 	}
 
 	/**
+	 * @see CH.ifa.draw.util.StorageFormat#isRestoreFormat()
+	 */
+	public boolean isRestoreFormat() {
+		return true;
+	}
+
+	/**
+	 * @see CH.ifa.draw.util.StorageFormat#isStoreFormat()
+	 */
+	public boolean isStoreFormat() {
+		return true;
+	}
+
+	/**
 	 * Store a Drawing under a given name. The name should be valid with regard to the FileFilter
 	 * that means, it should already contain the appropriate file extension.
 	 *
@@ -309,4 +323,5 @@ public class JDOStorageFormat extends StandardStorageFormat {
 		}
 //		frame.setVisible(true);
 	}
+
 }

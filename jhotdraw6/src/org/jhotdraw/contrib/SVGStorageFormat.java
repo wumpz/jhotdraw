@@ -57,6 +57,20 @@ public class SVGStorageFormat extends StandardStorageFormat {
 	}
 
 
+	/**
+	 * @see CH.ifa.draw.util.StorageFormat#isRestoreFormat()
+	 */
+	public boolean isRestoreFormat() {
+		return false;
+	}
+
+	/**
+	 * @see CH.ifa.draw.util.StorageFormat#isStoreFormat()
+	 */
+	public boolean isStoreFormat() {
+		return true;
+	}
+
   /**
 	 * Store a Drawing as SVG under a given name.
 	 *
