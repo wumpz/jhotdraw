@@ -15,6 +15,7 @@ import java.awt.*;
 import java.awt.dnd.DragGestureListener;
 import java.awt.dnd.DragSourceListener;
 import java.awt.event.*;
+import java.awt.print.PrinterGraphics;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Collection;
@@ -701,7 +702,7 @@ public class StandardDrawingView
 	 * The layers are drawn in back to front order.
 	 */
 	public void drawAll(Graphics g) {
-		boolean isPrinting = g instanceof PrintGraphics;
+		boolean isPrinting = isPrinting(g);
 		drawBackground(g);
 		if ((fBackgrounds != null) && !isPrinting) {
 			drawPainters(g, fBackgrounds);
@@ -722,7 +723,7 @@ public class StandardDrawingView
 	 * No background is drawn.
 	 */
 	public void draw(Graphics g, FigureEnumeration fe) {
-		boolean isPrinting = g instanceof PrintGraphics;
+		boolean isPrinting = isPrinting(g);
 		//drawBackground(g);
 		if ((fBackgrounds != null) && !isPrinting) {
 			drawPainters(g, fBackgrounds);
@@ -1225,5 +1226,9 @@ public class StandardDrawingView
 			 * 1.4.2-b28 that is not sufficient... */
 			setToolTipLocation(null);
 		}
+	}
+	
+	private boolean isPrinting(Graphics g) {
+		return (g instanceof PrintGraphics) || (g instanceof PrinterGraphics);
 	}
 }
