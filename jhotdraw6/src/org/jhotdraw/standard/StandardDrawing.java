@@ -45,6 +45,7 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
     public StandardDrawing() {
         super();
         fListeners = new Vector(2);
+        init(new Rectangle(-500, -500, 2000, 2000));
     }
 
 
