@@ -13,6 +13,8 @@ package CH.ifa.draw.contrib;
 import CH.ifa.draw.util.Command;
 import javax.swing.JMenuItem;
 import javax.swing.Icon;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  * CommandMenuItem implements a command that can be added to a menu
@@ -22,10 +24,9 @@ import javax.swing.Icon;
  * @created   2 mai 2002
  * @version   <$CURRENT_VERSION$>
  */
+public class CommandMenuItem extends JMenuItem implements CommandHolder, ActionListener {
 
-public class CommandMenuItem extends JMenuItem implements CommandHolder{
-	Command fCommand;
-
+	private Command fCommand;
 
 	/**
 	 * Creates a menuItem with no set text or icon.
@@ -33,6 +34,7 @@ public class CommandMenuItem extends JMenuItem implements CommandHolder{
 	public CommandMenuItem(Command command) {
 		super(command.name());
 		setCommand(command);
+		addActionListener(this);
 	}
 
 	/**
@@ -43,6 +45,7 @@ public class CommandMenuItem extends JMenuItem implements CommandHolder{
 	public CommandMenuItem(Command command, Icon icon) {
 		super(command.name(), icon);
 		setCommand(command);
+		addActionListener(this);
 	}
 
 	/**
@@ -57,7 +60,6 @@ public class CommandMenuItem extends JMenuItem implements CommandHolder{
 		setCommand(command);
 	}
 
-
 	/**
 	 * Gets the command attribute of the CommandMenuItem object
 	 *
@@ -67,7 +69,6 @@ public class CommandMenuItem extends JMenuItem implements CommandHolder{
 		return fCommand;
 	}
 
-
 	/**
 	 * Sets the command attribute of the CommandMenuItem object
 	 *
@@ -75,5 +76,12 @@ public class CommandMenuItem extends JMenuItem implements CommandHolder{
 	 */
 	public void setCommand(Command newCommand) {
 		fCommand = newCommand;
+	}
+
+	/**
+	 * Executes the command.
+	 */
+	public void actionPerformed(ActionEvent e) {
+		getCommand().execute();
 	}
 }
