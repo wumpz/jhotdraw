@@ -953,6 +953,11 @@ public	class DrawApplication
 
 			if (saveDialog.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
 				StorageFormat foundFormat = getStorageFormatManager().findStorageFormat(saveDialog.getFileFilter());
+				// ricardo_padilha: if there is no format associated,
+				// try to find one that supports the file
+				if (foundFormat == null) {
+					foundFormat = getStorageFormatManager().findStorageFormat(saveDialog.getSelectedFile());
+				}
 				if (foundFormat != null) {
 					saveDrawing(foundFormat, saveDialog.getSelectedFile().getAbsolutePath());
 				}
