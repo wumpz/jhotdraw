@@ -92,17 +92,17 @@ public class MDI_DrawApplication extends DrawApplication {
 		if (!view().isInteractive()) {
 			return;
 		}
+
+		// create new window with view to an existing drawing
+		newWindow(view().drawing());
+
 		String copyTitle = getDrawingTitle();
-		DrawingView newView = createDrawingView();
-		newView.setDrawing(view().drawing());
-		getDesktop().addToDesktop(newView, Desktop.PRIMARY);
 		if (copyTitle != null) {
 			setDrawingTitle(copyTitle);
 		}
 		else {
 			setDrawingTitle(getDefaultDrawingTitle());
 		}
-		toolDone();
 	}
 
 	protected Desktop createDesktop() {
@@ -114,5 +114,9 @@ public class MDI_DrawApplication extends DrawApplication {
 	 */
 	public DrawingView[] views() {
 		return getDesktop().getAllFromDesktop(Desktop.PRIMARY);
+	}
+
+	public String getDefaultDrawingTitle() {
+		return super.getDefaultDrawingTitle() + getDesktop().getAllFromDesktop(0).length;
 	}
 }

@@ -725,7 +725,7 @@ public	class DrawApplication
 	public void figureSelectionChanged(DrawingView view) {
 		JMenuBar mb = getJMenuBar();
 
-		for (int x=0; x < mb.getMenuCount(); x++) {
+		for (int x = 0; x < mb.getMenuCount(); x++) {
 		    JMenu jm = mb.getMenu(x);
 			if (CommandMenu.class.isInstance(jm)) {
 				checkCommandMenu((CommandMenu)jm);
@@ -735,9 +735,9 @@ public	class DrawApplication
 
 	protected void checkCommandMenu(CommandMenu cm) {
 		cm.checkEnabled();
-		for(int y=0;y < cm.getItemCount();y++){
+		for (int y = 0; y < cm.getItemCount();y++) {
 			JMenuItem jmi = cm.getItem(y);
-			if(CommandMenu.class.isInstance(jmi)){
+			if (CommandMenu.class.isInstance(jmi)) {
 				checkCommandMenu((CommandMenu)jmi);
 			}
 		}

@@ -153,40 +153,41 @@ public  class   FigureAttributes
 		dw.writeInt(fMap.size());   // number of attributes
 		Iterator iter = fMap.keySet().iterator();
 		while (iter.hasNext()) {
-			String s = (String)iter.next();
-			Object v = fMap.get(s);
+			FigureAttributeConstant fac = (FigureAttributeConstant)iter.next();
+			String attributeName = fac.getName();
+			Object attributeValue = fMap.get(fac);
 
-			dw.writeString(s);
+			dw.writeString(attributeName);
 
-			if (v instanceof String) {
+			if (attributeValue instanceof String) {
 				dw.writeString("String");
-				dw.writeString((String) v);
+				dw.writeString((String)attributeValue);
 			}
-			else if (v instanceof Color) {
-				writeColor(dw, "Color", (Color)v);
+			else if (attributeValue instanceof Color) {
+				writeColor(dw, "Color", (Color)attributeValue);
 			}
-			else if (v instanceof Boolean) {
+			else if (attributeValue instanceof Boolean) {
 				dw.writeString("Boolean");
-				if (((Boolean)v).booleanValue()) {
+				if (((Boolean)attributeValue).booleanValue()) {
 					dw.writeString("TRUE");
 				}
 				else {
 					dw.writeString("FALSE");
 				}
 			}
-			else if (v instanceof Integer) {
+			else if (attributeValue instanceof Integer) {
 				dw.writeString("Int");
-				dw.writeInt(((Integer)v).intValue());
+				dw.writeInt(((Integer)attributeValue).intValue());
 			}
-			else if (v instanceof Storable) {
+			else if (attributeValue instanceof Storable) {
 				dw.writeString("Storable");
-				dw.writeStorable((Storable)v);
+				dw.writeStorable((Storable)attributeValue);
 			}
-			else if (v instanceof javax.swing.JPopupMenu) {
+			else if (attributeValue instanceof javax.swing.JPopupMenu) {
 				dw.writeString(Figure.POPUP_MENU);
 			}
 			else {
-				System.err.println("Unknown attribute: " + v);
+				System.err.println("Unknown attribute: " + attributeValue);
 				dw.writeString("UNKNOWN");
 			}
 		}
