@@ -5,10 +5,11 @@
  * @author Wolfram Kaiser (©2001)
  */
 
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.figures.LineConnection;
-import CH.ifa.draw.figures.ArrowTip;
 import java.awt.Color;
+
+import org.jhotdraw.figures.ArrowTip;
+import org.jhotdraw.figures.LineConnection;
+import org.jhotdraw.framework.Figure;
 
 /**
  * An InheritanceLineConnection is a graphical representation for

@@ -5,10 +5,13 @@
  * @author Wolfram Kaiser (©2001)
  */
 
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.contrib.*;
-import CH.ifa.draw.figures.*;
-import java.awt.event.*;
+import java.awt.event.MouseEvent;
+
+import org.jhotdraw.contrib.CustomSelectionTool;
+import org.jhotdraw.figures.TextFigure;
+import org.jhotdraw.figures.TextTool;
+import org.jhotdraw.framework.DrawingEditor;
+import org.jhotdraw.framework.Figure;
 
 /**
  * Delegate mouse selection to a specific TextTool if

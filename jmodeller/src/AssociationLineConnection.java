@@ -5,11 +5,6 @@
  * @author Wolfram Kaiser (©2001)
  */
 
-import CH.ifa.draw.framework.Figure;
-import CH.ifa.draw.framework.FigureAttributeConstant;
-import CH.ifa.draw.figures.LineConnection;
-import CH.ifa.draw.figures.ArrowTip;
-import CH.ifa.draw.framework.FigureChangeEvent;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
@@ -18,6 +13,12 @@ import java.io.ObjectInputStream;
 import javax.swing.AbstractAction;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+
+import org.jhotdraw.figures.ArrowTip;
+import org.jhotdraw.figures.LineConnection;
+import org.jhotdraw.framework.Figure;
+import org.jhotdraw.framework.FigureAttributeConstant;
+import org.jhotdraw.framework.FigureChangeEvent;
 
 /**
  * An AssociationLineConnection represents an association relationship (has-a)

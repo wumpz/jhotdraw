@@ -5,19 +5,30 @@
  * @author Wolfram Kaiser (©2001)
  */
 
-import javax.swing.*;
 import java.awt.Font;
 import java.awt.Insets;
-import java.awt.event.*;
-import java.util.*;
-import java.io.*;
-import CH.ifa.draw.figures.*;
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.contrib.*;
-import CH.ifa.draw.standard.NullHandle;
-import CH.ifa.draw.standard.RelativeLocator;
-import CH.ifa.draw.standard.HandleEnumerator;
-import CH.ifa.draw.util.*;
+import java.awt.event.ActionEvent;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.swing.AbstractAction;
+import javax.swing.JPopupMenu;
+
+import org.jhotdraw.contrib.GraphicalCompositeFigure;
+import org.jhotdraw.figures.RectangleFigure;
+import org.jhotdraw.figures.TextFigure;
+import org.jhotdraw.framework.Figure;
+import org.jhotdraw.framework.FigureAttributeConstant;
+import org.jhotdraw.framework.FigureChangeEvent;
+import org.jhotdraw.framework.HandleEnumeration;
+import org.jhotdraw.standard.HandleEnumerator;
+import org.jhotdraw.standard.NullHandle;
+import org.jhotdraw.standard.RelativeLocator;
+import org.jhotdraw.util.CollectionsFactory;
+import org.jhotdraw.util.StorableInput;
+import org.jhotdraw.util.StorableOutput;
 
 /**
  * A ClassFigure is a graphical representation for a class

@@ -5,12 +5,12 @@
  * @author Wolfram Kaiser (©2001)
  */
 
-import CH.ifa.draw.figures.LineConnection;
-import CH.ifa.draw.figures.ArrowTip;
-import CH.ifa.draw.framework.Figure;
-
 import java.awt.Color;
 import java.awt.Graphics;
+
+import org.jhotdraw.figures.ArrowTip;
+import org.jhotdraw.figures.LineConnection;
+import org.jhotdraw.framework.Figure;
 
 /**
  * Draw a dependency line between two classes. A dependency relation is a

@@ -5,8 +5,9 @@
  * @author Wolfram Kaiser (©2001)
  */
 
-import java.awt.*;
-import CH.ifa.draw.figures.*;
+import java.awt.Graphics;
+
+import org.jhotdraw.figures.LineFigure;
 
 /**
  * A SeparatorFigure is a similar to a LineFigure

@@ -5,10 +5,13 @@
  * @author Wolfram Kaiser (©2001)
  */
 
-import CH.ifa.draw.figures.AbstractLineDecoration;
-import CH.ifa.draw.util.*;
-import java.awt.*;
-import java.io.*;
+import java.awt.Color;
+import java.awt.Polygon;
+import java.io.IOException;
+
+import org.jhotdraw.figures.AbstractLineDecoration;
+import org.jhotdraw.util.StorableInput;
+import org.jhotdraw.util.StorableOutput;
 
 /**
  * An AggregationDecoration draws a diamond at the starting ClassFigure

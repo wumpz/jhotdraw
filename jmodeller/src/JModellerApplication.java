@@ -5,16 +5,27 @@
  * @author Wolfram Kaiser (©2002)
  */
 
-import CH.ifa.draw.standard.*;
-import CH.ifa.draw.figures.*;
-import CH.ifa.draw.framework.*;
-import CH.ifa.draw.contrib.*;
-import CH.ifa.draw.util.*;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
-import javax.swing.*;
+
+import javax.swing.AbstractAction;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JToolBar;
+
+import org.jhotdraw.contrib.MDI_DrawApplication;
+import org.jhotdraw.figures.ConnectedTextTool;
+import org.jhotdraw.figures.TextFigure;
+import org.jhotdraw.framework.DrawingView;
+import org.jhotdraw.framework.FigureAttributeConstant;
+import org.jhotdraw.framework.Tool;
+import org.jhotdraw.standard.ConnectionTool;
+import org.jhotdraw.standard.CreationTool;
+import org.jhotdraw.standard.ToggleGridCommand;
+import org.jhotdraw.util.CommandMenu;
+import org.jhotdraw.util.UndoableTool;
 
 /**
  * This is the main class to start the JModeller application. The actual main() method
