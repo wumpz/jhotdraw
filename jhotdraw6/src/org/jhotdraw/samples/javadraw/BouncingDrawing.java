@@ -11,7 +11,6 @@
 
 package CH.ifa.draw.samples.javadraw;
 
-import java.util.*;
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
 import CH.ifa.draw.util.Animatable;
@@ -58,7 +57,7 @@ public class BouncingDrawing extends StandardDrawing implements Animatable {
 	public void animationStep() {
 		FigureEnumeration fe = figures();
 		while (fe.hasNextFigure()) {
-			Figure f = (Figure)fe.nextFigure();
+			Figure f = fe.nextFigure();
 			
 			if(!(f instanceof ConnectionFigure)) {
 				((AnimationDecorator) f).animationStep();

@@ -12,9 +12,7 @@ package CH.ifa.draw.util.collections.jdk11;
 
 import CH.ifa.draw.util.CollectionsFactory;
 
-import java.util.List;
-import java.util.Collection;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author  Wolfram Kaiser <mrfloppy@sourceforge.net>
@@ -43,5 +41,13 @@ public class CollectionsFactoryJDK11 extends CollectionsFactory {
 
 	public Map createMap(Map initMap) {
 		return new MapWrapper(initMap);
+	}
+
+	public Set createSet() {
+		return new SetWrapper();
+	}
+
+	public Set createSet(Set initSet) {
+		return new SetWrapper(initSet);
 	}
 }

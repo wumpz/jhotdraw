@@ -23,20 +23,20 @@ import java.util.Hashtable;
  */
 public  class ChangeAttributeCommand extends AbstractCommand {
 
-	private String      fAttribute;
+	private FigureAttributeConstant fAttribute;
 	private Object      fValue;
 
 	/**
 	 * Constructs a change attribute command.
 	 * @param name the command name
-	 * @param attributeName the name of the attribute to be changed
+	 * @param attribute the attribute to be changed
 	 * @param value the new attribute value
 	 * @param newDrawingEditor the DrawingEditor which manages the views
 	 */
-	public ChangeAttributeCommand(String name, String attributeName,
+	public ChangeAttributeCommand(String name, FigureAttributeConstant attribute,
 						   Object value, DrawingEditor newDrawingEditor) {
 		super(name, newDrawingEditor);
-		fAttribute = attributeName;
+		fAttribute = attribute;
 		fValue = value;
 	}
 
@@ -63,14 +63,14 @@ public  class ChangeAttributeCommand extends AbstractCommand {
 	}
 
 	public static class UndoActivity extends UndoableAdapter {
-		private Hashtable	myOriginalValues;
-		private String      myUndoAttribute;
-		private Object      myUndoValue;
+		private FigureAttributeConstant myUndoAttribute;
+		private Hashtable	            myOriginalValues;
+		private Object                  myUndoValue;
 
-		public UndoActivity(DrawingView newDrawingView, String newUndoAttribute, Object newUndoValue) {
+		public UndoActivity(DrawingView newDrawingView, FigureAttributeConstant newUndoAttribute, Object newUndoValue) {
 			super(newDrawingView);
 			myOriginalValues = new Hashtable();
-			setAttributeName(newUndoAttribute);
+			setAttribute(newUndoAttribute);
 			setBackupValue(newUndoValue);
 			setUndoable(true);
 			setRedoable(true);
@@ -85,7 +85,7 @@ public  class ChangeAttributeCommand extends AbstractCommand {
 			while (fe.hasNextFigure()) {
 				Figure f = fe.nextFigure();
 				if (getOriginalValue(f) != null) {
-					f.setAttribute(getAttributeName(), getOriginalValue(f));
+					f.setAttribute(getAttribute(), getOriginalValue(f));
 				}
 			}
 
@@ -101,7 +101,7 @@ public  class ChangeAttributeCommand extends AbstractCommand {
 			while (fe.hasNextFigure()) {
 				Figure f = fe.nextFigure();
 				if (getBackupValue() != null) {
-					f.setAttribute(getAttributeName(), getBackupValue());
+					f.setAttribute(getAttribute(), getBackupValue());
 				}
 			}
 
@@ -116,11 +116,11 @@ public  class ChangeAttributeCommand extends AbstractCommand {
 			return myOriginalValues.get(lookupAffectedFigure);
 		}
 
-		protected void setAttributeName(String newUndoAttribute) {
+		protected void setAttribute(FigureAttributeConstant newUndoAttribute) {
 			myUndoAttribute = newUndoAttribute;
 		}
 
-		public String getAttributeName() {
+		public FigureAttributeConstant getAttribute() {
 			return myUndoAttribute;
 		}
 
@@ -144,7 +144,7 @@ public  class ChangeAttributeCommand extends AbstractCommand {
 			FigureEnumeration copyFe = getAffectedFigures();
 			while (copyFe.hasNextFigure()) {
 				Figure f = copyFe.nextFigure();
-				Object attributeValue = f.getAttribute(getAttributeName());
+				Object attributeValue = f.getAttribute(getAttribute());
 				if (attributeValue != null) {
 					addOriginalValue(f, attributeValue);
 				}

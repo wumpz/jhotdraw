@@ -35,6 +35,10 @@ public abstract class CollectionsFactory {
 
 	public abstract Map createMap(Map initMap);
 
+	public abstract Set createSet();
+
+	public abstract Set createSet(Set initSet);
+
 	public static CollectionsFactory current() {
 		return factory;
 	}

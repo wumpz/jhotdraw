@@ -60,15 +60,15 @@ public class ChopDiamondConnector extends ChopBoxConnector {
 				return p4;
 			}
 		}
-	
+
 		// Calculate angle to determine quadrant
 		double ang = Geom.pointToAngle(r, from);
-	
+
 		// Dermine line points
 		Point p1 = new Point(r.x + r.width  , r.y + (r.height/2));
 		Point p3 = new Point(r.x            , r.y + (r.height/2));
 		Point rp = null; // This will be returned
-	
+
 		// Get the intersection with edges
 		if (ang > 0 && ang < 1.57) {
 			rp = Geom.intersect(p1.x, p1.y, p2.x, p2.y, c1.x, c1.y, from.x, from.y);
@@ -79,15 +79,15 @@ public class ChopDiamondConnector extends ChopBoxConnector {
 		else if (ang > -3.14 && ang < -1.575) {
 		  rp = Geom.intersect(p3.x, p3.y, p4.x, p4.y, c1.x, c1.y, from.x, from.y);
 		}
-		else if(ang > -1.57 && ang < 0) {
+		else if (ang > -1.57 && ang < 0) {
 			rp = Geom.intersect(p4.x, p4.y, p1.x, p1.y, c1.x, c1.y, from.x, from.y);
 		}
-	
+
 		// No proper edge found, we should send one of four corners
 		if (rp == null) {
 			rp = Geom.angleToPoint(r, ang);
 		}
-	
+
 		return rp;
 	}
 }

@@ -78,7 +78,7 @@ public abstract class DisposableResourceManagerFactory {
 	protected static void initManager() {
 		if (currentManager == null) {
 			// ensure we have a holder prototype
-			if (holderPrototype == null){
+			if (holderPrototype == null) {
 				holderPrototype = new StandardDisposableResourceHolder();
 			}
 			// ensure we have a strategy

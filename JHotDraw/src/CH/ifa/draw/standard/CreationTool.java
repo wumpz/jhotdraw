@@ -89,10 +89,10 @@ public class CreationTool extends AbstractTool {
 	 */
 	public void mouseDown(MouseEvent e, int x, int y) {
 		setView((DrawingView)e.getSource());
-		fAnchorPoint = new Point(x,y);
+		setAnchorPoint(new Point(x, y));
 		setCreatedFigure(createFigure());
-		setAddedFigure((view().add(getCreatedFigure())));
-		getAddedFigure().displayBox(fAnchorPoint, fAnchorPoint);
+		setAddedFigure(view().add(getCreatedFigure()));
+		getAddedFigure().displayBox(getAnchorPoint(), getAnchorPoint());
 	}
 
 	/**
@@ -110,7 +110,7 @@ public class CreationTool extends AbstractTool {
 	 */
 	public void mouseDrag(MouseEvent e, int x, int y) {
 		if (getAddedFigure() != null) {
-			getAddedFigure().displayBox(fAnchorPoint, new Point(x,y));
+			getAddedFigure().displayBox(getAnchorPoint(), new Point(x,y));
 		}
 	}
 

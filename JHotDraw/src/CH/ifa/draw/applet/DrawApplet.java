@@ -126,25 +126,25 @@ public class DrawApplet
 	 */
 	protected void createAttributeChoices(JPanel panel) {
 		panel.add(new JLabel("Fill"));
-		fFillColor = createColorChoice(FigureAttributeConstant.FILL_COLOR.getName());
+		fFillColor = createColorChoice(FigureAttributeConstant.FILL_COLOR);
 		panel.add(fFillColor);
 
 		panel.add(new JLabel("Text"));
-		fTextColor = createColorChoice(FigureAttributeConstant.TEXT_COLOR.getName());
+		fTextColor = createColorChoice(FigureAttributeConstant.TEXT_COLOR);
 		panel.add(fTextColor);
 
 		panel.add(new JLabel("Pen"));
-		fFrameColor = createColorChoice(FigureAttributeConstant.FRAME_COLOR.getName());
+		fFrameColor = createColorChoice(FigureAttributeConstant.FRAME_COLOR);
 		panel.add(fFrameColor);
 
 		panel.add(new JLabel("Arrow"));
 		CommandChoice choice = new CommandChoice();
 		fArrowChoice = choice;
-		String arrowModeStr = FigureAttributeConstant.ARROW_MODE.getName();
-		choice.addItem(new ChangeAttributeCommand("none",     arrowModeStr, new Integer(PolyLineFigure.ARROW_TIP_NONE),  this));
-		choice.addItem(new ChangeAttributeCommand("at Start", arrowModeStr, new Integer(PolyLineFigure.ARROW_TIP_START), this));
-		choice.addItem(new ChangeAttributeCommand("at End",   arrowModeStr, new Integer(PolyLineFigure.ARROW_TIP_END),   this));
-		choice.addItem(new ChangeAttributeCommand("at Both",  arrowModeStr, new Integer(PolyLineFigure.ARROW_TIP_BOTH),  this));
+		FigureAttributeConstant arrowMode = FigureAttributeConstant.ARROW_MODE;
+		choice.addItem(new ChangeAttributeCommand("none",     arrowMode, new Integer(PolyLineFigure.ARROW_TIP_NONE),  this));
+		choice.addItem(new ChangeAttributeCommand("at Start", arrowMode, new Integer(PolyLineFigure.ARROW_TIP_START), this));
+		choice.addItem(new ChangeAttributeCommand("at End",   arrowMode, new Integer(PolyLineFigure.ARROW_TIP_END),   this));
+		choice.addItem(new ChangeAttributeCommand("at Both",  arrowMode, new Integer(PolyLineFigure.ARROW_TIP_BOTH),  this));
 		panel.add(fArrowChoice);
 
 		panel.add(new JLabel("Font"));
@@ -155,7 +155,7 @@ public class DrawApplet
 	/**
 	 * Creates the color choice for the given attribute.
 	 */
-	protected JComboBox createColorChoice(String attribute) {
+	protected JComboBox createColorChoice(FigureAttributeConstant attribute) {
 		CommandChoice choice = new CommandChoice();
 		for (int i = 0; i < ColorMap.size(); i++)
 			choice.addItem(
@@ -177,7 +177,7 @@ public class DrawApplet
 		CommandChoice choice = new CommandChoice();
 		String fonts[] = Toolkit.getDefaultToolkit().getFontList();
 		for (int i = 0; i < fonts.length; i++) {
-			choice.addItem(new ChangeAttributeCommand(fonts[i], FigureAttributeConstant.FONT_NAME.getName(), fonts[i],  this));
+			choice.addItem(new ChangeAttributeCommand(fonts[i], FigureAttributeConstant.FONT_NAME, fonts[i],  this));
 		}
 		return choice;
 	}
@@ -343,7 +343,7 @@ public class DrawApplet
 	 */
 	public void paletteUserOver(PaletteButton button, boolean inside) {
 		if (inside) {
-			showStatus(((ToolButton) button).name());
+			showStatus(button.name());
 		}
 		else if (fSelectedToolButton != null) {
 			showStatus(fSelectedToolButton.name());

@@ -13,6 +13,10 @@ package CH.ifa.draw.util.collections.jdk11;
 
 import java.util.*;
 
+/**
+ * @author  Wolfram Kaiser <mrfloppy@sourceforge.net>
+ * @version <$CURRENT_VERSION$>
+ */
 public class MapWrapper implements Map {
 	private Map myDelegee;
 

@@ -42,4 +42,12 @@ public class CollectionsFactoryJDK12 extends CollectionsFactory {
 	public Map createMap(Map initMap) {
 		return new Hashtable(initMap);
 	}
+
+	public Set createSet() {
+		return new HashSet();
+	}
+
+	public Set createSet(Set initSet) {
+		return new HashSet(initSet);
+	}
 }

@@ -49,7 +49,7 @@ public class HTMLColorContentProducer extends ColorContentProducer
 		return getHTMLColorCode(color);
 	}
 
-	public static String getHTMLColorCode(Color color){
+	public static String getHTMLColorCode(Color color) {
 		String colorCode = Integer.toHexString(color.getRGB());
 		return "#" + colorCode.substring(colorCode.length() - 6);
 	}

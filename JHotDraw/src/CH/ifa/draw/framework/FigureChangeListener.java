@@ -21,7 +21,7 @@ import java.util.EventListener;
 public interface FigureChangeListener extends EventListener {
 
 	/**
-	 *  Sent when an area is invalid
+	 * Sent when an area is invalid
 	 */
 	public void figureInvalidated(FigureChangeEvent e);
 
@@ -45,5 +45,4 @@ public interface FigureChangeListener extends EventListener {
 	 *
 	 */
 	public void figureRequestUpdate(FigureChangeEvent e);
-
 }

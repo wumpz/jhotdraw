@@ -19,6 +19,7 @@ import CH.ifa.draw.framework.DrawingEditor;
 import CH.ifa.draw.framework.DrawingView;
 
 import java.awt.event.MouseEvent;
+import java.awt.*;
 
 /**
  * @author	Wolfram Kaiser
@@ -36,7 +37,11 @@ public class CompositeFigureCreationTool extends CreationTool {
 		Figure figure = getFigureWithoutDecoration(drawing().findFigure(e.getX(), e.getY()));
 		if ((figure != null) && (figure instanceof CompositeFigure)) {
 			setContainerFigure((CompositeFigure)figure);
-			super.mouseDown(e, x, y);
+			setCreatedFigure(createFigure());
+			setAddedFigure((getContainerFigure().add(getCreatedFigure())));
+
+			setAnchorPoint(new Point(x, y));
+			getAddedFigure().displayBox(getAnchorPoint(), getAnchorPoint());
 		}
 		else {
 			toolDone();

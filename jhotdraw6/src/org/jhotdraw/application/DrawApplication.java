@@ -357,21 +357,21 @@ public	class DrawApplication
 	 */
 	protected JMenu createAttributesMenu() {
 		JMenu menu = new JMenu("Attributes");
-		menu.add(createColorMenu("Fill Color", FigureAttributeConstant.FILL_COLOR.getName()));
-		menu.add(createColorMenu("Pen Color", FigureAttributeConstant.FRAME_COLOR.getName()));
+		menu.add(createColorMenu("Fill Color", FigureAttributeConstant.FILL_COLOR));
+		menu.add(createColorMenu("Pen Color", FigureAttributeConstant.FRAME_COLOR));
 		menu.add(createArrowMenu());
 		menu.addSeparator();
 		menu.add(createFontMenu());
 		menu.add(createFontSizeMenu());
 		menu.add(createFontStyleMenu());
-		menu.add(createColorMenu("Text Color", FigureAttributeConstant.TEXT_COLOR.getName()));
+		menu.add(createColorMenu("Text Color", FigureAttributeConstant.TEXT_COLOR));
 		return menu;
 	}
 
 	/**
 	 * Creates the color menu.
 	 */
-	protected JMenu createColorMenu(String title, String attribute) {
+	protected JMenu createColorMenu(String title, FigureAttributeConstant attribute) {
 		CommandMenu menu = new CommandMenu(title);
 		for (int i=0; i<ColorMap.size(); i++)
 			menu.add(
@@ -391,16 +391,16 @@ public	class DrawApplication
 	 * Creates the arrows menu.
 	 */
 	protected JMenu createArrowMenu() {
-		String arrowModeStr = FigureAttributeConstant.ARROW_MODE.getName();
+		FigureAttributeConstant arrowMode = FigureAttributeConstant.ARROW_MODE;
 		CommandMenu menu = new CommandMenu("Arrow");
 		menu.add(new UndoableCommand(
-			new ChangeAttributeCommand("none", arrowModeStr, new Integer(PolyLineFigure.ARROW_TIP_NONE), this)));
+			new ChangeAttributeCommand("none", arrowMode, new Integer(PolyLineFigure.ARROW_TIP_NONE), this)));
 		menu.add(new UndoableCommand(
-			new ChangeAttributeCommand("at Start", arrowModeStr, new Integer(PolyLineFigure.ARROW_TIP_START), this)));
+			new ChangeAttributeCommand("at Start", arrowMode, new Integer(PolyLineFigure.ARROW_TIP_START), this)));
 		menu.add(new UndoableCommand(
-			new ChangeAttributeCommand("at End", arrowModeStr, new Integer(PolyLineFigure.ARROW_TIP_END), this)));
+			new ChangeAttributeCommand("at End", arrowMode, new Integer(PolyLineFigure.ARROW_TIP_END), this)));
 		menu.add(new UndoableCommand(
-			new ChangeAttributeCommand("at Both", arrowModeStr, new Integer(PolyLineFigure.ARROW_TIP_BOTH), this)));
+			new ChangeAttributeCommand("at Both", arrowMode, new Integer(PolyLineFigure.ARROW_TIP_BOTH), this)));
 		return menu;
 	}
 
@@ -413,7 +413,7 @@ public	class DrawApplication
 		String fonts[] = Toolkit.getDefaultToolkit().getFontList();
 		for (int i = 0; i < fonts.length; i++) {
 			menu.add(new UndoableCommand(
-				new ChangeAttributeCommand(fonts[i], FigureAttributeConstant.FONT_NAME.getName(), fonts[i],  this)));
+				new ChangeAttributeCommand(fonts[i], FigureAttributeConstant.FONT_NAME, fonts[i],  this)));
 		}
 		return menu;
 	}
@@ -422,14 +422,14 @@ public	class DrawApplication
 	 * Creates the font style menu with entries (Plain, Italic, Bold).
 	 */
 	protected JMenu createFontStyleMenu() {
-		String fontStyleStr = FigureAttributeConstant.FONT_STYLE.getName();
+		FigureAttributeConstant fontStyle = FigureAttributeConstant.FONT_STYLE;
 		CommandMenu menu = new CommandMenu("Font Style");
 		menu.add(new UndoableCommand(
-			new ChangeAttributeCommand("Plain", fontStyleStr, new Integer(Font.PLAIN), this)));
+			new ChangeAttributeCommand("Plain", fontStyle, new Integer(Font.PLAIN), this)));
 		menu.add(new UndoableCommand(
-			new ChangeAttributeCommand("Italic", fontStyleStr, new Integer(Font.ITALIC), this)));
+			new ChangeAttributeCommand("Italic", fontStyle, new Integer(Font.ITALIC), this)));
 		menu.add(new UndoableCommand(
-			new ChangeAttributeCommand("Bold", fontStyleStr, new Integer(Font.BOLD), this)));
+			new ChangeAttributeCommand("Bold", fontStyle, new Integer(Font.BOLD), this)));
 		return menu;
 	}
 
@@ -444,7 +444,7 @@ public	class DrawApplication
 				new UndoableCommand(
 					new ChangeAttributeCommand(
 						Integer.toString(sizes[i]),
-						FigureAttributeConstant.FONT_SIZE.getName(),
+						FigureAttributeConstant.FONT_SIZE,
 						new Integer(sizes[i]),
 						this
 					)
