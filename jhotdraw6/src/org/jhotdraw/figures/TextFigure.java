@@ -11,12 +11,16 @@
 
 package CH.ifa.draw.figures;
 
-import java.util.List;
 import java.awt.*;
-import java.io.*;
+import java.io.IOException;
+import java.util.List;
+
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
-import CH.ifa.draw.util.*;
+import CH.ifa.draw.util.CollectionsFactory;
+import CH.ifa.draw.util.ColorMap;
+import CH.ifa.draw.util.StorableInput;
+import CH.ifa.draw.util.StorableOutput;
 
 /**
  * A text figure.
@@ -25,28 +29,28 @@ import CH.ifa.draw.util.*;
  *
  * @version <$CURRENT_VERSION$>
  */
-public  class TextFigure
-		extends AttributeFigure
-		implements FigureChangeListener, TextHolder {
+public class TextFigure
+	extends AttributeFigure
+	implements FigureChangeListener, TextHolder {
 
-	private int               fOriginX;
-	private int               fOriginY;
+	private int fOriginX;
+	private int fOriginY;
 
 	// cache of the TextFigure's size
 	transient private boolean fSizeIsDirty = true;
-	transient private int     fWidth;
-	transient private int     fHeight;
+	transient private int fWidth;
+	transient private int fHeight;
 
-	private String  fText;
-	private Font    fFont;
+	private String fText;
+	private Font fFont;
 	private boolean fIsReadOnly;
 
-	private Figure  fObservedFigure = null;
+	private Figure fObservedFigure = null;
 	private OffsetLocator fLocator = null;
 
-	private static String fgCurrentFontName  = "Helvetica";
-	private static int    fgCurrentFontSize  = 12;
-	private static int    fgCurrentFontStyle = Font.PLAIN;
+	private static String fgCurrentFontName = "Helvetica";
+	private static int fgCurrentFontSize = 12;
+	private static int fgCurrentFontStyle = Font.PLAIN;
 
 	/*
 	 * Serialization support.
@@ -154,7 +158,7 @@ public  class TextFigure
 	 */
 	public void changed() {
 		super.changed();
-		updateLocation();
+		//updateLocation();
 	}
 
 	/**
@@ -206,25 +210,21 @@ public  class TextFigure
 	public void setAttribute(FigureAttributeConstant attributeConstant, Object value) {
 		Font font = getFont();
 		if (attributeConstant.equals(FigureAttributeConstant.FONT_SIZE)) {
-			Integer s = (Integer)value;
-			setFont(new Font(font.getName(), font.getStyle(), s.intValue()) );
-		}
-		else if (attributeConstant.equals(FigureAttributeConstant.FONT_STYLE)) {
-			Integer s = (Integer)value;
+			Integer s = (Integer) value;
+			setFont(new Font(font.getName(), font.getStyle(), s.intValue()));
+		} else if (attributeConstant.equals(FigureAttributeConstant.FONT_STYLE)) {
+			Integer s = (Integer) value;
 			int style = font.getStyle();
 			if (s.intValue() == Font.PLAIN) {
 				style = Font.PLAIN;
-			}
-			else {
+			} else {
 				style = style ^ s.intValue();
 			}
-			setFont(new Font(font.getName(), style, font.getSize()) );
-		}
-		else if (attributeConstant.equals(FigureAttributeConstant.FONT_NAME)) {
-			String n = (String)value;
-			setFont(new Font(n, font.getStyle(), font.getSize()) );
-		}
-		else {
+			setFont(new Font(font.getName(), style, font.getSize()));
+		} else if (attributeConstant.equals(FigureAttributeConstant.FONT_NAME)) {
+			String n = (String) value;
+			setFont(new Font(n, font.getStyle(), font.getSize()));
+		} else {
 			super.setAttribute(attributeConstant, value);
 		}
 	}
@@ -300,7 +300,7 @@ public  class TextFigure
 		int length = getText().length();
 		int columns = 20;
 		if (length != 0) {
-			columns = getText().length()+ 3;
+			columns = getText().length() + 3;
 		}
 		return columns;
 	}
@@ -345,21 +345,22 @@ public  class TextFigure
 		fFont = new Font(dr.readString(), dr.readInt(), dr.readInt());
 		fIsReadOnly = dr.readBoolean();
 
-		setObservedFigure((Figure)dr.readStorable());
+		setObservedFigure((Figure) dr.readStorable());
 		if (getObservedFigure() != null) {
 			getObservedFigure().addFigureChangeListener(this);
 		}
-		setLocator((OffsetLocator)dr.readStorable());
+		setLocator((OffsetLocator) dr.readStorable());
 	}
 
-	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+	/*private void readObject(ObjectInputStream s)
+		throws ClassNotFoundException, IOException {
 		s.defaultReadObject();
 
 		if (getObservedFigure() != null) {
 			getObservedFigure().addFigureChangeListener(this);
 		}
 		markDirty();
-	}
+	}*/
 
 	/**
 	 * @see CH.ifa.draw.standard.TextHolder#connect(CH.ifa.draw.framework.Figure)
@@ -372,14 +373,18 @@ public  class TextFigure
 		setObservedFigure(figure);
 		setLocator(new OffsetLocator(getObservedFigure().connectedTextLocator(this)));
 		getObservedFigure().addFigureChangeListener(this);
+		willChange();
 		updateLocation();
+		changed();
 	}
 
 	/**
 	 * @see CH.ifa.draw.framework.FigureChangeListener#figureChanged(CH.ifa.draw.framework.FigureChangeEvent)
 	 */
 	public void figureChanged(FigureChangeEvent e) {
+		willChange();
 		updateLocation();
+		changed();
 	}
 
 	/**
@@ -395,17 +400,20 @@ public  class TextFigure
 	/**
 	 * @see CH.ifa.draw.framework.FigureChangeListener#figureRequestRemove(CH.ifa.draw.framework.FigureChangeEvent)
 	 */
-	public void figureRequestRemove(FigureChangeEvent e) {}
+	public void figureRequestRemove(FigureChangeEvent e) {
+	}
 
 	/**
 	 * @see CH.ifa.draw.framework.FigureChangeListener#figureInvalidated(CH.ifa.draw.framework.FigureChangeEvent)
 	 */
-	public void figureInvalidated(FigureChangeEvent e) {}
+	public void figureInvalidated(FigureChangeEvent e) {
+	}
 
 	/**
 	 * @see CH.ifa.draw.framework.FigureChangeListener#figureRequestUpdate(CH.ifa.draw.framework.FigureChangeEvent)
 	 */
-	public void figureRequestUpdate(FigureChangeEvent e) {}
+	public void figureRequestUpdate(FigureChangeEvent e) {
+	}
 
 	/**
 	 * Updates the location relative to the connected figure.
@@ -415,12 +423,12 @@ public  class TextFigure
 		if (getLocator() != null) {
 			Point p = getLocator().locate(getObservedFigure());
 
-			p.x -= size().width/2 + fOriginX;
-			p.y -= size().height/2 + fOriginY;
+			p.x -= size().width / 2 + fOriginX;
+			p.y -= size().height / 2 + fOriginY;
 			if (p.x != 0 || p.y != 0) {
-				willChange();
+				//willChange();
 				basicMoveBy(p.x, p.y);
-				changed();
+				//changed();
 			}
 		}
 	}
