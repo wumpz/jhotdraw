@@ -58,27 +58,15 @@ public abstract class AbstractTool implements Tool {
 	 */
 	private boolean myIsEnabled;
 
-	private final ViewChangeListener myViewChangeListener = new ViewChangeListener() {
-		public void viewSelectionChanged(DrawingView oldView, DrawingView newView){
-			AbstractTool.this.viewSelectionChanged(oldView, newView);
-		}
-		public void viewCreated(DrawingView view){
-			AbstractTool.this.viewCreated(view);
-		}
-		public void viewDestroying(DrawingView view){
-			AbstractTool.this.viewDestroying(view);
-		}
-	};
-		
 	/**
 	 * Constructs a tool for the given view.
 	 */
 	public AbstractTool(DrawingEditor newDrawingEditor) {
-		myDrawingEditor = newDrawingEditor;
+		setEditor(newDrawingEditor);
 		setEventDispatcher(createEventDispatcher());
 		setEnabled(true);
 		checkUsable();
-		editor().addViewChangeListener(myViewChangeListener);
+		editor().addViewChangeListener(createViewChangeListener());
 	}
 
 	/**
@@ -317,9 +305,23 @@ public abstract class AbstractTool implements Tool {
 		return myEventDispatcher;
 	}
 
-	public AbstractTool.EventDispatcher createEventDispatcher() {
+	protected AbstractTool.EventDispatcher createEventDispatcher() {
 		return new AbstractTool.EventDispatcher(this);
 	}
+
+    protected ViewChangeListener createViewChangeListener() {
+        return new ViewChangeListener() {
+            public void viewSelectionChanged(DrawingView oldView, DrawingView newView){
+	    		AbstractTool.this.viewSelectionChanged(oldView, newView);
+		    }
+    		public void viewCreated(DrawingView view){
+	    		AbstractTool.this.viewCreated(view);
+		    }
+    		public void viewDestroying(DrawingView view){
+	    		AbstractTool.this.viewDestroying(view);
+		    }
+        };
+    }
 
 	protected void checkUsable() {
 		if (isEnabled()) {

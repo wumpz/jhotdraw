@@ -13,11 +13,13 @@ package CH.ifa.draw.contrib.dnd;
 
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
-import java.awt.Cursor;
-import java.awt.dnd.DragGestureListener;
-import javax.swing.JComponent;
 
-//import CH.ifa.draw.util.CollectionsFactory;
+import java.awt.Cursor;
+import java.awt.Point;
+import java.awt.Component;
+import java.awt.dnd.DragGestureListener;
+import java.awt.event.MouseEvent;
+import javax.swing.JComponent;
 
 /**
  * This is a tool which handles drag and drop between Components in
@@ -53,16 +55,13 @@ import javax.swing.JComponent;
  * @author C.L.Gilbert <dnoyeb@sourceforge.net>
  * @version <$CURRENT_VERSION$>
  */
-public class DragNDropTool extends CH.ifa.draw.standard.AbstractTool {
+public class DragNDropTool extends AbstractTool {
 	private Tool            fChild;
-//	private java.util.List       comps;
 	private DragGestureListener dragGestureListener;
 	private boolean dragOn;
-	
 
 	public DragNDropTool(DrawingEditor editor) {
 		super(editor);
-//		comps = CollectionsFactory.current().createList();
 		setDragGestureListener(createDragGestureListener());
 		dragOn = false;
 	}
@@ -72,10 +71,9 @@ public class DragNDropTool extends CH.ifa.draw.standard.AbstractTool {
 	 */
 	protected void viewCreated(DrawingView view) {
 		super.viewCreated(view);
-		if (view instanceof DNDInterface) {
+		if (DNDInterface.class.isInstance(view)) {
 			DNDInterface dndi = (DNDInterface)view;
 			dndi.DNDInitialize( getDragGestureListener() );
-//			comps.add(dndi);
 		}
 	}
 
@@ -83,10 +81,9 @@ public class DragNDropTool extends CH.ifa.draw.standard.AbstractTool {
 	 * Send when an existing view is about to be destroyed.
 	 */
 	protected void viewDestroying(DrawingView view) {
-		if (view instanceof DNDInterface) {
+		if (DNDInterface.class.isInstance(view)) {
 			DNDInterface dndi = (DNDInterface)view;
 			dndi.DNDDeinitialize();
-//			comps.remove(dndi);
 		}
 		super.viewDestroying(view);
 	}
@@ -131,7 +128,7 @@ public class DragNDropTool extends CH.ifa.draw.standard.AbstractTool {
 		if (handle != null) {
 			if (LocatorHandle.class.isInstance(handle)) {
 				LocatorHandle lh = (LocatorHandle)handle;
-				CH.ifa.draw.framework.Locator loc = lh.getLocator();
+				Locator loc = lh.getLocator();
 				if (RelativeLocator.class.isInstance(loc)) {
 					RelativeLocator rl = (RelativeLocator) loc;
 					if (rl.equals( RelativeLocator.north())) {
@@ -175,8 +172,8 @@ public class DragNDropTool extends CH.ifa.draw.standard.AbstractTool {
      * Don't use x, y use getX and getY so get the real unlimited position
 	 * Part of the Tool interface.
 	 */
-	public void mouseMove(java.awt.event.MouseEvent e, int x, int y) {
-		if (e.getSource() == getActiveView()) {
+	public void mouseMove(MouseEvent evt, int x, int y) {
+		if (evt.getSource() == getActiveView()) {
 			setCursor(x, y, getActiveView());
 		}
 	}
@@ -186,9 +183,9 @@ public class DragNDropTool extends CH.ifa.draw.standard.AbstractTool {
 	 * current tracker.
 	 * Part of the Tool interface.
 	 */
-	public void mouseUp(java.awt.event.MouseEvent e, int x, int y) {
+	public void mouseUp(MouseEvent e, int x, int y) {
 		if (fChild != null) { // JDK1.1 doesn't guarantee mouseDown, mouseDrag, mouseUp
-			fChild.mouseUp(e,x,y);
+			fChild.mouseUp(e, x, y);
 			fChild = null;
 		}
 		setDragOn(true);
@@ -200,8 +197,8 @@ public class DragNDropTool extends CH.ifa.draw.standard.AbstractTool {
 	 * Handles mouse down events and starts the corresponding tracker.
 	 * Part of the Tool interface.
 	 */
-	public void mouseDown(java.awt.event.MouseEvent e, int x, int y) {
-		super.mouseDown(e,x,y);
+	public void mouseDown(MouseEvent e, int x, int y) {
+		super.mouseDown(e, x, y);
 		// on MS-Windows NT: AWT generates additional mouse down events
 		// when the left button is down && right button is clicked.
 		// To avoid dead locks we ignore such events
@@ -241,7 +238,7 @@ public class DragNDropTool extends CH.ifa.draw.standard.AbstractTool {
 			}
 		}
 		if (fChild != null) {
-			fChild.mouseDown(e,x,y);
+			fChild.mouseDown(e, x, y);
 		}
 	}
 
@@ -250,9 +247,9 @@ public class DragNDropTool extends CH.ifa.draw.standard.AbstractTool {
 	 * current tracker.
 	 * Part of the Tool interface.
 	 */
-	public void mouseDrag(java.awt.event.MouseEvent e, int x, int y) {
+	public void mouseDrag(MouseEvent e, int x, int y) {
 		if (fChild != null) { // JDK1.1 doesn't guarantee mouseDown, mouseDrag, mouseUp
-			fChild.mouseDrag(e,x,y);
+			fChild.mouseDrag(e, x, y);
 		}
 	}
 
@@ -261,60 +258,47 @@ public class DragNDropTool extends CH.ifa.draw.standard.AbstractTool {
 	 * area.
 	 */
 	protected Tool createAreaTracker() {
-		return new CH.ifa.draw.standard.SelectAreaTracker(editor());
+		return new SelectAreaTracker(editor());
 	}
 
 	/**
 	 * Factory method to create a Drag tracker. It is used to drag a figure.
 	 */
 	protected Tool createDragTracker(DrawingEditor editor, Figure f) {
-		return new CH.ifa.draw.standard.DragTracker(editor, f);
+		return new DragTracker(editor, f);
 	}
 
 	/**
 	 * Factory method to create a Handle tracker. It is used to track a handle.
 	 */
 	protected Tool createHandleTracker(Handle handle) {
-		return new CH.ifa.draw.standard.HandleTracker(editor(), handle);
+		return new HandleTracker(editor(), handle);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
 
 	private DragGestureListener getDragGestureListener(){
 		return dragGestureListener;
 	}
+
 	private void setDragGestureListener(DragGestureListener dragGestureListener){
 		this.dragGestureListener = dragGestureListener;
 	}
+
 	protected boolean isDragOn(){
 		return dragOn;
 	}
+
 	protected void setDragOn(boolean dragOn){
 		this.dragOn = dragOn;
 	}
+
 	private DragGestureListener createDragGestureListener() {
 		
 		return new DragGestureListener() {
 			
 			public void dragGestureRecognized(final java.awt.dnd.DragGestureEvent dge) {
-				java.awt.Component c = dge.getComponent();
+				Component c = dge.getComponent();
 				//System.out.println("Drag Gesture Recognized for " + c);
-				if(isDragOn() == false) {
+				if (isDragOn() == false) {
 					return;
 				}
 
@@ -327,13 +311,13 @@ public class DragNDropTool extends CH.ifa.draw.standard.AbstractTool {
 					it will likely stay activated.  solve later for now just make
 					but report. */
 					/* this is a list of cloned figures */
-					CH.ifa.draw.framework.FigureEnumeration selectedElements = dv.selection();
+					FigureEnumeration selectedElements = dv.selection();
 
 					if (selectedElements.hasNextFigure() == false) {
 						return;
 					}
 
-					java.awt.Point p = dge.getDragOrigin();
+					Point p = dge.getDragOrigin();
 		//				System.out.println("origin at " + p);
 					while (selectedElements.hasNextFigure()) {
 						Figure f = selectedElements.nextFigure();
@@ -387,15 +371,4 @@ public class DragNDropTool extends CH.ifa.draw.standard.AbstractTool {
 			}
 		};
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
