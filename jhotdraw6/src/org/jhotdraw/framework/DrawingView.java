@@ -223,6 +223,13 @@ public interface DrawingView extends ImageObserver, DrawingChangeListener {
     public void drawAll(Graphics g);
 
     /**
+     * Draws the given figures.
+     * The view has three layers: background, drawing, handles.
+     * The layers are drawn in back to front order.
+     */
+    public void draw(Graphics g, FigureEnumeration fe);
+
+    /**
      * Draws the currently active handles.
      */
     public void drawHandles(Graphics g);
