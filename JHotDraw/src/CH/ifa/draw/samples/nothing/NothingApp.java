@@ -67,5 +67,6 @@ public  class NothingApp extends DrawApplication {
 	public static void main(String[] args) {
 		DrawApplication window = new NothingApp();
 		window.open();
+                window.newWindow();
 	}
 }

@@ -53,5 +53,6 @@ public  class PertApplication extends DrawApplication {
 	public static void main(String[] args) {
 		PertApplication pert = new PertApplication();
 		pert.open();
+                pert.newWindow( );
 	}
 }
