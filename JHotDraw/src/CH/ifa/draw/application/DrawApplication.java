@@ -336,7 +336,7 @@ public	class DrawApplication
 		CommandMenu menu = new CommandMenu("Debug");
 
 		Command cmd = new AbstractCommand("Simple Update", this) {
-			public void executable() {
+			public void execute() {
 				this.view().setDisplayUpdate(new SimpleUpdateStrategy());
 			}
 		};
