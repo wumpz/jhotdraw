@@ -17,7 +17,7 @@ import java.awt.*;
 import java.lang.Math;
 
 /**
- * @author  C.L.Gilbert <dnoyeb@sourceforge.net>
+ * @author  C.L.Gilbert <dnoyeb@users.sourceforge.net>
  * @version <$CURRENT_VERSION$>
  */
 public class PeripheralLocator extends AbstractLocator {

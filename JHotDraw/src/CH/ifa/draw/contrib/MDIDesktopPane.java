@@ -30,7 +30,7 @@ import java.beans.*;
  * "x".  so if you say removeAll from container you wont be notified.  No biggie.
  *
  * @author Wolfram Kaiser (adapted from an article in JavaWorld)
- * @author  C.L.Gilbert <dnoyeb@sourceforge.net>
+ * @author  C.L.Gilbert <dnoyeb@users.sourceforge.net>
  * @version <$CURRENT_VERSION$>
  */
 public class MDIDesktopPane extends JDesktopPane implements Desktop {
@@ -43,7 +43,7 @@ public class MDIDesktopPane extends JDesktopPane implements Desktop {
 	 * JComponent
 	 */
 	//private final EventListenerList listenerList = new EventListenerList();
-	protected DrawingView selectedView;
+	private DrawingView selectedView;
 
 	public MDIDesktopPane(DrawApplication newDrawApplication) {
 		setDrawApplication(newDrawApplication);

@@ -13,7 +13,6 @@ package CH.ifa.draw.contrib;
 
 import CH.ifa.draw.standard.CreationTool;
 import CH.ifa.draw.standard.CompositeFigure;
-import CH.ifa.draw.standard.DecoratorFigure;
 import CH.ifa.draw.framework.Figure;
 import CH.ifa.draw.framework.DrawingEditor;
 import CH.ifa.draw.framework.DrawingView;
@@ -34,26 +33,21 @@ public class CompositeFigureCreationTool extends CreationTool {
 
 	public void mouseDown(MouseEvent e, int x, int y) {
 		setView((DrawingView)e.getSource());
-		Figure figure = getFigureWithoutDecoration(drawing().findFigure(e.getX(), e.getY()));
-		if ((figure != null) && (figure instanceof CompositeFigure)) {
-			setContainerFigure((CompositeFigure)figure);
-			setCreatedFigure(createFigure());
-			setAddedFigure((getContainerFigure().add(getCreatedFigure())));
-
-			setAnchorPoint(new Point(x, y));
-			getAddedFigure().displayBox(getAnchorPoint(), getAnchorPoint());
+		Figure figure = drawing().findFigure(e.getX(), e.getY());
+		if (figure != null) {
+			figure = figure.getDecoratedFigure();
+			if (figure instanceof CompositeFigure) {
+				setContainerFigure((CompositeFigure)figure);
+				setCreatedFigure(createFigure());
+				setAddedFigure((getContainerFigure().add(getCreatedFigure())));
+				getAddedFigure().displayBox(new Point(x, y), new Point(x, y));
+			}
+			else {
+				toolDone();
+			}
 		}
 		else {
 			toolDone();
-		}
-	}
-
-	private Figure getFigureWithoutDecoration(Figure peelFigure) {
-		if (peelFigure instanceof DecoratorFigure) {
-			return getFigureWithoutDecoration(((DecoratorFigure)peelFigure).getDecoratedFigure());
-		}
-		else {
-			return peelFigure;
 		}
 	}
 
@@ -66,14 +60,6 @@ public class CompositeFigureCreationTool extends CreationTool {
 		else {
 			super.mouseMove(e, x, y);
 		}
-	}
-
-	public void mouseUp(MouseEvent e, int x, int y) {
-		if ((getContainerFigure() != null) && (getCreatedFigure() != null)
-				&& getContainerFigure().containsPoint(e.getX(), e.getY())) {
-			getContainerFigure().add(getCreatedFigure());
-		}
-		toolDone();
 	}
 
 	protected void setContainerFigure(CompositeFigure newContainerFigure) {

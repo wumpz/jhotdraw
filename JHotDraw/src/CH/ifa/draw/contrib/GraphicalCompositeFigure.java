@@ -338,7 +338,7 @@ public class GraphicalCompositeFigure extends CompositeFigure implements Layouta
 	public void read(StorableInput dr) throws IOException {
 		super.read(dr);
 		setPresentationFigure((Figure)dr.readStorable());
-		setLayouter( (Layouter)dr.readStorable());
+		setLayouter((Layouter)dr.readStorable());
 	}
 
 	/**

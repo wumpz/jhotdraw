@@ -12,13 +12,14 @@
 package CH.ifa.draw.contrib.dnd;
 
 import CH.ifa.draw.standard.AbstractTool;
-import java.awt.*;
+import java.util.List;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
+import java.awt.*;
 import java.util.Iterator;
 
 import CH.ifa.draw.framework.*;
 import CH.ifa.draw.standard.*;
+import CH.ifa.draw.util.CollectionsFactory;
 
 /**
  * This is a tool which handles drag and drop between Components in
@@ -55,11 +56,11 @@ import CH.ifa.draw.standard.*;
  */
 public class DragNDropTool extends AbstractTool {
 	private Tool            fChild;
-	private ArrayList       comps;
+	private List            comps;
 
 	public DragNDropTool(DrawingEditor editor) {
 		super(editor);
-		comps = new ArrayList();
+		comps = CollectionsFactory.current().createList();
 	}
 
 	/**

@@ -26,7 +26,6 @@ import java.awt.event.MouseEvent;
  */
 public  class ConnectedTextTool extends TextTool {
 
-	private boolean fConnected = false;
 	private Figure myConnectedFigure;
 
 	public ConnectedTextTool(DrawingEditor editor, Figure prototype) {
@@ -40,21 +39,22 @@ public  class ConnectedTextTool extends TextTool {
 	public void mouseDown(MouseEvent e, int x, int y) {
 		super.mouseDown(e, x, y);
 
-		setConnectedFigure(drawing().findFigureInside(x, y));
-		TextHolder textHolder = getTypingTarget();
-		if (!fConnected && (getConnectedFigure() != null) && (textHolder != null) && (getConnectedFigure() != textHolder)) {
-			textHolder.connect(getConnectedFigure());
-			getConnectedFigure().addDependendFigure(getAddedFigure());
-			fConnected = true;
+		if (getTypingTarget() != null) {
+			TextHolder textHolder = getTypingTarget();
+			setConnectedFigure(drawing().findFigureInsideWithout(x, y, textHolder.getRepresentingFigure()));
+			if ((getConnectedFigure() != null) && (textHolder != null) && (getConnectedFigure().getTextHolder() != textHolder)) {
+				textHolder.connect(getConnectedFigure().getDecoratedFigure());
+				getConnectedFigure().addDependendFigure(getAddedFigure());
+			}
 		}
 	}
 
 	protected void endEdit() {
 		super.endEdit();
-		if (getUndoActivity() != null) {
+		if ((getUndoActivity() != null) && (getUndoActivity() instanceof ConnectedTextTool.UndoActivity)) {
 			((ConnectedTextTool.UndoActivity)getUndoActivity()).setConnectedFigure(getConnectedFigure());
 		}
-		else {
+		else if ((getConnectedFigure() != null) && isDeleteTextFigure()) {
 			getConnectedFigure().removeDependendFigure(getAddedFigure());
 		}
 	}
@@ -73,7 +73,12 @@ public  class ConnectedTextTool extends TextTool {
 	 */
 	public void activate() {
 		super.activate();
-		fConnected = false;
+		setConnectedFigure(null);
+	}
+
+	protected Undoable createDeleteUndoActivity() {
+		FigureTransferCommand cmd = new DeleteCommand("Delete", editor());
+		return new DeleteUndoActivity(cmd, getConnectedFigure());
 	}
 
 	/**
@@ -139,6 +144,58 @@ public  class ConnectedTextTool extends TextTool {
 					else if (!isValidText(getOriginalText())) {
 						currentFigure.getTextHolder().connect(getConnectedFigure());
 					}
+				}
+			}
+
+			return true;
+		}
+
+		public void setConnectedFigure(Figure newConnectedFigure) {
+			myConnectedFigure = newConnectedFigure;
+		}
+
+		public Figure getConnectedFigure() {
+			return myConnectedFigure;
+		}
+	}
+
+	/**
+	 * This class
+	 */
+	public static class DeleteUndoActivity extends DeleteCommand.UndoActivity {
+		private Figure myConnectedFigure;
+
+		public DeleteUndoActivity(FigureTransferCommand cmd, Figure newConnectedFigure) {
+			super(cmd);
+			setConnectedFigure(newConnectedFigure);
+		}
+
+		public boolean undo() {
+			if (!super.undo()) {
+				return false;
+			}
+
+			FigureEnumeration fe = getAffectedFigures();
+			while (fe.hasNextFigure()) {
+				Figure currentFigure = fe.nextFigure();
+				if (currentFigure.getTextHolder() != null) {
+					currentFigure.getTextHolder().connect(getConnectedFigure().getDecoratedFigure());
+				}
+			}
+
+			return true;
+		}
+
+		public boolean redo() {
+			if (!super.redo()) {
+				return false;
+			}
+
+			FigureEnumeration fe = getAffectedFigures();
+			while (fe.hasNextFigure()) {
+				Figure currentFigure = fe.nextFigure();
+				if (currentFigure.getTextHolder() != null) {
+					currentFigure.getTextHolder().disconnect(getConnectedFigure().getDecoratedFigure());
 				}
 			}
 

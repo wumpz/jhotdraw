@@ -22,7 +22,7 @@ import CH.ifa.draw.application.DrawApplication;
  */
 public  class NetApp extends DrawApplication {
 
-	NetApp() {
+	public NetApp() {
 		super("Net");
 	}
 

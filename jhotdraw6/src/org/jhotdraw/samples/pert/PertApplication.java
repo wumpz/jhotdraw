@@ -24,7 +24,7 @@ public  class PertApplication extends DrawApplication {
 
 	static private final String PERTIMAGES = "/CH/ifa/draw/samples/pert/images/";
 
-	PertApplication() {
+	public PertApplication() {
 		super("PERT Editor");
 	}
 

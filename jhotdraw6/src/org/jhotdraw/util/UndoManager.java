@@ -11,13 +11,16 @@
 
 package CH.ifa.draw.util;
 
+import CH.ifa.draw.framework.DrawingView;
+
 import java.util.List;
+import java.util.Iterator;
 
 /**
  * This class manages all the undoable commands. It keeps track of all
  * the modifications done through user interactions.
  *
- * @author  Wolfram Kaiser <mrfloppy@sourceforge.net>
+ * @author  Wolfram Kaiser <mrfloppy@users.sourceforge.net>
  * @version <$CURRENT_VERSION$>
  */
 public class UndoManager {
@@ -183,5 +186,33 @@ public class UndoManager {
 
 	protected void clearStack(List clearStack) {
 		clearStack.clear();
+	}
+
+	/**
+	 * Removes all undo activities that operate on the given DrawingView.
+	 * @param checkDV DrawingView which is compared undo's DrawingView
+	 */
+	public void clearUndos(DrawingView checkDV) {
+		Iterator iter = undoStack.iterator();
+		while (iter.hasNext()) {
+			Undoable currentUndo = (Undoable)iter.next();
+			if (currentUndo.getDrawingView() == checkDV) {
+				iter.remove();
+			}
+		}
+	}
+
+	/**
+	 * Removes all redo activities that operate on the given DrawingView.
+	 * @param checkDV DrawingView which is compared redo's DrawingView
+	 */
+	public void clearRedos(DrawingView checkDV) {
+		Iterator iter = redoStack.iterator();
+		while (iter.hasNext()) {
+			Undoable currentRedo = (Undoable)iter.next();
+			if (currentRedo.getDrawingView() == checkDV) {
+				iter.remove();
+			}
+		}
 	}
 }

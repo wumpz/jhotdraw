@@ -113,7 +113,7 @@ public class SimpleLayouter implements Layouter {
 	 */
 	public void read(StorableInput dr) throws IOException {
 		setLayoutable((Layoutable)dr.readStorable());
-		setInsets( new Insets( dr.readInt(),dr.readInt(),dr.readInt(),dr.readInt()));
+		setInsets(new Insets(dr.readInt(), dr.readInt(), dr.readInt(), dr.readInt()));
 	}
 
 	/**
@@ -122,9 +122,9 @@ public class SimpleLayouter implements Layouter {
 	public void write(StorableOutput dw) {
 		dw.writeStorable(getLayoutable());
 		Insets i = getInsets();
-		dw.writeInt( i.top);
-		dw.writeInt( i.left);
-		dw.writeInt( i.bottom);
-		dw.writeInt( i.right);
+		dw.writeInt(i.top);
+		dw.writeInt(i.left);
+		dw.writeInt(i.bottom);
+		dw.writeInt(i.right);
 	}
 }

@@ -30,7 +30,7 @@ import CH.ifa.draw.application.*;
  */
 public  class NothingApp extends DrawApplication {
 
-	NothingApp() {
+	public NothingApp() {
 		super("Nothing");
 	}
 

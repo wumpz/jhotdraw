@@ -397,7 +397,7 @@ public class TextAreaFigure extends AttributeFigure
 			savedFontColor = g2.getColor();
 			savedClipArea = g2.getClip();
 			if(savedClipArea != null) {
-				clipRect = displayBox.createIntersection((Rectangle2D)savedClipArea);
+			clipRect = displayBox.createIntersection((Rectangle2D)savedClipArea);
 			} else {
 				clipRect = displayBox;
 			}
@@ -564,7 +564,7 @@ public class TextAreaFigure extends AttributeFigure
 		// restore saved graphic attributes
 		if (g2 != null) {
 			if(savedClipArea != null) {
-				g2.setClip(savedClipArea);
+			g2.setClip(savedClipArea);
 			}
 			g2.setColor(savedFontColor);
 			g2.setRenderingHints(savedRenderingHints);
@@ -907,5 +907,17 @@ public class TextAreaFigure extends AttributeFigure
 	 */
 	public void setFontDirty(boolean newFontIsDirty) {
 		fFontIsDirty = newFontIsDirty;
+	}
+
+	/**
+	 * Usually, a TextHolders is implemented by a Figure subclass. To avoid casting
+	 * a TextHolder to a Figure this method can be used for polymorphism (in this
+	 * case, let the (same) object appear to be of another type).
+	 * Note, that the figure returned is not the figure to which the TextHolder is
+	 * (and its representing figure) connected.
+	 * @return figure responsible for representing the content of this TextHolder
+	 */
+	public Figure getRepresentingFigure() {
+		return this;
 	}
 }

@@ -12,6 +12,7 @@
 package CH.ifa.draw.standard;
 
 import CH.ifa.draw.contrib.AutoscrollHelper;
+import CH.ifa.draw.contrib.ClippingUpdateStrategy;
 import CH.ifa.draw.contrib.dnd.DNDHelper;
 import CH.ifa.draw.contrib.dnd.DNDInterface;
 import CH.ifa.draw.util.*;
@@ -171,6 +172,7 @@ public class StandardDrawingView
 	 */
 	protected Painter createDisplayUpdate() {
 		return new SimpleUpdateStrategy();
+		//return new ClippingUpdateStrategy();
 	}
 
 	/**
@@ -501,7 +503,7 @@ public class StandardDrawingView
 	/**
 	 * Gets an enumeration of the currently active handles.
 	 */
-	private HandleEnumeration selectionHandles() {
+	protected HandleEnumeration selectionHandles() {
 		if (fSelectionHandles == null) {
 			fSelectionHandles = CollectionsFactory.current().createList();
 			FigureEnumeration fe = selection();
@@ -649,6 +651,9 @@ public class StandardDrawingView
 
 	public void drawingRequestUpdate(DrawingChangeEvent e) {
 		repairDamage();
+	}
+
+	public void drawingTitleChanged(DrawingChangeEvent e){
 	}
 
 	/**

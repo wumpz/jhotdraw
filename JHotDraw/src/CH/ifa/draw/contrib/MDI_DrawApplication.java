@@ -25,7 +25,7 @@ import javax.swing.*;
  * is embedded in internal frames, to maintain a list with all internal frames
  * and to manage the switching between them.
  *
- * @author  Wolfram Kaiser <mrfloppy@sourceforge.net>
+ * @author  Wolfram Kaiser <mrfloppy@users.sourceforge.net>
  * @version <$CURRENT_VERSION$>
  */
 public class MDI_DrawApplication extends DrawApplication {

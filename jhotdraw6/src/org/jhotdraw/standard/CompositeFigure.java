@@ -367,7 +367,7 @@ public abstract class CompositeFigure
      * changes of the CompositeFigure into account.
 	 * The figures are returned in the drawing order.
 	 */
-	public final FigureEnumeration figures() {
+	public FigureEnumeration figures() {
 		return new FigureEnumerator(CollectionsFactory.current().createList(fFigures));
 	}
 
@@ -467,8 +467,10 @@ public abstract class CompositeFigure
 	 * the find.
 	 */
 	public Figure findFigureWithout(int x, int y, Figure without) {
-		if (without == null)
+		if (without == null) {
 			return findFigure(x, y);
+		}
+
 		FigureEnumeration fe = figuresReverse();
 		while (fe.hasNextFigure()) {
 			Figure figure = fe.nextFigure();
@@ -486,8 +488,10 @@ public abstract class CompositeFigure
 	 * that is temporarily inserted into the drawing.
 	 */
 	public Figure findFigure(Rectangle r, Figure without) {
-		if (without == null)
+		if (without == null) {
 			return findFigure(r);
+		}
+
 		FigureEnumeration fe = figuresReverse();
 		while (fe.hasNextFigure()) {
 			Figure figure = fe.nextFigure();
@@ -506,14 +510,21 @@ public abstract class CompositeFigure
 	 * figure containing the given point.
 	 */
 	public Figure findFigureInside(int x, int y) {
-		Figure figure = findFigure(x,y);
-		if(figure instanceof CompositeFigure){
-			Figure figure2 = figure.findFigureInside(x,y);
-			if(figure2 != null) {
-				figure = figure2;
+		FigureEnumeration fe = figuresReverse();
+		while (fe.hasNextFigure()) {
+			Figure figure = fe.nextFigure().findFigureInside(x, y);
+			if (figure != null) {
+				return figure;
 			}
 		}
-		return figure;
+
+		// bug-fix: 661878
+		if (containsPoint(x, y)) {
+			return this;
+		}
+		else {
+			return null;
+		}
 	}
 
 	/**
@@ -523,17 +534,27 @@ public abstract class CompositeFigure
 	 * that is temporarily inserted into the drawing.
 	 */
 	public Figure findFigureInsideWithout(int x, int y, Figure without) {
+		if (without == null) {
+			return findFigureInside(x, y);
+		}
+
 		FigureEnumeration fe = figuresReverse();
 		while (fe.hasNextFigure()) {
 			Figure figure = fe.nextFigure();
 			if (figure != without) {
 				Figure found = figure.findFigureInside(x, y);
-				if (found != null) {
+				if ((found != null) &&  !figure.includes(without)) {
 					return found;
 				}
 			}
 		}
-		return null;
+
+		if (containsPoint(x, y)) {
+			return this;
+		}
+		else {
+			return null;
+		}
 	}
 
 	/**
@@ -573,12 +594,13 @@ public abstract class CompositeFigure
 	 * Releases the figure and all its children.
 	 */
 	public void release() {
-		super.release();
 		FigureEnumeration fe = figures();
 		while (fe.hasNextFigure()) {
 			Figure figure = fe.nextFigure();
 			figure.release();
 		}
+		// bug-fix: 661879 (CompositeFigure.release releasing itself before containees)
+		super.release();
 	}
 
 	/**

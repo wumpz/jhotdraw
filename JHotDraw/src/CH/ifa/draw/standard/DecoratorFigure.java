@@ -40,7 +40,7 @@ public abstract class DecoratorFigure
 	/**
 	 * The decorated figure.
 	 */
-	private Figure fComponent;
+	private Figure myDecoratedFigure;
 
 	/*
 	 * Serialization support.
@@ -92,9 +92,9 @@ public abstract class DecoratorFigure
 	 * Decorates the given figure.
 	 */
 	public void decorate(Figure figure) {
-		fComponent = figure;
-		fComponent.addToContainer(this);
-		addDependendFigure(fComponent);
+		setDecoratedFigure(figure);
+		getDecoratedFigure().addToContainer(this);
+		//addDependendFigure(getDecoratedFigure());
 	}
 
 	/**
@@ -106,8 +106,12 @@ public abstract class DecoratorFigure
 		return getDecoratedFigure();
 	}
 
+	public void setDecoratedFigure(Figure newDecoratedFigure) {
+		myDecoratedFigure = newDecoratedFigure;
+	}
+
 	public Figure getDecoratedFigure() {
-		return fComponent;
+		return myDecoratedFigure;
 	}
 
 	/**
@@ -135,7 +139,15 @@ public abstract class DecoratorFigure
 	 * Forwards findFigureInside to its contained figure.
 	 */
 	public Figure findFigureInside(int x, int y) {
-		return getDecoratedFigure().findFigureInside(x, y);
+		Figure foundFigure = getDecoratedFigure().findFigureInside(x, y);
+		// if the found figure is the same as the one the DecoratorFigure decorates
+		// then do not peel of the decoration
+		if ((foundFigure != null) && (foundFigure == getDecoratedFigure())) {
+			return this;
+		}
+		else {
+			return foundFigure;
+		}
 	}
 
 	/**
@@ -301,13 +313,25 @@ public abstract class DecoratorFigure
 
 		getDecoratedFigure().addToContainer(this);
 	}
-
+/*
 	public void visit(FigureVisitor visitor) {
 		super.visit(visitor);
 //		getDecoratedFigure().visit(visitor);
 	}
-
+*/
 	public TextHolder getTextHolder() {
 		return getDecoratedFigure().getTextHolder();
+	}
+
+	public synchronized FigureEnumeration getDependendFigures() {
+		return getDecoratedFigure().getDependendFigures();
+	}
+
+	public synchronized void addDependendFigure(Figure newDependendFigure) {
+		getDecoratedFigure().addDependendFigure(newDependendFigure);
+	}
+
+	public synchronized void removeDependendFigure(Figure oldDependendFigure) {
+		getDecoratedFigure().removeDependendFigure(oldDependendFigure);
 	}
 }

@@ -36,6 +36,13 @@ public class TextTool extends CreationTool {
 	private FloatingTextField   myTextField;
 	private TextHolder  myTypingTarget;
 
+	/**
+	 * The selected figure is different from the TextHolder as the TextHolder
+	 * may be included in a DecoratorFigure. Thus, the DecoratorFigure is selected
+	 * while the TextFigure is edited.
+	 */
+	private Figure mySelectedFigure;
+
 	public TextTool(DrawingEditor newDrawingEditor, Figure prototype) {
 		super(newDrawingEditor, prototype);
 	}
@@ -47,17 +54,22 @@ public class TextTool extends CreationTool {
 	public void mouseDown(MouseEvent e, int x, int y)
 	{
 		setView((DrawingView)e.getSource());
-		Figure pressedFigure = drawing().findFigureInside(x, y);
+
+		if (getTypingTarget() != null) {
+			editor().toolDone();
+			return;
+		}
+
 		TextHolder textHolder = null;
+		Figure pressedFigure = drawing().findFigureInside(x, y);
 		if (pressedFigure != null) {
 			textHolder = pressedFigure.getTextHolder();
+			setSelectedFigure(pressedFigure);
 		}
 
 		if ((textHolder != null) && textHolder.acceptsTyping()) {
+			// do not create a new TextFigure but edit existing one
 			beginEdit(textHolder);
-		}
-		else if (getTypingTarget() != null) {
-			editor().toolDone();
 		}
 		else {
 			super.mouseDown(e, x, y);
@@ -118,33 +130,51 @@ public class TextTool extends CreationTool {
 		getFloatingTextField().setBounds(fieldBounds(figure), figure.getText());
 
 		setTypingTarget(figure);
-
-		setUndoActivity(createUndoActivity());
 	}
 
 	protected void endEdit() {
 		if (getTypingTarget() != null) {
-			if (getFloatingTextField().getText().length() > 0) {
-				getTypingTarget().setText(getFloatingTextField().getText());
+			if (getAddedFigure() != null) {
+				if (!isDeleteTextFigure()) {
+					// figure has been created and not immediately deleted
+					setUndoActivity(createPasteUndoActivity());
+					getUndoActivity().setAffectedFigures(
+							new SingleFigureEnumerator(getAddedFigure())
+					);
+					getTypingTarget().setText(getFloatingTextField().getText());
+				}
 			}
-			else {
-				drawing().orphan(getAddedFigure());
-			}
-
-			TextTool.UndoActivity undoActivity = ((TextTool.UndoActivity)getUndoActivity());
-			if ((undoActivity.getOriginalText() != null) || (getTypingTarget().getText() != null)) {
-				// put created figure into a figure enumeration
+			else if (isDeleteTextFigure()) {
+				// delete action
+				setUndoActivity(createDeleteUndoActivity());
 				getUndoActivity().setAffectedFigures(
-					new SingleFigureEnumerator(getAddedFigure()));
-				undoActivity.setBackupText(getTypingTarget().getText());
+						new SingleFigureEnumerator(getSelectedFigure())
+				);
+				// perform delete operation of DeleteCommand.UndoActivity
+				getUndoActivity().redo();
 			}
 			else {
-				setUndoActivity(null);
+				// put affected figure into a figure enumeration
+				setUndoActivity(createUndoActivity());
+				getUndoActivity().setAffectedFigures(
+					new SingleFigureEnumerator(getTypingTarget().getRepresentingFigure()));
+				getTypingTarget().setText(getFloatingTextField().getText());
+				((TextTool.UndoActivity)getUndoActivity()).setBackupText(getTypingTarget().getText());
 			}
 
 			setTypingTarget(null);
 			getFloatingTextField().endOverlay();
 		}
+		else {
+			setUndoActivity(null);
+		}
+		setAddedFigure(null);
+		setCreatedFigure(null);
+		setSelectedFigure(null);
+	}
+
+	protected boolean isDeleteTextFigure() {
+		return getFloatingTextField().getText().length() == 0;
 	}
 
 	private Rectangle fieldBounds(TextHolder figure) {
@@ -162,6 +192,14 @@ public class TextTool extends CreationTool {
 		return myTypingTarget;
 	}
 
+	private void setSelectedFigure(Figure newSelectedFigure) {
+		mySelectedFigure = newSelectedFigure;
+	}
+
+	protected Figure getSelectedFigure() {
+		return mySelectedFigure;
+	}
+
 	private FloatingTextField createFloatingTextField() {
 		return new FloatingTextField();
 	}
@@ -172,6 +210,15 @@ public class TextTool extends CreationTool {
 
 	protected FloatingTextField getFloatingTextField() {
 		return myTextField;
+	}
+
+	protected Undoable createDeleteUndoActivity() {
+		FigureTransferCommand cmd = new DeleteCommand("Delete", editor());
+		return new DeleteCommand.UndoActivity(cmd);
+	}
+
+	protected Undoable createPasteUndoActivity() {
+		return new PasteCommand.UndoActivity(view());
 	}
 
 	/**
@@ -202,24 +249,7 @@ public class TextTool extends CreationTool {
 			}
 
 			getDrawingView().clearSelection();
-
-			if (!isValidText(getOriginalText())) {
-				FigureEnumeration fe  = getAffectedFigures();
-				while (fe.hasNextFigure()) {
-					getDrawingView().drawing().orphan(fe.nextFigure());
-				}
-			}
-			// add text figure if it has been removed (no backup text)
-			else if (!isValidText(getBackupText())) {
-				FigureEnumeration fe  = getAffectedFigures();
-				while (fe.hasNextFigure()) {
-					getDrawingView().add(fe.nextFigure());
-				}
-				setText(getOriginalText());
-			}
-			else {
-				setText(getOriginalText());
-			}
+			setText(getOriginalText());
 
 			return true;
 		}
@@ -234,25 +264,7 @@ public class TextTool extends CreationTool {
 			}
 
 			getDrawingView().clearSelection();
-
-			// the text figure did exist but was remove
-			if (!isValidText(getBackupText())) {
-				FigureEnumeration fe  = getAffectedFigures();
-				while (fe.hasNextFigure()) {
-					getDrawingView().drawing().orphan(fe.nextFigure());
-				}
-			}
-			// the text figure didn't exist before
-			else if (!isValidText(getOriginalText())) {
-				FigureEnumeration fe  = getAffectedFigures();
-				while (fe.hasNextFigure()) {
-					getDrawingView().drawing().add(fe.nextFigure());
-					setText(getBackupText());
-				}
-			}
-			else {
-				setText(getBackupText());
-			}
+			setText(getBackupText());
 
 			return true;
 		}

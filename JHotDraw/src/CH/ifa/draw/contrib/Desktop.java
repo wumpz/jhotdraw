@@ -14,7 +14,7 @@ package CH.ifa.draw.contrib;
 import CH.ifa.draw.framework.DrawingView;
 
 /**
- * @author  C.L.Gilbert <dnoyeb@sourceforge.net>
+ * @author  C.L.Gilbert <dnoyeb@users.sourceforge.net>
  * @version <$CURRENT_VERSION$>
  */
 public interface Desktop {

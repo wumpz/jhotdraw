@@ -15,7 +15,7 @@ import java.util.Iterator;
 import java.util.Enumeration;
 
 /**
- * @author  Wolfram Kaiser <mrfloppy@sourceforge.net>
+ * @author  Wolfram Kaiser <mrfloppy@users.sourceforge.net>
  * @version <$CURRENT_VERSION$>
  */
 public class IteratorWrapper implements Iterator {

@@ -15,16 +15,41 @@ import CH.ifa.draw.framework.DrawingView;
 import java.util.EventObject;
 
 /**
- * @author  C.L.Gilbert <dnoyeb@sourceforge.net>
+ * @author  C.L.Gilbert <dnoyeb@users.sourceforge.net>
  * @version <$CURRENT_VERSION$>
  */
 public class DesktopEvent extends EventObject {
-	DrawingView dv;
-	public DesktopEvent(Desktop source, DrawingView dv) {
-		super(source);
-		this.dv = dv;
+	private DrawingView myDrawingView;
+
+	/**
+	 * Some events require the previous DrawingView (e.g. when a new DrawingView
+	 * is selected).
+	 */	
+	private DrawingView myPreviousDrawingView;
+
+	public DesktopEvent(Desktop source, DrawingView newDrawingView) {
+		this(source, newDrawingView, null);
 	}
+
+	public DesktopEvent(Desktop source, DrawingView newDrawingView, DrawingView newPreviousDV) {
+		super(source);
+		setDrawingView(newDrawingView);
+		setPreviousDrawingView(newPreviousDV);
+	}
+
+	private void setDrawingView(DrawingView newDrawingView) {
+		myDrawingView = newDrawingView;
+	}
+	
 	public DrawingView getDrawingView() {
-	    return dv;
+	    return myDrawingView;
+	}
+
+	private void setPreviousDrawingView(DrawingView newPreviousDrawingView) {
+		myPreviousDrawingView = newPreviousDrawingView;
+	}
+	
+	public DrawingView getPreviousDrawingView() {
+		return myPreviousDrawingView;
 	}
 }

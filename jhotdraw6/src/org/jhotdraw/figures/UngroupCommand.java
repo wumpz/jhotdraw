@@ -49,9 +49,7 @@ public  class UngroupCommand extends AbstractCommand {
 		FigureEnumeration fe = view().selection();
 		while (fe.hasNextFigure()) {
 			Figure currentFigure = fe.nextFigure();
-			if (currentFigure instanceof DecoratorFigure) {
-				currentFigure = ((DecoratorFigure)currentFigure).getDecoratedFigure();
-			}
+			currentFigure = currentFigure.getDecoratedFigure();
 
 			if (!(currentFigure instanceof GroupFigure)) {
 				return false;

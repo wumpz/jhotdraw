@@ -141,6 +141,9 @@ public	class DrawApplication
 		}
 	}
 
+	public final void newWindow() {
+        newWindow(createDrawing());
+	}
 	/**
 	 * Opens a new window
 	 */
@@ -190,8 +193,8 @@ public	class DrawApplication
 			setSize(mb.getPreferredSize().width, d.height);
 		}
 		addListeners();
-		setVisible(true);
 		setStorageFormatManager(createStorageFormatManager());
+
 		//no work allowed to be done on GUI outside of AWT thread once
 		//setVisible(true) called.
 		Runnable r = new Runnable() {
@@ -203,15 +206,15 @@ public	class DrawApplication
 			}
 		};
 
-		if(java.awt.EventQueue.isDispatchThread() == false) {
+		if (java.awt.EventQueue.isDispatchThread() == false) {
 			try {
-				java.awt.EventQueue.invokeAndWait( r );
+				java.awt.EventQueue.invokeAndWait(r);
 			}
-			catch(java.lang.InterruptedException ie){
+			catch(java.lang.InterruptedException ie) {
 				System.err.println(ie.getMessage());
 				exit();
 			}
-			catch(java.lang.reflect.InvocationTargetException ite){
+			catch(java.lang.reflect.InvocationTargetException ite) {
 				System.err.println(ite.getMessage());
 				exit();
 			}
@@ -219,6 +222,9 @@ public	class DrawApplication
 		else {
 			r.run();
 		}
+
+		setVisible(true);
+		toolDone();
 	}
 
 	/**
@@ -754,6 +760,10 @@ public	class DrawApplication
 	 * @see DrawingEditor
 	 */
 	public void figureSelectionChanged(DrawingView view) {
+		checkCommandMenus();
+	}
+
+	protected void checkCommandMenus() {
 		JMenuBar mb = getJMenuBar();
 
 		for (int x = 0; x < mb.getMenuCount(); x++) {
@@ -1105,7 +1115,11 @@ public	class DrawApplication
 			}
 			public void drawingViewRemoved(DesktopEvent dpe) {
 				DrawingView dv = dpe.getDrawingView();
+				// remove undo/redo activities which operate on this DrawingView
+				getUndoManager().clearUndos(dv);
+				getUndoManager().clearRedos(dv);
 				fireViewDestroyingEvent(dv);
+				checkCommandMenus();
 			}
 			public void drawingViewSelected(DesktopEvent dpe) {
 				DrawingView dv = dpe.getDrawingView();

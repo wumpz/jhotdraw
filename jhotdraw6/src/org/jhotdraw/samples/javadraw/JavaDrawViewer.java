@@ -61,10 +61,14 @@ public  class JavaDrawViewer extends JApplet implements DrawingEditor {
 			fDrawing = (Drawing)reader.readStorable();
 		}
 		catch (IOException e) {
-			fDrawing = new StandardDrawing();
+			fDrawing = createDrawing();
 			System.err.println("Error when Loading: " + e);
 			showStatus("Error when Loading: " + e);
 		}
+	}
+
+	protected Drawing createDrawing() {
+		return new StandardDrawing();
 	}
 
 	/**

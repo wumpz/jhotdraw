@@ -13,7 +13,7 @@ package CH.ifa.draw.util.collections.jdk11;
 import java.util.*;
 
 /**
- * @author  Wolfram Kaiser <mrfloppy@sourceforge.net>
+ * @author  Wolfram Kaiser <mrfloppy@users.sourceforge.net>
  * @version <$CURRENT_VERSION$>
  */
 public class SetWrapper implements Set {

@@ -15,7 +15,6 @@ import CH.ifa.draw.framework.DrawingView;
 import CH.ifa.draw.framework.Figure;
 import CH.ifa.draw.framework.FigureEnumeration;
 import CH.ifa.draw.standard.CreationTool;
-import CH.ifa.draw.standard.DecoratorFigure;
 import CH.ifa.draw.standard.SingleFigureEnumerator;
 import CH.ifa.draw.standard.TextHolder;
 import CH.ifa.draw.util.Undoable;
@@ -290,7 +289,6 @@ public class TextAreaTool extends CreationTool {
 	 * Handles undo/redo for text areas
 	 *
 	 * @author    gualo
-	 * @created   26 avril 2002
 	 */
 	public static class UndoActivity extends UndoableAdapter {
 		/** The original text */

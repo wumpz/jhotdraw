@@ -475,4 +475,8 @@ public abstract class AbstractFigure implements Figure {
 	public TextHolder getTextHolder() {
 		return null;
 	}
+
+	public Figure getDecoratedFigure() {
+		return this;
+	}	
 }

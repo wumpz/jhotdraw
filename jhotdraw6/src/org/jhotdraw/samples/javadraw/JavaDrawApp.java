@@ -31,18 +31,23 @@ import java.net.URL;
  * @version <$CURRENT_VERSION$>
  */
 public  class JavaDrawApp extends MDI_DrawApplication {
+
 	private Animator            fAnimator;
 	private static String       fgSampleImagesPath = "/CH/ifa/draw/samples/javadraw/sampleimages";
 	private static String       fgSampleImagesResourcePath = fgSampleImagesPath + "/";
 
-  /**
-   * Expose constructor for benefit of subclasses.
-   * 
-   * @param title The window title for this application's frame.
-   */
-  protected JavaDrawApp(String title) {
-  	super(title);
-  }
+	JavaDrawApp() {
+		super("JHotDraw");
+	}
+
+	/**
+	 * Expose constructor for benefit of subclasses.
+	 * 
+	 * @param title The window title for this application's frame.
+	 */
+	public JavaDrawApp(String title) {
+		super(title);
+	}
 
 	/**
 	 * Factory method which create a new instance of this
@@ -51,15 +56,11 @@ public  class JavaDrawApp extends MDI_DrawApplication {
 	 * @return	newly created application
 	 */
 	protected DrawApplication createApplication() {
-		return new JavaDrawApp("JHotDraw");
+		return new JavaDrawApp();
 	}
 
 	protected DrawingView createDrawingView() {
-		Drawing d = createDrawing();
-		d.setTitle(getDefaultDrawingTitle());
-		DrawingView dv = new ZoomDrawingView(this);
-		dv.setDrawing(d);
-		return  dv;
+		return new ZoomDrawingView(this);
 	}
 
 	//-- application life cycle --------------------------------------------
@@ -214,7 +215,9 @@ public  class JavaDrawApp extends MDI_DrawApplication {
 	}
 
 	protected Drawing createDrawing() {
-		return new BouncingDrawing();
+		Drawing dwg = new BouncingDrawing();
+        dwg.setTitle(getDefaultDrawingTitle());
+		return dwg;
 		//return new StandardDrawing();
 	}
 
@@ -234,10 +237,23 @@ public  class JavaDrawApp extends MDI_DrawApplication {
 		}
 	}
 
+	protected JMenu createDebugMenu() {
+		CommandMenu menu = (CommandMenu)super.createDebugMenu();
+
+		Command cmd = new AbstractCommand("Clipping Update", this) {
+			public void execute() {
+				this.view().setDisplayUpdate(new ClippingUpdateStrategy());
+			}
+		};
+		menu.add(cmd);
+
+		return menu;
+	}
+
 	//-- main -----------------------------------------------------------
 
 	public static void main(String[] args) {
-		JavaDrawApp window = new JavaDrawApp("JHotDraw");
+		JavaDrawApp window = new JavaDrawApp();
 		window.open();
 	}
 }

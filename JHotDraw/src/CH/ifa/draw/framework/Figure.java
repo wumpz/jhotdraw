@@ -28,7 +28,16 @@ import java.io.Serializable;
  * Figures can have an open ended set of attributes.
  * An attribute is identified by a string.<p>
  * Default implementations for the Figure interface are provided
- * by AbstractFigure.
+ * by AbstractFigure.<p>
+ *
+ * Figures can have <a name="dependent_figure">dependent figure</a>s. The existence od dependent
+ * figures depend on another figure. This is the case for figures
+ * such as ConnectedTextFigures and LineDecoration. Thus, they are
+ * "externally" dependent on a figure in contrast to (internally)
+ * contained figures. This means, "normal" figures (figures that
+ * are not containers) can still have dependent figures. Dependent
+ * figures are especially important if the figure which the depend
+ * on is deleted because they should be removed as well (cascading delete).
  *
  * @see Handle
  * @see Connector
@@ -164,8 +173,19 @@ public interface Figure
 	 */
 	public void removeFromContainer(FigureChangeListener c);
 
+	/**
+	 * Add a <a href="#dependent_figure">dependent figure</a>.
+	 */
 	public void addDependendFigure(Figure newDependendFigure);
+
+	/**
+	 * Remove a <a href="#dependent_figure">dependent figure</a>.
+	 */
 	public void removeDependendFigure(Figure oldDependendFigure);
+
+	/**
+	 * Get an enumeration of all <a href="#dependent_figure">dependent figures</a>.
+	 */
 	public FigureEnumeration getDependendFigures();
 
 	/**
@@ -300,5 +320,21 @@ public interface Figure
 
 	public void visit(FigureVisitor visitor);
 
+	/**
+	 * Some figures have the ability to hold text. This method returns
+	 * the adjunctant TextHolder.
+	 * @return
+	 */
 	public TextHolder getTextHolder();
+
+	/**
+	 * Get the underlying figure in case the figure has been decorated.
+	 * If the figure has not been decorated the figure itself is returned.
+	 * The DecoratorFigure does not release the the decorated figure but
+	 * just returns it (in contrast to {@link CH.ifa.draw.standard.DecoratorFigure.peelDecoration}).
+	 *
+	 * @return underlying, "real" without DecoratorFigure
+	 * @see CH.ifa.draw.standard.DecoratorFigure
+	 */
+	public Figure getDecoratedFigure();
 }

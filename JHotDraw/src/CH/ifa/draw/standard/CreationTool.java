@@ -37,11 +37,6 @@ import java.awt.event.MouseEvent;
 public class CreationTool extends AbstractTool {
 
 	/**
-	 * the anchor point of the interaction
-	 */
-	private Point   fAnchorPoint;
-
-	/**
 	 * the currently created figure
 	 */
 	private Figure  fCreatedFigure;
@@ -53,9 +48,9 @@ public class CreationTool extends AbstractTool {
 	private Figure myAddedFigure;
 
 	/**
-	 * the prototypical figure that is used to create new figures.
+	 * the prototypical figure that is used to create new figuresthe prototypical figure that is used to create new figures.
 	 */
-	private Figure  fPrototype;
+	private Figure  myPrototypeFigure;
 
 
 	/**
@@ -63,7 +58,7 @@ public class CreationTool extends AbstractTool {
 	 */
 	public CreationTool(DrawingEditor newDrawingEditor, Figure prototype) {
 		super(newDrawingEditor);
-		fPrototype = prototype;
+		setPrototypeFigure(prototype);
 	}
 
 	/**
@@ -88,21 +83,20 @@ public class CreationTool extends AbstractTool {
 	 * Creates a new figure by cloning the prototype.
 	 */
 	public void mouseDown(MouseEvent e, int x, int y) {
-		setView((DrawingView)e.getSource());
-		setAnchorPoint(new Point(x, y));
+		super.mouseDown(e, x, y);
 		setCreatedFigure(createFigure());
 		setAddedFigure(view().add(getCreatedFigure()));
-		getAddedFigure().displayBox(getAnchorPoint(), getAnchorPoint());
+		getAddedFigure().displayBox(new Point(getAnchorX(), getAnchorY()), new Point(getAnchorX(), getAnchorY()));
 	}
 
 	/**
 	 * Creates a new figure by cloning the prototype.
 	 */
 	protected Figure createFigure() {
-		if (fPrototype == null) {
+		if (getPrototypeFigure() == null) {
 			throw new JHotDrawRuntimeException("No protoype defined");
 		}
-		return (Figure) fPrototype.clone();
+		return (Figure)getPrototypeFigure().clone();
 	}
 
 	/**
@@ -110,7 +104,7 @@ public class CreationTool extends AbstractTool {
 	 */
 	public void mouseDrag(MouseEvent e, int x, int y) {
 		if (getAddedFigure() != null) {
-			getAddedFigure().displayBox(getAnchorPoint(), new Point(x,y));
+			getAddedFigure().displayBox(new Point(getAnchorX(), getAnchorY()), new Point(x, y));
 		}
 	}
 
@@ -137,6 +131,26 @@ public class CreationTool extends AbstractTool {
 		}
 		setCreatedFigure(null);
 		editor().toolDone();
+	}
+
+	/**
+	 * As the name suggests this CreationTool uses the Prototype design pattern.
+	 * Thus, the prototype figure which is used to create new figures of the same
+	 * type by cloning the original prototype figure.
+	 * @param newPrototypeFigure figure to be cloned to create new figures
+	 */
+	protected void setPrototypeFigure(Figure newPrototypeFigure) {
+		myPrototypeFigure = newPrototypeFigure;
+	}
+
+	/**
+	 * As the name suggests this CreationTool uses the Prototype design pattern.
+	 * Thus, the prototype figure which is used to create new figures of the same
+	 * type by cloning the original prototype figure.
+	 * @return figure to be cloned to create new figures
+	 */
+	protected Figure getPrototypeFigure() {
+		return myPrototypeFigure;
 	}
 
 	/**
@@ -173,26 +187,5 @@ public class CreationTool extends AbstractTool {
 	 */
 	protected Undoable createUndoActivity() {
 		return new PasteCommand.UndoActivity(view());
-	}
-
-	/**
-	 * The anchor point is usually the first mouse click performed with this tool.
-	 *
-	 * @return the anchor point for the interaction
-	 * @see #mouseDown
-	 */
-	protected Point getAnchorPoint() {
-		// SF bug-report id: #490752
-		return fAnchorPoint;
-	}
-
-
-	/**
-	 * Sets the anchorPoint attribute of the CreationTool object
-	 *
-	 * @param newAnchorPoint  The new anchorPoint value
-	 */
-	protected void setAnchorPoint(Point newAnchorPoint) {
-		fAnchorPoint = newAnchorPoint;
 	}
 }

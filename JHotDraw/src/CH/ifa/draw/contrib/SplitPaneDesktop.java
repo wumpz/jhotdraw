@@ -20,8 +20,8 @@ import java.beans.PropertyChangeEvent;
 /**
  * @todo Gotta fix this !!! the selected view changes based on which split pane is selected!
  *
- * @author C.L.Gilbert <dnoyeb@sourceforge.net>
- * @author Wolfram Kaiser <mrfloppy@sourceforge.net>
+ * @author C.L.Gilbert <dnoyeb@users.sourceforge.net>
+ * @author Wolfram Kaiser <mrfloppy@users.sourceforge.net>
  * @version <$CURRENT_VERSION$>
  */
 public class SplitPaneDesktop extends JSplitPane implements Desktop {

@@ -47,7 +47,7 @@ public  class BorderTool extends ActionTool {
 		}
 		else {
 			Figure target = drawing().findFigure(x, y);
-			if (target != null && target instanceof DecoratorFigure) {
+			if ((target != null) && (target != target.getDecoratedFigure())) {
 				view().addToSelection(target);
 				reverseAction(target);
 			}

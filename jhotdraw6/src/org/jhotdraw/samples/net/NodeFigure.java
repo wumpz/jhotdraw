@@ -140,4 +140,16 @@ public class NodeFigure extends TextFigure {
 		setFont(fb);
 		createConnectors();
 	}
+
+	/**
+	 * Usually, a TextHolders is implemented by a Figure subclass. To avoid casting
+	 * a TextHolder to a Figure this method can be used for polymorphism (in this
+	 * case, let the (same) object appear to be of another type).
+	 * Note, that the figure returned is not the figure to which the TextHolder is
+	 * (and its representing figure) connected.
+	 * @return figure responsible for representing the content of this TextHolder
+	 */
+	public Figure getRepresentingFigure() {
+		return this;
+	}
 }

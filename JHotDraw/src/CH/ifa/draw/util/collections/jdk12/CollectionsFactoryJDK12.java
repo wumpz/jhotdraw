@@ -15,7 +15,7 @@ import CH.ifa.draw.util.CollectionsFactory;
 import java.util.*;
 
 /**
- * @author  Wolfram Kaiser <mrfloppy@sourceforge.net>
+ * @author  Wolfram Kaiser <mrfloppy@users.sourceforge.net>
  * @version <$CURRENT_VERSION$>
  */
 public class CollectionsFactoryJDK12 extends CollectionsFactory {

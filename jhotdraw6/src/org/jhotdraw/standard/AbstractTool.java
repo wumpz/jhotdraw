@@ -36,6 +36,7 @@ public abstract class AbstractTool implements Tool, ViewChangeListener {
 
 	/**
 	 * The position of the initial mouse down.
+	 * The anchor point is usually the first mouse click performed with this tool.
 	 */
     private int myAnchorX;
     private int myAnchorY;
@@ -240,18 +241,38 @@ public abstract class AbstractTool implements Tool, ViewChangeListener {
 		return myIsEnabled;
 	}
 
+	/**
+	 * The anchor point is usually the first mouse click performed with this tool.
+	 * @see #mouseDown
+	 */
 	protected void setAnchorX(int newAnchorX) {
 		myAnchorX = newAnchorX;
 	}
 
+	/**
+	 * The anchor point is usually the first mouse click performed with this tool.
+	 *
+	 * @return the anchor X coordinate for the interaction
+	 * @see #mouseDown
+	 */
 	protected int getAnchorX() {
 		return myAnchorX;
 	}
 
+	/**
+	 * The anchor point is usually the first mouse click performed with this tool.
+	 * @see #mouseDown
+	 */
 	protected void setAnchorY(int newAnchorY) {
 		myAnchorY = newAnchorY;
 	}
 
+	/**
+	 * The anchor point is usually the first mouse click performed with this tool.
+	 *
+	 * @return the anchor Y coordinate for the interaction
+	 * @see #mouseDown
+	 */
 	protected int getAnchorY() {
 		return myAnchorY;
 	}

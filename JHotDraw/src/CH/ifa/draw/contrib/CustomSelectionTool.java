@@ -25,7 +25,7 @@ import java.awt.event.*;
  * Popup menus must be registered with a Figure using the setAttribute() method.
  * The key which associates a popup menu as an attribute is Figure.POPUP_MENU.
  *
- * @author  Wolfram Kaiser <mrfloppy@sourceforge.net>
+ * @author  Wolfram Kaiser <mrfloppy@users.sourceforge.net>
  * @version <$CURRENT_VERSION$>
  */
 public class CustomSelectionTool extends SelectionTool {
@@ -86,8 +86,10 @@ public class CustomSelectionTool extends SelectionTool {
 	public void mouseUp(MouseEvent e, int x, int y) {
 		if (e.isPopupTrigger()) {
 			handlePopupMenu(e, x, y);
+			super.mouseUp(e, x, y);
 		}
 		else if (e.getClickCount() == 2) {
+			super.mouseUp(e, x, y);
 			handleMouseDoubleClick(e, x, y);
 		}
 		else {
