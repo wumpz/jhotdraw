@@ -18,12 +18,10 @@ import CH.ifa.draw.framework.*;
 import CH.ifa.draw.util.CollectionsFactory;
 
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.Rectangle;
 import java.awt.Point;
 import java.awt.Graphics;
 import java.util.List;
-import javax.swing.CellRendererPane;
 
 /**
  * @author  Ming Fang
@@ -34,19 +32,15 @@ public class ComponentFigure extends AttributeFigure {
 
 	/** Holds value of property component. */
 	private Component component;
-	private transient DrawingEditor myDrawingEditor;
 
 	private ComponentFigure() {
 		// do nothing
 	}
 	/**
 	 * @param newComponent a lightweight component
-	 * @param container the container that provides the screen realestate for paint the component in
-	 * you may use StandardDrawingView
-	*/
-	public ComponentFigure(Component newComponent, DrawingEditor newDrawingEditor) {
+	 */
+	public ComponentFigure(Component newComponent) {
 		setComponent(newComponent);
-		setEditor(newDrawingEditor);
 	}
 
 	/**
@@ -56,6 +50,7 @@ public class ComponentFigure extends AttributeFigure {
 	 * the displaybox and does not announce any changes. It
 	 * is usually not called by the client. Clients typically call
 	 * displayBox to change the display box.
+	 *
 	 * @param origin the new origin
 	 * @param corner the new corner
 	 * @see #displayBox
@@ -107,18 +102,11 @@ public class ComponentFigure extends AttributeFigure {
 
 	/**
 	 * Setter for property component.
+	 *
 	 * @param newComponent New value of property component.
 	 */
 	protected void setComponent(Component newComponent) {
 		this.component = newComponent;
-	}
-
-	protected DrawingEditor getEditor() {
-		return myDrawingEditor;
-	}
-
-	protected void setEditor(DrawingEditor newDrawingEditor) {
-		myDrawingEditor = newDrawingEditor;
 	}
 
 	/**
@@ -127,41 +115,9 @@ public class ComponentFigure extends AttributeFigure {
 	 */
 	public void draw(Graphics g) {
 		// AWT code
-		//getComponent().setBounds(displayBox());
+		getComponent().setBounds(displayBox());
 		//must create a new graphics with a different cordinate
-		//Graphics componentG = g.create(bounds.x, bounds.y, bounds.width, bounds.height);
-		//getComponent().paint(componentG);
-
-		Container container = (Container)getEditor().view();
-		getCellRendererPane(component, container).paintComponent(g, component, null, bounds.x, bounds.y, bounds.width, bounds.height, true);
-	}
-
-	/* This was taken from SwingUtilities
-	 *
-	 * Ensures that cell renderer <code>c</code> has a
-	 * <code>ComponentShell</code> parent and that
-	 * the shell's parent is p.
-	 */
-	private static CellRendererPane getCellRendererPane(Component c, Container p) {
-		Container shell = c.getParent();
-		if (shell instanceof CellRendererPane) {
-			if (shell.getParent() != p) {
-				p.add(shell);
-			}
-		}
-		else {
-			shell = new CellRendererPane();
-			shell.add(c);
-			p.add(shell);
-		}
-		return (CellRendererPane)shell;
-	}
-
-	public Object clone() {
-		ComponentFigure clonedFigure = (ComponentFigure)super.clone();
-		// editor cannot be serialized (and should no be serialized
-		// because that would mean a deep copy) so we set the reference now
-		clonedFigure.setEditor(getEditor());
-		return clonedFigure;
+		Graphics componentG = g.create(bounds.x, bounds.y, bounds.width, bounds.height);
+		getComponent().paint(componentG);
 	}
 }
