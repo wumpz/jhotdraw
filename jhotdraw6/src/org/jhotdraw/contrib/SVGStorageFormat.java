@@ -1,12 +1,9 @@
 package CH.ifa.draw.contrib;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-
-import javax.swing.filechooser.FileFilter;
 
 import org.apache.batik.dom.GenericDOMImplementation;
 import org.apache.batik.svggen.SVGGraphics2D;
@@ -14,7 +11,7 @@ import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 
 import CH.ifa.draw.framework.Drawing;
-import CH.ifa.draw.util.StorageFormat;
+import CH.ifa.draw.util.StandardStorageFormat;
 
 
 /**
@@ -26,50 +23,28 @@ import CH.ifa.draw.util.StorageFormat;
  * @version <$CURRENT_VERSION$>
  * @author mtnygard
  */
-public class SVGStorageFormat implements StorageFormat {
-	/**
-	 * FileFilter for a javax.swing.JFileChooser which recognizes files with the
-	 * extension "svg"
-	 */
-	private FileFilter filter;
+public class SVGStorageFormat extends StandardStorageFormat {
 	
 	/**
-	 * File extension
+	 * Return the file extension recognized by the FileFilter for this
+	 * StandardStorageFormat. 
+	 *
+	 * @return the file extension
 	 */
-	private String extension = "svg";
-
-	/**
-	 * Description of the file type when displaying the FileFilter
-	 */
-	private static String description = "SVG Drawing (SVG)";
-	
-
-  /**
-   * Return the filter that JFileChooser will use to identify SVG files.
-   * 
-   * @return the filter that JFileChooser will use to identify SVG files
-   * @see CH.ifa.draw.util.StorageFormat#getFileFilter()
-   * 
-   * TODO: Refactor together with similar code from StandardStorageFormat
-   */
-  public FileFilter getFileFilter() {
-  	if(filter == null) {
-  		filter = createFileFilter();
-  	}
-    return filter;
-  }
-
-	protected FileFilter createFileFilter() {
-		return new FileFilter() {
-      public boolean accept(File f) {
-        return f.getName().endsWith(extension);
-      }
-      public String getDescription() {
-        return description;
-      }
-			
-		};
+	protected String createFileExtension() {
+		return "svg";
 	}
+
+	/**
+	 * Factory method to create a file description for the file type when displaying the
+	 * associated FileFilter.
+	 *
+	 * @return the file description
+	 */
+	public String createFileDescription() {
+		return "Scalable Vector Graphics (svg)";
+	}
+
 
   /**
 	 * Store a Drawing as SVG under a given name.
@@ -109,40 +84,4 @@ public class SVGStorageFormat implements StorageFormat {
   public Drawing restore(String fileName) throws IOException {
     throw new IOException("Not implemented");
   }
-
-
-	/**
-	 * Adjust a file name to have the correct file extension.
-	 *
-	 * @param testFileName file name to be tested for a correct file extension
-	 * @return testFileName + file extension if necessary
-	 * 
-	 * TODO: Refactor this with the same code from StandardStorageFormat.
-	 */	
-	protected String adjustFileName(String testFileName) {
-		if (!hasCorrectFileExtension(testFileName)) {
-			return testFileName + "." + getExtension();
-		}
-		else {
-			return testFileName;
-		}
-	}
-
-	/**
-	 * Test whether the file name has the correct file extension
-	 *
-	 * @return true, if the file has the correct extension, false otherwise
-	 */
-	protected boolean hasCorrectFileExtension(String testFileName) {
-		return testFileName.endsWith("." + getExtension());
-	}
-	
-  /**
-   * Returns the extension.
-   * @return String
-   */
-  public String getExtension() {
-    return extension;
-  }
-
 }
