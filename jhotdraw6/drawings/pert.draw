@@ -25,31 +25,38 @@
                             CH.ifa.draw.figures.NumberTextFigure "attributes" "attributes" 1 "FillColor" "Color" 255 199 158 227 61 "8" "Helvetica" 1 12 0 NULL NULL  
                             CH.ifa.draw.figures.NumberTextFigure "attributes" "attributes" 1 "FillColor" "Color" 255 199 158 227 76 "19" "Helvetica" 0 12 1 NULL NULL  224 43 31 51 1 REF 5 1 REF 13  0   REF 17 REF 21   REF 5 REF 21 REF 9 REF 13 REF 17 
         CH.ifa.draw.samples.pert.PertDependency 2 71 155 105 155 NULL 
-            CH.ifa.draw.figures.ArrowTip  0 0 0 
+            CH.ifa.draw.figures.ArrowTip  0 0 0 noFillColor noBorderColor   
+            0 0 0   
             CH.ifa.draw.standard.ChopBoxConnector REF 1  
             CH.ifa.draw.standard.ChopBoxConnector REF 5   
         CH.ifa.draw.samples.pert.PertDependency 2 171 155 212 155 NULL 
-            CH.ifa.draw.figures.ArrowTip  0 0 0 
+            CH.ifa.draw.figures.ArrowTip  0 0 0 noFillColor noBorderColor   
+            0 0 0   
             CH.ifa.draw.standard.ChopBoxConnector REF 5  
             CH.ifa.draw.standard.ChopBoxConnector REF 9   
         CH.ifa.draw.samples.pert.PertDependency 3 151 130 184 68 224 68 NULL 
-            CH.ifa.draw.figures.ArrowTip  0 0 0 
+            CH.ifa.draw.figures.ArrowTip  0 0 0 noFillColor noBorderColor   
+            0 0 0   
             CH.ifa.draw.standard.ChopBoxConnector REF 5  
             CH.ifa.draw.standard.ChopBoxConnector REF 21   
         CH.ifa.draw.samples.pert.PertDependency 3 154 181 184 228 224 228 NULL 
-            CH.ifa.draw.figures.ArrowTip  0 0 0 
+            CH.ifa.draw.figures.ArrowTip  0 0 0 noFillColor noBorderColor   
+            0 0 0   
             CH.ifa.draw.standard.ChopBoxConnector REF 5  
             CH.ifa.draw.standard.ChopBoxConnector REF 17   
         CH.ifa.draw.samples.pert.PertDependency 3 255 228 285 228 312 181 NULL 
-            CH.ifa.draw.figures.ArrowTip  0 0 0 
+            CH.ifa.draw.figures.ArrowTip  0 0 0 noFillColor noBorderColor   
+            0 0 0   
             CH.ifa.draw.standard.ChopBoxConnector REF 17  
             CH.ifa.draw.standard.ChopBoxConnector REF 13   
         CH.ifa.draw.samples.pert.PertDependency 2 267 155 311 155 NULL 
-            CH.ifa.draw.figures.ArrowTip  0 0 0 
+            CH.ifa.draw.figures.ArrowTip  0 0 0 noFillColor noBorderColor   
+            0 0 0   
             CH.ifa.draw.standard.ChopBoxConnector REF 9  
             CH.ifa.draw.standard.ChopBoxConnector REF 13   
         CH.ifa.draw.samples.pert.PertDependency 3 255 68 284 68 314 130 NULL 
-            CH.ifa.draw.figures.ArrowTip  0 0 0 
+            CH.ifa.draw.figures.ArrowTip  0 0 0 noFillColor noBorderColor   
+            0 0 0   
             CH.ifa.draw.standard.ChopBoxConnector REF 21  
             CH.ifa.draw.standard.ChopBoxConnector REF 13   
         CH.ifa.draw.figures.GroupFigure 2 

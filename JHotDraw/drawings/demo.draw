@@ -14,16 +14,18 @@
                     CH.ifa.draw.standard.RelativeLocator 0.5 0.5    4 4  
         CH.ifa.draw.samples.javadraw.AnimationDecorator 
             CH.ifa.draw.figures.ElbowConnection 4 195 129 230 129 230 99 266 99 
-                CH.ifa.draw.figures.ArrowTip  
-                CH.ifa.draw.figures.ArrowTip  0 0 0 
+                CH.ifa.draw.figures.ArrowTip  0 0 0 noFillColor noBorderColor   
+                CH.ifa.draw.figures.ArrowTip  0 0 0 noFillColor noBorderColor
+                0 0 0 
                 CH.ifa.draw.figures.ShortestDistanceConnector REF 6  
                 CH.ifa.draw.figures.ShortestDistanceConnector REF 8   4 4  
         CH.ifa.draw.samples.javadraw.AnimationDecorator 
             CH.ifa.draw.figures.EllipseFigure "attributes" "attributes" 1 "FillColor" "Color" 35 142 104 272 18 64 32  4 4  
         CH.ifa.draw.samples.javadraw.AnimationDecorator 
             CH.ifa.draw.figures.LineConnection 2 195 34 273 34 
-                CH.ifa.draw.figures.ArrowTip  
-                CH.ifa.draw.figures.ArrowTip  0 0 0 
+                CH.ifa.draw.figures.ArrowTip  0 0 0 noFillColor noBorderColor   
+                CH.ifa.draw.figures.ArrowTip  0 0 0 noFillColor noBorderColor 
+                0 0 0 
                 CH.ifa.draw.figures.ChopEllipseConnector REF 4  
                 CH.ifa.draw.figures.ChopEllipseConnector REF 20   4 4  
         CH.ifa.draw.samples.javadraw.AnimationDecorator 
@@ -50,8 +52,9 @@
             CH.ifa.draw.figures.EllipseFigure "attributes" "attributes" 1 "FillColor" "Color" 35 142 104 14 203 70 46  4 4  
         CH.ifa.draw.samples.javadraw.AnimationDecorator 
             CH.ifa.draw.figures.LineConnection 2 122 157 72 210 
-                CH.ifa.draw.figures.ArrowTip  
-                CH.ifa.draw.figures.ArrowTip  0 0 0 
+                CH.ifa.draw.figures.ArrowTip  0 0 0 noFillColor noBorderColor   
+                CH.ifa.draw.figures.ArrowTip  0 0 0 noFillColor noBorderColor   
+                0 0 0 
                 CH.ifa.draw.figures.ShortestDistanceConnector REF 6  
                 CH.ifa.draw.figures.ChopEllipseConnector REF 48   4 4  
         CH.ifa.draw.samples.javadraw.AnimationDecorator 
@@ -72,7 +75,8 @@
             CH.ifa.draw.contrib.PolygonFigure "no_attributes" 6 68 283 105 254 111 309 151 261 163 282 160 290  4 4  
         CH.ifa.draw.samples.javadraw.AnimationDecorator 
             CH.ifa.draw.figures.LineConnection 2 71 244 97 259 
-                CH.ifa.draw.figures.ArrowTip  
-                CH.ifa.draw.figures.ArrowTip  0 0 0 
+                CH.ifa.draw.figures.ArrowTip  0 0 0 noFillColor noBorderColor   
+                CH.ifa.draw.figures.ArrowTip  0 0 0 noFillColor noBorderColor   
+                0 0 0 
                 CH.ifa.draw.figures.ChopEllipseConnector REF 48  
                 CH.ifa.draw.contrib.ChopPolygonConnector REF 70   4 4   
