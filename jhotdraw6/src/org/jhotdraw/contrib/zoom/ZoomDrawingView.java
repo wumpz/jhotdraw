@@ -45,12 +45,23 @@ public class ZoomDrawingView extends StandardDrawingView {
 	 */
 	private double zoomSpeed = 2.0;
 
+    public ZoomDrawingView(Drawing drawing,DrawingEditor editor, int width, int height){
+        super(drawing,editor, width, height);
+    }
+	public ZoomDrawingView(Drawing drawing,DrawingEditor editor) {
+		this(drawing,editor, MINIMUM_WIDTH, MINIMUM_HEIGHT);
+	}
+    /**
+     *  uses StandardDrawing() as its default Drawing if none is supplied.
+     */    
 	public ZoomDrawingView(DrawingEditor editor) {
 		this(editor, MINIMUM_WIDTH, MINIMUM_HEIGHT);
 	}
-
+    /**
+     *  uses StandardDrawing() as its default Drawing if none is supplied.
+     */
 	public ZoomDrawingView(DrawingEditor editor, int width, int height) {
-		super(editor, width, height);
+		this(new StandardDrawing(), editor, width, height);
 	}
 
 	/**

@@ -131,8 +131,7 @@ public class StandardDrawingView
 	public StandardDrawingView(DrawingEditor editor) {
 		this(editor, MINIMUM_WIDTH, MINIMUM_HEIGHT);
 	}
-
-	public StandardDrawingView(DrawingEditor editor, int width, int height) {
+	public StandardDrawingView(Drawing drawing, DrawingEditor editor, int width, int height) {
 		setAutoscrolls(true);
 		counter++;
 		fEditor = editor;
@@ -152,6 +151,10 @@ public class StandardDrawingView
 		addMouseListener(createMouseListener());
 		addMouseMotionListener(createMouseMotionListener());
 		addKeyListener(createKeyListener());
+        setDrawing(drawing);
+    }
+	public StandardDrawingView(DrawingEditor editor, int width, int height) {
+        this(new StandardDrawing(),editor,width,height);
 	}
 
 	protected MouseListener createMouseListener() {
