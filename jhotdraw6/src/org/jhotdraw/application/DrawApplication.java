@@ -4,24 +4,26 @@
  * Project:		JHotdraw - a GUI framework for technical drawings
  *				http://www.jhotdraw.org
  *				http://jhotdraw.sourceforge.net
- * Copyright:	© by the original author(s) and all contributors
+ * Copyright:	? by the original author(s) and all contributors
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package org.jhotdraw.application;
 
-import org.jhotdraw.framework.*;
-import org.jhotdraw.standard.*;
-import org.jhotdraw.figures.*;
-import org.jhotdraw.util.*;
-import org.jhotdraw.contrib.*;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.util.ListIterator;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.util.ListIterator;
+
+import org.jhotdraw.contrib.*;
+import org.jhotdraw.figures.*;
+import org.jhotdraw.framework.*;
+import org.jhotdraw.standard.*;
+import org.jhotdraw.util.*;
 
 /**
  * DrawApplication defines a standard presentation for
@@ -458,7 +460,7 @@ public	class DrawApplication
 	 */
 	protected JMenu createFontMenu() {
 		CommandMenu menu = new CommandMenu("Font");
-		String fonts[] = Toolkit.getDefaultToolkit().getFontList();
+		String fonts[] = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
 		for (int i = 0; i < fonts.length; i++) {
 			menu.add(new UndoableCommand(
 				new ChangeAttributeCommand(fonts[i], FigureAttributeConstant.FONT_NAME, fonts[i],  this)));

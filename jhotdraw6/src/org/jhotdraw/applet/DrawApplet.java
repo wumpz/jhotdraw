@@ -4,7 +4,7 @@
  * Project:		JHotdraw - a GUI framework for technical drawings
  *				http://www.jhotdraw.org
  *				http://jhotdraw.sourceforge.net
- * Copyright:	© by the original author(s) and all contributors
+ * Copyright:	? by the original author(s) and all contributors
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
@@ -164,7 +164,7 @@ public class DrawApplet
 	 */
 	protected JComboBox createFontChoice() {
 		CommandChoice choice = new CommandChoice();
-		String fonts[] = Toolkit.getDefaultToolkit().getFontList();
+		String fonts[] = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
 		for (int i = 0; i < fonts.length; i++) {
 			choice.addItem(new ChangeAttributeCommand(fonts[i], FigureAttributeConstant.FONT_NAME, fonts[i],  this));
 		}
