@@ -11,18 +11,25 @@
 
 package CH.ifa.draw.standard;
 
-import CH.ifa.draw.contrib.AutoscrollHelper;
-import CH.ifa.draw.contrib.ClippingUpdateStrategy;
-import CH.ifa.draw.contrib.dnd.DNDHelper;
-import CH.ifa.draw.contrib.dnd.DNDInterface;
-import CH.ifa.draw.util.*;
-import CH.ifa.draw.framework.*;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
-import java.io.*;
+
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import CH.ifa.draw.contrib.AutoscrollHelper;
+import CH.ifa.draw.contrib.dnd.DNDHelper;
+import CH.ifa.draw.contrib.dnd.DNDInterface;
+import CH.ifa.draw.framework.*;
+import CH.ifa.draw.util.CollectionsFactory;
+import CH.ifa.draw.util.Command;
+import CH.ifa.draw.util.Geom;
+import CH.ifa.draw.util.UndoableCommand;
 
 /**
  * The standard implementation of DrawingView.
@@ -842,6 +849,10 @@ public class StandardDrawingView
         return d;
 	}
 
+	/**
+	 * @see java.awt.Component#isFocusTraversable()
+	 * @deprecated see super class
+	 */
 	public boolean isFocusTraversable() {
 		return true;
 	}
