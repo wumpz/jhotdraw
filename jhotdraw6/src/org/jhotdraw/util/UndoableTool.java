@@ -25,7 +25,7 @@ public class UndoableTool implements Tool, ToolListener {
 
 	private Tool myWrappedTool;
 	private AbstractTool.EventDispatcher myEventDispatcher;
-	
+
 	public UndoableTool(Tool newWrappedTool) {
 		setEventDispatcher(createEventDispatcher());
 		setWrappedTool(newWrappedTool);
@@ -100,11 +100,28 @@ public class UndoableTool implements Tool, ToolListener {
 	public boolean isUsable() {
 		return getWrappedTool().isUsable();
 	}
-	
+
+	public boolean isActive() {
+		// do not delegate but test whether this undoable tool is active
+		return editor().tool() == this;
+	}
+
+	public boolean isEnabled() {
+		return getWrappedTool().isEnabled();
+	}
+
+	public void setUsable(boolean newIsUsable) {
+		getWrappedTool().setUsable(newIsUsable);
+	}
+
+	public void setEnabled(boolean newIsEnabled) {
+		getWrappedTool().setEnabled(newIsEnabled);
+	}
+
 	protected void setWrappedTool(Tool newWrappedTool) {
 		myWrappedTool = newWrappedTool;
 	}
-	
+
 	protected Tool getWrappedTool() {
 		return myWrappedTool;
 	}
@@ -112,11 +129,11 @@ public class UndoableTool implements Tool, ToolListener {
 	public DrawingEditor editor() {
 		return getWrappedTool().editor();
 	}
-	
+
 	public DrawingView view() {
 		return editor().view();
 	}
-	
+
 	public Undoable getUndoActivity() {
 		return new UndoableAdapter(view());
 	}
@@ -124,11 +141,11 @@ public class UndoableTool implements Tool, ToolListener {
 	public void setUndoActivity(Undoable newUndoableActivity) {
 		// do nothing: always return default UndoableAdapter
 	}
-	
+
 	public void toolUsable(EventObject toolEvent) {
 		getEventDispatcher().fireToolUsableEvent();
 	}
-	
+
 	public void toolUnusable(EventObject toolEvent) {
 		getEventDispatcher().fireToolUnusableEvent();
 	}
@@ -136,15 +153,23 @@ public class UndoableTool implements Tool, ToolListener {
 	public void toolActivated(EventObject toolEvent) {
 		getEventDispatcher().fireToolActivatedEvent();
 	}
-	
+
 	public void toolDeactivated(EventObject toolEvent) {
 		getEventDispatcher().fireToolDeactivatedEvent();
+	}
+
+	public void toolEnabled(EventObject toolEvent) {
+		getEventDispatcher().fireToolEnabledEvent();
+	}
+
+	public void toolDisabled(EventObject toolEvent) {
+		getEventDispatcher().fireToolDisabledEvent();
 	}
 
 	public void addToolListener(ToolListener newToolListener) {
 		getEventDispatcher().addToolListener(newToolListener);
 	}
-	
+
 	public void removeToolListener(ToolListener oldToolListener) {
 		getEventDispatcher().removeToolListener(oldToolListener);
 	}

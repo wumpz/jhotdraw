@@ -65,7 +65,7 @@ public  class CommandMenu extends JMenu implements ActionListener, CommandListen
 		add(m);
 		fCommands.addElement(command);
 		command.addCommandListener(this);
-		checkEnabled();
+//		checkEnabled();
 	}
 	
 	public synchronized void remove(Command command) {
@@ -91,9 +91,7 @@ public  class CommandMenu extends JMenu implements ActionListener, CommandListen
 
 	public synchronized void checkEnabled() {
 		int j = 0;
-		// note: this does currently only work, if menu items that do not correspond
-		// to a command are added at the end of the menu
-		for (int i = 0; (i < getMenuComponentCount()) && (i < fCommands.size()); i++) {
+		for (int i = 0; i < getMenuComponentCount(); i++) {
 			// ignore separators
 			// a separator has a hyphen as its label
 			if (getMenuComponent(i) instanceof JSeparator) {
@@ -128,15 +126,15 @@ public  class CommandMenu extends JMenu implements ActionListener, CommandListen
 	}
 
 	public void commandExecuted(EventObject commandEvent) {
-		checkEnabled();
+//		checkEnabled();
 	}
 	
 	public void commandExecutable(EventObject commandEvent) {
-		checkEnabled();
+//		checkEnabled();
 	}
 	
 	public void commandNotExecutable(EventObject commandEvent) {
-		checkEnabled();
+//		checkEnabled();
 	}
 }
 

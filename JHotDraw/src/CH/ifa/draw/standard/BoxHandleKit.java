@@ -92,7 +92,7 @@ class ResizeHandle extends LocatorHandle {
 	}
 
 	public void invokeStart(int  x, int  y, DrawingView view) {
-		setUndoActivity(createUndoActivity());
+		setUndoActivity(createUndoActivity(view));
 		getUndoActivity().setAffectedFigures(new SingleFigureEnumerator(owner()));
 		((ResizeHandle.UndoActivity)getUndoActivity()).setOldDisplayBox(owner().displayBox());
 	}
@@ -108,15 +108,15 @@ class ResizeHandle extends LocatorHandle {
 	/**
 	 * Factory method for undo activity. To be overriden by subclasses.
 	 */
-	protected Undoable createUndoActivity() {
-		return new ResizeHandle.UndoActivity();
+	protected Undoable createUndoActivity(DrawingView view) {
+		return new ResizeHandle.UndoActivity(view);
 	}
 
 	public static class UndoActivity extends UndoableAdapter {
 		private Rectangle myOldDisplayBox;
 		
-		public UndoActivity() {
-			super(null);
+		public UndoActivity(DrawingView newView) {
+			super(newView);
 			setUndoable(true);
 			setRedoable(true);
 		}

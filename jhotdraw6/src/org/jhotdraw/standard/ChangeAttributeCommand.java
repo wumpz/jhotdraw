@@ -67,7 +67,7 @@ public  class ChangeAttributeCommand extends AbstractCommand {
 		private Hashtable	myOriginalValues;
 		private String      myUndoAttribute;
 		private Object      myUndoValue;
-	
+
 		public UndoActivity(DrawingView newDrawingView, String newUndoAttribute, Object newUndoValue) {
 			super(newDrawingView);
 			myOriginalValues = new Hashtable();
@@ -76,47 +76,51 @@ public  class ChangeAttributeCommand extends AbstractCommand {
 			setUndoable(true);
 			setRedoable(true);
 		}
-		
+
 		public boolean undo() {
 			if (!super.undo()) {
 				return false;
 			}
-	
+
 			FigureEnumeration k = getAffectedFigures();
 			while (k.hasMoreElements()) {
 				Figure f = k.nextFigure();
-				f.setAttribute(getAttributeName(), getOriginalValue(f));
+				if (getOriginalValue(f) != null) {
+					f.setAttribute(getAttributeName(), getOriginalValue(f));
+				}
 			}
-			
+
 			return true;
 		}
-		
+
 		public boolean redo() {
 			if (!isRedoable()) {
 				return false;
 			}
-	
+
 			FigureEnumeration k = getAffectedFigures();
 			while (k.hasMoreElements()) {
 				Figure f = k.nextFigure();
-				f.setAttribute(getAttributeName(), getBackupValue());
-			}			
-			
+				if (getBackupValue() != null) {
+					f.setAttribute(getAttributeName(), getBackupValue());
+				}
+			}
+
 			return true;
 		}
-		
+
 		protected void addOriginalValue(Figure affectedFigure, Object newOriginalValue) {
 			myOriginalValues.put(affectedFigure, newOriginalValue);
 		}
-		
+
 		protected Object getOriginalValue(Figure lookupAffectedFigure) {
 			return myOriginalValues.get(lookupAffectedFigure);
 		}
-		
+
 		protected void setAttributeName(String newUndoAttribute) {
 			myUndoAttribute = newUndoAttribute;
 		}
-		
+
 		public String getAttributeName() {
 			return myUndoAttribute;
 		}
@@ -124,16 +128,16 @@ public  class ChangeAttributeCommand extends AbstractCommand {
 		protected void setBackupValue(Object newUndoValue) {
 			myUndoValue = newUndoValue;
 		}
-		
+
 		public Object getBackupValue() {
 			return myUndoValue;
 		}
-		
+
 		public void release() {
 			super.release();
 			myOriginalValues = null;
 		}
-		
+
 		public void setAffectedFigures(FigureEnumeration fe) {
 			// first make copy of FigureEnumeration in superclass
 			super.setAffectedFigures(fe);
@@ -141,7 +145,10 @@ public  class ChangeAttributeCommand extends AbstractCommand {
 			FigureEnumeration copyFe = getAffectedFigures();
 			while (copyFe.hasMoreElements()) {
 				Figure f = copyFe.nextFigure();
-				addOriginalValue(f, f.getAttribute(getAttributeName()));
+				Object attributeValue = f.getAttribute(getAttributeName());
+				if (attributeValue != null) {
+					addOriginalValue(f, attributeValue);
+				}
 			}
 		}
 	}

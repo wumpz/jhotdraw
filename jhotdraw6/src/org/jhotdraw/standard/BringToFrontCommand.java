@@ -46,8 +46,6 @@ public class BringToFrontCommand extends AbstractCommand {
 	}
 
 	public boolean isExecutableWithView() {
-//if (true)
-//throw new RuntimeException();
 		return view().selectionCount() > 0;
 	}
 

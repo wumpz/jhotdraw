@@ -60,9 +60,16 @@ public class SelectAreaTracker extends AbstractTool {
 
 	private void drawXORRect(Rectangle r) {
 		Graphics g = view().getGraphics();
-		g.setXORMode(view().getBackground());
-		g.setColor(Color.black);
-		g.drawRect(r.x, r.y, r.width, r.height);
+		if ( g != null ) {
+			try {
+				g.setXORMode(view().getBackground());
+				g.setColor(Color.black);
+				g.drawRect(r.x, r.y, r.width, r.height);
+			}
+			finally {
+				g.dispose(); // SF bugtracker id: #490663
+			}
+		}
 	}
 
 	private void selectGroup(boolean toggle) {

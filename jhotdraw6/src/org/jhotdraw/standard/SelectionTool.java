@@ -76,14 +76,6 @@ public class SelectionTool extends AbstractTool {
 		fChild.activate();
 	}
 
-	public void activate() {
-		super.activate();
-	}
-
-	public void deactivate() {
-		super.deactivate();
-	}
-
 	/**
 	 * Handles mouse moves (if the mouse button is up).
 	 * Switches the cursors depending on whats under them.

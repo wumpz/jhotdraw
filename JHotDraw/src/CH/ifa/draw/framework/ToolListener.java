@@ -19,6 +19,8 @@ import java.util.EventObject;
  * @version <$CURRENT_VERSION$>
  */
 public interface ToolListener extends EventListener {
+	public void toolEnabled(EventObject toolEvent);
+	public void toolDisabled(EventObject toolEvent);
 	public void toolUsable(EventObject toolEvent);
 	public void toolUnusable(EventObject toolEvent);
 	public void toolActivated(EventObject toolEvent);

@@ -57,7 +57,18 @@ public abstract class AbstractCommand implements Command, FigureSelectionListene
 		if (newView != null) {
 			newView.addFigureSelectionListener(this);
 		}
-		checkExecutable();
+		if (isViewRequired()) {
+			boolean isOldViewInteractive = (oldView != null) && oldView.isInteractive();
+			boolean isNewViewInteractive = (newView != null) && newView.isInteractive();
+			// old view was not interactive aware while new view is now interactive aware
+			if (!isOldViewInteractive && isNewViewInteractive) {
+				getEventDispatcher().fireCommandExecutableEvent();
+			}
+			// old view was interactive aware while new view is not
+			else if (isOldViewInteractive && !isNewViewInteractive) {
+				getEventDispatcher().fireCommandNotExecutableEvent();
+			}
+		}
 	}
 
 	/**
@@ -72,15 +83,6 @@ public abstract class AbstractCommand implements Command, FigureSelectionListene
 	public void viewDestroying(DrawingView view) {
 	}
 
-	protected void checkExecutable() {
-		if (isExecutable()) {
-			getEventDispatcher().fireCommandExecutableEvent();
-		}
-		else {
-			getEventDispatcher().fireCommandNotExecutableEvent();
-		}
-	}
-	
 	/**
 	 * @param view a DrawingView
 	 */
@@ -122,7 +124,9 @@ public abstract class AbstractCommand implements Command, FigureSelectionListene
 	 * Releases resources associated with this command
 	 */
 	public void dispose() {
-		view().removeFigureSelectionListener(this);
+		if (view() != null) {
+			view().removeFigureSelectionListener(this);
+		}
 	}
 
 	/**
@@ -141,19 +145,22 @@ public abstract class AbstractCommand implements Command, FigureSelectionListene
 	 * view.
 	 */
 	public boolean isExecutable() {
-		if (view() == null) {
-			return false;
+		// test whether there is a view required and whether an existing view 
+		// accepts user input
+		if (isViewRequired()) {
+			if ((view() == null) || !view().isInteractive()) {
+				return false;
+			}
 		}
-		else if (isExecutableWithView()) {
-			return view().isInteractive();
-		}
-		else {
-			return true;
-		}
+		return isExecutableWithView();
+	}
+
+	protected boolean isViewRequired() {
+		return myIsViewRequired;
 	}
 
 	protected boolean isExecutableWithView() {
-		return myIsViewRequired;
+		return true;
 	}
 	
 	public Undoable getUndoActivity() {

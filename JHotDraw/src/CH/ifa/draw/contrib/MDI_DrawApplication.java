@@ -8,7 +8,7 @@
  * License:		Lesser GNU Public License (LGPL)
  *				http://www.opensource.org/licenses/lgpl-license.html
  */
- 
+
 package CH.ifa.draw.contrib;
 
 import CH.ifa.draw.application.*;
@@ -48,7 +48,7 @@ public class MDI_DrawApplication extends DrawApplication implements InternalFram
 	 * List of listeners which adhere to the InternalFrameListener interface
 	 */
 	private Vector mdiListeners;
-	
+
 	/**
 	* Constructs a drawing window with a default title.
 	*/
@@ -100,7 +100,7 @@ public class MDI_DrawApplication extends DrawApplication implements InternalFram
 			JComponent contents = super.createContents(view);
 			internalFrame.getContentPane().add(contents);
 			getDesktop().add(internalFrame);
-			internalFrame.setVisible(true);	//unsafe to set visible here since the desktopPane has not been added to desktop yet (and has no peer I don't believe)
+			internalFrame.setVisible(true);
 			try {
 				internalFrame.setSelected(true);
 			}
@@ -153,7 +153,7 @@ public class MDI_DrawApplication extends DrawApplication implements InternalFram
 			newWindow(createDrawing());
 		}
 	}
-	
+
 	/**
 	 * Method to create a new internal frame.  Applications that want
 	 * to create a new internal drawing view should call this method.
@@ -165,11 +165,10 @@ public class MDI_DrawApplication extends DrawApplication implements InternalFram
 		toolDone();
 	}
 
-/*	protected DrawingView createDrawingView() {
-		Dimension d = getDrawingViewSize();
-		return new StandardDrawingView(this, d.width, d.height);
+	protected DrawingView createInitialDrawingView() {
+		return NullDrawingView.getManagedDrawingView(this);
 	}
-*/
+
 	public void newView() {
 		if (!view().isInteractive()) {
 			return;
@@ -186,7 +185,7 @@ public class MDI_DrawApplication extends DrawApplication implements InternalFram
 		}
 		toolDone();
 	}
-	
+
 	/**
 	* Set the component, in which the content is embedded. This component
 	* acts as a desktop for the content.
@@ -209,11 +208,11 @@ public class MDI_DrawApplication extends DrawApplication implements InternalFram
 	 * added as listeners to that internal frame as well.
 	 *
 	 * @param newMDIListener listener to be added
-	 */ 
+	 */
 	public void addInternalFrameListener(InternalFrameListener newMDIListener) {
 		mdiListeners.addElement(newMDIListener);
 	}
-	
+
 	/**
 	 * Remove a InternalFrameListeners from the application.
 	 *
@@ -222,7 +221,7 @@ public class MDI_DrawApplication extends DrawApplication implements InternalFram
 	public void removeInternalFrameListener(InternalFrameListener oldMDIListener) {
 		mdiListeners.removeElement(oldMDIListener);
 	}
-	
+
 	/**
 	* Activate an internal frame upon which the selected tools operate.
 	* The currently activated DrawgingView is backed up for later restorage.
@@ -251,7 +250,7 @@ public class MDI_DrawApplication extends DrawApplication implements InternalFram
 			currentFrame = null;
 		}
 	}
-		
+
 	/**
 	* Notification method from InternalFrameListener, which is called
 	* if a internal frame gets selected.
@@ -324,7 +323,7 @@ public class MDI_DrawApplication extends DrawApplication implements InternalFram
 
 	/**
 	 * Get the title for the drawing.
-	 */    
+	 */
 	protected String getDrawingTitle() {
 		return currentFrame.getDrawing().getTitle();
 	}
@@ -342,8 +341,6 @@ public class MDI_DrawApplication extends DrawApplication implements InternalFram
 
 		JInternalFrame[] ifs = ((JDesktopPane)getDesktop()).getAllFrames();
 		for(int x=0; x < ifs.length ; x++) {
-			/* Can not use class.isInstance() here since DrawingView is an interface */
-			/* Can not use instanceof here since DrawingView is interface */
 			if( MDI_InternalFrame.class.isInstance( ifs[x] ) ) {
 				DrawingView dv = ((MDI_InternalFrame)ifs[x]).getDrawingView();
 				if( DrawingView.class.isInstance( dv ) ) {

@@ -34,7 +34,7 @@ public class ToolButton extends PaletteButton implements ToolListener {
 		super(listener);
 		tool.addToolListener(this);
 		setEnabled(tool.isUsable());
-		
+
 		// use a Mediatracker to ensure that all the images are initially loaded
 		Iconkit kit = Iconkit.instance();
 		if (kit == null) {
@@ -86,7 +86,7 @@ public class ToolButton extends PaletteButton implements ToolListener {
 	public Dimension getPreferredSize() {
 		return new Dimension(fIcon.getWidth(), fIcon.getHeight());
 	}
-	
+
 	public Dimension getMaximumSize() {
 		return new Dimension(fIcon.getWidth(), fIcon.getHeight());
 	}
@@ -125,15 +125,23 @@ public class ToolButton extends PaletteButton implements ToolListener {
 	public void toolUsable(EventObject toolEvent) {
 		setEnabled(true);
 	}
-	
+
 	public void toolUnusable(EventObject toolEvent) {
 		setEnabled(false);
 		setSelected(false);
 	}
-	
+
 	public void toolActivated(EventObject toolEvent) {
 	}
-	
+
 	public void toolDeactivated(EventObject toolEvent) {
+	}
+
+	public void toolEnabled(EventObject toolEvent) {
+		setEnabled(true);
+	}
+
+	public void toolDisabled(EventObject toolEvent) {
+		setEnabled(false);
 	}
 }

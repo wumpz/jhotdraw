@@ -184,7 +184,6 @@ counter++;
 		 * @return whether the event was handled.
 		 */
 		public void mouseDragged(MouseEvent e) {
-		   // System.out.println("dragging " + myid);
 			Point p = constrainPoint(new Point(e.getX(), e.getY()));
 			tool().mouseDrag(e, p.x, p.y);
 			checkDamage();
@@ -196,7 +195,6 @@ counter++;
 		 * @return whether the event was handled.
 		 */
 		public void mouseMoved(MouseEvent e) {
-		  //  System.out.println("moved " + myid);
 			tool().mouseMove(e, e.getX(), e.getY());
 		}
 	};
@@ -522,12 +520,15 @@ counter++;
 	 * Clears the current selection.
 	 */
 	public void clearSelection() {
-		Figure figure;
+		// there is nothing selected
+		if (fSelectionHandles == null) {
+			// avoid unnecessary selection changed event when nothing has to be cleared
+			return;
+		}
 
-		FigureEnumeration k = selectionElements();
-
-		while (k.hasMoreElements()) {
-			k.nextFigure().invalidate();
+		FigureEnumeration fe = selectionElements();
+		while (fe.hasMoreElements()) {
+			fe.nextFigure().invalidate();
 		}
 		fSelection = new Vector();
 		fSelectionHandles = null;

@@ -41,12 +41,20 @@ public abstract class AbstractTool implements Tool, ViewChangeListener {
 	private Undoable myUndoActivity;
 	private AbstractTool.EventDispatcher myEventDispatcher;
 
+	private boolean myIsUsable;
+
+	/**
+	 * Flag to indicate whether to perform usable checks or not
+	 */
+	private boolean myIsEnabled;
+
 	/**
 	 * Constructs a tool for the given view.
 	 */
 	public AbstractTool(DrawingEditor newDrawingEditor) {
 		myDrawingEditor = newDrawingEditor;
 		setEventDispatcher(createEventDispatcher());
+		setEnabled(true);
 		editor().addViewChangeListener(this);
 	}
 
@@ -71,8 +79,10 @@ public abstract class AbstractTool implements Tool, ViewChangeListener {
 	 * super.deactivate.
 	 */
 	public void deactivate() {
-		if ((isActive() == true) && (view() != null)) {
-			view().setCursor(Cursor.getDefaultCursor());
+		if (isActive()) {
+			if (view() != null) {
+				view().setCursor(Cursor.getDefaultCursor());
+			}
 			getEventDispatcher().fireToolDeactivatedEvent();
 		}
 	}
@@ -83,10 +93,11 @@ public abstract class AbstractTool implements Tool, ViewChangeListener {
 	 * the tools state to be updated and referenced to the new view.
 	 */
 	public void viewSelectionChanged(DrawingView oldView, DrawingView newView) {
-		if (isActive() == true) {
+		if (isActive()) {
 			deactivate();
 			activate();
 		}
+
 		checkUsable();
 	}
 
@@ -159,7 +170,39 @@ public abstract class AbstractTool implements Tool, ViewChangeListener {
 	 * Tests if the tool can be used or "executed."
 	 */
 	public boolean isUsable() {
-		return (view() != null) && (view().isInteractive());
+		return isEnabled() && myIsUsable;
+	}
+
+	public void setUsable(boolean newIsUsable) {
+		// perform notification only if the usable state of the tool has changed
+		if (isUsable() != newIsUsable) {
+			myIsUsable = newIsUsable;
+			if (isUsable()) {
+				getEventDispatcher().fireToolUsableEvent();
+			}
+			else {
+				getEventDispatcher().fireToolUnusableEvent();
+			}
+		}
+	}
+
+	public void setEnabled(boolean newIsEnabled) {
+		// perform notification only if the usable state of the tool has changed
+		if (isEnabled() != newIsEnabled) {
+			myIsEnabled = newIsEnabled;
+			if (isEnabled()) {
+				getEventDispatcher().fireToolEnabledEvent();
+			}
+			else {
+				getEventDispatcher().fireToolDisabledEvent();
+				setUsable(false);
+				deactivate();
+			}
+		}
+	}
+
+	public boolean isEnabled() {
+		return myIsEnabled;
 	}
 
 	public Undoable getUndoActivity() {
@@ -169,15 +212,15 @@ public abstract class AbstractTool implements Tool, ViewChangeListener {
 	public void setUndoActivity(Undoable newUndoActivity) {
 		myUndoActivity = newUndoActivity;
 	}
-	
+
 	public boolean isActive() {
-		return editor().tool() == this;
+		return (editor().tool() == this) && isUsable();
 	}
 
 	public void addToolListener(ToolListener newToolListener) {
 		getEventDispatcher().addToolListener(newToolListener);
 	}
-	
+
 	public void removeToolListener(ToolListener oldToolListener) {
 		getEventDispatcher().removeToolListener(oldToolListener);
 	}
@@ -195,30 +238,27 @@ public abstract class AbstractTool implements Tool, ViewChangeListener {
 	}
 
 	protected void checkUsable() {
-		if (isUsable()) {
-			getEventDispatcher().fireToolUsableEvent();
-		}
-		else {
-			getEventDispatcher().fireToolUnusableEvent();
+		if (isEnabled()) {
+			setUsable((view() != null) && view().isInteractive());
 		}
 	}
-		
+
 	public static class EventDispatcher {
 		private Vector myRegisteredListeners;
 		private Tool myObservedTool;
-		
+
 		public EventDispatcher(Tool newObservedTool) {
 			myRegisteredListeners = new Vector();
 			myObservedTool = newObservedTool;
 		}
-		
+
 		public void fireToolUsableEvent() {
 			Enumeration le = myRegisteredListeners.elements();
 			while (le.hasMoreElements()) {
 				((ToolListener)le.nextElement()).toolUsable(new EventObject(myObservedTool));
 			}
 		}
-		
+
 		public void fireToolUnusableEvent() {
 			Enumeration le = myRegisteredListeners.elements();
 			while (le.hasMoreElements()) {
@@ -240,12 +280,26 @@ public abstract class AbstractTool implements Tool, ViewChangeListener {
 			}
 		}
 
+		public void fireToolEnabledEvent() {
+			Enumeration le = myRegisteredListeners.elements();
+			while (le.hasMoreElements()) {
+				((ToolListener)le.nextElement()).toolEnabled(new EventObject(myObservedTool));
+			}
+		}
+
+		public void fireToolDisabledEvent() {
+			Enumeration le = myRegisteredListeners.elements();
+			while (le.hasMoreElements()) {
+				((ToolListener)le.nextElement()).toolDisabled(new EventObject(myObservedTool));
+			}
+		}
+
 		public void addToolListener(ToolListener newToolListener) {
 			if (!myRegisteredListeners.contains(newToolListener)) {
 				myRegisteredListeners.add(newToolListener);
 			}
 		}
-		
+
 		public void removeToolListener(ToolListener oldToolListener) {
 			if (myRegisteredListeners.contains(oldToolListener)) {
 				myRegisteredListeners.remove(oldToolListener);

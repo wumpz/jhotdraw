@@ -39,6 +39,10 @@ public interface DrawingEditor extends FigureSelectionListener {
 	public DrawingView view();
 
 	public DrawingView[] views();
+	/**
+	 * Gets the editor's drawing.
+	 */
+//	public Drawing drawing();
 
 	/**
 	 * Gets the editor's current tool.

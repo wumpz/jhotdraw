@@ -101,7 +101,7 @@ public	class DrawApplication
 	protected DrawApplication createApplication() {
 		return new DrawApplication();
 	}
-	
+
 	/**
 	 * Open a new view for this application containing a
 	 * view of the drawing of the currently activated window.
@@ -133,17 +133,16 @@ public	class DrawApplication
 			window.open(createDrawingView(initialDrawing));
 		}
 	}
-	
+
 	/**
 	 * Opens a new window
 	 */
 	public void open() {
-		open(NullDrawingView.getManagedDrawingView(this));
-//		open(createDrawingView());
+		open(createInitialDrawingView());
 	}
 
 	/**
-	 * Opens a new window with a drawing view. 
+	 * Opens a new window with a drawing view.
 	 */
 	protected void open(DrawingView newDrawingView) {
 		getVersionControlStrategy().assertCompatibleVersion();
@@ -151,6 +150,12 @@ public	class DrawApplication
 		fIconkit = new Iconkit(this);
 		getContentPane().setLayout(new BorderLayout());
 
+		// status line must be created before a tool is set
+		fStatusLine = createStatusLine();
+		getContentPane().add(fStatusLine, BorderLayout.SOUTH);
+
+		// create dummy tool until the default tool is activated during toolDone()
+		setTool(new NullTool(this), "");
 		setView(newDrawingView);
 		JComponent contents = createContents(view());
 		contents.setAlignmentX(LEFT_ALIGNMENT);
@@ -165,14 +170,12 @@ public	class DrawApplication
 		activePanel.add(tools, BorderLayout.NORTH);
 		activePanel.add(contents, BorderLayout.CENTER);
 
-		fStatusLine = createStatusLine();
 		getContentPane().add(activePanel, BorderLayout.CENTER);
-		getContentPane().add(fStatusLine, BorderLayout.SOUTH);
 
 		JMenuBar mb = new JMenuBar();
 		createMenus(mb);
 		setJMenuBar(mb);
-		
+
 		Dimension d = defaultSize();
 		if (d.width > mb.getPreferredSize().width) {
 			setSize(d.width, d.height);
@@ -217,7 +220,7 @@ public	class DrawApplication
 			mb.add(newMenu);
 		}
 	}
-	
+
 	/**
 	 * Creates the file menu. Clients override this
 	 * method to add additional menu items.
@@ -450,7 +453,7 @@ public	class DrawApplication
 		UIManager.LookAndFeelInfo[] lafs = UIManager.getInstalledLookAndFeels();
 
 		for (int i = 0; i < lafs.length; i++) {
-			final String lnfClassName = lafs[i].getClassName(); 
+			final String lnfClassName = lafs[i].getClassName();
 			Command cmd = new AbstractCommand(lafs[i].getName(), this) {
 				public void execute() {
 					newLookAndFeel(lnfClassName);
@@ -520,6 +523,20 @@ public	class DrawApplication
 	}
 
 	/**
+	 * Create the DrawingView that is active when the application is started.
+	 * This initial DrawingView might be different from DrawingView created
+	 * by the application, so subclasses can override this method to provide
+	 * a special drawing view for application startup time, e.g. a NullDrawingView
+	 * which does not display an internal frame in a multiple document interface
+	 * (MDI) application.
+	 *
+	 * @return drawing view that is active at application startup time
+	 */
+	protected DrawingView createInitialDrawingView() {
+		return createDrawingView();
+	}
+
+	/**
 	 * Override to define the dimensions of the drawing view.
 	 */
 	protected Dimension getDrawingViewSize() {
@@ -546,7 +563,7 @@ public	class DrawApplication
 			JScrollPane sp = new JScrollPane((Component)view);
 			sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 			sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-	
+
 			return sp;
 		}
 		else {
@@ -579,11 +596,11 @@ public	class DrawApplication
 	/**
 	 * Return the StorageFormatManager for this application.The StorageFormatManager is
 	 * used when storing and restoring Drawing from the file system.
-	 */        
+	 */
 	public StorageFormatManager getStorageFormatManager() {
 		return fStorageFormatManager;
 	}
-	
+
 	/**
 	 * Gets the default size of the window.
 	 */
@@ -647,7 +664,7 @@ public	class DrawApplication
 		fView = newView;
 		fireViewSelectionChangedEvent(oldView, view());
 	}
-	
+
 	public DrawingView[] views() {
 		return new DrawingView[] { view() };
 	}
@@ -679,7 +696,7 @@ public	class DrawApplication
 		}
 		CommandMenu alignmentMenu = (CommandMenu)mb.getMenu(ALIGNMENT_MENU);
 		// make sure it does exist
-		if (editMenu != null) {
+		if (alignmentMenu != null) {
 			alignmentMenu.checkEnabled();
 		}
 
@@ -711,8 +728,10 @@ public	class DrawApplication
 	}
 
 	/**
-	 * Convience method for switching views.  This is uneeded in SDI
-	 * environments.
+	 * An appropriate event is triggered and all registered observers
+	 * are notified if the drawing view has been changed, e.g. by
+	 * switching between several internal frames.  This method is
+	 * usually not needed in SDI environments.
 	 */
 	protected void fireViewSelectionChangedEvent(DrawingView oldView, DrawingView newView) {
 		final Object[] listeners = listenerList.getListenerList();
@@ -755,9 +774,11 @@ public	class DrawApplication
 		fStatusLine.setText(string);
 	}
 
-	private void setTool(Tool t, String name) {
-		// We should not really deactivate a tool which was never activated.
-		if (tool() != null) {
+	public void setTool(Tool t, String name) {
+		// SF bug-tracker id: #490665
+
+		// deactivate only those tools that have been activated before
+		if ((tool() != null) && (tool().isActive())) {
 			tool().deactivate();
 		}
 		fTool = t;
@@ -856,13 +877,13 @@ public	class DrawApplication
 	/**
 	 * Create a file chooser for the save file dialog. Subclasses may override this
 	 * method in order to customize the save file dialog.
-	 */	
+	 */
 	protected JFileChooser createSaveFileChooser() {
 		JFileChooser saveDialog = new JFileChooser();
 		saveDialog.setDialogTitle("Save File...");
 		return saveDialog;
 	}
-	
+
 	/**
 	 * Prints the drawing.
 	 */
@@ -901,7 +922,7 @@ public	class DrawApplication
 	}
 
 	/**
-	 * Load a Drawing from a file 
+	 * Load a Drawing from a file
 	 */
 	protected void loadDrawing(StorageFormat restoreFormat, String file) {
 		try {
@@ -952,14 +973,14 @@ public	class DrawApplication
 
 	/**
 	 * Set the name of the application build from this skeleton application
-	 */	
+	 */
 	public void setApplicationName(String applicationName) {
 		fApplicationName = applicationName;
 	}
 
 	/**
 	 * Return the name of the application build from this skeleton application
-	 */	
+	 */
 	public String getApplicationName() {
 		return fApplicationName;
 	}
@@ -967,11 +988,11 @@ public	class DrawApplication
 	protected void setUndoManager(UndoManager newUndoManager) {
 		myUndoManager = newUndoManager;
 	}
-	
+
 	public UndoManager getUndoManager() {
 		return myUndoManager;
 	}
-	
+
 	protected VersionControlStrategy getVersionControlStrategy() {
 		return new StandardVersionControlStrategy(this);
 	}

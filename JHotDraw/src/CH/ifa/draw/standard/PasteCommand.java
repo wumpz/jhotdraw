@@ -40,16 +40,18 @@ public class PasteCommand extends FigureTransferCommand {
 		FigureSelection selection = (FigureSelection)Clipboard.getClipboard().getContents();
 		if (selection != null) {
 			setUndoActivity(createUndoActivity());
-
-			if (view().selectionCount() <= 0) {
+			getUndoActivity().setAffectedFigures(
+				(FigureEnumerator)selection.getData(StandardFigureSelection.TYPE));
+			
+			if (!getUndoActivity().getAffectedFigures().hasMoreElements()) {
+				setUndoActivity(null);
 				return;
 			}
 
-			getUndoActivity().setAffectedFigures(view().selectionElements());
 			Rectangle r = bounds(getUndoActivity().getAffectedFigures());
 			view().clearSelection();
 
-			// get a new enumeration
+			// get an enumeration of inserted figures
 			FigureEnumeration fe = insertFigures(getUndoActivity().getAffectedFigures(), lastClick.x-r.x, lastClick.y-r.y);
 			getUndoActivity().setAffectedFigures(fe);
 			

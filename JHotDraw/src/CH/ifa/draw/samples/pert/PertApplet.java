@@ -37,6 +37,6 @@ public  class PertApplet extends DrawApplet {
 		palette.add(createToolButton(IMAGES+"CONN", "Dependency Tool", tool));
 
 		tool = new CreationTool(this, new LineFigure());
-		palette.add(createToolButton(IMAGES+"Line", "Line Tool", tool));
+		palette.add(createToolButton(IMAGES+"LINE", "Line Tool", tool));
 	}
 }

@@ -29,11 +29,31 @@ import java.awt.event.KeyEvent;
  * Tool plays the role of the State. In encapsulates all state
  * specific behavior. DrawingView plays the role of the StateContext.
  *
+ * A tool can be in the following states: <br>
+ * disabled<->enabled[unusable<->usable[active<->inactive]]
+ * <->always_usable[active<->inactive]<->disabled
+ * <br> where each square bracket indicates a state nesting level
+ * and arrows possible state transitions.
+ * Unusable tools are always inactive as well and disabled tools
+ * are always unusable as well.
+ * State changes are propagated to registered ToolListeners.
+ *
  * @see DrawingView
- * 
+ *
  * @version <$CURRENT_VERSION$>
  */
 public interface Tool {
+
+	/**
+	 * An active tool is the currently selected tool in the
+	 * DrawingView. A tool can be activated/deactivated
+	 * by calling the activate()/deactivate() method.
+	 *
+	 * @return true if the tool is the selected tool in the DrawingView, false otherwise
+	 * @see #isEnabled
+	 * @see #isUsable
+	 */
+	public boolean isActive();
 
 	/**
 	 * Activates the tool for the given view. This method is called
@@ -76,14 +96,33 @@ public interface Tool {
 	 */
 	public void keyDown(KeyEvent evt, int key);
 
+	/**
+	 * A tool must be enabled in order to use it and to activate/deactivate it.
+	 * Typically, the program enables or disables a tool.
+	 *
+	 * @see #isUsable
+	 * @see #isActive
+	 */
+	public boolean isEnabled();
+	public void setEnabled(boolean enableUsableCheck);
+
+	/**
+	 * A usable tool is a enabled and either active or inactive.
+	 * Typically, the tool should be able to determine itself whether it is
+	 * usable or not.
+	 *
+	 * @see #isEnabled
+	 * @see #isUsable
+	 */
 	public boolean isUsable();
+	public void setUsable(boolean newIsUsable);
 
 	public DrawingEditor editor();
-	
+
 	public Undoable getUndoActivity();
 
 	public void setUndoActivity(Undoable newUndoableActivity);
-	
+
 	public void addToolListener(ToolListener newToolListener);
 	public void removeToolListener(ToolListener oldToolListener);
 }

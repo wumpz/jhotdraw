@@ -53,7 +53,7 @@ public class CreationTool extends AbstractTool {
 	 * Note, this can be a different figure from the one which has been created.
 	 */
 	private Figure myAddedFigure;
-	
+
 	/**
 	 * the prototypical figure that is used to create new figures.
 	 */
@@ -128,7 +128,7 @@ public class CreationTool extends AbstractTool {
 		else {
 			// use undo activity from paste command...
 			setUndoActivity(createUndoActivity());
-			
+
 			// put created figure into a figure enumeration
 			getUndoActivity().setAffectedFigures(new SingleFigureEnumerator(getAddedFigure()));
 		}
@@ -147,7 +147,7 @@ public class CreationTool extends AbstractTool {
 	private void setCreatedFigure(Figure newCreatedFigure) {
 		fCreatedFigure = newCreatedFigure;
 	}
-	
+
 	/**
 	 * Gets the figure that was actually added
 	 * Note, this can be a different figure from the one which has been created.
@@ -165,5 +165,16 @@ public class CreationTool extends AbstractTool {
 	 */
 	protected Undoable createUndoActivity() {
 		return new PasteCommand.UndoActivity(view());
+	}
+
+	/**
+	 * The anchor point is usually the first mouse click performed with this tool.
+	 *
+	 * @return the anchor point for the interaction
+	 * @see #mouseDown
+	 */
+	protected Point getAnchorPoint() {
+		// SF bug-report id: #490752
+		return fAnchorPoint;
 	}
 }
