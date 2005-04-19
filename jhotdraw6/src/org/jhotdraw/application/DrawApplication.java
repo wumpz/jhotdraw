@@ -764,7 +764,7 @@ public	class DrawApplication
 	 * @see DrawingEditor
 	 */
 	public void toolDone() {
-		System.out.println("ToolDone");
+		// TODO: toolDone() seemed to be called twice/too often
 		if (fDefaultToolButton != null) {
 			setTool(fDefaultToolButton.tool(), fDefaultToolButton.name());
 			setSelected(fDefaultToolButton);

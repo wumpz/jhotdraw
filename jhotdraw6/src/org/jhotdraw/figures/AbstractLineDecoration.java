@@ -106,7 +106,7 @@ public abstract class AbstractLineDecoration implements LineDecoration {
 	public void read(StorableInput dr) throws IOException {
 		String fillColorId = dr.readString();
 		// read color only if one has been written
-		if (fillColorId.equals(FigureAttributeConstant.FRAME_COLOR.getName())) {
+		if (fillColorId.equals(FigureAttributeConstant.FILL_COLOR.getName())) {
 			setFillColor(FigureAttributes.readColor(dr));
 		}
 		String borderColorId = dr.readString();
