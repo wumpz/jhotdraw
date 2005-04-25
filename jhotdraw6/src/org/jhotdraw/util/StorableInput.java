@@ -115,13 +115,27 @@ public class StorableInput {
 	 * Reads a double from the input stream.
 	 */
 	public double readDouble() throws IOException {
-		int token = fTokenizer.nextToken();
-		if (token == StreamTokenizer.TT_NUMBER) {
-			return fTokenizer.nval;
+		double value = 0.0; 
+		int token = fTokenizer.nextToken(); 
+		if (token == StreamTokenizer.TT_NUMBER) { 
+			// Allow for a bug in StreamTokenizer (JDK-bugs 4079180, 4146533 and 4638205), which
+			// causes the exponent to be ignored, then read in as a string as the next token. 
+			// This is a nasty kludge and I think it could fail if a number 
+			// without an exponent is followed by a string beginning with "E" or "e"  
+			value = fTokenizer.nval; 
+			int token2 = fTokenizer.nextToken(); 
+			if (token2 == StreamTokenizer.TT_WORD && 
+					(fTokenizer.sval.charAt(0) == 'E' || fTokenizer.sval.charAt(0) == 'e')) { 
+				value = Double.valueOf(value+fTokenizer.sval).doubleValue(); 
+			} 
+			else { 
+				fTokenizer.pushBack(); 
+			} 
+			return value; 
 		}
-
-		String msg = "Double expected in line: " + fTokenizer.lineno();
-		throw new IOException(msg);
+		else {
+			throw new IOException("Double expected in line: " + fTokenizer.lineno());
+		}
 	}
 
 	/**
