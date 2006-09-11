@@ -17,20 +17,21 @@
     Note: be sure to use forward slashes as path separators even on Windows systems
   -->
   <property file="mybuild.properties"/>
-  
-  <property name="build.classes" value="${dest.dir}/bin"/>
+
+  <property name="build.dir" value="${dest.dir}/target/ant"/>
+  <property name="build.classes" value="${build.dir}"/>
   <property name="build.jar.name" value="jhotdraw.jar"/>
-  <property name="build.jar" value="${dest.dir}/${build.jar.name}"/>
+  <property name="build.jar" value="${dest.dir}/target/${build.jar.name}"/>
   <property name="deploy.dir" value="${dest.dir}/deploy"/>
   <property name="zip.file" value="${deploy.dir}/jhotdraw6.zip"/>
 
-  <property name="src.dir" value="${dest.dir}/src"/>
-  <property name="images.dir" value="org/jhotdraw/images"/>
-  <property name="javadraw.images.dir" value="org/jhotdraw/samples/javadraw/sampleimages"/>
-  <property name="pert.images.dir" value="org/jhotdraw/samples/pert/images"/>
+  <property name="main.src.dir" value="${dest.dir}/src/main/java"/>
+  <property name="main.resources.dir" value="${dest.dir}/src/main/resources"/>
+  <property name="test.src.dir" value="${dest.dir}/src/test/java"/>
+  <property name="test.resources.dir" value="${dest.dir}/src/test/resources"/>
 
   <property name="javadoc.dir" value="${dest.dir}/javadoc"/>
-  <property name="mk.dir" value="${dest.dir}/build"/>
+  <property name="buildscript.dir" value="${dest.dir}/build"/>
   <property name="testsuite.package.name" value="org.jhotdraw.test"/>
   <property name="testsuite" value="${testsuite.package.name}.AllTests"/>
   
@@ -60,6 +61,7 @@
   <!-- =================================================================== -->
   <target name="init">
   	<tstamp/>
+  	<mkdir dir="${build.dir}"/>
   </target>
 
   <target name="check_for_optional_packages">
@@ -89,22 +91,13 @@
   <target name="compile" 
           depends="check_for_optional_packages, delete_dependants" 
           description="Compiles the source code">
-     <javac srcdir="${src.dir}"
-           destdir="${build.classes}"
-           debug="${javac.debug}"
-           deprecation="${javac.deprecation}"
-           optimize="${javac.optimize}"
-           fork="${javac.fork}">
-      <include name="org/jhotdraw/framework/**"/>
-    </javac>
-    <javac srcdir="${src.dir}"
+    <javac srcdir="${main.src.dir}"
            destdir="${build.classes}"
            debug="${javac.debug}"
            deprecation="${javac.deprecation}"
            optimize="${javac.optimize}"
            fork="${javac.fork}">
       <include name="${javac.includes}"/>
-      <exclude name="org/jhotdraw/framework/**"/>
       <exclude name="${needs.batik.src}" unless="batik.available"/>
       <exclude name="${needs.jdo.src}" unless="jdo.available"/>
       <exclude name="${needs.junit.src}"/>
@@ -115,9 +108,9 @@
       </classpath>
     </javac>
   </target>
-
+	
   <target name="delete_dependants" unless="javac.nodepend">
-    <depend srcdir="${src.dir}" destdir="${build.classes}"
+    <depend srcdir="${main.src.dir}" destdir="${build.classes}"
             cache="depcache" closure="yes">
       <include name="${javac.includes}"/>
       <exclude name="${needs.batik.src}" unless="batik.available"/>
@@ -142,7 +135,7 @@
       classpath    = "${dest.dir}"
       author       = "false"
       version      = "true">
-      <fileset dir="${src.dir}" >
+      <fileset dir="${main.src.dir}" >
         <include name="${javac.includes}"/>
         <exclude name="${needs.junit.src}"/>
       </fileset>
@@ -158,13 +151,13 @@
       author       = "false"
       version      = "true">
       <doclet name="org.jhotdraw.tools.versiondoclet.VersionDoclet">
-        <param name="-versionfile" value="${mk.dir}/${manifest.name}"/>
+        <param name="-versionfile" value="${buildscript.dir}/${manifest.name}"/>
         <param name="-version" value=""/>
         <path>
           <pathelement path="${versiondoclet.class.path}"/>
         </path>
       </doclet>
-      <fileset dir="${src.dir}" >
+      <fileset dir="${main.src.dir}" >
         <include name="${javac.includes}"/>
         <exclude name="${needs.junit.src}"/>
       </fileset>
@@ -191,14 +184,14 @@
   <target name="junit_doclet" depends="jar">
     <javadoc
       classpath           = "${dest.dir}"
-      sourcepath          = "${src.dir}"
+      sourcepath          = "${main.src.dir}"
       defaultexcludes     = "yes">
       <package name="org.jhotdraw.util.*"/>
       <excludepackage name="${needs.batik.class}"/>
       <excludepackage name="${needs.jdo.class}"/>
       <excludepackage name="${test.packages}"/>
       <doclet name="com.objectfab.tools.junitdoclet.JUnitDoclet">
-        <param name="-d" value="${src.dir}"/>
+        <param name="-d" value="${test.src.dir}"/>
         <param name="-properties" value="jhotdraw_junitdoclet.properties"/>
         <!-- <param name="-buildall"/> -->
         <param name="-testintest"/>
@@ -214,7 +207,7 @@
   </target>
 
   <target name="junit_compile" depends="compile, junit_doclet">
- 	<javac srcdir="${src.dir}"
+ 	<javac srcdir="${test.src.dir}"
            destdir="${dest.dir}"
            debug="${javac.debug}"
            deprecation="${javac.deprecation}"
@@ -265,8 +258,8 @@
   <!-- in their package structure, such as .gif, .properties, .html, etc.  -->
   <!-- =================================================================== -->
   <target name="copy_resources">
-    <copy toDir="${build.classes}">
-      <fileset dir="${src.dir}">
+    <copy toDir="${build.dir}">
+      <fileset dir="${main.resources.dir}">
          <include name ="**/*.gif" />
          <include name ="**/*.html" />
       </fileset>
@@ -288,7 +281,7 @@
   <!-- =================================================================== -->
   <target name="jar" depends="compile, copy_resources">
     <jar jarfile="${build.jar}"
-         manifest="${mk.dir}/${manifest.name}"
+         manifest="${buildscript.dir}/${manifest.name}"
         >
       <fileset dir="${build.classes}">
         <include name="org/jhotdraw/**"/>
