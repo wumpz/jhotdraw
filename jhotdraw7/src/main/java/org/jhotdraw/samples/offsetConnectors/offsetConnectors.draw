@@ -1,0 +1,70 @@
+
+    org.jhotdraw.standard.StandardDrawing 13 
+        org.jhotdraw.samples.offsetConnectors.MyFigure "attributes" "attributes" 1 "FillColor" "Color" 255 0 0 413 50 72 125  
+        org.jhotdraw.samples.offsetConnectors.MyFigure "attributes" "attributes" 1 "FillColor" "Color" 0 0 0 84 182 165 158  
+        org.jhotdraw.samples.offsetConnectors.MyFigure "attributes" "attributes" 1 "FillColor" "Color" 0 0 255 610 165 187 175  
+        org.jhotdraw.samples.offsetConnectors.MyEllipseFigure "no_attributes" 362 445 218 186  
+        org.jhotdraw.figures.LineConnection 2 413 77 171 182 
+            org.jhotdraw.figures.ArrowTip 0.4 8.0 8.0 "noFillColor" "noFrameColor"  
+            org.jhotdraw.figures.ArrowTip 0.4 8.0 8.0 "noFillColor" "noFrameColor"  0 0 0 
+            org.jhotdraw.standard.OffsetConnector REF 1 
+                org.jhotdraw.standard.OffsetLocator 0 27 
+                    org.jhotdraw.standard.RelativeLocator 0.0 0.0    
+            org.jhotdraw.standard.OffsetConnector REF 2 
+                org.jhotdraw.standard.OffsetLocator 87 0 REF 10    
+        org.jhotdraw.figures.LineConnection 2 485 74 755 165 
+            org.jhotdraw.figures.ArrowTip 0.4 8.0 8.0 "noFillColor" "noFrameColor"  
+            org.jhotdraw.figures.ArrowTip 0.4 8.0 8.0 "noFillColor" "noFrameColor"  0 0 0 
+            org.jhotdraw.standard.OffsetConnector REF 1 
+                org.jhotdraw.standard.OffsetLocator 72 24 REF 10   
+            org.jhotdraw.standard.OffsetConnector REF 3 
+                org.jhotdraw.standard.OffsetLocator 145 0 REF 10    
+        org.jhotdraw.figures.LineConnection 2 249 212 610 212 
+            org.jhotdraw.figures.ArrowTip 0.4 8.0 8.0 "noFillColor" "noFrameColor"  
+            org.jhotdraw.figures.ArrowTip 0.4 8.0 8.0 "noFillColor" "noFrameColor"  255 0 0 
+            org.jhotdraw.standard.OffsetConnector REF 2 
+                org.jhotdraw.standard.OffsetLocator 165 30 REF 10   
+            org.jhotdraw.standard.OffsetConnector REF 3 
+                org.jhotdraw.standard.OffsetLocator 0 47 REF 10    
+        org.jhotdraw.figures.LineConnection 2 249 246 610 246 
+            org.jhotdraw.figures.ArrowTip 0.4 8.0 8.0 "noFillColor" "noFrameColor"  
+            org.jhotdraw.figures.ArrowTip 0.4 8.0 8.0 "noFillColor" "noFrameColor"  0 0 255 
+            org.jhotdraw.standard.OffsetConnector REF 2 
+                org.jhotdraw.standard.OffsetLocator 165 64 REF 10   
+            org.jhotdraw.standard.OffsetConnector REF 3 
+                org.jhotdraw.standard.OffsetLocator 0 81 REF 10    
+        org.jhotdraw.figures.LineConnection 2 249 308 610 308 
+            org.jhotdraw.figures.ArrowTip 0.4 8.0 8.0 "noFillColor" "noFrameColor"  
+            org.jhotdraw.figures.ArrowTip 0.4 8.0 8.0 "noFillColor" "noFrameColor"  0 0 0 
+            org.jhotdraw.standard.OffsetConnector REF 2 
+                org.jhotdraw.standard.OffsetLocator 165 126 REF 10   
+            org.jhotdraw.standard.OffsetConnector REF 3 
+                org.jhotdraw.standard.OffsetLocator 0 143 REF 10    
+        org.jhotdraw.figures.LineConnection 6 443 50 443 19 28 19 28 409 384 409 384 484 
+            org.jhotdraw.figures.ArrowTip 0.4 8.0 8.0 "noFillColor" "noFrameColor"  
+            org.jhotdraw.figures.ArrowTip 0.4 8.0 8.0 "noFillColor" "noFrameColor"  0 0 0 
+            org.jhotdraw.standard.OffsetConnector REF 1 
+                org.jhotdraw.standard.OffsetLocator 30 0 REF 10   
+            org.jhotdraw.standard.OffsetConnector REF 4 
+                org.jhotdraw.standard.OffsetLocator 22 39 REF 10    
+        org.jhotdraw.figures.LineConnection 6 463 50 463 18 925 18 925 409 553 409 553 478 
+            org.jhotdraw.figures.ArrowTip 0.4 8.0 8.0 "noFillColor" "noFrameColor"  
+            org.jhotdraw.figures.ArrowTip 0.4 8.0 8.0 "noFillColor" "noFrameColor"  0 0 0 
+            org.jhotdraw.standard.OffsetConnector REF 1 
+                org.jhotdraw.standard.OffsetLocator 50 0 REF 10   
+            org.jhotdraw.standard.OffsetConnector REF 4 
+                org.jhotdraw.standard.OffsetLocator 191 33 REF 10    
+        org.jhotdraw.figures.LineConnection 5 717 340 717 374 834 374 834 240 797 240 
+            org.jhotdraw.figures.ArrowTip 0.4 8.0 8.0 "noFillColor" "noFrameColor"  
+            org.jhotdraw.figures.ArrowTip 0.4 8.0 8.0 "noFillColor" "noFrameColor"  0 0 0 
+            org.jhotdraw.standard.OffsetConnector REF 3 
+                org.jhotdraw.standard.OffsetLocator 107 175 REF 10   
+            org.jhotdraw.standard.OffsetConnector REF 3 
+                org.jhotdraw.standard.OffsetLocator 187 75 REF 10    
+        org.jhotdraw.figures.LineConnection 5 152 340 152 373 46 373 46 247 84 247 
+            org.jhotdraw.figures.ArrowTip 0.4 8.0 8.0 "noFillColor" "noFrameColor"  
+            org.jhotdraw.figures.ArrowTip 0.4 8.0 8.0 "noFillColor" "noFrameColor"  0 0 0 
+            org.jhotdraw.standard.OffsetConnector REF 2 
+                org.jhotdraw.standard.OffsetLocator 68 158 REF 10   
+            org.jhotdraw.standard.OffsetConnector REF 2 
+                org.jhotdraw.standard.OffsetLocator 0 65 REF 10     
