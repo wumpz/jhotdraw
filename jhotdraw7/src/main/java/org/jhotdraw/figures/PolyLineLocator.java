@@ -12,6 +12,10 @@
 package org.jhotdraw.figures;
 
 import java.awt.*;
+
+import org.jhotdraw.draw.AbstractLocator;
+import org.jhotdraw.draw.Figure;
+import org.jhotdraw.draw.LineDecoration;
 import org.jhotdraw.framework.*;
 import org.jhotdraw.standard.*;
 

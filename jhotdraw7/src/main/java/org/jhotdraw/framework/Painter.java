@@ -14,6 +14,8 @@ package org.jhotdraw.framework;
 import java.awt.*;
 import java.io.Serializable;
 
+import org.jhotdraw.draw.DrawingView;
+
 /**
  * Painter defines the interface for drawing a layer
  * into a DrawingView.<p>

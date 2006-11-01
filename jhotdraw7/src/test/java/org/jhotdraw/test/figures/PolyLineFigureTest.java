@@ -12,7 +12,7 @@ package org.jhotdraw.test.figures;
 
 import junit.framework.TestCase;
 // JUnitDoclet begin import
-import org.jhotdraw.figures.ArrowTip;
+import org.jhotdraw.draw.ArrowTip;
 import org.jhotdraw.figures.PolyLineFigure;
 // JUnitDoclet end import
 
@@ -244,13 +244,13 @@ extends TestCase
 	 * Method testSetGetStartDecoration is testing setStartDecoration
 	 * and getStartDecoration together by setting some value
 	 * and verifying it by reading.
-	 * @see org.jhotdraw.figures.PolyLineFigure#setStartDecoration(org.jhotdraw.figures.LineDecoration)
+	 * @see org.jhotdraw.figures.PolyLineFigure#setStartDecoration(org.jhotdraw.draw.LineDecoration)
 	 * @see org.jhotdraw.figures.PolyLineFigure#getStartDecoration()
 	 */
 	// JUnitDoclet end javadoc_method setStartDecoration()
 	public void testSetGetStartDecoration() throws Exception {
 		// JUnitDoclet begin method setStartDecoration getStartDecoration
-		org.jhotdraw.figures.LineDecoration[] tests = { new ArrowTip(), null };
+		org.jhotdraw.draw.LineDecoration[] tests = { new ArrowTip(), null };
 
 		for (int i = 0; i < tests.length; i++) {
 			polylinefigure.setStartDecoration(tests[i]);
@@ -264,13 +264,13 @@ extends TestCase
 	 * Method testSetGetEndDecoration is testing setEndDecoration
 	 * and getEndDecoration together by setting some value
 	 * and verifying it by reading.
-	 * @see org.jhotdraw.figures.PolyLineFigure#setEndDecoration(org.jhotdraw.figures.LineDecoration)
+	 * @see org.jhotdraw.figures.PolyLineFigure#setEndDecoration(org.jhotdraw.draw.LineDecoration)
 	 * @see org.jhotdraw.figures.PolyLineFigure#getEndDecoration()
 	 */
 	// JUnitDoclet end javadoc_method setEndDecoration()
 	public void testSetGetEndDecoration() throws Exception {
 		// JUnitDoclet begin method setEndDecoration getEndDecoration
-		org.jhotdraw.figures.LineDecoration[] tests = { new ArrowTip(), null };
+		org.jhotdraw.draw.LineDecoration[] tests = { new ArrowTip(), null };
 
 		for (int i = 0; i < tests.length; i++) {
 			polylinefigure.setEndDecoration(tests[i]);

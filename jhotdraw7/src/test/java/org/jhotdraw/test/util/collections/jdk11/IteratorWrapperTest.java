@@ -12,7 +12,7 @@ package org.jhotdraw.test.util.collections.jdk11;
 
 import junit.framework.TestCase;
 // JUnitDoclet begin import
-import org.jhotdraw.figures.RectangleFigure;
+import org.jhotdraw.draw.RectangleFigure;
 import org.jhotdraw.figures.PolyLineFigure;
 import org.jhotdraw.util.collections.jdk11.IteratorWrapper;
 

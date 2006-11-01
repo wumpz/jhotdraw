@@ -28,11 +28,21 @@ import javax.swing.JPanel;
 import org.jhotdraw.contrib.AutoscrollHelper;
 import org.jhotdraw.contrib.dnd.DNDHelper;
 import org.jhotdraw.contrib.dnd.DNDInterface;
+import org.jhotdraw.draw.ConnectionFigure;
+import org.jhotdraw.draw.Connector;
+import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.DrawingEvent;
+import org.jhotdraw.draw.DrawingView;
+import org.jhotdraw.draw.Figure;
+import org.jhotdraw.draw.FigureSelectionListener;
+import org.jhotdraw.draw.Handle;
+import org.jhotdraw.draw.Tool;
 import org.jhotdraw.framework.*;
 import org.jhotdraw.framework.Cursor;
+import org.jhotdraw.geom.Geom;
 import org.jhotdraw.util.CollectionsFactory;
 import org.jhotdraw.util.Command;
-import org.jhotdraw.util.Geom;
 import org.jhotdraw.util.UndoableCommand;
 
 /**
@@ -664,7 +674,7 @@ public class StandardDrawingView
 		}
 	}
 
-	public void drawingInvalidated(DrawingChangeEvent e) {
+	public void drawingInvalidated(DrawingEvent e) {
 		Rectangle r = e.getInvalidatedRectangle();
 		if (getDamage() == null) {
 			setDamage(r);
@@ -678,11 +688,11 @@ public class StandardDrawingView
 		}
 	}
 
-	public void drawingRequestUpdate(DrawingChangeEvent e) {
+	public void drawingRequestUpdate(DrawingEvent e) {
 		repairDamage();
 	}
 
-	public void drawingTitleChanged(DrawingChangeEvent e){
+	public void drawingTitleChanged(DrawingEvent e){
 	}
 
 	/**

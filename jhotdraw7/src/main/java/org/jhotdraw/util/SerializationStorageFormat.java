@@ -12,7 +12,8 @@
 package org.jhotdraw.util;
 
 import java.io.*;
-import org.jhotdraw.framework.Drawing;
+
+import org.jhotdraw.draw.Drawing;
 
 /**
  * A SerializationStorageFormat is a straight-forward file format to store and restore

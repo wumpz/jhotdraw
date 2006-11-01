@@ -15,7 +15,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 
 // JUnitDoclet begin import
-import org.jhotdraw.framework.Figure;
+import org.jhotdraw.draw.Figure;
 import org.jhotdraw.framework.FigureEnumeration;
 // JUnitDoclet end import
 

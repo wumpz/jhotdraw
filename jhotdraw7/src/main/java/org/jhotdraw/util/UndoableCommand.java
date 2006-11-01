@@ -11,6 +11,9 @@
 
 package org.jhotdraw.util;
 
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.DrawingView;
+import org.jhotdraw.draw.FigureSelectionListener;
 import org.jhotdraw.framework.*;
 import org.jhotdraw.standard.AbstractCommand;
 import java.util.EventObject;

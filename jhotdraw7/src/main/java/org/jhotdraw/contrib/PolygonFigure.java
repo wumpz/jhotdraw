@@ -11,10 +11,17 @@
 
 package org.jhotdraw.contrib;
 
+import org.jhotdraw.draw.AbstractLocator;
+import org.jhotdraw.draw.AttributedFigure;
+import org.jhotdraw.draw.Connector;
+import org.jhotdraw.draw.Figure;
+import org.jhotdraw.draw.Locator;
 import org.jhotdraw.framework.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.standard.*;
 import org.jhotdraw.figures.*;
+import org.jhotdraw.geom.Geom;
+
 import java.awt.*;
 import java.util.*;
 import java.util.List;
@@ -27,7 +34,7 @@ import java.io.IOException;
  * @author Doug Lea  (dl at gee, Fri Feb 28 07:47:05 1997)
  * @version <$CURRENT_VERSION$>
  */
-public  class PolygonFigure extends AttributeFigure {
+public  class PolygonFigure extends AttributedFigure {
 
 	/**
 	 * Distance threshold for smoothing away or locating points

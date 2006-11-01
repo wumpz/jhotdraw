@@ -13,8 +13,8 @@ package org.jhotdraw.test.figures;
 import java.awt.Point;
 
 // JUnitDoclet begin import
+import org.jhotdraw.draw.RectangleFigure;
 import org.jhotdraw.figures.ConnectedTextTool;
-import org.jhotdraw.figures.RectangleFigure;
 import org.jhotdraw.test.JHDTestCase;
 // JUnitDoclet end import
 

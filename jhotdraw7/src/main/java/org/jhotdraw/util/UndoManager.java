@@ -11,7 +11,7 @@
 
 package org.jhotdraw.util;
 
-import org.jhotdraw.framework.DrawingView;
+import org.jhotdraw.draw.DrawingView;
 
 import java.util.List;
 import java.util.Iterator;

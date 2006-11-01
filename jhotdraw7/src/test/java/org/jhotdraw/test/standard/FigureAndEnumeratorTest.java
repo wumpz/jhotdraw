@@ -14,8 +14,8 @@ import java.awt.Point;
 import java.util.List;
 
 // JUnitDoclet begin import
+import org.jhotdraw.draw.RectangleFigure;
 import org.jhotdraw.figures.PolyLineFigure;
-import org.jhotdraw.figures.RectangleFigure;
 import org.jhotdraw.standard.FigureAndEnumerator;
 import org.jhotdraw.standard.FigureEnumerator;
 import org.jhotdraw.test.JHDTestCase;

@@ -11,6 +11,9 @@
 
 package org.jhotdraw.contrib;
 
+import org.jhotdraw.draw.AbstractHandle;
+import org.jhotdraw.draw.DrawingView;
+import org.jhotdraw.draw.Locator;
 import org.jhotdraw.framework.*;
 import org.jhotdraw.standard.*;
 import org.jhotdraw.figures.PolyLineHandle;

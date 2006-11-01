@@ -12,6 +12,13 @@
 package org.jhotdraw.samples.pert;
 
 import javax.swing.JToolBar;
+
+import org.jhotdraw.draw.ConnectionTool;
+import org.jhotdraw.draw.CreationTool;
+import org.jhotdraw.draw.LineFigure;
+import org.jhotdraw.draw.TextFigure;
+import org.jhotdraw.draw.TextTool;
+import org.jhotdraw.draw.Tool;
 import org.jhotdraw.framework.*;
 import org.jhotdraw.standard.*;
 import org.jhotdraw.figures.*;

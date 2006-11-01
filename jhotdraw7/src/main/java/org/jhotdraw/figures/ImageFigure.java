@@ -11,13 +11,25 @@
 
 package org.jhotdraw.figures;
 
-import java.awt.*;
-import java.io.*;
-import java.util.List;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.image.ImageObserver;
-import org.jhotdraw.framework.*;
-import org.jhotdraw.standard.*;
-import org.jhotdraw.util.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.List;
+
+import org.jhotdraw.draw.AttributedFigure;
+import org.jhotdraw.draw.BoxHandleKit;
+import org.jhotdraw.draw.FigureEvent;
+import org.jhotdraw.framework.HandleEnumeration;
+import org.jhotdraw.standard.HandleEnumerator;
+import org.jhotdraw.util.CollectionsFactory;
+import org.jhotdraw.util.Iconkit;
+import org.jhotdraw.util.StorableInput;
+import org.jhotdraw.util.StorableOutput;
 
 /**
  * A Figure that shows an Image.
@@ -28,7 +40,7 @@ import org.jhotdraw.util.*;
  * @version <$CURRENT_VERSION$>
  */
 public  class ImageFigure
-		extends AttributeFigure implements ImageObserver {
+		extends AttributedFigure implements ImageObserver {
 
 	private String   fFileName;
 	private transient Image fImage;
@@ -99,7 +111,7 @@ public  class ImageFigure
 		if ((flags & (FRAMEBITS|ALLBITS)) != 0) {
 			invalidate();
 			if (listener() != null) {
-				listener().figureRequestUpdate(new FigureChangeEvent(this));
+				listener().figureRequestUpdate(new FigureEvent(this));
 			}
 		}
 		return (flags & (ALLBITS|ABORT)) == 0;

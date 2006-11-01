@@ -11,6 +11,9 @@
 package org.jhotdraw.samples.offsetConnectors;
 
 import java.awt.*;
+
+import org.jhotdraw.draw.Connector;
+import org.jhotdraw.draw.EllipseFigure;
 import org.jhotdraw.framework.*;
 import org.jhotdraw.standard.*;
 import org.jhotdraw.figures.*;

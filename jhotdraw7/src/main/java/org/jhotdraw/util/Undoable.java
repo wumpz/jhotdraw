@@ -11,8 +11,8 @@
 
 package org.jhotdraw.util;
 
+import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.framework.FigureEnumeration;
-import org.jhotdraw.framework.DrawingView;
 
 /**
  * @author  Wolfram Kaiser <mrfloppy@sourceforge.net>

@@ -11,21 +11,59 @@
 
 package org.jhotdraw.samples.javadraw;
 
-import org.jhotdraw.framework.*;
-import org.jhotdraw.standard.*;
-import org.jhotdraw.figures.*;
-import org.jhotdraw.util.*;
-import org.jhotdraw.application.*;
-import org.jhotdraw.contrib.*;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.io.File;
+import java.net.URL;
+
+import javax.swing.JButton;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JToolBar;
+
+import org.jhotdraw.application.DrawApplication;
+import org.jhotdraw.contrib.ClippingUpdateStrategy;
+import org.jhotdraw.contrib.ComponentFigure;
+import org.jhotdraw.contrib.CompositeFigureCreationTool;
+import org.jhotdraw.contrib.GraphicalCompositeFigure;
+import org.jhotdraw.contrib.MDI_DrawApplication;
+import org.jhotdraw.contrib.PolygonTool;
+import org.jhotdraw.contrib.SimpleLayouter;
+import org.jhotdraw.contrib.SplitConnectionTool;
+import org.jhotdraw.contrib.WindowMenu;
 import org.jhotdraw.contrib.html.HTMLTextAreaFigure;
 import org.jhotdraw.contrib.html.HTMLTextAreaTool;
 import org.jhotdraw.contrib.zoom.ZoomDrawingView;
 import org.jhotdraw.contrib.zoom.ZoomTool;
-
-import javax.swing.*;
-import java.awt.*;
-import java.io.*;
-import java.net.URL;
+import org.jhotdraw.draw.ConnectionTool;
+import org.jhotdraw.draw.CreationTool;
+import org.jhotdraw.draw.DiamondFigure;
+import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.DrawingView;
+import org.jhotdraw.draw.EllipseFigure;
+import org.jhotdraw.draw.LineConnectionFigure;
+import org.jhotdraw.draw.LineFigure;
+import org.jhotdraw.draw.RectangleFigure;
+import org.jhotdraw.draw.RoundRectangleFigure;
+import org.jhotdraw.draw.TextAreaFigure;
+import org.jhotdraw.draw.TextAreaTool;
+import org.jhotdraw.draw.TextFigure;
+import org.jhotdraw.draw.TextTool;
+import org.jhotdraw.draw.Tool;
+import org.jhotdraw.draw.TriangleFigure;
+import org.jhotdraw.figures.BorderTool;
+import org.jhotdraw.figures.ConnectedTextTool;
+import org.jhotdraw.figures.ElbowConnection;
+import org.jhotdraw.figures.InsertImageCommand;
+import org.jhotdraw.figures.ScribbleTool;
+import org.jhotdraw.framework.JHotDrawRuntimeException;
+import org.jhotdraw.gui.MDIDesktopPane;
+import org.jhotdraw.standard.AbstractCommand;
+import org.jhotdraw.util.Animatable;
+import org.jhotdraw.util.Command;
+import org.jhotdraw.util.CommandMenu;
+import org.jhotdraw.util.UndoableCommand;
+import org.jhotdraw.util.UndoableTool;
 
 /**
  * @version <$CURRENT_VERSION$>
@@ -113,7 +151,7 @@ public  class JavaDrawApp extends MDI_DrawApplication {
 		tool = new UndoableTool(new CreationTool(this, new LineFigure()));
 		palette.add(createToolButton(IMAGES + "LINE", "Line Tool", tool));
 
-		tool = new UndoableTool(new ConnectionTool(this, new LineConnection()));
+		tool = new UndoableTool(new ConnectionTool(this, new LineConnectionFigure()));
 		palette.add(createToolButton(IMAGES + "CONN", "Connection Tool", tool));
 
 		tool = new UndoableTool(new ConnectionTool(this, new ElbowConnection()));
@@ -143,7 +181,7 @@ public  class JavaDrawApp extends MDI_DrawApplication {
 		tool = new HTMLTextAreaTool(this, new HTMLTextAreaFigure());
 		palette.add(createToolButton(IMAGES + "TEXTAREA", "HTML TextArea Tool", tool));
 
-		LineConnection lineConnection = new LineConnection();
+		LineConnectionFigure lineConnection = new LineConnectionFigure();
 		lineConnection.setStartDecoration(null);
 		tool = new UndoableTool(new SplitConnectionTool(this, lineConnection));
 		palette.add(createToolButton(IMAGES + "OCONN", "Split Connection Tool", tool));

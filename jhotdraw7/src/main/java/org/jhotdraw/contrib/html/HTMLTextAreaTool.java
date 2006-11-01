@@ -11,11 +11,11 @@
 package org.jhotdraw.contrib.html;
 
 import java.awt.Font;
-import org.jhotdraw.contrib.TextAreaTool;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.Figure;
+import org.jhotdraw.draw.TextAreaTool;
+import org.jhotdraw.draw.TextHolder;
 
-import org.jhotdraw.framework.DrawingEditor;
-import org.jhotdraw.framework.Figure;
-import org.jhotdraw.standard.TextHolder;
 
 /**
  * HTMLTextAreaTool creates or edits HTMLTextAreaFigures.<br>

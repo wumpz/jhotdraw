@@ -11,6 +11,8 @@
 
 package org.jhotdraw.standard;
 
+import org.jhotdraw.draw.FigureEvent;
+import org.jhotdraw.draw.FigureListener;
 import org.jhotdraw.framework.*;
 import java.awt.*;
 import java.util.*;
@@ -22,44 +24,44 @@ import java.util.*;
  * @version <$CURRENT_VERSION$>
  */
 public class FigureChangeEventMulticaster extends
-	AWTEventMulticaster implements FigureChangeListener {
+	AWTEventMulticaster implements FigureListener {
 
 	public FigureChangeEventMulticaster(EventListener newListenerA, EventListener newListenerB) {
 		super(newListenerA, newListenerB);
 	}
 
-	public void figureInvalidated(FigureChangeEvent e) {
-		((FigureChangeListener)a).figureInvalidated(e);
-		((FigureChangeListener)b).figureInvalidated(e);
+	public void figureInvalidated(FigureEvent e) {
+		((FigureListener)a).figureInvalidated(e);
+		((FigureListener)b).figureInvalidated(e);
 	}
 
-	public void figureRequestRemove(FigureChangeEvent e) {
-		((FigureChangeListener)a).figureRequestRemove(e);
-		((FigureChangeListener)b).figureRequestRemove(e);
+	public void figureRequestRemove(FigureEvent e) {
+		((FigureListener)a).figureRequestRemove(e);
+		((FigureListener)b).figureRequestRemove(e);
 	}
 
-	public void figureRequestUpdate(FigureChangeEvent e) {
-		((FigureChangeListener)a).figureRequestUpdate(e);
-		((FigureChangeListener)b).figureRequestUpdate(e);
+	public void figureRequestUpdate(FigureEvent e) {
+		((FigureListener)a).figureRequestUpdate(e);
+		((FigureListener)b).figureRequestUpdate(e);
 	}
 
-	public void figureChanged(FigureChangeEvent e) {
-		((FigureChangeListener)a).figureChanged(e);
-		((FigureChangeListener)b).figureChanged(e);
+	public void figureChanged(FigureEvent e) {
+		((FigureListener)a).figureChanged(e);
+		((FigureListener)b).figureChanged(e);
 	}
 
-	public void figureRemoved(FigureChangeEvent e) {
-		((FigureChangeListener)a).figureRemoved(e);
-		((FigureChangeListener)b).figureRemoved(e);
+	public void figureRemoved(FigureEvent e) {
+		((FigureListener)a).figureRemoved(e);
+		((FigureListener)b).figureRemoved(e);
 	}
 
-	public static FigureChangeListener add(FigureChangeListener a, FigureChangeListener b) {
-		return (FigureChangeListener)addInternal(a, b);
+	public static FigureListener add(FigureListener a, FigureListener b) {
+		return (FigureListener)addInternal(a, b);
 	}
 
 
-	public static FigureChangeListener remove(FigureChangeListener l, FigureChangeListener oldl) {
-		return (FigureChangeListener) removeInternal(l, oldl);
+	public static FigureListener remove(FigureListener l, FigureListener oldl) {
+		return (FigureListener) removeInternal(l, oldl);
 	}
 
 	protected EventListener remove(EventListener oldl)
@@ -76,11 +78,11 @@ public class FigureChangeEventMulticaster extends
 			return this;
 		}
 		else {
-			return addInternal((FigureChangeListener)a2, (FigureChangeListener)b2);
+			return addInternal((FigureListener)a2, (FigureListener)b2);
 		}
 	}
 
-	protected static EventListener addInternal(FigureChangeListener a, FigureChangeListener b) {
+	protected static EventListener addInternal(FigureListener a, FigureListener b) {
 		if (a == null) {
 			return b;
 		}

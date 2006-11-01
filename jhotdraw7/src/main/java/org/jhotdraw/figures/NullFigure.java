@@ -1,5 +1,5 @@
 /*
- * @(#)LineConnection.java
+ * @(#)LineConnectionFigure.java
  *
  * Project:		JHotdraw - a GUI framework for technical drawings
  *				http://www.jhotdraw.org
@@ -11,10 +11,12 @@
 
 package org.jhotdraw.figures;
 
+import org.jhotdraw.draw.AbstractFigure;
+import org.jhotdraw.draw.Figure;
+import org.jhotdraw.draw.Handle;
 import org.jhotdraw.framework.*;
 import org.jhotdraw.standard.FigureEnumerator;
 import org.jhotdraw.standard.SingleFigureEnumerator;
-import org.jhotdraw.standard.AbstractFigure;
 import org.jhotdraw.standard.HandleEnumerator;
 
 import java.awt.*;

@@ -11,8 +11,8 @@
 
 package org.jhotdraw.standard;
 
+import org.jhotdraw.draw.Figure;
 import org.jhotdraw.framework.FigureEnumeration;
-import org.jhotdraw.framework.Figure;
 
 /**
  * @author  Wolfram Kaiser <mrfloppy@sourceforge.net>

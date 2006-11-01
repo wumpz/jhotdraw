@@ -13,7 +13,9 @@ package org.jhotdraw.contrib;
 
 import javax.swing.*;
 import java.awt.*;
-import org.jhotdraw.framework.DrawingView;
+
+import org.jhotdraw.draw.DrawingView;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 

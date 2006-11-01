@@ -11,6 +11,7 @@
 
 package org.jhotdraw.util;
 
+import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.framework.*;
 import org.jhotdraw.standard.FigureEnumerator;
 import org.jhotdraw.standard.ReverseFigureEnumerator;

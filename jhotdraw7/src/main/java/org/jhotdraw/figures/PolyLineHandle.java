@@ -11,8 +11,10 @@
 
 package org.jhotdraw.figures;
 
+import org.jhotdraw.draw.DrawingView;
+import org.jhotdraw.draw.Locator;
+import org.jhotdraw.draw.LocatorHandle;
 import org.jhotdraw.framework.*;
-import org.jhotdraw.standard.LocatorHandle;
 import org.jhotdraw.standard.SingleFigureEnumerator;
 import org.jhotdraw.util.Undoable;
 import org.jhotdraw.util.UndoableAdapter;

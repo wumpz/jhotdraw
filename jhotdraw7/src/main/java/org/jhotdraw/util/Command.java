@@ -11,7 +11,7 @@
 
 package org.jhotdraw.util;
 
-import org.jhotdraw.framework.DrawingEditor;
+import org.jhotdraw.draw.DrawingEditor;
 
 /**
  * Commands encapsulate an action to be executed. Commands have

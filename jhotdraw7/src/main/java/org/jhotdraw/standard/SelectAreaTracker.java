@@ -13,6 +13,10 @@ package org.jhotdraw.standard;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+
+import org.jhotdraw.draw.AbstractTool;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.Figure;
 import org.jhotdraw.framework.*;
 
 /**

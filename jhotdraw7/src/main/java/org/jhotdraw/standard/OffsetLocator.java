@@ -13,6 +13,10 @@ package org.jhotdraw.standard;
 
 import java.awt.*;
 import java.io.IOException;
+
+import org.jhotdraw.draw.AbstractLocator;
+import org.jhotdraw.draw.Figure;
+import org.jhotdraw.draw.Locator;
 import org.jhotdraw.framework.*;
 import org.jhotdraw.util.*;
 

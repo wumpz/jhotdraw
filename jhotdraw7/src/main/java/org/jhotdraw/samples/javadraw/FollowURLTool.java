@@ -14,8 +14,11 @@ package org.jhotdraw.samples.javadraw;
 import javax.swing.JApplet;
 import java.awt.event.*;
 import java.net.*;
+
+import org.jhotdraw.draw.AbstractTool;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.Figure;
 import org.jhotdraw.framework.*;
-import org.jhotdraw.standard.AbstractTool;
 
 /**
  * @version <$CURRENT_VERSION$>

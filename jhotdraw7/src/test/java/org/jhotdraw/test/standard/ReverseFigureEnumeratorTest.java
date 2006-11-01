@@ -16,8 +16,8 @@ import java.util.List;
 import junit.framework.TestCase;
 
 // JUnitDoclet begin import
+import org.jhotdraw.draw.RectangleFigure;
 import org.jhotdraw.figures.PolyLineFigure;
-import org.jhotdraw.figures.RectangleFigure;
 import org.jhotdraw.standard.ReverseFigureEnumerator;
 import org.jhotdraw.util.CollectionsFactory;
 // JUnitDoclet end import

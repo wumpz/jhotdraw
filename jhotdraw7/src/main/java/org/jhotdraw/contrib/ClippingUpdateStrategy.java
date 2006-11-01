@@ -4,8 +4,8 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.List;
 
-import org.jhotdraw.framework.DrawingView;
-import org.jhotdraw.framework.Figure;
+import org.jhotdraw.draw.DrawingView;
+import org.jhotdraw.draw.Figure;
 import org.jhotdraw.framework.FigureEnumeration;
 import org.jhotdraw.framework.Painter;
 import org.jhotdraw.standard.FigureEnumerator;

@@ -11,10 +11,8 @@
 package org.jhotdraw.test.standard;
 
 // JUnitDoclet begin import
+import org.jhotdraw.draw.GridConstrainer;
 import org.jhotdraw.standard.*;
-import org.jhotdraw.standard.GridConstrainer;
-import org.jhotdraw.standard.SimpleUpdateStrategy;
-import org.jhotdraw.standard.StandardDrawingView;
 import org.jhotdraw.test.JHDTestCase;
 // JUnitDoclet end import
 
@@ -429,7 +427,7 @@ extends JHDTestCase
 	// JUnitDoclet begin javadoc_method drawingInvalidated()
 	/**
 	 * Method testDrawingInvalidated is testing drawingInvalidated
-	 * @see org.jhotdraw.standard.StandardDrawingView#drawingInvalidated(org.jhotdraw.framework.DrawingChangeEvent)
+	 * @see org.jhotdraw.standard.StandardDrawingView#drawingInvalidated(org.jhotdraw.framework.DrawingEvent)
 	 */
 	// JUnitDoclet end javadoc_method drawingInvalidated()
 	public void testDrawingInvalidated() throws Exception {
@@ -440,7 +438,7 @@ extends JHDTestCase
 	// JUnitDoclet begin javadoc_method drawingRequestUpdate()
 	/**
 	 * Method testDrawingRequestUpdate is testing drawingRequestUpdate
-	 * @see org.jhotdraw.standard.StandardDrawingView#drawingRequestUpdate(org.jhotdraw.framework.DrawingChangeEvent)
+	 * @see org.jhotdraw.standard.StandardDrawingView#drawingRequestUpdate(org.jhotdraw.framework.DrawingEvent)
 	 */
 	// JUnitDoclet end javadoc_method drawingRequestUpdate()
 	public void testDrawingRequestUpdate() throws Exception {
@@ -451,7 +449,7 @@ extends JHDTestCase
 	// JUnitDoclet begin javadoc_method drawingTitleChanged()
 	/**
 	 * Method testDrawingTitleChanged is testing drawingTitleChanged
-	 * @see org.jhotdraw.standard.StandardDrawingView#drawingTitleChanged(org.jhotdraw.framework.DrawingChangeEvent)
+	 * @see org.jhotdraw.standard.StandardDrawingView#drawingTitleChanged(org.jhotdraw.framework.DrawingEvent)
 	 */
 	// JUnitDoclet end javadoc_method drawingTitleChanged()
 	public void testDrawingTitleChanged() throws Exception {

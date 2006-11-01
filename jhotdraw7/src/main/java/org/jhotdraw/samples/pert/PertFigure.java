@@ -11,6 +11,13 @@
 
 package org.jhotdraw.samples.pert;
 
+import org.jhotdraw.draw.CompositeFigure;
+import org.jhotdraw.draw.ConnectionHandle;
+import org.jhotdraw.draw.Figure;
+import org.jhotdraw.draw.FigureEvent;
+import org.jhotdraw.draw.NullHandle;
+import org.jhotdraw.draw.RelativeLocator;
+import org.jhotdraw.draw.TextFigure;
 import org.jhotdraw.framework.*;
 import org.jhotdraw.standard.*;
 import org.jhotdraw.figures.*;
@@ -214,7 +221,7 @@ public class PertFigure extends CompositeFigure {
 		return newExtent != fDisplayBox.width;
 	}
 
-	public void update(FigureChangeEvent e) {
+	public void update(FigureEvent e) {
 		if (e.getFigure() == figureAt(1)) {
 			// duration has changed
 			updateDurations();
@@ -225,12 +232,12 @@ public class PertFigure extends CompositeFigure {
 		}
 	}
 
-	public void figureChanged(FigureChangeEvent e) {
+	public void figureChanged(FigureEvent e) {
 		update(e);
 	}
 
 
-	public void figureRemoved(FigureChangeEvent e) {
+	public void figureRemoved(FigureEvent e) {
 		update(e);
 	}
 

@@ -11,39 +11,41 @@
 
 package org.jhotdraw.standard;
 
+import org.jhotdraw.draw.FigureEvent;
+import org.jhotdraw.draw.FigureListener;
 import org.jhotdraw.framework.*;
 
 /**
- * Empty implementation of FigureChangeListener.
+ * Empty implementation of FigureListener.
  *
  * @version <$CURRENT_VERSION$>
  */
-public class FigureChangeAdapter implements FigureChangeListener {
+public class FigureChangeAdapter implements FigureListener {
 
 	/**
 	 *  Sent when an area is invalid
 	 */
-	public void figureInvalidated(FigureChangeEvent e) {}
+	public void figureInvalidated(FigureEvent e) {}
 
 	/**
 	 * Sent when a figure changed
 	 */
-	public void figureChanged(FigureChangeEvent e) {}
+	public void figureChanged(FigureEvent e) {}
 
 	/**
 	 * Sent when a figure was removed
 	 */
-	public void figureRemoved(FigureChangeEvent e) {}
+	public void figureRemoved(FigureEvent e) {}
 
 	/**
 	 * Sent when requesting to remove a figure.
 	 */
-	public void figureRequestRemove(FigureChangeEvent e) {}
+	public void figureRequestRemove(FigureEvent e) {}
 
 	/**
 	 * Sent when an update should happen.
 	 *
 	 */
-	public void figureRequestUpdate(FigureChangeEvent e) {}
+	public void figureRequestUpdate(FigureEvent e) {}
 
 }

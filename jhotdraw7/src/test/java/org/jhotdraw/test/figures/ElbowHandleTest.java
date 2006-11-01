@@ -11,8 +11,8 @@
 package org.jhotdraw.test.figures;
 
 // JUnitDoclet begin import
+import org.jhotdraw.draw.LineConnectionFigure;
 import org.jhotdraw.figures.ElbowHandle;
-import org.jhotdraw.figures.LineConnection;
 import org.jhotdraw.test.JHDTestCase;
 // JUnitDoclet end import
 
@@ -57,7 +57,7 @@ extends JHDTestCase
 	 */
 	public ElbowHandle createInstance() throws Exception {
 		// JUnitDoclet begin method testcase.createInstance
-		LineConnection lineConn = new LineConnection();
+		LineConnectionFigure lineConn = new LineConnectionFigure();
 		//lineConn.connectStart();
 		//lineConn.connectEnd();
 		return new ElbowHandle(lineConn, 1);

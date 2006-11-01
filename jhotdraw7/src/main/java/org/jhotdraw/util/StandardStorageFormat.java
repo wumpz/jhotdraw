@@ -16,7 +16,8 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.File;
-import org.jhotdraw.framework.Drawing;
+
+import org.jhotdraw.draw.Drawing;
 
 /**
  * A StandardStorageFormat is an internal file format to store and restore

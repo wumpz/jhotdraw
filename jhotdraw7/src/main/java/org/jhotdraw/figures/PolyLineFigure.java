@@ -20,14 +20,16 @@ import java.util.Iterator;
 import java.util.List;
 
 // JUnitDoclet begin import
-import org.jhotdraw.framework.Connector;
+import org.jhotdraw.draw.AbstractFigure;
+import org.jhotdraw.draw.ArrowTip;
+import org.jhotdraw.draw.Connector;
+import org.jhotdraw.draw.LineDecoration;
+import org.jhotdraw.draw.Locator;
 import org.jhotdraw.framework.FigureAttributeConstant;
 import org.jhotdraw.framework.HandleEnumeration;
-import org.jhotdraw.framework.Locator;
-import org.jhotdraw.standard.AbstractFigure;
+import org.jhotdraw.geom.Geom;
 import org.jhotdraw.standard.HandleEnumerator;
 import org.jhotdraw.util.CollectionsFactory;
-import org.jhotdraw.util.Geom;
 import org.jhotdraw.util.StorableInput;
 import org.jhotdraw.util.StorableOutput;
 // JUnitDoclet end import

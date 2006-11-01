@@ -11,6 +11,8 @@
 
 package org.jhotdraw.framework;
 
+import org.jhotdraw.draw.Figure;
+
 /**
  * Interface for Enumerations that access Figures.
  * It provides a method nextFigure, that hides the down casting

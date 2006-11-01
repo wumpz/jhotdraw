@@ -12,8 +12,8 @@
 package org.jhotdraw.standard;
 
 import org.jhotdraw.util.CollectionsFactory;
+import org.jhotdraw.draw.Handle;
 import org.jhotdraw.framework.HandleEnumeration;
-import org.jhotdraw.framework.Handle;
 
 import java.util.Iterator;
 import java.util.Collection;

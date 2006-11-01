@@ -13,6 +13,8 @@ package org.jhotdraw.framework;
 
 import java.util.List;
 
+import org.jhotdraw.draw.Handle;
+
 /**
  * Interface for Enumerations that access Handles.
  * It provides a method nextHandle, that hides the down casting

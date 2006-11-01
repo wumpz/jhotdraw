@@ -11,14 +11,14 @@
 
 package org.jhotdraw.contrib.zoom;
 
-import org.jhotdraw.framework.Drawing;
-import org.jhotdraw.framework.DrawingChangeEvent;
-import org.jhotdraw.framework.DrawingEditor;
+import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.DrawingEvent;
 import org.jhotdraw.framework.FigureEnumeration;
 import org.jhotdraw.framework.JHotDrawRuntimeException;
+import org.jhotdraw.geom.Geom;
 import org.jhotdraw.standard.StandardDrawing;
 import org.jhotdraw.standard.StandardDrawingView;
-import org.jhotdraw.util.Geom;
 
 import javax.swing.JViewport;
 import java.awt.*;
@@ -77,7 +77,7 @@ public class ZoomDrawingView extends StandardDrawingView {
 	}
 
 	private void forceRedraw() {
-		drawingInvalidated(new DrawingChangeEvent
+		drawingInvalidated(new DrawingEvent
 				(drawing(), new Rectangle(getSize())));
 		repairDamage();
 	}
@@ -383,7 +383,7 @@ public class ZoomDrawingView extends StandardDrawingView {
 	/**
 	 * Overridden to accumulate damage in an instance variable of this class.
 	 */
-	public void drawingInvalidated(DrawingChangeEvent e) {
+	public void drawingInvalidated(DrawingEvent e) {
 		Rectangle r = e.getInvalidatedRectangle();
 		if (getDamage() == null) {
 			setDamage(r);

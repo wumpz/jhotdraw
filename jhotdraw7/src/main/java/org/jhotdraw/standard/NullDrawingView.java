@@ -17,6 +17,14 @@ import java.util.Hashtable;
 
 import javax.swing.JPanel;
 
+import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.DrawingEvent;
+import org.jhotdraw.draw.DrawingView;
+import org.jhotdraw.draw.Figure;
+import org.jhotdraw.draw.FigureSelectionListener;
+import org.jhotdraw.draw.Handle;
+import org.jhotdraw.draw.Tool;
 import org.jhotdraw.framework.*;
 
 /**
@@ -401,15 +409,15 @@ public class NullDrawingView extends JPanel implements DrawingView {
 		return FigureEnumerator.getEmptyEnumeration();
 	}
 
-	public void drawingInvalidated(DrawingChangeEvent e) {
+	public void drawingInvalidated(DrawingEvent e) {
 		// ignore: do nothing
 	}
 
-	public void drawingRequestUpdate(DrawingChangeEvent e) {
+	public void drawingRequestUpdate(DrawingEvent e) {
 		// ignore: do nothing
 	}
 
-	public void drawingTitleChanged(DrawingChangeEvent e) {
+	public void drawingTitleChanged(DrawingEvent e) {
 		// ignore: do nothing        
 	}
 

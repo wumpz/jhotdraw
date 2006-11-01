@@ -20,7 +20,8 @@ import javax.swing.JInternalFrame;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
-import org.jhotdraw.framework.DrawingEditor;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.gui.MDIDesktopPane;
 import org.jhotdraw.standard.AbstractCommand;
 import org.jhotdraw.util.Command;
 import org.jhotdraw.util.CommandMenu;

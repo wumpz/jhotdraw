@@ -11,9 +11,13 @@
 
 package org.jhotdraw.figures;
 
+import org.jhotdraw.draw.AbstractConnector;
+import org.jhotdraw.draw.ConnectionFigure;
+import org.jhotdraw.draw.Connector;
+import org.jhotdraw.draw.Figure;
 import org.jhotdraw.framework.*;
+import org.jhotdraw.geom.Geom;
 import org.jhotdraw.standard.*;
-import org.jhotdraw.util.Geom;
 import java.awt.*;
 
 /**

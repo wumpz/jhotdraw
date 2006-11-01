@@ -12,7 +12,7 @@ package org.jhotdraw.test.standard;
 
 // JUnitDoclet begin import
 import org.jhotdraw.application.DrawApplication;
-import org.jhotdraw.framework.Tool;
+import org.jhotdraw.draw.Tool;
 import org.jhotdraw.standard.SelectionTool;
 import org.jhotdraw.standard.ToolButton;
 import org.jhotdraw.test.JHDTestCase;

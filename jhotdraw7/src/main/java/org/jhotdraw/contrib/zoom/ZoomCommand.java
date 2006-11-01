@@ -10,7 +10,7 @@
  */
 package org.jhotdraw.contrib.zoom;
 
-import org.jhotdraw.framework.DrawingEditor;
+import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.framework.JHotDrawRuntimeException;
 
 import org.jhotdraw.standard.AbstractCommand;

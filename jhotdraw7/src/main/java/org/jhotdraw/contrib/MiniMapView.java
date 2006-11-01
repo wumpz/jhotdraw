@@ -21,6 +21,9 @@ import javax.swing.JScrollPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.jhotdraw.draw.DrawingEvent;
+import org.jhotdraw.draw.DrawingListener;
+import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.framework.*;
 
 /**
@@ -37,7 +40,7 @@ public class MiniMapView extends JComponent {
 	private JScrollPane m_subject;
 	private DrawingView myMappedDrawingView;
 	private SubjectListener m_subjectListener;
-	private DrawingChangeListener myDrawingChangeListener;
+	private DrawingListener myDrawingChangeListener;
 	private Color m_viewBoxColor = Color.red;
 	private AffineTransform originalTransform;
 
@@ -244,25 +247,25 @@ public class MiniMapView extends JComponent {
 		}
 	}
 
-	class MappedDrawingChangeListener implements DrawingChangeListener {
+	class MappedDrawingChangeListener implements DrawingListener {
 		/**
 		 *  Sent when an area is invalid
 		 */
-		public void drawingInvalidated(DrawingChangeEvent e) {
+		public void drawingInvalidated(DrawingEvent e) {
 			repaint();
 		}
 
 		/**
 		 *  Sent when the drawing wants to be refreshed
 		 */
-		public void drawingRequestUpdate(DrawingChangeEvent e) {
+		public void drawingRequestUpdate(DrawingEvent e) {
 			repaint();
 		}
         
         /**  
          *  Sent when the drawing Title has changed
          */
-        public void drawingTitleChanged(DrawingChangeEvent e) {
+        public void drawingTitleChanged(DrawingEvent e) {
         }
 	}
 }

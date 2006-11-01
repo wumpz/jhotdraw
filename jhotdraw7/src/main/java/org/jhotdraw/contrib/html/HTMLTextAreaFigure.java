@@ -19,10 +19,13 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-import org.jhotdraw.contrib.TextAreaFigure;
-import org.jhotdraw.figures.RectangleFigure;
+import org.jhotdraw.draw.Figure;
+import org.jhotdraw.draw.FigureEvent;
+import org.jhotdraw.draw.FigureListener;
+import org.jhotdraw.draw.RectangleFigure;
+import org.jhotdraw.draw.TextAreaFigure;
 import org.jhotdraw.framework.*;
-import org.jhotdraw.util.Geom;
+import org.jhotdraw.geom.Geom;
 import org.jhotdraw.util.StorableInput;
 import org.jhotdraw.util.StorableOutput;
 
@@ -135,7 +138,7 @@ import org.jhotdraw.util.StorableOutput;
  * @version   <$CURRENT_VERSION$>
  */
 public class HTMLTextAreaFigure extends TextAreaFigure
-		 implements HTMLContentProducerContext, FigureChangeListener {
+		 implements HTMLContentProducerContext, FigureListener {
 
 	/** Start marker for embedded attribute values */
 	public final static char START_ENTITY_CHAR = '&';
@@ -1081,7 +1084,7 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 	 *
 	 * @param e  Description of the Parameter
 	 */
-	public void figureInvalidated(FigureChangeEvent e) { }
+	public void figureInvalidated(FigureEvent e) { }
 
 	/**
 	 * handles frame figure's changed events.<br>
@@ -1090,7 +1093,7 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 	 *
 	 * @param e  Description of the Parameter
 	 */
-	public void figureChanged(FigureChangeEvent e) {
+	public void figureChanged(FigureEvent e) {
 		willChange();
 		super.basicDisplayBox(e.getFigure().displayBox().getLocation(), Geom.corner(e.getFigure().displayBox()));
 		changed();
@@ -1102,7 +1105,7 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 	 *
 	 * @param e  Description of the Parameter
 	 */
-	public void figureRemoved(FigureChangeEvent e) { }
+	public void figureRemoved(FigureEvent e) { }
 
 	/**
 	 * handles frame figure's remove requests events.<br>
@@ -1110,7 +1113,7 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 	 *
 	 * @param e  Description of the Parameter
 	 */
-	public void figureRequestRemove(FigureChangeEvent e) { }
+	public void figureRequestRemove(FigureEvent e) { }
 
 	/**
 	 * handles frame figure's update requests events.<br>
@@ -1118,7 +1121,7 @@ public class HTMLTextAreaFigure extends TextAreaFigure
 	 *
 	 * @param e  Description of the Parameter
 	 */
-	public void figureRequestUpdate(FigureChangeEvent e) { }
+	public void figureRequestUpdate(FigureEvent e) { }
 
 	/**
 	 * Thrown when an entity reference is not correctly encoded

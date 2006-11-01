@@ -14,7 +14,8 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
-import org.jhotdraw.figures.RoundRectangleFigure;
+
+import org.jhotdraw.draw.RoundRectangleFigure;
 
 /**
  * Geometric adapter for the RoundRectangleFigure

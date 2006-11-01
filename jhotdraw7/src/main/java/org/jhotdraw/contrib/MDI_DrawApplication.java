@@ -11,12 +11,16 @@
 
 package org.jhotdraw.contrib;
 
-import org.jhotdraw.application.*;
-import org.jhotdraw.framework.*;
-import org.jhotdraw.standard.*;
-import org.jhotdraw.contrib.dnd.DragNDropTool;
+import javax.swing.JToolBar;
 
-import javax.swing.*;
+import org.jhotdraw.application.DrawApplication;
+import org.jhotdraw.contrib.dnd.DragNDropTool;
+import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.DrawingView;
+import org.jhotdraw.draw.Tool;
+import org.jhotdraw.gui.MDIDesktopPane;
+import org.jhotdraw.standard.NullDrawingView;
+import org.jhotdraw.standard.ToolButton;
 
 /**
  * Many applications have the ability to deal with multiple internal windows.

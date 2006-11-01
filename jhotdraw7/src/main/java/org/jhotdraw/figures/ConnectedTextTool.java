@@ -11,6 +11,11 @@
 
 package org.jhotdraw.figures;
 
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.DrawingView;
+import org.jhotdraw.draw.Figure;
+import org.jhotdraw.draw.TextHolder;
+import org.jhotdraw.draw.TextTool;
 import org.jhotdraw.framework.*;
 import org.jhotdraw.standard.*;
 import org.jhotdraw.util.Undoable;
@@ -20,7 +25,7 @@ import java.awt.event.MouseEvent;
  * Tool to create new or edit existing text figures.
  * A new text figure is connected with the clicked figure.
  *
- * @see org.jhotdraw.standard.TextHolder
+ * @see org.jhotdraw.draw.TextHolder
  *
  * @version <$CURRENT_VERSION$>
  */

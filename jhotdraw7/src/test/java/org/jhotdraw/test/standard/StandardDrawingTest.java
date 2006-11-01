@@ -87,7 +87,7 @@ extends TestCase
 	// JUnitDoclet begin javadoc_method addDrawingChangeListener()
 	/**
 	 * Method testAddDrawingChangeListener is testing addDrawingChangeListener
-	 * @see org.jhotdraw.standard.StandardDrawing#addDrawingChangeListener(org.jhotdraw.framework.DrawingChangeListener)
+	 * @see org.jhotdraw.standard.StandardDrawing#addDrawingChangeListener(org.jhotdraw.framework.DrawingListener)
 	 */
 	// JUnitDoclet end javadoc_method addDrawingChangeListener()
 	public void testAddDrawingChangeListener() throws Exception {
@@ -98,7 +98,7 @@ extends TestCase
 	// JUnitDoclet begin javadoc_method removeDrawingChangeListener()
 	/**
 	 * Method testRemoveDrawingChangeListener is testing removeDrawingChangeListener
-	 * @see org.jhotdraw.standard.StandardDrawing#removeDrawingChangeListener(org.jhotdraw.framework.DrawingChangeListener)
+	 * @see org.jhotdraw.standard.StandardDrawing#removeDrawingChangeListener(org.jhotdraw.framework.DrawingListener)
 	 */
 	// JUnitDoclet end javadoc_method removeDrawingChangeListener()
 	public void testRemoveDrawingChangeListener() throws Exception {
@@ -142,7 +142,7 @@ extends TestCase
 	// JUnitDoclet begin javadoc_method figureInvalidated()
 	/**
 	 * Method testFigureInvalidated is testing figureInvalidated
-	 * @see org.jhotdraw.standard.StandardDrawing#figureInvalidated(org.jhotdraw.framework.FigureChangeEvent)
+	 * @see org.jhotdraw.standard.StandardDrawing#figureInvalidated(org.jhotdraw.framework.FigureEvent)
 	 */
 	// JUnitDoclet end javadoc_method figureInvalidated()
 	public void testFigureInvalidated() throws Exception {
@@ -164,7 +164,7 @@ extends TestCase
 	// JUnitDoclet begin javadoc_method figureRequestUpdate()
 	/**
 	 * Method testFigureRequestUpdate is testing figureRequestUpdate
-	 * @see org.jhotdraw.standard.StandardDrawing#figureRequestUpdate(org.jhotdraw.framework.FigureChangeEvent)
+	 * @see org.jhotdraw.standard.StandardDrawing#figureRequestUpdate(org.jhotdraw.framework.FigureEvent)
 	 */
 	// JUnitDoclet end javadoc_method figureRequestUpdate()
 	public void testFigureRequestUpdate() throws Exception {

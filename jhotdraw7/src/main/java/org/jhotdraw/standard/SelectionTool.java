@@ -15,6 +15,14 @@ import org.jhotdraw.framework.*;
 import org.jhotdraw.util.UndoableTool;
 import org.jhotdraw.util.UndoableHandle;
 import org.jhotdraw.contrib.dnd.DragNDropTool;
+import org.jhotdraw.draw.AbstractTool;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.DrawingView;
+import org.jhotdraw.draw.Figure;
+import org.jhotdraw.draw.Handle;
+import org.jhotdraw.draw.HandleTracker;
+import org.jhotdraw.draw.Tool;
+
 import java.awt.event.MouseEvent;
 
 /**

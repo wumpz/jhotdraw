@@ -87,7 +87,7 @@ extends TestCase
 	// JUnitDoclet begin javadoc_method figureInvalidated()
 	/**
 	 * Method testFigureInvalidated is testing figureInvalidated
-	 * @see org.jhotdraw.standard.FigureChangeAdapter#figureInvalidated(org.jhotdraw.framework.FigureChangeEvent)
+	 * @see org.jhotdraw.standard.FigureChangeAdapter#figureInvalidated(org.jhotdraw.framework.FigureEvent)
 	 */
 	// JUnitDoclet end javadoc_method figureInvalidated()
 	public void testFigureInvalidated() throws Exception {
@@ -98,7 +98,7 @@ extends TestCase
 	// JUnitDoclet begin javadoc_method figureChanged()
 	/**
 	 * Method testFigureChanged is testing figureChanged
-	 * @see org.jhotdraw.standard.FigureChangeAdapter#figureChanged(org.jhotdraw.framework.FigureChangeEvent)
+	 * @see org.jhotdraw.standard.FigureChangeAdapter#figureChanged(org.jhotdraw.framework.FigureEvent)
 	 */
 	// JUnitDoclet end javadoc_method figureChanged()
 	public void testFigureChanged() throws Exception {
@@ -109,7 +109,7 @@ extends TestCase
 	// JUnitDoclet begin javadoc_method figureRemoved()
 	/**
 	 * Method testFigureRemoved is testing figureRemoved
-	 * @see org.jhotdraw.standard.FigureChangeAdapter#figureRemoved(org.jhotdraw.framework.FigureChangeEvent)
+	 * @see org.jhotdraw.standard.FigureChangeAdapter#figureRemoved(org.jhotdraw.framework.FigureEvent)
 	 */
 	// JUnitDoclet end javadoc_method figureRemoved()
 	public void testFigureRemoved() throws Exception {
@@ -120,7 +120,7 @@ extends TestCase
 	// JUnitDoclet begin javadoc_method figureRequestRemove()
 	/**
 	 * Method testFigureRequestRemove is testing figureRequestRemove
-	 * @see org.jhotdraw.standard.FigureChangeAdapter#figureRequestRemove(org.jhotdraw.framework.FigureChangeEvent)
+	 * @see org.jhotdraw.standard.FigureChangeAdapter#figureRequestRemove(org.jhotdraw.framework.FigureEvent)
 	 */
 	// JUnitDoclet end javadoc_method figureRequestRemove()
 	public void testFigureRequestRemove() throws Exception {
@@ -131,7 +131,7 @@ extends TestCase
 	// JUnitDoclet begin javadoc_method figureRequestUpdate()
 	/**
 	 * Method testFigureRequestUpdate is testing figureRequestUpdate
-	 * @see org.jhotdraw.standard.FigureChangeAdapter#figureRequestUpdate(org.jhotdraw.framework.FigureChangeEvent)
+	 * @see org.jhotdraw.standard.FigureChangeAdapter#figureRequestUpdate(org.jhotdraw.framework.FigureEvent)
 	 */
 	// JUnitDoclet end javadoc_method figureRequestUpdate()
 	public void testFigureRequestUpdate() throws Exception {

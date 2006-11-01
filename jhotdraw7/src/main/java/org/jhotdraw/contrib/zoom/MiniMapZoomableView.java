@@ -12,7 +12,7 @@
 package org.jhotdraw.contrib.zoom;
 
 import org.jhotdraw.contrib.MiniMapView;
-import org.jhotdraw.framework.DrawingView;
+import org.jhotdraw.draw.DrawingView;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;

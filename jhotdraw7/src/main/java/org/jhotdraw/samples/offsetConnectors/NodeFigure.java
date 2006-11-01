@@ -18,18 +18,18 @@ import java.awt.Rectangle;
 import java.util.Iterator;
 import java.util.List;
 
-import org.jhotdraw.figures.LineConnection;
-import org.jhotdraw.figures.TextFigure;
-import org.jhotdraw.framework.ConnectionFigure;
-import org.jhotdraw.framework.Connector;
+import org.jhotdraw.draw.ConnectionFigure;
+import org.jhotdraw.draw.ConnectionHandle;
+import org.jhotdraw.draw.Connector;
+import org.jhotdraw.draw.LineConnectionFigure;
+import org.jhotdraw.draw.LocatorConnector;
+import org.jhotdraw.draw.NullHandle;
+import org.jhotdraw.draw.RelativeLocator;
+import org.jhotdraw.draw.TextFigure;
 import org.jhotdraw.framework.HandleEnumeration;
-import org.jhotdraw.standard.ConnectionHandle;
+import org.jhotdraw.geom.Geom;
 import org.jhotdraw.standard.HandleEnumerator;
-import org.jhotdraw.standard.LocatorConnector;
-import org.jhotdraw.standard.NullHandle;
-import org.jhotdraw.standard.RelativeLocator;
 import org.jhotdraw.util.CollectionsFactory;
-import org.jhotdraw.util.Geom;
 
 public class NodeFigure extends TextFigure {
 
@@ -73,7 +73,7 @@ public class NodeFigure extends TextFigure {
 	}
 
 	public HandleEnumeration handles() {
-		ConnectionFigure prototype = new LineConnection();
+		ConnectionFigure prototype = new LineConnectionFigure();
 		List handles = CollectionsFactory.current().createList();
 		handles.add(new ConnectionHandle(this, RelativeLocator.east(),
 				prototype));

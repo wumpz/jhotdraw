@@ -13,6 +13,8 @@ package org.jhotdraw.figures;
 
 import java.awt.*;
 
+import org.jhotdraw.draw.Figure;
+import org.jhotdraw.draw.FigureEvent;
 import org.jhotdraw.framework.*;
 import org.jhotdraw.standard.*;
 
@@ -88,10 +90,10 @@ public  class BorderDecorator extends DecoratorFigure {
 	/**
 	 * Invalidates the figure extended by its border.
 	 */
-	public void figureInvalidated(FigureChangeEvent e) {
+	public void figureInvalidated(FigureEvent e) {
 		Rectangle rect = e.getInvalidatedRectangle();
 		rect.grow(getBorderOffset().x, getBorderOffset().y);
-		super.figureInvalidated(new FigureChangeEvent(this, rect, e));
+		super.figureInvalidated(new FigureEvent(this, rect, e));
 	}
 
 	public Insets connectionInsets() {

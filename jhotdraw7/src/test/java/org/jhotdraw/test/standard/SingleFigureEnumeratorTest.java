@@ -15,7 +15,7 @@ import java.awt.Point;
 import junit.framework.TestCase;
 
 // JUnitDoclet begin import
-import org.jhotdraw.figures.RectangleFigure;
+import org.jhotdraw.draw.RectangleFigure;
 import org.jhotdraw.standard.SingleFigureEnumerator;
 // JUnitDoclet end import
 

@@ -11,10 +11,10 @@
 
 package org.jhotdraw.contrib;
 
-import org.jhotdraw.standard.CreationTool;
-import org.jhotdraw.standard.CompositeFigure;
-import org.jhotdraw.framework.Figure;
-import org.jhotdraw.framework.DrawingEditor;
+import org.jhotdraw.draw.CompositeFigure;
+import org.jhotdraw.draw.CreationTool;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.Figure;
 
 import java.awt.event.MouseEvent;
 

@@ -13,8 +13,8 @@ package org.jhotdraw.test.samples.javadraw;
 import java.awt.Point;
 
 // JUnitDoclet begin import
-import org.jhotdraw.figures.RectangleFigure;
-import org.jhotdraw.framework.Drawing;
+import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.RectangleFigure;
 import org.jhotdraw.samples.javadraw.Animator;
 import org.jhotdraw.samples.javadraw.BouncingDrawing;
 import org.jhotdraw.test.JHDTestCase;

@@ -11,8 +11,12 @@
 
 package org.jhotdraw.util;
 
+import org.jhotdraw.draw.AbstractTool;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.DrawingView;
+import org.jhotdraw.draw.Tool;
+import org.jhotdraw.draw.ToolListener;
 import org.jhotdraw.framework.*;
-import org.jhotdraw.standard.AbstractTool;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyEvent;
 import java.util.EventObject;

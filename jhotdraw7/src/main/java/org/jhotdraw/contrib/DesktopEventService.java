@@ -11,7 +11,7 @@
 
 package org.jhotdraw.contrib;
 
-import org.jhotdraw.framework.DrawingView;
+import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.standard.NullDrawingView;
 import org.jhotdraw.util.CollectionsFactory;
 
@@ -86,7 +86,7 @@ public class DesktopEventService {
 		listeners.remove(dpl);
 	}
 
-	protected void fireDrawingViewAddedEvent(final DrawingView dv) {
+	public void fireDrawingViewAddedEvent(final DrawingView dv) {
 		ListIterator li= listeners.listIterator(listeners.size());
 		DesktopEvent dpe = createDesktopEvent(getActiveDrawingView(), dv);
 		while (li.hasPrevious()) {
@@ -95,7 +95,7 @@ public class DesktopEventService {
 		}
 	}
 
-	protected void fireDrawingViewRemovedEvent(final DrawingView dv) {
+	public void fireDrawingViewRemovedEvent(final DrawingView dv) {
 		ListIterator li= listeners.listIterator(listeners.size());
 		DesktopEvent dpe = createDesktopEvent(getActiveDrawingView(), dv);
 		while (li.hasPrevious()) {
@@ -107,7 +107,7 @@ public class DesktopEventService {
 	/**
 	 * This method is only called if the selected drawingView has actually changed
 	 */
-	protected void fireDrawingViewSelectedEvent(final DrawingView oldView, final DrawingView newView) {
+	public void fireDrawingViewSelectedEvent(final DrawingView oldView, final DrawingView newView) {
 		ListIterator li= listeners.listIterator(listeners.size());
 		DesktopEvent dpe = createDesktopEvent(oldView, newView);
 		while (li.hasPrevious()) {

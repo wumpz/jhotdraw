@@ -33,6 +33,10 @@
 package org.jhotdraw.util;
 
 import java.util.*;
+
+import org.jhotdraw.draw.ConnectionFigure;
+import org.jhotdraw.draw.Figure;
+import org.jhotdraw.draw.FigureEvent;
 import org.jhotdraw.framework.*;
 import org.jhotdraw.standard.*;
 import java.awt.*;
@@ -182,7 +186,7 @@ public class GraphLayout extends FigureChangeAdapter {
 	/**
 	 * Sent when a figure changed
 	 */
-	synchronized public void figureChanged(FigureChangeEvent e) {
+	synchronized public void figureChanged(FigureEvent e) {
 		  if (nodes!=null) {
 			  Figure node = e.getFigure();
 			  if (nodes.containsKey(node)) {

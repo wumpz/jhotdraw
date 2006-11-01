@@ -11,6 +11,10 @@
 
 package org.jhotdraw.standard;
 
+import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.Figure;
+import org.jhotdraw.draw.FigureListener;
+import org.jhotdraw.draw.Handle;
 import org.jhotdraw.framework.*;
 import org.jhotdraw.util.CollectionsFactory;
 
@@ -47,7 +51,7 @@ public class InsertIntoDrawingVisitor implements FigureVisitor {
 	public void visitHandle(Handle hostHandle) {
 	}
 
-	public void visitFigureChangeListener(FigureChangeListener hostFigureChangeListener) {
+	public void visitFigureChangeListener(FigureListener hostFigureChangeListener) {
 //		hostFigureChangeListener.visit(this);
 	}
 

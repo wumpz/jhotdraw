@@ -12,7 +12,7 @@ package org.jhotdraw.test.util;
 
 import java.awt.Point;
 // JUnitDoclet begin import
-import org.jhotdraw.figures.RectangleFigure;
+import org.jhotdraw.draw.RectangleFigure;
 import org.jhotdraw.framework.FigureEnumeration;
 import org.jhotdraw.standard.PasteCommand;
 import org.jhotdraw.standard.SingleFigureEnumerator;

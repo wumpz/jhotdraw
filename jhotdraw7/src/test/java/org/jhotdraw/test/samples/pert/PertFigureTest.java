@@ -220,7 +220,7 @@ extends TestCase
   // JUnitDoclet begin javadoc_method update()
   /**
    * Method testUpdate is testing update
-   * @see org.jhotdraw.samples.pert.PertFigure#update(org.jhotdraw.framework.FigureChangeEvent)
+   * @see org.jhotdraw.samples.pert.PertFigure#update(org.jhotdraw.framework.FigureEvent)
    */
   // JUnitDoclet end javadoc_method update()
   public void testUpdate() throws Exception {
@@ -231,7 +231,7 @@ extends TestCase
   // JUnitDoclet begin javadoc_method figureChanged()
   /**
    * Method testFigureChanged is testing figureChanged
-   * @see org.jhotdraw.samples.pert.PertFigure#figureChanged(org.jhotdraw.framework.FigureChangeEvent)
+   * @see org.jhotdraw.samples.pert.PertFigure#figureChanged(org.jhotdraw.framework.FigureEvent)
    */
   // JUnitDoclet end javadoc_method figureChanged()
   public void testFigureChanged() throws Exception {
@@ -242,7 +242,7 @@ extends TestCase
   // JUnitDoclet begin javadoc_method figureRemoved()
   /**
    * Method testFigureRemoved is testing figureRemoved
-   * @see org.jhotdraw.samples.pert.PertFigure#figureRemoved(org.jhotdraw.framework.FigureChangeEvent)
+   * @see org.jhotdraw.samples.pert.PertFigure#figureRemoved(org.jhotdraw.framework.FigureEvent)
    */
   // JUnitDoclet end javadoc_method figureRemoved()
   public void testFigureRemoved() throws Exception {

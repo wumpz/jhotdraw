@@ -11,6 +11,15 @@
 
 package org.jhotdraw.standard;
 
+import org.jhotdraw.draw.CompositeFigure;
+import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.DrawingEvent;
+import org.jhotdraw.draw.DrawingListener;
+import org.jhotdraw.draw.Figure;
+import org.jhotdraw.draw.FigureEvent;
+import org.jhotdraw.draw.FigureListener;
+import org.jhotdraw.draw.NullHandle;
+import org.jhotdraw.draw.RelativeLocator;
 import org.jhotdraw.framework.*;
 import org.jhotdraw.util.CollectionsFactory;
 
@@ -62,7 +71,7 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
 	/**
 	 * Adds a listener for this drawing.
 	 */
-	public void addDrawingChangeListener(DrawingChangeListener listener) {
+	public void addDrawingChangeListener(DrawingListener listener) {
 		if (fListeners == null) {
 			fListeners = CollectionsFactory.current().createList(2);
 		}
@@ -72,7 +81,7 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
 	/**
 	 * Removes a listener from this drawing.
 	 */
-	public void removeDrawingChangeListener(DrawingChangeListener listener) {
+	public void removeDrawingChangeListener(DrawingListener listener) {
 		fListeners.remove(listener);
 	}
 
@@ -95,7 +104,7 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
 		// ensure that we remove the top level figure in a drawing
 		if (orphanedFigure.listener() != null) {
 			Rectangle rect = invalidateRectangle(displayBox());
-			orphanedFigure.listener().figureRequestRemove(new FigureChangeEvent(orphanedFigure, rect));
+			orphanedFigure.listener().figureRequestRemove(new FigureEvent(orphanedFigure, rect));
 		}
 		return orphanedFigure;
 	}
@@ -104,7 +113,7 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
 		Figure addedFigure = super.add(figure);
 		if (addedFigure.listener() != null) {
 			Rectangle rect = invalidateRectangle(displayBox());
-			addedFigure.listener().figureRequestUpdate(new FigureChangeEvent(figure, rect));
+			addedFigure.listener().figureRequestUpdate(new FigureEvent(figure, rect));
 			return addedFigure;
 		}
 		return addedFigure;
@@ -113,13 +122,13 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
 	/**
 	 * Invalidates a rectangle and merges it with the
 	 * existing damaged area.
-	 * @see FigureChangeListener
+	 * @see FigureListener
 	 */
-	public void figureInvalidated(FigureChangeEvent e) {
+	public void figureInvalidated(FigureEvent e) {
 		if (fListeners != null) {
 			for (int i = 0; i < fListeners.size(); i++) {
-				DrawingChangeListener l = (DrawingChangeListener)fListeners.get(i);
-				l.drawingInvalidated(new DrawingChangeEvent(this, e.getInvalidatedRectangle()));
+				DrawingListener l = (DrawingListener)fListeners.get(i);
+				l.drawingInvalidated(new DrawingEvent(this, e.getInvalidatedRectangle()));
 			}
 		}
 	}
@@ -130,8 +139,8 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
 	public void fireDrawingTitleChanged() {
 		if (fListeners != null) {
 			for (int i = 0; i < fListeners.size(); i++) {
-				DrawingChangeListener l = (DrawingChangeListener)fListeners.get(i);
-				l.drawingTitleChanged(new DrawingChangeEvent(this, null));
+				DrawingListener l = (DrawingListener)fListeners.get(i);
+				l.drawingTitleChanged(new DrawingEvent(this, null));
 			}
 		}
 	}
@@ -139,11 +148,11 @@ public class StandardDrawing extends CompositeFigure implements Drawing {
 	/**
 	 * Forces an update of the drawing change listeners.
 	 */
-	public void figureRequestUpdate(FigureChangeEvent e) {
+	public void figureRequestUpdate(FigureEvent e) {
 		if (fListeners != null) {
 			for (int i = 0; i < fListeners.size(); i++) {
-				DrawingChangeListener l = (DrawingChangeListener)fListeners.get(i);
-				l.drawingRequestUpdate(new DrawingChangeEvent(this, null));
+				DrawingListener l = (DrawingListener)fListeners.get(i);
+				l.drawingRequestUpdate(new DrawingEvent(this, null));
 			}
 		}
 	}

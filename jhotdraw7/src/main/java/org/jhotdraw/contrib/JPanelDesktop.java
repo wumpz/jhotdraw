@@ -14,7 +14,7 @@ package org.jhotdraw.contrib;
 import javax.swing.*;
 import java.awt.*;
 import org.jhotdraw.application.*;
-import org.jhotdraw.framework.DrawingView;
+import org.jhotdraw.draw.DrawingView;
 
 /**
  * @author  C.L.Gilbert <dnoyeb@users.sourceforge.net>

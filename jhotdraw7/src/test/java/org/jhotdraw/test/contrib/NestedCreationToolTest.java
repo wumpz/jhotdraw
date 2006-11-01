@@ -14,7 +14,7 @@ import java.awt.Point;
 
 // JUnitDoclet begin import
 import org.jhotdraw.contrib.NestedCreationTool;
-import org.jhotdraw.figures.RectangleFigure;
+import org.jhotdraw.draw.RectangleFigure;
 import org.jhotdraw.test.JHDTestCase;
 // JUnitDoclet end import
 

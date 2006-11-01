@@ -6,6 +6,9 @@
 
 package org.jhotdraw.contrib.dnd;
 
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.DrawingView;
+import org.jhotdraw.draw.Figure;
 import org.jhotdraw.framework.*;
 import org.jhotdraw.standard.DeleteFromDrawingVisitor;
 import org.jhotdraw.util.Undoable;

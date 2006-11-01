@@ -11,13 +11,13 @@
 
 package org.jhotdraw.standard;
 
-import org.jhotdraw.framework.Figure;
+import org.jhotdraw.draw.Figure;
 
 /**
  * @author WMG (INIT Copyright (C) 2000 All rights reserved)
  * @version <$CURRENT_VERSION$>
  */
-class OrderedFigureElement implements Comparable {
+public class OrderedFigureElement implements Comparable {
 
 	//_________________________________________________________VARIABLES
 

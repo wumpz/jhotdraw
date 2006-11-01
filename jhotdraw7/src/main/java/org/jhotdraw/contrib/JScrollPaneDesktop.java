@@ -17,8 +17,7 @@ import java.awt.Container;
 // JUnitDoclet begin import
 import javax.swing.JScrollPane;
 
-import org.jhotdraw.framework.DrawingView;
-// JUnitDoclet end import
+import org.jhotdraw.draw.DrawingView;
 
 /**
  * @author  C.L.Gilbert <dnoyeb@users.sourceforge.net>

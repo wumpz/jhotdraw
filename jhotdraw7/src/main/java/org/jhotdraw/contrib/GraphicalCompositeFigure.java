@@ -11,13 +11,23 @@
 
 package org.jhotdraw.contrib;
 
-import org.jhotdraw.framework.*;
-import org.jhotdraw.standard.*;
-import org.jhotdraw.util.*;
-import org.jhotdraw.figures.*;
-import java.awt.*;
-import java.io.*;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.io.IOException;
 import java.util.List;
+
+import org.jhotdraw.draw.BoxHandleKit;
+import org.jhotdraw.draw.CompositeFigure;
+import org.jhotdraw.draw.Figure;
+import org.jhotdraw.draw.FigureEvent;
+import org.jhotdraw.draw.RectangleFigure;
+import org.jhotdraw.framework.FigureAttributeConstant;
+import org.jhotdraw.framework.HandleEnumeration;
+import org.jhotdraw.standard.HandleEnumerator;
+import org.jhotdraw.util.CollectionsFactory;
+import org.jhotdraw.util.StorableInput;
+import org.jhotdraw.util.StorableOutput;
 
 /**
  * The GraphicalCompositeFigure fills in the gap between a CompositeFigure
@@ -310,18 +320,18 @@ public class GraphicalCompositeFigure extends CompositeFigure implements Layouta
 	 */
 	protected void change() {
 		if (listener() != null) {
-			listener().figureRequestUpdate(new FigureChangeEvent(this));
+			listener().figureRequestUpdate(new FigureEvent(this));
 		}
 	}
 
 	/**
 	 * Propagates the removeFromDrawing request up to the container.
 	 */
-	public void figureRequestRemove(FigureChangeEvent e) {
+	public void figureRequestRemove(FigureEvent e) {
 		if (listener() != null) {
 			if (includes(e.getFigure())) {
 				Rectangle r = invalidateRectangle(displayBox());
-				listener().figureRequestRemove(new FigureChangeEvent(this, r, e));
+				listener().figureRequestRemove(new FigureEvent(this, r, e));
 			}
 			else {
 				super.figureRequestRemove(e);

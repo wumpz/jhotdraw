@@ -12,6 +12,7 @@
 package org.jhotdraw.figures;
 
 import org.jhotdraw.util.*;
+import org.jhotdraw.draw.Figure;
 import org.jhotdraw.framework.*;
 
 import java.awt.Color;

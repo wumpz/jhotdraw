@@ -13,8 +13,8 @@ package org.jhotdraw.standard;
 
 import java.util.List;
 
-import org.jhotdraw.framework.DrawingEditor;
-import org.jhotdraw.framework.Figure;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.Figure;
 import org.jhotdraw.framework.FigureEnumeration;
 import org.jhotdraw.util.CollectionsFactory;
 import org.jhotdraw.util.Undoable;

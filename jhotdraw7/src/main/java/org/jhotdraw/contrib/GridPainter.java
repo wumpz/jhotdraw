@@ -14,7 +14,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
-import org.jhotdraw.framework.DrawingView;
+import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.framework.Painter;
 
 /**
@@ -71,7 +71,7 @@ public class GridPainter implements Painter {
 	}
 
 	/**
-	 * @see org.jhotdraw.framework.Painter#draw(java.awt.Graphics, org.jhotdraw.framework.DrawingView)
+	 * @see org.jhotdraw.framework.Painter#draw(java.awt.Graphics, org.jhotdraw.draw.DrawingView)
 	 */
 	public void draw(Graphics g, DrawingView view) {
 		g.setColor(getColor());

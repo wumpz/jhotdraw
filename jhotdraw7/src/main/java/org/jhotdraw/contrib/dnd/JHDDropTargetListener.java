@@ -6,6 +6,9 @@
 
 package org.jhotdraw.contrib.dnd;
 
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.DrawingView;
+import org.jhotdraw.draw.Figure;
 import org.jhotdraw.framework.*;
 import org.jhotdraw.standard.DeleteFromDrawingVisitor;
 import java.io.File;
@@ -264,7 +267,7 @@ public class JHDDropTargetListener implements java.awt.dnd.DropTargetListener {
 			DeleteFromDrawingVisitor deleteVisitor = new DeleteFromDrawingVisitor(getDrawingView().drawing());
 			FigureEnumeration fe = getAffectedFigures();
 			while (fe.hasNextFigure()) {
-	    		org.jhotdraw.framework.Figure f = fe.nextFigure();
+	    		org.jhotdraw.draw.Figure f = fe.nextFigure();
 				f.visit(deleteVisitor);
 			}
 			setAffectedFigures( deleteVisitor.getDeletedFigures() );

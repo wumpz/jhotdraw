@@ -582,7 +582,7 @@ extends JHDTestCase
 	// JUnitDoclet begin javadoc_method drawingInvalidated()
 	/**
 	 * Method testDrawingInvalidated is testing drawingInvalidated
-	 * @see org.jhotdraw.standard.NullDrawingView#drawingInvalidated(org.jhotdraw.framework.DrawingChangeEvent)
+	 * @see org.jhotdraw.standard.NullDrawingView#drawingInvalidated(org.jhotdraw.framework.DrawingEvent)
 	 */
 	// JUnitDoclet end javadoc_method drawingInvalidated()
 	public void testDrawingInvalidated() throws Exception {
@@ -593,7 +593,7 @@ extends JHDTestCase
 	// JUnitDoclet begin javadoc_method drawingRequestUpdate()
 	/**
 	 * Method testDrawingRequestUpdate is testing drawingRequestUpdate
-	 * @see org.jhotdraw.standard.NullDrawingView#drawingRequestUpdate(org.jhotdraw.framework.DrawingChangeEvent)
+	 * @see org.jhotdraw.standard.NullDrawingView#drawingRequestUpdate(org.jhotdraw.framework.DrawingEvent)
 	 */
 	// JUnitDoclet end javadoc_method drawingRequestUpdate()
 	public void testDrawingRequestUpdate() throws Exception {
@@ -604,7 +604,7 @@ extends JHDTestCase
 	// JUnitDoclet begin javadoc_method drawingTitleChanged()
 	/**
 	 * Method testDrawingTitleChanged is testing drawingTitleChanged
-	 * @see org.jhotdraw.standard.NullDrawingView#drawingTitleChanged(org.jhotdraw.framework.DrawingChangeEvent)
+	 * @see org.jhotdraw.standard.NullDrawingView#drawingTitleChanged(org.jhotdraw.framework.DrawingEvent)
 	 */
 	// JUnitDoclet end javadoc_method drawingTitleChanged()
 	public void testDrawingTitleChanged() throws Exception {

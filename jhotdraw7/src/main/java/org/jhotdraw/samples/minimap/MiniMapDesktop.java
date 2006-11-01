@@ -12,7 +12,7 @@ package org.jhotdraw.samples.minimap;
 
 import org.jhotdraw.contrib.SplitPaneDesktop;
 import org.jhotdraw.contrib.MiniMapView;
-import org.jhotdraw.framework.DrawingView;
+import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.util.Iconkit;
 import org.jhotdraw.figures.ImageFigure;
 

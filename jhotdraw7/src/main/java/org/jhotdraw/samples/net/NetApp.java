@@ -12,6 +12,12 @@
 package org.jhotdraw.samples.net;
 
 import javax.swing.JToolBar;
+
+import org.jhotdraw.draw.ConnectionTool;
+import org.jhotdraw.draw.CreationTool;
+import org.jhotdraw.draw.LineConnectionFigure;
+import org.jhotdraw.draw.TextTool;
+import org.jhotdraw.draw.Tool;
 import org.jhotdraw.framework.*;
 import org.jhotdraw.standard.*;
 import org.jhotdraw.figures.*;
@@ -35,7 +41,7 @@ public  class NetApp extends DrawApplication {
 		tool = new CreationTool(this, new NodeFigure());
 		palette.add(createToolButton(IMAGES + "RECT", "Create Org Unit", tool));
 
-		tool = new ConnectionTool(this, new LineConnection());
+		tool = new ConnectionTool(this, new LineConnectionFigure());
 		palette.add(createToolButton(IMAGES + "CONN", "Connection Tool", tool));
 	}
 

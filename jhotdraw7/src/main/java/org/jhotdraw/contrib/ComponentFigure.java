@@ -11,23 +11,24 @@
 
 package org.jhotdraw.contrib;
 
-import org.jhotdraw.figures.AttributeFigure;
-import org.jhotdraw.standard.BoxHandleKit;
-import org.jhotdraw.standard.HandleEnumerator;
-import org.jhotdraw.framework.*;
-import org.jhotdraw.util.CollectionsFactory;
-
 import java.awt.Component;
-import java.awt.Rectangle;
-import java.awt.Point;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.List;
+
+import org.jhotdraw.draw.AttributedFigure;
+import org.jhotdraw.draw.BoxHandleKit;
+import org.jhotdraw.draw.Handle;
+import org.jhotdraw.framework.HandleEnumeration;
+import org.jhotdraw.standard.HandleEnumerator;
+import org.jhotdraw.util.CollectionsFactory;
 
 /**
  * @author  Ming Fang
  * @version <$CURRENT_VERSION$>
  */
-public class ComponentFigure extends AttributeFigure {
+public class ComponentFigure extends AttributedFigure {
 	private Rectangle bounds;
 
 	/** Holds value of property component. */

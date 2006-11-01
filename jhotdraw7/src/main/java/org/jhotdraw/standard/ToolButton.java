@@ -12,6 +12,8 @@
 package org.jhotdraw.standard;
 
 import org.jhotdraw.util.*;
+import org.jhotdraw.draw.Tool;
+import org.jhotdraw.draw.ToolListener;
 import org.jhotdraw.framework.*;
 import javax.swing.*;
 import java.awt.*;

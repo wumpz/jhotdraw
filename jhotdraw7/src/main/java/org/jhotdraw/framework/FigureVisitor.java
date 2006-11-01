@@ -11,6 +11,10 @@
 
 package org.jhotdraw.framework;
 
+import org.jhotdraw.draw.Figure;
+import org.jhotdraw.draw.FigureListener;
+import org.jhotdraw.draw.Handle;
+
 /**
  * @author  Wolfram Kaiser <mrfloppy@sourceforge.net>
  * @version <$CURRENT_VERSION$>
@@ -18,5 +22,5 @@ package org.jhotdraw.framework;
 public interface FigureVisitor {
 	public void visitFigure(Figure hostFigure);
 	public void visitHandle(Handle hostHandle);
-	public void visitFigureChangeListener(FigureChangeListener hostFigureChangeListener);
+	public void visitFigureChangeListener(FigureListener hostFigureChangeListener);
 }

@@ -18,6 +18,13 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JComponent;
 
+import org.jhotdraw.draw.AbstractTool;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.DrawingView;
+import org.jhotdraw.draw.Figure;
+import org.jhotdraw.draw.Handle;
+import org.jhotdraw.draw.HandleTracker;
+import org.jhotdraw.draw.Tool;
 import org.jhotdraw.framework.*;
 import org.jhotdraw.standard.*;
 

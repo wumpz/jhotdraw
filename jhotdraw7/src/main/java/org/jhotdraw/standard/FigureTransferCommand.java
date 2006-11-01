@@ -12,6 +12,7 @@
 package org.jhotdraw.standard;
 
 import org.jhotdraw.util.*;
+import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.framework.*;
 
 /**

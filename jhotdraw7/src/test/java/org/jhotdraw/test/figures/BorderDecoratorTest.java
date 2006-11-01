@@ -146,7 +146,7 @@ extends TestCase
 	// JUnitDoclet begin javadoc_method figureInvalidated()
 	/**
 	 * Method testFigureInvalidated is testing figureInvalidated
-	 * @see org.jhotdraw.figures.BorderDecorator#figureInvalidated(org.jhotdraw.framework.FigureChangeEvent)
+	 * @see org.jhotdraw.figures.BorderDecorator#figureInvalidated(org.jhotdraw.framework.FigureEvent)
 	 */
 	// JUnitDoclet end javadoc_method figureInvalidated()
 	public void testFigureInvalidated() throws Exception {

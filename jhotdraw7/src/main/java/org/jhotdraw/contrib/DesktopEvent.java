@@ -11,7 +11,8 @@
 
 package org.jhotdraw.contrib;
 
-import org.jhotdraw.framework.DrawingView;
+import org.jhotdraw.draw.DrawingView;
+
 import java.util.EventObject;
 
 /**

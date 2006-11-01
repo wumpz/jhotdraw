@@ -12,7 +12,10 @@
 package org.jhotdraw.standard;
 
 import java.awt.Point;
-import org.jhotdraw.framework.Figure;
+
+import org.jhotdraw.draw.AbstractLocator;
+import org.jhotdraw.draw.Figure;
+
 import java.awt.*;
 import java.lang.Math;
 

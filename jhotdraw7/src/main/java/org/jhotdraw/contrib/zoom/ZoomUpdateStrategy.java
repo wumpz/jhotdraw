@@ -11,7 +11,7 @@
 
 package org.jhotdraw.contrib.zoom;
 
-import org.jhotdraw.framework.DrawingView;
+import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.framework.Painter;
 
 import java.awt.*;

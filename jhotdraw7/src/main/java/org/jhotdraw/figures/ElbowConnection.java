@@ -14,17 +14,25 @@ package org.jhotdraw.figures;
 import java.awt.*;
 import java.util.List;
 
+import org.jhotdraw.draw.AbstractLocator;
+import org.jhotdraw.draw.ChangeConnectionEndHandle;
+import org.jhotdraw.draw.ChangeConnectionStartHandle;
+import org.jhotdraw.draw.Figure;
+import org.jhotdraw.draw.LineConnectionFigure;
+import org.jhotdraw.draw.Locator;
+import org.jhotdraw.draw.NullHandle;
 import org.jhotdraw.framework.*;
+import org.jhotdraw.geom.Geom;
 import org.jhotdraw.standard.*;
 import org.jhotdraw.util.*;
 
 /**
- * A LineConnection that constrains a connection to
+ * A LineConnectionFigure that constrains a connection to
  * orthogonal lines.
  *
  * @version <$CURRENT_VERSION$>
  */
-public  class ElbowConnection extends LineConnection {
+public  class ElbowConnection extends LineConnectionFigure {
 
 	/*
 	 * Serialization support.

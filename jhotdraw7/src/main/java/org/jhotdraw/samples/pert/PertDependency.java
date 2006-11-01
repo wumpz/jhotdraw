@@ -15,6 +15,10 @@ import java.awt.*;
 import java.util.List;
 
 // JUnitDoclet begin import
+import org.jhotdraw.draw.ArrowTip;
+import org.jhotdraw.draw.Figure;
+import org.jhotdraw.draw.LineConnectionFigure;
+import org.jhotdraw.draw.NullHandle;
 import org.jhotdraw.framework.*;
 import org.jhotdraw.figures.*;
 import org.jhotdraw.standard.*;
@@ -23,7 +27,7 @@ import org.jhotdraw.standard.*;
 /**
  * @version <$CURRENT_VERSION$>
  */
-public class PertDependency extends LineConnection {
+public class PertDependency extends LineConnectionFigure {
 	/*
 	 * Serialization support.
 	 */

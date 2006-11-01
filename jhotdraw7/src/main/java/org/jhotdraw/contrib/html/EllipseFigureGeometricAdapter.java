@@ -15,7 +15,7 @@ import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 
-import org.jhotdraw.figures.EllipseFigure;
+import org.jhotdraw.draw.EllipseFigure;
 
 /**
  * Geometric adapter for the EllipseFigure

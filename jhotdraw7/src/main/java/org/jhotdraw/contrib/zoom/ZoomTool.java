@@ -11,9 +11,9 @@
 
 package org.jhotdraw.contrib.zoom;
 
-import org.jhotdraw.framework.DrawingEditor;
-import org.jhotdraw.framework.Tool;
-import org.jhotdraw.standard.AbstractTool;
+import org.jhotdraw.draw.AbstractTool;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.Tool;
 
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;

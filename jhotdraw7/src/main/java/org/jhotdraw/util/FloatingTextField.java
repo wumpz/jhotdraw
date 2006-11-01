@@ -21,7 +21,7 @@ import java.awt.event.*;
  * In a first step the overlay is created and in a
  * second step it can be positioned.
  *
- * @see org.jhotdraw.figures.TextFigure
+ * @see org.jhotdraw.draw.TextFigure
  *
  * @version <$CURRENT_VERSION$>
  */

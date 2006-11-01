@@ -12,6 +12,14 @@
 package org.jhotdraw.standard;
 
 import org.jhotdraw.util.*;
+import org.jhotdraw.draw.AbstractFigure;
+import org.jhotdraw.draw.ConnectionFigure;
+import org.jhotdraw.draw.Connector;
+import org.jhotdraw.draw.Figure;
+import org.jhotdraw.draw.FigureEvent;
+import org.jhotdraw.draw.FigureListener;
+import org.jhotdraw.draw.Locator;
+import org.jhotdraw.draw.TextHolder;
 import org.jhotdraw.framework.*;
 
 import java.awt.*;
@@ -35,7 +43,7 @@ import java.io.*;
 
 public abstract class DecoratorFigure
 				extends AbstractFigure
-				implements FigureChangeListener {
+				implements FigureListener {
 
 	/**
 	 * The decorated figure.
@@ -189,25 +197,25 @@ public abstract class DecoratorFigure
 
 	/**
 	 * Propagates invalidate up the container chain.
-	 * @see FigureChangeListener
+	 * @see FigureListener
 	 */
-	public void figureInvalidated(FigureChangeEvent e) {
+	public void figureInvalidated(FigureEvent e) {
 		if (listener() != null) {
 			listener().figureInvalidated(e);
 		}
 	}
 
-	public void figureChanged(FigureChangeEvent e) {
+	public void figureChanged(FigureEvent e) {
 	}
 
-	public void figureRemoved(FigureChangeEvent e) {
+	public void figureRemoved(FigureEvent e) {
 	}
 
 	/**
 	 * Propagates figureRequestUpdate up the container chain.
-	 * @see FigureChangeListener
+	 * @see FigureListener
 	 */
-	public  void figureRequestUpdate(FigureChangeEvent e) {
+	public  void figureRequestUpdate(FigureEvent e) {
 		if (listener() != null) {
 			listener().figureRequestUpdate(e);
 		}
@@ -215,11 +223,11 @@ public abstract class DecoratorFigure
 
 	/**
 	 * Propagates the removeFromDrawing request up to the container.
-	 * @see FigureChangeListener
+	 * @see FigureListener
 	 */
-	public void figureRequestRemove(FigureChangeEvent e) {
+	public void figureRequestRemove(FigureEvent e) {
 		if (listener() != null) {
-			listener().figureRequestRemove(new FigureChangeEvent(this));
+			listener().figureRequestRemove(new FigureEvent(this));
 		}
 	}
 

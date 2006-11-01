@@ -17,6 +17,19 @@ import org.jhotdraw.figures.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.applet.*;
 import org.jhotdraw.contrib.*;
+import org.jhotdraw.draw.ConnectionTool;
+import org.jhotdraw.draw.CreationTool;
+import org.jhotdraw.draw.DiamondFigure;
+import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.EllipseFigure;
+import org.jhotdraw.draw.LineConnectionFigure;
+import org.jhotdraw.draw.LineFigure;
+import org.jhotdraw.draw.RectangleFigure;
+import org.jhotdraw.draw.RoundRectangleFigure;
+import org.jhotdraw.draw.TextFigure;
+import org.jhotdraw.draw.TextTool;
+import org.jhotdraw.draw.Tool;
+import org.jhotdraw.draw.TriangleFigure;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -71,7 +84,7 @@ public  class JavaDrawApplet extends DrawApplet {
 		tool = new CreationTool(this, new LineFigure());
 		palette.add(createToolButton(IMAGES + "LINE", "Line Tool", tool));
 
-		tool = new ConnectionTool(this, new LineConnection());
+		tool = new ConnectionTool(this, new LineConnectionFigure());
 		palette.add(createToolButton(IMAGES + "CONN", "Connection Tool", tool));
 
 		tool = new ConnectionTool(this, new ElbowConnection());

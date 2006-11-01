@@ -11,9 +11,12 @@
 
 package org.jhotdraw.figures;
 
+import org.jhotdraw.draw.AbstractHandle;
+import org.jhotdraw.draw.DrawingView;
+import org.jhotdraw.draw.RoundRectangleFigure;
 import org.jhotdraw.framework.*;
+import org.jhotdraw.geom.Geom;
 import org.jhotdraw.standard.*;
-import org.jhotdraw.util.Geom;
 import org.jhotdraw.util.Undoable;
 import org.jhotdraw.util.UndoableAdapter;
 import java.awt.*;
@@ -23,7 +26,7 @@ import java.awt.*;
  *
  * @version <$CURRENT_VERSION$>
  */
-class RadiusHandle extends AbstractHandle {
+public class RadiusHandle extends AbstractHandle {
 
 	private static final int OFFSET = 4;
 

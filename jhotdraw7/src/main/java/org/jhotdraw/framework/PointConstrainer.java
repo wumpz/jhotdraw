@@ -13,6 +13,8 @@ package org.jhotdraw.framework;
 
 import java.awt.*;
 
+import org.jhotdraw.draw.DrawingView;
+
 /**
  * Interface to constrain a Point. This can be used to implement
  * different kinds of grids.

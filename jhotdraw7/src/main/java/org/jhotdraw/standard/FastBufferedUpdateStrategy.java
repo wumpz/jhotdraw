@@ -15,8 +15,9 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import org.jhotdraw.framework.Drawing;
-import org.jhotdraw.framework.DrawingView;
+
+import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.framework.FigureEnumeration;
 import org.jhotdraw.framework.Painter;
 

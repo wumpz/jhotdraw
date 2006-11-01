@@ -12,6 +12,9 @@
 package org.jhotdraw.standard;
 
 import java.awt.Point;
+
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.GridConstrainer;
 import org.jhotdraw.framework.*;
 
 /**

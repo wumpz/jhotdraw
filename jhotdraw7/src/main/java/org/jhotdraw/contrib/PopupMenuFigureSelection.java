@@ -11,6 +11,7 @@
  
 package org.jhotdraw.contrib;
 
+import org.jhotdraw.draw.Figure;
 import org.jhotdraw.framework.*;
 
 /**

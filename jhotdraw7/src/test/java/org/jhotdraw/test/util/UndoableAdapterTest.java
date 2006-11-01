@@ -14,7 +14,7 @@ package org.jhotdraw.test.util;
 import org.jhotdraw.test.JHDTestCase;
 import org.jhotdraw.util.UndoableAdapter;
 import org.jhotdraw.standard.SingleFigureEnumerator;
-import org.jhotdraw.figures.RectangleFigure;
+import org.jhotdraw.draw.RectangleFigure;
 import org.jhotdraw.framework.FigureEnumeration;
 
 import java.awt.*;

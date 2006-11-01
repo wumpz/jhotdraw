@@ -12,8 +12,8 @@ package org.jhotdraw.test.contrib;
 
 // JUnitDoclet begin import
 import org.jhotdraw.contrib.SplitConnectionTool;
-import org.jhotdraw.figures.LineConnection;
-import org.jhotdraw.framework.ConnectionFigure;
+import org.jhotdraw.draw.ConnectionFigure;
+import org.jhotdraw.draw.LineConnectionFigure;
 import org.jhotdraw.test.JHDTestCase;
 // JUnitDoclet end import
 
@@ -58,7 +58,7 @@ extends JHDTestCase
 	 */
 	public SplitConnectionTool createInstance() throws Exception {
 		// JUnitDoclet begin method testcase.createInstance
-		ConnectionFigure lineConnection = new LineConnection();
+		ConnectionFigure lineConnection = new LineConnectionFigure();
 		return new SplitConnectionTool(getDrawingEditor(), lineConnection);
 		// JUnitDoclet end method testcase.createInstance
 	}

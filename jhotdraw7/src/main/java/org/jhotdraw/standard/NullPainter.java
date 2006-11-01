@@ -12,7 +12,7 @@ package org.jhotdraw.standard;
 
 import java.awt.Graphics;
 
-import org.jhotdraw.framework.DrawingView;
+import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.framework.Painter;
 
 /**

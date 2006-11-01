@@ -11,7 +11,7 @@
 
 package org.jhotdraw.contrib;
 
-import org.jhotdraw.framework.Figure;
+import org.jhotdraw.draw.Figure;
 
 /**
  * A Layoutable is a target for a Layouter who lays out the Layoutable

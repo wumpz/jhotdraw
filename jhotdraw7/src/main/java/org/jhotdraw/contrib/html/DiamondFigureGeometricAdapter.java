@@ -13,7 +13,7 @@ package org.jhotdraw.contrib.html;
 import java.awt.Point;
 import java.awt.Shape;
 
-import org.jhotdraw.contrib.DiamondFigure;
+import org.jhotdraw.draw.DiamondFigure;
 
 /**
  * Geometric adapter for the DiamondFigure

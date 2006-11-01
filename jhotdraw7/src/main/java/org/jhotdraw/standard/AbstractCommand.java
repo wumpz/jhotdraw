@@ -11,6 +11,9 @@
 
 package org.jhotdraw.standard;
 
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.DrawingView;
+import org.jhotdraw.draw.FigureSelectionListener;
 import org.jhotdraw.framework.*;
 import org.jhotdraw.util.Command;
 import org.jhotdraw.util.CommandListener;

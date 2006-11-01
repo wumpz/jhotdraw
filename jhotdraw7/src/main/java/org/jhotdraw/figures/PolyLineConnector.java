@@ -12,7 +12,11 @@
 package org.jhotdraw.figures;
 
 import java.awt.*;
+
+import org.jhotdraw.draw.ChopBoxConnector;
+import org.jhotdraw.draw.Figure;
 import org.jhotdraw.framework.*;
+import org.jhotdraw.geom.Geom;
 import org.jhotdraw.standard.*;
 import org.jhotdraw.util.*;
 

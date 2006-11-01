@@ -11,16 +11,20 @@
 
 package org.jhotdraw.figures;
 
-import java.awt.*;
-import org.jhotdraw.framework.*;
-import org.jhotdraw.standard.NullHandle;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+
+import org.jhotdraw.draw.Figure;
+import org.jhotdraw.draw.Locator;
+import org.jhotdraw.draw.NullHandle;
 
 /**
  * A Handle for a GroupFigure.
  *
  * @version <$CURRENT_VERSION$>
  */
-final class GroupHandle extends NullHandle {
+public final class GroupHandle extends NullHandle {
 
 	public GroupHandle(Figure owner, Locator locator) {
 		super(owner, locator);

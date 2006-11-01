@@ -11,6 +11,9 @@
 
 package org.jhotdraw.standard;
 
+import org.jhotdraw.draw.AbstractTool;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.Figure;
 import org.jhotdraw.framework.*;
 
 import java.awt.event.MouseEvent;

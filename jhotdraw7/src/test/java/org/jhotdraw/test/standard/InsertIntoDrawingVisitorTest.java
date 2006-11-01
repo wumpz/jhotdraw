@@ -110,7 +110,7 @@ extends JHDTestCase
 	// JUnitDoclet begin javadoc_method visitFigureChangeListener()
 	/**
 	 * Method testVisitFigureChangeListener is testing visitFigureChangeListener
-	 * @see org.jhotdraw.standard.InsertIntoDrawingVisitor#visitFigureChangeListener(org.jhotdraw.framework.FigureChangeListener)
+	 * @see org.jhotdraw.standard.InsertIntoDrawingVisitor#visitFigureChangeListener(org.jhotdraw.framework.FigureListener)
 	 */
 	// JUnitDoclet end javadoc_method visitFigureChangeListener()
 	public void testVisitFigureChangeListener() throws Exception {

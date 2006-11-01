@@ -11,7 +11,8 @@
 
 package org.jhotdraw.figures;
 
-import org.jhotdraw.framework.Figure;
+import org.jhotdraw.draw.Figure;
+import org.jhotdraw.draw.TextFigure;
 
 /**
  * A TextFigure specialized to edit numbers.

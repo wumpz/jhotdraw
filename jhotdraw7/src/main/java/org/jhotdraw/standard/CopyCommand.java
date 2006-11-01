@@ -11,7 +11,7 @@
 
 package org.jhotdraw.standard;
 
-import org.jhotdraw.framework.DrawingEditor;
+import org.jhotdraw.draw.DrawingEditor;
 
 /**
  * Copy the selection to the clipboard.

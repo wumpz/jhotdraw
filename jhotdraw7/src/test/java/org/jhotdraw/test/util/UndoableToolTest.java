@@ -11,8 +11,8 @@
 package org.jhotdraw.test.util;
 
 // JUnitDoclet begin import
-import org.jhotdraw.contrib.DiamondFigure;
-import org.jhotdraw.standard.CreationTool;
+import org.jhotdraw.draw.CreationTool;
+import org.jhotdraw.draw.DiamondFigure;
 import org.jhotdraw.test.JHDTestCase;
 import org.jhotdraw.util.UndoableTool;
 // JUnitDoclet end import

@@ -11,9 +11,13 @@
 
 package org.jhotdraw.figures;
 
+import org.jhotdraw.draw.AbstractHandle;
+import org.jhotdraw.draw.DrawingView;
+import org.jhotdraw.draw.Figure;
+import org.jhotdraw.draw.LineConnectionFigure;
 import org.jhotdraw.framework.*;
+import org.jhotdraw.geom.Geom;
 import org.jhotdraw.standard.*;
-import org.jhotdraw.util.Geom;
 import java.awt.*;
 
 /**
@@ -26,7 +30,7 @@ public class ElbowHandle extends AbstractHandle {
 	private int fSegment;
 	private int fLastX, fLastY;      // previous mouse position
 
-	public ElbowHandle(LineConnection owner, int segment) {
+	public ElbowHandle(LineConnectionFigure owner, int segment) {
 		super(owner);
 		fSegment = segment;
 	}
@@ -37,7 +41,7 @@ public class ElbowHandle extends AbstractHandle {
 	}
 
 	public void invokeStep (int x, int y, int anchorX, int anchorY, DrawingView view) {
-		LineConnection line = ownerConnection();
+		LineConnectionFigure line = ownerConnection();
 		Point p1 = line.pointAt(fSegment);
 		Point p2 = line.pointAt(fSegment+1);
 		int ddx = x - fLastX;
@@ -66,7 +70,7 @@ public class ElbowHandle extends AbstractHandle {
 	}
 
 	public Point locate() {
-		LineConnection line = ownerConnection();
+		LineConnectionFigure line = ownerConnection();
 		int segment = Math.min(fSegment, line.pointCount()-2);
 		Point p1 = line.pointAt(segment);
 		Point p2 = line.pointAt(segment+1);
@@ -84,7 +88,7 @@ public class ElbowHandle extends AbstractHandle {
 	}
 
 	private int constrainX(int x) {
-		LineConnection line = ownerConnection();
+		LineConnectionFigure line = ownerConnection();
 		Figure startFigure = line.getStartConnector().owner();
 		Figure endFigure = line.getEndConnector().owner();
 		Rectangle start = startFigure.displayBox();
@@ -109,7 +113,7 @@ public class ElbowHandle extends AbstractHandle {
 	}
 
 	private int constrainY(int y) {
-		LineConnection line = ownerConnection();
+		LineConnectionFigure line = ownerConnection();
 		Figure startFigure = line.getStartConnector().owner();
 		Figure endFigure = line.getEndConnector().owner();
 		Rectangle start = startFigure.displayBox();
@@ -132,7 +136,7 @@ public class ElbowHandle extends AbstractHandle {
 		return y;
 	}
 
-	private LineConnection ownerConnection() {
-		return (LineConnection)owner();
+	private LineConnectionFigure ownerConnection() {
+		return (LineConnectionFigure)owner();
 	}
 }

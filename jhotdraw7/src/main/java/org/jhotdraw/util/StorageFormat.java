@@ -13,7 +13,8 @@ package org.jhotdraw.util;
 
 import javax.swing.filechooser.FileFilter;
 import java.io.IOException;
-import org.jhotdraw.framework.Drawing;
+
+import org.jhotdraw.draw.Drawing;
 
 /**
  * Interface to define a storage format. A StorageFormat is a strategy that knows how to store

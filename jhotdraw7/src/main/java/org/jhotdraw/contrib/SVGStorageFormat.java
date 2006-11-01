@@ -21,7 +21,7 @@ import org.apache.batik.svggen.SVGGraphics2D;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 
-import org.jhotdraw.framework.Drawing;
+import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.util.StandardStorageFormat;
 
 
@@ -77,7 +77,7 @@ public class SVGStorageFormat extends StandardStorageFormat {
 	 * @param fileName file name of the Drawing under which it should be stored
 	 * @param saveDrawing drawing to be saved
 	 * @return file name with correct file extension
-   * @see org.jhotdraw.util.StorageFormat#store(java.lang.String, org.jhotdraw.framework.Drawing)
+   * @see org.jhotdraw.util.StorageFormat#store(java.lang.String, org.jhotdraw.draw.Drawing)
    */
   public String store(String fileName, Drawing saveDrawing) throws IOException {
 		// Get a DOMImplementation

@@ -13,8 +13,8 @@ package org.jhotdraw.test.standard;
 import java.util.EventListener;
 
 // JUnitDoclet begin import
-import org.jhotdraw.figures.TextFigure;
-import org.jhotdraw.framework.Drawing;
+import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.TextFigure;
 import org.jhotdraw.standard.FigureChangeEventMulticaster;
 import org.jhotdraw.test.JHDTestCase;
 // JUnitDoclet end import
@@ -94,7 +94,7 @@ extends JHDTestCase
 	// JUnitDoclet begin javadoc_method figureInvalidated()
 	/**
 	 * Method testFigureInvalidated is testing figureInvalidated
-	 * @see org.jhotdraw.standard.FigureChangeEventMulticaster#figureInvalidated(org.jhotdraw.framework.FigureChangeEvent)
+	 * @see org.jhotdraw.standard.FigureChangeEventMulticaster#figureInvalidated(org.jhotdraw.framework.FigureEvent)
 	 */
 	// JUnitDoclet end javadoc_method figureInvalidated()
 	public void testFigureInvalidated() throws Exception {
@@ -105,7 +105,7 @@ extends JHDTestCase
 	// JUnitDoclet begin javadoc_method figureRequestRemove()
 	/**
 	 * Method testFigureRequestRemove is testing figureRequestRemove
-	 * @see org.jhotdraw.standard.FigureChangeEventMulticaster#figureRequestRemove(org.jhotdraw.framework.FigureChangeEvent)
+	 * @see org.jhotdraw.standard.FigureChangeEventMulticaster#figureRequestRemove(org.jhotdraw.framework.FigureEvent)
 	 */
 	// JUnitDoclet end javadoc_method figureRequestRemove()
 	public void testFigureRequestRemove() throws Exception {
@@ -116,7 +116,7 @@ extends JHDTestCase
 	// JUnitDoclet begin javadoc_method figureRequestUpdate()
 	/**
 	 * Method testFigureRequestUpdate is testing figureRequestUpdate
-	 * @see org.jhotdraw.standard.FigureChangeEventMulticaster#figureRequestUpdate(org.jhotdraw.framework.FigureChangeEvent)
+	 * @see org.jhotdraw.standard.FigureChangeEventMulticaster#figureRequestUpdate(org.jhotdraw.framework.FigureEvent)
 	 */
 	// JUnitDoclet end javadoc_method figureRequestUpdate()
 	public void testFigureRequestUpdate() throws Exception {
@@ -127,7 +127,7 @@ extends JHDTestCase
 	// JUnitDoclet begin javadoc_method figureChanged()
 	/**
 	 * Method testFigureChanged is testing figureChanged
-	 * @see org.jhotdraw.standard.FigureChangeEventMulticaster#figureChanged(org.jhotdraw.framework.FigureChangeEvent)
+	 * @see org.jhotdraw.standard.FigureChangeEventMulticaster#figureChanged(org.jhotdraw.framework.FigureEvent)
 	 */
 	// JUnitDoclet end javadoc_method figureChanged()
 	public void testFigureChanged() throws Exception {
@@ -138,7 +138,7 @@ extends JHDTestCase
 	// JUnitDoclet begin javadoc_method figureRemoved()
 	/**
 	 * Method testFigureRemoved is testing figureRemoved
-	 * @see org.jhotdraw.standard.FigureChangeEventMulticaster#figureRemoved(org.jhotdraw.framework.FigureChangeEvent)
+	 * @see org.jhotdraw.standard.FigureChangeEventMulticaster#figureRemoved(org.jhotdraw.framework.FigureEvent)
 	 */
 	// JUnitDoclet end javadoc_method figureRemoved()
 	public void testFigureRemoved() throws Exception {
@@ -149,7 +149,7 @@ extends JHDTestCase
 	// JUnitDoclet begin javadoc_method add()
 	/**
 	 * Method testAdd is testing add
-	 * @see org.jhotdraw.standard.FigureChangeEventMulticaster#add(org.jhotdraw.framework.FigureChangeListener, org.jhotdraw.framework.FigureChangeListener)
+	 * @see org.jhotdraw.standard.FigureChangeEventMulticaster#add(org.jhotdraw.framework.FigureListener, org.jhotdraw.framework.FigureListener)
 	 */
 	// JUnitDoclet end javadoc_method add()
 	public void testAdd() throws Exception {
@@ -160,7 +160,7 @@ extends JHDTestCase
 	// JUnitDoclet begin javadoc_method remove()
 	/**
 	 * Method testRemove is testing remove
-	 * @see org.jhotdraw.standard.FigureChangeEventMulticaster#remove(org.jhotdraw.framework.FigureChangeListener, org.jhotdraw.framework.FigureChangeListener)
+	 * @see org.jhotdraw.standard.FigureChangeEventMulticaster#remove(org.jhotdraw.framework.FigureListener, org.jhotdraw.framework.FigureListener)
 	 */
 	// JUnitDoclet end javadoc_method remove()
 	public void testRemove() throws Exception {

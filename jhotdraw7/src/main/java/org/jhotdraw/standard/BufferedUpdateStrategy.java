@@ -12,6 +12,8 @@
 package org.jhotdraw.standard;
 
 import java.awt.*;
+
+import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.framework.*;
 
 /**

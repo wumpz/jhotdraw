@@ -2,6 +2,8 @@ package org.jhotdraw.framework;
 
 import java.util.EventListener;
 
+import org.jhotdraw.draw.DrawingView;
+
 /**
  * Title:
  * Description:

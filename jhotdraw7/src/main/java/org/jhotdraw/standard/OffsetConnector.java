@@ -12,8 +12,19 @@
 package org.jhotdraw.standard;
 
 import java.awt.*;
+
+import org.jhotdraw.draw.ConnectionFigure;
+import org.jhotdraw.draw.Connector;
+import org.jhotdraw.draw.DrawingView;
+import org.jhotdraw.draw.EllipseFigure;
+import org.jhotdraw.draw.Figure;
+import org.jhotdraw.draw.LineConnectionFigure;
+import org.jhotdraw.draw.LocatorConnector;
+import org.jhotdraw.draw.RectangleFigure;
+import org.jhotdraw.draw.RelativeLocator;
 import org.jhotdraw.framework.*;
 import org.jhotdraw.figures.*;
+import org.jhotdraw.geom.Geom;
 import org.jhotdraw.util.*;
 
 /**
@@ -161,9 +172,9 @@ public class OffsetConnector extends LocatorConnector {
 	 * effects.
 	 * <p>
 	 * This method is called by the connectStart(Connector) and the
-	 * connectEnd(Connector) methods of the LineConnection object
+	 * connectEnd(Connector) methods of the LineConnectionFigure object
 	 * 
-	 * @see LineConnection
+	 * @see LineConnectionFigure
 	 * 
 	 * @param start -
 	 *            a boolean indicating whether the receiver is a start or end
@@ -204,13 +215,13 @@ public class OffsetConnector extends LocatorConnector {
 	 * Resets offsets for an existing OffsetConnector. Called when dragging a
 	 * ChangeConnectionHandle.
 	 * 
-	 * @see org.jhotdraw.standard.ChangeConnectionHandle
+	 * @see org.jhotdraw.draw.ChangeConnectionHandle
 	 * 
 	 * @param x -
 	 *            x coordinate of point moved to
 	 * @param y -
 	 *            y coordinate of point moved to
-	 * @see org.jhotdraw.framework.Connector#connectorMovedTo(int, int)
+	 * @see org.jhotdraw.draw.Connector#connectorMovedTo(int, int)
 	 */
 	public Point connectorMovedTo(int x, int y) {
 		calculateFigureConstrainedOffsets(x, y);
@@ -245,7 +256,7 @@ public class OffsetConnector extends LocatorConnector {
 	 * are (visually) preserved provided they lie on the box of the resized
 	 * figure.
 	 * 
-	 * @see org.jhotdraw.standard.AbstractConnector#findPoint(org.jhotdraw.framework.ConnectionFigure)
+	 * @see org.jhotdraw.draw.AbstractConnector#findPoint(org.jhotdraw.draw.ConnectionFigure)
 	 */
 	protected Point findPoint(ConnectionFigure connection) {
 		Rectangle r = owner().displayBox();

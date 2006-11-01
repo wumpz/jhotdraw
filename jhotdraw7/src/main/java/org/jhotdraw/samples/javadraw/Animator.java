@@ -11,6 +11,7 @@
 
 package org.jhotdraw.samples.javadraw;
 
+import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.framework.*;
 import org.jhotdraw.util.Animatable;
 

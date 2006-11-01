@@ -11,6 +11,8 @@
 
 package org.jhotdraw.util;
 
+import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.Figure;
 import org.jhotdraw.framework.*;
 import org.jhotdraw.standard.StandardDrawing;
 

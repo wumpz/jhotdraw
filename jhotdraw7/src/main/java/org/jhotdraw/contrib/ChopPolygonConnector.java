@@ -12,6 +12,9 @@
 package org.jhotdraw.contrib;
 
 import java.awt.*;
+
+import org.jhotdraw.draw.ChopBoxConnector;
+import org.jhotdraw.draw.Figure;
 import org.jhotdraw.framework.*;
 import org.jhotdraw.standard.*;
 

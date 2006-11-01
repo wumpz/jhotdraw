@@ -11,6 +11,8 @@
 
 package org.jhotdraw.contrib.dnd;
 
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.framework.*;
 
 import java.awt.Component;

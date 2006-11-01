@@ -13,6 +13,8 @@ package org.jhotdraw.samples.javadraw;
 
 import java.awt.*;
 import java.io.IOException;
+
+import org.jhotdraw.draw.Figure;
 import org.jhotdraw.framework.*;
 import org.jhotdraw.standard.*;
 import org.jhotdraw.util.*;

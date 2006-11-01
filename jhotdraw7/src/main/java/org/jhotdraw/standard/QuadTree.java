@@ -25,7 +25,7 @@ import java.io.Serializable;
  * @author WMG (INIT Copyright (C) 2000 All rights reserved)
  * @version <$CURRENT_VERSION$>
  */
-class QuadTree implements Serializable {
+public class QuadTree implements Serializable {
 
 	//_________________________________________________________VARIABLES
 

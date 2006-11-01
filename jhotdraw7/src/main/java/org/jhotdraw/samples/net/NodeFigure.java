@@ -11,9 +11,19 @@
 
 package org.jhotdraw.samples.net;
 
+import org.jhotdraw.draw.ConnectionFigure;
+import org.jhotdraw.draw.ConnectionHandle;
+import org.jhotdraw.draw.Connector;
+import org.jhotdraw.draw.Figure;
+import org.jhotdraw.draw.LineConnectionFigure;
+import org.jhotdraw.draw.LocatorConnector;
+import org.jhotdraw.draw.NullHandle;
+import org.jhotdraw.draw.RelativeLocator;
+import org.jhotdraw.draw.TextFigure;
 import org.jhotdraw.framework.*;
 import org.jhotdraw.standard.*;
 import org.jhotdraw.figures.*;
+import org.jhotdraw.geom.Geom;
 import org.jhotdraw.util.*;
 
 import java.util.*;
@@ -64,7 +74,7 @@ public class NodeFigure extends TextFigure {
 	}
 
 	public HandleEnumeration handles() {
-		ConnectionFigure prototype = new LineConnection();
+		ConnectionFigure prototype = new LineConnectionFigure();
 		List handles = CollectionsFactory.current().createList();
 		handles.add(new ConnectionHandle(this, RelativeLocator.east(), prototype));
 		handles.add(new ConnectionHandle(this, RelativeLocator.west(), prototype));

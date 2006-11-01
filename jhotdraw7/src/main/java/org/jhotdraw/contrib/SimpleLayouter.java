@@ -11,8 +11,8 @@
 
 package org.jhotdraw.contrib;
 
+import org.jhotdraw.draw.Figure;
 import org.jhotdraw.framework.FigureEnumeration;
-import org.jhotdraw.framework.Figure;
 import org.jhotdraw.util.StorableInput;
 import org.jhotdraw.util.StorableOutput;
 

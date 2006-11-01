@@ -12,7 +12,8 @@ package org.jhotdraw.contrib.html;
 
 import java.awt.Point;
 import java.awt.Shape;
-import org.jhotdraw.contrib.TriangleFigure;
+
+import org.jhotdraw.draw.TriangleFigure;
 
 /**
  * Geometric adapter for the TriangleFigure

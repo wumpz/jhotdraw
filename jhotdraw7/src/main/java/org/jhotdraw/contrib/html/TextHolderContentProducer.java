@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import org.jhotdraw.util.StorableInput;
 import org.jhotdraw.util.StorableOutput;
-import org.jhotdraw.standard.TextHolder;
+import org.jhotdraw.draw.TextHolder;
 
 /**
  * TextAreaFigureContentProducer produces text contents from an existing

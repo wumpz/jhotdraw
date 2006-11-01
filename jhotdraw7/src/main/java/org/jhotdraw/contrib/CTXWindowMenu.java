@@ -10,13 +10,17 @@
  */
 package org.jhotdraw.contrib;
 
-import java.awt.event.*;
-import java.beans.*;
-import javax.swing.*;
-import javax.swing.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyVetoException;
 
-import org.jhotdraw.contrib.CTXCommandMenu;
-import org.jhotdraw.framework.DrawingEditor;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JInternalFrame;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
+
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.gui.MDIDesktopPane;
 import org.jhotdraw.standard.AbstractCommand;
 
 /**

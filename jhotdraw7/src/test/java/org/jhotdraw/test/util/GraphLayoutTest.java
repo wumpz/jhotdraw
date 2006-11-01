@@ -120,7 +120,7 @@ extends TestCase
 	// JUnitDoclet begin javadoc_method figureChanged()
 	/**
 	 * Method testFigureChanged is testing figureChanged
-	 * @see org.jhotdraw.util.GraphLayout#figureChanged(org.jhotdraw.framework.FigureChangeEvent)
+	 * @see org.jhotdraw.util.GraphLayout#figureChanged(org.jhotdraw.framework.FigureEvent)
 	 */
 	// JUnitDoclet end javadoc_method figureChanged()
 	public void testFigureChanged() throws Exception {

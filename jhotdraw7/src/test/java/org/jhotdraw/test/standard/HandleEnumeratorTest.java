@@ -14,10 +14,10 @@ import java.awt.Point;
 import java.util.List;
 
 // JUnitDoclet begin import
-import org.jhotdraw.figures.RectangleFigure;
+import org.jhotdraw.draw.NullHandle;
+import org.jhotdraw.draw.RectangleFigure;
+import org.jhotdraw.draw.RelativeLocator;
 import org.jhotdraw.standard.HandleEnumerator;
-import org.jhotdraw.standard.NullHandle;
-import org.jhotdraw.standard.RelativeLocator;
 import org.jhotdraw.test.JHDTestCase;
 import org.jhotdraw.util.CollectionsFactory;
 // JUnitDoclet end import

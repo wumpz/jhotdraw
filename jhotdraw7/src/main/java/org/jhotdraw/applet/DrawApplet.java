@@ -17,6 +17,13 @@ import java.awt.event.*;
 import java.util.*;
 import java.io.*;
 import java.net.*;
+
+import org.jhotdraw.draw.AttributedFigure;
+import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.DrawingView;
+import org.jhotdraw.draw.Figure;
+import org.jhotdraw.draw.Tool;
 import org.jhotdraw.framework.*;
 import org.jhotdraw.standard.*;
 import org.jhotdraw.figures.*;
@@ -488,11 +495,11 @@ public class DrawApplet
 	}
 
 	private void setupAttributes() {
-		Color   frameColor = (Color)   AttributeFigure.getDefaultAttribute(FigureAttributeConstant.FRAME_COLOR);
-		Color   fillColor  = (Color)   AttributeFigure.getDefaultAttribute(FigureAttributeConstant.FILL_COLOR);
-		//Color   textColor  = (Color)   AttributeFigure.getDefaultAttribute(FigureAttributeConstant.TEXT_COLOR);
-		Integer arrowMode  = (Integer) AttributeFigure.getDefaultAttribute(FigureAttributeConstant.ARROW_MODE);
-		String  fontName   = (String)  AttributeFigure.getDefaultAttribute(FigureAttributeConstant.FONT_NAME);
+		Color   frameColor = (Color)   AttributedFigure.getDefaultAttribute(FigureAttributeConstant.FRAME_COLOR);
+		Color   fillColor  = (Color)   AttributedFigure.getDefaultAttribute(FigureAttributeConstant.FILL_COLOR);
+		//Color   textColor  = (Color)   AttributedFigure.getDefaultAttribute(FigureAttributeConstant.TEXT_COLOR);
+		Integer arrowMode  = (Integer) AttributedFigure.getDefaultAttribute(FigureAttributeConstant.ARROW_MODE);
+		String  fontName   = (String)  AttributedFigure.getDefaultAttribute(FigureAttributeConstant.FONT_NAME);
 
 		FigureEnumeration fe = view().selection();
 		while (fe.hasNextFigure()) {

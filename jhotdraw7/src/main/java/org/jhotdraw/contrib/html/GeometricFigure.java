@@ -12,7 +12,7 @@ package org.jhotdraw.contrib.html;
 
 import java.awt.Shape;
 
-import org.jhotdraw.framework.Figure;
+import org.jhotdraw.draw.Figure;
 
 /**
  * GeometricFigure defines required of figures that can be used as shape providers

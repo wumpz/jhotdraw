@@ -11,8 +11,12 @@
 
 package org.jhotdraw.contrib;
 
-import org.jhotdraw.standard.ConnectionTool;
 import org.jhotdraw.standard.SingleFigureEnumerator;
+import org.jhotdraw.draw.ConnectionFigure;
+import org.jhotdraw.draw.ConnectionTool;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.DrawingView;
+import org.jhotdraw.draw.Figure;
 import org.jhotdraw.framework.*;
 import org.jhotdraw.figures.*;
 
