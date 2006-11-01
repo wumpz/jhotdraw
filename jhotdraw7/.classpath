@@ -6,5 +6,9 @@
 	<classpathentry kind="src" path="src/test/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/MRJAdapter.jar"/>
+	<classpathentry kind="lib" path="lib/quaqua.jar"/>
+	<classpathentry kind="lib" path="lib/java_30.zip"/>
+	<classpathentry kind="lib" path="D:/Development/Java/jdk1.5/lib/tools.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

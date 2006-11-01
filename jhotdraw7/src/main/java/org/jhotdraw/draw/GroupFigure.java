@@ -1,103 +1,49 @@
 /*
- * @(#)GroupFigure.java
+ * @(#)GroupFigure.java  1.0  24. November 2003
  *
- * Project:		JHotdraw - a GUI framework for technical drawings
- *				http://www.jhotdraw.org
- *				http://jhotdraw.sourceforge.net
- * Copyright:	© by the original author(s) and all contributors
- * License:		Lesser GNU Public License (LGPL)
- *				http://www.opensource.org/licenses/lgpl-license.html
+ * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * and all its contributors ("JHotDraw.org")
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * JHotDraw.org ("Confidential Information"). You shall not disclose
+ * such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with
+ * JHotDraw.org.
+ï¿½
  */
 
 package org.jhotdraw.draw;
 
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.util.List;
-
-import org.jhotdraw.figures.GroupHandle;
-import org.jhotdraw.framework.FigureAttributeConstant;
-import org.jhotdraw.framework.FigureEnumeration;
-import org.jhotdraw.framework.HandleEnumeration;
-import org.jhotdraw.standard.FigureEnumerator;
-import org.jhotdraw.standard.HandleEnumerator;
-import org.jhotdraw.util.CollectionsFactory;
-
+import java.awt.geom.*;
+import org.jhotdraw.geom.*;
 /**
  * A Figure that groups a collection of figures.
  *
- * @version <$CURRENT_VERSION$>
+ * @author Werner Randelshofer
+ * @version 2.0 2006-01-14 Changed to support double precison coordinates.
+ * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
-public  class GroupFigure extends CompositeFigure {
-
-	/*
-	 * Serialization support.
-	 */
-	private static final long serialVersionUID = 8311226373023297933L;
-	private int groupFigureSerializedDataVersion = 1;
-
-   /**
-	* GroupFigures cannot be connected
-	*/
-	public boolean canConnect() {
-		return false;
-	}
-
-   /**
-	* Gets the display box. The display box is defined as the union
-	* of the contained figures.
-	*/
-	public Rectangle displayBox() {
-		FigureEnumeration fe = figures();
-		Rectangle r = fe.nextFigure().displayBox();
-
-		while (fe.hasNextFigure()) {
-			r.add(fe.nextFigure().displayBox());
-		}
-		return r;
-	}
-
-	public void basicDisplayBox(Point origin, Point corner) {
-		// do nothing
-		// we could transform all components proportionally
-	}
-
-	public FigureEnumeration decompose() {
-		return new FigureEnumerator(fFigures);
-	}
-
-   /**
-	* Gets the handles for the GroupFigure.
-	*/
-	public HandleEnumeration handles() {
-		List handles = CollectionsFactory.current().createList();
-		handles.add(new GroupHandle(this, RelativeLocator.northWest()));
-		handles.add(new GroupHandle(this, RelativeLocator.northEast()));
-		handles.add(new GroupHandle(this, RelativeLocator.southWest()));
-		handles.add(new GroupHandle(this, RelativeLocator.southEast()));
-		return new HandleEnumerator(handles);
-	}
-
-   /**
-	* Sets the attribute of all the contained figures.
-	* @deprecated see setAttribute(FigureAttributeConstant,Object)
-	*/
-	public void setAttribute(String name, Object value) {
-		super.setAttribute(name, value);
-		FigureEnumeration fe = figures();
-		while (fe.hasNextFigure()) {
-			fe.nextFigure().setAttribute(name, value);
-		}
-	}
-
-	/**
-	 * Sets the attribute of the GroupFigure as well as all contained Figures.
-	 */
-	public void setAttribute(FigureAttributeConstant fac, Object object){
-		super.setAttribute(fac, object);
-		FigureEnumeration fe = figures();
-		while (fe.hasNextFigure()) {
-			fe.nextFigure().setAttribute(fac, object);
-		}		
-	}
+public class GroupFigure extends AbstractCompositeFigure {
+    
+    /** Creates a new instance. */
+    public GroupFigure() {
+    }
+    
+    public boolean canConnect() {
+        return true;
+    }
+    
+    /**
+     * This is a default implementation that chops the point at the rectangle
+     * returned by getBounds() of the figure.
+     * <p>
+     * Figures which have a non-rectangular shape need to override this method.
+     * <p>
+     * FIXME Invoke chop on each child and return the closest point.
+     */
+    public Point2D.Double chop(Point2D.Double from) {
+        Rectangle2D.Double r = getBounds();
+        return Geom.angleToPoint(r, Geom.pointToAngle(r, from));
+    }
 }

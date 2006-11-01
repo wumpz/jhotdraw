@@ -1,27 +1,43 @@
 /*
- * @(#)ToolListener.java
+ * @(#)ToolListener.java  3.0  2006-02-13
  *
- * Project:		JHotdraw - a GUI framework for technical drawings
- *				http://www.jhotdraw.org
- *				http://jhotdraw.sourceforge.net
- * Copyright:	© by the original author(s) and all contributors
- * License:		Lesser GNU Public License (LGPL)
- *				http://www.opensource.org/licenses/lgpl-license.html
+ * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * and all its contributors ("JHotDraw.org")
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * JHotDraw.org ("Confidential Information"). You shall not disclose
+ * such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with
+ * JHotDraw.org.
  */
+
 
 package org.jhotdraw.draw;
 
-import java.util.EventObject;
-
+import java.awt.*;
+import java.util.*;
 /**
- * @author Wolfram Kaiser
- * @version <$CURRENT_VERSION$>
+ * Change event passed to ToolListener's.
+ *
+ * @author Werner Randelshofer
+ * @version 3.0 2003-02-13 Revised to support multiple views.
+ * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
-public interface ToolListener {
-	public void toolEnabled(EventObject toolEvent);
-	public void toolDisabled(EventObject toolEvent);
-	public void toolUsable(EventObject toolEvent);
-	public void toolUnusable(EventObject toolEvent);
-	public void toolActivated(EventObject toolEvent);
-	public void toolDeactivated(EventObject toolEvent);
+public interface ToolListener extends EventListener {
+    /**
+     * Informs the listener that a tool has starteds interacting with a 
+     * specific drawing view.
+     */
+    void toolStarted(ToolEvent event);
+    /**
+     * Informs the listener that a tool has done its interaction.
+     * This method can be used to switch back to the default tool.
+     */
+    void toolDone(ToolEvent event);
+    /**
+     * Sent when an area of the drawing view needs to be repainted.
+     */
+    public void areaInvalidated(ToolEvent e);
+    
 }

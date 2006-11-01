@@ -1,110 +1,151 @@
 /*
- * @(#)EllipseFigure.java
+ * @(#)EllipseFigure.java  2.3  2006-06-17
  *
- * Project:		JHotdraw - a GUI framework for technical drawings
- *				http://www.jhotdraw.org
- *				http://jhotdraw.sourceforge.net
- * Copyright:	© by the original author(s) and all contributors
- * License:		Lesser GNU Public License (LGPL)
- *				http://www.opensource.org/licenses/lgpl-license.html
+ * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * and all its contributors ("JHotDraw.org")
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * JHotDraw.org ("Confidential Information"). You shall not disclose
+ * such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with
+ * JHotDraw.org.
+ï¿½
  */
 
 package org.jhotdraw.draw;
 
-import java.awt.*;
-import java.io.IOException;
-import java.util.List;
+import org.jhotdraw.geom.Geom;
 import org.jhotdraw.util.*;
-import org.jhotdraw.framework.*;
-import org.jhotdraw.standard.*;
-
+import java.awt.*;
+import java.awt.geom.*;
+import static org.jhotdraw.draw.AttributeKeys.*;
 /**
- * An ellipse figure.
+ * EllipseFigure.
  *
- * @version <$CURRENT_VERSION$>
+ * @author Werner Randelshofer
+ * @version 2.3 2006-06-17 Added method chop(Point2D.Double).
+ * <br>2.2 2006-05-19 Support for stroke placement added.
+ * <br>2.1 2006-03-22 Method getFigureDrawBounds added.
+ * <br>2.0 2006-01-14 Changed to support double precison coordinates.
+ * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
 public class EllipseFigure extends AttributedFigure {
-
-	private Rectangle   fDisplayBox;
-
-	/*
-	 * Serialization support.
-	 */
-	private static final long serialVersionUID = -6856203289355118951L;
-	private int ellipseFigureSerializedDataVersion = 1;
-
-	public EllipseFigure() {
-		this(new Point(0,0), new Point(0,0));
-	}
-
-	public EllipseFigure(Point origin, Point corner) {
-		basicDisplayBox(origin,corner);
-	}
-
-	public HandleEnumeration handles() {
-		List handles = CollectionsFactory.current().createList();
-		BoxHandleKit.addHandles(this, handles);
-		return new HandleEnumerator(handles);
-	}
-
-	public void basicDisplayBox(Point origin, Point corner) {
-		fDisplayBox = new Rectangle(origin);
-		fDisplayBox.add(corner);
-	}
-
-	public Rectangle displayBox() {
-		return new Rectangle(
-			fDisplayBox.x,
-			fDisplayBox.y,
-			fDisplayBox.width,
-			fDisplayBox.height);
-	}
-
-	protected void basicMoveBy(int x, int y) {
-		fDisplayBox.translate(x,y);
-	}
-
-	public void drawBackground(Graphics g) {
-		Rectangle r = displayBox();
+    private Ellipse2D.Double ellipse;
+    
+    /** Creates a new instance. */
+    public EllipseFigure() {
+        this(0, 0, 0, 0);
+    }
+    
+    public EllipseFigure(double x, double y, double width, double height) {
+        ellipse = new Ellipse2D.Double(x, y, width, height);
         /*
-         * JP, 25-May-03: Changed from (width-1, height-1) to (width, height),
-         * because figures were not filled completely (JDK 1.4.x). Might invalidate
-         * fix for #661878. If the problem is JDK-dependant, maybe the JDK version
-         * should be taken into account here?
+        setFillColor(Color.white);
+        setStrokeColor(Color.black);
          */
-		g.fillOval(r.x, r.y, r.width, r.height);
-	}
-
-	public void drawFrame(Graphics g) {
-		Rectangle r = displayBox();
-		g.drawOval(r.x, r.y, r.width-1, r.height-1);
-	}
-
-	public Insets connectionInsets() {
-		Rectangle r = fDisplayBox;
-		int cx = r.width/2;
-		int cy = r.height/2;
-		return new Insets(cy, cx, cy, cx);
-	}
-
-	public Connector connectorAt(int x, int y) {
-		return new ChopEllipseConnector(this);
-	}
-
-	public void write(StorableOutput dw) {
-		super.write(dw);
-		dw.writeInt(fDisplayBox.x);
-		dw.writeInt(fDisplayBox.y);
-		dw.writeInt(fDisplayBox.width);
-		dw.writeInt(fDisplayBox.height);
-	}
-
-	public void read(StorableInput dr) throws IOException {
-		super.read(dr);
-		fDisplayBox = new Rectangle(
-			dr.readInt(),
-			dr.readInt(),
-			dr.readInt(),
-			dr.readInt());
-	}
+        setAttributeEnabled(TEXT_COLOR, false);
+    }
+    
+    // DRAWING
+    // SHAPE AND BOUNDS
+    // ATTRIBUTES
+    // EDITING
+    // CONNECTING
+    public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
+        return new ChopEllipseConnector(this);
+    }
+    public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
+        return new ChopEllipseConnector(this);
+    }
+    // COMPOSITE FIGURES
+    // CLONING
+    // EVENT HANDLING
+    public Rectangle2D.Double getBounds() {
+        return (Rectangle2D.Double) ellipse.getBounds2D();
+    }
+    public Rectangle2D.Double getFigureDrawBounds() {
+        Rectangle2D.Double r = (Rectangle2D.Double) ellipse.getBounds2D();
+        double grow = AttributeKeys.getPerpendicularHitGrowth(this);
+        Geom.grow(r, grow, grow);
+        return r;
+    }
+    
+    protected void drawFill(Graphics2D g) {
+        Ellipse2D.Double r = (Ellipse2D.Double) ellipse.clone();
+        double grow = AttributeKeys.getPerpendicularFillGrowth(this);
+        r.x -= grow;
+        r.y -= grow;
+        r.width += grow * 2;
+        r.height += grow * 2;
+        if (r.width > 0 && r.height > 0) {
+            g.fill(r);
+        }
+    }
+    
+    protected void drawStroke(Graphics2D g) {
+        Ellipse2D.Double r = (Ellipse2D.Double) ellipse.clone();
+        double grow = AttributeKeys.getPerpendicularDrawGrowth(this);
+        r.x -= grow;
+        r.y -= grow;
+        r.width += grow * 2;
+        r.height += grow * 2;
+        
+        if (r.width > 0 && r.height > 0) {
+            g.draw(r);
+        }
+    }
+    
+    /**
+     * Checks if a Point2D.Double is inside the figure.
+     */
+    public boolean contains(Point2D.Double p) {
+        Ellipse2D.Double r = (Ellipse2D.Double) ellipse.clone();
+        double grow = AttributeKeys.getPerpendicularHitGrowth(this);
+        r.x -= grow;
+        r.y -= grow;
+        r.width += grow * 2;
+        r.height += grow * 2;
+        
+        return r.contains(p);
+    }
+    
+    public void basicSetBounds(Point2D.Double anchor, Point2D.Double lead) {
+        ellipse.x = Math.min(anchor.x, lead.x);
+        ellipse.y = Math.min(anchor.y , lead.y);
+        ellipse.width = Math.max(0.1, Math.abs(lead.x - anchor.x));
+        ellipse.height = Math.max(0.1, Math.abs(lead.y - anchor.y));
+    }
+    /**
+     * Transforms the figure.
+     *
+     * @param tx the transformation.
+     */
+    public void basicTransform(AffineTransform tx) {
+        Point2D.Double anchor = getStartPoint();
+        Point2D.Double lead = getEndPoint();
+        basicSetBounds(
+                (Point2D.Double) tx.transform(anchor, anchor),
+                (Point2D.Double) tx.transform(lead, lead)
+                );
+    }
+    
+    public EllipseFigure clone() {
+        EllipseFigure that = (EllipseFigure) super.clone();
+        that.ellipse = (Ellipse2D.Double) this.ellipse.clone();
+        return that;
+    }
+    
+    public void restoreTo(Object geometry) {
+        Ellipse2D.Double r = (Ellipse2D.Double) geometry;
+        ellipse.x = r.x;
+        ellipse.y = r.y;
+        ellipse.width = r.width;
+        ellipse.height = r.height;
+    }
+    
+    public Object getRestoreData() {
+        return ellipse.clone();
+    }
+    
 }

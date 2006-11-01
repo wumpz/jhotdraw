@@ -1,61 +1,41 @@
 /*
- * @(#)AbstractLocator.java
+ * @(#)AbstractLocator.java  2.1  2006-07-08
  *
- * Project:		JHotdraw - a GUI framework for technical drawings
- *				http://www.jhotdraw.org
- *				http://jhotdraw.sourceforge.net
- * Copyright:	© by the original author(s) and all contributors
- * License:		Lesser GNU Public License (LGPL)
- *				http://www.opensource.org/licenses/lgpl-license.html
+ * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * and all its contributors ("JHotDraw.org")
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * JHotDraw.org ("Confidential Information"). You shall not disclose
+ * such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with
+ * JHotDraw.org.
+ï¿½
  */
 
 package org.jhotdraw.draw;
 
-import org.jhotdraw.util.*;
-import org.jhotdraw.framework.*;
-
-import java.io.IOException;
-
-
+import java.awt.*;
+import java.awt.geom.*;
+import org.jhotdraw.xml.*;
 /**
  * AbstractLocator provides default implementations for
  * the Locator interface.
  *
- * @see Locator
- * @see Handle
- *
- * @version <$CURRENT_VERSION$>
+ * @author Werner Randelshofer
+ * @version 2,1 2006-07-08 Added support for DOMStorable. 
+ * <br>2.0 2006-01-14 Changed to support double precision coordinates.
+ * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
-public abstract class AbstractLocator implements Locator, Storable, Cloneable {
-
-	/*
-	 * Serialization support.
-	 */
-	private static final long serialVersionUID = -7742023180844048409L;
-
-	protected AbstractLocator() {
-	}
-
-	public Object clone() {
-		try {
-			return super.clone();
-		}
-		catch (CloneNotSupportedException e) {
-			throw new InternalError();
-		}
-	}
-
-	/**
-	 * Stores the arrow tip to a StorableOutput.
-	 */
-	public void write(StorableOutput dw) {
-	}
-
-	/**
-	 * Reads the arrow tip from a StorableInput.
-	 */
-	public void read(StorableInput dr) throws IOException {
-	}
+public abstract class AbstractLocator implements Locator, DOMStorable {
+    
+    /** Creates a new instance. */
+    public AbstractLocator() {
+    }
+    
+    public Point2D.Double locate(Figure owner, Figure dependent) {
+        return locate(owner);
+    }
+    
+    
 }
-
-

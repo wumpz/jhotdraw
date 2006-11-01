@@ -1,216 +1,169 @@
 /*
- * @(#)ConnectionHandle.java
+ * @(#)ConnectionHandle.java  1.0  20. Juni 2006
  *
- * Project:		JHotdraw - a GUI framework for technical drawings
- *				http://www.jhotdraw.org
- *				http://jhotdraw.sourceforge.net
- * Copyright:	© by the original author(s) and all contributors
- * License:		Lesser GNU Public License (LGPL)
- *				http://www.opensource.org/licenses/lgpl-license.html
+ * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * and all its contributors ("JHotDraw.org")
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * JHotDraw.org ("Confidential Information"). You shall not disclose
+ * such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with
+ * JHotDraw.org.
  */
 
 package org.jhotdraw.draw;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.util.List;
-
-import org.jhotdraw.framework.Cursor;
-import org.jhotdraw.framework.FigureEnumeration;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.standard.AWTCursor;
-import org.jhotdraw.standard.FigureEnumerator;
-import org.jhotdraw.standard.PasteCommand;
-import org.jhotdraw.standard.PasteCommand.UndoActivity;
-import org.jhotdraw.util.CollectionsFactory;
-import org.jhotdraw.util.Undoable;
+import org.jhotdraw.undo.*;
+import org.jhotdraw.util.*;
+import java.awt.*;
+import java.awt.geom.*;
+import org.jhotdraw.geom.*;
 
 /**
  * A handle to connect figures.
  * The connection object to be created is specified by a prototype.
- * <hr>
- * <b>Design Patterns</b><P>
- * <img src="images/red-ball-small.gif" width=6 height=6 alt=" o ">
- * <b><a href=../pattlets/sld029.htm>Prototype</a></b><br>
- * ConnectionHandle creates the connection by cloning a prototype.
- * <hr>
  *
- * @see ConnectionFigure
- * @see Object#clone
- *
- * @version <$CURRENT_VERSION$>
+ * @author Werner Randelshofer.
+ * @version 1.0 20. Juni 2006 Created.
  */
-public  class ConnectionHandle extends LocatorHandle {
-
-	/**
-	 * the currently created connection
-	 */
-	private ConnectionFigure myConnection;
-
-	/**
-	 * the prototype of the connection to be created
-	 */
-	private ConnectionFigure fPrototype;
-
-	/**
-	 * the current target
-	 */
-	private Figure myTargetFigure;
-
-	/**
-	 * Constructs a handle with the given owner, locator, and connection prototype
-	 */
-	public ConnectionHandle(Figure owner, Locator l, ConnectionFigure prototype) {
-		super(owner, l);
-		fPrototype = prototype;
-	}
-
-	/**
-	 * Creates the connection
-	 */
-	public void invokeStart(int  x, int  y, DrawingView view) {
-		setConnection(createConnection());
-
-		setUndoActivity(createUndoActivity(view));
-		List connectionsList = CollectionsFactory.current().createList();
-		connectionsList.add(getConnection());
-		getUndoActivity().setAffectedFigures(new FigureEnumerator(connectionsList));
-
-		Point p = locate();
-		getConnection().startPoint(p.x, p.y);
-		getConnection().endPoint(p.x, p.y);
-		view.drawing().add(getConnection());
-	}
-
-	/**
-	 * Tracks the connection.
-	 */
-	public void invokeStep (int x, int y, int anchorX, int anchorY, DrawingView view) {
-		Point p = new Point(x,y);
-		Figure f = findConnectableFigure(x, y, view.drawing());
-		// track the figure containing the mouse
-		if (f != getTargetFigure()) {
-			if (getTargetFigure() != null) {
-				getTargetFigure().connectorVisibility(false, null);
-			}
-			setTargetFigure(f);
-			if (getTargetFigure() != null) {
-				getTargetFigure().connectorVisibility(true, getConnection());
-			}
-		}
-
-		Connector target = findConnectionTarget(p.x, p.y, view.drawing());
+public class ConnectionHandle extends LocatorHandle {
+    private CompositeEdit edit;
+    /**
+     * the currently created connection
+     */
+    private ConnectionFigure currentConnection;
+    
+    /**
+     * the prototype of the connection to be created
+     */
+    private ConnectionFigure prototype;
+    
+    /**
+     * the current target
+     */
+    private Figure targetFigure;
+    
+    /** Creates a new instance. */
+    public ConnectionHandle(Figure owner, Locator locator, ConnectionFigure prototype) {
+        super(owner, locator);
+        this.prototype = prototype;
+    }
+    
+    public void draw(Graphics2D g) {
+        drawCircle(g, Color.blue, Color.blue.darker());
+    }
+    
+    
+    public void trackStart(Point anchor, int modifiersEx) {
+        setConnection(createConnection());
+        
+        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+        
+        edit = new CompositeEdit(labels.getString("createConnection"));
+        fireUndoableEditHappened(edit);
+        
+        Point2D.Double p = getLocationOnDrawing();
+        getConnection().setStartPoint(p);
+        getConnection().setEndPoint(p);
+        view.getDrawing().add(getConnection());
+    }
+    
+    public void trackStep(Point anchor, Point lead, int modifiersEx) {
+        Point2D.Double p = view.viewToDrawing(lead);
+        Figure f = findConnectableFigure(p, view.getDrawing());
+        // track the figure containing the mouse
+        if (f != getTargetFigure()) {
+            if (getTargetFigure() != null) {
+                getTargetFigure().setConnectorsVisible(false, null);
+            }
+            setTargetFigure(f);
+            if (getTargetFigure() != null) {
+                getTargetFigure().setConnectorsVisible(true, getConnection());
+            }
+        }
+        
+        Connector target = findConnectionTarget(p, view.getDrawing());
+        if (target != null) {
+            p = Geom.center(target.getBounds());
+        }
+        getConnection().setEndPoint(p);
+    }
+    
+    public void trackEnd(Point anchor, Point lead, int modifiersEx) {
+        Point2D.Double p = view.viewToDrawing(lead);
+		Connector target = findConnectionTarget(p, view.getDrawing());
 		if (target != null) {
-			p = Geom.center(target.displayBox());
-		}
-		getConnection().endPoint(p.x, p.y);
-	}
-
-	/**
-	 * Connects the figures if the mouse is released over another
-	 * figure.
-	 */
-	public void invokeEnd(int x, int y, int anchorX, int anchorY, DrawingView view) {
-		Connector target = findConnectionTarget(x, y, view.drawing());
-		if (target != null) {
-			getConnection().connectStart(startConnector());
-			getConnection().connectEnd(target);
+			getConnection().setStartConnector(getStartConnector());
+			getConnection().setEndConnector(target);
 			getConnection().updateConnection();
-		}
-		else {
-			view.drawing().remove(getConnection());
-			setUndoActivity(null);
+		} else {
+			view.getDrawing().remove(getConnection());
+			//setUndoActivity(null);
+                        edit.setSignificant(false);
 		}
 		setConnection(null);
 		if (getTargetFigure() != null) {
-			getTargetFigure().connectorVisibility(false, null);
+			getTargetFigure().setConnectorsVisible(false, null);
 			setTargetFigure(null);
 		}
-	}
-
-	private Connector startConnector() {
-		Point p = locate();
-		return owner().connectorAt(p.x, p.y);
-	}
-
-	/**
-	 * Creates the ConnectionFigure. By default the figure prototype is
-	 * cloned.
-	 */
-	protected ConnectionFigure createConnection() {
-		return (ConnectionFigure)fPrototype.clone();
-	}
-
-	/**
-	 * Factory method for undo activity.
-	 */
-	protected Undoable createUndoActivity(DrawingView view) {
-		return new PasteCommand.UndoActivity(view);
-	}
-
+                
+        fireUndoableEditHappened(edit);
+    }
+    
+    /**
+     * Creates the ConnectionFigure. By default the figure prototype is
+     * cloned.
+     */
+    protected ConnectionFigure createConnection() {
+        return (ConnectionFigure) prototype.clone();
+    }
+    protected void setConnection(ConnectionFigure newConnection) {
+        currentConnection = newConnection;
+    }
+    
+    protected ConnectionFigure getConnection() {
+        return currentConnection;
+    }
+    
+    protected Figure getTargetFigure() {
+        return targetFigure;
+    }
+    
+    protected void setTargetFigure(Figure newTargetFigure) {
+        targetFigure = newTargetFigure;
+    }
+    private Figure findConnectableFigure(Point2D.Double p, Drawing drawing) {
+        for (Figure figure : drawing.getFiguresFrontToBack()) {
+            if (!figure.includes(getConnection()) &&
+                    figure.canConnect() &&
+                    figure.contains(p)) {
+                return figure;
+            }
+            
+        }
+        return null;
+    }
+    /*
+    protected Connector findConnector(Point2D.Double p, Figure f) {
+        return f.findConnector(p, getConnection());
+    }*/
+    
 	/**
 	 * Finds a connection end figure.
 	 */
-	protected Connector findConnectionTarget(int x, int y, Drawing drawing) {
-		Figure target = findConnectableFigure(x, y, drawing);
+	protected Connector findConnectionTarget(Point2D.Double p, Drawing drawing) {
+		Figure target = findConnectableFigure(p, drawing);
 		if ((target != null) && target.canConnect()
-			 && !target.includes(owner())
-			 && getConnection().canConnect(owner(), target)) {
-				return findConnector(x, y, target);
+			 && !target.includes(getOwner())
+			 && getConnection().canConnect(getOwner(), target)) {
+				return target.findConnector(p, getConnection());
 		}
 		return null;
 	}
 
-	private Figure findConnectableFigure(int x, int y, Drawing drawing) {
-		FigureEnumeration fe = drawing.figuresReverse();
-		while (fe.hasNextFigure()) {
-			Figure figure = fe.nextFigure();
-			if (!figure.includes(getConnection()) && figure.canConnect() 
-				&& figure.containsPoint(x, y)) {
-				return figure;
-			}
-		}
-		return null;
+	private Connector getStartConnector() {
+		Point2D.Double p = getLocationOnDrawing();
+		return getOwner().findConnector(p, getConnection());
 	}
-
-	protected Connector findConnector(int x, int y, Figure f) {
-		return f.connectorAt(x, y);
-	}
-
-
-	/**
-	 * Draws the connection handle, by default the outline of a
-	 * blue circle.
-	 */
-	public void draw(Graphics g) {
-		Rectangle r = displayBox();
-		g.setColor(Color.blue);
-		g.drawOval(r.x, r.y, r.width, r.height);
-	}
-
-	protected void setConnection(ConnectionFigure newConnection) {
-		myConnection = newConnection;
-	}
-	
-	protected ConnectionFigure getConnection() {
-		return myConnection;
-	}
-
-	protected Figure getTargetFigure() {
-		return myTargetFigure;
-	}
-
-	protected void setTargetFigure(Figure newTargetFigure) {
-		myTargetFigure = newTargetFigure;
-	}
-
-	/**
-	 * @see org.jhotdraw.draw.Handle#getCursor()
-	 */
-	public Cursor getCursor() {
-		return new AWTCursor(java.awt.Cursor.HAND_CURSOR);
-	}
-
 }

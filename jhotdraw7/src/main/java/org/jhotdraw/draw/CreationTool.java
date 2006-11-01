@@ -1,231 +1,179 @@
 /*
- * @(#)CreationTool.java
+ * @(#)CreationTool.java  2.1.1  2006-07-20
  *
- * Project:		JHotdraw - a GUI framework for technical drawings
- *				http://www.jhotdraw.org
- *				http://jhotdraw.sourceforge.net
- * Copyright:	© by the original author(s) and all contributors
- * License:		Lesser GNU Public License (LGPL)
- *				http://www.opensource.org/licenses/lgpl-license.html
+ * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * and all its contributors ("JHotDraw.org")
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * JHotDraw.org ("Confidential Information"). You shall not disclose
+ * such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with
+ * JHotDraw.org.
+ï¿½
  */
 
 package org.jhotdraw.draw;
 
-import java.awt.Point;
-import java.awt.event.MouseEvent;
-import java.util.List;
-
-import org.jhotdraw.framework.JHotDrawRuntimeException;
-import org.jhotdraw.standard.AWTCursor;
-import org.jhotdraw.standard.FigureEnumerator;
-import org.jhotdraw.standard.PasteCommand;
-import org.jhotdraw.standard.PasteCommand.UndoActivity;
-import org.jhotdraw.util.CollectionsFactory;
-import org.jhotdraw.util.Undoable;
-
+import org.jhotdraw.undo.CompositeEdit;
+import java.awt.*;
+import java.awt.geom.*;
+import java.awt.event.*;
+import java.util.*;
 /**
- * A tool to create new figures. The figure to be
- * created is specified by a prototype.
+ * A tool to create new figures. The figure to be created is specified by a
+ * prototype.
  *
- * <hr>
- * <b>Design Patterns</b><P>
- * <img src="images/red-ball-small.gif" width=6 height=6 alt=" o ">
- * <b><a href=../pattlets/sld029.htm>Prototype</a></b><br>
- * CreationTool creates new figures by cloning a prototype.
- * <hr>
- *
- * @see Figure
- * @see Object#clone
- *
- * @version <$CURRENT_VERSION$>
+ * @author Werner Randelshofer
+ * @version 2.1.1 2006-07-20 Minimal size treshold was enforced too eagerly.
+ * <br>2.1 2006-07-15 Changed to create prototype creation from class name. 
+ * <br>2.0 2006-01-14 Changed to support double precision coordinates.
+ * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
 public class CreationTool extends AbstractTool {
-
-	/**
-	 * the list of currently added figures
-	 * by: ricardo_padilha.
-	 * description: This has been added to provide support for creation tools that
-	 *              insert more than one figure to the drawing, for example, by
-	 *              maintaining SHIFT down and clicking. However, this class still
-	 *              maintains its normal behavior of creating only one figure. 
-	 */
-	private List    fAddedFigures;
-
-	/**
-	 * the currently created figure
-	 */
-	private Figure  fCreatedFigure;
-
-	/**
-	 * the figure that was actually added
-	 * Note, this can be a different figure from the one which has been created.
-	 */
-	private Figure myAddedFigure;
-
-	/**
-	 * the prototypical figure that is used to create new figuresthe prototypical figure that is used to create new figures.
-	 */
-	private Figure  myPrototypeFigure;
-
-
-	/**
-	 * Initializes a CreationTool with the given prototype.
-	 */
-	public CreationTool(DrawingEditor newDrawingEditor, Figure prototype) {
-		super(newDrawingEditor);
-		setPrototypeFigure(prototype);
-	}
-
-	/**
-	 * Constructs a CreationTool without a prototype.
-	 * This is for subclassers overriding createFigure.
-	 */
-	protected CreationTool(DrawingEditor newDrawingEditor) {
-		this(newDrawingEditor, null);
-	}
-
-	/**
-	 * Sets the cross hair cursor.
-	 */
-	public void activate() {
-		super.activate();
-		if (isUsable()) {
-			getActiveView().setCursor(new AWTCursor(java.awt.Cursor.CROSSHAIR_CURSOR));
-		}
-		setAddedFigures(CollectionsFactory.current().createList());
-	}
-
-	/**
-	 * @see org.jhotdraw.draw.Tool#deactivate()
-	 */
-	public void deactivate() {
-		setCreatedFigure(null);
-		setAddedFigure(null);
-		setAddedFigures(null);
-		super.deactivate();
-	}
-
-	/**
-	 * Creates a new figure by cloning the prototype.
-	 */
-	public void mouseDown(MouseEvent e, int x, int y) {
-		super.mouseDown(e, x, y);
-		setCreatedFigure(createFigure());
-		setAddedFigure(getActiveView().add(getCreatedFigure()));
-		getAddedFigure().displayBox(new Point(getAnchorX(), getAnchorY()), new Point(getAnchorX(), getAnchorY()));
-	}
-
-	/**
-	 * Creates a new figure by cloning the prototype.
-	 */
-	protected Figure createFigure() {
-		if (getPrototypeFigure() == null) {
-			throw new JHotDrawRuntimeException("No protoype defined");
-		}
-		return (Figure)getPrototypeFigure().clone();
-	}
-
-	/**
-	 * Adjusts the extent of the created figure
-	 */
-	public void mouseDrag(MouseEvent e, int x, int y) {
-		if (getAddedFigure() != null) {
-			getAddedFigure().displayBox(new Point(getAnchorX(), getAnchorY()), new Point(x, y));
-		}
-	}
-
-	/**
-	 * Checks if the created figure is empty. If it is, the figure
-	 * is removed from the drawing.
-	 * @see Figure#isEmpty
-	 */
-	public void mouseUp(MouseEvent e, int x, int y) {
-		if (getAddedFigure() != null && !getCreatedFigure().isEmpty()) {
-			getAddedFigures().add(getAddedFigure());
-		}
-		else {
-			getActiveView().remove(getAddedFigure());
-		}
-
-		if (getAddedFigures().isEmpty()) {
-			setUndoActivity(null);
-		}
-		else {
-			// use undo activity from paste command...
-			setUndoActivity(createUndoActivity());
-			// put created figure into a figure enumeration
-			getUndoActivity().setAffectedFigures(new FigureEnumerator(getAddedFigures()));
-		}
-		editor().toolDone();
-	}
-
-	/**
-	 * As the name suggests this CreationTool uses the Prototype design pattern.
-	 * Thus, the prototype figure which is used to create new figures of the same
-	 * type by cloning the original prototype figure.
-	 * @param newPrototypeFigure figure to be cloned to create new figures
-	 */
-	protected void setPrototypeFigure(Figure newPrototypeFigure) {
-		myPrototypeFigure = newPrototypeFigure;
-	}
-
-	/**
-	 * As the name suggests this CreationTool uses the Prototype design pattern.
-	 * Thus, the prototype figure which is used to create new figures of the same
-	 * type by cloning the original prototype figure.
-	 * @return figure to be cloned to create new figures
-	 */
-	protected Figure getPrototypeFigure() {
-		return myPrototypeFigure;
-	}
-
-	/**
-	 * Gets the list of currently added figure
-	 */
-	protected List getAddedFigures() {
-		return fAddedFigures;
-	}
-
-	/**
-	 * Sets the addedFigures attribute of the CreationTool object
-	 */
-	protected void setAddedFigures(List newAddedFigures) {
-		fAddedFigures = newAddedFigures;
-	}
-
-	/**
-	 * Gets the currently created figure
-	 */
-	protected Figure getCreatedFigure() {
-		return fCreatedFigure;
-	}
-
-	/**
-	 * Sets the createdFigure attribute of the CreationTool object
-	 */
-	protected void setCreatedFigure(Figure newCreatedFigure) {
-		fCreatedFigure = newCreatedFigure;
-	}
-
-	/**
-	 * Gets the figure that was actually added
-	 * Note, this can be a different figure from the one which has been created.
-	 */
-	protected Figure getAddedFigure() {
-		return myAddedFigure;
-	}
-
-	/**
-	 * Sets the addedFigure attribute of the CreationTool object
-	 */
-	protected void setAddedFigure(Figure newAddedFigure) {
-		myAddedFigure = newAddedFigure;
-	}
-
-	/**
-	 * Factory method for undo activity
-	 */
-	protected Undoable createUndoActivity() {
-		return new PasteCommand.UndoActivity(getActiveView());
-	}
+    private Map<AttributeKey, Object> attributes;
+    private String name;
+    private Dimension minimalSizeTreshold = new Dimension(10,10);
+    /**
+     * We set the figure to the minimal size, if it is smaller than the minimal size treshold.
+     */
+    private Dimension minimalSize = new Dimension(40,40);
+    /**
+     * The prototype for new figures.
+     */
+    private Figure prototype;
+    /**
+     * The created figure.
+     */
+    protected Figure createdFigure;
+    
+    protected CompositeEdit creationEdit;
+    
+    /** Creates a new instance. */
+    public CreationTool(String prototypeClassName) {
+        this(prototypeClassName, null, null);
+    }
+    public CreationTool(String prototypeClassName, Map<AttributeKey, Object> attributes) {
+        this(prototypeClassName, attributes, null);
+    }
+    public CreationTool(String prototypeClassName, Map<AttributeKey, Object> attributes, String name) {
+        try {
+        this.prototype = (Figure) Class.forName(prototypeClassName).newInstance();
+        } catch (Exception e) {
+            InternalError error = new InternalError("Unable to create Figure from "+prototypeClassName);
+            error.initCause(e);
+            throw error;
+        }
+        this.attributes = attributes;
+        this.name = name;
+    }
+    public CreationTool(Figure prototype) {
+        this(prototype, null, null);
+    }
+    /** Creates a new instance. */
+    public CreationTool(Figure prototype, Map<AttributeKey, Object> attributes) {
+        this(prototype, attributes, null);
+    }
+    /** Creates a new instance. */
+    public CreationTool(Figure prototype, Map<AttributeKey, Object> attributes, String name) {
+        this.prototype = prototype;
+        this.attributes = attributes;
+        this.name = name;
+    }
+    
+    public Figure getPrototype() {
+        return prototype;
+    }
+    
+    public void activate(DrawingEditor editor) {
+        super.activate(editor);
+        //getView().clearSelection();
+        //getView().setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+    }
+    
+    public void deactivate(DrawingEditor editor) {
+        super.deactivate(editor);
+        if (getView() != null) {
+        getView().setCursor(Cursor.getDefaultCursor());
+        }
+        if (createdFigure != null) {
+            if (createdFigure instanceof CompositeFigure) {
+                ((CompositeFigure) createdFigure).layout();
+            }
+            createdFigure = null;
+        }
+    }
+    
+    
+    public void mousePressed(MouseEvent evt) {
+        super.mousePressed(evt);
+        getView().clearSelection();
+        // FIXME - Localize this label
+        creationEdit = new CompositeEdit("Figur erstellen");
+        getDrawing().fireUndoableEditHappened(creationEdit);
+        createdFigure = createFigure();
+        Point2D.Double p = constrainPoint(viewToDrawing(anchor));
+        anchor.x = evt.getX();
+        anchor.y = evt.getY();
+        createdFigure.willChange();
+        createdFigure.basicSetBounds(p, p);
+        createdFigure.changed();
+        getDrawing().add(createdFigure);
+    }
+    
+    protected Figure createFigure() {
+        Figure f = (Figure) prototype.clone();
+        getEditor().applyDefaultAttributesTo(f);
+        if (attributes != null) {
+            for (Map.Entry<AttributeKey, Object> entry : attributes.entrySet()) {
+                f.setAttribute(entry.getKey(), entry.getValue());
+            }
+        }
+        return f;
+    }
+    
+    protected Figure getCreatedFigure() {
+        return createdFigure;
+    }
+    protected Figure getAddedFigure() {
+        return createdFigure;
+    }
+    
+    public void mouseDragged(MouseEvent evt) {
+        if (createdFigure != null) {
+            Point2D.Double p = constrainPoint(new Point(evt.getX(), evt.getY()));
+            createdFigure.willChange();
+            createdFigure.basicSetBounds(
+                    constrainPoint(new Point(anchor.x, anchor.y)),
+                    p
+                    );
+            createdFigure.changed();
+        }
+    }
+    public void mouseReleased(MouseEvent evt) {
+        if (createdFigure != null) {
+            Rectangle2D.Double bounds = createdFigure.getBounds();
+            if (bounds.width == 0 && bounds.height == 0) {
+                getDrawing().remove(createdFigure);
+            } else {
+                if (Math.abs(anchor.x - evt.getX()) < minimalSizeTreshold.width && 
+                        Math.abs(anchor.y - evt.getY()) < minimalSizeTreshold.height) {
+                    createdFigure.basicSetBounds(
+                            constrainPoint(new Point(anchor.x, anchor.y)),
+                            constrainPoint(new Point(
+                            anchor.x + (int) Math.max(bounds.width, minimalSize.width), 
+                            anchor.y + (int) Math.max(bounds.height, minimalSize.height)
+                            ))
+                            );
+                }
+                getView().addToSelection(createdFigure);
+            }
+            if (createdFigure instanceof CompositeFigure) {
+                ((CompositeFigure) createdFigure).layout();
+            }
+            createdFigure = null;
+            getDrawing().fireUndoableEditHappened(creationEdit);
+            fireToolDone();
+        }
+    }
 }

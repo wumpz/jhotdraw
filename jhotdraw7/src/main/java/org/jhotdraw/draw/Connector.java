@@ -1,21 +1,26 @@
 /*
- * @(#)Connector.java
+ * @(#)Connector.java  2.0  2006-01-14
  *
- * Project:		JHotdraw - a GUI framework for technical drawings
- *				http://www.jhotdraw.org
- *				http://jhotdraw.sourceforge.net
- * Copyright:	© by the original author(s) and all contributors
- * License:		Lesser GNU Public License (LGPL)
- *				http://www.opensource.org/licenses/lgpl-license.html
+ * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * and all its contributors ("JHotDraw.org")
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * JHotDraw.org ("Confidential Information"). You shall not disclose
+ * such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with
+ * JHotDraw.org.
+ï¿½
  */
+
 
 package org.jhotdraw.draw;
 
+import org.jhotdraw.xml.DOMStorable;
+
 import java.awt.*;
-import java.io.Serializable;
-
-import org.jhotdraw.util.*;
-
+import java.awt.geom.*;
+import java.io.*;
 /**
  * Connectors know how to locate a connection point on a figure.
  * A Connector knows its owning figure and can determine either
@@ -23,74 +28,61 @@ import org.jhotdraw.util.*;
  * has a display box that describes the area of a figure it is
  * responsible for. A connector can be visible but it doesn't have
  * to be.<br>
- * <hr>
- * <b>Design Patterns</b><P>
- * <img src="images/red-ball-small.gif" width=6 height=6 alt=" o ">
- * <b><a href=../pattlets/sld004.htm>Strategy</a></b><br>
- * Connector implements the strategy to determine the connections points.<br>
- * <img src="images/red-ball-small.gif" width=6 height=6 alt=" o ">
- * <b><a href=../pattlets/sld016.htm>Factory Method</a></b><br>
- * Connectors are created by the Figure's factory method connectorAt.
- * <hr>
  *
- * @see Figure#connectorAt
- * @see ConnectionFigure
- *
- * @version <$CURRENT_VERSION$>
+ * @author Werner Randelshofer
+ * @version 1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
-public interface Connector extends Serializable, Storable {
+public interface Connector extends Cloneable, Serializable, DOMStorable {
+    
+    /**
+     * Finds the start point for the connection.
+     */
+    public Point2D.Double findStart(ConnectionFigure connection);
+    
+    /**
+     * Finds the end point for the connection.
+     */
+    public Point2D.Double findEnd(ConnectionFigure connection);
+    
+    /**
+     * Gets the connector's owner.
+     */
+    public Figure getOwner();
+    
+    /**
+     * Gets the display box of the connector.
+     */
+    public Rectangle2D.Double getBounds();
 
-	/**
-	 * Finds the start point for the connection.
-	 */
-	public abstract Point findStart(ConnectionFigure connection);
+    /**
+     * Gets the anchor of the connector.
+     * This is a point at the center or at the bounds of the figure, where
+     * the start or the end point will most likely be attached.
+     * The purpose of this method is to give the user a hint, where the 
+     * connector will most likely be attached to the owner of the connector.
+     */
+    public Point2D.Double getAnchor();
 
-	/**
-	 * Finds the end point for the connection.
-	 */
-	public abstract Point findEnd(ConnectionFigure connection);
-
-	/**
-	 * Gets the connector's owner.
-	 */
-	public abstract Figure owner();
-
-	/**
-	 * Gets the display box of the connector.
-	 */
-	public abstract Rectangle displayBox();
-
-	/**
-	 * Tests if a point is contained in the connector.
-	 */
-	public abstract boolean containsPoint(int x, int y);
-
-	/**
-	 * Draws this connector. Connectors don't have to be visible
-	 * and it is OK leave this method empty.
-	 */
-	public abstract void draw(Graphics g);
-
-	/**
-	 * Requests that the connector should show itself or hide itself.  The
-	 * ConnectionFigure which desires to connect to this Connector is passed in.
-	 * If a connector should show itself it should do so when draw is called, if
-	 * so desired.
-	 */
-	public void connectorVisibility(boolean isVisible, ConnectionFigure courtingConnection);
-
-	/**
-	 * Supports connector dragging.
-	 * 
-	 */
-	public abstract Point connectorMovedTo(int x, int y);
-     
-  
-	/**
-	 * Returns a 'finalized' connector. Can be used to change Connector.
-	 * 
-	 * @param start - true if a startConnector
-	 * @return - final Connector
-	 */    
-	public Connector finalizeConnector(boolean start);
+    /**
+     * Updates the anchor of the connector.
+     * This method is called when the user manually changes the end point of
+     * the ConnectionFigure. The Connector can use this as a hint, where
+     * the user wants to place the start or end point of the ConnectionFigure.
+     */
+    public void updateAnchor(Point2D.Double p);
+    
+    /**
+     * Tests if a point is contained in the connector.
+     */
+    public boolean contains(Point2D.Double p);
+    
+    /**
+     * Draws this connector. Connectors don't have to be visible
+     * and it is OK leave this method empty.
+     */
+    public void draw(Graphics2D g);
+    /**
+     * Returns a clone of the Connection.
+     */
+    public Object clone();
 }

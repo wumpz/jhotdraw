@@ -1,66 +1,77 @@
 /*
- * @(#)FigureEvent.java
+ * @(#)FigureChangeEvent.java  3.0  2006-06-07
  *
- * Project:		JHotdraw - a GUI framework for technical drawings
- *				http://www.jhotdraw.org
- *				http://jhotdraw.sourceforge.net
- * Copyright:	© by the original author(s) and all contributors
- * License:		Lesser GNU Public License (LGPL)
- *				http://www.opensource.org/licenses/lgpl-license.html
+ * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * and all its contributors ("JHotDraw.org")
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * JHotDraw.org ("Confidential Information"). You shall not disclose
+ * such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with
+ * JHotDraw.org.
+ï¿½
  */
 
 package org.jhotdraw.draw;
 
-import java.awt.Rectangle;
-import java.util.EventObject;
-
-
+import java.awt.*;
+import java.awt.geom.*;
+import java.util.*;
 /**
- * FigureChange event passed to FigureChangeListeners.
+ * Change event passed to FigureListeners.
  *
- * @version <$CURRENT_VERSION$>
+ * @author Werner Randelshofer
+ * @version 3.0 2006-06-07 Reworked.
+ * <br>2.0 2006-01-14 Changed to support double precision coordinates.
+ * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
 public class FigureEvent extends EventObject {
-
-	private Rectangle myRectangle;
-	private FigureEvent myNestedEvent;
-
-	private static final Rectangle EMPTY_RECTANGLE = new Rectangle(0, 0, 0, 0);
-
-   /**
-	* Constructs an event for the given source Figure. The rectangle is the
-	* area to be invalvidated.
-	*/
-	public FigureEvent(Figure newSource, Rectangle newRect) {
-		super(newSource);
-		myRectangle = newRect;
-	}
-
-	public FigureEvent(Figure newSource) {
-		super(newSource);
-		myRectangle = EMPTY_RECTANGLE;
-	}
-
-	public FigureEvent(Figure newSource, Rectangle newRect, FigureEvent nestedEvent) {
-		this(newSource, newRect);
-		myNestedEvent = nestedEvent;
-	}
-
-	/**
-	 *  Gets the changed figure
-	 */
-	public Figure getFigure() {
-		return (Figure)getSource();
-	}
-
-	/**
-	 *  Gets the changed rectangle
-	 */
-	public Rectangle getInvalidatedRectangle() {
-		return myRectangle;
-	}
-
-	public FigureEvent getNestedEvent() {
-		return myNestedEvent;
-	}
+    private Rectangle2D.Double invalidatedArea;
+    private AttributeKey attribute;
+    private Object oldValue;
+    private Object newValue;
+    
+    /**
+     * Constructs an event for the given source Figure.
+     * @param invalidatedArea The bounds of the invalidated area on the drawing.
+     */
+    public FigureEvent(Figure source, Rectangle2D.Double invalidatedArea) {
+        super(source);
+        this.invalidatedArea = invalidatedArea;
+    }
+    
+    /**
+     * Constructs an event for the given source Figure.
+     */
+    public FigureEvent(Figure source, AttributeKey attribute, Object oldValue, Object newValue) {
+        super(source);
+        this.attribute = attribute;
+        this.oldValue = oldValue;
+        this.newValue = newValue;
+    }
+    
+    /**
+     *  Gets the changed figure
+     */
+    public Figure getFigure() {
+        return (Figure) getSource();
+    }
+    
+    /**
+     *  Gets the bounds of the invalidated area on the drawing.
+     */
+    public Rectangle2D.Double getInvalidatedArea() {
+        return invalidatedArea;
+    }
+    
+    public AttributeKey getAttribute() {
+        return attribute;
+    }
+    public Object getOldValue() {
+        return oldValue;
+    }
+    public Object getNewValue() {
+        return newValue;
+    }
 }

@@ -1,74 +1,49 @@
 /*
- * @(#)TextHolder.java
+ * @(#)TextHolder.java  1.0  19. November 2003
  *
- * Project:		JHotdraw - a GUI framework for technical drawings
- *				http://www.jhotdraw.org
- *				http://jhotdraw.sourceforge.net
- * Copyright:	© by the original author(s) and all contributors
- * License:		Lesser GNU Public License (LGPL)
- *				http://www.opensource.org/licenses/lgpl-license.html
+ * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * and all its contributors ("JHotDraw.org")
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * JHotDraw.org ("Confidential Information"). You shall not disclose
+ * such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with
+ * JHotDraw.org.
+ï¿½ 
  */
+
+
 
 package org.jhotdraw.draw;
 
+import org.jhotdraw.util.*;
 import java.awt.*;
-
-import org.jhotdraw.framework.*;
-
+import org.jhotdraw.geom.*;
 /**
- * The interface of a figure that has some editable text contents.
+ * TextHolder.
  *
- * @see Figure
- *
- * @version <$CURRENT_VERSION$>
+ * @author Werner Randelshofer
+ * @version 2.0 2006-01-14 Changed to support double precison coordinates.
+ * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
-
-public interface TextHolder {
-
-	public Rectangle textDisplayBox();
-
-	/**
-	 * Gets the text shown by the text figure.
-	 */
-	public String getText();
-
-	/**
-	 * Sets the text shown by the text figure.
-	 */
-	public void setText(String newText);
-
-	/**
-	 * Tests whether the figure accepts typing.
-	 */
-	public boolean acceptsTyping();
-
+public interface TextHolder extends Figure {
+    public boolean isEditable();
+    public Font getFont();
+    public Color getTextColor();
+    public Color getFillColor();
+    public TextHolder getLabelFor();
+    /**
+     * Gets the number of characters used to expand tabs.
+     */
+    public int getTabSize();
+    public String getText();
+    public void setText(String text);
 	/**
 	 * Gets the number of columns to be overlaid when the figure is edited.
 	 */
-	public int overlayColumns();
-
-	/**
-	 * Connects a text holder to another figure.
-	 */
-	public void connect(Figure connectedFigure);
-
-	/**
-	 * Disconnects a text holder from a connect figure.
-	 */
-	public void disconnect(Figure disconnectFigure);
-	
-	/**
-	 * Gets the font.
-	 */
-	public Font getFont();
-
-	/**
-	 * Usually, a TextHolders is implemented by a Figure subclass. To avoid casting
-	 * a TextHolder to a Figure this method can be used for polymorphism (in this
-	 * case, let the (same) object appear to be of another type).
-	 * Note, that the figure returned is not the figure to which the TextHolder is
-	 * (and its representing figure) connected.
-	 * @return figure responsible for representing the content of this TextHolder
-	 */
-	public Figure getRepresentingFigure();
+	public int getTextColumns();
+    public void setFontSize(float size);
+    public float getFontSize();
+    public Insets2DDouble getInsets();
 }

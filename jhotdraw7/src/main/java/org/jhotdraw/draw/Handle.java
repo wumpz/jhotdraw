@@ -1,134 +1,134 @@
 /*
- * @(#)Handle.java
+ * @(#)Handle.java  2.0  2006-01-14
  *
- * Project:		JHotdraw - a GUI framework for technical drawings
- *				http://www.jhotdraw.org
- *				http://jhotdraw.sourceforge.net
- * Copyright:	© by the original author(s) and all contributors
- * License:		Lesser GNU Public License (LGPL)
- *				http://www.opensource.org/licenses/lgpl-license.html
+ * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * and all its contributors ("JHotDraw.org")
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * JHotDraw.org ("Confidential Information"). You shall not disclose
+ * such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with
+ * JHotDraw.org.
  */
+
 
 package org.jhotdraw.draw;
 
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Rectangle;
-
-import org.jhotdraw.framework.Cursor;
-import org.jhotdraw.util.Undoable;
-
+import java.awt.*;
+import java.awt.geom.*;
+import java.awt.event.*;
+import javax.swing.event.*;
+import java.util.*;
 /**
  * Handles are used to change a figure by direct manipulation.
  * Handles know their owning figure and they provide methods to
  * locate the handle on the figure and to track changes.
- * <hr>
- * <b>Design Patterns</b><P>
- * <img src="images/red-ball-small.gif" width=6 height=6 alt=" o ">
- * <b><a href=../pattlets/sld004.htm>Adapter</a></b><br>
- * Handles adapt the operations to manipulate a figure to a common interface.
+ * <p>
+ * Handles are used for user interaction. Unlike figures, a handle works with
+ * the user interface coordinates of the DrawingView. The user interface
+ * coordinates are expressed in integer pixels.
  *
- * @see Figure
- *
- * @version <$CURRENT_VERSION$>
+ * @author Werner Randelshofer
+ * @version 2.0 2006-01-14 Changed to support double precision coordinates.
+ * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
-public interface Handle {
-
-	public static final int HANDLESIZE = 8;
-
-	/**
-	 * Locates the handle on the figure. The handle is drawn
-	 * centered around the returned point.
-	 */
-	public Point locate();
-
-	/**
-	 * Tracks the start of the interaction. The default implementation
-	 * does nothing.
-	 * @param x the x position where the interaction started
-	 * @param y the y position where the interaction started
-	 * @param view the handles container
-	 */
-	public void invokeStart(int  x, int  y, DrawingView view);
-
-	/**
-	 * Tracks the start of the interaction. The default implementation
-	 * does nothing.
-	 * @param x the x position where the interaction started
-	 * @param y the y position where the interaction started
-	 * @deprecated As of version 4.1, use invokeStart(x, y, drawingView)
-	 */
-	public void invokeStart(int  x, int  y, Drawing drawing);
-
-	/**
-	 * Tracks a step of the interaction.
-	 * @param x the current x position
-	 * @param y the current y position
-	 * @param anchorX the x position where the interaction started
-	 * @param anchorY the y position where the interaction started
-	 */
-	public void invokeStep (int x, int y, int anchorX, int anchorY, DrawingView view);
-
-	/**
-	 * Tracks a step of the interaction.
-	 * @param dx x delta of this step
-	 * @param dy y delta of this step
-	 * @deprecated As of version 4.1,
-	 * use invokeStep(x, y, anchorX, anchorY, drawingView)
-	 */
-	public void invokeStep (int dx, int dy, Drawing drawing);
-
-	/**
-	 * Tracks the end of the interaction.
-	 * @param x the current x position
-	 * @param y the current y position
-	 * @param anchorX the x position where the interaction started
-	 * @param anchorY the y position where the interaction started
-	 */
-	public void invokeEnd(int x, int y, int anchorX, int anchorY, DrawingView view);
-
-	/**
-	 * Tracks the end of the interaction.
-	 * @deprecated As of version 4.1,
-	 * use invokeEnd(x, y, anchorX, anchorY, drawingView).
-	 */
-	public void invokeEnd(int dx, int dy, Drawing drawing);
-
-	/**
-	 * Gets the handle's owner.
-	 */
-	public Figure owner();
-
-	/**
-	 * Gets the display box of the handle.
-	 */
-	public Rectangle displayBox();
-
-	/**
-	 * Tests if a point is contained in the handle.
-	 */
-	public boolean containsPoint(int x, int y);
-
-	/**
-	 * Draws this handle.
-	 */
-	public void draw(Graphics g);
-
-	/**
-	 * Returns an Undoable to be used by the Undo/Redo infrastructure.
-	 * @return Undoable
-	 */
-	public Undoable getUndoActivity();
-
-	/**
-	 * Sets an Undoable to be used by the Undo/Redo infrastructure.
-	 * @param newUndoableActivity
-	 */
-	public void setUndoActivity(Undoable newUndoableActivity);
-
-	/**
-	 * Returns the preferred Cursor for this Handle.
-	 * @return Cursor
-	 */
-	public Cursor getCursor();
+public interface Handle extends KeyListener {
+    /**
+     * Returns the owner of this handle.
+     */
+    public Figure getOwner();
+    /**
+     * Sets the view of the handle.
+     */
+    public void setView(DrawingView view);
+    /**
+     * Adds a listener for this handle.
+     */
+    public void addHandleListener(HandleListener l);
+    
+    /**
+     * Removes a listener for this handle.
+     */
+    void removeHandleListener(HandleListener l);
+    /**
+     * Returns the bounding box of the handle.
+     */
+    Rectangle  getBounds();
+    /**
+     * Returns the draw bounds of the handle.
+     */
+    Rectangle getDrawBounds();
+    
+    /**
+     * Tests if a point is contained in the handle.
+     */
+    public boolean contains(Point p);
+    
+    /**
+     * Draws this handle.
+     */
+    public void draw(Graphics2D g);
+    /**
+     * Invalidates the handle. This method informs its listeners
+     * that its current display box is invalid and should be
+     * refreshed.
+     */
+    public void invalidate();
+    
+    /**
+     * Disposes the resources aquired by the handler.
+     */
+    public void dispose();
+    
+    /**
+     * Returns a cursor for the handle.
+     */
+    public Cursor getCursor();
+    
+    /**
+     * Returns true, if this handle is combinable with the specified handle.
+     * This method is used to determine, if multiple handles need to be tracked,
+     * when more than one figure is selected.
+     */
+    public boolean isCombinableWith(Handle handle);
+    
+    /**
+     * Tracks the start of the interaction. The default implementation
+     * does nothing.
+     *  @param anchor the position where the interaction started
+     */
+    public void trackStart(Point anchor, int modifiersEx);
+    
+    /**
+     * Tracks a step of the interaction.
+     *  @param anchor the position where the interaction started
+     * @param lead the current position
+     */
+    public void trackStep(Point anchor, Point lead, int modifiersEx);
+    
+    /**
+     * Tracks the end of the interaction.
+     *  @param anchor the position where the interaction started
+     * @param lead the current position
+     */
+    public void trackEnd(Point anchor, Point lead, int modifiersEx);
+    
+    /**
+     * Tracks a double click.
+     */
+    public void trackDoubleClick(Point p, int modifiersEx);
+    
+    /**
+     * This method is invoked by the drawing view, when its transform
+     * has changed. This means, that DrawingView.viewToDrawing and
+     * DrawingView.drawingToView will return different values than they
+     * did before.
+     */
+    public void viewTransformChanged();
+    
+    /**
+     * Creates secondary handles.
+     */
+    public Collection<Handle> createSecondaryHandles();
 }

@@ -1,143 +1,241 @@
 /*
- * @(#)RoundRectangleFigure.java
+ * @(#)RoundRectangleFigure.java  2.2  2006-06-17
  *
- * Project:		JHotdraw - a GUI framework for technical drawings
- *				http://www.jhotdraw.org
- *				http://jhotdraw.sourceforge.net
- * Copyright:	© by the original author(s) and all contributors
- * License:		Lesser GNU Public License (LGPL)
- *				http://www.opensource.org/licenses/lgpl-license.html
+ * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * and all its contributors ("JHotDraw.org")
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * JHotDraw.org ("Confidential Information"). You shall not disclose
+ * such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with
+ * JHotDraw.org.
  */
+
 
 package org.jhotdraw.draw;
 
 import java.awt.*;
-import java.io.IOException;
-import java.util.List;
-
-import org.jhotdraw.figures.RadiusHandle;
-import org.jhotdraw.figures.ShortestDistanceConnector;
-import org.jhotdraw.framework.*;
-import org.jhotdraw.standard.*;
-import org.jhotdraw.util.*;
-
-
+import java.awt.geom.*;
+import java.io.*;
+import java.util.*;
+import javax.swing.undo.*;
+import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.geom.*;
+import org.jhotdraw.xml.DOMInput;
+import org.jhotdraw.xml.DOMOutput;
 /**
- * A round rectangle figure.
+ * A Rectangle2D.Double with round corners.
  *
- * @see RadiusHandle
- *
- * @version <$CURRENT_VERSION$>
+ * @author Werner Randelshofer
+ * @version 2.2 2006-06-17 Method chop added.
+ * 2.1 2006-05-29 Method basicSetBounds did not work for bounds smaller
+ * than 1 pixel.
+ * <br>2.0 2006-01-14 Changed to support double precison coordinates.
+ * <br>1.0 2004-03-02 Derived from JHotDraw 6.0b1.
  */
 public class RoundRectangleFigure extends AttributedFigure {
-
-	private Rectangle   fDisplayBox;
-	private int         fArcWidth;
-	private int         fArcHeight;
-	private static final int DEFAULT_ARC = 8;
-
-	/*
-	 * Serialization support.
-	 */
-	private static final long serialVersionUID = 7907900248924036885L;
-	private int roundRectangleSerializedDataVersion = 1;
-
-	public RoundRectangleFigure() {
-		this(new Point(0,0), new Point(0,0));
-		fArcWidth = fArcHeight = DEFAULT_ARC;
-	}
-
-	public RoundRectangleFigure(Point origin, Point corner) {
-		basicDisplayBox(origin,corner);
-		fArcWidth = fArcHeight = DEFAULT_ARC;
-	}
-
-	public void basicDisplayBox(Point origin, Point corner) {
-		fDisplayBox = new Rectangle(origin);
-		fDisplayBox.add(corner);
-	}
-
-	/**
-	 * Sets the arc's witdh and height.
-	 */
-	public void setArc(int width, int height) {
-		willChange();
-		fArcWidth = width;
-		fArcHeight = height;
-		changed();
-	}
-
-	/**
-	 * Gets the arc's width and height.
-	 */
-	public Point getArc() {
-		return new Point(fArcWidth, fArcHeight);
-	}
-
-	public HandleEnumeration handles() {
-		List handles = CollectionsFactory.current().createList();
-		BoxHandleKit.addHandles(this, handles);
-
-		handles.add(new RadiusHandle(this));
-
-		return new HandleEnumerator(handles);
-	}
-
-	public Rectangle displayBox() {
-		return new Rectangle(
-			fDisplayBox.x,
-			fDisplayBox.y,
-			fDisplayBox.width,
-			fDisplayBox.height);
-	}
-
-	protected void basicMoveBy(int x, int y) {
-		fDisplayBox.translate(x,y);
-	}
-
-	public void drawBackground(Graphics g) {
-		Rectangle r = displayBox();
+    private RoundRectangle2D.Double roundrect;
+    private static final double DEFAULT_ARC = 20;
+    
+    /** Creates a new instance. */
+    public RoundRectangleFigure() {
+        this(0, 0, 0, 0);
+    }
+    
+    public RoundRectangleFigure(double x, double y, double width, double height) {
+        roundrect = new RoundRectangle2D.Double(x, y, width, height, DEFAULT_ARC, DEFAULT_ARC);
         /*
-         * JP, 25-May-03: Changed from (width-1, height-1) to (width, height),
-         * because figures were not filled completely (JDK 1.4.x). Might invalidate
-         * fix for #661878. If the problem is JDK-dependant, maybe the JDK version
-         * should be taken into account here?
+        FILL_COLOR.set(this, Color.white);
+        STROKE_COLOR.set(this, Color.black);
          */
-		g.fillRoundRect(r.x, r.y, r.width, r.height, fArcWidth, fArcHeight);
-	}
+    }
+    
+    public Rectangle2D.Double getBounds() {
+        return (Rectangle2D.Double) roundrect.getBounds2D();
+    }
+    public Rectangle2D.Double getFigureDrawBounds() {
+        Rectangle2D.Double r = (Rectangle2D.Double) roundrect.getBounds2D();
+            double grow = AttributeKeys.getPerpendicularHitGrowth(this);
+            Geom.grow(r, grow, grow);
+            
+        return r;
+    }
+    
+    public double getArcWidth() {
+        return roundrect.arcwidth;
+    }
+    public double getArcHeight() {
+        return roundrect.archeight;
+    }
+    public void setArc(final double w, final double h) {
+        final double oldWidth = roundrect.getArcWidth();
+        final double oldHeight = roundrect.getArcHeight();
+        roundrect.arcwidth = w;
+        roundrect.archeight = h;
+        fireFigureChanged(getDrawBounds());
+        fireUndoableEditHappened(new AbstractUndoableEdit() {
+            public String getPresentationName() {
+                return "Rundung";
+            }
+            public void undo() throws CannotUndoException {
+                super.undo();
+                willChange();
+                roundrect.arcwidth = oldWidth;
+                roundrect.archeight = oldHeight;
+                changed();
+            }
+            public void redo() throws CannotRedoException {
+                super.redo();
+                willChange();
+                roundrect.arcwidth = w;
+                roundrect.archeight = h;
+                changed();
+            }
+        });
+    }
+    
+    protected void drawFill(Graphics2D g) {
+        RoundRectangle2D.Double r = (RoundRectangle2D.Double) roundrect.clone();
+            double grow = AttributeKeys.getPerpendicularFillGrowth(this);
+            r.x -= grow;
+            r.y -= grow;
+            r.width += grow * 2;
+            r.height += grow * 2;
+        r.arcwidth += grow * 2;
+        r.archeight += grow * 2;
+        if (r.width > 0 && r.height > 0) {
+        g.fill(r);
+        }
+    }
+    
+    protected void drawStroke(Graphics2D g) {
+        RoundRectangle2D.Double r = (RoundRectangle2D.Double) roundrect.clone();
+            double grow = AttributeKeys.getPerpendicularDrawGrowth(this);
+            r.x -= grow;
+            r.y -= grow;
+            r.width += grow * 2;
+            r.height += grow * 2;
+        r.arcwidth += grow * 2;
+        r.archeight += grow * 2;
+        if (r.width > 0 && r.height > 0) {
+        g.draw(r);
+        }
+    }
+    
+    /**
+     * Checks if a Point2D.Double is inside the figure.
+     */
+    public boolean contains(Point2D.Double p) {
+        RoundRectangle2D.Double r = (RoundRectangle2D.Double) roundrect.clone();
+            double grow = AttributeKeys.getPerpendicularHitGrowth(this);
+            r.x -= grow;
+            r.y -= grow;
+            r.width += grow * 2;
+            r.height += grow * 2;
+        r.arcwidth += grow * 2;
+        r.archeight += grow * 2;
+        return r.contains(p);
+    }
+    public void basicSetBounds(Point2D.Double anchor, Point2D.Double lead) {
+        roundrect.x = Math.min(anchor.x, lead.x);
+        roundrect.y = Math.min(anchor.y , lead.y);
+        roundrect.width = Math.max(0.1, Math.abs(lead.x - anchor.x));
+        roundrect.height = Math.max(0.1, Math.abs(lead.y - anchor.y));
+    }
+    /**
+     * Transforms the figure.
+     * @param tx The transformation.
+     */
+    public void basicTransform(AffineTransform tx) {
+        Point2D.Double anchor = getStartPoint();
+        Point2D.Double lead = getEndPoint();
+        basicSetBounds(
+                (Point2D.Double) tx.transform(anchor, anchor),
+                (Point2D.Double) tx.transform(lead, lead)
+                );
+    }
+    
+    public Collection<Handle> createHandles(int detailLevel) {
+        LinkedList<Handle> handles = (LinkedList<Handle>) super.createHandles(detailLevel);
+        handles.add(new RoundRectRadiusHandle(this));
+        
+        return handles;
+    }
+    
+    public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
+        return new ChopRoundRectConnector(this);
+    }
+    public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
+        return new ChopRoundRectConnector(this);
+    }
 
-	public void drawFrame(Graphics g) {
-		Rectangle r = displayBox();
-		g.drawRoundRect(r.x, r.y, r.width-1, r.height-1, fArcWidth, fArcHeight);
-	}
+    public RoundRectangleFigure clone() {
+        RoundRectangleFigure that = (RoundRectangleFigure) super.clone();
+        that.roundrect = (RoundRectangle2D.Double) this.roundrect.clone();
+        return that;
+    }
+    
+   @Override public void read(DOMInput in) throws IOException {
+        super.read(in);
+        roundrect.arcwidth = in.getAttribute("arcWidth", DEFAULT_ARC);
+        roundrect.archeight = in.getAttribute("arcHeight", DEFAULT_ARC);
+    }
+    
+    @Override public void write(DOMOutput out) throws IOException {
+        super.write(out);
+        out.addAttribute("arcWidth", roundrect.arcwidth);
+        out.addAttribute("arcHeight", roundrect.archeight);
+    }
+    public void restoreTo(Object geometry) {
+        RoundRectangle2D.Double r = (RoundRectangle2D.Double) geometry;
+        roundrect.x = r.x;
+        roundrect.y = r.y;
+        roundrect.width = r.width;
+        roundrect.height = r.height;
+    }
+    
+    public Object getRestoreData() {
+        return roundrect.clone();
+    }
+    public Point2D.Double chop(Point2D.Double from) {
+        Rectangle2D.Double outer = getBounds();
 
-	public Insets connectionInsets() {
-		return new Insets(fArcHeight/2, fArcWidth/2, fArcHeight/2, fArcWidth/2);
-	}
-
-	public Connector connectorAt(int x, int y) {
-		return new ShortestDistanceConnector(this); // just for demo purposes
-	}
-
-	public void write(StorableOutput dw) {
-		super.write(dw);
-		dw.writeInt(fDisplayBox.x);
-		dw.writeInt(fDisplayBox.y);
-		dw.writeInt(fDisplayBox.width);
-		dw.writeInt(fDisplayBox.height);
-		dw.writeInt(fArcWidth);
-		dw.writeInt(fArcHeight);
-	}
-
-	public void read(StorableInput dr) throws IOException {
-		super.read(dr);
-		fDisplayBox = new Rectangle(
-			dr.readInt(),
-			dr.readInt(),
-			dr.readInt(),
-			dr.readInt());
-		fArcWidth = dr.readInt();
-		fArcHeight = dr.readInt();
-	}
-
+        double grow;
+        switch (STROKE_PLACEMENT.get(this)) {
+            case CENTER :
+            default :
+                grow = AttributeKeys.getStrokeTotalWidth(this) / 2;
+                break;
+            case OUTSIDE :
+                grow = AttributeKeys.getStrokeTotalWidth(this);
+                break;
+            case INSIDE :
+                grow = 0;
+                break;
+        }
+        outer.x -= grow;
+        outer.y -= grow;
+        outer.width += grow * 2;
+        outer.height += grow * 2;
+        
+        Rectangle2D.Double inner = (Rectangle2D.Double) outer.clone();
+        double gw = -(getArcWidth() + grow * 2) / 2;
+        double gh = -(getArcHeight() + grow *2) / 2;
+        inner.x -= gw;
+        inner.y -= gh;
+        inner.width += gw * 2;
+        inner.height += gh * 2;
+        
+        double angle = Geom.pointToAngle(outer, from);
+        Point2D.Double p = Geom.angleToPoint(outer, Geom.pointToAngle(outer, from));
+        
+        if (p.x == outer.x
+        || p.x == outer.x + outer.width) {
+            p.y = Math.min(Math.max(p.y, inner.y), inner.y + inner.height);
+        } else {
+            p.x = Math.min(Math.max(p.x, inner.x), inner.x + inner.width);
+        }
+        return p;
+    }
 }

@@ -1,89 +1,55 @@
 /*
- * @(#)LocatorHandle.java
+ * @(#)LocatorHandle.java  2.0  2006-01-14
  *
- * Project:		JHotdraw - a GUI framework for technical drawings
- *				http://www.jhotdraw.org
- *				http://jhotdraw.sourceforge.net
- * Copyright:	© by the original author(s) and all contributors
- * License:		Lesser GNU Public License (LGPL)
- *				http://www.opensource.org/licenses/lgpl-license.html
+ * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * and all its contributors ("JHotDraw.org")
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * JHotDraw.org ("Confidential Information"). You shall not disclose
+ * such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with
+ * JHotDraw.org.
+ï¿½
  */
+
 
 package org.jhotdraw.draw;
 
-import java.awt.Point;
-
-import org.jhotdraw.framework.Cursor;
-import org.jhotdraw.standard.AWTCursor;
-
+import java.awt.*;
+import java.awt.geom.*;
 /**
  * A LocatorHandle implements a Handle by delegating the location requests to
  * a Locator object.
  *
- * @see LocatorHandle
+ * @see Locator
  *
- * @version <$CURRENT_VERSION$>
+ * @author Werner Randelshofer
+ * @version 2.0 2006-01-14 Changed to support double precision coordinates.
+ * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
-public class LocatorHandle extends AbstractHandle {
-
-	private Locator       fLocator;
-
-	/**
-	 * Initializes the LocatorHandle with the given Locator.
-	 */
-	public LocatorHandle(Figure owner, Locator l) {
-		super(owner);
-		fLocator = l;
-	}
-	/**
-	 * This should be cloned or it gives the receiver the opportunity to alter
-	 * our internal behavior.
-	 */
-	public Locator getLocator() {
-		return fLocator;
-	}
-
-	/**
-	 * Locates the handle on the figure by forwarding the request
-	 * to its figure.
-	 */
-	public Point locate() {
-		return fLocator.locate(owner());
-	}
-
-	/**
-	 * @see org.jhotdraw.draw.Handle#getCursor()
-	 */
-	public Cursor getCursor() {
-		Cursor c = super.getCursor();
-		if (getLocator() instanceof RelativeLocator) {
-			RelativeLocator rl = (RelativeLocator) getLocator();
-			if (rl.equals( RelativeLocator.north())) {
-				c = new AWTCursor(java.awt.Cursor.N_RESIZE_CURSOR);
-			}
-			else if (rl.equals(RelativeLocator.northEast())) {
-				c = new AWTCursor(java.awt.Cursor.NE_RESIZE_CURSOR);
-			}
-			else if (rl.equals(RelativeLocator.east())) {
-				c = new AWTCursor(java.awt.Cursor.E_RESIZE_CURSOR);
-			}
-			else if (rl.equals(RelativeLocator.southEast())) {
-				c = new AWTCursor(java.awt.Cursor.SE_RESIZE_CURSOR);
-			}
-			else if (rl.equals(RelativeLocator.south())) {
-				c = new AWTCursor(java.awt.Cursor.S_RESIZE_CURSOR);
-			}
-			else if (rl.equals(RelativeLocator.southWest())) {
-				c = new AWTCursor(java.awt.Cursor.SW_RESIZE_CURSOR);
-			}
-			else if (rl.equals(RelativeLocator.west())) {
-				c = new AWTCursor(java.awt.Cursor.W_RESIZE_CURSOR);
-			}
-			else if (rl.equals(RelativeLocator.northWest())) {
-				c = new AWTCursor(java.awt.Cursor.NW_RESIZE_CURSOR);
-			}
-		}
-		return c;
-	}
-
+public abstract class LocatorHandle extends AbstractHandle {
+    private Locator locator;
+    
+    /**
+     * Initializes the LocatorHandle with the given Locator.
+     */
+    public LocatorHandle(Figure owner, Locator l) {
+        super(owner);
+        locator = l;
+    }
+    
+    public Point2D.Double getLocationOnDrawing() {
+        return locator.locate(getOwner());
+    }
+    
+    public Point getLocation() {
+        return view.drawingToView(locator.locate(getOwner()));
+    }
+    
+    protected Rectangle basicGetBounds() {
+        Rectangle r = new Rectangle(getLocation());
+        r.grow(getHandlesize() / 2, getHandlesize() / 2);
+        return r;
+    }
 }

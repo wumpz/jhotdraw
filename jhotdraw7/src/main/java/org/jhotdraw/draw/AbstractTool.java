@@ -1,396 +1,338 @@
 /*
- * @(#)AbstractTool.java
+ * @(#)AbstractTool.java  3.0  2006-02-15
  *
- * Project:		JHotdraw - a GUI framework for technical drawings
- *				http://www.jhotdraw.org
- *				http://jhotdraw.sourceforge.net
- * Copyright:	© by the original author(s) and all contributors
- * License:		Lesser GNU Public License (LGPL)
- *				http://www.opensource.org/licenses/lgpl-license.html
+ * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * and all its contributors ("JHotDraw.org")
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * JHotDraw.org ("Confidential Information"). You shall not disclose
+ * such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with
+ * JHotDraw.org.
+ï¿½
  */
 
 package org.jhotdraw.draw;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.util.EventObject;
-import java.util.Iterator;
-import java.util.List;
-
-import org.jhotdraw.framework.*;
-import org.jhotdraw.standard.AWTCursor;
-import org.jhotdraw.util.CollectionsFactory;
-import org.jhotdraw.util.Undoable;
+import org.jhotdraw.undo.CompositeEdit;
+import java.awt.*;
+import java.awt.geom.*;
+import java.awt.event.*;
+import javax.swing.event.*;
+import java.util.*;
 
 /**
- * Default implementation support for Tools.
+ * AbstractTool.
  *
- * @see DrawingView
- * @see Tool
- *
- * @version <$CURRENT_VERSION$>
+ * @author Werner Randelshofer
+ * @version 3.0 2006-02-15 Updated to handle multiple views.
+ * <br>2.0 2006-01-14 Changed to support double precision coordinates.
+ * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
-
 public abstract class AbstractTool implements Tool {
-
-	private DrawingEditor     myDrawingEditor;
-
-	/**
-	 * The position of the initial mouse down.
-	 * The anchor point is usually the first mouse click performed with this tool.
-	 */
-    private int myAnchorX;
-    private int myAnchorY;
-
-	/**
-	 * A tool can have a drawing view on which it operates
-	 * independingly of the currently active drawing view.
-	 * For example, if a tool can be used
-	 */
-	private DrawingView     myDrawingView;
-
-	private Undoable myUndoActivity;
-	private AbstractTool.EventDispatcher myEventDispatcher;
-
-	private boolean myIsUsable;
-
-	/**
-	 * Flag to indicate whether to perform usable checks or not
-	 */
-	private boolean myIsEnabled;
-
-	/**
-	 * Constructs a tool for the given view.
-	 */
-	public AbstractTool(DrawingEditor newDrawingEditor) {
-		setEditor(newDrawingEditor);
-		setEventDispatcher(createEventDispatcher());
-		setEnabled(true);
-		checkUsable();
-		editor().addViewChangeListener(createViewChangeListener());
-	}
-
-	/**
-	 * Activates the tool for use on the given view. This method is called
-	 * whenever the user switches to this tool. Use this method to
-	 * reinitialize a tool.
-	 * Since tools will be disabled unless it is useable, there will always
-	 * be an active view when this is called. based on isUsable()
-	 * Tool should never be activated if the view is null.
-	 * Ideally, the dditor should take care of that.
-	 */
-	public void activate() {
-		if (getActiveView() != null) {
-			getActiveView().clearSelection();
-			getActiveView().checkDamage();
-			getEventDispatcher().fireToolActivatedEvent();
-		}
-	}
-
-	/**
-	 * Deactivates the tool. This method is called whenever the user
-	 * switches to another tool. Use this method to do some clean-up
-	 * when the tool is switched. Subclassers should always call
-	 * super.deactivate.
-	 * An inactive tool should never be deactivated
-	 */
-	public void deactivate() {
-		if (isActive()) {
-			if (getActiveView() != null) {
-				getActiveView().setCursor(new AWTCursor(java.awt.Cursor.DEFAULT_CURSOR));
-			}
-			getEventDispatcher().fireToolDeactivatedEvent();
-		}
-	}
-
-	/**
-	 * Fired when the selected view changes.
-	 * Subclasses should always call super.  ViewSelectionChanged() this allows
-	 * the tools state to be updated and referenced to the new view.
-	 */
-	protected void viewSelectionChanged(DrawingView oldView, DrawingView newView) {
-		if (isActive()) {
-			deactivate();
-			activate();
-		}
-
-		checkUsable();
-	}
-
-	/**
-	 * Sent when a new view is created
-	 */
-	protected void viewCreated(DrawingView view) {
-	}
-
-	/**
-	 * Send when an existing view is about to be destroyed.
-	 */
-	protected void viewDestroying(DrawingView view) {
-	}
-
-	/**
-	 * Handles mouse down events in the drawing view.
-	 */
-	public void mouseDown(MouseEvent e, int x, int y) {
-        setAnchorX(x);
-        setAnchorY(y);
-		setView((DrawingView)e.getSource());
-	}
-
-	/**
-	 * Handles mouse drag events in the drawing view.
-	 */
-	public void mouseDrag(MouseEvent e, int x, int y) {
-	}
-
-	/**
-	 * Handles mouse up in the drawing view.
-	 */
-	public void mouseUp(MouseEvent e, int x, int y) {
-//		setView(null);//This must be fixed!!! the view should not be held onto after mouse up??
-//unlike super.mousedown which is usually called immediately after a sub classes mouse down
-//method starts, super.mouseup should probably be called last before the method ends?
-//it must if its going to set the view to null.  getting messy.
-	}
-
-	/**
-	 * Handles mouse moves (if the mouse button is up).
-	 */
-	public void mouseMove(MouseEvent evt, int x, int y) {
-	}
-
-	/**
-	 * Handles key down events in the drawing view.
-	 */
-	public void keyDown(KeyEvent evt, int key) {
-	}
-
-	/**
-	 * Gets the tool's drawing.
-	 */
-	public Drawing drawing() {
-		return view().drawing();
-	}
-
-	public Drawing getActiveDrawing() {
-	    return getActiveView().drawing();
-	}
-
-	/**
-	 * Gets the tool's editor.
-	 */
-	public DrawingEditor editor() {
-		return myDrawingEditor;
-	}
-
-	protected void setEditor(DrawingEditor newDrawingEditor) {
-		myDrawingEditor = newDrawingEditor;
-	}
-
-	/**
-	 * Gets the tool's view (convienence method).
-	 */
-	public DrawingView view() {
-		return myDrawingView;
-	}
-
-	protected void setView(DrawingView newDrawingView) {
-		myDrawingView = newDrawingView;
-	}
-
-	public DrawingView getActiveView() {
-		return editor().view();
-	}
-
-	/**
-	 * Tests if the tool can be used or "executed."
-	 */
-	public boolean isUsable() {
-		return isEnabled() && myIsUsable;
-	}
-
-	public void setUsable(boolean newIsUsable) {
-		// perform notification only if the usable state of the tool has changed
-		if (isUsable() != newIsUsable) {
-			myIsUsable = newIsUsable;
-			if (isUsable()) {
-				getEventDispatcher().fireToolUsableEvent();
-			}
-			else {
-				getEventDispatcher().fireToolUnusableEvent();
-			}
-		}
-	}
-
-	public void setEnabled(boolean newIsEnabled) {
-		// perform notification only if the usable state of the tool has changed
-		if (isEnabled() != newIsEnabled) {
-			myIsEnabled = newIsEnabled;
-			if (isEnabled()) {
-				getEventDispatcher().fireToolEnabledEvent();
-			}
-			else {
-				getEventDispatcher().fireToolDisabledEvent();
-				setUsable(false);
-				deactivate();
-			}
-		}
-	}
-
-	public boolean isEnabled() {
-		return myIsEnabled;
-	}
-
-	/**
-	 * The anchor point is usually the first mouse click performed with this tool.
-	 * @see #mouseDown
-	 */
-	protected void setAnchorX(int newAnchorX) {
-		myAnchorX = newAnchorX;
-	}
-
-	/**
-	 * The anchor point is usually the first mouse click performed with this tool.
-	 *
-	 * @return the anchor X coordinate for the interaction
-	 * @see #mouseDown
-	 */
-	protected int getAnchorX() {
-		return myAnchorX;
-	}
-
-	/**
-	 * The anchor point is usually the first mouse click performed with this tool.
-	 * @see #mouseDown
-	 */
-	protected void setAnchorY(int newAnchorY) {
-		myAnchorY = newAnchorY;
-	}
-
-	/**
-	 * The anchor point is usually the first mouse click performed with this tool.
-	 *
-	 * @return the anchor Y coordinate for the interaction
-	 * @see #mouseDown
-	 */
-	protected int getAnchorY() {
-		return myAnchorY;
-	}
-
-	public Undoable getUndoActivity() {
-		return myUndoActivity;
-	}
-
-	public void setUndoActivity(Undoable newUndoActivity) {
-		myUndoActivity = newUndoActivity;
-	}
-
-	public boolean isActive() {
-		return (editor().tool() == this) && isUsable();
-	}
-
-	public void addToolListener(ToolListener newToolListener) {
-		getEventDispatcher().addToolListener(newToolListener);
-	}
-
-	public void removeToolListener(ToolListener oldToolListener) {
-		getEventDispatcher().removeToolListener(oldToolListener);
-	}
-
-	private void setEventDispatcher(AbstractTool.EventDispatcher newEventDispatcher) {
-		myEventDispatcher = newEventDispatcher;
-	}
-
-	protected AbstractTool.EventDispatcher getEventDispatcher() {
-		return myEventDispatcher;
-	}
-
-	protected AbstractTool.EventDispatcher createEventDispatcher() {
-		return new AbstractTool.EventDispatcher(this);
-	}
-
-    protected ViewChangeListener createViewChangeListener() {
-        return new ViewChangeListener() {
-            public void viewSelectionChanged(DrawingView oldView, DrawingView newView){
-	    		AbstractTool.this.viewSelectionChanged(oldView, newView);
-		    }
-    		public void viewCreated(DrawingView view){
-	    		AbstractTool.this.viewCreated(view);
-		    }
-    		public void viewDestroying(DrawingView view){
-	    		AbstractTool.this.viewDestroying(view);
-		    }
-        };
+    /**
+     * This is set to true, if this is the active tool of the editor.
+     */
+    private boolean isActive;
+    
+    /**
+     * This is set to true, while the tool is doing some work.
+     * This prevents the currentView from being changed when a mouseEnter
+     * event is received.
+     */
+    protected boolean isWorking;
+    
+    protected DrawingEditor editor;
+    protected Point anchor = new Point();
+    protected EventListenerList listenerList = new EventListenerList();
+    
+    
+    /** Creates a new instance. */
+    public AbstractTool() {
     }
-
-	protected void checkUsable() {
-		if (isEnabled()) {
-			setUsable((getActiveView() != null) && getActiveView().isInteractive());
-		}
-	}
-
-	public static class EventDispatcher {
-		private List myRegisteredListeners;
-		private Tool myObservedTool;
-
-		public EventDispatcher(Tool newObservedTool) {
-			myRegisteredListeners = CollectionsFactory.current().createList();
-			myObservedTool = newObservedTool;
-		}
-
-		public void fireToolUsableEvent() {
-			Iterator iter = myRegisteredListeners.iterator();
-			while (iter.hasNext()) {
-				((ToolListener)iter.next()).toolUsable(new EventObject(myObservedTool));
-			}
-		}
-
-		public void fireToolUnusableEvent() {
-			Iterator iter = myRegisteredListeners.iterator();
-			while (iter.hasNext()) {
-				((ToolListener)iter.next()).toolUnusable(new EventObject(myObservedTool));
-			}
-		}
-
-		public void fireToolActivatedEvent() {
-			Iterator iter = myRegisteredListeners.iterator();
-			while (iter.hasNext()) {
-				((ToolListener)iter.next()).toolActivated(new EventObject(myObservedTool));
-			}
-		}
-
-		public void fireToolDeactivatedEvent() {
-			Iterator iter = myRegisteredListeners.iterator();
-			while (iter.hasNext()) {
-				((ToolListener)iter.next()).toolDeactivated(new EventObject(myObservedTool));
-			}
-		}
-
-		public void fireToolEnabledEvent() {
-			Iterator iter = myRegisteredListeners.iterator();
-			while (iter.hasNext()) {
-				((ToolListener)iter.next()).toolEnabled(new EventObject(myObservedTool));
-			}
-		}
-
-		public void fireToolDisabledEvent() {
-			Iterator iter = myRegisteredListeners.iterator();
-			while (iter.hasNext()) {
-				((ToolListener)iter.next()).toolDisabled(new EventObject(myObservedTool));
-			}
-		}
-
-		public void addToolListener(ToolListener newToolListener) {
-			if (!myRegisteredListeners.contains(newToolListener)) {
-				myRegisteredListeners.add(newToolListener);
-			}
-		}
-
-		public void removeToolListener(ToolListener oldToolListener) {
-			if (myRegisteredListeners.contains(oldToolListener)) {
-				myRegisteredListeners.remove(oldToolListener);
-			}
-		}
-	}
+    
+    public void addUndoableEditListener(UndoableEditListener l) {
+        listenerList.add(UndoableEditListener.class, l);
+    }
+    
+    public void removeUndoableEditListener(UndoableEditListener l) {
+        listenerList.remove(UndoableEditListener.class, l);
+    }
+    
+    public void activate(DrawingEditor editor) {
+        this.editor = editor;
+        isActive = true;
+        //editor.getView().requestFocus();
+    }
+    
+    public void deactivate(DrawingEditor editor) {
+        this.editor = editor;
+        isActive = false;
+    }
+    
+    public boolean isActive() {
+        return isActive;
+    }
+    
+    protected DrawingView getView() {
+        return editor.getView();
+    }
+    protected DrawingEditor getEditor() {
+        return editor;
+    }
+    protected Drawing getDrawing() {
+        return getView().getDrawing();
+    }
+    protected Point2D.Double viewToDrawing(Point p) {
+        return constrainPoint(getView().viewToDrawing(p));
+    }
+    protected Point2D.Double constrainPoint(Point p) {
+        return constrainPoint(getView().viewToDrawing(p));
+    }
+    protected Point2D.Double constrainPoint(Point2D.Double p) {
+        return getView().getConstrainer().constrainPoint(p);
+    }
+    
+    /**
+     * Deletes the selection.
+     * Depending on the tool, this could be selected figures, selected points
+     * or selected text.
+     */
+    public void editDelete() {
+        getView().getDrawing().removeAll(getView().getSelectedFigures());
+    }
+    /**
+     * Cuts the selection into the clipboard.
+     * Depending on the tool, this could be selected figures, selected points
+     * or selected text.
+     */
+    public void editCut() {
+    }
+    /**
+     * Copies the selection into the clipboard.
+     * Depending on the tool, this could be selected figures, selected points
+     * or selected text.
+     */
+    public void editCopy() {
+    }
+    /**
+     * Duplicates the selection.
+     * Depending on the tool, this could be selected figures, selected points
+     * or selected text.
+     */
+    public void editDuplicate() {
+    }
+    /**
+     * Pastes the contents of the clipboard.
+     * Depending on the tool, this could be selected figures, selected points
+     * or selected text.
+     */
+    public void editPaste() {
+    }
+    
+    public void keyReleased(KeyEvent evt) {
+        fireToolDone();
+    }
+    
+    
+    public void keyTyped(KeyEvent evt) {
+    }
+    
+    public void keyPressed(KeyEvent evt) {
+        if (evt.getSource() instanceof Container) {
+        editor.setView(editor.findView((Container) evt.getSource()));
+        }
+        //fireToolStarted(evt.get)
+        CompositeEdit edit;
+        switch (evt.getKeyCode()) {
+            case KeyEvent.VK_DELETE :
+            case KeyEvent.VK_BACK_SPACE : {
+                editDelete();
+                break;
+            }
+            case KeyEvent.VK_A : {
+                if ((evt.getModifiers() &
+                        (KeyEvent.CTRL_MASK | KeyEvent.META_MASK)) != 0) {
+                    getView().addToSelection(getView().getDrawing().getFigures());
+                }
+                break;
+            }
+            case KeyEvent.VK_LEFT : {
+                Collection<Figure> figures = getView().getSelectedFigures();
+                AffineTransform tx = new AffineTransform();
+                tx.translate(-1,0);
+                for (Figure f : figures) {
+                    f.willChange();
+                    f.basicTransform(tx);
+                    f.changed();
+                }
+                getDrawing().fireUndoableEditHappened(new TransformEdit(figures, tx));
+                break;
+            }
+            case KeyEvent.VK_RIGHT : {
+                Collection<Figure> figures = getView().getSelectedFigures();
+                AffineTransform tx = new AffineTransform();
+                tx.translate(1,0);
+                for (Figure f : figures) {
+                    f.willChange();
+                    f.basicTransform(tx);
+                    f.changed();
+                }
+                getDrawing().fireUndoableEditHappened(new TransformEdit(figures, tx));
+                break;
+            }
+            case KeyEvent.VK_UP : {
+                Collection<Figure> figures = getView().getSelectedFigures();
+                AffineTransform tx = new AffineTransform();
+                tx.translate(0,-1);
+                for (Figure f : figures) {
+                    f.willChange();
+                    f.basicTransform(tx);
+                    f.changed();
+                }
+                getDrawing().fireUndoableEditHappened(new TransformEdit(figures, tx));
+                break;
+            }
+            case KeyEvent.VK_DOWN : {
+                Collection<Figure> figures = getView().getSelectedFigures();
+                getDrawing().fireUndoableEditHappened(edit = new CompositeEdit("Figur(en) verschieben"));
+                AffineTransform tx = new AffineTransform();
+                tx.translate(0,1);
+                for (Figure f : figures) {
+                    f.willChange();
+                    f.basicTransform(tx);
+                    f.changed();
+                }
+                getDrawing().fireUndoableEditHappened(new TransformEdit(figures, tx));
+                break;
+            }
+        }
+    }
+    
+    public void mouseClicked(MouseEvent evt) {
+    }
+    
+    
+    public void mouseEntered(MouseEvent evt) {
+        if (! isWorking) {
+            editor.setView(editor.findView((Container) evt.getSource()));
+        }
+    }
+    
+    public void mouseExited(MouseEvent evt) {
+    }
+    
+    public void mouseMoved(MouseEvent evt) {
+    }
+    
+    public void mousePressed(MouseEvent evt) {
+        DrawingView view = editor.findView((Container) evt.getSource());
+        view.requestFocus();
+        anchor = new Point(evt.getX(), evt.getY());
+        isWorking = true;
+        fireToolStarted(view);
+    }
+    
+    public void mouseReleased(MouseEvent evt) {
+        isWorking = false;
+    }
+    
+    public void addToolListener(ToolListener l) {
+        listenerList.add(ToolListener.class, l);
+    }
+    
+    public void removeToolListener(ToolListener l) {
+        listenerList.remove(ToolListener.class, l);
+    }
+    
+    /**
+     *  Notify all listenerList that have registered interest for
+     * notification on this event type.
+     */
+    protected void fireToolStarted(DrawingView view) {
+        ToolEvent event = null;
+        // Notify all listeners that have registered interest for
+        // Guaranteed to return a non-null array
+        Object[] listeners = listenerList.getListenerList();
+        // Process the listeners last to first, notifying
+        // those that are interested in this event
+        for (int i = listeners.length-2; i>=0; i-=2) {
+            if (listeners[i] == ToolListener.class) {
+                // Lazily create the event:
+                if (event == null)
+                    event = new ToolEvent(this, view, new Rectangle(0,0,-1,-1));
+                ((ToolListener)listeners[i+1]).toolStarted(event);
+            }
+        }
+    }
+    
+    /**
+     *  Notify all listenerList that have registered interest for
+     * notification on this event type.
+     */
+    protected void fireToolDone() {
+        ToolEvent event = null;
+        // Notify all listeners that have registered interest for
+        // Guaranteed to return a non-null array
+        Object[] listeners = listenerList.getListenerList();
+        // Process the listeners last to first, notifying
+        // those that are interested in this event
+        for (int i = listeners.length-2; i>=0; i-=2) {
+            if (listeners[i] == ToolListener.class) {
+                // Lazily create the event:
+                if (event == null)
+                    event = new ToolEvent(this, getView(), new Rectangle(0,0,-1,-1));
+                ((ToolListener)listeners[i+1]).toolDone(event);
+            }
+        }
+    }
+    
+    /**
+     * Notify all listenerList that have registered interest for
+     * notification on this event type.
+     */
+    protected void fireAreaInvalidated(Rectangle2D.Double r) {
+        Point p1 = getView().drawingToView(new Point2D.Double(r.x, r.y));
+        Point p2 = getView().drawingToView(new Point2D.Double(r.x+r.width, r.y+r.height));
+        fireAreaInvalidated(
+                new Rectangle(p1.x,p1.y,p2.x-p1.x,p2.y-p1.y)
+                );
+    }
+    /**
+     * Notify all listenerList that have registered interest for
+     * notification on this event type.
+     */
+    protected void fireAreaInvalidated(Rectangle invalidatedArea) {
+        ToolEvent event = null;
+        // Notify all listeners that have registered interest for
+        // Guaranteed to return a non-null array
+        Object[] listeners = listenerList.getListenerList();
+        // Process the listeners last to first, notifying
+        // those that are interested in this event
+        for (int i = listeners.length-2; i>=0; i-=2) {
+            if (listeners[i] == ToolListener.class) {
+                // Lazily create the event:
+                if (event == null)
+                    event = new ToolEvent(this, getView(), invalidatedArea);
+                ((ToolListener)listeners[i+1]).areaInvalidated(event);
+            }
+        }
+    }
+    public void draw(Graphics2D g) {
+    }
+    
+    public void updateCursor(DrawingView view, Point p) {
+        Handle handle = view.findHandle(p);
+        if (handle != null) {
+            view.setCursor(handle.getCursor());
+        } else {
+            Figure figure = view.findFigure(p);
+            if (figure != null) {
+                view.setCursor(figure.getCursor(view.viewToDrawing(p)));
+            } else {
+                view.setCursor(Cursor.getDefaultCursor());
+            }
+        }
+    }
 }

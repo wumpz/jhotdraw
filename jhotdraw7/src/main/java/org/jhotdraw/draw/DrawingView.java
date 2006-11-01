@@ -1,321 +1,226 @@
 /*
- * @(#)DrawingView.java
+ * @(#)DrawingView.java  3.1  2006-03-15
  *
- * Project:		JHotdraw - a GUI framework for technical drawings
- *				http://www.jhotdraw.org
- *				http://jhotdraw.sourceforge.net
- * Copyright:	© by the original author(s) and all contributors
- * License:		Lesser GNU Public License (LGPL)
- *				http://www.opensource.org/licenses/lgpl-license.html
+ * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * and all its contributors ("JHotDraw.org")
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * JHotDraw.org ("Confidential Information"). You shall not disclose
+ * such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with
+ * JHotDraw.org.
+ï¿½
  */
+
 
 package org.jhotdraw.draw;
 
 import java.awt.*;
-import java.awt.image.ImageObserver;
-import java.util.Collection;
-
-import org.jhotdraw.framework.Cursor;
-import org.jhotdraw.framework.FigureEnumeration;
-import org.jhotdraw.framework.FigureSelection;
-import org.jhotdraw.framework.Painter;
-import org.jhotdraw.framework.PointConstrainer;
-
+import java.awt.geom.*;
+import java.awt.event.*;
+import java.util.*;
+import java.beans.*;
 /**
  * DrawingView renders a Drawing and listens to its changes.
- * It receives user input and delegates it to the current tool.
- * <hr>
- * <b>Design Patterns</b><P>
- * <img src="images/red-ball-small.gif" width=6 height=6 alt=" o ">
- * <b><a href=../pattlets/sld026.htm>Observer</a></b><br>
- * DrawingView observes drawing for changes via the DrawingListener interface.<br>
- * <img src="images/red-ball-small.gif" width=6 height=6 alt=" o ">
- * <b><a href=../pattlets/sld032.htm>State</a></b><br>
- * DrawingView plays the role of the StateContext in
- * the State pattern. Tool is the State.<br>
- * <img src="images/red-ball-small.gif" width=6 height=6 alt=" o ">
- * <b><a href=../pattlets/sld034.htm>Strategy</a></b><br>
- * DrawingView is the StrategyContext in the Strategy pattern
- * with regard to the UpdateStrategy. <br>
- * DrawingView is the StrategyContext for the PointConstrainer.
+ * It receives user input and forwards it to registered listeners.
  *
- * @see Drawing
- * @see Painter
- * @see Tool
- *
- * @version <$CURRENT_VERSION$>
+ * @author Werner Randelshofer
+ * @version 3.1 2006-03-15 Support for enabled state added.
+ * <br>3.0 2006-02-20 Changed to share a single DrawingEditor by multiple 
+ * views.
+ * <br>2.0 2006-01-14 Changed to support double precision coordinates.
+ * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
-public interface DrawingView extends ImageObserver, DrawingListener {
-
-	/**
-	 * Sets the view's editor.
-	 */
-	public void setEditor(DrawingEditor editor);
-
-	/**
-	 * Gets the current tool.
-	 */
-	public Tool tool();
-
-	/**
-	 * Gets the drawing.
-	 */
-	public Drawing drawing();
-
-	/**
-	 * Sets and installs another drawing in the view.
-	 */
-	public void setDrawing(Drawing d);
-
-	/**
-	 * Gets the editor.
-	 */
-	public DrawingEditor editor();
-
-	/**
-	 * Adds a figure to the drawing.
-	 * @return the added figure.
-	 */
-	public Figure add(Figure figure);
-
-	/**
-	 * Removes a figure from the drawing.
-	 * @return the removed figure
-	 */
-	public Figure remove(Figure figure);
-
-	/**
-	 * Adds a collections of figures to the drawing.
-	 */
-	public void addAll(Collection figures);
-
-	/**
-	 * Gets the size of the drawing.
-	 */
-	public Dimension getSize();
-
-	/**
-	 * Gets the minimum dimension of the drawing.
-	 */
-	public Dimension getMinimumSize();
-
-	/**
-	 * Gets the preferred dimension of the drawing..
-	 */
-	public Dimension getPreferredSize();
-
-	/**
-	 * Sets the current display update strategy.
-	 * @see Painter
-	 */
-	public void setDisplayUpdate(Painter updateStrategy);
-
-	/**
-	 * Gets the current display update strategy.
-	 * @see Painter
-	 */
-	public Painter getDisplayUpdate();
-
-	/**
-	 * Gets an enumeration over the currently selected figures.
-	 * The selection is a snapshot of the current selection
-	 * which does not get changed anymore
-	 *
-	 * @return an enumeration with the currently selected figures.
-	 */
-	public FigureEnumeration selection();
-
-	/**
-	 * Gets the currently seleced figures in Z order.
-	 * The selection is a snapshot of the current selection
-	 * which does not get changed anymore
-	 *
-	 * @see #selection
-	 * @return an enumeration with the currently selected figures.
-	 */
-	public FigureEnumeration selectionZOrdered();
-
-	/**
-	 * Gets the number of selected figures.
-	 */
-	public int selectionCount();
-
-	/**
-	 * Test whether a given figure is selected.
-	 */
-	public boolean isFigureSelected(Figure checkFigure);
-
-	/**
-	 * Adds a figure to the current selection.
-	 */
-	public void addToSelection(Figure figure);
-
-	/**
-	 * Adds a collections of figures to the current selection.
-	 */
-	public void addToSelectionAll(Collection figures);
-
-	/**
-	 * Adds a FigureEnumeration to the current selection.
-	 */
-	public void addToSelectionAll(FigureEnumeration fe);
-
-	/**
-	 * Removes a figure from the selection.
-	 */
-	public void removeFromSelection(Figure figure);
-
-	/**
-	 * If a figure isn't selected it is added to the selection.
-	 * Otherwise it is removed from the selection.
-	 */
-	public void toggleSelection(Figure figure);
-
-	/**
-	 * Clears the current selection.
-	 */
-	public void clearSelection();
-
-	/**
-	 * Gets the current selection as a FigureSelection. A FigureSelection
-	 * can be cut, copied, pasted.
-	 */
-	public FigureSelection getFigureSelection();
-
-	/**
-	 * Finds a handle at the given coordinates.
-	 * @return the hit handle, null if no handle is found.
-	 */
-	public Handle findHandle(int x, int y);
-
-	/**
-	 * Gets the position of the last click inside the view.
-	 */
-	public Point lastClick();
-
-	/**
-	 * Sets the current point constrainer.
-	 */
-	public void setConstrainer(PointConstrainer p);
-
-	/**
-	 * Gets the current grid setting.
-	 */
-	public PointConstrainer getConstrainer();
-
-	/**
-	 * Checks whether the drawing has some accumulated damage
-	 */
-	public void checkDamage();
-
-	/**
-	 * Repair the damaged area
-	 */
-	public void repairDamage();
-
-	/**
-	 * Paints the drawing view. The actual drawing is delegated to
-	 * the current update strategy.
-	 * @see Painter
-	 */
-	public void paint(Graphics g);
-
-	/**
-	 * Creates an image with the given dimensions
-	 */
-	public Image createImage(int width, int height);
-
-	/**
-	 * Gets a graphic to draw into
-	 */
-	public Graphics getGraphics();
-
-	/**
-	 * Gets the background color of the DrawingView
-	 */
-	public Color getBackground();
-
-	/**
-	 * Sets the background color of the DrawingView
-	 */
-	public void setBackground(Color c);
-
-	/**
-	 * Draws the contents of the drawing view.
-	 * The view has three layers: background, drawing, handles.
-	 * The layers are drawn in back to front order.
-	 */
-	public void drawAll(Graphics g);
-
-	/**
-	 * Draws the given figures.
-	 * The view has three layers: background, drawing, handles.
-	 * The layers are drawn in back to front order.
-	 */
-	public void draw(Graphics g, FigureEnumeration fe);
-
-	/**
-	 * Draws the currently active handles.
-	 */
-	public void drawHandles(Graphics g);
-
-	/**
-	 * Draws the drawing.
-	 */
-	public void drawDrawing(Graphics g);
-
-	/**
-	 * Draws the background. If a background pattern is set it
-	 * is used to fill the background. Otherwise the background
-	 * is filled in the background color.
-	 */
-	public void drawBackground(Graphics g);
-
-	/**
-	 * Sets the cursor of the DrawingView
-	 */
-	public void setCursor(Cursor c);
-
-	/**
-	 * Freezes the view by acquiring the drawing lock.
-	 * @see Drawing#lock
-	 */
-	public void freezeView();
-
-	/**
-	 * Unfreezes the view by releasing the drawing lock.
-	 * @see Drawing#unlock
-	 */
-	public void unfreezeView();
-
-	/**
-	 * Add a listener for selection changes in this DrawingView.
-	 * @param fsl jhotdraw.framework.FigureSelectionListener
-	 */
-	public void addFigureSelectionListener(FigureSelectionListener fsl);
-
-	/**
-	 * Remove a listener for selection changes in this DrawingView.
-	 * @param fsl jhotdraw.framework.FigureSelectionListener
-	 */
-	public void removeFigureSelectionListener(FigureSelectionListener fsl);
-
-	/**
-	 * Returns a FigureEnumeration of connection figures
-	 */
-	public FigureEnumeration getConnectionFigures(Figure inFigure);
-
-	/**
-	 * Inserts figures in a drawing at given offset. Optional check for connection figures
-	 *
-	 *  @return enumeration which has been added to the drawing. The figures in the enumeration
-	 *          can have changed during adding them (e.g. they could have been decorated).
-	 */
-	public FigureEnumeration insertFigures(FigureEnumeration inFigures, int dx, int dy, boolean bCheck);
-
-	/**
-	 * Check whether the DrawingView is interactive, i.e. whether it accepts user input
-	 * and whether it can display a drawing.
-	 */
-	public boolean isInteractive();
+public interface DrawingView {
+    /**
+     * Gets the tools.
+     */
+    public Set getTools();
+    
+    /**
+     * Gets the drawing.
+     */
+    public Drawing getDrawing();
+    
+    /**
+     * Sets and installs another drawing in the view.
+     */
+    public void setDrawing(Drawing d);
+    
+    /**
+     * Sets the cursor of the DrawingView
+     */
+    public void setCursor(Cursor c);
+    
+    /**
+     * Test whether a given figure is selected.
+     */
+    public boolean isFigureSelected(Figure checkFigure);
+    
+    /**
+     * Adds a figure to the current selection.
+     */
+    public void addToSelection(Figure figure);
+    
+    /**
+     * Adds a collection of figures to the current selection.
+     */
+    public void addToSelection(Collection<Figure> figures);
+    
+    /**
+     * Removes a figure from the selection.
+     */
+    public void removeFromSelection(Figure figure);
+    
+    /**
+     * If a figure isn't selected it is added to the selection.
+     * Otherwise it is removed from the selection.
+     */
+    public void toggleSelection(Figure figure);
+    
+    /**
+     * Clears the current selection.
+     */
+    public void clearSelection();
+    /**
+     * Selects all figures.
+     */
+    public void selectAll();
+    
+    /**
+     * Gets the current selection as a FigureSelection. A FigureSelection
+     * can be cut, copied, pasted.
+     */
+    public Collection<Figure> getSelectedFigures();
+    /**
+     * Gets the number of selected figures.
+     */
+    public int getSelectionCount();
+    
+    /**
+     * Finds a handle at the given coordinates.
+     * @return A handle, null if no handle is found.
+     */
+    public Handle findHandle(Point p);
+    
+    /**
+     * Gets compatible handles.
+     * @return A collection containing the handle and all compatible handles.
+     */
+    public Collection<Handle> getCompatibleHandles(Handle handle);
+    /**
+     * Finds a figure at the given point.
+     * @return A figure, null if no figure is found.
+     */
+    public Figure findFigure(Point p);
+    /**
+     * Returns all figures that lie within or intersect the specified
+     * bounds. The figures are returned in Z-order from back to front.
+     */
+    public Collection<Figure> findFigures(Rectangle r);
+    /**
+     * Returns all figures that lie within the specified
+     * bounds. The figures are returned in Z-order from back to front.
+     */
+    public Collection<Figure> findFiguresWithin(Rectangle r);
+    
+    /**
+     * Informs the view that it has been added to the specified editor.
+     * The view must draw the tool of the editor, if getActiveView() of the
+     * editor returns the view.
+     */
+    public void addNotify(DrawingEditor editor);
+    /**
+     * Informs the view that it has been removed from the specified editor.
+     * The view must not draw the tool from the editor anymore.
+     */
+    public void removeNotify(DrawingEditor editor);
+    
+    void addMouseListener(MouseListener l);
+    void removeMouseListener(MouseListener l);
+    void addKeyListener(KeyListener l);
+    void removeKeyListener(KeyListener l);
+    void addMouseMotionListener(MouseMotionListener l);
+    void removeMouseMotionListener(MouseMotionListener l);
+    /**
+     * Add a listener for selection changes in this DrawingView.
+     * @param fsl jhotdraw.framework.FigureSelectionListener
+     */
+    public void addFigureSelectionListener(FigureSelectionListener fsl);
+    
+    /**
+     * Remove a listener for selection changes in this DrawingView.
+     * @param fsl jhotdraw.framework.FigureSelectionListener
+     */
+    public void removeFigureSelectionListener(FigureSelectionListener fsl);
+    
+    public void requestFocus();
+    
+    /**
+     * Converts drawing coordinates to view coordinates.
+     */
+    public Point drawingToView(Point2D.Double p);
+    /**
+     * Converts view coordinates to drawing coordinates.
+     */
+    public Point2D.Double viewToDrawing(Point p);
+    /**
+     * Converts drawing coordinates to view coordinates.
+     */
+    public Rectangle drawingToView(Rectangle2D.Double p);
+    /**
+     * Converts view coordinates to drawing coordinates.
+     */
+    public Rectangle2D.Double viewToDrawing(Rectangle p);
+    
+    /**
+     * Sets the editor's constrainer.
+     */
+    void setConstrainer(Constrainer constrainer);
+    /**
+     * Gets the editor's constrainer.
+     */
+    public Constrainer getConstrainer();
+    /**
+     * Returns the container of the drawing view.
+     */
+    public Container getContainer();
+    
+    /**
+     * Gets an transform which can be used to convert
+     * drawing coordinates to view coordinates.
+     */
+    public AffineTransform getDrawingToViewTransform();
+    
+    /**
+     * Gets the scale factor of the drawing view.
+     */
+    public double getScaleFactor();
+    /**
+     * Sets the scale factor of the drawing view.
+     * This is a bound property.
+     */
+    public void setScaleFactor(double newValue);
+    
+    /**
+     * The detail level of the handles.
+     */
+    public void setHandleDetailLevel(int newValue);
+    /**
+     * Returns the detail level of the handles.
+     */
+    public int getHandleDetailLevel();
+     /**
+      * Sets the enabled state of the drawing view.
+      * This is a bound property.
+      */
+     public void setEnabled(boolean newValue);
+     /**
+      * Gets the enabled state of the drawing view.
+      */
+     public boolean isEnabled();
+     
+     public void addPropertyChangeListener(PropertyChangeListener listener);
+     public void removePropertyChangeListener(PropertyChangeListener listener);
 }

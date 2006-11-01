@@ -1,79 +1,93 @@
 /*
- * @(#)LineFigure.java
+ * @(#)LineFigure.java  2.0  2006-02-27
  *
- * Project:		JHotdraw - a GUI framework for technical drawings
- *				http://www.jhotdraw.org
- *				http://jhotdraw.sourceforge.net
- * Copyright:	© by the original author(s) and all contributors
- * License:		Lesser GNU Public License (LGPL)
- *				http://www.opensource.org/licenses/lgpl-license.html
+ * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * and all its contributors ("JHotDraw.org")
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * JHotDraw.org ("Confidential Information"). You shall not disclose
+ * such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with
+ * JHotDraw.org.
+ï¿½
  */
 
 package org.jhotdraw.draw;
 
+import javax.swing.undo.*;
 import java.awt.*;
-
-import org.jhotdraw.figures.PolyLineFigure;
-
+import java.awt.event.*;
+import java.awt.geom.*;
+import java.util.*;
+import org.jhotdraw.geom.*;
 /**
- * A line figure.
+ * LineFigure.
  *
- * @version <$CURRENT_VERSION$>
+ * @author Werner Randelshofer
+ * @version 2.0 2006-02-27 Support point editing at handle level 0. 
+ * <br>2.0 2006-01-14 Changed to support double precison coordinates.
+ * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
-public  class LineFigure extends PolyLineFigure {
+public class LineFigure extends BezierFigure {
+    
+    /** Creates a new instance. */
+    public LineFigure() {
+        basicAddNode(new BezierPath.Node(new Point2D.Double(0,0)));
+        basicAddNode(new BezierPath.Node(new Point2D.Double(0,0)));
+    }
+    
+    // DRAWING
+    // SHAPE AND BOUNDS
+    // ATTRIBUTES
+    // EDITING
+    public Collection<Handle> createHandles(int detailLevel) {
+        LinkedList<Handle> handles = new LinkedList<Handle>();
+        switch (detailLevel) {
+            case 0 :
+                for (int i=0, n = path.size(); i < n; i++) {
+                    handles.add(new BezierNodeHandle(this, i));
+                }
+                break;
+        }
+        return handles;
+    }
+// CONNECTING
+    // COMPOSITE FIGURES
+    // CLONING
+    // EVENT HANDLING
+    public boolean canConnect() {
+        return false;
+    }
+    /**
+     * Handles a mouse click.
+     */
+    public boolean handleMouseClick(Point2D.Double p, MouseEvent evt, DrawingView view) {
+        if (evt.getClickCount() == 2 && view.getHandleDetailLevel() == 0) {
+            willChange();
+            final int index = basicSplitSegment(p, (float) (5f / view.getScaleFactor()));
+            if (index != -1) {
+                final BezierPath.Node newNode = getNode(index);
+                fireUndoableEditHappened(new AbstractUndoableEdit() {
+                    public void redo() throws CannotRedoException {
+                        super.redo();
+                        willChange();
+                        basicAddNode(index, newNode);
+                        changed();
+                    }
 
-	/*
-	 * Serialization support.
-	 */
-	private static final long serialVersionUID = 511503575249212371L;
-	private int lineFigureSerializedDataVersion = 1;
-
-	/**
-	 * Constructs a LineFigure with both start and end set to Point(0,0).
-	 */
-	public LineFigure() {
-		addPoint(0, 0);
-		addPoint(0, 0);
-	}
-
-	/**
-	 * Gets a copy of the start point.
-	 */
-	public Point startPoint() {
-		return pointAt(0);
-	}
-
-	/**
-	 * Gets a copy of the end point.
-	 */
-	public Point endPoint() {
-		return pointAt(1);
-	}
-
-	/**
-	 * Sets the start point.
-	 */
-	public void  startPoint(int x, int y) {
-		setPointAt(new Point(x,y), 0);
-	}
-
-	/**
-	 * Sets the end point.
-	 */
-	public void  endPoint(int x, int y) {
-		setPointAt(new Point(x,y), 1);
-	}
-
-	/**
-	 * Sets the start and end point.
-	 */
-	public void setPoints(Point start, Point end) {
-		setPointAt(start, 0);
-		setPointAt(end, 1);
-	}
-
-	public void basicDisplayBox(Point origin, Point corner) {
-		setPoints(origin, corner);
-	}
-
+                    public void undo() throws CannotUndoException {
+                        super.undo();
+                        willChange();
+                        basicRemoveNode(index);
+                        changed();
+                    }
+                    
+                });
+                changed();
+                return true;
+            }
+        }
+        return false;
+    }
 }

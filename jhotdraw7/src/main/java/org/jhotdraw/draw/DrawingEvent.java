@@ -1,48 +1,62 @@
 /*
- * @(#)DrawingEvent.java
+ * @(#)DrawingChangeEvent.java  2.0  2006-01-14
  *
- * Project:		JHotdraw - a GUI framework for technical drawings
- *				http://www.jhotdraw.org
- *				http://jhotdraw.sourceforge.net
- * Copyright:	© by the original author(s) and all contributors
- * License:		Lesser GNU Public License (LGPL)
- *				http://www.opensource.org/licenses/lgpl-license.html
+ * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * and all its contributors ("JHotDraw.org")
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * JHotDraw.org ("Confidential Information"). You shall not disclose
+ * such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with
+ * JHotDraw.org.
  */
 
 package org.jhotdraw.draw;
 
-import java.awt.Rectangle;
-import java.util.EventObject;
-
-
+import java.awt.*;
+import java.awt.geom.*;
+import java.util.*;
 /**
- * The event passed to DrawingChangeListeners.
+ * Change event passed to DrawingChangeListeners.
  *
- * @version <$CURRENT_VERSION$>
+ * @author Werner Randelshofer
+ * @version 1.0 2006-01-14 Changed to support double precision coordinates.
+ * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
 public class DrawingEvent extends EventObject {
-
-	private Rectangle myRectangle;
-
-	/**
-	 *  Constructs a drawing change event.
-	 */
-	public DrawingEvent(Drawing newSource, Rectangle newRect) {
-		super(newSource);
-		myRectangle = newRect;
-	}
-
-	/**
-	 *  Gets the changed drawing
-	 */
-	public Drawing getDrawing() {
-		return (Drawing)getSource();
-	}
-
-	/**
-	 *  Gets the changed rectangle
-	 */
-	public Rectangle getInvalidatedRectangle() {
-		return myRectangle;
-	}
+    private Rectangle2D.Double invalidatedArea;
+    private Figure figure;
+    
+    /**
+     * Constructs an event for the provided Drawing.
+     * @param figure The changed figure.
+     * @param invalidatedArea The bounds of the invalidated area on the drawing.
+     */
+    public DrawingEvent(Drawing source, Figure figure, Rectangle2D.Double invalidatedArea) {
+        super(source);
+        this.figure = figure;
+        this.invalidatedArea = invalidatedArea;
+    }
+    
+    
+    /**
+     *  Gets the changed drawing.
+     */
+    public Drawing getDrawing() {
+        return (Drawing) getSource();
+    }
+    /**
+     *  Gets the changed figure.
+     */
+    public Figure getFigure() {
+        return figure;
+    }
+    
+    /**
+     *  Gets the bounds of the invalidated area on the drawing.
+     */
+    public Rectangle2D.Double getInvalidatedArea() {
+        return invalidatedArea;
+    }
 }

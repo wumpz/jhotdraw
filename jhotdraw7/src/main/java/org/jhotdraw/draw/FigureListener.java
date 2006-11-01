@@ -1,49 +1,53 @@
 /*
- * @(#)FigureListener.java
+ * @(#)FigureListener.java  1.0  11. November 2003
  *
- * Project:		JHotdraw - a GUI framework for technical drawings
- *				http://www.jhotdraw.org
- *				http://jhotdraw.sourceforge.net
- * Copyright:	© by the original author(s) and all contributors
- * License:		Lesser GNU Public License (LGPL)
- *				http://www.opensource.org/licenses/lgpl-license.html
+ * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * and all its contributors ("JHotDraw.org")
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * JHotDraw.org ("Confidential Information"). You shall not disclose
+ * such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with
+ * JHotDraw.org.
+ï¿½
  */
+
 
 package org.jhotdraw.draw;
 
-import java.util.EventListener;
-
-
+import java.util.*;
 /**
  * Listener interested in Figure changes.
  *
- * @version <$CURRENT_VERSION$>
+ * @author Werner Randelshofer
+ * @version 1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
 public interface FigureListener extends EventListener {
-
-	/**
-	 * Sent when an area is invalid
-	 */
-	public void figureInvalidated(FigureEvent e);
-
-	/**
-	 * Sent when a figure changed
-	 */
-	public void figureChanged(FigureEvent e);
-
-	/**
-	 * Sent when a figure was removed
-	 */
-	public void figureRemoved(FigureEvent e);
-
-	/**
-	 * Sent when requesting to remove a figure.
-	 */
-	public void figureRequestRemove(FigureEvent e);
-
-	/**
-	 * Sent when an update should happen.
-	 *
-	 */
-	public void figureRequestUpdate(FigureEvent e);
+    
+    /**
+     * Sent when an area used by the figure needs to be repainted.
+     */
+    public void figureAreaInvalidated(FigureEvent e);
+    /**
+     * Sent when an attribute of the figure has changed.
+     */
+    public void figureAttributeChanged(FigureEvent e);
+    /**
+     * Sent when the geometry (e.g. the bounds) of the figure has changed.
+     */
+    public void figureChanged(FigureEvent e);
+    
+    /**
+     * Sent when a figure was added to a drawing.
+     */
+    public void figureAdded(FigureEvent e);
+    /**
+     * Sent when a figure was removed from a drawing.
+     */
+    public void figureRemoved(FigureEvent e);
+    /**
+     * Sent when the figure requests to be removed from a drawing.
+     */
+    public void figureRequestRemove(FigureEvent e);
 }

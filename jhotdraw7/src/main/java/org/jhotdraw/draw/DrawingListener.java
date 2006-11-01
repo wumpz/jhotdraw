@@ -1,35 +1,42 @@
 /*
- * @(#)DrawingListener.java
+ * @(#)DrawingListener.java  1.0  11. November 2003
  *
- * Project:		JHotdraw - a GUI framework for technical drawings
- *				http://www.jhotdraw.org
- *				http://jhotdraw.sourceforge.net
- * Copyright:	© by the original author(s) and all contributors
- * License:		Lesser GNU Public License (LGPL)
- *				http://www.opensource.org/licenses/lgpl-license.html
+ * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * and all its contributors ("JHotDraw.org")
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * JHotDraw.org ("Confidential Information"). You shall not disclose
+ * such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with
+ * JHotDraw.org.
+ï¿½
  */
+
 
 package org.jhotdraw.draw;
 
-
+import java.util.*;
 /**
  * Listener interested in Drawing changes.
  *
- * @version <$CURRENT_VERSION$>
+ * @author Werner Randelshofer
+ * @version 1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
-public interface DrawingListener {
-
-	/**
-	 *  Sent when an area is invalid
-	 */
-	public void drawingInvalidated(DrawingEvent e);
-
+public interface DrawingListener extends EventListener {
+    
     /**
-     *  Sent when the drawing Title has changed
+     * Sent when an area of the drawing needs to be repainted.
      */
-    public void drawingTitleChanged(DrawingEvent e);
-	/**
-	 *  Sent when the drawing wants to be refreshed
-	 */
-	public void drawingRequestUpdate(DrawingEvent e);
+    public void areaInvalidated(DrawingEvent e);
+    
+    /**
+     * Sent when a figure was added.
+     */
+    public void figureAdded(DrawingEvent e);
+    
+    /**
+     * Sent when a figure was removed.
+     */
+    public void figureRemoved(DrawingEvent e);
 }
