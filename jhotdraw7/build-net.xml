@@ -121,7 +121,7 @@
             <manifest>
                 <attribute name="Built-By" value="${author}"/>
                 <attribute name="Main-Class" value="org.jhotdraw.samples.net.Main"/>
-                <attribute name="Class-Path" value="quaqua.jar lib/quaqua.jar MRJAdapter.jar lib/MRJAdapter.jar"/>
+                <attribute name="Class-Path" value="quaqua.jar lib/quaqua.jar ../lib/quaqua.jar MRJAdapter.jar lib/MRJAdapter.jar ../lib/MRJAdapter.jar"/>
             </manifest>
         </jar>
         <copy todir="${distdir}">
