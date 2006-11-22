@@ -280,15 +280,13 @@ public class BezierFigure extends AttributedFigure {
     /**
      * Sets the location of the first and the last <code>BezierPath.Node</code>
      * of the BezierFigure.
-     * This only has an effect if the BezierFigure is not closed, and if
-     * it has at least two nodes.
+     * If the BezierFigure has not at least two nodes, a NullPointerException
+     * will be thrown.
      */
     public void basicSetBounds(Point2D.Double anchor, Point2D.Double lead) {
-        if (! isClosed() && getNodeCount() >= 2) {
             basicSetStartPoint(anchor);
             basicSetEndPoint(lead);
             invalidate();
-        }
     }
     public void basicTransform(AffineTransform tx) {
         path.transform(tx);
