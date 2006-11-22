@@ -26,8 +26,10 @@ import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 /**
- * A BezierFigure can be used to draw arbitrary shapes using a BezierPath.
+ * A BezierFigure can be used to draw arbitrary shapes using a <code>BezierPath</code>.
  * It can be used to draw an open path or a closed shape.
+ *
+ * @see org.jhotdraw.geom.BezierPath
  *
  * @version 2.1.1 2006-06-08 Fixed caps drawing.
  * <br>2.1 2006-04-21 Improved caps drawing.
@@ -48,11 +50,24 @@ public class BezierFigure extends AttributedFigure {
     private transient BezierPath cappedPath;
     
     
-    /** Creates a new instance. */
+    /**
+     * Creates an empty <code>BezierFigure</code>, i.e. without any
+     * <code>BezierPath.Node</code>s.
+     * The BezierFigure will not draw anything, if at least two points
+     * are added to it. The <code>BezierPath</code> is not closed.
+     */
     public BezierFigure() {
         this(false);
     }
-    /** Creates a new instance. */
+    /**
+     * Creates an empty BezierFigure, i.e. without any
+     * <code>BezierPath.Node</code>s.
+     * The BezierFigure will not draw anything, unless at least two points
+     * are added to it.
+     *
+     * @param isClosed Specifies whether the <code>BezierPath</code> shall
+     * be closed.
+     */
     public BezierFigure(boolean isClosed) {
         path = new BezierPath();
         CLOSED.set(this, isClosed);
@@ -148,7 +163,7 @@ public class BezierFigure extends AttributedFigure {
                 return gs.createStrokedShape(path).contains(p);
             }
         } else {
-        double tolerance = Math.max(2f, AttributeKeys.getStrokeTotalWidth(this) / 2);
+            double tolerance = Math.max(2f, AttributeKeys.getStrokeTotalWidth(this) / 2);
             if (getCappedPath().outlineContains(p, tolerance)) {
                 return true;
             }
@@ -262,10 +277,18 @@ public class BezierFigure extends AttributedFigure {
         super.basicSetAttribute(key, newValue);
     }
     
+    /**
+     * Sets the location of the first and the last <code>BezierPath.Node</code>
+     * of the BezierFigure.
+     * This only has an effect if the BezierFigure is not closed, and if
+     * it has at least two nodes.
+     */
     public void basicSetBounds(Point2D.Double anchor, Point2D.Double lead) {
-        basicSetStartPoint(anchor);
-        basicSetEndPoint(lead);
-        invalidate();
+        if (! isClosed() && getNodeCount() >= 2) {
+            basicSetStartPoint(anchor);
+            basicSetEndPoint(lead);
+            invalidate();
+        }
     }
     public void basicTransform(AffineTransform tx) {
         path.transform(tx);
@@ -709,7 +732,7 @@ public class BezierFigure extends AttributedFigure {
         out.closeElement();
     }
     
-   @Override public void read(DOMInput in) throws IOException {
+    @Override public void read(DOMInput in) throws IOException {
         readPoints(in);
         readAttributes(in);
     }
