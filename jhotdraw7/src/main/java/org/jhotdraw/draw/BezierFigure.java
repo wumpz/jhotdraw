@@ -53,8 +53,9 @@ public class BezierFigure extends AttributedFigure {
     /**
      * Creates an empty <code>BezierFigure</code>, i.e. without any
      * <code>BezierPath.Node</code>s.
-     * The BezierFigure will not draw anything, if at least two points
-     * are added to it. The <code>BezierPath</code> is not closed.
+     * The BezierFigure will not draw anything, if at least two nodes
+     * are added to it. The <code>BezierPath</code> created by this constructor 
+     * is not closed.
      */
     public BezierFigure() {
         this(false);
@@ -62,7 +63,7 @@ public class BezierFigure extends AttributedFigure {
     /**
      * Creates an empty BezierFigure, i.e. without any
      * <code>BezierPath.Node</code>s.
-     * The BezierFigure will not draw anything, unless at least two points
+     * The BezierFigure will not draw anything, unless at least two nodes
      * are added to it.
      *
      * @param isClosed Specifies whether the <code>BezierPath</code> shall
@@ -280,8 +281,8 @@ public class BezierFigure extends AttributedFigure {
     /**
      * Sets the location of the first and the last <code>BezierPath.Node</code>
      * of the BezierFigure.
-     * If the BezierFigure has not at least two nodes, a NullPointerException
-     * will be thrown.
+     * If the BezierFigure has not at least two nodes, nodes are added
+     * to the figure until the BezierFigure has at least two nodes.
      */
     public void basicSetBounds(Point2D.Double anchor, Point2D.Double lead) {
             basicSetStartPoint(anchor);
@@ -468,14 +469,26 @@ public class BezierFigure extends AttributedFigure {
     }
     /**
      * Convenience method for setting the point coordinate of the start point.
+     * If the BezierFigure has not at least two nodes, nodes are added
+     * to the figure until the BezierFigure has at least two nodes.
      */
     public void basicSetStartPoint(Point2D.Double p) {
+        // Add two nodes if we haven't at least two nodes
+        for (int i=getNodeCount(); i < 2; i++) {
+            basicAddNode(0, new BezierPath.Node(p.x, p.y));
+        }
         basicSetPoint(0, p);
     }
     /**
-     * Convenience method for setting the point coordinate of the end point.
+     * Convenience method for setting the point coordinate of the end point. 
+     * If the BezierFigure has not at least two nodes, nodes are added
+     * to the figure until the BezierFigure has at least two nodes.
      */
     public void basicSetEndPoint(Point2D.Double p) {
+        // Add two nodes if we haven't at least two nodes
+        for (int i=getNodeCount(); i < 2; i++) {
+            basicAddNode(0, new BezierPath.Node(p.x, p.y));
+        }
         basicSetPoint(getPointCount() - 1, p);
     }
     /**
