@@ -1,3 +1,6 @@
+/* Werner Randelshofer 2006-11-26 
+ * Added method getAttribute(String name, Map valueSet, String defaultKey, boolean allowLiterals);
+ */
 /* IXMLElement.java                                                NanoXML/Java
  *
  * $Revision: 1.4 $
@@ -346,7 +349,50 @@ public interface IXMLElement
                            String namespace,
                            int    defaultValue);
 
+    /**
+     * Returns an attribute by looking up a key in a hashtable.
+     * If the attribute doesn't exist, the value corresponding to defaultKey
+     * is returned.
+     * <P>
+     * As an example, if valueSet contains the mapping <code>"one" =&gt;
+     * "1"</code>
+     * and the element contains the attribute <code>attr="one"</code>, then
+     * <code>getAttribute("attr", mapping, defaultKey, false)</code> returns
+     * <code>"1"</code>.
+     *
+     * @param name
+     *     The name of the attribute.
+     * @param namespace the namespace URI, which may be null.
+     * @param valueSet
+     *     HashMap mapping keySet().iterator to values.
+     * @param defaultKey
+     *     Key to use if the attribute is missing.
+     *
+     * </dl><dl><dt><b>Preconditions:</b></dt><dd>
+     * <ul><li><code>name != null</code>
+     *     <li><code>name</code> is a valid XML identifier
+     *     <li><code>valueSet</code> != null
+     *     <li>the keySet().iterator of <code>valueSet</code> are strings
+     * </ul></dd></dl><dl>
+     *
+     */
+    public Object getAttribute(String name, String namespace,
+                               Map valueSet,
+                               String    defaultKey);
+    
 
+    /**
+     * Returns an attribute of the element.
+     * If the attribute doesn't exist, <code>defaultValue</code> is returned.
+     *
+     * @param name         The name of the attribute.
+     * @param namespace the namespace URI, which may be null.
+     * @param defaultValue Key to use if the attribute is missing.
+     *
+     */
+    public double getDoubleAttribute(String name,
+            String namespace,
+            double defaultValue);
    /**
     * Returns the type of an attribute.
     *
