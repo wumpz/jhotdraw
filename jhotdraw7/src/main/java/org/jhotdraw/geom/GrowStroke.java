@@ -1,5 +1,5 @@
 /*
- * @(#)GrowStroke.java  1.0  June 9, 2006
+ * @(#)GrowStroke.java  1.1  2006-12-09
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -26,7 +26,8 @@ import java.awt.font.*;
  * shape, but one that can be used for filling. 
  * 
  * @author Werner Randelshofer.
- * @version 1.0 June 9, 2006 Created.
+ * @version 1.1 2006-12-09 Take winding rule into account. 
+ * <br>1.0 June 9, 2006 Created.
  */
 public class GrowStroke extends DoubleStroke {
     private float grow;
@@ -40,6 +41,14 @@ public class GrowStroke extends DoubleStroke {
     BezierPath bp = new BezierPath();
         GeneralPath left = new GeneralPath();
         GeneralPath right = new GeneralPath();
+        
+        if (s instanceof GeneralPath) {
+            left.setWindingRule(((GeneralPath) s).getWindingRule());
+            right.setWindingRule(((GeneralPath) s).getWindingRule());
+        } else if (s instanceof BezierPath) {
+            left.setWindingRule(((BezierPath) s).getWindingRule());
+            right.setWindingRule(((BezierPath) s).getWindingRule());
+        }
         
         double[] coords = new double[6];
         // FIXME - We only do a flattened path

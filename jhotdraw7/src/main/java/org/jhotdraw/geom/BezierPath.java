@@ -1,5 +1,5 @@
 /*
- * @(#)BezierPath.java  1.1  2006-03-22
+ * @(#)BezierPath.java  1.2  2006-12-09
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -28,7 +28,8 @@ import java.util.*;
  * away from C0.
  *
  * @author Werner Randelshofer
- * @version 1.1 2006-03-22 Methods moveTo, lineTo and quadTo  added.
+ * @version 1.2 2006-12-09 Method setWindingRule added.
+ * <br>1.1 2006-03-22 Methods moveTo, lineTo and quadTo  added.
  * <br>1.0 January 20, 2006 Created.
  */
 public class BezierPath extends ArrayList<BezierPath.Node>
@@ -47,7 +48,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
     private transient GeneralPath generalPath;
     
     /**
-     * We cache the index of the outermost node to speed up method indexOfOutermostNode(); 
+     * We cache the index of the outermost node to speed up method indexOfOutermostNode();
      */
     private int outer = -1;
     
@@ -55,6 +56,11 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      * If this value is set to true, closes the bezier path.
      */
     private boolean isClosed;
+    
+    /**
+     * The winding rule for filling the bezier path.
+     */
+    private int windingRule = GeneralPath.WIND_EVEN_ODD;
     
     /**
      * Defines a vertex (node) of the bezier path.
@@ -259,7 +265,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
     /** Converts the BezierPath into a GeneralPath. */
     public GeneralPath toGeneralPath() {
         GeneralPath gp = new GeneralPath();
-        gp.setWindingRule(GeneralPath.WIND_EVEN_ODD);
+        gp.setWindingRule(windingRule);
         if (size() == 0) {
             gp.moveTo(0,0);
             gp.lineTo(0,0 + 1);
@@ -505,12 +511,12 @@ public class BezierPath extends ArrayList<BezierPath.Node>
         return Geom.chop(generalPath, p);
         /*
         Point2D.Double ctr = getCenter();
-        
+         
         // Chopped point
         double cx = -1;
         double cy = -1;
         double len = Double.MAX_VALUE;
-        
+         
         // Try for points along edge
         validatePath();
         PathIterator i = generalPath.getPathIterator(new AffineTransform(), 1);
@@ -527,7 +533,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
                     p.x, p.y,
                     ctr.x, ctr.y
                     );
-            
+         
             if (chop != null) {
                 double cl = Geom.length2(chop.x, chop.y, p.x, p.y);
                 if (cl < len) {
@@ -536,11 +542,11 @@ public class BezierPath extends ArrayList<BezierPath.Node>
                     cy = chop.y;
                 }
             }
-            
+         
             prevX = coords[0];
             prevY = coords[1];
         }
-        
+         
         //
         if (isClosed() && size() > 1) {
             Node first = get(0);
@@ -560,8 +566,8 @@ public class BezierPath extends ArrayList<BezierPath.Node>
                 }
             }
         }
-        
-        
+         
+         
         // if none found, pick closest vertex
         if (len == Double.MAX_VALUE) {
             for (int j = 0, n = size(); j < n; j++) {
@@ -797,4 +803,22 @@ public class BezierPath extends ArrayList<BezierPath.Node>
         return points;
     }
     
+    /**
+     * Sets winding rule for filling the bezier path.
+     * @param newValue Must be GeneralPath.WIND_EVEN_ODD or GeneralPath.WIND_NON_ZERO.
+     */
+    public void setWindingRule(int newValue) {
+        if (newValue != windingRule) {
+            invalidatePath();
+            int oldValue = windingRule;
+            this.windingRule = newValue;
+        }
+    }
+    /**
+     * Gets winding rule for filling the bezier path.
+     * @Return GeneralPath.WIND_EVEN_ODD or GeneralPath.WIND_NON_ZERO.
+     */
+    public int getWindingRule() {
+        return windingRule;
+    }
 }
