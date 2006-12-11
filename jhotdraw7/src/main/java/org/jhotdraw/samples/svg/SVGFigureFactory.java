@@ -1,59 +1,80 @@
 /*
- * @(#)DrawFigureFactory.java  1.0  February 17, 2004
+ * @(#)SVGFigureFactory.java  1.0  December 7, 2006
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
- * and all its contributors ("JHotDraw.org")
+ * Copyright (c) 2006 Werner Randelshofer
+ * Staldenmattweg 2, CH-6405 Immensee, Switzerland
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of
- * JHotDraw.org ("Confidential Information"). You shall not disclose
- * such Confidential Information and shall use it only in accordance
- * with the terms of the license agreement you entered into with
- * JHotDraw.org.
+ * Werner Randelshofer. ("Confidential Information").  You shall not
+ * disclose such Confidential Information and shall use it only in
+ * accordance with the terms of the license agreement you entered into
+ * with Werner Randelshofer.
  */
 
 package org.jhotdraw.samples.svg;
 
+import java.awt.Color;
+import java.awt.geom.*;
 import java.util.*;
+import javax.swing.text.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.samples.svg.figures.*;
-import org.jhotdraw.xml.*;
+import org.jhotdraw.geom.*;
+
 /**
- * DrawFigureFactory.
+ * SVGFigureFactory.
  *
- * @author  Werner Randelshofer
- * @version 1.0 February 17, 2004 Created.
+ * @author Werner Randelshofer
+ * @version 1.0 December 7, 2006 Created.
  */
-public class SVGFigureFactory extends DefaultDOMFactory {
-    private final static Object[][] classTagArray = {
-        { SVGDrawing.class, "svg" },
-        { SVGGroup.class, "defs" }, 
-        { SVGGroup.class, "g" },
-        { SVGText.class, "text" },
-        { SVGRect.class, "rect" },
-        { SVGLine.class, "line" },
-        { SVGImage.class, "image" },
-        
-        // SVC circle element is presented by an SVGEllipse figure
-        { SVGEllipse.class, "circle" },
-        { SVGEllipse.class, "ellipse" },
-        
-        // SVC polyline and polygon elements are presented by an 
-        // SVGPath figure
-        { SVGPath.class, "polyline" },
-        { SVGPath.class, "polygon" },
-        { SVGPath.class, "path" },
-    };
-    private final static Object[][] enumTagArray = {
-    };
+public interface SVGFigureFactory {
+    public Figure createRect(
+            double x, double y, double width, double height, double rx, double ry, 
+            Map<AttributeKey,Object> attributes);
     
-    /** Creates a new instance. */
-    public SVGFigureFactory() {
-        for (Object[] o : classTagArray) {
-            addStorableClass((String) o[1], (Class) o[0]);
-        }
-        for (Object[] o : enumTagArray) {
-            addEnumClass((String) o[1], (Class) o[0]);
-        }
-    }
+    public Figure createCircle(
+            double cx, double cy, double r, 
+            Map<AttributeKey,Object> attributes);
+    
+    public Figure createEllipse(
+            double cx, double cy, double rx, double ry, 
+            Map<AttributeKey,Object> attributes);
+
+    public Figure createLine(
+            double x1, double y1, double x2, double y2, 
+            Map<AttributeKey,Object> attributes);
+
+    public Figure createPolyline(
+            Point2D.Double[] points, 
+            Map<AttributeKey,Object> attributes);
+    
+    public Figure createPolygon(
+            Point2D.Double[] points, 
+            Map<AttributeKey,Object> attributes);
+
+    public Figure createPath(
+            BezierPath[] beziers, 
+            Map<AttributeKey,Object> attributes);
+
+    public CompositeFigure createG(Map<AttributeKey,Object> attributes);
+    
+    public Figure createText(
+            Point2D.Double[] coordinates, double[] rotate,
+            StyledDocument text,  
+            Map<AttributeKey,Object> attributes);
+    
+    public Figure createTextArea(
+            double x, double y, double width, double height,
+            StyledDocument text, double[] rotate,
+            Map<AttributeKey,Object> attributes);
+
+    public Gradient createLinearGradient(
+            double x1, double y1, double x2, double y2, 
+            double[] stopOffsets, Color[] stopColors,
+            boolean isRelativeToFigureBounds);
+    
+    public Gradient createRadialGradient(
+            double cx, double cy, double r, 
+            double[] stopOffsets, Color[] stopColors,
+            boolean isRelativeToFigureBounds);
 }

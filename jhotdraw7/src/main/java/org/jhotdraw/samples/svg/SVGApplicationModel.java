@@ -123,8 +123,8 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         tb.addSeparator();
         
         attributes = new HashMap<AttributeKey,Object>();
-        attributes.put(AttributeKeys.FILL_COLOR, Color.white);
-        attributes.put(AttributeKeys.STROKE_COLOR, Color.black);
+        //attributes.put(AttributeKeys.FILL_COLOR, Color.white);
+        //attributes.put(AttributeKeys.STROKE_COLOR, Color.black);
         ToolBarButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGRect(), attributes), "createRectangle", drawLabels);
         ToolBarButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGEllipse(), attributes), "createEllipse", drawLabels);
         ToolBarButtonFactory.addToolTo(tb, editor, new PathTool(new SVGPath(), new BezierFigure(true), attributes), "createPolygon", drawLabels);

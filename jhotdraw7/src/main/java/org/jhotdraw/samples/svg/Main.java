@@ -25,6 +25,7 @@ public class Main {
     
     /** Creates a new instance. */
     public static void main(String[] args) {
+        System.setProperty("apple.awt.graphics.UseQuartz","false");
         Application app = new DefaultOSXApplication();
         
         

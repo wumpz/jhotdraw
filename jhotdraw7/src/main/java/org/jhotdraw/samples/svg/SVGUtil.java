@@ -19,14 +19,17 @@ import java.awt.geom.*;
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
+import net.n3.nanoxml.IXMLElement;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.samples.svg.figures.*;
 import org.jhotdraw.xml.*;
-import static org.jhotdraw.draw.AttributeKeys.*;
+import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
 /**
  * SVGUtils.
+ *
+ * @deprecated This class will be removed.
  *
  * @author Werner Randelshofer
  * @version 1.0 July 8, 2006 Created.
@@ -405,6 +408,47 @@ public class SVGUtil {
         }
         
         return Double.parseDouble(str) * scaleFactor;
+    }
+    
+    
+    public static double getDimension(IXMLElement elem, String attributeName) throws IOException {
+        return getDimensionFromValue(elem, elem.getAttribute(attributeName, "0"));
+    }
+    public static double getDimensionFromValue(IXMLElement elem, String value) throws IOException {
+        double scaleFactor = 1d;
+        String str = value;
+        if (str == null || str.length() == 0) {
+            return 0d;
+        }
+        
+        if (str.endsWith("%")) {
+            str = str.substring(0, str.length() - 1);
+        } else if (str.endsWith("px")) {
+            str = str.substring(0, str.length() - 2);
+        } else if (str.endsWith("pt")) {
+            str = str.substring(0, str.length() - 2);
+            scaleFactor = 1.25;
+        } else if (str.endsWith("pc")) {
+            str = str.substring(0, str.length() - 2);
+            scaleFactor = 15;
+        } else if (str.endsWith("mm")) {
+            str = str.substring(0, str.length() - 2);
+            scaleFactor = 3.543307;
+        } else if (str.endsWith("cm")) {
+            str = str.substring(0, str.length() - 2);
+            scaleFactor = 35.43307;
+        } else if (str.endsWith("in")) {
+            str = str.substring(0, str.length() - 2);
+            scaleFactor = 90;
+        } else if (str.endsWith("em")) {
+            str = str.substring(0, str.length() - 2);
+            scaleFactor = getDimensionFromStyle(elem, "font-size");
+        }
+        
+        return Double.parseDouble(str) * scaleFactor;
+    }
+    public static double getDimensionFromStyle(IXMLElement elem, String styleName) throws IOException {
+        return 1d;
     }
     
     public static List<BezierPath> getPath(DOMInput in, String attributeName) throws IOException {
@@ -838,7 +882,7 @@ public class SVGUtil {
         }
         value = getInheritedAttribute("stroke-miterlimit", in, styles);
         if (value != null) {
-            STROKE_MITER_LIMIT_FACTOR.set(f, Double.valueOf(value));
+            STROKE_MITER_LIMIT.set(f, Double.valueOf(value));
         }
         value = getInheritedAttribute("stroke-dasharray", in, styles);
         if (value != null) {
@@ -858,8 +902,9 @@ public class SVGUtil {
             FONT_SIZE.set(f, getDimensionValue(in, value));
         }
         value = getInheritedAttribute("text-anchor", in, styles);
+        
         if (value != null) {
-            SVGText.TEXT_ANCHOR.set(f, Enum.valueOf(SVGText.TextAnchor.class, value.toUpperCase()));
+           TEXT_ANCHOR.set(f, Enum.valueOf(SVGAttributeKeys.TextAnchor.class, value.toUpperCase()));
         }
     }
     public static Map<String,String> getStyles(String str) throws IOException {
@@ -941,7 +986,7 @@ public class SVGUtil {
         
         FILL_COLOR.set(f, Color.black);
         STROKE_COLOR.set(f, null);
-        STROKE_DASH_FACTOR.set(f, 1d);
+        IS_STROKE_DASH_FACTOR.set(f, false);
     }
     /**
      * Writes the attributes of the figure into the specified DOMOutput.
@@ -974,9 +1019,9 @@ public class SVGUtil {
         }
         out.addAttribute("stroke", value);
         out.addAttribute("stroke-width", STROKE_WIDTH.get(f), 1d);
-        out.addAttribute("stroke-miterlimit", STROKE_MITER_LIMIT_FACTOR.get(f) / STROKE_WIDTH.get(f), 4d);
+        out.addAttribute("stroke-miterlimit", STROKE_MITER_LIMIT.get(f) / STROKE_WIDTH.get(f), 4d);
         double[] dashes = STROKE_DASHES.get(f);
-        dbl = (STROKE_DASH_FACTOR.get(f) == null) ? STROKE_WIDTH.get(f) : STROKE_DASH_FACTOR.get(f);
+        dbl = (IS_STROKE_DASH_FACTOR.get(f)) ? STROKE_WIDTH.get(f) : 1d;
         if (dashes != null) {
             StringBuilder buf = new StringBuilder();
             for (int i=0; i < dashes.length; i++) {
@@ -986,7 +1031,7 @@ public class SVGUtil {
                 out.addAttribute("stroke-dasharray", buf.toString());
             }
         }
-        out.addAttribute("stroke-dashoffset", STROKE_DASH_PHASE.get(f), 0d);
+        out.addAttribute("stroke-dashoffset", STROKE_DASH_PHASE.get(f) * dbl, 0d);
         
         // Text attributes
         out.addAttribute("font-size", FONT_SIZE.get(f));

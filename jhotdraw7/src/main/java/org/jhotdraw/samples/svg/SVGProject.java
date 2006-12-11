@@ -1,5 +1,5 @@
 /*
- * @(#)SVGProject.java  1.1  2006-06-10
+ * @(#)SVGProject.java  1.2  2006-12-10
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -14,6 +14,7 @@
  */
 package org.jhotdraw.samples.svg;
 
+import java.util.LinkedList;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.io.*;
 import org.jhotdraw.undo.*;
@@ -34,7 +35,8 @@ import org.jhotdraw.xml.*;
  * A drawing project.
  *
  * @author Werner Randelshofer
- * @version 1.1 2006-06-10 Extended to support DefaultDrawApplicationModel.
+ * @version 1.2 2006-12-10 Used SVGStorage for reading SVG drawing (experimental). 
+ * <br>1.1 2006-06-10 Extended to support DefaultDrawApplicationModel.
  * <br>1.0 2006-02-07 Created.
  */
 public class SVGProject extends AbstractProject {
@@ -70,7 +72,7 @@ public class SVGProject extends AbstractProject {
         scrollPane.setBorder(new EmptyBorder(0,0,0,0));
         
         setEditor(new DefaultDrawingEditor());
-        view.setDOMFactory(new SVGFigureFactory());
+        view.setDOMFactory(new SVGFigureFactoryOld());
         undo = new UndoRedoManager();
         view.setDrawing(new SVGDrawing());
         view.getDrawing().addUndoableEditListener(undo);
@@ -150,9 +152,14 @@ public class SVGProject extends AbstractProject {
         InputStream in = null;
         try {
             in = new BufferedInputStream(new FileInputStream(f));
+            StorageFormat sf = new SVGInputFormat();
+            final Drawing drawing = new QuadTreeDrawing();
+            sf.read(in, drawing, new LinkedList<Figure>());
+            /*
             DOMInput domi = new NanoXMLDOMInput(view.getDOMFactory(), in);
            
             final Drawing drawing = (Drawing) domi.readObject();
+             */
             SwingUtilities.invokeAndWait(new Runnable() { public void run() {
                 view.getDrawing().removeUndoableEditListener(undo);
                 view.setDrawing(drawing);

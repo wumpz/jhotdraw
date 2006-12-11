@@ -26,7 +26,7 @@ import org.jhotdraw.geom.*;
 import org.jhotdraw.samples.svg.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.xml.*;
-import static org.jhotdraw.draw.AttributeKeys.*;
+import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
 /**
  * SVGPath is a composite Figure which contains one or more
@@ -51,14 +51,20 @@ public class SVGPath extends AbstractAttributedCompositeFigure implements SVGFig
     
     public void drawFigure(Graphics2D g) {
         validatePath();
-        if (AttributeKeys.FILL_COLOR.get(this) != null) {
+        if (FILL_COLOR.get(this) != null || FILL_GRADIENT.get(this) != null) {
             g.setColor(AttributeKeys.FILL_COLOR.get(this));
+            if (FILL_GRADIENT.get(this) != null) {
+                g.setPaint(FILL_GRADIENT.get(this).getPaint(this));
+            }
             drawFill(g);
         }
-        if (STROKE_COLOR.get(this) != null) {
+        if ((STROKE_COLOR.get(this) != null || STROKE_GRADIENT.get(this) != null) &&
+                STROKE_WIDTH.get(this) > 0) {
             g.setStroke(AttributeKeys.getStroke(this));
             g.setColor(STROKE_COLOR.get(this));
-            
+            if (STROKE_GRADIENT.get(this) != null) {
+                g.setPaint(STROKE_GRADIENT.get(this).getPaint(this));
+            }
             drawStroke(g);
         }
         if (isConnectorsVisible()) {
@@ -74,6 +80,9 @@ public class SVGPath extends AbstractAttributedCompositeFigure implements SVGFig
         }
     }
     public void drawStroke(Graphics2D g) {
+        if (STROKE_GRADIENT.get(this) != null) {
+            g.setPaint(STROKE_GRADIENT.get(this).getPaint(this));
+        }
         g.draw(path);
     }
     
@@ -91,7 +100,7 @@ public class SVGPath extends AbstractAttributedCompositeFigure implements SVGFig
         if (path == null) {
             path = new GeneralPath();
             path.setWindingRule(WINDING_RULE.get(this) == WindingRule.EVEN_ODD ?
-                GeneralPath.WIND_EVEN_ODD : 
+                GeneralPath.WIND_EVEN_ODD :
                 GeneralPath.WIND_NON_ZERO
                     );
             for (Figure child : getChildren()) {
@@ -234,5 +243,30 @@ public class SVGPath extends AbstractAttributedCompositeFigure implements SVGFig
             }
         });
         return actions;
+    }
+    /**
+     * Handles a mouse click.
+     */
+    public boolean handleMouseClick(Point2D.Double p, MouseEvent evt, DrawingView view) {
+        if (evt.getClickCount() == 2 && view.getHandleDetailLevel() == 1) {
+            for (Figure child : getChildren()) {
+                BezierFigure bf = (BezierFigure) child;
+                int index = bf.getBezierPath().findSegment(p, (float) (5f / view.getScaleFactor()));
+                if (index != -1) {
+                    bf.handleMouseClick(p, evt, view);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    public void basicSetAttribute(AttributeKey key, Object newValue) {
+        if (key == SVGAttributeKeys.TRANSFORM) {
+            basicTransform((AffineTransform) newValue);
+        } else {
+            super.basicSetAttribute(key, newValue);
+        }
+        // invalidatePath();
     }
 }

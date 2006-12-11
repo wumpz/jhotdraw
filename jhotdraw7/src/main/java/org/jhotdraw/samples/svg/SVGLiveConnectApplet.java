@@ -68,14 +68,14 @@ public class SVGLiveConnectApplet extends JApplet {
                 Object result;
                 try {
                     if (getParameter("data") != null && getParameter("data").length() > 0) {
-                        NanoXMLDOMInput domi = new NanoXMLDOMInput(new SVGFigureFactory(), new StringReader(getParameter("data")));
+                        NanoXMLDOMInput domi = new NanoXMLDOMInput(new SVGFigureFactoryOld(), new StringReader(getParameter("data")));
                         result = domi.readObject(0);
                     } else if (getParameter("datafile") != null) {
                         InputStream in = null;
                         try {
                             URL url = new URL(getDocumentBase(), getParameter("datafile"));
                             in = url.openConnection().getInputStream();
-                            NanoXMLDOMInput domi = new NanoXMLDOMInput(new SVGFigureFactory(), in);
+                            NanoXMLDOMInput domi = new NanoXMLDOMInput(new SVGFigureFactoryOld(), in);
                             result = domi.readObject(0);
                         } finally {
                             if (in != null) in.close();
@@ -143,7 +143,7 @@ public class SVGLiveConnectApplet extends JApplet {
         if (text != null && text.length() > 0) {
             StringReader in = new StringReader(text);
             try {
-                NanoXMLDOMInput domi = new NanoXMLDOMInput(new SVGFigureFactory(), in);
+                NanoXMLDOMInput domi = new NanoXMLDOMInput(new SVGFigureFactoryOld(), in);
                 domi.openElement("SVGDraw");
                 
                 setDrawing((Drawing) domi.readObject(0));
@@ -162,7 +162,7 @@ public class SVGLiveConnectApplet extends JApplet {
     public String getData() {
         CharArrayWriter out = new CharArrayWriter();
         try {
-            NanoXMLDOMOutput domo = new NanoXMLDOMOutput(new SVGFigureFactory());
+            NanoXMLDOMOutput domo = new NanoXMLDOMOutput(new SVGFigureFactoryOld());
             domo.openElement("SVGDraw");
             domo.writeObject(getDrawing());
             domo.closeElement();

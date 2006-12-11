@@ -14,6 +14,7 @@
 
 package org.jhotdraw.samples.svg.figures;
 
+import java.awt.*;
 import java.awt.geom.*;
 import java.io.*;
 import java.util.*;
@@ -32,7 +33,15 @@ public class SVGGroup extends GroupFigure implements SVGFigure {
     public SVGGroup() {
         SVGUtil.setDefaults(this);
     }
-    
+/*
+    public void drawFigure(Graphics2D g) {
+        super.drawFigure(g);
+        g.setStroke(new BasicStroke());
+        g.setColor(Color.red);
+        g.draw(getBounds());
+        g.setColor(Color.blue);
+        g.draw(getFigureDrawBounds());
+    }*/
     @Override public LinkedList<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles;
         if (detailLevel == 0) {
