@@ -89,7 +89,7 @@ public class TaskFigure extends GraphicalCompositeFigure {
         add(separator1);
         add(attributeCompartment);
         
-        Insets2DDouble insets = new Insets2DDouble(4,8,4,8);
+        Insets2D.Double insets = new Insets2D.Double(4,8,4,8);
         LAYOUT_INSETS.set(nameCompartment, insets);
         LAYOUT_INSETS.set(attributeCompartment, insets);
         

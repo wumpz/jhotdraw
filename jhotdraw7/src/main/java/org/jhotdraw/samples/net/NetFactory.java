@@ -20,7 +20,7 @@ import java.util.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.xml.*;
 /**
- * PertFactory.
+ * NetFactory.
  * 
  * @author Werner Randelshofer
  * @version 2006-01-18 Created.
@@ -37,7 +37,7 @@ public class NetFactory extends DefaultDOMFactory {
         { LocatorConnector.class, "locConnect" },
         { ChopBoxConnector.class, "rectConnect" },
         { ArrowTip.class, "arrowTip" },
-        { Insets2DDouble.class, "insets" },
+        { Insets2D.Double.class, "insets" },
         { RelativeLocator.class, "relativeLoc" },
     };
     

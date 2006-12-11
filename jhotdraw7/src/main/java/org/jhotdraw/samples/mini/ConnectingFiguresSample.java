@@ -57,7 +57,7 @@ public class ConnectingFiguresSample {
                 
                 DrawingView view = new DefaultDrawingView();
                 view.setDrawing(drawing);
-                f.getContentPane().add(view.getContainer());
+                f.getContentPane().add(view.getJComponent());
                 
                 f.show();
             }
