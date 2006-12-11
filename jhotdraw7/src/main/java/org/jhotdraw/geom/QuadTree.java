@@ -1,5 +1,5 @@
 /*
- * @(#)QuadTree2DDouble.java  1.0  2006-01-14
+ * @(#)QuadTree.java  2.0  2006-12-06
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -10,7 +10,6 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-�
  */
 
 
@@ -20,12 +19,14 @@ import java.awt.geom.*;
 import java.util.*;
 import java.awt.*;
 /**
- * QuadTree2DDouble.
+ * QuadTree.
  *
  * @author  Werner Randelshofer
- * @version 1.0 2006-01-14 Derived from class QuadTree.
+ * @version 2.0 2006-12-06 Renamed from QuadTree2DDouble to QuadTree because
+ * this class isn't a Shape2D class.
+ * <br>1.0 2006-01-14 Derived from class QuadTree.
  */
-public class QuadTree2DDouble<T> {
+public class QuadTree<T> {
     private HashMap<T,Rectangle2D.Double> outside = new HashMap<T,Rectangle2D.Double>();
     private QuadNode root;
     private int maxCapacity = 32;
@@ -33,10 +34,10 @@ public class QuadTree2DDouble<T> {
     private int maxOutside = 32;
     
     /** Creates a new instance. */
-    public QuadTree2DDouble() {
+    public QuadTree() {
         root = new QuadNode(new Rectangle2D.Double(0, 0, 800, 600));
     }
-    public QuadTree2DDouble(Rectangle2D.Double bounds) {
+    public QuadTree(Rectangle2D.Double bounds) {
         root = new QuadNode(bounds);
     }
     
