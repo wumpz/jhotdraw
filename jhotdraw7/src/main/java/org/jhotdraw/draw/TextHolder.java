@@ -45,5 +45,5 @@ public interface TextHolder extends Figure {
 	public int getTextColumns();
     public void setFontSize(float size);
     public float getFontSize();
-    public Insets2DDouble getInsets();
+    public Insets2D.Double getInsets();
 }

@@ -51,6 +51,35 @@ public class RoundRectangleFigure extends AttributedFigure {
          */
     }
     
+    // DRAWING
+    protected void drawFill(Graphics2D g) {
+        RoundRectangle2D.Double r = (RoundRectangle2D.Double) roundrect.clone();
+            double grow = AttributeKeys.getPerpendicularFillGrowth(this);
+            r.x -= grow;
+            r.y -= grow;
+            r.width += grow * 2;
+            r.height += grow * 2;
+        r.arcwidth += grow * 2;
+        r.archeight += grow * 2;
+        if (r.width > 0 && r.height > 0) {
+        g.fill(r);
+        }
+    }
+    
+    protected void drawStroke(Graphics2D g) {
+        RoundRectangle2D.Double r = (RoundRectangle2D.Double) roundrect.clone();
+            double grow = AttributeKeys.getPerpendicularDrawGrowth(this);
+            r.x -= grow;
+            r.y -= grow;
+            r.width += grow * 2;
+            r.height += grow * 2;
+        r.arcwidth += grow * 2;
+        r.archeight += grow * 2;
+        if (r.width > 0 && r.height > 0) {
+        g.draw(r);
+        }
+    }
+    // SHAPE AND BOUNDS
     public Rectangle2D.Double getBounds() {
         return (Rectangle2D.Double) roundrect.getBounds2D();
     }
@@ -61,7 +90,7 @@ public class RoundRectangleFigure extends AttributedFigure {
             
         return r;
     }
-    
+    // ATTRIBUTES
     public double getArcWidth() {
         return roundrect.arcwidth;
     }
@@ -94,35 +123,6 @@ public class RoundRectangleFigure extends AttributedFigure {
             }
         });
     }
-    
-    protected void drawFill(Graphics2D g) {
-        RoundRectangle2D.Double r = (RoundRectangle2D.Double) roundrect.clone();
-            double grow = AttributeKeys.getPerpendicularFillGrowth(this);
-            r.x -= grow;
-            r.y -= grow;
-            r.width += grow * 2;
-            r.height += grow * 2;
-        r.arcwidth += grow * 2;
-        r.archeight += grow * 2;
-        if (r.width > 0 && r.height > 0) {
-        g.fill(r);
-        }
-    }
-    
-    protected void drawStroke(Graphics2D g) {
-        RoundRectangle2D.Double r = (RoundRectangle2D.Double) roundrect.clone();
-            double grow = AttributeKeys.getPerpendicularDrawGrowth(this);
-            r.x -= grow;
-            r.y -= grow;
-            r.width += grow * 2;
-            r.height += grow * 2;
-        r.arcwidth += grow * 2;
-        r.archeight += grow * 2;
-        if (r.width > 0 && r.height > 0) {
-        g.draw(r);
-        }
-    }
-    
     /**
      * Checks if a Point2D.Double is inside the figure.
      */
@@ -155,48 +155,12 @@ public class RoundRectangleFigure extends AttributedFigure {
                 (Point2D.Double) tx.transform(lead, lead)
                 );
     }
-    
+    // EDITING
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = (LinkedList<Handle>) super.createHandles(detailLevel);
         handles.add(new RoundRectRadiusHandle(this));
         
         return handles;
-    }
-    
-    public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
-        return new ChopRoundRectConnector(this);
-    }
-    public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
-        return new ChopRoundRectConnector(this);
-    }
-
-    public RoundRectangleFigure clone() {
-        RoundRectangleFigure that = (RoundRectangleFigure) super.clone();
-        that.roundrect = (RoundRectangle2D.Double) this.roundrect.clone();
-        return that;
-    }
-    
-   @Override public void read(DOMInput in) throws IOException {
-        super.read(in);
-        roundrect.arcwidth = in.getAttribute("arcWidth", DEFAULT_ARC);
-        roundrect.archeight = in.getAttribute("arcHeight", DEFAULT_ARC);
-    }
-    
-    @Override public void write(DOMOutput out) throws IOException {
-        super.write(out);
-        out.addAttribute("arcWidth", roundrect.arcwidth);
-        out.addAttribute("arcHeight", roundrect.archeight);
-    }
-    public void restoreTo(Object geometry) {
-        RoundRectangle2D.Double r = (RoundRectangle2D.Double) geometry;
-        roundrect.x = r.x;
-        roundrect.y = r.y;
-        roundrect.width = r.width;
-        roundrect.height = r.height;
-    }
-    
-    public Object getRestoreData() {
-        return roundrect.clone();
     }
     public Point2D.Double chop(Point2D.Double from) {
         Rectangle2D.Double outer = getBounds();
@@ -237,5 +201,46 @@ public class RoundRectangleFigure extends AttributedFigure {
             p.x = Math.min(Math.max(p.x, inner.x), inner.x + inner.width);
         }
         return p;
+    }
+    public void restoreTo(Object geometry) {
+        RoundRectangle2D.Double r = (RoundRectangle2D.Double) geometry;
+        roundrect.x = r.x;
+        roundrect.y = r.y;
+        roundrect.width = r.width;
+        roundrect.height = r.height;
+    }
+    
+    public Object getRestoreData() {
+        return roundrect.clone();
+    }
+    
+    // CONNECTING
+    public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
+        return new ChopRoundRectConnector(this);
+    }
+    public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
+        return new ChopRoundRectConnector(this);
+    }
+    // COMPOSITE FIGURES
+    // CLONING
+
+    public RoundRectangleFigure clone() {
+        RoundRectangleFigure that = (RoundRectangleFigure) super.clone();
+        that.roundrect = (RoundRectangle2D.Double) this.roundrect.clone();
+        return that;
+    }
+    // EVENT HANDLING
+
+    // PERSISTENCE
+   @Override public void read(DOMInput in) throws IOException {
+        super.read(in);
+        roundrect.arcwidth = in.getAttribute("arcWidth", DEFAULT_ARC);
+        roundrect.archeight = in.getAttribute("arcHeight", DEFAULT_ARC);
+    }
+    
+    @Override public void write(DOMOutput out) throws IOException {
+        super.write(out);
+        out.addAttribute("arcWidth", roundrect.arcwidth);
+        out.addAttribute("arcHeight", roundrect.archeight);
     }
 }

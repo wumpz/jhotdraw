@@ -26,8 +26,8 @@ import org.jhotdraw.geom.*;
  */
 public abstract class AbstractLayouter implements Layouter {
     
-    public Insets2DDouble getInsets(Figure child) {
-        Insets2DDouble value = (Insets2DDouble) child.getAttribute(CompositeFigure.LAYOUT_INSETS);
-        return (value == null) ? new Insets2DDouble(0, 0, 0, 0) : (Insets2DDouble) value.clone();
+    public Insets2D.Double getInsets(Figure child) {
+        Insets2D.Double value = (Insets2D.Double) child.getAttribute(CompositeFigure.LAYOUT_INSETS);
+        return (value == null) ? new Insets2D.Double() : (Insets2D.Double) value.clone();
     }
 }

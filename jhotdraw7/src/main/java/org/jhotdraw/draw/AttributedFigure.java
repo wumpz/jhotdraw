@@ -1,5 +1,5 @@
 /*
- * @(#)AttributedFigure.java  3.1  2006-06-17
+ * @(#)AttributedFigure.java  3.2  2006-12-07
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -29,7 +29,9 @@ import org.jhotdraw.xml.DOMOutput;
  *
  *
  * @author Werner Randelshofer
- * @version 3.1 2006-06-17 Method chop(Point2D.Double) added.
+ * @version 3.2 2006-12-07 Changed method setAttributes(HashMap) 
+ * to setAttributes(Map); 
+ * <br>3.1 2006-06-17 Method chop(Point2D.Double) added.
  * <br>3.0 2006-06-07 Reworked.
  * <br>2.1 2006-02-20 Support for DoubleStroke added.
  * <br>2.0 2006-01-14 Changed to support double precision coordinates.
@@ -84,7 +86,7 @@ public abstract class AttributedFigure extends AbstractFigure {
         return forbiddenAttributes == null || ! forbiddenAttributes.contains(key);
     }
     
-    public void setAttributes(HashMap<AttributeKey, Object> map) {
+    public void setAttributes(Map<AttributeKey, Object> map) {
         for (Map.Entry<AttributeKey, Object> entry : map.entrySet()) {
             setAttribute(entry.getKey(), entry.getValue());
         }
@@ -148,7 +150,7 @@ public abstract class AttributedFigure extends AbstractFigure {
     }
     
     public double getStrokeMiterLimitFactor() {
-        Number value = (Number) getAttribute(AttributeKeys.STROKE_MITER_LIMIT_FACTOR);
+        Number value = (Number) getAttribute(AttributeKeys.STROKE_MITER_LIMIT);
         return (value != null) ? value.doubleValue() : 10f;
     }
     
@@ -156,7 +158,7 @@ public abstract class AttributedFigure extends AbstractFigure {
     public Rectangle2D.Double getFigureDrawBounds() {
         double width = AttributeKeys.getStrokeTotalWidth(this) / 2d;
         if (STROKE_JOIN.get(this) == BasicStroke.JOIN_MITER) {
-            width *= STROKE_MITER_LIMIT_FACTOR.get(this);
+            width *= STROKE_MITER_LIMIT.get(this);
         }
         width++;
         Rectangle2D.Double r = getBounds();

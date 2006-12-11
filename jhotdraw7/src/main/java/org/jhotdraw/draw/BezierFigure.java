@@ -103,7 +103,7 @@ public class BezierFigure extends AttributedFigure {
             } else {
                 GrowStroke gs = new GrowStroke((float) grow,
                         (float) (AttributeKeys.getStrokeTotalWidth(this) *
-                        STROKE_MITER_LIMIT_FACTOR.get(this))
+                        STROKE_MITER_LIMIT.get(this))
                         );
                 g.draw(gs.createStrokedShape(path));
             }
@@ -144,7 +144,7 @@ public class BezierFigure extends AttributedFigure {
             } else {
                 GrowStroke gs = new GrowStroke((float) grow,
                         (float) (AttributeKeys.getStrokeTotalWidth(this) *
-                        STROKE_MITER_LIMIT_FACTOR.get(this))
+                        STROKE_MITER_LIMIT.get(this))
                         );
                 g.fill(gs.createStrokedShape(path));
             }
@@ -152,14 +152,14 @@ public class BezierFigure extends AttributedFigure {
     }
     
     public boolean contains(Point2D.Double p) {
-        if (isClosed()) {
+        if (isClosed() || FILL_COLOR.get(this) != null) {
             double grow = AttributeKeys.getPerpendicularHitGrowth(this);
             if (grow == 0d) {
                 return path.contains(p);
             } else {
                 GrowStroke gs = new GrowStroke((float) grow,
                         (float) (AttributeKeys.getStrokeTotalWidth(this) *
-                        STROKE_MITER_LIMIT_FACTOR.get(this))
+                        STROKE_MITER_LIMIT.get(this))
                         );
                 return gs.createStrokedShape(path).contains(p);
             }
@@ -274,7 +274,9 @@ public class BezierFigure extends AttributedFigure {
     public void basicSetAttribute(AttributeKey key, Object newValue) {
         if (key == CLOSED) {
             path.setClosed((Boolean) newValue);
-        }
+        } else if (key == WINDING_RULE) {
+            path.setWindingRule(newValue == AttributeKeys.WindingRule.EVEN_ODD ? GeneralPath.WIND_EVEN_ODD : GeneralPath.WIND_NON_ZERO);
+        } 
         super.basicSetAttribute(key, newValue);
     }
     
@@ -646,7 +648,7 @@ public class BezierFigure extends AttributedFigure {
             } else {
                 GrowStroke gs = new GrowStroke((float) grow,
                         (float) (AttributeKeys.getStrokeTotalWidth(this) *
-                        STROKE_MITER_LIMIT_FACTOR.get(this))
+                        STROKE_MITER_LIMIT.get(this))
                         );
                 return Geom.chop(gs.createStrokedShape(path), p);
             }

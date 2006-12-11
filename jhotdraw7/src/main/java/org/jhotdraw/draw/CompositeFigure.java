@@ -35,9 +35,9 @@ import org.jhotdraw.geom.*;
  */
 public interface CompositeFigure extends Figure {
     /**
-     * The value of this attribute is a Insets2DDouble object.
+     * The value of this attribute is a Insets2D.Double object.
      */
-    public final static AttributeKey<Insets2DDouble> LAYOUT_INSETS = new AttributeKey<Insets2DDouble>("layoutInsets", new Insets2DDouble(0,0,0,0));
+    public final static AttributeKey<Insets2D.Double> LAYOUT_INSETS = new AttributeKey<Insets2D.Double>("layoutInsets", new Insets2D.Double());
     
     /**
      * Adds a child to the figure.

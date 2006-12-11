@@ -85,7 +85,7 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor,
     
     public void areaInvalidated(ToolEvent evt) {
         Rectangle r = evt.getInvalidatedArea();
-        evt.getView().getContainer().repaint(r.x, r.y, r.width, r.height);
+        evt.getView().getJComponent().repaint(r.x, r.y, r.width, r.height);
     }
     public void toolStarted(ToolEvent evt) {
         setView(evt.getView());
@@ -95,14 +95,14 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor,
         activeView = newValue;
         firePropertyChange("view", oldValue, newValue);
         for (DrawingView v : views) {
-            v.getContainer().repaint();
+            v.getJComponent().repaint();
         }
     }
     public void toolDone(ToolEvent evt) {
         // FIXME - Maybe we should do this with all views of the editor??
         DrawingView v = getView();
         if (v != null) {
-            Container c = v.getContainer();
+            Container c = v.getJComponent();
             c.invalidate();
             if (c.getParent() != null) c.getParent().validate();
         }
@@ -118,7 +118,7 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor,
     
     private void updateFocusedView() {
         for (DrawingView v : views) {
-            if (v.getContainer().hasFocus()) {
+            if (v.getJComponent().hasFocus()) {
                 setFocusedView(v);
                 return;
             }
@@ -151,7 +151,7 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor,
     }
     
     public void remove(DrawingView view) {
-        view.getContainer().removeFocusListener(focusHandler);
+        view.getJComponent().removeFocusListener(focusHandler);
         views.remove(view);
         if (tool != null) {
             view.removeMouseListener(tool);
@@ -169,7 +169,7 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor,
     public void add(DrawingView view) {
         views.add(view);
         view.addNotify(this);
-        view.getContainer().addFocusListener(focusHandler);
+        view.getJComponent().addFocusListener(focusHandler);
         if (tool != null) {
             view.addMouseListener(tool);
             view.addMouseMotionListener(tool);
@@ -187,7 +187,7 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor,
     
     public DrawingView findView(Container c) {
         for (DrawingView v : views) {
-            if (v.getContainer() == c) {
+            if (v.getJComponent() == c) {
                 return v;
             }
         }

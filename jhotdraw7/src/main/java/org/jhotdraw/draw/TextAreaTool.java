@@ -108,11 +108,9 @@ public class TextAreaTool extends CreationTool implements ActionListener {
     
     private Rectangle2D.Double getFieldBounds(TextHolder figure) {
         Rectangle2D.Double r = figure.getBounds();
-        Insets2DDouble insets = figure.getInsets();
-        r = new Rectangle2D.Double(r.x + insets.left, r.y + insets.top,
-        r.width - insets.left - insets.right,
-        r.height - insets.top - insets.bottom
-        );
+        Insets2D.Double insets = figure.getInsets();
+        insets.subtractTo(r);
+
         // FIXME - Find a way to determine the parameters for grow.
         //r.grow(1,2);
         //r.width += 16;

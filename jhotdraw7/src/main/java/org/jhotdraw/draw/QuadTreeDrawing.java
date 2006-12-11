@@ -15,7 +15,7 @@
 
 package org.jhotdraw.draw;
 
-import org.jhotdraw.geom.QuadTree2DDouble;
+import org.jhotdraw.geom.QuadTree;
 import org.jhotdraw.util.ReversedList;
 import java.awt.*;
 import java.awt.geom.*;
@@ -34,7 +34,7 @@ import java.util.*;
 public class QuadTreeDrawing extends AbstractDrawing
 implements FigureListener, UndoableEditListener {
     private ArrayList<Figure> figures = new ArrayList<Figure>();
-    private QuadTree2DDouble<Figure> quadTree = new QuadTree2DDouble<Figure>();
+    private QuadTree<Figure> quadTree = new QuadTree<Figure>();
     private boolean needsSorting = false;
     
     /** Creates a new instance. */

@@ -10,7 +10,6 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-�
  */
 
 package org.jhotdraw.draw;
@@ -50,12 +49,9 @@ public class RelativeLocator extends AbstractLocator {
     public java.awt.geom.Point2D.Double locate(Figure owner) {
         Rectangle2D.Double bounds = owner.getBounds();
         if (owner.getDecorator() != null) {
-            Insets2DDouble insets = DECORATOR_INSETS.get(owner);
+            Insets2D.Double insets = DECORATOR_INSETS.get(owner);
             if (insets != null) {
-                bounds.x -= insets.left;
-                bounds.y -= insets.top;
-                bounds.width += insets.left + insets.right;
-                bounds.height += insets.top + insets.bottom;
+                insets.addTo(bounds);
             }
         }
         return new Point2D.Double(

@@ -36,14 +36,14 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 public class VerticalLayouter extends AbstractLayouter {
     
     public Rectangle2D.Double calculateLayout(CompositeFigure layoutable, Point2D.Double anchor, Point2D.Double lead) {
-        Insets2DDouble layoutInsets = LAYOUT_INSETS.get(layoutable);
-        if (layoutInsets == null) layoutInsets = new Insets2DDouble(0,0,0,0);
+        Insets2D.Double layoutInsets = LAYOUT_INSETS.get(layoutable);
+        if (layoutInsets == null) layoutInsets = new Insets2D.Double(0,0,0,0);
         
         Rectangle2D.Double layoutBounds = new Rectangle2D.Double(anchor.x,anchor.y,0,0);
         for (Figure child : layoutable.getChildren()) {
             if (child.isVisible()) {
                 Dimension2DDouble preferredSize = child.getPreferredSize();
-                Insets2DDouble ins = getInsets(child);
+                Insets2D.Double ins = getInsets(child);
                 layoutBounds.width = Math.max(layoutBounds.width, preferredSize.width + ins.left + ins.right);
                 layoutBounds.height += preferredSize.height + ins.top + ins.bottom;
                 }
@@ -55,15 +55,15 @@ public class VerticalLayouter extends AbstractLayouter {
     }
     
     public Rectangle2D.Double layout(CompositeFigure layoutable, Point2D.Double anchor, Point2D.Double lead) {
-        Insets2DDouble layoutInsets = LAYOUT_INSETS.get(layoutable);
+        Insets2D.Double layoutInsets = LAYOUT_INSETS.get(layoutable);
         
-        if (layoutInsets == null) layoutInsets = new Insets2DDouble(0,0,0,0);
+        if (layoutInsets == null) layoutInsets = new Insets2D.Double();
         
         Rectangle2D.Double layoutBounds = calculateLayout(layoutable, anchor, lead);
         double y = layoutBounds.y + layoutInsets.top;
         for (Figure child : layoutable.getChildren()) {
             if (child.isVisible()) {
-                Insets2DDouble insets = getInsets(child);
+                Insets2D.Double insets = getInsets(child);
                 double height = child.getPreferredSize().height;
                 child.basicSetBounds(
                         new Point2D.Double(

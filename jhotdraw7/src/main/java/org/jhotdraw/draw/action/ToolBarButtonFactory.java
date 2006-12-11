@@ -813,7 +813,7 @@ public class ToolBarButtonFactory {
                 }
                 for (DrawingView v : editor.getDrawingViews()) {
                     v.setConstrainer(c);
-                    v.getContainer().repaint();
+                    v.getJComponent().repaint();
                 }
             }
         });
@@ -839,7 +839,7 @@ public class ToolBarButtonFactory {
                     c = new GridConstrainer(1,1);
                 }
                 view.setConstrainer(c);
-                view.getContainer().repaint();
+                view.getJComponent().repaint();
             }
         });
         view.addPropertyChangeListener(new PropertyChangeListener() {

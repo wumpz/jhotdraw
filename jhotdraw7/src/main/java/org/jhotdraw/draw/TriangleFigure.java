@@ -97,7 +97,7 @@ public class TriangleFigure extends AttributedFigure {
         if (grow != 0d) {
             GrowStroke gs = new GrowStroke((float) grow,
                     (float) (AttributeKeys.getStrokeTotalWidth(this) *
-                    STROKE_MITER_LIMIT_FACTOR.get(this))
+                    STROKE_MITER_LIMIT.get(this))
                     );
             triangle = gs.createStrokedShape(triangle);
         }
@@ -112,7 +112,7 @@ public class TriangleFigure extends AttributedFigure {
         if (grow != 0d) {
             GrowStroke gs = new GrowStroke((float) grow,
                     (float) (AttributeKeys.getStrokeTotalWidth(this) *
-                    STROKE_MITER_LIMIT_FACTOR.get(this))
+                    STROKE_MITER_LIMIT.get(this))
                     );
             triangle = gs.createStrokedShape(triangle);
         }
@@ -187,7 +187,7 @@ public class TriangleFigure extends AttributedFigure {
         if (grow != 0d) {
             GrowStroke gs = new GrowStroke((float) grow,
                     (float) (AttributeKeys.getStrokeTotalWidth(this) *
-                    STROKE_MITER_LIMIT_FACTOR.get(this))
+                    STROKE_MITER_LIMIT.get(this))
                     );
             triangle =gs.createStrokedShape(triangle);
         }
@@ -209,14 +209,14 @@ public class TriangleFigure extends AttributedFigure {
                     break;
                 case OUTSIDE :
                     if (STROKE_JOIN.get(this) == BasicStroke.JOIN_MITER) {
-                        width = totalStrokeWidth * STROKE_MITER_LIMIT_FACTOR.get(this);
+                        width = totalStrokeWidth * STROKE_MITER_LIMIT.get(this);
                     } else {
                         width = totalStrokeWidth;
                     }
                     break;
                 case CENTER :
                     if (STROKE_JOIN.get(this) == BasicStroke.JOIN_MITER) {
-                        width = totalStrokeWidth / 2d * STROKE_MITER_LIMIT_FACTOR.get(this);
+                        width = totalStrokeWidth / 2d * STROKE_MITER_LIMIT.get(this);
                     } else {
                         width = totalStrokeWidth / 2d;
                     }
@@ -236,7 +236,7 @@ public class TriangleFigure extends AttributedFigure {
         if (grow != 0d) {
             GrowStroke gs = new GrowStroke((float) grow,
                     (float) (AttributeKeys.getStrokeTotalWidth(this) *
-                    STROKE_MITER_LIMIT_FACTOR.get(this))
+                    STROKE_MITER_LIMIT.get(this))
                     );
             triangle =gs.createStrokedShape(triangle);
         }

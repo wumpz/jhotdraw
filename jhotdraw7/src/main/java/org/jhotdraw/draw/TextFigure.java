@@ -213,8 +213,8 @@ public class TextFigure extends AttributedFigure implements TextHolder {
         return this;
     }
     
-    public Insets2DDouble getInsets() {
-        return new Insets2DDouble(0,0,0,0);
+    public Insets2D.Double getInsets() {
+        return new Insets2D.Double();
     }
     
     public void restoreTo(Object geometry) {

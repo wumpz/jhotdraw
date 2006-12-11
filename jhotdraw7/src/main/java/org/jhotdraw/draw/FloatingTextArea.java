@@ -78,7 +78,7 @@ public class FloatingTextArea {
      * @param figure the figure holding the text
      */
     public void createOverlay(DrawingView view, TextHolder figure) {
-        view.getContainer().add(editScrollContainer, 0);
+        view.getJComponent().add(editScrollContainer, 0);
         if (figure != null) {
         Font f = figure.getFont();
         // FIXME - Should scale with fractional value!
@@ -129,13 +129,13 @@ public class FloatingTextArea {
      * Removes the overlay.
      */
     public void endOverlay() {
-        view.getContainer().requestFocus();
+        view.getJComponent().requestFocus();
         if (editScrollContainer != null) {
             editScrollContainer.setVisible(false);
-            view.getContainer().remove(editScrollContainer);
+            view.getJComponent().remove(editScrollContainer);
             
             Rectangle bounds = editScrollContainer.getBounds();
-            view.getContainer().repaint(bounds.x, bounds.y, bounds.width, bounds.height);
+            view.getJComponent().repaint(bounds.x, bounds.y, bounds.width, bounds.height);
         }
     }
 }

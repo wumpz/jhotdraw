@@ -607,7 +607,7 @@ public class DefaultDrawingView
                 );
     }
     
-    public Container getContainer() {
+    public JComponent getJComponent() {
         return this;
     }
     

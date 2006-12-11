@@ -21,6 +21,8 @@ import javax.swing.border.*;
 /**
  * BorderRectangle2D.DoubleFigure.
  *
+ * @deprecated This class should be in one of the samples package
+ *
  * @author  Werner Randelshofer
  * @version 2.0 2006-01-14 Changed to support double precison coordinates.
  * <br>1.0 8. April 2004  Created.

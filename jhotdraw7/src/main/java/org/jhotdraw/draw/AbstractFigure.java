@@ -572,7 +572,7 @@ public abstract class AbstractFigure
         if (decorator != null) {
             Point2D.Double sp = getStartPoint();
             Point2D.Double ep = getEndPoint();
-            Insets2DDouble decoratorInsets = AttributeKeys.DECORATOR_INSETS.get(this);
+            Insets2D.Double decoratorInsets = AttributeKeys.DECORATOR_INSETS.get(this);
             sp.x -= decoratorInsets.left;
             sp.y -= decoratorInsets.top;
             ep.x += decoratorInsets.right;
@@ -582,7 +582,9 @@ public abstract class AbstractFigure
         
     }
     
-    
+    /**
+     * Returns the draw bounds of this Figure.
+     */
     public final Rectangle2D.Double getDrawBounds() {
         Rectangle2D.Double figureDrawBounds = getFigureDrawBounds();
         if (decorator != null) {
@@ -591,6 +593,11 @@ public abstract class AbstractFigure
         }
         return figureDrawBounds;
     }
+    
+    /**
+     * Returns the draw bounds of this Figure without taking decorator bounds
+     * into account.
+     */
     protected abstract Rectangle2D.Double getFigureDrawBounds();
     
     public String toString() {

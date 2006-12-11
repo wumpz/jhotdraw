@@ -117,13 +117,16 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
     public Point2D.Double getEndPoint();
     /**
      * Returns the logical bounds of the figure as a Rectangle.
-     * The logical bounds are used by some Handle objects for adjusting the 
-     * figure.
+     * The logical bounds are used by Handle objects for adjusting the 
+     * figure and for aligning the figure on a grid.
      */
     public Rectangle2D.Double getBounds();
     /**
      * Returns the drawing bounding box of the figure and of its decorator figure.
-     * This takes line width, line caps and other decorations into account.
+     * The draw bounds are used to improve the performance of GraphicView, i.e.
+     * for clipping of repaints and mouse events.
+     * The draw bounds take line width, line caps and other decorations into 
+     * account.
      * Note: getDrawBounds must include the logical bounds of the figure.
      */
     public Rectangle2D.Double getDrawBounds();
@@ -384,13 +387,15 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
     public void removeUndoableEditListener(UndoableEditListener l);
     
     /**
-     * Sets a decorator figure. Set this to null, if no decorator is desired.
-     * The decorator will use the same logical bounds as this figure.
-     * It will be drawn when the figure is drawn.
+     * Sets a decorator Figure, i.e. a visual adornment to this Figure.
+     * Set this to null, if no decorator is desired.
+     * The decorator uses the same logical bounds as this Figure plus 
+     * AttributeKeys.DECORATOR_INSETS. The decorator does not handle events.
+     * The decorator is drawn when the figure is drawn.
      */
     public void setDecorator(Figure newValue);
     /**
-     * Gets the decorator figure.
+     * Gets the decorator for this figure.
      */
     public Figure getDecorator();
 }

@@ -57,7 +57,7 @@ public  class FloatingTextField {
      * specific font.
      */
     public void createOverlay(DrawingView view, TextHolder figure) {
-        view.getContainer().add(editWidget, 0);
+        view.getJComponent().add(editWidget, 0);
         Font f = figure.getFont();
         // FIXME - Should scale with fractional value!
         f = f.deriveFont(f.getStyle(), (float) (f.getSize() * view.getScaleFactor()));
@@ -115,13 +115,13 @@ public  class FloatingTextField {
      * Removes the overlay.
      */
     public void endOverlay() {
-        view.getContainer().requestFocus();
+        view.getJComponent().requestFocus();
         if (editWidget != null) {
             editWidget.setVisible(false);
-            view.getContainer().remove(editWidget);
+            view.getJComponent().remove(editWidget);
             
             Rectangle bounds = editWidget.getBounds();
-            view.getContainer().repaint(bounds.x, bounds.y, bounds.width, bounds.height);
+            view.getJComponent().repaint(bounds.x, bounds.y, bounds.width, bounds.height);
         }
     }
 }

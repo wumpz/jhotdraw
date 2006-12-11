@@ -78,7 +78,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
         return forbiddenAttributes == null || ! forbiddenAttributes.contains(key);
     }
     
-    public void setAttributes(HashMap<AttributeKey, Object> map) {
+    public void setAttributes(Map<AttributeKey, Object> map) {
         for (Map.Entry<AttributeKey, Object> entry : map.entrySet()) {
             setAttribute(entry.getKey(), entry.getValue());
         }
@@ -158,7 +158,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
     }
     
     public double getStrokeMiterLimitFactor() {
-        Number value = (Number) getAttribute(AttributeKeys.STROKE_MITER_LIMIT_FACTOR);
+        Number value = (Number) getAttribute(AttributeKeys.STROKE_MITER_LIMIT);
         return (value != null) ? value.doubleValue() : 10f;
     }
     
@@ -166,7 +166,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
     public Rectangle2D.Double getFigureDrawBounds() {
         double width = AttributeKeys.getStrokeTotalWidth(this) / 2d;
         if (STROKE_JOIN.get(this) == BasicStroke.JOIN_MITER) {
-            width *= STROKE_MITER_LIMIT_FACTOR.get(this);
+            width *= STROKE_MITER_LIMIT.get(this);
         }
         width++;
         Rectangle2D.Double r = getBounds();

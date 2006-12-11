@@ -108,10 +108,10 @@ public class TextAreaFigure extends AttributedFigure implements TextHolder {
     /**
      * Returns the insets used to draw text.
      */
-    public Insets2DDouble getInsets() {
+    public Insets2D.Double getInsets() {
         double sw = Math.ceil(STROKE_WIDTH.get(this) / 2);
-        Insets2DDouble insets = new Insets2DDouble(4,4,4,4);
-        return new Insets2DDouble(insets.top+sw,insets.left+sw,insets.bottom+sw,insets.right+sw);
+        Insets2D.Double insets = new Insets2D.Double(4,4,4,4);
+        return new Insets2D.Double(insets.top+sw,insets.left+sw,insets.bottom+sw,insets.right+sw);
     }
     
     public int getTabSize() {
@@ -123,7 +123,7 @@ public class TextAreaFigure extends AttributedFigure implements TextHolder {
             
             Font font = getFont();
 boolean isUnderlined = FONT_UNDERLINED.get(this);
-            Insets2DDouble insets = getInsets();
+            Insets2D.Double insets = getInsets();
             Rectangle2D.Double textRect = new Rectangle2D.Double(
             bounds.x + insets.left,
             bounds.y + insets.top,

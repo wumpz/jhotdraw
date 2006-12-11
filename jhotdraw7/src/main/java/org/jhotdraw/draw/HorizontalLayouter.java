@@ -35,13 +35,13 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  */
 public class HorizontalLayouter extends AbstractLayouter {
     public Rectangle2D.Double calculateLayout(CompositeFigure compositeFigure, Point2D.Double anchor, Point2D.Double lead) {
-        Insets2DDouble layoutInsets = LAYOUT_INSETS.get(compositeFigure);
+        Insets2D.Double layoutInsets = LAYOUT_INSETS.get(compositeFigure);
         
         Rectangle2D.Double layoutBounds = new Rectangle2D.Double(anchor.x, anchor.y, 0, 0);
         for (Figure child : compositeFigure.getChildren()) {
             if (child.isVisible()) {
                 Dimension2DDouble preferredSize = child.getPreferredSize();
-                Insets2DDouble ins = getInsets(child);
+                Insets2D.Double ins = getInsets(child);
                 layoutBounds.height = Math.max(layoutBounds.height, preferredSize.height + ins.top + ins.bottom);
                 layoutBounds.width += preferredSize.width + ins.left + ins.right;
                 }
@@ -53,13 +53,13 @@ public class HorizontalLayouter extends AbstractLayouter {
     }
     
     public Rectangle2D.Double layout(CompositeFigure compositeFigure, Point2D.Double anchor, Point2D.Double lead) {
-        Insets2DDouble layoutInsets = LAYOUT_INSETS.get(compositeFigure);
+        Insets2D.Double layoutInsets = LAYOUT_INSETS.get(compositeFigure);
         
         Rectangle2D.Double layoutBounds = calculateLayout(compositeFigure, anchor, lead);
         double x = layoutBounds.x + layoutInsets.left;
         for (Figure child : compositeFigure.getChildren()) {
             if (child.isVisible()) {
-                Insets2DDouble insets = getInsets(child);
+                Insets2D.Double insets = getInsets(child);
                 double width = child.getPreferredSize().width;
                 child.basicSetBounds(
                 new Point2D.Double(

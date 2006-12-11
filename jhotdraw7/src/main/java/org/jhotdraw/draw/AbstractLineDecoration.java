@@ -102,7 +102,7 @@ public abstract class AbstractLineDecoration implements LineDecoration {
         if (isStroked) {
             double strokeWidth = STROKE_WIDTH.get(f);
             int strokeJoin = STROKE_JOIN.get(f);
-            float miterLimit = (float) (STROKE_MITER_LIMIT_FACTOR.get(f) * strokeWidth);
+            float miterLimit = (float) (STROKE_MITER_LIMIT.get(f) * strokeWidth);
             
             int grow;
             if (strokeJoin == BasicStroke.JOIN_MITER) {

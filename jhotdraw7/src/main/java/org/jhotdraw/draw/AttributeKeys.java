@@ -1,5 +1,5 @@
 /*
- * @(#)AttributeKeys.java  1.1  2006-07-09
+ * @(#)AttributeKeys.java  1.3  2006-12-09
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -15,7 +15,9 @@
 package org.jhotdraw.draw;
 
 import java.awt.*;
+import java.awt.geom.*;
 import java.util.*;
+import javax.media.jai.NullCRIF;
 import org.jhotdraw.geom.*;
 /**
  * Defines AttributeKeys used by the Figures in this package as well as some
@@ -24,7 +26,8 @@ import org.jhotdraw.geom.*;
  * Applications can have an AttributeKeys class of their own.
  *
  * @author Werner Randelshofer
- * @version 1.2 2006-07-09 Stroke dash factor added. 
+ * @version 1.3 2006-12-09 Streamlined to better support SVG.
+ * <br>1.2 2006-07-09 Stroke dash factor added. 
  * <br>1.1 2006-06-07 Changed all values to double.
  * <br>1.0 23. 3. 2006 Created.
  */
@@ -89,6 +92,9 @@ public class AttributeKeys {
     /**
      * Factor for the stroke inner width. This is a double. The default value
      * is 2.
+     *
+     * @deprecated This is not flexible enough. Lets replace this with a 
+     * STROKE_STRIPES_ARRAY<Double[]> and a IS_STROKE_STRIPES_FACTOR.
      */
     public final static AttributeKey<Double> STROKE_INNER_WIDTH_FACTOR = new AttributeKey<Double>("innerStrokeWidthFactor", 2d, false);
     /**
@@ -105,7 +111,12 @@ public class AttributeKeys {
      * Stroke miter limit factor. A double multiplied by total stroke width,
      * used to construct the miter limit of a BasicStroke.
      */
-    public final static AttributeKey<Double> STROKE_MITER_LIMIT_FACTOR = new AttributeKey<Double>("strokeMiterLimitFactor", 3d, false);
+    public final static AttributeKey<Double> STROKE_MITER_LIMIT = new AttributeKey<Double>("strokeMiterLimitFactor", 3d, false);
+    /**
+     * A boolean used to indicate whether STROKE_MITER_LIMIT is a factor of 
+     * STROKE_WIDTH, or whether it represents an absolute value.
+     */
+    public final static AttributeKey<Boolean> IS_STROKE_MITER_LIMIT_FACTOR = new AttributeKey<Boolean>("isStrokeMiterLimitFactor", true);
     /**
      * An array of doubles used to specify the dash pattern in
      * a BasicStroke;
@@ -116,10 +127,11 @@ public class AttributeKeys {
      */
     public final static AttributeKey<Double> STROKE_DASH_PHASE = new AttributeKey<Double>("strokeDashPhase", 0d, false);
     /**
-     * A double used to specify the multiplication factor for the stroke dashes.
-     * If this is null, the STROKE_WIDTH is used as the factor.
+     * A boolean used to indicate whether STROKE_DASHES and STROKE_DASH_PHASE
+     * shall be interpreted as factors of STROKE_WIDTH, or whether they are
+     * absolute values.
      */
-    public final static AttributeKey<Double> STROKE_DASH_FACTOR = new AttributeKey<Double>("strokeDashFactor", null);
+    public final static AttributeKey<Boolean> IS_STROKE_DASH_FACTOR = new AttributeKey<Boolean>("isStrokeDashFactor", true);
     
     
     public static enum StrokeType {
@@ -131,6 +143,8 @@ public class AttributeKeys {
         /**
          * If STROKE_TYPE is set to this value, a DoubleStroke instance is used
          * for stroking.
+         * @deprecated This is not flexible enough. Lets replace this with
+         * STRIPED. i.e. support for striped strokes.  
          */
         DOUBLE
     }
@@ -160,11 +174,12 @@ public class AttributeKeys {
         OUTSIDE
     }
     /**
-     * Stroke placement. The value is either VALUE_STROKE_PLACEMENT_INSIDE,
-     * VALUE_STROKE_PLACEMENT_OUTSIDE, VALUE_STROKE_PLACEMENT_CENTER.
+     * Stroke placement. The value is either StrokePlacement.CENTER,
+     * StrokePlacement.INSIDE or StrokePlacement.OUTSIDE.
      * This only has effect for closed paths. On open paths, the stroke
      * is always centered on the path.
-     * FIXME - Type should be an enumeration.
+     * <p>
+     * The default value is StrokePlacement.CENTER.
      */
     public final static AttributeKey<StrokePlacement> STROKE_PLACEMENT = new AttributeKey<StrokePlacement>("strokePlacement", StrokePlacement.CENTER, false);
     
@@ -217,14 +232,14 @@ public class AttributeKeys {
     public static final AttributeKey<LineDecoration> START_DECORATION = new AttributeKey<LineDecoration>("startDecoration", null);
     
     /**
-     * The value of this attribute is a Insets2DDouble object.
+     * The value of this attribute is a Insets2D.Double object.
      */
-    public static final AttributeKey<Insets2DDouble> DECORATOR_INSETS = new AttributeKey<Insets2DDouble>("decoratorInsets", new Insets2DDouble(0,0,0,0), false);
+    public static final AttributeKey<Insets2D.Double> DECORATOR_INSETS = new AttributeKey<Insets2D.Double>("decoratorInsets", new Insets2D.Double(), false);
     
     /**
-     * The value of this attribute is a Insets2DDouble object.
+     * The value of this attribute is a Insets2D.Double object.
      */
-    public final static AttributeKey<Insets2DDouble> LAYOUT_INSETS = new AttributeKey<Insets2DDouble>("borderInsets", new Insets2DDouble(0,0,0,0));
+    public final static AttributeKey<Insets2D.Double> LAYOUT_INSETS = new AttributeKey<Insets2D.Double>("borderInsets", new Insets2D.Double());
 
     public static enum Orientation {
         NORTH,
@@ -238,9 +253,7 @@ public class AttributeKeys {
     }
     
     /**
-     * Specifies the direction of the triangle. Possible values are
-     * NORTH, SOUTH, EAST,
-     * WEST.
+     * Specifies the orientation of a Figure.
      */
     public final static AttributeKey<Orientation> ORIENTATION = new AttributeKey<Orientation>("orientation", Orientation.NORTH);
     /**
@@ -258,7 +271,7 @@ public class AttributeKeys {
             STROKE_INNER_WIDTH_FACTOR,
             STROKE_JOIN,
             STROKE_CAP,
-            STROKE_MITER_LIMIT_FACTOR,
+            STROKE_MITER_LIMIT,
             STROKE_DASHES,
             STROKE_DASH_PHASE,
             STROKE_TYPE,
@@ -289,7 +302,7 @@ public class AttributeKeys {
     
     
     /**
-     * Convenience method for computing the total stroke widht from the
+     * Convenience method for computing the total stroke width from the
      * STROKE_WIDTH, STROKE_INNER_WIDTH and STROKE_TYPE attributes.
      */
     public static double getStrokeTotalWidth(Figure f) {
@@ -303,10 +316,22 @@ public class AttributeKeys {
                 // break; not reached
         }
     }
+    /**
+     * Convenience method for computing the total stroke miter limit from the
+     * STROKE_MITER_LIMIT, and IS_STROKE_MITER_LIMIT factor.
+     */
+    public static double getStrokeTotalMiterLimit(Figure f) {
+        if (IS_STROKE_MITER_LIMIT_FACTOR.get(f)) {
+            return STROKE_MITER_LIMIT.get(f) * STROKE_WIDTH.get(f);
+            } else {
+            return STROKE_MITER_LIMIT.get(f);
+        }
+    }
     
     public static Stroke getStroke(Figure f) {
         double strokeWidth = STROKE_WIDTH.get(f);
-        double dashFactor = STROKE_DASH_FACTOR.get(f) != null ? STROKE_DASH_FACTOR.get(f) : strokeWidth;
+        float miterLimit = (float) getStrokeTotalMiterLimit(f);
+        double dashFactor = IS_STROKE_DASH_FACTOR.get(f) ? strokeWidth : 1d;
         double[] ddashes = STROKE_DASHES.get(f);
         float[] dashes = null;
         if (ddashes != null) {
@@ -321,7 +346,7 @@ public class AttributeKeys {
             default :
                 return new BasicStroke((float) strokeWidth, BasicStroke.CAP_BUTT,
                         STROKE_JOIN.get(f) ,
-                        Math.max(1f, (float) (STROKE_MITER_LIMIT_FACTOR.get(f) * strokeWidth)),
+                        miterLimit,
                         dashes, (float) (STROKE_DASH_PHASE.get(f) * dashFactor));
                 //not reached
                 
@@ -329,7 +354,7 @@ public class AttributeKeys {
                 return new DoubleStroke(
                         (float) (STROKE_INNER_WIDTH_FACTOR.get(f) * strokeWidth),
                         (float) strokeWidth, BasicStroke.CAP_BUTT, STROKE_JOIN.get(f),
-                        Math.max(1f, (float) (STROKE_MITER_LIMIT_FACTOR.get(f) * strokeWidth)),
+                        miterLimit,
                         dashes, (float) (STROKE_DASH_PHASE.get(f).floatValue() * dashFactor));
                 //not reached
         }
@@ -412,8 +437,8 @@ public class AttributeKeys {
     }
     /**
      * Returns the distance, that a Rectangle needs to grow (or shrink) to
-     * draw its shape as specified by the FILL_UNDER_STROKE and STROKE_POSITION
-     * attributes of a figure.
+     * draw (aka stroke) its shape as specified by the FILL_UNDER_STROKE and 
+     * STROKE_POSITION attributes of a figure.
      * The value returned is the number of units that need to be grown (or shrunk)
      * perpendicular to a stroke on an outline of the shape.
      */
@@ -422,6 +447,7 @@ public class AttributeKeys {
         
         double strokeWidth = AttributeKeys.getStrokeTotalWidth(f);
         StrokePlacement placement = STROKE_PLACEMENT.get(f);
+
         switch (placement) {
             case INSIDE :
                 grow = strokeWidth / -2d;
