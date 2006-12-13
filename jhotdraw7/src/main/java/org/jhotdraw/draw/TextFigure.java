@@ -10,7 +10,6 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-�
  */
 
 
@@ -52,20 +51,19 @@ public class TextFigure extends AttributedFigure implements TextHolder {
         setText(text);
     }
     
-    /**
-     * Gets the text shown by the text figure.
-     */
-    public String getText() {
-        return (String) getAttribute(TEXT);
+    // DRAWING
+    protected void drawStroke(java.awt.Graphics2D g) {
+    }
+    protected void drawFill(java.awt.Graphics2D g) {
+    }
+    protected void drawText(java.awt.Graphics2D g) {
+        if (getText() != null || isEditable()) {
+            TextLayout layout = getTextLayout();
+            layout.draw(g, (float) origin.x, (float) (origin.y + layout.getAscent()));
+        }
     }
     
-    /**
-     * Sets the text shown by the text figure.
-     */
-    public void setText(String newText) {
-        setAttribute(TEXT, newText);
-    }
-    
+    // SHAPE AND BOUNDS
     public void basicTransform(AffineTransform tx) {
         tx.transform(origin, origin);
     }
@@ -84,23 +82,6 @@ public class TextFigure extends AttributedFigure implements TextHolder {
         }
         return false;
     }
-    
-    protected void drawStroke(java.awt.Graphics2D g) {
-    }
-    protected void drawFill(java.awt.Graphics2D g) {
-    }
-    protected void drawText(java.awt.Graphics2D g) {
-        if (getText() != null || isEditable()) {
-            TextLayout layout = getTextLayout();
-            layout.draw(g, (float) origin.x, (float) (origin.y + layout.getAscent()));
-        }
-    }
-    
-    public void invalidate() {
-        super.invalidate();
-        textLayout = null;
-    }
-    
     protected TextLayout getTextLayout() {
         if (textLayout == null) {
             String text = getText();
@@ -118,7 +99,6 @@ public class TextFigure extends AttributedFigure implements TextHolder {
         }
         return textLayout;
     }
-    
     public Rectangle2D.Double getBounds() {
         TextLayout layout = getTextLayout();
         Rectangle2D.Double r = new Rectangle2D.Double(origin.x, origin.y, layout.getAdvance(), 
@@ -151,57 +131,36 @@ public class TextFigure extends AttributedFigure implements TextHolder {
             return r;
         }
     }
-    
-    public Collection<Handle> createHandles(int detailLevel) {
-        LinkedList<Handle> handles = new LinkedList<Handle>();
-        if (detailLevel == 0) {
-        handles.add(new MoveHandle(this, RelativeLocator.northWest()));
-        handles.add(new MoveHandle(this, RelativeLocator.northEast()));
-        handles.add(new MoveHandle(this, RelativeLocator.southEast()));
-        handles.add(new FontSizeHandle(this));
-        }
-        return handles;
+    public void restoreTo(Object geometry) {
+        Point2D.Double p = (Point2D.Double) geometry;
+        origin.x = p.x;
+        origin.y = p.y;
+    }
+
+    public Object getRestoreData() {
+        return origin.clone();
     }
     
-    protected void validate() {
-        super.validate();
-        textLayout = null;
+    
+    
+    // ATTRIBUTES
+    /**
+     * Gets the text shown by the text figure.
+     */
+    public String getText() {
+        return (String) getAttribute(TEXT);
     }
     
-    public boolean isEditable() {
-        return editable;
-    }
-    public void setEditable(boolean b) {
-        this.editable = b;
+    /**
+     * Sets the text shown by the text figure.
+     */
+    public void setText(String newText) {
+        setAttribute(TEXT, newText);
     }
     
     public int getTextColumns() {
         return (getText() == null) ? 4 : Math.max(getText().length(), 4);
     }
-    
-    /**
-     * Returns a specialized tool for the given coordinate.
-     * <p>Returns null, if no specialized tool is available.
-     */
-    public Tool getTool(Point2D.Double p) {
-        return (isEditable() && contains(p)) ? new TextTool(this) : null;
-    }
-    
-    public void read(DOMInput in) throws IOException {
-        setBounds(
-                new Point2D.Double(in.getAttribute("x",0d), in.getAttribute("y",0d)),
-                new Point2D.Double(0, 0)
-                );
-        readAttributes(in);
-    }
-    
-    public void write(DOMOutput out) throws IOException {
-        Rectangle2D.Double b = getBounds();
-        out.addAttribute("x",b.x);
-        out.addAttribute("y",b.y);
-        writeAttributes(out);
-    }
-    
     /**
      * Gets the number of characters used to expand tabs.
      */
@@ -215,23 +174,6 @@ public class TextFigure extends AttributedFigure implements TextHolder {
     
     public Insets2D.Double getInsets() {
         return new Insets2D.Double();
-    }
-    
-    public void restoreTo(Object geometry) {
-        Point2D.Double p = (Point2D.Double) geometry;
-        origin.x = p.x;
-        origin.y = p.y;
-    }
-
-    public Object getRestoreData() {
-        return origin.clone();
-    }
-    
-    public TextFigure clone() {
-        TextFigure that = (TextFigure) super.clone();
-        that.origin = (Point2D.Double) this.origin.clone();
-        that.textLayout = null;
-        return that;
     }
 
     public Font getFont() {
@@ -252,5 +194,68 @@ public class TextFigure extends AttributedFigure implements TextHolder {
 
     public float getFontSize() {
        return FONT_SIZE.get(this).floatValue();
+    }
+    
+    
+    // EDITING
+    public boolean isEditable() {
+        return editable;
+    }
+    public void setEditable(boolean b) {
+        this.editable = b;
+    }
+    public Collection<Handle> createHandles(int detailLevel) {
+        LinkedList<Handle> handles = new LinkedList<Handle>();
+        if (detailLevel == 0) {
+        handles.add(new MoveHandle(this, RelativeLocator.northWest()));
+        handles.add(new MoveHandle(this, RelativeLocator.northEast()));
+        handles.add(new MoveHandle(this, RelativeLocator.southEast()));
+        handles.add(new FontSizeHandle(this));
+        }
+        return handles;
+    }
+    /**
+     * Returns a specialized tool for the given coordinate.
+     * <p>Returns null, if no specialized tool is available.
+     */
+    public Tool getTool(Point2D.Double p) {
+        return (isEditable() && contains(p)) ? new TextTool(this) : null;
+    }
+    
+    // CONNECTING
+    // COMPOSITE FIGURES
+    // CLONING
+    // EVENT HANDLING
+    public void invalidate() {
+        super.invalidate();
+        textLayout = null;
+    }
+    
+    protected void validate() {
+        super.validate();
+        textLayout = null;
+    }
+    
+    
+    public void read(DOMInput in) throws IOException {
+        setBounds(
+                new Point2D.Double(in.getAttribute("x",0d), in.getAttribute("y",0d)),
+                new Point2D.Double(0, 0)
+                );
+        readAttributes(in);
+    }
+    
+    public void write(DOMOutput out) throws IOException {
+        Rectangle2D.Double b = getBounds();
+        out.addAttribute("x",b.x);
+        out.addAttribute("y",b.y);
+        writeAttributes(out);
+    }
+    
+    public TextFigure clone() {
+        TextFigure that = (TextFigure) super.clone();
+        that.origin = (Point2D.Double) this.origin.clone();
+        that.textLayout = null;
+        return that;
     }
 }

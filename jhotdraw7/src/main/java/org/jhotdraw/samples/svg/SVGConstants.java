@@ -17,6 +17,8 @@ package org.jhotdraw.samples.svg;
 import java.awt.*;
 import java.util.*;
 import javax.swing.*;
+import org.jhotdraw.draw.*;
+import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 /**
  * SVGConstants.
  *
@@ -24,6 +26,7 @@ import javax.swing.*;
  * @version 1.0 November 28, 2006 Created.
  */
 public class SVGConstants {
+    public final static String SVG_NAMESPACE = "http://www.w3.org/2000/svg";
     public final static Map<String,Color> SVG_COLORS;
     static {
         LinkedHashMap<String,Color> map = new LinkedHashMap<String,Color>();
@@ -232,4 +235,12 @@ public class SVGConstants {
     private SVGConstants() {
     }
     
+    public static void setDefaults(Figure f) {
+        // Set SVG default values
+        
+        FILL_COLOR.set(f, Color.black);
+        STROKE_COLOR.set(f, null);
+        IS_STROKE_DASH_FACTOR.set(f, false);
+        WINDING_RULE.set(f, WindingRule.NON_ZERO);
+    }
 }

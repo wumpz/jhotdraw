@@ -10,7 +10,6 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-�
  */
 
 
@@ -44,6 +43,9 @@ public class TextAreaTool extends CreationTool implements ActionListener {
     /** Creates a new instance. */
     public TextAreaTool(TextHolder prototype) {
         super(prototype);
+    }
+    public TextAreaTool(TextHolder prototype, Map attributes) {
+        super(prototype, attributes);
     }
     
     public void deactivate(DrawingEditor editor) {

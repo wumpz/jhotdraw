@@ -12,14 +12,16 @@
  * with Werner Randelshofer.
  */
 
-package org.jhotdraw.samples.svg;
+package org.jhotdraw.samples.svg.io;
 
 import java.awt.Color;
 import java.awt.geom.*;
+import java.awt.image.BufferedImage;
 import java.util.*;
 import javax.swing.text.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.geom.BezierPath;
+import org.jhotdraw.samples.svg.*;
 import org.jhotdraw.samples.svg.figures.*;
 
 /**
@@ -108,17 +110,25 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
         return figure;
     }
     
-    public Figure createTextArea(double x, double y, double w, double h, StyledDocument text, double[] rotate, Map<AttributeKey, Object> a) {
+    public Figure createImage(double x, double y, double w, double h, 
+            byte[] imageData, BufferedImage bufferedImage, Map<AttributeKey, Object> a) {
+        SVGImage figure = new SVGImage();
+        figure.basicSetBounds(new Point2D.Double(x,y),new Point2D.Double(x+w,y+h));
+        figure.setImage(imageData, bufferedImage);
+        figure.setAttributes(a);
+        return figure;
+    }
+    public Figure createTextArea(double x, double y, double w, double h, StyledDocument doc, Map<AttributeKey, Object> attributes) {
         SVGTextArea figure = new SVGTextArea();
         figure.basicSetBounds(new Point2D.Double(x,y),new Point2D.Double(x+w,y+h));
         try {
-            figure.setText(text.getText(0, text.getLength()));
+            figure.setText(doc.getText(0, doc.getLength()));
         } catch (BadLocationException e) {
             InternalError ex = new InternalError(e.getMessage());
             ex.initCause(e);
             throw ex;
         }
-        figure.setAttributes(a);
+        figure.setAttributes(attributes);
         return figure;
     }
     
@@ -158,4 +168,5 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
         g.setRelativeToFigureBounds(isRelativeToFigureBounds);
         return g;
     }
+
 }

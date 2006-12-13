@@ -46,7 +46,7 @@ public class SVGPath extends AbstractAttributedCompositeFigure implements SVGFig
     /** Creates a new instance. */
     public SVGPath() {
         add(new BezierFigure());
-        SVGUtil.setDefaults(this);
+       SVGConstants.setDefaults(this);
     }
     
     public void drawFigure(Graphics2D g) {
@@ -185,6 +185,15 @@ public class SVGPath extends AbstractAttributedCompositeFigure implements SVGFig
         SVGUtil.readAttributes(this, in);
     }
     
+    public void basicSetBounds(Point2D.Double anchor, Point2D.Double lead) {
+        if (getChildCount() == 1 && ((BezierFigure) getChild(0)).getNodeCount() <= 2) {
+            BezierFigure b = (BezierFigure) getChild(0);
+            b.basicSetBounds(anchor, lead);
+            invalidate();
+        } else {
+        super.basicSetBounds(anchor, lead);
+        }
+    }
     public void basicTransform(AffineTransform tx) {
         super.basicTransform(tx);
         invalidatePath();

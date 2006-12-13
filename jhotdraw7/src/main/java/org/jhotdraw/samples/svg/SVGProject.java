@@ -17,6 +17,8 @@ package org.jhotdraw.samples.svg;
 import java.util.LinkedList;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.io.*;
+import org.jhotdraw.samples.svg.io.SVGInputFormat;
+import org.jhotdraw.samples.svg.io.SVGOutputFormat;
 import org.jhotdraw.undo.*;
 import org.jhotdraw.util.*;
 import java.awt.*;
@@ -134,11 +136,14 @@ public class SVGProject extends AbstractProject {
         OutputStream out = null;
         try {
             out = new BufferedOutputStream(new FileOutputStream(f));
+            new SVGOutputFormat().write(f.toURL(), out, view.getDrawing(), view.getDrawing().getFigures());
+            /*
+            out = new BufferedOutputStream(new FileOutputStream(f));
             NanoXMLDOMOutput domo = new NanoXMLDOMOutput(view.getDOMFactory());
             domo.setDoctype("svg PUBLIC \"-//W3C//DTD SVG 1.0//EN\" "+
                     "\"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd\"");
             domo.writeObject(view.getDrawing());
-            domo.save(out);
+            domo.save(out);*/
         } finally {
             if (out != null) try { out.close(); } catch (IOException e) {};
             //if (out != null) out.close();
@@ -152,9 +157,9 @@ public class SVGProject extends AbstractProject {
         InputStream in = null;
         try {
             in = new BufferedInputStream(new FileInputStream(f));
-            StorageFormat sf = new SVGInputFormat();
+            InputFormat sf = new SVGInputFormat();
             final Drawing drawing = new QuadTreeDrawing();
-            sf.read(in, drawing, new LinkedList<Figure>());
+            sf.read(f.toURL(), in, drawing, new LinkedList<Figure>());
             /*
             DOMInput domi = new NanoXMLDOMInput(view.getDOMFactory(), in);
            

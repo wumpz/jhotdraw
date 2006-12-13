@@ -10,7 +10,6 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-�
  */
 
 
@@ -48,18 +47,6 @@ public class RectangleFigure extends AttributedFigure {
     }
     
     // DRAWING
-    // SHAPE AND BOUNDS
-    // ATTRIBUTES
-    // EDITING
-// CONNECTING
-    // COMPOSITE FIGURES
-    // CLONING
-    // EVENT HANDLING
-    public Rectangle2D.Double getBounds() {
-        Rectangle2D.Double bounds = (Rectangle2D.Double) rectangle.clone();
-        return bounds;
-    }
-    
     protected void drawFill(Graphics2D g) {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
             double grow = AttributeKeys.getPerpendicularFillGrowth(this);
@@ -73,6 +60,11 @@ public class RectangleFigure extends AttributedFigure {
        Geom.grow(r, grow, grow);
        
         g.draw(r);
+    }
+    // SHAPE AND BOUNDS
+    public Rectangle2D.Double getBounds() {
+        Rectangle2D.Double bounds = (Rectangle2D.Double) rectangle.clone();
+        return bounds;
     }
     
     public Rectangle2D.Double getFigureDrawBounds() {
@@ -110,11 +102,6 @@ public class RectangleFigure extends AttributedFigure {
                 );
     }
     
-    public RectangleFigure clone() {
-        RectangleFigure that = (RectangleFigure) super.clone();
-        that.rectangle = (Rectangle2D.Double) this.rectangle.clone();
-        return that;
-    }
     public void restoreTo(Object geometry) {
         Rectangle2D.Double r = (Rectangle2D.Double) geometry;
         rectangle.x = r.x;
@@ -127,4 +114,15 @@ public class RectangleFigure extends AttributedFigure {
         return rectangle.clone();
     }
     
+    // ATTRIBUTES
+    // EDITING
+    // CONNECTING
+    // COMPOSITE FIGURES
+    // CLONING
+    public RectangleFigure clone() {
+        RectangleFigure that = (RectangleFigure) super.clone();
+        that.rectangle = (Rectangle2D.Double) this.rectangle.clone();
+        return that;
+    }
+    // EVENT HANDLING
 }

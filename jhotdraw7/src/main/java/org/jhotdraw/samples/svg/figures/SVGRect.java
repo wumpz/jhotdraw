@@ -30,8 +30,6 @@ import org.jhotdraw.geom.*;
 
 /**
  * SVGRect.
- * <p>
- * FIXME - Add support for transforms.
  *
  * @author Werner Randelshofer
  * @version 1.0 July 8, 2006 Created.
@@ -56,6 +54,7 @@ public class SVGRect extends SVGAttributedFigure implements SVGFigure {
     }
     public SVGRect(double x, double y, double width, double height, double rx, double ry) {
         roundrect = new RoundRectangle2D.Double(x, y, width, height, rx, ry);
+       SVGConstants.setDefaults(this);
     }
     
     // DRAWING
@@ -68,6 +67,24 @@ public class SVGRect extends SVGAttributedFigure implements SVGFigure {
     }
     
     // SHAPE AND BOUNDS
+    public double getX() {
+        return roundrect.x;
+    }
+    public double getY() {
+        return roundrect.y;
+    }
+    public double getWidth() {
+        return roundrect.width;
+    }
+    public double getHeight() {
+        return roundrect.height;
+    }
+    public double getArcWidth() {
+        return roundrect.arcwidth / 2d;
+    }
+    public double getArcHeight() {
+        return roundrect.archeight / 2d;
+    }
     public Rectangle2D.Double getBounds() {
         Rectangle2D rx = getTransformedShape().getBounds2D();
         Rectangle2D.Double r = (rx instanceof Rectangle2D.Double) ? (Rectangle2D.Double) rx : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
@@ -143,12 +160,6 @@ public class SVGRect extends SVGAttributedFigure implements SVGFigure {
         }
     }
     // ATTRIBUTES
-    public double getArcWidth() {
-        return roundrect.arcwidth / 2d;
-    }
-    public double getArcHeight() {
-        return roundrect.archeight / 2d;
-    }
     public void setArc(final double w, final double h) {
         willChange();
         final double oldWidth = roundrect.getArcWidth();
@@ -213,47 +224,6 @@ public class SVGRect extends SVGAttributedFigure implements SVGFigure {
     public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
         // XXX - This doesn't work with a transformed rect
         return new ChopRoundRectConnector(this);
-    }
-    public Point2D.Double chop(Point2D.Double from) {
-        // XXX - This doesn't work with a transformed rect
-        Rectangle2D.Double outer = getBounds();
-        
-        double grow;
-        switch (STROKE_PLACEMENT.get(this)) {
-            case CENTER :
-            default :
-                grow = AttributeKeys.getStrokeTotalWidth(this) / 2;
-                break;
-            case OUTSIDE :
-                grow = AttributeKeys.getStrokeTotalWidth(this);
-                break;
-            case INSIDE :
-                grow = 0;
-                break;
-        }
-        outer.x -= grow;
-        outer.y -= grow;
-        outer.width += grow * 2;
-        outer.height += grow * 2;
-        
-        Rectangle2D.Double inner = (Rectangle2D.Double) outer.clone();
-        double gw = -(getArcWidth() + grow * 2) / 2;
-        double gh = -(getArcHeight() + grow *2) / 2;
-        inner.x -= gw;
-        inner.y -= gh;
-        inner.width += gw * 2;
-        inner.height += gh * 2;
-        
-        double angle = Geom.pointToAngle(outer, from);
-        Point2D.Double p = Geom.angleToPoint(outer, Geom.pointToAngle(outer, from));
-        
-        if (p.x == outer.x
-                || p.x == outer.x + outer.width) {
-            p.y = Math.min(Math.max(p.y, inner.y), inner.y + inner.height);
-        } else {
-            p.x = Math.min(Math.max(p.x, inner.x), inner.x + inner.width);
-        }
-        return p;
     }
     
     // COMPOSITE FIGURES

@@ -40,7 +40,7 @@ import java.util.*;
 
 /**
  * XMLElement is an XML element. The standard NanoXML builder generates a
- * tree of such iterator.
+ * tree of such elements.
  *
  * @see net.n3.nanoxml.StdXMLBuilder
  *

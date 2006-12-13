@@ -1,5 +1,5 @@
 /*
- * @(#)TextAreaFigure.java  2.0.1  2006-02-27
+ * @(#)TextAreaFigure.java  2.0.2  2006-12-11
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -10,7 +10,6 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-�
  */
 
 package org.jhotdraw.draw;
@@ -50,9 +49,10 @@ import org.jhotdraw.xml.DOMOutput;
  *
  * @author    Eduardo Francos - InContext (original version),
  *            Werner Randelshofer (this derived version)
- * @version 2.0.1 2006-02-27 Draw UNDERLINE_LOW_ONE_PIXEL instead of UNDERLINE_ON. 
+ * @version 2.0.2 2006-12-11 Implemented more efficient clipping.
+ * <br>2.0.1 2006-02-27 Draw UNDERLINE_LOW_ONE_PIXEL instead of UNDERLINE_ON.
  * <br>2.0 2006-01-14 Changed to support double precison coordinates.
- * <br>1.0 5. M�rz 2004  Created.
+ * <br>1.0 5. March 2004  Created.
  */
 public class TextAreaFigure extends AttributedFigure implements TextHolder {
     private Rectangle2D.Double bounds = new Rectangle2D.Double();
@@ -70,69 +70,23 @@ public class TextAreaFigure extends AttributedFigure implements TextHolder {
         setText(text);
     }
     
-    /**
-     * Gets the text shown by the text figure.
-     */
-    public String getText() {
-        return (String) getAttribute(TEXT);
-    }
-    
-    /**
-     * Sets the text shown by the text figure.
-     */
-    public void setText(String newText) {
-        setAttribute(TEXT, newText);
-    }
-    
-    public void basicSetBounds(Point2D.Double anchor, Point2D.Double lead) {
-        bounds.x = Math.min(anchor.x, lead.x);
-        bounds.y = Math.min(anchor.y, lead.y);
-        bounds.width = Math.max(1, Math.abs(lead.x - anchor.x));
-        bounds.height = Math.max(1, Math.abs(lead.y - anchor.y));
-        textLayout = null;
-    }
-    public void basicTransform(AffineTransform tx) {
-        Point2D.Double anchor = getStartPoint();
-        Point2D.Double lead = getEndPoint();
-        basicSetBounds(
-                (Point2D.Double) tx.transform(anchor, anchor),
-                (Point2D.Double) tx.transform(lead, lead)
-                );
-    }
-    
-    
-    public boolean contains(Point2D.Double p) {
-        return bounds.contains(p);
-    }
-    
-    /**
-     * Returns the insets used to draw text.
-     */
-    public Insets2D.Double getInsets() {
-        double sw = Math.ceil(STROKE_WIDTH.get(this) / 2);
-        Insets2D.Double insets = new Insets2D.Double(4,4,4,4);
-        return new Insets2D.Double(insets.top+sw,insets.left+sw,insets.bottom+sw,insets.right+sw);
-    }
-    
-    public int getTabSize() {
-        return 8;
-    }
-    
+    // DRAWING
     protected void drawText(Graphics2D g) {
         if (getText() != null || isEditable()) {
             
             Font font = getFont();
-boolean isUnderlined = FONT_UNDERLINED.get(this);
+            boolean isUnderlined = FONT_UNDERLINED.get(this);
             Insets2D.Double insets = getInsets();
             Rectangle2D.Double textRect = new Rectangle2D.Double(
-            bounds.x + insets.left,
-            bounds.y + insets.top,
-            bounds.width - insets.left - insets.right,
-            bounds.height - insets.top - insets.bottom
-            );
+                    bounds.x + insets.left,
+                    bounds.y + insets.top,
+                    bounds.width - insets.left - insets.right,
+                    bounds.height - insets.top - insets.bottom
+                    );
             float leftMargin = (float) textRect.x;
             float rightMargin = (float) Math.max(leftMargin + 1, textRect.x + textRect.width);
             float verticalPos = (float) textRect.y;
+            float maxVerticalPos = (float) (textRect.y + textRect.height);
             if (leftMargin < rightMargin) {
                 float tabWidth = (float) (getTabSize() * g.getFontMetrics(font).charWidth('m'));
                 float[] tabStops = new float[(int) (textRect.width / tabWidth)];
@@ -150,11 +104,11 @@ boolean isUnderlined = FONT_UNDERLINED.get(this);
                         AttributedString as = new AttributedString(paragraphs[i]);
                         as.addAttribute(TextAttribute.FONT, font);
                         if (isUnderlined) {
-                        as.addAttribute(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
+                            as.addAttribute(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
                         }
                         int tabCount = new StringTokenizer(paragraphs[i], "\t").countTokens() - 1;
-                        verticalPos = drawParagraph(g, as.getIterator(), verticalPos, leftMargin, rightMargin, tabStops, tabCount);
-                        if (verticalPos > textRect.y + textRect.height) {
+                        verticalPos = drawParagraph(g, as.getIterator(), verticalPos, maxVerticalPos, leftMargin, rightMargin, tabStops, tabCount);
+                        if (verticalPos > maxVerticalPos) {
                             break;
                         }
                     }
@@ -174,7 +128,7 @@ boolean isUnderlined = FONT_UNDERLINED.get(this);
      * Draws a paragraph of text at the specified y location and returns
      * the y position for the next paragraph.
      */
-    private float drawParagraph(Graphics2D g, AttributedCharacterIterator styledText, float verticalPos, float leftMargin, float rightMargin, float[] tabStops, int tabCount) {
+    private float drawParagraph(Graphics2D g, AttributedCharacterIterator styledText, float verticalPos, float maxVerticalPos, float leftMargin, float rightMargin, float[] tabStops, int tabCount) {
         
         // assume styledText is an AttributedCharacterIterator, and the number
         // of tabs in styledText is tabCount
@@ -196,7 +150,8 @@ boolean isUnderlined = FONT_UNDERLINED.get(this);
         LineBreakMeasurer measurer = new LineBreakMeasurer(styledText, getFontRenderContext());
         int currentTab = 0;
         
-        while (measurer.getPosition() < styledText.getEndIndex()) {
+        while (measurer.getPosition() < styledText.getEndIndex() &&
+                verticalPos <= maxVerticalPos) {
             
             // Lay out and draw each line.  All segments on a line
             // must be computed before any drawing can occur, since
@@ -213,13 +168,13 @@ boolean isUnderlined = FONT_UNDERLINED.get(this);
             LinkedList<TextLayout> layouts = new LinkedList<TextLayout>();
             LinkedList<Float> penPositions = new LinkedList<Float>();
             
-            while (!lineComplete) {
+            while (!lineComplete && verticalPos <= maxVerticalPos) {
                 float wrappingWidth = rightMargin - horizontalPos;
                 TextLayout layout = null;
                 layout =
-                measurer.nextLayout(wrappingWidth,
-                tabLocations[currentTab]+1,
-                lineContainsText);
+                        measurer.nextLayout(wrappingWidth,
+                        tabLocations[currentTab]+1,
+                        lineContainsText);
                 
                 // layout can be null if lineContainsText is true
                 if (layout != null) {
@@ -228,7 +183,7 @@ boolean isUnderlined = FONT_UNDERLINED.get(this);
                     horizontalPos += layout.getAdvance();
                     maxAscent = Math.max(maxAscent, layout.getAscent());
                     maxDescent = Math.max(maxDescent,
-                    layout.getDescent() + layout.getLeading());
+                            layout.getDescent() + layout.getLeading());
                 } else {
                     lineComplete = true;
                 }
@@ -279,14 +234,127 @@ boolean isUnderlined = FONT_UNDERLINED.get(this);
         g.draw(bounds);
     }
     
+    // SHAPE AND BOUNDS
+    public void basicSetBounds(Point2D.Double anchor, Point2D.Double lead) {
+        bounds.x = Math.min(anchor.x, lead.x);
+        bounds.y = Math.min(anchor.y, lead.y);
+        bounds.width = Math.max(1, Math.abs(lead.x - anchor.x));
+        bounds.height = Math.max(1, Math.abs(lead.y - anchor.y));
+        textLayout = null;
+    }
+    public void basicTransform(AffineTransform tx) {
+        Point2D.Double anchor = getStartPoint();
+        Point2D.Double lead = getEndPoint();
+        basicSetBounds(
+                (Point2D.Double) tx.transform(anchor, anchor),
+                (Point2D.Double) tx.transform(lead, lead)
+                );
+    }
+    
+    
+    public boolean contains(Point2D.Double p) {
+        return bounds.contains(p);
+    }
+    
     public Rectangle2D.Double getBounds() {
         return (Rectangle2D.Double) bounds.getBounds2D();
     }
+    public void restoreTo(Object geometry) {
+        Rectangle2D.Double r = (Rectangle2D.Double) geometry;
+        bounds.x = r.x;
+        bounds.y = r.y;
+        bounds.width = r.width;
+        bounds.height = r.height;
+    }
+    
+    public Object getRestoreData() {
+        return bounds.clone();
+    }
+    
+    // ATTRIBUTES
+    /**
+     * Gets the text shown by the text figure.
+     */
+    public String getText() {
+        return (String) getAttribute(TEXT);
+    }
+    /**
+     * Returns the insets used to draw text.
+     */
+    public Insets2D.Double getInsets() {
+        double sw = Math.ceil(STROKE_WIDTH.get(this) / 2);
+        Insets2D.Double insets = new Insets2D.Double(4,4,4,4);
+        return new Insets2D.Double(insets.top+sw,insets.left+sw,insets.bottom+sw,insets.right+sw);
+    }
+    
+    public int getTabSize() {
+        return 8;
+    }
+    
+    
+    /**
+     * Sets the text shown by the text figure.
+     */
+    public void setText(String newText) {
+        setAttribute(TEXT, newText);
+    }
+    
+    public int getTextColumns() {
+        return (getText() == null) ? 4 : Math.max(getText().length(), 4);
+    }
+    public Font getFont() {
+        return AttributeKeys.getFont(this);
+    }
+    public Color getTextColor() {
+        return TEXT_COLOR.get(this);
+    }
+    
+    public Color getFillColor() {
+        return FILL_COLOR.get(this);
+    }
+    
+    public void setFontSize(float size) {
+        FONT_SIZE.set(this, new Double(size));
+    }
+    
+    public float getFontSize() {
+        return FONT_SIZE.get(this).floatValue();
+    }
+    
+    // EDITING
+    public boolean isEditable() {
+        return editable;
+    }
+    public void setEditable(boolean b) {
+        this.editable = b;
+    }
+    /**
+     * Returns a specialized tool for the given coordinate.
+     * <p>Returns null, if no specialized tool is available.
+     */
+    public Tool getTool(Point2D.Double p) {
+        return (isEditable() && contains(p)) ? new TextAreaTool(this) : null;
+    }
+    public TextHolder getLabelFor() {
+        return this;
+    }
+    
+    
+    // CONNECTING
+    // COMPOSITE FIGURES
+    // CLONING
+    public TextAreaFigure clone() {
+        TextAreaFigure that = (TextAreaFigure) super.clone();
+        that.bounds = (Rectangle2D.Double) this.bounds.clone();
+        return that;
+    }
+    
+    // EVENT HANDLING
     
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = (LinkedList<Handle>) super.createHandles(detailLevel);
         if (detailLevel == 0) {
-        handles.add(new FontSizeHandle(this));
+            handles.add(new FontSizeHandle(this));
         }
         return handles;
     }
@@ -296,24 +364,6 @@ boolean isUnderlined = FONT_UNDERLINED.get(this);
         textLayout = null;
     }
     
-    public boolean isEditable() {
-        return editable;
-    }
-    public void setEditable(boolean b) {
-        this.editable = b;
-    }
-    
-    public int getTextColumns() {
-        return (getText() == null) ? 4 : Math.max(getText().length(), 4);
-    }
-    
-    /**
-     * Returns a specialized tool for the given coordinate.
-     * <p>Returns null, if no specialized tool is available.
-     */
-    public Tool getTool(Point2D.Double p) {
-        return (isEditable() && contains(p)) ? new TextAreaTool(this) : null;
-    }
     
     
     
@@ -340,44 +390,4 @@ boolean isUnderlined = FONT_UNDERLINED.get(this);
         writeAttributes(out);
     }
     
-    public TextAreaFigure clone() {
-        TextAreaFigure that = (TextAreaFigure) super.clone();
-        that.bounds = (Rectangle2D.Double) this.bounds.clone();
-        return that;
-    }
-    
-    public TextHolder getLabelFor() {
-        return this;
-    }
-    
-    public void restoreTo(Object geometry) {
-        Rectangle2D.Double r = (Rectangle2D.Double) geometry;
-        bounds.x = r.x;
-        bounds.y = r.y;
-        bounds.width = r.width;
-        bounds.height = r.height;
-    }
-
-    public Object getRestoreData() {
-        return bounds.clone();
-    }
-    public Font getFont() {
-        return AttributeKeys.getFont(this);
-    }
-
-    public Color getTextColor() {
-        return TEXT_COLOR.get(this);
-    }
-
-    public Color getFillColor() {
-        return FILL_COLOR.get(this);
-    }
-
-    public void setFontSize(float size) {
-        FONT_SIZE.set(this, new Double(size));
-    }
-
-    public float getFontSize() {
-       return FONT_SIZE.get(this).floatValue();
-    }
 }

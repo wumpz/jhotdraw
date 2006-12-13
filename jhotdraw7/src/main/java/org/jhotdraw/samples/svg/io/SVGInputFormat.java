@@ -1,5 +1,5 @@
 /*
- * @(#)SVGStorageFormat.java  0.1  November 25, 2006
+ * @(#)SVGInputFormat.java  0.1  November 25, 2006
  *
  * Copyright (c) 2006 Werner Randelshofer
  * Staldenmattweg 2, CH-6405 Immensee, Switzerland
@@ -12,27 +12,28 @@
  * with Werner Randelshofer.
  */
 
-package org.jhotdraw.samples.svg;
+package org.jhotdraw.samples.svg.io;
 
-import ch.randelshofer.quaqua.util.ArrayUtil;
-import com.sun.org.apache.bcel.internal.verifier.statics.DOUBLE_Upper;
 import java.awt.*;
 import java.awt.geom.*;
+import java.awt.image.*;
 import java.io.*;
+import java.net.*;
 import java.util.*;
+import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.*;
 import org.jhotdraw.draw.*;
 import net.n3.nanoxml.*;
-import org.jhotdraw.geom.BezierPath;
-import org.jhotdraw.io.ExtensionFileFilter;
+import org.jhotdraw.geom.*;
+import org.jhotdraw.io.*;
+import org.jhotdraw.samples.svg.*;
 import org.jhotdraw.samples.svg.figures.*;
 import static org.jhotdraw.samples.svg.SVGConstants.*;
-import org.jhotdraw.xml.JavaxDOMInput;
+import org.jhotdraw.xml.*;
 
 /**
- * SVGStorageFormat.
+ * SVGInputFormat.
  * This format is aimed to comply to the Scalable Vector Graphics (SVG) Tiny 1.2
  * Specification supporting the <code>SVG-static</code> feature string.
  * <a href="http://www.w3.org/TR/SVGMobile12/">http://www.w3.org/TR/SVGMobile12/</a>
@@ -41,9 +42,9 @@ import org.jhotdraw.xml.JavaxDOMInput;
  * @author Werner Randelshofer
  * @version 0.1 November 25, 2006 Created (Experimental).
  */
-public class SVGInputFormat implements StorageFormat {
-    private String SVG_NAMESPACE = "http://www.w3.org/2000/svg";
+public class SVGInputFormat implements InputFormat {
     private SVGFigureFactory factory;
+    private URL url;
     private final static HashMap<String,SVGAttributeKeys.WindingRule> fillRuleMap;
     static {
         fillRuleMap = new HashMap<String, SVGAttributeKeys.WindingRule>();
@@ -129,10 +130,8 @@ public class SVGInputFormat implements StorageFormat {
         this.factory = factory;
     }
     
-    public void write(OutputStream out, Drawing drawing, Collection<Figure> figures) throws IOException {
-    }
-    
-    public void read(InputStream in, Drawing drawing, LinkedList<Figure> figures) throws IOException {
+    public void read(URL url, InputStream in, Drawing drawing, LinkedList<Figure> figures) throws IOException {
+        this.url = url;
         try {
             IXMLElement elem;
             IXMLParser parser = XMLParserFactory.createDefaultXMLParser();
@@ -182,12 +181,12 @@ public class SVGInputFormat implements StorageFormat {
             AffineTransform svgTransform = new AffineTransform();
             boolean is100PercentWidth = readAttribute(elem, "width", "100%").equals("100%");
             boolean is100PercentHeight = readAttribute(elem, "height", "100%").equals("100%");
-           double svgWidth = toWidth(elem, readAttribute(elem, "width", "100%"));
+            double svgWidth = toWidth(elem, readAttribute(elem, "width", "100%"));
             double svgHeight = toHeight(elem, readAttribute(elem, "height", "100%"));
             String[] viewBoxValues = toWhiteSpaceOrCommaSeparatedArray(elem, readAttribute(elem, "viewBox", "none"));
             if (viewBoxValues.length == 4) {
                 double x = toNumber(elem, viewBoxValues[0]);
-                 double y = toNumber(elem, viewBoxValues[1]);
+                double y = toNumber(elem, viewBoxValues[1]);
                 double w = toNumber(elem, viewBoxValues[2]);
                 double h = toNumber(elem, viewBoxValues[3]);
                 widthPercentFactor = w / 100d;
@@ -222,11 +221,11 @@ public class SVGInputFormat implements StorageFormat {
     private void initStorageContext() {
         identifiedElements = new HashMap<String,IXMLElement>();
         elementObjects = new HashMap<IXMLElement,Object>();
-     widthPercentFactor = 1d;
-     heightPercentFactor = 1d;
-     widthFactor = 1d;
-     heightFactor = 1d;
-    numberFactor = 1d;
+        widthPercentFactor = 1d;
+        heightPercentFactor = 1d;
+        widthFactor = 1d;
+        heightFactor = 1d;
+        numberFactor = 1d;
     }
     
     /**
@@ -276,11 +275,10 @@ public class SVGInputFormat implements StorageFormat {
                 f = null;
             } else if (name.equals("ellipse")) {
                 f = readEllipseElement(elem);
-            } else if (name.equals("svg")) {
-                // treat svg element like g element
-                f = readGElement(elem);
             } else if (name.equals("g")) {
                 f = readGElement(elem);
+            } else if (name.equals("image")) {
+                f = readImageElement(elem);
             } else if (name.equals("line")) {
                 f = readLineElement(elem);
             } else if (name.equals("linearGradient")) {
@@ -300,6 +298,9 @@ public class SVGInputFormat implements StorageFormat {
             } else if (name.equals("solidColor")) {
                 readSolidColorElement(elem);
                 f = null;
+            } else if (name.equals("svg")) {
+                // treat svg element like g element
+                f = readGElement(elem);
             } else if (name.equals("text")) {
                 f = readTextElement(elem);
             } else if (name.equals("use")) {
@@ -419,6 +420,74 @@ public class SVGInputFormat implements StorageFormat {
         double ry = toNumber(elem, readAttribute(elem, "ry", "0"));
         
         Figure figure = factory.createEllipse(cx, cy, rx, ry, a);
+        elementObjects.put(elem, figure);
+        return figure;
+    }
+    /**
+     * Reads an SVG "image" element.
+     */
+    private Figure readImageElement(IXMLElement elem)
+    throws IOException {
+        HashMap<AttributeKey,Object> a = new HashMap<AttributeKey,Object>();
+        readCoreAttributes(elem, a);
+        readTransformAttribute(elem, a);
+        readImageAttributes(elem, a);
+        
+        double x = toNumber(elem, readAttribute(elem, "x", "0"));
+        double y = toNumber(elem, readAttribute(elem, "y", "0"));
+        double w = toWidth(elem, readAttribute(elem, "width", "0"));
+        double h = toHeight(elem, readAttribute(elem, "height", "0"));
+        
+        String href = readAttribute(elem, "xlink:href",null);
+        if (href == null) {
+         href = readAttribute(elem, "href",null);
+        }
+        byte[] imageData = null;
+        if (href != null) {
+            if (href.startsWith("data:")) {
+                int semicolonPos = href.indexOf(';');
+                if (semicolonPos != -1) {
+                    if (href.indexOf(";base64,") == semicolonPos) {
+                        imageData = Base64.decode(href.substring(semicolonPos+8));
+                    } else {
+                        throw new IOException("Unsupported encoding in data href in image element:"+href);
+                    }
+                } else {
+                    throw new IOException("Unsupported data href in image element:"+href);
+                }
+            } else {
+                URL imageUrl = new URL(url, href);
+                //System.out.println("image: href"+href+" url="+imageUrl);
+                
+                // Read the image data from the URL into a byte array
+                ByteArrayOutputStream bout = new ByteArrayOutputStream();
+                byte[] buf = new byte[512];
+                int len = 0;
+                InputStream in = null;
+                try {
+                    in = imageUrl.openStream();
+                    while ((len = in.read(buf)) > 0) {
+                        bout.write(buf, 0, len);
+                    }
+                } finally {
+                    if (in != null) { in.close(); }
+                }
+                imageData = bout.toByteArray();
+            }
+        }
+        // Create a buffered image from the image data
+        BufferedImage bufferedImage = null;
+        if (imageData != null) {
+            bufferedImage = ImageIO.read(new ByteArrayInputStream(imageData));
+        }
+        // Delete the image data in case of failure
+        if (bufferedImage == null) {
+            imageData = null;
+            //System.out.println("FAILED:"+imageUrl);
+        }
+        
+        // Create a figure from the image data and the buffered image.
+        Figure figure = factory.createImage(x, y, w, h, imageData, bufferedImage, a);
         elementObjects.put(elem, figure);
         return figure;
     }
@@ -558,6 +627,51 @@ public class SVGInputFormat implements StorageFormat {
         }
         
         Figure figure = factory.createText(coordinates, rotate, doc, a);
+        elementObjects.put(elem, figure);
+        return figure;
+    }
+    /**
+     * Reads an SVG "textArea" element.
+     */
+    private Figure readTextAreaElement(IXMLElement elem)
+    throws IOException {
+        HashMap<AttributeKey,Object> a = new HashMap<AttributeKey,Object>();
+        readCoreAttributes(elem, a);
+        readTransformAttribute(elem, a);
+        readShapeAttributes(elem, a);
+        readFontAttributes(elem, a);
+        readTextAttributes(elem, a);
+        readTextFlowAttributes(elem, a);
+        
+        double x = toNumber(elem, readAttribute(elem, "x", "0"));
+        double y = toNumber(elem, readAttribute(elem, "y", "0"));
+        double w = toWidth(elem, readAttribute(elem, "width", "0"));
+        double h = toHeight(elem, readAttribute(elem, "height", "0"));
+        
+        DefaultStyledDocument doc = new DefaultStyledDocument();
+        
+        try {
+            if (elem.getContent() != null) {
+                doc.insertString(0, toText(elem, elem.getContent()), null);
+            } else {
+                for (Object childObj : elem.getChildren()) {
+                    IXMLElement node = (IXMLElement) childObj;
+                    if (node.getName() == null) {
+                        doc.insertString(0, toText(elem, node.getContent()), null);
+                    } else if (node.getName().equals("tspan")) {
+                        readTSpanElement(node, doc);
+                    } else {
+                        System.out.println("  text node "+node.getName());
+                    }
+                }
+            }
+        } catch (BadLocationException e) {
+            InternalError ex = new InternalError(e.getMessage());
+            ex.initCause(e);
+            throw ex;
+        }
+        
+        Figure figure = factory.createTextArea(x, y, w, h, doc, a);
         elementObjects.put(elem, figure);
         return figure;
     }
@@ -1816,13 +1930,13 @@ public class SVGInputFormat implements StorageFormat {
             return null;
         }
     }
-   /**
+    /**
      * Reads a double attribute.
      */
     private double toDouble(IXMLElement elem, String value) throws IOException {
         return toDouble(elem, value, 0, Double.MIN_VALUE, Double.MAX_VALUE);
-}
-        /**
+    }
+    /**
      * Reads a double attribute.
      */
     private double toDouble(IXMLElement elem, String value, double defaultValue, double min, double max) throws IOException {
@@ -1977,9 +2091,9 @@ public class SVGInputFormat implements StorageFormat {
                     //       "chessboard.svg"
                     "/Desktop/Spirale.svg"
                     );
-            SVGStorageFormat sf = new SVGStorageFormat();
+            SVGInputFormat sf = new SVGInputFormat();
             drawing = new DefaultDrawing();
-            sf.read(new FileInputStream(f),drawing, new LinkedList<Figure>());
+            sf.read(f.toURL(), new FileInputStream(f),drawing, new LinkedList<Figure>());
             
             
         } catch (Exception e) {
@@ -2012,11 +2126,7 @@ public class SVGInputFormat implements StorageFormat {
         return new ExtensionFileFilter("Scalable Vector Graphics (SVG)", "svg");
     }
     
-    public boolean isWriteFormat() {
-        return false;
-    }
-    
-    public boolean isReadFormat() {
-        return true;
+    public JComponent getInputFormatAccessory() {
+        return null;
     }
 }

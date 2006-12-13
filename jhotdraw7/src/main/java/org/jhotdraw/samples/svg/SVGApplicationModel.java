@@ -15,6 +15,7 @@
 package org.jhotdraw.samples.svg;
 
 import java.awt.*;
+import java.awt.geom.*;
 import org.jhotdraw.app.action.*;
 import org.jhotdraw.samples.svg.action.*;
 import org.jhotdraw.samples.svg.figures.*;
@@ -131,14 +132,14 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         attributes = new HashMap<AttributeKey,Object>();
         attributes.put(AttributeKeys.FILL_COLOR, null);
         attributes.put(AttributeKeys.STROKE_COLOR, Color.black);
-        ToolBarButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGLine(), attributes), "createLine", drawLabels);
+        ToolBarButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGPath(), attributes), "createLine", drawLabels);
         ToolBarButtonFactory.addToolTo(tb, editor, new PathTool(new SVGPath(), new BezierFigure(false), attributes), "createScribble", drawLabels);
         attributes = new HashMap<AttributeKey,Object>();
         attributes.put(AttributeKeys.FILL_COLOR, Color.black);
         attributes.put(AttributeKeys.STROKE_COLOR, null);
-        ToolBarButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGText(), attributes), "createText", drawLabels);
-    }
-    
+        ToolBarButtonFactory.addToolTo(tb, editor, new TextTool(new SVGText(), attributes), "createText", drawLabels);
+        ToolBarButtonFactory.addToolTo(tb, editor, new TextAreaTool(new SVGTextArea(), attributes), "createTextArea", drawLabels);
+}    
     /**
      * Creates toolbar buttons and adds them to the specified JToolBar
      */

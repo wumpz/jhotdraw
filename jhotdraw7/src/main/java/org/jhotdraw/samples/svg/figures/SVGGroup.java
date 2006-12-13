@@ -31,7 +31,7 @@ public class SVGGroup extends GroupFigure implements SVGFigure {
     
     /** Creates a new instance. */
     public SVGGroup() {
-        SVGUtil.setDefaults(this);
+        SVGConstants.setDefaults(this);
     }
 /*
     public void drawFigure(Graphics2D g) {

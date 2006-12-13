@@ -39,7 +39,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * @version 1.0 July 8, 2006 Created.
  */
 public class SVGText
-        extends AttributedFigure
+        extends SVGAttributedFigure
         implements TextHolder, SVGFigure {
     
     protected Point2D.Double[] coordinates = new Point2D.Double[] { new Point2D.Double() };
@@ -57,6 +57,7 @@ public class SVGText
     }
     public SVGText(String text) {
         setText(text);
+       SVGConstants.setDefaults(this);
     }
     
     // DRAWING
@@ -234,25 +235,6 @@ public class SVGText
         super.invalidate();
         invalidateTransformedShape();
     }
-/*
-    protected TextLayout getTextLayout() {
-        if (textLayout == null) {
-            String text = getText();
-            if (text == null || text.length() == 0) {
-                text = " ";
-            }
- 
-            FontRenderContext frc = getFontRenderContext();
-            HashMap<TextAttribute,Object> textAttributes = new HashMap<TextAttribute,Object>();
-            textAttributes.put(TextAttribute.FONT, getFont());
-            if (FONT_UNDERLINED.get(this)) {
-                textAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
-            }
-            textLayout = new TextLayout(text, textAttributes, frc);
-        }
-        return textLayout;
-    }
- */
     public Dimension2DDouble getPreferredSize() {
         Rectangle2D.Double b = getBounds();
         return new Dimension2DDouble(b.width, b.height);

@@ -46,6 +46,7 @@ public class SVGEllipse extends SVGAttributedFigure implements SVGFigure {
     
     public SVGEllipse(double x, double y, double width, double height) {
         ellipse = new Ellipse2D.Double(x, y, width, height);
+       SVGConstants.setDefaults(this);
     }
     
     // DRAWING
@@ -57,6 +58,19 @@ public class SVGEllipse extends SVGAttributedFigure implements SVGFigure {
         g.draw(getTransformedShape());
     }
     // SHAPE AND BOUNDS
+    public double getX() {
+        return ellipse.x;
+    }
+    public double getY() {
+        return ellipse.y;
+    }
+    public double getWidth() {
+        return ellipse.getWidth();
+    }
+    public double getHeight() {
+        return ellipse.getHeight();
+    }
+    
     public Rectangle2D.Double getBounds() {
         Rectangle2D rx = getTransformedShape().getBounds2D();
         Rectangle2D.Double r = (rx instanceof Rectangle2D.Double) ? (Rectangle2D.Double) rx : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
@@ -131,12 +145,12 @@ public class SVGEllipse extends SVGAttributedFigure implements SVGFigure {
         if (key == SVGAttributeKeys.TRANSFORM) {
             invalidateTransformedShape();
         }
-            super.basicSetAttribute(key, newValue);
+        super.basicSetAttribute(key, newValue);
     }
     // EDITING
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = (LinkedList<Handle>) super.createHandles(detailLevel);
-                    handles.add(new RotateHandle(this));
+        handles.add(new RotateHandle(this));
         return handles;
     }
     @Override public Collection<Action> getActions(Point2D.Double p) {

@@ -12,14 +12,16 @@
  * with Werner Randelshofer.
  */
 
-package org.jhotdraw.samples.svg;
+package org.jhotdraw.samples.svg.io;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.geom.*;
+import java.awt.image.*;
 import java.util.*;
 import javax.swing.text.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.geom.*;
+import org.jhotdraw.samples.svg.*;
 
 /**
  * SVGFigureFactory.
@@ -63,10 +65,22 @@ public interface SVGFigureFactory {
             StyledDocument text,  
             Map<AttributeKey,Object> attributes);
     
-    public Figure createTextArea(
-            double x, double y, double width, double height,
-            StyledDocument text, double[] rotate,
-            Map<AttributeKey,Object> attributes);
+    public Figure createTextArea(double x, double y, double w, double h, 
+            StyledDocument doc, Map<AttributeKey,Object> attributes);
+
+    /**
+     * Creates a Figure from an image element.
+     *
+     * @param fileSuffix This is supposed to ease the task of exporting the
+     * image from an SVG drawing at a later time.
+     * @param imageData Holds the image data. Can be null, if the buffered image
+     * has not been created from a file.
+     * @param bufferedImage Holds the buffered image. Can be null, if the 
+     * image data has not been interpreted.
+     */
+    public Figure createImage(double x, double y, double w, double h, 
+           byte[] imageData, BufferedImage bufferedImage, Map<AttributeKey,Object> attributes);
+
 
     public Gradient createLinearGradient(
             double x1, double y1, double x2, double y2, 
@@ -77,4 +91,6 @@ public interface SVGFigureFactory {
             double cx, double cy, double r, 
             double[] stopOffsets, Color[] stopColors,
             boolean isRelativeToFigureBounds);
+    
+
 }

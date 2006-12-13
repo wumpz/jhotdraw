@@ -20,6 +20,8 @@ import org.jhotdraw.samples.svg.figures.*;
 import org.jhotdraw.xml.*;
 /**
  * DrawFigureFactory.
+ * 
+ * @deprecated  This class will be removed soon.
  *
  * @author  Werner Randelshofer
  * @version 1.0 February 17, 2004 Created.
@@ -31,7 +33,7 @@ public class SVGFigureFactoryOld extends DefaultDOMFactory {
         { SVGGroup.class, "g" },
         { SVGText.class, "text" },
         { SVGRect.class, "rect" },
-        { SVGLine.class, "line" },
+       // { SVGLine.class, "line" },
         { SVGImage.class, "image" },
         
         // SVC circle element is presented by an SVGEllipse figure
