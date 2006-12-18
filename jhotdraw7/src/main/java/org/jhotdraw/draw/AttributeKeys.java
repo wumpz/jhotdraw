@@ -17,7 +17,6 @@ package org.jhotdraw.draw;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
-import javax.media.jai.NullCRIF;
 import org.jhotdraw.geom.*;
 /**
  * Defines AttributeKeys used by the Figures in this package as well as some

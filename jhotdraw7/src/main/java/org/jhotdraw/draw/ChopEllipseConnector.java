@@ -10,12 +10,10 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-�
  */
 
 package org.jhotdraw.draw;
 
-import com.sun.tools.javac.jvm.Gen;
 import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.geom.*;
