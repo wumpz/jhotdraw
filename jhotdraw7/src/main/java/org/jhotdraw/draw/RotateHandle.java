@@ -71,7 +71,7 @@ public class RotateHandle extends AbstractHandle {
         // the handles from BoxHandleKit.
         Rectangle2D.Double bounds = getOwner().getBounds();
         return new Point2D.Double(bounds.getCenterX(),
-                bounds.y - getHandlesize());
+                bounds.y - getHandlesize() / view.getScaleFactor());
     }
     public void trackStart(Point anchor, int modifiersEx) {
         location = new Point(anchor.x, anchor.y);

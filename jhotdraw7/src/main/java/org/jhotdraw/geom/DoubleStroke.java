@@ -255,8 +255,10 @@ public class DoubleStroke implements Stroke {
             left.closePath();
             
         } else {
-            right.lineTo((float) currentCorners[4], (float) currentCorners[5]);
-            left.lineTo((float) currentCorners[6], (float) currentCorners[7]);
+            if (bp.size() > 1) {
+                right.lineTo((float) currentCorners[4], (float) currentCorners[5]);
+                left.lineTo((float) currentCorners[6], (float) currentCorners[7]);
+            }
         }
     }
     

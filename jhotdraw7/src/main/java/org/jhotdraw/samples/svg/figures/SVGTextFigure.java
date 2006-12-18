@@ -38,7 +38,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * @author Werner Randelshofer
  * @version 1.0 July 8, 2006 Created.
  */
-public class SVGText
+public class SVGTextFigure
         extends SVGAttributedFigure
         implements TextHolder, SVGFigure {
     
@@ -52,10 +52,10 @@ public class SVGText
     private Shape cachedTransformedShape;
     
     /** Creates a new instance. */
-    public SVGText() {
+    public SVGTextFigure() {
         this("Text");
     }
-    public SVGText(String text) {
+    public SVGTextFigure(String text) {
         setText(text);
        SVGConstants.setDefaults(this);
     }
@@ -257,7 +257,7 @@ public class SVGText
         if (TRANSFORM.get(this) != null) {
             actions.add(new AbstractAction(labels.getString("removeTransform")) {
                 public void actionPerformed(ActionEvent evt) {
-                    TRANSFORM.set(SVGText.this, null);
+                    TRANSFORM.set(SVGTextFigure.this, null);
                 }
             });
         }
@@ -287,8 +287,8 @@ public class SVGText
         return new Insets2D.Double();
     }
     
-    public SVGText clone() {
-        SVGText that = (SVGText) super.clone();
+    public SVGTextFigure clone() {
+        SVGTextFigure that = (SVGTextFigure) super.clone();
         that.coordinates = (Point2D.Double[]) this.coordinates.clone();
         that.rotates = (double[]) this.rotates.clone();
         return that;

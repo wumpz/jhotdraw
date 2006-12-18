@@ -118,5 +118,6 @@ public class DrawApplicationModel extends DefaultApplicationModel {
         ToolBarButtonFactory.addToolTo(tb, editor, new BezierTool(new BezierFigure(true)), "createPolygon", labels);
         ToolBarButtonFactory.addToolTo(tb, editor, new TextTool(new TextFigure()), "createText", labels);
         ToolBarButtonFactory.addToolTo(tb, editor, new TextAreaTool(new TextAreaFigure()), "createTextArea", labels);
-    }    
+        ToolBarButtonFactory.addToolTo(tb, editor, new ImageTool(new ImageFigure()), "createImage", labels);
+    }     
 }

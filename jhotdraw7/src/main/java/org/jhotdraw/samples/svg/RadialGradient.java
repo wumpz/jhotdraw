@@ -53,7 +53,7 @@ public class RadialGradient implements Gradient {
     
     public Paint getPaint(Figure f) {
         if (stopColors.length == 0) {
-            return Color.black;
+            return Color.BLACK;
         }
         Point2D.Double cp;
         double rr;

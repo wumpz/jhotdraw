@@ -27,10 +27,10 @@ import org.jhotdraw.xml.*;
  * @author Werner Randelshofer
  * @version 1.0 July 8, 2006 Created.
  */
-public class SVGGroup extends GroupFigure implements SVGFigure {
+public class SVGGroupFigure extends GroupFigure implements SVGFigure {
     
     /** Creates a new instance. */
-    public SVGGroup() {
+    public SVGGroupFigure() {
         SVGConstants.setDefaults(this);
     }
 /*
@@ -95,7 +95,7 @@ public class SVGGroup extends GroupFigure implements SVGFigure {
                 in.closeElement();
                 Object f = (Object) in.readObject(i);
                 if (f instanceof SVGDrawing) {
-                    SVGGroup g = new SVGGroup();
+                    SVGGroupFigure g = new SVGGroupFigure();
                     g.willChange();
                     for (Figure child : ((SVGDrawing) f).getFigures()) {
                         g.basicAdd(child);

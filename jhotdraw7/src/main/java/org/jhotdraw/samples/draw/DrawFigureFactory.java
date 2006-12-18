@@ -38,6 +38,7 @@ public class DrawFigureFactory extends DefaultDOMFactory {
         { EllipseFigure.class, "e" },
         { TextFigure.class, "t" },
         { TextAreaFigure.class, "ta" },
+        { ImageFigure.class, "image" },
         { GroupFigure.class, "g" },
         
         { ArrowTip.class, "arrowTip" },

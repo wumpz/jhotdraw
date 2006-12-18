@@ -10,7 +10,6 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-�
  */
 
 package org.jhotdraw.draw;
@@ -24,7 +23,11 @@ import javax.swing.undo.*;
 import org.jhotdraw.util.*;
 import java.util.*;
 /**
- * DefaultDrawing.
+ * DefaultDrawing to be used for drawings that contain only a few figures.
+ * For larger drawings, QuadTreeDrawing should be used.
+ * <p>
+ * FIXME - Maybe we should rename this class to SimpleDrawing or we should
+ * get rid of this class altogether.
  *
  * @author Werner Randelshofer
  * @version 2.0 2006-01-14 Changed to support double precision coordinates.

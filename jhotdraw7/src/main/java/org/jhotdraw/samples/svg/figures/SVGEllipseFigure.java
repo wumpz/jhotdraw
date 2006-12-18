@@ -32,7 +32,7 @@ import org.jhotdraw.util.*;
  * @author Werner Randelshofer
  * @version 1.0 July 8, 2006 Created.
  */
-public class SVGEllipse extends SVGAttributedFigure implements SVGFigure {
+public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     private Ellipse2D.Double ellipse;
     /**
      * This is used to perform faster drawing and hit testing.
@@ -40,11 +40,11 @@ public class SVGEllipse extends SVGAttributedFigure implements SVGFigure {
     private Shape cachedTransformedShape;
     
     /** Creates a new instance. */
-    public SVGEllipse() {
+    public SVGEllipseFigure() {
         this(0, 0, 0, 0);
     }
     
-    public SVGEllipse(double x, double y, double width, double height) {
+    public SVGEllipseFigure(double x, double y, double width, double height) {
         ellipse = new Ellipse2D.Double(x, y, width, height);
        SVGConstants.setDefaults(this);
     }
@@ -159,7 +159,7 @@ public class SVGEllipse extends SVGAttributedFigure implements SVGFigure {
         if (TRANSFORM.get(this) != null) {
             actions.add(new AbstractAction(labels.getString("removeTransform")) {
                 public void actionPerformed(ActionEvent evt) {
-                    TRANSFORM.set(SVGEllipse.this, null);
+                    TRANSFORM.set(SVGEllipseFigure.this, null);
                 }
             });
         }
@@ -176,8 +176,8 @@ public class SVGEllipse extends SVGAttributedFigure implements SVGFigure {
     }
     // COMPOSITE FIGURES
     // CLONING
-    public SVGEllipse clone() {
-        SVGEllipse that = (SVGEllipse) super.clone();
+    public SVGEllipseFigure clone() {
+        SVGEllipseFigure that = (SVGEllipseFigure) super.clone();
         that.ellipse = (Ellipse2D.Double) this.ellipse.clone();
         return that;
     }

@@ -20,11 +20,27 @@ import java.awt.event.*;
 import javax.swing.event.*;
 import java.util.*;
 /**
- * Tool to create new or edit existing text figures.
- * The editing behavior is implemented by overlaying the
- * Figure providing the text with a FloatingTextField.<p>
- * A tool interaction is done once a Figure that is not
- * a TextHolder is clicked.
+ * A tool to create new or edit existing figures that implement the TextHolder
+ * interface, such as TextFigure. The figure to be created is specified by a
+ * prototype.
+ * <p>
+ * To create a figure using the TextTool, the user does the following mouse
+ * gestures on a DrawingView:
+ * <ol>
+ * <li>Press the mouse button over an area on the DrawingView on which there
+ * isn't a text figure present. This defines the location of the Figure.</li>
+ * </ol>
+ * When the user has performed this mouse gesture, the TextTool overlays
+ * a text field over the drawing where the user can enter the text for the Figure.
+ * <p>
+ * To edit an existing text figure using the TextTool, the user does the
+ * following mouse gesture on a DrawingView:
+ * <ol>
+ * <li>Press the mouse button over a TextHolder Figure on the DrawingView.</li>
+ * </ol>
+ * The TextTool then uses Figure.findFigureInside to find a Figure that
+ * implements the TextHolder interface and that is editable. Then it overlays
+ * a text field over the drawing where the user can enter the text for the Figure.
  *
  * @see TextHolder
  * @see FloatingTextField
@@ -42,7 +58,7 @@ public class TextTool extends CreationTool implements ActionListener {
         super(prototype);
     }
     /** Creates a new instance. */
-    public TextTool(Figure prototype, Map attributes) {
+    public TextTool(TextHolder prototype, Map attributes) {
         super(prototype, attributes);
     }
     

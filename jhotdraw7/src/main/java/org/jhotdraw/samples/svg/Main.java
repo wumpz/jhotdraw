@@ -25,9 +25,16 @@ public class Main {
     
     /** Creates a new instance. */
     public static void main(String[] args) {
-        System.setProperty("apple.awt.graphics.UseQuartz","true");
-        Application app = new DefaultOSXApplication();
-        
+        Application app;
+        String os = System.getProperty("os.name").toLowerCase();
+        if (os.startsWith("mac")) {
+            app = new DefaultOSXApplication();
+        } else if (os.startsWith("win")) {
+          //  app = new DefaultMDIApplication();
+            app = new DefaultSDIApplication();
+        } else {
+            app = new DefaultSDIApplication();
+        }
         
         SVGApplicationModel model = new SVGApplicationModel();
         model.setName("SVG Draw");

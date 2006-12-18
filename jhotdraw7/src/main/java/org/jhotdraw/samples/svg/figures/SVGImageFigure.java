@@ -39,7 +39,7 @@ import org.jhotdraw.geom.*;
  * @author Werner Randelshofer
  * @version 1.0 July 8, 2006 Created.
  */
-public class SVGImage extends SVGAttributedFigure implements SVGFigure {
+public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, ImageHolder {
     /**
      * This rectangle describes the bounds into which we draw the image.
      */
@@ -65,10 +65,10 @@ public class SVGImage extends SVGAttributedFigure implements SVGFigure {
     private BufferedImage bufferedImage;
     
     /** Creates a new instance. */
-    public SVGImage() {
+    public SVGImageFigure() {
         this(0,0,0,0);
     }
-    public SVGImage(double x, double y, double width, double height) {
+    public SVGImageFigure(double x, double y, double width, double height) {
         rect = new Rectangle2D.Double(x, y, width, height);
        SVGConstants.setDefaults(this);
     }
@@ -79,6 +79,8 @@ public class SVGImage extends SVGAttributedFigure implements SVGFigure {
         BufferedImage image = getBufferedImage();
         if (image != null) {
             if (TRANSFORM.get(this) != null) {
+                // FIXME - We should cache the transformed image.
+                //         Drawing a transformed image appears to be very slow.
                 Graphics2D gx = (Graphics2D) g.create();
                 gx.transform(TRANSFORM.get(this));
                 gx.drawImage(image, (int) rect.x, (int) rect.y, (int) rect.width, (int) rect.height, null);
@@ -206,7 +208,7 @@ public class SVGImage extends SVGAttributedFigure implements SVGFigure {
         if (TRANSFORM.get(this) != null) {
             actions.add(new AbstractAction(labels.getString("removeTransform")) {
                 public void actionPerformed(ActionEvent evt) {
-                    TRANSFORM.set(SVGImage.this, null);
+                    TRANSFORM.set(SVGImageFigure.this, null);
                 }
             });
         }
@@ -215,7 +217,7 @@ public class SVGImage extends SVGAttributedFigure implements SVGFigure {
     // CONNECTING
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
         // XXX - This doesn't work with a transformed rect
-        return new ChopRoundRectConnector(this);
+        return new ChopBoxConnector(this);
     }
     public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
         // XXX - This doesn't work with a transformed rect
@@ -224,8 +226,8 @@ public class SVGImage extends SVGAttributedFigure implements SVGFigure {
     
     // COMPOSITE FIGURES
     // CLONING
-    public SVGImage clone() {
-        SVGImage that = (SVGImage) super.clone();
+    public SVGImageFigure clone() {
+        SVGImageFigure that = (SVGImageFigure) super.clone();
         that.rect = (Rectangle2D.Double) this.rect.clone();
         that.cachedTransformedShape = null;
         that.cachedHitShape = null;
@@ -346,4 +348,26 @@ public class SVGImage extends SVGAttributedFigure implements SVGFigure {
         }
         return imageData;
     }    
+
+    public void loadImage(File file) throws IOException {
+        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+        DataInputStream in = null;
+        byte[] buf = null;
+        BufferedImage img = null;
+        try {
+            in = new DataInputStream(new FileInputStream(file));
+            buf = new byte[(int) file.length()];
+            in.readFully(buf);
+            img = ImageIO.read(new ByteArrayInputStream(buf));
+        } catch (Throwable t) {
+            IOException ex =  new IOException(labels.getFormatted("failedToLoadImage", file.getName()));
+            ex.initCause(t);
+            throw ex;
+        }
+        if (img == null) {
+            throw new IOException(labels.getFormatted("failedToLoadImage", file.getName()));
+        }
+        imageData = buf;
+        bufferedImage = img;
+    }
 }

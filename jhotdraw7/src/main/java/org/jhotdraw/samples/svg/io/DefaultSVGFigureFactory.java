@@ -37,7 +37,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
     }
     
     public Figure createRect(double x, double y, double w, double h, double rx, double ry, Map<AttributeKey, Object> a) {
-        SVGRect figure = new SVGRect();
+        SVGRectFigure figure = new SVGRectFigure();
         figure.basicSetBounds(new Point2D.Double(x,y),new Point2D.Double(x+w,y+h));
         figure.setArc(rx, ry);
         figure.setAttributes(a);
@@ -49,7 +49,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
     }
     
     public Figure createEllipse(double cx, double cy, double rx, double ry, Map<AttributeKey, Object> a) {
-        SVGEllipse figure = new SVGEllipse();
+        SVGEllipseFigure figure = new SVGEllipseFigure();
         figure.basicSetBounds(new Point2D.Double(cx-rx,cy-ry),new Point2D.Double(cx+rx,cy+ry));
         figure.setAttributes(a);
         return figure;
@@ -58,7 +58,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
     public Figure createLine(
             double x1, double y1, double x2, double y2,
             Map<AttributeKey,Object> a) {
-        SVGPath figure = new SVGPath();
+        SVGPathFigure figure = new SVGPathFigure();
         figure.removeAllChildren();
         BezierFigure bf = new BezierFigure();
         bf.addNode(new BezierPath.Node(x1, y1));
@@ -69,7 +69,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
     }
     
     public Figure createPolyline(Point2D.Double[] points, Map<AttributeKey, Object> a) {
-        SVGPath figure = new SVGPath();
+        SVGPathFigure figure = new SVGPathFigure();
         figure.removeAllChildren();
         BezierFigure bf = new BezierFigure();
         for (int i=0; i < points.length; i++) {
@@ -81,7 +81,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
     }
     
     public Figure createPolygon(Point2D.Double[] points, Map<AttributeKey, Object> a) {
-        SVGPath figure = new SVGPath();
+        SVGPathFigure figure = new SVGPathFigure();
         figure.removeAllChildren();
         BezierFigure bf = new BezierFigure();
         for (int i=0; i < points.length; i++) {
@@ -93,7 +93,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
         return figure;
     }
     public Figure createPath(BezierPath[] beziers, Map<AttributeKey, Object> a) {
-        SVGPath figure = new SVGPath();
+        SVGPathFigure figure = new SVGPathFigure();
         figure.removeAllChildren();
         for (int i=0; i < beziers.length; i++) {
             BezierFigure bf = new BezierFigure();
@@ -105,21 +105,21 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
     }
     
     public CompositeFigure createG(Map<AttributeKey, Object> a) {
-        SVGGroup figure = new SVGGroup();
+        SVGGroupFigure figure = new SVGGroupFigure();
         //figure.setAttributes(a);
         return figure;
     }
     
     public Figure createImage(double x, double y, double w, double h, 
             byte[] imageData, BufferedImage bufferedImage, Map<AttributeKey, Object> a) {
-        SVGImage figure = new SVGImage();
+        SVGImageFigure figure = new SVGImageFigure();
         figure.basicSetBounds(new Point2D.Double(x,y),new Point2D.Double(x+w,y+h));
         figure.setImage(imageData, bufferedImage);
         figure.setAttributes(a);
         return figure;
     }
     public Figure createTextArea(double x, double y, double w, double h, StyledDocument doc, Map<AttributeKey, Object> attributes) {
-        SVGTextArea figure = new SVGTextArea();
+        SVGTextAreaFigure figure = new SVGTextAreaFigure();
         figure.basicSetBounds(new Point2D.Double(x,y),new Point2D.Double(x+w,y+h));
         try {
             figure.setText(doc.getText(0, doc.getLength()));
@@ -133,7 +133,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
     }
     
     public Figure createText(Point2D.Double[] coordinates, double[] rotates, StyledDocument text, Map<AttributeKey, Object> a) {
-        SVGText figure = new SVGText();
+        SVGTextFigure figure = new SVGTextFigure();
         figure.basicSetCoordinates(coordinates);
         figure.basicSetRotates(rotates);
         try {

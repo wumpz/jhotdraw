@@ -34,7 +34,7 @@ public class SplitAction extends UngroupAction {
     
     /** Creates a new instance. */
     public SplitAction(DrawingEditor editor) {
-        super(editor, new SVGPath());
+        super(editor, new SVGPathFigure());
         
         labels = ResourceBundleUtil.getLAFBundle(
                 "org.jhotdraw.samples.svg.Labels",
@@ -54,7 +54,7 @@ public class SplitAction extends UngroupAction {
         group.basicRemoveAllChildren();
         LinkedList<Figure> paths = new LinkedList<Figure>();
         for (Figure f : figures) {
-            SVGPath path = new SVGPath();
+            SVGPathFigure path = new SVGPathFigure();
             path.removeAllChildren();
             for (Map.Entry<AttributeKey,Object> entry : group.getAttributes().entrySet()) {
                 path.basicSetAttribute(entry.getKey(), entry.getValue());
@@ -73,12 +73,12 @@ public class SplitAction extends UngroupAction {
         view.clearSelection();
         view.getDrawing().add(group);
         group.willChange();
-      ((SVGPath) group).removeAllChildren();
+      ((SVGPathFigure) group).removeAllChildren();
         for (Map.Entry<AttributeKey,Object> entry : figures.iterator().next().getAttributes().entrySet()) {
             group.basicSetAttribute(entry.getKey(), entry.getValue());
         }
         for (Figure f : sorted) {
-            SVGPath path = (SVGPath) f;
+            SVGPathFigure path = (SVGPathFigure) f;
             for (Figure child : path.getChildren()) {
                 group.basicAdd(child);
             }

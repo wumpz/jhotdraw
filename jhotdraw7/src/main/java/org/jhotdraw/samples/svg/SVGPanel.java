@@ -127,8 +127,8 @@ public class SVGPanel extends JPanel  {
         a.add(new DuplicateAction());
         
         a.add(null); // separator
-        a.add(new GroupAction(editor, new SVGGroup()));
-        a.add(new UngroupAction(editor, new SVGGroup()));
+        a.add(new GroupAction(editor, new SVGGroupFigure()));
+        a.add(new UngroupAction(editor, new SVGGroupFigure()));
         a.add(new CombineAction(editor));
         a.add(new SplitAction(editor));
         
@@ -154,18 +154,18 @@ public class SVGPanel extends JPanel  {
         attributes = new HashMap<AttributeKey,Object>();
         attributes.put(AttributeKeys.FILL_COLOR, Color.white);
         attributes.put(AttributeKeys.STROKE_COLOR, Color.black);
-        ToolBarButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGRect(), attributes), "createRectangle", drawLabels);
-        ToolBarButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGEllipse(), attributes), "createEllipse", drawLabels);
-        ToolBarButtonFactory.addToolTo(tb, editor, new PathTool(new SVGPath(), new BezierFigure(true), attributes), "createPolygon", drawLabels);
+        ToolBarButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGRectFigure(), attributes), "createRectangle", drawLabels);
+        ToolBarButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGEllipseFigure(), attributes), "createEllipse", drawLabels);
+        ToolBarButtonFactory.addToolTo(tb, editor, new PathTool(new SVGPathFigure(), new BezierFigure(true), attributes), "createPolygon", drawLabels);
         attributes = new HashMap<AttributeKey,Object>();
         attributes.put(AttributeKeys.FILL_COLOR, null);
         attributes.put(AttributeKeys.STROKE_COLOR, Color.black);
-        ToolBarButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGPath(), attributes), "createLine", drawLabels);
-        ToolBarButtonFactory.addToolTo(tb, editor, new PathTool(new SVGPath(), new BezierFigure(false), attributes), "createScribble", drawLabels);
+        ToolBarButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGPathFigure(), attributes), "createLine", drawLabels);
+        ToolBarButtonFactory.addToolTo(tb, editor, new PathTool(new SVGPathFigure(), new BezierFigure(false), attributes), "createScribble", drawLabels);
         attributes = new HashMap<AttributeKey,Object>();
         attributes.put(AttributeKeys.FILL_COLOR, Color.black);
         attributes.put(AttributeKeys.STROKE_COLOR, null);
-        ToolBarButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGText(), attributes), "createText", drawLabels);
+        ToolBarButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGTextFigure(), attributes), "createText", drawLabels);
     }
     
     /** This method is called from within the constructor to

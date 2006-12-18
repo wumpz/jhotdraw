@@ -23,11 +23,29 @@ import javax.swing.event.*;
 import java.util.*;
 import org.jhotdraw.geom.*;
 /**
- * Tool to create new or edit existing text figures.
- * The editing behavior is implemented by overlaying the
- * Figure providing the text with a FloatingTextArea.<p>
- * A tool interaction is done once a Figure that is not
- * a TextHolder is clicked.
+ * A tool to create new or edit existing figures that implement the TextHolder
+ * interface, such as TextAreaFigure. The figure to be created is specified by a
+ * prototype.
+ * <p>
+ * To create a figure using the TextAreaTool, the user does the following mouse
+ * gestures on a DrawingView:
+ * <ol>
+ * <li>Press the mouse button over the DrawingView. This defines the
+ * start point of the Figure bounds.</li>
+ * <li>Drag the mouse while keeping the mouse button pressed, and then release
+ * the mouse button. This defines the end point of the Figure bounds.</li>
+ * </ol>
+ * When the user has performed these mouse gesture, the TextAreaTool overlays
+ * a text area over the drawing where the user can enter the text for the Figure.
+ * <p>
+ * To edit an existing text figure using the TextAreaTool, the user does the
+ * following mouse gesture on a DrawingView:
+ * <ol>
+ * <li>Press the mouse button over a Figure on the DrawingView.</li>
+ * </ol>
+ * The TextAreaTool then uses Figure.findFigureInside to find a Figure that
+ * implements the TextHolder interface and that is editable. Then it overlays
+ * a text area over the drawing where the user can enter the text for the Figure.
  *
  * @see TextHolder
  * @see FloatingTextArea

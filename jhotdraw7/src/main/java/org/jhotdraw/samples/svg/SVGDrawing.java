@@ -79,7 +79,7 @@ public class SVGDrawing extends DefaultDrawing {
                 in.closeElement();
                 Object f = (Object) in.readObject(i);
                 if (f instanceof SVGDrawing) {
-                    SVGGroup g = new SVGGroup();
+                    SVGGroupFigure g = new SVGGroupFigure();
                     g.willChange();
                     for (Figure child : ((SVGDrawing) f).getFigures()) {
                         g.basicAdd(child);

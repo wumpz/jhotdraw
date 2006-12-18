@@ -35,7 +35,7 @@ import org.jhotdraw.xml.*;
  * @author Werner Randelshofer
  * @version 1.0 December 9, 2006 Created.
  */
-public class SVGTextArea extends AttributedFigure implements SVGFigure, TextHolder {
+public class SVGTextAreaFigure extends AttributedFigure implements SVGFigure, TextHolder {
     
     
     private Rectangle2D.Double rect = new Rectangle2D.Double();
@@ -51,10 +51,10 @@ public class SVGTextArea extends AttributedFigure implements SVGFigure, TextHold
     
     
     /** Creates a new instance. */
-    public SVGTextArea() {
+    public SVGTextAreaFigure() {
         this("Text");
     }
-    public SVGTextArea(String text) {
+    public SVGTextAreaFigure(String text) {
         setText(text);
        SVGConstants.setDefaults(this);
     }
@@ -389,7 +389,7 @@ public class SVGTextArea extends AttributedFigure implements SVGFigure, TextHold
         if (TRANSFORM.get(this) != null) {
             actions.add(new AbstractAction(labels.getString("removeTransform")) {
                 public void actionPerformed(ActionEvent evt) {
-                    TRANSFORM.set(SVGTextArea.this, null);
+                    TRANSFORM.set(SVGTextAreaFigure.this, null);
                 }
             });
         }
@@ -438,8 +438,8 @@ public class SVGTextArea extends AttributedFigure implements SVGFigure, TextHold
         writeAttributes(out);
     }
     
-    public SVGTextArea clone() {
-        SVGTextArea that = (SVGTextArea) super.clone();
+    public SVGTextAreaFigure clone() {
+        SVGTextAreaFigure that = (SVGTextAreaFigure) super.clone();
         that.rect = (Rectangle2D.Double) this.rect.clone();
         return that;
     }

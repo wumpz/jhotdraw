@@ -10,7 +10,6 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-� 
  */
 
 
@@ -21,7 +20,7 @@ import org.jhotdraw.util.*;
 import java.awt.*;
 import org.jhotdraw.geom.*;
 /**
- * TextHolder.
+ * The interface of a figure that has some editable text contents.
  *
  * @author Werner Randelshofer
  * @version 2.0 2006-01-14 Changed to support double precison coordinates.

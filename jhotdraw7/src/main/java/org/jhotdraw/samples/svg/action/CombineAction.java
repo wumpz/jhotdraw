@@ -34,7 +34,7 @@ public class CombineAction extends GroupAction {
     
     /** Creates a new instance. */
     public CombineAction(DrawingEditor editor) {
-        super(editor, new SVGPath());
+        super(editor, new SVGPathFigure());
         
         labels = ResourceBundleUtil.getLAFBundle(
                 "org.jhotdraw.samples.svg.Labels",
@@ -47,7 +47,7 @@ public class CombineAction extends GroupAction {
         boolean canCombine = getView().getSelectionCount() > 1;
         if (canCombine) {
             for (Figure f : getView().getSelectedFigures()) {
-                if (!(f instanceof SVGPath)) {
+                if (!(f instanceof SVGPathFigure)) {
                     canCombine = false;
                     break;
                 }
@@ -61,7 +61,7 @@ public class CombineAction extends GroupAction {
         group.basicRemoveAllChildren();
         LinkedList<Figure> paths = new LinkedList<Figure>();
         for (Figure f : figures) {
-            SVGPath path = new SVGPath();
+            SVGPathFigure path = new SVGPathFigure();
             path.removeAllChildren();
             for (Map.Entry<AttributeKey,Object> entry : group.getAttributes().entrySet()) {
                 path.basicSetAttribute(entry.getKey(), entry.getValue());
@@ -80,12 +80,12 @@ public class CombineAction extends GroupAction {
         view.clearSelection();
         view.getDrawing().add(group);
         group.willChange();
-      ((SVGPath) group).removeAllChildren();
+      ((SVGPathFigure) group).removeAllChildren();
         for (Map.Entry<AttributeKey,Object> entry : figures.iterator().next().getAttributes().entrySet()) {
             group.basicSetAttribute(entry.getKey(), entry.getValue());
         }
         for (Figure f : sorted) {
-            SVGPath path = (SVGPath) f;
+            SVGPathFigure path = (SVGPathFigure) f;
             for (Figure child : path.getChildren()) {
                 group.basicAdd(child);
             }

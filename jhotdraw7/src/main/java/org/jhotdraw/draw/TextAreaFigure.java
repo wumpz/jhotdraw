@@ -42,7 +42,9 @@ import org.jhotdraw.xml.DOMOutput;
  * as well as four additional attributes LeftMargin, RightMargin, TopMargin,
  * and TabSize.<br>
  * <p>
- * XXX - TextAreaFigure should not draw a rectangle on its own but rather
+ * A DrawingEditor should provide the TextAreaTool to create a TextAreaFigure.
+ * <p>
+ * FIXME - TextAreaFigure should not draw a rectangle on its own but rather
  * rely on a decorator. We probably need a DecoratorConnector for this and we
  * need a way to specify the inner bounds of the decorator. We also need a way
  * to center the text of the TextAreaFigure verticaly and horizontaly.

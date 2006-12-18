@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultDrawingView.java  3.0.2  2006-07-03
+ * @(#)DefaultDrawingView.java  3.1  2006-12-17
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -31,10 +31,11 @@ import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.*;
 import org.jhotdraw.xml.XMLTransferable;
 /**
- * DefaultDrawingView.
+ * The DefaultDrawingView is suited for viewing small drawings. 
  *
  * @author Werner Randelshofer
- * @version 3.0.2 2006-07-03 Constrainer must be a bound property.
+ * @version 3.1 2006-12-17 Added printing support. 
+ * <br>3.0.2 2006-07-03 Constrainer must be a bound property.
  * <br>3.0.1 2006-06-11 Draw handles when this DrawingView is the focused
  * drawing view of the DrawingEditor.
  * <br>3.0 2006-02-17 Reworked to support multiple drawing views in a
@@ -114,13 +115,47 @@ public class DefaultDrawingView
         return (emptyDrawingLabel == null) ? null : emptyDrawingLabel.getText();
     }
     
+    /**
+     * Paints the drawing view.
+     * Uses rendering hints for fast painting. Paints the background, the
+     * grid, the drawing, the handles and the current tool.
+     */
     public void paintComponent(Graphics gr) {
         
         Graphics2D g = (Graphics2D) gr;
-        
+
+        // Set rendering hints for speed
         g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         //g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+        g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_NORMALIZE);
+        //g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+        g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, (Options.isFractionalMetrics()) ? RenderingHints.VALUE_FRACTIONALMETRICS_ON : RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
+        g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
+        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+        g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+        g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, (Options.isTextAntialiased()) ? RenderingHints.VALUE_TEXT_ANTIALIAS_ON : RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
+
+        
+        drawBackground(g);
+        drawGrid(g);
+        drawDrawing(g);
+        
+        drawHandles(g);
+        drawTool(g);
+    }
+    /**
+     * Prints the drawing view.
+     * Uses high quality rendering hints for printing. Only prints the drawing.
+     * Doesn't print the background, the grid, the handles and the tool.
+     */
+    public void printComponent(Graphics gr) {
+        
+        Graphics2D g = (Graphics2D) gr;
+        
+        // Set rendering hints for quality
+        g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_NORMALIZE);
         //g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
         g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, (Options.isFractionalMetrics()) ? RenderingHints.VALUE_FRACTIONALMETRICS_ON : RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
@@ -129,12 +164,13 @@ public class DefaultDrawingView
         g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, (Options.isTextAntialiased()) ? RenderingHints.VALUE_TEXT_ANTIALIAS_ON : RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
         
-        drawBackground(g);
-        drawGrid(g);
+        
+        //drawBackground(g);
+        //drawGrid(g);
         drawDrawing(g);
         
-        drawHandles(g);
-        drawTool(g);
+        //drawHandles(g);
+        //drawTool(g);
     }
     
     protected void drawBackground(Graphics2D g) {

@@ -73,19 +73,19 @@ public class SVGOutputFormat implements OutputFormat {
         writer.write(svg, true);
     }
     public void writeElement(XMLElement parent, Figure f) throws IOException {
-        if (f instanceof SVGEllipse) {
-            SVGEllipse ellipse = (SVGEllipse) f;
+        if (f instanceof SVGEllipseFigure) {
+            SVGEllipseFigure ellipse = (SVGEllipseFigure) f;
             if (ellipse.getWidth() == ellipse.getHeight()) {
                 writeCircleElement(parent, ellipse);
             } else {
                 writeEllipseElement(parent, ellipse);
             }
-        } else if (f instanceof SVGGroup) {
-            writeGElement(parent, (SVGGroup) f);
-        } else if (f instanceof SVGImage) {
-            writeImageElement(parent, (SVGImage)  f);
-        } else if (f instanceof SVGPath) {
-            SVGPath path = (SVGPath) f;
+        } else if (f instanceof SVGGroupFigure) {
+            writeGElement(parent, (SVGGroupFigure) f);
+        } else if (f instanceof SVGImageFigure) {
+            writeImageElement(parent, (SVGImageFigure)  f);
+        } else if (f instanceof SVGPathFigure) {
+            SVGPathFigure path = (SVGPathFigure) f;
             if (path.getChildCount() == 1) {
                 BezierFigure bezier = (BezierFigure) path.getChild(0);
                 boolean isLinear = true;
@@ -111,17 +111,17 @@ public class SVGOutputFormat implements OutputFormat {
             } else {
                 writePathElement(parent, path);
             }
-        } else if (f instanceof SVGRect) {
-            writeRectElement(parent, (SVGRect) f);
-        } else if (f instanceof SVGText) {
-            writeTextElement(parent, (SVGText) f);
-        } else if (f instanceof SVGTextArea) {
-            writeTextAreaElement(parent, (SVGTextArea) f);
+        } else if (f instanceof SVGRectFigure) {
+            writeRectElement(parent, (SVGRectFigure) f);
+        } else if (f instanceof SVGTextFigure) {
+            writeTextElement(parent, (SVGTextFigure) f);
+        } else if (f instanceof SVGTextAreaFigure) {
+            writeTextAreaElement(parent, (SVGTextAreaFigure) f);
         } else {
             System.out.println("Unable to write: "+f);
         }
     }
-    public void writeCircleElement(XMLElement parent, SVGEllipse f) throws IOException {
+    public void writeCircleElement(XMLElement parent, SVGEllipseFigure f) throws IOException {
         XMLElement elem = new XMLElement("circle");
         writeAttribute(elem, "cx", f.getX() + f.getWidth() / 2d, 0d);
         writeAttribute(elem, "cy", f.getY() + f.getHeight() / 2d, 0d);
@@ -129,7 +129,7 @@ public class SVGOutputFormat implements OutputFormat {
         writeShapeAttributes(elem, f);
         parent.addChild(elem);
     }
-    public void writeEllipseElement(XMLElement parent, SVGEllipse f) throws IOException {
+    public void writeEllipseElement(XMLElement parent, SVGEllipseFigure f) throws IOException {
         XMLElement elem = new XMLElement("ellipse");
         writeAttribute(elem, "cx", f.getX() + f.getWidth() / 2d, 0d);
         writeAttribute(elem, "cy", f.getY() + f.getHeight() / 2d, 0d);
@@ -138,14 +138,14 @@ public class SVGOutputFormat implements OutputFormat {
         writeShapeAttributes(elem, f);
         parent.addChild(elem);
     }
-    public void writeGElement(XMLElement parent, SVGGroup f) throws IOException {
+    public void writeGElement(XMLElement parent, SVGGroupFigure f) throws IOException {
         XMLElement elem = new XMLElement("g");
         for (Figure child : f.getChildren()) {
             writeElement(elem, child);
         }
         parent.addChild(elem);
     }
-    public void writeImageElement(XMLElement parent, SVGImage f) throws IOException {
+    public void writeImageElement(XMLElement parent, SVGImageFigure f) throws IOException {
         XMLElement elem = new XMLElement("image");
         writeAttribute(elem, "x", f.getX(), 0d);
         writeAttribute(elem, "y", f.getY(), 0d);
@@ -155,22 +155,22 @@ public class SVGOutputFormat implements OutputFormat {
        // writeShapeAttributes(elem, f);
         parent.addChild(elem);
     }
-    public void writePathElement(XMLElement parent, SVGPath f) throws IOException {
+    public void writePathElement(XMLElement parent, SVGPathFigure f) throws IOException {
         XMLElement elem = new XMLElement("path");
         writeShapeAttributes(elem, f);
         parent.addChild(elem);
     }
-    public void writePolygonElement(XMLElement parent, SVGPath f) throws IOException {
+    public void writePolygonElement(XMLElement parent, SVGPathFigure f) throws IOException {
         XMLElement elem = new XMLElement("polygon");
         writeShapeAttributes(elem, f);
         parent.addChild(elem);
     }
-    public void writePolylineElement(XMLElement parent, SVGPath f) throws IOException {
+    public void writePolylineElement(XMLElement parent, SVGPathFigure f) throws IOException {
         XMLElement elem = new XMLElement("polyline");
         writeShapeAttributes(elem, f);
         parent.addChild(elem);
     }
-    public void writeLineElement(XMLElement parent, SVGPath f) throws IOException {
+    public void writeLineElement(XMLElement parent, SVGPathFigure f) throws IOException {
         XMLElement elem = new XMLElement("line");
         BezierFigure bezier = (BezierFigure) f.getChild(0);
         writeAttribute(elem, "x1", bezier.getNode(0).x[0], 0d);
@@ -180,7 +180,7 @@ public class SVGOutputFormat implements OutputFormat {
         writeShapeAttributes(elem, f);
         parent.addChild(elem);
     }
-    public void writeRectElement(XMLElement parent, SVGRect f) throws IOException {
+    public void writeRectElement(XMLElement parent, SVGRectFigure f) throws IOException {
         XMLElement elem = new XMLElement("rect");
         writeAttribute(elem, "x", f.getX(), 0d);
         writeAttribute(elem, "y", f.getY(), 0d);
@@ -191,10 +191,10 @@ public class SVGOutputFormat implements OutputFormat {
         writeShapeAttributes(elem, f);
         parent.addChild(elem);
     }
-    public void writeTextElement(XMLElement parent, SVGText f) throws IOException {
+    public void writeTextElement(XMLElement parent, SVGTextFigure f) throws IOException {
         
     }
-    public void writeTextAreaElement(XMLElement parent, SVGTextArea f) throws IOException {
+    public void writeTextAreaElement(XMLElement parent, SVGTextAreaFigure f) throws IOException {
         
     }
     // ------------

@@ -27,6 +27,8 @@ import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 /**
  * A text figure.
+ * <p>
+ * A DrawingEditor should provide the TextTool to create a TextFigure.
  *
  * @see TextTool
  *

@@ -37,14 +37,14 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * @author Werner Randelshofer
  * @version 1.0 July 8, 2006 Created.
  */
-public class SVGPath extends AbstractAttributedCompositeFigure implements SVGFigure {
+public class SVGPathFigure extends AbstractAttributedCompositeFigure implements SVGFigure {
     /**
      * This path is used for drawing.
      */
     private GeneralPath path;
     
     /** Creates a new instance. */
-    public SVGPath() {
+    public SVGPathFigure() {
         add(new BezierFigure());
        SVGConstants.setDefaults(this);
     }
@@ -243,12 +243,12 @@ public class SVGPath extends AbstractAttributedCompositeFigure implements SVGFig
         });
         actions.add(new AbstractAction(labels.getString("windingEvenOdd")) {
             public void actionPerformed(ActionEvent evt) {
-                WINDING_RULE.set(SVGPath.this, WindingRule.EVEN_ODD);
+                WINDING_RULE.set(SVGPathFigure.this, WindingRule.EVEN_ODD);
             }
         });
         actions.add(new AbstractAction(labels.getString("windingNonZero")) {
             public void actionPerformed(ActionEvent evt) {
-                WINDING_RULE.set(SVGPath.this, WindingRule.NON_ZERO);
+                WINDING_RULE.set(SVGPathFigure.this, WindingRule.NON_ZERO);
             }
         });
         return actions;

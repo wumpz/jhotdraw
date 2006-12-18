@@ -34,7 +34,7 @@ import org.jhotdraw.geom.*;
  * @author Werner Randelshofer
  * @version 1.0 July 8, 2006 Created.
  */
-public class SVGRect extends SVGAttributedFigure implements SVGFigure {
+public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
     private RoundRectangle2D.Double roundrect;
     /**
      * This is used to perform faster drawing.
@@ -46,13 +46,13 @@ public class SVGRect extends SVGAttributedFigure implements SVGFigure {
     private Shape cachedHitShape;
     
     /** Creates a new instance. */
-    public SVGRect() {
+    public SVGRectFigure() {
         this(0,0,0,0);
     }
-    public SVGRect(double x, double y, double width, double height) {
+    public SVGRectFigure(double x, double y, double width, double height) {
         this(x, y, width, height, 0, 0);
     }
-    public SVGRect(double x, double y, double width, double height, double rx, double ry) {
+    public SVGRectFigure(double x, double y, double width, double height, double rx, double ry) {
         roundrect = new RoundRectangle2D.Double(x, y, width, height, rx, ry);
        SVGConstants.setDefaults(this);
     }
@@ -210,7 +210,7 @@ public class SVGRect extends SVGAttributedFigure implements SVGFigure {
         if (TRANSFORM.get(this) != null) {
             actions.add(new AbstractAction(labels.getString("removeTransform")) {
                 public void actionPerformed(ActionEvent evt) {
-                    TRANSFORM.set(SVGRect.this, null);
+                    TRANSFORM.set(SVGRectFigure.this, null);
                 }
             });
         }
@@ -228,8 +228,8 @@ public class SVGRect extends SVGAttributedFigure implements SVGFigure {
     
     // COMPOSITE FIGURES
     // CLONING
-    public SVGRect clone() {
-        SVGRect that = (SVGRect) super.clone();
+    public SVGRectFigure clone() {
+        SVGRectFigure that = (SVGRectFigure) super.clone();
         that.roundrect = (RoundRectangle2D.Double) this.roundrect.clone();
         that.cachedTransformedShape = null;
         that.cachedHitShape = null;

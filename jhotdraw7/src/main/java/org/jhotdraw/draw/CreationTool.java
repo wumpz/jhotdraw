@@ -1,5 +1,5 @@
 /*
- * @(#)CreationTool.java  2.1.1  2006-07-20
+ * @(#)CreationTool.java  2.2  2006-12-14
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -10,12 +10,11 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-�
  */
 
 package org.jhotdraw.draw;
 
-import org.jhotdraw.undo.CompositeEdit;
+import org.jhotdraw.undo.*;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.event.*;
@@ -23,6 +22,24 @@ import java.util.*;
 /**
  * A tool to create new figures. The figure to be created is specified by a
  * prototype.
+ * <p>
+ * To create a figure using the CreationTool, the user does the following mouse
+ * gestures on a DrawingView:
+ * <ol>
+ * <li>Press the mouse button over the DrawingView. This defines the
+ * start point of the Figure bounds.</li>
+ * <li>Drag the mouse while keeping the mouse button pressed, and then release
+ * the mouse button. This defines the end point of the Figure bounds.</li>
+ * </ol>
+ * The CreationTool works well with most figures that fit into a rectangular 
+ * shape or that concist of a single straight line. For figures that need
+ * additional editing after these mouse gestures, the use of a specialized 
+ * creation tool is recommended. For example the TextTool allows to enter the
+ * text into a TextFigure after the user has performed the mouse gestures.
+ * <p>
+ * Alltough the mouse gestures might be fitting for the creation of a connection,
+ * the CreationTool is not suited for the creation of a ConnectionFigure. Use
+ * the ConnectionTool for this type of figures instead.
  *
  * @author Werner Randelshofer
  * @version 2.1.1 2006-07-20 Minimal size treshold was enforced too eagerly.
@@ -121,24 +138,6 @@ public class CreationTool extends AbstractTool {
         getDrawing().add(createdFigure);
     }
     
-    protected Figure createFigure() {
-        Figure f = (Figure) prototype.clone();
-        getEditor().applyDefaultAttributesTo(f);
-        if (attributes != null) {
-            for (Map.Entry<AttributeKey, Object> entry : attributes.entrySet()) {
-                f.setAttribute(entry.getKey(), entry.getValue());
-            }
-        }
-        return f;
-    }
-    
-    protected Figure getCreatedFigure() {
-        return createdFigure;
-    }
-    protected Figure getAddedFigure() {
-        return createdFigure;
-    }
-    
     public void mouseDragged(MouseEvent evt) {
         if (createdFigure != null) {
             Point2D.Double p = constrainPoint(new Point(evt.getX(), evt.getY()));
@@ -171,9 +170,37 @@ public class CreationTool extends AbstractTool {
             if (createdFigure instanceof CompositeFigure) {
                 ((CompositeFigure) createdFigure).layout();
             }
-            createdFigure = null;
             getDrawing().fireUndoableEditHappened(creationEdit);
-            fireToolDone();
+            creationFinished(createdFigure);
+            createdFigure = null;
         }
+    }
+
+    protected Figure createFigure() {
+        Figure f = (Figure) prototype.clone();
+        getEditor().applyDefaultAttributesTo(f);
+        if (attributes != null) {
+            for (Map.Entry<AttributeKey, Object> entry : attributes.entrySet()) {
+                f.setAttribute(entry.getKey(), entry.getValue());
+            }
+        }
+        return f;
+    }
+    
+    protected Figure getCreatedFigure() {
+        return createdFigure;
+    }
+    protected Figure getAddedFigure() {
+        return createdFigure;
+    }
+    
+
+    /**
+     * This method allows subclasses to do perform additonal user interactions
+     * after the new figure has been created.
+     * The implementation of this class just invokes fireToolDone.
+     */
+    protected void creationFinished(Figure createdFigure) {
+        fireToolDone();
     }
 }

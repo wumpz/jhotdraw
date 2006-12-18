@@ -29,22 +29,22 @@ import org.jhotdraw.xml.*;
 public class SVGFigureFactoryOld extends DefaultDOMFactory {
     private final static Object[][] classTagArray = {
         { SVGDrawing.class, "svg" },
-        { SVGGroup.class, "defs" }, 
-        { SVGGroup.class, "g" },
-        { SVGText.class, "text" },
-        { SVGRect.class, "rect" },
+        { SVGGroupFigure.class, "defs" }, 
+        { SVGGroupFigure.class, "g" },
+        { SVGTextFigure.class, "text" },
+        { SVGRectFigure.class, "rect" },
        // { SVGLine.class, "line" },
-        { SVGImage.class, "image" },
+        { SVGImageFigure.class, "image" },
         
         // SVC circle element is presented by an SVGEllipse figure
-        { SVGEllipse.class, "circle" },
-        { SVGEllipse.class, "ellipse" },
+        { SVGEllipseFigure.class, "circle" },
+        { SVGEllipseFigure.class, "ellipse" },
         
         // SVC polyline and polygon elements are presented by an 
         // SVGPath figure
-        { SVGPath.class, "polyline" },
-        { SVGPath.class, "polygon" },
-        { SVGPath.class, "path" },
+        { SVGPathFigure.class, "polyline" },
+        { SVGPathFigure.class, "polygon" },
+        { SVGPathFigure.class, "path" },
     };
     private final static Object[][] enumTagArray = {
     };

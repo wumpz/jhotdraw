@@ -53,7 +53,7 @@ public class LinearGradient implements Gradient {
     
     public Paint getPaint(Figure f) {
         if (stopColors.length == 0) {
-            return Color.black;
+            return Color.BLACK;
         }
         Point2D.Double p1;
         Point2D.Double p2;

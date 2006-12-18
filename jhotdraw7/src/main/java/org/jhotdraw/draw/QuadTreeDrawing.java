@@ -10,7 +10,6 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-�
  */
 
 package org.jhotdraw.draw;
@@ -24,8 +23,10 @@ import javax.swing.event.*;
 import org.jhotdraw.util.*;
 import java.util.*;
 /**
- * QuadTreeDrawing uses a QuadTree2DDouble to improve responsiveness of drawings which
- * contain many figures.
+ * QuadTreeDrawing uses a QuadTree2DDouble to improve responsiveness of drawings
+ * which contain many figures.
+ *
+ * FIXME - Rename this class to DefaultDrawingView.
  *
  * @author Werner Randelshofer
  * @version 2.0 2006-01-14 Changed to support double precision coordinates.
