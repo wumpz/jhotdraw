@@ -1,5 +1,5 @@
 /*
- * @(#)BezierPath.java  1.2  2006-12-09
+ * @(#)BezierPath.java  1.2.1  2007-01-05
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -28,18 +28,23 @@ import java.util.*;
  * away from C0.
  *
  * @author Werner Randelshofer
- * @version 1.2 2006-12-09 Method setWindingRule added.
+ * @version 1.2.1 Issue #1628647: Method splitSegment created incorrect control
+ * point masks.
+ * <br>1.2 2006-12-09 Method setWindingRule added.
  * <br>1.1 2006-03-22 Methods moveTo, lineTo and quadTo  added.
  * <br>1.0 January 20, 2006 Created.
  */
 public class BezierPath extends ArrayList<BezierPath.Node>
         implements Shape {
-    /** Constant for control point C1.
+    /** Constant for having only control point C0 in effect. */
+    public final static int C0_MASK = 0;
+    /** Constant for having control point C1 in effect (in addition
+     * to C0).
      * */
     public final static int C1_MASK = 1;
-    /** Constant for control point C2. */
+    /** Constant for having control point C2 in effect (in addition to C0). */
     public final static int C2_MASK = 2;
-    /** Convenience constant for control point C1 and C2. */
+    /** Constant for having control points C1 and C2 in effect (in addition to C0). */
     public final static int C1C2_MASK = C1_MASK | C2_MASK;
     
     /**
@@ -202,6 +207,19 @@ public class BezierPath extends ArrayList<BezierPath.Node>
             }
             buf.append(']');
             return buf.toString();
+        }
+        
+        public int hashCode() {
+            return mask | Arrays.hashCode(x) | Arrays.hashCode(y);
+        }
+        public boolean equals(Object o) {
+            if (o instanceof BezierPath.Node) {
+                BezierPath.Node that = (BezierPath.Node) o;
+            return that.mask == this.mask &&
+                    Arrays.equals(that.x, this.x) &&
+                    Arrays.equals(that.y, this.y);
+            }
+            return false;
         }
     }
     
@@ -749,9 +767,9 @@ public class BezierPath extends ArrayList<BezierPath.Node>
             } else if ((get(i).mask & C2_MASK) == 0 &&
                     (get(nextI).mask & C1_MASK) == C1_MASK) {
                 // quadto
-                add(i + 1, new Node(C2_MASK, split, split, split));
+                add(i + 1, new Node(C1_MASK, split, split, split));
             } else if ((get(i).mask & C2_MASK) == C2_MASK &&
-                    (get(nextI).mask & C1_MASK) == C2_MASK) {
+                    (get(nextI).mask & C1_MASK) == C1_MASK) {
                 // cubicto
                 add(i + 1, new Node(C1_MASK | C2_MASK, split, split, split));
             } else {
@@ -816,7 +834,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
     }
     /**
      * Gets winding rule for filling the bezier path.
-     * @Return GeneralPath.WIND_EVEN_ODD or GeneralPath.WIND_NON_ZERO.
+     * @return GeneralPath.WIND_EVEN_ODD or GeneralPath.WIND_NON_ZERO.
      */
     public int getWindingRule() {
         return windingRule;
