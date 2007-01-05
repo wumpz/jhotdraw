@@ -1,15 +1,15 @@
 /*
  * @(#)DefaultSVGFigureFactory.java  1.0  December 7, 2006
  *
- * Copyright (c) 2006 Werner Randelshofer
- * Staldenmattweg 2, CH-6405 Immensee, Switzerland
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of
- * Werner Randelshofer. ("Confidential Information").  You shall not
- * disclose such Confidential Information and shall use it only in
- * accordance with the terms of the license agreement you entered into
- * with Werner Randelshofer.
+ * JHotDraw.org ("Confidential Information"). You shall not disclose
+ * such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with
+ * JHotDraw.org.
  */
 
 package org.jhotdraw.samples.svg.io;
@@ -40,7 +40,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
         SVGRectFigure figure = new SVGRectFigure();
         figure.basicSetBounds(new Point2D.Double(x,y),new Point2D.Double(x+w,y+h));
         figure.setArc(rx, ry);
-        figure.setAttributes(a);
+        figure.basicSetAttributes(a);
         return figure;
     }
     
@@ -51,7 +51,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
     public Figure createEllipse(double cx, double cy, double rx, double ry, Map<AttributeKey, Object> a) {
         SVGEllipseFigure figure = new SVGEllipseFigure();
         figure.basicSetBounds(new Point2D.Double(cx-rx,cy-ry),new Point2D.Double(cx+rx,cy+ry));
-        figure.setAttributes(a);
+        figure.basicSetAttributes(a);
         return figure;
     }
     
@@ -64,7 +64,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
         bf.addNode(new BezierPath.Node(x1, y1));
         bf.addNode(new BezierPath.Node(x2, y2));
         figure.add(bf);
-        figure.setAttributes(a);
+        figure.basicSetAttributes(a);
         return figure;
     }
     
@@ -76,7 +76,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
             bf.addNode(new BezierPath.Node(points[i].x, points[i].y));
         }
         figure.add(bf);
-        figure.setAttributes(a);
+        figure.basicSetAttributes(a);
         return figure;
     }
     
@@ -89,7 +89,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
         }
         bf.setClosed(true);
         figure.add(bf);
-        figure.setAttributes(a);
+        figure.basicSetAttributes(a);
         return figure;
     }
     public Figure createPath(BezierPath[] beziers, Map<AttributeKey, Object> a) {
@@ -100,13 +100,13 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
             bf.basicSetBezierPath(beziers[i]);
             figure.add(bf);
         }
-        figure.setAttributes(a);
+        figure.basicSetAttributes(a);
         return figure;
     }
     
     public CompositeFigure createG(Map<AttributeKey, Object> a) {
         SVGGroupFigure figure = new SVGGroupFigure();
-        //figure.setAttributes(a);
+        //figure.basicSetAttributes(a);
         return figure;
     }
     
@@ -115,20 +115,20 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
         SVGImageFigure figure = new SVGImageFigure();
         figure.basicSetBounds(new Point2D.Double(x,y),new Point2D.Double(x+w,y+h));
         figure.setImage(imageData, bufferedImage);
-        figure.setAttributes(a);
+        figure.basicSetAttributes(a);
         return figure;
     }
     public Figure createTextArea(double x, double y, double w, double h, StyledDocument doc, Map<AttributeKey, Object> attributes) {
         SVGTextAreaFigure figure = new SVGTextAreaFigure();
         figure.basicSetBounds(new Point2D.Double(x,y),new Point2D.Double(x+w,y+h));
         try {
-            figure.setText(doc.getText(0, doc.getLength()));
+            figure.basicSetText(doc.getText(0, doc.getLength()));
         } catch (BadLocationException e) {
             InternalError ex = new InternalError(e.getMessage());
             ex.initCause(e);
             throw ex;
         }
-        figure.setAttributes(attributes);
+        figure.basicSetAttributes(attributes);
         return figure;
     }
     
@@ -137,13 +137,13 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
         figure.basicSetCoordinates(coordinates);
         figure.basicSetRotates(rotates);
         try {
-            figure.setText(text.getText(0, text.getLength()));
+            figure.basicSetText(text.getText(0, text.getLength()));
         } catch (BadLocationException e) {
             InternalError ex = new InternalError(e.getMessage());
             ex.initCause(e);
             throw ex;
         }
-        figure.setAttributes(a);
+        figure.basicSetAttributes(a);
         return figure;
     }
     

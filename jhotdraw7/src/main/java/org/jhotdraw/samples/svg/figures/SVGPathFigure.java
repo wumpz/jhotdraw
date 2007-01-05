@@ -24,6 +24,7 @@ import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.samples.svg.*;
+import org.jhotdraw.samples.svg.SVGConstants;
 import org.jhotdraw.util.*;
 import org.jhotdraw.xml.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
@@ -46,43 +47,31 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
     /** Creates a new instance. */
     public SVGPathFigure() {
         add(new BezierFigure());
-       SVGConstants.setDefaults(this);
+       SVGAttributeKeys.setDefaults(this);
     }
     
     public void drawFigure(Graphics2D g) {
         validatePath();
-        if (FILL_COLOR.get(this) != null || FILL_GRADIENT.get(this) != null) {
-            g.setColor(AttributeKeys.FILL_COLOR.get(this));
-            if (FILL_GRADIENT.get(this) != null) {
-                g.setPaint(FILL_GRADIENT.get(this).getPaint(this));
-            }
+        Paint paint = SVGAttributeKeys.getFillPaint(this);
+        if (paint != null) {
+            g.setPaint(paint);
             drawFill(g);
         }
-        if ((STROKE_COLOR.get(this) != null || STROKE_GRADIENT.get(this) != null) &&
-                STROKE_WIDTH.get(this) > 0) {
-            g.setStroke(AttributeKeys.getStroke(this));
-            g.setColor(STROKE_COLOR.get(this));
-            if (STROKE_GRADIENT.get(this) != null) {
-                g.setPaint(STROKE_GRADIENT.get(this).getPaint(this));
-            }
+        paint = SVGAttributeKeys.getStrokePaint(this);
+        if (paint != null) {
+            g.setPaint(paint);
+            g.setStroke(SVGAttributeKeys.getStroke(this));
             drawStroke(g);
         }
         if (isConnectorsVisible()) {
             drawConnectors(g);
         }
-        //g.drawString(this.toString()+" "+getChildCount(), (float) getBounds().x, (float) getBounds().y);
     }
     
     public void drawFill(Graphics2D g) {
-        if (getChildren().size() > 0 /*&&
-                ((BezierFigure) getChildren().get(0)).isClosed()*/) {
             g.fill(path);
-        }
     }
     public void drawStroke(Graphics2D g) {
-        if (STROKE_GRADIENT.get(this) != null) {
-            g.setPaint(STROKE_GRADIENT.get(this).getPaint(this));
-        }
         g.draw(path);
     }
     

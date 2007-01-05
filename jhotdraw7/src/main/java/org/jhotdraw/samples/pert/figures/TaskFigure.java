@@ -203,7 +203,7 @@ public class TaskFigure extends GraphicalCompositeFigure {
     }
     
     private void applyAttributes(Figure f) {
-        Map<AttributeKey,Object> attr = ((AttributedFigure) getPresentationFigure()).getAttributes();
+        Map<AttributeKey,Object> attr = ((AbstractAttributedFigure) getPresentationFigure()).getAttributes();
         for (Map.Entry<AttributeKey, Object> entry : attr.entrySet()) {
             f.setAttribute(entry.getKey(), entry.getValue());
         }

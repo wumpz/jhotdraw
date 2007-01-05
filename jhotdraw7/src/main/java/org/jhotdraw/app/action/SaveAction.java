@@ -1,15 +1,15 @@
 /*
  * @(#)SaveAction.java  1.2.1  2006-07-25
  *
- * Copyright (c) 2005-2006 Werner Randelshofer
- * Staldenmattweg 2, Immensee, CH-6405, Switzerland.
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of
- * Werner Randelshofer. ("Confidential Information").  You shall not
- * disclose such Confidential Information and shall use it only in
- * accordance with the terms of the license agreement you entered into
- * with Werner Randelshofer.
+ * JHotDraw.org ("Confidential Information"). You shall not disclose
+ * such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with
+ * JHotDraw.org.
  */
 
 package org.jhotdraw.app.action;
@@ -19,6 +19,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
 import org.jhotdraw.app.*;
+import org.jhotdraw.gui.Worker;
 import org.jhotdraw.io.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.gui.*;
@@ -116,15 +117,15 @@ public class SaveAction extends AbstractProjectAction {
                     multiOpenId = Math.max(multiOpenId, p.getMultipleOpenId() + 1);
                 }
             }
-               getApplication().addRecentFile(file);
+            getApplication().addRecentFile(file);
             project.setMultipleOpenId(multiOpenId);
         } else {
+            ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
             JSheet.showMessageSheet(project.getComponent(),
-            "<html>"+UIManager.getString("OptionPane.css")+
-            "<b>Couldn't save to the file \""+file+"\".<p>"+
-            "Reason: "+value,
-            JOptionPane.ERROR_MESSAGE
-            );
+                    "<html>"+UIManager.getString("OptionPane.css")+
+                    labels.getFormatted("couldntSave", file, value),
+                    JOptionPane.ERROR_MESSAGE
+                    );
         }
         project.setEnabled(true);
         SwingUtilities.getWindowAncestor(project.getComponent()).toFront();

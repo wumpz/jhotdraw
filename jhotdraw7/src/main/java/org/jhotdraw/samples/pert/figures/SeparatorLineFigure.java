@@ -20,7 +20,7 @@ import java.awt.*;
 import java.awt.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.draw.LineFigure;
-import org.jhotdraw.geom.Dimension2DDouble;
+import org.jhotdraw.geom.*;
 /**
  * A horizontal line with a preferred size of 1,1.
  *

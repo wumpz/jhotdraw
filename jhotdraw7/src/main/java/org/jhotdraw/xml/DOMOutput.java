@@ -107,7 +107,7 @@ public interface DOMOutput {
     /**
      * Returns a prototype for the object currently being written.
      * This can be used, to reduce the amount of data written to DOMOutput.
-     * i.e., by not writing object attributes, which have the same values
+     * For example, by not writing object attributes, which have the same values
      * as the prototype.
      */
     public Object getPrototype();

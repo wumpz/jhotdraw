@@ -67,6 +67,8 @@ public class JavaxDOMOutput implements DOMOutput {
     /** Creates a new instance. */
     public JavaxDOMOutput(DOMFactory factory) throws IOException {
         this.factory = factory;
+        }
+    protected void reset() throws IOException {
         try {
             objectids = new HashMap<Object,String>();
             document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
@@ -82,6 +84,7 @@ public class JavaxDOMOutput implements DOMOutput {
      * Writes the contents of the DOMOutput into the specified output stream.
      */
     public void save(OutputStream out) throws IOException {
+        reset();
         try {
             if (doctype != null) {
                 OutputStreamWriter w = new OutputStreamWriter(out, "UTF8");
@@ -102,6 +105,7 @@ public class JavaxDOMOutput implements DOMOutput {
      * Writes the contents of the DOMOutput into the specified output stream.
      */
     public void save(Writer out) throws IOException {
+        reset();
         try {
             if (doctype != null) {
                 out.write("<!DOCTYPE ");

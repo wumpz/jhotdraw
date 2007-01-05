@@ -58,7 +58,7 @@ public class EditorSample {
                 // Set up the drawing view
                 DrawingView view = new DefaultDrawingView();
                 view.setDrawing(drawing);
-                f.getContentPane().add(view.getJComponent());
+                f.getContentPane().add(view.getComponent());
                 
                 // Set up the drawing editor
                 DrawingEditor editor = new DefaultDrawingEditor();

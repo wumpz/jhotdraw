@@ -48,7 +48,6 @@ public class NodeFigure extends TextFigure {
         RectangleFigure rf = new RectangleFigure();
         setDecorator(rf);
         createConnectors();
-        setDrawDecoratorFirst(true);
         DECORATOR_INSETS.set(this, new Insets2D.Double(6,10,6,10));
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.net.Labels");
         setText(labels.getString("nodeDefaultName"));
@@ -81,8 +80,8 @@ public class NodeFigure extends TextFigure {
         return handles;
     }
     
-    @Override public Rectangle2D.Double getFigureDrawBounds() {
-        Rectangle2D.Double b = super.getFigureDrawBounds();
+    @Override public Rectangle2D.Double getFigureDrawingArea() {
+        Rectangle2D.Double b = super.getFigureDrawingArea();
         // Grow for connectors
         Geom.grow(b, 10d, 10d);
         return b;

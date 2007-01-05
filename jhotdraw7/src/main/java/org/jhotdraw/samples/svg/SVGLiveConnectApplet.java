@@ -16,6 +16,7 @@ package org.jhotdraw.samples.svg;
 
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
+import org.jhotdraw.gui.*;
 import org.jhotdraw.util.*;
 
 import java.awt.*;
@@ -63,7 +64,7 @@ public class SVGLiveConnectApplet extends JApplet {
         
         // We load the data using a worker thread
         // --------------------------------------
-        new SwingWorker() {
+        new Worker() {
             public Object construct() {
                 Object result;
                 try {
@@ -88,12 +89,11 @@ public class SVGLiveConnectApplet extends JApplet {
                 }
                 return result;
             }
-            public void finished() {
+            public void finished(Object result) {
                 Container c = getContentPane();
                 c.setLayout(new BorderLayout());
                 c.removeAll();
                 
-                Object result = getValue();
                 initComponents();
                 if (result != null) {
                     if (result instanceof Drawing) {

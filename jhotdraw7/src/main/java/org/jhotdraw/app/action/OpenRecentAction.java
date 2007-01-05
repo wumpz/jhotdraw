@@ -14,6 +14,7 @@
 
 package org.jhotdraw.app.action;
 
+import org.jhotdraw.gui.Worker;
 import org.jhotdraw.util.*;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.gui.event.*;
@@ -71,6 +72,7 @@ public class OpenRecentAction extends AbstractApplicationAction {
         final Application app = getApplication();
         app.setEnabled(true);
         
+        
         // If there is another project with we set the multiple open
         // id of our project to max(multiple open id) + 1.
         int multipleOpenId = 1;
@@ -82,6 +84,7 @@ public class OpenRecentAction extends AbstractApplicationAction {
             }
         }
         project.setMultipleOpenId(multipleOpenId);
+        project.setEnabled(false);
         
         // Open the file
         project.execute(new Worker() {

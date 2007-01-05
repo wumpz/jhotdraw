@@ -1,17 +1,17 @@
 /*
  * @(#)Worker.java  2.1  2005-10-16
  *
- * Copyright (c) 1998-2005 Werner Randelshofer
- * Staldenmattweg 2, Immensee, CH-6405, Switzerland.
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of
- * Werner Randelshofer. ("Confidential Information").  You shall not
- * disclose such Confidential Information and shall use it only in
- * accordance with the terms of the license agreement you entered into
- * with Werner Randelshofer.
+ * JHotDraw.org ("Confidential Information"). You shall not disclose
+ * such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with
+ * JHotDraw.org.
  */
-package org.jhotdraw.util;
+package org.jhotdraw.gui;
 
 import java.awt.ActiveEvent;
 import javax.swing.SwingUtilities;

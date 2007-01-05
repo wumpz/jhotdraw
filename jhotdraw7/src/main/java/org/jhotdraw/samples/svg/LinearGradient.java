@@ -1,15 +1,15 @@
 /*
  * @(#)LinearGradient.java  1.0  December 9, 2006
  *
- * Copyright (c) 2006 Werner Randelshofer
- * Staldenmattweg 2, CH-6405 Immensee, Switzerland
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of
- * Werner Randelshofer. ("Confidential Information").  You shall not
- * disclose such Confidential Information and shall use it only in
- * accordance with the terms of the license agreement you entered into
- * with Werner Randelshofer.
+ * JHotDraw.org ("Confidential Information"). You shall not disclose
+ * such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with
+ * JHotDraw.org.
  */
 
 package org.jhotdraw.samples.svg;
@@ -50,8 +50,30 @@ public class LinearGradient implements Gradient {
     public void setRelativeToFigureBounds(boolean b) {
         isRelativeToFigureBounds = b;
     }
+    public boolean isRelativeToFigureBounds() {
+        return isRelativeToFigureBounds;
+    }
     
-    public Paint getPaint(Figure f) {
+    public double getX1() {
+        return x1;
+    }
+    public double getY1() {
+        return y1;
+    }
+    public double getX2() {
+        return x2;
+    }
+    public double getY2() {
+        return y2;
+    }
+    public double[] getStopOffsets() {
+        return stopOffsets.clone();
+    }
+    public Color[] getStopColors() {
+        return stopColors.clone();
+    }
+    
+    public Paint getPaint(Figure f, double opacity) {
         if (stopColors.length == 0) {
             return Color.BLACK;
         }
@@ -72,14 +94,35 @@ public class LinearGradient implements Gradient {
         } else {
             p1 = new Point2D.Double(x1, y1);
             p2 = new Point2D.Double(x2, y2);
+            /*
+            Rectangle2D.Double bounds = f.getBounds();
+            p1 = new Point2D.Double(bounds.x, bounds.y);
+            p2 = new Point2D.Double(bounds.x + bounds.width, bounds.y + bounds.height);
+       */
         }
+        
         float[] fractions = new float[stopColors.length];
         for (int i=0; i < stopColors.length; i++) {
             fractions[i] = (float) stopOffsets[i];
         }
-        LinearGradientPaint gp = 
-                new LinearGradientPaint(p1, p2, fractions, stopColors);
+        org.apache.batik.ext.awt.LinearGradientPaint gp = 
+               new org.apache.batik.ext.awt.LinearGradientPaint(p1, p2, fractions, stopColors);
         return gp;
+    }
+    
+    public String toString() {
+        StringBuilder buf = new StringBuilder();
+        buf.append("LinearGradient@");
+        buf.append(hashCode());
+        buf.append('(');
+        for (int i=0; i < stopOffsets.length; i++) {
+            if (i != 0) buf.append(',');
+            buf.append(stopOffsets[i]);
+            buf.append('=');
+            buf.append(stopColors[i]);
+        }
+        buf.append(')');
+        return buf.toString();
     }
     
 }

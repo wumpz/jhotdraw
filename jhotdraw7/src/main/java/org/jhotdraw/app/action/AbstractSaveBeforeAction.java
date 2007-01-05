@@ -1,19 +1,20 @@
 /*
- * @(#)SaveBeforeAction.java  2.0  2006-06-15
+ * @(#)AbstractSaveBeforeAction.java  2.0  2006-06-15
  *
- * Copyright (c) 2005-2006 Werner Randelshofer
- * Staldenmattweg 2, Immensee, CH-6405, Switzerland.
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of
- * Werner Randelshofer. ("Confidential Information").  You shall not
- * disclose such Confidential Information and shall use it only in
- * accordance with the terms of the license agreement you entered into
- * with Werner Randelshofer.
+ * JHotDraw.org ("Confidential Information"). You shall not disclose
+ * such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with
+ * JHotDraw.org.
  */
 
 package org.jhotdraw.app.action;
 
+import org.jhotdraw.gui.Worker;
 import org.jhotdraw.io.*;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.gui.event.*;
@@ -42,11 +43,11 @@ import org.jhotdraw.app.Project;
  * <br>1.1 2006-05-03 Localized messages.
  * <br>1.0 27. September 2005 Created.
  */
-public abstract class SaveBeforeAction extends AbstractProjectAction {
+public abstract class AbstractSaveBeforeAction extends AbstractProjectAction {
     private Component oldFocusOwner;
     
     /** Creates a new instance. */
-    public SaveBeforeAction(Application app) {
+    public AbstractSaveBeforeAction(Application app) {
         super(app);
     }
     

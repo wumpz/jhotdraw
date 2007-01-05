@@ -181,7 +181,7 @@ public class DrawingPanel extends JPanel  {
         ToolBarButtonFactory.addSelectionToolTo(tb, editor, drawingActions, selectionActions);
         tb.addSeparator();
         
-        AttributedFigure af;
+        AbstractAttributedFigure af;
         CreationTool ct;
         ConnectionTool cnt;
         ConnectionFigure lc;
@@ -193,7 +193,7 @@ public class DrawingPanel extends JPanel  {
         ToolBarButtonFactory.addToolTo(tb, editor, new CreationTool(new TriangleFigure()), "createTriangle", labels);
         ToolBarButtonFactory.addToolTo(tb, editor, new CreationTool(new LineFigure()), "createLine", labels);
         ToolBarButtonFactory.addToolTo(tb, editor, ct = new CreationTool(new LineFigure()), "createArrow", labels);
-       af = (AttributedFigure) ct.getPrototype();
+       af = (AbstractAttributedFigure) ct.getPrototype();
         af.setAttribute(END_DECORATION, new ArrowTip(0.35, 12, 11.3));
         ToolBarButtonFactory.addToolTo(tb, editor, new ConnectionTool(new LineConnectionFigure()), "createLineConnection", labels);
         ToolBarButtonFactory.addToolTo(tb, editor, cnt = new ConnectionTool(new LineConnectionFigure()), "createElbowConnection", labels);

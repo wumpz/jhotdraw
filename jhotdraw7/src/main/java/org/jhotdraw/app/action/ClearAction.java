@@ -27,7 +27,7 @@ import org.jhotdraw.app.Project;
  * @author Werner Randelshofer
  * @version 1.0  2005-10-16 Created.
  */
-public class ClearAction extends SaveBeforeAction {
+public class ClearAction extends AbstractSaveBeforeAction {
     public final static String ID = "clear";
     
     /** Creates a new instance. */

@@ -16,6 +16,7 @@ package org.jhotdraw.samples.draw;
 
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
+import org.jhotdraw.gui.*;
 import org.jhotdraw.util.*;
 
 import java.awt.*;
@@ -75,13 +76,13 @@ public class DrawApplet extends JApplet {
         
         // We load the data using a worker thread
         // --------------------------------------
-        new SwingWorker() {
+        new Worker() {
             public Object construct() {
                 Object result;
                 try {
                         System.out.println("getParameter.datafile:"+getParameter("datafile"));
                     if (getParameter("data") != null) {
-                        NanoXMLLiteDOMInput domi = new NanoXMLLiteDOMInput(new DrawFigureFactory(), new StringReader(getParameter("data")));
+                        NanoXMLDOMInput domi = new NanoXMLDOMInput(new DrawFigureFactory(), new StringReader(getParameter("data")));
                         domi.openElement("PlasmaDraw");
                         result = domi.readObject(0);
                     } else if (getParameter("datafile") != null) {
@@ -89,7 +90,7 @@ public class DrawApplet extends JApplet {
                         try {
                             URL url = new URL(getDocumentBase(), getParameter("datafile"));
                             in = url.openConnection().getInputStream();
-                            NanoXMLLiteDOMInput domi = new NanoXMLLiteDOMInput(new DrawFigureFactory(), in);
+                            NanoXMLDOMInput domi = new NanoXMLDOMInput(new DrawFigureFactory(), in);
                             domi.openElement("PlasmaDraw");
                             result = domi.readObject(0);
                         } finally {
@@ -103,9 +104,9 @@ public class DrawApplet extends JApplet {
                 }
                 return result;
             }
-            public void finished() {
-                if (getValue() instanceof Throwable) {
-                    ((Throwable) getValue()).printStackTrace();
+            public void finished(Object value) {
+                if (value instanceof Throwable) {
+                    ((Throwable) value).printStackTrace();
                 }
                 Container c = getContentPane();
                 c.setLayout(new BorderLayout());
@@ -141,7 +142,7 @@ public class DrawApplet extends JApplet {
         if (text != null && text.length() > 0) {
             StringReader in = new StringReader(text);
             try {
-                NanoXMLLiteDOMInput domi = new NanoXMLLiteDOMInput(new DrawFigureFactory(), in);
+                NanoXMLDOMInput domi = new NanoXMLDOMInput(new DrawFigureFactory(), in);
                 domi.openElement("PlasmaDraw");
                 
                 setDrawing((Drawing) domi.readObject(0));
@@ -160,7 +161,7 @@ public class DrawApplet extends JApplet {
     public String getData() {
         CharArrayWriter out = new CharArrayWriter();
         try {
-            NanoXMLLiteDOMOutput domo = new NanoXMLLiteDOMOutput(new DrawFigureFactory());
+            NanoXMLDOMOutput domo = new NanoXMLDOMOutput(new DrawFigureFactory());
             domo.openElement("PlasmaDraw");
             domo.writeObject(getDrawing());
             domo.closeElement();

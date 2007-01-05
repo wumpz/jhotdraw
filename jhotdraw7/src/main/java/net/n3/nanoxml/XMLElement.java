@@ -1058,7 +1058,7 @@ public class XMLElement implements IXMLElement, Serializable {
     /**
      * Returns true if the element equals another element.
      *
-     * @param rawElement the element to compare to
+     * @param elt the element to compare to
      */
     public boolean equalsXMLElement(IXMLElement elt) {
         if (! this.name.equals(elt.getName())) {

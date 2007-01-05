@@ -20,6 +20,7 @@ import java.io.*;
 import java.util.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.samples.svg.*;
+import org.jhotdraw.samples.svg.SVGConstants;
 import org.jhotdraw.xml.*;
 /**
  * SVGGroup.
@@ -31,7 +32,7 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
     
     /** Creates a new instance. */
     public SVGGroupFigure() {
-        SVGConstants.setDefaults(this);
+        SVGAttributeKeys.setDefaults(this);
     }
 /*
     public void drawFigure(Graphics2D g) {

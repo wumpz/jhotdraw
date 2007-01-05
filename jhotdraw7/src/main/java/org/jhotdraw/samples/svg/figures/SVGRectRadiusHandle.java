@@ -78,4 +78,7 @@ public class SVGRectRadiusHandle extends AbstractHandle {
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         view.getDrawing().fireUndoableEditHappened(edit);
     }
+    public String getToolTipText(Point p) {
+        return ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels").getString("roundRectRadiusHandle.tip");
+        }
 }

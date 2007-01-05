@@ -284,10 +284,12 @@ abstract class MultipleGradientPaintContext implements PaintContext {
         this.cycleMethod = cycleMethod;
         this.colorSpace = colorSpace;
 
+        // PATCH Werner Randelshofer: ColorModel can be null!
+        
         // Setup an example Model, we may refine it later.
-        if (cm.getColorSpace() == lrgbmodel_A.getColorSpace())
+        if (cm != null && cm.getColorSpace() == lrgbmodel_A.getColorSpace())
             dataModel = lrgbmodel_A;
-        else if (cm.getColorSpace() == srgbmodel_A.getColorSpace())
+        else if (cm == null || cm.getColorSpace() == srgbmodel_A.getColorSpace())
             dataModel = srgbmodel_A;
         else
             throw new IllegalArgumentException
@@ -296,7 +298,7 @@ abstract class MultipleGradientPaintContext implements PaintContext {
         calculateGradientFractions(loColors, hiColors);
 
         model = GraphicsUtil.coerceColorModel(dataModel,
-                                              cm.isAlphaPremultiplied());
+                                             cm != null && cm.isAlphaPremultiplied());
     }
 
 

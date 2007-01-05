@@ -35,7 +35,7 @@ public class NetFactory extends DefaultDOMFactory {
         { TextAreaFigure.class, "ta" },
         
         { LocatorConnector.class, "locConnect" },
-        { ChopBoxConnector.class, "rectConnect" },
+        { ChopRectangleConnector.class, "rectConnect" },
         { ArrowTip.class, "arrowTip" },
         { Insets2D.Double.class, "insets" },
         { RelativeLocator.class, "relativeLoc" },

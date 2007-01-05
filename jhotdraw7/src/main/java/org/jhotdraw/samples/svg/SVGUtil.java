@@ -19,7 +19,7 @@ import java.awt.geom.*;
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
-import net.n3.nanoxml.IXMLElement;
+//import net.n3.nanoxml.IXMLElement;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.samples.svg.figures.*;
@@ -410,7 +410,7 @@ public class SVGUtil {
         return Double.parseDouble(str) * scaleFactor;
     }
     
-    
+/*    
     public static double getDimension(IXMLElement elem, String attributeName) throws IOException {
         return getDimensionFromValue(elem, elem.getAttribute(attributeName, "0"));
     }
@@ -450,7 +450,7 @@ public class SVGUtil {
     public static double getDimensionFromStyle(IXMLElement elem, String styleName) throws IOException {
         return 1d;
     }
-    
+  */  
     public static List<BezierPath> getPath(DOMInput in, String attributeName) throws IOException {
         return fromPathData(in.getAttribute(attributeName, ""));
     }

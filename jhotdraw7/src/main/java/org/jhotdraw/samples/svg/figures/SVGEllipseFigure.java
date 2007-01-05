@@ -24,6 +24,7 @@ import org.jhotdraw.draw.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.samples.svg.*;
+import org.jhotdraw.samples.svg.SVGConstants;
 import org.jhotdraw.xml.*;
 import org.jhotdraw.util.*;
 /**
@@ -46,7 +47,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     
     public SVGEllipseFigure(double x, double y, double width, double height) {
         ellipse = new Ellipse2D.Double(x, y, width, height);
-       SVGConstants.setDefaults(this);
+       SVGAttributeKeys.setDefaults(this);
     }
     
     // DRAWING
@@ -118,7 +119,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
         if (TRANSFORM.get(this) != null ||
                 (tx.getType() & (AffineTransform.TYPE_TRANSLATION | AffineTransform.TYPE_MASK_SCALE)) != tx.getType()) {
             if (TRANSFORM.get(this) == null) {
-                TRANSFORM.set(this, (AffineTransform) tx.clone());
+                TRANSFORM.basicSet(this, (AffineTransform) tx.clone());
             } else {
                 TRANSFORM.get(this).preConcatenate(tx);
             }
@@ -131,12 +132,22 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
                     );
         }
     }
-    public void restoreTo(Object geometry) {
-        TRANSFORM.set(this, (geometry == null) ? null : (AffineTransform) ((AffineTransform) geometry).clone());
+    public void restoreTransformTo(Object geometry) {
+            invalidateTransformedShape();
+            Object[] o = (Object[]) geometry;
+            ellipse = (Ellipse2D.Double) ((Ellipse2D.Double) o[0]).clone();
+            if (o[1] == null) {
+                TRANSFORM.set(this, null);
+            } else {
+            TRANSFORM.set(this, (AffineTransform) ((AffineTransform) o[1]).clone());
+            }
     }
     
-    public Object getRestoreData() {
-        return TRANSFORM.get(this) == null ? new AffineTransform() : TRANSFORM.get(this).clone();
+    public Object getTransformRestoreData() {
+        return new Object[] {
+            ellipse.clone(),
+            TRANSFORM.get(this)
+        };
     }
     
     

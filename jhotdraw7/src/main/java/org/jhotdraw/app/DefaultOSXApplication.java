@@ -1,7 +1,7 @@
 /*
- * @(#)DefaultOSXApplication.java  1.0  October 4, 2005
+ * @(#)DefaultOSXApplication.java  1.0.1  2007-01-02
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -16,6 +16,7 @@ package org.jhotdraw.app;
 
 import org.jhotdraw.app.action.OSXDropOnDockAction;
 import ch.randelshofer.quaqua.*;
+import org.jhotdraw.app.action.PrintAction;
 import org.jhotdraw.util.*;
 import org.jhotdraw.util.prefs.*;
 import java.util.*;
@@ -25,29 +26,7 @@ import java.beans.*;
 import java.awt.*;
 import javax.swing.*;
 import java.io.*;
-import org.jhotdraw.app.action.AboutAction;
-import org.jhotdraw.app.action.Actions;
-import org.jhotdraw.app.action.ClearRecentFilesAction;
-import org.jhotdraw.app.action.CloseAction;
-import org.jhotdraw.app.action.CopyAction;
-import org.jhotdraw.app.action.CutAction;
-import org.jhotdraw.app.action.DeleteAction;
-import org.jhotdraw.app.action.DuplicateAction;
-import org.jhotdraw.app.action.ExitAction;
-import org.jhotdraw.app.action.ExportAction;
-import org.jhotdraw.app.action.FocusAction;
-import org.jhotdraw.app.action.MaximizeAction;
-import org.jhotdraw.app.action.MinimizeAction;
-import org.jhotdraw.app.action.NewAction;
-import org.jhotdraw.app.action.OSXTogglePaletteAction;
-import org.jhotdraw.app.action.OpenAction;
-import org.jhotdraw.app.action.OpenRecentAction;
-import org.jhotdraw.app.action.PasteAction;
-import org.jhotdraw.app.action.RedoAction;
-import org.jhotdraw.app.action.SaveAction;
-import org.jhotdraw.app.action.SaveAsAction;
-import org.jhotdraw.app.action.SelectAllAction;
-import org.jhotdraw.app.action.UndoAction;
+import org.jhotdraw.app.action.*;
 /**
  * A DefaultOSXApplication can handle the life cycle of multiple document windows each
  * being presented in a JFrame of its own.  The application provides all the
@@ -123,7 +102,9 @@ import org.jhotdraw.app.action.UndoAction;
  * </pre>
  *
  * @author Werner Randelshofer
- * @version 1.0 October 4, 2005 Created.
+ * @version 1.0.1 2007-01-02 Floating palettes disappear now if the application
+ * looses the focus.
+ * 1.0 October 4, 2005 Created.
  */
 public class DefaultOSXApplication extends AbstractApplication {
     private OSXPaletteHandler paletteHandler;
@@ -140,6 +121,7 @@ public class DefaultOSXApplication extends AbstractApplication {
         prefs = Preferences.userNodeForPackage((getModel() == null) ? getClass() : getModel().getClass());
         initLookAndFeel();
         paletteHandler = new OSXPaletteHandler(this);
+        
         initLabels();
         initApplicationActions();
         paletteActions = new LinkedList<Action>();
@@ -176,6 +158,7 @@ public class DefaultOSXApplication extends AbstractApplication {
         mo.putAction(ClearRecentFilesAction.ID, new ClearRecentFilesAction(this));
         mo.putAction(SaveAction.ID, new SaveAction(this));
         mo.putAction(SaveAsAction.ID, new SaveAsAction(this));
+        mo.putAction(PrintAction.ID, new PrintAction(this));
         mo.putAction(CloseAction.ID, new CloseAction(this));
         
         mo.putAction(UndoAction.ID, new UndoAction(this));
@@ -318,6 +301,10 @@ public class DefaultOSXApplication extends AbstractApplication {
             mi = m.add(model.getAction(ExportAction.ID));
             mi.setIcon(null);
         }
+        if (model.getAction(PrintAction.ID) != null) {
+        m.addSeparator();
+        m.add(model.getAction(PrintAction.ID));
+        }
         mb.add(m);
         
         m = new JMenu();
@@ -439,6 +426,7 @@ public class DefaultOSXApplication extends AbstractApplication {
         ApplicationModel model = getModel();
         net.roydesign.app.Application mrjapp = net.roydesign.app.Application.getInstance();
         mrjapp.setFramelessJMenuBar(createMenuBar(null));
+      paletteHandler.add(SwingUtilities.getWindowAncestor(mrjapp.getFramelessJMenuBar()), null);
         
         mrjapp.getAboutJMenuItem().setAction(model.getAction(AboutAction.ID));
         mrjapp.getQuitJMenuItem().setAction(model.getAction(ExitAction.ID));

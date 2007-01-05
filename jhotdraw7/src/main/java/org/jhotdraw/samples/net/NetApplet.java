@@ -16,6 +16,7 @@ package org.jhotdraw.samples.net;
 
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
+import org.jhotdraw.gui.*;
 import org.jhotdraw.util.*;
 
 import java.awt.*;
@@ -76,20 +77,20 @@ public class NetApplet extends JApplet {
         
         // We load the data using a worker thread
         // --------------------------------------
-        new SwingWorker() {
+        new Worker() {
             public Object construct() {
                 Object result;
                 try {
                         System.out.println("getParameter.datafile:"+getParameter("datafile"));
                     if (getParameter("data") != null) {
-                        NanoXMLLiteDOMInput domi = new NanoXMLLiteDOMInput(new NetFactory(), new StringReader(getParameter("data")));
+                        NanoXMLDOMInput domi = new NanoXMLDOMInput(new NetFactory(), new StringReader(getParameter("data")));
                         result = domi.readObject(0);
                     } else if (getParameter("datafile") != null) {
                         InputStream in = null;
                         try {
                             URL url = new URL(getDocumentBase(), getParameter("datafile"));
                             in = url.openConnection().getInputStream();
-                            NanoXMLLiteDOMInput domi = new NanoXMLLiteDOMInput(new NetFactory(), in);
+                            NanoXMLDOMInput domi = new NanoXMLDOMInput(new NetFactory(), in);
                             result = domi.readObject(0);
                         } finally {
                             if (in != null) in.close();
@@ -102,16 +103,15 @@ public class NetApplet extends JApplet {
                 }
                 return result;
             }
-            public void finished() {
-                if (getValue() instanceof Throwable) {
-                    ((Throwable) getValue()).printStackTrace();
+            public void finished(Object result) {
+                if (result instanceof Throwable) {
+                    ((Throwable) result).printStackTrace();
                 }
                 Container c = getContentPane();
                 c.setLayout(new BorderLayout());
                 c.removeAll();
                 c.add(drawingPanel = new NetPanel());
                 
-                Object result = getValue();
                 initComponents();
                 if (result != null) {
                     if (result instanceof Drawing) {
@@ -140,7 +140,7 @@ public class NetApplet extends JApplet {
         if (text != null && text.length() > 0) {
             StringReader in = new StringReader(text);
             try {
-                NanoXMLLiteDOMInput domi = new NanoXMLLiteDOMInput(new NetFactory(), in);
+                NanoXMLDOMInput domi = new NanoXMLDOMInput(new NetFactory(), in);
                 domi.openElement("Net");
                 
                 setDrawing((Drawing) domi.readObject(0));
@@ -159,7 +159,7 @@ public class NetApplet extends JApplet {
     public String getData() {
         CharArrayWriter out = new CharArrayWriter();
         try {
-            NanoXMLLiteDOMOutput domo = new NanoXMLLiteDOMOutput(new NetFactory());
+            NanoXMLDOMOutput domo = new NanoXMLDOMOutput(new NetFactory());
             domo.openElement("Net");
             domo.writeObject(getDrawing());
             domo.closeElement();

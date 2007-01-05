@@ -14,6 +14,7 @@
 
 package org.jhotdraw.app.action;
 
+import org.jhotdraw.gui.Worker;
 import org.jhotdraw.util.*;
 
 //import net.roydesign.app.*;

@@ -77,7 +77,7 @@ public class LabeledLineConnectionFigureSample {
                 
                 DrawingView view = new DefaultDrawingView();
                 view.setDrawing(drawing);
-                f.getContentPane().add(view.getJComponent());
+                f.getContentPane().add(view.getComponent());
                 
                 f.show();
             }

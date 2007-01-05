@@ -39,12 +39,14 @@ public abstract class AbstractProjectAction extends AbstractAction {
     private PropertyChangeListener applicationListener = new PropertyChangeListener() {
         public void propertyChange(PropertyChangeEvent evt) {
             if (evt.getPropertyName() == "currentProject") { // Strings get interned
+//System.out.println("AbstractProjectAction.propertyChange "+evt.getPropertyName()+" "+evt.getNewValue());            
                 updateProject((Project) evt.getOldValue(), (Project) evt.getNewValue());
             }
         }
     };
     private PropertyChangeListener projectListener = new PropertyChangeListener() {
         public void propertyChange(PropertyChangeEvent evt) {
+//System.out.println("AbstractProjectAction.propertyChange "+evt.getPropertyName()+" "+evt.getNewValue());            
             if (evt.getPropertyName() == "enabled") { // Strings get interned
                 updateEnabled((Boolean) evt.getOldValue(), (Boolean) evt.getNewValue());
             }
@@ -54,6 +56,7 @@ public abstract class AbstractProjectAction extends AbstractAction {
     /** Creates a new instance. */
     public AbstractProjectAction(Application app) {
         this.app = app;
+        this.enabled = true;
         if (app != null) {
             app.addPropertyChangeListener(applicationListener);
             updateProject(null, app.getCurrentProject());
@@ -94,8 +97,8 @@ public abstract class AbstractProjectAction extends AbstractAction {
      * state of the project.
      */
     protected void updateEnabled(boolean oldValue, boolean newValue) {
-        setEnabled(super.isEnabled());
-        firePropertyChange("projectEnabled", oldValue, newValue);
+       // System.out.println("AbstractProjectAction updateEnabled"+oldValue+","+newValue);
+        firePropertyChange("enabled", oldValue, newValue);
     }
     
     public Application getApplication() {
@@ -114,7 +117,9 @@ public abstract class AbstractProjectAction extends AbstractAction {
      * @see Action#isEnabled
      */
     @Override public boolean isEnabled() {
-        return getCurrentProject() != null && getCurrentProject().isEnabled() || super.isEnabled();
+        return getCurrentProject() != null && 
+                getCurrentProject().isEnabled() &&
+                this.enabled;
     }
     
     /**

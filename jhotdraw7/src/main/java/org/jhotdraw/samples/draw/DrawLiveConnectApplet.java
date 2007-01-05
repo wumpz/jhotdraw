@@ -16,7 +16,7 @@ package org.jhotdraw.samples.draw;
 
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.TextFigure;
-import org.jhotdraw.draw.action.SwingWorker;
+import org.jhotdraw.gui.*;
 import org.jhotdraw.util.*;
 
 import java.awt.*;
@@ -64,12 +64,12 @@ public class DrawLiveConnectApplet extends JApplet {
         
         // We load the data using a worker thread
         // --------------------------------------
-        new SwingWorker() {
+        new Worker() {
             public Object construct() {
                 Object result;
                 try {
                     if (getParameter("data") != null && getParameter("data").length() > 0) {
-                        NanoXMLLiteDOMInput domi = new NanoXMLLiteDOMInput(new DrawFigureFactory(), new StringReader(getParameter("data")));
+                        NanoXMLDOMInput domi = new NanoXMLDOMInput(new DrawFigureFactory(), new StringReader(getParameter("data")));
                         domi.openElement("PlasmaDraw");
                         result = domi.readObject(0);
                     } else if (getParameter("datafile") != null) {
@@ -77,7 +77,7 @@ public class DrawLiveConnectApplet extends JApplet {
                         try {
                             URL url = new URL(getDocumentBase(), getParameter("datafile"));
                             in = url.openConnection().getInputStream();
-                            NanoXMLLiteDOMInput domi = new NanoXMLLiteDOMInput(new DrawFigureFactory(), in);
+                            NanoXMLDOMInput domi = new NanoXMLDOMInput(new DrawFigureFactory(), in);
                             domi.openElement("PlasmaDraw");
                             result = domi.readObject(0);
                         } finally {
@@ -91,12 +91,11 @@ public class DrawLiveConnectApplet extends JApplet {
                 }
                 return result;
             }
-            public void finished() {
+            public void finished(Object result) {
                 Container c = getContentPane();
                 c.setLayout(new BorderLayout());
                 c.removeAll();
                 
-                Object result = getValue();
                 initComponents();
                 if (result != null) {
                     if (result instanceof Drawing) {
@@ -146,7 +145,7 @@ public class DrawLiveConnectApplet extends JApplet {
         if (text != null && text.length() > 0) {
             StringReader in = new StringReader(text);
             try {
-                NanoXMLLiteDOMInput domi = new NanoXMLLiteDOMInput(new DrawFigureFactory(), in);
+                NanoXMLDOMInput domi = new NanoXMLDOMInput(new DrawFigureFactory(), in);
                 domi.openElement("PlasmaDraw");
                 
                 setDrawing((Drawing) domi.readObject(0));
@@ -165,7 +164,7 @@ public class DrawLiveConnectApplet extends JApplet {
     public String getData() {
         CharArrayWriter out = new CharArrayWriter();
         try {
-            NanoXMLLiteDOMOutput domo = new NanoXMLLiteDOMOutput(new DrawFigureFactory());
+            NanoXMLDOMOutput domo = new NanoXMLDOMOutput(new DrawFigureFactory());
             domo.openElement("PlasmaDraw");
             domo.writeObject(getDrawing());
             domo.closeElement();

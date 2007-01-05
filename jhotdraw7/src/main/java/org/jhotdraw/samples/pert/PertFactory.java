@@ -35,7 +35,7 @@ public class PertFactory extends DefaultDOMFactory {
         { TextAreaFigure.class, "ta" },
         { SeparatorLineFigure.class, "separator" },
         
-        { ChopBoxConnector.class, "rectConnector" },
+        { ChopRectangleConnector.class, "rectConnector" },
         { ArrowTip.class, "arrowTip" }
     };
     

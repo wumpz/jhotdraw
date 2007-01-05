@@ -42,9 +42,9 @@ public class DrawFigureFactory extends DefaultDOMFactory {
         { GroupFigure.class, "g" },
         
         { ArrowTip.class, "arrowTip" },
-        { ChopBoxConnector.class, "rConnector" },
+        { ChopRectangleConnector.class, "rConnector" },
         { ChopEllipseConnector.class, "ellipseConnector" },
-        { ChopRoundRectConnector.class, "rrConnector" },
+        { ChopRoundRectangleConnector.class, "rrConnector" },
         { ChopTriangleConnector.class, "triangleConnector" },
         { ChopDiamondConnector.class, "diamondConnector" },
         { ChopBezierConnector.class, "bezierConnector" },

@@ -1,36 +1,44 @@
 /*
  * @(#)SVGInputFormat.java  0.1  November 25, 2006
  *
- * Copyright (c) 2006 Werner Randelshofer
- * Staldenmattweg 2, CH-6405 Immensee, Switzerland
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of
- * Werner Randelshofer. ("Confidential Information").  You shall not
- * disclose such Confidential Information and shall use it only in
- * accordance with the terms of the license agreement you entered into
- * with Werner Randelshofer.
+ * JHotDraw.org ("Confidential Information"). You shall not disclose
+ * such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with
+ * JHotDraw.org.
  */
 
 package org.jhotdraw.samples.svg.io;
 
 import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.geom.*;
 import java.awt.image.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import javax.imageio.ImageIO;
+import javax.imageio.*;
 import javax.swing.*;
 import javax.swing.text.*;
-import org.jhotdraw.draw.*;
 import net.n3.nanoxml.*;
+import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.InputFormat;
+import org.jhotdraw.xml.css.StyleManager;
+import org.jhotdraw.xml.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.io.*;
 import org.jhotdraw.samples.svg.*;
 import org.jhotdraw.samples.svg.figures.*;
 import static org.jhotdraw.samples.svg.SVGConstants.*;
-import org.jhotdraw.xml.*;
+import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
+import org.jhotdraw.xml.css.CSSParser;
+
 
 /**
  * SVGInputFormat.
@@ -45,11 +53,11 @@ import org.jhotdraw.xml.*;
 public class SVGInputFormat implements InputFormat {
     private SVGFigureFactory factory;
     private URL url;
-    private final static HashMap<String,SVGAttributeKeys.WindingRule> fillRuleMap;
+    private final static HashMap<String,WindingRule> fillRuleMap;
     static {
-        fillRuleMap = new HashMap<String, SVGAttributeKeys.WindingRule>();
-        fillRuleMap.put("nonzero", SVGAttributeKeys.WindingRule.NON_ZERO);
-        fillRuleMap.put("evenodd", SVGAttributeKeys.WindingRule.EVEN_ODD);
+        fillRuleMap = new HashMap<String, WindingRule>();
+        fillRuleMap.put("nonzero", WindingRule.NON_ZERO);
+        fillRuleMap.put("evenodd", WindingRule.EVEN_ODD);
     }
     private final static HashMap<String,Integer> strokeLinecapMap;
     static {
@@ -82,12 +90,12 @@ public class SVGInputFormat implements InputFormat {
         relativeFontSizeMap.put("larger", 1.2);
         relativeFontSizeMap.put("smaller",0.83333333);
     }
-    private final static HashMap<String,SVGAttributeKeys.TextAnchor> textAnchorMap;
+    private final static HashMap<String,TextAnchor> textAnchorMap;
     static {
-        textAnchorMap = new HashMap<String, SVGAttributeKeys.TextAnchor>();
-        textAnchorMap.put("start", SVGAttributeKeys.TextAnchor.START);
-        textAnchorMap.put("middle", SVGAttributeKeys.TextAnchor.MIDDLE);
-        textAnchorMap.put("end", SVGAttributeKeys.TextAnchor.END);
+        textAnchorMap = new HashMap<String, TextAnchor>();
+        textAnchorMap.put("start", TextAnchor.START);
+        textAnchorMap.put("middle", TextAnchor.MIDDLE);
+        textAnchorMap.put("end", TextAnchor.END);
     }
     
     /**
@@ -99,28 +107,76 @@ public class SVGInputFormat implements InputFormat {
      */
     public HashMap<IXMLElement,Object> elementObjects;
     
-    /**
-     * Factor for percent values on the x-axis (width) in the user coordinate system.
-     */
-    private double widthPercentFactor = 1d;
-    /**
-     * Factor for percent values on the y-axis (height) in the user coordinate system.
-     */
-    private double heightPercentFactor = 1d;
     
     /**
-     * Factor for length values on the x-axis (width) in the user coordinate system.
+     * Each SVG element establishes a new Viewport.
      */
-    private double widthFactor = 1d;
-    /**
-     * Factor for length values on the y-axis (height) in the user coordinate sytem.
-     */
-    private double heightFactor = 1d;
-    /**
-     * Factor for number values in the user coordinate system.
-     */
-    private double numberFactor = 1d;
+    private static class Viewport {
+        /**
+         * The width of the Viewport.
+         */
+        public double width = 640d;
+        /**
+         * The height of the Viewport.
+         */
+        public double height = 480d;
+        
+        /**
+         * The viewBox specifies the coordinate system within the Viewport.
+         */
+        public Rectangle2D.Double viewBox = new Rectangle2D.Double(0d,0d,640d,480d);
+        
+        /**
+         * Factor for percent values relative to Viewport width.
+         */
+        public double widthPercentFactor = 640d / 100d;
+        /**
+         * Factor for percent values relative to Viewport height.
+         */
+        public double heightPercentFactor = 480d / 100d;
+        
+        /**
+         * Factor for number values in the user coordinate system.
+         * This is the smaller value of width / viewBox.width and height / viewBox.height.
+         */
+        public double numberFactor;
+        
+        /**
+         * http://www.w3.org/TR/SVGMobile12/coords.html#PreserveAspectRatioAttribute
+         * XXX - use a more sophisticated variable here
+         */
+        public boolean isPreserveAspectRatio = true;
+        
+        
+        public String toString() {
+            return "widthPercentFactor:"+widthPercentFactor+";"+
+                    "heightPercentFactor:"+heightPercentFactor+";" +
+                    "numberFactor:"+numberFactor;
+        }
+        
+    }
     
+    /**
+     * Each SVG element creates a new Viewport that we store
+     * here.
+     */
+    private Stack<Viewport> viewportStack;
+    
+    /**
+     * Holds the style manager used for applying cascading style sheet CSS rules
+     * to the document.
+     */
+    private StyleManager styleManager;
+    
+    /**
+     * Holds the figures that are currently being read.
+     */
+    private LinkedList<Figure> figures;
+    
+    /**
+     * Holds the document that is currently being read.
+     */
+    private IXMLElement document;
     
     /** Creates a new instance. */
     public SVGInputFormat() {
@@ -130,102 +186,82 @@ public class SVGInputFormat implements InputFormat {
         this.factory = factory;
     }
     
-    public void read(URL url, InputStream in, Drawing drawing, LinkedList<Figure> figures) throws IOException {
-        this.url = url;
+    public LinkedList<Figure> readFigures(InputStream in) throws IOException {
+        long start = System.currentTimeMillis();
+        this.figures = new LinkedList<Figure>();
+        IXMLParser parser;
         try {
-            IXMLElement elem;
-            IXMLParser parser = XMLParserFactory.createDefaultXMLParser();
-            IXMLReader reader = new StdXMLReader(in);
-            parser.setReader(reader);
-            elem = (IXMLElement) parser.parse();
-            
-            // Search for the first 'svg' element in the XML document
-            // in preorder sequence
-            Stack<Iterator> stack = new Stack<Iterator>();
-            LinkedList<IXMLElement> ll = new LinkedList<IXMLElement>();
-            ll.add(elem);
-            stack.push(ll.iterator());
-            //stack.push(elem.iterateChildren());
-            while (!stack.empty() && stack.peek().hasNext()) {
-                Iterator iter = stack.peek();
-                IXMLElement node = (IXMLElement)iter.next();
-                Iterator children = node.iterateChildren();
-                
-                if (! iter.hasNext()) {
-                    stack.pop();
-                }
-                if (children.hasNext()) {
-                    stack.push(children);
-                }
-                if (node.getName() != null &&
-                        node.getName().equals("svg") &&
-                        (node.getNamespace() == null ||
-                        node.getNamespace().equals(SVG_NAMESPACE))) {
-                    elem = node;
-                    break;
-                }
-            }
-            
-            if (elem.getName() == null ||
-                    ! elem.getName().equals("svg") ||
-                    (elem.getNamespace() != null &&
-                    ! elem.getNamespace().equals(SVG_NAMESPACE))) {
-                throw new IOException("'svg' element expected: "+elem.getName()+" line: "+elem.getLineNr());
-            }
-            
-            // Flatten CSS Styles
-            initStorageContext();
-            flattenStyles(elem);
-            
-            // Read attributes of 'svg' element
-            AffineTransform svgTransform = new AffineTransform();
-            boolean is100PercentWidth = readAttribute(elem, "width", "100%").equals("100%");
-            boolean is100PercentHeight = readAttribute(elem, "height", "100%").equals("100%");
-            double svgWidth = toWidth(elem, readAttribute(elem, "width", "100%"));
-            double svgHeight = toHeight(elem, readAttribute(elem, "height", "100%"));
-            String[] viewBoxValues = toWhiteSpaceOrCommaSeparatedArray(elem, readAttribute(elem, "viewBox", "none"));
-            if (viewBoxValues.length == 4) {
-                double x = toNumber(elem, viewBoxValues[0]);
-                double y = toNumber(elem, viewBoxValues[1]);
-                double w = toNumber(elem, viewBoxValues[2]);
-                double h = toNumber(elem, viewBoxValues[3]);
-                widthPercentFactor = w / 100d;
-                heightPercentFactor = h / 100d;
-                svgTransform.translate(-x, -y);
-                //svgTransform.scale(svgWidth / w, svgHeight / h);
-                widthFactor = (is100PercentWidth) ? 1 : svgWidth / w;
-                heightFactor = (is100PercentHeight) ? 1 : svgHeight / h;
-                numberFactor = Math.min(widthFactor, heightFactor);
-            }
-            
-            // Read the figures
-            for (int i=0; i < elem.getChildrenCount(); i++) {
-                IXMLElement child = elem.getChildAtIndex(i);
-                Figure childFigure = readElement(child);
-                if (childFigure != null) {
-                    childFigure.basicTransform(svgTransform);
-                    drawing.add(childFigure);
-                    figures.add(childFigure);
-                }
-            }
-            
-            
-        } catch (IOException e) {
+            parser = XMLParserFactory.createDefaultXMLParser();
+        } catch (Exception ex) {
+            InternalError e = new InternalError("Unable to instantiate NanoXML Parser");
+            e.initCause(ex);
             throw e;
-        } catch (Exception e) {
-            IOException error = new IOException(e.getMessage());
-            error.initCause(e);
-            throw error;
         }
+        IXMLReader reader = new StdXMLReader(in);
+        parser.setReader(reader);
+        try {
+            document = (IXMLElement) parser.parse();
+        } catch (XMLException ex) {
+            IOException e = new IOException(ex.getMessage());
+            e.initCause(ex);
+            throw e;
+        }
+        
+        // Search for the first 'svg' element in the XML document
+        // in preorder sequence
+        IXMLElement svg = document;
+        Stack<Iterator> stack = new Stack<Iterator>();
+        LinkedList<IXMLElement> ll = new LinkedList<IXMLElement>();
+        ll.add(document);
+        stack.push(ll.iterator());
+        while (!stack.empty() && stack.peek().hasNext()) {
+            Iterator<IXMLElement> iter = stack.peek();
+            IXMLElement node = iter.next();
+            Iterator<IXMLElement> children = node.getChildren().iterator();
+            
+            if (! iter.hasNext()) {
+                stack.pop();
+            }
+            if (children.hasNext()) {
+                stack.push(children);
+            }
+            if (node.getName() != null &&
+                    node.getName().equals("svg") &&
+                    (node.getNamespace() == null ||
+                    node.getNamespace().equals(SVG_NAMESPACE))) {
+                svg = node;
+                break;
+            }
+        }
+        
+        
+        if (svg.getName() == null ||
+                ! svg.getName().equals("svg") ||
+                (svg.getNamespace() != null &&
+                ! svg.getNamespace().equals(SVG_NAMESPACE))) {
+            throw new IOException("'svg' element expected: "+svg.getName());
+        }
+        long end1 = System.currentTimeMillis();
+        
+        // Flatten CSS Styles
+        initStorageContext();
+        flattenStyles(svg);
+        long end2 = System.currentTimeMillis();
+        
+        readSVGElement(svg);
+        long end = System.currentTimeMillis();
+        System.out.println("elapsed:"+(end-start));
+        System.out.println("read:"+(end1-start));
+        System.out.println("flatten:"+(end2-end1));
+        System.out.println("build:"+(end-end2));
+        return figures;
     }
     private void initStorageContext() {
         identifiedElements = new HashMap<String,IXMLElement>();
         elementObjects = new HashMap<IXMLElement,Object>();
-        widthPercentFactor = 1d;
-        heightPercentFactor = 1d;
-        widthFactor = 1d;
-        heightFactor = 1d;
-        numberFactor = 1d;
+        viewportStack = new Stack<Viewport>();
+        viewportStack.push(new Viewport());
+        styleManager = new StyleManager();
     }
     
     /**
@@ -235,23 +271,35 @@ public class SVGInputFormat implements InputFormat {
      */
     private void flattenStyles(IXMLElement elem)
     throws IOException {
-        if (elem.getNamespace() == null ||
-                elem.getNamespace().equals(SVG_NAMESPACE)) {
+        if (elem.getName() != null && elem.getName().equals("style") &&
+                readAttribute(elem, "type", "").equals("text/css")) {
+            CSSParser cssParser = new CSSParser();
+            cssParser.parse(elem.getContent(), styleManager);
+        } else {
             
-            String style = elem.getAttribute("style", null);
-            if (style != null) {
-                for (String styleProperty : style.split(";"))  {
-                    String[] stylePropertyElements = styleProperty.split(":");
-                    if (stylePropertyElements.length == 2 &&
-                            ! elem.hasAttribute(stylePropertyElements[0], SVG_NAMESPACE)) {
-                        elem.setAttribute(stylePropertyElements[0], SVG_NAMESPACE, stylePropertyElements[1]);
+            if (elem.getNamespace() == null ||
+                    elem.getNamespace().equals(SVG_NAMESPACE)) {
+                
+                String style = readAttribute(elem, "style", null);
+                if (style != null) {
+                    for (String styleProperty : style.split(";"))  {
+                        String[] stylePropertyElements = styleProperty.split(":");
+                        if (stylePropertyElements.length == 2 &&
+                                ! elem.hasAttribute(stylePropertyElements[0].trim(), SVG_NAMESPACE)) {
+                            //System.out.println("flatten:"+Arrays.toString(stylePropertyElements));
+                            elem.setAttribute(stylePropertyElements[0].trim(), SVG_NAMESPACE, stylePropertyElements[1].trim());
+                        }
                     }
                 }
-            }
-            
-            for (int i=0; i < elem.getChildrenCount(); i++) {
-                IXMLElement child = elem.getChildAtIndex(i);
-                flattenStyles(child);
+                
+                styleManager.applyStylesTo(elem);
+                
+                for (IXMLElement node : elem.getChildren()) {
+                    if (node instanceof IXMLElement) {
+                        IXMLElement child = (IXMLElement) node;
+                        flattenStyles(child);
+                    }
+                }
             }
         }
     }
@@ -299,19 +347,24 @@ public class SVGInputFormat implements InputFormat {
                 readSolidColorElement(elem);
                 f = null;
             } else if (name.equals("svg")) {
-                // treat svg element like g element
-                f = readGElement(elem);
+                f = readSVGElement(elem);
+                //f = readGElement(elem);
+            } else if (name.equals("switch")) {
+                f = readSwitchElement(elem);
             } else if (name.equals("text")) {
                 f = readTextElement(elem);
             } else if (name.equals("use")) {
                 f = readUseElement(elem);
+            } else if (name.equals("style")) {
+                // Nothing to do, style elements have been already
+                // processed in method flattenStyles
             } else {
                 System.out.println("<"+name+">");
             }
         }
         if (f instanceof SVGFigure) {
             if (((SVGFigure) f).isEmpty()) {
-                System.out.println("Empty figure "+f);
+                // System.out.println("Empty figure "+f);
                 return null;
             }
         } else if (f != null) {
@@ -326,9 +379,11 @@ public class SVGInputFormat implements InputFormat {
      */
     private void readDefsElement(IXMLElement elem)
     throws IOException {
-        for (int i=0; i < elem.getChildrenCount(); i++) {
-            IXMLElement child = elem.getChildAtIndex(i);
-            Figure childFigure = readElement(child);
+        for (IXMLElement node : elem.getChildren()) {
+            if (node instanceof IXMLElement) {
+                IXMLElement child = (IXMLElement) node;
+                Figure childFigure = readElement(child);
+            }
         }
     }
     
@@ -340,20 +395,101 @@ public class SVGInputFormat implements InputFormat {
         HashMap<AttributeKey,Object> a = new HashMap<AttributeKey,Object>();
         readCoreAttributes(elem, a);
         readTransformAttribute(elem, a);
-        AffineTransform transform = (AffineTransform) a.get(SVGAttributeKeys.TRANSFORM);
+        AffineTransform transform = (AffineTransform) a.get(TRANSFORM);
         CompositeFigure g = factory.createG(a);
         
-        for (int i=0; i < elem.getChildrenCount(); i++) {
-            IXMLElement child = elem.getChildAtIndex(i);
-            Figure childFigure = readElement(child);
-            if (childFigure != null) {
-                g.add(childFigure);
+        for (IXMLElement node : elem.getChildren()) {
+            if (node instanceof IXMLElement) {
+                IXMLElement child = (IXMLElement) node;
+                Figure childFigure = readElement(child);
+                // skip invisible elements
+                if (readAttribute(child, "visibility", "visible").equals("visible") &&
+                        ! readAttribute(child, "display", "inline").equals("none")) {
+                    if (childFigure != null) {
+                        g.basicAdd(childFigure);
+                    }
+                }
             }
         }
         if (transform != null) {
             g.basicTransform(transform);
         }
         return g;
+    }
+    
+    
+    
+    /**
+     * Reads an SVG "svg" element.
+     */
+    private Figure readSVGElement(IXMLElement elem)
+    throws IOException {
+        // Establish a new viewport
+        Viewport viewport = new Viewport();
+        
+        viewport.width = toWidth(elem, readAttribute(elem, "width", "100%"));
+        viewport.height = toHeight(elem, readAttribute(elem, "height", "100%"));
+        
+        if (readAttribute(elem, "viewBox", "none").equals("none")) {
+            viewport.viewBox.width = viewport.width;
+            viewport.viewBox.height = viewport.height;
+        } else {
+            String[] viewBoxValues = toWSOrCommaSeparatedArray(readAttribute(elem, "viewBox", "none"));
+            viewport.viewBox.x = toNumber(elem, viewBoxValues[0]);
+            viewport.viewBox.y = toNumber(elem, viewBoxValues[1]);
+            viewport.viewBox.width = toNumber(elem, viewBoxValues[2]);
+            viewport.viewBox.height = toNumber(elem, viewBoxValues[3]);
+        }
+        viewport.isPreserveAspectRatio = ! readAttribute(elem, "preserveAspectRatio", "none").equals("none");
+        viewport.widthPercentFactor = viewport.viewBox.width / 100d;
+        viewport.heightPercentFactor = viewport.viewBox.height / 100d;
+        
+        viewport.numberFactor = Math.min(
+                viewport.width / viewport.viewBox.width,
+                viewport.height / viewport.viewBox.height
+                );
+        
+        
+        
+        AffineTransform viewBoxTransform = new AffineTransform();
+        viewBoxTransform.translate(
+                -viewport.viewBox.x * viewport.width / viewport.viewBox.width,
+                -viewport.viewBox.y *  viewport.height / viewport.viewBox.height
+                );
+        if (viewport.isPreserveAspectRatio) {
+            double factor = Math.min(
+                    viewport.width / viewport.viewBox.width,
+                    viewport.height / viewport.viewBox.height
+                    );
+            viewBoxTransform.scale(factor, factor);
+        } else {
+            viewBoxTransform.scale(
+                    viewport.width / viewport.viewBox.width,
+                    viewport.height / viewport.viewBox.height
+                    );
+        }
+        viewportStack.push(viewport);
+        
+        
+        // Read the figures
+        for (IXMLElement node : elem.getChildren()) {
+            if (node instanceof IXMLElement) {
+                IXMLElement child = (IXMLElement) node;
+                Figure childFigure = readElement(child);
+                // skip invisible elements
+                if (readAttribute(child, "visibility", "visible").equals("visible") &&
+                        ! readAttribute(child, "display", "inline").equals("none")) {
+                    
+                    if (childFigure != null) {
+                        childFigure.basicTransform(viewBoxTransform);
+                        figures.add(childFigure);
+                    }
+                }
+            }
+        }
+        
+        viewportStack.pop();
+        return null;
     }
     
     /**
@@ -440,7 +576,7 @@ public class SVGInputFormat implements InputFormat {
         
         String href = readAttribute(elem, "xlink:href",null);
         if (href == null) {
-         href = readAttribute(elem, "href",null);
+            href = readAttribute(elem, "href",null);
         }
         byte[] imageData = null;
         if (href != null) {
@@ -457,7 +593,6 @@ public class SVGInputFormat implements InputFormat {
                 }
             } else {
                 URL imageUrl = new URL(url, href);
-                //System.out.println("image: href"+href+" url="+imageUrl);
                 
                 // Read the image data from the URL into a byte array
                 ByteArrayOutputStream bout = new ByteArrayOutputStream();
@@ -570,8 +705,8 @@ public class SVGInputFormat implements InputFormat {
         readFontAttributes(elem, a);
         readTextAttributes(elem, a);
         
-        String[] xStr = toCommaSeparatedArray(elem, readAttribute(elem, "x", "0"));
-        String[] yStr = toCommaSeparatedArray(elem, readAttribute(elem, "y", "0"));
+        String[] xStr = toCommaSeparatedArray(readAttribute(elem, "x", "0"));
+        String[] yStr = toCommaSeparatedArray(readAttribute(elem, "y", "0"));
         
         Point2D.Double[] coordinates = new Point2D.Double[Math.max(xStr.length, yStr.length)];
         double lastX = 0;
@@ -593,7 +728,7 @@ public class SVGInputFormat implements InputFormat {
         }
         
         
-        String[] rotateStr = toCommaSeparatedArray(elem, readAttribute(elem, "rotate", ""));
+        String[] rotateStr = toCommaSeparatedArray(readAttribute(elem, "rotate", ""));
         double[] rotate = new double[rotateStr.length];
         for (int i=0; i < rotateStr.length; i++) {
             try {
@@ -609,14 +744,13 @@ public class SVGInputFormat implements InputFormat {
             if (elem.getContent() != null) {
                 doc.insertString(0, toText(elem, elem.getContent()), null);
             } else {
-                for (Object childObj : elem.getChildren()) {
-                    IXMLElement node = (IXMLElement) childObj;
+                for (IXMLElement node : elem.getChildren()) {
                     if (node.getName() == null) {
                         doc.insertString(0, toText(elem, node.getContent()), null);
                     } else if (node.getName().equals("tspan")) {
-                        readTSpanElement(node, doc);
+                        readTSpanElement((IXMLElement) node, doc);
                     } else {
-                        System.out.println("  text node "+node.getName());
+                        // System.out.println("  unsupported text node <"+node.getName()+">");
                     }
                 }
             }
@@ -625,7 +759,6 @@ public class SVGInputFormat implements InputFormat {
             ex.initCause(e);
             throw ex;
         }
-        
         Figure figure = factory.createText(coordinates, rotate, doc, a);
         elementObjects.put(elem, figure);
         return figure;
@@ -645,6 +778,7 @@ public class SVGInputFormat implements InputFormat {
         
         double x = toNumber(elem, readAttribute(elem, "x", "0"));
         double y = toNumber(elem, readAttribute(elem, "y", "0"));
+// XXX - Handle "auto" width and height
         double w = toWidth(elem, readAttribute(elem, "width", "0"));
         double h = toHeight(elem, readAttribute(elem, "height", "0"));
         
@@ -654,12 +788,11 @@ public class SVGInputFormat implements InputFormat {
             if (elem.getContent() != null) {
                 doc.insertString(0, toText(elem, elem.getContent()), null);
             } else {
-                for (Object childObj : elem.getChildren()) {
-                    IXMLElement node = (IXMLElement) childObj;
+                for (IXMLElement node : elem.getChildren()) {
                     if (node.getName() == null) {
                         doc.insertString(0, toText(elem, node.getContent()), null);
                     } else if (node.getName().equals("tspan")) {
-                        readTSpanElement(node, doc);
+                        readTSpanElement((IXMLElement) node, doc);
                     } else {
                         System.out.println("  text node "+node.getName());
                     }
@@ -682,17 +815,20 @@ public class SVGInputFormat implements InputFormat {
     throws IOException {
         try {
             if (elem.getContent() != null) {
-                doc.insertString(0, toText(elem, elem.getContent()), null);
+                doc.insertString(doc.getLength(), toText(elem, elem.getContent()), null);
             } else {
-                for (Object childObj : elem.getChildren()) {
-                    IXMLElement node = (IXMLElement) childObj;
-                    if (node.getName() == null) {
-                        doc.insertString(0, toText(node, node.getContent()), null);
-                    } else if (node.getName().equals("tspan")) {
-                        readTSpanElement(node, doc);
+                for (IXMLElement node : elem.getChildren()) {
+                    if (node instanceof IXMLElement) {
+                        IXMLElement child = (IXMLElement) node;
+                        if (node.getName().equals("tspan")) {
+                            readTSpanElement((IXMLElement) node, doc);
+                        } else {
+                            System.out.println("  text node "+node.getName());
+                        }
                     } else {
-                        System.out.println("  text node "+node.getName());
-                    }
+                        if (node.getName() == null) {
+                            doc.insertString(doc.getLength(), toText(elem, node.getContent()), null);
+                        }                    }
                 }
             }
         } catch (BadLocationException e) {
@@ -702,6 +838,99 @@ public class SVGInputFormat implements InputFormat {
         }
     }
     
+    private final static HashSet<String> supportedFeatures = new HashSet<String>(
+            Arrays.asList(new String[] {
+        "http://www.w3.org/Graphics/SVG/feature/1.2/#SVG-static",
+        //"http://www.w3.org/Graphics/SVG/feature/1.2/#SVG-static-DOM",
+        //"http://www.w3.org/Graphics/SVG/feature/1.2/#SVG-animated",
+        //"http://www.w3.org/Graphics/SVG/feature/1.2/#SVG-all",
+        "http://www.w3.org/Graphics/SVG/feature/1.2/#CoreAttribute",
+        //"http://www.w3.org/Graphics/SVG/feature/1.2/#NavigationAttribute",
+        "http://www.w3.org/Graphics/SVG/feature/1.2/#Structure",
+        "http://www.w3.org/Graphics/SVG/feature/1.2/#ConditionalProcessing",
+        "http://www.w3.org/Graphics/SVG/feature/1.2/#ConditionalProcessingAttribute",
+        "http://www.w3.org/Graphics/SVG/feature/1.2/#Image",
+        //"http://www.w3.org/Graphics/SVG/feature/1.2/#Prefetch",
+        //"http://www.w3.org/Graphics/SVG/feature/1.2/#Discard",
+        "http://www.w3.org/Graphics/SVG/feature/1.2/#Shape",
+        "http://www.w3.org/Graphics/SVG/feature/1.2/#Text",
+        "http://www.w3.org/Graphics/SVG/feature/1.2/#PaintAttribute",
+        "http://www.w3.org/Graphics/SVG/feature/1.2/#OpacityAttribute",
+        "http://www.w3.org/Graphics/SVG/feature/1.2/#GraphicsAttribute",
+        "http://www.w3.org/Graphics/SVG/feature/1.2/#Gradient",
+        "http://www.w3.org/Graphics/SVG/feature/1.2/#SolidColor",
+        //"http://www.w3.org/Graphics/SVG/feature/1.2/#Hyperlinking",
+        //"http://www.w3.org/Graphics/SVG/feature/1.2/#XlinkAttribute",
+        //"http://www.w3.org/Graphics/SVG/feature/1.2/#ExternalResourcesRequired",
+        //"http://www.w3.org/Graphics/SVG/feature/1.2/#Scripting",
+        //"http://www.w3.org/Graphics/SVG/feature/1.2/#Handler",
+        //"http://www.w3.org/Graphics/SVG/feature/1.2/#Listener",
+        //"http://www.w3.org/Graphics/SVG/feature/1.2/#TimedAnimation",
+        //"http://www.w3.org/Graphics/SVG/feature/1.2/#Animation",
+        //"http://www.w3.org/Graphics/SVG/feature/1.2/#Audio",
+        //"http://www.w3.org/Graphics/SVG/feature/1.2/#Video",
+        "http://www.w3.org/Graphics/SVG/feature/1.2/#Font",
+        //"http://www.w3.org/Graphics/SVG/feature/1.2/#Extensibility",
+        //"http://www.w3.org/Graphics/SVG/feature/1.2/#MediaAttribute",
+        //"http://www.w3.org/Graphics/SVG/feature/1.2/#TextFlow",
+        //"http://www.w3.org/Graphics/SVG/feature/1.2/#TransformedVideo",
+        //"http://www.w3.org/Graphics/SVG/feature/1.2/#ComposedVideo",
+    }));
+    
+    /**
+     * Evaluates an SVG "switch" element.
+     *
+     */
+    private Figure readSwitchElement(IXMLElement elem)
+    throws IOException {
+        for (IXMLElement node : elem.getChildren()) {
+            if (node instanceof IXMLElement) {
+                IXMLElement child = (IXMLElement) node;
+                String[] requiredFeatures = toWSOrCommaSeparatedArray(readAttribute(child, "requiredFeatures", ""));
+                String[] requiredExtensions = toWSOrCommaSeparatedArray(readAttribute(child, "requiredExtensions", ""));
+                String[] systemLanguage = toWSOrCommaSeparatedArray(readAttribute(child, "systemLanguage", ""));
+                String[] requiredFormats = toWSOrCommaSeparatedArray(readAttribute(child, "requiredFormats", ""));
+                String[] requiredFonts = toWSOrCommaSeparatedArray(readAttribute(child, "requiredFonts", ""));
+                
+                boolean isMatch;
+                
+                isMatch = supportedFeatures.containsAll(Arrays.asList(requiredFeatures)) &&
+                        requiredExtensions.length == 0 &&
+                        requiredFormats.length == 0 &&
+                        requiredFonts.length == 0;
+                
+                if (isMatch && systemLanguage.length > 0) {
+                    isMatch = false;
+                    Locale locale = Locale.getDefault();
+                    for (String lng : systemLanguage) {
+                        int p = lng.indexOf('-');
+                        if (p == -1) {
+                            if (locale.getLanguage().equals(lng)) {
+                                isMatch = true;
+                                break;
+                            }
+                        } else {
+                            if (locale.getLanguage().equals(lng.substring(0, p)) &&
+                                    locale.getCountry().toLowerCase().equals(lng.substring(p + 1))) {
+                                isMatch = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (isMatch) {
+                    Figure figure = readElement(child);
+                    if (readAttribute(child, "visibility", "visible").equals("visible") &&
+                            ! readAttribute(child, "display", "inline").equals("none")) {
+                        return figure;
+                    } else {
+                        return null;
+                    }
+                }
+            }
+        }
+        return null;
+    }
     /**
      * Reads an SVG "use" element.
      */
@@ -709,25 +938,28 @@ public class SVGInputFormat implements InputFormat {
     throws IOException {
         HashMap<AttributeKey,Object> a = new HashMap<AttributeKey,Object>();
         readCoreAttributes(elem, a);
-        readTransformAttribute(elem, a);
-        readShapeAttributes(elem, a);
+        HashMap<AttributeKey,Object> a2 = new HashMap<AttributeKey,Object>();
+        readTransformAttribute(elem, a2);
+        readUseShapeAttributes(elem, a2);
         
-        String href = elem.getAttribute("xlink:href",null);
+        String href = readAttribute(elem, "xlink:href",null);
         if (href != null && href.startsWith("#")) {
             
             IXMLElement refElem = identifiedElements.get(href.substring(1));
             if (refElem == null) {
-                System.out.println("SVGInputFormat couldntt find href for <use> element:"+href);
+                System.out.println("SVGInputFormat couldn't find href for <use> element:"+href);
             } else {
                 Object obj = readElement(refElem);
                 if (obj instanceof Figure) {
                     Figure figure = (Figure) ((Figure) obj).clone();
-                    
-                    for (Map.Entry<AttributeKey, Object> entry : a.entrySet()) {
-                        if (! figure.getAttributes().containsKey(entry.getKey())) {
-                            figure.setAttribute(entry.getKey(), entry.getValue());
-                        }
+                    for (Map.Entry<AttributeKey, Object> entry : a2.entrySet()) {
+                        System.out.println(entry);
+                        //if (! figure.getAttributes().containsKey(entry.getKey())) {
+                        figure.basicSetAttribute(entry.getKey(), entry.getValue());
+                        //}
                     }
+                    
+                    
                     AffineTransform tx = new AffineTransform();
                     double x = toNumber(elem, readAttribute(elem, "x", "0"));
                     double y = toNumber(elem, readAttribute(elem, "y", "0"));
@@ -745,21 +977,22 @@ public class SVGInputFormat implements InputFormat {
      */
     private String readInheritAttribute(IXMLElement elem, String attributeName, String defaultValue) {
         if (elem.hasAttribute(attributeName, SVG_NAMESPACE)) {
-            String value = elem.getAttribute(attributeName, SVG_NAMESPACE, defaultValue);
+            String value = elem.getAttribute(attributeName, SVG_NAMESPACE, null);
             if (value.equals("inherit")) {
                 return readInheritAttribute(elem.getParent(), attributeName, defaultValue);
             } else {
                 return value;
             }
         } else if (elem.hasAttribute(attributeName)) {
-            String value = elem.getAttribute(attributeName, defaultValue);
+            String value = elem.getAttribute(attributeName);
             if (value.equals("inherit")) {
                 return readInheritAttribute(elem.getParent(), attributeName, defaultValue);
             } else {
                 return value;
             }
         } else if (elem.getParent() != null &&
-                (elem.getParent().getNamespace() == null || elem.getParent().getNamespace().equals(SVG_NAMESPACE))) {
+                (elem.getParent().getNamespace() == null ||
+                elem.getParent().getNamespace().equals(SVG_NAMESPACE))) {
             return readInheritAttribute(elem.getParent(), attributeName, defaultValue);
         } else {
             return defaultValue;
@@ -775,9 +1008,9 @@ public class SVGInputFormat implements InputFormat {
     throws IOException {
         String value = null;
         if (elem.hasAttribute(attributeName, SVG_NAMESPACE)) {
-            value = elem.getAttribute(attributeName, SVG_NAMESPACE, defaultValue);
+            value = elem.getAttribute(attributeName, SVG_NAMESPACE, null);
         } else if (elem.hasAttribute(attributeName)) {
-            value = elem.getAttribute(attributeName, defaultValue);
+            value = elem.getAttribute(attributeName, null);
         } else {
             value = defaultValue;
         }
@@ -792,7 +1025,8 @@ public class SVGInputFormat implements InputFormat {
             double factor = Double.valueOf(value.substring(0, value.length() - 1));
             return factor * readInheritFontSizeAttribute(elem.getParent(), attributeName, defaultValue);
         } else {
-            return toHeight(elem, value);
+            //return toScaledNumber(elem, value);
+            return toNumber(elem, value);
         }
         
     }
@@ -802,14 +1036,14 @@ public class SVGInputFormat implements InputFormat {
      */
     private String readAttribute(IXMLElement elem, String attributeName, String defaultValue) {
         if (elem.hasAttribute(attributeName, SVG_NAMESPACE)) {
-            String value = elem.getAttribute(attributeName, SVG_NAMESPACE, defaultValue);
+            String value = elem.getAttribute(attributeName, SVG_NAMESPACE, null);
             if (value.equals("inherit")) {
                 return readAttribute(elem.getParent(), attributeName, defaultValue);
             } else {
                 return value;
             }
         } else if (elem.hasAttribute(attributeName) ) {
-            String value = elem.getAttribute(attributeName, defaultValue);
+            String value = elem.getAttribute(attributeName, null);
             if (value.equals("inherit")) {
                 return readAttribute(elem.getParent(), attributeName, defaultValue);
             } else {
@@ -826,7 +1060,8 @@ public class SVGInputFormat implements InputFormat {
      */
     private double toWidth(IXMLElement elem, String str) throws IOException {
         // XXX - Compute xPercentFactor from viewport
-        return toLength(elem, str, widthPercentFactor, widthFactor);
+        return toLength(elem, str,
+                viewportStack.peek().widthPercentFactor);
     }
     /**
      * Returns a value as a height.
@@ -834,20 +1069,34 @@ public class SVGInputFormat implements InputFormat {
      */
     private double toHeight(IXMLElement elem, String str) throws IOException {
         // XXX - Compute yPercentFactor from viewport
-        return toLength(elem, str, heightPercentFactor, heightFactor);
+        return toLength(elem, str,
+                viewportStack.peek().heightPercentFactor);
     }
     /**
      * Returns a value as a number.
      * http://www.w3.org/TR/SVGMobile12/types.html#DataTypeNumber
      */
     private double toNumber(IXMLElement elem, String str) throws IOException {
-        return toLength(elem, str, 1d, numberFactor);
+        return toLength(elem, str, Math.min(
+                viewportStack.peek().widthPercentFactor,
+                viewportStack.peek().heightPercentFactor
+                ));
+    }
+    /**
+     * Returns a value as a scaled number.
+     * http://www.w3.org/TR/SVGMobile12/types.html#DataTypeNumber
+     */
+    private double toScaledNumber(IXMLElement elem, String str) throws IOException {
+        return toLength(elem, str, Math.min(
+                viewportStack.peek().widthPercentFactor,
+                viewportStack.peek().heightPercentFactor
+                )) * viewportStack.peek().numberFactor;
     }
     /**
      * Returns a value as a length.
      * http://www.w3.org/TR/SVGMobile12/types.html#DataTypeLength
      */
-    private double toLength(IXMLElement elem, String str, double percentFactor, double lengthFactor) throws IOException {
+    private double toLength(IXMLElement elem, String str, double percentFactor) throws IOException {
         double scaleFactor = 1d;
         if (str == null || str.length() == 0) {
             return 0d;
@@ -876,9 +1125,9 @@ public class SVGInputFormat implements InputFormat {
         } else if (str.endsWith("em")) {
             str = str.substring(0, str.length() - 2);
             // XXX - This doesn't work
-            scaleFactor = toLength(elem, readAttribute(elem, "font-size", "0"), percentFactor, lengthFactor);
+            scaleFactor = toLength(elem, readAttribute(elem, "font-size", "0"), percentFactor);
         } else {
-            scaleFactor = lengthFactor;
+            scaleFactor = 1d;
         }
         
         return Double.parseDouble(str) * scaleFactor;
@@ -887,7 +1136,7 @@ public class SVGInputFormat implements InputFormat {
      * Returns a value as a String array.
      * The values are separated by commas with optional white space.
      */
-    private String[] toCommaSeparatedArray(IXMLElement elem, String str) throws IOException {
+    public static String[] toCommaSeparatedArray(String str) throws IOException {
         return str.split("\\s*,\\s*");
     }
     /**
@@ -895,8 +1144,13 @@ public class SVGInputFormat implements InputFormat {
      * The values are separated by whitespace or by commas with optional white
      * space.
      */
-    private String[] toWhiteSpaceOrCommaSeparatedArray(IXMLElement elem, String str) throws IOException {
-        return str.split("(\\s*,\\s*|\\s+)");
+    public static String[] toWSOrCommaSeparatedArray(String str) throws IOException {
+        String[] result = str.split("(\\s*,\\s*|\\s+)");
+        if (result.length == 1 && result[0].equals("")) {
+            return new String[0];
+        } else {
+            return result;
+        }
     }
     /**
      * Returns a value as a Point2D.Double array.
@@ -915,6 +1169,7 @@ public class SVGInputFormat implements InputFormat {
         }
         return points;
     }
+    
     /**
      * Returns a value as a BezierPath array.
      * as specified in http://www.w3.org/TR/SVGMobile12/shapes.html#PointsBNF
@@ -926,11 +1181,13 @@ public class SVGInputFormat implements InputFormat {
         Point2D.Double p = new Point2D.Double();
         Point2D.Double c1 = new Point2D.Double();
         Point2D.Double c2 = new Point2D.Double();
+        
         StreamTokenizer tt = new StreamTokenizer(new StringReader(str));
         tt.resetSyntax();
         tt.parseNumbers();
         tt.whitespaceChars(0, ' ');
         tt.whitespaceChars(',',',');
+        
         
         char nextCommand = 'M';
         char command = 'M';
@@ -952,9 +1209,9 @@ public class SVGInputFormat implements InputFormat {
                     path = new BezierPath();
                     
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    p.x = tt.nval * numberFactor;
+                    p.x = tt.nval;
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    p.y = tt.nval * numberFactor;
+                    p.y = tt.nval;
                     path.moveTo(p.x, p.y);
                     nextCommand = 'L';
                     break;
@@ -965,9 +1222,9 @@ public class SVGInputFormat implements InputFormat {
                     path = new BezierPath();
                     
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    p.x += tt.nval * numberFactor;
+                    p.x += tt.nval;
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    p.y += tt.nval * numberFactor;
+                    p.y += tt.nval;
                     path.moveTo(p.x, p.y);
                     nextCommand = 'l';
                     
@@ -983,46 +1240,46 @@ public class SVGInputFormat implements InputFormat {
                     break;
                 case 'L' :
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    p.x = tt.nval * numberFactor;
+                    p.x = tt.nval;
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    p.y = tt.nval * numberFactor;
+                    p.y = tt.nval;
                     path.lineTo(p.x, p.y);
                     nextCommand = 'L';
                     
                     break;
                 case 'l' :
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    p.x += tt.nval * numberFactor;
+                    p.x += tt.nval;
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    p.y += tt.nval * numberFactor;
+                    p.y += tt.nval;
                     path.lineTo(p.x, p.y);
                     nextCommand = 'l';
                     
                     break;
                 case 'H' :
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    p.x = tt.nval * numberFactor;
+                    p.x = tt.nval;
                     path.lineTo(p.x, p.y);
                     nextCommand = 'H';
                     
                     break;
                 case 'h' :
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    p.x += tt.nval * numberFactor;
+                    p.x += tt.nval;
                     path.lineTo(p.x, p.y);
                     nextCommand = 'h';
                     
                     break;
                 case 'V' :
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    p.y = tt.nval * numberFactor;
+                    p.y = tt.nval;
                     path.lineTo(p.x, p.y);
                     nextCommand = 'V';
                     
                     break;
                 case 'v' :
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    p.y += tt.nval * numberFactor;
+                    p.y += tt.nval;
                     path.lineTo(p.x, p.y);
                     nextCommand = 'v';
                     
@@ -1030,34 +1287,34 @@ public class SVGInputFormat implements InputFormat {
                     break;
                 case 'C' :
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    c1.x = tt.nval * numberFactor;
+                    c1.x = tt.nval;
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    c1.y = tt.nval * numberFactor;
+                    c1.y = tt.nval;
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    c2.x = tt.nval * numberFactor;
+                    c2.x = tt.nval;
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    c2.y = tt.nval * numberFactor;
+                    c2.y = tt.nval;
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    p.x = tt.nval * numberFactor;
+                    p.x = tt.nval;
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    p.y = tt.nval * numberFactor;
+                    p.y = tt.nval;
                     path.curveTo(c1.x, c1.y, c2.x, c2.y, p.x, p.y);
                     nextCommand = 'C';
                     
                     break;
                 case 'c' :
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    c1.x = p.x + tt.nval * numberFactor;
+                    c1.x = p.x + tt.nval;
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    c1.y = p.y + tt.nval * numberFactor;
+                    c1.y = p.y + tt.nval;
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    c2.x = p.x + tt.nval * numberFactor;
+                    c2.x = p.x + tt.nval;
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    c2.y = p.y + tt.nval * numberFactor;
+                    c2.y = p.y + tt.nval;
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    p.x += tt.nval * numberFactor;
+                    p.x += tt.nval;
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    p.y += tt.nval * numberFactor;
+                    p.y += tt.nval;
                     path.curveTo(c1.x, c1.y, c2.x, c2.y, p.x, p.y);
                     nextCommand = 'c';
                     
@@ -1067,13 +1324,13 @@ public class SVGInputFormat implements InputFormat {
                     c1.x = node.x[0] * 2d - node.x[1];
                     c1.y = node.y[0] * 2d - node.y[1];
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    c2.x = tt.nval * numberFactor;
+                    c2.x = tt.nval;
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    c2.y = tt.nval * numberFactor;
+                    c2.y = tt.nval;
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    p.x = tt.nval * numberFactor;
+                    p.x = tt.nval;
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    p.y = tt.nval * numberFactor;
+                    p.y = tt.nval;
                     path.curveTo(c1.x, c1.y, c2.x, c2.y, p.x, p.y);
                     nextCommand = 'S';
                     
@@ -1083,13 +1340,13 @@ public class SVGInputFormat implements InputFormat {
                     c1.x = node.x[0] * 2d - node.x[1];
                     c1.y = node.y[0] * 2d - node.y[1];
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    c2.x = p.x + tt.nval * numberFactor;
+                    c2.x = p.x + tt.nval;
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    c2.y = p.y + tt.nval * numberFactor;
+                    c2.y = p.y + tt.nval;
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    p.x += tt.nval * numberFactor;
+                    p.x += tt.nval;
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    p.y += tt.nval * numberFactor;
+                    p.y += tt.nval;
                     path.curveTo(c1.x, c1.y, c2.x, c2.y, p.x, p.y);
                     nextCommand = 's';
                     
@@ -1097,26 +1354,26 @@ public class SVGInputFormat implements InputFormat {
                     break;
                 case 'Q' :
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    c1.x = tt.nval * numberFactor;
+                    c1.x = tt.nval;
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    c1.y = tt.nval * numberFactor;
+                    c1.y = tt.nval;
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    p.x = tt.nval * numberFactor;
+                    p.x = tt.nval;
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    p.y = tt.nval * numberFactor;
+                    p.y = tt.nval;
                     path.quadTo(c1.x, c1.y, p.x, p.y);
                     nextCommand = 'Q';
                     
                     break;
                 case 'q' :
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    c1.x = p.x + tt.nval * numberFactor;
+                    c1.x = p.x + tt.nval;
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    c1.y = p.y + tt.nval * numberFactor;
+                    c1.y = p.y + tt.nval;
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    p.x += tt.nval * numberFactor;
+                    p.x += tt.nval;
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    p.y += tt.nval * numberFactor;
+                    p.y += tt.nval;
                     path.quadTo(c1.x, c1.y, p.x, p.y);
                     nextCommand = 'q';
                     
@@ -1126,9 +1383,9 @@ public class SVGInputFormat implements InputFormat {
                     c1.x = node.x[0] * 2d - node.x[1];
                     c1.y = node.y[0] * 2d - node.y[1];
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    p.x = tt.nval * numberFactor;
+                    p.x = tt.nval;
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    p.y = tt.nval * numberFactor;
+                    p.y = tt.nval;
                     path.quadTo(c1.x, c1.y, p.x, p.y);
                     nextCommand = 'T';
                     
@@ -1138,9 +1395,9 @@ public class SVGInputFormat implements InputFormat {
                     c1.x = node.x[0] * 2d - node.x[1];
                     c1.y = node.y[0] * 2d - node.y[1];
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    p.x += tt.nval * numberFactor;
+                    p.x += tt.nval;
                     if (tt.nextToken() != StreamTokenizer.TT_NUMBER) throw new IOException("Number expected");
-                    p.y += tt.nval * numberFactor;
+                    p.y += tt.nval;
                     path.quadTo(c1.x, c1.y, p.x, p.y);
                     nextCommand = 's';
                     
@@ -1160,8 +1417,8 @@ public class SVGInputFormat implements InputFormat {
     private void readCoreAttributes(IXMLElement elem, HashMap<AttributeKey,Object> a)
     throws IOException {
         // read "id" or "xml:id"
-        identifiedElements.put(elem.getAttribute("id", null), elem);
-        identifiedElements.put(elem.getAttribute("xml:id", null), elem);
+        identifiedElements.put(elem.getAttribute("id"), elem);
+        identifiedElements.put(elem.getAttribute("xml:id"), elem);
         
         // XXX - Add
         // xml:base
@@ -1173,21 +1430,22 @@ public class SVGInputFormat implements InputFormat {
     /* Reads text attributes as listed in
      * http://www.w3.org/TR/SVGMobile12/feature.html#Text
      */
-    private void readTextAttributes(IXMLElement elem, HashMap<AttributeKey,Object> a)
+    private void readTextAttributes(IXMLElement elem, Map<AttributeKey,Object> a)
     throws IOException {
         Object value;
         
         //'text-anchor'
         //Value:  	start | middle | end | inherit
         //Initial:  	start
-        //Applies to:  	'text' Element
+        //Applies to:  	'text' IXMLElement
         //Inherited:  	yes
         //Percentages:  	N/A
         //Media:  	visual
         //Animatable:  	yes
         //Computed value:  	 Specified value, except inherit
         value = readInheritAttribute(elem, "text-anchor", "start");
-        a.put(SVGAttributeKeys.TEXT_ANCHOR, textAnchorMap.get(value));
+        // XXX - Implement me properly
+        TEXT_ANCHOR.set(a, textAnchorMap.get(value));
         
         //'display-align'
         //Value:  	auto | before | center | after | inherit
@@ -1199,7 +1457,14 @@ public class SVGInputFormat implements InputFormat {
         //Animatable:  	yes
         //Computed value:  	 Specified value, except inherit
         value = readInheritAttribute(elem, "display-align", "auto");
-        System.out.println("display-align="+value);
+        // XXX - Implement me properly
+        if (! value.equals("auto")) {
+            if (value.equals("center")) {
+                TEXT_ANCHOR.set(a, TextAnchor.MIDDLE);
+            } else if (value.equals("before")) {
+                TEXT_ANCHOR.set(a, TextAnchor.END);
+            }
+        }
         
         //text-align
         //Value:	 start | end | center | inherit
@@ -1210,8 +1475,10 @@ public class SVGInputFormat implements InputFormat {
         //Media:	 visual
         //Animatable:	 yes
         value = readInheritAttribute(elem, "text-align", "start");
-        System.out.println("text-align="+value);
-        
+        // XXX - Implement me properly
+        if (! value.equals("start")) {
+            TEXT_ANCHOR.set(a, textAnchorMap.get(value));
+        }
     }
     /* Reads text flow attributes as listed in
      * http://www.w3.org/TR/SVGMobile12/feature.html#TextFlow
@@ -1235,14 +1502,13 @@ public class SVGInputFormat implements InputFormat {
     }
     /* Reads the transform attribute as specified in
      * http://www.w3.org/TR/SVGMobile12/coords.html#TransformAttribute
-     *
      */
     private void readTransformAttribute(IXMLElement elem, HashMap<AttributeKey,Object> a)
     throws IOException {
         String value;
         value = readAttribute(elem, "transform", "none");
         if (! value.equals("none")) {
-            a.put(SVGAttributeKeys.TRANSFORM, toTransform(elem, value));
+            TRANSFORM.set(a, toTransform(elem, value));
         }
     }
     /* Reads solid color attributes.
@@ -1286,7 +1552,7 @@ public class SVGInputFormat implements InputFormat {
      */
     private void readImageAttributes(IXMLElement elem, HashMap<AttributeKey,Object> a)
     throws IOException {
-        Object value;
+        double value;
         
         //'opacity'
         //Value:  	<opacity-value> | inherit
@@ -1297,9 +1563,10 @@ public class SVGInputFormat implements InputFormat {
         //Media:  	visual
         //Animatable:  	yes
         //Computed value:  	 Specified value, except inherit
-        value = readAttribute(elem, "opacity", "1");
-        System.out.println("  opacity="+value);
-        
+        value = toDouble(elem, readAttribute(elem, "opacity", "1"), 1, 0, 1);
+        if (value != 1) {
+            System.out.println("  opacity="+value);
+        }
         
     }
     /* Reads shape attributes.
@@ -1347,13 +1614,13 @@ public class SVGInputFormat implements InputFormat {
         // Computed value:  	 "none", system paint, specified <color> value or absolute IRI
         objectValue = toPaint(elem, readInheritAttribute(elem, "fill", "black"));
         if (objectValue instanceof Color) {
-            a.put(SVGAttributeKeys.FILL_COLOR, (Color) objectValue);
+            FILL_COLOR.set(a, (Color) objectValue);
         } else if (objectValue instanceof Gradient) {
-            a.put(SVGAttributeKeys.FILL_GRADIENT, (Gradient) objectValue);
+            FILL_GRADIENT.set(a, (Gradient) objectValue);
         } else if (objectValue == null) {
-            a.put(SVGAttributeKeys.FILL_COLOR, null);
+            FILL_COLOR.set(a, null);
         } else {
-            a.put(SVGAttributeKeys.FILL_COLOR, null);
+            FILL_COLOR.set(a, null);
             System.out.println("  fill="+objectValue);
         }
         
@@ -1366,15 +1633,11 @@ public class SVGInputFormat implements InputFormat {
         //Media:  	 visual
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
-        doubleValue = toDouble(elem, readInheritAttribute(elem, "fill-opacity", "1"), 1d, 0d, 1d);
-        if (doubleValue != 1d) {
-            Color c = (Color) a.get(SVGAttributeKeys.FILL_COLOR);
-            if (c != null) {
-                a.put(SVGAttributeKeys.FILL_COLOR,
-                        new Color((c.getRGB() & 0xffffff) | ((int) (255 * doubleValue) << 24), true)
-                        );
-            }
+        objectValue = readInheritAttribute(elem, "fill-opacity", null);
+        if (objectValue == null) {
+            objectValue = readInheritAttribute(elem, "opacity", "1");
         }
+        FILL_OPACITY.set(a, toDouble(elem, (String) objectValue, 1d, 0d, 1d));
         
         // 'fill-rule'
         // Value:	 nonzero | evenodd | inherit
@@ -1386,7 +1649,7 @@ public class SVGInputFormat implements InputFormat {
         // Animatable:  	 yes
         // Computed value:  	 Specified value, except inherit
         value = readInheritAttribute(elem, "fill-rule", "nonzero");
-        a.put(SVGAttributeKeys.WINDING_RULE, fillRuleMap.get(value));
+        WINDING_RULE.set(a, fillRuleMap.get(value));
         
         //'stroke'
         //Value:  	<paint> | inherit (See Specifying paint)
@@ -1400,13 +1663,13 @@ public class SVGInputFormat implements InputFormat {
         // or absolute IRI
         objectValue = toPaint(elem, readInheritAttribute(elem, "stroke", "none"));
         if (objectValue instanceof Color) {
-            a.put(SVGAttributeKeys.STROKE_COLOR, (Color) objectValue);
+            STROKE_COLOR.set(a, (Color) objectValue);
         } else if (objectValue instanceof Gradient) {
-            a.put(SVGAttributeKeys.STROKE_GRADIENT, (Gradient) objectValue);
+            STROKE_GRADIENT.set(a, (Gradient) objectValue);
         } else if (objectValue == null) {
-            a.put(SVGAttributeKeys.STROKE_COLOR, null);
+            STROKE_COLOR.set(a, null);
         } else {
-            a.put(SVGAttributeKeys.STROKE_COLOR, null);
+            STROKE_COLOR.set(a, null);
             System.out.println("  stroke="+objectValue);
         }
         
@@ -1421,12 +1684,12 @@ public class SVGInputFormat implements InputFormat {
         //Computed value:  	 Specified value, except inherit
         value = readInheritAttribute(elem, "stroke-dasharray", "none");
         if (! value.equals("none")) {
-            String[] values = toCommaSeparatedArray(elem, value);
+            String[] values = toCommaSeparatedArray(value);
             double[] dashes = new double[values.length];
             for (int i=0; i < values.length; i++) {
                 dashes[i] = toNumber(elem, values[i]);
             }
-            a.put(SVGAttributeKeys.STROKE_DASHES, dashes);
+            STROKE_DASHES.set(a, dashes);
         }
         
         //'stroke-dashoffset'
@@ -1439,8 +1702,8 @@ public class SVGInputFormat implements InputFormat {
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
         doubleValue = toNumber(elem, readInheritAttribute(elem, "stroke-dashoffset", "0"));
-        a.put(SVGAttributeKeys.STROKE_DASH_PHASE, doubleValue);
-        a.put(SVGAttributeKeys.IS_STROKE_DASH_FACTOR, false);
+        STROKE_DASH_PHASE.set(a, doubleValue);
+        IS_STROKE_DASH_FACTOR.set(a, false);
         
         //'stroke-linecap'
         //Value:  	 butt | round | square | inherit
@@ -1452,7 +1715,7 @@ public class SVGInputFormat implements InputFormat {
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
         value = readInheritAttribute(elem, "stroke-linecap", "butt");
-        a.put(SVGAttributeKeys.STROKE_CAP, strokeLinecapMap.get(value));
+        STROKE_CAP.set(a, strokeLinecapMap.get(value));
         
         
         //'stroke-linejoin'
@@ -1465,7 +1728,7 @@ public class SVGInputFormat implements InputFormat {
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
         value = readInheritAttribute(elem, "stroke-linejoin", "miter");
-        a.put(SVGAttributeKeys.STROKE_JOIN, strokeLinejoinMap.get(value));
+        STROKE_JOIN.set(a, strokeLinejoinMap.get(value));
         
         //'stroke-miterlimit'
         //Value:  	 <miterlimit> | inherit
@@ -1476,9 +1739,9 @@ public class SVGInputFormat implements InputFormat {
         //Media:  	 visual
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
-        doubleValue = toDouble(elem, readInheritAttribute(elem, "stroke-miterlimit", "4"));
-        a.put(SVGAttributeKeys.STROKE_MITER_LIMIT, doubleValue);
-        a.put(SVGAttributeKeys.IS_STROKE_MITER_LIMIT_FACTOR, false);
+        doubleValue = toDouble(elem, readInheritAttribute(elem, "stroke-miterlimit", "4"), 4d, 1d, Double.MAX_VALUE);
+        STROKE_MITER_LIMIT.set(a, doubleValue);
+        IS_STROKE_MITER_LIMIT_FACTOR.set(a, false);
         
         //'stroke-opacity'
         //Value:  	 <opacity-value> | inherit
@@ -1489,14 +1752,225 @@ public class SVGInputFormat implements InputFormat {
         //Media:  	 visual
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
-        doubleValue = toDouble(elem, readInheritAttribute(elem, "stroke-opacity", "1"), 1d, 0d, 1d);
-        if (doubleValue != 1d) {
-            Color c = (Color) a.get(SVGAttributeKeys.STROKE_COLOR);
-            if (c != null) {
-                a.put(SVGAttributeKeys.STROKE_COLOR,
-                        new Color((c.getRGB() & 0xffffff) | ((int) (255 * doubleValue) << 24), true)
-                        );
+        objectValue = readInheritAttribute(elem, "stroke-opacity", null);
+        if (objectValue == null) {
+            objectValue = readInheritAttribute(elem, "opacity", "1");
+        }
+        STROKE_OPACITY.set(a, toDouble(elem, (String) objectValue, 1d, 0d, 1d));
+        
+        //'stroke-width'
+        //Value:  	<length> | inherit
+        //Initial:  	 1
+        //Applies to:  	 shapes and text content elements
+        //Inherited:  	 yes
+        //Percentages:  	 N/A
+        //Media:  	 visual
+        //Animatable:  	 yes
+        //Computed value:  	 Specified value, except inherit
+        doubleValue = toScaledNumber(elem, readInheritAttribute(elem, "stroke-width", "1"));
+        STROKE_WIDTH.set(a, doubleValue);
+    }
+    /* Reads shape attributes for the SVG "use" element.
+     */
+    private void readUseShapeAttributes(IXMLElement elem, HashMap<AttributeKey,Object> a)
+    throws IOException {
+        Object objectValue;
+        String value;
+        double doubleValue;
+        
+        //'color'
+        // Value:  	<color> | inherit
+        // Initial:  	 depends on user agent
+        // Applies to:  	None. Indirectly affects other properties via currentColor
+        // Inherited:  	 yes
+        // Percentages:  	 N/A
+        // Media:  	 visual
+        // Animatable:  	 yes
+        // Computed value:  	 Specified <color> value, except inherit
+        //
+        // value = readInheritAttribute(elem, "color", "black");
+        // System.out.println("color="+value);
+        
+        //'color-rendering'
+        // Value:  	 auto | optimizeSpeed | optimizeQuality | inherit
+        // Initial:  	 auto
+        // Applies to:  	 container elements , graphics elements and 'animateColor'
+        // Inherited:  	 yes
+        // Percentages:  	 N/A
+        // Media:  	 visual
+        // Animatable:  	 yes
+        // Computed value:  	 Specified value, except inherit
+        //
+        // value = readInheritAttribute(elem, "color-rendering", "auto");
+        // System.out.println("color-rendering="+value);
+        
+        // 'fill'
+        // Value:  	<paint> | inherit (See Specifying paint)
+        // Initial:  	 black
+        // Applies to:  	 shapes and text content elements
+        // Inherited:  	 yes
+        // Percentages:  	 N/A
+        // Media:  	 visual
+        // Animatable:  	 yes
+        // Computed value:  	 "none", system paint, specified <color> value or absolute IRI
+        objectValue = readInheritAttribute(elem, "fill", null);
+        if (objectValue != null) {
+            objectValue = toPaint(elem, (String) objectValue);
+            if (objectValue instanceof Color) {
+                FILL_COLOR.set(a, (Color) objectValue);
+            } else if (objectValue instanceof Gradient) {
+                FILL_GRADIENT.set(a, (Gradient) objectValue);
+            } else if (objectValue == null) {
+                FILL_COLOR.set(a, null);
+            } else {
+                FILL_COLOR.set(a, null);
+                System.out.println("  fill="+objectValue);
             }
+        }
+        
+        //'fill-opacity'
+        //Value:  	 <opacity-value> | inherit
+        //Initial:  	 1
+        //Applies to:  	 shapes and text content elements
+        //Inherited:  	 yes
+        //Percentages:  	 N/A
+        //Media:  	 visual
+        //Animatable:  	 yes
+        //Computed value:  	 Specified value, except inherit
+        objectValue = readInheritAttribute(elem, "fill-opacity", null);
+        if (objectValue == null) {
+            objectValue = readInheritAttribute(elem, "opacity", null);
+        }
+        if (objectValue != null) {
+            FILL_OPACITY.set(a, toDouble(elem, (String) objectValue, 1d, 0d, 1d));
+        }
+        
+        // 'fill-rule'
+        // Value:	 nonzero | evenodd | inherit
+        // Initial: 	 nonzero
+        // Applies to:  	 shapes and text content elements
+        // Inherited:  	 yes
+        // Percentages:  	 N/A
+        // Media:  	 visual
+        // Animatable:  	 yes
+        // Computed value:  	 Specified value, except inherit
+        value = readInheritAttribute(elem, "fill-rule", null);
+        if (value != null) {
+            WINDING_RULE.set(a, fillRuleMap.get(value));
+        }
+        
+        //'stroke'
+        //Value:  	<paint> | inherit (See Specifying paint)
+        //Initial:  	 none
+        //Applies to:  	 shapes and text content elements
+        //Inherited:  	 yes
+        //Percentages:  	 N/A
+        //Media:  	 visual
+        //Animatable:  	 yes
+        //Computed value:  	 "none", system paint, specified <color> value
+        // or absolute IRI
+        objectValue = toPaint(elem, readInheritAttribute(elem, "stroke", null));
+        if (objectValue != null) {
+            if (objectValue instanceof Color) {
+                STROKE_COLOR.set(a, (Color) objectValue);
+            } else if (objectValue instanceof Gradient) {
+                STROKE_GRADIENT.set(a, (Gradient) objectValue);
+            }
+        }
+        
+        //'stroke-dasharray'
+        //Value:  	 none | <dasharray> | inherit
+        //Initial:  	 none
+        //Applies to:  	 shapes and text content elements
+        //Inherited:  	 yes
+        //Percentages:  	 N/A
+        //Media:  	 visual
+        //Animatable:  	 yes (non-additive)
+        //Computed value:  	 Specified value, except inherit
+        value = readInheritAttribute(elem, "stroke-dasharray", null);
+        if (value != null && ! value.equals("none")) {
+            String[] values = toCommaSeparatedArray(value);
+            double[] dashes = new double[values.length];
+            for (int i=0; i < values.length; i++) {
+                dashes[i] = toNumber(elem, values[i]);
+            }
+            STROKE_DASHES.set(a, dashes);
+        }
+        
+        //'stroke-dashoffset'
+        //Value:  	<length> | inherit
+        //Initial:  	 0
+        //Applies to:  	 shapes and text content elements
+        //Inherited:  	 yes
+        //Percentages:  	 N/A
+        //Media:  	 visual
+        //Animatable:  	 yes
+        //Computed value:  	 Specified value, except inherit
+        objectValue = readInheritAttribute(elem, "stroke-dashoffset", null);
+        if (objectValue != null) {
+            doubleValue = toNumber(elem, (String) objectValue);
+            STROKE_DASH_PHASE.set(a, doubleValue);
+            IS_STROKE_DASH_FACTOR.set(a, false);
+        }
+        
+        //'stroke-linecap'
+        //Value:  	 butt | round | square | inherit
+        //Initial:  	 butt
+        //Applies to:  	 shapes and text content elements
+        //Inherited:  	 yes
+        //Percentages:  	 N/A
+        //Media:  	 visual
+        //Animatable:  	 yes
+        //Computed value:  	 Specified value, except inherit
+        value = readInheritAttribute(elem, "stroke-linecap", null);
+        if (value != null) {
+            STROKE_CAP.set(a, strokeLinecapMap.get(value));
+        }
+        
+        //'stroke-linejoin'
+        //Value:  	 miter | round | bevel | inherit
+        //Initial:  	 miter
+        //Applies to:  	 shapes and text content elements
+        //Inherited:  	 yes
+        //Percentages:  	 N/A
+        //Media:  	 visual
+        //Animatable:  	 yes
+        //Computed value:  	 Specified value, except inherit
+        value = readInheritAttribute(elem, "stroke-linejoin", null);
+        if (value != null) {
+            STROKE_JOIN.set(a, strokeLinejoinMap.get(value));
+        }
+        //'stroke-miterlimit'
+        //Value:  	 <miterlimit> | inherit
+        //Initial:  	 4
+        //Applies to:  	 shapes and text content elements
+        //Inherited:  	 yes
+        //Percentages:  	 N/A
+        //Media:  	 visual
+        //Animatable:  	 yes
+        //Computed value:  	 Specified value, except inherit
+        objectValue = readInheritAttribute(elem, "stroke-miterlimit", null);
+        if (objectValue != null) {
+            doubleValue = toDouble(elem, (String) objectValue, 4d, 1d, Double.MAX_VALUE);
+            STROKE_MITER_LIMIT.set(a, doubleValue);
+            IS_STROKE_MITER_LIMIT_FACTOR.set(a, false);
+        }
+        
+        //'stroke-opacity'
+        //Value:  	 <opacity-value> | inherit
+        //Initial:  	 1
+        //Applies to:  	 shapes and text content elements
+        //Inherited:  	 yes
+        //Percentages:  	 N/A
+        //Media:  	 visual
+        //Animatable:  	 yes
+        //Computed value:  	 Specified value, except inherit
+        objectValue = readInheritAttribute(elem, "stroke-opacity", null);
+        if (objectValue == null) {
+            objectValue = readInheritAttribute(elem, "opacity", null);
+        }
+        if (objectValue != null) {
+            STROKE_OPACITY.set(a, toDouble(elem, (String) objectValue, 1d, 0d, 1d));
         }
         
         //'stroke-width'
@@ -1508,8 +1982,11 @@ public class SVGInputFormat implements InputFormat {
         //Media:  	 visual
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
-        doubleValue = toNumber(elem, readInheritAttribute(elem, "stroke-width", "1"));
-        a.put(SVGAttributeKeys.STROKE_WIDTH, doubleValue);
+        objectValue = readInheritAttribute(elem, "stroke-width", null);
+        if (objectValue != null) {
+            doubleValue = toScaledNumber(elem, (String) objectValue);
+            STROKE_WIDTH.set(a, doubleValue);
+        }
     }
     /* Reads viewport attributes.
      */
@@ -1554,7 +2031,9 @@ public class SVGInputFormat implements InputFormat {
         // table-footer-group | table-row | table-column-group | table-column |
         // table-cell | table-caption | none | inherit
         // Initial:  	 inline
-        // Applies to:  	 'svg' , 'g' , 'switch' , 'a' , 'foreignObject' , graphics elements (including the text content block elements) and text sub-elements (e.g., 'tspan' and 'a' )
+        // Applies to:  	 'svg' , 'g' , 'switch' , 'a' , 'foreignObject' ,
+        // graphics elements (including the text content block elements) and text 
+        // sub-elements (for example, 'tspan' and 'a' )
         // Inherited:  	 no
         // Percentages:  	 N/A
         // Media:  	 all
@@ -1630,7 +2109,8 @@ public class SVGInputFormat implements InputFormat {
         //'visibility'
         //Value:  	 visible | hidden | collapse | inherit
         //Initial:  	 visible
-        //Applies to:  	 graphics elements (including the text content block elements) and text sub-elements (e.g., 'tspan' and 'a' )
+        //Applies to:  	 graphics elements (including the text content block 
+        // elements) and text sub-elements (for example, 'tspan' and 'a' )
         //Inherited:  	 yes
         //Percentages:  	 N/A
         //Media:  	 visual
@@ -1653,15 +2133,28 @@ public class SVGInputFormat implements InputFormat {
         double y2 = toNumber(elem, readAttribute(elem, "y2", "0"));
         boolean isRelativeToFigureBounds = readAttribute(elem, "gradientUnits", "objectBoundingBox").equals("objectBoundingBox");
         
-        ArrayList stops = elem.getChildrenNamed("stop",SVG_NAMESPACE);
+        ArrayList<IXMLElement> stops = elem.getChildrenNamed("stop",SVG_NAMESPACE);
         if (stops.size() == 0) {
             stops = elem.getChildrenNamed("stop");
+        }
+        
+        AffineTransform tx = toTransform(elem, readAttribute(elem, "gradientTransform", "none"));
+        if (tx != null) {
+            Point2D.Double p = new Point2D.Double(x1,y1);
+            tx.transform(p,p);
+            x1 = p.x;
+            y1 = p.y;
+            p.x = x2;
+            p.y = y2;
+            tx.transform(p,p);
+            x2 = p.x;
+            y2 = p.y;
         }
         
         double[] stopOffsets = new double[stops.size()];
         Color[] stopColors = new Color[stops.size()];
         for (int i=0; i < stops.size(); i++) {
-            IXMLElement stopElem = (IXMLElement) stops.get(i);
+            IXMLElement stopElem = stops.get(i);
             stopOffsets[i] = toDouble(stopElem, readAttribute(stopElem, "offset", "0"), 0, 0, 1);
             // 'stop-color'
             // Value:  	currentColor | <color> | inherit
@@ -1708,7 +2201,7 @@ public class SVGInputFormat implements InputFormat {
         double r = toNumber(elem, readAttribute(elem, "r", "0.5"));
         boolean isRelativeToFigureBounds = readAttribute(elem, "gradientUnits", "objectBoundingBox").equals("objectBoundingBox");
         
-        ArrayList stops = elem.getChildrenNamed("stop",SVG_NAMESPACE);
+        ArrayList<IXMLElement> stops = elem.getChildrenNamed("stop",SVG_NAMESPACE);
         if (stops.size() == 0) {
             stops = elem.getChildrenNamed("stop");
         }
@@ -1716,7 +2209,7 @@ public class SVGInputFormat implements InputFormat {
         double[] stopOffsets = new double[stops.size()];
         Color[] stopColors = new Color[stops.size()];
         for (int i=0; i < stops.size(); i++) {
-            IXMLElement stopElem = (IXMLElement) stops.get(i);
+            IXMLElement stopElem = stops.get(i);
             stopOffsets[i] = toDouble(stopElem, readAttribute(stopElem, "offset", "0"), 0, 0, 1);
             // 'stop-color'
             // Value:  	currentColor | <color> | inherit
@@ -1753,7 +2246,7 @@ public class SVGInputFormat implements InputFormat {
     /* Reads font attributes as listed in
      * http://www.w3.org/TR/SVGMobile12/feature.html#Font
      */
-    private void readFontAttributes(IXMLElement elem, HashMap<AttributeKey,Object> a)
+    private void readFontAttributes(IXMLElement elem, Map<AttributeKey,Object> a)
     throws IOException {
         String value;
         double doubleValue;
@@ -1770,7 +2263,7 @@ public class SVGInputFormat implements InputFormat {
         // Animatable:  	yes
         // Computed value:  	 Specified value, except inherit
         value = readInheritAttribute(elem, "font-family", "Dialog");
-        a.put(AttributeKeys.FONT_FACE, new Font(value, Font.PLAIN, 12));
+        FONT_FACE.set(a, new Font(value, Font.PLAIN, 12));
         
         // 'font-size'
         // Value:  	<absolute-size> | <relative-size> |
@@ -1783,7 +2276,7 @@ public class SVGInputFormat implements InputFormat {
         // Animatable:  	yes
         // Computed value:  	 Absolute length
         doubleValue = readInheritFontSizeAttribute(elem, "font-size", "medium");
-        a.put(AttributeKeys.FONT_SIZE, doubleValue);
+        FONT_SIZE.set(a, doubleValue);
         
         // 'font-style'
         // Value:  	normal | italic | oblique | inherit
@@ -1795,7 +2288,7 @@ public class SVGInputFormat implements InputFormat {
         // Animatable:  	yes
         // Computed value:  	 Specified value, except inherit
         value = readInheritAttribute(elem, "font-style", "normal");
-        System.out.println("font-style="+value);
+        FONT_ITALIC.set(a, value.equals("italic"));
         
         
         //'font-variant'
@@ -1808,7 +2301,7 @@ public class SVGInputFormat implements InputFormat {
         //Animatable:  	no
         //Computed value:  	 Specified value, except inherit
         value = readInheritAttribute(elem, "font-variant", "normal");
-        System.out.println("font-variant="+value);
+        // System.out.println("font-variant="+value);
         
         // 'font-weight'
         // Value:  	normal | bold | bolder | lighter | 100 | 200 | 300
@@ -1823,7 +2316,9 @@ public class SVGInputFormat implements InputFormat {
         // values shall be converted to numeric values according to the rules
         // defined below.
         value = readInheritAttribute(elem, "font-weight", "normal");
-        System.out.println("font-weight="+value);
+        FONT_BOLD.set(a, value.equals("bold") || value.equals("bolder") ||
+                value.equals("400") || value.equals("500") || value.equals("600") ||
+                value.equals("700") || value.equals("800") || value.equals("900"));
         
     }
     
@@ -1873,7 +2368,8 @@ public class SVGInputFormat implements InputFormat {
         } else if (str.startsWith("url(")) {
             String href = value.substring(4,value.length() - 1);
             if (identifiedElements.containsKey(href.substring(1))) {
-                return elementObjects.get(identifiedElements.get(href.substring(1)));
+                Object obj = elementObjects.get(identifiedElements.get(href.substring(1)));
+                return obj;
             }
             // XXX - Implement me
             System.out.println("toPaint "+href);
@@ -1946,7 +2442,7 @@ public class SVGInputFormat implements InputFormat {
         } catch (NumberFormatException e) {
             return defaultValue;
            /*
-           IOException ex = new IOException(elem.getName()+"@"+elem.getLineNr()+" "+e.getMessage());
+           IOException ex = new IOException(elem.getTagName()+"@"+elem.getLineNr()+" "+e.getMessage());
            ex.initCause(e);
            throw ex;*/
         }
@@ -1964,10 +2460,14 @@ public class SVGInputFormat implements InputFormat {
             return value;
         }
     }
+    /* Converts an SVG transform attribute value into an AffineTransform
+     * as specified in
+     * http://www.w3.org/TR/SVGMobile12/coords.html#TransformAttribute
+     */
     public static AffineTransform toTransform(IXMLElement elem, String str) throws IOException {
         AffineTransform t = new AffineTransform();
         
-        if (str != null) {
+        if (str != null && ! str.equals("none")) {
             
             StreamTokenizer tt = new StreamTokenizer(new StringReader(str));
             tt.resetSyntax();
@@ -2080,53 +2580,44 @@ public class SVGInputFormat implements InputFormat {
         return t;
     }
     
-    public static void main(String[] args) {
-        final Drawing drawing;
-        try {
-            File f = new File(
-                    System.getProperty("user.home")+
-                    //"/../Shared/Developer/Java/JHotDraw/Assets/SVG Examples/11 Painting",
-                    // "13_01.svg"
-                    //       "/../Shared/Developer/Java/JHotDraw/Assets/Batik Examples",
-                    //       "chessboard.svg"
-                    "/Desktop/Spirale.svg"
-                    );
-            SVGInputFormat sf = new SVGInputFormat();
-            drawing = new DefaultDrawing();
-            sf.read(f.toURL(), new FileInputStream(f),drawing, new LinkedList<Figure>());
-            
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
-        
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                
-                // Show the drawing
-                JFrame f = new JFrame("My Drawing");
-                f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                f.setSize(400,300);
-                
-                DrawingView view = new DefaultDrawingView();
-                view.setDrawing(drawing);
-                f.getContentPane().add(view.getJComponent());
-                
-                f.show();
-            }
-        });
-    }
-    
-    public String getMimeType() {
-        return "image/svg+xml";
-    }
-    
     public javax.swing.filechooser.FileFilter getFileFilter() {
         return new ExtensionFileFilter("Scalable Vector Graphics (SVG)", "svg");
     }
     
     public JComponent getInputFormatAccessory() {
         return null;
+    }
+    
+    public void read(File file, Drawing drawing) throws IOException {
+        this.url = file.toURL();
+        BufferedInputStream in = null;
+        try {
+            in = new BufferedInputStream(new FileInputStream(file));
+            read(in, drawing);
+        } finally {
+            if (in != null) {
+                in.close();
+            }
+        }
+        this.url = null;
+    }
+    
+    public void read(InputStream in, Drawing drawing) throws IOException {
+        drawing.addAll(readFigures(in));
+    }
+    
+    public boolean isDataFlavorSupported(DataFlavor flavor) {
+        return flavor.getPrimaryType().equals("image") &&
+                flavor.getSubType().equals("svg+xml");
+    }
+    
+    public LinkedList<Figure> readFigures(Transferable t) throws UnsupportedFlavorException, IOException {
+        InputStream in = null;
+        try {
+            in = (InputStream) t.getTransferData(new DataFlavor("image/svg+xml", "Image SVG"));
+            return readFigures(in);
+        } finally {
+            if (in != null) { in.close(); }
+        }
     }
 }

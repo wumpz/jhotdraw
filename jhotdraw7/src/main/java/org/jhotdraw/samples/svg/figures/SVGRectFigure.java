@@ -24,6 +24,7 @@ import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 import org.jhotdraw.samples.svg.*;
+import org.jhotdraw.samples.svg.SVGConstants;
 import org.jhotdraw.util.*;
 import org.jhotdraw.xml.*;
 import org.jhotdraw.geom.*;
@@ -54,7 +55,7 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
     }
     public SVGRectFigure(double x, double y, double width, double height, double rx, double ry) {
         roundrect = new RoundRectangle2D.Double(x, y, width, height, rx, ry);
-       SVGConstants.setDefaults(this);
+       SVGAttributeKeys.setDefaults(this);
     }
     
     // DRAWING
@@ -146,7 +147,7 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
         if (TRANSFORM.get(this) != null ||
                 (tx.getType() & (AffineTransform.TYPE_TRANSLATION | AffineTransform.TYPE_MASK_SCALE)) != tx.getType()) {
             if (TRANSFORM.get(this) == null) {
-                TRANSFORM.set(this, (AffineTransform) tx.clone());
+                TRANSFORM.basicSet(this, (AffineTransform) tx.clone());
             } else {
                 TRANSFORM.get(this).preConcatenate(tx);
             }
@@ -188,12 +189,22 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
         });
         changed();
     }
-    public void restoreTo(Object geometry) {
-        TRANSFORM.set(this, (geometry == null) ? null : (AffineTransform) ((AffineTransform) geometry).clone());
+    public void restoreTransformTo(Object geometry) {
+            invalidateTransformedShape();
+            Object[] o = (Object[]) geometry;
+            roundrect = (RoundRectangle2D.Double) ((RoundRectangle2D.Double) o[0]).clone();
+            if (o[1] == null) {
+                TRANSFORM.set(this, null);
+            } else {
+            TRANSFORM.set(this, (AffineTransform) ((AffineTransform) o[1]).clone());
+            }
     }
     
-    public Object getRestoreData() {
-        return TRANSFORM.get(this) == null ? new AffineTransform() : TRANSFORM.get(this).clone();
+    public Object getTransformRestoreData() {
+        return new Object[] {
+            roundrect.clone(),
+            TRANSFORM.get(this)
+        };
     }
     
     // EDITING
@@ -219,11 +230,11 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
     // CONNECTING
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
         // XXX - This doesn't work with a transformed rect
-        return new ChopRoundRectConnector(this);
+        return new ChopRoundRectangleConnector(this);
     }
     public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
         // XXX - This doesn't work with a transformed rect
-        return new ChopRoundRectConnector(this);
+        return new ChopRoundRectangleConnector(this);
     }
     
     // COMPOSITE FIGURES

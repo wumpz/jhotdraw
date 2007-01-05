@@ -27,7 +27,7 @@ import org.jhotdraw.app.Project;
  * @author  Werner Randelshofer
  * @version 1.0  04 January 2005  Created.
  */
-public class CloseAction extends SaveBeforeAction {
+public class CloseAction extends AbstractSaveBeforeAction {
     public final static String ID = "close";
     
     /** Creates a new instance. */

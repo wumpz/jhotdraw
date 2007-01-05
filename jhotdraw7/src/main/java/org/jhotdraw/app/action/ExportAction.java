@@ -1,5 +1,5 @@
 /*
- * @(#)ExportAction.java  1.0  2006-04-07
+ * @(#)ExportAction.java  2.0  2007-01-02
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -21,22 +21,18 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
-import org.jhotdraw.app.Application;
-import org.jhotdraw.app.Project;
+import org.jhotdraw.app.*;
 
 /**
- * ExportAction.
+ * Presents a file chooser to the user and then exports the Project to the
+ * chosen file.
  * <p>
- * This action requires that the project has the following additional methods:
- * <pre>
- * public JFileChooser getExportChooser();
- *
- * // By convention this method is never invoked on the AWT Event Dispatcher Thread.
- * public void export(File f, javax.swing.filechooser.FileFilter filter, Component accessory) throws IOException;
- * </pre>
+ * This action requires that the project implements the ExportableProject interface.
  *
  * @author Werner Randelshofer
- * @version 1.0 2006-04-07 Created.
+ * @version 2.0 2007-01-02 Revised to support an interface rather than relying
+ * on Reflection. 
+ * <br>1.0 2006-04-07 Created.
  */
 public class ExportAction extends AbstractProjectAction {
     public final static String ID = "export";
@@ -49,19 +45,9 @@ public class ExportAction extends AbstractProjectAction {
         labels.configureAction(this, ID);
     }
     
-    private JFileChooser getExportChooser(Project project) {
-        try {
-            return (JFileChooser) Methods.invoke(project,"getExportChooser");
-        } catch (Throwable e) {
-            InternalError error = new InternalError("Project does not support exporting");
-            error.initCause(e);
-            throw error;
-        }
-    }
-    
     
     public void actionPerformed(ActionEvent evt) {
-        final Project project = getCurrentProject();
+        final ExportableProject project = (ExportableProject) getCurrentProject();
         if (project.isEnabled()) {
             ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
             
@@ -69,7 +55,7 @@ public class ExportAction extends AbstractProjectAction {
             project.setEnabled(false);
             
             File saveToFile;
-            JFileChooser fileChooser = getExportChooser(project);
+            JFileChooser fileChooser = project.getExportChooser();
             
             JSheet.showSheet(fileChooser, project.getComponent(), labels.getString("filechooser.export"), new SheetListener() {
                 public void optionSelected(final SheetEvent evt) {
@@ -88,23 +74,14 @@ public class ExportAction extends AbstractProjectAction {
         }
     }
     
-    protected void exportToFile(final Project project, final File file,
+    protected void exportToFile(final ExportableProject project, final File file,
             final javax.swing.filechooser.FileFilter filter,
             final Component accessory) {
         project.execute(new Worker() {
             public Object construct() {
                 try {
-                    Methods.invoke(project, "export",
-                            new Class[] {
-                        File.class,
-                        javax.swing.filechooser.FileFilter.class,
-                        Component.class
-                    },
-                            file, filter, accessory
-                            );
+                    project.export(file, filter, accessory);
                     return null;
-                } catch (InternalError e) {
-                    return (e.getCause() != null) ? e.getCause() : e;
                 } catch (Throwable e) {
                     return e;
                 }
@@ -114,7 +91,7 @@ public class ExportAction extends AbstractProjectAction {
             }
         });
     }
-    protected void fileExported(Project project, File file, Object value) {
+    protected void fileExported(ExportableProject project, File file, Object value) {
         if (value == null) {
             /*
             project.setFile(file);

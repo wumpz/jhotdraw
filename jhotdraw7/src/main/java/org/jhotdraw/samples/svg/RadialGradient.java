@@ -1,15 +1,15 @@
 /*
  * @(#)RadialGradient.java  1.0  December 9, 2006
  *
- * Copyright (c) 2006 Werner Randelshofer
- * Staldenmattweg 2, CH-6405 Immensee, Switzerland
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of
- * Werner Randelshofer. ("Confidential Information").  You shall not
- * disclose such Confidential Information and shall use it only in
- * accordance with the terms of the license agreement you entered into
- * with Werner Randelshofer.
+ * JHotDraw.org ("Confidential Information"). You shall not disclose
+ * such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with
+ * JHotDraw.org.
  */
 
 package org.jhotdraw.samples.svg;
@@ -50,18 +50,29 @@ public class RadialGradient implements Gradient {
     public void setRelativeToFigureBounds(boolean b) {
         isRelativeToFigureBounds = b;
     }
+    public void makeRelativeToFigureBounds(Figure f) {
+        // XXX - Untested code
+        if (! isRelativeToFigureBounds) {
+            isRelativeToFigureBounds = true;
+            Rectangle2D.Double bounds = f.getBounds();
+            cx = (cx - bounds.x) / bounds.width;
+            cy = (cy - bounds.y) / bounds.height;
+            r = Math.sqrt(bounds.width * bounds.width + bounds.height * bounds.height) / r;
+        }
+    }
     
-    public Paint getPaint(Figure f) {
+    
+    public Paint getPaint(Figure f, double opacity) {
         if (stopColors.length == 0) {
             return Color.BLACK;
         }
         Point2D.Double cp;
         double rr;
         if (isRelativeToFigureBounds) {
-            // XXX This does not work with transformed bounds!
+            // FIXME This does not work well with transformed bounds!
             Rectangle2D.Double bounds = f.getBounds();
             cp = new Point2D.Double(bounds.x + bounds.width * cx, bounds.y + bounds.height * cy);
-            rr = r * Math.sqrt(bounds.width * bounds.width + bounds.height * bounds.height); 
+            rr = r * Math.sqrt(bounds.width * bounds.width + bounds.height * bounds.height);
         } else {
             cp = new Point2D.Double(cx, cy);
             rr = r;
@@ -70,8 +81,29 @@ public class RadialGradient implements Gradient {
         for (int i=0; i < stopColors.length; i++) {
             fractions[i] = (float) stopOffsets[i];
         }
-        RadialGradientPaint gp = new RadialGradientPaint(cp, (float) rr, fractions, stopColors);
+        org.apache.batik.ext.awt.RadialGradientPaint gp =
+                new org.apache.batik.ext.awt.RadialGradientPaint(cp, (float) rr, fractions, stopColors);
         return gp;
+    }
+
+    public double getCX() {
+        return cx;
+    }
+
+    public double getCY() {
+        return cy;
+    }
+    public double getR() {
+        return r;
+    }
+    public double[] getStopOffsets() {
+        return stopOffsets.clone();
+    }
+    public Color[] getStopColors() {
+        return stopColors.clone();
+    }
+    public boolean isRelativeToFigureBounds() {
+        return isRelativeToFigureBounds;
     }
     
 }

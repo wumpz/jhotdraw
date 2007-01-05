@@ -22,11 +22,12 @@ This is a patched version of NanoXML which is made to be compilable with Java
 1.5 and to take advantage of the Java2 Collections API. 
 <p>
 NanoXML has been changed to not open a network connection to retrieve the DTD of
-a document. This greatly reduces the time needed to read an XML document. Also
-Applets can't read DTD's which are not located on the same URL path as the
-Applet's document base.
+a document. This greatly reduces the time needed to read an XML document and it
+allows to open XML documents when a computer is offline, or when a Java applet
+runs in a restricted environment that doesn't allow connections to the computer
+hosting the DTD.
 
-
+<!--
 <h2>Package Specification</h2>
 
 ##### FILL IN ANY SPECS NEEDED BY JAVA COMPATIBILITY KIT #####

@@ -1,19 +1,20 @@
 /*
  * @(#)OpenAction.java  2.0.1  2006-05-18
  *
- * Copyright (c) 2005-2006 Werner Randelshofer
- * Staldenmattweg 2, Immensee, CH-6405, Switzerland.
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of
- * Werner Randelshofer. ("Confidential Information").  You shall not
- * disclose such Confidential Information and shall use it only in
- * accordance with the terms of the license agreement you entered into
- * with Werner Randelshofer.
+ * JHotDraw.org ("Confidential Information"). You shall not disclose
+ * such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with
+ * JHotDraw.org.
  */
 
 package org.jhotdraw.app.action;
 
+import org.jhotdraw.gui.Worker;
 import org.jhotdraw.util.*;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.gui.event.*;
@@ -88,6 +89,7 @@ public class OpenAction extends AbstractApplicationAction {
         final Application app = getApplication();
         final File file = fileChooser.getSelectedFile();
         app.setEnabled(true);
+        project.setEnabled(false);
         
         // If there is another project with we set the multiple open
         // id of our project to max(multiple open id) + 1.
@@ -100,6 +102,7 @@ public class OpenAction extends AbstractApplicationAction {
             }
         }
         project.setMultipleOpenId(multipleOpenId);
+        project.setEnabled(false);
 
         // Open the file
         project.execute(new Worker() {

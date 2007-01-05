@@ -14,6 +14,7 @@
 
 package org.jhotdraw.app.action;
 
+import org.jhotdraw.gui.Worker;
 import org.jhotdraw.util.*;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.gui.event.*;
@@ -32,7 +33,7 @@ import org.jhotdraw.app.Project;
  * @author Werner Randelshofer.
  * @version 1.0 June 15, 2006 Created.
  */
-public class LoadRecentAction extends SaveBeforeAction {
+public class LoadRecentAction extends AbstractSaveBeforeAction {
     public final static String ID = "loadRecent";
     private File file;
     

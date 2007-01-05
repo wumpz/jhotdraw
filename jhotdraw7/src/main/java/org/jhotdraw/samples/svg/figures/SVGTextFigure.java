@@ -24,6 +24,7 @@ import javax.swing.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.samples.svg.*;
+import org.jhotdraw.samples.svg.SVGConstants;
 import org.jhotdraw.util.*;
 import org.jhotdraw.xml.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
@@ -40,7 +41,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  */
 public class SVGTextFigure
         extends SVGAttributedFigure
-        implements TextHolder, SVGFigure {
+        implements TextHolderFigure, SVGFigure {
     
     protected Point2D.Double[] coordinates = new Point2D.Double[] { new Point2D.Double() };
     protected double[] rotates = new double[] { 0 };
@@ -57,7 +58,7 @@ public class SVGTextFigure
     }
     public SVGTextFigure(String text) {
         setText(text);
-       SVGConstants.setDefaults(this);
+        SVGAttributeKeys.setDefaults(this);
     }
     
     // DRAWING
@@ -74,12 +75,25 @@ public class SVGTextFigure
     // SHAPE AND BOUNDS
     public void basicSetCoordinates(Point2D.Double[] coordinates) {
         this.coordinates = coordinates;
-        invalidate();
+        // invalidate();
     }
+    
+    public Point2D.Double[] getCoordinates() {
+        Point2D.Double[] c = new Point2D.Double[coordinates.length];
+        for (int i=0; i < c.length; i++) {
+            c[i] = (Point2D.Double) coordinates[i].clone();
+        }
+        return c;
+    }
+    
     public void basicSetRotates(double[] rotates) {
         this.rotates = rotates;
-        invalidate();
+        // invalidate();
     }
+    public double[] getRotates() {
+        return (double[]) rotates.clone();
+    }
+    
     public Rectangle2D.Double getBounds() {
         Rectangle2D rx = getTransformedShape().getBounds2D();
         Rectangle2D.Double r = (rx instanceof Rectangle2D.Double) ? (Rectangle2D.Double) rx : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
@@ -101,6 +115,7 @@ public class SVGTextFigure
     private void invalidateTransformedShape() {
         cachedTransformedShape = null;
     }
+    
     private Shape getTransformedShape() {
         if (cachedTransformedShape == null) {
             String text = getText();
@@ -154,9 +169,11 @@ public class SVGTextFigure
     public void basicTransform(AffineTransform tx) {
         invalidateTransformedShape();
         if (TRANSFORM.get(this) != null ||
-                (tx.getType() & (AffineTransform.TYPE_TRANSLATION | AffineTransform.TYPE_MASK_SCALE)) != tx.getType()) {
+                (tx.getType() &
+                (AffineTransform.TYPE_TRANSLATION /*| AffineTransform.TYPE_MASK_SCALE*/)) !=
+                tx.getType()) {
             if (TRANSFORM.get(this) == null) {
-                TRANSFORM.set(this, (AffineTransform) tx.clone());
+                TRANSFORM.basicSet(this, (AffineTransform) tx.clone());
             } else {
                 TRANSFORM.get(this).preConcatenate(tx);
             }
@@ -166,11 +183,11 @@ public class SVGTextFigure
             }
         }
     }
-    public void restoreTo(Object geometry) {
+    public void restoreTransformTo(Object geometry) {
         TRANSFORM.set(this, (geometry == null) ? null : (AffineTransform) ((AffineTransform) geometry).clone());
     }
     
-    public Object getRestoreData() {
+    public Object getTransformRestoreData() {
         return TRANSFORM.get(this) == null ? new AffineTransform() : TRANSFORM.get(this).clone();
     }
     
@@ -185,7 +202,7 @@ public class SVGTextFigure
         if (key == SVGAttributeKeys.TRANSFORM) {
             invalidateTransformedShape();
         }
-            super.basicSetAttribute(key, newValue);
+        super.basicSetAttribute(key, newValue);
     }
     
     /**
@@ -193,6 +210,12 @@ public class SVGTextFigure
      */
     public void setText(String newText) {
         setAttribute(TEXT, newText);
+    }
+    /**
+     * Sets the text shown by the text figure without firing events.
+     */
+    public void basicSetText(String newText) {
+        basicSetAttribute(TEXT, newText);
     }
     public boolean isEditable() {
         return editable;
@@ -220,11 +243,39 @@ public class SVGTextFigure
     }
     
     public void setFontSize(float size) {
-        FONT_SIZE.set(this, new Double(size));
+        // FONT_SIZE.set(this, new Double(size));
+        Point2D.Double p = new Point2D.Double(0, size);
+        AffineTransform tx =  TRANSFORM.get(this);
+        if (tx != null) {
+            try {
+                tx.inverseTransform(p, p);
+                Point2D.Double p0 = new Point2D.Double(0, 0);
+                tx.inverseTransform(p0, p0);
+                p.y -= p0.y;
+            } catch (NoninvertibleTransformException ex) {
+                ex.printStackTrace();
+            }
+        }
+        FONT_SIZE.set(this, Math.abs(p.y));
     }
     
     public float getFontSize() {
-        return FONT_SIZE.get(this).floatValue();
+        //   return FONT_SIZE.get(this).floatValue();
+        Point2D.Double p = new Point2D.Double(0, FONT_SIZE.get(this));
+        AffineTransform tx =  TRANSFORM.get(this);
+        if (tx != null) {
+            tx.transform(p, p);
+            Point2D.Double p0 = new Point2D.Double(0, 0);
+            tx.transform(p0, p0);
+            p.y -= p0.y;
+                /*
+            try {
+                tx.inverseTransform(p, p);
+            } catch (NoninvertibleTransformException ex) {
+                ex.printStackTrace();
+            }*/
+        }
+        return (float) Math.abs(p.y);
     }
     
     // EDITING
@@ -279,7 +330,7 @@ public class SVGTextFigure
         return 8;
     }
     
-    public TextHolder getLabelFor() {
+    public TextHolderFigure getLabelFor() {
         return this;
     }
     

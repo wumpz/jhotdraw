@@ -16,6 +16,7 @@ package org.jhotdraw.samples.pert;
 
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
+import org.jhotdraw.gui.*;
 import org.jhotdraw.util.*;
 
 import java.awt.*;
@@ -75,13 +76,13 @@ public class PertApplet extends JApplet {
         
         // We load the data using a worker thread
         // --------------------------------------
-        new SwingWorker() {
+        new Worker() {
             public Object construct() {
                 Object result;
                 try {
                         System.out.println("getParameter.datafile:"+getParameter("datafile"));
                     if (getParameter("data") != null) {
-                        NanoXMLLiteDOMInput domi = new NanoXMLLiteDOMInput(new PertFactory(), new StringReader(getParameter("data")));
+                        NanoXMLDOMInput domi = new NanoXMLDOMInput(new PertFactory(), new StringReader(getParameter("data")));
                         domi.openElement("PertDiagram");
                         result = domi.readObject(0);
                     } else if (getParameter("datafile") != null) {
@@ -89,7 +90,7 @@ public class PertApplet extends JApplet {
                         try {
                             URL url = new URL(getDocumentBase(), getParameter("datafile"));
                             in = url.openConnection().getInputStream();
-                            NanoXMLLiteDOMInput domi = new NanoXMLLiteDOMInput(new PertFactory(), in);
+                            NanoXMLDOMInput domi = new NanoXMLDOMInput(new PertFactory(), in);
                             domi.openElement("PertDiagram");
                             result = domi.readObject(0);
                         } finally {
@@ -103,16 +104,15 @@ public class PertApplet extends JApplet {
                 }
                 return result;
             }
-            public void finished() {
-                if (getValue() instanceof Throwable) {
-                    ((Throwable) getValue()).printStackTrace();
+            public void finished(Object result) {
+                if (result instanceof Throwable) {
+                    ((Throwable) result).printStackTrace();
                 }
                 Container c = getContentPane();
                 c.setLayout(new BorderLayout());
                 c.removeAll();
                 c.add(drawingPanel = new PertPanel());
                 
-                Object result = getValue();
                 initComponents();
                 if (result != null) {
                     if (result instanceof Drawing) {
@@ -141,7 +141,7 @@ public class PertApplet extends JApplet {
         if (text != null && text.length() > 0) {
             StringReader in = new StringReader(text);
             try {
-                NanoXMLLiteDOMInput domi = new NanoXMLLiteDOMInput(new PertFactory(), in);
+                NanoXMLDOMInput domi = new NanoXMLDOMInput(new PertFactory(), in);
                 domi.openElement("Pert");
                 
                 setDrawing((Drawing) domi.readObject(0));
@@ -160,7 +160,7 @@ public class PertApplet extends JApplet {
     public String getData() {
         CharArrayWriter out = new CharArrayWriter();
         try {
-            NanoXMLLiteDOMOutput domo = new NanoXMLLiteDOMOutput(new PertFactory());
+            NanoXMLDOMOutput domo = new NanoXMLDOMOutput(new PertFactory());
             domo.openElement("Pert");
             domo.writeObject(getDrawing());
             domo.closeElement();

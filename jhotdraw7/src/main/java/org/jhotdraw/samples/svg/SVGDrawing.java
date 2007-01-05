@@ -24,7 +24,7 @@ import org.jhotdraw.xml.*;
  * @author Werner Randelshofer
  * @version 1.0 July 8, 2006 Created.
  */
-public class SVGDrawing extends DefaultDrawing {
+public class SVGDrawing extends QuadTreeDrawing {
     private String title;
     private String description;
     

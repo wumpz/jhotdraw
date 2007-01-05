@@ -14,6 +14,7 @@
 
 package org.jhotdraw.app.action;
 
+import org.jhotdraw.gui.Worker;
 import org.jhotdraw.util.*;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.gui.event.*;
@@ -31,7 +32,7 @@ import org.jhotdraw.app.Project;
  * @author  Werner Randelshofer
  * @version 1.0  2005-10-16  Created.
  */
-public class LoadAction extends SaveBeforeAction {
+public class LoadAction extends AbstractSaveBeforeAction {
     public final static String ID = "load";
     
     /** Creates a new instance. */
@@ -52,6 +53,8 @@ public class LoadAction extends SaveBeforeAction {
     
     protected void openFile(final Project project, JFileChooser fileChooser) {
         final File file = fileChooser.getSelectedFile();
+        
+        project.setEnabled(false);
         
         // Open the file
         project.execute(new Worker() {

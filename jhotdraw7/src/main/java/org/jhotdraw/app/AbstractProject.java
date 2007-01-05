@@ -32,14 +32,48 @@ import java.util.prefs.*;
  */
 public abstract class AbstractProject extends JPanel  implements Project {
     private Application application;
+    /**
+     * The file chooser used for saving the project.
+     * Has a null value, if the file chooser has not been used yet.
+     */
     protected JFileChooser saveChooser;
+    /**
+     * The file chooser used for opening the project.
+     * Has a null value, if the file chooser has not been used yet.
+     */
     protected JFileChooser openChooser;
+    /**
+     * The project file. 
+     * Has a null value, if the project has not been loaded from a file
+     * or has not been saved yet.
+     */
     protected File file;
+    /**
+     * The executor used to perform background tasks for the Project in a
+     * controlled manner. This executor ensures that all background tasks
+     * are executed sequentually.
+     */
     protected Executor executor;
+    /**
+     * Hash map for storing project actions.
+     */
     private HashMap actions;
+    /**
+     * This is set to true, if the project has unsaved changes.
+     */
     private boolean hasUnsavedChanges;
+    /**
+     * The preferences of the project.
+     */
     private Preferences prefs;
+    /**
+     * This id is used to make multiple open projects from the same project file
+     * identifiable.
+     */
     private int multipleOpenId = 1;
+    /**
+     * This is set to true, if the project is showing.
+     */
     private boolean isShowing;
     
     /**

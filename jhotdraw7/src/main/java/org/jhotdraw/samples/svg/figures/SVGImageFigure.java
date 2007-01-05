@@ -26,6 +26,7 @@ import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 import org.jhotdraw.samples.svg.*;
+import org.jhotdraw.samples.svg.SVGConstants;
 import org.jhotdraw.util.*;
 import org.jhotdraw.xml.*;
 import org.jhotdraw.geom.*;
@@ -39,11 +40,11 @@ import org.jhotdraw.geom.*;
  * @author Werner Randelshofer
  * @version 1.0 July 8, 2006 Created.
  */
-public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, ImageHolder {
+public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, ImageHolderFigure {
     /**
      * This rectangle describes the bounds into which we draw the image.
      */
-    private Rectangle2D.Double rect;
+    private Rectangle2D.Double rectangle;
     /**
      * This is used to perform faster drawing.
      */
@@ -69,13 +70,13 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         this(0,0,0,0);
     }
     public SVGImageFigure(double x, double y, double width, double height) {
-        rect = new Rectangle2D.Double(x, y, width, height);
-       SVGConstants.setDefaults(this);
+        rectangle = new Rectangle2D.Double(x, y, width, height);
+       SVGAttributeKeys.setDefaults(this);
     }
     
     // DRAWING
-    public void drawFigure(Graphics2D g) {
-        super.drawFigure(g);
+    public void draw(Graphics2D g) {
+        super.draw(g);
         BufferedImage image = getBufferedImage();
         if (image != null) {
             if (TRANSFORM.get(this) != null) {
@@ -83,10 +84,10 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
                 //         Drawing a transformed image appears to be very slow.
                 Graphics2D gx = (Graphics2D) g.create();
                 gx.transform(TRANSFORM.get(this));
-                gx.drawImage(image, (int) rect.x, (int) rect.y, (int) rect.width, (int) rect.height, null);
+                gx.drawImage(image, (int) rectangle.x, (int) rectangle.y, (int) rectangle.width, (int) rectangle.height, null);
                 gx.dispose();
             } else {
-                g.drawImage(image, (int) rect.x, (int) rect.y, (int) rect.width, (int) rect.height, null);
+                g.drawImage(image, (int) rectangle.x, (int) rectangle.y, (int) rectangle.width, (int) rectangle.height, null);
             }
         } else {
             Shape shape = getTransformedShape();
@@ -103,16 +104,16 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     
     // SHAPE AND BOUNDS
     public double getX() {
-        return rect.x;
+        return rectangle.x;
     }
     public double getY() {
-        return rect.y;
+        return rectangle.y;
     }
     public double getWidth() {
-        return rect.width;
+        return rectangle.width;
     }
     public double getHeight() {
-        return rect.height;
+        return rectangle.height;
     }
     public Rectangle2D.Double getBounds() {
         Rectangle2D rx = getTransformedShape().getBounds2D();
@@ -135,10 +136,10 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     
     public void basicSetBounds(Point2D.Double anchor, Point2D.Double lead) {
         invalidateTransformedShape();
-        rect.x = Math.min(anchor.x, lead.x);
-        rect.y = Math.min(anchor.y , lead.y);
-        rect.width = Math.max(0.1, Math.abs(lead.x - anchor.x));
-        rect.height = Math.max(0.1, Math.abs(lead.y - anchor.y));
+        rectangle.x = Math.min(anchor.x, lead.x);
+        rectangle.y = Math.min(anchor.y , lead.y);
+        rectangle.width = Math.max(0.1, Math.abs(lead.x - anchor.x));
+        rectangle.height = Math.max(0.1, Math.abs(lead.y - anchor.y));
     }
     private void invalidateTransformedShape() {
         cachedTransformedShape = null;
@@ -146,7 +147,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     }
     private Shape getTransformedShape() {
         if (cachedTransformedShape == null) {
-            cachedTransformedShape = (Shape) rect.clone();
+            cachedTransformedShape = (Shape) rectangle.clone();
             if (TRANSFORM.get(this) != null) {
                 cachedTransformedShape = TRANSFORM.get(this).createTransformedShape(cachedTransformedShape);
             }
@@ -171,7 +172,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         if (TRANSFORM.get(this) != null ||
                 (tx.getType() & (AffineTransform.TYPE_TRANSLATION | AffineTransform.TYPE_MASK_SCALE)) != tx.getType()) {
             if (TRANSFORM.get(this) == null) {
-                TRANSFORM.set(this, (AffineTransform) tx.clone());
+                TRANSFORM.basicSet(this, (AffineTransform) tx.clone());
             } else {
                 TRANSFORM.get(this).preConcatenate(tx);
             }
@@ -187,12 +188,22 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     // ATTRIBUTES
     
     
-    public void restoreTo(Object geometry) {
-        TRANSFORM.set(this, (geometry == null) ? null : (AffineTransform) ((AffineTransform) geometry).clone());
+    public void restoreTransformTo(Object geometry) {
+            invalidateTransformedShape();
+            Object[] o = (Object[]) geometry;
+            rectangle = (Rectangle2D.Double) ((Rectangle2D.Double) o[0]).clone();
+            if (o[1] == null) {
+                TRANSFORM.set(this, null);
+            } else {
+            TRANSFORM.set(this, (AffineTransform) ((AffineTransform) o[1]).clone());
+            }
     }
     
-    public Object getRestoreData() {
-        return TRANSFORM.get(this) == null ? new AffineTransform() : TRANSFORM.get(this).clone();
+    public Object getTransformRestoreData() {
+        return new Object[] {
+            rectangle.clone(),
+            TRANSFORM.get(this)
+        };
     }
     
     // EDITING
@@ -216,19 +227,19 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     }
     // CONNECTING
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
-        // XXX - This doesn't work with a transformed rect
-        return new ChopBoxConnector(this);
+        // XXX - This doesn't work with a transformed rectangle
+        return new ChopRectangleConnector(this);
     }
     public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
-        // XXX - This doesn't work with a transformed rect
-        return new ChopBoxConnector(this);
+        // XXX - This doesn't work with a transformed rectangle
+        return new ChopRectangleConnector(this);
     }
     
     // COMPOSITE FIGURES
     // CLONING
     public SVGImageFigure clone() {
         SVGImageFigure that = (SVGImageFigure) super.clone();
-        that.rect = (Rectangle2D.Double) this.rect.clone();
+        that.rectangle = (Rectangle2D.Double) this.rectangle.clone();
         that.cachedTransformedShape = null;
         that.cachedHitShape = null;
         return that;
@@ -274,8 +285,6 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     /**
      * Sets the image.
      *
-     * @param fileSuffix the file name suffix of the file that the image
-     * was created from.
      * @param imageData The image data. If this is null, a buffered image must
      * be provided.
      * @param bufferedImage An image constructed from the imageData. If this
@@ -350,24 +359,32 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     }    
 
     public void loadImage(File file) throws IOException {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-        DataInputStream in = null;
-        byte[] buf = null;
-        BufferedImage img = null;
+        InputStream in = null;
         try {
-            in = new DataInputStream(new FileInputStream(file));
-            buf = new byte[(int) file.length()];
-            in.readFully(buf);
-            img = ImageIO.read(new ByteArrayInputStream(buf));
+            in = new FileInputStream(file);
+            loadImage(in);
         } catch (Throwable t) {
-            IOException ex =  new IOException(labels.getFormatted("failedToLoadImage", file.getName()));
-            ex.initCause(t);
-            throw ex;
+            ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+            IOException e = new IOException(labels.getFormatted("failedToLoadImage", file.getName()));
+            e.initCause(t);
+            throw e;
+        } finally {
+            if (in != null) in.close();
         }
+    }
+    public void loadImage(InputStream in) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] buf = new byte[512];
+        int bytesRead;
+        while ((bytesRead = in.read(buf)) > 0) {
+            baos.write(buf, 0, bytesRead);
+        }
+        BufferedImage img = ImageIO.read(new ByteArrayInputStream(baos.toByteArray()));
         if (img == null) {
-            throw new IOException(labels.getFormatted("failedToLoadImage", file.getName()));
+            ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+            throw new IOException(labels.getFormatted("failedToLoadImage", in.toString()));
         }
-        imageData = buf;
+        imageData = baos.toByteArray();
         bufferedImage = img;
     }
 }

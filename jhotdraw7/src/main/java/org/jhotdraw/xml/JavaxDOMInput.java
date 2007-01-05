@@ -1,5 +1,5 @@
 /*
- * @(#)JavaxDOMInput.java  2.1  2006-07-08
+ * @(#)JavaxDOMInput.java  2.2  2006-12-31
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -15,6 +15,7 @@
 package org.jhotdraw.xml;
 
 import java.util.*;
+import javax.xml.XMLConstants;
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.*;
@@ -22,11 +23,15 @@ import javax.xml.transform.stream.*;
 import org.w3c.dom.*;
 import java.io.*;
 import java.awt.*;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 /**
  * DOMInput.
  *
  * @author  Werner Randelshofer
- * @version 2.1 2006-07-08 Support objects which don't have an ID.
+ * @version 2.2 2006-12-31 Use a DocumentBuilder instead of a Transformer for
+ * better performance.
+ * <br>2.1 2006-07-08 Support objects which don't have an ID.
  * <br>2.0 2006-06-10 Support for Enum and double array objects added.
  * <br>1.0 February 17, 2004 Created.
  */
@@ -52,32 +57,50 @@ public class JavaxDOMInput implements DOMInput {
      */
     private DOMFactory factory;
     
+    
+    protected static DocumentBuilder documentBuilder;
+    /**
+     * Lazily create the document builder and keep a reference to it for
+     * performance improvement.
+     */
+    protected static DocumentBuilder getBuilder() throws IOException {
+        if (documentBuilder == null) {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            factory.setNamespaceAware(true);
+            factory.setValidating(false);
+            factory.setXIncludeAware(false);
+            try {
+                factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+                documentBuilder = factory.newDocumentBuilder();
+            } catch (Exception ex) {
+                InternalError error = new InternalError("Unable to create DocumentBuilder");
+                error.initCause(ex);
+                throw error;
+            }
+        }
+        return documentBuilder;
+    }
+    
     public JavaxDOMInput(DOMFactory factory, InputStream in) throws IOException {
         this.factory = factory;
         try {
-            Transformer t = TransformerFactory.newInstance().newTransformer();
-            DOMResult result = new DOMResult();
-            t.transform(new StreamSource(in), result);
-            document = (Document) result.getNode();
+            document = getBuilder().parse(in);
             current = document;
-        } catch (TransformerException e) {
-            IOException error = new IOException(e.getMessage());
-            error.initCause(e);
-            throw error;
+        } catch (SAXException ex) {
+            IOException e = new IOException(ex.getMessage());
+            e.initCause(ex);
+            throw e;
         }
     }
     public JavaxDOMInput(DOMFactory factory, Reader in) throws IOException {
         this.factory = factory;
         try {
-            Transformer t = TransformerFactory.newInstance().newTransformer();
-            DOMResult result = new DOMResult();
-            t.transform(new StreamSource(in), result);
-            document = (Document) result.getNode();
+            document = getBuilder().parse(new InputSource(in));
             current = document;
-        } catch (TransformerException e) {
-            IOException error = new IOException(e.getMessage());
-            error.initCause(e);
-            throw error;
+        } catch (SAXException ex) {
+            IOException e = new IOException(ex.getMessage());
+            e.initCause(ex);
+            throw e;
         }
     }
     

@@ -1,15 +1,15 @@
 /*
  * @(#)SVGFigureFactory.java  1.0  December 7, 2006
  *
- * Copyright (c) 2006 Werner Randelshofer
- * Staldenmattweg 2, CH-6405 Immensee, Switzerland
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of
- * Werner Randelshofer. ("Confidential Information").  You shall not
- * disclose such Confidential Information and shall use it only in
- * accordance with the terms of the license agreement you entered into
- * with Werner Randelshofer.
+ * JHotDraw.org ("Confidential Information"). You shall not disclose
+ * such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with
+ * JHotDraw.org.
  */
 
 package org.jhotdraw.samples.svg.io;
@@ -24,7 +24,7 @@ import org.jhotdraw.geom.*;
 import org.jhotdraw.samples.svg.*;
 
 /**
- * SVGFigureFactory.
+ * Creates Figures for SVG elements.
  *
  * @author Werner Randelshofer
  * @version 1.0 December 7, 2006 Created.
@@ -71,14 +71,17 @@ public interface SVGFigureFactory {
     /**
      * Creates a Figure from an image element.
      *
-     * @param fileSuffix This is supposed to ease the task of exporting the
-     * image from an SVG drawing at a later time.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     * @param width The width.
+     * @param height The height.
      * @param imageData Holds the image data. Can be null, if the buffered image
      * has not been created from a file.
      * @param bufferedImage Holds the buffered image. Can be null, if the 
      * image data has not been interpreted.
+     * @param attributes Figure attributes.
      */
-    public Figure createImage(double x, double y, double w, double h, 
+    public Figure createImage(double x, double y, double width, double height, 
            byte[] imageData, BufferedImage bufferedImage, Map<AttributeKey,Object> attributes);
 
 

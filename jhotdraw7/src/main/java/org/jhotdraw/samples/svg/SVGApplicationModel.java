@@ -54,6 +54,10 @@ public class SVGApplicationModel extends DefaultApplicationModel {
             ((SVGProject) p).setEditor(getSharedEditor());
         }
     }
+
+    public void initApplication(Application a) {
+putAction(ExportAction.ID, new ExportAction(a));
+    }
     /**
      * Creates toolbars for the application.
      * This class always returns an empty list. Subclasses may return other
@@ -171,6 +175,8 @@ addColorButtonsTo(bar, editor);
     private void addStrokeButtonsTo(JToolBar bar, DrawingEditor editor) {
         ToolBarButtonFactory.addStrokeWidthButtonTo(bar, editor);
         ToolBarButtonFactory.addStrokeDashesButtonTo(bar, editor);
+        ToolBarButtonFactory.addStrokeCapButtonTo(bar, editor);
+        ToolBarButtonFactory.addStrokeJoinButtonTo(bar, editor);
     }
 
 }

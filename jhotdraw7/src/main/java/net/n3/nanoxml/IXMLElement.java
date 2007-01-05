@@ -1,4 +1,6 @@
-/* Werner Randelshofer 2006-11-26 
+/* Werner Randelshofer 2006-12-31
+ * Made methods return typed collections.
+ * Werner Randelshofer 2006-11-26 
  * Added method getAttribute(String name, Map valueSet, String defaultKey, boolean allowLiterals);
  */
 /* IXMLElement.java                                                NanoXML/Java
@@ -186,7 +188,7 @@ public interface IXMLElement
     *
     * @return the non-null enumeration
     */
-   public Iterator iterateChildren();
+   public Iterator<IXMLElement> iterateChildren();
 
 
    /**
@@ -218,7 +220,7 @@ public interface IXMLElement
     *
     * @return the vector.
     */
-   public ArrayList getChildren();
+   public ArrayList<IXMLElement> getChildren();
 
 
    /**
@@ -264,7 +266,7 @@ public interface IXMLElement
     *
     * @return the non-null vector of child elements.
     */
-   public ArrayList getChildrenNamed(String name);
+   public ArrayList<IXMLElement> getChildrenNamed(String name);
 
 
    /**
@@ -275,7 +277,7 @@ public interface IXMLElement
     *
     * @return the non-null vector of child elements.
     */
-   public ArrayList getChildrenNamed(String name,
+   public ArrayList<IXMLElement> getChildrenNamed(String name,
                                   String namespace);
 
 
@@ -470,7 +472,7 @@ public interface IXMLElement
     *
     * @return the non-null enumeration.
     */
-   public Iterator iterateAttributeNames();
+   public Iterator<String> iterateAttributeNames();
 
 
    /**
@@ -565,7 +567,7 @@ public interface IXMLElement
    /**
     * Returns true if the element equals another element.
     *
-    * @param rawElement the element to compare to
+    * @param elt the element to compare to
     */
    public boolean equalsXMLElement(IXMLElement elt);
 
