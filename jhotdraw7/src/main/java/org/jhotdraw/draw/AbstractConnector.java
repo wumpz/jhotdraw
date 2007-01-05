@@ -83,7 +83,7 @@ public class AbstractConnector implements Connector {
         return isVisible;
     }
     protected final Figure getConnectorTarget(Figure f) {
-        return (isConnectToDecorator && f.getDecorator() != null) ? f.getDecorator() : f;
+        return (isConnectToDecorator && ((DecoratedFigure) f).getDecorator() != null) ? ((DecoratedFigure) f).getDecorator() : f;
     }
     
     

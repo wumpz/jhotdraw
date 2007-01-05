@@ -1,5 +1,5 @@
 /*
- * @(#)UngroupAction.java  1.1  2006-07-12
+ * @(#)UngroupAction.java  1.1.1  2006-12-29
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -24,7 +24,9 @@ import javax.swing.undo.*;
  * UngroupAction.
  *
  * @author  Werner Randelshofer
- * @version 1.1 2006-07-12 Changed to support any CompositeFigure.
+ * @version 1.1.1 2006-12-29 Add ungrouped figures at same index to Drawing where
+ * the Group was. 
+ * <br>1.1 2006-07-12 Changed to support any CompositeFigure.
  * <br>1.0 24. November 2003  Created.
  */
 public class UngroupAction extends AbstractSelectedAction {
@@ -81,8 +83,9 @@ public class UngroupAction extends AbstractSelectedAction {
         LinkedList<Figure> figures = new LinkedList<Figure>(group.getChildren());
         view.clearSelection();
         group.basicRemoveAllChildren();
-        view.getDrawing().basicAddAll(figures);
-        view.getDrawing().remove(group);
+        Drawing drawing = view.getDrawing();
+        drawing.basicAddAll(drawing.indexOf(group), figures);
+       drawing.remove(group);
         view.addToSelection(figures);
         return figures;
     }

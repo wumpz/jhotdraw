@@ -95,7 +95,7 @@ public class BezierScaleHandle extends AbstractHandle {
     }
     public void trackStart(Point anchor, int modifiersEx) {
         location = new Point(anchor.x, anchor.y);
-        restoreData = getBezierFigure().getRestoreData();
+        restoreData = getBezierFigure().getTransformRestoreData();
         transform = new AffineTransform();
         center = getBezierFigure().getCenter();
         Point2D.Double anchorPoint = view.viewToDrawing(anchor);
@@ -115,7 +115,7 @@ public class BezierScaleHandle extends AbstractHandle {
         transform.rotate(stepTheta - startTheta);
         transform.translate(-center.x, -center.y);
         getOwner().willChange();
-        getOwner().restoreTo(restoreData);
+        getOwner().restoreTransformTo(restoreData);
         getOwner().basicTransform(transform);
         getOwner().changed();
     }

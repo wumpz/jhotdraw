@@ -36,7 +36,7 @@ public class RestoreDataEdit extends AbstractUndoableEdit {
     public RestoreDataEdit(Figure figure, Object oldRestoreData) {
         this.figure = figure;
         this.oldRestoreData = oldRestoreData;
-        this.newRestoreData = figure.getRestoreData();
+        this.newRestoreData = figure.getTransformRestoreData();
     }
     public String getPresentationName() {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
@@ -54,13 +54,13 @@ public class RestoreDataEdit extends AbstractUndoableEdit {
     public void redo() throws CannotRedoException {
         super.redo();
          figure.willChange();
-        figure.restoreTo(newRestoreData);
+        figure.restoreTransformTo(newRestoreData);
          figure.changed();
     }
     public void undo() throws CannotUndoException {
         super.undo();
          figure.willChange();
-        figure.restoreTo(oldRestoreData);
+        figure.restoreTransformTo(oldRestoreData);
          figure.changed();
     }
 }

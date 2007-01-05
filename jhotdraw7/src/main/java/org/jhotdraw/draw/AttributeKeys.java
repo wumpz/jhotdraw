@@ -22,7 +22,9 @@ import org.jhotdraw.geom.*;
  * Defines AttributeKeys used by the Figures in this package as well as some
  * helper methods.
  * <p>
- * Applications can have an AttributeKeys class of their own.
+ * If you are developing an applications that uses a different set or an
+ * extended set of attributes, it is best, to create a new AttributeKeys class,
+ * and to define all needed AttributeKeys as static variables in there.
  *
  * @author Werner Randelshofer
  * @version 1.3 2006-12-09 Streamlined to better support SVG.
@@ -143,7 +145,7 @@ public class AttributeKeys {
          * If STROKE_TYPE is set to this value, a DoubleStroke instance is used
          * for stroking.
          * @deprecated This is not flexible enough. Lets replace this with
-         * STRIPED. i.e. support for striped strokes.  
+         * STRIPED. for example to support for striped strokes.  
          */
         DOUBLE
     }
@@ -343,7 +345,8 @@ public class AttributeKeys {
         switch (STROKE_TYPE.get(f)) {
             case BASIC :
             default :
-                return new BasicStroke((float) strokeWidth, BasicStroke.CAP_BUTT,
+                return new BasicStroke((float) strokeWidth, 
+                        STROKE_CAP.get(f),
                         STROKE_JOIN.get(f) ,
                         miterLimit,
                         dashes, (float) (STROKE_DASH_PHASE.get(f) * dashFactor));
@@ -352,7 +355,9 @@ public class AttributeKeys {
             case DOUBLE :
                 return new DoubleStroke(
                         (float) (STROKE_INNER_WIDTH_FACTOR.get(f) * strokeWidth),
-                        (float) strokeWidth, BasicStroke.CAP_BUTT, STROKE_JOIN.get(f),
+                        (float) strokeWidth,
+                        STROKE_CAP.get(f),
+                        STROKE_JOIN.get(f),
                         miterLimit,
                         dashes, (float) (STROKE_DASH_PHASE.get(f).floatValue() * dashFactor));
                 //not reached
@@ -445,9 +450,7 @@ public class AttributeKeys {
         double grow;
         
         double strokeWidth = AttributeKeys.getStrokeTotalWidth(f);
-        StrokePlacement placement = STROKE_PLACEMENT.get(f);
-
-        switch (placement) {
+        switch (STROKE_PLACEMENT.get(f)) {
             case INSIDE :
                 grow = strokeWidth / -2d;
                 break;

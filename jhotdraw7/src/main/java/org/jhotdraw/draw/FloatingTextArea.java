@@ -1,7 +1,7 @@
 /*
  *  @(#)FloatingTextArea.java 1.0.1 2006-02-27
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -10,13 +10,6 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
- *
- * Project:		JHotdraw - a GUI framework for technical drawings
- *				http://www.jhotdraw.org
- *				http://jhotdraw.sourceforge.net
- * Copyright:	� by the original author(s) and all contributors
- * License:		Lesser GNU Public License (LGPL)
- *				http://www.opensource.org/licenses/lgpl-license.html
  */
 package org.jhotdraw.draw;
 
@@ -28,6 +21,10 @@ import javax.swing.JScrollPane;
 
 /**
  * A FloatingTextArea overlays an editor on top of an area in a drawing.
+ *
+ * @author Werner Randelshofer
+ * @version 2.0 2006-01-14 Changed to support double precision coordinates.
+ * <br>1.0 2006-02-27 Derived from JHotDraw 5.4b1.
  */
 public class FloatingTextArea {
     /**
@@ -77,12 +74,12 @@ public class FloatingTextArea {
      * @param view the DrawingView
      * @param figure the figure holding the text
      */
-    public void createOverlay(DrawingView view, TextHolder figure) {
-        view.getJComponent().add(editScrollContainer, 0);
+    public void createOverlay(DrawingView view, TextHolderFigure figure) {
+        view.getComponent().add(editScrollContainer, 0);
         if (figure != null) {
         Font f = figure.getFont();
         // FIXME - Should scale with fractional value!
-        f = f.deriveFont(f.getStyle(), (float) (f.getSize() * view.getScaleFactor()));
+        f = f.deriveFont(f.getStyle(), (float) (figure.getFontSize() * view.getScaleFactor()));
         editWidget.setFont(f);
             editWidget.setForeground(figure.getTextColor());
             editWidget.setBackground(figure.getFillColor());
@@ -129,13 +126,13 @@ public class FloatingTextArea {
      * Removes the overlay.
      */
     public void endOverlay() {
-        view.getJComponent().requestFocus();
+        view.getComponent().requestFocus();
         if (editScrollContainer != null) {
             editScrollContainer.setVisible(false);
-            view.getJComponent().remove(editScrollContainer);
+            view.getComponent().remove(editScrollContainer);
             
             Rectangle bounds = editScrollContainer.getBounds();
-            view.getJComponent().repaint(bounds.x, bounds.y, bounds.width, bounds.height);
+            view.getComponent().repaint(bounds.x, bounds.y, bounds.width, bounds.height);
         }
     }
 }

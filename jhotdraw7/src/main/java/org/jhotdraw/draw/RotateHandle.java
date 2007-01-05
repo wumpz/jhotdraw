@@ -75,7 +75,7 @@ public class RotateHandle extends AbstractHandle {
     }
     public void trackStart(Point anchor, int modifiersEx) {
         location = new Point(anchor.x, anchor.y);
-        restoreData = getOwner().getRestoreData();
+        restoreData = getOwner().getTransformRestoreData();
         Rectangle2D.Double bounds = getOwner().getBounds();
         transform = new AffineTransform();
         center = new Point2D.Double(bounds.getCenterX(), bounds.getCenterY());
@@ -94,7 +94,7 @@ public class RotateHandle extends AbstractHandle {
         transform.rotate(stepTheta - startTheta);
         transform.translate(-center.x, -center.y);
         getOwner().willChange();
-        getOwner().restoreTo(restoreData);
+        getOwner().restoreTransformTo(restoreData);
         getOwner().basicTransform(transform);
         getOwner().changed();
     }
@@ -105,4 +105,7 @@ public class RotateHandle extends AbstractHandle {
         location = null;
     }
     
+    public String getToolTipText(Point p) {
+        return ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels").getString("rotateHandle.tip");
+        }
 }

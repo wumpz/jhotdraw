@@ -56,7 +56,7 @@ import org.jhotdraw.xml.DOMOutput;
  * <br>2.0 2006-01-14 Changed to support double precison coordinates.
  * <br>1.0 5. March 2004  Created.
  */
-public class TextAreaFigure extends AttributedFigure implements TextHolder {
+public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements TextHolderFigure {
     private Rectangle2D.Double bounds = new Rectangle2D.Double();
     private boolean editable = true;
     private final static BasicStroke dashes = new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] {4f, 4f}, 0f);
@@ -254,14 +254,14 @@ public class TextAreaFigure extends AttributedFigure implements TextHolder {
     }
     
     
-    public boolean contains(Point2D.Double p) {
+    public boolean figureContains(Point2D.Double p) {
         return bounds.contains(p);
     }
     
     public Rectangle2D.Double getBounds() {
         return (Rectangle2D.Double) bounds.getBounds2D();
     }
-    public void restoreTo(Object geometry) {
+    public void restoreTransformTo(Object geometry) {
         Rectangle2D.Double r = (Rectangle2D.Double) geometry;
         bounds.x = r.x;
         bounds.y = r.y;
@@ -269,7 +269,7 @@ public class TextAreaFigure extends AttributedFigure implements TextHolder {
         bounds.height = r.height;
     }
     
-    public Object getRestoreData() {
+    public Object getTransformRestoreData() {
         return bounds.clone();
     }
     
@@ -337,7 +337,7 @@ public class TextAreaFigure extends AttributedFigure implements TextHolder {
     public Tool getTool(Point2D.Double p) {
         return (isEditable() && contains(p)) ? new TextAreaTool(this) : null;
     }
-    public TextHolder getLabelFor() {
+    public TextHolderFigure getLabelFor() {
         return this;
     }
     

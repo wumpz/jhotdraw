@@ -70,6 +70,11 @@ public class BezierNodeHandle extends AbstractHandle {
             view.drawingToView(getBezierFigure().getPoint(index, 0)) :
             new Point(10,10);
     }
+    protected BezierPath.Node getBezierNode() {
+        return getBezierFigure().getPointCount() > index ?
+            getBezierFigure().getNode(index) :
+            null;
+    }
     
     protected Rectangle basicGetBounds() {
         Rectangle r = new Rectangle(getLocation());
@@ -84,7 +89,7 @@ public class BezierNodeHandle extends AbstractHandle {
         view.getDrawing().fireUndoableEditHappened(edit = new CompositeEdit("Punkt verschieben"));
         Point2D.Double location = view.getConstrainer().constrainPoint(view.viewToDrawing(getLocation()));
         Point2D.Double p = view.getConstrainer().constrainPoint(view.viewToDrawing(anchor));
-oldNode = figure.getNode(index);
+        oldNode = figure.getNode(index);
         fireHandleRequestSecondaryHandles();
     }
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
@@ -131,7 +136,7 @@ oldNode = figure.getNode(index);
         view.getDrawing().fireUndoableEditHappened(new BezierNodeEdit(f,index,oldNode,f.getNode(index)));
         view.getDrawing().fireUndoableEditHappened(edit);
     }
-   @Override public boolean isCombinableWith(Handle h) {
+    @Override public boolean isCombinableWith(Handle h) {
        /*
         if (super.isCombinableWith(h)) {
             BezierNodeHandle that = (BezierNodeHandle) h;
@@ -185,5 +190,17 @@ oldNode = figure.getNode(index);
             }
         }
         return list;
+    }
+    public String getToolTipText(Point p) {
+        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+        BezierPath.Node node = getBezierNode();
+        return (node == null) ? null : labels.getFormatted("bezierNodeHandle.tip",
+                labels.getFormatted(
+                (node.getMask() == 0) ?
+                    "bezierNode.linearNode" :
+                    ((node.getMask() == BezierPath.C1C2_MASK) ?
+                        "bezierNode.cubicNode" : "bezierNode.quadraticNode")
+                        )
+                        );
     }
 }

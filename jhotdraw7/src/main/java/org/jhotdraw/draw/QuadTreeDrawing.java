@@ -33,7 +33,7 @@ import java.util.*;
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
 public class QuadTreeDrawing extends AbstractDrawing
-implements FigureListener, UndoableEditListener {
+        implements FigureListener, UndoableEditListener {
     private ArrayList<Figure> figures = new ArrayList<Figure>();
     private QuadTree<Figure> quadTree = new QuadTree<Figure>();
     private boolean needsSorting = false;
@@ -42,13 +42,13 @@ implements FigureListener, UndoableEditListener {
     public QuadTreeDrawing() {
     }
     
-    protected int indexOf(Figure figure) {
+    public int indexOf(Figure figure) {
         return figures.indexOf(figure);
     }
     
     public void basicAdd(int index, Figure figure) {
         figures.add(index, figure);
-        quadTree.add(figure, figure.getDrawBounds());
+        quadTree.add(figure, figure.getDrawingArea());
         figure.addFigureListener(this);
         figure.addUndoableEditListener(this);
         needsSorting = true;
@@ -62,15 +62,19 @@ implements FigureListener, UndoableEditListener {
     }
     
     public void draw(Graphics2D g) {
-        Collection<Figure> c = quadTree.findIntersects(g.getClipBounds().getBounds2D());
-        Collection<Figure> toDraw = sort(c);
-        draw(g, toDraw);
+        if (g.getClipBounds() != null) {
+            Collection<Figure> c = quadTree.findIntersects(g.getClipBounds().getBounds2D());
+            Collection<Figure> toDraw = sort(c);
+            draw(g, toDraw);
+        } else {
+            draw(g, figures);
+        }
     }
     
     /**
      * Implementation note: Sorting can not be done for orphaned figures.
      */
-    public Collection<Figure> sort(Collection<Figure> c) {
+    public java.util.List<Figure> sort(Collection<Figure> c) {
         ensureSorted();
         ArrayList<Figure> sorted = new ArrayList<Figure>(c.size());
         for (Figure f : figures) {
@@ -93,7 +97,7 @@ implements FigureListener, UndoableEditListener {
     }
     public void figureChanged(FigureEvent e) {
         quadTree.remove(e.getFigure());
-        quadTree.add(e.getFigure(), e.getFigure().getDrawBounds());
+        quadTree.add(e.getFigure(), e.getFigure().getDrawingArea());
         needsSorting = true;
         fireAreaInvalidated(e.getInvalidatedArea());
     }
@@ -106,12 +110,12 @@ implements FigureListener, UndoableEditListener {
         remove(e.getFigure());
     }
     
-    public Collection<Figure> getFigures(Rectangle2D.Double bounds) {
-        return quadTree.findInside(bounds);
+    public java.util.List<Figure> getFigures(Rectangle2D.Double bounds) {
+        return new LinkedList(quadTree.findInside(bounds));
     }
     
-    public Collection<Figure> getFigures() {
-        return Collections.unmodifiableCollection(figures);
+    public java.util.List<Figure> getFigures() {
+        return Collections.unmodifiableList(figures);
     }
     
     public Figure findFigureInside(Point2D.Double p) {
@@ -188,8 +192,8 @@ implements FigureListener, UndoableEditListener {
         }
     }
     
-    public Collection<Figure> findFigures(Rectangle2D.Double r) {
-        Collection<Figure> c = quadTree.findIntersects(r);
+    public java.util.List<Figure> findFigures(Rectangle2D.Double r) {
+        LinkedList<Figure> c = new LinkedList<Figure>(quadTree.findIntersects(r));
         switch (c.size()) {
             case 0 :
                 // fall through
@@ -199,8 +203,8 @@ implements FigureListener, UndoableEditListener {
                 return sort(c);
         }
     }
-    public Collection<Figure> findFiguresWithin(Rectangle2D.Double r) {
-        Collection<Figure> c = findFigures(r);
+    public java.util.List<Figure> findFiguresWithin(Rectangle2D.Double r) {
+        java.util.List<Figure> c = findFigures(r);
         ArrayList<Figure> result = new ArrayList<Figure>(c.size());
         for (Figure f : c) {
             if (r.contains(f.getBounds())) {
@@ -214,14 +218,14 @@ implements FigureListener, UndoableEditListener {
         if (figures.remove(figure)) {
             figures.add(figure);
             needsSorting = true;
-            fireAreaInvalidated(figure.getDrawBounds());
+            fireAreaInvalidated(figure.getDrawingArea());
         }
     }
     public void sendToBack(Figure figure) {
         if (figures.remove(figure)) {
             figures.add(0, figure);
             needsSorting = true;
-            fireAreaInvalidated(figure.getDrawBounds());
+            fireAreaInvalidated(figure.getDrawingArea());
         }
     }
     

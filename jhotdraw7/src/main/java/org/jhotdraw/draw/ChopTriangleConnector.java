@@ -22,7 +22,7 @@ import java.awt.geom.*;
  * @author Werner Randelshofer.
  * @version 1.0 June 17, 2006 Created.
  */
-public class ChopTriangleConnector extends ChopBoxConnector {
+public class ChopTriangleConnector extends ChopRectangleConnector {
     
     /**
      * Only used for DOMStorable input.

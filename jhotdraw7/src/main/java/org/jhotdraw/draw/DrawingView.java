@@ -24,9 +24,9 @@ import javax.swing.*;
 /**
  * DrawingView renders a Drawing and listens to its changes.
  * It receives user input and forwards it to registered listeners.
- *
+ * 
  * @author Werner Randelshofer
- * @version 4.0 2006-12-03 Replaced operation getContainer by getJComponent. 
+ * @version 4.0 2006-12-03 Replaced operation getContainer by getComponent. 
  * <br>3.1 2006-03-15 Support for enabled state added.
  * <br>3.0 2006-02-20 Changed to share a single DrawingEditor by multiple 
  * views.
@@ -34,11 +34,6 @@ import javax.swing.*;
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
 public interface DrawingView {
-    /**
-     * Gets the tools.
-     */
-    public Set getTools();
-    
     /**
      * Gets the drawing.
      */
@@ -187,7 +182,7 @@ public interface DrawingView {
     /**
      * Returns the JComponent of the drawing view.
      */
-    public JComponent getJComponent();
+    public JComponent getComponent();
     
     /**
      * Gets an transform which can be used to convert

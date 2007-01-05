@@ -1,5 +1,5 @@
 /*
- * @(#)ToolBarButtonFactory.java  1.2  2006-07-16
+ * @(#)ToolBarButtonFactory.java  1.3  2006-12-29
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -31,7 +31,8 @@ import org.jhotdraw.draw.*;
  * ToolBarButtonFactory.
  *
  * @author Werner Randelshofer
- * @version 1.2 2006-07-16 Split some methods up for better reuse. 
+ * @version 1.3 2006-12-29 Split methods even more up. Added additional buttons. 
+ * <br>1.2 2006-07-16 Split some methods up for better reuse.
  * <br>1.1 2006-03-27 Font exclusion list updated.
  * <br>1.0 13. Februar 2006 Created.
  */
@@ -265,7 +266,12 @@ public class ToolBarButtonFactory {
         zoomPopupButton.setFocusable(false);
         return zoomPopupButton;
     }
-    public static AbstractButton createZoomButton(final DrawingView view) {
+    public static AbstractButton createZoomButton(DrawingView view) {
+        return createZoomButton(view, new double[] {
+            5, 4, 3, 2, 1.5, 1.25, 1, 0.75, 0.5, 0.25, 0.10
+        });
+    }
+    public static AbstractButton createZoomButton(final DrawingView view, double[] factors) {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
         
         final JPopupButton zoomPopupButton = new JPopupButton();
@@ -283,7 +289,6 @@ public class ToolBarButtonFactory {
             }
         });
         
-        double[] factors = {5, 4, 3, 2, 1.5, 1.25, 1, 0.75, 0.5, 0.25, 0.10};
         for (int i=0; i < factors.length; i++) {
             zoomPopupButton.add(
                     new ZoomAction(view, factors[i], zoomPopupButton) {
@@ -377,8 +382,13 @@ public class ToolBarButtonFactory {
         addStrokeDashesButtonTo(bar, editor);
         addStrokeTypeButtonTo(bar, editor);
         addStrokePlacementButtonTo(bar, editor);
+        addStrokeCapButtonTo(bar, editor);
+        addStrokeJoinButtonTo(bar, editor);
     }
     public static void addStrokeWidthButtonTo(JToolBar bar, DrawingEditor editor) {
+        addStrokeWidthButtonTo(bar, editor, new double[] {0.5d, 1d, 2d, 3d, 5d, 9d, 13d, 19d});
+    }
+    public static void addStrokeWidthButtonTo(JToolBar bar, DrawingEditor editor, double[] widths) {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
         
         JPopupButton strokeWidthPopupButton = new JPopupButton();
@@ -386,7 +396,6 @@ public class ToolBarButtonFactory {
         labels.configureToolBarButton(strokeWidthPopupButton,"attributeStrokeWidth");
         strokeWidthPopupButton.setFocusable(false);
         
-        double[] widths = {0.5d, 1d, 2d, 3d, 5d, 7d, 9d, 11d};
         NumberFormat formatter = NumberFormat.getInstance();
         if (formatter instanceof DecimalFormat) {
             ((DecimalFormat) formatter).setMaximumFractionDigits(1);
@@ -442,12 +451,7 @@ public class ToolBarButtonFactory {
         bar.add(strokeDecorationPopupButton);
     }
     public static void addStrokeDashesButtonTo(JToolBar bar, DrawingEditor editor) {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-        
-        JPopupButton strokeDashesPopupButton = new JPopupButton();
-        labels.configureToolBarButton(strokeDashesPopupButton,"attributeStrokeDashes");
-        strokeDashesPopupButton.setFocusable(false);
-        double[][] dashes = {
+        addStrokeDashesButtonTo(bar, editor, new double[][] {
             null,
             {4d, 4d},
             {2d, 2d},
@@ -455,7 +459,15 @@ public class ToolBarButtonFactory {
             {2d, 4d},
             {8d, 2d},
             {6d, 2d, 2d, 2d}
-        };
+        });
+    }
+    public static void addStrokeDashesButtonTo(JToolBar bar, DrawingEditor editor,
+            double[][] dashes) {
+        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+        
+        JPopupButton strokeDashesPopupButton = new JPopupButton();
+        labels.configureToolBarButton(strokeDashesPopupButton,"attributeStrokeDashes");
+        strokeDashesPopupButton.setFocusable(false);
         //strokeDashesPopupButton.setColumnCount(2, false);
         for (int i=0; i < dashes.length; i++) {
             
@@ -486,7 +498,7 @@ public class ToolBarButtonFactory {
         JPopupButton strokeTypePopupButton = new JPopupButton();
         labels.configureToolBarButton(strokeTypePopupButton,"attributeStrokeType");
         strokeTypePopupButton.setFocusable(false);
-
+        
         strokeTypePopupButton.add(
                 new AttributeAction(
                 editor,
@@ -813,7 +825,7 @@ public class ToolBarButtonFactory {
                 }
                 for (DrawingView v : editor.getDrawingViews()) {
                     v.setConstrainer(c);
-                    v.getJComponent().repaint();
+                    v.getComponent().repaint();
                 }
             }
         });
@@ -825,21 +837,21 @@ public class ToolBarButtonFactory {
      */
     public static AbstractButton createToggleGridButton(final DrawingView view) {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-        final JToggleButton toggleGridButton;
+        final JToggleButton toggleButton;
         
-        toggleGridButton = new JToggleButton();
-        labels.configureToolBarButton(toggleGridButton, "alignGrid");
-        toggleGridButton.setFocusable(false);
-        toggleGridButton.addItemListener(new ItemListener() {
+        toggleButton = new JToggleButton();
+        labels.configureToolBarButton(toggleButton, "alignGrid");
+        toggleButton.setFocusable(false);
+        toggleButton.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent event) {
                 Constrainer c;
-                if (toggleGridButton.isSelected()) {
+                if (toggleButton.isSelected()) {
                     c = new GridConstrainer(10,10);
                 } else {
                     c = new GridConstrainer(1,1);
                 }
                 view.setConstrainer(c);
-                view.getJComponent().repaint();
+                view.getComponent().repaint();
             }
         });
         view.addPropertyChangeListener(new PropertyChangeListener() {
@@ -847,12 +859,93 @@ public class ToolBarButtonFactory {
                 // String constants are interned
                 if (evt.getPropertyName() == "gridConstrainer") {
                     Constrainer c = (Constrainer) evt.getNewValue();
-                    toggleGridButton.setSelected(c.isVisible());
+                    toggleButton.setSelected(c.isVisible());
                 }
             }
         });
         
-        return toggleGridButton;
+        return toggleButton;
     }
     
+    public static void addStrokeCapButtonTo(JToolBar bar, DrawingEditor editor) {
+        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+        
+        JPopupButton popupButton = new JPopupButton();
+        labels.configureToolBarButton(popupButton,"attributeStrokeCap");
+        popupButton.setFocusable(false);
+        
+        HashMap<AttributeKey,Object> attr;
+        attr = new HashMap<AttributeKey,Object>();
+        attr.put(STROKE_CAP, BasicStroke.CAP_BUTT);
+        popupButton.add(
+                new AttributeAction(
+                editor,
+                attr,
+                labels.getString("attributeStrokeCapButt"),
+                null
+                )
+                );
+        attr = new HashMap<AttributeKey,Object>();
+        attr.put(STROKE_CAP, BasicStroke.CAP_ROUND);
+        popupButton.add(
+                new AttributeAction(
+                editor,
+                attr,
+                labels.getString("attributeStrokeCapRound"),
+                null
+                )
+                );
+        attr = new HashMap<AttributeKey,Object>();
+        attr.put(STROKE_CAP, BasicStroke.CAP_SQUARE);
+        popupButton.add(
+                new AttributeAction(
+                editor,
+                attr,
+                labels.getString("attributeStrokeCapSquare"),
+                null
+                )
+                );
+        bar.add(popupButton);
+    }
+    
+    public static void addStrokeJoinButtonTo(JToolBar bar, DrawingEditor editor) {
+        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+        
+        JPopupButton popupButton = new JPopupButton();
+        labels.configureToolBarButton(popupButton,"attributeStrokeJoin");
+        popupButton.setFocusable(false);
+        
+        HashMap<AttributeKey,Object> attr;
+        attr = new HashMap<AttributeKey,Object>();
+        attr.put(STROKE_JOIN, BasicStroke.JOIN_BEVEL);
+        popupButton.add(
+                new AttributeAction(
+                editor,
+                attr,
+                labels.getString("attributeStrokeJoinBevel"),
+                null
+                )
+                );
+        attr = new HashMap<AttributeKey,Object>();
+        attr.put(STROKE_JOIN, BasicStroke.JOIN_ROUND);
+        popupButton.add(
+                new AttributeAction(
+                editor,
+                attr,
+                labels.getString("attributeStrokeJoinRound"),
+                null
+                )
+                );
+        attr = new HashMap<AttributeKey,Object>();
+        attr.put(STROKE_JOIN, BasicStroke.JOIN_MITER);
+        popupButton.add(
+                new AttributeAction(
+                editor,
+                attr,
+                labels.getString("attributeStrokeJoinMiter"),
+                null
+                )
+                );
+        bar.add(popupButton);
+    }
 }

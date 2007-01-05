@@ -32,7 +32,7 @@ import javax.swing.undo.*;
  *
  * @author  Werner Randelshofer
  * @version 2.0 2006-01-15 Changed to support double precision coordinates.
- * <br>1.0 17. M�rz 2004  Created.
+ * <br>1.0 17. March 2004  Created.
  */
 public abstract class AlignAction extends AbstractSelectedAction {
     

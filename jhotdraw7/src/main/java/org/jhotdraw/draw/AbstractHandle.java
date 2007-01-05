@@ -297,4 +297,8 @@ public abstract class AbstractHandle implements Handle, FigureListener {
     public Collection<Handle> createSecondaryHandles() {
         return Collections.emptyList();
     }
+    
+    public String getToolTipText(Point p) {
+        return null;
+    }
 }

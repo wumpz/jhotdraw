@@ -31,7 +31,7 @@ import org.jhotdraw.geom.*;
  * @version 1.0 2006-03-27 Created.
  */
 
-public class TriangleFigure extends AttributedFigure {
+public class TriangleFigure extends AbstractAttributedFigure {
     
     /**
      * The bounds of the triangle figure.
@@ -199,7 +199,7 @@ public class TriangleFigure extends AttributedFigure {
         rectangle.width = Math.max(0.1, Math.abs(lead.x - anchor.x));
         rectangle.height = Math.max(0.1, Math.abs(lead.y - anchor.y));
     }
-    public Rectangle2D.Double getFigureDrawBounds() {
+    public Rectangle2D.Double getDrawingArea() {
         double totalStrokeWidth = AttributeKeys.getStrokeTotalWidth(this);
         double width = 0d;
         if (STROKE_COLOR.get(this) != null) {
@@ -260,7 +260,7 @@ public class TriangleFigure extends AttributedFigure {
         that.rectangle = (Rectangle2D.Double) this.rectangle.clone();
         return that;
     }
-    public void restoreTo(Object geometry) {
+    public void restoreTransformTo(Object geometry) {
         Rectangle2D.Double r = (Rectangle2D.Double) geometry;
         rectangle.x = r.x;
         rectangle.y = r.y;
@@ -268,7 +268,7 @@ public class TriangleFigure extends AttributedFigure {
         rectangle.height = r.height;
     }
     
-    public Object getRestoreData() {
+    public Object getTransformRestoreData() {
         return rectangle.clone();
     }
 }

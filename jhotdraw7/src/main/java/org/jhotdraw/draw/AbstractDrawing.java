@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractDrawing.java  2.1  2006-07-08
+ * @(#)AbstractDrawing.java  2.2  2006-12-26
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -10,7 +10,6 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-�
  */
 
 
@@ -19,6 +18,7 @@ package org.jhotdraw.draw;
 import org.jhotdraw.beans.*;
 import org.jhotdraw.undo.*;
 import org.jhotdraw.xml.*;
+import org.jhotdraw.io.*;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.font.*;
@@ -33,7 +33,8 @@ import java.io.*;
  * AbstractDrawing.
  *
  * @author Werner Randelshofer
- * @version 2.1 2006-07-08 Extend AbstractBean. 
+ * @version 2.2 2006-12-26 Support for InputFormat's and OutputFormat's added. 
+ * <br>2.1 2006-07-08 Extend AbstractBean. 
  * <br>2.0.1 2006-02-06 Did ugly dirty fix for IndexOutOfBoundsException when
  * undoing removal of Figures. 
  * <br>2.0 2006-01-14 Changed to support double precision coordinates.
@@ -43,6 +44,8 @@ public abstract class AbstractDrawing extends AbstractBean implements Drawing {
     private final static Object lock = new JPanel().getTreeLock();
     protected EventListenerList listenerList = new EventListenerList();
     private FontRenderContext fontRenderContext;
+    private java.util.List<InputFormat> inputFormats;
+    private java.util.List<OutputFormat> outputFormats;
     
     /** Creates a new instance. */
     public AbstractDrawing() {
@@ -94,9 +97,9 @@ public abstract class AbstractDrawing extends AbstractBean implements Drawing {
         
         fireUndoableEditHappened(edit);
     }
-    public void basicAddAll(Collection<Figure> figures) {
+    public void basicAddAll(int index, Collection<Figure> figures) {
         for (Figure f : figures) {
-            basicAdd(f);
+            basicAdd(index++, f);
         }
     }
     public void basicRemoveAll(Collection<Figure> toBeOrphaned) {
@@ -162,10 +165,9 @@ public abstract class AbstractDrawing extends AbstractBean implements Drawing {
                 }
             });
         } else {
-            fireAreaInvalidated(figure.getDrawBounds());
+            fireAreaInvalidated(figure.getDrawingArea());
         }
     }
-    protected abstract int indexOf(Figure figure);
     /**
      *  Notify all listenerList that have registered interest for
      * notification on this event type.
@@ -223,7 +225,7 @@ public abstract class AbstractDrawing extends AbstractBean implements Drawing {
             if (listeners[i] == DrawingListener.class) {
                 // Lazily create the event:
                 if (event == null)
-                    event = new DrawingEvent(this, f, f.getDrawBounds());
+                    event = new DrawingEvent(this, f, f.getDrawingArea());
                 ((DrawingListener)listeners[i+1]).figureAdded(event);
             }
         }
@@ -244,7 +246,7 @@ public abstract class AbstractDrawing extends AbstractBean implements Drawing {
             if (listeners[i] == DrawingListener.class) {
                 // Lazily create the event:
                 if (event == null)
-                    event = new DrawingEvent(this, f, f.getDrawBounds());
+                    event = new DrawingEvent(this, f, f.getDrawingArea());
                 ((DrawingListener)listeners[i+1]).figureRemoved(event);
             }
         }
@@ -281,5 +283,21 @@ public abstract class AbstractDrawing extends AbstractBean implements Drawing {
      */
     public Object getLock() {
         return lock;
+    }
+
+    public void setOutputFormats(java.util.List<OutputFormat> formats) {
+        this.outputFormats = formats;
+    }
+
+    public void setInputFormats(java.util.List<InputFormat> formats) {
+        this.inputFormats = formats;
+    }
+
+    public java.util.List<InputFormat> getInputFormats() {
+        return inputFormats;
+    }
+
+    public java.util.List<OutputFormat> getOutputFormats() {
+        return outputFormats;
     }
 }

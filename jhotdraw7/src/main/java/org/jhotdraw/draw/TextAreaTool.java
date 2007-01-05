@@ -23,7 +23,7 @@ import javax.swing.event.*;
 import java.util.*;
 import org.jhotdraw.geom.*;
 /**
- * A tool to create new or edit existing figures that implement the TextHolder
+ * A tool to create new or edit existing figures that implement the TextHolderFigure
  * interface, such as TextAreaFigure. The figure to be created is specified by a
  * prototype.
  * <p>
@@ -44,25 +44,25 @@ import org.jhotdraw.geom.*;
  * <li>Press the mouse button over a Figure on the DrawingView.</li>
  * </ol>
  * The TextAreaTool then uses Figure.findFigureInside to find a Figure that
- * implements the TextHolder interface and that is editable. Then it overlays
+ * implements the TextHolderFigure interface and that is editable. Then it overlays
  * a text area over the drawing where the user can enter the text for the Figure.
- *
- * @see TextHolder
- * @see FloatingTextArea
- *
+ * 
  * @author Werner Randelshofer
  * @version 2.0 2006-01-14 Changed to support double precison coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ *
+ * @see TextHolderFigure
+ * @see FloatingTextArea
  */
 public class TextAreaTool extends CreationTool implements ActionListener {
     private FloatingTextArea   textArea;
-    private TextHolder  typingTarget;
+    private TextHolderFigure  typingTarget;
     
     /** Creates a new instance. */
-    public TextAreaTool(TextHolder prototype) {
+    public TextAreaTool(TextHolderFigure prototype) {
         super(prototype);
     }
-    public TextAreaTool(TextHolder prototype, Map attributes) {
+    public TextAreaTool(TextHolderFigure prototype, Map attributes) {
         super(prototype, attributes);
     }
     
@@ -72,14 +72,14 @@ public class TextAreaTool extends CreationTool implements ActionListener {
     }
     
     /**
-     * If the pressed figure is a TextHolder it can be edited otherwise
+     * If the pressed figure is a TextHolderFigure it can be edited otherwise
      * a new text figure is created.
      */
     public void mousePressed(MouseEvent e) {
-        TextHolder textHolder = null;
+        TextHolderFigure textHolder = null;
         Figure pressedFigure = getDrawing().findFigureInside(getView().viewToDrawing(new Point(e.getX(), e.getY())));
-        if (pressedFigure instanceof TextHolder) {
-            textHolder = (TextHolder) pressedFigure;
+        if (pressedFigure instanceof TextHolderFigure) {
+            textHolder = (TextHolderFigure) pressedFigure;
             if (!textHolder.isEditable())
                 textHolder = null;
         }
@@ -100,7 +100,7 @@ public class TextAreaTool extends CreationTool implements ActionListener {
             // when the overlay figure is drawn because a JTextField cannot be scrolled)
             //view().checkDamage();
             /*
-            textHolder = (TextHolder)getCreatedFigure();
+            textHolder = (TextHolderFigure)getCreatedFigure();
             beginEdit(textHolder);*/
         }
     }
@@ -109,7 +109,7 @@ public class TextAreaTool extends CreationTool implements ActionListener {
     }
      */
     
-    protected void beginEdit(TextHolder textHolder) {
+    protected void beginEdit(TextHolderFigure textHolder) {
         if (textArea == null) {
             textArea = new FloatingTextArea();
             
@@ -126,7 +126,7 @@ public class TextAreaTool extends CreationTool implements ActionListener {
     }
     
     
-    private Rectangle2D.Double getFieldBounds(TextHolder figure) {
+    private Rectangle2D.Double getFieldBounds(TextHolderFigure figure) {
         Rectangle2D.Double r = figure.getBounds();
         Insets2D.Double insets = figure.getInsets();
         insets.subtractTo(r);
@@ -143,7 +143,7 @@ public class TextAreaTool extends CreationTool implements ActionListener {
     
     public void mouseReleased(MouseEvent evt) {
         if (createdFigure != null) {
-            TextHolder textHolder = (TextHolder) createdFigure;
+            TextHolderFigure textHolder = (TextHolderFigure) createdFigure;
             Rectangle2D.Double bounds = createdFigure.getBounds();
             if (bounds.width == 0 && bounds.height == 0) {
                 getDrawing().remove(createdFigure);

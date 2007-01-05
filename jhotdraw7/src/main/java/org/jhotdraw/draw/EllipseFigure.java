@@ -1,5 +1,5 @@
 /*
- * @(#)EllipseFigure.java  2.3  2006-06-17
+ * @(#)EllipseFigure.java  2.4  2006-12-23
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -23,14 +23,15 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * EllipseFigure.
  *
  * @author Werner Randelshofer
- * @version 2.3 2006-06-17 Added method chop(Point2D.Double).
+ * @version 2.4 2006-12-12 Made ellipse protected.
+ * <br>2.3 2006-06-17 Added method chop(Point2D.Double).
  * <br>2.2 2006-05-19 Support for stroke placement added.
  * <br>2.1 2006-03-22 Method getFigureDrawBounds added.
  * <br>2.0 2006-01-14 Changed to support double precison coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
-public class EllipseFigure extends AttributedFigure {
-    private Ellipse2D.Double ellipse;
+public class EllipseFigure extends AbstractAttributedFigure {
+    protected Ellipse2D.Double ellipse;
     
     /** Creates a new instance. */
     public EllipseFigure() {
@@ -63,7 +64,7 @@ public class EllipseFigure extends AttributedFigure {
     public Rectangle2D.Double getBounds() {
         return (Rectangle2D.Double) ellipse.getBounds2D();
     }
-    public Rectangle2D.Double getFigureDrawBounds() {
+    public Rectangle2D.Double getDrawingArea() {
         Rectangle2D.Double r = (Rectangle2D.Double) ellipse.getBounds2D();
         double grow = AttributeKeys.getPerpendicularHitGrowth(this);
         Geom.grow(r, grow, grow);
@@ -135,7 +136,7 @@ public class EllipseFigure extends AttributedFigure {
         return that;
     }
     
-    public void restoreTo(Object geometry) {
+    public void restoreTransformTo(Object geometry) {
         Ellipse2D.Double r = (Ellipse2D.Double) geometry;
         ellipse.x = r.x;
         ellipse.y = r.y;
@@ -143,7 +144,7 @@ public class EllipseFigure extends AttributedFigure {
         ellipse.height = r.height;
     }
     
-    public Object getRestoreData() {
+    public Object getTransformRestoreData() {
         return ellipse.clone();
     }
     

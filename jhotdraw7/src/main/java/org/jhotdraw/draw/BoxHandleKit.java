@@ -10,7 +10,6 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-�
  */
 
 package org.jhotdraw.draw;
@@ -102,7 +101,7 @@ public class BoxHandleKit {
             super(owner, loc);
         }
         public void trackStart(Point anchor, int modifiersEx) {
-            geometry = getOwner().getRestoreData();
+            geometry = getOwner().getTransformRestoreData();
             Point location = getLocation();
             dx = -anchor.x + location.x;
             dy = -anchor.y + location.y;
@@ -115,7 +114,7 @@ public class BoxHandleKit {
         }
         public void trackEnd(Point anchor, Point lead, int modifiersEx) {
             fireUndoableEditHappened(
-                    new GeometryEdit(getOwner(), geometry, getOwner().getRestoreData())
+                    new GeometryEdit(getOwner(), geometry, getOwner().getTransformRestoreData())
                     );
             
         }

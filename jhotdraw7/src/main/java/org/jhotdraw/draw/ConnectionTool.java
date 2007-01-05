@@ -147,11 +147,11 @@ public class ConnectionTool extends AbstractTool implements FigureListener {
                 p = getTargetConnector().getAnchor();
             }
             ConnectionFigure f = getConnection();
-            fireAreaInvalidated(f.getDrawBounds());
+            fireAreaInvalidated(f.getDrawingArea());
             f.willChange();
             f.basicSetBounds(f.getStartPoint(), p);
             f.changed();
-            fireAreaInvalidated(f.getDrawBounds());//new Rectangle2D.Double(viewToDrawing(anchor), p));
+            fireAreaInvalidated(f.getDrawingArea());//new Rectangle2D.Double(viewToDrawing(anchor), p));
         } else if (editedConnection != null) {
             editedConnection.willChange();
             editedConnection.setPoint(splitPoint, p);

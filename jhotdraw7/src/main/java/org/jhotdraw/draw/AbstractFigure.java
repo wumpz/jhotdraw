@@ -44,8 +44,6 @@ public abstract class AbstractFigure
     private Drawing drawing;
     private boolean isInteractive;
     private boolean isVisible = true;
-    protected Figure decorator;
-    private boolean isDrawDecoratorFirst = false;
     /**
      * We increase this number on each invocation of willChange() and
      * decrease it on each invocation of changed().
@@ -60,7 +58,7 @@ public abstract class AbstractFigure
     // SHAPE AND BOUNDS
     // ATTRIBUTES
     // EDITING
-// CONNECTING
+    // CONNECTING
     // COMPOSITE FIGURES
     // CLONING
     // EVENT HANDLING
@@ -95,19 +93,12 @@ public abstract class AbstractFigure
         return (getDrawing() == null) ? this : getDrawing().getLock();
     }
     
-    public void setDrawDecoratorFirst(boolean newValue) {
-        isDrawDecoratorFirst = newValue;
-    }
-    public boolean isDrawDecoratorFirst() {
-        return isDrawDecoratorFirst;
-    }
-    
     /**
      *  Notify all listenerList that have registered interest for
      * notification on this event type.
      */
     public void fireAreaInvalidated() {
-        fireAreaInvalidated(getDrawBounds());
+        fireAreaInvalidated(getDrawingArea());
     }
     /**
      *  Notify all listenerList that have registered interest for
@@ -292,9 +283,6 @@ public abstract class AbstractFigure
             that.listenerList = new EventListenerList();
             that.isConnectorsVisible = false;
             that.courtingConnection = null;
-            if (this.decorator != null) {
-                that.decorator = (Figure) this.decorator.clone();
-            }
             return that;
         } catch (CloneNotSupportedException e) {
             InternalError error = new InternalError(e.getMessage());
@@ -353,7 +341,7 @@ public abstract class AbstractFigure
      * Informs that a figure needs to be redrawn.
      */
     public void invalidate() {
-        fireAreaInvalidated(getDrawBounds());
+        fireAreaInvalidated(getDrawingArea());
     }
     protected boolean isChanging() {
         return changingDepth != 0;
@@ -380,7 +368,7 @@ public abstract class AbstractFigure
     public void changed() {
         if (changingDepth <= 1) {
             validate();
-            fireFigureChanged(getDrawBounds());
+            fireFigureChanged(getDrawingArea());
             changingDepth = 0;
         } else {
             changingDepth--;
@@ -408,12 +396,12 @@ public abstract class AbstractFigure
     /**
      * Returns the Figures connector for the specified location.
      * By default a ChopBoxConnector is returned.
-     * 
-     * 
-     * @see ChopBoxConnector
+     *
+     *
+     * @see ChopRectangleConnector
      */
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
-        return new ChopBoxConnector(this);
+        return new ChopRectangleConnector(this);
     }
     
     public boolean includes(Figure figure) {
@@ -425,7 +413,7 @@ public abstract class AbstractFigure
     }
     
     public Connector findCompatibleConnector(Connector c, boolean isStart) {
-        return new ChopBoxConnector(this);
+        return new ChopRectangleConnector(this);
     }
     
     /**
@@ -533,72 +521,9 @@ public abstract class AbstractFigure
         return 0;
     }
     
-    public String getTooltip(Point2D.Double p) {
+    public String getToolTipText(Point2D.Double p) {
         return null;
     }
-    
-    public void setDecorator(Figure newValue) {
-        willChange();
-        decorator = newValue;
-        if (decorator != null) {
-            decorator.basicSetBounds(getStartPoint(), getEndPoint());
-        }
-        changed();
-    }
-    
-    public Figure getDecorator() {
-        return decorator;
-    }
-    
-    public final void draw(Graphics2D g) {
-        if (isDrawDecoratorFirst()) {
-            drawDecorator(g);
-            drawFigure(g);
-        } else {
-            drawFigure(g);
-            drawDecorator(g);
-        }
-    }
-    protected abstract void drawFigure(Graphics2D g);
-    
-    protected void drawDecorator(Graphics2D g) {
-        if (decorator != null) {
-            updateDecoratorBounds();
-            decorator.draw(g);
-        }
-    }
-    
-    protected void updateDecoratorBounds() {
-        if (decorator != null) {
-            Point2D.Double sp = getStartPoint();
-            Point2D.Double ep = getEndPoint();
-            Insets2D.Double decoratorInsets = AttributeKeys.DECORATOR_INSETS.get(this);
-            sp.x -= decoratorInsets.left;
-            sp.y -= decoratorInsets.top;
-            ep.x += decoratorInsets.right;
-            ep.y += decoratorInsets.bottom;
-            decorator.basicSetBounds(sp, ep);
-        }
-        
-    }
-    
-    /**
-     * Returns the draw bounds of this Figure.
-     */
-    public final Rectangle2D.Double getDrawBounds() {
-        Rectangle2D.Double figureDrawBounds = getFigureDrawBounds();
-        if (decorator != null) {
-            updateDecoratorBounds();
-            figureDrawBounds.add(decorator.getDrawBounds());
-        }
-        return figureDrawBounds;
-    }
-    
-    /**
-     * Returns the draw bounds of this Figure without taking decorator bounds
-     * into account.
-     */
-    protected abstract Rectangle2D.Double getFigureDrawBounds();
     
     public String toString() {
         StringBuilder buf = new StringBuilder();
@@ -606,5 +531,5 @@ public abstract class AbstractFigure
         buf.append('@');
         buf.append(hashCode());
         return buf.toString();
-        }
+    }
 }

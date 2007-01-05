@@ -39,7 +39,8 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * @author Werner Randelshofer
  * @version 1.0 December 14, 2006 Created.
  */
-public class ImageFigure extends AttributedFigure implements ImageHolder {
+public class ImageFigure extends AbstractAttributedDecoratedFigure
+        implements ImageHolderFigure {
     /**
      * This rectangle describes the bounds into which we draw the image.
      */
@@ -65,7 +66,7 @@ public class ImageFigure extends AttributedFigure implements ImageHolder {
     }
     
     // DRAWING
-    public void drawFigure(Graphics2D g) {
+    protected void drawFigure(Graphics2D g) {
         if (AttributeKeys.FILL_COLOR.get(this) != null) {
             g.setColor(AttributeKeys.FILL_COLOR.get(this));
             drawFill(g);
@@ -96,8 +97,8 @@ public class ImageFigure extends AttributedFigure implements ImageHolder {
     }
     protected void drawFill(Graphics2D g) {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
-            double grow = AttributeKeys.getPerpendicularFillGrowth(this);
-            Geom.grow(r, grow, grow);
+        double grow = AttributeKeys.getPerpendicularFillGrowth(this);
+        Geom.grow(r, grow, grow);
         g.fill(r);
     }
     
@@ -116,8 +117,8 @@ public class ImageFigure extends AttributedFigure implements ImageHolder {
     protected void drawStroke(Graphics2D g) {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
         double grow = AttributeKeys.getPerpendicularDrawGrowth(this);
-       Geom.grow(r, grow, grow);
-       
+        Geom.grow(r, grow, grow);
+        
         g.draw(r);
     }
     
@@ -127,7 +128,7 @@ public class ImageFigure extends AttributedFigure implements ImageHolder {
         return bounds;
     }
     
-    public Rectangle2D.Double getFigureDrawBounds() {
+    public Rectangle2D.Double getFigureDrawingArea() {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
         double grow = AttributeKeys.getPerpendicularHitGrowth(this) + 1d;
         Geom.grow(r, grow, grow);
@@ -136,7 +137,7 @@ public class ImageFigure extends AttributedFigure implements ImageHolder {
     /**
      * Checks if a Point2D.Double is inside the figure.
      */
-    public boolean contains(Point2D.Double p) {
+    public boolean figureContains(Point2D.Double p) {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
         double grow = AttributeKeys.getPerpendicularHitGrowth(this) + 1d;
         Geom.grow(r, grow, grow);
@@ -164,11 +165,11 @@ public class ImageFigure extends AttributedFigure implements ImageHolder {
     // ATTRIBUTES
     
     
-    public void restoreTo(Object geometry) {
+    public void restoreTransformTo(Object geometry) {
         rectangle.setRect((Rectangle2D.Double) geometry);
     }
     
-    public Object getRestoreData() {
+    public Object getTransformRestoreData() {
         return (Rectangle2D.Double) rectangle.clone();
     }
     
@@ -181,11 +182,11 @@ public class ImageFigure extends AttributedFigure implements ImageHolder {
     // CONNECTING
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
         // XXX - This doesn't work with a transformed rect
-        return new ChopBoxConnector(this);
+        return new ChopRectangleConnector(this);
     }
     public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
         // XXX - This doesn't work with a transformed rect
-        return new ChopBoxConnector(this);
+        return new ChopRectangleConnector(this);
     }
     
     // COMPOSITE FIGURES
@@ -202,10 +203,10 @@ public class ImageFigure extends AttributedFigure implements ImageHolder {
         super.read(in);
         if (in.getElementCount("imageData") > 0) {
             in.openElement("imageData");
-                String base64Data = in.getText();
-                if (base64Data != null) {
-                    setImageData(Base64.decode(base64Data));
-                }
+            String base64Data = in.getText();
+            if (base64Data != null) {
+                setImageData(Base64.decode(base64Data));
+            }
             in.closeElement();
         }
     }
@@ -213,17 +214,15 @@ public class ImageFigure extends AttributedFigure implements ImageHolder {
     public void write(DOMOutput out) throws IOException {
         super.write(out);
         if (getImageData() != null) {
-        out.openElement("imageData");
-        out.addText(Base64.encodeBytes(getImageData()));
-        out.closeElement();
+            out.openElement("imageData");
+            out.addText(Base64.encodeBytes(getImageData()));
+            out.closeElement();
         }
     }
     
     /**
      * Sets the image.
      *
-     * @param fileSuffix the file name suffix of the file that the image
-     * was created from.
      * @param imageData The image data. If this is null, a buffered image must
      * be provided.
      * @param bufferedImage An image constructed from the imageData. If this
@@ -297,24 +296,32 @@ public class ImageFigure extends AttributedFigure implements ImageHolder {
     }
     
     public void loadImage(File file) throws IOException {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-        DataInputStream in = null;
-        byte[] buf = null;
-        BufferedImage img = null;
+        InputStream in = null;
         try {
-            in = new DataInputStream(new FileInputStream(file));
-            buf = new byte[(int) file.length()];
-            in.readFully(buf);
-            img = ImageIO.read(new ByteArrayInputStream(buf));
+            in = new FileInputStream(file);
+            loadImage(in);
         } catch (Throwable t) {
-            IOException ex =  new IOException(labels.getFormatted("failedToLoadImage"+file.getName()));
-            ex.initCause(t);
-            throw ex;
+            ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+            IOException e = new IOException(labels.getFormatted("failedToLoadImage", file.getName()));
+            e.initCause(t);
+            throw e;
+        } finally {
+            if (in != null) in.close();
         }
+    }
+    public void loadImage(InputStream in) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] buf = new byte[512];
+        int bytesRead;
+        while ((bytesRead = in.read(buf)) > 0) {
+            baos.write(buf, 0, bytesRead);
+        }
+        BufferedImage img = ImageIO.read(new ByteArrayInputStream(baos.toByteArray()));
         if (img == null) {
-            throw new IOException(labels.getFormatted("failedToLoadImage", file.getName()));
+            ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+            throw new IOException(labels.getFormatted("failedToLoadImage", in.toString()));
         }
-        imageData = buf;
+        imageData = baos.toByteArray();
         bufferedImage = img;
     }
 }

@@ -338,7 +338,7 @@ public abstract class AbstractCompositeFigure
     
     
     public boolean contains(Point2D.Double p) {
-        if (getDrawBounds().contains(p)) {
+        if (getDrawingArea().contains(p)) {
             for (Figure child : getChildrenFrontToBack()) {
                 if (child.isVisible() && child.contains(p)) return true;
             }
@@ -347,7 +347,7 @@ public abstract class AbstractCompositeFigure
     }
     
     public Figure findFigureInside(Point2D.Double p) {
-        if (getDrawBounds().contains(p)) {
+        if (getDrawingArea().contains(p)) {
             Figure found = null;
             for (Figure child : getChildrenFrontToBack()) {
                 if (child.isVisible()) {
@@ -431,11 +431,11 @@ public abstract class AbstractCompositeFigure
         }
     }
     
-    public Rectangle2D.Double getFigureDrawBounds() {
+    public Rectangle2D.Double getDrawingArea() {
         if (drawBounds == null) {
             for (Figure child : getChildrenFrontToBack()) {
                 if (child.isVisible()) {
-                    Rectangle2D.Double childBounds = child.getDrawBounds();
+                    Rectangle2D.Double childBounds = child.getDrawingArea();
                     if (! childBounds.isEmpty()) {
                         if (drawBounds == null) {
                             drawBounds = childBounds;
@@ -462,7 +462,7 @@ public abstract class AbstractCompositeFigure
         }
         return (bounds == null) ? new Rectangle2D.Double(0, 0, -1, -1) : (Rectangle2D.Double) bounds.clone();
     }
-    public void drawFigure(Graphics2D g) {
+    public void draw(Graphics2D g) {
         for (Figure child : children) {
             if (child.isVisible()) {
                 child.draw(g);
@@ -503,7 +503,7 @@ public abstract class AbstractCompositeFigure
     public void read(DOMInput in) throws IOException {
         in.openElement("children");
         for (int i=0; i < in.getElementCount(); i++) {
-            add((Figure) in.readObject(i));
+            basicAdd((Figure) in.readObject(i));
         }
         in.closeElement();
     }
@@ -520,20 +520,19 @@ public abstract class AbstractCompositeFigure
         return new HashMap<AttributeKey,Object>();
     }
     
-    public void restoreTo(Object geometry) {
+    public void restoreTransformTo(Object geometry) {
         LinkedList list = (LinkedList) geometry;
-        int index = 0;
-        for (Object geom : list) {
-            getChild(index).restoreTo(geom);
-            index++;
+        Iterator i = list.iterator();
+        for (Figure child : children) {
+            child.restoreTransformTo(i.next());
         }
         invalidateBounds();
     }
     
-    public Object getRestoreData() {
+    public Object getTransformRestoreData() {
         LinkedList<Object> list = new LinkedList<Object>();
         for (Figure child : children) {
-            list.add(child.getRestoreData());
+            list.add(child.getTransformRestoreData());
         }
         return list;
     }

@@ -82,7 +82,7 @@ public class GroupAction extends AbstractSelectedAction {
         LinkedList<Figure> figures = new LinkedList<Figure>(group.getChildren());
         view.clearSelection();
         group.basicRemoveAllChildren();
-        view.getDrawing().basicAddAll(figures);
+        view.getDrawing().basicAddAll(view.getDrawing().getFigureCount(), figures);
         view.getDrawing().remove(group);
         view.addToSelection(figures);
         return figures;

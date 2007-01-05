@@ -10,7 +10,6 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-�
  */
 
 
@@ -20,7 +19,7 @@ import java.awt.*;
 import java.awt.event.*;
 /**
  * Tool to select and manipulate figures.
- * A selection tool is in one of three states, e.g., background
+ * A selection tool is in one of three states, for example, background
  * selection, figure selection, handle manipulation. The different
  * states are handled by different tracker objects.
  *
@@ -52,23 +51,33 @@ public class SelectionTool extends AbstractTool
     }
     
     public void keyPressed(KeyEvent e) {
-        tracker.keyPressed(e);
+        if (getView() != null && getView().isEnabled()) {
+            tracker.keyPressed(e);
+        }
     }
     
     public void keyReleased(KeyEvent evt) {
-        tracker.keyReleased(evt);
+        if (getView() != null && getView().isEnabled()) {
+            tracker.keyReleased(evt);
+        }
     }
     
     public void keyTyped(KeyEvent evt) {
-        tracker.keyTyped(evt);
+        if (getView() != null && getView().isEnabled()) {
+            tracker.keyTyped(evt);
+        }
     }
     
     public void mouseClicked(MouseEvent evt) {
-        tracker.mouseClicked(evt);
+        if (getView() != null && getView().isEnabled()) {
+            tracker.mouseClicked(evt);
+        }
     }
     
     public void mouseDragged(MouseEvent evt) {
-        tracker.mouseDragged(evt);
+        if (getView() != null && getView().isEnabled()) {
+            tracker.mouseDragged(evt);
+        }
     }
     
     public void mouseEntered(MouseEvent evt) {
@@ -86,7 +95,9 @@ public class SelectionTool extends AbstractTool
     }
     
     public void mouseReleased(MouseEvent evt) {
-        tracker.mouseReleased(evt);
+        if (getView() != null && getView().isEnabled()) {
+            tracker.mouseReleased(evt);
+        }
     }
     public void draw(Graphics2D g) {
         tracker.draw(g);
@@ -94,29 +105,31 @@ public class SelectionTool extends AbstractTool
     
     
     public void mousePressed(MouseEvent evt) {
-        super.mousePressed(evt);
-        DrawingView view = getView();
-        Handle handle = view.findHandle(anchor);
-        Tool newTracker = null;
-        if (handle != null) {
-            newTracker = createHandleTracker(handle);
-        } else {
-            Figure figure = view.findFigure(anchor);
-            if (figure != null) {
-                newTracker = createDragTracker(figure);
+        if (getView() != null && getView().isEnabled()) {
+            super.mousePressed(evt);
+            DrawingView view = getView();
+            Handle handle = view.findHandle(anchor);
+            Tool newTracker = null;
+            if (handle != null) {
+                newTracker = createHandleTracker(handle);
             } else {
-                if (! evt.isShiftDown()) {
-                    view.clearSelection();
-                    view.setHandleDetailLevel(0);
+                Figure figure = view.findFigure(anchor);
+                if (figure != null) {
+                    newTracker = createDragTracker(figure);
+                } else {
+                    if (! evt.isShiftDown()) {
+                        view.clearSelection();
+                        view.setHandleDetailLevel(0);
+                    }
+                    newTracker = createAreaTracker();
                 }
-                newTracker = createAreaTracker();
             }
+            
+            if (newTracker != null) {
+                setTracker(newTracker);
+            }
+            tracker.mousePressed(evt);
         }
-        
-        if (newTracker != null) {
-            setTracker(newTracker);
-        }
-        tracker.mousePressed(evt);
     }
     
     protected void setTracker(Tool newTracker) {

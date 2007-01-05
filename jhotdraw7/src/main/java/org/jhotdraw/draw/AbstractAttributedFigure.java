@@ -1,5 +1,5 @@
 /*
- * @(#)AttributedFigure.java  3.2  2006-12-07
+ * @(#)AbstractAttributedFigure.java  4.0  2007-01-03
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -25,11 +25,11 @@ import org.jhotdraw.xml.DOMOutput;
 /**
  * A figure that can keep track of an open ended set of attributes.
  * <p>
- * FIXME - Move all convenience attribute getter methods into AttributeKeys
- *
  *
  * @author Werner Randelshofer
- * @version 3.2 2006-12-07 Changed method setAttributes(HashMap) 
+ * @version 4.0 2007-01-03 Renamed from AttributedFigure to
+ * AbstractAttributedFigure. 
+ * <br>3.2 2006-12-07 Changed method setAttributes(HashMap) 
  * to setAttributes(Map); 
  * <br>3.1 2006-06-17 Method chop(Point2D.Double) added.
  * <br>3.0 2006-06-07 Reworked.
@@ -37,7 +37,7 @@ import org.jhotdraw.xml.DOMOutput;
  * <br>2.0 2006-01-14 Changed to support double precision coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
-public abstract class AttributedFigure extends AbstractFigure {
+public abstract class AbstractAttributedFigure extends AbstractFigure {
     private HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey,Object>();
     /**
      * Forbidden attributes can't be set by the setAttribute() operation.
@@ -46,7 +46,7 @@ public abstract class AttributedFigure extends AbstractFigure {
     private HashSet<AttributeKey> forbiddenAttributes;
     
     /** Creates a new instance. */
-    public AttributedFigure() {
+    public AbstractAttributedFigure() {
     }
     
     
@@ -86,6 +86,11 @@ public abstract class AttributedFigure extends AbstractFigure {
         return forbiddenAttributes == null || ! forbiddenAttributes.contains(key);
     }
     
+    public void basicSetAttributes(Map<AttributeKey, Object> map) {
+        for (Map.Entry<AttributeKey, Object> entry : map.entrySet()) {
+            basicSetAttribute(entry.getKey(), entry.getValue());
+        }
+    }
     public void setAttributes(Map<AttributeKey, Object> map) {
         for (Map.Entry<AttributeKey, Object> entry : map.entrySet()) {
             setAttribute(entry.getKey(), entry.getValue());
@@ -113,7 +118,7 @@ public abstract class AttributedFigure extends AbstractFigure {
     }
     
     
-    public void drawFigure(Graphics2D g) {
+    public void draw(Graphics2D g) {
         if (AttributeKeys.FILL_COLOR.get(this) != null) {
             g.setColor(AttributeKeys.FILL_COLOR.get(this));
             drawFill(g);
@@ -155,10 +160,14 @@ public abstract class AttributedFigure extends AbstractFigure {
     }
     
     
-    public Rectangle2D.Double getFigureDrawBounds() {
-        double width = AttributeKeys.getStrokeTotalWidth(this) / 2d;
+    public Rectangle2D.Double getDrawingArea() {
+        double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this);
+        double width = strokeTotalWidth / 2d;
         if (STROKE_JOIN.get(this) == BasicStroke.JOIN_MITER) {
             width *= STROKE_MITER_LIMIT.get(this);
+        }
+        if (STROKE_CAP.get(this) != BasicStroke.CAP_BUTT) {
+            width += strokeTotalWidth * 2;
         }
         width++;
         Rectangle2D.Double r = getBounds();
@@ -168,7 +177,7 @@ public abstract class AttributedFigure extends AbstractFigure {
     
     /**
      * This method is called by method draw() to draw the fill
-     * area of the figure. AttributedFigure configures the Graphics2D
+     * area of the figure. AbstractAttributedFigure configures the Graphics2D
      * object with the FILL_COLOR attribute before calling this method.
      * If the FILL_COLOR attribute is null, this method is not called.
      */
@@ -181,7 +190,7 @@ public abstract class AttributedFigure extends AbstractFigure {
      */
     /**
      * This method is called by method draw() to draw the text of the figure
-     *. AttributedFigure configures the Graphics2D object with
+     * . AbstractAttributedFigure configures the Graphics2D object with
      * the TEXT_COLOR attribute before calling this method.
      * If the TEXT_COLOR attribute is null, this method is not called.
      */
@@ -189,8 +198,8 @@ public abstract class AttributedFigure extends AbstractFigure {
     protected void drawText(java.awt.Graphics2D g) {
     }
     
-    public AttributedFigure clone() {
-        AttributedFigure that = (AttributedFigure) super.clone();
+    public AbstractAttributedFigure clone() {
+        AbstractAttributedFigure that = (AbstractAttributedFigure) super.clone();
         that.attributes = new HashMap<AttributeKey,Object>(this.attributes);
         if (this.forbiddenAttributes != null) {
             that.forbiddenAttributes = new HashSet<AttributeKey>(this.forbiddenAttributes);

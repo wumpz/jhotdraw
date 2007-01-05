@@ -10,7 +10,6 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-�
  */
 
 package org.jhotdraw.draw;
@@ -25,9 +24,9 @@ import org.jhotdraw.geom.*;
  * a diamond figure.
  *
  * @author Werner Randelshofer
- * @version 1.0 27. M�rz 2006 Created.
+ * @version 1.0 27. March 2006 Created.
  */
-public class ChopDiamondConnector extends ChopBoxConnector {
+public class ChopDiamondConnector extends ChopRectangleConnector {
     
     public ChopDiamondConnector() {
         // only used for Storable implementation

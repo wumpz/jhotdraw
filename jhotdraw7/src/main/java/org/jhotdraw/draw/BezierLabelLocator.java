@@ -14,14 +14,11 @@
 
 package org.jhotdraw.draw;
 
-import org.jhotdraw.geom.Dimension2DDouble;
-import org.jhotdraw.geom.Geom;
+import org.jhotdraw.geom.*;
 import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.geom.*;
-import org.jhotdraw.xml.DOMInput;
-import org.jhotdraw.xml.DOMOutput;
-import org.jhotdraw.xml.DOMStorable;
+import org.jhotdraw.xml.*;
 
 /**
  * This locator locates a position relative to a polyline.

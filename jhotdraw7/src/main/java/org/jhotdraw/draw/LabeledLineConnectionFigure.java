@@ -82,8 +82,8 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
     /**
      * Draw the figure. This method is delegated to the encapsulated presentation figure.
      */
-    public void drawFigure(Graphics2D g) {
-        super.drawFigure(g);
+    public void draw(Graphics2D g) {
+        super.draw(g);
         for (Figure child : children) {
             if (child.isVisible()) {
                 child.draw(g);
@@ -120,12 +120,12 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
         return (Rectangle2D.Double) bounds.clone();
          */
     }
-    public Rectangle2D.Double getFigureDrawBounds() {
+    public Rectangle2D.Double getDrawingArea() {
         if (drawBounds == null) {
-            drawBounds = super.getFigureDrawBounds();
+            drawBounds = super.getDrawingArea();
             for (Figure child : getChildrenFrontToBack()) {
                 if (child.isVisible()) {
-                    Rectangle2D.Double childBounds = child.getDrawBounds();
+                    Rectangle2D.Double childBounds = child.getDrawingArea();
                     if (! childBounds.isEmpty()) {
                         drawBounds.add(childBounds);
                     }
@@ -135,7 +135,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
         return (Rectangle2D.Double) drawBounds.clone();
     }
     public boolean contains(Point2D.Double p) {
-        if (getDrawBounds().contains(p)) {
+        if (getDrawingArea().contains(p)) {
             for (Figure child : getChildrenFrontToBack()) {
                 if (child.isVisible() && child.contains(p)) return true;
             }
@@ -167,7 +167,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
     }
     // EDITING
     public Figure findFigureInside(Point2D.Double p) {
-        if (getDrawBounds().contains(p)) {
+        if (getDrawingArea().contains(p)) {
             Figure found = null;
             for (Figure child : getChildrenFrontToBack()) {
                 if (child.isVisible()) {
@@ -348,12 +348,13 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
      * if (isChangingCount == 1) {
      * super.changed();
      * layout();
-     * fireFigureChanged(getDrawBounds());
+     * fireFigureChanged(getDrawingArea());
      * } else {
      * invalidateBounds();
      * }
      * isChangingCount--;
-     * }*/
+     * }
+     */
     public LabeledLineConnectionFigure clone() {
         LabeledLineConnectionFigure that = (LabeledLineConnectionFigure) super.clone();
         that.childHandler = new ChildHandler(that);

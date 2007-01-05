@@ -10,11 +10,11 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-�
  */
 
 package org.jhotdraw.draw;
 
+import java.beans.*;
 import org.jhotdraw.undo.CompositeEdit;
 import java.awt.*;
 import java.awt.geom.*;
@@ -46,10 +46,25 @@ public abstract class AbstractTool implements Tool {
     protected DrawingEditor editor;
     protected Point anchor = new Point();
     protected EventListenerList listenerList = new EventListenerList();
-    
+    /*
+    private PropertyChangeListener editorHandler;
+    private PropertyChangeListener viewHandler;
+    */
     
     /** Creates a new instance. */
     public AbstractTool() {
+        /*
+        editorHandler = new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent evt) {
+                editorPropertyChange(evt);
+            }
+        };
+        viewHandler = new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent evt) {
+                viewPropertyChange(evt);
+            }
+            
+        };*/
     }
     
     public void addUndoableEditListener(UndoableEditListener l) {
@@ -61,9 +76,16 @@ public abstract class AbstractTool implements Tool {
     }
     
     public void activate(DrawingEditor editor) {
+        /*
+        if (this.editor != null) {
+            this.editor.removePropertyChangeListener(editorHandler);
+        }*/
         this.editor = editor;
+         /*
+        if (this.editor != null) {
+            this.editor.addPropertyChangeListener(editorHandler);
+        }*/
         isActive = true;
-        //editor.getView().requestFocus();
     }
     
     public void deactivate(DrawingEditor editor) {
@@ -141,7 +163,7 @@ public abstract class AbstractTool implements Tool {
     
     public void keyPressed(KeyEvent evt) {
         if (evt.getSource() instanceof Container) {
-        editor.setView(editor.findView((Container) evt.getSource()));
+            editor.setView(editor.findView((Container) evt.getSource()));
         }
         //fireToolStarted(evt.get)
         CompositeEdit edit;
@@ -323,16 +345,20 @@ public abstract class AbstractTool implements Tool {
     }
     
     public void updateCursor(DrawingView view, Point p) {
-        Handle handle = view.findHandle(p);
-        if (handle != null) {
-            view.setCursor(handle.getCursor());
-        } else {
-            Figure figure = view.findFigure(p);
-            if (figure != null) {
-                view.setCursor(figure.getCursor(view.viewToDrawing(p)));
+        if (view.isEnabled()) {
+            Handle handle = view.findHandle(p);
+            if (handle != null) {
+                view.setCursor(handle.getCursor());
             } else {
-                view.setCursor(Cursor.getDefaultCursor());
+                Figure figure = view.findFigure(p);
+                if (figure != null) {
+                    view.setCursor(figure.getCursor(view.viewToDrawing(p)));
+                } else {
+                    view.setCursor(Cursor.getDefaultCursor());
+                }
             }
+        } else {
+            view.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         }
     }
 }

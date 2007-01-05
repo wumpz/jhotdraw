@@ -36,10 +36,12 @@ public class FontSizeLocator implements Locator {
      * @return a Point2D.Double on the figure.
      */
     public Point2D.Double locate(Figure owner) {
-        Point2D.Double p = owner.getStartPoint();
+        Point2D.Double p = (Point2D.Double) owner.getStartPoint().clone();
+        if (owner instanceof TextHolderFigure) {
+            p.y += ((TextHolderFigure) owner).getFontSize();
+            p.y += ((TextHolderFigure) owner).getInsets().top;
+        } else {
         p.y += FONT_SIZE.get(owner);
-        if (owner instanceof TextHolder) {
-            p.y += ((TextHolder) owner).getInsets().top;
         }
         return p;
     }

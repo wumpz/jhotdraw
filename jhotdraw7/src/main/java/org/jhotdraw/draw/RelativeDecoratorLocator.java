@@ -40,8 +40,9 @@ public class RelativeDecoratorLocator extends RelativeLocator {
     
     public java.awt.geom.Point2D.Double locate(Figure owner) {
         Rectangle2D.Double r;
-        if (owner.getDecorator() != null) {
-            r = owner.getDecorator().getBounds();
+        if ((owner instanceof DecoratedFigure) && 
+                ((DecoratedFigure) owner).getDecorator() != null) {
+            r = ((DecoratedFigure) owner).getDecorator().getBounds();
         } else {
             r = owner.getBounds();
         }

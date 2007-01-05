@@ -14,7 +14,7 @@
 
 package org.jhotdraw.draw;
 
-import org.jhotdraw.geom.Dimension2DDouble;
+import org.jhotdraw.geom.*;
 import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.geom.*;

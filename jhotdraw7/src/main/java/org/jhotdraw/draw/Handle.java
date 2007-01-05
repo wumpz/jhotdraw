@@ -131,4 +131,8 @@ public interface Handle extends KeyListener {
      * Creates secondary handles.
      */
     public Collection<Handle> createSecondaryHandles();
+    /**
+     * Returns a tooltip for the specified location.
+     */
+    public String getToolTipText(Point p);
 }

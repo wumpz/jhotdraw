@@ -45,6 +45,11 @@ public class BezierControlPointHandle extends AbstractHandle {
             view.drawingToView(getBezierFigure().getPoint(index, controlPointIndex)) :
             new Point(10,10);
     }
+    protected BezierPath.Node getBezierNode() {
+        return getBezierFigure().getPointCount() > index ?
+            getBezierFigure().getNode(index) :
+            null;
+    }
     
     /**
      * Draws this handle.
@@ -161,4 +166,20 @@ public class BezierControlPointHandle extends AbstractHandle {
         return false;
     }
     
+    public String getToolTipText(Point p) {
+        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+        BezierPath.Node node = getBezierNode();
+        if (node == null) {
+            return null;
+        }
+        if (node.mask == BezierPath.C1C2_MASK) {
+            return labels.getFormatted("bezierCubicControlHandle.tip",
+                    labels.getFormatted(
+                    node.keepColinear ? "bezierCubicControl.colinearControl" :
+                        "bezierCubicControl.unconstrainedControl")
+                        );
+        } else {
+            return labels.getString("bezierQuadraticControlHandle.tip");
+        }
+    }
 }

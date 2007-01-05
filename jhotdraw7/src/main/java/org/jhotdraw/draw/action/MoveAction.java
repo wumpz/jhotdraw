@@ -28,7 +28,7 @@ import javax.swing.undo.*;
  * MoveAction.
  *
  * @author  Werner Randelshofer
- * @version 1.0 17. M�rz 2004  Created.
+ * @version 1.0 17. March 2004  Created.
  */
 public abstract class MoveAction extends AbstractSelectedAction {
     private int dx, dy;

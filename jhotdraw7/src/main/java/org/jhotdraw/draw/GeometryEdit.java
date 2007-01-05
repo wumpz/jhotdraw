@@ -40,14 +40,14 @@ public class GeometryEdit extends AbstractUndoableEdit {
     public void undo() throws CannotUndoException {
         super.undo();
         owner.willChange();
-        owner.restoreTo(oldGeometry);
+        owner.restoreTransformTo(oldGeometry);
         owner.changed();
     }
 
     public void redo() throws CannotRedoException {
         super.redo();
         owner.willChange();
-        owner.restoreTo(newGeometry);
+        owner.restoreTransformTo(newGeometry);
         owner.changed();
     }
     

@@ -27,7 +27,7 @@ import java.io.*;
  * <br>1.0 8. March 2004  Created.
  */
 public class LabelFigure extends TextFigure implements FigureListener {
-    private TextHolder target;
+    private TextHolderFigure target;
     
     /** Creates a new instance. */
     public LabelFigure() {
@@ -38,7 +38,7 @@ public class LabelFigure extends TextFigure implements FigureListener {
         setEditable(false);
     }
     
-    public void setLabelFor(TextHolder target) {
+    public void setLabelFor(TextHolderFigure target) {
         if (this.target != null) {
             this.target.removeFigureListener(this);
         }
@@ -47,7 +47,7 @@ public class LabelFigure extends TextFigure implements FigureListener {
             this.target.addFigureListener(this);
         }
     }
-    public TextHolder getLabelFor() {
+    public TextHolderFigure getLabelFor() {
         return (target == null) ? this : target;
     }
     
@@ -88,7 +88,7 @@ public class LabelFigure extends TextFigure implements FigureListener {
             Figure newTarget = (Figure) oldToNew.get(target);
             if (newTarget != null) {
                 target.removeFigureListener(this);
-                target = (TextHolder) newTarget;
+                target = (TextHolderFigure) newTarget;
                 newTarget.addFigureListener(this);
             }
         }

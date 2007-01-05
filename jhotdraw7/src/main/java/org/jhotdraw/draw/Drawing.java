@@ -1,5 +1,5 @@
 /*
- * @(#)Drawing.java  2.0  2006-01-14
+ * @(#)Drawing.java  2.1  2006-12-31
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -15,7 +15,8 @@
 
 package org.jhotdraw.draw;
 
-import org.jhotdraw.xml.DOMStorable;
+import org.jhotdraw.io.*;
+import org.jhotdraw.xml.*;
 
 import java.awt.Graphics2D;
 import java.awt.font.*;
@@ -31,7 +32,8 @@ import java.io.*;
  * whenever a part of its area was invalidated.
  *
  * @author Werner Randelshofer
- * @version 2.0 2006-01-14 Changed to support double precision coordinates.
+ * @version 2.1 2006-12-31 Changed to return lists instead of collections.
+ * <br>2.0 2006-01-14 Changed to support double precision coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
 public interface Drawing extends Serializable, DOMStorable {
@@ -86,7 +88,7 @@ public interface Drawing extends Serializable, DOMStorable {
      * Removes the specified figures temporarily from the drawing.
      * The drawing sends no </code>removeNotify</code> message to the figures.
      *
-     * @see #basicAddAll(Collection)
+     * @see #basicAddAll(int, Collection)
      * @param figures A collection of figures which are part of the drawing
      * and should be removed
      */
@@ -107,8 +109,16 @@ public interface Drawing extends Serializable, DOMStorable {
      * @param figure that is part of the drawing and should be removed
      */
     public void basicAdd(int index, Figure figure);
+    
     /**
-     * Reinssets the specified figures which were temporarily basicRemoveed from
+     * Returns the index of the specified figure.
+     * Returns -1 if the Figure is not directly contained in this Drawing, for
+     * example if the Figure is a child of a CompositeFigure.
+     */
+    public int indexOf(Figure figure);
+    
+    /**
+     * Reinserts the specified figures which were temporarily basicRemoveed from
      * the drawing.
      * The drawing sends no <code>addNotify</code> message to the figures.
      *
@@ -116,7 +126,7 @@ public interface Drawing extends Serializable, DOMStorable {
      * @param figures A collection of figures which are part of the drawing
      * and should be reinserted.
      */
-    public void basicAddAll(Collection<Figure> figures);
+    public void basicAddAll(int index, Collection<Figure> figures);
     
     /**
      * Draws all the figures from back to front.
@@ -133,17 +143,17 @@ public interface Drawing extends Serializable, DOMStorable {
      * Returns all figures that lie within or intersect the specified
      * bounds. The figures are returned in Z-order from back to front.
      */
-    public Collection<Figure> findFigures(Rectangle2D.Double bounds);
+    public List<Figure> findFigures(Rectangle2D.Double bounds);
     /**
      * Returns all figures that lie within the specified
      * bounds. The figures are returned in Z-order from back to front.
      */
-    public Collection<Figure> findFiguresWithin(Rectangle2D.Double bounds);
+    public List<Figure> findFiguresWithin(Rectangle2D.Double bounds);
     /**
      * Returns the figures of the drawing.
      * @return A Collection of Figure's.
      */
-    public Collection<Figure> getFigures();
+    public List<Figure> getFigures();
     
     /**
      * Returns the number of figures in this drawing.
@@ -202,7 +212,7 @@ public interface Drawing extends Serializable, DOMStorable {
      * Returns a copy of the provided collection which is sorted
      * in z order from back to front.
      */
-    public Collection<Figure> sort(Collection<Figure> figures);
+    public List<Figure> sort(Collection<Figure> figures);
     
     /**
      * Adds a listener for this drawing.
@@ -242,5 +252,28 @@ public interface Drawing extends Serializable, DOMStorable {
      * drawing synchronize to prevent race conditions.
      */
     public Object getLock();
+    
+    /**
+     * Sets input formats for the Drawing in order of preferred formats.
+     * <p>
+     * The input formats are used for loading the Drawing from a file and for
+     * pasting Figures from the clipboard into the Drawing.
+     */
+    public void setInputFormats(List<InputFormat> formats);
+    /**
+     * Gets input formats for the Drawing in order of preferred formats.
+     */
+    public List<InputFormat> getInputFormats();
+    /**
+     * Sets output formats for the Drawing in order of preferred formats.
+     * <p>
+     * The output formats are used for saving the Drawing into a file and for
+     * cutting and copying Figures from the Drawing into the clipboard.
+     */
+    public void setOutputFormats(List<OutputFormat> formats);
+    /**
+     * Gets output formats for the Drawing in order of preferred formats.
+     */
+    public List<OutputFormat> getOutputFormats();
 }
 

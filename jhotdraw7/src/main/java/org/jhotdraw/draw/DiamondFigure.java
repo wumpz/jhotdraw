@@ -30,7 +30,7 @@ import org.omg.CORBA.MARSHAL;
  * @author Werner Randelshofer
  * @version 1.0 2006-03-27 Created.
  */
-public class DiamondFigure extends AttributedFigure {
+public class DiamondFigure extends AbstractAttributedFigure {
     /**
      * If the attribute IS_QUADRATIC is set to true, all sides of the diamond have
      * the same length.
@@ -132,7 +132,7 @@ public class DiamondFigure extends AttributedFigure {
         Rectangle2D.Double bounds = (Rectangle2D.Double) rectangle.clone();
         return bounds;
     }
-    public Rectangle2D.Double getFigureDrawBounds() {
+    public Rectangle2D.Double getDrawingArea() {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
         if (isQuadratic()) {
             double side = Math.max(r.width, r.height);
@@ -219,14 +219,14 @@ public class DiamondFigure extends AttributedFigure {
                 (Point2D.Double) tx.transform(lead, lead)
                 );
     }
-    public void restoreTo(Object geometry) {
+    public void restoreTransformTo(Object geometry) {
         Rectangle2D.Double r = (Rectangle2D.Double) geometry;
         rectangle.x = r.x;
         rectangle.y = r.y;
         rectangle.width = r.width;
         rectangle.height = r.height;
     }
-    public Object getRestoreData() {
+    public Object getTransformRestoreData() {
         return rectangle.clone();
     }
     

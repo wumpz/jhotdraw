@@ -34,7 +34,7 @@ import org.jhotdraw.xml.DOMOutput;
  * <br>2.0 2006-01-14 Changed to support double precison coordinates.
  * <br>1.0 2004-03-02 Derived from JHotDraw 6.0b1.
  */
-public class RoundRectangleFigure extends AttributedFigure {
+public class RoundRectangleFigure extends AbstractAttributedFigure {
     private RoundRectangle2D.Double roundrect;
     private static final double DEFAULT_ARC = 20;
     
@@ -83,7 +83,7 @@ public class RoundRectangleFigure extends AttributedFigure {
     public Rectangle2D.Double getBounds() {
         return (Rectangle2D.Double) roundrect.getBounds2D();
     }
-    public Rectangle2D.Double getFigureDrawBounds() {
+    public Rectangle2D.Double getDrawingArea() {
         Rectangle2D.Double r = (Rectangle2D.Double) roundrect.getBounds2D();
             double grow = AttributeKeys.getPerpendicularHitGrowth(this);
             Geom.grow(r, grow, grow);
@@ -102,7 +102,7 @@ public class RoundRectangleFigure extends AttributedFigure {
         final double oldHeight = roundrect.getArcHeight();
         roundrect.arcwidth = w;
         roundrect.archeight = h;
-        fireFigureChanged(getDrawBounds());
+        fireFigureChanged(getDrawingArea());
         fireUndoableEditHappened(new AbstractUndoableEdit() {
             public String getPresentationName() {
                 return "Rundung";
@@ -162,7 +162,7 @@ public class RoundRectangleFigure extends AttributedFigure {
         
         return handles;
     }
-    public void restoreTo(Object geometry) {
+    public void restoreTransformTo(Object geometry) {
         RoundRectangle2D.Double r = (RoundRectangle2D.Double) geometry;
         roundrect.x = r.x;
         roundrect.y = r.y;
@@ -170,16 +170,16 @@ public class RoundRectangleFigure extends AttributedFigure {
         roundrect.height = r.height;
     }
     
-    public Object getRestoreData() {
+    public Object getTransformRestoreData() {
         return roundrect.clone();
     }
     
     // CONNECTING
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
-        return new ChopRoundRectConnector(this);
+        return new ChopRoundRectangleConnector(this);
     }
     public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
-        return new ChopRoundRectConnector(this);
+        return new ChopRoundRectangleConnector(this);
     }
     // COMPOSITE FIGURES
     // CLONING

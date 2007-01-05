@@ -1,5 +1,5 @@
 /*
- * @(#)ChangeConnectionHandle.java  2.1  2006-02-16
+ * @(#)AbstractChangeConnectionHandle.java  2.1  2006-02-16
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -10,7 +10,6 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-�
  */
 
 package org.jhotdraw.draw;
@@ -20,18 +19,17 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
 /**
- * ChangeConnectionHandle factors the common code for handles
+ * AbstractChangeConnectionHandle factors the common code for handles
  * that can be used to reconnect connections.
- *
- * @see ChangeConnectionEndHandle
- * @see ChangeConnectionStartHandle
- *
+ * 
  * @author Werner Randelshofer
  * @version 2.1 2006-02-16 Remove liner from connection while tracking.
  * <br>2.0 2006-01-14 Changed to support double coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @see ChangeConnectionEndHandle
+ * @see ChangeConnectionStartHandle
  */
-public abstract class ChangeConnectionHandle extends AbstractHandle {
+public abstract class AbstractChangeConnectionHandle extends AbstractHandle {
     private Connector         originalTarget;
     private Figure            targetFigure;
     private ConnectionFigure  connection;
@@ -47,7 +45,7 @@ public abstract class ChangeConnectionHandle extends AbstractHandle {
     /**
      * Initializes the change connection handle.
      */
-    protected ChangeConnectionHandle(Figure owner) {
+    protected AbstractChangeConnectionHandle(Figure owner) {
         super(owner);
         setConnection((ConnectionFigure) owner);
         setTargetFigure(null);

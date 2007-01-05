@@ -28,7 +28,7 @@ import java.awt.geom.*;
  * @version 2.0 2006-01-14 Changed to support double precison coordinates.
  * <br>1.0 5. M�rz 2004  Created.
  */
-public class ChopBezierConnector extends ChopBoxConnector {
+public class ChopBezierConnector extends ChopRectangleConnector {
     
     /** Creates a new instance. */
     public ChopBezierConnector() {

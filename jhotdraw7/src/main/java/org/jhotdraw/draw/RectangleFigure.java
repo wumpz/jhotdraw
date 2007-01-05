@@ -1,5 +1,5 @@
 /*
- * @(#)RectangleFigure.java  2.2  2006-03-23
+ * @(#)RectangleFigure.java  2.3  2006-12-23
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -25,13 +25,14 @@ import org.jhotdraw.geom.Geom;
  * RectangleFigure.
  *
  * @author Werner Randelshofer
- * @version 2.2 2006-03-23 Take stroke size into account in method contains.
+ * @version 2.3 2006-12-23 Made rectangle protected. 
+ * <br>2.2 2006-03-23 Take stroke size into account in method contains.
  * <br>2.1 2006-03-22 Method getFigureDrawBounds added.
  * <br>2.0 2006-01-14 Changed to support double precison coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
-public class RectangleFigure extends AttributedFigure {
-    private Rectangle2D.Double rectangle;
+public class RectangleFigure extends AbstractAttributedFigure {
+    protected Rectangle2D.Double rectangle;
     
     /** Creates a new instance. */
     public RectangleFigure() {
@@ -67,7 +68,7 @@ public class RectangleFigure extends AttributedFigure {
         return bounds;
     }
     
-    public Rectangle2D.Double getFigureDrawBounds() {
+    public Rectangle2D.Double getDrawingArea() {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
         double grow = AttributeKeys.getPerpendicularHitGrowth(this) + 1d;
         Geom.grow(r, grow, grow);
@@ -102,7 +103,7 @@ public class RectangleFigure extends AttributedFigure {
                 );
     }
     
-    public void restoreTo(Object geometry) {
+    public void restoreTransformTo(Object geometry) {
         Rectangle2D.Double r = (Rectangle2D.Double) geometry;
         rectangle.x = r.x;
         rectangle.y = r.y;
@@ -110,7 +111,7 @@ public class RectangleFigure extends AttributedFigure {
         rectangle.height = r.height;
     }
     
-    public Object getRestoreData() {
+    public Object getTransformRestoreData() {
         return rectangle.clone();
     }
     

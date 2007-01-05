@@ -10,7 +10,6 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-� 
  */
 
 package org.jhotdraw.draw;
@@ -19,6 +18,7 @@ import org.jhotdraw.undo.CompositeEdit;
 
 import java.awt.*;
 import java.awt.geom.*;
+import org.jhotdraw.util.ResourceBundleUtil;
 /**
  * FontSizeHandle.
  *
@@ -31,10 +31,10 @@ public class FontSizeHandle extends LocatorHandle {
     private CompositeEdit edit;
     
     /** Creates a new instance. */
-    public FontSizeHandle(TextHolder owner) {
+    public FontSizeHandle(TextHolderFigure owner) {
         super(owner, new FontSizeLocator());
     }
-    public FontSizeHandle(TextHolder owner, Locator locator) {
+    public FontSizeHandle(TextHolderFigure owner, Locator locator) {
         super(owner, locator);
     }
     
@@ -55,16 +55,19 @@ public class FontSizeHandle extends LocatorHandle {
     
     public void trackStart(Point anchor, int modifiersEx) {
         view.getDrawing().fireUndoableEditHappened(edit = new CompositeEdit("Schriftgr\u00f6sse"));
-        TextHolder textOwner = (TextHolder) getOwner();
+        TextHolderFigure textOwner = (TextHolderFigure) getOwner();
         oldSize = textOwner.getFontSize();
     }
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
-        TextHolder textOwner = (TextHolder) getOwner();
+        TextHolderFigure textOwner = (TextHolderFigure) getOwner();
         
         float newSize = (float) Math.max(1, oldSize + view.viewToDrawing(new Point(0, lead.y - anchor.y)).y);
         textOwner.setFontSize(newSize);
     }
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         view.getDrawing().fireUndoableEditHappened(edit);
+    }
+    public String getToolTipText(Point p) {
+        return ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels").getString("fontSizeHandle.tip");
     }
 }

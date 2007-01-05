@@ -83,6 +83,11 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
             setAttribute(entry.getKey(), entry.getValue());
         }
     }
+    public void basicSetAttributes(Map<AttributeKey, Object> map) {
+        for (Map.Entry<AttributeKey, Object> entry : map.entrySet()) {
+            basicSetAttribute(entry.getKey(), entry.getValue());
+        }
+    }
     public Map<AttributeKey, Object> getAttributes() {
         return new HashMap<AttributeKey,Object>(attributes);
     }

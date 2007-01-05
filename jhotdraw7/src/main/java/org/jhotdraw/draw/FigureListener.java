@@ -10,7 +10,6 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-�
  */
 
 
@@ -26,7 +25,7 @@ import java.util.*;
 public interface FigureListener extends EventListener {
     
     /**
-     * Sent when an area used by the figure needs to be repainted.
+     * Sent when the drawing area used by the figure needs to be repainted.
      */
     public void figureAreaInvalidated(FigureEvent e);
     /**
@@ -34,7 +33,7 @@ public interface FigureListener extends EventListener {
      */
     public void figureAttributeChanged(FigureEvent e);
     /**
-     * Sent when the geometry (e.g. the bounds) of the figure has changed.
+     * Sent when the geometry (for example the bounds) of the figure has changed.
      */
     public void figureChanged(FigureEvent e);
     

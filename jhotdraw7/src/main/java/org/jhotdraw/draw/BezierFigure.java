@@ -37,7 +37,7 @@ import org.jhotdraw.xml.DOMOutput;
  * <br>1.0 March 14, 2004.
  * @author Werner Randelshofer
  */
-public class BezierFigure extends AttributedFigure {
+public class BezierFigure extends AbstractAttributedFigure {
     public final static AttributeKey<Boolean> CLOSED = new AttributeKey<Boolean>("closed", false);
     /**
      * The BezierPath.
@@ -51,17 +51,17 @@ public class BezierFigure extends AttributedFigure {
     
     
     /**
-     * Creates an empty <code>BezierFigure</code>, i.e. without any
+     * Creates an empty <code>BezierFigure</code>, for example without any
      * <code>BezierPath.Node</code>s.
      * The BezierFigure will not draw anything, if at least two nodes
-     * are added to it. The <code>BezierPath</code> created by this constructor 
+     * are added to it. The <code>BezierPath</code> created by this constructor
      * is not closed.
      */
     public BezierFigure() {
         this(false);
     }
     /**
-     * Creates an empty BezierFigure, i.e. without any
+     * Creates an empty BezierFigure, for example without any
      * <code>BezierPath.Node</code>s.
      * The BezierFigure will not draw anything, unless at least two nodes
      * are added to it.
@@ -152,19 +152,32 @@ public class BezierFigure extends AttributedFigure {
     }
     
     public boolean contains(Point2D.Double p) {
+        double tolerance = Math.max(2f, AttributeKeys.getStrokeTotalWidth(this) / 2);
         if (isClosed() || FILL_COLOR.get(this) != null) {
             double grow = AttributeKeys.getPerpendicularHitGrowth(this);
             if (grow == 0d) {
-                return path.contains(p);
+                if (path.contains(p)) {
+                    return true;
+                } else {
+                    if (isClosed()) {
+                        return false;
+                    }
+                }
             } else {
                 GrowStroke gs = new GrowStroke((float) grow,
                         (float) (AttributeKeys.getStrokeTotalWidth(this) *
                         STROKE_MITER_LIMIT.get(this))
                         );
-                return gs.createStrokedShape(path).contains(p);
+                if (gs.createStrokedShape(path).contains(p)) {
+                    return true;
+                } else {
+                    if (isClosed()) {
+                        return false;
+                    }
+                }
             }
-        } else {
-            double tolerance = Math.max(2f, AttributeKeys.getStrokeTotalWidth(this) / 2);
+        }
+        if (! isClosed()) {
             if (getCappedPath().outlineContains(p, tolerance)) {
                 return true;
             }
@@ -186,8 +199,8 @@ public class BezierFigure extends AttributedFigure {
                     return true;
                 }
             }
-            return false;
         }
+        return false;
     }
     /**
      * Checks if this figure can be connected. By default
@@ -219,8 +232,8 @@ public class BezierFigure extends AttributedFigure {
         bounds.height = Math.max(1, bounds.height);
         return bounds;
     }
-    public Rectangle2D.Double getFigureDrawBounds() {
-        Rectangle2D.Double r = super.getFigureDrawBounds();
+    public Rectangle2D.Double getDrawingArea() {
+        Rectangle2D.Double r = super.getDrawingArea();
         
         if (getNodeCount() > 1) {
             if (START_DECORATION.get(this) != null) {
@@ -276,7 +289,7 @@ public class BezierFigure extends AttributedFigure {
             path.setClosed((Boolean) newValue);
         } else if (key == WINDING_RULE) {
             path.setWindingRule(newValue == AttributeKeys.WindingRule.EVEN_ODD ? GeneralPath.WIND_EVEN_ODD : GeneralPath.WIND_NON_ZERO);
-        } 
+        }
         super.basicSetAttribute(key, newValue);
     }
     
@@ -287,9 +300,9 @@ public class BezierFigure extends AttributedFigure {
      * to the figure until the BezierFigure has at least two nodes.
      */
     public void basicSetBounds(Point2D.Double anchor, Point2D.Double lead) {
-            basicSetStartPoint(anchor);
-            basicSetEndPoint(lead);
-            invalidate();
+        basicSetStartPoint(anchor);
+        basicSetEndPoint(lead);
+        invalidate();
     }
     public void basicTransform(AffineTransform tx) {
         path.transform(tx);
@@ -482,7 +495,7 @@ public class BezierFigure extends AttributedFigure {
         basicSetPoint(0, p);
     }
     /**
-     * Convenience method for setting the point coordinate of the end point. 
+     * Convenience method for setting the point coordinate of the end point.
      * If the BezierFigure has not at least two nodes, nodes are added
      * to the figure until the BezierFigure has at least two nodes.
      */
@@ -632,11 +645,11 @@ public class BezierFigure extends AttributedFigure {
         return that;
     }
     
-    public void restoreTo(Object geometry) {
+    public void restoreTransformTo(Object geometry) {
         path.setTo((BezierPath) geometry);
     }
     
-    public Object getRestoreData() {
+    public Object getTransformRestoreData() {
         return path.clone();
     }
     

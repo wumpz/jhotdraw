@@ -33,11 +33,12 @@ import org.jhotdraw.xml.DOMOutput;
  * @see TextTool
  *
  * @author Werner Randelshofer
- * @version 2.0.1 2006-02-27 Draw UNDERLINE_LOW_ONE_PIXEL instead of UNDERLINE_ON. 
+ * @version 2.0.1 2006-02-27 Draw UNDERLINE_LOW_ONE_PIXEL instead of UNDERLINE_ON.
  * <br>2.0 2006-01-14 Changed to support double precison coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
-public class TextFigure extends AttributedFigure implements TextHolder {
+public class TextFigure extends AbstractAttributedDecoratedFigure
+        implements TextHolderFigure {
     protected Point2D.Double origin = new Point2D.Double();
     private boolean editable = true;
     
@@ -58,6 +59,7 @@ public class TextFigure extends AttributedFigure implements TextHolder {
     }
     protected void drawFill(java.awt.Graphics2D g) {
     }
+    
     protected void drawText(java.awt.Graphics2D g) {
         if (getText() != null || isEditable()) {
             TextLayout layout = getTextLayout();
@@ -74,13 +76,9 @@ public class TextFigure extends AttributedFigure implements TextHolder {
     }
     
     
-    public boolean contains(Point2D.Double p) {
+    public boolean figureContains(Point2D.Double p) {
         if (getBounds().contains(p)) {
             return true;
-        }
-        if (decorator != null) {
-            updateDecoratorBounds();
-            return decorator.contains(p);
         }
         return false;
     }
@@ -103,7 +101,7 @@ public class TextFigure extends AttributedFigure implements TextHolder {
     }
     public Rectangle2D.Double getBounds() {
         TextLayout layout = getTextLayout();
-        Rectangle2D.Double r = new Rectangle2D.Double(origin.x, origin.y, layout.getAdvance(), 
+        Rectangle2D.Double r = new Rectangle2D.Double(origin.x, origin.y, layout.getAdvance(),
                 layout.getAscent() + layout.getDescent());
         return r;
     }
@@ -111,7 +109,10 @@ public class TextFigure extends AttributedFigure implements TextHolder {
         Rectangle2D.Double b = getBounds();
         return new Dimension2DDouble(b.width, b.height);
     }
-    public Rectangle2D.Double getFigureDrawBounds() {
+    /**
+     * Gets the drawing area without taking the decorator into account.
+     */
+    protected Rectangle2D.Double getFigureDrawingArea() {
         if (getText() == null) {
             return getBounds();
         } else {
@@ -133,13 +134,13 @@ public class TextFigure extends AttributedFigure implements TextHolder {
             return r;
         }
     }
-    public void restoreTo(Object geometry) {
+    public void restoreTransformTo(Object geometry) {
         Point2D.Double p = (Point2D.Double) geometry;
         origin.x = p.x;
         origin.y = p.y;
     }
-
-    public Object getRestoreData() {
+    
+    public Object getTransformRestoreData() {
         return origin.clone();
     }
     
@@ -170,32 +171,32 @@ public class TextFigure extends AttributedFigure implements TextHolder {
         return 8;
     }
     
-    public TextHolder getLabelFor() {
+    public TextHolderFigure getLabelFor() {
         return this;
     }
     
     public Insets2D.Double getInsets() {
         return new Insets2D.Double();
     }
-
+    
     public Font getFont() {
         return AttributeKeys.getFont(this);
     }
-
+    
     public Color getTextColor() {
         return TEXT_COLOR.get(this);
     }
-
+    
     public Color getFillColor() {
         return FILL_COLOR.get(this);
     }
-
+    
     public void setFontSize(float size) {
         FONT_SIZE.set(this, new Double(size));
     }
-
+    
     public float getFontSize() {
-       return FONT_SIZE.get(this).floatValue();
+        return FONT_SIZE.get(this).floatValue();
     }
     
     
@@ -209,10 +210,10 @@ public class TextFigure extends AttributedFigure implements TextHolder {
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
         if (detailLevel == 0) {
-        handles.add(new MoveHandle(this, RelativeLocator.northWest()));
-        handles.add(new MoveHandle(this, RelativeLocator.northEast()));
-        handles.add(new MoveHandle(this, RelativeLocator.southEast()));
-        handles.add(new FontSizeHandle(this));
+            handles.add(new MoveHandle(this, RelativeLocator.northWest()));
+            handles.add(new MoveHandle(this, RelativeLocator.northEast()));
+            handles.add(new MoveHandle(this, RelativeLocator.southEast()));
+            handles.add(new FontSizeHandle(this));
         }
         return handles;
     }
@@ -245,15 +246,17 @@ public class TextFigure extends AttributedFigure implements TextHolder {
                 new Point2D.Double(0, 0)
                 );
         readAttributes(in);
+        readDecorator(in);
     }
+    
     
     public void write(DOMOutput out) throws IOException {
         Rectangle2D.Double b = getBounds();
         out.addAttribute("x",b.x);
         out.addAttribute("y",b.y);
         writeAttributes(out);
+        writeDecorator(out);
     }
-    
     public TextFigure clone() {
         TextFigure that = (TextFigure) super.clone();
         that.origin = (Point2D.Double) this.origin.clone();

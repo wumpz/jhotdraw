@@ -27,7 +27,7 @@ import java.util.*;
  * @version 2.0 2006-01-14 Changed to support double precision coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
-public class ChangeConnectionEndHandle extends ChangeConnectionHandle {
+public class ChangeConnectionEndHandle extends AbstractChangeConnectionHandle {
     
     /**
      * Constructs the connection handle for the given start figure.

@@ -10,7 +10,6 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-�
  */
 
 package org.jhotdraw.draw;
@@ -29,7 +28,7 @@ import java.awt.event.*;
  * @see org.jhotdraw.draw.TextFigure
  *
  * @author Werner Randelshofer
- * @version 2.0 2006-01-14 Changed to support double precison coordinates.
+ * @version 2.0 2006-01-14 Changed to support double precision coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
 public  class FloatingTextField {
@@ -56,11 +55,11 @@ public  class FloatingTextField {
      * Creates the overlay for the given Container using a
      * specific font.
      */
-    public void createOverlay(DrawingView view, TextHolder figure) {
-        view.getJComponent().add(editWidget, 0);
+    public void createOverlay(DrawingView view, TextHolderFigure figure) {
+        view.getComponent().add(editWidget, 0);
         Font f = figure.getFont();
         // FIXME - Should scale with fractional value!
-        f = f.deriveFont(f.getStyle(), (float) (f.getSize() * view.getScaleFactor()));
+        f = f.deriveFont(f.getStyle(), (float) (figure.getFontSize() * view.getScaleFactor()));
         editWidget.setFont(f);
         editWidget.setForeground(figure.getTextColor());
         editWidget.setBackground(figure.getFillColor());
@@ -115,13 +114,13 @@ public  class FloatingTextField {
      * Removes the overlay.
      */
     public void endOverlay() {
-        view.getJComponent().requestFocus();
+        view.getComponent().requestFocus();
         if (editWidget != null) {
             editWidget.setVisible(false);
-            view.getJComponent().remove(editWidget);
+            view.getComponent().remove(editWidget);
             
             Rectangle bounds = editWidget.getBounds();
-            view.getJComponent().repaint(bounds.x, bounds.y, bounds.width, bounds.height);
+            view.getComponent().repaint(bounds.x, bounds.y, bounds.width, bounds.height);
         }
     }
 }

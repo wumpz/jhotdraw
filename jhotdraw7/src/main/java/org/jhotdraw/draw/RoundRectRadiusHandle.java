@@ -10,7 +10,6 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-�
  */
 
 package org.jhotdraw.draw;
@@ -78,5 +77,8 @@ public class RoundRectRadiusHandle extends AbstractHandle {
     }
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         view.getDrawing().fireUndoableEditHappened(edit);
+    }
+    public String getToolTipText(Point p) {
+        return ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels").getString("roundRectRadiusHandle.tip");
     }
 }

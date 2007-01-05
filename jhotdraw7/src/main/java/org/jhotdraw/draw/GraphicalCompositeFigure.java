@@ -10,7 +10,6 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-�
  */
 
 package org.jhotdraw.draw;
@@ -53,8 +52,7 @@ import org.jhotdraw.xml.DOMOutput;
  * @version 2.0 2006-01-14 Changed to support double precision coordinates.
  * <br>1.0 1. Dezember 2003  Derived from JHotDraw 5.4b1.
  */
-public class GraphicalCompositeFigure 
-        extends AbstractCompositeFigure {
+public class GraphicalCompositeFigure extends AbstractCompositeFigure {
     protected HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey,Object>();
     private HashSet<AttributeKey> forbiddenAttributes;
     
@@ -158,18 +156,18 @@ public class GraphicalCompositeFigure
      * Return the draw area. This method is delegated to the
      * encapsulated presentation figure.
      */
-    public Rectangle2D.Double getFigureDrawBounds() {
+    public Rectangle2D.Double getDrawingArea() {
         Rectangle2D.Double r;
         if (getPresentationFigure() != null) {
-            Rectangle2D.Double presentationBounds = getPresentationFigure().getDrawBounds();
-            r = super.getFigureDrawBounds();
+            Rectangle2D.Double presentationBounds = getPresentationFigure().getDrawingArea();
+            r = super.getDrawingArea();
             if (r.isEmpty()) {
                 r = presentationBounds;
             } else {
                 r.add(presentationBounds);
             }
         } else {
-            r = super.getFigureDrawBounds();
+            r = super.getDrawingArea();
         }
         return r;
     }
@@ -217,9 +215,9 @@ public class GraphicalCompositeFigure
     /**
      * Draw the figure. This method is delegated to the encapsulated presentation figure.
      */
-    public void drawFigure(Graphics2D g) {
+    public void draw(Graphics2D g) {
         drawPresentationFigure(g);
-        super.drawFigure(g);
+        super.draw(g);
     }
     
     protected void drawPresentationFigure(Graphics2D g) {

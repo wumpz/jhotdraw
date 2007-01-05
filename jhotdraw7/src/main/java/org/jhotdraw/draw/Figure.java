@@ -30,15 +30,32 @@ import org.jhotdraw.xml.DOMStorable;
 /**
  * The interface of a graphical figure.
  * <p>
- * A Figure knows its display box and can draw itself. A figure can be composed
- * of several figures. To interact and manipulate with a figure it can provide
- * Handles and Connectors.
+ * A figure knows its bounds and can draw itself. 
  * <p>
- * A figure has a set of handles to manipulate its shape or attributes. A figure
- * has one or more connectors that define how to locate a connection point.
+ * A figure has a set of Handles to manipulate its shape or attributes. A figure
+ * has one or more Connectors that define how to locate a connection point.
  * <p>
  * Figures can have an open ended set of attributes. An attribute is identified
  * by an AttributeKey.
+ * <p>
+ * A figure can be composed of several figures, it can connect other figures, it
+ * can hold a text or an image or both. A figure should implement the 
+ * corresponding subinterface, to allow manipulation of these features through
+ * editing tools. For example CompositeFigure, ConnectionFigure, ImageHolderFigure
+ * TextHolderFigure. 
+ * 
+ * <p>
+ * A figure can be composed of several figures. Such a figure should implement the
+ * CompositeFigure interface, to allow manipulation of the child figures through
+ * editing tools.
+ * <p>
+ * A figure can connect other figures. Such a figures should implement the
+ * ConnectionFigure interface, to allow manipulation of the composition through
+ * editing tools.
+ * <p>
+ * A figure can hold a text or an image or both. Such a figure should implement
+ * the ImageHolder and TextHolder interfaces, to allo
+ *
  * <p>
  * Default implementations for the Figure interface are provided by
  * AbstractFigure.
@@ -94,8 +111,15 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * This is used by Tool's which create a new Figure and by Tool's which
      * connect a Figure to another Figure.
      * <p>
-     * This is a basic operation which does not fire events.
-     *
+     * This is a basic operation which does not fire events. Use the following
+     * code sequence, if you need event firing:
+     * <pre>
+     * aFigure.willChange();
+     * aFigure.basicSetBounds(...);
+     * aFigure.changed();
+     * </pre>
+     * 
+     * 
      * @param start the start point of the bounds
      * @param end the end point of the bounds
      * @see #getBounds
@@ -116,46 +140,56 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      */
     public Point2D.Double getEndPoint();
     /**
-     * Returns the logical bounds of the figure as a Rectangle.
-     * The logical bounds are used by Handle objects for adjusting the 
+     * Returns the bounds of the figure as a Rectangle.
+     * The handle bounds are used by Handle objects for adjusting the 
      * figure and for aligning the figure on a grid.
      */
     public Rectangle2D.Double getBounds();
     /**
-     * Returns the drawing bounding box of the figure and of its decorator figure.
-     * The draw bounds are used to improve the performance of GraphicView, i.e.
-     * for clipping of repaints and mouse events.
-     * The draw bounds take line width, line caps and other decorations into 
-     * account.
-     * Note: getDrawBounds must include the logical bounds of the figure.
+     * Returns the drawing area of the figure as a Rectangle.
+     * The drawing area is used to improve the performance of GraphicView, for
+     * example for clipping of repaints and for clipping of mouse events.
+     * <p>
+     * The drawing area needs to be large enough, to take line width, line caps
+     * and other decorations into account that exceed the bounds of the Figure.
      */
-    public Rectangle2D.Double getDrawBounds();
+    public Rectangle2D.Double getDrawingArea();
     /**
      * The preferred size is used by Layouter to determine the preferred
      * size of a Figure. For most Figure's this is the same as the 
      * dimensions returned by getBounds.
      */
     public Dimension2DDouble getPreferredSize();
+    
     /**
-     * Gets data which can be used to restore the shape of the figure after a 
-     * basicTransform has been applied to it.
+     * Gets data which can be used to restore the transformaton of the figure 
+     * after a basicTransform has been applied to it.
      * 
      * @see #basicTransform(AffineTransform)
      */
-    public Object getRestoreData();
+    public Object getTransformRestoreData();
     /**
-     * Restores the shape of the figure to a previously stored state.
+     * Restores the transform of the figure to a previously stored state.
      */
-    public void restoreTo(Object restoreData);
+    public void restoreTransformTo(Object restoreData);
     /**
      * Transforms the shape of the Figure. Transformations using double
      * precision arithmethics are inherently lossy operations. Therefore it is 
-     * recommended to use getRestoreData() restoreTo() to provide lossless 
-     * undo/redo functionality.
+     * recommended to use getTransformRestoreData() restoreTransformTo() to 
+     * provide lossless undo/redo functionality.
      * After the transform has finished, the bounds of the decorator figure
      * are changed to match the transformed bounds of the figure.
      * <p>
-     * This is a basic operation which does not fire events.
+     * This is a basic operation which does not fire events. Use the following
+     * code sequence, if you need event firing:
+     * <pre>
+     * aFigure.willChange();
+     * aFigure.basicSetBounds(...);
+     * aFigure.changed();
+     * </pre>
+     * 
+     * @see #getTransformRestoreData
+     * @see #restoreTransformTo
      * 
      * @param tx The transformation.
      */
@@ -179,9 +213,10 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * AttributeKey name and semantics are defined by the class implementing
      * the Figure interface.
      * <p>
-     * Use <code>AttributeKey.set()</code> for typesafe access to this method.
+     * Use <code>AttributeKey.basicSet()</code> for typesafe access to this 
+     * method.
      * 
-     * @see AttributeKey#set
+     * @see AttributeKey#basicSet
      */
     public void basicSetAttribute(AttributeKey key, Object value);
     /**
@@ -244,7 +279,7 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
     /**
      * Returns a tooltip for the specified location.
      */
-    public String getTooltip(Point2D.Double p);
+    public String getToolTipText(Point2D.Double p);
     
     // CONNECTING 
     /**
@@ -385,17 +420,5 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * Removes a listener for UndoableEdit events.
      */
     public void removeUndoableEditListener(UndoableEditListener l);
-    
-    /**
-     * Sets a decorator Figure, i.e. a visual adornment to this Figure.
-     * Set this to null, if no decorator is desired.
-     * The decorator uses the same logical bounds as this Figure plus 
-     * AttributeKeys.DECORATOR_INSETS. The decorator does not handle events.
-     * The decorator is drawn when the figure is drawn.
-     */
-    public void setDecorator(Figure newValue);
-    /**
-     * Gets the decorator for this figure.
-     */
-    public Figure getDecorator();
+
 }

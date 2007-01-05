@@ -1,5 +1,5 @@
 /*
- * @(#)StickyChopConnector.java  2.0  2006-01-14
+ * @(#)StickyRectangleConnector.java  2.0  2006-01-14
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -24,10 +24,10 @@ import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 
 /**
- * A StickyChopConnector locates connection Points by
+ * A StickyRectangleConnector locates connection Points by
  * choping the connection between the centers of the
  * two figures at the display box.
- * 
+ * <p>
  * The location of the connection Point2D.Double is computed once,
  * when the user connects the figure. Moving the figure
  * around will not change the location.
@@ -36,13 +36,13 @@ import org.jhotdraw.xml.DOMOutput;
  * @version 2.0 2006-01-14 Changed to support double precison coordinates.
  * <br>1.0 5. Februar 2004  Created.
  */
-public class StickyChopConnector extends ChopBoxConnector {
+public class StickyRectangleConnector extends ChopRectangleConnector {
     private float angle;
     
     /** Creates a new instance.
      * Only used for storable.
      */
-    public StickyChopConnector() {
+    public StickyRectangleConnector() {
     }
     
     public void draw(Graphics2D g) {
@@ -58,7 +58,7 @@ public class StickyChopConnector extends ChopBoxConnector {
         return angle;
     }
     
-    public StickyChopConnector(Figure owner, Point2D.Double p) {
+    public StickyRectangleConnector(Figure owner, Point2D.Double p) {
         super(owner);
         this.angle = (float) Geom.pointToAngle(owner.getBounds(), p);
     }

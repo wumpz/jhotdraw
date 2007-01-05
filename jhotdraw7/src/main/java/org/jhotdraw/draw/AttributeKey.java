@@ -1,5 +1,5 @@
 /*
- * @(#)AttributeKey.java  1.0.1  2006-07-14
+ * @(#)AttributeKey.java  1.1  2006-12-29
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -15,14 +15,25 @@
 package org.jhotdraw.draw;
 
 import java.lang.reflect.*;
+import java.util.Map;
 /**
- * Provides typesafe getter and setter for a Figure attribute.
  * An AttributeKey has a name, a type and a default value. The default value
  * is returned by Figure.getAttribute, if a Figure does not have an attribute
  * of the specified key.
+ * <p>
+ * An AttributeKey provides typesafe getter and setter for a Figure attribute.
+ * The following code example shows how to set and get an attribute on a Figure.
+ * <pre>
+ * Figure aFigure;
+ * AttributeKeys.STROKE_COLOR.set(aFigure, Color.blue);
+ * </pre>
+ * <p>
+ * See {@link AttributeKeys} for a list of useful attribute keys.
  *
  * @author Werner Randelshofer
- * @version 1.0.1 2006-07-14 Null values are not returned anymore when null
+ * @version 1.1 2006-12-29 Support for getting/setting attribute keys on a
+ * Map added.
+ * <br>1.0.1 2006-07-14 Null values are not returned anymore when null
  * values are not allowed. 
  * <br>1.0 7. Juni 2006 Created.
  */
@@ -55,6 +66,11 @@ public class AttributeKey<T> {
         T value = (T) f.getAttribute(this);
         return (value == null && ! isNullValueAllowed) ? defaultValue : value;
     }
+    public T get(Map<AttributeKey,Object> a) {
+        T value = (T) a.get(this);
+        return (value == null && ! isNullValueAllowed) ? defaultValue : value;
+    }
+    
     
     public void set(Figure f, T value) {
         if (value == null && ! isNullValueAllowed) {
@@ -62,6 +78,13 @@ public class AttributeKey<T> {
         }
         f.setAttribute(this, value);
     }
+    public void set(Map<AttributeKey,Object> a, T value) {
+        if (value == null && ! isNullValueAllowed) {
+            throw new NullPointerException("Null value not allowed for AttributeKey "+key);
+        }
+        a.put(this, value);
+    }
+    
     public void basicSet(Figure f, T value) {
         if (value == null && ! isNullValueAllowed) {
             throw new NullPointerException("Null value not allowed for AttributeKey "+key);

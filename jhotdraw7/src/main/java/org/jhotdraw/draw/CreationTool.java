@@ -48,7 +48,7 @@ import java.util.*;
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
 public class CreationTool extends AbstractTool {
-    private Map<AttributeKey, Object> attributes;
+    private Map<AttributeKey, Object> prototypeAttributes;
     private String name;
     private Dimension minimalSizeTreshold = new Dimension(10,10);
     /**
@@ -81,7 +81,7 @@ public class CreationTool extends AbstractTool {
             error.initCause(e);
             throw error;
         }
-        this.attributes = attributes;
+        this.prototypeAttributes = attributes;
         this.name = name;
     }
     public CreationTool(Figure prototype) {
@@ -94,7 +94,7 @@ public class CreationTool extends AbstractTool {
     /** Creates a new instance. */
     public CreationTool(Figure prototype, Map<AttributeKey, Object> attributes, String name) {
         this.prototype = prototype;
-        this.attributes = attributes;
+        this.prototypeAttributes = attributes;
         this.name = name;
     }
     
@@ -179,8 +179,8 @@ public class CreationTool extends AbstractTool {
     protected Figure createFigure() {
         Figure f = (Figure) prototype.clone();
         getEditor().applyDefaultAttributesTo(f);
-        if (attributes != null) {
-            for (Map.Entry<AttributeKey, Object> entry : attributes.entrySet()) {
+        if (prototypeAttributes != null) {
+            for (Map.Entry<AttributeKey, Object> entry : prototypeAttributes.entrySet()) {
                 f.setAttribute(entry.getKey(), entry.getValue());
             }
         }

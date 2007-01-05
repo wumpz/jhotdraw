@@ -1,5 +1,5 @@
 /*
- * @(#)ChopBoxConnector.java  2.1  2006-03-22
+ * @(#)ChopRectangleConnector.java  2.2  2006-12-23
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -10,7 +10,6 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-�
  */
 
 package org.jhotdraw.draw;
@@ -21,7 +20,7 @@ import java.awt.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.geom.*;
 /**
- * A ChopBoxConnector locates connection points by
+ * A ChopRectangleConnector locates connection points by
  * choping the connection between the centers of the
  * two figures at the display box.
  * <p>
@@ -31,20 +30,21 @@ import org.jhotdraw.geom.*;
  * @see Connector
  *
  * @author Werner Randelshofer
- * @version 2.1 2006-03-22 Support for total stroke width added.
+ * @version 2.2 2006-12-23 Renamed from ChopBoxConnector to ChopRectangleConnector.
+ * <br>2.1 2006-03-22 Support for total stroke width added.
  * <br>2.0 2006-01-14 Changed to support double precision coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
-public class ChopBoxConnector extends AbstractConnector {
+public class ChopRectangleConnector extends AbstractConnector {
     
     
     /** Creates a new instance.
      * Only used for storable.
      */
-    public ChopBoxConnector() {
+    public ChopRectangleConnector() {
     }
     
-    public ChopBoxConnector(Figure owner) {
+    public ChopRectangleConnector(Figure owner) {
         super(owner);
     }
     
