@@ -37,7 +37,7 @@ public abstract class SVGAttributedFigure extends AbstractAttributedFigure {
     public SVGAttributedFigure() {
     }
     
-    public void drawFigure(Graphics2D g) {
+    public void draw(Graphics2D g) {
         Paint paint = SVGAttributeKeys.getFillPaint(this);
         if (paint != null) {
             g.setPaint(paint);
@@ -53,12 +53,10 @@ public abstract class SVGAttributedFigure extends AbstractAttributedFigure {
             drawConnectors(g);
         }
     }
-    
-    public void basicSetAttribute(AttributeKey key, Object newValue) {
-        if (key == STROKE_MITER_LIMIT && (Double) newValue < 1d) {
-            System.out.println(this+".basicSetAttribute("+key+","+newValue);
-            new Throwable().printStackTrace();
-        }
-        super.basicSetAttribute(key, newValue);
+    @Override final public void write(DOMOutput out) throws IOException {
+        throw new UnsupportedOperationException("Use SVGStorableOutput to write this Figure.");
+    }
+    @Override final public void read(DOMInput in) throws IOException {
+        throw new UnsupportedOperationException("Use SVGStorableInput to read this Figure.");
     }
 }

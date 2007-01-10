@@ -24,11 +24,13 @@ package org.jhotdraw.samples.net.figures;
 
 import java.awt.*;
 import java.awt.geom.*;
+import java.io.*;
 import java.util.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.util.*;
+import org.jhotdraw.xml.*;
 
 /**
  * NodeFigure.
@@ -51,6 +53,7 @@ public class NodeFigure extends TextFigure {
         DECORATOR_INSETS.set(this, new Insets2D.Double(6,10,6,10));
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.net.Labels");
         setText(labels.getString("nodeDefaultName"));
+        setAttributeEnabled(DECORATOR_INSETS, false);
     }
     
     private void createConnectors() {
@@ -120,6 +123,13 @@ public class NodeFigure extends TextFigure {
     
     @Override public int getLayer() {
         return -1; // stay below ConnectionFigures
+    }
+
+    @Override protected void writeDecorator(DOMOutput out) throws IOException {
+        // do nothing
+    }
+    @Override protected void readDecorator(DOMInput in) throws IOException {
+        // do nothing
     }
     
     public void setAttribute(AttributeKey key, Object newValue) {

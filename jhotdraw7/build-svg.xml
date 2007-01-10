@@ -19,17 +19,35 @@
                 srcdir="${srcdir}"
                 debug="false"
                 source="1.5"
-                optimize="ttrue"
+                optimize="true"
+                target="1.5"
          >
             <classpath path="${libdir}/java_30.zip"/>
             <include name="org/jhotdraw/samples/svg/SVGApplet.java"/> 
             <include name="net/n3/nanoxml/*.java"/> 
         </javac>
-        <copy todir="${classdir}/org/jhotdraw/draw/images">
-            <fileset dir="${srcdir}/org/jhotdraw/draw/images" />
+        <copy todir="${classdir}/org/jhotdraw/app/action/images">
+            <fileset dir="${srcdir}/org/jhotdraw/app/action/images">
+                <include name="edit*.png"/>
+            </fileset>
         </copy>
         <copy todir="${classdir}/org/jhotdraw/draw/action/images">
-            <fileset dir="${srcdir}/org/jhotdraw/draw/action/images" />
+            <fileset dir="${srcdir}/org/jhotdraw/draw/action/images" >
+                <include name="actions.png"/>
+                <include name="align*.png"/>
+                <include name="attribute*.png"/>
+                <include name="createEllipse.png"/>
+                <include name="createImage.png"/>
+                <include name="createLine.png"/>
+                <include name="createPolygon.png"/>
+                <include name="createRectangle.png"/>
+                <include name="createScribble.png"/>
+                <include name="createText.png"/>
+                <include name="createTextArea.png"/>
+                <include name="move*.png"/>
+                <include name="selection*.png"/>
+                <include name="show*.png"/>
+            </fileset>
         </copy>
         <copy todir="${classdir}/org/jhotdraw/undo">
             <fileset dir="${srcdir}/org/jhotdraw/undo">
@@ -57,7 +75,18 @@
         -->
     </target>
     <target name="applet.jar" depends="init,applet.compile">
-        <jar destfile="${distdir}/jhotdraw_svg.jar" basedir="${classdir}">
+        <jar destfile="${distdir}/jhotdraw_svg.jar" basedir="${classdir}" 
+        index="true" compress="false">
+            <manifest>
+                <attribute name="Built-By" value="${author}"/>
+                <attribute name="Main-Class" value="org.jhotdraw.samples.svg.SVGApplet"/>
+            </manifest>
+        </jar>
+        <exec executable="gzip" dir="${distdir}">
+            <arg value="-f"/>
+            <arg value="jhotdraw_svg.jar"/>
+        </exec>
+        <jar destfile="${distdir}/jhotdraw_svg.jar" basedir="${classdir}" index="true">
             <manifest>
                 <attribute name="Built-By" value="${author}"/>
                 <attribute name="Main-Class" value="org.jhotdraw.samples.svg.SVGApplet"/>
@@ -131,6 +160,7 @@
     </target>
     <target name="application.run" depends="init">
         <java fork="true" jar="${distdir}/JHotDraw SVG.jar">
+            <jvmarg value="-Xdock:name=JHotDraw SVG"/>
             <jvmarg value="-Dlocale=en"/>
             <jvmarg value="-Dapple.awt.graphics.UseQuartz=false"/>
         </java>

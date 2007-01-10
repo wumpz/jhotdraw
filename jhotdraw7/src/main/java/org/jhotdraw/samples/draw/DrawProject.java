@@ -111,7 +111,7 @@ public class DrawProject extends AbstractProject {
      * Creates a new Drawing for this Project.
      */
     protected Drawing createDrawing() {
-        DefaultDrawing drawing = new DefaultDrawing();
+        Drawing drawing = new QuadTreeDrawing();
         DOMStorableInputOutputFormat ioFormat =
                 new DOMStorableInputOutputFormat(new DrawFigureFactory());
         LinkedList<InputFormat> inputFormats = new LinkedList<InputFormat>();

@@ -27,13 +27,13 @@ import java.awt.geom.*;
  * @version 2.0 2006-01-14 Changed to support double precison coordinates.
  * <br>1.0 2004-03-02 Derived from JHotDraw 6.0b1.
  */
-public class RoundRectRadiusHandle extends AbstractHandle {
+public class RoundRectangleRadiusHandle extends AbstractHandle {
     private static final int OFFSET = 6;
     private Point originalArc;
     CompositeEdit edit;
     
     /** Creates a new instance. */
-    public RoundRectRadiusHandle(Figure owner) {
+    public RoundRectangleRadiusHandle(Figure owner) {
         super(owner);
     }
     
@@ -79,6 +79,6 @@ public class RoundRectRadiusHandle extends AbstractHandle {
         view.getDrawing().fireUndoableEditHappened(edit);
     }
     public String getToolTipText(Point p) {
-        return ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels").getString("roundRectRadiusHandle.tip");
+        return ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels").getString("roundRectangleRadiusHandle.tip");
     }
 }

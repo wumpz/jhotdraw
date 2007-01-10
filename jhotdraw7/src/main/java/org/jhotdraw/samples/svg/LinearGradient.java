@@ -75,7 +75,7 @@ public class LinearGradient implements Gradient {
     
     public Paint getPaint(Figure f, double opacity) {
         if (stopColors.length == 0) {
-            return Color.BLACK;
+            return new Color(0xa0ff0000,true);
         }
         Point2D.Double p1;
         Point2D.Double p2;

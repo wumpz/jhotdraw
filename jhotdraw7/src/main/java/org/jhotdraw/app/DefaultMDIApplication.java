@@ -121,10 +121,11 @@ public class DefaultMDIApplication extends AbstractApplication {
         parentFrame.setVisible(true);
     }
     protected void initLookAndFeel() {
-        if (true) return;
         System.setProperty("apple.laf.useScreenMenuBar","false");
         System.setProperty("com.apple.macos.useScreenMenuBar","false");
         System.setProperty("apple.awt.graphics.UseQuartz","false");
+        System.setProperty("swing.aatext","true");
+        
         try {
             String lafName = UIManager.getSystemLookAndFeelClassName();
             UIManager.setLookAndFeel(lafName);

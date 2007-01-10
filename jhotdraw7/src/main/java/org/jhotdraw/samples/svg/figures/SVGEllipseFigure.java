@@ -177,13 +177,14 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
         return actions;
     }
     // CONNECTING
+    public boolean canConnect() {
+        return false; // SVG does not support connecting
+    }
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
-        // XXX - This doesn't work with a transformed ellipse
-        return new ChopEllipseConnector(this);
+        return null; // SVG does not support connectors
     }
     public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
-        // XXX - This doesn't work with a transformed ellipse
-        return new ChopEllipseConnector(this);
+        return null; // SVG does not support connectors
     }
     // COMPOSITE FIGURES
     // CLONING
@@ -194,43 +195,6 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     }
     
     // EVENT HANDLING
-    
-    
-    
-    @Override public void write(DOMOutput out) throws IOException {
-        Rectangle2D.Double r = getBounds();
-        out.addAttribute("cx", r.x + r.width / 2d);
-        out.addAttribute("cy", r.y + r.height / 2d);
-        out.addAttribute("rx", r.width / 2);
-        out.addAttribute("ry", r.height / 2);
-        writeAttributes(out);
-    }
-    protected void writeAttributes(DOMOutput out) throws IOException {
-        SVGUtil.writeAttributes(this, out);
-    }
-    
-    @Override public void read(DOMInput in) throws IOException {
-        double rx, ry;
-        if (in.getTagName().equals("circle")) {
-            rx = ry = SVGUtil.getDimension(in, "r");
-        } else {
-            rx = SVGUtil.getDimension(in, "rx");
-            ry = SVGUtil.getDimension(in, "ry");
-        }
-        double x = SVGUtil.getDimension(in, "cx") - rx;
-        double y = SVGUtil.getDimension(in, "cy") - ry;
-        double w = rx * 2d;
-        double h = ry * 2d;
-        setBounds(new Point2D.Double(x,y), new Point2D.Double(x+w,y+h));
-        readAttributes(in);
-        
-        AffineTransform tx = SVGUtil.getTransform(in, "transform");
-        basicTransform(tx);
-    }
-    protected void readAttributes(DOMInput in) throws IOException {
-        SVGUtil.readAttributes(this, in);
-    }
-    
     public boolean isEmpty() {
         Rectangle2D.Double b = getBounds();
         return b.width <= 0 || b.height <= 0;

@@ -31,7 +31,7 @@ public class Main {
         if (os.startsWith("mac")) {
             app = new DefaultOSXApplication();
         } else if (os.startsWith("win")) {
-          //  app = new DefaultMDIApplication();
+            //app = new DefaultMDIApplication();
             app = new DefaultSDIApplication();
         } else {
             app = new DefaultSDIApplication();
@@ -39,9 +39,10 @@ public class Main {
         
         
         DrawApplicationModel model = new DrawApplicationModel();
-        model.setName("JHotDraw PlasmaDraw");
-        model.setVersion("0.5");
-        model.setCopyright("Copyright 2006 (c) Werner Randelshofer.");
+        model.setName("JHotDraw Draw");
+        model.setVersion("7.0.8");
+        model.setCopyright("Copyright 2006-2007 (c) by the authors of JHotDraw\n" +
+                "This software is licensed under LGPL or Creative Commons 2.5 BY");
         model.setProjectClassName("org.jhotdraw.samples.draw.DrawProject");
         app.setModel(model);
         app.launch(args);

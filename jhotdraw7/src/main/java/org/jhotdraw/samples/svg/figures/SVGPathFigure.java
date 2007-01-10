@@ -50,7 +50,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
        SVGAttributeKeys.setDefaults(this);
     }
     
-    public void drawFigure(Graphics2D g) {
+    public void draw(Graphics2D g) {
         validatePath();
         Paint paint = SVGAttributeKeys.getFillPaint(this);
         if (paint != null) {
@@ -102,76 +102,11 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         path = null;
     }
     
-    @Override public void write(DOMOutput out) throws IOException {
-        writePoints(out);
-        writeAttributes(out);
+    @Override final public void write(DOMOutput out) throws IOException {
+        throw new UnsupportedOperationException("Use SVGStorableOutput to write this Figure.");
     }
-    protected void writePoints(DOMOutput out) {
-        StringBuilder buf = new StringBuilder();
-        for (Figure child : getChildren()) {
-            BezierFigure b = (BezierFigure) child;
-            buf.append(SVGUtil.toPathData(b.getBezierPath()));
-        }
-        out.addAttribute("d", buf.toString());
-    }
-    protected void writeAttributes(DOMOutput out) throws IOException {
-        SVGUtil.writeAttributes(this, out);
-    }
-    
-    @Override public void read(DOMInput in) throws IOException {
-        readPoints(in);
-        readAttributes(in);
-        AffineTransform tx = SVGUtil.getTransform(in, "transform");
-        basicTransform(tx);
-    }
-    protected void readPoints(DOMInput in) throws IOException {
-        removeAllChildren();
-        if (in.getTagName().equals("polyline")) {
-            BezierPath b = new BezierPath();
-            String points = in.getAttribute("points","");
-            
-            StringTokenizer tt = new StringTokenizer(points," ,");
-            while (tt.hasMoreTokens()) {
-                b.add(new BezierPath.Node(
-                        Double.valueOf(tt.nextToken()),
-                        Double.valueOf(tt.nextToken())
-                        ));
-            }
-            BezierFigure child = new BezierFigure();
-            child.basicSetBezierPath(b);
-            basicAdd(child);
-            
-        } else if (in.getTagName().equals("polygon")) {
-            BezierPath b = new BezierPath();
-            b.setClosed(true);
-            String points = in.getAttribute("points","");
-            
-            StringTokenizer tt = new StringTokenizer(points," ,");
-            while (tt.hasMoreTokens()) {
-                b.add(new BezierPath.Node(
-                        Double.valueOf(tt.nextToken()),
-                        Double.valueOf(tt.nextToken())
-                        ));
-            }
-            BezierFigure child = new BezierFigure();
-            child.basicSetBezierPath(b);
-            basicAdd(child);
-            
-        } else {
-            java.util.List<BezierPath> paths = SVGUtil.getPath(in, "d");
-            for (BezierPath b : paths) {
-                BezierFigure child = new BezierFigure();
-                child.basicSetBezierPath(b);
-                basicAdd(child);
-            }
-            if (paths.size() == 0) {
-                BezierFigure child = new BezierFigure();
-                basicAdd(child);
-            }
-        }
-    }
-    protected void readAttributes(DOMInput in) throws IOException {
-        SVGUtil.readAttributes(this, in);
+    @Override final public void read(DOMInput in) throws IOException {
+        throw new UnsupportedOperationException("Use SVGStorableInput to read this Figure.");
     }
     
     public void basicSetBounds(Point2D.Double anchor, Point2D.Double lead) {
@@ -241,6 +176,16 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
             }
         });
         return actions;
+    }
+    // CONNECTING
+    public boolean canConnect() {
+        return false; // SVG does not support connecting
+    }
+    public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
+        return null; // SVG does not support connectors
+    }
+    public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
+        return null; // SVG does not support connectors
     }
     /**
      * Handles a mouse click.

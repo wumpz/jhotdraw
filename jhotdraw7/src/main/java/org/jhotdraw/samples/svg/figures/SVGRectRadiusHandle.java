@@ -79,6 +79,6 @@ public class SVGRectRadiusHandle extends AbstractHandle {
         view.getDrawing().fireUndoableEditHappened(edit);
     }
     public String getToolTipText(Point p) {
-        return ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels").getString("roundRectRadiusHandle.tip");
+        return ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels").getString("roundRectangleRadiusHandle.tip");
         }
 }

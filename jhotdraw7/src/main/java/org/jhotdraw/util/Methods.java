@@ -15,6 +15,7 @@
 package org.jhotdraw.util;
 
 import java.lang.reflect.*;
+import org.jhotdraw.gui.JSheet;
 /**
  * Methods contains convenience methods for method invocations using
  * java.lang.reflect.
@@ -423,6 +424,28 @@ public class Methods {
              invoke(obj, methodName, clazz, newValue);
         } catch (NoSuchMethodException e) {
            // ignore
+        }
+    }
+
+    /**
+     * Invokes the specified setter method if it exists.
+     *
+     * @param obj The object on which to invoke the method.
+     * @param methodName The name of the method.
+     */
+    public static void invokeIfExistsWithEnum(Object obj, String methodName, String enumClassName, String enumValueName) {
+        try {
+            Class enumClass = Class.forName(enumClassName);
+            Object enumValue = invokeStatic("java.lang.Enum", "valueOf", new Class[] {Class.class, String.class},
+                    new Object[] {enumClass, enumValueName}
+            );
+            invoke(obj, methodName, enumClass, enumValue);
+        } catch (ClassNotFoundException e) {
+            // ignore
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            // ignore
+            e.printStackTrace();
         }
     }
 }

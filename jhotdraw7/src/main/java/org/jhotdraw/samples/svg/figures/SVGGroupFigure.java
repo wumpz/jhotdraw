@@ -54,84 +54,11 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
         return handles;
     }
     
-    @Override public void read(DOMInput in) throws IOException {
-        readAttributes(in);
-        for (int i=0, n = in.getElementCount(); i < n; i++) {
-            in.openElement(i);
-            String name = in.getTagName();
-            if (name.equals("pattern")) {
-                // We ignore "pattern" elements for now.
-                in.closeElement();
-            } else if (name.equals("color-profile")) {
-                // We ignore "pattern" elements for now.
-                in.closeElement();
-           } else if (name.equals("defs")) {
-                // We ignore "defs" elements for now.
-                in.closeElement();
-            } else if (name.equals("use")) {
-                // We ignore "use" elements for now.
-                in.closeElement();
-            } else if (name.equals("script")) {
-                // We ignore "script" elements for now.
-                in.closeElement();
-            } else if (name.equals("filter")) {
-                // We ignore "filter" elements for now.
-                in.closeElement();
-            } else if (name.equals("title")) {
-                // We ignore "title" elements for now.
-                in.closeElement();
-            } else if (name.equals("desc")) {
-                // We ignore "desc" elements for now.
-                in.closeElement();
-            } else if (name.equals("switch")) {
-                // We ignore "switch" elements for now.
-                in.closeElement();
-            } else if (name.equals("radialGradient")) {
-                // We ignore "radialGradient" elements for now.
-                in.closeElement();
-            } else if (name.equals("linearGradient")) {
-                // We ignore "linearGradient" elements for now.
-                in.closeElement();
-            } else {
-                in.closeElement();
-                Object f = (Object) in.readObject(i);
-                if (f instanceof SVGDrawing) {
-                    SVGGroupFigure g = new SVGGroupFigure();
-                    g.willChange();
-                    for (Figure child : ((SVGDrawing) f).getFigures()) {
-                        g.basicAdd(child);
-                    }
-                    g.changed();
-                    if (! g.isEmpty()) {
-                    add(g);
-                    }
-                } else if (f instanceof SVGFigure) {
-                    if (!((SVGFigure) f).isEmpty()) {
-                    add((SVGFigure) f);
-                    }
-                } else {
-                    throw new IOException("Unexpected child "+f);
-                }
-            }
-        }
-        AffineTransform tx = SVGUtil.getTransform(in, "transform");
-        for (Figure child : getChildren()) {
-            child.basicTransform(tx);
-        }
-        invalidateBounds();
+    @Override final public void write(DOMOutput out) throws IOException {
+        throw new UnsupportedOperationException("Use SVGStorableOutput to write this Figure.");
     }
-    protected void readAttributes(DOMInput in) throws IOException {
-        SVGUtil.readAttributes(this, in);
-    }
-    
-    @Override public void write(DOMOutput out) throws IOException {
-        for (Figure child : getChildren()) {
-            out.writeObject(child);
-        }
-        writeAttributes(out);
-    }
-    protected void writeAttributes(DOMOutput out) throws IOException {
-        SVGUtil.writeAttributes(this, out);
+    @Override final public void read(DOMInput in) throws IOException {
+        throw new UnsupportedOperationException("Use SVGStorableInput to read this Figure.");
     }
     public boolean isEmpty() {
         return getChildCount() == 0;

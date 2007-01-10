@@ -250,6 +250,7 @@ public class SVGProject extends AbstractProject implements ExportableProject {
             javax.swing.filechooser.FileFilter ff = format.getFileFilter();
             fileFilterOutputFormatMap.put(ff, format);
             c.addChoosableFileFilter(ff);
+            break; // only add the first file filter
         }
         
         return c;

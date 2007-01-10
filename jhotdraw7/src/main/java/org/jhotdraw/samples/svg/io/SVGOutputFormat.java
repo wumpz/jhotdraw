@@ -1115,6 +1115,7 @@ public class SVGOutputFormat implements OutputFormat {
     public void write(OutputStream out, java.util.List<Figure> figures) throws IOException {
         document = new XMLElement("svg", SVG_NAMESPACE);
         document.setAttribute("xmlns:xlink","http://www.w3.org/1999/xlink");
+        document.setAttribute("version","1.2");
         
         nextId = 0;
         identifiedElements = new HashMap<IXMLElement,String>();

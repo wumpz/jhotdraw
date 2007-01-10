@@ -23,7 +23,13 @@
          >
             <classpath path="${libdir}/java_30.zip"/>
             <include name="org/jhotdraw/samples/pert/PertApplet.java"/> 
+            <include name="net/n3/nanoxml/*.java"/> 
         </javac>
+        <copy todir="${classdir}/org/jhotdraw/app/action/images">
+            <fileset dir="${srcdir}/org/jhotdraw/app/action/images" >
+                <include name="edit*.png"/>
+            </fileset>
+        </copy>
         <copy todir="${classdir}/org/jhotdraw/draw/images">
             <fileset dir="${srcdir}/org/jhotdraw/draw/images" />
         </copy>
@@ -54,7 +60,18 @@
         </copy>
     </target>
     <target name="applet.jar" depends="init,applet.compile">
-        <jar destfile="${distdir}/jhotdraw_pert.jar" basedir="${classdir}">
+        <jar destfile="${distdir}/jhotdraw_pert.jar" basedir="${classdir}"
+        index="true" compress="false">
+            <manifest>
+                <attribute name="Built-By" value="${author}"/>
+                <attribute name="Main-Class" value="org.jhotdraw.samples.pert.PertApplet"/>
+            </manifest>
+        </jar>
+        <exec executable="gzip" dir="${distdir}">
+            <arg value="-f"/>
+            <arg value="jhotdraw_pert.jar"/>
+        </exec>
+        <jar destfile="${distdir}/jhotdraw_pert.jar" basedir="${classdir}" index="true">
             <manifest>
                 <attribute name="Built-By" value="${author}"/>
                 <attribute name="Main-Class" value="org.jhotdraw.samples.pert.PertApplet"/>
@@ -76,6 +93,7 @@
             <classpath path="${libdir}/quaqua.jar"/>
             <classpath path="${libdir}/MRJAdapter.jar"/>
             <classpath path="${libdir}/java_30.zip"/>
+            <include name="net/n3/nanoxml/*.java"/> 
             <include name="org/jhotdraw/samples/pert/Main.java"/> 
             <include name="org/jhotdraw/samples/pert/PertProject.java"/> 
         </javac>
@@ -130,6 +148,7 @@
     </target>
     <target name="application.run" depends="init">
         <java fork="true" jar="${distdir}/JHotDraw Pert.jar">
+            <jvmarg value="-Xdock:name=JHotDraw Pert"/>
             <jvmarg value="-Dlocale=en"/>
             <jvmarg value="-Dapple.awt.graphics.UseQuartz=false"/>
         </java>

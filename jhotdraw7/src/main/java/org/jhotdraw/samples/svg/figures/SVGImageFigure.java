@@ -226,13 +226,14 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         return actions;
     }
     // CONNECTING
+    public boolean canConnect() {
+        return false; // SVG does not support connecting
+    }
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
-        // XXX - This doesn't work with a transformed rectangle
-        return new ChopRectangleConnector(this);
+        return null; // SVG does not support connectors
     }
     public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
-        // XXX - This doesn't work with a transformed rectangle
-        return new ChopRectangleConnector(this);
+        return null; // SVG does not support connectors
     }
     
     // COMPOSITE FIGURES
@@ -246,32 +247,6 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     }
     
     
-    
-    public void read(DOMInput in) throws IOException {
-        double x = SVGUtil.getDimension(in, "x");
-        double y = SVGUtil.getDimension(in, "y");
-        double w = SVGUtil.getDimension(in, "width");
-        double h = SVGUtil.getDimension(in, "height");
-        setBounds(new Point2D.Double(x,y), new Point2D.Double(x+w,y+h));
-        readAttributes(in);
-        AffineTransform tx = SVGUtil.getTransform(in, "transform");
-        basicTransform(tx);
-    }
-    protected void readAttributes(DOMInput in) throws IOException {
-        SVGUtil.readAttributes(this, in);
-    }
-    
-    public void write(DOMOutput out) throws IOException {
-        Rectangle2D.Double r = getBounds();
-        out.addAttribute("x", r.x);
-        out.addAttribute("y", r.y);
-        out.addAttribute("width", r.width);
-        out.addAttribute("height", r.height);
-        writeAttributes(out);
-    }
-    protected void writeAttributes(DOMOutput out) throws IOException {
-        SVGUtil.writeAttributes(this, out);
-    }
     public boolean isEmpty() {
         Rectangle2D.Double b = getBounds();
         return b.width <= 0 || b.height <= 0 || imageData == null && bufferedImage == null;
@@ -323,7 +298,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
      */
     public BufferedImage getBufferedImage() {
         if (bufferedImage == null && imageData != null) {
-            System.out.println("recreateing bufferedImage");
+            //System.out.println("recreateing bufferedImage");
             try {
                 bufferedImage = ImageIO.read(new ByteArrayInputStream(imageData));
             } catch (IOException e) {

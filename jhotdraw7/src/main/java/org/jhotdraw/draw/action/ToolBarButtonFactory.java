@@ -415,6 +415,7 @@ public class ToolBarButtonFactory {
         }
         bar.add(strokeWidthPopupButton);
     }
+    
     public static void addStrokeDecorationButtonTo(JToolBar bar, DrawingEditor editor) {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
         
@@ -423,8 +424,26 @@ public class ToolBarButtonFactory {
         strokeDecorationPopupButton.setFocusable(false);
         strokeDecorationPopupButton.setColumnCount(2, false);
         LineDecoration[] decorations = {
+            // Arrow
             new ArrowTip(0.35, 12, 11.3),
+            
+            // Arrow
             new ArrowTip(0.35, 13, 7),
+            
+            // Generalization triangle
+            new ArrowTip(Math.PI / 5, 12, 9.8, true, true, false),
+            
+            // Dependency arrow
+            new ArrowTip(Math.PI / 6, 12, 0, false, true, false),
+            
+            // Link arrow
+            new ArrowTip(Math.PI / 11, 13, 0, false, true, true),
+            
+            // Aggregation diamond
+            new ArrowTip(Math.PI / 6, 10, 18, false, true, false),
+            
+            // Composition diamond
+            new ArrowTip(Math.PI / 6, 10, 18, true, true, true),
             null
         };
         for (int i=0; i < decorations.length; i++) {

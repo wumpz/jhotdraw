@@ -1,7 +1,7 @@
 /*
  * @(#)SVGApplet.java  1.0  2006-07-08
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -17,6 +17,8 @@ package org.jhotdraw.samples.svg;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.gui.*;
+import org.jhotdraw.samples.svg.figures.*;
+import org.jhotdraw.samples.svg.io.*;
 import org.jhotdraw.util.*;
 
 import java.awt.*;
@@ -35,22 +37,22 @@ import org.jhotdraw.xml.*;
  * @version 1.0 2006-07-08 Created.
  */
 public class SVGApplet extends JApplet {
-    private final static String VERSION = "0.1";
-    private final static String NAME = "SVGDraw";
+    private final static String VERSION = "7.0.8";
+    private final static String NAME = "JHotDraw SVG";
     private SVGPanel drawingPanel;
     
     /**
      * We override getParameter() to make it work even if we have no Applet
      * context.
      */
-     public String getParameter(String name) {
-         try {
+    public String getParameter(String name) {
+        try {
             return super.getParameter(name);
-         } catch (NullPointerException e) {
-             return null;
-         }
-     }    
-     
+        } catch (NullPointerException e) {
+            return null;
+        }
+    }
+    
     /** Initializes the applet SVGApplet */
     public void init() {
         // Set look and feel
@@ -76,28 +78,35 @@ public class SVGApplet extends JApplet {
         // --------------------------------------
         new Worker() {
             public Object construct() {
-                Object result;
+                Object result = null;
+                
+                InputStream in = null;
                 try {
-                        System.out.println("getParameter.datafile:"+getParameter("datafile"));
                     if (getParameter("data") != null) {
-                        NanoXMLDOMInput domi = new NanoXMLDOMInput(new SVGFigureFactoryOld(), new StringReader(getParameter("data")));
-                        result = domi.readObject(0);
+                        in = new ByteArrayInputStream(
+                                getParameter("data").getBytes("UTF8")
+                                );
                     } else if (getParameter("datafile") != null) {
-                        InputStream in = null;
-                        try {
-                            URL url = new URL(getDocumentBase(), getParameter("datafile"));
-                            in = url.openConnection().getInputStream();
-                            NanoXMLDOMInput domi = new NanoXMLDOMInput(new SVGFigureFactoryOld(), in);
-                            result = domi.readObject(0);
-                        } finally {
-                            if (in != null) in.close();
-                        }
-                    } else {
-                        result = null;
+                        URL url = new URL(getDocumentBase(), getParameter("datafile"));
+                        in = url.openConnection().getInputStream();
+                    }
+                    if (in != null) {
+                        Drawing drawing = createDrawing();
+                        drawing.getInputFormats().get(0).read(in, drawing);
+                        result = drawing;
                     }
                 } catch (Throwable t) {
                     result = t;
+                } finally {
+                    if (in != null) {
+                        try {
+                            in.close();
+                        } catch (IOException ex) {
+                            // ignore
+                        }
+                    }
                 }
+                
                 return result;
             }
             public void finished(Object result) {
@@ -114,7 +123,7 @@ public class SVGApplet extends JApplet {
                     if (result instanceof Drawing) {
                         setDrawing((Drawing) result);
                     } else if (result instanceof Throwable) {
-                        getDrawing().add(new TextFigure(result.toString()));
+                        getDrawing().add(new SVGTextFigure(result.toString()));
                         ((Throwable) result).printStackTrace();
                     }
                 }
@@ -132,45 +141,57 @@ public class SVGApplet extends JApplet {
         return drawingPanel.getDrawing();
     }
     
+    private Drawing createDrawing() {
+        DefaultDrawing drawing = new DefaultDrawing();
+        LinkedList<InputFormat> inputFormats = new LinkedList<InputFormat>();
+        inputFormats.add(new SVGInputFormat());
+        LinkedList<OutputFormat> outputFormats = new LinkedList<OutputFormat>();
+        outputFormats.add(new SVGOutputFormat());
+        drawing.setInputFormats(inputFormats);
+        drawing.setOutputFormats(outputFormats);
+        return drawing;
+    }
+    
     
     public void setData(String text) {
         if (text != null && text.length() > 0) {
-            StringReader in = new StringReader(text);
+            InputStream in = null;
             try {
-                NanoXMLDOMInput domi = new NanoXMLDOMInput(new SVGFigureFactoryOld(), in);
-                domi.openElement("SVGDraw");
-                
-                setDrawing((Drawing) domi.readObject(0));
+                in = new ByteArrayInputStream(text.getBytes("UTF8"));
+                Drawing drawing = createDrawing();
+                drawing.getInputFormats().get(0).read(in, drawing);
+                setDrawing(drawing);
             } catch (Throwable e) {
                 getDrawing().clear();
-                TextFigure tf = new TextFigure();
+                SVGTextFigure tf = new SVGTextFigure();
                 tf.setText(e.getMessage());
                 tf.setBounds(new Point2D.Double(10,10), new Point2D.Double(100,100));
                 getDrawing().add(tf);
                 e.printStackTrace();
             } finally {
-                if (in != null) in.close();
+                if (in != null)  {
+                    try {
+                        in.close();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
             }
         }
     }
     public String getData() {
-        CharArrayWriter out = new CharArrayWriter();
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
-            NanoXMLDOMOutput domo = new NanoXMLDOMOutput(new SVGFigureFactoryOld());
-            domo.openElement("SVGDraw");
-            domo.writeObject(getDrawing());
-            domo.closeElement();
-            domo.save(out);
+            getDrawing().getOutputFormats().get(0).write(out, getDrawing());
+            return out.toString("UTF8");
         } catch (IOException e) {
-            TextFigure tf = new TextFigure();
+            SVGTextFigure tf = new SVGTextFigure();
             tf.setText(e.getMessage());
-                tf.setBounds(new Point2D.Double(10,10), new Point2D.Double(100,100));
+            tf.setBounds(new Point2D.Double(10,10), new Point2D.Double(100,100));
             getDrawing().add(tf);
             e.printStackTrace();
-        } finally {
-            if (out != null) out.close();
+            return "";
         }
-        return out.toString();
     }
     
     public String[][] getParameterInfo() {
@@ -180,15 +201,11 @@ public class SVGApplet extends JApplet {
         };
     }
     public String getAppletInfo() {
-        return NAME+"\nVersion "+VERSION
-        +"\n\nCopyright \u00a9 2004-2006, \u00a9 Werner Randelshofer"
-        +"\nAlle Rights Reserved."
-        +"\n\nThis software is based on"
-        +"\nJHotDraw \u00a9 1996-1997, IFA Informatik und Erich Gamma"
-        +"\n"
-        +"\nJavaScript code can access the drawing data using the setData() and getData() methods."
-                
-        ;
+        return NAME +
+                "\nVersion "+VERSION +
+                "\n\nCopyright 1996-2007 (c) by the authors of JHotDraw" +
+                "\nThis software is licensed under LGPL or" +
+                "\nCreative Commons 2.5 BY";
     }
     /** This method is called from within the init() method to
      * initialize the form.
@@ -204,16 +221,16 @@ public class SVGApplet extends JApplet {
     public static void mainx(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-        JFrame f = new JFrame("SVGDraw Applet");
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        SVGApplet a = new SVGApplet();
-        f.getContentPane().add(a);
-        a.init();
-        f.setSize(500,300);
-        f.setVisible(true);
-        a.start();
-        }
-            });
+                JFrame f = new JFrame("SVGDraw Applet");
+                f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                SVGApplet a = new SVGApplet();
+                f.getContentPane().add(a);
+                a.init();
+                f.setSize(500,300);
+                f.setVisible(true);
+                a.start();
+            }
+        });
     }
     
     

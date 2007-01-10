@@ -1,5 +1,5 @@
 /*
- * @(#)JSheet.java  2.0  2006-07-02
+ * @(#)JSheet.java  2.1  2007-01-08
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -20,6 +20,7 @@ import java.awt.peer.*;
 import java.beans.*;
 import java.lang.reflect.*;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.*;
 import javax.swing.plaf.*;
 import org.jhotdraw.gui.event.*;
@@ -42,10 +43,12 @@ import org.jhotdraw.util.*;
  * In such a case, we (hopefully) just end up with a non-opaque sheet.
  *
  * @author  Werner Randelshofer
- * @version 1.4 2006-07-02 Rewritten for independent use of the Quaqua Look and
+ * @version 2.1 2007-01-08 Bounce dock icon when opening sheet.
+ * <br>2.0 2006-08-20 Added support for native JSheets with J2SE 6.
+ * <br>1.4 2006-07-02 Rewritten for independent use of the Quaqua Look and
  * Feel.
  * <br>1.3 2006-04-15 Request focus. Show window title of parent window
- * when displaying sheet as a regular dialog window. 
+ * when displaying sheet as a regular dialog window.
  * <br>1.2 2006-02-18 Set window decoration style to NONE. Get sheet border
  * from UIManager.
  * <br>1.1 2005-10-15 Bring sheet to front when showing an option pane
@@ -92,6 +95,14 @@ public class JSheet extends JDialog {
      * and when hidden.
      */
     private boolean isAnimated = true;
+    /**
+     * If this is set to true, the JSheet uses native Mac OS X sheets.
+     */
+    private static final boolean isNativeSheet;
+    static {
+        isNativeSheet = System.getProperty("os.name").equals("Mac OS X") &&
+                System.getProperty("java.version").compareTo("1.6") >= 0;
+    }
     
     /**
      * Creates a new JSheet.
@@ -110,9 +121,14 @@ public class JSheet extends JDialog {
     
     private void init() {
         if (getOwner() != null && isShowAsSheet()) {
-            setUndecorated(true);
-            getRootPane().setWindowDecorationStyle(JRootPane.NONE);
-            getRootPane().setBorder(UIManager.getBorder("Sheet.border"));
+            if (isNativeSheet()) {
+                getRootPane().putClientProperty("apple.awt.documentModalSheet",Boolean.TRUE);
+                Methods.invokeIfExistsWithEnum(this, "setModalityType", "java.awt.Dialog$ModalityType", "DOCUMENT_MODAL");
+            } else {
+                setUndecorated(true);
+                getRootPane().setWindowDecorationStyle(JRootPane.NONE);
+                getRootPane().setBorder(UIManager.getBorder("Sheet.border"));
+            }
         }
         
         // We move the sheet when the user moves the owner, so that it
@@ -126,9 +142,9 @@ public class JSheet extends JDialog {
                 Point newLocation = owner.getLocation();
                 if (! newLocation.equals(oldLocation)) {
                     setLocation(
-                    newLocation.x + (owner.getWidth() - getWidth()) / 2,
-                    newLocation.y + owner.getInsets().top
-                    );
+                            newLocation.x + (owner.getWidth() - getWidth()) / 2,
+                            newLocation.y + owner.getInsets().top
+                            );
                     shiftBackLocation = null;
                     oldLocation = newLocation;
                 }
@@ -157,20 +173,20 @@ public class JSheet extends JDialog {
                 Point sheetLoc;
                 if (isShowAsSheet()) {
                     if (owner instanceof JFrame) {
-                    sheetLoc = new Point(
-                    ownerLoc.x + (owner.getWidth() - getWidth()) / 2,
-                    ownerLoc.y + owner.getInsets().top + ((JFrame) owner).getRootPane().getContentPane().getY()
-                    );
+                        sheetLoc = new Point(
+                                ownerLoc.x + (owner.getWidth() - getWidth()) / 2,
+                                ownerLoc.y + owner.getInsets().top + ((JFrame) owner).getRootPane().getContentPane().getY()
+                                );
                     } else if (owner instanceof JDialog) {
-                    sheetLoc = new Point(
-                    ownerLoc.x + (owner.getWidth() - getWidth()) / 2,
-                    ownerLoc.y + owner.getInsets().top + ((JDialog) owner).getRootPane().getContentPane().getY()
-                    );
+                        sheetLoc = new Point(
+                                ownerLoc.x + (owner.getWidth() - getWidth()) / 2,
+                                ownerLoc.y + owner.getInsets().top + ((JDialog) owner).getRootPane().getContentPane().getY()
+                                );
                     } else  {
-                    sheetLoc = new Point(
-                    ownerLoc.x + (owner.getWidth() - getWidth()) / 2,
-                    ownerLoc.y + owner.getInsets().top
-                    );
+                        sheetLoc = new Point(
+                                ownerLoc.x + (owner.getWidth() - getWidth()) / 2,
+                                ownerLoc.y + owner.getInsets().top
+                                );
                     }
                     
                     if (sheetLoc.x < 0) {
@@ -184,9 +200,9 @@ public class JSheet extends JDialog {
                     }
                 } else {
                     sheetLoc = new Point(
-                    ownerLoc.x + (owner.getWidth() - getWidth()) / 2,
-                    ownerLoc.y + (owner.getHeight() - getHeight()) / 2
-                    );
+                            ownerLoc.x + (owner.getWidth() - getWidth()) / 2,
+                            ownerLoc.y + (owner.getHeight() - getHeight()) / 2
+                            );
                 }
                 setLocation(sheetLoc);
                 
@@ -199,9 +215,9 @@ public class JSheet extends JDialog {
                     owner.addComponentListener(ownerMovementHandler);
                 } else {
                     if (owner instanceof Frame) {
-                    setTitle(((Frame) owner).getTitle());
+                        setTitle(((Frame) owner).getTitle());
                     }
-                    }
+                }
             }
             isInstalled = true;
         }
@@ -270,17 +286,17 @@ public class JSheet extends JDialog {
         super.show();
     }
     public void hide() {
-        if (isAnimated() && isShowAsSheet()) {
+        if (isAnimated() && isShowAsSheet() && !isNativeSheet()) {
             getContentPane().setVisible(false);
             
             final Rectangle startBounds = getBounds();
             int parentWidth = getParent().getWidth();
             final Rectangle endBounds = new Rectangle(
-            (parentWidth < startBounds.width) ? startBounds.x + (startBounds.width - parentWidth) / 2: startBounds.x,
-            startBounds.y,
-            Math.min(startBounds.width, parentWidth),
-            0
-            );
+                    (parentWidth < startBounds.width) ? startBounds.x + (startBounds.width - parentWidth) / 2: startBounds.x,
+                    startBounds.y,
+                    Math.min(startBounds.width, parentWidth),
+                    0
+                    );
             final Timer timer = new Timer(20, null);
             timer.addActionListener(new ActionListener() {
                 long startTime;
@@ -300,11 +316,11 @@ public class JSheet extends JDialog {
                     } else {
                         float ratio = (now - startTime) / (float) (endTime - startTime);
                         setBounds(
-                        (int) (startBounds.x * (1f - ratio) + endBounds.x * ratio),
-                        (int) (startBounds.y * (1f - ratio) + endBounds.y * ratio),
-                        (int) (startBounds.width * (1f - ratio) + endBounds.width * ratio),
-                        (int) (startBounds.height * (1f - ratio) + endBounds.height * ratio)
-                        );
+                                (int) (startBounds.x * (1f - ratio) + endBounds.x * ratio),
+                                (int) (startBounds.y * (1f - ratio) + endBounds.y * ratio),
+                                (int) (startBounds.width * (1f - ratio) + endBounds.width * ratio),
+                                (int) (startBounds.height * (1f - ratio) + endBounds.height * ratio)
+                                );
                     }
                 }
             });
@@ -318,7 +334,7 @@ public class JSheet extends JDialog {
     }
     
     public void show() {
-        if (isAnimated() && isShowAsSheet()) {
+        if (isAnimated() && isShowAsSheet() && !isNativeSheet()) {
             installSheet();
             getContentPane().setVisible(false);
             
@@ -327,11 +343,11 @@ public class JSheet extends JDialog {
             final Rectangle endBounds = getBounds();
             int parentWidth = getParent().getWidth();
             final Rectangle startBounds = new Rectangle(
-            (parentWidth < endBounds.width) ? endBounds.x + (endBounds.width - parentWidth) / 2: endBounds.x,
-            endBounds.y,
-            Math.min(endBounds.width, parentWidth),
-            0
-            );
+                    (parentWidth < endBounds.width) ? endBounds.x + (endBounds.width - parentWidth) / 2: endBounds.x,
+                    endBounds.y,
+                    Math.min(endBounds.width, parentWidth),
+                    0
+                    );
             setBounds(startBounds);
             show0();
             final Timer timer = new Timer(20, null);
@@ -353,11 +369,11 @@ public class JSheet extends JDialog {
                     } else {
                         float ratio = (now - startTime) / (float) (endTime - startTime);
                         setBounds(
-                        (int) (startBounds.x * (1f - ratio) + endBounds.x * ratio),
-                        (int) (startBounds.y * (1f - ratio) + endBounds.y * ratio),
-                        (int) (startBounds.width * (1f - ratio) + endBounds.width * ratio),
-                        (int) (startBounds.height * (1f - ratio) + endBounds.height * ratio)
-                        );
+                                (int) (startBounds.x * (1f - ratio) + endBounds.x * ratio),
+                                (int) (startBounds.y * (1f - ratio) + endBounds.y * ratio),
+                                (int) (startBounds.width * (1f - ratio) + endBounds.width * ratio),
+                                (int) (startBounds.height * (1f - ratio) + endBounds.height * ratio)
+                                );
                     }
                 }
             });
@@ -367,6 +383,24 @@ public class JSheet extends JDialog {
         } else {
             installSheet();
             show0();
+        }
+        requestUserAttention();
+    }
+    
+    /**
+     * Requests attention from user. This is invoked when the sheet is opened.
+     */
+    public static void requestUserAttention() {
+        /*
+        NSApplication app = NSApplication.sharedApplication();
+        int id = app.requestUserAttention(
+                                NSApplication.UserAttentionRequestInformational);
+         */
+        try {
+            Object app = Methods.invokeStatic("com.apple.cocoa.application.NSApplication", "sharedApplication");
+            Methods.invoke(app, "requestUserAttention", app.getClass().getDeclaredField("UserAttentionRequestInformational").getInt(app));
+        } catch (Throwable ex) {
+            System.err.println("Quaqua Warning: Couldn't invoke NSApplication.requestUserAttention");
         }
     }
     
@@ -488,7 +522,7 @@ public class JSheet extends JDialog {
      */
     public static void showConfirmSheet(Component parentComponent, Object message, SheetListener listener) {
         showConfirmSheet(parentComponent, message,
-        JOptionPane.YES_NO_CANCEL_OPTION, listener);
+                JOptionPane.YES_NO_CANCEL_OPTION, listener);
     }
     /**
      * Brings up a sheet where the number of choices is determined
@@ -505,9 +539,9 @@ public class JSheet extends JDialog {
      *�@param listener The listener for SheetEvents.
      */
     public static void showConfirmSheet(Component parentComponent,
-    Object message, int optionType, SheetListener listener) {
+            Object message, int optionType, SheetListener listener) {
         showConfirmSheet(parentComponent, message, optionType,
-        JOptionPane.QUESTION_MESSAGE, listener);
+                JOptionPane.QUESTION_MESSAGE, listener);
     }
     /**
      * Brings up a sheet where the number of choices is determined
@@ -535,9 +569,9 @@ public class JSheet extends JDialog {
      *�@param listener The listener for SheetEvents.
      */
     public static void showConfirmSheet(Component parentComponent,
-    Object message, int optionType, int messageType, SheetListener listener) {
+            Object message, int optionType, int messageType, SheetListener listener) {
         showConfirmSheet(parentComponent, message, optionType,
-        messageType, null, listener);
+                messageType, null, listener);
     }
     
     /**
@@ -565,10 +599,10 @@ public class JSheet extends JDialog {
      *�@param listener The listener for SheetEvents.
      */
     public static void showConfirmSheet(Component parentComponent,
-    Object message, int optionType,
-    int messageType, Icon icon, SheetListener listener) {
+            Object message, int optionType,
+            int messageType, Icon icon, SheetListener listener) {
         showOptionSheet(parentComponent, message, optionType,
-        messageType, icon, null, null, listener);
+                messageType, icon, null, null, listener);
     }
     
     /**
@@ -580,7 +614,7 @@ public class JSheet extends JDialog {
      *�@param listener The listener for SheetEvents.
      */
     public static void showInputSheet(Component parentComponent,
-    Object message, SheetListener listener) {
+            Object message, SheetListener listener) {
         showInputSheet(parentComponent, message, JOptionPane.QUESTION_MESSAGE, listener);
     }
     
@@ -597,10 +631,10 @@ public class JSheet extends JDialog {
      *�@param listener The listener for SheetEvents.
      */
     public static void showInputSheet(Component parentComponent, Object message,
-    Object initialSelectionValue, SheetListener listener) {
+            Object initialSelectionValue, SheetListener listener) {
         showInputSheet(parentComponent, message,
-        JOptionPane.QUESTION_MESSAGE, null, null,
-        initialSelectionValue, listener);
+                JOptionPane.QUESTION_MESSAGE, null, null,
+                initialSelectionValue, listener);
     }
     
     /**
@@ -619,9 +653,9 @@ public class JSheet extends JDialog {
      *�@param listener The listener for SheetEvents.
      */
     public static void showInputSheet(Component parentComponent,
-    Object message, int messageType, SheetListener listener) {
+            Object message, int messageType, SheetListener listener) {
         showInputSheet(parentComponent, message,
-        messageType, null, null, null, listener);
+                messageType, null, null, null, listener);
     }
     
     /**
@@ -654,18 +688,18 @@ public class JSheet extends JDialog {
      *�@param listener The listener for SheetEvents.
      */
     public static void showInputSheet(Component parentComponent,
-    Object message, int messageType, Icon icon,
-    Object[] selectionValues, Object initialSelectionValue, SheetListener listener) {
+            Object message, int messageType, Icon icon,
+            Object[] selectionValues, Object initialSelectionValue, SheetListener listener) {
         
         JOptionPane    pane = new JOptionPane(message, messageType,
-        JOptionPane.OK_CANCEL_OPTION, icon,
-        null, null);
+                JOptionPane.OK_CANCEL_OPTION, icon,
+                null, null);
         
         pane.setWantsInput(true);
         pane.setSelectionValues(selectionValues);
         pane.setInitialSelectionValue(initialSelectionValue);
         pane.setComponentOrientation(((parentComponent == null) ?
-        JOptionPane.getRootFrame() : parentComponent).getComponentOrientation());
+            JOptionPane.getRootFrame() : parentComponent).getComponentOrientation());
         
         int style = styleFromMessageType(messageType);
         JSheet sheet = createSheet(pane, parentComponent, style);
@@ -692,9 +726,9 @@ public class JSheet extends JDialog {
      * @param message   the <code>Object</code> to display
      */
     public static void showMessageSheet(Component parentComponent,
-    Object message) {
+            Object message) {
         showMessageSheet(parentComponent, message,
-        JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.INFORMATION_MESSAGE);
     }
     /**
      * Brings up an information-message sheet.
@@ -707,9 +741,9 @@ public class JSheet extends JDialog {
      * @param listener This listener is notified when the sheet is dismissed.
      */
     public static void showMessageSheet(Component parentComponent,
-    Object message, SheetListener listener) {
+            Object message, SheetListener listener) {
         showMessageSheet(parentComponent, message,
-        JOptionPane.INFORMATION_MESSAGE, listener);
+                JOptionPane.INFORMATION_MESSAGE, listener);
     }
     
     /**
@@ -729,7 +763,7 @@ public class JSheet extends JDialog {
      *			or <code>JOptionPane.PLAIN_MESSAGE</code>
      */
     public static void showMessageSheet(Component parentComponent,
-    Object message, int messageType) {
+            Object message, int messageType) {
         showMessageSheet(parentComponent, message,  messageType, null, null);
     }
     /**
@@ -750,7 +784,7 @@ public class JSheet extends JDialog {
      * @param listener This listener is notified when the sheet is dismissed.
      */
     public static void showMessageSheet(Component parentComponent,
-    Object message, int messageType, SheetListener listener) {
+            Object message, int messageType, SheetListener listener) {
         showMessageSheet(parentComponent, message,  messageType, null, listener);
     }
     
@@ -774,9 +808,9 @@ public class JSheet extends JDialog {
      * @param listener This listener is notified when the sheet is dismissed.
      */
     public static void showMessageSheet(Component parentComponent,
-    Object message, int messageType, Icon icon, SheetListener listener) {
+            Object message, int messageType, Icon icon, SheetListener listener) {
         showOptionSheet(parentComponent, message, JOptionPane.DEFAULT_OPTION,
-        messageType, icon, null, null, listener);
+                messageType, icon, null, null, listener);
     }
     /**
      * Brings up a sheet with a specified icon, where the initial
@@ -823,16 +857,16 @@ public class JSheet extends JDialog {
      *�@param listener The listener for SheetEvents.
      */
     public static void showOptionSheet(Component parentComponent,
-    Object message, int optionType, int messageType,
-    Icon icon, Object[] options, Object initialValue, SheetListener listener) {
+            Object message, int optionType, int messageType,
+            Icon icon, Object[] options, Object initialValue, SheetListener listener) {
         
         JOptionPane pane = new JOptionPane(message, messageType,
-        optionType, icon,
-        options, initialValue);
+                optionType, icon,
+                options, initialValue);
         
         pane.setInitialValue(initialValue);
         pane.setComponentOrientation(((parentComponent == null) ?
-        JOptionPane.getRootFrame() : parentComponent).getComponentOrientation());
+            JOptionPane.getRootFrame() : parentComponent).getComponentOrientation());
         
         int style = styleFromMessageType(messageType);
         JSheet sheet = createSheet(pane, parentComponent, style);
@@ -858,7 +892,7 @@ public class JSheet extends JDialog {
         }
     }
     private static JSheet createSheet(final JOptionPane pane, Component parentComponent,
-    int style) {
+            int style) {
         Window window = getWindowForComponent(parentComponent);
         final JSheet sheet;
         if (window instanceof Frame) {
@@ -867,8 +901,13 @@ public class JSheet extends JDialog {
             sheet = new JSheet((Dialog) window);
         }
         
-        Container contentPane = sheet.getContentPane();
+        JComponent contentPane = (JComponent) sheet.getContentPane();
         contentPane.setLayout(new BorderLayout());
+        
+        if (isNativeSheet()) {
+            contentPane.setBorder(new EmptyBorder(12,0,0,0));
+        }
+        
         contentPane.add(pane, BorderLayout.CENTER);
         sheet.setResizable(false);
         sheet.addWindowListener(new WindowAdapter() {
@@ -909,9 +948,9 @@ public class JSheet extends JDialog {
                 // if the user closed the window without selecting a button
                 // (newValue = null in that case).  Otherwise, close the sheet.
                 if (sheet.isVisible() && event.getSource() == pane &&
-                (event.getPropertyName().equals(JOptionPane.VALUE_PROPERTY)) &&
-                event.getNewValue() != null &&
-                event.getNewValue() != JOptionPane.UNINITIALIZED_VALUE) {
+                        (event.getPropertyName().equals(JOptionPane.VALUE_PROPERTY)) &&
+                        event.getNewValue() != null &&
+                        event.getNewValue() != JOptionPane.UNINITIALIZED_VALUE) {
                     sheet.setVisible(false);
                     sheet.fireOptionSelected(pane);
                 }
@@ -975,7 +1014,7 @@ public class JSheet extends JDialog {
      *�@param listener The listener for SheetEvents.
      */
     public static void showSheet(final JFileChooser chooser, Component parent,
-    String approveButtonText, SheetListener listener) {
+            String approveButtonText, SheetListener listener) {
         if(approveButtonText != null) {
             chooser.setApproveButtonText(approveButtonText);
             chooser.setDialogType(JFileChooser.CUSTOM_DIALOG);
@@ -983,7 +1022,7 @@ public class JSheet extends JDialog {
         
         // Begin Create Dialog
         Frame frame = parent instanceof Frame ? (Frame) parent
-        : (Frame)SwingUtilities.getAncestorOfClass(Frame.class, parent);
+                : (Frame)SwingUtilities.getAncestorOfClass(Frame.class, parent);
         
         String title = chooser.getUI().getDialogTitle(chooser);
         chooser.getAccessibleContext().setAccessibleDescription(title);
@@ -1020,5 +1059,12 @@ public class JSheet extends JDialog {
         sheet.pack();
         sheet.show();
         sheet.toFront();
+    }
+    /**
+     * If this returns true, the JSheet uses native support for
+     * sheet display.
+     */
+    private static boolean isNativeSheet() {
+        return isNativeSheet;
     }
 }

@@ -228,13 +228,14 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
         return actions;
     }
     // CONNECTING
+    public boolean canConnect() {
+        return false; // SVG does not support connecting
+    }
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
-        // XXX - This doesn't work with a transformed rect
-        return new ChopRoundRectangleConnector(this);
+        return null; // SVG does not support connectors
     }
     public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
-        // XXX - This doesn't work with a transformed rect
-        return new ChopRoundRectangleConnector(this);
+        return null; // SVG does not support connectors
     }
     
     // COMPOSITE FIGURES
@@ -247,39 +248,6 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
         return that;
     }
     
-    
-    
-    public void read(DOMInput in) throws IOException {
-        double x = SVGUtil.getDimension(in, "x");
-        double y = SVGUtil.getDimension(in, "y");
-        double w = SVGUtil.getDimension(in, "width");
-        double h = SVGUtil.getDimension(in, "height");
-        setBounds(new Point2D.Double(x,y), new Point2D.Double(x+w,y+h));
-        setArc(
-                SVGUtil.getDimension(in, "rx"),
-                SVGUtil.getDimension(in, "ry")
-                );
-        readAttributes(in);
-        AffineTransform tx = SVGUtil.getTransform(in, "transform");
-        basicTransform(tx);
-    }
-    protected void readAttributes(DOMInput in) throws IOException {
-        SVGUtil.readAttributes(this, in);
-    }
-    
-    public void write(DOMOutput out) throws IOException {
-        Rectangle2D.Double r = getBounds();
-        out.addAttribute("x", r.x);
-        out.addAttribute("y", r.y);
-        out.addAttribute("width", r.width);
-        out.addAttribute("height", r.height);
-        out.addAttribute("rx", getArcWidth());
-        out.addAttribute("ry", getArcHeight());
-        writeAttributes(out);
-    }
-    protected void writeAttributes(DOMOutput out) throws IOException {
-        SVGUtil.writeAttributes(this, out);
-    }
     public boolean isEmpty() {
         Rectangle2D.Double b = getBounds();
         return b.width <= 0 || b.height <= 0;

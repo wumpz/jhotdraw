@@ -36,7 +36,8 @@ import org.jhotdraw.xml.*;
  * @author Werner Randelshofer
  * @version 1.0 December 9, 2006 Created.
  */
-public class SVGTextAreaFigure extends AbstractAttributedFigure implements SVGFigure, TextHolderFigure {
+public class SVGTextAreaFigure extends SVGAttributedFigure 
+        implements SVGFigure, TextHolderFigure {
     
     
     private Rectangle2D.Double rectangle = new Rectangle2D.Double();
@@ -446,6 +447,15 @@ public class SVGTextAreaFigure extends AbstractAttributedFigure implements SVGFi
     
     
 // CONNECTING
+    public boolean canConnect() {
+        return false; // SVG does not support connecting
+    }
+    public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
+        return null; // SVG does not support connectors
+    }
+    public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
+        return null; // SVG does not support connectors
+    }
 // COMPOSITE FIGURES
 // CLONING
 // EVENT HANDLING
@@ -462,28 +472,6 @@ public class SVGTextAreaFigure extends AbstractAttributedFigure implements SVGFi
     }
     
     
-    protected void readBounds(DOMInput in) throws IOException {
-        rectangle.x = in.getAttribute("x",0d);
-        rectangle.y = in.getAttribute("y",0d);
-        rectangle.width = in.getAttribute("w",0d);
-        rectangle.height = in.getAttribute("h",0d);
-    }
-    protected void writeBounds(DOMOutput out) throws IOException {
-        out.addAttribute("x",rectangle.x);
-        out.addAttribute("y",rectangle.y);
-        out.addAttribute("w",rectangle.width);
-        out.addAttribute("h",rectangle.height);
-    }
-    public void read(DOMInput in) throws IOException {
-        readBounds(in);
-        readAttributes(in);
-        invalidateTransformedShape();
-    }
-    
-    public void write(DOMOutput out) throws IOException {
-        writeBounds(out);
-        writeAttributes(out);
-    }
     
     public SVGTextAreaFigure clone() {
         SVGTextAreaFigure that = (SVGTextAreaFigure) super.clone();

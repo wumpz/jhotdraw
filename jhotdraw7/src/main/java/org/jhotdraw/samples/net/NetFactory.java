@@ -27,7 +27,7 @@ import org.jhotdraw.xml.*;
  */
 public class NetFactory extends DefaultDOMFactory {
     private final static Object[][] classTagArray = {
-        { DefaultDrawing.class, "NetDiagram" },
+        { DefaultDrawing.class, "Net" },
         { NodeFigure.class, "node" },
         { LineConnectionFigure.class, "link" },
         { GroupFigure.class, "g" },
@@ -39,12 +39,18 @@ public class NetFactory extends DefaultDOMFactory {
         { ArrowTip.class, "arrowTip" },
         { Insets2D.Double.class, "insets" },
         { RelativeLocator.class, "relativeLoc" },
+        };
+    private final static Object[][] enumTagArray = {
+        { AttributeKeys.StrokeType.class, "strokeType" },
     };
     
     /** Creates a new instance. */
     public NetFactory() {
         for (Object[] o : classTagArray) {
             addStorableClass((String) o[1], (Class) o[0]);
+        }
+        for (Object[] o : enumTagArray) {
+            addEnumClass((String) o[1], (Class) o[0]);
         }
     }
 }

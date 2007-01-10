@@ -64,7 +64,7 @@ public class RadialGradient implements Gradient {
     
     public Paint getPaint(Figure f, double opacity) {
         if (stopColors.length == 0) {
-            return Color.BLACK;
+            return new Color(0xa0a0a000,true);
         }
         Point2D.Double cp;
         double rr;
@@ -80,6 +80,10 @@ public class RadialGradient implements Gradient {
         float[] fractions = new float[stopColors.length];
         for (int i=0; i < stopColors.length; i++) {
             fractions[i] = (float) stopOffsets[i];
+        }
+        if (rr <= 0) {
+            System.out.println("RadialGradient: radius should be > 0");
+            return new Color(0xa0a0aa00,true);
         }
         org.apache.batik.ext.awt.RadialGradientPaint gp =
                 new org.apache.batik.ext.awt.RadialGradientPaint(cp, (float) rr, fractions, stopColors);

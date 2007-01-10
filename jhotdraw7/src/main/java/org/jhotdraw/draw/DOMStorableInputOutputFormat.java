@@ -52,6 +52,11 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
      */
     private String mimeType;
     
+    /**
+     * The data flavor constructed from the mime type.
+     */
+    private DataFlavor dataFlavor;
+    
     /** Creates a new instance with format name "Drawing", file extension "xml"
      * and mime type "image/x-jhotdraw".
      */
@@ -71,6 +76,14 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
             String description, String fileExtension, String mimeType) {
         this.factory = factory;
         this.fileExtension = fileExtension;
+        this.mimeType = mimeType;
+        try {
+            this.dataFlavor = new DataFlavor(mimeType);
+        } catch (ClassNotFoundException ex) {
+            InternalError error = new InternalError("Unable to create data flavor for mime type:"+mimeType);
+            error.initCause(ex);
+            throw error;
+        }
     }
     
     public javax.swing.filechooser.FileFilter getFileFilter() {
@@ -84,16 +97,22 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
     public JComponent getInputFormatAccessory() {
         return null;
     }
-    
-    public void read(URL url, InputStream in, Drawing drawing, LinkedList<Figure> figures) throws IOException {
+
+    /**
+     * Reads a list of figures into the specified drawing.
+     * This method expects that there is a child element named "figures"
+     * in the element that represents the drawing.
+     */
+    protected void read(URL url, InputStream in, Drawing drawing, LinkedList<Figure> figures) throws IOException {
         NanoXMLDOMInput domi = new NanoXMLDOMInput(factory, in);
         domi.openElement(factory.getName(drawing));
-        
+        domi.openElement("figures",0);
         figures.clear();
         for (int i=0, n = domi.getElementCount(); i < n; i++) {
             Figure f = (Figure) domi.readObject();
             figures.add(f);
         }
+        domi.closeElement();
         domi.closeElement();
         drawing.basicAddAll(drawing.getFigureCount(), figures);
     }
@@ -116,9 +135,7 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
     public void write(OutputStream out, Drawing drawing) throws IOException {
         NanoXMLDOMOutput domo = new NanoXMLDOMOutput(factory);
         domo.openElement(factory.getName(drawing));
-        for (Figure f : drawing.getFigures()) {
-            domo.writeObject(f);
-        }
+        drawing.write(domo);
         domo.closeElement();
         domo.save(out);
     }
@@ -139,15 +156,12 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
     public void read(InputStream in, Drawing drawing) throws IOException {
         NanoXMLDOMInput domi = new NanoXMLDOMInput(factory, in);
         domi.openElement(factory.getName(drawing));
-        for (int i=0, n = domi.getElementCount(); i < n; i++) {
-            Figure f = (Figure) domi.readObject();
-            drawing.basicAdd(f);
-        }
+        drawing.read(domi);
         domi.closeElement();
     }
     
     public boolean isDataFlavorSupported(DataFlavor flavor) {
-        return flavor.getMimeType().equals(mimeType);
+        return flavor.equals(dataFlavor);
     }
     
     public List<Figure> readFigures(Transferable t) throws UnsupportedFlavorException, IOException {
@@ -156,7 +170,7 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
         NanoXMLDOMInput domi = new NanoXMLDOMInput(factory, in);
         domi.openElement("Drawing-Clip");
         for (int i=0, n = domi.getElementCount(); i < n; i++) {
-            Figure f = (Figure) domi.readObject();
+            Figure f = (Figure) domi.readObject(i);
             figures.add(f);
         }
         domi.closeElement();

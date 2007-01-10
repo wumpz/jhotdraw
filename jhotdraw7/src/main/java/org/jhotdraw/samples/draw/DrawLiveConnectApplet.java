@@ -1,7 +1,7 @@
 /*
  * @(#)DrawLiveConnectApplet.java  2.0  2006-01-15
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -38,8 +38,8 @@ import org.jhotdraw.xml.*;
  * <br>1.0 Created on 10. M�rz 2004, 13:22.
  */
 public class DrawLiveConnectApplet extends JApplet {
-    private final static String VERSION = "0.44";
-    private final static String NAME = "PlasmaDraw";
+    private final static String VERSION = "7.0.8";
+    private final static String NAME = "JHotDraw Draw";
     
     /** Initializes the applet DrawApplet */
     public void init() {
@@ -70,7 +70,6 @@ public class DrawLiveConnectApplet extends JApplet {
                 try {
                     if (getParameter("data") != null && getParameter("data").length() > 0) {
                         NanoXMLDOMInput domi = new NanoXMLDOMInput(new DrawFigureFactory(), new StringReader(getParameter("data")));
-                        domi.openElement("PlasmaDraw");
                         result = domi.readObject(0);
                     } else if (getParameter("datafile") != null) {
                         InputStream in = null;
@@ -78,7 +77,6 @@ public class DrawLiveConnectApplet extends JApplet {
                             URL url = new URL(getDocumentBase(), getParameter("datafile"));
                             in = url.openConnection().getInputStream();
                             NanoXMLDOMInput domi = new NanoXMLDOMInput(new DrawFigureFactory(), in);
-                            domi.openElement("PlasmaDraw");
                             result = domi.readObject(0);
                         } finally {
                             if (in != null) in.close();
@@ -146,8 +144,6 @@ public class DrawLiveConnectApplet extends JApplet {
             StringReader in = new StringReader(text);
             try {
                 NanoXMLDOMInput domi = new NanoXMLDOMInput(new DrawFigureFactory(), in);
-                domi.openElement("PlasmaDraw");
-                
                 setDrawing((Drawing) domi.readObject(0));
             } catch (Throwable e) {
                 getDrawing().clear();
@@ -165,9 +161,7 @@ public class DrawLiveConnectApplet extends JApplet {
         CharArrayWriter out = new CharArrayWriter();
         try {
             NanoXMLDOMOutput domo = new NanoXMLDOMOutput(new DrawFigureFactory());
-            domo.openElement("PlasmaDraw");
             domo.writeObject(getDrawing());
-            domo.closeElement();
             domo.save(out);
         } catch (IOException e) {
             TextFigure tf = new TextFigure();
@@ -190,12 +184,11 @@ public class DrawLiveConnectApplet extends JApplet {
         };
     }
     public String getAppletInfo() {
-        return NAME+"\nVersion "+VERSION
-        +"\n\nCopyright 2004 \u00a9 Werner Randelshofer"
-        +"\nAlle Rechte vorbehalten."
-        +"\n\nDiese Software basiert auf"
-        +"\nJHotDraw \u00a9 1996, 1997 IFA Informatik und Erich Gamma";
-
+        return NAME +
+                "\nVersion "+VERSION +
+                "\n\nCopyright 1996-2007 (c) by the authors of JHotDraw" +
+                "\nThis software is licensed under LGPL or" +
+                "\nCreative Commons 2.5 BY";
     }
     /** This method is called from within the init() method to
      * initialize the form.

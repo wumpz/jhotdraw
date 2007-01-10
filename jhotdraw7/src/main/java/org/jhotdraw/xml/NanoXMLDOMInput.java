@@ -66,7 +66,9 @@ public class NanoXMLDOMInput implements DOMInput {
             parser.setReader(reader);
             document = new XMLElement();
             current = (XMLElement) parser.parse();
+            if (current != null) {
             document.addChild(current);
+            }
             current = document;
         } catch (Exception e) {
             IOException error = new IOException(e.getMessage());

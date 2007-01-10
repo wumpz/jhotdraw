@@ -37,8 +37,8 @@ import org.jhotdraw.xml.*;
  * <br>1.0 Created on 10. Marz 2004, 13:22.
  */
 public class DrawApplet extends JApplet {
-    private final static String VERSION = "0.5";
-    private final static String NAME = "JHotDraw PlasmaDraw";
+    private final static String VERSION = "7.0.8";
+    private final static String NAME = "JHotDraw Draw";
     private DrawingPanel drawingPanel;
     
     /**
@@ -83,7 +83,6 @@ public class DrawApplet extends JApplet {
                         System.out.println("getParameter.datafile:"+getParameter("datafile"));
                     if (getParameter("data") != null) {
                         NanoXMLDOMInput domi = new NanoXMLDOMInput(new DrawFigureFactory(), new StringReader(getParameter("data")));
-                        domi.openElement("PlasmaDraw");
                         result = domi.readObject(0);
                     } else if (getParameter("datafile") != null) {
                         InputStream in = null;
@@ -91,7 +90,6 @@ public class DrawApplet extends JApplet {
                             URL url = new URL(getDocumentBase(), getParameter("datafile"));
                             in = url.openConnection().getInputStream();
                             NanoXMLDOMInput domi = new NanoXMLDOMInput(new DrawFigureFactory(), in);
-                            domi.openElement("PlasmaDraw");
                             result = domi.readObject(0);
                         } finally {
                             if (in != null) in.close();
@@ -143,8 +141,6 @@ public class DrawApplet extends JApplet {
             StringReader in = new StringReader(text);
             try {
                 NanoXMLDOMInput domi = new NanoXMLDOMInput(new DrawFigureFactory(), in);
-                domi.openElement("PlasmaDraw");
-                
                 setDrawing((Drawing) domi.readObject(0));
             } catch (Throwable e) {
                 getDrawing().clear();
@@ -162,9 +158,7 @@ public class DrawApplet extends JApplet {
         CharArrayWriter out = new CharArrayWriter();
         try {
             NanoXMLDOMOutput domo = new NanoXMLDOMOutput(new DrawFigureFactory());
-            domo.openElement("PlasmaDraw");
             domo.writeObject(getDrawing());
-            domo.closeElement();
             domo.save(out);
         } catch (IOException e) {
             TextFigure tf = new TextFigure();
@@ -185,16 +179,11 @@ public class DrawApplet extends JApplet {
         };
     }
     public String getAppletInfo() {
-        return NAME+"\nVersion "+VERSION
-        +"\n\nCopyright \u00a9 2004-2006, \u00a9 Werner Randelshofer"
-        +"\nAlle Rights Reserved."
-        +"\n\nThis software is based on"
-        +"\nJHotDraw \u00a9 1996-1997, IFA Informatik und Erich Gamma"
-        +"\nNanoXML \u00a9 2000-2002 Marc De Scheemaecker"
-        +"\n"
-        +"\nJavaScript code can access the drawing data using the setData() and getData() methods."
-                
-        ;
+        return NAME +
+                "\nVersion "+VERSION +
+                "\n\nCopyright 2006-2007 (c) by the authors of JHotDraw" +
+                "\nThis software is licensed under LGPL or" +
+                "\nCreative Commons 2.5 BY";
     }
     /** This method is called from within the init() method to
      * initialize the form.
@@ -210,7 +199,7 @@ public class DrawApplet extends JApplet {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-        JFrame f = new JFrame("JHotDraw PlasmaDraw Applet");
+        JFrame f = new JFrame("JHotDraw Draw Applet");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         DrawApplet a = new DrawApplet();
         f.getContentPane().add(a);

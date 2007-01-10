@@ -34,6 +34,7 @@
 package net.n3.nanoxml;
 
 
+import java.io.CharArrayWriter;
 import java.io.Serializable;
 import java.util.*;
 
@@ -1099,4 +1100,18 @@ public class XMLElement implements IXMLElement, Serializable {
         return true;
     }
     
+    // BEGIN PATCH Werner Randelshofer
+    public String toString() {
+        CharArrayWriter buf = new CharArrayWriter();
+       XMLWriter w = new XMLWriter(buf);
+       try {
+       w.write(this);
+       } catch (java.io.IOException e) {
+           InternalError error = new InternalError("toString failed");
+           error.initCause(e);
+           throw error;
+       }
+       return buf.toString();
+    }
+    // END PATCH Werner Randelshofer
 }

@@ -1,7 +1,7 @@
 /*
  * @(#)NetApplet.java  1.0  2006-07-15
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -36,7 +36,7 @@ import org.jhotdraw.xml.*;
  * @version 1.0 2006-07-15 Created.
  */
 public class NetApplet extends JApplet {
-    private final static String VERSION = "0.5";
+    private final static String VERSION = "7.0.8";
     private final static String NAME = "JHotDraw Net";
     private NetPanel drawingPanel;
     
@@ -183,16 +183,11 @@ public class NetApplet extends JApplet {
         };
     }
     public String getAppletInfo() {
-        return NAME+"\nVersion "+VERSION
-        +"\n\nCopyright \u00a9 2004-2006, \u00a9 Werner Randelshofer"
-        +"\nAlle Rights Reserved."
-        +"\n\nThis software is based on"
-        +"\nJHotDraw \u00a9 1996-1997, IFA Informatik und Erich Gamma"
-        +"\nNanoXML \u00a9 2000-2002 Marc De Scheemaecker"
-        +"\n"
-        +"\nJavaScript code can access the drawing data using the setData() and getData() methods."
-                
-        ;
+        return NAME +
+                "\nVersion "+VERSION +
+                "\n\nCopyright 1996-2007 (c) by the authors of JHotDraw" +
+                "\nThis software is licensed under LGPL or" +
+                "\nCreative Commons 2.5 BY";
     }
     /** This method is called from within the init() method to
      * initialize the form.

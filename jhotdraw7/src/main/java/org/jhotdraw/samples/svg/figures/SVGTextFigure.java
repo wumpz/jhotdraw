@@ -314,6 +314,16 @@ public class SVGTextFigure
         }
         return actions;
     }
+    // CONNECTING
+    public boolean canConnect() {
+        return false; // SVG does not support connecting
+    }
+    public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
+        return null; // SVG does not support connectors
+    }
+    public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
+        return null; // SVG does not support connectors
+    }
     
     /**
      * Returns a specialized tool for the given coordinate.
@@ -345,40 +355,6 @@ public class SVGTextFigure
         return that;
     }
     
-    
-    
-/*
-    @Override public void write(DOMOutput out) {
-        out.addAttribute("x", origin.x);
-        out.addAttribute("y", origin.y);
-        out.addText(getText());
-    }
-    protected void writeAttributes(DOMOutput out) throws IOException {
-        SVGUtil.writeAttributes(this, out);
-    }
- 
-    @Override public void read(DOMInput in) throws IOException {
-        origin.x = SVGUtil.getDimension(in, "x");
-        origin.y = SVGUtil.getDimension(in, "y");
-        setText(in.getText());
-        readAttributes(in);
-        AffineTransform tx = SVGUtil.getTransform(in, "transform");
-        basicTransform(tx);
- 
-        Rectangle2D.Double r = getBounds();
-        switch (TEXT_ANCHOR.get(this)) {
-            case START :
-                break;
-            case MIDDLE :
-                origin.x -= r.width / 2d;
-                break;
-            case END :
-                origin.x -= r.width;
-                break;
-        }
-        origin.y -= FONT_SIZE.get(this);
-    }
- */
     public boolean isEmpty() {
         return getText() == null || getText().length() == 0;
     }

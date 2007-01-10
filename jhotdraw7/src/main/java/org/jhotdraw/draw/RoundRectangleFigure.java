@@ -158,7 +158,7 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
     // EDITING
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = (LinkedList<Handle>) super.createHandles(detailLevel);
-        handles.add(new RoundRectRadiusHandle(this));
+        handles.add(new RoundRectangleRadiusHandle(this));
         
         return handles;
     }

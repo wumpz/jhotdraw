@@ -769,7 +769,7 @@ public class DefaultDrawingView
         try {
             Transferable transfer = getToolkit().getSystemClipboard().getContents(this);
             // Search for a suitable input format
-            for (InputFormat format : drawing.getInputFormats()) {
+           ImportLoop: for (InputFormat format : drawing.getInputFormats()) {
                 for (DataFlavor flavor : transfer.getTransferDataFlavors()) {
                 if (format.isDataFlavorSupported(flavor)) {
                     CompositeEdit ce = new CompositeEdit("Paste");
@@ -779,7 +779,7 @@ public class DefaultDrawingView
                     getDrawing().addAll(toBeSelected); 
                     addToSelection(toBeSelected);
                     getDrawing().fireUndoableEditHappened(ce);
-                    break;
+                    break ImportLoop;
                 }
                 }
             }
