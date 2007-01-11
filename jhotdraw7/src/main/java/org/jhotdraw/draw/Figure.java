@@ -206,6 +206,11 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * <code>UndoableEditListener.undoableEditHappened</code>. If
      * the shape is affected by an attribute change, 
      * <code>FigureListener.figureChanged</code> is fired too.
+     * <p>
+     * Use <code>AttributeKey.set</code> for typesafe access to this 
+     * method.
+     *
+     * @see AttributeKey#basicSet
      */
     public void setAttribute(AttributeKey key, Object value);
     /**
@@ -213,8 +218,17 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * AttributeKey name and semantics are defined by the class implementing
      * the Figure interface.
      * <p>
-     * Use <code>AttributeKey.basicSet()</code> for typesafe access to this 
+     * Use <code>AttributeKey.basicSet</code> for typesafe access to this 
      * method.
+     * <p>
+     * This is a basic operation which does not fire events. Use method 
+     * <code>setAttribute</code> if you need event firing, or - alternatively - the following
+     * code sequence:
+     * <pre>
+     * aFigure.willChange();
+     * STROKE_COLOR.basicSet(aFigure, ...);
+     * aFigure.changed();
+     * </pre>
      * 
      * @see AttributeKey#basicSet
      */
