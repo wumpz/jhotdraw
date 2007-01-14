@@ -1,7 +1,7 @@
 /*
- * @(#)DefaultSDIApplication.java  1.3  2006-05-03
+ * @(#)DefaultSDIApplication.java  1.4  2007-01-11
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -32,7 +32,8 @@ import org.jhotdraw.app.action.*;
  *
  *
  * @author Werner Randelshofer
- * @version 1.3 2006-05-03 Show asterisk in window title, when project has
+ * @version 1.4 2007-01-11 Removed method addStandardActionsTo. 
+ * <br>1.3 2006-05-03 Show asterisk in window title, when project has
  * unsaved changes.
  * <br>1.2.1 2006-02-28 Stop application when last project is closed.
  * <br>1.2 2006-02-06 Support for multiple open id added.
@@ -210,41 +211,8 @@ public class DefaultSDIApplication extends AbstractApplication {
                 PreferencesUtil.installToolBarPrefsHandler(prefs, "toolbar."+id, tb);
                 toolBarActions.addFirst(new ToggleVisibleAction(tb, tb.getName()));
             }
-            JToolBar tb = new JToolBar();
-            tb.setName(labels.getString("standardToolBarTitle"));
-            addStandardActionsTo(tb, p);
-            id++;
-            JPanel panel = new JPanel(new BorderLayout());
-            panel.add(tb, BorderLayout.NORTH);
-            panel.add(c, BorderLayout.CENTER);
-            c = panel;
-            PreferencesUtil.installToolBarPrefsHandler(prefs, "toolbar."+id, tb);
-            toolBarActions.addFirst(new ToggleVisibleAction(tb, tb.getName()));
-            panel.putClientProperty("toolBarActions", toolBarActions);
         }
         return c;
-    }
-    protected void addStandardActionsTo(JToolBar tb, Project p) {
-        JButton b;
-        ApplicationModel m = getModel();
-        
-        b = tb.add(m.getAction(ClearAction.ID));
-        b.setFocusable(false);
-        b = tb.add(m.getAction(LoadAction.ID));
-        b.setFocusable(false);
-        b = tb.add(m.getAction(SaveAction.ID));
-        tb.addSeparator();
-        b = tb.add(m.getAction(UndoAction.ID));
-        b.setFocusable(false);
-        b = tb.add(m.getAction(RedoAction.ID));
-        b.setFocusable(false);
-        tb.addSeparator();
-        b = tb.add(m.getAction(CutAction.ID));
-        b.setFocusable(false);
-        b = tb.add(m.getAction(CopyAction.ID));
-        b.setFocusable(false);
-        b = tb.add(m.getAction(PasteAction.ID));
-        b.setFocusable(false);
     }
     
     

@@ -1,7 +1,7 @@
 /*
- * @(#)DefaultApplicationModel.java  1.0  June 10, 2006
+ * @(#)DefaultApplicationModel.java  1.1  2007-01-11
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -14,14 +14,17 @@
 
 package org.jhotdraw.app;
 
+import org.jhotdraw.app.action.*;
 import org.jhotdraw.beans.*;
 import java.util.*;
 import javax.swing.*;
+import org.jhotdraw.util.ResourceBundleUtil;
 /**
  * DefaultApplicationModel.
  *
  * @author Werner Randelshofer.
- * @version 1.0 June 10, 2006 Created.
+ * @version 1.1 2007-01-11 Changed method createToolBars.
+ * <br>1.0 June 10, 2006 Created.
  */
 public class DefaultApplicationModel
         extends AbstractBean
@@ -78,7 +81,7 @@ public class DefaultApplicationModel
     }
     
     /**
-     * Use this method only, if setProjectClassName() does not suit you. 
+     * Use this method only, if setProjectClassName() does not suit you.
      */
     public void setProjectClass(Class newValue) {
         Class oldValue = projectClass;
@@ -89,13 +92,13 @@ public class DefaultApplicationModel
     public Class getProjectClass() {
         if (projectClass == null) {
             if (projectClassName != null) {
-        try {
-                projectClass = Class.forName(projectClassName);
-        } catch (Exception e) {
-            InternalError error = new InternalError("unable to get project class");
-            error.initCause(e);
-            throw error;
-        }
+                try {
+                    projectClass = Class.forName(projectClassName);
+                } catch (Exception e) {
+                    InternalError error = new InternalError("unable to get project class");
+                    error.initCause(e);
+                    throw error;
+                }
             }
         }
         return projectClass;
@@ -113,22 +116,55 @@ public class DefaultApplicationModel
     
     /**
      * Creates toolbars for the application.
-     * This class always returns an empty list. Subclasses may return other
-     * values.
-     *
-     * XXX - We should not need to create a toolbar until the user needs to work
-     * with it.
+     * This class creates a standard toolbar with the following buttons in it:
+     * <ul>
+     * <li>File New</li>
+     * <li>File Open</li>
+     * <li>File Save</li>
+     * <li>Undo</li>
+     * <li>Redo</li>
+     * <li>Cut</li>
+     * <li>Copy</li>
+     * <li>Paste</li>
+     * </ul>
      */
     public List<JToolBar> createToolBars(Application a, Project p) {
-        return new LinkedList<JToolBar>();
+        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("ch.randelshofer.cubetwister.Labels");
+        
+        JToolBar tb = new JToolBar();
+        tb.setName(labels.getString("standardToolBarTitle"));
+        
+        JButton b;
+        b = tb.add(getAction(NewAction.ID));
+        b.setFocusable(false);
+        b = tb.add(getAction(OpenAction.ID));
+        b.setFocusable(false);
+        b = tb.add(getAction(SaveAction.ID));
+        tb.addSeparator();
+        b = tb.add(getAction(UndoAction.ID));
+        b.setFocusable(false);
+        b = tb.add(getAction(RedoAction.ID));
+        b.setFocusable(false);
+        tb.addSeparator();
+        b = tb.add(getAction(CutAction.ID));
+        b.setFocusable(false);
+        b = tb.add(getAction(CopyAction.ID));
+        b.setFocusable(false);
+        b = tb.add(getAction(PasteAction.ID));
+        b.setFocusable(false);
+        
+        
+        LinkedList<JToolBar> list = new LinkedList<JToolBar>();
+        list.add(tb);
+        return list;
     }
     public List<JMenu> createMenus(Application a, Project p) {
         return new LinkedList<JMenu>();
     }
-
+    
     public void initProject(Application a, Project p) {
     }
-
+    
     public void initApplication(Application a) {
     }
     /**

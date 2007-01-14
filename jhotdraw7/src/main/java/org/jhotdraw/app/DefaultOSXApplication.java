@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultOSXApplication.java  1.0.1  2007-01-02
+ * @(#)DefaultOSXApplication.java  1.1  2007-01-11
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -103,7 +103,8 @@ import org.jhotdraw.app.action.*;
  * </pre>
  *
  * @author Werner Randelshofer
- * @version 1.0.1 2007-01-02 Floating palettes disappear now if the application
+ * @version 1.1 2007-01-11 Removed method addStandardActionsTo. 
+ * <br>1.0.1 2007-01-02 Floating palettes disappear now if the application
  * looses the focus.
  * 1.0 October 4, 2005 Created.
  */
@@ -438,10 +439,6 @@ public class DefaultOSXApplication extends AbstractApplication {
             public Object construct() {
                 LinkedList<JFrame> palettes = new LinkedList<JFrame>();
                 LinkedList<JToolBar> toolBars = new LinkedList<JToolBar>(getModel().createToolBars(DefaultOSXApplication.this, null));
-                JToolBar stb = new JToolBar();
-                stb.setName(labels.getString("standardToolBarTitle"));
-                addStandardActionsTo(stb);
-                toolBars.addFirst(stb);
                 
                 int i=0;
                 int x=0;
@@ -489,28 +486,6 @@ public class DefaultOSXApplication extends AbstractApplication {
                 }
             }
         });
-    }
-    protected void addStandardActionsTo(JToolBar tb) {
-        JButton b;
-        ApplicationModel mo = getModel();
-        
-        b = tb.add(mo.getAction(NewAction.ID));
-        b.setFocusable(false);
-        b = tb.add(mo.getAction(OpenAction.ID));
-        b.setFocusable(false);
-        b = tb.add(mo.getAction(SaveAction.ID));
-        tb.addSeparator();
-        b = tb.add(mo.getAction(UndoAction.ID));
-        b.setFocusable(false);
-        b = tb.add(mo.getAction(RedoAction.ID));
-        b.setFocusable(false);
-        tb.addSeparator();
-        b = tb.add(mo.getAction(CutAction.ID));
-        b.setFocusable(false);
-        b = tb.add(mo.getAction(CopyAction.ID));
-        b.setFocusable(false);
-        b = tb.add(mo.getAction(PasteAction.ID));
-        b.setFocusable(false);
     }
     
     public boolean isSharingToolsAmongProjects() {
