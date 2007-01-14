@@ -19,9 +19,16 @@ import java.awt.*;
 import java.awt.event.*;
 /**
  * Tool to select and manipulate figures.
+ * <p>
  * A selection tool is in one of three states, for example, background
  * selection, figure selection, handle manipulation. The different
- * states are handled by different tracker objects.
+ * states are handled by different tracker objects: the 
+ * <code>SelectAreaTracker</code>, the <code>DragTracker</code> and the 
+ * <code>HandleTracker</code>.
+ *
+ * @see SelectAreaTracker
+ * @see DragTracker
+ * @see HandleTracker
  *
  * @author Werner Randelshofer
  * @version 1.0 2003-12-01 Derived from JHotDraw 5.4b1.

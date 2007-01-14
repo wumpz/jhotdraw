@@ -10,7 +10,6 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-�
  */
 
 
@@ -21,6 +20,10 @@ import java.awt.event.*;
 import java.util.*;
 /**
  * HandleTracker implements interactions with the handles of a Figure.
+ * <p>
+ * The <code>HandleTracker</code> handles one of the three states of the 
+ * <code>SelectionTool</code>. Iz comes into action, when the user presses
+ * the mouse button over a <code>Figure</code>.
  *
  * @see SelectionTool
  *

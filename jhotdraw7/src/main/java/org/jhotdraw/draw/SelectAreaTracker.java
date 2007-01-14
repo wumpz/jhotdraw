@@ -10,7 +10,6 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-�
  */
 
 
@@ -20,7 +19,14 @@ import java.awt.event.*;
 import java.awt.*;
 import java.util.*;
 /**
- * SelectAreaTracker.
+ * <code>SelectAreaTracker</code> implements interactions with the background
+ * area of a <code>Drawing</code>.
+ * <p>
+ * The <code>SelectAreaTracker</code> handles one of the three states of the 
+ * <code>SelectionTool</code>. It comes into action, when the user presses
+ * the mouse button over the background of a <code>Drawing</code>.
+ *
+ * @see SelectionTool
  *
  * @author Werner Randelshofer
  * @version 3.0 2006-02-15 Updated to handle multiple views.

@@ -10,7 +10,6 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-�
  */
 
 package org.jhotdraw.draw;
@@ -21,7 +20,14 @@ import java.awt.event.*;
 import java.util.*;
 
 /**
- * DragTracker.
+ * <code>DragTracker</code> implements interactions with the content area of a 
+ * <code>Figure</code>.
+ * <p>
+ * The <code>DragTracker</code> handles one of the three states of the 
+ * <code>SelectionTool</code>. It comes into action, when the user presses
+ * the mouse button over the content area of a <code>Figure</code>.
+ *
+ * @see SelectionTool
  *
  * @author Werner Randelshofer
  * @version 2.0 2006-01-14 Changed to support double precision coordinates.
