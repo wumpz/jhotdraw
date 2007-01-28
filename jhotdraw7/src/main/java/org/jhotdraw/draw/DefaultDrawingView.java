@@ -1,7 +1,7 @@
 /*
- * @(#)DefaultDrawingView.java  3.2  2006-12-26
+ * @(#)DefaultDrawingView.java  3.3  2007-01-23
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -34,8 +34,13 @@ import org.jhotdraw.xml.XMLTransferable;
  * The DefaultDrawingView is suited for viewing drawings with a small number
  * of Figures.
  *
+ * FIXME - DefaultDrawingView should not implement DrawingListener and 
+ * HandleListener. It should use internal classes for this.
+ *
+ *
  * @author Werner Randelshofer
- * @version 3.2 2006-12-26 Rewrote storage and clipboard support.
+ * @version 3.3 2007-01-23 Only repaint handles on focus gained/lost. 
+ * <br>3.2 2006-12-26 Rewrote storage and clipboard support.
  * <br>3.1 2006-12-17 Added printing support.
  * <br>3.0.2 2006-07-03 Constrainer must be a bound property.
  * <br>3.0.1 2006-06-11 Draw handles when this DrawingView is the focused
@@ -72,10 +77,10 @@ public class DefaultDrawingView
         setFocusable(true);
         addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
-                repaint();
+                repaintHandles();
             }
             public void focusLost(FocusEvent e) {
-                repaint();
+                repaintHandles();
             }
         });
     }
@@ -273,6 +278,11 @@ public class DefaultDrawingView
         vr.grow(1, 1);
         repaint(vr);
     }
+    /*
+    public void repaint(long tm, int x, int y, int w, int h) {
+        new Throwable().printStackTrace();
+        super.repaint(tm, x, y, w, h);
+    }*/
     
     public void areaInvalidated(DrawingEvent evt) {
         repaint(evt.getInvalidatedArea());
@@ -540,7 +550,22 @@ public class DefaultDrawingView
         return getDrawing().findFiguresWithin(viewToDrawing(r));
     }
     
-    
+    /**
+     * Repaints the handles.
+     */
+    protected void repaintHandles() {
+        Rectangle bounds = null;
+        for (Handle handle : selectionHandles) {
+            if (bounds == null) {
+                bounds = handle.getDrawBounds();
+            } else {
+                bounds.add(handle.getDrawBounds());
+            }
+        }
+        if (bounds != null) {
+            repaint(bounds);
+        }
+    }
     
     
     public void addFigureSelectionListener(FigureSelectionListener fsl) {
