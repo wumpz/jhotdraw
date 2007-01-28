@@ -29,6 +29,8 @@ import java.util.Map;
  * </pre>
  * <p>
  * See {@link AttributeKeys} for a list of useful attribute keys.
+ * <p>
+ * FIXME AttributeKey must not override equals and hashCode from Object.
  *
  * @author Werner Randelshofer
  * @version 1.1 2006-12-29 Support for getting/setting attribute keys on a
