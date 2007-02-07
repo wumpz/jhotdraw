@@ -64,7 +64,7 @@ public class UndoAction extends AbstractProjectAction {
     
     @Override protected void updateProject(Project oldValue, Project newValue) {
         super.updateProject(oldValue, newValue);
-        if (newValue != null) {
+        if (newValue != null && newValue.getAction("undo") != null) {
             putValue(AbstractAction.NAME, newValue.getAction("undo").
                     getValue(AbstractAction.NAME));
             updateEnabledState();
@@ -75,14 +75,18 @@ public class UndoAction extends AbstractProjectAction {
      */
     @Override protected void installProjectListeners(Project p) {
         super.installProjectListeners(p);
+        if (p.getAction("undo") != null) {
         p.getAction("undo").addPropertyChangeListener(redoActionPropertyListener);
+        }
     }
     /**
      * Installs listeners on the project object.
      */
     @Override protected void uninstallProjectListeners(Project p) {
         super.uninstallProjectListeners(p);
+        if (p.getAction("undo") != null) {
         p.getAction("undo").removePropertyChangeListener(redoActionPropertyListener);
+        }
     }
     
     public void actionPerformed(ActionEvent e) {

@@ -84,14 +84,40 @@ public class CreationTool extends AbstractTool {
         this.prototypeAttributes = attributes;
         this.name = name;
     }
+    /** Creates a new instance with the specified prototype but without an
+     * attribute set. The CreationTool clones this prototype each time a new
+     *  Figure needs to be created. When a new Figure is created, the 
+     * CreationTool applies the default attributes from the DrawingEditor to it.
+     *
+     * @param prototype The prototype used to create a new Figure.
+     */
     public CreationTool(Figure prototype) {
         this(prototype, null, null);
     }
-    /** Creates a new instance. */
+    /** Creates a new instance with the specified prototype but without an
+     * attribute set. The CreationTool clones this prototype each time a new
+     * Figure needs to be created. When a new Figure is created, the 
+     * CreationTool applies the default attributes from the DrawingEditor to it,
+     * and then it applies the attributes to it, that have been supplied in 
+     * this constructor. 
+     *
+     * @param prototype The prototype used to create a new Figure.
+     * @param attributes The CreationTool applies these attributes to the 
+     * prototype after having applied the default attributes from the DrawingEditor.
+     */
     public CreationTool(Figure prototype, Map<AttributeKey, Object> attributes) {
         this(prototype, attributes, null);
     }
-    /** Creates a new instance. */
+    /** Creates a new instance with the specified prototype and attribute set.
+     *
+     * @param prototype The prototype used to create a new Figure.
+     * @param attributes The CreationTool applies these attributes to the 
+     * prototype after having applied the default attributes from the DrawingEditor.
+     * @param name The name parameter is currently not used. 
+     *
+     * @deprecated This constructor might go away, because the name parameter
+     * is not used.
+     */
     public CreationTool(Figure prototype, Map<AttributeKey, Object> attributes, String name) {
         this.prototype = prototype;
         this.prototypeAttributes = attributes;

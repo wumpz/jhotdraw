@@ -45,13 +45,13 @@ import org.jhotdraw.xml.*;
  * A drawing project.
  *
  * @author Werner Randelshofer
- * @version 1.2 2006-12-10 Used SVGStorage for reading SVG drawing (experimental). 
+ * @version 1.2 2006-12-10 Used SVGStorage for reading SVG drawing (experimental).
  * <br>1.1 2006-06-10 Extended to support DefaultDrawApplicationModel.
  * <br>1.0 2006-02-07 Created.
  */
 public class SVGProject extends AbstractProject implements ExportableProject {
     protected JFileChooser exportChooser;
-   
+    
     /**
      * Each SVGProject uses its own undo redo manager.
      * This allows for undoing and redoing actions per project.
@@ -63,7 +63,8 @@ public class SVGProject extends AbstractProject implements ExportableProject {
      * project, or a single shared editor for all projects.
      */
     private DrawingEditor editor;
-   
+    
+    private HashMap<javax.swing.filechooser.FileFilter, InputFormat> fileFilterInputFormatMap;
     private HashMap<javax.swing.filechooser.FileFilter, OutputFormat> fileFilterOutputFormatMap;
     
     private Preferences prefs;
@@ -121,7 +122,7 @@ public class SVGProject extends AbstractProject implements ExportableProject {
     protected Drawing createDrawing() {
         Drawing drawing = new SVGDrawing();
         LinkedList<InputFormat> inputFormats = new LinkedList<InputFormat>();
-        inputFormats.add(new SVGInputFormat());
+        inputFormats.add(new SVGZInputFormat());
         inputFormats.add(new ImageInputFormat(new SVGImageFigure()));
         drawing.setInputFormats(inputFormats);
         LinkedList<OutputFormat> outputFormats = new LinkedList<OutputFormat>();
@@ -183,8 +184,13 @@ public class SVGProject extends AbstractProject implements ExportableProject {
      */
     public void read(File f) throws IOException {
         try {
-            InputFormat sf = new SVGInputFormat();
+            JFileChooser fc = getOpenChooser();
+            
             final Drawing drawing = createDrawing();
+            InputFormat sf = fileFilterInputFormatMap.get(fc.getFileFilter());
+            if (sf == null) {
+                sf = drawing.getInputFormats().get(0);
+            }
             sf.read(f, drawing);
             SwingUtilities.invokeAndWait(new Runnable() { public void run() {
                 view.getDrawing().removeUndoableEditListener(undo);
@@ -237,15 +243,34 @@ public class SVGProject extends AbstractProject implements ExportableProject {
     }
     
     @Override protected JFileChooser createOpenChooser() {
-        JFileChooser c = super.createOpenChooser();
-        c.addChoosableFileFilter(new ExtensionFileFilter("SVG Drawing","svg"));
+        final JFileChooser c = super.createOpenChooser();
+        fileFilterInputFormatMap = new HashMap<javax.swing.filechooser.FileFilter,InputFormat>();
+        javax.swing.filechooser.FileFilter firstFF = null;
+        for (InputFormat format : view.getDrawing().getInputFormats()) {
+            javax.swing.filechooser.FileFilter ff = format.getFileFilter();
+            if (firstFF == null) {
+                firstFF = ff;
+            }
+            fileFilterInputFormatMap.put(ff, format);
+            c.addChoosableFileFilter(ff);
+        }
+        c.setFileFilter(firstFF);
+        c.addPropertyChangeListener(new PropertyChangeListener() {
+           public void propertyChange(PropertyChangeEvent evt) {
+               if (evt.getPropertyName().equals("fileFilterChanged")) {
+                  InputFormat inputFormat = fileFilterInputFormatMap.get(evt.getNewValue());
+             c.setAccessory(inputFormat.getInputFormatAccessory());
+               }
+           } 
+        });
+        
         return c;
     }
     @Override protected JFileChooser createSaveChooser() {
         JFileChooser c = super.createSaveChooser();
         
         fileFilterOutputFormatMap = new HashMap<javax.swing.filechooser.FileFilter,OutputFormat>();
-      //  c.addChoosableFileFilter(new ExtensionFileFilter("SVG Drawing","svg"));
+        //  c.addChoosableFileFilter(new ExtensionFileFilter("SVG Drawing","svg"));
         for (OutputFormat format : view.getDrawing().getOutputFormats()) {
             javax.swing.filechooser.FileFilter ff = format.getFileFilter();
             fileFilterOutputFormatMap.put(ff, format);
@@ -259,7 +284,7 @@ public class SVGProject extends AbstractProject implements ExportableProject {
         JFileChooser c = new JFileChooser();
         
         fileFilterOutputFormatMap = new HashMap<javax.swing.filechooser.FileFilter,OutputFormat>();
-      //  c.addChoosableFileFilter(new ExtensionFileFilter("SVG Drawing","svg"));
+        //  c.addChoosableFileFilter(new ExtensionFileFilter("SVG Drawing","svg"));
         javax.swing.filechooser.FileFilter currentFilter = null;
         for (OutputFormat format : view.getDrawing().getOutputFormats()) {
             javax.swing.filechooser.FileFilter ff = format.getFileFilter();
@@ -272,7 +297,7 @@ public class SVGProject extends AbstractProject implements ExportableProject {
         if (currentFilter != null) {
             c.setFileFilter(currentFilter);
         }
-            c.setSelectedFile(new File(prefs.get("projectExportFile", System.getProperty("user.home"))));
+        c.setSelectedFile(new File(prefs.get("projectExportFile", System.getProperty("user.home"))));
         
         return c;
     }
@@ -296,26 +321,26 @@ public class SVGProject extends AbstractProject implements ExportableProject {
         add(scrollPane, java.awt.BorderLayout.CENTER);
 
     }// </editor-fold>//GEN-END:initComponents
-
+    
     public JFileChooser getExportChooser() {
         if (exportChooser == null) {
             exportChooser = createSaveChooser();
         }
         return exportChooser;
     }
-
+    
     public void export(File f, javax.swing.filechooser.FileFilter filter, Component accessory) throws IOException {
-
-                OutputFormat format = fileFilterOutputFormatMap.get(filter);
-                
-                if (! f.getName().endsWith("."+format.getFileExtension())) {
-                    f = new File(f.getPath()+"."+format.getFileExtension());
-                }
-                
+        
+        OutputFormat format = fileFilterOutputFormatMap.get(filter);
+        
+        if (! f.getName().endsWith("."+format.getFileExtension())) {
+            f = new File(f.getPath()+"."+format.getFileExtension());
+        }
+        
         format.write(f, view.getDrawing());
         
-           prefs.put("projectExportFile", f.getPath());
-         prefs.put("projectExportFormat", filter.getDescription());
+        prefs.put("projectExportFile", f.getPath());
+        prefs.put("projectExportFormat", filter.getDescription());
     }
     
     

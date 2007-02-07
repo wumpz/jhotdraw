@@ -16,6 +16,10 @@ package org.jhotdraw.app;
 /**
  * This interface must be implemented by components
  * which are editable.
+ * <p>
+ * FIXME - Investigate if we can replace this interface by querying the 
+ * TransferHandler of a component and retrieve its cut/copy/paste actions.
+ * See http://java.sun.com/docs/books/tutorial/uiswing/dnd/intro.html#cut
  *
  * @author Werner Randelshofer
  * @version 2.0 2001-07-18

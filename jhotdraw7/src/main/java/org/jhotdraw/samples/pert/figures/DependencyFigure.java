@@ -15,7 +15,6 @@
 package org.jhotdraw.samples.pert.figures;
 
 import java.awt.*;
-import org.jhotdraw.samples.*;
 import java.beans.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.draw.*;

@@ -64,7 +64,7 @@ public class RedoAction extends AbstractProjectAction {
     
     @Override protected void updateProject(Project oldValue, Project newValue) {
         super.updateProject(oldValue, newValue);
-        if (newValue != null) {
+        if (newValue != null && newValue.getAction("redo") !=  null) {
             putValue(AbstractAction.NAME, newValue.getAction("redo").
                     getValue(AbstractAction.NAME));
             updateEnabledState();
@@ -75,14 +75,18 @@ public class RedoAction extends AbstractProjectAction {
      */
     @Override protected void installProjectListeners(Project p) {
         super.installProjectListeners(p);
+        if (p.getAction("redo") != null) {
         p.getAction("redo").addPropertyChangeListener(redoActionPropertyListener);
+        }
     }
     /**
      * Installs listeners on the project object.
      */
     @Override protected void uninstallProjectListeners(Project p) {
         super.uninstallProjectListeners(p);
+        if (p.getAction("redo") != null) {
         p.getAction("redo").removePropertyChangeListener(redoActionPropertyListener);
+        }
     }
     
     public void actionPerformed(ActionEvent e) {

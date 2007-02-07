@@ -1,7 +1,7 @@
 /*
- * @(#)SlantedLiner.java  1.0  24. Januar 2006
+ * @(#)SlantedLiner.java  1.1  2007-02-01
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -14,6 +14,7 @@
 
 package org.jhotdraw.draw;
 
+import com.sun.org.apache.bcel.internal.generic.GOTO;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 import org.jhotdraw.xml.DOMStorable;
@@ -24,10 +25,11 @@ import org.jhotdraw.geom.*;
 
 /**
  * SlantedLiner.
- * 
- * 
+ *
+ *
  * @author Werner Randelshofer
- * @version 1.0 24. Januar 2006 Created.
+ * @version 1.1 2007-02-01 Added support for self-connecting connections.
+ * <br>1.0 24. Januar 2006 Created.
  */
 public class SlantedLiner
         implements Liner, DOMStorable {
@@ -52,59 +54,133 @@ public class SlantedLiner
         if (start == null || end == null || path == null) {
             return;
         }
-        // Ensure path has exactly four nodes
-        while (path.size() < 4) {
-            path.add(1, new BezierPath.Node(0,0));
-        }
-        while (path.size() < 4) {
-            path.remove(1);
-        }
         
-        Point2D.Double sp = start.findStart(figure);
-        Point2D.Double ep = end.findEnd(figure);
-        sp = figure.getStartPoint();
-        ep = figure.getEndPoint();
         
-        Rectangle2D.Double sb = start.getBounds();
-        Rectangle2D.Double eb = end.getBounds();
-        path.get(0).moveTo(sp);
-        path.get(path.size() - 1).moveTo(ep);
-        
-        int outcode = sb.outcode(sp);
-        if (outcode == 0) {
-            outcode = Geom.outcode(sb, eb);
-        }
-        
-        if ((outcode & Geom.OUT_RIGHT) != 0) {
+        // Special treatment if the connection connects the same figure
+        if (figure.getStartFigure() == figure.getEndFigure()) {
+            // Ensure path has exactly four nodes
+            while (path.size() < 5) {
+                path.add(1, new BezierPath.Node(0,0));
+            }
+            while (path.size() > 5) {
+                path.remove(1);
+            }
+            Point2D.Double sp = start.findStart(figure);
+            Point2D.Double ep = end.findEnd(figure);
+            Rectangle2D.Double sb = start.getBounds();
+            Rectangle2D.Double eb = end.getBounds();
+            int soutcode = sb.outcode(sp);
+            if (soutcode == 0) {
+                soutcode = Geom.outcode(sb, eb);
+            }
+            int eoutcode = eb.outcode(ep);
+            if (eoutcode == 0) {
+                eoutcode = Geom.outcode(sb, eb);
+            }
+            
+            path.get(0).moveTo(sp);
+            path.get(path.size() - 1).moveTo(ep);
+            
+            switch (soutcode) {
+                case Geom.OUT_TOP : eoutcode = Geom.OUT_LEFT; break;
+                case Geom.OUT_RIGHT : eoutcode = Geom.OUT_TOP; break;
+                case Geom.OUT_BOTTOM : eoutcode = Geom.OUT_RIGHT; break;
+                case Geom.OUT_LEFT : eoutcode = Geom.OUT_BOTTOM; break;
+                default :
+                    eoutcode = Geom.OUT_TOP;
+                    soutcode = Geom.OUT_RIGHT;
+                    break;
+            }
             path.get(1).moveTo(sp.x + slantSize, sp.y);
-        } else if ((outcode & Geom.OUT_LEFT) != 0) {
-            path.get(1).moveTo(sp.x - slantSize, sp.y);
-        } else if ((outcode & Geom.OUT_BOTTOM) != 0) {
-            path.get(1).moveTo(sp.x, sp.y + slantSize);
+            
+            if ((soutcode & Geom.OUT_RIGHT) != 0) {
+                path.get(1).moveTo(sp.x + slantSize, sp.y);
+            } else if ((soutcode & Geom.OUT_LEFT) != 0) {
+                path.get(1).moveTo(sp.x - slantSize, sp.y);
+            } else if ((soutcode & Geom.OUT_BOTTOM) != 0) {
+                path.get(1).moveTo(sp.x, sp.y + slantSize);
+            } else {
+                path.get(1).moveTo(sp.x, sp.y - slantSize);
+            }
+            if ((eoutcode & Geom.OUT_RIGHT) != 0) {
+                path.get(3).moveTo(ep.x + slantSize, ep.y);
+            } else if ((eoutcode & Geom.OUT_LEFT) != 0) {
+                path.get(3).moveTo(ep.x - slantSize, ep.y);
+            } else if ((eoutcode & Geom.OUT_BOTTOM) != 0) {
+                path.get(3).moveTo(ep.x, ep.y + slantSize);
+            } else {
+                path.get(3).moveTo(ep.x, ep.y - slantSize);
+            }
+            
+            switch (soutcode) {
+                case Geom.OUT_RIGHT :
+                    path.get(2).moveTo(path.get(1).x[0], path.get(3).y[0]);
+                    break;
+                case Geom.OUT_TOP :
+                    path.get(2).moveTo(path.get(1).y[0], path.get(3).x[0]);
+                    break;
+                case Geom.OUT_LEFT :
+                    path.get(2).moveTo(path.get(1).x[0], path.get(3).y[0]);
+                    break;
+                case Geom.OUT_BOTTOM :
+                default :
+                    path.get(2).moveTo(path.get(1).y[0], path.get(3).x[0]);
+                    break;
+            }
+            
+            
+            // Regular treatment if the connection connects to two different figures
         } else {
-            path.get(1).moveTo(sp.x, sp.y - slantSize);
-        }
-        outcode = eb.outcode(ep);
-        if (outcode == 0) {
-            outcode = Geom.outcode(eb, sb);
-        }
-        if ((outcode & Geom.OUT_RIGHT) != 0) {
-            path.get(2).moveTo(ep.x + slantSize, ep.y);
-        } else if ((outcode & Geom.OUT_LEFT) != 0) {
-            path.get(2).moveTo(ep.x - slantSize, ep.y);
-        } else if ((outcode & Geom.OUT_BOTTOM) != 0) {
-            path.get(2).moveTo(ep.x, ep.y + slantSize);
-        } else {
-            path.get(2).moveTo(ep.x, ep.y - slantSize);
+            // Ensure path has exactly four nodes
+            while (path.size() < 4) {
+                path.add(1, new BezierPath.Node(0,0));
+            }
+            while (path.size() > 4) {
+                path.remove(1);
+            }
+            Point2D.Double sp = start.findStart(figure);
+            Point2D.Double ep = end.findEnd(figure);
+            Rectangle2D.Double sb = start.getBounds();
+            Rectangle2D.Double eb = end.getBounds();
+            int soutcode = sb.outcode(sp);
+            if (soutcode == 0) {
+                soutcode = Geom.outcode(sb, eb);
+            }
+            int eoutcode = eb.outcode(ep);
+            if (eoutcode == 0) {
+                eoutcode = Geom.outcode(sb, eb);
+            }
+            
+            path.get(0).moveTo(sp);
+            path.get(path.size() - 1).moveTo(ep);
+            
+            if ((soutcode & Geom.OUT_RIGHT) != 0) {
+                path.get(1).moveTo(sp.x + slantSize, sp.y);
+            } else if ((soutcode & Geom.OUT_LEFT) != 0) {
+                path.get(1).moveTo(sp.x - slantSize, sp.y);
+            } else if ((soutcode & Geom.OUT_BOTTOM) != 0) {
+                path.get(1).moveTo(sp.x, sp.y + slantSize);
+            } else {
+                path.get(1).moveTo(sp.x, sp.y - slantSize);
+            }
+            if ((eoutcode & Geom.OUT_RIGHT) != 0) {
+                path.get(2).moveTo(ep.x + slantSize, ep.y);
+            } else if ((eoutcode & Geom.OUT_LEFT) != 0) {
+                path.get(2).moveTo(ep.x - slantSize, ep.y);
+            } else if ((eoutcode & Geom.OUT_BOTTOM) != 0) {
+                path.get(2).moveTo(ep.x, ep.y + slantSize);
+            } else {
+                path.get(2).moveTo(ep.x, ep.y - slantSize);
+            }
         }
         path.invalidatePath();
         
     }
-
+    
     public void read(DOMInput in) {
         slantSize = in.getAttribute("slant", 20d);
     }
-
+    
     public void write(DOMOutput out) {
         out.addAttribute("slant", slantSize);
     }
@@ -114,7 +190,7 @@ public class SlantedLiner
         } catch (CloneNotSupportedException ex) {
             InternalError error = new InternalError(ex.getMessage());
             error.initCause(ex);
-            throw error;           
+            throw error;
         }
     }
 }

@@ -15,7 +15,6 @@
 package org.jhotdraw.samples.pert.figures;
 
 import java.io.IOException;
-import org.jhotdraw.samples.*;
 import java.awt.geom.*;
 import java.beans.*;
 import static org.jhotdraw.draw.AttributeKeys.*;

@@ -14,7 +14,6 @@
 
 package org.jhotdraw.samples.pert.figures;
 
-import org.jhotdraw.samples.*;
 import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.geom.*;

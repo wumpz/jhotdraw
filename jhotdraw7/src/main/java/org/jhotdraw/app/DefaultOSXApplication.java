@@ -363,7 +363,7 @@ public class DefaultOSXApplication extends AbstractApplication {
         addPropertyChangeListener(new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 String name = evt.getPropertyName();
-                if (name == "projectCount") {
+                if (name == "projectCount" || name == "paletteCount") {
                     if (p == null || projects().contains(p)) {
                         JMenu m = windowMenu;
                         m.removeAll();
@@ -428,7 +428,6 @@ public class DefaultOSXApplication extends AbstractApplication {
         ApplicationModel model = getModel();
         net.roydesign.app.Application mrjapp = net.roydesign.app.Application.getInstance();
         mrjapp.setFramelessJMenuBar(createMenuBar(null));
-        mrjapp.setName("Hallšle");
         paletteHandler.add(SwingUtilities.getWindowAncestor(mrjapp.getFramelessJMenuBar()), null);
         mrjapp.getAboutJMenuItem().setAction(model.getAction(AboutAction.ID));
         mrjapp.getQuitJMenuItem().setAction(model.getAction(ExitAction.ID));
@@ -484,6 +483,7 @@ public class DefaultOSXApplication extends AbstractApplication {
                 for (JFrame p : palettes) {
                     addPalette(p);
                 }
+                firePropertyChange("paletteCount", 0, palettes.size());
             }
         });
     }
