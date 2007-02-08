@@ -71,6 +71,7 @@ public class ConnectionHandle extends LocatorHandle {
     
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         Point2D.Double p = view.viewToDrawing(lead);
+        view.getConstrainer().constrainPoint(p);
         Figure f = findConnectableFigure(p, view.getDrawing());
         // track the figure containing the mouse
         if (f != getTargetFigure()) {
@@ -92,6 +93,7 @@ public class ConnectionHandle extends LocatorHandle {
     
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         Point2D.Double p = view.viewToDrawing(lead);
+        view.getConstrainer().constrainPoint(p);
 		Connector target = findConnectionTarget(p, view.getDrawing());
 		if (target != null) {
 			getConnection().setStartConnector(getStartConnector());

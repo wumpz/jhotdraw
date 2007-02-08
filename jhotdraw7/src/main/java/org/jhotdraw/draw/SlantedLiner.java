@@ -193,6 +193,13 @@ public class SlantedLiner
                 path.get(2).moveTo(ep.x, ep.y - slantSize);
             }
         }
+        
+            // Ensure all path nodes are straight
+            for (BezierPath.Node node : path) {
+                node.setMask(BezierPath.C0_MASK);
+            }
+        
+        
         path.invalidatePath();
         
     }

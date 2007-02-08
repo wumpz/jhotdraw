@@ -84,6 +84,10 @@ public class ElbowLiner
                     (eoutcode & (Geom.OUT_LEFT | Geom.OUT_RIGHT)) != 0) {
                 path.add(new BezierPath.Node((sp.x + ep.x)/2, sp.y));
                 path.add(new BezierPath.Node((sp.x + ep.x)/2, ep.y));
+            } else if (soutcode == Geom.OUT_BOTTOM && eoutcode == Geom.OUT_LEFT) {
+                path.add(new BezierPath.Node(sp.x, ep.y));
+            } else {
+                path.add(new BezierPath.Node(ep.x, sp.y));
             }
             
             path.add(new BezierPath.Node(ep.x,ep.y));

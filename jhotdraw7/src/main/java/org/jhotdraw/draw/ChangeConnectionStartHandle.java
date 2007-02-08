@@ -74,5 +74,9 @@ public class ChangeConnectionStartHandle extends AbstractChangeConnectionHandle 
     protected boolean canConnect(Figure existingEnd, Figure targetEnd) {
         return getConnection().canConnect(targetEnd, existingEnd);
     }
+
+    protected int getBezierNodeIndex() {
+        return 0;
+    }
     
 }

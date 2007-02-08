@@ -49,4 +49,5 @@ public interface FigureListener extends EventListener {
      * Sent when the figure requests to be removed from a drawing.
      */
     public void figureRequestRemove(FigureEvent e);
+    
 }

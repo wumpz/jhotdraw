@@ -451,7 +451,10 @@ public class LineConnectionFigure extends LineFigure
             in.openElement("liner");
             liner = (Liner) in.readObject();
             in.closeElement();
+        } else {
+            liner = null;
         }
+            
     }
     public void write(DOMOutput out) throws IOException {
         writePoints(out);

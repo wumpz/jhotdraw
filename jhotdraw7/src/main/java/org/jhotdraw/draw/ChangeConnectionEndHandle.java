@@ -76,4 +76,7 @@ public class ChangeConnectionEndHandle extends AbstractChangeConnectionHandle {
         return getConnection().canConnect(existingEnd, targetEnd);
     }
     
+    protected int getBezierNodeIndex() {
+        return getBezierFigure().getNodeCount() - 1;
+    }
 }

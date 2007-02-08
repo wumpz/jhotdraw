@@ -14,6 +14,8 @@
 
 package org.jhotdraw.draw;
 
+import java.awt.event.InputEvent;
+import org.jhotdraw.geom.*;
 import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.geom.*;
@@ -21,7 +23,7 @@ import java.util.*;
 /**
  * AbstractChangeConnectionHandle factors the common code for handles
  * that can be used to reconnect connections.
- * 
+ *
  * @author Werner Randelshofer
  * @version 2.1 2006-02-16 Remove liner from connection while tracking.
  * <br>2.0 2006-01-14 Changed to support double coordinates.
@@ -106,6 +108,7 @@ public abstract class AbstractChangeConnectionHandle extends AbstractHandle {
      */
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         Point2D.Double p = view.viewToDrawing(lead);
+        view.getConstrainer().constrainPoint(p);
         Figure f = findConnectableFigure(p, view.getDrawing());
         
         // track the figure containing the mouse
@@ -140,7 +143,30 @@ public abstract class AbstractChangeConnectionHandle extends AbstractHandle {
      * new target the connection reverts to its original one.
      */
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
+        // Change node type
+        ConnectionFigure cf = (ConnectionFigure) getOwner();
+        if (cf.getLiner() == null && 
+                (modifiersEx & (InputEvent.META_DOWN_MASK | InputEvent.CTRL_DOWN_MASK)) != 0 &&
+                (modifiersEx & InputEvent.BUTTON2_DOWN_MASK) == 0) {
+            int index = getBezierNodeIndex();
+            BezierFigure f = getBezierFigure();
+            f.willChange();
+            BezierPath.Node v = f.getNode(index);
+            if (index > 0 && index < f.getNodeCount() || f.isClosed()) {
+                v.mask = (v.mask + 3) % 4;
+            } else if (index == 0) {
+                v.mask = ((v.mask & BezierPath.C2_MASK) == 0) ? BezierPath.C2_MASK : 0;
+            } else {
+                v.mask = ((v.mask & BezierPath.C1_MASK) == 0) ? BezierPath.C1_MASK : 0;
+            }
+            f.basicSetNode(index, v);
+            f.changed();
+            fireHandleRequestSecondaryHandles();
+        }
+        
+        
         Point2D.Double p = view.viewToDrawing(lead);
+        view.getConstrainer().constrainPoint(p);
         Connector target = findConnectionTarget(p, view.getDrawing());
         if (target == null) {
             target = originalTarget;
@@ -165,8 +191,8 @@ public abstract class AbstractChangeConnectionHandle extends AbstractHandle {
         Figure targetFigure = findConnectableFigure(p, drawing);
         
         if (getSource() == null && targetFigure != null) {
-                return findConnector(p, targetFigure, getConnection());
-        } else {            
+            return findConnector(p, targetFigure, getConnection());
+        } else {
             if ((targetFigure != null) && targetFigure.canConnect()
             && targetFigure != originalTarget
                     && !targetFigure.includes(getOwner())
@@ -189,7 +215,7 @@ public abstract class AbstractChangeConnectionHandle extends AbstractHandle {
      */
     public void draw(Graphics2D g) {
         drawCircle(g,
-                (getTarget() == null) ? Color.red : Color.green, 
+                (getTarget() == null) ? Color.red : Color.green,
                 Color.black
                 );
     }
@@ -224,4 +250,66 @@ public abstract class AbstractChangeConnectionHandle extends AbstractHandle {
         return new Rectangle(center.x - getHandlesize() / 2, center.y - getHandlesize() / 2, getHandlesize(), getHandlesize());
     }
     
+    protected BezierFigure getBezierFigure() {
+        return (BezierFigure) getOwner();
+    }
+    
+    abstract protected int getBezierNodeIndex();
+    
+   @Override final public Collection<Handle> createSecondaryHandles() {
+        LinkedList<Handle> list = new LinkedList<Handle>();
+        if (((ConnectionFigure) getOwner()).getLiner() == null && liner == null) {
+            int index = getBezierNodeIndex();
+            BezierFigure f = getBezierFigure();
+            BezierPath.Node v = f.getNode(index);
+            if ((v.mask & BezierPath.C1_MASK) != 0 &&
+                    (index != 0 || f.isClosed())) {
+                list.add(new BezierControlPointHandle(f, index, 1));
+            }
+            if ((v.mask & BezierPath.C2_MASK) != 0 &&
+                    (index < f.getNodeCount() - 1 ||
+                    f.isClosed())) {
+                list.add(new BezierControlPointHandle(f, index, 2));
+            }
+            if (index > 0 || f.isClosed()) {
+                int i = (index == 0) ? f.getNodeCount() - 1 : index - 1;
+                v = f.getNode(i);
+                if ((v.mask & BezierPath.C2_MASK) != 0) {
+                    list.add(new BezierControlPointHandle(f, i, 2));
+                }
+            }
+            if (index < f.getNodeCount() - 2 || f.isClosed()) {
+                int i = (index == f.getNodeCount() - 1) ? 0 : index + 1;
+                v = f.getNode(i);
+                if ((v.mask & BezierPath.C1_MASK) != 0) {
+                    list.add(new BezierControlPointHandle(f, i, 1));
+                }
+            }
+        }
+        return list;
+    }
+    protected BezierPath.Node getBezierNode() {
+        int index = getBezierNodeIndex();
+        return getBezierFigure().getPointCount() > index ?
+            getBezierFigure().getNode(index) :
+            null;
+    }
+    
+    public String getToolTipText(Point p) {
+        ConnectionFigure f = (ConnectionFigure) getOwner();
+        if (f.getLiner() == null && liner == null) {
+            ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+            BezierPath.Node node = getBezierNode();
+            return (node == null) ? null : labels.getFormatted("bezierNodeHandle.tip",
+                    labels.getFormatted(
+                    (node.getMask() == 0) ?
+                        "bezierNode.linearNode" :
+                        ((node.getMask() == BezierPath.C1C2_MASK) ?
+                            "bezierNode.cubicNode" : "bezierNode.quadraticNode")
+                            )
+                            );
+        } else {
+            return null;
+        }
+    }
 }

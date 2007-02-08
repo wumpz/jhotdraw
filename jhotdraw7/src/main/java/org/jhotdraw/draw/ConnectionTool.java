@@ -117,6 +117,8 @@ public class ConnectionTool extends AbstractTool implements FigureListener {
         isPressed = true;
         getView().clearSelection();
         Point2D.Double ap = viewToDrawing(anchor);
+                getView().getConstrainer().constrainPoint(ap);
+
         if (getTargetFigure() != null) {
             getTargetFigure().setConnectorsVisible(false, null);
         }
@@ -140,6 +142,7 @@ public class ConnectionTool extends AbstractTool implements FigureListener {
      */
     public void mouseDragged(java.awt.event.MouseEvent e) {
         Point2D.Double p = viewToDrawing(new Point(e.getX(), e.getY()));
+        getView().getConstrainer().constrainPoint(p);
         if (getConnection() != null) {
             trackConnectors(e);
             
@@ -175,6 +178,7 @@ public class ConnectionTool extends AbstractTool implements FigureListener {
         isWorking = false;
         Figure c = null;
         Point2D.Double p = viewToDrawing(new Point(e.getX(), e.getY()));
+        getView().getConstrainer().constrainPoint(p);
         if (getStartConnector() != null) {
             c = findTarget(p, getDrawing());
         }
@@ -280,6 +284,7 @@ public class ConnectionTool extends AbstractTool implements FigureListener {
     
     protected void trackConnectors(MouseEvent e) {
         Point2D.Double p = viewToDrawing(new Point(e.getX(), e.getY()));
+        getView().getConstrainer().constrainPoint(p);
         Figure c = null;
         
         if (getStartConnector() == null) {
