@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultSDIApplication.java  1.4  2007-01-11
+ * @(#)DefaultSDIApplication.java  1.4  2007-01-11      
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -109,6 +109,8 @@ public class DefaultSDIApplication extends AbstractApplication {
         m.putAction(SelectAllAction.ID, new SelectAllAction());
     }
     protected void initProjectActions(Project p) {
+        ApplicationModel m = getModel();
+        p.putAction(LoadAction.ID, m.getAction(LoadAction.ID));
     }
     
     public void show(final Project p) {
@@ -197,7 +199,7 @@ public class DefaultSDIApplication extends AbstractApplication {
      * another component in order to provide additional functionality.
      */
     protected Component wrapProjectComponent(Project p) {
-        Component c = p.getComponent();
+        JComponent c = p.getComponent();
         if (getModel() != null) {
             LinkedList<Action> toolBarActions = new LinkedList();
             
@@ -211,6 +213,7 @@ public class DefaultSDIApplication extends AbstractApplication {
                 PreferencesUtil.installToolBarPrefsHandler(prefs, "toolbar."+id, tb);
                 toolBarActions.addFirst(new ToggleVisibleAction(tb, tb.getName()));
             }
+            c.putClientProperty("toolBarActions",toolBarActions);
         }
         return c;
     }

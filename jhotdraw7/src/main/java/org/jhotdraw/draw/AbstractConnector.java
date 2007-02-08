@@ -10,7 +10,6 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-�
  */
 
 package org.jhotdraw.draw;
@@ -103,7 +102,7 @@ public class AbstractConnector implements Connector {
             Ellipse2D.Double circle = new Ellipse2D.Double(bounds.x + bounds.width / 2 - 3, bounds.y + bounds.height / 2 - 3, 6, 6);
             g.setColor(Color.blue);
             g.fill(circle);
-            }
+        }
     }
     
     public Point2D.Double findStart(ConnectionFigure connection) {
@@ -176,24 +175,28 @@ public class AbstractConnector implements Connector {
     
     public void read(DOMInput in) throws IOException {
         if (isStatePersistent) {
-        isConnectToDecorator = in.getAttribute("connectToDecorator", false);
-        isVisible = in.getAttribute("visible", false);
-         }
-        in.openElement("owner");
+            isConnectToDecorator = in.getAttribute("connectToDecorator", false);
+            isVisible = in.getAttribute("visible", false);
+        }
+        if (in.getElementCount("Owner") != 0) {
+            in.openElement("Owner");
+        } else {
+            in.openElement("owner");
+        }
         this.owner = (Figure) in.readObject(0);
         in.closeElement();
     }
     
     public void write(DOMOutput out) throws IOException {
         if (isStatePersistent) {
-        if (isConnectToDecorator) {
-            out.addAttribute("connectToDecorator", true);
+            if (isConnectToDecorator) {
+                out.addAttribute("connectToDecorator", true);
+            }
+            if (isVisible) {
+                out.addAttribute("visible", true);
+            }
         }
-        if (isVisible) {
-            out.addAttribute("visible", true);
-        }
-        }
-        out.openElement("owner");
+        out.openElement("Owner");
         out.writeObject(getOwner());
         out.closeElement();
     }

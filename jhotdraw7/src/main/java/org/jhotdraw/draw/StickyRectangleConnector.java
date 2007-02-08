@@ -44,6 +44,9 @@ public class StickyRectangleConnector extends ChopRectangleConnector {
      */
     public StickyRectangleConnector() {
     }
+    public StickyRectangleConnector(Figure owner) {
+        super(owner);
+    }
     
     public void draw(Graphics2D g) {
         g.setColor(Color.blue);
@@ -69,7 +72,7 @@ public class StickyRectangleConnector extends ChopRectangleConnector {
     public Point2D.Double getAnchor() {
         return Geom.angleToPoint(getOwner().getBounds(), angle);
     }
-    protected Point2D.Double chop(Figure target, Point2D.Double from) {
+    @Override protected Point2D.Double chop(Figure target, Point2D.Double from) {
             return Geom.angleToPoint(target.getBounds(), angle);
     }
 

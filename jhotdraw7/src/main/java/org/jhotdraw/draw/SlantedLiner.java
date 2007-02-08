@@ -144,11 +144,31 @@ public class SlantedLiner
             Rectangle2D.Double eb = end.getBounds();
             int soutcode = sb.outcode(sp);
             if (soutcode == 0) {
-                soutcode = Geom.outcode(sb, eb);
+                if (sp.x <= sb.x) {
+                    soutcode = Geom.OUT_LEFT;
+                } else if (sp.y <= sb.y) {
+                    soutcode = Geom.OUT_TOP;
+                } else if (sp.x >= sb.x + sb.width) {
+                    soutcode = Geom.OUT_RIGHT;
+                } else if (sp.y >= sb.y + sb.height) {
+                    soutcode = Geom.OUT_BOTTOM;
+                } else {
+                    soutcode = Geom.outcode(sb, eb);
+                }
             }
             int eoutcode = eb.outcode(ep);
             if (eoutcode == 0) {
-                eoutcode = Geom.outcode(sb, eb);
+                if (ep.x <= eb.x) {
+                    eoutcode = Geom.OUT_LEFT;
+                } else if (ep.y <= eb.y) {
+                    eoutcode = Geom.OUT_TOP;
+                } else if (ep.x >= eb.x + eb.width) {
+                    eoutcode = Geom.OUT_RIGHT;
+                } else if (ep.y >= eb.y + eb.height) {
+                    eoutcode = Geom.OUT_BOTTOM;
+                } else {
+                    eoutcode = Geom.outcode(sb, eb);
+                }
             }
             
             path.get(0).moveTo(sp);
