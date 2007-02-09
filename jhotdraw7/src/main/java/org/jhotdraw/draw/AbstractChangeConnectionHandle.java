@@ -99,7 +99,7 @@ public abstract class AbstractChangeConnectionHandle extends AbstractHandle {
         originalTarget = getTarget();
         start = anchor;
         liner = connection.getLiner();
-        connection.setLiner(null);
+        connection.basicSetLiner(null);
         //disconnect();
     }
     
@@ -177,7 +177,7 @@ public abstract class AbstractChangeConnectionHandle extends AbstractHandle {
             disconnect();
             connect(target);
         }
-        connection.setLiner(liner);
+        connection.basicSetLiner(liner);
         getConnection().updateConnection();
         
         

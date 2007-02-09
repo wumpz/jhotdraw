@@ -413,4 +413,7 @@ public class ConnectionTool extends AbstractTool implements FigureListener {
     
     public void figureAttributeChanged(FigureEvent e) {
     }
+
+    public void figureHandlesChanged(FigureEvent e) {
+    }
 }

@@ -40,19 +40,16 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
      * Handles figure changes in the children.
      */
     private ChildHandler childHandler = new ChildHandler(this);
-    private static class ChildHandler implements FigureListener, UndoableEditListener {
+    private static class ChildHandler extends FigureAdapter implements UndoableEditListener {
         private LabeledLineConnectionFigure owner;
         private ChildHandler(LabeledLineConnectionFigure owner) {
             this.owner = owner;
         }
-        public void figureRequestRemove(FigureEvent e) {
+        @Override public void figureRequestRemove(FigureEvent e) {
             owner.remove(e.getFigure());
         }
         
-        public void figureRemoved(FigureEvent evt) {
-        }
-        
-        public void figureChanged(FigureEvent e) {
+        @Override public void figureChanged(FigureEvent e) {
             if (! owner.isChanging()) {
                 owner.willChange();
                 owner.fireFigureChanged(e);
@@ -60,17 +57,12 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
             }
         }
         
-        public void figureAdded(FigureEvent e) {
-        }
-        
-        public void figureAttributeChanged(FigureEvent e) {
-        }
-        
-        public void figureAreaInvalidated(FigureEvent e) {
+        @Override public void figureAreaInvalidated(FigureEvent e) {
             if (! owner.isChanging()) {
                 owner.fireAreaInvalidated(e.getInvalidatedArea());
             }
         }
+
         public void undoableEditHappened(UndoableEditEvent e) {
             owner.fireUndoableEditHappened(e.getEdit());
         }

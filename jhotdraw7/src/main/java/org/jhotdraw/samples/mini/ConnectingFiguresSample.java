@@ -38,7 +38,7 @@ public class ConnectingFiguresSample {
                 
                 // Create an elbow connection
                 ConnectionFigure cf = new LineConnectionFigure();
-                cf.setLiner(new ElbowLiner());
+                cf.basicSetLiner(new ElbowLiner());
                 
                 // Connect the figures
                 cf.setStartConnector(ta.findConnector(Geom.center(ta.getBounds()), cf));

@@ -38,6 +38,9 @@ public abstract class AbstractHandle implements Handle, FigureListener {
     
     /** Creates a new instance. */
     public AbstractHandle(Figure owner) {
+        if (owner == null) {
+            throw new IllegalArgumentException("owner must not be null");
+        }
         this.owner = owner;
         owner.addFigureListener(this);
     }
@@ -59,7 +62,7 @@ public abstract class AbstractHandle implements Handle, FigureListener {
     public void removeHandleListener(HandleListener l) {
         listenerList.remove(HandleListener.class, l);
     }
-    public Figure getOwner() {
+     final public Figure getOwner() {
         return owner;
         }
     public void setView(DrawingView view) {
@@ -299,5 +302,8 @@ public abstract class AbstractHandle implements Handle, FigureListener {
     
     public String getToolTipText(Point p) {
         return null;
+    }
+
+    public void figureHandlesChanged(FigureEvent e) {
     }
 }

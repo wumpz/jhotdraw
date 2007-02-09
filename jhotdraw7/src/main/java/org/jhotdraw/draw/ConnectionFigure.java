@@ -1,7 +1,7 @@
 /*
- * @(#)ConnectionFigure.java  2.0  2006-01-14
+ * @(#)ConnectionFigure.java  2.1  2007-02-09
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -27,7 +27,8 @@ import java.util.*;
  * 
  * 
  * @author Werner Randelshofer
- * @version 2.0 2006-01-14 Changed to support double precision coordinates.
+ * @version 2.1 2007-02-09 Method setLiner renamed to basicSetLiner.
+ * <br>2.0 2006-01-14 Changed to support double precision coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
 public interface ConnectionFigure 
@@ -154,15 +155,11 @@ public interface ConnectionFigure
      * Set a Liner object which encapsulated a lineout
      * algorithm for this figure. Typically, a Liner
      * accesses the child components of this figure and arranges
-     * their graphical presentation. It is a good idea to set
-     * the Liner in the protected initialize() method
-     * so it can be recreated if a GraphicalCompositeFigure is
-     * read and restored from a StorableInput stream.
-     *
+     * their graphical presentation. 
      *
      * @param newValue	encapsulation of a lineout algorithm.
      */
-    public void setLiner(Liner newValue);
+    public void basicSetLiner(Liner newValue);
     // CLONING
     // EVENT HANDLING
 }

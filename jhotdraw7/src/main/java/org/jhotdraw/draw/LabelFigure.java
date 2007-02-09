@@ -20,7 +20,10 @@ import java.awt.geom.*;
 import java.util.*;
 import java.io.*;
 /**
- * LabelFigure.
+ * A LabelFigure can be used to provide more double clickable area for a
+ * TextHolderFigure.
+ *
+ * FIXME - Move FigureListener into inner class.
  *
  * @author  Werner Randelshofer
  * @version 2.0 2006-01-14 Changed to support double precison coordinates.
@@ -92,5 +95,8 @@ public class LabelFigure extends TextFigure implements FigureListener {
                 newTarget.addFigureListener(this);
             }
         }
+    }
+
+    public void figureHandlesChanged(FigureEvent e) {
     }
 }

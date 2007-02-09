@@ -68,19 +68,16 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
      * Handles figure changes in the children.
      */
     private PresentationFigureHandler presentationFigureHandler = new PresentationFigureHandler(this);
-    private static class PresentationFigureHandler implements FigureListener, UndoableEditListener {
+    private static class PresentationFigureHandler extends FigureAdapter implements UndoableEditListener {
         private GraphicalCompositeFigure owner;
         private PresentationFigureHandler(GraphicalCompositeFigure owner) {
             this.owner = owner;
         }
-        public void figureRequestRemove(FigureEvent e) {
+        @Override public void figureRequestRemove(FigureEvent e) {
             owner.remove(e.getFigure());
         }
         
-        public void figureRemoved(FigureEvent evt) {
-        }
-        
-        public void figureChanged(FigureEvent e) {
+        @Override public void figureChanged(FigureEvent e) {
             if (! owner.isChanging()) {
                 owner.willChange();
                 owner.fireFigureChanged(e);
@@ -88,13 +85,7 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
             }
         }
         
-        public void figureAdded(FigureEvent e) {
-        }
-        
-        public void figureAttributeChanged(FigureEvent e) {
-        }
-        
-        public void figureAreaInvalidated(FigureEvent e) {
+        @Override public void figureAreaInvalidated(FigureEvent e) {
             if (! owner.isChanging()) {
                 owner.fireAreaInvalidated(e.getInvalidatedArea());
             }

@@ -28,7 +28,8 @@ import org.jhotdraw.geom.*;
  *
  *
  * @author Werner Randelshofer
- * @version 1.1 2007-02-01 Added support for self-connecting connections.
+ * @version 1.1 2007-02-01 Added support for connections that connect to 
+ * the same Figure on both ends.
  * <br>1.0 24. Januar 2006 Created.
  */
 public class SlantedLiner
@@ -194,10 +195,10 @@ public class SlantedLiner
             }
         }
         
-            // Ensure all path nodes are straight
-            for (BezierPath.Node node : path) {
-                node.setMask(BezierPath.C0_MASK);
-            }
+        // Ensure all path nodes are straight
+        for (BezierPath.Node node : path) {
+            node.setMask(BezierPath.C0_MASK);
+        }
         
         
         path.invalidatePath();

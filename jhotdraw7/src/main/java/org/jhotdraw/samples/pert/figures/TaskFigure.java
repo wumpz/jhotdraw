@@ -41,7 +41,7 @@ public class TaskFigure extends GraphicalCompositeFigure {
      * This adapter is used, to connect a TextFigure with the name of
      * the TaskFigure model.
      */
-    private static class NameAdapter extends AbstractFigureListener {
+    private static class NameAdapter extends FigureAdapter {
         private TaskFigure target;
         public NameAdapter(TaskFigure target) {
             this.target = target;
@@ -52,7 +52,7 @@ public class TaskFigure extends GraphicalCompositeFigure {
             //target.firePropertyChange("name", e.getOldValue(), e.getNewValue());
         }
     }
-    private static class DurationAdapter extends AbstractFigureListener {
+    private static class DurationAdapter extends FigureAdapter {
         private TaskFigure target;
         public DurationAdapter(TaskFigure target) {
             this.target = target;

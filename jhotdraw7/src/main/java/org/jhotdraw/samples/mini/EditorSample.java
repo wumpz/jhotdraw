@@ -41,7 +41,7 @@ public class EditorSample {
                 TextAreaFigure tc = new TextAreaFigure();
                 tc.basicSetBounds(new Point2D.Double(220,10),new Point2D.Double(310,100));
                 ConnectionFigure cf = new LineConnectionFigure();
-                cf.setLiner(new ElbowLiner());
+                cf.basicSetLiner(new ElbowLiner());
                 cf.setStartConnector(ta.findConnector(Geom.center(ta.getBounds()), cf));
                 cf.setEndConnector(tb.findConnector(Geom.center(tb.getBounds()), cf));
                 Drawing drawing = new DefaultDrawing();

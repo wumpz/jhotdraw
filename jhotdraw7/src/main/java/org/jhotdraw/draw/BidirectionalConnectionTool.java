@@ -366,5 +366,8 @@ public class BidirectionalConnectionTool extends AbstractTool implements FigureL
     
     public void figureAttributeChanged(FigureEvent e) {
     }
+
+    public void figureHandlesChanged(FigureEvent e) {
+    }
     
 }

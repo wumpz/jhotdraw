@@ -45,15 +45,12 @@ public class LineConnectionFigure extends LineFigure
      * end figure.
      */
     private ConnectionHandler connectionHandler = new ConnectionHandler(this);
-    private static class ConnectionHandler implements FigureListener {
+    private static class ConnectionHandler extends FigureAdapter {
         private LineConnectionFigure owner;
         private ConnectionHandler(LineConnectionFigure owner) {
             this.owner = owner;
         }
-        public void figureRequestRemove(FigureEvent e) {
-        }
-        
-        public void figureRemoved(FigureEvent evt) {
+        @Override public void figureRemoved(FigureEvent evt) {
             // The commented lines below must stay commented out.
             // This is because, we must not set our connectors to null,
             // in order to support reconnection using redo.
@@ -66,7 +63,7 @@ public class LineConnectionFigure extends LineFigure
             owner.fireFigureRequestRemove();
         }
         
-        public void figureChanged(FigureEvent e) {
+        @Override public void figureChanged(FigureEvent e) {
             if (e.getSource() == owner.getStartFigure() ||
                     e.getSource() == owner.getEndFigure()) {
                 owner.willChange();
@@ -74,16 +71,6 @@ public class LineConnectionFigure extends LineFigure
                 owner.changed();
             }
         }
-        
-        public void figureAdded(FigureEvent e) {
-        }
-        
-        public void figureAttributeChanged(FigureEvent e) {
-        }
-        
-        public void figureAreaInvalidated(FigureEvent e) {
-        }
-        
     };
     
     /** Creates a new instance. */
@@ -478,11 +465,10 @@ public class LineConnectionFigure extends LineFigure
         out.closeElement();
     }
     
-    public void setLiner(Liner newValue) {
-        willChange();
+    public void basicSetLiner(Liner newValue) {
         this.liner = newValue;
-        changed();
     }
+    
     
     public void basicSetNode(int index, BezierPath.Node p) {
         if (index != 0 && index != getPointCount() - 1) {

@@ -1,7 +1,7 @@
 /*
- * @(#)FigureListener.java  1.0  11. November 2003
+ * @(#)FigureListener.java  1.1  2007-02-09
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -20,7 +20,8 @@ import java.util.*;
  * Listener interested in Figure changes.
  *
  * @author Werner Randelshofer
- * @version 1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version 1.1 2007-02-09 Method figureHandlesChanged added.
+ * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
 public interface FigureListener extends EventListener {
     
@@ -32,6 +33,15 @@ public interface FigureListener extends EventListener {
      * Sent when an attribute of the figure has changed.
      */
     public void figureAttributeChanged(FigureEvent e);
+    /**
+     * Sent when handles of a Figure have been added, removed or replaced.
+     * <p>
+     * DrawingViews listen to this event to repopulate the Handles.
+     * <p>
+     * A Figure should not fire this event, if just the state or the location
+     * of Handle has changed.
+     */
+    public void figureHandlesChanged(FigureEvent e);
     /**
      * Sent when the geometry (for example the bounds) of the figure has changed.
      */

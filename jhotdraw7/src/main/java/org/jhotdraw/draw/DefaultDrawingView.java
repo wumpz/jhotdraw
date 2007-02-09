@@ -69,6 +69,11 @@ public class DefaultDrawingView
     private DrawingEditor editor;
     private Constrainer constrainer = new GridConstrainer(1,1);
     private JLabel emptyDrawingLabel;
+    private FigureListener handleInvalidator = new FigureAdapter() {
+        @Override public void figureHandlesChanged(FigureEvent e) {
+            invalidateHandles();
+        }
+    };
     
     /** Creates new instance. */
     public DefaultDrawingView() {
@@ -321,6 +326,7 @@ public class DefaultDrawingView
      */
     public void addToSelection(Figure figure) {
         selectedFigures.add(figure);
+        figure.addFigureListener(handleInvalidator);
         invalidateHandles();
         fireSelectionChanged();
         repaint();
@@ -330,6 +336,9 @@ public class DefaultDrawingView
      */
     public void addToSelection(Collection<Figure> figures) {
         selectedFigures.addAll(figures);
+        for (Figure f : figures) {
+            f.addFigureListener(handleInvalidator);
+        }
         invalidateHandles();
         fireSelectionChanged();
         repaint();
@@ -341,6 +350,7 @@ public class DefaultDrawingView
     public void removeFromSelection(Figure figure) {
         if (selectedFigures.remove(figure)) {
             invalidateHandles();
+            figure.removeFigureListener(handleInvalidator);
             fireSelectionChanged();
         }
         repaint();

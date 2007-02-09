@@ -43,7 +43,7 @@ public class LabeledLineConnectionFigureSample {
                 
                 // Create a labeled line connection
                 LabeledLineConnectionFigure cf = new LabeledLineConnectionFigure();
-                cf.setLiner(new ElbowLiner());
+                cf.basicSetLiner(new ElbowLiner());
                 cf.setLayouter(new LocatorLayouter());
                 
                 // Create labels and add them to both ends of the labeled line connection

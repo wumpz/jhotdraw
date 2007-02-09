@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultDrawing.java  2.0  2006-01-14
+ * @(#)DefaultDrawing.java  2.1  2007-02-09
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -28,20 +28,23 @@ import java.util.*;
  * <p>
  * FIXME - Maybe we should rename this class to DefaultDrawing or we should
  * get rid of this class altogether.
- * 
- * 
+ *
+ *
  * @author Werner Randelshofer
- * @version 2.0 2006-01-14 Changed to support double precision coordinates.
+ * @version 2.1 2007-02-09 Moved FigureListener and UndoableEditListener into
+ * inner class.
+ * <br>2.0 2006-01-14 Changed to support double precision coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
 public class DefaultDrawing
-extends AbstractDrawing
-implements FigureListener, UndoableEditListener {
+        extends AbstractDrawing {
     private ArrayList<Figure> figures = new ArrayList<Figure>();
     private boolean needsSorting = false;
+    private FigureHandler figureHandler;
     
     /** Creates a new instance. */
     public DefaultDrawing() {
+        figureHandler = new FigureHandler();
     }
     
     public int indexOf(Figure figure) {
@@ -49,29 +52,29 @@ implements FigureListener, UndoableEditListener {
     }
     public void basicAdd(int index, Figure figure) {
         figures.add(index, figure);
-        figure.addFigureListener(this);
-        figure.addUndoableEditListener(this);
+        figure.addFigureListener(figureHandler);
+        figure.addUndoableEditListener(figureHandler);
         invalidateSortOrder();
     }
     public void basicRemove(Figure figure) {
         figures.remove(figure);
-        figure.removeFigureListener(this);
-        figure.removeUndoableEditListener(this);
+        figure.removeFigureListener(figureHandler);
+        figure.removeUndoableEditListener(figureHandler);
         invalidateSortOrder();
     }
     
     
     public void draw(Graphics2D g) {
         synchronized (getLock()) {
-        ensureSorted();
-        ArrayList<Figure> toDraw = new ArrayList<Figure>(figures.size());
-        Rectangle clipRect = g.getClipBounds();
-        for (Figure f : figures) {
-            if (f.getDrawingArea().intersects(clipRect)) {
-                toDraw.add(f);
+            ensureSorted();
+            ArrayList<Figure> toDraw = new ArrayList<Figure>(figures.size());
+            Rectangle clipRect = g.getClipBounds();
+            for (Figure f : figures) {
+                if (f.getDrawingArea().intersects(clipRect)) {
+                    toDraw.add(f);
+                }
             }
-        }
-        draw(g, toDraw);
+            draw(g, toDraw);
         }
     }
     
@@ -102,21 +105,6 @@ implements FigureListener, UndoableEditListener {
         return sorted;
     }
     
-    public void figureAreaInvalidated(FigureEvent e) {
-        fireAreaInvalidated(e.getInvalidatedArea());
-    }
-    public void figureChanged(FigureEvent e) {
-        invalidateSortOrder();
-        fireAreaInvalidated(e.getInvalidatedArea());
-    }
-    
-    public void figureAdded(FigureEvent e) {
-    }
-    public void figureRemoved(FigureEvent e) {
-    }
-    public void figureRequestRemove(FigureEvent e) {
-        remove(e.getFigure());
-    }
     
     public Figure findFigure(Point2D.Double p) {
         for (Figure f : getFiguresFrontToBack()) {
@@ -194,17 +182,6 @@ implements FigureListener, UndoableEditListener {
         }
     }
     
-    /**
-     * We propagate all edit events from our figures to 
-     * undoable edit listeners, which have registered with us.
-     */
-    public void undoableEditHappened(UndoableEditEvent e) {
-        fireUndoableEditHappened(e.getEdit());
-    }
-    
-    public void figureAttributeChanged(FigureEvent e) {
-    }
-    
     public boolean contains(Figure f) {
         return figures.contains(f);
     }
@@ -222,6 +199,31 @@ implements FigureListener, UndoableEditListener {
         if (needsSorting) {
             Collections.sort(figures, FigureLayerComparator.INSTANCE);
             needsSorting = false;
+        }
+    }
+
+    /**
+     * Handles all figure events fired by Figures contained in the Drawing.
+     */
+    protected class FigureHandler extends FigureAdapter implements UndoableEditListener {
+        /**
+         * We propagate all edit events from our figures to
+         * undoable edit listeners, which have registered with us.
+         */
+        public void undoableEditHappened(UndoableEditEvent e) {
+            fireUndoableEditHappened(e.getEdit());
+        }
+        
+        @Override public void figureAreaInvalidated(FigureEvent e) {
+            fireAreaInvalidated(e.getInvalidatedArea());
+        }
+        @Override public void figureChanged(FigureEvent e) {
+            invalidateSortOrder();
+            fireAreaInvalidated(e.getInvalidatedArea());
+        }
+        
+        @Override public void figureRequestRemove(FigureEvent e) {
+            remove(e.getFigure());
         }
     }
 }

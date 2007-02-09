@@ -1,7 +1,7 @@
 /*
- * @(#)AbstractFigure.java   3.3  2006-06-17
+ * @(#)AbstractFigure.java   3.4  2007-02-09
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -29,9 +29,11 @@ import org.jhotdraw.geom.*;
 /**
  * AbstractFigure provides the functionality for managing listeners
  * for a Figure.
- *
+ * 
+ * 
  * @author Werner Randelshofer
- * @version 3.3 Reworked.
+ * @version 3.4 2007-02-09 Method fireFigureHandlesChanged added.
+ * <br>3.3 Reworked.
  * <br>3.2 2006-01-05 Added method getChangingDepth().
  * <br>3.0 2006-01-20 Reworked for J2SE 1.5.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
@@ -246,6 +248,29 @@ public abstract class AbstractFigure
                     if (event == null)
                         event = new FigureEvent(this, attribute, oldValue, newValue);
                     ((FigureListener)listeners[i+1]).figureAttributeChanged(event);
+                }
+            }
+        }
+    }
+    /**
+     *  Notify all listenerList that have registered interest for
+     * notification on this event type.
+     */
+    protected void fireFigureHandlesChanged() {
+        Rectangle2D.Double changedArea = getDrawingArea();
+        if (listenerList.getListenerCount() > 0) {
+            FigureEvent event = null;
+            // Notify all listeners that have registered interest for
+            // Guaranteed to return a non-null array
+            Object[] listeners = listenerList.getListenerList();
+            // Process the listeners last to first, notifying
+            // those that are interested in this event
+            for (int i = listeners.length-2; i>=0; i-=2) {
+                if (listeners[i] == FigureListener.class) {
+                    // Lazily create the event:
+                    if (event == null)
+                        event = new FigureEvent(this, changedArea);
+                    ((FigureListener)listeners[i+1]).figureHandlesChanged(event);
                 }
             }
         }

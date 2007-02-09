@@ -1,7 +1,7 @@
 /*
- * @(#)QuadTreeDrawing.java  2.0  2006-01-14
+ * @(#)QuadTreeDrawing.java  2.1  2007-02-09
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -25,21 +25,25 @@ import java.util.*;
 /**
  * QuadTreeDrawing uses a QuadTree2DDouble to improve responsiveness of drawings
  * which contain many figures.
- *
+ * <p>
  * FIXME - Rename this class to DefaultDrawingView.
  *
  * @author Werner Randelshofer
- * @version 2.0 2006-01-14 Changed to support double precision coordinates.
+ * @version 2.1 2007-02-09 Moved FigureListener and UndoableEditListener into
+ * inner class.
+ * <br>2.0 2006-01-14 Changed to support double precision coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
-public class QuadTreeDrawing extends AbstractDrawing
-        implements FigureListener, UndoableEditListener {
+public class QuadTreeDrawing extends AbstractDrawing {
     private ArrayList<Figure> figures = new ArrayList<Figure>();
     private QuadTree<Figure> quadTree = new QuadTree<Figure>();
     private boolean needsSorting = false;
+    private FigureHandler figureHandler;
+    
     
     /** Creates a new instance. */
     public QuadTreeDrawing() {
+        figureHandler = new FigureHandler();
     }
     
     public int indexOf(Figure figure) {
@@ -49,15 +53,15 @@ public class QuadTreeDrawing extends AbstractDrawing
     public void basicAdd(int index, Figure figure) {
         figures.add(index, figure);
         quadTree.add(figure, figure.getDrawingArea());
-        figure.addFigureListener(this);
-        figure.addUndoableEditListener(this);
+        figure.addFigureListener(figureHandler);
+        figure.addUndoableEditListener(figureHandler);
         needsSorting = true;
     }
     public void basicRemove(Figure figure) {
         figures.remove(figure);
         quadTree.remove(figure);
-        figure.removeFigureListener(this);
-        figure.removeUndoableEditListener(this);
+        figure.removeFigureListener(figureHandler);
+        figure.removeUndoableEditListener(figureHandler);
         needsSorting = true;
     }
     
@@ -92,23 +96,6 @@ public class QuadTreeDrawing extends AbstractDrawing
     }
     
     
-    public void figureAreaInvalidated(FigureEvent e) {
-        fireAreaInvalidated(e.getInvalidatedArea());
-    }
-    public void figureChanged(FigureEvent e) {
-        quadTree.remove(e.getFigure());
-        quadTree.add(e.getFigure(), e.getFigure().getDrawingArea());
-        needsSorting = true;
-        fireAreaInvalidated(e.getInvalidatedArea());
-    }
-    
-    public void figureAdded(FigureEvent e) {
-    }
-    public void figureRemoved(FigureEvent e) {
-    }
-    public void figureRequestRemove(FigureEvent e) {
-        remove(e.getFigure());
-    }
     
     public java.util.List<Figure> getFigures(Rectangle2D.Double bounds) {
         return new LinkedList(quadTree.findInside(bounds));
@@ -229,17 +216,6 @@ public class QuadTreeDrawing extends AbstractDrawing
         }
     }
     
-    /**
-     * We propagate all edit events from our figures to
-     * undoable edit listeners, which have registered with us.
-     */
-    public void undoableEditHappened(UndoableEditEvent e) {
-        fireUndoableEditHappened(e.getEdit());
-    }
-    
-    public void figureAttributeChanged(FigureEvent e) {
-    }
-    
     public boolean contains(Figure f) {
         return figures.contains(f);
     }
@@ -251,6 +227,31 @@ public class QuadTreeDrawing extends AbstractDrawing
         if (needsSorting) {
             Collections.sort(figures, FigureLayerComparator.INSTANCE);
             needsSorting = false;
+        }
+    }
+    /**
+     * Handles all figure events fired by Figures contained in the Drawing.
+     */
+    protected class FigureHandler extends FigureAdapter implements UndoableEditListener {
+        /**
+         * We propagate all edit events from our figures to
+         * undoable edit listeners, which have registered with us.
+         */
+        public void undoableEditHappened(UndoableEditEvent e) {
+            fireUndoableEditHappened(e.getEdit());
+        }
+        
+        @Override public void figureAreaInvalidated(FigureEvent e) {
+            fireAreaInvalidated(e.getInvalidatedArea());
+        }
+        @Override public void figureChanged(FigureEvent e) {
+            quadTree.remove(e.getFigure());
+            quadTree.add(e.getFigure(), e.getFigure().getDrawingArea());
+            needsSorting = true;
+            fireAreaInvalidated(e.getInvalidatedArea());
+        }
+        @Override public void figureRequestRemove(FigureEvent e) {
+            remove(e.getFigure());
         }
     }
 }
