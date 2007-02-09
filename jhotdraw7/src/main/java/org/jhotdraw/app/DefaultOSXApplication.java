@@ -140,8 +140,7 @@ public class DefaultOSXApplication extends AbstractApplication {
     protected void initLookAndFeel() {
         System.setProperty("apple.laf.useScreenMenuBar","true");
         System.setProperty("com.apple.macos.useScreenMenuBar","true");
-        
-        
+      
         try {
             UIManager.setLookAndFeel(QuaquaManager.getLookAndFeelClassName());
         } catch (Exception e) {
