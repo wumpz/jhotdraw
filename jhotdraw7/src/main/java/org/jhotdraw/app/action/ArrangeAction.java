@@ -15,6 +15,7 @@
 package org.jhotdraw.app.action;
 
 import org.jhotdraw.util.*;
+import org.jhotdraw.gui.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 import java.awt.*;

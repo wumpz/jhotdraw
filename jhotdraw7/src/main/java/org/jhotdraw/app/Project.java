@@ -20,6 +20,8 @@ import javax.swing.*;
 /**
  * A project represents a work space for a document or a set of related
  * documents within an Application.
+ * <p>
+ * FIXME - Maybe Project should be renamed to Workspace.
  * 
  * @author Werner Randelshofer
  * @version 1.0 October 4, 2005 Created.

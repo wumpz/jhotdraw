@@ -28,11 +28,12 @@ import org.jhotdraw.draw.action.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 /**
  * SVGApplicationModel.
- * 
+ *
  * @author Werner Randelshofer.
  * @version 1.0 June 10, 2006 Created.
  */
 public class SVGApplicationModel extends DefaultApplicationModel {
+    private final static double[] scaleFactors = {5, 4, 3, 2, 1.5, 1.25, 1, 0.75, 0.5, 0.25, 0.10};
     /**
      * This editor is shared by all projects.
      */
@@ -54,9 +55,22 @@ public class SVGApplicationModel extends DefaultApplicationModel {
             ((SVGProject) p).setEditor(getSharedEditor());
         }
     }
-
+    
     public void initApplication(Application a) {
-putAction(ExportAction.ID, new ExportAction(a));
+        ResourceBundleUtil drawLabels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.pert.Labels");
+        AbstractAction aa;
+        
+        putAction(ExportAction.ID, new ExportAction(a));
+        putAction("toggleGrid", aa = new ToggleProjectPropertyAction(a, "gridVisible"));
+        drawLabels.configureAction(aa, "alignGrid");
+        for (double sf : scaleFactors) {
+            putAction((int) (sf*100)+"%",
+                    aa = new ProjectPropertyAction(a, "scaleFactor", Double.TYPE, new Double(sf))
+                    );
+            aa.putValue(Action.NAME, (int) (sf*100)+" %");
+            
+        }
     }
     /**
      * Creates toolbars for the application.
@@ -147,7 +161,7 @@ putAction(ExportAction.ID, new ExportAction(a));
         attributes.put(AttributeKeys.FILL_COLOR, null);
         attributes.put(AttributeKeys.STROKE_COLOR, null);
         ToolBarButtonFactory.addToolTo(tb, editor, new ImageTool(new SVGImageFigure(), attributes), "createImage", drawLabels);
-    }    
+    }
     /**
      * Creates toolbar buttons and adds them to the specified JToolBar
      */
@@ -161,7 +175,7 @@ putAction(ExportAction.ID, new ExportAction(a));
         b.setFocusable(false);
         bar.addSeparator();
         
-addColorButtonsTo(bar, editor);
+        addColorButtonsTo(bar, editor);
         bar.addSeparator();
         addStrokeButtonsTo(bar, editor);
         bar.addSeparator();
@@ -178,5 +192,37 @@ addColorButtonsTo(bar, editor);
         ToolBarButtonFactory.addStrokeCapButtonTo(bar, editor);
         ToolBarButtonFactory.addStrokeJoinButtonTo(bar, editor);
     }
-
+    
+    @Override public java.util.List<JMenu> createMenus(Application a, Project pr) {
+        // FIXME - Add code for unconfiguring the menus!! We leak memory!
+        SVGProject p = (SVGProject) pr;
+        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        
+        //  JMenuBar mb = new JMenuBar();
+        LinkedList<JMenu> mb =  new LinkedList<JMenu>();
+        JMenu m, m2;
+        JMenuItem mi;
+        JRadioButtonMenuItem rbmi;
+        JCheckBoxMenuItem cbmi;
+        ButtonGroup group;
+        
+        mb.add(createEditMenu(a, pr));
+        
+        m = new JMenu();
+        labels.configureMenu(m, "view");
+        cbmi = new JCheckBoxMenuItem(getAction("toggleGrid"));
+        Actions.configureJCheckBoxMenuItem(cbmi, getAction("toggleGrid"));
+        m.add(cbmi);
+        m2 = new JMenu("Zoom");
+        for (double sf : scaleFactors) {
+            String id = (int) (sf*100)+"%";
+            cbmi = new JCheckBoxMenuItem(getAction(id));
+            Actions.configureJCheckBoxMenuItem(cbmi, getAction(id));
+            m2.add(cbmi);
+        }
+        m.add(m2);
+        mb.add(m);
+        
+        return mb;
+    }
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)ConnectingFiguresSample_1.java   1.0  November 9, 2006
+ * @(#)EditorSample.java   1.0  March 8, 2007
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -19,13 +19,11 @@ import org.jhotdraw.draw.*;
 import org.jhotdraw.geom.*;
 
 /**
- * Example showing how to create a drawing and displaying it in an editor 
- * with a "delegation selection tool".
- * We don't make use of a toolbar, so users are not able to add new figure
- * to the drawing, they can just play around with the figures that are there.
+ * Example showing how to create an editor that can edit multiple
+ * drawing views. For simplicity, the editor can create rectangle figures only.
  *
  * @author Werner Randelshofer
- * @version 1.0 November 9, 2006 Created.
+ * @version 1.0 March 8, 2007 Created.
  */
 public class EditorSample {
     public static void main(String[] args) {

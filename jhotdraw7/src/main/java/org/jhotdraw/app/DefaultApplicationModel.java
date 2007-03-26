@@ -128,17 +128,26 @@ public class DefaultApplicationModel
      * <li>Paste</li>
      * </ul>
      */
-    public List<JToolBar> createToolBars(Application a, Project p) {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("ch.randelshofer.cubetwister.Labels");
+    public List<JToolBar> createToolBars(Application app, Project p) {
+        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
         
         JToolBar tb = new JToolBar();
         tb.setName(labels.getString("standardToolBarTitle"));
         
         JButton b;
-        b = tb.add(getAction(NewAction.ID));
-        b.setFocusable(false);
-        b = tb.add(getAction(OpenAction.ID));
-        b.setFocusable(false);
+        Action a;
+        if (null != (a = getAction(NewAction.ID))) {
+            b = tb.add(a);
+            b.setFocusable(false);
+        }
+        if (null != (a = getAction(OpenAction.ID))) {
+            b = tb.add(a);
+            b.setFocusable(false);
+        }
+        if (null != (a = getAction(LoadAction.ID))) {
+            b = tb.add(a);
+            b.setFocusable(false);
+        }
         b = tb.add(getAction(SaveAction.ID));
         tb.addSeparator();
         b = tb.add(getAction(UndoAction.ID));
@@ -159,7 +168,41 @@ public class DefaultApplicationModel
         return list;
     }
     public List<JMenu> createMenus(Application a, Project p) {
-        return new LinkedList<JMenu>();
+        LinkedList<JMenu> list = new LinkedList<JMenu>();
+        list.add(createEditMenu(a, p));
+        return list;
+    }
+    protected JMenu createEditMenu(Application a, Project p) {
+        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        
+        JMenu m;
+        JMenuItem mi;
+        
+        m = new JMenu();
+        labels.configureMenu(m, "edit");
+        mi = m.add(getAction(UndoAction.ID));
+        mi.setIcon(null);
+        mi = m.add(getAction(RedoAction.ID));
+        mi.setIcon(null);
+        m.addSeparator();
+        mi = m.add(getAction(CutAction.ID));
+        mi.setIcon(null);
+        mi = m.add(getAction(CopyAction.ID));
+        mi.setIcon(null);
+        mi = m.add(getAction(PasteAction.ID));
+        mi.setIcon(null);
+        mi = m.add(getAction(DuplicateAction.ID));
+        mi.setIcon(null);
+        mi = m.add(getAction(DeleteAction.ID));
+        mi.setIcon(null);
+        m.addSeparator();
+        mi = m.add(getAction(SelectAllAction.ID));
+        mi.setIcon(null);
+        if (getAction(FindAction.ID) != null) {
+            m.addSeparator();
+            m.add(getAction(FindAction.ID));
+        }
+        return m;
     }
     
     public void initProject(Application a, Project p) {

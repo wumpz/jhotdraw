@@ -37,7 +37,6 @@ public class Main {
             app = new DefaultSDIApplication();
         }
         
-        
         DrawApplicationModel model = new DrawApplicationModel();
         model.setName("JHotDraw Draw");
         model.setVersion("7.0.8");

@@ -19,7 +19,6 @@ import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
 import java.beans.*;
-import org.jhotdraw.app.action.Arrangeable;
 
 /**
  * An extension of JDesktopPane that supports often used MDI functionality. This

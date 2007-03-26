@@ -35,7 +35,7 @@ import org.jhotdraw.util.*;
  * public Pageable createPageable();
  * </pre>
  * <p>
- * The ExportAction invokes this method using Java Reflection. Thus there is
+ * The PrintAction invokes this method using Java Reflection. Thus there is
  * no Java Interface that the Project needs to implement.
  *
  * @see org.jhotdraw.draw.DrawingPageable

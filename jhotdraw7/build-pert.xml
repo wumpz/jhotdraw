@@ -105,9 +105,6 @@
                 <include name="*.properties"/>
             </fileset>
         </copy>
-        <copy todir="${classdir}/org/jhotdraw/draw/images">
-            <fileset dir="${srcdir}/org/jhotdraw/draw/images" />
-        </copy>
         <copy todir="${classdir}/org/jhotdraw/draw/action/images">
             <fileset dir="${srcdir}/org/jhotdraw/draw/action/images" />
         </copy>

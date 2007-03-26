@@ -555,7 +555,8 @@ public class GraphicsUtil {
 
 
     /**
-     * Standard prebuilt Linear_sRGB color model with no alpha */
+     * Standard prebuilt Linear_sRGB color model with no alpha. 
+     */
     public final static ColorModel Linear_sRGB =
         new DirectColorModel(ColorSpace.getInstance
                              (ColorSpace.CS_LINEAR_RGB), 24,

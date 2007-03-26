@@ -156,6 +156,8 @@ public class PertApplicationModel extends DefaultApplicationModel {
         JCheckBoxMenuItem cbmi;
         ButtonGroup group;
         
+        mb.add(createEditMenu(a, pr));
+        
         m = new JMenu();
         labels.configureMenu(m, "view");
         cbmi = new JCheckBoxMenuItem(getAction("toggleGrid"));

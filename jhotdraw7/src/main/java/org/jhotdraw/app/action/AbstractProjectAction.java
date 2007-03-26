@@ -1,7 +1,7 @@
 /*
- * @(#)AbstractProjectAction.java  1.0  October 9, 2005
+ * @(#)AbstractProjectAction.java  1.1  2007-03-22
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -27,6 +27,10 @@ import org.jhotdraw.app.Project;
  * <code>Application</code>.
  * If the current Project object is disabled or is null, the
  * AbstractProjectAction is disabled as well.
+ * <p>
+ * A property name can be specified. When the specified property 
+ * changes or when the current project changes, method updateProperty
+ * is invoked.
  * 
  * @author Werner Randelshofer
  * @version 1.0 October 9, 2005 Created.
@@ -35,20 +39,22 @@ import org.jhotdraw.app.Project;
  */
 public abstract class AbstractProjectAction extends AbstractAction {
     private Application app;
+    private String propertyName;
     
     private PropertyChangeListener applicationListener = new PropertyChangeListener() {
         public void propertyChange(PropertyChangeEvent evt) {
             if (evt.getPropertyName() == "currentProject") { // Strings get interned
-//System.out.println("AbstractProjectAction.propertyChange "+evt.getPropertyName()+" "+evt.getNewValue());            
                 updateProject((Project) evt.getOldValue(), (Project) evt.getNewValue());
             }
         }
     };
     private PropertyChangeListener projectListener = new PropertyChangeListener() {
         public void propertyChange(PropertyChangeEvent evt) {
-//System.out.println("AbstractProjectAction.propertyChange "+evt.getPropertyName()+" "+evt.getNewValue());            
-            if (evt.getPropertyName() == "enabled") { // Strings get interned
+            String name = evt.getPropertyName();
+            if (name == "enabled") { // Strings get interned
                 updateEnabled((Boolean) evt.getOldValue(), (Boolean) evt.getNewValue());
+            } else if (name == propertyName) {
+                updateProperty();
             }
         }
     };
@@ -77,6 +83,31 @@ public abstract class AbstractProjectAction extends AbstractAction {
         firePropertyChange("project", oldValue, newValue);
         updateEnabled(oldValue != null && oldValue.isEnabled(),
                 newValue != null && newValue.isEnabled());
+        updateProperty();
+    }
+    
+    /**
+     * Sets the property name.
+     */
+    protected void setPropertyName(String name) {
+        this.propertyName = name;
+        if (name != null) {
+            updateProperty();
+        }
+    }
+    /**
+     * Gets the property name.
+     */
+    protected String getPropertyName() {
+        return propertyName;
+    }
+    
+    /**
+     * This method is invoked, when the property changed and when
+     * the project changed.
+     */
+    protected void updateProperty() {
+        
     }
     
     /**
