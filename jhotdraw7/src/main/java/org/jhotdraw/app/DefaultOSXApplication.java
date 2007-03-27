@@ -398,7 +398,8 @@ public class DefaultOSXApplication extends AbstractApplication {
         }
         if (model.getAction(PrintAction.ID) != null) {
             m.addSeparator();
-            m.add(model.getAction(PrintAction.ID));
+            mi = m.add(model.getAction(PrintAction.ID));
+            mi.setIcon(null);
         }
         
         addPropertyChangeListener(new PropertyChangeListener() {
