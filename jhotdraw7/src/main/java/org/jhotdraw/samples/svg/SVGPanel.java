@@ -48,7 +48,7 @@ public class SVGPanel extends JPanel  {
         editor.add(view);
         
         addCreationButtonsTo(creationToolbar, editor);
-        ToolBarButtonFactory.addAttributesButtonsTo(attributesToolbar, editor);
+        ButtonFactory.addAttributesButtonsTo(attributesToolbar, editor);
         
         JPopupButton pb = new JPopupButton();
         pb.setItemFont(UIManager.getFont("MenuItem.font"));
@@ -145,8 +145,8 @@ public class SVGPanel extends JPanel  {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.svg.Labels");
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
         
-        ToolBarButtonFactory.addSelectionToolTo(tb, editor, 
-                ToolBarButtonFactory.createDrawingActions(editor), 
+        ButtonFactory.addSelectionToolTo(tb, editor, 
+                ButtonFactory.createDrawingActions(editor), 
                 createSelectionActions(editor)
                 );
         tb.addSeparator();
@@ -154,18 +154,18 @@ public class SVGPanel extends JPanel  {
         attributes = new HashMap<AttributeKey,Object>();
         attributes.put(AttributeKeys.FILL_COLOR, Color.white);
         attributes.put(AttributeKeys.STROKE_COLOR, Color.black);
-        ToolBarButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGRectFigure(), attributes), "createRectangle", drawLabels);
-        ToolBarButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGEllipseFigure(), attributes), "createEllipse", drawLabels);
-        ToolBarButtonFactory.addToolTo(tb, editor, new PathTool(new SVGPathFigure(), new BezierFigure(true), attributes), "createPolygon", drawLabels);
+        ButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGRectFigure(), attributes), "createRectangle", drawLabels);
+        ButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGEllipseFigure(), attributes), "createEllipse", drawLabels);
+        ButtonFactory.addToolTo(tb, editor, new PathTool(new SVGPathFigure(), new BezierFigure(true), attributes), "createPolygon", drawLabels);
         attributes = new HashMap<AttributeKey,Object>();
         attributes.put(AttributeKeys.FILL_COLOR, null);
         attributes.put(AttributeKeys.STROKE_COLOR, Color.black);
-        ToolBarButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGPathFigure(), attributes), "createLine", drawLabels);
-        ToolBarButtonFactory.addToolTo(tb, editor, new PathTool(new SVGPathFigure(), new BezierFigure(false), attributes), "createScribble", drawLabels);
+        ButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGPathFigure(), attributes), "createLine", drawLabels);
+        ButtonFactory.addToolTo(tb, editor, new PathTool(new SVGPathFigure(), new BezierFigure(false), attributes), "createScribble", drawLabels);
         attributes = new HashMap<AttributeKey,Object>();
         attributes.put(AttributeKeys.FILL_COLOR, Color.black);
         attributes.put(AttributeKeys.STROKE_COLOR, null);
-        ToolBarButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGTextFigure(), attributes), "createText", drawLabels);
+        ButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGTextFigure(), attributes), "createText", drawLabels);
     }
     
     /** This method is called from within the constructor to
@@ -196,6 +196,7 @@ public class SVGPanel extends JPanel  {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel1.add(creationToolbar, gridBagConstraints);
 

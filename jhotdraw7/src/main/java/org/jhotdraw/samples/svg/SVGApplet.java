@@ -214,7 +214,6 @@ public class SVGApplet extends JApplet {
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
-        toolButtonGroup = new javax.swing.ButtonGroup();
 
     }// </editor-fold>//GEN-END:initComponents
     
@@ -235,7 +234,6 @@ public class SVGApplet extends JApplet {
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.ButtonGroup toolButtonGroup;
     // End of variables declaration//GEN-END:variables
     
 }

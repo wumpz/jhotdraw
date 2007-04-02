@@ -56,8 +56,8 @@ public class MultiEditorSample {
                 // Create a tool bar with selection tool and a
                 // creation tool for rectangle figures.
                 JToolBar tb = new JToolBar();
-                ToolBarButtonFactory.addSelectionToolTo(tb, editor);
-                ToolBarButtonFactory.addToolTo(
+                ButtonFactory.addSelectionToolTo(tb, editor);
+                ButtonFactory.addToolTo(
                         tb, editor, 
                         new CreationTool(new RectangleFigure()),
                         "createRectangle",

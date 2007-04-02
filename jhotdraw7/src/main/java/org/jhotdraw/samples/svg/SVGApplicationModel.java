@@ -99,7 +99,7 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         tb.setName(labels.getString("attributesToolBarTitle"));
         list.add(tb);
         tb = new JToolBar();
-        ToolBarButtonFactory.addAlignmentButtonsTo(tb, editor);
+        ButtonFactory.addAlignmentButtonsTo(tb, editor);
         tb.setName(labels.getString("alignmentToolBarTitle"));
         list.add(tb);
         return list;
@@ -138,29 +138,29 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.svg.Labels");
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
         
-        ToolBarButtonFactory.addSelectionToolTo(tb, editor, createDrawingActions(editor), createSelectionActions(editor));
+        ButtonFactory.addSelectionToolTo(tb, editor, createDrawingActions(editor), createSelectionActions(editor));
         tb.addSeparator();
         
         attributes = new HashMap<AttributeKey,Object>();
         //attributes.put(AttributeKeys.FILL_COLOR, Color.white);
         //attributes.put(AttributeKeys.STROKE_COLOR, Color.black);
-        ToolBarButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGRectFigure(), attributes), "createRectangle", drawLabels);
-        ToolBarButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGEllipseFigure(), attributes), "createEllipse", drawLabels);
-        ToolBarButtonFactory.addToolTo(tb, editor, new PathTool(new SVGPathFigure(), new BezierFigure(true), attributes), "createPolygon", drawLabels);
+        ButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGRectFigure(), attributes), "createRectangle", drawLabels);
+        ButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGEllipseFigure(), attributes), "createEllipse", drawLabels);
+        ButtonFactory.addToolTo(tb, editor, new PathTool(new SVGPathFigure(), new BezierFigure(true), attributes), "createPolygon", drawLabels);
         attributes = new HashMap<AttributeKey,Object>();
         attributes.put(AttributeKeys.FILL_COLOR, null);
         attributes.put(AttributeKeys.STROKE_COLOR, Color.black);
-        ToolBarButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGPathFigure(), attributes), "createLine", drawLabels);
-        ToolBarButtonFactory.addToolTo(tb, editor, new PathTool(new SVGPathFigure(), new BezierFigure(false), attributes), "createScribble", drawLabels);
+        ButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGPathFigure(), attributes), "createLine", drawLabels);
+        ButtonFactory.addToolTo(tb, editor, new PathTool(new SVGPathFigure(), new BezierFigure(false), attributes), "createScribble", drawLabels);
         attributes = new HashMap<AttributeKey,Object>();
         attributes.put(AttributeKeys.FILL_COLOR, Color.black);
         attributes.put(AttributeKeys.STROKE_COLOR, null);
-        ToolBarButtonFactory.addToolTo(tb, editor, new TextTool(new SVGTextFigure(), attributes), "createText", drawLabels);
-        ToolBarButtonFactory.addToolTo(tb, editor, new TextAreaTool(new SVGTextAreaFigure(), attributes), "createTextArea", drawLabels);
+        ButtonFactory.addToolTo(tb, editor, new TextTool(new SVGTextFigure(), attributes), "createText", drawLabels);
+        ButtonFactory.addToolTo(tb, editor, new TextAreaTool(new SVGTextAreaFigure(), attributes), "createTextArea", drawLabels);
         attributes = new HashMap<AttributeKey,Object>();
         attributes.put(AttributeKeys.FILL_COLOR, null);
         attributes.put(AttributeKeys.STROKE_COLOR, null);
-        ToolBarButtonFactory.addToolTo(tb, editor, new ImageTool(new SVGImageFigure(), attributes), "createImage", drawLabels);
+        ButtonFactory.addToolTo(tb, editor, new ImageTool(new SVGImageFigure(), attributes), "createImage", drawLabels);
     }
     /**
      * Creates toolbar buttons and adds them to the specified JToolBar
@@ -179,18 +179,26 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         bar.addSeparator();
         addStrokeButtonsTo(bar, editor);
         bar.addSeparator();
-        ToolBarButtonFactory.addFontButtonsTo(bar, editor);
+        ButtonFactory.addFontButtonsTo(bar, editor);
     }
     private void addColorButtonsTo(JToolBar bar, DrawingEditor editor) {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-        ToolBarButtonFactory.addColorButtonTo(bar, editor, STROKE_COLOR, ToolBarButtonFactory.DEFAULT_COLORS, 8, "attributeStrokeColor", labels);
-        ToolBarButtonFactory.addColorButtonTo(bar, editor, FILL_COLOR, ToolBarButtonFactory.DEFAULT_COLORS, 8, "attributeFillColor", labels);
+        bar.add(
+                ButtonFactory.createColorButton(editor,
+                STROKE_COLOR, ButtonFactory.DEFAULT_COLORS, 8,
+                "attributeStrokeColor", labels)
+                );
+        bar.add(
+                ButtonFactory.createColorButton(editor,
+                FILL_COLOR, ButtonFactory.DEFAULT_COLORS, 8,
+                "attributeFillColor", labels)
+                );
     }
     private void addStrokeButtonsTo(JToolBar bar, DrawingEditor editor) {
-        ToolBarButtonFactory.addStrokeWidthButtonTo(bar, editor);
-        ToolBarButtonFactory.addStrokeDashesButtonTo(bar, editor);
-        ToolBarButtonFactory.addStrokeCapButtonTo(bar, editor);
-        ToolBarButtonFactory.addStrokeJoinButtonTo(bar, editor);
+        bar.add(ButtonFactory.createStrokeWidthButton(editor));
+        bar.add(ButtonFactory.createStrokeDashesButton(editor));
+        bar.add(ButtonFactory.createStrokeCapButton(editor));
+        bar.add(ButtonFactory.createStrokeJoinButton(editor));
     }
     
     @Override public java.util.List<JMenu> createMenus(Application a, Project pr) {

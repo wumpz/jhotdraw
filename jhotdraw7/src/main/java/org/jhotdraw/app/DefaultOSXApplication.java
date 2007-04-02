@@ -477,10 +477,12 @@ public class DefaultOSXApplication extends AbstractApplication {
             }
             public void finished(Object result) {
                 LinkedList<JFrame> palettes = (LinkedList<JFrame>) result;
-                for (JFrame p : palettes) {
-                    addPalette(p);
+                if (palettes != null) {
+                    for (JFrame p : palettes) {
+                        addPalette(p);
+                    }
+                    firePropertyChange("paletteCount", 0, palettes.size());
                 }
-                firePropertyChange("paletteCount", 0, palettes.size());
             }
         });
     }

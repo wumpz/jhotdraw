@@ -46,7 +46,7 @@ public class NetPanel extends JPanel  {
         editor.add(view);
         
         addCreationButtonsTo(creationToolbar, editor);
-        ToolBarButtonFactory.addAttributesButtonsTo(attributesToolbar, editor);
+        ButtonFactory.addAttributesButtonsTo(attributesToolbar, editor);
         
         JPopupButton pb = new JPopupButton();
         pb.setItemFont(UIManager.getFont("MenuItem.font"));
@@ -170,18 +170,18 @@ public class NetPanel extends JPanel  {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.net.Labels");
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
         
-        ToolBarButtonFactory.addSelectionToolTo(tb, editor);
+        ButtonFactory.addSelectionToolTo(tb, editor);
         tb.addSeparator();
         
         attributes = new HashMap<AttributeKey,Object>();
         attributes.put(AttributeKeys.FILL_COLOR, Color.white);
         attributes.put(AttributeKeys.STROKE_COLOR, Color.black);
         attributes.put(AttributeKeys.TEXT_COLOR, Color.black);
-        ToolBarButtonFactory.addToolTo(tb, editor, new TextTool(new NodeFigure(), attributes), "createNode", labels);
+        ButtonFactory.addToolTo(tb, editor, new TextTool(new NodeFigure(), attributes), "createNode", labels);
 
         attributes = new HashMap<AttributeKey,Object>();
         attributes.put(AttributeKeys.STROKE_COLOR, new Color(0x000099));
-        ToolBarButtonFactory.addToolTo(tb, editor, new ConnectionTool(new LineConnectionFigure(), attributes), "createLink", labels);
+        ButtonFactory.addToolTo(tb, editor, new ConnectionTool(new LineConnectionFigure(), attributes), "createLink", labels);
     }
     
     

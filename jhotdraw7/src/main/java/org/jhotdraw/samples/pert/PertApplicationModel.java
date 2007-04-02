@@ -93,20 +93,20 @@ public class PertApplicationModel extends DefaultApplicationModel {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.pert.Labels");
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
         
-        ToolBarButtonFactory.addSelectionToolTo(tb, editor);
+        ButtonFactory.addSelectionToolTo(tb, editor);
         tb.addSeparator();
         
         attributes = new HashMap<AttributeKey,Object>();
         attributes.put(AttributeKeys.FILL_COLOR, Color.white);
         attributes.put(AttributeKeys.STROKE_COLOR, Color.black);
         attributes.put(AttributeKeys.TEXT_COLOR, Color.black);
-        ToolBarButtonFactory.addToolTo(tb, editor, new CreationTool(new TaskFigure(), attributes), "createTask", labels);
+        ButtonFactory.addToolTo(tb, editor, new CreationTool(new TaskFigure(), attributes), "createTask", labels);
 
         attributes = new HashMap<AttributeKey,Object>();
         attributes.put(AttributeKeys.STROKE_COLOR, new Color(0x000099));
-        ToolBarButtonFactory.addToolTo(tb, editor, new ConnectionTool(new DependencyFigure(), attributes), "createDependency", labels);
+        ButtonFactory.addToolTo(tb, editor, new ConnectionTool(new DependencyFigure(), attributes), "createDependency", labels);
         tb.addSeparator();
-        ToolBarButtonFactory.addToolTo(tb, editor, new TextAreaTool(new TextAreaFigure()), "createTextArea", drawLabels);
+        ButtonFactory.addToolTo(tb, editor, new TextAreaTool(new TextAreaFigure()), "createTextArea", drawLabels);
         
     }
     /**
@@ -133,11 +133,11 @@ public class PertApplicationModel extends DefaultApplicationModel {
         tb.setName(drawLabels.getString("drawToolBarTitle"));
         list.add(tb);
         tb = new JToolBar();
-        ToolBarButtonFactory.addAttributesButtonsTo(tb, editor);
+        ButtonFactory.addAttributesButtonsTo(tb, editor);
         tb.setName(drawLabels.getString("attributesToolBarTitle"));
         list.add(tb);
         tb = new JToolBar();
-        ToolBarButtonFactory.addAlignmentButtonsTo(tb, editor);
+        ButtonFactory.addAlignmentButtonsTo(tb, editor);
         tb.setName(drawLabels.getString("alignmentToolBarTitle"));
         list.add(tb);
         return list;

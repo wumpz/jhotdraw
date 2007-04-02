@@ -97,12 +97,12 @@ public class PertProject extends AbstractProject {
         
         JPanel placardPanel = new JPanel(new BorderLayout());
         javax.swing.AbstractButton pButton;
-        pButton = ToolBarButtonFactory.createZoomButton(view);
+        pButton = ButtonFactory.createZoomButton(view);
         pButton.putClientProperty("Quaqua.Button.style","placard");
         pButton.putClientProperty("Quaqua.Component.visualMargin",new Insets(0,0,0,0));
         pButton.setFont(UIManager.getFont("SmallSystemFont"));
         placardPanel.add(pButton, BorderLayout.WEST);
-        pButton = ToolBarButtonFactory.createToggleGridButton(view);
+        pButton = ButtonFactory.createToggleGridButton(view);
         pButton.putClientProperty("Quaqua.Button.style","placard");
         pButton.putClientProperty("Quaqua.Component.visualMargin",new Insets(0,0,0,0));
         pButton.setFont(UIManager.getFont("SmallSystemFont"));
