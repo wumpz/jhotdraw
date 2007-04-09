@@ -129,6 +129,7 @@ public class SVGProject extends AbstractProject implements ExportableProject {
         drawing.setInputFormats(inputFormats);
         LinkedList<OutputFormat> outputFormats = new LinkedList<OutputFormat>();
         outputFormats.add(new SVGOutputFormat());
+        outputFormats.add(new SVGZOutputFormat());
         outputFormats.add(new ImageOutputFormat());
         outputFormats.add(new ImageOutputFormat("JPG","Joint Photographics Experts Group (JPEG)", "jpg", BufferedImage.TYPE_INT_RGB));
         outputFormats.add(new ImageOutputFormat("BMP","Windows Bitmap (BMP)", "bmp", BufferedImage.TYPE_BYTE_INDEXED));
@@ -261,7 +262,7 @@ public class SVGProject extends AbstractProject implements ExportableProject {
            public void propertyChange(PropertyChangeEvent evt) {
                if (evt.getPropertyName().equals("fileFilterChanged")) {
                   InputFormat inputFormat = fileFilterInputFormatMap.get(evt.getNewValue());
-             c.setAccessory(inputFormat.getInputFormatAccessory());
+             c.setAccessory((inputFormat == null) ? null : inputFormat.getInputFormatAccessory());
                }
            } 
         });
@@ -326,7 +327,7 @@ public class SVGProject extends AbstractProject implements ExportableProject {
     
     public JFileChooser getExportChooser() {
         if (exportChooser == null) {
-            exportChooser = createSaveChooser();
+            exportChooser = createExportChooser();
         }
         return exportChooser;
     }

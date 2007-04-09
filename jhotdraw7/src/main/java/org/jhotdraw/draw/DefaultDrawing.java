@@ -1,7 +1,7 @@
 /*
- * @(#)DefaultDrawing.java  2.1  2007-02-09
+ * @(#)DefaultDrawing.java  2.2  2007-04-09
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -14,6 +14,7 @@
 
 package org.jhotdraw.draw;
 
+import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.util.ReversedList;
 import java.awt.*;
 import java.awt.geom.*;
@@ -31,7 +32,8 @@ import java.util.*;
  *
  *
  * @author Werner Randelshofer
- * @version 2.1 2007-02-09 Moved FigureListener and UndoableEditListener into
+ * @version 2.2 2007-04-09 Methods setCanvasSize, getCanvasSize added. 
+ * <br>2.1 2007-02-09 Moved FigureListener and UndoableEditListener into
  * inner class.
  * <br>2.0 2006-01-14 Changed to support double precision coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
@@ -41,6 +43,7 @@ public class DefaultDrawing
     private ArrayList<Figure> figures = new ArrayList<Figure>();
     private boolean needsSorting = false;
     private FigureHandler figureHandler;
+    private Dimension2DDouble canvasSize;
     
     /** Creates a new instance. */
     public DefaultDrawing() {
@@ -202,6 +205,16 @@ public class DefaultDrawing
         }
     }
 
+    public void setCanvasSize(Dimension2DDouble newValue) {
+        Dimension2DDouble oldValue = canvasSize;
+        canvasSize = newValue;
+        firePropertyChange("canvasSize", oldValue, newValue);
+    }
+
+    public Dimension2DDouble getCanvasSize() {
+        return canvasSize;
+    }
+    
     /**
      * Handles all figure events fired by Figures contained in the Drawing.
      */

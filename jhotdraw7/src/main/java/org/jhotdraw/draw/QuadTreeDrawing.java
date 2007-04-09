@@ -1,5 +1,5 @@
 /*
- * @(#)QuadTreeDrawing.java  2.1  2007-02-09
+ * @(#)QuadTreeDrawing.java  2.2  2007-04-09
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -14,6 +14,7 @@
 
 package org.jhotdraw.draw;
 
+import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.geom.QuadTree;
 import org.jhotdraw.util.ReversedList;
 import java.awt.*;
@@ -29,7 +30,8 @@ import java.util.*;
  * FIXME - Rename this class to DefaultDrawingView.
  *
  * @author Werner Randelshofer
- * @version 2.1 2007-02-09 Moved FigureListener and UndoableEditListener into
+ * @version 2.2 2007-04-09 Added methods setCanvasSize, getCanvasSize.
+ * <br>2.1 2007-02-09 Moved FigureListener and UndoableEditListener into
  * inner class.
  * <br>2.0 2006-01-14 Changed to support double precision coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
@@ -39,7 +41,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
     private QuadTree<Figure> quadTree = new QuadTree<Figure>();
     private boolean needsSorting = false;
     private FigureHandler figureHandler;
-    
+    private Dimension2DDouble canvasSize;
     
     /** Creates a new instance. */
     public QuadTreeDrawing() {
@@ -229,6 +231,17 @@ public class QuadTreeDrawing extends AbstractDrawing {
             needsSorting = false;
         }
     }
+
+    public void setCanvasSize(Dimension2DDouble newValue) {
+        Dimension2DDouble oldValue = canvasSize;
+        canvasSize = newValue;
+        firePropertyChange("canvasSize", oldValue, newValue);
+    }
+
+    public Dimension2DDouble getCanvasSize() {
+        return canvasSize;
+    }
+    
     /**
      * Handles all figure events fired by Figures contained in the Drawing.
      */

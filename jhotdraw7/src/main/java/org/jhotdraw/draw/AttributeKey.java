@@ -114,10 +114,6 @@ public class AttributeKey<T> {
         return isNullValueAllowed;
     }
     
-    public static void main(String[] args) {
-        TypeVariable v = new AttributeKey<Double>("hey").getClass().getTypeParameters()[0];
-    }
-    
     public boolean isAssignable(Object value) {
         if (value == null) {
             return isNullValueAllowed();

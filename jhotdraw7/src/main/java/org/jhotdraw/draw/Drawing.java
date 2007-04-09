@@ -1,7 +1,7 @@
 /*
- * @(#)Drawing.java  2.1  2006-12-31
+ * @(#)Drawing.java  2.2  2007-04-09
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -15,6 +15,7 @@
 
 package org.jhotdraw.draw;
 
+import org.jhotdraw.geom.*;
 import org.jhotdraw.io.*;
 import org.jhotdraw.xml.*;
 
@@ -32,7 +33,8 @@ import java.io.*;
  * whenever a part of its area was invalidated.
  *
  * @author Werner Randelshofer
- * @version 2.1 2006-12-31 Changed to return lists instead of collections.
+ * @version 2.2 2007-04-09 Methods setCanvasSize, getCanvasSize added.
+ * <br>2.1 2006-12-31 Changed to return lists instead of collections.
  * <br>2.0 2006-01-14 Changed to support double precision coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
@@ -275,5 +277,27 @@ public interface Drawing extends Serializable, DOMStorable {
      * Gets output formats for the Drawing in order of preferred formats.
      */
     public List<OutputFormat> getOutputFormats();
+    
+    /**
+     * Sets the canvas size for this drawing.
+     * <p>
+     * If <code>canvasSize</code> is </code>null</code>, the size of the canvas 
+     * is expected to be adjusted dynamically to fit the drawing areas of all 
+     * figures contained in the drawing.
+     * <p>
+     * This is a bound property.
+     *
+     * @param canvasSize The canvas size, or null.
+     */
+    public void setCanvasSize(Dimension2DDouble canvasSize);
+    
+    /**
+     * Gets the canvas size of this drawing.
+     * If null is returned, the canvas size needs to be adjusted dynamically
+     * to fit the drawing areas of all figures contained in the drawing.
+     *
+     * @return The canvas size, or null.
+     */
+    public Dimension2DDouble getCanvasSize();
 }
 

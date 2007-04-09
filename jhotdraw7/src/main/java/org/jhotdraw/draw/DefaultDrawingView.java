@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultDrawingView.java  3.3  2007-01-23
+ * @(#)DefaultDrawingView.java  3.4  2007-04-09
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -34,12 +34,14 @@ import org.jhotdraw.xml.XMLTransferable;
  * The DefaultDrawingView is suited for viewing drawings with a small number
  * of Figures.
  *
- * FIXME - DefaultDrawingView should not implement DrawingListener and 
+ * FIXME - DefaultDrawingView should not implement DrawingListener and
  * HandleListener. It should use internal classes for this.
  *
  *
  * @author Werner Randelshofer
- * @version 3.3 2007-01-23 Only repaint handles on focus gained/lost. 
+ * @version 3.4 2007-04-09 Visualizes the canvas size of a Drawing by a filled
+ * white rectangle on the background.
+ * <br>3.3 2007-01-23 Only repaint handles on focus gained/lost.
  * <br>3.2 2006-12-26 Rewrote storage and clipboard support.
  * <br>3.1 2006-12-17 Added printing support.
  * <br>3.0.2 2006-07-03 Constrainer must be a bound property.
@@ -193,12 +195,12 @@ public class DefaultDrawingView
     }
     
     protected void drawBackground(Graphics2D g) {
-       /*
-        rainbow = (rainbow + 10) % 360;
-        g.setColor(
-        new Color(Color.HSBtoRGB((float) (rainbow / 360f), 0.3f, 1.0f))
-        );
-        */
+           /*
+            rainbow = (rainbow + 10) % 360;
+            g.setColor(
+            new Color(Color.HSBtoRGB((float) (rainbow / 360f), 0.3f, 1.0f))
+            );
+            */
         // Position of the zero coordinate point on the view
         int x = (int) (-translate.x * scaleFactor);
         int y = (int) (-translate.y * scaleFactor);
@@ -217,7 +219,22 @@ public class DefaultDrawingView
         }
         if (x > 0) {
             g.setColor(new Color(0xf0f0f0));
-            g.fillRect(0, 0, x, h);
+            g.fillRect(0, y, x, h - y);
+        }
+        
+        Dimension2DDouble canvasSize = getDrawing().getCanvasSize();
+        if (canvasSize != null) {
+            Point lowerRight = drawingToView(
+                    new Point2D.Double(canvasSize.width, canvasSize.height)
+                    );
+            if (lowerRight.x < w) {
+                g.setColor(new Color(0xf0f0f0));
+                g.fillRect(lowerRight.x, y, w - lowerRight.x, h - y);
+            }
+            if (lowerRight.y < h) {
+                g.setColor(new Color(0xf0f0f0));
+                g.fillRect(x, lowerRight.y, w - x, h - lowerRight.y);
+            }
         }
     }
     
@@ -767,7 +784,7 @@ public class DefaultDrawingView
                 for (OutputFormat format : drawing.getOutputFormats()) {
                     Transferable t = format.createTransferable(toBeCopied, scaleFactor);
                     if (! transfer.isDataFlavorSupported(t.getTransferDataFlavors()[0])) {
-                    transfer.add(t);
+                        transfer.add(t);
                     }
                 }
                 getToolkit().getSystemClipboard().setContents(transfer, transfer);
@@ -804,18 +821,18 @@ public class DefaultDrawingView
         try {
             Transferable transfer = getToolkit().getSystemClipboard().getContents(this);
             // Search for a suitable input format
-           ImportLoop: for (InputFormat format : drawing.getInputFormats()) {
+            ImportLoop: for (InputFormat format : drawing.getInputFormats()) {
                 for (DataFlavor flavor : transfer.getTransferDataFlavors()) {
-                if (format.isDataFlavorSupported(flavor)) {
-                    CompositeEdit ce = new CompositeEdit("Paste");
-                    getDrawing().fireUndoableEditHappened(ce);
-                    java.util.List<Figure> toBeSelected = format.readFigures(transfer);
-                    clearSelection();
-                    getDrawing().addAll(toBeSelected); 
-                    addToSelection(toBeSelected);
-                    getDrawing().fireUndoableEditHappened(ce);
-                    break ImportLoop;
-                }
+                    if (format.isDataFlavorSupported(flavor)) {
+                        CompositeEdit ce = new CompositeEdit("Paste");
+                        getDrawing().fireUndoableEditHappened(ce);
+                        java.util.List<Figure> toBeSelected = format.readFigures(transfer);
+                        clearSelection();
+                        getDrawing().addAll(toBeSelected);
+                        addToSelection(toBeSelected);
+                        getDrawing().fireUndoableEditHappened(ce);
+                        break ImportLoop;
+                    }
                 }
             }
             

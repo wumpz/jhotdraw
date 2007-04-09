@@ -128,9 +128,9 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
         return bounds;
     }
     
-    public Rectangle2D.Double getFigureDrawingArea() {
+    @Override public Rectangle2D.Double getFigureDrawingArea() {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
-        double grow = AttributeKeys.getPerpendicularHitGrowth(this) + 1d;
+        double grow = AttributeKeys.getPerpendicularHitGrowth(this);
         Geom.grow(r, grow, grow);
         return r;
     }

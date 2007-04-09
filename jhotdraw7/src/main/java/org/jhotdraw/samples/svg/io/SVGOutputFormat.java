@@ -1099,7 +1099,8 @@ public class SVGOutputFormat implements OutputFormat {
     }
     
     public void write(File file, Drawing drawing) throws IOException {
-        BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file));
+        BufferedOutputStream out = new BufferedOutputStream(
+                new FileOutputStream(file));
         try {
             write(out, drawing);
         } finally {

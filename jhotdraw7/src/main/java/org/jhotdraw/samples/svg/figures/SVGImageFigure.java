@@ -120,12 +120,15 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         Rectangle2D.Double r = (rx instanceof Rectangle2D.Double) ? (Rectangle2D.Double) rx : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
         return r;
     }
-    public Rectangle2D.Double getFigureDrawBounds() {
+    @Override public Rectangle2D.Double getDrawingArea() {
+        return getBounds();
+        /*
         Rectangle2D rx = getTransformedShape().getBounds2D();
         Rectangle2D.Double r = (rx instanceof Rectangle2D.Double) ? (Rectangle2D.Double) rx : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
         double g = AttributeKeys.getPerpendicularHitGrowth(this) * 2;
         Geom.grow(r, g, g);
         return r;
+         */
     }
     /**
      * Checks if a Point2D.Double is inside the figure.
