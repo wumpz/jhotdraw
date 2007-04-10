@@ -36,7 +36,7 @@ import org.jhotdraw.xml.*;
  * @author Werner Randelshofer
  * @version 1.0 December 9, 2006 Created.
  */
-public class SVGTextAreaFigure extends SVGAttributedFigure 
+public class SVGTextAreaFigure extends SVGAttributedFigure
         implements SVGFigure, TextHolderFigure {
     
     
@@ -58,7 +58,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
     }
     public SVGTextAreaFigure(String text) {
         setText(text);
-       SVGAttributeKeys.setDefaults(this);
+        SVGAttributeKeys.setDefaults(this);
     }
     
     // DRAWING
@@ -96,7 +96,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
     }
     private Shape getTransformedShape() {
         if (cachedTransformedShape == null) {
-                    cachedTransformedShape = (Shape) rectangle.clone();
+            cachedTransformedShape = (Shape) rectangle.clone();
             if (TRANSFORM.get(this) != null) {
                 cachedTransformedShape = TRANSFORM.get(this).createTransformedShape(cachedTransformedShape);
             }
@@ -140,7 +140,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
                             }
                             int tabCount = new StringTokenizer(paragraphs[i], "\t").countTokens() - 1;
                             verticalPos = appendParagraph(
-                                    shape, as.getIterator(), 
+                                    shape, as.getIterator(),
                                     verticalPos, maxVerticalPos, leftMargin, rightMargin, tabStops, tabCount
                                     );
                             if (verticalPos > textRect.y + textRect.height) {
@@ -150,17 +150,17 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
                     }
                 }
                 
-                    if (leftMargin >= rightMargin || verticalPos > textRect.y + textRect.height) {
-                        shape.moveTo((float) textRect.x, (float) (textRect.y + textRect.height - 1));
-                        shape.lineTo((float) (textRect.x + textRect.width - 1), (float) (textRect.y + textRect.height - 1));
-                        shape.lineTo((float) (textRect.x + textRect.width - 1), (float) (textRect.y + textRect.height));
-                        shape.lineTo((float) (textRect.x), (float) (textRect.y + textRect.height));
-                        shape.closePath();
-                    }
+                if (leftMargin >= rightMargin || verticalPos > textRect.y + textRect.height) {
+                    shape.moveTo((float) textRect.x, (float) (textRect.y + textRect.height - 1));
+                    shape.lineTo((float) (textRect.x + textRect.width - 1), (float) (textRect.y + textRect.height - 1));
+                    shape.lineTo((float) (textRect.x + textRect.width - 1), (float) (textRect.y + textRect.height));
+                    shape.lineTo((float) (textRect.x), (float) (textRect.y + textRect.height));
+                    shape.closePath();
+                }
             }
-        if (TRANSFORM.get(this) != null) {
+            if (TRANSFORM.get(this) != null) {
                 cachedTransformedText.transform(TRANSFORM.get(this));
-        }
+            }
         }
         return cachedTransformedText;
     }
@@ -288,7 +288,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
     public void basicTransform(AffineTransform tx) {
         invalidateTransformedShape();
         if (TRANSFORM.get(this) != null ||
-                (tx.getType() & 
+                (tx.getType() &
                 (AffineTransform.TYPE_TRANSLATION /*| AffineTransform.TYPE_MASK_SCALE*/)) !=
                 tx.getType()) {
             if (TRANSFORM.get(this) == null) {
@@ -304,22 +304,31 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
                     (Point2D.Double) tx.transform(lead, lead)
                     );
         }
+        // FIXME - This is experimental code
+        if (FILL_GRADIENT.get(this) != null &&
+                ! FILL_GRADIENT.get(this).isRelativeToFigureBounds()) {
+            FILL_GRADIENT.get(this).transform(tx);
+        }
+        if (STROKE_GRADIENT.get(this) != null &&
+                ! STROKE_GRADIENT.get(this).isRelativeToFigureBounds()) {
+            STROKE_GRADIENT.get(this).transform(tx);
+        }
     }
     public void restoreTransformTo(Object geometry) {
-            invalidateTransformedShape();
-            Object[] o = (Object[]) geometry;
-            rectangle = (Rectangle2D.Double) ((Rectangle2D.Double) o[0]).clone();
-            if (o[1] == null) {
-                TRANSFORM.set(this, null);
-            } else {
-            TRANSFORM.set(this, (AffineTransform) ((AffineTransform) o[1]).clone());
-            }
+        invalidateTransformedShape();
+        Object[] restoreData = (Object[]) geometry;
+        rectangle = (Rectangle2D.Double) ((Rectangle2D.Double) restoreData[0]).clone();
+        TRANSFORM.basicSetClone(this, (AffineTransform) restoreData[1]);
+        FILL_GRADIENT.basicSetClone(this, (Gradient) restoreData[2]);
+        STROKE_GRADIENT.basicSetClone(this, (Gradient) restoreData[3]);
     }
     
     public Object getTransformRestoreData() {
         return new Object[] {
             rectangle.clone(),
-            TRANSFORM.get(this)
+            TRANSFORM.getClone(this),
+            FILL_GRADIENT.getClone(this),
+            STROKE_GRADIENT.getClone(this),
         };
     }
 // ATTRIBUTES

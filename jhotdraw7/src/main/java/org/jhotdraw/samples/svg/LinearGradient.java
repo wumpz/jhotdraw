@@ -125,4 +125,26 @@ public class LinearGradient implements Gradient {
         return buf.toString();
     }
     
+    public void transform(AffineTransform tx) {
+        Point2D.Double topLeft = new Point2D.Double(x1, y1);
+        Point2D.Double bottomRight = new Point2D.Double(x2, y2);
+        tx.transform(topLeft, topLeft);
+        tx.transform(bottomRight, bottomRight);
+        x1 = topLeft.getX();
+        y1 = topLeft.getY();
+        x2 = bottomRight.getX();
+        y2 = bottomRight.getY();
+    }
+    public Object clone() {
+        try {
+            LinearGradient that = (LinearGradient) super.clone();
+            that.stopOffsets = this.stopOffsets.clone();
+            that.stopColors = this.stopColors.clone();
+            return that;
+        } catch (CloneNotSupportedException ex) {
+            InternalError e = new InternalError();
+            e.initCause(ex);
+            throw e;
+        }
+    }
 }

@@ -55,7 +55,7 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
     }
     public SVGRectFigure(double x, double y, double width, double height, double rx, double ry) {
         roundrect = new RoundRectangle2D.Double(x, y, width, height, rx, ry);
-       SVGAttributeKeys.setDefaults(this);
+        SVGAttributeKeys.setDefaults(this);
     }
     
     // DRAWING
@@ -118,11 +118,11 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
     }
     private Shape getTransformedShape() {
         if (cachedTransformedShape == null) {
-                if (getArcHeight() == 0 || getArcWidth() == 0) {
-                    cachedTransformedShape = roundrect.getBounds2D();
-                } else {
-                    cachedTransformedShape = (Shape) roundrect.clone();
-                }
+            if (getArcHeight() == 0 || getArcWidth() == 0) {
+                cachedTransformedShape = roundrect.getBounds2D();
+            } else {
+                cachedTransformedShape = (Shape) roundrect.clone();
+            }
             if (TRANSFORM.get(this) != null) {
                 cachedTransformedShape = TRANSFORM.get(this).createTransformedShape(cachedTransformedShape);
             }
@@ -159,6 +159,15 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
                     (Point2D.Double) tx.transform(lead, lead)
                     );
         }
+        // FIXME - This is experimental code
+        if (FILL_GRADIENT.get(this) != null &&
+                ! FILL_GRADIENT.get(this).isRelativeToFigureBounds()) {
+            FILL_GRADIENT.get(this).transform(tx);
+        }
+        if (STROKE_GRADIENT.get(this) != null &&
+                ! STROKE_GRADIENT.get(this).isRelativeToFigureBounds()) {
+            STROKE_GRADIENT.get(this).transform(tx);
+        }
     }
     // ATTRIBUTES
     public void setArc(final double w, final double h) {
@@ -167,7 +176,7 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
         final double oldHeight = roundrect.getArcHeight();
         roundrect.arcwidth = Math.max(0d, Math.min(roundrect.width, w * 2d));
         roundrect.archeight = Math.max(0d, Math.min(roundrect.height, h * 2d));
-      //  fireFigureChanged(getDrawBounds());
+        //  fireFigureChanged(getDrawBounds());
         fireUndoableEditHappened(new AbstractUndoableEdit() {
             public String getPresentationName() {
                 return "Arc";
@@ -190,29 +199,29 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
         changed();
     }
     public void restoreTransformTo(Object geometry) {
-            invalidateTransformedShape();
-            Object[] o = (Object[]) geometry;
-            roundrect = (RoundRectangle2D.Double) ((RoundRectangle2D.Double) o[0]).clone();
-            if (o[1] == null) {
-                TRANSFORM.set(this, null);
-            } else {
-            TRANSFORM.set(this, (AffineTransform) ((AffineTransform) o[1]).clone());
-            }
+        invalidateTransformedShape();
+        Object[] restoreData = (Object[]) geometry;
+        roundrect = (RoundRectangle2D.Double) ((RoundRectangle2D.Double) restoreData[0]).clone();
+        TRANSFORM.basicSetClone(this, (AffineTransform) restoreData[1]);
+        FILL_GRADIENT.basicSetClone(this, (Gradient) restoreData[2]);
+        STROKE_GRADIENT.basicSetClone(this, (Gradient) restoreData[3]);
     }
     
     public Object getTransformRestoreData() {
         return new Object[] {
             roundrect.clone(),
-            TRANSFORM.get(this)
+            TRANSFORM.get(this),
+            FILL_GRADIENT.getClone(this),
+            STROKE_GRADIENT.getClone(this),
         };
     }
     
     // EDITING
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = (LinkedList<Handle>) super.createHandles(detailLevel);
-         handles.add(new SVGRectRadiusHandle(this));
-                    handles.add(new RotateHandle(this));
-
+        handles.add(new SVGRectRadiusHandle(this));
+        handles.add(new RotateHandle(this));
+        
         return handles;
     }
     @Override public Collection<Action> getActions(Point2D.Double p) {

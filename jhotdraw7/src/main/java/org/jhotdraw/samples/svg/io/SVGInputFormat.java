@@ -1,5 +1,5 @@
 /*
- * @(#)SVGInputFormat.java  0.1  November 25, 2006
+ * @(#)SVGInputFormat.java  0.2  2007-04-10
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -48,7 +48,8 @@ import org.jhotdraw.xml.css.CSSParser;
  *
  *
  * @author Werner Randelshofer
- * @version 0.1 November 25, 2006 Created (Experimental).
+ * @version 0.2 2007-04-10 Fixed default attribute values for RadialGradient element.
+ * <br>0.1 November 25, 2006 Created (Experimental).
  */
 public class SVGInputFormat implements InputFormat {
     private SVGFigureFactory factory;
@@ -96,6 +97,13 @@ public class SVGInputFormat implements InputFormat {
         textAnchorMap.put("start", TextAnchor.START);
         textAnchorMap.put("middle", TextAnchor.MIDDLE);
         textAnchorMap.put("end", TextAnchor.END);
+    }
+    private final static HashMap<String,TextAlign> textAlignMap;
+    static {
+        textAlignMap = new HashMap<String, TextAlign>();
+        textAlignMap.put("start", TextAlign.START);
+        textAlignMap.put("center", TextAlign.CENTER);
+        textAlignMap.put("end", TextAlign.END);
     }
     
     /**
@@ -608,10 +616,12 @@ public class SVGInputFormat implements InputFormat {
                     while ((len = in.read(buf)) > 0) {
                         bout.write(buf, 0, len);
                     }
+                    imageData = bout.toByteArray();
+                } catch (FileNotFoundException e) {
+                    // Use empty image
                 } finally {
                     if (in != null) { in.close(); }
                 }
-                imageData = bout.toByteArray();
             }
         }
         // Create a buffered image from the image data
@@ -1192,7 +1202,7 @@ public class SVGInputFormat implements InputFormat {
         StreamPosTokenizer tt = new StreamPosTokenizer(new StringReader(str));
         tt.resetSyntax();
         tt.parseNumbers();
-        tt.parseExponent();
+        tt.parseExponents();
         tt.whitespaceChars(0, ' ');
         tt.whitespaceChars(',',',');
         
@@ -1218,11 +1228,11 @@ public class SVGInputFormat implements InputFormat {
                     path = new BezierPath();
                     
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("x coordinate missing for 'M' in "+str);
+                        throw new IOException("x coordinate missing for 'M' at position "+tt.getStartPosition()+" in "+str);
                     }
                     p.x = tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("y coordinate missing for 'M' in "+str);
+                        throw new IOException("y coordinate missing for 'M' at position "+tt.getStartPosition()+" in "+str);
                     }
                     p.y = tt.nval;
                     path.moveTo(p.x, p.y);
@@ -1236,11 +1246,11 @@ public class SVGInputFormat implements InputFormat {
                     path = new BezierPath();
                     
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("dx coordinate missing for 'm' in "+str);
+                        throw new IOException("dx coordinate missing for 'm' at position "+tt.getStartPosition()+" in "+str);
                     }
                     p.x += tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("dy coordinate missing for 'm' in "+str);
+                        throw new IOException("dy coordinate missing for 'm' at position "+tt.getStartPosition()+" in "+str);
                     }
                     p.y += tt.nval;
                     path.moveTo(p.x, p.y);
@@ -1258,11 +1268,11 @@ public class SVGInputFormat implements InputFormat {
                 case 'L' :
                     // absolute-lineto x y
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("x coordinate missing for 'L' in "+str);
+                        throw new IOException("x coordinate missing for 'L' at position "+tt.getStartPosition()+" in "+str);
                     }
                     p.x = tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("y coordinate missing for 'L' in "+str);
+                        throw new IOException("y coordinate missing for 'L' at position "+tt.getStartPosition()+" in "+str);
                     }
                     p.y = tt.nval;
                     path.lineTo(p.x, p.y);
@@ -1272,11 +1282,11 @@ public class SVGInputFormat implements InputFormat {
                 case 'l' :
                     // relative-lineto dx dy
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("dx coordinate missing for 'l' in "+str);
+                        throw new IOException("dx coordinate missing for 'l' at position "+tt.getStartPosition()+" in "+str);
                     }
                     p.x += tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("dy coordinate missing for 'l' in "+str);
+                        throw new IOException("dy coordinate missing for 'l' at position "+tt.getStartPosition()+" in "+str);
                     }
                     p.y += tt.nval;
                     path.lineTo(p.x, p.y);
@@ -1286,7 +1296,7 @@ public class SVGInputFormat implements InputFormat {
                 case 'H' :
                     // absolute-horizontal-lineto x
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("x coordinate missing for 'H' in "+str);
+                        throw new IOException("x coordinate missing for 'H' at position "+tt.getStartPosition()+" in "+str);
                     }
                     p.x = tt.nval;
                     path.lineTo(p.x, p.y);
@@ -1296,7 +1306,7 @@ public class SVGInputFormat implements InputFormat {
                 case 'h' :
                     // relative-horizontal-lineto dx
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("dx coordinate missing for 'h' in "+str);
+                        throw new IOException("dx coordinate missing for 'h' at position "+tt.getStartPosition()+" in "+str);
                     }
                     p.x += tt.nval;
                     path.lineTo(p.x, p.y);
@@ -1306,7 +1316,7 @@ public class SVGInputFormat implements InputFormat {
                 case 'V' :
                     // absolute-vertical-lineto y
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("y coordinate missing for 'V' in "+str);
+                        throw new IOException("y coordinate missing for 'V' at position "+tt.getStartPosition()+" in "+str);
                     }
                     p.y = tt.nval;
                     path.lineTo(p.x, p.y);
@@ -1316,7 +1326,7 @@ public class SVGInputFormat implements InputFormat {
                 case 'v' :
                     // relative-vertical-lineto dy
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("dy coordinate missing for 'v' in "+str);
+                        throw new IOException("dy coordinate missing for 'v' at position "+tt.getStartPosition()+" in "+str);
                     }
                     p.y += tt.nval;
                     path.lineTo(p.x, p.y);
@@ -1326,27 +1336,27 @@ public class SVGInputFormat implements InputFormat {
                 case 'C' :
                     // absolute-curveto x1 y1 x2 y2 x y
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("x1 coordinate missing for 'C' in "+str);
+                        throw new IOException("x1 coordinate missing for 'C' at position "+tt.getStartPosition()+" in "+str);
                     }
                     c1.x = tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("y1 coordinate missing for 'C' in "+str);
+                        throw new IOException("y1 coordinate missing for 'C' at position "+tt.getStartPosition()+" in "+str);
                     }
                     c1.y = tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("x2 coordinate missing for 'C' in "+str);
+                        throw new IOException("x2 coordinate missing for 'C' at position "+tt.getStartPosition()+" in "+str);
                     }
                     c2.x = tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("y2 coordinate missing for 'C' in "+str);
+                        throw new IOException("y2 coordinate missing for 'C' at position "+tt.getStartPosition()+" in "+str);
                     }
                     c2.y = tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("x coordinate missing for 'C' in "+str);
+                        throw new IOException("x coordinate missing for 'C' at position "+tt.getStartPosition()+" in "+str);
                     }
                     p.x = tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("y coordinate missing for 'C' in "+str);
+                        throw new IOException("y coordinate missing for 'C' at position "+tt.getStartPosition()+" in "+str);
                     }
                     p.y = tt.nval;
                     path.curveTo(c1.x, c1.y, c2.x, c2.y, p.x, p.y);
@@ -1356,27 +1366,27 @@ public class SVGInputFormat implements InputFormat {
                 case 'c' :
                     // relative-curveto dx1 dy1 dx2 dy2 dx dy
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("dx1 coordinate missing for 'c' in "+str);
+                        throw new IOException("dx1 coordinate missing for 'c' at position "+tt.getStartPosition()+" in "+str);
                     }
                     c1.x = p.x + tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("dy1 coordinate missing for 'c' in "+str);
+                        throw new IOException("dy1 coordinate missing for 'c' at position "+tt.getStartPosition()+" in "+str);
                     }
                     c1.y = p.y + tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("dx2 coordinate missing for 'c' in "+str);
+                        throw new IOException("dx2 coordinate missing for 'c' at position "+tt.getStartPosition()+" in "+str);
                     }
                     c2.x = p.x + tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("dy2 coordinate missing for 'c' in "+str);
+                        throw new IOException("dy2 coordinate missing for 'c' at position "+tt.getStartPosition()+" in "+str);
                     }
                     c2.y = p.y + tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("dx coordinate missing for 'c' in "+str);
+                        throw new IOException("dx coordinate missing for 'c' at position "+tt.getStartPosition()+" in "+str);
                     }
                     p.x += tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("dy coordinate missing for 'c' in "+str);
+                        throw new IOException("dy coordinate missing for 'c' at position "+tt.getStartPosition()+" in "+str);
                     }
                     p.y += tt.nval;
                     path.curveTo(c1.x, c1.y, c2.x, c2.y, p.x, p.y);
@@ -1389,19 +1399,19 @@ public class SVGInputFormat implements InputFormat {
                     c1.x = node.x[0] * 2d - node.x[1];
                     c1.y = node.y[0] * 2d - node.y[1];
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("x2 coordinate missing for 'S' in "+str);
+                        throw new IOException("x2 coordinate missing for 'S' at position "+tt.getStartPosition()+" in "+str);
                     }
                     c2.x = tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("y2 coordinate missing for 'S' in "+str);
+                        throw new IOException("y2 coordinate missing for 'S' at position "+tt.getStartPosition()+" in "+str);
                     }
                     c2.y = tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("x coordinate missing for 'S' in "+str);
+                        throw new IOException("x coordinate missing for 'S' at position "+tt.getStartPosition()+" in "+str);
                     }
                     p.x = tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("y coordinate missing for 'S' in "+str);
+                        throw new IOException("y coordinate missing for 'S' at position "+tt.getStartPosition()+" in "+str);
                     }
                     p.y = tt.nval;
                     path.curveTo(c1.x, c1.y, c2.x, c2.y, p.x, p.y);
@@ -1414,19 +1424,19 @@ public class SVGInputFormat implements InputFormat {
                     c1.x = node.x[0] * 2d - node.x[1];
                     c1.y = node.y[0] * 2d - node.y[1];
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("dx2 coordinate missing for 's' in "+str);
+                        throw new IOException("dx2 coordinate missing for 's' at position "+tt.getStartPosition()+" in "+str);
                     }
                     c2.x = p.x + tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("dy2 coordinate missing for 's' in "+str);
+                        throw new IOException("dy2 coordinate missing for 's' at position "+tt.getStartPosition()+" in "+str);
                     }
                     c2.y = p.y + tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("dx coordinate missing for 's' in "+str);
+                        throw new IOException("dx coordinate missing for 's' at position "+tt.getStartPosition()+" in "+str);
                     }
                     p.x += tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("dy coordinate missing for 's' in "+str);
+                        throw new IOException("dy coordinate missing for 's' at position "+tt.getStartPosition()+" in "+str);
                     }
                     p.y += tt.nval;
                     path.curveTo(c1.x, c1.y, c2.x, c2.y, p.x, p.y);
@@ -1436,19 +1446,19 @@ public class SVGInputFormat implements InputFormat {
                 case 'Q' :
                     // absolute-quadto x1 y1 x y
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("x1 coordinate missing for 'Q' in "+str);
+                        throw new IOException("x1 coordinate missing for 'Q' at position "+tt.getStartPosition()+" in "+str);
                     }
                     c1.x = tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("y1 coordinate missing for 'Q' in "+str);
+                        throw new IOException("y1 coordinate missing for 'Q' at position "+tt.getStartPosition()+" in "+str);
                     }
                     c1.y = tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("x coordinate missing for 'Q' in "+str);
+                        throw new IOException("x coordinate missing for 'Q' at position "+tt.getStartPosition()+" in "+str);
                     }
                     p.x = tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("y coordinate missing for 'Q' in "+str);
+                        throw new IOException("y coordinate missing for 'Q' at position "+tt.getStartPosition()+" in "+str);
                     }
                     p.y = tt.nval;
                     path.quadTo(c1.x, c1.y, p.x, p.y);
@@ -1459,19 +1469,19 @@ public class SVGInputFormat implements InputFormat {
                 case 'q' :
                     // relative-quadto dx1 dy1 dx dy
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("dx1 coordinate missing for 'q' in "+str);
+                        throw new IOException("dx1 coordinate missing for 'q' at position "+tt.getStartPosition()+" in "+str);
                     }
                     c1.x = p.x + tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("dy1 coordinate missing for 'q' in "+str);
+                        throw new IOException("dy1 coordinate missing for 'q' at position "+tt.getStartPosition()+" in "+str);
                     }
                     c1.y = p.y + tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("dx coordinate missing for 'q' in "+str);
+                        throw new IOException("dx coordinate missing for 'q' at position "+tt.getStartPosition()+" in "+str);
                     }
                     p.x += tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("dy coordinate missing for 'q' in "+str);
+                        throw new IOException("dy coordinate missing for 'q' at position "+tt.getStartPosition()+" in "+str);
                     }
                     p.y += tt.nval;
                     path.quadTo(c1.x, c1.y, p.x, p.y);
@@ -1484,11 +1494,11 @@ public class SVGInputFormat implements InputFormat {
                     c1.x = node.x[0] * 2d - node.x[1];
                     c1.y = node.y[0] * 2d - node.y[1];
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("x coordinate missing for 'T' in "+str);
+                        throw new IOException("x coordinate missing for 'T' at position "+tt.getStartPosition()+" in "+str);
                     }
                     p.x = tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("y coordinate missing for 'T' in "+str);
+                        throw new IOException("y coordinate missing for 'T' at position "+tt.getStartPosition()+" in "+str);
                     }
                     p.y = tt.nval;
                     path.quadTo(c1.x, c1.y, p.x, p.y);
@@ -1502,11 +1512,11 @@ public class SVGInputFormat implements InputFormat {
                     c1.x = node.x[0] * 2d - node.x[1];
                     c1.y = node.y[0] * 2d - node.y[1];
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("dx coordinate missing for 't' in "+str);
+                        throw new IOException("dx coordinate missing for 't' at position "+tt.getStartPosition()+" in "+str);
                     }
                     p.x += tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("dy coordinate missing for 't' in "+str);
+                        throw new IOException("dy coordinate missing for 't' at position "+tt.getStartPosition()+" in "+str);
                     }
                     p.y += tt.nval;
                     path.quadTo(c1.x, c1.y, p.x, p.y);
@@ -1518,33 +1528,33 @@ public class SVGInputFormat implements InputFormat {
                 case 'A' : {
                     // absolute-elliptical-arc rx ry x-axis-rotation large-arc-flag sweep-flag x y
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("rx coordinate missing for 'A' in "+str);
+                        throw new IOException("rx coordinate missing for 'A' at position "+tt.getStartPosition()+" in "+str);
                     }
                     // If rX or rY have negative signs, these are dropped;
                     // the absolute value is used instead.
                     double rx = tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("ry coordinate missing for 'A' in "+str);
+                        throw new IOException("ry coordinate missing for 'A' at position "+tt.getStartPosition()+" in "+str);
                     }
                     double ry = tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("x-axis-rotation missing for 'A' in "+str);
+                        throw new IOException("x-axis-rotation missing for 'A' at position "+tt.getStartPosition()+" in "+str);
                     }
                     double xAxisRotation = tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("large-arc-flag missing for 'A' in "+str);
+                        throw new IOException("large-arc-flag missing for 'A' at position "+tt.getStartPosition()+" in "+str);
                     }
                     boolean largeArcFlag = tt.nval != 0;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("sweep-flag missing for 'A' in "+str);
+                        throw new IOException("sweep-flag missing for 'A' at position "+tt.getStartPosition()+" in "+str);
                     }
                     boolean sweepFlag = tt.nval != 0;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("x coordinate missing for 'A' in "+str);
+                        throw new IOException("x coordinate missing for 'A' at position "+tt.getStartPosition()+" in "+str);
                     }
                     p.x = tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("y coordinate missing for 'A' in "+str);
+                        throw new IOException("y coordinate missing for 'A' at position "+tt.getStartPosition()+" in "+str);
                     }
                     p.y = tt.nval;
                     
@@ -1556,33 +1566,33 @@ public class SVGInputFormat implements InputFormat {
                 case 'a' : {
                     // absolute-elliptical-arc rx ry x-axis-rotation large-arc-flag sweep-flag x y
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("rx coordinate missing for 'A' in "+str);
+                        throw new IOException("rx coordinate missing for 'A' at position "+tt.getStartPosition()+" in "+str);
                     }
                     // If rX or rY have negative signs, these are dropped;
                     // the absolute value is used instead.
                     double rx = tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("ry coordinate missing for 'A' in "+str);
+                        throw new IOException("ry coordinate missing for 'A' at position "+tt.getStartPosition()+" in "+str);
                     }
                     double ry = tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("x-axis-rotation missing for 'A' in "+str);
+                        throw new IOException("x-axis-rotation missing for 'A' at position "+tt.getStartPosition()+" in "+str);
                     }
                     double xAxisRotation = tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("large-arc-flag missing for 'A' in "+str);
+                        throw new IOException("large-arc-flag missing for 'A' at position "+tt.getStartPosition()+" in "+str);
                     }
                     boolean largeArcFlag = tt.nval != 0;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("sweep-flag missing for 'A' in "+str);
+                        throw new IOException("sweep-flag missing for 'A' at position "+tt.getStartPosition()+" in "+str);
                     }
                     boolean sweepFlag = tt.nval != 0;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("x coordinate missing for 'A' in "+str);
+                        throw new IOException("x coordinate missing for 'A' at position "+tt.getStartPosition()+" in "+str);
                     }
                     p.x += tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-                        throw new IOException("y coordinate missing for 'A' in "+str);
+                        throw new IOException("y coordinate missing for 'A' at position "+tt.getStartPosition()+" in "+str);
                     }
                     p.y += tt.nval;
                     
@@ -1668,7 +1678,7 @@ public class SVGInputFormat implements InputFormat {
         value = readInheritAttribute(elem, "text-align", "start");
         // XXX - Implement me properly
         if (! value.equals("start")) {
-            TEXT_ANCHOR.set(a, textAnchorMap.get(value));
+            TEXT_ALIGN.set(a, textAlignMap.get(value));
         }
     }
     /* Reads text flow attributes as listed in
@@ -1806,7 +1816,7 @@ public class SVGInputFormat implements InputFormat {
         if (objectValue instanceof Color) {
             FILL_COLOR.set(a, (Color) objectValue);
         } else if (objectValue instanceof Gradient) {
-            FILL_GRADIENT.set(a, (Gradient) objectValue);
+            FILL_GRADIENT.set(a, (Gradient) ((Gradient) objectValue).clone());
         } else if (objectValue == null) {
             FILL_COLOR.set(a, null);
         } else {
@@ -1874,7 +1884,7 @@ public class SVGInputFormat implements InputFormat {
         //Computed value:  	 Specified value, except inherit
         value = readInheritAttribute(elem, "stroke-dasharray", "none");
         if (! value.equals("none")) {
-            String[] values = toCommaSeparatedArray(value);
+            String[] values = toWSOrCommaSeparatedArray(value);
             double[] dashes = new double[values.length];
             for (int i=0; i < values.length; i++) {
                 dashes[i] = toNumber(elem, values[i]);
@@ -2376,6 +2386,11 @@ public class SVGInputFormat implements InputFormat {
             // Animatable:  	yes
             // Computed value:  	 Specified <color> value, except i
             stopColors[i] = toColor(stopElem, readAttribute(stopElem, "stop-color", "black"));
+            if (stopColors[i] == null) {
+                stopColors[i] = new Color(0x0, true);
+                //throw new IOException("stop color missing in "+stopElem);
+            }
+            
             //'stop-opacity'
             //Value:  	<opacity-value> | inherit
             //Initial:  	1
@@ -2406,11 +2421,11 @@ public class SVGInputFormat implements InputFormat {
         HashMap<AttributeKey,Object> a = new HashMap<AttributeKey,Object>();
         readCoreAttributes(elem, a);
         
-        // XXX - Implement me
-        double cx = toNumber(elem, readAttribute(elem, "cx", "0"));
-        double cy = toNumber(elem, readAttribute(elem, "cy", "0"));
+        double cx = toNumber(elem, readAttribute(elem, "cx", "0.5"));
+        double cy = toNumber(elem, readAttribute(elem, "cy", "0.5"));
         double r = toNumber(elem, readAttribute(elem, "r", "0.5"));
-        boolean isRelativeToFigureBounds = readAttribute(elem, "gradientUnits", "objectBoundingBox").equals("objectBoundingBox");
+        boolean isRelativeToFigureBounds = 
+                readAttribute(elem, "gradientUnits", "objectBoundingBox").equals("objectBoundingBox");
         
         ArrayList<IXMLElement> stops = elem.getChildrenNamed("stop",SVG_NAMESPACE);
         if (stops.size() == 0) {
@@ -2449,6 +2464,10 @@ public class SVGInputFormat implements InputFormat {
             // Animatable:  	yes
             // Computed value:  	 Specified <color> value, except i
             stopColors[i] = toColor(stopElem, readAttribute(stopElem, "stop-color", "black"));
+            if (stopColors[i] == null) {
+                stopColors[i] = new Color(0x0, true);
+                //throw new IOException("stop color missing in "+stopElem);
+            }
             //'stop-opacity'
             //Value:  	<opacity-value> | inherit
             //Initial:  	1

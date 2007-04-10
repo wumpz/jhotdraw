@@ -1,5 +1,5 @@
 /*
- * @(#)RadialGradient.java  1.0  December 9, 2006
+ * @(#)RadialGradient.java  1.0.1  2007-04-10
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -23,7 +23,9 @@ import org.apache.batik.ext.awt.*;
  * Represents an SVG RadialGradient.
  *
  * @author Werner Randelshofer
- * @version 1.0 December 9, 2006 Created.
+ * @version 1.0.1 2007-04-10 Radius for gradients which are relative to figure
+ * boudns is computed better.
+ * <br>1.0 December 9, 2006 Created.
  */
 public class RadialGradient implements Gradient {
     private double cx;
@@ -72,7 +74,7 @@ public class RadialGradient implements Gradient {
             // FIXME This does not work well with transformed bounds!
             Rectangle2D.Double bounds = f.getBounds();
             cp = new Point2D.Double(bounds.x + bounds.width * cx, bounds.y + bounds.height * cy);
-            rr = r * Math.sqrt(bounds.width * bounds.width + bounds.height * bounds.height);
+            rr = r * Math.sqrt(bounds.width * bounds.width / 2d + bounds.height * bounds.height / 2d);
         } else {
             cp = new Point2D.Double(cx, cy);
             rr = r;
@@ -82,18 +84,18 @@ public class RadialGradient implements Gradient {
             fractions[i] = (float) stopOffsets[i];
         }
         if (rr <= 0) {
-            System.out.println("RadialGradient: radius should be > 0");
+            System.err.println("RadialGradient: radius should be > 0");
             return new Color(0xa0a0aa00,true);
         }
         org.apache.batik.ext.awt.RadialGradientPaint gp =
                 new org.apache.batik.ext.awt.RadialGradientPaint(cp, (float) rr, fractions, stopColors);
         return gp;
     }
-
+    
     public double getCX() {
         return cx;
     }
-
+    
     public double getCY() {
         return cy;
     }
@@ -108,6 +110,37 @@ public class RadialGradient implements Gradient {
     }
     public boolean isRelativeToFigureBounds() {
         return isRelativeToFigureBounds;
+    }
+    
+    public void transform(AffineTransform tx) {
+        Point2D.Double center = new Point2D.Double(cx, cy);
+        double r2sqr = Math.sqrt(r * r / 2d);
+        Point2D.Double radius = new Point2D.Double(cx + r2sqr, cy + r2sqr);
+        
+        tx.transform(center, center);
+        cx = center.getX();
+        cy = center.getY();
+        
+        if ((tx.getType() & AffineTransform.TYPE_MASK_SCALE) != 0) {
+            tx.transform(radius, radius);
+            r = Math.sqrt(
+                    (radius.getX() - cx) * (radius.getX() - cx) +
+                    (radius.getY() - cy) * (radius.getY() - cy)
+                    );
+        }
+    }
+    
+    public Object clone() {
+        try {
+            RadialGradient that = (RadialGradient) super.clone();
+            that.stopOffsets = this.stopOffsets.clone();
+            that.stopColors = this.stopColors.clone();
+            return that;
+        } catch (CloneNotSupportedException ex) {
+            InternalError e = new InternalError();
+            e.initCause(ex);
+            throw e;
+        }
     }
     
 }

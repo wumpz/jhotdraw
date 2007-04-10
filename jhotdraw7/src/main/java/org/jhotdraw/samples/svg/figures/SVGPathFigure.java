@@ -121,7 +121,31 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
     public void basicTransform(AffineTransform tx) {
         super.basicTransform(tx);
         invalidatePath();
+        // FIXME - This is experimental code
+        if (FILL_GRADIENT.get(this) != null && 
+               ! FILL_GRADIENT.get(this).isRelativeToFigureBounds()) {
+            FILL_GRADIENT.get(this).transform(tx);
+        }
+        if (STROKE_GRADIENT.get(this) != null && 
+               ! STROKE_GRADIENT.get(this).isRelativeToFigureBounds()) {
+            STROKE_GRADIENT.get(this).transform(tx);
+        }
     }
+    public void restoreTransformTo(Object geometry) {
+        Object[] restoreData = (Object[]) geometry;
+        super.restoreTransformTo(restoreData[0]);
+        FILL_GRADIENT.basicSetClone(this, (Gradient) restoreData[1]);
+        STROKE_GRADIENT.basicSetClone(this, (Gradient) restoreData[2]);
+    }
+    
+    public Object getTransformRestoreData() {
+        return new Object[] {
+            super.getTransformRestoreData(),
+            FILL_GRADIENT.getClone(this),
+            STROKE_GRADIENT.getClone(this),
+        };
+    }
+    
     public boolean isEmpty() {
         for (Figure child : getChildren()) {
             BezierFigure b = (BezierFigure) child;

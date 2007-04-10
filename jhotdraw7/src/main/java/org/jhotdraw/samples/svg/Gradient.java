@@ -15,6 +15,7 @@
 package org.jhotdraw.samples.svg;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import org.jhotdraw.draw.*;
 
 /**
@@ -23,6 +24,9 @@ import org.jhotdraw.draw.*;
  * @author Werner Randelshofer
  * @version 1.0 December 9, 2006 Created.
  */
-public interface Gradient {
+public interface Gradient extends Cloneable {
     public Paint getPaint(Figure f, double opacity);
+    public boolean isRelativeToFigureBounds();
+    public void transform(AffineTransform tx);
+    public Object clone();
 }

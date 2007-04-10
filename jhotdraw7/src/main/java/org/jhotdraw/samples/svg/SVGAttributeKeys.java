@@ -1,5 +1,5 @@
 /*
- * @(#)SVGAttributeKeys.java  1.0  December 9, 2006
+ * @(#)SVGAttributeKeys.java  1.1  2007-04-10
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -22,7 +22,8 @@ import org.jhotdraw.draw.*;
  * SVGAttributeKeys.
  *
  * @author Werner Randelshofer
- * @version 1.0 December 9, 2006 Created.
+ * @version 1.1 2007-04-10 Attribute key TEXT_ALIGN added. 
+ * <br>1.0 December 9, 2006 Created.
  */
 public class SVGAttributeKeys extends AttributeKeys {
     
@@ -39,6 +40,13 @@ public class SVGAttributeKeys extends AttributeKeys {
      */
     public final static AttributeKey<TextAnchor> TEXT_ANCHOR = new AttributeKey<TextAnchor>("textAnchor",TextAnchor.START, false);
     
+    public enum TextAlign {
+        START, CENTER, END
+    }
+    /**
+     * Specifies the text alignment of a SVGText figure.
+     */
+    public final static AttributeKey<TextAlign> TEXT_ALIGN = new AttributeKey<TextAlign>("textAlign",TextAlign.START, false);
     /**
      * Specifies the fill gradient of a SVG figure.
      */

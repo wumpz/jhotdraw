@@ -47,7 +47,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     
     public SVGEllipseFigure(double x, double y, double width, double height) {
         ellipse = new Ellipse2D.Double(x, y, width, height);
-       SVGAttributeKeys.setDefaults(this);
+        SVGAttributeKeys.setDefaults(this);
     }
     
     // DRAWING
@@ -131,22 +131,31 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
                     (Point2D.Double) tx.transform(lead, lead)
                     );
         }
+        // FIXME - This is experimental code
+        if (FILL_GRADIENT.get(this) != null &&
+                ! FILL_GRADIENT.get(this).isRelativeToFigureBounds()) {
+            FILL_GRADIENT.get(this).transform(tx);
+        }
+        if (STROKE_GRADIENT.get(this) != null &&
+                ! STROKE_GRADIENT.get(this).isRelativeToFigureBounds()) {
+            STROKE_GRADIENT.get(this).transform(tx);
+        }
     }
     public void restoreTransformTo(Object geometry) {
-            invalidateTransformedShape();
-            Object[] o = (Object[]) geometry;
-            ellipse = (Ellipse2D.Double) ((Ellipse2D.Double) o[0]).clone();
-            if (o[1] == null) {
-                TRANSFORM.set(this, null);
-            } else {
-            TRANSFORM.set(this, (AffineTransform) ((AffineTransform) o[1]).clone());
-            }
+        invalidateTransformedShape();
+        Object[] restoreData = (Object[]) geometry;
+        ellipse = (Ellipse2D.Double) ((Ellipse2D.Double) restoreData[0]).clone();
+        TRANSFORM.basicSetClone(this, (AffineTransform) restoreData[1]);
+        FILL_GRADIENT.basicSetClone(this, (Gradient) restoreData[2]);
+        STROKE_GRADIENT.basicSetClone(this, (Gradient) restoreData[3]);
     }
     
     public Object getTransformRestoreData() {
         return new Object[] {
             ellipse.clone(),
-            TRANSFORM.get(this)
+            TRANSFORM.getClone(this),
+            FILL_GRADIENT.getClone(this),
+            STROKE_GRADIENT.getClone(this),
         };
     }
     

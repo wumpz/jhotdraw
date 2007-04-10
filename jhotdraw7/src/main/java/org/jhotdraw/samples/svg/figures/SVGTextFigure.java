@@ -182,13 +182,29 @@ public class SVGTextFigure
                 tx.transform(coordinates[i], coordinates[i]);
             }
         }
+        // FIXME - This is experimental code
+        if (FILL_GRADIENT.get(this) != null &&
+                ! FILL_GRADIENT.get(this).isRelativeToFigureBounds()) {
+            FILL_GRADIENT.get(this).transform(tx);
+        }
+        if (STROKE_GRADIENT.get(this) != null &&
+                ! STROKE_GRADIENT.get(this).isRelativeToFigureBounds()) {
+            STROKE_GRADIENT.get(this).transform(tx);
+        }
     }
     public void restoreTransformTo(Object geometry) {
-        TRANSFORM.set(this, (geometry == null) ? null : (AffineTransform) ((AffineTransform) geometry).clone());
+        Object[] restoreData = (Object[]) geometry;
+        TRANSFORM.basicSetClone(this, (AffineTransform) restoreData[0]);
+        FILL_GRADIENT.basicSetClone(this, (Gradient) restoreData[1]);
+        STROKE_GRADIENT.basicSetClone(this, (Gradient) restoreData[2]);
     }
     
     public Object getTransformRestoreData() {
-        return TRANSFORM.get(this) == null ? new AffineTransform() : TRANSFORM.get(this).clone();
+        return new Object[] {
+            TRANSFORM.getClone(this),
+            FILL_GRADIENT.getClone(this),
+            STROKE_GRADIENT.getClone(this),
+        };
     }
     
     // ATTRIBUTES
