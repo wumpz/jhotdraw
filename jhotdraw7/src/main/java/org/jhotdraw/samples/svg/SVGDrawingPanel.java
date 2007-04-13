@@ -1,5 +1,5 @@
 /*
- * @(#)SVGPanel.java  1.0  11. March 2004
+ * @(#)SVGDrawingPanel.java  1.0  11. March 2004
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -28,19 +28,18 @@ import org.jhotdraw.app.action.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 /**
- * SVGPanel.
- *
- *
+ * SVGDrawingPanel.
+ * 
  * @author Werner Randelshofer
  * @version 1.0 11. M�rz 2004  Created.
  */
-public class SVGPanel extends JPanel  {
+public class SVGDrawingPanel extends JPanel  {
     private UndoRedoManager undoManager;
     private Drawing drawing;
     private DrawingEditor editor;
     
     /** Creates new instance. */
-    public SVGPanel() {
+    public SVGDrawingPanel() {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
         initComponents();
         undoManager = new UndoRedoManager();

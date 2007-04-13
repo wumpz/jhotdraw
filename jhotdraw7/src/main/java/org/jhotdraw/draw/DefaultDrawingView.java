@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultDrawingView.java  3.4  2007-04-09
+ * @(#)DefaultDrawingView.java  3.5  2007-04-13
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -39,7 +39,8 @@ import org.jhotdraw.xml.XMLTransferable;
  *
  *
  * @author Werner Randelshofer
- * @version 3.4 2007-04-09 Visualizes the canvas size of a Drawing by a filled
+ * @version 3.5 2007-04-13 Implement clipboard functions using TransferHandler.
+ * <br>3.4 2007-04-09 Visualizes the canvas size of a Drawing by a filled
  * white rectangle on the background.
  * <br>3.3 2007-01-23 Only repaint handles on focus gained/lost.
  * <br>3.2 2006-12-26 Rewrote storage and clipboard support.
@@ -55,6 +56,8 @@ import org.jhotdraw.xml.XMLTransferable;
 public class DefaultDrawingView
         extends JComponent
         implements DrawingView, DrawingListener, HandleListener, EditableComponent {
+    private final static boolean DEBUG = false;
+    
     private Drawing drawing;
     private Set<Figure> dirtyFigures = new HashSet<Figure>();
     private Set<Figure> selectedFigures = new HashSet<Figure>();
@@ -90,6 +93,7 @@ public class DefaultDrawingView
                 repaintHandles();
             }
         });
+        setTransferHandler(new DrawingViewTransferHandler());
     }
     
     /** This method is called from within the constructor to
@@ -222,18 +226,20 @@ public class DefaultDrawingView
             g.fillRect(0, y, x, h - y);
         }
         
-        Dimension2DDouble canvasSize = getDrawing().getCanvasSize();
-        if (canvasSize != null) {
-            Point lowerRight = drawingToView(
-                    new Point2D.Double(canvasSize.width, canvasSize.height)
-                    );
-            if (lowerRight.x < w) {
-                g.setColor(new Color(0xf0f0f0));
-                g.fillRect(lowerRight.x, y, w - lowerRight.x, h - y);
-            }
-            if (lowerRight.y < h) {
-                g.setColor(new Color(0xf0f0f0));
-                g.fillRect(x, lowerRight.y, w - x, h - lowerRight.y);
+        if (getDrawing() != null) {
+            Dimension2DDouble canvasSize = getDrawing().getCanvasSize();
+            if (canvasSize != null) {
+                Point lowerRight = drawingToView(
+                        new Point2D.Double(canvasSize.width, canvasSize.height)
+                        );
+                if (lowerRight.x < w) {
+                    g.setColor(new Color(0xf0f0f0));
+                    g.fillRect(lowerRight.x, y, w - lowerRight.x, h - y);
+                }
+                if (lowerRight.y < h) {
+                    g.setColor(new Color(0xf0f0f0));
+                    g.fillRect(x, lowerRight.y, w - x, h - lowerRight.y);
+                }
             }
         }
     }
@@ -300,11 +306,6 @@ public class DefaultDrawingView
         vr.grow(1, 1);
         repaint(vr);
     }
-    /*
-    public void repaint(long tm, int x, int y, int w, int h) {
-        new Throwable().printStackTrace();
-        super.repaint(tm, x, y, w, h);
-    }*/
     
     public void areaInvalidated(DrawingEvent evt) {
         repaint(evt.getInvalidatedArea());
@@ -770,76 +771,10 @@ public class DefaultDrawingView
         return t;
     }
     
-    public void copy() {
-        if (drawing.getOutputFormats() == null ||
-                drawing.getOutputFormats().size() == 0) {
-            getToolkit().beep();
-            return;
-        }
-        
-        java.util.List<Figure> toBeCopied = drawing.sort(getSelectedFigures());
-        if (toBeCopied.size() > 0) {
-            try {
-                CompositeTransferable transfer = new CompositeTransferable();
-                for (OutputFormat format : drawing.getOutputFormats()) {
-                    Transferable t = format.createTransferable(toBeCopied, scaleFactor);
-                    if (! transfer.isDataFlavorSupported(t.getTransferDataFlavors()[0])) {
-                        transfer.add(t);
-                    }
-                }
-                getToolkit().getSystemClipboard().setContents(transfer, transfer);
-            } catch (IOException e) {
-                e.printStackTrace();
-                getToolkit().beep();
-            }
-        }
-    }
-    
-    public void cut() {
-        if (drawing.getOutputFormats() == null ||
-                drawing.getOutputFormats().size() == 0) {
-            getToolkit().beep();
-            return;
-        }
-        copy();
-        delete();
-    }
-    
     public void delete() {
         ArrayList<Figure> toBeDeleted = new ArrayList<Figure>(getSelectedFigures());
         clearSelection();
         getDrawing().removeAll(toBeDeleted);
-    }
-    
-    public void paste() {
-        if (drawing.getInputFormats() == null ||
-                drawing.getInputFormats().size() == 0) {
-            getToolkit().beep();
-            return;
-        }
-        
-        try {
-            Transferable transfer = getToolkit().getSystemClipboard().getContents(this);
-            // Search for a suitable input format
-            ImportLoop: for (InputFormat format : drawing.getInputFormats()) {
-                for (DataFlavor flavor : transfer.getTransferDataFlavors()) {
-                    if (format.isDataFlavorSupported(flavor)) {
-                        CompositeEdit ce = new CompositeEdit("Paste");
-                        getDrawing().fireUndoableEditHappened(ce);
-                        java.util.List<Figure> toBeSelected = format.readFigures(transfer);
-                        clearSelection();
-                        getDrawing().addAll(toBeSelected);
-                        addToSelection(toBeSelected);
-                        getDrawing().fireUndoableEditHappened(ce);
-                        break ImportLoop;
-                    }
-                }
-            }
-            
-            
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
     }
     
     public void duplicate() {

@@ -120,7 +120,7 @@ public class PertApplet extends JApplet {
                         ((Throwable) result).printStackTrace();
                     }
                 }
-                
+                initDrawing(getDrawing());
                 c.validate();
             }
         }.start();
@@ -132,6 +132,24 @@ public class PertApplet extends JApplet {
     }
     private Drawing getDrawing() {
         return drawingPanel.getDrawing();
+    }
+    /**
+     * Configure Drawing object to support copy and paste.
+     */
+    private void initDrawing(Drawing d) {
+        LinkedList<InputFormat> inputFormats = new LinkedList<InputFormat>();
+        LinkedList<OutputFormat> outputFormats = new LinkedList<OutputFormat>();
+
+        DOMStorableInputOutputFormat ioFormat = new DOMStorableInputOutputFormat(
+                new PertFactory()
+                );
+        inputFormats.add(ioFormat);
+        outputFormats.add(ioFormat);
+        
+        outputFormats.add(new ImageOutputFormat());
+        
+        d.setInputFormats(inputFormats);
+        d.setOutputFormats(outputFormats);
     }
     
     

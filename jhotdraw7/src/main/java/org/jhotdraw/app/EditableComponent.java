@@ -1,5 +1,5 @@
 /*
- * @(#)EditableComponent.java  2.0  2001-07-18
+ * @(#)EditableComponent.java  3.0  2007-04-13
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -22,26 +22,17 @@ package org.jhotdraw.app;
  * See http://java.sun.com/docs/books/tutorial/uiswing/dnd/intro.html#cut
  *
  * @author Werner Randelshofer
- * @version 2.0 2001-07-18
+ * @version 3.0 2007-04-13 We don't need to have Cut/Copy/Paste in this 
+ * interface, because this functionality is already provided by
+ * javax.swing.TransferHandler.
+ * <br>2.0 2001-07-18
  */
 
 public interface EditableComponent {
 	/**
-	 * Copies the selected region and place its contents into the system clipboard.
-	 */
-	public void copy();
-	/**
-	 * Cuts the selected region and place its contents into the system clipboard.
-	 */
-	public void cut();
-	/**
 	 * Deletes the component at (or after) the caret position.
 	 */
 	public void delete();
-	/**
-	 * Pastes the contents of the system clipboard at the caret position.
-	 */
-	public void paste();
 	/**
 	 * Duplicates the selected region.
 	 */

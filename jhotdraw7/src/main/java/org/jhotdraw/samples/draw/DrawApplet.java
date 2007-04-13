@@ -80,7 +80,6 @@ public class DrawApplet extends JApplet {
             public Object construct() {
                 Object result;
                 try {
-                        System.out.println("getParameter.datafile:"+getParameter("datafile"));
                     if (getParameter("data") != null) {
                         NanoXMLDOMInput domi = new NanoXMLDOMInput(new DrawFigureFactory(), new StringReader(getParameter("data")));
                         result = domi.readObject(0);
@@ -115,13 +114,14 @@ public class DrawApplet extends JApplet {
                 initComponents();
                 if (result != null) {
                     if (result instanceof Drawing) {
-                        setDrawing((Drawing) result);
+                        Drawing drawing = (Drawing) result;
+                        setDrawing(drawing);
                     } else if (result instanceof Throwable) {
                         getDrawing().add(new TextFigure(result.toString()));
                         ((Throwable) result).printStackTrace();
                     }
                 }
-                
+                initDrawing(getDrawing());
                 c.validate();
             }
         }.start();
@@ -133,6 +133,26 @@ public class DrawApplet extends JApplet {
     }
     private Drawing getDrawing() {
         return drawingPanel.getDrawing();
+    }
+    /**
+     * Configure Drawing object to support copy and paste.
+     */
+    private void initDrawing(Drawing d) {
+        LinkedList<InputFormat> inputFormats = new LinkedList<InputFormat>();
+        LinkedList<OutputFormat> outputFormats = new LinkedList<OutputFormat>();
+
+        DOMStorableInputOutputFormat ioFormat = new DOMStorableInputOutputFormat(
+                new DrawFigureFactory()
+                );
+        inputFormats.add(ioFormat);
+        outputFormats.add(ioFormat);
+        
+        inputFormats.add(new ImageInputFormat(new ImageFigure()));
+        inputFormats.add(new TextInputFormat(new TextFigure()));
+        outputFormats.add(new ImageOutputFormat());
+        
+        d.setInputFormats(inputFormats);
+        d.setOutputFormats(outputFormats);
     }
     
     

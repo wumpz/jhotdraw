@@ -125,6 +125,7 @@ public interface Drawing extends Serializable, DOMStorable {
      * The drawing sends no <code>addNotify</code> message to the figures.
      *
      * @see #basicRemoveAll(Collection)
+     * @param index The insertion index.
      * @param figures A collection of figures which are part of the drawing
      * and should be reinserted.
      */

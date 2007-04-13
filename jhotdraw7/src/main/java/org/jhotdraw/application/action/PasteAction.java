@@ -15,13 +15,11 @@
 package org.jhotdraw.application.action;
 
 import java.awt.*;
+import java.awt.datatransfer.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.text.*;
-import java.beans.*;
 import java.util.*;
 import org.jhotdraw.util.*;
-import org.jhotdraw.app.EditableComponent;
 /**
      * Pastes the contents of the system clipboard at the caret position.
      * Acts on the EditableComponent or JTextComponent which had the focus when
@@ -30,12 +28,12 @@ import org.jhotdraw.app.EditableComponent;
  * @author Werner Randelshofer
  * @version 1.0 October 9, 2005 Created.
  */
-public class PasteAction extends DefaultEditorKit.PasteAction {
+public class PasteAction extends AbstractAction {
     public final static String ID = "paste";
-   
+    
     /** Creates a new instance. */
     public PasteAction() {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.application.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
     
@@ -43,10 +41,15 @@ public class PasteAction extends DefaultEditorKit.PasteAction {
         Component focusOwner = KeyboardFocusManager.
                 getCurrentKeyboardFocusManager().
                 getPermanentFocusOwner();
-        if (focusOwner != null && focusOwner instanceof EditableComponent) {
-            ((EditableComponent) focusOwner).paste();
-        } else {
-            super.actionPerformed(evt);
+        if (focusOwner != null && focusOwner instanceof JComponent) {
+            JComponent component = (JComponent) focusOwner;
+            Transferable t = component.getToolkit().getSystemClipboard().getContents(component);
+            if (t != null) {
+                component.getTransferHandler().importData(
+                        component,
+                        t
+                        );
+            }
         }
     }
 }

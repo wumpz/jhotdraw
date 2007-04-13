@@ -14,6 +14,7 @@
  */
 package org.jhotdraw.samples.draw;
 
+import java.awt.geom.*;
 import java.awt.print.Pageable;
 import org.jhotdraw.draw.ImageInputFormat;
 import org.jhotdraw.draw.ImageOutputFormat;
@@ -117,6 +118,10 @@ public class DrawProject extends AbstractProject {
         LinkedList<InputFormat> inputFormats = new LinkedList<InputFormat>();
         inputFormats.add(ioFormat);
         inputFormats.add(new ImageInputFormat(new ImageFigure()));
+        inputFormats.add(new TextInputFormat(new TextFigure()));
+        TextAreaFigure taf = new TextAreaFigure();
+        taf.setBounds(new Point2D.Double(10,10), new Point2D.Double(60,40));
+        inputFormats.add(new TextInputFormat(taf));
         drawing.setInputFormats(inputFormats);
         LinkedList<OutputFormat> outputFormats = new LinkedList<OutputFormat>();
         outputFormats.add(ioFormat);

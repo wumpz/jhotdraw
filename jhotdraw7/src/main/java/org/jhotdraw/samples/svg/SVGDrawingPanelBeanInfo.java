@@ -1,5 +1,5 @@
 /*
- * @(#)SVGPanelBeanInfo.java  1.0  11. November 2003
+ * @(#)SVGDrawingPanelBeanInfo.java  1.0  11. November 2003
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -15,7 +15,7 @@ package org.jhotdraw.samples.svg;
 
 import java.beans.*;
 
-public class SVGPanelBeanInfo extends SimpleBeanInfo {
+public class SVGDrawingPanelBeanInfo extends SimpleBeanInfo {
     
     // Bean descriptor information will be obtained from introspection.//GEN-FIRST:BeanDescriptor
     private static BeanDescriptor beanDescriptor = null;
@@ -23,7 +23,7 @@ public class SVGPanelBeanInfo extends SimpleBeanInfo {
 //GEN-HEADEREND:BeanDescriptor
         
         // Here you can add code for customizing the BeanDescriptor.
-         if (beanDescriptor == null) beanDescriptor = new BeanDescriptor(SVGPanelBeanInfo.class);
+         if (beanDescriptor == null) beanDescriptor = new BeanDescriptor(SVGDrawingPanelBeanInfo.class);
          beanDescriptor.setValue("isContainer", Boolean.FALSE);
      beanDescriptor.setDisplayName("DrawingPanel");
         
