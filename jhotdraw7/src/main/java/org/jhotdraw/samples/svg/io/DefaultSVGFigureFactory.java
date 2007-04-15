@@ -60,7 +60,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
             Map<AttributeKey,Object> a) {
         SVGPathFigure figure = new SVGPathFigure();
         figure.removeAllChildren();
-        BezierFigure bf = new BezierFigure();
+        SVGBezierFigure bf = new SVGBezierFigure();
         bf.addNode(new BezierPath.Node(x1, y1));
         bf.addNode(new BezierPath.Node(x2, y2));
         figure.add(bf);
@@ -71,7 +71,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
     public Figure createPolyline(Point2D.Double[] points, Map<AttributeKey, Object> a) {
         SVGPathFigure figure = new SVGPathFigure();
         figure.removeAllChildren();
-        BezierFigure bf = new BezierFigure();
+        SVGBezierFigure bf = new SVGBezierFigure();
         for (int i=0; i < points.length; i++) {
             bf.addNode(new BezierPath.Node(points[i].x, points[i].y));
         }
@@ -83,7 +83,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
     public Figure createPolygon(Point2D.Double[] points, Map<AttributeKey, Object> a) {
         SVGPathFigure figure = new SVGPathFigure();
         figure.removeAllChildren();
-        BezierFigure bf = new BezierFigure();
+        SVGBezierFigure bf = new SVGBezierFigure();
         for (int i=0; i < points.length; i++) {
             bf.addNode(new BezierPath.Node(points[i].x, points[i].y));
         }
@@ -96,7 +96,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
         SVGPathFigure figure = new SVGPathFigure();
         figure.removeAllChildren();
         for (int i=0; i < beziers.length; i++) {
-            BezierFigure bf = new BezierFigure();
+            SVGBezierFigure bf = new SVGBezierFigure();
             bf.basicSetBezierPath(beziers[i]);
             figure.add(bf);
         }

@@ -62,9 +62,9 @@ public abstract class AbstractHandle implements Handle, FigureListener {
     public void removeHandleListener(HandleListener l) {
         listenerList.remove(HandleListener.class, l);
     }
-     final public Figure getOwner() {
+    public Figure getOwner() {
         return owner;
-        }
+    }
     public void setView(DrawingView view) {
         this.view = view;
     }
@@ -185,7 +185,7 @@ public abstract class AbstractHandle implements Handle, FigureListener {
         p.addPoint(r.x + r.width / 2, r.y + r.height);
         p.addPoint(r.x, r.y + r.height / 2);
         p.addPoint(r.x + r.width / 2, r.y);
-       
+        
         g.setColor(fill);
         g.fill(p);
         g.setStroke(new BasicStroke());
@@ -198,7 +198,7 @@ public abstract class AbstractHandle implements Handle, FigureListener {
     }
     
     public void invalidate() {
-        fireAreaInvalidated(getDrawBounds());
+        bounds = null;
     }
     
     public void dispose() {
@@ -275,6 +275,7 @@ public abstract class AbstractHandle implements Handle, FigureListener {
         return r;
     }
     protected abstract Rectangle basicGetBounds();
+    
     protected void updateBounds() {
         Rectangle newBounds = basicGetBounds();
         if (bounds == null || ! newBounds.equals(bounds)) {
@@ -291,11 +292,11 @@ public abstract class AbstractHandle implements Handle, FigureListener {
     
     public void figureAttributeChanged(FigureEvent e) {
     }
-
+    
     public void viewTransformChanged() {
-        bounds = null;
+        invalidate();
     }
-
+    
     public Collection<Handle> createSecondaryHandles() {
         return Collections.emptyList();
     }
@@ -303,7 +304,7 @@ public abstract class AbstractHandle implements Handle, FigureListener {
     public String getToolTipText(Point p) {
         return null;
     }
-
+    
     public void figureHandlesChanged(FigureEvent e) {
     }
 }

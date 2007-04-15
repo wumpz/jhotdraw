@@ -33,7 +33,7 @@ import org.jhotdraw.io.*;
  * This class uses the prototype design pattern. A TextHolderFigure figure is used
  * as a prototype for creating a figure that holds the imported text.
  * <p>
- * For text that spans multiple lines, TextInputFormat can either add all the 
+ * For text that spans multiple lines, TextInputFormat can either add all the
  * text to the same Figure, or it can create a new Figure for each line.
  *
  * @author Werner Randelshoer 1.0 2007-04-12 Created.
@@ -161,11 +161,13 @@ public class TextInputFormat implements InputFormat {
             TextHolderFigure figure = (TextHolderFigure) prototype.clone();
             figure.setText(text);
             Dimension2DDouble s = figure.getPreferredSize();
+            figure.willChange();
             figure.basicSetBounds(
                     new Point2D.Double(0,0),
                     new Point2D.Double(
                     s.width, s.height
                     ));
+            figure.changed();
             list.add(figure);
         } else {
             double y = 0;
@@ -173,13 +175,15 @@ public class TextInputFormat implements InputFormat {
                 TextHolderFigure figure = (TextHolderFigure) prototype.clone();
                 figure.setText(line);
                 Dimension2DDouble s = figure.getPreferredSize();
-                figure.basicSetBounds(
-                        new Point2D.Double(0,y),
-                        new Point2D.Double(
-                        s.width, s.height
-                        ));
-                list.add(figure);
                 y += s.height;
+                figure.willChange();
+                figure.basicSetBounds(
+                        new Point2D.Double(0,0+y),
+                        new Point2D.Double(
+                        s.width, s.height+y
+                        ));
+                figure.changed();
+                list.add(figure);
             }
         }
         return list;

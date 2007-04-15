@@ -145,7 +145,11 @@ public class DefaultDrawing
     public java.util.List<Figure> findFiguresWithin(Rectangle2D.Double bounds) {
         LinkedList<Figure> contained = new LinkedList<Figure>();
         for (Figure f : figures) {
-            if (f.isVisible() && bounds.contains(f.getBounds())) {
+            Rectangle2D r = f.getBounds();
+            if (AttributeKeys.TRANSFORM.get(f) != null) {
+                r = AttributeKeys.TRANSFORM.get(f).createTransformedShape(r).getBounds2D();
+            }
+            if (f.isVisible() && bounds.contains(r)) {
                 contained.add(f);
             }
         }

@@ -1,7 +1,7 @@
 /*
- * @(#)DelegationSelectionTool.java  2.0  2006-02-21
+ * @(#)DelegationSelectionTool.java  2.1  2007-04-14
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -10,7 +10,6 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-�
  */
 
 package org.jhotdraw.draw;
@@ -31,11 +30,17 @@ import org.jhotdraw.app.action.Actions;
  * the figure which has been double clicked, provides a specialized tool.
  *
  * @author Werner Randelshofer
- * @version 2.0 2006-01-18 Changed to support double precision coordinates.
+ * @version 2.1 2007-04-14 Added support for multi-clicks.
+ * <br>2.0 2006-01-18 Changed to support double precision coordinates.
  * Popup timer added. Support for radio button menu items added.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
 public class DelegationSelectionTool extends SelectionTool {
+    /**
+     * Set this to true to turn on debugging output on System.out.
+     */
+    private final static boolean DEBUG = false;
+    
     /**
      * A set of actions which is applied to the drawing.
      */
@@ -55,6 +60,13 @@ public class DelegationSelectionTool extends SelectionTool {
      * When the popup menu is visible, we do not track mouse movements.
      */
     private JPopupMenu popupMenu;
+    
+    /**
+     * We store the last mouse click here, to support multi-click behavior,
+     * that is, a behavior that is invoked, when the user clicks multiple on
+     * the same spot, but in a longer interval than needed for a double click.
+     */
+    private MouseEvent lastClickEvent;
     
     /** Creates a new instance. */
     public DelegationSelectionTool() {
@@ -127,10 +139,23 @@ public class DelegationSelectionTool extends SelectionTool {
         }
     }
     public void mouseClicked(MouseEvent evt) {
+        if (DEBUG) System.out.println("DelegationSelectionTool.mouseClicked "+evt);
         super.mouseClicked(evt);
-        if (evt.getClickCount() == 2) {
-            handleDoubleClick(evt);
+        if (! evt.isConsumed()) {
+            if (evt.getClickCount() == 2) {
+                handleDoubleClick(evt);
+            } else if (evt.getClickCount() == 1 &&
+                     evt.getModifiersEx() == 0 &&
+                    lastClickEvent != null &&
+                    lastClickEvent.getClickCount() == 1 &&
+                    lastClickEvent.getModifiersEx() == 0 &&
+                    lastClickEvent.getX() == evt.getX() &&
+                    lastClickEvent.getY() == evt.getY()
+                    ) {
+                handleMultiClick(evt);
+            }
         }
+        lastClickEvent = evt;
     }
     /**
      * Hook method which can be overriden by subclasses to provide
@@ -147,6 +172,7 @@ public class DelegationSelectionTool extends SelectionTool {
     }
     
     protected void showPopupMenu(Figure figure, Point p, Component c) {
+        if (DEBUG) System.out.println("DelegationSelectionTool.showPopupMenu "+figure);
         JPopupMenu menu = new JPopupMenu();
         popupMenu = menu;
         JMenu submenu = null;
@@ -216,16 +242,19 @@ public class DelegationSelectionTool extends SelectionTool {
      * specialised behaviour in the event of a double click.
      */
     protected void handleDoubleClick(MouseEvent evt) {
+        if (DEBUG) System.out.println("DelegationSelectionTool.handleDoubleClick "+evt);
         DrawingView v = getView();
         Point pos = new Point(evt.getX(), evt.getY());
         Handle handle = v.findHandle(pos);
         if (handle != null) {
+        if (DEBUG) System.out.println("DelegationSelectionTool.handleDoubleClick by handle");
             handle.trackDoubleClick(pos, evt.getModifiersEx());
         } else {
             Point2D.Double p = viewToDrawing(pos);
             Figure outerFigure = getView().findFigure(pos);
             Figure figure = outerFigure;
             if (figure != null) {
+        if (DEBUG) System.out.println("DelegationSelectionTool.handleDoubleClick by figure");
                 Tool figureTool = figure.getTool(p);
                 if (figureTool == null) {
                     figure = getDrawing().findFigureInside(p);
@@ -243,12 +272,25 @@ public class DelegationSelectionTool extends SelectionTool {
                     } else {
                         v.clearSelection();
                         v.addToSelection(outerFigure);
-                        //v.setHandleDetailLevel(v.getHandleDetailLevel() == 1 ? 0 : 1);
                         v.setHandleDetailLevel(v.getHandleDetailLevel() + 1);
                     }
                 }
             }
         }
+        evt.consume();
     }
     
+    /**
+     * Hook method which can be overriden by subclasses to provide
+     * specialised behaviour in the event of a multi-click.
+     */
+    protected void handleMultiClick(MouseEvent evt) {
+        if (DEBUG) System.out.println("DelegationSelectionTool.handleMultiClick "+evt);
+        DrawingView v = getView();
+        Point pos = new Point(evt.getX(), evt.getY());
+        Handle handle = v.findHandle(pos);
+        if (handle == null) {
+            v.setHandleDetailLevel(v.getHandleDetailLevel() + 1);
+        }
+    }
 }

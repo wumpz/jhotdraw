@@ -29,8 +29,8 @@ import org.jhotdraw.geom.*;
 /**
  * AbstractFigure provides the functionality for managing listeners
  * for a Figure.
- * 
- * 
+ *
+ *
  * @author Werner Randelshofer
  * @version 3.4 2007-02-09 Method fireFigureHandlesChanged added.
  * <br>3.3 Reworked.
@@ -324,9 +324,7 @@ public abstract class AbstractFigure
     
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
-        if (detailLevel == 0) {
-            BoxHandleKit.addBoxHandles(this, handles);
-        }
+        ResizeHandleKit.addResizeHandles(this, handles);
         return handles;
     }
     

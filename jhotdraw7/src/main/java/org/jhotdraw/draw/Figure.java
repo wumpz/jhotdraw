@@ -1,7 +1,7 @@
 /*
- * @(#)Figure.java  3.0  2006-01-20
+ * @(#)Figure.java  3.1  2007-04-14
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -61,7 +61,9 @@ import org.jhotdraw.xml.DOMStorable;
  * AbstractFigure.
  *
  * @author Werner Randelshofer
- * @version 3.0 2006-01-20 Reworked for J2SE 1.5.
+ * @version 3.1 2007-04-14 Method handleMouseClick is now required to consume
+ * an event, if it returns true. 
+ * <br>3.0 2006-01-20 Reworked for J2SE 1.5.
  */
 public interface Figure extends Cloneable, Serializable, DOMStorable {
     // DRAWING
@@ -106,7 +108,8 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
     
     // BOUNDS
     /**
-     * Sets the logical bounds of the figure and of its decorator figure.
+     * Sets the logical and untransformed bounds of the figure and of its 
+     * decorator figure.
      * <p>
      * This is used by Tool's which create a new Figure and by Tool's which
      * connect a Figure to another Figure.
@@ -126,21 +129,22 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      */
     public void basicSetBounds(Point2D.Double start, Point2D.Double end);
     /**
-     * Returns the start point of the bounds.
+     * Returns the untransformed logical start point of the bounds.
      * 
      * 
      * @see #basicSetBounds
      */
     public Point2D.Double getStartPoint();
     /**
-     * Returns the end point of the bounds.
+     * Returns the untransformed logical end point of the bounds.
      * 
      * 
      * @see #basicSetBounds
      */
     public Point2D.Double getEndPoint();
     /**
-     * Returns the bounds of the figure as a Rectangle.
+     * Returns the untransformed logical                 handles = new LinkedList<Handle>();
+bounds of the figure as a Rectangle.
      * The handle bounds are used by Handle objects for adjusting the 
      * figure and for aligning the figure on a grid.
      */
@@ -415,7 +419,7 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * @param evt The mouse event.
      * @param view The drawing view which is the source of the mouse event.
      *
-     * @return Returns true, if the figure consumed the mouse click.
+     * @return Returns true, if the event was consumed.
       */
     public boolean handleMouseClick(Point2D.Double p, MouseEvent evt, DrawingView view);
     /**

@@ -1,7 +1,7 @@
 /*
- * @(#)BoxHandleKit.java  2.0  2006-01-14
+ * @(#)BoxHandleKit.java  1.0  2007-04-14
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -18,25 +18,30 @@ import java.util.*;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.event.*;
+import org.jhotdraw.util.ResourceBundleUtil;
 /**
- * A set of utility methods to create Handles for the common
- * locations on a figure's display box.
+ * A set of utility methods to create handles which resize a Figure by
+ * using its <code>basicSetBounds</code> method.
+ *
+ * @see Figure#basicSetBounds
  *
  * @author Werner Randelshofer
- * @version 2.0 2006-01-14 Changed to support double precision coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version 1.0 2007-04-14 Created.
  */
-public class BoxHandleKit {
+public class ResizeHandleKit {
+    private final static boolean DEBUG = false;
+    private final static Color HANDLE_FILL_COLOR = Color.WHITE; //new Color(0x00a8ff);
+    private final static Color HANDLE_STROKE_COLOR = Color.BLACK; //Color.WHITE;
     
     /** Creates a new instance. */
-    public BoxHandleKit() {
+    public ResizeHandleKit() {
     }
     
     /**
-     * Creates handles for each lead of a
+     * Creates handles for each corner of a
      * figure and adds them to the provided collection.
      */
-    static public void addLeadHandles(Figure f, Collection<Handle> handles) {
+    static public void addCornerResizeHandles(Figure f, Collection<Handle> handles) {
         handles.add(southEast(f));
         handles.add(southWest(f));
         handles.add(northEast(f));
@@ -46,7 +51,7 @@ public class BoxHandleKit {
      * Fills the given Vector with handles at each
      * the north, south, east, and west of the figure.
      */
-    static public void addEdgeHandles(Figure f, Collection<Handle> handles) {
+    static public void addEdgeResizeHandles(Figure f, Collection<Handle> handles) {
         handles.add(south(f));
         handles.add(north(f));
         handles.add(east(f));
@@ -56,9 +61,10 @@ public class BoxHandleKit {
      * Fills the given Vector with handles at each
      * the north, south, east, and west of the figure.
      */
-    static public void addBoxHandles(Figure f, Collection<Handle> handles) {
-        addLeadHandles(f, handles);
-        addEdgeHandles(f, handles);
+    static public void addResizeHandles(Figure f, Collection<Handle> handles) {
+        handles.add(new BoundsOutlineHandle(f));
+        addCornerResizeHandles(f, handles);
+        addEdgeResizeHandles(f, handles);
     }
     
     static public Handle south(Figure owner) {
@@ -100,6 +106,20 @@ public class BoxHandleKit {
         ResizeHandle(Figure owner, Locator loc) {
             super(owner, loc);
         }
+        
+        public String getToolTipText(Point p) {
+            ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+            return labels.getString("resizeHandle.tip");
+        }
+        
+        
+        /**
+         * Draws this handle.
+         */
+        public void draw(Graphics2D g) {
+            drawRectangle(g, HANDLE_FILL_COLOR, HANDLE_STROKE_COLOR);
+        }
+        
         public void trackStart(Point anchor, int modifiersEx) {
             geometry = getOwner().getTransformRestoreData();
             Point location = getLocation();
@@ -109,6 +129,14 @@ public class BoxHandleKit {
         public void trackStep(Point anchor, Point lead, int modifiersEx) {
             Point2D.Double p = view.viewToDrawing(new Point(lead.x + dx, lead.y + dy));
             view.getConstrainer().constrainPoint(p);
+            
+            if (AttributeKeys.TRANSFORM.get(getOwner()) != null) {
+                try {
+                    AttributeKeys.TRANSFORM.get(getOwner()).inverseTransform(p, p);
+                } catch (NoninvertibleTransformException ex) {
+                    if (DEBUG) ex.printStackTrace();
+                }
+            }
             
             trackStepNormalized(p);
         }
@@ -120,42 +148,17 @@ public class BoxHandleKit {
         }
         protected void trackStepNormalized(Point2D.Double p) {
         }
-        /**
-         * FIXME - Replace operation parameters by a Rectangle2D.Double.
-         */
         protected void setBounds(Point2D.Double anchor, Point2D.Double lead) {
             Figure f = getOwner();
             f.willChange();
-        Rectangle2D.Double oldBounds = f.getBounds();
-        Rectangle2D.Double newBounds = new Rectangle2D.Double(
-                Math.min(anchor.x, lead.x),
-                Math.min(anchor.y, lead.y),
-                Math.abs(anchor.x - lead.x),
-                Math.abs(anchor.y - lead.y)
-                );
-        double sx = newBounds.width / oldBounds.width;
-        double sy = newBounds.height / oldBounds.height;
-        
-        AffineTransform tx = new AffineTransform();
-        tx.translate(-oldBounds.x, -oldBounds.y);
-        if (! Double.isNaN(sx) && ! Double.isNaN(sy) &&
-                (sx != 1d || sy != 1d) && 
-                ! (sx < 0.0001) && ! (sy < 0.0001)) {
-            f.basicTransform(tx);
-            tx.setToIdentity();
-            tx.scale(sx, sy);
-            f.basicTransform(tx);
-            tx.setToIdentity();
-        }
-        tx.translate(newBounds.x, newBounds.y);
-        f.basicTransform(tx);
+            f.basicSetBounds(anchor, lead);
             f.changed();
         }
     }
     
     private static class NorthEastHandle extends ResizeHandle {
         NorthEastHandle(Figure owner) {
-            super(owner, RelativeLocator.northEast());
+            super(owner, RelativeLocator.northEast(true));
         }
         protected void trackStepNormalized(Point2D.Double p) {
             Rectangle2D.Double r = getOwner().getBounds();
@@ -171,7 +174,7 @@ public class BoxHandleKit {
     
     private static class EastHandle extends ResizeHandle {
         EastHandle(Figure owner) {
-            super(owner, RelativeLocator.east());
+            super(owner, RelativeLocator.east(true));
         }
         protected void trackStepNormalized(Point2D.Double p) {
             Rectangle2D.Double r = getOwner().getBounds();
@@ -187,7 +190,7 @@ public class BoxHandleKit {
     
     private static class NorthHandle extends ResizeHandle {
         NorthHandle(Figure owner) {
-            super(owner, RelativeLocator.north());
+            super(owner, RelativeLocator.north(true));
         }
         protected void trackStepNormalized(Point2D.Double p) {
             Rectangle2D.Double r = getOwner().getBounds();
@@ -203,7 +206,7 @@ public class BoxHandleKit {
     
     private static class NorthWestHandle extends ResizeHandle {
         NorthWestHandle(Figure owner) {
-            super(owner, RelativeLocator.northWest());
+            super(owner, RelativeLocator.northWest(true));
         }
         protected void trackStepNormalized(Point2D.Double p) {
             Rectangle2D.Double r = getOwner().getBounds();
@@ -219,7 +222,7 @@ public class BoxHandleKit {
     
     private static class SouthEastHandle extends ResizeHandle {
         SouthEastHandle(Figure owner) {
-            super(owner, RelativeLocator.southEast());
+            super(owner, RelativeLocator.southEast(true));
         }
         
         
@@ -238,7 +241,7 @@ public class BoxHandleKit {
     
     private static class SouthHandle extends ResizeHandle {
         SouthHandle(Figure owner) {
-            super(owner, RelativeLocator.south());
+            super(owner, RelativeLocator.south(true));
         }
         protected void trackStepNormalized(Point2D.Double p) {
             Rectangle2D.Double r = getOwner().getBounds();
@@ -254,7 +257,7 @@ public class BoxHandleKit {
     
     private static class SouthWestHandle extends ResizeHandle {
         SouthWestHandle(Figure owner) {
-            super(owner, RelativeLocator.southWest());
+            super(owner, RelativeLocator.southWest(true));
         }
         protected void trackStepNormalized(Point2D.Double p) {
             Rectangle2D.Double r = getOwner().getBounds();
@@ -271,7 +274,7 @@ public class BoxHandleKit {
     
     private static class WestHandle extends ResizeHandle {
         WestHandle(Figure owner) {
-            super(owner, RelativeLocator.west());
+            super(owner, RelativeLocator.west(true));
         }
         protected void trackStepNormalized(Point2D.Double p) {
             Rectangle2D.Double r = getOwner().getBounds();
@@ -284,4 +287,5 @@ public class BoxHandleKit {
             return Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR);
         }
     }
+    
 }

@@ -1,7 +1,7 @@
 /*
- * @(#)BezierFigure.java 2.1.1  2006-06-08
+ * @(#)BezierFigure.java 2.2  2007-04-14
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -31,7 +31,9 @@ import org.jhotdraw.xml.DOMOutput;
  *
  * @see org.jhotdraw.geom.BezierPath
  *
- * @version 2.1.1 2006-06-08 Fixed caps drawing.
+ * @version 2.2 2007-04-14 Added BezierContourHandle. We fill now open
+ * paths as well. 
+ * <br>2.1.1 2006-06-08 Fixed caps drawing.
  * <br>2.1 2006-04-21 Improved caps drawing.
  * <br>2.0 2006-01-14 Changed to support double precison coordinates.
  * <br>1.0 March 14, 2004.
@@ -39,6 +41,7 @@ import org.jhotdraw.xml.DOMOutput;
  */
 public class BezierFigure extends AbstractAttributedFigure {
     public final static AttributeKey<Boolean> CLOSED = new AttributeKey<Boolean>("closed", false);
+    public final static AttributeKey<Boolean> FILL_OPEN_PATH = new AttributeKey<Boolean>("fillOpenPath", false);
     /**
      * The BezierPath.
      */
@@ -137,7 +140,7 @@ public class BezierFigure extends AbstractAttributedFigure {
     }
     
     protected void drawFill(Graphics2D g) {
-        if (isClosed()) {
+        if (isClosed() || FILL_OPEN_PATH.get(this)) {
             double grow = AttributeKeys.getPerpendicularFillGrowth(this);
             if (grow == 0d) {
                 g.fill(path);
@@ -153,7 +156,7 @@ public class BezierFigure extends AbstractAttributedFigure {
     
     public boolean contains(Point2D.Double p) {
         double tolerance = Math.max(2f, AttributeKeys.getStrokeTotalWidth(this) / 2);
-        if (isClosed() || FILL_COLOR.get(this) != null) {
+        if (isClosed() || FILL_COLOR.get(this) != null && FILL_OPEN_PATH.get(this)) {
             double grow = AttributeKeys.getPerpendicularHitGrowth(this);
             if (grow == 0d) {
                 if (path.contains(p)) {
@@ -211,15 +214,16 @@ public class BezierFigure extends AbstractAttributedFigure {
     }
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
-        switch (detailLevel) {
+        switch (detailLevel % 2) {
             case 0 :
-                BoxHandleKit.addBoxHandles(this, handles);
-                handles.add(new BezierScaleHandle(this));
-                break;
-            case 1 :
+                handles.add(new BezierOutlineHandle(this));
                 for (int i=0, n = path.size(); i < n; i++) {
                     handles.add(new BezierNodeHandle(this, i));
                 }
+                break;
+            case 1 :
+                TransformHandleKit.addTransformHandles(this, handles);
+                handles.add(new BezierScaleHandle(this));
                 break;
         }
         return handles;
@@ -694,8 +698,8 @@ public class BezierFigure extends AbstractAttributedFigure {
     /**
      * Handles a mouse click.
      */
-    public boolean handleMouseClick(Point2D.Double p, MouseEvent evt, DrawingView view) {
-        if (evt.getClickCount() == 2 && view.getHandleDetailLevel() == 1) {
+    @Override public boolean handleMouseClick(Point2D.Double p, MouseEvent evt, DrawingView view) {
+        if (evt.getClickCount() == 2 && view.getHandleDetailLevel() % 2 == 0) {
             willChange();
             final int index = basicSplitSegment(p, (float) (5f / view.getScaleFactor()));
             if (index != -1) {
@@ -717,6 +721,7 @@ public class BezierFigure extends AbstractAttributedFigure {
                     
                 });
                 changed();
+                evt.consume();
                 return true;
             }
         }

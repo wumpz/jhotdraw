@@ -29,6 +29,10 @@ import org.jhotdraw.geom.*;
  * <br>1.0 2006-01-21 Created.
  */
 public class BezierTool extends AbstractTool {
+    /**
+     * Set this to true to turn on debugging output on System.out.
+     */
+    private final static boolean DEBUG = false;
     private Boolean finishWhenMouseReleased;
     protected Map<AttributeKey, Object> attributes;
     /**
@@ -82,6 +86,7 @@ public class BezierTool extends AbstractTool {
     }
     
     public void mousePressed(MouseEvent evt) {
+        if (DEBUG) System.out.println("BezierTool.mousePressed "+evt);
         super.mousePressed(evt);
         if (createdFigure == null) {
             finishWhenMouseReleased = null;
@@ -175,6 +180,7 @@ public class BezierTool extends AbstractTool {
         }
     }
     public void mouseReleased(MouseEvent evt) {
+        if (DEBUG) System.out.println("BezierTool.mouseReleased "+evt);
         if (finishWhenMouseReleased == Boolean.TRUE) {
             if (createdFigure.getNodeCount() > 2) {
                 BezierPath fittedPath = Bezier.fitBezierCurve(createdFigure.getBezierPath(), 1);

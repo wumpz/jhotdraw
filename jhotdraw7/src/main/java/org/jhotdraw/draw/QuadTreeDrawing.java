@@ -192,15 +192,18 @@ public class QuadTreeDrawing extends AbstractDrawing {
                 return sort(c);
         }
     }
-    public java.util.List<Figure> findFiguresWithin(Rectangle2D.Double r) {
-        java.util.List<Figure> c = findFigures(r);
-        ArrayList<Figure> result = new ArrayList<Figure>(c.size());
-        for (Figure f : c) {
-            if (r.contains(f.getBounds())) {
-                result.add(f);
+    public java.util.List<Figure> findFiguresWithin(Rectangle2D.Double bounds) {
+        LinkedList<Figure> contained = new LinkedList<Figure>();
+        for (Figure f : figures) {
+            Rectangle2D r = f.getBounds();
+            if (AttributeKeys.TRANSFORM.get(f) != null) {
+                r = AttributeKeys.TRANSFORM.get(f).createTransformedShape(r).getBounds2D();
+            }
+            if (f.isVisible() && bounds.contains(r)) {
+                contained.add(f);
             }
         }
-        return result;
+        return contained;
     }
     
     public void bringToFront(Figure figure) {

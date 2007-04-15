@@ -124,7 +124,7 @@ public class TextTool extends CreationTool implements ActionListener {
         d.width = Math.max(box.width, d.width);
         return new Rectangle(box.x - 6, box.y - 4, d.width, d.height);
          */
-        Rectangle box = getView().drawingToView(figure.getBounds());
+        Rectangle box = getView().drawingToView(figure.getDrawingArea());
         //Dimension d = textField.getPreferredSize(3);
         //d.width = Math.max(box.width, d.width);
         Insets insets = textField.getInsets();

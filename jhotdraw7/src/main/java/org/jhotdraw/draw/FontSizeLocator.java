@@ -1,7 +1,7 @@
 /*
- * @(#)FontSizeLocator.java  1.0  10. March 2004
+ * @(#)FontSizeLocator.java  3.0  2007-04-14
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -22,7 +22,8 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * FontSizeLocator.
  *
  * @author  Werner Randelshofer
- * @version 2.0 2006-01-14 Changed to support double precison coordinates.
+ * @version 3.0 2007-04-14 Changed to support AttributeKey.TRANSFORM.
+ * <br>2.0 2006-01-14 Changed to support double precison coordinates.
  * <br>1.0 10. March 2004  Created.
  */
 public class FontSizeLocator implements Locator {
@@ -37,12 +38,18 @@ public class FontSizeLocator implements Locator {
      */
     public Point2D.Double locate(Figure owner) {
         Point2D.Double p = (Point2D.Double) owner.getStartPoint().clone();
+        
         if (owner instanceof TextHolderFigure) {
             p.y += ((TextHolderFigure) owner).getFontSize();
             p.y += ((TextHolderFigure) owner).getInsets().top;
         } else {
-        p.y += FONT_SIZE.get(owner);
+            p.y += FONT_SIZE.get(owner);
         }
+        
+        if (TRANSFORM.get(owner) != null) {
+            TRANSFORM.get(owner).transform(p, p);
+        }
+        
         return p;
     }
     

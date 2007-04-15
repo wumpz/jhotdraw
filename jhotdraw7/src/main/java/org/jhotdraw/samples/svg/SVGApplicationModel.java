@@ -142,21 +142,21 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         tb.addSeparator();
         
         attributes = new HashMap<AttributeKey,Object>();
-        //attributes.put(AttributeKeys.FILL_COLOR, Color.white);
-        //attributes.put(AttributeKeys.STROKE_COLOR, Color.black);
         ButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGRectFigure(), attributes), "createRectangle", drawLabels);
         ButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGEllipseFigure(), attributes), "createEllipse", drawLabels);
-        ButtonFactory.addToolTo(tb, editor, new PathTool(new SVGPathFigure(), new BezierFigure(true), attributes), "createPolygon", drawLabels);
+        ButtonFactory.addToolTo(tb, editor, new PathTool(new SVGPathFigure(), new SVGBezierFigure(true), attributes), "createPolygon", drawLabels);
         attributes = new HashMap<AttributeKey,Object>();
         attributes.put(AttributeKeys.FILL_COLOR, null);
         attributes.put(AttributeKeys.STROKE_COLOR, Color.black);
         ButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGPathFigure(), attributes), "createLine", drawLabels);
-        ButtonFactory.addToolTo(tb, editor, new PathTool(new SVGPathFigure(), new BezierFigure(false), attributes), "createScribble", drawLabels);
+        ButtonFactory.addToolTo(tb, editor, new PathTool(new SVGPathFigure(), new SVGBezierFigure(false), attributes), "createScribble", drawLabels);
         attributes = new HashMap<AttributeKey,Object>();
         attributes.put(AttributeKeys.FILL_COLOR, Color.black);
         attributes.put(AttributeKeys.STROKE_COLOR, null);
         ButtonFactory.addToolTo(tb, editor, new TextTool(new SVGTextFigure(), attributes), "createText", drawLabels);
-        ButtonFactory.addToolTo(tb, editor, new TextAreaTool(new SVGTextAreaFigure(), attributes), "createTextArea", drawLabels);
+        TextAreaTool tat = new TextAreaTool(new SVGTextAreaFigure(), attributes);
+        tat.setRubberbandColor(Color.BLACK);
+        ButtonFactory.addToolTo(tb, editor, tat, "createTextArea", drawLabels);
         attributes = new HashMap<AttributeKey,Object>();
         attributes.put(AttributeKeys.FILL_COLOR, null);
         attributes.put(AttributeKeys.STROKE_COLOR, null);

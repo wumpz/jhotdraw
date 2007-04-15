@@ -114,7 +114,6 @@ public class DrawApplicationModel extends DefaultApplicationModel {
         ButtonFactory.addToolTo(tb, editor, cnt = new ConnectionTool(new LineConnectionFigure()), "createElbowConnection", labels);
      lc =  cnt.getPrototype();
         lc.basicSetLiner(new ElbowLiner());
-        lc.basicSetLiner(new SlantedLiner());
         ButtonFactory.addToolTo(tb, editor, new BezierTool(new BezierFigure()), "createScribble", labels);
         ButtonFactory.addToolTo(tb, editor, new BezierTool(new BezierFigure(true)), "createPolygon", labels);
         ButtonFactory.addToolTo(tb, editor, new TextTool(new TextFigure()), "createText", labels);

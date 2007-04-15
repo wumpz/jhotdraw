@@ -27,11 +27,6 @@ import org.jhotdraw.draw.*;
  */
 public class SVGAttributeKeys extends AttributeKeys {
     
-    /**
-     * Specifies the transform of a Figure.
-     */
-    public final static AttributeKey<AffineTransform>TRANSFORM = new AttributeKey<AffineTransform>("transform", null, true);
-    
     public enum TextAnchor {
         START, MIDDLE, END
     }

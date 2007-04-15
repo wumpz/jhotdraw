@@ -207,14 +207,15 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
     public void setEditable(boolean b) {
         this.editable = b;
     }
-    public Collection<Handle> createHandles(int detailLevel) {
+    @Override public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
-        if (detailLevel == 0) {
+        handles.add(new BoundsOutlineHandle(this));
+        /*
             handles.add(new MoveHandle(this, RelativeLocator.northWest()));
             handles.add(new MoveHandle(this, RelativeLocator.northEast()));
             handles.add(new MoveHandle(this, RelativeLocator.southEast()));
+         */
             handles.add(new FontSizeHandle(this));
-        }
         return handles;
     }
     /**

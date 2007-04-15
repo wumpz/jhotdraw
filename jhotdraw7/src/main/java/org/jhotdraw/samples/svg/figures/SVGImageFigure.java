@@ -1,5 +1,5 @@
  /*
-  * @(#)SVGImage.java  1.0  July 8, 2006
+  * @(#)SVGImage.java  2.0  2007-04-14
   *
   * Copyright (c) 1996-2006 by the original authors of JHotDraw
   * and all its contributors ("JHotDraw.org")
@@ -38,7 +38,8 @@ import org.jhotdraw.geom.*;
  * FIXME - Implement me
  *
  * @author Werner Randelshofer
- * @version 1.0 July 8, 2006 Created.
+ * @version 2.0 2007-04-14 Adapted for new AttributeKeys.TRANSFORM support. 
+ * <br>1.0 July 8, 2006 Created.
  */
 public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, ImageHolderFigure {
     /**
@@ -116,19 +117,12 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         return rectangle.height;
     }
     public Rectangle2D.Double getBounds() {
-        Rectangle2D rx = getTransformedShape().getBounds2D();
-        Rectangle2D.Double r = (rx instanceof Rectangle2D.Double) ? (Rectangle2D.Double) rx : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
-        return r;
+        return (Rectangle2D.Double) rectangle.clone();
     }
     @Override public Rectangle2D.Double getDrawingArea() {
-        return getBounds();
-        /*
         Rectangle2D rx = getTransformedShape().getBounds2D();
         Rectangle2D.Double r = (rx instanceof Rectangle2D.Double) ? (Rectangle2D.Double) rx : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
-        double g = AttributeKeys.getPerpendicularHitGrowth(this) * 2;
-        Geom.grow(r, g, g);
         return r;
-         */
     }
     /**
      * Checks if a Point2D.Double is inside the figure.
@@ -177,7 +171,9 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
             if (TRANSFORM.get(this) == null) {
                 TRANSFORM.basicSet(this, (AffineTransform) tx.clone());
             } else {
-                TRANSFORM.get(this).preConcatenate(tx);
+                AffineTransform t = TRANSFORM.getClone(this);
+                t.preConcatenate(tx);
+                TRANSFORM.basicSet(this, t);
             }
         } else {
             Point2D.Double anchor = getStartPoint();
@@ -210,10 +206,19 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     }
     
     // EDITING
-    public Collection<Handle> createHandles(int detailLevel) {
-        LinkedList<Handle> handles = (LinkedList<Handle>) super.createHandles(detailLevel);
-        handles.add(new RotateHandle(this));
-        
+    @Override public Collection<Handle> createHandles(int detailLevel) {
+        LinkedList<Handle> handles = new LinkedList<Handle>();
+
+        switch (detailLevel) {
+            case 0 :
+                ResizeHandleKit.addResizeHandles(this, handles);
+                break;
+            case 1 :
+                TransformHandleKit.addTransformHandles(this, handles);
+                break;
+            default:
+                break;
+        }
         return handles;
     }
     @Override public Collection<Action> getActions(Point2D.Double p) {

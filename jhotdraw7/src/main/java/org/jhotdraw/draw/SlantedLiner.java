@@ -14,7 +14,6 @@
 
 package org.jhotdraw.draw;
 
-import com.sun.org.apache.bcel.internal.generic.GOTO;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 import org.jhotdraw.xml.DOMStorable;

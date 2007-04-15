@@ -1,7 +1,7 @@
 /*
- * @(#)RotateHandle.java  1.0  12. July 2006
+ * @(#)RotateHandle.java  2.0  2007-04-14
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -21,11 +21,13 @@ import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.*;
 import org.jhotdraw.geom.*;
+import static org.jhotdraw.draw.AttributeKeys.*;
 /**
  * A Handle to rotate a Figure.
  *
  * @author Werner Randelshofer.
- * @version 1.0 12. July 2006 Created.
+ * @version 2.0 2007-04-14 Added support for AttributeKeys.TRANSFORM.
+ * <br>1.0 12. July 2006 Created.
  */
 public class RotateHandle extends AbstractHandle {
     private Point location;
@@ -44,6 +46,10 @@ public class RotateHandle extends AbstractHandle {
         return false;
     }
     
+        public String getToolTipText(Point p) {
+            ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+            return labels.getString("rotateHandle.tip");
+        }
     
     /**
      * Draws this handle.
@@ -60,23 +66,38 @@ public class RotateHandle extends AbstractHandle {
     
     public Point getLocation() {
         if (location == null) {
-            return  /*location =*/ view.drawingToView(getOrigin());
+            return view.drawingToView(getOrigin());
         }
         return location;
     }
+        protected Rectangle2D.Double getTransformedBounds() {
+            Figure owner = getOwner();
+            Rectangle2D.Double bounds = owner.getBounds();
+            if (AttributeKeys.TRANSFORM.get(owner) != null) {
+                Rectangle2D r = AttributeKeys.TRANSFORM.get(owner).
+                        createTransformedShape(bounds).getBounds2D();
+                bounds.x = r.getX();
+                bounds.y = r.getY();
+                bounds.width = r.getWidth();
+                bounds.height = r.getHeight();
+            }
+            return bounds;
+        }
+        
     
     private Point2D.Double getOrigin() {
         // This handle is placed above the figure.
         // We move it up by a handlesizes, so that it won't overlap with
-        // the handles from BoxHandleKit.
-        Rectangle2D.Double bounds = getOwner().getBounds();
-        return new Point2D.Double(bounds.getCenterX(),
+        // the handles from TransformHandleKit.
+        Rectangle2D.Double bounds = getTransformedBounds();
+        Point2D.Double origin = new Point2D.Double(bounds.getCenterX(),
                 bounds.y - getHandlesize() / view.getScaleFactor());
+        return origin;
     }
     public void trackStart(Point anchor, int modifiersEx) {
         location = new Point(anchor.x, anchor.y);
         restoreData = getOwner().getTransformRestoreData();
-        Rectangle2D.Double bounds = getOwner().getBounds();
+        Rectangle2D.Double bounds = getTransformedBounds();
         transform = new AffineTransform();
         center = new Point2D.Double(bounds.getCenterX(), bounds.getCenterY());
         Point2D.Double anchorPoint = view.viewToDrawing(anchor);
@@ -105,7 +126,4 @@ public class RotateHandle extends AbstractHandle {
         location = null;
     }
     
-    public String getToolTipText(Point p) {
-        return ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels").getString("rotateHandle.tip");
-        }
 }

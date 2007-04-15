@@ -44,12 +44,9 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
         g.draw(getFigureDrawBounds());
     }*/
     @Override public LinkedList<Handle> createHandles(int detailLevel) {
-        LinkedList<Handle> handles;
+        LinkedList<Handle> handles = new LinkedList<Handle>();
         if (detailLevel == 0) {
-            handles = (LinkedList<Handle>) super.createHandles(detailLevel);
-            handles.add(new RotateHandle(this));
-        } else {
-      handles = new LinkedList<Handle>();
+            TransformHandleKit.addTransformHandles(this, handles);
         }
         return handles;
     }

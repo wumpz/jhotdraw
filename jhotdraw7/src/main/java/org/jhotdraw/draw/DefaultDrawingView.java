@@ -56,6 +56,9 @@ import org.jhotdraw.xml.XMLTransferable;
 public class DefaultDrawingView
         extends JComponent
         implements DrawingView, DrawingListener, HandleListener, EditableComponent {
+    /**
+     * Set this to true to turn on debugging output on System.out.
+     */
     private final static boolean DEBUG = false;
     
     private Drawing drawing;
@@ -343,6 +346,7 @@ public class DefaultDrawingView
      * Adds a figure to the current selection.
      */
     public void addToSelection(Figure figure) {
+        if (DEBUG) System.out.println("DefaultDrawingView"+".addToSelection("+figure+")");
         selectedFigures.add(figure);
         figure.addFigureListener(handleInvalidator);
         invalidateHandles();

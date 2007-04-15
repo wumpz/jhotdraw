@@ -283,6 +283,7 @@ public class SVGInputFormat implements InputFormat {
      */
     private Figure readElement(IXMLElement elem)
     throws IOException {
+        if (DEBUG) System.out.println("SVGInputFormat.readElement "+elem.getName());
         Figure f = null;
         if (elem.getNamespace() == null ||
                 elem.getNamespace().equals(SVG_NAMESPACE)) {
@@ -368,8 +369,6 @@ public class SVGInputFormat implements InputFormat {
     throws IOException {
         HashMap<AttributeKey,Object> a = new HashMap<AttributeKey,Object>();
         readCoreAttributes(elem, a);
-        readTransformAttribute(elem, a);
-        AffineTransform transform = (AffineTransform) a.get(TRANSFORM);
         CompositeFigure g = factory.createG(a);
         
         for (IXMLElement node : elem.getChildren()) {
@@ -385,8 +384,8 @@ public class SVGInputFormat implements InputFormat {
                 }
             }
         }
-        if (transform != null) {
-            g.basicTransform(transform);
+        if (TRANSFORM.get(a) != null) {
+            g.basicTransform(TRANSFORM.get(a));
         }
         return g;
     }

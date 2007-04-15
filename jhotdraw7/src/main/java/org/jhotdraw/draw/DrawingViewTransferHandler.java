@@ -32,7 +32,7 @@ import org.jhotdraw.undo.*;
  * @version 1.0 April 13, 2007 Created.
  */
 public class DrawingViewTransferHandler extends TransferHandler {
-    private final static boolean DEBUG = true;
+    private final static boolean DEBUG = false;
     
     /** Creates a new instance. */
     public DrawingViewTransferHandler() {

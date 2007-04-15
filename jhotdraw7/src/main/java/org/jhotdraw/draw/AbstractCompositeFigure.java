@@ -32,7 +32,7 @@ import org.jhotdraw.xml.DOMOutput;
  *
  *
  * @author Werner Randelshofer
- * @version 2.2 2006-07-08 Minor changes. 
+ * @version 2.2 2006-07-08 Minor changes.
  * <br>2.1 2006-03-15 Fire undoable edit on attribute change.
  * <br>2.0.1 2006-02-06 Fixed ConcurrentModificationException in method
  * removeNotify.
@@ -101,18 +101,11 @@ public abstract class AbstractCompositeFigure
     public AbstractCompositeFigure() {
     }
     
-    public Collection<Handle> createHandles(int detailLevel) {
-        if (detailLevel == 0) {
-            return super.createHandles(0);
-        } /*else {
-            LinkedList<Handle> handles = new LinkedList<Handle>();
-            for (Figure child : children) {
-                handles.addAll(child.createHandles(detailLevel - 1));
-            }
-            return handles;
-        }*/
-        
+    @Override public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
+        if (detailLevel == 0) {
+            TransformHandleKit.addScaleMoveTransformHandles(this, handles);
+        }
         return handles;
     }
     
@@ -442,10 +435,14 @@ public abstract class AbstractCompositeFigure
         if (bounds == null) {
             for (Figure child : getChildrenFrontToBack()) {
                 if (child.isVisible()) {
+                    Rectangle2D r = child.getBounds();
+                    if (AttributeKeys.TRANSFORM.get(child) != null) {
+                        r = AttributeKeys.TRANSFORM.get(child).createTransformedShape(r).getBounds2D();
+                    }
                     if (bounds == null) {
-                        bounds = child.getBounds();
+                        bounds = new Rectangle2D.Double(r.getX(), r.getY(), r.getWidth(), r.getHeight());
                     } else {
-                        bounds.add(child.getBounds());
+                        bounds.add(r);
                     }
                 }
             }
@@ -555,11 +552,11 @@ public abstract class AbstractCompositeFigure
         layout();
         invalidateBounds();
     }
-
+    
     public void removeAttribute(AttributeKey key) {
         // do nothing
     }
-
+    
     public boolean hasAttribute(AttributeKey key) {
         return false;
     }

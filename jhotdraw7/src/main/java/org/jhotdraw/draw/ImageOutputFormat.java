@@ -27,7 +27,7 @@ import org.jhotdraw.gui.datatransfer.*;
 import org.jhotdraw.io.*;
 
 /**
- * An output format for exporting drawings using one of the image formats 
+ * An output format for exporting drawings using one of the image formats
  * supported by javax.imageio.
  *
  * @author Werner Randelshofer
@@ -85,6 +85,11 @@ public class ImageOutputFormat implements OutputFormat {
         return null;
     }
     
+    /**
+     * Writes the drawing to the specified file.
+     * This method ensures that all figures of the drawing are visible on
+     * the image.
+     */
     public void write(File file, Drawing drawing) throws IOException {
         BufferedOutputStream out = null;
         try {
@@ -97,21 +102,72 @@ public class ImageOutputFormat implements OutputFormat {
         }
     }
     
+    /**
+     * Writes the drawing to the specified output stream.
+     * This method ensures that all figures of the drawing are visible on
+     * the image.
+     */
     public void write(OutputStream out, Drawing drawing) throws IOException {
-        write(out, drawing.getFigures());
+        write(out, drawing.getFigures(), null, null);
+    }
+    /**
+     * Writes the drawing to the specified output stream.
+     * This method applies the specified transform to the drawing, and draws
+     * it on an image of the specified size.
+     */
+    public void write(OutputStream out, Drawing drawing,
+            AffineTransform drawingTransform, Dimension imageSize) throws IOException {
+        write(out, drawing.getFigures(), drawingTransform, imageSize);
     }
     
+    /**
+     * Writes the drawing to the specified output stream.
+     * This method ensures that all figures of the drawing are visible on
+     * the image.
+     */
     public Transferable createTransferable(java.util.List<Figure> figures, double scaleFactor) throws IOException {
         return new ImageTransferable(toImage(figures, scaleFactor));
     }
     
+    /**
+     * Writes the figures to the specified output stream.
+     * This method ensures that all figures of the drawing are visible on
+     * the image.
+     */
     public void write(OutputStream out, java.util.List<Figure> figures) throws IOException {
-        BufferedImage img = toImage(figures, 1d);
+        write(out, figures, null, null);
+    }
+    /**
+     * Writes the figures to the specified output stream.
+     * This method applies the specified transform to the drawing, and draws
+     * it on an image of the specified size.
+     */
+    public void write(OutputStream out, java.util.List<Figure> figures,
+            AffineTransform drawingTransform, Dimension imageSize) throws IOException {
+        BufferedImage img;
+        if (drawingTransform == null || imageSize == null) {
+            img = toImage(figures, 1d);
+        } else {
+            img = toImage(figures, drawingTransform, imageSize);
+        }
         ImageIO.write(img, formatName, out);
         img.flush();
     }
     
-    public BufferedImage toImage(java.util.List<Figure> figures, double scaleFactor) {
+    /**
+     * Creates a BufferedImage from the specified list of figures.
+     * <p>
+     * The images are drawn using the specified scale factor. If some figures
+     * have a drawing area located at negative coordinates, then the drawing
+     * coordinates are translated, so that all figures are visible on the
+     * image.
+     *
+     * @param figures The list of figures.
+     * @param scaleFactor The scale factor used when drawing the figures.
+     */
+    public BufferedImage toImage(java.util.List<Figure> figures,
+            double scaleFactor) {
+        
         // Determine the draw bounds of the figures
         Rectangle2D.Double drawBounds = null;
         for (Figure f : figures) {
@@ -122,43 +178,67 @@ public class ImageOutputFormat implements OutputFormat {
             }
         }
         
-        // Create the buffered image and clear it with white if it is opaque
+        AffineTransform transform = new AffineTransform();
+        if (drawBounds.x < 0) {
+            transform.translate(-drawBounds.x * scaleFactor, 0);
+        }
+        if (drawBounds.y < 0) {
+            transform.translate(0, -drawBounds.y * scaleFactor);
+        }
+        transform.scale(scaleFactor, scaleFactor);
+        
+        
+        return toImage(figures, transform,
+                new Dimension(
+                (int) ((Math.max(0, drawBounds.x)+drawBounds.width) * scaleFactor),
+                (int) ((Math.max(0, drawBounds.y)+drawBounds.height) * scaleFactor)
+                )
+                );
+    }
+    
+    /**
+     * Creates a BufferedImage from the specified list of figures.
+     *
+     * @param figures The list of figures.
+     * @param transform The AffineTransform to be used when drawing
+     * the figures.
+     * @param imageSize The width and height of the image.
+     */
+    public BufferedImage toImage(
+            java.util.List<Figure> figures,
+            AffineTransform transform,
+            Dimension imageSize) {
+        
+        // Create the buffered image and clear
         BufferedImage buf = new BufferedImage(
-                (int) (drawBounds.width * scaleFactor), (int) (drawBounds.height * scaleFactor),
+                imageSize.width, imageSize.height,
                 BufferedImage.TYPE_INT_ARGB
                 );
         Graphics2D g = buf.createGraphics();
-        /*
+        
+        // Clear the buffered image with transparent white
         Composite savedComposite = g.getComposite();
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
         g.setColor(new Color(0x00ffffff,true));
-            g.fillRect(0,0,buf.getWidth(),buf.getHeight());
-            g.setComposite(savedComposite);
-        *//*
-        if (buf.getTransparency() == BufferedImage.OPAQUE) {
-            g.setBackground(Color.white);
-            g.clearRect(0,0,buf.getWidth(),buf.getHeight());
-        }*/
+        g.fillRect(0,0,buf.getWidth(),buf.getHeight());
+        g.setComposite(savedComposite);
         
         // Draw the figures onto the buffered image
-        g.translate(-drawBounds.x * scaleFactor, -drawBounds.y * scaleFactor);
-        g.scale(scaleFactor, scaleFactor);
         setRenderingHints(g);
+        g.transform(transform);
         for (Figure f : figures) {
             f.draw(g);
         }
         g.dispose();
         
+        // Convert the image, if it does not have the specified image type
         if (imageType != BufferedImage.TYPE_INT_ARGB) {
             BufferedImage buf2 = new BufferedImage(
                     buf.getWidth(), buf.getHeight(),
                     imageType
                     );
             g = buf2.createGraphics();
-            if (buf2.getTransparency() == BufferedImage.OPAQUE) {
-                g.setBackground(Color.white);
-                g.fillRect(0,0,buf2.getWidth(),buf2.getHeight());
-            }
+            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
             g.drawImage(buf, 0, 0, null);
             g.dispose();
             buf.flush();

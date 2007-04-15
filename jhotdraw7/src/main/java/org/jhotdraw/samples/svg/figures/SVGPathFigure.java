@@ -31,7 +31,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
 /**
  * SVGPath is a composite Figure which contains one or more
- * BezierFigures as its children.
+ * SVGBezierFigures as its children.
  * <p>
  * XXX - Roll in the read() method of SVGLine.
  *
@@ -43,12 +43,15 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
      * This path is used for drawing.
      */
     private GeneralPath path;
+
+    private final static boolean DEBUG = false;
     
     /** Creates a new instance. */
     public SVGPathFigure() {
-        add(new BezierFigure());
-       SVGAttributeKeys.setDefaults(this);
+        add(new SVGBezierFigure());
+        SVGAttributeKeys.setDefaults(this);
     }
+    
     
     public void draw(Graphics2D g) {
         validatePath();
@@ -69,7 +72,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
     }
     
     public void drawFill(Graphics2D g) {
-            g.fill(path);
+        g.fill(path);
     }
     public void drawStroke(Graphics2D g) {
         g.draw(path);
@@ -93,7 +96,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
                 GeneralPath.WIND_NON_ZERO
                     );
             for (Figure child : getChildren()) {
-                BezierFigure b = (BezierFigure) child;
+                SVGBezierFigure b = (SVGBezierFigure) child;
                 path.append(b.getBezierPath(), false);
             }
         }
@@ -110,24 +113,24 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
     }
     
     public void basicSetBounds(Point2D.Double anchor, Point2D.Double lead) {
-        if (getChildCount() == 1 && ((BezierFigure) getChild(0)).getNodeCount() <= 2) {
-            BezierFigure b = (BezierFigure) getChild(0);
+        if (getChildCount() == 1 && ((SVGBezierFigure) getChild(0)).getNodeCount() <= 2) {
+            SVGBezierFigure b = (SVGBezierFigure) getChild(0);
             b.basicSetBounds(anchor, lead);
             invalidate();
         } else {
-        super.basicSetBounds(anchor, lead);
+            super.basicSetBounds(anchor, lead);
         }
     }
     public void basicTransform(AffineTransform tx) {
         super.basicTransform(tx);
         invalidatePath();
         // FIXME - This is experimental code
-        if (FILL_GRADIENT.get(this) != null && 
-               ! FILL_GRADIENT.get(this).isRelativeToFigureBounds()) {
+        if (FILL_GRADIENT.get(this) != null &&
+                ! FILL_GRADIENT.get(this).isRelativeToFigureBounds()) {
             FILL_GRADIENT.get(this).transform(tx);
         }
-        if (STROKE_GRADIENT.get(this) != null && 
-               ! STROKE_GRADIENT.get(this).isRelativeToFigureBounds()) {
+        if (STROKE_GRADIENT.get(this) != null &&
+                ! STROKE_GRADIENT.get(this).isRelativeToFigureBounds()) {
             STROKE_GRADIENT.get(this).transform(tx);
         }
     }
@@ -148,7 +151,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
     
     public boolean isEmpty() {
         for (Figure child : getChildren()) {
-            BezierFigure b = (BezierFigure) child;
+            SVGBezierFigure b = (SVGBezierFigure) child;
             if (b.getPointCount() > 0) {
                 return false;
             }
@@ -156,16 +159,19 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         return true;
     }
     
-    @Override public LinkedList<Handle> createHandles(int detailLevel) {
-        LinkedList<Handle> handles;
-        if (detailLevel == 0) {
-            handles = (LinkedList<Handle>) super.createHandles(detailLevel);
-            handles.add(new RotateHandle(this));
-        } else {
-            handles = new LinkedList<Handle>();
-            for (Figure child : getChildren()) {
-                handles.addAll(child.createHandles(detailLevel));
-            }
+    @Override public Collection<Handle> createHandles(int detailLevel) {
+        LinkedList<Handle> handles = new LinkedList<Handle>();
+        switch (detailLevel % 2) {
+            case 0 :
+                for (Figure child : getChildren()) {
+                    handles.addAll(child.createHandles(detailLevel));
+                }
+                break;
+            case 1 :
+                TransformHandleKit.addTransformHandles(this, handles);
+                break;
+            default:
+                break;
         }
         return handles;
     }
@@ -176,7 +182,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         actions.add(new AbstractAction(labels.getString("closePath")) {
             public void actionPerformed(ActionEvent evt) {
                 for (Figure child : getChildren()) {
-                    BezierFigure b = (BezierFigure) child;
+                    SVGBezierFigure b = (SVGBezierFigure) child;
                     b.setClosed(true);
                 }
             }
@@ -184,7 +190,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         actions.add(new AbstractAction(labels.getString("openPath")) {
             public void actionPerformed(ActionEvent evt) {
                 for (Figure child : getChildren()) {
-                    BezierFigure b = (BezierFigure) child;
+                    SVGBezierFigure b = (SVGBezierFigure) child;
                     b.setClosed(false);
                 }
             }
@@ -214,13 +220,14 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
     /**
      * Handles a mouse click.
      */
-    public boolean handleMouseClick(Point2D.Double p, MouseEvent evt, DrawingView view) {
-        if (evt.getClickCount() == 2 && view.getHandleDetailLevel() == 1) {
+   @Override public boolean handleMouseClick(Point2D.Double p, MouseEvent evt, DrawingView view) {
+        if (evt.getClickCount() == 2 && view.getHandleDetailLevel() % 2 == 0) {
             for (Figure child : getChildren()) {
-                BezierFigure bf = (BezierFigure) child;
+                SVGBezierFigure bf = (SVGBezierFigure) child;
                 int index = bf.getBezierPath().findSegment(p, (float) (5f / view.getScaleFactor()));
                 if (index != -1) {
                     bf.handleMouseClick(p, evt, view);
+                    evt.consume();
                     return true;
                 }
             }
@@ -235,5 +242,9 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
             super.basicSetAttribute(key, newValue);
         }
         // invalidatePath();
+    }
+
+    public void add(final int index, final Figure figure) {
+        super.add(index, (SVGBezierFigure) figure);
     }
 }

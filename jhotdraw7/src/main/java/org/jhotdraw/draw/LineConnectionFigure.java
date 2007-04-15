@@ -99,6 +99,7 @@ public class LineConnectionFigure extends LineFigure
         switch (detailLevel) {
             case 0 :
                 if (getLiner() == null) {
+                    handles.add(new BezierOutlineHandle(this));
                     for (int i = 1, n = getNodeCount() - 1; i < n; i++) {
                         handles.add(new BezierNodeHandle(this, i));
                     }
@@ -441,7 +442,7 @@ public class LineConnectionFigure extends LineFigure
         } else {
             liner = null;
         }
-            
+        
     }
     public void write(DOMOutput out) throws IOException {
         writePoints(out);

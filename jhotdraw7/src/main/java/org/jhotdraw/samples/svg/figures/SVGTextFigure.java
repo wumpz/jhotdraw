@@ -1,7 +1,7 @@
 /*
- * @(#)SVGText.java  1.0  July 8, 2006
+ * @(#)SVGText.java  2.0  2007-04-14
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -37,7 +37,8 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * Cache outline to improve performance.
  *
  * @author Werner Randelshofer
- * @version 1.0 July 8, 2006 Created.
+ * @version 2.0 2007-04-14 Adapted for new AttributeKeys.TRANSFORM support.
+ * <br>1.0 July 8, 2006 Created.
  */
 public class SVGTextFigure
         extends SVGAttributedFigure
@@ -51,6 +52,8 @@ public class SVGTextFigure
      * This is used to perform faster drawing and hit testing.
      */
     private Shape cachedTransformedShape;
+    private Shape cachedTransformedBounds;
+    private Rectangle2D.Double cachedBounds;
     
     /** Creates a new instance. */
     public SVGTextFigure() {
@@ -95,9 +98,36 @@ public class SVGTextFigure
     }
     
     public Rectangle2D.Double getBounds() {
-        Rectangle2D rx = getTransformedShape().getBounds2D();
-        Rectangle2D.Double r = (rx instanceof Rectangle2D.Double) ? (Rectangle2D.Double) rx : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
-        return r;
+        if (cachedBounds == null) {
+            String text = getText();
+            if (text == null || text.length() == 0) {
+                text = " ";
+            }
+            
+            FontRenderContext frc = getFontRenderContext();
+            HashMap<TextAttribute,Object> textAttributes = new HashMap<TextAttribute,Object>();
+            textAttributes.put(TextAttribute.FONT, getFont());
+            if (FONT_UNDERLINED.get(this)) {
+                textAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
+            }
+            TextLayout textLayout = new TextLayout(text, textAttributes, frc);
+            
+            Rectangle2D r = textLayout.getBounds();
+            cachedBounds = new Rectangle2D.Double(
+                    coordinates[0].x + r.getX(), coordinates[0].y + r.getY(),
+                    r.getWidth(), r.getHeight());
+            switch (TEXT_ANCHOR.get(this)) {
+                case END :
+                    cachedBounds.x -=textLayout.getAdvance();
+                    break;
+                case MIDDLE :
+                    cachedBounds.x -=textLayout.getAdvance() / 2d;
+                    break;
+                case START :
+                    break;
+            }
+        }
+        return (Rectangle2D.Double) cachedBounds.clone();
     }
     @Override public Rectangle2D.Double getDrawingArea() {
         Rectangle2D rx = getTransformedShape().getBounds2D();
@@ -110,10 +140,11 @@ public class SVGTextFigure
      * Checks if a Point2D.Double is inside the figure.
      */
     public boolean contains(Point2D.Double p) {
-        return getBounds().contains(p);
+        return getTransformedShape().getBounds2D().contains(p);
     }
     private void invalidateTransformedShape() {
         cachedTransformedShape = null;
+        cachedBounds = null;
     }
     
     private Shape getTransformedShape() {
@@ -175,7 +206,9 @@ public class SVGTextFigure
             if (TRANSFORM.get(this) == null) {
                 TRANSFORM.basicSet(this, (AffineTransform) tx.clone());
             } else {
-                TRANSFORM.get(this).preConcatenate(tx);
+                AffineTransform t = TRANSFORM.getClone(this);
+                t.preConcatenate(tx);
+                TRANSFORM.basicSet(this, t);
             }
         } else {
             for (int i=0; i < coordinates.length; i++) {
@@ -309,12 +342,14 @@ public class SVGTextFigure
     
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
-        if (detailLevel == 0) {
-            handles.add(new MoveHandle(this, RelativeLocator.northWest()));
-            handles.add(new MoveHandle(this, RelativeLocator.northEast()));
-            handles.add(new MoveHandle(this, RelativeLocator.southEast()));
-            handles.add(new FontSizeHandle(this));
-            handles.add(new RotateHandle(this));
+        switch (detailLevel % 2) {
+            case 0 :
+                handles.add(new BoundsOutlineHandle(this));
+                handles.add(new FontSizeHandle(this));
+                break;
+            case 1 :
+                TransformHandleKit.addTransformHandles(this, handles);
+                break;
         }
         return handles;
     }

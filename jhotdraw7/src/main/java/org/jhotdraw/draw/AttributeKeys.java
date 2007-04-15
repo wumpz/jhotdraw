@@ -254,6 +254,11 @@ public class AttributeKeys {
     }
     
     /**
+     * Specifies the transform of a Figure.
+     */
+    public final static AttributeKey<AffineTransform>TRANSFORM = new AttributeKey<AffineTransform>("transform", null, true);
+    
+    /**
      * Specifies the orientation of a Figure.
      */
     public final static AttributeKey<Orientation> ORIENTATION = new AttributeKey<Orientation>("orientation", Orientation.NORTH);
@@ -281,6 +286,7 @@ public class AttributeKeys {
             TEXT_COLOR,
             TEXT_SHADOW_COLOR,
             TEXT_SHADOW_OFFSET,
+            TRANSFORM,
             FONT_FACE,
             FONT_SIZE,
             FONT_BOLD,

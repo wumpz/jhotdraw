@@ -1,7 +1,7 @@
 /*
- * @(#)SVGEllipse.java  1.0  July 8, 2006
+ * @(#)SVGEllipse.java  2.0  2007-04-14
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -31,7 +31,8 @@ import org.jhotdraw.util.*;
  * SVGEllipse represents a SVG ellipse and a SVG circle element.
  *
  * @author Werner Randelshofer
- * @version 1.0 July 8, 2006 Created.
+ * @version 2.0 2007-04-14 Adapted for new AttributeKeys.TRANSFORM support. 
+ * <br>1.0 July 8, 2006 Created.
  */
 public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     private Ellipse2D.Double ellipse;
@@ -73,11 +74,9 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     }
     
     public Rectangle2D.Double getBounds() {
-        Rectangle2D rx = getTransformedShape().getBounds2D();
-        Rectangle2D.Double r = (rx instanceof Rectangle2D.Double) ? (Rectangle2D.Double) rx : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
-        return r;
+        return (Rectangle2D.Double) ellipse.getBounds2D();
     }
-    public Rectangle2D.Double getFigureDrawBounds() {
+    @Override public Rectangle2D.Double getDrawingArea() {
         Rectangle2D rx = getTransformedShape().getBounds2D();
         Rectangle2D.Double r = (rx instanceof Rectangle2D.Double) ? (Rectangle2D.Double) rx : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
         double g = AttributeKeys.getPerpendicularHitGrowth(this);
@@ -119,9 +118,11 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
         if (TRANSFORM.get(this) != null ||
                 (tx.getType() & (AffineTransform.TYPE_TRANSLATION | AffineTransform.TYPE_MASK_SCALE)) != tx.getType()) {
             if (TRANSFORM.get(this) == null) {
-                TRANSFORM.basicSet(this, (AffineTransform) tx.clone());
+                TRANSFORM.basicSetClone(this, tx);
             } else {
-                TRANSFORM.get(this).preConcatenate(tx);
+                AffineTransform t = TRANSFORM.getClone(this);
+                t.preConcatenate(tx);
+                TRANSFORM.basicSet(this, t);
             }
         } else {
             Point2D.Double anchor = getStartPoint();
@@ -168,9 +169,18 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
         super.basicSetAttribute(key, newValue);
     }
     // EDITING
-    public Collection<Handle> createHandles(int detailLevel) {
-        LinkedList<Handle> handles = (LinkedList<Handle>) super.createHandles(detailLevel);
-        handles.add(new RotateHandle(this));
+    @Override public Collection<Handle> createHandles(int detailLevel) {
+        LinkedList<Handle> handles = new LinkedList<Handle>();
+        switch (detailLevel % 2) {
+            case 0 :
+                ResizeHandleKit.addResizeHandles(this, handles);
+                break;
+            case 1 :
+                TransformHandleKit.addTransformHandles(this, handles);
+                break;
+            default:
+                break;
+        }
         return handles;
     }
     @Override public Collection<Action> getActions(Point2D.Double p) {
@@ -200,6 +210,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     public SVGEllipseFigure clone() {
         SVGEllipseFigure that = (SVGEllipseFigure) super.clone();
         that.ellipse = (Ellipse2D.Double) this.ellipse.clone();
+        that.cachedTransformedShape = null;
         return that;
     }
     

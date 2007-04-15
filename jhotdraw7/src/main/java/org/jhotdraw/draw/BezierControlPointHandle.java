@@ -28,6 +28,8 @@ import org.jhotdraw.geom.*;
  * @version 1.0 23. Januar 2006 Created.
  */
 public class BezierControlPointHandle extends AbstractHandle {
+    private final static Color HANDLE_FILL_COLOR = new Color(0x2020fc);
+    private final static Color HANDLE_STROKE_COLOR = Color.WHITE;
     protected int index, controlPointIndex;
     private CompositeEdit edit;
     
@@ -60,11 +62,11 @@ public class BezierControlPointHandle extends AbstractHandle {
             BezierPath.Node v = f.getNode(index);
             if (v.keepColinear && v.mask == BezierPath.C1C2_MASK &&
                     (index > 0 && index < f.getNodeCount() || f.isClosed())) {
-                drawCircle(g, Color.white, Color.blue);
+                drawCircle(g, HANDLE_STROKE_COLOR, HANDLE_FILL_COLOR);
             } else {
-                drawCircle(g, Color.blue, Color.white);
+                drawCircle(g, HANDLE_FILL_COLOR, HANDLE_STROKE_COLOR);
             }
-            g.setColor(Color.blue);
+            g.setColor(HANDLE_FILL_COLOR);
             g.draw(new Line2D.Double(
                     view.drawingToView(new Point2D.Double(v.x[0], v.y[0])),
                     view.drawingToView(new Point2D.Double(v.x[controlPointIndex], v.y[controlPointIndex]))
@@ -129,7 +131,7 @@ public class BezierControlPointHandle extends AbstractHandle {
     
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         BezierFigure figure = getBezierFigure();
-        if ((modifiersEx & (InputEvent.META_DOWN_MASK | InputEvent.CTRL_DOWN_MASK)) != 0) {
+        if ((modifiersEx & (InputEvent.META_DOWN_MASK | InputEvent.CTRL_DOWN_MASK  | InputEvent.ALT_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK)) != 0) {
             figure.willChange();
             BezierPath.Node v = figure.getNode(index);
             v.keepColinear = ! v.keepColinear;

@@ -57,6 +57,11 @@ import org.jhotdraw.geom.*;
 public class TextAreaTool extends CreationTool implements ActionListener {
     private FloatingTextArea   textArea;
     private TextHolderFigure  typingTarget;
+    /**
+     * Rubberband color of the tool. When this is null, the tool does not
+     * draw a rubberband.
+     */
+    private Color rubberbandColor = null;
     
     /** Creates a new instance. */
     public TextAreaTool(TextHolderFigure prototype) {
@@ -66,14 +71,25 @@ public class TextAreaTool extends CreationTool implements ActionListener {
         super(prototype, attributes);
     }
     
+    /**
+     * Sets the rubberband color for the tool. Setting this to null, disables
+     * the rubberband.
+     *
+     * @param c Rubberband color or null.
+     */
+    public void setRubberbandColor(Color c) {
+        rubberbandColor = c;
+    }
+    
+    
     public void deactivate(DrawingEditor editor) {
         endEdit();
         super.deactivate(editor);
     }
     
     /**
-     * If the pressed figure is a TextHolderFigure it can be edited otherwise
-     * a new text figure is created.
+     * Creates a new figure at the mouse location.
+     * If editing is in progress, this finishes editing.
      */
     public void mousePressed(MouseEvent e) {
         TextHolderFigure textHolder = null;
@@ -89,7 +105,6 @@ public class TextAreaTool extends CreationTool implements ActionListener {
             beginEdit(textHolder);
             return;
         }
-        
         if (typingTarget != null) {
             endEdit();
             fireToolDone();
@@ -108,6 +123,12 @@ public class TextAreaTool extends CreationTool implements ActionListener {
     public void mouseDragged(java.awt.event.MouseEvent e) {
     }
      */
+    public void draw(Graphics2D g) {
+        if (createdFigure != null && rubberbandColor != null) {
+            g.setColor(rubberbandColor);
+            g.draw(getView().drawingToView(createdFigure.getBounds()));
+        }
+    }
     
     protected void beginEdit(TextHolderFigure textHolder) {
         if (textArea == null) {
@@ -127,7 +148,7 @@ public class TextAreaTool extends CreationTool implements ActionListener {
     
     
     private Rectangle2D.Double getFieldBounds(TextHolderFigure figure) {
-        Rectangle2D.Double r = figure.getBounds();
+        Rectangle2D.Double r = figure.getDrawingArea();
         Insets2D.Double insets = figure.getInsets();
         insets.subtractTo(r);
 

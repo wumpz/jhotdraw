@@ -20,6 +20,7 @@ import org.jhotdraw.util.*;
 import org.jhotdraw.undo.*;
 import java.awt.*;
 import java.awt.geom.*;
+import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
 /**
  * A Handle to manipulate the radius of a round lead rectangle.
@@ -28,6 +29,7 @@ import java.awt.geom.*;
  * @version 1.0 2006-12-10 Adapted from RoundRectangleHandle.
  */
 public class SVGRectRadiusHandle extends AbstractHandle {
+    private final static boolean DEBUG = false;
     private static final int OFFSET = 6;
     private Point originalArc;
     CompositeEdit edit;
@@ -52,9 +54,15 @@ public class SVGRectRadiusHandle extends AbstractHandle {
     
     private Point locate() {
         SVGRectFigure owner = (SVGRectFigure) getOwner();
-        Rectangle r = view.drawingToView(owner.getBounds());
-        Point arc = view.drawingToView(new Point2D.Double(owner.getArcWidth(), owner.getArcHeight()));
-        return new Point(r.x+arc.x/2+OFFSET, r.y+arc.y/2+OFFSET);
+        Rectangle2D.Double r = owner.getBounds();
+        Point2D.Double p = new Point2D.Double(
+                r.x + owner.getArcWidth(), 
+                r.y + owner.getArcHeight()
+                );
+        if (TRANSFORM.get(owner) != null) {
+            TRANSFORM.get(owner).transform(p, p);
+        }
+        return view.drawingToView(p);
     }
     
     public void trackStart(Point anchor, int modifiersEx) {
@@ -67,13 +75,16 @@ public class SVGRectRadiusHandle extends AbstractHandle {
         int dx = lead.x - anchor.x;
         int dy = lead.y - anchor.y;
         SVGRectFigure owner = (SVGRectFigure) getOwner();
-        Rectangle r = view.drawingToView(owner.getBounds());
-        Point viewArc = new Point(
-        Geom.range(0, r.width, 2*(originalArc.x/2 + dx)),
-        Geom.range(0, r.height, 2*(originalArc.y/2 + dy))
-        );
-        Point2D.Double arc = view.viewToDrawing(viewArc);
-        owner.setArc(arc.x, arc.y);
+        Point2D.Double p = view.viewToDrawing(lead);
+        if (TRANSFORM.get(owner) != null) {
+            try {
+                TRANSFORM.get(owner).inverseTransform(p, p);
+            } catch (NoninvertibleTransformException ex) {
+                if (DEBUG) ex.printStackTrace();
+            }
+        }
+        Rectangle2D.Double r = owner.getBounds();
+        owner.setArc(p.x - r.x, p.y - r.y);
     }
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         view.getDrawing().fireUndoableEditHappened(edit);

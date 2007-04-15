@@ -31,6 +31,8 @@ import org.jhotdraw.geom.*;
  * <br>1.0 January 20, 2006 Created.
  */
 public class BezierNodeHandle extends AbstractHandle {
+    private final static Color HANDLE_FILL_COLOR = Color.BLACK;
+    private final static Color HANDLE_STROKE_COLOR = Color.WHITE;
     protected int index;
     private CompositeEdit edit;
     private BezierPath.Node oldNode;
@@ -48,15 +50,15 @@ public class BezierNodeHandle extends AbstractHandle {
         if (f.getPointCount() > index) {
             BezierPath.Node v = f.getNode(index);
             if (v.mask == 0) {
-                drawRectangle(g, Color.black, Color.white);
+                drawRectangle(g, HANDLE_FILL_COLOR, HANDLE_STROKE_COLOR);
             } else if (v.mask == BezierPath.C1_MASK ||
                     v.mask == BezierPath.C2_MASK ||
                     !f.isClosed() &&
                     v.mask == (BezierPath.C1_MASK | BezierPath.C2_MASK) &&
                     index == 0 || index == f.getNodeCount() - 1) {
-                drawDiamond(g, Color.black, Color.white);
+                drawDiamond(g, HANDLE_FILL_COLOR, HANDLE_STROKE_COLOR);
             } else {
-                drawCircle(g, Color.black, Color.white);
+                drawCircle(g, HANDLE_FILL_COLOR, HANDLE_STROKE_COLOR);
             }
         }
     }
@@ -118,7 +120,7 @@ public class BezierNodeHandle extends AbstractHandle {
         BezierFigure f = getBezierFigure();
         
         // Change node type
-        if ((modifiersEx & (InputEvent.META_DOWN_MASK | InputEvent.CTRL_DOWN_MASK)) != 0 &&
+        if ((modifiersEx & (InputEvent.META_DOWN_MASK | InputEvent.CTRL_DOWN_MASK | InputEvent.ALT_DOWN_MASK  | InputEvent.SHIFT_DOWN_MASK)) != 0 &&
                 (modifiersEx & InputEvent.BUTTON2_DOWN_MASK) == 0) {
             f.willChange();
             BezierPath.Node v = f.getNode(index);
@@ -182,7 +184,7 @@ public class BezierNodeHandle extends AbstractHandle {
                 list.add(new BezierControlPointHandle(f, i, 2));
             }
         }
-        if (index < f.getNodeCount() - 2 || f.isClosed()) {
+        if (index < f.getNodeCount() - 1 || f.isClosed()) {
             int i = (index == f.getNodeCount() - 1) ? 0 : index + 1;
             v = f.getNode(i);
             if ((v.mask & BezierPath.C1_MASK) != 0) {
