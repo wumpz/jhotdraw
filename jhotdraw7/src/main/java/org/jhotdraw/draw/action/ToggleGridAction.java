@@ -1,7 +1,7 @@
 /*
- * @(#)ToggleGridAction.java  1.1 2006-04-21
+ * @(#)ToggleGridAction.java  1.2 2007-04-16
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -22,7 +22,8 @@ import org.jhotdraw.draw.*;
  * ToggleGridAction.
  *
  * @author  Werner Randelshofer
- * @version 1.1 2006-04-21 Constructor with DrawingEditor paremeter added.
+ * @version 1.2 2007-04-16 Added getOffConstrainer, getOnConstrainer methods. 
+ * <br>1.1 2006-04-21 Constructor with DrawingEditor paremeter added.
  * <br>1.0 January 16, 2006 Created.
  */
 public class ToggleGridAction extends AbstractViewAction {
@@ -50,13 +51,20 @@ public class ToggleGridAction extends AbstractViewAction {
         labels.configureAction(this, ID);
     }
     
+    public Constrainer getOnConstrainer() {
+        return onConstrainer;
+    }
+    public Constrainer getOffConstrainer() {
+        return offConstrainer;
+    }
+    
+    
     public void actionPerformed(java.awt.event.ActionEvent e) {
-        
-       if (getView().getConstrainer() == onConstrainer) {
-           getView().setConstrainer(offConstrainer);
-       } else {
-           getView().setConstrainer(onConstrainer);
-       }
+        if (getView().getConstrainer() == onConstrainer) {
+            getView().setConstrainer(offConstrainer);
+        } else {
+            getView().setConstrainer(onConstrainer);
+        }
     }
     
 }

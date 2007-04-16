@@ -209,7 +209,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     @Override public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
 
-        switch (detailLevel) {
+        switch (detailLevel % 2) {
             case 0 :
                 ResizeHandleKit.addResizeHandles(this, handles);
                 break;

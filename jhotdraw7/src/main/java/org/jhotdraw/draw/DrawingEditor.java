@@ -1,7 +1,7 @@
 /*
- * @(#)DrawingEditor.java  2.1  2006-03-15
+ * @(#)DrawingEditor.java  2.2  2007-04-16
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -38,7 +38,8 @@ import java.util.*;
  * drawing palettes.
  *
  * @author Werner Randelshofer
- * @version 2.1 2006-03-15 Support for enabled state added.
+ * @version 2.2 2007-04-16 Added method getDefaultAttributes 
+ * <br>2.1 2006-03-15 Support for enabled state added.
  * <br>2.0 2006-02-13 Revised to support multiple drawing views.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
@@ -132,6 +133,10 @@ public interface DrawingEditor {
      * Applies the default attributes to the specified figure.
      */
      public void applyDefaultAttributesTo(Figure f);
+    /**
+     * Returns an immutable Map with the default attributes of this editor.
+     */
+    public Map<AttributeKey,Object> getDefaultAttributes();
      
      /**
       * Sets the enabled state of the drawing editor.

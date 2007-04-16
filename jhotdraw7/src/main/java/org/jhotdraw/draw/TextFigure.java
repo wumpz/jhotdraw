@@ -210,12 +210,11 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
     @Override public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
         handles.add(new BoundsOutlineHandle(this));
-        /*
-            handles.add(new MoveHandle(this, RelativeLocator.northWest()));
-            handles.add(new MoveHandle(this, RelativeLocator.northEast()));
-            handles.add(new MoveHandle(this, RelativeLocator.southEast()));
-         */
-            handles.add(new FontSizeHandle(this));
+        handles.add(new MoveHandle(this, RelativeLocator.northWest()));
+        handles.add(new MoveHandle(this, RelativeLocator.northEast()));
+        handles.add(new MoveHandle(this, RelativeLocator.southWest()));
+        handles.add(new MoveHandle(this, RelativeLocator.southEast()));
+        handles.add(new FontSizeHandle(this));
         return handles;
     }
     /**

@@ -345,6 +345,10 @@ public class SVGTextFigure
         switch (detailLevel % 2) {
             case 0 :
                 handles.add(new BoundsOutlineHandle(this));
+                handles.add(new MoveHandle(this, RelativeLocator.northWest()));
+                handles.add(new MoveHandle(this, RelativeLocator.northEast()));
+                handles.add(new MoveHandle(this, RelativeLocator.southWest()));
+                handles.add(new MoveHandle(this, RelativeLocator.southEast()));
                 handles.add(new FontSizeHandle(this));
                 break;
             case 1 :
@@ -402,7 +406,13 @@ public class SVGTextFigure
     public SVGTextFigure clone() {
         SVGTextFigure that = (SVGTextFigure) super.clone();
         that.coordinates = (Point2D.Double[]) this.coordinates.clone();
+        for (int i=0; i < this.coordinates.length; i++) {
+            that.coordinates[i] = (Point2D.Double) this.coordinates[i].clone();
+        }
         that.rotates = (double[]) this.rotates.clone();
+        that.cachedBounds = null;
+        that.cachedTransformedBounds = null;
+        that.cachedTransformedShape = null;
         return that;
     }
     

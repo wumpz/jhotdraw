@@ -1,7 +1,7 @@
 /*
- * @(#)DefaultDrawingEditor.java  3.0  2006-02-13
+ * @(#)DefaultDrawingEditor.java  3.1  2007-04-16
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -10,7 +10,6 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-�
  */
 
 package org.jhotdraw.draw;
@@ -28,7 +27,8 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * DefaultDrawingEditor.
  *
  * @author Werner Randelshofer
- * @version 3.0 2006-02-13 Revised to handle multiple drawing views.
+ * @version 3.1 2007-04-16 Added method getDefaultAttributes.
+ * <br>3.0 2006-02-13 Revised to handle multiple drawing views.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
 public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor, ToolListener {
@@ -204,5 +204,9 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor,
     
     public boolean isEnabled() {
         return isEnabled;
+    }
+
+    public Map<AttributeKey, Object> getDefaultAttributes() {
+        return Collections.unmodifiableMap(defaultAttributes);
     }
 }
