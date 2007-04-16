@@ -38,9 +38,8 @@ import static org.jhotdraw.samples.svg.SVGConstants.*;
 import org.jhotdraw.xml.*;
 
 /**
- * An output format for storing drawings as Scalable Vector Graphics SVG Tiny 1.2.
- *
- * XXX - Implement me.
+ * An output format for storing drawings as 
+ * Scalable Vector Graphics SVG Tiny 1.2.
  *
  * @author Werner Randelshofer
  * @version 1.0 December 12, 2006 Created.
@@ -1113,10 +1112,14 @@ public class SVGOutputFormat implements OutputFormat {
     public void write(OutputStream out, Drawing drawing) throws IOException {
         write(out, drawing.getFigures());
     }
+    /**
+     * All other write methods delegate their work to here.
+     */
     public void write(OutputStream out, java.util.List<Figure> figures) throws IOException {
         document = new XMLElement("svg", SVG_NAMESPACE);
         document.setAttribute("xmlns:xlink","http://www.w3.org/1999/xlink");
         document.setAttribute("version","1.2");
+        document.setAttribute("baseProfile","tiny");
         
         nextId = 0;
         identifiedElements = new HashMap<IXMLElement,String>();
@@ -1128,7 +1131,17 @@ public class SVGOutputFormat implements OutputFormat {
             writeElement(document, f);
         }
         
-        new XMLWriter(out).write(document);
+        // Write XML prolog
+        PrintWriter writer = new PrintWriter(
+                new OutputStreamWriter(out, "UTF-8")
+                ); 
+        writer.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        
+        // Write XML content
+        new XMLWriter(writer).write(document);
+        
+        // Flush writer
+        writer.flush();
     }
     
     /**
