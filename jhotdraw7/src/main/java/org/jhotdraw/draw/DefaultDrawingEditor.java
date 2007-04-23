@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultDrawingEditor.java  3.1  2007-04-16
+ * @(#)DefaultDrawingEditor.java  3.2  2007-04-22
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -27,7 +27,8 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * DefaultDrawingEditor.
  *
  * @author Werner Randelshofer
- * @version 3.1 2007-04-16 Added method getDefaultAttributes.
+ * @version 3.2 2007-04-22 Keep last focus view, even if we lost focus permanently.
+ * <br>3.1 2007-04-16 Added method getDefaultAttributes.
  * <br>3.0 2006-02-13 Revised to handle multiple drawing views.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
@@ -45,9 +46,10 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor,
         }
         
         public void focusLost(FocusEvent e) {
+            /*
             if (! e.isTemporary()) {
             setFocusedView(null);
-            }
+            }*/
         }
     };
     

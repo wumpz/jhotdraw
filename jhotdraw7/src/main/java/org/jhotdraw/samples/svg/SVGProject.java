@@ -116,6 +116,8 @@ public class SVGProject extends AbstractProject implements ExportableProject {
         labels.configureToolBarButton(pButton, "alignGridSmall");
         placardPanel.add(pButton, BorderLayout.EAST);
         scrollPane.add(placardPanel, JScrollPane.LOWER_LEFT_CORNER);
+        
+        propertiesPanel.setVisible(prefs.getBoolean("propertiesPanelVisible", false));
     }
     
     /**
@@ -134,6 +136,7 @@ public class SVGProject extends AbstractProject implements ExportableProject {
         outputFormats.add(new ImageOutputFormat());
         outputFormats.add(new ImageOutputFormat("JPG","Joint Photographics Experts Group (JPEG)", "jpg", BufferedImage.TYPE_INT_RGB));
         outputFormats.add(new ImageOutputFormat("BMP","Windows Bitmap (BMP)", "bmp", BufferedImage.TYPE_BYTE_INDEXED));
+        outputFormats.add(new ImageMapOutputFormat());
         drawing.setOutputFormats(outputFormats);
         return drawing;
     }
@@ -153,6 +156,7 @@ public class SVGProject extends AbstractProject implements ExportableProject {
             oldValue.remove(view);
         }
         editor = newValue;
+        propertiesPanel.setEditor(editor);
         if (newValue != null) {
             newValue.add(view);
         }
@@ -213,19 +217,7 @@ public class SVGProject extends AbstractProject implements ExportableProject {
         }
     }
     
-    /**
-     * Sets a drawing editor for the project.
-     */
-    public void setDrawingEditor(DrawingEditor newValue) {
-        if (editor != null) {
-            editor.remove(view);
-        }
-        editor = newValue;
-        if (editor != null) {
-            editor.add(view);
-        }
-    }
-    
+
     /**
      * Gets the drawing editor of the project.
      */
@@ -237,6 +229,18 @@ public class SVGProject extends AbstractProject implements ExportableProject {
         view.setEnabled(newValue);
         super.setEnabled(newValue);
     }
+    
+    public void setPropertiesPanelVisible(boolean newValue) {
+        boolean oldValue = propertiesPanel.isVisible();
+        propertiesPanel.setVisible(newValue);
+        firePropertyChange("propertiesPanelVisible", oldValue, newValue);
+        prefs.putBoolean("propertiesPanelVisible", newValue);
+        validate();
+    }
+    public boolean isPropertiesPanelVisible() {
+        return propertiesPanel.isVisible();
+    }
+    
     
     /**
      * Clears the project.
@@ -315,6 +319,7 @@ public class SVGProject extends AbstractProject implements ExportableProject {
     private void initComponents() {
         scrollPane = new javax.swing.JScrollPane();
         view = new org.jhotdraw.draw.DefaultDrawingView();
+        propertiesPanel = new org.jhotdraw.samples.svg.SVGPropertiesPanel();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -323,6 +328,8 @@ public class SVGProject extends AbstractProject implements ExportableProject {
         scrollPane.setViewportView(view);
 
         add(scrollPane, java.awt.BorderLayout.CENTER);
+
+        add(propertiesPanel, java.awt.BorderLayout.SOUTH);
 
     }// </editor-fold>//GEN-END:initComponents
     
@@ -370,6 +377,7 @@ public class SVGProject extends AbstractProject implements ExportableProject {
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.jhotdraw.samples.svg.SVGPropertiesPanel propertiesPanel;
     private javax.swing.JScrollPane scrollPane;
     private org.jhotdraw.draw.DefaultDrawingView view;
     // End of variables declaration//GEN-END:variables

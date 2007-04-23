@@ -14,6 +14,7 @@
 
 package org.jhotdraw.draw.action;
 
+import org.jhotdraw.gui.JPopupButton;
 import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.event.*;

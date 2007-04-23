@@ -70,7 +70,7 @@ public abstract class AbstractProjectAction extends AbstractAction {
     }
     
     /**
-     * Updates the project of this action depending on the current project
+     * Updates the listeners of this action depending on the current project
      * of the application.
      */
     protected void updateProject(Project oldValue, Project newValue) {

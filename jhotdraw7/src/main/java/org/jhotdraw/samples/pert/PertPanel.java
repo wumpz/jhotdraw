@@ -14,6 +14,7 @@
 
 package org.jhotdraw.samples.pert;
 
+import org.jhotdraw.gui.JPopupButton;
 import org.jhotdraw.samples.pert.figures.*;
 import org.jhotdraw.undo.*;
 import org.jhotdraw.util.*;

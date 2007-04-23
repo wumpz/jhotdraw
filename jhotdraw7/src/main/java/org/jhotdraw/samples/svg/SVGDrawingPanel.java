@@ -14,6 +14,7 @@
 
 package org.jhotdraw.samples.svg;
 
+import org.jhotdraw.gui.JPopupButton;
 import org.jhotdraw.samples.svg.action.*;
 import org.jhotdraw.samples.svg.figures.*;
 import org.jhotdraw.undo.*;

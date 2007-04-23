@@ -1,5 +1,5 @@
 /*
- * @(#)SVGAttributeKeys.java  1.1  2007-04-10
+ * @(#)SVGAttributeKeys.java  1.2  2007-04-22
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -22,7 +22,8 @@ import org.jhotdraw.draw.*;
  * SVGAttributeKeys.
  *
  * @author Werner Randelshofer
- * @version 1.1 2007-04-10 Attribute key TEXT_ALIGN added. 
+ * @version 1.2 2007-04-22 Attribute Key LINK added. 
+ * <br>1.1 2007-04-10 Attribute key TEXT_ALIGN added. 
  * <br>1.0 December 9, 2006 Created.
  */
 public class SVGAttributeKeys extends AttributeKeys {
@@ -63,6 +64,15 @@ public class SVGAttributeKeys extends AttributeKeys {
      * This is a value between 0 and 1 whereas 0 is translucent and 1 is fully opaque.
      */
     public final static AttributeKey<Double> STROKE_OPACITY = new AttributeKey<Double>("strokeOpacity", 1d, false);
+    
+    /**
+     * Specifies a link.
+     * In an SVG file, the link is stored in a "a" element which encloses the
+     * figure.
+     * http://www.w3.org/TR/SVGMobile12/linking.html#AElement
+     */
+    public final static AttributeKey<String> LINK = new AttributeKey<String>("link", null);
+    
     
     /**
      * Gets the fill paint for the specified figure based on the attributes

@@ -1,5 +1,5 @@
 /*
- * @(#)BezierFigure.java 2.2  2007-04-14
+ * @(#)BezierFigure.java 2.2.1  2007-04-22
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -31,7 +31,9 @@ import org.jhotdraw.xml.DOMOutput;
  *
  * @see org.jhotdraw.geom.BezierPath
  *
- * @version 2.2 2007-04-14 Added BezierContourHandle. We fill now open
+ * @version 2.2.1 2007-04-22 Method contains did not work as expected for filled
+ * unclosed beziers with thick line widths. 
+ * <br>2.2 2007-04-14 Added BezierContourHandle. We fill now open
  * paths as well. 
  * <br>2.1.1 2006-06-08 Fixed caps drawing.
  * <br>2.1 2006-04-21 Improved caps drawing.
@@ -157,16 +159,10 @@ public class BezierFigure extends AbstractAttributedFigure {
     public boolean contains(Point2D.Double p) {
         double tolerance = Math.max(2f, AttributeKeys.getStrokeTotalWidth(this) / 2);
         if (isClosed() || FILL_COLOR.get(this) != null && FILL_OPEN_PATH.get(this)) {
-            double grow = AttributeKeys.getPerpendicularHitGrowth(this);
-            if (grow == 0d) {
                 if (path.contains(p)) {
                     return true;
-                } else {
-                    if (isClosed()) {
-                        return false;
                     }
-                }
-            } else {
+            double grow = AttributeKeys.getPerpendicularHitGrowth(this);
                 GrowStroke gs = new GrowStroke((float) grow,
                         (float) (AttributeKeys.getStrokeTotalWidth(this) *
                         STROKE_MITER_LIMIT.get(this))
@@ -178,7 +174,6 @@ public class BezierFigure extends AbstractAttributedFigure {
                         return false;
                     }
                 }
-            }
         }
         if (! isClosed()) {
             if (getCappedPath().outlineContains(p, tolerance)) {

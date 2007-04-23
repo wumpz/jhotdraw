@@ -43,7 +43,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
      * This path is used for drawing.
      */
     private GeneralPath path;
-
+    
     private final static boolean DEBUG = false;
     
     /** Creates a new instance. */
@@ -69,6 +69,20 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         if (isConnectorsVisible()) {
             drawConnectors(g);
         }
+        
+        /*
+        // DEBUGGING STUFF
+        g.setStroke(new BasicStroke());
+        g.setColor(Color.blue);
+ double grow = AttributeKeys.getPerpendicularHitGrowth(this);
+ GrowStroke gs = new GrowStroke((float) grow,
+                (float) (AttributeKeys.getStrokeTotalWidth(this) *
+                STROKE_MITER_LIMIT.get(this))
+                );
+        for (Figure child : getChildren()) {
+            SVGBezierFigure b = (SVGBezierFigure) child;
+            g.draw(gs.createStrokedShape(b.getBezierPath()));
+        }*/
     }
     
     public void drawFill(Graphics2D g) {
@@ -220,7 +234,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
     /**
      * Handles a mouse click.
      */
-   @Override public boolean handleMouseClick(Point2D.Double p, MouseEvent evt, DrawingView view) {
+    @Override public boolean handleMouseClick(Point2D.Double p, MouseEvent evt, DrawingView view) {
         if (evt.getClickCount() == 2 && view.getHandleDetailLevel() % 2 == 0) {
             for (Figure child : getChildren()) {
                 SVGBezierFigure bf = (SVGBezierFigure) child;
@@ -243,8 +257,13 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         }
         // invalidatePath();
     }
-
-    public void add(final int index, final Figure figure) {
+    
+    @Override public void add(final int index, final Figure figure) {
         super.add(index, (SVGBezierFigure) figure);
     }
+    
+    @Override public SVGBezierFigure getChild(int index) {
+        return (SVGBezierFigure) super.getChild(index);
+    }
+    
 }

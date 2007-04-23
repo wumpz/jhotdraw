@@ -50,9 +50,12 @@ import java.util.*;
 public class CreationTool extends AbstractTool {
     private Map<AttributeKey, Object> prototypeAttributes;
     private String name;
-    private Dimension minimalSizeTreshold = new Dimension(10,10);
     /**
-     * We set the figure to the minimal size, if it is smaller than the minimal size treshold.
+     * Treshold for which we create a larger shape of a minimal size.
+     */
+    private Dimension minimalSizeTreshold = new Dimension(2,2);
+    /**
+     * We set the figure to this minimal size, if it is smaller than the minimal size treshold.
      */
     private Dimension minimalSize = new Dimension(40,40);
     /**
@@ -183,6 +186,7 @@ public class CreationTool extends AbstractTool {
             } else {
                 if (Math.abs(anchor.x - evt.getX()) < minimalSizeTreshold.width && 
                         Math.abs(anchor.y - evt.getY()) < minimalSizeTreshold.height) {
+                   createdFigure.willChange();
                     createdFigure.basicSetBounds(
                             constrainPoint(new Point(anchor.x, anchor.y)),
                             constrainPoint(new Point(
@@ -190,6 +194,7 @@ public class CreationTool extends AbstractTool {
                             anchor.y + (int) Math.max(bounds.height, minimalSize.height)
                             ))
                             );
+                   createdFigure.changed();
                 }
                 getView().addToSelection(createdFigure);
             }

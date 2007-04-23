@@ -28,6 +28,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  */
 public class SVGConstants {
     public final static String SVG_NAMESPACE = "http://www.w3.org/2000/svg";
+    public final static String SVG_MIMETYPE = "image/svg+xml";
     public final static Map<String,Color> SVG_COLORS;
     static {
         LinkedHashMap<String,Color> map = new LinkedHashMap<String,Color>();

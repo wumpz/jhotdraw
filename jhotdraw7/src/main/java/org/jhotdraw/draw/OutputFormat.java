@@ -14,7 +14,9 @@
 
 package org.jhotdraw.draw;
 
+import java.awt.Dimension;
 import java.awt.datatransfer.*;
+import java.awt.geom.AffineTransform;
 import java.io.*;
 import java.net.*;
 import java.util.*;

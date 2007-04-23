@@ -15,6 +15,7 @@
 package org.jhotdraw.samples.draw;
 
 import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.gui.JPopupButton;
 import org.jhotdraw.undo.*;
 import org.jhotdraw.util.*;
 

@@ -15,6 +15,7 @@
 package org.jhotdraw.samples.svg;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.geom.*;
 import org.jhotdraw.app.action.*;
 import org.jhotdraw.samples.svg.action.*;
@@ -71,6 +72,7 @@ public class SVGApplicationModel extends DefaultApplicationModel {
             aa.putValue(Action.NAME, (int) (sf*100)+" %");
             
         }
+        putAction("togglePropertiesPanel", new TogglePropertiesPanelAction(a));
     }
     /**
      * Creates toolbars for the application.
@@ -229,6 +231,9 @@ public class SVGApplicationModel extends DefaultApplicationModel {
             m2.add(cbmi);
         }
         m.add(m2);
+        cbmi = new JCheckBoxMenuItem(getAction("togglePropertiesPanel"));
+        m.add(cbmi);
+        
         mb.add(m);
         
         return mb;

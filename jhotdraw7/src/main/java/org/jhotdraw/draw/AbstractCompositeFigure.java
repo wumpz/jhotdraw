@@ -1,7 +1,7 @@
 /*
- * @(#)AbstractCompositeFigure.java  2.2 2006-07-08
+ * @(#)AbstractCompositeFigure.java  2.3 2007-04-22
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -25,6 +25,7 @@ import javax.swing.undo.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
+import static org.jhotdraw.draw.AttributeKeys.*;
 /**
  * A Figure that is composed of several children. A AbstractCompositeFigure
  * doesn't define any layout behavior. It is up to subclassers to
@@ -32,7 +33,8 @@ import org.jhotdraw.xml.DOMOutput;
  *
  *
  * @author Werner Randelshofer
- * @version 2.2 2006-07-08 Minor changes.
+ * @version 2.3 2007-04-22 Take TRANSFORM attribute into account. 
+ * <br>2.2 2006-07-08 Minor changes.
  * <br>2.1 2006-03-15 Fire undoable edit on attribute change.
  * <br>2.0.1 2006-02-06 Fixed ConcurrentModificationException in method
  * removeNotify.
@@ -321,6 +323,15 @@ public abstract class AbstractCompositeFigure
     
     
     public boolean contains(Point2D.Double p) {
+       if (TRANSFORM.get(this) != null) {
+            try {
+                p = (Point2D.Double) TRANSFORM.get(this).inverseTransform(p, new Point2D.Double());
+            } catch (NoninvertibleTransformException ex) {
+                InternalError error = new InternalError(ex.getMessage());
+                error.initCause(ex);
+                throw error;
+            }
+       };
         if (getDrawingArea().contains(p)) {
             for (Figure child : getChildrenFrontToBack()) {
                 if (child.isVisible() && child.contains(p)) return true;

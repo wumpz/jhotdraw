@@ -12,7 +12,7 @@
  * JHotDraw.org.
  */
 
-package org.jhotdraw.draw.action;
+package org.jhotdraw.gui;
 
 import java.awt.*;
 import java.beans.*;
@@ -20,10 +20,11 @@ import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
 import java.awt.event.*;
+import org.jhotdraw.draw.action.*;
 /**
  * JPopupButton provides a popup menu.
  *
- * @author  wrandels
+ * @author  Werner Randelshofer
  * @version 1.1 2006-06-25 Added more "add" methods.
  */
 public class JPopupButton extends javax.swing.JButton {

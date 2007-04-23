@@ -1,5 +1,5 @@
 /*
- * @(#)SVGInputFormat.java  0.2  2007-04-10
+ * @(#)SVGInputFormat.java  0.3  2007-04-22
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -48,7 +48,8 @@ import org.jhotdraw.xml.css.CSSParser;
  *
  *
  * @author Werner Randelshofer
- * @version 0.2 2007-04-10 Fixed default attribute values for RadialGradient element.
+ * @version 1.1 2007-04-22 Added support for "a" element. 
+ * <br>0.2 2007-04-10 Fixed default attribute values for RadialGradient element.
  * <br>0.1 November 25, 2006 Created (Experimental).
  */
 public class SVGInputFormat implements InputFormat {
@@ -288,7 +289,9 @@ public class SVGInputFormat implements InputFormat {
         if (elem.getNamespace() == null ||
                 elem.getNamespace().equals(SVG_NAMESPACE)) {
             String name = elem.getName();
-            if (name.equals("circle")) {
+            if (name.equals("a")) {
+                f = readAElement(elem);
+            } else if (name.equals("circle")) {
                 f = readCircleElement(elem);
             } else if (name.equals("defs")) {
                 readDefsElement(elem);
@@ -390,6 +393,38 @@ public class SVGInputFormat implements InputFormat {
         return g;
     }
     
+    /**
+     * Reads an SVG "a" element.
+     */
+    private Figure readAElement(IXMLElement elem)
+    throws IOException {
+        HashMap<AttributeKey,Object> a = new HashMap<AttributeKey,Object>();
+        readCoreAttributes(elem, a);
+        CompositeFigure g = factory.createG(a);
+        
+        String href = readAttribute(elem, "xlink:href",null);
+        if (href == null) {
+            href = readAttribute(elem, "href",null);
+        }
+        if (DEBUG) System.out.println("SVGInputFormat.readAElement href="+href);
+        
+        for (IXMLElement node : elem.getChildren()) {
+            if (node instanceof IXMLElement) {
+                IXMLElement child = (IXMLElement) node;
+                Figure childFigure = readElement(child);
+                // skip invisible elements
+                if (readAttribute(child, "visibility", "visible").equals("visible") &&
+                        ! readAttribute(child, "display", "inline").equals("none")) {
+                    if (childFigure != null) {
+                        g.basicAdd(childFigure);
+                    }
+                }
+                LINK.basicSet(childFigure, href);
+            }
+        }
+        
+        return (g.getChildCount() == 1) ? g.getChild(0) : g;
+    }
     
     
     /**

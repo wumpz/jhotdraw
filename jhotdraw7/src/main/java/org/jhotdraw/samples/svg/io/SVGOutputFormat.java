@@ -1,5 +1,5 @@
 /*
- * @(#)SVGOutputFormat.java  1.0  December 12, 2006
+ * @(#)SVGOutputFormat.java  1.1  2007-04-22
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -27,7 +27,6 @@ import javax.swing.*;
 import javax.swing.text.*;
 import net.n3.nanoxml.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.OutputFormat;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.gui.datatransfer.*;
 import org.jhotdraw.io.*;
@@ -42,7 +41,8 @@ import org.jhotdraw.xml.*;
  * Scalable Vector Graphics SVG Tiny 1.2.
  *
  * @author Werner Randelshofer
- * @version 1.0 December 12, 2006 Created.
+ * @version 1.1 2007-04-22 Added support for "a" element. 
+ * <br>1.0 December 12, 2006 Created.
  */
 public class SVGOutputFormat implements OutputFormat {
     private URL url;
@@ -83,15 +83,19 @@ public class SVGOutputFormat implements OutputFormat {
         strokeLinecapMap.put(BasicStroke.CAP_SQUARE, "square");
     }
     
+    /**
+     * Set this variable to true if values should be written with float precision
+     * instead with double precision.
+     * Float precision is less accurate then double precision, but it uses
+     * less storage space.
+     */
+    private final static boolean isFloatPrecision = true;
+    
     
     
     /** Creates a new instance. */
     public SVGOutputFormat() {
     }
-    public String getMimeType() {
-        return "image/svg+xml";
-    }
-    
     public javax.swing.filechooser.FileFilter getFileFilter() {
         return new ExtensionFileFilter("Scalable Vector Graphics (SVG)", "svg");
     }
@@ -101,6 +105,15 @@ public class SVGOutputFormat implements OutputFormat {
     }
     
     protected void writeElement(IXMLElement parent, Figure f) throws IOException {
+        // Write link attribute as encosing "a" element
+        if (LINK.get(f) != null && LINK.get(f).trim().length() > 0) {
+            IXMLElement aElement = parent.createElement("a");
+            aElement.setAttribute("xlink:href", LINK.get(f));
+            parent.addChild(aElement);
+            parent = aElement;
+        }
+        
+        // Write the actual element
         if (f instanceof SVGEllipseFigure) {
             SVGEllipseFigure ellipse = (SVGEllipseFigure) f;
             if (ellipse.getWidth() == ellipse.getHeight()) {
@@ -974,7 +987,9 @@ public class SVGOutputFormat implements OutputFormat {
      * Returns a double array as a number attribute value.
      */
     public static String toNumber(double number) {
-        String str = Double.toString(number);
+        String str = (isFloatPrecision) ? 
+            Float.toString((float) number) : 
+            Double.toString(number);
         if (str.endsWith(".0")) {
             str = str.substring(0, str.length() -  2);
         }
@@ -1162,6 +1177,6 @@ public class SVGOutputFormat implements OutputFormat {
     public Transferable createTransferable(java.util.List<Figure> figures, double scaleFactor) throws IOException {
         ByteArrayOutputStream buf = new ByteArrayOutputStream();
         write(buf, figures);
-        return new InputStreamTransferable(new DataFlavor("image/svg+xml", "Image SVG"), buf.toByteArray());
+        return new InputStreamTransferable(new DataFlavor(SVG_MIMETYPE, "Image SVG"), buf.toByteArray());
     }
 }
