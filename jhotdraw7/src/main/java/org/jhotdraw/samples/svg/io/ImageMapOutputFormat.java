@@ -146,7 +146,11 @@ public class ImageMapOutputFormat implements OutputFormat {
         PrintWriter writer = new PrintWriter(
                 new OutputStreamWriter(out, "UTF-8")
                 );
-        new XMLWriter(writer).write(document);
+        //new XMLWriter(writer).write(document);
+        for (Object o : document.getChildren()) {
+            XMLElement child = (XMLElement) o;
+            new XMLWriter(writer).write(child);
+        }
         
         // Flush writer
         writer.flush();

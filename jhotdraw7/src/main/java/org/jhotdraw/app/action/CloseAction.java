@@ -36,9 +36,11 @@ public class CloseAction extends AbstractSaveBeforeAction {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
-
+    
     @Override protected void doIt(Project project) {
-        project.getApplication().
-                dispose(project);
+        if (project != null) {
+            project.getApplication().
+                    dispose(project);
+        }
     }
 }

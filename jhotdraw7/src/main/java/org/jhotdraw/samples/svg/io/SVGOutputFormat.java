@@ -1,5 +1,5 @@
 /*
- * @(#)SVGOutputFormat.java  1.1  2007-04-22
+ * @(#)SVGOutputFormat.java  1.1.1  2007-04-23
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -41,7 +41,9 @@ import org.jhotdraw.xml.*;
  * Scalable Vector Graphics SVG Tiny 1.2.
  *
  * @author Werner Randelshofer
- * @version 1.1 2007-04-22 Added support for "a" element. 
+ * @version 1.1.1 2007-04-23 Fixed writing of "path" attribute, fixed writing
+ * of "textArea" element. 
+ * <br>1.1 2007-04-22 Added support for "a" element. 
  * <br>1.0 December 12, 2006 Created.
  */
 public class SVGOutputFormat implements OutputFormat {
@@ -494,8 +496,27 @@ public class SVGOutputFormat implements OutputFormat {
         writeFontAttributes(elem, attributes);
         return elem;
     }
-    protected void writeTextAreaElement(IXMLElement parent, SVGTextAreaFigure f) throws IOException {
+    protected void writeTextAreaElement(IXMLElement parent, SVGTextAreaFigure f) 
+    throws IOException {
+        DefaultStyledDocument styledDoc = new DefaultStyledDocument();
+        try {
+            styledDoc.insertString(0, f.getText(), null);
+        } catch (BadLocationException e) {
+            InternalError error = new InternalError(e.getMessage());
+            error.initCause(e);
+            throw error;
+        }
         
+        Rectangle2D.Double bounds = f.getBounds();
+        
+        parent.addChild(
+                createTextArea(
+                document,
+                bounds.x, bounds.y, bounds.width, bounds.height,
+                styledDoc,
+                f.getAttributes()
+                )
+                );
     }
     protected IXMLElement createTextArea(IXMLElement doc,
             double x, double y, double w, double h,
@@ -905,9 +926,9 @@ public class SVGOutputFormat implements OutputFormat {
                     } else {
                         if ((current.mask & BezierPath.C1_MASK) == 0) {
                             buf.append(" Q ");
-                            buf.append(current.x[2]);
+                            buf.append(previous.x[2]);
                             buf.append(' ');
-                            buf.append(current.y[2]);
+                            buf.append(previous.y[2]);
                             buf.append(' ');
                             buf.append(current.x[0]);
                             buf.append(' ');

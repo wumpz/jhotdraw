@@ -1,5 +1,5 @@
 /*
- * @(#)SVGInputFormat.java  0.3  2007-04-22
+ * @(#)SVGInputFormat.java  1.1.1  2007-04-23
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -48,7 +48,9 @@ import org.jhotdraw.xml.css.CSSParser;
  *
  *
  * @author Werner Randelshofer
- * @version 1.1 2007-04-22 Added support for "a" element. 
+ * @version 1.1.1 2007-04-23 Fixed reading of "transform" attribute, fixed reading
+ * of "textArea" element. 
+ * <br>1.1 2007-04-22 Added support for "a" element. 
  * <br>0.2 2007-04-10 Fixed default attribute values for RadialGradient element.
  * <br>0.1 November 25, 2006 Created (Experimental).
  */
@@ -328,6 +330,8 @@ public class SVGInputFormat implements InputFormat {
                 f = readSwitchElement(elem);
             } else if (name.equals("text")) {
                 f = readTextElement(elem);
+            } else if (name.equals("textArea")) {
+                f = readTextAreaElement(elem);
             } else if (name.equals("title")) {
                 //FIXME - Implement reading of title element
                 //f = readTitleElement(elem);
@@ -387,6 +391,7 @@ public class SVGInputFormat implements InputFormat {
                 }
             }
         }
+        readTransformAttribute(elem, a);
         if (TRANSFORM.get(a) != null) {
             g.basicTransform(TRANSFORM.get(a));
         }
@@ -451,15 +456,13 @@ public class SVGInputFormat implements InputFormat {
         viewport.isPreserveAspectRatio = ! readAttribute(elem, "preserveAspectRatio", "none").equals("none");
         viewport.widthPercentFactor = viewport.viewBox.width / 100d;
         viewport.heightPercentFactor = viewport.viewBox.height / 100d;
-        
         viewport.numberFactor = Math.min(
                 viewport.width / viewport.viewBox.width,
                 viewport.height / viewport.viewBox.height
                 );
         
-        
-        
         AffineTransform viewBoxTransform = new AffineTransform();
+        
         viewBoxTransform.translate(
                 -viewport.viewBox.x * viewport.width / viewport.viewBox.width,
                 -viewport.viewBox.y *  viewport.height / viewport.viewBox.height
@@ -2720,6 +2723,7 @@ public class SVGInputFormat implements InputFormat {
             tt.whitespaceChars(0, ' ');
             tt.whitespaceChars(',', ',');
             tt.parseNumbers();
+            tt.parseExponents();
             
             while (tt.nextToken() != StreamPosTokenizer.TT_EOF) {
                 if (tt.ttype != StreamPosTokenizer.TT_WORD) {
@@ -2736,13 +2740,6 @@ public class SVGInputFormat implements InputFormat {
                             throw new IOException("Matrix value "+i+" not found in transform "+str+" token:"+tt.ttype+" "+tt.sval);
                         }
                         m[i] = tt.nval;
-                        if (tt.nextToken() == StreamPosTokenizer.TT_WORD &&
-                                (tt.sval.startsWith("E") || tt.sval.startsWith("e"))) {
-                            double mantissa = tt.nval;
-                            m[i] = Double.valueOf(m[i] + tt.sval);
-                        } else {
-                            tt.pushBack();
-                        }
                     }
                     t.concatenate(new AffineTransform(m));
                     
@@ -2752,22 +2749,8 @@ public class SVGInputFormat implements InputFormat {
                         throw new IOException("X-translation value not found in transform "+str);
                     }
                     tx = tt.nval;
-                    if (tt.nextToken() == StreamPosTokenizer.TT_WORD &&
-                            (tt.sval.startsWith("E") || tt.sval.startsWith("e"))) {
-                        double mantissa = tt.nval;
-                        tx = Double.valueOf(tx + tt.sval);
-                    } else {
-                        tt.pushBack();
-                    }
                     if (tt.nextToken() == StreamPosTokenizer.TT_NUMBER) {
                         ty = tt.nval;
-                        if (tt.nextToken() == StreamPosTokenizer.TT_WORD &&
-                                (tt.sval.startsWith("E") || tt.sval.startsWith("e"))) {
-                            double mantissa = tt.nval;
-                            ty = Double.valueOf(ty + tt.sval);
-                        } else {
-                            tt.pushBack();
-                        }
                     } else {
                         tt.pushBack();
                         ty = 0;
@@ -2780,22 +2763,8 @@ public class SVGInputFormat implements InputFormat {
                         throw new IOException("X-scale value not found in transform "+str);
                     }
                     sx = tt.nval;
-                    if (tt.nextToken() == StreamPosTokenizer.TT_WORD &&
-                            (tt.sval.startsWith("E") || tt.sval.startsWith("e"))) {
-                        double mantissa = tt.nval;
-                        sx = Double.valueOf(sx + tt.sval);
-                    } else {
-                        tt.pushBack();
-                    }
                     if (tt.nextToken() == StreamPosTokenizer.TT_NUMBER) {
                         sy = tt.nval;
-                        if (tt.nextToken() == StreamPosTokenizer.TT_WORD &&
-                                (tt.sval.startsWith("E") || tt.sval.startsWith("e"))) {
-                            double mantissa = tt.nval;
-                            sy = Double.valueOf(sy + tt.sval);
-                        } else {
-                            tt.pushBack();
-                        }
                     } else {
                         tt.pushBack();
                         sy = sx;
@@ -2808,38 +2777,17 @@ public class SVGInputFormat implements InputFormat {
                         throw new IOException("Angle value not found in transform "+str);
                     }
                     angle = tt.nval;
-                    if (tt.nextToken() == StreamPosTokenizer.TT_WORD &&
-                            (tt.sval.startsWith("E") || tt.sval.startsWith("e"))) {
-                        double mantissa = tt.nval;
-                        angle = Double.valueOf(angle + tt.sval);
-                    } else {
-                        tt.pushBack();
-                    }
                     if (tt.nextToken() == StreamPosTokenizer.TT_NUMBER) {
                         cx = tt.nval;
-                        if (tt.nextToken() == StreamPosTokenizer.TT_WORD &&
-                                (tt.sval.startsWith("E") || tt.sval.startsWith("e"))) {
-                            double mantissa = tt.nval;
-                            cx = Double.valueOf(cx + tt.sval);
-                        } else {
-                            tt.pushBack();
-                        }
                         if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
                             throw new IOException("Y-center value not found in transform "+str);
                         }
                         cy = tt.nval;
-                        if (tt.nextToken() == StreamPosTokenizer.TT_WORD &&
-                                (tt.sval.startsWith("E") || tt.sval.startsWith("e"))) {
-                            double mantissa = tt.nval;
-                            cy = Double.valueOf(cy + tt.sval);
-                        } else {
-                            tt.pushBack();
-                        }
                     } else {
                         tt.pushBack();
                         cx = cy = 0;
                     }
-                    t.rotate(angle * Math.PI / 180d, cx * Math.PI / 180d, cy * Math.PI / 180d);
+                    t.rotate(angle * Math.PI / 180d, cx, cy);
                     
                     
                 } else if (type.equals("skewX")) {
@@ -2848,13 +2796,6 @@ public class SVGInputFormat implements InputFormat {
                         throw new IOException("Skew angle not found in transform "+str);
                     }
                     angle = tt.nval;
-                    if (tt.nextToken() == StreamPosTokenizer.TT_WORD &&
-                            (tt.sval.startsWith("E") || tt.sval.startsWith("e"))) {
-                        double mantissa = tt.nval;
-                        angle = Double.valueOf(angle + tt.sval);
-                    } else {
-                        tt.pushBack();
-                    }
                     t.concatenate(new AffineTransform(
                             1, 0, Math.tan(angle * Math.PI / 180), 1, 0, 0
                             ));
@@ -2865,13 +2806,6 @@ public class SVGInputFormat implements InputFormat {
                         throw new IOException("Skew angle not found in transform "+str);
                     }
                     angle = tt.nval;
-                    if (tt.nextToken() == StreamPosTokenizer.TT_WORD &&
-                            (tt.sval.startsWith("E") || tt.sval.startsWith("e"))) {
-                        double mantissa = tt.nval;
-                        angle = Double.valueOf(angle + tt.sval);
-                    } else {
-                        tt.pushBack();
-                    }
                     t.concatenate(new AffineTransform(
                             1, Math.tan(angle * Math.PI / 180), 0, 1, 0, 0
                             ));

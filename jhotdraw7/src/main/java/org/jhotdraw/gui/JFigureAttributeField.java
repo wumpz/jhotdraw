@@ -61,6 +61,7 @@ public class JFigureAttributeField extends JTextField {
                     view.addPropertyChangeListener(propertyChangeHandler);
                 }
                 updateEnabledState();
+                updateText();
             }
         }
         public void selectionChanged(FigureSelectionEvent evt) {
