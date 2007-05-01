@@ -38,7 +38,7 @@ import org.jhotdraw.geom.*;
  * FIXME - Implement me
  *
  * @author Werner Randelshofer
- * @version 2.0 2007-04-14 Adapted for new AttributeKeys.TRANSFORM support. 
+ * @version 2.0 2007-04-14 Adapted for new AttributeKeys.TRANSFORM support.
  * <br>1.0 July 8, 2006 Created.
  */
 public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, ImageHolderFigure {
@@ -72,28 +72,42 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     }
     public SVGImageFigure(double x, double y, double width, double height) {
         rectangle = new Rectangle2D.Double(x, y, width, height);
-       SVGAttributeKeys.setDefaults(this);
+        SVGAttributeKeys.setDefaults(this);
     }
     
     // DRAWING
     public void draw(Graphics2D g) {
-        super.draw(g);
-        BufferedImage image = getBufferedImage();
-        if (image != null) {
-            if (TRANSFORM.get(this) != null) {
-                // FIXME - We should cache the transformed image.
-                //         Drawing a transformed image appears to be very slow.
-                Graphics2D gx = (Graphics2D) g.create();
-                gx.transform(TRANSFORM.get(this));
-                gx.drawImage(image, (int) rectangle.x, (int) rectangle.y, (int) rectangle.width, (int) rectangle.height, null);
-                gx.dispose();
-            } else {
-                g.drawImage(image, (int) rectangle.x, (int) rectangle.y, (int) rectangle.width, (int) rectangle.height, null);
+        //super.draw(g);
+        
+        double opacity = OPACITY.get(this);
+        opacity = Math.min(Math.max(0d, opacity), 1d);
+        if (opacity != 0d) {
+            Composite savedComposite = g.getComposite();
+            if (opacity != 1d) {
+                g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) opacity));
             }
-        } else {
-            Shape shape = getTransformedShape();
-            g.setColor(Color.red);
-            g.draw(shape);
+            
+            BufferedImage image = getBufferedImage();
+            if (image != null) {
+                if (TRANSFORM.get(this) != null) {
+                    // FIXME - We should cache the transformed image.
+                    //         Drawing a transformed image appears to be very slow.
+                    Graphics2D gx = (Graphics2D) g.create();
+                    gx.transform(TRANSFORM.get(this));
+                    gx.drawImage(image, (int) rectangle.x, (int) rectangle.y, (int) rectangle.width, (int) rectangle.height, null);
+                    gx.dispose();
+                } else {
+                    g.drawImage(image, (int) rectangle.x, (int) rectangle.y, (int) rectangle.width, (int) rectangle.height, null);
+                }
+            } else {
+                Shape shape = getTransformedShape();
+                g.setColor(Color.red);
+                g.draw(shape);
+            }
+            
+            if (opacity != 1d) {
+                g.setComposite(savedComposite);
+            }
         }
     }
     protected void drawFill(Graphics2D g) {
@@ -188,14 +202,14 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     
     
     public void restoreTransformTo(Object geometry) {
-            invalidateTransformedShape();
-            Object[] o = (Object[]) geometry;
-            rectangle = (Rectangle2D.Double) ((Rectangle2D.Double) o[0]).clone();
-            if (o[1] == null) {
-                TRANSFORM.set(this, null);
-            } else {
+        invalidateTransformedShape();
+        Object[] o = (Object[]) geometry;
+        rectangle = (Rectangle2D.Double) ((Rectangle2D.Double) o[0]).clone();
+        if (o[1] == null) {
+            TRANSFORM.set(this, null);
+        } else {
             TRANSFORM.set(this, (AffineTransform) ((AffineTransform) o[1]).clone());
-            }
+        }
     }
     
     public Object getTransformRestoreData() {
@@ -208,7 +222,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     // EDITING
     @Override public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
-
+        
         switch (detailLevel % 2) {
             case 0 :
                 ResizeHandleKit.addResizeHandles(this, handles);
@@ -339,8 +353,8 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
             }
         }
         return imageData;
-    }    
-
+    }
+    
     public void loadImage(File file) throws IOException {
         InputStream in = null;
         try {

@@ -24,7 +24,6 @@ import org.jhotdraw.geom.*;
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
 public class GroupFigure extends AbstractCompositeFigure {
-    
     /** Creates a new instance. */
     public GroupFigure() {
     }

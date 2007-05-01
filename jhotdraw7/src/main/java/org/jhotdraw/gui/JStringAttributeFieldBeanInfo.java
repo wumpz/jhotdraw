@@ -1,5 +1,5 @@
 /*
- * @(#)JFigureAttributeFieldBeanInfo.java  1.0  11. November 2003
+ * @(#)JStringAttributeFieldBeanInfo.java  1.0  11. November 2003
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -21,7 +21,7 @@ import java.beans.*;
  * @author  Werner Randelshofer
  * @version 1.0 2003-11-11 Created.
  */
-public class JFigureAttributeFieldBeanInfo extends SimpleBeanInfo {
+public class JStringAttributeFieldBeanInfo extends SimpleBeanInfo {
     
     // Bean descriptor information will be obtained from introspection.//GEN-FIRST:BeanDescriptor
     private static BeanDescriptor beanDescriptor = null;
@@ -29,7 +29,7 @@ public class JFigureAttributeFieldBeanInfo extends SimpleBeanInfo {
 //GEN-HEADEREND:BeanDescriptor
         
         // Here you can add code for customizing the BeanDescriptor.
-         if (beanDescriptor == null) beanDescriptor = new BeanDescriptor(JFigureAttributeFieldBeanInfo.class);
+         if (beanDescriptor == null) beanDescriptor = new BeanDescriptor(JStringAttributeFieldBeanInfo.class);
          beanDescriptor.setValue("isContainer", Boolean.FALSE);
      beanDescriptor.setDisplayName("JFigureAttributeField");
         

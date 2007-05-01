@@ -1,5 +1,5 @@
 /*
- * @(#)MoveAction.java  1.0  17. M�rz 2004
+ * @(#)MoveAction.java  1.0  2004-03-17
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -25,7 +25,7 @@ import java.util.*;
 import javax.swing.undo.*;
 
 /**
- * MoveAction.
+ * Moves the selected figures by one unit.
  *
  * @author  Werner Randelshofer
  * @version 1.0 17. March 2004  Created.
@@ -49,32 +49,36 @@ public abstract class MoveAction extends AbstractSelectedAction {
             f.basicTransform(tx);
             f.changed();
         }
-       fireUndoableEditHappened(new TransformEdit(getView().getSelectedFigures(), tx));
-
+        fireUndoableEditHappened(new TransformEdit(getView().getSelectedFigures(), tx));
+        
     }
     
     public static class East extends MoveAction {
+        public final static String ID = "moveEast";
         public East(DrawingEditor editor) {
             super(editor, 1, 0);
-            labels.configureAction(this, "moveEast");
+            labels.configureAction(this, ID);
         }
     }
     public static class West extends MoveAction {
+        public final static String ID = "moveWest";
         public West(DrawingEditor editor) {
             super(editor, -1, 0);
-            labels.configureAction(this, "moveWest");
+            labels.configureAction(this, ID);
         }
     }
     public static class North extends MoveAction {
+        public final static String ID = "moveNorth";
         public North(DrawingEditor editor) {
             super(editor, 0, -1);
-            labels.configureAction(this, "moveNorth");
+            labels.configureAction(this, ID);
         }
     }
     public static class South extends MoveAction {
+        public final static String ID = "moveSouth";
         public South(DrawingEditor editor) {
             super(editor, 0, 1);
-            labels.configureAction(this, "moveSouth");
+            labels.configureAction(this, ID);
         }
     }
 }

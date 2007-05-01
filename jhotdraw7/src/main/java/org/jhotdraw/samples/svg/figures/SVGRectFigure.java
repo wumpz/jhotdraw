@@ -93,7 +93,7 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
     @Override public Rectangle2D.Double getDrawingArea() {
         Rectangle2D rx = getTransformedShape().getBounds2D();
         Rectangle2D.Double r = (rx instanceof Rectangle2D.Double) ? (Rectangle2D.Double) rx : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
-        double g = AttributeKeys.getPerpendicularHitGrowth(this) * 2;
+        double g = SVGAttributeKeys.getPerpendicularHitGrowth(this) * 2;
         Geom.grow(r, g, g);
         return r;
     }

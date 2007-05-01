@@ -106,7 +106,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
     
     public CompositeFigure createG(Map<AttributeKey, Object> a) {
         SVGGroupFigure figure = new SVGGroupFigure();
-        //figure.basicSetAttributes(a);
+        figure.basicSetAttributes(a);
         return figure;
     }
     

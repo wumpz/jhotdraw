@@ -34,11 +34,13 @@ public abstract class DocumentOrientedApplication extends Application {
     public DocumentOrientedApplication() {
     }
     
-    protected final void startup(String[] args) {
+    protected final void initialize(String[] args) {
             WindowManager.getInstance().preInit();
             init(args);
+            }
+    protected final void startup() {
             WindowManager.getInstance().preStart();
-            start(args);
+            start();
     }
 
     public final static void launch(java.lang.Class<? extends DocumentOrientedApplication> applicationClass, String[] args) {
@@ -76,7 +78,7 @@ firePropertyChange("enabled", oldValue, newValue);
         return WindowManager.getInstance();
     }
     
-    public void start(String[] args) {
+    public void start() {
         Project p = createProject();
         getWindowManager().add(p);
         getWindowManager().show(p);

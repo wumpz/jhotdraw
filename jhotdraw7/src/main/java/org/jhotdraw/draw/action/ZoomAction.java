@@ -14,6 +14,7 @@
 
 package org.jhotdraw.draw.action;
 
+import java.awt.Rectangle;
 import javax.swing.*;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
@@ -51,7 +52,24 @@ public class ZoomAction extends AbstractViewAction {
         if (button != null) {
             button.setText(label);
         }
+        final Rectangle vRect = getView().getComponent().getVisibleRect();
+        final double oldFactor = getView().getScaleFactor();
         getView().setScaleFactor(scaleFactor);
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                if (vRect != null) {
+                    vRect.x = (int) (vRect.x / oldFactor * scaleFactor);
+                    vRect.y = (int) (vRect.y / oldFactor * scaleFactor);
+                    vRect.width = (int) (vRect.width / oldFactor * scaleFactor);
+                    vRect.height = (int) (vRect.height / oldFactor * scaleFactor);
+                    vRect.x += vRect.width / 3;
+                    vRect.y += vRect.height / 3;
+                    vRect.width /= 3;
+                    vRect.height /= 3;
+                    getView().getComponent().scrollRectToVisible(vRect);
+                }
+            }
+        });
     }
     
 }

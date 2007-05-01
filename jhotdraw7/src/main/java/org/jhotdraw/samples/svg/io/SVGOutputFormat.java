@@ -184,14 +184,16 @@ public class SVGOutputFormat implements OutputFormat {
         writeAttribute(elem, "cy", cy, 0d);
         writeAttribute(elem, "r", r, 0d);
         writeShapeAttributes(elem, attributes);
+        writeOpacityAttribute(elem, attributes);
         writeTransformAttribute(elem, attributes);
         return elem;
     }
     
     
     protected IXMLElement createG(IXMLElement doc,
-            Map<AttributeKey,Object> attributes) {
+            Map<AttributeKey,Object> attributes) throws IOException {
         IXMLElement elem = doc.createElement("g");
+        writeOpacityAttribute(elem, attributes);
         return elem;
     }
     
@@ -266,11 +268,12 @@ public class SVGOutputFormat implements OutputFormat {
         writeAttribute(elem, "rx", rx, 0d);
         writeAttribute(elem, "ry", ry, 0d);
         writeShapeAttributes(elem, attributes);
+        writeOpacityAttribute(elem, attributes);
         writeTransformAttribute(elem, attributes);
         return elem;
     }
     protected void writeGElement(IXMLElement parent, SVGGroupFigure f) throws IOException {
-        IXMLElement elem = document.createElement("g");
+        IXMLElement elem = createG(document, f.getAttributes());
         for (Figure child : f.getChildren()) {
             writeElement(elem, child);
         }
@@ -297,6 +300,7 @@ public class SVGOutputFormat implements OutputFormat {
         writeAttribute(elem, "width", w, 0d);
         writeAttribute(elem, "height", h, 0d);
         writeAttribute(elem, "xlink:href", "data:image;base64,"+Base64.encodeBytes(imageData), "");
+        writeOpacityAttribute(elem, attributes);
         writeTransformAttribute(elem, attributes);
         return elem;
     }
@@ -317,6 +321,7 @@ public class SVGOutputFormat implements OutputFormat {
             Map<AttributeKey,Object> attributes) throws IOException {
         IXMLElement elem = doc.createElement("path");
         writeShapeAttributes(elem, attributes);
+        writeOpacityAttribute(elem, attributes);
         writeTransformAttribute(elem, attributes);
         writeAttribute(elem, "d", toPath(beziers), null);
         return elem;
@@ -345,6 +350,7 @@ public class SVGOutputFormat implements OutputFormat {
         IXMLElement elem = doc.createElement("polygon");
         writeAttribute(elem, "points", toPoints(points), null);
         writeShapeAttributes(elem, attributes);
+        writeOpacityAttribute(elem, attributes);
         writeTransformAttribute(elem, attributes);
         return elem;
     }
@@ -372,6 +378,7 @@ public class SVGOutputFormat implements OutputFormat {
         IXMLElement elem = doc.createElement("polyline");
         writeAttribute(elem, "points", toPoints(points), null);
         writeShapeAttributes(elem, attributes);
+        writeOpacityAttribute(elem, attributes);
         writeTransformAttribute(elem, attributes);
         return elem;
     }
@@ -399,6 +406,7 @@ public class SVGOutputFormat implements OutputFormat {
         writeAttribute(elem, "x2", x2, 0d);
         writeAttribute(elem, "y2", y2, 0d);
         writeShapeAttributes(elem, attributes);
+        writeOpacityAttribute(elem, attributes);
         writeTransformAttribute(elem, attributes);
         return elem;
     }
@@ -430,6 +438,7 @@ public class SVGOutputFormat implements OutputFormat {
         writeAttribute(elem, "rx", rx, 0d);
         writeAttribute(elem, "ry", ry, 0d);
         writeShapeAttributes(elem, attributes);
+        writeOpacityAttribute(elem, attributes);
         writeTransformAttribute(elem, attributes);
         return elem;
     }
@@ -492,6 +501,7 @@ public class SVGOutputFormat implements OutputFormat {
         elem.setContent(str);
         
         writeShapeAttributes(elem, attributes);
+        writeOpacityAttribute(elem, attributes);
         writeTransformAttribute(elem, attributes);
         writeFontAttributes(elem, attributes);
         return elem;
@@ -547,6 +557,7 @@ public class SVGOutputFormat implements OutputFormat {
         
         writeShapeAttributes(elem, attributes);
         writeTransformAttribute(elem, attributes);
+        writeOpacityAttribute(elem, attributes);
         writeFontAttributes(elem, attributes);
         return elem;
     }
@@ -554,7 +565,7 @@ public class SVGOutputFormat implements OutputFormat {
     // ------------
     // Attributes
     // ------------
-    /* Reads shape attributes.
+    /* Writes shape attributes.
      */
     protected void writeShapeAttributes(IXMLElement elem, Map<AttributeKey,Object> f)
     throws IOException {
@@ -776,6 +787,26 @@ public class SVGOutputFormat implements OutputFormat {
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
         writeAttribute(elem, "stroke-width", STROKE_WIDTH.get(f), 1d);
+    }
+    /* Writes the opacity attribute.
+     */
+    protected void writeOpacityAttribute(IXMLElement elem, Map<AttributeKey,Object> f)
+    throws IOException {
+        //'opacity'
+        //Value:  	<opacity-value> | inherit
+        //Initial:  	1
+        //Applies to:  	 'image' element
+        //Inherited:  	no
+        //Percentages:  	N/A
+        //Media:  	visual
+        //Animatable:  	yes
+        //Computed value:  	 Specified value, except inherit
+        //<opacity-value>
+        //The uniform opacity setting must be applied across an entire object.
+        //Any values outside the range 0.0 (fully transparent) to 1.0
+        //(fully opaque) shall be clamped to this range.
+        //(See Clamping values which are restricted to a particular range.)
+        writeAttribute(elem, "opacity", OPACITY.get(f), 1d);
     }
     /* Writes the transform attribute as specified in
      * http://www.w3.org/TR/SVGMobile12/coords.html#TransformAttribute

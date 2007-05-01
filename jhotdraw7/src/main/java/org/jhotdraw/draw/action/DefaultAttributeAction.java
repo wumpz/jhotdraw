@@ -31,11 +31,15 @@ import org.jhotdraw.draw.*;
  */
 public class DefaultAttributeAction extends AbstractSelectedAction {
     private AttributeKey[] keys;
+    private Map<AttributeKey,Object> fixedAttributes;
     
     
     /** Creates a new instance. */
     public DefaultAttributeAction(DrawingEditor editor, AttributeKey key) {
         this(editor, key, null, null);
+    }
+    public DefaultAttributeAction(DrawingEditor editor, AttributeKey key, Map<AttributeKey,Object> fixedAttributes) {
+        this(editor, new AttributeKey[] { key }, null, null, fixedAttributes);
     }
     public DefaultAttributeAction(DrawingEditor editor, AttributeKey[] keys) {
         this(editor, keys, null, null);
@@ -51,7 +55,13 @@ public class DefaultAttributeAction extends AbstractSelectedAction {
     public DefaultAttributeAction(DrawingEditor editor, AttributeKey key, String name, Icon icon) {
         this(editor, new AttributeKey[] {key}, name, icon);
     }
-    public DefaultAttributeAction(DrawingEditor editor, AttributeKey[] keys, String name, Icon icon) {
+    public DefaultAttributeAction(DrawingEditor editor, AttributeKey[] keys, 
+            String name, Icon icon) {
+        this(editor, keys, name, icon, new HashMap<AttributeKey,Object>());
+    }
+    public DefaultAttributeAction(DrawingEditor editor, 
+            AttributeKey[] keys, String name, Icon icon,
+            Map<AttributeKey,Object> fixedAttributes) {
         super(editor);
         this.keys = keys;
         putValue(AbstractAction.NAME, name);
@@ -63,9 +73,10 @@ public class DefaultAttributeAction extends AbstractSelectedAction {
                     putValue("attribute_"+DefaultAttributeAction.this.keys[0], evt.getNewValue());
                 }
             }
-
+            
         })
         ;
+        this.fixedAttributes = fixedAttributes;
     }
     
     public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -78,14 +89,21 @@ public class DefaultAttributeAction extends AbstractSelectedAction {
     }
     
     public void changeAttribute() {
+        CompositeEdit edit = new CompositeEdit("attributes");
+        fireUndoableEditHappened(edit);
         Drawing drawing = getDrawing();
         Iterator i = getView().getSelectedFigures().iterator();
         while (i.hasNext()) {
             Figure figure = (Figure) i.next();
             for (int j=0; j < keys.length; j++) {
-            figure.setAttribute(keys[j], getEditor().getDefaultAttribute(keys[j]));
+                figure.setAttribute(keys[j], getEditor().getDefaultAttribute(keys[j]));
+            }
+            for (Map.Entry<AttributeKey,Object> entry : fixedAttributes.entrySet()) {
+                entry.getKey().set(figure, entry.getValue());
+                
             }
         }
+        fireUndoableEditHappened(edit);
     }
     public void selectionChanged(FigureSelectionEvent evt) {
         //setEnabled(getView().getSelectionCount() > 0);

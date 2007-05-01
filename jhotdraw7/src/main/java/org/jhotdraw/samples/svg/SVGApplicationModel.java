@@ -26,7 +26,7 @@ import javax.swing.*;
 import org.jhotdraw.app.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
-import static org.jhotdraw.draw.AttributeKeys.*;
+import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 /**
  * SVGApplicationModel.
  *
@@ -59,7 +59,7 @@ public class SVGApplicationModel extends DefaultApplicationModel {
     
     public void initApplication(Application a) {
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.pert.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.svg.Labels");
         AbstractAction aa;
         
         putAction(ExportAction.ID, new ExportAction(a));
@@ -185,15 +185,23 @@ public class SVGApplicationModel extends DefaultApplicationModel {
     }
     private void addColorButtonsTo(JToolBar bar, DrawingEditor editor) {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+        HashMap<AttributeKey,Object> defaultAttributes = new HashMap<AttributeKey,Object>();
+        STROKE_GRADIENT.set(defaultAttributes, null);
         bar.add(
                 ButtonFactory.createColorButton(editor,
                 STROKE_COLOR, ButtonFactory.DEFAULT_COLORS, 8,
-                "attributeStrokeColor", labels)
+                "attributeStrokeColor", labels, 
+                defaultAttributes
+                )
                 );
+        defaultAttributes = new HashMap<AttributeKey,Object>();
+        FILL_GRADIENT.set(defaultAttributes, null);
         bar.add(
                 ButtonFactory.createColorButton(editor,
                 FILL_COLOR, ButtonFactory.DEFAULT_COLORS, 8,
-                "attributeFillColor", labels)
+                "attributeFillColor", labels, 
+                defaultAttributes
+                )
                 );
     }
     private void addStrokeButtonsTo(JToolBar bar, DrawingEditor editor) {

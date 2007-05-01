@@ -33,7 +33,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  *
  *
  * @author Werner Randelshofer
- * @version 2.3 2007-04-22 Take TRANSFORM attribute into account. 
+ * @version 2.3 2007-04-22 Take TRANSFORM attribute into account.
  * <br>2.2 2006-07-08 Minor changes.
  * <br>2.1 2006-03-15 Fire undoable edit on attribute change.
  * <br>2.0.1 2006-02-06 Fixed ConcurrentModificationException in method
@@ -305,16 +305,14 @@ public abstract class AbstractCompositeFigure
             new ReversedList<Figure>(children);
     }
     
-    public void setAttribute(AttributeKey name, Object value) {
+    public void setAttribute(AttributeKey key, Object value) {
         willChange();
-        for (Figure child : children) {
-            child.setAttribute(name, value);
-        }
+        basicSetAttribute(key, value);
         changed();
     }
-    public void basicSetAttribute(AttributeKey name, Object value) {
+    public void basicSetAttribute(AttributeKey key, Object value) {
         for (Figure child : children) {
-            child.basicSetAttribute(name, value);
+            child.basicSetAttribute(key, value);
         }
     }
     public Object getAttribute(AttributeKey name) {
@@ -323,7 +321,7 @@ public abstract class AbstractCompositeFigure
     
     
     public boolean contains(Point2D.Double p) {
-       if (TRANSFORM.get(this) != null) {
+        if (TRANSFORM.get(this) != null) {
             try {
                 p = (Point2D.Double) TRANSFORM.get(this).inverseTransform(p, new Point2D.Double());
             } catch (NoninvertibleTransformException ex) {
@@ -331,7 +329,7 @@ public abstract class AbstractCompositeFigure
                 error.initCause(ex);
                 throw error;
             }
-       };
+        };
         if (getDrawingArea().contains(p)) {
             for (Figure child : getChildrenFrontToBack()) {
                 if (child.isVisible() && child.contains(p)) return true;
@@ -461,9 +459,18 @@ public abstract class AbstractCompositeFigure
         return (bounds == null) ? new Rectangle2D.Double(0, 0, -1, -1) : (Rectangle2D.Double) bounds.clone();
     }
     public void draw(Graphics2D g) {
-        for (Figure child : children) {
-            if (child.isVisible()) {
-                child.draw(g);
+        Rectangle2D clipBounds = g.getClipBounds();
+        if (clipBounds != null) {
+            for (Figure child : children) {
+                if (child.isVisible() && child.getDrawingArea().intersects(clipBounds)) {
+                    child.draw(g);
+                }
+            }
+        } else {
+            for (Figure child : children) {
+                if (child.isVisible()) {
+                    child.draw(g);
+                }
             }
         }
         if (isConnectorsVisible()) {

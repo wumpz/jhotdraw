@@ -79,7 +79,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     @Override public Rectangle2D.Double getDrawingArea() {
         Rectangle2D rx = getTransformedShape().getBounds2D();
         Rectangle2D.Double r = (rx instanceof Rectangle2D.Double) ? (Rectangle2D.Double) rx : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
-        double g = AttributeKeys.getPerpendicularHitGrowth(this);
+        double g = SVGAttributeKeys.getPerpendicularHitGrowth(this);
         Geom.grow(r, g, g);
         return r;
     }
@@ -87,6 +87,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
      * Checks if a Point2D.Double is inside the figure.
      */
     public boolean contains(Point2D.Double p) {
+        // XXX - This does not take the stroke width into account!
         return getTransformedShape().contains(p);
     }
     private void invalidateTransformedShape() {

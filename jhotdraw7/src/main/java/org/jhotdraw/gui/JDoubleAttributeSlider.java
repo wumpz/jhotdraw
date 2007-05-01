@@ -1,5 +1,5 @@
 /*
- * @(#)JFigureAttributeField.java  1.0  April 22, 2007
+ * @(#)JDoubleAttributeSlider.java  1.0  April 30, 2007
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -14,6 +14,8 @@
 
 package org.jhotdraw.gui;
 
+import javax.swing.JSlider;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.*;
@@ -24,87 +26,86 @@ import org.jhotdraw.draw.*;
 import org.jhotdraw.util.*;
 
 /**
- * A JTextField that can be used to edit a String attribute of a Figure.
+ * A JSlider that can be used to edit a double attribute of a Figure.
  *
  * @author Werner Randelshofer
- * @version 1.0 April 22, 2007 Created.
+ * @version 1.0 April 30, 2007 Created.
  */
-public class JFigureAttributeField extends JTextField {
-    private static final boolean DEBUG = false;
-    
+public class JDoubleAttributeSlider extends JSlider {
+    private double scaleFactor = 1d;
     private DrawingEditor editor;
-    private AttributeKey<String> attributeKey;
+    private AttributeKey<Double> attributeKey;
     private boolean isMultipleValues;
     protected ResourceBundleUtil labels =
             ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
-    private int isUpdatingText = 0;
+    private int isUpdatingSlider = 0;
     
-    private PropertyChangeListener propertyChangeHandler = new PropertyChangeListener() {
+    private PropertyChangeListener viewEventHandler = new PropertyChangeListener() {
         public void propertyChange(PropertyChangeEvent evt) {
-            if (evt.getPropertyName().equals("enabled")) {
+            String name = evt.getPropertyName();
+            if (name.equals("enabled")) {
                 updateEnabledState();
             }
         }
     };
     
-    private class EventHandler implements PropertyChangeListener, FigureSelectionListener {
+    private class EditorEventHandler implements PropertyChangeListener, FigureSelectionListener {
         public void propertyChange(PropertyChangeEvent evt) {
-            if (evt.getPropertyName().equals("focusedView")) {
+            String name = evt.getPropertyName();
+            if (name.equals("focusedView")) {
                 if (evt.getOldValue() != null) {
                     DrawingView view = ((DrawingView) evt.getOldValue());
                     view.removeFigureSelectionListener(this);
-                    view.removePropertyChangeListener(propertyChangeHandler);
+                    view.removePropertyChangeListener(viewEventHandler);
                 }
                 if (evt.getNewValue() != null) {
                     DrawingView view = ((DrawingView) evt.getNewValue());
                     view.addFigureSelectionListener(this);
-                    view.addPropertyChangeListener(propertyChangeHandler);
+                    view.addPropertyChangeListener(viewEventHandler);
                 }
                 updateEnabledState();
-                updateText();
+                updateSlider();
+            } else if (name.equals(attributeKey.getKey())) {
+                updateSlider();
             }
         }
         public void selectionChanged(FigureSelectionEvent evt) {
             updateEnabledState();
-            updateText();
+            updateSlider();
         }
     };
     
-    private EventHandler eventHandler = new EventHandler();
+    private EditorEventHandler eventHandler = new EditorEventHandler();
+    
+    private class ChangeHandler implements ChangeListener {
+        public void stateChanged(ChangeEvent evt) {
+            // FIXME - Use isValueAdjusting for undo/redo
+            updateFigures();
+        }
+    }
+    
+    private ChangeHandler changeHandler = new ChangeHandler();
+    
     
     /** Creates new instance. */
-    public JFigureAttributeField() {
+    public JDoubleAttributeSlider() {
         this(null, null);
     }
-    public JFigureAttributeField(DrawingEditor editor, AttributeKey<String> attributeKey) {
+    public JDoubleAttributeSlider(int orientation, int min, int max, int value) {
+        super(orientation, min, max, value);
+        getModel().addChangeListener(changeHandler);
+    }
+    public JDoubleAttributeSlider(DrawingEditor editor, AttributeKey<Double> attributeKey) {
         initComponents();
         this.attributeKey = attributeKey;
         setEditor(editor);
-        this.getDocument().addDocumentListener(new DocumentListener() {
-            public void insertUpdate(DocumentEvent e) {
-                updateFigures();
-            }
-            
-            public void removeUpdate(DocumentEvent e) {
-                updateFigures();
-            }
-            
-            public void changedUpdate(DocumentEvent e) {
-                updateFigures();
-            }
-        });
-        addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                updateFigures();
-            }
-        });
+        this.setModel(new DefaultBoundedRangeModel());
     }
     
-    public void setAttributeKey(AttributeKey<String> attributeKey) {
-        this.attributeKey = attributeKey;
+    public void setAttributeKey(AttributeKey<Double> newValue) {
+        this.attributeKey = newValue;
     }
     public void setEditor(DrawingEditor editor) {
-        if (DEBUG) System.out.println("JFigureAttributeField.setEditor("+editor+")");
         if (this.editor != null) {
             this.editor.removePropertyChangeListener(eventHandler);
             if (getView() != null) {
@@ -123,6 +124,18 @@ public class JFigureAttributeField extends JTextField {
         return (editor == null) ? null : editor.getFocusedView();
     }
     
+    public void setModel(BoundedRangeModel brm) {
+        BoundedRangeModel model = getModel();
+        if (model != null) {
+            model.removeChangeListener(changeHandler);
+        }
+        super.setModel(brm);
+        if (brm != null) {
+            brm.addChangeListener(changeHandler);
+        }
+    }
+    
+    
     protected void updateEnabledState() {
         if (getView() != null) {
             setEnabled(getView().isEnabled() &&
@@ -132,50 +145,58 @@ public class JFigureAttributeField extends JTextField {
             setEnabled(false);
         }
     }
-    protected void updateText() {
-        if (DEBUG) System.out.println("JFigureAttributeField.updateText");
-        //if (! isFocusOwner()) {
-            isUpdatingText++;
+    
+    public void setScaleFactor(double newValue) {
+        this.scaleFactor = newValue;
+    }
+    
+    public double getScaleFactor() {
+        return scaleFactor;
+    }
+    
+    protected void updateSlider() {
+        if (isUpdatingSlider++ == 0) {
             if (getView() == null || attributeKey == null) {
-                setText("");
+                setValue(0);
             } else {
-                String href = null;
+                Double sliderValue = null;
                 boolean isFirst = true;
                 isMultipleValues = false;
                 for (Figure f : getView().getSelectedFigures()) {
                     if (isFirst) {
                         isFirst = false;
-                        href = attributeKey.get(f);
+                        sliderValue = attributeKey.get(f);
                     } else {
-                        String figureHref = attributeKey.get(f);
-                        if (figureHref == href ||
-                                figureHref != null && href != null &&
-                                figureHref.equals(href)) {
+                        Double figureValue = attributeKey.get(f);
+                        if (figureValue == sliderValue ||
+                                figureValue != null && sliderValue != null &&
+                                figureValue.equals(sliderValue)) {
                         } else {
-                            href = null;
+                            sliderValue = null;
                             isMultipleValues = true;
                         }
                     }
                 }
-                setText(href);
+                if (sliderValue != null) {
+                    setValue((int) (sliderValue * scaleFactor));
+                }
             }
             repaint();
-            isUpdatingText--;
-       // }
+        }
+        isUpdatingSlider--;
     }
     
     private void updateFigures() {
-        if (isUpdatingText == 0) {
-            String text = getText().trim();
-            if (text.length() == 0) {
-                text = null;
-            }
+        if (isUpdatingSlider++ == 0) {
+            double value = getValue() / scaleFactor;
             if (getView() != null && attributeKey != null) {
                 for (Figure f : getView().getSelectedFigures()) {
-                    attributeKey.set(f, text);
+                    attributeKey.set(f, value);
                 }
             }
+            editor.setDefaultAttribute(attributeKey, value);
         }
+        isUpdatingSlider--;
     }
     
     public void dispose() {
@@ -201,21 +222,5 @@ public class JFigureAttributeField extends JTextField {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
-    
-    @Override protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        if (! isFocusOwner() && isMultipleValues) {
-            Insets insets = getInsets();
-            Insets margin = getMargin();
-            int height = getHeight();
-            FontMetrics fm = g.getFontMetrics(getFont());
-            //g.setColor(Color.DARK_GRAY);
-            g.setFont(getFont().deriveFont(Font.ITALIC));
-            g.drawString(labels.getString("multipleValues"),
-                    insets.left + margin.left,
-                    insets.top + margin.top + fm.getAscent()
-                    );
-        }
-    }
     
 }

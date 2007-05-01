@@ -214,6 +214,9 @@ bounds of the figure as a Rectangle.
      * Use <code>AttributeKey.set</code> for typesafe access to this 
      * method.
      *
+     * XXX - This method is going away!! We will add getAttributesRestoreData
+     * and restoreAttributesTo methods instead.
+     *
      * @see AttributeKey#basicSet
      */
     public void setAttribute(AttributeKey key, Object value);

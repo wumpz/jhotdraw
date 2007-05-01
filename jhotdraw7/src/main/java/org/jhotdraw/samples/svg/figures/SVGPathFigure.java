@@ -17,6 +17,7 @@ package org.jhotdraw.samples.svg.figures;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
@@ -53,7 +54,43 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
     }
     
     
-    public void draw(Graphics2D g) {
+    public void draw(Graphics2D g)  {
+        double opacity = OPACITY.get(this);
+        opacity = Math.min(Math.max(0d, opacity), 1d);
+        if (opacity != 0d) {
+            if (opacity != 1d) {
+                Rectangle2D.Double drawingArea = getDrawingArea();
+                
+                Rectangle2D clipBounds = g.getClipBounds();
+                if (clipBounds != null) {
+                    Rectangle2D.intersect(drawingArea, clipBounds, drawingArea);
+                }
+                
+                if (! drawingArea.isEmpty()) {
+                    
+                    BufferedImage buf = new BufferedImage(
+                            (int) ((2 + drawingArea.width) * g.getTransform().getScaleX()),
+                            (int) ((2 + drawingArea.height) * g.getTransform().getScaleY()),
+                            BufferedImage.TYPE_INT_ARGB);
+                    Graphics2D gr = buf.createGraphics();
+                    gr.scale(g.getTransform().getScaleX(), g.getTransform().getScaleY());
+                    gr.translate((int) -drawingArea.x, (int) -drawingArea.y);
+                    gr.setRenderingHints(g.getRenderingHints());
+                    drawFigure(gr);
+                    gr.dispose();
+                    Composite savedComposite = g.getComposite();
+                    g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) opacity));
+                    g.drawImage(buf, (int) drawingArea.x, (int) drawingArea.y,
+                            2 + (int) drawingArea.width, 2 + (int) drawingArea.height, null);
+                    g.setComposite(savedComposite);
+                }
+            } else {
+                drawFigure(g);
+            }
+        }
+    }
+    
+    public void drawFigure(Graphics2D g) {
         validatePath();
         Paint paint = SVGAttributeKeys.getFillPaint(this);
         if (paint != null) {
@@ -74,9 +111,9 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         // DEBUGGING STUFF
         g.setStroke(new BasicStroke());
         g.setColor(Color.blue);
- double grow = AttributeKeys.getPerpendicularHitGrowth(this);
+ double grow = SVGAttributeKeys.getPerpendicularHitGrowth(this);
  GrowStroke gs = new GrowStroke((float) grow,
-                (float) (AttributeKeys.getStrokeTotalWidth(this) *
+                (float) (SVGAttributeKeys.getStrokeTotalWidth(this) *
                 STROKE_MITER_LIMIT.get(this))
                 );
         for (Figure child : getChildren()) {

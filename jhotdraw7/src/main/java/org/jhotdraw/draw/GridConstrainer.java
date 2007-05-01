@@ -53,6 +53,28 @@ public class GridConstrainer implements Constrainer {
         p.y = Math.round(p.y / height) * height;
         return p;
     }
+    
+    public Point2D.Double constrainPoint(Point2D.Double p, Direction dir) {
+        Point2D.Double p0 = constrainPoint((Point2D.Double) p.clone());
+        
+        switch (dir) {
+            case NORTH :
+                p.y = p0.y - height;
+                break;
+            case WEST :
+                p.x = p0.x - width;
+                break;
+            case SOUTH :
+                p.y = p0.y + height;
+                break;
+            case EAST :
+                p.x = p0.x + width;
+                break;
+        }
+
+        return p;
+    }
+    
     public String toString() {
         return super.toString()+"["+width+","+height+"]";
     }

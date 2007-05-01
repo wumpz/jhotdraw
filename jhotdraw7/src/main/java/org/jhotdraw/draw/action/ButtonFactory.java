@@ -330,26 +330,50 @@ public class ButtonFactory {
     }
     public static void addColorButtonsTo(JToolBar bar, DrawingEditor editor) {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-        bar.add(createColorButton(editor, STROKE_COLOR, DEFAULT_COLORS, 8, "attributeStrokeColor", labels));
-        bar.add(createColorButton(editor, FILL_COLOR, DEFAULT_COLORS, 8, "attributeFillColor", labels));
-        bar.add(createColorButton(editor, TEXT_COLOR, DEFAULT_COLORS, 8, "attributeTextColor", labels));
+        bar.add(createColorButton(editor, STROKE_COLOR, DEFAULT_COLORS, 8, "attributeStrokeColor", labels, new HashMap<AttributeKey,Object>()));
+        bar.add(createColorButton(editor, FILL_COLOR, DEFAULT_COLORS, 8, "attributeFillColor", labels, new HashMap<AttributeKey,Object>()));
+        bar.add(createColorButton(editor, TEXT_COLOR, DEFAULT_COLORS, 8, "attributeTextColor", labels, new HashMap<AttributeKey,Object>()));
     }
     /**
      * @param colorMap a Map with named colors. This is usually a LinkedHashMap
      * so that the colors are in a specific order.
      */
-    public static JPopupButton createColorButton(DrawingEditor editor, AttributeKey attributeKey, Map<String,Color> colorMap, int columnCount, String labelKey, ResourceBundleUtil labels) {
+    public static JPopupButton createColorButton(
+            DrawingEditor editor, AttributeKey attributeKey, 
+            Map<String,Color> colorMap, int columnCount, 
+            String labelKey, ResourceBundleUtil labels) {
+        return createColorButton(
+                editor, attributeKey, 
+                colorMap, columnCount,
+                labelKey, labels, 
+               (Map<AttributeKey,Object>) new HashMap<AttributeKey,Object>()
+                );
+    }
+    /**
+     * @param colorMap a Map with named colors. This is usually a LinkedHashMap
+     * so that the colors are in a specific order.
+     */
+    public static JPopupButton createColorButton(
+            DrawingEditor editor, AttributeKey attributeKey, 
+            Map<String,Color> colorMap, int columnCount, 
+            String labelKey, ResourceBundleUtil labels,
+            Map<AttributeKey,Object> defaultAttributes) {
         final JPopupButton popupButton = new JPopupButton();
         
-        popupButton.setAction(new DefaultAttributeAction(editor, attributeKey), new Rectangle(0, 0, 22, 22));
+        popupButton.setAction(
+                new DefaultAttributeAction(editor, attributeKey, defaultAttributes), 
+                new Rectangle(0, 0, 22, 22)
+                );
         popupButton.setColumnCount(columnCount, false);
         for (Map.Entry<String,Color> entry : colorMap.entrySet()) {
             AttributeAction a;
+            HashMap<AttributeKey,Object> attributes = new HashMap<AttributeKey,Object>(defaultAttributes);
+            attributes.put(attributeKey, entry.getValue());
             popupButton.add(a=
                     new AttributeAction(
                     editor,
-                    attributeKey,
-                    entry.getValue(),
+                    attributes,
+                    labels.getString(labelKey),
                     new ColorIcon(entry.getValue())
                     )
                     );
@@ -364,7 +388,9 @@ public class ButtonFactory {
                 new ColorChooserAction(
                 editor,
                 attributeKey,
-                chooserIcon
+                "color",
+                chooserIcon,
+                defaultAttributes
                 )
                 );
         labels.configureToolBarButton(popupButton,labelKey);
@@ -1014,4 +1040,6 @@ public class ButtonFactory {
         btn.setFocusable(false);
         return btn;
     }
+
+
 }

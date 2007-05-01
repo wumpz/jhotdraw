@@ -14,7 +14,10 @@
 
 package org.jhotdraw.samples.svg;
 
+import java.awt.*;
+import javax.swing.*;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.gui.*;
 import org.jhotdraw.util.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
@@ -28,16 +31,38 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 public class SVGPropertiesPanel extends javax.swing.JPanel {
     private ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.svg.Labels");
     private DrawingEditor editor;
+    private JDoubleAttributeSlider opacitySlider;
     
     /** Creates new instance. */
     public SVGPropertiesPanel() {
         initComponents();
+        
+        opacitySlider = new JDoubleAttributeSlider(JSlider.VERTICAL, 0, 100, 100);
+        opacityPopupButton.add(opacitySlider);
+        opacityPopupButton.putClientProperty("JButton.buttonType","toolbar");
+        add(opacityPopupButton);
+        
+        opacityField.setAttributeKey(OPACITY);
+        opacitySlider.setAttributeKey(OPACITY);
+        opacitySlider.setScaleFactor(100d);
+        opacityField.setScaleFactor(100d);
+        opacityField.setMinimum(0d);
+        opacityField.setMaximum(100d);
+        linkField.setAttributeKey(LINK);
+        
+        // set fonts
+        Font font = getFont().deriveFont(11f);
+        for (Component c : getComponents()) {
+            c.setFont(font);
+        }
+        opacitySlider.setFont(font);
     }
     
     public void setEditor(DrawingEditor editor) {
         this.editor = editor;
         linkField.setEditor(editor);
-        linkField.setAttributeKey(LINK);
+        opacitySlider.setEditor(editor);
+        opacityField.setEditor(editor);
     }
     
     /** This method is called from within the constructor to
@@ -50,11 +75,15 @@ public class SVGPropertiesPanel extends javax.swing.JPanel {
         java.awt.GridBagConstraints gridBagConstraints;
 
         linkLabel = new javax.swing.JLabel();
-        linkField = new org.jhotdraw.gui.JFigureAttributeField();
+        linkField = new org.jhotdraw.gui.JStringAttributeField();
+        opacityLabel = new javax.swing.JLabel();
+        opacityField = new org.jhotdraw.gui.JDoubleAttributeField();
+        opacityPopupButton = new org.jhotdraw.gui.JPopupButton();
 
         setLayout(new java.awt.GridBagLayout());
 
         setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        linkLabel.setLabelFor(linkField);
         linkLabel.setText(labels.getString("link"));
         add(linkLabel, new java.awt.GridBagConstraints());
 
@@ -64,12 +93,27 @@ public class SVGPropertiesPanel extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
         add(linkField, gridBagConstraints);
 
+        opacityLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jhotdraw/draw/action/images/attributeOpacity.png")));
+        opacityLabel.setToolTipText(labels.getString("opacity"));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
+        add(opacityLabel, gridBagConstraints);
+
+        opacityField.setColumns(3);
+        add(opacityField, new java.awt.GridBagConstraints());
+
+        opacityPopupButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jhotdraw/draw/action/images/popupIcon.png")));
+        add(opacityPopupButton, new java.awt.GridBagConstraints());
+
     }// </editor-fold>//GEN-END:initComponents
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private org.jhotdraw.gui.JFigureAttributeField linkField;
+    private org.jhotdraw.gui.JStringAttributeField linkField;
     private javax.swing.JLabel linkLabel;
+    private org.jhotdraw.gui.JDoubleAttributeField opacityField;
+    private javax.swing.JLabel opacityLabel;
+    private org.jhotdraw.gui.JPopupButton opacityPopupButton;
     // End of variables declaration//GEN-END:variables
     
 }

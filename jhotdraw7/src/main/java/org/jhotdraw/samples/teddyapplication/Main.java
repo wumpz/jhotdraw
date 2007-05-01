@@ -30,16 +30,18 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        
+        
         WindowManager wm;
-        /*
         if (System.getProperty("os.name").toLowerCase().startsWith("mac os x")) {
             wm = new DefaultOSXWindowManager();
         } else if (System.getProperty("os.name").toLowerCase().startsWith("win")) {
             wm = new DefaultMDIWindowManager();
         } else {
             wm = new DefaultSDIWindowManager();
-        }*/
+        }/*
             wm = new DefaultSDIWindowManager();
+          */
         WindowManager.setInstance(wm);
         WindowManager.getInstance().preLaunch();
         DocumentOrientedApplication.launch(TeddyApplication.class, args);

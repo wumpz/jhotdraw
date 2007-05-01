@@ -20,6 +20,7 @@ import java.awt.*;
 import java.beans.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.undo.CompositeEdit;
 /**
  * ColorChooserAction.
  *
@@ -30,6 +31,7 @@ import org.jhotdraw.draw.*;
 public class ColorChooserAction extends AbstractSelectedAction {
     private AttributeKey key;
     private static JColorChooser colorChooser;
+    private HashMap<AttributeKey,Object> fixedAttributes;
     
     /** Creates a new instance. */
     public ColorChooserAction(DrawingEditor editor, AttributeKey key) {
@@ -44,6 +46,10 @@ public class ColorChooserAction extends AbstractSelectedAction {
         this(editor, key, name, null);
     }
     public ColorChooserAction(DrawingEditor editor, final AttributeKey key, String name, Icon icon) {
+        this(editor, key, name, icon, new HashMap<AttributeKey,Object>());
+    }
+    public ColorChooserAction(DrawingEditor editor, final AttributeKey key, String name, Icon icon,
+            Map<AttributeKey,Object> fixedAttributes) {
         super(editor);
         this.key = key;
         putValue(AbstractAction.NAME, name);
@@ -67,13 +73,19 @@ public class ColorChooserAction extends AbstractSelectedAction {
     }
     
     public void changeAttribute(Color value) {
+        CompositeEdit edit = new CompositeEdit("attributes");
+        fireUndoableEditHappened(edit);
         Drawing drawing = getDrawing();
         Iterator i = getView().getSelectedFigures().iterator();
         while (i.hasNext()) {
             Figure figure = (Figure) i.next();
             figure.setAttribute(key, value);
+            for (Map.Entry<AttributeKey,Object> entry : fixedAttributes.entrySet()) {
+                entry.getKey().set(figure, entry.getValue());
+            }
         }
         getEditor().setDefaultAttribute(key, value);
+        fireUndoableEditHappened(edit);
     }
     public void selectionChanged(FigureSelectionEvent evt) {
         //setEnabled(getView().getSelectionCount() > 0);

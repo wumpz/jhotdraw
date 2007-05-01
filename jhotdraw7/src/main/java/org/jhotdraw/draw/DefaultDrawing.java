@@ -32,7 +32,7 @@ import java.util.*;
  *
  *
  * @author Werner Randelshofer
- * @version 2.2 2007-04-09 Methods setCanvasSize, getCanvasSize added. 
+ * @version 2.2 2007-04-09 Methods setCanvasSize, getCanvasSize added.
  * <br>2.1 2007-02-09 Moved FigureListener and UndoableEditListener into
  * inner class.
  * <br>2.0 2006-01-14 Changed to support double precision coordinates.
@@ -82,9 +82,18 @@ public class DefaultDrawing
     }
     
     public void draw(Graphics2D g, Collection<Figure> figures) {
-        for (Figure f : figures) {
-            if (f.isVisible()) {
-                f.draw(g);
+        Rectangle2D clipBounds = g.getClipBounds();
+        if (clipBounds != null) {
+            for (Figure f : figures) {
+                if (f.isVisible() && f.getDrawingArea().intersects(clipBounds)) {
+                    f.draw(g);
+                }
+            }
+        } else {
+            for (Figure f : figures) {
+                if (f.isVisible()) {
+                    f.draw(g);
+                }
             }
         }
     }
@@ -208,13 +217,13 @@ public class DefaultDrawing
             needsSorting = false;
         }
     }
-
+    
     public void setCanvasSize(Dimension2DDouble newValue) {
         Dimension2DDouble oldValue = canvasSize;
         canvasSize = newValue;
         firePropertyChange("canvasSize", oldValue, newValue);
     }
-
+    
     public Dimension2DDouble getCanvasSize() {
         return canvasSize;
     }

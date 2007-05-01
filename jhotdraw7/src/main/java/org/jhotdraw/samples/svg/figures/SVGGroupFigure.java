@@ -16,12 +16,13 @@ package org.jhotdraw.samples.svg.figures;
 
 import java.awt.*;
 import java.awt.geom.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.samples.svg.*;
-import org.jhotdraw.samples.svg.SVGConstants;
 import org.jhotdraw.xml.*;
+import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 /**
  * SVGGroup.
  *
@@ -29,20 +30,70 @@ import org.jhotdraw.xml.*;
  * @version 1.0 July 8, 2006 Created.
  */
 public class SVGGroupFigure extends GroupFigure implements SVGFigure {
+    private HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey,Object>();
+    
     
     /** Creates a new instance. */
     public SVGGroupFigure() {
         SVGAttributeKeys.setDefaults(this);
     }
-/*
-    public void drawFigure(Graphics2D g) {
-        super.drawFigure(g);
-        g.setStroke(new BasicStroke());
-        g.setColor(Color.red);
-        g.draw(getBounds());
-        g.setColor(Color.blue);
-        g.draw(getFigureDrawBounds());
-    }*/
+    
+    @Override public void basicSetAttribute(AttributeKey key, Object value) {
+        if (key == OPACITY) {
+            attributes.put(key, value);
+        } else {
+            super.basicSetAttribute(key, value);
+        }
+    }
+    @Override public Object getAttribute(AttributeKey name) {
+        return attributes.get(name);
+    }
+    @Override public Map<AttributeKey,Object> getAttributes() {
+        return new HashMap<AttributeKey,Object>(attributes);
+    }
+    public void basicSetAttributes(Map<AttributeKey, Object> map) {
+        for (Map.Entry<AttributeKey, Object> entry : map.entrySet()) {
+            basicSetAttribute(entry.getKey(), entry.getValue());
+        }
+    }
+    
+    public void draw(Graphics2D g)  {
+        double opacity = OPACITY.get(this);
+        opacity = Math.min(Math.max(0d, opacity), 1d);
+        if (opacity != 0d) {
+            if (opacity != 1d) {
+                Rectangle2D.Double drawingArea = getDrawingArea();
+                
+                Rectangle2D clipBounds = g.getClipBounds();
+                if (clipBounds != null) {
+                    Rectangle2D.intersect(drawingArea, clipBounds, drawingArea);
+                }
+                
+                if (! drawingArea.isEmpty()) {
+                    
+                    BufferedImage buf = new BufferedImage(
+                            (int) ((2 + drawingArea.width) * g.getTransform().getScaleX()),
+                            (int) ((2 + drawingArea.height) * g.getTransform().getScaleY()),
+                            BufferedImage.TYPE_INT_ARGB);
+                    Graphics2D gr = buf.createGraphics();
+                    gr.scale(g.getTransform().getScaleX(), g.getTransform().getScaleY());
+                    gr.translate((int) -drawingArea.x, (int) -drawingArea.y);
+                    gr.setRenderingHints(g.getRenderingHints());
+                    super.draw(gr);
+                    gr.dispose();
+                    Composite savedComposite = g.getComposite();
+                    g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) opacity));
+                    g.drawImage(buf, (int) drawingArea.x, (int) drawingArea.y,
+                            2 + (int) drawingArea.width, 2 + (int) drawingArea.height, null);
+                    g.setComposite(savedComposite);
+                }
+            } else {
+                super.draw(g);
+            }
+        }
+    }
+    
+    
     @Override public LinkedList<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
         if (detailLevel == 0) {
@@ -72,11 +123,16 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
                 Figure child = i.next();
                 buf.append(child);
                 if (i.hasNext()) {
-                buf.append(',');
+                    buf.append(',');
                 }
             }
             buf.append(')');
         }
         return buf.toString();
+    }
+    public SVGGroupFigure clone() {
+        SVGGroupFigure that = (SVGGroupFigure) super.clone();
+        that.attributes = new HashMap<AttributeKey,Object>(this.attributes);
+        return that;
     }
 }

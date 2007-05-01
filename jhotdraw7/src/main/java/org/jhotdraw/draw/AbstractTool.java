@@ -1,7 +1,7 @@
 /*
- * @(#)AbstractTool.java  3.0  2006-02-15
+ * @(#)AbstractTool.java  4.0  2007-04-29
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -15,6 +15,9 @@
 package org.jhotdraw.draw;
 
 import java.beans.*;
+import javax.swing.*;
+import org.jhotdraw.app.action.*;
+import org.jhotdraw.draw.action.*;
 import org.jhotdraw.undo.CompositeEdit;
 import java.awt.*;
 import java.awt.geom.*;
@@ -26,7 +29,9 @@ import java.util.*;
  * AbstractTool.
  *
  * @author Werner Randelshofer
- * @version 3.0 2006-02-15 Updated to handle multiple views.
+ * @version 4.0 2007-04-29 Replaced code in method keyPressed by an InputMap
+ * and a ActionMap.
+ * <br>3.0 2006-02-15 Updated to handle multiple views.
  * <br>2.0 2006-01-14 Changed to support double precision coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
@@ -46,25 +51,27 @@ public abstract class AbstractTool implements Tool {
     protected DrawingEditor editor;
     protected Point anchor = new Point();
     protected EventListenerList listenerList = new EventListenerList();
+    private DrawingEditorProxy editorProxy;
     /*
     private PropertyChangeListener editorHandler;
     private PropertyChangeListener viewHandler;
-    */
+     */
+    
+    /**
+     * The input map of the tool.
+     */
+    private InputMap inputMap;
+    /**
+     * The action map of the tool.
+     */
+    private ActionMap actionMap;
+    
     
     /** Creates a new instance. */
     public AbstractTool() {
-        /*
-        editorHandler = new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent evt) {
-                editorPropertyChange(evt);
-            }
-        };
-        viewHandler = new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent evt) {
-                viewPropertyChange(evt);
-            }
-            
-        };*/
+        editorProxy = new DrawingEditorProxy();
+        setInputMap(createInputMap());
+        setActionMap(createActionMap());
     }
     
     public void addUndoableEditListener(UndoableEditListener l) {
@@ -81,6 +88,7 @@ public abstract class AbstractTool implements Tool {
             this.editor.removePropertyChangeListener(editorHandler);
         }*/
         this.editor = editor;
+        editorProxy.setTarget(editor);
          /*
         if (this.editor != null) {
             this.editor.addPropertyChangeListener(editorHandler);
@@ -114,6 +122,35 @@ public abstract class AbstractTool implements Tool {
     }
     protected Point2D.Double constrainPoint(Point2D.Double p) {
         return getView().getConstrainer().constrainPoint(p);
+    }
+    
+    /**
+     * Sets the InputMap for the Tool.
+     *
+     * @see #keyPressed
+     * @see #setActionMap
+     */
+    public void setInputMap(InputMap newValue) {
+        inputMap = newValue;
+    }
+    /**
+     * Gets the input map of the Tool
+     */
+    public InputMap getInputMap() {
+        return inputMap;
+    }
+    /**
+     * Sets the ActionMap for the Tool.
+     * @see #keyPressed
+     */
+    public void setActionMap(ActionMap newValue) {
+        actionMap = newValue;
+    }
+    /**
+     * Gets the action map of the Tool
+     */
+    public ActionMap getActionMap() {
+        return actionMap;
     }
     
     /**
@@ -161,75 +198,86 @@ public abstract class AbstractTool implements Tool {
     public void keyTyped(KeyEvent evt) {
     }
     
+    /**
+     * The Tool uses the InputMap to determine what to do, when a key is pressed.
+     * If the corresponding value of the InputMap is a String, the ActionMap
+     * of the tool is used, to find the action to be performed.
+     * If the corresponding value of the InputMap is a ActionListener, the
+     * actionPerformed method of the ActionListener is performed.
+     */
     public void keyPressed(KeyEvent evt) {
         if (evt.getSource() instanceof Container) {
             editor.setView(editor.findView((Container) evt.getSource()));
         }
-        //fireToolStarted(evt.get)
-        CompositeEdit edit;
-        switch (evt.getKeyCode()) {
-            case KeyEvent.VK_DELETE :
-            case KeyEvent.VK_BACK_SPACE : {
-                editDelete();
-                break;
+        
+        if (inputMap != null) {
+            Object obj = inputMap.get(KeyStroke.getKeyStroke(evt.getKeyCode(),evt.getModifiers(), false));
+            ActionListener al = null;
+            if (obj instanceof ActionListener) {
+                al = (ActionListener) obj;
+            } else if (obj != null && actionMap != null) {
+                al = actionMap.get(obj);
             }
-            case KeyEvent.VK_A : {
-                if ((evt.getModifiers() &
-                        (KeyEvent.CTRL_MASK | KeyEvent.META_MASK)) != 0) {
-                    getView().addToSelection(getView().getDrawing().getFigures());
-                }
-                break;
-            }
-            case KeyEvent.VK_LEFT : {
-                Collection<Figure> figures = getView().getSelectedFigures();
-                AffineTransform tx = new AffineTransform();
-                tx.translate(-1,0);
-                for (Figure f : figures) {
-                    f.willChange();
-                    f.basicTransform(tx);
-                    f.changed();
-                }
-                getDrawing().fireUndoableEditHappened(new TransformEdit(figures, tx));
-                break;
-            }
-            case KeyEvent.VK_RIGHT : {
-                Collection<Figure> figures = getView().getSelectedFigures();
-                AffineTransform tx = new AffineTransform();
-                tx.translate(1,0);
-                for (Figure f : figures) {
-                    f.willChange();
-                    f.basicTransform(tx);
-                    f.changed();
-                }
-                getDrawing().fireUndoableEditHappened(new TransformEdit(figures, tx));
-                break;
-            }
-            case KeyEvent.VK_UP : {
-                Collection<Figure> figures = getView().getSelectedFigures();
-                AffineTransform tx = new AffineTransform();
-                tx.translate(0,-1);
-                for (Figure f : figures) {
-                    f.willChange();
-                    f.basicTransform(tx);
-                    f.changed();
-                }
-                getDrawing().fireUndoableEditHappened(new TransformEdit(figures, tx));
-                break;
-            }
-            case KeyEvent.VK_DOWN : {
-                Collection<Figure> figures = getView().getSelectedFigures();
-                getDrawing().fireUndoableEditHappened(edit = new CompositeEdit("Figur(en) verschieben"));
-                AffineTransform tx = new AffineTransform();
-                tx.translate(0,1);
-                for (Figure f : figures) {
-                    f.willChange();
-                    f.basicTransform(tx);
-                    f.changed();
-                }
-                getDrawing().fireUndoableEditHappened(new TransformEdit(figures, tx));
-                break;
+            if (al != null) {
+                al.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "tool", evt.getWhen(), evt.getModifiers()));
             }
         }
+    }
+    
+    protected InputMap createInputMap() {
+        InputMap m = new InputMap();
+        m.put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), DeleteAction.ID);
+        m.put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0), DeleteAction.ID);
+        m.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0), SelectAllAction.ID);
+        m.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_DOWN_MASK), SelectAllAction.ID);
+        m.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.META_DOWN_MASK), SelectAllAction.ID);
+        
+        m.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), MoveConstrainedAction.West.ID);
+        m.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), MoveConstrainedAction.East.ID);
+        m.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), MoveConstrainedAction.North.ID);
+        m.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), MoveConstrainedAction.South.ID);
+
+        m.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, InputEvent.ALT_DOWN_MASK), MoveAction.West.ID);
+        m.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, InputEvent.ALT_DOWN_MASK), MoveAction.East.ID);
+        m.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, InputEvent.ALT_DOWN_MASK), MoveAction.North.ID);
+        m.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, InputEvent.ALT_DOWN_MASK), MoveAction.South.ID);
+        
+        m.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, InputEvent.SHIFT_DOWN_MASK), MoveAction.West.ID);
+        m.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, InputEvent.SHIFT_DOWN_MASK), MoveAction.East.ID);
+        m.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, InputEvent.SHIFT_DOWN_MASK), MoveAction.North.ID);
+        m.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, InputEvent.SHIFT_DOWN_MASK), MoveAction.South.ID);
+        
+        m.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, InputEvent.CTRL_DOWN_MASK), MoveAction.West.ID);
+        m.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, InputEvent.CTRL_DOWN_MASK), MoveAction.East.ID);
+        m.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, InputEvent.CTRL_DOWN_MASK), MoveAction.North.ID);
+        m.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, InputEvent.CTRL_DOWN_MASK), MoveAction.South.ID);
+        
+        m.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK), CopyAction.ID);
+        m.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.META_DOWN_MASK), CopyAction.ID);
+        m.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_DOWN_MASK), PasteAction.ID);
+        m.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.META_DOWN_MASK), PasteAction.ID);
+        m.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK), CutAction.ID);
+        m.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.META_DOWN_MASK), CutAction.ID);
+        
+        
+        return m;
+    }
+    protected ActionMap createActionMap() {
+        ActionMap m = new ActionMap();
+        m.put(DeleteAction.ID, new DeleteAction());
+        m.put(SelectAllAction.ID, new SelectAllAction());
+        m.put(MoveAction.East.ID, new MoveAction.East(editorProxy));
+        m.put(MoveAction.West.ID, new MoveAction.West(editorProxy));
+        m.put(MoveAction.North.ID, new MoveAction.North(editorProxy));
+        m.put(MoveAction.South.ID, new MoveAction.South(editorProxy));
+        m.put(MoveConstrainedAction.East.ID, new MoveConstrainedAction.East(editorProxy));
+        m.put(MoveConstrainedAction.West.ID, new MoveConstrainedAction.West(editorProxy));
+        m.put(MoveConstrainedAction.North.ID, new MoveConstrainedAction.North(editorProxy));
+        m.put(MoveConstrainedAction.South.ID, new MoveConstrainedAction.South(editorProxy));
+        m.put(CutAction.ID, new CutAction());
+        m.put(CopyAction.ID, new CopyAction());
+        m.put(PasteAction.ID, new PasteAction());
+        return m;
     }
     
     public void mouseClicked(MouseEvent evt) {

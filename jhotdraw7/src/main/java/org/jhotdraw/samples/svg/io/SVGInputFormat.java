@@ -49,8 +49,8 @@ import org.jhotdraw.xml.css.CSSParser;
  *
  * @author Werner Randelshofer
  * @version 1.1.1 2007-04-23 Fixed reading of "transform" attribute, fixed reading
- * of "textArea" element. 
- * <br>1.1 2007-04-22 Added support for "a" element. 
+ * of "textArea" element.
+ * <br>1.1 2007-04-22 Added support for "a" element.
  * <br>0.2 2007-04-10 Fixed default attribute values for RadialGradient element.
  * <br>0.1 November 25, 2006 Created (Experimental).
  */
@@ -227,8 +227,8 @@ public class SVGInputFormat implements InputFormat {
         if (DEBUG) System.out.println("SVGInputFormat read:"+(end1-start));
         if (DEBUG) System.out.println("SVGInputFormat flatten:"+(end2-end1));
         if (DEBUG) System.out.println("SVGInputFormat build:"+(end-end2));
-        */
-         return figures;
+         */
+        return figures;
     }
     private void initStorageContext() {
         identifiedElements = new HashMap<String,IXMLElement>();
@@ -376,6 +376,7 @@ public class SVGInputFormat implements InputFormat {
     throws IOException {
         HashMap<AttributeKey,Object> a = new HashMap<AttributeKey,Object>();
         readCoreAttributes(elem, a);
+        readOpacityAttribute(elem, a);
         CompositeFigure g = factory.createG(a);
         
         for (IXMLElement node : elem.getChildren()) {
@@ -511,6 +512,7 @@ public class SVGInputFormat implements InputFormat {
         HashMap<AttributeKey,Object> a = new HashMap<AttributeKey,Object>();
         readCoreAttributes(elem, a);
         readTransformAttribute(elem, a);
+        readOpacityAttribute(elem, a);
         readShapeAttributes(elem, a);
         
         double x = toNumber(elem, readAttribute(elem, "x", "0"));
@@ -541,6 +543,7 @@ public class SVGInputFormat implements InputFormat {
         HashMap<AttributeKey,Object> a = new HashMap<AttributeKey,Object>();
         readCoreAttributes(elem, a);
         readTransformAttribute(elem, a);
+        readOpacityAttribute(elem, a);
         readShapeAttributes(elem, a);
         
         double cx = toNumber(elem, readAttribute(elem, "cx", "0"));
@@ -559,6 +562,7 @@ public class SVGInputFormat implements InputFormat {
         HashMap<AttributeKey,Object> a = new HashMap<AttributeKey,Object>();
         readCoreAttributes(elem, a);
         readTransformAttribute(elem, a);
+        readOpacityAttribute(elem, a);
         readShapeAttributes(elem, a);
         
         double cx = toNumber(elem, readAttribute(elem, "cx", "0"));
@@ -578,7 +582,7 @@ public class SVGInputFormat implements InputFormat {
         HashMap<AttributeKey,Object> a = new HashMap<AttributeKey,Object>();
         readCoreAttributes(elem, a);
         readTransformAttribute(elem, a);
-        readImageAttributes(elem, a);
+        readOpacityAttribute(elem, a);
         
         double x = toNumber(elem, readAttribute(elem, "x", "0"));
         double y = toNumber(elem, readAttribute(elem, "y", "0"));
@@ -647,6 +651,7 @@ public class SVGInputFormat implements InputFormat {
         HashMap<AttributeKey,Object> a = new HashMap<AttributeKey,Object>();
         readCoreAttributes(elem, a);
         readTransformAttribute(elem, a);
+        readOpacityAttribute(elem, a);
         readShapeAttributes(elem, a);
         
         double x1 = toNumber(elem, readAttribute(elem, "x1", "0"));
@@ -666,6 +671,7 @@ public class SVGInputFormat implements InputFormat {
         HashMap<AttributeKey,Object> a = new HashMap<AttributeKey,Object>();
         readCoreAttributes(elem, a);
         readTransformAttribute(elem, a);
+        readOpacityAttribute(elem, a);
         readShapeAttributes(elem, a);
         
         Point2D.Double[] points = toPoints(elem, readAttribute(elem, "points", ""));
@@ -682,6 +688,7 @@ public class SVGInputFormat implements InputFormat {
         HashMap<AttributeKey,Object> a = new HashMap<AttributeKey,Object>();
         readCoreAttributes(elem, a);
         readTransformAttribute(elem, a);
+        readOpacityAttribute(elem, a);
         readShapeAttributes(elem, a);
         
         Point2D.Double[] points = toPoints(elem, readAttribute(elem, "points", ""));
@@ -698,6 +705,7 @@ public class SVGInputFormat implements InputFormat {
         HashMap<AttributeKey,Object> a = new HashMap<AttributeKey,Object>();
         readCoreAttributes(elem, a);
         readTransformAttribute(elem, a);
+        readOpacityAttribute(elem, a);
         readShapeAttributes(elem, a);
         
         BezierPath[] beziers = toPath(elem, readAttribute(elem, "d", ""));
@@ -714,6 +722,7 @@ public class SVGInputFormat implements InputFormat {
         HashMap<AttributeKey,Object> a = new HashMap<AttributeKey,Object>();
         readCoreAttributes(elem, a);
         readTransformAttribute(elem, a);
+        readOpacityAttribute(elem, a);
         readShapeAttributes(elem, a);
         readFontAttributes(elem, a);
         readTextAttributes(elem, a);
@@ -784,6 +793,7 @@ public class SVGInputFormat implements InputFormat {
         HashMap<AttributeKey,Object> a = new HashMap<AttributeKey,Object>();
         readCoreAttributes(elem, a);
         readTransformAttribute(elem, a);
+        readOpacityAttribute(elem, a);
         readShapeAttributes(elem, a);
         readFontAttributes(elem, a);
         readTextAttributes(elem, a);
@@ -952,7 +962,8 @@ public class SVGInputFormat implements InputFormat {
         HashMap<AttributeKey,Object> a = new HashMap<AttributeKey,Object>();
         readCoreAttributes(elem, a);
         HashMap<AttributeKey,Object> a2 = new HashMap<AttributeKey,Object>();
-        readTransformAttribute(elem, a2);
+        readTransformAttribute(elem, a);
+        readOpacityAttribute(elem, a2);
         readUseShapeAttributes(elem, a2);
         
         String href = readAttribute(elem, "xlink:href",null);
@@ -973,7 +984,10 @@ public class SVGInputFormat implements InputFormat {
                     }
                     
                     
-                    AffineTransform tx = new AffineTransform();
+                    AffineTransform tx = 
+                            (TRANSFORM.get(a) == null) ? 
+                                new AffineTransform() :
+                                TRANSFORM.get(a);
                     double x = toNumber(elem, readAttribute(elem, "x", "0"));
                     double y = toNumber(elem, readAttribute(elem, "y", "0"));
                     tx.translate(x, y);
@@ -1561,7 +1575,7 @@ public class SVGInputFormat implements InputFormat {
                     
                     nextCommand = 'A';
                     break;
-                    }
+                }
                 case 'a' : {
                     // absolute-elliptical-arc rx ry x-axis-rotation large-arc-flag sweep-flag x y
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
@@ -1599,7 +1613,7 @@ public class SVGInputFormat implements InputFormat {
                     
                     nextCommand = 'a';
                     break;
-                    }
+                }
                 default :
                     if (DEBUG) System.out.println("SVGInputFormat.toPath aborting after illegal path command: "+command+" found in path "+str);
                     break Commands;
@@ -1626,6 +1640,28 @@ public class SVGInputFormat implements InputFormat {
         // xml:space
         // class
         
+    }
+    /* Reads object/group opacity as described in
+     * http://www.w3.org/TR/SVGMobile12/painting.html#groupOpacity
+     */
+    private void readOpacityAttribute(IXMLElement elem, Map<AttributeKey,Object> a)
+    throws IOException {
+        //'opacity'
+        //Value:  	<opacity-value> | inherit
+        //Initial:  	1
+        //Applies to:  	 'image' element
+        //Inherited:  	no
+        //Percentages:  	N/A
+        //Media:  	visual
+        //Animatable:  	yes
+        //Computed value:  	 Specified value, except inherit
+        //<opacity-value>
+        //The uniform opacity setting must be applied across an entire object.
+        //Any values outside the range 0.0 (fully transparent) to 1.0
+        //(fully opaque) shall be clamped to this range.
+        //(See Clamping values which are restricted to a particular range.)
+        double value = toDouble(elem, readAttribute(elem, "opacity", "1"), 1, 0, 1);
+        OPACITY.set(a, value);
     }
     /* Reads text attributes as listed in
      * http://www.w3.org/TR/SVGMobile12/feature.html#Text
@@ -1747,27 +1783,6 @@ public class SVGInputFormat implements InputFormat {
         
         
     }
-    /** Reads image attributes.
-     */
-    private void readImageAttributes(IXMLElement elem, HashMap<AttributeKey,Object> a)
-    throws IOException {
-        double value;
-        
-        //'opacity'
-        //Value:  	<opacity-value> | inherit
-        //Initial:  	1
-        //Applies to:  	 'image' element
-        //Inherited:  	no
-        //Percentages:  	N/A
-        //Media:  	visual
-        //Animatable:  	yes
-        //Computed value:  	 Specified value, except inherit
-        value = toDouble(elem, readAttribute(elem, "opacity", "1"), 1, 0, 1);
-        if (value != 1) {
-            if (DEBUG) System.out.println("SVGInputFormat not implemented  opacity="+value);
-        }
-        
-    }
     /** Reads shape attributes.
      */
     private void readShapeAttributes(IXMLElement elem, HashMap<AttributeKey,Object> a)
@@ -1832,10 +1847,7 @@ public class SVGInputFormat implements InputFormat {
         //Media:  	 visual
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
-        objectValue = readInheritAttribute(elem, "fill-opacity", null);
-        if (objectValue == null) {
-            objectValue = readInheritAttribute(elem, "opacity", "1");
-        }
+        objectValue = readInheritAttribute(elem, "fill-opacity", "1");
         FILL_OPACITY.set(a, toDouble(elem, (String) objectValue, 1d, 0d, 1d));
         
         // 'fill-rule'
@@ -1951,10 +1963,7 @@ public class SVGInputFormat implements InputFormat {
         //Media:  	 visual
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
-        objectValue = readInheritAttribute(elem, "stroke-opacity", null);
-        if (objectValue == null) {
-            objectValue = readInheritAttribute(elem, "opacity", "1");
-        }
+        objectValue = readInheritAttribute(elem, "stroke-opacity", "1");
         STROKE_OPACITY.set(a, toDouble(elem, (String) objectValue, 1d, 0d, 1d));
         
         //'stroke-width'
@@ -2037,9 +2046,6 @@ public class SVGInputFormat implements InputFormat {
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
         objectValue = readInheritAttribute(elem, "fill-opacity", null);
-        if (objectValue == null) {
-            objectValue = readInheritAttribute(elem, "opacity", null);
-        }
         if (objectValue != null) {
             FILL_OPACITY.set(a, toDouble(elem, (String) objectValue, 1d, 0d, 1d));
         }
@@ -2165,9 +2171,6 @@ public class SVGInputFormat implements InputFormat {
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
         objectValue = readInheritAttribute(elem, "stroke-opacity", null);
-        if (objectValue == null) {
-            objectValue = readInheritAttribute(elem, "opacity", null);
-        }
         if (objectValue != null) {
             STROKE_OPACITY.set(a, toDouble(elem, (String) objectValue, 1d, 0d, 1d));
         }
@@ -2423,7 +2426,7 @@ public class SVGInputFormat implements InputFormat {
         double cx = toNumber(elem, readAttribute(elem, "cx", "0.5"));
         double cy = toNumber(elem, readAttribute(elem, "cy", "0.5"));
         double r = toNumber(elem, readAttribute(elem, "r", "0.5"));
-        boolean isRelativeToFigureBounds = 
+        boolean isRelativeToFigureBounds =
                 readAttribute(elem, "gradientUnits", "objectBoundingBox").equals("objectBoundingBox");
         
         ArrayList<IXMLElement> stops = elem.getChildrenNamed("stop",SVG_NAMESPACE);

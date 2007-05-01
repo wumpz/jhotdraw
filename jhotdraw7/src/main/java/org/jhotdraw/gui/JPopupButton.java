@@ -83,6 +83,9 @@ public class JPopupButton extends javax.swing.JButton {
         JMenuItem item = getPopupMenu().add(submenu);
         updateFont(submenu);
     }
+    public void add(JComponent submenu) {
+        getPopupMenu().add(submenu);
+    }
     private void updateFont(MenuElement menu) {
         menu.getComponent().setFont(itemFont);
         for (MenuElement child : menu.getSubElements()) {

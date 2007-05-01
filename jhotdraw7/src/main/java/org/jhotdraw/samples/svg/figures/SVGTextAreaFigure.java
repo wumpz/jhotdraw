@@ -79,7 +79,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
     @Override public Rectangle2D.Double getDrawingArea() {
         Rectangle2D rx = getTransformedShape().getBounds2D();
         Rectangle2D.Double r = (rx instanceof Rectangle2D.Double) ? (Rectangle2D.Double) rx : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
-        double g = AttributeKeys.getPerpendicularHitGrowth(this);
+        double g = SVGAttributeKeys.getPerpendicularHitGrowth(this);
         Geom.grow(r, g, g);
         return r;
     }
@@ -370,7 +370,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
     }
     
     public Font getFont() {
-        return AttributeKeys.getFont(this);
+        return SVGAttributeKeys.getFont(this);
     }
     
     public Color getTextColor() {

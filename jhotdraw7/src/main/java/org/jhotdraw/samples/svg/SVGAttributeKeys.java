@@ -53,6 +53,11 @@ public class SVGAttributeKeys extends AttributeKeys {
      * This is a value between 0 and 1 whereas 0 is translucent and 1 is fully opaque.
      */
     public final static AttributeKey<Double> FILL_OPACITY = new AttributeKey<Double>("fillOpacity", 1d, false);
+    /**
+     * Specifies the overall opacity of a SVG figure.
+     * This is a value between 0 and 1 whereas 0 is translucent and 1 is fully opaque.
+     */
+    public final static AttributeKey<Double> OPACITY = new AttributeKey<Double>("opacity", 1d, false);
     
     
     /**
@@ -134,5 +139,22 @@ public class SVGAttributeKeys extends AttributeKeys {
         STROKE_DASHES.basicSet(f, null);
         STROKE_DASH_PHASE.basicSet(f, 0d);
         IS_STROKE_DASH_FACTOR.basicSet(f, false);
+    }
+    /**
+     * Returns the distance, that a Rectangle needs to grow (or shrink) to
+     * make hit detections on a shape as specified by the FILL_UNDER_STROKE and STROKE_POSITION
+     * attributes of a figure.
+     * The value returned is the number of units that need to be grown (or shrunk)
+     * perpendicular to a stroke on an outline of the shape.
+     */
+    public static double getPerpendicularHitGrowth(Figure f) {
+        double grow;
+        if (STROKE_COLOR.get(f) == null && STROKE_GRADIENT.get(f) == null) {
+            grow = getPerpendicularFillGrowth(f);
+        } else {
+            double strokeWidth = AttributeKeys.getStrokeTotalWidth(f);
+            grow = getPerpendicularDrawGrowth(f) + strokeWidth / 2d;
+        }
+        return grow;
     }
 }

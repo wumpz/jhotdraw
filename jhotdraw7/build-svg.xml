@@ -160,6 +160,7 @@
             <jvmarg value="-Xdock:name=JHotDraw SVG"/>
             <jvmarg value="-Dlocale=en"/>
             <jvmarg value="-Dapple.awt.graphics.UseQuartz=false"/>
+            <jvmarg value="-Djava.library.path=${libdir}"/>
         </java>
     </target>
     <target name="applet.run" depends="init">
