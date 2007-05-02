@@ -1,7 +1,7 @@
 /*
- * @(#)BezierBezierLineConnection.java  1.0.1  2006-02-06
+ * @(#)BezierBezierLineConnection.java  1.0.2  2007-05-02
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -31,7 +31,9 @@ import org.jhotdraw.xml.DOMOutput;
  *
  *
  * @author Werner Randelshofer
- * @version 1.0.1 2006-02-06 Fixed redo bug.
+ * @version 1.0.2 2007-05-02 Set connector variables directly when reading in
+ * connectors.
+ * <br>1.0.1 2006-02-06 Fixed redo bug.
  * <br>1.0 23. Januar 2006 Created.
  */
 public class LineConnectionFigure extends LineFigure
@@ -176,7 +178,11 @@ public class LineConnectionFigure extends LineFigure
             willChange();
             basicSetEndConnector(newEnd);
             fireUndoableEditHappened(new AbstractUndoableEdit() {
-                public String getPresentationName() { return "End-Verbindung setzen"; }
+                public String getPresentationName() { 
+                    return ResourceBundleUtil.
+                            getLAFBundle("org.jhotdraw.draw.Labels").
+                            getString("ConnectionFigure.undoConnect");
+                }
                 public void undo() throws CannotUndoException {
                     super.undo();
                     willChange();
@@ -221,7 +227,11 @@ public class LineConnectionFigure extends LineFigure
             willChange();
             basicSetStartConnector(newStart);
             fireUndoableEditHappened(new AbstractUndoableEdit() {
-                public String getPresentationName() { return "Start-Verbindung setzen"; }
+                public String getPresentationName() { 
+                    return ResourceBundleUtil.
+                            getLAFBundle("org.jhotdraw.draw.Labels").
+                            getString("ConnectionFigure.undoConnect");
+                }
                 public void undo()  throws CannotUndoException {
                     super.undo();
                     willChange();
@@ -423,10 +433,10 @@ public class LineConnectionFigure extends LineFigure
     protected void readPoints(DOMInput in) throws IOException {
         super.readPoints(in);
         in.openElement("startConnector");
-        setStartConnector((Connector) in.readObject());
+        startConnector = (Connector) in.readObject();
         in.closeElement();
         in.openElement("endConnector");
-        setEndConnector((Connector) in.readObject());
+        endConnector = (Connector) in.readObject();
         in.closeElement();
     }
     public void read(DOMInput in) throws IOException {

@@ -206,37 +206,41 @@ public abstract class AbstractTool implements Tool {
      * actionPerformed method of the ActionListener is performed.
      */
     public void keyPressed(KeyEvent evt) {
-        if (evt.getSource() instanceof Container) {
-            editor.setView(editor.findView((Container) evt.getSource()));
-        }
-        
-        if (inputMap != null) {
-            Object obj = inputMap.get(KeyStroke.getKeyStroke(evt.getKeyCode(),evt.getModifiers(), false));
-            ActionListener al = null;
-            if (obj instanceof ActionListener) {
-                al = (ActionListener) obj;
-            } else if (obj != null && actionMap != null) {
-                al = actionMap.get(obj);
+        if (! evt.isConsumed()) {
+            if (evt.getSource() instanceof Container) {
+                editor.setView(editor.findView((Container) evt.getSource()));
             }
-            if (al != null) {
-                al.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "tool", evt.getWhen(), evt.getModifiers()));
+            
+            if (inputMap != null) {
+                Object obj = inputMap.get(KeyStroke.getKeyStroke(evt.getKeyCode(),evt.getModifiers(), false));
+                ActionListener al = null;
+                if (obj instanceof ActionListener) {
+                    al = (ActionListener) obj;
+                } else if (obj != null && actionMap != null) {
+                    al = actionMap.get(obj);
+                }
+                if (al != null) {
+                    evt.consume();
+                    al.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "tool", evt.getWhen(), evt.getModifiers()));
+                }
             }
         }
     }
     
     protected InputMap createInputMap() {
         InputMap m = new InputMap();
-        m.put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), DeleteAction.ID);
-        m.put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0), DeleteAction.ID);
-        m.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0), SelectAllAction.ID);
-        m.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_DOWN_MASK), SelectAllAction.ID);
-        m.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.META_DOWN_MASK), SelectAllAction.ID);
         
+         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), DeleteAction.ID);
+         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0), DeleteAction.ID);
+         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0), SelectAllAction.ID);
+         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_DOWN_MASK), SelectAllAction.ID);
+         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.META_DOWN_MASK), SelectAllAction.ID);
+         
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), MoveConstrainedAction.West.ID);
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), MoveConstrainedAction.East.ID);
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), MoveConstrainedAction.North.ID);
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), MoveConstrainedAction.South.ID);
-
+        
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, InputEvent.ALT_DOWN_MASK), MoveAction.West.ID);
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, InputEvent.ALT_DOWN_MASK), MoveAction.East.ID);
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, InputEvent.ALT_DOWN_MASK), MoveAction.North.ID);
@@ -258,14 +262,16 @@ public abstract class AbstractTool implements Tool {
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.META_DOWN_MASK), PasteAction.ID);
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK), CutAction.ID);
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.META_DOWN_MASK), CutAction.ID);
-        
+         
         
         return m;
     }
     protected ActionMap createActionMap() {
         ActionMap m = new ActionMap();
+        
         m.put(DeleteAction.ID, new DeleteAction());
         m.put(SelectAllAction.ID, new SelectAllAction());
+         
         m.put(MoveAction.East.ID, new MoveAction.East(editorProxy));
         m.put(MoveAction.West.ID, new MoveAction.West(editorProxy));
         m.put(MoveAction.North.ID, new MoveAction.North(editorProxy));
@@ -274,9 +280,11 @@ public abstract class AbstractTool implements Tool {
         m.put(MoveConstrainedAction.West.ID, new MoveConstrainedAction.West(editorProxy));
         m.put(MoveConstrainedAction.North.ID, new MoveConstrainedAction.North(editorProxy));
         m.put(MoveConstrainedAction.South.ID, new MoveConstrainedAction.South(editorProxy));
+        
         m.put(CutAction.ID, new CutAction());
         m.put(CopyAction.ID, new CopyAction());
         m.put(PasteAction.ID, new PasteAction());
+         
         return m;
     }
     

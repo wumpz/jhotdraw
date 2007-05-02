@@ -21,7 +21,7 @@ import java.beans.*;
  * @author  Werner Randelshofer
  * @version 1.0 2003-11-11 Created.
  */
-public class JStringAttributeFieldBeanInfo extends SimpleBeanInfo {
+public class JStringAttributeAreaBeanInfo extends SimpleBeanInfo {
     
     // Bean descriptor information will be obtained from introspection.//GEN-FIRST:BeanDescriptor
     private static BeanDescriptor beanDescriptor = null;
@@ -29,9 +29,9 @@ public class JStringAttributeFieldBeanInfo extends SimpleBeanInfo {
 //GEN-HEADEREND:BeanDescriptor
         
         // Here you can add code for customizing the BeanDescriptor.
-         if (beanDescriptor == null) beanDescriptor = new BeanDescriptor(JStringAttributeFieldBeanInfo.class);
+         if (beanDescriptor == null) beanDescriptor = new BeanDescriptor(JStringAttributeAreaBeanInfo.class);
          beanDescriptor.setValue("isContainer", Boolean.FALSE);
-     beanDescriptor.setDisplayName("JStringAttributeField");
+     beanDescriptor.setDisplayName("JFigureAttributeArea");
         
         return beanDescriptor;     }//GEN-LAST:BeanDescriptor
     

@@ -1,5 +1,5 @@
 /*
- * @(#)TextAreaFigure.java  2.0.2  2006-12-11
+ * @(#)TextAreaFigure.java  2.0.3  2007-05-02
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -51,22 +51,26 @@ import org.jhotdraw.xml.DOMOutput;
  *
  * @author    Eduardo Francos - InContext (original version),
  *            Werner Randelshofer (this derived version)
- * @version 2.0.2 2006-12-11 Implemented more efficient clipping.
+ * @version 2.0.3 2007-04-05 Made all instance variables protected instead of private.
+ * <br>2.0.2 2006-12-11 Implemented more efficient clipping.
  * <br>2.0.1 2006-02-27 Draw UNDERLINE_LOW_ONE_PIXEL instead of UNDERLINE_ON.
  * <br>2.0 2006-01-14 Changed to support double precison coordinates.
  * <br>1.0 5. March 2004  Created.
  */
 public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements TextHolderFigure {
-    private Rectangle2D.Double bounds = new Rectangle2D.Double();
-    private boolean editable = true;
+    protected Rectangle2D.Double bounds = new Rectangle2D.Double();
+    protected boolean editable = true;
     private final static BasicStroke dashes = new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] {4f, 4f}, 0f);
     
     // cache of the TextFigure's layout
-    transient private TextLayout textLayout;
+    transient protected TextLayout textLayout;
     
     /** Creates a new instance. */
     public TextAreaFigure() {
-        this("Text");
+        this(ResourceBundleUtil.
+                getLAFBundle("org.jhotdraw.draw.Labels").
+                getString("TextFigure.defaultText")
+        );
     }
     public TextAreaFigure(String text) {
         setText(text);
