@@ -31,14 +31,14 @@ public class ConnectingFiguresSample {
                 
                 // Create the two text areas
                 TextAreaFigure ta = new TextAreaFigure();
-                ta.basicSetBounds(new Point2D.Double(10,10),new Point2D.Double(100,100));
+                ta.setBounds(new Point2D.Double(10,10),new Point2D.Double(100,100));
                 
                 TextAreaFigure tb = new TextAreaFigure();
-                tb.basicSetBounds(new Point2D.Double(210,110),new Point2D.Double(300,200));
+                tb.setBounds(new Point2D.Double(210,110),new Point2D.Double(300,200));
                 
                 // Create an elbow connection
                 ConnectionFigure cf = new LineConnectionFigure();
-                cf.basicSetLiner(new ElbowLiner());
+                cf.setLiner(new ElbowLiner());
                 
                 // Connect the figures
                 cf.setStartConnector(ta.findConnector(Geom.center(ta.getBounds()), cf));

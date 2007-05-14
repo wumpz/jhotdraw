@@ -132,7 +132,7 @@ public class BezierTool extends AbstractTool {
         
         createdFigure.willChange();
         if (pointCount < 2) {
-            createdFigure.basicAddNode(new BezierPath.Node(newPoint));
+            createdFigure.addNode(new BezierPath.Node(newPoint));
         } else {
             Point2D.Double endPoint = createdFigure.getEndPoint();
             Point2D.Double secondLastPoint = (pointCount <= 1) ?
@@ -141,9 +141,9 @@ public class BezierTool extends AbstractTool {
             if (newPoint.equals(endPoint)) {
                 // nothing to do
             } else if (pointCount > 1 && Geom.lineContainsPoint(newPoint.x, newPoint.y, secondLastPoint.x, secondLastPoint.y, endPoint.x, endPoint.y, 0.9f / getView().getScaleFactor())) {
-                createdFigure.basicSetPoint(pointCount - 1, 0, newPoint);
+                createdFigure.setPoint(pointCount - 1, 0, newPoint);
             } else {
-                createdFigure.basicAddNode(new BezierPath.Node(newPoint));
+                createdFigure.addNode(new BezierPath.Node(newPoint));
             }
         }
         createdFigure.changed();
@@ -185,7 +185,7 @@ public class BezierTool extends AbstractTool {
             if (createdFigure.getNodeCount() > 2) {
                 BezierPath fittedPath = Bezier.fitBezierCurve(createdFigure.getBezierPath(), 1);
                 createdFigure.willChange();
-                createdFigure.basicSetBezierPath(fittedPath);
+                createdFigure.setBezierPath(fittedPath);
                 createdFigure.changed();
                 finishCreation(createdFigure);
                 createdFigure = null;
@@ -203,11 +203,11 @@ public class BezierTool extends AbstractTool {
             BezierPath fittedPath = new BezierPath();
             for (int i=nodeCountBeforeDrag, n = createdFigure.getNodeCount(); i < n; i++) {
                 fittedPath.add(createdFigure.getNode(nodeCountBeforeDrag));
-                createdFigure.basicRemoveNode(nodeCountBeforeDrag);
+                createdFigure.removeNode(nodeCountBeforeDrag);
             }
             fittedPath = Bezier.fitBezierCurve(fittedPath, 1);
             for (BezierPath.Node node : fittedPath) {
-                createdFigure.basicAddNode(node);
+                createdFigure.addNode(node);
             }
             nodeCountBeforeDrag = createdFigure.getNodeCount();
             createdFigure.changed();

@@ -18,6 +18,7 @@ import org.jhotdraw.gui.datatransfer.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.undo.*;
 import org.jhotdraw.io.*;
+import org.jhotdraw.geom.*;
 import java.awt.*;
 import java.awt.datatransfer.*;
 import java.awt.geom.*;
@@ -70,7 +71,7 @@ public class DefaultDrawingView
     private Handle secondaryHandleOwner;
     private LinkedList<Handle> secondaryHandles = new LinkedList<Handle>();
     private boolean handlesAreValid = true;
-    private Dimension preferredSize;
+    private Dimension cachedPreferredSize;
     private double scaleFactor = 1;
     private Point2D.Double translate = new Point2D.Double(0,0);
     private int detailLevel;
@@ -82,6 +83,7 @@ public class DefaultDrawingView
             invalidateHandles();
         }
     };
+    private Rectangle2D.Double cachedDrawingArea;
     
     /** Creates new instance. */
     public DefaultDrawingView() {
@@ -202,12 +204,6 @@ public class DefaultDrawingView
     }
     
     protected void drawBackground(Graphics2D g) {
-           /*
-            rainbow = (rainbow + 10) % 360;
-            g.setColor(
-            new Color(Color.HSBtoRGB((float) (rainbow / 360f), 0.3f, 1.0f))
-            );
-            */
         // Position of the zero coordinate point on the view
         int x = (int) (-translate.x * scaleFactor);
         int y = (int) (-translate.y * scaleFactor);
@@ -252,6 +248,14 @@ public class DefaultDrawingView
     }
     
     protected void drawDrawing(Graphics2D gr) {
+        /* Fill background with alternating colors to debug clipping
+            rainbow = (rainbow + 10) % 360;
+            gr.setColor(
+            new Color(Color.HSBtoRGB((float) (rainbow / 360f), 0.3f, 1.0f))
+            );
+            gr.fill(gr.getClipBounds());
+          */  
+            
         if (drawing != null) {
             if (drawing.getFigureCount() == 0 && emptyDrawingLabel != null) {
                 emptyDrawingLabel.setBounds(0, 0, getWidth(), getHeight());
@@ -300,7 +304,15 @@ public class DefaultDrawingView
         }
         invalidateDimension();
         invalidate();
-        if (getParent() != null) getParent().validate();
+        if (getParent() != null) {
+            getParent().validate();
+            if (getParent() instanceof JViewport) {
+                JViewport vp = (JViewport) getParent();
+                
+                Rectangle2D.Double r = getDrawingArea();
+                vp.setViewPosition(drawingToView(new Point2D.Double(Math.min(0, -r.x), Math.min(0, -r.y))));
+            }
+        }
         repaint();
     }
     
@@ -639,7 +651,8 @@ public class DefaultDrawingView
     }
     
     protected void invalidateDimension() {
-        preferredSize = null;
+        cachedPreferredSize = null;
+        cachedDrawingArea = null;
     }
     
     public Constrainer getConstrainer() {
@@ -658,28 +671,41 @@ public class DefaultDrawingView
      * Side effect: Changes view Translation!!!
      */
     public Dimension getPreferredSize() {
-        if (preferredSize == null) {
-            Dimension2DDouble d = new Dimension2DDouble();
-            if (drawing != null) {
-                translate.x = 0;
-                translate.y = 0;
-                for (Figure f : drawing.getFigures()) {
-                    Rectangle2D.Double r = f.getDrawingArea();
-                    d.width = Math.max(d.width, r.x + r.width);
-                    d.height = Math.max(d.height, r.y + r.height);
-                    translate.x = Math.min(translate.x, r.x);
-                    translate.y = Math.min(translate.y, r.y);
-                }
-            }
-            preferredSize = new Dimension(
-                    (int) ((d.width + 10 - translate.x) * scaleFactor),
-                    (int) ((d.height + 10 - translate.y) * scaleFactor)
+        if (cachedPreferredSize == null) {
+            Rectangle2D.Double r = getDrawingArea();
+                    translate.x = Math.min(0, r.x);
+                    translate.y = Math.min(0, r.y);
+            cachedPreferredSize = new Dimension(
+                    (int) ((r.width + 10 - translate.x) * scaleFactor),
+                    (int) ((r.height + 10 - translate.y) * scaleFactor)
                     );
             fireViewTransformChanged();
             repaint();
         }
-        return preferredSize;
+        return cachedPreferredSize;
     }
+    /**
+     * Side effect: Changes view Translation!!!
+     */
+    protected Rectangle2D.Double getDrawingArea() {
+        if (cachedDrawingArea == null) {
+            cachedDrawingArea = new Rectangle2D.Double();
+            if (drawing != null) {
+                for (Figure f : drawing.getFigures()) {
+                    if (cachedDrawingArea == null) {
+                        cachedDrawingArea = f.getDrawingArea();
+                    } else {
+                        cachedDrawingArea.add(f.getDrawingArea());
+                    }
+                }
+            }
+            if (cachedDrawingArea == null) {
+                cachedDrawingArea = new Rectangle2D.Double();
+            }
+        }
+        return (Rectangle2D.Double) cachedDrawingArea.clone();
+    }
+    
     /**
      * Converts drawing coordinates to view coordinates.
      */
@@ -792,7 +818,7 @@ public class DefaultDrawingView
         tx.translate(5,5);
         for (Figure f : sorted) {
             Figure d = (Figure) f.clone();
-            d.basicTransform(tx);
+            d.transform(tx);
             duplicates.add(d);
             originalToDuplicateMap.put(f, d);
             drawing.add(d);

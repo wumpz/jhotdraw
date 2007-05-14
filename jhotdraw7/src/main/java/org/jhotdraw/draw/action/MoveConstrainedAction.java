@@ -113,7 +113,7 @@ public abstract class MoveConstrainedAction extends AbstractSelectedAction {
             tx.translate(p2.x - p1.x, p2.y - p1.y);
             for (Figure f : getView().getSelectedFigures()) {
                 f.willChange();
-                f.basicTransform(tx);
+                f.transform(tx);
                 f.changed();
             }
             CompositeEdit edit;

@@ -14,7 +14,9 @@
 
 package org.jhotdraw.draw;
 
+import java.util.*;
 import javax.swing.undo.*;
+import org.jhotdraw.util.*;
 /**
  * GeometryEdit.
  *
@@ -34,7 +36,8 @@ public class GeometryEdit extends AbstractUndoableEdit {
     }
 
     public String getPresentationName() {
-        return "Geometry changed";
+        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
+        return labels.getString("transformFigure");
     }
     
     public void undo() throws CannotUndoException {

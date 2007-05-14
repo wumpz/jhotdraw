@@ -101,7 +101,7 @@ public class BidirectionalConnectionTool extends AbstractTool implements FigureL
                 Point2D.Double p = getStartConnector().getAnchor();
                 setConnection(createFigure());
                 ConnectionFigure cf = getConnection();
-                cf.basicSetBounds(p, p);
+                cf.setBounds(p, p);
                 cf.addFigureListener(this);
                 setCreatedFigure(cf);
             }

@@ -92,7 +92,7 @@ public class DragTracker extends AbstractTool {
         tx.translate(newPoint.x - oldPoint.x,newPoint.y - oldPoint.y);
         for (Figure f : view.getSelectedFigures()) {
             f.willChange();
-            f.basicTransform(tx);
+            f.transform(tx);
             f.changed();
         }
         oldPoint = newPoint;
@@ -115,7 +115,7 @@ public class DragTracker extends AbstractTool {
                 tx.translate(anchorPoint.x - oldPoint.x, anchorPoint.y - oldPoint.y);
                 for (Figure f : draggedFigures) {
                     f.willChange();
-                    f.basicTransform(tx);
+                    f.transform(tx);
                     f.changed();
                 }
             } else {

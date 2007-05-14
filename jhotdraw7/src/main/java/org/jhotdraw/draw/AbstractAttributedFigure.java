@@ -41,7 +41,7 @@ public abstract class AbstractAttributedFigure extends AbstractFigure {
     private HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey,Object>();
     /**
      * Forbidden attributes can't be set by the setAttribute() operation.
-     * They can only be changed by basicSetAttribute().
+     * They can only be changed by setAttribute().
      */
     private HashSet<AttributeKey> forbiddenAttributes;
     
@@ -49,28 +49,6 @@ public abstract class AbstractAttributedFigure extends AbstractFigure {
     public AbstractAttributedFigure() {
     }
     
-    
-    /**
-     * Sets an attribute of the figure.
-     * AttributeKey name and semantics are defined by the class implementing
-     * the figure interface.
-     */
-    public void setAttribute(AttributeKey key, Object newValue) {
-        if (forbiddenAttributes == null
-                || ! forbiddenAttributes.contains(key)) {
-            
-            Object oldValue = attributes.get(key);
-            if (! attributes.containsKey(key)
-            || oldValue != newValue
-                    || oldValue != null && newValue != null && ! oldValue.equals(newValue)) {
-                willChange();
-                basicSetAttribute(key, newValue);
-                fireAttributeChanged(key, oldValue, newValue);
-                fireUndoableEditHappened(new AttributeChangeEdit(this, key, oldValue, newValue));
-                changed();
-            }
-        }
-    }
     
     public void setAttributeEnabled(AttributeKey key, boolean b) {
         if (forbiddenAttributes == null) {
@@ -86,11 +64,6 @@ public abstract class AbstractAttributedFigure extends AbstractFigure {
         return forbiddenAttributes == null || ! forbiddenAttributes.contains(key);
     }
     
-    public void basicSetAttributes(Map<AttributeKey, Object> map) {
-        for (Map.Entry<AttributeKey, Object> entry : map.entrySet()) {
-            basicSetAttribute(entry.getKey(), entry.getValue());
-        }
-    }
     public void setAttributes(Map<AttributeKey, Object> map) {
         for (Map.Entry<AttributeKey, Object> entry : map.entrySet()) {
             setAttribute(entry.getKey(), entry.getValue());
@@ -99,12 +72,19 @@ public abstract class AbstractAttributedFigure extends AbstractFigure {
     public Map<AttributeKey, Object> getAttributes() {
         return new HashMap<AttributeKey,Object>(attributes);
     }
+    public Object getAttributesRestoreData() {
+        return getAttributes();
+    }
+    public void restoreAttributesTo(Object restoreData) {
+        attributes.clear();
+      setAttributes((HashMap<AttributeKey,Object>) restoreData);
+    }
     /**
      * Sets an attribute of the figure.
      * AttributeKey name and semantics are defined by the class implementing
      * the figure interface.
      */
-    public void basicSetAttribute(AttributeKey key, Object newValue) {
+    public void setAttribute(AttributeKey key, Object newValue) {
         if (forbiddenAttributes == null
                 || ! forbiddenAttributes.contains(key)) {
             attributes.put(key, newValue);
@@ -165,8 +145,7 @@ public abstract class AbstractAttributedFigure extends AbstractFigure {
         double width = strokeTotalWidth / 2d;
         if (STROKE_JOIN.get(this) == BasicStroke.JOIN_MITER) {
             width *= STROKE_MITER_LIMIT.get(this);
-        }
-        if (STROKE_CAP.get(this) != BasicStroke.CAP_BUTT) {
+        } else if (STROKE_CAP.get(this) != BasicStroke.CAP_BUTT) {
             width += strokeTotalWidth * 2;
         }
         width++;

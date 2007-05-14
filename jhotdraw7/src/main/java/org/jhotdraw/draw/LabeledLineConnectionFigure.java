@@ -87,15 +87,15 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
     /**
      * Transforms the figure.
      */
-    public void basicTransform(AffineTransform tx) {
-        super.basicTransform(tx);
+    public void transform(AffineTransform tx) {
+        super.transform(tx);
         for (Figure f : children) {
-            f.basicTransform(tx);
+            f.transform(tx);
         }
         invalidateBounds();
     }
-    public void basicSetBounds(Point2D.Double anchor, Point2D.Double lead) {
-        super.basicSetBounds(anchor, lead);
+    public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
+        super.setBounds(anchor, lead);
         invalidate();
     }
     public Rectangle2D.Double getBounds() {
@@ -146,7 +146,6 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
      * the figure interface.
      */
     public void setAttribute(AttributeKey key, Object newValue) {
-        willChange();
         super.setAttribute(key, newValue);
         if (isAttributeEnabled(key)) {
             if (children != null) {
@@ -155,7 +154,6 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
                 }
             }
         }
-        changed();
     }
     // EDITING
     public Figure findFigureInside(Point2D.Double p) {

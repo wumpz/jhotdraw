@@ -29,10 +29,11 @@ import org.jhotdraw.draw.*;
 public class MoveToBackAction extends AbstractSelectedAction {
        private ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
     
+       public static String ID = "moveToBack";
     /** Creates a new instance. */
     public MoveToBackAction(DrawingEditor editor) {
         super(editor);
-        labels.configureAction(this, "moveToBack");
+        labels.configureAction(this, ID);
     }
     
     public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -41,7 +42,7 @@ public class MoveToBackAction extends AbstractSelectedAction {
         sendToBack(view, figures);
         fireUndoableEditHappened(new AbstractUndoableEdit() {
             public String getPresentationName() {
-       return labels.getString("moveToBack");
+       return labels.getString(ID);
             }
             public void redo() throws CannotRedoException {
                 super.redo();

@@ -29,10 +29,12 @@ import org.jhotdraw.draw.*;
 public class MoveToFrontAction extends AbstractSelectedAction {
        private ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
     
+       public static String ID = "moveToFront";
+       
     /** Creates a new instance. */
     public MoveToFrontAction(DrawingEditor editor) {
         super(editor);
-        labels.configureAction(this, "moveToFront");
+        labels.configureAction(this, ID);
     }
     
     public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -41,7 +43,7 @@ public class MoveToFrontAction extends AbstractSelectedAction {
         bringToFront(view, figures);
         fireUndoableEditHappened(new AbstractUndoableEdit() {
             public String getPresentationName() {
-       return labels.getString("moveToFront");
+       return labels.getString(ID);
             }
             public void redo() throws CannotRedoException {
                 super.redo();

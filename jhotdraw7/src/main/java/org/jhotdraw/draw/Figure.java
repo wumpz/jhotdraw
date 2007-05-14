@@ -1,5 +1,5 @@
 /*
- * @(#)Figure.java  3.1  2007-04-14
+ * @(#)Figure.java  4.0  2007-05-12
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -61,7 +61,8 @@ import org.jhotdraw.xml.DOMStorable;
  * AbstractFigure.
  *
  * @author Werner Randelshofer
- * @version 3.1 2007-04-14 Method handleMouseClick is now required to consume
+ * @version 4.0 2007-04-12 Removed basicSet methods.
+ * <br>3.1 2007-04-14 Method handleMouseClick is now required to consume
  * an event, if it returns true. 
  * <br>3.0 2006-01-20 Reworked for J2SE 1.5.
  */
@@ -118,33 +119,35 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * code sequence, if you need event firing:
      * <pre>
      * aFigure.willChange();
-     * aFigure.basicSetBounds(...);
+     * aFigure.setBounds(...);
      * aFigure.changed();
      * </pre>
+     * 
      * 
      * 
      * @param start the start point of the bounds
      * @param end the end point of the bounds
      * @see #getBounds
      */
-    public void basicSetBounds(Point2D.Double start, Point2D.Double end);
+    public void setBounds(Point2D.Double start, Point2D.Double end);
     /**
      * Returns the untransformed logical start point of the bounds.
      * 
      * 
-     * @see #basicSetBounds
+     * 
+     * @see #setBounds
      */
     public Point2D.Double getStartPoint();
     /**
      * Returns the untransformed logical end point of the bounds.
      * 
      * 
-     * @see #basicSetBounds
+     * 
+     * @see #setBounds
      */
     public Point2D.Double getEndPoint();
     /**
-     * Returns the untransformed logical                 handles = new LinkedList<Handle>();
-bounds of the figure as a Rectangle.
+     * Returns the untransformed logicalbounds of the figure as a Rectangle.
      * The handle bounds are used by Handle objects for adjusting the 
      * figure and for aligning the figure on a grid.
      */
@@ -166,10 +169,11 @@ bounds of the figure as a Rectangle.
     public Dimension2DDouble getPreferredSize();
     
     /**
-     * Gets data which can be used to restore the transformaton of the figure 
-     * after a basicTransform has been applied to it.
+     * Gets data which can be used to restore the transformation of the figure 
+     * without loss of precision, after a transform has been applied to it.
      * 
-     * @see #basicTransform(AffineTransform)
+     * 
+     * @see #transform(AffineTransform)
      */
     public Object getTransformRestoreData();
     /**
@@ -188,38 +192,18 @@ bounds of the figure as a Rectangle.
      * code sequence, if you need event firing:
      * <pre>
      * aFigure.willChange();
-     * aFigure.basicSetBounds(...);
+     * aFigure.transform(...);
      * aFigure.changed();
      * </pre>
      * 
-     * @see #getTransformRestoreData
-     * @see #restoreTransformTo
      * 
      * @param tx The transformation.
+     * @see #getTransformRestoreData
+     * @see #restoreTransformTo
      */
-    public void basicTransform(AffineTransform tx);
+    public void transform(AffineTransform tx);
     
     // ATTRIBUTES
-    /**
-     * Sets an attribute of the figure.
-     * AttributeKey name and semantics are defined by the class implementing
-     * the Figure interface.
-     * <p>
-     * On an attribute change, the Figure fires
-     * <code>FigureListener.figureAttributeChanged</code>, 
-     * <code>UndoableEditListener.undoableEditHappened</code>. If
-     * the shape is affected by an attribute change, 
-     * <code>FigureListener.figureChanged</code> is fired too.
-     * <p>
-     * Use <code>AttributeKey.set</code> for typesafe access to this 
-     * method.
-     *
-     * XXX - This method is going away!! We will add getAttributesRestoreData
-     * and restoreAttributesTo methods instead.
-     *
-     * @see AttributeKey#basicSet
-     */
-    public void setAttribute(AttributeKey key, Object value);
     /**
      * Sets an attribute of the figure without firing events.
      * AttributeKey name and semantics are defined by the class implementing
@@ -233,13 +217,16 @@ bounds of the figure as a Rectangle.
      * code sequence:
      * <pre>
      * aFigure.willChange();
+     * Object oldData = aFigure.getAttributesRestoreData();
      * STROKE_COLOR.basicSet(aFigure, ...);
      * aFigure.changed();
+     * Object newData = aFigure.getAttributesRestoreData();
+     * ...fire an UndoableEditEvent oldData and newData... 
      * </pre>
      * 
      * @see AttributeKey#basicSet
      */
-    public void basicSetAttribute(AttributeKey key, Object value);
+    public void setAttribute(AttributeKey key, Object value);
     /**
      * Gets an attribute from the Figure.
      * <p>
@@ -256,6 +243,19 @@ bounds of the figure as a Rectangle.
      * By convention, an unmodifiable map is returned.
      */
     public Map<AttributeKey, Object> getAttributes();
+    
+    /**
+     * Gets data which can be used to restore the attributes of the figure 
+     * after a setAttribute has been applied to it.
+     * 
+     * 
+     * @see #basicSetAttribue(AttributeKey,Object)
+     */
+    public Object getAttributesRestoreData();
+    /**
+     * Restores the attributes of the figure to a previously stored state.
+     */
+    public void restoreAttributesTo(Object restoreData);
     
     // EDITING
     /**

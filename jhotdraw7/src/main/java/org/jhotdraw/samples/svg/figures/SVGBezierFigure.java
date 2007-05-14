@@ -20,6 +20,7 @@ import java.util.*;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.geom.*;
+import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
 /**
  * SVGBezierFigure is not an actual SVG element, it is used by SVGPathFigure to
@@ -29,6 +30,7 @@ import org.jhotdraw.geom.*;
  * @version 1.0 April 14, 2007 Created.
  */
 public class SVGBezierFigure extends BezierFigure {
+    private Rectangle2D.Double cachedDrawingArea;
     
     /** Creates a new instance. */
     public SVGBezierFigure() {
@@ -39,13 +41,12 @@ public class SVGBezierFigure extends BezierFigure {
         FILL_OPEN_PATH.set(this, true);
     }
     
-    @Override public Collection<Handle> createHandles(int detailLevel) {
+    public Collection<Handle> createHandles(SVGPathFigure pathFigure, int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
         switch (detailLevel % 2) {
             case 0 :
-                handles.add(new BezierOutlineHandle(this));
                 for (int i=0, n = path.size(); i < n; i++) {
-                    handles.add(new BezierNodeHandle(this, i));
+                    handles.add(new BezierNodeHandle(this, i, pathFigure));
                 }
                 break;
             case 1 :
@@ -59,21 +60,21 @@ public class SVGBezierFigure extends BezierFigure {
     @Override public boolean handleMouseClick(Point2D.Double p, MouseEvent evt, DrawingView view) {
         if (evt.getClickCount() == 2/* && view.getHandleDetailLevel() == 0*/) {
             willChange();
-            final int index = basicSplitSegment(p, (float) (5f / view.getScaleFactor()));
+            final int index = splitSegment(p, (float) (5f / view.getScaleFactor()));
             if (index != -1) {
                 final BezierPath.Node newNode = getNode(index);
                 fireUndoableEditHappened(new AbstractUndoableEdit() {
                     public void redo() throws CannotRedoException {
                         super.redo();
                         willChange();
-                        basicAddNode(index, newNode);
+                        addNode(index, newNode);
                         changed();
                     }
                     
                     public void undo() throws CannotUndoException {
                         super.undo();
                         willChange();
-                        basicRemoveNode(index);
+                        removeNode(index);
                         changed();
                     }
                     
@@ -84,5 +85,50 @@ public class SVGBezierFigure extends BezierFigure {
             }
         }
         return false;
+    }
+    public void transform(AffineTransform tx) {
+        if (TRANSFORM.get(this) != null ||
+                (tx.getType() & (AffineTransform.TYPE_TRANSLATION)) != tx.getType()) {
+            if (TRANSFORM.get(this) == null) {
+                TRANSFORM.setClone(this, tx);
+            } else {
+                AffineTransform t = TRANSFORM.getClone(this);
+                t.preConcatenate(tx);
+                TRANSFORM.set(this, t);
+            }
+        } else {
+            super.transform(tx);
+        }
+    }
+    
+    public Rectangle2D.Double getDrawingArea() {
+        if (cachedDrawingArea == null) {
+            
+            if (TRANSFORM.get(this) == null) {
+                cachedDrawingArea = path.getBounds2D();
+            } else {
+                BezierPath p2 = (BezierPath) path.clone();
+                p2.transform(TRANSFORM.get(this));
+                cachedDrawingArea = p2.getBounds2D();
+            }
+        }
+        return (Rectangle2D.Double) cachedDrawingArea.clone();
+    }
+    
+    /**
+     * Transforms all coords of the figure by the current TRANSFORM attribute
+     * and then sets the TRANSFORM attribute to null.
+     */
+    public void flattenTransform() {
+        if (TRANSFORM.get(this) != null) {
+            path.transform(TRANSFORM.get(this));
+            TRANSFORM.set(this, null);
+        }
+        invalidate();
+    }
+    
+    public void invalidate() {
+        super.invalidate();
+        cachedDrawingArea = null;
     }
 }

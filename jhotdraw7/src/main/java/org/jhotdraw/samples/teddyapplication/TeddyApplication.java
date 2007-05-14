@@ -33,7 +33,7 @@ public class TeddyApplication extends DocumentOrientedApplication {
     public TeddyApplication() {
     }
 
-    @Override public void startup(String[] args) {
+    public void startup(String[] args) {
         putAction(org.jhotdraw.samples.teddyapplication.action.FindAction.ID, new org.jhotdraw.samples.teddyapplication.action.FindAction());
         putAction(ToggleLineWrapAction.ID, new ToggleLineWrapAction());
         putAction(ToggleStatusBarAction.ID, new ToggleStatusBarAction());

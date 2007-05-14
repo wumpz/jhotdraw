@@ -31,7 +31,7 @@ import org.jhotdraw.util.*;
  * SVGEllipse represents a SVG ellipse and a SVG circle element.
  *
  * @author Werner Randelshofer
- * @version 2.0 2007-04-14 Adapted for new AttributeKeys.TRANSFORM support. 
+ * @version 2.0 2007-04-14 Adapted for new AttributeKeys.TRANSFORM support.
  * <br>1.0 July 8, 2006 Created.
  */
 public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
@@ -53,11 +53,21 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     
     // DRAWING
     protected void drawFill(Graphics2D g) {
-        g.fill(getTransformedShape());
+        g.fill(ellipse);
+        //g.fill(getTransformedShape());
     }
     
     protected void drawStroke(Graphics2D g) {
-        g.draw(getTransformedShape());
+        g.draw(ellipse);
+        /*
+        if (TRANSFORM.get(this) == null) {
+            g.draw(ellipse);
+        } else {
+            AffineTransform savedTransform = g.getTransform();
+            g.transform(TRANSFORM.get(this));
+            g.draw(ellipse);
+            g.setTransform(savedTransform);
+        }*/
     }
     // SHAPE AND BOUNDS
     public double getX() {
@@ -79,8 +89,15 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     @Override public Rectangle2D.Double getDrawingArea() {
         Rectangle2D rx = getTransformedShape().getBounds2D();
         Rectangle2D.Double r = (rx instanceof Rectangle2D.Double) ? (Rectangle2D.Double) rx : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
-        double g = SVGAttributeKeys.getPerpendicularHitGrowth(this);
-        Geom.grow(r, g, g);
+        if (TRANSFORM.get(this) == null) {
+            double g = SVGAttributeKeys.getPerpendicularHitGrowth(this) * 2;
+            Geom.grow(r, g, g);
+        } else {
+            double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this);
+            double width = strokeTotalWidth / 2d;
+            width *= Math.max(TRANSFORM.get(this).getScaleX(), TRANSFORM.get(this).getScaleY());
+            Geom.grow(r, width, width);
+        }
         return r;
     }
     /**
@@ -89,9 +106,6 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     public boolean contains(Point2D.Double p) {
         // XXX - This does not take the stroke width into account!
         return getTransformedShape().contains(p);
-    }
-    private void invalidateTransformedShape() {
-        cachedTransformedShape = null;
     }
     private Shape getTransformedShape() {
         if (cachedTransformedShape == null) {
@@ -103,7 +117,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
         }
         return cachedTransformedShape;
     }
-    public void basicSetBounds(Point2D.Double anchor, Point2D.Double lead) {
+    public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         ellipse.x = Math.min(anchor.x, lead.x);
         ellipse.y = Math.min(anchor.y , lead.y);
         ellipse.width = Math.max(0.1, Math.abs(lead.x - anchor.x));
@@ -114,61 +128,42 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
      *
      * @param tx the transformation.
      */
-    public void basicTransform(AffineTransform tx) {
-        invalidateTransformedShape();
+    public void transform(AffineTransform tx) {
         if (TRANSFORM.get(this) != null ||
-                (tx.getType() & (AffineTransform.TYPE_TRANSLATION | AffineTransform.TYPE_MASK_SCALE)) != tx.getType()) {
+                (tx.getType() & (AffineTransform.TYPE_TRANSLATION)) != tx.getType()) {
             if (TRANSFORM.get(this) == null) {
-                TRANSFORM.basicSetClone(this, tx);
+                TRANSFORM.setClone(this, tx);
             } else {
                 AffineTransform t = TRANSFORM.getClone(this);
                 t.preConcatenate(tx);
-                TRANSFORM.basicSet(this, t);
+                TRANSFORM.set(this, t);
             }
         } else {
             Point2D.Double anchor = getStartPoint();
             Point2D.Double lead = getEndPoint();
-            basicSetBounds(
+            setBounds(
                     (Point2D.Double) tx.transform(anchor, anchor),
                     (Point2D.Double) tx.transform(lead, lead)
                     );
         }
-        // FIXME - This is experimental code
-        if (FILL_GRADIENT.get(this) != null &&
-                ! FILL_GRADIENT.get(this).isRelativeToFigureBounds()) {
-            FILL_GRADIENT.get(this).transform(tx);
-        }
-        if (STROKE_GRADIENT.get(this) != null &&
-                ! STROKE_GRADIENT.get(this).isRelativeToFigureBounds()) {
-            STROKE_GRADIENT.get(this).transform(tx);
-        }
+        invalidate();
     }
     public void restoreTransformTo(Object geometry) {
-        invalidateTransformedShape();
         Object[] restoreData = (Object[]) geometry;
         ellipse = (Ellipse2D.Double) ((Ellipse2D.Double) restoreData[0]).clone();
-        TRANSFORM.basicSetClone(this, (AffineTransform) restoreData[1]);
-        FILL_GRADIENT.basicSetClone(this, (Gradient) restoreData[2]);
-        STROKE_GRADIENT.basicSetClone(this, (Gradient) restoreData[3]);
+        TRANSFORM.setClone(this, (AffineTransform) restoreData[1]);
+        invalidate();
     }
     
     public Object getTransformRestoreData() {
         return new Object[] {
             ellipse.clone(),
             TRANSFORM.getClone(this),
-            FILL_GRADIENT.getClone(this),
-            STROKE_GRADIENT.getClone(this),
         };
     }
     
     
     // ATTRIBUTES
-    public void basicSetAttribute(AttributeKey key, Object newValue) {
-        if (key == SVGAttributeKeys.TRANSFORM) {
-            invalidateTransformedShape();
-        }
-        super.basicSetAttribute(key, newValue);
-    }
     // EDITING
     @Override public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
@@ -222,6 +217,6 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     }
     @Override public void invalidate() {
         super.invalidate();
-        invalidateTransformedShape();
+        cachedTransformedShape = null;
     }
 }

@@ -121,7 +121,7 @@ public class RelativeLocator extends AbstractLocator {
     }
     /**
      * East.
-     * @boolean isTransform Set this to true, if RelativeLocator shall honour
+     * @param isTransform Set this to true, if RelativeLocator shall honour
      * the AttributesKey.TRANSFORM attribute of the Figure.
      */
     static public Locator east(boolean isTransform) {
@@ -136,7 +136,7 @@ public class RelativeLocator extends AbstractLocator {
     }
     /**
      * North.
-     * @boolean isTransform Set this to true, if RelativeLocator shall honour
+     * @param isTransform Set this to true, if RelativeLocator shall honour
      * the AttributesKey.TRANSFORM attribute of the Figure.
      */
     static public Locator north(boolean isTransform) {
@@ -151,7 +151,7 @@ public class RelativeLocator extends AbstractLocator {
     }
     /**
      * West.
-     * @boolean isTransform Set this to true, if RelativeLocator shall honour
+     * @param isTransform Set this to true, if RelativeLocator shall honour
      * the AttributesKey.TRANSFORM attribute of the Figure.
      */
     static public Locator west(boolean isTransform) {
@@ -166,7 +166,7 @@ public class RelativeLocator extends AbstractLocator {
     }
     /**
      * Norht East.
-     * @boolean isTransform Set this to true, if RelativeLocator shall honour
+     * @param isTransform Set this to true, if RelativeLocator shall honour
      * the AttributesKey.TRANSFORM attribute of the Figure.
      */
     static public Locator northEast(boolean isTransform) {
@@ -181,7 +181,7 @@ public class RelativeLocator extends AbstractLocator {
     }
     /**
      * North West.
-     * @boolean isTransform Set this to true, if RelativeLocator shall honour
+     * @param isTransform Set this to true, if RelativeLocator shall honour
      * the AttributesKey.TRANSFORM attribute of the Figure.
      */
     static public Locator northWest(boolean isTransform) {
@@ -196,7 +196,7 @@ public class RelativeLocator extends AbstractLocator {
     }
     /**
      * South.
-     * @boolean isTransform Set this to true, if RelativeLocator shall honour
+     * @param isTransform Set this to true, if RelativeLocator shall honour
      * the AttributesKey.TRANSFORM attribute of the Figure.
      */
     static public Locator south(boolean isTransform) {
@@ -211,7 +211,7 @@ public class RelativeLocator extends AbstractLocator {
     }
     /**
      * South East.
-     * @boolean isTransform Set this to true, if RelativeLocator shall honour
+     * @param isTransform Set this to true, if RelativeLocator shall honour
      * the AttributesKey.TRANSFORM attribute of the Figure.
      */
     static public Locator southEast(boolean isTransform) {
@@ -227,7 +227,7 @@ public class RelativeLocator extends AbstractLocator {
     /**
      * South West.
      *
-     * @boolean isTransform Set this to true, if RelativeLocator shall honour
+     * @param isTransform Set this to true, if RelativeLocator shall honour
      * the AttributesKey.TRANSFORM attribute of the Figure.
      */
     static public Locator southWest(boolean isTransform) {
@@ -243,7 +243,7 @@ public class RelativeLocator extends AbstractLocator {
     /**
      * Center.
      *
-     * @boolean isTransform Set this to true, if RelativeLocator shall honour
+     * @param isTransform Set this to true, if RelativeLocator shall honour
      * the AttributesKey.TRANSFORM attribute of the Figure.
      */
     static public Locator center(boolean isTransform) {

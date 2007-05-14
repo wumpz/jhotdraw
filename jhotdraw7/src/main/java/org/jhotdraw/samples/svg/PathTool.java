@@ -53,7 +53,7 @@ public class PathTool extends BezierTool {
         getEditor().applyDefaultAttributesTo(f);
         if (attributes != null) {
             for (Map.Entry<AttributeKey, Object> entry : attributes.entrySet()) {
-                f.setAttribute(entry.getKey(), entry.getValue());
+                entry.getKey().set(f, entry.getValue());
             }
         }
         return f;

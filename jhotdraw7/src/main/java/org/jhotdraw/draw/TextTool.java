@@ -153,7 +153,7 @@ public class TextTool extends CreationTool implements ActionListener {
     
     protected void endEdit() {
         if (typingTarget != null) {
-            //typingTarget.willChange();
+                    typingTarget.willChange();
             if (textField.getText().length() > 0) {
                 typingTarget.setText(textField.getText());
                 if (createdFigure != null) {
@@ -165,11 +165,11 @@ public class TextTool extends CreationTool implements ActionListener {
                     getDrawing().remove((Figure)getAddedFigure());
                 } else {
                     typingTarget.setText("");
+                    typingTarget.changed();
                 }
             }
-            // nothing to undo
-            //	            setUndoActivity(null);
-            //typingTarget.changed();
+                    // XXX - Implement Undo/Redo behavior here
+            typingTarget.changed();
             typingTarget = null;
             
             textField.endOverlay();

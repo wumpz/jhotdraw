@@ -46,7 +46,7 @@ public class JDoubleAttributeField extends JFormattedTextField {
     private PropertyChangeListener viewEventHandler = new PropertyChangeListener() {
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
-            if (name.equals("enabled")) {
+            if (name == "enabled") {
                 updateEnabledState();
             }
         }
@@ -55,7 +55,7 @@ public class JDoubleAttributeField extends JFormattedTextField {
     private class EditorEventHandler implements PropertyChangeListener, FigureSelectionListener {
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
-            if (name.equals("focusedView")) {
+            if (name == DrawingEditor.PROP_FOCUSED_VIEW) {
                 if (evt.getOldValue() != null) {
                     DrawingView view = ((DrawingView) evt.getOldValue());
                     view.removeFigureSelectionListener(this);

@@ -51,7 +51,7 @@ public class JStringAttributeArea extends JTextArea {
     private class EditorEventHandler implements PropertyChangeListener, FigureSelectionListener {
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
-            if (name.equals("focusedView")) {
+            if (name == DrawingEditor.PROP_FOCUSED_VIEW) {
                 if (evt.getOldValue() != null) {
                     DrawingView view = ((DrawingView) evt.getOldValue());
                     view.removeFigureSelectionListener(this);
@@ -64,7 +64,7 @@ public class JStringAttributeArea extends JTextArea {
                 }
                 updateEnabledState();
                 updateField();
-            } else if (name.equals(attributeKey.getKey())) {
+            } else if (attributeKey != null && name.equals(attributeKey.getKey())) {
                 updateField();
             }
         }
@@ -120,6 +120,11 @@ public class JStringAttributeArea extends JTextArea {
         this.editor = editor;
         if (this.editor != null) {
             this.editor.addPropertyChangeListener(eventHandler);
+            if (getView() != null) {
+                getView().addFigureSelectionListener(eventHandler);
+            }
+            updateEnabledState();
+            updateField();
         }
     }
     public DrawingEditor getEditor() {
@@ -181,7 +186,8 @@ public class JStringAttributeArea extends JTextArea {
                     attributeKey.set(f, fieldValue);
                 }
             }
-            editor.setDefaultAttribute(attributeKey, fieldValue);
+            // Don't set editor default attribute
+            //editor.setDefaultAttribute(attributeKey, fieldValue);
         }
         isUpdatingField--;
     }

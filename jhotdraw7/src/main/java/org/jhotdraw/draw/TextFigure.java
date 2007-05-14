@@ -73,10 +73,10 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
     }
     
     // SHAPE AND BOUNDS
-    public void basicTransform(AffineTransform tx) {
+    public void transform(AffineTransform tx) {
         tx.transform(origin, origin);
     }
-    public void basicSetBounds(Point2D.Double anchor, Point2D.Double lead) {
+    public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         origin = new Point2D.Double(anchor.x, anchor.y);
     }
     
@@ -156,14 +156,14 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
      * Gets the text shown by the text figure.
      */
     public String getText() {
-        return (String) getAttribute(TEXT);
+        return TEXT.get(this);
     }
     
     /**
      * Sets the text shown by the text figure.
      */
     public void setText(String newText) {
-        setAttribute(TEXT, newText);
+        TEXT.set(this, newText);
     }
     
     public int getTextColumns() {
@@ -252,6 +252,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
                 );
         readAttributes(in);
         readDecorator(in);
+        invalidate();
     }
     
     

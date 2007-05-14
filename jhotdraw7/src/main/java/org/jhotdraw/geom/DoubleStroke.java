@@ -216,7 +216,7 @@ public class DoubleStroke implements Stroke {
         }
         
         // Handle the last point of the bezier path
-        if (bp.isClosed()) {
+        if (bp.isClosed() && bp.size() > 0) {
             double[] tmp = prevCorners;
             prevCorners = currentCorners;
             currentCorners = computeThickLine(

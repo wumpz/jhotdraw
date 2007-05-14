@@ -109,7 +109,7 @@ public class CSSRule {
                 break;
             case ELEMENT_NAME : {
                 String name = elem.getName();
-                isMatch = name.equals(selector);
+                isMatch = name != null && name.equals(selector);
                 break;
             }
             case CLASS_ATTRIBUTE : {
@@ -151,6 +151,6 @@ public class CSSRule {
     
     
     public String toString() {
-        return "CSSRule["+selector+"{"+properties+"]";
+        return "CSSRule["+selector+properties+"]";
     }
 }

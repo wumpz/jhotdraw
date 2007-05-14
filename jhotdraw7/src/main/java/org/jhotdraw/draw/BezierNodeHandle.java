@@ -21,6 +21,7 @@ import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.*;
 import org.jhotdraw.geom.*;
+import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 /**
  * BezierNodeHandle.
  *
@@ -36,26 +37,42 @@ public class BezierNodeHandle extends AbstractHandle {
     protected int index;
     private CompositeEdit edit;
     private BezierPath.Node oldNode;
+    private Figure transformOwner;
     
     /** Creates a new instance. */
     public BezierNodeHandle(BezierFigure owner, int index) {
+        this(owner, index, owner);
+    }
+    public BezierNodeHandle(BezierFigure owner, int index, Figure transformOwner) {
         super(owner);
         this.index = index;
+        this.transformOwner = transformOwner;
+        transformOwner.addFigureListener(this);
     }
+    public void dispose() {
+        super.dispose();
+        transformOwner.removeFigureListener(this);
+        transformOwner = null;
+    }
+    
     /**
      * Draws this handle.
      */
     public void draw(Graphics2D g) {
         BezierFigure f = getBezierFigure();
-        if (f.getPointCount() > index) {
+            int size = f.getPointCount();
+            boolean isClosed = f.isClosed();
+        if (size > index) {
             BezierPath.Node v = f.getNode(index);
-            if (v.mask == 0) {
+            if (v.mask == 0 ||
+                    index == 0 && v.mask == BezierPath.C1_MASK && ! isClosed ||
+                    index == size - 1 && v.mask == BezierPath.C2_MASK && ! isClosed
+                    ) {
                 drawRectangle(g, HANDLE_FILL_COLOR, HANDLE_STROKE_COLOR);
             } else if (v.mask == BezierPath.C1_MASK ||
                     v.mask == BezierPath.C2_MASK ||
-                    !f.isClosed() &&
-                    v.mask == (BezierPath.C1_MASK | BezierPath.C2_MASK) &&
-                    index == 0 || index == f.getNodeCount() - 1) {
+                    index == 0 && ! isClosed ||
+                    index == size - 1 && ! isClosed) {
                 drawDiamond(g, HANDLE_FILL_COLOR, HANDLE_STROKE_COLOR);
             } else {
                 drawCircle(g, HANDLE_FILL_COLOR, HANDLE_STROKE_COLOR);
@@ -67,12 +84,18 @@ public class BezierNodeHandle extends AbstractHandle {
         return (BezierFigure) getOwner();
     }
     
-    protected Point getLocation() {
-        return getBezierFigure().getPointCount() > index ?
-            view.drawingToView(getBezierFigure().getPoint(index, 0)) :
-            new Point(10,10);
+   protected Point getLocation() {
+        if (getBezierFigure().getPointCount() > index) {
+            Point2D.Double p = getBezierFigure().getPoint(index, 0);
+            if (TRANSFORM.get(getTransformOwner()) != null) {
+                TRANSFORM.get(getTransformOwner()).transform(p, p);
+            }
+            return view.drawingToView(p);
+        } else {
+            return new Point(10,10);
+        }
     }
-    protected BezierPath.Node getBezierNode() {
+     protected BezierPath.Node getBezierNode() {
         return getBezierFigure().getPointCount() > index ?
             getBezierFigure().getNode(index) :
             null;
@@ -84,7 +107,9 @@ public class BezierNodeHandle extends AbstractHandle {
         return r;
     }
     
-    
+    protected Figure getTransformOwner() {
+        return transformOwner;
+    }
     
     public void trackStart(Point anchor, int modifiersEx) {
         BezierFigure figure = getBezierFigure();
@@ -98,11 +123,20 @@ public class BezierNodeHandle extends AbstractHandle {
         BezierFigure figure = getBezierFigure();
         figure.willChange();
         Point2D.Double p = view.getConstrainer().constrainPoint(view.viewToDrawing(lead));
+        
+        if (TRANSFORM.get(getTransformOwner()) != null) {
+            try {
+                TRANSFORM.get(getTransformOwner()).inverseTransform(p, p);
+            } catch (NoninvertibleTransformException ex) {
+                ex.printStackTrace();
+            }
+        }
+        
         BezierPath.Node n = figure.getNode(index);
         fireAreaInvalidated(n);
         n.moveTo(p);
         fireAreaInvalidated(n);
-        figure.basicSetNode(index, n);
+        figure.setNode(index, n);
         figure.changed();
     }
     
@@ -131,7 +165,7 @@ public class BezierNodeHandle extends AbstractHandle {
             } else {
                 v.mask = ((v.mask & BezierPath.C1_MASK) == 0) ? BezierPath.C1_MASK : 0;
             }
-            f.basicSetNode(index, v);
+            f.setNode(index, v);
             f.changed();
             fireHandleRequestSecondaryHandles();
         }
@@ -158,7 +192,7 @@ public class BezierNodeHandle extends AbstractHandle {
                 ) {
             Rectangle invalidatedArea = getDrawBounds();
             f.willChange();
-            f.basicRemoveNode(index);
+            f.removeNode(index);
             f.changed();
             fireHandleRequestRemove(invalidatedArea);
         }
@@ -170,25 +204,25 @@ public class BezierNodeHandle extends AbstractHandle {
         BezierPath.Node v = f.getNode(index);
         if ((v.mask & BezierPath.C1_MASK) != 0 &&
                 (index != 0 || f.isClosed())) {
-            list.add(new BezierControlPointHandle(f, index, 1));
+            list.add(new BezierControlPointHandle(f, index, 1, getTransformOwner()));
         }
         if ((v.mask & BezierPath.C2_MASK) != 0 &&
                 (index < f.getNodeCount() - 1 ||
                 f.isClosed())) {
-            list.add(new BezierControlPointHandle(f, index, 2));
+            list.add(new BezierControlPointHandle(f, index, 2, getTransformOwner()));
         }
         if (index > 0 || f.isClosed()) {
             int i = (index == 0) ? f.getNodeCount() - 1 : index - 1;
             v = f.getNode(i);
             if ((v.mask & BezierPath.C2_MASK) != 0) {
-                list.add(new BezierControlPointHandle(f, i, 2));
+                list.add(new BezierControlPointHandle(f, i, 2, getTransformOwner()));
             }
         }
         if (index < f.getNodeCount() - 1 || f.isClosed()) {
             int i = (index == f.getNodeCount() - 1) ? 0 : index + 1;
             v = f.getNode(i);
             if ((v.mask & BezierPath.C1_MASK) != 0) {
-                list.add(new BezierControlPointHandle(f, i, 1));
+                list.add(new BezierControlPointHandle(f, i, 1, getTransformOwner()));
             }
         }
         return list;

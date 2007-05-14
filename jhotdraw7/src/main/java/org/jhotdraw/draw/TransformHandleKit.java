@@ -21,15 +21,15 @@ import java.awt.event.*;
 import org.jhotdraw.util.ResourceBundleUtil;
 /**
  * A set of utility methods to create Handles which transform a Figure by using
- * its <code>basicTransform</code> method.
+ * its <code>transform</code> method.
  * 
- * @see Figure#basicTransform
- *
- * @author Werner Randelshofer
+ * 
+ * @author Werntransformr
  * @version 3.0 2007-04-14 Renamed to TransformHandleKit to differentiate
  * it from the BoundsHandleKit. 
  * <br>2.0 2006-01-14 Changed to support double precision coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @see Figure#basicTransform
  */
 public class TransformHandleKit {
     
@@ -169,14 +169,14 @@ public class TransformHandleKit {
         if (! Double.isNaN(sx) && ! Double.isNaN(sy) &&
                 (sx != 1d || sy != 1d) && 
                 ! (sx < 0.0001) && ! (sy < 0.0001)) {
-            f.basicTransform(tx);
+            f.transform(tx);
             tx.setToIdentity();
             tx.scale(sx, sy);
-            f.basicTransform(tx);
+            f.transform(tx);
             tx.setToIdentity();
         }
         tx.translate(newBounds.x, newBounds.y);
-        f.basicTransform(tx);
+        f.transform(tx);
             f.changed();
         }
     }

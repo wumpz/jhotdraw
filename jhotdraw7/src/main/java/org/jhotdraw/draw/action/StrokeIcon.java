@@ -41,7 +41,7 @@ public class StrokeIcon implements javax.swing.Icon {
     public void paintIcon(java.awt.Component c, java.awt.Graphics gr, int x, int y) {
         Graphics2D g = (Graphics2D) gr;
         g.setStroke(stroke);
-        g.setColor(Color.black);
+        g.setColor(c.isEnabled() ? Color.black : Color.GRAY);
         g.drawLine(x, y + getIconHeight() / 2, x + getIconWidth(), y + getIconHeight() / 2);
         /*
         g.setStroke(new BasicStroke());

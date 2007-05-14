@@ -84,9 +84,9 @@ public class SelectAreaTracker extends AbstractTool {
     }
     
     private void clearRubberBand() {
-        if (rubberband.width > 0) {
+        if (! rubberband.isEmpty()) {
             fireAreaInvalidated(rubberband);
-            rubberband.width = 0;
+            rubberband.width = -1;
         }
     }
     

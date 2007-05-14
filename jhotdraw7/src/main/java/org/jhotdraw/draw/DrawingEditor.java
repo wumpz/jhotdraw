@@ -45,6 +45,15 @@ import java.util.*;
  */
 public interface DrawingEditor {
     /**
+     * The property name for the focusedView Property.
+     */
+    public final static String PROP_FOCUSED_VIEW = "focusedView";   
+    /**
+     * The property name for the view Property.
+     */
+    public final static String PROP_VIEW = "view";   
+    
+    /**
      * Gets the editor's current drawing.
      * /
     Drawing getDrawing();
@@ -85,6 +94,9 @@ public interface DrawingEditor {
     /**
      * Gets the editor's focused view.
      * This can be null, if the editor has no views.
+     * <p>
+     * This is a bound property. The property name is 
+     * <code>DrawingEditor.PROP_FOCUSED_VIEW</code>
      */
     DrawingView getFocusedView();
     

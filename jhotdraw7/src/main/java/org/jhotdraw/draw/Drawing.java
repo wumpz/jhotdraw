@@ -300,5 +300,45 @@ public interface Drawing extends Serializable, DOMStorable {
      * @return The canvas size, or null.
      */
     public Dimension2DDouble getCanvasSize();
+    
+    // ATTRIBUTES
+    /**
+     * Sets an attribute of the Drawing without firing events.
+     * AttributeKey name and semantics are defined by the class implementing
+     * the Drawing interface.
+     * <p>
+     * Use <code>AttributeKey.set</code> for typesafe access to this 
+     * method.
+     * /
+    public void setAttribute(AttributeKey key, Object value);
+    /**
+     * Gets an attribute from the Drawing.
+     * <p>
+     * Use <code>AttributeKey.get()</code> for typesafe access to this method.
+     * 
+     * @see AttributeKey#get
+     *
+     * @return Returns the attribute value. If the Drawing does not have an
+     * attribute with the specified key, returns key.getDefaultValue().
+     * / 
+    public Object getAttribute(AttributeKey key);
+    /**
+     * Returns a view to all attributes of this drawing.
+     * By convention, an unmodifiable map is returned.
+     * /
+    public Map<AttributeKey, Object> getAttributes();
+    
+    /**
+     * Gets data which can be used to restore the attributes of the drawing 
+     * after a setAttribute has been applied to it.
+     * 
+     * @see #basicSetAttribue(AttributeKey,Object)
+     * /
+    public Object getAttributesRestoreData();
+    /**
+     * Restores the attributes of the drawing to a previously stored state.
+     * /
+    public void restoreAttributesTo(Object restoreData);
+    */
 }
 

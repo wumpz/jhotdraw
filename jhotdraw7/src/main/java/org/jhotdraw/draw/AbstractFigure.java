@@ -346,7 +346,7 @@ public abstract class AbstractFigure
         if (! oldAnchor.equals(anchor)
         || ! oldLead.equals(lead)) {
             willChange();
-            basicSetBounds(anchor, lead);
+            setBounds(anchor, lead);
             changed();
             fireUndoableEditHappened(new SetBoundsEdit(this, oldAnchor, oldLead, anchor, lead));
         }
@@ -398,24 +398,6 @@ public abstract class AbstractFigure
         }
     }
     
-    /**
-     * Transforms the geometry of the figure.
-     */
-    public void transform(AffineTransform tx) {
-        willChange();
-        basicTransform(tx);
-        fireUndoableEditHappened(new TransformEdit(this, tx));
-        changed();
-    }
-    
-    
-    /**
-     * Moves the figure. This is the
-     * method that subclasses override.
-     * <p>
-     * This is a basic operation for which no events are fired.
-     */
-    public abstract void basicTransform(AffineTransform ty);
     /**
      * Returns the Figures connector for the specified location.
      * By default a ChopBoxConnector is returned.

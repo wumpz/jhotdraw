@@ -200,7 +200,7 @@ public class SVGOutputFormat implements OutputFormat {
     
     protected IXMLElement createLinearGradient(IXMLElement doc,
             double x1, double y1, double x2, double y2,
-            double[] stopOffsets, Color[] stopColors,
+            double[] stopOffsets, Color[] stopColors, double[] stopOpacities,
             boolean isRelativeToFigureBounds) throws IOException {
         IXMLElement elem = doc.createElement("linearGradient");
         
@@ -217,8 +217,8 @@ public class SVGOutputFormat implements OutputFormat {
             IXMLElement stop = new XMLElement("stop");
             writeAttribute(stop, "offset", toNumber(stopOffsets[i]), null);
             writeAttribute(stop, "stop-color", toColor(stopColors[i]), null);
-            writeAttribute(stop, "stop-opacity", toNumber(stopColors[i].getAlpha() / 255d), "1");
-            elem.addChild(stop);
+            writeAttribute(stop, "stop-opacity", toNumber(stopOpacities[i]), "1");
+             elem.addChild(stop);
         }
         
         return elem;
@@ -226,7 +226,7 @@ public class SVGOutputFormat implements OutputFormat {
     
     protected IXMLElement createRadialGradient(IXMLElement doc,
             double cx, double cy, double r,
-            double[] stopOffsets, Color[] stopColors,
+            double[] stopOffsets, Color[] stopColors, double[] stopOpacities,
             boolean isRelativeToFigureBounds) throws IOException {
         IXMLElement elem = doc.createElement("radialGradient");
 
@@ -242,7 +242,7 @@ public class SVGOutputFormat implements OutputFormat {
             IXMLElement stop = new XMLElement("stop");
             writeAttribute(stop, "offset", toNumber(stopOffsets[i]), null);
             writeAttribute(stop, "stop-color", toColor(stopColors[i]), null);
-            writeAttribute(stop, "stop-opacity", toNumber(stopColors[i].getAlpha() / 255d), "1");
+            writeAttribute(stop, "stop-opacity", toNumber(stopOpacities[i]), "1");
             elem.addChild(stop);
         }
         
@@ -616,6 +616,7 @@ public class SVGOutputFormat implements OutputFormat {
                         lg.getX2(), lg.getY2(),
                         lg.getStopOffsets(),
                         lg.getStopColors(),
+                        lg.getStopOpacities(),
                         lg.isRelativeToFigureBounds()
                         );
             } else /*if (gradient instanceof RadialGradient)*/ {
@@ -625,6 +626,7 @@ public class SVGOutputFormat implements OutputFormat {
                         rg.getR(),
                         rg.getStopOffsets(),
                         rg.getStopColors(),
+                        rg.getStopOpacities(),
                         rg.isRelativeToFigureBounds()
                         );
             }
@@ -681,6 +683,7 @@ public class SVGOutputFormat implements OutputFormat {
                         lg.getX2(), lg.getY2(),
                         lg.getStopOffsets(),
                         lg.getStopColors(),
+                        lg.getStopOpacities(),
                         lg.isRelativeToFigureBounds()
                         );
             } else /*if (gradient instanceof RadialGradient)*/ {
@@ -690,6 +693,7 @@ public class SVGOutputFormat implements OutputFormat {
                         rg.getR(),
                         rg.getStopOffsets(),
                         rg.getStopColors(),
+                        rg.getStopOpacities(),
                         rg.isRelativeToFigureBounds()
                         );
             }

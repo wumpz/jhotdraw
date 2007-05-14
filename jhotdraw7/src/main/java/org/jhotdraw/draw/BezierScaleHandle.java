@@ -116,7 +116,7 @@ public class BezierScaleHandle extends AbstractHandle {
         transform.translate(-center.x, -center.y);
         getOwner().willChange();
         getOwner().restoreTransformTo(restoreData);
-        getOwner().basicTransform(transform);
+        getOwner().transform(transform);
         getOwner().changed();
     }
     /*

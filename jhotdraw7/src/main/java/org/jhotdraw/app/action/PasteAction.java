@@ -45,7 +45,7 @@ public class PasteAction extends AbstractAction {
         if (focusOwner != null && focusOwner instanceof JComponent) {
             JComponent component = (JComponent) focusOwner;
             Transferable t = component.getToolkit().getSystemClipboard().getContents(component);
-            if (t != null) {
+            if (t != null && component.getTransferHandler() != null) {
                 component.getTransferHandler().importData(
                         component,
                         t

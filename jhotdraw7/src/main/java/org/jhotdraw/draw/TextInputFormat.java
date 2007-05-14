@@ -125,7 +125,7 @@ public class TextInputFormat implements InputFormat {
             }
             figure.setText(buf.toString());
             Dimension2DDouble s = figure.getPreferredSize();
-            figure.basicSetBounds(
+            figure.setBounds(
                     new Point2D.Double(0,0),
                     new Point2D.Double(
                     s.width, s.height
@@ -136,7 +136,7 @@ public class TextInputFormat implements InputFormat {
                 TextHolderFigure figure = (TextHolderFigure) prototype.clone();
                 figure.setText(line);
                 Dimension2DDouble s = figure.getPreferredSize();
-                figure.basicSetBounds(
+                figure.setBounds(
                         new Point2D.Double(0,y),
                         new Point2D.Double(
                         s.width, s.height
@@ -162,7 +162,7 @@ public class TextInputFormat implements InputFormat {
             figure.setText(text);
             Dimension2DDouble s = figure.getPreferredSize();
             figure.willChange();
-            figure.basicSetBounds(
+            figure.setBounds(
                     new Point2D.Double(0,0),
                     new Point2D.Double(
                     s.width, s.height
@@ -177,7 +177,7 @@ public class TextInputFormat implements InputFormat {
                 Dimension2DDouble s = figure.getPreferredSize();
                 y += s.height;
                 figure.willChange();
-                figure.basicSetBounds(
+                figure.setBounds(
                         new Point2D.Double(0,0+y),
                         new Point2D.Double(
                         s.width, s.height+y

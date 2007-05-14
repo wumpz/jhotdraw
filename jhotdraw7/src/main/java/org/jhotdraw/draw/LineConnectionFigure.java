@@ -84,8 +84,8 @@ public class LineConnectionFigure extends LineFigure
      * Ensures that a connection is updated if the connection
      * was moved.
      */
-    public void basicTransform(AffineTransform tx) {
-        super.basicTransform(tx);
+    public void transform(AffineTransform tx) {
+        super.transform(tx);
         updateConnection(); // make sure that we are still connected
     }
     // ATTRIBUTES
@@ -126,17 +126,16 @@ public class LineConnectionFigure extends LineFigure
         if (getStartConnector() != null) {
             Point2D.Double start = getStartConnector().findStart(this);
             if(start != null) {
-                basicSetStartPoint(start);
+                setStartPoint(start);
             }
         }
         if (getEndConnector() != null) {
             Point2D.Double end = getEndConnector().findEnd(this);
             
             if(end != null) {
-                basicSetEndPoint(end);
+                setEndPoint(end);
             }
         }
-        
         changed();
     }
     public void validate() {
@@ -171,7 +170,7 @@ public class LineConnectionFigure extends LineFigure
     /**
      * Note: this method is only final for testing purposes. You can
      * remove the final keywoard at any time.
-     */
+     * /
     public final void setEndConnector(final Connector newEnd) {
         final Connector oldEnd = endConnector;
         if (newEnd != oldEnd) {
@@ -198,8 +197,8 @@ public class LineConnectionFigure extends LineFigure
             });
             changed();
         }
-    }
-    protected void basicSetEndConnector(Connector newEnd) {
+    }*/
+    public void setEndConnector(Connector newEnd) {
         if (newEnd != endConnector) {
             if (endConnector != null) {
                 getEndFigure().removeFigureListener(connectionHandler);
@@ -220,7 +219,7 @@ public class LineConnectionFigure extends LineFigure
     /**
      * Note: this method is only final for testing purposes. You can
      * remove the final keywoard at any time.
-     */
+     * /
     public final void setStartConnector(final Connector newStart) {
         final Connector oldStart = startConnector;
         if (newStart != oldStart) {
@@ -247,9 +246,9 @@ public class LineConnectionFigure extends LineFigure
             });
             changed();
         }
-    }
+    }*/
     
-    public void basicSetStartConnector(Connector newStart) {
+    public void setStartConnector(Connector newStart) {
         if (newStart != startConnector) {
             if (startConnector != null) {
                 getStartFigure().removeFigureListener(connectionHandler);
@@ -404,21 +403,21 @@ public class LineConnectionFigure extends LineFigure
         if (getLiner() == null &&
                 evt.getClickCount() == 2) {
             willChange();
-            final int index = basicSplitSegment(p, (float) (5f / view.getScaleFactor()));
+            final int index = splitSegment(p, (float) (5f / view.getScaleFactor()));
             if (index != -1) {
                 final BezierPath.Node newNode = getNode(index);
                 fireUndoableEditHappened(new AbstractUndoableEdit() {
                     public void redo() throws CannotRedoException {
                         super.redo();
                         willChange();
-                        basicAddNode(index, newNode);
+                        addNode(index, newNode);
                         changed();
                     }
                     
                     public void undo() throws CannotUndoException {
                         super.undo();
                         willChange();
-                        basicRemoveNode(index);
+                        removeNode(index);
                         changed();
                     }
                     
@@ -433,16 +432,19 @@ public class LineConnectionFigure extends LineFigure
     protected void readPoints(DOMInput in) throws IOException {
         super.readPoints(in);
         in.openElement("startConnector");
-        startConnector = (Connector) in.readObject();
+        setStartConnector((Connector) in.readObject());
         in.closeElement();
         in.openElement("endConnector");
-        endConnector = (Connector) in.readObject();
+        setEndConnector((Connector) in.readObject());
         in.closeElement();
     }
     public void read(DOMInput in) throws IOException {
-        readPoints(in);
         readAttributes(in);
         readLiner(in);
+        
+        // Note: Points must be read after Liner, because Liner influences
+        // the location of the points.
+        readPoints(in);
     }
     protected void readLiner(DOMInput in) throws IOException {
         if (in.getElementCount("liner") > 0) {
@@ -476,28 +478,28 @@ public class LineConnectionFigure extends LineFigure
         out.closeElement();
     }
     
-    public void basicSetLiner(Liner newValue) {
+    public void setLiner(Liner newValue) {
         this.liner = newValue;
     }
     
     
-    public void basicSetNode(int index, BezierPath.Node p) {
+    public void setNode(int index, BezierPath.Node p) {
         if (index != 0 && index != getPointCount() - 1) {
             if (getStartConnector() != null) {
                 Point2D.Double start = getStartConnector().findStart(this);
                 if(start != null) {
-                    basicSetStartPoint(start);
+                    setStartPoint(start);
                 }
             }
             if (getEndConnector() != null) {
                 Point2D.Double end = getEndConnector().findEnd(this);
                 
                 if(end != null) {
-                    basicSetEndPoint(end);
+                   setEndPoint(end);
                 }
             }
         }
-        super.basicSetNode(index, p);
+        super.setNode(index, p);
     }
     /*
     public void basicSetPoint(int index, Point2D.Double p) {

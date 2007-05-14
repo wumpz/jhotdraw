@@ -10,7 +10,6 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-�
  */
 
 
@@ -25,7 +24,10 @@ import java.util.*;
  * <p>
  * FIXME - When we do group moves or moves of a composite figure we fail to
  * coallesce the TransformEdit events. This may exhaust memory!
- *
+ * <p>
+ * XXX - This edit should use getTransformRestoreData, restoreTransformTo.
+ * <p>
+ * FIXME - Maybe TransformEdit should be replaced by GeometryEdit?
  *
  * @author Werner Randelshofer
  * @version 2.0 2006-01-14 Changed to support double precision coordinates.
@@ -81,7 +83,7 @@ public class TransformEdit extends AbstractUndoableEdit {
         super.redo();
         for (Figure f : figures) {
             f.willChange();
-            f.basicTransform(tx);
+            f.transform(tx);
                 f.changed();
             
         }
@@ -92,7 +94,7 @@ public class TransformEdit extends AbstractUndoableEdit {
             AffineTransform inverse = tx.createInverse();
             for (Figure f : figures) {
                 f.willChange();
-                f.basicTransform(inverse);
+                f.transform(inverse);
                 f.changed();
             }
         } catch (NoninvertibleTransformException e) {

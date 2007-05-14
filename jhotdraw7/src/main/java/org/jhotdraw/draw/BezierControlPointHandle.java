@@ -21,6 +21,7 @@ import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.*;
 import org.jhotdraw.geom.*;
+import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 /**
  * BezierControlPointHandle.
  *
@@ -32,20 +33,42 @@ public class BezierControlPointHandle extends AbstractHandle {
     private final static Color HANDLE_STROKE_COLOR = Color.WHITE;
     protected int index, controlPointIndex;
     private CompositeEdit edit;
+    private Figure transformOwner;
     
     /** Creates a new instance. */
     public BezierControlPointHandle(BezierFigure owner, int index, int coord) {
+        this(owner, index, coord, owner);
+    }
+    public BezierControlPointHandle(BezierFigure owner, int index, int coord, Figure transformOwner) {
         super(owner);
         this.index = index;
         this.controlPointIndex = coord;
+        this.transformOwner = transformOwner;
+        transformOwner.addFigureListener(this);
+    }
+    public void dispose() {
+        super.dispose();
+        transformOwner.removeFigureListener(this);
+        transformOwner = null;
     }
     protected BezierFigure getBezierFigure() {
         return (BezierFigure) getOwner();
     }
+    
+    protected Figure getTransformOwner() {
+        return transformOwner;
+    }
+    
     protected Point getLocation() {
-        return getBezierFigure().getPointCount() > index ?
-            view.drawingToView(getBezierFigure().getPoint(index, controlPointIndex)) :
-            new Point(10,10);
+        if (getBezierFigure().getPointCount() > index) {
+            Point2D.Double p = getBezierFigure().getPoint(index, controlPointIndex);
+            if (TRANSFORM.get(getTransformOwner()) != null) {
+                TRANSFORM.get(getTransformOwner()).transform(p, p);
+            }
+            return view.drawingToView(p);
+        } else {
+            return new Point(10,10);
+        }
     }
     protected BezierPath.Node getBezierNode() {
         return getBezierFigure().getPointCount() > index ?
@@ -61,15 +84,23 @@ public class BezierControlPointHandle extends AbstractHandle {
         if (f.getPointCount() > index) {
             BezierPath.Node v = f.getNode(index);
             if (v.keepColinear && v.mask == BezierPath.C1C2_MASK &&
-                    (index > 0 && index < f.getNodeCount() || f.isClosed())) {
+                    (index > 0 && index < f.getNodeCount() - 1 || f.isClosed())) {
                 drawCircle(g, HANDLE_STROKE_COLOR, HANDLE_FILL_COLOR);
             } else {
                 drawCircle(g, HANDLE_FILL_COLOR, HANDLE_STROKE_COLOR);
             }
             g.setColor(HANDLE_FILL_COLOR);
+            
+            Point2D.Double p0 = new Point2D.Double(v.x[0], v.y[0]);
+            Point2D.Double pc = new Point2D.Double(v.x[controlPointIndex], v.y[controlPointIndex]);
+            if (TRANSFORM.get(getTransformOwner()) != null) {
+                TRANSFORM.get(getTransformOwner()).transform(p0, p0);
+                TRANSFORM.get(getTransformOwner()).transform(pc, pc);
+            }
+            
             g.draw(new Line2D.Double(
-                    view.drawingToView(new Point2D.Double(v.x[0], v.y[0])),
-                    view.drawingToView(new Point2D.Double(v.x[controlPointIndex], v.y[controlPointIndex]))
+                    view.drawingToView(p0),
+                    view.drawingToView(pc)
                     ));
         }
     }
@@ -93,9 +124,17 @@ public class BezierControlPointHandle extends AbstractHandle {
         fireAreaInvalidated(v);
         figure.willChange();
         
+            if (TRANSFORM.get(getTransformOwner()) != null) {
+                try {
+                    TRANSFORM.get(getTransformOwner()).inverseTransform(p, p);
+                } catch (NoninvertibleTransformException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        
         if (! v.keepColinear) {
             // move control point independently
-            figure.basicSetPoint(index, controlPointIndex, p);
+            figure.setPoint(index, controlPointIndex, p);
             
         } else {
             // move control point and opposite control point on same line
@@ -110,8 +149,8 @@ public class BezierControlPointHandle extends AbstractHandle {
                     r * cosa + v.x[0],
                     r * sina + v.y[0]
                     );
-            figure.basicSetPoint(index, controlPointIndex, p);
-            figure.basicSetPoint(index, c2, p2);
+            figure.setPoint(index, controlPointIndex, p);
+            figure.setPoint(index, c2, p2);
         }
         figure.changed();
         fireAreaInvalidated(figure.getNode(index));

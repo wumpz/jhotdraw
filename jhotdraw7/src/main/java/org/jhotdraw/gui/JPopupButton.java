@@ -35,6 +35,17 @@ public class JPopupButton extends javax.swing.JButton {
     private Font itemFont;
     public final static Font ITEM_FONT = new Font("Dialog", Font.PLAIN, 10);
     
+    private class ActionPropertyHandler implements PropertyChangeListener {
+        public void propertyChange(PropertyChangeEvent evt) {
+            if (evt.getPropertyName().equals("enabled")) {
+                setEnabled(((Boolean) evt.getNewValue()).booleanValue());
+            } else {
+                repaint();
+            }
+        }
+    };
+    private ActionPropertyHandler actionPropertyHandler = new ActionPropertyHandler();
+    
     /** Creates new form JToolBarMenu */
     public JPopupButton() {
         initComponents();
@@ -50,18 +61,16 @@ public class JPopupButton extends javax.swing.JButton {
     }
     
     public void setAction(Action action, Rectangle actionArea) {
+        if (this.action != null) {
+            this.action.removePropertyChangeListener(actionPropertyHandler);
+        }
+        
         this.action = action;
         this.actionArea = actionArea;
-        action.addPropertyChangeListener(new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent evt) {
-                if (evt.getPropertyName().equals("enabled")) {
-                    setEnabled(((Boolean) evt.getNewValue()).booleanValue());
-                } else {
-                    repaint();
-                }
-            }
+        
+        if (action != null) {
+            action.addPropertyChangeListener(actionPropertyHandler);
         }
-        );
     }
     
     public int getColumnCount() {
@@ -72,12 +81,13 @@ public class JPopupButton extends javax.swing.JButton {
         getPopupMenu().setLayout(new VerticalGridLayout(0, getColumnCount(), isVertical));
     }
     
-    public void add(Action action) {
+    public AbstractButton add(Action action) {
         JMenuItem item = getPopupMenu().add(action);
         if (getColumnCount() > 1) {
             item.setUI(new PaletteMenuItemUI());
         }
         item.setFont(itemFont);
+        return item;
     }
     public void add(JMenu submenu) {
         JMenuItem item = getPopupMenu().add(submenu);

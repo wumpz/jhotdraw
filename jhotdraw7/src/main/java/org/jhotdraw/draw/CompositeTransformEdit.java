@@ -70,14 +70,14 @@ public class CompositeTransformEdit extends AbstractUndoableEdit {
     public void redo() throws CannotRedoException {
         super.redo();
         owner.willChange();
-        owner.basicTransform(tx);
+        owner.transform(tx);
         owner.changed();
     }
     public void undo() throws CannotUndoException {
         super.undo();
         owner.willChange();
         try {
-            owner.basicTransform(tx.createInverse());
+            owner.transform(tx.createInverse());
         } catch (NoninvertibleTransformException ex) {
             ex.printStackTrace();
         }

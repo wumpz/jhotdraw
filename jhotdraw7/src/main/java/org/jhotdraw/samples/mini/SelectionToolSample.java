@@ -54,7 +54,7 @@ public class SelectionToolSample {
      */
         public SelectionToolSample() {
             LineFigure lf = new LineFigure();
-            lf.basicSetBounds(new Point2D.Double(40,40), new Point2D.Double(200,
+            lf.setBounds(new Point2D.Double(40,40), new Point2D.Double(200,
 40));
 
             // Add all figures to a drawing 

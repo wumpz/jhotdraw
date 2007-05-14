@@ -99,7 +99,7 @@ public abstract class AbstractChangeConnectionHandle extends AbstractHandle {
         originalTarget = getTarget();
         start = anchor;
         liner = connection.getLiner();
-        connection.basicSetLiner(null);
+        connection.setLiner(null);
         //disconnect();
     }
     
@@ -159,7 +159,7 @@ public abstract class AbstractChangeConnectionHandle extends AbstractHandle {
             } else {
                 v.mask = ((v.mask & BezierPath.C1_MASK) == 0) ? BezierPath.C1_MASK : 0;
             }
-            f.basicSetNode(index, v);
+            f.setNode(index, v);
             f.changed();
             fireHandleRequestSecondaryHandles();
         }
@@ -177,7 +177,7 @@ public abstract class AbstractChangeConnectionHandle extends AbstractHandle {
             disconnect();
             connect(target);
         }
-        connection.basicSetLiner(liner);
+        connection.setLiner(liner);
         getConnection().updateConnection();
         
         

@@ -73,7 +73,7 @@ public class ImageTool extends CreationTool {
         createdFigure = createFigure();
         Point2D.Double p = constrainPoint(viewToDrawing(anchor));
         createdFigure.willChange();
-        createdFigure.basicSetBounds(p, new Point2D.Double(p.x+20,p.y+20));
+        createdFigure.setBounds(p, new Point2D.Double(p.x+20,p.y+20));
         createdFigure.changed();
         getDrawing().add(createdFigure);
         getDrawing().fireUndoableEditHappened(creationEdit);
@@ -116,7 +116,7 @@ public class ImageTool extends CreationTool {
                         Point2D.Double p1 = createdFigure.getStartPoint();
                         Point2D.Double p2 = new Point2D.Double(p1.x+img.getWidth(), p1.y+img.getHeight());
                         createdFigure.willChange();
-                        createdFigure.basicSetBounds(p1,p2);
+                        createdFigure.setBounds(p1,p2);
                         createdFigure.changed();
                     }
                     fireToolDone();

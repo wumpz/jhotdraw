@@ -24,6 +24,7 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
 import javax.swing.undo.*;
+import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * Aligns the selected figures.
@@ -78,6 +79,10 @@ public abstract class AlignAction extends AbstractSelectedAction {
             super(editor);
             labels.configureAction(this, "alignNorth");
         }
+        public North(DrawingEditor editor, ResourceBundleUtil labels) {
+            super(editor);
+            labels.configureAction(this, "alignNorth");
+        }
         
         protected void alignFigures(Collection selectedFigures, Rectangle2D.Double selectionBounds) {
             double y = selectionBounds.y;
@@ -87,7 +92,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
                 Rectangle2D.Double b = f.getBounds();
                 AffineTransform tx = new AffineTransform();
                 tx.translate(0, y - b.y);
-                f.basicTransform(tx);
+                f.transform(tx);
                  f.changed();
                 fireUndoableEditHappened(new TransformEdit(f, tx));
            }
@@ -95,6 +100,10 @@ public abstract class AlignAction extends AbstractSelectedAction {
     }
     public static class East extends AlignAction {
         public East(DrawingEditor editor) {
+            super(editor);
+            labels.configureAction(this, "alignEast");
+        }
+        public East(DrawingEditor editor, ResourceBundleUtil labels) {
             super(editor);
             labels.configureAction(this, "alignEast");
         }
@@ -107,7 +116,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
                 Rectangle2D.Double b = f.getBounds();
                 AffineTransform tx = new AffineTransform();
                 tx.translate(x - b.x - b.width, 0);
-                f.basicTransform(tx);
+                f.transform(tx);
                  f.changed();
                 fireUndoableEditHappened(new TransformEdit(f, tx));
            }
@@ -115,6 +124,10 @@ public abstract class AlignAction extends AbstractSelectedAction {
     }
     public static class West extends AlignAction {
         public West(DrawingEditor editor) {
+            super(editor);
+            labels.configureAction(this, "alignWest");
+        }
+        public West(DrawingEditor editor, ResourceBundleUtil labels) {
             super(editor);
             labels.configureAction(this, "alignWest");
         }
@@ -127,7 +140,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
                 Rectangle2D.Double b = f.getBounds();
                 AffineTransform tx = new AffineTransform();
                 tx.translate(x - b.x, 0);
-                f.basicTransform(tx);
+                f.transform(tx);
                 f.changed();
                 fireUndoableEditHappened(new TransformEdit(f, tx));
             }
@@ -135,6 +148,10 @@ public abstract class AlignAction extends AbstractSelectedAction {
     }
     public static class South extends AlignAction {
         public South(DrawingEditor editor) {
+            super(editor);
+            labels.configureAction(this, "alignSouth");
+        }
+        public South(DrawingEditor editor, ResourceBundleUtil labels) {
             super(editor);
             labels.configureAction(this, "alignSouth");
         }
@@ -147,7 +164,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
                 Rectangle2D.Double b = f.getBounds();
                 AffineTransform tx = new AffineTransform();
                 tx.translate(0, y - b.y - b.height);
-                f.basicTransform(tx);
+                f.transform(tx);
                 f.changed();
                 fireUndoableEditHappened(new TransformEdit(f, tx));
             }
@@ -155,6 +172,10 @@ public abstract class AlignAction extends AbstractSelectedAction {
     }
     public static class Vertical extends AlignAction {
         public Vertical(DrawingEditor editor) {
+            super(editor);
+            labels.configureAction(this, "alignVertical");
+        }
+        public Vertical(DrawingEditor editor, ResourceBundleUtil labels) {
             super(editor);
             labels.configureAction(this, "alignVertical");
         }
@@ -167,7 +188,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
                 Rectangle2D.Double b = f.getBounds();
                 AffineTransform tx = new AffineTransform();
                 tx.translate(0, y - b.y - b.height / 2);
-                f.basicTransform(tx);
+                f.transform(tx);
                 f.changed();
                 fireUndoableEditHappened(new TransformEdit(f, tx));
             }
@@ -175,6 +196,10 @@ public abstract class AlignAction extends AbstractSelectedAction {
     }
     public static class Horizontal extends AlignAction {
         public Horizontal(DrawingEditor editor) {
+            super(editor);
+            labels.configureAction(this, "alignHorizontal");
+        }
+        public Horizontal(DrawingEditor editor, ResourceBundleUtil labels) {
             super(editor);
             labels.configureAction(this, "alignHorizontal");
         }
@@ -187,7 +212,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
                 Rectangle2D.Double b = f.getBounds();
                 AffineTransform tx = new AffineTransform();
                 tx.translate(x - b.x - b.width / 2, 0);
-                f.basicTransform(tx);
+                f.transform(tx);
                 f.changed();
                 fireUndoableEditHappened(new TransformEdit(f, tx));
             }

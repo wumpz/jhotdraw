@@ -44,8 +44,8 @@ public abstract class AbstractDrawing extends AbstractBean implements Drawing {
     private final static Object lock = new JPanel().getTreeLock();
     protected EventListenerList listenerList = new EventListenerList();
     private FontRenderContext fontRenderContext;
-    private java.util.List<InputFormat> inputFormats;
-    private java.util.List<OutputFormat> outputFormats;
+    private java.util.List<InputFormat> inputFormats = new java.util.LinkedList<InputFormat>();
+    private java.util.List<OutputFormat> outputFormats = new java.util.LinkedList<OutputFormat>();
     
     /** Creates a new instance. */
     public AbstractDrawing() {

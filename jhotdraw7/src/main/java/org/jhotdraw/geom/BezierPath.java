@@ -1,5 +1,5 @@
 /*
- * @(#)BezierPath.java  1.2.1  2007-01-05
+ * @(#)BezierPath.java  1.3  2007-05-07
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -28,7 +28,8 @@ import java.util.*;
  * away from C0.
  *
  * @author Werner Randelshofer
- * @version 1.2.1 Issue #1628647: Method splitSegment created incorrect control
+ * @version 1.3 BezierPath has now its own BezierPathIterator.
+ * <br>1.2.1 Issue #1628647: Method splitSegment created incorrect control
  * point masks.
  * <br>1.2 2006-12-09 Method setWindingRule added.
  * <br>1.1 2006-03-22 Methods moveTo, lineTo and quadTo  added.
@@ -36,13 +37,16 @@ import java.util.*;
  */
 public class BezierPath extends ArrayList<BezierPath.Node>
         implements Shape {
-    /** Constant for having only control point C0 in effect. */
+    /** Constant for having only control point C0 in effect. C0 is the point
+     * through whitch the curve passes. */
     public final static int C0_MASK = 0;
     /** Constant for having control point C1 in effect (in addition
-     * to C0).
+     * to C0). C1 controls the curve going towards C0.
      * */
     public final static int C1_MASK = 1;
-    /** Constant for having control point C2 in effect (in addition to C0). */
+    /** Constant for having control point C2 in effect (in addition to C0).
+     * C2 controls the curve going away from C0.
+     */
     public final static int C2_MASK = 2;
     /** Constant for having control points C1 and C2 in effect (in addition to C0). */
     public final static int C1C2_MASK = C1_MASK | C2_MASK;
@@ -51,6 +55,10 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      * We cache a GeneralPath instance to speed up Shape operations.
      */
     private transient GeneralPath generalPath;
+    /**
+     * We cache a Rectangle2D.Double instance to speed up getBounds operations.
+     */
+    private transient Rectangle2D.Double bounds;
     
     /**
      * We cache the index of the outermost node to speed up method indexOfOutermostNode();
@@ -268,6 +276,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      */
     public void invalidatePath() {
         generalPath = null;
+        bounds = null;
         outer = -1;
     }
     
@@ -377,6 +386,8 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      * @param tolerance The tolerance for the test.
      */
     public boolean outlineContains(Point2D.Double p, double tolerance) {
+        return Shapes.outlineContains(this, p, tolerance);
+        /*
         validatePath();
         
         PathIterator i = generalPath.getPathIterator(new AffineTransform(), tolerance);
@@ -399,6 +410,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
             i.next();
         }
         return false;
+         */
     }
     
     public boolean intersects(Rectangle2D r) {
@@ -407,8 +419,35 @@ public class BezierPath extends ArrayList<BezierPath.Node>
     }
     
     public PathIterator getPathIterator(AffineTransform at) {
+        /*
         validatePath();
-        return generalPath.getPathIterator(at);
+        PathIterator git = generalPath.getPathIterator(at);
+        PathIterator bit = new BezierPathIterator(this, at);
+float gcoords[] = new float[6];
+float bcoords[] = new float[6];
+int i=0;
+        while (! git.isDone() && ! bit.isDone()) {
+            int gtype = git.currentSegment(gcoords);
+            int btype = bit.currentSegment(bcoords);
+            System.out.println(i+" "+gtype+"["+gcoords[0]+","+gcoords[1]+","+gcoords[2]+","+gcoords[3]+","+gcoords[4]+","+gcoords[5]+
+                    "]="+btype+"["+bcoords[0]+","+bcoords[1]+","+bcoords[2]+","+bcoords[3]+","+bcoords[4]+","+bcoords[5]+"]");
+            git.next();
+                    bit.next();
+            i++;
+        }
+System.out.println("- "+git.isDone()+"="+bit.isDone());
+         
+         
+      //  return generalPath.getPathIterator(at);*/
+        return new BezierPathIterator(this, at);
+    }
+    
+    public PathIterator getPathIterator(AffineTransform at, double flatness) {
+        /*
+        validatePath();
+        return generalPath.getPathIterator(at, flatness);
+         */
+        return new FlatteningPathIterator(new BezierPathIterator(this, at), flatness);
     }
     
     public boolean contains(Rectangle2D r) {
@@ -416,33 +455,100 @@ public class BezierPath extends ArrayList<BezierPath.Node>
         return generalPath.contains(r);
     }
     
-    public PathIterator getPathIterator(AffineTransform at, double flatness) {
-        validatePath();
-        return generalPath.getPathIterator(at, flatness);
-    }
-    
     public boolean intersects(double x, double y, double w, double h) {
         validatePath();
         return generalPath.intersects(x, y, w, h);
     }
     
-    public Rectangle2D getBounds2D() {
-        validatePath();
-        return generalPath.getBounds2D();
-    }
-    public Rectangle2D.Double getBounds2DDouble() {
-        validatePath();
-        Rectangle2D r = generalPath.getBounds2D();
-        if (r instanceof Rectangle2D.Double) {
-            return (Rectangle2D.Double) r;
-        } else {
-            return new Rectangle2D.Double(r.getX(), r.getY(), r.getWidth(), r.getHeight());
+    public Rectangle2D.Double getBounds2D() {
+        if (bounds == null) {
+            double x1, y1, x2, y2;
+            int size = size();
+            if (size == 0) {
+                x1 = y1 = x2 = y2 = 0.0f;
+            } else {
+                double x, y;
+                
+                // handle first node
+                Node node = get(0);
+                y1 = y2 = node.y[0];
+                x1 = x2 = node.x[0];
+                if (isClosed && (node.mask & C1_MASK) != 0) {
+                    y = node.y[1];
+                    x = node.x[1];
+                    if (x < x1) x1 = x;
+                    if (y < y1) y1 = y;
+                    if (x > x2) x2 = x;
+                    if (y > y2) y2 = y;
+                }
+                if ((node.mask & C2_MASK) != 0) {
+                    y = node.y[2];
+                    x = node.x[2];
+                    if (x < x1) x1 = x;
+                    if (y < y1) y1 = y;
+                    if (x > x2) x2 = x;
+                    if (y > y2) y2 = y;
+                }
+                // handle last node
+                node = get(size - 1);
+                y = node.y[0];
+                x = node.x[0];
+                if (x < x1) x1 = x;
+                if (y < y1) y1 = y;
+                if (x > x2) x2 = x;
+                if (y > y2) y2 = y;
+                
+                if ((node.mask & C1_MASK) != 0) {
+                    y = node.y[1];
+                    x = node.x[1];
+                    if (x < x1) x1 = x;
+                    if (y < y1) y1 = y;
+                    if (x > x2) x2 = x;
+                    if (y > y2) y2 = y;
+                }
+                if (isClosed && (node.mask & C2_MASK) != 0) {
+                    y = node.y[2];
+                    x = node.x[2];
+                    if (x < x1) x1 = x;
+                    if (y < y1) y1 = y;
+                    if (x > x2) x2 = x;
+                    if (y > y2) y2 = y;
+                }
+                
+                // handle all other nodes
+                for (int i=1, n=size - 1; i < n; i++) {
+                    node = get(i);
+                    y = node.y[0];
+                    x = node.x[0];
+                    if (x < x1) x1 = x;
+                    if (y < y1) y1 = y;
+                    if (x > x2) x2 = x;
+                    if (y > y2) y2 = y;
+                    if ((node.mask & C1_MASK) != 0) {
+                        y = node.y[1];
+                        x = node.x[1];
+                        if (x < x1) x1 = x;
+                        if (y < y1) y1 = y;
+                        if (x > x2) x2 = x;
+                        if (y > y2) y2 = y;
+                    }
+                    if ((node.mask & C2_MASK) != 0) {
+                        y = node.y[2];
+                        x = node.x[2];
+                        if (x < x1) x1 = x;
+                        if (y < y1) y1 = y;
+                        if (x > x2) x2 = x;
+                        if (y > y2) y2 = y;
+                    }
+                }
+            }
+            bounds = new Rectangle2D.Double(x1, y1, x2 - x1, y2 - y1);
         }
+        return (Rectangle2D.Double) bounds.clone();
     }
     
     public Rectangle getBounds() {
-        validatePath();
-        return generalPath.getBounds();
+        return getBounds2D().getBounds();
     }
     
     public boolean contains(double x, double y, double w, double h) {
@@ -466,7 +572,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
     }
     
     /** Creates a deep copy of the BezierPath. */
-    public Object clone() {
+    public BezierPath clone() {
         BezierPath that = (BezierPath) super.clone();
         for (int i=0, n = this.size(); i < n; i++) {
             that.set(i, (Node) this.get(i).clone());
@@ -1009,4 +1115,5 @@ public class BezierPath extends ArrayList<BezierPath.Node>
     public int getWindingRule() {
         return windingRule;
     }
+    
 }

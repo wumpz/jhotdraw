@@ -29,4 +29,5 @@ public interface Gradient extends Cloneable {
     public boolean isRelativeToFigureBounds();
     public void transform(AffineTransform tx);
     public Object clone();
+    public void makeRelativeToFigureBounds(Figure f);
 }

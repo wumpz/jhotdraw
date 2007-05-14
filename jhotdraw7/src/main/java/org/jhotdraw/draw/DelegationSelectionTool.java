@@ -99,6 +99,7 @@ public class DelegationSelectionTool extends SelectionTool {
         //setView((DrawingView)e.getSource());
         
         if (evt.isPopupTrigger()) {
+            getView().requestFocus();
             handlePopupMenu(evt);
         } else {
             super.mousePressed(evt);

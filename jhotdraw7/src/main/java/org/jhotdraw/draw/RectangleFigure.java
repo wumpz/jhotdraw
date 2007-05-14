@@ -84,7 +84,7 @@ public class RectangleFigure extends AbstractAttributedFigure {
         return r.contains(p);
     }
     
-    public void basicSetBounds(Point2D.Double anchor, Point2D.Double lead) {
+    public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         rectangle.x = Math.min(anchor.x, lead.x);
         rectangle.y = Math.min(anchor.y , lead.y);
         rectangle.width = Math.max(0.1, Math.abs(lead.x - anchor.x));
@@ -94,10 +94,10 @@ public class RectangleFigure extends AbstractAttributedFigure {
      * Moves the Figure to a new location.
      * @param tx the transformation matrix.
      */
-    public void basicTransform(AffineTransform tx) {
+    public void transform(AffineTransform tx) {
         Point2D.Double anchor = getStartPoint();
         Point2D.Double lead = getEndPoint();
-        basicSetBounds(
+        setBounds(
                 (Point2D.Double) tx.transform(anchor, anchor),
                 (Point2D.Double) tx.transform(lead, lead)
                 );

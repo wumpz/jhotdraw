@@ -33,13 +33,13 @@ public class EditorSample {
                 // Create a simple drawing consisting of three
                 // text areas and an elbow connection.
                 TextAreaFigure ta = new TextAreaFigure();
-                ta.basicSetBounds(new Point2D.Double(10,10),new Point2D.Double(100,100));
+                ta.setBounds(new Point2D.Double(10,10),new Point2D.Double(100,100));
                 TextAreaFigure tb = new TextAreaFigure();
-                tb.basicSetBounds(new Point2D.Double(220,120),new Point2D.Double(310,210));
+                tb.setBounds(new Point2D.Double(220,120),new Point2D.Double(310,210));
                 TextAreaFigure tc = new TextAreaFigure();
-                tc.basicSetBounds(new Point2D.Double(220,10),new Point2D.Double(310,100));
+                tc.setBounds(new Point2D.Double(220,10),new Point2D.Double(310,100));
                 ConnectionFigure cf = new LineConnectionFigure();
-                cf.basicSetLiner(new ElbowLiner());
+                cf.setLiner(new ElbowLiner());
                 cf.setStartConnector(ta.findConnector(Geom.center(ta.getBounds()), cf));
                 cf.setEndConnector(tb.findConnector(Geom.center(tb.getBounds()), cf));
                 Drawing drawing = new DefaultDrawing();

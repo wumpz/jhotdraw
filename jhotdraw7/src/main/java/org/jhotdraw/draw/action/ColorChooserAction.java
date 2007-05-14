@@ -79,7 +79,7 @@ public class ColorChooserAction extends AbstractSelectedAction {
         Iterator i = getView().getSelectedFigures().iterator();
         while (i.hasNext()) {
             Figure figure = (Figure) i.next();
-            figure.setAttribute(key, value);
+            key.set(figure, value);
             for (Map.Entry<AttributeKey,Object> entry : fixedAttributes.entrySet()) {
                 entry.getKey().set(figure, entry.getValue());
             }

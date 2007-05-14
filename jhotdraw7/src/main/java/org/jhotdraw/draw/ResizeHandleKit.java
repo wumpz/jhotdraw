@@ -21,12 +21,11 @@ import java.awt.event.*;
 import org.jhotdraw.util.ResourceBundleUtil;
 /**
  * A set of utility methods to create handles which resize a Figure by
- * using its <code>basicSetBounds</code> method.
- *
- * @see Figure#basicSetBounds
- *
- * @author Werner Randelshofer
+ * using its <code>setBounds</code> method.
+ * 
+ * @author WernesetBounds
  * @version 1.0 2007-04-14 Created.
+ * @see Figure#basicSetBounds
  */
 public class ResizeHandleKit {
     private final static boolean DEBUG = false;
@@ -151,7 +150,7 @@ public class ResizeHandleKit {
         protected void setBounds(Point2D.Double anchor, Point2D.Double lead) {
             Figure f = getOwner();
             f.willChange();
-            f.basicSetBounds(anchor, lead);
+            f.setBounds(anchor, lead);
             f.changed();
         }
     }

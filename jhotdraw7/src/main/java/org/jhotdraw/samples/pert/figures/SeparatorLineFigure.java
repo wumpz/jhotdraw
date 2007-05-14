@@ -33,7 +33,7 @@ extends LineFigure {
     public SeparatorLineFigure() {
     }
 
-    public void basicSetBounds(Point2D.Double anchor, Point2D.Double lead) {
+    public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         setPoint(0, 0, anchor);
         setPoint(getNodeCount() - 1, 0, new Point2D.Double(lead.x, anchor.y));
     }

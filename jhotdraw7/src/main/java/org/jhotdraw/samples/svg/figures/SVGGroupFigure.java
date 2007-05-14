@@ -38,12 +38,13 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
         SVGAttributeKeys.setDefaults(this);
     }
     
-    @Override public void basicSetAttribute(AttributeKey key, Object value) {
+    @Override public void setAttribute(AttributeKey key, Object value) {
         if (key == OPACITY) {
             attributes.put(key, value);
         } else {
-            super.basicSetAttribute(key, value);
+            super.setAttribute(key, value);
         }
+        invalidate();
     }
     @Override public Object getAttribute(AttributeKey name) {
         return attributes.get(name);
@@ -51,9 +52,9 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
     @Override public Map<AttributeKey,Object> getAttributes() {
         return new HashMap<AttributeKey,Object>(attributes);
     }
-    public void basicSetAttributes(Map<AttributeKey, Object> map) {
+    public void setAttributes(Map<AttributeKey, Object> map) {
         for (Map.Entry<AttributeKey, Object> entry : map.entrySet()) {
-            basicSetAttribute(entry.getKey(), entry.getValue());
+            setAttribute(entry.getKey(), entry.getValue());
         }
     }
     

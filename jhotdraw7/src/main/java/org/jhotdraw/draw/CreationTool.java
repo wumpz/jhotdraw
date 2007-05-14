@@ -162,7 +162,7 @@ public class CreationTool extends AbstractTool {
         anchor.x = evt.getX();
         anchor.y = evt.getY();
         createdFigure.willChange();
-        createdFigure.basicSetBounds(p, p);
+        createdFigure.setBounds(p, p);
         createdFigure.changed();
         getDrawing().add(createdFigure);
     }
@@ -171,7 +171,7 @@ public class CreationTool extends AbstractTool {
         if (createdFigure != null) {
             Point2D.Double p = constrainPoint(new Point(evt.getX(), evt.getY()));
             createdFigure.willChange();
-            createdFigure.basicSetBounds(
+            createdFigure.setBounds(
                     constrainPoint(new Point(anchor.x, anchor.y)),
                     p
                     );
@@ -187,7 +187,7 @@ public class CreationTool extends AbstractTool {
                 if (Math.abs(anchor.x - evt.getX()) < minimalSizeTreshold.width && 
                         Math.abs(anchor.y - evt.getY()) < minimalSizeTreshold.height) {
                    createdFigure.willChange();
-                    createdFigure.basicSetBounds(
+                    createdFigure.setBounds(
                             constrainPoint(new Point(anchor.x, anchor.y)),
                             constrainPoint(new Point(
                             anchor.x + (int) Math.max(bounds.width, minimalSize.width), 

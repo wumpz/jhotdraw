@@ -46,7 +46,7 @@ import org.jhotdraw.geom.*;
  * The TextAreaTool then uses Figure.findFigureInside to find a Figure that
  * implements the TextHolderFigure interface and that is editable. Then it overlays
  * a text area over the drawing where the user can enter the text for the Figure.
- * 
+ *
  * @author Werner Randelshofer
  * @version 2.0 2006-01-14 Changed to support double precison coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
@@ -151,7 +151,7 @@ public class TextAreaTool extends CreationTool implements ActionListener {
         Rectangle2D.Double r = figure.getDrawingArea();
         Insets2D.Double insets = figure.getInsets();
         insets.subtractTo(r);
-
+        
         // FIXME - Find a way to determine the parameters for grow.
         //r.grow(1,2);
         //r.width += 16;
@@ -171,8 +171,8 @@ public class TextAreaTool extends CreationTool implements ActionListener {
             } else {
                 if (bounds.width < 5 && bounds.height < 5) {
                     createdFigure.willChange();
-                    createdFigure.basicSetBounds(new Point2D.Double(bounds.x, bounds.y), new Point2D.Double(bounds.x + 100, bounds.y + 100));
-                createdFigure.changed();
+                    createdFigure.setBounds(new Point2D.Double(bounds.x, bounds.y), new Point2D.Double(bounds.x + 100, bounds.y + 100));
+                    createdFigure.changed();
                 }
                 getView().addToSelection(createdFigure);
             }
@@ -187,6 +187,7 @@ public class TextAreaTool extends CreationTool implements ActionListener {
     
     protected void endEdit() {
         if (typingTarget != null) {
+            typingTarget.willChange();
             if (textArea.getText().length() > 0) {
                 typingTarget.setText(textArea.getText());
                 if (createdFigure != null) {
@@ -200,8 +201,8 @@ public class TextAreaTool extends CreationTool implements ActionListener {
                     typingTarget.setText("");
                 }
             }
-            // nothing to undo
-            //	            setUndoActivity(null);
+            // XXX - implement undo redo behavior here
+            typingTarget.changed();
             typingTarget = null;
             
             textArea.endOverlay();

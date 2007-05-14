@@ -40,7 +40,7 @@ public class StraightLineFigure extends AbstractAttributedFigure {
         g.draw(line);
     }
 
-    public void basicTransform(AffineTransform ty) {
+    public void transform(AffineTransform ty) {
         Point2D.Double p1 = (Point2D.Double) line.getP1();
         Point2D.Double p2 = (Point2D.Double) line.getP2();
         line.setLine(
@@ -49,7 +49,7 @@ public class StraightLineFigure extends AbstractAttributedFigure {
                 );
     }
 
-    public void basicSetBounds(Point2D.Double start, Point2D.Double end) {
+    public void setBounds(Point2D.Double start, Point2D.Double end) {
         line.setLine(start, end);
     }
 

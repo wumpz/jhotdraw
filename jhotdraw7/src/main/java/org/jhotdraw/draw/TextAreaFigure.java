@@ -241,17 +241,17 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
     }
     
     // SHAPE AND BOUNDS
-    public void basicSetBounds(Point2D.Double anchor, Point2D.Double lead) {
+    public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         bounds.x = Math.min(anchor.x, lead.x);
         bounds.y = Math.min(anchor.y, lead.y);
         bounds.width = Math.max(1, Math.abs(lead.x - anchor.x));
         bounds.height = Math.max(1, Math.abs(lead.y - anchor.y));
         textLayout = null;
     }
-    public void basicTransform(AffineTransform tx) {
+    public void transform(AffineTransform tx) {
         Point2D.Double anchor = getStartPoint();
         Point2D.Double lead = getEndPoint();
-        basicSetBounds(
+        setBounds(
                 (Point2D.Double) tx.transform(anchor, anchor),
                 (Point2D.Double) tx.transform(lead, lead)
                 );
@@ -302,7 +302,7 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
      * Sets the text shown by the text figure.
      */
     public void setText(String newText) {
-        setAttribute(TEXT, newText);
+        TEXT.set(this, newText);
     }
     
     public int getTextColumns() {

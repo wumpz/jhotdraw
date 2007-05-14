@@ -186,18 +186,18 @@ public class SVGApplicationModel extends DefaultApplicationModel {
     private void addColorButtonsTo(JToolBar bar, DrawingEditor editor) {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
         HashMap<AttributeKey,Object> defaultAttributes = new HashMap<AttributeKey,Object>();
-        STROKE_GRADIENT.set(defaultAttributes, null);
+        STROKE_GRADIENT.set(defaultAttributes, (Gradient) null);
         bar.add(
-                ButtonFactory.createColorButton(editor,
+                ButtonFactory.createEditorColorButton(editor,
                 STROKE_COLOR, ButtonFactory.DEFAULT_COLORS, 8,
                 "attributeStrokeColor", labels, 
                 defaultAttributes
                 )
                 );
         defaultAttributes = new HashMap<AttributeKey,Object>();
-        FILL_GRADIENT.set(defaultAttributes, null);
+        FILL_GRADIENT.set(defaultAttributes, (Gradient) null);
         bar.add(
-                ButtonFactory.createColorButton(editor,
+                ButtonFactory.createEditorColorButton(editor,
                 FILL_COLOR, ButtonFactory.DEFAULT_COLORS, 8,
                 "attributeFillColor", labels, 
                 defaultAttributes

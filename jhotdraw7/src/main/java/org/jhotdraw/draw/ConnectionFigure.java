@@ -26,8 +26,9 @@ import java.util.*;
  * operations to split and join bezier segments.
  * 
  * 
+ * 
  * @author Werner Randelshofer
- * @version 2.1 2007-02-09 Method setLiner renamed to basicSetLiner.
+ * @version 2.1 2007-02-09 Method setLiner renamed to setLiner.
  * <br>2.0 2006-01-14 Changed to support double precision coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
@@ -159,7 +160,7 @@ public interface ConnectionFigure
      *
      * @param newValue	encapsulation of a lineout algorithm.
      */
-    public void basicSetLiner(Liner newValue);
+    public void setLiner(Liner newValue);
     // CLONING
     // EVENT HANDLING
 }

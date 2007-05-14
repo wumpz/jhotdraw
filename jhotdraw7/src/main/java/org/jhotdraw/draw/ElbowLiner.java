@@ -79,6 +79,7 @@ public class ElbowLiner
             path.get(0).moveTo(sp);
             path.get(path.size() - 1).moveTo(ep);
             
+            
             switch (soutcode) {
                 case Geom.OUT_TOP : eoutcode = Geom.OUT_LEFT; break;
                 case Geom.OUT_RIGHT : eoutcode = Geom.OUT_TOP; break;

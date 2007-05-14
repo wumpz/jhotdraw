@@ -74,12 +74,11 @@ public class SVGInputFormat implements InputFormat {
     /**
      * Maps to all XML elements that are identified by an xml:id.
      */
-    public HashMap<String,IXMLElement> identifiedElements;
+    private HashMap<String,IXMLElement> identifiedElements;
     /**
      * Maps to all drawing objects from the XML elements they were created from.
      */
-    public HashMap<IXMLElement,Object> elementObjects;
-    
+    private HashMap<IXMLElement,Object> elementObjects;
     
     /**
      * Each SVG element establishes a new Viewport.
@@ -222,6 +221,19 @@ public class SVGInputFormat implements InputFormat {
         //long end2 = System.currentTimeMillis();
         
         readSVGElement(svg);
+        
+        for (Object o : elementObjects.values()) {
+            if (o instanceof Figure) {
+                Figure f = (Figure) o;
+                if (FILL_GRADIENT.get(f) != null) {
+                    FILL_GRADIENT.get(f).makeRelativeToFigureBounds(f);
+                }
+                if (STROKE_GRADIENT.get(f) != null) {
+                    STROKE_GRADIENT.get(f).makeRelativeToFigureBounds(f);
+                }
+            }
+        }
+        
         /*long end = System.currentTimeMillis();
         if (DEBUG) System.out.println("SVGInputFormat elapsed:"+(end-start));
         if (DEBUG) System.out.println("SVGInputFormat read:"+(end1-start));
@@ -394,7 +406,7 @@ public class SVGInputFormat implements InputFormat {
         }
         readTransformAttribute(elem, a);
         if (TRANSFORM.get(a) != null) {
-            g.basicTransform(TRANSFORM.get(a));
+            g.transform(TRANSFORM.get(a));
         }
         return g;
     }
@@ -425,7 +437,11 @@ public class SVGInputFormat implements InputFormat {
                         g.basicAdd(childFigure);
                     }
                 }
-                LINK.basicSet(childFigure, href);
+                if (childFigure != null) {
+                    LINK.set(childFigure, href);
+                } else {
+                    if (DEBUG) System.out.println("SVGInputFormat <a> has no child figure");
+                }
             }
         }
         
@@ -493,7 +509,7 @@ public class SVGInputFormat implements InputFormat {
                         ! readAttribute(child, "display", "inline").equals("none")) {
                     
                     if (childFigure != null) {
-                        childFigure.basicTransform(viewBoxTransform);
+                        childFigure.transform(viewBoxTransform);
                         figures.add(childFigure);
                     }
                 }
@@ -968,7 +984,6 @@ public class SVGInputFormat implements InputFormat {
         
         String href = readAttribute(elem, "xlink:href",null);
         if (href != null && href.startsWith("#")) {
-            
             IXMLElement refElem = identifiedElements.get(href.substring(1));
             if (refElem == null) {
                 if (DEBUG) System.out.println("SVGInputFormat couldn't find href for <use> element:"+href);
@@ -977,21 +992,17 @@ public class SVGInputFormat implements InputFormat {
                 if (obj instanceof Figure) {
                     Figure figure = (Figure) ((Figure) obj).clone();
                     for (Map.Entry<AttributeKey, Object> entry : a2.entrySet()) {
-                        //if (DEBUG) System.out.println(entry);
-                        //if (! figure.getAttributes().containsKey(entry.getKey())) {
-                        figure.basicSetAttribute(entry.getKey(), entry.getValue());
-                        //}
+                        figure.setAttribute(entry.getKey(), entry.getValue());
                     }
                     
-                    
-                    AffineTransform tx = 
-                            (TRANSFORM.get(a) == null) ? 
+                    AffineTransform tx =
+                            (TRANSFORM.get(a) == null) ?
                                 new AffineTransform() :
                                 TRANSFORM.get(a);
                     double x = toNumber(elem, readAttribute(elem, "x", "0"));
                     double y = toNumber(elem, readAttribute(elem, "y", "0"));
                     tx.translate(x, y);
-                    figure.basicTransform(tx);
+                    figure.transform(tx);
                     
                     return figure;
                 }
@@ -1216,6 +1227,7 @@ public class SVGInputFormat implements InputFormat {
         tt.resetSyntax();
         tt.parseNumbers();
         tt.parseExponents();
+        tt.parsePlusAsNumber();
         tt.whitespaceChars(0, ' ');
         tt.whitespaceChars(',',',');
         
@@ -1275,6 +1287,22 @@ public class SVGInputFormat implements InputFormat {
                     // close path
                     p.x = path.get(0).x[0];
                     p.y = path.get(0).y[0];
+                    
+                    // If the last point and the first point are the same, we
+                    // can merge them
+                    if (path.size() > 1) {
+                        BezierPath.Node first = path.get(0);
+                        BezierPath.Node last = path.get(path.size() -1);
+                        if (first.x[0] == last.x[0] &&
+                                first.y[0] == last.y[0]) {
+                            if ((last.mask & BezierPath.C1_MASK) != 0) {
+                                first.mask |= BezierPath.C1_MASK;
+                                first.x[1] = last.x[1];
+                                first.y[1] = last.y[1];
+                            }
+                            path.remove(path.size() - 1);
+                        }
+                    }
                     path.setClosed(true);
                     
                     break;
@@ -1680,8 +1708,9 @@ public class SVGInputFormat implements InputFormat {
         //Animatable:  	yes
         //Computed value:  	 Specified value, except inherit
         value = readInheritAttribute(elem, "text-anchor", "start");
-        // XXX - Implement me properly
-        TEXT_ANCHOR.set(a, SVG_TEXT_ANCHORS.get(value));
+        if (SVG_TEXT_ANCHORS.get(value) != null) {
+            TEXT_ANCHOR.set(a, SVG_TEXT_ANCHORS.get(value));
+        }
         
         //'display-align'
         //Value:  	auto | before | center | after | inherit
@@ -1830,7 +1859,7 @@ public class SVGInputFormat implements InputFormat {
         if (objectValue instanceof Color) {
             FILL_COLOR.set(a, (Color) objectValue);
         } else if (objectValue instanceof Gradient) {
-            FILL_GRADIENT.set(a, (Gradient) ((Gradient) objectValue).clone());
+            FILL_GRADIENT.setClone(a, (Gradient) objectValue);
         } else if (objectValue == null) {
             FILL_COLOR.set(a, null);
         } else {
@@ -1876,7 +1905,7 @@ public class SVGInputFormat implements InputFormat {
         if (objectValue instanceof Color) {
             STROKE_COLOR.set(a, (Color) objectValue);
         } else if (objectValue instanceof Gradient) {
-            STROKE_GRADIENT.set(a, (Gradient) objectValue);
+            STROKE_GRADIENT.setClone(a, (Gradient) objectValue);
         } else if (objectValue == null) {
             STROKE_COLOR.set(a, null);
         } else {
@@ -2355,21 +2384,9 @@ public class SVGInputFormat implements InputFormat {
             if (DEBUG) System.out.println("SVGInpuFormat: Warning no stops in linearGradient "+elem);
         }
         
-        AffineTransform tx = toTransform(elem, readAttribute(elem, "gradientTransform", "none"));
-        if (tx != null) {
-            Point2D.Double p = new Point2D.Double(x1,y1);
-            tx.transform(p,p);
-            x1 = p.x;
-            y1 = p.y;
-            p.x = x2;
-            p.y = y2;
-            tx.transform(p,p);
-            x2 = p.x;
-            y2 = p.y;
-        }
-        
         double[] stopOffsets = new double[stops.size()];
         Color[] stopColors = new Color[stops.size()];
+        double[] stopOpacities = new double[stops.size()];
         for (int i=0; i < stops.size(); i++) {
             IXMLElement stopElem = stops.get(i);
             String offsetStr = readAttribute(stopElem, "offset", "0");
@@ -2402,17 +2419,17 @@ public class SVGInputFormat implements InputFormat {
             //Media:  	visual
             //Animatable:  	yes
             //Computed value:  	 Specified value, except inherit
-            double doubleValue = toDouble(stopElem, readAttribute(stopElem, "stop-opacity", "1"), 1, 0, 1);
-            if (doubleValue != 1) {
-                stopColors[i] = new Color(((int) (doubleValue * 255) << 24) | (stopColors[i].getRGB() & 0xffffff), true);
-            }
+            stopOpacities[i] = toDouble(stopElem, readAttribute(stopElem, "stop-opacity", "1"), 1, 0, 1);
         }
+        
+        AffineTransform tx = toTransform(elem, readAttribute(elem, "gradientTransform", "none"));
         
         Gradient gradient = factory.createLinearGradient(
                 x1, y1, x2, y2,
-                stopOffsets, stopColors,
-                isRelativeToFigureBounds
+                stopOffsets, stopColors, stopOpacities,
+                isRelativeToFigureBounds, tx
                 );
+        
         elementObjects.put(elem, gradient);
     }
     /**
@@ -2448,6 +2465,7 @@ public class SVGInputFormat implements InputFormat {
         
         double[] stopOffsets = new double[stops.size()];
         Color[] stopColors = new Color[stops.size()];
+        double[] stopOpacities = new double[stops.size()];
         for (int i=0; i < stops.size(); i++) {
             IXMLElement stopElem = stops.get(i);
             String offsetStr = readAttribute(stopElem, "offset", "0");
@@ -2479,16 +2497,16 @@ public class SVGInputFormat implements InputFormat {
             //Media:  	visual
             //Animatable:  	yes
             //Computed value:  	 Specified value, except inherit
-            double doubleValue = toDouble(stopElem, readAttribute(stopElem, "stop-opacity", "1"), 1, 0, 1);
-            if (doubleValue != 1) {
-                stopColors[i] = new Color(((int) (doubleValue * 255) << 24) | (stopColors[i].getRGB() & 0xffffff), true);
-            }
+            stopOpacities[i] = toDouble(stopElem, readAttribute(stopElem, "stop-opacity", "1"), 1, 0, 1);
         }
+        
+        AffineTransform tx = toTransform(elem, readAttribute(elem, "gradientTransform", "none"));
         
         Gradient gradient = factory.createRadialGradient(
                 cx, cy, r,
-                stopOffsets, stopColors,
-                isRelativeToFigureBounds
+                stopOffsets, stopColors, stopOpacities,
+                isRelativeToFigureBounds,
+                tx
                 );
         elementObjects.put(elem, gradient);
     }

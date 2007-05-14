@@ -61,7 +61,7 @@ public class HorizontalLayouter extends AbstractLayouter {
             if (child.isVisible()) {
                 Insets2D.Double insets = getInsets(child);
                 double width = child.getPreferredSize().width;
-                child.basicSetBounds(
+                child.setBounds(
                 new Point2D.Double(
                 x + insets.left,
                 layoutBounds.y + layoutInsets.top + insets.top

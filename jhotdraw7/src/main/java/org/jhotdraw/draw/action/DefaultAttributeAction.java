@@ -96,7 +96,7 @@ public class DefaultAttributeAction extends AbstractSelectedAction {
         while (i.hasNext()) {
             Figure figure = (Figure) i.next();
             for (int j=0; j < keys.length; j++) {
-                figure.setAttribute(keys[j], getEditor().getDefaultAttribute(keys[j]));
+                keys[j].set(figure, getEditor().getDefaultAttribute(keys[j]));
             }
             for (Map.Entry<AttributeKey,Object> entry : fixedAttributes.entrySet()) {
                 entry.getKey().set(figure, entry.getValue());

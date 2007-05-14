@@ -61,7 +61,7 @@ public abstract class AbstractAttributedDecoratedFigure
         willChange();
         decorator = newValue;
         if (decorator != null) {
-            decorator.basicSetBounds(getStartPoint(), getEndPoint());
+            decorator.setBounds(getStartPoint(), getEndPoint());
         }
         changed();
     }
@@ -78,7 +78,7 @@ public abstract class AbstractAttributedDecoratedFigure
             sp.y -= decoratorInsets.top;
             ep.x += decoratorInsets.right;
             ep.y += decoratorInsets.bottom;
-            decorator.basicSetBounds(sp, ep);
+            decorator.setBounds(sp, ep);
         }
     }
     

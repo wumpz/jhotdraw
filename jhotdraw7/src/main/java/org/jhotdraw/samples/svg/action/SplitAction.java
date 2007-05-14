@@ -57,7 +57,7 @@ public class SplitAction extends UngroupAction {
             SVGPathFigure path = new SVGPathFigure();
             path.removeAllChildren();
             for (Map.Entry<AttributeKey,Object> entry : group.getAttributes().entrySet()) {
-                path.basicSetAttribute(entry.getKey(), entry.getValue());
+                path.setAttribute(entry.getKey(), entry.getValue());
             }
             path.add(f);
             view.getDrawing().basicAdd(path);
@@ -75,7 +75,7 @@ public class SplitAction extends UngroupAction {
         group.willChange();
       ((SVGPathFigure) group).removeAllChildren();
         for (Map.Entry<AttributeKey,Object> entry : figures.iterator().next().getAttributes().entrySet()) {
-            group.basicSetAttribute(entry.getKey(), entry.getValue());
+            group.setAttribute(entry.getKey(), entry.getValue());
         }
         for (Figure f : sorted) {
             SVGPathFigure path = (SVGPathFigure) f;

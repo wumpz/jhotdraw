@@ -43,7 +43,7 @@ public class JDoubleAttributeSlider extends JSlider {
     private PropertyChangeListener viewEventHandler = new PropertyChangeListener() {
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
-            if (name.equals("enabled")) {
+            if (name == "enabled") {
                 updateEnabledState();
             }
         }
@@ -52,7 +52,7 @@ public class JDoubleAttributeSlider extends JSlider {
     private class EditorEventHandler implements PropertyChangeListener, FigureSelectionListener {
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
-            if (name.equals("focusedView")) {
+            if (name == DrawingEditor.PROP_FOCUSED_VIEW) {
                 if (evt.getOldValue() != null) {
                     DrawingView view = ((DrawingView) evt.getOldValue());
                     view.removeFigureSelectionListener(this);
@@ -115,6 +115,11 @@ public class JDoubleAttributeSlider extends JSlider {
         this.editor = editor;
         if (this.editor != null) {
             this.editor.addPropertyChangeListener(eventHandler);
+            if (getView() != null) {
+                getView().addFigureSelectionListener(eventHandler);
+            }
+            updateEnabledState();
+            updateSlider();
         }
     }
     public DrawingEditor getEditor() {
@@ -194,7 +199,9 @@ public class JDoubleAttributeSlider extends JSlider {
                     attributeKey.set(f, value);
                 }
             }
-            editor.setDefaultAttribute(attributeKey, value);
+            if (editor != null) {
+                editor.setDefaultAttribute(attributeKey, value);
+            }
         }
         isUpdatingSlider--;
     }

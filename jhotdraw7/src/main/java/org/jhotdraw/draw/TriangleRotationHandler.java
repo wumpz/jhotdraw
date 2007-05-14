@@ -123,7 +123,7 @@ public class TriangleRotationHandler extends AbstractHandle {
         }
         // FIXME - Add undo redo support
                 getOwner().willChange();
-                ORIENTATION.basicSet(getOwner(), newValue);
+                ORIENTATION.set(getOwner(), newValue);
                 getOwner().changed();
         updateBounds();
     }

@@ -347,7 +347,6 @@ public class AttributeKeys {
                 dashes[i] = (float) (ddashes[i] * dashFactor);
             }
         }
-        
         switch (STROKE_TYPE.get(f)) {
             case BASIC :
             default :

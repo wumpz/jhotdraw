@@ -79,7 +79,7 @@ public class LocatorLayouter implements Layouter {
                 r = new Rectangle2D.Double(p.x, p.y, d.width, d.height);
             }
             child.willChange();
-            child.basicSetBounds(
+            child.setBounds(
             new Point2D.Double(r.getMinX(), r.getMinY()),
             new Point2D.Double(r.getMaxX(), r.getMaxY())
             );

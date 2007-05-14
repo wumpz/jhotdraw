@@ -77,10 +77,11 @@ public class CSSParser {
         tt.resetSyntax();
         tt.wordChars('a', 'z');
         tt.wordChars('A', 'Z');
+        tt.wordChars('0', '9');
         tt.wordChars(128 + 32, 255);
         tt.whitespaceChars(0, ' ');
         tt.commentChar('/');
-        
+        tt.slashStarComments(true);
         parseStylesheet(tt, rm);
     }
     
@@ -99,6 +100,9 @@ public class CSSParser {
         
         for (String selector : selectors) {
             rm.add(new CSSRule(selector, declarations));
+            
+           // System.out.println("CSSParser.add("+selector+","+declarations);
+            
             /*
             for (Map.Entry<String,String> entry : declarations.entrySet()) {
                    rm.add(new CSSRule(selector, entry.getKey(), entry.getValue()));
@@ -125,7 +129,7 @@ public class CSSParser {
                     needsWhitespace = false;
                     break;
                 default :
-                    //if (needsWhitespace) selector.append(' ');
+                    if (needsWhitespace) selector.append(' ');
                     selector.append((char) tt.ttype);
                     needsWhitespace = false;
                     break;

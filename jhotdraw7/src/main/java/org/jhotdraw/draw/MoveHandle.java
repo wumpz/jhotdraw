@@ -67,7 +67,7 @@ public class MoveHandle extends LocatorHandle {
         AffineTransform tx = new AffineTransform();
         tx.translate(newPoint.x - oldPoint.x, newPoint.y - oldPoint.y);
         f.willChange();
-        f.basicTransform(tx);
+        f.transform(tx);
         f.changed();
         
         oldPoint = newPoint;

@@ -130,7 +130,7 @@ public class ConnectionTool extends AbstractTool implements FigureListener {
             if (getStartConnector() != null && canConnect(getTargetFigure())) {
                 Point2D.Double p = getStartConnector().getAnchor();
                 setConnection(createFigure());
-                getConnection().basicSetBounds(p, p);
+                getConnection().setBounds(p, p);
                 getConnection().addFigureListener(this);
                 setCreatedFigure(getConnection());
             }
@@ -152,7 +152,7 @@ public class ConnectionTool extends AbstractTool implements FigureListener {
             ConnectionFigure f = getConnection();
             fireAreaInvalidated(f.getDrawingArea());
             f.willChange();
-            f.basicSetBounds(f.getStartPoint(), p);
+            f.setBounds(f.getStartPoint(), p);
             f.changed();
             fireAreaInvalidated(f.getDrawingArea());//new Rectangle2D.Double(viewToDrawing(anchor), p));
         } else if (editedConnection != null) {
@@ -192,7 +192,7 @@ public class ConnectionTool extends AbstractTool implements FigureListener {
                 f.willChange();
                 f.setStartConnector(getStartConnector());
                 f.setEndConnector(getEndConnector());
-                f.basicSetBounds(f.getStartPoint(), p);
+                f.setBounds(f.getStartPoint(), p);
                 f.updateConnection();
                 f.changed();
                 f.removeFigureListener(this);

@@ -135,7 +135,7 @@ public class NodeFigure extends TextFigure {
     public void setAttribute(AttributeKey key, Object newValue) {
         super.setAttribute(key, newValue);
         if (getDecorator() != null) {
-            getDecorator().setAttribute(key, newValue);
+            key.set(getDecorator(), newValue);
         }
     }
 }

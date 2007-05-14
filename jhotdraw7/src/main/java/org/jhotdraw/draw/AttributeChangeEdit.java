@@ -44,13 +44,13 @@ public class AttributeChangeEdit extends AbstractUndoableEdit {
     public void redo() throws CannotRedoException {
         super.redo();
         owner.willChange();
-        owner.basicSetAttribute(name, newValue);
+        owner.setAttribute(name, newValue);
         owner.changed();
     }
     public void undo() throws CannotUndoException {
         super.undo();
         owner.willChange();
-        owner.basicSetAttribute(name, oldValue);
+        owner.setAttribute(name, oldValue);
         owner.changed();
     }
 }

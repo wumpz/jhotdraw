@@ -38,9 +38,9 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
     
     public Figure createRect(double x, double y, double w, double h, double rx, double ry, Map<AttributeKey, Object> a) {
         SVGRectFigure figure = new SVGRectFigure();
-        figure.basicSetBounds(new Point2D.Double(x,y),new Point2D.Double(x+w,y+h));
+        figure.setBounds(new Point2D.Double(x,y),new Point2D.Double(x+w,y+h));
         figure.setArc(rx, ry);
-        figure.basicSetAttributes(a);
+        figure.setAttributes(a);
         return figure;
     }
     
@@ -50,8 +50,8 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
     
     public Figure createEllipse(double cx, double cy, double rx, double ry, Map<AttributeKey, Object> a) {
         SVGEllipseFigure figure = new SVGEllipseFigure();
-        figure.basicSetBounds(new Point2D.Double(cx-rx,cy-ry),new Point2D.Double(cx+rx,cy+ry));
-        figure.basicSetAttributes(a);
+        figure.setBounds(new Point2D.Double(cx-rx,cy-ry),new Point2D.Double(cx+rx,cy+ry));
+        figure.setAttributes(a);
         return figure;
     }
     
@@ -64,7 +64,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
         bf.addNode(new BezierPath.Node(x1, y1));
         bf.addNode(new BezierPath.Node(x2, y2));
         figure.add(bf);
-        figure.basicSetAttributes(a);
+        figure.setAttributes(a);
         return figure;
     }
     
@@ -76,7 +76,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
             bf.addNode(new BezierPath.Node(points[i].x, points[i].y));
         }
         figure.add(bf);
-        figure.basicSetAttributes(a);
+        figure.setAttributes(a);
         return figure;
     }
     
@@ -89,7 +89,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
         }
         bf.setClosed(true);
         figure.add(bf);
-        figure.basicSetAttributes(a);
+        figure.setAttributes(a);
         return figure;
     }
     public Figure createPath(BezierPath[] beziers, Map<AttributeKey, Object> a) {
@@ -97,75 +97,79 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
         figure.removeAllChildren();
         for (int i=0; i < beziers.length; i++) {
             SVGBezierFigure bf = new SVGBezierFigure();
-            bf.basicSetBezierPath(beziers[i]);
+            bf.setBezierPath(beziers[i]);
             figure.add(bf);
         }
-        figure.basicSetAttributes(a);
+        figure.setAttributes(a);
         return figure;
     }
     
     public CompositeFigure createG(Map<AttributeKey, Object> a) {
         SVGGroupFigure figure = new SVGGroupFigure();
-        figure.basicSetAttributes(a);
+        figure.setAttributes(a);
         return figure;
     }
     
     public Figure createImage(double x, double y, double w, double h, 
             byte[] imageData, BufferedImage bufferedImage, Map<AttributeKey, Object> a) {
         SVGImageFigure figure = new SVGImageFigure();
-        figure.basicSetBounds(new Point2D.Double(x,y),new Point2D.Double(x+w,y+h));
+        figure.setBounds(new Point2D.Double(x,y),new Point2D.Double(x+w,y+h));
         figure.setImage(imageData, bufferedImage);
-        figure.basicSetAttributes(a);
+        figure.setAttributes(a);
         return figure;
     }
     public Figure createTextArea(double x, double y, double w, double h, StyledDocument doc, Map<AttributeKey, Object> attributes) {
         SVGTextAreaFigure figure = new SVGTextAreaFigure();
-        figure.basicSetBounds(new Point2D.Double(x,y),new Point2D.Double(x+w,y+h));
+        figure.setBounds(new Point2D.Double(x,y),new Point2D.Double(x+w,y+h));
         try {
-            figure.basicSetText(doc.getText(0, doc.getLength()));
+            figure.setText(doc.getText(0, doc.getLength()));
         } catch (BadLocationException e) {
             InternalError ex = new InternalError(e.getMessage());
             ex.initCause(e);
             throw ex;
         }
-        figure.basicSetAttributes(attributes);
+        figure.setAttributes(attributes);
         return figure;
     }
     
     public Figure createText(Point2D.Double[] coordinates, double[] rotates, StyledDocument text, Map<AttributeKey, Object> a) {
         SVGTextFigure figure = new SVGTextFigure();
-        figure.basicSetCoordinates(coordinates);
-        figure.basicSetRotates(rotates);
+        figure.setCoordinates(coordinates);
+        figure.setRotates(rotates);
         try {
-            figure.basicSetText(text.getText(0, text.getLength()));
+            figure.setText(text.getText(0, text.getLength()));
         } catch (BadLocationException e) {
             InternalError ex = new InternalError(e.getMessage());
             ex.initCause(e);
             throw ex;
         }
-        figure.basicSetAttributes(a);
+        figure.setAttributes(a);
         return figure;
     }
     
     public Gradient createRadialGradient(
             double cx, double cy, double r,
-            double[] stopOffsets, Color[] stopColors,
-            boolean isRelativeToFigureBounds) {
+            double[] stopOffsets, Color[] stopColors, double[] stopOpacities,
+            boolean isRelativeToFigureBounds,
+            AffineTransform tx) {
         RadialGradient g = new RadialGradient();
         g.setGradientCircle(cx, cy, r);
-        g.setStops(stopOffsets, stopColors);
+        g.setStops(stopOffsets, stopColors, stopOpacities);
         g.setRelativeToFigureBounds(isRelativeToFigureBounds);
+        g.transform(tx);
         return g;
     }
     
     public Gradient createLinearGradient(
             double x1, double y1, double x2, double y2,
-            double[] stopOffsets, Color[] stopColors,
-            boolean isRelativeToFigureBounds) {
+            double[] stopOffsets, Color[] stopColors, double[] stopOpacities,
+            boolean isRelativeToFigureBounds,
+            AffineTransform tx) {
         LinearGradient g = new LinearGradient();
         g.setGradientVector(x1, y1, x2, y2);
-        g.setStops(stopOffsets, stopColors);
+        g.setStops(stopOffsets, stopColors, stopOpacities);
         g.setRelativeToFigureBounds(isRelativeToFigureBounds);
+        g.transform(tx);
         return g;
     }
 

@@ -1,5 +1,5 @@
 /*
- * @(#)StyleManager.java  1.0  6. Juni 2006
+ * @(#)StyleManager.java  1.1  2007-05-13
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -20,13 +20,15 @@ package org.jhotdraw.xml.css;
 import java.awt.*;
 import java.util.*;
 import net.n3.nanoxml.*;
+import org.jhotdraw.util.ReversedList;
 import org.w3c.dom.Element;
 /**
  * StyleManager applies styling Rules to an XML DOM.
  * This class supports net.n3.nanoxml as well as org.w3c.dom.
  * 
  * @author Werner Randelshofer
- * @version 1.0 6. Juni 2006 Created.
+ * @version 1.1 2007-05-13 Process styles in reverse sequence.
+ * <br>1.0 6. Juni 2006 Created.
  */
 public class StyleManager {
     private java.util.List<CSSRule> rules;
@@ -47,8 +49,9 @@ public class StyleManager {
         }
     }
     public void applyStylesTo(IXMLElement elem) {
-        for (CSSRule rule : rules) {
+        for (CSSRule rule : new ReversedList<CSSRule>(rules)) {
             if(rule.matches(elem)) {
+                //System.out.println("StyleManager applying "+rule+" to "+elem);
                 rule.apply(elem);
             }
         }

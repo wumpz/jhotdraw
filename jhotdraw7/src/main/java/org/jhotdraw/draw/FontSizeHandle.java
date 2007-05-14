@@ -14,8 +14,8 @@
 
 package org.jhotdraw.draw;
 
-import org.jhotdraw.undo.CompositeEdit;
-
+import java.util.Locale;
+import javax.swing.undo.*;
 import java.awt.*;
 import java.awt.geom.*;
 import org.jhotdraw.util.ResourceBundleUtil;
@@ -30,7 +30,8 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  */
 public class FontSizeHandle extends LocatorHandle {
     private float oldSize;
-    private CompositeEdit edit;
+    private float newSize;
+    private Object restoreData;
     
     /** Creates a new instance. */
     public FontSizeHandle(TextHolderFigure owner) {
@@ -56,9 +57,9 @@ public class FontSizeHandle extends LocatorHandle {
     }
     
     public void trackStart(Point anchor, int modifiersEx) {
-        view.getDrawing().fireUndoableEditHappened(edit = new CompositeEdit("Schriftgr\u00f6sse"));
         TextHolderFigure textOwner = (TextHolderFigure) getOwner();
-        oldSize = textOwner.getFontSize();
+        oldSize = newSize = textOwner.getFontSize();
+        restoreData = textOwner.getAttributesRestoreData();
     }
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         TextHolderFigure textOwner = (TextHolderFigure) getOwner();
@@ -73,12 +74,35 @@ public class FontSizeHandle extends LocatorHandle {
                 ex.printStackTrace();
             }
         }
-        float newSize = (float) Math.max(1, oldSize + lead2D.y - anchor2D.y);
-        
+        newSize = (float) Math.max(1, oldSize + lead2D.y - anchor2D.y);
+        textOwner.willChange();
         textOwner.setFontSize(newSize);
+        textOwner.changed();
     }
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
-        view.getDrawing().fireUndoableEditHappened(edit);
+        final TextHolderFigure textOwner = (TextHolderFigure) getOwner();
+        final Object editRestoreData = restoreData;
+        final float editNewSize = newSize;
+        UndoableEdit edit = new AbstractUndoableEdit() {
+            public String getPresentationName() {
+                ResourceBundleUtil labels =
+                        ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
+                return labels.getString("fontSize");
+            }
+            public void undo() {
+                super.undo();
+                textOwner.willChange();
+                textOwner.restoreAttributesTo(editRestoreData);
+                textOwner.changed();
+            }
+            public void redo() {
+                super.redo();
+                textOwner.willChange();
+                textOwner.setFontSize(newSize);
+                textOwner.changed();
+            }
+        };
+        fireUndoableEditHappened(edit);
     }
     public String getToolTipText(Point p) {
         return ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels").getString("fontSizeHandle.tip");

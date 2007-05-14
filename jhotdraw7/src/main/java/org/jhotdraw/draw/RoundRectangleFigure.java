@@ -26,10 +26,10 @@ import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 /**
  * A Rectangle2D.Double with round corners.
- *
+ * 
  * @author Werner Randelshofer
  * @version 2.2 2006-06-17 Method chop added.
- * 2.1 2006-05-29 Method basicSetBounds did not work for bounds smaller
+ * 2.1 2006-05-29 Method basetBoundsid not work for bounds smaller
  * than 1 pixel.
  * <br>2.0 2006-01-14 Changed to support double precison coordinates.
  * <br>1.0 2004-03-02 Derived from JHotDraw 6.0b1.
@@ -102,6 +102,7 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
         final double oldHeight = roundrect.getArcHeight();
         roundrect.arcwidth = w;
         roundrect.archeight = h;
+        /*
         fireFigureChanged(getDrawingArea());
         fireUndoableEditHappened(new AbstractUndoableEdit() {
             public String getPresentationName() {
@@ -121,7 +122,7 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
                 roundrect.archeight = h;
                 changed();
             }
-        });
+        });*/
     }
     /**
      * Checks if a Point2D.Double is inside the figure.
@@ -137,7 +138,7 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
         r.archeight += grow * 2;
         return r.contains(p);
     }
-    public void basicSetBounds(Point2D.Double anchor, Point2D.Double lead) {
+    public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         roundrect.x = Math.min(anchor.x, lead.x);
         roundrect.y = Math.min(anchor.y , lead.y);
         roundrect.width = Math.max(0.1, Math.abs(lead.x - anchor.x));
@@ -147,10 +148,10 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
      * Transforms the figure.
      * @param tx The transformation.
      */
-    public void basicTransform(AffineTransform tx) {
+    public void transform(AffineTransform tx) {
         Point2D.Double anchor = getStartPoint();
         Point2D.Double lead = getEndPoint();
-        basicSetBounds(
+        setBounds(
                 (Point2D.Double) tx.transform(anchor, anchor),
                 (Point2D.Double) tx.transform(lead, lead)
                 );

@@ -1,5 +1,5 @@
 /*
- * @(#)AttributeKey.java  1.2  2007-04-10
+ * @(#)AttributeKey.java  2.0  2007-05-12
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -15,8 +15,9 @@
 package org.jhotdraw.draw;
 
 import java.lang.reflect.*;
-import java.util.Map;
-import org.jhotdraw.util.Methods;
+import java.util.*;
+import javax.swing.undo.*;
+import org.jhotdraw.util.*;
 /**
  * An AttributeKey has a name, a type and a default value. The default value
  * is returned by Figure.getAttribute, if a Figure does not have an attribute
@@ -34,12 +35,13 @@ import org.jhotdraw.util.Methods;
  * FIXME AttributeKey must not override equals and hashCode from Object.
  *
  * @author Werner Randelshofer
- * @version 1.2 2007-04-10 Convenience methods for getting and setting a clone
- * of an attribute added. 
+ * @version 2.0 2007-05-12 Removed basicSet methods.
+ * <br>1.2 2007-04-10 Convenience methods for getting and setting a clone
+ * of an attribute added.
  * <br>1.1 2006-12-29 Support for getting/setting attribute keys on a
  * Map added.
  * <br>1.0.1 2006-07-14 Null values are not returned anymore when null
- * values are not allowed. 
+ * values are not allowed.
  * <br>1.0 7. Juni 2006 Created.
  */
 public class AttributeKey<T> {
@@ -89,21 +91,49 @@ public class AttributeKey<T> {
         return (value == null && ! isNullValueAllowed) ? defaultValue : value;
     }
     
-    
     public void set(Figure f, T value) {
         if (value == null && ! isNullValueAllowed) {
             throw new NullPointerException("Null value not allowed for AttributeKey "+key);
         }
         f.setAttribute(this, value);
     }
-    public void set(Map<AttributeKey,Object> a, T value) {
+    
+    /**
+     * Sets the attribute and returns an UndoableEditEvent which can be used
+     * to undo it.
+     */
+    public UndoableEdit setUndoable(final Figure figure, final T value) {
         if (value == null && ! isNullValueAllowed) {
             throw new NullPointerException("Null value not allowed for AttributeKey "+key);
         }
-        a.put(this, value);
+        
+        final Object restoreData = figure.getAttributesRestoreData();
+        figure.willChange();
+        figure.setAttribute(this, value);
+        figure.changed();
+        
+        UndoableEdit edit = new AbstractUndoableEdit() {
+            public String getPresentationName() {
+                ResourceBundleUtil labels =
+                        ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels", Locale.getDefault());                return labels.getString("drawAttributeChange");
+            }
+            public void undo() {
+                super.undo();
+                figure.willChange();
+                figure.restoreAttributesTo(restoreData);
+                figure.changed();
+            }
+            public void redo() {
+                figure.willChange();
+                figure.setAttribute(AttributeKey.this, value);
+                figure.changed();
+            }
+        };
+        return edit;
+        
     }
     /**
-     * Sets a clone of the value to the Figure.
+     * Sets a clone of the value to the Figure without firing events.
      */
     public void setClone(Figure f, T value) {
         try {
@@ -114,20 +144,18 @@ public class AttributeKey<T> {
             throw e;
         }
     }
-    
-    
-    public void basicSet(Figure f, T value) {
+    public void set(Map<AttributeKey,Object> a, T value) {
         if (value == null && ! isNullValueAllowed) {
             throw new NullPointerException("Null value not allowed for AttributeKey "+key);
         }
-        f.basicSetAttribute(this, value);
+        a.put(this, value);
     }
     /**
      * Sets a clone of the value to the Figure without firing events.
      */
-    public void basicSetClone(Figure f, T value) {
+    public void setClone(Map<AttributeKey,Object> a, T value) {
         try {
-            basicSet(f, value == null ? null : (T) Methods.invoke(value,"clone"));
+            set(a, value == null ? null : (T) Methods.invoke(value,"clone"));
         } catch (NoSuchMethodException ex) {
             InternalError e = new InternalError();
             e.initCause(ex);

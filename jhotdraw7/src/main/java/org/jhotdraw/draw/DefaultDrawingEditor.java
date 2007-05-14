@@ -95,10 +95,11 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor,
     public void setView(DrawingView newValue) {
         DrawingView oldValue = activeView;
         activeView = newValue;
-        firePropertyChange("view", oldValue, newValue);
+        firePropertyChange(PROP_VIEW, oldValue, newValue);
+        /* Don't repaint
         for (DrawingView v : views) {
             v.getComponent().repaint();
-        }
+        }*/
     }
     public void toolDone(ToolEvent evt) {
         // FIXME - Maybe we should do this with all views of the editor??
@@ -131,7 +132,7 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor,
     private void setFocusedView(DrawingView newValue) {
         DrawingView oldValue = focusedView;
         focusedView = newValue;
-        firePropertyChange("focusedView", oldValue, newValue);
+        firePropertyChange(PROP_FOCUSED_VIEW, oldValue, newValue);
     }
     public DrawingView getFocusedView() {
         return focusedView;

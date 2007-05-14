@@ -14,6 +14,7 @@
  */
 package org.jhotdraw.samples.svg;
 
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.print.Pageable;
 import java.util.HashMap;
@@ -22,6 +23,7 @@ import java.util.prefs.Preferences;
 import org.jhotdraw.draw.ImageInputFormat;
 import org.jhotdraw.draw.ImageOutputFormat;
 import org.jhotdraw.draw.OutputFormat;
+import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.io.*;
 import org.jhotdraw.draw.InputFormat;
@@ -214,12 +216,12 @@ public class SVGProject extends AbstractProject implements ExportableProject {
             throw error;
         } catch (InvocationTargetException e) {
             InternalError error = new InternalError();
-            e.initCause(e);
+            error.initCause(e);
             throw error;
         }
     }
     
-
+    
     /**
      * Gets the drawing editor of the project.
      */
@@ -266,12 +268,12 @@ public class SVGProject extends AbstractProject implements ExportableProject {
         }
         c.setFileFilter(firstFF);
         c.addPropertyChangeListener(new PropertyChangeListener() {
-           public void propertyChange(PropertyChangeEvent evt) {
-               if (evt.getPropertyName().equals("fileFilterChanged")) {
-                  InputFormat inputFormat = fileFilterInputFormatMap.get(evt.getNewValue());
-             c.setAccessory((inputFormat == null) ? null : inputFormat.getInputFormatAccessory());
-               }
-           } 
+            public void propertyChange(PropertyChangeEvent evt) {
+                if (evt.getPropertyName().equals("fileFilterChanged")) {
+                    InputFormat inputFormat = fileFilterInputFormatMap.get(evt.getNewValue());
+                    c.setAccessory((inputFormat == null) ? null : inputFormat.getInputFormatAccessory());
+                }
+            }
         });
         
         return c;
@@ -364,10 +366,10 @@ public class SVGProject extends AbstractProject implements ExportableProject {
         prefs.putBoolean("project.gridVisible", newValue);
     }
     public boolean isGridVisible() {
-       return view.getConstrainer() == visibleConstrainer;
+        return view.getConstrainer() == visibleConstrainer;
     }
     public double getScaleFactor() {
-       return view.getScaleFactor();
+        return view.getScaleFactor();
     }
     public void setScaleFactor(double newValue) {
         double oldValue = getScaleFactor();

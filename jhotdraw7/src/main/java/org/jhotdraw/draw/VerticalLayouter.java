@@ -65,7 +65,7 @@ public class VerticalLayouter extends AbstractLayouter {
             if (child.isVisible()) {
                 Insets2D.Double insets = getInsets(child);
                 double height = child.getPreferredSize().height;
-                child.basicSetBounds(
+                child.setBounds(
                         new Point2D.Double(
                         layoutBounds.x + layoutInsets.left + insets.left,
                         y + insets.top

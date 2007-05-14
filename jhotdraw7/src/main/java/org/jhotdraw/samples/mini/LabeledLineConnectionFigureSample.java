@@ -36,25 +36,25 @@ public class LabeledLineConnectionFigureSample {
             public void run() {
                 // Create the two rectangle figures
                 RectangleFigure ta = new RectangleFigure();
-                ta.basicSetBounds(new Point2D.Double(10,10),new Point2D.Double(100,100));
+                ta.setBounds(new Point2D.Double(10,10),new Point2D.Double(100,100));
                 
                 RectangleFigure tb = new RectangleFigure();
-                tb.basicSetBounds(new Point2D.Double(210,110),new Point2D.Double(300,200));
+                tb.setBounds(new Point2D.Double(210,110),new Point2D.Double(300,200));
                 
                 // Create a labeled line connection
                 LabeledLineConnectionFigure cf = new LabeledLineConnectionFigure();
-                cf.basicSetLiner(new ElbowLiner());
+                cf.setLiner(new ElbowLiner());
                 cf.setLayouter(new LocatorLayouter());
                 
                 // Create labels and add them to both ends of the labeled line connection
                 TextFigure startLabel = new TextFigure();
-                startLabel.setAttribute(LocatorLayouter.LAYOUT_LOCATOR, new BezierLabelLocator(0, -Math.PI / 4, 8));
+               LocatorLayouter.LAYOUT_LOCATOR.set(startLabel, new BezierLabelLocator(0, -Math.PI / 4, 8));
                 startLabel.setEditable(false);
                 startLabel.setText("start");
                 cf.add(startLabel);
                 
                 TextFigure endLabel = new TextFigure();
-                endLabel.setAttribute(LocatorLayouter.LAYOUT_LOCATOR, new BezierLabelLocator(1, Math.PI + Math.PI / 4, 8));
+                LocatorLayouter.LAYOUT_LOCATOR.set(endLabel, new BezierLabelLocator(1, Math.PI + Math.PI / 4, 8));
                 endLabel.setEditable(false);
                 endLabel.setText("end");
                 cf.add(endLabel);

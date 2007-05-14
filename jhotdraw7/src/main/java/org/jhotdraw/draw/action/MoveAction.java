@@ -46,7 +46,7 @@ public abstract class MoveAction extends AbstractSelectedAction {
         tx.translate(dx, dy);
         for (Figure f : getView().getSelectedFigures()) {
             f.willChange();
-            f.basicTransform(tx);
+            f.transform(tx);
             f.changed();
         }
         fireUndoableEditHappened(new TransformEdit(getView().getSelectedFigures(), tx));

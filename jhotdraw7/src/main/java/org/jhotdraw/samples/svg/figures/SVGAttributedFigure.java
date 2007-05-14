@@ -79,20 +79,35 @@ public abstract class SVGAttributedFigure extends AbstractAttributedFigure {
      * composited.
      */
     public void drawFigure(Graphics2D g) {
+        AffineTransform savedTransform = null;
+        if (TRANSFORM.get(this) != null) {
+            savedTransform = g.getTransform();
+            g.transform(TRANSFORM.get(this));
+        }
+        
         Paint paint = SVGAttributeKeys.getFillPaint(this);
         if (paint != null) {
             g.setPaint(paint);
             drawFill(g);
         }
         paint = SVGAttributeKeys.getStrokePaint(this);
-        if (paint != null) {
+        if (paint != null && STROKE_WIDTH.get(this) > 0) {
             g.setPaint(paint);
             g.setStroke(SVGAttributeKeys.getStroke(this));
             drawStroke(g);
         }
+        if (TRANSFORM.get(this) != null) {
+            g.setTransform(savedTransform);
+        }
         if (isConnectorsVisible()) {
             drawConnectors(g);
         }
+    }
+    public void setAttribute(AttributeKey key, Object newValue) {
+        if (key == SVGAttributeKeys.TRANSFORM) {
+            invalidate();
+        }
+        super.setAttribute(key, newValue);
     }
     @Override final public void write(DOMOutput out) throws IOException {
         throw new UnsupportedOperationException("Use SVGStorableOutput to write this Figure.");

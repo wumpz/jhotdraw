@@ -18,6 +18,7 @@ import java.awt.*;
 import java.awt.geom.*;
 import org.jhotdraw.draw.*;
 import org.apache.batik.ext.awt.*;
+import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
 /**
  * Represents an SVG LinearGradient.
@@ -33,6 +34,8 @@ public class LinearGradient implements Gradient {
     private boolean isRelativeToFigureBounds = true;
     private double[] stopOffsets;
     private Color[] stopColors;
+    private double[] stopOpacities;
+    private AffineTransform transform;
     
     /** Creates a new instance. */
     public LinearGradient() {
@@ -43,9 +46,10 @@ public class LinearGradient implements Gradient {
         this.x2 = x2;
         this.y2 = y2;
     }
-    public void setStops(double[] offsets, Color[] colors) {
+    public void setStops(double[] offsets, Color[] colors, double[] stopOpacities) {
         this.stopOffsets = offsets;
         this.stopColors = colors;
+        this.stopOpacities = stopOpacities;
     }
     public void setRelativeToFigureBounds(boolean b) {
         isRelativeToFigureBounds = b;
@@ -72,6 +76,9 @@ public class LinearGradient implements Gradient {
     public Color[] getStopColors() {
         return stopColors.clone();
     }
+    public double[] getStopOpacities() {
+        return stopOpacities.clone();
+    }
     
     public Paint getPaint(Figure f, double opacity) {
         if (stopColors.length == 0) {
@@ -79,34 +86,41 @@ public class LinearGradient implements Gradient {
         }
         Point2D.Double p1;
         Point2D.Double p2;
+        
         if (isRelativeToFigureBounds) {
-            // XXX This does not work with transformed bounds!
             Rectangle2D.Double bounds = f.getBounds();
             p1 = new Point2D.Double(bounds.x + bounds.width * x1, bounds.y + bounds.height * y1);
             p2 = new Point2D.Double(bounds.x + bounds.width * x2, bounds.y + bounds.height * y2);
-            /*
-               AffineTransform tx = SVGAttributeKeys.TRANSFORM.get(f);
-            if (tx != null) {
-                   tx.transform(p1, p1);
-                   tx.transform(p2, p2);
-            }*/
-            
         } else {
             p1 = new Point2D.Double(x1, y1);
             p2 = new Point2D.Double(x2, y2);
-            /*
-            Rectangle2D.Double bounds = f.getBounds();
-            p1 = new Point2D.Double(bounds.x, bounds.y);
-            p2 = new Point2D.Double(bounds.x + bounds.width, bounds.y + bounds.height);
-       */
         }
         
+        Color[] colors = new Color[stopColors.length];
         float[] fractions = new float[stopColors.length];
         for (int i=0; i < stopColors.length; i++) {
             fractions[i] = (float) stopOffsets[i];
+            colors[i] = new Color(
+                    (stopColors[i].getRGB() & 0xffffff) |
+                    ((int) (opacity * stopOpacities[i] * 255) << 24),
+                    true
+                    );
         }
-        org.apache.batik.ext.awt.LinearGradientPaint gp = 
-               new org.apache.batik.ext.awt.LinearGradientPaint(p1, p2, fractions, stopColors);
+        
+        org.apache.batik.ext.awt.LinearGradientPaint gp;
+        
+        if (transform != null) {
+            gp = new org.apache.batik.ext.awt.LinearGradientPaint(
+                    p1, p2, fractions, colors,
+                    LinearGradientPaint.NO_CYCLE,
+                    LinearGradientPaint.SRGB,
+                    transform
+                    );
+        } else {
+            gp = new org.apache.batik.ext.awt.LinearGradientPaint(
+                    p1, p2, fractions, colors
+                    );
+        }
         return gp;
     }
     
@@ -119,13 +133,23 @@ public class LinearGradient implements Gradient {
             if (i != 0) buf.append(',');
             buf.append(stopOffsets[i]);
             buf.append('=');
-            buf.append(stopColors[i]);
+            buf.append(stopOpacities[i]);
+            buf.append(' ');
+            buf.append(Integer.toHexString(stopColors[i].getRGB()));
         }
         buf.append(')');
         return buf.toString();
     }
     
     public void transform(AffineTransform tx) {
+        if (tx != null) {
+            if (transform == null) {
+                transform = (AffineTransform) tx.clone();
+            } else {
+                transform.preConcatenate(tx);
+            }
+        }
+/*
         Point2D.Double topLeft = new Point2D.Double(x1, y1);
         Point2D.Double bottomRight = new Point2D.Double(x2, y2);
         tx.transform(topLeft, topLeft);
@@ -134,17 +158,30 @@ public class LinearGradient implements Gradient {
         y1 = topLeft.getY();
         x2 = bottomRight.getX();
         y2 = bottomRight.getY();
+ */
     }
     public Object clone() {
         try {
             LinearGradient that = (LinearGradient) super.clone();
             that.stopOffsets = this.stopOffsets.clone();
             that.stopColors = this.stopColors.clone();
+            that.stopOpacities = this.stopOpacities.clone();
             return that;
         } catch (CloneNotSupportedException ex) {
             InternalError e = new InternalError();
             e.initCause(ex);
             throw e;
+        }
+    }
+    
+    public void makeRelativeToFigureBounds(Figure f) {
+        if (! isRelativeToFigureBounds) {
+            isRelativeToFigureBounds = true;
+            Rectangle2D.Double bounds = f.getBounds();
+            x1 = (x1 - bounds.x) / bounds.width;
+            y1 = (y1 - bounds.y) / bounds.height;
+            x2 = (x2 - bounds.x) / bounds.width;
+            y2 = (y2 - bounds.y) / bounds.height;
         }
     }
 }

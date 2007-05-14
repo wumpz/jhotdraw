@@ -51,7 +51,7 @@ public abstract class AbstractSelectedAction
     
     private class EventHandler implements PropertyChangeListener, FigureSelectionListener {
         public void propertyChange(PropertyChangeEvent evt) {
-            if (evt.getPropertyName().equals("focusedView")) {
+            if (evt.getPropertyName() == DrawingEditor.PROP_FOCUSED_VIEW) {
                 if (evt.getOldValue() != null) {
                     DrawingView view = ((DrawingView) evt.getOldValue());
                     view.removeFigureSelectionListener(this);
