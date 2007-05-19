@@ -25,9 +25,9 @@ import org.jhotdraw.util.*;
 import java.util.*;
 /**
  * DefaultDrawing to be used for drawings that contain only a few figures.
- * For larger drawings, QuadTreeDrawing should be used.
+ * For larger drawings, {@see QuadTreeDrawing} should be used.
  * <p>
- * FIXME - Maybe we should rename this class to DefaultDrawing or we should
+ * FIXME - Maybe we should rename this class to SimpleDrawing or we should
  * get rid of this class altogether.
  *
  *
@@ -56,13 +56,11 @@ public class DefaultDrawing
     public void basicAdd(int index, Figure figure) {
         figures.add(index, figure);
         figure.addFigureListener(figureHandler);
-        figure.addUndoableEditListener(figureHandler);
         invalidateSortOrder();
     }
     public void basicRemove(Figure figure) {
         figures.remove(figure);
         figure.removeFigureListener(figureHandler);
-        figure.removeUndoableEditListener(figureHandler);
         invalidateSortOrder();
     }
     
@@ -130,6 +128,34 @@ public class DefaultDrawing
         for (Figure f : getFiguresFrontToBack()) {
             if (f != ignore && f.isVisible() && f.contains(p)) {
                 return f;
+            }
+        }
+        return null;
+    }
+    public Figure findFigureBehind(Point2D.Double p, Figure figure) {
+        boolean isBehind = false;
+        for (Figure f : getFiguresFrontToBack()) {
+            if (isBehind) {
+                if (f.isVisible() && f.contains(p)) {
+                    return f;
+                }
+            } else {
+                isBehind = figure == f;
+            }
+        }
+        return null;
+    }
+    public Figure findFigureBehind(Point2D.Double p, Collection<Figure> figures) {
+        int inFrontOf = figures.size();
+        for (Figure f : getFiguresFrontToBack()) {
+            if (inFrontOf == 0) {
+                if (f.isVisible() && f.contains(p)) {
+                    return f;
+                }
+            } else {
+                if (figures.contains(f)) {
+                    inFrontOf--;
+                }
             }
         }
         return null;

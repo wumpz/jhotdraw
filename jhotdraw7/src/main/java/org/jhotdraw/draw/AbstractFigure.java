@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractFigure.java   3.4  2007-02-09
+ * @(#)AbstractFigure.java   4.0  2007-05-18
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -32,7 +32,10 @@ import org.jhotdraw.geom.*;
  *
  *
  * @author Werner Randelshofer
- * @version 3.4 2007-02-09 Method fireFigureHandlesChanged added.
+ * @version 4.0 2007-05-18 Removed addUndoableEditListener and
+ * removeUndoableEditListener, isConnectorsVisible, setConnectorsVisible
+ * methods due to changes in Figure interface.
+ * <br>3.4 2007-02-09 Method fireFigureHandlesChanged added.
  * <br>3.3 Reworked.
  * <br>3.2 2006-01-05 Added method getChangingDepth().
  * <br>3.0 2006-01-20 Reworked for J2SE 1.5.
@@ -41,8 +44,6 @@ import org.jhotdraw.geom.*;
 public abstract class AbstractFigure
         implements Figure {
     protected EventListenerList listenerList = new EventListenerList();
-    private boolean isConnectorsVisible;
-    private ConnectionFigure courtingConnection;
     private Drawing drawing;
     private boolean isInteractive;
     private boolean isVisible = true;
@@ -70,13 +71,6 @@ public abstract class AbstractFigure
     
     public void removeFigureListener(FigureListener l) {
         listenerList.remove(FigureListener.class, l);
-    }
-    public void addUndoableEditListener(UndoableEditListener l) {
-        listenerList.add(UndoableEditListener.class, l);
-    }
-    
-    public void removeUndoableEditListener(UndoableEditListener l) {
-        listenerList.remove(UndoableEditListener.class, l);
     }
     
     public void addNotify(Drawing d) {
@@ -276,24 +270,13 @@ public abstract class AbstractFigure
         }
     }
     /**
-     *  Notify all listenerList that have registered interest for
-     * notification on this event type.
+     * Notify all UndoableEditListener of the Drawing, to which this Figure has
+     * been added to. If this Figure is not part of a Drawing, the event is
+     * lost.
      */
     protected void fireUndoableEditHappened(UndoableEdit edit) {
-        UndoableEditEvent event = null;
-        if (listenerList.getListenerCount() > 0) {
-            // Notify all listeners that have registered interest for
-            // Guaranteed to return a non-null array
-            Object[] listeners = listenerList.getListenerList();
-            // Process the listeners last to first, notifying
-            // those that are interested in this event
-            for (int i = listeners.length-2; i>=0; i-=2) {
-                if (event == null)
-                    event = new UndoableEditEvent(this, edit);
-                if (listeners[i] == UndoableEditListener.class) {
-                    ((UndoableEditListener)listeners[i+1]).undoableEditHappened(event);
-                }
-            }
+        if (getDrawing() != null) {
+            getDrawing().fireUndoableEditHappened(edit);
         }
     }
     /*
@@ -306,8 +289,6 @@ public abstract class AbstractFigure
         try {
             AbstractFigure that = (AbstractFigure) super.clone();
             that.listenerList = new EventListenerList();
-            that.isConnectorsVisible = false;
-            that.courtingConnection = null;
             return that;
         } catch (CloneNotSupportedException e) {
             InternalError error = new InternalError(e.getMessage());
@@ -487,21 +468,6 @@ public abstract class AbstractFigure
             isVisible = newValue;
             changed();
         }
-    }
-    
-    public void setConnectorsVisible(boolean isVisible, ConnectionFigure connection) {
-        willChange();
-        isConnectorsVisible = isVisible;
-        courtingConnection = connection;
-        changed();
-    }
-    
-    public boolean isConnectorsVisible() {
-        return isConnectorsVisible;
-    }
-    
-    protected ConnectionFigure getCourtingConnection() {
-        return courtingConnection;
     }
     
     public Collection<Figure> getDecomposition() {

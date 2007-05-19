@@ -106,8 +106,8 @@ public class LineConnectionFigure extends LineFigure
                         handles.add(new BezierNodeHandle(this, i));
                     }
                 }
-                handles.add(new ChangeConnectionStartHandle(this));
-                handles.add(new ChangeConnectionEndHandle(this));
+                handles.add(new ConnectionStartHandle(this));
+                handles.add(new ConnectionEndHandle(this));
                 break;
         }
         return handles;
@@ -143,13 +143,8 @@ public class LineConnectionFigure extends LineFigure
         lineout();
     }
     
-    public boolean canConnect(Figure start, Figure end) {
-        return start.canConnect() && end.canConnect();
-    }
-    
-    public boolean connectsSame(ConnectionFigure other) {
-        return other.getStartConnector() == getStartConnector()
-        && other.getEndConnector() == getEndConnector();
+    public boolean canConnect(Connector start, Connector end) {
+        return start.getOwner().canConnect() && end.getOwner().canConnect();
     }
     
     public Connector getEndConnector() {
@@ -167,100 +162,38 @@ public class LineConnectionFigure extends LineFigure
     public Figure getStartFigure() {
         return (startConnector == null) ? null : startConnector.getOwner();
     }
-    /**
-     * Note: this method is only final for testing purposes. You can
-     * remove the final keywoard at any time.
-     * /
-    public final void setEndConnector(final Connector newEnd) {
-        final Connector oldEnd = endConnector;
-        if (newEnd != oldEnd) {
-            willChange();
-            basicSetEndConnector(newEnd);
-            fireUndoableEditHappened(new AbstractUndoableEdit() {
-                public String getPresentationName() { 
-                    return ResourceBundleUtil.
-                            getLAFBundle("org.jhotdraw.draw.Labels").
-                            getString("ConnectionFigure.undoConnect");
-                }
-                public void undo() throws CannotUndoException {
-                    super.undo();
-                    willChange();
-                    basicSetEndConnector(oldEnd);
-                    changed();
-                }
-                public void redo()  throws CannotUndoException {
-                    super.redo();
-                    willChange();
-                    basicSetEndConnector(newEnd);
-                    changed();
-                }
-            });
-            changed();
-        }
-    }*/
     public void setEndConnector(Connector newEnd) {
         if (newEnd != endConnector) {
             if (endConnector != null) {
                 getEndFigure().removeFigureListener(connectionHandler);
                 if (getStartFigure() != null) {
-                    handleDisconnect(getStartFigure(), getEndFigure());
+                    handleDisconnect(getStartConnector(), getEndConnector());
                 }
             }
             endConnector = newEnd;
             if (endConnector != null) {
                 getEndFigure().addFigureListener(connectionHandler);
                 if (getStartFigure() != null && getEndFigure() != null) {
-                    handleConnect(getStartFigure(), getEndFigure());
+                    handleConnect(getStartConnector(), getEndConnector());
                     updateConnection();
                 }
             }
         }
     }
-    /**
-     * Note: this method is only final for testing purposes. You can
-     * remove the final keywoard at any time.
-     * /
-    public final void setStartConnector(final Connector newStart) {
-        final Connector oldStart = startConnector;
-        if (newStart != oldStart) {
-            willChange();
-            basicSetStartConnector(newStart);
-            fireUndoableEditHappened(new AbstractUndoableEdit() {
-                public String getPresentationName() { 
-                    return ResourceBundleUtil.
-                            getLAFBundle("org.jhotdraw.draw.Labels").
-                            getString("ConnectionFigure.undoConnect");
-                }
-                public void undo()  throws CannotUndoException {
-                    super.undo();
-                    willChange();
-                    basicSetStartConnector(oldStart);
-                    changed();
-                }
-                public void redo()  throws CannotUndoException {
-                    super.redo();
-                    willChange();
-                    basicSetStartConnector(newStart);
-                    changed();
-                }
-            });
-            changed();
-        }
-    }*/
     
     public void setStartConnector(Connector newStart) {
         if (newStart != startConnector) {
             if (startConnector != null) {
                 getStartFigure().removeFigureListener(connectionHandler);
                 if (getEndFigure() != null) {
-                    handleDisconnect(getStartFigure(), getEndFigure());
+                    handleDisconnect(getStartConnector(), getEndConnector());
                 }
             }
             startConnector = newStart;
             if (startConnector != null) {
                 getStartFigure().addFigureListener(connectionHandler);
                 if (getStartFigure() != null && getEndFigure() != null) {
-                    handleConnect(getStartFigure(), getEndFigure());
+                    handleConnect(getStartConnector(), getEndConnector());
                     updateConnection();
                 }
             }
@@ -331,14 +264,14 @@ public class LineConnectionFigure extends LineFigure
      * Handles the disconnection of a connection.
      * Override this method to handle this event.
      */
-    protected void handleDisconnect(Figure start, Figure end) {
+    protected void handleDisconnect(Connector start, Connector end) {
     }
     
     /**
      * Handles the connection of a connection.
      * Override this method to handle this event.
      */
-    protected void handleConnect(Figure start, Figure end) {
+    protected void handleConnect(Connector start, Connector end) {
     }
     
     
@@ -348,7 +281,9 @@ public class LineConnectionFigure extends LineFigure
         if (this.liner != null) {
             that.liner = (Liner) this.liner.clone();
         }
-        // That shares the same connectors that this object has.
+        // FIXME - For safety reasons, we clone the connectors, but they would 
+        // work, if we continued to use them. Maybe we should state somewhere
+        // whether connectors should be reusable, or not.
         // To work properly, that must be registered as a figure listener
         // to the connected figures.
         if (this.startConnector != null) {
@@ -360,7 +295,7 @@ public class LineConnectionFigure extends LineFigure
             that.getEndFigure().addFigureListener(that.connectionHandler);
         }
         if (that.startConnector != null && that.endConnector != null) {
-            that.handleConnect(that.getStartFigure(), that.getEndFigure());
+            that.handleConnect(that.getStartConnector(), that.getEndConnector());
             that.updateConnection();
         }
         return that;
@@ -392,8 +327,8 @@ public class LineConnectionFigure extends LineFigure
     }
     
     
-    public boolean canConnect(Figure start) {
-        return start.canConnect();
+    public boolean canConnect(Connector start) {
+        return start.getOwner().canConnect();
     }
     
     /**
@@ -484,7 +419,7 @@ public class LineConnectionFigure extends LineFigure
     
     
     public void setNode(int index, BezierPath.Node p) {
-        if (index != 0 && index != getPointCount() - 1) {
+        if (index != 0 && index != getNodeCount() - 1) {
             if (getStartConnector() != null) {
                 Point2D.Double start = getStartConnector().findStart(this);
                 if(start != null) {
@@ -503,7 +438,7 @@ public class LineConnectionFigure extends LineFigure
     }
     /*
     public void basicSetPoint(int index, Point2D.Double p) {
-        if (index != 0 && index != getPointCount() - 1) {
+        if (index != 0 && index != getNodeCount() - 1) {
             if (getStartConnector() != null) {
                 Point2D.Double start = getStartConnector().findStart(this);
                 if(start != null) {
@@ -547,19 +482,19 @@ public class LineConnectionFigure extends LineFigure
     }
     
     public void setEndPoint(Point2D.Double p) {
-        setPoint(getPointCount() - 1, p);
+        setPoint(getNodeCount() - 1, p);
     }
     
     public void reverseConnection() {
         if (startConnector != null && endConnector != null) {
-            handleDisconnect(startConnector.getOwner(), endConnector.getOwner());
+            handleDisconnect(startConnector, endConnector);
             Connector tmpC = startConnector;
             startConnector = endConnector;
             endConnector = tmpC;
             Point2D.Double tmpP = getStartPoint();
             setStartPoint(getEndPoint());
             setEndPoint(tmpP);
-            handleConnect(startConnector.getOwner(), endConnector.getOwner());
+            handleConnect(startConnector, endConnector);
             updateConnection();
         }
     }

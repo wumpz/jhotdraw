@@ -14,6 +14,9 @@
 
 package org.jhotdraw.draw;
 
+import javax.swing.undo.AbstractUndoableEdit;
+import javax.swing.undo.CannotRedoException;
+import javax.swing.undo.CannotUndoException;
 import org.jhotdraw.util.*;
 import org.jhotdraw.undo.*;
 import java.awt.*;
@@ -59,9 +62,9 @@ public class BezierNodeHandle extends AbstractHandle {
      * Draws this handle.
      */
     public void draw(Graphics2D g) {
-        BezierFigure f = getBezierFigure();
-            int size = f.getPointCount();
-            boolean isClosed = f.isClosed();
+        BezierFigure f = getOwner();
+        int size = f.getNodeCount();
+        boolean isClosed = f.isClosed();
         if (size > index) {
             BezierPath.Node v = f.getNode(index);
             if (v.mask == 0 ||
@@ -80,13 +83,13 @@ public class BezierNodeHandle extends AbstractHandle {
         }
     }
     
-    protected BezierFigure getBezierFigure() {
-        return (BezierFigure) getOwner();
+    public BezierFigure getOwner() {
+        return (BezierFigure) super.getOwner();
     }
     
-   protected Point getLocation() {
-        if (getBezierFigure().getPointCount() > index) {
-            Point2D.Double p = getBezierFigure().getPoint(index, 0);
+    protected Point getLocation() {
+        if (getOwner().getNodeCount() > index) {
+            Point2D.Double p = getOwner().getPoint(index, 0);
             if (TRANSFORM.get(getTransformOwner()) != null) {
                 TRANSFORM.get(getTransformOwner()).transform(p, p);
             }
@@ -95,9 +98,9 @@ public class BezierNodeHandle extends AbstractHandle {
             return new Point(10,10);
         }
     }
-     protected BezierPath.Node getBezierNode() {
-        return getBezierFigure().getPointCount() > index ?
-            getBezierFigure().getNode(index) :
+    protected BezierPath.Node getBezierNode() {
+        return getOwner().getNodeCount() > index ?
+            getOwner().getNode(index) :
             null;
     }
     
@@ -112,7 +115,7 @@ public class BezierNodeHandle extends AbstractHandle {
     }
     
     public void trackStart(Point anchor, int modifiersEx) {
-        BezierFigure figure = getBezierFigure();
+        BezierFigure figure = getOwner();
         view.getDrawing().fireUndoableEditHappened(edit = new CompositeEdit("Punkt verschieben"));
         Point2D.Double location = view.getConstrainer().constrainPoint(view.viewToDrawing(getLocation()));
         Point2D.Double p = view.getConstrainer().constrainPoint(view.viewToDrawing(anchor));
@@ -120,7 +123,7 @@ public class BezierNodeHandle extends AbstractHandle {
         fireHandleRequestSecondaryHandles();
     }
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
-        BezierFigure figure = getBezierFigure();
+        BezierFigure figure = getOwner();
         figure.willChange();
         Point2D.Double p = view.getConstrainer().constrainPoint(view.viewToDrawing(lead));
         
@@ -151,7 +154,7 @@ public class BezierNodeHandle extends AbstractHandle {
     }
     
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
-        BezierFigure f = getBezierFigure();
+        BezierFigure f = getOwner();
         
         // Change node type
         if ((modifiersEx & (InputEvent.META_DOWN_MASK | InputEvent.CTRL_DOWN_MASK | InputEvent.ALT_DOWN_MASK  | InputEvent.SHIFT_DOWN_MASK)) != 0 &&
@@ -177,14 +180,14 @@ public class BezierNodeHandle extends AbstractHandle {
         if (super.isCombinableWith(h)) {
             BezierNodeHandle that = (BezierNodeHandle) h;
             return that.index == this.index &&
-                    that.getBezierFigure().getNodeCount() ==
-                    this.getBezierFigure().getNodeCount();
+                    that.getOwner().getNodeCount() ==
+                    this.getOwner().getNodeCount();
         }*/
         return false;
     }
     
     public void trackDoubleClick(Point p, int modifiersEx) {
-        BezierFigure f = getBezierFigure();
+        final BezierFigure f = getOwner();
         if (f.getNodeCount() > 2 &&
                 (modifiersEx &
                 (InputEvent.META_DOWN_MASK | InputEvent.CTRL_DOWN_MASK | InputEvent.ALT_DOWN_MASK)) == 0
@@ -192,14 +195,38 @@ public class BezierNodeHandle extends AbstractHandle {
                 ) {
             Rectangle invalidatedArea = getDrawBounds();
             f.willChange();
-            f.removeNode(index);
+            final BezierPath.Node removedNode = f.removeNode(index);
             f.changed();
             fireHandleRequestRemove(invalidatedArea);
+            fireUndoableEditHappened(new AbstractUndoableEdit() {
+                public String getPresentationName() {
+                    ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+                    return labels.getString("bezierPath.joinSegment");
+                }
+                public void redo() throws CannotRedoException {
+                    super.redo();
+                    view.removeFromSelection(f);
+                    f.willChange();
+                    f.removeNode(index);
+                    f.changed();
+                    view.addToSelection(f);
+                }
+                
+                public void undo() throws CannotUndoException {
+                    super.undo();
+                    view.removeFromSelection(f);
+                    f.willChange();
+                    f.addNode(index, removedNode);
+                    f.changed();
+                    view.addToSelection(f);
+                }
+                
+            });
         }
     }
     
     public Collection<Handle> createSecondaryHandles() {
-        BezierFigure f = getBezierFigure();
+        BezierFigure f = getOwner();
         LinkedList<Handle> list = new LinkedList<Handle>();
         BezierPath.Node v = f.getNode(index);
         if ((v.mask & BezierPath.C1_MASK) != 0 &&

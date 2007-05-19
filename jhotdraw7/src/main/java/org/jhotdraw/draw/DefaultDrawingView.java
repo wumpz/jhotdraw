@@ -14,6 +14,7 @@
 
 package org.jhotdraw.draw;
 
+import javax.swing.undo.*;
 import org.jhotdraw.gui.datatransfer.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.undo.*;
@@ -157,15 +158,12 @@ public class DefaultDrawingView
         // Set rendering hints for speed
         g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        //g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
         g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_NORMALIZE);
-        //g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
         g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, (Options.isFractionalMetrics()) ? RenderingHints.VALUE_FRACTIONALMETRICS_ON : RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
         g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
         g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
         g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, (Options.isTextAntialiased()) ? RenderingHints.VALUE_TEXT_ANTIALIAS_ON : RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
-        
         
         drawBackground(g);
         drawGrid(g);
@@ -254,8 +252,8 @@ public class DefaultDrawingView
             new Color(Color.HSBtoRGB((float) (rainbow / 360f), 0.3f, 1.0f))
             );
             gr.fill(gr.getClipBounds());
-          */  
-            
+         */
+        
         if (drawing != null) {
             if (drawing.getFigureCount() == 0 && emptyDrawingLabel != null) {
                 emptyDrawingLabel.setBounds(0, 0, getWidth(), getHeight());
@@ -359,35 +357,43 @@ public class DefaultDrawingView
      */
     public void addToSelection(Figure figure) {
         if (DEBUG) System.out.println("DefaultDrawingView"+".addToSelection("+figure+")");
-        selectedFigures.add(figure);
-        figure.addFigureListener(handleInvalidator);
-        invalidateHandles();
-        fireSelectionChanged();
-        repaint();
+        Set<Figure> oldSelection = new HashSet<Figure>(selectedFigures);
+        if (selectedFigures.add(figure)) {
+            figure.addFigureListener(handleInvalidator);
+            Set<Figure> newSelection = new HashSet<Figure>(selectedFigures);
+            invalidateHandles();
+            fireSelectionChanged(oldSelection, newSelection);
+            repaint();
+        }
     }
     /**
      * Adds a collection of figures to the current selection.
      */
     public void addToSelection(Collection<Figure> figures) {
-        selectedFigures.addAll(figures);
-        for (Figure f : figures) {
-            f.addFigureListener(handleInvalidator);
+        Set<Figure> oldSelection = new HashSet<Figure>(selectedFigures);
+        if (selectedFigures.addAll(figures)) {
+            Set<Figure> newSelection = new HashSet<Figure>(selectedFigures);
+            for (Figure f : figures) {
+                f.addFigureListener(handleInvalidator);
+            }
+            invalidateHandles();
+            fireSelectionChanged(oldSelection, newSelection);
+            repaint();
         }
-        invalidateHandles();
-        fireSelectionChanged();
-        repaint();
     }
     
     /**
      * Removes a figure from the selection.
      */
     public void removeFromSelection(Figure figure) {
+        Set<Figure> oldSelection = new HashSet<Figure>(selectedFigures);
         if (selectedFigures.remove(figure)) {
+            Set<Figure> newSelection = new HashSet<Figure>(selectedFigures);
             invalidateHandles();
             figure.removeFigureListener(handleInvalidator);
-            fireSelectionChanged();
+            fireSelectionChanged(oldSelection, newSelection);
+            repaint();
         }
-        repaint();
     }
     
     /**
@@ -395,12 +401,14 @@ public class DefaultDrawingView
      * Otherwise it is removed from the selection.
      */
     public void toggleSelection(Figure figure) {
+        Set<Figure> oldSelection = new HashSet<Figure>(selectedFigures);
         if (selectedFigures.contains(figure)) {
             selectedFigures.remove(figure);
         } else {
             selectedFigures.add(figure);
         }
-        fireSelectionChanged();
+        Set<Figure> newSelection = new HashSet<Figure>(selectedFigures);
+        fireSelectionChanged(oldSelection, newSelection);
         invalidateHandles();
         repaint();
     }
@@ -415,10 +423,12 @@ public class DefaultDrawingView
      * Selects all figures.
      */
     public void selectAll() {
+        Set<Figure> oldSelection = new HashSet<Figure>(selectedFigures);
         selectedFigures.clear();
         selectedFigures.addAll(drawing.getFigures());
+        Set<Figure> newSelection = new HashSet<Figure>(selectedFigures);
         invalidateHandles();
-        fireSelectionChanged();
+        fireSelectionChanged(oldSelection, newSelection);
         repaint();
     }
     /**
@@ -426,9 +436,11 @@ public class DefaultDrawingView
      */
     public void clearSelection() {
         if (getSelectionCount()  > 0) {
+            Set<Figure> oldSelection = new HashSet<Figure>(selectedFigures);
             selectedFigures.clear();
+            Set<Figure> newSelection = new HashSet<Figure>(selectedFigures);
             invalidateHandles();
-            fireSelectionChanged();
+            fireSelectionChanged(oldSelection, newSelection);
         }
         repaint();
     }
@@ -443,7 +455,7 @@ public class DefaultDrawingView
      * Gets the current selection as a FigureSelection. A FigureSelection
      * can be cut, copied, pasted.
      */
-    public Collection<Figure> getSelectedFigures() {
+    public Set<Figure> getSelectedFigures() {
         return Collections.unmodifiableSet(selectedFigures);
     }
     /**
@@ -623,7 +635,9 @@ public class DefaultDrawingView
      *  Notify all listenerList that have registered interest for
      * notification on this event type.
      */
-    protected void fireSelectionChanged() {
+    protected void fireSelectionChanged(
+            Set<Figure> oldValue,
+            Set<Figure> newValue) {
         if (listenerList.getListenerCount() > 0) {
             FigureSelectionEvent event = null;
             // Notify all listeners that have registered interest for
@@ -635,7 +649,7 @@ public class DefaultDrawingView
                 if (listeners[i] == FigureSelectionListener.class) {
                     // Lazily create the event:
                     if (event == null)
-                        event = new FigureSelectionEvent(this);
+                        event = new FigureSelectionEvent(this, oldValue, newValue);
                     ((FigureSelectionListener)listeners[i+1]).selectionChanged(event);
                 }
             }
@@ -673,8 +687,8 @@ public class DefaultDrawingView
     public Dimension getPreferredSize() {
         if (cachedPreferredSize == null) {
             Rectangle2D.Double r = getDrawingArea();
-                    translate.x = Math.min(0, r.x);
-                    translate.y = Math.min(0, r.y);
+            translate.x = Math.min(0, r.x);
+            translate.y = Math.min(0, r.y);
             cachedPreferredSize = new Dimension(
                     (int) ((r.width + 10 - translate.x) * scaleFactor),
                     (int) ((r.height + 10 - translate.y) * scaleFactor)
@@ -802,9 +816,44 @@ public class DefaultDrawingView
     }
     
     public void delete() {
-        ArrayList<Figure> toBeDeleted = new ArrayList<Figure>(getSelectedFigures());
+        // XXX - This method is flawed. We are unable to restore the 
+        // depth of the deleted figures, when an Undo or a Redo operation
+        // is performed
+        final ArrayList<Figure> deletedFigures = new ArrayList<Figure>(getSelectedFigures());
         clearSelection();
-        getDrawing().removeAll(toBeDeleted);
+        DrawingListener removeListener = new DrawingListener() {
+            public void areaInvalidated(DrawingEvent e) {
+            }
+            
+            public void figureAdded(DrawingEvent e) {
+            }
+            
+            public void figureRemoved(DrawingEvent e) {
+                if (! deletedFigures.contains(e.getFigure())) {
+                    deletedFigures.add(e.getFigure());
+                }
+            }
+            
+        };
+        getDrawing().addDrawingListener(removeListener);
+        getDrawing().removeAll(deletedFigures);
+        getDrawing().removeDrawingListener(removeListener);
+        
+        getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
+            public String getPresentationName() {
+                ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+                return labels.getString("delete");
+            }
+            public void undo() throws CannotUndoException {
+                super.undo();
+                getDrawing().addAll(deletedFigures);
+                addToSelection(deletedFigures);
+            }
+            public void redo() throws CannotRedoException {
+                super.redo();
+                getDrawing().removeAll(deletedFigures);
+            }
+        });
     }
     
     public void duplicate() {
@@ -813,7 +862,7 @@ public class DefaultDrawingView
         
         clearSelection();
         Drawing drawing = getDrawing();
-        ArrayList<Figure> duplicates = new ArrayList<Figure>(sorted.size());
+        final ArrayList<Figure> duplicates = new ArrayList<Figure>(sorted.size());
         AffineTransform tx = new AffineTransform();
         tx.translate(5,5);
         for (Figure f : sorted) {
@@ -827,6 +876,21 @@ public class DefaultDrawingView
             f.remap(originalToDuplicateMap);
         }
         addToSelection(duplicates);
+        
+        getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
+            public String getPresentationName() {
+                ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+                return labels.getString("duplicate");
+            }
+            public void undo() throws CannotUndoException {
+                super.undo();
+                getDrawing().removeAll(duplicates);
+            }
+            public void redo() throws CannotRedoException {
+                super.redo();
+                getDrawing().addAll(duplicates);
+            }
+        });
     }
     
     public void removeNotify(DrawingEditor editor) {

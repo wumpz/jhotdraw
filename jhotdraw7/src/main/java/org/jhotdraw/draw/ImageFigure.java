@@ -91,9 +91,6 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
             g.setColor(TEXT_COLOR.get(this));
             drawText(g);
         }
-        if (isConnectorsVisible()) {
-            drawConnectors(g);
-        }
     }
     protected void drawFill(Graphics2D g) {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();

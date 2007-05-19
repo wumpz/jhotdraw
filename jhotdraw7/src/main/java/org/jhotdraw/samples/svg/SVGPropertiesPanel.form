@@ -46,9 +46,6 @@
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/org/jhotdraw/draw/action/images/attributeOpacity.png"/>
         </Property>
-        <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-          <ComponentRef name="default"/>
-        </Property>
         <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="org/jhotdraw/samples/svg/Labels.properties" key="opacity" replaceFormat="labels.getString(&quot;{key}&quot;)"/>
         </Property>

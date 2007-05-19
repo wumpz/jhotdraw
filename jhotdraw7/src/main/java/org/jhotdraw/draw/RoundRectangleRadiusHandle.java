@@ -58,7 +58,6 @@ public class RoundRectangleRadiusHandle extends AbstractHandle {
     }
     
     public void trackStart(Point anchor, int modifiersEx) {
-        view.getDrawing().fireUndoableEditHappened(edit = new CompositeEdit("Mehrfachaenderung"));
         RoundRectangleFigure owner = (RoundRectangleFigure) getOwner();
         originalArc = view.drawingToView(new Point2D.Double(owner.getArcWidth(), owner.getArcHeight()));
     }
@@ -76,7 +75,7 @@ public class RoundRectangleRadiusHandle extends AbstractHandle {
         owner.setArc(arc.x, arc.y);
     }
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
-        view.getDrawing().fireUndoableEditHappened(edit);
+        // XXX - Implement undo redo here
     }
     public String getToolTipText(Point p) {
         return ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels").getString("roundRectangleRadiusHandle.tip");

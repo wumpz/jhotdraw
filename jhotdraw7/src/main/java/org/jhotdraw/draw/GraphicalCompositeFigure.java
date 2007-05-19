@@ -239,7 +239,6 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
     public void setPresentationFigure(Figure newPresentationFigure) {
         if (this.presentationFigure != null) {
             this.presentationFigure.removeFigureListener(presentationFigureHandler);
-            this.presentationFigure.removeUndoableEditListener(presentationFigureHandler);
             if (getDrawing() != null) {
                 this.presentationFigure.removeNotify(getDrawing());
             }
@@ -247,7 +246,6 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
         this.presentationFigure = newPresentationFigure;
         if (this.presentationFigure != null) {
             this.presentationFigure.addFigureListener(presentationFigureHandler);
-            this.presentationFigure.addUndoableEditListener(presentationFigureHandler);
             if (getDrawing() != null) {
                 this.presentationFigure.addNotify(getDrawing());
             }
@@ -274,7 +272,6 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
             (Figure) this.presentationFigure.clone();
         if (that.presentationFigure != null) {
             that.presentationFigure.addFigureListener(that.presentationFigureHandler);
-            that.presentationFigure.addUndoableEditListener(that.presentationFigureHandler);
         }
         return that;
     }

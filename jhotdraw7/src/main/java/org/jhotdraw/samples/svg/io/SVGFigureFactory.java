@@ -91,9 +91,8 @@ public interface SVGFigureFactory {
             boolean isRelativeToFigureBounds, AffineTransform tx);
     
     public Gradient createRadialGradient(
-            double cx, double cy, double r, 
+            double cx, double cy, double fx, double fy, double r, 
             double[] stopOffsets, Color[] stopColors, double[] stopOpacities,
             boolean isRelativeToFigureBounds, AffineTransform tx);
-    
 
 }

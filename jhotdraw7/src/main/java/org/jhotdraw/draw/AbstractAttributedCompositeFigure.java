@@ -1,7 +1,7 @@
 /*
- * @(#)AbstractAttributedCompositeFigure.java  1.0  July 9, 2006
+ * @(#)AbstractAttributedCompositeFigure.java  2.0 2007-05-18
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -24,10 +24,11 @@ import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 /**
  * An AbstractAttributedCompositeFigure is a CompositeFigure which has
- * its own attribute set. 
+ * its own attribute set.
  *
  * @author Werner Randelshofer
- * @version 1.0 July 9, 2006 Created.
+ * @version 2.0 2007-05-18 Changed due to changes in Figure interface. 
+ * <br>1.0 July 9, 2006 Created.
  */
 public abstract class AbstractAttributedCompositeFigure extends AbstractCompositeFigure {
     private HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey,Object>();
@@ -59,6 +60,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
         for (Map.Entry<AttributeKey, Object> entry : map.entrySet()) {
             setAttribute(entry.getKey(), entry.getValue());
         }
+        fireAttributeChanged(null, false, true);
     }
     public Map<AttributeKey, Object> getAttributes() {
         return new HashMap<AttributeKey,Object>(attributes);
@@ -71,11 +73,12 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
     public void setAttribute(AttributeKey key, Object newValue) {
         if (forbiddenAttributes == null
                 || ! forbiddenAttributes.contains(key)) {
-            attributes.put(key, newValue);
+          Object oldValue = attributes.put(key, newValue);
+            setAttributeOnChildren(key, newValue);
+            fireAttributeChanged(key, oldValue, newValue);
         }
-        setAttributeOnChildren(key, newValue);
     }
-
+    
     
     protected void setAttributeOnChildren(AttributeKey key, Object newValue) {
         for (Figure child : getChildren()) {
@@ -88,6 +91,22 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
      */
     public Object getAttribute(AttributeKey key) {
         return hasAttribute(key) ? attributes.get(key) : key.getDefaultValue();
+    }
+    public Object getAttributesRestoreData() {
+        LinkedList<Object> list = new LinkedList<Object>();
+        list.add(new HashMap<AttributeKey,Object>(getAttributes()));
+        for (Figure child : getChildren()) {
+            list.add(child.getAttributesRestoreData());
+        }
+        return list;
+    }
+    public void restoreAttributesTo(Object restoreData) {
+        Iterator<Object> i = ((LinkedList<Object>) restoreData).iterator();
+        attributes.clear();
+        setAttributes((Map<AttributeKey,Object>) i.next());
+        for (Figure child : getChildren()) {
+            child.restoreAttributesTo(i.next());
+        }
     }
     
     
@@ -115,9 +134,6 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
             g.setColor(TEXT_COLOR.get(this));
             drawText(g);
         }
-        if (isConnectorsVisible()) {
-            drawConnectors(g);
-        }
     }
     
     protected void drawChildren(Graphics2D g) {
@@ -125,10 +141,6 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
             child.draw(g);
         }
     }
-
-    protected void drawConnectors(Graphics2D g) {
-    }
-    
     
     public Stroke getStroke() {
         return AttributeKeys.getStroke(this);

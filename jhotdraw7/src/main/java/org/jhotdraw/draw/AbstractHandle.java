@@ -94,21 +94,6 @@ public abstract class AbstractHandle implements Handle, FigureListener {
      */
     protected void fireUndoableEditHappened(UndoableEdit edit) {
         view.getDrawing().fireUndoableEditHappened(edit);
-        /*
-        UndoableEditEvent event = null;
-        // Notify all listeners that have registered interest for
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i] == UndoableEditListener.class) {
-                // Lazily create the event:
-                if (event == null)
-                    event = new UndoableEditEvent(this, edit);
-                ((UndoableEditListener)listeners[i+1]).undoableEditHappened(event);
-            }
-        }*/
     }
     /**
      *  Notify all listenerList that have registered interest for

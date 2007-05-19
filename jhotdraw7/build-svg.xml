@@ -161,6 +161,7 @@
             <jvmarg value="-Dlocale=en"/>
             <jvmarg value="-Dapple.awt.graphics.UseQuartz=false"/>
             <jvmarg value="-Djava.library.path=${libdir}"/>
+            <jvmarg value="-Xmx256M"/>
         </java>
     </target>
     <target name="applet.run" depends="init">

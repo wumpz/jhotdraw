@@ -22,6 +22,7 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.action.AttributeAction;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 import org.jhotdraw.samples.svg.*;
 import org.jhotdraw.samples.svg.SVGConstants;
@@ -61,24 +62,19 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
     
     // DRAWING
     protected void drawFill(Graphics2D g) {
-        g.fill(roundrect);
-        /*
-        g.fill(getTransformedShape());
-         */
+        if (getArcHeight() == 0d && getArcWidth() == 0d) {
+            g.fill(roundrect.getBounds2D());
+        } else {
+            g.fill(roundrect);
+        }
     }
     
     protected void drawStroke(Graphics2D g) {
-        g.draw(roundrect);
-        /*
-        if (TRANSFORM.get(this) == null) {
-            g.draw(roundrect);
+        if (getArcHeight() == 0d && getArcWidth() == 0d) {
+            g.draw(roundrect.getBounds2D());
         } else {
-            AffineTransform savedTransform = g.getTransform();
-            g.transform(TRANSFORM.get(this));
-            g.setStroke(SVGAttributeKeys.getStroke(this));
             g.draw(roundrect);
-            g.setTransform(savedTransform);
-        }*/
+        }
     }
     
     // SHAPE AND BOUNDS
@@ -170,7 +166,7 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
     public void transform(AffineTransform tx) {
         invalidateTransformedShape();
         if (TRANSFORM.get(this) != null ||
-  //              (tx.getType() & (AffineTransform.TYPE_TRANSLATION | AffineTransform.TYPE_MASK_SCALE)) != tx.getType()) {
+                //              (tx.getType() & (AffineTransform.TYPE_TRANSLATION | AffineTransform.TYPE_MASK_SCALE)) != tx.getType()) {
                 (tx.getType() & (AffineTransform.TYPE_TRANSLATION)) != tx.getType()) {
             if (TRANSFORM.get(this) == null) {
                 TRANSFORM.set(this, (AffineTransform) tx.clone());
@@ -186,54 +182,50 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
                     (Point2D.Double) tx.transform(anchor, anchor),
                     (Point2D.Double) tx.transform(lead, lead)
                     );
+            if (FILL_GRADIENT.get(this) != null &&
+                    ! FILL_GRADIENT.get(this).isRelativeToFigureBounds()) {
+                Gradient g = FILL_GRADIENT.getClone(this);
+                g.transform(tx);
+                FILL_GRADIENT.set(this, g);
+            }
+            if (STROKE_GRADIENT.get(this) != null &&
+                    ! STROKE_GRADIENT.get(this).isRelativeToFigureBounds()) {
+                Gradient g = STROKE_GRADIENT.getClone(this);
+                g.transform(tx);
+                STROKE_GRADIENT.set(this, g);
+            }
         }
     }
     // ATTRIBUTES
-    public void setAttribute(AttributeKey key, Object newValue) {
-        if (key == SVGAttributeKeys.TRANSFORM) {
-            invalidate();
-        }
-        super.setAttribute(key, newValue);
-    }
-    public void setArc(final double w, final double h) {
-        willChange();
-        final double oldWidth = roundrect.getArcWidth();
-        final double oldHeight = roundrect.getArcHeight();
+    public void setArc(double w, double h) {
         roundrect.arcwidth = Math.max(0d, Math.min(roundrect.width, w * 2d));
         roundrect.archeight = Math.max(0d, Math.min(roundrect.height, h * 2d));
-        //  fireFigureChanged(getDrawBounds());
-        fireUndoableEditHappened(new AbstractUndoableEdit() {
-            public String getPresentationName() {
-                return "Arc";
-            }
-            public void undo() throws CannotUndoException {
-                super.undo();
-                willChange();
-                roundrect.arcwidth = oldWidth;
-                roundrect.archeight = oldHeight;
-                changed();
-            }
-            public void redo() throws CannotRedoException {
-                super.redo();
-                willChange();
-                roundrect.arcwidth = w * 2d;
-                roundrect.archeight = h * 2d;
-                changed();
-            }
-        });
-        changed();
+    }
+    public void setArc(Dimension2DDouble arc) {
+        roundrect.arcwidth = Math.max(0d, Math.min(roundrect.width, arc.width * 2d));
+        roundrect.archeight = Math.max(0d, Math.min(roundrect.height, arc.height * 2d));
+    }
+    public Dimension2DDouble getArc() {
+        return new Dimension2DDouble(
+                roundrect.arcwidth / 2d,
+                roundrect.archeight / 2d
+                );
     }
     public void restoreTransformTo(Object geometry) {
         invalidateTransformedShape();
         Object[] restoreData = (Object[]) geometry;
         roundrect = (RoundRectangle2D.Double) ((RoundRectangle2D.Double) restoreData[0]).clone();
         TRANSFORM.setClone(this, (AffineTransform) restoreData[1]);
+            FILL_GRADIENT.setClone(this, (Gradient) restoreData[2]);
+            STROKE_GRADIENT.setClone(this, (Gradient) restoreData[3]);
     }
     
     public Object getTransformRestoreData() {
         return new Object[] {
             roundrect.clone(),
-            TRANSFORM.get(this),
+            TRANSFORM.getClone(this),
+            FILL_GRADIENT.getClone(this),
+            STROKE_GRADIENT.getClone(this),
         };
     }
     
@@ -252,18 +244,6 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
                 break;
         }
         return handles;
-    }
-    @Override public Collection<Action> getActions(Point2D.Double p) {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.svg.Labels");
-        LinkedList<Action> actions = new LinkedList<Action>();
-        if (TRANSFORM.get(this) != null) {
-            actions.add(new AbstractAction(labels.getString("removeTransform")) {
-                public void actionPerformed(ActionEvent evt) {
-                    TRANSFORM.set(SVGRectFigure.this, null);
-                }
-            });
-        }
-        return actions;
     }
     // CONNECTING
     public boolean canConnect() {

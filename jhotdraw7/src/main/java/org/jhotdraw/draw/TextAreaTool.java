@@ -119,6 +119,14 @@ public class TextAreaTool extends CreationTool implements ActionListener {
             beginEdit(textHolder);*/
         }
     }
+    /**
+     * This method allows subclasses to do perform additonal user interactions
+     * after the new figure has been created.
+     * The implementation of this class just invokes fireToolDone.
+     */
+    protected void creationFinished(Figure createdFigure) {
+            beginEdit((TextHolderFigure) createdFigure);
+    }
     /*
     public void mouseDragged(java.awt.event.MouseEvent e) {
     }
@@ -161,7 +169,7 @@ public class TextAreaTool extends CreationTool implements ActionListener {
         r.height += 4;
         return r;
     }
-    
+    /*
     public void mouseReleased(MouseEvent evt) {
         if (createdFigure != null) {
             TextHolderFigure textHolder = (TextHolderFigure) createdFigure;
@@ -183,20 +191,17 @@ public class TextAreaTool extends CreationTool implements ActionListener {
             getDrawing().fireUndoableEditHappened(creationEdit);
             beginEdit(textHolder);
         }
-    }
+    }*/
     
     protected void endEdit() {
         if (typingTarget != null) {
             typingTarget.willChange();
             if (textArea.getText().length() > 0) {
                 typingTarget.setText(textArea.getText());
-                if (createdFigure != null) {
-                    getDrawing().fireUndoableEditHappened(creationEdit);
-                    createdFigure = null;
-                }
             } else {
                 if (createdFigure != null) {
                     getDrawing().remove((Figure)getAddedFigure());
+                    // Fire undoable edit here!!
                 } else {
                     typingTarget.setText("");
                 }

@@ -1,7 +1,7 @@
 /*
- * @(#)ConnectionTool.java  3.1  2006-07-15
+ * @(#)ConnectionTool.java  4.0  2007-05-18
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -10,11 +10,11 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-�
  */
 
 package org.jhotdraw.draw;
 
+import javax.swing.undo.*;
 import org.jhotdraw.undo.*;
 import org.jhotdraw.util.*;
 import java.awt.*;
@@ -24,16 +24,26 @@ import java.util.*;
 import java.awt.dnd.*;
 
 /**
- * A tool that can be used to connect figures, to split
- * connections, and to join two segments of a connection.
- * ConnectionTools turns the visibility of the Connectors
- * on when it enters a figure.
- * The connection object to be created is specified by a prototype.
+ * A tool to create a connection between two figures.
+ * The  {@see ConnectionFigure} to be created is specified by a prototype.
+ * The location of the start and end points are controlled by {@see Connector}s.
  * <p>
- * FIXME: Use a Tracker instance for each state of this tool.
+ * To create a connection using the ConnectionTool, the user does the following
+ * mouse gestures on a DrawingView:
+ * <ol>
+ * <li>Press the mouse button inside of a Figure. If the ConnectionTool can
+ * find a Connector at this location, it uses it as the starting point for
+ * the connection.</li>
+ * <li>Drag the mouse while keeping the mouse button pressed, and then release
+ * the mouse button. This defines the end point of the connection.
+ * If the ConnectionTool finds a Connector at this location, it uses it
+ * as the end point of the connection and creates a ConnectionFigure.</li>
+ * </ol>
  *
  * @author Werner Randelshofer
- * @version 3.1 2006-07-15 Added support for prototype class name. 
+ * @version 4.0 2007-05 Reworked due to changes in ConnectionFigure interface.
+ * Removed split/join functionality for connection points.
+ * <br>3.1 2006-07-15 Added support for prototype class name.
  * <br>3.0 2006-06-07 Reworked.
  * <br>2.1 2006-03-15 When user is not pressing the mouse button, we use
  * the mouse over view as the current view.
@@ -41,35 +51,28 @@ import java.awt.dnd.*;
  * <br>2.0 2006-01-14 Changed to support double precision coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
-public class ConnectionTool extends AbstractTool implements FigureListener {
-    private Map<AttributeKey, Object> attributes;
-    /**
-     * the anchor point of the interaction
-     */
-    private Connector   startConnector;
-    private Connector   endConnector;
-    private Connector   targetConnector;
-    
-    private Figure target;
-    /**
-     * the currently created figure
-     */
-    private ConnectionFigure  connection;
+public class ConnectionTool extends AbstractTool {
+    private final static int ANCHOR_WIDTH = 6;
     
     /**
-     * the currently manipulated connection point
+     * Attributes to be applied to the created ConnectionFigure.
+     * These attributes override the default attributes of the
+     * DrawingEditor.
      */
-    private int  splitPoint;
+    private Map<AttributeKey, Object> prototypeAttributes;
     /**
-     * the currently edited connection
+     * The Connector at the start point of the connection.
      */
-    private ConnectionFigure  editedConnection;
+    private Connector startConnector;
+    /**
+     * The Connector at the end point of the connection.
+     */
+    private Connector endConnector;
     
     /**
-     * the figure that was actually added
-     * Note, this can be a different figure from the one which has been created.
+     * The created figure.
      */
-    private Figure createdFigure;
+    protected ConnectionFigure createdFigure;
     
     /**
      * the prototypical figure that is used to create new
@@ -77,36 +80,66 @@ public class ConnectionTool extends AbstractTool implements FigureListener {
      */
     protected ConnectionFigure  prototype;
     
-    protected boolean isPressed;
+    /**
+     * The figure for which we enabled drawing of connectors.
+     */
+    protected Figure targetFigure;
     
-    /** Creates a new instance. */
+    
+    /**
+     * A localized name for this tool. The presentationName is displayed by the
+     * UndoableEdit.
+     */
+    private String presentationName;
+    
+    /** Creates a new instance.
+     */
     public ConnectionTool(ConnectionFigure prototype) {
-        this.prototype = prototype;
+        this(prototype, null, null);
     }
-    public ConnectionTool(ConnectionFigure prototype, Map attributes) {
+    public ConnectionTool(ConnectionFigure prototype, Map<AttributeKey, Object> attributes) {
+        this(prototype, attributes, null);
+    }
+    public ConnectionTool(ConnectionFigure prototype, Map<AttributeKey, Object> attributes, String presentationName) {
         this.prototype = prototype;
-        this.attributes = attributes;
+        this.prototypeAttributes = attributes;
+        if (presentationName == null) {
+            ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+            presentationName = labels.getString("createConnectionFigure");
+        }
+        this.presentationName = presentationName;
     }
     public ConnectionTool(String prototypeClassName) {
-        this(prototypeClassName, null);
+        this(prototypeClassName, null, null);
     }
-    public ConnectionTool(String prototypeClassName, Map<AttributeKey, Object> attributes) {
+    public ConnectionTool(String prototypeClassName, Map<AttributeKey, Object> attributes, String presentationName) {
         try {
-        this.prototype = (ConnectionFigure) Class.forName(prototypeClassName).newInstance();
+            this.prototype = (ConnectionFigure) Class.forName(prototypeClassName).newInstance();
         } catch (Exception e) {
             InternalError error = new InternalError("Unable to create ConnectionFigure from "+prototypeClassName);
             error.initCause(e);
             throw error;
         }
-        this.attributes = attributes;
+        this.prototypeAttributes = attributes;
+        if (presentationName == null) {
+            ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+            presentationName = labels.getString("createConnectionFigure");
+        }
+        this.presentationName = presentationName;
     }
     public ConnectionFigure getPrototype() {
         return prototype;
     }
     
     public void mouseMoved(MouseEvent evt) {
-        trackConnectors(evt);
+        updateTarget(evt);
     }
+    public void updateTarget(MouseEvent evt) {
+        Point2D.Double targetPoint = viewToDrawing(new Point(evt.getX(), evt.getY()));
+        Figure aFigure = getDrawing().findFigure(targetPoint);
+        targetFigure = aFigure;
+    }
+    
     /**
      * Manipulates connections in a context dependent way. If the
      * mouse down hits a figure start a new connection. If the mousedown
@@ -114,59 +147,63 @@ public class ConnectionTool extends AbstractTool implements FigureListener {
      */
     public void mousePressed(MouseEvent evt) {
         super.mousePressed(evt);
-        isPressed = true;
         getView().clearSelection();
-        Point2D.Double ap = viewToDrawing(anchor);
-                getView().getConstrainer().constrainPoint(ap);
-
-        if (getTargetFigure() != null) {
-            getTargetFigure().setConnectorsVisible(false, null);
+        
+        Point2D.Double startPoint = viewToDrawing(anchor);
+        Figure startFigure = getDrawing().findFigure(startPoint);
+        startConnector = (startFigure == null) ?
+            null :
+            startFigure.findConnector(startPoint, prototype);
+        
+        if (startConnector != null && prototype.canConnect(startConnector)) {
+            Point2D.Double anchor = startConnector.getAnchor();
+            createdFigure = createFigure();
+            createdFigure.setStartPoint(anchor);
+            createdFigure.setEndPoint(anchor);
+            getDrawing().add(createdFigure);
+            Rectangle r = new Rectangle(getView().drawingToView(anchor));
+            r.grow(ANCHOR_WIDTH,ANCHOR_WIDTH);
+            fireAreaInvalidated(r);
+        } else {
+            startConnector = null;
+            createdFigure = null;
         }
         
-        setTargetFigure(findConnectionStart(ap, getDrawing()));
-        
-        if (getTargetFigure() != null) {
-            setStartConnector(findConnector(ap, target, prototype));
-            if (getStartConnector() != null && canConnect(getTargetFigure())) {
-                Point2D.Double p = getStartConnector().getAnchor();
-                setConnection(createFigure());
-                getConnection().setBounds(p, p);
-                getConnection().addFigureListener(this);
-                setCreatedFigure(getConnection());
-            }
-        }
+        endConnector = null;
     }
     
     /**
-     * Adjust the created connection or split segment.
+     * Adjust the created connection.
      */
     public void mouseDragged(java.awt.event.MouseEvent e) {
-        Point2D.Double p = viewToDrawing(new Point(e.getX(), e.getY()));
-        getView().getConstrainer().constrainPoint(p);
-        if (getConnection() != null) {
-            trackConnectors(e);
+        updateTarget(e);
+        if (createdFigure != null) {
+            Point2D.Double endPoint = viewToDrawing(new Point(e.getX(), e.getY()));
+            getView().getConstrainer().constrainPoint(endPoint);
             
-            if (getTargetConnector() != null) {
-                p = getTargetConnector().getAnchor();
+            createdFigure.willChange();
+            Figure endFigure = getDrawing().findFigureExcept(endPoint, createdFigure);
+            if (endConnector != null) {
+                Point2D.Double anchor = endConnector.getAnchor();
+                Rectangle r = new Rectangle(getView().drawingToView(anchor));
+                r.grow(ANCHOR_WIDTH,ANCHOR_WIDTH);
+                fireAreaInvalidated(r);
             }
-            ConnectionFigure f = getConnection();
-            fireAreaInvalidated(f.getDrawingArea());
-            f.willChange();
-            f.setBounds(f.getStartPoint(), p);
-            f.changed();
-            fireAreaInvalidated(f.getDrawingArea());//new Rectangle2D.Double(viewToDrawing(anchor), p));
-        } else if (editedConnection != null) {
-            editedConnection.willChange();
-            editedConnection.setPoint(splitPoint, p);
-            editedConnection.changed();
+            endConnector = (endFigure == null) ?
+                null :
+                endFigure.findConnector(endPoint, prototype);
+            
+            if (endConnector != null && createdFigure.canConnect(startConnector, endConnector)) {
+                Point2D.Double anchor = endConnector.getAnchor();
+                createdFigure.setEndPoint(anchor);
+                Rectangle r = new Rectangle(getView().drawingToView(anchor));
+                r.grow(ANCHOR_WIDTH,ANCHOR_WIDTH);
+                fireAreaInvalidated(r);
+            } else {
+                createdFigure.setEndPoint(endPoint);
+            }
+            createdFigure.changed();
         }
-    }
-    
-    protected boolean canConnect(Figure start) {
-        return prototype.canConnect(start);
-    }
-    protected boolean canConnect(Figure start, Figure end) {
-        return prototype.canConnect(start, end);
     }
     
     /**
@@ -174,52 +211,56 @@ public class ConnectionTool extends AbstractTool implements FigureListener {
      * figure.
      */
     public void mouseReleased(MouseEvent e) {
-        isPressed = false;
-        isWorking = false;
-        Figure c = null;
-        Point2D.Double p = viewToDrawing(new Point(e.getX(), e.getY()));
-        getView().getConstrainer().constrainPoint(p);
-        if (getStartConnector() != null) {
-            c = findTarget(p, getDrawing());
+        if (createdFigure != null) {
+            createdFigure.willChange();
+            createdFigure.setStartConnector(startConnector);
+            createdFigure.setEndConnector(endConnector);
+            createdFigure.updateConnection();
+            createdFigure.changed();
+            
+            final Figure addedFigure = createdFigure;
+            final Drawing addedDrawing = getDrawing();
+            getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
+                public String getPresentationName() {
+                    return presentationName;
+                }
+                public void undo() throws CannotUndoException {
+                    super.undo();
+                    addedDrawing.remove(addedFigure);
+                }
+                public void redo() throws CannotRedoException {
+                    super.redo();
+                    addedDrawing.add(addedFigure);
+                }
+            });
+            targetFigure = null;
+            Point2D.Double anchor = startConnector.getAnchor();
+            Rectangle r = new Rectangle(getView().drawingToView(anchor));
+            r.grow(ANCHOR_WIDTH,ANCHOR_WIDTH);
+            fireAreaInvalidated(r);
+            anchor = endConnector.getAnchor();
+            r = new Rectangle(getView().drawingToView(anchor));
+            r.grow(ANCHOR_WIDTH,ANCHOR_WIDTH);
+            fireAreaInvalidated(r);
+            startConnector = endConnector = null;
+            createdFigure = null;
+            creationFinished(createdFigure);
+        } else {
+            fireToolDone();
         }
-        
-        if (c != null) {
-            setEndConnector(findConnector(p, c, prototype));
-            if (getEndConnector() != null) {
-                CompositeEdit creationEdit = new CompositeEdit("Verbindung erstellen");
-                getDrawing().fireUndoableEditHappened(creationEdit);
-                ConnectionFigure f = getConnection();
-                f.willChange();
-                f.setStartConnector(getStartConnector());
-                f.setEndConnector(getEndConnector());
-                f.setBounds(f.getStartPoint(), p);
-                f.updateConnection();
-                f.changed();
-                f.removeFigureListener(this);
-                getDrawing().add(f);
-                getDrawing().fireUndoableEditHappened(creationEdit);
-            }
-        } else if (getConnection() != null) {
-            getDrawing().remove(getConnection());
-        }
-        
-        setConnection(null);
-        setStartConnector(null);
-        setEndConnector(null);
-        setCreatedFigure(null);
-        fireToolDone();
     }
     public void activate(DrawingEditor editor) {
         super.activate(editor);
-       // getView().clearSelection();
     }
     public void deactivate(DrawingEditor editor) {
-        super.deactivate(editor);
-        if (getTargetFigure() != null) {
-            getTargetFigure().setConnectorsVisible(false, null);
+        if (createdFigure != null) {
+            getDrawing().remove(createdFigure);
+            createdFigure = null;
         }
+        targetFigure = null;
+        startConnector = endConnector = null;
+        super.deactivate(editor);
     }
-    //--
     /**
      * Creates the ConnectionFigure. By default the figure prototype is
      * cloned.
@@ -227,193 +268,51 @@ public class ConnectionTool extends AbstractTool implements FigureListener {
     protected ConnectionFigure createFigure() {
         ConnectionFigure f = (ConnectionFigure) prototype.clone();
         getEditor().applyDefaultAttributesTo(f);
-        if (attributes != null) {
-            for (Map.Entry<AttributeKey, Object> entry : attributes.entrySet()) {
+        if (prototypeAttributes != null) {
+            for (Map.Entry<AttributeKey, Object> entry : prototypeAttributes.entrySet()) {
                 f.setAttribute((AttributeKey) entry.getKey(), entry.getValue());
             }
         }
         return f;
     }
     
-    /**
-     * Finds a connectable figure target.
-     */
-    protected Figure findSource(Point2D.Double p, Drawing drawing) {
-        return findConnectableFigure(p, drawing);
-    }
-    
-    /**
-     * Finds a connectable figure target.
-     */
-    protected Figure findTarget(Point2D.Double p, Drawing drawing) {
-        Figure target = findConnectableFigure(p, drawing);
-        Figure start = getStartConnector().getOwner();
-        
-        if (target != null
-                && getConnection() != null
-                && canConnect(target)
-                //&& ! target.includes(start)
-                && canConnect(start, target)) {
-            return target;
-        }
-        return null;
-    }
-    
-    /**
-     * Finds an existing connection figure.
-     */
-    protected ConnectionFigure findConnection(Point2D.Double p, Drawing drawing) {
-        for (Figure f : drawing.getFiguresFrontToBack()) {
-            if (f != null && (f instanceof ConnectionFigure)) {
-                return (ConnectionFigure) f;
-            }
-        }
-        return null;
-    }
-    
-    protected void setConnection(ConnectionFigure newConnection) {
-        connection = newConnection;
-    }
-    
-    /**
-     * Gets the connection which is created by this tool
-     */
-    protected ConnectionFigure getConnection() {
-        return connection;
-    }
-    
-    protected void trackConnectors(MouseEvent e) {
-        Point2D.Double p = viewToDrawing(new Point(e.getX(), e.getY()));
-        getView().getConstrainer().constrainPoint(p);
-        Figure c = null;
-        
-        if (getStartConnector() == null) {
-            c = findSource(p, getDrawing());
-        } else {
-            c = findTarget(p, getDrawing());
-        }
-        
-        // track the figure containing the mouse
-        if (c != getTargetFigure()) {
-            if (getTargetFigure() != null) {
-                getTargetFigure().setConnectorsVisible(false, null);
-            }
-            setTargetFigure(c);
-            if (getStartConnector() != null) {
-                if (getTargetFigure() != null
-                        && canConnect(getStartConnector().getOwner(), getTargetFigure())) {
-                    getTargetFigure().setConnectorsVisible(true, getConnection());
-                }
-            } else {
-                
-                if (getTargetFigure() != null
-                        && canConnect(getTargetFigure())) {
-                    getTargetFigure().setConnectorsVisible(true, getConnection());
-                }
-            }
-        }
-        
-        Connector cc = null;
-        if (c != null) {
-            cc = findConnector(p, c, prototype);
-        }
-        if (cc != getTargetConnector()) {
-            setTargetConnector(cc);
-        }
-        
-        //view().checkDamage();
-    }
     public void draw(Graphics2D g) {
         if (createdFigure != null) {
             Graphics2D gg = (Graphics2D) g.create();
             gg.transform(getView().getDrawingToViewTransform());
             createdFigure.draw(gg);
+            if (startConnector != null) {
+                Point p = getView().drawingToView(startConnector.getAnchor());
+                Ellipse2D.Double e = new Ellipse2D.Double(
+                        p.x - ANCHOR_WIDTH / 2, p.y - ANCHOR_WIDTH / 2,
+                        ANCHOR_WIDTH, ANCHOR_WIDTH
+                        );
+                g.setColor(Color.GREEN);
+                g.fill(e);
+                g.setColor(Color.BLACK);
+                g.draw(e);
+            }
+            if (endConnector != null) {
+                Point p = getView().drawingToView(endConnector.getAnchor());
+                Ellipse2D.Double e = new Ellipse2D.Double(
+                        p.x - ANCHOR_WIDTH / 2, p.y - ANCHOR_WIDTH / 2,
+                        ANCHOR_WIDTH, ANCHOR_WIDTH
+                        );
+                g.setColor(Color.GREEN);
+                g.fill(e);
+                g.setColor(Color.BLACK);
+                g.draw(e);
+            }
             gg.dispose();
+            
         }
     }
-    
-    protected Connector findConnector(Point2D.Double p, Figure target, ConnectionFigure f) {
-        return target.findConnector(p, f);
-    }
-    
     /**
-     * Finds a connection start figure.
+     * This method allows subclasses to do perform additonal user interactions
+     * after the new figure has been created.
+     * The implementation of this class just invokes fireToolDone.
      */
-    protected Figure findConnectionStart(Point2D.Double p, Drawing drawing) {
-        Figure target = findConnectableFigure(p, drawing);
-        if ((target != null) && target.canConnect()) {
-            return target;
-        }
-        return null;
-    }
-    
-    protected Figure findConnectableFigure(Point2D.Double p, Drawing drawing) {
-        return drawing.findFigureExcept(p, createdFigure);
-    }
-    
-    protected void setStartConnector(Connector newStartConnector) {
-        startConnector = newStartConnector;
-    }
-    
-    protected Connector getStartConnector() {
-        return startConnector;
-    }
-    
-    protected void setEndConnector(Connector newEndConnector) {
-        endConnector = newEndConnector;
-    }
-    
-    protected Connector getEndConnector() {
-        return endConnector;
-    }
-    
-    private void setTargetConnector(Connector newTargetConnector) {
-        targetConnector = newTargetConnector;
-    }
-    
-    protected Connector getTargetConnector() {
-        return targetConnector;
-    }
-    
-    private void setTargetFigure(Figure newTarget) {
-        target = newTarget;
-    }
-    
-    protected Figure getTargetFigure() {
-        return target;
-    }
-    
-    /**
-     * Gets the figure that was actually added
-     * Note, this can be a different figure from the one which has been created.
-     */
-    protected Figure getCreatedFigure() {
-        return createdFigure;
-    }
-    
-    protected void setCreatedFigure(Figure newCreatedFigure) {
-        createdFigure = newCreatedFigure;
-    }
-    
-    public void figureAreaInvalidated(FigureEvent evt) {
-        fireAreaInvalidated(evt.getInvalidatedArea());
-    }
-    
-    public void figureAdded(FigureEvent e) {
-    }
-    
-    public void figureChanged(FigureEvent e) {
-    }
-    
-    public void figureRemoved(FigureEvent e) {
-    }
-    
-    public void figureRequestRemove(FigureEvent e) {
-    }
-    
-    public void figureAttributeChanged(FigureEvent e) {
-    }
-
-    public void figureHandlesChanged(FigureEvent e) {
+    protected void creationFinished(Figure createdFigure) {
+        fireToolDone();
     }
 }

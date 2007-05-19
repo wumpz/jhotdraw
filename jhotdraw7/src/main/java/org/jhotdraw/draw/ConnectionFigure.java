@@ -1,5 +1,5 @@
 /*
- * @(#)ConnectionFigure.java  2.1  2007-02-09
+ * @(#)ConnectionFigure.java  3.0  2007-05-18
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -17,134 +17,148 @@ package org.jhotdraw.draw;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
+import org.jhotdraw.geom.*;
 
 /**
- * Figures to connect Connectors provided by Figures.
+ * A {@code ConnectionFigure} draws a connection between two {@see Connector}s.
  * A ConnectionFigure knows its start and end Connector.
- * It uses the Connectors to locate its connection points.<p>
- * A ConnectionFigure can have multiple bezier segments. It provides
- * operations to split and join bezier segments.
- * 
- * 
- * 
+ * A ConnectionFigure can be laid out using a {@see Liner}.
+ *
+ * @see Connector
+ * @see Liner
+ *
  * @author Werner Randelshofer
- * @version 2.1 2007-02-09 Method setLiner renamed to setLiner.
+ * @version 3.0 2007-05-18 Methods canConnect use now Connector objects as
+ * parameters instead of Figure objects. Removed method connectsSame. Added 
+ * support for BezierPath.Node's.
+ * <br>2.1 2007-02-09 Method setLiner renamed.
  * <br>2.0 2006-01-14 Changed to support double precision coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
-public interface ConnectionFigure 
+public interface ConnectionFigure
         extends Figure {
     // DRAWING
     // SHAPE AND BOUNDS
     // ATTRIBUTES
     // EDITING
     // CONNECTING
-	/**
-	 * Sets the start Connector of the connection.
-         * Set this to null to disconnect the start connection.
-	 * @param start the start figure of the connection
-	 */
-	public void setStartConnector(Connector start);
-	/**
-	 * Gets the start Connector.
-         * Returns null, if there is no start connection.
-	 */
-	public Connector getStartConnector();
-	/**
-	 * Sets the end Connector of the connection.
-         * Set this to null to disconnect the end connection.
-	 * @param end the end figure of the connection
-	 */
-	public void setEndConnector(Connector end);
-	/**
-	 * Gets the end Connector.
-         * Returns null, if there is no end connection.
-	 */
-	public Connector getEndConnector();
-
-	/**
-	 * Updates the connection.
-         * FIXME - What das this do?
-	 */
-	public void updateConnection();
-
-
-	/**
-	 * Checks if two figures can be connected using this ConnectionFigure.
-         * Implement this method to constrain the allowed connections between figures.
-	 */
-	public boolean canConnect(Figure start, Figure end);
-	/**
-	 * Checks if this ConnectionFigure can be attached to the provided 
-         * start figure.
-         * This is used to provide an early feedback to the user, when he/she
-         * creates a new connection.
-	 */
-	public boolean canConnect(Figure start);
-
-	/**
-     * Checks if the ConnectionFigure connects the same figures.
-         *
-         * FIXME - What do we need this for?
+    /**
+     * Sets the start {@code Connector} of the connection.
+     * Set this to null to disconnect the start connection.
+     * @param start the start Connector of the connection
      */
-	public boolean connectsSame(ConnectionFigure other);
-
-	/**
-	 * Sets the start point.
-	 */
-	public void setStartPoint(Point2D.Double p);
-
-	/**
-	 * Sets the end point.
-	 */
-	public void setEndPoint(Point2D.Double p);
-	/**
-	 * Sets the specified point.
-	 */
-	public void setPoint(int index, Point2D.Double p);
-	/**
-	 * Gets the point count.
-	 */
-	public int getPointCount();
-
-        /**
-         * Returns the specified point.
-         */
-        public Point2D.Double getPoint(int index);
-        
-	/**
-	 * Gets the start point.
-	 */
-	public Point2D.Double getStartPoint();
-
-	/**
-	 * Gets the end point.
-	 */
-	public Point2D.Double getEndPoint();
-
-	/**
-	 * Gets the start figure of the connection.
-         * This is a convenience method for doing getStartConnector().getOwner()
-         * and handling null cases.
-	 */
-	public Figure getStartFigure();
-  
-	/**
-	 * Gets the end figure of the connection.
-         * This is a convenience method for doing getEndConnector().getOwner()
-         * and handling null cases.
-	 */
-	public Figure getEndFigure();  
+    public void setStartConnector(Connector start);
+    /**
+     * Gets the start {@code Connector}.
+     * Returns null, if there is no start connection.
+     */
+    public Connector getStartConnector();
+ 
+    /**
+     * Sets the end Connector of the connection.
+     * Set this to null to disconnect the end connection.
+     * @param end the end Connector of the connection
+     */
+    public void setEndConnector(Connector end);
+    /**
+     * Gets the end Connector.
+     * Returns null, if there is no end connection.
+     */
+    public Connector getEndConnector();
+    
+    /**
+     * Updates the start and end point of the figure and fires figureChanged
+     * events.
+     */
+    public void updateConnection();
+    
+    /**
+     * Returns true, if this ConnectionFigure can connect the specified
+     * {@code Connector}s.
+     * Implement this method to constrain the allowed connections between figures.
+     */
+    public boolean canConnect(Connector start, Connector end);
+    /**
+     * Checks if this {@code ConnectionFigure} can be connect to the specified
+     * {@code Connector}.
+     * This is used to provide an early feedback to the user, when he/she
+     * creates a new connection.
+     */
+    public boolean canConnect(Connector start);
+    
+    /**
+     * Sets the start point.
+     */
+    public void setStartPoint(Point2D.Double p);
+    
+    /**
+     * Sets the end point.
+     */
+    public void setEndPoint(Point2D.Double p);
+    /**
+     * Sets the specified point.
+     */
+    public void setPoint(int index, Point2D.Double p);
+    /**
+     * Gets the node count.
+     */
+    public int getNodeCount();
+    
+    /**
+     * Returns the specified point.
+     */
+    public Point2D.Double getPoint(int index);
+    /**
+     * Returns the specified node.
+     */
+    public BezierPath.Node getNode(int index);
+    /**
+     * Sets the specified node.
+     */
+    public void setNode(int index, BezierPath.Node node);
+    
+    /**
+     * Gets the start point.
+     */
+    public Point2D.Double getStartPoint();
+    
+    /**
+     * Gets the end point.
+     */
+    public Point2D.Double getEndPoint();
+    
+    /**
+     * Gets the start figure of the connection.
+     * This is a convenience method for doing getStartConnector().getOwner()
+     * and handling null cases.
+     */
+    public Figure getStartFigure();
+    
+    /**
+     * Gets the end figure of the connection.
+     * This is a convenience method for doing getEndConnector().getOwner()
+     * and handling null cases.
+     */
+    public Figure getEndFigure();
 // COMPOSITE FIGURES
     /**
      * Get a Liner object which encapsulated a lineout
      * algorithm for this figure. Typically, a Liner
      * accesses the child components of this figure and arranges
      * their graphical presentation.
-        *
+     *
      * @return lineout strategy used by this figure
      */
     public Liner getLiner();
+    /**
+     * Set a Liner object which encapsulated a lineout
+     * algorithm for this figure. Typically, a Liner
+     * accesses the child components of this figure and arranges
+     * their graphical presentation.
+     *
+     * @param newValue	encapsulation of a lineout algorithm.
+     */
+    public void setLiner(Liner newValue);
     /**
      * A lineout algorithm is used to define how the child components
      * should be laid out in relation to each other. The task for
@@ -152,15 +166,6 @@ public interface ConnectionFigure
      * to a Liner which can be plugged in at runtime.
      */
     public void lineout();
-    /**
-     * Set a Liner object which encapsulated a lineout
-     * algorithm for this figure. Typically, a Liner
-     * accesses the child components of this figure and arranges
-     * their graphical presentation. 
-     *
-     * @param newValue	encapsulation of a lineout algorithm.
-     */
-    public void setLiner(Liner newValue);
     // CLONING
     // EVENT HANDLING
 }

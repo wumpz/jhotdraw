@@ -17,14 +17,19 @@ package org.jhotdraw.draw;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Point2D;
+import java.util.HashSet;
 /**
  * Tool to select and manipulate figures.
  * <p>
  * A selection tool is in one of three states, for example, background
  * selection, figure selection, handle manipulation. The different
- * states are handled by different tracker objects: the 
- * <code>SelectAreaTracker</code>, the <code>DragTracker</code> and the 
+ * states are handled by different tracker objects: the
+ * <code>SelectAreaTracker</code>, the <code>DragTracker</code> and the
  * <code>HandleTracker</code>.
+ * <p>
+ * A Figure can be selected by clicking at it. Holding the alt key or the
+ * ctrl key down, selects the Figure behind it.
  *
  * @see SelectAreaTracker
  * @see DragTracker
@@ -120,7 +125,34 @@ public class SelectionTool extends AbstractTool
             if (handle != null) {
                 newTracker = createHandleTracker(handle);
             } else {
-                Figure figure = view.findFigure(anchor);
+                Figure figure;
+                if ((evt.getModifiersEx() &
+                        (InputEvent.ALT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK)) != 0) {
+                    // Take a figure behind the current selection
+                    figure = view.findFigure(anchor);
+                    HashSet<Figure> ignoredFigures = new HashSet<Figure>(view.getSelectedFigures());
+                    ignoredFigures.add(figure);
+                    Figure figureBehind = view.getDrawing().findFigureBehind(
+                            view.viewToDrawing(anchor), ignoredFigures);
+                    if (figureBehind != null) {
+                        figure = figureBehind;
+                    }
+                } else {
+                    // If possible, continue to work with the current selection
+                    Point2D.Double p = view.viewToDrawing(anchor);
+                    figure = null;
+                    for (Figure f : view.getSelectedFigures()) {
+                        if (f.contains(p)) {
+                            figure = f;
+                            break;
+                        }
+                    }
+                    // If the point is not contained in the current selection,
+                    // search for a figure.
+                    if (figure == null) {
+                        figure = view.findFigure(anchor);
+                    }
+                }
                 if (figure != null) {
                     newTracker = createDragTracker(figure);
                 } else {

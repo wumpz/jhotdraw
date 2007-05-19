@@ -1,5 +1,5 @@
 /*
- * @(#)Drawing.java  2.2  2007-04-09
+ * @(#)Drawing.java  2.3  2007-05-16
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -33,7 +33,8 @@ import java.io.*;
  * whenever a part of its area was invalidated.
  *
  * @author Werner Randelshofer
- * @version 2.2 2007-04-09 Methods setCanvasSize, getCanvasSize added.
+ * @version 2.3 2007-05-16 Added method findFigureBehind. 
+ * <br>2.2 2007-04-09 Methods setCanvasSize, getCanvasSize added.
  * <br>2.1 2006-12-31 Changed to return lists instead of collections.
  * <br>2.0 2006-01-14 Changed to support double precision coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
@@ -179,6 +180,14 @@ public interface Drawing extends Serializable, DOMStorable {
      * should not descend into the figure's children.
      */
     Figure findFigureExcept(Point2D.Double p, Collection<Figure> ignore);
+    /**
+     * Finds a top level Figure which is behind the specified Figure.
+     */
+    Figure findFigureBehind(Point2D.Double p, Figure figure);
+    /**
+     * Finds a top level Figure which is behind the specified Figures.
+     */
+    Figure findFigureBehind(Point2D.Double p, Collection<Figure> figures);
     
     /**
      * Returns true if this drawing contains the specified figure.

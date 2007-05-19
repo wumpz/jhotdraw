@@ -1,7 +1,7 @@
 /*
- * @(#)ChangeConnectionStartHandle.java  2.0  2006-01-14
+ * @(#)ConnectionStartHandle.java  3.0  2007-05-18
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -10,7 +10,6 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-�
  */
 
 package org.jhotdraw.draw;
@@ -24,15 +23,18 @@ import java.util.*;
  * start of a connection to another figure.
  *
  * @author Werner Randelshofer
- * @version 2006-01-14 Changed to support double precision coordinates.
+ * @version 3.0 2007-05-18 Changed due to changes in the canConnect methods
+ * of the ConnectionFigure interface. Shortened the name from 
+ * ChangeConnectionStartHandle to ConnectionStartHandle.
+ * <br>2006-01-14 Changed to support double precision coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
-public class ChangeConnectionStartHandle extends AbstractChangeConnectionHandle {
+public class ConnectionStartHandle extends AbstractConnectionHandle {
     
     /**
      * Constructs the connection handle for the given start figure.
      */
-    public ChangeConnectionStartHandle(Figure owner) {
+    public ConnectionStartHandle(ConnectionFigure owner) {
         super(owner);
     }
     
@@ -40,39 +42,39 @@ public class ChangeConnectionStartHandle extends AbstractChangeConnectionHandle 
      * Sets the start of the connection.
      */
     protected void connect(Connector c) {
-        getConnection().setStartConnector(c);
+        getOwner().setStartConnector(c);
     }
     
     /**
      * Disconnects the start figure.
      */
     protected void disconnect() {
-        getConnection().setStartConnector(null);
+        getOwner().setStartConnector(null);
     }
     
     
     protected Connector getTarget() {
-        return getConnection().getStartConnector();
+        return getOwner().getStartConnector();
     }
     
     /**
      * Sets the start point of the connection.
      */
     protected void setLocation(Point2D.Double p) {
-        getConnection().willChange();
-        getConnection().setStartPoint(p);
-        getConnection().changed();
+        getOwner().willChange();
+        getOwner().setStartPoint(p);
+        getOwner().changed();
     }
     
     /**
      * Returns the start point of the connection.
      */
     protected Point2D.Double getLocation() {
-        return getConnection().getStartPoint();
+        return getOwner().getStartPoint();
     }
     
-    protected boolean canConnect(Figure existingEnd, Figure targetEnd) {
-        return getConnection().canConnect(targetEnd, existingEnd);
+    protected boolean canConnect(Connector existingEnd, Connector targetEnd) {
+        return getOwner().canConnect(targetEnd, existingEnd);
     }
 
     protected int getBezierNodeIndex() {

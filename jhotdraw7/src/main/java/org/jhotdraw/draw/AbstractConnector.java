@@ -1,7 +1,7 @@
 /*
- * @(#)AbstractConnector.java  2.1  2006-06-05
+ * @(#)AbstractConnector.java  3.0  2007-05-18
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -28,7 +28,8 @@ import org.jhotdraw.xml.DOMOutput;
  * @see Connector
  *
  * @author Werner Randelshofer
- * @version 2.1 2006-06-05 Support connection to decorator.
+ * @version 3.0 2007-05-18 Rewritten due to changes in Connector interface. 
+ * <br>2.1 2006-06-05 Support connection to decorator.
  * <br>2.0 2006-01-14 Changed to support doubl precision coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
@@ -41,10 +42,6 @@ public class AbstractConnector implements Connector {
      * Whether we should connect to the figure or to its decorator.
      */
     private boolean isConnectToDecorator;
-    /**
-     * Whether we are visible.
-     */
-    private boolean isVisible;
     
     /**
      * Whether the state of this connector is persistent.
@@ -75,34 +72,15 @@ public class AbstractConnector implements Connector {
     public boolean isConnectToDecorator() {
         return isConnectToDecorator;
     }
-    public void setVisible(boolean newValue) {
-        isVisible = newValue;
-    }
-    public boolean isVisible() {
-        return isVisible;
-    }
     protected final Figure getConnectorTarget(Figure f) {
         return (isConnectToDecorator && ((DecoratedFigure) f).getDecorator() != null) ? ((DecoratedFigure) f).getDecorator() : f;
     }
-    
     
     /**
      * Tests if a point is contained in the connector.
      */
     public boolean contains(Point2D.Double p) {
         return getOwner().contains(p);
-    }
-    
-    /**
-     * Draws this connector. By default connectors are invisible.
-     */
-    public void draw(Graphics2D g) {
-        if (isVisible) {
-            Rectangle2D.Double bounds = getBounds();
-            Ellipse2D.Double circle = new Ellipse2D.Double(bounds.x + bounds.width / 2 - 3, bounds.y + bounds.height / 2 - 3, 6, 6);
-            g.setColor(Color.blue);
-            g.fill(circle);
-        }
     }
     
     public Point2D.Double findStart(ConnectionFigure connection) {
@@ -120,10 +98,6 @@ public class AbstractConnector implements Connector {
      */
     protected Point2D.Double findPoint(ConnectionFigure connection) {
         return Geom.center(getBounds());
-    }
-    
-    public Rectangle2D.Double getBounds() {
-        return getOwner().getBounds();
     }
     
     /**
@@ -172,11 +146,16 @@ public class AbstractConnector implements Connector {
     
     public void updateAnchor(Point2D.Double p) {
     }
+    public Rectangle2D.Double getBounds() {
+        return isConnectToDecorator() ?
+            ((DecoratedFigure) getOwner()).getDecorator().getBounds() :
+            getOwner().getBounds();
+    }
+    
     
     public void read(DOMInput in) throws IOException {
         if (isStatePersistent) {
             isConnectToDecorator = in.getAttribute("connectToDecorator", false);
-            isVisible = in.getAttribute("visible", false);
         }
         if (in.getElementCount("Owner") != 0) {
             in.openElement("Owner");
@@ -191,9 +170,6 @@ public class AbstractConnector implements Connector {
         if (isStatePersistent) {
             if (isConnectToDecorator) {
                 out.addAttribute("connectToDecorator", true);
-            }
-            if (isVisible) {
-                out.addAttribute("visible", true);
             }
         }
         out.openElement("Owner");

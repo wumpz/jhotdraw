@@ -71,9 +71,9 @@ public class DependencyFigure extends LineConnectionFigure {
      * Handles the disconnection of a connection.
      * Override this method to handle this event.
      */
-    protected void handleDisconnect(Figure start, Figure end) {
-        TaskFigure sf = (TaskFigure) start;
-        TaskFigure ef = (TaskFigure) end;
+    protected void handleDisconnect(Connector start, Connector end) {
+        TaskFigure sf = (TaskFigure) start.getOwner();
+        TaskFigure ef = (TaskFigure) end.getOwner();
         
         sf.removeDependency(this);
         ef.removeDependency(this);
@@ -83,9 +83,9 @@ public class DependencyFigure extends LineConnectionFigure {
      * Handles the connection of a connection.
      * Override this method to handle this event.
      */
-    protected void handleConnect(Figure start, Figure end) {
-        TaskFigure sf = (TaskFigure) start;
-        TaskFigure ef = (TaskFigure) end;
+    protected void handleConnect(Connector start, Connector end) {
+        TaskFigure sf = (TaskFigure) start.getOwner();
+        TaskFigure ef = (TaskFigure) end.getOwner();
         
         sf.addDependency(this);
         ef.addDependency(this);

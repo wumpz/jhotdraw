@@ -1,7 +1,7 @@
 /*
- * @(#)BidirectionalConnectionTool.java  2.0  2006-01-14
+ * @(#)BidirectionalConnectionTool.java  2.1  2007-05-18
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -10,7 +10,6 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-�
  */
 
 package org.jhotdraw.draw;
@@ -32,7 +31,9 @@ import java.awt.dnd.*;
  * FIXME: Use a Tracker instance for each state of this tool.
  *
  * @author Werner Randelshofer
- * @version 2.0 2006-01-14 Changed to support double precision coordinates.
+ * @version 2.1 2007-05-18 Changed due to changes in the canConnect methods
+ * of the ConnectionFigure interface.
+ * <br>2.0 2006-01-14 Changed to support double precision coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
 public class BidirectionalConnectionTool extends AbstractTool implements FigureListener {
@@ -97,7 +98,7 @@ public class BidirectionalConnectionTool extends AbstractTool implements FigureL
         
         if (getTargetFigure() != null) {
             setStartConnector(findConnector(ap, target, prototype));
-            if (getStartConnector() != null && prototype.canConnect(getTargetFigure())) {
+            if (getStartConnector() != null && prototype.canConnect(getTargetConnector())) {
                 Point2D.Double p = getStartConnector().getAnchor();
                 setConnection(createFigure());
                 ConnectionFigure cf = getConnection();
@@ -141,7 +142,7 @@ public class BidirectionalConnectionTool extends AbstractTool implements FigureL
                 CompositeEdit creationEdit = new CompositeEdit("Verbindung erstellen");
                 getDrawing().fireUndoableEditHappened(creationEdit);
                 getDrawing().add(getConnection());
-                if (getConnection().canConnect(getStartConnector().getOwner(), getEndConnector().getOwner())) {
+                if (getConnection().canConnect(getStartConnector(), getEndConnector())) {
                     getConnection().setStartConnector(getStartConnector());
                     getConnection().setEndConnector(getEndConnector());
                 } else {
@@ -168,9 +169,6 @@ public class BidirectionalConnectionTool extends AbstractTool implements FigureL
     }
     public void deactivate(DrawingEditor editor) {
         super.deactivate(editor);
-        if (getTargetFigure() != null) {
-            getTargetFigure().setConnectorsVisible(false, null);
-        }
     }
     //--
     /**
@@ -200,12 +198,14 @@ public class BidirectionalConnectionTool extends AbstractTool implements FigureL
      */
     protected Figure findTarget(Point2D.Double p, Drawing drawing) {
         Figure target = findConnectableFigure(p, drawing);
-        Figure start = getStartConnector().getOwner();
+        Connector targetConnector = (target == null) ? null : target.findConnector(p, prototype);
+        Connector startConnector = getStartConnector();
         
-        if (target != null
+        if (targetConnector != null
         && getConnection() != null
         && target.canConnect()
-        && (getConnection().canConnect(start, target) || getConnection().canConnect(target, start))
+        && (getConnection().canConnect(startConnector, targetConnector) || 
+                getConnection().canConnect(targetConnector, startConnector))
         ) {
             return target;
         }
@@ -246,29 +246,6 @@ public class BidirectionalConnectionTool extends AbstractTool implements FigureL
         else {
             c = findTarget(p, getDrawing());
         }
-        
-        // track the figure containing the mouse
-        if (c != getTargetFigure()) {
-            if (getTargetFigure() != null) {
-                getTargetFigure().setConnectorsVisible(false, null);
-            }
-            setTargetFigure(c);
-            if (getStartConnector() != null) {
-                if (getTargetFigure() != null
-                && (prototype.canConnect(getStartConnector().getOwner(), getTargetFigure())
-                || prototype.canConnect(getTargetFigure(), getStartConnector().getOwner()))
-                ) {
-                    getTargetFigure().setConnectorsVisible(true, getConnection());
-                }
-            } else {
-                
-                if (getTargetFigure() != null
-                && prototype.canConnect(getTargetFigure())) {
-                    getTargetFigure().setConnectorsVisible(true, getConnection());
-                }
-            }
-        }
-        
         Connector cc = null;
         if (c != null) {
             cc = findConnector(p, c, prototype);
@@ -277,7 +254,11 @@ public class BidirectionalConnectionTool extends AbstractTool implements FigureL
             setTargetConnector(cc);
         }
         
-        //view().checkDamage();
+        // track the figure containing the mouse
+        if (c != getTargetFigure()) {
+            setTargetFigure(c);
+            Connector targetConnector = getTargetConnector();
+        }
     }
     public void draw(Graphics2D g) {
         if (createdFigure != null) {

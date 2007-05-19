@@ -43,8 +43,6 @@ import org.jhotdraw.xml.DOMOutput;
  * @author Werner Randelshofer
  */
 public class BezierFigure extends AbstractAttributedFigure {
-    public final static AttributeKey<Boolean> CLOSED = new AttributeKey<Boolean>("closed", false);
-    public final static AttributeKey<Boolean> FILL_OPEN_PATH = new AttributeKey<Boolean>("fillOpenPath", false);
     /**
      * The BezierPath.
      */
@@ -120,7 +118,7 @@ public class BezierFigure extends AbstractAttributedFigure {
     }
     
     protected void drawCaps(Graphics2D g) {
-        if (getPointCount() > 1) {
+        if (getNodeCount() > 1) {
             if (START_DECORATION.get(this) != null) {
                 BezierPath cp = getCappedPath();
                 Point2D.Double p1 = path.get(0,0);
@@ -254,7 +252,7 @@ public class BezierFigure extends AbstractAttributedFigure {
     protected void validate() {
         super.validate();
         path.invalidatePath();
-        invalidateCappedPath();
+        cappedPath = null;
     }
     
     
@@ -308,9 +306,6 @@ public class BezierFigure extends AbstractAttributedFigure {
     public void invalidate() {
         super.invalidate();
         path.invalidatePath();
-        invalidateCappedPath();
-    }
-    protected void invalidateCappedPath() {
         cappedPath = null;
     }
     
@@ -451,7 +446,7 @@ public class BezierFigure extends AbstractAttributedFigure {
         for (int i=getNodeCount(); i < 2; i++) {
             addNode(0, new BezierPath.Node(p.x, p.y));
         }
-        setPoint(getPointCount() - 1, p);
+        setPoint(getNodeCount() - 1, p);
     }
     /**
      * Convenience method for getting the start point.
@@ -529,27 +524,21 @@ public class BezierFigure extends AbstractAttributedFigure {
         return i+1;
     }
     /**
-     * Removes the Point2D.Double at the specified index.
+     * Removes the Node at the specified index.
      */
-    protected void removeNode(int index) {
-        path.remove(index);
+    protected BezierPath.Node removeNode(int index) {
+       return path.remove(index);
     }
     /**
      * Removes the Point2D.Double at the specified index.
      */
-    protected void rmoveAllNodes() {
+    protected void removeAllNodes() {
         path.clear();
     }
     /**
      * Gets the node count.
      */
     public int getNodeCount() {
-        return path.size();
-    }
-    /**
-     * Gets the point count.
-     */
-    public int getPointCount() {
         return path.size();
     }
     
@@ -616,6 +605,10 @@ public class BezierFigure extends AbstractAttributedFigure {
             if (index != -1) {
                 final BezierPath.Node newNode = getNode(index);
                 fireUndoableEditHappened(new AbstractUndoableEdit() {
+                    public String getPresentationName() {
+                        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+                        return labels.getString("bezierPath.splitSegment");
+                    }
                     public void redo() throws CannotRedoException {
                         super.redo();
                         willChange();

@@ -1,7 +1,7 @@
 /*
- * @(#)AbstractAttributedFigure.java  4.0  2007-01-03
+ * @(#)AbstractAttributedFigure.java  4.1  2007-05-18
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -27,10 +27,11 @@ import org.jhotdraw.xml.DOMOutput;
  * <p>
  *
  * @author Werner Randelshofer
- * @version 4.0 2007-01-03 Renamed from AttributedFigure to
- * AbstractAttributedFigure. 
- * <br>3.2 2006-12-07 Changed method setAttributes(HashMap) 
- * to setAttributes(Map); 
+ * @version 4.1 2007-05-18 Changed due to changes in Figure interface.
+ * <br>4.0 2007-01-03 Renamed from AttributedFigure to
+ * AbstractAttributedFigure.
+ * <br>3.2 2006-12-07 Changed method setAttributes(HashMap)
+ * to setAttributes(Map);
  * <br>3.1 2006-06-17 Method chop(Point2D.Double) added.
  * <br>3.0 2006-06-07 Reworked.
  * <br>2.1 2006-02-20 Support for DoubleStroke added.
@@ -77,7 +78,7 @@ public abstract class AbstractAttributedFigure extends AbstractFigure {
     }
     public void restoreAttributesTo(Object restoreData) {
         attributes.clear();
-      setAttributes((HashMap<AttributeKey,Object>) restoreData);
+        setAttributes((HashMap<AttributeKey,Object>) restoreData);
     }
     /**
      * Sets an attribute of the figure.
@@ -87,7 +88,8 @@ public abstract class AbstractAttributedFigure extends AbstractFigure {
     public void setAttribute(AttributeKey key, Object newValue) {
         if (forbiddenAttributes == null
                 || ! forbiddenAttributes.contains(key)) {
-            attributes.put(key, newValue);
+            Object oldValue = attributes.put(key, newValue);
+            fireAttributeChanged(key, oldValue, newValue);
         }
     }
     /**
@@ -121,14 +123,7 @@ public abstract class AbstractAttributedFigure extends AbstractFigure {
             g.setColor(TEXT_COLOR.get(this));
             drawText(g);
         }
-        if (isConnectorsVisible()) {
-            drawConnectors(g);
-        }
     }
-    
-    protected void drawConnectors(Graphics2D g) {
-    }
-    
     
     public Stroke getStroke() {
         return AttributeKeys.getStroke(this);

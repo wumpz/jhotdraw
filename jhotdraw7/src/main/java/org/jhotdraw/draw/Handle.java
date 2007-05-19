@@ -28,6 +28,9 @@ import java.util.*;
  * Handles are used for user interaction. Unlike figures, a handle works with
  * the user interface coordinates of the DrawingView. The user interface
  * coordinates are expressed in integer pixels.
+ * <p>
+ * A Handle forwards UndoableEdit events to the Drawing object onto which it
+ * is performing changes.
  *
  * @author Werner Randelshofer
  * @version 2.0 2006-01-14 Changed to support double precision coordinates.

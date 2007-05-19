@@ -15,6 +15,7 @@
 package org.jhotdraw.samples.draw;
 
 import java.awt.geom.*;
+import java.awt.image.BufferedImage;
 import java.awt.print.Pageable;
 import org.jhotdraw.draw.ImageInputFormat;
 import org.jhotdraw.draw.ImageOutputFormat;
@@ -117,6 +118,9 @@ public class DrawProject extends AbstractProject {
                 new DOMStorableInputOutputFormat(new DrawFigureFactory());
         LinkedList<InputFormat> inputFormats = new LinkedList<InputFormat>();
         inputFormats.add(ioFormat);
+        inputFormats.add(new ImageInputFormat(new ImageFigure()));
+        inputFormats.add(new ImageInputFormat(new ImageFigure(), "JPG","Joint Photographics Experts Group (JPEG)", "jpg", BufferedImage.TYPE_INT_RGB));
+        inputFormats.add(new ImageInputFormat(new ImageFigure(), "GIF","Graphics Interchange Format (GIF)", "gif", BufferedImage.TYPE_INT_ARGB));
         inputFormats.add(new ImageInputFormat(new ImageFigure()));
         inputFormats.add(new TextInputFormat(new TextFigure()));
         TextAreaFigure taf = new TextAreaFigure();

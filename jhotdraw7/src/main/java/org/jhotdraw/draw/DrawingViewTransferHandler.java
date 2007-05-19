@@ -14,16 +14,18 @@
 
 package org.jhotdraw.draw;
 
-import java.awt.Image;
+import java.awt.*;
 import java.awt.datatransfer.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import java.awt.geom.*;
+import java.io.*;
+import java.util.*;
 import javax.swing.*;
+import javax.swing.undo.*;
 import org.jhotdraw.gui.datatransfer.*;
 import org.jhotdraw.undo.*;
+import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.util.ReversedList;
 
 /**
  * TransferHandler for DrawingView objects.
@@ -43,7 +45,7 @@ public class DrawingViewTransferHandler extends TransferHandler {
         boolean retValue;
         if (comp instanceof DrawingView) {
             DrawingView view = (DrawingView) comp;
-            Drawing drawing = view.getDrawing();
+            final Drawing drawing = view.getDrawing();
             
             if (drawing.getInputFormats() == null ||
                     drawing.getInputFormats().size() == 0) {
@@ -55,13 +57,24 @@ public class DrawingViewTransferHandler extends TransferHandler {
                     SearchLoop: for (InputFormat format : drawing.getInputFormats()) {
                         for (DataFlavor flavor : t.getTransferDataFlavors()) {
                             if (format.isDataFlavorSupported(flavor)) {
-                                CompositeEdit ce = new CompositeEdit("Paste"); // XXX - Localize me
-                                drawing.fireUndoableEditHappened(ce);
-                                java.util.List<Figure> toBeSelected = format.readFigures(t);
+                                final java.util.List<Figure> importedFigures = format.readFigures(t);
                                 view.clearSelection();
-                                drawing.addAll(toBeSelected);
-                                view.addToSelection(toBeSelected);
-                                drawing.fireUndoableEditHappened(ce);
+                                drawing.addAll(importedFigures);
+                                view.addToSelection(importedFigures);
+                                drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
+                                    public String getPresentationName() {
+                                        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+                                        return labels.getString("editPaste");
+                                    }
+                                    public void undo() throws CannotUndoException {
+                                        super.undo();
+                                        drawing.removeAll(importedFigures);
+                                    }
+                                    public void redo() throws CannotRedoException {
+                                        super.redo();
+                                        drawing.addAll(importedFigures);
+                                    }
+                                });
                                 retValue = true;
                                 break SearchLoop;
                             }
@@ -70,10 +83,12 @@ public class DrawingViewTransferHandler extends TransferHandler {
                     // No input format found? Lets see if we got files - we
                     // can handle these
                     if (retValue == false && t.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
-                        List<File> files = (List<File>) t.getTransferData(DataFlavor.javaFileListFlavor);
+                        java.util.List<File> files = (java.util.List<File>) t.getTransferData(DataFlavor.javaFileListFlavor);
                         retValue = true;
                         
-                        // FIXME - We should perform the following code in a 
+                        final java.util.List<Figure> storedFigures = new LinkedList<Figure>(drawing.getFigures());
+                        
+                        // FIXME - We should perform the following code in a
                         // worker thread.
                         for (File file : files) {
                             FileFormatLoop: for (InputFormat format : drawing.getInputFormats()) {
@@ -82,6 +97,38 @@ public class DrawingViewTransferHandler extends TransferHandler {
                                     format.read(file, drawing);
                                 }
                             }
+                        }
+                        
+                        final LinkedList<Figure> importedFigures = new LinkedList<Figure>(drawing.getFigures());
+                        importedFigures.removeAll(storedFigures);
+                        if (importedFigures.size() > 0) {
+                            /*
+                            Rectangle2D.Double invalidatedArea = null;
+                            for (Figure f : importedFigures) {
+                                if (invalidatedArea == null) {
+                                    invalidatedArea = f.getDrawingArea();
+                                } else {
+                                    invalidatedArea.add(f.getDrawingArea());
+                                }
+                            }*/
+                            view.clearSelection();
+                            view.addToSelection(importedFigures);
+                            //view.getComponent().repaint(view.drawingToView(invalidatedArea));
+                            
+                            drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
+                                public String getPresentationName() {
+                                    ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+                                    return labels.getString("editPaste");
+                                }
+                                public void undo() throws CannotUndoException {
+                                    super.undo();
+                                    drawing.removeAll(importedFigures);
+                                }
+                                public void redo() throws CannotRedoException {
+                                    super.redo();
+                                    drawing.addAll(importedFigures);
+                                }
+                            });
                         }
                     }
                 } catch (Throwable e) {
@@ -153,12 +200,45 @@ public class DrawingViewTransferHandler extends TransferHandler {
         if (DEBUG) System.out.println(this+".exportDone "+action+" move="+MOVE);
         if (source instanceof DrawingView) {
             DrawingView view = (DrawingView) source;
-            Drawing drawing = view.getDrawing();
+            final Drawing drawing = view.getDrawing();
             if (action == MOVE) {
-                CompositeEdit ce = new CompositeEdit("Remove"); // XXX - Localize me
-                drawing.fireUndoableEditHappened(ce);
-                drawing.removeAll(view.getSelectedFigures());
-                drawing.fireUndoableEditHappened(ce);
+                final ArrayList<Figure> removedFigures = new ArrayList<Figure>(
+                        drawing.sort(view.getSelectedFigures()));
+                // XXX - This method is flawed. We are unable to restore the
+                // depth of the deleted figures, when an Undo or a Redo operation
+                // is performed
+                DrawingListener removeListener = new DrawingListener() {
+                    public void areaInvalidated(DrawingEvent e) {
+                    }
+                    
+                    public void figureAdded(DrawingEvent e) {
+                    }
+                    
+                    public void figureRemoved(DrawingEvent e) {
+                        if (! removedFigures.contains(e.getFigure())) {
+                            removedFigures.add(e.getFigure());
+                        }
+                    }
+                    
+                };
+                drawing.addDrawingListener(removeListener);
+                drawing.removeAll(removedFigures);
+                drawing.removeDrawingListener(removeListener);
+                drawing.removeAll(removedFigures);
+                drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
+                    public String getPresentationName() {
+                        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+                        return labels.getString("editDelete");
+                    }
+                    public void undo() throws CannotUndoException {
+                        super.undo();
+                        drawing.addAll(removedFigures);
+                    }
+                    public void redo() throws CannotRedoException {
+                        super.redo();
+                        drawing.removeAll(removedFigures);
+                    }
+                });
             }
         } else {
             super.exportDone(source, data, action);
@@ -211,6 +291,10 @@ public class DrawingViewTransferHandler extends TransferHandler {
             retValue = super.canImport(comp, transferFlavors);
         }
         return retValue;
+    }
+    
+    private void getDrawing() {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
     
 }

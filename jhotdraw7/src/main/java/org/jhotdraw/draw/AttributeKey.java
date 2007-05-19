@@ -102,7 +102,7 @@ public class AttributeKey<T> {
      * Sets the attribute and returns an UndoableEditEvent which can be used
      * to undo it.
      */
-    public UndoableEdit setUndoable(final Figure figure, final T value) {
+    public UndoableEdit setUndoable(final Figure figure, final T value, final ResourceBundleUtil labels) {
         if (value == null && ! isNullValueAllowed) {
             throw new NullPointerException("Null value not allowed for AttributeKey "+key);
         }
@@ -114,8 +114,7 @@ public class AttributeKey<T> {
         
         UndoableEdit edit = new AbstractUndoableEdit() {
             public String getPresentationName() {
-                ResourceBundleUtil labels =
-                        ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels", Locale.getDefault());                return labels.getString("drawAttributeChange");
+                return labels.getString(getKey());
             }
             public void undo() {
                 super.undo();
@@ -124,6 +123,7 @@ public class AttributeKey<T> {
                 figure.changed();
             }
             public void redo() {
+                super.redo();
                 figure.willChange();
                 figure.setAttribute(AttributeKey.this, value);
                 figure.changed();

@@ -60,34 +60,6 @@ public class ImageTool extends CreationTool {
     public ImageTool(ImageHolderFigure prototype, Map attributes) {
         super(prototype, attributes);
     }
-    @Override public void mousePressed(MouseEvent evt) {
-        DrawingView view = editor.findView((Container) evt.getSource());
-        view.requestFocus();
-        anchor = new Point(evt.getX(), evt.getY());
-        isWorking = true;
-        fireToolStarted(view);
-        getView().clearSelection();
-        // FIXME - Localize this label
-        creationEdit = new CompositeEdit("Figur erstellen");
-        getDrawing().fireUndoableEditHappened(creationEdit);
-        createdFigure = createFigure();
-        Point2D.Double p = constrainPoint(viewToDrawing(anchor));
-        createdFigure.willChange();
-        createdFigure.setBounds(p, new Point2D.Double(p.x+20,p.y+20));
-        createdFigure.changed();
-        getDrawing().add(createdFigure);
-        getDrawing().fireUndoableEditHappened(creationEdit);
-        creationEdit = null;
-        creationFinished(createdFigure);
-        createdFigure = null;
-    }
-    
-    @Override public void mouseDragged(MouseEvent evt) {
-        // empty
-    }
-    @Override public void mouseReleased(MouseEvent evt) {
-        // empty
-    }
     
     public void creationFinished(final Figure createdFigure) {
         if (getFileChooser().showOpenDialog(getView().getComponent()) == JFileChooser.APPROVE_OPTION) {

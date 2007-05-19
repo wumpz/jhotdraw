@@ -65,6 +65,10 @@ public class SVGPropertiesPanel extends javax.swing.JPanel {
         opacityField.setEditor(editor);
     }
     
+    public void setView(DrawingView view) {
+        opacityField.setView(view);
+    }
+    
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is

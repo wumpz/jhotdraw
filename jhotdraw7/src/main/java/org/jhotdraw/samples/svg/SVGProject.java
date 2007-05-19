@@ -120,6 +120,7 @@ public class SVGProject extends AbstractProject implements ExportableProject {
         scrollPane.add(placardPanel, JScrollPane.LOWER_LEFT_CORNER);
         
         propertiesPanel.setVisible(prefs.getBoolean("propertiesPanelVisible", false));
+        propertiesPanel.setView(view);
     }
     
     /**

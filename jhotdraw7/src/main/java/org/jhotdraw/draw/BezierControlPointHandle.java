@@ -60,7 +60,7 @@ public class BezierControlPointHandle extends AbstractHandle {
     }
     
     protected Point getLocation() {
-        if (getBezierFigure().getPointCount() > index) {
+        if (getBezierFigure().getNodeCount() > index) {
             Point2D.Double p = getBezierFigure().getPoint(index, controlPointIndex);
             if (TRANSFORM.get(getTransformOwner()) != null) {
                 TRANSFORM.get(getTransformOwner()).transform(p, p);
@@ -71,7 +71,7 @@ public class BezierControlPointHandle extends AbstractHandle {
         }
     }
     protected BezierPath.Node getBezierNode() {
-        return getBezierFigure().getPointCount() > index ?
+        return getBezierFigure().getNodeCount() > index ?
             getBezierFigure().getNode(index) :
             null;
     }
@@ -81,7 +81,7 @@ public class BezierControlPointHandle extends AbstractHandle {
      */
     public void draw(Graphics2D g) {
         BezierFigure f = getBezierFigure();
-        if (f.getPointCount() > index) {
+        if (f.getNodeCount() > index) {
             BezierPath.Node v = f.getNode(index);
             if (v.keepColinear && v.mask == BezierPath.C1C2_MASK &&
                     (index > 0 && index < f.getNodeCount() - 1 || f.isClosed())) {

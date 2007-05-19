@@ -54,7 +54,7 @@ public class ChopRectangleConnector extends AbstractConnector {
     public Point2D.Double findStart(ConnectionFigure connection) {
         Figure startFigure = connection.getStartConnector().getOwner();
         Point2D.Double from;
-        if (connection.getPointCount() <= 2 || connection.getLiner() != null) {
+        if (connection.getNodeCount() <= 2 || connection.getLiner() != null) {
             if (connection.getEndConnector() == null) {
                 from = connection.getEndPoint();
             } else {
@@ -62,7 +62,7 @@ public class ChopRectangleConnector extends AbstractConnector {
                 from = new Point2D.Double(r1.x + r1.width/2, r1.y + r1.height/2);
             }
         } else {
-            from = connection.getPoint(connection.getPointCount() - 1);
+            from = connection.getPoint(1);
         }
         return chop(startFigure, from);
     }
@@ -70,7 +70,9 @@ public class ChopRectangleConnector extends AbstractConnector {
     public Point2D.Double findEnd(ConnectionFigure connection) {
         Figure endFigure = connection.getEndConnector().getOwner();
         Point2D.Double from;
-        if (connection.getPointCount() <= 2 || connection.getLiner() != null) {
+        if (connection.getNodeCount() <= 3 && connection.getStartFigure() == connection.getEndFigure() ||
+                connection.getNodeCount() <= 2 ||
+                connection.getLiner() != null) {
             if (connection.getStartConnector() == null) {
                 from = connection.getStartPoint();
             } else if (connection.getStartFigure() == connection.getEndFigure()) {
@@ -81,7 +83,7 @@ public class ChopRectangleConnector extends AbstractConnector {
                 from = new Point2D.Double(r1.x + r1.width/2, r1.y + r1.height/2);
             }
         } else {
-            from = connection.getPoint(0);
+            from = connection.getPoint(connection.getNodeCount() - 2);
         }
         
         return chop(endFigure, from);
@@ -107,5 +109,11 @@ public class ChopRectangleConnector extends AbstractConnector {
             Geom.grow(r, grow, grow);
         }
         return Geom.angleToPoint(r, Geom.pointToAngle(r, from));
+    }
+    
+    public void draw(Graphics2D g) {
+        g.setColor(Color.BLUE);
+        Point2D.Double anchor = getAnchor();
+        g.draw(new Rectangle2D.Double(anchor.x - 1, anchor.y - 1, 2, 2));
     }
 }

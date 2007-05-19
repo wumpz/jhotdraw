@@ -16,6 +16,7 @@ package org.jhotdraw.samples.svg;
 
 import java.awt.*;
 import java.awt.geom.*;
+import java.util.Arrays;
 import org.jhotdraw.draw.*;
 import org.apache.batik.ext.awt.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
@@ -31,17 +32,34 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 public class RadialGradient implements Gradient {
     private double cx;
     private double cy;
+    private double fx;
+    private double fy;
     private double r;
     private boolean isRelativeToFigureBounds = true;
     private double[] stopOffsets;
     private Color[] stopColors;
     private AffineTransform transform;
     private double[] stopOpacities;
-    
+            
     /** Creates a new instance. */
     public RadialGradient() {
     }
-    
+    public RadialGradient(
+            double cx, double cy, double fx, double fy, double r,
+            double[] stopOffsets, Color[] stopColors, double[] stopOpacities,
+            boolean isRelativeToFigureBounds,
+            AffineTransform tx) {
+        this.cx = cx;
+        this.cy = cy;
+        this.fx = fx;
+        this.fy = fy;
+        this.r = r;
+        this.stopOffsets = stopOffsets;
+        this.stopColors = stopColors;
+        this.stopOpacities = stopOpacities;
+        this.isRelativeToFigureBounds = isRelativeToFigureBounds;
+        this.transform = tx;
+    }
     public void setGradientCircle(double cx, double cy, double r) {
         this.cx = cx;
         this.cy = cy;
@@ -67,19 +85,11 @@ public class RadialGradient implements Gradient {
     
     
     public Paint getPaint(Figure f, double opacity) {
-        if (stopColors.length == 0) {
+        if (stopColors.length == 0 || r <= 0) {
             return new Color(0xa0a0a000,true);
         }
-        Point2D.Double cp;
-        double rr;
-        if (isRelativeToFigureBounds) {
-            Rectangle2D.Double bounds = f.getBounds();
-            cp = new Point2D.Double(bounds.x + bounds.width * cx, bounds.y + bounds.height * cy);
-            rr = r * Math.sqrt(bounds.width * bounds.width / 2d + bounds.height * bounds.height / 2d);
-        } else {
-            cp = new Point2D.Double(cx, cy);
-            rr = r;
-        }
+        
+        // Compute colors and fractions for the paint
         Color[] colors = new Color[stopColors.length];
         float[] fractions = new float[stopColors.length];
         for (int i=0; i < stopColors.length; i++) {
@@ -90,43 +100,48 @@ public class RadialGradient implements Gradient {
                     true
                     );
         }
-        if (rr <= 0) {
-            System.err.println("RadialGradient: radius should be > 0");
-            return new Color(0xa0a0aa00,true);
+        
+        // Compute the dimensions and transforms for the paint
+        Point2D.Double cp, fp;
+        double rr;
+        cp = new Point2D.Double(cx, cy);
+        fp = new Point2D.Double(fx, fy);
+        rr = r;
+        AffineTransform t = transform;
+        if (isRelativeToFigureBounds) {
+            if (! t.isIdentity()) System.out.println("RadialGradient "+hashCode()+" t="+t);
+            t = new AffineTransform();
+            Rectangle2D.Double bounds = f.getBounds();
+            t.translate(bounds.x, bounds.y);
+            t.scale(bounds.width, bounds.height);
         }
         
-        Point2D.Double focus = cp;
-        
+        // Construct the paint
         org.apache.batik.ext.awt.RadialGradientPaint gp;
-        if (transform != null) {
-            gp = new org.apache.batik.ext.awt.RadialGradientPaint(
-                    cp,
-                    (float) rr,
-                    focus,
-                    fractions,
-                    colors,
-                    RadialGradientPaint.NO_CYCLE,
-                    RadialGradientPaint.SRGB,
-                    transform
-                    );
-        } else {
-            gp = new org.apache.batik.ext.awt.RadialGradientPaint(
-                    cp,
-                    (float) rr,
-                    focus,
-                    fractions,
-                    colors
-                    );
-        }
+        gp = new org.apache.batik.ext.awt.RadialGradientPaint(
+                cp,
+                (float) rr,
+                fp,
+                fractions,
+                colors,
+                RadialGradientPaint.NO_CYCLE,
+                RadialGradientPaint.SRGB,
+                t
+                );
         return gp;
     }
     
     public double getCX() {
         return cx;
     }
-    
     public double getCY() {
         return cy;
+    }
+    public double getFX() {
+        return fx;
+    }
+    public double getFY() {
+        return fy;
     }
     public double getR() {
         return r;
@@ -144,13 +159,18 @@ public class RadialGradient implements Gradient {
         return isRelativeToFigureBounds;
     }
     
+    public void setTransform(AffineTransform tx) {
+        transform = tx;
+    }
+    public AffineTransform getTransform() {
+        return transform;
+    }
+    
     public void transform(AffineTransform tx) {
-        if (tx != null) {
-            if (transform == null) {
-                transform = (AffineTransform) tx.clone();
-            } else {
-                transform.preConcatenate(tx);
-            }
+        if (transform == null) {
+            transform = (AffineTransform) tx.clone();
+        } else {
+            transform.preConcatenate(tx);
         }
     }
     
@@ -160,12 +180,40 @@ public class RadialGradient implements Gradient {
             that.stopOffsets = this.stopOffsets.clone();
             that.stopColors = this.stopColors.clone();
             that.stopOpacities = this.stopOpacities.clone();
+            that.transform = (AffineTransform) this.transform.clone();
             return that;
         } catch (CloneNotSupportedException ex) {
             InternalError e = new InternalError();
             e.initCause(ex);
             throw e;
         }
+    }
+    public int hashCode() {
+	long bits = Double.doubleToLongBits(cx);
+	bits += Double.doubleToLongBits(cy) * 37;
+	bits += stopColors[0].hashCode() * 43;
+	bits += stopColors[stopColors.length - 1].hashCode() * 47;
+	return (((int) bits) ^ ((int) (bits >> 32)));
+    }
+    
+    public boolean equals(Object o) {
+        if (o instanceof RadialGradient) {
+            return equals((RadialGradient) o);
+        } else {
+            return false;
+        }
+    }
+    public boolean equals(RadialGradient that) {
+        return cx == that.cx &&
+                cy == that.cy &&
+                fx == that.fx &&
+                fy == that.fy &&
+                r == that.r &&
+                isRelativeToFigureBounds == that.isRelativeToFigureBounds &&
+                Arrays.equals(stopOffsets, that.stopOffsets) &&
+                Arrays.equals(stopOpacities, that.stopOpacities) &&
+                Arrays.equals(stopColors, that.stopColors) &&
+                transform.equals(that.transform);
     }
 }
 

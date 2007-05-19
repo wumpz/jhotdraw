@@ -72,8 +72,8 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
                 if (! drawingArea.isEmpty()) {
                     
                     BufferedImage buf = new BufferedImage(
-                            (int) ((2 + drawingArea.width) * g.getTransform().getScaleX()),
-                            (int) ((2 + drawingArea.height) * g.getTransform().getScaleY()),
+                           Math.max(1, (int) ((2 + drawingArea.width) * g.getTransform().getScaleX())),
+                           Math.max(1, (int) ((2 + drawingArea.height) * g.getTransform().getScaleY())),
                             BufferedImage.TYPE_INT_ARGB);
                     Graphics2D gr = buf.createGraphics();
                     gr.scale(g.getTransform().getScaleX(), g.getTransform().getScaleY());
@@ -112,9 +112,6 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         }
         if (TRANSFORM.get(this) != null) {
             g.setTransform(savedTransform);
-        }
-        if (isConnectorsVisible()) {
-            drawConnectors(g);
         }
     }
     
@@ -191,7 +188,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         /*
         return cachedPath.contains(p2);
          */
-        boolean isClosed = BezierFigure.CLOSED.get(getChild(0));
+        boolean isClosed = CLOSED.get(getChild(0));
         double tolerance = Math.max(2f, AttributeKeys.getStrokeTotalWidth(this) / 2d);
         if (isClosed || FILL_COLOR.get(this) != null) {
             if (getPath().contains(p)) {
@@ -240,6 +237,18 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
             for (Figure f : getChildren()) {
                 f.transform(tx);
             }
+            if (FILL_GRADIENT.get(this) != null &&
+                    ! FILL_GRADIENT.get(this).isRelativeToFigureBounds()) {
+                Gradient g = FILL_GRADIENT.getClone(this);
+                g.transform(tx);
+                FILL_GRADIENT.set(this, g);
+            }
+            if (STROKE_GRADIENT.get(this) != null && 
+                    ! STROKE_GRADIENT.get(this).isRelativeToFigureBounds()) {
+                Gradient g = STROKE_GRADIENT.getClone(this);
+                g.transform(tx);
+                STROKE_GRADIENT.set(this, g);
+            }
         }
         invalidate();
     }
@@ -251,6 +260,8 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
             getChild(i).setBezierPath(paths.get(i));
         }
             TRANSFORM.setClone(this, (AffineTransform) restoreData[1]);
+            FILL_GRADIENT.setClone(this, (Gradient) restoreData[2]);
+            STROKE_GRADIENT.setClone(this, (Gradient) restoreData[3]);
     }
     
     public Object getTransformRestoreData() {
@@ -261,6 +272,8 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         return new Object[] {
             paths,
             TRANSFORM.getClone(this),
+            FILL_GRADIENT.getClone(this),
+            STROKE_GRADIENT.getClone(this),
         };
     }
     public void setAttribute(AttributeKey key, Object newValue) {
@@ -274,7 +287,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
     public boolean isEmpty() {
         for (Figure child : getChildren()) {
             SVGBezierFigure b = (SVGBezierFigure) child;
-            if (b.getPointCount() > 0) {
+            if (b.getNodeCount() > 0) {
                 return false;
             }
         }
@@ -305,7 +318,12 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         if (TRANSFORM.get(this) != null) {
             actions.add(new AbstractAction(labels.getString("removeTransform")) {
                 public void actionPerformed(ActionEvent evt) {
-                    TRANSFORM.set(SVGPathFigure.this, null);
+                    ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.svg.Labels");
+                    SVGPathFigure.this.willChange();
+                    fireUndoableEditHappened(
+                            TRANSFORM.setUndoable(SVGPathFigure.this, null, labels)
+                            );
+                    SVGPathFigure.this.changed();
                 }
             });
             actions.add(new AbstractAction(labels.getString("flattenTransform")) {
@@ -343,27 +361,42 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         actions.add(new AbstractAction(labels.getString("closePath")) {
             public void actionPerformed(ActionEvent evt) {
                 for (Figure child : getChildren()) {
-                    SVGBezierFigure b = (SVGBezierFigure) child;
-                    b.setClosed(true);
+                    SVGPathFigure.this.willChange();
+                    getDrawing().fireUndoableEditHappened(
+                            CLOSED.setUndoable(child, true, labels)
+                    );
+                    SVGPathFigure.this.changed();
                 }
             }
         });
         actions.add(new AbstractAction(labels.getString("openPath")) {
             public void actionPerformed(ActionEvent evt) {
                 for (Figure child : getChildren()) {
-                    SVGBezierFigure b = (SVGBezierFigure) child;
-                    b.setClosed(false);
+                    SVGPathFigure.this.willChange();
+                    getDrawing().fireUndoableEditHappened(
+                            CLOSED.setUndoable(child, false, labels)
+                    );
+                    SVGPathFigure.this.changed();
                 }
             }
         });
         actions.add(new AbstractAction(labels.getString("windingEvenOdd")) {
             public void actionPerformed(ActionEvent evt) {
-                WINDING_RULE.set(SVGPathFigure.this, WindingRule.EVEN_ODD);
+                    SVGPathFigure.this.willChange();
+                    getDrawing().fireUndoableEditHappened(
+                            WINDING_RULE.setUndoable(SVGPathFigure.this, WindingRule.EVEN_ODD, labels)
+                    );
+                    SVGPathFigure.this.changed();
             }
         });
         actions.add(new AbstractAction(labels.getString("windingNonZero")) {
             public void actionPerformed(ActionEvent evt) {
                 WINDING_RULE.set(SVGPathFigure.this, WindingRule.NON_ZERO);
+                    SVGPathFigure.this.willChange();
+                    getDrawing().fireUndoableEditHappened(
+                            WINDING_RULE.setUndoable(SVGPathFigure.this, WindingRule.EVEN_ODD, labels)
+                    );
+                    SVGPathFigure.this.changed();
             }
         });
         return actions;

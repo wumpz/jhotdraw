@@ -305,6 +305,18 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
                     (Point2D.Double) tx.transform(anchor, anchor),
                     (Point2D.Double) tx.transform(lead, lead)
                     );
+            if (FILL_GRADIENT.get(this) != null &&
+                    ! FILL_GRADIENT.get(this).isRelativeToFigureBounds()) {
+                Gradient g = FILL_GRADIENT.getClone(this);
+                g.transform(tx);
+                FILL_GRADIENT.set(this, g);
+            }
+            if (STROKE_GRADIENT.get(this) != null &&
+                    ! STROKE_GRADIENT.get(this).isRelativeToFigureBounds()) {
+                Gradient g = STROKE_GRADIENT.getClone(this);
+                g.transform(tx);
+                STROKE_GRADIENT.set(this, g);
+            }
         }
         invalidate();
     }
@@ -312,6 +324,8 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
         Object[] restoreData = (Object[]) geometry;
         bounds = (Rectangle2D.Double) ((Rectangle2D.Double) restoreData[0]).clone();
         TRANSFORM.setClone(this, (AffineTransform) restoreData[1]);
+            FILL_GRADIENT.setClone(this, (Gradient) restoreData[2]);
+            STROKE_GRADIENT.setClone(this, (Gradient) restoreData[3]);
         invalidate();
     }
     
@@ -319,6 +333,8 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
         return new Object[] {
             bounds.clone(),
             TRANSFORM.getClone(this),
+            FILL_GRADIENT.getClone(this),
+            STROKE_GRADIENT.getClone(this),
         };
     }
 // ATTRIBUTES
@@ -436,19 +452,6 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
     public Tool getTool(Point2D.Double p) {
         return (isEditable() && contains(p)) ? new TextAreaTool(this) : null;
     }
-    @Override public Collection<Action> getActions(Point2D.Double p) {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.svg.Labels");
-        LinkedList<Action> actions = new LinkedList<Action>();
-        if (TRANSFORM.get(this) != null) {
-            actions.add(new AbstractAction(labels.getString("removeTransform")) {
-                public void actionPerformed(ActionEvent evt) {
-                    TRANSFORM.set(SVGTextAreaFigure.this, null);
-                }
-            });
-        }
-        return actions;
-    }
-    
     
     
 // CONNECTING

@@ -156,10 +156,6 @@ public class TextTool extends CreationTool implements ActionListener {
                     typingTarget.willChange();
             if (textField.getText().length() > 0) {
                 typingTarget.setText(textField.getText());
-                if (createdFigure != null) {
-                    getDrawing().fireUndoableEditHappened(creationEdit);
-                    createdFigure = null;
-                }
             } else {
                 if (createdFigure != null) {
                     getDrawing().remove((Figure)getAddedFigure());
@@ -180,5 +176,13 @@ public class TextTool extends CreationTool implements ActionListener {
     public void actionPerformed(ActionEvent event) {
         endEdit();
         fireToolDone();
+    }
+    /**
+     * This method allows subclasses to do perform additonal user interactions
+     * after the new figure has been created.
+     * The implementation of this class just invokes fireToolDone.
+     */
+    protected void creationFinished(Figure createdFigure) {
+            beginEdit((TextHolderFigure) createdFigure);
     }
 }

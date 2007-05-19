@@ -70,18 +70,18 @@ public interface InputFormat {
     public void read(InputStream in, Drawing drawing) throws IOException;
 
     /**
-     * Returns true, if this InputFormat can read TransferData using the 
+     * Returns true, if this InputFormat can readFigures TransferData using the 
      * specified DataFlavor.
-     *
-     * @param flavor A DataFlavor. 
+     * 
+     * @param flavor A DataFlavor.
      */
     public boolean isDataFlavorSupported(DataFlavor flavor);
     
     /**
      * Reads figures from the specified Transferable.
-     *
+     * 
      * @param t The Transferable.
-     * @return The figures that were read from the input stream.
+     * @return The figures that were readFigures from the Transferable.
      */
     public List<Figure> readFigures(Transferable t) throws UnsupportedFlavorException, IOException;
 }

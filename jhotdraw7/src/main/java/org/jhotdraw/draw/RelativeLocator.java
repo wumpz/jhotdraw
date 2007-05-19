@@ -24,8 +24,6 @@ import org.jhotdraw.xml.DOMOutput;
  * A locator that specfies a point that is relative to the bounds
  * of a figure.
  *
- * @see AttributeKeys.TRANSFORM
- *
  * @author Werner Randelshofer
  * @version 3.0 2007-04-12 Added support for TRANSFORM AttributeKey.
  * <br>2.3 2006-07-08 Added DOMStorable support.

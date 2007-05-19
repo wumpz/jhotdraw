@@ -105,6 +105,7 @@ public class SVGDrawingPanel extends JPanel  {
         DefaultDrawing drawing = new DefaultDrawing();
         view.setDrawing(drawing);
         drawing.addUndoableEditListener(undoManager);
+        
     }
     
     public void setDrawing(Drawing d) {

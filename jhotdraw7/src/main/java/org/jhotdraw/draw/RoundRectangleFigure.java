@@ -97,33 +97,15 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
     public double getArcHeight() {
         return roundrect.archeight;
     }
+    
+    
     public void setArc(final double w, final double h) {
         final double oldWidth = roundrect.getArcWidth();
         final double oldHeight = roundrect.getArcHeight();
         roundrect.arcwidth = w;
         roundrect.archeight = h;
-        /*
-        fireFigureChanged(getDrawingArea());
-        fireUndoableEditHappened(new AbstractUndoableEdit() {
-            public String getPresentationName() {
-                return "Rundung";
-            }
-            public void undo() throws CannotUndoException {
-                super.undo();
-                willChange();
-                roundrect.arcwidth = oldWidth;
-                roundrect.archeight = oldHeight;
-                changed();
-            }
-            public void redo() throws CannotRedoException {
-                super.redo();
-                willChange();
-                roundrect.arcwidth = w;
-                roundrect.archeight = h;
-                changed();
-            }
-        });*/
     }
+    
     /**
      * Checks if a Point2D.Double is inside the figure.
      */

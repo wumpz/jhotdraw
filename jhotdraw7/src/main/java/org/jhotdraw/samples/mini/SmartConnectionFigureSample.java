@@ -40,14 +40,14 @@ public class SmartConnectionFigureSample {
             setAttributeEnabled(STROKE_TYPE, false);
         }
         
-        @Override public void handleConnect(Figure start, Figure end) {
+        @Override public void handleConnect(Connector start, Connector end) {
             setAttributeEnabled(STROKE_TYPE, true);
             STROKE_TYPE.set(this,
-                    (start == end) ? StrokeType.DOUBLE : StrokeType.BASIC
+                    (start.getOwner() == end.getOwner()) ? StrokeType.DOUBLE : StrokeType.BASIC
                     );
             setAttributeEnabled(STROKE_TYPE, false);
         }
-        @Override public void handleDisconnect(Figure start, Figure end) {
+        @Override public void handleDisconnect(Connector start, Connector end) {
             setAttributeEnabled(STROKE_TYPE, true);
             STROKE_TYPE.set(this, StrokeType.BASIC);
             setAttributeEnabled(STROKE_TYPE, false);

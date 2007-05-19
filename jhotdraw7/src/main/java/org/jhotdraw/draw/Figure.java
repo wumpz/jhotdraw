@@ -1,5 +1,5 @@
 /*
- * @(#)Figure.java  4.0  2007-05-12
+ * @(#)Figure.java  4.2  2007-05-19
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -55,13 +55,18 @@ import org.jhotdraw.xml.DOMStorable;
  * <p>
  * A figure can hold a text or an image or both. Such a figure should implement
  * the ImageHolder and TextHolder interfaces, to allo
- *
  * <p>
  * Default implementations for the Figure interface are provided by
  * AbstractFigure.
  *
  * @author Werner Randelshofer
- * @version 4.0 2007-04-12 Removed basicSet methods.
+ * @version 4.2 2007-05-19 Removed setConnectorsVisible, isConnectorsVisible
+ * method due to changes in Connector interface. 
+ * <br>4.1 2007-05-18 Removed addUndoableEditListener, 
+ * removeUndoableEditListener methods. They are not needed anymore, due to
+ * the removal of the basicSet methods for undoable attributes. 
+ * <br>4.0 2007-05-12 Replaced set.../basicSet... design for undoable attributes 
+ * by setAttribute/getAttributesRestoreData/restoreAttributesTo design.
  * <br>3.1 2007-04-14 Method handleMouseClick is now required to consume
  * an event, if it returns true. 
  * <br>3.0 2006-01-20 Reworked for J2SE 1.5.
@@ -325,16 +330,6 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * Return null, if no compatible connector is available.
      */
     public Connector findCompatibleConnector(Connector c, boolean isStartConnector);
-    /**
-     * Sets whether the connectors should be visible for the
-     * specified courting connector.
-     * Connectors can be optionally visible.
-     */
-    public void setConnectorsVisible(boolean isVisible, ConnectionFigure courtingConnection);
-    /**
-     * Returns true, if this figure draws its connectors.
-     */
-    public boolean isConnectorsVisible();
 
     // COMPOSITE FIGURES
     /**
@@ -433,13 +428,4 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * Removes a listener for FigureEvent's.
      */
     public void removeFigureListener(FigureListener l);
-    /**
-     * Adds a listener for UndoableEdit events.
-     */
-    public void addUndoableEditListener(UndoableEditListener l);
-    /**
-     * Removes a listener for UndoableEdit events.
-     */
-    public void removeUndoableEditListener(UndoableEditListener l);
-
 }

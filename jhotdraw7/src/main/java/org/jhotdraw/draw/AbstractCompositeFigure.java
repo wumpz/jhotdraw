@@ -136,7 +136,6 @@ public abstract class AbstractCompositeFigure
     public void basicAdd(int index, Figure figure) {
         children.add(index, figure);
         figure.addFigureListener(childHandler);
-        figure.addUndoableEditListener(childHandler);
     }
     public void basicAddAll(Collection<Figure> newFigures) {
         for (Figure f: newFigures) {
@@ -189,7 +188,6 @@ public abstract class AbstractCompositeFigure
     public Figure basicRemoveChild(int index) {
         Figure figure = children.remove(index);
         figure.removeFigureListener(childHandler);
-        figure.removeUndoableEditListener(childHandler);
         invalidate();
         return figure;
     }
@@ -479,13 +477,8 @@ public abstract class AbstractCompositeFigure
                 }
             }
         }
-        if (isConnectorsVisible()) {
-            drawConnectors(g);
-        }
     }
     
-    protected void drawConnectors(Graphics2D g) {
-    }
     public AbstractCompositeFigure clone() {
         AbstractCompositeFigure that = (AbstractCompositeFigure) super.clone();
         that.childHandler = new ChildHandler(that);
@@ -494,7 +487,6 @@ public abstract class AbstractCompositeFigure
             Figure thatChild = (Figure) thisChild.clone();
             that.children.add(thatChild);
             thatChild.addFigureListener(that.childHandler);
-            thatChild.addUndoableEditListener(that.childHandler);
         }
         return that;
     }

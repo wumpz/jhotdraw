@@ -16,6 +16,7 @@ package org.jhotdraw.samples.svg;
 
 import java.awt.*;
 import java.awt.geom.*;
+import java.util.Arrays;
 import org.jhotdraw.draw.*;
 import org.apache.batik.ext.awt.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
@@ -36,9 +37,25 @@ public class LinearGradient implements Gradient {
     private Color[] stopColors;
     private double[] stopOpacities;
     private AffineTransform transform;
+    private int spreadMethod;
     
     /** Creates a new instance. */
     public LinearGradient() {
+    }
+    public LinearGradient(
+            double x1, double y1, double x2, double y2,
+            double[] stopOffsets, Color[] stopColors, double[] stopOpacities,
+            boolean isRelativeToFigureBounds,
+            AffineTransform tx) {
+        this.x1 = x1;
+        this.y1 = y1;
+        this.x2 = x2;
+        this.y2 = y2;
+        this.stopOffsets = stopOffsets;
+        this.stopColors = stopColors;
+        this.stopOpacities = stopOpacities;
+        this.isRelativeToFigureBounds = isRelativeToFigureBounds;
+        this.transform = tx;
     }
     public void setGradientVector(double x1, double y1, double x2, double y2) {
         this.x1 = x1;
@@ -79,23 +96,16 @@ public class LinearGradient implements Gradient {
     public double[] getStopOpacities() {
         return stopOpacities.clone();
     }
+    public AffineTransform getTransform() {
+        return transform;
+    }
     
     public Paint getPaint(Figure f, double opacity) {
         if (stopColors.length == 0) {
             return new Color(0xa0ff0000,true);
         }
-        Point2D.Double p1;
-        Point2D.Double p2;
         
-        if (isRelativeToFigureBounds) {
-            Rectangle2D.Double bounds = f.getBounds();
-            p1 = new Point2D.Double(bounds.x + bounds.width * x1, bounds.y + bounds.height * y1);
-            p2 = new Point2D.Double(bounds.x + bounds.width * x2, bounds.y + bounds.height * y2);
-        } else {
-            p1 = new Point2D.Double(x1, y1);
-            p2 = new Point2D.Double(x2, y2);
-        }
-        
+        // Compute colors and fractions for the paint
         Color[] colors = new Color[stopColors.length];
         float[] fractions = new float[stopColors.length];
         for (int i=0; i < stopColors.length; i++) {
@@ -107,20 +117,29 @@ public class LinearGradient implements Gradient {
                     );
         }
         
-        org.apache.batik.ext.awt.LinearGradientPaint gp;
         
-        if (transform != null) {
-            gp = new org.apache.batik.ext.awt.LinearGradientPaint(
-                    p1, p2, fractions, colors,
-                    LinearGradientPaint.NO_CYCLE,
-                    LinearGradientPaint.SRGB,
-                    transform
-                    );
-        } else {
-            gp = new org.apache.batik.ext.awt.LinearGradientPaint(
-                    p1, p2, fractions, colors
-                    );
+        // Compute the dimensions and transforms for the paint
+        Point2D.Double p1;
+        Point2D.Double p2;
+        p1 = new Point2D.Double(x1, y1);
+        p2 = new Point2D.Double(x2, y2);
+        AffineTransform t = transform;
+        if (isRelativeToFigureBounds) {
+            t = (AffineTransform) t.clone();
+            Rectangle2D.Double bounds = f.getBounds();
+            t.translate(bounds.x, bounds.y);
+            t.scale(bounds.width, bounds.height);
         }
+        
+        // Construct the paint
+        org.apache.batik.ext.awt.LinearGradientPaint gp;
+        gp = new org.apache.batik.ext.awt.LinearGradientPaint(
+                p1, p2, fractions, colors,
+                LinearGradientPaint.NO_CYCLE,
+                LinearGradientPaint.SRGB,
+                t
+                );
+        
         return gp;
     }
     
@@ -141,24 +160,16 @@ public class LinearGradient implements Gradient {
         return buf.toString();
     }
     
+    public void setTransform(AffineTransform tx) {
+        transform = tx;
+    }
+    
     public void transform(AffineTransform tx) {
-        if (tx != null) {
-            if (transform == null) {
-                transform = (AffineTransform) tx.clone();
-            } else {
-                transform.preConcatenate(tx);
-            }
+        if (transform == null) {
+            transform = (AffineTransform) tx.clone();
+        } else {
+            transform.preConcatenate(tx);
         }
-/*
-        Point2D.Double topLeft = new Point2D.Double(x1, y1);
-        Point2D.Double bottomRight = new Point2D.Double(x2, y2);
-        tx.transform(topLeft, topLeft);
-        tx.transform(bottomRight, bottomRight);
-        x1 = topLeft.getX();
-        y1 = topLeft.getY();
-        x2 = bottomRight.getX();
-        y2 = bottomRight.getY();
- */
     }
     public Object clone() {
         try {
@@ -166,6 +177,7 @@ public class LinearGradient implements Gradient {
             that.stopOffsets = this.stopOffsets.clone();
             that.stopColors = this.stopColors.clone();
             that.stopOpacities = this.stopOpacities.clone();
+            that.transform = (AffineTransform) this.transform.clone();
             return that;
         } catch (CloneNotSupportedException ex) {
             InternalError e = new InternalError();
@@ -183,5 +195,34 @@ public class LinearGradient implements Gradient {
             x2 = (x2 - bounds.x) / bounds.width;
             y2 = (y2 - bounds.y) / bounds.height;
         }
+    }
+    
+    public int hashCode() {
+	long bits = Double.doubleToLongBits(x1);
+	bits += Double.doubleToLongBits(y1) * 31;
+	bits += Double.doubleToLongBits(x2) * 35;
+	bits += Double.doubleToLongBits(y2) * 39;
+	bits += stopColors[0].hashCode() * 43;
+	bits += stopColors[stopColors.length - 1].hashCode() * 47;
+	return (((int) bits) ^ ((int) (bits >> 32)));
+    }
+    
+    public boolean equals(Object o) {
+        if (o instanceof LinearGradient) {
+            return equals((LinearGradient) o);
+        } else {
+            return false;
+        }
+    }
+    public boolean equals(LinearGradient that) {
+        return x1 == that.x1 &&
+                y1 == that.y1 &&
+                x2 == that.x2 &&
+                y2 == that.y2 &&
+                isRelativeToFigureBounds == that.isRelativeToFigureBounds &&
+                Arrays.equals(stopOffsets, that.stopOffsets) &&
+                Arrays.equals(stopOpacities, that.stopOpacities) &&
+                Arrays.equals(stopColors, that.stopColors) &&
+                transform.equals(that.transform);
     }
 }

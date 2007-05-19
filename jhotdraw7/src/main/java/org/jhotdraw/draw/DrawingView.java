@@ -1,7 +1,7 @@
 /*
- * @(#)DrawingView.java  4.0  2006-12-03
+ * @(#)DrawingView.java  4.1  2007-05-15
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -26,7 +26,9 @@ import javax.swing.*;
  * It receives user input and forwards it to registered listeners.
  * 
  * @author Werner Randelshofer
- * @version 4.0 2006-12-03 Replaced operation getContainer by getComponent. 
+ * @version 4.1 2007-05-15 getSelectedFigures returns a Set instead of a
+ * Collection.
+ * <br>4.0 2006-12-03 Replaced operation getContainer by getComponent. 
  * <br>3.1 2006-03-15 Support for enabled state added.
  * <br>3.0 2006-02-20 Changed to share a single DrawingEditor by multiple 
  * views.
@@ -88,7 +90,7 @@ public interface DrawingView {
      * Gets the current selection as a FigureSelection. A FigureSelection
      * can be cut, copied, pasted.
      */
-    public Collection<Figure> getSelectedFigures();
+    public Set<Figure> getSelectedFigures();
     /**
      * Gets the number of selected figures.
      */

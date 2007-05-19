@@ -148,16 +148,14 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
     }
     
     public Gradient createRadialGradient(
-            double cx, double cy, double r,
+            double cx, double cy, double fx, double fy, double r,
             double[] stopOffsets, Color[] stopColors, double[] stopOpacities,
             boolean isRelativeToFigureBounds,
             AffineTransform tx) {
-        RadialGradient g = new RadialGradient();
-        g.setGradientCircle(cx, cy, r);
-        g.setStops(stopOffsets, stopColors, stopOpacities);
-        g.setRelativeToFigureBounds(isRelativeToFigureBounds);
-        g.transform(tx);
-        return g;
+        return new RadialGradient(cx, cy, fx, fy, r,
+                stopOffsets, stopColors, stopOpacities,
+                isRelativeToFigureBounds,
+                tx);
     }
     
     public Gradient createLinearGradient(
@@ -165,12 +163,10 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
             double[] stopOffsets, Color[] stopColors, double[] stopOpacities,
             boolean isRelativeToFigureBounds,
             AffineTransform tx) {
-        LinearGradient g = new LinearGradient();
-        g.setGradientVector(x1, y1, x2, y2);
-        g.setStops(stopOffsets, stopColors, stopOpacities);
-        g.setRelativeToFigureBounds(isRelativeToFigureBounds);
-        g.transform(tx);
-        return g;
+        return new LinearGradient(x1, y1, x2, y2,
+                stopOffsets, stopColors, stopOpacities,
+                isRelativeToFigureBounds,
+                tx);
     }
 
 }

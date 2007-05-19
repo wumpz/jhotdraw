@@ -10,7 +10,6 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-�
  */
 
 
@@ -30,7 +29,10 @@ import javax.swing.event.*;
  * Tools are used for user interaction. Unlike figures, a tool works with
  * the user interface coordinates of the DrawingView. The user interface 
  * coordinates are expressed in integer pixels.
-
+ * <p>
+ * A Tool forwards UndoableEdit events to the Drawing object onto which it
+ * is performing changes.
+ *
  * @author Werner Randelshofer
  * @version 1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */

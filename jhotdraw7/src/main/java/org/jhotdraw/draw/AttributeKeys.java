@@ -38,6 +38,16 @@ public class AttributeKeys {
      */
     public final static AttributeKey<Color> FILL_COLOR = new AttributeKey<Color>("fillColor", Color.white);
     
+    /**
+     * Close BezierFigure. The value of this attribute is a Boolean object.
+     */
+    public final static AttributeKey<Boolean> CLOSED = new AttributeKey<Boolean>("closed", false);
+    
+    /**
+     * Fill BezierFigure. The value of this attribute is a Boolean object.
+     */
+    public final static AttributeKey<Boolean> FILL_OPEN_PATH = new AttributeKey<Boolean>("fillOpenPath", false);
+    
     public static enum WindingRule {
         /**
          * If WINDING_RULE is set to this value, an even-odd winding rule

@@ -201,6 +201,18 @@ public class SVGTextFigure
             for (int i=0; i < coordinates.length; i++) {
                 tx.transform(coordinates[i], coordinates[i]);
             }
+            if (FILL_GRADIENT.get(this) != null &&
+                    ! FILL_GRADIENT.get(this).isRelativeToFigureBounds()) {
+                Gradient g = FILL_GRADIENT.getClone(this);
+                g.transform(tx);
+                FILL_GRADIENT.set(this, g);
+            }
+            if (STROKE_GRADIENT.get(this) != null && 
+                    ! STROKE_GRADIENT.get(this).isRelativeToFigureBounds()) {
+                Gradient g = STROKE_GRADIENT.getClone(this);
+                g.transform(tx);
+                STROKE_GRADIENT.set(this, g);
+            }
         }
         invalidate();
     }
@@ -211,6 +223,8 @@ public class SVGTextFigure
         for (int i=0; i < this.coordinates.length; i++) {
             coordinates[i] = (Point2D.Double) restoredCoordinates[i].clone();
         }
+        FILL_GRADIENT.setClone(this, (Gradient) restoreData[2]);
+        STROKE_GRADIENT.setClone(this, (Gradient) restoreData[3]);
         invalidate();
     }
     
@@ -222,6 +236,8 @@ public class SVGTextFigure
         return new Object[] {
             TRANSFORM.getClone(this),
             restoredCoordinates,
+            FILL_GRADIENT.getClone(this),
+            STROKE_GRADIENT.getClone(this),
         };
     }
     
@@ -337,19 +353,6 @@ public class SVGTextFigure
                 break;
         }
         return handles;
-    }
-    @Override public Collection<Action> getActions(Point2D.Double p) {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.svg.Labels");
-        LinkedList<Action> actions = new LinkedList<Action>();
-        if (TRANSFORM.get(this) != null) {
-            actions.add(new AbstractAction(labels.getString("removeTransform")) {
-                public void actionPerformed(ActionEvent evt) {
-                    
-                    TRANSFORM.set(SVGTextFigure.this, null);
-                }
-            });
-        }
-        return actions;
     }
     // CONNECTING
     public boolean canConnect() {

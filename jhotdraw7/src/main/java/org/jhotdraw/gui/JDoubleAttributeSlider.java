@@ -22,6 +22,7 @@ import java.beans.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.util.*;
 
@@ -39,6 +40,7 @@ public class JDoubleAttributeSlider extends JSlider {
     protected ResourceBundleUtil labels =
             ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
     private int isUpdatingSlider = 0;
+    private LinkedList<Object> attributeRestoreData = new LinkedList<Object>();
     
     private PropertyChangeListener viewEventHandler = new PropertyChangeListener() {
         public void propertyChange(PropertyChangeEvent evt) {
@@ -195,12 +197,52 @@ public class JDoubleAttributeSlider extends JSlider {
         if (isUpdatingSlider++ == 0) {
             double value = getValue() / scaleFactor;
             if (getView() != null && attributeKey != null) {
-                for (Figure f : getView().getSelectedFigures()) {
-                    attributeKey.set(f, value);
+                if (attributeRestoreData.isEmpty()) {
+                    for (Figure f : getView().getSelectedFigures()) {
+                        f.willChange();
+                        attributeRestoreData.add(f.getAttributesRestoreData());
+                        attributeKey.set(f, value);
+                        f.changed();
+                    }
+                } else {
+                    for (Figure f : getView().getSelectedFigures()) {
+                        f.willChange();
+                        attributeKey.set(f, value);
+                        f.changed();
+                    }
                 }
             }
             if (editor != null) {
                 editor.setDefaultAttribute(attributeKey, value);
+            }
+            if (! getModel().getValueIsAdjusting()) {
+                final LinkedList<Figure> editedFigures =
+                        new LinkedList<Figure>(getView().getSelectedFigures());
+                final LinkedList<Object> editUndoData = new LinkedList<Object>(attributeRestoreData);
+                final double editRedoValue = value;
+                UndoableEdit edit = new AbstractUndoableEdit() {
+                    public String getPresentationName() {
+                        return labels.getString(attributeKey.getKey());
+                    }
+                    public void undo() throws CannotRedoException {
+                        super.undo();
+                        Iterator<Object> di = editUndoData.iterator();
+                        for (Figure f : editedFigures) {
+                            f.willChange();
+                            f.restoreAttributesTo(di.next());
+                            f.changed();
+                        }
+                    }
+                    public void redo() throws CannotRedoException {
+                        super.redo();
+                        for (Figure f : editedFigures) {
+                            f.willChange();
+                            attributeKey.set(f, editRedoValue);
+                            f.changed();
+                        }
+                    }
+                };
+                getView().getDrawing().fireUndoableEditHappened(edit);
             }
         }
         isUpdatingSlider--;

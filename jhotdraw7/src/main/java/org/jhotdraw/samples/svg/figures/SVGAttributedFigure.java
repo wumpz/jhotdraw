@@ -14,7 +14,9 @@
 
 package org.jhotdraw.samples.svg.figures;
 
-import java.awt.image.BufferedImage;
+import java.awt.event.*;
+import java.awt.image.*;
+import javax.swing.*;
 import org.jhotdraw.draw.*;
 
 import java.awt.*;
@@ -24,8 +26,8 @@ import java.io.*;
 import org.jhotdraw.samples.svg.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 import org.jhotdraw.geom.*;
-import org.jhotdraw.xml.DOMInput;
-import org.jhotdraw.xml.DOMOutput;
+import org.jhotdraw.util.*;
+import org.jhotdraw.xml.*;
 /**
  * SVGAttributedFigure.
  *
@@ -99,15 +101,29 @@ public abstract class SVGAttributedFigure extends AbstractAttributedFigure {
         if (TRANSFORM.get(this) != null) {
             g.setTransform(savedTransform);
         }
-        if (isConnectorsVisible()) {
-            drawConnectors(g);
-        }
     }
     public void setAttribute(AttributeKey key, Object newValue) {
-        if (key == SVGAttributeKeys.TRANSFORM) {
+        if (key == TRANSFORM) {
             invalidate();
         }
         super.setAttribute(key, newValue);
+    }
+    @Override public Collection<Action> getActions(Point2D.Double p) {
+        LinkedList<Action> actions = new LinkedList<Action>();
+        if (TRANSFORM.get(this) != null) {
+            ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.svg.Labels");
+            actions.add(new AbstractAction(labels.getString("removeTransform")) {
+                public void actionPerformed(ActionEvent evt) {
+                    ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.svg.Labels");
+                    SVGAttributedFigure.this.willChange();
+                    fireUndoableEditHappened(
+                            TRANSFORM.setUndoable(SVGAttributedFigure.this, null, labels)
+                            );
+                    SVGAttributedFigure.this.changed();
+                }
+            });
+        }
+        return actions;
     }
     @Override final public void write(DOMOutput out) throws IOException {
         throw new UnsupportedOperationException("Use SVGStorableOutput to write this Figure.");

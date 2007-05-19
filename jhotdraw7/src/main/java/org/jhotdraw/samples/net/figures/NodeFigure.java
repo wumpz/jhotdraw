@@ -58,14 +58,10 @@ public class NodeFigure extends TextFigure {
     
     private void createConnectors() {
         connectors = new LinkedList<AbstractConnector>();
-        connectors.add(new LocatorConnector(this, new RelativeLocator(0.5,0)));
-        connectors.add(new LocatorConnector(this, new RelativeLocator(0.5,1)));
-        connectors.add(new LocatorConnector(this, new RelativeLocator(1,0.5)));
-        connectors.add(new LocatorConnector(this, new RelativeLocator(0,0.5)));
-        for (AbstractConnector c : connectors) {
-            c.setVisible(true);
-        }
-        
+        connectors.add(new LocatorConnector(this, RelativeLocator.north()));
+        connectors.add(new LocatorConnector(this, RelativeLocator.east()));
+        connectors.add(new LocatorConnector(this, RelativeLocator.west()));
+        connectors.add(new LocatorConnector(this, RelativeLocator.south()));
     }
     
     @Override public Collection<Handle> createHandles(int detailLevel) {
@@ -75,10 +71,9 @@ public class NodeFigure extends TextFigure {
             handles.add(new MoveHandle(this, RelativeLocator.northEast()));
             handles.add(new MoveHandle(this, RelativeLocator.southWest()));
             handles.add(new MoveHandle(this, RelativeLocator.southEast()));
-            handles.add(new ConnectionHandle(this, RelativeLocator.north(), new LineConnectionFigure()));
-            handles.add(new ConnectionHandle(this, RelativeLocator.east(), new LineConnectionFigure()));
-            handles.add(new ConnectionHandle(this, RelativeLocator.south(), new LineConnectionFigure()));
-            handles.add(new ConnectionHandle(this, RelativeLocator.west(), new LineConnectionFigure()));
+            for (Connector c : connectors) {
+                handles.add(new ConnectorHandle(c, new LineConnectionFigure()));
+            }
         }
         return handles;
     }
@@ -115,16 +110,10 @@ public class NodeFigure extends TextFigure {
         return that;
     }
     
-    @Override protected void drawConnectors(Graphics2D g) {
-        for (Connector c : connectors) {
-            c.draw(g);
-        }
-    }
-    
     @Override public int getLayer() {
         return -1; // stay below ConnectionFigures
     }
-
+    
     @Override protected void writeDecorator(DOMOutput out) throws IOException {
         // do nothing
     }

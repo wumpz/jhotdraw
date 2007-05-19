@@ -56,14 +56,12 @@ public class QuadTreeDrawing extends AbstractDrawing {
         figures.add(index, figure);
         quadTree.add(figure, figure.getDrawingArea());
         figure.addFigureListener(figureHandler);
-        figure.addUndoableEditListener(figureHandler);
         needsSorting = true;
     }
     public void basicRemove(Figure figure) {
         figures.remove(figure);
         quadTree.remove(figure);
         figure.removeFigureListener(figureHandler);
-        figure.removeUndoableEditListener(figureHandler);
         needsSorting = true;
     }
     
@@ -181,6 +179,34 @@ public class QuadTreeDrawing extends AbstractDrawing {
             }
         }
     }
+    public Figure findFigureBehind(Point2D.Double p, Figure figure) {
+        boolean isBehind = false;
+        for (Figure f : getFiguresFrontToBack()) {
+            if (isBehind) {
+                if (f.isVisible() && f.contains(p)) {
+                    return f;
+                }
+            } else {
+                isBehind = figure == f;
+            }
+        }
+        return null;
+    }
+    public Figure findFigureBehind(Point2D.Double p, Collection<Figure> figures) {
+        int inFrontOf = figures.size();
+        for (Figure f : getFiguresFrontToBack()) {
+            if (inFrontOf == 0) {
+                if (f.isVisible() && f.contains(p)) {
+                    return f;
+                }
+            } else {
+                if (figures.contains(f)) {
+                    inFrontOf--;
+                }
+            }
+        }
+        return null;
+    }
     
     public java.util.List<Figure> findFigures(Rectangle2D.Double r) {
         LinkedList<Figure> c = new LinkedList<Figure>(quadTree.findIntersects(r));
@@ -235,13 +261,13 @@ public class QuadTreeDrawing extends AbstractDrawing {
             needsSorting = false;
         }
     }
-
+    
     public void setCanvasSize(Dimension2DDouble newValue) {
         Dimension2DDouble oldValue = canvasSize;
         canvasSize = newValue;
         firePropertyChange("canvasSize", oldValue, newValue);
     }
-
+    
     public Dimension2DDouble getCanvasSize() {
         return canvasSize;
     }

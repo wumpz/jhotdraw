@@ -24,61 +24,40 @@ import org.jhotdraw.draw.*;
 import org.jhotdraw.util.*;
 
 /**
- * A JTextField that can be used to edit a String attribute of a Figure.
+ * An entry field that can be used to edit a {@code Double} attribute of a
+ * {@code Figure}.
+ * <p>
+ * The {@code JDoubleAttributeField} can either be global to all
+ * {@code DrawingView}s of a {@code DrawingEditor}, or it can be local to a
+ * single {@code DrawingView}.
+ * <p>
+ * In both cases, the drawing editor must be set using method {@code setEditor}.
+ * To make the entry field local to a single {@code DrawingView}, the view must
+ * be set using method {@code setView}.
+ *
+ * FIXME We have got many kinds of attribute fields. Factor out all reusable
+ * code.
  *
  * @author Werner Randelshofer
  * @version 1.0 April 22, 2007 Created.
  */
-public class JDoubleAttributeField extends JFormattedTextField {
+public class JDoubleAttributeField extends JFormattedTextField
+implements AttributeField {
     private static final boolean DEBUG = false;
     
     private double scaleFactor = 1d;
     private double min = Double.MIN_VALUE;
     private double max = Double.MAX_VALUE;
     
-    private DrawingEditor editor;
     private AttributeKey<Double> attributeKey;
     private boolean isMultipleValues;
+    
     protected ResourceBundleUtil labels =
             ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
+    
     private int isUpdatingField = 0;
     
-    private PropertyChangeListener viewEventHandler = new PropertyChangeListener() {
-        public void propertyChange(PropertyChangeEvent evt) {
-            String name = evt.getPropertyName();
-            if (name == "enabled") {
-                updateEnabledState();
-            }
-        }
-    };
-    
-    private class EditorEventHandler implements PropertyChangeListener, FigureSelectionListener {
-        public void propertyChange(PropertyChangeEvent evt) {
-            String name = evt.getPropertyName();
-            if (name == DrawingEditor.PROP_FOCUSED_VIEW) {
-                if (evt.getOldValue() != null) {
-                    DrawingView view = ((DrawingView) evt.getOldValue());
-                    view.removeFigureSelectionListener(this);
-                    view.removePropertyChangeListener(viewEventHandler);
-                }
-                if (evt.getNewValue() != null) {
-                    DrawingView view = ((DrawingView) evt.getNewValue());
-                    view.addFigureSelectionListener(this);
-                    view.addPropertyChangeListener(viewEventHandler);
-                }
-                updateEnabledState();
-                updateField();
-            } else if (name.equals(attributeKey.getKey())) {
-                updateField();
-            }
-        }
-        public void selectionChanged(FigureSelectionEvent evt) {
-            updateEnabledState();
-            updateField();
-        }
-    };
-    
-    private EditorEventHandler eventHandler = new EditorEventHandler();
+    private AttributeFieldEventHandler eventHandler = new AttributeFieldEventHandler(this);
     
     /** Creates new instance. */
     public JDoubleAttributeField() {
@@ -108,30 +87,47 @@ public class JDoubleAttributeField extends JFormattedTextField {
         });
     }
     
-    public void setAttributeKey(AttributeKey<Double> attributeKey) {
-        this.attributeKey = attributeKey;
+    public void setAttributeKey(AttributeKey<Double> newValue) {
+        AttributeKey<Double> oldValue = attributeKey;
+        attributeKey = newValue;
+        updateField(eventHandler.getCurrentSelection());
+        firePropertyChange("attributeKey", oldValue, newValue);
     }
-    public void setEditor(DrawingEditor editor) {
-        if (DEBUG) System.out.println("JFigureAttributeField.setEditor("+editor+")");
-        if (this.editor != null) {
-            this.editor.removePropertyChangeListener(eventHandler);
-            if (getView() != null) {
-                getView().removeFigureSelectionListener(eventHandler);
-            }
-        }
-        this.editor = editor;
-        if (this.editor != null) {
-            this.editor.addPropertyChangeListener(eventHandler);
-        }
+    /**
+     * Sets the drawing editor. This must be set to a non-null value to make
+     *  the attribute field functional.
+     * <p>
+     * This is a bound property. The default value is null.
+     */
+    public void setEditor(DrawingEditor newValue) {
+        DrawingEditor oldValue = eventHandler.getEditor();
+        eventHandler.setEditor(newValue);
+        firePropertyChange("editor", oldValue, newValue);
     }
     public DrawingEditor getEditor() {
-        return editor;
+        return eventHandler.getEditor();
     }
-    protected DrawingView getView() {
-        return (editor == null) ? null : editor.getFocusedView();
+    
+    /**
+     * Sets the drawing view. Setting this to a non-null value, makes the
+     * attribute field local to the drawing view. Setting this to null, makes
+     * the attribute field global to all drawing views in the drawing editor.
+     * <p>
+     * This is a bound property. The default value is null.
+     */
+    public void setView(DrawingView newValue) {
+        DrawingView oldValue = eventHandler.getView();
+        eventHandler.setView(newValue);
+        firePropertyChange("view", oldValue, newValue);
     }
+    
+    public DrawingView getView() {
+        return eventHandler.getView();
+    }
+    
     public void setScaleFactor(double newValue) {
         this.scaleFactor = newValue;
+        updateField(eventHandler.getCurrentSelection());
     }
     
     public double getScaleFactor() {
@@ -155,26 +151,15 @@ public class JDoubleAttributeField extends JFormattedTextField {
     }
     
     
-    protected void updateEnabledState() {
-        if (getView() != null) {
-            setEnabled(getView().isEnabled() &&
-                    getView().getSelectionCount() > 0
-                    );
-        } else {
-            setEnabled(false);
-        }
-    }
-    protected void updateField() {
-        if (DEBUG) System.out.println("JFigureAttributeField.updateText");
-        //if (! isFocusOwner()) {
+    public void updateField(Set<Figure> currentSelection) {
         if (isUpdatingField++ == 0) {
-            if (getView() == null || attributeKey == null) {
+            if (currentSelection.isEmpty() || attributeKey == null) {
                 setValue(0d);
             } else {
                 Double fieldValue = null;
                 boolean isFirst = true;
                 isMultipleValues = false;
-                for (Figure f : getView().getSelectedFigures()) {
+                for (Figure f : currentSelection) {
                     if (isFirst) {
                         isFirst = false;
                         fieldValue = attributeKey.get(f);
@@ -201,24 +186,18 @@ public class JDoubleAttributeField extends JFormattedTextField {
     private void updateFigures() {
         if (isUpdatingField++ == 0) {
             Double fieldValue = Math.min(Math.max(min, (Double) getValue()), max) / scaleFactor;
-            if (getView() != null && attributeKey != null) {
-                for (Figure f : getView().getSelectedFigures()) {
+            if (! eventHandler.getCurrentSelection().isEmpty() && attributeKey != null) {
+                for (Figure f : eventHandler.getCurrentSelection()) {
                     attributeKey.set(f, fieldValue);
                 }
             }
-            editor.setDefaultAttribute(attributeKey, fieldValue);
+            eventHandler.getEditor().setDefaultAttribute(attributeKey, fieldValue);
         }
         isUpdatingField--;
     }
     
     public void dispose() {
-        if (this.editor != null) {
-            this.editor.removePropertyChangeListener(eventHandler);
-            if (this.editor.getView() != null) {
-                this.editor.getView().removeFigureSelectionListener(eventHandler);
-            }
-        }
-        this.editor = null;
+        eventHandler.dispose();
     }
     
     /** This method is called from within the constructor to
@@ -236,7 +215,6 @@ public class JDoubleAttributeField extends JFormattedTextField {
     // End of variables declaration//GEN-END:variables
     
     @Override protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
         if (! isFocusOwner() && isMultipleValues) {
             Insets insets = getInsets();
             Insets margin = getMargin();
@@ -248,7 +226,25 @@ public class JDoubleAttributeField extends JFormattedTextField {
                     insets.left + margin.left,
                     insets.top + margin.top + fm.getAscent()
                     );
+        } else {
+            super.paintComponent(g);
         }
     }
     
+    public JDoubleAttributeField clone() {
+        try {
+            JDoubleAttributeField that;
+            that = (JDoubleAttributeField) super.clone();
+            that.eventHandler = new AttributeFieldEventHandler(that);
+            return that;
+        } catch (CloneNotSupportedException ex) {
+            InternalError error = new InternalError(ex.getMessage());
+            error.initCause(ex);
+            throw error;
+        }
+    }
+
+    public JComponent getComponent() {
+        return this;
+    }
 }

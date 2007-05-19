@@ -37,13 +37,13 @@ import static org.jhotdraw.samples.svg.SVGConstants.*;
 import org.jhotdraw.xml.*;
 
 /**
- * An output format for storing drawings as 
+ * An output format for storing drawings as
  * Scalable Vector Graphics SVG Tiny 1.2.
  *
  * @author Werner Randelshofer
  * @version 1.1.1 2007-04-23 Fixed writing of "path" attribute, fixed writing
- * of "textArea" element. 
- * <br>1.1 2007-04-22 Added support for "a" element. 
+ * of "textArea" element.
+ * <br>1.1 2007-04-22 Added support for "a" element.
  * <br>1.0 December 12, 2006 Created.
  */
 public class SVGOutputFormat implements OutputFormat {
@@ -69,6 +69,12 @@ public class SVGOutputFormat implements OutputFormat {
      * Holds the document that is currently being written.
      */
     private IXMLElement document;
+    
+    /**
+     * Maps gradients to ID's. We use this, so that we need to store
+     * the same gradient only once.
+     */
+    private HashMap<Gradient,String> gradientToIDMap;
     
     private final static HashMap<Integer, String> strokeLinejoinMap;
     static {
@@ -201,42 +207,48 @@ public class SVGOutputFormat implements OutputFormat {
     protected IXMLElement createLinearGradient(IXMLElement doc,
             double x1, double y1, double x2, double y2,
             double[] stopOffsets, Color[] stopColors, double[] stopOpacities,
-            boolean isRelativeToFigureBounds) throws IOException {
+            boolean isRelativeToFigureBounds,
+            AffineTransform transform) throws IOException {
         IXMLElement elem = doc.createElement("linearGradient");
         
         writeAttribute(elem, "x1", toNumber(x1), "0");
         writeAttribute(elem, "y1", toNumber(y1), "0");
         writeAttribute(elem, "x2", toNumber(x2), "1");
         writeAttribute(elem, "y2", toNumber(y2), "0");
-        writeAttribute(elem, "gradientUnits", 
-                (isRelativeToFigureBounds) ? "objectBoundingBox" : "useSpaceOnUse",
+        writeAttribute(elem, "gradientUnits",
+                (isRelativeToFigureBounds) ? "objectBoundingBox" : "userSpaceOnUse",
                 "objectBoundingBox"
                 );
+        writeAttribute(elem, "gradientTransform", toTransform(transform), "none");
         
         for (int i=0; i < stopOffsets.length; i++) {
             IXMLElement stop = new XMLElement("stop");
             writeAttribute(stop, "offset", toNumber(stopOffsets[i]), null);
             writeAttribute(stop, "stop-color", toColor(stopColors[i]), null);
             writeAttribute(stop, "stop-opacity", toNumber(stopOpacities[i]), "1");
-             elem.addChild(stop);
+            elem.addChild(stop);
         }
         
         return elem;
     }
     
     protected IXMLElement createRadialGradient(IXMLElement doc,
-            double cx, double cy, double r,
+            double cx, double cy, double fx, double fy, double r,
             double[] stopOffsets, Color[] stopColors, double[] stopOpacities,
-            boolean isRelativeToFigureBounds) throws IOException {
+            boolean isRelativeToFigureBounds,
+            AffineTransform transform) throws IOException {
         IXMLElement elem = doc.createElement("radialGradient");
-
+        
         writeAttribute(elem, "cx", toNumber(cx), "0.5");
         writeAttribute(elem, "cy", toNumber(cy), "0.5");
+        writeAttribute(elem, "fx", toNumber(fx), toNumber(cx));
+        writeAttribute(elem, "fy", toNumber(fy), toNumber(cy));
         writeAttribute(elem, "r", toNumber(r), "0.5");
-        writeAttribute(elem, "gradientUnits", 
-                (isRelativeToFigureBounds) ? "objectBoundingBox" : "useSpaceOnUse",
+        writeAttribute(elem, "gradientUnits",
+                (isRelativeToFigureBounds) ? "objectBoundingBox" : "userSpaceOnUse",
                 "objectBoundingBox"
                 );
+        writeAttribute(elem, "gradientTransform", toTransform(transform), "none");
         
         for (int i=0; i < stopOffsets.length; i++) {
             IXMLElement stop = new XMLElement("stop");
@@ -506,7 +518,7 @@ public class SVGOutputFormat implements OutputFormat {
         writeFontAttributes(elem, attributes);
         return elem;
     }
-    protected void writeTextAreaElement(IXMLElement parent, SVGTextAreaFigure f) 
+    protected void writeTextAreaElement(IXMLElement parent, SVGTextAreaFigure f)
     throws IOException {
         DefaultStyledDocument styledDoc = new DefaultStyledDocument();
         try {
@@ -606,33 +618,42 @@ public class SVGOutputFormat implements OutputFormat {
         // Media:  	 visual
         // Animatable:  	 yes
         // Computed value:  	 "none", system paint, specified <color> value or absolute IRI
-        Object gradient = FILL_GRADIENT.get(f);
+        Gradient gradient = FILL_GRADIENT.get(f);
         if (gradient != null) {
-            IXMLElement gradientElem;
-            if (gradient instanceof LinearGradient) {
-                LinearGradient lg = (LinearGradient) gradient;
-                gradientElem = createLinearGradient(document,
-                        lg.getX1(), lg.getY1(),
-                        lg.getX2(), lg.getY2(),
-                        lg.getStopOffsets(),
-                        lg.getStopColors(),
-                        lg.getStopOpacities(),
-                        lg.isRelativeToFigureBounds()
-                        );
-            } else /*if (gradient instanceof RadialGradient)*/ {
-                RadialGradient rg = (RadialGradient) gradient;
-                gradientElem = createRadialGradient(document,
-                        rg.getCX(), rg.getCY(),
-                        rg.getR(),
-                        rg.getStopOffsets(),
-                        rg.getStopColors(),
-                        rg.getStopOpacities(),
-                        rg.isRelativeToFigureBounds()
-                        );
+            String id;
+            if (gradientToIDMap.containsKey(gradient)) {
+                id = gradientToIDMap.get(gradient);
+            } else {
+                IXMLElement gradientElem;
+                if (gradient instanceof LinearGradient) {
+                    LinearGradient lg = (LinearGradient) gradient;
+                    gradientElem = createLinearGradient(document,
+                            lg.getX1(), lg.getY1(),
+                            lg.getX2(), lg.getY2(),
+                            lg.getStopOffsets(),
+                            lg.getStopColors(),
+                            lg.getStopOpacities(),
+                            lg.isRelativeToFigureBounds(),
+                            lg.getTransform()
+                            );
+                } else /*if (gradient instanceof RadialGradient)*/ {
+                    RadialGradient rg = (RadialGradient) gradient;
+                    gradientElem = createRadialGradient(document,
+                            rg.getCX(), rg.getCY(),
+                            rg.getFX(), rg.getFY(),
+                            rg.getR(),
+                            rg.getStopOffsets(),
+                            rg.getStopColors(),
+                            rg.getStopOpacities(),
+                            rg.isRelativeToFigureBounds(),
+                            rg.getTransform()
+                            );
+                }
+                id = getId(gradientElem);
+                gradientElem.setAttribute("id","xml",id);
+                defs.addChild(gradientElem);
+                gradientToIDMap.put(gradient, id);
             }
-            String id = getId(gradientElem);
-            gradientElem.setAttribute("id","xml",id);
-            defs.addChild(gradientElem);
             writeAttribute(elem, "fill", "url(#"+id+")", "#000");
         } else {
             writeAttribute(elem, "fill", toColor(FILL_COLOR.get(f)), "#000");
@@ -675,31 +696,40 @@ public class SVGOutputFormat implements OutputFormat {
         // or absolute IRI
         gradient = STROKE_GRADIENT.get(f);
         if (gradient != null) {
-            IXMLElement gradientElem;
-            if (gradient instanceof LinearGradient) {
-                LinearGradient lg = (LinearGradient) gradient;
-                gradientElem = createLinearGradient(document,
-                        lg.getX1(), lg.getY1(),
-                        lg.getX2(), lg.getY2(),
-                        lg.getStopOffsets(),
-                        lg.getStopColors(),
-                        lg.getStopOpacities(),
-                        lg.isRelativeToFigureBounds()
-                        );
-            } else /*if (gradient instanceof RadialGradient)*/ {
-                RadialGradient rg = (RadialGradient) gradient;
-                gradientElem = createRadialGradient(document,
-                        rg.getCX(), rg.getCY(),
-                        rg.getR(),
-                        rg.getStopOffsets(),
-                        rg.getStopColors(),
-                        rg.getStopOpacities(),
-                        rg.isRelativeToFigureBounds()
-                        );
+            String id;
+            if (gradientToIDMap.containsKey(gradient)) {
+                id = gradientToIDMap.get(gradient);
+            } else {
+                IXMLElement gradientElem;
+                if (gradient instanceof LinearGradient) {
+                    LinearGradient lg = (LinearGradient) gradient;
+                    gradientElem = createLinearGradient(document,
+                            lg.getX1(), lg.getY1(),
+                            lg.getX2(), lg.getY2(),
+                            lg.getStopOffsets(),
+                            lg.getStopColors(),
+                            lg.getStopOpacities(),
+                            lg.isRelativeToFigureBounds(),
+                            lg.getTransform()
+                            );
+                } else /*if (gradient instanceof RadialGradient)*/ {
+                    RadialGradient rg = (RadialGradient) gradient;
+                    gradientElem = createRadialGradient(document,
+                            rg.getCX(), rg.getCY(),
+                            rg.getFX(), rg.getFY(),
+                            rg.getR(),
+                            rg.getStopOffsets(),
+                            rg.getStopColors(),
+                            rg.getStopOpacities(),
+                            rg.isRelativeToFigureBounds(),
+                            rg.getTransform()
+                            );
+                }
+                id = getId(gradientElem);
+                gradientElem.setAttribute("id","xml",id);
+                defs.addChild(gradientElem);
+                gradientToIDMap.put(gradient, id);
             }
-            String id = getId(gradientElem);
-            gradientElem.setAttribute("id","xml",id);
-            defs.addChild(gradientElem);
             writeAttribute(elem, "stroke", "url(#"+id+")", "none");
         } else {
             writeAttribute(elem, "stroke", toColor(STROKE_COLOR.get(f)), "none");
@@ -1043,8 +1073,8 @@ public class SVGOutputFormat implements OutputFormat {
      * Returns a double array as a number attribute value.
      */
     public static String toNumber(double number) {
-        String str = (isFloatPrecision) ? 
-            Float.toString((float) number) : 
+        String str = (isFloatPrecision) ?
+            Float.toString((float) number) :
             Double.toString(number);
         if (str.endsWith(".0")) {
             str = str.substring(0, str.length() -  2);
@@ -1192,8 +1222,7 @@ public class SVGOutputFormat implements OutputFormat {
         document.setAttribute("version","1.2");
         document.setAttribute("baseProfile","tiny");
         
-        nextId = 0;
-        identifiedElements = new HashMap<IXMLElement,String>();
+        initStorageContext(document);
         
         defs = new XMLElement("defs");
         document.addChild(defs);
@@ -1205,7 +1234,7 @@ public class SVGOutputFormat implements OutputFormat {
         // Write XML prolog
         PrintWriter writer = new PrintWriter(
                 new OutputStreamWriter(out, "UTF-8")
-                ); 
+                );
         writer.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
         
         // Write XML content
@@ -1213,6 +1242,10 @@ public class SVGOutputFormat implements OutputFormat {
         
         // Flush writer
         writer.flush();
+    }
+    private void initStorageContext(IXMLElement root) {
+        identifiedElements = new HashMap<IXMLElement, String>();
+        gradientToIDMap = new HashMap<Gradient,String>();
     }
     
     /**
