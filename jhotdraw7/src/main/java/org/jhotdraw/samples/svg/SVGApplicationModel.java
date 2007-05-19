@@ -62,6 +62,7 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.svg.Labels");
         AbstractAction aa;
         
+        putAction(ViewSourceAction.ID, new ViewSourceAction(a));
         putAction(ExportAction.ID, new ExportAction(a));
         putAction("toggleGrid", aa = new ToggleProjectPropertyAction(a, "gridVisible"));
         drawLabels.configureAction(aa, "alignGrid");
@@ -240,6 +241,7 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         }
         m.add(m2);
         cbmi = new JCheckBoxMenuItem(getAction("togglePropertiesPanel"));
+        m.add(getAction(ViewSourceAction.ID));
         m.add(cbmi);
         
         mb.add(m);

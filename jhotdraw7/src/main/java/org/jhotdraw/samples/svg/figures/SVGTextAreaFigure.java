@@ -35,7 +35,7 @@ import org.jhotdraw.xml.*;
  *
  * @author Werner Randelshofer
  * @version Fixed transformation issues.
- * <br>2.0 2007-04-14 Adapted for new AttributeKeys.TRANSFORM support. 
+ * <br>2.0 2007-04-14 Adapted for new AttributeKeys.TRANSFORM support.
  * <br>1.0 December 9, 2006 Created.
  */
 public class SVGTextAreaFigure extends SVGAttributedFigure
@@ -45,6 +45,10 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
     private Rectangle2D.Double bounds = new Rectangle2D.Double();
     private boolean editable = true;
     private final static BasicStroke dashes = new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] {4f, 4f}, 0f);
+    /**
+     * This is a cached value to improve the performance of method isTextOverflow();
+     */
+    private Boolean isTextOverflow;
     
     /**
      * This is used to perform faster drawing and hit testing.
@@ -105,7 +109,9 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
                 ex.printStackTrace();
             }
         }
-        return getTextShape().getBounds2D().contains(p);
+        
+        Rectangle2D r = getTextShape().getBounds2D();
+        return r.isEmpty() ? getBounds().contains(p) : r.contains(p);
     }
     private Shape getTextShape() {
         if (cachedTextShape == null) {
@@ -114,7 +120,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
             if (getText() != null || isEditable()) {
                 
                 Font font = getFont();
-                boolean isUnderlined = FONT_UNDERLINED.get(this);
+                boolean isUnderlined = FONT_UNDERLINE.get(this);
                 Insets2D.Double insets = getInsets();
                 Rectangle2D.Double textRect = new Rectangle2D.Double(
                         bounds.x + insets.left,
@@ -152,14 +158,6 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
                             }
                         }
                     }
-                }
-                
-                if (leftMargin >= rightMargin || verticalPos > textRect.y + textRect.height) {
-                    shape.moveTo((float) textRect.x, (float) (textRect.y + textRect.height - 1));
-                    shape.lineTo((float) (textRect.x + textRect.width - 1), (float) (textRect.y + textRect.height - 1));
-                    shape.lineTo((float) (textRect.x + textRect.width - 1), (float) (textRect.y + textRect.height));
-                    shape.lineTo((float) (textRect.x), (float) (textRect.y + textRect.height));
-                    shape.closePath();
                 }
             }
         }
@@ -262,8 +260,10 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
                 float nextPosition = positionEnum.next();
                 AffineTransform tx = new AffineTransform();
                 tx.translate(nextPosition, verticalPos);
-                Shape outline = nextLayout.getOutline(tx);
-                shape.append(outline, false);
+                if (shape != null) {
+                    Shape outline = nextLayout.getOutline(tx);
+                    shape.append(outline, false);
+                }
                 //nextLayout.draw(g, nextPosition, verticalPos);
             }
             
@@ -324,8 +324,8 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
         Object[] restoreData = (Object[]) geometry;
         bounds = (Rectangle2D.Double) ((Rectangle2D.Double) restoreData[0]).clone();
         TRANSFORM.setClone(this, (AffineTransform) restoreData[1]);
-            FILL_GRADIENT.setClone(this, (Gradient) restoreData[2]);
-            STROKE_GRADIENT.setClone(this, (Gradient) restoreData[3]);
+        FILL_GRADIENT.setClone(this, (Gradient) restoreData[2]);
+        STROKE_GRADIENT.setClone(this, (Gradient) restoreData[3]);
         invalidate();
     }
     
@@ -431,11 +431,12 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
     }
     @Override public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
-
+        
         switch (detailLevel % 2) {
             case 0 :
                 ResizeHandleKit.addResizeHandles(this, handles);
                 handles.add(new FontSizeHandle(this));
+                handles.add(new TextOverflowHandle(this));
                 break;
             case 1 :
                 TransformHandleKit.addTransformHandles(this, handles);
@@ -478,8 +479,57 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
         super.invalidate();
         cachedDrawingArea = null;
         cachedTextShape = null;
+        isTextOverflow = null;
     }
     
+    
+    public boolean isTextOverflow() {
+        if (isTextOverflow == null) {
+            isTextOverflow = false;
+            
+            if (getText() != null || isEditable()) {
+                Font font = getFont();
+                boolean isUnderlined = FONT_UNDERLINE.get(this);
+                Insets2D.Double insets = getInsets();
+                Rectangle2D.Double textRect = new Rectangle2D.Double(
+                        bounds.x + insets.left,
+                        bounds.y + insets.top,
+                        bounds.width - insets.left - insets.right,
+                        bounds.height - insets.top - insets.bottom
+                        );
+                float leftMargin = (float) textRect.x;
+                float rightMargin = (float) Math.max(leftMargin + 1, textRect.x + textRect.width);
+                float verticalPos = (float) textRect.y;
+                float maxVerticalPos = (float) (textRect.y + textRect.height);
+                if (leftMargin < rightMargin) {
+                    float tabWidth = (float) (getTabSize() * font.getStringBounds("m", getFontRenderContext()).getWidth());
+                    float[] tabStops = new float[(int) (textRect.width / tabWidth)];
+                    for (int i=0; i < tabStops.length; i++) {
+                        tabStops[i] = (float) (textRect.x + (int) (tabWidth * (i + 1)));
+                    }
+                    
+                    if (getText() != null) {
+                        String[] paragraphs = getText().split("\n");//Strings.split(getText(), '\n');
+                        for (int i = 0; i < paragraphs.length; i++) {
+                            if (paragraphs[i].length() == 0) paragraphs[i] = " ";
+                            AttributedString as = new AttributedString(paragraphs[i]);
+                            as.addAttribute(TextAttribute.FONT, font);
+                            if (isUnderlined) {
+                                as.addAttribute(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
+                            }
+                            int tabCount = new StringTokenizer(paragraphs[i], "\t").countTokens() - 1;
+                            verticalPos = appendParagraph(null, as.getIterator(), verticalPos, maxVerticalPos, leftMargin, rightMargin, tabStops, tabCount);
+                            if (verticalPos > maxVerticalPos) {
+                                break;
+                            }
+                        }
+                    }
+                    isTextOverflow = (leftMargin >= rightMargin || verticalPos > textRect.y + textRect.height);
+                }
+            }
+        }
+        return isTextOverflow;
+    }
     
     
     public SVGTextAreaFigure clone() {

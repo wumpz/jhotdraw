@@ -678,16 +678,15 @@ public class ButtonFactory {
         for (int i=0; i < widths.length; i++) {
             String label = Double.toString(widths[i]);
             Icon icon = new StrokeIcon(new BasicStroke((float) widths[i], BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
-            
-            AbstractButton btn = strokeWidthPopupButton.add(
-                    new AttributeAction(
+            AttributeAction a = new AttributeAction(
                     editor,
                     STROKE_WIDTH,
                     new Double(widths[i]),
                     label,
                     icon
-                    )
                     );
+            a.putValue(Actions.UNDO_PRESENTATION_NAME_KEY, labels.getString("attributeStrokeWidth"));
+            AbstractButton btn = strokeWidthPopupButton.add(a);
             btn.setDisabledIcon(icon);
         }
         return strokeWidthPopupButton;
@@ -1087,16 +1086,18 @@ public class ButtonFactory {
     }
     public static JButton createFontStyleBoldButton(DrawingEditor editor,
             ResourceBundleUtil labels) {
-        JButton boldToggleButton;
-        boldToggleButton = new JButton();
-        labels.configureToolBarButton(boldToggleButton, "attributeFontBold");
-        boldToggleButton.setFocusable(false);
+        JButton btn;
+        btn = new JButton();
+        labels.configureToolBarButton(btn, "attributeFontBold");
+        btn.setFocusable(false);
         
-        boldToggleButton.addActionListener(new AttributeToggler(editor,
+        AbstractAction a = new AttributeToggler(editor,
                 FONT_BOLD, Boolean.TRUE, Boolean.FALSE,
                 new StyledEditorKit.BoldAction()
-                ));
-        return boldToggleButton;
+                );
+        a.putValue(Actions.UNDO_PRESENTATION_NAME_KEY, labels.getString("attributeFontBold"));
+        btn.addActionListener(a);
+                return btn;
     }
     public static JButton createFontStyleItalicButton(DrawingEditor editor) {
         return createFontStyleItalicButton(editor,
@@ -1105,16 +1106,18 @@ public class ButtonFactory {
     }
     public static JButton createFontStyleItalicButton(DrawingEditor editor,
             ResourceBundleUtil labels) {
-        JButton italicToggleButton;
-        italicToggleButton = new JButton();
-        labels.configureToolBarButton(italicToggleButton, "attributeFontItalic");
-        italicToggleButton.setFocusable(false);
+        JButton btn;
+        btn = new JButton();
+        labels.configureToolBarButton(btn, "attributeFontItalic");
+        btn.setFocusable(false);
         
-        italicToggleButton.addActionListener(new AttributeToggler(editor,
+        AbstractAction a = new AttributeToggler(editor,
                 FONT_ITALIC, Boolean.TRUE, Boolean.FALSE,
-                new StyledEditorKit.ItalicAction()
-                ));
-        return italicToggleButton;
+                new StyledEditorKit.BoldAction()
+                );
+        a.putValue(Actions.UNDO_PRESENTATION_NAME_KEY, labels.getString("attributeFontItalic"));
+        btn.addActionListener(a);
+        return btn;
     }
     public static JButton createFontStyleUnderlineButton(DrawingEditor editor) {
         return createFontStyleUnderlineButton(editor,
@@ -1123,17 +1126,18 @@ public class ButtonFactory {
     }
     public static JButton createFontStyleUnderlineButton(DrawingEditor editor,
             ResourceBundleUtil labels) {
-        JButton underlineToggleButton;
-        underlineToggleButton = new JButton();
-        labels.configureToolBarButton(underlineToggleButton, "attributeFontUnderline");
-        underlineToggleButton.setFocusable(false);
+        JButton btn;
+        btn = new JButton();
+        labels.configureToolBarButton(btn, "attributeFontUnderline");
+        btn.setFocusable(false);
         
-        underlineToggleButton.addActionListener(new AttributeToggler(editor,
-                FONT_UNDERLINED, Boolean.TRUE, Boolean.FALSE,
-                new StyledEditorKit.UnderlineAction()
-                ));
-        
-        return underlineToggleButton;
+        AbstractAction a = new AttributeToggler(editor,
+                FONT_UNDERLINE, Boolean.TRUE, Boolean.FALSE,
+                new StyledEditorKit.BoldAction()
+                );
+        a.putValue(Actions.UNDO_PRESENTATION_NAME_KEY, labels.getString("attributeFontUnderline"));
+        btn.addActionListener(a);
+        return btn;
     }
     /**
      * Creates toolbar buttons and adds them to the specified JToolBar

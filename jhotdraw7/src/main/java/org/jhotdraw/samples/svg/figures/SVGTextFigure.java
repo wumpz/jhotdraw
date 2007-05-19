@@ -146,8 +146,8 @@ public class SVGTextFigure
             FontRenderContext frc = getFontRenderContext();
             HashMap<TextAttribute,Object> textAttributes = new HashMap<TextAttribute,Object>();
             textAttributes.put(TextAttribute.FONT, getFont());
-            if (FONT_UNDERLINED.get(this)) {
-                textAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
+            if (FONT_UNDERLINE.get(this)) {
+                textAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
             }
             TextLayout textLayout = new TextLayout(text, textAttributes, frc);
             
@@ -403,5 +403,9 @@ public class SVGTextFigure
     
     public boolean isEmpty() {
         return getText() == null || getText().length() == 0;
+    }
+
+    public boolean isTextOverflow() {
+        return false;
     }
 }

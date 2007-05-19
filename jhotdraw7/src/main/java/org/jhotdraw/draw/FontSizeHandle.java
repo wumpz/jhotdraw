@@ -87,7 +87,7 @@ public class FontSizeHandle extends LocatorHandle {
             public String getPresentationName() {
                 ResourceBundleUtil labels =
                         ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
-                return labels.getString("fontSize");
+                return labels.getString("attributeFontSize");
             }
             public void undo() {
                 super.undo();

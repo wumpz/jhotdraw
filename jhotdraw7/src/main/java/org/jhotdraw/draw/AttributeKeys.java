@@ -232,7 +232,7 @@ public class AttributeKeys {
     /**
      * The value of this attribute is a Boolean object.
      */
-    public final static AttributeKey<Boolean> FONT_UNDERLINED = new AttributeKey<Boolean>("fontUnderlined", false, false);
+    public final static AttributeKey<Boolean> FONT_UNDERLINE = new AttributeKey<Boolean>("fontUnderlined", false, false);
     /**
      * The value of this attribute is a Liner object.
      */
@@ -301,7 +301,7 @@ public class AttributeKeys {
             FONT_SIZE,
             FONT_BOLD,
             FONT_ITALIC,
-            FONT_UNDERLINED,
+            FONT_UNDERLINE,
             BEZIER_PATH_LAYOUTER,
             END_DECORATION,
             START_DECORATION,

@@ -230,6 +230,10 @@ public class SVGProject extends AbstractProject implements ExportableProject {
         return editor;
     }
     
+    public Drawing getDrawing() {
+        return view.getDrawing();
+    }
+    
     public void setEnabled(boolean newValue) {
         view.setEnabled(newValue);
         super.setEnabled(newValue);

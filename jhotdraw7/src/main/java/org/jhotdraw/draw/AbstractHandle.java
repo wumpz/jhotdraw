@@ -144,21 +144,27 @@ public abstract class AbstractHandle implements Handle, FigureListener {
     }
     protected void drawCircle(Graphics2D g, Color fill, Color stroke) {
         Rectangle r = getBounds();
-        
+        if (fill != null) {
         g.setColor(fill);
         g.fillOval(r.x, r.y, r.width, r.height);
+        }
+        if (stroke != null) {
         g.setStroke(new BasicStroke());
         g.setColor(stroke);
         g.drawOval(r.x, r.y, r.width, r.height);
+        }
     }
     protected void drawRectangle(Graphics2D g, Color fill, Color stroke) {
         Rectangle r = getBounds();
-        
+        if (fill != null) {
         g.setColor(fill);
         g.fill(r);
+        }
+        if (stroke != null) {
         g.setStroke(new BasicStroke());
         g.setColor(stroke);
         g.draw(r);
+        }
     }
     protected void drawDiamond(Graphics2D g, Color fill, Color stroke) {
         Rectangle r = getBounds();
@@ -171,11 +177,15 @@ public abstract class AbstractHandle implements Handle, FigureListener {
         p.addPoint(r.x, r.y + r.height / 2);
         p.addPoint(r.x + r.width / 2, r.y);
         
+        if (fill != null) {
         g.setColor(fill);
         g.fill(p);
+        }
+        if (stroke != null) {
         g.setStroke(new BasicStroke());
         g.setColor(stroke);
         g.draw(p);
+        }
     }
     
     public boolean contains(Point p) {

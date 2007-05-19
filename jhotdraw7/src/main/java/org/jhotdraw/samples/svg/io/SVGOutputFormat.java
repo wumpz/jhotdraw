@@ -76,6 +76,11 @@ public class SVGOutputFormat implements OutputFormat {
      */
     private HashMap<Gradient,String> gradientToIDMap;
     
+    /**
+     * Set this to true for pretty printing.
+     */
+    private boolean isPrettyPrint;
+    
     private final static HashMap<Integer, String> strokeLinejoinMap;
     static {
         strokeLinejoinMap = new HashMap<Integer, String>();
@@ -110,6 +115,14 @@ public class SVGOutputFormat implements OutputFormat {
     
     public JComponent getOutputFormatAccessory() {
         return null;
+    }
+    
+    
+    public void setPrettyPrint(boolean newValue) {
+        isPrettyPrint = newValue;
+    }
+    public boolean isPrettyPrint() {
+        return isPrettyPrint;
     }
     
     protected void writeElement(IXMLElement parent, Figure f) throws IOException {
@@ -952,22 +965,22 @@ public class SVGOutputFormat implements OutputFormat {
             } else if (path.size() == 1) {
                 BezierPath.Node current = path.get(0);
                 buf.append("M ");
-                buf.append(current.x[0]);
+                buf.append(toNumber(current.x[0]));
                 buf.append(' ');
-                buf.append(current.y[0]);
+                buf.append(toNumber(current.y[0]));
                 buf.append(" L ");
-                buf.append(current.x[0]);
+                buf.append(toNumber(current.x[0]));
                 buf.append(' ');
-                buf.append(current.y[0] + 1);
+                buf.append(toNumber(current.y[0] + 1));
             } else {
                 BezierPath.Node previous;
                 BezierPath.Node current;
                 
                 previous = current = path.get(0);
                 buf.append("M ");
-                buf.append(current.x[0]);
+                buf.append(toNumber(current.x[0]));
                 buf.append(' ');
-                buf.append(current.y[0]);
+                buf.append(toNumber(current.y[0]));
                 for (int i=1, n = path.size(); i < n; i++) {
                     previous = current;
                     current = path.get(i);
@@ -975,42 +988,42 @@ public class SVGOutputFormat implements OutputFormat {
                     if ((previous.mask & BezierPath.C2_MASK) == 0) {
                         if ((current.mask & BezierPath.C1_MASK) == 0) {
                             buf.append(" L ");
-                            buf.append(current.x[0]);
+                            buf.append(toNumber(current.x[0]));
                             buf.append(' ');
-                            buf.append(current.y[0]);
+                            buf.append(toNumber(current.y[0]));
                         } else {
                             buf.append(" Q ");
-                            buf.append(current.x[1]);
+                            buf.append(toNumber(current.x[1]));
                             buf.append(' ');
-                            buf.append(current.y[1]);
+                            buf.append(toNumber(current.y[1]));
                             buf.append(' ');
-                            buf.append(current.x[0]);
+                            buf.append(toNumber(current.x[0]));
                             buf.append(' ');
-                            buf.append(current.y[0]);
+                            buf.append(toNumber(current.y[0]));
                         }
                     } else {
                         if ((current.mask & BezierPath.C1_MASK) == 0) {
                             buf.append(" Q ");
-                            buf.append(previous.x[2]);
+                            buf.append(toNumber(previous.x[2]));
                             buf.append(' ');
-                            buf.append(previous.y[2]);
+                            buf.append(toNumber(previous.y[2]));
                             buf.append(' ');
-                            buf.append(current.x[0]);
+                            buf.append(toNumber(current.x[0]));
                             buf.append(' ');
-                            buf.append(current.y[0]);
+                            buf.append(toNumber(current.y[0]));
                         } else {
                             buf.append(" C ");
-                            buf.append(previous.x[2]);
+                            buf.append(toNumber(previous.x[2]));
                             buf.append(' ');
-                            buf.append(previous.y[2]);
+                            buf.append(toNumber(previous.y[2]));
                             buf.append(' ');
-                            buf.append(current.x[1]);
+                            buf.append(toNumber(current.x[1]));
                             buf.append(' ');
-                            buf.append(current.y[1]);
+                            buf.append(toNumber(current.y[1]));
                             buf.append(' ');
-                            buf.append(current.x[0]);
+                            buf.append(toNumber(current.x[0]));
                             buf.append(' ');
-                            buf.append(current.y[0]);
+                            buf.append(toNumber(current.y[0]));
                         }
                     }
                 }
@@ -1022,42 +1035,42 @@ public class SVGOutputFormat implements OutputFormat {
                         if ((previous.mask & BezierPath.C2_MASK) == 0) {
                             if ((current.mask & BezierPath.C1_MASK) == 0) {
                                 buf.append(" L ");
-                                buf.append(current.x[0]);
+                                buf.append(toNumber(current.x[0]));
                                 buf.append(' ');
-                                buf.append(current.y[0]);
+                                buf.append(toNumber(current.y[0]));
                             } else {
                                 buf.append(" Q ");
-                                buf.append(current.x[1]);
+                                buf.append(toNumber(current.x[1]));
                                 buf.append(' ');
-                                buf.append(current.y[1]);
+                                buf.append(toNumber(current.y[1]));
                                 buf.append(' ');
-                                buf.append(current.x[0]);
+                                buf.append(toNumber(current.x[0]));
                                 buf.append(' ');
-                                buf.append(current.y[0]);
+                                buf.append(toNumber(current.y[0]));
                             }
                         } else {
                             if ((current.mask & BezierPath.C1_MASK) == 0) {
                                 buf.append(" Q ");
-                                buf.append(previous.x[2]);
+                                buf.append(toNumber(previous.x[2]));
                                 buf.append(' ');
-                                buf.append(previous.y[2]);
+                                buf.append(toNumber(previous.y[2]));
                                 buf.append(' ');
-                                buf.append(current.x[0]);
+                                buf.append(toNumber(current.x[0]));
                                 buf.append(' ');
-                                buf.append(current.y[0]);
+                                buf.append(toNumber(current.y[0]));
                             } else {
                                 buf.append(" C ");
-                                buf.append(previous.x[2]);
+                                buf.append(toNumber(previous.x[2]));
                                 buf.append(' ');
-                                buf.append(previous.y[2]);
+                                buf.append(toNumber(previous.y[2]));
                                 buf.append(' ');
-                                buf.append(current.x[1]);
+                                buf.append(toNumber(current.x[1]));
                                 buf.append(' ');
-                                buf.append(current.y[1]);
+                                buf.append(toNumber(current.y[1]));
                                 buf.append(' ');
-                                buf.append(current.x[0]);
+                                buf.append(toNumber(current.x[0]));
                                 buf.append(' ');
-                                buf.append(current.y[0]);
+                                buf.append(toNumber(current.y[0]));
                             }
                         }
                     }
@@ -1238,7 +1251,8 @@ public class SVGOutputFormat implements OutputFormat {
         writer.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
         
         // Write XML content
-        new XMLWriter(writer).write(document);
+        XMLWriter xmlWriter = new XMLWriter(writer);
+        xmlWriter.write(document, isPrettyPrint);
         
         // Flush writer
         writer.flush();

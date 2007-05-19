@@ -20,7 +20,10 @@ import javax.swing.*;
 import javax.swing.text.*;
 import javax.swing.event.*;
 import java.util.*;
+import javax.swing.undo.*;
+import org.jhotdraw.app.action.*;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.util.ResourceBundleUtil;
 /**
  * AttributeToggler toggles an attribute of the selected figures between two
  * different values.
@@ -34,7 +37,7 @@ import org.jhotdraw.draw.*;
  * <br>2.0 2006-02-27 Toggle attributes regardles from action state.
  * <br>1.0 27. November 2003  Created.
  */
-public class AttributeToggler implements ActionListener {
+public class AttributeToggler extends AbstractAction {
     private DrawingEditor editor;
     private AttributeKey key;
     private Object value1;
@@ -71,23 +74,59 @@ public class AttributeToggler implements ActionListener {
             }
         }
         
+        // Determine the new value
         Iterator i = getView().getSelectedFigures().iterator();
-        Object newValue = null;
+        Object toggleValue = value1;
         if (i.hasNext()) {
             Figure f = (Figure) i.next();
             Object attr = f.getAttribute(key);
             if (value1 == null && attr == null ||
                     (value1 != null && attr != null && attr.equals(value1))) {
-                newValue = value2;
-            } else {
-                newValue = value1;
+                toggleValue = value2;
             }
-            getEditor().setDefaultAttribute(key, newValue);
-            f.setAttribute(key, newValue);
         }
-        while (i.hasNext()) {
-            Figure f = (Figure) i.next();
-            f.setAttribute(key, newValue);
+        final Object newValue = toggleValue;
+        
+        //--
+        final ArrayList<Figure> selectedFigures = new ArrayList(getView().getSelectedFigures());
+        final ArrayList<Object> restoreData = new ArrayList<Object>(selectedFigures.size());
+        for (Figure figure : selectedFigures) {
+            restoreData.add(figure.getAttributesRestoreData());
+            figure.willChange();
+            key.set(figure, newValue);
+            figure.changed();
         }
+        UndoableEdit edit = new AbstractUndoableEdit() {
+            public String getPresentationName() {
+                String name = (String) getValue(Actions.UNDO_PRESENTATION_NAME_KEY);
+                if (name == null) {
+                    name = (String) getValue(AbstractAction.NAME);
+                }
+                if (name == null) {
+                    ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+                    name = labels.getString("attribute");
+                }
+                return name;
+            }
+            public void undo() {
+                super.undo();
+                Iterator<Object> iRestore = restoreData.iterator();
+                for (Figure figure : selectedFigures) {
+                    figure.willChange();
+                    figure.restoreAttributesTo(iRestore.next());
+                    figure.changed();
+                }
+            }
+            public void redo() {
+                super.redo();
+                for (Figure figure : selectedFigures) {
+                    restoreData.add(figure.getAttributesRestoreData());
+                    figure.willChange();
+                    key.set(figure, newValue);
+                    figure.changed();
+                }
+            }
+        };
+        getView().getDrawing().fireUndoableEditHappened(edit);
     }
 }

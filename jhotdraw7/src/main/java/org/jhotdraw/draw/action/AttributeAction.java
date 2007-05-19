@@ -15,6 +15,7 @@
 package org.jhotdraw.draw.action;
 
 import javax.swing.undo.*;
+import org.jhotdraw.app.action.Actions;
 import org.jhotdraw.undo.*;
 import javax.swing.*;
 import javax.swing.text.*;
@@ -22,6 +23,7 @@ import java.util.*;
 import java.awt.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.geom.*;
+import org.jhotdraw.util.ResourceBundleUtil;
 /**
  * AttributeAction.
  *
@@ -34,6 +36,7 @@ import org.jhotdraw.geom.*;
  */
 public class AttributeAction extends AbstractSelectedAction {
     protected Map<AttributeKey, Object> attributes;
+    
     
     /** Creates a new instance. */
     /** Creates a new instance. */
@@ -76,7 +79,6 @@ public class AttributeAction extends AbstractSelectedAction {
         
         final ArrayList<Figure> selectedFigures = new ArrayList(getView().getSelectedFigures());
         final ArrayList<Object> restoreData = new ArrayList<Object>(selectedFigures.size());
-        Iterator i = selectedFigures.iterator();
         for (Figure figure : selectedFigures) {
             restoreData.add(figure.getAttributesRestoreData());
             figure.willChange();
@@ -87,7 +89,15 @@ public class AttributeAction extends AbstractSelectedAction {
         }
         UndoableEdit edit = new AbstractUndoableEdit() {
             public String getPresentationName() {
-                return labels.getString("drawAttributeChange");
+                String name = (String) getValue(Actions.UNDO_PRESENTATION_NAME_KEY);
+                if (name == null) {
+                    name = (String) getValue(AbstractAction.NAME);
+                }
+                if (name == null) {
+                    ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+                    name = labels.getString("attribute");
+                }
+                return name;
             }
             public void undo() {
                 super.undo();
