@@ -14,6 +14,7 @@
 
 package org.jhotdraw.samples.svg;
 
+import javax.swing.undo.*;
 import org.jhotdraw.samples.svg.figures.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.util.*;
@@ -66,5 +67,6 @@ public class PathTool extends BezierTool {
         createdPath.add(createdFigure);
         getDrawing().add(createdPath);
         getView().addToSelection(createdPath);
+        fireUndoEvent(createdPath);
     }
 }

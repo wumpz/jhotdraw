@@ -26,15 +26,15 @@ import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * ViewSourceAction.
- * 
+ *
  * @author Werner Randelshofer
  * @version 1.0 19. Mai 2007 Created.
  */
 public class ViewSourceAction extends AbstractProjectAction {
-   private ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.svg.Labels");
-
-   public final static String ID = "viewSource";
-   
+    private ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.svg.Labels");
+    
+    public final static String ID = "viewSource";
+    
     /** Creates a new instance. */
     public ViewSourceAction(Application app) {
         super(app);
@@ -58,7 +58,10 @@ public class ViewSourceAction extends AbstractProjectAction {
             dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
             JTextArea ta = new JTextArea(source);
             ta.setWrapStyleWord(true);
-            dialog.getContentPane().add(new JScrollPane(ta));
+            ta.setLineWrap(true);
+            JScrollPane sp = new JScrollPane(ta);
+            //sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+            dialog.getContentPane().add(sp);
             dialog.setSize(400, 400);
             dialog.setLocationByPlatform(true);
             dialog.setVisible(true);

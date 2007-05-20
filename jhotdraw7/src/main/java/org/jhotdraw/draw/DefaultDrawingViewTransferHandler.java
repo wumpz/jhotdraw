@@ -1,5 +1,5 @@
 /*
- * @(#)DrawingViewTransferHandler.java  1.0  April 13, 2007
+ * @(#)DefaultDrawingViewTransferHandler.java  1.0  April 13, 2007
  *
  * Copyright (c) 2007 Werner Randelshofer
  * Staldenmattweg 2, CH-6405 Immensee, Switzerland
@@ -28,16 +28,16 @@ import org.jhotdraw.util.ResourceBundleUtil;
 import org.jhotdraw.util.ReversedList;
 
 /**
- * TransferHandler for DrawingView objects.
+ * Default TransferHandler for DrawingView objects.
  *
  * @author Werner Randelshofer
  * @version 1.0 April 13, 2007 Created.
  */
-public class DrawingViewTransferHandler extends TransferHandler {
+public class DefaultDrawingViewTransferHandler extends TransferHandler {
     private final static boolean DEBUG = false;
     
     /** Creates a new instance. */
-    public DrawingViewTransferHandler() {
+    public DefaultDrawingViewTransferHandler() {
     }
     
     @Override public boolean importData(JComponent comp, Transferable t) {

@@ -2790,6 +2790,17 @@ public class SVGInputFormat implements InputFormat {
                 value.equals("400") || value.equals("500") || value.equals("600") ||
                 value.equals("700") || value.equals("800") || value.equals("900"));
         
+        // Note: text-decoration is an SVG 1.1 feature
+        //'text-decoration'
+        //Value:  	none | [ underline || overline || line-through || blink ] | inherit
+        //Initial:  	none
+        //Applies to:  	text content elements
+        //Inherited:  	no (see prose)
+        //Percentages:  	N/A
+        //Media:  	visual
+        //Animatable:  	yes
+        value = readAttribute(elem, "text-decoration", "none");
+        FONT_UNDERLINE.set(a, value.equals("underline"));
     }
     
     /**

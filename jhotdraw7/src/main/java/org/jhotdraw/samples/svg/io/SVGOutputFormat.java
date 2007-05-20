@@ -936,6 +936,17 @@ public class SVGOutputFormat implements OutputFormat {
         // values shall be converted to numeric values according to the rules
         // defined below.
         writeAttribute(elem, "font-weight", (FONT_BOLD.get(a)) ? "bold" : "normal", "normal");
+
+        // Note: text-decoration is an SVG 1.1 feature
+        //'text-decoration'
+        //Value:  	none | [ underline || overline || line-through || blink ] | inherit
+        //Initial:  	none
+        //Applies to:  	text content elements
+        //Inherited:  	no (see prose)
+        //Percentages:  	N/A
+        //Media:  	visual
+        //Animatable:  	yes
+        writeAttribute(elem, "text-decoration", (FONT_UNDERLINE.get(a)) ? "underline" :"none", "none");
     }
     
     protected void writeAttribute(IXMLElement elem, String name, String value, String defaultValue) {

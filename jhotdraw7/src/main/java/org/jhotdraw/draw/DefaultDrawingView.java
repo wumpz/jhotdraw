@@ -99,7 +99,7 @@ public class DefaultDrawingView
                 repaintHandles();
             }
         });
-        setTransferHandler(new DrawingViewTransferHandler());
+        setTransferHandler(new DefaultDrawingViewTransferHandler());
     }
     
     /** This method is called from within the constructor to
@@ -846,6 +846,7 @@ public class DefaultDrawingView
             }
             public void undo() throws CannotUndoException {
                 super.undo();
+                clearSelection();
                 getDrawing().addAll(deletedFigures);
                 addToSelection(deletedFigures);
             }
