@@ -44,12 +44,12 @@ public class DependencyFigure extends LineConnectionFigure {
      * Checks if two figures can be connected. Implement this method
      * to constrain the allowed connections between figures.
      */
-    public boolean canConnect(Figure start, Figure end) {
-        if ((start instanceof TaskFigure)
-        && (end instanceof TaskFigure)) {
+   @Override public boolean canConnect(Connector start, Connector end) {
+        if ((start.getOwner() instanceof TaskFigure)
+        && (end.getOwner() instanceof TaskFigure)) {
             
-            TaskFigure sf = (TaskFigure) start;
-            TaskFigure ef = (TaskFigure) end;
+            TaskFigure sf = (TaskFigure) start.getOwner();
+            TaskFigure ef = (TaskFigure) end.getOwner();
             
             // Disallow multiple connections to same dependent
             if (ef.getPredecessors().contains(sf)) {
@@ -62,8 +62,8 @@ public class DependencyFigure extends LineConnectionFigure {
         
         return false;
     }
-    public boolean canConnect(Figure start) {
-        return (start instanceof TaskFigure);
+    @Override public boolean canConnect(Connector start) {
+        return (start.getOwner() instanceof TaskFigure);
     }
     
     
@@ -71,7 +71,7 @@ public class DependencyFigure extends LineConnectionFigure {
      * Handles the disconnection of a connection.
      * Override this method to handle this event.
      */
-    protected void handleDisconnect(Connector start, Connector end) {
+    @Override protected void handleDisconnect(Connector start, Connector end) {
         TaskFigure sf = (TaskFigure) start.getOwner();
         TaskFigure ef = (TaskFigure) end.getOwner();
         
@@ -83,7 +83,7 @@ public class DependencyFigure extends LineConnectionFigure {
      * Handles the connection of a connection.
      * Override this method to handle this event.
      */
-    protected void handleConnect(Connector start, Connector end) {
+    @Override protected void handleConnect(Connector start, Connector end) {
         TaskFigure sf = (TaskFigure) start.getOwner();
         TaskFigure ef = (TaskFigure) end.getOwner();
         

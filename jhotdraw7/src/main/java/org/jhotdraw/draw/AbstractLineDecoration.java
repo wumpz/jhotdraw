@@ -11,7 +11,7 @@
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
  *
-� */
+ */
 
 package org.jhotdraw.draw;
 
@@ -92,28 +92,30 @@ public abstract class AbstractLineDecoration implements LineDecoration {
     }
     
     /**
-     * Returns the drawing bounds of the decorator.
+     * Returns the drawing area of the decorator.
      */
-    public Rectangle2D.Double getDrawBounds(Figure f, Point2D.Double p1, Point2D.Double p2) {
+    public Rectangle2D.Double getDrawingArea(Figure f, Point2D.Double p1, Point2D.Double p2) {
         GeneralPath path = getTransformedDecoratorPath(f, p1, p2);
         Rectangle2D b = path.getBounds2D();
-        Rectangle2D.Double bounds = new Rectangle2D.Double(b.getX(), b.getY(), b.getWidth(), b.getHeight());
+        Rectangle2D.Double area = new Rectangle2D.Double(b.getX(), b.getY(), b.getWidth(), b.getHeight());
         
         if (isStroked) {
             double strokeWidth = STROKE_WIDTH.get(f);
             int strokeJoin = STROKE_JOIN.get(f);
-            float miterLimit = (float) (STROKE_MITER_LIMIT.get(f) * strokeWidth);
+            double miterLimit = (STROKE_MITER_LIMIT.get(f) * strokeWidth);
             
-            int grow;
+            double grow;
             if (strokeJoin == BasicStroke.JOIN_MITER) {
                 grow  = (int) (1 + strokeWidth / 2 * miterLimit);
             } else {
                 grow  = (int) (1 + strokeWidth / 2);
             }
-            Geom.grow(bounds, grow, grow);
+            Geom.grow(area, grow, grow);
+        } else {
+            Geom.grow(area, 1, 1); // grow due to antialiasing
         }
         
-        return bounds;
+        return area;
     }
     
     public double getDecorationRadius(Figure f) {

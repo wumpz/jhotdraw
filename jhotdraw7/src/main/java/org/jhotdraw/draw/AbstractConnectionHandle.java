@@ -23,12 +23,12 @@ import java.util.*;
 /**
  * AbstractConnectionHandle factors the common code for handles
  * that can be used to change the connection of a ConnectionFigure.
- * 
+ *
  * XXX - Undo/Redo is not implemented yet.
- * 
+ *
  * @author Werner Randelshofer
  * @version 3.0 2007-05-18 Changed due to changes in the canConnect methods
- * of the ConnectionFigure interface. Shortened the name from 
+ * of the ConnectionFigure interface. Shortened the name from
  * AbstractChangeConnectionHandle to AbstractConnectionHandle.
  * <br>2.1 2006-02-16 Remove savedLiner from connection while tracking.
  * <br>2.0 2006-01-14 Changed to support double coordinates.
@@ -119,12 +119,14 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
         view.getConstrainer().constrainPoint(p);
         Figure f = findConnectableFigure(p, view.getDrawing());
         if (f != null) {
-        Connector aTarget = findConnectionTarget(p, view.getDrawing());
-        if (aTarget != null) {
-            p = aTarget.getAnchor();
+            Connector aTarget = findConnectionTarget(p, view.getDrawing());
+            if (aTarget != null) {
+                p = aTarget.getAnchor();
+            }
         }
-        }
+        getOwner().willChange();
         setLocation(p);
+        getOwner().changed();
     }
     
     /**
@@ -172,12 +174,13 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
         
         if (getSource() == null && targetFigure != null) {
             return findConnector(p, targetFigure, getOwner());
-        } else {
-                Connector target = findConnector(p, targetFigure, getOwner());
+        } else if (targetFigure != null) {
+            Connector target = findConnector(p, targetFigure, getOwner());
             if ((targetFigure != null) && targetFigure.canConnect()
             && targetFigure != savedTarget
                     && !targetFigure.includes(getOwner())
-                    && canConnect(getSource(), target)) {
+                    && (canConnect(getSource(), target) || 
+                     getTarget() != null && getTarget().getOwner() == targetFigure)) {
                 return target;
             }
         }
@@ -225,7 +228,7 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
     
     abstract protected int getBezierNodeIndex();
     
-   @Override final public Collection<Handle> createSecondaryHandles() {
+    @Override final public Collection<Handle> createSecondaryHandles() {
         LinkedList<Handle> list = new LinkedList<Handle>();
         if (((ConnectionFigure) getOwner()).getLiner() == null && savedLiner == null) {
             int index = getBezierNodeIndex();

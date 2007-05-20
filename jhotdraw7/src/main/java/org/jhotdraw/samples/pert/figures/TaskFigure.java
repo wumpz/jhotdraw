@@ -160,6 +160,7 @@ public class TaskFigure extends GraphicalCompositeFigure {
         }
     }
     public void updateStartTime() {
+        willChange();
         int oldValue = getStartTime();
         int newValue = 0;
         for (TaskFigure pre : getPredecessors()) {
@@ -177,9 +178,7 @@ public class TaskFigure extends GraphicalCompositeFigure {
                 }
             }
         }
-        if (oldValue != newValue) {
-            fireAreaInvalidated();
-        }
+        changed();
     }
     public int getStartTime() {
         try {

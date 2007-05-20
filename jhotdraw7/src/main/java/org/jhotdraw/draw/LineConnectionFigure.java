@@ -167,15 +167,19 @@ public class LineConnectionFigure extends LineFigure
             if (endConnector != null) {
                 getEndFigure().removeFigureListener(connectionHandler);
                 if (getStartFigure() != null) {
-                    handleDisconnect(getStartConnector(), getEndConnector());
+                    if (getDrawing() != null) {
+                        handleDisconnect(getStartConnector(), getEndConnector());
+                    }
                 }
             }
             endConnector = newEnd;
             if (endConnector != null) {
                 getEndFigure().addFigureListener(connectionHandler);
                 if (getStartFigure() != null && getEndFigure() != null) {
-                    handleConnect(getStartConnector(), getEndConnector());
-                    updateConnection();
+                    if (getDrawing() != null) {
+                        handleConnect(getStartConnector(), getEndConnector());
+                        updateConnection();
+                    }
                 }
             }
         }
@@ -242,27 +246,51 @@ public class LineConnectionFigure extends LineFigure
      */
     // CLONING
     // EVENT HANDLING
+    /**
+     * This method is invoked, when the Figure is being removed from a Drawing.
+     * This method invokes handleConnect, if the Figure is connected.
+     *
+     * @see #handleConnect
+     */
     public void addNotify(Drawing drawing) {
         super.addNotify(drawing);
-        /*
+        
         if (getStartConnector() != null && getEndConnector() != null) {
-            handleConnect(getStartFigure(), getEndFigure());
-        }*/
+            handleConnect(getStartConnector(), getEndConnector());
+            updateConnection();
+        }
     }
+    
+    /**
+     * This method is invoked, when the Figure is being removed from a Drawing.
+     * This method invokes handleDisconnect, if the Figure is connected.
+     *
+     * @see #handleDisconnect
+     */
     public void removeNotify(Drawing drawing) {
+        if (getStartConnector() != null && getEndConnector() != null) {
+            handleDisconnect(getStartConnector(), getEndConnector());
+        }
+        // Note: we do not set the connectors to null here, because we
+        // need them when we are added back to a drawing again. For example,
+        // when an undo is performed, after the LineConnection has been
+        // deleted.
         /*
         setStartConnector(null);
         setEndConnector(null);
-        /*
-        if (getStartConnector() != null && getEndConnector() != null) {
-            handleDisconnect(getStartFigure(), getEndFigure());
-        }*/
+         */
         super.removeNotify(drawing);
     }
     
     /**
      * Handles the disconnection of a connection.
      * Override this method to handle this event.
+     * <p>
+     * Note: This method is only invoked, when the Figure is part of a
+     * Drawing. If the Figure is removed from a Drawing, this method is
+     * invoked on behalf of the removeNotify call to the Figure.
+     *
+     * @see #removeNotify
      */
     protected void handleDisconnect(Connector start, Connector end) {
     }
@@ -270,6 +298,12 @@ public class LineConnectionFigure extends LineFigure
     /**
      * Handles the connection of a connection.
      * Override this method to handle this event.
+     * <p>
+     * Note: This method is only invoked, when the Figure is part of a
+     * Drawing. If the Figure is added to a Drawing this method is invoked
+     * on behalf of the addNotify call to the Figure.
+     *
+     * @see #addConnect
      */
     protected void handleConnect(Connector start, Connector end) {
     }
@@ -281,7 +315,7 @@ public class LineConnectionFigure extends LineFigure
         if (this.liner != null) {
             that.liner = (Liner) this.liner.clone();
         }
-        // FIXME - For safety reasons, we clone the connectors, but they would 
+        // FIXME - For safety reasons, we clone the connectors, but they would
         // work, if we continued to use them. Maybe we should state somewhere
         // whether connectors should be reusable, or not.
         // To work properly, that must be registered as a figure listener
@@ -295,7 +329,7 @@ public class LineConnectionFigure extends LineFigure
             that.getEndFigure().addFigureListener(that.connectionHandler);
         }
         if (that.startConnector != null && that.endConnector != null) {
-            that.handleConnect(that.getStartConnector(), that.getEndConnector());
+            //that.handleConnect(that.getStartConnector(), that.getEndConnector());
             that.updateConnection();
         }
         return that;
@@ -430,7 +464,7 @@ public class LineConnectionFigure extends LineFigure
                 Point2D.Double end = getEndConnector().findEnd(this);
                 
                 if(end != null) {
-                   setEndPoint(end);
+                    setEndPoint(end);
                 }
             }
         }

@@ -114,7 +114,9 @@ public class ConnectorHandle extends AbstractHandle {
         if (targetConnector != null) {
             p = targetConnector.getAnchor();
         }
+        getCreatedConnection().willChange();
         getCreatedConnection().setEndPoint(p);
+        getCreatedConnection().changed();
         r = new Rectangle(view.drawingToView(p));
         r.grow(ANCHOR_WIDTH, ANCHOR_WIDTH);
         fireAreaInvalidated(r);

@@ -289,6 +289,7 @@ public abstract class AbstractFigure
         try {
             AbstractFigure that = (AbstractFigure) super.clone();
             that.listenerList = new EventListenerList();
+            that.drawing = null; // Clones need to be explictly added to a drawing
             return that;
         } catch (CloneNotSupportedException e) {
             InternalError error = new InternalError(e.getMessage());

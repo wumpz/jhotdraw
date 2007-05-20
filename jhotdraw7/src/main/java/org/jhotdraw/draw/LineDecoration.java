@@ -1,7 +1,7 @@
 /*
- * @(#)LineDecoration.java  2.0  2006-01-14
+ * @(#)LineDecoration.java  2.1  2007-05-20
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -24,7 +24,8 @@ import java.io.*;
  * LineDecoration is the base class for the different line decorations.
  *
  * @author Werner Randelshofer
- * @version 2.0 2006-01-14 Changed to support double precison coordinates.
+ * @version 2.1 2007-05-20 Renamed getDrawBounds to getDrawingArea.
+ * <br>2.0 2006-01-14 Changed to support double precison coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
 public interface LineDecoration
@@ -45,5 +46,5 @@ extends Cloneable, Serializable {
     /**
      * Returns the drawing bounds of the decorator.
      */
-    public Rectangle2D.Double getDrawBounds(Figure f, Point2D.Double p1, Point2D.Double p2);
+    public Rectangle2D.Double getDrawingArea(Figure f, Point2D.Double p1, Point2D.Double p2);
 }
