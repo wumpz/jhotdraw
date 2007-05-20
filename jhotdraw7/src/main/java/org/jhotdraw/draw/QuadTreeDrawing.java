@@ -45,7 +45,11 @@ public class QuadTreeDrawing extends AbstractDrawing {
     
     /** Creates a new instance. */
     public QuadTreeDrawing() {
-        figureHandler = new FigureHandler();
+        figureHandler = createFigureHandler();
+    }
+    
+    protected FigureHandler createFigureHandler() {
+        return new FigureHandler();
     }
     
     public int indexOf(Figure figure) {

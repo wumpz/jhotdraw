@@ -47,7 +47,11 @@ public class DefaultDrawing
     
     /** Creates a new instance. */
     public DefaultDrawing() {
-        figureHandler = new FigureHandler();
+        figureHandler = createFigureHandler();
+    }
+    
+    protected FigureHandler createFigureHandler() {
+        return new FigureHandler();
     }
     
     public int indexOf(Figure figure) {
