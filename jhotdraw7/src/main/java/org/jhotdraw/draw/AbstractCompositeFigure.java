@@ -77,7 +77,13 @@ public abstract class AbstractCompositeFigure
             this.owner = owner;
         }
         @Override public void figureRequestRemove(FigureEvent e) {
-            owner.remove(e.getFigure());
+            // If the CompositeFigure is removed from a drawing, we get
+            // lots of figureRequestRemove events from our children. In this case
+            // we must not remove them from ourselves, because we are not
+            // part of a drawing anyway.
+            if (owner.getDrawing() != null) {
+                owner.remove(e.getFigure());
+            }
         }
         
         @Override public void figureChanged(FigureEvent e) {
@@ -149,11 +155,11 @@ public abstract class AbstractCompositeFigure
         }
     }
     public void removeNotify(Drawing drawing) {
+        super.removeNotify(drawing);
         // Copy children collection to avoid concurrent modification exception
         for (Figure child : new LinkedList<Figure>(children)) {
             child.removeNotify(drawing);
         }
-        super.removeNotify(drawing);
     }
     
     public boolean remove(final Figure figure) {
@@ -181,7 +187,7 @@ public abstract class AbstractCompositeFigure
             return false;
         } else {
             basicRemoveChild(index);
-        invalidate();
+            invalidate();
             return true;
         }
     }

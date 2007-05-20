@@ -117,6 +117,9 @@ public abstract class AbstractDrawing extends AbstractBean implements Drawing {
         fireAreaInvalidated(figure.getDrawingArea());
     }
     
+    /**
+     * Thi
+     */
     public void basicAdd(Figure figure) {
         basicAdd(getFigureCount(), figure);
     }

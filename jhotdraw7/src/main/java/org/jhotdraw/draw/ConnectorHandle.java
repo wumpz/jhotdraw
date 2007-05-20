@@ -214,4 +214,7 @@ public class ConnectorHandle extends AbstractHandle {
         r.grow(getHandlesize() / 2, getHandlesize() / 2);
         return r;
     }
+    @Override public boolean isCombinableWith(Handle handle) {
+        return false;
+    }
 }

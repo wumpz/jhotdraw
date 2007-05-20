@@ -46,16 +46,20 @@ public interface Drawing extends Serializable, DOMStorable {
     public void clear();
     /**
      * Adds a figure to the drawing.
-     * The drawing sends an <code>addNotify</code> message to the figure
+     * The drawing sends an {@code addNotify} message to the figure
      * after it has been added.
+     *
+     * @see Figure#addNotify
      *
      * @param figure to be added to the drawing
      */
     public void add(Figure figure);
     /**
      * Adds a collection of figures to the drawing.
-     * The drawing sends an <code>addNotify</code>  message to each figure
+     * The drawing sends an {@code addNotify}  message to each figure
      * after it has been added.
+     *
+     * @see Figure#addNotify
      *
      * @param figures to be added to the drawing
      */
@@ -63,16 +67,20 @@ public interface Drawing extends Serializable, DOMStorable {
     
     /**
      * Removes a figure from the drawing.
-     * The drawing sends a <code>removeNotify</code>  message to the figure
+     * The drawing sends a {@code removeNotify} message to the figure
      * before it is removed.
+     *
+     * @see Figure#removeNotify
      *
      * @param figure that is part of the drawing and should be removed
      */
     public void remove(Figure figure);
     /**
      * Removes the specified figures from the drawing.
-     * The drawing sends a <code>removeNotify</code>  message to each figure
+     * The drawing sends a {@code removeNotify}  message to each figure
      * before it is removed.
+     *
+     * @see Figure#removeNotify
      *
      * @param figures A collection of figures which are part of the drawing
      * and should be removed
@@ -81,15 +89,14 @@ public interface Drawing extends Serializable, DOMStorable {
     
     /**
      * Removes a figure temporarily from the drawing.
-     * The drawing sends no </code>removeNotify</code> message to the figure.
      *
-     * @see #basicAdd(Figure)
+     * @see #basicAdd(Figure
+     * 
      * @param figure that is part of the drawing and should be removed
      */
     public void basicRemove(Figure figure);
     /**
      * Removes the specified figures temporarily from the drawing.
-     * The drawing sends no </code>removeNotify</code> message to the figures.
      *
      * @see #basicAddAll(int, Collection)
      * @param figures A collection of figures which are part of the drawing
@@ -98,7 +105,9 @@ public interface Drawing extends Serializable, DOMStorable {
     public void basicRemoveAll(Collection<Figure> figures);
     /**
      * Reinserts a figure which was temporarily removed using basicRemove.
-     * The drawing sends no <code>addNotify</code> message to the figure.
+     * <p>
+     * This is a convenience method for calling 
+     * {@code basicAdd(getFigureCount(), figure)}.
      *
      * @see #basicRemove(Figure)
      * @param figure that is part of the drawing and should be removed
@@ -106,7 +115,6 @@ public interface Drawing extends Serializable, DOMStorable {
     public void basicAdd(Figure figure);
     /**
      * Reinserts a figure which was temporarily removed using basicRemove.
-     * The drawing sends no <code>addNotify</code> message to the figure.
      *
      * @see #basicRemove(Figure)
      * @param figure that is part of the drawing and should be removed
@@ -115,15 +123,15 @@ public interface Drawing extends Serializable, DOMStorable {
     
     /**
      * Returns the index of the specified figure.
+     *
      * Returns -1 if the Figure is not directly contained in this Drawing, for
      * example if the Figure is a child of a CompositeFigure.
      */
     public int indexOf(Figure figure);
     
     /**
-     * Reinserts the specified figures which were temporarily basicRemoveed from
+     * Reinserts the specified figures which were temporarily removed from
      * the drawing.
-     * The drawing sends no <code>addNotify</code> message to the figures.
      *
      * @see #basicRemoveAll(Collection)
      * @param index The insertion index.
