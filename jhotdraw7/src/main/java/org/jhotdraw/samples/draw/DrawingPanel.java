@@ -195,7 +195,7 @@ public class DrawingPanel extends JPanel  {
         ButtonFactory.addToolTo(tb, editor, new CreationTool(new LineFigure()), "createLine", labels);
         ButtonFactory.addToolTo(tb, editor, ct = new CreationTool(new LineFigure()), "createArrow", labels);
        af = (AbstractAttributedFigure) ct.getPrototype();
-        END_DECORATION.set(af, new ArrowTip(0.35, 12, 11.3));
+        END_DECORATION.basicSet(af, new ArrowTip(0.35, 12, 11.3));
         ButtonFactory.addToolTo(tb, editor, new ConnectionTool(new LineConnectionFigure()), "createLineConnection", labels);
         ButtonFactory.addToolTo(tb, editor, cnt = new ConnectionTool(new LineConnectionFigure()), "createElbowConnection", labels);
      lc =  cnt.getPrototype();

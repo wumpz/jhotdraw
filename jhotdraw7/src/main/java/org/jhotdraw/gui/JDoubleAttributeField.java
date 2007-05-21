@@ -31,13 +31,13 @@ import org.jhotdraw.util.*;
  * {@code DrawingView}s of a {@code DrawingEditor}, or it can be local to a
  * single {@code DrawingView}.
  * <p>
- * In both cases, the drawing editor must be set using method {@code setEditor}.
+ * In both cases, the drawing editor must be basicSet using method {@code setEditor}.
  * To make the entry field local to a single {@code DrawingView}, the view must
- * be set using method {@code setView}.
- *
+ * be basicSet using method {@code setView}.
+ * 
  * FIXME We have got many kinds of attribute fields. Factor out all reusable
  * code.
- *
+ * 
  * @author Werner Randelshofer
  * @version 1.0 April 22, 2007 Created.
  */
@@ -94,7 +94,7 @@ implements AttributeField {
         firePropertyChange("attributeKey", oldValue, newValue);
     }
     /**
-     * Sets the drawing editor. This must be set to a non-null value to make
+     * Sets the drawing editor. This must be basicSet to a non-null value to make
      *  the attribute field functional.
      * <p>
      * This is a bound property. The default value is null.

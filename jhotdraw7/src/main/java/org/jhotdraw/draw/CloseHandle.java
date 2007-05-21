@@ -56,17 +56,17 @@ public class CloseHandle extends LocatorHandle {
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         pressed = basicGetBounds().contains(lead);
         if (pressed) getOwner().requestRemove();
-        fireAreaInvalidated(getDrawBounds());
+        fireAreaInvalidated(getDrawingArea());
     }
     
     public void trackStart(Point anchor, int modifiersEx) {
         pressed = true;
-        fireAreaInvalidated(getDrawBounds());
+        fireAreaInvalidated(getDrawingArea());
     }
     
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         boolean oldValue = pressed;
         pressed = basicGetBounds().contains(lead);
-        if (oldValue != pressed) fireAreaInvalidated(getDrawBounds());
+        if (oldValue != pressed) fireAreaInvalidated(getDrawingArea());
     }
 }

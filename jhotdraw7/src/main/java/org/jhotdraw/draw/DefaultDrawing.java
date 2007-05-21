@@ -257,7 +257,7 @@ public class DefaultDrawing
     public Dimension2DDouble getCanvasSize() {
         return canvasSize;
     }
-    
+
     /**
      * Handles all figure events fired by Figures contained in the Drawing.
      */

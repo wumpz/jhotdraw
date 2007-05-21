@@ -183,11 +183,11 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         if (TRANSFORM.get(this) != null ||
                 (tx.getType() & (AffineTransform.TYPE_TRANSLATION | AffineTransform.TYPE_MASK_SCALE)) != tx.getType()) {
             if (TRANSFORM.get(this) == null) {
-                TRANSFORM.set(this, (AffineTransform) tx.clone());
+                TRANSFORM.basicSet(this, (AffineTransform) tx.clone());
             } else {
                 AffineTransform t = TRANSFORM.getClone(this);
                 t.preConcatenate(tx);
-                TRANSFORM.set(this, t);
+                TRANSFORM.basicSet(this, t);
             }
         } else {
             Point2D.Double anchor = getStartPoint();
@@ -206,9 +206,9 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         Object[] o = (Object[]) geometry;
         rectangle = (Rectangle2D.Double) ((Rectangle2D.Double) o[0]).clone();
         if (o[1] == null) {
-            TRANSFORM.set(this, null);
+            TRANSFORM.basicSet(this, null);
         } else {
-            TRANSFORM.set(this, (AffineTransform) ((AffineTransform) o[1]).clone());
+            TRANSFORM.basicSet(this, (AffineTransform) ((AffineTransform) o[1]).clone());
         }
     }
     
@@ -241,7 +241,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         if (TRANSFORM.get(this) != null) {
             actions.add(new AbstractAction(labels.getString("removeTransform")) {
                 public void actionPerformed(ActionEvent evt) {
-                    TRANSFORM.set(SVGImageFigure.this, null);
+                    TRANSFORM.basicSet(SVGImageFigure.this, null);
                 }
             });
         }

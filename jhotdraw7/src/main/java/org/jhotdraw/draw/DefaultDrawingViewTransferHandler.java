@@ -199,14 +199,12 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
     @Override protected void exportDone(JComponent source, Transferable data, int action) {
         if (DEBUG) System.out.println(this+".exportDone "+action+" move="+MOVE);
         if (source instanceof DrawingView) {
-            DrawingView view = (DrawingView) source;
+            final DrawingView view = (DrawingView) source;
             final Drawing drawing = view.getDrawing();
             if (action == MOVE) {
-                final ArrayList<Figure> removedFigures = new ArrayList<Figure>(
-                        drawing.sort(view.getSelectedFigures()));
-                // XXX - This method is flawed. We are unable to restore the
-                // depth of the deleted figures, when an Undo or a Redo operation
-                // is performed
+                final LinkedList<DrawingEvent> deletionEvents = new LinkedList<DrawingEvent>();
+                final LinkedList<Figure> selectedFigures = new LinkedList<Figure>(view.getSelectedFigures());
+                view.clearSelection();
                 DrawingListener removeListener = new DrawingListener() {
                     public void areaInvalidated(DrawingEvent e) {
                     }
@@ -214,29 +212,33 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                     public void figureAdded(DrawingEvent e) {
                     }
                     
-                    public void figureRemoved(DrawingEvent e) {
-                        if (! removedFigures.contains(e.getFigure())) {
-                            removedFigures.add(e.getFigure());
-                        }
+                    public void figureRemoved(DrawingEvent evt) {
+                        deletionEvents.addFirst(evt);
                     }
                     
                 };
                 drawing.addDrawingListener(removeListener);
-                drawing.removeAll(removedFigures);
+                drawing.removeAll(selectedFigures);
                 drawing.removeDrawingListener(removeListener);
-                drawing.removeAll(removedFigures);
+                drawing.removeAll(selectedFigures);
                 drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
                     public String getPresentationName() {
                         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-                        return labels.getString("editDelete");
+                        return labels.getString("delete");
                     }
                     public void undo() throws CannotUndoException {
                         super.undo();
-                        drawing.addAll(removedFigures);
+                        view.clearSelection();
+                        for (DrawingEvent evt : deletionEvents) {
+                            drawing.add(evt.getIndex(), evt.getFigure());
+                        }
+                        view.addToSelection(selectedFigures);
                     }
                     public void redo() throws CannotRedoException {
                         super.redo();
-                        drawing.removeAll(removedFigures);
+                        for (DrawingEvent evt : new ReversedList<DrawingEvent>(deletionEvents)) {
+                            drawing.remove(evt.getFigure());
+                        }
                     }
                 });
             }

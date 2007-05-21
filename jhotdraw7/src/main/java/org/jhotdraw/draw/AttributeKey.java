@@ -24,16 +24,16 @@ import org.jhotdraw.util.*;
  * of the specified key.
  * <p>
  * An AttributeKey provides typesafe getter and setter for a Figure attribute.
- * The following code example shows how to set and get an attribute on a Figure.
+ * The following code example shows how to basicSet and get an attribute on a Figure.
  * <pre>
  * Figure aFigure;
- * AttributeKeys.STROKE_COLOR.set(aFigure, Color.blue);
+ * AttributeKeys.STROKE_COLOR.basicSet(aFigure, Color.blue);
  * </pre>
  * <p>
  * See {@link AttributeKeys} for a list of useful attribute keys.
  * <p>
  * FIXME AttributeKey must not override equals and hashCode from Object.
- *
+ * 
  * @author Werner Randelshofer
  * @version 2.0 2007-05-12 Removed basicSet methods.
  * <br>1.2 2007-04-10 Convenience methods for getting and setting a clone
@@ -91,7 +91,26 @@ public class AttributeKey<T> {
         return (value == null && ! isNullValueAllowed) ? defaultValue : value;
     }
     
+    /**
+     * Convenience method for setting a value on the 
+     * specified figure and calling willChange before and changed 
+     * after setting the value.
+     *
+     * @param f the Figure
+     * @param value the attribute value
+     */
     public void set(Figure f, T value) {
+        f.willChange();
+        basicSet(f, value);
+        f.changed();
+    }
+    /**
+     * Sets a value on the specified figure.
+     *
+     * @param f the Figure
+     * @param value the attribute value
+     */
+    public void basicSet(Figure f, T value) {
         if (value == null && ! isNullValueAllowed) {
             throw new NullPointerException("Null value not allowed for AttributeKey "+key);
         }
@@ -133,11 +152,27 @@ public class AttributeKey<T> {
         
     }
     /**
-     * Sets a clone of the value to the Figure without firing events.
+     * Convenience method for seting a clone of a value on the 
+     * specified figure and calling willChange before and changed 
+     * after setting the value.
+     *
+     * @param f the Figure
+     * @param value the attribute value
      */
     public void setClone(Figure f, T value) {
+        f.willChange();
+        basicSetClone(f, value);
+        f.changed();
+    }
+    /**
+     * Sets a clone of a value on the specified figure.
+     *
+     * @param f the Figure
+     * @param value the attribute value
+     */
+    public void basicSetClone(Figure f, T value) {
         try {
-            set(f, value == null ? null : (T) Methods.invoke(value,"clone"));
+            basicSet(f, value == null ? null : (T) Methods.invoke(value,"clone"));
         } catch (NoSuchMethodException ex) {
             InternalError e = new InternalError();
             e.initCause(ex);

@@ -111,9 +111,4 @@ public class ChopRectangleConnector extends AbstractConnector {
         return Geom.angleToPoint(r, Geom.pointToAngle(r, from));
     }
     
-    public void draw(Graphics2D g) {
-        g.setColor(Color.BLUE);
-        Point2D.Double anchor = getAnchor();
-        g.draw(new Rectangle2D.Double(anchor.x - 1, anchor.y - 1, 2, 2));
-    }
 }

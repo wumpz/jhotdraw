@@ -28,7 +28,7 @@ import org.jhotdraw.xml.DOMOutput;
  * @see Connector
  *
  * @author Werner Randelshofer
- * @version 3.0 2007-05-18 Rewritten due to changes in Connector interface. 
+ * @version 3.0 2007-05-18 Rewritten due to changes in Connector interface.
  * <br>2.1 2006-06-05 Support connection to decorator.
  * <br>2.0 2006-01-14 Changed to support doubl precision coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
@@ -177,4 +177,17 @@ public class AbstractConnector implements Connector {
         out.closeElement();
     }
     
+    public Rectangle2D.Double getDrawingArea() {
+        Point2D.Double anchor = getAnchor();
+        return new Rectangle2D.Double(anchor.x - 4, anchor.y - 4, 8, 8);
+    }
+    
+    public void draw(Graphics2D g) {
+        Point2D.Double anchor = getAnchor();
+        Ellipse2D.Double e = new Ellipse2D.Double(anchor.x - 3, anchor.y - 3, 6, 6);
+        g.setColor(Color.BLUE);
+        g.fill(e);
+        //g.setColor(Color.BLACK);
+        //g.draw(e);
+    }
 }

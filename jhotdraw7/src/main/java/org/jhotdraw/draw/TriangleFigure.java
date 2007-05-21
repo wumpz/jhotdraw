@@ -55,7 +55,7 @@ public class TriangleFigure extends AbstractAttributedFigure {
         setFillColor(Color.white);
         setStrokeColor(Color.black);
          */
-        ORIENTATION.set(this, direction);
+        ORIENTATION.basicSet(this, direction);
     }
     
     // DRAWING

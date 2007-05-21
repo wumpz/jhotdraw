@@ -75,7 +75,7 @@ public class BezierFigure extends AbstractAttributedFigure {
      */
     public BezierFigure(boolean isClosed) {
         path = new BezierPath();
-        CLOSED.set(this, isClosed);
+        CLOSED.basicSet(this, isClosed);
         //path.setClosed(isClosed);
     }
     

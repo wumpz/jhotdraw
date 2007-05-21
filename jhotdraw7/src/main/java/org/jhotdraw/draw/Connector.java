@@ -84,4 +84,12 @@ public interface Connector extends Cloneable, Serializable, DOMStorable {
      * Returns a clone of the Connection.
      */
     public Object clone();
+    
+    /**
+     * Gets the drawing area of the connector.
+     */
+    public Rectangle2D.Double getDrawingArea();
+    /** Draws the connector.
+     */
+    public void draw(Graphics2D g);
 }

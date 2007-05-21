@@ -431,7 +431,7 @@ public class SVGInputFormat implements InputFormat {
                     }
                 }
                 if (childFigure != null) {
-                    LINK.set(childFigure, href);
+                    LINK.basicSet(childFigure, href);
                 } else {
                     if (DEBUG) System.out.println("SVGInputFormat <a> has no child figure");
                 }

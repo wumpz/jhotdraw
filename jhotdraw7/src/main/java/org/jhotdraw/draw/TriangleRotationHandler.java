@@ -43,7 +43,7 @@ public class TriangleRotationHandler extends AbstractHandle {
         return false;
     }
     
-    private Point2D.Double getLocation () {
+    private Point2D.Double getLocation() {
         Rectangle2D.Double r = getOwner().getBounds();
         Point2D.Double p;
         double offset = getHandlesize();
@@ -93,7 +93,7 @@ public class TriangleRotationHandler extends AbstractHandle {
     
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         Rectangle leadRect = new Rectangle(lead);
-      
+        
         switch (Geom.outcode(centerBox, leadRect)) {
             case Geom.OUT_TOP :
             default :
@@ -122,9 +122,7 @@ public class TriangleRotationHandler extends AbstractHandle {
                 break;
         }
         // FIXME - Add undo redo support
-                getOwner().willChange();
-                ORIENTATION.set(getOwner(), newValue);
-                getOwner().changed();
+        ORIENTATION.set(getOwner(), newValue);
         updateBounds();
     }
     public void draw(Graphics2D g) {
@@ -134,8 +132,8 @@ public class TriangleRotationHandler extends AbstractHandle {
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         if (newValue != oldValue) {
             fireUndoableEditHappened(
-        new AttributeChangeEdit(getOwner(), ORIENTATION, oldValue, newValue)
-        );
+                    new AttributeChangeEdit(getOwner(), ORIENTATION, oldValue, newValue)
+                    );
         }
     }
     

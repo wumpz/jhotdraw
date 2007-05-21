@@ -504,4 +504,10 @@ public abstract class AbstractFigure
         buf.append(hashCode());
         return buf.toString();
     }
+
+    public Collection<Connector> getConnectors(ConnectionFigure prototype) {
+        LinkedList connectors = new LinkedList<Connector>();
+        connectors.add(new ChopRectangleConnector(this));
+        return connectors;
+    }
 }

@@ -79,10 +79,12 @@ public class ColorChooserAction extends AbstractSelectedAction {
         Iterator i = getView().getSelectedFigures().iterator();
         while (i.hasNext()) {
             Figure figure = (Figure) i.next();
-            key.set(figure, value);
+            figure.willChange();
+            key.basicSet(figure, value);
             for (Map.Entry<AttributeKey,Object> entry : fixedAttributes.entrySet()) {
-                entry.getKey().set(figure, entry.getValue());
+                entry.getKey().basicSet(figure, entry.getValue());
             }
+            figure.changed();
         }
         getEditor().setDefaultAttribute(key, value);
         fireUndoableEditHappened(edit);

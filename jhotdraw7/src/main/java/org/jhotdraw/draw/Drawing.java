@@ -1,5 +1,5 @@
 /*
- * @(#)Drawing.java  2.3  2007-05-16
+ * @(#)Drawing.java  2.4  2007-05-21
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -33,7 +33,8 @@ import java.io.*;
  * whenever a part of its area was invalidated.
  *
  * @author Werner Randelshofer
- * @version 2.3 2007-05-16 Added method findFigureBehind. 
+ * @version 2.4 2007-05-21 Added add-methods with index to the interface.
+ * <br>2.3 2007-05-16 Added method findFigureBehind. 
  * <br>2.2 2007-04-09 Methods setCanvasSize, getCanvasSize added.
  * <br>2.1 2006-12-31 Changed to return lists instead of collections.
  * <br>2.0 2006-01-14 Changed to support double precision coordinates.
@@ -55,6 +56,17 @@ public interface Drawing extends Serializable, DOMStorable {
      */
     public void add(Figure figure);
     /**
+     * Adds a figure to the drawing.
+     * The drawing sends an {@code addNotify} message to the figure
+     * after it has been added.
+     *
+     * @see Figure#addNotify
+     *
+     * @param index The z-index of the figure.
+     * @param figure to be added to the drawing
+     */
+    public void add(int index, Figure figure);
+    /**
      * Adds a collection of figures to the drawing.
      * The drawing sends an {@code addNotify}  message to each figure
      * after it has been added.
@@ -64,6 +76,17 @@ public interface Drawing extends Serializable, DOMStorable {
      * @param figures to be added to the drawing
      */
     public void addAll(Collection<Figure> figures);
+    /**
+     * Adds a collection of figures to the drawing.
+     * The drawing sends an {@code addNotify}  message to each figure
+     * after it has been added.
+     *
+     * @see Figure#addNotify
+     *
+     * @param index The z-index of the figure.
+     * @param figures to be added to the drawing
+     */
+    public void addAll(int index, Collection<Figure> figures);
     
     /**
      * Removes a figure from the drawing.
@@ -110,6 +133,7 @@ public interface Drawing extends Serializable, DOMStorable {
      * {@code basicAdd(getFigureCount(), figure)}.
      *
      * @see #basicRemove(Figure)
+     * @param index The z-index of the figure.
      * @param figure that is part of the drawing and should be removed
      */
     public void basicAdd(Figure figure);

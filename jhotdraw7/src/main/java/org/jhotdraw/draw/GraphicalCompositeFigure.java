@@ -364,13 +364,23 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
                 if (key != null && key.isAssignable(value)) {
                     if (forbiddenAttributes == null
                             || ! forbiddenAttributes.contains(key)) {
-                        key.set(this, value);
+                        key.basicSet(this, value);
                     }
                 }
                 in.closeElement();
             }
             in.closeElement();
         }
+    }
+    
+    public void read(DOMInput in) throws IOException {
+        super.read(in);
+        readAttributes(in);
+    }
+    
+    public void write(DOMOutput out) throws IOException {
+        super.write(out);
+        writeAttributes(out);
     }
     
     protected AttributeKey getAttributeKey(String name) {

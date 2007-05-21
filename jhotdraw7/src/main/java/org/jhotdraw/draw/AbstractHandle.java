@@ -68,6 +68,9 @@ public abstract class AbstractHandle implements Handle, FigureListener {
     public void setView(DrawingView view) {
         this.view = view;
     }
+    public DrawingView getView() {
+        return view;
+    }
     /**
      *  Notify all listenerList that have registered interest for
      * notification on this event type.
@@ -264,7 +267,7 @@ public abstract class AbstractHandle implements Handle, FigureListener {
         }
         return (Rectangle) bounds.clone();
     }
-    public Rectangle getDrawBounds() {
+    public Rectangle getDrawingArea() {
         Rectangle r = getBounds();
         r.grow(2,2); // grow by two pixels to take antialiasing into account
         return r;
@@ -274,9 +277,9 @@ public abstract class AbstractHandle implements Handle, FigureListener {
     protected void updateBounds() {
         Rectangle newBounds = basicGetBounds();
         if (bounds == null || ! newBounds.equals(bounds)) {
-            if (bounds != null) fireAreaInvalidated(getDrawBounds());
+            if (bounds != null) fireAreaInvalidated(getDrawingArea());
             bounds = newBounds;
-            fireAreaInvalidated(getDrawBounds());
+            fireAreaInvalidated(getDrawingArea());
         }
     }
     /**

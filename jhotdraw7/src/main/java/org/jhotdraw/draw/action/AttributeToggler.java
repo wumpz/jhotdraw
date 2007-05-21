@@ -92,9 +92,7 @@ public class AttributeToggler extends AbstractAction {
         final ArrayList<Object> restoreData = new ArrayList<Object>(selectedFigures.size());
         for (Figure figure : selectedFigures) {
             restoreData.add(figure.getAttributesRestoreData());
-            figure.willChange();
             key.set(figure, newValue);
-            figure.changed();
         }
         UndoableEdit edit = new AbstractUndoableEdit() {
             public String getPresentationName() {
@@ -121,9 +119,7 @@ public class AttributeToggler extends AbstractAction {
                 super.redo();
                 for (Figure figure : selectedFigures) {
                     restoreData.add(figure.getAttributesRestoreData());
-                    figure.willChange();
                     key.set(figure, newValue);
-                    figure.changed();
                 }
             }
         };

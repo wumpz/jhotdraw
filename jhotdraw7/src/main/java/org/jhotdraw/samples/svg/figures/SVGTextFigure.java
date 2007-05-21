@@ -191,11 +191,11 @@ public class SVGTextFigure
         if (TRANSFORM.get(this) != null ||
                 tx.getType() != (tx.getType() & AffineTransform.TYPE_TRANSLATION)) {
             if (TRANSFORM.get(this) == null) {
-                TRANSFORM.set(this, (AffineTransform) tx.clone());
+                TRANSFORM.basicSet(this, (AffineTransform) tx.clone());
             } else {
                 AffineTransform t = TRANSFORM.getClone(this);
                 t.preConcatenate(tx);
-                TRANSFORM.set(this, t);
+                TRANSFORM.basicSet(this, t);
             }
         } else {
             for (int i=0; i < coordinates.length; i++) {
@@ -205,26 +205,26 @@ public class SVGTextFigure
                     ! FILL_GRADIENT.get(this).isRelativeToFigureBounds()) {
                 Gradient g = FILL_GRADIENT.getClone(this);
                 g.transform(tx);
-                FILL_GRADIENT.set(this, g);
+                FILL_GRADIENT.basicSet(this, g);
             }
             if (STROKE_GRADIENT.get(this) != null && 
                     ! STROKE_GRADIENT.get(this).isRelativeToFigureBounds()) {
                 Gradient g = STROKE_GRADIENT.getClone(this);
                 g.transform(tx);
-                STROKE_GRADIENT.set(this, g);
+                STROKE_GRADIENT.basicSet(this, g);
             }
         }
         invalidate();
     }
     public void restoreTransformTo(Object geometry) {
         Object[] restoreData = (Object[]) geometry;
-        TRANSFORM.setClone(this, (AffineTransform) restoreData[0]);
+        TRANSFORM.basicSetClone(this, (AffineTransform) restoreData[0]);
         Point2D.Double[] restoredCoordinates = (Point2D.Double[]) restoreData[1];
         for (int i=0; i < this.coordinates.length; i++) {
             coordinates[i] = (Point2D.Double) restoredCoordinates[i].clone();
         }
-        FILL_GRADIENT.setClone(this, (Gradient) restoreData[2]);
-        STROKE_GRADIENT.setClone(this, (Gradient) restoreData[3]);
+        FILL_GRADIENT.basicSetClone(this, (Gradient) restoreData[2]);
+        STROKE_GRADIENT.basicSetClone(this, (Gradient) restoreData[3]);
         invalidate();
     }
     
@@ -287,7 +287,7 @@ public class SVGTextFigure
     }
     
     public void setFontSize(float size) {
-        // FONT_SIZE.set(this, new Double(size));
+        // FONT_SIZE.basicSet(this, new Double(size));
         Point2D.Double p = new Point2D.Double(0, size);
         AffineTransform tx =  TRANSFORM.get(this);
         if (tx != null) {

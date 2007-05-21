@@ -83,7 +83,7 @@ public class AttributeAction extends AbstractSelectedAction {
             restoreData.add(figure.getAttributesRestoreData());
             figure.willChange();
             for (Map.Entry<AttributeKey, Object> entry : attributes.entrySet()) {
-                entry.getKey().set(figure, entry.getValue());
+                entry.getKey().basicSet(figure, entry.getValue());
             }
             figure.changed();
         }
@@ -114,7 +114,7 @@ public class AttributeAction extends AbstractSelectedAction {
                     restoreData.add(figure.getAttributesRestoreData());
                     figure.willChange();
                     for (Map.Entry<AttributeKey, Object> entry : attributes.entrySet()) {
-                        entry.getKey().set(figure, entry.getValue());
+                        entry.getKey().basicSet(figure, entry.getValue());
                     }
                     figure.changed();
                 }

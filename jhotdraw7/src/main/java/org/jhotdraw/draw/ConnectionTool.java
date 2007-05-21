@@ -85,6 +85,7 @@ public class ConnectionTool extends AbstractTool {
      */
     protected Figure targetFigure;
     
+    protected Collection<Connector> connectors = Collections.emptyList();
     
     /**
      * A localized name for this tool. The presentationName is displayed by the
@@ -132,12 +133,43 @@ public class ConnectionTool extends AbstractTool {
     }
     
     public void mouseMoved(MouseEvent evt) {
-        updateTarget(evt);
+        repaintConnectors(evt);
     }
-    public void updateTarget(MouseEvent evt) {
+    
+    /**
+     * Updates the list of connectors that we draw when the user
+     * moves or drags the mouse over a figure to which can connect.
+     */
+    public void repaintConnectors(MouseEvent evt) {
+        Rectangle2D.Double invalidArea = null;
         Point2D.Double targetPoint = viewToDrawing(new Point(evt.getX(), evt.getY()));
-        Figure aFigure = getDrawing().findFigure(targetPoint);
-        targetFigure = aFigure;
+        Figure aFigure = getDrawing().findFigureExcept(targetPoint, createdFigure);
+        if (aFigure != null && ! aFigure.canConnect()) aFigure = null;
+        if (targetFigure != aFigure) {
+            for (Connector c : connectors) {
+                if (invalidArea == null) {
+                    invalidArea = c.getDrawingArea();
+                } else {
+                    invalidArea.add(c.getDrawingArea());
+                }
+            }
+            targetFigure = aFigure;
+            if (targetFigure != null) {
+                connectors = targetFigure.getConnectors(getPrototype());
+                for (Connector c : connectors) {
+                    if (invalidArea == null) {
+                        invalidArea = c.getDrawingArea();
+                    } else {
+                        invalidArea.add(c.getDrawingArea());
+                    }
+                }
+            }
+        }
+        if (invalidArea != null) {
+            getView().getComponent().repaint(
+                    getView().drawingToView(invalidArea)
+                    );
+        }
     }
     
     /**
@@ -176,32 +208,25 @@ public class ConnectionTool extends AbstractTool {
      * Adjust the created connection.
      */
     public void mouseDragged(java.awt.event.MouseEvent e) {
-        updateTarget(e);
+        repaintConnectors(e);
         if (createdFigure != null) {
+            createdFigure.willChange();
             Point2D.Double endPoint = viewToDrawing(new Point(e.getX(), e.getY()));
             getView().getConstrainer().constrainPoint(endPoint);
             
-            createdFigure.willChange();
             Figure endFigure = getDrawing().findFigureExcept(endPoint, createdFigure);
-            if (endConnector != null) {
-                Point2D.Double anchor = endConnector.getAnchor();
-                Rectangle r = new Rectangle(getView().drawingToView(anchor));
-                r.grow(ANCHOR_WIDTH,ANCHOR_WIDTH);
-                fireAreaInvalidated(r);
-            }
             endConnector = (endFigure == null) ?
                 null :
                 endFigure.findConnector(endPoint, prototype);
             
             if (endConnector != null && createdFigure.canConnect(startConnector, endConnector)) {
-                Point2D.Double anchor = endConnector.getAnchor();
-                createdFigure.setEndPoint(anchor);
-                Rectangle r = new Rectangle(getView().drawingToView(anchor));
-                r.grow(ANCHOR_WIDTH,ANCHOR_WIDTH);
-                fireAreaInvalidated(r);
-            } else {
-                createdFigure.setEndPoint(endPoint);
+                endPoint = endConnector.getAnchor();
             }
+            Rectangle r = new Rectangle(getView().drawingToView(createdFigure.getEndPoint()));
+            createdFigure.setEndPoint(endPoint);
+             r.add(getView().drawingToView(endPoint));
+            r.grow(ANCHOR_WIDTH + 2, ANCHOR_WIDTH + 2);
+            getView().getComponent().repaint(r);
             createdFigure.changed();
         }
     }
@@ -211,7 +236,7 @@ public class ConnectionTool extends AbstractTool {
      * figure.
      */
     public void mouseReleased(MouseEvent e) {
-        if (createdFigure != null) {
+        if (createdFigure != null && startConnector != null && endConnector != null) {
             createdFigure.willChange();
             createdFigure.setStartConnector(startConnector);
             createdFigure.setEndConnector(endConnector);
@@ -277,12 +302,16 @@ public class ConnectionTool extends AbstractTool {
     }
     
     public void draw(Graphics2D g) {
+        Graphics2D gg = (Graphics2D) g.create();
+        gg.transform(getView().getDrawingToViewTransform());
+        if (targetFigure != null) {
+            for (Connector c : targetFigure.getConnectors(getPrototype())) {
+                c.draw(gg);
+            }
+        }
         if (createdFigure != null) {
-            Graphics2D gg = (Graphics2D) g.create();
-            gg.transform(getView().getDrawingToViewTransform());
             createdFigure.draw(gg);
-            if (startConnector != null) {
-                Point p = getView().drawingToView(startConnector.getAnchor());
+                Point p = getView().drawingToView(createdFigure.getStartPoint());
                 Ellipse2D.Double e = new Ellipse2D.Double(
                         p.x - ANCHOR_WIDTH / 2, p.y - ANCHOR_WIDTH / 2,
                         ANCHOR_WIDTH, ANCHOR_WIDTH
@@ -291,10 +320,8 @@ public class ConnectionTool extends AbstractTool {
                 g.fill(e);
                 g.setColor(Color.BLACK);
                 g.draw(e);
-            }
-            if (endConnector != null) {
-                Point p = getView().drawingToView(endConnector.getAnchor());
-                Ellipse2D.Double e = new Ellipse2D.Double(
+                 p = getView().drawingToView(createdFigure.getEndPoint());
+                e = new Ellipse2D.Double(
                         p.x - ANCHOR_WIDTH / 2, p.y - ANCHOR_WIDTH / 2,
                         ANCHOR_WIDTH, ANCHOR_WIDTH
                         );
@@ -302,10 +329,9 @@ public class ConnectionTool extends AbstractTool {
                 g.fill(e);
                 g.setColor(Color.BLACK);
                 g.draw(e);
-            }
-            gg.dispose();
             
         }
+        gg.dispose();
     }
     /**
      * This method allows subclasses to do perform additonal user interactions

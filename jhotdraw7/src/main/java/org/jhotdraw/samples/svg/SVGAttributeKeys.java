@@ -125,20 +125,20 @@ public class SVGAttributeKeys extends AttributeKeys {
     public static void setDefaults(Figure f) {
         // Fill properties
         // http://www.w3.org/TR/SVGMobile12/painting.html#FillProperties
-        FILL_COLOR.set(f, Color.black);
-        WINDING_RULE.set(f, WindingRule.NON_ZERO);
+        FILL_COLOR.basicSet(f, Color.black);
+        WINDING_RULE.basicSet(f, WindingRule.NON_ZERO);
         
         // Stroke properties
         // http://www.w3.org/TR/SVGMobile12/painting.html#StrokeProperties
-        STROKE_COLOR.set(f, null);
-        STROKE_WIDTH.set(f, 1d);
-        STROKE_CAP.set(f, BasicStroke.CAP_BUTT);
-        STROKE_JOIN.set(f, BasicStroke.JOIN_MITER);
-        STROKE_MITER_LIMIT.set(f, 4d);
-        IS_STROKE_MITER_LIMIT_FACTOR.set(f, false);
-        STROKE_DASHES.set(f, null);
-        STROKE_DASH_PHASE.set(f, 0d);
-        IS_STROKE_DASH_FACTOR.set(f, false);
+        STROKE_COLOR.basicSet(f, null);
+        STROKE_WIDTH.basicSet(f, 1d);
+        STROKE_CAP.basicSet(f, BasicStroke.CAP_BUTT);
+        STROKE_JOIN.basicSet(f, BasicStroke.JOIN_MITER);
+        STROKE_MITER_LIMIT.basicSet(f, 4d);
+        IS_STROKE_MITER_LIMIT_FACTOR.basicSet(f, false);
+        STROKE_DASHES.basicSet(f, null);
+        STROKE_DASH_PHASE.basicSet(f, 0d);
+        IS_STROKE_DASH_FACTOR.basicSet(f, false);
     }
     /**
      * Returns the distance, that a Rectangle needs to grow (or shrink) to

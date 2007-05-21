@@ -161,6 +161,8 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
     
     /**
      * Sets the text shown by the text figure.
+     * This is a convenience method for calling willChange,
+     * AttribuTEXT.basicSet, changed.
      */
     public void setText(String newText) {
         TEXT.set(this, newText);

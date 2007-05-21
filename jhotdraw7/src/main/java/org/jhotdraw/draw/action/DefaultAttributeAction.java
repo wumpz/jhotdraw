@@ -95,13 +95,15 @@ public class DefaultAttributeAction extends AbstractSelectedAction {
         Iterator i = getView().getSelectedFigures().iterator();
         while (i.hasNext()) {
             Figure figure = (Figure) i.next();
+            figure.willChange();
             for (int j=0; j < keys.length; j++) {
-                keys[j].set(figure, getEditor().getDefaultAttribute(keys[j]));
+                keys[j].basicSet(figure, getEditor().getDefaultAttribute(keys[j]));
             }
             for (Map.Entry<AttributeKey,Object> entry : fixedAttributes.entrySet()) {
-                entry.getKey().set(figure, entry.getValue());
+                entry.getKey().basicSet(figure, entry.getValue());
                 
             }
+            figure.changed();
         }
         fireUndoableEditHappened(edit);
     }

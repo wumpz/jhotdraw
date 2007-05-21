@@ -66,11 +66,15 @@ public abstract class AbstractDrawing extends AbstractBean implements Drawing {
     public void removeUndoableEditListener(UndoableEditListener l) {
         listenerList.remove(UndoableEditListener.class, l);
     }
-    public void addAll(Collection<Figure> figures) {
+    public final void addAll(Collection<Figure> figures) {
+        addAll(getFigureCount(), figures);
+    }
+    public final void addAll(int index, Collection<Figure> figures) {
         for (Figure f : figures) {
-            add(f);
+            add(index++, f);
         }
     }
+    
     
     /***
      * Removes all figures.
@@ -110,12 +114,15 @@ public abstract class AbstractDrawing extends AbstractBean implements Drawing {
      * Calls basicAdd and then calls figure.addNotify and firesFigureAdded.
      */
     public final void add(final Figure figure) {
-        final int index = getFigureCount();
+        add(getFigureCount(), figure);
+    }
+    public final void add(int index, Figure figure) {
         basicAdd(index, figure);
         figure.addNotify(this);
-        fireFigureAdded(figure);
+        fireFigureAdded(figure, index);
         fireAreaInvalidated(figure.getDrawingArea());
     }
+    
     
     /**
      * Thi
@@ -132,7 +139,7 @@ public abstract class AbstractDrawing extends AbstractBean implements Drawing {
             final int index = indexOf(figure);
             basicRemove(figure);
             figure.removeNotify(this);
-            fireFigureRemoved(figure);
+            fireFigureRemoved(figure, index);
         } else {
             fireAreaInvalidated(figure.getDrawingArea());
         }
@@ -183,7 +190,7 @@ public abstract class AbstractDrawing extends AbstractBean implements Drawing {
      *  Notify all listenerList that have registered interest for
      * notification on this event type.
      */
-    protected void fireFigureAdded(Figure f) {
+    protected void fireFigureAdded(Figure f, int zIndex) {
         DrawingEvent event = null;
         // Notify all listeners that have registered interest for
         // Guaranteed to return a non-null array
@@ -194,7 +201,7 @@ public abstract class AbstractDrawing extends AbstractBean implements Drawing {
             if (listeners[i] == DrawingListener.class) {
                 // Lazily create the event:
                 if (event == null)
-                    event = new DrawingEvent(this, f, f.getDrawingArea());
+                    event = new DrawingEvent(this, f, f.getDrawingArea(), zIndex);
                 ((DrawingListener)listeners[i+1]).figureAdded(event);
             }
         }
@@ -204,7 +211,7 @@ public abstract class AbstractDrawing extends AbstractBean implements Drawing {
      *  Notify all listenerList that have registered interest for
      * notification on this event type.
      */
-    protected void fireFigureRemoved(Figure f) {
+    protected void fireFigureRemoved(Figure f, int zIndex) {
         DrawingEvent event = null;
         // Notify all listeners that have registered interest for
         // Guaranteed to return a non-null array
@@ -215,7 +222,7 @@ public abstract class AbstractDrawing extends AbstractBean implements Drawing {
             if (listeners[i] == DrawingListener.class) {
                 // Lazily create the event:
                 if (event == null)
-                    event = new DrawingEvent(this, f, f.getDrawingArea());
+                    event = new DrawingEvent(this, f, f.getDrawingArea(), zIndex);
                 ((DrawingListener)listeners[i+1]).figureRemoved(event);
             }
         }

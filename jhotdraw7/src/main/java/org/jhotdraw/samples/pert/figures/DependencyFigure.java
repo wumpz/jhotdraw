@@ -29,9 +29,9 @@ import org.jhotdraw.xml.*;
 public class DependencyFigure extends LineConnectionFigure {
     /** Creates a new instance. */
     public DependencyFigure() {
-        STROKE_COLOR.set(this, new Color(0x000099));
-        STROKE_WIDTH.set(this, 1d);
-        END_DECORATION.set(this, new ArrowTip());
+        STROKE_COLOR.basicSet(this, new Color(0x000099));
+        STROKE_WIDTH.basicSet(this, 1d);
+        END_DECORATION.basicSet(this, new ArrowTip());
         
         setAttributeEnabled(END_DECORATION, false);
         setAttributeEnabled(START_DECORATION, false);

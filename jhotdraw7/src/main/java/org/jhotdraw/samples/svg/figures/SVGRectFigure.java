@@ -169,11 +169,11 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
                 //              (tx.getType() & (AffineTransform.TYPE_TRANSLATION | AffineTransform.TYPE_MASK_SCALE)) != tx.getType()) {
                 (tx.getType() & (AffineTransform.TYPE_TRANSLATION)) != tx.getType()) {
             if (TRANSFORM.get(this) == null) {
-                TRANSFORM.set(this, (AffineTransform) tx.clone());
+                TRANSFORM.basicSet(this, (AffineTransform) tx.clone());
             } else {
                 AffineTransform t = TRANSFORM.getClone(this);
                 t.preConcatenate(tx);
-                TRANSFORM.set(this, t);
+                TRANSFORM.basicSet(this, t);
             }
         } else {
             Point2D.Double anchor = getStartPoint();
@@ -186,13 +186,13 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
                     ! FILL_GRADIENT.get(this).isRelativeToFigureBounds()) {
                 Gradient g = FILL_GRADIENT.getClone(this);
                 g.transform(tx);
-                FILL_GRADIENT.set(this, g);
+                FILL_GRADIENT.basicSet(this, g);
             }
             if (STROKE_GRADIENT.get(this) != null &&
                     ! STROKE_GRADIENT.get(this).isRelativeToFigureBounds()) {
                 Gradient g = STROKE_GRADIENT.getClone(this);
                 g.transform(tx);
-                STROKE_GRADIENT.set(this, g);
+                STROKE_GRADIENT.basicSet(this, g);
             }
         }
     }
@@ -215,9 +215,9 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
         invalidateTransformedShape();
         Object[] restoreData = (Object[]) geometry;
         roundrect = (RoundRectangle2D.Double) ((RoundRectangle2D.Double) restoreData[0]).clone();
-        TRANSFORM.setClone(this, (AffineTransform) restoreData[1]);
-            FILL_GRADIENT.setClone(this, (Gradient) restoreData[2]);
-            STROKE_GRADIENT.setClone(this, (Gradient) restoreData[3]);
+        TRANSFORM.basicSetClone(this, (AffineTransform) restoreData[1]);
+            FILL_GRADIENT.basicSetClone(this, (Gradient) restoreData[2]);
+            STROKE_GRADIENT.basicSetClone(this, (Gradient) restoreData[3]);
     }
     
     public Object getTransformRestoreData() {

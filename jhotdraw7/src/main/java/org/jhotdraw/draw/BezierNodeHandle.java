@@ -193,7 +193,7 @@ public class BezierNodeHandle extends AbstractHandle {
                 (InputEvent.META_DOWN_MASK | InputEvent.CTRL_DOWN_MASK | InputEvent.ALT_DOWN_MASK)) == 0
                 
                 ) {
-            Rectangle invalidatedArea = getDrawBounds();
+            Rectangle invalidatedArea = getDrawingArea();
             f.willChange();
             final BezierPath.Node removedNode = f.removeNode(index);
             f.changed();

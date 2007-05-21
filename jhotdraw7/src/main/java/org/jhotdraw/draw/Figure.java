@@ -330,6 +330,19 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * Return null, if no compatible connector is available.
      */
     public Connector findCompatibleConnector(Connector c, boolean isStartConnector);
+    /**
+     * Returns all connectors of this Figure for the specified prototype of
+     * a ConnectionFigure.
+     * <p>
+     * This is used by connection tools and connection handles
+     * to visualize the connectors when the user is about to
+     * create a ConnectionFigure to this Figure.
+     * 
+     * @param prototype The prototype used to create a connection or null if 
+     * unknown. This allows for specific connectors for different 
+     * connection figures.
+     */
+    public Collection<Connector> getConnectors(ConnectionFigure prototype);
 
     // COMPOSITE FIGURES
     /**

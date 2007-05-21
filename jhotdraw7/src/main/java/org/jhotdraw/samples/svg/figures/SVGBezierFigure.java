@@ -38,7 +38,7 @@ public class SVGBezierFigure extends BezierFigure {
     }
     public SVGBezierFigure(boolean isClosed) {
         super(isClosed);
-        FILL_OPEN_PATH.set(this, true);
+        FILL_OPEN_PATH.basicSet(this, true);
     }
     
     public Collection<Handle> createHandles(SVGPathFigure pathFigure, int detailLevel) {
@@ -90,11 +90,11 @@ public class SVGBezierFigure extends BezierFigure {
         if (TRANSFORM.get(this) != null ||
                 (tx.getType() & (AffineTransform.TYPE_TRANSLATION)) != tx.getType()) {
             if (TRANSFORM.get(this) == null) {
-                TRANSFORM.setClone(this, tx);
+                TRANSFORM.basicSetClone(this, tx);
             } else {
                 AffineTransform t = TRANSFORM.getClone(this);
                 t.preConcatenate(tx);
-                TRANSFORM.set(this, t);
+                TRANSFORM.basicSet(this, t);
             }
         } else {
             super.transform(tx);
@@ -122,7 +122,7 @@ public class SVGBezierFigure extends BezierFigure {
     public void flattenTransform() {
         if (TRANSFORM.get(this) != null) {
             path.transform(TRANSFORM.get(this));
-            TRANSFORM.set(this, null);
+            TRANSFORM.basicSet(this, null);
         }
         invalidate();
     }

@@ -14,6 +14,7 @@
 
 package org.jhotdraw.draw;
 
+import java.util.*;
 import javax.swing.undo.*;
 import org.jhotdraw.undo.*;
 import org.jhotdraw.util.*;
@@ -48,13 +49,18 @@ public class ConnectorHandle extends AbstractHandle {
     private Connector connector;
     
     /**
-     * The current target Figure.
+     * The current connectable Figure.
      */
-    private Figure targetFigure;
+    private Figure connectableFigure;
     /**
-     * The current target Connector.
+     * The current connectable Connector.
      */
-    private Connector targetConnector;
+    private Connector connectableConnector;
+    
+    /**
+     * All connectors of the connectable Figure.
+     */
+    protected Collection<Connector> connectors = Collections.emptyList();
     
     /** Creates a new instance. */
     public ConnectorHandle(Connector connector, ConnectionFigure prototype) {
@@ -72,8 +78,13 @@ public class ConnectorHandle extends AbstractHandle {
     }
     
     public void draw(Graphics2D g) {
+        Graphics2D gg = (Graphics2D) g.create();
+        gg.transform(view.getDrawingToViewTransform());
+        for (Connector c : connectors) {
+            c.draw(gg);
+        }
         if (createdConnection == null) {
-            drawCircle(g, Color.blue, Color.blue.darker());
+            drawCircle(g, Color.blue, Color.black);
         } else {
             drawCircle(g, Color.GREEN, Color.BLACK);
             Point p = view.drawingToView(createdConnection.getEndPoint());
@@ -91,32 +102,32 @@ public class ConnectorHandle extends AbstractHandle {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
         
         Point2D.Double p = getLocationOnDrawing();
-        getCreatedConnection().setStartPoint(p);
-        getCreatedConnection().setEndPoint(p);
-        view.getDrawing().add(getCreatedConnection());
+        getConnection().setStartPoint(p);
+        getConnection().setEndPoint(p);
+        view.getDrawing().add(getConnection());
     }
     
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
+        //updateConnectors(lead);
         Point2D.Double p = view.viewToDrawing(lead);
-        view.getConstrainer().constrainPoint(p);
-        Figure f = findConnectableFigure(p, view.getDrawing());
-        // track the figure containing the mouse
-        if (f != getTargetFigure()) {
-            setTargetFigure(f);
-        }
         
         Rectangle r = new Rectangle(
-                view.drawingToView(getCreatedConnection().getEndPoint())
+                view.drawingToView(getConnection().getEndPoint())
                 );
         r.grow(ANCHOR_WIDTH, ANCHOR_WIDTH);
         fireAreaInvalidated(r);
-        targetConnector = findConnectionTarget(p, view.getDrawing());
-        if (targetConnector != null) {
-            p = targetConnector.getAnchor();
+        Figure figure = findConnectableFigure(p, view.getDrawing());
+        if (figure != connectableFigure) {
+            connectableFigure = figure;
+            repaintConnectors();
         }
-        getCreatedConnection().willChange();
-        getCreatedConnection().setEndPoint(p);
-        getCreatedConnection().changed();
+        connectableConnector = findConnectableConnector(figure, p);
+        if (connectableConnector != null) {
+            p = connectableConnector.getAnchor();
+        }
+        getConnection().willChange();
+        getConnection().setEndPoint(p);
+        getConnection().changed();
         r = new Rectangle(view.drawingToView(p));
         r.grow(ANCHOR_WIDTH, ANCHOR_WIDTH);
         fireAreaInvalidated(r);
@@ -125,13 +136,14 @@ public class ConnectorHandle extends AbstractHandle {
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         Point2D.Double p = view.viewToDrawing(lead);
         view.getConstrainer().constrainPoint(p);
-        targetConnector = findConnectionTarget(p, view.getDrawing());
-        if (targetConnector != null) {
+        Figure f = findConnectableFigure(p, view.getDrawing());
+        connectableConnector = findConnectableConnector(f, p);
+        if (connectableConnector != null) {
             final Drawing drawing = view.getDrawing();
-            final ConnectionFigure createdConnection = getCreatedConnection();
-            getCreatedConnection().setStartConnector(connector);
-            getCreatedConnection().setEndConnector(targetConnector);
-            getCreatedConnection().updateConnection();
+            final ConnectionFigure createdConnection = getConnection();
+            getConnection().setStartConnector(connector);
+            getConnection().setEndConnector(connectableConnector);
+            getConnection().updateConnection();
             view.clearSelection();
             view.addToSelection(createdConnection);
             view.getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
@@ -151,9 +163,10 @@ public class ConnectorHandle extends AbstractHandle {
                 }
             });
         } else {
-            view.getDrawing().remove(getCreatedConnection());
+            view.getDrawing().remove(getConnection());
         }
-        targetConnector = null;
+        connectableConnector = null;
+        connectors = Collections.emptyList();
         setConnection(null);
         setTargetFigure(null);
     }
@@ -169,20 +182,20 @@ public class ConnectorHandle extends AbstractHandle {
         createdConnection = newConnection;
     }
     
-    protected ConnectionFigure getCreatedConnection() {
+    protected ConnectionFigure getConnection() {
         return createdConnection;
     }
     
     protected Figure getTargetFigure() {
-        return targetFigure;
+        return connectableFigure;
     }
     
     protected void setTargetFigure(Figure newTargetFigure) {
-        targetFigure = newTargetFigure;
+        connectableFigure = newTargetFigure;
     }
     private Figure findConnectableFigure(Point2D.Double p, Drawing drawing) {
         for (Figure figure : drawing.getFiguresFrontToBack()) {
-            if (!figure.includes(getCreatedConnection()) &&
+            if (!figure.includes(getConnection()) &&
                     figure.canConnect() &&
                     figure.contains(p)) {
                 return figure;
@@ -195,15 +208,14 @@ public class ConnectorHandle extends AbstractHandle {
     /**
      * Finds a connection end figure.
      */
-    protected Connector findConnectionTarget(Point2D.Double p, Drawing drawing) {
-        Figure targetFigure = findConnectableFigure(p, drawing);
-        Connector target = (targetFigure == null) ?
+    protected Connector findConnectableConnector(Figure connectableFigure, Point2D.Double p) {
+        Connector target = (connectableFigure == null) ?
             null :
-            targetFigure.findConnector(p, getCreatedConnection());
+            connectableFigure.findConnector(p, getConnection());
         
-        if ((targetFigure != null) && targetFigure.canConnect()
-        && !targetFigure.includes(getOwner())
-        && getCreatedConnection().canConnect(connector, target)) {
+        if ((connectableFigure != null) && connectableFigure.canConnect()
+        && !connectableFigure.includes(getOwner())
+        && getConnection().canConnect(connector, target)) {
             return target;
         }
         return null;
@@ -216,5 +228,34 @@ public class ConnectorHandle extends AbstractHandle {
     }
     @Override public boolean isCombinableWith(Handle handle) {
         return false;
+    }
+    /**
+     * Updates the list of connectors that we draw when the user
+     * moves or drags the mouse over a figure to which can connect.
+     */
+    public void repaintConnectors() {
+        Rectangle2D.Double invalidArea = null;
+        for (Connector c : connectors) {
+            if (invalidArea == null) {
+                invalidArea = c.getDrawingArea();
+            } else {
+                invalidArea.add(c.getDrawingArea());
+            }
+        }
+        connectors = (connectableFigure == null) ? 
+            new java.util.LinkedList<Connector>() : 
+            connectableFigure.getConnectors(prototype);
+        for (Connector c : connectors) {
+            if (invalidArea == null) {
+                invalidArea = c.getDrawingArea();
+            } else {
+                invalidArea.add(c.getDrawingArea());
+            }
+        }
+        if (invalidArea != null) {
+            view.getComponent().repaint(
+                    view.drawingToView(invalidArea)
+                    );
+        }
     }
 }

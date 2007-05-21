@@ -48,13 +48,13 @@ public class LabeledLineConnectionFigureSample {
                 
                 // Create labels and add them to both ends of the labeled line connection
                 TextFigure startLabel = new TextFigure();
-               LocatorLayouter.LAYOUT_LOCATOR.set(startLabel, new BezierLabelLocator(0, -Math.PI / 4, 8));
+               LocatorLayouter.LAYOUT_LOCATOR.basicSet(startLabel, new BezierLabelLocator(0, -Math.PI / 4, 8));
                 startLabel.setEditable(false);
                 startLabel.setText("start");
                 cf.add(startLabel);
                 
                 TextFigure endLabel = new TextFigure();
-                LocatorLayouter.LAYOUT_LOCATOR.set(endLabel, new BezierLabelLocator(1, Math.PI + Math.PI / 4, 8));
+                LocatorLayouter.LAYOUT_LOCATOR.basicSet(endLabel, new BezierLabelLocator(1, Math.PI + Math.PI / 4, 8));
                 endLabel.setEditable(false);
                 endLabel.setText("end");
                 cf.add(endLabel);

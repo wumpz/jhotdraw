@@ -227,11 +227,11 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         if (TRANSFORM.get(this) != null ||
                 (tx.getType() & (AffineTransform.TYPE_TRANSLATION)) != tx.getType()) {
             if (TRANSFORM.get(this) == null) {
-                TRANSFORM.setClone(this, tx);
+                TRANSFORM.basicSetClone(this, tx);
             } else {
                 AffineTransform t = TRANSFORM.getClone(this);
                 t.preConcatenate(tx);
-                TRANSFORM.set(this, t);
+                TRANSFORM.basicSet(this, t);
             }
         } else {
             for (Figure f : getChildren()) {
@@ -241,13 +241,13 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
                     ! FILL_GRADIENT.get(this).isRelativeToFigureBounds()) {
                 Gradient g = FILL_GRADIENT.getClone(this);
                 g.transform(tx);
-                FILL_GRADIENT.set(this, g);
+                FILL_GRADIENT.basicSet(this, g);
             }
             if (STROKE_GRADIENT.get(this) != null && 
                     ! STROKE_GRADIENT.get(this).isRelativeToFigureBounds()) {
                 Gradient g = STROKE_GRADIENT.getClone(this);
                 g.transform(tx);
-                STROKE_GRADIENT.set(this, g);
+                STROKE_GRADIENT.basicSet(this, g);
             }
         }
         invalidate();
@@ -259,9 +259,9 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         for (int i=0, n = getChildCount(); i < n; i++) {
             getChild(i).setBezierPath(paths.get(i));
         }
-            TRANSFORM.setClone(this, (AffineTransform) restoreData[1]);
-            FILL_GRADIENT.setClone(this, (Gradient) restoreData[2]);
-            STROKE_GRADIENT.setClone(this, (Gradient) restoreData[3]);
+            TRANSFORM.basicSetClone(this, (AffineTransform) restoreData[1]);
+            FILL_GRADIENT.basicSetClone(this, (Gradient) restoreData[2]);
+            STROKE_GRADIENT.basicSetClone(this, (Gradient) restoreData[3]);
     }
     
     public Object getTransformRestoreData() {
@@ -392,11 +392,9 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         actions.add(new AbstractAction(labels.getString("windingNonZero")) {
             public void actionPerformed(ActionEvent evt) {
                 WINDING_RULE.set(SVGPathFigure.this, WindingRule.NON_ZERO);
-                    SVGPathFigure.this.willChange();
                     getDrawing().fireUndoableEditHappened(
                             WINDING_RULE.setUndoable(SVGPathFigure.this, WindingRule.EVEN_ODD, labels)
                     );
-                    SVGPathFigure.this.changed();
             }
         });
         return actions;
@@ -442,6 +440,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
     }
     
     public void flattenTransform() {
+        willChange();
         AffineTransform tx = TRANSFORM.get(this);
         if (tx != null) {
         for (Figure child : getChildren()) {
@@ -449,7 +448,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
             ((SVGBezierFigure) child).flattenTransform();
         }
         }
-        TRANSFORM.set(this, null);
-        invalidate();
+        TRANSFORM.basicSet(this, null);
+        changed();
     }
 }

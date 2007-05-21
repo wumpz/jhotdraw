@@ -132,11 +132,11 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
         if (TRANSFORM.get(this) != null ||
                 (tx.getType() & (AffineTransform.TYPE_TRANSLATION)) != tx.getType()) {
             if (TRANSFORM.get(this) == null) {
-                TRANSFORM.setClone(this, tx);
+                TRANSFORM.basicSetClone(this, tx);
             } else {
                 AffineTransform t = TRANSFORM.getClone(this);
                 t.preConcatenate(tx);
-                TRANSFORM.set(this, t);
+                TRANSFORM.basicSet(this, t);
             }
         } else {
             Point2D.Double anchor = getStartPoint();
@@ -149,13 +149,13 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
                     ! FILL_GRADIENT.get(this).isRelativeToFigureBounds()) {
                 Gradient g = FILL_GRADIENT.getClone(this);
                 g.transform(tx);
-                FILL_GRADIENT.set(this, g);
+                FILL_GRADIENT.basicSet(this, g);
             }
             if (STROKE_GRADIENT.get(this) != null &&
                     ! STROKE_GRADIENT.get(this).isRelativeToFigureBounds()) {
                 Gradient g = STROKE_GRADIENT.getClone(this);
                 g.transform(tx);
-                STROKE_GRADIENT.set(this, g);
+                STROKE_GRADIENT.basicSet(this, g);
             }
         }
         invalidate();
@@ -163,9 +163,9 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     public void restoreTransformTo(Object geometry) {
         Object[] restoreData = (Object[]) geometry;
         ellipse = (Ellipse2D.Double) ((Ellipse2D.Double) restoreData[0]).clone();
-        TRANSFORM.setClone(this, (AffineTransform) restoreData[1]);
-            FILL_GRADIENT.setClone(this, (Gradient) restoreData[2]);
-            STROKE_GRADIENT.setClone(this, (Gradient) restoreData[3]);
+        TRANSFORM.basicSetClone(this, (AffineTransform) restoreData[1]);
+            FILL_GRADIENT.basicSetClone(this, (Gradient) restoreData[2]);
+            STROKE_GRADIENT.basicSetClone(this, (Gradient) restoreData[3]);
         invalidate();
     }
     

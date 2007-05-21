@@ -38,8 +38,8 @@ import java.util.*;
  */
 public abstract class AbstractConnectionHandle extends AbstractHandle {
     private Connector         savedTarget;
-    private Connector            potentialTarget;
-    private Figure            potentialTargetFigure;
+    private Connector            connectableConnector;
+    private Figure            connectableFigure;
     private Point             start;
     /**
      * We temporarily remove the Liner from the connection figure, while the
@@ -48,6 +48,11 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
      * the interaction.
      */
     private Liner   savedLiner;
+    /**
+     * All connectors of the connectable Figure.
+     */
+    protected Collection<Connector> connectors = Collections.emptyList();
+    
     
     /**
      * Initializes the change connection handle.
@@ -79,7 +84,7 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
     protected abstract void connect(Connector c);
     
     /**
-     * Sets the location of the potentialTarget point.
+     * Sets the location of the connectableConnector point.
      */
     protected abstract void setLocation(Point2D.Double p);
     /**
@@ -112,13 +117,13 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
     }
     
     /**
-     * Finds a new potentialTarget of the connection.
+     * Finds a new connectableConnector of the connection.
      */
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         Point2D.Double p = view.viewToDrawing(lead);
         view.getConstrainer().constrainPoint(p);
-        Figure f = findConnectableFigure(p, view.getDrawing());
-        if (f != null) {
+        connectableFigure = findConnectableFigure(p, view.getDrawing());
+        if (connectableFigure != null) {
             Connector aTarget = findConnectionTarget(p, view.getDrawing());
             if (aTarget != null) {
                 p = aTarget.getAnchor();
@@ -127,11 +132,12 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
         getOwner().willChange();
         setLocation(p);
         getOwner().changed();
+        repaintConnectors();
     }
     
     /**
-     * Connects the figure to the new potentialTarget. If there is no
-     * new potentialTarget the connection reverts to its original one.
+     * Connects the figure to the new connectableConnector. If there is no
+     * new connectableConnector the connection reverts to its original one.
      */
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         ConnectionFigure f = getOwner();
@@ -167,6 +173,8 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
         }
         getOwner().setLiner(savedLiner);
         getOwner().updateConnection();
+        connectableConnector = null;
+        connectors = Collections.emptyList();
     }
     
     private Connector findConnectionTarget(Point2D.Double p, Drawing drawing) {
@@ -179,8 +187,8 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
             if ((targetFigure != null) && targetFigure.canConnect()
             && targetFigure != savedTarget
                     && !targetFigure.includes(getOwner())
-                    && (canConnect(getSource(), target) || 
-                     getTarget() != null && getTarget().getOwner() == targetFigure)) {
+                    && (canConnect(getSource(), target) ||
+                    getTarget() != null && getTarget().getOwner() == targetFigure)) {
                 return target;
             }
         }
@@ -197,6 +205,12 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
      * Draws this handle.
      */
     public void draw(Graphics2D g) {
+        Graphics2D gg = (Graphics2D) g.create();
+        gg.transform(view.getDrawingToViewTransform());
+        for (Connector c : connectors) {
+            c.draw(gg);
+        }
+        gg.dispose();
         drawCircle(g,
                 (getTarget() == null) ? Color.red : Color.green,
                 Color.black
@@ -213,7 +227,7 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
     }
     
     protected void setPotentialTarget(Connector newTarget) {
-        this.potentialTarget = newTarget;
+        this.connectableConnector = newTarget;
     }
     
     protected Rectangle basicGetBounds() {
@@ -282,6 +296,35 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
                             );
         } else {
             return null;
+        }
+    }
+    /**
+     * Updates the list of connectors that we draw when the user
+     * moves or drags the mouse over a figure to which can connect.
+     */
+    public void repaintConnectors() {
+        Rectangle2D.Double invalidArea = null;
+        for (Connector c : connectors) {
+            if (invalidArea == null) {
+                invalidArea = c.getDrawingArea();
+            } else {
+                invalidArea.add(c.getDrawingArea());
+            }
+        }
+        connectors = (connectableFigure == null) ?
+            new java.util.LinkedList<Connector>() :
+            connectableFigure.getConnectors(getOwner());
+        for (Connector c : connectors) {
+            if (invalidArea == null) {
+                invalidArea = c.getDrawingArea();
+            } else {
+                invalidArea.add(c.getDrawingArea());
+            }
+        }
+        if (invalidArea != null) {
+            view.getComponent().repaint(
+                    view.drawingToView(invalidArea)
+                    );
         }
     }
 }

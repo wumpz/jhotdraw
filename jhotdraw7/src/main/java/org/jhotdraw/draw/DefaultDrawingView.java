@@ -491,9 +491,9 @@ public class DefaultDrawingView
             for (Handle handle : selectionHandles) {
                 handle.removeHandleListener(this);
                 if (invalidatedArea == null) {
-                    invalidatedArea = handle.getDrawBounds();
+                    invalidatedArea = handle.getDrawingArea();
                 } else {
-                    invalidatedArea.add(handle.getDrawBounds());
+                    invalidatedArea.add(handle.getDrawingArea());
                 }
                 handle.dispose();
             }
@@ -534,9 +534,9 @@ public class DefaultDrawingView
                         selectionHandles.add(handle);
                         handle.addHandleListener(this);
                         if (invalidatedArea == null) {
-                            invalidatedArea = handle.getBounds();
+                            invalidatedArea = handle.getDrawingArea();
                         } else {
-                            invalidatedArea.add(handle.getBounds());
+                            invalidatedArea.add(handle.getDrawingArea());
                         }
                     }
                 }
@@ -613,9 +613,9 @@ public class DefaultDrawingView
         Rectangle bounds = null;
         for (Handle handle : selectionHandles) {
             if (bounds == null) {
-                bounds = handle.getDrawBounds();
+                bounds = handle.getDrawingArea();
             } else {
-                bounds.add(handle.getDrawBounds());
+                bounds.add(handle.getDrawingArea());
             }
         }
         if (bounds != null) {
@@ -816,10 +816,8 @@ public class DefaultDrawingView
     }
     
     public void delete() {
-        // XXX - This method is flawed. We are unable to restore the 
-        // depth of the deleted figures, when an Undo or a Redo operation
-        // is performed
-        final ArrayList<Figure> deletedFigures = new ArrayList<Figure>(getSelectedFigures());
+        final LinkedList<DrawingEvent> deletionEvents = new LinkedList<DrawingEvent>();
+        final LinkedList<Figure> selectedFigures = new LinkedList<Figure>(getSelectedFigures());
         clearSelection();
         DrawingListener removeListener = new DrawingListener() {
             public void areaInvalidated(DrawingEvent e) {
@@ -828,15 +826,13 @@ public class DefaultDrawingView
             public void figureAdded(DrawingEvent e) {
             }
             
-            public void figureRemoved(DrawingEvent e) {
-                if (! deletedFigures.contains(e.getFigure())) {
-                    deletedFigures.add(e.getFigure());
-                }
+            public void figureRemoved(DrawingEvent evt) {
+                deletionEvents.addFirst(evt);
             }
             
         };
         getDrawing().addDrawingListener(removeListener);
-        getDrawing().removeAll(deletedFigures);
+        getDrawing().removeAll(selectedFigures);
         getDrawing().removeDrawingListener(removeListener);
         
         getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
@@ -847,12 +843,17 @@ public class DefaultDrawingView
             public void undo() throws CannotUndoException {
                 super.undo();
                 clearSelection();
-                getDrawing().addAll(deletedFigures);
-                addToSelection(deletedFigures);
+                Drawing d = getDrawing();
+                for (DrawingEvent evt : deletionEvents) {
+                    d.add(evt.getIndex(), evt.getFigure());
+                }
+                addToSelection(selectedFigures);
             }
             public void redo() throws CannotRedoException {
                 super.redo();
-                getDrawing().removeAll(deletedFigures);
+                for (DrawingEvent evt : new ReversedList<DrawingEvent>(deletionEvents)) {
+                getDrawing().remove(evt.getFigure());
+                }
             }
         });
     }

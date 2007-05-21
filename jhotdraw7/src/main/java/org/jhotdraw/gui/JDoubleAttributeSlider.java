@@ -199,16 +199,12 @@ public class JDoubleAttributeSlider extends JSlider {
             if (getView() != null && attributeKey != null) {
                 if (attributeRestoreData.isEmpty()) {
                     for (Figure f : getView().getSelectedFigures()) {
-                        f.willChange();
                         attributeRestoreData.add(f.getAttributesRestoreData());
                         attributeKey.set(f, value);
-                        f.changed();
                     }
                 } else {
                     for (Figure f : getView().getSelectedFigures()) {
-                        f.willChange();
                         attributeKey.set(f, value);
-                        f.changed();
                     }
                 }
             }
@@ -237,7 +233,7 @@ public class JDoubleAttributeSlider extends JSlider {
                         super.redo();
                         for (Figure f : editedFigures) {
                             f.willChange();
-                            attributeKey.set(f, editRedoValue);
+                            attributeKey.basicSet(f, editRedoValue);
                             f.changed();
                         }
                     }
