@@ -23,7 +23,8 @@ import java.awt.geom.*;
  * Source:<br>
  * An Algorithm for Automatically Fitting Digitized Curves
  * by Philip J. Schneider.<br>
- * from "Graphics Gems", Academic Press, 1990
+ * from "Graphics Gems", Academic Press, 1990<br>
+ * http://ftp.arl.mil/pub/Gems/original/FitDigitizedCurves.c
  *
  * @version 2.0.1 2006-06-14 Fit bezier curve must preserve closed state of
  * fitted BezierPath object.

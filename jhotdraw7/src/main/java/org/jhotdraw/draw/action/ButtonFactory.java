@@ -249,11 +249,11 @@ public class ButtonFactory {
         editor.addPropertyChangeListener(new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 // String constants are interned
-                if (evt.getPropertyName() == DrawingEditor.PROP_FOCUSED_VIEW) {
+                if (evt.getPropertyName() == DrawingEditor.PROP_ACTIVE_VIEW) {
                     if (evt.getNewValue() == null) {
                         zoomPopupButton.setText("100 %");
                     } else {
-                        zoomPopupButton.setText((int) (editor.getFocusedView().getScaleFactor() * 100) + " %");
+                        zoomPopupButton.setText((int) (editor.getActiveView().getScaleFactor() * 100) + " %");
                     }
                 }
             }
@@ -265,7 +265,7 @@ public class ButtonFactory {
                     new ZoomEditorAction(editor, factors[i], zoomPopupButton) {
                 public void actionPerformed(java.awt.event.ActionEvent e) {
                     super.actionPerformed(e);
-                    zoomPopupButton.setText((int) (editor.getView().getScaleFactor() * 100) + " %");
+                    zoomPopupButton.setText((int) (editor.getActiveView().getScaleFactor() * 100) + " %");
                 }
             });
         }
@@ -615,7 +615,7 @@ public class ButtonFactory {
         editor.addPropertyChangeListener(new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 String name = evt.getPropertyName();
-                if (name == DrawingEditor.PROP_FOCUSED_VIEW) {
+                if (name == DrawingEditor.PROP_ACTIVE_VIEW) {
                     if (evt.getOldValue() != null) {
                         ((DrawingView) evt.getOldValue()).removeFigureSelectionListener(selectionHandler);
                     }

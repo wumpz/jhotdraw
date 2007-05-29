@@ -274,7 +274,7 @@ public class DefaultDrawingView
     }
     
     protected void drawHandles(java.awt.Graphics2D g) {
-        if (editor != null && editor.getFocusedView() == this) {
+        if (editor != null && editor.getActiveView() == this) {
             validateHandles();
             for (Handle h : getSelectionHandles()) {
                 h.draw(g);
@@ -286,7 +286,7 @@ public class DefaultDrawingView
     }
     
     protected void drawTool(Graphics2D g) {
-        if (editor != null && editor.getView() == this && editor.getTool() != null) {
+        if (editor != null && editor.getActiveView() == this && editor.getTool() != null) {
             editor.getTool().draw(g);
         }
     }

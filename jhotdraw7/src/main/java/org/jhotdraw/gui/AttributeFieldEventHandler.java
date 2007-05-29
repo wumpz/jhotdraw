@@ -38,10 +38,10 @@ public class AttributeFieldEventHandler
     public void propertyChange(PropertyChangeEvent evt) {
         String name = evt.getPropertyName();
         Object src = evt.getSource();
-        
+
         // handle property change events on the DrawingEditor
         if (src == editor) {
-            if (name == DrawingEditor.PROP_FOCUSED_VIEW && getView() != null) {
+            if (name == DrawingEditor.PROP_ACTIVE_VIEW && getView() != null) {
                 if (evt.getOldValue() != null) {
                     DrawingView view = ((DrawingView) evt.getOldValue());
                     for (Figure f : view.getSelectedFigures()) {
@@ -93,7 +93,7 @@ public class AttributeFieldEventHandler
         }
     }
     protected void updateField() {
-            field.updateField(getCurrentView().getSelectedFigures());
+        field.updateField(getCurrentView().getSelectedFigures());
     }
     protected Set<Figure> getCurrentSelection() {
         if (getCurrentView() != null) {
@@ -102,8 +102,8 @@ public class AttributeFieldEventHandler
             return Collections.emptySet();
         }
     }
-
-
+    
+    
     public void figureAreaInvalidated(FigureEvent e) {
         // empty
     }
@@ -112,23 +112,23 @@ public class AttributeFieldEventHandler
         updateField();
     }
     
-
+    
     public void figureHandlesChanged(FigureEvent e) {
         // empty
     }
-
+    
     public void figureChanged(FigureEvent e) {
         // empty
     }
-
+    
     public void figureAdded(FigureEvent e) {
         // empty
     }
-
+    
     public void figureRemoved(FigureEvent e) {
         // empty
     }
-
+    
     public void figureRequestRemove(FigureEvent e) {
         // empty
     }
@@ -146,6 +146,9 @@ public class AttributeFieldEventHandler
         editor = newValue;
         if (editor != null) {
             editor.addPropertyChangeListener(this);
+            if (getCurrentView() != null) {
+                getCurrentView().addFigureSelectionListener(this);
+            } 
         }
     }
     public DrawingEditor getEditor() {
@@ -157,15 +160,15 @@ public class AttributeFieldEventHandler
      * the attribute field global to all drawing views in the drawing editor.
      */
     public void setView(DrawingView newValue) {
-        if (view != null) {
-            view.removeFigureSelectionListener(this);
-            for (Figure f : view.getSelectedFigures()) {
+        if (getCurrentView() != null) {
+            getCurrentView().removeFigureSelectionListener(this);
+            for (Figure f : getCurrentView().getSelectedFigures()) {
                 f.removeFigureListener(this);
             }
         }
         view = newValue;
         if (getCurrentView() != null) {
-            view.addFigureSelectionListener(this);
+            getCurrentView().addFigureSelectionListener(this);
             for (Figure f : getCurrentView().getSelectedFigures()) {
                 f.addFigureListener(this);
             }
@@ -178,7 +181,7 @@ public class AttributeFieldEventHandler
     
     public DrawingView getCurrentView() {
         return (view != null) ? view :
-            ((editor == null) ? null : editor.getFocusedView());
+            ((editor == null) ? null : editor.getActiveView());
     }
     
     public void dispose() {

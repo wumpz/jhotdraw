@@ -57,7 +57,7 @@ public class AttributeToggler extends AbstractAction {
     }
     
     public DrawingView getView() {
-        return editor.getView();
+        return editor.getActiveView();
     }
     public DrawingEditor getEditor() {
         return editor;

@@ -75,7 +75,7 @@ public abstract class AbstractViewAction extends AbstractAction {
         editor = newValue;
     }
     protected DrawingView getView() {
-        return (view != null) ? view : editor.getView();
+        return (view != null) ? view : editor.getActiveView();
     }
     protected Drawing getDrawing() {
         return getView().getDrawing();

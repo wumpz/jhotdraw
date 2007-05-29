@@ -38,11 +38,10 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor,
     private HashSet<DrawingView> views;
     private DrawingView activeView;
     private boolean isEnabled = true;
-    private DrawingView focusedView;
     
     private FocusListener focusHandler = new FocusListener() {
         public void focusGained(FocusEvent e) {
-            setFocusedView((DrawingView) findView((Container) e.getSource()));
+            setActiveView((DrawingView) findView((Container) e.getSource()));
         }
         
         public void focusLost(FocusEvent e) {
@@ -90,12 +89,12 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor,
         evt.getView().getComponent().repaint(r.x, r.y, r.width, r.height);
     }
     public void toolStarted(ToolEvent evt) {
-        setView(evt.getView());
+        setActiveView(evt.getView());
     }
-    public void setView(DrawingView newValue) {
+    public void setActiveView(DrawingView newValue) {
         DrawingView oldValue = activeView;
         activeView = newValue;
-        firePropertyChange(PROP_VIEW, oldValue, newValue);
+        firePropertyChange(PROP_ACTIVE_VIEW, oldValue, newValue);
         /* Don't repaint
         for (DrawingView v : views) {
             v.getComponent().repaint();
@@ -103,7 +102,7 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor,
     }
     public void toolDone(ToolEvent evt) {
         // FIXME - Maybe we should do this with all views of the editor??
-        DrawingView v = getView();
+        DrawingView v = getActiveView();
         if (v != null) {
             Container c = v.getComponent();
             c.invalidate();
@@ -115,27 +114,19 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor,
         return tool;
     }
     
-    public DrawingView getView() {
-        return activeView != null ? activeView : views.iterator().next();
+    public DrawingView getActiveView() {
+        return (activeView != null) ? activeView : 
+            (views.size() == 0) ? null : views.iterator().next();
     }
     
-    private void updateFocusedView() {
+    private void updateActiveView() {
         for (DrawingView v : views) {
             if (v.getComponent().hasFocus()) {
-                setFocusedView(v);
+                setActiveView(v);
                 return;
             }
         }
-        setFocusedView(null);
-    }
-    
-    private void setFocusedView(DrawingView newValue) {
-        DrawingView oldValue = focusedView;
-        focusedView = newValue;
-        firePropertyChange(PROP_FOCUSED_VIEW, oldValue, newValue);
-    }
-    public DrawingView getFocusedView() {
-        return focusedView;
+        setActiveView(null);
     }
     
     public void applyDefaultAttributesTo(Figure f) {
@@ -166,7 +157,7 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor,
         if (activeView == view) {
             view = (views.size() > 0) ? views.iterator().next() : null;
         }
-        updateFocusedView();
+        updateActiveView();
     }
     
     public void add(DrawingView view) {
@@ -178,7 +169,7 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor,
             view.addMouseMotionListener(tool);
             view.addKeyListener(tool);
         }
-        updateFocusedView();
+        updateActiveView();
     }
     
     public void setCursor(Cursor c) {

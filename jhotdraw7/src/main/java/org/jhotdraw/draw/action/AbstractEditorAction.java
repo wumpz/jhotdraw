@@ -69,7 +69,7 @@ public abstract class AbstractEditorAction extends AbstractAction {
         return editor;
     }
     protected DrawingView getView() {
-        return editor.getView();
+        return editor.getActiveView();
     }
     protected Drawing getDrawing() {
         return getView().getDrawing();

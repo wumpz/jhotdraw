@@ -51,7 +51,7 @@ public abstract class AbstractSelectedAction
     
     private class EventHandler implements PropertyChangeListener, FigureSelectionListener {
         public void propertyChange(PropertyChangeEvent evt) {
-            if (evt.getPropertyName() == DrawingEditor.PROP_FOCUSED_VIEW) {
+            if (evt.getPropertyName() == DrawingEditor.PROP_ACTIVE_VIEW) {
                 if (evt.getOldValue() != null) {
                     DrawingView view = ((DrawingView) evt.getOldValue());
                     view.removeFigureSelectionListener(this);
@@ -95,8 +95,8 @@ public abstract class AbstractSelectedAction
     public void dispose() {
         if (this.editor != null) {
             this.editor.removePropertyChangeListener(eventHandler);
-            if (this.editor.getView() != null) {
-                this.editor.getView().removeFigureSelectionListener(eventHandler);
+            if (this.editor.getActiveView() != null) {
+                this.editor.getActiveView().removeFigureSelectionListener(eventHandler);
             }
         }
         this.editor = null;
@@ -118,7 +118,7 @@ public abstract class AbstractSelectedAction
         return editor;
     }
     protected DrawingView getView() {
-        return (editor == null) ? null : editor.getFocusedView();
+        return (editor == null) ? null : editor.getActiveView();
     }
     protected Drawing getDrawing() {
         return (getView() == null) ? null : getView().getDrawing();

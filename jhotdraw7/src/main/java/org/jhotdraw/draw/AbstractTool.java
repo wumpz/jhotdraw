@@ -106,7 +106,7 @@ public abstract class AbstractTool implements Tool {
     }
     
     protected DrawingView getView() {
-        return editor.getView();
+        return editor.getActiveView();
     }
     protected DrawingEditor getEditor() {
         return editor;
@@ -208,7 +208,7 @@ public abstract class AbstractTool implements Tool {
     public void keyPressed(KeyEvent evt) {
         if (! evt.isConsumed()) {
             if (evt.getSource() instanceof Container) {
-                editor.setView(editor.findView((Container) evt.getSource()));
+                editor.setActiveView(editor.findView((Container) evt.getSource()));
             }
             
             if (inputMap != null) {
@@ -294,7 +294,7 @@ public abstract class AbstractTool implements Tool {
     
     public void mouseEntered(MouseEvent evt) {
         if (! isWorking) {
-            editor.setView(editor.findView((Container) evt.getSource()));
+            editor.setActiveView(editor.findView((Container) evt.getSource()));
         }
     }
     

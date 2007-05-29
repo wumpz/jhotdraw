@@ -77,16 +77,16 @@ public class DrawingEditorProxy extends AbstractBean implements DrawingEditor {
         return target.getDrawingViews();
     }
     
-    public DrawingView getView() {
-        return target.getView();
+    public DrawingView getActiveView() {
+        return (target == null) ? null : target.getActiveView();
     }
     
-    public void setView(DrawingView newValue) {
-        target.setView(newValue);
+    public void setActiveView(DrawingView newValue) {
+        target.setActiveView(newValue);
     }
     
     public DrawingView getFocusedView() {
-        return (target == null) ? null : target.getFocusedView();
+        return (target == null) ? null : target.getActiveView();
     }
     
     public void setTool(Tool t) {

@@ -51,7 +51,7 @@ public class JStringAttributeField extends JTextField {
     private class EditorEventHandler implements PropertyChangeListener, FigureSelectionListener {
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
-            if (name == DrawingEditor.PROP_FOCUSED_VIEW) {
+            if (name == DrawingEditor.PROP_ACTIVE_VIEW) {
                 if (evt.getOldValue() != null) {
                     DrawingView view = ((DrawingView) evt.getOldValue());
                     view.removeFigureSelectionListener(this);
@@ -129,7 +129,7 @@ public class JStringAttributeField extends JTextField {
         return editor;
     }
     protected DrawingView getView() {
-        return (editor == null) ? null : editor.getFocusedView();
+        return (editor == null) ? null : editor.getActiveView();
     }
     
     protected void updateEnabledState() {
@@ -192,8 +192,8 @@ public class JStringAttributeField extends JTextField {
     public void dispose() {
         if (this.editor != null) {
             this.editor.removePropertyChangeListener(eventHandler);
-            if (this.editor.getView() != null) {
-                this.editor.getView().removeFigureSelectionListener(eventHandler);
+            if (this.editor.getActiveView() != null) {
+                this.editor.getActiveView().removeFigureSelectionListener(eventHandler);
             }
         }
         this.editor = null;
