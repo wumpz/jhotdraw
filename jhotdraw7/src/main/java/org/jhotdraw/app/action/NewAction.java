@@ -51,6 +51,7 @@ public class NewAction extends AbstractApplicationAction {
         }
         newP.setMultipleOpenId(multiOpenId);
         app.add(newP);
+        newP.clear();
         app.show(newP);
     }
 }

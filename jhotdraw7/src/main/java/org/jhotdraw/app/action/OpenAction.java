@@ -69,17 +69,23 @@ public class OpenAction extends AbstractApplicationAction {
             }
             
             final Project p;
+            boolean removeMe;
             if (emptyProject == null) {
                 p = app.createProject();
                 app.add(p);
+                removeMe = true;
             } else {
                 p = emptyProject;
+                removeMe = false;
             }
             JFileChooser fileChooser = p.getOpenChooser();
             if (fileChooser.showOpenDialog(app.getComponent()) == JFileChooser.APPROVE_OPTION) {
                 app.show(p);
                 openFile(fileChooser, p);
             } else {
+                if (removeMe) {
+                app.remove(p);
+                }
                 app.setEnabled(true);
             }
         }

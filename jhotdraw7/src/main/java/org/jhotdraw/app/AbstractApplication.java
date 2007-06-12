@@ -62,6 +62,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     public void start() {
         Project p = createProject();
         add(p);
+        p.clear();
         show(p);
     }
     
