@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractProject.java  1.1.1  2006-04-11
+ * @(#)AbstractDocumentView.java  1.1.1  2006-04-11
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -14,6 +14,7 @@
 
 package org.jhotdraw.application;
 
+import application.ApplicationContext;
 import org.jhotdraw.application.action.SelectAllAction;
 import java.io.*;
 import java.util.*;
@@ -22,64 +23,56 @@ import javax.swing.*;
 import java.util.concurrent.*;
 import java.util.prefs.*;
 /**
- * AbstractProject.
- *
- *
+ * AbstractDocumentView.
+ * 
+ * 
+ * 
  * @author Werner Randelshofer
- * @version 1.1.1 2006-04-11 Fixed project file preferences.
+ * @version 1.1.1 2006-04-11 Fixed documentView file preferences.
  * <br>1.1 2006-02-16 Support for preferences added.
  * <br>1.0 January 3, 2006 Created.
  */
-public abstract class AbstractProject extends JPanel implements Project {
-    private WindowManager windowManager;
+public abstract class AbstractDocumentView extends JPanel  implements DocumentView {
+    private DocumentOrientedApplication application;
     /**
-     * The file chooser used for saving the project.
+     * The file chooser used for saving the documentView.
      * Has a null value, if the file chooser has not been used yet.
      */
     protected JFileChooser saveChooser;
     /**
-     * The file chooser used for opening the project.
+     * The file chooser used for opening the documentView.
      * Has a null value, if the file chooser has not been used yet.
      */
     protected JFileChooser openChooser;
     /**
-     * The project file.
-     * Has a null value, if the project has not been loaded from a file
+     * The documentView file. 
+     * Has a null value, if the documentView has not been loaded from a file
      * or has not been saved yet.
      */
     protected File file;
     /**
-     * The executor used to perform background tasks for the Project in a
+     * The executor used to perform background tasks for the DocumentView in a
      * controlled manner. This executor ensures that all background tasks
      * are executed sequentually.
      */
     protected Executor executor;
     /**
-     * Hash map for storing project actions.
+     * Hash map for storing documentView actions.
      */
     private HashMap actions;
     /**
-     * This is set to true, if the project has unsaved changes.
+     * This is set to true, if the documentView has unsaved changes.
      */
     private boolean hasUnsavedChanges;
     /**
-     * The preferences of the project.
+     * The preferences of the documentView.
      */
     private Preferences prefs;
-    /**
-     * This id is used to make multiple open projects from the same project file
-     * identifiable.
-     */
-    private int multipleOpenId = 1;
-    /**
-     * This is set to true, if the project is showing.
-     */
-    private boolean isShowing;
     
     /**
      * Creates a new instance.
      */
-    public AbstractProject() {
+    public AbstractDocumentView() {
     }
     
     public void init() {
@@ -102,6 +95,10 @@ public abstract class AbstractProject extends JPanel implements Project {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
     
+    public DocumentOrientedApplication getApplication() {
+        return (DocumentOrientedApplication) ApplicationContext.getInstance().getApplication();
+    }
+    
     public JComponent getComponent() {
         return this;
     }
@@ -120,7 +117,7 @@ public abstract class AbstractProject extends JPanel implements Project {
     }
     
     /**
-     * Gets the open file chooser for the project.
+     * Gets the open file chooser for the documentView.
      */
     public JFileChooser getOpenChooser() {
         if (openChooser == null) {
@@ -138,7 +135,7 @@ public abstract class AbstractProject extends JPanel implements Project {
     }
     
     /**
-     * Gets the save file chooser for the project.
+     * Gets the save file chooser for the documentView.
      */
     public JFileChooser getSaveChooser() {
         if (saveChooser == null) {
@@ -155,22 +152,17 @@ public abstract class AbstractProject extends JPanel implements Project {
         return c;
     }
     /**
-     * Returns true, if the project has unsaved changes.
+     * Returns true, if the documentView has unsaved changes.
      * This is a bound property.
      */
-    public boolean hasUnsavedChanges() {
+    public boolean isModified() {
         return hasUnsavedChanges;
     }
-    protected void setHasUnsavedChanges(boolean newValue) {
-        boolean oldValue = hasUnsavedChanges;
-        hasUnsavedChanges = newValue;
-        firePropertyChange("hasUnsavedChanges", oldValue, newValue);
-    }
     /**
-     * Gets rid of all the resources of the project.
-     * No other methods should be invoked on the project afterwards.
+     * Gets rid of all the resources of the documentView.
+     * No other methods should be invoked on the documentView afterwards.
      */
-    public void dispose() {
+    public void destroy() {
         
     }
     /**
@@ -194,7 +186,7 @@ public abstract class AbstractProject extends JPanel implements Project {
         }
     }
     /**
-     * Executes the specified runnable on the worker thread of the project.
+     * Executes the specified runnable on the worker thread of the documentView.
      * Execution is perfomred sequentially in the same sequence as the
      * runnables have been passed to this method.
      */
@@ -205,36 +197,22 @@ public abstract class AbstractProject extends JPanel implements Project {
         executor.execute(worker);
     }
     
-    public void setMultipleOpenId(int newValue) {
-        int oldValue = multipleOpenId;
-        multipleOpenId = newValue;
-        firePropertyChange("multipleOpenId", oldValue, newValue);
+    public void setName(String n) {
+        super.setName(n);
+        if (n != null && n.startsWith("null")) {
+            new Throwable().printStackTrace();
+        }
     }
     
-    public int getMultipleOpenId() {
-        return multipleOpenId;
+    public void setModified(boolean newValue) {
+        boolean oldValue = hasUnsavedChanges;
+        hasUnsavedChanges = newValue;
+        firePropertyChange("modified", oldValue, newValue);
+    }
+    public void start() {
     }
     
-    public void setShowing(boolean newValue) {
-        boolean oldValue = isShowing;
-        isShowing = newValue;
-        firePropertyChange("showing", oldValue, newValue);
-    }
-    public boolean isShowing() {
-        return isShowing;
+    public void stop() {
     }
     
-    public void markChangesAsSaved() {
-        setHasUnsavedChanges(false);
-    }
-    
-    public void setWindowManager(WindowManager newValue) {
-        WindowManager oldValue = windowManager;
-        windowManager = newValue;
-        firePropertyChange("windowManager", oldValue, newValue);
-    }
-    
-    public WindowManager getWindowManager() {
-        return windowManager;
-    }
 }

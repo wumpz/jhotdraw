@@ -1,5 +1,5 @@
 /*
- * @(#)ProjectPropertyAction.java  1.0  June 18, 2006
+ * @(#)PropertyAction.java  1.0  June 18, 2006
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -17,15 +17,16 @@ package org.jhotdraw.application.action;
 import java.awt.event.*;
 import java.beans.*;
 import org.jhotdraw.application.DocumentOrientedApplication;
-import org.jhotdraw.application.Project;
+import org.jhotdraw.application.DocumentView;
 
 /**
- * ProjectPropertyAction.
+ * PropertyAction.
+ * 
  * 
  * @author Werner Randelshofer.
  * @version 1.0 June 18, 2006 Created.
  */
-public class ProjectPropertyAction extends AbstractProjectAction {
+public class PropertyAction extends AbstractDocumentViewAction {
     private String propertyName;
     private Class[] parameterClass;
     private Object propertyValue;
@@ -41,10 +42,10 @@ public class ProjectPropertyAction extends AbstractProjectAction {
     };
     
     /** Creates a new instance. */
-    public ProjectPropertyAction(String propertyName, Object propertyValue) {
+    public PropertyAction(String propertyName, Object propertyValue) {
         this(propertyName, propertyValue.getClass(), propertyValue);
     }
-    public ProjectPropertyAction(String propertyName, Class propertyClass, Object propertyValue) {
+    public PropertyAction(String propertyName, Class propertyClass, Object propertyValue) {
         this.propertyName = propertyName;
         this.parameterClass = new Class[] { propertyClass };
         this.propertyValue = propertyValue;
@@ -57,7 +58,7 @@ public class ProjectPropertyAction extends AbstractProjectAction {
     }
     
     public void actionPerformed(ActionEvent evt) {
-        Project p = getCurrentProject();
+        DocumentView p = getCurrentView();
         try {
             p.getClass().getMethod(setterName, parameterClass).invoke(p, new Object[] {propertyValue});
         } catch (Throwable e) {
@@ -67,22 +68,22 @@ public class ProjectPropertyAction extends AbstractProjectAction {
         }
     }
     
-    protected void installProjectListeners(Project p) {
+    protected void installProjectListeners(DocumentView p) {
         super.installProjectListeners(p);
         p.addPropertyChangeListener(projectListener);
         updateSelectedState();
     }
     /**
-     * Installs listeners on the project object.
+     * Installs listeners on the documentView object.
      */
-    protected void uninstallProjectListeners(Project p) {
+    protected void uninstallProjectListeners(DocumentView p) {
         super.uninstallProjectListeners(p);
         p.removePropertyChangeListener(projectListener);
     }
     
     private void updateSelectedState() {
         boolean isSelected = false;
-        Project p = getCurrentProject();
+        DocumentView p = getCurrentView();
         if (p != null) {
             try {
                 Object value = p.getClass().getMethod(getterName, (Class[]) null).invoke(p);

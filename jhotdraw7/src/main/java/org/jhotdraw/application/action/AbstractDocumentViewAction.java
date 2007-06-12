@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractProjectAction.java  1.1  2007-03-22
+ * @(#)AbstractDocumentViewAction.java  1.1  2007-03-22
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -14,41 +14,44 @@
 
 package org.jhotdraw.application.action;
 
-import application.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.*;
 import javax.swing.*;
 import javax.swing.event.*;
-import org.jhotdraw.application.*;
+import org.jhotdraw.application.AbstractDocumentOrientedApplication;
+import org.jhotdraw.application.DocumentOrientedApplication;
+import org.jhotdraw.application.DocumentView;
 
 /**
- * An Action that acts on on the current <code>Project</code> of an
+ * An Action that acts on on the current <code>DocumentView</code> of an
  * <code>DocumentOrientedApplication</code>.
- * If the current Project object is disabled or is null, the
- * AbstractProjectAction is disabled as well.
+ * If the current DocumentView object is disabled or is null, the
+ * AbstractDocumentViewAction is disabled as well.
  * <p>
  * A property name can be specified. When the specified property 
- * changes or when the current project changes, method updateProperty
+ * changes or when the current documentView changes, method updateProperty
  * is invoked.
+ * 
  * 
  * 
  * 
  * @author Werner Randelshofer
  * @version 1.0 October 9, 2005 Created.
- * @see org.jhotdraw.application.Project org.jhotdraw.application.DocumentOrientedApplication
+ * @see org.jhotdraw.application.PrDocumentViewsee org.jhotdraw.application.ApDocumentOrientedApplication
  */
-public abstract class AbstractProjectAction extends AbstractAction {
+public abstract class AbstractDocumentViewAction extends AbstractApplicationAction {
     private String propertyName;
     
-    private PropertyChangeListener windowManagerListener = new PropertyChangeListener() {
+    private PropertyChangeListener applicationListener = new PropertyChangeListener() {
         public void propertyChange(PropertyChangeEvent evt) {
-            if (evt.getPropertyName() == "currentProject") { // Strings get interned
-                updateProject((Project) evt.getOldValue(), (Project) evt.getNewValue());
+            if (evt.getPropertyName() == 
+                    AbstractDocumentOrientedApplication.PROP_CURRENT_VIEW) { // Strings get interned
+                updateProject((DocumentView) evt.getOldValue(), (DocumentView) evt.getNewValue());
             }
         }
     };
-    private PropertyChangeListener projectListener = new PropertyChangeListener() {
+    private PropertyChangeListener viewListener = new PropertyChangeListener() {
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
             if (name == "enabled") { // Strings get interned
@@ -60,24 +63,27 @@ public abstract class AbstractProjectAction extends AbstractAction {
     };
     
     /** Creates a new instance. */
-    public AbstractProjectAction() {
+    public AbstractDocumentViewAction() {
         this.enabled = true;
-            WindowManager.getInstance().addPropertyChangeListener(windowManagerListener);
-            updateProject(null, WindowManager.getInstance().getCurrentProject());
+        DocumentOrientedApplication application = getApplication();
+        if (application != null) {
+            application.addPropertyChangeListener(applicationListener);
+            updateProject(null, application.getCurrentView());
+        }
     }
     
     /**
-     * Updates the project of this action depending on the current project
+     * Updates the listeners of this action depending on the current documentView
      * of the application.
      */
-    protected void updateProject(Project oldValue, Project newValue) {
+    protected void updateProject(DocumentView oldValue, DocumentView newValue) {
         if (oldValue != null) {
             uninstallProjectListeners(oldValue);
         }
         if (newValue != null) {
             installProjectListeners(newValue);
         }
-        firePropertyChange("project", oldValue, newValue);
+        firePropertyChange("documentView", oldValue, newValue);
         updateEnabled(oldValue != null && oldValue.isEnabled(),
                 newValue != null && newValue.isEnabled());
         updateProperty();
@@ -101,39 +107,36 @@ public abstract class AbstractProjectAction extends AbstractAction {
     
     /**
      * This method is invoked, when the property changed and when
-     * the project changed.
+     * the documentView changed.
      */
     protected void updateProperty() {
         
     }
     
     /**
-     * Installs listeners on the project object.
+     * Installs listeners on the documentView object.
      */
-    protected void installProjectListeners(Project p) {
-        p.addPropertyChangeListener(projectListener);
+    protected void installProjectListeners(DocumentView p) {
+        p.addPropertyChangeListener(viewListener);
     }
     /**
-     * Installs listeners on the project object.
+     * Installs listeners on the documentView object.
      */
-    protected void uninstallProjectListeners(Project p) {
-        p.removePropertyChangeListener(projectListener);
+    protected void uninstallProjectListeners(DocumentView p) {
+        p.removePropertyChangeListener(viewListener);
     }
     
     /**
      * Updates the enabled state of this action depending on the new enabled
-     * state of the project.
+     * state of the documentView.
      */
     protected void updateEnabled(boolean oldValue, boolean newValue) {
-       // System.out.println("AbstractProjectAction updateEnabled"+oldValue+","+newValue);
+       // System.out.println("AbstractDocumentViewAction updateEnabled"+oldValue+","+newValue);
         firePropertyChange("enabled", oldValue, newValue);
     }
     
-    public DocumentOrientedApplication getApplication() {
-        return (DocumentOrientedApplication) ApplicationContext.getInstance().getApplication();
-    }
-    public Project getCurrentProject() {
-        return WindowManager.getInstance().getCurrentProject();
+    public DocumentView getCurrentView() {
+        return getApplication().getCurrentView();
     }
     
     /**
@@ -145,8 +148,8 @@ public abstract class AbstractProjectAction extends AbstractAction {
      * @see Action#isEnabled
      */
     @Override public boolean isEnabled() {
-        return getCurrentProject() != null && 
-                getCurrentProject().isEnabled() &&
+        return getCurrentView() != null && 
+                getCurrentView().isEnabled() &&
                 this.enabled;
     }
     
@@ -163,7 +166,7 @@ public abstract class AbstractProjectAction extends AbstractAction {
         boolean oldValue = this.enabled;
         this.enabled = newValue;
         
-        boolean projIsEnabled = getCurrentProject() != null && getCurrentProject().isEnabled();
+        boolean projIsEnabled = getCurrentView() != null && getCurrentView().isEnabled();
         
         firePropertyChange("enabled",
                 Boolean.valueOf(oldValue && projIsEnabled),
