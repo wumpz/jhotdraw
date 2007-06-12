@@ -27,7 +27,7 @@ import java.util.prefs.*;
  * @version 1.0 8. Oktober 2005 Created.
  */
 public class CharacterSetAccessory extends javax.swing.JPanel {
-    private final static Preferences prefs = Preferences.userNodeForPackage(TeddyProject.class);
+    private final static Preferences prefs = Preferences.userNodeForPackage(TeddyView.class);
     private static Object[] availableCharSets;
     
     /** Creates a new instance. */
@@ -137,11 +137,11 @@ public class CharacterSetAccessory extends javax.swing.JPanel {
                 .addContainerGap(44, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.BASELINE, charSetCombo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-            .add(org.jdesktop.layout.GroupLayout.BASELINE, charSetLabel)
-            .add(org.jdesktop.layout.GroupLayout.BASELINE, lineSepLabel)
-            .add(org.jdesktop.layout.GroupLayout.BASELINE, lineSepCombo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+            .add(charSetCombo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+            .add(charSetLabel)
+            .add(lineSepLabel)
+            .add(lineSepCombo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
         );
     }// </editor-fold>//GEN-END:initComponents
     

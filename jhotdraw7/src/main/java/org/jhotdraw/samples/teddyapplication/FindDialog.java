@@ -1,11 +1,20 @@
 /*
- * FindDialog.java
+ * @(#)FindDialog.java  1.0  October 8, 2005
  *
- * Created on 8. Oktober 2005, 13:25
+ * Copyright (c) 2007 Werner Randelshofer
+ * Staldenmattweg 2, CH-6405 Immensee, Switzerland
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * Werner Randelshofer. ("Confidential Information").  You shall not
+ * disclose such Confidential Information and shall use it only in
+ * accordance with the terms of the license agreement you entered into
+ * with Werner Randelshofer.
  */
 
 package org.jhotdraw.samples.teddyapplication;
 
+import application.ApplicationContext;
 import java.awt.*;
 import java.awt.event.*;
 import org.jhotdraw.application.*;
@@ -17,9 +26,12 @@ import java.util.prefs.*;
 import javax.swing.*;
 import javax.swing.text.*;
 import javax.swing.border.*;
+
 /**
+ * Find Dialog.
  *
- * @author  werni
+ * @author  Werner Randelshofer
+ * @version 1.0 2007-06-11 Created.
  */
 public class FindDialog extends javax.swing.JDialog {
     private Matcher matcher;
@@ -263,7 +275,7 @@ public class FindDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_ignoreCasePerformed
     
     private void replace(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_replace
-        TeddyProject project = ((TeddyProject) WindowManager.getInstance().getCurrentProject());
+        TeddyView project = getProject();
         if (project != null) {
             CompositeEdit edit = new CompositeEdit("Replace");
             project.fireEdit(edit);
@@ -278,7 +290,7 @@ public class FindDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_replace
     
     private void replaceAndFind(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_replaceAndFind
-        TeddyProject project = ((TeddyProject) WindowManager.getInstance().getCurrentProject());
+        TeddyView project = getProject();
         if (project != null) {
             CompositeEdit edit = new CompositeEdit("Replace And Find");
             project.fireEdit(edit);
@@ -293,7 +305,7 @@ public class FindDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_replaceAndFind
     
     private void previous(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previous
-        TeddyProject project = ((TeddyProject) WindowManager.getInstance().getCurrentProject());
+        TeddyView project = getProject();
         if (project != null) {
             updateMatcher();
             if (matcher != null) {
@@ -312,7 +324,7 @@ public class FindDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_previous
     
     private void next(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_next
-        TeddyProject project = ((TeddyProject) WindowManager.getInstance().getCurrentProject());
+        TeddyView project = getProject();
         if (project != null) {
             updateMatcher();
             if (matcher != null) {
@@ -330,7 +342,7 @@ public class FindDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_next
     
     private void replaceAll(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_replaceAll
-        TeddyProject project = ((TeddyProject) WindowManager.getInstance().getCurrentProject());
+        TeddyView project = getProject();
         if (project != null) {
             updateMatcher();
             if (matcher != null) {
@@ -356,7 +368,7 @@ public class FindDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_replaceAll
     
     private void updateMatcher() {
-        TeddyProject project = ((TeddyProject) WindowManager.getInstance().getCurrentProject());
+        TeddyView project = getProject();
         if (project != null) {
             MatchType matchType;
             switch (modeCombo.getSelectedIndex()) {
@@ -373,6 +385,13 @@ public class FindDialog extends javax.swing.JDialog {
             matcher = null;
         }
     }
+    public DocumentOrientedApplication getApplication() {
+        return (DocumentOrientedApplication) ApplicationContext.getInstance().getApplication();
+    }
+    public TeddyView getProject() {
+        return (TeddyView) getApplication().getCurrentView();
+    }
+    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JPanel buttonPanel;

@@ -14,8 +14,8 @@
 
 package org.jhotdraw.samples.teddyapplication.action;
 
-import org.jhotdraw.app.*;
 import org.jhotdraw.application.*;
+import org.jhotdraw.application.action.*;
 import org.jhotdraw.samples.teddyapplication.*;
 import org.jhotdraw.util.*;
 import java.awt.event.*;
@@ -26,38 +26,31 @@ import javax.swing.*;
  * @author Werner Randelshofer
  * @version 1.0 October 8, 2005 Created.
  */
-public class FindAction extends AbstractAction {
-    public final static String ID = org.jhotdraw.app.action.FindAction.ID;
+public class FindAction extends AbstractDocumentViewAction {
+    public final static String ID = org.jhotdraw.application.action.FindAction.ID;
     private FindDialog findDialog;
-    private Application app;
-    private ResourceBundleUtil labels =
-            ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.teddy.Labels");
     
     /**
      * Creates a new instance.
      */
     public FindAction() {
-        labels.configureAction(this, ID);
+        initActionProperties(ID);
     }
     
     public void actionPerformed(ActionEvent e) {
         if (findDialog == null) {
             findDialog = new FindDialog();
             
-            if (WindowManager.getInstance() instanceof DefaultOSXWindowManager) {
-                findDialog.addWindowListener(new WindowAdapter() {
-                    @Override public void windowClosing(WindowEvent evt) {
-                        if (findDialog != null) {
-                            ((DefaultOSXWindowManager) WindowManager.getInstance()).removePalette(findDialog);
-                            findDialog.setVisible(false);
-                        }
+            findDialog.addWindowListener(new WindowAdapter() {
+                @Override public void windowClosing(WindowEvent evt) {
+                    if (findDialog != null) {
+                        getApplication().removePalette(findDialog);
+                        findDialog.setVisible(false);
                     }
-                });
-            }
+                }
+            });
         }
         findDialog.setVisible(true);
-        if (app instanceof DefaultOSXApplication) {
-            ((DefaultOSXApplication) app).addPalette(findDialog);
-        }
+        getApplication().addPalette(findDialog);
     }
 }

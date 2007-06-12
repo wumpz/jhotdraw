@@ -14,6 +14,7 @@
 
 package org.jhotdraw.samples.teddyapplication.action;
 
+import application.*;
 import org.jhotdraw.application.*;
 import org.jhotdraw.application.action.*;
 import org.jhotdraw.samples.teddyapplication.*;
@@ -30,30 +31,32 @@ import javax.swing.event.*;
  * @author  Werner Randelshofer
  * @version 1.0 October 1, 2005 Created.
  */
-public class ToggleStatusBarAction extends AbstractProjectAction {
-    public final static String ID = "showStatusBar";
-    private ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.teddy.Labels");
+public class ToggleStatusBarAction extends AbstractDocumentViewAction {
+    public final static String ID = "View.showStatusBar";
     /**
      * Creates a new instance.
      */
     public ToggleStatusBarAction() {
-        labels.configureAction(this, ID);
-        setPropertyName("statusBarVisible");
+        initActionProperties(ID);
     }
     
-    public TeddyProject getCurrentProject() {
-        return (TeddyProject) super.getCurrentProject();
+    public ResourceMap getResourceMap() {
+        return ApplicationContext.getInstance().getResourceMap(TeddyView.class);
+    }
+    
+    public TeddyView getCurrentView() {
+        return (TeddyView) super.getCurrentView();
     }
     
     protected void updateProperty() {
         putValue(
                Actions.SELECTED_KEY, 
-               getCurrentProject() != null && getCurrentProject().isStatusBarVisible()
+               getCurrentView() != null && getCurrentView().isStatusBarVisible()
                );
     }
     
     public void actionPerformed(ActionEvent e) {
-        getCurrentProject().setStatusBarVisible(! getCurrentProject().isStatusBarVisible());
+        getCurrentView().setStatusBarVisible(! getCurrentView().isStatusBarVisible());
     }
 }
 

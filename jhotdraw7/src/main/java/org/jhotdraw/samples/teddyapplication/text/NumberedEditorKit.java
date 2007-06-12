@@ -11,7 +11,7 @@
  * accordance with the terms of the license agreement you entered into
  * with Werner Randelshofer.
  *
- * Original version � Stanislav Lapitsky
+ * Original version (c) Stanislav Lapitsky
  * http://www.developer.com/java/other/article.php/3318421
  */
 
@@ -32,7 +32,7 @@ import javax.swing.text.*;
  */
 public class NumberedEditorKit extends StyledEditorKit {
     private NumberedViewFactory viewFactory;
-    
+
     public ViewFactory getViewFactory() {
         if (viewFactory == null) {
             viewFactory = new NumberedViewFactory();

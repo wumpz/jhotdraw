@@ -124,8 +124,8 @@ public class RadialGradient implements Gradient {
                 fp,
                 fractions,
                 colors,
-                RadialGradientPaint.NO_CYCLE,
-                RadialGradientPaint.SRGB,
+                org.apache.batik.ext.awt.RadialGradientPaint.NO_CYCLE,
+                org.apache.batik.ext.awt.RadialGradientPaint.SRGB,
                 t
                 );
         return gp;

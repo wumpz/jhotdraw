@@ -11,7 +11,7 @@
  * accordance with the terms of the license agreement you entered into
  * with Werner Randelshofer.
  *
- * Original code � Stanislav Lapitsky
+ * Original code (c) Stanislav Lapitsky
  * http://www.developer.com/java/other/article.php/3318421
  */
 
@@ -40,18 +40,15 @@ public class NumberedViewFactory implements ViewFactory {
         if (kind != null)
             if (kind.equals(AbstractDocument.ContentElementName)) {
             return new LabelView(elem);
-            } else if (kind.equals(AbstractDocument.
-                ParagraphElementName)) {
-           // if (isLineNumbersVisible()) {
-                return new NumberedParagraphView(elem, this);
-           // } else {
-               // return new ParagraphView(elem);
+            } else if (kind.equals(AbstractDocument.ParagraphElementName)) {
+            // if (isLineNumbersVisible()) {
+            return new NumberedParagraphView(elem, this);
+            // } else {
+            // return new ParagraphView(elem);
             //}
-            } else if (kind.equals(AbstractDocument.
-                SectionElementName)) {
+            } else if (kind.equals(AbstractDocument.SectionElementName)) {
             return new BoxView(elem, View.Y_AXIS);
-            } else if (kind.equals(StyleConstants.
-                ComponentElementName)) {
+            } else if (kind.equals(StyleConstants.ComponentElementName)) {
             return new ComponentView(elem);
             } else if (kind.equals(StyleConstants.IconElementName)) {
             return new IconView(elem);

@@ -135,8 +135,8 @@ public class LinearGradient implements Gradient {
         org.apache.batik.ext.awt.LinearGradientPaint gp;
         gp = new org.apache.batik.ext.awt.LinearGradientPaint(
                 p1, p2, fractions, colors,
-                LinearGradientPaint.NO_CYCLE,
-                LinearGradientPaint.SRGB,
+                org.apache.batik.ext.awt.LinearGradientPaint.NO_CYCLE,
+                org.apache.batik.ext.awt.LinearGradientPaint.SRGB,
                 t
                 );
         

@@ -15,6 +15,7 @@
 package org.jhotdraw.samples.teddyapplication;
 
 import java.util.*;
+import java.util.prefs.Preferences;
 import org.jhotdraw.application.*;
 
 /**
@@ -30,21 +31,19 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
-        
-        WindowManager wm;
-        if (System.getProperty("os.name").toLowerCase().startsWith("mac os x")) {
-            wm = new DefaultOSXWindowManager();
-        } else if (System.getProperty("os.name").toLowerCase().startsWith("win")) {
-            wm = new DefaultMDIWindowManager();
+        Class app;
+        Preferences prefs = Preferences.userNodeForPackage(TeddyView.class);
+        String ui = prefs.get("UserInterface","SDI");
+        if (ui.equals("SDI")) {
+            app = TeddySDIApplication.class;
+        } else if (ui.equals("MDI")) {
+            app = TeddyMDIApplication.class;
         } else {
-            wm = new DefaultSDIWindowManager();
-        }/*
-            wm = new DefaultSDIWindowManager();
-          */
-        WindowManager.setInstance(wm);
-        WindowManager.getInstance().preLaunch();
-        DocumentOrientedApplication.launch(TeddyApplication.class, args);
+            app = null;
+            // app = TeddyOSXApplication.class;
+        }
+        
+        AbstractDocumentOrientedApplication.launch(app, args);
     }
     
 }

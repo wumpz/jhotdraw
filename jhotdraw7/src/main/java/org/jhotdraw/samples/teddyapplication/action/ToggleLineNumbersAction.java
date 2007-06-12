@@ -14,6 +14,7 @@
 
 package org.jhotdraw.samples.teddyapplication.action;
 
+import application.*;
 import org.jhotdraw.application.*;
 import org.jhotdraw.application.action.*;
 import org.jhotdraw.samples.teddyapplication.*;
@@ -30,31 +31,33 @@ import javax.swing.event.*;
  * @author  Werner Randelshofer
  * @version 1.0 October 1, 2005 Created.
  */
-public class ToggleLineNumbersAction extends AbstractProjectAction {
-    public final static String ID = "showLineNumbers";
-    private ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.teddy.Labels");
+public class ToggleLineNumbersAction extends AbstractDocumentViewAction {
+    public final static String ID = "View.showLineNumbers";
     
     /**
      * Creates a new instance.
      */
     public ToggleLineNumbersAction() {
-        labels.configureAction(this, ID);
-        setPropertyName("lineNumbersVisible");
+        initActionProperties(ID);
     }
     
-    public TeddyProject getCurrentProject() {
-        return (TeddyProject) super.getCurrentProject();
+    public ResourceMap getResourceMap() {
+        return ApplicationContext.getInstance().getResourceMap(TeddyView.class);
+    }
+    
+    public TeddyView getCurrentView() {
+        return (TeddyView) super.getCurrentView();
     }
     
     public void actionPerformed(ActionEvent e) {
-        getCurrentProject().setLineNumbersVisible(! getCurrentProject().isLineNumbersVisible());
+        getCurrentView().setLineNumbersVisible(! getCurrentView().isLineNumbersVisible());
     }
     
     
     protected void updateProperty() {
         putValue(
                 Actions.SELECTED_KEY,
-                getCurrentProject() != null && getCurrentProject().isLineNumbersVisible()
+                getCurrentView() != null && getCurrentView().isLineNumbersVisible()
                 );
     }
 }

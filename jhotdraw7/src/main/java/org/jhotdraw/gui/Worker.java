@@ -40,7 +40,9 @@ public abstract class Worker implements Runnable {
      */
     public final void run() {
         final Runnable doFinished = new Runnable() {
-            public void run() { finished(getValue()); }
+            public void run() { 
+                finished(getValue()); 
+            }
         };
         try {
             setValue(construct());

@@ -1,5 +1,5 @@
 /*
- * @(#)TeddyProject.java  1.1  2006-11-02
+ * @(#)TeddyView.java  1.1  2006-11-02
  *
  * Copyright (c) 2005 Werner Randelshofer
  * Staldenmattweg 2, Immensee, CH-6405, Switzerland.
@@ -16,6 +16,7 @@ package org.jhotdraw.samples.teddyapplication;
 //
 import java.awt.event.*;
 import org.jhotdraw.application.*;
+import org.jhotdraw.application.action.*;
 import org.jhotdraw.samples.teddyapplication.io.*;
 import org.jhotdraw.samples.teddyapplication.regex.*;
 import org.jhotdraw.samples.teddyapplication.text.*;
@@ -32,15 +33,15 @@ import javax.swing.text.*;
 import javax.swing.undo.*;
 import java.io.*;
 /**
- * TeddyProject.
+ * TeddyView.
  *
  * @author Werner Randelshofer
  * @version 1.1 2006-11-02 Set the document after setting the editor kit.
  * This is because, setting the editor kit replaces the document.
  * <br>1.0 October 4, 2005 Created.
  */
-public class TeddyProject extends AbstractProject {
-    private static Preferences prefs = Preferences.userNodeForPackage(TeddyProject.class);
+public class TeddyView extends AbstractDocumentView {
+    private static Preferences prefs = Preferences.userNodeForPackage(TeddyView.class);
     
     protected JTextPane editor;
     
@@ -66,7 +67,7 @@ public class TeddyProject extends AbstractProject {
         }
         
         public Dimension getPreferredScrollableViewportSize() {
-           // System.out.println("EditorViewport: "+editor.getPreferredScrollableViewportSize());
+            // System.out.println("EditorViewport: "+editor.getPreferredScrollableViewportSize());
             return editor.getPreferredScrollableViewportSize();
         }
         
@@ -85,6 +86,16 @@ public class TeddyProject extends AbstractProject {
         public boolean getScrollableTracksViewportHeight() {
             return editor.getScrollableTracksViewportHeight();
         }
+    }
+    
+    public static void main(String[] args) {
+        JFrame f = new JFrame();
+        TeddyView v = new TeddyView();
+        f.add(v);
+        v.init();
+        f.pack();
+        f.show();
+        v.start();
     }
     
     protected EditorPanel editorViewport;
@@ -106,12 +117,13 @@ public class TeddyProject extends AbstractProject {
     
     
     /** Creates a new instance. */
-    public TeddyProject() {
-prefs = Preferences.userNodeForPackage(TeddyProject.class);
+    public TeddyView() {
+        prefs = Preferences.userNodeForPackage(TeddyView.class);
     }
     
     protected JTextPane createEditor() {
-        return new JTextPane();
+        JTextPane p = new JTextPane();
+        return p;
     }
     
     public void init() {
@@ -123,7 +135,7 @@ prefs = Preferences.userNodeForPackage(TeddyProject.class);
         scrollPane.setViewportView(editorViewport);
         editor.addCaretListener(new CaretListener() {
             public void caretUpdate(CaretEvent evt) {
-                TeddyProject.this.caretUpdate(evt);
+                TeddyView.this.caretUpdate(evt);
             }
         });
         scrollPane.getViewport().setBackground(editor.getBackground());
@@ -132,13 +144,6 @@ prefs = Preferences.userNodeForPackage(TeddyProject.class);
                 editor.requestFocus();
             }
         });
-        
-        Font font = getFont();
-        MutableAttributeSet attrs = ((StyledEditorKit) editor.getEditorKit()).getInputAttributes();
-        StyleConstants.setFontFamily(attrs, font.getFamily());
-        StyleConstants.setFontSize(attrs, font.getSize());
-        StyleConstants.setItalic(attrs, (font.getStyle() & Font.ITALIC) != 0);
-        StyleConstants.setBold(attrs, (font.getStyle() & Font.BOLD) != 0);
         
         // Init preferences
         statusBar.setVisible(prefs.getBoolean("statusBarVisible", false));
@@ -150,6 +155,13 @@ prefs = Preferences.userNodeForPackage(TeddyProject.class);
         editor.setEditorKit(editorKit);
         editor.setDocument(createDocument());
         
+        Font font = getFont();
+        MutableAttributeSet attrs = ((StyledEditorKit) editor.getEditorKit()).getInputAttributes();
+        StyleConstants.setFontFamily(attrs, font.getFamily());
+        StyleConstants.setFontSize(attrs, font.getSize());
+        StyleConstants.setItalic(attrs, (font.getStyle() & Font.ITALIC) != 0);
+        StyleConstants.setBold(attrs, (font.getStyle() & Font.BOLD) != 0);
+        
         
         setPreferredSize(new Dimension(400, 400));
         
@@ -157,12 +169,11 @@ prefs = Preferences.userNodeForPackage(TeddyProject.class);
         editor.getDocument().addUndoableEditListener(undoManager);
         undoManager.addPropertyChangeListener(new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
-                setHasUnsavedChanges(undoManager.hasSignificantEdits());
+                setModified(undoManager.hasSignificantEdits());
             }
         });
         initActions();
     }
-    
     
     public void setEnabled(boolean newValue) {
         super.setEnabled(newValue);
@@ -173,6 +184,13 @@ prefs = Preferences.userNodeForPackage(TeddyProject.class);
     public void setStatusBarVisible(boolean newValue) {
         boolean oldValue = statusBar.isVisible();
         statusBar.setVisible(newValue);
+        validate();
+        
+        // Why do we need this? Shouldn't validate do this for us already?
+        if (getParent() != null) {
+            getParent().repaint();
+        }
+        
         prefs.putBoolean("statusBarVisible", newValue);
         firePropertyChange("statusBarVisible", oldValue, newValue);
     }
@@ -190,8 +208,8 @@ prefs = Preferences.userNodeForPackage(TeddyProject.class);
     }
     
     private void initActions() {
-        putAction("undo", undoManager.getUndoAction());
-        putAction("redo", undoManager.getRedoAction());
+        putAction(UndoAction.ID, undoManager.getUndoAction());
+        putAction(RedoAction.ID, undoManager.getRedoAction());
     }
     
     private CharacterSetAccessory getAccessory() {
@@ -278,18 +296,29 @@ prefs = Preferences.userNodeForPackage(TeddyProject.class);
         } catch (BadLocationException e) {
             throw new IOException(e.getMessage());
         } catch (OutOfMemoryError e) {
-            System.err.println("out of memory!");
-            throw new IOException("Out of memory.");
+            IOException ioe = new IOException("Out of memory.");
+            ioe.initCause(e);
+            throw ioe;
         } finally {
             in.close();
         }
     }
     
     public void clear() {
-        editor.getDocument().removeUndoableEditListener(undoManager);
-        editor.setDocument(createDocument());
-        editor.getDocument().addUndoableEditListener(undoManager);
-        setHasUnsavedChanges(false);
+        try {
+            SwingUtilities.invokeAndWait(new Runnable() {
+                public void run() {
+                    editor.getDocument().removeUndoableEditListener(undoManager);
+                    editor.setDocument(createDocument());
+                    editor.getDocument().addUndoableEditListener(undoManager);
+                    undoManager.discardAllEdits();
+                }
+            });
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        } catch (InvocationTargetException ex) {
+            ex.printStackTrace();
+        }
     }
     
     protected StyledDocument createDocument() {
@@ -297,7 +326,6 @@ prefs = Preferences.userNodeForPackage(TeddyProject.class);
         doc.setParagraphAttributes(0, 1, ((StyledEditorKit) editor.getEditorKit()).getInputAttributes(), true);
         return doc;
     }
-    
     
     /**
      * Writes a document into a file using the specified character set.

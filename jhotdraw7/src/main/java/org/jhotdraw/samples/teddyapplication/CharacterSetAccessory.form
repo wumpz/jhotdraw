@@ -10,6 +10,7 @@
   </Properties>
   <AuxValues>
     <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="2"/>
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="1"/>
@@ -32,7 +33,7 @@
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
-      <Group type="103" groupAlignment="0" attributes="0">
+      <Group type="103" groupAlignment="3" attributes="0">
           <Component id="charSetCombo" alignment="3" min="-2" max="-2" attributes="0"/>
           <Component id="charSetLabel" alignment="3" min="-2" max="-2" attributes="0"/>
           <Component id="lineSepLabel" alignment="3" min="-2" max="-2" attributes="0"/>

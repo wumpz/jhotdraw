@@ -15,6 +15,8 @@
 package org.jhotdraw.samples.teddyapplication.text;
 
 import java.awt.*;
+import java.awt.font.*;
+import java.awt.geom.*;
 import javax.swing.text.*;
 /**
  * NumberedParagraphView.
@@ -23,15 +25,13 @@ import javax.swing.text.*;
  * @version 1.0 October 10, 2005 Created.
  */
 public class NumberedParagraphView extends ParagraphView {
-    public static short NUMBERS_WIDTH=30;
-    private static Font numberFont = new Font("Dialog",Font.PLAIN,10);
     private NumberedViewFactory viewFactory;
+    
+    
     public NumberedParagraphView(Element e, NumberedViewFactory viewFactory) {
         super(e);
         this.viewFactory = viewFactory;
     }
-    
-    
     
     /**
      * Gets the left inset.
@@ -40,7 +40,11 @@ public class NumberedParagraphView extends ParagraphView {
      */
     protected short getLeftInset() {
         short left = super.getLeftInset();
-        return (viewFactory.isLineNumbersVisible()) ? (short) (left + NUMBERS_WIDTH) : left;
+        int digits = (int) Math.log10(getDocument().
+                getDefaultRootElement().getElementCount()) + 2;
+        FontMetrics fm = getGraphics().getFontMetrics();
+        short numbersWidth = (short) (fm.getStringBounds("0", getGraphics()).getWidth() * digits);
+        return (viewFactory.isLineNumbersVisible()) ? (short) (left + numbersWidth) : left;
     }
     
     
@@ -50,14 +54,11 @@ public class NumberedParagraphView extends ParagraphView {
             if (n == 0) {
                 g.setColor(Color.gray);
                 int lineAscent = g.getFontMetrics().getAscent();
-                g.setFont(numberFont);
-                int numberAscent = g.getFontMetrics().getAscent();
                 int lineNumber = getDocument().
                         getDefaultRootElement().
                         getElementIndex(getStartOffset());
                 
                 int numberX = r.x - getLeftInset();
-                //int numberY = r.y + g.getFontMetrics().getAscent();
                 int numberY = r.y + lineAscent;
                 g.drawString(Integer.toString(lineNumber + 1),
                         numberX, numberY);

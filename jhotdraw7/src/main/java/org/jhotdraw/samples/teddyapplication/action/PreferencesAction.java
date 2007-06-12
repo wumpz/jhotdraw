@@ -1,5 +1,5 @@
 /*
- * @(#)ToggleLineWrapAction.java  1.0  October 1, 2005
+ * @(#)PreferencesAction.java  2007-06-11
  *
  * Copyright (c) 2005 Werner Randelshofer
  * Staldenmattweg 2, Immensee, CH-6405, Switzerland.
@@ -19,25 +19,22 @@ import org.jhotdraw.application.*;
 import org.jhotdraw.application.action.*;
 import org.jhotdraw.samples.teddyapplication.*;
 import org.jhotdraw.util.*;
-import java.awt.*;
 import java.awt.event.*;
-import java.beans.*;
 import javax.swing.*;
-import javax.swing.event.*;
-
 /**
- * ToggleLineWrapAction.
+ * PreferencesAction shows the find dialog.
  *
- * @author  Werner Randelshofer
- * @version 1.0 October 1, 2005 Created.
+ * @author Werner Randelshofer
+ * @version 1.0 2007-06-11 Created.
  */
-public class ToggleLineWrapAction extends AbstractDocumentViewAction {
-    public final static String ID = "View.wrapLines";
+public class PreferencesAction extends AbstractDocumentViewAction {
+    public final static String ID = "Preferences";
+    private PreferencesDialog preferencesDialog;
     
     /**
      * Creates a new instance.
      */
-    public ToggleLineWrapAction() {
+    public PreferencesAction() {
         initActionProperties(ID);
     }
     
@@ -46,17 +43,19 @@ public class ToggleLineWrapAction extends AbstractDocumentViewAction {
     }
     
     public void actionPerformed(ActionEvent e) {
-        getCurrentView().setLineWrap(! getCurrentView().isLineWrap());
-    }
-    
-    public TeddyView getCurrentView() {
-        return (TeddyView) super.getCurrentView();
-    }
-    
-    protected void updateProperty() {
-        putValue(
-                Actions.SELECTED_KEY,
-                getCurrentView() != null && getCurrentView().isLineWrap()
-                );
+        if (preferencesDialog == null) {
+            preferencesDialog = new PreferencesDialog();
+            
+            preferencesDialog.addWindowListener(new WindowAdapter() {
+                @Override public void windowClosing(WindowEvent evt) {
+                    if (preferencesDialog != null) {
+                        getApplication().removePalette(preferencesDialog);
+                        preferencesDialog.setVisible(false);
+                    }
+                }
+            });
+        }
+        preferencesDialog.setVisible(true);
+        getApplication().addPalette(preferencesDialog);
     }
 }

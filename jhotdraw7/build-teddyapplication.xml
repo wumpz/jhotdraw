@@ -23,34 +23,35 @@
          >
             <classpath path="${libdir}/quaqua.jar"/>
             <classpath path="${libdir}/MRJAdapter.jar"/>
-            <classpath path="${libdir}/appframework-0.21.jar"/>
+            <classpath path="${libdir}/appframework-0.42.jar"/>
             <classpath path="${libdir}/swing-worker.jar"/>
             <include name="org/jhotdraw/samples/teddyapplication/Main.java"/> 
             <include name="org/jhotdraw/samples/teddyapplication/TeddyProject.java"/> 
         </javac>
-        <copy todir="${classdir}/org/jhotdraw/application/action/images">
-            <fileset dir="${srcdir}/org/jhotdraw/application/action/images" />
-        </copy>
-        <copy todir="${classdir}/org/jhotdraw/application">
-            <fileset dir="${srcdir}/org/jhotdraw/application">
-                <include name="*.properties"/>
+        <copy todir="${classdir}/org/jhotdraw/application/resources">
+            <fileset dir="${srcdir}/org/jhotdraw/application/resources">
+                <exclude name=".*"/>
             </fileset>
         </copy>
         <copy todir="${classdir}/org/jhotdraw/undo">
             <fileset dir="${srcdir}/org/jhotdraw/undo">
+                <exclude name=".*"/>
                 <include name="*.properties"/>
             </fileset>
         </copy>
         <copy todir="${classdir}/org/jhotdraw/undo/images">
             <fileset dir="${srcdir}/org/jhotdraw/undo/images">
+                <exclude name=".*"/>
                 <include name="*.png"/>
             </fileset>
         </copy>
         <copy todir="${classdir}/org/jhotdraw/samples/teddy">
             <fileset file="${srcdir}/org/jhotdraw/samples/teddy/Label*.properties"/>
         </copy> 
-        <copy todir="${classdir}/org/jhotdraw/samples/teddyapplication">
-            <fileset file="${srcdir}/org/jhotdraw/samples/teddyapplication/Label*.properties"/>
+        <copy todir="${classdir}/org/jhotdraw/samples/teddyapplication/resources">
+            <fileset dir="${srcdir}/org/jhotdraw/samples/teddyapplication/resources">
+                <exclude name=".*"/>
+            </fileset>
         </copy> 
         <copy todir="${classdir}/org/jhotdraw/app">
             <fileset file="${srcdir}/org/jhotdraw/app/Label*.properties"/>
@@ -62,7 +63,7 @@
                 <attribute name="Built-By" value="${author}"/>
                 <attribute name="Main-Class" value="org.jhotdraw.samples.teddyapplication.Main"/>
                 <attribute name="Class-Path" 
-                value="quaqua.jar lib/quaqua.jar ../lib/quaqua.jar MRJAdapter.jar lib/MRJAdapter.jar ../lib/MRJAdapter.jar lib/appframework-0.21.jar ../lib/appframework-0.21.jar lib/swing-worker.jar ../lib/swing-worker.jar"/>
+                value="quaqua.jar lib/quaqua.jar ../lib/quaqua.jar MRJAdapter.jar lib/MRJAdapter.jar ../lib/MRJAdapter.jar lib/appframework-0.42.jar ../lib/appframework-0.42.jar lib/swing-worker.jar ../lib/swing-worker.jar"/>
             </manifest>
         </jar>
         <copy todir="${distdir}">
