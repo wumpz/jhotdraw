@@ -12,7 +12,7 @@
  * JHotDraw.org.
  */
 
-package org.jhotdraw.application.action;
+package org.jhotdraw.app.action;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -23,37 +23,40 @@ import javax.print.DocPrintJob;
 import javax.print.attribute.*;
 import javax.print.attribute.standard.*;
 import javax.swing.*;
-import org.jhotdraw.application.*;
+import org.jhotdraw.app.*;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.util.*;
 /**
- * Presents a printer dialog to the user and then prints the DocumentView to the
+ * Presents a printer dialog to the user and then prints the Project to the
  * chosen printer.
  * <p>
- * This action requires that the documentView has the following additional methods:
+ * This action requires that the project has the following additional methods:
  * <pre>
  * public void find();
  * </pre>
  * <p>
  * The FindAction invokes this method using Java Reflection. Thus there is
- * no Java Interface that the DocumentView needs to implement.
- * 
+ * no Java Interface that the Project needs to implement.
+ *
+ * @see org.jhotdraw.draw.DrawingPageable
+ *
  * @author Werner Randelshofer
  * @version 1.0 March 21, 2007 Created.
- * @see org.jhotdraw.draw.DrawingPageable
  */
-public class FindAction extends AbstractDocumentViewAction {
-    public final static String ID = "Edit.find";
+public class FindAction extends AbstractProjectAction {
+    public final static String ID = "find";
     
     /** Creates a new instance. */
-    public FindAction() {
-        initActionProperties(ID);
+    public FindAction(Application app) {
+        super(app);
+        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        labels.configureAction(this, ID);
     }
     
     public void actionPerformed(ActionEvent evt) {
-        DocumentView documentView = getCurrentView();
+        Project project = getCurrentProject();
         try {
-            Methods.invoke(documentView, "find");
+            Methods.invoke(project, "find");
         } catch (NoSuchMethodException ex) {
             ex.printStackTrace();
         }

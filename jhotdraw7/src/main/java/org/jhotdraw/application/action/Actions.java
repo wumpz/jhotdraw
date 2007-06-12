@@ -47,6 +47,12 @@ public class Actions {
      * The value must be an object.
      */
     public final static String BUTTON_GROUP_KEY = "buttonGroup";
+    /**
+     * UndoableEdit presentation name key.
+     *
+     * @see javax.swing.undo.UndoableEdit#getPresentationName
+     */
+    public final static String UNDO_PRESENTATION_NAME_KEY = "undoPresentationName";
     
     /** Prevent instance creation. */
     private Actions() {

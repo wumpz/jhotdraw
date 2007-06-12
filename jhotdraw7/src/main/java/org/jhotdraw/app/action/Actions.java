@@ -12,7 +12,7 @@
  * JHotDraw.org.
  */
 
-package org.jhotdraw.application.action;
+package org.jhotdraw.app.action;
 
 import org.jhotdraw.util.*;
 import java.awt.*;
@@ -25,7 +25,7 @@ import java.util.*;
  * Provides constants and static operations on <code>Action</code> objects.
  *
  * @author Werner Randelshofer
- * @version  2.0 2006-02-13 Merged from org.jhotdraw.draw.application.Actions.
+ * @version  2.0 2006-02-13 Merged from org.jhotdraw.draw.app.Actions.
  * <br>1.0 7. Februar 2006 Created.
  */
 public class Actions {

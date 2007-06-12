@@ -1,7 +1,7 @@
 /*
- * @(#)CutAction.java  1.0  October 9, 2005
+ * @(#)CutAction.java  2.0  2007-04-13
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -17,7 +17,7 @@ package org.jhotdraw.application.action;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.util.*;
+import javax.swing.text.JTextComponent;
 import org.jhotdraw.util.*;
 /**
  * Cuts the selected region and places its contents into the system clipboard.
@@ -25,15 +25,16 @@ import org.jhotdraw.util.*;
  * the ActionEvent was generated.
  *
  * @author Werner Randelshofer
- * @version 1.0 October 9, 2005 Created.
+ * @version 2.0 2007-04-13 Use javax.swing.TransferHandler instead of 
+ * interface EditableComponent. 
+ * <br>1.0 October 9, 2005 Created.
  */
-public class CutAction extends AbstractAction {
-    public final static String ID = "cut";
+public class CutAction extends AbstractApplicationAction {
+    public final static String ID = "Edit.cut";
    
     /** Creates a new instance. */
     public CutAction() {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
-        labels.configureAction(this, ID);
+        initActionProperties(ID);
     }
     
     public void actionPerformed(ActionEvent evt) {
@@ -50,4 +51,3 @@ public class CutAction extends AbstractAction {
         }
     }
 }
-

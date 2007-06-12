@@ -14,7 +14,6 @@
 
 package org.jhotdraw.application.action;
 
-import org.jhotdraw.application.*;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.gui.Worker;
 import org.jhotdraw.gui.event.*;
@@ -24,31 +23,32 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 import java.io.*;
+import org.jhotdraw.application.DocumentOrientedApplication;
+import org.jhotdraw.application.DocumentView;
 /**
- * Exits the application after letting the user save or close unsaved projects.
- *
- * @author  Werner Randelshofer
+ * Exits the application after letting the user save or close unsaved getViews.
+ * 
+ * @author Werner Randelshofer
  * @version 1.0  04 January 2005  Created.
  */
 public class ExitAction extends AbstractApplicationAction {
-    public final static String ID = "exit";
+    public final static String ID = "Application.exit";
     private Component oldFocusOwner;
-    private Project unsavedProject;
+    private DocumentView unsavedProject;
     
     /** Creates a new instance. */
     public ExitAction() {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.application.Labels");
-        labels.configureAction(this, ID);
+        initActionProperties(ID);
     }
     
     public void actionPerformed(ActionEvent evt) {
-        final DocumentOrientedApplication app = getApplication();
-        if (app.isEnabled()) {
-            app.setEnabled(false);
+        final DocumentOrientedApplication application = getApplication();
+        if (application.isEnabled()) {
+            application.setEnabled(false);
             int unsavedProjectsCount = 0;
-            Project documentToBeReviewed = null;
-            for (Project p : WindowManager.getInstance().projects()) {
-                if (p.hasUnsavedChanges()) {
+            DocumentView documentToBeReviewed = null;
+            for (DocumentView p : application.getViews()) {
+                if (p.isModified()) {
                     if (p.isEnabled()) {
                         documentToBeReviewed = p;
                     }
@@ -56,8 +56,8 @@ public class ExitAction extends AbstractApplicationAction {
                 }
             }
             if (unsavedProjectsCount > 0 && documentToBeReviewed == null) {
-                // Silently abort, if no project can be reviewed.
-                app.setEnabled(true);
+                // Silently abort, if no documentView can be reviewed.
+                application.setEnabled(true);
                 return;
             }
             
@@ -86,7 +86,7 @@ public class ExitAction extends AbstractApplicationAction {
                             Object value = evt.getValue();
                             if (value == null || value.equals("Cancel")) {
                                 unsavedProject.setEnabled(true);
-                                app.setEnabled(true);
+                                application.setEnabled(true);
                             } else if (value.equals("Don't Save")) {
                                 doExit();
                                 unsavedProject.setEnabled(true);
@@ -116,14 +116,14 @@ public class ExitAction extends AbstractApplicationAction {
                     pane.putClientProperty(
                             "Quaqua.OptionPane.destructiveOption", new Integer(2)
                             );
-                    JDialog dialog = pane.createDialog(WindowManager.getInstance().getComponent(), null);
+                    JDialog dialog = pane.createDialog(application.getComponent(), null);
                     dialog.setVisible(true);
                     Object value = pane.getValue();
                     if (value == null || value.equals("Cancel")) {
-                        app.setEnabled(true);
+                        application.setEnabled(true);
                     } else if (value.equals("Discard Changes")) {
                         doExit();
-                        app.setEnabled(true);
+                        application.setEnabled(true);
                     } else if (value.equals("Review Changes")) {
                         unsavedProject = documentToBeReviewed;
                         reviewChanges();
@@ -178,7 +178,7 @@ public class ExitAction extends AbstractApplicationAction {
                         unsavedProject.setEnabled(true);
                         getApplication().setEnabled(true);
                     } else if (value.equals("Don't Save")) {
-                        WindowManager.getInstance().dispose(unsavedProject);
+                        getApplication().remove(unsavedProject);
                         reviewNext();
                     } else if (value.equals("Save")) {
                         saveChangesAndReviewNext();
@@ -218,9 +218,9 @@ public class ExitAction extends AbstractApplicationAction {
     
     protected void reviewNext() {
         int unsavedProjectsCount = 0;
-        Project documentToBeReviewed = null;
-        for (Project p : WindowManager.getInstance().projects()) {
-            if (p.hasUnsavedChanges()) {
+        DocumentView documentToBeReviewed = null;
+        for (DocumentView p : getApplication().getViews()) {
+            if (p.isModified()) {
                 if (p.isEnabled()) {
                     documentToBeReviewed = p;
                 }
@@ -269,7 +269,7 @@ public class ExitAction extends AbstractApplicationAction {
         });
     }
     
-    protected void fileSaved(Project unsavedProject, File file, Object value) {
+    protected void fileSaved(DocumentView unsavedProject, File file, Object value) {
         if (value == null) {
             unsavedProject.setFile(file);
             doExit();
@@ -287,10 +287,10 @@ public class ExitAction extends AbstractApplicationAction {
         }
         getApplication().setEnabled(true);
     }
-    protected void fileSavedAndReviewNext(Project unsavedProject, File file, Object value) {
+    protected void fileSavedAndReviewNext(DocumentView unsavedProject, File file, Object value) {
         if (value == null) {
             unsavedProject.setFile(file);
-            WindowManager.getInstance().dispose(unsavedProject);
+            getApplication().remove(unsavedProject);
             reviewNext();
             return;
         } else {
@@ -309,7 +309,7 @@ public class ExitAction extends AbstractApplicationAction {
     }
     
     protected void doExit() {
-        getApplication().exit();
+        getApplication().shutdown();
         System.exit(0);
     }
 }

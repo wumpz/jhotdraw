@@ -12,30 +12,31 @@
  * JHotDraw.org.
  */
 
-package org.jhotdraw.application.action;
+package org.jhotdraw.app.action;
 
-import application.ApplicationContext;
 import org.jhotdraw.util.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 import java.beans.*;
 import java.awt.*;
-import org.jhotdraw.application.AbstractOSXApplication;
+import org.jhotdraw.app.DefaultOSXApplication;
 
 /**
  * OSXTogglePaletteAction.
- *
+ * 
  * @author Werner Randelshofer.
  * @version 1.0 June 11, 2006 Created.
  */
 public class OSXTogglePaletteAction extends AbstractAction {
     private Window palette;
+    private DefaultOSXApplication app;
     private WindowListener windowHandler;
     
     /** Creates a new instance. */
-    public OSXTogglePaletteAction(Window palette, String label) {
+    public OSXTogglePaletteAction(DefaultOSXApplication app, Window palette, String label) {
         super(label);
+        this.app = app;
         
         windowHandler = new WindowAdapter() {
             public void windowClosing(WindowEvent evt) {
@@ -51,13 +52,12 @@ public class OSXTogglePaletteAction extends AbstractAction {
         super.putValue(key, newValue);
         if (key == Actions.SELECTED_KEY) {
             if (palette != null) {
-                AbstractOSXApplication application = getApplication();
                 boolean b = (Boolean) newValue;
                 if (b) {
-                    application.addPalette(palette);
+                    app.addPalette(palette);
                     palette.setVisible(true);
                 } else {
-                    application.removePalette(palette);
+                    app.removePalette(palette);
                     palette.setVisible(false);
                 }
             }
@@ -65,7 +65,6 @@ public class OSXTogglePaletteAction extends AbstractAction {
     }
     
     public void setPalette(Window newValue) {
-        AbstractOSXApplication application = getApplication();
         if (palette != null) {
             palette.removeWindowListener(windowHandler);
         }
@@ -75,10 +74,10 @@ public class OSXTogglePaletteAction extends AbstractAction {
         if (palette != null) {
             palette.addWindowListener(windowHandler);
             if (getValue(Actions.SELECTED_KEY) == Boolean.TRUE) {
-                application.addPalette(palette);
+                app.addPalette(palette);
                 palette.setVisible(true);
             } else {
-                application.removePalette(palette);
+                app.removePalette(palette);
                 palette.setVisible(false);
             }
         }
@@ -88,8 +87,5 @@ public class OSXTogglePaletteAction extends AbstractAction {
         if (palette != null) {
             putValue(Actions.SELECTED_KEY, ! palette.isVisible());
         }
-    }
-    public AbstractOSXApplication getApplication() {
-        return (AbstractOSXApplication) ApplicationContext.getInstance().getApplication();
     }
 }

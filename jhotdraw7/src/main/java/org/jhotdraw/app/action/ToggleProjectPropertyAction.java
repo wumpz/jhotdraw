@@ -12,12 +12,12 @@
  * JHotDraw.org.
  */
 
-package org.jhotdraw.application.action;
+package org.jhotdraw.app.action;
 
 import java.awt.event.*;
 import java.beans.*;
-import org.jhotdraw.application.DocumentOrientedApplication;
-import org.jhotdraw.application.DocumentView;
+import org.jhotdraw.app.Application;
+import org.jhotdraw.app.Project;
 
 /**
  * ToggleProjectPropertyAction.
@@ -25,7 +25,7 @@ import org.jhotdraw.application.DocumentView;
  * @author Werner Randelshofer.
  * @version 1.0 June 18, 2006 Created.
  */
-public class ToggleProjectPropertyAction extends AbstractDocumentViewAction {
+public class ToggleProjectPropertyAction extends AbstractProjectAction {
     private String propertyName;
     private Class[] parameterClass;
     private Object selectedPropertyValue;
@@ -42,11 +42,12 @@ public class ToggleProjectPropertyAction extends AbstractDocumentViewAction {
     };
     
     /** Creates a new instance. */
-    public ToggleProjectPropertyAction(String propertyName) {
-        this(propertyName, Boolean.TYPE, true, false);
+    public ToggleProjectPropertyAction(Application app, String propertyName) {
+        this(app, propertyName, Boolean.TYPE, true, false);
     }
-    public ToggleProjectPropertyAction(String propertyName, Class propertyClass,
+    public ToggleProjectPropertyAction(Application app, String propertyName, Class propertyClass,
             Object selectedPropertyValue, Object deselectedPropertyValue) {
+        super(app);
         this.propertyName = propertyName;
         this.parameterClass = new Class[] { propertyClass };
         this.selectedPropertyValue = selectedPropertyValue;
@@ -60,7 +61,7 @@ public class ToggleProjectPropertyAction extends AbstractDocumentViewAction {
     }
     
     public void actionPerformed(ActionEvent evt) {
-        DocumentView p = getCurrentView();
+        Project p = getCurrentProject();
         Object value = getCurrentValue();
         Object newValue = (value == selectedPropertyValue ||
                         value != null && selectedPropertyValue != null &&
@@ -77,7 +78,7 @@ public class ToggleProjectPropertyAction extends AbstractDocumentViewAction {
     }
     
     private Object getCurrentValue() {
-        DocumentView p = getCurrentView();
+        Project p = getCurrentProject();
         if (p != null) {
             try {
                 return p.getClass().getMethod(getterName, (Class[]) null).invoke(p);
@@ -91,22 +92,22 @@ public class ToggleProjectPropertyAction extends AbstractDocumentViewAction {
     }
     
     
-    protected void installProjectListeners(DocumentView p) {
+    protected void installProjectListeners(Project p) {
         super.installProjectListeners(p);
         p.addPropertyChangeListener(projectListener);
         updateSelectedState();
     }
     /**
-     * Installs listeners on the documentView object.
+     * Installs listeners on the project object.
      */
-    protected void uninstallProjectListeners(DocumentView p) {
+    protected void uninstallProjectListeners(Project p) {
         super.uninstallProjectListeners(p);
         p.removePropertyChangeListener(projectListener);
     }
     
     private void updateSelectedState() {
         boolean isSelected = false;
-        DocumentView p = getCurrentView();
+        Project p = getCurrentProject();
         if (p != null) {
             try {
                 Object value = p.getClass().getMethod(getterName, (Class[]) null).invoke(p);

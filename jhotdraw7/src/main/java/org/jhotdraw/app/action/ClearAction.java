@@ -12,47 +12,33 @@
  * JHotDraw.org.
  */
 
-package org.jhotdraw.application.action;
+package org.jhotdraw.app.action;
 
-import java.io.IOException;
-import org.jhotdraw.gui.Worker;
 import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import org.jhotdraw.application.DocumentOrientedApplication;
-import org.jhotdraw.application.DocumentView;
+import org.jhotdraw.app.Application;
+import org.jhotdraw.app.Project;
 
 /**
- * Clears a View.
+ * Clears a project.
  *
  * @author Werner Randelshofer
  * @version 1.0  2005-10-16 Created.
  */
 public class ClearAction extends AbstractSaveBeforeAction {
-    public final static String ID = "File.clear";
+    public final static String ID = "clear";
     
     /** Creates a new instance. */
-    public ClearAction() {
-        initActionProperties(ID);
+    public ClearAction(Application app) {
+        super(app);
+        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        labels.configureAction(this, "new");
     }
     
-    @Override public void doIt(final DocumentView documentView) {
-        documentView.setFile(null);
-        documentView.setEnabled(false);
-        documentView.execute(new Worker() {
-            public Object construct() {
-                try {
-                    documentView.clear();
-                    return null;
-                } catch (IOException ex) {
-                    return ex;
-                }
-            }
-            public void finished(Object result) {
-                documentView.setModified(false);
-                documentView.setEnabled(true);
-            }
-        });
+    @Override public void doIt(Project project) {
+        project.clear();
+        project.setFile(null);
     }
 }

@@ -12,7 +12,7 @@
  * JHotDraw.org.
  */
 
-package org.jhotdraw.application.action;
+package org.jhotdraw.app.action;
 
 import org.jhotdraw.gui.*;
 import org.jhotdraw.gui.event.*;
@@ -21,48 +21,50 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
-import org.jhotdraw.application.*;
+import org.jhotdraw.app.*;
 
 /**
- * Presents a file chooser to the user and then exports the view to the
+ * Presents a file chooser to the user and then exports the Project to the
  * chosen file.
  * <p>
- * This action requires that the documentView implements the ExportableDocumentView interface.
- * 
+ * This action requires that the project implements the ExportableProject interface.
+ *
  * @author Werner Randelshofer
  * @version 2.0 2007-01-02 Revised to support an interface rather than relying
  * on Reflection. 
  * <br>1.0 2006-04-07 Created.
  */
-public class ExportAction extends AbstractDocumentViewAction {
-    public final static String ID = "File.export";
+public class ExportAction extends AbstractProjectAction {
+    public final static String ID = "export";
     private Component oldFocusOwner;
     
     /** Creates a new instance. */
-    public ExportAction() {
-        initActionProperties(ID);
+    public ExportAction(Application app) {
+        super(app);
+        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        labels.configureAction(this, ID);
     }
     
     
     public void actionPerformed(ActionEvent evt) {
-        final ExportableDocumentView documentView = (ExportableDocumentView) getCurrentView();
-        if (documentView.isEnabled()) {
-            ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.application.Labels");
+        final ExportableProject project = (ExportableProject) getCurrentProject();
+        if (project.isEnabled()) {
+            ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
             
-            oldFocusOwner = SwingUtilities.getWindowAncestor(documentView.getComponent()).getFocusOwner();
-            documentView.setEnabled(false);
+            oldFocusOwner = SwingUtilities.getWindowAncestor(project.getComponent()).getFocusOwner();
+            project.setEnabled(false);
             
             File saveToFile;
-            JFileChooser fileChooser = documentView.getExportChooser();
+            JFileChooser fileChooser = project.getExportChooser();
             
-            JSheet.showSheet(fileChooser, documentView.getComponent(), labels.getString("filechooser.export"), new SheetListener() {
+            JSheet.showSheet(fileChooser, project.getComponent(), labels.getString("filechooser.export"), new SheetListener() {
                 public void optionSelected(final SheetEvent evt) {
                     if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
                         final File file = evt.getFileChooser().getSelectedFile();
-                        exportToFile(documentView, file, evt.getFileChooser().getFileFilter(), evt.getFileChooser().getAccessory()
+                        exportToFile(project, file, evt.getFileChooser().getFileFilter(), evt.getFileChooser().getAccessory()
                                 );
                     } else {
-                        documentView.setEnabled(true);
+                        project.setEnabled(true);
                         if (oldFocusOwner != null) {
                             oldFocusOwner.requestFocus();
                         }
@@ -72,49 +74,49 @@ public class ExportAction extends AbstractDocumentViewAction {
         }
     }
     
-    protected void exportToFile(final ExportableDocumentView documentView, final File file,
+    protected void exportToFile(final ExportableProject project, final File file,
             final javax.swing.filechooser.FileFilter filter,
             final Component accessory) {
-        documentView.execute(new Worker() {
+        project.execute(new Worker() {
             public Object construct() {
                 try {
-                    documentView.export(file, filter, accessory);
+                    project.export(file, filter, accessory);
                     return null;
                 } catch (Throwable e) {
                     return e;
                 }
             }
             public void finished(Object value) {
-                fileExported(documentView, file, value);
+                fileExported(project, file, value);
             }
         });
     }
-    protected void fileExported(ExportableDocumentView documentView, File file, Object value) {
+    protected void fileExported(ExportableProject project, File file, Object value) {
         if (value == null) {
             /*
-            documentView.setFile(file);
-            documentView.markChangesAsSaved();
+            project.setFile(file);
+            project.markChangesAsSaved();
             int multiOpenId = 1;
-            for (Project p : documentView.getApplication().documents()) {
-                if (p != documentView && p.getFile() != null && p.getFile().equals(file)) {
+            for (Project p : project.getApplication().documents()) {
+                if (p != project && p.getFile() != null && p.getFile().equals(file)) {
                     multiOpenId = Math.max(multiOpenId, p.getMultipleOpenId() + 1);
                 }
             }
-            documentView.setMultipleOpenId(multiOpenId);
+            project.setMultipleOpenId(multiOpenId);
              */
         } else {
             System.out.flush();
             ((Throwable) value).printStackTrace();
             // FIXME localize this error messsage
-            JSheet.showMessageSheet(documentView.getComponent(),
+            JSheet.showMessageSheet(project.getComponent(),
                     "<html>"+UIManager.getString("OptionPane.css")+
                     "<b>Couldn't export to the file \""+file+"\".<p>"+
                     "Reason: "+value,
                     JOptionPane.ERROR_MESSAGE
                     );
         }
-        documentView.setEnabled(true);
-        SwingUtilities.getWindowAncestor(documentView.getComponent()).toFront();
+        project.setEnabled(true);
+        SwingUtilities.getWindowAncestor(project.getComponent()).toFront();
         if (oldFocusOwner != null) {
             oldFocusOwner.requestFocus();
         }

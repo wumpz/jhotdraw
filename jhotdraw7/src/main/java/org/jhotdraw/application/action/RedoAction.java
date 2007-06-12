@@ -21,19 +21,18 @@ import java.beans.*;
 import java.util.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.application.DocumentOrientedApplication;
-import org.jhotdraw.application.Project;
+import org.jhotdraw.application.DocumentView;
 /**
  * Redoes the last user action.
- * In order to work, this action requires that the Project returns a project
- * specific undo action when invoking getAction("redo") on the Project.
+ * In order to work, this action requires that the DocumentView returns a documentView
+ * specific undo action when invoking getAction("redo") on the DocumentView.
  * 
  * @author Werner Randelshofer
  * @version 2.0 2006-06-15 Reworked.
  * <br>1.0 October 9, 2005 Created.
  */
-public class RedoAction extends AbstractProjectAction {
-    public final static String ID = "redo";
-    private ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.application.Labels");
+public class RedoAction extends AbstractDocumentViewAction {
+    public final static String ID = "Edit.redo";
     
     private PropertyChangeListener redoActionPropertyListener = new PropertyChangeListener() {
         public void propertyChange(PropertyChangeEvent evt) {
@@ -48,7 +47,7 @@ public class RedoAction extends AbstractProjectAction {
     
     /** Creates a new instance. */
     public RedoAction() {
-        labels.configureAction(this, ID);
+        initActionProperties(ID);
     }
     
     protected void updateEnabledState() {
@@ -60,7 +59,7 @@ public class RedoAction extends AbstractProjectAction {
         setEnabled(isEnabled);
     }
     
-    @Override protected void updateProject(Project oldValue, Project newValue) {
+    @Override protected void updateProject(DocumentView oldValue, DocumentView newValue) {
         super.updateProject(oldValue, newValue);
         if (newValue != null && newValue.getAction("redo") !=  null) {
             putValue(AbstractAction.NAME, newValue.getAction("redo").
@@ -69,18 +68,18 @@ public class RedoAction extends AbstractProjectAction {
         }
     }
     /**
-     * Installs listeners on the project object.
+     * Installs listeners on the documentView object.
      */
-    @Override protected void installProjectListeners(Project p) {
+    @Override protected void installProjectListeners(DocumentView p) {
         super.installProjectListeners(p);
         if (p.getAction("redo") != null) {
         p.getAction("redo").addPropertyChangeListener(redoActionPropertyListener);
         }
     }
     /**
-     * Installs listeners on the project object.
+     * Installs listeners on the documentView object.
      */
-    @Override protected void uninstallProjectListeners(Project p) {
+    @Override protected void uninstallProjectListeners(DocumentView p) {
         super.uninstallProjectListeners(p);
         if (p.getAction("redo") != null) {
         p.getAction("redo").removePropertyChangeListener(redoActionPropertyListener);
@@ -95,7 +94,7 @@ public class RedoAction extends AbstractProjectAction {
     }
     
     private Action getRealRedoAction() {
-        return (getCurrentProject() == null) ? null : getCurrentProject().getAction("redo");
+        return (getCurrentView() == null) ? null : getCurrentView().getAction("redo");
     }
     
 }

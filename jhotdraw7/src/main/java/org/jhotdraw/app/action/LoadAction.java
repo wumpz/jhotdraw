@@ -12,7 +12,7 @@
  * JHotDraw.org.
  */
 
-package org.jhotdraw.application.action;
+package org.jhotdraw.app.action;
 
 import org.jhotdraw.gui.Worker;
 import org.jhotdraw.util.*;
@@ -23,78 +23,69 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
-import org.jhotdraw.application.DocumentOrientedApplication;
-import org.jhotdraw.application.DocumentView;
+import org.jhotdraw.app.Application;
+import org.jhotdraw.app.Project;
 
 /**
- * Loads a file into the current documentView.
+ * Loads a file into the current project.
  *
  * @author  Werner Randelshofer
  * @version 1.0  2005-10-16  Created.
  */
 public class LoadAction extends AbstractSaveBeforeAction {
-    public final static String ID = "File.load";
+    public final static String ID = "load";
     
     /** Creates a new instance. */
-    public LoadAction() {
-        initActionProperties("File.open");
+    public LoadAction(Application app) {
+        super(app);
+        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        labels.configureAction(this, "open");
     }
     
-    public void doIt(DocumentView documentView) {
-        JFileChooser fileChooser = documentView.getOpenChooser();
-        if (fileChooser.showOpenDialog(documentView.getComponent()) == JFileChooser.APPROVE_OPTION) {
-            openFile(documentView, fileChooser);
+    public void doIt(Project project) {
+        JFileChooser fileChooser = project.getOpenChooser();
+        if (fileChooser.showOpenDialog(project.getComponent()) == JFileChooser.APPROVE_OPTION) {
+            openFile(project, fileChooser);
         } else {
-            documentView.setEnabled(true);
+            project.setEnabled(true);
         }
     }
     
-    protected void openFile(final DocumentView documentView, JFileChooser fileChooser) {
+    protected void openFile(final Project project, JFileChooser fileChooser) {
         final File file = fileChooser.getSelectedFile();
         
-        documentView.setEnabled(false);
+        project.setEnabled(false);
         
         // Open the file
-        documentView.execute(new Worker() {
+        project.execute(new Worker() {
             public Object construct() {
                 try {
-                    documentView.read(file);
+                    project.read(file);
                     return null;
                 } catch (IOException e) {
                     return e;
                 }
             }
             public void finished(Object value) {
-                fileOpened(documentView, file, value);
+                fileOpened(project, file, value);
             }
         });
     }
     
-    protected void fileOpened(final DocumentView documentView, File file, Object value) {
+    protected void fileOpened(final Project project, File file, Object value) {
         if (value == null) {
-            documentView.setFile(file);
-            documentView.setEnabled(true);
-            getApplication().addRecentFile(file);
+            project.setFile(file);
+            project.setEnabled(true);
+                getApplication().addRecentFile(file);
         } else {
-            JSheet.showMessageSheet(documentView.getComponent(),
+            JSheet.showMessageSheet(project.getComponent(),
                     "<html>"+UIManager.getString("OptionPane.css")+
                     "<b>Couldn't open the file \""+file+"\".</b><br>"+
                     value,
                     JOptionPane.ERROR_MESSAGE, new SheetListener() {
                 public void optionSelected(SheetEvent evt) {
-                    documentView.execute(new Worker() {
-                        public Object construct() {
-                            try {
-                                documentView.clear();
-                                return null;
-                            } catch (IOException ex) {
-                                return ex;
-                            }
-                        }
-                        public void finished(Object result) {
-                            documentView.setEnabled(true);
-                        }
-                    });
+                    project.clear();
+                    project.setEnabled(true);
                 }
             }
             );

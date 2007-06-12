@@ -19,26 +19,25 @@ import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import org.jhotdraw.application.*;
+import org.jhotdraw.application.DocumentOrientedApplication;
 /**
- * Maximizes the Frame of the current project.
+ * Maximizes the Frame of the current documentView.
  * 
  * @author Werner Randelshofer
  * @version 2.0 2005-05-05 Reworked.
  * <br>1.0  2005-06-10 Created.
  */
-public class MaximizeAction extends AbstractProjectAction {
-    public final static String ID = "maximize";
+public class MaximizeAction extends AbstractDocumentViewAction {
+    public final static String ID = "View.maximize";
     
     /** Creates a new instance. */
     public MaximizeAction() {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.application.Labels");
-        labels.configureAction(this, ID);
+        initActionProperties(ID);
     }
     
     private JFrame getFrame() {
         return (JFrame) SwingUtilities.getWindowAncestor(
-                getCurrentProject().getComponent()
+                getCurrentView().getComponent()
                 );
     }
     

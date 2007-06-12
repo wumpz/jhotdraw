@@ -12,44 +12,47 @@
  * JHotDraw.org.
  */
 
-package org.jhotdraw.application.action;
+package org.jhotdraw.app.action;
 
 import org.jhotdraw.gui.Worker;
 import org.jhotdraw.util.*;
 
-//import net.roydesign.application.*;
+//import net.roydesign.app.*;
 import net.roydesign.event.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
-import org.jhotdraw.application.*;
+import org.jhotdraw.app.Application;
+import org.jhotdraw.app.Project;
 
 /**
- * Opens a new documentView for each file dropped on the dock icon of the application.
- * This action must be registered with net.roydesign.application.DocumentOrientedApplication.
- * 
- * @author Werner Randelshofer
- * @version 1.0.1 2005-07-14 Show frame of documentView after it has been created.
+ * Opens a new project for each file dropped on the dock icon of the application.
+ * This action must be registered with net.roydesign.app.Application.
+ *
+ * @author  Werner Randelshofer
+ * @version 1.0.1 2005-07-14 Show frame of project after it has been created.
  * <br>1.0  04 January 2005  Created.
  */
 public class OSXDropOnDockAction extends AbstractApplicationAction {
-    public final static String ID = "Application.dropOnDock";
+    public final static String ID = "osxdrop";
     private JFileChooser fileChooser;
     private int entries;
     
     /** Creates a new instance. */
-    public OSXDropOnDockAction() {
-        initActionProperties(ID);
+    public OSXDropOnDockAction(Application app) {
+        super(app);
+        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        putValue(Action.NAME, "OSX Drop On Dock");
     }
     
     public void actionPerformed(ActionEvent evt) {
-        final DocumentOrientedApplication application = getApplication();
+        final Application app = getApplication();
         if (evt instanceof ApplicationEvent) {
             final ApplicationEvent ae = (ApplicationEvent) evt;
-            final DocumentView p = application.createView();
+            final Project p = app.createProject();
             p.setEnabled(false);
-            application.add(p);
+            app.add(p);
             p.execute(new Worker() {
                 public Object construct() {
                     try {
@@ -64,7 +67,7 @@ public class OSXDropOnDockAction extends AbstractApplicationAction {
                         p.setFile(ae.getFile());
                         p.setEnabled(true);
                     } else {
-                        application.remove(p);
+                        app.dispose(p);
                         JOptionPane.showMessageDialog(
                         null,
                         "<html>"+UIManager.getString("OptionPane.css")+

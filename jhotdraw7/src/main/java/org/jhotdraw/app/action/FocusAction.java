@@ -12,9 +12,8 @@
  * JHotDraw.org.
  */
 
-package org.jhotdraw.application.action;
+package org.jhotdraw.app.action;
 
-import application.ResourceMap;
 import org.jhotdraw.util.*;
 
 import java.beans.*;
@@ -22,32 +21,34 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
-import org.jhotdraw.application.DocumentView;
+import org.jhotdraw.app.Project;
 /**
- * Requests focus for a DocumentView.
+ * Requests focus for a Frame.
  *
  * @author  Werner Randelshofer
  * @version 2.0 2006-05-05 Reworked.
  * <br>1.0  2005-06-10 Created.
  */
-public class FocusAction extends AbstractApplicationAction {
-    public final static String ID = "View.focus";
-    private DocumentView documentView;
+public class FocusAction extends AbstractAction {
+    public final static String ID = "focus";
+    private Project project;
     
     /** Creates a new instance. */
-    public FocusAction(DocumentView documentView) {
-        this.documentView = documentView;
-        initActionProperties(ID);
-        setEnabled(documentView != null);
+    public FocusAction(Project project) {
+        this.project = project;
+        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        labels.configureAction(this, ID);
+        //setEnabled(false);
+        setEnabled(project != null);
         
-        documentView.addPropertyChangeListener(new PropertyChangeListener() {
+        project.addPropertyChangeListener(new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
-                ResourceMap labels = getResourceMap();
+                ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
                 String name = evt.getPropertyName();
                 if (name.equals("file")) {
                     putValue(Action.NAME,
                             (evt.getNewValue() == null) ?
-                                labels.getString("File.unnamedFile") :
+                                labels.getString("unnamedFile") :
                                 ((File) evt.getNewValue()).getName()
                                 );
                 }
@@ -56,7 +57,7 @@ public class FocusAction extends AbstractApplicationAction {
     }
     
     public Object getValue(String key) {
-        if (key == Action.NAME && documentView != null) {
+        if (key == Action.NAME && project != null) {
             return getTitle();
         } else {
             return super.getValue(key);
@@ -64,20 +65,31 @@ public class FocusAction extends AbstractApplicationAction {
     }
     
     private String getTitle() {
-        String title = documentView.getName();
-        if (documentView.isModified()) {
-            title += " *";
+        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        String title = labels.getString("unnamedFile");
+        if (project != null) {
+            File file = project.getFile();
+            if (file == null) {
+                title = labels.getString("unnamedFile");
+            } else {
+                title = file.getName();
+            }
+            if (project.hasUnsavedChanges()) {
+                title += "*";
+            }
+            title = (labels.getFormatted("internalFrameTitle", title, project.getApplication().getName(), project.getMultipleOpenId()));
         }
         return title;
+        
     }
     private JFrame getFrame() {
         return (JFrame) SwingUtilities.getWindowAncestor(
-                documentView.getComponent()
+                project.getComponent()
                 );
     }
     private Component getRootPaneContainer() {
         return SwingUtilities.getRootPane(
-                documentView.getComponent()
+                project.getComponent()
                 ).getParent();
     }
     
@@ -88,11 +100,11 @@ public class FocusAction extends AbstractApplicationAction {
             frame.setExtendedState(frame.getExtendedState() & ~Frame.ICONIFIED);
             frame.toFront();
             frame.requestFocus();
-            JRootPane rp = SwingUtilities.getRootPane(documentView.getComponent());
+            JRootPane rp = SwingUtilities.getRootPane(project.getComponent());
             if (rp != null && (rp.getParent() instanceof JInternalFrame)) {
                 ((JInternalFrame) rp.getParent()).toFront();
             }
-            documentView.getComponent().requestFocus();
+            project.getComponent().requestFocus();
         } else {
             Toolkit.getDefaultToolkit().beep();
         }*/
@@ -110,6 +122,6 @@ public class FocusAction extends AbstractApplicationAction {
                 // Don't care.
             }
         }
-        documentView.getComponent().requestFocusInWindow();
+        project.getComponent().requestFocusInWindow();
     }
 }

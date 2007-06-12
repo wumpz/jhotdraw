@@ -17,7 +17,7 @@ package org.jhotdraw.application.action;
 import java.awt.event.*;
 import java.beans.*;
 import org.jhotdraw.application.DocumentOrientedApplication;
-import org.jhotdraw.application.Project;
+import org.jhotdraw.application.DocumentView;
 
 /**
  * ToggleProjectPropertyAction.
@@ -25,7 +25,7 @@ import org.jhotdraw.application.Project;
  * @author Werner Randelshofer.
  * @version 1.0 June 18, 2006 Created.
  */
-public class ToggleProjectPropertyAction extends AbstractProjectAction {
+public class ToggleProjectPropertyAction extends AbstractDocumentViewAction {
     private String propertyName;
     private Class[] parameterClass;
     private Object selectedPropertyValue;
@@ -60,7 +60,7 @@ public class ToggleProjectPropertyAction extends AbstractProjectAction {
     }
     
     public void actionPerformed(ActionEvent evt) {
-        Project p = getCurrentProject();
+        DocumentView p = getCurrentView();
         Object value = getCurrentValue();
         Object newValue = (value == selectedPropertyValue ||
                         value != null && selectedPropertyValue != null &&
@@ -77,7 +77,7 @@ public class ToggleProjectPropertyAction extends AbstractProjectAction {
     }
     
     private Object getCurrentValue() {
-        Project p = getCurrentProject();
+        DocumentView p = getCurrentView();
         if (p != null) {
             try {
                 return p.getClass().getMethod(getterName, (Class[]) null).invoke(p);
@@ -91,22 +91,22 @@ public class ToggleProjectPropertyAction extends AbstractProjectAction {
     }
     
     
-    protected void installProjectListeners(Project p) {
+    protected void installProjectListeners(DocumentView p) {
         super.installProjectListeners(p);
         p.addPropertyChangeListener(projectListener);
         updateSelectedState();
     }
     /**
-     * Installs listeners on the project object.
+     * Installs listeners on the documentView object.
      */
-    protected void uninstallProjectListeners(Project p) {
+    protected void uninstallProjectListeners(DocumentView p) {
         super.uninstallProjectListeners(p);
         p.removePropertyChangeListener(projectListener);
     }
     
     private void updateSelectedState() {
         boolean isSelected = false;
-        Project p = getCurrentProject();
+        DocumentView p = getCurrentView();
         if (p != null) {
             try {
                 Object value = p.getClass().getMethod(getterName, (Class[]) null).invoke(p);

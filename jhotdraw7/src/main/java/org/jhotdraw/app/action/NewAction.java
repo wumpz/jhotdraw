@@ -12,52 +12,46 @@
  * JHotDraw.org.
  */
 
-package org.jhotdraw.application.action;
+package org.jhotdraw.app.action;
 
-import java.io.IOException;
-import org.jhotdraw.gui.Worker;
 import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import org.jhotdraw.application.DocumentOrientedApplication;
-import org.jhotdraw.application.DocumentView;
+import org.jhotdraw.app.Application;
+import org.jhotdraw.app.Project;
 
 /**
- * Creates a new documentView.
+ * Creates a new project.
  *
  * @author Werner Randelshofer
  * @version 1.2 2006-02-22 Support for multiple open id added.
- * <br>1.1.1 2005-07-14 Make documentView explicitly visible after creating it.
- * <br>1.1 2005-07-09 Place new documentView relative to current one.
+ * <br>1.1.1 2005-07-14 Make project explicitly visible after creating it.
+ * <br>1.1 2005-07-09 Place new project relative to current one.
  * <br>1.0  04 January 2005  Created.
  */
 public class NewAction extends AbstractApplicationAction {
-    public final static String ID = "File.new";
+    public final static String ID = "new";
     
     /** Creates a new instance. */
-    public NewAction() {
-        initActionProperties(ID);
+    public NewAction(Application app) {
+        super(app);
+        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        labels.configureAction(this, "new");
     }
     
     public void actionPerformed(ActionEvent evt) {
-        DocumentOrientedApplication application = getApplication();
-        final DocumentView newP = application.createView();
-        application.add(newP);
-        newP.setEnabled(false);
-        newP.execute(new Worker() {
-            public Object construct() {
-                try {
-                    newP.clear();
-                    return null;
-                } catch (IOException ex) {
-                    return ex;
-                }
+        Application app = getApplication();
+        Project newP = app.createProject();
+        int multiOpenId = 1;
+        for (Project existingP : app.projects()) {
+            if (existingP.getFile() == null) {
+                multiOpenId = Math.max(multiOpenId, existingP.getMultipleOpenId() + 1);
             }
-            public void finished(Object result) {
-                newP.setEnabled(true);
-            }
-        });
-        application.show(newP);
+        }
+        newP.setMultipleOpenId(multiOpenId);
+        app.add(newP);
+        newP.clear();
+        app.show(newP);
     }
 }

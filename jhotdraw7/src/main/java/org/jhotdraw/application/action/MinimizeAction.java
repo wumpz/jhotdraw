@@ -27,18 +27,17 @@ import org.jhotdraw.application.DocumentOrientedApplication;
  * @version 2.0 2006-05-05 Reworked.
  * <br>1.0  2005-06-10 Created.
  */
-public class MinimizeAction extends AbstractProjectAction {
-    public final static String ID = "minimize";
+public class MinimizeAction extends AbstractDocumentViewAction {
+    public final static String ID = "View.minimize";
 
     /** Creates a new instance. */
     public MinimizeAction() {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.application.Labels");
-        labels.configureAction(this, ID);
+        initActionProperties(ID);
     }
     
     private JFrame getFrame() {
         return (JFrame) SwingUtilities.getWindowAncestor(
-                getCurrentProject().getComponent()
+                getCurrentView().getComponent()
                 );
     }
     public void actionPerformed(ActionEvent evt) {

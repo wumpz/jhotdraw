@@ -14,7 +14,6 @@
 
 package org.jhotdraw.application.action;
 
-import application.ApplicationContext;
 import application.*;
 import org.jhotdraw.util.*;
 
@@ -30,24 +29,24 @@ import org.jhotdraw.application.*;
  * @version 1.0  04 January 2005  Created.
  */
 public class AboutAction extends AbstractApplicationAction {
-    public final static String ID = "about";
+    public final static String ID = "Application.about";
     
     /** Creates a new instance. */
     public AboutAction() {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.application.Labels");
-        labels.configureAction(this, ID);
-        }
+        initActionProperties(ID);
+    }
     
     public void actionPerformed(ActionEvent evt) {
-	    ApplicationContext ac = ApplicationContext.getInstance();
-            ResourceMap rm = ac.getResourceMap();
-            
-        JOptionPane.showMessageDialog(WindowManager.getInstance().getComponent(),
-                rm.getString("Application.title")+" "+
-                rm.getString("Application.version")+"\n"+
-                rm.getString("Application.vendor")+
-                "\n\nRunning on Java "+System.getProperty("java.vm.version")+
-                ", "+System.getProperty("java.vendor"), 
+        DocumentOrientedApplication application = getApplication();
+        ResourceMap r = getResourceMap();
+        JOptionPane.showMessageDialog(
+                application.getComponent(),
+                r.getString("Application.name")+" "+
+                r.getString("Application.version")+"\n"+
+                r.getString("Application.vendor")+
+                "\n\nRunning on Java "+
+                System.getProperty("java.vm.version")+
+                ", "+System.getProperty("java.vendor"),
                 "About", JOptionPane.PLAIN_MESSAGE);
     }
 }

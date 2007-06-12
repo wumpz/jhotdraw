@@ -12,7 +12,7 @@
  * JHotDraw.org.
  */
 
-package org.jhotdraw.application.action;
+package org.jhotdraw.app.action;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -21,7 +21,7 @@ import javax.swing.text.*;
 import java.beans.*;
 import java.util.*;
 import org.jhotdraw.util.*;
-import org.jhotdraw.application.EditableComponent;
+import org.jhotdraw.app.EditableComponent;
 
 /**
  * DuplicateAction.
@@ -29,12 +29,13 @@ import org.jhotdraw.application.EditableComponent;
  * @author Werner Randelshofer.
  * @version 1.0 February 27, 2006 Created.
  */
-public class DuplicateAction extends AbstractApplicationAction {
-    public final static String ID = "Edit.duplicate";
+public class DuplicateAction extends AbstractAction {
+    public final static String ID = "duplicate";
     
     /** Creates a new instance. */
     public DuplicateAction() {
-        initActionProperties(ID);
+        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        labels.configureAction(this, ID);
     }
     
     public void actionPerformed(ActionEvent evt) {

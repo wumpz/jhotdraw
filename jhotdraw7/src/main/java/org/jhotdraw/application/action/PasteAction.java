@@ -1,7 +1,7 @@
 /*
- * @(#)PasteAction.java  1.0  October 9, 2005
+ * @(#)PasteAction.java  2.0  2007-04-13
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -18,23 +18,23 @@ import java.awt.*;
 import java.awt.datatransfer.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.util.*;
 import org.jhotdraw.util.*;
 /**
-     * Pastes the contents of the system clipboard at the caret position.
-     * Acts on the EditableComponent or JTextComponent which had the focus when
-     * the ActionEvent was generated.
+ * Pastes the contents of the system clipboard at the caret position.
+ * Acts on the EditableComponent or JTextComponent which had the focus when
+ * the ActionEvent was generated.
  *
  * @author Werner Randelshofer
- * @version 1.0 October 9, 2005 Created.
+ * @version 2.0 2007-04-13 Use javax.swing.TransferHandler instead of
+ * interface EditableComponent.
+ * <br>1.0 October 9, 2005 Created.
  */
-public class PasteAction extends AbstractAction {
-    public final static String ID = "paste";
+public class PasteAction extends AbstractApplicationAction {
+    public final static String ID = "Edit.paste";
     
     /** Creates a new instance. */
     public PasteAction() {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
-        labels.configureAction(this, ID);
+        initActionProperties(ID);
     }
     
     public void actionPerformed(ActionEvent evt) {
@@ -44,7 +44,7 @@ public class PasteAction extends AbstractAction {
         if (focusOwner != null && focusOwner instanceof JComponent) {
             JComponent component = (JComponent) focusOwner;
             Transferable t = component.getToolkit().getSystemClipboard().getContents(component);
-            if (t != null) {
+            if (t != null && component.getTransferHandler() != null) {
                 component.getTransferHandler().importData(
                         component,
                         t

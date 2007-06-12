@@ -12,12 +12,11 @@
  * JHotDraw.org.
  */
 
-package org.jhotdraw.application.action;
+package org.jhotdraw.app.action;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.text.JTextComponent;
 import org.jhotdraw.util.*;
 /**
  * Cuts the selected region and places its contents into the system clipboard.
@@ -29,12 +28,13 @@ import org.jhotdraw.util.*;
  * interface EditableComponent. 
  * <br>1.0 October 9, 2005 Created.
  */
-public class CutAction extends AbstractApplicationAction {
-    public final static String ID = "Edit.cut";
+public class CutAction extends AbstractAction {
+    public final static String ID = "cut";
    
     /** Creates a new instance. */
     public CutAction() {
-        initActionProperties(ID);
+        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        labels.configureAction(this, ID);
     }
     
     public void actionPerformed(ActionEvent evt) {

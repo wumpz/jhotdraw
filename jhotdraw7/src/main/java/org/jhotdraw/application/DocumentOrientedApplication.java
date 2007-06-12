@@ -1,162 +1,208 @@
 /*
- * @(#)DocumentOrientedApplication.java  1.0  22. März 2007
+ * @(#)DocumentOrientedApplication.java  2.0  2007-07-08
  *
- * Copyright (c) 2006 Werner Randelshofer
- * Staldenmattweg 2, CH-6405 Immensee, Switzerland
+ * Copyright (c) 2005-2007 by the original authors of JHotDraw
+ * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of
- * Werner Randelshofer. ("Confidential Information").  You shall not
- * disclose such Confidential Information and shall use it only in
- * accordance with the terms of the license agreement you entered into
- * with Werner Randelshofer.
+ * JHotDraw.org ("Confidential Information"). You shall not disclose
+ * such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with
+ * JHotDraw.org.
  */
 
 package org.jhotdraw.application;
 
-import application.*;
-import javax.swing.*;
-import javax.swing.Action;
+import java.awt.*;
+import java.beans.*;
 import java.util.*;
-import org.jhotdraw.application.action.*;
-import org.jhotdraw.util.*;
+import javax.swing.*;
+import java.io.*;
 /**
- * Abstract superclass for applications with document interfaces.
- *
+ * An DocumentOrientedApplication handles the lifecycle of Projects and provides windows
+ * to present them on screen. Depending on the document interface style 
+ * used by the DocumentOrientedApplication, the DocumentOrientedApplication can handle multiple Projects 
+ * at the same time, or only one.
+ * <p>
+ * Typical document interface styles are the Single Document Interface (SDI),
+ * the Multiple Document Interface (MDI) and the Mac OS X DocumentOrientedApplication Document
+ * Interface (OSX).
+ * <p>
+ * Typical usage of this class:
+ * <pre>
+ * public class MyMainClass {
+ *     public static void main(String[] args) {
+ *         DocumentOrientedApplication application = new DefaultADIApplication();
+ *         DefaultApplicationModel model = new DefaultApplicationModel();
+ *         model.setName("MyAppliciation");
+ *         model.setVersion("1.0");
+ *         model.setCopyright("Copyright 2006 (c) Werner Randelshofer. All Rights Reserved.");
+ *         model.setProjectClassName("org.jhotdraw.myapplication.MyProject");
+ *         application.setModel(model);
+ *         application.launch(args);
+ *     } 
+ * </pre>
+ * 
  * @author Werner Randelshofer
- * @version 1.0 22. März 2007 Created.
+ * @version 2007-07-08 Reworked for JSR-296 version 0.42. 
+ * <br>1.0 October 4, 2005 Created.
  */
-public abstract class DocumentOrientedApplication extends Application {
-    private boolean isEnabled;
-    private HashMap<String,Action> actions;
+public interface DocumentOrientedApplication {
+    /**
+     * Launches the application from the main method.
+     * This method is typically invoked on the main Thread.
+     * This will invoke configureAWT() on the current thread and then 
+     * initialize() and startup() on the AWT Event Dispatcher Thread.
+     */
+    //public void launch(String[] args);
+    /**
+     * Configures AWT using the provided arguments array. This method
+     * is called by launch, before the AWT Event Dispatcher is started.
+     */
+    //public void configureAWT(String[] args);
     
-    /** Creates a new instance. */
-    public DocumentOrientedApplication() {
-    }
+    /**
+     * Initializes the application.
+     * <code>configureAWT()</code> should have been invoked before the application
+     * is inited. Alternatively an application can be configured using setter
+     * methods.
+     */
+    public void initialize(String[] args);
     
-    protected final void initialize(String[] args) {
-            WindowManager.getInstance().preInit();
-            init(args);
-            }
-    protected final void startup() {
-            WindowManager.getInstance().preStart();
-            start();
-    }
+    /**
+     * Starts the application.
+     * This usually creates a new view, and adds it to the application.
+     * <code>initialize()</code> must have been invoked before the application 
+     * is started.
+     */
+    public void startup();
+    /**
+     * Stops the application without saving any unsaved getViews.
+     * <code>initialize()</code> must have been invoked before the application is stopped.
+     */
+    public void shutdown();
+    
+    /**
+     * Creates a new view for this application.
+     */
+    public DocumentView createView();
+    
+    /**
+     * Adds a view to this application.
+     * Calls {@code init} on the view.
+     * Fires a "documentCount" property change event.
+     * Invokes method setApplication(this) on the view object.
+     */
+    public void add(DocumentView v);
+    
+    /**
+     * Removes a view from this application and removes it from the users
+     * view.
+     * Calls {@code dispose} on the view.
+     * Fires a "documentCount" property change event.
+     * Invokes method setApplication(null) on the view object.
+     */
+    public void remove(DocumentView v);
+    
+    /**
+     * Shows a view.
+     * Calls {@code start} on the view.
+     */
+    public void show(DocumentView v);
+    /**
+     * Hides a view.
+     * Calls {@code stop} on the view.
+     */
+    public void hide(DocumentView v);
+    
+    /**
+     * Returns a read only collection view of the getViews of this application.
+     */
+    public Collection<DocumentView> getViews();
+    
+    /**
+     * Returns the current view. This is used for OSXApplication and 
+     * MDIApplication which share actions among multiple DocumentView instances.
+     * Current view may be become null, if the
+     * application has no view.
+     * <p>
+     * This is a bound property.
+     */
+    public DocumentView getCurrentView();
+    
+    /**
+     * Returns the enabled state of the application.
+     */
+    public boolean isEnabled();
+    
+    
+    /**
+     * Sets the enabled state of the application.
+     *
+     * The enabled state is used to prevent parallel invocation of actions
+     * on the application. If an action consists of a sequential part and a
+     * concurrent part, it must disable the application only for the sequential
+     * part.
+     *
+     * Actions that act on the application must check in their actionPerformed
+     * method whether the application is enabled.
+     * If the application is disabled, they must do nothing. 
+     * If the application is enabled, they must disable the application,
+     * perform the action and then enable the application again.
+     *
+     * This is a bound property.
+     */
+    public void setEnabled(boolean newValue);
+    /**
+     * Adds a property change listener.
+     */
+    public void addPropertyChangeListener(PropertyChangeListener l);
 
-    public final static void launch(java.lang.Class<? extends DocumentOrientedApplication> applicationClass, String[] args) {
-        if (WindowManager.getInstance() == null) {
-            WindowManager.setInstance(new DefaultSDIWindowManager());
-            WindowManager.getInstance().preLaunch();
-        }
-        Application.launch(applicationClass, args);
-    }
+    /**
+     * Removes a property change listener.
+     */
+    public void removePropertyChangeListener(PropertyChangeListener l);
     
-   public final Project createProject() {
-        Project p = basicCreateProject();
-        p.init();
-            initProject(p);
-        return p;
-    }
-     public abstract Project basicCreateProject();
+    /**
+     * Returns true, if this application shares tools among multiple getViews.
+     */
+    public boolean isEditorShared();
     
-    public boolean isEnabled() {
-        return isEnabled;
-    }
+    /**
+     * Returns the application component. 
+     * This may return null, if the application is not represented by a component
+     * of its own on the user interface.
+     */
+    public Component getComponent();
+    
+    /**
+     * Returns the recently opened files.
+     * By convention, this is an immutable list.
+     */
+    public java.util.List<File> recentFiles();
+    /**
+     * Appends a file to the list of recent files.
+     * This fires a property change event for the property "recentFiles".
+     */
+    public void addRecentFile(File file);
+    /**
+     * Clears the list of recent files.
+     * This fires a property change event for the property "recentFiles".
+     */
+    public void clearRecentFiles();
 
-    public void setEnabled(boolean newValue) {
-        boolean oldValue = isEnabled;
-        isEnabled = newValue;
-firePropertyChange("enabled", oldValue, newValue);
-    }
-    
-    public void init(String[] args) {
-    }
-    public void initProject(Project p) {
-    }
-    
-    protected WindowManager getWindowManager() {
-        return WindowManager.getInstance();
-    }
-    
-    public void start() {
-        Project p = createProject();
-        getWindowManager().add(p);
-        getWindowManager().show(p);
-        setEnabled(true);
-    }
     /**
-     * Returns the action with the specified id.
+     * Adds a palette window to the application.
      */
-    public Action getAction(String id) {
-        return (actions == null) ? null : (Action) actions.get(id);
-    }
+    public void addPalette(Window w);
+    /**
+     * Removes a palette window from the application.
+     */
+    public void removePalette(Window w);
     
     /**
-     * Puts an action with the specified id.
+     * Gets the action with the specified key from the ActionMap of the application.
      */
-    public void putAction(String id, Action action) {
-        if (actions == null) {
-            actions = new HashMap<String,Action>();
-        }
-        if (action == null) {
-            actions.remove(id);
-        } else {
-            actions.put(id, action);
-        }
-    }
-    /**
-     * Creates tool bars.
-     * <p>
-     * Depending on the document interface of the application, this method
-     * may be invoked only once for the application, or for each opened project.
-     * <p>
-     * @param a Application.
-     * @param p The project for which the toolbars need to be created, or null
-     * if the toolbar needs to be shared with multiple projects.
-     */
-    public abstract List<JToolBar> createToolBars(WindowManager a, Project p);
-    
-    /**
-     * Creates menus.
-     * <p>
-     * Depending on the document interface of the application, this method
-     * may be invoked only once for the application, or for each opened project.
-     * <p>
-     * @param a Application.
-     * @param p The project for which the toolbars need to be created, or null
-     * if the toolbar needs to be shared with multiple projects.
-     */
-    public abstract List<JMenu> createMenus(WindowManager a, Project p);
-    protected JMenu createEditMenu(WindowManager a, Project p) {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
-        
-        JMenu m;
-        JMenuItem mi;
-        
-        m = new JMenu();
-        labels.configureMenu(m, "edit");
-        mi = m.add(getAction(UndoAction.ID));
-        //mi.setIcon(null);
-        mi = m.add(getAction(RedoAction.ID));
-        //mi.setIcon(null);
-        m.addSeparator();
-        mi = m.add(getAction(CutAction.ID));
-        //mi.setIcon(null);
-        mi = m.add(getAction(CopyAction.ID));
-        //mi.setIcon(null);
-        mi = m.add(getAction(PasteAction.ID));
-        //mi.setIcon(null);
-        mi = m.add(getAction(DuplicateAction.ID));
-        //mi.setIcon(null);
-        mi = m.add(getAction(DeleteAction.ID));
-        //mi.setIcon(null);
-        m.addSeparator();
-        mi = m.add(getAction(SelectAllAction.ID));
-        //mi.setIcon(null);
-        if (getAction(FindAction.ID) != null) {
-            m.addSeparator();
-            m.add(getAction(FindAction.ID));
-        }
-        return m;
-    }
+    public Action getAction(Object key);
 }

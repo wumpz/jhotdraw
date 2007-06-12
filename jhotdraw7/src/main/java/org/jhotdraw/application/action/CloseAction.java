@@ -18,25 +18,26 @@ import org.jhotdraw.util.*;
 
 import java.awt.event.*;
 import javax.swing.*;
-import org.jhotdraw.application.*;
+import org.jhotdraw.application.DocumentOrientedApplication;
+import org.jhotdraw.application.DocumentView;
 
 /**
- * Closes a project.
+ * Closes a View.
  *
  * @author  Werner Randelshofer
  * @version 1.0  04 January 2005  Created.
  */
 public class CloseAction extends AbstractSaveBeforeAction {
-    public final static String ID = "close";
+    public final static String ID = "File.close";
     
     /** Creates a new instance. */
     public CloseAction() {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.application.Labels");
-        labels.configureAction(this, ID);
+        initActionProperties(ID);
     }
-
-    @Override protected void doIt(Project project) {
-        project.getWindowManager().
-                dispose(project);
+    
+    @Override protected void doIt(DocumentView documentView) {
+        if (documentView != null) {
+            getApplication().remove(documentView);
+        }
     }
 }

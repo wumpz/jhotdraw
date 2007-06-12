@@ -14,7 +14,7 @@
 
 package org.jhotdraw.application.action;
 
-import org.jhotdraw.application.*;
+import org.jhotdraw.gui.Worker;
 import org.jhotdraw.util.*;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.gui.event.*;
@@ -25,6 +25,8 @@ import java.util.*;
 import java.util.prefs.*;
 import javax.swing.*;
 import java.io.*;
+import org.jhotdraw.application.DocumentOrientedApplication;
+import org.jhotdraw.application.DocumentView;
 /**
  * LoadRecentAction.
  *
@@ -32,7 +34,7 @@ import java.io.*;
  * @version 1.0 June 15, 2006 Created.
  */
 public class LoadRecentAction extends AbstractSaveBeforeAction {
-    public final static String ID = "loadRecent";
+    public final static String ID = "File.loadRecent";
     private File file;
     
     /** Creates a new instance. */
@@ -41,62 +43,50 @@ public class LoadRecentAction extends AbstractSaveBeforeAction {
         putValue(Action.NAME, file.getName());
     }
     
-    public void doIt(final Project project) {
-        final DocumentOrientedApplication app = getApplication();
-        app.setEnabled(true);
-        
-        // If there is another project with we set the multiple open
-        // id of our project to max(multiple open id) + 1.
-        int multipleOpenId = 1;
-        for (Project aProject : WindowManager.getInstance().projects()) {
-            if (aProject != project &&
-                    aProject.getFile() != null &&
-                    aProject.getFile().equals(file)) {
-                multipleOpenId = Math.max(multipleOpenId, aProject.getMultipleOpenId() + 1);
-            }
-        }
-        project.setMultipleOpenId(multipleOpenId);
+    public void doIt(final DocumentView documentView) {
+        final DocumentOrientedApplication application = getApplication();
+        application.setEnabled(true);
         
         // Open the file
-        project.execute(new Worker() {
+        documentView.execute(new Worker() {
             public Object construct() {
                 try {
-                    project.read(file);
+                    documentView.read(file);
                     return null;
                 } catch (Throwable e) {
                     return e;
                 }
             }
             public void finished(Object value) {
-                fileOpened(project, file, value);
+                fileOpened(documentView, file, value);
             }
         });
     }
-    protected void fileOpened(final Project project, File file, Object value) {
-        final DocumentOrientedApplication app = getApplication();
+    protected void fileOpened(final DocumentView documentView, File file, Object value) {
+        final DocumentOrientedApplication application = getApplication();
         if (value == null) {
-            project.setFile(file);
-            project.setEnabled(true);
-            Frame w = (Frame) SwingUtilities.getWindowAncestor(project.getComponent());
+            documentView.setFile(file);
+            documentView.setEnabled(true);
+            Frame w = (Frame) SwingUtilities.getWindowAncestor(documentView.getComponent());
             if (w != null) {
                 w.setExtendedState(w.getExtendedState() & ~Frame.ICONIFIED);
                 w.toFront();
             }
-            project.getComponent().requestFocus();
-            if (app != null) {
-                app.setEnabled(true);
+            documentView.getComponent().requestFocus();
+            if (application != null) {
+                application.setEnabled(true);
             }
         } else {
             if (value instanceof Throwable) {
                 ((Throwable) value).printStackTrace();
             }
-            JSheet.showMessageSheet(project.getComponent(),
+            JSheet.showMessageSheet(documentView.getComponent(),
                     "<html>"+UIManager.getString("OptionPane.css")+
                     "<b>Couldn't open the file \""+file+"\".</b><br>"+
                     value,
                     JOptionPane.ERROR_MESSAGE, new SheetListener() {
                 public void optionSelected(SheetEvent evt) {
-                    // app.dispose(project);
+                    // application.dispose(documentView);
                 }
             }
             );

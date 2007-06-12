@@ -12,15 +12,14 @@
  * JHotDraw.org.
  */
 
-package org.jhotdraw.application.action;
+package org.jhotdraw.app.action;
 
-import application.*;
 import org.jhotdraw.util.*;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import org.jhotdraw.application.*;
+import org.jhotdraw.app.*;
 
 /**
  * Displays a dialog showing information about the application.
@@ -29,24 +28,21 @@ import org.jhotdraw.application.*;
  * @version 1.0  04 January 2005  Created.
  */
 public class AboutAction extends AbstractApplicationAction {
-    public final static String ID = "Application.about";
+    public final static String ID = "about";
     
     /** Creates a new instance. */
-    public AboutAction() {
-        initActionProperties(ID);
-    }
+    public AboutAction(Application app) {
+        super(app);
+        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        labels.configureAction(this, ID);
+        }
     
     public void actionPerformed(ActionEvent evt) {
-        DocumentOrientedApplication application = getApplication();
-        ResourceMap r = getResourceMap();
-        JOptionPane.showMessageDialog(
-                application.getComponent(),
-                r.getString("Application.name")+" "+
-                r.getString("Application.version")+"\n"+
-                r.getString("Application.vendor")+
-                "\n\nRunning on Java "+
-                System.getProperty("java.vm.version")+
-                ", "+System.getProperty("java.vendor"),
+        Application app = getApplication();
+        JOptionPane.showMessageDialog(app.getComponent(),
+                app.getName()+" "+app.getVersion()+"\n"+app.getCopyright()+
+                "\n\nRunning on Java "+System.getProperty("java.vm.version")+
+                ", "+System.getProperty("java.vendor"), 
                 "About", JOptionPane.PLAIN_MESSAGE);
     }
 }

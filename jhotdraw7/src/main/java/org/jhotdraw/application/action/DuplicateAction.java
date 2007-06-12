@@ -21,7 +21,7 @@ import javax.swing.text.*;
 import java.beans.*;
 import java.util.*;
 import org.jhotdraw.util.*;
-import org.jhotdraw.app.EditableComponent;
+import org.jhotdraw.application.EditableComponent;
 
 /**
  * DuplicateAction.
@@ -29,13 +29,12 @@ import org.jhotdraw.app.EditableComponent;
  * @author Werner Randelshofer.
  * @version 1.0 February 27, 2006 Created.
  */
-public class DuplicateAction extends AbstractAction {
-    public final static String ID = "duplicate";
+public class DuplicateAction extends AbstractApplicationAction {
+    public final static String ID = "Edit.duplicate";
     
     /** Creates a new instance. */
     public DuplicateAction() {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.application.Labels");
-        labels.configureAction(this, ID);
+        initActionProperties(ID);
     }
     
     public void actionPerformed(ActionEvent evt) {

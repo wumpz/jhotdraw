@@ -29,12 +29,11 @@ import org.jhotdraw.application.DocumentOrientedApplication;
  * @version 1.0 28. September 2005 Created.
  */
 public class SaveAsAction extends SaveAction {
-    public final static String ID = "saveAs";
+    public final static String ID = "File.saveAs";
 
     /** Creates a new instance. */
     public SaveAsAction() {
         super(true);
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.application.Labels");
-        labels.configureAction(this, ID);
+        initActionProperties(ID);
     }
 }

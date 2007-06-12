@@ -12,7 +12,7 @@
  * JHotDraw.org.
  */
 
-package org.jhotdraw.application.action;
+package org.jhotdraw.app.action;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -21,7 +21,7 @@ import javax.swing.text.*;
 import java.beans.*;
 import java.util.*;
 import org.jhotdraw.util.*;
-import org.jhotdraw.application.EditableComponent;
+import org.jhotdraw.app.EditableComponent;
 /**
  * Deletes the region at (or after) the caret position.
  * Acts on the EditableComponent or JTextComponent which had the focus when
@@ -30,12 +30,14 @@ import org.jhotdraw.application.EditableComponent;
  * @author Werner Randelshofer
  * @version 1.0 October 9, 2005 Created.
  */
-public class DeleteAction extends AbstractApplicationAction {
-    public final static String ID = "Edit.delete";
-
+public class DeleteAction extends TextAction {
+    public final static String ID = "delete";
+    
     /** Creates a new instance. */
     public DeleteAction() {
-        initActionProperties(ID);
+        super(ID);
+        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        labels.configureAction(this, ID);
     }
     
     public void actionPerformed(ActionEvent evt) {
@@ -44,14 +46,15 @@ public class DeleteAction extends AbstractApplicationAction {
                 getPermanentFocusOwner();
         if (focusOwner != null && focusOwner instanceof EditableComponent) {
             ((EditableComponent) focusOwner).delete();
-        } else if (focusOwner instanceof JTextComponent) {
-            deleteNextChar(evt, (JTextComponent) focusOwner);
+        } else {
+            deleteNextChar(evt);
         }
     }
     /** This method was copied from
      * DefaultEditorKit.DeleteNextCharAction.actionPerformed(ActionEvent).
      */
-    public void deleteNextChar(ActionEvent e, JTextComponent target) {
+    public void deleteNextChar(ActionEvent e) {
+        JTextComponent target = getTextComponent(e);
         boolean beep = true;
         if ((target != null) && (target.isEditable())) {
             try {
