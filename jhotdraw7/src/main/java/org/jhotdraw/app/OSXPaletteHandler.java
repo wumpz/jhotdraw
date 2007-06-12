@@ -12,7 +12,7 @@
  * JHotDraw.org.
  */
 
-package org.jhotdraw.app;
+package org.jhotdraw.application;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -20,7 +20,7 @@ import java.util.prefs.*;
 import javax.swing.*;
 import java.util.*;
 /**
- * Hides all registered floating palettes, if none of the registered project
+ * Hides all registered floating palettes, if none of the registered documentView
  * windows has focus anymore.
  *
  * @author Werner Randelshofer
@@ -29,10 +29,10 @@ import java.util.*;
  */
 public class OSXPaletteHandler {
     private HashSet<Window> palettes = new HashSet<Window>();
-    private HashMap<Window,Project> windows = new HashMap<Window,Project>();
+    private HashMap<Window, DocumentView> windows = new HashMap<Window,DocumentView>();
     private static OSXPaletteHandler instance;
     private javax.swing.Timer timer;
-    private DefaultOSXApplication app;
+    private AbstractOSXApplication application;
     private WindowFocusListener focusHandler = new WindowFocusListener() {
         /**
          * Invoked when the Window is set to be the focused Window, which means
@@ -42,7 +42,7 @@ public class OSXPaletteHandler {
         public void windowGainedFocus(WindowEvent e) {
             timer.stop();
             if (windows.containsKey(e.getWindow())) {
-                app.setCurrentProject((Project) windows.get(e.getWindow()));
+                application.setCurrentView((DocumentView) windows.get(e.getWindow()));
                 showPalettes();
             }
         }
@@ -58,8 +58,8 @@ public class OSXPaletteHandler {
     };
     
     /** Creates a new instance. */
-    public OSXPaletteHandler(DefaultOSXApplication app) {
-        this.app = app;
+    public OSXPaletteHandler(AbstractOSXApplication application) {
+        this.application = application;
         timer = new javax.swing.Timer(60, new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 maybeHidePalettes();
@@ -68,12 +68,12 @@ public class OSXPaletteHandler {
         timer.setRepeats(false);
     }
     
-    public void add(Window window, Project project) {
+    public void add(Window window, DocumentView documentView) {
         window.addWindowFocusListener(focusHandler);
-        windows.put(window, project);
+        windows.put(window, documentView);
     }
     
-    public void remove(Window window, Project project) {
+    public void remove(Window window, DocumentView documentView) {
         windows.remove(window);
         window.removeWindowFocusListener(focusHandler);
     }

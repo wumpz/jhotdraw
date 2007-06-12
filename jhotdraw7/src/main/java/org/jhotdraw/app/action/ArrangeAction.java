@@ -12,25 +12,26 @@
  * JHotDraw.org.
  */
 
-package org.jhotdraw.app.action;
+package org.jhotdraw.application.action;
 
+import application.ResourceMap;
 import org.jhotdraw.util.*;
 import org.jhotdraw.gui.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 import java.awt.*;
 /**
- * ArrangeAction.
+ * Arranges the views of an MDI application.
  * <p>
  * FIXME - Register as PropertyChangeListener on Arrangeable.
  *
  * @author Werner Randelshofer
  * @version 1.0 7. Februar 2006 Created.
  */
-public class ArrangeAction extends AbstractAction {
-    public final static String VERTICAL_ID = "arrangeVertical";
-    public final static String HORIZONTAL_ID = "arrangeHorizontal";
-    public final static String CASCADE_ID = "arrangeCascade";
+public class ArrangeAction extends AbstractApplicationAction {
+    public final static String VERTICAL_ID = "View.arrangeVertical";
+    public final static String HORIZONTAL_ID = "View.arrangeHorizontal";
+    public final static String CASCADE_ID = "View.arrangeCascade";
     private Arrangeable arrangeable;
     private Arrangeable.Arrangement arrangement;
     
@@ -38,7 +39,7 @@ public class ArrangeAction extends AbstractAction {
     public ArrangeAction(Arrangeable arrangeable, Arrangeable.Arrangement arrangement) {
         this.arrangeable = arrangeable;
         this.arrangement = arrangement;
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+
         String labelID;
         switch (arrangement) {
             case VERTICAL : labelID = VERTICAL_ID; break;
@@ -47,7 +48,8 @@ public class ArrangeAction extends AbstractAction {
             default :
                 labelID = CASCADE_ID; break;
         }
-        labels.configureAction(this, labelID);
+        
+        initActionProperties(labelID);
     }
     
     public void actionPerformed(ActionEvent e) {

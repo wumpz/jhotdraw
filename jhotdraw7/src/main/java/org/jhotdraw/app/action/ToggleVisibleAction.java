@@ -12,7 +12,7 @@
  * JHotDraw.org.
  */
 
-package org.jhotdraw.app.action;
+package org.jhotdraw.application.action;
 
 import java.awt.*;
 import java.awt.event.*;

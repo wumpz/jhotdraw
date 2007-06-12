@@ -1,5 +1,5 @@
 /*
- * @(#)ProjectPropertyAction.java  1.0  June 18, 2006
+ * @(#)PropertyAction.java  1.0  June 18, 2006
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -20,16 +20,16 @@ import org.jhotdraw.application.DocumentOrientedApplication;
 import org.jhotdraw.application.DocumentView;
 
 /**
- * ToggleProjectPropertyAction.
- *
+ * PropertyAction.
+ * 
+ * 
  * @author Werner Randelshofer.
  * @version 1.0 June 18, 2006 Created.
  */
-public class ToggleProjectPropertyAction extends AbstractDocumentViewAction {
+public class PropertyAction extends AbstractDocumentViewAction {
     private String propertyName;
     private Class[] parameterClass;
-    private Object selectedPropertyValue;
-    private Object deselectedPropertyValue;
+    private Object propertyValue;
     private String setterName;
     private String getterName;
     
@@ -42,15 +42,13 @@ public class ToggleProjectPropertyAction extends AbstractDocumentViewAction {
     };
     
     /** Creates a new instance. */
-    public ToggleProjectPropertyAction(String propertyName) {
-        this(propertyName, Boolean.TYPE, true, false);
+    public PropertyAction(String propertyName, Object propertyValue) {
+        this(propertyName, propertyValue.getClass(), propertyValue);
     }
-    public ToggleProjectPropertyAction(String propertyName, Class propertyClass,
-            Object selectedPropertyValue, Object deselectedPropertyValue) {
+    public PropertyAction(String propertyName, Class propertyClass, Object propertyValue) {
         this.propertyName = propertyName;
         this.parameterClass = new Class[] { propertyClass };
-        this.selectedPropertyValue = selectedPropertyValue;
-        this.deselectedPropertyValue = deselectedPropertyValue;
+        this.propertyValue = propertyValue;
         setterName = "set"+Character.toUpperCase(propertyName.charAt(0)) +
                 propertyName.substring(1);
         getterName = ((propertyClass == Boolean.TYPE || propertyClass == Boolean.class) ? "is" : "get")+
@@ -61,35 +59,14 @@ public class ToggleProjectPropertyAction extends AbstractDocumentViewAction {
     
     public void actionPerformed(ActionEvent evt) {
         DocumentView p = getCurrentView();
-        Object value = getCurrentValue();
-        Object newValue = (value == selectedPropertyValue ||
-                        value != null && selectedPropertyValue != null &&
-                        value.equals(selectedPropertyValue)) ?
-                            deselectedPropertyValue :
-                            selectedPropertyValue;
         try {
-            p.getClass().getMethod(setterName, parameterClass).invoke(p, new Object[] {newValue});
+            p.getClass().getMethod(setterName, parameterClass).invoke(p, new Object[] {propertyValue});
         } catch (Throwable e) {
-                InternalError error = new InternalError("No "+setterName+" method on "+p);
+            InternalError error = new InternalError("Method invocation failed");
             error.initCause(e);
             throw error;
         }
     }
-    
-    private Object getCurrentValue() {
-        DocumentView p = getCurrentView();
-        if (p != null) {
-            try {
-                return p.getClass().getMethod(getterName, (Class[]) null).invoke(p);
-            } catch (Throwable e) {
-                InternalError error = new InternalError("No "+getterName+" method on "+p);
-                error.initCause(e);
-                throw error;
-            }
-        }
-        return null;
-    }
-    
     
     protected void installProjectListeners(DocumentView p) {
         super.installProjectListeners(p);
@@ -110,11 +87,11 @@ public class ToggleProjectPropertyAction extends AbstractDocumentViewAction {
         if (p != null) {
             try {
                 Object value = p.getClass().getMethod(getterName, (Class[]) null).invoke(p);
-                isSelected = value == selectedPropertyValue ||
-                        value != null && selectedPropertyValue != null &&
-                        value.equals(selectedPropertyValue);
+                isSelected = value == propertyValue ||
+                        value != null && propertyValue != null &&
+                        value.equals(propertyValue);
             } catch (Throwable e) {
-                InternalError error = new InternalError("No "+getterName+" method on "+p);
+                InternalError error = new InternalError("Method invocation failed");
                 error.initCause(e);
                 throw error;
             }

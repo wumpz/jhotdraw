@@ -1,7 +1,7 @@
 /*
- * @(#)Application.java  1.0  October 4, 2005
+ * @(#)DocumentOrientedApplication.java  2.0  2007-07-08
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 2005-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -12,7 +12,7 @@
  * JHotDraw.org.
  */
 
-package org.jhotdraw.app;
+package org.jhotdraw.application;
 
 import java.awt.*;
 import java.beans.*;
@@ -20,114 +20,116 @@ import java.util.*;
 import javax.swing.*;
 import java.io.*;
 /**
- * An Application handles the lifecycle of Projects and provides windows
+ * An DocumentOrientedApplication handles the lifecycle of Projects and provides windows
  * to present them on screen. Depending on the document interface style 
- * used by the Application, the Application can handle multiple Projects 
+ * used by the DocumentOrientedApplication, the DocumentOrientedApplication can handle multiple Projects 
  * at the same time, or only one.
  * <p>
  * Typical document interface styles are the Single Document Interface (SDI),
- * the Multiple Document Interface (MDI) and the Mac OS X Application Document
+ * the Multiple Document Interface (MDI) and the Mac OS X DocumentOrientedApplication Document
  * Interface (OSX).
  * <p>
  * Typical usage of this class:
  * <pre>
  * public class MyMainClass {
  *     public static void main(String[] args) {
- *         Application app = new DefaultADIApplication();
+ *         DocumentOrientedApplication application = new DefaultADIApplication();
  *         DefaultApplicationModel model = new DefaultApplicationModel();
  *         model.setName("MyAppliciation");
  *         model.setVersion("1.0");
  *         model.setCopyright("Copyright 2006 (c) Werner Randelshofer. All Rights Reserved.");
  *         model.setProjectClassName("org.jhotdraw.myapplication.MyProject");
- *         app.setModel(model);
- *         app.launch(args);
+ *         application.setModel(model);
+ *         application.launch(args);
  *     } 
  * </pre>
- *
+ * 
  * @author Werner Randelshofer
- * @version 1.0 October 4, 2005 Created.
+ * @version 2007-07-08 Reworked for JSR-296 version 0.42. 
+ * <br>1.0 October 4, 2005 Created.
  */
-public interface Application {
+public interface DocumentOrientedApplication {
     /**
      * Launches the application from the main method.
      * This method is typically invoked on the main Thread.
-     * This will invoke configure() on the current thread and then 
-     * init() and start() on the AWT Event Dispatcher Thread.
+     * This will invoke configureAWT() on the current thread and then 
+     * initialize() and startup() on the AWT Event Dispatcher Thread.
      */
-    public void launch(String[] args);
+    //public void launch(String[] args);
     /**
-     * Configures the application using the provided arguments array.
+     * Configures AWT using the provided arguments array. This method
+     * is called by launch, before the AWT Event Dispatcher is started.
      */
-    public void configure(String[] args);
+    //public void configureAWT(String[] args);
     
     /**
      * Initializes the application.
-     * <code>configure()</code> should have been invoked before the application
+     * <code>configureAWT()</code> should have been invoked before the application
      * is inited. Alternatively an application can be configured using setter
      * methods.
      */
-    public void init();
+    public void initialize(String[] args);
     
     /**
      * Starts the application.
-     * This usually creates a new project, and adds it to the application.
-     * <code>init()</code> must have been invoked before the application is started.
+     * This usually creates a new view, and adds it to the application.
+     * <code>initialize()</code> must have been invoked before the application 
+     * is started.
      */
-    public void start();
+    public void startup();
     /**
-     * Stops the application without saving any unsaved projects.
-     * <code>init()</code> must have been invoked before the application is stopped.
+     * Stops the application without saving any unsaved getViews.
+     * <code>initialize()</code> must have been invoked before the application is stopped.
      */
-    public void stop();
+    public void shutdown();
     
     /**
-     * Creates a new project for this application.
+     * Creates a new view for this application.
      */
-    public Project createProject();
+    public DocumentView createView();
     
     /**
-     * Adds a project to this application.
+     * Adds a view to this application.
+     * Calls {@code init} on the view.
      * Fires a "documentCount" property change event.
-     * Invokes method setApplication(this) on the project object.
+     * Invokes method setApplication(this) on the view object.
      */
-    public void add(Project p);
+    public void add(DocumentView v);
     
     /**
-     * Removes a project from this application and removes it from the users
+     * Removes a view from this application and removes it from the users
      * view.
+     * Calls {@code dispose} on the view.
      * Fires a "documentCount" property change event.
-     * Invokes method setApplication(null) on the project object.
+     * Invokes method setApplication(null) on the view object.
      */
-    public void remove(Project p);
+    public void remove(DocumentView v);
     
     /**
-     * Shows a project.
+     * Shows a view.
+     * Calls {@code start} on the view.
      */
-    public void show(Project p);
+    public void show(DocumentView v);
     /**
-     * Hides a project.
+     * Hides a view.
+     * Calls {@code stop} on the view.
      */
-    public void hide(Project p);
+    public void hide(DocumentView v);
     
     /**
-     * This is a convenience method for removing a project and disposing it.
+     * Returns a read only collection view of the getViews of this application.
      */
-    public void dispose(Project p);
+    public Collection<DocumentView> getViews();
     
     /**
-     * Returns a read only collection view of the projects of this application.
-     */
-    public Collection<Project> projects();
-    
-    /**
-     * Returns the current project. This is used for OSXApplication and 
-     * MDIApplication which share actions among multiple Project instances.
-     * Current project may be become null, if the
-     * application has no project.
+     * Returns the current view. This is used for OSXApplication and 
+     * MDIApplication which share actions among multiple DocumentView instances.
+     * Current view may be become null, if the
+     * application has no view.
      * <p>
-     * This is a bound property. 
+     * This is a bound property.
      */
-    public Project getCurrentProject();
+    public DocumentView getCurrentView();
     
     /**
      * Returns the enabled state of the application.
@@ -163,32 +165,9 @@ public interface Application {
     public void removePropertyChangeListener(PropertyChangeListener l);
     
     /**
-     * Returns the name of the application.
+     * Returns true, if this application shares tools among multiple getViews.
      */
-    public String getName();
-    /**
-     * Returns the version of the application.
-     */
-    public String getVersion();
-    /**
-     * Returns the copyright of the application.
-     */
-    public String getCopyright();
-    
-    /**
-     * Sets the application model.
-     */
-    public void setModel(ApplicationModel newValue);
-
-    /**
-     * Returns the application model.
-     */
-    public ApplicationModel getModel();
-    
-    /**
-     * Returns true, if this application shares tools among multiple projects.
-     */
-    public boolean isSharingToolsAmongProjects();
+    public boolean isEditorShared();
     
     /**
      * Returns the application component. 
@@ -212,4 +191,18 @@ public interface Application {
      * This fires a property change event for the property "recentFiles".
      */
     public void clearRecentFiles();
+
+    /**
+     * Adds a palette window to the application.
+     */
+    public void addPalette(Window w);
+    /**
+     * Removes a palette window from the application.
+     */
+    public void removePalette(Window w);
+    
+    /**
+     * Gets the action with the specified key from the ActionMap of the application.
+     */
+    public Action getAction(Object key);
 }

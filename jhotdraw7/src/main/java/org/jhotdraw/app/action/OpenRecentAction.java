@@ -12,7 +12,7 @@
  * JHotDraw.org.
  */
 
-package org.jhotdraw.app.action;
+package org.jhotdraw.application.action;
 
 import org.jhotdraw.gui.Worker;
 import org.jhotdraw.util.*;
@@ -25,8 +25,8 @@ import java.util.*;
 import java.util.prefs.*;
 import javax.swing.*;
 import java.io.*;
-import org.jhotdraw.app.Application;
-import org.jhotdraw.app.Project;
+import org.jhotdraw.application.DocumentOrientedApplication;
+import org.jhotdraw.application.DocumentView;
 /**
  * OpenRecentAction.
  *
@@ -34,33 +34,32 @@ import org.jhotdraw.app.Project;
  * @version 1.0 June 15, 2006 Created.
  */
 public class OpenRecentAction extends AbstractApplicationAction {
-    public final static String ID = "openRecent";
+    public final static String ID = "File.openRecent";
     private File file;
     
     /** Creates a new instance. */
-    public OpenRecentAction(Application app, File file) {
-        super(app);
+    public OpenRecentAction(File file) {
         this.file = file;
         putValue(Action.NAME, file.getName());
     }
     
     public void actionPerformed(ActionEvent evt) {
-        final Application app = getApplication();
-        if (app.isEnabled()) {
-            app.setEnabled(false);
-            // Search for an empty project
-            Project emptyProject = app.getCurrentProject();
+        final DocumentOrientedApplication application = getApplication();
+        if (application.isEnabled()) {
+            application.setEnabled(false);
+            // Search for an empty documentView
+            DocumentView emptyProject = application.getCurrentView();
             if (emptyProject == null ||
                     emptyProject.getFile() != null ||
-                    emptyProject.hasUnsavedChanges()) {
+                    emptyProject.isModified()) {
                 emptyProject = null;
             }
             
-            final Project p;
+            final DocumentView p;
             if (emptyProject == null) {
-                p = app.createProject();
-                app.add(p);
-                app.show(p);
+                p = application.createView();
+                application.add(p);
+                application.show(p);
             } else {
                 p = emptyProject;
             }
@@ -68,64 +67,51 @@ public class OpenRecentAction extends AbstractApplicationAction {
         }
     }
     
-    protected void openFile(final Project project) {
-        final Application app = getApplication();
-        app.setEnabled(true);
-        
-        
-        // If there is another project with we set the multiple open
-        // id of our project to max(multiple open id) + 1.
-        int multipleOpenId = 1;
-        for (Project aProject : app.projects()) {
-            if (aProject != project &&
-                    aProject.getFile() != null &&
-                    aProject.getFile().equals(file)) {
-                multipleOpenId = Math.max(multipleOpenId, aProject.getMultipleOpenId() + 1);
-            }
-        }
-        project.setMultipleOpenId(multipleOpenId);
-        project.setEnabled(false);
+    protected void openFile(final DocumentView documentView) {
+        final DocumentOrientedApplication application = getApplication();
+        application.setEnabled(true);
+        documentView.setEnabled(false);
         
         // Open the file
-        project.execute(new Worker() {
+        documentView.execute(new Worker() {
             public Object construct() {
                 try {
-                    project.read(file);
+                    documentView.read(file);
                     return null;
                 } catch (Throwable e) {
                     return e;
                 }
             }
             public void finished(Object value) {
-                fileOpened(project, file, value);
+                fileOpened(documentView, file, value);
             }
         });
     }
-    protected void fileOpened(final Project project, File file, Object value) {
-        final Application app = getApplication();
+    protected void fileOpened(final DocumentView documentView, File file, Object value) {
+        final DocumentOrientedApplication application = getApplication();
         if (value == null) {
-            project.setFile(file);
-            project.setEnabled(true);
-            Frame w = (Frame) SwingUtilities.getWindowAncestor(project.getComponent());
+            documentView.setFile(file);
+            documentView.setEnabled(true);
+            Frame w = (Frame) SwingUtilities.getWindowAncestor(documentView.getComponent());
             if (w != null) {
                 w.setExtendedState(w.getExtendedState() & ~Frame.ICONIFIED);
                 w.toFront();
             }
-            project.getComponent().requestFocus();
-            if (app != null) {
-                app.setEnabled(true);
+            documentView.getComponent().requestFocus();
+            if (application != null) {
+                application.setEnabled(true);
             }
         } else {
             if (value instanceof Throwable) {
                 ((Throwable) value).printStackTrace();
             }
-            JSheet.showMessageSheet(project.getComponent(),
+            JSheet.showMessageSheet(documentView.getComponent(),
                     "<html>"+UIManager.getString("OptionPane.css")+
                     "<b>Couldn't open the file \""+file+"\".</b><br>"+
                     value,
                     JOptionPane.ERROR_MESSAGE, new SheetListener() {
                 public void optionSelected(SheetEvent evt) {
-                    // app.dispose(project);
+                    // application.dispose(documentView);
                 }
             }
             );

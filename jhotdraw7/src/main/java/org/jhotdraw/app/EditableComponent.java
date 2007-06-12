@@ -11,7 +11,7 @@
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
  */
-package org.jhotdraw.app;
+package org.jhotdraw.application;
 
 /**
  * This interface must be implemented by components

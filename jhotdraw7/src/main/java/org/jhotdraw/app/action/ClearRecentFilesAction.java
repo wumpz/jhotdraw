@@ -12,12 +12,12 @@
  * JHotDraw.org.
  */
 
-package org.jhotdraw.app.action;
+package org.jhotdraw.application.action;
 
 import org.jhotdraw.util.*;
 import java.awt.event.ActionEvent;
 import java.beans.*;
-import org.jhotdraw.app.Application;
+import org.jhotdraw.application.DocumentOrientedApplication;
 /**
  * ClearRecentFilesAction.
  *
@@ -25,27 +25,25 @@ import org.jhotdraw.app.Application;
  * @version 1.0 June 15, 2006 Created.
  */
 public class ClearRecentFilesAction extends AbstractApplicationAction {
-    public final static String ID = "clearRecentFiles";
+    public final static String ID = "File.clearRecentFiles";
     
     private PropertyChangeListener applicationListener;
     
     /** Creates a new instance. */
-    public ClearRecentFilesAction(Application app) {
-        super(app);
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
-        labels.configureAction(this, "clearMenu");
+    public ClearRecentFilesAction() {
+        initActionProperties("Menu.clearMenu");
         updateEnabled();
     }
     
     /**
      * Installs listeners on the application object.
      */
-    @Override protected void installApplicationListeners(Application app) {
-        super.installApplicationListeners(app);
+    @Override protected void installApplicationListeners(DocumentOrientedApplication application) {
+        super.installApplicationListeners(application);
         if (applicationListener == null) {
             applicationListener = createApplicationListener();
         }
-        app.addPropertyChangeListener(applicationListener);
+        application.addPropertyChangeListener(applicationListener);
     }
     private PropertyChangeListener createApplicationListener() {
         return new PropertyChangeListener() {
@@ -59,9 +57,9 @@ public class ClearRecentFilesAction extends AbstractApplicationAction {
     /**
      * Installs listeners on the application object.
      */
-    @Override protected void uninstallApplicationListeners(Application app) {
-        super.uninstallApplicationListeners(app);
-        app.removePropertyChangeListener(applicationListener);
+    @Override protected void uninstallApplicationListeners(DocumentOrientedApplication application) {
+        super.uninstallApplicationListeners(application);
+        application.removePropertyChangeListener(applicationListener);
     }
     
     public void actionPerformed(ActionEvent e) {

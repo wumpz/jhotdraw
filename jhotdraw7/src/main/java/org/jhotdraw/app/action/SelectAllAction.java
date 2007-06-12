@@ -12,7 +12,7 @@
  * JHotDraw.org.
  */
 
-package org.jhotdraw.app.action;
+package org.jhotdraw.application.action;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -21,7 +21,7 @@ import javax.swing.text.*;
 import java.beans.*;
 import java.util.*;
 import org.jhotdraw.util.*;
-import org.jhotdraw.app.EditableComponent;
+import org.jhotdraw.application.EditableComponent;
 
 /**
  * SelectAllAction.
@@ -29,13 +29,12 @@ import org.jhotdraw.app.EditableComponent;
  * @author Werner Randelshofer.
  * @version 1.0 February 27, 2006 Created.
  */
-public class SelectAllAction extends AbstractAction {
-    public final static String ID = "selectAll";
+public class SelectAllAction extends AbstractApplicationAction {
+    public final static String ID = "Edit.selectAll";
     
     /** Creates a new instance. */
     public SelectAllAction() {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
-        labels.configureAction(this, ID);
+        initActionProperties(ID);
     }
     
     public void actionPerformed(ActionEvent evt) {

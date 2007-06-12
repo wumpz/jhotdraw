@@ -12,9 +12,9 @@
  * JHotDraw.org.
  */
 
-package org.jhotdraw.app;
+package org.jhotdraw.application;
 
-import org.jhotdraw.app.action.*;
+import org.jhotdraw.application.action.*;
 import org.jhotdraw.beans.*;
 import java.util.*;
 import javax.swing.*;
@@ -95,7 +95,7 @@ public class DefaultApplicationModel
                 try {
                     projectClass = Class.forName(projectClassName);
                 } catch (Exception e) {
-                    InternalError error = new InternalError("unable to get project class");
+                    InternalError error = new InternalError("unable to get documentView class");
                     error.initCause(e);
                     throw error;
                 }
@@ -104,11 +104,11 @@ public class DefaultApplicationModel
         return projectClass;
     }
     
-    public Project createProject() {
+    public DocumentView createProject() {
         try {
-            return (Project) getProjectClass().newInstance();
+            return (DocumentView) getProjectClass().newInstance();
         } catch (Exception e) {
-            InternalError error = new InternalError("unable to create project");
+            InternalError error = new InternalError("unable to create documentView");
             error.initCause(e);
             throw error;
         }
@@ -128,8 +128,8 @@ public class DefaultApplicationModel
      * <li>Paste</li>
      * </ul>
      */
-    public List<JToolBar> createToolBars(Application app, Project p) {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+    public List<JToolBar> createToolBars(DocumentOrientedApplication application, DocumentView p) {
+        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.application.Labels");
         
         JToolBar tb = new JToolBar();
         tb.setName(labels.getString("standardToolBarTitle"));
@@ -167,13 +167,13 @@ public class DefaultApplicationModel
         list.add(tb);
         return list;
     }
-    public List<JMenu> createMenus(Application a, Project p) {
+    public List<JMenu> createMenus(DocumentOrientedApplication a, DocumentView p) {
         LinkedList<JMenu> list = new LinkedList<JMenu>();
         list.add(createEditMenu(a, p));
         return list;
     }
-    protected JMenu createEditMenu(Application a, Project p) {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+    protected JMenu createEditMenu(DocumentOrientedApplication a, DocumentView p) {
+        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.application.Labels");
         
         JMenu m;
         JMenuItem mi;
@@ -205,10 +205,10 @@ public class DefaultApplicationModel
         return m;
     }
     
-    public void initProject(Application a, Project p) {
+    public void initProject(DocumentOrientedApplication a, DocumentView p) {
     }
     
-    public void initApplication(Application a) {
+    public void initApplication(DocumentOrientedApplication a) {
     }
     /**
      * Returns the action with the specified id.

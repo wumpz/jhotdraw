@@ -12,46 +12,52 @@
  * JHotDraw.org.
  */
 
-package org.jhotdraw.app.action;
+package org.jhotdraw.application.action;
 
+import java.io.IOException;
+import org.jhotdraw.gui.Worker;
 import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import org.jhotdraw.app.Application;
-import org.jhotdraw.app.Project;
+import org.jhotdraw.application.DocumentOrientedApplication;
+import org.jhotdraw.application.DocumentView;
 
 /**
- * Creates a new project.
+ * Creates a new documentView.
  *
  * @author Werner Randelshofer
  * @version 1.2 2006-02-22 Support for multiple open id added.
- * <br>1.1.1 2005-07-14 Make project explicitly visible after creating it.
- * <br>1.1 2005-07-09 Place new project relative to current one.
+ * <br>1.1.1 2005-07-14 Make documentView explicitly visible after creating it.
+ * <br>1.1 2005-07-09 Place new documentView relative to current one.
  * <br>1.0  04 January 2005  Created.
  */
 public class NewAction extends AbstractApplicationAction {
-    public final static String ID = "new";
+    public final static String ID = "File.new";
     
     /** Creates a new instance. */
-    public NewAction(Application app) {
-        super(app);
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
-        labels.configureAction(this, "new");
+    public NewAction() {
+        initActionProperties(ID);
     }
     
     public void actionPerformed(ActionEvent evt) {
-        Application app = getApplication();
-        Project newP = app.createProject();
-        int multiOpenId = 1;
-        for (Project existingP : app.projects()) {
-            if (existingP.getFile() == null) {
-                multiOpenId = Math.max(multiOpenId, existingP.getMultipleOpenId() + 1);
+        DocumentOrientedApplication application = getApplication();
+        final DocumentView newP = application.createView();
+        application.add(newP);
+        newP.setEnabled(false);
+        newP.execute(new Worker() {
+            public Object construct() {
+                try {
+                    newP.clear();
+                    return null;
+                } catch (IOException ex) {
+                    return ex;
+                }
             }
-        }
-        newP.setMultipleOpenId(multiOpenId);
-        app.add(newP);
-        newP.clear();
-        app.show(newP);
+            public void finished(Object result) {
+                newP.setEnabled(true);
+            }
+        });
+        application.show(newP);
     }
 }

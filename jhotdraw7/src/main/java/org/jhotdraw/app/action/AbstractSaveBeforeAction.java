@@ -12,8 +12,9 @@
  * JHotDraw.org.
  */
 
-package org.jhotdraw.app.action;
+package org.jhotdraw.application.action;
 
+import application.ResourceMap;
 import org.jhotdraw.gui.Worker;
 import org.jhotdraw.io.*;
 import org.jhotdraw.gui.*;
@@ -23,19 +24,19 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
-import org.jhotdraw.app.Application;
-import org.jhotdraw.app.Project;
+import org.jhotdraw.application.DocumentOrientedApplication;
+import org.jhotdraw.application.DocumentView;
 /**
- * Base class for actions that can only be safely performed when the project
+ * Base class for actions that can only be safely performed when the documentView
  * has no unsaved changes.
  * <p>
- * If the project has no unsaved changes, method doIt is invoked immediately.
+ * If the documentView has no unsaved changes, method doIt is invoked immediately.
  * If unsaved changes are present, a dialog is shown asking whether the user
  * wants to discard the changes, cancel or save the changes before doing it.
  * If the user chooses to discard the chanegs, toIt is invoked immediately.
  * If the user chooses to cancel, the action is aborted.
- * If the user chooses to save the changes, the project is saved, and doIt
- * is only invoked after the project was successfully saved.
+ * If the user chooses to save the changes, the documentView is saved, and doIt
+ * is only invoked after the documentView was successfully saved.
  *
  * @author  Werner Randelshofer
  * @version 2.0 2006-06-15 Reworked. 
@@ -43,40 +44,41 @@ import org.jhotdraw.app.Project;
  * <br>1.1 2006-05-03 Localized messages.
  * <br>1.0 27. September 2005 Created.
  */
-public abstract class AbstractSaveBeforeAction extends AbstractProjectAction {
+public abstract class AbstractSaveBeforeAction extends AbstractDocumentViewAction {
     private Component oldFocusOwner;
     
     /** Creates a new instance. */
-    public AbstractSaveBeforeAction(Application app) {
-        super(app);
+    public AbstractSaveBeforeAction() {
     }
     
     public void actionPerformed(ActionEvent evt) {
-       final Project p = getCurrentProject();
+       final DocumentView p = getCurrentView();
         if (p.isEnabled()) {
-            final ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+           final ResourceMap labels = getFrameworkResourceMap();
             Window wAncestor = SwingUtilities.getWindowAncestor(p.getComponent());
             oldFocusOwner = (wAncestor == null) ? null : wAncestor.getFocusOwner();
             p.setEnabled(false);
-            if (p.hasUnsavedChanges()) {
+            if (p.isModified()) {
                 JOptionPane pane = new JOptionPane(
                         "<html>"+UIManager.getString("OptionPane.css")+
-                        labels.getString("saveBeforeMessage"),
+                        labels.getString("File.saveBefore.OptionPane.message"),
                         JOptionPane.WARNING_MESSAGE
                         );
-                Object[] options = { labels.getString("save"), labels.getString("cancel"), labels.getString("dontSave") };
+                Object[] options = { labels.getString("File.save.Button.text"), 
+                labels.getString("OptionPane.cancel.Button.text"), 
+                labels.getString("File.dontSave.Button.text") };
                 pane.setOptions(options);
                 pane.setInitialValue(options[0]);
                 pane.putClientProperty("Quaqua.OptionPane.destructiveOption", new Integer(2));
                 JSheet.showSheet(pane, p.getComponent(), new SheetListener() {
                     public void optionSelected(SheetEvent evt) {
                         Object value = evt.getValue();
-                        if (value == null || value.equals(labels.getString("cancel"))) {
+                        if (value == null || value.equals(labels.getString("OptionPane.cancel.Button.text"))) {
                             p.setEnabled(true);
-                        } else if (value.equals(labels.getString("dontSave"))) {
+                        } else if (value.equals(labels.getString("File.dontSave.Button.text"))) {
                             doIt(p);
                             p.setEnabled(true);
-                        } else if (value.equals(labels.getString("save"))) {
+                        } else if (value.equals(labels.getString("File.save.Button.text"))) {
                             saveChanges(p);
                         }
                     }
@@ -92,7 +94,7 @@ public abstract class AbstractSaveBeforeAction extends AbstractProjectAction {
         }
     }
     
-    protected void saveChanges(final Project p) {
+    protected void saveChanges(final DocumentView p) {
         if (p.getFile() == null) {
             JFileChooser fileChooser = p.getSaveChooser();
             //int option = fileChooser.showSaveDialog(this);
@@ -120,7 +122,7 @@ public abstract class AbstractSaveBeforeAction extends AbstractProjectAction {
         }
     }
     
-    protected void saveToFile(final Project p, final File file) {
+    protected void saveToFile(final DocumentView p, final File file) {
         p.execute(new Worker() {
             public Object construct() {
                 try {
@@ -136,13 +138,13 @@ public abstract class AbstractSaveBeforeAction extends AbstractProjectAction {
         });
     }
     
-    protected void fileSaved(Project p, File file, Object value) {
+    protected void fileSaved(DocumentView p, File file, Object value) {
         if (value == null) {
             p.setFile(file);
-            p.markChangesAsSaved();
+            p.setModified(false);
             doIt(p);
         } else {
-            ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+            ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.application.Labels");
             JSheet.showMessageSheet(p.getComponent(),
                     "<html>"+UIManager.getString("OptionPane.css")+
                     labels.getFormatted("couldntSave", file, value),
@@ -155,5 +157,5 @@ public abstract class AbstractSaveBeforeAction extends AbstractProjectAction {
         }
     }
     
-    protected abstract void doIt(Project p);
+    protected abstract void doIt(DocumentView p);
 }

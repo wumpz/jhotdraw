@@ -12,7 +12,7 @@
  * JHotDraw.org.
  */
 
-package org.jhotdraw.app.action;
+package org.jhotdraw.application.action;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -21,7 +21,7 @@ import javax.swing.text.*;
 import java.beans.*;
 import java.util.*;
 import org.jhotdraw.util.*;
-import org.jhotdraw.app.EditableComponent;
+import org.jhotdraw.application.EditableComponent;
 /**
  * Deletes the region at (or after) the caret position.
  * Acts on the EditableComponent or JTextComponent which had the focus when
@@ -30,14 +30,12 @@ import org.jhotdraw.app.EditableComponent;
  * @author Werner Randelshofer
  * @version 1.0 October 9, 2005 Created.
  */
-public class DeleteAction extends TextAction {
-    public final static String ID = "delete";
-    
+public class DeleteAction extends AbstractApplicationAction {
+    public final static String ID = "Edit.delete";
+
     /** Creates a new instance. */
     public DeleteAction() {
-        super(ID);
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
-        labels.configureAction(this, ID);
+        initActionProperties(ID);
     }
     
     public void actionPerformed(ActionEvent evt) {
@@ -46,15 +44,14 @@ public class DeleteAction extends TextAction {
                 getPermanentFocusOwner();
         if (focusOwner != null && focusOwner instanceof EditableComponent) {
             ((EditableComponent) focusOwner).delete();
-        } else {
-            deleteNextChar(evt);
+        } else if (focusOwner instanceof JTextComponent) {
+            deleteNextChar(evt, (JTextComponent) focusOwner);
         }
     }
     /** This method was copied from
      * DefaultEditorKit.DeleteNextCharAction.actionPerformed(ActionEvent).
      */
-    public void deleteNextChar(ActionEvent e) {
-        JTextComponent target = getTextComponent(e);
+    public void deleteNextChar(ActionEvent e, JTextComponent target) {
         boolean beep = true;
         if ((target != null) && (target.isEditable())) {
             try {

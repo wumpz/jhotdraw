@@ -12,14 +12,14 @@
  * JHotDraw.org.
  */
 
-package org.jhotdraw.app.action;
+package org.jhotdraw.application.action;
 
 import org.jhotdraw.util.*;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import org.jhotdraw.app.Application;
+import org.jhotdraw.application.DocumentOrientedApplication;
 /**
  * Minimizes a Frame.
  *
@@ -27,19 +27,17 @@ import org.jhotdraw.app.Application;
  * @version 2.0 2006-05-05 Reworked.
  * <br>1.0  2005-06-10 Created.
  */
-public class MinimizeAction extends AbstractProjectAction {
-    public final static String ID = "minimize";
+public class MinimizeAction extends AbstractDocumentViewAction {
+    public final static String ID = "View.minimize";
 
     /** Creates a new instance. */
-    public MinimizeAction(Application app) {
-        super(app);
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
-        labels.configureAction(this, ID);
+    public MinimizeAction() {
+        initActionProperties(ID);
     }
     
     private JFrame getFrame() {
         return (JFrame) SwingUtilities.getWindowAncestor(
-                getCurrentProject().getComponent()
+                getCurrentView().getComponent()
                 );
     }
     public void actionPerformed(ActionEvent evt) {

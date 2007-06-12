@@ -12,7 +12,7 @@
  * JHotDraw.org.
  */
 
-package org.jhotdraw.app.action;
+package org.jhotdraw.application.action;
 
 import java.awt.*;
 import java.awt.datatransfer.*;
@@ -29,13 +29,12 @@ import org.jhotdraw.util.*;
  * interface EditableComponent.
  * <br>1.0 October 9, 2005 Created.
  */
-public class PasteAction extends AbstractAction {
-    public final static String ID = "paste";
+public class PasteAction extends AbstractApplicationAction {
+    public final static String ID = "Edit.paste";
     
     /** Creates a new instance. */
     public PasteAction() {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
-        labels.configureAction(this, ID);
+        initActionProperties(ID);
     }
     
     public void actionPerformed(ActionEvent evt) {

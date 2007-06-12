@@ -12,7 +12,7 @@
  * JHotDraw.org.
  */
 
-package org.jhotdraw.app;
+package org.jhotdraw.application;
 
 import java.util.*;
 import javax.swing.*;
@@ -37,13 +37,13 @@ public interface ApplicationModel {
     public String getCopyright();
     
     /**
-     * Creates a new project for the application.
+     * Creates a new documentView for the application.
      */
-    public Project createProject();
+    public DocumentView createProject();
     
-    public void initProject(Application a, Project p);
+    public void initProject(DocumentOrientedApplication a, DocumentView p);
     
-    public void initApplication(Application a);
+    public void initApplication(DocumentOrientedApplication a);
     /**
      * Puts an action with the specified id.
      */
@@ -56,23 +56,25 @@ public interface ApplicationModel {
      * Creates tool bars.
      * <p>
      * Depending on the document interface of the application, this method
-     * may be invoked only once for the application, or for each opened project.
+     * may be invoked only once for the application, or for each opened documentView.
      * <p>
-     * @param a Application.
-     * @param p The project for which the toolbars need to be created, or null
+     * 
+     * @param a DocumentOrientedApplication.
+     * @param p The documentView for which the toolbars need to be created, or null
      * if the toolbar needs to be shared with multiple projects.
      */
-    public List<JToolBar> createToolBars(Application a, Project p);
+    public List<JToolBar> createToolBars(DocumentOrientedApplication a, DocumentView p);
     
     /**
      * Creates menus.
      * <p>
      * Depending on the document interface of the application, this method
-     * may be invoked only once for the application, or for each opened project.
+     * may be invoked only once for the application, or for each opened documentView.
      * <p>
-     * @param a Application.
-     * @param p The project for which the toolbars need to be created, or null
+     * 
+     * @param a DocumentOrientedApplication.
+     * @param p The documentView for which the toolbars need to be created, or null
      * if the toolbar needs to be shared with multiple projects.
      */
-    public List<JMenu> createMenus(Application a, Project p);
+    public List<JMenu> createMenus(DocumentOrientedApplication a, DocumentView p);
 }
