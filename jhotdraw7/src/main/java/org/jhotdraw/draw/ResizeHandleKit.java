@@ -23,7 +23,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * A set of utility methods to create handles which resize a Figure by
  * using its <code>setBounds</code> method.
  * 
- * @author WernesetBounds
+ * @author Werner Randelshofer
  * @version 1.0 2007-04-14 Created.
  * @see Figure#basicSetBounds
  */

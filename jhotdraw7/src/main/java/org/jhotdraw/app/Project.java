@@ -1,7 +1,7 @@
 /*
- * @(#)Project.java  1.0  2007-03-22
+ * @(#)Project.java  1.0  October 4, 2005
  *
- * Copyright (c) 2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -12,35 +12,38 @@
  * JHotDraw.org.
  */
 
-package org.jhotdraw.application;
+package org.jhotdraw.app;
 
 import java.io.*;
 import java.beans.*;
 import javax.swing.*;
 /**
  * A project represents a work space for a document or a set of related
- * documents within a document oriented Application.
+ * documents within an Application.
  * <p>
- * FIXME - Maybe Project should be renamed to Project.
- * 
- * 
- * 
+ * After a project has been initialized using init(),
+ * either method clear() must be called
+ * or method read, in order to fully initialize a  Project.
+ * <p>
+ * FIXME - Maybe Project should be renamed to Workspace.
+ *
  * @author Werner Randelshofer
- * @version 1.0 2007-03-22 Created.
+ * @version 1.0 October 4, 2005 Created.
  */
 public interface Project {
     /**
-     * Gets the window manager to which this project belongs.
+     * Gets the application to which this project belongs.
      */
-    public WindowManager getWindowManager();
+    public Application getApplication();
     
     /**
-     * Sets the window manager for the project.
-     * By convention, this is only invoked by WindowManager.addProject() and
-     * WindowManager.removeProject().
+     * Sets the application of the project.
+     * By convention, this is only invoked by Application.addProject() and
+     * Application.removeProject().
      * This is a bound property.
      */
-    public void setWindowManager(WindowManager newValue);
+    public void setApplication(Application newValue);
+    
     /**
      * Returns the visual component of the project.
      */
@@ -72,7 +75,7 @@ public interface Project {
      *
      * Actions that act on the project must check in their actionPerformed
      * method whether the project is enabled.
-     * If the project is disabled, they must do nothing. 
+     * If the project is disabled, they must do nothing.
      * If the project is enabled, they must disable the project,
      * perform the action and then enable the project again.
      *
@@ -112,7 +115,7 @@ public interface Project {
      */
     public boolean hasUnsavedChanges();
     /**
-     * Marks all changes as saved. 
+     * Marks all changes as saved.
      * This changes the state of hasUnsavedChanges to false.
      */
     public void markChangesAsSaved();
@@ -129,6 +132,10 @@ public interface Project {
      * This is invoked right before the application shows the project.
      * A project must not consume many resources before method init() is called.
      * This is crucial for the responsivenes of an application.
+     * <p>
+     * After a project has been initialized using init(),
+     * either method clear() must be called
+     * or method read, in order to fully initialize a  Project.
      */
     public void init();
     
@@ -154,14 +161,14 @@ public interface Project {
      * Adds a property change listener.
      */
     public void addPropertyChangeListener(PropertyChangeListener l);
-
+    
     /**
      * Removes a property change listener.
      */
     public void removePropertyChangeListener(PropertyChangeListener l);
- 
+    
     /**
-     * Sets the multiple open id. 
+     * Sets the multiple open id.
      * The id is used to help distinguish multiply opened projects.
      * The id should be displayed in the title of the project.
      */
@@ -174,11 +181,11 @@ public interface Project {
     public int getMultipleOpenId();
     
     /**
-     * This is used by WindowManager to keep track if a project is showing.
+     * This is used by Application to keep track if a project is showing.
      */
     public boolean isShowing();
     /**
-     * This is used by WindowManager to keep track if a project is showing.
+     * This is used by Application to keep track if a project is showing.
      */
     public void setShowing(boolean newValue);
     
