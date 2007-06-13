@@ -7,6 +7,7 @@
         <property name="builddir" value="build"/>
         <property name="classdir" value="${builddir}/classes"/>
         <property name="distdir" value="dist"/>
+        <property name="docdir" value="javadoc"/>
         <property name="author" value="Werner Randelshofer"/>
         <property name="version" value="0.5"/>
     </target>
