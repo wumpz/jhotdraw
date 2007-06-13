@@ -23,6 +23,16 @@ import javax.swing.undo.*;
 
 /**
  * A LineConnection with labels.
+ * <p>
+ * Usage:
+ * <pre>
+ * LineConnectionFigure lcf = new LineConnectionFigure();
+ * lcf.setLayouter(new LocatorLayouter());
+ * TextFigure label = new TextFigure();
+ * label.setText("Hello");
+ * LocatorLayouter.LAYOUT_LOCATOR.set(label, new BezierLabelLocator(0, -Math.PI / 4, 8));
+ * lcf.add(label);
+ * </pre>
  *
  * @author Werner Randelshofer
  * @version 1.1 2006-02-14 Do not include labels in logical bounds.

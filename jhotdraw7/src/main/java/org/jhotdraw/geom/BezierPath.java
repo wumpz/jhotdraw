@@ -389,9 +389,9 @@ public class BezierPath extends ArrayList<BezierPath.Node>
         return Shapes.outlineContains(this, p, tolerance);
         /*
         validatePath();
-        
+         
         PathIterator i = generalPath.getPathIterator(new AffineTransform(), tolerance);
-        
+         
         double[] coords = new double[6];
         int type = i.currentSegment(coords);
         double prevX = coords[0];
@@ -738,6 +738,7 @@ System.out.println("- "+git.isDone()+"="+bit.isDone());
      * @param relative a value between 0 and 1.
      */
     public Point2D.Double getPointOnPath(double relative, double flatness) {
+        // This method works only for straight lines
         if (size() == 0) {
             return null;
         } else if (size() == 1) {
@@ -749,28 +750,16 @@ System.out.println("- "+git.isDone()+"="+bit.isDone());
             return get(size() - 1).getControlPoint(0);
         }
         validatePath();
-        // Determine the length of the path
-        double len = 0;
-        PathIterator i = generalPath.getPathIterator(new AffineTransform(), flatness);
+        
+        // Compute the relative point on the path
+        double len = getLengthOfPath(flatness);
+        double relativeLen = len * relative;
+        double pos = 0;
         double[] coords = new double[6];
+        PathIterator i = generalPath.getPathIterator(new AffineTransform(), flatness);
         int type = i.currentSegment(coords);
         double prevX = coords[0];
         double prevY = coords[1];
-        i.next();
-        for (; ! i.isDone(); i.next()) {
-            i.currentSegment(coords);
-            len += Geom.length(prevX, prevY, coords[0], coords[1]);
-            prevX = coords[0];
-            prevY = coords[1];
-        }
-        
-        // Compute the relative point on the path
-        double relativeLen = len * relative;
-        double pos = 0;
-        i = generalPath.getPathIterator(new AffineTransform(), flatness);
-        type = i.currentSegment(coords);
-        prevX = coords[0];
-        prevY = coords[1];
         i.next();
         for (; ! i.isDone(); i.next()) {
             i.currentSegment(coords);
@@ -795,6 +784,87 @@ System.out.println("- "+git.isDone()+"="+bit.isDone());
             prevY = coords[1];
         }
         throw new InternalError("We should never get here");
+    }
+    /**
+     * Returns the length of the path.
+     *
+     * @param flatness the flatness used to approximate the length.
+     */
+    public double getLengthOfPath(double flatness) {
+        double len = 0;
+        PathIterator i = generalPath.getPathIterator(new AffineTransform(), flatness);
+        double[] coords = new double[6];
+        int type = i.currentSegment(coords);
+        double prevX = coords[0];
+        double prevY = coords[1];
+        i.next();
+        for (; ! i.isDone(); i.next()) {
+            i.currentSegment(coords);
+            len += Geom.length(prevX, prevY, coords[0], coords[1]);
+            prevX = coords[0];
+            prevY = coords[1];
+        }
+        return len;
+    }
+    /**
+     * Returns the relative position of the specified point on the path.
+     *
+     * @param flatness the flatness used to approximate the length.
+     *
+     * @return relative position on path, this is a number between 0 and 1.
+     * Returns -1, if the point is not on the path.
+     */
+    public double getRelativePositionOnPath(Point2D.Double find, double flatness) {
+        // XXX - This method works only for straight lines!
+        double len = getLengthOfPath(flatness);
+        double relativeLen = 0d;
+        Node v1, v2;
+        BezierPath tempPath = new BezierPath();
+        Node t1, t2;
+        tempPath.add(t1 = new Node());
+        tempPath.add(t2 = new Node());
+        
+        for (int i = 0, n = size()-1; i < n; i++) {
+            v1 = get(i);
+            v2 = get(i+1);
+            if (v1.mask == 0 && v2.mask == 0) {
+                if (Geom.lineContainsPoint(v1.x[0], v1.y[0], v2.x[0], v2.y[0], find.x, find.y, flatness)) {
+                    relativeLen += Geom.length(v1.x[0], v1.y[0], find.x, find.y);
+                    return relativeLen / len;
+                } else {
+                    relativeLen += Geom.length(v1.x[0], v1.y[0], v2.x[0], v2.y[0]);
+                }
+            } else {
+                t1.setTo(v1);
+                t2.setTo(v2);
+                tempPath.invalidatePath();
+                if (tempPath.outlineContains(find, flatness)) {
+                    relativeLen += Geom.length(v1.x[0], v1.y[0], find.x, find.y);
+                    return relativeLen / len;
+                } else {
+                    relativeLen += Geom.length(v1.x[0], v1.y[0], v2.x[0], v2.y[0]);
+                }
+            }
+        }
+        if (isClosed && size() > 1) {
+            v1 = get(size() - 1);
+            v2 = get(0);
+            if (v1.mask == 0 && v2.mask == 0) {
+                if (Geom.lineContainsPoint(v1.x[0], v1.y[0], v2.x[0], v2.y[0], find.x, find.y, flatness)) {
+                    relativeLen += Geom.length(v1.x[0], v1.y[0], find.x, find.y);
+                    return relativeLen / len;
+                }
+            } else {
+                t1.setTo(v1);
+                t2.setTo(v2);
+                tempPath.invalidatePath();
+                if (tempPath.outlineContains(find, flatness)) {
+                    relativeLen += Geom.length(v1.x[0], v1.y[0], find.x, find.y);
+                    return relativeLen / len;
+                }
+            }
+        }
+        return -1;
     }
     /**
      * Gets the segment of the polyline that is hit by
