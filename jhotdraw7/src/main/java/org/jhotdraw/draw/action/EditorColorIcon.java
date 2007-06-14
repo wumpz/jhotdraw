@@ -25,6 +25,9 @@ import org.jhotdraw.geom.*;
 /**
  * EditorColorIcon draws a shape with the color of the specified default
  * attribute of the DrawingEditor onto the icon.
+ * <p>
+ * The behavior for choosing the drawn color matches with
+ * {@see EditorColorChooserAction }.
  * 
  * @author Werner Randelshofer
  * @version 2.1 2007-05-03 Added parameters for setting the color rect. 

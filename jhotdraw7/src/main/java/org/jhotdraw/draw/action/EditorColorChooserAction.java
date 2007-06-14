@@ -1,5 +1,5 @@
 /*
- * @(#)ColorChooserAction.java  2.0  2006-06-07
+ * @(#)EditorColorChooserAction.java  2.0  2006-06-07
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -22,33 +22,36 @@ import javax.swing.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.undo.CompositeEdit;
 /**
- * ColorChooserAction.
+ * EditorColorChooserAction.
+ * <p>
+ * The behavior for choosing the initial color of the JColorChooser matches with
+ * {@see EditorColorIcon }.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version 2.0 2006-06-07 Reworked.
  * <br>1.0 2004-03-02  Created.
  */
-public class ColorChooserAction extends AbstractSelectedAction {
-    private AttributeKey key;
+public class EditorColorChooserAction extends AbstractSelectedAction {
+    protected AttributeKey<Color> key;
     private static JColorChooser colorChooser;
     private HashMap<AttributeKey,Object> fixedAttributes;
     
     /** Creates a new instance. */
-    public ColorChooserAction(DrawingEditor editor, AttributeKey key) {
+    public EditorColorChooserAction(DrawingEditor editor, AttributeKey<Color> key) {
         this(editor, key, null, null);
     }
     /** Creates a new instance. */
-    public ColorChooserAction(DrawingEditor editor, AttributeKey key, Icon icon) {
+    public EditorColorChooserAction(DrawingEditor editor, AttributeKey<Color> key, Icon icon) {
         this(editor, key, null, icon);
     }
     /** Creates a new instance. */
-    public ColorChooserAction(DrawingEditor editor, AttributeKey key, String name) {
+    public EditorColorChooserAction(DrawingEditor editor, AttributeKey<Color> key, String name) {
         this(editor, key, name, null);
     }
-    public ColorChooserAction(DrawingEditor editor, final AttributeKey key, String name, Icon icon) {
+    public EditorColorChooserAction(DrawingEditor editor, final AttributeKey<Color> key, String name, Icon icon) {
         this(editor, key, name, icon, new HashMap<AttributeKey,Object>());
     }
-    public ColorChooserAction(DrawingEditor editor, final AttributeKey key, String name, Icon icon,
+    public EditorColorChooserAction(DrawingEditor editor, final AttributeKey<Color> key, String name, Icon icon,
             Map<AttributeKey,Object> fixedAttributes) {
         super(editor);
         this.key = key;
@@ -62,10 +65,7 @@ public class ColorChooserAction extends AbstractSelectedAction {
         if (colorChooser == null) {
             colorChooser = new JColorChooser();
         }
-        Color initialColor = (Color) getEditor().getDefaultAttribute(key);
-        if (initialColor == null) {
-            initialColor = Color.red;
-        }
+        Color initialColor = getInitialColor();
         Color chosenColor = colorChooser.showDialog((Component) e.getSource(), labels.getString("drawColor"), initialColor);
         if (chosenColor != null) {
             changeAttribute(chosenColor);
@@ -91,5 +91,13 @@ public class ColorChooserAction extends AbstractSelectedAction {
     }
     public void selectionChanged(FigureSelectionEvent evt) {
         //setEnabled(getView().getSelectionCount() > 0);
+    }
+    
+    protected Color getInitialColor() {
+        Color initialColor = (Color) getEditor().getDefaultAttribute(key);
+        if (initialColor == null) {
+            initialColor = Color.red;
+        }
+        return initialColor;
     }
 }

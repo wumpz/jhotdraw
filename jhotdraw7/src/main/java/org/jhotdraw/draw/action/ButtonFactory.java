@@ -478,7 +478,7 @@ public class ButtonFactory {
                 );
         
         popupButton.add(
-                new ColorChooserAction(
+                new EditorColorChooserAction(
                 editor,
                 attributeKey,
                 "color",
@@ -588,7 +588,7 @@ public class ButtonFactory {
                 );
         
         popupButton.add(
-                new ColorChooserAction(
+                new SelectionColorChooserAction(
                 editor,
                 attributeKey,
                 "color",

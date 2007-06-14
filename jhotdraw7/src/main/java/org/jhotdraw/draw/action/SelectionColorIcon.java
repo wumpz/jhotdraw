@@ -26,6 +26,9 @@ import org.jhotdraw.geom.*;
  * SelectionColorIcon draws a shape with the specified color for the selected
  * figures in the current drawing view.
  * If now figures are selcted, the specified color is taken from the DrawingEditor.
+ * <p>
+ * The behavior for choosing the drawn color matches with
+ * {@see SelectionColorChooserAction }.
  * 
  * @author Werner Randelshofer
  * @version 2.1 2007-05-03 Added parameters for setting the color rect.
@@ -70,7 +73,7 @@ public class SelectionColorIcon extends javax.swing.ImageIcon {
         super.paintIcon(c, g, x, y);
         Color color;
         DrawingView view = editor.getActiveView();
-        if (view != null && view.getSelectedFigures().size() != 0) {
+        if (view != null && view.getSelectedFigures().size() == 1) {
             color = key.get(view.getSelectedFigures().iterator().next());
         } else {
             color = key.get(editor.getDefaultAttributes());

@@ -87,8 +87,7 @@ public interface DrawingView {
     public void selectAll();
     
     /**
-     * Gets the current selection as a FigureSelection. A FigureSelection
-     * can be cut, copied, pasted.
+     * Gets the selected figures. Returns an empty set, if no figures are selected. 
      */
     public Set<Figure> getSelectedFigures();
     /**
