@@ -9,7 +9,7 @@
         <property name="distdir" value="dist"/>
         <property name="docdir" value="javadoc"/>
         <property name="author" value="Werner Randelshofer"/>
-        <property name="version" value="0.5"/>
+        <property name="version" value="7.0.9"/>
     </target>
     <target name="clean" depends="init">
         <delete dir="${classdir}" />
@@ -55,6 +55,8 @@
         <copy todir="${classdir}/org/jhotdraw/app">
             <fileset file="${srcdir}/org/jhotdraw/app/Label*.properties"/>
         </copy>
+        <echo file="${classdir}/org/jhotdraw/samples/draw/version.txt"
+            message="${version}"/>
     </target>
     <target name="applet.jar" depends="init,applet.compile">
         <mkdir dir="${distdir}"/>

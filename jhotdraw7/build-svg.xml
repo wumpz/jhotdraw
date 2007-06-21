@@ -7,7 +7,7 @@
         <property name="classdir" value="${builddir}/classes"/>
         <property name="distdir" value="dist"/>
         <property name="author" value="Werner Randelshofer"/>
-        <property name="version" value="0.5"/>
+        <property name="version" value="7.0.9"/>
     </target>
     <target name="clean" depends="init">
         <delete dir="${classdir}" />
@@ -73,6 +73,8 @@
             <fileset file="${srcdir}/org/jhotdraw/samples/svg/images/*.png"/>
         </copy>
         -->
+        <echo file="${classdir}/org/jhotdraw/samples/svg/version.txt"
+            message="${version}"/>
     </target>
     <target name="applet.jar" depends="init,applet.compile">
         <jar destfile="${distdir}/jhotdraw_svg.jar" basedir="${classdir}" 

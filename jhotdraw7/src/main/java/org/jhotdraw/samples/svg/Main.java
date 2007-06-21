@@ -38,7 +38,7 @@ public class Main {
         
         SVGApplicationModel model = new SVGApplicationModel();
         model.setName("JHotDraw SVG");
-        model.setVersion("7.0.8");
+        model.setVersion("7.0.9");
         model.setCopyright("Copyright 2006-2007 (c) by the authors of JHotDraw\n" +
                 "This software is licensed under LGPL or Creative Commons 2.5 BY");
         model.setProjectClassName("org.jhotdraw.samples.svg.SVGProject");

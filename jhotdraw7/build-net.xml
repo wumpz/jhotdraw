@@ -7,7 +7,7 @@
         <property name="classdir" value="${builddir}/classes"/>
         <property name="distdir" value="dist"/>
         <property name="author" value="Werner Randelshofer"/>
-        <property name="version" value="0.5"/>
+        <property name="version" value="7.0.9"/>
     </target>
     <target name="clean" depends="init">
         <delete dir="${classdir}" />
@@ -29,9 +29,6 @@
             <fileset dir="${srcdir}/org/jhotdraw/app/action/images" >
                 <include name="edit*.png"/>
             </fileset>
-        </copy>
-        <copy todir="${classdir}/org/jhotdraw/draw/images">
-            <fileset dir="${srcdir}/org/jhotdraw/draw/images" />
         </copy>
         <copy todir="${classdir}/org/jhotdraw/draw/action/images">
             <fileset dir="${srcdir}/org/jhotdraw/draw/action/images" />
@@ -58,6 +55,8 @@
         <copy todir="${classdir}/org/jhotdraw/samples/net/images">
             <fileset file="${srcdir}/org/jhotdraw/samples/net/images/*.png"/>
         </copy>
+        <echo file="${classdir}/org/jhotdraw/samples/net/version.txt"
+            message="${version}"/>
     </target>
     <target name="applet.jar" depends="init,applet.compile">
         <jar destfile="${distdir}/jhotdraw_net.jar" basedir="${classdir}" 

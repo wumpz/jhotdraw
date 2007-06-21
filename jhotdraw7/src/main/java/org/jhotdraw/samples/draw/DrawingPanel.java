@@ -155,6 +155,7 @@ public class DrawingPanel extends JPanel  {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel1.add(creationToolbar, gridBagConstraints);
 
@@ -162,6 +163,7 @@ public class DrawingPanel extends JPanel  {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel1.add(attributesToolbar, gridBagConstraints);
 

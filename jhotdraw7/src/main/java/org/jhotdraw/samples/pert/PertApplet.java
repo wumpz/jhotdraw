@@ -30,12 +30,12 @@ import javax.swing.event.*;
 import org.jhotdraw.xml.*;
 /**
  * PertApplet.
- * 
+ *
  * @author Werner Randelshofer
  * @version 1.0 2006-07-15 Created.
  */
 public class PertApplet extends JApplet {
-    private final static String VERSION = "7.0.8";
+    private static String version;
     private final static String NAME = "JHotDraw Pert";
     private PertPanel drawingPanel;
     
@@ -43,14 +43,34 @@ public class PertApplet extends JApplet {
      * We override getParameter() to make it work even if we have no Applet
      * context.
      */
-     public String getParameter(String name) {
-         try {
+    public String getParameter(String name) {
+        try {
             return super.getParameter(name);
-         } catch (NullPointerException e) {
-             return null;
-         }
-     }    
-     
+        } catch (NullPointerException e) {
+            return null;
+        }
+    }
+    protected String getVersion() {
+        if (version == null) {
+            BufferedReader r = null;
+            try {
+                r = new BufferedReader(
+                        new InputStreamReader(
+                        getClass().getResourceAsStream("version.txt"), "UTF-8"
+                        )
+                        );
+                version = r.readLine();
+            } catch (Throwable e) {
+                version = "unknown";
+            } finally {
+                if (r != null) try {
+                    r.close();
+                } catch (IOException e) {}
+            }
+        }
+        return version;
+    }
+    
     /**
      * Initializes the applet PertApplet
      */
@@ -80,7 +100,7 @@ public class PertApplet extends JApplet {
             public Object construct() {
                 Object result;
                 try {
-                        System.out.println("getParameter.datafile:"+getParameter("datafile"));
+                    System.out.println("getParameter.datafile:"+getParameter("datafile"));
                     if (getParameter("data") != null) {
                         NanoXMLDOMInput domi = new NanoXMLDOMInput(new PertFactory(), new StringReader(getParameter("data")));
                         result = domi.readObject(0);
@@ -139,7 +159,7 @@ public class PertApplet extends JApplet {
     private void initDrawing(Drawing d) {
         LinkedList<InputFormat> inputFormats = new LinkedList<InputFormat>();
         LinkedList<OutputFormat> outputFormats = new LinkedList<OutputFormat>();
-
+        
         DOMStorableInputOutputFormat ioFormat = new DOMStorableInputOutputFormat(
                 new PertFactory()
                 );
@@ -180,7 +200,7 @@ public class PertApplet extends JApplet {
         } catch (IOException e) {
             TextFigure tf = new TextFigure();
             tf.setText(e.getMessage());
-                tf.setBounds(new Point2D.Double(10,10), new Point2D.Double(100,100));
+            tf.setBounds(new Point2D.Double(10,10), new Point2D.Double(100,100));
             getDrawing().add(tf);
             e.printStackTrace();
         } finally {
@@ -197,7 +217,7 @@ public class PertApplet extends JApplet {
     }
     public String getAppletInfo() {
         return NAME +
-                "\nVersion "+VERSION +
+                "\nVersion "+getVersion() +
                 "\n\nCopyright 1996-2007 (c) by the authors of JHotDraw" +
                 "\nThis software is licensed under LGPL or" +
                 "\nCreative Commons 2.5 BY";
@@ -216,16 +236,16 @@ public class PertApplet extends JApplet {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-        JFrame f = new JFrame("JHotDraw Pert Applet");
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        PertApplet a = new PertApplet();
-        f.getContentPane().add(a);
-        a.init();
-        f.setSize(500,400);
-        f.setVisible(true);
-        a.start();
-        }
-            });
+                JFrame f = new JFrame("JHotDraw Pert Applet");
+                f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                PertApplet a = new PertApplet();
+                f.getContentPane().add(a);
+                a.init();
+                f.setSize(500,400);
+                f.setVisible(true);
+                a.start();
+            }
+        });
     }
     
     

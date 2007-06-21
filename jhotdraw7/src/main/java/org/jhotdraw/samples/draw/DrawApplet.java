@@ -32,12 +32,12 @@ import org.jhotdraw.xml.*;
  * DrawApplet.
  *
  * @author  wrandels
- * @version 2.1 2006-07-15 Added main method. 
+ * @version 2.1 2006-07-15 Added main method.
  * <br>2.0 Changed to support double precision coordinates.
  * <br>1.0 Created on 10. Marz 2004, 13:22.
  */
 public class DrawApplet extends JApplet {
-    private final static String VERSION = "7.0.8";
+    private static String version;
     private final static String NAME = "JHotDraw Draw";
     private DrawingPanel drawingPanel;
     
@@ -45,14 +45,34 @@ public class DrawApplet extends JApplet {
      * We override getParameter() to make it work even if we have no Applet
      * context.
      */
-     public String getParameter(String name) {
-         try {
+    public String getParameter(String name) {
+        try {
             return super.getParameter(name);
-         } catch (NullPointerException e) {
-             return null;
-         }
-     }    
-     
+        } catch (NullPointerException e) {
+            return null;
+        }
+    }
+    protected String getVersion() {
+        if (version == null) {
+            BufferedReader r = null;
+            try {
+                r = new BufferedReader(
+                        new InputStreamReader(
+                        getClass().getResourceAsStream("version.txt"), "UTF-8"
+                        )
+                        );
+                version = r.readLine();
+            } catch (Throwable e) {
+                version = "unknown";
+            } finally {
+                if (r != null) try {
+                    r.close();
+                } catch (IOException e) {}
+            }
+        }
+        return version;
+    }
+    
     /** Initializes the applet DrawApplet */
     public void init() {
         // Set look and feel
@@ -140,7 +160,7 @@ public class DrawApplet extends JApplet {
     private void initDrawing(Drawing d) {
         LinkedList<InputFormat> inputFormats = new LinkedList<InputFormat>();
         LinkedList<OutputFormat> outputFormats = new LinkedList<OutputFormat>();
-
+        
         DOMStorableInputOutputFormat ioFormat = new DOMStorableInputOutputFormat(
                 new DrawFigureFactory()
                 );
@@ -183,7 +203,7 @@ public class DrawApplet extends JApplet {
         } catch (IOException e) {
             TextFigure tf = new TextFigure();
             tf.setText(e.getMessage());
-                tf.setBounds(new Point2D.Double(10,10), new Point2D.Double(100,100));
+            tf.setBounds(new Point2D.Double(10,10), new Point2D.Double(100,100));
             getDrawing().add(tf);
             e.printStackTrace();
         } finally {
@@ -200,7 +220,7 @@ public class DrawApplet extends JApplet {
     }
     public String getAppletInfo() {
         return NAME +
-                "\nVersion "+VERSION +
+                "\nVersion "+getVersion() +
                 "\n\nCopyright 2006-2007 (c) by the authors of JHotDraw" +
                 "\nThis software is licensed under LGPL or" +
                 "\nCreative Commons 2.5 BY";
@@ -219,16 +239,16 @@ public class DrawApplet extends JApplet {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-        JFrame f = new JFrame("JHotDraw Draw Applet");
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        DrawApplet a = new DrawApplet();
-        f.getContentPane().add(a);
-        a.init();
-        f.setSize(500,400);
-        f.setVisible(true);
-        a.start();
-        }
-            });
+                JFrame f = new JFrame("JHotDraw Draw Applet");
+                f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                DrawApplet a = new DrawApplet();
+                f.getContentPane().add(a);
+                a.init();
+                f.setSize(500,400);
+                f.setVisible(true);
+                a.start();
+            }
+        });
     }
     
     
