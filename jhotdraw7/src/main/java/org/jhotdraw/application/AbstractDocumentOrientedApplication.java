@@ -179,7 +179,7 @@ public abstract class AbstractDocumentOrientedApplication extends application.Ap
     
     /**
      * Creates an action map for actions which haven not been defined using the
-     * @Action annotation.
+     * &amp;Action annotation.
      * This default implementation just returns an empty ActionMap.
      */
     protected ActionMap createActionMap() {
