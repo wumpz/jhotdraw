@@ -244,7 +244,9 @@ public class PertProject extends AbstractProject {
      * Clears the project.
      */
     public void clear() {
-        view.setDrawing(new DefaultDrawing());
+        view.getDrawing().removeUndoableEditListener(undo);
+        view.setDrawing(createDrawing());
+        view.getDrawing().addUndoableEditListener(undo);
         undo.discardAllEdits();
     }
     

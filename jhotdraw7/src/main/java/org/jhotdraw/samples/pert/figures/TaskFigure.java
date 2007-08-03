@@ -46,7 +46,7 @@ public class TaskFigure extends GraphicalCompositeFigure {
         public NameAdapter(TaskFigure target) {
             this.target = target;
         }
-        public void figureAttributeChanged(FigureEvent e) {
+        public void attributeChanged(FigureEvent e) {
             // We could fire a property change event here, in case
             // some other object would like to observe us.
             //target.firePropertyChange("name", e.getOldValue(), e.getNewValue());
@@ -57,7 +57,7 @@ public class TaskFigure extends GraphicalCompositeFigure {
         public DurationAdapter(TaskFigure target) {
             this.target = target;
         }
-        public void figureAttributeChanged(FigureEvent evt) {
+        public void attributeChanged(FigureEvent evt) {
             // We could fire a property change event here, in case
             // some other object would like to observe us.
             //target.firePropertyChange("duration", e.getOldValue(), e.getNewValue());

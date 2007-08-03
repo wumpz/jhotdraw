@@ -180,7 +180,7 @@ public class PertApplet extends JApplet {
                 NanoXMLDOMInput domi = new NanoXMLDOMInput(new PertFactory(), in);
                 setDrawing((Drawing) domi.readObject(0));
             } catch (Throwable e) {
-                getDrawing().clear();
+                getDrawing().removeAllChildren();
                 TextFigure tf = new TextFigure();
                 tf.setText(e.getMessage());
                 tf.setBounds(new Point2D.Double(10,10), new Point2D.Double(100,100));
