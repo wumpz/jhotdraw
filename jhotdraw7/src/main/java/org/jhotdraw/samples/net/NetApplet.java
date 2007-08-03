@@ -159,21 +159,19 @@ public class NetApplet extends JApplet {
      * Configure Drawing object to support copy and paste.
      */
     private void initDrawing(Drawing d) {
-        LinkedList<InputFormat> inputFormats = new LinkedList<InputFormat>();
-        LinkedList<OutputFormat> outputFormats = new LinkedList<OutputFormat>();
+        d.setInputFormats((java.util.List<InputFormat>) Collections.EMPTY_LIST);
+        d.setOutputFormats((java.util.List<OutputFormat>) Collections.EMPTY_LIST);
 
         DOMStorableInputOutputFormat ioFormat = new DOMStorableInputOutputFormat(
                 new NetFactory()
                 );
-        inputFormats.add(ioFormat);
-        outputFormats.add(ioFormat);
         
-        inputFormats.add(new ImageInputFormat(new ImageFigure()));
-        inputFormats.add(new TextInputFormat(new TextFigure()));
-        outputFormats.add(new ImageOutputFormat());
+        d.addInputFormat(ioFormat);
+        d.addInputFormat(new ImageInputFormat(new ImageFigure()));
+        d.addInputFormat(new TextInputFormat(new TextFigure()));
         
-        d.setInputFormats(inputFormats);
-        d.setOutputFormats(outputFormats);
+        d.addOutputFormat(ioFormat);
+        d.addOutputFormat(new ImageOutputFormat());
     }
     
     
@@ -186,7 +184,7 @@ public class NetApplet extends JApplet {
                 
                 setDrawing((Drawing) domi.readObject(0));
             } catch (Throwable e) {
-                getDrawing().clear();
+                getDrawing().removeAllChildren();
                 TextFigure tf = new TextFigure();
                 tf.setText(e.getMessage());
                 tf.setBounds(new Point2D.Double(10,10), new Point2D.Double(100,100));

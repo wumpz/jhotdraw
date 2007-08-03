@@ -134,14 +134,10 @@ public class NetProject extends AbstractProject {
         DefaultDrawing drawing = new DefaultDrawing();
         DOMStorableInputOutputFormat ioFormat =
                 new DOMStorableInputOutputFormat(new NetFactory());
-        LinkedList<InputFormat> inputFormats = new LinkedList<InputFormat>();
-        inputFormats.add(ioFormat);
-        inputFormats.add(new TextInputFormat(new NodeFigure()));
-        drawing.setInputFormats(inputFormats);
-        LinkedList<OutputFormat> outputFormats = new LinkedList<OutputFormat>();
-        outputFormats.add(ioFormat);
-        outputFormats.add(new ImageOutputFormat());
-        drawing.setOutputFormats(outputFormats);
+        drawing.addInputFormat(ioFormat);
+        drawing.addInputFormat(new TextInputFormat(new NodeFigure()));
+        drawing.addOutputFormat(ioFormat);
+        drawing.addOutputFormat(new ImageOutputFormat());
         return drawing;
     }
     /**
@@ -249,7 +245,9 @@ public class NetProject extends AbstractProject {
      * Clears the project.
      */
     public void clear() {
-        view.setDrawing(new DefaultDrawing());
+        view.getDrawing().removeUndoableEditListener(undo);
+        view.setDrawing(createDrawing());
+        view.getDrawing().addUndoableEditListener(undo);
         undo.discardAllEdits();
     }
     
