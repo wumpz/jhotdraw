@@ -104,11 +104,11 @@ public class AttributeFieldEventHandler
     }
     
     
-    public void figureAreaInvalidated(FigureEvent e) {
+    public void areaInvalidated(FigureEvent e) {
         // empty
     }
     
-    public void figureAttributeChanged(FigureEvent e) {
+    public void attributeChanged(FigureEvent e) {
         updateField();
     }
     
