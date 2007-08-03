@@ -218,7 +218,9 @@ public class BezierPath extends ArrayList<BezierPath.Node>
         }
         
         public int hashCode() {
-            return mask | Arrays.hashCode(x) | Arrays.hashCode(y);
+            return (mask & 0x3) << 29 | 
+                    (Arrays.hashCode(x) & 0x3fff0000) | 
+                    (Arrays.hashCode(y) & 0xffff);
         }
         public boolean equals(Object o) {
             if (o instanceof BezierPath.Node) {
