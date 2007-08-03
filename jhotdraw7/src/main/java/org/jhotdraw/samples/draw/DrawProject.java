@@ -116,21 +116,19 @@ public class DrawProject extends AbstractProject {
         Drawing drawing = new QuadTreeDrawing();
         DOMStorableInputOutputFormat ioFormat =
                 new DOMStorableInputOutputFormat(new DrawFigureFactory());
-        LinkedList<InputFormat> inputFormats = new LinkedList<InputFormat>();
-        inputFormats.add(ioFormat);
-        inputFormats.add(new ImageInputFormat(new ImageFigure()));
-        inputFormats.add(new ImageInputFormat(new ImageFigure(), "JPG","Joint Photographics Experts Group (JPEG)", "jpg", BufferedImage.TYPE_INT_RGB));
-        inputFormats.add(new ImageInputFormat(new ImageFigure(), "GIF","Graphics Interchange Format (GIF)", "gif", BufferedImage.TYPE_INT_ARGB));
-        inputFormats.add(new ImageInputFormat(new ImageFigure()));
-        inputFormats.add(new TextInputFormat(new TextFigure()));
+        
+        drawing.addInputFormat(ioFormat);
+        drawing.addInputFormat(new ImageInputFormat(new ImageFigure()));
+        drawing.addInputFormat(new ImageInputFormat(new ImageFigure(), "JPG","Joint Photographics Experts Group (JPEG)", "jpg", BufferedImage.TYPE_INT_RGB));
+        drawing.addInputFormat(new ImageInputFormat(new ImageFigure(), "GIF","Graphics Interchange Format (GIF)", "gif", BufferedImage.TYPE_INT_ARGB));
+        drawing.addInputFormat(new ImageInputFormat(new ImageFigure()));
+        drawing.addInputFormat(new TextInputFormat(new TextFigure()));
         TextAreaFigure taf = new TextAreaFigure();
         taf.setBounds(new Point2D.Double(10,10), new Point2D.Double(60,40));
-        inputFormats.add(new TextInputFormat(taf));
-        drawing.setInputFormats(inputFormats);
-        LinkedList<OutputFormat> outputFormats = new LinkedList<OutputFormat>();
-        outputFormats.add(ioFormat);
-        outputFormats.add(new ImageOutputFormat());
-        drawing.setOutputFormats(outputFormats);
+        drawing.addInputFormat(new TextInputFormat(taf));
+        
+        drawing.addOutputFormat(ioFormat);
+        drawing.addOutputFormat(new ImageOutputFormat());
         return drawing;
     }
     
@@ -228,7 +226,9 @@ public class DrawProject extends AbstractProject {
      * Clears the project.
      */
     public void clear() {
-        view.setDrawing(new DefaultDrawing());
+        view.getDrawing().removeUndoableEditListener(undo);
+        view.setDrawing(createDrawing());
+        view.getDrawing().addUndoableEditListener(undo);
         undo.discardAllEdits();
     }
     
