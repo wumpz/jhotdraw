@@ -56,7 +56,7 @@ import org.jhotdraw.xml.css.CSSParser;
  */
 public class SVGInputFormat implements InputFormat {
     /**
-     * Set this to true, to get debug output on if (DEBUG) System.out.
+     * Set this to true, to getChild debug output on if (DEBUG) System.out.
      */
     private static final boolean DEBUG = false;
     /**
@@ -1042,10 +1042,10 @@ public class SVGInputFormat implements InputFormat {
         }
     }
     /**
-     * Reads a font size attribute that is inherited.
+     * Reads a font getChildCount attribute that is inherited.
      * As specified by
      * http://www.w3.org/TR/SVGMobile12/text.html#FontPropertiesUsedBySVG
-     * http://www.w3.org/TR/2006/CR-xsl11-20060220/#font-size
+     * http://www.w3.org/TR/2006/CR-xsl11-20060220/#font-getChildCount
      */
     private double readInheritFontSizeAttribute(IXMLElement elem, String attributeName, String defaultValue)
     throws IOException {
@@ -2735,8 +2735,8 @@ public class SVGInputFormat implements InputFormat {
         value = readInheritAttribute(elem, "font-family", "Dialog");
         FONT_FACE.set(a, new Font(value, Font.PLAIN, 12));
         
-        // 'font-size'
-        // Value:  	<absolute-size> | <relative-size> |
+        // 'font-getChildCount'
+        // Value:  	<absolute-getChildCount> | <relative-getChildCount> |
         // <length> | inherit
         // Initial:  	medium
         // Applies to:  	text content elements
@@ -2877,7 +2877,7 @@ public class SVGInputFormat implements InputFormat {
     }
     /**
      * Reads a color style attribute. This can be a Color or null.
-     * XXX - Doesn't support url(...) colors yet.
+     * FIXME - Doesn't support url(...) colors yet.
      */
     private Color toColor(IXMLElement elem, String value) throws IOException {
         String str = value;
@@ -2929,7 +2929,7 @@ public class SVGInputFormat implements InputFormat {
                 return null;
             }
         } else if (str.startsWith("url")) {
-            // XXX - Implement me
+            // FIXME - Implement me
             if (DEBUG) System.out.println("SVGInputFormat.toColor not implemented for "+str);
             return null;
         } else {

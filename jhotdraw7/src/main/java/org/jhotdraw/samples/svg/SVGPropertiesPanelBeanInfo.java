@@ -31,7 +31,7 @@ public class SVGPropertiesPanelBeanInfo extends SimpleBeanInfo {
         // Here you can add code for customizing the BeanDescriptor.
          if (beanDescriptor == null) beanDescriptor = new BeanDescriptor(SVGPropertiesPanelBeanInfo.class);
          beanDescriptor.setValue("isContainer", Boolean.FALSE);
-     beanDescriptor.setDisplayName("SVGPropetiersPanel");
+     beanDescriptor.setDisplayName("SVGPropertiesPanel");
         
         return beanDescriptor;     }//GEN-LAST:BeanDescriptor
     

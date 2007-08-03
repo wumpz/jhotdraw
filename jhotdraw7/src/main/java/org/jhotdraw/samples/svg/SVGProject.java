@@ -51,7 +51,7 @@ import org.jhotdraw.xml.*;
  * <br>1.1 2006-06-10 Extended to support DefaultDrawApplicationModel.
  * <br>1.0 2006-02-07 Created.
  */
-public class SVGProject extends AbstractProject implements ExportableProject {
+public class SVGProject extends AbstractProject implements ExportableProject, GridProject {
     protected JFileChooser exportChooser;
     
     /**
@@ -70,7 +70,7 @@ public class SVGProject extends AbstractProject implements ExportableProject {
     private HashMap<javax.swing.filechooser.FileFilter, OutputFormat> fileFilterOutputFormatMap;
     
     private GridConstrainer visibleConstrainer = new GridConstrainer(10, 10);
-    private GridConstrainer invisibleConstrainer = new GridConstrainer(1, 1);
+    private GridConstrainer invisibleConstrainer = new GridConstrainer();
     private Preferences prefs;
     /**
      * Creates a new Project.
@@ -102,6 +102,15 @@ public class SVGProject extends AbstractProject implements ExportableProject {
             }
         });
         
+        // Forward property changes of the view to property change listeners on the project
+        view.addPropertyChangeListener(new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent evt) {
+                if (evt.getPropertyName() == "scaleFactor") { 
+                    firePropertyChange(evt.getPropertyName(), evt.getOldValue(), evt.getNewValue());
+                }
+            }
+        });
+        
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
         
         JPanel placardPanel = new JPanel(new BorderLayout());
@@ -111,7 +120,8 @@ public class SVGProject extends AbstractProject implements ExportableProject {
         pButton.putClientProperty("Quaqua.Component.visualMargin",new Insets(0,0,0,0));
         pButton.setFont(UIManager.getFont("SmallSystemFont"));
         placardPanel.add(pButton, BorderLayout.WEST);
-        pButton = ButtonFactory.createToggleGridButton(view);
+        
+        pButton = ButtonFactory.createToggleGridButton(view, invisibleConstrainer, visibleConstrainer);
         pButton.putClientProperty("Quaqua.Button.style","placard");
         pButton.putClientProperty("Quaqua.Component.visualMargin",new Insets(0,0,0,0));
         pButton.setFont(UIManager.getFont("SmallSystemFont"));
@@ -143,6 +153,7 @@ public class SVGProject extends AbstractProject implements ExportableProject {
         outputFormats.add(new ImageOutputFormat("BMP","Windows Bitmap (BMP)", "bmp", BufferedImage.TYPE_BYTE_INDEXED));
         outputFormats.add(new ImageMapOutputFormat());
         drawing.setOutputFormats(outputFormats);
+        
         return drawing;
     }
     /**
@@ -255,7 +266,9 @@ public class SVGProject extends AbstractProject implements ExportableProject {
      * Clears the project.
      */
     public void clear() {
-        view.setDrawing(new SVGDrawing());
+        view.getDrawing().removeUndoableEditListener(undo);
+        view.setDrawing(createDrawing());
+        view.getDrawing().addUndoableEditListener(undo);
         undo.discardAllEdits();
     }
     
@@ -382,6 +395,10 @@ public class SVGProject extends AbstractProject implements ExportableProject {
         
         firePropertyChange("scaleFactor", oldValue, newValue);
         prefs.putDouble("project.scaleFactor", newValue);
+    }
+
+    public GridConstrainer getGridConstrainer() {
+        return visibleConstrainer;
     }
     
     

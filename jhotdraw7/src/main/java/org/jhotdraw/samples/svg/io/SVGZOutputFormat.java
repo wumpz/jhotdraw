@@ -42,7 +42,7 @@ public class SVGZOutputFormat extends SVGOutputFormat {
     
     @Override public void write(OutputStream out, Drawing drawing) throws IOException {
         GZIPOutputStream gout = new GZIPOutputStream(out);
-        super.write(gout, drawing.getFigures());
+        super.write(gout, drawing.getChildren());
         gout.finish();
         
     }

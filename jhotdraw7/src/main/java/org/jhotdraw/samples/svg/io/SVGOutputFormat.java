@@ -887,8 +887,8 @@ public class SVGOutputFormat implements OutputFormat {
         // Computed value:  	 Specified value, except inherit
         writeAttribute(elem, "font-family", FONT_FACE.get(a).getFamily(), "Dialog");
         
-        // 'font-size'
-        // Value:  	<absolute-size> | <relative-size> |
+        // 'font-getChildCount'
+        // Value:  	<absolute-getChildCount> | <relative-getChildCount> |
         // <length> | inherit
         // Initial:  	medium
         // Applies to:  	text content elements
@@ -1235,7 +1235,7 @@ public class SVGOutputFormat implements OutputFormat {
     }
     
     public void write(OutputStream out, Drawing drawing) throws IOException {
-        write(out, drawing.getFigures());
+        write(out, drawing.getChildren());
     }
     /**
      * All other write methods delegate their work to here.

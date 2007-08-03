@@ -69,8 +69,9 @@ public class SVGDrawingPanel extends JPanel  {
         pb.addSeparator();
         pb.add(undoManager.getUndoAction());
         pb.add(undoManager.getRedoAction());
-        pb.addSeparator();
-        pb.add(new ToggleGridAction(editor));
+       // FIXME - We need a toggle grid action
+       // pb.addSeparator();
+       // pb.add(new ToggleGridAction(editor));
         
         JMenu m = new JMenu(labels.getString("zoom"));
         JRadioButtonMenuItem rbmi;

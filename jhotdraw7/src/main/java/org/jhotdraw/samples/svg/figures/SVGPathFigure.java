@@ -1,5 +1,5 @@
 /*
- * @(#)SVGPath.java  1.0  July 8, 2006
+ * @(#)SVGPathFigure.java  1.0  July 8, 2006
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -35,8 +35,6 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 /**
  * SVGPath is a composite Figure which contains one or more
  * SVGBezierFigures as its children.
- * <p>
- * XXX - Roll in the read() method of SVGLine.
  *
  * @author Werner Randelshofer
  * @version 1.0 July 8, 2006 Created.

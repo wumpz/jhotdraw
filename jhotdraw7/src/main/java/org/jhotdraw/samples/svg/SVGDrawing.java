@@ -81,7 +81,7 @@ public class SVGDrawing extends QuadTreeDrawing {
                 if (f instanceof SVGDrawing) {
                     SVGGroupFigure g = new SVGGroupFigure();
                     g.willChange();
-                    for (Figure child : ((SVGDrawing) f).getFigures()) {
+                    for (Figure child : ((SVGDrawing) f).getChildren()) {
                         g.basicAdd(child);
                     }
                     g.changed();
@@ -109,7 +109,7 @@ public class SVGDrawing extends QuadTreeDrawing {
         out.addAttribute("version","1.2");
         out.addAttribute("baseProfile","tiny");
 
-       for (Figure f : getFigures()) {
+       for (Figure f : getChildren()) {
             out.writeObject(f);
         }
     }

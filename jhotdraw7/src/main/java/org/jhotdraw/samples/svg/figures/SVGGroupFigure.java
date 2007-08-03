@@ -1,7 +1,7 @@
 /*
- * @(#)SVGGroup.java  1.0  July 8, 2006
+ * @(#)SVGGroupFigure.java  1.0.1  2007-07-28
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -24,10 +24,11 @@ import org.jhotdraw.samples.svg.*;
 import org.jhotdraw.xml.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 /**
- * SVGGroup.
+ * SVGGroupFigure.
  *
  * @author Werner Randelshofer
- * @version 1.0 July 8, 2006 Created.
+ * @version 1.0.1 2007-07-28 Bounds were not computed correctly. 
+ * <br>1.0 July 8, 2006 Created.
  */
 public class SVGGroupFigure extends GroupFigure implements SVGFigure {
     private HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey,Object>();
@@ -94,6 +95,26 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
         }
     }
     
+    public Rectangle2D.Double getBounds() {
+        if (cachedBounds == null) {
+            if (getChildCount() == 0) {
+                cachedBounds = new Rectangle2D.Double();
+            } else {
+                for (Figure f : children) {
+                    Rectangle2D.Double bounds = f.getBounds();
+                    if (TRANSFORM.get(f) != null) {
+                        bounds.setRect(TRANSFORM.get(f).createTransformedShape(bounds).getBounds2D());
+                    }
+                    if (cachedBounds == null || cachedBounds.isEmpty()) {
+                        cachedBounds = bounds;
+                    } else {
+                        cachedBounds.add(bounds);
+                    }
+                }
+            }
+        }
+        return (Rectangle2D.Double) cachedBounds.clone();
+    }
     
     @Override public LinkedList<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();

@@ -97,22 +97,22 @@ public class ImageMapOutputFormat implements OutputFormat {
     }
     
     public void write(OutputStream out, Drawing drawing) throws IOException {
-        write(out, drawing.getFigures());
+        write(out, drawing.getChildren());
     }
     /**
      * Writes the drawing to the specified output stream.
      * This method applies the specified drawingTransform to the drawing, and draws
-     * it on an image of the specified size.
+     * it on an image of the specified getChildCount.
      */
     public void write(OutputStream out, Drawing drawing,
             AffineTransform drawingTransform, Dimension imageSize) throws IOException {
-        write(out, drawing.getFigures(), drawingTransform, imageSize);
+        write(out, drawing.getChildren(), drawingTransform, imageSize);
     }
     /**
      * Writes the figures to the specified output stream.
      * This method applies the specified drawingTransform to the drawing, and draws
-     * it on an image of the specified size.
-     *
+     * it on an image of the specified getChildCount.
+     * 
      * All other write methods delegate their work to here.
      */
     public void write(OutputStream out, java.util.List<Figure> figures,

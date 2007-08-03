@@ -1,7 +1,7 @@
 /*
- * @(#)RoundRectRadiusHandle.java  1.0  2006-12-10
+ * @(#)SVGRectRadiusHandle.java  1.0  2006-12-10
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *

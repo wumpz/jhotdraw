@@ -17,12 +17,14 @@ package org.jhotdraw.samples.svg.action;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.prefs.Preferences;
 import org.jhotdraw.app.*;
 import org.jhotdraw.app.action.*;
 import javax.swing.*;
 import org.jhotdraw.samples.svg.*;
 import org.jhotdraw.samples.svg.io.*;
 import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.util.prefs.PreferencesUtil;
 
 /**
  * ViewSourceAction.
@@ -49,11 +51,10 @@ public class ViewSourceAction extends AbstractProjectAction {
         try {
             format.write(buf, p.getDrawing());
             String source = buf.toString("UTF-8");
-            JDialog dialog = new JDialog(
+            final JDialog dialog = new JDialog(
                     (Frame) SwingUtilities.getWindowAncestor(p.getComponent())
                     );
-            dialog.setTitle(labels.getFormatted(ID+".dialogTitle",p.getFile() == null ?
-                "unnamed" : p.getFile().getName()));
+            dialog.setTitle(p.getTitle());
             dialog.setResizable(true);
             dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
             JTextArea ta = new JTextArea(source);
@@ -64,6 +65,17 @@ public class ViewSourceAction extends AbstractProjectAction {
             dialog.getContentPane().add(sp);
             dialog.setSize(400, 400);
             dialog.setLocationByPlatform(true);
+            
+            Preferences prefs = Preferences.userNodeForPackage(getClass());
+            PreferencesUtil.installFramePrefsHandler(prefs, "viewSource", dialog);
+            
+            dialog.addWindowListener(new WindowAdapter() {
+                @Override public void windowClosed(WindowEvent evt) {
+                    getApplication().removeWindow(dialog);
+                }
+            });
+            
+            getApplication().addWindow(dialog, getCurrentProject());
             dialog.setVisible(true);
         } catch (IOException ex) {
             ex.printStackTrace();

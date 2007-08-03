@@ -185,7 +185,7 @@ public class SVGApplet extends JApplet {
                 drawing.getInputFormats().get(0).read(in, drawing);
                 setDrawing(drawing);
             } catch (Throwable e) {
-                getDrawing().clear();
+                getDrawing().removeAllChildren();
                 SVGTextFigure tf = new SVGTextFigure();
                 tf.setText(e.getMessage());
                 tf.setBounds(new Point2D.Double(10,10), new Point2D.Double(100,100));
