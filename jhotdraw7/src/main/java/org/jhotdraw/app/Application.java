@@ -212,4 +212,25 @@ public interface Application {
      * This fires a property change event for the property "recentFiles".
      */
     public void clearRecentFiles();
+    
+    /**
+     * Adds a palette window to the application.
+     */
+    public void addPalette(Window palette);
+    /**
+     * Removes a palette window from the application.
+     */
+    public void removePalette(Window palette);
+    /**
+     * Adds a (regular) window to the application.
+     *
+     * @param window The window.
+     * @param project The project to which this window is associated, or null,
+     * if the window is associated to the application.
+     */
+    public void addWindow(Window window, Project project);
+    /**
+     * Removes a (regular) window from the application.
+     */
+    public void removeWindow(Window window);
 }

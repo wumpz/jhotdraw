@@ -1,5 +1,5 @@
 /*
- * @(#)PrintAction.java  1.0  January 1, 2007
+ * @(#)PrintAction.java  2.0  2007-07-31
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -30,18 +30,17 @@ import org.jhotdraw.util.*;
  * Presents a printer dialog to the user and then prints the Project to the
  * chosen printer.
  * <p>
- * This action requires that the project has the following additional methods:
+ * This action requires that the project implements the PrintableProject
+ * interface.
  * <pre>
  * public Pageable createPageable();
  * </pre>
  * <p>
- * The PrintAction invokes this method using Java Reflection. Thus there is
- * no Java Interface that the Project needs to implement.
- *
- * @see org.jhotdraw.draw.DrawingPageable
  *
  * @author Werner Randelshofer
- * @version 1.0 January 1, 2007 Created.
+ * @version 2.0 2007-07-31 Rewritten to use an interface instead of
+ * relying on Java Reflection. 
+ * <br>1.0 January 1, 2007 Created.
  */
 public class PrintAction extends AbstractProjectAction {
     public final static String ID = "print";
@@ -67,13 +66,14 @@ public class PrintAction extends AbstractProjectAction {
      * This prints at 72 DPI only. We might need this for some JVM versions on
      * Mac OS X.*/
     public void printJava2D() {
-        Pageable pageable = (Pageable) Methods.invokeGetter(getCurrentProject(), "createPageable", null);
+        Pageable pageable = ((PrintableProject) getCurrentProject()).createPageable();
         if (pageable == null) {
             throw new InternalError("Project does not have a method named java.awt.Pageable createPageable()");
         }
         
         try {
             PrinterJob job = PrinterJob.getPrinterJob();
+        // FIXME - PrintRequestAttributeSet should be retrieved from Project
             PrintRequestAttributeSet attr = new HashPrintRequestAttributeSet();
             attr.add(new PrinterResolution(300, 300, PrinterResolution.DPI));
             job.setPageable(pageable);
@@ -133,8 +133,8 @@ public class PrintAction extends AbstractProjectAction {
         final Pageable pageable = (Pageable) Methods.invokeGetter(getCurrentProject(), "createPageable", null);
         final double resolution = 300d;
         JobAttributes jobAttr = new JobAttributes();
+        // FIXME - PageAttributes should be retrieved from Project
         PageAttributes pageAttr = new PageAttributes();
-        // FIXME - Media type should be retrieved from Locale
         pageAttr.setMedia(PageAttributes.MediaType.A4);
         pageAttr.setPrinterResolution((int) resolution);
         final PrintJob pj = frame.getToolkit().getPrintJob(

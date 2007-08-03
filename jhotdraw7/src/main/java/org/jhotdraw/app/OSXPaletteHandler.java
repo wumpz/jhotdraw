@@ -41,7 +41,7 @@ public class OSXPaletteHandler {
          */
         public void windowGainedFocus(WindowEvent e) {
             timer.stop();
-            if (windows.containsKey(e.getWindow())) {
+            if (windows.get(e.getWindow()) != null) {
                 app.setCurrentProject((Project) windows.get(e.getWindow()));
                 showPalettes();
             }
@@ -73,7 +73,7 @@ public class OSXPaletteHandler {
         windows.put(window, project);
     }
     
-    public void remove(Window window, Project project) {
+    public void remove(Window window) {
         windows.remove(window);
         window.removeWindowFocusListener(focusHandler);
     }
@@ -131,5 +131,14 @@ public class OSXPaletteHandler {
                 palette.setVisible(false);
             }
         }
+    }
+
+    public void addWindow(Window window) {
+        window.addWindowFocusListener(focusHandler);
+        windows.put(window, null);
+    }
+    public void removeWindow(Window window) {
+        windows.remove(window);
+        window.removeWindowFocusListener(focusHandler);
     }
 }

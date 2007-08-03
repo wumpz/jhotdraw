@@ -191,6 +191,20 @@ public class DefaultOSXApplication extends AbstractApplication {
         paletteHandler.removePalette(palette);
     }
     
+    public void addWindow(Window window, final Project p) {
+        if (window instanceof JFrame) {
+            ((JFrame) window).setJMenuBar(createMenuBar(p));
+        } else if (window instanceof JDialog) {
+            // ((JDialog) window).setJMenuBar(createMenuBar(null));
+        }
+        
+        paletteHandler.add(window, p);
+    }
+    
+    public void removeWindow(Window window) {
+        paletteHandler.remove(window);
+    }
+    
     public void show(final Project p) {
         if (! p.isShowing()) {
             p.setShowing(true);
@@ -202,7 +216,8 @@ public class DefaultOSXApplication extends AbstractApplication {
             } else {
                 title = file.getName();
             }
-            f.setTitle(labels.getFormatted("frameTitle", title, getName(), p.getMultipleOpenId()));
+            p.setTitle(labels.getFormatted("frameTitle", title, getName(), p.getMultipleOpenId()));
+            f.setTitle(p.getTitle());
             f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             f.setPreferredSize(new Dimension(400,400));
             
@@ -227,7 +242,6 @@ public class DefaultOSXApplication extends AbstractApplication {
             } while (moved);
             f.setLocation(loc);
             
-            paletteHandler.add(f, p);
             
             f.addWindowListener(new WindowAdapter() {
                 public void windowClosing(final WindowEvent evt) {
@@ -245,13 +259,23 @@ public class DefaultOSXApplication extends AbstractApplication {
                     if (name.equals("hasUnsavedChanges")) {
                         f.getRootPane().putClientProperty("windowModified",new Boolean(p.hasUnsavedChanges()));
                     } else if (name.equals("file")) {
-                        f.setTitle((p.getFile() == null) ? "Unnamed" : p.getFile().getName());
+                        String title;
+                        File file = (File) evt.getNewValue();
+                        if (file == null) {
+                            title = labels.getString("unnamedFile");
+                        } else {
+                            title = file.getName();
+                        }
+                        p.setTitle(labels.getFormatted("frameTitle", title, getName(), p.getMultipleOpenId()));
+                        f.setTitle(p.getTitle());
                     }
                 }
             });
             
-            f.setJMenuBar(createMenuBar(p));
-            
+            //f.setJMenuBar(createMenuBar(p));
+            //paletteHandler.add(f, p);
+            addWindow(f, p);
+ 
             f.getContentPane().add(p.getComponent());
             f.setVisible(true);
         }
@@ -262,7 +286,8 @@ public class DefaultOSXApplication extends AbstractApplication {
             JFrame f = (JFrame) SwingUtilities.getWindowAncestor(p.getComponent());
             f.setVisible(false);
             f.remove(p.getComponent());
-            paletteHandler.remove(f, p);
+            //paletteHandler.remove(f, p);
+            removeWindow(f);
             f.dispose();
         }
     }

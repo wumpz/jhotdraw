@@ -68,7 +68,7 @@ public class ProjectPropertyAction extends AbstractProjectAction {
         }
     }
     
-    protected void installProjectListeners(Project p) {
+   @Override protected void installProjectListeners(Project p) {
         super.installProjectListeners(p);
         p.addPropertyChangeListener(projectListener);
         updateSelectedState();
@@ -76,7 +76,7 @@ public class ProjectPropertyAction extends AbstractProjectAction {
     /**
      * Installs listeners on the project object.
      */
-    protected void uninstallProjectListeners(Project p) {
+   @Override protected void uninstallProjectListeners(Project p) {
         super.uninstallProjectListeners(p);
         p.removePropertyChangeListener(projectListener);
     }

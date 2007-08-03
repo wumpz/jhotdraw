@@ -58,6 +58,7 @@ public abstract class AbstractSaveBeforeAction extends AbstractProjectAction {
             Window wAncestor = SwingUtilities.getWindowAncestor(p.getComponent());
             oldFocusOwner = (wAncestor == null) ? null : wAncestor.getFocusOwner();
             p.setEnabled(false);
+
             if (p.hasUnsavedChanges()) {
                 JOptionPane pane = new JOptionPane(
                         "<html>"+UIManager.getString("OptionPane.css")+

@@ -207,4 +207,16 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
                 Collections.unmodifiableList(recentFiles)
                 );
     }
+
+    public void removePalette(Window palette) {
+    }
+
+    public void addPalette(Window palette) {
+    }
+
+    public void removeWindow(Window window) {
+    }
+
+    public void addWindow(Window window, Project p) {
+    }
 }

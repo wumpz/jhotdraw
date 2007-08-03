@@ -136,7 +136,8 @@ public class DefaultSDIApplication extends AbstractApplication {
             if (p.hasUnsavedChanges()) {
                 title += "*";
             }
-            f.setTitle(labels.getFormatted("frameTitle", title, getName(), p.getMultipleOpenId()));
+            p.setTitle(labels.getFormatted("frameTitle", title, getName(), p.getMultipleOpenId()));
+            f.setTitle(p.getTitle());
             f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             JPanel panel = (JPanel) wrapProjectComponent(p);
             f.add(panel);
@@ -195,7 +196,8 @@ public class DefaultSDIApplication extends AbstractApplication {
                         if (p.hasUnsavedChanges()) {
                             title += "*";
                         }
-                        f.setTitle(labels.getFormatted("frameTitle", title, getName(), p.getMultipleOpenId()));
+                        p.setTitle(labels.getFormatted("frameTitle", title, getName(), p.getMultipleOpenId()));
+                        f.setTitle(p.getTitle());
                     }
                 }
             });
@@ -261,10 +263,19 @@ public class DefaultSDIApplication extends AbstractApplication {
     protected JMenuBar createMenuBar(final Project p, java.util.List<Action> toolBarActions) {
         JMenuBar mb = new JMenuBar();
         mb.add(createFileMenu(p));
+        JMenu lastMenu = null;
         for (JMenu mm : getModel().createMenus(this, p)) {
             mb.add(mm);
+            lastMenu = mm;
         }
-        mb.add(createViewMenu(p, toolBarActions));
+        JMenu viewMenu = createViewMenu(p, toolBarActions);
+        if (lastMenu != null && lastMenu.getText().equals(viewMenu.getText())) {
+            for (Component c : lastMenu.getMenuComponents()) {
+                viewMenu.add(c);
+            }
+            mb.remove(lastMenu);
+        }
+            mb.add(viewMenu);
         mb.add(createHelpMenu(p));
         return mb;
     }

@@ -77,6 +77,11 @@ public abstract class AbstractProject extends JPanel  implements Project {
     private boolean isShowing;
     
     /**
+     * The title of the project.
+     */
+    private String title;
+    
+    /**
      * Creates a new instance.
      */
     public AbstractProject() {
@@ -236,5 +241,15 @@ public abstract class AbstractProject extends JPanel  implements Project {
     
     public void markChangesAsSaved() {
         setHasUnsavedChanges(false);
+    }
+
+    public void setTitle(String newValue) {
+        String oldValue = title;
+            title = newValue;
+        firePropertyChange("title", oldValue, newValue);
+    }
+
+    public String getTitle() {
+        return title;
     }
 }

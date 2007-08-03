@@ -36,7 +36,7 @@ public class ToggleProjectPropertyAction extends AbstractProjectAction {
     private PropertyChangeListener projectListener = new PropertyChangeListener() {
         public void propertyChange(PropertyChangeEvent evt) {
             if (evt.getPropertyName() == propertyName) { // Strings get interned
-                updateSelectedState();
+                updateProperty();
             }
         }
     };
@@ -57,7 +57,7 @@ public class ToggleProjectPropertyAction extends AbstractProjectAction {
         getterName = ((propertyClass == Boolean.TYPE || propertyClass == Boolean.class) ? "is" : "get")+
                 Character.toUpperCase(propertyName.charAt(0)) +
                 propertyName.substring(1);
-        updateSelectedState();
+        updateProperty();
     }
     
     public void actionPerformed(ActionEvent evt) {
@@ -95,7 +95,7 @@ public class ToggleProjectPropertyAction extends AbstractProjectAction {
     protected void installProjectListeners(Project p) {
         super.installProjectListeners(p);
         p.addPropertyChangeListener(projectListener);
-        updateSelectedState();
+        updateProperty();
     }
     /**
      * Installs listeners on the project object.
@@ -105,7 +105,7 @@ public class ToggleProjectPropertyAction extends AbstractProjectAction {
         p.removePropertyChangeListener(projectListener);
     }
     
-    private void updateSelectedState() {
+    @Override protected void updateProperty() {
         boolean isSelected = false;
         Project p = getCurrentProject();
         if (p != null) {
