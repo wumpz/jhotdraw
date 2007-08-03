@@ -26,6 +26,48 @@
             <sourcepath>
                 <pathelement location="${srcdir}"/>
             </sourcepath>
+            <classpath>
+                <pathelement location="${libdir}/quaqua.jar"/>
+                <pathelement location="${libdir}/MRJAdapter.jar"/>
+                <pathelement location="${libdir}/appframework-0.42.jar"/>
+                <pathelement location="${libdir}/swing-layout.jar"/>
+                <pathelement location="${libdir}/swing-worker.jar"/>
+                <pathelement location="${libdir}/java_30.zip"/>
+            </classpath>
         </javadoc>
+    </target>
+    <target name="compile" depends="init,clean">
+        <mkdir dir="${classdir}"/>
+        <javac
+                destdir="${classdir}"
+                srcdir="${srcdir}"
+                debug="true"
+                source="1.5"
+         >
+            <classpath path="${libdir}/quaqua.jar"/>
+            <classpath path="${libdir}/MRJAdapter.jar"/>
+            <classpath path="${libdir}/java_30.zip"/>
+            <classpath path="${libdir}/appframework-0.42.jar"/>
+            <include name="**/*.java"/> 
+        </javac>
+        <copy todir="${classdir}">
+            <fileset dir="${srcdir}">
+                <include name="**/*.properties"/>
+                <include name="**/*.png"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="jar" depends="init,compile">
+        <mkdir dir="${distdir}"/>
+        <jar destfile="${distdir}/jhotdraw.jar" basedir="${classdir}">
+            <manifest>
+                <attribute name="Built-By" value="${author}"/>
+                <attribute name="Main-Class" value="org.jhotdraw.samples.draw.Main"/>
+                <attribute name="Class-Path" value="quaqua.jar lib/quaqua.jar ../lib/quaqua.jar MRJAdapter.jar lib/MRJAdapter.jar ../lib/MRJAdapter.jar"/>
+            </manifest>
+        </jar>
+        <copy todir="${distdir}">
+            <fileset file="${libdir}/*.jnilib"/>
+        </copy>
     </target>
 </project>
