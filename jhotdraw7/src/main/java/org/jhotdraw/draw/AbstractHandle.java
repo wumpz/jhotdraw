@@ -211,7 +211,7 @@ public abstract class AbstractHandle implements Handle, FigureListener {
      * If the handle is located elsewhere this method must be reimpleted
      * by the subclass.
      */
-    public void figureAreaInvalidated(FigureEvent evt) {
+    public void areaInvalidated(FigureEvent evt) {
         updateBounds();
     }
     
@@ -288,7 +288,7 @@ public abstract class AbstractHandle implements Handle, FigureListener {
     public void trackDoubleClick(Point p, int modifiersEx) {
     }
     
-    public void figureAttributeChanged(FigureEvent e) {
+    public void attributeChanged(FigureEvent e) {
     }
     
     public void viewTransformChanged() {

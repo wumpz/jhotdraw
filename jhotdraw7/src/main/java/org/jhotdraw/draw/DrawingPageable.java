@@ -76,14 +76,14 @@ public class DrawingPageable implements Pageable {
         if (pageIndex < 0 || pageIndex >= getNumberOfPages()) {
             return Printable.NO_SUCH_PAGE;
         }
-        if (drawing.getFigureCount() > 0) {
+        if (drawing.getChildCount() > 0) {
             
             Graphics2D g = (Graphics2D) graphics;
             setRenderingHints(g);
             
             // Determine the draw bounds of the drawing
             Rectangle2D.Double drawBounds = null;
-            for (Figure f : drawing.getFigures()) {
+            for (Figure f : drawing.getChildren()) {
                 if (drawBounds == null) {
                     drawBounds = f.getDrawingArea();
                 } else {

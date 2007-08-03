@@ -264,7 +264,7 @@ public class BezierFigure extends AbstractAttributedFigure {
         return (BezierPath) path.clone();
     }
     public void setBezierPath(BezierPath newValue) {
-        path = newValue.clone();
+        path = (BezierPath) newValue.clone();
         this.setClosed(newValue.isClosed());
     }
     

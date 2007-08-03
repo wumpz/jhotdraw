@@ -34,11 +34,37 @@ import java.util.*;
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
 public class DragTracker extends AbstractTool {
-    Figure anchorFigure;
-    Point2D.Double oldPoint;
-    Point2D.Double anchorPoint;
-    private boolean isDragging;
+    protected Figure anchorFigure;
     
+    /**
+     * The drag rectangle encompasses the bounds of all dragged figures.
+     */
+    protected Rectangle2D.Double dragRect;
+    /**
+     * The previousOrigin holds the origin of all dragged figures of the
+     * previous mouseDragged event. This coordinate is constrained using
+     * the Constrainer of the DrawingView.
+     */
+    protected Point2D.Double previousOrigin;
+    /**
+     * The anchorOrigin holds the origin of all dragged figures of the
+     * mousePressed event.
+     */
+    protected Point2D.Double anchorOrigin;
+    /**
+     * The previousPoint holds the location of the mouse of the previous
+     * mouseDragged event. This coordinate is not constrained using
+     * the Constrainer of the DrawingView.
+     */
+    protected Point2D.Double previousPoint;
+    /**
+     * The anchorPoint holds the location of the mouse of the 
+     * mousePressed event. This coordinate is not constrained using
+     * the Constrainer of the DrawingView.
+     */
+    protected Point2D.Double anchorPoint;
+    
+    private boolean isDragging;
     
     /** Creates a new instance. */
     public DragTracker(Figure figure) {
@@ -52,6 +78,7 @@ public class DragTracker extends AbstractTool {
     public void mousePressed(MouseEvent evt) {
         super.mousePressed(evt);
         DrawingView view = getView();
+        
         if (evt.isShiftDown()) {
             view.setHandleDetailLevel(0);
             view.toggleSelection(anchorFigure);
@@ -64,78 +91,105 @@ public class DragTracker extends AbstractTool {
             view.addToSelection(anchorFigure);
         }
         
-        Point2D.Double origin = new Point2D.Double(Double.MAX_VALUE, Double.MAX_VALUE);
+        dragRect = null;
         for (Figure f : view.getSelectedFigures()) {
-            Rectangle2D.Double b = f.getBounds();
-            origin.x = Math.min(origin.x, b.x);
-            origin.y = Math.min(origin.y, b.y);
+            if (dragRect == null) {
+                dragRect = f.getBounds();
+            } else {
+                dragRect.add(f.getBounds());
+            }
         }
-        Point2D.Double constrainedOrigin = view.getConstrainer().constrainPoint(new Point2D.Double(origin.x,origin.y));
-        oldPoint = view.getConstrainer().constrainPoint(
-                view.viewToDrawing(new Point(evt.getX(), evt.getY()))
-                );
-        oldPoint.x += origin.x - constrainedOrigin.x;
-        oldPoint.y += origin.y - constrainedOrigin.y;
-        anchorPoint = oldPoint;
+        
+        
+        anchorPoint = previousPoint = view.viewToDrawing(anchor);
+        anchorOrigin = previousOrigin = new Point2D.Double(dragRect.x, dragRect.y);
     }
+    
     public void mouseDragged(MouseEvent evt) {
         DrawingView view = getView();
-        if (isDragging = false) {
+        
+        if (isDragging == false) {
             isDragging = true;
             updateCursor(editor.findView((Container) evt.getSource()),new Point(evt.getX(), evt.getY()));
         }
         
-        Point2D.Double newPoint = view.getConstrainer().constrainPoint(
-                view.viewToDrawing(new Point(evt.getX(), evt.getY()))
-                );
+        Point2D.Double currentPoint = view.viewToDrawing(new Point(evt.getX(), evt.getY()));
+        
+        dragRect.x += currentPoint.x - previousPoint.x;
+        dragRect.y += currentPoint.y - previousPoint.y;
+        Rectangle2D.Double constrainedRect = (Rectangle2D.Double) dragRect.clone();
+        if (view.getConstrainer() != null) {
+            view.getConstrainer().constrainRectangle(
+                    constrainedRect
+                    );
+        }
+        
         AffineTransform tx = new AffineTransform();
-        tx.translate(newPoint.x - oldPoint.x,newPoint.y - oldPoint.y);
+        tx.translate(
+                constrainedRect.x - previousOrigin.x,
+                constrainedRect.y - previousOrigin.y
+                );
+        Constrainer c = view.getConstrainer();
         for (Figure f : view.getSelectedFigures()) {
             f.willChange();
             f.transform(tx);
             f.changed();
         }
-        oldPoint = newPoint;
+        
+        previousPoint = currentPoint;
+        previousOrigin = new Point2D.Double(constrainedRect.x, constrainedRect.y);
     }
+    
+    
     public void mouseReleased(MouseEvent evt) {
         super.mouseReleased(evt);
-        isDragging = false;
         
+        DrawingView view = getView();
+        isDragging = false;
         int x = evt.getX();
         int y = evt.getY();
-        updateCursor(editor.findView((Container) evt.getSource()),new Point(evt.getX(), evt.getY()));
-        Point2D.Double p = getView().getConstrainer().constrainPoint(getView().viewToDrawing(new Point(x,y)));
-        Collection<Figure> draggedFigures = new LinkedList(getView().getSelectedFigures());
-        Figure dropTarget = getDrawing().findFigureExcept(p, draggedFigures);
+        updateCursor(editor.findView((Container) evt.getSource()),new Point(x, y));
+        Point2D.Double newPoint = view.viewToDrawing(new Point(x,y));
         
+        Collection<Figure> draggedFigures = new LinkedList(view.getSelectedFigures());
+        Figure dropTarget = getDrawing().findFigureExcept(newPoint, draggedFigures);
         if (dropTarget != null) {
-            boolean snapBack = dropTarget.handleDrop(p, draggedFigures, getView());
+            boolean snapBack = dropTarget.handleDrop(newPoint, draggedFigures, view);
             if (snapBack) {
                 AffineTransform tx = new AffineTransform();
-                tx.translate(anchorPoint.x - oldPoint.x, anchorPoint.y - oldPoint.y);
+                tx.translate(
+                        anchorOrigin.x - previousOrigin.x,
+                        anchorOrigin.y - previousOrigin.y
+                        );
+                Constrainer c = view.getConstrainer();
                 for (Figure f : draggedFigures) {
                     f.willChange();
                     f.transform(tx);
                     f.changed();
                 }
-            } else {
-                AffineTransform tx = new AffineTransform();
-                tx.translate(-anchorPoint.x + oldPoint.x, -anchorPoint.y + oldPoint.y);
-                if (! tx.isIdentity()) {
-                    getDrawing().fireUndoableEditHappened(new TransformEdit(
-                            draggedFigures, tx
-                            ));
-                }
+                fireToolDone();
+                return;
             }
-        } else {
-            AffineTransform tx = new AffineTransform();
-            tx.translate(-anchorPoint.x + oldPoint.x, -anchorPoint.y + oldPoint.y);
-            if (! tx.isIdentity()) {
-                getDrawing().fireUndoableEditHappened(new TransformEdit(
-                        draggedFigures, tx
-                        ));
-            }
+        }
+        
+        AffineTransform tx = new AffineTransform();
+        tx.translate(
+                -anchorOrigin.x + previousOrigin.x,
+                -anchorOrigin.y + previousOrigin.y
+                );
+        if (! tx.isIdentity()) {
+            getDrawing().fireUndoableEditHappened(new TransformEdit(
+                    draggedFigures, tx
+                    ));
         }
         fireToolDone();
     }
+    
+    /*
+    public void draw(Graphics2D g) {
+        if (dragRect != null) {
+            g.setColor(Color.GREEN);
+           g.draw(getView().drawingToView(dragRect));
+        }
+    }*/
 }

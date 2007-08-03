@@ -26,11 +26,12 @@ import javax.swing.*;
  * <br>1.0 25. November 2003  Created.
  */
 public class SelectSameAction extends AbstractSelectedAction {
-    
+    public final static String ID = "editSelectSame";
     /** Creates a new instance. */
     public SelectSameAction(DrawingEditor editor) {
         super(editor);
-        putValue(AbstractAction.NAME, labels.getString("editSelectSame"));
+        labels.configureAction(this, ID);
+        //putValue(AbstractAction.NAME, labels.getString("editSelectSame"));
         //  putValue(AbstractAction.MNEMONIC_KEY, labels.getString("editSelectSameMnem"));
     }
     
@@ -43,7 +44,7 @@ public class SelectSameAction extends AbstractSelectedAction {
         for (Figure selected : getView().getSelectedFigures()) {
             selectedClasses.add(selected.getClass());
         }
-        for (Figure f : getDrawing().getFigures()) {
+        for (Figure f : getDrawing().getChildren()) {
             if (selectedClasses.contains(f.getClass())) {
                 getView().addToSelection(f);
             }

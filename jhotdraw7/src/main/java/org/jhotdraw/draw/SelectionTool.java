@@ -22,8 +22,8 @@ import java.util.HashSet;
 /**
  * Tool to select and manipulate figures.
  * <p>
- * A selection tool is in one of three states, for example, background
- * selection, figure selection, handle manipulation. The different
+ * A selection tool is in one of three states: 1) area
+ * selection, 2) figure dragging, 3) handle manipulation. The different
  * states are handled by different tracker objects: the
  * <code>SelectAreaTracker</code>, the <code>DragTracker</code> and the
  * <code>HandleTracker</code>.
@@ -153,6 +153,7 @@ public class SelectionTool extends AbstractTool
                         figure = view.findFigure(anchor);
                     }
                 }
+                
                 if (figure != null) {
                     newTracker = createDragTracker(figure);
                 } else {

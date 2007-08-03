@@ -1,5 +1,5 @@
 /*
- * @(#)Figure.java  4.2  2007-05-19
+ * @(#)Figure.java  5.0  2007-07-24
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -28,39 +28,24 @@ import java.io.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMStorable;
 /**
- * The interface of a graphical figure.
+ * A Figure knows its bounds and it can draw itself. A figure is an element of a
+ * drawing. 
  * <p>
- * A figure knows its bounds and can draw itself. 
- * <p>
- * A figure has a set of Handles to manipulate its shape or attributes. A figure
- * has one or more Connectors that define how to locate a connection point.
+ * A figure has a set of {@see Handle}s to manipulate its shape or attributes. A figure
+ * has one or more {@see Connector}s that define how to locate a connection point.
  * <p>
  * Figures can have an open ended set of attributes. An attribute is identified
- * by an AttributeKey.
+ * by an {@see AttributeKey}.
  * <p>
- * A figure can be composed of several figures, it can connect other figures, it
- * can hold a text or an image or both. A figure should implement the 
- * corresponding subinterface, to allow manipulation of these features through
- * editing tools. For example CompositeFigure, ConnectionFigure, ImageHolderFigure
- * TextHolderFigure. 
+ * Specialized subinterfaces of Figure allow to compose a figure from
+ * several figures, to connect a figure to other figures, to hold text or
+ * an image, and to layout a figure.
  * 
- * <p>
- * A figure can be composed of several figures. Such a figure should implement the
- * CompositeFigure interface, to allow manipulation of the child figures through
- * editing tools.
- * <p>
- * A figure can connect other figures. Such a figures should implement the
- * ConnectionFigure interface, to allow manipulation of the composition through
- * editing tools.
- * <p>
- * A figure can hold a text or an image or both. Such a figure should implement
- * the ImageHolder and TextHolder interfaces, to allo
- * <p>
- * Default implementations for the Figure interface are provided by
- * AbstractFigure.
- *
+ * 
  * @author Werner Randelshofer
- * @version 4.2 2007-05-19 Removed setConnectorsVisible, isConnectorsVisible
+ * @version 5.0 2007-07-24 Removed method isSelectable and added
+ * isSelectable and isRemovable instead.
+ * <br>4.2 2007-05-19 Removed setConnectorsVisible, isConnectorsVisible
  * method due to changes in Connector interface. 
  * <br>4.1 2007-05-18 Removed addUndoableEditListener, 
  * removeUndoableEditListener methods. They are not needed anymore, due to
@@ -70,11 +55,14 @@ import org.jhotdraw.xml.DOMStorable;
  * <br>3.1 2007-04-14 Method handleMouseClick is now required to consume
  * an event, if it returns true. 
  * <br>3.0 2006-01-20 Reworked for J2SE 1.5.
+ * @see Drawing
+ * @see Handle
+ * @see Connector
  */
 public interface Figure extends Cloneable, Serializable, DOMStorable {
     // DRAWING
     /**
-     * Draws the figure and its decorator figure.
+     * Draws the figure.
      *
      * @param g The Graphics2D to draw to.
      */
@@ -97,7 +85,7 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
     public int getLayer();    
     
     /**
-     * A Figure is only drawn by a Drawing and by CompositeFigure, if it is visible.
+     * A Figure is only drawn by a CompositeFigure, if it is visible.
      * Layouter's should ignore invisible figures too.
      */
     public boolean isVisible();
@@ -114,8 +102,7 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
     
     // BOUNDS
     /**
-     * Sets the logical and untransformed bounds of the figure and of its 
-     * decorator figure.
+     * Sets the logical and untransformed bounds of the figure.
      * <p>
      * This is used by Tool's which create a new Figure and by Tool's which
      * connect a Figure to another Figure.
@@ -127,7 +114,6 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * aFigure.setBounds(...);
      * aFigure.changed();
      * </pre>
-     * 
      * 
      * 
      * @param start the start point of the bounds
@@ -190,8 +176,6 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * precision arithmethics are inherently lossy operations. Therefore it is 
      * recommended to use getTransformRestoreData() restoreTransformTo() to 
      * provide lossless undo/redo functionality.
-     * After the transform has finished, the bounds of the decorator figure
-     * are changed to match the transformed bounds of the figure.
      * <p>
      * This is a basic operation which does not fire events. Use the following
      * code sequence, if you need event firing:
@@ -264,11 +248,29 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
     
     // EDITING
     /**
-     * Returns true, if the user can manipulate this figure.
-     * If this operation returns false, Tool's should not interact with this
-     * figure.
+     * Returns true, if the user may select this figure.
+     * If this operation returns false, Tool's should not select this
+     * figure on behalf of the user.
+     * <p>
+     * Please note, that even if this method returns false, the Figure
+     * may become part of a selection for other reasons. For example,
+     * if the Figure is part of a GroupFigure, then the Figure is 
+     * indirectly part of the selection, when the user selects the
+     * GroupFigure. 
      */
-    public boolean isInteractive();
+    public boolean isSelectable();
+    /**
+     * Returns true, if the user may remove this figure.
+     * If this operation returns false, Tool's should not remove this
+     * figure on behalf of the user.
+     * <p>
+     * Please note, that even if this method returns false, the Figure
+     * may be removed from the Drawing for other reasons. For example,
+     * if the Figure is used to display a warning message, the Figure
+     * can be removed from the Drawing, when the warning message is
+     * no longer relevant.
+     */
+    public boolean isRemovable();
     /**
      * Checks if a point is contained by the figure.
      * <p>
@@ -289,7 +291,7 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      */
     public Cursor getCursor(Point2D.Double p);
     /**
-     * Returns a collection of Action's for the specified location.
+     * Returns a collection of Action's for the specified location on the figure.
      *
      * <p>The collection may contain null entries. These entries are used
      * interpreted as separators in the popup menu.
@@ -303,7 +305,7 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      */
     public Tool getTool(Point2D.Double p);
     /**
-     * Returns a tooltip for the specified location.
+     * Returns a tooltip for the specified location on the figure.
      */
     public String getToolTipText(Point2D.Double p);
     
@@ -378,12 +380,12 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
     
     // EVENT HANDLING
     /**
-     * Informs a figure, that it has been added to the specified drawing.
+     * Informs a figure, that it has been added to a drawing.
      * The figure must inform all FigureListeners that it has been added.
      */
     public void addNotify(Drawing d);
     /**
-     * Informs a figure, that it has been removed from the specified drawing.
+     * Informs a figure, that it has been removed from a drawing.
      * The figure must inform all FigureListeners that it has been removed.
      */
     public void removeNotify(Drawing d);

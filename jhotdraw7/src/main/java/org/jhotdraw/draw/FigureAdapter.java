@@ -23,10 +23,10 @@ package org.jhotdraw.draw;
  */
 public class FigureAdapter implements FigureListener {
     
-    public void figureAreaInvalidated(FigureEvent e) {
+    public void areaInvalidated(FigureEvent e) {
     }
     
-    public void figureAttributeChanged(FigureEvent e) {
+    public void attributeChanged(FigureEvent e) {
     }
     
     public void figureAdded(FigureEvent e) {

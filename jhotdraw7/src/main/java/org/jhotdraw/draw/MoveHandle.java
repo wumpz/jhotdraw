@@ -10,7 +10,6 @@
  * such Confidential Information and shall use it only in accordance
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
-�
  */
 
 
@@ -32,8 +31,6 @@ public class MoveHandle extends LocatorHandle {
      * The previously handled x and y coordinates.
      */
     private Point2D.Double oldPoint;
-    
-    private Object geometry;
     
     /** Creates a new instance. */
     public MoveHandle(Figure owner, Locator locator) {

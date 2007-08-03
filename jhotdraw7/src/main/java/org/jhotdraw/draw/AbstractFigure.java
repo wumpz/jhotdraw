@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractFigure.java   4.0  2007-05-18
+ * @(#)AbstractFigure.java   5.0  2007-07-18
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -15,6 +15,7 @@
 
 package org.jhotdraw.draw;
 
+import org.jhotdraw.beans.AbstractBean;
 import org.jhotdraw.util.*;
 import javax.swing.event.*;
 import java.awt.*;
@@ -32,7 +33,8 @@ import org.jhotdraw.geom.*;
  *
  *
  * @author Werner Randelshofer
- * @version 4.0 2007-05-18 Removed addUndoableEditListener and
+ * @version 5.0 2007-07-17 Extends from AbstractBean.
+ * <br>4.0 2007-05-18 Removed addUndoableEditListener and
  * removeUndoableEditListener, isConnectorsVisible, setConnectorsVisible
  * methods due to changes in Figure interface.
  * <br>3.4 2007-02-09 Method fireFigureHandlesChanged added.
@@ -42,10 +44,12 @@ import org.jhotdraw.geom.*;
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
 public abstract class AbstractFigure
-        implements Figure {
+        extends AbstractBean
+        implements Figure  {
     protected EventListenerList listenerList = new EventListenerList();
     private Drawing drawing;
-    private boolean isInteractive;
+    private boolean isSelectable = true;
+    private boolean isRemovable = true;
     private boolean isVisible = true;
     /**
      * We increase this number on each invocation of willChange() and
@@ -113,7 +117,7 @@ public abstract class AbstractFigure
                     // Lazily create the event:
                     if (event == null)
                         event = new FigureEvent(this, invalidatedArea);
-                    ((FigureListener)listeners[i+1]).figureAreaInvalidated(event);
+                    ((FigureListener)listeners[i+1]).areaInvalidated(event);
                 }
             }
         }
@@ -241,7 +245,7 @@ public abstract class AbstractFigure
                     // Lazily create the event:
                     if (event == null)
                         event = new FigureEvent(this, attribute, oldValue, newValue);
-                    ((FigureListener)listeners[i+1]).figureAttributeChanged(event);
+                    ((FigureListener)listeners[i+1]).attributeChanged(event);
                 }
             }
         }
@@ -286,16 +290,10 @@ public abstract class AbstractFigure
      */
     
     public AbstractFigure clone() {
-        try {
             AbstractFigure that = (AbstractFigure) super.clone();
             that.listenerList = new EventListenerList();
             that.drawing = null; // Clones need to be explictly added to a drawing
             return that;
-        } catch (CloneNotSupportedException e) {
-            InternalError error = new InternalError(e.getMessage());
-            error.initCause(e);
-            throw error;
-        }
     }
     public final AbstractFigure basicClone(HashMap<Figure,Figure> oldToNew) {
         // XXX - Delete me
@@ -306,13 +304,14 @@ public abstract class AbstractFigure
     
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
+        //handles.add(new DragHandle(this));
         ResizeHandleKit.addResizeHandles(this, handles);
         return handles;
     }
     
     
     public Cursor getCursor(Point2D.Double p) {
-        if (contains(p)) {
+       if (contains(p)) {
             return Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
         } else {
             return Cursor.getDefaultCursor();
@@ -454,11 +453,21 @@ public abstract class AbstractFigure
     public void remap(Map oldToNew) {
     }
     
-    public boolean isInteractive() {
-        return isInteractive;
+    public boolean isSelectable() {
+        return isSelectable;
     }
-    public void setInteractive(boolean b) {
-        isInteractive = b;
+    public void setSelectable(boolean newValue) {
+        boolean oldValue = isSelectable;
+        isSelectable = newValue;
+        firePropertyChange("selectable", oldValue, newValue);
+    }
+    public boolean isRemovable() {
+        return isRemovable;
+    }
+    public void setRemovable(boolean newValue) {
+        boolean oldValue = isRemovable;
+        isRemovable = newValue;
+        firePropertyChange("removable", oldValue, newValue);
     }
     public boolean isVisible() {
         return isVisible;

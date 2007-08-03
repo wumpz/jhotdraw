@@ -1,5 +1,5 @@
 /*
- * @(#)Constrainer.java  3.0  2007-04-29
+ * @(#)Constrainer.java  4.0  2007-07-31
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -16,43 +16,80 @@ package org.jhotdraw.draw;
 
 import java.awt.*;
 import java.awt.geom.*;
+import javax.swing.event.ChangeListener;
 /**
- * Interface to constrain a Point2D.Double. This can be used to implement
- * different kinds of grids.
+ * Interface to constrain points and figures on a Drawing.
+ * This can be used to implement different kinds of grids.
  *
  * @author  Werner Randelshofer
- * @version 3.0 2007-04-29 Method constrainPoint(Point2D.Double, Direction) added. 
- * <br>2.1 2006-07-03 Method isVisible() added. 
+ * @version 4.0 2007-07-31 Redesigned to support the constrainement of rectangles.
+ * <br>3.0 2007-04-29 Method constrainPoint(Point2D.Double, Direction) added.
+ * <br>2.1 2006-07-03 Method isVisible() added.
  * <br>2.0 2006-01-17 Changed to support double precision coordinates.
  * <br>1.0 2004-03-14  Created.
  */
 public interface Constrainer {
-	/**
-	 * Constrains the given point.
-         * This method changes the point which is passed as a parameter.
-         *
-         * @param p A point on the drawing.
-         *
-         * @return The closest constrained point.
-	 */
-	public Point2D.Double constrainPoint(Point2D.Double p);
-	/**
-	 * Constrains the given point towards the specified direction.
-         * This method changes the point which is passed as a parameter.
-         *
-         * @param p A point on the drawing.
-         * @param dir A direction.
-         * @return The closest constrained point in the specified direction.
-	 */
-	public Point2D.Double constrainPoint(Point2D.Double p, Direction dir);
-
-        /**
-         * Returns true if the Constrainer grid is visible.
-         */
-        public boolean isVisible();
-        
-	/**
-	 * Draws the constrainer grid for the specified drawing view.
-	 */
-	public void draw(Graphics2D g, DrawingView view);
+    /**
+     * Constrains the placement of a point towards the closest constrainment
+     * in any direction.
+     * <p>
+     * This method changes the point which is passed as a parameter.
+     *
+     * @param p A point on the drawing.
+     * @param dir A direction.
+     * @return Returns the constrained point.
+     */
+    public Point2D.Double constrainPoint(Point2D.Double p);
+    /**
+     * Moves a point in the specified direction.
+     * <p>
+     * This method changes the point which is passed as a parameter.
+     *
+     * @param p A point on the drawing.
+     * @param dir A direction.
+     * @return Returns the constrained point.
+     */
+    public Point2D.Double movePoint(Point2D.Double p, Direction dir);
+    /**
+     * Constrains the placement of a rectangle towards the closest constrainment
+     * in any direction.
+     * <p>
+     * This method changes the location of the rectangle which is passed as a
+     * parameter. This method does not change the size of the rectangle.
+     *
+     * @param f A rectangle on the drawing.
+     * @param dir A direction.
+     * @return Returns the constrained rectangle.
+     */
+    public Rectangle2D.Double constrainRectangle(Rectangle2D.Double r);
+    /**
+     * Moves a rectangle in a direction.
+     * <p>
+     * This method changes the location of the rectangle which is passed as a
+     * parameter. This method does not change the size of the rectangle.
+     *
+     * @param f A rectangle on the drawing.
+     * @param dir A direction.
+     * @return Returns the constrained rectangle.
+     */
+    public Rectangle2D.Double moveRectangle(Rectangle2D.Double r, Direction dir);
+    
+    /**
+     * Returns true if the Constrainer grid is visible.
+     */
+    public boolean isVisible();
+    
+    /**
+     * Draws the constrainer grid for the specified drawing view.
+     */
+    public void draw(Graphics2D g, DrawingView view);
+    
+    /**
+     * Adds a change listener.
+     */
+    public void addChangeListener(ChangeListener listener);
+    /**
+     * Removes a change listener.
+     */
+    public void removeChangeListener(ChangeListener listener);
 }

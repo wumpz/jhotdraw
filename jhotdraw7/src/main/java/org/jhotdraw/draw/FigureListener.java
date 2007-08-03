@@ -1,5 +1,5 @@
 /*
- * @(#)FigureListener.java  1.1  2007-02-09
+ * @(#)FigureListener.java  2.0  2007-07-17
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -20,7 +20,8 @@ import java.util.*;
  * Listener interested in Figure changes.
  *
  * @author Werner Randelshofer
- * @version 1.1 2007-02-09 Method figureHandlesChanged added.
+ * @version 2.0 2007-07-17 Shortened method names. 
+ * <br>1.1 2007-02-09 Method figureHandlesChanged added.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
 public interface FigureListener extends EventListener {
@@ -28,11 +29,11 @@ public interface FigureListener extends EventListener {
     /**
      * Sent when the drawing area used by the figure needs to be repainted.
      */
-    public void figureAreaInvalidated(FigureEvent e);
+    public void areaInvalidated(FigureEvent e);
     /**
      * Sent when an attribute of the figure has changed.
      */
-    public void figureAttributeChanged(FigureEvent e);
+    public void attributeChanged(FigureEvent e);
     /**
      * Sent when handles of a Figure have been added, removed or replaced.
      * <p>

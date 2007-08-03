@@ -329,7 +329,7 @@ public class BidirectionalConnectionTool extends AbstractTool implements FigureL
         createdFigure = newCreatedFigure;
     }
     
-    public void figureAreaInvalidated(FigureEvent evt) {
+    public void areaInvalidated(FigureEvent evt) {
         fireAreaInvalidated(evt.getInvalidatedArea());
     }
     
@@ -345,7 +345,7 @@ public class BidirectionalConnectionTool extends AbstractTool implements FigureL
     public void figureRequestRemove(FigureEvent e) {
     }
     
-    public void figureAttributeChanged(FigureEvent e) {
+    public void attributeChanged(FigureEvent e) {
     }
 
     public void figureHandlesChanged(FigureEvent e) {

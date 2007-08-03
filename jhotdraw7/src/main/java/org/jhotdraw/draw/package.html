@@ -18,21 +18,47 @@
 </head>
 <body bgcolor="white">
 <p>
-Provides all things directly related to representing a structured drawing and 
-editing it. 
+Defines a framework for the representation and the editing of structured drawings. 
+</p>
+<h3>Package Contents</h3>
+<p>
+    All key contracts of the framework are defined by Java interfaces. For each
+    interface exists an abstract class, which implements the event handling contract 
+    of the interface. And finally, there is at least one default implementation
+    of each interface.
 </p>
 <p>
-The most important interfaces in this package for representing a drawing are: 
-{@link org.jhotdraw.draw.Figure}, {@link org.jhotdraw.draw.Drawing}, 
-{@link org.jhotdraw.draw.ConnectionFigure}, 
-{@link org.jhotdraw.draw.Connector}, {@link org.jhotdraw.draw.CompositeFigure}; 
+The key interfaces for the representation of a drawing are: 
 </p>
+<ul>
+    <li>{@link org.jhotdraw.draw.Drawing}</li> 
+    <li>{@link org.jhotdraw.draw.Figure}</li>
+    <li>{@link org.jhotdraw.draw.CompositeFigure}</li> 
+    <li>{@link org.jhotdraw.draw.ConnectionFigure}</li> 
+    <li>{@link org.jhotdraw.draw.Connector}</li>
+</ul>
 <p>
-The most important interfaces in this package for editing a drawing are: 
-{@link org.jhotdraw.draw.DrawingEditor},
-{@link org.jhotdraw.draw.DrawingView}, {@link org.jhotdraw.draw.Tool}, 
-{@link org.jhotdraw.draw.Handle}.
+The key interface for displaying a drawing on screen is: 
 </p>
+<ul>
+    <li>{@link org.jhotdraw.draw.DrawingView}</li>
+</ul>
+<p>
+The key interfaces for editing a drawing are: 
+</p>
+<ul>
+    <li>{@link org.jhotdraw.draw.DrawingEditor}</li>
+    <li>{@link org.jhotdraw.draw.Tool}</li>
+    <li>{@link org.jhotdraw.draw.Handle}</li>
+</ul>
+<p>
+The key interfaces for loading and saving a drawing, and for providing
+copy and paste functionality are: 
+</p>
+<ul>
+    <li>{@link org.jhotdraw.draw.InputFormat}</li>
+    <li>{@link org.jhotdraw.draw.OutputFormat}</li>
+</ul>
 
 <!--
 <h2>Package Specification</h2>

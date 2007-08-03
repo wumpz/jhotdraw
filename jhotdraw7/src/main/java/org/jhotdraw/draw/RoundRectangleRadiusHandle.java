@@ -72,7 +72,9 @@ public class RoundRectangleRadiusHandle extends AbstractHandle {
         Geom.range(0, r.height, 2*(originalArc.y/2 + dy))
         );
         Point2D.Double arc = view.viewToDrawing(viewArc);
+        owner.willChange();
         owner.setArc(arc.x, arc.y);
+        owner.changed();
     }
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         // XXX - Implement undo redo here

@@ -133,6 +133,8 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
      *  measure the size of the paragraph.
      */
     private float drawParagraph(Graphics2D g, AttributedCharacterIterator styledText, float verticalPos, float maxVerticalPos, float leftMargin, float rightMargin, float[] tabStops, int tabCount) {
+        // This method is based on the code sample given
+        // in the class comment of java.awt.font.LineBreakMeasurer, 
         
         // assume styledText is an AttributedCharacterIterator, and the number
         // of tabs in styledText is tabCount

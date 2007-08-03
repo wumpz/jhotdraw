@@ -27,27 +27,30 @@ import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 /**
- * The GraphicalCompositeFigure fills in the gap between a AbstractCompositeFigure
+ * The GraphicalCompositeFigure fills in the gap between a CompositeFigure
  * and other figures which mainly have a presentation purpose. The
  * GraphicalCompositeFigure can be configured with any Figure which
  * takes over the task for rendering the graphical presentation for
- * a AbstractCompositeFigure. Therefore, the GraphicalCompositeFigure manages
- * contained figures like the AbstractCompositeFigure does, but delegates
+ * a CompositeFigure. Therefore, the GraphicalCompositeFigure manages
+ * contained figures like a CompositeFigure does, but delegates
  * its graphical presentation to another (graphical) figure which
  * purpose it is to draw the container for all contained figures.
- *
- * The GraphicalCompositeFigure adds to the {@link AbstractCompositeFigure AbstractCompositeFigure}
+ * 
+ * The GraphicalCompositeFigure adds to the {@link CompositeFigure CompositeFigure}
  * by containing a presentation figure by default which can not be removed.  Normally,
- * the {@link AbstractCompositeFigure AbstractCompositeFigure} can not be seen without containing a figure
+ * the {@link CompositeFigure CompositeFigure} can not be seen without containing a figure
  * because it has no mechanism to draw itself.  It instead relies on its contained
- * figures to draw themselves thereby giving the {@link AbstractCompositeFigure AbstractCompositeFigure} its
+ * figures to draw themselves thereby giving the {@link CompositeFigure BasicCompositeFigure} its
  * appearance.  However, the <b>GraphicalCompositeFigure</b>'s presentation figure
  * can draw itself even when the <b>GraphicalCompositeFigure</b> contains no other figures.
  * The <b>GraphicalCompositeFigure</b> also uses a {@link Layouter Layouter} or layout
  * its contained figures.
- *
- *
- *
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
  * @author Wolfram Kaiser (original code), Werner Randelshofer (this derived version)
  * @version 2.0 2006-01-14 Changed to support double precision coordinates.
  * <br>1.0 1. Dezember 2003  Derived from JHotDraw 5.4b1.
@@ -58,7 +61,7 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
     
     /**
      * Figure which performs all presentation tasks for this
-     * AbstractCompositeFigure as CompositeFigures usually don't have
+     * BasicCompositeFigure as CompositeFigures usually don't have
      * an own presentation but present only the sum of all its
      * children.
      */
@@ -85,7 +88,7 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
             }
         }
         
-        @Override public void figureAreaInvalidated(FigureEvent e) {
+        @Override public void areaInvalidated(FigureEvent e) {
             if (! owner.isChanging()) {
                 owner.fireAreaInvalidated(e.getInvalidatedArea());
             }
@@ -229,11 +232,14 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
         //return getPresentationFigure().getHandles();
     }
     /**
-     * Set a figure which renders this AbstractCompositeFigure. The presentation
-     * tasks for the AbstractCompositeFigure are delegated to this presentation
+     * Set a figure which renders this BasicCompositeFigure. The presentation
+     * tasks for the BasicCompositeFigure are delegated to this presentation
      * figure.
-     *
-     *
+     * 
+     * 
+     * 
+     * 
+     * 
      * @param newPresentationFigure	figure takes over the presentation tasks
      */
     public void setPresentationFigure(Figure newPresentationFigure) {
@@ -254,11 +260,14 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
     }
     
     /**
-     * Get a figure which renders this AbstractCompositeFigure. The presentation
-     * tasks for the AbstractCompositeFigure are delegated to this presentation
+     * Get a figure which renders this BasicCompositeFigure. The presentation
+     * tasks for the BasicCompositeFigure are delegated to this presentation
      * figure.
-     *
-     *
+     * 
+     * 
+     * 
+     * 
+     * 
      * @return figure takes over the presentation tasks
      */
     public Figure getPresentationFigure() {

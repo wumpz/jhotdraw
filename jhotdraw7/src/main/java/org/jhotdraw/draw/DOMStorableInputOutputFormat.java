@@ -114,7 +114,7 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
         }
         domi.closeElement();
         domi.closeElement();
-        drawing.basicAddAll(drawing.getFigureCount(), figures);
+        drawing.basicAddAll(drawing.getChildCount(), figures);
     }
     
     public String getFileExtension() {

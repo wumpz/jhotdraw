@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultDrawingView.java  3.5  2007-04-13
+ * @(#)DefaultDrawingView.java  4.0  2007-07-24
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -14,6 +14,7 @@
 
 package org.jhotdraw.draw;
 
+import javax.swing.event.*;
 import javax.swing.undo.*;
 import org.jhotdraw.gui.datatransfer.*;
 import org.jhotdraw.util.*;
@@ -36,13 +37,14 @@ import org.jhotdraw.xml.XMLTransferable;
  * The DefaultDrawingView is suited for viewing drawings with a small number
  * of Figures.
  *
- * FIXME - DefaultDrawingView should not implement DrawingListener and
- * HandleListener. It should use internal classes for this.
+ * XXX - Implement clone Method.
  *
  *
  * @author Werner Randelshofer
- * @version 3.5 2007-04-13 Implement clipboard functions using TransferHandler.
- * <br>3.4 2007-04-09 Visualizes the canvas size of a Drawing by a filled
+ * @version 4.0 2007-07-23 DefaultDrawingView does not publicly extend anymore
+ * CompositeFigureListener and HandleListener.
+ * <br>3.5 2007-04-13 Implement clipboard functions using TransferHandler.
+ * <br>3.4 2007-04-09 Visualizes the canvas sgetChildCountof a Drawing by a filled
  * white rectangle on the background.
  * <br>3.3 2007-01-23 Only repaint handles on focus gained/lost.
  * <br>3.2 2006-12-26 Rewrote storage and clipboard support.
@@ -57,7 +59,7 @@ import org.jhotdraw.xml.XMLTransferable;
  */
 public class DefaultDrawingView
         extends JComponent
-        implements DrawingView, DrawingListener, HandleListener, EditableComponent {
+        implements DrawingView, EditableComponent {
     /**
      * Set this to true to turn on debugging output on System.out.
      */
@@ -77,30 +79,109 @@ public class DefaultDrawingView
     private Point2D.Double translate = new Point2D.Double(0,0);
     private int detailLevel;
     private DrawingEditor editor;
-    private Constrainer constrainer = new GridConstrainer(1,1);
+    private Constrainer constrainer = new GridConstrainer();
     private JLabel emptyDrawingLabel;
     private FigureListener handleInvalidator = new FigureAdapter() {
         @Override public void figureHandlesChanged(FigureEvent e) {
             invalidateHandles();
         }
     };
+    private ChangeListener changeHandler = new ChangeListener() {
+        public void stateChanged(ChangeEvent evt) {
+            repaint();
+        }
+    };
     private Rectangle2D.Double cachedDrawingArea;
+    
+    private class EventHandler implements FigureListener, CompositeFigureListener, HandleListener, FocusListener {
+        public void figureAdded(CompositeFigureEvent evt) {
+            if (evt.getCompositeFigure().getChildCount() == 1) {
+                repaint();
+            } else {
+                repaint(evt.getInvalidatedArea());
+            }
+            invalidateDimension();
+        }
+        public void figureRemoved(CompositeFigureEvent evt) {
+            // Repaint the whole drawing to draw the message label
+            if (evt.getCompositeFigure().getChildCount() == 0) {
+                repaint();
+            } else {
+                repaint(evt.getInvalidatedArea());
+            }
+            removeFromSelection(evt.getChildFigure());
+            invalidateDimension();
+        }
+        
+        public void areaInvalidated(FigureEvent evt) {
+            repaint(evt.getInvalidatedArea());
+            invalidateDimension();
+        }
+        public void areaInvalidated(HandleEvent evt) {
+            repaint(evt.getInvalidatedArea());
+            invalidateDimension();
+        }
+        
+        public void handleRequestSecondaryHandles(HandleEvent e) {
+            secondaryHandleOwner = e.getHandle();
+            secondaryHandles.clear();
+            secondaryHandles.addAll(secondaryHandleOwner.createSecondaryHandles());
+            for (Handle h : secondaryHandles) {
+                h.setView(DefaultDrawingView.this);
+                h.addHandleListener(eventHandler);
+            }
+            repaint();
+        }
+        
+        public void focusGained(FocusEvent e) {
+            repaintHandles();
+        }
+        public void focusLost(FocusEvent e) {
+            repaintHandles();
+        }
+        
+        public void handleRequestRemove(HandleEvent e) {
+            selectionHandles.remove(e.getHandle());
+            e.getHandle().dispose();
+            invalidateHandles();
+            repaint(e.getInvalidatedArea());
+        }
+
+        public void attributeChanged(FigureEvent e) {
+        }
+
+        public void figureHandlesChanged(FigureEvent e) {
+        }
+
+        public void figureChanged(FigureEvent e) {
+        }
+
+        public void figureAdded(FigureEvent e) {
+        }
+
+        public void figureRemoved(FigureEvent e) {
+        }
+
+        public void figureRequestRemove(FigureEvent e) {
+        }
+    }
+    
+    private EventHandler eventHandler;
     
     /** Creates new instance. */
     public DefaultDrawingView() {
         initComponents();
+        eventHandler = createEventHandler();
         setToolTipText("dummy"); // Set a dummy tool tip text to turn tooltips on
         setFocusable(true);
-        addFocusListener(new FocusListener() {
-            public void focusGained(FocusEvent e) {
-                repaintHandles();
-            }
-            public void focusLost(FocusEvent e) {
-                repaintHandles();
-            }
-        });
+        addFocusListener(eventHandler);
         setTransferHandler(new DefaultDrawingViewTransferHandler());
     }
+    
+    protected EventHandler createEventHandler() {
+        return new EventHandler();
+    }
+    
     
     /** This method is called from within the constructor to
      * initialize the form.
@@ -168,7 +249,6 @@ public class DefaultDrawingView
         drawBackground(g);
         drawGrid(g);
         drawDrawing(g);
-        
         drawHandles(g);
         drawTool(g);
     }
@@ -255,7 +335,7 @@ public class DefaultDrawingView
          */
         
         if (drawing != null) {
-            if (drawing.getFigureCount() == 0 && emptyDrawingLabel != null) {
+            if (drawing.getChildCount() == 0 && emptyDrawingLabel != null) {
                 emptyDrawingLabel.setBounds(0, 0, getWidth(), getHeight());
                 emptyDrawingLabel.paint(gr);
             } else {
@@ -293,12 +373,14 @@ public class DefaultDrawingView
     
     public void setDrawing(Drawing d) {
         if (this.drawing != null) {
-            this.drawing.removeDrawingListener(this);
+            this.drawing.removeCompositeFigureListener(eventHandler);
+            this.drawing.removeFigureListener(eventHandler);
             clearSelection();
         }
         this.drawing = d;
         if (this.drawing != null) {
-            this.drawing.addDrawingListener(this);
+            this.drawing.addCompositeFigureListener(eventHandler);
+            this.drawing.addFigureListener(eventHandler);
         }
         invalidateDimension();
         invalidate();
@@ -320,33 +402,6 @@ public class DefaultDrawingView
         repaint(vr);
     }
     
-    public void areaInvalidated(DrawingEvent evt) {
-        repaint(evt.getInvalidatedArea());
-        invalidateDimension();
-    }
-    public void areaInvalidated(HandleEvent evt) {
-        repaint(evt.getInvalidatedArea());
-        invalidateDimension();
-    }
-    public void figureAdded(DrawingEvent evt) {
-        // Repaint the whole drawing to remove the message label
-        if (evt.getDrawing().getFigureCount() == 1) {
-            repaint();
-        } else {
-            repaint(evt.getInvalidatedArea());
-        }
-        invalidateDimension();
-    }
-    public void figureRemoved(DrawingEvent evt) {
-        // Repaint the whole drawing to draw the message label
-        if (evt.getDrawing().getFigureCount() == 0) {
-            repaint();
-        } else {
-            repaint(evt.getInvalidatedArea());
-        }
-        removeFromSelection(evt.getFigure());
-        invalidateDimension();
-    }
     public void invalidate() {
         invalidateDimension();
         super.invalidate();
@@ -425,7 +480,7 @@ public class DefaultDrawingView
     public void selectAll() {
         Set<Figure> oldSelection = new HashSet<Figure>(selectedFigures);
         selectedFigures.clear();
-        selectedFigures.addAll(drawing.getFigures());
+        selectedFigures.addAll(drawing.getChildren());
         Set<Figure> newSelection = new HashSet<Figure>(selectedFigures);
         invalidateHandles();
         fireSelectionChanged(oldSelection, newSelection);
@@ -489,7 +544,7 @@ public class DefaultDrawingView
             
             Rectangle invalidatedArea = null;
             for (Handle handle : selectionHandles) {
-                handle.removeHandleListener(this);
+                handle.removeHandleListener(eventHandler);
                 if (invalidatedArea == null) {
                     invalidatedArea = handle.getDrawingArea();
                 } else {
@@ -532,7 +587,7 @@ public class DefaultDrawingView
                     for (Handle handle : figure.createHandles(level)) {
                         handle.setView(this);
                         selectionHandles.add(handle);
-                        handle.addHandleListener(this);
+                        handle.addHandleListener(eventHandler);
                         if (invalidatedArea == null) {
                             invalidatedArea = handle.getDrawingArea();
                         } else {
@@ -656,14 +711,6 @@ public class DefaultDrawingView
         }
     }
     
-    public void handleRequestRemove(HandleEvent e) {
-        selectionHandles.remove(e.getHandle());
-        e.getHandle().dispose();
-        invalidateHandles();
-        //validateHandles();
-        repaint(e.getInvalidatedArea());
-    }
-    
     protected void invalidateDimension() {
         cachedPreferredSize = null;
         cachedDrawingArea = null;
@@ -674,10 +721,16 @@ public class DefaultDrawingView
     }
     
     public void setConstrainer(Constrainer newValue) {
+        if (constrainer != null) {
+            constrainer.removeChangeListener(changeHandler);
+        }
         Constrainer oldValue = constrainer;
         constrainer = newValue;
-        repaint();
+        if (constrainer != null) {
+            constrainer.addChangeListener(changeHandler);
+        }
         firePropertyChange("constrainer", oldValue, newValue);
+        repaint();
     }
     
     
@@ -705,7 +758,7 @@ public class DefaultDrawingView
         if (cachedDrawingArea == null) {
             cachedDrawingArea = new Rectangle2D.Double();
             if (drawing != null) {
-                for (Figure f : drawing.getFigures()) {
+                for (Figure f : drawing.getChildren()) {
                     if (cachedDrawingArea == null) {
                         cachedDrawingArea = f.getDrawingArea();
                     } else {
@@ -795,18 +848,6 @@ public class DefaultDrawingView
         return detailLevel;
     }
     
-    public void handleRequestSecondaryHandles(HandleEvent e) {
-        //if (e.getHandle() != secondaryHandleOwner) {
-        secondaryHandleOwner = e.getHandle();
-        secondaryHandles.clear();
-        secondaryHandles.addAll(secondaryHandleOwner.createSecondaryHandles());
-        for (Handle h : secondaryHandles) {
-            h.setView(this);
-            h.addHandleListener(this);
-        }
-        repaint();
-        //}
-    }
     
     public AffineTransform getDrawingToViewTransform() {
         AffineTransform t = new AffineTransform();
@@ -816,24 +857,35 @@ public class DefaultDrawingView
     }
     
     public void delete() {
-        final LinkedList<DrawingEvent> deletionEvents = new LinkedList<DrawingEvent>();
+        final LinkedList<CompositeFigureEvent> deletionEvents = new LinkedList<CompositeFigureEvent>();
         final LinkedList<Figure> selectedFigures = new LinkedList<Figure>(getSelectedFigures());
+        
+        // Abort, if not all of the selected figures may be removed from the
+        // drawing
+        for (Figure f : selectedFigures) {
+            if (! f.isRemovable()) {
+                getToolkit().beep();
+                return;
+            }
+        }
+        
+        
         clearSelection();
-        DrawingListener removeListener = new DrawingListener() {
-            public void areaInvalidated(DrawingEvent e) {
+        CompositeFigureListener removeListener = new CompositeFigureListener() {
+            public void areaInvalidated(CompositeFigureEvent e) {
             }
             
-            public void figureAdded(DrawingEvent e) {
+            public void figureAdded(CompositeFigureEvent e) {
             }
             
-            public void figureRemoved(DrawingEvent evt) {
+            public void figureRemoved(CompositeFigureEvent evt) {
                 deletionEvents.addFirst(evt);
             }
             
         };
-        getDrawing().addDrawingListener(removeListener);
+        getDrawing().addCompositeFigureListener(removeListener);
         getDrawing().removeAll(selectedFigures);
-        getDrawing().removeDrawingListener(removeListener);
+        getDrawing().removeCompositeFigureListener(removeListener);
         
         getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
             public String getPresentationName() {
@@ -844,15 +896,15 @@ public class DefaultDrawingView
                 super.undo();
                 clearSelection();
                 Drawing d = getDrawing();
-                for (DrawingEvent evt : deletionEvents) {
-                    d.add(evt.getIndex(), evt.getFigure());
+                for (CompositeFigureEvent evt : deletionEvents) {
+                    d.add(evt.getIndex(), evt.getChildFigure());
                 }
                 addToSelection(selectedFigures);
             }
             public void redo() throws CannotRedoException {
                 super.redo();
-                for (DrawingEvent evt : new ReversedList<DrawingEvent>(deletionEvents)) {
-                getDrawing().remove(evt.getFigure());
+                for (CompositeFigureEvent evt : new ReversedList<CompositeFigureEvent>(deletionEvents)) {
+                    getDrawing().remove(evt.getChildFigure());
                 }
             }
         });

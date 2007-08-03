@@ -42,9 +42,8 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
         implements CompositeFigure {
     
     private Layouter layouter;
-    private ArrayList<Figure> children = new ArrayList();
-    //private Rectangle2D.Double bounds;
-    private Rectangle2D.Double drawBounds;
+    private ArrayList<Figure> children = new ArrayList<Figure>();
+    private Rectangle2D.Double cachedDrawingArea;
     
     /**
      * Handles figure changes in the children.
@@ -67,7 +66,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
             }
         }
         
-        @Override public void figureAreaInvalidated(FigureEvent e) {
+        @Override public void areaInvalidated(FigureEvent e) {
             if (! owner.isChanging()) {
                 owner.fireAreaInvalidated(e.getInvalidatedArea());
             }
@@ -102,39 +101,21 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
         for (Figure f : children) {
             f.transform(tx);
         }
-        invalidateBounds();
-    }
-    public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
-        super.setBounds(anchor, lead);
         invalidate();
     }
-    public Rectangle2D.Double getBounds() {
-        return super.getBounds();
-        /*
-        if (bounds == null) {
-            bounds = super.getBounds();
-            for (Figure child : getChildrenFrontToBack()) {
-                if (child.isVisible()) {
-                    bounds.add(child.getBounds());
-                }
-            }
-        }
-        return (Rectangle2D.Double) bounds.clone();
-         */
-    }
     public Rectangle2D.Double getDrawingArea() {
-        if (drawBounds == null) {
-            drawBounds = super.getDrawingArea();
+        if (cachedDrawingArea == null) {
+            cachedDrawingArea = super.getDrawingArea();
             for (Figure child : getChildrenFrontToBack()) {
                 if (child.isVisible()) {
                     Rectangle2D.Double childBounds = child.getDrawingArea();
                     if (! childBounds.isEmpty()) {
-                        drawBounds.add(childBounds);
+                        cachedDrawingArea.add(childBounds);
                     }
                 }
             }
         }
-        return (Rectangle2D.Double) drawBounds.clone();
+        return (Rectangle2D.Double) cachedDrawingArea.clone();
     }
     public boolean contains(Point2D.Double p) {
         if (getDrawingArea().contains(p)) {
@@ -144,10 +125,6 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
             return super.contains(p);
         }
         return false;
-    }
-    protected void invalidateBounds() {
-        //bounds = null;
-        drawBounds = null;
     }
     // ATTRIBUTES
     /**
@@ -196,9 +173,6 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
     public Figure getChild(int index) {
         return children.get(index);
     }
-    public void set(int index, Figure child) {
-        children.set(index, child);
-    }
     /**
      * Returns an iterator to iterate in
      * Z-order front to back over the children.
@@ -209,11 +183,12 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
             new ReversedList<Figure>(children);
     }
     
-    public void add(Figure figure) {
+    public boolean add(Figure figure) {
         basicAdd(figure);
         if (getDrawing() != null) {
             figure.addNotify(getDrawing());
         }
+        return true;
     }
     public void add(int index, Figure figure) {
         basicAdd(index, figure);
@@ -252,19 +227,16 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
         changed();
         return figure;
     }
-    public boolean basicRemove(final Figure figure) {
+    public int basicRemove(final Figure figure) {
         int index = children.indexOf(figure);
-        if (index == -1) {
-            return false;
-        } else {
+        if (index != -1) {
             basicRemoveChild(index);
-            return true;
         }
+        return index;
     }
     public Figure basicRemoveChild(int index) {
         Figure figure = children.remove(index);
         figure.removeFigureListener(childHandler);
-        
         return figure;
     }
     
@@ -313,7 +285,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
             Rectangle2D.Double r = getLayouter().layout(
                     this, p, p
                     );
-            invalidateBounds();
+            invalidate();
         }
     }
     
@@ -321,7 +293,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
     
     public void invalidate() {
         super.invalidate();
-        invalidateBounds();
+        cachedDrawingArea = null;
     }
     public void validate() {
         super.validate();
@@ -339,20 +311,56 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
         }
         super.removeNotify(drawing);
     }
+    public void removeCompositeFigureListener(CompositeFigureListener listener) {
+        listenerList.remove(CompositeFigureListener.class, listener);
+    }
+
+    public void addCompositeFigureListener(CompositeFigureListener listener) {
+        listenerList.add(CompositeFigureListener.class, listener);
+    }
     /**
-     * Informs that a figure changed the area of its display box.
-     * /
-     * public void changed() {
-     * if (isChangingCount == 1) {
-     * super.changed();
-     * layout();
-     * fireFigureChanged(getDrawingArea());
-     * } else {
-     * invalidateBounds();
-     * }
-     * isChangingCount--;
-     * }
+     *  Notify all listenerList that have registered interest for
+     * notification on this event type.
      */
+    protected void fireFigureAdded(Figure f, int zIndex) {
+        CompositeFigureEvent event = null;
+        // Notify all listeners that have registered interest for
+        // Guaranteed to return a non-null array
+        Object[] listeners = listenerList.getListenerList();
+        // Process the listeners last to first, notifying
+        // those that are interested in this event
+        for (int i = listeners.length-2; i>=0; i-=2) {
+            if (listeners[i] == CompositeFigureListener.class) {
+                // Lazily create the event:
+                if (event == null)
+                    event = new CompositeFigureEvent(this, f, f.getDrawingArea(), zIndex);
+                ((CompositeFigureListener)listeners[i+1]).figureAdded(event);
+            }
+        }
+    }
+    
+    /**
+     *  Notify all listenerList that have registered interest for
+     * notification on this event type.
+     */
+    protected void fireFigureRemoved(Figure f, int zIndex) {
+        CompositeFigureEvent event = null;
+        // Notify all listeners that have registered interest for
+        // Guaranteed to return a non-null array
+        Object[] listeners = listenerList.getListenerList();
+        // Process the listeners last to first, notifying
+        // those that are interested in this event
+        for (int i = listeners.length-2; i>=0; i-=2) {
+            if (listeners[i] == CompositeFigureListener.class) {
+                // Lazily create the event:
+                if (event == null)
+                    event = new CompositeFigureEvent(this, f, f.getDrawingArea(), zIndex);
+                ((CompositeFigureListener)listeners[i+1]).figureRemoved(event);
+            }
+        }
+    }
+    
+    // CLONING
     public LabeledLineConnectionFigure clone() {
         LabeledLineConnectionFigure that = (LabeledLineConnectionFigure) super.clone();
         that.childHandler = new ChildHandler(that);
@@ -370,18 +378,8 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
             child.remap(oldToNew);
         }
     }
-    /**
-     * Informs that a figure changed the area of its display box.
-     * /
-     * public void changed() {
-     * // FIXME - May break super implementation
-     * if (isChangingCount == 1) {
-     * layout();
-     * fireFigureChanged(getDrawBounds());
-     * } else {
-     * invalidateBounds();
-     * }
-     * isChangingCount--;
-     * }*/
-    
+
+    public boolean contains(Figure f) {
+        return children.contains(f);
+    }
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)ColorIcon.java  1.1  2006-02-26
+ * @(#)ColorIcon.java  2.0  2007-06-26
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -20,29 +20,57 @@ import javax.swing.*;
  * ColorIcon.
  *
  * @author  Werner Randelshofer
- * @version 1.1 2006-02-26 Draw lines instead of draw rect.
+ * @version 2.0 2007-06-26 Added support for name and size. 
+ * <br>1.1 2006-02-26 Draw lines instead of draw rect.
  * <br>1.0 25. November 2003  Created.
  */
 public class ColorIcon implements javax.swing.Icon {
     private Color fillColor;
     private Color borderColor;
+    private int width;
+    private int height;
+    private String name;
     
     /** Creates a new instance. */
-    public ColorIcon(Color fillColor) {
-        this.fillColor = fillColor;
-        borderColor = (fillColor == null) 
+    public ColorIcon(int rgb) {
+        this(new Color(rgb), Integer.toHexString(0xff000000 | rgb).substring(2), 14, 10);
+    }
+    public ColorIcon(Color color) {
+        this(color, Integer.toHexString(color.getRGB()), 14, 10);
+    }
+    public ColorIcon(int rgb, String name) {
+        this(new Color(rgb), name, 14, 10);
+    }
+    public ColorIcon(Color color, String name) {
+        this(color, name, 14, 10);
+    }
+    public ColorIcon(Color color, String name, int width, int height) {
+        this.fillColor = color;
+        borderColor = (color == null) 
         ? new Color(0, 0, 0, 38) 
-        : Colors.shadow(fillColor, 38)
+        : Colors.shadow(color, 38)
         ;
+        this.name = name;
+        this.width = width;
+        this.height = height;
     }
     
-    public int getIconHeight() {
-        return 10;
+    public Color getColor() {
+        return fillColor;
+    }
+    
+    public String getName() {
+        return name;
     }
     
     public int getIconWidth() {
-        return 14;
+        return width;
     }
+    
+    public int getIconHeight() {
+        return height;
+    }
+    
     public void paintIcon(Component c, Graphics g, int x, int y) {
         //Graphics2D g = (Graphics2D) gr;
         if (fillColor == null) {
@@ -62,5 +90,4 @@ public class ColorIcon implements javax.swing.Icon {
              g.drawLine(x + getIconWidth() - 1, y + getIconHeight() - 1, x, y + getIconHeight() - 1);
              g.drawLine(x, y + getIconHeight() - 1, x, y);
    }
-    
 }

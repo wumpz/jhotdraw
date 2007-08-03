@@ -1,5 +1,5 @@
 /*
- * @(#)DrawingChangeEvent.java  2.1  2007-05-21
+ * @(#)CompositeFigureEvent.java  3.0  2007-07-17
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -18,34 +18,28 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
 /**
- * Change event passed to DrawingChangeListeners.
+ * Change event passed to CompositeFigureListeners.
  *
  * @author Werner Randelshofer
- * @version 2.1 2007-05-21 Added z-index property. 
+ * @version 3.0 2007-07-17 Renamed from DrawingEvent to CompositeFigureEvent. 
+ * <br>2.1 2007-05-21 Added z-index property. 
  * <br>1.0 2006-01-14 Changed to support double precision coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
-public class DrawingEvent extends EventObject {
+public class CompositeFigureEvent extends EventObject {
     private Rectangle2D.Double invalidatedArea;
-    private Figure figure;
+    private Figure child;
     private int index;
     
     /**
-     * Constructs an event for the provided Drawing.
-     * @param figure The changed figure.
+     * Constructs an event for the provided CompositeFigure.
+     * @param source The composite figure.
+     * @param child The changed figure.
      * @param invalidatedArea The bounds of the invalidated area on the drawing.
      */
-    public DrawingEvent(Drawing source, Figure figure, Rectangle2D.Double invalidatedArea) {
-        this(source, figure, invalidatedArea, -1);
-    }
-    /**
-     * Constructs an event for the provided Drawing.
-     * @param figure The changed figure.
-     * @param invalidatedArea The bounds of the invalidated area on the drawing.
-     */
-    public DrawingEvent(Drawing source, Figure figure, Rectangle2D.Double invalidatedArea, int zIndex) {
+    public CompositeFigureEvent(CompositeFigure source, Figure child, Rectangle2D.Double invalidatedArea, int zIndex) {
         super(source);
-        this.figure = figure;
+        this.child = child;
         this.invalidatedArea = invalidatedArea;
         this.index = 0;
     }
@@ -54,14 +48,14 @@ public class DrawingEvent extends EventObject {
     /**
      *  Gets the changed drawing.
      */
-    public Drawing getDrawing() {
-        return (Drawing) getSource();
+    public CompositeFigure getCompositeFigure() {
+        return (CompositeFigure) getSource();
     }
     /**
-     *  Gets the changed figure.
+     *  Gets the changed child figure.
      */
-    public Figure getFigure() {
-        return figure;
+    public Figure getChildFigure() {
+        return child;
     }
     
     /**
@@ -72,7 +66,7 @@ public class DrawingEvent extends EventObject {
     }
     
     /**
-     * Returns the z-index of the figure.
+     * Returns the z-index of the child figure.
      */
     public int getIndex() {
         return index;

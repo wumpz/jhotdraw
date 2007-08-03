@@ -1,5 +1,5 @@
 /*
- * @(#)Drawing.java  2.4  2007-05-21
+ * @(#)Drawing.java  3.0  2007-07-17
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -27,24 +27,36 @@ import javax.swing.undo.*;
 import javax.swing.event.*;
 import java.io.*;
 /**
- * Drawing is a container for figures.
+ * A drawing holds figures. It can draw its figures, and it can find
+ * them on its drawing area.
+ * <br>
+ * A drawing notifies listeners when a figure is added or removed,
+ * and when its drawing area needs to be repainted.
  * <p>
- * Drawing sends out DrawingChanged events to DrawingChangeListeners
- * whenever a part of its area was invalidated.
+ * The drawing object is used by figure handles and editing tools
+ * to fire undoable edit events. This way, undoable edit listeners only need to 
+ * register on a drawing in order to receive all undoable edit
+ * events related to a drawing.
+ * <p>
+ * A drawing can have a number of input formats and output formats,
+ * allowing to load and save the drawing, and to copy and paste figures
+ * into the clipboard.
+ *
+ * @see Figure
+ * @see DrawingChangeListener
+ * @see DrawingChangeEvent
  *
  * @author Werner Randelshofer
- * @version 2.4 2007-05-21 Added add-methods with index to the interface.
+ * @version 3.0 2007-07-17 Refactored Drawing from an independent interface
+ * into an interface that extends from CompositeFigure. 
+ * <br>2.4 2007-05-21 Added add-methods with index to the interface.
  * <br>2.3 2007-05-16 Added method findFigureBehind. 
  * <br>2.2 2007-04-09 Methods setCanvasSize, getCanvasSize added.
  * <br>2.1 2006-12-31 Changed to return lists instead of collections.
  * <br>2.0 2006-01-14 Changed to support double precision coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
-public interface Drawing extends Serializable, DOMStorable {
-    /**
-     * Removes all figures from the drawing.
-     */
-    public void clear();
+public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
     /**
      * Adds a figure to the drawing.
      * The drawing sends an {@code addNotify} message to the figure
@@ -54,7 +66,7 @@ public interface Drawing extends Serializable, DOMStorable {
      *
      * @param figure to be added to the drawing
      */
-    public void add(Figure figure);
+    public boolean add(Figure figure);
     /**
      * Adds a figure to the drawing.
      * The drawing sends an {@code addNotify} message to the figure
@@ -97,7 +109,7 @@ public interface Drawing extends Serializable, DOMStorable {
      *
      * @param figure that is part of the drawing and should be removed
      */
-    public void remove(Figure figure);
+    public boolean remove(Figure figure);
     /**
      * Removes the specified figures from the drawing.
      * The drawing sends a {@code removeNotify}  message to each figure
@@ -117,7 +129,7 @@ public interface Drawing extends Serializable, DOMStorable {
      * 
      * @param figure that is part of the drawing and should be removed
      */
-    public void basicRemove(Figure figure);
+    public int basicRemove(Figure figure);
     /**
      * Removes the specified figures temporarily from the drawing.
      *
@@ -130,11 +142,11 @@ public interface Drawing extends Serializable, DOMStorable {
      * Reinserts a figure which was temporarily removed using basicRemove.
      * <p>
      * This is a convenience method for calling 
-     * {@code basicAdd(getFigureCount(), figure)}.
-     *
-     * @see #basicRemove(Figure)
+     * {@code basicAdd(size(), figure)}.
+     * 
      * @param index The z-index of the figure.
      * @param figure that is part of the drawing and should be removed
+     * @see #basicRemove(Figure)
      */
     public void basicAdd(Figure figure);
     /**
@@ -156,11 +168,12 @@ public interface Drawing extends Serializable, DOMStorable {
     /**
      * Reinserts the specified figures which were temporarily removed from
      * the drawing.
-     *
-     * @see #basicRemoveAll(Collection)
+     * 
+     * 
      * @param index The insertion index.
      * @param figures A collection of figures which are part of the drawing
      * and should be reinserted.
+     * @see #basicRemoveAll(Collection)
      */
     public void basicAddAll(int index, Collection<Figure> figures);
     
@@ -189,12 +202,12 @@ public interface Drawing extends Serializable, DOMStorable {
      * Returns the figures of the drawing.
      * @return A Collection of Figure's.
      */
-    public List<Figure> getFigures();
+    public List<Figure> getChildren();
     
     /**
      * Returns the number of figures in this drawing.
      */
-    public int getFigureCount();
+    public int getChildCount();
     
     /**
      * Finds a top level Figure. Use this call for hit detection that
@@ -221,10 +234,6 @@ public interface Drawing extends Serializable, DOMStorable {
      */
     Figure findFigureBehind(Point2D.Double p, Collection<Figure> figures);
     
-    /**
-     * Returns true if this drawing contains the specified figure.
-     */
-    boolean contains(Figure f);
     
     /**
      * Returns a list of the figures in Z-Order from front to back.
@@ -259,15 +268,6 @@ public interface Drawing extends Serializable, DOMStorable {
     public List<Figure> sort(Collection<Figure> figures);
     
     /**
-     * Adds a listener for this drawing.
-     */
-    void addDrawingListener(DrawingListener listener);
-    
-    /**
-     * Removes a listener from this drawing.
-     */
-    void removeDrawingListener(DrawingListener listener);
-    /**
      * Adds a listener for undooable edit events.
      */
     public void addUndoableEditListener(UndoableEditListener l);
@@ -296,6 +296,15 @@ public interface Drawing extends Serializable, DOMStorable {
      * drawing synchronize to prevent race conditions.
      */
     public Object getLock();
+    
+    /**
+     * Adds an input format to the drawing.
+     */
+    public void addInputFormat(InputFormat format);
+    /**
+     * Adds an output format to the drawing.
+     */
+    public void addOutputFormat(OutputFormat format);
     
     /**
      * Sets input formats for the Drawing in order of preferred formats.

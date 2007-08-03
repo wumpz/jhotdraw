@@ -49,6 +49,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
             
             if (drawing.getInputFormats() == null ||
                     drawing.getInputFormats().size() == 0) {
+                if (DEBUG) System.out.println(this+".importData failed - drawing has no import formats");
                 retValue = false;
             } else {
                 retValue = false;
@@ -56,7 +57,9 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                     // Search for a suitable input format
                     SearchLoop: for (InputFormat format : drawing.getInputFormats()) {
                         for (DataFlavor flavor : t.getTransferDataFlavors()) {
+                            if (DEBUG) System.out.println(this+".importData trying to match "+format+" to flavor "+flavor);
                             if (format.isDataFlavorSupported(flavor)) {
+                                if (DEBUG) System.out.println(this+".importData importing flavor "+flavor);
                                 final java.util.List<Figure> importedFigures = format.readFigures(t);
                                 view.clearSelection();
                                 drawing.addAll(importedFigures);
@@ -86,7 +89,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                         java.util.List<File> files = (java.util.List<File>) t.getTransferData(DataFlavor.javaFileListFlavor);
                         retValue = true;
                         
-                        final java.util.List<Figure> storedFigures = new LinkedList<Figure>(drawing.getFigures());
+                        final java.util.List<Figure> storedFigures = new LinkedList<Figure>(drawing.getChildren());
                         
                         // FIXME - We should perform the following code in a
                         // worker thread.
@@ -94,26 +97,17 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                             FileFormatLoop: for (InputFormat format : drawing.getInputFormats()) {
                                 if (file.isFile() &&
                                         format.getFileFilter().accept(file)) {
+                                    if (DEBUG) System.out.println(this+".importData importing file "+file);
                                     format.read(file, drawing);
                                 }
                             }
                         }
                         
-                        final LinkedList<Figure> importedFigures = new LinkedList<Figure>(drawing.getFigures());
+                        final LinkedList<Figure> importedFigures = new LinkedList<Figure>(drawing.getChildren());
                         importedFigures.removeAll(storedFigures);
                         if (importedFigures.size() > 0) {
-                            /*
-                            Rectangle2D.Double invalidatedArea = null;
-                            for (Figure f : importedFigures) {
-                                if (invalidatedArea == null) {
-                                    invalidatedArea = f.getDrawingArea();
-                                } else {
-                                    invalidatedArea.add(f.getDrawingArea());
-                                }
-                            }*/
                             view.clearSelection();
                             view.addToSelection(importedFigures);
-                            //view.getComponent().repaint(view.drawingToView(invalidatedArea));
                             
                             drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
                                 public String getPresentationName() {
@@ -142,10 +136,10 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
     }
     
     @Override public int getSourceActions(JComponent c) {
-        if (DEBUG) System.out.println(this+".getSourceActions");
         int retValue;
         if (c instanceof DrawingView) {
             DrawingView view = (DrawingView) c;
+            if (DEBUG) System.out.println(this+".getSourceActions outputFormats.size="+view.getDrawing().getOutputFormats().size());
             retValue = (view.getDrawing().getOutputFormats().size() > 0 &&
                     view.getSelectionCount() > 0) ?
                         COPY | MOVE :
@@ -153,6 +147,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
         } else {
             retValue = super.getSourceActions(c);
         }
+        if (DEBUG) System.out.println(this+".getSourceActions:"+retValue);
         return retValue;
     }
     
@@ -202,24 +197,34 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
             final DrawingView view = (DrawingView) source;
             final Drawing drawing = view.getDrawing();
             if (action == MOVE) {
-                final LinkedList<DrawingEvent> deletionEvents = new LinkedList<DrawingEvent>();
+                final LinkedList<CompositeFigureEvent> deletionEvents = new LinkedList<CompositeFigureEvent>();
                 final LinkedList<Figure> selectedFigures = new LinkedList<Figure>(view.getSelectedFigures());
+                
+                // Abort, if not all of the selected figures may be removed from the
+                // drawing
+                for (Figure f : selectedFigures) {
+                    if (! f.isRemovable()) {
+                        source.getToolkit().beep();
+                        return;
+                    }
+                }
+                
                 view.clearSelection();
-                DrawingListener removeListener = new DrawingListener() {
-                    public void areaInvalidated(DrawingEvent e) {
+                CompositeFigureListener removeListener = new CompositeFigureListener() {
+                    public void areaInvalidated(CompositeFigureEvent e) {
                     }
                     
-                    public void figureAdded(DrawingEvent e) {
+                    public void figureAdded(CompositeFigureEvent e) {
                     }
                     
-                    public void figureRemoved(DrawingEvent evt) {
+                    public void figureRemoved(CompositeFigureEvent evt) {
                         deletionEvents.addFirst(evt);
                     }
                     
                 };
-                drawing.addDrawingListener(removeListener);
+                drawing.addCompositeFigureListener(removeListener);
                 drawing.removeAll(selectedFigures);
-                drawing.removeDrawingListener(removeListener);
+                drawing.removeCompositeFigureListener(removeListener);
                 drawing.removeAll(selectedFigures);
                 drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
                     public String getPresentationName() {
@@ -229,15 +234,15 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                     public void undo() throws CannotUndoException {
                         super.undo();
                         view.clearSelection();
-                        for (DrawingEvent evt : deletionEvents) {
-                            drawing.add(evt.getIndex(), evt.getFigure());
+                        for (CompositeFigureEvent evt : deletionEvents) {
+                            drawing.add(evt.getIndex(), evt.getChildFigure());
                         }
                         view.addToSelection(selectedFigures);
                     }
                     public void redo() throws CannotRedoException {
                         super.redo();
-                        for (DrawingEvent evt : new ReversedList<DrawingEvent>(deletionEvents)) {
-                            drawing.remove(evt.getFigure());
+                        for (CompositeFigureEvent evt : new ReversedList<CompositeFigureEvent>(deletionEvents)) {
+                            drawing.remove(evt.getChildFigure());
                         }
                     }
                 });

@@ -1,7 +1,7 @@
 /*
- * @(#)DrawingListener.java  1.0  11. November 2003
+ * @(#)CompositeFigureListener.java  2.0  2007-07-17
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -17,25 +17,20 @@ package org.jhotdraw.draw;
 
 import java.util.*;
 /**
- * Listener interested in Drawing changes.
+ * Listener interested in changes in a CompositeFigure.
  *
  * @author Werner Randelshofer
- * @version 1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version 2.0 2007-07-17 Renamed from DrawingListener to CompositeFigureListener. 
+ * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
-public interface DrawingListener extends EventListener {
-    
-    /**
-     * Sent when an area of the drawing needs to be repainted.
-     */
-    public void areaInvalidated(DrawingEvent e);
-    
+public interface CompositeFigureListener extends EventListener {
     /**
      * Sent when a figure was added.
      */
-    public void figureAdded(DrawingEvent e);
+    public void figureAdded(CompositeFigureEvent e);
     
     /**
      * Sent when a figure was removed.
      */
-    public void figureRemoved(DrawingEvent e);
+    public void figureRemoved(CompositeFigureEvent e);
 }

@@ -1,7 +1,7 @@
 /*
- * @(#)CompositeFigure.java  1.0  27. Januar 2006
+ * @(#)CompositeFigure.java  2.0  2007-07-17
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -31,7 +31,10 @@ import org.jhotdraw.geom.*;
  * A CompositeFigure can be laid out using a Layouter.
  *
  * @author Werner Randelshofer
- * @version 1.0 27. Januar 2006 Created.
+ * @version 2.0 2007-07-17 Added support for CompositeFigureListener.
+ * CompositeFigure is now streamlined with the java.util.List<Figure>
+ * interface. 
+ * <br>1.0 27. Januar 2006 Created.
  */
 public interface CompositeFigure extends Figure {
     /**
@@ -41,11 +44,16 @@ public interface CompositeFigure extends Figure {
     
     /**
      * Adds a child to the figure.
-     * This is a convenience method for add(getChildCount(), child);
+     * This is a convenience method for {@code add(getChildCount(), child);}
+     * 
+     * @return {@code true} if this CompositeFigure changed as a result of the
+     *         call
      */
-    public void add(Figure child);
+    public boolean add(Figure child);
     /**
      * Adds a child to the figure at the specified index.
+     * Calls {@code figureAdded} on all registered
+     * {@code CompositeFigureListener}'s.
      */
     public void add(int index, Figure child);
     /**
@@ -61,11 +69,15 @@ public interface CompositeFigure extends Figure {
     /**
      * Removes the specified child.
      * Returns true, if the Figure contained the removed child.
+     * Calls {@code figureRemoved} on all registered
+     * {@code CompositeFigureListener}'s.
      */
     public boolean remove(Figure child);
     /**
      * Removes the child at the specified index.
      * Returns the removed child figure.
+     * Calls {@code figureRemoved} on all registered
+     * {@code CompositeFigureListener}'s.
      */
     public Figure removeChild(int index);
     /**
@@ -74,9 +86,10 @@ public interface CompositeFigure extends Figure {
     public void removeAllChildren();
     /**
      * Removes the specified child without firing events.
-     * Returns true, if the Figure contained the removed child.
+     * Returns the index of the removed figure. Returns -1 if the
+     * figure was not a child of this CompositeFigure.
      */
-    public boolean basicRemove(Figure child);
+    public int basicRemove(Figure child);
     /**
      * Removes the child at the specified index without firing events.
      * Returns the removed child figure.
@@ -98,6 +111,10 @@ public interface CompositeFigure extends Figure {
      * Returns the child figure at the specified index.
      */
     public Figure getChild(int index);
+    /**
+     * Returns true if this composite figure contains the specified figure.
+     */
+    public boolean contains(Figure f);
     /**
      * Get a Layouter object which encapsulated a layout
      * algorithm for this figure. Typically, a Layouter
@@ -127,4 +144,14 @@ public interface CompositeFigure extends Figure {
      * @param newValue	encapsulation of a layout algorithm.
      */
     public void setLayouter(Layouter newValue);
+    
+    /**
+     * Adds a listener for this composite figure.
+     */
+    public void addCompositeFigureListener(CompositeFigureListener listener);
+    
+    /**
+     * Removes a listener from this composite figure.
+     */
+    public void removeCompositeFigureListener(CompositeFigureListener listener);
 }

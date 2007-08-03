@@ -22,8 +22,17 @@ import java.util.*;
 import java.beans.*;
 import javax.swing.*;
 /**
- * DrawingView renders a Drawing and listens to its changes.
- * It receives user input and forwards it to registered listeners.
+ * A DrawingView paints a {@see Drawing} on a JComponent.
+ * <p>
+ * To support editing, a DrawingView can paint {@see Handle}s and
+ * the current {@see Tool} of the {@see DrawingEditor} on top of the
+ * drawing. It can render a {@see Constrainer} below the drawing.
+ * <p>
+ * Tools can register mouse and key listeners on the DrawingView.
+ * <p>
+ * A DrawingView can paint the drawing with a scale factor. It supports
+ * conversion between scaled view coordinates and drawing coordinates.
+ *
  * 
  * @author Werner Randelshofer
  * @version 4.1 2007-05-15 getSelectedFigures returns a Set instead of a

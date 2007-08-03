@@ -14,6 +14,7 @@
 
 package org.jhotdraw.draw.action;
 
+import com.sun.org.apache.bcel.internal.classfile.JavaClass;
 import org.jhotdraw.gui.JPopupButton;
 import org.jhotdraw.util.*;
 import java.awt.*;
@@ -40,70 +41,105 @@ import org.jhotdraw.draw.*;
  * <br>1.0 13. Februar 2006 Created.
  */
 public class ButtonFactory {
-    public final static Map<String,Color> DEFAULT_COLORS;
+    /**
+     * Mac OS X 'Apple Color Palette'. 
+     * This palette has 8 columns.
+     */
+    public final static java.util.List<ColorIcon> DEFAULT_COLORS;
     static {
-        LinkedHashMap<String,Color> m = new LinkedHashMap<String,Color>();
-        m.put("Cayenne", new Color(128, 0, 0));
-        m.put("Asparagus", new Color(128, 128, 0));
-        m.put("Clover", new Color(0, 128, 0));
-        m.put("Teal", new Color(0, 128, 128));
-        m.put("Midnight", new Color(0, 0, 128));
-        m.put("Plum", new Color(128, 0, 128));
-        m.put("Tin", new Color(127, 127, 127));
-        m.put("Nickel", new Color(128, 128, 128));
-        
-        m.put("Maraschino", new Color(255, 0, 0));
-        m.put("Lemon", new Color(255, 255, 0));
-        m.put("Spring", new Color(0, 255, 0));
-        m.put("Turquoise", new Color(0, 255, 255));
-        m.put("Blueberry", new Color(0, 0, 255));
-        m.put("Magenta", new Color(255, 0, 255));
-        m.put("Steel", new Color(102, 102, 102));
-        m.put("Aluminium", new Color(153, 153, 153));
-        
-        m.put("Salmon", new Color(255, 102, 102));
-        m.put("Banana", new Color(255, 255, 102));
-        m.put("Flora", new Color(102, 255, 102));
-        m.put("Ice", new Color(102, 255, 255));
-        m.put("Orchid", new Color(102, 102, 255));
-        m.put("Bubblegum", new Color(255, 102, 255));
-        m.put("Iron", new Color(76, 76, 76));
-        m.put("Magnesium", new Color(179, 179, 179));
-        
-        
-        m.put("Mocha", new Color(128, 64, 0));
-        m.put("Fern", new Color(64, 128, 0));
-        m.put("Moss", new Color(0, 128, 64));
-        m.put("Ocean", new Color(0, 64, 128));
-        m.put("Eggplant", new Color(64, 0, 128));
-        m.put("Maroon", new Color(128, 0, 64));
-        m.put("Tungsten", new Color(51, 51, 51));
-        m.put("Silver", new Color(204, 204, 204));
-        
-        
-        m.put("Tangerine", new Color(255, 128, 0));
-        m.put("Lime", new Color(128, 255, 0));
-        m.put("Sea Foam", new Color(0, 255, 128));
-        m.put("Aqua", new Color(0, 128, 255));
-        m.put("Grape", new Color(128, 0, 255));
-        m.put("Strawberry", new Color(255, 0, 128));
-        
-        m.put("Lead", new Color(25, 25, 25));
-        m.put("Mercury", new Color(230, 230, 230));
-        
-        m.put("Cantaloupe", new Color(255, 204, 102));
-        m.put("Honeydew", new Color(204, 255, 102));
-        m.put("Spindrift", new Color(102, 255, 204));
-        m.put("Sky", new Color(102, 204, 255));
-        m.put("Lavender", new Color(204, 102, 255));
-        m.put("Carnation", new Color(255, 111, 207));
-        
-        m.put("Licorice", new Color(0, 0, 0));
-        m.put("Snow", new Color(255, 255, 255));
-        
-        m.put("Transparent", null);
-        DEFAULT_COLORS = Collections.unmodifiableMap(m);
+        LinkedList<ColorIcon> m = new LinkedList<ColorIcon>();
+        m.add(new ColorIcon(0x800000,"Cayenne"));
+        m.add(new ColorIcon(0x808000,"Asparagus"));
+        m.add(new ColorIcon(0x008000,"Clover"));
+        m.add(new ColorIcon(0x008080,"Teal"));
+        m.add(new ColorIcon(0x000080,"Midnight"));
+        m.add(new ColorIcon(0x800080,"Plum"));
+        m.add(new ColorIcon(0x7f7f7f,"Tin"));
+        m.add(new ColorIcon(0x808080,"Nickel"));
+        m.add(new ColorIcon(0xff0000,"Maraschino"));
+        m.add(new ColorIcon(0xffff00,"Lemon"));
+        m.add(new ColorIcon(0x00ff00,"Spring"));
+        m.add(new ColorIcon(0x00ffff,"Turquoise"));
+        m.add(new ColorIcon(0x0000ff,"Blueberry"));
+        m.add(new ColorIcon(0xff00ff,"Magenta"));
+        m.add(new ColorIcon(0x666666,"Steel"));
+        m.add(new ColorIcon(0x999999,"Aluminium"));
+        m.add(new ColorIcon(0xff6666,"Salmon"));
+        m.add(new ColorIcon(0xffff66,"Banana"));
+        m.add(new ColorIcon(0x66ff66,"Flora"));
+        m.add(new ColorIcon(0x66ffff,"Ice"));
+        m.add(new ColorIcon(0x6666ff,"Orchid"));
+        m.add(new ColorIcon(0xff66ff,"Bubblegum"));
+        m.add(new ColorIcon(0x4c4c4c,"Iron"));
+        m.add(new ColorIcon(0xb3b3b3,"Magnesium"));
+        m.add(new ColorIcon(0x804000,"Mocha"));
+        m.add(new ColorIcon(0x408000,"Fern"));
+        m.add(new ColorIcon(0x008040,"Moss"));
+        m.add(new ColorIcon(0x004080,"Ocean"));
+        m.add(new ColorIcon(0x400080,"Eggplant"));
+        m.add(new ColorIcon(0x800040,"Maroon"));
+        m.add(new ColorIcon(0x333333,"Tungsten"));
+        m.add(new ColorIcon(0xcccccc,"Silver"));
+        m.add(new ColorIcon(0xff8000,"Tangerine"));
+        m.add(new ColorIcon(0x80ff00,"Lime"));
+        m.add(new ColorIcon(0x00ff80,"Sea Foam"));
+        m.add(new ColorIcon(0x0080ff,"Aqua"));
+        m.add(new ColorIcon(0x8000ff,"Grape"));
+        m.add(new ColorIcon(0xff0080,"Strawberry"));
+        m.add(new ColorIcon(0x191919,"Lead"));
+        m.add(new ColorIcon(0xe6e6e6,"Mercury"));
+        m.add(new ColorIcon(0xffcc66,"Cantaloupe"));
+        m.add(new ColorIcon(0xccff66,"Honeydew"));
+        m.add(new ColorIcon(0x66ffcc,"Spindrift"));
+        m.add(new ColorIcon(0x66ccff,"Sky"));
+        m.add(new ColorIcon(0xcc66ff,"Lavender"));
+        m.add(new ColorIcon(0xff6fcf,"Carnation"));
+        m.add(new ColorIcon(0x000000,"Licorice"));
+        m.add(new ColorIcon(0xffffff,"Snow"));
+        DEFAULT_COLORS = Collections.unmodifiableList(m);
     }
+    public final static int DEFAULT_COLORS_COLUMN_COUNT = 8;
+    /**
+     * Websave color palette as used by Macromedia Fireworks. 
+     * This palette has 19 columns.
+     * The leftmost column contains a redundant set of color
+     * icons to make selection of gray scales and of the 
+     * primary colors easier.
+     */
+    public final static java.util.List<ColorIcon> WEBSAVE_COLORS;
+    static {
+        LinkedList<ColorIcon> m = new LinkedList<ColorIcon>();
+        for (int b=0; b <= 0xff; b += 0x33) {
+            int rgb = (b << 16) | (b << 8) | b;
+            m.add(new ColorIcon(rgb));
+            for (int r=0; r <= 0x66; r += 0x33) {
+                for (int g=0; g <= 0xff; g += 0x33) {
+                    rgb = (r << 16) | (g << 8) | b;
+                    m.add(new ColorIcon(rgb));
+                }
+            }
+        }
+        int[] firstColumn = {
+            0xff0000, 
+            0x00ff00, 
+            0x0000ff, 
+            0xff00ff, 
+            0x00ffff, 
+            0xffff00, 
+        };
+        for (int b=0x0, i=0; b <= 0xff; b += 0x33, i++) {
+            int rgb = (b << 16) | (b << 8) | b;
+             m.add(new ColorIcon(firstColumn[i]));
+             for (int r=0x99; r <= 0xff; r += 0x33) {
+                for (int g=0; g <= 0xff; g += 0x33) {
+                    rgb = 0xff000000 | (r << 16) | (g << 8) | b;
+                    m.add(new ColorIcon(rgb));
+                }
+            }
+        }
+        WEBSAVE_COLORS = Collections.unmodifiableList(m);
+    }
+    public final static int WEBSAVE_COLORS_COLUMN_COUNT = 19;
     
     
     private static class ToolButtonListener implements ItemListener {
@@ -329,10 +365,15 @@ public class ButtonFactory {
         addFontButtonsTo(bar, editor);
     }
     public static void addColorButtonsTo(JToolBar bar, DrawingEditor editor) {
+        addColorButtonsTo(bar, editor, DEFAULT_COLORS, DEFAULT_COLORS_COLUMN_COUNT);
+        }
+    public static void addColorButtonsTo(JToolBar bar, DrawingEditor editor,
+            java.util.List<ColorIcon> colors, int columnCount) {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-        bar.add(createEditorColorButton(editor, STROKE_COLOR, DEFAULT_COLORS, 8, "attributeStrokeColor", labels, new HashMap<AttributeKey,Object>()));
-        bar.add(createEditorColorButton(editor, FILL_COLOR, DEFAULT_COLORS, 8, "attributeFillColor", labels, new HashMap<AttributeKey,Object>()));
-        bar.add(createEditorColorButton(editor, TEXT_COLOR, DEFAULT_COLORS, 8, "attributeTextColor", labels, new HashMap<AttributeKey,Object>()));
+
+        bar.add(createEditorColorButton(editor, STROKE_COLOR, colors, columnCount, "attributeStrokeColor", labels, new HashMap<AttributeKey,Object>()));
+        bar.add(createEditorColorButton(editor, FILL_COLOR, colors, columnCount, "attributeFillColor", labels, new HashMap<AttributeKey,Object>()));
+        bar.add(createEditorColorButton(editor, TEXT_COLOR, colors, columnCount, "attributeTextColor", labels, new HashMap<AttributeKey,Object>()));
     }
     /**
      * Creates a color button, with an action region and a popup menu. The
@@ -361,11 +402,11 @@ public class ButtonFactory {
      */
     public static JPopupButton createEditorColorButton(
             DrawingEditor editor, AttributeKey attributeKey,
-            Map<String,Color> colorMap, int columnCount,
+            java.util.List<ColorIcon> swatches, int columnCount,
             String labelKey, ResourceBundleUtil labels) {
         return createEditorColorButton(
                 editor, attributeKey,
-                colorMap, columnCount,
+                swatches, columnCount,
                 labelKey, labels,
                 null
                 );
@@ -402,11 +443,11 @@ public class ButtonFactory {
      */
     public static JPopupButton createEditorColorButton(
             DrawingEditor editor, AttributeKey attributeKey,
-            Map<String,Color> colorMap, int columnCount,
+            java.util.List<ColorIcon> swatches, int columnCount,
             String labelKey, ResourceBundleUtil labels,
             Map<AttributeKey,Object> defaultAttributes) {
         return createEditorColorButton(editor, attributeKey,
-                colorMap, columnCount, labelKey, labels, defaultAttributes,
+                swatches, columnCount, labelKey, labels, defaultAttributes,
                 new Rectangle(1, 17, 20, 4)
                 );
     }
@@ -444,7 +485,7 @@ public class ButtonFactory {
      */
     public static JPopupButton createEditorColorButton(
             DrawingEditor editor, AttributeKey attributeKey,
-            Map<String,Color> colorMap, int columnCount,
+            java.util.List<ColorIcon> swatches, int columnCount,
             String labelKey, ResourceBundleUtil labels,
             Map<AttributeKey,Object> defaultAttributes,
             Shape colorShape) {
@@ -458,21 +499,36 @@ public class ButtonFactory {
                 new Rectangle(0, 0, 22, 22)
                 );
         popupButton.setColumnCount(columnCount, false);
-        for (Map.Entry<String,Color> entry : colorMap.entrySet()) {
+        for (ColorIcon swatch : swatches) {
             AttributeAction a;
             HashMap<AttributeKey,Object> attributes = new HashMap<AttributeKey,Object>(defaultAttributes);
-            attributes.put(attributeKey, entry.getValue());
+            attributes.put(attributeKey, swatch.getColor());
             popupButton.add(a=
                     new AttributeAction(
                     editor,
                     attributes,
                     labels.getString(labelKey),
-                    new ColorIcon(entry.getValue())
+                    swatch
                     )
                     );
-            a.putValue(Action.SHORT_DESCRIPTION, entry.getKey());
+            a.putValue(Action.SHORT_DESCRIPTION, swatch.getName());
         }
         
+        // No color
+            AttributeAction a;
+            HashMap<AttributeKey,Object> attributes = new HashMap<AttributeKey,Object>(defaultAttributes);
+            attributes.put(attributeKey, null);
+            popupButton.add(a=
+                    new AttributeAction(
+                    editor,
+                    attributes,
+                   labels.getString("noColor"),
+                    new ColorIcon(null, "---", swatches.get(0).getIconWidth(), swatches.get(0).getIconHeight())
+                    )
+                    );
+            a.putValue(Action.SHORT_DESCRIPTION, "---");
+            
+            // Color chooser
         ImageIcon chooserIcon = new ImageIcon(
                 ButtonFactory.class.getResource("/org/jhotdraw/draw/action/images/showColorChooser.png")
                 );
@@ -583,6 +639,21 @@ public class ButtonFactory {
             a.putValue(Action.SHORT_DESCRIPTION, entry.getKey());
         }
         
+        // No color
+            AttributeAction a;
+            HashMap<AttributeKey,Object> attributes = new HashMap<AttributeKey,Object>(defaultAttributes);
+            attributes.put(attributeKey, null);
+            popupButton.add(a=
+                    new AttributeAction(
+                    editor,
+                    attributes,
+                   labels.getString("noColor"),
+                    new ColorIcon(null, "---")
+                    )
+                    );
+            a.putValue(Action.SHORT_DESCRIPTION, "---");
+        
+        // Color chooser
         ImageIcon chooserIcon = new ImageIcon(
                 ButtonFactory.class.getResource("/org/jhotdraw/draw/action/images/showColorChooser.png")
                 );
@@ -1097,7 +1168,7 @@ public class ButtonFactory {
                 );
         a.putValue(Actions.UNDO_PRESENTATION_NAME_KEY, labels.getString("attributeFontBold"));
         btn.addActionListener(a);
-                return btn;
+        return btn;
     }
     public static JButton createFontStyleItalicButton(DrawingEditor editor) {
         return createFontStyleItalicButton(editor,
@@ -1162,41 +1233,19 @@ public class ButtonFactory {
         
     }
     /**
-     * Creates toolbar buttons and adds them to the specified JToolBar
-     */
-    public static AbstractButton createToggleGridButton(final DrawingEditor editor) {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-        final JToggleButton toggleGridButton;
-        
-        /*
-        toggleGridButton = new JToggleButton();
-        labels.configureToolBarButton(toggleGridButton, "alignGrid");
-        toggleGridButton.setFocusable(false);
-        toggleGridButton.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent event) {
-                Constrainer c;
-                if (toggleGridButton.isSelected()) {
-                    c = new GridConstrainer(10,10);
-                } else {
-                    c = new GridConstrainer(1,1);
-                }
-                for (DrawingView v : editor.getDrawingViews()) {
-                    v.setConstrainer(c);
-                    v.getComponent().repaint();
-                }
-            }
-        });*/
-        
-        toggleGridButton = new JToggleButton();
-        toggleGridButton.setAction(new ToggleGridAction(editor));
-        toggleGridButton.setFocusable(false);
-        
-        return toggleGridButton;
-    }
-    /**
-     * Creates toolbar buttons and adds them to the specified JToolBar
+     * Creates a button which toggles between two GridConstrainer for
+     * a DrawingView.
      */
     public static AbstractButton createToggleGridButton(final DrawingView view) {
+        return createToggleGridButton(view, new GridConstrainer(0,0), new GridConstrainer(10,10));
+    }
+    /**
+     * Creates a button which toggles between two GridConstrainer for
+     * a DrawingView.
+     */
+    public static AbstractButton createToggleGridButton(final DrawingView view,
+            final Constrainer unselectedConstrainer, 
+            final Constrainer selectedConstrainer) {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
         final JToggleButton toggleButton;
         
@@ -1207,9 +1256,9 @@ public class ButtonFactory {
             public void itemStateChanged(ItemEvent event) {
                 Constrainer c;
                 if (toggleButton.isSelected()) {
-                    c = new GridConstrainer(10,10);
+                    c = selectedConstrainer;
                 } else {
-                    c = new GridConstrainer(1,1);
+                    c = unselectedConstrainer;
                 }
                 view.setConstrainer(c);
                 view.getComponent().repaint();
@@ -1218,9 +1267,9 @@ public class ButtonFactory {
         view.addPropertyChangeListener(new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 // String constants are interned
-                if (evt.getPropertyName() == "gridConstrainer") {
+                if (evt.getPropertyName() == "constrainer") {
                     Constrainer c = (Constrainer) evt.getNewValue();
-                    toggleButton.setSelected(c.isVisible());
+                    toggleButton.setSelected(c == selectedConstrainer);
                 }
             }
         });

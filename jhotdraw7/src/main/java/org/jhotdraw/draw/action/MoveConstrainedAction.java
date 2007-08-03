@@ -1,5 +1,5 @@
 /*
- * @(#)MoveConstrainedAction.java  1.0  2007-04-29
+ * @(#)MoveConstrainedAction.java  2.0  2007-07-31
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -27,7 +27,9 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * Moves the selected figures by one constrained unit.
  *
  * @author  Werner Randelshofer
- * @version 1.0 17. March 2004  Created.
+ * @version 2.0 2007-07-31 Reworked to take advantage of the new
+ * Constrainer.moveRectangle method. 
+ * <br>1.0 17. March 2004  Created.
  */
 public abstract class MoveConstrainedAction extends AbstractSelectedAction {
     
@@ -40,86 +42,46 @@ public abstract class MoveConstrainedAction extends AbstractSelectedAction {
     }
     
     public void actionPerformed(java.awt.event.ActionEvent e) {
-        Point2D.Double p1 = null;
-        Point2D.Double fp;
-        
-        switch (dir) {
-            case EAST :
-                for (Figure f : getView().getSelectedFigures()) {
-                    Rectangle2D.Double b = f.getBounds();
-                    fp = new Point2D.Double(b.x + b.width, b.y + b.height / 2d);
-                    if (TRANSFORM.get(f) != null) {
-                        TRANSFORM.get(f).transform(fp, fp);
-                    }
-                    if (p1 == null) {
-                        p1 = fp;
-                    } else {
-                        p1.x = Math.max(fp.x, p1.x);
-                    }
-                }
-                break;
-            case WEST :
-                for (Figure f : getView().getSelectedFigures()) {
-                    Rectangle2D.Double b = f.getBounds();
-                    fp = new Point2D.Double(b.x, b.y + b.height / 2d);
-                    if (TRANSFORM.get(f) != null) {
-                        TRANSFORM.get(f).transform(fp, fp);
-                    }
-                    if (p1 == null) {
-                        p1 = fp;
-                    } else {
-                        p1.x = Math.min(fp.x, p1.x);
-                    }
-                }
-                break;
-            case NORTH :
-                for (Figure f : getView().getSelectedFigures()) {
-                    Rectangle2D.Double b = f.getBounds();
-                    fp = new Point2D.Double(b.x + b.width / 2d, b.y);
-                    if (TRANSFORM.get(f) != null) {
-                        TRANSFORM.get(f).transform(fp, fp);
-                    }
-                    if (p1 == null) {
-                        p1 = fp;
-                    } else {
-                        p1.x = Math.min(fp.x, p1.x);
-                    }
-                }
-                break;
-            case SOUTH :
-                for (Figure f : getView().getSelectedFigures()) {
-                    Rectangle2D.Double b = f.getBounds();
-                    fp = new Point2D.Double(b.x + b.width / 2d, b.y + b.height);
-                    if (TRANSFORM.get(f) != null) {
-                        TRANSFORM.get(f).transform(fp, fp);
-                    }
-                    if (p1 == null) {
-                        p1 = fp;
-                    } else {
-                        p1.x = Math.min(fp.x, p1.x);
-                    }
-                }
-                break;
+        Rectangle2D.Double r = null;
+        for (Figure f : getView().getSelectedFigures()) {
+            if (r == null) {
+                r = f.getBounds();
+            } else {
+                r.add(f.getBounds());
+            }
         }
         
-        if (p1 != null) {
-            Point2D.Double p2 = (Point2D.Double) p1.clone();
-            
-            if (getView().getConstrainer() != null) {
-                getView().getConstrainer().constrainPoint(p2, dir);
+        Point2D.Double p0 = new Point2D.Double(r.x, r.y);
+        if (getView().getConstrainer() != null) {
+            getView().getConstrainer().moveRectangle(r, dir);
+        } else {
+            switch (dir) {
+                case NORTH :
+                    r.y -= 1;
+                    break;
+                case SOUTH :
+                    r.y += 1;
+                    break;
+                case WEST :
+                    r.x -= 1;
+                    break;
+                case EAST :
+                    r.x += 1;
+                    break;
             }
-            
-            AffineTransform tx = new AffineTransform();
-            tx.translate(p2.x - p1.x, p2.y - p1.y);
-            for (Figure f : getView().getSelectedFigures()) {
-                f.willChange();
-                f.transform(tx);
-                f.changed();
-            }
-            CompositeEdit edit;
-            fireUndoableEditHappened(new TransformEdit(getView().getSelectedFigures(), tx));
         }
+        
+        AffineTransform tx = new AffineTransform();
+        tx.translate(r.x - p0.x, r.y - p0.y);
+        for (Figure f : getView().getSelectedFigures()) {
+            f.willChange();
+            f.transform(tx);
+            f.changed();
+        }
+        CompositeEdit edit;
+        fireUndoableEditHappened(new TransformEdit(getView().getSelectedFigures(), tx));
     }
+    
     
     public static class East extends MoveConstrainedAction {
         public final static String ID = "moveConstrainedEast";

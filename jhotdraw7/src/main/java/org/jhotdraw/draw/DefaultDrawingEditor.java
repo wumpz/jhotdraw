@@ -101,7 +101,7 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor,
         }*/
     }
     public void toolDone(ToolEvent evt) {
-        // FIXME - Maybe we should do this with all views of the editor??
+        // XXX - Maybe we should do this with all views of the editor??
         DrawingView v = getActiveView();
         if (v != null) {
             Container c = v.getComponent();
