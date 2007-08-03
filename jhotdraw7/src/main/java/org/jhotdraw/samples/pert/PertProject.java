@@ -61,7 +61,7 @@ public class PertProject extends AbstractProject {
     private DrawingEditor editor;
     
     private GridConstrainer visibleConstrainer = new GridConstrainer(10, 10);
-    private GridConstrainer invisibleConstrainer = new GridConstrainer(1, 1);
+    private GridConstrainer invisibleConstrainer = new GridConstrainer();
     private Preferences prefs;
     
     /**

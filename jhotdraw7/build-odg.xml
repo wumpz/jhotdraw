@@ -144,6 +144,9 @@
         <copy todir="${classdir}/org/jhotdraw/samples/odg">
             <fileset file="${srcdir}/org/jhotdraw/samples/odg/Label*.properties"/>
         </copy>
+        <copy todir="${classdir}/org/jhotdraw/samples/svg">
+            <fileset file="${srcdir}/org/jhotdraw/samples/svg/Label*.properties"/>
+        </copy>
     </target>
     <target name="application.jar" depends="init,application.compile">
         <jar destfile="${distdir}/JHotDraw ODG.jar" basedir="${classdir}">

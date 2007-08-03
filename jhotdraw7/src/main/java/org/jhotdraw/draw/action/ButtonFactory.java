@@ -1237,7 +1237,7 @@ public class ButtonFactory {
      * a DrawingView.
      */
     public static AbstractButton createToggleGridButton(final DrawingView view) {
-        return createToggleGridButton(view, new GridConstrainer(0,0), new GridConstrainer(10,10));
+        return createToggleGridButton(view, new GridConstrainer(), new GridConstrainer(10,10));
     }
     /**
      * Creates a button which toggles between two GridConstrainer for
