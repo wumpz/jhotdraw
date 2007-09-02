@@ -95,9 +95,8 @@ public class LineConnectionFigure extends LineFigure
      * PolylineHandles but adds ChangeConnectionHandles at the
      * start and end.
      */
-    public Collection<Handle> createHandles(int detailLevel) {
+    @Override public Collection<Handle> createHandles(int detailLevel) {
         ArrayList<Handle> handles = new ArrayList<Handle>(getNodeCount());
-        
         switch (detailLevel) {
             case 0 :
                 if (getLiner() == null) {
@@ -138,6 +137,7 @@ public class LineConnectionFigure extends LineFigure
         }
         changed();
     }
+    
     public void validate() {
         super.validate();
         lineout();

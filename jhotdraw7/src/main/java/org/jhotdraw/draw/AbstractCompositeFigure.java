@@ -77,11 +77,7 @@ public abstract class AbstractCompositeFigure
         }
         
         @Override public void areaInvalidated(FigureEvent e) {
-        //    if (! isChanging()) {
                 fireAreaInvalidated(e.getInvalidatedArea());
-        /*    } else {
-                System.out.println("AbstractCompositeFigure.suppressing areaInvalidated "+changingDepth);
-            }*/
         }
         
         public void undoableEditHappened(UndoableEditEvent e) {
@@ -479,7 +475,7 @@ public abstract class AbstractCompositeFigure
         }
         return list;
     }
-    
+    /*
     public void willChange() {
         super.willChange();
         if (getChangingDepth() == 1) {
@@ -495,7 +491,7 @@ public abstract class AbstractCompositeFigure
             }
         }
         super.changed();
-    }
+    }*/
     
     
     protected void validate() {

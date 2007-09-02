@@ -210,6 +210,7 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
         for (Connector c : connectors) {
             c.draw(gg);
         }
+        
         gg.dispose();
         drawCircle(g,
                 (getTarget() == null) ? Color.red : Color.green,

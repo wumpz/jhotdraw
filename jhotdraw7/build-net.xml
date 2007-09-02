@@ -4,10 +4,14 @@
         <property name="libdir" value="lib"/>
         <property name="srcdir" value="src/main/java"/>
         <property name="builddir" value="build"/>
+        <property name="samplesdir" value="guide/samples/net"/>
         <property name="classdir" value="${builddir}/classes"/>
         <property name="distdir" value="dist"/>
         <property name="author" value="Werner Randelshofer"/>
         <property name="version" value="7.0.9"/>
+        <property name="keystore.file" value="../../../../_Keystore/JavaKeystore"/>
+        <property name="keystore.alias" value="werner"/>
+        <property name="keystore.storepass" value="werner"/>
     </target>
     <target name="clean" depends="init">
         <delete dir="${classdir}" />
@@ -142,6 +146,26 @@
             <fileset file="${libdir}/*.jnilib"/>
         </copy>
     </target>
+    <target name="application.jarsigned" depends="init,application.jar">
+        <unjar src="${libdir}/quaqua.jar" dest="${classdir}" />
+        <unjar src="${libdir}/MRJAdapter.jar" dest="${classdir}" />
+        <jar destfile="${distdir}/JHotDraw Net.jar" basedir="${classdir}">
+            <manifest>
+                <attribute name="Built-By" value="${author}"/>
+                <attribute name="Main-Class" value="org.jhotdraw.samples.net.Main"/>
+            </manifest>
+        </jar>
+          <signjar alias="${keystore.alias}" 
+                storepass="${keystore.storepass}"
+                keystore="${keystore.file}" 
+                jar="${distdir}/JHotDraw Net.jar"
+                
+                >
+        </signjar>        
+        <copy todir="${distdir}">
+            <fileset file="${libdir}/*.jnilib"/>
+        </copy>
+    </target>
     <target name="application.run" depends="init">
         <java fork="true" jar="${distdir}/JHotDraw Net.jar">
             <jvmarg value="-Xdock:name=JHotDraw Net"/>
@@ -157,5 +181,22 @@
         <exec executable="appletviewer">
         <arg value="${builddir}/NetApplet.html"/>
         </exec>
+    </target>
+    <target name="release" depends="init,applet.jar,application.jarsigned">
+        <copy todir="${samplesdir}/applet">
+            <fileset dir="${distdir}" >
+                <include name="jhotdraw_net.*"/>
+             </fileset>
+        </copy>
+        <copy todir="${samplesdir}/webstart">
+            <fileset dir="${distdir}" >
+                <include name="JHotDraw Net.jar"/>
+             </fileset>
+        </copy>
+        <copy todir="${samplesdir}/webstart">
+            <fileset dir="${libdir}" >
+                <include name="libquaqua.jnilib"/>
+             </fileset>
+        </copy>
     </target>
 </project>

@@ -185,7 +185,11 @@
             <jvmarg value="-Djava.library.path=${libdir}"/>
         </java>
     </target>
-    <target name="applet.run" depends="init">
+    <target name="applet.run-compiled" depends="init">
+        <java classpath="${classdir}" classname="org.jhotdraw.samples.draw.DrawApplet">
+        </java>
+    </target>
+    <target name="applet.run-jar" depends="init">
         <java fork="true" jar="${distdir}/jhotdraw_draw.jar">
         </java>
     </target>
