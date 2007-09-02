@@ -23,8 +23,7 @@ import java.io.*;
  * @author Werner Randelshofer
  * @version 1.0 December 31, 2006 Created.
  */
-public class InputStreamTransferable implements Transferable {
-    private DataFlavor[] flavors;
+public class InputStreamTransferable extends AbstractTransferable {
     private byte[] data;
     
     /** Creates a new instance. */
@@ -32,21 +31,8 @@ public class InputStreamTransferable implements Transferable {
         this(new DataFlavor[] { flavor }, data);
     }
     public InputStreamTransferable(DataFlavor[] flavors, byte[] data) {
-        this.flavors = flavors;
+        super(flavors);
         this.data = data;
-    }
-
-    public DataFlavor[] getTransferDataFlavors() {
-        return flavors.clone();
-    }
-
-    public boolean isDataFlavorSupported(DataFlavor flavor) {
-        for (DataFlavor f : flavors) {
-            if (f.equals(flavor)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {

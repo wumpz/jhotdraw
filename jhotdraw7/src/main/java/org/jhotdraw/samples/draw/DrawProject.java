@@ -234,12 +234,12 @@ public class DrawProject extends AbstractProject {
     
     @Override protected JFileChooser createOpenChooser() {
         JFileChooser c = super.createOpenChooser();
-        c.addChoosableFileFilter(new ExtensionFileFilter("Drawing","xml"));
+        c.addChoosableFileFilter(new ExtensionFileFilter("Drawing .xml","xml"));
         return c;
     }
     @Override protected JFileChooser createSaveChooser() {
         JFileChooser c = super.createSaveChooser();
-        c.addChoosableFileFilter(new ExtensionFileFilter("Drawing","xml"));
+        c.addChoosableFileFilter(new ExtensionFileFilter("Drawing .xml","xml"));
         return c;
     }
     

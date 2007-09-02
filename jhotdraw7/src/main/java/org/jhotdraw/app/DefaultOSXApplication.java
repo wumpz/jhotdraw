@@ -320,10 +320,7 @@ public class DefaultOSXApplication extends AbstractApplication {
         m = new JMenu();
         final JMenu windowMenu = m;
         labels.configureMenu(m, "window");
-        mi = m.add(model.getAction(MinimizeAction.ID));
-        mi.setIcon(null);
-        mi = m.add(model.getAction(MaximizeAction.ID));
-        mi.setIcon(null);
+        addProjectWindowMenuItems(m, p);
         m.addSeparator();
         for (Project pr : projects()) {
             if (pr.getAction(FocusAction.ID) != null) {
@@ -347,9 +344,8 @@ public class DefaultOSXApplication extends AbstractApplication {
                     if (p == null || projects().contains(p)) {
                         JMenu m = windowMenu;
                         m.removeAll();
-                        m.add(getModel().getAction(MinimizeAction.ID));
-                        m.add(getModel().getAction(MaximizeAction.ID));
-                        m.addSeparator();
+        addProjectWindowMenuItems(m, p);
+                            m.addSeparator();
                         for (Iterator i=projects().iterator(); i.hasNext(); ) {
                             Project pr = (Project) i.next();
                             if (pr.getAction(FocusAction.ID) != null) {
@@ -373,6 +369,16 @@ public class DefaultOSXApplication extends AbstractApplication {
         });
         
         return m;
+    }
+    
+    protected void addProjectWindowMenuItems(JMenu m, Project p) {
+        JMenuItem mi;
+
+        ApplicationModel model = getModel();
+        mi = m.add(model.getAction(MinimizeAction.ID));
+        mi.setIcon(null);
+        mi = m.add(model.getAction(MaximizeAction.ID));
+        mi.setIcon(null);
     }
     
     private void updateOpenRecentMenu(JMenu openRecentMenu) {

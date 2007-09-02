@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- JNLP File for JHotDraw Draw Application -->
+<jnlp
+  spec="1.0"
+  codebase="http://www.randelshofer.ch/oop/jhotdraw/guide/samples/draw/webstart"
+  href="jhotdraw_draw.jnlp">
+  <information>
+    <title>JHotDraw Draw Application</title>
+    <vendor>JHotDraw.org</vendor>
+    <homepage href="http://sourceforge.net/projects/jhotdraw"/>
+    <description>JHotDraw Draw Application</description>
+    <description kind="short">This example demonstrates the default implementations of the drawing editor and figures of the JHotDraw framework.</description>
+  </information>
+  <offline-allowed/>
+  <security>   <all-permissions/>  </security>
+  <resources>
+    <j2se version="1.5+"/>
+        <property name="apple.laf.useScreenMenuBar" value="true"/> 
+ 	<jar href="JHotDraw%20Draw.jar" main="true"/>
+  </resources>
+  <resources os="MacOSX">
+ 	<nativelib href="libquaqua.jnilib"/>
+  </resources>
+  <application-desc main-class="org.jhotdraw.samples.draw.Main"/>
+</jnlp> 

@@ -15,7 +15,6 @@
 package org.jhotdraw.util;
 
 import java.lang.reflect.*;
-import org.jhotdraw.gui.JSheet;
 /**
  * Methods contains convenience methods for method invocations using
  * java.lang.reflect.

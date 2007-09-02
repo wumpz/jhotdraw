@@ -169,7 +169,7 @@
             <jvmarg value="-Xmx256M"/>
         </java>
     </target>
-    <target name="application.run-classes" depends="init">
+    <target name="application.run-compiled" depends="init">
         <java fork="true" classname="org.jhotdraw.samples.odg.Main">
             <classpath>
                 <pathelement path="${classdir}"/>

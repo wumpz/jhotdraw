@@ -1,5 +1,5 @@
 /*
- * @(#)TextTool.java  1.0  19. November 2003
+ * @(#)TextTool.java  1.1  2007-08-22
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -41,13 +41,15 @@ import java.util.*;
  * The TextTool then uses Figure.findFigureInside to find a Figure that
  * implements the TextHolderFigure interface and that is editable. Then it overlays
  * a text field over the drawing where the user can enter the text for the Figure.
- * 
- * @author Werner Randelshofer
- * @version 2.0 2006-01-14 Changed to support double precison coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ *
  *
  * @see TextHolderFigure
  * @see FloatingTextField
+ *
+ * @author Werner Randelshofer
+ * @version 2.1 2007-08-22 Added support for property 'toolDoneAfterCreation'.
+ * <br>2.0 2006-01-14 Changed to support double precison coordinates.
+ * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
 public class TextTool extends CreationTool implements ActionListener {
     private FloatingTextField   textField;
@@ -85,7 +87,9 @@ public class TextTool extends CreationTool implements ActionListener {
         }
         if (typingTarget != null) {
             endEdit();
-            fireToolDone();
+            if (isToolDoneAfterCreation()) {
+                fireToolDone();
+            }
         } else {
             super.mousePressed(e);
             // update view so the created figure is drawn before the floating text
@@ -129,9 +133,9 @@ public class TextTool extends CreationTool implements ActionListener {
         //d.width = Math.max(box.width, d.width);
         Insets insets = textField.getInsets();
         return new Rectangle(
-                box.x - insets.left, 
-                box.y - insets.top, 
-                box.width + insets.left + insets.right, 
+                box.x - insets.left,
+                box.y - insets.top,
+                box.width + insets.left + insets.right,
                 box.height + insets.top + insets.bottom
                 );
     }
@@ -153,7 +157,7 @@ public class TextTool extends CreationTool implements ActionListener {
     
     protected void endEdit() {
         if (typingTarget != null) {
-                    typingTarget.willChange();
+            typingTarget.willChange();
             if (textField.getText().length() > 0) {
                 typingTarget.setText(textField.getText());
             } else {
@@ -164,7 +168,7 @@ public class TextTool extends CreationTool implements ActionListener {
                     typingTarget.changed();
                 }
             }
-                    // XXX - Implement Undo/Redo behavior here
+            // XXX - Implement Undo/Redo behavior here
             typingTarget.changed();
             typingTarget = null;
             
@@ -175,7 +179,9 @@ public class TextTool extends CreationTool implements ActionListener {
     
     public void actionPerformed(ActionEvent event) {
         endEdit();
-        fireToolDone();
+        if (isToolDoneAfterCreation()) {
+            fireToolDone();
+        }
     }
     /**
      * This method allows subclasses to do perform additonal user interactions
@@ -183,6 +189,6 @@ public class TextTool extends CreationTool implements ActionListener {
      * The implementation of this class just invokes fireToolDone.
      */
     protected void creationFinished(Figure createdFigure) {
-            beginEdit((TextHolderFigure) createdFigure);
+        beginEdit((TextHolderFigure) createdFigure);
     }
 }

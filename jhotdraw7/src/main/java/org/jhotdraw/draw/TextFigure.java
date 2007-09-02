@@ -54,6 +54,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
                 getLAFBundle("org.jhotdraw.draw.Labels").
                 getString("TextFigure.defaultText")
         );
+        
     }
     public TextFigure(String text) {
         setText(text);

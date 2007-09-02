@@ -1,5 +1,5 @@
 /*
- * @(#)CreationTool.java  2.2  2006-12-14
+ * @(#)CreationTool.java  2.3  2007-08-22
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -44,7 +44,8 @@ import org.jhotdraw.util.*;
  * the ConnectionTool for this type of figures instead.
  *
  * @author Werner Randelshofer
- * @version 2.1.1 2006-07-20 Minimal size treshold was enforced too eagerly.
+ * @version 2.2 2007-08-22 Added property 'toolDoneAfterCreation'.
+ * <br>2.1.1 2006-07-20 Minimal size treshold was enforced too eagerly.
  * <br>2.1 2006-07-15 Changed to create prototype creation from class presentationName.
  * <br>2.0 2006-01-14 Changed to support double precision coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
@@ -79,6 +80,13 @@ public class CreationTool extends AbstractTool {
      * The created figure.
      */
     protected Figure createdFigure;
+    
+    /**
+     * If this is set to false, the CreationTool does not fire toolDone
+     * after a new Figure has been created. This allows to create multiple
+     * figures consecutively.
+     */
+    private boolean isToolDoneAfterCreation = true;
     
     /** Creates a new instance. */
     public CreationTool(String prototypeClassName) {
@@ -197,7 +205,9 @@ public class CreationTool extends AbstractTool {
             Rectangle2D.Double bounds = createdFigure.getBounds();
             if (bounds.width == 0 && bounds.height == 0) {
                 getDrawing().remove(createdFigure);
-                fireToolDone();
+                if (isToolDoneAfterCreation()) {
+                    fireToolDone();
+                }
             } else {
                 if (Math.abs(anchor.x - evt.getX()) < minimalSizeTreshold.width &&
                         Math.abs(anchor.y - evt.getY()) < minimalSizeTreshold.height) {
@@ -233,7 +243,9 @@ public class CreationTool extends AbstractTool {
                 creationFinished(createdFigure);
             }
         } else {
-            fireToolDone();
+            if (isToolDoneAfterCreation()) {
+                fireToolDone();
+            }
         }
     }
     protected Figure createFigure() {
@@ -261,6 +273,26 @@ public class CreationTool extends AbstractTool {
      * The implementation of this class just invokes fireToolDone.
      */
     protected void creationFinished(Figure createdFigure) {
+        if (isToolDoneAfterCreation()) {
         fireToolDone();
+        }
+    }
+    
+    /**
+     * If this is set to false, the CreationTool does not fire toolDone
+     * after a new Figure has been created. This allows to create multiple
+     * figures consecutively.
+     */
+    public void setToolDoneAfterCreation(boolean newValue) {
+        boolean oldValue = isToolDoneAfterCreation;
+        isToolDoneAfterCreation = newValue;
+    }
+    
+    /**
+     * Returns true, if this tool fires toolDone immediately after a new
+     * figure has been created.
+     */
+    public boolean isToolDoneAfterCreation() {
+        return isToolDoneAfterCreation;
     }
 }

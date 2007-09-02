@@ -1,7 +1,7 @@
 /*
- * @(#)TextTool.java  2.0  2006-01-14
+ * @(#)TextTool.java  2.1  2007-08-22
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -48,7 +48,8 @@ import org.jhotdraw.geom.*;
  * a text area over the drawing where the user can enter the text for the Figure.
  *
  * @author Werner Randelshofer
- * @version 2.0 2006-01-14 Changed to support double precison coordinates.
+ * @version 2.1 2007-08-22 Added support for property 'toolDoneAfterCreation'.
+ * <br>2.0 2006-01-14 Changed to support double precison coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  *
  * @see TextHolderFigure
@@ -107,7 +108,9 @@ public class TextAreaTool extends CreationTool implements ActionListener {
         }
         if (typingTarget != null) {
             endEdit();
+            if (isToolDoneAfterCreation()) {
             fireToolDone();
+            }
         } else {
             super.mousePressed(e);
             // update view so the created figure is drawn before the floating text
@@ -217,6 +220,8 @@ public class TextAreaTool extends CreationTool implements ActionListener {
     
     public void actionPerformed(ActionEvent event) {
         endEdit();
+        if (isToolDoneAfterCreation()) {
         fireToolDone();
+        }
     }
 }
