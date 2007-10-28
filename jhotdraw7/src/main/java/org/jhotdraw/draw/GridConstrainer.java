@@ -1,5 +1,5 @@
 /*
- * @(#)GridConstrainer.java  3.0  2007-08-01
+ * @(#)GridConstrainer.java  3.1  2007-09-15
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -21,7 +21,9 @@ import org.jhotdraw.beans.AbstractBean;
  * Constrains a point such that it falls on a grid.
  *
  * @author  Werner Randelshofer
- * @version 3.0 2007-08-01 Reworked.
+ * @version 3.1 2007-09-15 Added constructor which allows to control
+ * the visiblity of the grid. 
+ * <br>3.0 2007-08-01 Reworked.
  * <br>2.1.1 2006-07-05 Fixed drawing bug.
  * <br>2.1 2006-07-03 Method isVisible added.
  * <br>2.0 2006-01-14 Changed to support double precision coordinates.
@@ -37,9 +39,7 @@ public class GridConstrainer extends AbstractConstrainer {
      * Creates a new instance with a grid of 1x1.
      */
     public GridConstrainer() {
-        this.width = 1;
-        this.height = 1;
-        this.isVisible = false;
+        this(1d, 1d, false);
     }
     /**
      * Creates a new instance with the specified grid size.
@@ -49,10 +49,21 @@ public class GridConstrainer extends AbstractConstrainer {
      * @param height The height of a grid cell.
      */
     public GridConstrainer(double width, double height) {
+        this(width, height, true);
+    }
+    /**
+     * Creates a new instance with the specified grid size.
+     * The grid is visible.
+     *
+     * @param width The width of a grid cell.
+     * @param height The height of a grid cell.
+     * @param visible Wether the grid is visible or not.
+     */
+    public GridConstrainer(double width, double height, boolean visible) {
         if (width <= 0 || height <= 0) throw new IllegalArgumentException("Width or height is <= 0");
         this.width = width;
         this.height = height;
-        this.isVisible = true;
+        this.isVisible = visible;
     }
     
     public double getWidth() {

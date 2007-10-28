@@ -1237,15 +1237,6 @@ public class ButtonFactory {
      * a DrawingView.
      */
     public static AbstractButton createToggleGridButton(final DrawingView view) {
-        return createToggleGridButton(view, new GridConstrainer(), new GridConstrainer(10,10));
-    }
-    /**
-     * Creates a button which toggles between two GridConstrainer for
-     * a DrawingView.
-     */
-    public static AbstractButton createToggleGridButton(final DrawingView view,
-            final Constrainer unselectedConstrainer, 
-            final Constrainer selectedConstrainer) {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
         final JToggleButton toggleButton;
         
@@ -1254,13 +1245,7 @@ public class ButtonFactory {
         toggleButton.setFocusable(false);
         toggleButton.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent event) {
-                Constrainer c;
-                if (toggleButton.isSelected()) {
-                    c = selectedConstrainer;
-                } else {
-                    c = unselectedConstrainer;
-                }
-                view.setConstrainer(c);
+                view.setConstrainerVisible(toggleButton.isSelected());
                 view.getComponent().repaint();
             }
         });
@@ -1269,7 +1254,7 @@ public class ButtonFactory {
                 // String constants are interned
                 if (evt.getPropertyName() == "constrainer") {
                     Constrainer c = (Constrainer) evt.getNewValue();
-                    toggleButton.setSelected(c == selectedConstrainer);
+                    toggleButton.setSelected(view.isConstrainerVisible());
                 }
             }
         });

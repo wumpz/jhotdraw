@@ -1,5 +1,5 @@
 /*
- * @(#)EditGridAction.java  1.0  July 31, 2007
+ * @(#)EditGridAction.java  2.0  2007-09-15
  *
  * Copyright (c) 2007 Werner Randelshofer
  * Staldenmattweg 2, CH-6405 Immensee, Switzerland
@@ -37,15 +37,17 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * @author Werner Randelshofer
  * @version 1.0 July 31, 2007 Created.
  */
-public class EditGridAction extends AbstractProjectAction {
+public class EditGridAction extends AbstractEditorAction {
     public final static String ID = "editGrid";
     private JDialog dialog;
     private GridSettingsPanel settingsPanel;
     private PropertyChangeListener propertyChangeHandler;
+    private Application app;
     
     /** Creates a new instance. */
-    public EditGridAction(Application app) {
-        super(app);
+    public EditGridAction(Application app, DrawingEditor editor) {
+        super(editor);
+        this.app = app;
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.svg.Labels");
         labels.configureAction(this, ID);
     }
@@ -54,14 +56,14 @@ public class EditGridAction extends AbstractProjectAction {
         getDialog().setVisible(true);
     }
     
-    public GridProject getCurrentProject() {
-        return (GridProject) super.getCurrentProject();
+    protected void updateProperty() {
+        if (getView() != null && settingsPanel != null) {
+            settingsPanel.setConstrainer((GridConstrainer) getView().getVisibleConstrainer());
+        }
     }
     
-    protected void updateProperty() {
-        if (getCurrentProject() != null && settingsPanel != null) {
-            settingsPanel.setConstrainer(getCurrentProject().getGridConstrainer());
-        }
+    protected Application getApplication() {
+        return app;
     }
     
     protected JDialog getDialog() {
@@ -77,7 +79,7 @@ public class EditGridAction extends AbstractProjectAction {
             PreferencesUtil.installFramePrefsHandler(prefs, "gridSettings", dialog);
             getApplication().addWindow(dialog, null);
         }
-            settingsPanel.setConstrainer(((GridProject) getCurrentProject()).getGridConstrainer());
+            settingsPanel.setConstrainer((GridConstrainer) getView().getVisibleConstrainer());
         return dialog;
     }
 }

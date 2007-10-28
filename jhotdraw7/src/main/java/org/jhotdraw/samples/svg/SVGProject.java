@@ -51,7 +51,7 @@ import org.jhotdraw.xml.*;
  * <br>1.1 2006-06-10 Extended to support DefaultDrawApplicationModel.
  * <br>1.0 2006-02-07 Created.
  */
-public class SVGProject extends AbstractProject implements ExportableProject, GridProject {
+public class SVGProject extends AbstractProject implements ExportableProject {
     protected JFileChooser exportChooser;
     
     /**
@@ -69,8 +69,6 @@ public class SVGProject extends AbstractProject implements ExportableProject, Gr
     private HashMap<javax.swing.filechooser.FileFilter, InputFormat> fileFilterInputFormatMap;
     private HashMap<javax.swing.filechooser.FileFilter, OutputFormat> fileFilterOutputFormatMap;
     
-    private GridConstrainer visibleConstrainer = new GridConstrainer(10, 10);
-    private GridConstrainer invisibleConstrainer = new GridConstrainer();
     private Preferences prefs;
     /**
      * Creates a new Project.
@@ -121,7 +119,7 @@ public class SVGProject extends AbstractProject implements ExportableProject, Gr
         pButton.setFont(UIManager.getFont("SmallSystemFont"));
         placardPanel.add(pButton, BorderLayout.WEST);
         
-        pButton = ButtonFactory.createToggleGridButton(view, invisibleConstrainer, visibleConstrainer);
+        pButton = ButtonFactory.createToggleGridButton(view);
         pButton.putClientProperty("Quaqua.Button.style","placard");
         pButton.putClientProperty("Quaqua.Component.visualMargin",new Insets(0,0,0,0));
         pButton.setFont(UIManager.getFont("SmallSystemFont"));
@@ -377,14 +375,12 @@ public class SVGProject extends AbstractProject implements ExportableProject, Gr
     }
     public void setGridVisible(boolean newValue) {
         boolean oldValue = isGridVisible();
-        Constrainer c = (newValue) ? visibleConstrainer : invisibleConstrainer;
-        view.setConstrainer(c);
-        
+        view.setConstrainerVisible(newValue);
         firePropertyChange("gridVisible", oldValue, newValue);
         prefs.putBoolean("project.gridVisible", newValue);
     }
     public boolean isGridVisible() {
-        return view.getConstrainer() == visibleConstrainer;
+       return view.isConstrainerVisible();
     }
     public double getScaleFactor() {
         return view.getScaleFactor();
@@ -396,11 +392,6 @@ public class SVGProject extends AbstractProject implements ExportableProject, Gr
         firePropertyChange("scaleFactor", oldValue, newValue);
         prefs.putDouble("project.scaleFactor", newValue);
     }
-
-    public GridConstrainer getGridConstrainer() {
-        return visibleConstrainer;
-    }
-    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jhotdraw.samples.svg.SVGPropertiesPanel propertiesPanel;

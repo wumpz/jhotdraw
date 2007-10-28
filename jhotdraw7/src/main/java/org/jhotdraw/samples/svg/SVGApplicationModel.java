@@ -71,8 +71,8 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         
         putAction(ViewSourceAction.ID, new ViewSourceAction(a));
         putAction(ExportAction.ID, new ExportAction(a));
-        putAction(ToggleGridAction.ID, new ToggleGridAction(a));
-        putAction(EditGridAction.ID, new EditGridAction(a));
+        putAction(ToggleGridAction.ID, new ToggleGridAction(getSharedEditor()));
+        putAction(EditGridAction.ID, new EditGridAction(a, getSharedEditor()));
         for (double sf : scaleFactors) {
             putAction((int) (sf*100)+"%",
                     aa = new ProjectPropertyAction(a, "scaleFactor", Double.TYPE, new Double(sf))

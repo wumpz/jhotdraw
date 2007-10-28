@@ -58,8 +58,6 @@ public class NetProject extends AbstractProject {
      */
     private DrawingEditor editor;
     
-    private GridConstrainer visibleConstrainer = new GridConstrainer(10, 10);
-    private GridConstrainer invisibleConstrainer = new GridConstrainer(1, 1);
     private Preferences prefs;
     private AbstractButton toggleGridButton;
     
@@ -111,7 +109,7 @@ public class NetProject extends AbstractProject {
         
         prefs = Preferences.userNodeForPackage(getClass());
         toggleGridButton.setSelected(prefs.getBoolean("project.gridVisible", false));
-        setScaleFactor(prefs.getDouble("project.scaleFactor", 1d));
+        view.setScaleFactor(prefs.getDouble("project.scaleFactor", 1d));
         
         view.addPropertyChangeListener(new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {

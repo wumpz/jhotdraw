@@ -62,7 +62,7 @@ public class ProjectPropertyAction extends AbstractProjectAction {
         try {
             p.getClass().getMethod(setterName, parameterClass).invoke(p, new Object[] {propertyValue});
         } catch (Throwable e) {
-            InternalError error = new InternalError("Method invocation failed");
+                InternalError error = new InternalError("Method invocation failed. setter:"+setterName+" object:"+p);
             error.initCause(e);
             throw error;
         }
@@ -91,7 +91,7 @@ public class ProjectPropertyAction extends AbstractProjectAction {
                         value != null && propertyValue != null &&
                         value.equals(propertyValue);
             } catch (Throwable e) {
-                InternalError error = new InternalError("Method invocation failed");
+                InternalError error = new InternalError("Method invocation failed. getter:"+getterName+" object:"+p);
                 error.initCause(e);
                 throw error;
             }

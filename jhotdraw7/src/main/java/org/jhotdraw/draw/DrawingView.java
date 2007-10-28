@@ -1,5 +1,5 @@
 /*
- * @(#)DrawingView.java  4.1  2007-05-15
+ * @(#)DrawingView.java  4.2  2007-09-12
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -35,7 +35,9 @@ import javax.swing.*;
  *
  * 
  * @author Werner Randelshofer
- * @version 4.1 2007-05-15 getSelectedFigures returns a Set instead of a
+ * @version 4.2 2007-09-12 The DrawingView is now responsible for
+ * holding the Constrainer objects which affect editing on this view.
+ * <br>4.1 2007-05-15 getSelectedFigures returns a Set instead of a
  * Collection.
  * <br>4.0 2006-12-03 Replaced operation getContainer by getComponent. 
  * <br>3.1 2006-03-15 Support for enabled state added.
@@ -46,17 +48,57 @@ import javax.swing.*;
  */
 public interface DrawingView {
     /**
+     * This constant is used to identify the drawing property of the DrawingView.
+     */
+    public final static String PROP_DRAWING = "drawing";
+    /**
+     * This constant is used to identify the cursor property of the DrawingView.
+     */
+    public final static String PROP_CURSOR = "cursor";
+    /**
+     * This constant is used to identify the constrainer property of the DrawingView.
+     */
+    public final static String PROP_CONSTRAINER = "constrainer";
+    /**
+     * This constant is used to identify the visible constrainer property of the DrawingView.
+     */
+    public final static String PROP_VISIBLE_CONSTRAINER = "visibleConstrainer";
+    /**
+     * This constant is used to identify the invisible constrainer property of the DrawingView.
+     */
+    public final static String PROP_INVISIBLE_CONSTRAINER = "invisibleConstrainer";
+    /**
+     * This constant is used to identify the constrainer visible property of the DrawingView.
+     */
+    public final static String PROP_CONSTRAINER_VISIBLE = "constrainerVisible";
+    /**
+     * This constant is used to identify the scale factor property of the DrawingView.
+     */
+    public final static String PROP_SCALE_FACTOR = "scaleFactor";
+    /**
+     * This constant is used to identify the handle detail level property of the DrawingView.
+     */
+    public final static String PROP_HANDLE_DETAIL_LEVEL = "handleDetailLevel";
+    /**
+     * This constant is used to identify the enabled property of the DrawingView.
+     */
+    public final static String PROP_ENABLED = "enabled";
+    
+    /**
      * Gets the drawing.
+     * This is a bound property.
      */
     public Drawing getDrawing();
     
     /**
      * Sets and installs another drawing in the view.
+     * This is a bound property.
      */
     public void setDrawing(Drawing d);
     
     /**
-     * Sets the cursor of the DrawingView
+     * Sets the cursor of the DrawingView.
+     * This is a bound property.
      */
     public void setCursor(Cursor c);
     
@@ -181,14 +223,65 @@ public interface DrawingView {
     public Rectangle2D.Double viewToDrawing(Rectangle p);
     
     /**
-     * Sets the editor's constrainer.
-     */
-    void setConstrainer(Constrainer constrainer);
-    /**
-     * Gets the editor's constrainer.
+     * Gets the current constrainer of this view. 
+     * If isConstrainerVisible is true, this method returns getVisibleConstrainer,
+     * otherwise it returns getInvisibleConstrainer.
+     * This is a bound property.
+     * 
+     * @see setConstrainerVisible
      */
     public Constrainer getConstrainer();
+    /**
+     * Sets the editor's constrainer for this view, for use, when the
+     * visible constrainer is turned on.
+     * This is a bound property.
+     *
+     * @see setConstrainerVisible
+     */
+    public void setVisibleConstrainer(Constrainer constrainer);
+    /**
+     * Gets the editor's constrainer for this view, for use, when the
+     * visible constrainer is turned on.
+     * This is a bound property.
+     *
+     * @see setConstrainerVisible
+     */
+    public Constrainer getVisibleConstrainer();
+    /**
+     * Sets the editor's constrainer for this view, for use, when the
+     * visible constrainer is turned off.
+     * This is a bound property.
+     *
+     * @see setConstrainerVisible
+     */
+    public void setInvisibleConstrainer(Constrainer constrainer);
+    /**
+     * Gets the editor's constrainer for this view, for use, when the
+     * visible constrainer is turned off.
+     * This is a bound property.
+     *
+     * @see setConstrainerVisible
+     */
+    public Constrainer getInvisibleConstrainer();
 
+    /**
+     * Changes between a visible Constrainer and an invisible Constrainer.
+     * This is a bound property.
+     *
+     * @see setVisibleConstrainer
+     * @see setInvisibleConstrainer
+     */
+    public void setConstrainerVisible(boolean newValue);
+    
+    /**
+     * Returns true, if the visible Constrainer is in use, returns false,
+     * if the invisible Constrainer is in use.
+     * This is a bound property.
+     *
+     * @see setConstrainerVisible
+     */
+    public boolean isConstrainerVisible();
+    
     /**
      * Returns the JComponent of the drawing view.
      */
@@ -202,6 +295,7 @@ public interface DrawingView {
     
     /**
      * Gets the scale factor of the drawing view.
+     * This is a bound property.
      */
     public double getScaleFactor();
     /**
@@ -212,10 +306,12 @@ public interface DrawingView {
     
     /**
      * The detail level of the handles.
+     * This is a bound property.
      */
     public void setHandleDetailLevel(int newValue);
     /**
      * Returns the detail level of the handles.
+     * This is a bound property.
      */
     public int getHandleDetailLevel();
      /**
@@ -225,6 +321,7 @@ public interface DrawingView {
      public void setEnabled(boolean newValue);
      /**
       * Gets the enabled state of the drawing view.
+     * This is a bound property.
       */
      public boolean isEnabled();
      

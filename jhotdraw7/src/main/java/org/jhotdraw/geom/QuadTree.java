@@ -19,7 +19,12 @@ import java.awt.geom.*;
 import java.util.*;
 import java.awt.*;
 /**
- * QuadTree.
+ * A QuadTree allows to quickly find an object on a two-dimensional space.
+ * <p>
+ * QuadTree recursively subdivides a space into four rectangles. 
+ * Each node of a QuadTree subdivides the space covered by the rectangle of its 
+ * parent node into four smaller rectangles covering the upper left, upper right, 
+ * lower left and lower right quadrant of the parent rectangle. 
  *
  * @author  Werner Randelshofer
  * @version 2.0 2006-12-06 Renamed from QuadTree2DDouble to QuadTree because

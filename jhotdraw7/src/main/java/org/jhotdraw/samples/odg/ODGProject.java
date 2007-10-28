@@ -368,27 +368,6 @@ public class ODGProject extends AbstractProject implements ExportableProject {
         prefs.put("projectExportFile", f.getPath());
         prefs.put("projectExportFormat", filter.getDescription());
     }
-    public void setGridVisible(boolean newValue) {
-        boolean oldValue = isGridVisible();
-        Constrainer c = (newValue) ? visibleConstrainer : invisibleConstrainer;
-        view.setConstrainer(c);
-        
-        firePropertyChange("gridVisible", oldValue, newValue);
-        prefs.putBoolean("project.gridVisible", newValue);
-    }
-    public boolean isGridVisible() {
-        return view.getConstrainer() == visibleConstrainer;
-    }
-    public double getScaleFactor() {
-        return view.getScaleFactor();
-    }
-    public void setScaleFactor(double newValue) {
-        double oldValue = getScaleFactor();
-        view.setScaleFactor(newValue);
-        
-        firePropertyChange("scaleFactor", oldValue, newValue);
-        prefs.putDouble("project.scaleFactor", newValue);
-    }
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

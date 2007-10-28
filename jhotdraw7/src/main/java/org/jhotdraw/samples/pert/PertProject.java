@@ -60,8 +60,6 @@ public class PertProject extends AbstractProject {
      */
     private DrawingEditor editor;
     
-    private GridConstrainer visibleConstrainer = new GridConstrainer(10, 10);
-    private GridConstrainer invisibleConstrainer = new GridConstrainer();
     private Preferences prefs;
     
     /**
@@ -155,14 +153,12 @@ public class PertProject extends AbstractProject {
     
     public void setGridVisible(boolean newValue) {
         boolean oldValue = isGridVisible();
-        Constrainer c = (newValue) ? visibleConstrainer : invisibleConstrainer;
-        view.setConstrainer(c);
-        
+        view.setConstrainerVisible(newValue);
         firePropertyChange("gridVisible", oldValue, newValue);
         prefs.putBoolean("project.gridVisible", newValue);
     }
     public boolean isGridVisible() {
-       return view.getConstrainer() == visibleConstrainer;
+       return view.isConstrainerVisible();
     }
     public double getScaleFactor() {
        return view.getScaleFactor();

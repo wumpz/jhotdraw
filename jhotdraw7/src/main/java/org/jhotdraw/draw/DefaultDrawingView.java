@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultDrawingView.java  4.0  2007-07-24
+ * @(#)DefaultDrawingView.java  4.2  2007-09-15
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -41,7 +41,9 @@ import org.jhotdraw.xml.XMLTransferable;
  *
  *
  * @author Werner Randelshofer
- * @version 4.0 2007-07-23 DefaultDrawingView does not publicly extend anymore
+ * @version 4.2 2007-09-12 The DrawingView is now responsible for
+ * holding the Constrainer objects which affect editing on this view.
+ * <br>4.0 2007-07-23 DefaultDrawingView does not publicly extend anymore
  * CompositeFigureListener and HandleListener.
  * <br>3.5 2007-04-13 Implement clipboard functions using TransferHandler.
  * <br>3.4 2007-04-09 Visualizes the canvas sgetChildCountof a Drawing by a filled
@@ -70,6 +72,9 @@ public class DefaultDrawingView
     private Set<Figure> selectedFigures = new HashSet<Figure>();
     private int rainbow = 0;
     private LinkedList<Handle> selectionHandles = new LinkedList<Handle>();
+    private boolean isConstrainerVisible = false;
+    private Constrainer visibleConstrainer = new GridConstrainer(8,8);
+    private Constrainer invisibleConstrainer = new GridConstrainer();
     
     private Handle secondaryHandleOwner;
     private LinkedList<Handle> secondaryHandles = new LinkedList<Handle>();
@@ -79,7 +84,6 @@ public class DefaultDrawingView
     private Point2D.Double translate = new Point2D.Double(0,0);
     private int detailLevel;
     private DrawingEditor editor;
-    private Constrainer constrainer = new GridConstrainer();
     private JLabel emptyDrawingLabel;
     private FigureListener handleInvalidator = new FigureAdapter() {
         @Override public void figureHandlesChanged(FigureEvent e) {
@@ -247,7 +251,7 @@ public class DefaultDrawingView
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, (Options.isTextAntialiased()) ? RenderingHints.VALUE_TEXT_ANTIALIAS_ON : RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
         
         drawBackground(g);
-        drawGrid(g);
+        drawConstrainer(g);
         drawDrawing(g);
         drawHandles(g);
         drawTool(g);
@@ -274,7 +278,7 @@ public class DefaultDrawingView
         
         
         //drawBackground(g);
-        //drawGrid(g);
+        //drawConstrainer(g);
         drawDrawing(g);
         
         //drawHandles(g);
@@ -321,8 +325,8 @@ public class DefaultDrawingView
         }
     }
     
-    protected void drawGrid(Graphics2D g) {
-        constrainer.draw(g, this);
+    protected void drawConstrainer(Graphics2D g) {
+        getConstrainer().draw(g, this);
     }
     
     protected void drawDrawing(Graphics2D gr) {
@@ -717,22 +721,8 @@ public class DefaultDrawingView
     }
     
     public Constrainer getConstrainer() {
-        return constrainer;
+        return isConstrainerVisible() ? visibleConstrainer : invisibleConstrainer;
     }
-    
-    public void setConstrainer(Constrainer newValue) {
-        if (constrainer != null) {
-            constrainer.removeChangeListener(changeHandler);
-        }
-        Constrainer oldValue = constrainer;
-        constrainer = newValue;
-        if (constrainer != null) {
-            constrainer.addChangeListener(changeHandler);
-        }
-        firePropertyChange("constrainer", oldValue, newValue);
-        repaint();
-    }
-    
     
     /**
      * Side effect: Changes view Translation!!!
@@ -955,6 +945,36 @@ public class DefaultDrawingView
     public void addNotify(DrawingEditor editor) {
         this.editor = editor;
         repaint();
+    }
+
+    public void setVisibleConstrainer(Constrainer newValue) {
+        Constrainer oldValue = visibleConstrainer;
+        visibleConstrainer = newValue;
+        firePropertyChange(PROP_VISIBLE_CONSTRAINER, oldValue, newValue);
+    }
+
+    public Constrainer getVisibleConstrainer() {
+        return visibleConstrainer;
+    }
+
+    public void setInvisibleConstrainer(Constrainer newValue) {
+        Constrainer oldValue = invisibleConstrainer;
+        invisibleConstrainer = newValue;
+        firePropertyChange(PROP_INVISIBLE_CONSTRAINER, oldValue, newValue);
+    }
+
+    public Constrainer getInvisibleConstrainer() {
+        return invisibleConstrainer;
+    }
+
+    public void setConstrainerVisible(boolean newValue) {
+        boolean oldValue = isConstrainerVisible;
+       isConstrainerVisible = newValue;
+        firePropertyChange(PROP_CONSTRAINER_VISIBLE, oldValue, newValue);
+    }
+
+    public boolean isConstrainerVisible() {
+        return isConstrainerVisible;
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

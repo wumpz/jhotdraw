@@ -37,6 +37,8 @@ public abstract class AbstractEditorAction extends AbstractAction {
         public void propertyChange(PropertyChangeEvent evt) {
             if (evt.getPropertyName().equals("enabled")) {
                 updateEnabledState();
+            } else if (evt.getPropertyName().equals(DrawingEditor.PROP_ACTIVE_VIEW)) {
+                updateViewState();
             }
         }
     };
@@ -61,8 +63,11 @@ public abstract class AbstractEditorAction extends AbstractAction {
         }
     }
     
-    public void updateEnabledState() {
+    protected void updateEnabledState() {
             setEnabled(editor != null && editor.isEnabled());
+    }
+    
+    protected void updateViewState() {
     }
     
     public DrawingEditor getEditor() {

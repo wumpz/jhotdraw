@@ -27,6 +27,9 @@ import java.io.*;
  * 
  * @author Werner Randelshofer
  * @version 1.1 2006-05-01 System.exit(0) explicitly in method stop().
+ *
+ * @deprecated This 
+ *
  * <br>1.0 October 4, 2005 Created.
  */
 public abstract class AbstractApplication extends AbstractBean implements Application {
