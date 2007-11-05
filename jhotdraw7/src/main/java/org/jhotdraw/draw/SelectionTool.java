@@ -157,7 +157,8 @@ public class SelectionTool extends AbstractTool
                 newTracker = createHandleTracker(handle);
             } else {
                 Figure figure;
-                if (isSelectBehindEnabled() && (evt.getModifiersEx() &
+                if (isSelectBehindEnabled() && 
+                        (evt.getModifiersEx() &
                         (InputEvent.ALT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK)) != 0) {
                     // Select a figure behind the current selection
                     figure = view.findFigure(anchor);
