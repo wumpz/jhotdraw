@@ -25,7 +25,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * 
  * @author Werner Randelshofer
  * @version 1.0 2007-04-14 Created.
- * @see Figure#basicSetBounds
  */
 public class ResizeHandleKit {
     private final static boolean DEBUG = false;

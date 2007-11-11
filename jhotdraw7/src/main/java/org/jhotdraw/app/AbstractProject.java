@@ -89,7 +89,7 @@ public abstract class AbstractProject extends JPanel  implements Project {
     
     public void init() {
         prefs = Preferences.userNodeForPackage(getClass());
-        initComponents();
+        //initComponents();
     }
     
     /** This method is called from within the constructor to

@@ -36,7 +36,6 @@ public interface Constrainer {
      * This method changes the point which is passed as a parameter.
      *
      * @param p A point on the drawing.
-     * @param dir A direction.
      * @return Returns the constrained point.
      */
     public Point2D.Double constrainPoint(Point2D.Double p);
@@ -57,8 +56,7 @@ public interface Constrainer {
      * This method changes the location of the rectangle which is passed as a
      * parameter. This method does not change the size of the rectangle.
      *
-     * @param f A rectangle on the drawing.
-     * @param dir A direction.
+     * @param r A rectangle on the drawing.
      * @return Returns the constrained rectangle.
      */
     public Rectangle2D.Double constrainRectangle(Rectangle2D.Double r);
@@ -68,7 +66,7 @@ public interface Constrainer {
      * This method changes the location of the rectangle which is passed as a
      * parameter. This method does not change the size of the rectangle.
      *
-     * @param f A rectangle on the drawing.
+     * @param r A rectangle on the drawing.
      * @param dir A direction.
      * @return Returns the constrained rectangle.
      */

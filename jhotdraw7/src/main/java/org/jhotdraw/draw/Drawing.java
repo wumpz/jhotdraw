@@ -42,10 +42,6 @@ import java.io.*;
  * allowing to load and save the drawing, and to copy and paste figures
  * into the clipboard.
  *
- * @see Figure
- * @see DrawingChangeListener
- * @see DrawingChangeEvent
- *
  * @author Werner Randelshofer
  * @version 3.0 2007-07-17 Refactored Drawing from an independent interface
  * into an interface that extends from CompositeFigure. 
@@ -125,7 +121,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
     /**
      * Removes a figure temporarily from the drawing.
      *
-     * @see #basicAdd(Figure
+     * @see #basicAdd(Figure)
      * 
      * @param figure that is part of the drawing and should be removed
      */
@@ -144,7 +140,6 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * This is a convenience method for calling 
      * {@code basicAdd(size(), figure)}.
      * 
-     * @param index The z-index of the figure.
      * @param figure that is part of the drawing and should be removed
      * @see #basicRemove(Figure)
      */

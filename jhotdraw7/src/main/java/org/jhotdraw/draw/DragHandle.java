@@ -1,15 +1,15 @@
 /*
  * @(#)DragHandle.java  1.0  July 24, 2007
  *
- * Copyright (c) 2007 Werner Randelshofer
- * Staldenmattweg 2, CH-6405 Immensee, Switzerland
+ * Copyright (c) 2007 by the original authors of JHotDraw
+ * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of
- * Werner Randelshofer. ("Confidential Information").  You shall not
- * disclose such Confidential Information and shall use it only in
- * accordance with the terms of the license agreement you entered into
- * with Werner Randelshofer.
+ * JHotDraw.org ("Confidential Information"). You shall not disclose
+ * such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with
+ * JHotDraw.org.
  */
 
 package org.jhotdraw.draw;
@@ -21,7 +21,7 @@ import java.util.*;
  * A handle that changes the location of the owning figure, the handle
  * covers all visible points of the figure.
  * <p>
- * Usually, DragHandle is not needed, because of the {@see DragTracker}
+ * Usually, DragHandle is not needed, because of the {@link DragTracker}
  * in the SelectionTool. Use a (subclass of) DragHandle, if you want
  * to implement figure specific drag behavior. A CompositeFigure can
  * create DragHandle's for all its child figures, to support dragging

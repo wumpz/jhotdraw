@@ -43,8 +43,6 @@ public class ApplyAttributesAction extends AbstractSelectedAction {
     
     /**
      * Set of attributes that is excluded when applying default attributes.
-     * By default, the TRANSFORM attribute is excluded.
-     * @see AttributeKeys.TRANSFORM
      */
     public void setExcludedAttributes(Set<AttributeKey> a) {
         this.excludedAttributes = a;

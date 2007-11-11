@@ -20,9 +20,9 @@ import java.util.*;
 import org.jhotdraw.geom.*;
 
 /**
- * A {@code ConnectionFigure} draws a connection between two {@see Connector}s.
+ * A {@code ConnectionFigure} draws a connection between two {@link Connector}s.
  * A ConnectionFigure knows its start and end Connector.
- * A ConnectionFigure can be laid out using a {@see Liner}.
+ * A ConnectionFigure can be laid out using a {@link Liner}.
  *
  * @see Connector
  * @see Liner

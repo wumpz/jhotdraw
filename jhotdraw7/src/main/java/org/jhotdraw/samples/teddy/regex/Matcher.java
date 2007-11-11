@@ -1,15 +1,15 @@
 /*
  * @(#)Matcher.java  2.0  2005-10-09
  *
- * Copyright (c) 2002-2005 Werner Randelshofer
- * Staldenmattweg 2, CH-6405 Immensee, Switzerland
+ * Copyright (c) 2007 by the original authors of JHotDraw
+ * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of
- * Werner Randelshofer. ("Confidential Information").  You shall not
- * disclose such Confidential Information and shall use it only in
- * accordance with the terms of the license agreement you entered into
- * with Werner Randelshofer.
+ * JHotDraw.org ("Confidential Information"). You shall not disclose
+ * such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with
+ * JHotDraw.org.
  */
 package org.jhotdraw.samples.teddy.regex;
 
@@ -70,7 +70,7 @@ public class Matcher {
      * @param document The document to be examined
      * @param findString The string to be searched.
      * @param matchCase Set to true for case sensitive search.
-     * @param matchWord Set to true for word match search.
+     * @param matchType Sets the match type.
      */
     public Matcher(Document document, String findString, boolean matchCase, MatchType matchType) {
         this.document = document;
@@ -112,7 +112,7 @@ public class Matcher {
      * starting at the specified index.
      *
      * @param startIndex the index from which to start the search.
-     * @returns the index of the first occurrence of the search string,
+     * @return the index of the first occurrence of the search string,
      * starting at the specified offset, or -1 if no occurrence was found.
      */
     public int findNext(int startIndex) {
@@ -129,7 +129,7 @@ public class Matcher {
      * since been reset, at the first character not matched by
      * the previous match.
      *
-     * @returns the index of the first occurrence of the search string,
+     * @return the index of the first occurrence of the search string,
      * starting at the specified offset, or -1 if no occurrence was found.
      */
     public int findNext() {
@@ -200,7 +200,7 @@ public class Matcher {
      * starting at the specified index.
      *
      * @param startIndex the index from which to start the search.
-     * @returns the index of the first occurrence of the search string,
+     * @return the index of the first occurrence of the search string,
      * starting at the specified offset, or -1 if no occurrence was found.
      */
     public int findPrevious(int startIndex) {
@@ -217,7 +217,7 @@ public class Matcher {
      * since been reset, at the first character not matched by
      * the previous match.
      *
-     * @returns the index of the first occurrence of the search string,
+     * @return the index of the first occurrence of the search string,
      * starting at the specified offset, or -1 if no occurrence was found.
      */
     public int findPrevious() {

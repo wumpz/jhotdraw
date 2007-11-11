@@ -33,8 +33,6 @@ import java.util.*;
  * <br>2.1 2006-02-16 Remove savedLiner from connection while tracking.
  * <br>2.0 2006-01-14 Changed to support double coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
- * @see ChangeConnectionEndHandle
- * @see ChangeConnectionStartHandle
  */
 public abstract class AbstractConnectionHandle extends AbstractHandle {
     private Connector         savedTarget;

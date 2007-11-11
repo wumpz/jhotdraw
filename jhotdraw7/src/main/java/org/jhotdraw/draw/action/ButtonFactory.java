@@ -391,7 +391,7 @@ public class ButtonFactory {
      *
      * @param editor The DrawingEditor.
      * @param attributeKey The AttributeKey of the default color.
-     * @param colorMap A map with labeled colors containing the color palette
+     * @param swatches A list with labeled colors containing the color palette
      * of the popup menu. The actual labels are retrieved from the supplied
      * resource bundle. This is usually a LinkedMap, so that the colors have
      * a predictable order.
@@ -427,7 +427,7 @@ public class ButtonFactory {
      *
      * @param editor The DrawingEditor.
      * @param attributeKey The AttributeKey of the default color.
-     * @param colorMap A map with labeled colors containing the color palette
+     * @param swatches A list with labeled colors containing the color palette
      * of the popup menu. The actual labels are retrieved from the supplied
      * resource bundle. This is usually a LinkedMap, so that the colors have
      * a predictable order.
@@ -467,7 +467,7 @@ public class ButtonFactory {
      *
      * @param editor The DrawingEditor.
      * @param attributeKey The AttributeKey of the default color.
-     * @param colorMap A map with labeled colors containing the color palette
+     * @param swatches A list with labeled colors containing the color palette
      * of the popup menu. The actual labels are retrieved from the supplied
      * resource bundle. This is usually a LinkedHashMap, so that the colors have
      * a predictable order.

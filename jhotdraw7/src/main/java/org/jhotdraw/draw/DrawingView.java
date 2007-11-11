@@ -22,11 +22,11 @@ import java.util.*;
 import java.beans.*;
 import javax.swing.*;
 /**
- * A DrawingView paints a {@see Drawing} on a JComponent.
+ * A DrawingView paints a {@link Drawing} on a JComponent.
  * <p>
- * To support editing, a DrawingView can paint {@see Handle}s and
- * the current {@see Tool} of the {@see DrawingEditor} on top of the
- * drawing. It can render a {@see Constrainer} below the drawing.
+ * To support editing, a DrawingView can paint {@link Handle}s and
+ * the current {@link Tool} of the {@link DrawingEditor} on top of the
+ * drawing. It can render a {@link Constrainer} below the drawing.
  * <p>
  * Tools can register mouse and key listeners on the DrawingView.
  * <p>
@@ -227,49 +227,36 @@ public interface DrawingView {
      * If isConstrainerVisible is true, this method returns getVisibleConstrainer,
      * otherwise it returns getInvisibleConstrainer.
      * This is a bound property.
-     * 
-     * @see setConstrainerVisible
      */
     public Constrainer getConstrainer();
     /**
      * Sets the editor's constrainer for this view, for use, when the
      * visible constrainer is turned on.
      * This is a bound property.
-     *
-     * @see setConstrainerVisible
      */
     public void setVisibleConstrainer(Constrainer constrainer);
     /**
      * Gets the editor's constrainer for this view, for use, when the
      * visible constrainer is turned on.
      * This is a bound property.
-     *
-     * @see setConstrainerVisible
      */
     public Constrainer getVisibleConstrainer();
     /**
      * Sets the editor's constrainer for this view, for use, when the
      * visible constrainer is turned off.
      * This is a bound property.
-     *
-     * @see setConstrainerVisible
      */
     public void setInvisibleConstrainer(Constrainer constrainer);
     /**
      * Gets the editor's constrainer for this view, for use, when the
      * visible constrainer is turned off.
      * This is a bound property.
-     *
-     * @see setConstrainerVisible
      */
     public Constrainer getInvisibleConstrainer();
 
     /**
      * Changes between a visible Constrainer and an invisible Constrainer.
      * This is a bound property.
-     *
-     * @see setVisibleConstrainer
-     * @see setInvisibleConstrainer
      */
     public void setConstrainerVisible(boolean newValue);
     
@@ -277,8 +264,6 @@ public interface DrawingView {
      * Returns true, if the visible Constrainer is in use, returns false,
      * if the invisible Constrainer is in use.
      * This is a bound property.
-     *
-     * @see setConstrainerVisible
      */
     public boolean isConstrainerVisible();
     

@@ -31,11 +31,11 @@ import org.jhotdraw.xml.DOMStorable;
  * A Figure knows its bounds and it can draw itself. A figure is an element of a
  * drawing. 
  * <p>
- * A figure has a set of {@see Handle}s to manipulate its shape or attributes. A figure
- * has one or more {@see Connector}s that define how to locate a connection point.
+ * A figure has a set of {@link Handle}s to manipulate its shape or attributes. A figure
+ * has one or more {@link Connector}s that define how to locate a connection point.
  * <p>
  * Figures can have an open ended set of attributes. An attribute is identified
- * by an {@see AttributeKey}.
+ * by an {@link AttributeKey}.
  * <p>
  * Specialized subinterfaces of Figure allow to compose a figure from
  * several figures, to connect a figure to other figures, to hold text or
@@ -236,9 +236,6 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
     /**
      * Gets data which can be used to restore the attributes of the figure 
      * after a setAttribute has been applied to it.
-     * 
-     * 
-     * @see #basicSetAttribue(AttributeKey,Object)
      */
     public Object getAttributesRestoreData();
     /**

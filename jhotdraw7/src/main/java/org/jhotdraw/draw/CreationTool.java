@@ -140,8 +140,8 @@ public class CreationTool extends AbstractTool {
      * @param prototype The prototype used to create a new Figure.
      * @param attributes The CreationTool applies these attributes to the
      * prototype after having applied the default attributes from the DrawingEditor.
-     * @param presentationName The presentationName parameter is currently not used.
-     * @deprecated This constructor might go away, because the presentationName parameter
+     * @param name The name parameter is currently not used.
+     * @deprecated This constructor might go away, because the name parameter
      * is not used.
      */
     public CreationTool(Figure prototype, Map<AttributeKey, Object> attributes, String name) {

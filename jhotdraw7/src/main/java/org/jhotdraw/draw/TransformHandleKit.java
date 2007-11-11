@@ -29,7 +29,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * it from the BoundsHandleKit. 
  * <br>2.0 2006-01-14 Changed to support double precision coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
- * @see Figure#basicTransform
  */
 public class TransformHandleKit {
     

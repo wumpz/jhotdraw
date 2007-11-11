@@ -26,7 +26,7 @@ import org.jhotdraw.undo.CompositeEdit;
  * the color of the currently selected Figures.
  * <p>
  * The behavior for choosing the initial color of the JColorChooser matches with
- * {@see SelectionColorIcon }.
+ * {@link SelectionColorIcon }.
  * 
  * @author Werner Randelshofer
  * @version 2.0 2006-06-07 Reworked.

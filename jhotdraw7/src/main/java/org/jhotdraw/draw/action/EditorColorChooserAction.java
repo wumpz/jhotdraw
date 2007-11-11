@@ -25,7 +25,7 @@ import org.jhotdraw.undo.CompositeEdit;
  * EditorColorChooserAction.
  * <p>
  * The behavior for choosing the initial color of the JColorChooser matches with
- * {@see EditorColorIcon }.
+ * {@link EditorColorIcon }.
  *
  * @author Werner Randelshofer
  * @version 2.0 2006-06-07 Reworked.

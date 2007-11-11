@@ -207,7 +207,7 @@ public class GridConstrainer extends AbstractConstrainer {
      * This method changes the location of the rectangle which is passed as a
      * parameter. This method does not change the size of the rectangle.
      *
-     * @param f A rectangle on the drawing.
+     * @param r A rectangle on the drawing.
      * @param dir A direction.
      * @return Returns the constrained rectangle.
      */

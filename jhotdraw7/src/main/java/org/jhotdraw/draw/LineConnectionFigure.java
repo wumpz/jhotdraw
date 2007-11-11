@@ -302,8 +302,6 @@ public class LineConnectionFigure extends LineFigure
      * Note: This method is only invoked, when the Figure is part of a
      * Drawing. If the Figure is added to a Drawing this method is invoked
      * on behalf of the addNotify call to the Figure.
-     *
-     * @see #addConnect
      */
     protected void handleConnect(Connector start, Connector end) {
     }

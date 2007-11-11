@@ -28,7 +28,7 @@ import org.jhotdraw.geom.*;
  * If now figures are selcted, the specified color is taken from the DrawingEditor.
  * <p>
  * The behavior for choosing the drawn color matches with
- * {@see SelectionColorChooserAction }.
+ * {@link SelectionColorChooserAction }.
  * 
  * @author Werner Randelshofer
  * @version 2.1 2007-05-03 Added parameters for setting the color rect.

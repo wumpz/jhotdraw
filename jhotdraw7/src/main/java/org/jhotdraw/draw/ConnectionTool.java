@@ -25,8 +25,8 @@ import java.awt.dnd.*;
 
 /**
  * A tool to create a connection between two figures.
- * The  {@see ConnectionFigure} to be created is specified by a prototype.
- * The location of the start and end points are controlled by {@see Connector}s.
+ * The  {@link ConnectionFigure} to be created is specified by a prototype.
+ * The location of the start and end points are controlled by {@link Connector}s.
  * <p>
  * To create a connection using the ConnectionTool, the user does the following
  * mouse gestures on a DrawingView:

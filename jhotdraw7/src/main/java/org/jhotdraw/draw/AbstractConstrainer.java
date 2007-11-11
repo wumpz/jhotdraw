@@ -1,15 +1,15 @@
 /*
  * @(#)AbstractConstrainer.java  1.0  August 1, 2007
  *
- * Copyright (c) 2007 Werner Randelshofer
- * Staldenmattweg 2, CH-6405 Immensee, Switzerland
+ * Copyright (c) 2007 by the original authors of JHotDraw
+ * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
  * This software is the confidential and proprietary information of
- * Werner Randelshofer. ("Confidential Information").  You shall not
- * disclose such Confidential Information and shall use it only in
- * accordance with the terms of the license agreement you entered into
- * with Werner Randelshofer.
+ * JHotDraw.org ("Confidential Information"). You shall not disclose
+ * such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with
+ * JHotDraw.org.
  */
 
 package org.jhotdraw.draw;
@@ -56,7 +56,6 @@ public abstract class AbstractConstrainer extends AbstractBean implements Constr
     /**
      * Runs each <code>ChangeListener</code>'s <code>stateChanged</code> method.
      *
-     * @see #setRangeProperties
      * @see EventListenerList
      */
     protected void fireStateChanged() {
