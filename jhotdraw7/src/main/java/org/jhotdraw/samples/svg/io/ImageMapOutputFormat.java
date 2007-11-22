@@ -186,7 +186,7 @@ public class ImageMapOutputFormat implements OutputFormat {
     public Transferable createTransferable(java.util.List<Figure> figures, double scaleFactor) throws IOException {
         ByteArrayOutputStream buf = new ByteArrayOutputStream();
         write(buf, figures);
-        return new InputStreamTransferable(new DataFlavor("tex/html", "HTML Image Map"), buf.toByteArray());
+        return new InputStreamTransferable(new DataFlavor("text/html", "HTML Image Map"), buf.toByteArray());
     }
     
     protected void writeElement(IXMLElement parent, Figure f) throws IOException {
