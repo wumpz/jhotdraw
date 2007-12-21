@@ -1,5 +1,5 @@
 /*
- * @(#)TextTool.java  2.1  2007-08-22
+ * @(#)TextAreaTool.java  2.2  2007-11-25
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -40,24 +40,37 @@ import org.jhotdraw.geom.*;
  * <p>
  * To edit an existing text figure using the TextAreaTool, the user does the
  * following mouse gesture on a DrawingView:
+ * </p>
  * <ol>
  * <li>Press the mouse button over a Figure on the DrawingView.</li>
  * </ol>
+ * <p>
  * The TextAreaTool then uses Figure.findFigureInside to find a Figure that
  * implements the TextHolderFigure interface and that is editable. Then it overlays
  * a text area over the drawing where the user can enter the text for the Figure.
+ * </p>
+ * <p>
+ * XXX - Maybe this class should be split up into a CreateTextAreaTool and
+ * a EditTextAreaTool.
+ * </p>
  *
  * @author Werner Randelshofer
- * @version 2.1 2007-08-22 Added support for property 'toolDoneAfterCreation'.
+ * @version 2.2 2007-11-25 Added variable isForCreationOnly.
+ * <br>2.1 2007-08-22 Added support for property 'toolDoneAfterCreation'.
  * <br>2.0 2006-01-14 Changed to support double precison coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
- *
  * @see TextHolderFigure
  * @see FloatingTextArea
  */
 public class TextAreaTool extends CreationTool implements ActionListener {
     private FloatingTextArea   textArea;
     private TextHolderFigure  typingTarget;
+    /**
+     * By default this tool is only used for the creation of new TextAreaFigures.
+     * If this variable is set to false, the tool is used to create new
+     * TextAreaFigures and edit existing TextAreaFigures.
+     */
+    private boolean isForCreationOnly = true;
     /**
      * Rubberband color of the tool. When this is null, the tool does not
      * draw a rubberband.
@@ -82,6 +95,22 @@ public class TextAreaTool extends CreationTool implements ActionListener {
         rubberbandColor = c;
     }
     
+    /**
+     * By default this tool is used to create a new TextHolderFigure.
+     * If this property is set to false, the tool is used to create
+     * a new TextHolderFigure or to edit an existing TextHolderFigure.
+     */
+    public void setForCreationOnly(boolean newValue) {
+        isForCreationOnly = newValue;
+    }
+    /**
+     * Returns true, if this tool can be only be used for creation of
+     * TextHolderFigures and not for editing existing ones. 
+     */
+    public boolean isForCreationOnly() {
+        return isForCreationOnly;
+    }
+    
     
     public void deactivate(DrawingEditor editor) {
         endEdit();
@@ -97,7 +126,7 @@ public class TextAreaTool extends CreationTool implements ActionListener {
         Figure pressedFigure = getDrawing().findFigureInside(getView().viewToDrawing(new Point(e.getX(), e.getY())));
         if (pressedFigure instanceof TextHolderFigure) {
             textHolder = (TextHolderFigure) pressedFigure;
-            if (!textHolder.isEditable())
+            if (!textHolder.isEditable() || isForCreationOnly)
                 textHolder = null;
         }
         
@@ -109,7 +138,7 @@ public class TextAreaTool extends CreationTool implements ActionListener {
         if (typingTarget != null) {
             endEdit();
             if (isToolDoneAfterCreation()) {
-            fireToolDone();
+                fireToolDone();
             }
         } else {
             super.mousePressed(e);
@@ -128,7 +157,7 @@ public class TextAreaTool extends CreationTool implements ActionListener {
      * The implementation of this class just invokes fireToolDone.
      */
     protected void creationFinished(Figure createdFigure) {
-            beginEdit((TextHolderFigure) createdFigure);
+        beginEdit((TextHolderFigure) createdFigure);
     }
     /*
     public void mouseDragged(java.awt.event.MouseEvent e) {
@@ -221,7 +250,7 @@ public class TextAreaTool extends CreationTool implements ActionListener {
     public void actionPerformed(ActionEvent event) {
         endEdit();
         if (isToolDoneAfterCreation()) {
-        fireToolDone();
+            fireToolDone();
         }
     }
 }

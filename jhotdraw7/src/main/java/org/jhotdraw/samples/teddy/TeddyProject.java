@@ -66,7 +66,7 @@ public class TeddyProject extends AbstractProject {
         }
         
         public Dimension getPreferredScrollableViewportSize() {
-           // System.out.println("EditorViewport: "+editor.getPreferredScrollableViewportSize());
+            // System.out.println("EditorViewport: "+editor.getPreferredScrollableViewportSize());
             return editor.getPreferredScrollableViewportSize();
         }
         
@@ -107,7 +107,7 @@ public class TeddyProject extends AbstractProject {
     
     /** Creates a new instance. */
     public TeddyProject() {
-prefs = Preferences.userNodeForPackage(TeddyProject.class);
+        prefs = Preferences.userNodeForPackage(TeddyProject.class);
     }
     
     protected JTextPane createEditor() {
@@ -286,10 +286,21 @@ prefs = Preferences.userNodeForPackage(TeddyProject.class);
     }
     
     public void clear() {
-        editor.getDocument().removeUndoableEditListener(undoManager);
-        editor.setDocument(createDocument());
-        editor.getDocument().addUndoableEditListener(undoManager);
-        setHasUnsavedChanges(false);
+        final Document newDocument = createDocument();
+        try {
+            SwingUtilities.invokeAndWait(new Runnable() {
+                public void run() {
+                    editor.getDocument().removeUndoableEditListener(undoManager);
+                    editor.setDocument(newDocument);
+                    editor.getDocument().addUndoableEditListener(undoManager);
+                    setHasUnsavedChanges(false);
+                }
+            });
+        } catch (InvocationTargetException ex) {
+            ex.printStackTrace();
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
     }
     
     protected StyledDocument createDocument() {

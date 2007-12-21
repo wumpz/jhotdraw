@@ -104,7 +104,6 @@ public class BezierPath extends ArrayList<BezierPath.Node>
         public boolean keepColinear = true;
         
         public Node() {
-            mask = 1;
         }
         public Node(Node that) {
             setTo(that);

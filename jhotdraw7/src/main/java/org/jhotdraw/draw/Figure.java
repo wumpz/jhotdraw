@@ -1,5 +1,5 @@
 /*
- * @(#)Figure.java  5.0  2007-07-24
+ * @(#)Figure.java  6.0  2007-12-19
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -43,7 +43,8 @@ import org.jhotdraw.xml.DOMStorable;
  * 
  * 
  * @author Werner Randelshofer
- * @version 5.0 2007-07-24 Removed method isSelectable and added
+ * @version 6.0 2007-12-19 Removed method invalidate. 
+ * <br>5.0 2007-07-24 Removed method isSelectable and added
  * isSelectable and isRemovable instead.
  * <br>4.2 2007-05-19 Removed setConnectorsVisible, isConnectorsVisible
  * method due to changes in Connector interface. 
@@ -361,7 +362,9 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
 
     // CLONING
     /**
-     * Returns a clone of the figure.
+     * Returns a clone of the figure, with clones of all aggregated figures,
+     * such as chilrend and decorators. The cloned figure does not clone
+     * the list of FigureListeners from its original. 
      */
     Object clone();
     /**
@@ -402,12 +405,6 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * @see #willChange()
      */
     public void changed();
-    /**
-     * Informs that a Figure has invalidated its display area and needs to
-     * be drawn. 
-     * Fires a <code>FigureListener.areaInvalidated</code> event.
-     */
-    public void invalidate();
     /**
      * Fires a <code>FigureListener.figureRequestRemove</code> event.
      */

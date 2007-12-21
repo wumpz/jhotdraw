@@ -74,8 +74,8 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
                 if (! drawingArea.isEmpty()) {
                     
                     BufferedImage buf = new BufferedImage(
-                            (int) ((2 + drawingArea.width) * g.getTransform().getScaleX()),
-                            (int) ((2 + drawingArea.height) * g.getTransform().getScaleY()),
+                            Math.max(1, (int) ((2 + drawingArea.width) * g.getTransform().getScaleX())),
+                            Math.max(1, (int) ((2 + drawingArea.height) * g.getTransform().getScaleY())),
                             BufferedImage.TYPE_INT_ARGB);
                     Graphics2D gr = buf.createGraphics();
                     gr.scale(g.getTransform().getScaleX(), g.getTransform().getScaleY());

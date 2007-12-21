@@ -1,5 +1,5 @@
 /*
- * @(#)SVGAttributeKeys.java  1.2  2007-04-22
+ * @(#)SVGAttributeKeys.java  1.3  2007-12-16
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -22,7 +22,8 @@ import org.jhotdraw.draw.*;
  * SVGAttributeKeys.
  *
  * @author Werner Randelshofer
- * @version 1.2 2007-04-22 Attribute Key LINK added. 
+ * @version 1.3 2007-12-16 Added TITLE and DESCRIPTION. 
+ * <br>1.2 2007-04-22 Attribute Key LINK added. 
  * <br>1.1 2007-04-10 Attribute key TEXT_ALIGN added. 
  * <br>1.0 December 9, 2006 Created.
  */
@@ -31,6 +32,28 @@ public class SVGAttributeKeys extends AttributeKeys {
     public enum TextAnchor {
         START, MIDDLE, END
     }
+    
+    /**
+     * Specifies the title of an SVG drawing.
+     * This attribute can be null, to indicate that the drawing has no title.
+     */
+    public final static AttributeKey<String> TITLE = new AttributeKey<String>("title");
+    /**
+     * Specifies the description of an SVG drawing.
+     * This attribute can be null, to indicate that the drawing has no description.
+     */
+    public final static AttributeKey<String> DESCRIPTION = new AttributeKey<String>("title");
+    /**
+     * Specifies the viewport-fill of an SVG viewport.
+     * This attribute can be null, to indicate that the viewport has no viewport-fill.
+     */
+    public final static AttributeKey<Color> VIEWPORT_FILL = CANVAS_FILL_COLOR;
+    /**
+     * Specifies the viewport-fill-opacity of an SVG viewport.
+     */
+    public final static AttributeKey<Double> VIEWPORT_FILL_OPACITY = CANVAS_FILL_OPACITY;
+    
+    
     /**
      * Specifies the text anchor of a SVGText figure.
      */

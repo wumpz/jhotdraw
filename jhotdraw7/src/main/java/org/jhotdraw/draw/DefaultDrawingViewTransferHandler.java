@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultDrawingViewTransferHandler.java  1.0  April 13, 2007
+ * @(#)DefaultDrawingViewTransferHandler.java  1.1  2007-12-16
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -31,7 +31,8 @@ import org.jhotdraw.util.ReversedList;
  * Default TransferHandler for DrawingView objects.
  *
  * @author Werner Randelshofer
- * @version 1.0 April 13, 2007 Created.
+ * @version 1.1 2007-12-16 Adapted to changes in InputFormat and OutputFormat.
+ * <br>1.0 April 13, 2007 Created.
  */
 public class DefaultDrawingViewTransferHandler extends TransferHandler {
     private final static boolean DEBUG = false;
@@ -60,7 +61,10 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                             if (DEBUG) System.out.println(this+".importData trying to match "+format+" to flavor "+flavor);
                             if (format.isDataFlavorSupported(flavor)) {
                                 if (DEBUG) System.out.println(this+".importData importing flavor "+flavor);
-                                final java.util.List<Figure> importedFigures = format.readFigures(t);
+                                Drawing d = new DefaultDrawing();
+                                format.read(t, drawing);
+                                final java.util.List<Figure> importedFigures = drawing.getChildren();
+                                
                                 view.clearSelection();
                                 drawing.addAll(importedFigures);
                                 view.addToSelection(importedFigures);
@@ -168,6 +172,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                         CompositeTransferable transfer = new CompositeTransferable();
                         for (OutputFormat format : drawing.getOutputFormats()) {
                             Transferable t = format.createTransferable(
+                                    drawing,
                                     toBeCopied,
                                     view.getScaleFactor()
                                     );

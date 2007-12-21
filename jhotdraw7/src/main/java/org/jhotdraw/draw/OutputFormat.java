@@ -1,7 +1,7 @@
 /*
- * @(#)OutputFormat.java  1.0  December 12, 2006
+ * @(#)OutputFormat.java  2.0  2007-12-16
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -34,7 +34,9 @@ import javax.swing.filechooser.*;
  * InputFormat to make it easy, to write classes that implement both interfaces.
  *
  * @author Werner Randelshofer
- * @version 1.0 December 12, 2006 Created.
+ * @version 2.0 2007-12-16 Method createTransferable needs Drawing object 
+ * parameter in order to support attributes on the Drawing object.
+ * <br>1.0 December 12, 2006 Created.
  */
 public interface OutputFormat {
     /**
@@ -81,10 +83,11 @@ public interface OutputFormat {
     /**
      * Creates a Transferable for the specified list of Figures.
      *
-     * @param figures The figures.
+     * @param drawing The drawing.
+     * @param figures A list of figures of the drawing.
      * @param scaleFactor The factor to be used, when the Transferable creates
      * an image with a fixed size from the figures.
      * @return The Transferable.
      */
-    public Transferable createTransferable(List<Figure> figures, double scaleFactor) throws IOException;
+    public Transferable createTransferable(Drawing drawing, List<Figure> figures, double scaleFactor) throws IOException;
 }

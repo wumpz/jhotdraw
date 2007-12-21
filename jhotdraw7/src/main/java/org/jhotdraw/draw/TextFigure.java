@@ -230,7 +230,12 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
      * <p>Returns null, if no specialized tool is available.
      */
     public Tool getTool(Point2D.Double p) {
-        return (isEditable() && contains(p)) ? new TextTool(this) : null;
+        if (isEditable() && contains(p)) {
+            TextTool t = new TextTool(this);
+            t.setForCreationOnly(false);
+            return t;
+        }
+        return null;
     }
     
     // CONNECTING

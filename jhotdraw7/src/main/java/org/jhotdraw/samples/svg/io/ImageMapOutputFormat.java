@@ -1,5 +1,5 @@
 /*
- * @(#)ImageMapOutputFormat.java  1.0  22. April 2007
+ * @(#)ImageMapOutputFormat.java  1.1  2007-12-16
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -45,7 +45,8 @@ import org.jhotdraw.xml.*;
  *
  *
  * @author Werner Randelshofer
- * @version 1.0 22. April 2007 Created.
+ * @version 1.1 2007-12-16 Adapted to changes in OutputFormat. 
+ * <br>1.0 22. April 2007 Created.
  */
 public class ImageMapOutputFormat implements OutputFormat {
     /**
@@ -183,7 +184,7 @@ public class ImageMapOutputFormat implements OutputFormat {
                 );
     }
     
-    public Transferable createTransferable(java.util.List<Figure> figures, double scaleFactor) throws IOException {
+    public Transferable createTransferable(Drawing drawing, java.util.List<Figure> figures, double scaleFactor) throws IOException {
         ByteArrayOutputStream buf = new ByteArrayOutputStream();
         write(buf, figures);
         return new InputStreamTransferable(new DataFlavor("text/html", "HTML Image Map"), buf.toByteArray());

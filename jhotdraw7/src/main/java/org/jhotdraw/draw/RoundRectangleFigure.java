@@ -85,7 +85,7 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
     }
     public Rectangle2D.Double getDrawingArea() {
         Rectangle2D.Double r = (Rectangle2D.Double) roundrect.getBounds2D();
-            double grow = AttributeKeys.getPerpendicularHitGrowth(this);
+            double grow = AttributeKeys.getPerpendicularHitGrowth(this) + 1;
             Geom.grow(r, grow, grow);
             
         return r;

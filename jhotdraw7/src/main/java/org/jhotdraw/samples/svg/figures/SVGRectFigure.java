@@ -103,7 +103,7 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
         Rectangle2D rx = getTransformedShape().getBounds2D();
         Rectangle2D.Double r = (rx instanceof Rectangle2D.Double) ? (Rectangle2D.Double) rx : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
         if (TRANSFORM.get(this) == null) {
-            double g = SVGAttributeKeys.getPerpendicularHitGrowth(this) * 2;
+            double g = SVGAttributeKeys.getPerpendicularHitGrowth(this) * 2d + 1d;
             Geom.grow(r, g, g);
         } else {
             double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this);
@@ -132,6 +132,7 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
         roundrect.y = Math.min(anchor.y , lead.y);
         roundrect.width = Math.max(0.1, Math.abs(lead.x - anchor.x));
         roundrect.height = Math.max(0.1, Math.abs(lead.y - anchor.y));
+        invalidate();
     }
     private void invalidateTransformedShape() {
         cachedTransformedShape = null;

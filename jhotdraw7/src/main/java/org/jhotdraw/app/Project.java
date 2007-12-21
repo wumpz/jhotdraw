@@ -1,7 +1,7 @@
 /*
- * @(#)Project.java  1.0  October 4, 2005
+ * @(#)Project.java  2.0  2007-11-29
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -25,10 +25,12 @@ import javax.swing.*;
  * either method clear() must be called
  * or method read, in order to fully initialize a  Project.
  * <p>
- * FIXME - Maybe Project should be renamed to Workspace.
+ * XXX - Maybe Project should be renamed to Workspace.
  *
  * @author Werner Randelshofer
- * @version 1.0 October 4, 2005 Created.
+ * @version 2.0 2007-11-29 Method clear is now always invoked on a worker 
+ * thread.
+ * <br>1.0 October 4, 2005 Created.
  */
 public interface Project {
     /**
@@ -85,18 +87,20 @@ public interface Project {
     
     /**
      * Writes the project to the specified file.
-     * By convention this is never invoked on the AWT Event Dispatcher Thread.
+     * By convention this method is never invoked on the AWT Event Dispatcher Thread.
      */
     public void write(File f) throws IOException;
     
     /**
      * Reads the project from the specified file.
-     * By convention this is never invoked on the AWT Event Dispatcher Thread.
+     * By convention this method is never invoked on the AWT Event Dispatcher Thread.
      */
     public void read(File f) throws IOException;
     
     /**
-     * Clears the project.
+     * Clears the project, for example by emptying the contents of
+     * the project, or by reading a template contents from a file.
+     * By convention this method is never invoked on the AWT Event Dispatcher Thread.
      */
     public void clear();
     

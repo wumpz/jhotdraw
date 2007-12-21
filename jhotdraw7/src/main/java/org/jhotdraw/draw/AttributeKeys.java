@@ -1,7 +1,7 @@
 /*
- * @(#)AttributeKeys.java  1.3  2006-12-09
+ * @(#)AttributeKeys.java  1.4  2007-12-16
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -27,14 +27,26 @@ import org.jhotdraw.geom.*;
  * and to define all needed AttributeKeys as static variables in there.
  *
  * @author Werner Randelshofer
- * @version 1.3 2006-12-09 Streamlined to better support SVG.
+ * @version 1.4 2007-12-16 Added CANVAS_FILL_COLOR. 
+ * <br>1.3 2006-12-09 Streamlined to better support SVG.
  * <br>1.2 2006-07-09 Stroke dash factor added. 
  * <br>1.1 2006-06-07 Changed all values to double.
  * <br>1.0 23. 3. 2006 Created.
  */
 public class AttributeKeys {
     /**
-     * Fill color. The value of this attribute is a Color object.
+     * Canvas fill color. The value of this attribute is a Color object.
+     * This attribute is used by a Drawing object to specify the color of the canvas.
+     * The default value is white.
+     */
+    public final static AttributeKey<Color> CANVAS_FILL_COLOR = new AttributeKey<Color>("backgroundColor", Color.white);
+    /**
+     * Canvas fill color opacity. The value of this attribute is a Double object.
+     * This is a value between 0 and 1 whereas 0 is translucent and 1 is fully opaque.
+     */
+    public final static AttributeKey<Double> CANVAS_FILL_OPACITY = new AttributeKey<Double>("backgroundOpacity", 1d, false);
+    /**
+     * Figure fill color. The value of this attribute is a Color object.
      */
     public final static AttributeKey<Color> FILL_COLOR = new AttributeKey<Color>("fillColor", Color.white);
     

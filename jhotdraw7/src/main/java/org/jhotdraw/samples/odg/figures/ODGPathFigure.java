@@ -386,7 +386,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
                 }
             }
         });
-        actions.add(new AbstractAction(labels.getString("windingEvenOdd")) {
+        actions.add(new AbstractAction(labels.getString("windingRule.evenOdd")) {
             public void actionPerformed(ActionEvent evt) {
                 ODGPathFigure.this.willChange();
                 getDrawing().fireUndoableEditHappened(
@@ -395,7 +395,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
                 ODGPathFigure.this.changed();
             }
         });
-        actions.add(new AbstractAction(labels.getString("windingNonZero")) {
+        actions.add(new AbstractAction(labels.getString("windingRule.nonZero")) {
             public void actionPerformed(ActionEvent evt) {
                 WINDING_RULE.set(ODGPathFigure.this, WindingRule.NON_ZERO);
                 getDrawing().fireUndoableEditHappened(

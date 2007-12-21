@@ -73,6 +73,7 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         putAction(ExportAction.ID, new ExportAction(a));
         putAction(ToggleGridAction.ID, new ToggleGridAction(getSharedEditor()));
         putAction(EditGridAction.ID, new EditGridAction(a, getSharedEditor()));
+        putAction(EditDrawingAction.ID, new EditDrawingAction(a, getSharedEditor()));
         for (double sf : scaleFactors) {
             putAction((int) (sf*100)+"%",
                     aa = new ProjectPropertyAction(a, "scaleFactor", Double.TYPE, new Double(sf))
@@ -196,7 +197,7 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         bar.add(
                 ButtonFactory.createEditorColorButton(editor,
                 STROKE_COLOR, ButtonFactory.WEBSAVE_COLORS, ButtonFactory.WEBSAVE_COLORS_COLUMN_COUNT,
-                "attributeStrokeColor", labels,
+                "attribute.strokeColor", labels,
                 defaultAttributes
                 )
                 );
@@ -205,7 +206,7 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         bar.add(
                 ButtonFactory.createEditorColorButton(editor,
                 FILL_COLOR, ButtonFactory.WEBSAVE_COLORS, ButtonFactory.WEBSAVE_COLORS_COLUMN_COUNT,
-                "attributeFillColor", labels,
+                "attribute.fillColor", labels,
                 defaultAttributes
                 )
                 );
@@ -217,7 +218,7 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         bar.add(ButtonFactory.createStrokeJoinButton(editor));
     }
     
-    @Override public java.util.List<JMenu> createMenus(Application a, Project pr) {
+     @Override public java.util.List<JMenu> createMenus(Application a, Project pr) {
         // FIXME - Add code for unconfiguring the menus!! We leak memory!
         SVGProject p = (SVGProject) pr;
         ResourceBundleUtil appLabels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
@@ -235,6 +236,7 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         
         m = new JMenu();
         appLabels.configureMenu(m, "view");
+        m.add(getAction(EditDrawingAction.ID));
         m2 = new JMenu();
         drawLabels.configureMenu(m2, "grid");
         cbmi = new JCheckBoxMenuItem(getAction(ToggleGridAction.ID));

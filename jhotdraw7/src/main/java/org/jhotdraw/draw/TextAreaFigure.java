@@ -340,7 +340,12 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
      * <p>Returns null, if no specialized tool is available.
      */
     public Tool getTool(Point2D.Double p) {
-        return (isEditable() && contains(p)) ? new TextAreaTool(this) : null;
+        if (isEditable() && contains(p)) {
+            TextAreaTool tool = new TextAreaTool(this);
+            tool.setForCreationOnly(false);
+            return tool;
+        }
+        return null;
     }
     public TextHolderFigure getLabelFor() {
         return this;

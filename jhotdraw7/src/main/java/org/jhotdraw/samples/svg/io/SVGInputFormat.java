@@ -1,5 +1,5 @@
 /*
- * @(#)SVGInputFormat.java  1.1.1  2007-04-23
+ * @(#)SVGInputFormat.java  1.2  2007-07-16
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -48,7 +48,8 @@ import org.jhotdraw.xml.css.CSSParser;
  *
  *
  * @author Werner Randelshofer
- * @version 1.1.1 2007-04-23 Fixed reading of "transform" attribute, fixed reading
+ * @version 1.2 2007-12-16 Adapted to changes in InputFormat.
+ * <br>1.1.1 2007-04-23 Fixed reading of "transform" attribute, fixed reading
  * of "textArea" element.
  * <br>1.1 2007-04-22 Added support for "a" element.
  * <br>0.2 2007-04-10 Fixed default attribute values for RadialGradient element.
@@ -79,6 +80,12 @@ public class SVGInputFormat implements InputFormat {
      * Maps to all drawing objects from the XML elements they were created from.
      */
     private HashMap<IXMLElement,Object> elementObjects;
+
+    /**
+     * Tokenizer for parsing SVG path expressions.
+     * 
+     */
+    private StreamPosTokenizer toPathTokenizer;
     
     /**
      * Each SVG element establishes a new Viewport.
@@ -119,11 +126,13 @@ public class SVGInputFormat implements InputFormat {
          */
         public boolean isPreserveAspectRatio = true;
         
+        private HashMap<AttributeKey,Object> attributes = new HashMap<AttributeKey,Object>();
         
         public String toString() {
             return "widthPercentFactor:"+widthPercentFactor+";"+
                     "heightPercentFactor:"+heightPercentFactor+";" +
-                    "numberFactor:"+numberFactor;
+                    "numberFactor:"+numberFactor+";"+
+                    attributes;
         }
         
     }
@@ -161,8 +170,8 @@ public class SVGInputFormat implements InputFormat {
     /**
      * This is the mean reading method.
      */
-    public LinkedList<Figure> readFigures(InputStream in) throws IOException {
-        //long start = System.currentTimeMillis();
+    public void read(InputStream in, Drawing drawing) throws IOException {
+        long start = System.currentTimeMillis();
         this.figures = new LinkedList<Figure>();
         IXMLParser parser;
         try {
@@ -192,12 +201,13 @@ public class SVGInputFormat implements InputFormat {
         while (!stack.empty() && stack.peek().hasNext()) {
             Iterator<IXMLElement> iter = stack.peek();
             IXMLElement node = iter.next();
-            Iterator<IXMLElement> children = node.getChildren().iterator();
+
+            Iterator<IXMLElement> children = (node.getChildren() == null) ? null : node.getChildren().iterator();
             
             if (! iter.hasNext()) {
                 stack.pop();
             }
-            if (children.hasNext()) {
+            if (children != null && children.hasNext()) {
                 stack.push(children);
             }
             if (node.getName() != null &&
@@ -225,13 +235,18 @@ public class SVGInputFormat implements InputFormat {
         
         readElement(svg);
         
-        /*long end = System.currentTimeMillis();
-        if (DEBUG) System.out.println("SVGInputFormat elapsed:"+(end-start));
-        if (DEBUG) System.out.println("SVGInputFormat read:"+(end1-start));
+        long end = System.currentTimeMillis();
+        if (true) System.out.println("SVGInputFormat elapsed:"+(end-start));
+        /*if (DEBUG) System.out.println("SVGInputFormat read:"+(end1-start));
         if (DEBUG) System.out.println("SVGInputFormat flatten:"+(end2-end1));
         if (DEBUG) System.out.println("SVGInputFormat build:"+(end-end2));
          */
-        return figures;
+        drawing.addAll(figures);
+        
+        
+        Viewport viewport = viewportStack.firstElement();
+            VIEWPORT_FILL.set(drawing, VIEWPORT_FILL.get(viewport.attributes));
+            VIEWPORT_FILL_OPACITY.set(drawing, VIEWPORT_FILL_OPACITY.get(viewport.attributes));
     }
     private void initStorageContext(IXMLElement root) {
         identifiedElements = new HashMap<String,IXMLElement>();
@@ -463,7 +478,14 @@ public class SVGInputFormat implements InputFormat {
             viewport.viewBox.width = toNumber(elem, viewBoxValues[2]);
             viewport.viewBox.height = toNumber(elem, viewBoxValues[3]);
         }
-        viewport.isPreserveAspectRatio = ! readAttribute(elem, "preserveAspectRatio", "none").equals("none");
+        if (viewportStack.size() == 1) {
+            // We always preserve the aspect ratio for to the topmost SVG element.
+            // This is not compliant, but looks much better.
+            viewport.isPreserveAspectRatio = true;
+        } else {
+            viewport.isPreserveAspectRatio = ! readAttribute(elem, "preserveAspectRatio", "none").equals("none");
+        }
+        
         viewport.widthPercentFactor = viewport.viewBox.width / 100d;
         viewport.heightPercentFactor = viewport.viewBox.height / 100d;
         viewport.numberFactor = Math.min(
@@ -489,6 +511,9 @@ public class SVGInputFormat implements InputFormat {
                     viewport.height / viewport.viewBox.height
                     );
         }
+        
+        readViewportAttributes(elem, viewportStack.firstElement().attributes);
+        
         viewportStack.push(viewport);
         
         
@@ -1202,7 +1227,7 @@ public class SVGInputFormat implements InputFormat {
     
     /**
      * Returns a value as a BezierPath array.
-     * as specified in http://www.w3.org/TR/SVGMobile12/shapes.html#PointsBNF
+     * as specified in http://www.w3.org/TR/SVGMobile12/paths.html#PathDataBNF
      *
      * Also supports elliptical arc commands 'a' and 'A' as specified in
      * http://www.w3.org/TR/SVG/paths.html#PathDataEllipticalArcCommands
@@ -1215,13 +1240,20 @@ public class SVGInputFormat implements InputFormat {
         Point2D.Double c1 = new Point2D.Double();
         Point2D.Double c2 = new Point2D.Double();
         
-        StreamPosTokenizer tt = new StreamPosTokenizer(new StringReader(str));
+        StreamPosTokenizer tt;
+        if (toPathTokenizer == null) {
+         tt = new StreamPosTokenizer(new StringReader(str));
         tt.resetSyntax();
         tt.parseNumbers();
         tt.parseExponents();
         tt.parsePlusAsNumber();
         tt.whitespaceChars(0, ' ');
         tt.whitespaceChars(',',',');
+        toPathTokenizer = tt;
+        } else {
+           tt = toPathTokenizer;
+           tt.setReader(new StringReader(str));
+        }
         
         
         char nextCommand = 'M';
@@ -2426,6 +2458,8 @@ public class SVGInputFormat implements InputFormat {
     private void readViewportAttributes(IXMLElement elem, HashMap<AttributeKey,Object> a)
     throws IOException {
         Object value;
+        Double doubleValue;
+        
         //'viewport-fill'
         //Value:	 "none" | <color> | inherit
         //Initial:	 none
@@ -2435,8 +2469,10 @@ public class SVGInputFormat implements InputFormat {
         //Media:	 visual
         //Animatable:	 yes
         //Computed value:  	 "none" or specified <color> value, except inherit
-        value = readAttribute(elem, "viewport-fill", "none");
-        if (DEBUG) System.out.println("SVGInputFormat not implemented  viewport-fill="+value);
+        value = toPaint(elem, readInheritAttribute(elem, "viewport-fill", "none"));
+        if (value == null || (value instanceof Color)) {
+            VIEWPORT_FILL.set(a, (Color) value);
+        }
         
         //'viewport-fill-opacity'
         //Value:	<opacity-value> | inherit
@@ -2447,9 +2483,8 @@ public class SVGInputFormat implements InputFormat {
         //Media:	 visual
         //Animatable:	 yes
         //Computed value:  	 Specified value, except inherit
-        value = readAttribute(elem, "viewport-fill-opacity", "1.0");
-        if (DEBUG) System.out.println("SVGInputFormat not implemented  viewport-fill-opacity="+value);
-        
+        doubleValue = toDouble(elem, readAttribute(elem, "viewport-fill-opacity", "1.0"));
+        VIEWPORT_FILL_OPACITY.set(a, doubleValue);
     }
     /* Reads graphics attributes as listed in
      * http://www.w3.org/TR/SVGMobile12/feature.html#GraphicsAttribute
@@ -3107,20 +3142,16 @@ public class SVGInputFormat implements InputFormat {
         this.url = null;
     }
     
-    public void read(InputStream in, Drawing drawing) throws IOException {
-        drawing.addAll(readFigures(in));
-    }
-    
     public boolean isDataFlavorSupported(DataFlavor flavor) {
         return flavor.getPrimaryType().equals("image") &&
                 flavor.getSubType().equals("svg+xml");
     }
     
-    public LinkedList<Figure> readFigures(Transferable t) throws UnsupportedFlavorException, IOException {
+    public void read(Transferable t, Drawing drawing) throws UnsupportedFlavorException, IOException {
         InputStream in = null;
         try {
             in = (InputStream) t.getTransferData(new DataFlavor("image/svg+xml", "Image SVG"));
-            return readFigures(in);
+            read(in, drawing);
         } finally {
             if (in != null) { in.close(); }
         }

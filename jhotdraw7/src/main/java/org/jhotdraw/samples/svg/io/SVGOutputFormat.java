@@ -1,5 +1,5 @@
 /*
- * @(#)SVGOutputFormat.java  1.1.1  2007-04-23
+ * @(#)SVGOutputFormat.java  1.2  2007-12-16
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -11,7 +11,6 @@
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
  */
-
 package org.jhotdraw.samples.svg.io;
 
 import java.awt.*;
@@ -41,47 +40,43 @@ import org.jhotdraw.xml.*;
  * Scalable Vector Graphics SVG Tiny 1.2.
  *
  * @author Werner Randelshofer
- * @version 1.1.1 2007-04-23 Fixed writing of "path" attribute, fixed writing
+ * @version 1.2 2007-12-16 Adapted to changes in OutputFormat. 
+ * <br>1.1.1 2007-04-23 Fixed writing of "path" attribute, fixed writing
  * of "textArea" element.
  * <br>1.1 2007-04-22 Added support for "a" element.
  * <br>1.0 December 12, 2006 Created.
  */
 public class SVGOutputFormat implements OutputFormat {
+
     private URL url;
-    
     /**
      * This is a counter used to create the next unique identification.
      */
     private int nextId;
-    
     /**
      * In this hash map we store all elements to which we have assigned
      * an id.
      */
-    private HashMap<IXMLElement,String> identifiedElements;
-    
+    private HashMap<IXMLElement, String> identifiedElements;
     /**
      * This element holds all definitions of the SVG file.
      */
     private IXMLElement defs;
-    
     /**
      * Holds the document that is currently being written.
      */
     private IXMLElement document;
-    
     /**
      * Maps gradients to ID's. We use this, so that we need to store
      * the same gradient only once.
      */
-    private HashMap<Gradient,String> gradientToIDMap;
-    
+    private HashMap<Gradient, String> gradientToIDMap;
     /**
      * Set this to true for pretty printing.
      */
     private boolean isPrettyPrint;
-    
     private final static HashMap<Integer, String> strokeLinejoinMap;
+
     static {
         strokeLinejoinMap = new HashMap<Integer, String>();
         strokeLinejoinMap.put(BasicStroke.JOIN_MITER, "miter");
@@ -89,13 +84,13 @@ public class SVGOutputFormat implements OutputFormat {
         strokeLinejoinMap.put(BasicStroke.JOIN_BEVEL, "bevel");
     }
     private final static HashMap<Integer, String> strokeLinecapMap;
+
     static {
         strokeLinecapMap = new HashMap<Integer, String>();
         strokeLinecapMap.put(BasicStroke.CAP_BUTT, "butt");
         strokeLinecapMap.put(BasicStroke.CAP_ROUND, "round");
         strokeLinecapMap.put(BasicStroke.CAP_SQUARE, "square");
     }
-    
     /**
      * Set this variable to true if values should be written with float precision
      * instead with double precision.
@@ -103,28 +98,27 @@ public class SVGOutputFormat implements OutputFormat {
      * less storage space.
      */
     private final static boolean isFloatPrecision = true;
-    
-    
-    
+
     /** Creates a new instance. */
     public SVGOutputFormat() {
     }
+
     public javax.swing.filechooser.FileFilter getFileFilter() {
         return new ExtensionFileFilter("Scalable Vector Graphics (SVG)", "svg");
     }
-    
+
     public JComponent getOutputFormatAccessory() {
         return null;
     }
-    
-    
+
     public void setPrettyPrint(boolean newValue) {
         isPrettyPrint = newValue;
     }
+
     public boolean isPrettyPrint() {
         return isPrettyPrint;
     }
-    
+
     protected void writeElement(IXMLElement parent, Figure f) throws IOException {
         // Write link attribute as encosing "a" element
         if (LINK.get(f) != null && LINK.get(f).trim().length() > 0) {
@@ -133,7 +127,7 @@ public class SVGOutputFormat implements OutputFormat {
             parent.addChild(aElement);
             parent = aElement;
         }
-        
+
         // Write the actual element
         if (f instanceof SVGEllipseFigure) {
             SVGEllipseFigure ellipse = (SVGEllipseFigure) f;
@@ -145,13 +139,13 @@ public class SVGOutputFormat implements OutputFormat {
         } else if (f instanceof SVGGroupFigure) {
             writeGElement(parent, (SVGGroupFigure) f);
         } else if (f instanceof SVGImageFigure) {
-            writeImageElement(parent, (SVGImageFigure)  f);
+            writeImageElement(parent, (SVGImageFigure) f);
         } else if (f instanceof SVGPathFigure) {
             SVGPathFigure path = (SVGPathFigure) f;
             if (path.getChildCount() == 1) {
                 BezierFigure bezier = (BezierFigure) path.getChild(0);
                 boolean isLinear = true;
-                for (int i=0, n = bezier.getNodeCount(); i < n; i++) {
+                for (int i = 0,  n = bezier.getNodeCount(); i < n; i++) {
                     if (bezier.getNode(i).getMask() != 0) {
                         isLinear = false;
                         break;
@@ -163,7 +157,7 @@ public class SVGOutputFormat implements OutputFormat {
                     } else {
                         if (bezier.getNodeCount() == 2) {
                             writeLineElement(parent, path);
-                        } else  {
+                        } else {
                             writePolylineElement(parent, path);
                         }
                     }
@@ -180,9 +174,10 @@ public class SVGOutputFormat implements OutputFormat {
         } else if (f instanceof SVGTextAreaFigure) {
             writeTextAreaElement(parent, (SVGTextAreaFigure) f);
         } else {
-            System.out.println("Unable to write: "+f);
+            System.out.println("Unable to write: " + f);
         }
     }
+
     protected void writeCircleElement(IXMLElement parent, SVGEllipseFigure f) throws IOException {
         parent.addChild(
                 createCircle(
@@ -190,14 +185,12 @@ public class SVGOutputFormat implements OutputFormat {
                 f.getX() + f.getWidth() / 2d,
                 f.getY() + f.getHeight() / 2d,
                 f.getWidth() / 2d,
-                f.getAttributes()
-                )
-                );
+                f.getAttributes()));
     }
-    
+
     protected IXMLElement createCircle(IXMLElement doc,
             double cx, double cy, double r,
-            Map<AttributeKey,Object> attributes) throws IOException {
+            Map<AttributeKey, Object> attributes) throws IOException {
         IXMLElement elem = doc.createElement("circle");
         writeAttribute(elem, "cx", cx, 0d);
         writeAttribute(elem, "cy", cy, 0d);
@@ -207,51 +200,48 @@ public class SVGOutputFormat implements OutputFormat {
         writeTransformAttribute(elem, attributes);
         return elem;
     }
-    
-    
+
     protected IXMLElement createG(IXMLElement doc,
-            Map<AttributeKey,Object> attributes) throws IOException {
+            Map<AttributeKey, Object> attributes) throws IOException {
         IXMLElement elem = doc.createElement("g");
         writeOpacityAttribute(elem, attributes);
         return elem;
     }
-    
-    
+
     protected IXMLElement createLinearGradient(IXMLElement doc,
             double x1, double y1, double x2, double y2,
             double[] stopOffsets, Color[] stopColors, double[] stopOpacities,
             boolean isRelativeToFigureBounds,
             AffineTransform transform) throws IOException {
         IXMLElement elem = doc.createElement("linearGradient");
-        
+
         writeAttribute(elem, "x1", toNumber(x1), "0");
         writeAttribute(elem, "y1", toNumber(y1), "0");
         writeAttribute(elem, "x2", toNumber(x2), "1");
         writeAttribute(elem, "y2", toNumber(y2), "0");
         writeAttribute(elem, "gradientUnits",
                 (isRelativeToFigureBounds) ? "objectBoundingBox" : "userSpaceOnUse",
-                "objectBoundingBox"
-                );
+                "objectBoundingBox");
         writeAttribute(elem, "gradientTransform", toTransform(transform), "none");
-        
-        for (int i=0; i < stopOffsets.length; i++) {
+
+        for (int i = 0; i < stopOffsets.length; i++) {
             IXMLElement stop = new XMLElement("stop");
             writeAttribute(stop, "offset", toNumber(stopOffsets[i]), null);
             writeAttribute(stop, "stop-color", toColor(stopColors[i]), null);
             writeAttribute(stop, "stop-opacity", toNumber(stopOpacities[i]), "1");
             elem.addChild(stop);
         }
-        
+
         return elem;
     }
-    
+
     protected IXMLElement createRadialGradient(IXMLElement doc,
             double cx, double cy, double fx, double fy, double r,
             double[] stopOffsets, Color[] stopColors, double[] stopOpacities,
             boolean isRelativeToFigureBounds,
             AffineTransform transform) throws IOException {
         IXMLElement elem = doc.createElement("radialGradient");
-        
+
         writeAttribute(elem, "cx", toNumber(cx), "0.5");
         writeAttribute(elem, "cy", toNumber(cy), "0.5");
         writeAttribute(elem, "fx", toNumber(fx), toNumber(cx));
@@ -259,21 +249,20 @@ public class SVGOutputFormat implements OutputFormat {
         writeAttribute(elem, "r", toNumber(r), "0.5");
         writeAttribute(elem, "gradientUnits",
                 (isRelativeToFigureBounds) ? "objectBoundingBox" : "userSpaceOnUse",
-                "objectBoundingBox"
-                );
+                "objectBoundingBox");
         writeAttribute(elem, "gradientTransform", toTransform(transform), "none");
-        
-        for (int i=0; i < stopOffsets.length; i++) {
+
+        for (int i = 0; i < stopOffsets.length; i++) {
             IXMLElement stop = new XMLElement("stop");
             writeAttribute(stop, "offset", toNumber(stopOffsets[i]), null);
             writeAttribute(stop, "stop-color", toColor(stopColors[i]), null);
             writeAttribute(stop, "stop-opacity", toNumber(stopOpacities[i]), "1");
             elem.addChild(stop);
         }
-        
+
         return elem;
     }
-    
+
     protected void writeEllipseElement(IXMLElement parent, SVGEllipseFigure f) throws IOException {
         parent.addChild(createEllipse(
                 document,
@@ -281,12 +270,12 @@ public class SVGOutputFormat implements OutputFormat {
                 f.getY() + f.getHeight() / 2d,
                 f.getWidth() / 2d,
                 f.getHeight() / 2d,
-                f.getAttributes()
-                ));
+                f.getAttributes()));
     }
+
     protected IXMLElement createEllipse(IXMLElement doc,
             double cx, double cy, double rx, double ry,
-            Map<AttributeKey,Object> attributes) throws IOException {
+            Map<AttributeKey, Object> attributes) throws IOException {
         IXMLElement elem = doc.createElement("ellipse");
         writeAttribute(elem, "cx", cx, 0d);
         writeAttribute(elem, "cy", cy, 0d);
@@ -297,6 +286,7 @@ public class SVGOutputFormat implements OutputFormat {
         writeTransformAttribute(elem, attributes);
         return elem;
     }
+
     protected void writeGElement(IXMLElement parent, SVGGroupFigure f) throws IOException {
         IXMLElement elem = createG(document, f.getAttributes());
         for (Figure child : f.getChildren()) {
@@ -304,6 +294,7 @@ public class SVGOutputFormat implements OutputFormat {
         }
         parent.addChild(elem);
     }
+
     protected void writeImageElement(IXMLElement parent, SVGImageFigure f) throws IOException {
         parent.addChild(
                 createImage(document,
@@ -312,38 +303,38 @@ public class SVGOutputFormat implements OutputFormat {
                 f.getWidth(),
                 f.getHeight(),
                 f.getImageData(),
-                f.getAttributes()
-                ));
+                f.getAttributes()));
     }
+
     protected IXMLElement createImage(IXMLElement doc,
             double x, double y, double w, double h,
             byte[] imageData,
-            Map<AttributeKey,Object> attributes) throws IOException {
+            Map<AttributeKey, Object> attributes) throws IOException {
         IXMLElement elem = doc.createElement("image");
         writeAttribute(elem, "x", x, 0d);
         writeAttribute(elem, "y", y, 0d);
         writeAttribute(elem, "width", w, 0d);
         writeAttribute(elem, "height", h, 0d);
-        writeAttribute(elem, "xlink:href", "data:image;base64,"+Base64.encodeBytes(imageData), "");
+        writeAttribute(elem, "xlink:href", "data:image;base64," + Base64.encodeBytes(imageData), "");
         writeOpacityAttribute(elem, attributes);
         writeTransformAttribute(elem, attributes);
         return elem;
     }
-    
+
     protected void writePathElement(IXMLElement parent, SVGPathFigure f) throws IOException {
         BezierPath[] beziers = new BezierPath[f.getChildCount()];
-        for (int i=0; i < beziers.length; i++) {
+        for (int i = 0; i < beziers.length; i++) {
             beziers[i] = ((BezierFigure) f.getChild(i)).getBezierPath();
         }
         parent.addChild(createPath(
                 document,
                 beziers,
-                f.getAttributes()
-                ));
+                f.getAttributes()));
     }
+
     protected IXMLElement createPath(IXMLElement doc,
             BezierPath[] beziers,
-            Map<AttributeKey,Object> attributes) throws IOException {
+            Map<AttributeKey, Object> attributes) throws IOException {
         IXMLElement elem = doc.createElement("path");
         writeShapeAttributes(elem, attributes);
         writeOpacityAttribute(elem, attributes);
@@ -351,26 +342,26 @@ public class SVGOutputFormat implements OutputFormat {
         writeAttribute(elem, "d", toPath(beziers), null);
         return elem;
     }
-    
+
     protected void writePolygonElement(IXMLElement parent, SVGPathFigure f) throws IOException {
         LinkedList<Point2D.Double> points = new LinkedList<Point2D.Double>();
         BezierPath[] beziers = new BezierPath[f.getChildCount()];
-        for (int i=0, n = f.getChildCount(); i < n; i++) {
+        for (int i = 0,  n = f.getChildCount(); i < n; i++) {
             BezierPath bezier = ((BezierFigure) f.getChild(i)).getBezierPath();
-            for (BezierPath.Node node: bezier) {
+            for (BezierPath.Node node : bezier) {
                 points.add(new Point2D.Double(node.x[0], node.y[0]));
             }
         }
-        
+
         parent.addChild(createPolygon(
                 document,
                 points.toArray(new Point2D.Double[points.size()]),
-                f.getAttributes()
-                ));
+                f.getAttributes()));
     }
+
     protected IXMLElement createPolygon(IXMLElement doc,
             Point2D.Double[] points,
-            Map<AttributeKey,Object> attributes)
+            Map<AttributeKey, Object> attributes)
             throws IOException {
         IXMLElement elem = doc.createElement("polygon");
         writeAttribute(elem, "points", toPoints(points), null);
@@ -379,27 +370,27 @@ public class SVGOutputFormat implements OutputFormat {
         writeTransformAttribute(elem, attributes);
         return elem;
     }
-    
+
     protected void writePolylineElement(IXMLElement parent, SVGPathFigure f) throws IOException {
         LinkedList<Point2D.Double> points = new LinkedList<Point2D.Double>();
         BezierPath[] beziers = new BezierPath[f.getChildCount()];
-        for (int i=0, n = f.getChildCount(); i < n; i++) {
+        for (int i = 0,  n = f.getChildCount(); i < n; i++) {
             BezierPath bezier = ((BezierFigure) f.getChild(i)).getBezierPath();
-            for (BezierPath.Node node: bezier) {
+            for (BezierPath.Node node : bezier) {
                 points.add(new Point2D.Double(node.x[0], node.y[0]));
             }
         }
-        
+
         parent.addChild(createPolyline(
                 document,
                 points.toArray(new Point2D.Double[points.size()]),
-                f.getAttributes()
-                ));
+                f.getAttributes()));
     }
+
     protected IXMLElement createPolyline(IXMLElement doc,
             Point2D.Double[] points,
-            Map<AttributeKey,Object> attributes) throws IOException {
-        
+            Map<AttributeKey, Object> attributes) throws IOException {
+
         IXMLElement elem = doc.createElement("polyline");
         writeAttribute(elem, "points", toPoints(points), null);
         writeShapeAttributes(elem, attributes);
@@ -407,10 +398,9 @@ public class SVGOutputFormat implements OutputFormat {
         writeTransformAttribute(elem, attributes);
         return elem;
     }
-    
-    
+
     protected void writeLineElement(IXMLElement parent, SVGPathFigure f)
-    throws IOException {
+            throws IOException {
         BezierFigure bezier = (BezierFigure) f.getChild(0);
         parent.addChild(createLine(
                 document,
@@ -418,13 +408,12 @@ public class SVGOutputFormat implements OutputFormat {
                 bezier.getNode(0).y[0],
                 bezier.getNode(1).x[0],
                 bezier.getNode(1).y[0],
-                f.getAttributes()
-                )
-                );
+                f.getAttributes()));
     }
+
     protected IXMLElement createLine(IXMLElement doc,
             double x1, double y1, double x2, double y2,
-            Map<AttributeKey,Object> attributes) throws IOException {
+            Map<AttributeKey, Object> attributes) throws IOException {
         IXMLElement elem = doc.createElement("line");
         writeAttribute(elem, "x1", x1, 0d);
         writeAttribute(elem, "y1", y1, 0d);
@@ -435,7 +424,7 @@ public class SVGOutputFormat implements OutputFormat {
         writeTransformAttribute(elem, attributes);
         return elem;
     }
-    
+
     protected void writeRectElement(IXMLElement parent, SVGRectFigure f) throws IOException {
         parent.addChild(
                 createRect(
@@ -446,14 +435,13 @@ public class SVGOutputFormat implements OutputFormat {
                 f.getHeight(),
                 f.getArcWidth(),
                 f.getArcHeight(),
-                f.getAttributes()
-                )
-                );
+                f.getAttributes()));
     }
+
     protected IXMLElement createRect(IXMLElement doc,
             double x, double y, double width, double height,
             double rx, double ry,
-            Map<AttributeKey,Object> attributes)
+            Map<AttributeKey, Object> attributes)
             throws IOException {
         IXMLElement elem = doc.createElement("rect");
         writeAttribute(elem, "x", x, 0d);
@@ -467,7 +455,7 @@ public class SVGOutputFormat implements OutputFormat {
         writeTransformAttribute(elem, attributes);
         return elem;
     }
-    
+
     protected void writeTextElement(IXMLElement parent, SVGTextFigure f) throws IOException {
         DefaultStyledDocument styledDoc = new DefaultStyledDocument();
         try {
@@ -483,18 +471,17 @@ public class SVGOutputFormat implements OutputFormat {
                 f.getCoordinates(),
                 f.getRotates(),
                 styledDoc,
-                f.getAttributes()
-                )
-                );
+                f.getAttributes()));
     }
+
     protected IXMLElement createText(IXMLElement doc,
             Point2D.Double[] coordinates, double[] rotate,
             StyledDocument text,
-            Map<AttributeKey,Object> attributes) throws IOException {
+            Map<AttributeKey, Object> attributes) throws IOException {
         IXMLElement elem = doc.createElement("text");
         StringBuilder bufX = new StringBuilder();
         StringBuilder bufY = new StringBuilder();
-        for (int i=0; i < coordinates.length; i++) {
+        for (int i = 0; i < coordinates.length; i++) {
             if (i != 0) {
                 bufX.append(',');
                 bufY.append(',');
@@ -504,7 +491,7 @@ public class SVGOutputFormat implements OutputFormat {
         }
         StringBuilder bufR = new StringBuilder();
         if (rotate != null) {
-            for (int i=0; i < rotate.length; i++) {
+            for (int i = 0; i < rotate.length; i++) {
                 if (i != 0) {
                     bufR.append(',');
                 }
@@ -522,17 +509,18 @@ public class SVGOutputFormat implements OutputFormat {
             error.initCause(e);
             throw error;
         }
-        
+
         elem.setContent(str);
-        
+
         writeShapeAttributes(elem, attributes);
         writeOpacityAttribute(elem, attributes);
         writeTransformAttribute(elem, attributes);
         writeFontAttributes(elem, attributes);
         return elem;
     }
+
     protected void writeTextAreaElement(IXMLElement parent, SVGTextAreaFigure f)
-    throws IOException {
+            throws IOException {
         DefaultStyledDocument styledDoc = new DefaultStyledDocument();
         try {
             styledDoc.insertString(0, f.getText(), null);
@@ -541,29 +529,28 @@ public class SVGOutputFormat implements OutputFormat {
             error.initCause(e);
             throw error;
         }
-        
+
         Rectangle2D.Double bounds = f.getBounds();
-        
+
         parent.addChild(
                 createTextArea(
                 document,
                 bounds.x, bounds.y, bounds.width, bounds.height,
                 styledDoc,
-                f.getAttributes()
-                )
-                );
+                f.getAttributes()));
     }
+
     protected IXMLElement createTextArea(IXMLElement doc,
             double x, double y, double w, double h,
             StyledDocument text,
-            Map<AttributeKey,Object> attributes)
+            Map<AttributeKey, Object> attributes)
             throws IOException {
         IXMLElement elem = doc.createElement("textArea");
         writeAttribute(elem, "x", toNumber(x), "0");
         writeAttribute(elem, "y", toNumber(y), "0");
         writeAttribute(elem, "width", toNumber(w), "0");
         writeAttribute(elem, "height", toNumber(h), "0");
-        
+
         String str;
         try {
             str = text.getText(0, text.getLength());
@@ -573,31 +560,31 @@ public class SVGOutputFormat implements OutputFormat {
             throw error;
         }
         String[] lines = str.split("\n");
-        for (int i=0; i < lines.length; i++) {
+        for (int i = 0; i < lines.length; i++) {
             if (i != 0) {
                 elem.addChild(doc.createElement("tbreak"));
             }
             elem.setContent(lines[i]);
         }
-        
+
         writeShapeAttributes(elem, attributes);
         writeTransformAttribute(elem, attributes);
         writeOpacityAttribute(elem, attributes);
         writeFontAttributes(elem, attributes);
         return elem;
     }
-    
+
     // ------------
     // Attributes
     // ------------
     /* Writes shape attributes.
      */
-    protected void writeShapeAttributes(IXMLElement elem, Map<AttributeKey,Object> f)
-    throws IOException {
+    protected void writeShapeAttributes(IXMLElement elem, Map<AttributeKey, Object> f)
+            throws IOException {
         Color color;
         String value;
         int intValue;
-        
+
         //'color'
         // Value:  	<color> | inherit
         // Initial:  	 depends on user agent
@@ -609,7 +596,7 @@ public class SVGOutputFormat implements OutputFormat {
         // Computed value:  	 Specified <color> value, except inherit
         //
         // Nothing to do: Attribute 'color' is not needed.
-        
+
         //'color-rendering'
         // Value:  	 auto | optimizeSpeed | optimizeQuality | inherit
         // Initial:  	 auto
@@ -621,7 +608,7 @@ public class SVGOutputFormat implements OutputFormat {
         // Computed value:  	 Specified value, except inherit
         //
         // Nothing to do: Attribute 'color-rendering' is not needed.
-        
+
         // 'fill'
         // Value:  	<paint> | inherit (See Specifying paint)
         // Initial:  	 black
@@ -647,8 +634,7 @@ public class SVGOutputFormat implements OutputFormat {
                             lg.getStopColors(),
                             lg.getStopOpacities(),
                             lg.isRelativeToFigureBounds(),
-                            lg.getTransform()
-                            );
+                            lg.getTransform());
                 } else /*if (gradient instanceof RadialGradient)*/ {
                     RadialGradient rg = (RadialGradient) gradient;
                     gradientElem = createRadialGradient(document,
@@ -659,20 +645,19 @@ public class SVGOutputFormat implements OutputFormat {
                             rg.getStopColors(),
                             rg.getStopOpacities(),
                             rg.isRelativeToFigureBounds(),
-                            rg.getTransform()
-                            );
+                            rg.getTransform());
                 }
                 id = getId(gradientElem);
-                gradientElem.setAttribute("id","xml",id);
+                gradientElem.setAttribute("id", "xml", id);
                 defs.addChild(gradientElem);
                 gradientToIDMap.put(gradient, id);
             }
-            writeAttribute(elem, "fill", "url(#"+id+")", "#000");
+            writeAttribute(elem, "fill", "url(#" + id + ")", "#000");
         } else {
             writeAttribute(elem, "fill", toColor(FILL_COLOR.get(f)), "#000");
         }
-        
-        
+
+
         //'fill-opacity'
         //Value:  	 <opacity-value> | inherit
         //Initial:  	 1
@@ -683,7 +668,7 @@ public class SVGOutputFormat implements OutputFormat {
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
         writeAttribute(elem, "fill-opacity", FILL_OPACITY.get(f), 1d);
-        
+
         // 'fill-rule'
         // Value:	 nonzero | evenodd | inherit
         // Initial: 	 nonzero
@@ -696,7 +681,7 @@ public class SVGOutputFormat implements OutputFormat {
         if (WINDING_RULE.get(f) != WindingRule.NON_ZERO) {
             writeAttribute(elem, "fill-rule", "evenodd", "nonzero");
         }
-        
+
         //'stroke'
         //Value:  	<paint> | inherit (See Specifying paint)
         //Initial:  	 none
@@ -723,8 +708,7 @@ public class SVGOutputFormat implements OutputFormat {
                             lg.getStopColors(),
                             lg.getStopOpacities(),
                             lg.isRelativeToFigureBounds(),
-                            lg.getTransform()
-                            );
+                            lg.getTransform());
                 } else /*if (gradient instanceof RadialGradient)*/ {
                     RadialGradient rg = (RadialGradient) gradient;
                     gradientElem = createRadialGradient(document,
@@ -735,19 +719,18 @@ public class SVGOutputFormat implements OutputFormat {
                             rg.getStopColors(),
                             rg.getStopOpacities(),
                             rg.isRelativeToFigureBounds(),
-                            rg.getTransform()
-                            );
+                            rg.getTransform());
                 }
                 id = getId(gradientElem);
-                gradientElem.setAttribute("id","xml",id);
+                gradientElem.setAttribute("id", "xml", id);
                 defs.addChild(gradientElem);
                 gradientToIDMap.put(gradient, id);
             }
-            writeAttribute(elem, "stroke", "url(#"+id+")", "none");
+            writeAttribute(elem, "stroke", "url(#" + id + ")", "none");
         } else {
             writeAttribute(elem, "stroke", toColor(STROKE_COLOR.get(f)), "none");
         }
-        
+
         //'stroke-dasharray'
         //Value:  	 none | <dasharray> | inherit
         //Initial:  	 none
@@ -760,7 +743,7 @@ public class SVGOutputFormat implements OutputFormat {
         double[] dashes = STROKE_DASHES.get(f);
         if (dashes != null) {
             StringBuilder buf = new StringBuilder();
-            for (int i=0; i < dashes.length; i++) {
+            for (int i = 0; i < dashes.length; i++) {
                 if (i != 0) {
                     buf.append(',');
                 }
@@ -768,7 +751,7 @@ public class SVGOutputFormat implements OutputFormat {
             }
             writeAttribute(elem, "stroke-dasharray", buf.toString(), null);
         }
-        
+
         //'stroke-dashoffset'
         //Value:  	<length> | inherit
         //Initial:  	 0
@@ -779,7 +762,7 @@ public class SVGOutputFormat implements OutputFormat {
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
         writeAttribute(elem, "stroke-dashoffset", STROKE_DASH_PHASE.get(f), 0d);
-        
+
         //'stroke-linecap'
         //Value:  	 butt | round | square | inherit
         //Initial:  	 butt
@@ -790,7 +773,7 @@ public class SVGOutputFormat implements OutputFormat {
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
         writeAttribute(elem, "stroke-linecap", strokeLinecapMap.get(STROKE_CAP.get(f)), "butt");
-        
+
         //'stroke-linejoin'
         //Value:  	 miter | round | bevel | inherit
         //Initial:  	 miter
@@ -801,7 +784,7 @@ public class SVGOutputFormat implements OutputFormat {
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
         writeAttribute(elem, "stroke-linejoin", strokeLinejoinMap.get(STROKE_JOIN.get(f)), "miter");
-        
+
         //'stroke-miterlimit'
         //Value:  	 <miterlimit> | inherit
         //Initial:  	 4
@@ -812,7 +795,7 @@ public class SVGOutputFormat implements OutputFormat {
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
         writeAttribute(elem, "stroke-miterlimit", STROKE_MITER_LIMIT.get(f), 4d);
-        
+
         //'stroke-opacity'
         //Value:  	 <opacity-value> | inherit
         //Initial:  	 1
@@ -823,7 +806,7 @@ public class SVGOutputFormat implements OutputFormat {
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
         writeAttribute(elem, "stroke-opacity", STROKE_OPACITY.get(f), 1d);
-        
+
         //'stroke-width'
         //Value:  	<length> | inherit
         //Initial:  	 1
@@ -837,8 +820,9 @@ public class SVGOutputFormat implements OutputFormat {
     }
     /* Writes the opacity attribute.
      */
-    protected void writeOpacityAttribute(IXMLElement elem, Map<AttributeKey,Object> f)
-    throws IOException {
+
+    protected void writeOpacityAttribute(IXMLElement elem, Map<AttributeKey, Object> f)
+            throws IOException {
         //'opacity'
         //Value:  	<opacity-value> | inherit
         //Initial:  	1
@@ -859,21 +843,23 @@ public class SVGOutputFormat implements OutputFormat {
      * http://www.w3.org/TR/SVGMobile12/coords.html#TransformAttribute
      *
      */
-    protected void writeTransformAttribute(IXMLElement elem, Map<AttributeKey,Object> a)
-    throws IOException {
+
+    protected void writeTransformAttribute(IXMLElement elem, Map<AttributeKey, Object> a)
+            throws IOException {
         AffineTransform t = TRANSFORM.get(a);
         if (t != null) {
             writeAttribute(elem, "transform", toTransform(t), "none");
         }
     }
-    /* Reads font attributes as listed in
+    /* Writes font attributes as listed in
      * http://www.w3.org/TR/SVGMobile12/feature.html#Font
      */
-    private void writeFontAttributes(IXMLElement elem, Map<AttributeKey,Object> a)
-    throws IOException {
+
+    private void writeFontAttributes(IXMLElement elem, Map<AttributeKey, Object> a)
+            throws IOException {
         String value;
         double doubleValue;
-        
+
         // 'font-family'
         // Value:  	[[ <family-name> |
         // <generic-family> ],]* [<family-name> |
@@ -886,7 +872,7 @@ public class SVGOutputFormat implements OutputFormat {
         // Animatable:  	yes
         // Computed value:  	 Specified value, except inherit
         writeAttribute(elem, "font-family", FONT_FACE.get(a).getFamily(), "Dialog");
-        
+
         // 'font-getChildCount'
         // Value:  	<absolute-getChildCount> | <relative-getChildCount> |
         // <length> | inherit
@@ -898,7 +884,7 @@ public class SVGOutputFormat implements OutputFormat {
         // Animatable:  	yes
         // Computed value:  	 Absolute length
         writeAttribute(elem, "font-size", FONT_SIZE.get(a), 0d);
-        
+
         // 'font-style'
         // Value:  	normal | italic | oblique | inherit
         // Initial:  	normal
@@ -909,8 +895,8 @@ public class SVGOutputFormat implements OutputFormat {
         // Animatable:  	yes
         // Computed value:  	 Specified value, except inherit
         writeAttribute(elem, "font-style", (FONT_ITALIC.get(a)) ? "italic" : "normal", "normal");
-        
-        
+
+
         //'font-variant'
         //Value:  	normal | small-caps | inherit
         //Initial:  	normal
@@ -922,7 +908,7 @@ public class SVGOutputFormat implements OutputFormat {
         //Computed value:  	 Specified value, except inherit
         // XXX - Implement me
         writeAttribute(elem, "font-variant", "normal", "normal");
-        
+
         // 'font-weight'
         // Value:  	normal | bold | bolder | lighter | 100 | 200 | 300
         // | 400 | 500 | 600 | 700 | 800 | 900 | inherit
@@ -946,64 +932,112 @@ public class SVGOutputFormat implements OutputFormat {
         //Percentages:  	N/A
         //Media:  	visual
         //Animatable:  	yes
-        writeAttribute(elem, "text-decoration", (FONT_UNDERLINE.get(a)) ? "underline" :"none", "none");
+        writeAttribute(elem, "text-decoration", (FONT_UNDERLINE.get(a)) ? "underline" : "none", "none");
     }
-    
+    /* Writes viewport attributes.
+     */
+
+    private void writeViewportAttributes(IXMLElement elem, Map<AttributeKey, Object> a)
+            throws IOException {
+        Object value;
+        Double doubleValue;
+
+        //'viewport-fill'
+        //Value:	 "none" | <color> | inherit
+        //Initial:	 none
+        //Applies to:	viewport-creating elements
+        //Inherited:	 no
+        //Percentages:	 N/A
+        //Media:	 visual
+        //Animatable:	 yes
+        //Computed value:  	 "none" or specified <color> value, except inherit
+        writeAttribute(elem, "viewport-fill", toColor(VIEWPORT_FILL.get(a)), "none");
+
+        //'viewport-fill-opacity'
+        //Value:	<opacity-value> | inherit
+        //Initial:	 1.0
+        //Applies to:	viewport-creating elements
+        //Inherited:	 no
+        //Percentages:	 N/A
+        //Media:	 visual
+        //Animatable:	 yes
+        //Computed value:  	 Specified value, except inherit
+        writeAttribute(elem, "view-port-fill-opacity", VIEWPORT_FILL_OPACITY.get(a), 1.0);
+    }
+
     protected void writeAttribute(IXMLElement elem, String name, String value, String defaultValue) {
         writeAttribute(elem, name, SVG_NAMESPACE, value, defaultValue);
     }
+
     protected void writeAttribute(IXMLElement elem, String name, String namespace, String value, String defaultValue) {
-        if (! value.equals(defaultValue)) {
+        if (!value.equals(defaultValue)) {
             elem.setAttribute(name, value);
         }
     }
+
     protected void writeAttribute(IXMLElement elem, String name, double value, double defaultValue) {
         writeAttribute(elem, name, SVG_NAMESPACE, value, defaultValue);
     }
+
     protected void writeAttribute(IXMLElement elem, String name, String namespace, double value, double defaultValue) {
         if (value != defaultValue) {
             elem.setAttribute(name, toNumber(value));
         }
     }
+
+    /** Returns a value as a SVG Path attribute.
+     * as specified in http://www.w3.org/TR/SVGMobile12/paths.html#PathDataBNF
+     */
     public static String toPath(BezierPath[] paths) {
         StringBuilder buf = new StringBuilder();
-        
-        for (int j=0; j < paths.length; j++) {
+
+        for (int j = 0; j < paths.length; j++) {
             BezierPath path = paths[j];
-            
+
             if (path.size() == 0) {
-                // nothing to do
+            // nothing to do
             } else if (path.size() == 1) {
                 BezierPath.Node current = path.get(0);
                 buf.append("M ");
                 buf.append(toNumber(current.x[0]));
                 buf.append(' ');
                 buf.append(toNumber(current.y[0]));
-                buf.append(" L ");
+                //buf.append(" L ");
                 buf.append(toNumber(current.x[0]));
                 buf.append(' ');
                 buf.append(toNumber(current.y[0] + 1));
             } else {
                 BezierPath.Node previous;
                 BezierPath.Node current;
-                
+
                 previous = current = path.get(0);
                 buf.append("M ");
                 buf.append(toNumber(current.x[0]));
                 buf.append(' ');
                 buf.append(toNumber(current.y[0]));
-                for (int i=1, n = path.size(); i < n; i++) {
+                char nextCommand = 'L';
+                for (int i = 1,  n = path.size(); i < n; i++) {
                     previous = current;
                     current = path.get(i);
-                    
+
                     if ((previous.mask & BezierPath.C2_MASK) == 0) {
                         if ((current.mask & BezierPath.C1_MASK) == 0) {
-                            buf.append(" L ");
+                            if (nextCommand != 'L') {
+                                buf.append(" L ");
+                                nextCommand = 'L';
+                            } else {
+                            buf.append(' ');
+                            }
                             buf.append(toNumber(current.x[0]));
                             buf.append(' ');
                             buf.append(toNumber(current.y[0]));
                         } else {
-                            buf.append(" Q ");
+                            if (nextCommand != 'Q') {
+                                buf.append(" Q ");
+                                nextCommand = 'Q';
+                            } else {
+                            buf.append(' ');
+                            }
                             buf.append(toNumber(current.x[1]));
                             buf.append(' ');
                             buf.append(toNumber(current.y[1]));
@@ -1014,7 +1048,12 @@ public class SVGOutputFormat implements OutputFormat {
                         }
                     } else {
                         if ((current.mask & BezierPath.C1_MASK) == 0) {
-                            buf.append(" Q ");
+                            if (nextCommand != 'Q') {
+                                buf.append(" Q ");
+                                nextCommand = 'Q';
+                            } else {
+                            buf.append(' ');
+                            }
                             buf.append(toNumber(previous.x[2]));
                             buf.append(' ');
                             buf.append(toNumber(previous.y[2]));
@@ -1023,7 +1062,12 @@ public class SVGOutputFormat implements OutputFormat {
                             buf.append(' ');
                             buf.append(toNumber(current.y[0]));
                         } else {
-                            buf.append(" C ");
+                            if (nextCommand != 'C') {
+                                buf.append(" C ");
+                                nextCommand = 'C';
+                            } else {
+                            buf.append(' ');
+                            }
                             buf.append(toNumber(previous.x[2]));
                             buf.append(' ');
                             buf.append(toNumber(previous.y[2]));
@@ -1042,15 +1086,25 @@ public class SVGOutputFormat implements OutputFormat {
                     if (path.size() > 1) {
                         previous = path.get(path.size() - 1);
                         current = path.get(0);
-                        
+
                         if ((previous.mask & BezierPath.C2_MASK) == 0) {
                             if ((current.mask & BezierPath.C1_MASK) == 0) {
+                            if (nextCommand != 'L') {
                                 buf.append(" L ");
+                                nextCommand = 'L';
+                            } else {
+                            buf.append(' ');
+                            }
                                 buf.append(toNumber(current.x[0]));
                                 buf.append(' ');
                                 buf.append(toNumber(current.y[0]));
                             } else {
+                            if (nextCommand != 'Q') {
                                 buf.append(" Q ");
+                                nextCommand = 'Q';
+                            } else {
+                            buf.append(' ');
+                            }
                                 buf.append(toNumber(current.x[1]));
                                 buf.append(' ');
                                 buf.append(toNumber(current.y[1]));
@@ -1061,7 +1115,12 @@ public class SVGOutputFormat implements OutputFormat {
                             }
                         } else {
                             if ((current.mask & BezierPath.C1_MASK) == 0) {
+                            if (nextCommand != 'Q') {
                                 buf.append(" Q ");
+                                nextCommand = 'Q';
+                            } else {
+                            buf.append(' ');
+                            }
                                 buf.append(toNumber(previous.x[2]));
                                 buf.append(' ');
                                 buf.append(toNumber(previous.y[2]));
@@ -1070,7 +1129,12 @@ public class SVGOutputFormat implements OutputFormat {
                                 buf.append(' ');
                                 buf.append(toNumber(current.y[0]));
                             } else {
+                            if (nextCommand != 'C') {
                                 buf.append(" C ");
+                                nextCommand = 'C';
+                            } else {
+                            buf.append(' ');
+                            }
                                 buf.append(toNumber(previous.x[2]));
                                 buf.append(' ');
                                 buf.append(toNumber(previous.y[2]));
@@ -1086,33 +1150,31 @@ public class SVGOutputFormat implements OutputFormat {
                         }
                     }
                     buf.append(" Z");
+                    nextCommand = '\0';
                 }
             }
         }
         return buf.toString();
     }
-    
-    
+
     /**
      * Returns a double array as a number attribute value.
      */
     public static String toNumber(double number) {
-        String str = (isFloatPrecision) ?
-            Float.toString((float) number) :
-            Double.toString(number);
+        String str = (isFloatPrecision) ? Float.toString((float) number) : Double.toString(number);
         if (str.endsWith(".0")) {
-            str = str.substring(0, str.length() -  2);
+            str = str.substring(0, str.length() - 2);
         }
         return str;
     }
-    
+
     /**
      * Returns a Point2D.Double array as a Points attribute value.
      * as specified in http://www.w3.org/TR/SVGMobile12/shapes.html#PointsBNF
      */
     public static String toPoints(Point2D.Double[] points) throws IOException {
         StringBuilder buf = new StringBuilder();
-        for (int i=0; i < points.length; i++) {
+        for (int i = 0; i < points.length; i++) {
             if (i != 0) {
                 buf.append(", ");
             }
@@ -1125,13 +1187,14 @@ public class SVGOutputFormat implements OutputFormat {
     /* Converts an AffineTransform into an SVG transform attribute value as specified in
      * http://www.w3.org/TR/SVGMobile12/coords.html#TransformAttribute
      */
+
     public static String toTransform(AffineTransform t) throws IOException {
         StringBuilder buf = new StringBuilder();
         switch (t.getType()) {
-            case AffineTransform.TYPE_IDENTITY :
+            case AffineTransform.TYPE_IDENTITY:
                 buf.append("none");
                 break;
-            case AffineTransform.TYPE_TRANSLATION :
+            case AffineTransform.TYPE_TRANSLATION:
                 // translate(<tx> [<ty>]), specifies a translation by tx and ty.
                 // If <ty> is not provided, it is assumed to be zero.
                 buf.append("translate(");
@@ -1142,26 +1205,26 @@ public class SVGOutputFormat implements OutputFormat {
                 }
                 buf.append(')');
                 break;
-                /*
+            /*
             case AffineTransform.TYPE_GENERAL_ROTATION :
             case AffineTransform.TYPE_QUADRANT_ROTATION :
             case AffineTransform.TYPE_MASK_ROTATION :
-                // rotate(<rotate-angle> [<cx> <cy>]), specifies a rotation by
-                // <rotate-angle> degrees about a given point.
-                // If optional parameters <cx> and <cy> are not supplied, the
-                // rotate is about the origin of the current user coordinate
-                // system. The operation corresponds to the matrix
-                // [cos(a) sin(a) -sin(a) cos(a) 0 0].
-                // If optional parameters <cx> and <cy> are supplied, the rotate
-                // is about the point (<cx>, <cy>). The operation represents the
-                // equivalent of the following specification:
-                // translate(<cx>, <cy>) rotate(<rotate-angle>)
-                // translate(-<cx>, -<cy>).
-                buf.append("rotate(");
-                buf.append(toNumber(t.getScaleX()));
-                buf.append(')');
-                break;*/
-            case AffineTransform.TYPE_UNIFORM_SCALE :
+            // rotate(<rotate-angle> [<cx> <cy>]), specifies a rotation by
+            // <rotate-angle> degrees about a given point.
+            // If optional parameters <cx> and <cy> are not supplied, the
+            // rotate is about the origin of the current user coordinate
+            // system. The operation corresponds to the matrix
+            // [cos(a) sin(a) -sin(a) cos(a) 0 0].
+            // If optional parameters <cx> and <cy> are supplied, the rotate
+            // is about the point (<cx>, <cy>). The operation represents the
+            // equivalent of the following specification:
+            // translate(<cx>, <cy>) rotate(<rotate-angle>)
+            // translate(-<cx>, -<cy>).
+            buf.append("rotate(");
+            buf.append(toNumber(t.getScaleX()));
+            buf.append(')');
+            break;*/
+            case AffineTransform.TYPE_UNIFORM_SCALE:
                 // scale(<sx> [<sy>]), specifies a scale operation by sx
                 // and sy. If <sy> is not provided, it is assumed to be equal
                 // to <sx>.
@@ -1169,8 +1232,8 @@ public class SVGOutputFormat implements OutputFormat {
                 buf.append(toNumber(t.getScaleX()));
                 buf.append(')');
                 break;
-            case AffineTransform.TYPE_GENERAL_SCALE :
-            case AffineTransform.TYPE_MASK_SCALE :
+            case AffineTransform.TYPE_GENERAL_SCALE:
+            case AffineTransform.TYPE_MASK_SCALE:
                 // scale(<sx> [<sy>]), specifies a scale operation by sx
                 // and sy. If <sy> is not provided, it is assumed to be equal
                 // to <sx>.
@@ -1180,7 +1243,7 @@ public class SVGOutputFormat implements OutputFormat {
                 buf.append(toNumber(t.getScaleY()));
                 buf.append(')');
                 break;
-            default :
+            default:
                 // matrix(<a> <b> <c> <d> <e> <f>), specifies a transformation
                 // in the form of a transformation matrix of six values.
                 // matrix(a,b,c,d,e,f) is equivalent to applying the
@@ -1188,7 +1251,7 @@ public class SVGOutputFormat implements OutputFormat {
                 buf.append("matrix(");
                 double[] matrix = new double[6];
                 t.getMatrix(matrix);
-                for (int i=0; i < matrix.length; i++) {
+                for (int i = 0; i < matrix.length; i++) {
                     if (i != 0) {
                         buf.append(' ');
                     }
@@ -1197,31 +1260,31 @@ public class SVGOutputFormat implements OutputFormat {
                 buf.append(')');
                 break;
         }
-        
+
         return buf.toString();
     }
-    
+
     public static String toColor(Color color) {
         if (color == null) {
             return "none";
         }
-        
-        
+
+
         String value;
-        value = "000000"+Integer.toHexString(color.getRGB());
-        value = "#"+value.substring(value.length() - 6);
+        value = "000000" + Integer.toHexString(color.getRGB());
+        value = "#" + value.substring(value.length() - 6);
         if (value.charAt(1) == value.charAt(2) &&
                 value.charAt(3) == value.charAt(4) &&
                 value.charAt(5) == value.charAt(6)) {
-            value = "#"+value.charAt(1)+value.charAt(3)+value.charAt(5);
+            value = "#" + value.charAt(1) + value.charAt(3) + value.charAt(5);
         }
         return value;
     }
-    
+
     public String getFileExtension() {
         return "svg";
     }
-    
+
     public void write(File file, Drawing drawing) throws IOException {
         BufferedOutputStream out = new BufferedOutputStream(
                 new FileOutputStream(file));
@@ -1233,46 +1296,48 @@ public class SVGOutputFormat implements OutputFormat {
             }
         }
     }
-    
+
     public void write(OutputStream out, Drawing drawing) throws IOException {
-        write(out, drawing.getChildren());
+        write(out, drawing, drawing.getChildren());
     }
+
     /**
      * All other write methods delegate their work to here.
      */
-    public void write(OutputStream out, java.util.List<Figure> figures) throws IOException {
+    public void write(OutputStream out, Drawing drawing, java.util.List<Figure> figures) throws IOException {
         document = new XMLElement("svg", SVG_NAMESPACE);
-        document.setAttribute("xmlns:xlink","http://www.w3.org/1999/xlink");
-        document.setAttribute("version","1.2");
-        document.setAttribute("baseProfile","tiny");
-        
+        document.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink");
+        document.setAttribute("version", "1.2");
+        document.setAttribute("baseProfile", "tiny");
+        writeViewportAttributes(document, drawing.getAttributes());
+
         initStorageContext(document);
-        
+
         defs = new XMLElement("defs");
         document.addChild(defs);
-        
-        for (Figure f: figures) {
+
+        for (Figure f : figures) {
             writeElement(document, f);
         }
-        
+
         // Write XML prolog
         PrintWriter writer = new PrintWriter(
-                new OutputStreamWriter(out, "UTF-8")
-                );
+                new OutputStreamWriter(out, "UTF-8"));
         writer.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-        
+
         // Write XML content
         XMLWriter xmlWriter = new XMLWriter(writer);
         xmlWriter.write(document, isPrettyPrint);
-        
+
         // Flush writer
         writer.flush();
     }
+
     private void initStorageContext(IXMLElement root) {
         identifiedElements = new HashMap<IXMLElement, String>();
-        gradientToIDMap = new HashMap<Gradient,String>();
+        gradientToIDMap = new HashMap<Gradient, String>();
     }
-    
+
     /**
      * Gets a unique ID for the specified element.
      */
@@ -1285,12 +1350,10 @@ public class SVGOutputFormat implements OutputFormat {
             return id;
         }
     }
-    
-    
-    
-    public Transferable createTransferable(java.util.List<Figure> figures, double scaleFactor) throws IOException {
+
+    public Transferable createTransferable(Drawing drawing, java.util.List<Figure> figures, double scaleFactor) throws IOException {
         ByteArrayOutputStream buf = new ByteArrayOutputStream();
-        write(buf, figures);
+        write(buf, drawing, figures);
         return new InputStreamTransferable(new DataFlavor(SVG_MIMETYPE, "Image SVG"), buf.toByteArray());
     }
 }

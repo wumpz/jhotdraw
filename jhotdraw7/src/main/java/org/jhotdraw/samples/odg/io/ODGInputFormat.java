@@ -1,5 +1,5 @@
 /*
- * @(#)ODGInputFormat.java  1.0  April 11, 2007
+ * @(#)ODGInputFormat.java  1.1  2007-12-16
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -38,7 +38,8 @@ import org.jhotdraw.samples.odg.geom.*;
  * http://docs.oasis-open.org/office/v1.1/OS/OpenDocument-v1.1.pdf
  *
  * @author Werner Randelshofer
- * @version 1.0 April 11, 2007 Created.
+ * @version 1.1 2007-12-16 Adapted to changes in InputFormat. 
+ * <br>1.0 April 11, 2007 Created.
  */
 public class ODGInputFormat implements InputFormat {
     /**
@@ -80,20 +81,17 @@ public class ODGInputFormat implements InputFormat {
         }
     }
     
-    public void read(InputStream in, Drawing drawing) throws IOException {
-        drawing.addAll(readFigures(in));
-    }
-    
+   
     public boolean isDataFlavorSupported(DataFlavor flavor) {
         return flavor.getPrimaryType().equals("application") &&
                 flavor.getSubType().equals("vnd.oasis.opendocument.graphics");
     }
     
-    public List<Figure> readFigures(Transferable t) throws UnsupportedFlavorException, IOException {
+    public void read(Transferable t, Drawing drawing) throws UnsupportedFlavorException, IOException {
         InputStream in = null;
         try {
             in = (InputStream) t.getTransferData(new DataFlavor("application/vnd.oasis.opendocument.graphics", "Image SVG"));
-            return readFigures(in);
+            read(in, drawing);
         } finally {
             if (in != null) { in.close(); }
         }
@@ -112,7 +110,7 @@ public class ODGInputFormat implements InputFormat {
         return tmp.toByteArray();
     }
     
-    public LinkedList<Figure> readFigures(InputStream in) throws IOException {
+    public void read(InputStream in, Drawing drawing) throws IOException {
         // Read the file into a byte array.
         byte[] tmp = readAllBytes(in);
         
@@ -151,14 +149,14 @@ public class ODGInputFormat implements InputFormat {
         styles = new ODGStylesReader();
         styles.read(stylesIn);
         
-        return readFiguresFromDocumentContent(contentIn);
+        readFiguresFromDocumentContent(contentIn, drawing);
     }
     
     /**
      * Reads figures from the content.xml file of an ODG open document drawing
      * document.
      */
-    public LinkedList<Figure> readFiguresFromDocumentContent(InputStream in) throws IOException {
+    public void readFiguresFromDocumentContent(InputStream in, Drawing drawing) throws IOException {
         this.figures = new LinkedList<Figure>();
         IXMLParser parser;
         try {
@@ -186,7 +184,7 @@ public class ODGInputFormat implements InputFormat {
         
         // Search for the first 'office:drawing' element in the XML document
         // in preorder sequence
-        IXMLElement drawing = document;
+        IXMLElement drawingElem = document;
         Stack<Iterator> stack = new Stack<Iterator>();
         LinkedList<IXMLElement> ll = new LinkedList<IXMLElement>();
         ll.add(document);
@@ -206,21 +204,21 @@ public class ODGInputFormat implements InputFormat {
                     node.getName().equals("drawing") &&
                     (node.getNamespace() == null ||
                     node.getNamespace().equals(OFFICE_NAMESPACE))) {
-                drawing = node;
+                drawingElem = node;
                 break;
             }
         }
         
-        if (drawing.getName() == null ||
-                ! drawing.getName().equals("drawing") ||
-                (drawing.getNamespace() != null &&
-                ! drawing.getNamespace().equals(OFFICE_NAMESPACE))) {
-            throw new IOException("'office:drawing' element expected: "+drawing.getName());
+        if (drawingElem.getName() == null ||
+                ! drawingElem.getName().equals("drawing") ||
+                (drawingElem.getNamespace() != null &&
+                ! drawingElem.getNamespace().equals(OFFICE_NAMESPACE))) {
+            throw new IOException("'office:drawing' element expected: "+drawingElem.getName());
         }
         
-        readDrawingElement(drawing);
+        readDrawingElement(drawingElem);
         
-        return figures;
+        drawing.addAll(figures);
     }
     /**
      * Reads an ODG "office:drawing" element.

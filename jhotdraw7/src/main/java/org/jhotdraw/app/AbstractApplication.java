@@ -1,7 +1,7 @@
 /*
- * @(#)AbstractApplication.java  1.1  2006-05-01
+ * @(#)AbstractApplication.java  1.2  2007-11-25
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -16,6 +16,7 @@ package org.jhotdraw.app;
 
 import java.awt.*;
 import org.jhotdraw.beans.*;
+import org.jhotdraw.gui.Worker;
 import org.jhotdraw.util.*;
 import java.util.*;
 import java.util.prefs.*;
@@ -23,13 +24,12 @@ import javax.swing.*;
 import java.io.*;
 /**
  * AbstractApplication.
- * 
- * 
+ *
+ *
  * @author Werner Randelshofer
- * @version 1.1 2006-05-01 System.exit(0) explicitly in method stop().
- *
- * @deprecated This 
- *
+ * @version 1.2 2007-11-25 Method Project.clear is now invoked on a worker
+ * thread.
+ * <br>1.1 2006-05-01 System.exit(0) explicitly in method stop().
  * <br>1.0 October 4, 2005 Created.
  */
 public abstract class AbstractApplication extends AbstractBean implements Application {
@@ -63,10 +63,19 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     }
     
     public void start() {
-        Project p = createProject();
+        final Project p = createProject();
         add(p);
-        p.clear();
+        p.setEnabled(false);
         show(p);
+        p.execute(new Worker() {
+            public Object construct() {
+                p.clear();
+                return null;
+            }
+            public void finished(Object result) {
+                p.setEnabled(true);
+            }
+        });
     }
     
     public final Project createProject() {
@@ -210,16 +219,16 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
                 Collections.unmodifiableList(recentFiles)
                 );
     }
-
+    
     public void removePalette(Window palette) {
     }
-
+    
     public void addPalette(Window palette) {
     }
-
+    
     public void removeWindow(Window window) {
     }
-
+    
     public void addWindow(Window window, Project p) {
     }
 }

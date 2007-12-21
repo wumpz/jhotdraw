@@ -382,4 +382,8 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
     public boolean contains(Figure f) {
         return children.contains(f);
     }
+
+    public int indexOf(Figure child) {
+        return children.indexOf(child);
+    }
 }

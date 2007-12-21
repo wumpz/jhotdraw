@@ -370,7 +370,12 @@ public class SVGTextFigure
      * <p>Returns null, if no specialized tool is available.
      */
     public Tool getTool(Point2D.Double p) {
-        return (isEditable() && contains(p)) ? new TextTool(this) : null;
+        if (isEditable() && contains(p)) {
+            TextTool tool = new TextTool(this);
+            tool.setForCreationOnly(false);
+            return tool;
+        }
+        return null;
     }
     
     /**

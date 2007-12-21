@@ -1,7 +1,7 @@
 /*
- * @(#)CombinePathsAction.java  1.0  2006-07-12
+ * @(#)CombinePathsAction.java  2.0  2007-12-21
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -11,7 +11,6 @@
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
  */
-
 package org.jhotdraw.samples.svg.action;
 
 import org.jhotdraw.draw.*;
@@ -27,23 +26,29 @@ import javax.swing.undo.*;
  * CombinePathsAction.
  *
  * @author  Werner Randelshofer
- * @version 1.0 2006-07-12 Created.
+ * @version 2.0 2007-12-21 Refactored this class, so that it can be used
+ * as a base class for SplitAction. 
+ * <br>1.0 2006-07-12 Created.
  */
 public class CombineAction extends GroupAction {
+
     public final static String ID = "selectionCombine";
-    
+
     /** Creates a new instance. */
     public CombineAction(DrawingEditor editor) {
-        super(editor, new SVGPathFigure());
-        
+        this(editor, new SVGPathFigure(), true);
+    }
+
+    public CombineAction(DrawingEditor editor, SVGPathFigure prototype, boolean isCombiningAction) {
+        super(editor, prototype, isCombiningAction);
+
         labels = ResourceBundleUtil.getLAFBundle(
                 "org.jhotdraw.samples.svg.Labels",
-                Locale.getDefault()
-                );
+                Locale.getDefault());
         labels.configureAction(this, ID);
     }
-    
-   @Override protected boolean canGroup() {
+
+    @Override protected boolean canGroup() {
         boolean canCombine = getView().getSelectionCount() > 1;
         if (canCombine) {
             for (Figure f : getView().getSelectedFigures()) {
@@ -55,7 +60,15 @@ public class CombineAction extends GroupAction {
         }
         return canCombine;
     }
-    public Collection<Figure> ungroupFigures(DrawingView view, CompositeFigure group) {
+    
+    @Override protected boolean canUngroup() {
+        if (super.canUngroup()) {
+           return ((CompositeFigure) getView().getSelectedFigures().iterator().next()).getChildCount() > 1;
+        }
+        return false;
+    }
+
+    @Override public Collection<Figure> ungroupFigures(DrawingView view, CompositeFigure group) {
         LinkedList<Figure> figures = new LinkedList<Figure>(group.getChildren());
         view.clearSelection();
         group.basicRemoveAllChildren();
@@ -63,7 +76,7 @@ public class CombineAction extends GroupAction {
         for (Figure f : figures) {
             SVGPathFigure path = new SVGPathFigure();
             path.removeAllChildren();
-            for (Map.Entry<AttributeKey,Object> entry : group.getAttributes().entrySet()) {
+            for (Map.Entry<AttributeKey, Object> entry : group.getAttributes().entrySet()) {
                 path.setAttribute(entry.getKey(), entry.getValue());
             }
             path.add(f);
@@ -74,20 +87,19 @@ public class CombineAction extends GroupAction {
         view.addToSelection(paths);
         return figures;
     }
-    public void groupFigures(DrawingView view, CompositeFigure group, Collection<Figure> figures) {
+
+    @Override public void groupFigures(DrawingView view, CompositeFigure group, Collection<Figure> figures) {
         Collection<Figure> sorted = view.getDrawing().sort(figures);
         view.getDrawing().basicRemoveAll(figures);
         view.clearSelection();
         view.getDrawing().add(group);
         group.willChange();
-      ((SVGPathFigure) group).removeAllChildren();
-        for (Map.Entry<AttributeKey,Object> entry : figures.iterator().next().getAttributes().entrySet()) {
+        ((SVGPathFigure) group).removeAllChildren();
+        for (Map.Entry<AttributeKey, Object> entry : figures.iterator().next().getAttributes().entrySet()) {
             group.setAttribute(entry.getKey(), entry.getValue());
         }
         for (Figure f : sorted) {
             SVGPathFigure path = (SVGPathFigure) f;
-            // XXX - We must fire an UndoableEdito for the flattenTransform!
-            path.flattenTransform();
             for (Figure child : path.getChildren()) {
                 group.basicAdd(child);
             }

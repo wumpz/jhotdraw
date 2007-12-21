@@ -85,16 +85,8 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
     }
     
     public void activate(DrawingEditor editor) {
-        /*
-        if (this.editor != null) {
-            this.editor.removePropertyChangeListener(editorHandler);
-        }*/
         this.editor = editor;
         editorProxy.setTarget(editor);
-         /*
-        if (this.editor != null) {
-            this.editor.addPropertyChangeListener(editorHandler);
-        }*/
         isActive = true;
     }
     
@@ -295,9 +287,9 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
     
     
     public void mouseEntered(MouseEvent evt) {
-        if (! isWorking) {
+        /*if (! isWorking) {
             editor.setActiveView(editor.findView((Container) evt.getSource()));
-        }
+        }*/
     }
     
     public void mouseExited(MouseEvent evt) {

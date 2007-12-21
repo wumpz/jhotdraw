@@ -57,13 +57,13 @@ public abstract class QuadTreeCompositeFigure
         figure.addFigureListener(figureHandler);
         needsSorting = true;
     }
-    public int basicRemove(Figure figure) {
-        int index = children.indexOf(figure);
+    public Figure basicRemoveChild(int index) {
+        Figure figure = children.get(index); 
         children.remove(index);
         quadTree.remove(figure);
         figure.removeFigureListener(figureHandler);
         needsSorting = true;
-        return index;
+        return figure;
     }
     
     public void draw(Graphics2D g) {

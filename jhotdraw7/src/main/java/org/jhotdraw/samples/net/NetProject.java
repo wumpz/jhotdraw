@@ -1,7 +1,7 @@
 /*
- * @(#)NetProject.java  1.2  2006-12-26
+ * @(#)NetProject.java  1.4  2007-12-17
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -40,7 +40,9 @@ import org.jhotdraw.samples.pert.figures.*;
  * A Pert drawing project.
  *
  * @author Werner Randelshofer
- * @version 1.2 2006-12-26 Reworked I/O support.
+ * @version 1.4 2007-11-17 Adapted due to changes in Constrainer interface.
+ * <br>1.3 2007-11-25 Method clear is now invoked on a worker thread. 
+ * <br>1.2 2006-12-26 Reworked I/O support.
  * <br>1.1 2006-06-10 Extended to support DefaultDrawApplicationModel.
  * <br>1.0 2006-02-07 Created.
  */
@@ -114,15 +116,21 @@ public class NetProject extends AbstractProject {
         view.addPropertyChangeListener(new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 String name = evt.getPropertyName();
-                if (name.equals("constrainer")) {
-                    prefs.putBoolean("project.gridVisible", ((Constrainer) evt.getNewValue()).isVisible());
-                    firePropertyChange("gridVisible", ((Constrainer) evt.getOldValue()).isVisible(), ((Constrainer) evt.getNewValue()).isVisible());
-                } else if (name.equals("scaleFactor")) {
+                if (name.equals("scaleFactor")) {
                     prefs.putDouble("project.scaleFactor", (Double) evt.getNewValue());
                     firePropertyChange("scaleFactor", evt.getOldValue(), evt.getNewValue());
                 }
             }
         });
+    }
+    
+    public boolean isGridVisible() {
+        return view.isConstrainerVisible();
+    }
+    public void setGridVisible(boolean newValue) {
+        boolean oldValue = isGridVisible();
+        view.setConstrainerVisible(newValue);
+        firePropertyChange("gridVisible", oldValue, newValue);
     }
     
     /**
@@ -160,13 +168,6 @@ public class NetProject extends AbstractProject {
         }
     }
     
-    public void setGridVisible(boolean newValue) {
-        // XXX This code is messy. We should invoke something on view.
-        toggleGridButton.setSelected(newValue);
-    }
-    public boolean isGridVisible() {
-        return view.getConstrainer().isVisible();
-    }
     public double getScaleFactor() {
         return view.getScaleFactor();
     }
@@ -243,10 +244,21 @@ public class NetProject extends AbstractProject {
      * Clears the project.
      */
     public void clear() {
-        view.getDrawing().removeUndoableEditListener(undo);
-        view.setDrawing(createDrawing());
-        view.getDrawing().addUndoableEditListener(undo);
-        undo.discardAllEdits();
+        final Drawing newDrawing = createDrawing();
+        try {
+            SwingUtilities.invokeAndWait(new Runnable() {
+                public void run() {
+                    view.getDrawing().removeUndoableEditListener(undo);
+                    view.setDrawing(newDrawing);
+                    view.getDrawing().addUndoableEditListener(undo);
+                    undo.discardAllEdits();
+                }
+            });
+        } catch (InvocationTargetException ex) {
+            ex.printStackTrace();
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
     }
     
     

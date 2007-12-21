@@ -43,16 +43,17 @@ public class QuadTreeDrawing extends AbstractDrawing {
         return children.indexOf(figure);
     }
     
-    public void basicAdd(int index, Figure figure) {
+    @Override public void basicAdd(int index, Figure figure) {
         super.basicAdd(index, figure);
         quadTree.add(figure, figure.getDrawingArea());
         needsSorting = true;
     }
-    public int basicRemove(Figure figure) {
-        int index = super.basicRemove(figure);
+    @Override public Figure basicRemoveChild(int index) {
+        Figure figure = getChild(index);
         quadTree.remove(figure);
         needsSorting = true;
-        return index;
+        super.basicRemoveChild(index);
+        return figure;
     }
     
     public void draw(Graphics2D g) {
@@ -251,6 +252,9 @@ public class QuadTreeDrawing extends AbstractDrawing {
             needsSorting = false;
         }
     }
+    protected void setAttributeOnChildren(AttributeKey key, Object newValue) {
+        // empty
+    }
     
     public void setCanvasSize(Dimension2DDouble newValue) {
         Dimension2DDouble oldValue = canvasSize;
@@ -270,7 +274,6 @@ public class QuadTreeDrawing extends AbstractDrawing {
         return new QuadTreeEventHandler();
     }
     
-
     
     /**
      * Handles all figure events fired by Figures contained in the Drawing.
@@ -280,7 +283,18 @@ public class QuadTreeDrawing extends AbstractDrawing {
             quadTree.remove(e.getFigure());
             quadTree.add(e.getFigure(), e.getFigure().getDrawingArea());
             needsSorting = true;
+            invalidate();
             fireAreaInvalidated(e.getInvalidatedArea());
         }
+    }
+
+    @Override
+    protected void drawFill(Graphics2D g) {
+        //throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    protected void drawStroke(Graphics2D g) {
+       // throw new UnsupportedOperationException("Not supported yet.");
     }
 }

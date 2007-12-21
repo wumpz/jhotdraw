@@ -1,7 +1,7 @@
 /*
- * @(#)DrawProject.java  1.2  2006-12-26
+ * @(#)DrawProject.java  1.3  2007-11-25
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -42,7 +42,8 @@ import org.jhotdraw.samples.pert.figures.*;
  * A Pert drawing project.
  *
  * @author Werner Randelshofer
- * @version 1.2 2006-12-26 Reworked I/O Support. 
+ * @version 1.3 2007-11-25 Method clear is now invoked on a worker thread. 
+ * <br>1.2 2006-12-26 Reworked I/O Support. 
  * <br>1.1 2006-06-10 Extended to support DefaultDrawApplicationModel.
  * <br>1.0 2006-02-07 Created.
  */
@@ -240,10 +241,21 @@ public class PertProject extends AbstractProject {
      * Clears the project.
      */
     public void clear() {
-        view.getDrawing().removeUndoableEditListener(undo);
-        view.setDrawing(createDrawing());
-        view.getDrawing().addUndoableEditListener(undo);
-        undo.discardAllEdits();
+        final Drawing newDrawing = createDrawing();
+        try {
+            SwingUtilities.invokeAndWait(new Runnable() {
+                public void run() {
+                    view.getDrawing().removeUndoableEditListener(undo);
+                    view.setDrawing(newDrawing);
+                    view.getDrawing().addUndoableEditListener(undo);
+                    undo.discardAllEdits();
+                }
+            });
+        } catch (InvocationTargetException ex) {
+            ex.printStackTrace();
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
     }
     
     @Override protected JFileChooser createOpenChooser() {

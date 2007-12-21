@@ -1,5 +1,5 @@
 /*
- * @(#)NewAction.java  1.2  2006-02-22
+ * @(#)NewAction.java  1.3  2007-11-30
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -25,7 +25,8 @@ import org.jhotdraw.app.Project;
  * Creates a new project.
  *
  * @author Werner Randelshofer
- * @version 1.2 2006-02-22 Support for multiple open id added.
+ * @version 1.3 2007-11-30 Call method clear on a worker thread. 
+ * <br>1.2 2006-02-22 Support for multiple open id added.
  * <br>1.1.1 2005-07-14 Make project explicitly visible after creating it.
  * <br>1.1 2005-07-09 Place new project relative to current one.
  * <br>1.0  04 January 2005  Created.
@@ -42,7 +43,7 @@ public class NewAction extends AbstractApplicationAction {
     
     public void actionPerformed(ActionEvent evt) {
         Application app = getApplication();
-        Project newP = app.createProject();
+        final Project newP = app.createProject();
         int multiOpenId = 1;
         for (Project existingP : app.projects()) {
             if (existingP.getFile() == null) {
@@ -51,7 +52,11 @@ public class NewAction extends AbstractApplicationAction {
         }
         newP.setMultipleOpenId(multiOpenId);
         app.add(newP);
-        newP.clear();
+        newP.execute(new Runnable() {
+            public void run() {
+                newP.clear();
+            }
+        });
         app.show(newP);
     }
 }

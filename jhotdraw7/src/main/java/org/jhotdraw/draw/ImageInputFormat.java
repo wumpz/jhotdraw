@@ -1,5 +1,5 @@
 /*
- * @(#)ImageInputFormat.java  1.0  January 3, 2007
+ * @(#)ImageInputFormat.java  1.1  2007-12-16
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -33,7 +33,9 @@ import org.jhotdraw.io.*;
  * This class uses the prototype design pattern. A ImageHolderFigure figure is used
  * as a prototype for creating a figure that holds the imported image.
  * 
- * @author Werner RandelshoImageHolderFiguren 1.0 January 3, 2007 Created.
+ * @author Werner Randelshor 
+ * @version 1.1 2007-12-16 Adapted to changes in InputFormat.
+ * <br>1.0 January 3, 2007 Created.
  * @see org.jhotdraw.draw.ImageHolderFigure
  */
 public class ImageInputFormat implements InputFormat {
@@ -126,7 +128,7 @@ public class ImageInputFormat implements InputFormat {
         return flavor.equals(DataFlavor.imageFlavor);
     }
 
-    public java.util.List<Figure> readFigures(Transferable t) throws UnsupportedFlavorException, IOException {
+    public void read(Transferable t, Drawing drawing) throws UnsupportedFlavorException, IOException {
         Image img = (Image) t.getTransferData(DataFlavor.imageFlavor);
         if (! (img instanceof BufferedImage)) {
             MediaTracker tracker = new MediaTracker(new JLabel());
@@ -156,6 +158,6 @@ public class ImageInputFormat implements InputFormat {
                 ));
         LinkedList list = new LinkedList<Figure>();
         list.add(figure);
-        return list;
+        drawing.addAll(list);
     }
 }

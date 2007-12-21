@@ -1,5 +1,5 @@
 /*
- * @(#)Direction.java  2.0  2007-07-31
+ * @(#)TranslationDirection.java  3.0  2007-12-16
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -18,14 +18,20 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 
 /**
- * Enumeration of directions.
+ * Specifies the possible directions for translations on a two-dimensional plane.
+ * <p>
+ * This enumeration is used by drawing tools and handles to perform constrained
+ * transforms of figures on a drawing.
+ * 
+ * @see Constrainer
  *
  * @author Werner Randelshofer
- * @version 2.0 2007-07-31 Added directions NORTH_WEST, SOUTH_WEST,
+ * @version 3.0 Renamed from Direction to TranslationDirection. 
+ * <br>2.0 2007-07-31 Added directions NORTH_WEST, SOUTH_WEST,
  * NORTH_EAST and SOUTH_EAST. Added method getDirection.
  * <br>1.0 2007-04-29 Created.
  */
-public enum Direction {
+public enum TranslationDirection {
     NORTH,
     WEST,
     SOUTH,
@@ -39,7 +45,7 @@ public enum Direction {
      * Returns the direction from the provided start point to the end point.
      * Returns null, if both points are at the same location.
      */
-    public static Direction getDirection(Point startPoint, Point endPoint) {
+    public static TranslationDirection getDirection(Point startPoint, Point endPoint) {
         int dx = endPoint.x - startPoint.x;
         int dy = endPoint.y - startPoint.y;
         
@@ -73,7 +79,7 @@ public enum Direction {
      * Returns the direction from the provided start point to the end point.
      * Returns null, if both points are at the same location.
      */
-    public static Direction getDirection(Point2D.Double startPoint, Point2D.Double endPoint) {
+    public static TranslationDirection getDirection(Point2D.Double startPoint, Point2D.Double endPoint) {
         double dx = endPoint.x - startPoint.x;
         double dy = endPoint.y - startPoint.y;
         

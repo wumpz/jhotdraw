@@ -139,7 +139,7 @@ public class ODGApplicationModel extends DefaultApplicationModel {
         bar.add(
                 ButtonFactory.createEditorColorButton(editor,
                 STROKE_COLOR, ButtonFactory.WEBSAVE_COLORS, ButtonFactory.WEBSAVE_COLORS_COLUMN_COUNT,
-                "attributeStrokeColor", labels, 
+                "attribute.strokeColor", labels, 
                 defaultAttributes
                 )
                 );
@@ -148,7 +148,7 @@ public class ODGApplicationModel extends DefaultApplicationModel {
         bar.add(
                 ButtonFactory.createEditorColorButton(editor,
                 FILL_COLOR, ButtonFactory.WEBSAVE_COLORS, ButtonFactory.WEBSAVE_COLORS_COLUMN_COUNT,
-                "attributeFillColor", labels, 
+                "attribute.fillColor", labels, 
                 defaultAttributes
                 )
                 );

@@ -1,5 +1,5 @@
 /*
- * @(#)EditGridAction.java  2.0  2007-09-15
+ * @(#)EditDrawingAction.java  1.0  2007-12-18
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -29,23 +29,23 @@ import org.jhotdraw.util.*;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 
 /**
- * EditGridAction.
+ * EditDrawingAction.
  * <p>
  * XXX - We shouldn't have a dependency to the application framework
  * from within the drawing framework.
  *
  * @author Werner Randelshofer
- * @version 1.0 July 31, 2007 Created.
+ * @version 1.0 2007-12-18 Created.
  */
-public class EditGridAction extends AbstractEditorAction {
-    public final static String ID = "editGrid";
+public class EditDrawingAction extends AbstractEditorAction {
+    public final static String ID = "editDrawing";
     private JDialog dialog;
-    private EditGridPanel settingsPanel;
+    private EditDrawingPanel settingsPanel;
     private PropertyChangeListener propertyChangeHandler;
     private Application app;
     
     /** Creates a new instance. */
-    public EditGridAction(Application app, DrawingEditor editor) {
+    public EditDrawingAction(Application app, DrawingEditor editor) {
         super(editor);
         this.app = app;
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
@@ -58,7 +58,7 @@ public class EditGridAction extends AbstractEditorAction {
     
    @Override protected void updateViewState() {
         if (getView() != null && settingsPanel != null) {
-            settingsPanel.setConstrainer((GridConstrainer) getView().getVisibleConstrainer());
+            settingsPanel.setDrawing(getView().getDrawing());
         }
     }
     
@@ -70,16 +70,16 @@ public class EditGridAction extends AbstractEditorAction {
         if (dialog == null) {
             ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
             dialog = new JDialog();
-            dialog.setTitle(labels.getString("editGrid"));
+            dialog.setTitle(labels.getString("drawingSettings"));
             dialog.setResizable(false);
-            settingsPanel = new EditGridPanel();
+            settingsPanel = new EditDrawingPanel();
             dialog.add(settingsPanel);
             dialog.pack();
             Preferences prefs = Preferences.userNodeForPackage(getClass());
-            PreferencesUtil.installFramePrefsHandler(prefs, "editGrid", dialog);
+            PreferencesUtil.installFramePrefsHandler(prefs, "drawingSettings", dialog);
             getApplication().addWindow(dialog, null);
         }
-            settingsPanel.setConstrainer((GridConstrainer) getView().getVisibleConstrainer());
+            settingsPanel.setDrawing(getView().getDrawing());
         return dialog;
     }
 }

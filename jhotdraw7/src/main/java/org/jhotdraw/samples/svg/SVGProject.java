@@ -1,7 +1,7 @@
 /*
- * @(#)SVGProject.java  1.2  2006-12-10
+ * @(#)SVGProject.java  1.3  2007-11-25
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -47,7 +47,8 @@ import org.jhotdraw.xml.*;
  * A drawing project.
  *
  * @author Werner Randelshofer
- * @version 1.2 2006-12-10 Used SVGStorage for reading SVG drawing (experimental).
+ * @version 1.3 2007-11-25 Method clear is now invoked on a worker thread. 
+ * <br>1.2 2006-12-10 Used SVGStorage for reading SVG drawing (experimental).
  * <br>1.1 2006-06-10 Extended to support DefaultDrawApplicationModel.
  * <br>1.0 2006-02-07 Created.
  */
@@ -88,6 +89,10 @@ public class SVGProject extends AbstractProject implements ExportableProject {
         JPanel zoomButtonPanel = new JPanel(new BorderLayout());
         scrollPane.setLayout(new PlacardScrollPaneLayout());
         scrollPane.setBorder(new EmptyBorder(0,0,0,0));
+        
+        // To improve performance while scrolling, we paint via
+        // a backing store.
+        scrollPane.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
         
         setEditor(new DefaultDrawingEditor());
         undo = new UndoRedoManager();
@@ -135,7 +140,7 @@ public class SVGProject extends AbstractProject implements ExportableProject {
      * Creates a new Drawing for this Project.
      */
     protected Drawing createDrawing() {
-        Drawing drawing = new SVGDrawing();
+        Drawing drawing = new QuadTreeDrawing();
         LinkedList<InputFormat> inputFormats = new LinkedList<InputFormat>();
         inputFormats.add(new SVGZInputFormat());
         inputFormats.add(new ImageInputFormat(new SVGImageFigure()));
@@ -264,10 +269,21 @@ public class SVGProject extends AbstractProject implements ExportableProject {
      * Clears the project.
      */
     public void clear() {
-        view.getDrawing().removeUndoableEditListener(undo);
-        view.setDrawing(createDrawing());
-        view.getDrawing().addUndoableEditListener(undo);
-        undo.discardAllEdits();
+        final Drawing newDrawing = createDrawing();
+        try {
+            SwingUtilities.invokeAndWait(new Runnable() {
+                public void run() {
+                    view.getDrawing().removeUndoableEditListener(undo);
+                    view.setDrawing(newDrawing);
+                    view.getDrawing().addUndoableEditListener(undo);
+                    undo.discardAllEdits();
+                }
+            });
+        } catch (InvocationTargetException ex) {
+            ex.printStackTrace();
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
     }
     
     @Override protected JFileChooser createOpenChooser() {

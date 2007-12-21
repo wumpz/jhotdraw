@@ -38,7 +38,7 @@ public class CloseAction extends AbstractSaveBeforeAction {
     }
     
     @Override protected void doIt(Project project) {
-        if (project != null) {
+        if (project != null && project.getApplication() != null) {
             project.getApplication().
                     dispose(project);
         }

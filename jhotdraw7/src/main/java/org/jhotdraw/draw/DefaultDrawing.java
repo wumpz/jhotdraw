@@ -11,7 +11,6 @@
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
  */
-
 package org.jhotdraw.draw;
 
 import java.awt.event.MouseEvent;
@@ -24,6 +23,7 @@ import javax.swing.event.*;
 import javax.swing.undo.*;
 import org.jhotdraw.util.*;
 import java.util.*;
+
 /**
  * DefaultDrawing to be used for drawings that contain only a few children.
  * For larger drawings, {@link QuadTreeDrawing} should be used.
@@ -41,15 +41,14 @@ import java.util.*;
  */
 public class DefaultDrawing
         extends AbstractDrawing {
+
     private boolean needsSorting = false;
     private Rectangle2D.Double canvasBounds;
-    private Rectangle2D.Double cachedBounds;
-    private Rectangle2D.Double cachedDrawingArea;
-    
+
     /** Creates a new instance. */
     public DefaultDrawing() {
     }
-    
+
     public void draw(Graphics2D g) {
         synchronized (getLock()) {
             ensureSorted();
@@ -63,7 +62,7 @@ public class DefaultDrawing
             draw(g, toDraw);
         }
     }
-    
+
     public void draw(Graphics2D g, Collection<Figure> children) {
         Rectangle2D clipBounds = g.getClipBounds();
         if (clipBounds != null) {
@@ -80,7 +79,7 @@ public class DefaultDrawing
             }
         }
     }
-    
+
     public java.util.List<Figure> sort(Collection<Figure> c) {
         HashSet<Figure> unsorted = new HashSet<Figure>();
         unsorted.addAll(c);
@@ -99,8 +98,7 @@ public class DefaultDrawing
         }
         return sorted;
     }
-    
-    
+
     public Figure findFigure(Point2D.Double p) {
         for (Figure f : getFiguresFrontToBack()) {
             if (f.isVisible() && f.contains(p)) {
@@ -109,6 +107,7 @@ public class DefaultDrawing
         }
         return null;
     }
+
     public Figure findFigureExcept(Point2D.Double p, Figure ignore) {
         for (Figure f : getFiguresFrontToBack()) {
             if (f != ignore && f.isVisible() && f.contains(p)) {
@@ -117,6 +116,7 @@ public class DefaultDrawing
         }
         return null;
     }
+
     public Figure findFigureBehind(Point2D.Double p, Figure figure) {
         boolean isBehind = false;
         for (Figure f : getFiguresFrontToBack()) {
@@ -130,6 +130,7 @@ public class DefaultDrawing
         }
         return null;
     }
+
     public Figure findFigureBehind(Point2D.Double p, Collection<Figure> children) {
         int inFrontOf = children.size();
         for (Figure f : getFiguresFrontToBack()) {
@@ -145,14 +146,16 @@ public class DefaultDrawing
         }
         return null;
     }
+
     public Figure findFigureExcept(Point2D.Double p, Collection<Figure> ignore) {
         for (Figure f : getFiguresFrontToBack()) {
-            if (! ignore.contains(f) && f.isVisible() && f.contains(p)) {
+            if (!ignore.contains(f) && f.isVisible() && f.contains(p)) {
                 return f;
             }
         }
         return null;
     }
+
     public java.util.List<Figure> findFigures(Rectangle2D.Double bounds) {
         LinkedList<Figure> intersection = new LinkedList<Figure>();
         for (Figure f : getChildren()) {
@@ -162,6 +165,7 @@ public class DefaultDrawing
         }
         return intersection;
     }
+
     public java.util.List<Figure> findFiguresWithin(Rectangle2D.Double bounds) {
         LinkedList<Figure> contained = new LinkedList<Figure>();
         for (Figure f : getChildren()) {
@@ -175,12 +179,12 @@ public class DefaultDrawing
         }
         return contained;
     }
-    
+
     public Figure findFigureInside(Point2D.Double p) {
         Figure f = findFigure(p);
         return (f == null) ? null : f.findFigureInside(p);
     }
-    
+
     /**
      * Returns an iterator to iterate in
      * Z-order front to back over the children.
@@ -189,7 +193,7 @@ public class DefaultDrawing
         ensureSorted();
         return new ReversedList<Figure>(getChildren());
     }
-    
+
     public void bringToFront(Figure figure) {
         if (basicRemove(figure) != -1) {
             basicAdd(figure);
@@ -197,6 +201,7 @@ public class DefaultDrawing
             fireAreaInvalidated(figure.getDrawingArea());
         }
     }
+
     public void sendToBack(Figure figure) {
         if (basicRemove(figure) != -1) {
             basicAdd(0, figure);
@@ -204,13 +209,14 @@ public class DefaultDrawing
             fireAreaInvalidated(figure.getDrawingArea());
         }
     }
-    
+
     /**
      * Invalidates the sort order.
      */
     private void invalidateSortOrder() {
         needsSorting = true;
     }
+
     /**
      * Ensures that the children are sorted in z-order sequence from back to
      * front.
@@ -221,7 +227,10 @@ public class DefaultDrawing
             needsSorting = false;
         }
     }
-    
+    protected void setAttributeOnChildren(AttributeKey key, Object newValue) {
+        // empty
+    }
+
     public void setCanvasSize(Dimension2DDouble newValue) {
         Dimension2DDouble oldValue = new Dimension2DDouble(
                 canvasBounds.width, canvasBounds.height);
@@ -229,83 +238,29 @@ public class DefaultDrawing
         canvasBounds.height = newValue == null ? -1 : newValue.height;
         firePropertyChange("canvasSize", oldValue, newValue);
     }
-    
+
     public Dimension2DDouble getCanvasSize() {
-        return canvasBounds == null || canvasBounds.isEmpty() ? null : 
-            new Dimension2DDouble(
-                canvasBounds.width, canvasBounds.height
-                );
+        return canvasBounds == null || canvasBounds.isEmpty() ? null : new Dimension2DDouble(
+                canvasBounds.width, canvasBounds.height);
     }
-    
-    protected void invalidateBounds() {
-        cachedBounds = null;
-        cachedDrawingArea = null;
-    }
-    
-    public Rectangle2D.Double getBounds() {
-        if (cachedBounds == null) {
-            if (getCanvasSize() != null) {
-                cachedBounds = new Rectangle2D.Double(0, 0, getCanvasSize().width, getCanvasSize().height);
-            } else {
-                if (children.size() == 0) {
-                    cachedBounds = new Rectangle2D.Double();
-                } else {
-                    for (Figure f : children) {
-                        if (cachedBounds == null) {
-                            cachedBounds = f.getBounds();
-                        } else {
-                            cachedBounds.add(f.getBounds());
-                        }
-                    }
-                }
-            }
-        }
-        return (Rectangle2D.Double) cachedBounds.clone();
-    }
-    
-    public Rectangle2D.Double getDrawingArea() {
-        if (cachedDrawingArea == null) {
-            if (children.size() == 0) {
-                cachedDrawingArea = new Rectangle2D.Double();
-            } else {
-                for (Figure f : children) {
-                    if (cachedDrawingArea == null) {
-                        cachedDrawingArea = f.getDrawingArea();
-                    } else {
-                        cachedDrawingArea.add(f.getDrawingArea());
-                    }
-                }
-            }
-        }
-        return (Rectangle2D.Double) cachedDrawingArea.clone();
-    }
-    
-/*    public void basicAdd(int index, Figure figure) {
-        children.add(index, figure);
-    }
-  */
-    /*
-    public Figure basicRemoveChild(int index) {
-        return children.remove(index);
-    }*/
-    
+
     public int indexOf(Figure figure) {
         return children.indexOf(figure);
     }
-    /*
-    public int basicRemove(Figure figure) {
-        int index = indexOf(figure);
-        children.remove(figure);
-        return index;
-    }*/
-    
+
     public DefaultDrawing clone() {
         DefaultDrawing that = (DefaultDrawing) super.clone();
-        that.children = new ArrayList<Figure>();
         that.canvasBounds = (Rectangle2D.Double) this.canvasBounds.clone();
-        for (Figure f : this.children) {
-            that.children.add((Figure) f.clone());
-        }
         return that;
+    }
+
+    @Override
+    protected void drawFill(Graphics2D g) {
+    //  throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    protected void drawStroke(Graphics2D g) {
+    //  throw new UnsupportedOperationException("Not supported yet.");
     }
 }

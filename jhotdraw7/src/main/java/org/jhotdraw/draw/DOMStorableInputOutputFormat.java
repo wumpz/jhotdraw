@@ -1,5 +1,5 @@
 /*
- * @(#)DOMStorableOutputFormat.java  1.0  December 26, 2006
+ * @(#)DOMStorableOutputFormat.java  1.1  2007-12-16
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -30,7 +30,8 @@ import org.jhotdraw.xml.*;
  * An OutputFormat that can write Drawings with DOMStorable Figure's.
  *
  * @author Werner Randelshofer
- * @version 1.0 December 26, 2006 Created.
+ * @version 1.1 2007-12-16 Adapted to changes in InputFormat and OutputFormat.
+ * <br>1.0 December 26, 2006 Created.
  */
 public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
     private DOMFactory factory;
@@ -164,7 +165,7 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
         return flavor.equals(dataFlavor);
     }
     
-    public List<Figure> readFigures(Transferable t) throws UnsupportedFlavorException, IOException {
+    public void read(Transferable t, Drawing drawing) throws UnsupportedFlavorException, IOException {
         LinkedList<Figure> figures = new LinkedList<Figure>();
         InputStream in = (InputStream) t.getTransferData(new DataFlavor(mimeType,description));
         NanoXMLDOMInput domi = new NanoXMLDOMInput(factory, in);
@@ -174,9 +175,9 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
             figures.add(f);
         }
         domi.closeElement();
-        return figures;
+        drawing.addAll(figures);
     }
-    public Transferable createTransferable(List<Figure> figures, double scaleFactor) throws IOException {
+    public Transferable createTransferable(Drawing drawing, List<Figure> figures, double scaleFactor) throws IOException {
         ByteArrayOutputStream buf = new ByteArrayOutputStream();
         NanoXMLDOMOutput domo = new NanoXMLDOMOutput(factory);
         domo.openElement("Drawing-Clip");

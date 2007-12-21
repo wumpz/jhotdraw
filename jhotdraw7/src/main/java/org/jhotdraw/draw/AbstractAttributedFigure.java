@@ -39,6 +39,9 @@ import org.jhotdraw.xml.DOMOutput;
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
 public abstract class AbstractAttributedFigure extends AbstractFigure {
+    /**
+     * Holds the attributes of the figure.
+     */
     private HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey,Object>();
     /**
      * Forbidden attributes can't be set by the setAttribute() operation.

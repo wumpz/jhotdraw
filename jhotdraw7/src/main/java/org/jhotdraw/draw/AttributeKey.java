@@ -105,7 +105,11 @@ public class AttributeKey<T> {
         f.changed();
     }
     /**
-     * Sets a value on the specified figure.
+     * Sets a value on the specified figure without invoking {@code willChange}
+     * and {@code changed} on the figure.
+     * <p>
+     * This method can be used to efficiently build a drawing from an 
+     * {@see InputFormat}.
      *
      * @param f the Figure
      * @param value the attribute value
@@ -165,7 +169,11 @@ public class AttributeKey<T> {
         f.changed();
     }
     /**
-     * Sets a clone of a value on the specified figure.
+     * Sets a clone of a value on the specified figure, without invoking
+     * {@code willChange} and {@code changed} on the figure.
+     * <p>
+     * This method can be used to efficiently build a drawing from an 
+     * {@see InputFormat}.
      *
      * @param f the Figure
      * @param value the attribute value

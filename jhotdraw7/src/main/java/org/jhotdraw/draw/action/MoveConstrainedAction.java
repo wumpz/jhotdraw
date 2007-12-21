@@ -28,15 +28,15 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  *
  * @author  Werner Randelshofer
  * @version 2.0 2007-07-31 Reworked to take advantage of the new
- * Constrainer.moveRectangle method. 
+ * Constrainer.translateRectangle method. 
  * <br>1.0 17. March 2004  Created.
  */
 public abstract class MoveConstrainedAction extends AbstractSelectedAction {
     
-    private Direction dir;
+    private TranslationDirection dir;
     
     /** Creates a new instance. */
-    public MoveConstrainedAction(DrawingEditor editor, Direction dir) {
+    public MoveConstrainedAction(DrawingEditor editor, TranslationDirection dir) {
         super(editor);
         this.dir = dir;
     }
@@ -53,7 +53,7 @@ public abstract class MoveConstrainedAction extends AbstractSelectedAction {
         
         Point2D.Double p0 = new Point2D.Double(r.x, r.y);
         if (getView().getConstrainer() != null) {
-            getView().getConstrainer().moveRectangle(r, dir);
+            getView().getConstrainer().translateRectangle(r, dir);
         } else {
             switch (dir) {
                 case NORTH :
@@ -87,28 +87,28 @@ public abstract class MoveConstrainedAction extends AbstractSelectedAction {
         public final static String ID = "moveConstrainedEast";
         
         public East(DrawingEditor editor) {
-            super(editor, Direction.EAST);
+            super(editor, TranslationDirection.EAST);
             labels.configureAction(this, ID);
         }
     }
     public static class West extends MoveConstrainedAction {
         public final static String ID = "moveConstrainedWest";
         public West(DrawingEditor editor) {
-            super(editor, Direction.WEST);
+            super(editor, TranslationDirection.WEST);
             labels.configureAction(this, ID);
         }
     }
     public static class North extends MoveConstrainedAction {
         public final static String ID = "moveConstrainedNorth";
         public North(DrawingEditor editor) {
-            super(editor, Direction.NORTH);
+            super(editor, TranslationDirection.NORTH);
             labels.configureAction(this, ID);
         }
     }
     public static class South extends MoveConstrainedAction {
         public final static String ID = "moveConstrainedSouth";
         public South(DrawingEditor editor) {
-            super(editor, Direction.SOUTH);
+            super(editor, TranslationDirection.SOUTH);
             labels.configureAction(this, ID);
         }
     }

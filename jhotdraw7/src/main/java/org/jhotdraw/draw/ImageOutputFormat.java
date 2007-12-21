@@ -1,5 +1,5 @@
 /*
- * @(#)ImageOutputFormat.java  1.0  January 2, 2007
+ * @(#)ImageOutputFormat.java  1.1  2007-12-16
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -31,7 +31,9 @@ import org.jhotdraw.io.*;
  * supported by javax.imageio.
  *
  * @author Werner Randelshofer
- * @version 1.0 January 2, 2007 Created.
+ * @version 1.1 2007-12-16 Adapted to changes in OutputFormat. 
+ * Added support for AttributeKeys.CANVAS_FILL_COLOR. 
+ * <br>1.0 January 2, 2007 Created.
  */
 public class ImageOutputFormat implements OutputFormat {
     /**
@@ -108,7 +110,7 @@ public class ImageOutputFormat implements OutputFormat {
      * the image.
      */
     public void write(OutputStream out, Drawing drawing) throws IOException {
-        write(out, drawing.getChildren(), null, null);
+        write(out, drawing, drawing.getChildren(), null, null);
     }
     /**
      * Writes the drawing to the specified output stream.
@@ -117,7 +119,7 @@ public class ImageOutputFormat implements OutputFormat {
      */
     public void write(OutputStream out, Drawing drawing,
             AffineTransform drawingTransform, Dimension imageSize) throws IOException {
-        write(out, drawing.getChildren(), drawingTransform, imageSize);
+        write(out, drawing, drawing.getChildren(), drawingTransform, imageSize);
     }
     
     /**
@@ -125,8 +127,8 @@ public class ImageOutputFormat implements OutputFormat {
      * This method ensures that all figures of the drawing are visible on
      * the image.
      */
-    public Transferable createTransferable(java.util.List<Figure> figures, double scaleFactor) throws IOException {
-        return new ImageTransferable(toImage(figures, scaleFactor));
+    public Transferable createTransferable(Drawing drawing, java.util.List<Figure> figures, double scaleFactor) throws IOException {
+        return new ImageTransferable(toImage(drawing, figures, scaleFactor));
     }
     
     /**
@@ -134,21 +136,21 @@ public class ImageOutputFormat implements OutputFormat {
      * This method ensures that all figures of the drawing are visible on
      * the image.
      */
-    public void write(OutputStream out, java.util.List<Figure> figures) throws IOException {
-        write(out, figures, null, null);
+    public void write(OutputStream out, Drawing drawing, java.util.List<Figure> figures) throws IOException {
+        write(out, drawing, figures, null, null);
     }
     /**
      * Writes the figures to the specified output stream.
      * This method applies the specified transform to the drawing, and draws
      * it on an image of the specified size.
      */
-    public void write(OutputStream out, java.util.List<Figure> figures,
+    public void write(OutputStream out, Drawing drawing, java.util.List<Figure> figures,
             AffineTransform drawingTransform, Dimension imageSize) throws IOException {
         BufferedImage img;
         if (drawingTransform == null || imageSize == null) {
-            img = toImage(figures, 1d);
+            img = toImage(drawing, figures, 1d);
         } else {
-            img = toImage(figures, drawingTransform, imageSize);
+            img = toImage(drawing, figures, drawingTransform, imageSize);
         }
         ImageIO.write(img, formatName, out);
         img.flush();
@@ -162,10 +164,12 @@ public class ImageOutputFormat implements OutputFormat {
      * coordinates are translated, so that all figures are visible on the
      * image.
      *
-     * @param figures The list of figures.
+     * @param drawing The drawing.
+     * @param figures A list of figures of the drawing.
      * @param scaleFactor The scale factor used when drawing the figures.
      */
-    public BufferedImage toImage(java.util.List<Figure> figures,
+    public BufferedImage toImage(Drawing drawing,
+            java.util.List<Figure> figures,
             double scaleFactor) {
         
         // Determine the draw bounds of the figures
@@ -177,7 +181,19 @@ public class ImageOutputFormat implements OutputFormat {
                 drawBounds.add(f.getDrawingArea());
             }
         }
-        
+        /*
+        AffineTransform transform = new AffineTransform();
+            transform.translate(-drawBounds.x * scaleFactor, 
+                    -drawBounds.y * scaleFactor);
+        transform.scale(scaleFactor, scaleFactor);
+        return toImage(drawing, figures, transform,
+                new Dimension(
+                (int) (drawBounds.width * scaleFactor),
+                (int) (drawBounds.height * scaleFactor)
+                )
+                );
+        */
+
         AffineTransform transform = new AffineTransform();
         if (drawBounds.x < 0) {
             transform.translate(-drawBounds.x * scaleFactor, 0);
@@ -186,9 +202,8 @@ public class ImageOutputFormat implements OutputFormat {
             transform.translate(0, -drawBounds.y * scaleFactor);
         }
         transform.scale(scaleFactor, scaleFactor);
-        
-        
-        return toImage(figures, transform,
+
+         return toImage(drawing, figures, transform,
                 new Dimension(
                 (int) ((Math.max(0, drawBounds.x)+drawBounds.width) * scaleFactor),
                 (int) ((Math.max(0, drawBounds.y)+drawBounds.height) * scaleFactor)
@@ -199,27 +214,33 @@ public class ImageOutputFormat implements OutputFormat {
     /**
      * Creates a BufferedImage from the specified list of figures.
      *
-     * @param figures The list of figures.
+     * @param drawing The drawing.
+     * @param figures A list of figures of the drawing.
      * @param transform The AffineTransform to be used when drawing
      * the figures.
      * @param imageSize The width and height of the image.
      */
     public BufferedImage toImage(
+            Drawing drawing,
             java.util.List<Figure> figures,
             AffineTransform transform,
             Dimension imageSize) {
         
-        // Create the buffered image and clear
+        // Create the buffered image and clear it
+        Color background = AttributeKeys.CANVAS_FILL_COLOR.get(drawing);
+        if (background == null) {
+            background = new Color(0x00ffffff,true);
+        }
         BufferedImage buf = new BufferedImage(
                 imageSize.width, imageSize.height,
-                BufferedImage.TYPE_INT_ARGB
+                (background.getAlpha() == 255) ? BufferedImage.TYPE_INT_RGB : BufferedImage.TYPE_INT_ARGB
                 );
         Graphics2D g = buf.createGraphics();
         
-        // Clear the buffered image with transparent white
+        // Clear the buffered image with the background color
         Composite savedComposite = g.getComposite();
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
-        g.setColor(new Color(0x00ffffff,true));
+        g.setColor(background);
         g.fillRect(0,0,buf.getWidth(),buf.getHeight());
         g.setComposite(savedComposite);
         

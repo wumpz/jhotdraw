@@ -1,5 +1,5 @@
 /*
- * @(#)ButtonFactory.java  2.0  2007-30-31
+ * @(#)ButtonFactory.java  2.0.1  2007-12-17
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -33,7 +33,8 @@ import org.jhotdraw.draw.*;
  * ButtonFactory.
  *
  * @author Werner Randelshofer
- * @version 2.0 2007-03-31 Renamed from ToolBarButtonFactory to ButtonFactory.
+ * @version 2.0.1 2007-12-17 Fixed createToggleGridButton method. 
+ * <br>2.0 2007-03-31 Renamed from ToolBarButtonFactory to ButtonFactory.
  * Replaced most add...ButtonTo methods by create...Button methods.
  * <br>1.3 2006-12-29 Split methods even more up. Added additional buttons.
  * <br>1.2 2006-07-16 Split some methods up for better reuse.
@@ -371,9 +372,9 @@ public class ButtonFactory {
             java.util.List<ColorIcon> colors, int columnCount) {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
 
-        bar.add(createEditorColorButton(editor, STROKE_COLOR, colors, columnCount, "attributeStrokeColor", labels, new HashMap<AttributeKey,Object>()));
-        bar.add(createEditorColorButton(editor, FILL_COLOR, colors, columnCount, "attributeFillColor", labels, new HashMap<AttributeKey,Object>()));
-        bar.add(createEditorColorButton(editor, TEXT_COLOR, colors, columnCount, "attributeTextColor", labels, new HashMap<AttributeKey,Object>()));
+        bar.add(createEditorColorButton(editor, STROKE_COLOR, colors, columnCount, "attribute.strokeColor", labels, new HashMap<AttributeKey,Object>()));
+        bar.add(createEditorColorButton(editor, FILL_COLOR, colors, columnCount, "attribute.fillColor", labels, new HashMap<AttributeKey,Object>()));
+        bar.add(createEditorColorButton(editor, TEXT_COLOR, colors, columnCount, "attribute.textColor", labels, new HashMap<AttributeKey,Object>()));
     }
     /**
      * Creates a color button, with an action region and a popup menu. The
@@ -738,7 +739,7 @@ public class ButtonFactory {
             DrawingEditor editor, double[] widths, ResourceBundleUtil labels) {
         JPopupButton strokeWidthPopupButton = new JPopupButton();
         
-        labels.configureToolBarButton(strokeWidthPopupButton,"attributeStrokeWidth");
+        labels.configureToolBarButton(strokeWidthPopupButton,"attribute.strokeWidth");
         strokeWidthPopupButton.setFocusable(false);
         
         NumberFormat formatter = NumberFormat.getInstance();
@@ -756,7 +757,7 @@ public class ButtonFactory {
                     label,
                     icon
                     );
-            a.putValue(Actions.UNDO_PRESENTATION_NAME_KEY, labels.getString("attributeStrokeWidth"));
+            a.putValue(Actions.UNDO_PRESENTATION_NAME_KEY, labels.getString("attribute.strokeWidth"));
             AbstractButton btn = strokeWidthPopupButton.add(a);
             btn.setDisabledIcon(icon);
         }
@@ -767,7 +768,7 @@ public class ButtonFactory {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
         
         JPopupButton strokeDecorationPopupButton = new JPopupButton();
-        labels.configureToolBarButton(strokeDecorationPopupButton,"attributeStrokeDecoration");
+        labels.configureToolBarButton(strokeDecorationPopupButton,"attribute.strokeDecoration");
         strokeDecorationPopupButton.setFocusable(false);
         strokeDecorationPopupButton.setColumnCount(2, false);
         LineDecoration[] decorations = {
@@ -845,7 +846,7 @@ public class ButtonFactory {
             double[][] dashes,
             ResourceBundleUtil labels) {
         JPopupButton strokeDashesPopupButton = new JPopupButton();
-        labels.configureToolBarButton(strokeDashesPopupButton,"attributeStrokeDashes");
+        labels.configureToolBarButton(strokeDashesPopupButton,"attribute.strokeDashes");
         strokeDashesPopupButton.setFocusable(false);
         //strokeDashesPopupButton.setColumnCount(2, false);
         for (int i=0; i < dashes.length; i++) {
@@ -882,7 +883,7 @@ public class ButtonFactory {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
         
         JPopupButton strokeTypePopupButton = new JPopupButton();
-        labels.configureToolBarButton(strokeTypePopupButton,"attributeStrokeType");
+        labels.configureToolBarButton(strokeTypePopupButton,"attribute.strokeType");
         strokeTypePopupButton.setFocusable(false);
         
         strokeTypePopupButton.add(
@@ -890,7 +891,7 @@ public class ButtonFactory {
                 editor,
                 STROKE_TYPE,
                 AttributeKeys.StrokeType.BASIC,
-                labels.getString("attributeStrokeTypeBasic"),
+                labels.getString("attribute.strokeType.basic"),
                 new StrokeIcon(new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL))
                 )
                 );
@@ -901,7 +902,7 @@ public class ButtonFactory {
                 new AttributeAction(
                 editor,
                 attr,
-                labels.getString("attributeStrokeTypeDouble"),
+                labels.getString("attribute.strokeType.double"),
                 new StrokeIcon(new DoubleStroke(2, 1))
                 )
                 );
@@ -912,7 +913,7 @@ public class ButtonFactory {
                 new AttributeAction(
                 editor,
                 attr,
-                labels.getString("attributeStrokeTypeDouble"),
+                labels.getString("attribute.strokeType.double"),
                 new StrokeIcon(new DoubleStroke(3, 1))
                 )
                 );
@@ -923,7 +924,7 @@ public class ButtonFactory {
                 new AttributeAction(
                 editor,
                 attr,
-                labels.getString("attributeStrokeTypeDouble"),
+                labels.getString("attribute.strokeType.double"),
                 new StrokeIcon(new DoubleStroke(4, 1))
                 )
                 );
@@ -935,7 +936,7 @@ public class ButtonFactory {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
         
         JPopupButton strokePlacementPopupButton = new JPopupButton();
-        labels.configureToolBarButton(strokePlacementPopupButton,"attributeStrokePlacement");
+        labels.configureToolBarButton(strokePlacementPopupButton,"attribute.strokePlacement");
         strokePlacementPopupButton.setFocusable(false);
         
         HashMap<AttributeKey,Object> attr;
@@ -946,7 +947,7 @@ public class ButtonFactory {
                 new AttributeAction(
                 editor,
                 attr,
-                labels.getString("attributeStrokePlacementCenter"),
+                labels.getString("attribute.strokePlacement.center"),
                 null
                 )
                 );
@@ -957,7 +958,7 @@ public class ButtonFactory {
                 new AttributeAction(
                 editor,
                 attr,
-                labels.getString("attributeStrokePlacementInside"),
+                labels.getString("attribute.strokePlacement.inside"),
                 null
                 )
                 );
@@ -968,7 +969,7 @@ public class ButtonFactory {
                 new AttributeAction(
                 editor,
                 attr,
-                labels.getString("attributeStrokePlacementOutside"),
+                labels.getString("attribute.strokePlacement.outside"),
                 null
                 )
                 );
@@ -979,7 +980,7 @@ public class ButtonFactory {
                 new AttributeAction(
                 editor,
                 attr,
-                labels.getString("attributeStrokePlacementCenterFilled"),
+                labels.getString("attribute.strokePlacement.centerFilled"),
                 null
                 )
                 );
@@ -990,7 +991,7 @@ public class ButtonFactory {
                 new AttributeAction(
                 editor,
                 attr,
-                labels.getString("attributeStrokePlacementInsideFilled"),
+                labels.getString("attribute.strokePlacement.insideFilled"),
                 null
                 )
                 );
@@ -1001,7 +1002,7 @@ public class ButtonFactory {
                 new AttributeAction(
                 editor,
                 attr,
-                labels.getString("attributeStrokePlacementOutsideFilled"),
+                labels.getString("attribute.strokePlacement.outsideFilled"),
                 null
                 )
                 );
@@ -1012,7 +1013,7 @@ public class ButtonFactory {
                 new AttributeAction(
                 editor,
                 attr,
-                labels.getString("attributeStrokePlacementCenterUnfilled"),
+                labels.getString("attribute.strokePlacement.centerUnfilled"),
                 null
                 )
                 );
@@ -1023,7 +1024,7 @@ public class ButtonFactory {
                 new AttributeAction(
                 editor,
                 attr,
-                labels.getString("attributeStrokePlacementInsideUnfilled"),
+                labels.getString("attribute.strokePlacement.insideUnfilled"),
                 null
                 )
                 );
@@ -1034,7 +1035,7 @@ public class ButtonFactory {
                 new AttributeAction(
                 editor,
                 attr,
-                labels.getString("attributeStrokePlacementOutsideUnfilled"),
+                labels.getString("attribute.strokePlacement.outsideUnfilled"),
                 null
                 )
                 );
@@ -1060,7 +1061,7 @@ public class ButtonFactory {
         
         fontPopupButton = new JPopupButton();
         
-        labels.configureToolBarButton(fontPopupButton, "attributeFont");
+        labels.configureToolBarButton(fontPopupButton, "attribute.font");
         fontPopupButton.setFocusable(false);
         
         Font[] allFonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
@@ -1159,14 +1160,14 @@ public class ButtonFactory {
             ResourceBundleUtil labels) {
         JButton btn;
         btn = new JButton();
-        labels.configureToolBarButton(btn, "attributeFontBold");
+        labels.configureToolBarButton(btn, "attribute.fontStyle.bold");
         btn.setFocusable(false);
         
         AbstractAction a = new AttributeToggler(editor,
                 FONT_BOLD, Boolean.TRUE, Boolean.FALSE,
                 new StyledEditorKit.BoldAction()
                 );
-        a.putValue(Actions.UNDO_PRESENTATION_NAME_KEY, labels.getString("attributeFontBold"));
+        a.putValue(Actions.UNDO_PRESENTATION_NAME_KEY, labels.getString("attribute.fontStyle.bold"));
         btn.addActionListener(a);
         return btn;
     }
@@ -1179,14 +1180,14 @@ public class ButtonFactory {
             ResourceBundleUtil labels) {
         JButton btn;
         btn = new JButton();
-        labels.configureToolBarButton(btn, "attributeFontItalic");
+        labels.configureToolBarButton(btn, "attribute.fontStyle.italic");
         btn.setFocusable(false);
         
         AbstractAction a = new AttributeToggler(editor,
                 FONT_ITALIC, Boolean.TRUE, Boolean.FALSE,
                 new StyledEditorKit.BoldAction()
                 );
-        a.putValue(Actions.UNDO_PRESENTATION_NAME_KEY, labels.getString("attributeFontItalic"));
+        a.putValue(Actions.UNDO_PRESENTATION_NAME_KEY, labels.getString("attribute.fontStyle.italic"));
         btn.addActionListener(a);
         return btn;
     }
@@ -1199,14 +1200,14 @@ public class ButtonFactory {
             ResourceBundleUtil labels) {
         JButton btn;
         btn = new JButton();
-        labels.configureToolBarButton(btn, "attributeFontUnderline");
+        labels.configureToolBarButton(btn, "attribute.fontStyle.underline");
         btn.setFocusable(false);
         
         AbstractAction a = new AttributeToggler(editor,
                 FONT_UNDERLINE, Boolean.TRUE, Boolean.FALSE,
                 new StyledEditorKit.BoldAction()
                 );
-        a.putValue(Actions.UNDO_PRESENTATION_NAME_KEY, labels.getString("attributeFontUnderline"));
+        a.putValue(Actions.UNDO_PRESENTATION_NAME_KEY, labels.getString("attribute.fontStyle.underline"));
         btn.addActionListener(a);
         return btn;
     }
@@ -1246,14 +1247,13 @@ public class ButtonFactory {
         toggleButton.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent event) {
                 view.setConstrainerVisible(toggleButton.isSelected());
-                view.getComponent().repaint();
+                //view.getComponent().repaint();
             }
         });
         view.addPropertyChangeListener(new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 // String constants are interned
-                if (evt.getPropertyName() == "constrainer") {
-                    Constrainer c = (Constrainer) evt.getNewValue();
+                if (evt.getPropertyName() == DrawingView.PROP_CONSTRAINER_VISIBLE) {
                     toggleButton.setSelected(view.isConstrainerVisible());
                 }
             }
@@ -1271,7 +1271,7 @@ public class ButtonFactory {
             ResourceBundleUtil labels) {
         
         JPopupButton popupButton = new JPopupButton();
-        labels.configureToolBarButton(popupButton,"attributeStrokeCap");
+        labels.configureToolBarButton(popupButton,"attribute.strokeCap");
         popupButton.setFocusable(false);
         
         HashMap<AttributeKey,Object> attr;
@@ -1281,7 +1281,7 @@ public class ButtonFactory {
                 new AttributeAction(
                 editor,
                 attr,
-                labels.getString("attributeStrokeCapButt"),
+                labels.getString("attribute.strokeCap.butt"),
                 null
                 )
                 );
@@ -1291,7 +1291,7 @@ public class ButtonFactory {
                 new AttributeAction(
                 editor,
                 attr,
-                labels.getString("attributeStrokeCapRound"),
+                labels.getString("attribute.strokeCap.round"),
                 null
                 )
                 );
@@ -1301,7 +1301,7 @@ public class ButtonFactory {
                 new AttributeAction(
                 editor,
                 attr,
-                labels.getString("attributeStrokeCapSquare"),
+                labels.getString("attribute.strokeCap.square"),
                 null
                 )
                 );
@@ -1317,7 +1317,7 @@ public class ButtonFactory {
             ResourceBundleUtil labels) {
         
         JPopupButton popupButton = new JPopupButton();
-        labels.configureToolBarButton(popupButton,"attributeStrokeJoin");
+        labels.configureToolBarButton(popupButton,"attribute.strokeJoin");
         popupButton.setFocusable(false);
         
         HashMap<AttributeKey,Object> attr;
@@ -1327,7 +1327,7 @@ public class ButtonFactory {
                 new AttributeAction(
                 editor,
                 attr,
-                labels.getString("attributeStrokeJoinBevel"),
+                labels.getString("attribute.strokeJoin.bevel"),
                 null
                 )
                 );
@@ -1337,7 +1337,7 @@ public class ButtonFactory {
                 new AttributeAction(
                 editor,
                 attr,
-                labels.getString("attributeStrokeJoinRound"),
+                labels.getString("attribute.strokeJoin.round"),
                 null
                 )
                 );
@@ -1347,7 +1347,7 @@ public class ButtonFactory {
                 new AttributeAction(
                 editor,
                 attr,
-                labels.getString("attributeStrokeJoinMiter"),
+                labels.getString("attribute.strokeJoin.miter"),
                 null
                 )
                 );

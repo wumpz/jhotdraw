@@ -1,5 +1,5 @@
-/*
- * @(#)RotateHandle.java  2.0  2007-04-14
+/**
+ * @(#)AbstractRotateHandle.java  3.0  Dec 17, 2007
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -14,22 +14,21 @@
 
 package org.jhotdraw.draw;
 
-import org.jhotdraw.util.*;
-import org.jhotdraw.undo.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.geom.*;
-import java.util.*;
 import org.jhotdraw.geom.*;
-import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.util.*;
+
 /**
- * A Handle to rotate a Figure.
+ * AbstractRotateHandle.
  *
- * @author Werner Randelshofer.
- * @version 2.0 2007-04-14 Added support for AttributeKeys.TRANSFORM.
- * <br>1.0 12. July 2006 Created.
+ * @author Werner Randelshofer
+ * @version 3.0 2007-11-28 Huw Jones: Split up into an AbstractRotateHandle class
+ * and a concrete default RotateHandle class.
+ * <br>2.0 2007-04-14 Werner Randelshofer: Added support for AttributeKeys.TRANSFORM.
+ * <br>1.0 2006-06-12 Werner Randelshofer: Created.
  */
-public class RotateHandle extends AbstractHandle {
+public abstract class AbstractRotateHandle extends AbstractHandle {
     private Point location;
     private Object restoreData;
     private AffineTransform transform;
@@ -38,68 +37,74 @@ public class RotateHandle extends AbstractHandle {
     private double startLength;
     
     /** Creates a new instance. */
-    public RotateHandle(Figure owner) {
+    public AbstractRotateHandle(Figure owner) {
         super(owner);
     }
     
+    @Override
     public boolean isCombinableWith(Handle h) {
         return false;
     }
     
-        public String getToolTipText(Point p) {
-            ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-            return labels.getString("rotateHandle.tip");
-        }
+    @Override
+    public String getToolTipText(Point p) {
+    	ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+    	return labels.getString("rotateHandle.tip");
+    }
     
     /**
      * Draws this handle.
      */
+    @Override
     public void draw(Graphics2D g) {
         drawDiamond(g, Color.green, Color.black);
     }
     
+    @Override
     protected Rectangle basicGetBounds() {
         Rectangle r = new Rectangle(getLocation());
         r.grow(getHandlesize() / 2, getHandlesize() / 2);
         return r;
     }
-    
+
     public Point getLocation() {
         if (location == null) {
             return view.drawingToView(getOrigin());
         }
         return location;
     }
-        protected Rectangle2D.Double getTransformedBounds() {
-            Figure owner = getOwner();
-            Rectangle2D.Double bounds = owner.getBounds();
-            if (AttributeKeys.TRANSFORM.get(owner) != null) {
-                Rectangle2D r = AttributeKeys.TRANSFORM.get(owner).
-                        createTransformedShape(bounds).getBounds2D();
-                bounds.x = r.getX();
-                bounds.y = r.getY();
-                bounds.width = r.getWidth();
-                bounds.height = r.getHeight();
-            }
-            return bounds;
-        }
-        
     
-    private Point2D.Double getOrigin() {
-        // This handle is placed above the figure.
-        // We move it up by a handlesizes, so that it won't overlap with
-        // the handles from TransformHandleKit.
-        Rectangle2D.Double bounds = getTransformedBounds();
-        Point2D.Double origin = new Point2D.Double(bounds.getCenterX(),
-                bounds.y - getHandlesize() / view.getScaleFactor());
-        return origin;
+    protected Rectangle2D.Double getTransformedBounds() {
+        Figure owner = getOwner();
+        Rectangle2D.Double bounds = owner.getBounds();
+        if (AttributeKeys.TRANSFORM.get(owner) != null) {
+            Rectangle2D r = AttributeKeys.TRANSFORM.get(owner).
+                    createTransformedShape(bounds).getBounds2D();
+            bounds.x = r.getX();
+            bounds.y = r.getY();
+            bounds.width = r.getWidth();
+            bounds.height = r.getHeight();
+        }
+        return bounds;
     }
+
+    protected Object getRestoreData() {
+    	return restoreData;
+    }
+    
+    protected double getStartTheta() {
+    	return startTheta;
+    }
+    
+    protected abstract Point2D.Double getOrigin();
+    
+    protected abstract Point2D.Double getCenter();
+
     public void trackStart(Point anchor, int modifiersEx) {
         location = new Point(anchor.x, anchor.y);
         restoreData = getOwner().getTransformRestoreData();
-        Rectangle2D.Double bounds = getTransformedBounds();
         transform = new AffineTransform();
-        center = new Point2D.Double(bounds.getCenterX(), bounds.getCenterY());
+        center = getCenter();
         Point2D.Double anchorPoint = view.viewToDrawing(anchor);
         startTheta = Geom.angle(center.x, center.y, anchorPoint.x, anchorPoint.y);
         startLength = Geom.length(center.x, center.y, anchorPoint.x, anchorPoint.y);
@@ -110,10 +115,14 @@ public class RotateHandle extends AbstractHandle {
         Point2D.Double leadPoint = view.viewToDrawing(lead);
         double stepTheta = Geom.angle(center.x, center.y, leadPoint.x, leadPoint.y);
         double stepLength = Geom.length(center.x, center.y, leadPoint.x, leadPoint.y);
+        
+       	stepTheta = view.getConstrainer().constrainAngle(stepTheta);
+        
         transform.setToIdentity();
         transform.translate(center.x, center.y);
-        transform.rotate(stepTheta - startTheta);
+        transform.rotate(stepTheta);
         transform.translate(-center.x, -center.y);
+        
         getOwner().willChange();
         getOwner().restoreTransformTo(restoreData);
         getOwner().transform(transform);
@@ -123,10 +132,6 @@ public class RotateHandle extends AbstractHandle {
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         view.getDrawing().fireUndoableEditHappened(
                 new RestoreDataEdit(getOwner(), restoreData));
-        fireAreaInvalidated(getDrawingArea());
         location = null;
-        invalidate();
-        fireAreaInvalidated(getDrawingArea());
     }
-    
 }

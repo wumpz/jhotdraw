@@ -1,7 +1,7 @@
 /*
- * @(#)SVGDrawingPanel.java  1.0  11. March 2004
+ * @(#)SVGDrawingPanel.java  1.0.1  2007-12-17
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 2004-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -11,7 +11,6 @@
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
  */
-
 package org.jhotdraw.samples.svg;
 
 import org.jhotdraw.gui.JPopupButton;
@@ -28,17 +27,20 @@ import javax.swing.event.*;
 import org.jhotdraw.app.action.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
+
 /**
  * SVGDrawingPanel.
  * 
  * @author Werner Randelshofer
- * @version 1.0 11. M�rz 2004  Created.
+ * @version 1.0.1 2007-12-17 Cleaned code up. 
+ * <br>1.0 11. March 2004  Created.
  */
-public class SVGDrawingPanel extends JPanel  {
+public class SVGDrawingPanel extends JPanel {
+
     private UndoRedoManager undoManager;
     private Drawing drawing;
     private DrawingEditor editor;
-    
+
     /** Creates new instance. */
     public SVGDrawingPanel() {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
@@ -46,10 +48,14 @@ public class SVGDrawingPanel extends JPanel  {
         undoManager = new UndoRedoManager();
         editor = new DefaultDrawingEditor();
         editor.add(view);
+
+        // To improve performance while scrolling, we paint via
+        // a backing store.
+        scrollPane.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
         
         addCreationButtonsTo(creationToolbar, editor);
         ButtonFactory.addAttributesButtonsTo(attributesToolbar, editor);
-        
+
         JPopupButton pb = new JPopupButton();
         pb.setItemFont(UIManager.getFont("MenuItem.font"));
         labels.configureToolBarButton(pb, "actions");
@@ -69,102 +75,87 @@ public class SVGDrawingPanel extends JPanel  {
         pb.addSeparator();
         pb.add(undoManager.getUndoAction());
         pb.add(undoManager.getRedoAction());
-       // FIXME - We need a toggle grid action
-       // pb.addSeparator();
-       // pb.add(new ToggleGridAction(editor));
-        
         JMenu m = new JMenu(labels.getString("zoom"));
         JRadioButtonMenuItem rbmi;
         ButtonGroup group = new ButtonGroup();
-        m.add(rbmi = new JRadioButtonMenuItem(new ZoomAction(editor, 0.1, null)));
-        group.add(rbmi);
-        m.add(rbmi = new JRadioButtonMenuItem(new ZoomAction(editor, 0.25, null)));
-        group.add(rbmi);
-        m.add(rbmi = new JRadioButtonMenuItem(new ZoomAction(editor, 0.5, null)));
-        group.add(rbmi);
-        m.add(rbmi = new JRadioButtonMenuItem(new ZoomAction(editor, 0.75, null)));
-        group.add(rbmi);
-        m.add(rbmi = new JRadioButtonMenuItem(new ZoomAction(editor, 1.0, null)));
-        rbmi.setSelected(true);
-        group.add(rbmi);
-        m.add(rbmi = new JRadioButtonMenuItem(new ZoomAction(editor, 1.25, null)));
-        group.add(rbmi);
-        m.add(rbmi = new JRadioButtonMenuItem(new ZoomAction(editor, 1.5, null)));
-        group.add(rbmi);
-        m.add(rbmi = new JRadioButtonMenuItem(new ZoomAction(editor, 2, null)));
-        group.add(rbmi);
-        m.add(rbmi = new JRadioButtonMenuItem(new ZoomAction(editor, 3, null)));
-        group.add(rbmi);
-        m.add(rbmi = new JRadioButtonMenuItem(new ZoomAction(editor, 4, null)));
-        group.add(rbmi);
+        for (double factor : new double[]{0.1, 0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 2, 3, 4}) {
+            m.add(rbmi = new JRadioButtonMenuItem(new ZoomAction(editor, factor, null)));
+            group.add(rbmi);
+            if (factor == 1.0) {
+                rbmi.setSelected(true);
+            }
+        }
         pb.add(m);
         pb.setFocusable(false);
         creationToolbar.addSeparator();
         creationToolbar.add(pb);
-        
-        
+
         DefaultDrawing drawing = new DefaultDrawing();
         view.setDrawing(drawing);
         drawing.addUndoableEditListener(undoManager);
-        
+
     }
-    
+
     public void setDrawing(Drawing d) {
         undoManager.discardAllEdits();
         view.getDrawing().removeUndoableEditListener(undoManager);
         view.setDrawing(d);
         d.addUndoableEditListener(undoManager);
     }
+
     public Drawing getDrawing() {
         return view.getDrawing();
     }
+
     public DrawingView getView() {
         return view;
     }
+
     public DrawingEditor getEditor() {
         return editor;
     }
+
     public static Collection<Action> createSelectionActions(DrawingEditor editor) {
         LinkedList<Action> a = new LinkedList<Action>();
         a.add(new DuplicateAction());
-        
+
         a.add(null); // separator
         a.add(new GroupAction(editor, new SVGGroupFigure()));
         a.add(new UngroupAction(editor, new SVGGroupFigure()));
         a.add(new CombineAction(editor));
         a.add(new SplitAction(editor));
-        
+
         a.add(null); // separator
         a.add(new MoveToFrontAction(editor));
         a.add(new MoveToBackAction(editor));
-        
+
         return a;
     }
+
     private void addCreationButtonsTo(JToolBar tb, final DrawingEditor editor) {
         // AttributeKeys for the entitie sets
-        HashMap<AttributeKey,Object> attributes;
-        
+        HashMap<AttributeKey, Object> attributes;
+
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.svg.Labels");
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-        
-        ButtonFactory.addSelectionToolTo(tb, editor, 
-                ButtonFactory.createDrawingActions(editor), 
-                createSelectionActions(editor)
-                );
+
+        ButtonFactory.addSelectionToolTo(tb, editor,
+                ButtonFactory.createDrawingActions(editor),
+                createSelectionActions(editor));
         tb.addSeparator();
-        
-        attributes = new HashMap<AttributeKey,Object>();
+
+        attributes = new HashMap<AttributeKey, Object>();
         attributes.put(AttributeKeys.FILL_COLOR, Color.white);
         attributes.put(AttributeKeys.STROKE_COLOR, Color.black);
         ButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGRectFigure(), attributes), "createRectangle", drawLabels);
         ButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGEllipseFigure(), attributes), "createEllipse", drawLabels);
         ButtonFactory.addToolTo(tb, editor, new PathTool(new SVGPathFigure(), new SVGBezierFigure(true), attributes), "createPolygon", drawLabels);
-        attributes = new HashMap<AttributeKey,Object>();
+        attributes = new HashMap<AttributeKey, Object>();
         attributes.put(AttributeKeys.FILL_COLOR, null);
         attributes.put(AttributeKeys.STROKE_COLOR, Color.black);
         ButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGPathFigure(), attributes), "createLine", drawLabels);
         ButtonFactory.addToolTo(tb, editor, new PathTool(new SVGPathFigure(), new SVGBezierFigure(false), attributes), "createScribble", drawLabels);
-        attributes = new HashMap<AttributeKey,Object>();
+        attributes = new HashMap<AttributeKey, Object>();
         attributes.put(AttributeKeys.FILL_COLOR, Color.black);
         attributes.put(AttributeKeys.STROKE_COLOR, null);
         ButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGTextFigure(), attributes), "createText", drawLabels);
@@ -172,7 +163,7 @@ public class SVGDrawingPanel extends JPanel  {
         tat.setRubberbandColor(Color.BLACK);
         ButtonFactory.addToolTo(tb, editor, tat, "createTextArea", drawLabels);
     }
-    
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -215,8 +206,6 @@ public class SVGDrawingPanel extends JPanel  {
         add(jPanel1, java.awt.BorderLayout.SOUTH);
 
     }// </editor-fold>//GEN-END:initComponents
-    
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToolBar attributesToolbar;
     private javax.swing.JToolBar creationToolbar;
@@ -225,5 +214,4 @@ public class SVGDrawingPanel extends JPanel  {
     private javax.swing.ButtonGroup toolButtonGroup;
     private org.jhotdraw.draw.DefaultDrawingView view;
     // End of variables declaration//GEN-END:variables
-    
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)TextInputFormat.java  1.0  2007-04-12
+ * @(#)TextInputFormat.java  1.1  2007-12-16
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -36,7 +36,9 @@ import org.jhotdraw.io.*;
  * For text that spans multiple lines, TextInputFormat can either add all the
  * text to the same Figure, or it can create a new Figure for each line.
  *
- * @author Werner Randelshoer 1.0 2007-04-12 Created.
+ * @author Werner Randelshofer 
+ * @version 1.1 2007-12-16 Adapted to changes in InputFormat.
+ * <br>1.0 2007-04-12 Created.
  * @see org.jhotdraw.draw.TextHolderFigure
  */
 public class TextInputFormat implements InputFormat {
@@ -153,7 +155,7 @@ public class TextInputFormat implements InputFormat {
         return flavor.equals(DataFlavor.stringFlavor);
     }
     
-    public java.util.List<Figure> readFigures(Transferable t) throws UnsupportedFlavorException, IOException {
+    public void read(Transferable t, Drawing drawing) throws UnsupportedFlavorException, IOException {
         String text = (String) t.getTransferData(DataFlavor.stringFlavor);
         
         LinkedList list = new LinkedList<Figure>();
@@ -186,6 +188,6 @@ public class TextInputFormat implements InputFormat {
                 list.add(figure);
             }
         }
-        return list;
+        drawing.addAll(list);
     }
 }

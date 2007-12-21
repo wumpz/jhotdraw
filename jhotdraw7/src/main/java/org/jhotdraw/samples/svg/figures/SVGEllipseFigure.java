@@ -90,12 +90,12 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
         Rectangle2D rx = getTransformedShape().getBounds2D();
         Rectangle2D.Double r = (rx instanceof Rectangle2D.Double) ? (Rectangle2D.Double) rx : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
         if (TRANSFORM.get(this) == null) {
-            double g = SVGAttributeKeys.getPerpendicularHitGrowth(this) * 2;
+            double g = SVGAttributeKeys.getPerpendicularHitGrowth(this) * 2d + 1;
             Geom.grow(r, g, g);
         } else {
             double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this);
             double width = strokeTotalWidth / 2d;
-            width *= Math.max(TRANSFORM.get(this).getScaleX(), TRANSFORM.get(this).getScaleY());
+            width *= Math.max(TRANSFORM.get(this).getScaleX(), TRANSFORM.get(this).getScaleY()) + 1;
             Geom.grow(r, width, width);
         }
         return r;
@@ -122,6 +122,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
         ellipse.y = Math.min(anchor.y , lead.y);
         ellipse.width = Math.max(0.1, Math.abs(lead.x - anchor.x));
         ellipse.height = Math.max(0.1, Math.abs(lead.y - anchor.y));
+        invalidate();
     }
     /**
      * Transforms the figure.

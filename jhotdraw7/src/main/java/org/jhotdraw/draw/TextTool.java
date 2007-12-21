@@ -1,7 +1,7 @@
 /*
- * @(#)TextTool.java  1.1  2007-08-22
+ * @(#)TextTool.java  1.2  2007-11-30
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -38,22 +38,35 @@ import java.util.*;
  * <ol>
  * <li>Press the mouse button over a TextHolderFigure Figure on the DrawingView.</li>
  * </ol>
+ * <p>
  * The TextTool then uses Figure.findFigureInside to find a Figure that
  * implements the TextHolderFigure interface and that is editable. Then it overlays
  * a text field over the drawing where the user can enter the text for the Figure.
+ * <p>
+ * </p>
+ * XXX - Maybe this class should be split up into a CreateTextTool and
+ * a EditTextTool.
+ * </p>
  *
  *
  * @see TextHolderFigure
  * @see FloatingTextField
  *
  * @author Werner Randelshofer
- * @version 2.1 2007-08-22 Added support for property 'toolDoneAfterCreation'.
+ * @version 2.2 2007-11-30 Added variable isUsedForCreation.  
+ * <br>2.1 2007-08-22 Added support for property 'toolDoneAfterCreation'.
  * <br>2.0 2006-01-14 Changed to support double precison coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
 public class TextTool extends CreationTool implements ActionListener {
     private FloatingTextField   textField;
     private TextHolderFigure  typingTarget;
+    /**
+     * By default this tool is only used for the creation of new TextHolderFigures.
+     * If this variable is set to false, the tool is used to create new
+     * TextHolderFigure and edit existing TextHolderFigure.
+     */
+    private boolean isForCreationOnly = true;
     
     /** Creates a new instance. */
     public TextTool(TextHolderFigure prototype) {
@@ -68,6 +81,22 @@ public class TextTool extends CreationTool implements ActionListener {
         endEdit();
         super.deactivate(editor);
     }
+    /**
+     * By default this tool is used to create a new TextHolderFigure.
+     * If this property is set to false, the tool is used to create
+     * a new TextHolderFigure or to edit an existing TextHolderFigure.
+     */
+    public void setForCreationOnly(boolean newValue) {
+        isForCreationOnly = newValue;
+    }
+    /**
+     * Returns true, if this tool can be only be used for creation of
+     * TextHolderFigures and not for editing existing ones. 
+     */
+    public boolean isForCreationOnly() {
+        return isForCreationOnly;
+    }
+    
     
     /**
      * If the pressed figure is a TextHolderFigure it can be edited otherwise
@@ -78,7 +107,7 @@ public class TextTool extends CreationTool implements ActionListener {
         Figure pressedFigure = getDrawing().findFigureInside(getView().viewToDrawing(new Point(e.getX(), e.getY())));
         if (pressedFigure instanceof TextHolderFigure) {
             textHolder = ((TextHolderFigure) pressedFigure).getLabelFor();
-            if (!textHolder.isEditable())
+            if (!textHolder.isEditable() || isForCreationOnly)
                 textHolder = null;
         }
         if (textHolder != null) {

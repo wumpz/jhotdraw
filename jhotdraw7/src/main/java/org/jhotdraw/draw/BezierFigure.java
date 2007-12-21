@@ -1,5 +1,5 @@
 /*
- * @(#)BezierFigure.java 3.0  2007-05-12
+ * @(#)BezierFigure.java 3.0.1  2007-11-30
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -28,10 +28,21 @@ import org.jhotdraw.xml.DOMOutput;
 /**
  * A BezierFigure can be used to draw arbitrary shapes using a <code>BezierPath</code>.
  * It can be used to draw an open path or a closed shape.
+ * <p>
+ * A BezierFigure can have straight path segments and curved segments.
+ * A straight path segment can be added by clicking on the drawing area.
+ * Curved segments can be added by dragging the mouse pointer over the
+ * drawing area.
+ * <p> 
+ * To creation of the BezierFigure can be finished by adding a segment
+ * which closes the path, or by double clicking on the drawing area, or by
+ * selecting a different tool in the DrawingEditor.
+ * 
  *
  * @see org.jhotdraw.geom.BezierPath
  *
- * @version 3.0 2007-05-12 Got rid of basic methods.
+ * @version 3.0.1 2007-11-30 Changed method removeNode from protected to public. 
+ * <br>3.0 2007-05-12 Got rid of basic methods.
  * <br>2.2.1 2007-04-22 Method contains did not work as expected for filled
  * unclosed beziers with thick line widths.
  * <br>2.2 2007-04-14 Added BezierContourHandle. We fill now open
@@ -526,7 +537,7 @@ public class BezierFigure extends AbstractAttributedFigure {
     /**
      * Removes the Node at the specified index.
      */
-    protected BezierPath.Node removeNode(int index) {
+    public BezierPath.Node removeNode(int index) {
        return path.remove(index);
     }
     /**

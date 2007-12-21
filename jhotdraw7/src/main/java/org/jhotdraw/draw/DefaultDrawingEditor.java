@@ -22,6 +22,7 @@ import java.awt.event.FocusListener;
 import java.beans.*;
 import java.util.*;
 import java.io.*;
+import javax.swing.JComponent;
 import static org.jhotdraw.draw.AttributeKeys.*;
 /**
  * DefaultDrawingEditor.
@@ -88,25 +89,31 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor,
         Rectangle r = evt.getInvalidatedArea();
         evt.getView().getComponent().repaint(r.x, r.y, r.width, r.height);
     }
+    
+    private Dimension preferredViewSize;
+    
     public void toolStarted(ToolEvent evt) {
         setActiveView(evt.getView());
     }
     public void setActiveView(DrawingView newValue) {
         DrawingView oldValue = activeView;
         activeView = newValue;
+        
+        if (newValue != null && newValue != oldValue) {
+            preferredViewSize = activeView.getComponent().getPreferredSize();
+        }
         firePropertyChange(PROP_ACTIVE_VIEW, oldValue, newValue);
-        /* Don't repaint
-        for (DrawingView v : views) {
-            v.getComponent().repaint();
-        }*/
     }
     public void toolDone(ToolEvent evt) {
         // XXX - Maybe we should do this with all views of the editor??
         DrawingView v = getActiveView();
         if (v != null) {
-            Container c = v.getComponent();
-            c.invalidate();
-            if (c.getParent() != null) c.getParent().validate();
+            JComponent c = v.getComponent();
+            Dimension oldPreferredViewSize = preferredViewSize;
+            preferredViewSize = c.getPreferredSize();
+            if (oldPreferredViewSize == null || ! oldPreferredViewSize.equals(preferredViewSize)) {
+            c.revalidate();
+            }
         }
     }
     

@@ -1,7 +1,7 @@
 /*
- * @(#)UngroupAction.java  1.1.1  2006-12-29
+ * @(#)UngroupAction.java  2.0  2007-12-21
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -24,12 +24,13 @@ import javax.swing.undo.*;
  * UngroupAction.
  *
  * @author  Werner Randelshofer
- * @version 1.1.1 2006-12-29 Add ungrouped figures at same index to Drawing where
+ * @version 2.0 2007-12-21 Extends GroupAction. 
+ * <br>1.1.1 2006-12-29 Add ungrouped figures at same index to Drawing where
  * the Group was. 
  * <br>1.1 2006-07-12 Changed to support any CompositeFigure.
  * <br>1.0 24. November 2003  Created.
  */
-public class UngroupAction extends AbstractSelectedAction {
+public class UngroupAction extends GroupAction {
     public final static String ID = "selectionUngroup";
     
     /** Creates a new instance. */
@@ -37,69 +38,11 @@ public class UngroupAction extends AbstractSelectedAction {
     
     /** Creates a new instance. */
     public UngroupAction(DrawingEditor editor) {
-        this(editor, new GroupFigure());
-    }
-    public UngroupAction(DrawingEditor editor, CompositeFigure prototype) {
-        super(editor);
-        this.prototype = prototype;
+        super(editor, new GroupFigure(), false);
         labels.configureAction(this, ID);
     }
-    
-    @Override protected void updateEnabledState() {
-        if (getView() != null) {
-            setEnabled(canUngroup());
-        } else {
-            setEnabled(false);
-        }
-    }
-    protected boolean canUngroup() {
-        return getView().getSelectionCount() == 1 &&
-                getView().getSelectedFigures().iterator().next().getClass().equals(
-                prototype.getClass())
-                ;
-    }
-    public void actionPerformed(java.awt.event.ActionEvent e) {
-        if (canUngroup()) {
-            final DrawingView view = getView();
-            final CompositeFigure group = (CompositeFigure) getView().getSelectedFigures().iterator().next();
-            final LinkedList<Figure> ungroupedFigures = new LinkedList<Figure>();
-            CompositeEdit edit = new CompositeEdit(labels.getString("selectionUngroup")) {
-                public void redo() throws CannotRedoException {
-                    super.redo();
-                    ungroupFigures(view, group);
-                }
-                public void undo() throws CannotUndoException {
-                    groupFigures(view, group, ungroupedFigures);
-                    super.undo();
-                }
-            };
-            fireUndoableEditHappened(edit);
-            ungroupedFigures.addAll(ungroupFigures(view, group));
-            fireUndoableEditHappened(edit);
-        }
-    }
-    
-    public Collection<Figure> ungroupFigures(DrawingView view, CompositeFigure group) {
-        LinkedList<Figure> figures = new LinkedList<Figure>(group.getChildren());
-        view.clearSelection();
-        group.basicRemoveAllChildren();
-        Drawing drawing = view.getDrawing();
-        drawing.basicAddAll(drawing.indexOf(group), figures);
-       drawing.remove(group);
-        view.addToSelection(figures);
-        return figures;
-    }
-    public void groupFigures(DrawingView view, CompositeFigure group, Collection<Figure> figures) {
-// XXX - This code is redundant with GroupAction
-        Collection<Figure> sorted = view.getDrawing().sort(figures);
-        view.getDrawing().basicRemoveAll(figures);
-        view.clearSelection();
-        view.getDrawing().add(group);
-        group.willChange();
-        for (Figure f : sorted) {
-            group.basicAdd(f);
-        }
-        group.changed();
-        view.addToSelection(group);
+    public UngroupAction(DrawingEditor editor, CompositeFigure prototype) {
+        super(editor, prototype, false);
+        labels.configureAction(this, ID);
     }
 }
