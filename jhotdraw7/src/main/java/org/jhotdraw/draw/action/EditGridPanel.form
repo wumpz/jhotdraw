@@ -18,11 +18,13 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="widthLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="heightLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="heightLabel" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="widthLabel" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="thetaLabel" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="thetaField" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="heightField" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="widthField" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -43,6 +45,11 @@
                   <Component id="heightLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="heightField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="thetaLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="thetaField" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -52,25 +59,37 @@
     <Component class="javax.swing.JLabel" name="widthLabel">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/jhotdraw/samples/svg/Labels.properties" key="grid.width" replaceFormat="labels.getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/jhotdraw/draw/Labels.properties" key="grid.width" replaceFormat="labels.getString(&quot;{key}&quot;)"/>
         </Property>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="heightLabel">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/jhotdraw/samples/svg/Labels.properties" key="grid.height" replaceFormat="labels.getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/jhotdraw/draw/Labels.properties" key="grid.height" replaceFormat="labels.getString(&quot;{key}&quot;)"/>
         </Property>
       </Properties>
     </Component>
     <Component class="org.jhotdraw.gui.JDoubleTextField" name="widthField">
       <Properties>
-        <Property name="columns" type="int" value="6"/>
+        <Property name="columns" type="int" value="5"/>
       </Properties>
     </Component>
     <Component class="org.jhotdraw.gui.JDoubleTextField" name="heightField">
       <Properties>
-        <Property name="columns" type="int" value="6"/>
+        <Property name="columns" type="int" value="5"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="thetaLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="org/jhotdraw/draw/Labels.properties" key="grid.theta" replaceFormat="labels.getString(&quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="org.jhotdraw.gui.JDoubleTextField" name="thetaField">
+      <Properties>
+        <Property name="columns" type="int" value="5"/>
       </Properties>
     </Component>
   </SubComponents>

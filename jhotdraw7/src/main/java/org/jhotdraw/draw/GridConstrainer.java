@@ -76,26 +76,26 @@ public class GridConstrainer extends AbstractConstrainer {
 
     /**
      * Creates a new instance with the specified grid size, 
-     * and by 45° (in degrees) for rotations.
+     * and by 11.25° (in degrees) for rotations.
      * The grid is visible.
      *
      * @param width The width of a grid cell.
      * @param height The height of a grid cell.
      */
     public GridConstrainer(double width, double height) {
-        this(width, height, Math.PI / 4d, true);
+        this(width, height, Math.PI / 8d, true);
     }
 
     /**
      * Creates a new instance with the specified grid size.
-     * and by 45° (in degrees) for rotations.
+     * and by 11.25° (in degrees) for rotations.
      *
      * @param width The width of a grid cell.
      * @param height The height of a grid cell.
      * @param visible Wether the grid is visible or not.
      */
     public GridConstrainer(double width, double height, boolean visible) {
-        this(width, height, Math.PI / 4d, visible);
+        this(width, height, Math.PI / 8d, visible);
     }
     /**
      * Creates a new instance with the specified grid size.
@@ -105,13 +105,13 @@ public class GridConstrainer extends AbstractConstrainer {
      * @param theta The theta for rotations in radians.
      * @param visible Wether the grid is visible or not.
      */
-    public GridConstrainer(double width, double height, double alpha, boolean visible) {
+    public GridConstrainer(double width, double height, double theta, boolean visible) {
         if (width <= 0 || height <= 0) {
             throw new IllegalArgumentException("Width or height is <= 0");
         }
         this.width = width;
         this.height = height;
-        this.theta = alpha;
+        this.theta = theta;
         this.isVisible = visible;
     }
 
@@ -121,6 +121,10 @@ public class GridConstrainer extends AbstractConstrainer {
 
     public double getHeight() {
         return height;
+    }
+
+    public double getTheta() {
+        return theta;
     }
 
     public void setWidth(double newValue) {
@@ -134,6 +138,13 @@ public class GridConstrainer extends AbstractConstrainer {
         double oldValue = height;
         height = newValue;
         firePropertyChange("height", oldValue, newValue);
+        fireStateChanged();
+    }
+
+    public void setTheta(double newValue) {
+        double oldValue = theta;
+        theta = newValue;
+        firePropertyChange("theta", oldValue, newValue);
         fireStateChanged();
     }
 

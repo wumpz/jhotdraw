@@ -984,8 +984,8 @@ public class DefaultDrawingView
     protected BufferedImage backgroundTile;
 
     /**
-     * Returns a paint for drawing the canvasColor of the drawing area.
-     * @return
+     * Returns a paint for drawing the background of the drawing area.
+     * @return Paint.
      */
     protected Paint getBackgroundPaint(int x, int y) {
         if (backgroundTile == null) {

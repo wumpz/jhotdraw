@@ -1,5 +1,5 @@
 /**
- * @(#)AbstractRotateHandle.java  3.0  Dec 17, 2007
+ * @(#)AbstractRotateHandle.java  3.0.1  2007-12-22
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -23,7 +23,9 @@ import org.jhotdraw.util.*;
  * AbstractRotateHandle.
  *
  * @author Werner Randelshofer
- * @version 3.0 2007-11-28 Huw Jones: Split up into an AbstractRotateHandle class
+ * @version 3.0.1 2007-12-22 Werner Randelshofer: Fixed computation of current
+ * theta. 
+ * <br>3.0 2007-11-28 Huw Jones: Split up into an AbstractRotateHandle class
  * and a concrete default RotateHandle class.
  * <br>2.0 2007-04-14 Werner Randelshofer: Added support for AttributeKeys.TRANSFORM.
  * <br>1.0 2006-06-12 Werner Randelshofer: Created.
@@ -116,11 +118,11 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
         double stepTheta = Geom.angle(center.x, center.y, leadPoint.x, leadPoint.y);
         double stepLength = Geom.length(center.x, center.y, leadPoint.x, leadPoint.y);
         
-       	stepTheta = view.getConstrainer().constrainAngle(stepTheta);
+        double currentTheta = view.getConstrainer().constrainAngle(stepTheta - startTheta);
         
         transform.setToIdentity();
         transform.translate(center.x, center.y);
-        transform.rotate(stepTheta);
+        transform.rotate(currentTheta);
         transform.translate(-center.x, -center.y);
         
         getOwner().willChange();
@@ -132,6 +134,9 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         view.getDrawing().fireUndoableEditHappened(
                 new RestoreDataEdit(getOwner(), restoreData));
+        fireAreaInvalidated(getDrawingArea());
         location = null;
+        invalidate();
+        fireAreaInvalidated(getDrawingArea());
     }
 }

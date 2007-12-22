@@ -41,7 +41,7 @@ public interface Tool extends MouseListener, MouseMotionListener, KeyListener {
     /**
      * Activates the tool for the given view. This method is called
      * whenever the user switches to this tool. Use this method to
-     * reinitialize a tool.
+     * reinitialize a tool. 
      * Note, a valid view must be present in order for the tool to accept activation
      */
     public void activate(DrawingEditor editor);
@@ -49,8 +49,7 @@ public interface Tool extends MouseListener, MouseMotionListener, KeyListener {
     /**
      * Deactivates the tool. This method is called whenever the user
      * switches to another tool. Use this method to do some clean-up
-     * when the tool is switched. Subclassers should always call
-     * super.deactivate.
+     * when the tool is switched. 
      */
     public void deactivate(DrawingEditor editor);
 

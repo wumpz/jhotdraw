@@ -109,7 +109,7 @@ public class AttributeKey<T> {
      * and {@code changed} on the figure.
      * <p>
      * This method can be used to efficiently build a drawing from an 
-     * {@see InputFormat}.
+     * {@link InputFormat}.
      *
      * @param f the Figure
      * @param value the attribute value
@@ -173,7 +173,7 @@ public class AttributeKey<T> {
      * {@code willChange} and {@code changed} on the figure.
      * <p>
      * This method can be used to efficiently build a drawing from an 
-     * {@see InputFormat}.
+     * {@link InputFormat}.
      *
      * @param f the Figure
      * @param value the attribute value

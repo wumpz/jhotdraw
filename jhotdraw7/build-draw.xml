@@ -9,8 +9,8 @@
         <property name="classdir" value="${builddir}/classes"/>
         <property name="distdir" value="dist"/>
         <property name="docdir" value="javadoc"/>
-        <property name="author" value="Werner Randelshofer"/>
-        <property name="version" value="7.0.9"/>
+        <property name="author" value="jhotdraw.org and contributors"/>
+        <property name="version" value="7.1"/>
         <property name="keystore.file" value="../../../../_Keystore/JavaKeystore"/>
         <property name="keystore.alias" value="werner"/>
         <property name="keystore.storepass" value="werner"/>

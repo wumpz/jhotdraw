@@ -85,7 +85,6 @@ public interface InputFormat {
      * 
      * @param t The Transferable. 
      * @param drawing The drawing.
-     * @return The figures that were read from the Transferable.
      */
     public void read(Transferable t, Drawing drawing) throws UnsupportedFlavorException, IOException;
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)EditGridPanel.java  1.0  July 31, 2007
+ * @(#)EditGridPanel.java  2.0  2007-12-22
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -29,7 +29,8 @@ import org.jhotdraw.util.*;
  * @see org.jhotdraw.draw.GridConstrainer
  *
  * @author Werner Randelshofer
- * @version 1.0 July 31, 2007 Created.
+ * @version 2.0 2007-12-22 Added support for angle constraint. 
+ * <br>1.0 July 31, 2007 Created.
  */
 public class EditGridPanel extends javax.swing.JPanel {
     private ResourceBundleUtil labels;
@@ -41,9 +42,11 @@ public class EditGridPanel extends javax.swing.JPanel {
         initComponents();
         
         widthField.setMinimum(0);
-        heightField.setMinimum(0);
         widthField.setMaximum(1000);
+        heightField.setMinimum(0);
         heightField.setMaximum(1000);
+        thetaField.setMinimum(0);
+        thetaField.setMaximum(180);
         
         constrainer = new GridConstrainer(10, 10);
         
@@ -65,7 +68,16 @@ public class EditGridPanel extends javax.swing.JPanel {
                     }
                 }
             }
-            
+        });
+        
+        thetaField.addPropertyChangeListener(new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent evt) {
+                if (evt.getPropertyName().equals("value")) {
+                    if (evt.getNewValue() != null) {
+                        constrainer.setTheta((Double) evt.getNewValue() * Math.PI / 180d);
+                    }
+                }
+            }
         });
         
     }
@@ -79,6 +91,7 @@ public class EditGridPanel extends javax.swing.JPanel {
         constrainer = newValue;
         widthField.setValue(constrainer.getWidth());
         heightField.setValue(constrainer.getHeight());
+        thetaField.setValue(constrainer.getTheta() * 180d / Math.PI);
     }
     
     /**
@@ -102,14 +115,20 @@ public class EditGridPanel extends javax.swing.JPanel {
         heightLabel = new javax.swing.JLabel();
         widthField = new org.jhotdraw.gui.JDoubleTextField();
         heightField = new org.jhotdraw.gui.JDoubleTextField();
+        thetaLabel = new javax.swing.JLabel();
+        thetaField = new org.jhotdraw.gui.JDoubleTextField();
 
         widthLabel.setText(labels.getString("grid.width")); // NOI18N
 
         heightLabel.setText(labels.getString("grid.height")); // NOI18N
 
-        widthField.setColumns(6);
+        widthField.setColumns(5);
 
-        heightField.setColumns(6);
+        heightField.setColumns(5);
+
+        thetaLabel.setText(labels.getString("grid.theta")); // NOI18N
+
+        thetaField.setColumns(5);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
@@ -118,10 +137,12 @@ public class EditGridPanel extends javax.swing.JPanel {
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(widthLabel)
-                    .add(heightLabel))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, heightLabel)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, widthLabel)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, thetaLabel))
                 .add(4, 4, 4)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(thetaField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(heightField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(widthField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -137,6 +158,10 @@ public class EditGridPanel extends javax.swing.JPanel {
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(heightLabel)
                     .add(heightField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(thetaLabel)
+                    .add(thetaField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -145,6 +170,8 @@ public class EditGridPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jhotdraw.gui.JDoubleTextField heightField;
     private javax.swing.JLabel heightLabel;
+    private org.jhotdraw.gui.JDoubleTextField thetaField;
+    private javax.swing.JLabel thetaLabel;
     private org.jhotdraw.gui.JDoubleTextField widthField;
     private javax.swing.JLabel widthLabel;
     // End of variables declaration//GEN-END:variables

@@ -69,7 +69,7 @@ public interface CompositeFigure extends Figure {
      * This method can be used to reinsert a child figure which has been
      * temporarily removed from this CompositeFigure (for example to reorder
      * the sequence of the children) and to efficiently build a drawing from 
-     * an {@see InputFormat}.
+     * an {@link InputFormat}.
      * 
      * This is a convenience method for calling
      * {@code basicAdd(getChildCount(), child);}.
@@ -82,7 +82,7 @@ public interface CompositeFigure extends Figure {
      * This method can be used to reinsert a child figure which has been
      * temporarily removed from this CompositeFigure (for example to reorder
      * the sequence of the children) and to efficiently build a drawing from 
-     * an {@see InputFormat}.
+     * an {@link InputFormat}.
      */
     public void basicAdd(int index, Figure child);
     /**

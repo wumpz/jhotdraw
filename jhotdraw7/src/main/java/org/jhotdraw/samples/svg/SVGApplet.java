@@ -240,7 +240,7 @@ public class SVGApplet extends JApplet {
 
     }// </editor-fold>//GEN-END:initComponents
     
-    public static void mainx(String[] args) {
+    public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 JFrame f = new JFrame("SVGDraw Applet");

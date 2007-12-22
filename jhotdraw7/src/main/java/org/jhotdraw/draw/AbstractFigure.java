@@ -54,7 +54,8 @@ public abstract class AbstractFigure
     private boolean isRemovable = true;
     private boolean isVisible = true;
     /**
-     * We increase this number on each invocation of willChange() and
+     * This variable is used to prevent endless change loops.
+     * We increase its value on each invocation of willChange() and
      * decrease it on each invocation of changed().
      */
     protected int changingDepth = 0;

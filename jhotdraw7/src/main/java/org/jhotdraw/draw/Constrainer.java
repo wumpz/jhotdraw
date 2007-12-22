@@ -45,7 +45,8 @@ public interface Constrainer {
     public Point2D.Double constrainPoint(Point2D.Double p);
 
     /**
-     * Moves a point in the specified direction.
+     * Moves a point to the closest constrained location in the specified
+     * direction.
      * <p>
      * This method changes the point which is passed as a parameter.
      *
@@ -68,10 +69,12 @@ public interface Constrainer {
     public Rectangle2D.Double constrainRectangle(Rectangle2D.Double r);
 
     /**
-     * Moves a rectangle in a direction.
+     * Moves a rectangle to the closest constrained location in the 
+     * specified direction.
      * <p>
      * This method changes the location of the rectangle which is passed as a
-     * parameter. This method does not change the size of the rectangle.
+     * parameter. This method only performs a translation - it does not change 
+     * the size of the rectangle.
      *
      * @param r A rectangle on the drawing.
      * @param dir A direction.
@@ -89,7 +92,8 @@ public interface Constrainer {
     public double constrainAngle(double angle);
 
     /**
-     * Rotates the given angle (in radians) into the specified direction.
+     * Moves the given angle (in radians) to the closest constrained orientation
+     * in the specified direction.
      * 
      * @param angle The angle (in radians).
      * @return The closest constrained angle (in radians) in the specified
