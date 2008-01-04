@@ -42,19 +42,19 @@ public class ToggleStatusBarAction extends AbstractProjectAction {
         setPropertyName("statusBarVisible");
     }
     
-    public TeddyProject getCurrentProject() {
-        return (TeddyProject) super.getCurrentProject();
+    public TeddyProject getActiveProject() {
+        return (TeddyProject) super.getActiveProject();
     }
     
     protected void updateProperty() {
         putValue(
                Actions.SELECTED_KEY, 
-               getCurrentProject() != null && getCurrentProject().isStatusBarVisible()
+               getActiveProject() != null && getActiveProject().isStatusBarVisible()
                );
     }
     
     public void actionPerformed(ActionEvent e) {
-        getCurrentProject().setStatusBarVisible(! getCurrentProject().isStatusBarVisible());
+        getActiveProject().setStatusBarVisible(! getActiveProject().isStatusBarVisible());
     }
 }
 

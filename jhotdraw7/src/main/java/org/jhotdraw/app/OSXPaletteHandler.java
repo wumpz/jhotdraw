@@ -42,7 +42,7 @@ public class OSXPaletteHandler {
         public void windowGainedFocus(WindowEvent e) {
             timer.stop();
             if (windows.get(e.getWindow()) != null) {
-                app.setCurrentProject((Project) windows.get(e.getWindow()));
+                app.setActiveProject((Project) windows.get(e.getWindow()));
                 showPalettes();
             }
         }

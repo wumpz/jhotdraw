@@ -44,17 +44,17 @@ public class ToggleLineWrapAction extends AbstractProjectAction {
     }
     
     public void actionPerformed(ActionEvent e) {
-        getCurrentProject().setLineWrap(! getCurrentProject().isLineWrap());
+        getActiveProject().setLineWrap(! getActiveProject().isLineWrap());
     }
     
-    public TeddyProject getCurrentProject() {
-        return (TeddyProject) super.getCurrentProject();
+    public TeddyProject getActiveProject() {
+        return (TeddyProject) super.getActiveProject();
     }
     
     protected void updateProperty() {
         putValue(
                 Actions.SELECTED_KEY,
-                getCurrentProject() != null && getCurrentProject().isLineWrap()
+                getActiveProject() != null && getActiveProject().isLineWrap()
                 );
     }
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)DrawingEditor.java  2.3 2007-05-29
+ * @(#)DrawingEditor.java  2.4 2007-12-25
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -38,7 +38,8 @@ import java.util.*;
  * drawing palettes.
  * 
  * @author Werner Randelshofer
- * @version 2.3 2007-05-26 Streamlined methods setActiveView, setFocusedView, getActiveView
+ * @version 2.4 2007-12-25 Renamed PROP_CURRENT_VIEW to ACTIVE_VIEW_PROPERTY. 
+ * <br>2.3 2007-05-26 Streamlined methods setActiveView, setFocusedView, getActiveView
  * into setActiveView, getActiveView.
  * <br>2.2 2007-04-16 Added method getDefaultAttributes 
  * <br>2.1 2006-03-15 Support for enabled state added.
@@ -49,7 +50,7 @@ public interface DrawingEditor {
     /**
      * The property name for the active view Property.
      */
-    public final static String PROP_ACTIVE_VIEW = "activeView";   
+    public final static String ACTIVE_VIEW_PROPERTY = "activeView";   
     
     /**
      * Gets the editor's current drawing.

@@ -53,7 +53,7 @@ public class SaveAction extends AbstractProjectAction {
     
     
     public void actionPerformed(ActionEvent evt) {
-        final Project project = getCurrentProject();
+        final Project project = getActiveProject();
         if (project.isEnabled()) {
             oldFocusOwner = SwingUtilities.getWindowAncestor(project.getComponent()).getFocusOwner();
             project.setEnabled(false);

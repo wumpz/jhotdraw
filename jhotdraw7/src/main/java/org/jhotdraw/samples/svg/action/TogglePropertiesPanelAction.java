@@ -43,19 +43,19 @@ public class TogglePropertiesPanelAction extends AbstractProjectAction {
      */
     protected void updateProperty() {
         putValue(Actions.SELECTED_KEY,
-                getCurrentProject() != null &&
-                ! getCurrentProject().isPropertiesPanelVisible()
+                getActiveProject() != null &&
+                ! getActiveProject().isPropertiesPanelVisible()
                 );
     }
     
     
-    public SVGProject getCurrentProject() {
-        return (SVGProject) super.getCurrentProject();
+    public SVGProject getActiveProject() {
+        return (SVGProject) super.getActiveProject();
     }
     
     public void actionPerformed(ActionEvent e) {
-        getCurrentProject().setPropertiesPanelVisible(
-                ! getCurrentProject().isPropertiesPanelVisible()
+        getActiveProject().setPropertiesPanelVisible(
+                ! getActiveProject().isPropertiesPanelVisible()
                 );
     }
     

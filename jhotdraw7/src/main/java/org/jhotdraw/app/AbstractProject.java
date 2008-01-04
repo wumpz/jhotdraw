@@ -1,7 +1,7 @@
 /*
- * @(#)AbstractProject.java  1.1.1  2006-04-11
+ * @(#)AbstractProject.java  1.2  2007-12-25
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -26,7 +26,8 @@ import java.util.prefs.*;
  * 
  * 
  * @author Werner Randelshofer
- * @version 1.1.1 2006-04-11 Fixed project file preferences.
+ * @version 1.2 2007-12-25 Updated to changes in Project interface. 
+ * <br>1.1.1 2006-04-11 Fixed project file preferences.
  * <br>1.1 2006-02-16 Support for preferences added.
  * <br>1.0 January 3, 2006 Created.
  */
@@ -85,12 +86,35 @@ public abstract class AbstractProject extends JPanel  implements Project {
      * Creates a new instance.
      */
     public AbstractProject() {
+        prefs = Preferences.userNodeForPackage(getClass());
     }
     
+    /** Initializes the project.
+     * This method does nothing, subclasses don't neet to call super. */
     public void init() {
-        prefs = Preferences.userNodeForPackage(getClass());
-        //initComponents();
     }
+    /** Starts the project.
+     * This method does nothing, subclasses don't neet to call super. */
+    public void start() {
+    }
+    /** Activates the project.
+     * This method does nothing, subclasses don't neet to call super. */
+    public void activate() {
+    }
+    /** Deactivates the project.
+     * This method does nothing, subclasses don't neet to call super. */
+    public void deactivate() {
+    }
+    /** Stops the project.
+     * This method does nothing, subclasses don't neet to call super. */
+    public void stop() {
+    }
+    /**
+     * Gets rid of all the resources of the project.
+     * No other methods should be invoked on the project afterwards.
+     */
+    public void dispose() {
+        }
     
     /** This method is called from within the constructor to
      * initialize the form.
@@ -131,7 +155,7 @@ public abstract class AbstractProject extends JPanel  implements Project {
         if (prefs != null && newValue != null) {
             prefs.put("projectFile", newValue.getPath());
         }
-        firePropertyChange("file", oldValue, newValue);
+        firePropertyChange(FILE_PROPERTY, oldValue, newValue);
     }
     
     /**
@@ -179,15 +203,9 @@ public abstract class AbstractProject extends JPanel  implements Project {
     protected void setHasUnsavedChanges(boolean newValue) {
         boolean oldValue = hasUnsavedChanges;
         hasUnsavedChanges = newValue;
-        firePropertyChange("hasUnsavedChanges", oldValue, newValue);
+        firePropertyChange(HAS_UNSAVED_CHANGES_PROPERTY, oldValue, newValue);
     }
-    /**
-     * Gets rid of all the resources of the project.
-     * No other methods should be invoked on the project afterwards.
-     */
-    public void dispose() {
         
-    }
     /**
      * Returns the action with the specified id.
      */
@@ -223,7 +241,7 @@ public abstract class AbstractProject extends JPanel  implements Project {
     public void setMultipleOpenId(int newValue) {
         int oldValue = multipleOpenId;
         multipleOpenId = newValue;
-        firePropertyChange("multipleOpenId", oldValue, newValue);
+        firePropertyChange(MULTIPLE_OPEN_ID_PROPERTY, oldValue, newValue);
     }
     
     public int getMultipleOpenId() {
@@ -233,7 +251,7 @@ public abstract class AbstractProject extends JPanel  implements Project {
     public void setShowing(boolean newValue) {
         boolean oldValue = isShowing;
         isShowing = newValue;
-        firePropertyChange("showing", oldValue, newValue);
+        firePropertyChange(SHOWING_PROPERTY, oldValue, newValue);
     }
     public boolean isShowing() {
         return isShowing;
@@ -246,7 +264,7 @@ public abstract class AbstractProject extends JPanel  implements Project {
     public void setTitle(String newValue) {
         String oldValue = title;
             title = newValue;
-        firePropertyChange("title", oldValue, newValue);
+        firePropertyChange(TITLE_PROPERTY, oldValue, newValue);
     }
 
     public String getTitle() {

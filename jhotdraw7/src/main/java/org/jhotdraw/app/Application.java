@@ -1,7 +1,7 @@
 /*
- * @(#)Application.java  1.0  October 4, 2005
+ * @(#)Application.java  2.0  2007-12-24
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
  * All rights reserved.
  *
@@ -45,9 +45,15 @@ import java.io.*;
  * </pre>
  *
  * @author Werner Randelshofer
- * @version 1.0 October 4, 2005 Created.
+ * @version 2.0 2007-12-24 Renamed method getCurrentProject to getActiveProject. 
+ * <br>1.0 October 4, 2005 Created.
  */
 public interface Application {
+    /**
+     * The property name of the activeProject property.
+     */
+    public final static String ACTIVE_PROJECT_PROPERTY = "activeProject";
+    
     /**
      * Launches the application from the main method.
      * This method is typically invoked on the main Thread.
@@ -120,14 +126,14 @@ public interface Application {
     public Collection<Project> projects();
     
     /**
-     * Returns the current project. This is used for OSXApplication and 
+     * Returns the active project. This is used for OSXApplication and 
      * MDIApplication which share actions among multiple Project instances.
-     * Current project may be become null, if the
+     * Active project may be become null, if the
      * application has no project.
      * <p>
      * This is a bound property. 
      */
-    public Project getCurrentProject();
+    public Project getActiveProject();
     
     /**
      * Returns the enabled state of the application.

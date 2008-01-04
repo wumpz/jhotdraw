@@ -43,19 +43,19 @@ public class ToggleLineNumbersAction extends AbstractProjectAction {
         setPropertyName("lineNumbersVisible");
     }
     
-    public TeddyProject getCurrentProject() {
-        return (TeddyProject) super.getCurrentProject();
+    public TeddyProject getActiveProject() {
+        return (TeddyProject) super.getActiveProject();
     }
     
     public void actionPerformed(ActionEvent e) {
-        getCurrentProject().setLineNumbersVisible(! getCurrentProject().isLineNumbersVisible());
+        getActiveProject().setLineNumbersVisible(! getActiveProject().isLineNumbersVisible());
     }
     
     
     protected void updateProperty() {
         putValue(
                 Actions.SELECTED_KEY,
-                getCurrentProject() != null && getCurrentProject().isLineNumbersVisible()
+                getActiveProject() != null && getActiveProject().isLineNumbersVisible()
                 );
     }
 }

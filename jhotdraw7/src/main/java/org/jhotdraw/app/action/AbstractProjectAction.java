@@ -43,7 +43,7 @@ public abstract class AbstractProjectAction extends AbstractAction {
     
     private PropertyChangeListener applicationListener = new PropertyChangeListener() {
         public void propertyChange(PropertyChangeEvent evt) {
-            if (evt.getPropertyName() == "currentProject") { // Strings get interned
+            if (evt.getPropertyName() == Application.ACTIVE_PROJECT_PROPERTY) { // Strings get interned
                 updateProject((Project) evt.getOldValue(), (Project) evt.getNewValue());
             }
         }
@@ -65,7 +65,7 @@ public abstract class AbstractProjectAction extends AbstractAction {
         this.enabled = true;
         if (app != null) {
             app.addPropertyChangeListener(applicationListener);
-            updateProject(null, app.getCurrentProject());
+            updateProject(null, app.getActiveProject());
         }
     }
     
@@ -135,8 +135,8 @@ public abstract class AbstractProjectAction extends AbstractAction {
     public Application getApplication() {
         return app;
     }
-    public Project getCurrentProject() {
-        return app.getCurrentProject();
+    public Project getActiveProject() {
+        return app.getActiveProject();
     }
     
     /**
@@ -148,8 +148,8 @@ public abstract class AbstractProjectAction extends AbstractAction {
      * @see Action#isEnabled
      */
     @Override public boolean isEnabled() {
-        return getCurrentProject() != null && 
-                getCurrentProject().isEnabled() &&
+        return getActiveProject() != null && 
+                getActiveProject().isEnabled() &&
                 this.enabled;
     }
     
@@ -166,7 +166,7 @@ public abstract class AbstractProjectAction extends AbstractAction {
         boolean oldValue = this.enabled;
         this.enabled = newValue;
         
-        boolean projIsEnabled = getCurrentProject() != null && getCurrentProject().isEnabled();
+        boolean projIsEnabled = getActiveProject() != null && getActiveProject().isEnabled();
         
         firePropertyChange("enabled",
                 Boolean.valueOf(oldValue && projIsEnabled),

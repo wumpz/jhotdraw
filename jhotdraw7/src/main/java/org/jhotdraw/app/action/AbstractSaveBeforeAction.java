@@ -52,7 +52,7 @@ public abstract class AbstractSaveBeforeAction extends AbstractProjectAction {
     }
     
     public void actionPerformed(ActionEvent evt) {
-       final Project p = getCurrentProject();
+       final Project p = getActiveProject();
         if (p.isEnabled()) {
             final ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
             Window wAncestor = SwingUtilities.getWindowAncestor(p.getComponent());

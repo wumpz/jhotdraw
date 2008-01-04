@@ -53,7 +53,7 @@ public class PrintAction extends AbstractProjectAction {
     }
     
     public void actionPerformed(ActionEvent evt) {
-        Project project = getCurrentProject();
+        Project project = getActiveProject();
         project.setEnabled(false);
         if (System.getProperty("apple.awt.graphics.UseQuartz","false").equals("true")) {
             printQuartz();
@@ -66,7 +66,7 @@ public class PrintAction extends AbstractProjectAction {
      * This prints at 72 DPI only. We might need this for some JVM versions on
      * Mac OS X.*/
     public void printJava2D() {
-        Pageable pageable = ((PrintableProject) getCurrentProject()).createPageable();
+        Pageable pageable = ((PrintableProject) getActiveProject()).createPageable();
         if (pageable == null) {
             throw new InternalError("Project does not have a method named java.awt.Pageable createPageable()");
         }
@@ -82,7 +82,7 @@ public class PrintAction extends AbstractProjectAction {
                     job.print();
                 } catch (PrinterException e) {
                     ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
-                    JSheet.showMessageSheet(getCurrentProject().getComponent(),
+                    JSheet.showMessageSheet(getActiveProject().getComponent(),
                             labels.getFormatted("couldntPrint", e)
                             );
                 }
@@ -97,7 +97,7 @@ public class PrintAction extends AbstractProjectAction {
      * This prints at 72 DPI only. We might need this for some JVM versions on
      * Mac OS X.*/
     public void printJava2DAlternative() {
-        Pageable pageable = (Pageable) Methods.invokeGetter(getCurrentProject(), "createPageable", null);
+        Pageable pageable = (Pageable) Methods.invokeGetter(getActiveProject(), "createPageable", null);
         if (pageable == null) {
             throw new InternalError("Project does not have a method named java.awt.Pageable createPageable()");
         }
@@ -112,7 +112,7 @@ public class PrintAction extends AbstractProjectAction {
                     job.print();
                 } catch (PrinterException e) {
                     ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
-                    JSheet.showMessageSheet(getCurrentProject().getComponent(),
+                    JSheet.showMessageSheet(getActiveProject().getComponent(),
                             labels.getFormatted("couldntPrint", e)
                             );
                 }
@@ -129,8 +129,8 @@ public class PrintAction extends AbstractProjectAction {
      * the best results.
      */
     public void printQuartz() {
-        Frame frame = (Frame) SwingUtilities.getWindowAncestor(getCurrentProject().getComponent());
-        final Pageable pageable = (Pageable) Methods.invokeGetter(getCurrentProject(), "createPageable", null);
+        Frame frame = (Frame) SwingUtilities.getWindowAncestor(getActiveProject().getComponent());
+        final Pageable pageable = (Pageable) Methods.invokeGetter(getActiveProject(), "createPageable", null);
         final double resolution = 300d;
         JobAttributes jobAttr = new JobAttributes();
         // FIXME - PageAttributes should be retrieved from Project
@@ -144,7 +144,7 @@ public class PrintAction extends AbstractProjectAction {
                 pageAttr
                 );
         
-        getCurrentProject().setEnabled(false);
+        getActiveProject().setEnabled(false);
         new Worker() {
             public Object construct() {
                 
@@ -196,7 +196,7 @@ public class PrintAction extends AbstractProjectAction {
                 return null;
             }
             public void finished(Object value) {
-                getCurrentProject().setEnabled(true);
+                getActiveProject().setEnabled(true);
             }
         }.start();
     }

@@ -1,5 +1,5 @@
 /*
- * @(#)Project.java  2.0  2007-11-29
+ * @(#)Project.java  3.0  2007-12-25
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -28,11 +28,41 @@ import javax.swing.*;
  * XXX - Maybe Project should be renamed to Workspace.
  *
  * @author Werner Randelshofer
- * @version 2.0 2007-11-29 Method clear is now always invoked on a worker 
+ * @version 3.0 2007-12-25 Added start, stop, activate and deactivate methods.
+ * Added constants for property names. 
+ * <br>2.0 2007-11-29 Method clear is now always invoked on a worker 
  * thread.
  * <br>1.0 October 4, 2005 Created.
  */
 public interface Project {
+    /**
+     * The name of the application property.
+     */
+    public final static String APPLICATION_PROPERTY = "application";
+    /**
+     * The name of the file property.
+     */
+    public final static String FILE_PROPERTY = "file";
+    /**
+     * The name of the title property.
+     */
+    public final static String TITLE_PROPERTY = "title";
+    /**
+     * The name of the enabled property.
+     */
+    public final static String ENABLED_PROPERTY = "enabled";
+    /**
+     * The name of the hasUnsavedChanges property.
+     */
+    public final static String HAS_UNSAVED_CHANGES_PROPERTY = "hasUnsavedChanges";
+    /**
+     * The name of the multipleOpenId property.
+     */
+    public final static String MULTIPLE_OPEN_ID_PROPERTY = "multipleOpenId";
+    /**
+     * The name of the showing property.
+     */
+    public final static String SHOWING_PROPERTY = "showing";
     /**
      * Gets the application to which this project belongs.
      */
@@ -143,6 +173,30 @@ public interface Project {
      */
     public void init();
     
+    /**
+     * Starts the project.
+     * Invoked after a project has been made visible to the user.
+     * Multiple projects can be visible at the same time.
+     */
+    public void start();
+    /**
+     * Activates the project.
+     * This occurs, when the user activated the parent window of the project.
+     * Only one project can be active at any given time.
+     * This method is only invoked on a started project.
+     */
+    public void activate();
+    /**
+     * Deactivates the project.
+     * This occurs, when the user closes the project, or activated another project.
+     * This method is only invoked on a started project.
+     */
+     public void deactivate();    
+    /**
+     * Stops the project.
+     * Invoked after a project window has been minimized or made invisible.
+     */
+     public void stop();    
     /**
      * Gets rid of all the resources of the project.
      * No other methods should be invoked on the project afterwards.

@@ -44,7 +44,7 @@ public class ViewSourceAction extends AbstractProjectAction {
     }
     
     public void actionPerformed(ActionEvent e) {
-        SVGProject p = (SVGProject) getCurrentProject();
+        SVGProject p = (SVGProject) getActiveProject();
         SVGOutputFormat format = new SVGOutputFormat();
         format.setPrettyPrint(true);
         ByteArrayOutputStream buf = new ByteArrayOutputStream();
@@ -75,7 +75,7 @@ public class ViewSourceAction extends AbstractProjectAction {
                 }
             });
             
-            getApplication().addWindow(dialog, getCurrentProject());
+            getApplication().addWindow(dialog, getActiveProject());
             dialog.setVisible(true);
         } catch (IOException ex) {
             ex.printStackTrace();

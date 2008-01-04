@@ -39,7 +39,7 @@ public class MinimizeAction extends AbstractProjectAction {
     
     private JFrame getFrame() {
         return (JFrame) SwingUtilities.getWindowAncestor(
-                getCurrentProject().getComponent()
+                getActiveProject().getComponent()
                 );
     }
     public void actionPerformed(ActionEvent evt) {

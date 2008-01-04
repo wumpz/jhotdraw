@@ -265,7 +265,7 @@ public class FindDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_ignoreCasePerformed
     
     private void replace(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_replace
-        TeddyProject project = ((TeddyProject) app.getCurrentProject());
+        TeddyProject project = ((TeddyProject) app.getActiveProject());
         if (project != null) {
             CompositeEdit edit = new CompositeEdit("Replace");
             project.fireEdit(edit);
@@ -280,7 +280,7 @@ public class FindDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_replace
     
     private void replaceAndFind(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_replaceAndFind
-        TeddyProject project = ((TeddyProject) app.getCurrentProject());
+        TeddyProject project = ((TeddyProject) app.getActiveProject());
         if (project != null) {
             CompositeEdit edit = new CompositeEdit("Replace And Find");
             project.fireEdit(edit);
@@ -295,7 +295,7 @@ public class FindDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_replaceAndFind
     
     private void previous(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previous
-        TeddyProject project = ((TeddyProject) app.getCurrentProject());
+        TeddyProject project = ((TeddyProject) app.getActiveProject());
         if (project != null) {
             updateMatcher();
             if (matcher != null) {
@@ -314,7 +314,7 @@ public class FindDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_previous
     
     private void next(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_next
-        TeddyProject project = ((TeddyProject) app.getCurrentProject());
+        TeddyProject project = ((TeddyProject) app.getActiveProject());
         if (project != null) {
             updateMatcher();
             if (matcher != null) {
@@ -332,7 +332,7 @@ public class FindDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_next
     
     private void replaceAll(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_replaceAll
-        TeddyProject project = ((TeddyProject) app.getCurrentProject());
+        TeddyProject project = ((TeddyProject) app.getActiveProject());
         if (project != null) {
             updateMatcher();
             if (matcher != null) {
@@ -358,7 +358,7 @@ public class FindDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_replaceAll
     
     private void updateMatcher() {
-        TeddyProject project = ((TeddyProject) app.getCurrentProject());
+        TeddyProject project = ((TeddyProject) app.getActiveProject());
         if (project != null) {
             MatchType matchType;
             switch (modeCombo.getSelectedIndex()) {

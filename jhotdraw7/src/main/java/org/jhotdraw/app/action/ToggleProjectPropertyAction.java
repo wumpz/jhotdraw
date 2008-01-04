@@ -61,7 +61,7 @@ public class ToggleProjectPropertyAction extends AbstractProjectAction {
     }
     
     public void actionPerformed(ActionEvent evt) {
-        Project p = getCurrentProject();
+        Project p = getActiveProject();
         Object value = getCurrentValue();
         Object newValue = (value == selectedPropertyValue ||
                         value != null && selectedPropertyValue != null &&
@@ -78,7 +78,7 @@ public class ToggleProjectPropertyAction extends AbstractProjectAction {
     }
     
     private Object getCurrentValue() {
-        Project p = getCurrentProject();
+        Project p = getActiveProject();
         if (p != null) {
             try {
                 return p.getClass().getMethod(getterName, (Class[]) null).invoke(p);
@@ -107,7 +107,7 @@ public class ToggleProjectPropertyAction extends AbstractProjectAction {
     
     @Override protected void updateProperty() {
         boolean isSelected = false;
-        Project p = getCurrentProject();
+        Project p = getActiveProject();
         if (p != null) {
             try {
                 Object value = p.getClass().getMethod(getterName, (Class[]) null).invoke(p);

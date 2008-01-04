@@ -39,17 +39,14 @@ import javax.swing.event.*;
 public interface Tool extends MouseListener, MouseMotionListener, KeyListener {
     
     /**
-     * Activates the tool for the given view. This method is called
-     * whenever the user switches to this tool. Use this method to
-     * reinitialize a tool. 
-     * Note, a valid view must be present in order for the tool to accept activation
+     * Activates the tool for the given editor. This method is called
+     * whenever the user switches to this tool.
      */
     public void activate(DrawingEditor editor);
     
     /**
      * Deactivates the tool. This method is called whenever the user
-     * switches to another tool. Use this method to do some clean-up
-     * when the tool is switched. 
+     * switches to another tool.
      */
     public void deactivate(DrawingEditor editor);
 

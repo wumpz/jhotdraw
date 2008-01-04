@@ -102,7 +102,7 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor,
         if (newValue != null && newValue != oldValue) {
             preferredViewSize = activeView.getComponent().getPreferredSize();
         }
-        firePropertyChange(PROP_ACTIVE_VIEW, oldValue, newValue);
+        firePropertyChange(ACTIVE_VIEW_PROPERTY, oldValue, newValue);
     }
     public void toolDone(ToolEvent evt) {
         // XXX - Maybe we should do this with all views of the editor??

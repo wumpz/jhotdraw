@@ -97,7 +97,7 @@ public class UndoAction extends AbstractProjectAction {
     }
     
     private Action getRealRedoAction() {
-        return (getCurrentProject() == null) ? null : getCurrentProject().getAction("undo");
+        return (getActiveProject() == null) ? null : getActiveProject().getAction("undo");
     }
     
 }

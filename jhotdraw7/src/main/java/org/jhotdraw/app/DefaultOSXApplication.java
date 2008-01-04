@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultOSXApplication.java  1.1  2007-01-11
+ * @(#)DefaultOSXApplication.java  1.2  2007-12-25
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -11,7 +11,6 @@
  * with the terms of the license agreement you entered into with
  * JHotDraw.org.
  */
-
 package org.jhotdraw.app;
 
 import org.jhotdraw.app.action.OSXDropOnDockAction;
@@ -28,6 +27,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.io.*;
 import org.jhotdraw.app.action.*;
+
 /**
  * A DefaultOSXApplication can handle the life cycle of multiple document windows each
  * being presented in a JFrame of its own.  The application provides all the
@@ -103,27 +103,28 @@ import org.jhotdraw.app.action.*;
  * </pre>
  *
  * @author Werner Randelshofer
- * @version 1.1 2007-01-11 Removed method addStandardActionsTo.
+ * @version 1.2 2007-12-25 Added method updateProjectTitle. 
+ * <br>1.1 2007-01-11 Removed method addStandardActionsTo.
  * <br>1.0.1 2007-01-02 Floating palettes disappear now if the application
  * looses the focus.
  * 1.0 October 4, 2005 Created.
  */
 public class DefaultOSXApplication extends AbstractApplication {
+
     private OSXPaletteHandler paletteHandler;
-    private Project currentProject;
     private Preferences prefs;
     private LinkedList<Action> paletteActions;
-    
+
     /** Creates a new instance. */
     public DefaultOSXApplication() {
     }
-    
+
     public void init() {
         super.init();
         prefs = Preferences.userNodeForPackage((getModel() == null) ? getClass() : getModel().getClass());
         initLookAndFeel();
         paletteHandler = new OSXPaletteHandler(this);
-        
+
         initLabels();
         initApplicationActions();
         getModel().initApplication(this);
@@ -131,18 +132,17 @@ public class DefaultOSXApplication extends AbstractApplication {
         initPalettes(paletteActions);
         initScreenMenuBar();
     }
-    
+
     public void launch(String[] args) {
-        System.setProperty("apple.awt.graphics.UseQuartz","false");
+        System.setProperty("apple.awt.graphics.UseQuartz", "false");
         super.launch(args);
     }
-    
-    
+
     public void configure(String[] args) {
-        System.setProperty("apple.laf.useScreenMenuBar","true");
-        System.setProperty("com.apple.macos.useScreenMenuBar","true");
+        System.setProperty("apple.laf.useScreenMenuBar", "true");
+        System.setProperty("com.apple.macos.useScreenMenuBar", "true");
     }
-    
+
     protected void initLookAndFeel() {
         try {
             UIManager.setLookAndFeel(QuaquaManager.getLookAndFeelClassName());
@@ -150,13 +150,13 @@ public class DefaultOSXApplication extends AbstractApplication {
             e.printStackTrace();
         }
     }
-    
+
     protected void initApplicationActions() {
         ApplicationModel mo = getModel();
         mo.putAction(AboutAction.ID, new AboutAction(this));
         mo.putAction(ExitAction.ID, new ExitAction(this));
         mo.putAction(OSXDropOnDockAction.ID, new OSXDropOnDockAction(this));
-        
+
         mo.putAction(NewAction.ID, new NewAction(this));
         mo.putAction(OpenAction.ID, new OpenAction(this));
         mo.putAction(ClearRecentFilesAction.ID, new ClearRecentFilesAction(this));
@@ -164,7 +164,7 @@ public class DefaultOSXApplication extends AbstractApplication {
         mo.putAction(SaveAsAction.ID, new SaveAsAction(this));
         mo.putAction(PrintAction.ID, new PrintAction(this));
         mo.putAction(CloseAction.ID, new CloseAction(this));
-        
+
         mo.putAction(UndoAction.ID, new UndoAction(this));
         mo.putAction(RedoAction.ID, new RedoAction(this));
         mo.putAction(CutAction.ID, new CutAction());
@@ -173,62 +173,51 @@ public class DefaultOSXApplication extends AbstractApplication {
         mo.putAction(DeleteAction.ID, new DeleteAction());
         mo.putAction(DuplicateAction.ID, new DuplicateAction());
         mo.putAction(SelectAllAction.ID, new SelectAllAction());
-        
+
         mo.putAction(MaximizeAction.ID, new MaximizeAction(this));
         mo.putAction(MinimizeAction.ID, new MinimizeAction(this));
     }
-    
+
     protected void initProjectActions(Project p) {
         p.putAction(FocusAction.ID, new FocusAction(p));
     }
-    
-    
+
     public void addPalette(Window palette) {
         paletteHandler.addPalette(palette);
     }
-    
+
     public void removePalette(Window palette) {
         paletteHandler.removePalette(palette);
     }
-    
+
     public void addWindow(Window window, final Project p) {
         if (window instanceof JFrame) {
             ((JFrame) window).setJMenuBar(createMenuBar(p));
         } else if (window instanceof JDialog) {
-            // ((JDialog) window).setJMenuBar(createMenuBar(null));
+        // ((JDialog) window).setJMenuBar(createMenuBar(null));
         }
-        
+
         paletteHandler.add(window, p);
     }
-    
+
     public void removeWindow(Window window) {
         paletteHandler.remove(window);
     }
-    
+
     public void show(final Project p) {
-        if (! p.isShowing()) {
+        if (!p.isShowing()) {
             p.setShowing(true);
-            File file = p.getFile();
             final JFrame f = new JFrame();
-            String title;
-            if (file == null) {
-                title = labels.getString("unnamedFile");
-            } else {
-                title = file.getName();
-            }
-            p.setTitle(labels.getFormatted("frameTitle", title, getName(), p.getMultipleOpenId()));
-            f.setTitle(p.getTitle());
             f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            f.setPreferredSize(new Dimension(400,400));
-            
-            
-            
+            f.setPreferredSize(new Dimension(400, 400));
+            updateProjectTitle(p, f);
+
             PreferencesUtil.installFramePrefsHandler(prefs, "project", f);
             Point loc = f.getLocation();
             boolean moved;
             do {
                 moved = false;
-                for (Iterator i=projects().iterator(); i.hasNext(); ) {
+                for (Iterator i = projects().iterator(); i.hasNext();) {
                     Project aProject = (Project) i.next();
                     if (aProject != p && aProject.isShowing() &&
                             SwingUtilities.getWindowAncestor(aProject.getComponent()).
@@ -241,46 +230,76 @@ public class DefaultOSXApplication extends AbstractApplication {
                 }
             } while (moved);
             f.setLocation(loc);
-            
-            
+
+
             f.addWindowListener(new WindowAdapter() {
+
+                @Override
                 public void windowClosing(final WindowEvent evt) {
-                    setCurrentProject(p);
+                    setActiveProject(p);
                     getModel().getAction(CloseAction.ID).actionPerformed(
                             new ActionEvent(f, ActionEvent.ACTION_PERFORMED,
-                            "windowClosing")
-                            );
+                            "windowClosing"));
+                }
+
+                @Override
+                public void windowClosed(final WindowEvent evt) {
+                    if (p == getActiveProject()) {
+                        setActiveProject(null);
+                    }
+                    p.stop();
+                }
+
+                @Override
+                public void windowActivated(WindowEvent evt) {
+                    setActiveProject(p);
                 }
             });
-            
+
             p.addPropertyChangeListener(new PropertyChangeListener() {
+
                 public void propertyChange(PropertyChangeEvent evt) {
                     String name = evt.getPropertyName();
-                    if (name.equals("hasUnsavedChanges")) {
-                        f.getRootPane().putClientProperty("windowModified",new Boolean(p.hasUnsavedChanges()));
-                    } else if (name.equals("file")) {
-                        String title;
-                        File file = (File) evt.getNewValue();
-                        if (file == null) {
-                            title = labels.getString("unnamedFile");
-                        } else {
-                            title = file.getName();
-                        }
-                        p.setTitle(labels.getFormatted("frameTitle", title, getName(), p.getMultipleOpenId()));
-                        f.setTitle(p.getTitle());
+                    if (name.equals(Project.HAS_UNSAVED_CHANGES_PROPERTY)) {
+                        f.getRootPane().putClientProperty("windowModified", new Boolean(p.hasUnsavedChanges()));
+                    } else if (name.equals(Project.FILE_PROPERTY)) {
+                        updateProjectTitle(p, f);
                     }
                 }
             });
-            
+
             //f.setJMenuBar(createMenuBar(p));
             //paletteHandler.add(f, p);
             addWindow(f, p);
- 
+
             f.getContentPane().add(p.getComponent());
             f.setVisible(true);
+            p.start();
         }
     }
-    
+
+    /**
+     * Updates the title of a project and displays it in the given frame.
+     * 
+     * @param p The project.
+     * @param f The frame.
+     */
+    protected void updateProjectTitle(Project p, JFrame f) {
+        String title;
+        File file = p.getFile();
+        if (file == null) {
+            title = labels.getString("unnamedFile");
+        } else {
+            title = file.getName();
+        }
+        p.setTitle(labels.getFormatted("frameTitle", title, getName(), p.getMultipleOpenId()));
+        f.setTitle(p.getTitle());
+
+        // Adds a proxy icon for the file to the title bar
+        // See http://developer.apple.com/technotes/tn2007/tn2196.html#WINDOW_DOCUMENTFILE
+        f.getRootPane().putClientProperty("Window.documentFile", file);
+    }
+
     public void hide(Project p) {
         if (p.isShowing()) {
             JFrame f = (JFrame) SwingUtilities.getWindowAncestor(p.getComponent());
@@ -291,7 +310,7 @@ public class DefaultOSXApplication extends AbstractApplication {
             f.dispose();
         }
     }
-    
+
     /**
      * Creates a menu bar.
      *
@@ -308,15 +327,15 @@ public class DefaultOSXApplication extends AbstractApplication {
         mb.add(createWindowMenu(p));
         return mb;
     }
-    
+
     protected JMenu createWindowMenu(final Project p) {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
         ApplicationModel model = getModel();
-        
+
         JMenuBar mb = new JMenuBar();
         JMenu m;
         JMenuItem mi;
-        
+
         m = new JMenu();
         final JMenu windowMenu = m;
         labels.configureMenu(m, "window");
@@ -329,24 +348,25 @@ public class DefaultOSXApplication extends AbstractApplication {
         }
         if (paletteActions.size() > 0) {
             m.addSeparator();
-            for (Action a: paletteActions) {
+            for (Action a : paletteActions) {
                 JCheckBoxMenuItem cbmi = new JCheckBoxMenuItem(a);
                 Actions.configureJCheckBoxMenuItem(cbmi, a);
                 cbmi.setIcon(null);
                 m.add(cbmi);
             }
         }
-        
+
         addPropertyChangeListener(new PropertyChangeListener() {
+
             public void propertyChange(PropertyChangeEvent evt) {
                 String name = evt.getPropertyName();
                 if (name == "projectCount" || name == "paletteCount") {
                     if (p == null || projects().contains(p)) {
                         JMenu m = windowMenu;
                         m.removeAll();
-        addProjectWindowMenuItems(m, p);
-                            m.addSeparator();
-                        for (Iterator i=projects().iterator(); i.hasNext(); ) {
+                        addProjectWindowMenuItems(m, p);
+                        m.addSeparator();
+                        for (Iterator i = projects().iterator(); i.hasNext();) {
                             Project pr = (Project) i.next();
                             if (pr.getAction(FocusAction.ID) != null) {
                                 m.add(pr.getAction(FocusAction.ID));
@@ -354,7 +374,7 @@ public class DefaultOSXApplication extends AbstractApplication {
                         }
                         if (paletteActions.size() > 0) {
                             m.addSeparator();
-                            for (Action a: paletteActions) {
+                            for (Action a : paletteActions) {
                                 JCheckBoxMenuItem cbmi = new JCheckBoxMenuItem(a);
                                 Actions.configureJCheckBoxMenuItem(cbmi, a);
                                 cbmi.setIcon(null);
@@ -367,10 +387,10 @@ public class DefaultOSXApplication extends AbstractApplication {
                 }
             }
         });
-        
+
         return m;
     }
-    
+
     protected void addProjectWindowMenuItems(JMenu m, Project p) {
         JMenuItem mi;
 
@@ -380,12 +400,11 @@ public class DefaultOSXApplication extends AbstractApplication {
         mi = m.add(model.getAction(MaximizeAction.ID));
         mi.setIcon(null);
     }
-    
-    private void updateOpenRecentMenu(JMenu openRecentMenu) {
+
+    protected void updateOpenRecentMenu(JMenu openRecentMenu) {
         if (openRecentMenu.getItemCount() > 0) {
             JMenuItem clearRecentFilesItem = (JMenuItem) openRecentMenu.getItem(
-                    openRecentMenu.getItemCount() - 1
-                    );
+                    openRecentMenu.getItemCount() - 1);
             openRecentMenu.removeAll();
             for (File f : recentFiles()) {
                 openRecentMenu.add(new OpenRecentAction(DefaultOSXApplication.this, f));
@@ -396,14 +415,15 @@ public class DefaultOSXApplication extends AbstractApplication {
             openRecentMenu.add(clearRecentFilesItem);
         }
     }
+
     protected JMenu createFileMenu(Project p) {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
         ApplicationModel model = getModel();
-        
+
         JMenu m;
         JMenuItem mi;
         final JMenu openRecentMenu;
-        
+
         m = new JMenu();
         labels.configureMenu(m, "file");
         mi = m.add(model.getAction(NewAction.ID));
@@ -432,8 +452,9 @@ public class DefaultOSXApplication extends AbstractApplication {
             mi = m.add(model.getAction(PrintAction.ID));
             mi.setIcon(null);
         }
-        
+
         addPropertyChangeListener(new PropertyChangeListener() {
+
             public void propertyChange(PropertyChangeEvent evt) {
                 String name = evt.getPropertyName();
                 if (name == "recentFiles") {
@@ -441,21 +462,10 @@ public class DefaultOSXApplication extends AbstractApplication {
                 }
             }
         });
-        
+
         return m;
     }
-    
-    public Project getCurrentProject() {
-        return currentProject;
-    }
-    
-    public void setCurrentProject(Project newValue) {
-        Project oldValue = currentProject;
-        currentProject = newValue;
-        
-        firePropertyChange("currentProject", oldValue, newValue);
-    }
-    
+
     protected void initScreenMenuBar() {
         ApplicationModel model = getModel();
         net.roydesign.app.Application mrjapp = net.roydesign.app.Application.getInstance();
@@ -465,47 +475,49 @@ public class DefaultOSXApplication extends AbstractApplication {
         mrjapp.getQuitJMenuItem().setAction(model.getAction(ExitAction.ID));
         mrjapp.addOpenDocumentListener(model.getAction(OSXDropOnDockAction.ID));
     }
+
     protected void initPalettes(final LinkedList<Action> paletteActions) {
         SwingUtilities.invokeLater(new Worker() {
+
             public Object construct() {
                 LinkedList<JFrame> palettes = new LinkedList<JFrame>();
                 LinkedList<JToolBar> toolBars = new LinkedList<JToolBar>(getModel().createToolBars(DefaultOSXApplication.this, null));
-                
-                int i=0;
-                int x=0;
+
+                int i = 0;
+                int x = 0;
                 for (JToolBar tb : toolBars) {
                     i++;
                     tb.setFloatable(false);
                     tb.setOrientation(JToolBar.VERTICAL);
                     tb.setFocusable(false);
-                    
+
                     JFrame d = new JFrame();
                     d.setFocusable(false);
                     d.setResizable(false);
                     d.getContentPane().setLayout(new BorderLayout());
-                    d.getContentPane().add(tb,BorderLayout.CENTER);
+                    d.getContentPane().add(tb, BorderLayout.CENTER);
                     d.setAlwaysOnTop(true);
                     d.setUndecorated(true);
                     d.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
                     d.getRootPane().setFont(
-                            new Font("Lucida Grande", Font.PLAIN, 11)
-                            );
+                            new Font("Lucida Grande", Font.PLAIN, 11));
                     d.getRootPane().putClientProperty("Quaqua.RootPane.isVertical", Boolean.FALSE);
                     d.getRootPane().putClientProperty("Quaqua.RootPane.isPalette", Boolean.TRUE);
-                    
+
                     d.setJMenuBar(createMenuBar(null));
-                    
+
                     d.pack();
                     d.setFocusableWindowState(false);
-                    PreferencesUtil.installPalettePrefsHandler(prefs, "toolbar."+i, d, x);
+                    PreferencesUtil.installPalettePrefsHandler(prefs, "toolbar." + i, d, x);
                     x += d.getWidth();
-                    
+
                     paletteActions.add(new OSXTogglePaletteAction(DefaultOSXApplication.this, d, tb.getName()));
                     palettes.add(d);
                 }
                 return palettes;
-                
+
             }
+
             public void finished(Object result) {
                 LinkedList<JFrame> palettes = (LinkedList<JFrame>) result;
                 if (palettes != null) {
@@ -517,11 +529,11 @@ public class DefaultOSXApplication extends AbstractApplication {
             }
         });
     }
-    
+
     public boolean isSharingToolsAmongProjects() {
         return true;
     }
-    
+
     public Component getComponent() {
         return null;
     }

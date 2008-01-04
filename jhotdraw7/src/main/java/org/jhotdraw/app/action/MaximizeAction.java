@@ -39,7 +39,7 @@ public class MaximizeAction extends AbstractProjectAction {
     
     private JFrame getFrame() {
         return (JFrame) SwingUtilities.getWindowAncestor(
-                getCurrentProject().getComponent()
+                getActiveProject().getComponent()
                 );
     }
     

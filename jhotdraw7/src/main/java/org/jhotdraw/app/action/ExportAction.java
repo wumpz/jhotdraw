@@ -47,7 +47,7 @@ public class ExportAction extends AbstractProjectAction {
     
     
     public void actionPerformed(ActionEvent evt) {
-        final ExportableProject project = (ExportableProject) getCurrentProject();
+        final ExportableProject project = (ExportableProject) getActiveProject();
         if (project.isEnabled()) {
             ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
             

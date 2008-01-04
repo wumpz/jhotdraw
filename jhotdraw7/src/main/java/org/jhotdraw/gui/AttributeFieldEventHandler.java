@@ -41,7 +41,7 @@ public class AttributeFieldEventHandler
 
         // handle property change events on the DrawingEditor
         if (src == editor) {
-            if (name == DrawingEditor.PROP_ACTIVE_VIEW && getView() != null) {
+            if (name == DrawingEditor.ACTIVE_VIEW_PROPERTY && getView() != null) {
                 if (evt.getOldValue() != null) {
                     DrawingView view = ((DrawingView) evt.getOldValue());
                     for (Figure f : view.getSelectedFigures()) {

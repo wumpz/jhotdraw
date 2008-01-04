@@ -38,14 +38,18 @@ public class DefaultAppletApplication extends AbstractApplication {
         this.project = p;
         applet.getContentPane().removeAll();
         applet.getContentPane().add(p.getComponent());
+        p.start();
+        p.activate();
     }
 
     public void hide(Project p) {
+        p.deactivate();
+        p.stop();
         applet.getContentPane().removeAll();
         this.project = null;
     }
 
-    public Project getCurrentProject() {
+    public Project getActiveProject() {
         return project;
     }
 

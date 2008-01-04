@@ -49,7 +49,7 @@ public class OpenRecentAction extends AbstractApplicationAction {
         if (app.isEnabled()) {
             app.setEnabled(false);
             // Search for an empty project
-            Project emptyProject = app.getCurrentProject();
+            Project emptyProject = app.getActiveProject();
             if (emptyProject == null ||
                     emptyProject.getFile() != null ||
                     emptyProject.hasUnsavedChanges()) {

@@ -97,7 +97,7 @@ public class RedoAction extends AbstractProjectAction {
     }
     
     private Action getRealRedoAction() {
-        return (getCurrentProject() == null) ? null : getCurrentProject().getAction("redo");
+        return (getActiveProject() == null) ? null : getActiveProject().getAction("redo");
     }
     
 }

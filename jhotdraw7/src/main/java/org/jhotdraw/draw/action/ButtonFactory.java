@@ -286,7 +286,7 @@ public class ButtonFactory {
         editor.addPropertyChangeListener(new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 // String constants are interned
-                if (evt.getPropertyName() == DrawingEditor.PROP_ACTIVE_VIEW) {
+                if (evt.getPropertyName() == DrawingEditor.ACTIVE_VIEW_PROPERTY) {
                     if (evt.getNewValue() == null) {
                         zoomPopupButton.setText("100 %");
                     } else {
@@ -687,7 +687,7 @@ public class ButtonFactory {
         editor.addPropertyChangeListener(new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 String name = evt.getPropertyName();
-                if (name == DrawingEditor.PROP_ACTIVE_VIEW) {
+                if (name == DrawingEditor.ACTIVE_VIEW_PROPERTY) {
                     if (evt.getOldValue() != null) {
                         ((DrawingView) evt.getOldValue()).removeFigureSelectionListener(selectionHandler);
                     }
@@ -1253,7 +1253,7 @@ public class ButtonFactory {
         view.addPropertyChangeListener(new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 // String constants are interned
-                if (evt.getPropertyName() == DrawingView.PROP_CONSTRAINER_VISIBLE) {
+                if (evt.getPropertyName() == DrawingView.CONSTRAINER_VISIBLE_PROPERTY) {
                     toggleButton.setSelected(view.isConstrainerVisible());
                 }
             }

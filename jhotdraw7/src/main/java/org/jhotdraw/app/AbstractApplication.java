@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractApplication.java  1.2  2007-11-25
+ * @(#)AbstractApplication.java  1.3  2007-12-24
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -27,13 +27,14 @@ import java.io.*;
  *
  *
  * @author Werner Randelshofer
- * @version 1.2 2007-11-25 Method Project.clear is now invoked on a worker
+ * @version 1.3 2007-12-24 Added support for active project. 
+ * <br>1.2 2007-11-25 Method Project.clear is now invoked on a worker
  * thread.
  * <br>1.1 2006-05-01 System.exit(0) explicitly in method stop().
  * <br>1.0 October 4, 2005 Created.
  */
 public abstract class AbstractApplication extends AbstractBean implements Application {
-    private LinkedList projects = new LinkedList();
+    private LinkedList<Project> projects = new LinkedList<Project>();
     private Collection unmodifiableDocuments;
     private boolean isEnabled = true;
     protected ResourceBundleUtil labels;
@@ -41,6 +42,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     private LinkedList<File> recentFiles = new LinkedList();
     private final static int maxRecentFilesCount = 10;
     private Preferences prefs;
+    private Project activeProject;
     
     /** Creates a new instance. */
     public AbstractApplication() {
@@ -99,6 +101,36 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     
     protected Project basicCreateProject() {
         return model.createProject();
+    }
+    
+    /**
+     * Sets the active project. Calls deactivate on the previously
+     * active project, and then calls activate on the given project.
+     * 
+     * @param newValue Active project, can be null.
+     */
+    public void setActiveProject(Project newValue) {
+        Project oldValue = activeProject;
+        if (activeProject != null) {
+            activeProject.deactivate();
+        }
+        activeProject = newValue;
+        if (activeProject != null) {
+            activeProject.activate();
+        }
+        firePropertyChange("activeProject", oldValue, newValue);
+    }
+    
+    /**
+     * Gets the active project.
+     * 
+     * @return The active project, can be null.
+     */
+    public Project getActiveProject() {
+        if (activeProject == null && projects.size() > 0) {
+            return projects.getLast();
+        }
+        return activeProject;
     }
     
     public String getName() {

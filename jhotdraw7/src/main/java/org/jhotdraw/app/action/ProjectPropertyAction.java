@@ -58,7 +58,7 @@ public class ProjectPropertyAction extends AbstractProjectAction {
     }
     
     public void actionPerformed(ActionEvent evt) {
-        Project p = getCurrentProject();
+        Project p = getActiveProject();
         try {
             p.getClass().getMethod(setterName, parameterClass).invoke(p, new Object[] {propertyValue});
         } catch (Throwable e) {
@@ -83,7 +83,7 @@ public class ProjectPropertyAction extends AbstractProjectAction {
     
     private void updateSelectedState() {
         boolean isSelected = false;
-        Project p = getCurrentProject();
+        Project p = getActiveProject();
         if (p != null) {
             try {
                 Object value = p.getClass().getMethod(getterName, (Class[]) null).invoke(p);

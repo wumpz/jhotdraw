@@ -45,7 +45,7 @@ public class FocusAction extends AbstractAction {
             public void propertyChange(PropertyChangeEvent evt) {
                 ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
                 String name = evt.getPropertyName();
-                if (name.equals("file")) {
+                if (name.equals(Project.FILE_PROPERTY)) {
                     putValue(Action.NAME,
                             (evt.getNewValue() == null) ?
                                 labels.getString("unnamedFile") :

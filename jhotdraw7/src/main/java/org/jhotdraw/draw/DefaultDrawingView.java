@@ -954,7 +954,7 @@ public class DefaultDrawingView
     public void setVisibleConstrainer(Constrainer newValue) {
         Constrainer oldValue = visibleConstrainer;
         visibleConstrainer = newValue;
-        firePropertyChange(PROP_VISIBLE_CONSTRAINER, oldValue, newValue);
+        firePropertyChange(VISIBLE_CONSTRAINER_PROPERTY, oldValue, newValue);
     }
 
     public Constrainer getVisibleConstrainer() {
@@ -964,7 +964,7 @@ public class DefaultDrawingView
     public void setInvisibleConstrainer(Constrainer newValue) {
         Constrainer oldValue = invisibleConstrainer;
         invisibleConstrainer = newValue;
-        firePropertyChange(PROP_INVISIBLE_CONSTRAINER, oldValue, newValue);
+        firePropertyChange(INVISIBLE_CONSTRAINER_PROPERTY, oldValue, newValue);
     }
 
     public Constrainer getInvisibleConstrainer() {
@@ -974,7 +974,7 @@ public class DefaultDrawingView
     public void setConstrainerVisible(boolean newValue) {
         boolean oldValue = isConstrainerVisible;
         isConstrainerVisible = newValue;
-        firePropertyChange(PROP_CONSTRAINER_VISIBLE, oldValue, newValue);
+        firePropertyChange(CONSTRAINER_VISIBLE_PROPERTY, oldValue, newValue);
         repaint();
     }
 

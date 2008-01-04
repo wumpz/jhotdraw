@@ -1,5 +1,5 @@
 /*
- * @(#)DrawingView.java  4.2  2007-09-12
+ * @(#)DrawingView.java  4.3  2007-12-25
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors ("JHotDraw.org")
@@ -35,7 +35,8 @@ import javax.swing.*;
  *
  * 
  * @author Werner Randelshofer
- * @version 4.2 2007-09-12 The DrawingView is now responsible for
+ * @version 4.3 2007-12-25 Renamed property names from PROP_… to …_PROPERTY. 
+ * <br>4.2 2007-09-12 The DrawingView is now responsible for
  * holding the Constrainer objects which affect editing on this view.
  * <br>4.1 2007-05-15 getSelectedFigures returns a Set instead of a
  * Collection.
@@ -50,39 +51,39 @@ public interface DrawingView {
     /**
      * This constant is used to identify the drawing property of the DrawingView.
      */
-    public final static String PROP_DRAWING = "drawing";
+    public final static String DRAWING_PROPERTY = "drawing";
     /**
      * This constant is used to identify the cursor property of the DrawingView.
      */
-    public final static String PROP_CURSOR = "cursor";
+    public final static String CURSOR_PROPERTY = "cursor";
     /**
      * This constant is used to identify the constrainer property of the DrawingView.
      */
-    public final static String PROP_CONSTRAINER = "constrainer";
+    public final static String CONSTRAINER_PROPERTY = "constrainer";
     /**
      * This constant is used to identify the visible constrainer property of the DrawingView.
      */
-    public final static String PROP_VISIBLE_CONSTRAINER = "visibleConstrainer";
+    public final static String VISIBLE_CONSTRAINER_PROPERTY = "visibleConstrainer";
     /**
      * This constant is used to identify the invisible constrainer property of the DrawingView.
      */
-    public final static String PROP_INVISIBLE_CONSTRAINER = "invisibleConstrainer";
+    public final static String INVISIBLE_CONSTRAINER_PROPERTY = "invisibleConstrainer";
     /**
      * This constant is used to identify the constrainer visible property of the DrawingView.
      */
-    public final static String PROP_CONSTRAINER_VISIBLE = "constrainerVisible";
+    public final static String CONSTRAINER_VISIBLE_PROPERTY = "constrainerVisible";
     /**
      * This constant is used to identify the scale factor property of the DrawingView.
      */
-    public final static String PROP_SCALE_FACTOR = "scaleFactor";
+    public final static String SCALE_FACTOR_PROPERTY = "scaleFactor";
     /**
      * This constant is used to identify the handle detail level property of the DrawingView.
      */
-    public final static String PROP_HANDLE_DETAIL_LEVEL = "handleDetailLevel";
+    public final static String HANDLE_DETAIL_LEVEL_PROPERTY = "handleDetailLevel";
     /**
      * This constant is used to identify the enabled property of the DrawingView.
      */
-    public final static String PROP_ENABLED = "enabled";
+    public final static String ENABLED_PROPERTY = "enabled";
     
     /**
      * Gets the drawing.

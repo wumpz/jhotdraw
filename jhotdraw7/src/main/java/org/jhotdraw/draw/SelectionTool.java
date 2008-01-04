@@ -49,7 +49,7 @@ public class SelectionTool extends AbstractTool
     /**
      * Constant for the name of the selectBehindEnabled property.
      */
-    public final static String PROP_SELECT_BEHIND_ENABLED = "selectBehindEnabled";
+    public final static String SELECT_BEHIND_ENABLED_PROPERTY = "selectBehindEnabled";
     
     /**
      * Represents the state of the selectBehindEnabled property.
@@ -72,7 +72,7 @@ public class SelectionTool extends AbstractTool
     public void setSelectBehindEnabled(boolean newValue) {
         boolean oldValue = isSelectBehindEnabled;
         isSelectBehindEnabled = newValue;
-        firePropertyChange(PROP_SELECT_BEHIND_ENABLED, oldValue, newValue);
+        firePropertyChange(SELECT_BEHIND_ENABLED_PROPERTY, oldValue, newValue);
     }
     /**
      * Returns the value of the selectBehindEnabled property.

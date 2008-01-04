@@ -54,7 +54,7 @@ public class FindAction extends AbstractProjectAction {
     }
     
     public void actionPerformed(ActionEvent evt) {
-        Project project = getCurrentProject();
+        Project project = getActiveProject();
         try {
             Methods.invoke(project, "find");
         } catch (NoSuchMethodException ex) {

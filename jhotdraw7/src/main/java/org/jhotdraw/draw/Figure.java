@@ -29,7 +29,7 @@ import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMStorable;
 /**
  * A Figure knows its bounds and it can draw itself. A figure is an element of a
- * drawing. 
+ * {@link Drawing}. 
  * <p>
  * A figure has a set of {@link Handle}s to manipulate its shape or attributes. A figure
  * has one or more {@link Connector}s that define how to locate a connection point.
