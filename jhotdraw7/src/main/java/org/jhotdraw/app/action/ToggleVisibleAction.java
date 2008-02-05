@@ -2,14 +2,14 @@
  * @(#)ToggleVisibleAction.java  1.0  June 17, 2006
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
- * and all its contributors ("JHotDraw.org")
+ * and all its contributors.
  * All rights reserved.
  *
- * This software is the confidential and proprietary information of
- * JHotDraw.org ("Confidential Information"). You shall not disclose
- * such Confidential Information and shall use it only in accordance
- * with the terms of the license agreement you entered into with
- * JHotDraw.org.
+ * The copyright of this software is owned by the authors and  
+ * contributors of the JHotDraw project ("the copyright holders").  
+ * You may not use, copy or modify this software, except in  
+ * accordance with the license agreement you entered into with  
+ * the copyright holders. For details see accompanying license terms. 
  */
 
 package org.jhotdraw.app.action;

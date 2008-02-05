@@ -2,7 +2,7 @@
   * @(#)SVGImage.java  2.0  2007-04-14
   *
   * Copyright (c) 1996-2006 by the original authors of JHotDraw
-  * and all its contributors ("JHotDraw.org")
+  * and all its contributors.
   * All rights reserved.
   *
   * This software is the confidential and proprietary information of

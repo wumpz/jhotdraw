@@ -1,15 +1,15 @@
 /*
- * @(#)DecoratedFigure.java  1.0  January 5, 2007
+ * @(#)DecoratedFigure.java  2.0  2008-01-10
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
- * and all its contributors ("JHotDraw.org")
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
+ * and all its contributors.
  * All rights reserved.
  *
- * This software is the confidential and proprietary information of
- * JHotDraw.org ("Confidential Information"). You shall not disclose
- * such Confidential Information and shall use it only in accordance
- * with the terms of the license agreement you entered into with
- * JHotDraw.org.
+ * The copyright of this software is owned by the authors and  
+ * contributors of the JHotDraw project ("the copyright holders").  
+ * You may not use, copy or modify this software, except in  
+ * accordance with the license agreement you entered into with  
+ * the copyright holders. For details see accompanying license terms. 
  */
 
 package org.jhotdraw.draw;
@@ -19,9 +19,10 @@ package org.jhotdraw.draw;
  * Figure.
  *
  * @author Werner Randelshofer
- * @version 1.0 January 5, 2007 Created.
+ * @version 2.0 2008-01-10 This interface extends now the Figure interface. 
+ * <br>1.0 January 5, 2007 Created.
  */
-public interface DecoratedFigure {
+public interface DecoratedFigure extends Figure {
     /**
      * Sets a decorator Figure, for example a visual adornment to this Figure.
      * Set this to null, if no decorator is desired.
