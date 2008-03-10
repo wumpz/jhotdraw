@@ -1,5 +1,5 @@
 /*
- * @(#)OpenAction.java  2.0.1  2006-05-18
+ * @(#)OpenAction.java  2.0.2  2008-02-23
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -33,7 +33,9 @@ import org.jhotdraw.app.Project;
  * Opens a file in new project, or in the current project, if it is empty.
  *
  * @author  Werner Randelshofer
- * @version 2.0.1 2006-05-18 Print stack trace added.
+ * @version 2.0.2 2008-02-23 Project and application was not enabled after
+ * unsuccessful file open. 
+ * <br>2.0.1 2006-05-18 Print stack trace added.
  * <br>2.0 2006-02-16 Support for preferences added.
  * <br>1.0.1 2005-07-14 Make project explicitly visible after creating it.
  * <br>1.0  04 January 2005  Created.
@@ -139,6 +141,8 @@ public class OpenAction extends AbstractApplicationAction {
                 app.addRecentFile(file);
                 app.setEnabled(true);
         } else {
+            project.setEnabled(true);
+            app.setEnabled(true);
             if (value instanceof Throwable) {
                 ((Throwable) value).printStackTrace();
             }
@@ -148,7 +152,6 @@ public class OpenAction extends AbstractApplicationAction {
                     value,
                     JOptionPane.ERROR_MESSAGE, new SheetListener() {
                 public void optionSelected(SheetEvent evt) {
-                   // app.dispose(project);
                 }
             }
             );

@@ -23,7 +23,12 @@ import java.awt.*;
  * @version 1.0 April 14, 2007 Created.
  */
 public class BezierOutlineHandle extends AbstractHandle {
+    /* XXX - In a future version all these styles should be properties of
+     * the DrawingEditor (much like properties in javax.swing.UIManager).
+     * So that we can have visually styled (skinned) drawing editors.
+     */
     private final static Color HANDLE_FILL_COLOR = new Color(0x00a8ff);
+    private final static BasicStroke HANDLE_STROKE = new BasicStroke();
     private final static Color HANDLE_STROKE_COLOR = Color.WHITE;
     
     /** Creates a new instance. */
@@ -57,6 +62,7 @@ public class BezierOutlineHandle extends AbstractHandle {
             bounds = AttributeKeys.TRANSFORM.get(getOwner()).createTransformedShape(bounds);
         }
         bounds = view.getDrawingToViewTransform().createTransformedShape(bounds);
+        g.setStroke(HANDLE_STROKE);
         g.setColor(HANDLE_FILL_COLOR);
         g.draw(bounds);
     }

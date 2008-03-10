@@ -1,7 +1,7 @@
 /*
- * @(#)AbstractFigure.java   5.1  2007-12-19
+ * @(#)AbstractFigure.java   6.0  2000-02-13
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -32,7 +32,9 @@ import org.jhotdraw.geom.*;
  *
  *
  * @author Werner Randelshofer
- * @version 5.1 2007-12-19 Method invalidat only fires an areInvalidated
+ * @version 7.0 2008-02-13 Huw Jones: Added methods to support
+ * Figure.isTransformable().
+ * <br>5.1 2007-12-19 Method invalidate only fires an areInvalidated
  * event, when the Figure is part of a Drawing. 
  * <br>5.0 2007-07-17 Extends from AbstractBean.
  * <br>4.0 2007-05-18 Removed addUndoableEditListener and
@@ -53,6 +55,7 @@ public abstract class AbstractFigure
     private boolean isSelectable = true;
     private boolean isRemovable = true;
     private boolean isVisible = true;
+    private boolean isTransformable = true;
     /**
      * This variable is used to prevent endless change loops.
      * We increase its value on each invocation of willChange() and
@@ -520,6 +523,16 @@ public abstract class AbstractFigure
         boolean oldValue = isRemovable;
         isRemovable = newValue;
         firePropertyChange("removable", oldValue, newValue);
+    }
+
+    public boolean isTransformable() {
+        return isTransformable;
+    }
+
+    public void setTransformable(boolean newValue) {
+        boolean oldValue = isTransformable;
+        isTransformable = newValue;
+        firePropertyChange("transformable", oldValue, newValue);
     }
 
     public boolean isVisible() {

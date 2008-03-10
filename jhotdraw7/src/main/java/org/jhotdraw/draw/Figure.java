@@ -1,7 +1,7 @@
 /*
- * @(#)Figure.java  6.0  2007-12-19
+ * @(#)Figure.java  7.0  2008-02-13
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -11,8 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
-
 package org.jhotdraw.draw;
 
 import org.jhotdraw.util.*;
@@ -27,6 +25,7 @@ import javax.swing.event.*;
 import java.io.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMStorable;
+
 /**
  * A Figure knows its bounds and it can draw itself. A figure is an element of a
  * {@link Drawing}. 
@@ -43,7 +42,10 @@ import org.jhotdraw.xml.DOMStorable;
  * 
  * 
  * @author Werner Randelshofer
- * @version 6.0 2007-12-19 Removed method invalidate. 
+ * @version 7.0.1 2008-02-13 Fixed comments on
+ * setAttribute and getAttribute methods.
+ * <br>7.0 2008-02-13 Huw Jones: Added method isTransformable.
+ * <br>6.0 2007-12-19 Removed method invalidate. 
  * <br>5.0 2007-07-24 Removed method isSelectable and added
  * isSelectable and isRemovable instead.
  * <br>4.2 2007-05-19 Removed setConnectorsVisible, isConnectorsVisible
@@ -68,9 +70,9 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * @param g The Graphics2D to draw to.
      */
     public void draw(Graphics2D g);
-    
-     /**
-     * Gets the layer of the figure.
+
+    /**
+     * Gets the layer number of the figure.
      * The layer is used to determine the z-ordering of a figure inside of a
      * drawing. Figures with a higher layer number are drawn after figures
      * with a lower number.
@@ -78,29 +80,18 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * sequence the figures were added to a drawing. Figures added later to
      * a drawn after figures which have been added before.
      * If a figure changes its layer, it must fire a 
-      * <code>FigureListener.figureChanged</code> event to
+     * <code>FigureListener.figureChanged</code> event to
      * its figure listeners.
-      *
-      * FIXME - Replace int value by a Layer object.
      */
-    public int getLayer();    
-    
+    public int getLayer();
+
     /**
      * A Figure is only drawn by a CompositeFigure, if it is visible.
      * Layouter's should ignore invisible figures too.
      */
     public boolean isVisible();
-    /**
-     * Changes the visible state of the Figure.
-     * <p>
-     * The Figure fires <code>FigureListener.figureChanged</code> and 
-     * <code>UndoableEditListener.undoableEditHappened</code>,
-     * if this operation changed its visible state.</li>
-     * </ul>
-     */
-    public void setVisible(boolean newValue);
-   
-    
+
+
     // BOUNDS
     /**
      * Sets the logical and untransformed bounds of the figure.
@@ -122,6 +113,7 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * @see #getBounds
      */
     public void setBounds(Point2D.Double start, Point2D.Double end);
+
     /**
      * Returns the untransformed logical start point of the bounds.
      * 
@@ -130,6 +122,7 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * @see #setBounds
      */
     public Point2D.Double getStartPoint();
+
     /**
      * Returns the untransformed logical end point of the bounds.
      * 
@@ -138,12 +131,14 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * @see #setBounds
      */
     public Point2D.Double getEndPoint();
+
     /**
      * Returns the untransformed logicalbounds of the figure as a Rectangle.
      * The handle bounds are used by Handle objects for adjusting the 
      * figure and for aligning the figure on a grid.
      */
     public Rectangle2D.Double getBounds();
+
     /**
      * Returns the drawing area of the figure as a Rectangle.
      * The drawing area is used to improve the performance of GraphicView, for
@@ -153,6 +148,7 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * and other decorations into account that exceed the bounds of the Figure.
      */
     public Rectangle2D.Double getDrawingArea();
+
     /**
      * The preferred size is used by Layouter to determine the preferred
      * size of a Figure. For most Figure's this is the same as the 
@@ -161,6 +157,15 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
     public Dimension2DDouble getPreferredSize();
     
     /**
+     * Checks if a point is contained by the figure.
+     * <p>
+     * This is used for hit testing by Tool's. 
+     */
+    boolean contains(Point2D.Double p);
+
+
+    // TRANSFORMING
+    /**
      * Gets data which can be used to restore the transformation of the figure 
      * without loss of precision, after a transform has been applied to it.
      * 
@@ -168,10 +173,12 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * @see #transform(AffineTransform)
      */
     public Object getTransformRestoreData();
+
     /**
      * Restores the transform of the figure to a previously stored state.
      */
     public void restoreTransformTo(Object restoreData);
+
     /**
      * Transforms the shape of the Figure. Transformations using double
      * precision arithmethics are inherently lossy operations. Therefore it is 
@@ -192,35 +199,24 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * @see #restoreTransformTo
      */
     public void transform(AffineTransform tx);
-    
+
     // ATTRIBUTES
     /**
-     * Sets an attribute of the figure without firing events.
-     * AttributeKey name and semantics are defined by the class implementing
-     * the Figure interface.
+     * Sets an attribute of the figure and calls attributeChanged on all
+     * registered FigureListener's.
      * <p>
-     * Use <code>AttributeKey.basicSet</code> for typesafe access to this 
-     * method.
-     * <p>
-     * This is a basic operation which does not fire events. Use method 
-     * <code>setAttribute</code> if you need event firing, or - alternatively - the following
-     * code sequence:
-     * <pre>
-     * aFigure.willChange();
-     * Object oldData = aFigure.getAttributesRestoreData();
-     * STROKE_COLOR.basicSet(aFigure, ...);
-     * aFigure.changed();
-     * Object newData = aFigure.getAttributesRestoreData();
-     * ...fire an UndoableEditEvent oldData and newData... 
-     * </pre>
+     * This method is not typesafe, you should never call it directly, use 
+     * <code>AttributeKey.set</code> instead.
      * 
-     * @see AttributeKey#basicSet
+     * @see AttributeKey#set
      */
     public void setAttribute(AttributeKey key, Object value);
+
     /**
      * Gets an attribute from the Figure.
      * <p>
-     * Use <code>AttributeKey.get()</code> for typesafe access to this method.
+     * This method is not typesafe, you should never call it directly, use 
+     * <code>AttributeKey.get</code> instead.
      * 
      * @see AttributeKey#get
      *
@@ -228,22 +224,24 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * attribute with the specified key, returns key.getDefaultValue().
      */
     public Object getAttribute(AttributeKey key);
+
     /**
      * Returns a view to all attributes of this figure.
      * By convention, an unmodifiable map is returned.
      */
     public Map<AttributeKey, Object> getAttributes();
-    
+
     /**
      * Gets data which can be used to restore the attributes of the figure 
      * after a setAttribute has been applied to it.
      */
     public Object getAttributesRestoreData();
+
     /**
      * Restores the attributes of the figure to a previously stored state.
      */
     public void restoreAttributesTo(Object restoreData);
-    
+
     // EDITING
     /**
      * Returns true, if the user may select this figure.
@@ -257,6 +255,7 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * GroupFigure. 
      */
     public boolean isSelectable();
+
     /**
      * Returns true, if the user may remove this figure.
      * If this operation returns false, Tool's should not remove this
@@ -269,12 +268,20 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * no longer relevant.
      */
     public boolean isRemovable();
+
     /**
-     * Checks if a point is contained by the figure.
+     * Returns true, if the user may transform this figure.
+     * If this operation returns false, Tool's should not transform this
+     * figure on behalf of the user.
      * <p>
-     * This is used for hit testing by Tool's. 
+     * Please note, that even if this method returns false, the Figure
+     * may be transformed for other reasons. For example, if the Figure takes 
+     * part in an animation.
+     * 
+     * @see #transform
      */
-    boolean contains(Point2D.Double p);
+    public boolean isTransformable();
+
     /**
      * Creates handles used to manipulate the figure.
      *
@@ -284,10 +291,12 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * @see Handle
      */
     public Collection<Handle> createHandles(int detailLevel);
+
     /**
      * Returns a cursor for the specified location.
      */
     public Cursor getCursor(Point2D.Double p);
+
     /**
      * Returns a collection of Action's for the specified location on the figure.
      *
@@ -297,21 +306,24 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * submenu.
      */
     public Collection<Action> getActions(Point2D.Double p);
+
     /**
      * Returns a specialized tool for the specified location.
      * <p>Returns null, if no specialized tool is available.
      */
     public Tool getTool(Point2D.Double p);
+
     /**
      * Returns a tooltip for the specified location on the figure.
      */
     public String getToolTipText(Point2D.Double p);
-    
+
     // CONNECTING 
     /**
      * Checks if this Figure can be connected.
      */
     public boolean canConnect();
+
     /**
      * Gets a connector for this figure at the given location.
      * A figure can have different connectors at different locations.
@@ -322,6 +334,7 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * connection figures.
      */
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype);
+
     /**
      * Gets a compatible connector.
      * If the provided connector is part of this figure, return the connector.
@@ -330,6 +343,7 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * Return null, if no compatible connector is available.
      */
     public Connector findCompatibleConnector(Connector c, boolean isStartConnector);
+
     /**
      * Returns all connectors of this Figure for the specified prototype of
      * a ConnectionFigure.
@@ -350,15 +364,17 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * A figure includes itself.
      */
     public boolean includes(Figure figure);
+
     /**
      * Returns the figure that contains the given point.
      */
     public Figure findFigureInside(Point2D.Double p);
+
     /**
      * Returns a decompositon of a figure into its parts.
      * A figure is considered as a part of itself.
      */
-    public Collection<Figure> getDecomposition();    
+    public Collection<Figure> getDecomposition();
 
     // CLONING
     /**
@@ -366,7 +382,8 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * such as chilrend and decorators. The cloned figure does not clone
      * the list of FigureListeners from its original. 
      */
-    Object clone();
+    public Object clone();
+
     /**
      * After cloning a collection of figures, the ConnectionFigures contained
      * in this collection still connect to the original figures instead of
@@ -375,20 +392,21 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * collection of figures to the new collection, connections can be remapped
      * to the new figures.
      */
-    public void remap(Map<Figure,Figure> oldToNew);   
-    
-    
+    public void remap(Map<Figure, Figure> oldToNew);
+
     // EVENT HANDLING
     /**
      * Informs a figure, that it has been added to a drawing.
      * The figure must inform all FigureListeners that it has been added.
      */
     public void addNotify(Drawing d);
+
     /**
      * Informs a figure, that it has been removed from a drawing.
      * The figure must inform all FigureListeners that it has been removed.
      */
     public void removeNotify(Drawing d);
+
     /**
      * Informs that a Figure is about to change its shape.
      * <p>
@@ -397,6 +415,7 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * the Figure.
      */
     public void willChange();
+
     /**
      * Informs that a Figure changed its shape. 
      * This fires a <code>FigureListener.figureChanged</code>
@@ -405,10 +424,12 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * @see #willChange()
      */
     public void changed();
+
     /**
      * Fires a <code>FigureListener.figureRequestRemove</code> event.
      */
     public void requestRemove();
+
     /**
      * Handles a drop.
      * 
@@ -419,6 +440,7 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * they were dragged from.
      */
     public boolean handleDrop(Point2D.Double p, Collection<Figure> droppedFigures, DrawingView view);
+
     /**
      * Handles a mouse click.
      *
@@ -427,12 +449,14 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * @param view The drawing view which is the source of the mouse event.
      *
      * @return Returns true, if the event was consumed.
-      */
+     */
     public boolean handleMouseClick(Point2D.Double p, MouseEvent evt, DrawingView view);
+
     /**
      * Adds a listener for FigureEvent's.
      */
     public void addFigureListener(FigureListener l);
+
     /**
      * Removes a listener for FigureEvent's.
      */

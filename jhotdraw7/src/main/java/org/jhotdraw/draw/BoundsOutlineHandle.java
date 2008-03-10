@@ -24,6 +24,13 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * @version 1.0 April 15, 2007 Created.
  */
 public class BoundsOutlineHandle extends AbstractHandle {
+    /* XXX - In a future version all these styles should be properties of
+     * the DrawingEditor (much like properties in javax.swing.UIManager).
+     * So that we can have visually styled (skinned) drawing editors.
+     */
+    private final static BasicStroke HANDLE_STROKE = new BasicStroke(
+            1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] { 5f, 5f }, 0f
+            );
     private final static Color HANDLE_STROKE_COLOR = new Color(0x00a8ff); //Color.WHITE;
     
     public BoundsOutlineHandle(Figure owner) {
@@ -59,6 +66,7 @@ public class BoundsOutlineHandle extends AbstractHandle {
             bounds = AttributeKeys.TRANSFORM.get(getOwner()).createTransformedShape(bounds);
         }
         bounds = view.getDrawingToViewTransform().createTransformedShape(bounds);
+        g.setStroke(HANDLE_STROKE);
         g.setColor(HANDLE_STROKE_COLOR);
         g.draw(bounds);
     }

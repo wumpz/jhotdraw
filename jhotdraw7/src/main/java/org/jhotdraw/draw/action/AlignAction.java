@@ -1,7 +1,7 @@
 /*
- * @(#)AlignAction.java  2.0  2006-01-15
+ * @(#)AlignAction.java  2.1  2008-02-27
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -32,7 +32,8 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * XXX - Fire edit events
  *
  * @author  Werner Randelshofer
- * @version 2.0 2006-01-15 Changed to support double precision coordinates.
+ * @version 2.1 2008-02-27 Only align figures which are transformable. 
+ * <br>2.0 2006-01-15 Changed to support double precision coordinates.
  * <br>1.0 17. March 2004  Created.
  */
 public abstract class AlignAction extends AbstractSelectedAction {
@@ -88,6 +89,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
             double y = selectionBounds.y;
             for (Iterator i=getView().getSelectedFigures().iterator(); i.hasNext(); ) {
                 Figure f = (Figure) i.next();
+                if (f.isTransformable()) {
                 f.willChange();
                 Rectangle2D.Double b = f.getBounds();
                 AffineTransform tx = new AffineTransform();
@@ -95,6 +97,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
                 f.transform(tx);
                  f.changed();
                 fireUndoableEditHappened(new TransformEdit(f, tx));
+                }
            }
         }
     }
@@ -112,6 +115,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
             double x = selectionBounds.x + selectionBounds.width;
             for (Iterator i=getView().getSelectedFigures().iterator(); i.hasNext(); ) {
                 Figure f = (Figure) i.next();
+                if (f.isTransformable()) {
                 f.willChange();
                 Rectangle2D.Double b = f.getBounds();
                 AffineTransform tx = new AffineTransform();
@@ -119,6 +123,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
                 f.transform(tx);
                  f.changed();
                 fireUndoableEditHappened(new TransformEdit(f, tx));
+                }
            }
         }
     }
@@ -136,6 +141,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
             double x = selectionBounds.x;
             for (Iterator i=getView().getSelectedFigures().iterator(); i.hasNext(); ) {
                 Figure f = (Figure) i.next();
+                if (f.isTransformable()) {
                 f.willChange();
                 Rectangle2D.Double b = f.getBounds();
                 AffineTransform tx = new AffineTransform();
@@ -143,6 +149,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
                 f.transform(tx);
                 f.changed();
                 fireUndoableEditHappened(new TransformEdit(f, tx));
+                }
             }
         }
     }
@@ -160,6 +167,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
             double y = selectionBounds.y + selectionBounds.height;
             for (Iterator i=getView().getSelectedFigures().iterator(); i.hasNext(); ) {
                 Figure f = (Figure) i.next();
+                if (f.isTransformable()) {
                 f.willChange();
                 Rectangle2D.Double b = f.getBounds();
                 AffineTransform tx = new AffineTransform();
@@ -167,6 +175,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
                 f.transform(tx);
                 f.changed();
                 fireUndoableEditHappened(new TransformEdit(f, tx));
+                }
             }
         }
     }
@@ -184,6 +193,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
             double y = selectionBounds.y + selectionBounds.height / 2;
             for (Iterator i=getView().getSelectedFigures().iterator(); i.hasNext(); ) {
                 Figure f = (Figure) i.next();
+                if (f.isTransformable()) {
                 f.willChange();
                 Rectangle2D.Double b = f.getBounds();
                 AffineTransform tx = new AffineTransform();
@@ -191,6 +201,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
                 f.transform(tx);
                 f.changed();
                 fireUndoableEditHappened(new TransformEdit(f, tx));
+                }
             }
         }
     }
@@ -208,6 +219,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
             double x = selectionBounds.x + selectionBounds.width / 2;
             for (Iterator i=getView().getSelectedFigures().iterator(); i.hasNext(); ) {
                 Figure f = (Figure) i.next();
+                if (f.isTransformable()) {
                 f.willChange();
                 Rectangle2D.Double b = f.getBounds();
                 AffineTransform tx = new AffineTransform();
@@ -215,6 +227,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
                 f.transform(tx);
                 f.changed();
                 fireUndoableEditHappened(new TransformEdit(f, tx));
+                }
             }
         }
     }

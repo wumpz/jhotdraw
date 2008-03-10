@@ -1,7 +1,7 @@
 /*
- * @(#)MoveConstrainedAction.java  2.0  2007-07-31
+ * @(#)MoveConstrainedAction.java  2.1  2008-02-27
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.draw.action;
 
 import org.jhotdraw.draw.*;
@@ -27,20 +26,21 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * Moves the selected figures by one constrained unit.
  *
  * @author  Werner Randelshofer
- * @version 2.0 2007-07-31 Reworked to take advantage of the new
+ * @version 2.1 2008-02-27 Only move figures which are transformable. 
+ * <br>2.0 2007-07-31 Reworked to take advantage of the new
  * Constrainer.translateRectangle method. 
  * <br>1.0 17. March 2004  Created.
  */
 public abstract class MoveConstrainedAction extends AbstractSelectedAction {
-    
+
     private TranslationDirection dir;
-    
+
     /** Creates a new instance. */
     public MoveConstrainedAction(DrawingEditor editor, TranslationDirection dir) {
         super(editor);
         this.dir = dir;
     }
-    
+
     public void actionPerformed(java.awt.event.ActionEvent e) {
         Rectangle2D.Double r = null;
         for (Figure f : getView().getSelectedFigures()) {
@@ -50,63 +50,74 @@ public abstract class MoveConstrainedAction extends AbstractSelectedAction {
                 r.add(f.getBounds());
             }
         }
-        
+
         Point2D.Double p0 = new Point2D.Double(r.x, r.y);
         if (getView().getConstrainer() != null) {
             getView().getConstrainer().translateRectangle(r, dir);
         } else {
             switch (dir) {
-                case NORTH :
+                case NORTH:
                     r.y -= 1;
                     break;
-                case SOUTH :
+                case SOUTH:
                     r.y += 1;
                     break;
-                case WEST :
+                case WEST:
                     r.x -= 1;
                     break;
-                case EAST :
+                case EAST:
                     r.x += 1;
                     break;
             }
         }
-        
+
         AffineTransform tx = new AffineTransform();
         tx.translate(r.x - p0.x, r.y - p0.y);
         for (Figure f : getView().getSelectedFigures()) {
-            f.willChange();
-            f.transform(tx);
-            f.changed();
+            if (f.isTransformable()) {
+                f.willChange();
+                f.transform(tx);
+                f.changed();
+            }
         }
         CompositeEdit edit;
         fireUndoableEditHappened(new TransformEdit(getView().getSelectedFigures(), tx));
     }
-    
-    
+
     public static class East extends MoveConstrainedAction {
+
         public final static String ID = "moveConstrainedEast";
-        
+
         public East(DrawingEditor editor) {
             super(editor, TranslationDirection.EAST);
             labels.configureAction(this, ID);
         }
     }
+
     public static class West extends MoveConstrainedAction {
+
         public final static String ID = "moveConstrainedWest";
+
         public West(DrawingEditor editor) {
             super(editor, TranslationDirection.WEST);
             labels.configureAction(this, ID);
         }
     }
+
     public static class North extends MoveConstrainedAction {
+
         public final static String ID = "moveConstrainedNorth";
+
         public North(DrawingEditor editor) {
             super(editor, TranslationDirection.NORTH);
             labels.configureAction(this, ID);
         }
     }
+
     public static class South extends MoveConstrainedAction {
+
         public final static String ID = "moveConstrainedSouth";
+
         public South(DrawingEditor editor) {
             super(editor, TranslationDirection.SOUTH);
             labels.configureAction(this, ID);

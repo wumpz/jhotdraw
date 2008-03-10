@@ -1,7 +1,7 @@
 /*
- * @(#)AttributeKey.java  2.0  2007-05-12
+ * @(#)AttributeKey.java  2.0.1  2008-02-13
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -19,23 +19,23 @@ import java.util.*;
 import javax.swing.undo.*;
 import org.jhotdraw.util.*;
 /**
+ * AttributeKey provides typesafe access to figure attributes.
+ * <p>
  * An AttributeKey has a name, a type and a default value. The default value
  * is returned by Figure.getAttribute, if a Figure does not have an attribute
  * of the specified key.
  * <p>
- * An AttributeKey provides typesafe getter and setter for a Figure attribute.
  * The following code example shows how to basicSet and get an attribute on a Figure.
  * <pre>
  * Figure aFigure;
- * AttributeKeys.STROKE_COLOR.basicSet(aFigure, Color.blue);
+ * AttributeKeys.STROKE_COLOR.set(aFigure, Color.blue);
  * </pre>
  * <p>
  * See {@link AttributeKeys} for a list of useful attribute keys.
- * <p>
- * FIXME AttributeKey must not override equals and hashCode from Object.
  * 
  * @author Werner Randelshofer
- * @version 2.0 2007-05-12 Removed basicSet methods.
+ * @version 2.0.1 2008-02-13 Fixed comments. Removed equals and hashCode.
+ * <br>2.0 2007-05-12 Removed basicSet methods.
  * <br>1.2 2007-04-10 Convenience methods for getting and setting a clone
  * of an attribute added.
  * <br>1.1 2006-12-29 Support for getting/setting attribute keys on a
@@ -82,10 +82,24 @@ public class AttributeKey<T> {
         }
     }
     
+    /**
+     * Gets the value of the attribute denoted by this AttributeKey from
+     * a Figure.
+     * 
+     * @param f A figure.
+     * @return The value of the attribute.
+     */
     public T get(Figure f) {
         T value = (T) f.getAttribute(this);
         return (value == null && ! isNullValueAllowed) ? defaultValue : value;
     }
+    /**
+     * Gets the value of the attribute denoted by this AttributeKey from
+     * a Map.
+     * 
+     * @param a A Map.
+     * @return The value of the attribute.
+     */
     public T get(Map<AttributeKey,Object> a) {
         T value = (T) a.get(this);
         return (value == null && ! isNullValueAllowed) ? defaultValue : value;
@@ -204,18 +218,6 @@ public class AttributeKey<T> {
             e.initCause(ex);
             throw e;
         }
-    }
-    
-    public boolean equals(Object o) {
-        if (o instanceof AttributeKey) {
-            AttributeKey that = (AttributeKey) o;
-            return that.key.equals(this.key);
-        }
-        return false;
-    }
-    
-    public int hashCode() {
-        return key.hashCode();
     }
     
     public String toString() {

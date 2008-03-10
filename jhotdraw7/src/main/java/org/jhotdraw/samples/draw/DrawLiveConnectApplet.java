@@ -28,6 +28,7 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
+import netscape.javascript.JSObject;
 import org.jhotdraw.xml.*;
 /**
  * DrawLiveConnectApplet. Supports loading and saving of images to JavaScript.

@@ -35,7 +35,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * <br>1.0 January 20, 2006 Created.
  */
 public class BezierNodeHandle extends AbstractHandle {
-    private final static Color HANDLE_FILL_COLOR = Color.BLACK;
+    private final static Color HANDLE_FILL_COLOR = new Color(0x00a8ff); 
     private final static Color HANDLE_STROKE_COLOR = Color.WHITE;
     protected int index;
     private CompositeEdit edit;
