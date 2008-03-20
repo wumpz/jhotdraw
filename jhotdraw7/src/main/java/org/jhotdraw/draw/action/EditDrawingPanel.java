@@ -54,7 +54,9 @@ public class EditDrawingPanel extends javax.swing.JPanel {
             public void stateChanged(ChangeEvent e) {
                 opacityField.setValue(backgroundOpacitySlider.getValue());
                 if (!backgroundOpacitySlider.getModel().getValueIsAdjusting()) {
-                    updateDrawing();
+            drawing.fireUndoableEditHappened(
+                    CANVAS_FILL_OPACITY.setUndoable(drawing, opacityField.getValue() / 100d, labels)
+                    );
                 }
             }
         });
@@ -67,7 +69,9 @@ public class EditDrawingPanel extends javax.swing.JPanel {
             public void propertyChange(PropertyChangeEvent evt) {
                 if (!backgroundOpacitySlider.getModel().getValueIsAdjusting()) {
                     backgroundOpacitySlider.setValue((int) opacityField.getValue());
-                    updateDrawing();
+            drawing.fireUndoableEditHappened(
+                    CANVAS_FILL_OPACITY.setUndoable(drawing, opacityField.getValue() / 100d, labels)
+                    );
                 }
             }
         });

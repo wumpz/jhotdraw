@@ -1,7 +1,7 @@
 /*
- * @(#)SVGBezierFigure.java  1.0  April 14, 2007
+ * @(#)SVGBezierFigure.java  1.0.1  2008-03-20
  *
- * Copyright (c) 2007 by the original authors of JHotDraw
+ * Copyright (c) 2007-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -14,6 +14,7 @@
 
 package org.jhotdraw.samples.svg.figures;
 
+import java.awt.BasicStroke;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.*;
@@ -27,7 +28,8 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * represent a single BezierPath segment within an SVG path.
  *
  * @author Werner Randelshofer
- * @version 1.0 April 14, 2007 Created.
+ * @version 1.0.1 2008-03-20 Fixed computation of clip bounds. 
+ * <br>1.0 April 14, 2007 Created.
  */
 public class SVGBezierFigure extends BezierFigure {
     private Rectangle2D.Double cachedDrawingArea;
@@ -110,6 +112,14 @@ public class SVGBezierFigure extends BezierFigure {
                 p2.transform(TRANSFORM.get(this));
                 cachedDrawingArea = p2.getBounds2D();
             }
+            double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this);
+            double width = strokeTotalWidth / 2d;
+            if (STROKE_JOIN.get(this) == BasicStroke.JOIN_MITER) {
+                width *= STROKE_MITER_LIMIT.get(this);
+            } else if (STROKE_CAP.get(this) != BasicStroke.CAP_BUTT) {
+                width += strokeTotalWidth * 2;
+            }
+            Geom.grow(cachedDrawingArea, width, width);
         }
         return (Rectangle2D.Double) cachedDrawingArea.clone();
     }

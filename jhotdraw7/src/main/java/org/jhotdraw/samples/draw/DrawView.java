@@ -120,10 +120,13 @@ public class DrawView extends AbstractView {
                 new DOMStorableInputOutputFormat(new DrawFigureFactory());
         
         drawing.addInputFormat(ioFormat);
-        drawing.addInputFormat(new ImageInputFormat(new ImageFigure()));
-        drawing.addInputFormat(new ImageInputFormat(new ImageFigure(), "JPG","Joint Photographics Experts Group (JPEG)", "jpg", BufferedImage.TYPE_INT_RGB));
-        drawing.addInputFormat(new ImageInputFormat(new ImageFigure(), "GIF","Graphics Interchange Format (GIF)", "gif", BufferedImage.TYPE_INT_ARGB));
-        drawing.addInputFormat(new ImageInputFormat(new ImageFigure()));
+        ImageFigure prototype = new ImageFigure();
+        
+        drawing.addInputFormat(new ImageInputFormat(prototype));
+        drawing.addInputFormat(new ImageInputFormat(prototype, "JPG","Joint Photographics Experts Group (JPEG)", "jpg", BufferedImage.TYPE_INT_RGB));
+        drawing.addInputFormat(new ImageInputFormat(prototype, "GIF","Graphics Interchange Format (GIF)", "gif", BufferedImage.TYPE_INT_ARGB));
+        drawing.addInputFormat(new ImageInputFormat(prototype));
+        drawing.addInputFormat(new PictImageInputFormat(prototype));
         drawing.addInputFormat(new TextInputFormat(new TextFigure()));
         TextAreaFigure taf = new TextAreaFigure();
         taf.setBounds(new Point2D.Double(10,10), new Point2D.Double(60,40));

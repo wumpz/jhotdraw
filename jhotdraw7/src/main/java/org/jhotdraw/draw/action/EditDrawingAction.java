@@ -39,7 +39,7 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  */
 public class EditDrawingAction extends AbstractEditorAction {
     public final static String ID = "editDrawing";
-    private JDialog dialog;
+    private JFrame frame;
     private EditDrawingPanel settingsPanel;
     private PropertyChangeListener propertyChangeHandler;
     private Application app;
@@ -53,7 +53,7 @@ public class EditDrawingAction extends AbstractEditorAction {
     }
     
     public void actionPerformed(ActionEvent e) {
-        getDialog().setVisible(true);
+        getFrame().setVisible(true);
     }
     
    @Override protected void updateViewState() {
@@ -66,20 +66,20 @@ public class EditDrawingAction extends AbstractEditorAction {
         return app;
     }
     
-    protected JDialog getDialog() {
-        if (dialog == null) {
+    protected JFrame getFrame() {
+        if (frame == null) {
             ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-            dialog = new JDialog();
-            dialog.setTitle(labels.getString("drawingSettings"));
-            dialog.setResizable(false);
+            frame = new JFrame();
+            frame.setTitle(labels.getString("canvasSettings"));
+            frame.setResizable(false);
             settingsPanel = new EditDrawingPanel();
-            dialog.add(settingsPanel);
-            dialog.pack();
+            frame.add(settingsPanel);
+            frame.pack();
             Preferences prefs = Preferences.userNodeForPackage(getClass());
-            PreferencesUtil.installFramePrefsHandler(prefs, "drawingSettings", dialog);
-            getApplication().addWindow(dialog, null);
+            PreferencesUtil.installFramePrefsHandler(prefs, "canvasSettings", frame);
+            getApplication().addWindow(frame, null);
         }
             settingsPanel.setDrawing(getView().getDrawing());
-        return dialog;
+        return frame;
     }
 }

@@ -128,7 +128,7 @@ public class ImageOutputFormat implements OutputFormat {
      * the image.
      */
     public Transferable createTransferable(Drawing drawing, java.util.List<Figure> figures, double scaleFactor) throws IOException {
-        return new ImageTransferable(toImage(drawing, figures, scaleFactor));
+        return new ImageTransferable(toImage(drawing, figures, scaleFactor, true));
     }
     
     /**
@@ -148,7 +148,7 @@ public class ImageOutputFormat implements OutputFormat {
             AffineTransform drawingTransform, Dimension imageSize) throws IOException {
         BufferedImage img;
         if (drawingTransform == null || imageSize == null) {
-            img = toImage(drawing, figures, 1d);
+            img = toImage(drawing, figures, 1d, false);
         } else {
             img = toImage(drawing, figures, drawingTransform, imageSize);
         }
@@ -167,10 +167,12 @@ public class ImageOutputFormat implements OutputFormat {
      * @param drawing The drawing.
      * @param figures A list of figures of the drawing.
      * @param scaleFactor The scale factor used when drawing the figures.
+     * @param clipToFigures If this is true, the image is clipped to the figures.
+     * If this is false, the image includes the drawing area,  
      */
     public BufferedImage toImage(Drawing drawing,
             java.util.List<Figure> figures,
-            double scaleFactor) {
+            double scaleFactor, boolean clipToFigures) {
         
         // Determine the draw bounds of the figures
         Rectangle2D.Double drawBounds = null;
@@ -181,7 +183,7 @@ public class ImageOutputFormat implements OutputFormat {
                 drawBounds.add(f.getDrawingArea());
             }
         }
-        /*
+        if (clipToFigures) {
         AffineTransform transform = new AffineTransform();
             transform.translate(-drawBounds.x * scaleFactor, 
                     -drawBounds.y * scaleFactor);
@@ -192,7 +194,7 @@ public class ImageOutputFormat implements OutputFormat {
                 (int) (drawBounds.height * scaleFactor)
                 )
                 );
-        */
+        } else {
 
         AffineTransform transform = new AffineTransform();
         if (drawBounds.x < 0) {
@@ -209,6 +211,7 @@ public class ImageOutputFormat implements OutputFormat {
                 (int) ((Math.max(0, drawBounds.y)+drawBounds.height) * scaleFactor)
                 )
                 );
+         }
     }
     
     /**

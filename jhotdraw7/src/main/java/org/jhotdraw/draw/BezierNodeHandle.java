@@ -136,9 +136,9 @@ public class BezierNodeHandle extends AbstractHandle {
         }
         
         BezierPath.Node n = figure.getNode(index);
-        fireAreaInvalidated(n);
+        //fireAreaInvalidated(n);
         n.moveTo(p);
-        fireAreaInvalidated(n);
+        //fireAreaInvalidated(n);
         figure.setNode(index, n);
         figure.changed();
     }

@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultDrawingViewTransferHandler.java  1.1.1  2008-03-10
+ * @(#)DefaultDrawingViewTransferHandler.java  1.1.2  2008-03-20
  *
  * Copyright (c) 2007-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.draw;
 
 import java.awt.*;
@@ -31,54 +30,69 @@ import org.jhotdraw.util.ReversedList;
  * Default TransferHandler for DrawingView objects.
  *
  * @author Werner Randelshofer
- * @version 1.1.1 2008-03-10 In method importData, figures are added to drawing
+ * @version 1.1.2 2008-03-20 After import, only select imported figures in 
+ * drawing view. 
+ * <br>1.1.1 2008-03-10 In method importData, figures are added to drawing
  * by the InputFormat. 
  * <br>1.1 2007-12-16 Adapted to changes in InputFormat and OutputFormat.
  * <br>1.0 April 13, 2007 Created.
  */
 public class DefaultDrawingViewTransferHandler extends TransferHandler {
+
     private final static boolean DEBUG = false;
-    
+
     /** Creates a new instance. */
     public DefaultDrawingViewTransferHandler() {
     }
-    
-    @Override public boolean importData(JComponent comp, Transferable t) {
-        if (DEBUG) System.out.println(this+".importData");
+
+    @Override
+    public boolean importData(JComponent comp, Transferable t) {
+        if (DEBUG) {
+            System.out.println(this + ".importData");
+        }
         boolean retValue;
         if (comp instanceof DrawingView) {
             DrawingView view = (DrawingView) comp;
             final Drawing drawing = view.getDrawing();
-            
+
             if (drawing.getInputFormats() == null ||
                     drawing.getInputFormats().size() == 0) {
-                if (DEBUG) System.out.println(this+".importData failed - drawing has no import formats");
+                if (DEBUG) {
+                    System.out.println(this + ".importData failed - drawing has no import formats");
+                }
                 retValue = false;
             } else {
                 retValue = false;
                 try {
                     // Search for a suitable input format
-                    SearchLoop: for (InputFormat format : drawing.getInputFormats()) {
+                    SearchLoop:
+                    for (InputFormat format : drawing.getInputFormats()) {
                         for (DataFlavor flavor : t.getTransferDataFlavors()) {
-                            if (DEBUG) System.out.println(this+".importData trying to match "+format+" to flavor "+flavor);
+                            if (DEBUG) {
+                                System.out.println(this + ".importData trying to match " + format + " to flavor " + flavor);
+                            }
                             if (format.isDataFlavorSupported(flavor)) {
-                                if (DEBUG) System.out.println(this+".importData importing flavor "+flavor);
-                                Drawing d = new DefaultDrawing();
+                                if (DEBUG) {
+                                    System.out.println(this + ".importData importing flavor " + flavor);
+                                }
+                                 LinkedList<Figure> existingFigures = new LinkedList<Figure>(drawing.getChildren());
                                 format.read(t, drawing);
-                                final java.util.List<Figure> importedFigures = drawing.getChildren();
-                                
+                                final LinkedList<Figure> importedFigures = new LinkedList<Figure>(drawing.getChildren());
+                                importedFigures.removeAll(existingFigures);
                                 view.clearSelection();
-//                                drawing.addAll(importedFigures);
                                 view.addToSelection(importedFigures);
                                 drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
+
                                     public String getPresentationName() {
                                         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
                                         return labels.getString("editPaste");
                                     }
+
                                     public void undo() throws CannotUndoException {
                                         super.undo();
                                         drawing.removeAll(importedFigures);
                                     }
+
                                     public void redo() throws CannotRedoException {
                                         super.redo();
                                         drawing.addAll(importedFigures);
@@ -94,36 +108,41 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                     if (retValue == false && t.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
                         java.util.List<File> files = (java.util.List<File>) t.getTransferData(DataFlavor.javaFileListFlavor);
                         retValue = true;
-                        
-                        final java.util.List<Figure> storedFigures = new LinkedList<Figure>(drawing.getChildren());
-                        
+
                         // FIXME - We should perform the following code in a
                         // worker thread.
+                                 LinkedList<Figure> existingFigures = new LinkedList<Figure>(drawing.getChildren());
                         for (File file : files) {
-                            FileFormatLoop: for (InputFormat format : drawing.getInputFormats()) {
+                            FileFormatLoop:
+                            for (InputFormat format : drawing.getInputFormats()) {
                                 if (file.isFile() &&
                                         format.getFileFilter().accept(file)) {
-                                    if (DEBUG) System.out.println(this+".importData importing file "+file);
+                                    if (DEBUG) {
+                                        System.out.println(this + ".importData importing file " + file);
+                                    }
                                     format.read(file, drawing);
                                 }
                             }
                         }
-                        
                         final LinkedList<Figure> importedFigures = new LinkedList<Figure>(drawing.getChildren());
-                        importedFigures.removeAll(storedFigures);
+                        importedFigures.removeAll(existingFigures);
+                        importedFigures.removeAll(existingFigures);
                         if (importedFigures.size() > 0) {
                             view.clearSelection();
                             view.addToSelection(importedFigures);
-                            
+
                             drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
+
                                 public String getPresentationName() {
                                     ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
                                     return labels.getString("editPaste");
                                 }
+
                                 public void undo() throws CannotUndoException {
                                     super.undo();
                                     drawing.removeAll(importedFigures);
                                 }
+
                                 public void redo() throws CannotRedoException {
                                     super.redo();
                                     drawing.addAll(importedFigures);
@@ -132,7 +151,9 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                         }
                     }
                 } catch (Throwable e) {
-                    if (DEBUG) e.printStackTrace();
+                    if (DEBUG) {
+                        e.printStackTrace();
+                    }
                 }
             }
         } else {
@@ -140,30 +161,36 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
         }
         return retValue;
     }
-    
-    @Override public int getSourceActions(JComponent c) {
+
+    @Override
+    public int getSourceActions(JComponent c) {
         int retValue;
         if (c instanceof DrawingView) {
             DrawingView view = (DrawingView) c;
-            if (DEBUG) System.out.println(this+".getSourceActions outputFormats.size="+view.getDrawing().getOutputFormats().size());
+            if (DEBUG) {
+                System.out.println(this + ".getSourceActions outputFormats.size=" + view.getDrawing().getOutputFormats().size());
+            }
             retValue = (view.getDrawing().getOutputFormats().size() > 0 &&
-                    view.getSelectionCount() > 0) ?
-                        COPY | MOVE :
-                        NONE;
+                    view.getSelectionCount() > 0) ? COPY | MOVE : NONE;
         } else {
             retValue = super.getSourceActions(c);
         }
-        if (DEBUG) System.out.println(this+".getSourceActions:"+retValue);
+        if (DEBUG) {
+            System.out.println(this + ".getSourceActions:" + retValue);
+        }
         return retValue;
     }
-    
-    @Override protected Transferable createTransferable(JComponent c) {
-        if (DEBUG) System.out.println(this+".createTransferable");
+
+    @Override
+    protected Transferable createTransferable(JComponent c) {
+        if (DEBUG) {
+            System.out.println(this + ".createTransferable");
+        }
         Transferable retValue;
         if (c instanceof DrawingView) {
             DrawingView view = (DrawingView) c;
             Drawing drawing = view.getDrawing();
-            
+
             if (drawing.getOutputFormats() == null ||
                     drawing.getOutputFormats().size() == 0) {
                 retValue = null;
@@ -176,15 +203,16 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                             Transferable t = format.createTransferable(
                                     drawing,
                                     toBeCopied,
-                                    view.getScaleFactor()
-                                    );
-                            if (! transfer.isDataFlavorSupported(t.getTransferDataFlavors()[0])) {
+                                    view.getScaleFactor());
+                            if (!transfer.isDataFlavorSupported(t.getTransferDataFlavors()[0])) {
                                 transfer.add(t);
                             }
                         }
                         retValue = transfer;
                     } catch (IOException e) {
-                        if (DEBUG) e.printStackTrace();
+                        if (DEBUG) {
+                            e.printStackTrace();
+                        }
                         retValue = null;
                     }
                 } else {
@@ -194,50 +222,55 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
         } else {
             retValue = super.createTransferable(c);
         }
-        
+
         return retValue;
     }
-    
-    @Override protected void exportDone(JComponent source, Transferable data, int action) {
-        if (DEBUG) System.out.println(this+".exportDone "+action+" move="+MOVE);
+
+    @Override
+    protected void exportDone(JComponent source, Transferable data, int action) {
+        if (DEBUG) {
+            System.out.println(this + ".exportDone " + action + " move=" + MOVE);
+        }
         if (source instanceof DrawingView) {
             final DrawingView view = (DrawingView) source;
             final Drawing drawing = view.getDrawing();
             if (action == MOVE) {
                 final LinkedList<CompositeFigureEvent> deletionEvents = new LinkedList<CompositeFigureEvent>();
                 final LinkedList<Figure> selectedFigures = new LinkedList<Figure>(view.getSelectedFigures());
-                
+
                 // Abort, if not all of the selected figures may be removed from the
                 // drawing
                 for (Figure f : selectedFigures) {
-                    if (! f.isRemovable()) {
+                    if (!f.isRemovable()) {
                         source.getToolkit().beep();
                         return;
                     }
                 }
-                
+
                 view.clearSelection();
                 CompositeFigureListener removeListener = new CompositeFigureListener() {
+
                     public void areaInvalidated(CompositeFigureEvent e) {
                     }
-                    
+
                     public void figureAdded(CompositeFigureEvent e) {
                     }
-                    
+
                     public void figureRemoved(CompositeFigureEvent evt) {
                         deletionEvents.addFirst(evt);
                     }
-                    
                 };
                 drawing.addCompositeFigureListener(removeListener);
                 drawing.removeAll(selectedFigures);
                 drawing.removeCompositeFigureListener(removeListener);
                 drawing.removeAll(selectedFigures);
                 drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
+
                     public String getPresentationName() {
                         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
                         return labels.getString("delete");
                     }
+
                     public void undo() throws CannotUndoException {
                         super.undo();
                         view.clearSelection();
@@ -246,6 +279,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                         }
                         view.addToSelection(selectedFigures);
                     }
+
                     public void redo() throws CannotRedoException {
                         super.redo();
                         for (CompositeFigureEvent evt : new ReversedList<CompositeFigureEvent>(deletionEvents)) {
@@ -258,41 +292,55 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
             super.exportDone(source, data, action);
         }
     }
-    
-    @Override public void exportAsDrag(JComponent comp, InputEvent e, int action) {
-        if (DEBUG) System.out.println(this+".exportAsDrag");
+
+    @Override
+    public void exportAsDrag(JComponent comp, InputEvent e, int action) {
+        if (DEBUG) {
+            System.out.println(this + ".exportAsDrag");
+        }
         if (comp instanceof DrawingView) {
             DrawingView view = (DrawingView) comp;
-            // XXX - What kind of drag gesture can we support for this??
+        // XXX - What kind of drag gesture can we support for this??
         } else {
             super.exportAsDrag(comp, e, action);
         }
     }
-    
-    @Override public Icon getVisualRepresentation(Transferable t) {
-        if (DEBUG) System.out.println(this+".getVisualRepresentation");
+
+    @Override
+    public Icon getVisualRepresentation(Transferable t) {
+        if (DEBUG) {
+            System.out.println(this + ".getVisualRepresentation");
+        }
         Image image = null;
         try {
             image = (Image) t.getTransferData(DataFlavor.imageFlavor);
         } catch (IOException ex) {
-            if (DEBUG) ex.printStackTrace();
+            if (DEBUG) {
+                ex.printStackTrace();
+            }
         } catch (UnsupportedFlavorException ex) {
-            if (DEBUG) ex.printStackTrace();
+            if (DEBUG) {
+                ex.printStackTrace();
+            }
         }
-        
+
         return (image == null) ? null : new ImageIcon(image);
     }
-    
-    @Override public boolean canImport(JComponent comp, DataFlavor[] transferFlavors) {
-        if (DEBUG) System.out.println(this+".canImport "+Arrays.asList(transferFlavors));
+
+    @Override
+    public boolean canImport(JComponent comp, DataFlavor[] transferFlavors) {
+        if (DEBUG) {
+            System.out.println(this + ".canImport " + Arrays.asList(transferFlavors));
+        }
         boolean retValue;
         if (comp instanceof DrawingView) {
             DrawingView view = (DrawingView) comp;
             Drawing drawing = view.getDrawing();
-            
+
             // Search for a suitable input format
             retValue = false;
-            SearchLoop: for (InputFormat format : drawing.getInputFormats()) {
+            SearchLoop:
+            for (InputFormat format : drawing.getInputFormats()) {
                 for (DataFlavor flavor : transferFlavors) {
                     if (flavor.isFlavorJavaFileListType() ||
                             format.isDataFlavorSupported(flavor)) {
@@ -306,9 +354,8 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
         }
         return retValue;
     }
-    
+
     private void getDrawing() {
         throw new UnsupportedOperationException("Not yet implemented");
     }
-    
 }

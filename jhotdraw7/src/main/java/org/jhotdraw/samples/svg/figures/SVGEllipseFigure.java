@@ -1,7 +1,7 @@
 /*
- * @(#)SVGEllipse.java  2.0  2007-04-14
+ * @(#)SVGEllipse.java  2.0.1  2008-03-20
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -31,7 +31,8 @@ import org.jhotdraw.util.*;
  * SVGEllipse represents a SVG ellipse and a SVG circle element.
  *
  * @author Werner Randelshofer
- * @version 2.0 2007-04-14 Adapted for new AttributeKeys.TRANSFORM support.
+ * @version 2.0.2 2008-03-20 Fixed contains() method. 
+ * <br>2.0 2007-04-14 Adapted for new AttributeKeys.TRANSFORM support.
  * <br>1.0 July 8, 2006 Created.
  */
 public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
@@ -104,8 +105,22 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
      * Checks if a Point2D.Double is inside the figure.
      */
     public boolean contains(Point2D.Double p) {
-        // XXX - This does not take the stroke width into account!
-        return getTransformedShape().contains(p);
+        if (TRANSFORM.get(this) != null) {
+            try {
+
+                p = (Point2D.Double) TRANSFORM.get(this).createInverse().transform(p, new Point2D.Double());
+            } catch (NoninvertibleTransformException ex) {
+                ex.printStackTrace();
+            }
+        }
+        Ellipse2D.Double r = (Ellipse2D.Double) ellipse.clone();
+        double grow = STROKE_WIDTH.get(this) / 2d;
+        r.x -= grow;
+        r.y -= grow;
+        r.width += grow * 2;
+        r.height += grow * 2;
+        
+        return r.contains(p);
     }
     private Shape getTransformedShape() {
         if (cachedTransformedShape == null) {

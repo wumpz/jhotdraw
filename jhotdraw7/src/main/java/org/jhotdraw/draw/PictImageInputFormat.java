@@ -178,7 +178,7 @@ public class PictImageInputFormat implements InputFormat {
                         new Point2D.Double(
                         figure.getBufferedImage().getWidth(),
                         figure.getBufferedImage().getHeight()));
-                drawing.basicAdd(figure);
+                drawing.add(figure);
             } finally {
                 in.close();
             }
@@ -187,6 +187,9 @@ public class PictImageInputFormat implements InputFormat {
     /*
      * Converts a PICT to an AWT image using QuickTime for Java.
      * This code was contributed by Gord Peters.
+     * 
+     * XXX - This code performs extremly slow. We should replace it by JNI
+     * code which directly accesses the native clipboard.
      */
 
     private static Image getImageFromPictStream(InputStream is) throws IOException {
@@ -275,11 +278,8 @@ public class PictImageInputFormat implements InputFormat {
             IOException error = new IOException("Couldn't read PICT image");
             error.initCause(e);
             throw error;
-            //IJ.showStatus("QuickTime for java error");
-            //e.printStackTrace();
         }
             IOException error = new IOException("Couldn't read PICT image");
             throw error;
-        //return null;
     }
 }

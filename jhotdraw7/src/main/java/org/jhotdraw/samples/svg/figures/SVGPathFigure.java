@@ -1,7 +1,7 @@
 /*
- * @(#)SVGPathFigure.java  1.1  2007-12-21
+ * @(#)SVGPathFigure.java  1.1.1  2008-03-20
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -36,7 +36,9 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * SVGBezierFigures as its children.
  *
  * @author Werner Randelshofer
- * @version 1.1 2007-12-21 Only close/open last path. 
+ * @version 1.1.1 2008-03-20 Attributes must be set on child figures in order
+ * to ensure that the drawing area of the child figures is computed properly. 
+ * <br>1.1 2007-12-21 Only close/open last path. 
  * <br>1.0 July 8, 2006 Created.
  */
 public class SVGPathFigure extends AbstractAttributedCompositeFigure implements SVGFigure {
@@ -145,12 +147,6 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
     // int count;
     public Rectangle2D.Double getDrawingArea() {
         if (cachedDrawingArea == null) {
-            //System.out.println("SVGPathFigure validate drawingArea "+count++);
-       /* if (count++ == 10) {
-            InternalError e=   new InternalError();
-            e.printStackTrace();;
-            throw e;
-            }*/
             double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this);
             double width = strokeTotalWidth / 2d;
             if (STROKE_JOIN.get(this) == BasicStroke.JOIN_MITER) {
@@ -201,7 +197,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
             if (getPath().contains(p)) {
                 return true;
             }
-            double grow = AttributeKeys.getPerpendicularHitGrowth(this) * 2d;
+            double grow = AttributeKeys.getPerpendicularHitGrowth(this) /** 2d*/;
             GrowStroke gs = new GrowStroke((float) grow,
                     (float) (AttributeKeys.getStrokeTotalWidth(this) *
                     STROKE_MITER_LIMIT.get(this)));
@@ -289,9 +285,6 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
     public void setAttribute(AttributeKey key, Object newValue) {
         super.setAttribute(key, newValue);
         invalidate();
-    }
-    protected void setAttributeOnChildren(AttributeKey key, Object newValue) {
-        // empty!
     }
     
     public boolean isEmpty() {

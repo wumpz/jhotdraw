@@ -34,8 +34,6 @@ import org.jhotdraw.geom.*;
 
 /**
  * SVGImage.
- * <p>
- * FIXME - Implement me
  *
  * @author Werner Randelshofer
  * @version 2.0 2007-04-14 Adapted for new AttributeKeys.TRANSFORM support.
@@ -102,6 +100,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
             } else {
                 Shape shape = getTransformedShape();
                 g.setColor(Color.red);
+                g.setStroke(new BasicStroke());
                 g.draw(shape);
             }
             
