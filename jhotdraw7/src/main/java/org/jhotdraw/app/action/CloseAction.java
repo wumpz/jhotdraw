@@ -19,10 +19,10 @@ import org.jhotdraw.util.*;
 import java.awt.event.*;
 import javax.swing.*;
 import org.jhotdraw.app.Application;
-import org.jhotdraw.app.Project;
+import org.jhotdraw.app.View;
 
 /**
- * Closes a project.
+ * Closes a view.
  *
  * @author  Werner Randelshofer
  * @version 1.0  04 January 2005  Created.
@@ -37,10 +37,10 @@ public class CloseAction extends AbstractSaveBeforeAction {
         labels.configureAction(this, ID);
     }
     
-    @Override protected void doIt(Project project) {
-        if (project != null && project.getApplication() != null) {
-            project.getApplication().
-                    dispose(project);
+    @Override protected void doIt(View view) {
+        if (view != null && view.getApplication() != null) {
+            view.getApplication().
+                    dispose(view);
         }
     }
 }

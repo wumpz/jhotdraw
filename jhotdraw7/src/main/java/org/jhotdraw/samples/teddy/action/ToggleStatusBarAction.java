@@ -30,7 +30,7 @@ import javax.swing.event.*;
  * @author  Werner Randelshofer
  * @version 1.0 October 1, 2005 Created.
  */
-public class ToggleStatusBarAction extends AbstractProjectAction {
+public class ToggleStatusBarAction extends AbstractViewAction {
     public final static String ID = "showStatusBar";
     private ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.teddy.Labels");
     /**
@@ -42,19 +42,19 @@ public class ToggleStatusBarAction extends AbstractProjectAction {
         setPropertyName("statusBarVisible");
     }
     
-    public TeddyProject getActiveProject() {
-        return (TeddyProject) super.getActiveProject();
+    public TeddyView getActiveView() {
+        return (TeddyView) super.getActiveView();
     }
     
-    protected void updateProperty() {
+    protected void updateView() {
         putValue(
                Actions.SELECTED_KEY, 
-               getActiveProject() != null && getActiveProject().isStatusBarVisible()
+               getActiveView() != null && getActiveView().isStatusBarVisible()
                );
     }
     
     public void actionPerformed(ActionEvent e) {
-        getActiveProject().setStatusBarVisible(! getActiveProject().isStatusBarVisible());
+        getActiveView().setStatusBarVisible(! getActiveView().isStatusBarVisible());
     }
 }
 

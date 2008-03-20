@@ -26,7 +26,7 @@ import java.util.prefs.*;
 import javax.swing.*;
 import java.io.*;
 import org.jhotdraw.app.Application;
-import org.jhotdraw.app.Project;
+import org.jhotdraw.app.View;
 /**
  * LoadRecentAction.
  *
@@ -44,48 +44,48 @@ public class LoadRecentAction extends AbstractSaveBeforeAction {
         putValue(Action.NAME, file.getName());
     }
     
-    public void doIt(final Project project) {
+    public void doIt(final View view) {
         final Application app = getApplication();
         app.setEnabled(true);
         
-        // If there is another project with we set the multiple open
-        // id of our project to max(multiple open id) + 1.
+        // If there is another view with we set the multiple open
+        // id of our view to max(multiple open id) + 1.
         int multipleOpenId = 1;
-        for (Project aProject : app.projects()) {
-            if (aProject != project &&
-                    aProject.getFile() != null &&
-                    aProject.getFile().equals(file)) {
-                multipleOpenId = Math.max(multipleOpenId, aProject.getMultipleOpenId() + 1);
+        for (View aView : app.views()) {
+            if (aView != view &&
+                    aView.getFile() != null &&
+                    aView.getFile().equals(file)) {
+                multipleOpenId = Math.max(multipleOpenId, aView.getMultipleOpenId() + 1);
             }
         }
-        project.setMultipleOpenId(multipleOpenId);
+        view.setMultipleOpenId(multipleOpenId);
         
         // Open the file
-        project.execute(new Worker() {
+        view.execute(new Worker() {
             public Object construct() {
                 try {
-                    project.read(file);
+                    view.read(file);
                     return null;
                 } catch (Throwable e) {
                     return e;
                 }
             }
             public void finished(Object value) {
-                fileOpened(project, file, value);
+                fileOpened(view, file, value);
             }
         });
     }
-    protected void fileOpened(final Project project, File file, Object value) {
+    protected void fileOpened(final View view, File file, Object value) {
         final Application app = getApplication();
         if (value == null) {
-            project.setFile(file);
-            project.setEnabled(true);
-            Frame w = (Frame) SwingUtilities.getWindowAncestor(project.getComponent());
+            view.setFile(file);
+            view.setEnabled(true);
+            Frame w = (Frame) SwingUtilities.getWindowAncestor(view.getComponent());
             if (w != null) {
                 w.setExtendedState(w.getExtendedState() & ~Frame.ICONIFIED);
                 w.toFront();
             }
-            project.getComponent().requestFocus();
+            view.getComponent().requestFocus();
             if (app != null) {
                 app.setEnabled(true);
             }
@@ -93,13 +93,13 @@ public class LoadRecentAction extends AbstractSaveBeforeAction {
             if (value instanceof Throwable) {
                 ((Throwable) value).printStackTrace();
             }
-            JSheet.showMessageSheet(project.getComponent(),
+            JSheet.showMessageSheet(view.getComponent(),
                     "<html>"+UIManager.getString("OptionPane.css")+
                     "<b>Couldn't open the file \""+file+"\".</b><br>"+
                     value,
                     JOptionPane.ERROR_MESSAGE, new SheetListener() {
                 public void optionSelected(SheetEvent evt) {
-                    // app.dispose(project);
+                    // app.dispose(view);
                 }
             }
             );

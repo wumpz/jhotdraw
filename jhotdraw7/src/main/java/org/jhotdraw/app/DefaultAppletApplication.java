@@ -19,7 +19,7 @@ import javax.swing.*;
 
 /**
  * Default Application that can be run as an Applet.
- * <p>
+ * <v>
  * FIXME - To be implemented.
  *
  * @author Werner Randelshofer
@@ -27,33 +27,33 @@ import javax.swing.*;
  */
 public class DefaultAppletApplication extends AbstractApplication {
     private JApplet applet;
-    private Project project;
+    private View view;
     
     /** Creates a new instance of DefaultAppletApplication */
     public DefaultAppletApplication(JApplet applet) {
         this.applet = applet;
     }
     
-    public void show(Project p) {
-        this.project = p;
+    public void show(View v) {
+        this.view = v;
         applet.getContentPane().removeAll();
-        applet.getContentPane().add(p.getComponent());
-        p.start();
-        p.activate();
+        applet.getContentPane().add(v.getComponent());
+        v.start();
+        v.activate();
     }
 
-    public void hide(Project p) {
-        p.deactivate();
-        p.stop();
+    public void hide(View v) {
+        v.deactivate();
+        v.stop();
         applet.getContentPane().removeAll();
-        this.project = null;
+        this.view = null;
     }
 
-    public Project getActiveProject() {
-        return project;
+    public View getActiveView() {
+        return view;
     }
 
-    public boolean isSharingToolsAmongProjects() {
+    public boolean isSharingToolsAmongViews() {
         return false;
     }
 
@@ -61,7 +61,7 @@ public class DefaultAppletApplication extends AbstractApplication {
         return applet;
     }
 
-    protected void initProjectActions(Project p) {
+    protected void initViewActions(View p) {
     }
     
 }

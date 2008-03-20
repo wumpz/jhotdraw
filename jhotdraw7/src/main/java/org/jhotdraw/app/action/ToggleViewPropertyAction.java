@@ -17,15 +17,15 @@ package org.jhotdraw.app.action;
 import java.awt.event.*;
 import java.beans.*;
 import org.jhotdraw.app.Application;
-import org.jhotdraw.app.Project;
+import org.jhotdraw.app.View;
 
 /**
- * ToggleProjectPropertyAction.
+ * ToggleViewPropertyAction.
  *
  * @author Werner Randelshofer.
  * @version 1.0 June 18, 2006 Created.
  */
-public class ToggleProjectPropertyAction extends AbstractProjectAction {
+public class ToggleViewPropertyAction extends AbstractViewAction {
     private String propertyName;
     private Class[] parameterClass;
     private Object selectedPropertyValue;
@@ -33,19 +33,19 @@ public class ToggleProjectPropertyAction extends AbstractProjectAction {
     private String setterName;
     private String getterName;
     
-    private PropertyChangeListener projectListener = new PropertyChangeListener() {
+    private PropertyChangeListener viewListener = new PropertyChangeListener() {
         public void propertyChange(PropertyChangeEvent evt) {
             if (evt.getPropertyName() == propertyName) { // Strings get interned
-                updateProperty();
+                updateView();
             }
         }
     };
     
     /** Creates a new instance. */
-    public ToggleProjectPropertyAction(Application app, String propertyName) {
+    public ToggleViewPropertyAction(Application app, String propertyName) {
         this(app, propertyName, Boolean.TYPE, true, false);
     }
-    public ToggleProjectPropertyAction(Application app, String propertyName, Class propertyClass,
+    public ToggleViewPropertyAction(Application app, String propertyName, Class propertyClass,
             Object selectedPropertyValue, Object deselectedPropertyValue) {
         super(app);
         this.propertyName = propertyName;
@@ -57,11 +57,11 @@ public class ToggleProjectPropertyAction extends AbstractProjectAction {
         getterName = ((propertyClass == Boolean.TYPE || propertyClass == Boolean.class) ? "is" : "get")+
                 Character.toUpperCase(propertyName.charAt(0)) +
                 propertyName.substring(1);
-        updateProperty();
+        updateView();
     }
     
     public void actionPerformed(ActionEvent evt) {
-        Project p = getActiveProject();
+        View p = getActiveView();
         Object value = getCurrentValue();
         Object newValue = (value == selectedPropertyValue ||
                         value != null && selectedPropertyValue != null &&
@@ -78,7 +78,7 @@ public class ToggleProjectPropertyAction extends AbstractProjectAction {
     }
     
     private Object getCurrentValue() {
-        Project p = getActiveProject();
+        View p = getActiveView();
         if (p != null) {
             try {
                 return p.getClass().getMethod(getterName, (Class[]) null).invoke(p);
@@ -92,22 +92,22 @@ public class ToggleProjectPropertyAction extends AbstractProjectAction {
     }
     
     
-    protected void installProjectListeners(Project p) {
-        super.installProjectListeners(p);
-        p.addPropertyChangeListener(projectListener);
-        updateProperty();
+    protected void installViewListeners(View p) {
+        super.installViewListeners(p);
+        p.addPropertyChangeListener(viewListener);
+        updateView();
     }
     /**
-     * Installs listeners on the project object.
+     * Installs listeners on the view object.
      */
-    protected void uninstallProjectListeners(Project p) {
-        super.uninstallProjectListeners(p);
-        p.removePropertyChangeListener(projectListener);
+    protected void uninstallViewListeners(View p) {
+        super.uninstallViewListeners(p);
+        p.removePropertyChangeListener(viewListener);
     }
     
-    @Override protected void updateProperty() {
+    @Override protected void updateView() {
         boolean isSelected = false;
-        Project p = getActiveProject();
+        View p = getActiveView();
         if (p != null) {
             try {
                 Object value = p.getClass().getMethod(getterName, (Class[]) null).invoke(p);

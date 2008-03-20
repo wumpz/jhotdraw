@@ -24,14 +24,14 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
 import org.jhotdraw.app.Application;
-import org.jhotdraw.app.Project;
+import org.jhotdraw.app.View;
 
 /**
- * Opens a new project for each file dropped on the dock icon of the application.
+ * Opens a new view for each file dropped on the dock icon of the application.
  * This action must be registered with net.roydesign.app.Application.
  *
  * @author  Werner Randelshofer
- * @version 1.0.1 2005-07-14 Show frame of project after it has been created.
+ * @version 1.0.1 2005-07-14 Show frame of view after it has been created.
  * <br>1.0  04 January 2005  Created.
  */
 public class OSXDropOnDockAction extends AbstractApplicationAction {
@@ -50,7 +50,7 @@ public class OSXDropOnDockAction extends AbstractApplicationAction {
         final Application app = getApplication();
         if (evt instanceof ApplicationEvent) {
             final ApplicationEvent ae = (ApplicationEvent) evt;
-            final Project p = app.createProject();
+            final View p = app.createView();
             p.setEnabled(false);
             app.add(p);
             p.execute(new Worker() {

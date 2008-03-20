@@ -24,9 +24,9 @@ import java.util.*;
 import javax.swing.*;
 import java.io.*;
 import org.jhotdraw.app.Application;
-import org.jhotdraw.app.Project;
+import org.jhotdraw.app.View;
 /**
- * Exits the application after letting the user save or close unsaved projects.
+ * Exits the application after letting the user review all unsaved views.
  *
  * @author  Werner Randelshofer
  * @version 1.0  04 January 2005  Created.
@@ -34,7 +34,7 @@ import org.jhotdraw.app.Project;
 public class ExitAction extends AbstractApplicationAction {
     public final static String ID = "exit";
     private Component oldFocusOwner;
-    private Project unsavedProject;
+    private View unsavedView;
     
     /** Creates a new instance. */
     public ExitAction(Application app) {
@@ -47,31 +47,31 @@ public class ExitAction extends AbstractApplicationAction {
         final Application app = getApplication();
         if (app.isEnabled()) {
             app.setEnabled(false);
-            int unsavedProjectsCount = 0;
-            Project documentToBeReviewed = null;
-            for (Project p : app.projects()) {
+            int unsavedViewsCount = 0;
+            View documentToBeReviewed = null;
+            for (View p : app.views()) {
                 if (p.hasUnsavedChanges()) {
                     if (p.isEnabled()) {
                         documentToBeReviewed = p;
                     }
-                    unsavedProjectsCount++;
+                    unsavedViewsCount++;
                 }
             }
-            if (unsavedProjectsCount > 0 && documentToBeReviewed == null) {
-                // Silently abort, if no project can be reviewed.
+            if (unsavedViewsCount > 0 && documentToBeReviewed == null) {
+                // Silently abort, if no view can be reviewed.
                 app.setEnabled(true);
                 return;
             }
             
-            switch (unsavedProjectsCount) {
+            switch (unsavedViewsCount) {
                 case 0 : {
                     doExit();
                     break;
                 }
                 case 1 : {
-                    unsavedProject = documentToBeReviewed;
-                    oldFocusOwner = SwingUtilities.getWindowAncestor(unsavedProject.getComponent()).getFocusOwner();
-                    unsavedProject.setEnabled(false);
+                    unsavedView = documentToBeReviewed;
+                    oldFocusOwner = SwingUtilities.getWindowAncestor(unsavedView.getComponent()).getFocusOwner();
+                    unsavedView.setEnabled(false);
                     JOptionPane pane = new JOptionPane(
                             "<html>"+UIManager.getString("OptionPane.css")+
                             "<b>Do you want to save changes to this document "+
@@ -83,15 +83,15 @@ public class ExitAction extends AbstractApplicationAction {
                     pane.setOptions(options);
                     pane.setInitialValue(options[0]);
                     pane.putClientProperty("Quaqua.OptionPane.destructiveOption", new Integer(2));
-                    JSheet.showSheet(pane, unsavedProject.getComponent(), new SheetListener() {
+                    JSheet.showSheet(pane, unsavedView.getComponent(), new SheetListener() {
                         public void optionSelected(SheetEvent evt) {
                             Object value = evt.getValue();
                             if (value == null || value.equals("Cancel")) {
-                                unsavedProject.setEnabled(true);
+                                unsavedView.setEnabled(true);
                                 app.setEnabled(true);
                             } else if (value.equals("Don't Save")) {
                                 doExit();
-                                unsavedProject.setEnabled(true);
+                                unsavedView.setEnabled(true);
                             } else if (value.equals("Save")) {
                                 saveChanges();
                             }
@@ -103,7 +103,7 @@ public class ExitAction extends AbstractApplicationAction {
                 default : {
                     JOptionPane pane = new JOptionPane(
                             "<html>"+UIManager.get("OptionPane.css")+
-                            "<b>You have "+unsavedProjectsCount+" documents with unsaved changes. "+
+                            "<b>You have "+unsavedViewsCount+" documents with unsaved changes. "+
                             "Do you want to "+
                             "review these changes before quitting?</b><p>"+
                             "If you don't review your documents, "+
@@ -127,7 +127,7 @@ public class ExitAction extends AbstractApplicationAction {
                         doExit();
                         app.setEnabled(true);
                     } else if (value.equals("Review Changes")) {
-                        unsavedProject = documentToBeReviewed;
+                        unsavedView = documentToBeReviewed;
                         reviewChanges();
                     }
                 }
@@ -136,16 +136,16 @@ public class ExitAction extends AbstractApplicationAction {
     }
     
     protected void saveChanges() {
-        if (unsavedProject.getFile() == null) {
-            JFileChooser fileChooser = unsavedProject.getSaveChooser();
+        if (unsavedView.getFile() == null) {
+            JFileChooser fileChooser = unsavedView.getSaveChooser();
             //int option = fileChooser.showSaveDialog(this);
-            JSheet.showSaveSheet(fileChooser, unsavedProject.getComponent(), new SheetListener() {
+            JSheet.showSaveSheet(fileChooser, unsavedView.getComponent(), new SheetListener() {
                 public void optionSelected(final SheetEvent evt) {
                     if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
                         final File file = evt.getFileChooser().getSelectedFile();
                         saveToFile(file);
                     } else {
-                        unsavedProject.setEnabled(true);
+                        unsavedView.setEnabled(true);
                         if (oldFocusOwner != null) {
                             oldFocusOwner.requestFocus();
                         }
@@ -154,14 +154,14 @@ public class ExitAction extends AbstractApplicationAction {
                 }
             });
         } else {
-            saveToFile(unsavedProject.getFile());
+            saveToFile(unsavedView.getFile());
         }
     }
     
     protected void reviewChanges() {
-        if (unsavedProject.isEnabled()) {
-            oldFocusOwner = SwingUtilities.getWindowAncestor(unsavedProject.getComponent()).getFocusOwner();
-            unsavedProject.setEnabled(false);
+        if (unsavedView.isEnabled()) {
+            oldFocusOwner = SwingUtilities.getWindowAncestor(unsavedView.getComponent()).getFocusOwner();
+            unsavedView.setEnabled(false);
             JOptionPane pane = new JOptionPane(
                     "<html>"+UIManager.getString("OptionPane.css")+
                     "<b>Do you want to save changes to this document "+
@@ -173,14 +173,14 @@ public class ExitAction extends AbstractApplicationAction {
             pane.setOptions(options);
             pane.setInitialValue(options[0]);
             pane.putClientProperty("Quaqua.OptionPane.destructiveOption", new Integer(2));
-            JSheet.showSheet(pane, unsavedProject.getComponent(), new SheetListener() {
+            JSheet.showSheet(pane, unsavedView.getComponent(), new SheetListener() {
                 public void optionSelected(SheetEvent evt) {
                     Object value = evt.getValue();
                     if (value == null || value.equals("Cancel")) {
-                        unsavedProject.setEnabled(true);
+                        unsavedView.setEnabled(true);
                         getApplication().setEnabled(true);
                     } else if (value.equals("Don't Save")) {
-                        getApplication().dispose(unsavedProject);
+                        getApplication().dispose(unsavedView);
                         reviewNext();
                     } else if (value.equals("Save")) {
                         saveChangesAndReviewNext();
@@ -196,16 +196,16 @@ public class ExitAction extends AbstractApplicationAction {
     
     
     protected void saveChangesAndReviewNext() {
-        if (unsavedProject.getFile() == null) {
-            JFileChooser fileChooser = unsavedProject.getSaveChooser();
+        if (unsavedView.getFile() == null) {
+            JFileChooser fileChooser = unsavedView.getSaveChooser();
             //int option = fileChooser.showSaveDialog(this);
-            JSheet.showSaveSheet(fileChooser, unsavedProject.getComponent(), new SheetListener() {
+            JSheet.showSaveSheet(fileChooser, unsavedView.getComponent(), new SheetListener() {
                 public void optionSelected(final SheetEvent evt) {
                     if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
                         final File file = evt.getFileChooser().getSelectedFile();
                         saveToFileAndReviewNext(file);
                     } else {
-                        unsavedProject.setEnabled(true);
+                        unsavedView.setEnabled(true);
                         if (oldFocusOwner != null) {
                             oldFocusOwner.requestFocus();
                         }
@@ -214,25 +214,25 @@ public class ExitAction extends AbstractApplicationAction {
                 }
             });
         } else {
-            saveToFileAndReviewNext(unsavedProject.getFile());
+            saveToFileAndReviewNext(unsavedView.getFile());
         }
     }
     
     protected void reviewNext() {
-        int unsavedProjectsCount = 0;
-        Project documentToBeReviewed = null;
-        for (Project p : getApplication().projects()) {
+        int unsavedViewsCount = 0;
+        View documentToBeReviewed = null;
+        for (View p : getApplication().views()) {
             if (p.hasUnsavedChanges()) {
                 if (p.isEnabled()) {
                     documentToBeReviewed = p;
                 }
-                unsavedProjectsCount++;
+                unsavedViewsCount++;
             }
         }
-        if (unsavedProjectsCount == 0) {
+        if (unsavedViewsCount == 0) {
             doExit();
         } else if (documentToBeReviewed != null) {
-            unsavedProject = documentToBeReviewed;
+            unsavedView = documentToBeReviewed;
             reviewChanges();
         } else {
             getApplication().setEnabled(true);
@@ -241,69 +241,69 @@ public class ExitAction extends AbstractApplicationAction {
     }
     
     protected void saveToFile(final File file) {
-        unsavedProject.execute(new Worker() {
+        unsavedView.execute(new Worker() {
             public Object construct() {
                 try {
-                    unsavedProject.write(file);
+                    unsavedView.write(file);
                     return null;
                 } catch (IOException e) {
                     return e;
                 }
             }
             public void finished(Object value) {
-                fileSaved(unsavedProject, file, value);
+                fileSaved(unsavedView, file, value);
             }
         });
     }
     protected void saveToFileAndReviewNext(final File file) {
-        unsavedProject.execute(new Worker() {
+        unsavedView.execute(new Worker() {
             public Object construct() {
                 try {
-                    unsavedProject.write(file);
+                    unsavedView.write(file);
                     return null;
                 } catch (IOException e) {
                     return e;
                 }
             }
             public void finished(Object value) {
-                fileSavedAndReviewNext(unsavedProject, file, value);
+                fileSavedAndReviewNext(unsavedView, file, value);
             }
         });
     }
     
-    protected void fileSaved(Project unsavedProject, File file, Object value) {
+    protected void fileSaved(View unsavedView, File file, Object value) {
         if (value == null) {
-            unsavedProject.setFile(file);
+            unsavedView.setFile(file);
             doExit();
         } else {
-            JSheet.showMessageSheet(unsavedProject.getComponent(),
+            JSheet.showMessageSheet(unsavedView.getComponent(),
                     "<html>"+UIManager.getString("OptionPane.css")+
                     "<b>Couldn't save to the file \""+file+"\".<p>"+
                     "Reason: "+value,
                     JOptionPane.ERROR_MESSAGE
                     );
         }
-        unsavedProject.setEnabled(true);
+        unsavedView.setEnabled(true);
         if (oldFocusOwner != null) {
             oldFocusOwner.requestFocus();
         }
         getApplication().setEnabled(true);
     }
-    protected void fileSavedAndReviewNext(Project unsavedProject, File file, Object value) {
+    protected void fileSavedAndReviewNext(View unsavedView, File file, Object value) {
         if (value == null) {
-            unsavedProject.setFile(file);
-            getApplication().dispose(unsavedProject);
+            unsavedView.setFile(file);
+            getApplication().dispose(unsavedView);
             reviewNext();
             return;
         } else {
-            JSheet.showMessageSheet(unsavedProject.getComponent(),
+            JSheet.showMessageSheet(unsavedView.getComponent(),
                     "<html>"+UIManager.getString("OptionPane.css")+
                     "<b>Couldn't save to the file \""+file+"\".<p>"+
                     "Reason: "+value,
                     JOptionPane.ERROR_MESSAGE
                     );
         }
-        unsavedProject.setEnabled(true);
+        unsavedView.setEnabled(true);
         if (oldFocusOwner != null) {
             oldFocusOwner.requestFocus();
         }

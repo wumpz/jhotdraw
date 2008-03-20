@@ -34,7 +34,7 @@ import org.jhotdraw.gui.event.*;
  * <br>1.1 2006-02-23 Support multiple open id.
  * <br>1.0 28. September 2005 Created.
  */
-public class SaveAction extends AbstractProjectAction {
+public class SaveAction extends AbstractViewAction {
     public final static String ID = "save";
     private boolean saveAs;
     private Component oldFocusOwner;
@@ -53,18 +53,18 @@ public class SaveAction extends AbstractProjectAction {
     
     
     public void actionPerformed(ActionEvent evt) {
-        final Project project = getActiveProject();
-        if (project.isEnabled()) {
-            oldFocusOwner = SwingUtilities.getWindowAncestor(project.getComponent()).getFocusOwner();
-            project.setEnabled(false);
+        final View view = getActiveView();
+        if (view.isEnabled()) {
+            oldFocusOwner = SwingUtilities.getWindowAncestor(view.getComponent()).getFocusOwner();
+            view.setEnabled(false);
             
             File saveToFile;
-            if (!saveAs && project.getFile() != null) {
-                saveToFile(project, project.getFile());
+            if (!saveAs && view.getFile() != null) {
+                saveToFile(view, view.getFile());
             } else {
-                JFileChooser fileChooser = project.getSaveChooser();
+                JFileChooser fileChooser = view.getSaveChooser();
                 
-                JSheet.showSaveSheet(fileChooser, project.getComponent(), new SheetListener() {
+                JSheet.showSaveSheet(fileChooser, view.getComponent(), new SheetListener() {
                     public void optionSelected(final SheetEvent evt) {
                         if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
                             final File file;
@@ -74,9 +74,9 @@ public class SaveAction extends AbstractProjectAction {
                             } else {
                                 file = evt.getFileChooser().getSelectedFile();
                             }
-                            saveToFile(project, file);
+                            saveToFile(view, file);
                         } else {
-                            project.setEnabled(true);
+                            view.setEnabled(true);
                             if (oldFocusOwner != null) {
                                 oldFocusOwner.requestFocus();
                             }
@@ -87,18 +87,18 @@ public class SaveAction extends AbstractProjectAction {
         }
     }
     
-    protected void saveToFile(final Project project, final File file) {
-        project.execute(new Worker() {
+    protected void saveToFile(final View view, final File file) {
+        view.execute(new Worker() {
             public Object construct() {
                 try {
-                    project.write(file);
+                    view.write(file);
                     return null;
                 } catch (IOException e) {
                     return e;
                 }
             }
             public void finished(Object value) {
-                fileSaved(project, file, value);
+                fileSaved(view, file, value);
             }
         });
     }
@@ -107,18 +107,18 @@ public class SaveAction extends AbstractProjectAction {
      *
      * @param value is either null for success or a Throwable on failure.
      */
-    protected void fileSaved(final Project project, File file, Object value) {
+    protected void fileSaved(final View view, File file, Object value) {
         if (value == null) {
-            project.setFile(file);
-            project.markChangesAsSaved();
+            view.setFile(file);
+            view.markChangesAsSaved();
             int multiOpenId = 1;
-            for (Project p : project.getApplication().projects()) {
-                if (p != project && p.getFile() != null && p.getFile().equals(file)) {
+            for (View p : view.getApplication().views()) {
+                if (p != view && p.getFile() != null && p.getFile().equals(file)) {
                     multiOpenId = Math.max(multiOpenId, p.getMultipleOpenId() + 1);
                 }
             }
             getApplication().addRecentFile(file);
-            project.setMultipleOpenId(multiOpenId);
+            view.setMultipleOpenId(multiOpenId);
         } else {
             String message;
             if ((value instanceof Throwable) && ((Throwable) value).getMessage() != null) {
@@ -127,14 +127,14 @@ public class SaveAction extends AbstractProjectAction {
                 message = value.toString();
             }
             ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
-            JSheet.showMessageSheet(getActiveProject().getComponent(),
+            JSheet.showMessageSheet(getActiveView().getComponent(),
                     "<html>" + UIManager.getString("OptionPane.css") +
                     "<b>" + labels.getFormatted("couldntSave", file.getName()) + "</b><br>" +
                     ((message == null) ? "" : message),
                     JOptionPane.ERROR_MESSAGE);
         }
-        project.setEnabled(true);
-        SwingUtilities.getWindowAncestor(project.getComponent()).toFront();
+        view.setEnabled(true);
+        SwingUtilities.getWindowAncestor(view.getComponent()).toFront();
         if (oldFocusOwner != null) {
             oldFocusOwner.requestFocus();
         }

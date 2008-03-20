@@ -27,7 +27,7 @@ import java.util.prefs.*;
  * @version 1.0 8. Oktober 2005 Created.
  */
 public class CharacterSetAccessory extends javax.swing.JPanel {
-    private final static Preferences prefs = Preferences.userNodeForPackage(TeddyProject.class);
+    private final static Preferences prefs = Preferences.userNodeForPackage(TeddyView.class);
     private static Object[] availableCharSets;
     
     /** Creates a new instance. */

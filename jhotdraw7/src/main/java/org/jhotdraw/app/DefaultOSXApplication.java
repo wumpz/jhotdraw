@@ -35,9 +35,9 @@ import org.jhotdraw.app.action.*;
  * and palette windows.
  * <p>
  * OSX stands for Mac OS X Application Document Interface. An OSX application can handle
- * multiple Project's at the same time. Each project gets a JFrame of its own.
+ * multiple View's at the same time. Each view gets a JFrame of its own.
  * An OSX application has one menu bar, attached to the top of the screen.
- * This 'screen menu bar' is shared by all Project's.
+ * This 'screen menu bar' is shared by all View's.
  * <p>
  * DefaultOSXApplication is designed for Mac OS X. It will not work on other
  * platforms.
@@ -103,7 +103,7 @@ import org.jhotdraw.app.action.*;
  * </pre>
  *
  * @author Werner Randelshofer
- * @version 1.2 2007-12-25 Added method updateProjectTitle. 
+ * @version 1.2 2007-12-25 Added method updateViewTitle. 
  * <br>1.1 2007-01-11 Removed method addStandardActionsTo.
  * <br>1.0.1 2007-01-02 Floating palettes disappear now if the application
  * looses the focus.
@@ -178,7 +178,7 @@ public class DefaultOSXApplication extends AbstractApplication {
         mo.putAction(MinimizeAction.ID, new MinimizeAction(this));
     }
 
-    protected void initProjectActions(Project p) {
+    protected void initViewActions(View p) {
         p.putAction(FocusAction.ID, new FocusAction(p));
     }
 
@@ -190,7 +190,7 @@ public class DefaultOSXApplication extends AbstractApplication {
         paletteHandler.removePalette(palette);
     }
 
-    public void addWindow(Window window, final Project p) {
+    public void addWindow(Window window, final View p) {
         if (window instanceof JFrame) {
             ((JFrame) window).setJMenuBar(createMenuBar(p));
         } else if (window instanceof JDialog) {
@@ -204,23 +204,23 @@ public class DefaultOSXApplication extends AbstractApplication {
         paletteHandler.remove(window);
     }
 
-    public void show(final Project p) {
+    public void show(final View p) {
         if (!p.isShowing()) {
             p.setShowing(true);
             final JFrame f = new JFrame();
             f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             f.setPreferredSize(new Dimension(400, 400));
-            updateProjectTitle(p, f);
+            updateViewTitle(p, f);
 
-            PreferencesUtil.installFramePrefsHandler(prefs, "project", f);
+            PreferencesUtil.installFramePrefsHandler(prefs, "view", f);
             Point loc = f.getLocation();
             boolean moved;
             do {
                 moved = false;
-                for (Iterator i = projects().iterator(); i.hasNext();) {
-                    Project aProject = (Project) i.next();
-                    if (aProject != p && aProject.isShowing() &&
-                            SwingUtilities.getWindowAncestor(aProject.getComponent()).
+                for (Iterator i = views().iterator(); i.hasNext();) {
+                    View aView = (View) i.next();
+                    if (aView != p && aView.isShowing() &&
+                            SwingUtilities.getWindowAncestor(aView.getComponent()).
                             getLocation().equals(loc)) {
                         loc.x += 22;
                         loc.y += 22;
@@ -236,7 +236,7 @@ public class DefaultOSXApplication extends AbstractApplication {
 
                 @Override
                 public void windowClosing(final WindowEvent evt) {
-                    setActiveProject(p);
+                    setActiveView(p);
                     getModel().getAction(CloseAction.ID).actionPerformed(
                             new ActionEvent(f, ActionEvent.ACTION_PERFORMED,
                             "windowClosing"));
@@ -244,15 +244,15 @@ public class DefaultOSXApplication extends AbstractApplication {
 
                 @Override
                 public void windowClosed(final WindowEvent evt) {
-                    if (p == getActiveProject()) {
-                        setActiveProject(null);
+                    if (p == getActiveView()) {
+                        setActiveView(null);
                     }
                     p.stop();
                 }
 
                 @Override
                 public void windowActivated(WindowEvent evt) {
-                    setActiveProject(p);
+                    setActiveView(p);
                 }
             });
 
@@ -260,10 +260,10 @@ public class DefaultOSXApplication extends AbstractApplication {
 
                 public void propertyChange(PropertyChangeEvent evt) {
                     String name = evt.getPropertyName();
-                    if (name.equals(Project.HAS_UNSAVED_CHANGES_PROPERTY)) {
+                    if (name.equals(View.HAS_UNSAVED_CHANGES_PROPERTY)) {
                         f.getRootPane().putClientProperty("windowModified", new Boolean(p.hasUnsavedChanges()));
-                    } else if (name.equals(Project.FILE_PROPERTY)) {
-                        updateProjectTitle(p, f);
+                    } else if (name.equals(View.FILE_PROPERTY)) {
+                        updateViewTitle(p, f);
                     }
                 }
             });
@@ -279,12 +279,12 @@ public class DefaultOSXApplication extends AbstractApplication {
     }
 
     /**
-     * Updates the title of a project and displays it in the given frame.
+     * Updates the title of a view and displays it in the given frame.
      * 
-     * @param p The project.
+     * @param p The view.
      * @param f The frame.
      */
-    protected void updateProjectTitle(Project p, JFrame f) {
+    protected void updateViewTitle(View p, JFrame f) {
         String title;
         File file = p.getFile();
         if (file == null) {
@@ -300,7 +300,7 @@ public class DefaultOSXApplication extends AbstractApplication {
         f.getRootPane().putClientProperty("Window.documentFile", file);
     }
 
-    public void hide(Project p) {
+    public void hide(View p) {
         if (p.isShowing()) {
             JFrame f = (JFrame) SwingUtilities.getWindowAncestor(p.getComponent());
             f.setVisible(false);
@@ -314,11 +314,11 @@ public class DefaultOSXApplication extends AbstractApplication {
     /**
      * Creates a menu bar.
      *
-     * @param p The project for which the menu bar is created. This may be
+     * @param p The view for which the menu bar is created. This may be
      * <code>null</code> if the menu bar is attached to an application
      * component, such as the screen menu bar or a floating palette window.
      */
-    protected JMenuBar createMenuBar(Project p) {
+    protected JMenuBar createMenuBar(View p) {
         JMenuBar mb = new JMenuBar();
         mb.add(createFileMenu(p));
         for (JMenu mm : getModel().createMenus(this, p)) {
@@ -328,7 +328,7 @@ public class DefaultOSXApplication extends AbstractApplication {
         return mb;
     }
 
-    protected JMenu createWindowMenu(final Project p) {
+    protected JMenu createWindowMenu(final View p) {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
         ApplicationModel model = getModel();
 
@@ -339,9 +339,9 @@ public class DefaultOSXApplication extends AbstractApplication {
         m = new JMenu();
         final JMenu windowMenu = m;
         labels.configureMenu(m, "window");
-        addProjectWindowMenuItems(m, p);
+        addViewWindowMenuItems(m, p);
         m.addSeparator();
-        for (Project pr : projects()) {
+        for (View pr : views()) {
             if (pr.getAction(FocusAction.ID) != null) {
                 windowMenu.add(pr.getAction(FocusAction.ID));
             }
@@ -360,14 +360,14 @@ public class DefaultOSXApplication extends AbstractApplication {
 
             public void propertyChange(PropertyChangeEvent evt) {
                 String name = evt.getPropertyName();
-                if (name == "projectCount" || name == "paletteCount") {
-                    if (p == null || projects().contains(p)) {
+                if (name == "viewCount" || name == "paletteCount") {
+                    if (p == null || views().contains(p)) {
                         JMenu m = windowMenu;
                         m.removeAll();
-                        addProjectWindowMenuItems(m, p);
+                        addViewWindowMenuItems(m, p);
                         m.addSeparator();
-                        for (Iterator i = projects().iterator(); i.hasNext();) {
-                            Project pr = (Project) i.next();
+                        for (Iterator i = views().iterator(); i.hasNext();) {
+                            View pr = (View) i.next();
                             if (pr.getAction(FocusAction.ID) != null) {
                                 m.add(pr.getAction(FocusAction.ID));
                             }
@@ -391,7 +391,7 @@ public class DefaultOSXApplication extends AbstractApplication {
         return m;
     }
 
-    protected void addProjectWindowMenuItems(JMenu m, Project p) {
+    protected void addViewWindowMenuItems(JMenu m, View p) {
         JMenuItem mi;
 
         ApplicationModel model = getModel();
@@ -416,7 +416,7 @@ public class DefaultOSXApplication extends AbstractApplication {
         }
     }
 
-    protected JMenu createFileMenu(Project p) {
+    protected JMenu createFileMenu(View p) {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
         ApplicationModel model = getModel();
 
@@ -530,7 +530,7 @@ public class DefaultOSXApplication extends AbstractApplication {
         });
     }
 
-    public boolean isSharingToolsAmongProjects() {
+    public boolean isSharingToolsAmongViews() {
         return true;
     }
 

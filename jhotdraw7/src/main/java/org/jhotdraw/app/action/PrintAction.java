@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.app.action;
 
+import org.jhotdraw.app.PrintableView;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
@@ -27,10 +28,10 @@ import org.jhotdraw.gui.*;
 import org.jhotdraw.util.*;
 
 /**
- * Presents a printer dialog to the user and then prints the Project to the
+ * Presents a printer dialog to the user and then prints the View to the
  * chosen printer.
  * <p>
- * This action requires that the project implements the PrintableProject
+ * This action requires that the view implements the PrintableView
  * interface.
  * <pre>
  * public Pageable createPageable();
@@ -42,7 +43,7 @@ import org.jhotdraw.util.*;
  * relying on Java Reflection. 
  * <br>1.0 January 1, 2007 Created.
  */
-public class PrintAction extends AbstractProjectAction {
+public class PrintAction extends AbstractViewAction {
 
     public final static String ID = "print";
 
@@ -54,28 +55,28 @@ public class PrintAction extends AbstractProjectAction {
     }
 
     public void actionPerformed(ActionEvent evt) {
-        Project project = getActiveProject();
-        project.setEnabled(false);
+        View view = getActiveView();
+        view.setEnabled(false);
         if (System.getProperty("apple.awt.graphics.UseQuartz", "false").equals("true")) {
             printQuartz();
         } else {
             printJava2D();
         }
-        project.setEnabled(true);
+        view.setEnabled(true);
     }
     /*
      * This prints at 72 DPI only. We might need this for some JVM versions on
      * Mac OS X.*/
 
     public void printJava2D() {
-        Pageable pageable = ((PrintableProject) getActiveProject()).createPageable();
+        Pageable pageable = ((PrintableView) getActiveView()).createPageable();
         if (pageable == null) {
-            throw new InternalError("Project does not have a method named java.awt.Pageable createPageable()");
+            throw new InternalError("View does not have a method named java.awt.Pageable createPageable()");
         }
 
         try {
             PrinterJob job = PrinterJob.getPrinterJob();
-            // FIXME - PrintRequestAttributeSet should be retrieved from Project
+            // FIXME - PrintRequestAttributeSet should be retrieved from View
             PrintRequestAttributeSet attr = new HashPrintRequestAttributeSet();
             attr.add(new PrinterResolution(300, 300, PrinterResolution.DPI));
             job.setPageable(pageable);
@@ -84,9 +85,9 @@ public class PrintAction extends AbstractProjectAction {
                     job.print();
                 } catch (PrinterException e) {
                     String message = (e.getMessage() == null) ? e.toString() : e.getMessage();
-                    Project project = getActiveProject();
+                    View view = getActiveView();
                     ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
-                    JSheet.showMessageSheet(project.getComponent(),
+                    JSheet.showMessageSheet(view.getComponent(),
                             "<html>" + UIManager.getString("OptionPane.css") +
                             "<b>" + labels.getString("couldntPrint") + "</b><br>" +
                             ((message == null) ? "" : message));
@@ -103,9 +104,9 @@ public class PrintAction extends AbstractProjectAction {
      * Mac OS X.*/
 
     public void printJava2DAlternative() {
-        Pageable pageable = (Pageable) Methods.invokeGetter(getActiveProject(), "createPageable", null);
+        Pageable pageable = (Pageable) Methods.invokeGetter(getActiveView(), "createPageable", null);
         if (pageable == null) {
-            throw new InternalError("Project does not have a method named java.awt.Pageable createPageable()");
+            throw new InternalError("View does not have a method named java.awt.Pageable createPageable()");
         }
 
         try {
@@ -118,7 +119,7 @@ public class PrintAction extends AbstractProjectAction {
                     job.print();
                 } catch (PrinterException e) {
                     ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
-                    JSheet.showMessageSheet(getActiveProject().getComponent(),
+                    JSheet.showMessageSheet(getActiveView().getComponent(),
                             labels.getFormatted("couldntPrint", e));
                 }
             } else {
@@ -134,11 +135,11 @@ public class PrintAction extends AbstractProjectAction {
      * the best results.
      */
     public void printQuartz() {
-        Frame frame = (Frame) SwingUtilities.getWindowAncestor(getActiveProject().getComponent());
-        final Pageable pageable = (Pageable) Methods.invokeGetter(getActiveProject(), "createPageable", null);
+        Frame frame = (Frame) SwingUtilities.getWindowAncestor(getActiveView().getComponent());
+        final Pageable pageable = (Pageable) Methods.invokeGetter(getActiveView(), "createPageable", null);
         final double resolution = 300d;
         JobAttributes jobAttr = new JobAttributes();
-        // FIXME - PageAttributes should be retrieved from Project
+        // FIXME - PageAttributes should be retrieved from View
         PageAttributes pageAttr = new PageAttributes();
         pageAttr.setMedia(PageAttributes.MediaType.A4);
         pageAttr.setPrinterResolution((int) resolution);
@@ -148,7 +149,7 @@ public class PrintAction extends AbstractProjectAction {
                 jobAttr,
                 pageAttr);
 
-        getActiveProject().setEnabled(false);
+        getActiveView().setEnabled(false);
         new Worker() {
 
             public Object construct() {
@@ -201,7 +202,7 @@ public class PrintAction extends AbstractProjectAction {
             }
 
             public void finished(Object value) {
-                getActiveProject().setEnabled(true);
+                getActiveView().setEnabled(true);
             }
         }.start();
     }
@@ -214,6 +215,6 @@ public class PrintAction extends AbstractProjectAction {
      * @see Action#isEnabled
      */
     @Override public boolean isEnabled() {
-        return super.isEnabled() && (getActiveProject() instanceof PrintableProject);
+        return super.isEnabled() && (getActiveView() instanceof PrintableView);
     }
 }

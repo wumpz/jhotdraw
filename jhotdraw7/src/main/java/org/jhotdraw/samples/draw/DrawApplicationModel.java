@@ -31,7 +31,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  */
 public class DrawApplicationModel extends DefaultApplicationModel {
     /**
-     * This editor is shared by all projects.
+     * This editor is shared by all views.
      */
     private DefaultDrawingEditor sharedEditor;
     
@@ -46,9 +46,9 @@ public class DrawApplicationModel extends DefaultApplicationModel {
         return sharedEditor;
     }
     
-    public void initProject(Application a, Project p) {
-        if (a.isSharingToolsAmongProjects()) {
-            ((DrawProject) p).setEditor(getSharedEditor());
+    public void initView(Application a, View p) {
+        if (a.isSharingToolsAmongViews()) {
+            ((DrawView) p).setEditor(getSharedEditor());
         }
     }
     /**
@@ -56,9 +56,9 @@ public class DrawApplicationModel extends DefaultApplicationModel {
      * This class always returns an empty list. Subclasses may return other
      * values.
      */
-    public List<JToolBar> createToolBars(Application a, Project pr) {
+    public List<JToolBar> createToolBars(Application a, View pr) {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-        DrawProject p = (DrawProject) pr;
+        DrawView p = (DrawView) pr;
         
         DrawingEditor editor;
         if (p == null) {

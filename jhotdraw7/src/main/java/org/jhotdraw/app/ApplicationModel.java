@@ -37,11 +37,11 @@ public interface ApplicationModel {
     public String getCopyright();
     
     /**
-     * Creates a new project for the application.
+     * Creates a new view for the application.
      */
-    public Project createProject();
+    public View createView();
     
-    public void initProject(Application a, Project p);
+    public void initView(Application a, View v);
     
     public void initApplication(Application a);
     /**
@@ -56,23 +56,23 @@ public interface ApplicationModel {
      * Creates tool bars.
      * <p>
      * Depending on the document interface of the application, this method
-     * may be invoked only once for the application, or for each opened project.
+     * may be invoked only once for the application, or for each opened view.
      * <p>
      * @param a Application.
-     * @param p The project for which the toolbars need to be created, or null
-     * if the toolbar needs to be shared with multiple projects.
+     * @param v The view for which the toolbars need to be created, or null
+     * if the toolbar needs to be shared with multiple views.
      */
-    public List<JToolBar> createToolBars(Application a, Project p);
+    public List<JToolBar> createToolBars(Application a, View v);
     
     /**
      * Creates menus.
      * <p>
      * Depending on the document interface of the application, this method
-     * may be invoked only once for the application, or for each opened project.
+     * may be invoked only once for the application, or for each opened view.
      * <p>
      * @param a Application.
-     * @param p The project for which the toolbars need to be created, or null
-     * if the toolbar needs to be shared with multiple projects.
+     * @param v The view for which the toolbars need to be created, or null
+     * if the toolbar needs to be shared with multiple views.
      */
-    public List<JMenu> createMenus(Application a, Project p);
+    public List<JMenu> createMenus(Application a, View v);
 }

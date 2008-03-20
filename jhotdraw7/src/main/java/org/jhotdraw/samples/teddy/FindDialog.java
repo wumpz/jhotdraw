@@ -265,108 +265,108 @@ public class FindDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_ignoreCasePerformed
     
     private void replace(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_replace
-        TeddyProject project = ((TeddyProject) app.getActiveProject());
-        if (project != null) {
+        TeddyView view = ((TeddyView) app.getActiveView());
+        if (view != null) {
             CompositeEdit edit = new CompositeEdit("Replace");
-            project.fireEdit(edit);
-            project.replaceRange(
+            view.fireEdit(edit);
+            view.replaceRange(
                     
                     replaceField.getText(),
-                    project.getSelectionStart(),
-                    project.getSelectionEnd()
+                    view.getSelectionStart(),
+                    view.getSelectionEnd()
                     );
-            project.fireEdit(edit);
+            view.fireEdit(edit);
         }
     }//GEN-LAST:event_replace
     
     private void replaceAndFind(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_replaceAndFind
-        TeddyProject project = ((TeddyProject) app.getActiveProject());
-        if (project != null) {
+        TeddyView view = ((TeddyView) app.getActiveView());
+        if (view != null) {
             CompositeEdit edit = new CompositeEdit("Replace And Find");
-            project.fireEdit(edit);
-            project.replaceRange(
+            view.fireEdit(edit);
+            view.replaceRange(
                     replaceField.getText(),
-                    project.getSelectionStart(),
-                    project.getSelectionEnd()
+                    view.getSelectionStart(),
+                    view.getSelectionEnd()
                     );
             next(evt);
-            project.fireEdit(edit);
+            view.fireEdit(edit);
         }
     }//GEN-LAST:event_replaceAndFind
     
     private void previous(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previous
-        TeddyProject project = ((TeddyProject) app.getActiveProject());
-        if (project != null) {
+        TeddyView view = ((TeddyView) app.getActiveView());
+        if (view != null) {
             updateMatcher();
             if (matcher != null) {
-                matcher.setStartIndex(project.getSelectionStart() - 1);
+                matcher.setStartIndex(view.getSelectionStart() - 1);
                 int pos = matcher.findPrevious();
                 if (pos == -1 && wrapAroundCheck.isSelected()) {
-                    pos = matcher.findPrevious(project.getDocument().getLength());
+                    pos = matcher.findPrevious(view.getDocument().getLength());
                 }
                 if (pos == -1) {
                     getToolkit().beep();
                 } else {
-                    project.select(pos, matcher.getFindString().length() + pos);
+                    view.select(pos, matcher.getFindString().length() + pos);
                 }
             }
         }
     }//GEN-LAST:event_previous
     
     private void next(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_next
-        TeddyProject project = ((TeddyProject) app.getActiveProject());
-        if (project != null) {
+        TeddyView view = ((TeddyView) app.getActiveView());
+        if (view != null) {
             updateMatcher();
             if (matcher != null) {
-                int pos = matcher.findNext(project.getSelectionEnd());
+                int pos = matcher.findNext(view.getSelectionEnd());
                 if (pos == -1 && wrapAroundCheck.isSelected()) {
                     pos = matcher.findNext(0);
                 }
                 if (pos == -1) {
                     getToolkit().beep();
                 } else {
-                    project.select(pos, matcher.getFindString().length() + pos);
+                    view.select(pos, matcher.getFindString().length() + pos);
                 }
             }
         }
     }//GEN-LAST:event_next
     
     private void replaceAll(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_replaceAll
-        TeddyProject project = ((TeddyProject) app.getActiveProject());
-        if (project != null) {
+        TeddyView view = ((TeddyView) app.getActiveView());
+        if (view != null) {
             updateMatcher();
             if (matcher != null) {
-                int pos = matcher.findNext((wrapAroundCheck.isSelected()) ? 0 : project.getSelectionEnd());
+                int pos = matcher.findNext((wrapAroundCheck.isSelected()) ? 0 : view.getSelectionEnd());
                 if (pos == -1) {
                     getToolkit().beep();
                 } else {
                     CompositeEdit edit = new CompositeEdit("Replace All");
-                    project.fireEdit(edit);
-                    project.select(pos, matcher.getFindString().length() + pos);
+                    view.fireEdit(edit);
+                    view.select(pos, matcher.getFindString().length() + pos);
                     do {
-                        project.replaceRange(
+                        view.replaceRange(
                                 replaceField.getText(),
                                 pos,
                                 pos+matcher.getFindString().length()
                                 );
                         pos = matcher.findNext(pos + replaceField.getText().length());
                     } while (pos != -1);
-                    project.fireEdit(edit);
+                    view.fireEdit(edit);
                 }
             }
         }
     }//GEN-LAST:event_replaceAll
     
     private void updateMatcher() {
-        TeddyProject project = ((TeddyProject) app.getActiveProject());
-        if (project != null) {
+        TeddyView view = ((TeddyView) app.getActiveView());
+        if (view != null) {
             MatchType matchType;
             switch (modeCombo.getSelectedIndex()) {
                 case 0 : matchType = MatchType.CONTAINS; break;
                 case 1 : matchType = MatchType.STARTS_WITH; break;
                 case 2 : default : matchType = MatchType.FULL_WORD; break;
             }
-            matcher = new Matcher(project.getDocument(),
+            matcher = new Matcher(view.getDocument(),
                     findField.getText(),
                     ! ignoreCaseCheck.isSelected(),
                     matchType

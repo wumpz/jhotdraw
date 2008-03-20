@@ -47,7 +47,7 @@ public class NetApplicationModel extends DefaultApplicationModel {
         }
     }
     /**
-     * This editor is shared by all projects.
+     * This editor is shared by all views.
      */
     private DefaultDrawingEditor sharedEditor;
     
@@ -63,11 +63,11 @@ public class NetApplicationModel extends DefaultApplicationModel {
         AbstractAction aa;
         
         putAction(ExportAction.ID, new ExportAction(a));
-        putAction("toggleGrid", aa = new ToggleProjectPropertyAction(a, "gridVisible"));
+        putAction("toggleGrid", aa = new ToggleViewPropertyAction(a, "gridVisible"));
         drawLabels.configureAction(aa, "alignGrid");
         for (double sf : scaleFactors) {
             putAction((int) (sf*100)+"%",
-                    aa = new ProjectPropertyAction(a, "scaleFactor", Double.TYPE, new Double(sf))
+                    aa = new ViewPropertyAction(a, "scaleFactor", Double.TYPE, new Double(sf))
                     );
             aa.putValue(Action.NAME, (int) (sf*100)+" %");
             
@@ -81,9 +81,9 @@ public class NetApplicationModel extends DefaultApplicationModel {
         return sharedEditor;
     }
     
-    public void initProject(Application a, Project p) {
-        if (a.isSharingToolsAmongProjects()) {
-            ((NetProject) p).setDrawingEditor(getSharedEditor());
+    public void initView(Application a, View p) {
+        if (a.isSharingToolsAmongViews()) {
+            ((NetView) p).setDrawingEditor(getSharedEditor());
         }
     }
     private void addCreationButtonsTo(JToolBar tb, final DrawingEditor editor) {
@@ -111,10 +111,10 @@ public class NetApplicationModel extends DefaultApplicationModel {
      * This class always returns an empty list. Subclasses may return other
      * values.
      */
-    public java.util.List<JToolBar> createToolBars(Application a, Project pr) {
+    public java.util.List<JToolBar> createToolBars(Application a, View pr) {
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.net.Labels");
-        NetProject p = (NetProject) pr;
+        NetView p = (NetView) pr;
         
         DrawingEditor editor;
         if (p == null) {
@@ -140,9 +140,9 @@ public class NetApplicationModel extends DefaultApplicationModel {
         return list;
     }
     
-    public java.util.List<JMenu> createMenus(Application a, Project pr) {
+    public java.util.List<JMenu> createMenus(Application a, View pr) {
         // FIXME - Add code for unconfiguring the menus!! We leak memory!
-        NetProject p = (NetProject) pr;
+        NetView p = (NetView) pr;
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
         
         //  JMenuBar mb = new JMenuBar();

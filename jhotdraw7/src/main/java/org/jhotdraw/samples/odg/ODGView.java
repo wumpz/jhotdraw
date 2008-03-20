@@ -1,5 +1,5 @@
 /*
- * @(#)ODGProject.java  1.3  2007-11-25
+ * @(#)ODGView.java  1.3  2007-11-25
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -14,6 +14,7 @@
  */
 package org.jhotdraw.samples.odg;
 
+import org.jhotdraw.app.ExportableView;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.print.Pageable;
@@ -45,7 +46,7 @@ import org.jhotdraw.draw.action.*;
 import org.jhotdraw.xml.*;
 
 /**
- * A drawing project.
+ * A view for ODG drawings.
  *
  * @author Werner Randelshofer
  * @version 1.3 2007-11-25 Method clear is now invoked on a worker thread. 
@@ -53,18 +54,18 @@ import org.jhotdraw.xml.*;
  * <br>1.1 2006-06-10 Extended to support DefaultDrawApplicationModel.
  * <br>1.0 2006-02-07 Created.
  */
-public class ODGProject extends AbstractProject implements ExportableProject {
+public class ODGView extends AbstractView implements ExportableView {
     protected JFileChooser exportChooser;
     
     /**
-     * Each ODGProject uses its own undo redo manager.
-     * This allows for undoing and redoing actions per project.
+     * Each ODGView uses its own undo redo manager.
+     * This allows for undoing and redoing actions per view.
      */
     private UndoRedoManager undo;
     
     /**
      * Depending on the type of an application, there may be one editor per
-     * project, or a single shared editor for all projects.
+     * view, or a single shared editor for all views.
      */
     private DrawingEditor editor;
     
@@ -75,13 +76,13 @@ public class ODGProject extends AbstractProject implements ExportableProject {
     private GridConstrainer invisibleConstrainer = new GridConstrainer(1, 1);
     private Preferences prefs;
     /**
-     * Creates a new Project.
+     * Creates a new view.
      */
-    public ODGProject() {
+    public ODGView() {
     }
     
     /**
-     * Initializes the project.
+     * Initializes the view.
      */
     public void init() {
         super.init();
@@ -126,7 +127,7 @@ public class ODGProject extends AbstractProject implements ExportableProject {
     }
     
     /**
-     * Creates a new Drawing for this Project.
+     * Creates a new Drawing for this view.
      */
     protected Drawing createDrawing() {
         Drawing drawing = new ODGDrawing();
@@ -148,7 +149,7 @@ public class ODGProject extends AbstractProject implements ExportableProject {
         return drawing;
     }
     /**
-     * Creates a Pageable object for printing the project.
+     * Creates a Pageable object for printing the view.
      */
     public Pageable createPageable() {
         return new DrawingPageable(view.getDrawing());
@@ -170,7 +171,7 @@ public class ODGProject extends AbstractProject implements ExportableProject {
     }
     
     /**
-     * Initializes project specific actions.
+     * Initializes view specific actions.
      */
     private void initActions() {
         putAction(UndoAction.ID, undo.getUndoAction());
@@ -182,7 +183,7 @@ public class ODGProject extends AbstractProject implements ExportableProject {
     }
     
     /**
-     * Writes the project to the specified file.
+     * Writes the view to the specified file.
      */
     public void write(File f) throws IOException {
         OutputStream out = null;
@@ -195,7 +196,7 @@ public class ODGProject extends AbstractProject implements ExportableProject {
     }
     
     /**
-     * Reads the project from the specified file.
+     * Reads the view from the specified file.
      */
     public void read(File f) throws IOException {
         try {
@@ -208,7 +209,7 @@ public class ODGProject extends AbstractProject implements ExportableProject {
             }
             sf.read(f, drawing);
             
-            System.out.println("ODCProject read("+f+") drawing.childCount="+drawing.getChildCount());
+            System.out.println("ODCView read("+f+") drawing.childCount="+drawing.getChildCount());
             
             SwingUtilities.invokeAndWait(new Runnable() { public void run() {
                 view.getDrawing().removeUndoableEditListener(undo);
@@ -229,7 +230,7 @@ public class ODGProject extends AbstractProject implements ExportableProject {
     
     
     /**
-     * Gets the drawing editor of the project.
+     * Gets the drawing editor of the view.
      */
     public DrawingEditor getDrawingEditor() {
         return editor;
@@ -273,7 +274,7 @@ public class ODGProject extends AbstractProject implements ExportableProject {
     
     
     /**
-     * Clears the project.
+     * Clears the view.
      */
     public void clear() {
         final Drawing newDrawing = createDrawing();
@@ -341,14 +342,14 @@ public class ODGProject extends AbstractProject implements ExportableProject {
             javax.swing.filechooser.FileFilter ff = format.getFileFilter();
             fileFilterOutputFormatMap.put(ff, format);
             c.addChoosableFileFilter(ff);
-            if (ff.getDescription().equals(prefs.get("projectExportFormat",""))) {
+            if (ff.getDescription().equals(prefs.get("viewExportFormat",""))) {
                 currentFilter = ff;
             }
         }
         if (currentFilter != null) {
             c.setFileFilter(currentFilter);
         }
-        c.setSelectedFile(new File(prefs.get("projectExportFile", System.getProperty("user.home"))));
+        c.setSelectedFile(new File(prefs.get("viewExportFile", System.getProperty("user.home"))));
         
         return c;
     }
@@ -358,8 +359,9 @@ public class ODGProject extends AbstractProject implements ExportableProject {
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.
      */
-    // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
         scrollPane = new javax.swing.JScrollPane();
         view = new org.jhotdraw.draw.DefaultDrawingView();
         propertiesPanel = new org.jhotdraw.samples.odg.ODGPropertiesPanel();
@@ -371,9 +373,7 @@ public class ODGProject extends AbstractProject implements ExportableProject {
         scrollPane.setViewportView(view);
 
         add(scrollPane, java.awt.BorderLayout.CENTER);
-
         add(propertiesPanel, java.awt.BorderLayout.SOUTH);
-
     }// </editor-fold>//GEN-END:initComponents
     
     public JFileChooser getExportChooser() {
@@ -393,8 +393,8 @@ public class ODGProject extends AbstractProject implements ExportableProject {
         
         format.write(f, view.getDrawing());
         
-        prefs.put("projectExportFile", f.getPath());
-        prefs.put("projectExportFormat", filter.getDescription());
+        prefs.put("viewExportFile", f.getPath());
+        prefs.put("viewExportFormat", filter.getDescription());
     }
     
     

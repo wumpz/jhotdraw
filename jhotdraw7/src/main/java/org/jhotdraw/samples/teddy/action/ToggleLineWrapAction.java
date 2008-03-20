@@ -30,7 +30,7 @@ import javax.swing.event.*;
  * @author  Werner Randelshofer
  * @version 1.0 October 1, 2005 Created.
  */
-public class ToggleLineWrapAction extends AbstractProjectAction {
+public class ToggleLineWrapAction extends AbstractViewAction {
     public final static String ID = "wrapLines";
     private ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.teddy.Labels");
     
@@ -44,17 +44,17 @@ public class ToggleLineWrapAction extends AbstractProjectAction {
     }
     
     public void actionPerformed(ActionEvent e) {
-        getActiveProject().setLineWrap(! getActiveProject().isLineWrap());
+        getActiveView().setLineWrap(! getActiveView().isLineWrap());
     }
     
-    public TeddyProject getActiveProject() {
-        return (TeddyProject) super.getActiveProject();
+    public TeddyView getActiveView() {
+        return (TeddyView) super.getActiveView();
     }
     
-    protected void updateProperty() {
+    protected void updateView() {
         putValue(
                 Actions.SELECTED_KEY,
-                getActiveProject() != null && getActiveProject().isLineWrap()
+                getActiveView() != null && getActiveView().isLineWrap()
                 );
     }
 }

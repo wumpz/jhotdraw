@@ -1,5 +1,5 @@
 /*
- * @(#)ExportableProject.java  1.0  January 2, 2007
+ * @(#)ExportableView.java  1.0  January 2, 2007
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -12,7 +12,7 @@
  * the copyright holders. For details see accompanying license terms. 
  */
 
-package org.jhotdraw.app.action;
+package org.jhotdraw.app;
 
 import java.awt.*;
 import java.io.*;
@@ -20,22 +20,22 @@ import javax.swing.*;
 import org.jhotdraw.app.*;
 
 /**
- * ExportableProject is implemented by Project's that support the ExportAction.
+ * ExportableView is implemented by View's that support the ExportAction.
  *
  * @author Werner Randelshofer
  * @version 1.0 January 2, 2007 Created.
  */
-public interface ExportableProject extends Project {
+public interface ExportableView extends View {
     /**
-     * Gets the file chooser for exporting the project.
+     * Gets the file chooser for exporting the view.
      */
   public JFileChooser getExportChooser();
  
   /**
-   * Exports the project. 
+   * Exports the view. 
    * By convention this method is never invoked on the AWT Event Dispatcher Thread. 
    *
-   * @param f The file to which export the project.
+   * @param f The file to which export the view.
    * @param filter The FileFilter that was used to choose the file. This can be null.
    * @param accessory The Accessory used by the JFileChooser. This can be null.
    */

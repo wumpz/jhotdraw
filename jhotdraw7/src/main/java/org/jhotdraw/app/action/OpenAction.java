@@ -25,18 +25,18 @@ import java.util.prefs.*;
 import javax.swing.*;
 import java.io.*;
 import org.jhotdraw.app.Application;
-import org.jhotdraw.app.Project;
+import org.jhotdraw.app.View;
 
 /**
- * Opens a file in new project, or in the current project, if it is empty.
+ * Opens a file in new view, or in the current view, if it is empty.
  *
  * @author  Werner Randelshofer
  * @version 2.1 2008-03-19 Check whether file exists before opening it. 
- * <br>2.0.2 2008-02-23 Project and application was not enabled after
+ * <br>2.0.2 2008-02-23 View and application was not enabled after
  * unsuccessful file open. 
  * <br>2.0.1 2006-05-18 Print stack trace added.
  * <br>2.0 2006-02-16 Support for preferences added.
- * <br>1.0.1 2005-07-14 Make project explicitly visible after creating it.
+ * <br>1.0.1 2005-07-14 Make view explicitly visible after creating it.
  * <br>1.0  04 January 2005  Created.
  */
 public class OpenAction extends AbstractApplicationAction {
@@ -54,30 +54,22 @@ public class OpenAction extends AbstractApplicationAction {
         final Application app = getApplication();
         if (app.isEnabled()) {
             app.setEnabled(false);
-            // Search for an empty project
-            Project emptyProject = app.getActiveProject();
-            if (emptyProject == null ||
-                    emptyProject.getFile() != null ||
-                    emptyProject.hasUnsavedChanges()) {
-                emptyProject = null;
-            /*
-            for (Project aProject : app.projects()) {
-            if (aProject.getFile() == null &&
-            ! aProject.hasUnsavedChanges()) {
-            emptyProject = aProject;
-            break;
-            }
-            }*/
+            // Search for an empty view
+            View emptyView = app.getActiveView();
+            if (emptyView == null ||
+                    emptyView.getFile() != null ||
+                    emptyView.hasUnsavedChanges()) {
+                emptyView = null;
             }
 
-            final Project p;
+            final View p;
             boolean removeMe;
-            if (emptyProject == null) {
-                p = app.createProject();
+            if (emptyView == null) {
+                p = app.createView();
                 app.add(p);
                 removeMe = true;
             } else {
-                p = emptyProject;
+                p = emptyView;
                 removeMe = false;
             }
             JFileChooser fileChooser = p.getOpenChooser();
@@ -93,32 +85,32 @@ public class OpenAction extends AbstractApplicationAction {
         }
     }
 
-    protected void openFile(JFileChooser fileChooser, final Project project) {
+    protected void openFile(JFileChooser fileChooser, final View view) {
         final Application app = getApplication();
         final File file = fileChooser.getSelectedFile();
         app.setEnabled(true);
-        project.setEnabled(false);
+        view.setEnabled(false);
 
-        // If there is another project with we set the multiple open
-        // id of our project to max(multiple open id) + 1.
+        // If there is another view with we set the multiple open
+        // id of our view to max(multiple open id) + 1.
         int multipleOpenId = 1;
-        for (Project aProject : app.projects()) {
-            if (aProject != project &&
-                    aProject.getFile() != null &&
-                    aProject.getFile().equals(file)) {
-                multipleOpenId = Math.max(multipleOpenId, aProject.getMultipleOpenId() + 1);
+        for (View aView : app.views()) {
+            if (aView != view &&
+                    aView.getFile() != null &&
+                    aView.getFile().equals(file)) {
+                multipleOpenId = Math.max(multipleOpenId, aView.getMultipleOpenId() + 1);
             }
         }
-        project.setMultipleOpenId(multipleOpenId);
-        project.setEnabled(false);
+        view.setMultipleOpenId(multipleOpenId);
+        view.setEnabled(false);
 
         // Open the file
-        project.execute(new Worker() {
+        view.execute(new Worker() {
 
             public Object construct() {
                 try {
                     if (file.exists()) {
-                        project.read(file);
+                        view.read(file);
                         return null;
                     } else {
                         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
@@ -130,26 +122,26 @@ public class OpenAction extends AbstractApplicationAction {
             }
 
             public void finished(Object value) {
-                fileOpened(project, file, value);
+                fileOpened(view, file, value);
             }
         });
     }
 
-    protected void fileOpened(final Project project, File file, Object value) {
+    protected void fileOpened(final View view, File file, Object value) {
         final Application app = getApplication();
         if (value == null) {
-            project.setFile(file);
-            project.setEnabled(true);
-            Frame w = (Frame) SwingUtilities.getWindowAncestor(project.getComponent());
+            view.setFile(file);
+            view.setEnabled(true);
+            Frame w = (Frame) SwingUtilities.getWindowAncestor(view.getComponent());
             if (w != null) {
                 w.setExtendedState(w.getExtendedState() & ~Frame.ICONIFIED);
                 w.toFront();
             }
-            project.getComponent().requestFocus();
+            view.getComponent().requestFocus();
             app.addRecentFile(file);
             app.setEnabled(true);
         } else {
-            project.setEnabled(true);
+            view.setEnabled(true);
             app.setEnabled(true);
             String message;
             if ((value instanceof Throwable) && ((Throwable) value).getMessage() != null) {
@@ -158,7 +150,7 @@ public class OpenAction extends AbstractApplicationAction {
                 message = value.toString();
             }
             ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
-            JSheet.showMessageSheet(project.getComponent(),
+            JSheet.showMessageSheet(view.getComponent(),
                     "<html>" + UIManager.getString("OptionPane.css") +
                     "<b>" + labels.getFormatted("couldntOpen", file.getName()) + "</b><br>" +
                     ((message == null) ? "" : message),

@@ -1,15 +1,15 @@
 /*
  * @(#)Main.java  1.0  2005-10-04
  *
- * Copyright (c) 2005 Werner Randelshofer
- * Staldenmattweg 2, Immensee, CH-6405, Switzerland.
+ * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * and all its contributors.
  * All rights reserved.
  *
- * This software is the confidential and proprietary information of
- * Werner Randelshofer. ("Confidential Information").  You shall not
- * disclose such Confidential Information and shall use it only in
- * accordance with the terms of the license agreement you entered into
- * with Werner Randelshofer.
+ * The copyright of this software is owned by the authors and  
+ * contributors of the JHotDraw project ("the copyright holders").  
+ * You may not use, copy or modify this software, except in  
+ * accordance with the license agreement you entered into with  
+ * the copyright holders. For details see accompanying license terms. 
  */
 
 package org.jhotdraw.samples.teddy;
@@ -37,7 +37,7 @@ public class Main {
         TeddyApplicationModel tam = new TeddyApplicationModel();
         tam.setCopyright("© 2005-2007 Werner Randelshofer");
         tam.setName("Teddy");
-        tam.setProjectClassName("org.jhotdraw.samples.teddy.TeddyProject");
+        tam.setViewClassName("org.jhotdraw.samples.teddy.TeddyView");
         tam.setVersion("2.0");
         
         AbstractApplication app;

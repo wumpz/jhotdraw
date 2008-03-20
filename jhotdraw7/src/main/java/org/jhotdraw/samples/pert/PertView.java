@@ -1,5 +1,5 @@
 /*
- * @(#)DrawProject.java  1.3  2007-11-25
+ * @(#)PertView.java  1.3  2007-11-25
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -39,7 +39,7 @@ import org.jhotdraw.xml.*;
 import org.jhotdraw.samples.pert.figures.*;
 
 /**
- * A Pert drawing project.
+ * A view for Pert diagrams.
  *
  * @author Werner Randelshofer
  * @version 1.3 2007-11-25 Method clear is now invoked on a worker thread. 
@@ -47,30 +47,30 @@ import org.jhotdraw.samples.pert.figures.*;
  * <br>1.1 2006-06-10 Extended to support DefaultDrawApplicationModel.
  * <br>1.0 2006-02-07 Created.
  */
-public class PertProject extends AbstractProject {
+public class PertView extends AbstractView {
    
     /**
-     * Each DrawProject uses its own undo redo manager.
-     * This allows for undoing and redoing actions per project.
+     * Each view uses its own undo redo manager.
+     * This allows for undoing and redoing actions per view.
      */
     private UndoRedoManager undo;
     
     /**
      * Depending on the type of an application, there may be one editor per
-     * project, or a single shared editor for all projects.
+     * view, or a single shared editor for all views.
      */
     private DrawingEditor editor;
     
     private Preferences prefs;
     
     /**
-     * Creates a new Project.
+     * Creates a new view.
      */
-    public PertProject() {
+    public PertView() {
     }
     
     /**
-     * Initializes the project.
+     * Initializes the view.
      */
     public void init() {
         super.init();
@@ -110,12 +110,12 @@ public class PertProject extends AbstractProject {
         scrollPane.add(placardPanel, JScrollPane.LOWER_LEFT_CORNER);
 
         prefs = Preferences.userNodeForPackage(getClass());
-        setGridVisible(prefs.getBoolean("project.gridVisible", false));
-        setScaleFactor(prefs.getDouble("project.scaleFactor", 1d));   
+        setGridVisible(prefs.getBoolean("view.gridVisible", false));
+        setScaleFactor(prefs.getDouble("view.scaleFactor", 1d));   
     }
     
     /**
-     * Creates a new Drawing for this Project.
+     * Creates a new Drawing for this view.
      */
     protected Drawing createDrawing() {
         DefaultDrawing drawing = new DefaultDrawing();
@@ -131,7 +131,7 @@ public class PertProject extends AbstractProject {
         return drawing;
     }
     /**
-     * Creates a Pageable object for printing the project.
+     * Creates a Pageable object for printing this view.
      */
     public Pageable createPageable() {
         return new DrawingPageable(view.getDrawing());
@@ -156,7 +156,7 @@ public class PertProject extends AbstractProject {
         boolean oldValue = isGridVisible();
         view.setConstrainerVisible(newValue);
         firePropertyChange("gridVisible", oldValue, newValue);
-        prefs.putBoolean("project.gridVisible", newValue);
+        prefs.putBoolean("view.gridVisible", newValue);
     }
     public boolean isGridVisible() {
        return view.isConstrainerVisible();
@@ -169,10 +169,10 @@ public class PertProject extends AbstractProject {
         view.setScaleFactor(newValue);
         
         firePropertyChange("scaleFactor", oldValue, newValue);
-        prefs.putDouble("project.scaleFactor", newValue);
+        prefs.putDouble("view.scaleFactor", newValue);
     }
     /**
-     * Initializes project specific actions.
+     * Initializes view specific actions.
      */
     private void initActions() {
         putAction(UndoAction.ID, undo.getUndoAction());
@@ -184,7 +184,7 @@ public class PertProject extends AbstractProject {
     }
     
     /**
-     * Writes the project to the specified file.
+     * Writes the view to the specified file.
      */
     public void write(File f) throws IOException {
             Drawing drawing = view.getDrawing();
@@ -193,7 +193,7 @@ public class PertProject extends AbstractProject {
     }
     
     /**
-     * Reads the project from the specified file.
+     * Reads the view from the specified file.
      */
     public void read(File f) throws IOException {
         try {
@@ -218,7 +218,7 @@ public class PertProject extends AbstractProject {
     }
     
     /**
-     * Sets a drawing editor for the project.
+     * Sets a drawing editor for the view.
      */
     public void setDrawingEditor(DrawingEditor newValue) {
         if (editor != null) {
@@ -231,14 +231,14 @@ public class PertProject extends AbstractProject {
     }
     
     /**
-     * Gets the drawing editor of the project.
+     * Gets the drawing editor of the view.
      */
     public DrawingEditor getDrawingEditor() {
         return editor;
     }
     
     /**
-     * Clears the project.
+     * Clears the view.
      */
     public void clear() {
         final Drawing newDrawing = createDrawing();
@@ -274,8 +274,9 @@ public class PertProject extends AbstractProject {
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.
      */
-    // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
         scrollPane = new javax.swing.JScrollPane();
         view = new org.jhotdraw.draw.DefaultDrawingView();
 
@@ -286,7 +287,6 @@ public class PertProject extends AbstractProject {
         scrollPane.setViewportView(view);
 
         add(scrollPane, java.awt.BorderLayout.CENTER);
-
     }// </editor-fold>//GEN-END:initComponents
     
     

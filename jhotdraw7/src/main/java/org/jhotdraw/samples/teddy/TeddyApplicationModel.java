@@ -41,10 +41,10 @@ public class TeddyApplicationModel extends DefaultApplicationModel {
         putAction(PrintAction.ID, null);
     }
     
-    @Override public void initProject(Application a, Project p) {
+    @Override public void initView(Application a, View p) {
     }
     
-    @Override public List<JMenu> createMenus(Application a, Project p) {
+    @Override public List<JMenu> createMenus(Application a, View p) {
         LinkedList<JMenu> mb = new LinkedList<JMenu>();
         
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.teddy.Labels");

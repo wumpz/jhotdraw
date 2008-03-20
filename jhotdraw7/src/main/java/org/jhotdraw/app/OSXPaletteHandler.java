@@ -20,8 +20,8 @@ import java.util.prefs.*;
 import javax.swing.*;
 import java.util.*;
 /**
- * Hides all registered floating palettes, if none of the registered project
- * windows has focus anymore.
+ * Hides all registered floating palettes, if none of the registered view
+ * windows have focus anymore.
  *
  * @author Werner Randelshofer
  * @version 1.1 2006-06-11 Palettes can now be any subclass of java.awt.Window.
@@ -29,7 +29,7 @@ import java.util.*;
  */
 public class OSXPaletteHandler {
     private HashSet<Window> palettes = new HashSet<Window>();
-    private HashMap<Window,Project> windows = new HashMap<Window,Project>();
+    private HashMap<Window,View> windows = new HashMap<Window,View>();
     private static OSXPaletteHandler instance;
     private javax.swing.Timer timer;
     private DefaultOSXApplication app;
@@ -42,7 +42,7 @@ public class OSXPaletteHandler {
         public void windowGainedFocus(WindowEvent e) {
             timer.stop();
             if (windows.get(e.getWindow()) != null) {
-                app.setActiveProject((Project) windows.get(e.getWindow()));
+                app.setActiveView((View) windows.get(e.getWindow()));
                 showPalettes();
             }
         }
@@ -68,9 +68,9 @@ public class OSXPaletteHandler {
         timer.setRepeats(false);
     }
     
-    public void add(Window window, Project project) {
+    public void add(Window window, View view) {
         window.addWindowFocusListener(focusHandler);
-        windows.put(window, project);
+        windows.put(window, view);
     }
     
     public void remove(Window window) {

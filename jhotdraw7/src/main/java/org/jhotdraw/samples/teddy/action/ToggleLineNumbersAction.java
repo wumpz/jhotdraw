@@ -30,7 +30,7 @@ import javax.swing.event.*;
  * @author  Werner Randelshofer
  * @version 1.0 October 1, 2005 Created.
  */
-public class ToggleLineNumbersAction extends AbstractProjectAction {
+public class ToggleLineNumbersAction extends AbstractViewAction {
     public final static String ID = "showLineNumbers";
     private ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.teddy.Labels");
     
@@ -43,19 +43,19 @@ public class ToggleLineNumbersAction extends AbstractProjectAction {
         setPropertyName("lineNumbersVisible");
     }
     
-    public TeddyProject getActiveProject() {
-        return (TeddyProject) super.getActiveProject();
+    public TeddyView getActiveView() {
+        return (TeddyView) super.getActiveView();
     }
     
     public void actionPerformed(ActionEvent e) {
-        getActiveProject().setLineNumbersVisible(! getActiveProject().isLineNumbersVisible());
+        getActiveView().setLineNumbersVisible(! getActiveView().isLineNumbersVisible());
     }
     
     
-    protected void updateProperty() {
+    protected void updateView() {
         putValue(
                 Actions.SELECTED_KEY,
-                getActiveProject() != null && getActiveProject().isLineNumbersVisible()
+                getActiveView() != null && getActiveView().isLineNumbersVisible()
                 );
     }
 }

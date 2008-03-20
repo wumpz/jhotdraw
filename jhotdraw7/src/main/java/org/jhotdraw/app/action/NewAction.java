@@ -19,16 +19,16 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import org.jhotdraw.app.Application;
-import org.jhotdraw.app.Project;
+import org.jhotdraw.app.View;
 
 /**
- * Creates a new project.
+ * Creates a new view.
  *
  * @author Werner Randelshofer
  * @version 1.3 2007-11-30 Call method clear on a worker thread. 
  * <br>1.2 2006-02-22 Support for multiple open id added.
- * <br>1.1.1 2005-07-14 Make project explicitly visible after creating it.
- * <br>1.1 2005-07-09 Place new project relative to current one.
+ * <br>1.1.1 2005-07-14 Make view explicitly visible after creating it.
+ * <br>1.1 2005-07-09 Place new view relative to current one.
  * <br>1.0  04 January 2005  Created.
  */
 public class NewAction extends AbstractApplicationAction {
@@ -43,9 +43,9 @@ public class NewAction extends AbstractApplicationAction {
     
     public void actionPerformed(ActionEvent evt) {
         Application app = getApplication();
-        final Project newP = app.createProject();
+        final View newP = app.createView();
         int multiOpenId = 1;
-        for (Project existingP : app.projects()) {
+        for (View existingP : app.views()) {
             if (existingP.getFile() == null) {
                 multiOpenId = Math.max(multiOpenId, existingP.getMultipleOpenId() + 1);
             }

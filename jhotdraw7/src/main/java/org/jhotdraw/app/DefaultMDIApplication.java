@@ -34,7 +34,7 @@ import org.jhotdraw.app.action.*;
  *
  *
  * @author Werner Randelshofer.
- * @version 1.1 2007-12-25 Added method updateProjectTitle. 
+ * @version 1.1 2007-12-25 Added method updateViewTitle. 
  * <br>1.0 June 5, 2006 Created.
  */
 public class DefaultMDIApplication extends AbstractApplication {
@@ -79,7 +79,7 @@ public class DefaultMDIApplication extends AbstractApplication {
         mo.putAction(ArrangeAction.CASCADE_ID, new ArrangeAction(desktopPane, Arrangeable.Arrangement.CASCADE));
     }
 
-    protected void initProjectActions(Project p) {
+    protected void initViewActions(View p) {
         p.putAction(FocusAction.ID, new FocusAction(p));
     }
 
@@ -147,7 +147,7 @@ public class DefaultMDIApplication extends AbstractApplication {
         }
     }
 
-    public void show(final Project p) {
+    public void show(final View p) {
         if (!p.isShowing()) {
             p.setShowing(true);
             final JInternalFrame f = new JInternalFrame();
@@ -156,17 +156,17 @@ public class DefaultMDIApplication extends AbstractApplication {
             f.setMaximizable(true);
             f.setResizable(true);
             f.setIconifiable(false);
-            updateProjectTitle(p, f);
+            updateViewTitle(p, f);
 
-            PreferencesUtil.installInternalFramePrefsHandler(prefs, "project", f, desktopPane);
+            PreferencesUtil.installInternalFramePrefsHandler(prefs, "view", f, desktopPane);
             Point loc = f.getLocation();
             boolean moved;
             do {
                 moved = false;
-                for (Iterator i = projects().iterator(); i.hasNext();) {
-                    Project aProject = (Project) i.next();
-                    if (aProject != p && aProject.isShowing() &&
-                            SwingUtilities.getRootPane(aProject.getComponent()).getParent().
+                for (Iterator i = views().iterator(); i.hasNext();) {
+                    View aView = (View) i.next();
+                    if (aView != p && aView.isShowing() &&
+                            SwingUtilities.getRootPane(aView.getComponent()).getParent().
                             getLocation().equals(loc)) {
                         loc.x += 22;
                         loc.y += 22;
@@ -177,7 +177,7 @@ public class DefaultMDIApplication extends AbstractApplication {
             } while (moved);
             f.setLocation(loc);
 
-            //paletteHandler.add(f, p);
+            //paletteHandler.add(f, v);
 
             f.addInternalFrameListener(new InternalFrameAdapter() {
 
@@ -190,8 +190,8 @@ public class DefaultMDIApplication extends AbstractApplication {
 
                 @Override
                 public void internalFrameClosed(final InternalFrameEvent evt) {
-                    if (p == getActiveProject()) {
-                        setActiveProject(null);
+                    if (p == getActiveView()) {
+                        setActiveView(null);
                     }
                     p.stop();
                 }
@@ -201,9 +201,9 @@ public class DefaultMDIApplication extends AbstractApplication {
 
                 public void propertyChange(PropertyChangeEvent evt) {
                     String name = evt.getPropertyName();
-                    if (name == Project.HAS_UNSAVED_CHANGES_PROPERTY ||
-                            name == Project.FILE_PROPERTY) {
-                        updateProjectTitle(p, f);
+                    if (name == View.HAS_UNSAVED_CHANGES_PROPERTY ||
+                            name == View.FILE_PROPERTY) {
+                        updateViewTitle(p, f);
                     }
                 }
             });
@@ -214,13 +214,13 @@ public class DefaultMDIApplication extends AbstractApplication {
                     String name = evt.getPropertyName();
                     if (name.equals("selected")) {
                         if (evt.getNewValue().equals(Boolean.TRUE)) {
-                            setActiveProject(p);
+                            setActiveView(p);
                         }
                     }
                 }
             });
 
-            //f.setJMenuBar(createMenuBar(p));
+            //f.setJMenuBar(createMenuBar(v));
 
             f.getContentPane().add(p.getComponent());
             f.setVisible(true);
@@ -236,7 +236,7 @@ public class DefaultMDIApplication extends AbstractApplication {
         }
     }
 
-    public void hide(Project p) {
+    public void hide(View p) {
         if (p.isShowing()) {
             JInternalFrame f = (JInternalFrame) SwingUtilities.getRootPane(p.getComponent()).getParent();
             f.setVisible(false);
@@ -246,7 +246,7 @@ public class DefaultMDIApplication extends AbstractApplication {
         }
     }
 
-    public boolean isSharingToolsAmongProjects() {
+    public boolean isSharingToolsAmongViews() {
         return true;
     }
 
@@ -369,24 +369,24 @@ public class DefaultMDIApplication extends AbstractApplication {
     }
 
     /**
-     * Updates the title of a project and displays it in the given frame.
+     * Updates the title of a view and displays it in the given frame.
      * 
-     * @param p The project.
+     * @param v The view.
      * @param f The frame.
      */
-    protected void updateProjectTitle(Project p, JInternalFrame f) {
-        File file = p.getFile();
+    protected void updateViewTitle(View v, JInternalFrame f) {
+        File file = v.getFile();
         String title;
         if (file == null) {
             title = labels.getString("unnamedFile");
         } else {
             title = file.getName();
         }
-        if (p.hasUnsavedChanges()) {
+        if (v.hasUnsavedChanges()) {
             title += "*";
         }
-        p.setTitle(labels.getFormatted("frameTitle", title, getName(), p.getMultipleOpenId()));
-        f.setTitle(p.getTitle());
+        v.setTitle(labels.getFormatted("frameTitle", title, getName(), v.getMultipleOpenId()));
+        f.setTitle(v.getTitle());
     }
 
     /**
@@ -424,7 +424,7 @@ public class DefaultMDIApplication extends AbstractApplication {
         m.add(mo.getAction(ArrangeAction.HORIZONTAL_ID));
 
         m.addSeparator();
-        for (Project pr : projects()) {
+        for (View pr : views()) {
             if (pr.getAction(FocusAction.ID) != null) {
                 windowMenu.add(pr.getAction(FocusAction.ID));
             }
@@ -444,7 +444,7 @@ public class DefaultMDIApplication extends AbstractApplication {
             public void propertyChange(PropertyChangeEvent evt) {
                 String name = evt.getPropertyName();
                 ApplicationModel mo = getModel();
-                if (name == "projectCount") {
+                if (name == "viewCount") {
                     JMenu m = windowMenu;
                     m.removeAll();
 
@@ -453,8 +453,8 @@ public class DefaultMDIApplication extends AbstractApplication {
                     m.add(mo.getAction(ArrangeAction.HORIZONTAL_ID));
 
                     m.addSeparator();
-                    for (Iterator i = projects().iterator(); i.hasNext();) {
-                        Project pr = (Project) i.next();
+                    for (Iterator i = views().iterator(); i.hasNext();) {
+                        View pr = (View) i.next();
                         if (pr.getAction(FocusAction.ID) != null) {
                             m.add(pr.getAction(FocusAction.ID));
                         }

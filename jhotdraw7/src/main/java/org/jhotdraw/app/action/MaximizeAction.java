@@ -21,13 +21,13 @@ import java.awt.event.*;
 import javax.swing.*;
 import org.jhotdraw.app.Application;
 /**
- * Maximizes the Frame of the current project.
+ * Maximizes the Frame of the current view.
  * 
  * @author Werner Randelshofer
  * @version 2.0 2005-05-05 Reworked.
  * <br>1.0  2005-06-10 Created.
  */
-public class MaximizeAction extends AbstractProjectAction {
+public class MaximizeAction extends AbstractViewAction {
     public final static String ID = "maximize";
     
     /** Creates a new instance. */
@@ -39,7 +39,7 @@ public class MaximizeAction extends AbstractProjectAction {
     
     private JFrame getFrame() {
         return (JFrame) SwingUtilities.getWindowAncestor(
-                getActiveProject().getComponent()
+                getActiveView().getComponent()
                 );
     }
     

@@ -27,23 +27,23 @@ import org.jhotdraw.app.*;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.util.*;
 /**
- * Presents a printer dialog to the user and then prints the Project to the
+ * Presents a printer dialog to the user and then prints the View to the
  * chosen printer.
  * <p>
- * This action requires that the project has the following additional methods:
+ * This action requires that the view has the following additional methods:
  * <pre>
  * public void find();
  * </pre>
  * <p>
  * The FindAction invokes this method using Java Reflection. Thus there is
- * no Java Interface that the Project needs to implement.
+ * no Java Interface that the View needs to implement.
  *
  * @see org.jhotdraw.draw.DrawingPageable
  *
  * @author Werner Randelshofer
  * @version 1.0 March 21, 2007 Created.
  */
-public class FindAction extends AbstractProjectAction {
+public class FindAction extends AbstractViewAction {
     public final static String ID = "find";
     
     /** Creates a new instance. */
@@ -54,9 +54,9 @@ public class FindAction extends AbstractProjectAction {
     }
     
     public void actionPerformed(ActionEvent evt) {
-        Project project = getActiveProject();
+        View view = getActiveView();
         try {
-            Methods.invoke(project, "find");
+            Methods.invoke(view, "find");
         } catch (NoSuchMethodException ex) {
             ex.printStackTrace();
         }

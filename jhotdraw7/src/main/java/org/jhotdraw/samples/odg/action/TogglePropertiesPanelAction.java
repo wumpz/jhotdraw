@@ -27,7 +27,7 @@ import org.jhotdraw.util.*;
  * @author Werner Randelshofer
  * @version 1.0 2007-07-28 Created.
  */
-public class TogglePropertiesPanelAction extends AbstractProjectAction {
+public class TogglePropertiesPanelAction extends AbstractViewAction {
     
     /** Creates a new instance. */
     public TogglePropertiesPanelAction(Application app) {
@@ -39,23 +39,23 @@ public class TogglePropertiesPanelAction extends AbstractProjectAction {
     
     /**
      * This method is invoked, when the property changed and when
-     * the project changed.
+     * the view changed.
      */
-    protected void updateProperty() {
+    protected void updateView() {
         putValue(Actions.SELECTED_KEY,
-                getActiveProject() != null &&
-                ! getActiveProject().isPropertiesPanelVisible()
+                getActiveView() != null &&
+                ! getActiveView().isPropertiesPanelVisible()
                 );
     }
     
     
-    public ODGProject getActiveProject() {
-        return (ODGProject) super.getActiveProject();
+    public ODGView getActiveView() {
+        return (ODGView) super.getActiveView();
     }
     
     public void actionPerformed(ActionEvent e) {
-        getActiveProject().setPropertiesPanelVisible(
-                ! getActiveProject().isPropertiesPanelVisible()
+        getActiveView().setPropertiesPanelVisible(
+                ! getActiveView().isPropertiesPanelVisible()
                 );
     }
     

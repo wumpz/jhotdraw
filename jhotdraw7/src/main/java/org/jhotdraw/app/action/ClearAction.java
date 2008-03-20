@@ -20,10 +20,10 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import org.jhotdraw.app.Application;
-import org.jhotdraw.app.Project;
+import org.jhotdraw.app.View;
 
 /**
- * Clears a project.
+ * Clears a view.
  *
  * @author Werner Randelshofer
  * @version 1.1 2007-11-25 Call method clear on a worker thread.
@@ -39,15 +39,15 @@ public class ClearAction extends AbstractSaveBeforeAction {
         labels.configureAction(this, "new");
     }
     
-    @Override public void doIt(final Project project) {
-        project.setEnabled(false);
-        project.execute(new Worker() {
+    @Override public void doIt(final View view) {
+        view.setEnabled(false);
+        view.execute(new Worker() {
             public Object construct() {
-                project.clear();
+                view.clear();
                 return null;
             }
             public void finished(Object value) {
-                project.setEnabled(true);
+                view.setEnabled(true);
             }
         });
     }

@@ -1,5 +1,5 @@
 /*
- * @(#)NetProject.java  1.4  2007-12-17
+ * @(#)NetView.java  1.4  2007-12-17
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -37,7 +37,7 @@ import org.jhotdraw.xml.*;
 import org.jhotdraw.samples.pert.figures.*;
 
 /**
- * A Pert drawing project.
+ * A view for Network diagrams.
  *
  * @author Werner Randelshofer
  * @version 1.4 2007-11-17 Adapted due to changes in Constrainer interface.
@@ -46,17 +46,17 @@ import org.jhotdraw.samples.pert.figures.*;
  * <br>1.1 2006-06-10 Extended to support DefaultDrawApplicationModel.
  * <br>1.0 2006-02-07 Created.
  */
-public class NetProject extends AbstractProject {
+public class NetView extends AbstractView {
     
     /**
-     * Each NetProject uses its own undo redo manager.
-     * This allows for undoing and redoing actions per project.
+     * Each NetView uses its own undo redo manager.
+     * This allows for undoing and redoing actions per view.
      */
     private UndoRedoManager undo;
     
     /**
      * Depending on the type of an application, there may be one editor per
-     * project, or a single shared editor for all projects.
+     * view, or a single shared editor for all views.
      */
     private DrawingEditor editor;
     
@@ -64,13 +64,13 @@ public class NetProject extends AbstractProject {
     private AbstractButton toggleGridButton;
     
     /**
-     * Creates a new Project.
+     * Creates a new view.
      */
-    public NetProject() {
+    public NetView() {
     }
     
     /**
-     * Initializes the project.
+     * Initializes the view.
      */
     public void init() {
         super.init();
@@ -110,14 +110,14 @@ public class NetProject extends AbstractProject {
         scrollPane.add(placardPanel, JScrollPane.LOWER_LEFT_CORNER);
         
         prefs = Preferences.userNodeForPackage(getClass());
-        toggleGridButton.setSelected(prefs.getBoolean("project.gridVisible", false));
-        view.setScaleFactor(prefs.getDouble("project.scaleFactor", 1d));
+        toggleGridButton.setSelected(prefs.getBoolean("view.gridVisible", false));
+        view.setScaleFactor(prefs.getDouble("view.scaleFactor", 1d));
         
         view.addPropertyChangeListener(new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 String name = evt.getPropertyName();
                 if (name.equals("scaleFactor")) {
-                    prefs.putDouble("project.scaleFactor", (Double) evt.getNewValue());
+                    prefs.putDouble("view.scaleFactor", (Double) evt.getNewValue());
                     firePropertyChange("scaleFactor", evt.getOldValue(), evt.getNewValue());
                 }
             }
@@ -134,7 +134,7 @@ public class NetProject extends AbstractProject {
     }
     
     /**
-     * Creates a new Drawing for this Project.
+     * Creates a new Drawing for this view.
      */
     protected Drawing createDrawing() {
         DefaultDrawing drawing = new DefaultDrawing();
@@ -147,7 +147,7 @@ public class NetProject extends AbstractProject {
         return drawing;
     }
     /**
-     * Creates a Pageable object for printing the project.
+     * Creates a Pageable object for printing the view.
      */
     public Pageable createPageable() {
         return new DrawingPageable(view.getDrawing());
@@ -175,7 +175,7 @@ public class NetProject extends AbstractProject {
         view.setScaleFactor(newValue);
     }
     /**
-     * Initializes project specific actions.
+     * Initializes view specific actions.
      */
     private void initActions() {
         putAction(UndoAction.ID, undo.getUndoAction());
@@ -187,7 +187,7 @@ public class NetProject extends AbstractProject {
     }
     
     /**
-     * Writes the project to the specified file.
+     * Writes the view to the specified file.
      */
     public void write(File f) throws IOException {
             Drawing drawing = view.getDrawing();
@@ -196,7 +196,7 @@ public class NetProject extends AbstractProject {
     }
     
     /**
-     * Reads the project from the specified file.
+     * Reads the view from the specified file.
      */
     public void read(File f) throws IOException {
         try {
@@ -221,7 +221,7 @@ public class NetProject extends AbstractProject {
     }
     
     /**
-     * Sets a drawing editor for the project.
+     * Sets a drawing editor for the view.
      */
     public void setDrawingEditor(DrawingEditor newValue) {
         if (editor != null) {
@@ -234,14 +234,14 @@ public class NetProject extends AbstractProject {
     }
     
     /**
-     * Gets the drawing editor of the project.
+     * Gets the drawing editor of the view.
      */
     public DrawingEditor getDrawingEditor() {
         return editor;
     }
     
     /**
-     * Clears the project.
+     * Clears the view.
      */
     public void clear() {
         final Drawing newDrawing = createDrawing();
@@ -277,8 +277,9 @@ public class NetProject extends AbstractProject {
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.
      */
-    // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
         scrollPane = new javax.swing.JScrollPane();
         view = new org.jhotdraw.draw.DefaultDrawingView();
 
@@ -289,7 +290,6 @@ public class NetProject extends AbstractProject {
         scrollPane.setViewportView(view);
 
         add(scrollPane, java.awt.BorderLayout.CENTER);
-
     }// </editor-fold>//GEN-END:initComponents
     
     

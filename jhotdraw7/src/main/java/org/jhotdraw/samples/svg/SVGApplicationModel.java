@@ -39,7 +39,7 @@ public class SVGApplicationModel extends DefaultApplicationModel {
     private GridConstrainer gridConstrainer;
     
     /**
-     * This editor is shared by all projects.
+     * This editor is shared by all views.
      */
     private DefaultDrawingEditor sharedEditor;
     
@@ -54,12 +54,12 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         return sharedEditor;
     }
     
-    public void initProject(Application a, Project p) {
-        if (a.isSharingToolsAmongProjects()) {
-            ((SVGProject) p).setEditor(getSharedEditor());
+    public void initView(Application a, View p) {
+        if (a.isSharingToolsAmongViews()) {
+            ((SVGView) p).setEditor(getSharedEditor());
         }
         p.putAction(EditGridAction.ID, getAction(EditGridAction.ID));
-        p.putAction(SelectSameAction.ID, new SelectSameAction(((SVGProject) p).getEditor()));
+        p.putAction(SelectSameAction.ID, new SelectSameAction(((SVGView) p).getEditor()));
     }
     
     @Override public void initApplication(Application a) {
@@ -76,7 +76,7 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         putAction(EditDrawingAction.ID, new EditDrawingAction(a, getSharedEditor()));
         for (double sf : scaleFactors) {
             putAction((int) (sf*100)+"%",
-                    aa = new ProjectPropertyAction(a, "scaleFactor", Double.TYPE, new Double(sf))
+                    aa = new ViewPropertyAction(a, "scaleFactor", Double.TYPE, new Double(sf))
                     );
             aa.putValue(Action.NAME, (int) (sf*100)+" %");
             
@@ -87,9 +87,9 @@ public class SVGApplicationModel extends DefaultApplicationModel {
     /**
      * Creates toolbars for the application.
      */
-    public java.util.List<JToolBar> createToolBars(Application a, Project pr) {
+    public java.util.List<JToolBar> createToolBars(Application a, View pr) {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-        SVGProject p = (SVGProject) pr;
+        SVGView p = (SVGView) pr;
         
         DrawingEditor editor;
         if (p == null) {
@@ -218,9 +218,9 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         bar.add(ButtonFactory.createStrokeJoinButton(editor));
     }
     
-     @Override public java.util.List<JMenu> createMenus(Application a, Project pr) {
+     @Override public java.util.List<JMenu> createMenus(Application a, View pr) {
         // FIXME - Add code for unconfiguring the menus!! We leak memory!
-        SVGProject p = (SVGProject) pr;
+        SVGView p = (SVGView) pr;
         ResourceBundleUtil appLabels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
         
@@ -262,7 +262,7 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         
         return mb;
     }
-    @Override protected JMenu createEditMenu(Application a, Project p) {
+    @Override protected JMenu createEditMenu(Application a, View p) {
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
         
         JMenu m = super.createEditMenu(a, p);

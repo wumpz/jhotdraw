@@ -40,14 +40,14 @@ import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
 public class ODGApplicationModel extends DefaultApplicationModel {
     private final static double[] scaleFactors = {5, 4, 3, 2, 1.5, 1.25, 1, 0.75, 0.5, 0.25, 0.10};
    /**
-     * This editor is shared by all projects.
+     * This editor is shared by all views.
      */
     private DefaultDrawingEditor sharedEditor;
     
     
     /** Creates a new instance. */
     public ODGApplicationModel() {
-        setProjectClass(ODGProject.class);
+        setViewClass(ODGView.class);
     }
     public DefaultDrawingEditor getSharedEditor() {
         if (sharedEditor == null) {
@@ -162,9 +162,9 @@ public class ODGApplicationModel extends DefaultApplicationModel {
     /**
      * Creates toolbars for the application.
      */
-    public java.util.List<JToolBar> createToolBars(Application a, Project pr) {
+    public java.util.List<JToolBar> createToolBars(Application a, View pr) {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-        ODGProject p = (ODGProject) pr;
+        ODGView p = (ODGView) pr;
         
         DrawingEditor editor;
         if (p == null) {
@@ -189,9 +189,9 @@ public class ODGApplicationModel extends DefaultApplicationModel {
         list.add(tb);
         return list;
     }
-    public void initProject(Application a, Project p) {
-        if (a.isSharingToolsAmongProjects()) {
-            ((ODGProject) p).setEditor(getSharedEditor());
+    public void initView(Application a, View p) {
+        if (a.isSharingToolsAmongViews()) {
+            ((ODGView) p).setEditor(getSharedEditor());
         }
     }
     
@@ -201,11 +201,11 @@ public class ODGApplicationModel extends DefaultApplicationModel {
         AbstractAction aa;
         
         putAction(ExportAction.ID, new ExportAction(a));
-        putAction("toggleGrid", aa = new ToggleProjectPropertyAction(a, "gridVisible"));
+        putAction("toggleGrid", aa = new ToggleViewPropertyAction(a, "gridVisible"));
         drawLabels.configureAction(aa, "alignGrid");
         for (double sf : scaleFactors) {
             putAction((int) (sf*100)+"%",
-                    aa = new ProjectPropertyAction(a, "scaleFactor", Double.TYPE, new Double(sf))
+                    aa = new ViewPropertyAction(a, "scaleFactor", Double.TYPE, new Double(sf))
                     );
             aa.putValue(Action.NAME, (int) (sf*100)+" %");
             

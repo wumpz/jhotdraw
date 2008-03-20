@@ -10,14 +10,6 @@
  * You may not use, copy or modify this software, except in  
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
- *
- * Original code copyright JHotDraw:
- * Project:		JHotdraw - a GUI framework for technical drawings
- *				http://www.jhotdraw.org
- *				http://jhotdraw.sourceforge.net
- * Copyright:	(c) by the original author(s) and all contributors
- * License:		Lesser GNU Public License (LGPL)
- *				http://www.opensource.org/licenses/lgpl-license.html
  */
 
 package org.jhotdraw.samples.net.figures;

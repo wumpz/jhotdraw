@@ -32,7 +32,7 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * @author Werner Randelshofer
  * @version 1.0 19. Mai 2007 Created.
  */
-public class ViewSourceAction extends AbstractProjectAction {
+public class ViewSourceAction extends AbstractViewAction {
     private ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.svg.Labels");
     
     public final static String ID = "viewSource";
@@ -44,7 +44,7 @@ public class ViewSourceAction extends AbstractProjectAction {
     }
     
     public void actionPerformed(ActionEvent e) {
-        SVGProject p = (SVGProject) getActiveProject();
+        SVGView p = (SVGView) getActiveView();
         SVGOutputFormat format = new SVGOutputFormat();
         format.setPrettyPrint(true);
         ByteArrayOutputStream buf = new ByteArrayOutputStream();
@@ -75,7 +75,7 @@ public class ViewSourceAction extends AbstractProjectAction {
                 }
             });
             
-            getApplication().addWindow(dialog, getActiveProject());
+            getApplication().addWindow(dialog, getActiveView());
             dialog.setVisible(true);
         } catch (IOException ex) {
             ex.printStackTrace();

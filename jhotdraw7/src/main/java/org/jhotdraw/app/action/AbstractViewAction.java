@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractProjectAction.java  1.1  2007-03-22
+ * @(#)AbstractViewAction.java  1.1  2007-03-22
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -20,70 +20,72 @@ import java.beans.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import org.jhotdraw.app.Application;
-import org.jhotdraw.app.Project;
+import org.jhotdraw.app.View;
 
 /**
- * An Action that acts on on the current <code>Project</code> of an
+ * An Action that acts on on the current <code>View</code> of an
  * <code>Application</code>.
- * If the current Project object is disabled or is null, the
- * AbstractProjectAction is disabled as well.
+ * If the current View object is disabled or is null, the
+ * AbstractViewAction is disabled as well.
  * <p>
  * A property name can be specified. When the specified property 
- * changes or when the current project changes, method updateProperty
+ * changes or when the current view changes, method updateView
  * is invoked.
  * 
  * @author Werner Randelshofer
  * @version 1.0 October 9, 2005 Created.
- * @see org.jhotdraw.app.Project
+ * @see org.jhotdraw.app.View
  * @see org.jhotdraw.app.Application
  */
-public abstract class AbstractProjectAction extends AbstractAction {
+public abstract class AbstractViewAction extends AbstractAction {
     private Application app;
     private String propertyName;
+    public final static String VIEW_PROPERTY = "view";
+    public final static String ENABLED_PROPERTY = "enabled";
     
     private PropertyChangeListener applicationListener = new PropertyChangeListener() {
         public void propertyChange(PropertyChangeEvent evt) {
-            if (evt.getPropertyName() == Application.ACTIVE_PROJECT_PROPERTY) { // Strings get interned
-                updateProject((Project) evt.getOldValue(), (Project) evt.getNewValue());
+            if (evt.getPropertyName() == Application.ACTIVE_VIEW_PROPERTY) { // Strings get interned
+                updateView((View) evt.getOldValue(), (View) evt.getNewValue());
             }
         }
     };
-    private PropertyChangeListener projectListener = new PropertyChangeListener() {
+    private PropertyChangeListener viewListener = new PropertyChangeListener() {
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
             if (name == "enabled") { // Strings get interned
                 updateEnabled((Boolean) evt.getOldValue(), (Boolean) evt.getNewValue());
             } else if (name == propertyName) {
-                updateProperty();
+                updateView();
             }
         }
     };
     
     /** Creates a new instance. */
-    public AbstractProjectAction(Application app) {
+    public AbstractViewAction(Application app) {
         this.app = app;
         this.enabled = true;
         if (app != null) {
             app.addPropertyChangeListener(applicationListener);
-            updateProject(null, app.getActiveProject());
+            updateView(null, app.getActiveView());
         }
     }
     
     /**
-     * Updates the listeners of this action depending on the current project
+     * Updates the listeners of this action depending on the current view
      * of the application.
      */
-    protected void updateProject(Project oldValue, Project newValue) {
+    protected void updateView(View oldValue, View newValue) {
         if (oldValue != null) {
-            uninstallProjectListeners(oldValue);
+            uninstallViewListeners(oldValue);
         }
         if (newValue != null) {
-            installProjectListeners(newValue);
+            installViewListeners(newValue);
         }
-        firePropertyChange("project", oldValue, newValue);
+        firePropertyChange(VIEW_PROPERTY, oldValue, newValue);
         updateEnabled(oldValue != null && oldValue.isEnabled(),
                 newValue != null && newValue.isEnabled());
-        updateProperty();
+        updateView();
     }
     
     /**
@@ -92,7 +94,7 @@ public abstract class AbstractProjectAction extends AbstractAction {
     protected void setPropertyName(String name) {
         this.propertyName = name;
         if (name != null) {
-            updateProperty();
+            updateView();
         }
     }
     /**
@@ -104,39 +106,39 @@ public abstract class AbstractProjectAction extends AbstractAction {
     
     /**
      * This method is invoked, when the property changed and when
-     * the project changed.
+     * the view changed.
      */
-    protected void updateProperty() {
+    protected void updateView() {
         
     }
     
     /**
-     * Installs listeners on the project object.
+     * Installs listeners on the view object.
      */
-    protected void installProjectListeners(Project p) {
-        p.addPropertyChangeListener(projectListener);
+    protected void installViewListeners(View p) {
+        p.addPropertyChangeListener(viewListener);
     }
     /**
-     * Installs listeners on the project object.
+     * Uninstalls listeners on the view object.
      */
-    protected void uninstallProjectListeners(Project p) {
-        p.removePropertyChangeListener(projectListener);
+    protected void uninstallViewListeners(View p) {
+        p.removePropertyChangeListener(viewListener);
     }
     
     /**
      * Updates the enabled state of this action depending on the new enabled
-     * state of the project.
+     * state of the view.
      */
     protected void updateEnabled(boolean oldValue, boolean newValue) {
-       // System.out.println("AbstractProjectAction updateEnabled"+oldValue+","+newValue);
+       // System.out.println("AbstractViewAction updateEnabled"+oldValue+","+newValue);
         firePropertyChange("enabled", oldValue, newValue && isEnabled());
     }
     
     public Application getApplication() {
         return app;
     }
-    public Project getActiveProject() {
-        return app.getActiveProject();
+    public View getActiveView() {
+        return app.getActiveView();
     }
     
     /**
@@ -148,8 +150,8 @@ public abstract class AbstractProjectAction extends AbstractAction {
      * @see Action#isEnabled
      */
     @Override public boolean isEnabled() {
-        return getActiveProject() != null && 
-                getActiveProject().isEnabled() &&
+        return getActiveView() != null && 
+                getActiveView().isEnabled() &&
                 this.enabled;
     }
     
@@ -166,9 +168,9 @@ public abstract class AbstractProjectAction extends AbstractAction {
         boolean oldValue = this.enabled;
         this.enabled = newValue;
         
-        boolean projIsEnabled = getActiveProject() != null && getActiveProject().isEnabled();
+        boolean projIsEnabled = getActiveView() != null && getActiveView().isEnabled();
         
-        firePropertyChange("enabled",
+        firePropertyChange(ENABLED_PROPERTY,
                 Boolean.valueOf(oldValue && projIsEnabled),
                 Boolean.valueOf(newValue && projIsEnabled)
                 );

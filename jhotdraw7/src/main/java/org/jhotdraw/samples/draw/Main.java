@@ -42,7 +42,7 @@ public class Main {
         model.setVersion("7.0.9");
         model.setCopyright("Copyright 2006-2007 (c) by the authors of JHotDraw\n" +
                 "This software is licensed under LGPL or Creative Commons 2.5 BY");
-        model.setProjectClassName("org.jhotdraw.samples.draw.DrawProject");
+        model.setViewClassName("org.jhotdraw.samples.draw.DrawView");
         app.setModel(model);
         app.launch(args);
     }

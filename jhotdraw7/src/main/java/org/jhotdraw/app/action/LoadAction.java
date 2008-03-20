@@ -24,10 +24,10 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
 import org.jhotdraw.app.Application;
-import org.jhotdraw.app.Project;
+import org.jhotdraw.app.View;
 
 /**
- * Loads a file into the current project.
+ * Loads a file into the current view.
  *
  * @author  Werner Randelshofer
  * @version 1.0  2005-10-16  Created.
@@ -42,50 +42,50 @@ public class LoadAction extends AbstractSaveBeforeAction {
         labels.configureAction(this, "open");
     }
     
-    public void doIt(Project project) {
-        JFileChooser fileChooser = project.getOpenChooser();
-        if (fileChooser.showOpenDialog(project.getComponent()) == JFileChooser.APPROVE_OPTION) {
-            openFile(project, fileChooser);
+    public void doIt(View view) {
+        JFileChooser fileChooser = view.getOpenChooser();
+        if (fileChooser.showOpenDialog(view.getComponent()) == JFileChooser.APPROVE_OPTION) {
+            openFile(view, fileChooser);
         } else {
-            project.setEnabled(true);
+            view.setEnabled(true);
         }
     }
     
-    protected void openFile(final Project project, JFileChooser fileChooser) {
+    protected void openFile(final View view, JFileChooser fileChooser) {
         final File file = fileChooser.getSelectedFile();
         
-        project.setEnabled(false);
+        view.setEnabled(false);
         
         // Open the file
-        project.execute(new Worker() {
+        view.execute(new Worker() {
             public Object construct() {
                 try {
-                    project.read(file);
+                    view.read(file);
                     return null;
                 } catch (IOException e) {
                     return e;
                 }
             }
             public void finished(Object value) {
-                fileOpened(project, file, value);
+                fileOpened(view, file, value);
             }
         });
     }
     
-    protected void fileOpened(final Project project, File file, Object value) {
+    protected void fileOpened(final View view, File file, Object value) {
         if (value == null) {
-            project.setFile(file);
-            project.setEnabled(true);
+            view.setFile(file);
+            view.setEnabled(true);
                 getApplication().addRecentFile(file);
         } else {
-            JSheet.showMessageSheet(project.getComponent(),
+            JSheet.showMessageSheet(view.getComponent(),
                     "<html>"+UIManager.getString("OptionPane.css")+
                     "<b>Couldn't open the file \""+file+"\".</b><br>"+
                     value,
                     JOptionPane.ERROR_MESSAGE, new SheetListener() {
                 public void optionSelected(SheetEvent evt) {
-                    project.clear();
-                    project.setEnabled(true);
+                    view.clear();
+                    view.setEnabled(true);
                 }
             }
             );

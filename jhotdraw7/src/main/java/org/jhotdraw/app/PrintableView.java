@@ -1,5 +1,5 @@
 /*
- * @(#)PrintableProject.java  1.0  July 31, 2007
+ * @(#)PrintableView.java  1.0  July 31, 2007
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -12,17 +12,17 @@
  * the copyright holders. For details see accompanying license terms. 
  */
 
-package org.jhotdraw.app.action;
+package org.jhotdraw.app;
 
 import java.awt.print.*;
 import org.jhotdraw.app.*;
 
 /**
- * Defines the interface for a project which can be printed.
+ * Defines the interface of a view which can be printed.
  *
  * @author Werner Randelshofer
  * @version 1.0 July 31, 2007 Created.
  */
-public interface PrintableProject extends Project {
+public interface PrintableView extends View {
 public Pageable createPageable();   
 }
