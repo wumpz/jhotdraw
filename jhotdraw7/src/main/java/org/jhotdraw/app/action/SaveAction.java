@@ -120,12 +120,18 @@ public class SaveAction extends AbstractProjectAction {
             getApplication().addRecentFile(file);
             project.setMultipleOpenId(multiOpenId);
         } else {
+            String message;
+            if ((value instanceof Throwable) && ((Throwable) value).getMessage() != null) {
+                message = ((Throwable) value).getMessage();
+            } else {
+                message = value.toString();
+            }
             ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
-            JSheet.showMessageSheet(project.getComponent(),
-                    "<html>"+UIManager.getString("OptionPane.css")+
-                    labels.getFormatted("couldntSave", file, value),
-                    JOptionPane.ERROR_MESSAGE
-                    );
+            JSheet.showMessageSheet(getActiveProject().getComponent(),
+                    "<html>" + UIManager.getString("OptionPane.css") +
+                    "<b>" + labels.getFormatted("couldntSave", file.getName()) + "</b><br>" +
+                    ((message == null) ? "" : message),
+                    JOptionPane.ERROR_MESSAGE);
         }
         project.setEnabled(true);
         SwingUtilities.getWindowAncestor(project.getComponent()).toFront();

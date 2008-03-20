@@ -1,7 +1,7 @@
 /*
- * @(#)DrawProject.java  1.3  2007-11-25
+ * @(#)DrawProject.java  1.3.1  2008-03-19
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -44,7 +44,8 @@ import org.jhotdraw.xml.*;
  * A drawing project.
  *
  * @author Werner Randelshofer
- * @version 1.3 2007-11-25 Method clear is now invoked from a worker thread.
+ * @version 1.3.1 2008-03-19 Method read() tries out now all supported files format.
+ * <br>1.3 2007-11-25 Method clear() is now invoked from a worker thread.
  * <br>1.2 2006-12-26 Reworked I/O support.
  * <br>1.1 2006-06-10 Extended to support DefaultDrawApplicationModel.
  * <br>1.0 2006-02-07 Created.
@@ -182,22 +183,40 @@ public class DrawProject extends AbstractProject {
      */
     public void read(File f) throws IOException {
         try {
+            JFileChooser fc = getOpenChooser();
+
             final Drawing drawing = createDrawing();
-            InputFormat inputFormat = drawing.getInputFormats().get(0);
-            inputFormat.read(f, drawing);
-            SwingUtilities.invokeAndWait(new Runnable() { public void run() {
-                view.getDrawing().removeUndoableEditListener(undo);
-                view.setDrawing(drawing);
-                view.getDrawing().addUndoableEditListener(undo);
-                undo.discardAllEdits();
-            }});
+
+            boolean success = false;
+                for (InputFormat sfi : drawing.getInputFormats()) {
+                        try {
+                            sfi.read(f, drawing);
+                            success = true;
+                            break;
+                        } catch (Exception e) {
+                        // try with the next input format
+                        }
+                    }
+            if (!success) {
+                ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+                throw new IOException(labels.getFormatted("errorUnsupportedFileFormat", f.getName()));
+            }
+            SwingUtilities.invokeAndWait(new Runnable() {
+
+                public void run() {
+                    view.getDrawing().removeUndoableEditListener(undo);
+                    view.setDrawing(drawing);
+                    view.getDrawing().addUndoableEditListener(undo);
+                    undo.discardAllEdits();
+                }
+            });
         } catch (InterruptedException e) {
             InternalError error = new InternalError();
             e.initCause(e);
             throw error;
         } catch (InvocationTargetException e) {
             InternalError error = new InternalError();
-            e.initCause(e);
+            error.initCause(e);
             throw error;
         }
     }

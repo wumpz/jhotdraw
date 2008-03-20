@@ -1,7 +1,7 @@
 /*
- * @(#)TextInputFormat.java  1.1  2007-12-16
+ * @(#)TextInputFormat.java  1.1.1  2008-03-19
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -37,7 +37,9 @@ import org.jhotdraw.io.*;
  * text to the same Figure, or it can create a new Figure for each line.
  *
  * @author Werner Randelshofer 
- * @version 1.1 2007-12-16 Adapted to changes in InputFormat.
+ * @version 1.1.1 2008-03-19 Throw an IOException if we are unable to read
+ * text from the input stream. 
+ * <br>1.1 2007-12-16 Adapted to changes in InputFormat.
  * <br>1.0 2007-04-12 Created.
  * @see org.jhotdraw.draw.TextHolderFigure
  */
@@ -147,7 +149,9 @@ public class TextInputFormat implements InputFormat {
                 y += s.height;
             }
         }
-        
+        if (list.size() == 0) {
+            throw new IOException("No text found");
+        }
         return list;
     }
     

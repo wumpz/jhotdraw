@@ -31,7 +31,7 @@ public class BoundsOutlineHandle extends AbstractHandle {
     private final static BasicStroke HANDLE_STROKE = new BasicStroke(
             1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] { 5f, 5f }, 0f
             );
-    private final static Color HANDLE_STROKE_COLOR = new Color(0x00a8ff); //Color.WHITE;
+    private final static Color HANDLE_STROKE_COLOR = new Color(0xaaaaaa); //Color.WHITE;
     
     public BoundsOutlineHandle(Figure owner) {
         super(owner);

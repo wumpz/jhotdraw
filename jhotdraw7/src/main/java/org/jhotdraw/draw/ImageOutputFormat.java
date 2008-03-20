@@ -228,8 +228,11 @@ public class ImageOutputFormat implements OutputFormat {
         
         // Create the buffered image and clear it
         Color background = AttributeKeys.CANVAS_FILL_COLOR.get(drawing);
+        double opacity = AttributeKeys.CANVAS_FILL_OPACITY.get(drawing);
         if (background == null) {
-            background = new Color(0x00ffffff,true);
+            background = new Color(0xff, 0xff, 0xff, (int)(255 * opacity));
+        } else {
+            background = new Color(background.getRed(), background.getGreen(), background.getBlue(), (int)(background.getAlpha() * opacity));
         }
         BufferedImage buf = new BufferedImage(
                 imageSize.width, imageSize.height,

@@ -1,7 +1,7 @@
 /*
  * @(#)ImageInputFormat.java  1.1  2007-12-16
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -25,6 +25,7 @@ import javax.swing.*;
 import javax.swing.filechooser.*;
 import org.jhotdraw.gui.datatransfer.*;
 import org.jhotdraw.io.*;
+import org.jhotdraw.util.Images;
 
 /**
  * An input format for importing drawings using one of the image formats 
@@ -130,24 +131,7 @@ public class ImageInputFormat implements InputFormat {
 
     public void read(Transferable t, Drawing drawing) throws UnsupportedFlavorException, IOException {
         Image img = (Image) t.getTransferData(DataFlavor.imageFlavor);
-        if (! (img instanceof BufferedImage)) {
-            MediaTracker tracker = new MediaTracker(new JLabel());
-            tracker.addImage(img, 0);
-            try {
-                tracker.waitForAll();
-            } catch (InterruptedException ex) {
-                IOException e = new IOException("MediaTracker interrupted");
-                e.initCause(ex);
-                throw e;
-            }
-            BufferedImage buf = new BufferedImage(img.getWidth(null), img.getHeight(null),
-                    BufferedImage.TYPE_INT_ARGB);
-            Graphics2D g = buf.createGraphics();
-            g.drawImage(img, 0, 0, null);
-            g.dispose();
-            img.flush();
-            img = buf;
-        }
+        img = Images.toBufferedImage(img);
         ImageHolderFigure figure = (ImageHolderFigure) prototype.clone();
         figure.setBufferedImage((BufferedImage) img);
         figure.setBounds(

@@ -962,7 +962,7 @@ public class SVGOutputFormat implements OutputFormat {
         //Media:	 visual
         //Animatable:	 yes
         //Computed value:  	 Specified value, except inherit
-        writeAttribute(elem, "view-port-fill-opacity", VIEWPORT_FILL_OPACITY.get(a), 1.0);
+        writeAttribute(elem, "viewport-fill-opacity", VIEWPORT_FILL_OPACITY.get(a), 1.0);
     }
 
     protected void writeAttribute(IXMLElement elem, String name, String value, String defaultValue) {

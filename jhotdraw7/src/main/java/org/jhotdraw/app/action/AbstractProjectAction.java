@@ -129,7 +129,7 @@ public abstract class AbstractProjectAction extends AbstractAction {
      */
     protected void updateEnabled(boolean oldValue, boolean newValue) {
        // System.out.println("AbstractProjectAction updateEnabled"+oldValue+","+newValue);
-        firePropertyChange("enabled", oldValue, newValue);
+        firePropertyChange("enabled", oldValue, newValue && isEnabled());
     }
     
     public Application getApplication() {

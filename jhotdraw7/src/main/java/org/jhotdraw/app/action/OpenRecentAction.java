@@ -1,7 +1,7 @@
 /*
- * @(#)OpenRecentAction.java  1.0  June 15, 2006
+ * @(#)OpenRecentAction.java  1.1  2008-03-19
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.app.action;
 
 import org.jhotdraw.gui.Worker;
@@ -27,23 +26,27 @@ import javax.swing.*;
 import java.io.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.Project;
+
 /**
  * OpenRecentAction.
  *
  * @author Werner Randelshofer.
- * @version 1.0 June 15, 2006 Created.
+ * @version 1.1 2008-03-19 Check whether file exists before attempting to
+ * open it. 
+ * <br>1.0 June 15, 2006 Created.
  */
 public class OpenRecentAction extends AbstractApplicationAction {
+
     public final static String ID = "openRecent";
     private File file;
-    
+
     /** Creates a new instance. */
     public OpenRecentAction(Application app, File file) {
         super(app);
         this.file = file;
         putValue(Action.NAME, file.getName());
     }
-    
+
     public void actionPerformed(ActionEvent evt) {
         final Application app = getApplication();
         if (app.isEnabled()) {
@@ -55,7 +58,7 @@ public class OpenRecentAction extends AbstractApplicationAction {
                     emptyProject.hasUnsavedChanges()) {
                 emptyProject = null;
             }
-            
+
             final Project p;
             if (emptyProject == null) {
                 p = app.createProject();
@@ -67,12 +70,12 @@ public class OpenRecentAction extends AbstractApplicationAction {
             openFile(p);
         }
     }
-    
+
     protected void openFile(final Project project) {
         final Application app = getApplication();
         app.setEnabled(true);
-        
-        
+
+
         // If there is another project with we set the multiple open
         // id of our project to max(multiple open id) + 1.
         int multipleOpenId = 1;
@@ -85,50 +88,60 @@ public class OpenRecentAction extends AbstractApplicationAction {
         }
         project.setMultipleOpenId(multipleOpenId);
         project.setEnabled(false);
-        
+
         // Open the file
         project.execute(new Worker() {
+
             public Object construct() {
                 try {
-                    project.read(file);
-                    return null;
+                    if (file.exists()) {
+                        project.read(file);
+                        return null;
+                    } else {
+                        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+                        return new IOException(labels.getFormatted("errorFileDoesNotExist", file.getName()));
+                    }
                 } catch (Throwable e) {
                     return e;
                 }
             }
+
             public void finished(Object value) {
                 fileOpened(project, file, value);
             }
         });
     }
+
     protected void fileOpened(final Project project, File file, Object value) {
-        final Application app = getApplication();
         if (value == null) {
             project.setFile(file);
-            project.setEnabled(true);
             Frame w = (Frame) SwingUtilities.getWindowAncestor(project.getComponent());
             if (w != null) {
                 w.setExtendedState(w.getExtendedState() & ~Frame.ICONIFIED);
                 w.toFront();
             }
+            project.setEnabled(true);
             project.getComponent().requestFocus();
-            if (app != null) {
-                app.setEnabled(true);
-            }
         } else {
+            String message = null;
             if (value instanceof Throwable) {
                 ((Throwable) value).printStackTrace();
-            }
-            JSheet.showMessageSheet(project.getComponent(),
-                    "<html>"+UIManager.getString("OptionPane.css")+
-                    "<b>Couldn't open the file \""+file+"\".</b><br>"+
-                    value,
-                    JOptionPane.ERROR_MESSAGE, new SheetListener() {
-                public void optionSelected(SheetEvent evt) {
-                    // app.dispose(project);
+                message = ((Throwable) value).getMessage();
+                if (message == null) {
+                    message = value.toString();
                 }
             }
-            );
+            ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+            JSheet.showMessageSheet(project.getComponent(),
+                    "<html>" + UIManager.getString("OptionPane.css") +
+                    "<b>" + labels.getFormatted("couldntOpen", file.getName()) + "</b><br>" +
+                    (message == null ? "" : message),
+                    JOptionPane.ERROR_MESSAGE, new SheetListener() {
+
+                public void optionSelected(SheetEvent evt) {
+                    project.setEnabled(true);
+                }
+            });
         }
     }
 }
