@@ -1,25 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- JNLP File for JHotDraw Draw Application -->
-<jnlp
-  spec="1.0"
-  codebase="http://www.randelshofer.ch/oop/jhotdraw/guide/samples/net/webstart"
-  href="jhotdraw_draw.jnlp">
-  <information>
-    <title>JHotDraw Net Application</title>
-    <vendor>JHotDraw.org</vendor>
-    <homepage href="http://sourceforge.net/projects/jhotdraw"/>
-    <description>JHotDraw Draw Application</description>
-    <description kind="short">Net is a simple demonstration of a graph based on labeled network nodes.</description>
-  </information>
-  <offline-allowed/>
-  <security>   <all-permissions/>  </security>
-  <resources>
-    <j2se version="1.5+"/>
-        <property name="apple.laf.useScreenMenuBar" value="true"/> 
- 	<jar href="JHotDraw%20Net.jar" main="true"/>
-  </resources>
-  <resources os="MacOSX">
- 	<nativelib href="libquaqua.jnilib"/>
-  </resources>
-  <application-desc main-class="org.jhotdraw.samples.net.Main"/>
-</jnlp> 
