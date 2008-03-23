@@ -272,6 +272,10 @@ public class NetView extends AbstractView {
         c.addChoosableFileFilter(new ExtensionFileFilter("Net Diagram","xml"));
         return c;
     }
+    @Override
+    public boolean canSaveTo(File file) {
+        return file.getName().endsWith(".xml");
+    }
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is

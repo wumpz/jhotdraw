@@ -268,6 +268,10 @@ public class PertView extends AbstractView {
         c.addChoosableFileFilter(new ExtensionFileFilter("Pert Diagram","xml"));
         return c;
     }
+    @Override
+    public boolean canSaveTo(File file) {
+        return file.getName().endsWith(".xml");
+    }
     
     /** This method is called from within the constructor to
      * initialize the form.

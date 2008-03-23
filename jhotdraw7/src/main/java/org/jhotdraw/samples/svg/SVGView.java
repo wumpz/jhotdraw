@@ -390,6 +390,13 @@ public class SVGView extends AbstractView implements ExportableView {
         return c;
     }
 
+    @Override
+    public boolean canSaveTo(File file) {
+        return file.getName().endsWith(".svg") || 
+                file.getName().endsWith(".svgz");
+    }
+    
+ 
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is

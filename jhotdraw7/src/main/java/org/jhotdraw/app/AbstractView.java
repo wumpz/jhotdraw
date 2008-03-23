@@ -185,6 +185,10 @@ public abstract class AbstractView extends JPanel  implements View {
         }
         return saveChooser;
     }
+
+    public boolean canSaveTo(File file) {
+        return true;
+    }
     
     protected JFileChooser createSaveChooser() {
         JFileChooser c = new JFileChooser();

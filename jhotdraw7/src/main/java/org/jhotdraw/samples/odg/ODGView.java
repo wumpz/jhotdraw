@@ -332,6 +332,10 @@ public class ODGView extends AbstractView implements ExportableView {
         
         return c;
     }
+    @Override
+    public boolean canSaveTo(File file) {
+        return file.getName().endsWith(".odg");
+    }
     protected JFileChooser createExportChooser() {
         JFileChooser c = new JFileChooser();
         

@@ -1,5 +1,5 @@
 /*
- * @(#)View.java  4.0  2008-03-20
+ * @(#)View.java  4.1  2008-03-23
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -25,7 +25,8 @@ import javax.swing.*;
  * or method read(), in order to fully initialize the View.
  *
  * @author Werner Randelshofer
- * @version 4.0 2008-03-20 Renamed from Project to View.
+ * @version 4.1 2008-03-23 Added method canSaveTo(). 
+ * <br>4.0 2008-03-20 Renamed from Project to View.
  * <br>3.0 2007-12-25 Added start, stop, activate and deactivate methods.
  * Added constants for property names. 
  * <br>2.0 2007-11-29 Method clear is now always invoked on a worker 
@@ -151,6 +152,20 @@ public interface View {
      * This changes the state of hasUnsavedChanges to false.
      */
     public void markChangesAsSaved();
+    
+    /**
+     * Returns true, if this view can be saved to the specified file.
+     * A reason why the view can't be saved to a file, is that the
+     * view is unable to write to a file with the given filename
+     * extension without losing data. 
+     * <p>
+     * The SaveAction uses this method to decide, whether to display
+     * a file dialog before saving the file.
+     * 
+     * @param file A file. If this parameter is null, a NullPointerException
+     * is thrown.
+     */
+    public boolean canSaveTo(File file);
     
     /**
      * Executes the specified runnable on the worker thread of the view.
