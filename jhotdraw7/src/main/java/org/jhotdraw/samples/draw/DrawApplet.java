@@ -37,7 +37,6 @@ import org.jhotdraw.xml.*;
  * <br>1.0 Created on 10. Marz 2004, 13:22.
  */
 public class DrawApplet extends JApplet {
-    private static String version;
     private final static String NAME = "JHotDraw Draw";
     private DrawingPanel drawingPanel;
     
@@ -53,24 +52,7 @@ public class DrawApplet extends JApplet {
         }
     }
     protected String getVersion() {
-        if (version == null) {
-            BufferedReader r = null;
-            try {
-                r = new BufferedReader(
-                        new InputStreamReader(
-                        getClass().getResourceAsStream("version.txt"), "UTF-8"
-                        )
-                        );
-                version = r.readLine();
-            } catch (Throwable e) {
-                version = "unknown";
-            } finally {
-                if (r != null) try {
-                    r.close();
-                } catch (IOException e) {}
-            }
-        }
-        return version;
+        return DrawApplet.class.getPackage().getImplementationVersion();
     }
     
     /** Initializes the applet DrawApplet */
@@ -216,9 +198,9 @@ public class DrawApplet extends JApplet {
     public String getAppletInfo() {
         return NAME +
                 "\nVersion "+getVersion() +
-                "\n\nCopyright 2006-2007 (c) by the authors of JHotDraw" +
+                "\n\nCopyright 2006-2008 (c) by the authors of JHotDraw" +
                 "\nThis software is licensed under LGPL or" +
-                "\nCreative Commons 2.5 BY";
+                "\nCreative Commons 3.0 BY";
     }
     /** This method is called from within the init() method to
      * initialize the form.

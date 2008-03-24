@@ -40,9 +40,9 @@ public class Main {
         
         DefaultApplicationModel model = new NetApplicationModel();
         model.setName("JHotDraw Net");
-        model.setVersion("7.0.9");
-        model.setCopyright("Copyright 2006-2007 (c) by the authors of JHotDraw\n" +
-                "This software is licensed under LGPL or Creative Commons 2.5 BY");
+        model.setVersion(Main.class.getPackage().getImplementationVersion());
+        model.setCopyright("Copyright 2006-2008 (c) by the authors of JHotDraw\n" +
+                "This software is licensed under LGPL or Creative Commons 3.0 BY");
         model.setViewClassName("org.jhotdraw.samples.net.NetView");
         app.setModel(model);
         app.launch(args);

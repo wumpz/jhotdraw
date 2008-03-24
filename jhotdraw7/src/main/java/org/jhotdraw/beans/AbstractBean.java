@@ -17,7 +17,7 @@ import java.beans.*;
 import java.io.*;
 
 /**
- * Abstract class for models that have to support property change listeners.<p>
+ * Abstract class for objects which have to support property change listeners.<p>
  * Implements the methods required for adding and removing property change
  * listeners.
  *

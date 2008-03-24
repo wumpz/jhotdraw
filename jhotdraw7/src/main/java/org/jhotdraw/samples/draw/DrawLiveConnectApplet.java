@@ -186,9 +186,9 @@ public class DrawLiveConnectApplet extends JApplet {
     public String getAppletInfo() {
         return NAME +
                 "\nVersion "+VERSION +
-                "\n\nCopyright 1996-2007 (c) by the authors of JHotDraw" +
+                "\n\nCopyright 1996-2008 (c) by the authors of JHotDraw" +
                 "\nThis software is licensed under LGPL or" +
-                "\nCreative Commons 2.5 BY";
+                "\nCreative Commons 3.0 BY";
     }
     /** This method is called from within the init() method to
      * initialize the form.

@@ -24,9 +24,8 @@ import org.jhotdraw.app.*;
  * @version 1.0 2005-10-04 Created.
  */
 public class Main {
-    public final static String NAME = "Teddy";
-    public final static String VERSION = "1.0.1";
-    public final static String COPYRIGHT = "(C) 2005-2006 Werner Randelshofer";
+    public final static String NAME = "JHotDraw Teddy";
+    public final static String COPYRIGHT = "© 2005-2006 Werner Randelshofer";
     
     /**
      * Launches the application.
@@ -35,10 +34,10 @@ public class Main {
      */
     public static void main(String[] args) {
         TeddyApplicationModel tam = new TeddyApplicationModel();
-        tam.setCopyright("© 2005-2007 Werner Randelshofer");
+        tam.setCopyright("© 2005-2008 Werner Randelshofer");
         tam.setName("Teddy");
         tam.setViewClassName("org.jhotdraw.samples.teddy.TeddyView");
-        tam.setVersion("2.0");
+        tam.setVersion(Main.class.getPackage().getImplementationVersion());
         
         AbstractApplication app;
         if (System.getProperty("os.name").toLowerCase().startsWith("mac os x")) {

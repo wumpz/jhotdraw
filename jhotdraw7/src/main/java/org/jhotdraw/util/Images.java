@@ -22,7 +22,6 @@ import java.util.*;
 
 import javax.swing.*;
 
-import ch.randelshofer.quaqua.*;
 /**
  * Image processing methods.
  *

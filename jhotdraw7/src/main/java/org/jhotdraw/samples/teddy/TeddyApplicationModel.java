@@ -1,7 +1,7 @@
 /*
- * @(#)TeddyApplicationModel.java  1.0  March 10, 2007
+ * @(#)TeddyApplicationModel.java  1.1  2008-08-24
  *
- * Copyright (c) 2007 by the original authors of JHotDraw
+ * Copyright (c) 2007-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -25,7 +25,8 @@ import org.jhotdraw.util.*;
  * TeddyApplicationModel.
  *
  * @author Werner Randelshofer
- * @version 1.0 March 10, 2007 Created.
+ * @version 1.1 2008-08-24 Suppress toolbar.
+ * <br>1.0 March 10, 2007 Created.
  */
 public class TeddyApplicationModel extends DefaultApplicationModel {
     
@@ -68,5 +69,13 @@ public class TeddyApplicationModel extends DefaultApplicationModel {
         mb.add(m);
         
         return mb;
+    }
+    
+    /**
+     * Creates toolbars for the application.
+     * This class returns an empty list - we don't want toolbars in a text editor.
+     */
+    public List<JToolBar> createToolBars(Application app, View p) {
+        return Collections.emptyList();
     }
 }

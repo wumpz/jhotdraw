@@ -36,7 +36,6 @@ import org.jhotdraw.xml.*;
  * @version 1.0 2006-07-15 Created.
  */
 public class NetApplet extends JApplet {
-    private static String version;
     private final static String NAME = "JHotDraw Net";
     private NetPanel drawingPanel;
     
@@ -52,24 +51,7 @@ public class NetApplet extends JApplet {
          }
      }    
     protected String getVersion() {
-        if (version == null) {
-            BufferedReader r = null;
-            try {
-                r = new BufferedReader(
-                        new InputStreamReader(
-                        getClass().getResourceAsStream("version.txt"), "UTF-8"
-                        )
-                        );
-                version = r.readLine();
-            } catch (Throwable e) {
-                version = "unknown";
-            } finally {
-                if (r != null) try {
-                    r.close();
-                } catch (IOException e) {}
-            }
-        }
-        return version;
+        return NetApplet.class.getPackage().getImplementationVersion();
     }
      
     /**
@@ -224,9 +206,9 @@ public class NetApplet extends JApplet {
     public String getAppletInfo() {
         return NAME +
                 "\nVersion "+getVersion() +
-                "\n\nCopyright 1996-2007 (c) by the authors of JHotDraw" +
+                "\n\nCopyright 1996-2008 (c) by the authors of JHotDraw" +
                 "\nThis software is licensed under LGPL or" +
-                "\nCreative Commons 2.5 BY";
+                "\nCreative Commons 3.0 BY";
     }
     /** This method is called from within the init() method to
      * initialize the form.
