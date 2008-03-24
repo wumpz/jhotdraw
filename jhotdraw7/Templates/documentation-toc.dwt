@@ -5,7 +5,7 @@
 <!-- TemplateBeginEditable name="doctitle" -->
 <title>Untitled Document</title>
 <!-- TemplateEndEditable --><!-- TemplateBeginEditable name="head" --><!-- TemplateEndEditable -->
-<link href="../documentation/stylesheet.css" rel="stylesheet" type="text/css" />
+<link href="../src/documentation/stylesheet.css" rel="stylesheet" type="text/css" />
 <!-- TemplateParam name="headerRegion" type="boolean" value="true" -->
 </head>
 

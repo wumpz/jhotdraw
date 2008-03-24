@@ -7,7 +7,7 @@
 <!-- TemplateEndEditable -->
 <!-- TemplateBeginEditable name="head" -->
 <!-- TemplateEndEditable -->
-<link href="../documentation/stylesheet.css" rel="stylesheet" type="text/css" />
+<link href="../src/documentation/stylesheet.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body class="page">
@@ -20,6 +20,5 @@
 </div><div class="footer">
   <p>JHotDraw © 1999-2008 by the original authors and all contributors.</p>
 </div>
-<p class="guide">&nbsp;</p>
 </body>
 </html>
