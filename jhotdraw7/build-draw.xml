@@ -7,7 +7,7 @@
         <property name="builddir" value="build"/>
         <property name="samplesdir" value="guide/samples/draw"/>
         <property name="classdir" value="${builddir}/classes"/>
-        <property name="distdir" value="dist"/>
+        <property name="distdir" value="dist/Draw"/>
         <property name="docdir" value="javadoc"/>
         <property name="author" value="jhotdraw.org and contributors"/>
         <property name="version" value="7.1"/>
@@ -25,7 +25,9 @@
                 srcdir="${srcdir}"
                 debug="false"
                 source="1.5"
+                target="1.5"
                 optimize="true"
+                encoding="UTF-8"
          >
             <classpath path="${libdir}/java_30.zip"/>
             <include name="org/jhotdraw/samples/draw/DrawApplet.java"/> 
@@ -59,8 +61,6 @@
         <copy todir="${classdir}/org/jhotdraw/app">
             <fileset file="${srcdir}/org/jhotdraw/app/Label*.properties"/>
         </copy>
-        <echo file="${classdir}/org/jhotdraw/samples/draw/version.txt"
-            message="${version}"/>
     </target>
     <target name="applet.jar" depends="init,applet.compile">
         <mkdir dir="${distdir}"/>
@@ -69,22 +69,27 @@
             <manifest>
                 <attribute name="Built-By" value="${author}"/>
                 <attribute name="Main-Class" value="org.jhotdraw.samples.draw.DrawApplet"/>
-            </manifest>
-        </jar>
-        <exec executable="gzip" dir="${distdir}">
-            <arg value="-f"/>
-            <arg value="jhotdraw_draw.jar"/>
-        </exec>
-        <jar destfile="${distdir}/jhotdraw_draw.jar" basedir="${classdir}"
-        index="true">
-            <manifest>
-                <attribute name="Built-By" value="${author}"/>
-                <attribute name="Main-Class" value="org.jhotdraw.samples.draw.DrawApplet"/>
+                <attribute name="Implementation-Version" value="${version}"/>
             </manifest>
         </jar>
         <exec executable="pack200">
             <arg value="${distdir}/jhotdraw_draw.jar.pack.gz"/>
             <arg value="${distdir}/jhotdraw_draw.jar"/>
+        </exec>
+    </target>
+    <target name="applet.jarsigned" depends="init,applet.jar">
+        <copy tofile="${distdir}/jhotdraw_draw_signed.jar">
+            <fileset file="${distdir}/jhotdraw_draw.jar"/>
+        </copy>
+          <signjar alias="${keystore.alias}" 
+                storepass="${keystore.storepass}"
+                keystore="${keystore.file}" 
+                jar="${distdir}/jhotdraw_draw_signed.jar"
+                >
+        </signjar>        
+        <exec executable="pack200">
+            <arg value="${distdir}/jhotdraw_draw_signed.jar.pack.gz"/>
+            <arg value="${distdir}/jhotdraw_draw_signed.jar"/>
         </exec>
     </target>
     <target name="application.compile" depends="init,clean">
@@ -94,6 +99,8 @@
                 srcdir="${srcdir}"
                 debug="true"
                 source="1.5"
+                optimize="true"
+                encoding="UTF-8"
          >
             <classpath path="${libdir}/quaqua.jar"/>
             <classpath path="${libdir}/MRJAdapter.jar"/>
@@ -131,11 +138,13 @@
         </copy>
     </target>
     <target name="application.jar" depends="init,application.compile">
+        <mkdir dir="${distdir}"/>
         <jar destfile="${distdir}/JHotDraw Draw.jar" basedir="${classdir}">
             <manifest>
                 <attribute name="Built-By" value="${author}"/>
                 <attribute name="Main-Class" value="org.jhotdraw.samples.draw.Main"/>
-                <attribute name="Class-Path" value="quaqua.jar lib/quaqua.jar ../lib/quaqua.jar MRJAdapter.jar lib/MRJAdapter.jar ../lib/MRJAdapter.jar"/>
+                <attribute name="Class-Path" value="quaqua.jar lib/quaqua.jar ../lib/quaqua.jar ../../lib/quaqua.jar MRJAdapter.jar lib/MRJAdapter.jar ../lib/MRJAdapter.jar ../../lib/MRJAdapter.jar"/>
+                <attribute name="Implementation-Version" value="${version}"/>
             </manifest>
         </jar>
         <copy todir="${distdir}">
@@ -145,22 +154,32 @@
     <target name="application.jarsigned" depends="init,application.jar">
         <unjar src="${libdir}/quaqua.jar" dest="${classdir}" />
         <unjar src="${libdir}/MRJAdapter.jar" dest="${classdir}" />
-        <jar destfile="${distdir}/JHotDraw Draw.jar" basedir="${classdir}">
+        <jar destfile="${distdir}/JHotDraw Draw_signed.jar" basedir="${classdir}">
             <manifest>
                 <attribute name="Built-By" value="${author}"/>
                 <attribute name="Main-Class" value="org.jhotdraw.samples.draw.Main"/>
-            </manifest>
+               <attribute name="Implementation-Version" value="${version}"/>
+             </manifest>
         </jar>
           <signjar alias="${keystore.alias}" 
                 storepass="${keystore.storepass}"
                 keystore="${keystore.file}" 
-                jar="${distdir}/JHotDraw Draw.jar"
+                jar="${distdir}/JHotDraw Draw_signed.jar"
                 
                 >
         </signjar>        
-        <copy todir="${distdir}">
-            <fileset file="${libdir}/*.jnilib"/>
-        </copy>
+        <jar basedir="${libdir}" compress="true"
+             jarfile="${distdir}/libquaqua.jnilib_signed.jar" 
+        >
+            <include name="libquaqua.jnilib"/>
+        </jar>
+      <signjar alias="${keystore.alias}" 
+            storepass="${keystore.storepass}"
+            keystore="${keystore.file}" 
+            jar="${distdir}/libquaqua.jnilib_signed.jar"
+
+            >
+        </signjar>        
     </target>
     <target name="application.run-jar" depends="init">
         <java fork="true" jar="${distdir}/JHotDraw Draw.jar">

@@ -8,8 +8,9 @@
         <property name="classdir" value="${builddir}/classes"/>
         <property name="distdir" value="dist"/>
         <property name="docdir" value="${distdir}/javadoc"/>
+        <property name="docsrcdir" value="src/documentation"/>
         <property name="author" value="jhotdraw.org and contributors"/>
-        <property name="version" value="7.1"/>
+        <property name="version" value="7rev396"/>
     </target>
     <target name="clean" depends="init">
         <delete dir="${classdir}" />
@@ -43,6 +44,9 @@
                 srcdir="${srcdir}"
                 debug="true"
                 source="1.5"
+                target="1.5"
+                optimize="true"
+                encoding="UTF-8"
          >
             <classpath path="${libdir}/quaqua.jar"/>
             <classpath path="${libdir}/MRJAdapter.jar"/>
@@ -68,6 +72,13 @@
         </jar>
         <copy todir="${distdir}">
             <fileset file="${libdir}/*.jnilib"/>
+        </copy>
+    </target>
+    <target name="documentation" depends="init">
+        <delete dir="${distdir}/Documentation"/>
+        <mkdir dir="${distdir}/Documentation"/>
+        <copy todir="${distdir}/Documentation">
+            <fileset dir="${docsrcdir}"/>
         </copy>
     </target>
 </project>

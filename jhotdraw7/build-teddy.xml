@@ -6,9 +6,12 @@
         <property name="srcdir" value="src/main/java"/>
         <property name="builddir" value="build"/>
         <property name="classdir" value="${builddir}/classes"/>
-        <property name="distdir" value="dist"/>
+        <property name="distdir" value="dist/Teddy"/>
         <property name="author" value="Werner Randelshofer"/>
-        <property name="version" value="0.5"/>
+        <property name="version" value="7.1"/>
+        <property name="keystore.file" value="../../../../_Keystore/JavaKeystore"/>
+        <property name="keystore.alias" value="werner"/>
+        <property name="keystore.storepass" value="werner"/>
     </target>
     <target name="clean" depends="init">
         <delete dir="${classdir}" />
@@ -20,6 +23,9 @@
                 srcdir="${srcdir}"
                 debug="true"
                 source="1.5"
+                target="1.5"
+                optimize="true"
+                encoding="UTF-8"
          >
             <classpath path="${libdir}/quaqua.jar"/>
             <classpath path="${libdir}/MRJAdapter.jar"/>
@@ -52,16 +58,47 @@
         </copy>
     </target>
     <target name="application.jar" depends="init,application.compile">
+        <mkdir dir="${distdir}"/>
         <jar destfile="${distdir}/JHotDraw Teddy.jar" basedir="${classdir}">
             <manifest>
                 <attribute name="Built-By" value="${author}"/>
                 <attribute name="Main-Class" value="org.jhotdraw.samples.teddy.Main"/>
-                <attribute name="Class-Path" value="quaqua.jar lib/quaqua.jar ../lib/quaqua.jar MRJAdapter.jar lib/MRJAdapter.jar ../lib/MRJAdapter.jar"/>
+                <attribute name="Class-Path" value="quaqua.jar lib/quaqua.jar ../lib/quaqua.jar ../../lib/quaqua.jar MRJAdapter.jar lib/MRJAdapter.jar ../lib/MRJAdapter.jar ../../lib/MRJAdapter.jar"/>
+                <attribute name="Implementation-Version" value="${version}"/>
             </manifest>
         </jar>
         <copy todir="${distdir}">
             <fileset file="${libdir}/*.jnilib"/>
         </copy>
+    </target>
+    <target name="application.jarsigned" depends="init,application.jar">
+        <unjar src="${libdir}/quaqua.jar" dest="${classdir}" />
+        <unjar src="${libdir}/MRJAdapter.jar" dest="${classdir}" />
+        <jar destfile="${distdir}/JHotDraw Teddy_signed.jar" basedir="${classdir}">
+            <manifest>
+                <attribute name="Built-By" value="${author}"/>
+                <attribute name="Main-Class" value="org.jhotdraw.samples.teddy.Main"/>
+                <attribute name="Implementation-Version" value="${version}"/>
+            </manifest>
+        </jar>
+          <signjar alias="${keystore.alias}" 
+                storepass="${keystore.storepass}"
+                keystore="${keystore.file}" 
+                jar="${distdir}/JHotDraw Teddy_signed.jar"
+                
+                >
+        </signjar>        
+        <jar basedir="${libdir}" compress="true"
+             jarfile="${distdir}/libquaqua.jnilib_signed.jar" 
+             >
+            <include name="libquaqua.jnilib"/>
+        </jar>
+        <signjar alias="${keystore.alias}" 
+            storepass="${keystore.storepass}"
+            keystore="${keystore.file}" 
+            jar="${distdir}/libquaqua.jnilib_signed.jar"
+            >
+        </signjar>        
     </target>
     <target name="application.run" depends="init">
         <java fork="true" jar="${distdir}/JHotDraw Teddy.jar">
