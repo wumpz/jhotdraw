@@ -10,7 +10,7 @@
         <property name="docdir" value="${distdir}/javadoc"/>
         <property name="docsrcdir" value="src/documentation"/>
         <property name="author" value="jhotdraw.org and contributors"/>
-        <property name="version" value="7rev396"/>
+        <property name="version" value="7.1"/>
     </target>
     <target name="clean" depends="init">
         <delete dir="${classdir}" />
