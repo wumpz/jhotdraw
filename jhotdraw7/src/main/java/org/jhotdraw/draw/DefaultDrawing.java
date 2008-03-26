@@ -1,7 +1,7 @@
 /*
- * @(#)DefaultDrawing.java  2.2  2007-04-09
+ * @(#)DefaultDrawing.java  2.2.1  2008-03-26
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -33,7 +33,8 @@ import java.util.*;
  *
  *
  * @author Werner Randelshofer
- * @version 2.2 2007-04-09 Methods setCanvasSize, getCanvasSize added.
+ * @version 2.2.1 Fixed NullPointerException when setting canvas size.
+ * <br>2.2 2007-04-09 Methods setCanvasSize, getCanvasSize added.
  * <br>2.1 2007-02-09 Moved FigureListener and UndoableEditListener into
  * inner class.
  * <br>2.0 2006-01-14 Changed to support double precision coordinates.
@@ -43,7 +44,7 @@ public class DefaultDrawing
         extends AbstractDrawing {
 
     private boolean needsSorting = false;
-    private Rectangle2D.Double canvasBounds;
+    private Dimension2DDouble canvasSize;
 
     /** Creates a new instance. */
     public DefaultDrawing() {
@@ -232,16 +233,13 @@ public class DefaultDrawing
     }
 
     public void setCanvasSize(Dimension2DDouble newValue) {
-        Dimension2DDouble oldValue = new Dimension2DDouble(
-                canvasBounds.width, canvasBounds.height);
-        canvasBounds.width = newValue == null ? -1 : newValue.width;
-        canvasBounds.height = newValue == null ? -1 : newValue.height;
+        Dimension2DDouble oldValue = canvasSize;
+        canvasSize = (newValue == null) ? null : (Dimension2DDouble) newValue.clone();
         firePropertyChange("canvasSize", oldValue, newValue);
     }
-
+    
     public Dimension2DDouble getCanvasSize() {
-        return canvasBounds == null || canvasBounds.isEmpty() ? null : new Dimension2DDouble(
-                canvasBounds.width, canvasBounds.height);
+        return (canvasSize == null) ? null : (Dimension2DDouble) canvasSize.clone();
     }
 
     public int indexOf(Figure figure) {
@@ -250,7 +248,7 @@ public class DefaultDrawing
 
     public DefaultDrawing clone() {
         DefaultDrawing that = (DefaultDrawing) super.clone();
-        that.canvasBounds = (Rectangle2D.Double) this.canvasBounds.clone();
+        that.canvasSize = (this.canvasSize == null) ? null : (Dimension2DDouble) this.canvasSize.clone();
         return that;
     }
 

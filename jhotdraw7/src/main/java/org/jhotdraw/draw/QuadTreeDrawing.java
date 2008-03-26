@@ -1,7 +1,7 @@
 /*
- * @(#)QuadTreeDrawing.java  2.2  2007-04-09
+ * @(#)QuadTreeDrawing.java  2.2.1  2008-03-26
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -28,7 +28,9 @@ import java.util.*;
  * which contain many children.
  *
  * @author Werner Randelshofer
- * @version 2.2 2007-04-09 Added methods setCanvasSize, getCanvasSize.
+ * @version 2.2.1 2008-03-26 Fixed NullPointerException when setting the
+ * canvas size. Fixed cloning of quadTree and canvasSize. 
+ * <br>2.2 2007-04-09 Added methods setCanvasSize, getCanvasSize.
  * <br>2.1 2007-02-09 Moved FigureListener and UndoableEditListener into
  * inner class.
  * <br>2.0 2006-01-14 Changed to support double precision coordinates.
@@ -258,16 +260,21 @@ public class QuadTreeDrawing extends AbstractDrawing {
     
     public void setCanvasSize(Dimension2DDouble newValue) {
         Dimension2DDouble oldValue = canvasSize;
-        canvasSize = newValue;
+        canvasSize = (newValue == null) ? null : (Dimension2DDouble) newValue.clone();
         firePropertyChange("canvasSize", oldValue, newValue);
     }
     
     public Dimension2DDouble getCanvasSize() {
-        return canvasSize;
-    }
+        return (canvasSize == null) ? null : (Dimension2DDouble) canvasSize.clone();
+   }
 
     public QuadTreeDrawing clone() {
         QuadTreeDrawing that = (QuadTreeDrawing) super.clone();
+        that.canvasSize = (this.canvasSize == null) ? null : (Dimension2DDouble) this.canvasSize.clone();
+        that.quadTree = new QuadTree<Figure>();
+        for (Figure f : getChildren()) {
+            quadTree.add(f, f.getDrawingArea());
+        }
         return that;
     }
     protected EventHandler createEventHandler() {
