@@ -54,6 +54,7 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         return sharedEditor;
     }
     
+    @Override
     public void initView(Application a, View p) {
         if (a.isSharingToolsAmongViews()) {
             ((SVGView) p).setEditor(getSharedEditor());

@@ -106,12 +106,20 @@ public class DefaultDrawingView
     private class EventHandler implements FigureListener, CompositeFigureListener, HandleListener, FocusListener {
 
         public void figureAdded(CompositeFigureEvent evt) {
-            repaintDrawingArea(evt.getInvalidatedArea());
+            if (drawing.getChildCount() == 1 && getEmptyDrawingMessage() != null) {
+                repaint();
+            } else {
+                repaintDrawingArea(evt.getInvalidatedArea());
+            }
             invalidateDimension();
         }
 
         public void figureRemoved(CompositeFigureEvent evt) {
-            repaintDrawingArea(evt.getInvalidatedArea());
+            if (drawing.getChildCount() == 0 && getEmptyDrawingMessage() != null) {
+                repaint();
+            } else {
+                repaintDrawingArea(evt.getInvalidatedArea());
+            }
             removeFromSelection(evt.getChildFigure());
             invalidateDimension();
         }

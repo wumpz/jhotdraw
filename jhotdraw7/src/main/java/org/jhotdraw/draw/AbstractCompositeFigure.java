@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractCompositeFigure.java  1.0  July 17, 2007
+ * @(#)AbstractCompositeFigure.java  1.0.1  2008-03-30
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -30,7 +30,8 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * AbstractCompositeFigure.
  *
  * @author Werner Randelshofer
- * @version 1.0 July 17, 2007 Created.
+ * @version 1.0.1 2008-03-30 Made basicRemove method non-final.
+ * <br>1.0 July 17, 2007 Created.
  */
 public abstract class AbstractCompositeFigure
         extends AbstractFigure
@@ -572,7 +573,7 @@ public abstract class AbstractCompositeFigure
         cachedDrawingArea = null;
     }
 
-    final public int basicRemove(Figure child) {
+    public int basicRemove(Figure child) {
         int index = children.indexOf(child);
         basicRemoveChild(index);
         return index;
