@@ -1,7 +1,7 @@
 /*
- * @(#)ConnectionTool.java  4.1  2007-08-22
+ * @(#)ConnectionTool.java  4.2  2008-03-31
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -41,7 +41,10 @@ import java.awt.dnd.*;
  * </ol>
  *
  * @author Werner Randelshofer
- * @version 4.1 2007-08-22 Added property 'toolDoneAfterCreation'.
+ * @version 4.2 2008-03-31 Added tow methods named canConnect() to this tool,
+ * so that subclasses can override the behavior. Made variables startConnector
+ * and endConnector protected instead of private. 
+ * <br>4.1 2007-08-22 Added property 'toolDoneAfterCreation'.
  * <br>4.0 2007-05 Reworked due to changes in ConnectionFigure interface.
  * Removed split/join functionality for connection points.
  * <br>3.1 2006-07-15 Added support for prototype class name.
@@ -53,6 +56,7 @@ import java.awt.dnd.*;
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
 public class ConnectionTool extends AbstractTool {
+    /** FIXME - The ANCHOR_WIDTH value must be retrieved from the DrawingEditor */
     private final static int ANCHOR_WIDTH = 6;
     
     /**
@@ -64,11 +68,11 @@ public class ConnectionTool extends AbstractTool {
     /**
      * The Connector at the start point of the connection.
      */
-    private Connector startConnector;
+    protected Connector startConnector;
     /**
      * The Connector at the end point of the connection.
      */
-    private Connector endConnector;
+    protected Connector endConnector;
     
     /**
      * The created figure.
@@ -139,6 +143,33 @@ public class ConnectionTool extends AbstractTool {
     public ConnectionFigure getPrototype() {
         return prototype;
     }
+    protected int getAnchorWidth() {
+        return ANCHOR_WIDTH;
+    }
+    
+    /**
+     * This method is called on the Figure, onto which the user wants
+     * to start a new connection.
+     * 
+     * @param f The ConnectionFigure.
+     * @param startConnector The Connector of the start Figure.
+     * @return True, if a connection can be made.
+     */
+    protected boolean canConnect(ConnectionFigure f, Connector startConnector) {
+        return f.canConnect(startConnector);
+    }
+    /**
+     * This method is called on the Figure, onto which the user wants
+     * to end a new connection.
+     * 
+     * @param f The ConnectionFigure.
+     * @param startConnector The Connector of the start Figure.
+     * @param endConnector The Connector of the end Figure.
+     * @return True, if a connection can be made.
+     */
+    protected boolean canConnect(ConnectionFigure f, Connector startConnector, Connector endConnector) {
+        return f.canConnect(startConnector, endConnector);
+    }
     
     public void mouseMoved(MouseEvent evt) {
         repaintConnectors(evt);
@@ -195,7 +226,7 @@ public class ConnectionTool extends AbstractTool {
             null :
             startFigure.findConnector(startPoint, prototype);
         
-        if (startConnector != null && prototype.canConnect(startConnector)) {
+        if (startConnector != null && canConnect(prototype, startConnector)) {
             Point2D.Double anchor = startConnector.getAnchor();
             createdFigure = createFigure();
             createdFigure.setStartPoint(anchor);
@@ -227,7 +258,7 @@ public class ConnectionTool extends AbstractTool {
                 null :
                 endFigure.findConnector(endPoint, prototype);
             
-            if (endConnector != null && createdFigure.canConnect(startConnector, endConnector)) {
+            if (endConnector != null && canConnect(createdFigure, startConnector, endConnector)) {
                 endPoint = endConnector.getAnchor();
             }
             Rectangle r = new Rectangle(getView().drawingToView(createdFigure.getEndPoint()));
