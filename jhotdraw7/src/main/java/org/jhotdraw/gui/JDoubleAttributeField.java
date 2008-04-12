@@ -1,7 +1,7 @@
 /*
- * @(#)JStringAttributeField.java  1.0  April 22, 2007
+ * @(#)JStringAttributeField.java  1.0.1  2008-04-12
  *
- * Copyright (c) 2007 by the original authors of JHotDraw
+ * Copyright (c) 2007-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.gui;
 
 import java.awt.*;
@@ -39,60 +38,62 @@ import org.jhotdraw.util.*;
  * code.
  * 
  * @author Werner Randelshofer
- * @version 1.0 April 22, 2007 Created.
+ * @version 1.0.1 2008-04-12 Get default attribute value from editor, when
+ * no figure is selected. 
+ * <br>1.0 April 22, 2007 Created.
  */
 public class JDoubleAttributeField extends JFormattedTextField
-implements AttributeField {
+        implements AttributeField {
+
     private static final boolean DEBUG = false;
-    
     private double scaleFactor = 1d;
     private double min = Double.MIN_VALUE;
     private double max = Double.MAX_VALUE;
-    
     private AttributeKey<Double> attributeKey;
     private boolean isMultipleValues;
-    
     protected ResourceBundleUtil labels =
             ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
-    
     private int isUpdatingField = 0;
-    
     private AttributeFieldEventHandler eventHandler = new AttributeFieldEventHandler(this);
-    
+
     /** Creates new instance. */
     public JDoubleAttributeField() {
         this(null, null);
     }
+
     public JDoubleAttributeField(DrawingEditor editor, AttributeKey<Double> attributeKey) {
         initComponents();
         this.attributeKey = attributeKey;
         setEditor(editor);
         this.getDocument().addDocumentListener(new DocumentListener() {
+
             public void insertUpdate(DocumentEvent e) {
                 updateFigures();
             }
-            
+
             public void removeUpdate(DocumentEvent e) {
                 updateFigures();
             }
-            
+
             public void changedUpdate(DocumentEvent e) {
                 updateFigures();
             }
         });
         addActionListener(new ActionListener() {
+
             public void actionPerformed(ActionEvent evt) {
                 updateFigures();
             }
         });
     }
-    
+
     public void setAttributeKey(AttributeKey<Double> newValue) {
         AttributeKey<Double> oldValue = attributeKey;
         attributeKey = newValue;
         updateField(eventHandler.getCurrentSelection());
         firePropertyChange("attributeKey", oldValue, newValue);
     }
+
     /**
      * Sets the drawing editor. This must be basicSet to a non-null value to make
      *  the attribute field functional.
@@ -102,12 +103,14 @@ implements AttributeField {
     public void setEditor(DrawingEditor newValue) {
         DrawingEditor oldValue = eventHandler.getEditor();
         eventHandler.setEditor(newValue);
+        updateField(eventHandler.getCurrentSelection());
         firePropertyChange("editor", oldValue, newValue);
     }
+
     public DrawingEditor getEditor() {
         return eventHandler.getEditor();
     }
-    
+
     /**
      * Sets the drawing view. Setting this to a non-null value, makes the
      * attribute field local to the drawing view. Setting this to null, makes
@@ -120,41 +123,47 @@ implements AttributeField {
         eventHandler.setView(newValue);
         firePropertyChange("view", oldValue, newValue);
     }
-    
+
     public DrawingView getView() {
         return eventHandler.getView();
     }
-    
+
     public void setScaleFactor(double newValue) {
         this.scaleFactor = newValue;
         updateField(eventHandler.getCurrentSelection());
     }
-    
+
     public double getScaleFactor() {
         return scaleFactor;
     }
-    
+
     public void setMinimum(double newValue) {
         this.min = newValue;
     }
-    
+
     public double getMinimum() {
         return min;
     }
-    
+
     public void setMaximum(double newValue) {
         this.max = newValue;
     }
-    
+
     public double getMaximum() {
         return max;
     }
-    
-    
+
     public void updateField(Set<Figure> currentSelection) {
         if (isUpdatingField++ == 0) {
-            if (currentSelection.isEmpty() || attributeKey == null) {
+            if (attributeKey == null) {
                 setValue(0d);
+            } else if (currentSelection.isEmpty()) {
+                if (getEditor() == null) {
+                    setValue(0d);
+                } else {
+                    Double fieldValue = (Double) getEditor().getDefaultAttribute(attributeKey);
+                    setValue(fieldValue * scaleFactor);
+                }
             } else {
                 Double fieldValue = null;
                 boolean isFirst = true;
@@ -182,11 +191,11 @@ implements AttributeField {
         }
         isUpdatingField--;
     }
-    
+
     private void updateFigures() {
         if (isUpdatingField++ == 0) {
             Double fieldValue = Math.min(Math.max(min, (Double) getValue()), max) / scaleFactor;
-            if (! eventHandler.getCurrentSelection().isEmpty() && attributeKey != null) {
+            if (!eventHandler.getCurrentSelection().isEmpty() && attributeKey != null) {
                 for (Figure f : eventHandler.getCurrentSelection()) {
                     attributeKey.set(f, fieldValue);
                 }
@@ -195,11 +204,11 @@ implements AttributeField {
         }
         isUpdatingField--;
     }
-    
+
     public void dispose() {
         eventHandler.dispose();
     }
-    
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -209,13 +218,11 @@ implements AttributeField {
     private void initComponents() {
 
     }// </editor-fold>//GEN-END:initComponents
-    
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
-    
-    @Override protected void paintComponent(Graphics g) {
-        if (! isFocusOwner() && isMultipleValues) {
+    @Override
+    protected void paintComponent(Graphics g) {
+        if (!isFocusOwner() && isMultipleValues) {
             Insets insets = getInsets();
             Insets margin = getMargin();
             int height = getHeight();
@@ -224,13 +231,12 @@ implements AttributeField {
             g.setFont(getFont().deriveFont(Font.ITALIC));
             g.drawString(labels.getString("multipleValues"),
                     insets.left + margin.left,
-                    insets.top + margin.top + fm.getAscent()
-                    );
+                    insets.top + margin.top + fm.getAscent());
         } else {
             super.paintComponent(g);
         }
     }
-    
+
     public JDoubleAttributeField clone() {
         try {
             JDoubleAttributeField that;

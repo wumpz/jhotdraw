@@ -1,7 +1,7 @@
 /*
- * @(#)SVGPathOutlineHandle.java  1.0  13. Mai 2007
+ * @(#)SVGPathOutlineHandle.java  1.1  2008-04-12
  *
- * Copyright (c) 2007 by the original authors of JHotDraw
+ * Copyright (c) 2007-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -22,12 +22,20 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * SVGPathOutlineHandle.
  *
  * @author Werner Randelshofer
- * @version 1.0 13. Mai 2007 Created.
+ * @version 1.1 2008-04-12 Improve visibility of the outline, by drawing it
+ * using two differently colored strokes. 
+ * <br>1.0 13. Mai 2007 Created.
  */
 public class SVGPathOutlineHandle extends AbstractHandle {
-    private final static Color HANDLE_FILL_COLOR = new Color(0x00a8ff);
-    private final static Color HANDLE_STROKE_COLOR = Color.WHITE;
-    
+    private final static BasicStroke HANDLE_STROKE1 = new BasicStroke(
+            2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL
+            );
+    private final static Color HANDLE_STROKE_COLOR1 = Color.WHITE;
+    private final static BasicStroke HANDLE_STROKE2 = new BasicStroke(
+            2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] { 6f, 6f }, 0f
+            );
+    private final static Color HANDLE_STROKE_COLOR2 = new Color(0x00a8ff);
+     
     /** Creates a new instance. */
     public SVGPathOutlineHandle(SVGPathFigure owner) {
         super(owner);
@@ -59,7 +67,11 @@ public class SVGPathOutlineHandle extends AbstractHandle {
             bounds = TRANSFORM.get(getOwner()).createTransformedShape(bounds);
         }
         bounds = view.getDrawingToViewTransform().createTransformedShape(bounds);
-        g.setColor(HANDLE_FILL_COLOR);
+        g.setStroke(HANDLE_STROKE1);
+        g.setColor(HANDLE_STROKE_COLOR1);
+        g.draw(bounds);
+        g.setStroke(HANDLE_STROKE2);
+        g.setColor(HANDLE_STROKE_COLOR2);
         g.draw(bounds);
     }
 }

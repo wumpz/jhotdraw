@@ -1,7 +1,7 @@
 /*
- * @(#)BoundsOutlineHandle.java  1.0  April 15, 2007
+ * @(#)BoundsOutlineHandle.java  1.1  2008-04-12
  *
- * Copyright (c) 2007 by the original authors of JHotDraw
+ * Copyright (c) 2007-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -21,17 +21,23 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * Draws the outline of the Figure bounds to make adjustment easier.
  *
  * @author Werner Randelshofer
- * @version 1.0 April 15, 2007 Created.
+ * @version 1.1 2008-04-12 Improve visibility of the outline, by drawing it
+ * using two differently colored strokes. 
+ * <br>1.0 April 15, 2007 Created.
  */
 public class BoundsOutlineHandle extends AbstractHandle {
     /* XXX - In a future version all these styles should be properties of
      * the DrawingEditor (much like properties in javax.swing.UIManager).
      * So that we can have visually styled (skinned) drawing editors.
      */
-    private final static BasicStroke HANDLE_STROKE = new BasicStroke(
+    private final static BasicStroke HANDLE_STROKE1 = new BasicStroke(
+            1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL
+            );
+    private final static Color HANDLE_STROKE_COLOR1 = Color.WHITE;
+    private final static BasicStroke HANDLE_STROKE2 = new BasicStroke(
             1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] { 5f, 5f }, 0f
             );
-    private final static Color HANDLE_STROKE_COLOR = new Color(0xaaaaaa); //Color.WHITE;
+    private final static Color HANDLE_STROKE_COLOR2 = Color.BLACK;
     
     public BoundsOutlineHandle(Figure owner) {
         super(owner);
@@ -66,8 +72,11 @@ public class BoundsOutlineHandle extends AbstractHandle {
             bounds = AttributeKeys.TRANSFORM.get(getOwner()).createTransformedShape(bounds);
         }
         bounds = view.getDrawingToViewTransform().createTransformedShape(bounds);
-        g.setStroke(HANDLE_STROKE);
-        g.setColor(HANDLE_STROKE_COLOR);
+        g.setStroke(HANDLE_STROKE1);
+        g.setColor(HANDLE_STROKE_COLOR1);
+        g.draw(bounds);
+        g.setStroke(HANDLE_STROKE2);
+        g.setColor(HANDLE_STROKE_COLOR2);
         g.draw(bounds);
     }
 }

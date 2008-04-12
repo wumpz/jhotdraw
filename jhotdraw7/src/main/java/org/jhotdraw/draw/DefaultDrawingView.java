@@ -466,14 +466,33 @@ public class DefaultDrawingView
      */
     public void addToSelection(Collection<Figure> figures) {
         Set<Figure> oldSelection = new HashSet<Figure>(selectedFigures);
-        if (selectedFigures.addAll(figures)) {
             Set<Figure> newSelection = new HashSet<Figure>(selectedFigures);
-            for (Figure f : figures) {
-                f.addFigureListener(handleInvalidator);
+        boolean selectionChanged = false;
+        Rectangle invalidatedArea = null;
+        for (Figure figure : figures) {
+        if (selectedFigures.add(figure)) {
+            selectionChanged = true;
+            newSelection.add(figure);
+            figure.addFigureListener(handleInvalidator);
+            if (handlesAreValid) {
+                for (Handle h : figure.createHandles(detailLevel)) {
+                    h.setView(this);
+                    selectionHandles.add(h);
+                    h.addHandleListener(eventHandler);
+                    if (invalidatedArea == null) {
+                        invalidatedArea = h.getDrawingArea();
+                    } else {
+                        invalidatedArea.add(h.getDrawingArea());
+                    }
+                }
             }
-            invalidateHandles();
+            }
+        }
+        if (selectionChanged) {
             fireSelectionChanged(oldSelection, newSelection);
-        //repaintDrawingArea();
+            if (invalidatedArea != null) {
+                repaint(invalidatedArea);
+            }
         }
     }
 

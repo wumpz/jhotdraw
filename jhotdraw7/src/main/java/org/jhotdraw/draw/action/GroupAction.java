@@ -1,7 +1,7 @@
 /*
- * @(#)GroupAction.java  2.0  2007-12-21
+ * @(#)GroupAction.java  2.0.1  2008-04-12
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -23,7 +23,9 @@ import javax.swing.undo.*;
  * GroupAction.
  *
  * @author  Werner Randelshofer
- * @version 2.0 2007-12-21 Refactored this class, so that it can be used as
+ * @version 2.0.1 2008-04-12 Ungrouped figures must be inserted at the
+ * z-index of the original group.
+ * <br>2.0 2007-12-21 Refactored this class, so that it can be used as
  * a base class for UngroupAction. 
  * <br>1.1 2006-07-12 Changed to support any CompositeFigure.
  * <br>1.0.1 2006-07-09 Fixed enabled state.
@@ -129,7 +131,7 @@ public class GroupAction extends AbstractSelectedAction {
         LinkedList<Figure> figures = new LinkedList<Figure>(group.getChildren());
         view.clearSelection();
         group.basicRemoveAllChildren();
-        view.getDrawing().basicAddAll(view.getDrawing().getChildCount(), figures);
+        view.getDrawing().basicAddAll(view.getDrawing().indexOf(group), figures);
         view.getDrawing().remove(group);
         view.addToSelection(figures);
         return figures;
@@ -137,9 +139,10 @@ public class GroupAction extends AbstractSelectedAction {
 
     public void groupFigures(DrawingView view, CompositeFigure group, Collection<Figure> figures) {
         Collection<Figure> sorted = view.getDrawing().sort(figures);
+        int index = view.getDrawing().indexOf(sorted.iterator().next());
         view.getDrawing().basicRemoveAll(figures);
         view.clearSelection();
-        view.getDrawing().add(group);
+        view.getDrawing().add(index, group);
         group.willChange();
         for (Figure f : sorted) {
             group.basicAdd(f);

@@ -150,6 +150,7 @@ public class AttributeFieldEventHandler
                 getCurrentView().addFigureSelectionListener(this);
             } 
         }
+        updateFieldEnabledState();
     }
     public DrawingEditor getEditor() {
         return editor;
