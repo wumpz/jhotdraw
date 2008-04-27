@@ -29,8 +29,16 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * @version 1.0 23. Januar 2006 Created.
  */
 public class BezierControlPointHandle extends AbstractHandle {
-    private final static Color HANDLE_FILL_COLOR = new Color(0x2020fc);
+    private final static Color HANDLE_FILL_COLOR = Color.MAGENTA;
     private final static Color HANDLE_STROKE_COLOR = Color.WHITE;
+    private final static BasicStroke HANDLE_STROKE1 = new BasicStroke(
+            1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] { 5f, 5f }, 5f
+            );
+    private final static Color HANDLE_STROKE_COLOR1 = Color.WHITE;
+    private final static BasicStroke HANDLE_STROKE2 = new BasicStroke(
+            1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] { 5f, 5f }, 0f
+            );
+    private final static Color HANDLE_STROKE_COLOR2 = Color.MAGENTA;
     protected int index, controlPointIndex;
     private CompositeEdit edit;
     private Figure transformOwner;
@@ -98,6 +106,14 @@ public class BezierControlPointHandle extends AbstractHandle {
                 TRANSFORM.get(getTransformOwner()).transform(pc, pc);
             }
             
+            g.setStroke(HANDLE_STROKE1);
+            g.setColor(HANDLE_STROKE_COLOR1);
+            g.draw(new Line2D.Double(
+                    view.drawingToView(p0),
+                    view.drawingToView(pc)
+                    ));
+            g.setStroke(HANDLE_STROKE2);
+            g.setColor(HANDLE_STROKE_COLOR2);
             g.draw(new Line2D.Double(
                     view.drawingToView(p0),
                     view.drawingToView(pc)

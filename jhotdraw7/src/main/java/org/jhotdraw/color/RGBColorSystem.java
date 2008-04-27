@@ -1,0 +1,51 @@
+/*
+ * @(#)RGBColorSystem.java  1.0  May 22, 2005
+ *
+ * Copyright (c) 2005 Werner Randelshofer
+ * Staldenmattweg 2, Immensee, CH-6405, Switzerland.
+ * All rights reserved.
+ *
+ * The copyright of this software is owned by Werner Randelshofer. 
+ * You may not use, copy or modify this software, except in  
+ * accordance with the license agreement you entered into with  
+ * Werner Randelshofer. For details see accompanying license terms. 
+ */
+package org.jhotdraw.color;
+
+import javax.swing.*;
+
+/**
+ * A ColorSystem for RGB color components (red, green, blue).
+ *
+ * @author  Werner Randelshofer
+ * @version 1.0 May 22, 2005 Created.
+ */
+public class RGBColorSystem extends AbstractColorSystem {
+
+    /**
+     * Creates a new instance.
+     */
+    public RGBColorSystem() {
+    }
+
+    public float[] toComponents(int r, int g, int b, float[] components) {
+        if (components == null || components.length != 3) {
+            components = new float[3];
+        }
+        components[0] = r / 255f;
+        components[1] = g / 255f;
+        components[2] = b / 255f;
+        return components;
+    }
+
+    public int toRGB(float... components) {
+        return 0xff000000 | 
+                ((int) (components[0] * 255) << 16) | 
+                ((int) (components[1] * 255) << 8) | 
+                (int) (components[2] * 255);
+    }
+
+    public int getComponentCount() {
+        return 3;
+    }
+}

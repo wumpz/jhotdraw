@@ -29,15 +29,15 @@ public class BezierOutlineHandle extends AbstractHandle {
      * the DrawingEditor (much like properties in javax.swing.UIManager).
      * So that we can have visually styled (skinned) drawing editors.
      */
-    private final static Color HANDLE_FILL_COLOR = new Color(0x00a8ff);
+    private final static Color HANDLE_FILL_COLOR = Color.BLUE.darker();
     private final static BasicStroke HANDLE_STROKE1 = new BasicStroke(
-            2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL
+            1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] { 5f, 5f }, 5f
             );
     private final static Color HANDLE_STROKE_COLOR1 = Color.WHITE;
     private final static BasicStroke HANDLE_STROKE2 = new BasicStroke(
-            2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] { 6f, 6f }, 0f
+            1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] { 5f, 5f }, 0f
             );
-    private final static Color HANDLE_STROKE_COLOR2 = new Color(0x00a8ff);
+    private final static Color HANDLE_STROKE_COLOR2 = Color.BLUE.darker();
     
     /** Creates a new instance. */
     public BezierOutlineHandle(BezierFigure owner) {

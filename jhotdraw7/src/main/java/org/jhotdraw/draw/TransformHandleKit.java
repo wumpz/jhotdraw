@@ -67,7 +67,7 @@ public class TransformHandleKit {
      * Adds handles for scaling, moving, rotating and shearing a Figure.
      */
     static public void addTransformHandles(Figure f, Collection<Handle> handles) {
-        handles.add(new BoundsOutlineHandle(f));
+        handles.add(new BoundsOutlineHandle(f, true));
         addCornerTransformHandles(f, handles);
         addEdgeTransformHandles(f, handles);
         handles.add(new RotateHandle(f));

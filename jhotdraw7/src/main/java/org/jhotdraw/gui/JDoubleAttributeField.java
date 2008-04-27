@@ -16,6 +16,7 @@ package org.jhotdraw.gui;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.*;
+import java.text.ParseException;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -194,13 +195,23 @@ public class JDoubleAttributeField extends JFormattedTextField
 
     private void updateFigures() {
         if (isUpdatingField++ == 0) {
-            Double fieldValue = Math.min(Math.max(min, (Double) getValue()), max) / scaleFactor;
-            if (!eventHandler.getCurrentSelection().isEmpty() && attributeKey != null) {
-                for (Figure f : eventHandler.getCurrentSelection()) {
-                    attributeKey.set(f, fieldValue);
-                }
+            Double fieldValue;
+            try {
+                fieldValue = (Double) getFormatter().stringToValue(getText());
+            } catch (NullPointerException ex) {
+                fieldValue = null;
+            } catch (ParseException ex) {
+                fieldValue = null;
             }
-            eventHandler.getEditor().setDefaultAttribute(attributeKey, fieldValue);
+            if (fieldValue != null) {
+                fieldValue = Math.min(Math.max(min, fieldValue), max) / scaleFactor;
+                if (!eventHandler.getCurrentSelection().isEmpty() && attributeKey != null) {
+                    for (Figure f : eventHandler.getCurrentSelection()) {
+                        attributeKey.set(f, fieldValue);
+                    }
+                }
+                eventHandler.getEditor().setDefaultAttribute(attributeKey, fieldValue);
+            }
         }
         isUpdatingField--;
     }

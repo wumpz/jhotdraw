@@ -31,7 +31,7 @@ public class ResizeHandleKit {
 
     private final static boolean DEBUG = false;
     private final static Color HANDLE_FILL_COLOR = Color.WHITE; //new Color(0x00a8ff);
-    private final static Color HANDLE_STROKE_COLOR = Color.BLACK; //Color.WHITE;
+    private final static Color HANDLE_STROKE_COLOR = Color.BLUE.darker(); //Color.WHITE;
 
     /** Creates a new instance. */
     public ResizeHandleKit() {
