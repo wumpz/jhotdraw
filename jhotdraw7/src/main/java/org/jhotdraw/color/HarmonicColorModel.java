@@ -26,21 +26,20 @@ import javax.swing.ListModel;
 public interface HarmonicColorModel extends ListModel {
     public final static String COLOR_SYSTEM_PROPERTY = "colorSystem";
     
-    public void setHueRule(HarmonicRule newValue);
-    public HarmonicRule getHueRule();
-    public void setLightnessRule(HarmonicRule newValue);
-    public HarmonicRule getLightnessRule();
-    public void setSaturationRule(HarmonicRule newValue);
-    public HarmonicRule getSaturationRule();
+    public void setBase(int newValue);
+    public int getBase();
+    
+    public void addRule(HarmonicRule rule);
+    public void removeAllRules();
+    public void applyRules();
 
     public ColorSystem getColorSystem();
     public void setColorSystem(ColorSystem newValue);
    
-    public void setBase(int newValue);
-    public int getBase();
-    
     public void setSize(int newValue);
     public int size();
+    
+    public boolean isAdjusting();
     
     public boolean add(CompositeColor c);
     public void set(int index, CompositeColor color);

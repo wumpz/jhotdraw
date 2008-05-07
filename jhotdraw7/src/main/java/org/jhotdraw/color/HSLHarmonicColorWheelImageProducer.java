@@ -44,8 +44,8 @@ public class HSLHarmonicColorWheelImageProducer extends ColorWheelImageProducer 
     }
 
     protected void generateContiguousLookupTables() {
-        saturations = new float[w * h];
-        hues = new float[w * h];
+        radials = new float[w * h];
+        angulars = new float[w * h];
         brights = new float[w * h];
         alphas = new int[w * h];
         float radius = getRadius();
@@ -69,23 +69,23 @@ public class HSLHarmonicColorWheelImageProducer extends ColorWheelImageProducer 
                 float sat = r;
                 if (r <= 1f) {
                     alphas[index] = 0xff000000;
-                    saturations[index] = 1f;
+                    radials[index] = 1f;
                     brights[index] = 1f - sat;
                 } else {
                     alphas[index] = (int) ((blend - Math.min(blend, r - 1f)) * 255 / blend) << 24;
-                    saturations[index] = 1f;
+                    radials[index] = 1f;
                     brights[index] = 0;
                 }
                 if (alphas[index] != 0) {
-                    hues[index] = (float) (Math.atan2(ky, kx) / Math.PI / 2d);
+                    angulars[index] = (float) (Math.atan2(ky, kx) / Math.PI / 2d);
                 }
             }
         }
     }
 
     protected void generateDiscreteLookupTables() {
-        saturations = new float[w * h];
-        hues = new float[w * h];
+        radials = new float[w * h];
+        angulars = new float[w * h];
         brights = new float[w * h];
         alphas = new int[w * h];
         float radius = getRadius();
@@ -108,15 +108,15 @@ public class HSLHarmonicColorWheelImageProducer extends ColorWheelImageProducer 
                 float sat = r;
                 if (r <= 1f) {
                     alphas[index] = 0xff000000;
-                    saturations[index] = 1f;
+                    radials[index] = 1f;
                     brights[index] = (float) Math.round((1f - sat) * 12f) / 12f;
                 } else {
                     alphas[index] = (int) ((blend - Math.min(blend, r - 1f)) * 255 / blend) << 24;
-                    saturations[index] = 1f;
+                    radials[index] = 1f;
                     brights[index] = 0f;
                 }
                 if (alphas[index] != 0) {
-                    hues[index] = Math.round((float) (Math.atan2(ky, kx) / Math.PI / 2d) * 12f) / 12f;
+                    angulars[index] = Math.round((float) (Math.atan2(ky, kx) / Math.PI / 2d) * 12f) / 12f;
                 }
             }
         }
@@ -127,11 +127,11 @@ public class HSLHarmonicColorWheelImageProducer extends ColorWheelImageProducer 
         float radius = (float) Math.min(w, h);
         for (int index = 0; index < pixels.length; index++) {
             if (alphas[index] != 0) {
-                pixels[index] = alphas[index] | 0xffffff & colorSystem.toRGB(hues[index], saturations[index], brights[index]);
+                pixels[index] = alphas[index] | 0xffffff & colorSystem.toRGB(angulars[index], radials[index], brights[index]);
             }
         }
         newPixels();
-        isDirty = false;
+        isPixelsValid = false;
     }
 
     @Override

@@ -1,5 +1,5 @@
 /*
- * @(#)ColorWheelImageProducer.java  2.0  2008-04-19
+ * @(#)ColorWheelImageProducer.java  2.1  2008-05-01
  *
  * Copyright (c) 2005-2008 Werner Randelshofer
  * Staldenmattweg 2, Immensee, CH-6405, Switzerland.
@@ -22,25 +22,31 @@ import java.awt.color.*;
  * @see ColorWheel
  *
  * @author  Werner Randelshofer
- * @version 2.0 2008-04-19 Made class more subclassing-friendly.
+ * @version The association of component indices to radials, angulars and
+ * verticals of the color wheel can now be specified.  
+ * <br>2.0 2008-04-19 Made class more subclassing-friendly.
  * <br>1.0 August 27, 2005 Created.
  */
 public class ColorWheelImageProducer extends MemoryImageSource {
 
     protected int[] pixels;
     protected int w,  h;
-    protected float brightness = 1f;
-    protected boolean isDirty = true;
-    /** Lookup table for hues. */
-    protected float[] hues;
-    /** Lookup table for saturations. */
-    protected float[] saturations;
+    protected float verticalValue = 1f;
+    protected boolean isLookupValid = false;
+    protected boolean isPixelsValid = false;
+    /** Lookup table for angular component values. */
+    protected float[] angulars;
+    /** Lookup table for radial component values. */
+    protected float[] radials;
     /** Lookup table for alphas. 
      * The alpha value is used for antialiasing the
      * color wheel.
      */
     protected int[] alphas;
     protected ColorSystem colorSystem;
+    protected int radialIndex = 1;
+    protected int angularIndex = 0;
+    protected int verticalIndex = 2;
 
     /** Creates a new instance. */
     public ColorWheelImageProducer(ColorSystem sys, int w, int h) {
@@ -49,19 +55,31 @@ public class ColorWheelImageProducer extends MemoryImageSource {
         this.w = w;
         this.h = h;
         this.colorSystem = sys;
-        generateLookupTables();
-        newPixels(pixels, ColorModel.getRGBdefault(), 0, w);
         setAnimated(true);
-        generateColorWheel();
+        
+        newPixels(pixels, ColorModel.getRGBdefault(), 0, w);
     }
 
     public int getRadius() {
         return Math.min(w, h) / 2 - 2;
     }
+    
+    public void setRadialComponentIndex(int newValue) {
+        radialIndex = newValue;
+        isPixelsValid = false;
+    }
+    public void setAngularComponentIndex(int newValue) {
+        angularIndex = newValue;
+        isPixelsValid = false;
+    }
+    public void setVerticalComponentIndex(int newValue) {
+        verticalIndex = newValue;
+        isPixelsValid = false;
+    }
 
     protected void generateLookupTables() {
-        saturations = new float[w * h];
-        hues = new float[w * h];
+        radials = new float[w * h];
+        angulars = new float[w * h];
         alphas = new int[w * h];
         float radius = getRadius();
 
@@ -80,44 +98,53 @@ public class ColorWheelImageProducer extends MemoryImageSource {
                 int ky = cy - y; // Kartesian coordinates of y
 
                 int index = x + y * w;
-                saturations[index] = (float) Math.sqrt(squarekx + ky * ky) / radius;
-                if (saturations[index] <= 1f) {
+                radials[index] = (float) Math.sqrt(squarekx + ky * ky) / radius;
+                if (radials[index] <= 1f) {
                     alphas[index] = 0xff000000;
                 } else {
-                    alphas[index] = (int) ((blend - Math.min(blend, saturations[index] - 1f)) * 255 / blend) << 24;
-                    saturations[index] = 1f;
+                    alphas[index] = (int) ((blend - Math.min(blend, radials[index] - 1f)) * 255 / blend) << 24;
+                    radials[index] = 1f;
                 }
                 if (alphas[index] != 0) {
-                    hues[index] = (float) (Math.atan2(ky, kx) / Math.PI / 2d);
+                    angulars[index] = (float) (Math.atan2(ky, kx) / Math.PI / 2d);
                 }
             }
         }
+        isLookupValid = true;
     }
 
-    public void setBrightness(float newValue) {
-        isDirty = isDirty || brightness != newValue;
-        brightness = newValue;
+    public void setVerticalValue(float newValue) {
+        isPixelsValid = isPixelsValid && verticalValue == newValue;
+        verticalValue = newValue;
     }
 
     public boolean needsGeneration() {
-        return isDirty;
+        return ! isPixelsValid;
     }
 
     public void regenerateColorWheel() {
-        if (isDirty) {
+        if (! isPixelsValid) {
             generateColorWheel();
         }
     }
 
     public void generateColorWheel() {
+        if (! isLookupValid) {
+            generateLookupTables();
+        }
+        
+        float[] components = new float[colorSystem.getComponentCount()];
         float radius = (float) Math.min(w, h);
         for (int index = 0; index < pixels.length; index++) {
             if (alphas[index] != 0) {
-                pixels[index] = alphas[index] | 0xffffff & colorSystem.toRGB(hues[index], saturations[index], brightness);
+                components[angularIndex] = angulars[index];
+                components[radialIndex] = radials[index];
+                components[verticalIndex] = verticalValue;
+                pixels[index] = alphas[index] | 0xffffff & colorSystem.toRGB(components);
             }
         }
         newPixels();
-        isDirty = false;
+        isPixelsValid = true;
     }
 
     protected Point getColorLocation(Color c, int width, int height) {
@@ -127,10 +154,24 @@ public class ColorWheelImageProducer extends MemoryImageSource {
     }
 
     protected Point getColorLocation(float hue, float saturation, float brightness, int width, int height) {
+        float radial, angular;
+        switch (angularIndex) {
+            case 0 : default : angular = hue; break;
+            case 1 : angular = saturation; break;
+            case 2 : angular = brightness; break;
+        }
+        switch (radialIndex) {
+            case 0 : default : radial = hue; break;
+            case 1 : radial = saturation; break;
+            case 2 : radial = brightness; break;
+        }
+        
+        
         float radius = Math.min(width, height) / 2f;
+        radial = Math.max(0f, Math.min(1f, radial));
         Point p = new Point(
-                width / 2 + (int) (radius * saturation * Math.cos(hue * Math.PI * 2d)),
-                height / 2 - (int) (radius * saturation * Math.sin(hue * Math.PI * 2d)));
+                width / 2 + (int) (radius * radial * Math.cos(angular * Math.PI * 2d)),
+                height / 2 - (int) (radius * radial * Math.sin(angular * Math.PI * 2d)));
         return p;
     }
 
@@ -148,13 +189,12 @@ public class ColorWheelImageProducer extends MemoryImageSource {
         float r = (float) Math.sqrt(x * x + y * y);
         float theta = (float) Math.atan2(y, -x);
 
-        float hue = (float) (0.5 + (theta / Math.PI / 2d));
+        float angular = (float) (0.5 + (theta / Math.PI / 2d));
 
-        float[] hsb = {
-            hue,
-            Math.min(1f, (float) r / getRadius()),
-            brightness
-        };
+        float[] hsb = new float[3];
+        hsb[angularIndex] = angular;
+        hsb[radialIndex] = Math.min(1f, (float) r / getRadius());
+        hsb[verticalIndex] = verticalValue;
         return hsb;
     }
 }

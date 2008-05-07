@@ -20,7 +20,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 /**
- * WheelsAndSlidersMain.
+ * A demo of color wheels and color sliders using all kinds of color systems.
  *
  * @author Werner Randelshofer
  * @version 1.0 WheelsAndSlidersMain Created.
@@ -63,6 +63,7 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
         chooserPanel.add(createColorWheelChooser(new HSLRGBColorSystem()));
         chooserPanel.add(createColorWheelChooser(new HSVRYBColorSystem()));
         chooserPanel.add(createColorWheelChooser(new HSLRYBColorSystem()));
+        chooserPanel.add(createColorWheelChooser(new HSLRYBColorSystem(), 0, 2, 1));
         chooserPanel.add(createSliderChooser(new HSVRGBColorSystem()));
         chooserPanel.add(createSliderChooser(new RGBColorSystem()));
         chooserPanel.add(createSliderChooser(new CMYKICCColorSystem()));
@@ -70,14 +71,20 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
     }
 
     private JPanel createColorWheelChooser(ColorSystem sys) {
+        return createColorWheelChooser(sys, 0, 1, 2);
+    }
+    private JPanel createColorWheelChooser(ColorSystem sys, int angularIndex, int radialIndex, int verticalIndex) {
         JPanel p = new JPanel(new BorderLayout());
         DefaultColorSliderModel m = new DefaultColorSliderModel(sys);
         models.add(m);
         m.addChangeListener(handler);
-        ColorWheel w = new ColorWheel();
+        JColorWheel w = new JColorWheel();
+        w.setAngularComponentIndex(angularIndex);
+        w.setRadialComponentIndex(radialIndex);
+        w.setVerticalComponentIndex(verticalIndex);
         w.setModel(m);
         JSlider s = new JSlider(JSlider.VERTICAL);
-        m.configureSlider(2, s);
+        m.configureSlider(verticalIndex, s);
         p.add(w, BorderLayout.CENTER);
         p.add(s, BorderLayout.EAST);
         return p;

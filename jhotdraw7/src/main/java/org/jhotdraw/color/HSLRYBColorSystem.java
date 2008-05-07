@@ -35,16 +35,29 @@ public class HSLRYBColorSystem extends AbstractColorSystem {
         float hue = components[0];
         float saturation = components[1];
         float lightness = components[2];
-        
+
+        // normalize hue
         hue = hue - (float) Math.floor(hue);
         if (hue < 0) {
             hue = 1f + hue;
         }
+        // normalize saturation
+        if (saturation > 1f) {
+            saturation = 1f;
+        } else if (saturation < 0f) {
+            saturation = 0f;
+        }
+        // normalize value
+        if (lightness > 1f) {
+            lightness = 1f;
+        } else if (lightness < 0f) {
+            lightness = 0f;
+        }
+
         float hueDeg = hue * 360f;
         if (hueDeg < 0) {
             hueDeg += 360f;
         }
-
         // compute hi and f from hue
        // float f;
         float hk = hue - (float) Math.floor(hue); // / 360f;

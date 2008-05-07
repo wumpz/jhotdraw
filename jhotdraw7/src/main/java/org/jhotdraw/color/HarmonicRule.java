@@ -19,10 +19,16 @@ package org.jhotdraw.color;
  * @version 1.0 Apr 27, 2008 Created.
  */
 public interface HarmonicRule {
-
-    public void init(HarmonicColorModel model);
-
-    public void apply(HarmonicColorModel model, CompositeColor oldBaseValue);
-
-    public void adjust(HarmonicColorModel model, int adjustedIndex);
+    
+    public void setBaseIndex();
+    
+    public int getBaseIndex();
+    
+    public void setDerivedIndices(int... indices);
+    
+    public int[] getDerivedIndices();
+    
+    public void apply(HarmonicColorModel model);
+    
+    public void colorChanged(HarmonicColorModel model, int index, CompositeColor oldValue, CompositeColor newValue);
 }

@@ -32,32 +32,18 @@ public class DefaultHarmonicColorModel extends AbstractListModel implements Harm
     private ArrayList<CompositeColor> colors;
     private ColorSliderModel sliderModel;
     private int base;
-    private HarmonicRule hueRule;
-    private HarmonicRule saturationRule;
-    private HarmonicRule lightnessRule;
+    private ArrayList<HarmonicRule> rules;
     private float customHueConstraint = 30f / 360f;
     private int adjusting;
-
-    public static class ColorSet {
-
-        public String name;
-        public ArrayList<Color> colors = new ArrayList<Color>();
-    }
 
     public DefaultHarmonicColorModel() {
         ColorSystem sys = new HSLRYBColorSystem();
         sliderModel = new DefaultColorSliderModel(sys);
         colors = new ArrayList<CompositeColor>();
+        rules = new ArrayList<HarmonicRule>();
 
         base = 0;
         add(new CompositeColor(sys, Color.RED));
-
-        setHueRule(new HueHarmonicRule(30f / 360f));
-        setSaturationRule(null);
-        setLightnessRule(null);
-
-        initRules();
-        applyRules(get(0));
 
         DefaultListModel x;
     }
@@ -83,123 +69,31 @@ public class DefaultHarmonicColorModel extends AbstractListModel implements Harm
         return colors.size();
     }
 
+    public boolean isAdjusting() {
+        return adjusting > 0;
+    }
+
     public void set(int index, CompositeColor newValue) {
+        adjusting++;
         CompositeColor oldValue = colors.set(index, newValue);
+        for (HarmonicRule r : rules) {
+            r.colorChanged(this, index, oldValue, newValue);
+        }
+        for (HarmonicRule r : rules) {
+            if (r.getBaseIndex() == index) {
+                r.apply(this);
+            }
+        }
+        adjusting--;
         fireContentsChanged(this, index, index);
-
-        if (index == base) {
-            applyRules(oldValue);
-        } else {
-            adjustRule(index);
-        }
     }
-
-    private void monochromatic(float[] orig, float[] der, float adjust) {
-        System.arraycopy(orig, 0, der, 0, 3);
-
-        if (adjust <= 0) {
-            if (orig[2] >= 1f && orig[1] + adjust < 0.2f) {
-                adjust = 1.4f + adjust;
-            }
-        } else {
-            if (orig[2] <= 1f && orig[2] - adjust / 2f <= 0.5f) {
-                adjust = adjust - 1.4f;
+    
+    public void applyRules() {
+        for (HarmonicRule r : rules) {
+            if (r.getBaseIndex() == base) {
+                r.apply(this);
             }
         }
-
-        if (adjust <= 0) {
-            if (orig[2] < 1f) { // outer ring
-                der[2] = orig[2] - adjust / 2;
-                if (der[2] > 1f) {
-                    //der[1] = 2f - der[2];
-                    der[1] = 3f - der[2] * 2f;
-                    der[2] = 1f;
-                } else {
-                    der[1] = 1f;
-                }
-            } else { // inner ring
-                der[1] = orig[1] + adjust;
-                der[2] = 1f;
-            }
-        } else {
-            if (orig[2] < 1f) { // outer ring
-                der[1] = 1f;
-                der[2] = orig[2] - adjust / 2;
-            } else { // inner ring
-                der[1] = orig[1] + adjust;
-                if (der[1] > 1f) {
-                    //der[2] = 2f - der[1];
-                    der[2] = 1.5f - der[1] / 2f;
-                    der[1] = 1f;
-                } else {
-                    der[2] = 1f;
-                }
-            }
-        }
-    }
-
-    private void achromatic(float[] orig, float[] der, float adjust) {
-        System.arraycopy(orig, 0, der, 0, 3);
-
-        if (adjust <= 0) {
-            if (orig[2] >= 1f && orig[1] + adjust < 0.05f) {
-                adjust = 1.4f + adjust;
-            }
-        } else {
-            if (orig[2] <= 1f && orig[2] - adjust / 2f <= 0.5f) {
-                adjust = adjust - 1.4f;
-            }
-        }
-
-        if (adjust <= 0) {
-            if (orig[2] < 1f) { // outer ring
-                der[2] = orig[2] - adjust / 2;
-                if (der[2] > 1f) {
-                    //der[1] = 2f - der[2];
-                    der[1] = 3f - der[2] * 2f;
-                    der[2] = 1f;
-                } else {
-                    der[1] = 1f;
-                }
-            } else { // inner ring
-                der[1] = orig[1] + adjust;
-                der[2] = 1f;
-            }
-        } else {
-            if (orig[2] < 1f) { // outer ring
-                der[1] = 1f;
-                der[2] = orig[2] - adjust / 2;
-            } else { // inner ring
-                der[1] = orig[1] + adjust;
-                if (der[1] > 1f) {
-                    //der[2] = 2f - der[1];
-                    der[2] = 1.5f - der[1] / 2f;
-                    der[1] = 1f;
-                } else {
-                    der[2] = 1f;
-                }
-            }
-        }
-
-        if (der[2] == 1f) {
-            der[2] = Math.max(0f, Math.min(1f, (3f - Math.abs(der[1])) / 3f));
-        } else {
-            der[2] = Math.min(1f, der[2] / 1.5f);
-        }
-        der[1] = 0f;
-
-    }
-
-    private void analogous(float[] orig, float[] der, float adjust) {
-        System.arraycopy(orig, 0, der, 0, 3);
-
-        der[0] += adjust;
-    }
-
-    private void clash(float[] orig, float[] der, float adjust) {
-        System.arraycopy(orig, 0, der, 0, 3);
-
-        der[0] += adjust;
     }
 
     public CompositeColor get(int index) {
@@ -242,87 +136,12 @@ public class DefaultHarmonicColorModel extends AbstractListModel implements Harm
         return sliderModel.getColorSystem();
     }
 
-    public void setHueRule(HarmonicRule newValue) {
-        HarmonicRule oldValue = hueRule;
-        hueRule = newValue;
-
-        initRules();
+    public void addRule(HarmonicRule newValue) {
+        rules.add(newValue);
     }
 
-    public HarmonicRule getHueRule() {
-        return hueRule;
-    }
-
-    public void setLightnessRule(HarmonicRule newValue) {
-        HarmonicRule oldValue = lightnessRule;
-        lightnessRule = newValue;
-        initRules();
-    }
-
-    public HarmonicRule getLightnessRule() {
-        return lightnessRule;
-    }
-
-    public void setSaturationRule(HarmonicRule newValue) {
-        HarmonicRule oldValue = saturationRule;
-        saturationRule = newValue;
-
-        initRules();
-    }
-
-    public HarmonicRule getSaturationRule() {
-        return saturationRule;
-    }
-
-    protected void initRules() {
-        adjusting++;
-        if (hueRule != null) {
-            hueRule.init(this);
-            hueRule.apply(this, get(getBase()));
-        }
-        if (lightnessRule != null) {
-            lightnessRule.init(this);
-            lightnessRule.apply(this, get(getBase()));
-        } else {
-            for (int i=0; i < size(); i++) {
-                if (i % 5 != 0) {
-                    colors.set(i, null);
-                }
-            }
-        }
-        fireContentsChanged(this, 1, size() - 1);
-        adjusting--;
-    }
-
-    protected void applyRules(CompositeColor oldValue) {
-        if (adjusting == 0) {
-        adjusting++;
-        if (hueRule != null) {
-            hueRule.apply(this, oldValue);
-        }
-        if (lightnessRule != null) {
-            lightnessRule.apply(this, oldValue);
-        }
-        adjusting--;
-        fireContentsChanged(this, 1, size() - 1);
-        }
-    }
-
-    private void adjustRule(int index) {
-        if (adjusting == 0) {
-        adjusting++;
-        if (index == base) {
-            return;
-        }
-        if (hueRule != null) {
-            hueRule.adjust(this, index);
-        }
-        if (lightnessRule != null) {
-            lightnessRule.adjust(this, index);
-        }
-        adjusting--;
-        fireContentsChanged(this, 1, size() - 1);
-        }
+    public void removeAllRules() {
+        rules.clear();
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -370,7 +189,7 @@ public class DefaultHarmonicColorModel extends AbstractListModel implements Harm
         ColorSystem oldValue = sliderModel.getColorSystem();
         sliderModel.setColorSystem(newValue);
         firePropertyChange(COLOR_SYSTEM_PROPERTY, oldValue, newValue);
-        for (int i=0; i < colors.size(); i++) {
+        for (int i = 0; i < colors.size(); i++) {
             if (get(i) != null) {
                 set(i, new CompositeColor(newValue, get(i).getColor()));
             }

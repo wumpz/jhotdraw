@@ -33,7 +33,7 @@ import javax.swing.plaf.*;
  * <br>1.0 August 27, 2005 Created.
  */
 public class ColorWheelChooser extends AbstractColorChooserPanel implements UIResource {
-    private ColorWheel colorWheel;
+    private JColorWheel colorWheel;
     private ColorSliderModel ccModel = new DefaultColorSliderModel(new HSVRGBColorSystem());
 
     private int updatingChooser;
@@ -50,7 +50,7 @@ public class ColorWheelChooser extends AbstractColorChooserPanel implements UIRe
             layout.setHgap(textSliderGap);
 }
         
-        colorWheel = new ColorWheel();
+        colorWheel = new JColorWheel();
         add(colorWheel);
         
         ccModel.configureSlider(2, brightnessSlider);

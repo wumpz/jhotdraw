@@ -41,7 +41,7 @@ public class HSVRYBColorSystem extends AbstractColorSystem {
         hue = hue - (float) Math.floor(hue);
         if (hue < 0) {
             hue -= 1f;
-        }
+        } 
         // normalize saturation
         if (saturation > 1f) {
             saturation = 1f;
@@ -137,7 +137,6 @@ public class HSVRYBColorSystem extends AbstractColorSystem {
         int rgb = ((int) (red * 255)) << 16 |
                 ((int) (green * 255)) << 8 |
                 ((int) (blue * 255));
-
         return rgb;
     }
 
