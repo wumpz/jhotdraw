@@ -29,7 +29,9 @@ import org.apache.batik.ext.awt.*;
  */
 public class PaletteSliderUI extends BasicSliderUI {
     private final static float[] enabledStops = new float[]{0f, 0.35f, 0.35f, 1f};
-    private final static Color[] enabledStopColors = new Color[]{new Color(0xf3f3f3), new Color(0xeeeeee), new Color(0xcacaca), new Color(0xf3f3f3)};
+    private final static Color[] enabledStopColors = new Color[]{new Color(0xf3f3f3), new Color(0xcccccc), new Color(0xbababa), new Color(0xf3f3f3)};
+    private final static float[] disabledStops = new float[]{0f, 0.35f, 0.35f, 1f};
+    private final static Color[] disabledStopColors = new Color[]{new Color(0xf3f3f3), new Color(0xeeeeee), new Color(0xcacaca), new Color(0xf3f3f3)};
     private final static float[] selectedStops = new float[]{0f, 0.2f, 1f};
     private final static Color[] selectedStopColors = new Color[]{new Color(0x999999), new Color(0xaaaaaa), new Color(0x666666)};
     
@@ -111,8 +113,7 @@ public class PaletteSliderUI extends BasicSliderUI {
             cx = (trackBounds.width / 2) - 2;
             cy = pad;
             ch = trackBounds.height;
-
-            g.setColor(new Color(0xaaaaaa));
+            g.setColor(new Color(slider.isEnabled() ? 0x888888 : 0xaaaaaa));
             g.drawRoundRect( trackBounds.x + cx, trackBounds.y, 5, ch, 5, 5);
             
             
