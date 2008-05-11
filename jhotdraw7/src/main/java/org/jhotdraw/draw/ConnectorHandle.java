@@ -32,7 +32,6 @@ import org.jhotdraw.geom.*;
  * <br>1.0 20. Juni 2006 Created.
  */
 public class ConnectorHandle extends AbstractHandle {
-    private final static int ANCHOR_WIDTH = 6;
     /**
      * Holds the ConnectionFigure which is currently being created.
      */
@@ -84,14 +83,19 @@ public class ConnectorHandle extends AbstractHandle {
             c.draw(gg);
         }
         if (createdConnection == null) {
-            drawCircle(g, Color.blue, Color.black);
+            drawCircle(g,
+                    (Color) getEditor().getHandleAttribute(HandleAttributeKeys.DISCONNECTED_CONNECTOR_HANDLE_FILL_COLOR),
+                    (Color) getEditor().getHandleAttribute(HandleAttributeKeys.DISCONNECTED_CONNECTOR_HANDLE_STROKE_COLOR));
         } else {
-            drawCircle(g, Color.GREEN, Color.BLACK);
+            drawCircle(g,
+                    (Color) getEditor().getHandleAttribute(HandleAttributeKeys.CONNECTED_CONNECTOR_HANDLE_FILL_COLOR),
+                    (Color) getEditor().getHandleAttribute(HandleAttributeKeys.CONNECTED_CONNECTOR_HANDLE_STROKE_COLOR));
             Point p = view.drawingToView(createdConnection.getEndPoint());
-            g.setColor(Color.GREEN);
-            g.fillOval(p.x - ANCHOR_WIDTH / 2, p.y - ANCHOR_WIDTH / 2, ANCHOR_WIDTH, ANCHOR_WIDTH);
-            g.setColor(Color.BLACK);
-            g.drawOval(p.x - ANCHOR_WIDTH / 2, p.y - ANCHOR_WIDTH / 2, ANCHOR_WIDTH, ANCHOR_WIDTH);
+            g.setColor((Color) getEditor().getHandleAttribute(HandleAttributeKeys.CONNECTED_CONNECTOR_HANDLE_FILL_COLOR));
+            int width = getHandlesize();
+            g.fillOval(p.x - width / 2, p.y - width / 2, width, width);
+            g.setColor((Color) getEditor().getHandleAttribute(HandleAttributeKeys.CONNECTED_CONNECTOR_HANDLE_STROKE_COLOR));
+            g.drawOval(p.x - width / 2, p.y - width / 2, width, width);
         }
     }
     
@@ -114,7 +118,7 @@ public class ConnectorHandle extends AbstractHandle {
         Rectangle r = new Rectangle(
                 view.drawingToView(getConnection().getEndPoint())
                 );
-        r.grow(ANCHOR_WIDTH, ANCHOR_WIDTH);
+        r.grow(getHandlesize(), getHandlesize());
         fireAreaInvalidated(r);
         Figure figure = findConnectableFigure(p, view.getDrawing());
         if (figure != connectableFigure) {
@@ -129,7 +133,7 @@ public class ConnectorHandle extends AbstractHandle {
         getConnection().setEndPoint(p);
         getConnection().changed();
         r = new Rectangle(view.drawingToView(p));
-        r.grow(ANCHOR_WIDTH, ANCHOR_WIDTH);
+        r.grow(getHandlesize(), getHandlesize());
         fireAreaInvalidated(r);
     }
     
@@ -223,7 +227,10 @@ public class ConnectorHandle extends AbstractHandle {
     
     protected Rectangle basicGetBounds() {
         Rectangle r = new Rectangle(getLocation());
-        r.grow(getHandlesize() / 2, getHandlesize() / 2);
+        int h = getHandlesize();
+        r.x -= h / 2;
+        r.y -= h / 2;
+        r.width = r.height = h;
         return r;
     }
     @Override public boolean isCombinableWith(Handle handle) {

@@ -27,14 +27,6 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * <br>1.0 13. Mai 2007 Created.
  */
 public class SVGPathOutlineHandle extends AbstractHandle {
-    private final static BasicStroke HANDLE_STROKE1 = new BasicStroke(
-            1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] { 5f, 5f }, 5f
-            );
-    private final static Color HANDLE_STROKE_COLOR1 = Color.WHITE;
-    private final static BasicStroke HANDLE_STROKE2 = new BasicStroke(
-            1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] { 5f, 5f }, 0f
-            );
-    private final static Color HANDLE_STROKE_COLOR2 = Color.BLUE.darker();
      
     /** Creates a new instance. */
     public SVGPathOutlineHandle(SVGPathFigure owner) {
@@ -67,11 +59,19 @@ public class SVGPathOutlineHandle extends AbstractHandle {
             bounds = TRANSFORM.get(getOwner()).createTransformedShape(bounds);
         }
         bounds = view.getDrawingToViewTransform().createTransformedShape(bounds);
-        g.setStroke(HANDLE_STROKE1);
-        g.setColor(HANDLE_STROKE_COLOR1);
-        g.draw(bounds);
-        g.setStroke(HANDLE_STROKE2);
-        g.setColor(HANDLE_STROKE_COLOR2);
-        g.draw(bounds);
+        Stroke stroke = (Stroke) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_OUTLINE_HANDLE_STROKE_1);
+        Color strokeColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_OUTLINE_HANDLE_STROKE_COLOR_1);
+        if (stroke != null && strokeColor != null) {
+            g.setStroke(stroke);
+            g.setColor(strokeColor);
+            g.draw(bounds);
+        }
+         stroke = (Stroke) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_OUTLINE_HANDLE_STROKE_2);
+         strokeColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_OUTLINE_HANDLE_STROKE_COLOR_2);
+        if (stroke != null && strokeColor != null) {
+            g.setStroke(stroke);
+            g.setColor(strokeColor);
+            g.draw(bounds);
+        }
     }
 }

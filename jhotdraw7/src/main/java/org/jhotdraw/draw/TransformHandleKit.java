@@ -116,6 +116,12 @@ public class TransformHandleKit {
             ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
             return labels.getString("transformHandle.tip");
         }
+    /**
+     * Draws this handle.
+     */
+    public void draw(Graphics2D g) {
+        drawDiamond(g, Color.green.darker(), Color.white);
+    }
         
         protected Rectangle2D.Double getTransformedBounds() {
             Figure owner = getOwner();

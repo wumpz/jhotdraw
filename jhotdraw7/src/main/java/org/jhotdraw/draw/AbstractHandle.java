@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractHandle.java  1.0.1  2008-05-08
+ * @(#)AbstractHandle.java  2.0  2008-05-11
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -17,6 +17,7 @@ import java.util.Collection;
 import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.*;
 import javax.swing.undo.*;
 import java.util.*;
 
@@ -24,12 +25,13 @@ import java.util.*;
  * AbstractHandle.
  *
  * @author Werner Randelshofer
- * @version 1.0.1 2008-05-08 Tweaked rendering of handles. 
+ * @version 2.0 2008-05-11 Handle attributes are now retrieved from
+ * DrawingEditor. 
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
 public abstract class AbstractHandle implements Handle, FigureListener {
 
-    private Figure owner;
+    final private Figure owner;
     protected DrawingView view;
     protected EventListenerList listenerList = new EventListenerList();
     /**
@@ -46,9 +48,8 @@ public abstract class AbstractHandle implements Handle, FigureListener {
         owner.addFigureListener(this);
     }
 
-    /** FIXME - Get this form the drawing view. */
     protected int getHandlesize() {
-        return 7;
+        return (Integer) getEditor().getHandleAttribute(HandleAttributeKeys.HANDLE_SIZE);
     }
 
     /**
@@ -75,6 +76,10 @@ public abstract class AbstractHandle implements Handle, FigureListener {
 
     public DrawingView getView() {
         return view;
+    }
+
+    public DrawingEditor getEditor() {
+        return view.getEditor();
     }
 
     /**
@@ -155,62 +160,89 @@ public abstract class AbstractHandle implements Handle, FigureListener {
      * Draws this handle.
      */
     public void draw(Graphics2D g) {
-        drawCircle(g, Color.white, Color.black);
+        drawCircle(g,
+                (Color) getEditor().getHandleAttribute(HandleAttributeKeys.HANDLE_FILL_COLOR),
+                (Color) getEditor().getHandleAttribute(HandleAttributeKeys.HANDLE_STROKE_COLOR));
     }
 
     protected void drawCircle(Graphics2D g, Color fill, Color stroke) {
         Rectangle r = getBounds();
+        if (fill != null) {
+            g.setColor(fill);
+            g.fillOval(r.x + 1, r.y + 1, r.width - 2, r.height - 2);
+        }
         if (stroke != null) {
             g.setStroke(new BasicStroke());
             g.setColor(stroke);
-            g.drawOval(r.x, r.y, r.width, r.height);
-        }
-        if (fill != null) {
-            g.setColor(fill);
-            g.fillOval(r.x + 1, r.y + 1, r.width - 1, r.height - 1);
+            g.drawOval(r.x, r.y, r.width - 1, r.height - 1);
+
+            if (getView().getActiveHandle() == this) {
+                g.fillOval(r.x + 2, r.y + 2, r.width - 4, r.height - 4);
+            }
         }
     }
 
     protected void drawRectangle(Graphics2D g, Color fill, Color stroke) {
-        Rectangle r = getBounds();
-        if (stroke != null) {
+        if (fill != null) {
+            Rectangle r = getBounds();
+            g.setColor(fill);
+            r.x += 1;
+            r.y += 1;
+            r.width -= 2;
+            r.height -= 2;
+            g.fill(r);
+        }
             g.setStroke(new BasicStroke());
+        if (stroke != null) {
+            Rectangle r = getBounds();
+            r.width -= 1;
+            r.height -= 1;
             g.setColor(stroke);
             g.draw(r);
-        }
-        if (fill != null) {
-            g.setColor(fill);
-            r.grow(-1, -1);
-            g.fill(r);
+            if (getView().getActiveHandle() == this) {
+                r.x += 2;
+                r.y += 2;
+                r.width -= 3;
+                r.height -= 3;
+                g.fill(r);
+            }
         }
     }
 
     protected void drawDiamond(Graphics2D g, Color fill, Color stroke) {
-
         if (stroke != null) {
-        Rectangle r = getBounds();
-        r.grow(1, 1);
-        Polygon p = new Polygon();
-        p.addPoint(r.x + r.width / 2, r.y);
-        p.addPoint(r.x + r.width, r.y + r.height / 2);
-        p.addPoint(r.x + r.width / 2, r.y + r.height);
-        p.addPoint(r.x, r.y + r.height / 2);
-        p.addPoint(r.x + r.width / 2, r.y);
-
-            g.setStroke(new BasicStroke());
+            Rectangle r = getBounds();
+            r.grow(1, 1);
+            GeneralPath p = new GeneralPath();
+            p.moveTo(r.x + r.width / 2f, r.y);
+            p.lineTo(r.x + r.width, r.y + r.height / 2f);
+            p.lineTo(r.x + r.width / 2f, r.y + r.height);
+            p.lineTo(r.x, r.y + r.height / 2f);
+            p.closePath();
             g.setColor(stroke);
-            g.draw(p);
+            g.fill(p);
         }
         if (fill != null) {
-        Rectangle r = getBounds();
-        Polygon p = new Polygon();
-        p.addPoint(r.x + r.width / 2, r.y);
-        p.addPoint(r.x + r.width, r.y + r.height / 2);
-        p.addPoint(r.x + r.width / 2, r.y + r.height);
-        p.addPoint(r.x, r.y + r.height / 2);
-        p.addPoint(r.x + r.width / 2, r.y);
-
+            Rectangle r = getBounds();
+            GeneralPath p = new GeneralPath();
+            p.moveTo(r.x + r.width / 2f, r.y);
+            p.lineTo(r.x + r.width, r.y + r.height / 2f);
+            p.lineTo(r.x + r.width / 2f, r.y + r.height);
+            p.lineTo(r.x, r.y + r.height / 2f);
+            p.closePath();
             g.setColor(fill);
+            g.fill(p);
+        }
+        if (stroke != null && getView().getActiveHandle() == this) {
+            Rectangle r = getBounds();
+            r.grow(-1, -1);
+            GeneralPath p = new GeneralPath();
+            p.moveTo(r.x + r.width / 2f, r.y);
+            p.lineTo(r.x + r.width, r.y + r.height / 2f);
+            p.lineTo(r.x + r.width / 2f, r.y + r.height);
+            p.lineTo(r.x, r.y + r.height / 2f);
+            p.closePath();
+            g.setColor(stroke);
             g.fill(p);
         }
     }
@@ -225,7 +257,7 @@ public abstract class AbstractHandle implements Handle, FigureListener {
 
     public void dispose() {
         owner.removeFigureListener(this);
-        owner = null;
+    //owner = null;
     }
 
     /**

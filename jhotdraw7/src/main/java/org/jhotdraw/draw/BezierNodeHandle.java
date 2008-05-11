@@ -1,7 +1,7 @@
 /*
- * @(#)BezierNodeHandle.java  1.0.1  2006-04-21
+ * @(#)BezierNodeHandle.java  2.0  2008-05-11
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.draw;
 
 import javax.swing.undo.AbstractUndoableEdit;
@@ -25,39 +24,43 @@ import java.awt.geom.*;
 import java.util.*;
 import org.jhotdraw.geom.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
+
 /**
  * BezierNodeHandle.
  *
  *
  * @author Werner Randelshofer
- * @version 1.0.1 2006-04-21 Don't change node type when right mouse button
+ * @version 2.0 2008-05-11 Handle attributes are now retrieved from
+ * DrawingEditor. Added keyPressed method.
+ * <br>1.0.1 2006-04-21 Don't change node type when right mouse button
  * is down.
  * <br>1.0 January 20, 2006 Created.
  */
 public class BezierNodeHandle extends AbstractHandle {
-    private final static Color HANDLE_FILL_COLOR = Color.BLUE.darker(); 
-    private final static Color HANDLE_STROKE_COLOR = Color.WHITE;
+
     protected int index;
     private CompositeEdit edit;
     private BezierPath.Node oldNode;
     private Figure transformOwner;
-    
+
     /** Creates a new instance. */
     public BezierNodeHandle(BezierFigure owner, int index) {
         this(owner, index, owner);
     }
+
     public BezierNodeHandle(BezierFigure owner, int index, Figure transformOwner) {
         super(owner);
         this.index = index;
         this.transformOwner = transformOwner;
         transformOwner.addFigureListener(this);
     }
+
     public void dispose() {
         super.dispose();
         transformOwner.removeFigureListener(this);
         transformOwner = null;
     }
-    
+
     /**
      * Draws this handle.
      */
@@ -65,28 +68,29 @@ public class BezierNodeHandle extends AbstractHandle {
         BezierFigure f = getOwner();
         int size = f.getNodeCount();
         boolean isClosed = f.isClosed();
+        Color fillColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_NODE_HANDLE_FILL_COLOR);
+        Color strokeColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_NODE_HANDLE_STROKE_COLOR);
         if (size > index) {
             BezierPath.Node v = f.getNode(index);
             if (v.mask == 0 ||
-                    index == 0 && v.mask == BezierPath.C1_MASK && ! isClosed ||
-                    index == size - 1 && v.mask == BezierPath.C2_MASK && ! isClosed
-                    ) {
-                drawRectangle(g, HANDLE_FILL_COLOR, HANDLE_STROKE_COLOR);
+                    index == 0 && v.mask == BezierPath.C1_MASK && !isClosed ||
+                    index == size - 1 && v.mask == BezierPath.C2_MASK && !isClosed) {
+                drawRectangle(g, fillColor, strokeColor);
             } else if (v.mask == BezierPath.C1_MASK ||
                     v.mask == BezierPath.C2_MASK ||
-                    index == 0 && ! isClosed ||
-                    index == size - 1 && ! isClosed) {
-                drawDiamond(g, HANDLE_FILL_COLOR, HANDLE_STROKE_COLOR);
+                    index == 0 && !isClosed ||
+                    index == size - 1 && !isClosed) {
+                drawDiamond(g, fillColor, strokeColor);
             } else {
-                drawCircle(g, HANDLE_FILL_COLOR, HANDLE_STROKE_COLOR);
+                drawCircle(g, fillColor, strokeColor);
             }
         }
     }
-    
+
     public BezierFigure getOwner() {
         return (BezierFigure) super.getOwner();
     }
-    
+
     protected Point getLocation() {
         if (getOwner().getNodeCount() > index) {
             Point2D.Double p = getOwner().getPoint(index, 0);
@@ -95,25 +99,27 @@ public class BezierNodeHandle extends AbstractHandle {
             }
             return view.drawingToView(p);
         } else {
-            return new Point(10,10);
+            return new Point(10, 10);
         }
     }
+
     protected BezierPath.Node getBezierNode() {
-        return getOwner().getNodeCount() > index ?
-            getOwner().getNode(index) :
-            null;
+        return getOwner().getNodeCount() > index ? getOwner().getNode(index) : null;
     }
-    
+
     protected Rectangle basicGetBounds() {
         Rectangle r = new Rectangle(getLocation());
-        r.grow(getHandlesize() / 2, getHandlesize() / 2);
+        int h = getHandlesize();
+        r.x -= h / 2;
+        r.y -= h / 2;
+        r.width = r.height = h;
         return r;
     }
-    
+
     protected Figure getTransformOwner() {
         return transformOwner;
     }
-    
+
     public void trackStart(Point anchor, int modifiersEx) {
         BezierFigure figure = getOwner();
         view.getDrawing().fireUndoableEditHappened(edit = new CompositeEdit("Punkt verschieben"));
@@ -122,11 +128,12 @@ public class BezierNodeHandle extends AbstractHandle {
         oldNode = figure.getNode(index);
         fireHandleRequestSecondaryHandles();
     }
+
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         BezierFigure figure = getOwner();
         figure.willChange();
         Point2D.Double p = view.getConstrainer().constrainPoint(view.viewToDrawing(lead));
-        
+
         if (TRANSFORM.get(getTransformOwner()) != null) {
             try {
                 TRANSFORM.get(getTransformOwner()).inverseTransform(p, p);
@@ -134,7 +141,7 @@ public class BezierNodeHandle extends AbstractHandle {
                 ex.printStackTrace();
             }
         }
-        
+
         BezierPath.Node n = figure.getNode(index);
         //fireAreaInvalidated(n);
         n.moveTo(p);
@@ -142,22 +149,22 @@ public class BezierNodeHandle extends AbstractHandle {
         figure.setNode(index, n);
         figure.changed();
     }
-    
+
     private void fireAreaInvalidated(BezierPath.Node v) {
         Rectangle2D.Double dr = new Rectangle2D.Double(v.x[0], v.y[0], 0, 0);
-        for (int i=1; i < 3; i++) {
+        for (int i = 1; i < 3; i++) {
             dr.add(v.x[i], v.y[i]);
         }
         Rectangle vr = view.drawingToView(dr);
         vr.grow(getHandlesize(), getHandlesize());
         fireAreaInvalidated(vr);
     }
-    
+
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         BezierFigure f = getOwner();
-        
+
         // Change node type
-        if ((modifiersEx & (InputEvent.META_DOWN_MASK | InputEvent.CTRL_DOWN_MASK | InputEvent.ALT_DOWN_MASK  | InputEvent.SHIFT_DOWN_MASK)) != 0 &&
+        if ((modifiersEx & (InputEvent.META_DOWN_MASK | InputEvent.CTRL_DOWN_MASK | InputEvent.ALT_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK)) != 0 &&
                 (modifiersEx & InputEvent.BUTTON2_DOWN_MASK) == 0) {
             f.willChange();
             BezierPath.Node v = f.getNode(index);
@@ -172,37 +179,39 @@ public class BezierNodeHandle extends AbstractHandle {
             f.changed();
             fireHandleRequestSecondaryHandles();
         }
-        view.getDrawing().fireUndoableEditHappened(new BezierNodeEdit(f,index,oldNode,f.getNode(index)));
+        view.getDrawing().fireUndoableEditHappened(new BezierNodeEdit(f, index, oldNode, f.getNode(index)));
         view.getDrawing().fireUndoableEditHappened(edit);
     }
-    @Override public boolean isCombinableWith(Handle h) {
-       /*
+
+    @Override
+    public boolean isCombinableWith(Handle h) {
+        /*
         if (super.isCombinableWith(h)) {
-            BezierNodeHandle that = (BezierNodeHandle) h;
-            return that.index == this.index &&
-                    that.getOwner().getNodeCount() ==
-                    this.getOwner().getNodeCount();
+        BezierNodeHandle that = (BezierNodeHandle) h;
+        return that.index == this.index &&
+        that.getOwner().getNodeCount() ==
+        this.getOwner().getNodeCount();
         }*/
         return false;
     }
-    
+
     public void trackDoubleClick(Point p, int modifiersEx) {
         final BezierFigure f = getOwner();
         if (f.getNodeCount() > 2 &&
                 (modifiersEx &
-                (InputEvent.META_DOWN_MASK | InputEvent.CTRL_DOWN_MASK | InputEvent.ALT_DOWN_MASK)) == 0
-                
-                ) {
+                (InputEvent.META_DOWN_MASK | InputEvent.CTRL_DOWN_MASK | InputEvent.ALT_DOWN_MASK)) == 0) {
             Rectangle invalidatedArea = getDrawingArea();
             f.willChange();
             final BezierPath.Node removedNode = f.removeNode(index);
             f.changed();
             fireHandleRequestRemove(invalidatedArea);
             fireUndoableEditHappened(new AbstractUndoableEdit() {
+
                 public String getPresentationName() {
                     ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
                     return labels.getString("bezierPath.joinSegment");
                 }
+
                 public void redo() throws CannotRedoException {
                     super.redo();
                     view.removeFromSelection(f);
@@ -211,7 +220,7 @@ public class BezierNodeHandle extends AbstractHandle {
                     f.changed();
                     view.addToSelection(f);
                 }
-                
+
                 public void undo() throws CannotUndoException {
                     super.undo();
                     view.removeFromSelection(f);
@@ -220,11 +229,10 @@ public class BezierNodeHandle extends AbstractHandle {
                     f.changed();
                     view.addToSelection(f);
                 }
-                
             });
         }
     }
-    
+
     public Collection<Handle> createSecondaryHandles() {
         BezierFigure f = getOwner();
         LinkedList<Handle> list = new LinkedList<Handle>();
@@ -254,16 +262,48 @@ public class BezierNodeHandle extends AbstractHandle {
         }
         return list;
     }
+
     public String getToolTipText(Point p) {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
         BezierPath.Node node = getBezierNode();
         return (node == null) ? null : labels.getFormatted("bezierNodeHandle.tip",
                 labels.getFormatted(
-                (node.getMask() == 0) ?
-                    "bezierNode.linearNode" :
-                    ((node.getMask() == BezierPath.C1C2_MASK) ?
-                        "bezierNode.cubicNode" : "bezierNode.quadraticNode")
-                        )
-                        );
+                (node.getMask() == 0) ? "bezierNode.linearNode" : ((node.getMask() == BezierPath.C1C2_MASK) ? "bezierNode.cubicNode" : "bezierNode.quadraticNode")));
+    }
+
+    public void keyPressed(KeyEvent evt) {
+        final BezierFigure f = getOwner();
+        oldNode = f.getNode(index);
+
+        switch (evt.getKeyCode()) {
+            case KeyEvent.VK_UP:
+                f.willChange();
+                f.setPoint(index, new Point2D.Double(oldNode.x[0], oldNode.y[0] - 1d));
+                f.changed();
+                view.getDrawing().fireUndoableEditHappened(new BezierNodeEdit(f, index, oldNode, f.getNode(index)));
+                evt.consume();
+                break;
+            case KeyEvent.VK_DOWN:
+                f.willChange();
+                f.setPoint(index, new Point2D.Double(oldNode.x[0], oldNode.y[0] + 1d));
+                f.changed();
+                view.getDrawing().fireUndoableEditHappened(new BezierNodeEdit(f, index, oldNode, f.getNode(index)));
+                evt.consume();
+                break;
+            case KeyEvent.VK_LEFT:
+                f.willChange();
+                f.setPoint(index, new Point2D.Double(oldNode.x[0] - 1d, oldNode.y[0]));
+                f.changed();
+                view.getDrawing().fireUndoableEditHappened(new BezierNodeEdit(f, index, oldNode, f.getNode(index)));
+                evt.consume();
+                break;
+            case KeyEvent.VK_RIGHT:
+                f.willChange();
+                f.setPoint(index, new Point2D.Double(oldNode.x[0] + 1d, oldNode.y[0]));
+                f.changed();
+                view.getDrawing().fireUndoableEditHappened(new BezierNodeEdit(f, index, oldNode, f.getNode(index)));
+                evt.consume();
+                break;
+        }
     }
 }

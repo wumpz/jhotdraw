@@ -10,7 +10,6 @@
  * You may not use, copy or modify this software, except in  
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
-�
  */
 
 package org.jhotdraw.draw;
@@ -80,7 +79,10 @@ public class TriangleRotationHandler extends AbstractHandle {
     protected Rectangle basicGetBounds() {
         Point p = view.drawingToView(getLocation());
         Rectangle r = new Rectangle(p);
-        r.grow(getHandlesize() / 2, getHandlesize() / 2);
+        int h = getHandlesize();
+        r.x -= h / 2;
+        r.y -= h / 2;
+        r.width = r.height = h;
         return r;
     }
     
@@ -126,7 +128,10 @@ public class TriangleRotationHandler extends AbstractHandle {
         updateBounds();
     }
     public void draw(Graphics2D g) {
-        drawDiamond(g, Color.yellow, Color.black);
+        drawDiamond(g, 
+                (Color) getEditor().getHandleAttribute(HandleAttributeKeys.ATTRIBUTE_HANDLE_FILL_COLOR),
+                (Color) getEditor().getHandleAttribute(HandleAttributeKeys.ATTRIBUTE_HANDLE_STROKE_COLOR)
+                );
     }
     
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {

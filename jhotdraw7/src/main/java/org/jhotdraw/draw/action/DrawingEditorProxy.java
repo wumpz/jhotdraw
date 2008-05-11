@@ -128,4 +128,12 @@ public class DrawingEditorProxy extends AbstractBean implements DrawingEditor {
     public boolean isEnabled() {
         return target.isEnabled();
     }
+
+    public void setHandleAttribute(AttributeKey key, Object value) {
+        target.setHandleAttribute(key, value);
+    }
+
+    public Object getHandleAttribute(AttributeKey key) {
+        return target.getHandleAttribute(key);
+    }
 }

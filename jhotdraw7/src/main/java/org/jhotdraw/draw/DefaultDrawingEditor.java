@@ -38,6 +38,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor, ToolListener {
 
     private HashMap<AttributeKey, Object> defaultAttributes = new HashMap<AttributeKey, Object>();
+    private HashMap<AttributeKey, Object> handleAttributes = new HashMap<AttributeKey, Object>();
     private Tool tool;
     private HashSet<DrawingView> views;
     private DrawingView activeView;
@@ -218,5 +219,17 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor,
 
     public Map<AttributeKey, Object> getDefaultAttributes() {
         return Collections.unmodifiableMap(defaultAttributes);
+    }
+
+    public void setHandleAttribute(AttributeKey key, Object value) {
+        handleAttributes.put(key, value);
+    }
+
+    public Object getHandleAttribute(AttributeKey key) {
+        if (handleAttributes.containsKey(key)) {
+        return handleAttributes.get(key);
+        } else {
+            return key.getDefaultValue();
+        }
     }
 }

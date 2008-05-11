@@ -1,7 +1,7 @@
 /*
- * @(#)BezierScaleHandle.java  1.0  16. Juni 2006
+ * @(#)BezierScaleHandle.java  2.0  2008-05-11
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -27,7 +27,9 @@ import org.jhotdraw.geom.*;
  * the handle to only rotate the BezierFigure.
  *
  * @author Werner Randelshofer.
- * @version 1.0 16. Juni 2006 Created.
+ * @version 2.0 2008-05-11 Handle attributes are now retrieved from
+ * drawing editor.
+ * <br>1.0 16. Juni 2006 Created.
  */
 public class BezierScaleHandle extends AbstractHandle {
     private Point location;
@@ -51,12 +53,18 @@ public class BezierScaleHandle extends AbstractHandle {
      * Draws this handle.
      */
     public void draw(Graphics2D g) {
-        drawCircle(g, Color.yellow, Color.black);
+        drawCircle(g, 
+                (Color) getEditor().getHandleAttribute(HandleAttributeKeys.SCALE_HANDLE_FILL_COLOR),
+                (Color) getEditor().getHandleAttribute(HandleAttributeKeys.SCALE_HANDLE_STROKE_COLOR)
+                );
     }
     
     protected Rectangle basicGetBounds() {
         Rectangle r = new Rectangle(getLocation());
-        r.grow(getHandlesize() / 2, getHandlesize() / 2);
+        int h = getHandlesize();
+        r.x -= h / 2;
+        r.y -= h / 2;
+        r.width = r.height = h;
         return r;
     }
     

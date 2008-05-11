@@ -44,7 +44,10 @@ public class SVGRectRadiusHandle extends AbstractHandle {
      * Draws this handle.
      */
     public void draw(Graphics2D g) {
-        drawDiamond(g, Color.yellow, Color.black);
+        drawDiamond(g, 
+                (Color) getEditor().getHandleAttribute(HandleAttributeKeys.ATTRIBUTE_HANDLE_FILL_COLOR),
+                (Color) getEditor().getHandleAttribute(HandleAttributeKeys.ATTRIBUTE_HANDLE_STROKE_COLOR)
+                );
     }
     
     protected Rectangle basicGetBounds() {

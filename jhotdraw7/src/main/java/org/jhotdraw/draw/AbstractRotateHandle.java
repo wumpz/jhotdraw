@@ -1,7 +1,7 @@
 /**
- * @(#)AbstractRotateHandle.java  3.0.1  2007-12-22
+ * @(#)AbstractRotateHandle.java  4.0  2008-05-11
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -23,7 +23,9 @@ import org.jhotdraw.util.*;
  * AbstractRotateHandle.
  *
  * @author Werner Randelshofer
- * @version 3.0.1 2007-12-22 Werner Randelshofer: Fixed computation of current
+ * @version 4.0 2008-05-11 Handle attributes are now retrieved from
+ * DrawingEditor. 
+ * <br>3.0.1 2007-12-22 Werner Randelshofer: Fixed computation of current
  * theta. 
  * <br>3.0 2007-11-28 Huw Jones: Split up into an AbstractRotateHandle class
  * and a concrete default RotateHandle class.
@@ -59,13 +61,19 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
      */
     @Override
     public void draw(Graphics2D g) {
-        drawDiamond(g, Color.green, Color.black);
+        drawCircle(g, 
+                (Color) getEditor().getHandleAttribute(HandleAttributeKeys.ROTATE_HANDLE_FILL_COLOR),
+                (Color) getEditor().getHandleAttribute(HandleAttributeKeys.ROTATE_HANDLE_STROKE_COLOR)
+                );
     }
     
     @Override
     protected Rectangle basicGetBounds() {
         Rectangle r = new Rectangle(getLocation());
-        r.grow(getHandlesize() / 2, getHandlesize() / 2);
+        int h = getHandlesize();
+        r.x -= h / 2;
+        r.y -= h / 2;
+        r.width = r.height = h;
         return r;
     }
 

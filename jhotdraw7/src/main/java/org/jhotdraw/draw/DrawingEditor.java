@@ -1,7 +1,7 @@
 /*
- * @(#)DrawingEditor.java  2.4 2007-12-25
+ * @(#)DrawingEditor.java  3.0 2008-05-11
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -38,7 +38,8 @@ import java.util.*;
  * drawing palettes.
  * 
  * @author Werner Randelshofer
- * @version 2.4 2007-12-25 Renamed PROP_CURRENT_VIEW to ACTIVE_VIEW_PROPERTY. 
+ * @version 3.0 2008-05-11 Added methods setHandleAttribute, getHandleAttribute. 
+ * <br>2.4 2007-12-25 Renamed PROP_CURRENT_VIEW to ACTIVE_VIEW_PROPERTY. 
  * <br>2.3 2007-05-26 Streamlined methods setActiveView, setFocusedView, getActiveView
  * into setActiveView, getActiveView.
  * <br>2.2 2007-04-16 Added method getDefaultAttributes 
@@ -141,6 +142,27 @@ public interface DrawingEditor {
      */
     public Map<AttributeKey,Object> getDefaultAttributes();
      
+    /**
+     * Sets a handle attribute of the editor.
+     * The default attribute will be used by creation tools, to create a new
+     * figure.
+     * 
+     * @param key AttributeKey. 
+     * @param value Attribute value. 
+     */
+    public void setHandleAttribute(AttributeKey key, Object value);
+    /**
+     * Gets a handle attribute from the editor.
+     * The default attribute will be used by creation tools, to create a new
+     * figure.
+     * 
+     * @param key AttributeKey. 
+     * 
+     * @return If the handle attribute has been set, returns the previously
+     * set value. If the handle attribute has not been set, returns key.getDefaultValue().
+     */
+    public Object getHandleAttribute(AttributeKey key);
+    
      /**
       * Sets the enabled state of the drawing editor.
       * This is a bound property.

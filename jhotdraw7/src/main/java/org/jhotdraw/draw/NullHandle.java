@@ -60,14 +60,10 @@ public class NullHandle extends LocatorHandle {
      * Null Handles are drawn as unfilled rectangles.
      */
     public void draw(Graphics2D g) {
-        Rectangle r = getBounds();
-        
-        g.setColor(Color.white);
-        g.drawRect(r.x + 1, r.y + 1, r.width - 3, r.height - 3);
-        
-        g.setStroke(new BasicStroke());
-        g.setColor(Color.black);
-        g.drawRect(r.x, r.y, r.width - 1, r.height - 1);
+        drawRectangle(g, 
+                (Color) getEditor().getHandleAttribute(HandleAttributeKeys.NULL_HANDLE_FILL_COLOR),
+                (Color) getEditor().getHandleAttribute(HandleAttributeKeys.NULL_HANDLE_STROKE_COLOR)
+                );
     }
     
 }

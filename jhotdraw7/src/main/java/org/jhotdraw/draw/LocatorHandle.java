@@ -48,7 +48,10 @@ public abstract class LocatorHandle extends AbstractHandle {
     
     protected Rectangle basicGetBounds() {
         Rectangle r = new Rectangle(getLocation());
-        r.grow(getHandlesize() / 2, getHandlesize() / 2);
+        int h = getHandlesize();
+        r.x -= h / 2;
+        r.y -= h / 2;
+        r.width = r.height = h;
         return r;
     }
 }

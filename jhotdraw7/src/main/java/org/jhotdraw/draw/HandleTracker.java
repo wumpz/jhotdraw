@@ -44,20 +44,31 @@ public class HandleTracker extends AbstractTool {
         masterHandle = master;
         multicaster = new HandleMulticaster(handles);
     }
+    /* FIXME - The handle should draw itself in selected mode
+    public void draw(Graphics2D g) {
+        g.setColor(Color.RED);
+        g.draw(
+        masterHandle.getBounds()
+        );
+    }*/
 
     public void activate(DrawingEditor editor) {
         super.activate(editor);
-        
         getView().setCursor(masterHandle.getCursor());
+        getView().setActiveHandle(masterHandle);
     }
     
     public void deactivate(DrawingEditor editor) {
         super.deactivate(editor);
         getView().setCursor(Cursor.getDefaultCursor());
+        getView().setActiveHandle(null);
     }
     
     public void keyPressed(KeyEvent evt) {
         multicaster.keyPressed(evt);
+        if (! evt.isConsumed()) {
+            super.keyPressed(evt);
+        }
     }
     
     public void keyReleased(KeyEvent evt) {
@@ -99,6 +110,6 @@ public class HandleTracker extends AbstractTool {
     public void mouseReleased(MouseEvent evt) {
         multicaster.trackEnd(anchor, new Point(evt.getX(), evt.getY()),
                 evt.getModifiersEx(), getView());
-        fireToolDone();
+      //  fireToolDone();
     }    
 }

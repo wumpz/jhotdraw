@@ -36,17 +36,24 @@ public class TextOverflowHandle extends AbstractHandle {
     public TextHolderFigure getOwner() {
         return (TextHolderFigure) super.getOwner();
     }
+    @Override
+    public boolean contains(Point p) {
+        return false;
+    }
     
     /**
      * Draws this handle.
      */
     @Override public void draw(Graphics2D g) {
         if (getOwner().isTextOverflow()) {
-            g.setColor(Color.RED);
+        drawRectangle(g, 
+                (Color) getEditor().getHandleAttribute(HandleAttributeKeys.OVERFLOW_HANDLE_FILL_COLOR),
+                (Color) getEditor().getHandleAttribute(HandleAttributeKeys.OVERFLOW_HANDLE_STROKE_COLOR)
+                );
+            g.setColor((Color) getEditor().getHandleAttribute(HandleAttributeKeys.OVERFLOW_HANDLE_STROKE_COLOR));
             Rectangle r = basicGetBounds();
-            g.draw(r);
-            g.drawLine(r.x, r.y, r.x+r.width, r.y+r.height);
-            g.drawLine(r.x+r.width, r.y, r.x, r.y+r.height);
+            g.drawLine(r.x+1, r.y+1, r.x+r.width-2, r.y+r.height-2);
+            g.drawLine(r.x+r.width-2, r.y+1, r.x+1, r.y+r.height-2);
         }
     }
     
@@ -57,9 +64,10 @@ public class TextOverflowHandle extends AbstractHandle {
             TRANSFORM.get(getOwner()).transform(p, p);
         }
         Rectangle r = new Rectangle(view.drawingToView(p));
-        r.x -= 6;
-        r.y -= 6;
-        r.width = r.height = 6;
+        int h = getHandlesize();
+        r.x -= h;
+        r.y -= h;
+        r.width = r.height = h;
         return r;
     }
     

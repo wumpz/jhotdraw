@@ -80,6 +80,7 @@ public class DefaultDrawingView
     private Constrainer visibleConstrainer = new GridConstrainer(8, 8);
     private Constrainer invisibleConstrainer = new GridConstrainer();
     private Handle secondaryHandleOwner;
+    private Handle activeHandle;
     private LinkedList<Handle> secondaryHandles = new LinkedList<Handle>();
     private boolean handlesAreValid = true;
     private Dimension cachedPreferredSize;
@@ -611,6 +612,7 @@ public class DefaultDrawingView
             }
             selectionHandles.clear();
             secondaryHandles.clear();
+            setActiveHandle(null);
             if (invalidatedArea != null) {
                 repaint(invalidatedArea);
             }
@@ -974,7 +976,9 @@ public class DefaultDrawingView
     }
 
     public void addNotify(DrawingEditor editor) {
+        DrawingEditor oldValue = editor;
         this.editor = editor;
+        firePropertyChange("editor", oldValue, editor);
         repaint();
     }
 
@@ -1028,7 +1032,29 @@ public class DefaultDrawingView
         return new TexturePaint(backgroundTile,
                 new Rectangle(x, y, backgroundTile.getWidth(), backgroundTile.getHeight()));
     }
+    
+    public DrawingEditor getEditor() {
+       return editor;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     // End of variables declaration//GEN-END:variables
+
+    public void setActiveHandle(Handle newValue) {
+        Handle oldValue = activeHandle;
+        if (oldValue != null) {
+            repaint(oldValue.getDrawingArea());
+        }
+        activeHandle = newValue;
+        if (newValue != null) {
+            repaint(newValue.getDrawingArea());
+        }
+        firePropertyChange(ACTIVE_HANDLE_PROPERTY, oldValue, newValue);
+    }
+
+    public Handle getActiveHandle() {
+        return activeHandle;
+    }
+
 }
