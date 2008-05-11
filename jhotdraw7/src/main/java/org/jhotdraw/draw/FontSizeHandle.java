@@ -25,7 +25,8 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * FontSizeHandle.
  *
  * @author Werner Randelshofer
- * @version 4.0 2008-05-11 Handle attributes are now retrieved from DrawingEditor.
+ * @version 4.0 2008-05-11 Added keyboard support. Handle attributes are 
+ * now retrieved from DrawingEditor.
  * <br>3.0 2007-04-14 Changed to support AttributeKeys.TRANSFORM.
  * <br>2.0 2006-01-14 Changed to support double precison coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.

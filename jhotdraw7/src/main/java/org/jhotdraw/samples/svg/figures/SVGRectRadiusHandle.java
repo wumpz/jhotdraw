@@ -1,7 +1,7 @@
 /*
- * @(#)SVGRectRadiusHandle.java  1.0  2006-12-10
+ * @(#)SVGRectRadiusHandle.java  2.0  2008-05-11
  *
- * Copyright (c) 2006 by the original authors of JHotDraw
+ * Copyright (c) 2006-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -20,6 +20,7 @@ import org.jhotdraw.geom.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.undo.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.geom.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
@@ -27,7 +28,9 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * A Handle to manipulate the radius of a round lead rectangle.
  *
  * @author  Werner Randelshofer
- * @version 1.0 2006-12-10 Adapted from RoundRectangleHandle.
+ * @version 2.0 2008-05-11 Added keyboard support. Handle attributes are
+ * now retrieved from DrawingEditor.
+ * <br>1.0 2006-12-10 Adapted from RoundRectangleHandle.
  */
 public class SVGRectRadiusHandle extends AbstractHandle {
     private final static boolean DEBUG = false;
@@ -95,25 +98,43 @@ public class SVGRectRadiusHandle extends AbstractHandle {
         final SVGRectFigure svgRect = (SVGRectFigure) getOwner();
         final Dimension2DDouble oldValue = originalArc2D;
         final Dimension2DDouble newValue = svgRect.getArc();
-        view.getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
-            public String getPresentationName() {
-                ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.svg.Labels");
-                return labels.getString("arc");
-            }
-            public void undo() throws CannotUndoException {
-                super.undo();
-                svgRect.willChange();
-                svgRect.setArc(oldValue);
-                svgRect.changed();
-            }
-            public void redo() throws CannotRedoException {
-                super.redo();
-                svgRect.willChange();
-                svgRect.setArc(newValue);
-                svgRect.changed();
-            }
-        });
+        fireUndoableEditHappened(new SVGRectRadiusUndoableEdit(svgRect, oldValue, newValue));
    }
+    @Override
+    public void keyPressed(KeyEvent evt) {
+        SVGRectFigure owner = (SVGRectFigure) getOwner();
+        Dimension2DDouble oldArc = new Dimension2DDouble(owner.getArcWidth(), owner.getArcHeight());
+        Dimension2DDouble newArc = new Dimension2DDouble(owner.getArcWidth(), owner.getArcHeight());
+        switch (evt.getKeyCode()) {
+            case KeyEvent.VK_UP:
+                if (newArc.height > 0) {
+                    newArc.height = Math.max(0, newArc.height - 1);
+                }
+                evt.consume();
+                break;
+            case KeyEvent.VK_DOWN:
+                newArc.height += 1;
+                evt.consume();
+                break;
+            case KeyEvent.VK_LEFT:
+                if (newArc.width > 0) {
+                    newArc.width = Math.max(0, newArc.width - 1);
+                }
+                evt.consume();
+                break;
+            case KeyEvent.VK_RIGHT:
+                newArc.width += 1;
+                evt.consume();
+                break;
+        }
+        if (!newArc.equals(oldArc)) {
+            owner.willChange();
+            owner.setArc(newArc.width, newArc.height);
+            owner.changed();
+            fireUndoableEditHappened(new SVGRectRadiusUndoableEdit(owner, oldArc, newArc));
+        }
+    }
+    @Override
     public String getToolTipText(Point p) {
         return ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels").getString("roundRectangleRadiusHandle.tip");
         }

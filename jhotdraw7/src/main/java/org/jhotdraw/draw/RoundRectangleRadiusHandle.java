@@ -17,6 +17,7 @@ import org.jhotdraw.geom.Geom;
 import org.jhotdraw.util.*;
 import org.jhotdraw.undo.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.geom.*;
 import java.util.Locale;
 import javax.swing.undo.*;
@@ -25,7 +26,8 @@ import javax.swing.undo.*;
  * A Handle to manipulate the radius of a round lead rectangle.
  *
  * @author  Werner Randelshofer
- * @version 3.0 2008-05-11 Implemented undo/redo support.
+ * @version 3.0 2008-05-11 Added keyboard support. Handle attributes are 
+ * now retrieved from DrawingEditor.
  * <br>2.0 2006-01-14 Changed to support double precison coordinates.
  * <br>1.0 2004-03-02 Derived from JHotDraw 6.0b1.
  */
@@ -85,40 +87,52 @@ public class RoundRectangleRadiusHandle extends AbstractHandle {
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         int dx = lead.x - anchor.x;
         int dy = lead.y - anchor.y;
-        final RoundRectangleFigure owner = (RoundRectangleFigure) getOwner();
+        RoundRectangleFigure owner = (RoundRectangleFigure) getOwner();
         Rectangle r = view.drawingToView(owner.getBounds());
         Point viewArc = new Point(
                 Geom.range(0, r.width, 2 * (originalArc.x / 2 + dx)),
                 Geom.range(0, r.height, 2 * (originalArc.y / 2 + dy)));
-        final Point2D.Double oldArc = view.viewToDrawing(originalArc);
-        final Point2D.Double newArc = view.viewToDrawing(viewArc);
-        fireUndoableEditHappened(new AbstractUndoableEdit() {
-            @Override
-            public String getPresentationName() {
-                ResourceBundleUtil labels =
-                        ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
-                return labels.getString("attribute.roundRectRadius");
-            }
-
-
-            @Override
-            public void redo() throws CannotRedoException {
-                owner.willChange();
-                owner.setArc(newArc.x, newArc.y);
-                owner.changed();
-                super.redo();
-            }
-
-            @Override
-            public void undo() throws CannotUndoException {
-                owner.willChange();
-                owner.setArc(oldArc.x, oldArc.y);
-                owner.changed();
-                super.undo();
-            }
-        });
+        Point2D.Double oldArc = view.viewToDrawing(originalArc);
+        Point2D.Double newArc = view.viewToDrawing(viewArc);
+        fireUndoableEditHappened(new RoundRectangleRadiusUndoableEdit(owner, oldArc, newArc));
     }
 
+    @Override
+    public void keyPressed(KeyEvent evt) {
+        RoundRectangleFigure owner = (RoundRectangleFigure) getOwner();
+        Point2D.Double oldArc = new Point2D.Double(owner.getArcWidth(), owner.getArcHeight());
+        Point2D.Double newArc = new Point2D.Double(owner.getArcWidth(), owner.getArcHeight());
+        switch (evt.getKeyCode()) {
+            case KeyEvent.VK_UP:
+                if (newArc.y > 0) {
+                    newArc.y = Math.max(0, newArc.y - 1);
+                }
+                evt.consume();
+                break;
+            case KeyEvent.VK_DOWN:
+                newArc.y += 1;
+                evt.consume();
+                break;
+            case KeyEvent.VK_LEFT:
+                if (newArc.x > 0) {
+                    newArc.x = Math.max(0, newArc.x - 1);
+                }
+                evt.consume();
+                break;
+            case KeyEvent.VK_RIGHT:
+                newArc.x += 1;
+                evt.consume();
+                break;
+        }
+        if (!newArc.equals(oldArc)) {
+            owner.willChange();
+            owner.setArc(newArc.x, newArc.y);
+            owner.changed();
+            fireUndoableEditHappened(new RoundRectangleRadiusUndoableEdit(owner, oldArc, newArc));
+        }
+    }
+
+    @Override
     public String getToolTipText(Point p) {
         return ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels").getString("roundRectangleRadiusHandle.tip");
     }

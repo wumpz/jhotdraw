@@ -110,6 +110,7 @@ public class ResizeHandleKit {
             super(owner, loc);
         }
 
+        @Override
         public String getToolTipText(Point p) {
             ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
             return labels.getString("resizeHandle.tip");
@@ -122,6 +123,7 @@ public class ResizeHandleKit {
          * If the figure is not transformable, the handle is drawn as an unfilled
          * rectangle.
          */
+        @Override
         public void draw(Graphics2D g) {
             if (getOwner().isTransformable()) {
                 drawRectangle(g,
