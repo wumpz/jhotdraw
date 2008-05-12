@@ -229,6 +229,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
          m.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0), SelectAllAction.ID);
          m.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_DOWN_MASK), SelectAllAction.ID);
          m.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.META_DOWN_MASK), SelectAllAction.ID);
+         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), IncreaseHandleDetailLevelAction.ID);
          
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), MoveConstrainedAction.West.ID);
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), MoveConstrainedAction.East.ID);
@@ -265,6 +266,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
         
         m.put(DeleteAction.ID, new DeleteAction());
         m.put(SelectAllAction.ID, new SelectAllAction());
+        m.put(IncreaseHandleDetailLevelAction.ID, new IncreaseHandleDetailLevelAction(editorProxy));
          
         m.put(MoveAction.East.ID, new MoveAction.East(editorProxy));
         m.put(MoveAction.West.ID, new MoveAction.West(editorProxy));
