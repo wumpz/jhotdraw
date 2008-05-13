@@ -15,6 +15,7 @@
 package org.jhotdraw.draw;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.geom.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.util.*;
@@ -147,4 +148,31 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
         invalidate();
         fireAreaInvalidated(getDrawingArea());
     }
+    
+    @Override
+    public void keyPressed(KeyEvent evt) {
+        Figure f = getOwner();
+        center = getCenter();
+        if (f.isTransformable()) {
+            AffineTransform tx = new AffineTransform();
+
+            switch (evt.getKeyCode()) {
+                case KeyEvent.VK_UP:
+                case KeyEvent.VK_LEFT:
+                    tx.rotate(-1d / 180d * Math.PI, center.x, center.y);
+                    evt.consume();
+                    break;
+                case KeyEvent.VK_DOWN:
+                case KeyEvent.VK_RIGHT:
+                    tx.rotate(1d / 180d * Math.PI, center.x, center.y);
+                    evt.consume();
+                    break;
+            }
+            f.willChange();
+            f.transform(tx);
+            f.changed();
+            fireUndoableEditHappened(
+                    new TransformEdit(f, tx));
+        }
+}
 }

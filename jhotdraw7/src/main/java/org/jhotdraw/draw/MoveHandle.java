@@ -109,6 +109,7 @@ public class MoveHandle extends LocatorHandle {
         }
     }
 
+    @Override
     public void keyPressed(KeyEvent evt) {
         Figure f = getOwner();
         if (f.isTransformable()) {
