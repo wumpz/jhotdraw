@@ -13,7 +13,7 @@
 package org.jhotdraw.samples.svg.figures;
 
 import org.jhotdraw.draw.*;
-import ch.randelshofer.quaqua.util.*;
+import org.jhotdraw.util.*;
 import java.awt.geom.*;
 import java.util.*;
 import javax.swing.undo.*;
