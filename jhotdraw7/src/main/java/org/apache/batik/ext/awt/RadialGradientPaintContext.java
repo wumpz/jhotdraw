@@ -173,8 +173,12 @@ final class RadialGradientPaintContext extends MultipleGradientPaintContext {
         constA = a02 - centerX;
         constB = a12 - centerY;
 
-        Object colorRend = hints.get(RenderingHints.KEY_COLOR_RENDERING);
-        Object rend      = hints.get(RenderingHints.KEY_RENDERING);
+        // BEGIN PATCH W. Randelshofer, Hints can be null
+//        Object colorRend = hints.get(RenderingHints.KEY_COLOR_RENDERING);
+//        Object rend      = hints.get(RenderingHints.KEY_RENDERING);
+        Object colorRend = (hints == null) ? RenderingHints.VALUE_COLOR_RENDER_QUALITY : hints.get(RenderingHints.KEY_COLOR_RENDERING);
+        Object rend      = (hints == null) ? RenderingHints.VALUE_RENDER_QUALITY : hints.get(RenderingHints.KEY_RENDERING);
+        // END PATCH W. Randelshofer, Hints can be null
 
         fillMethod = 0;
 
