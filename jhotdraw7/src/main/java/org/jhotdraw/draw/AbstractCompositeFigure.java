@@ -576,7 +576,7 @@ public abstract class AbstractCompositeFigure
 
     public int basicRemove(Figure child) {
         int index = children.indexOf(child);
-        basicRemoveChild(index);
+        if (index != -1) { basicRemoveChild(index); }
         return index;
     }
 

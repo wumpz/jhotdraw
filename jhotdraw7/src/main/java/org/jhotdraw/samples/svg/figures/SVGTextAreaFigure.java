@@ -1,7 +1,7 @@
 /*
- * @(#)SVGTextArea.java  2.0  2007-04-14
+ * @(#)SVGTextArea.java  2.0.1  2008-05-15
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -34,7 +34,7 @@ import org.jhotdraw.xml.*;
  * SVGTextArea.
  *
  * @author Werner Randelshofer
- * @version Fixed transformation issues.
+ * @version 2.0.1 Rectangle returned by getDrawingArea needs to be cloned.
  * <br>2.0 2007-04-14 Adapted for new AttributeKeys.TRANSFORM support.
  * <br>1.0 December 9, 2006 Created.
  */
@@ -96,7 +96,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
                 cachedDrawingArea.setRect(TRANSFORM.get(this).createTransformedShape(r).getBounds2D());
             }
         }
-        return cachedDrawingArea;
+        return (Rectangle2D.Double) cachedDrawingArea.clone();
     }
     /**
      * Checks if a Point2D.Double is inside the figure.

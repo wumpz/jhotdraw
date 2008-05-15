@@ -1,7 +1,7 @@
 /*
- * @(#)SVGText.java  2.1  2007-05-13
+ * @(#)SVGText.java  2.1.1  2008-05-15
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -31,13 +31,13 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 /**
  * SVGText.
  * <p>
- * FIXME - Add support for transforms.
- * XXX At least on Mac OS X - Always draw text using TextLayout.getOutline(),
+ * XXX - At least on Mac OS X - Always draw text using TextLayout.getOutline(),
  * because outline layout does not match with TextLayout.draw() output.
  * Cache outline to improve performance.
  *
  * @author Werner Randelshofer
- * @version 2.1 2007-05-13 Fixed transformation issues.
+ * @version 2.1.1 Rectangle returned by getDrawingArea needs to be cloned.
+ * <br>2.1 2007-05-13 Fixed transformation issues.
  * <br>2.0 2007-04-14 Adapted for new AttributeKeys.TRANSFORM support.
  * <br>1.0 July 8, 2006 Created.
  */
@@ -120,7 +120,7 @@ public class SVGTextFigure
                 cachedDrawingArea.setRect(TRANSFORM.get(this).createTransformedShape(r).getBounds2D());
             }
         }
-        return cachedDrawingArea;
+        return (Rectangle2D.Double) cachedDrawingArea.clone();
     }
     /**
      * Checks if a Point2D.Double is inside the figure.
@@ -395,7 +395,7 @@ public class SVGTextFigure
     
     public SVGTextFigure clone() {
         SVGTextFigure that = (SVGTextFigure) super.clone();
-        that.coordinates = (Point2D.Double[]) this.coordinates.clone();
+        that.coordinates = new Point2D.Double[this.coordinates.length];
         for (int i=0; i < this.coordinates.length; i++) {
             that.coordinates[i] = (Point2D.Double) this.coordinates[i].clone();
         }
