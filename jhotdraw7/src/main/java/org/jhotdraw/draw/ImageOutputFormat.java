@@ -265,6 +265,7 @@ public class ImageOutputFormat implements OutputFormat {
                     imageType
                     );
             g = buf2.createGraphics();
+            setRenderingHints(g);
             g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
             g.drawImage(buf, 0, 0, null);
             g.dispose();

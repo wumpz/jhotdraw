@@ -301,6 +301,9 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
         switch (detailLevel % 2) {
+            case -1 : // Mouse hover handles
+                handles.add(new SVGPathOutlineHandle(this));
+                break;
             case 0:
                 handles.add(new SVGPathOutlineHandle(this));
                 for (Figure child : getChildren()) {

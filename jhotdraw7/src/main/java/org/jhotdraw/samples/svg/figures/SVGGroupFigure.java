@@ -118,8 +118,13 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
     
     @Override public LinkedList<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
-        if (detailLevel == 0) {
+        switch (detailLevel) {
+            case -1 : // Mouse hover handles
+                handles.add(new BoundsOutlineHandle(this, true));
+                break;
+            case 0 :
             TransformHandleKit.addTransformHandles(this, handles);
+                break;
         }
         return handles;
     }

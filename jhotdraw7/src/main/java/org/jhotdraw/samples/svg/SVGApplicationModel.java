@@ -70,6 +70,7 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         
         gridConstrainer = new GridConstrainer(12, 12);
         
+        putAction(ClearSelectionAction.ID, new ClearSelectionAction());
         putAction(ViewSourceAction.ID, new ViewSourceAction(a));
         putAction(ExportAction.ID, new ExportAction(a));
         putAction(ToggleGridAction.ID, new ToggleGridAction(getSharedEditor()));
@@ -122,6 +123,7 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         a.add(new CopyAction());
         a.add(new PasteAction());
         a.add(new SelectAllAction());
+        a.add(new ClearSelectionAction());
         a.add(new SelectSameAction(editor));
         return a;
     }
@@ -152,25 +154,37 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         tb.addSeparator();
         
         attributes = new HashMap<AttributeKey,Object>();
-        ButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGRectFigure(), attributes), "createRectangle", drawLabels);
-        ButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGEllipseFigure(), attributes), "createEllipse", drawLabels);
-        ButtonFactory.addToolTo(tb, editor, new PathTool(new SVGPathFigure(), new SVGBezierFigure(true), attributes), "createPolygon", drawLabels);
+        CreationTool ct;
+        PathTool pt;
+        TextTool tt;
+        ButtonFactory.addToolTo(tb, editor, ct = new CreationTool(new SVGRectFigure(), attributes), "createRectangle", drawLabels);
+        ct.setToolDoneAfterCreation(false);
+        ButtonFactory.addToolTo(tb, editor, ct = new CreationTool(new SVGEllipseFigure(), attributes), "createEllipse", drawLabels);
+        ct.setToolDoneAfterCreation(false);
+        ButtonFactory.addToolTo(tb, editor, pt = new PathTool(new SVGPathFigure(), new SVGBezierFigure(true), attributes), "createPolygon", drawLabels);
+        pt.setToolDoneAfterCreation(false);
         attributes = new HashMap<AttributeKey,Object>();
         attributes.put(AttributeKeys.FILL_COLOR, null);
         attributes.put(AttributeKeys.STROKE_COLOR, Color.black);
-        ButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGPathFigure(), attributes), "createLine", drawLabels);
-        ButtonFactory.addToolTo(tb, editor, new PathTool(new SVGPathFigure(), new SVGBezierFigure(false), attributes), "createScribble", drawLabels);
+        ButtonFactory.addToolTo(tb, editor, ct = new CreationTool(new SVGPathFigure(), attributes), "createLine", drawLabels);
+        ct.setToolDoneAfterCreation(false);
+        ButtonFactory.addToolTo(tb, editor, pt = new PathTool(new SVGPathFigure(), new SVGBezierFigure(false), attributes), "createScribble", drawLabels);
+        pt.setToolDoneAfterCreation(false);
         attributes = new HashMap<AttributeKey,Object>();
         attributes.put(AttributeKeys.FILL_COLOR, Color.black);
         attributes.put(AttributeKeys.STROKE_COLOR, null);
-        ButtonFactory.addToolTo(tb, editor, new TextTool(new SVGTextFigure(), attributes), "createText", drawLabels);
+        ButtonFactory.addToolTo(tb, editor, tt = new TextTool(new SVGTextFigure(), attributes), "createText", drawLabels);
+        tt.setToolDoneAfterCreation(false);
         TextAreaTool tat = new TextAreaTool(new SVGTextAreaFigure(), attributes);
+        tat.setToolDoneAfterCreation(false);
         tat.setRubberbandColor(Color.BLACK);
         ButtonFactory.addToolTo(tb, editor, tat, "createTextArea", drawLabels);
         attributes = new HashMap<AttributeKey,Object>();
         attributes.put(AttributeKeys.FILL_COLOR, null);
         attributes.put(AttributeKeys.STROKE_COLOR, null);
-        ButtonFactory.addToolTo(tb, editor, new ImageTool(new SVGImageFigure(), attributes), "createImage", drawLabels);
+        ImageTool it;
+        ButtonFactory.addToolTo(tb, editor, it = new ImageTool(new SVGImageFigure(), attributes), "createImage", drawLabels);
+        it.setToolDoneAfterCreation(false);
     }
     /**
      * Creates toolbar buttons and adds them to the specified JToolBar
@@ -268,6 +282,10 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         
         JMenu m = super.createEditMenu(a, p);
         JMenuItem mi;
+        
+        mi = m.add(getAction(ClearSelectionAction.ID));
+        mi.setIcon(null);
+        
         if (p != null) {
             mi = m.add(p.getAction(SelectSameAction.ID));
         } else {

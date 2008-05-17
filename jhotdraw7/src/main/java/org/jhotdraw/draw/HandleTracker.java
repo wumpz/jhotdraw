@@ -1,5 +1,5 @@
 /*
- * @(#)HandleTracker.java  1.1  2008-05-15
+ * @(#)HandleTracker.java  2.0  2008-05-17
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -27,13 +27,24 @@ import java.util.*;
  * @see SelectionTool
  *
  * @author Werner Randelshofer
- * @version 1.1 2008-05-15 Don't hide anchor field from super class. 
+ * @version 2.0 2008-05-17 Added support for hover handles. 
+ * <br>1.1 2008-05-15 Don't hide anchor field from super class. 
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
 public class HandleTracker extends AbstractTool {
 
     private Handle masterHandle;
     private HandleMulticaster multicaster;
+    /**
+     * The hover handles, are the handles of the figure over which the
+     * mouse pointer is currently hovering.
+     */
+    private LinkedList<Handle> hoverHandles = new LinkedList<Handle>();
+    /**
+     * The hover Figure is the figure, over which the mouse is currently
+     * hovering.
+     */
+    private Figure hoverFigure = null;
 
     /** Creates a new instance. */
     public HandleTracker(Handle handle) {
@@ -45,6 +56,16 @@ public class HandleTracker extends AbstractTool {
         masterHandle = master;
         multicaster = new HandleMulticaster(handles);
     }
+
+    @Override
+    public void draw(Graphics2D g) {
+        if (hoverHandles.size() > 0 && !getView().isFigureSelected(hoverFigure)) {
+            for (Handle h : hoverHandles) {
+                h.draw(g);
+            }
+        }
+    }
+
     /* FIXME - The handle should draw itself in selected mode
     public void draw(Graphics2D g) {
     g.setColor(Color.RED);
@@ -52,7 +73,6 @@ public class HandleTracker extends AbstractTool {
     masterHandle.getBounds()
     );
     }*/
-
     public void activate(DrawingEditor editor) {
         super.activate(editor);
         getView().setCursor(masterHandle.getCursor());
@@ -63,6 +83,7 @@ public class HandleTracker extends AbstractTool {
         super.deactivate(editor);
         getView().setCursor(Cursor.getDefaultCursor());
         getView().setActiveHandle(null);
+        clearHoverHandles();
     }
 
     public void keyPressed(KeyEvent evt) {
@@ -90,26 +111,83 @@ public class HandleTracker extends AbstractTool {
     public void mouseDragged(MouseEvent evt) {
         multicaster.trackStep(anchor, new Point(evt.getX(), evt.getY()),
                 evt.getModifiersEx(), getView());
+        clearHoverHandles();
     }
 
     public void mouseEntered(MouseEvent evt) {
     }
 
     public void mouseExited(MouseEvent evt) {
+        DrawingView view = editor.findView((Container) evt.getSource());
+        updateHoverHandles(view, null);
     }
 
+    @Override
     public void mouseMoved(MouseEvent evt) {
         updateCursor(editor.findView((Container) evt.getSource()), new Point(evt.getX(), evt.getY()));
+        DrawingView view = editor.findView((Container) evt.getSource());
+        updateCursor(view, new Point(evt.getX(), evt.getY()));
+        if (view == null) {
+            clearHoverHandles();
+        } else {
+            Figure f = view.findFigure(evt.getPoint());
+            updateHoverHandles(view, f);
+        }
     }
 
     public void mousePressed(MouseEvent evt) {
-            //handle.mousePressed(evt);
-            anchor = new Point(evt.getX(), evt.getY());
-            multicaster.trackStart(anchor, evt.getModifiersEx(), getView());
+        //handle.mousePressed(evt);
+        anchor = new Point(evt.getX(), evt.getY());
+        multicaster.trackStart(anchor, evt.getModifiersEx(), getView());
+        clearHoverHandles();
     }
 
     public void mouseReleased(MouseEvent evt) {
-            multicaster.trackEnd(anchor, new Point(evt.getX(), evt.getY()),
-                    evt.getModifiersEx(), getView());
+        multicaster.trackEnd(anchor, new Point(evt.getX(), evt.getY()),
+                evt.getModifiersEx(), getView());
+    }
+
+    protected void clearHoverHandles() {
+        hoverFigure = null;
+        for (Handle h : hoverHandles) {
+            h.setView(null);
+            h.dispose();
+        }
+        hoverHandles.clear();
+    }
+
+    protected void updateHoverHandles(DrawingView view, Figure f) {
+        if (f != hoverFigure) {
+            Rectangle r = null;
+            if (hoverFigure != null) {
+                fireAreaInvalidated(view.drawingToView(hoverFigure.getDrawingArea()));
+                for (Handle h : hoverHandles) {
+                    if (r == null) {
+                        r = h.getDrawingArea();
+                    } else {
+                        r.add(h.getDrawingArea());
+                    }
+                    h.setView(null);
+                    h.dispose();
+                }
+                hoverHandles.clear();
+            }
+            hoverFigure = f;
+            if (hoverFigure != null) {
+                hoverHandles.addAll(hoverFigure.createHandles(-1));
+                for (Handle h : hoverHandles) {
+                    h.setView(view);
+                    if (r == null) {
+                        r = h.getDrawingArea();
+                    } else {
+                        r.add(h.getDrawingArea());
+                    }
+                }
+            }
+            if (r != null) {
+                r.grow(1, 1);
+                fireAreaInvalidated(r);
+            }
+        }
     }
 }

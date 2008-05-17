@@ -1,7 +1,7 @@
 /*
- * @(#)SelectAllAction.java  1.0  February 27, 2006
+ * @(#)ClearSelectionAction.java  1.0  2008-05-17
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -24,16 +24,16 @@ import org.jhotdraw.util.*;
 import org.jhotdraw.app.EditableComponent;
 
 /**
- * SelectAllAction.
+ * ClearSelectionAction.
  *
  * @author Werner Randelshofer.
- * @version 1.0 February 27, 2006 Created.
+ * @version 1.0 2008-05-17 Created.
  */
-public class SelectAllAction extends AbstractAction {
-    public final static String ID = "selectAll";
+public class ClearSelectionAction extends AbstractAction {
+    public final static String ID = "selectionClear";
     
     /** Creates a new instance. */
-    public SelectAllAction() {
+    public ClearSelectionAction() {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
@@ -44,9 +44,10 @@ public class SelectAllAction extends AbstractAction {
                 getPermanentFocusOwner();
         if (focusOwner != null) {
             if (focusOwner instanceof EditableComponent) {
-                ((EditableComponent) focusOwner).selectAll();
+                ((EditableComponent) focusOwner).clearSelection();
             } else if (focusOwner instanceof JTextComponent) {
-                ((JTextComponent) focusOwner).selectAll();
+               JTextComponent tc = ((JTextComponent) focusOwner);
+               tc.select(tc.getSelectionStart(), tc.getSelectionStart());
             } else {
                 focusOwner.getToolkit().beep();
             }

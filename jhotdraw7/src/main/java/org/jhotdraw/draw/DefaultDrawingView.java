@@ -1,7 +1,7 @@
 /*
- * @(#)DefaultDrawingView.java  4.3  2007-12-18
+ * @(#)DefaultDrawingView.java  4.5  2008-05-17
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -40,11 +40,12 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * The DefaultDrawingView is suited for viewing drawings with a small number
  * of Figures.
  *
- * XXX - Implement clone Method.
- *
+ * FIXME - Implement clone Method.
+ * FIXME - Use double buffering for the drawing to improve performance.
  *
  * @author Werner Randelshofer
- * @version 4.4 2007-12-18 Reduced repaints of the drawing area. 
+ * @version 4.5 2008-05-18 Retrieve tooltip text from current tool.
+ * <br>4.4 2007-12-18 Reduced repaints of the drawing area. 
  * <br>4.3 2007-12-16 Retrieve canvasColor color from Drawing object.
  * <br>4.2 2007-09-12 The DrawingView is now responsible for
  * holding the Constrainer objects which affect editing on this view.
@@ -222,14 +223,10 @@ public class DefaultDrawingView
         return drawing;
     }
 
+    @Override
     public String getToolTipText(MouseEvent evt) {
-        Handle handle = findHandle(evt.getPoint());
-        if (handle != null) {
-            return handle.getToolTipText(evt.getPoint());
-        }
-        Figure figure = findFigure(evt.getPoint());
-        if (figure != null) {
-            return figure.getToolTipText(viewToDrawing(evt.getPoint()));
+        if (getEditor() != null && getEditor().getTool() != null) {
+            return getEditor().getTool().getToolTipText(this, evt);
         }
         return null;
     }

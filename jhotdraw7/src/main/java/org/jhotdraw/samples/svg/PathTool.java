@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.samples.svg;
 
 import javax.swing.undo.*;
@@ -24,6 +23,7 @@ import java.awt.geom.*;
 import java.awt.event.*;
 import java.util.*;
 import org.jhotdraw.geom.*;
+
 /**
  * Tool to scribble a SVGPath
  *
@@ -31,6 +31,7 @@ import org.jhotdraw.geom.*;
  * @version 1.0 2006-07-12 Created.
  */
 public class PathTool extends BezierTool {
+
     /**
      * Set this to true to turn on debugging output on System.out.
      */
@@ -39,16 +40,18 @@ public class PathTool extends BezierTool {
      * The path prototype for new figures.
      */
     private SVGPathFigure pathPrototype;
-    
+
     /** Creates a new instance. */
     public PathTool(SVGPathFigure pathPrototype, SVGBezierFigure bezierPrototype) {
         this(pathPrototype, bezierPrototype, null);
     }
+
     /** Creates a new instance. */
     public PathTool(SVGPathFigure pathPrototype, SVGBezierFigure bezierPrototype, Map attributes) {
         super(bezierPrototype, attributes);
         this.pathPrototype = pathPrototype;
     }
+
     protected SVGPathFigure createPath() {
         SVGPathFigure f = (SVGPathFigure) pathPrototype.clone();
         getEditor().applyDefaultAttributesTo(f);
@@ -59,14 +62,21 @@ public class PathTool extends BezierTool {
         }
         return f;
     }
-    @Override protected void finishCreation(BezierFigure createdFigure) {
-        if (DEBUG) System.out.println("PathTool.finishCreation "+createdFigure);
+
+    @Override
+    protected void finishCreation(BezierFigure createdFigure) {
+        if (DEBUG) {
+            System.out.println("PathTool.finishCreation " + createdFigure);
+        }
         getDrawing().remove(createdFigure);
         SVGPathFigure createdPath = createPath();
         createdPath.removeAllChildren();
         createdPath.add(createdFigure);
         getDrawing().add(createdPath);
-        getView().addToSelection(createdPath);
         fireUndoEvent(createdPath);
+        getView().addToSelection(createdPath);
+        if (isToolDoneAfterCreation()) {
+            fireToolDone();
+        }
     }
 }

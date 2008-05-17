@@ -1,5 +1,5 @@
 /*
- * @(#)Figure.java  7.0  2008-02-13
+ * @(#)Figure.java  7.1  2008-05-17
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -42,7 +42,8 @@ import org.jhotdraw.xml.DOMStorable;
  * 
  * 
  * @author Werner Randelshofer
- * @version 7.0.1 2008-02-13 Fixed comments on
+ * @version 7.1 2008-05-17 Added support for mouse hover handles.
+ * <br>7.0.1 2008-02-13 Fixed comments on
  * setAttribute and getAttribute methods.
  * <br>7.0 2008-02-13 Huw Jones: Added method isTransformable.
  * <br>6.0 2007-12-19 Removed method invalidate. 
@@ -286,7 +287,9 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * Creates handles used to manipulate the figure.
      *
      * @param detailLevel The detail level of the handles. Usually this is 0 for
-     * bounding box handles and 1 for point handles. 
+     * bounding box handles and 1 for point handles. The value -1 is used 
+     * by the SelectAreaTracker and the HandleTracker to highlight figures, over which the mouse
+     * pointer is hovering.
      * @return a Collection of handles
      * @see Handle
      */

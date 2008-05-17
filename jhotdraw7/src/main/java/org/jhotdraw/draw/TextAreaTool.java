@@ -1,7 +1,7 @@
 /*
- * @(#)TextAreaTool.java  2.2  2007-11-25
+ * @(#)TextAreaTool.java  2.3  2008-05-17
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -55,7 +55,8 @@ import org.jhotdraw.geom.*;
  * </p>
  *
  * @author Werner Randelshofer
- * @version 2.2 2007-11-25 Added variable isForCreationOnly.
+ * @version 2.3 2008-05-17 Honor toolDoneAfterCreation property.
+ * <br>2.2 2007-11-25 Added variable isForCreationOnly.
  * <br>2.1 2007-08-22 Added support for property 'toolDoneAfterCreation'.
  * <br>2.0 2006-01-14 Changed to support double precison coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
@@ -201,29 +202,6 @@ public class TextAreaTool extends CreationTool implements ActionListener {
         r.height += 4;
         return r;
     }
-    /*
-    public void mouseReleased(MouseEvent evt) {
-        if (createdFigure != null) {
-            TextHolderFigure textHolder = (TextHolderFigure) createdFigure;
-            Rectangle2D.Double bounds = createdFigure.getBounds();
-            if (bounds.width == 0 && bounds.height == 0) {
-                getDrawing().remove(createdFigure);
-            } else {
-                if (bounds.width < 5 && bounds.height < 5) {
-                    createdFigure.willChange();
-                    createdFigure.setBounds(new Point2D.Double(bounds.x, bounds.y), new Point2D.Double(bounds.x + 100, bounds.y + 100));
-                    createdFigure.changed();
-                }
-                getView().addToSelection(createdFigure);
-            }
-            if (createdFigure instanceof CompositeFigure) {
-                ((CompositeFigure) createdFigure).layout();
-            }
-            createdFigure = null;
-            getDrawing().fireUndoableEditHappened(creationEdit);
-            beginEdit(textHolder);
-        }
-    }*/
     
     protected void endEdit() {
         if (typingTarget != null) {

@@ -1,7 +1,7 @@
 /*
- * @(#)TextTool.java  1.2  2007-11-30
+ * @(#)TextTool.java  2.3  2008-05-17
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -53,7 +53,8 @@ import java.util.*;
  * @see FloatingTextField
  *
  * @author Werner Randelshofer
- * @version 2.2 2007-11-30 Added variable isUsedForCreation.  
+ * @version 2.3 2008-05-17 Honor toolDoneAfterCreation property.
+ * <br>2.2 2007-11-30 Added variable isUsedForCreation.  
  * <br>2.1 2007-08-22 Added support for property 'toolDoneAfterCreation'.
  * <br>2.0 2006-01-14 Changed to support double precison coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
@@ -170,18 +171,6 @@ public class TextTool extends CreationTool implements ActionListener {
     }
     
     public void mouseReleased(MouseEvent evt) {
-        /*
-        if (createdFigure != null) {
-            Rectangle bounds = createdFigure.getBounds();
-            if (bounds.width == 0 && bounds.height == 0) {
-                getDrawing().remove(createdFigure);
-            } else {
-                getView().addToSelection(createdFigure);
-            }
-            createdFigure = null;
-            getDrawing().fireUndoableEditHappened(creationEdit);
-            fireToolDone();
-        }*/
     }
     
     protected void endEdit() {
@@ -206,17 +195,18 @@ public class TextTool extends CreationTool implements ActionListener {
         //	        view().checkDamage();
     }
     
+    @Override
+    public void keyReleased(KeyEvent evt) {
+        if (evt.getKeyCode() == KeyEvent.VK_ESCAPE || isToolDoneAfterCreation()) {
+            fireToolDone();
+        }
+    }
     public void actionPerformed(ActionEvent event) {
         endEdit();
         if (isToolDoneAfterCreation()) {
             fireToolDone();
         }
     }
-    /**
-     * This method allows subclasses to do perform additonal user interactions
-     * after the new figure has been created.
-     * The implementation of this class just invokes fireToolDone.
-     */
     protected void creationFinished(Figure createdFigure) {
         beginEdit((TextHolderFigure) createdFigure);
     }

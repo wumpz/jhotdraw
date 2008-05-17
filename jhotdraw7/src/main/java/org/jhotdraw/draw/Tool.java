@@ -1,7 +1,7 @@
 /*
- * @(#)Tool.java  1.0  11. November 2003
+ * @(#)Tool.java  2.0  2008-05-17
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -34,7 +34,8 @@ import javax.swing.event.*;
  * is performing changes.
  *
  * @author Werner Randelshofer
- * @version 1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version 2.0 2008-05-17 Added method getToolTipText. 
+ * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
 public interface Tool extends MouseListener, MouseMotionListener, KeyListener {
     
@@ -95,4 +96,13 @@ public interface Tool extends MouseListener, MouseMotionListener, KeyListener {
      * or selected text.
      */
     public void editPaste();
+    
+    /**
+     * Returns the tooltip text for a mouse event on a drawing view.
+     * 
+     * @param view A drawing view.
+     * @param evt A mouse event.
+     * @return A tooltip text or null.
+     */
+    public String getToolTipText(DrawingView view, MouseEvent evt);
 }

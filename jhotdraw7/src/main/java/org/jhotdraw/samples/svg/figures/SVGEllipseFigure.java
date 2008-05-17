@@ -200,6 +200,9 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     @Override public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
         switch (detailLevel % 2) {
+            case -1 : // Mouse hover handles
+                handles.add(new BoundsOutlineHandle(this));
+                break;
             case 0 :
                 ResizeHandleKit.addResizeHandles(this, handles);
                 break;

@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.draw;
 
 import javax.swing.undo.*;
@@ -21,6 +20,7 @@ import java.awt.geom.*;
 import java.awt.event.*;
 import java.util.*;
 import org.jhotdraw.util.*;
+
 /**
  * A tool to create new figures. The figure to be created is specified by a
  * prototype.
@@ -51,13 +51,13 @@ import org.jhotdraw.util.*;
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
 public class CreationTool extends AbstractTool {
+
     /**
      * Attributes to be applied to the created ConnectionFigure.
      * These attributes override the default attributes of the
      * DrawingEditor.
      */
     private Map<AttributeKey, Object> prototypeAttributes;
-    
     /**
      * A localized name for this tool. The presentationName is displayed by the
      * UndoableEdit.
@@ -66,12 +66,12 @@ public class CreationTool extends AbstractTool {
     /**
      * Treshold for which we create a larger shape of a minimal size.
      */
-    private Dimension minimalSizeTreshold = new Dimension(2,2);
+    private Dimension minimalSizeTreshold = new Dimension(2, 2);
     /**
      * We set the figure to this minimal size, if it is smaller than the
      * minimal size treshold.
      */
-    private Dimension minimalSize = new Dimension(40,40);
+    private Dimension minimalSize = new Dimension(40, 40);
     /**
      * The prototype for new figures.
      */
@@ -80,26 +80,27 @@ public class CreationTool extends AbstractTool {
      * The created figure.
      */
     protected Figure createdFigure;
-    
     /**
      * If this is set to false, the CreationTool does not fire toolDone
      * after a new Figure has been created. This allows to create multiple
      * figures consecutively.
      */
     private boolean isToolDoneAfterCreation = true;
-    
+
     /** Creates a new instance. */
     public CreationTool(String prototypeClassName) {
         this(prototypeClassName, null, null);
     }
+
     public CreationTool(String prototypeClassName, Map<AttributeKey, Object> attributes) {
         this(prototypeClassName, attributes, null);
     }
+
     public CreationTool(String prototypeClassName, Map<AttributeKey, Object> attributes, String name) {
         try {
             this.prototype = (Figure) Class.forName(prototypeClassName).newInstance();
         } catch (Exception e) {
-            InternalError error = new InternalError("Unable to create Figure from "+prototypeClassName);
+            InternalError error = new InternalError("Unable to create Figure from " + prototypeClassName);
             error.initCause(e);
             throw error;
         }
@@ -110,6 +111,7 @@ public class CreationTool extends AbstractTool {
         }
         this.presentationName = name;
     }
+
     /** Creates a new instance with the specified prototype but without an
      * attribute set. The CreationTool clones this prototype each time a new
      *  Figure needs to be created. When a new Figure is created, the
@@ -120,6 +122,7 @@ public class CreationTool extends AbstractTool {
     public CreationTool(Figure prototype) {
         this(prototype, null, null);
     }
+
     /** Creates a new instance with the specified prototype but without an
      * attribute set. The CreationTool clones this prototype each time a new
      * Figure needs to be created. When a new Figure is created, the
@@ -134,6 +137,7 @@ public class CreationTool extends AbstractTool {
     public CreationTool(Figure prototype, Map<AttributeKey, Object> attributes) {
         this(prototype, attributes, null);
     }
+
     /**
      * Creates a new instance with the specified prototype and attribute set.
      *
@@ -153,17 +157,17 @@ public class CreationTool extends AbstractTool {
         }
         this.presentationName = name;
     }
-    
+
     public Figure getPrototype() {
         return prototype;
     }
-    
+
     public void activate(DrawingEditor editor) {
         super.activate(editor);
-        //getView().clearSelection();
-        //getView().setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+    //getView().clearSelection();
+    //getView().setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
     }
-    
+
     public void deactivate(DrawingEditor editor) {
         super.deactivate(editor);
         if (getView() != null) {
@@ -176,8 +180,7 @@ public class CreationTool extends AbstractTool {
             createdFigure = null;
         }
     }
-    
-    
+
     public void mousePressed(MouseEvent evt) {
         super.mousePressed(evt);
         getView().clearSelection();
@@ -188,18 +191,18 @@ public class CreationTool extends AbstractTool {
         createdFigure.setBounds(p, p);
         getDrawing().add(createdFigure);
     }
-    
+
     public void mouseDragged(MouseEvent evt) {
         if (createdFigure != null) {
             Point2D.Double p = constrainPoint(new Point(evt.getX(), evt.getY()));
             createdFigure.willChange();
             createdFigure.setBounds(
                     constrainPoint(new Point(anchor.x, anchor.y)),
-                    p
-                    );
+                    p);
             createdFigure.changed();
         }
     }
+
     public void mouseReleased(MouseEvent evt) {
         if (createdFigure != null) {
             Rectangle2D.Double bounds = createdFigure.getBounds();
@@ -216,31 +219,32 @@ public class CreationTool extends AbstractTool {
                             constrainPoint(new Point(anchor.x, anchor.y)),
                             constrainPoint(new Point(
                             anchor.x + (int) Math.max(bounds.width, minimalSize.width),
-                            anchor.y + (int) Math.max(bounds.height, minimalSize.height)
-                            ))
-                            );
+                            anchor.y + (int) Math.max(bounds.height, minimalSize.height))));
                     createdFigure.changed();
                 }
-                getView().addToSelection(createdFigure);
                 if (createdFigure instanceof CompositeFigure) {
                     ((CompositeFigure) createdFigure).layout();
                 }
                 final Figure addedFigure = createdFigure;
                 final Drawing addedDrawing = getDrawing();
                 getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
+
                     public String getPresentationName() {
                         return presentationName;
                     }
+
                     public void undo() throws CannotUndoException {
                         super.undo();
                         addedDrawing.remove(addedFigure);
                     }
+
                     public void redo() throws CannotRedoException {
                         super.redo();
                         addedDrawing.add(addedFigure);
                     }
                 });
                 creationFinished(createdFigure);
+                createdFigure = null;
             }
         } else {
             if (isToolDoneAfterCreation()) {
@@ -248,6 +252,7 @@ public class CreationTool extends AbstractTool {
             }
         }
     }
+
     protected Figure createFigure() {
         Figure f = (Figure) prototype.clone();
         getEditor().applyDefaultAttributesTo(f);
@@ -258,26 +263,27 @@ public class CreationTool extends AbstractTool {
         }
         return f;
     }
-    
+
     protected Figure getCreatedFigure() {
         return createdFigure;
     }
+
     protected Figure getAddedFigure() {
         return createdFigure;
     }
-    
-    
+
     /**
      * This method allows subclasses to do perform additonal user interactions
      * after the new figure has been created.
      * The implementation of this class just invokes fireToolDone.
      */
     protected void creationFinished(Figure createdFigure) {
+        getView().addToSelection(createdFigure);
         if (isToolDoneAfterCreation()) {
-        fireToolDone();
+            fireToolDone();
         }
     }
-    
+
     /**
      * If this is set to false, the CreationTool does not fire toolDone
      * after a new Figure has been created. This allows to create multiple
@@ -287,7 +293,7 @@ public class CreationTool extends AbstractTool {
         boolean oldValue = isToolDoneAfterCreation;
         isToolDoneAfterCreation = newValue;
     }
-    
+
     /**
      * Returns true, if this tool fires toolDone immediately after a new
      * figure has been created.

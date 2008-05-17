@@ -433,6 +433,9 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
         LinkedList<Handle> handles = new LinkedList<Handle>();
         
         switch (detailLevel % 2) {
+            case -1 : // Mouse hover handles
+                handles.add(new BoundsOutlineHandle(this));
+                break;
             case 0 :
                 ResizeHandleKit.addResizeHandles(this, handles);
                 handles.add(new FontSizeHandle(this));

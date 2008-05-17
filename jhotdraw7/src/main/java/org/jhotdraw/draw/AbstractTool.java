@@ -413,4 +413,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
             view.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         }
     }
+    public String getToolTipText(DrawingView view, MouseEvent evt) {
+        return null;
+    }
 }

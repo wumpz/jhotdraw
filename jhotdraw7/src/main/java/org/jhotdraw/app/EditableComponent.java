@@ -41,4 +41,8 @@ public interface EditableComponent {
 	 * Selects all.
 	 */
 	public void selectAll();
+	/**
+	 * Selects nothing.
+	 */
+	public void clearSelection();
 }

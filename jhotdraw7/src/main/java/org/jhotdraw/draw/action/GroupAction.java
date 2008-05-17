@@ -89,7 +89,6 @@ public class GroupAction extends AbstractSelectedAction {
 
                     @Override
                     public String getPresentationName() {
-                        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
                         return labels.getString("selectionGroup");
                     }
 
@@ -121,7 +120,6 @@ public class GroupAction extends AbstractSelectedAction {
 
                     @Override
                     public String getPresentationName() {
-                        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
                         return labels.getString("selectionUngroup");
                     }
 

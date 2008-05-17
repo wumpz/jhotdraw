@@ -324,4 +324,16 @@ public class DelegationSelectionTool extends SelectionTool {
             v.setHandleDetailLevel(v.getHandleDetailLevel() + 1);
         }
     }
+    
+    public String getToolTipText(DrawingView view, MouseEvent evt) {
+        Handle handle = view.findHandle(evt.getPoint());
+        if (handle != null) {
+            return handle.getToolTipText(evt.getPoint());
+        }
+        Figure figure = view.findFigure(evt.getPoint());
+        if (figure != null) {
+            return figure.getToolTipText(viewToDrawing(evt.getPoint()));
+        }
+        return null;
+    }
 }

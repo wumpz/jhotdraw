@@ -15,12 +15,10 @@ package org.jhotdraw.draw;
 
 import java.io.IOException;
 import org.jhotdraw.util.*;
-import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
 import javax.swing.event.*;
-import javax.swing.undo.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
@@ -557,6 +555,7 @@ public abstract class AbstractCompositeFigure
         return children.get(index);
     }
 
+    @Override
     public AbstractCompositeFigure clone() {
         AbstractCompositeFigure that = (AbstractCompositeFigure) super.clone();
         that.children = new ArrayList<Figure>();
@@ -569,6 +568,7 @@ public abstract class AbstractCompositeFigure
         return that;
     }
 
+    @Override
     protected void invalidate() {
         cachedBounds = null;
         cachedDrawingArea = null;

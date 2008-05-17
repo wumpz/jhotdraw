@@ -55,13 +55,14 @@ public class BoundsOutlineHandle extends AbstractHandle {
     @Override
     protected Rectangle basicGetBounds() {
         Shape bounds = getOwner().getBounds();
-        if (TRANSFORM.get(getOwner()) != null) {
-            bounds = TRANSFORM.get(getOwner()).createTransformedShape(bounds);
+        if (AttributeKeys.TRANSFORM.get(getOwner()) != null) {
+            bounds = AttributeKeys.TRANSFORM.get(getOwner()).createTransformedShape(bounds);
         }
         bounds = view.getDrawingToViewTransform().createTransformedShape(bounds);
-        Rectangle2D r = bounds.getBounds2D();
-        return view.drawingToView(new Rectangle2D.Double(r.getX(), r.getY(),
-                r.getWidth(), r.getHeight()));
+
+        Rectangle r = bounds.getBounds();
+        r.grow(2,2);
+        return r;
     }
 
     @Override

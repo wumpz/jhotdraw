@@ -1,5 +1,5 @@
  /*
- * @(#)SVGImage.java  2.0.1  2008-04-13
+ * @(#)SVGImage.java  2.1  2008-05-17
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -23,6 +23,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.action.AttributeAction;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 import org.jhotdraw.samples.svg.*;
 import org.jhotdraw.samples.svg.SVGConstants;
@@ -34,7 +35,9 @@ import org.jhotdraw.geom.*;
  * SVGImage.
  *
  * @author Werner Randelshofer
- * @version 2.0.1 2008-04-13 We must catch all throwables when calling ImageIO.read(). 
+ * @version 2.1 2008-05-17 Rendering hints must be copied, when creating
+ * a local Graphics2D object. Remove transformation action was not undoable. 
+ * <br>2.0.1 2008-04-13 We must catch all throwables when calling ImageIO.read(). 
  * <br>2.0 2007-04-14 Adapted for new AttributeKeys.TRANSFORM support.
  * <br>1.0 July 8, 2006 Created.
  */
@@ -74,6 +77,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     }
 
     // DRAWING
+    @Override
     public void draw(Graphics2D g) {
         //super.draw(g);
 
@@ -91,6 +95,10 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
                     // FIXME - We should cache the transformed image.
                     //         Drawing a transformed image appears to be very slow.
                     Graphics2D gx = (Graphics2D) g.create();
+                    
+                    // Use same rendering hints like parent graphics
+                    gx.setRenderingHints(g.getRenderingHints());
+                    
                     gx.transform(TRANSFORM.get(this));
                     gx.drawImage(image, (int) rectangle.x, (int) rectangle.y, (int) rectangle.width, (int) rectangle.height, null);
                     gx.dispose();
@@ -233,6 +241,9 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         LinkedList<Handle> handles = new LinkedList<Handle>();
 
         switch (detailLevel % 2) {
+            case -1 : // Mouse hover handles
+                handles.add(new BoundsOutlineHandle(this));
+                break;
             case 0:
                 ResizeHandleKit.addResizeHandles(this, handles);
                 break;
@@ -247,13 +258,17 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
 
     @Override
     public Collection<Action> getActions(Point2D.Double p) {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.svg.Labels");
+        final ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.svg.Labels");
         LinkedList<Action> actions = new LinkedList<Action>();
         if (TRANSFORM.get(this) != null) {
             actions.add(new AbstractAction(labels.getString("removeTransform")) {
 
                 public void actionPerformed(ActionEvent evt) {
-                    TRANSFORM.basicSet(SVGImageFigure.this, null);
+                    willChange();
+                    fireUndoableEditHappened(
+                            TRANSFORM.setUndoable(SVGImageFigure.this, null, labels)
+                            );
+                    changed();
                 }
             });
         }
