@@ -1,5 +1,5 @@
 /*
- * @(#)JStringAttributeField.java  1.0.1  2008-04-12
+ * @(#)JStringAttributeField.java  1.0.2  2008-05-18
  *
  * Copyright (c) 2007-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -39,7 +39,8 @@ import org.jhotdraw.util.*;
  * code.
  * 
  * @author Werner Randelshofer
- * @version 1.0.1 2008-04-12 Get default attribute value from editor, when
+ * @version 1.0.2 2008-05-18 Fixed painting of multiple values. 
+ * <br>1.0.1 2008-04-12 Get default attribute value from editor, when
  * no figure is selected. 
  * <br>1.0 April 22, 2007 Created.
  */
@@ -244,17 +245,21 @@ public class JDoubleAttributeField extends JFormattedTextField
     @Override
     protected void paintComponent(Graphics g) {
         if (!isFocusOwner() && isMultipleValues) {
+            Color c = getForeground();
+            setForeground(new Color(0x0,true));
+            super.paintComponent(g);
             Insets insets = getInsets();
             Insets margin = getMargin();
             int height = getHeight();
             FontMetrics fm = g.getFontMetrics(getFont());
-            //g.setColor(Color.DARK_GRAY);
             g.setFont(getFont().deriveFont(Font.ITALIC));
+            setForeground(c);
+            g.setColor(c);
             g.drawString(labels.getString("multipleValues"),
                     insets.left + margin.left,
                     insets.top + margin.top + fm.getAscent());
         } else {
-            super.paintComponent(g);
+        super.paintComponent(g);
         }
     }
 

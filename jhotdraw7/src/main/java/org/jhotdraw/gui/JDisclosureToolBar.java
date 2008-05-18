@@ -100,7 +100,7 @@ public class JDisclosureToolBar extends JToolBar {
             gbc.gridx = 1;
             gbc.weightx = 1d;
             gbc.weighty = 1d;
-            gbc.fill = GridBagConstraints.NONE;
+            gbc.fill = GridBagConstraints.BOTH;
             gbc.anchor = GridBagConstraints.WEST;
             add(c, gbc);
            gbc = layout.getConstraints(disclosureButton);
