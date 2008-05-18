@@ -28,7 +28,7 @@ public class DisclosureIcon implements Icon {
      * This client property needs to be set on the component.
      * The value must be a positive Integer. 
      */
-    public final static String NUMBER_OF_STATES_PROPERTY = "DisclosureIcon.numberOfStates";
+    public final static String STATE_COUNT_PROPERTY = "DisclosureIcon.numberOfStates";
     /**
      * This client property needs to be set on the component.
      * The value must be a positive Integer. 
@@ -38,8 +38,8 @@ public class DisclosureIcon implements Icon {
     public void paintIcon(Component component, Graphics g, int x, int y) {
         JComponent c = (JComponent) component;
         
-        int nbOfStates = (c.getClientProperty(NUMBER_OF_STATES_PROPERTY) instanceof Integer) ?
-        (Integer) c.getClientProperty(NUMBER_OF_STATES_PROPERTY) : 2;
+        int nbOfStates = (c.getClientProperty(STATE_COUNT_PROPERTY) instanceof Integer) ?
+        (Integer) c.getClientProperty(STATE_COUNT_PROPERTY) : 2;
         
         int currentState = (c.getClientProperty(CURRENT_STATE_PROPERTY) instanceof Integer) ?
         (Integer) c.getClientProperty(CURRENT_STATE_PROPERTY) : 1;

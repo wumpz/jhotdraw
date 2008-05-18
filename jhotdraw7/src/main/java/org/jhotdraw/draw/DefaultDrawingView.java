@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultDrawingView.java  4.5  2008-05-17
+ * @(#)DefaultDrawingView.java  4.5.1  2008-05-18
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -44,7 +44,8 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * FIXME - Use double buffering for the drawing to improve performance.
  *
  * @author Werner Randelshofer
- * @version 4.5 2008-05-18 Retrieve tooltip text from current tool.
+ * @version 4.5.1 2008-05-18 Delete method did not preserve z-index on undo. 
+ * <br>4.5 2008-05-18 Retrieve tooltip text from current tool.
  * <br>4.4 2007-12-18 Reduced repaints of the drawing area. 
  * <br>4.3 2007-12-16 Retrieve canvasColor color from Drawing object.
  * <br>4.2 2007-09-12 The DrawingView is now responsible for
@@ -156,7 +157,7 @@ public class DefaultDrawingView
         }
 
         public void focusLost(FocusEvent e) {
-        //   repaintHandles();
+            //   repaintHandles();
         }
 
         public void handleRequestRemove(HandleEvent e) {
@@ -197,6 +198,7 @@ public class DefaultDrawingView
         initComponents();
         eventHandler = createEventHandler();
         setToolTipText("dummy"); // Set a dummy tool tip text to turn tooltips on
+
         setFocusable(true);
         addFocusListener(eventHandler);
         setTransferHandler(new DefaultDrawingViewTransferHandler());
@@ -300,7 +302,15 @@ public class DefaultDrawingView
         int h = getHeight();
 
         // Retrieve the canvasColor color from the drawing
-        Color canvasColor = (drawing == null || CANVAS_FILL_COLOR.get(drawing) == null) ? getBackground() : new Color((CANVAS_FILL_COLOR.get(drawing).getRGB() & 0xffffff) | ((int) (CANVAS_FILL_OPACITY.get(drawing) * 255) << 24), true);
+        Color canvasColor;
+        if (drawing == null) {
+            canvasColor = getBackground();
+        } else {
+            canvasColor = CANVAS_FILL_COLOR.get(drawing);
+            if (canvasColor != null) {
+                canvasColor = new Color((canvasColor.getRGB() & 0xffffff) | ((int) (CANVAS_FILL_OPACITY.get(drawing) * 255) << 24), true);
+            }
+        }
         if (canvasColor == null || canvasColor.getAlpha() != 255) {
             g.setPaint(getBackgroundPaint(x, y));
             g.fillRect(x, y, w - x, h - y);
@@ -389,13 +399,14 @@ public class DefaultDrawingView
         }
     }
 
-    public void setDrawing(Drawing d) {
+    public void setDrawing(Drawing newValue) {
+        Drawing oldValue = drawing;
         if (this.drawing != null) {
             this.drawing.removeCompositeFigureListener(eventHandler);
             this.drawing.removeFigureListener(eventHandler);
             clearSelection();
         }
-        this.drawing = d;
+        this.drawing = newValue;
         if (this.drawing != null) {
             this.drawing.addCompositeFigureListener(eventHandler);
             this.drawing.addFigureListener(eventHandler);
@@ -411,6 +422,7 @@ public class DefaultDrawingView
                 vp.setViewPosition(drawingToView(new Point2D.Double(Math.min(0, -r.x), Math.min(0, -r.y))));
             }
         }
+        firePropertyChange(DRAWING_PROPERTY, oldValue, newValue);
         repaint();
     }
 
@@ -461,26 +473,26 @@ public class DefaultDrawingView
      */
     public void addToSelection(Collection<Figure> figures) {
         Set<Figure> oldSelection = new HashSet<Figure>(selectedFigures);
-            Set<Figure> newSelection = new HashSet<Figure>(selectedFigures);
+        Set<Figure> newSelection = new HashSet<Figure>(selectedFigures);
         boolean selectionChanged = false;
         Rectangle invalidatedArea = null;
         for (Figure figure : figures) {
-        if (selectedFigures.add(figure)) {
-            selectionChanged = true;
-            newSelection.add(figure);
-            figure.addFigureListener(handleInvalidator);
-            if (handlesAreValid) {
-                for (Handle h : figure.createHandles(detailLevel)) {
-                    h.setView(this);
-                    selectionHandles.add(h);
-                    h.addHandleListener(eventHandler);
-                    if (invalidatedArea == null) {
-                        invalidatedArea = h.getDrawingArea();
-                    } else {
-                        invalidatedArea.add(h.getDrawingArea());
+            if (selectedFigures.add(figure)) {
+                selectionChanged = true;
+                newSelection.add(figure);
+                figure.addFigureListener(handleInvalidator);
+                if (handlesAreValid) {
+                    for (Handle h : figure.createHandles(detailLevel)) {
+                        h.setView(this);
+                        selectionHandles.add(h);
+                        h.addHandleListener(eventHandler);
+                        if (invalidatedArea == null) {
+                            invalidatedArea = h.getDrawingArea();
+                        } else {
+                            invalidatedArea.add(h.getDrawingArea());
+                        }
                     }
                 }
-            }
             }
         }
         if (selectionChanged) {
@@ -869,34 +881,25 @@ public class DefaultDrawingView
 
     public void delete() {
         final LinkedList<CompositeFigureEvent> deletionEvents = new LinkedList<CompositeFigureEvent>();
-        final LinkedList<Figure> selectedFigures = new LinkedList<Figure>(getSelectedFigures());
+        final java.util.List<Figure> deletedFigures = drawing.sort(getSelectedFigures());
 
         // Abort, if not all of the selected figures may be removed from the
         // drawing
-        for (Figure f : selectedFigures) {
+        for (Figure f : deletedFigures) {
             if (!f.isRemovable()) {
                 getToolkit().beep();
                 return;
             }
         }
 
+        // Get z-indices of deleted figures
+        final int[] deletedFigureIndices = new int[deletedFigures.size()];
+        for (int i = 0; i < deletedFigureIndices.length; i++) {
+            deletedFigureIndices[i] = drawing.indexOf(deletedFigures.get(i));
+        }
 
         clearSelection();
-        CompositeFigureListener removeListener = new CompositeFigureListener() {
-
-            public void areaInvalidated(CompositeFigureEvent e) {
-            }
-
-            public void figureAdded(CompositeFigureEvent e) {
-            }
-
-            public void figureRemoved(CompositeFigureEvent evt) {
-                deletionEvents.addFirst(evt);
-            }
-        };
-        getDrawing().addCompositeFigureListener(removeListener);
-        getDrawing().removeAll(selectedFigures);
-        getDrawing().removeCompositeFigureListener(removeListener);
+        getDrawing().removeAll(deletedFigures);
 
         getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
 
@@ -909,16 +912,16 @@ public class DefaultDrawingView
                 super.undo();
                 clearSelection();
                 Drawing d = getDrawing();
-                for (CompositeFigureEvent evt : deletionEvents) {
-                    d.add(evt.getIndex(), evt.getChildFigure());
+                for (int i = 0; i < deletedFigureIndices.length; i++) {
+                    d.add(deletedFigureIndices[i], deletedFigures.get(i));
                 }
-                addToSelection(selectedFigures);
+                addToSelection(deletedFigures);
             }
 
             public void redo() throws CannotRedoException {
                 super.redo();
-                for (CompositeFigureEvent evt : new ReversedList<CompositeFigureEvent>(deletionEvents)) {
-                    getDrawing().remove(evt.getChildFigure());
+                for (int i = 0; i < deletedFigureIndices.length; i++) {
+                    drawing.remove(deletedFigures.get(i));
                 }
             }
         });
@@ -1026,11 +1029,10 @@ public class DefaultDrawingView
         return new TexturePaint(backgroundTile,
                 new Rectangle(x, y, backgroundTile.getWidth(), backgroundTile.getHeight()));
     }
-    
+
     public DrawingEditor getEditor() {
-       return editor;
+        return editor;
     }
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     // End of variables declaration//GEN-END:variables
@@ -1050,5 +1052,4 @@ public class DefaultDrawingView
     public Handle getActiveHandle() {
         return activeHandle;
     }
-
 }

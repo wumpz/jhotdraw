@@ -170,6 +170,10 @@ public class SelectionTool extends AbstractTool
                         figure = figureBehind;
                     }
                 } else {
+                    // Note: The search sequence used here, must be
+                    // consistent with the search sequence used by the
+                    // HandleTracker and the SelectAreaTracker.
+                    
                     // If possible, continue to work with the current selection
                     Point2D.Double p = view.viewToDrawing(anchor);
                     figure = null;

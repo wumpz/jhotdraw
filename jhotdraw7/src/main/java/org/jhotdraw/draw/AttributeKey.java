@@ -49,13 +49,18 @@ public class AttributeKey<T> {
     private T defaultValue;
     private boolean isNullValueAllowed;
     
-    /** Creates a new instance. */
+    /** Creates a new instance with the specified attribute key,
+     * default value null, and allowing null values. */
     public AttributeKey(String key) {
         this(key, null, true);
     }
+    /** Creates a new instance with the specified attribute key, 
+     * and default value, and allowing null values. */
     public AttributeKey(String key, T defaultValue) {
         this(key, defaultValue, true);
     }
+    /** Creates a new instance with the specified attribute key, 
+     * default value, and allowing or disallowing null values. */
     public AttributeKey(String key, T defaultValue, boolean isNullValueAllowed) {
         this.key = key;
         this.defaultValue = defaultValue;

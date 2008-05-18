@@ -55,6 +55,7 @@ public class JDoubleAttributeField extends JFormattedTextField
     protected ResourceBundleUtil labels =
             ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
     private int isUpdatingField = 0;
+    private boolean isEnabledWithoutSelection = true;
     private AttributeFieldEventHandler eventHandler = new AttributeFieldEventHandler(this);
 
     /** Creates new instance. */
@@ -127,6 +128,15 @@ public class JDoubleAttributeField extends JFormattedTextField
 
     public DrawingView getView() {
         return eventHandler.getView();
+    }
+    public void setEnabledWithoutSelection(boolean newValue) {
+        boolean oldValue = isEnabledWithoutSelection;
+       // updateEnabledState();
+        firePropertyChange(ENABLED_WITHOUT_SELECTION_PROPERTY, oldValue, newValue);
+    }
+
+    public boolean isEnabledWithoutSelection() {
+        return isEnabledWithoutSelection;
     }
 
     public void setScaleFactor(double newValue) {

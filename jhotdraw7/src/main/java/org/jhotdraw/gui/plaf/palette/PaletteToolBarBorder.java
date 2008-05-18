@@ -1,5 +1,5 @@
 /*
- * @(#)QuaquaToolBarBorder.java  1.1  2005-12-18
+ * @(#)QuaquaToolBarBorder.java  1.2  2008-05-18
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -25,7 +25,8 @@ import org.apache.batik.ext.awt.*;
  * QuaquaToolBarBorder.
  *
  * @author  Werner Randelshofer
- * @version 1.1 2005-12-18 Tweaked insets.
+ * @version 1.2 2008-05-18 Added method getDragInsets. 
+ * <br>1.1 2005-12-18 Tweaked insets.
  * <br>1.0.4 2005-12-09 Inner class UIResource added.
  * <br>1.0.3 2005-09-10 Dont' implement UIResource.
  * <br>1.0.2 2005-05-28 Fixed class cast exceptions in methods paintBorder
@@ -139,10 +140,21 @@ public class PaletteToolBarBorder
             }
         }
     }
-
+    
     @Override
     public Insets getBorderInsets(Component c) {
         return getBorderInsets(c, new Insets(0, 0, 0, 0));
+    }
+    
+    /**
+     * These insets are used by PaletteToolBarUI, to determine if
+     * the toolbar should be dragged.
+     * 
+     * @param c JToolBar.
+     * @return Return drag insets.
+     */
+    public Insets getDragInsets(Component c) {
+        return new Insets(0,18,0,0);
     }
 
     @Override

@@ -1,7 +1,7 @@
 /*
- * @(#)JDoubleAttributeSliderBeanInfo.java  1.0  11. November 2003
+ * @(#)JDoubleDrawingAttributeFieldBeanInfo.java  1.0  2008-05-18
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -16,12 +16,12 @@ package org.jhotdraw.gui;
 import java.beans.*;
 
 /**
- * BeanInfo for JDoubleAttributeSlider.
+ * BeanInfo for JDoubleDrawingAttributeSlider.
  *
  * @author  Werner Randelshofer
- * @version 1.0 2003-11-11 Created.
+ * @version 1.0 2008-05-18 Created.
  */
-public class JDoubleAttributeSliderBeanInfo extends SimpleBeanInfo {
+public class JDoubleDrawingAttributeSliderBeanInfo extends SimpleBeanInfo {
     
     // Bean descriptor information will be obtained from introspection.//GEN-FIRST:BeanDescriptor
     private static BeanDescriptor beanDescriptor = null;
@@ -31,7 +31,7 @@ public class JDoubleAttributeSliderBeanInfo extends SimpleBeanInfo {
         // Here you can add code for customizing the BeanDescriptor.
          if (beanDescriptor == null) beanDescriptor = new BeanDescriptor(JDoubleAttributeFieldBeanInfo.class);
          beanDescriptor.setValue("isContainer", Boolean.FALSE);
-     beanDescriptor.setDisplayName("JDoubleAttributeSlider");
+     beanDescriptor.setDisplayName("JDoubleDrawingAttributeSlider");
         
         return beanDescriptor;     }//GEN-LAST:BeanDescriptor
     

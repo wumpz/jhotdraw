@@ -1,5 +1,5 @@
 /**
- * @(#)PaletteToolBarUI.java  1.0  Apr 6, 2008
+ * @(#)PaletteToolBarUI.java  1.1  2008-05-18
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -34,9 +34,13 @@ import javax.swing.plaf.basic.BasicGraphicsUtils;
  * is supposed to use BoxLayout instead of BorderLayout. This allows to have
  * multiple toolbars in the same component. The toolbars can be reorderd in the
  * component, but they are not allowed to float in their own floating window.
- *
+ * <p>
+ * The JToolBar starts dragging only, if the drag starts over the insets of
+ * its border.
+ * 
  * @author Werner Randelshofer
- * @version 1.0 Apr 6, 2008 Created.
+ * @version 1.1 2008-05-18 Start dragging only over border insets. 
+ * <br>1.0 Apr 6, 2008 Created.
  */
 public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
 
@@ -1138,12 +1142,24 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
         JToolBar tb;
         boolean isDragging = false;
         Point origin = null;
+        boolean isArmed = false;
 
         public void mousePressed(MouseEvent evt) {
             if (!tb.isEnabled()) {
                 return;
             }
             isDragging = false;
+            if (evt.getSource() instanceof JToolBar) {
+                JComponent c = (JComponent) evt.getSource();
+                Insets insets;
+                if (c.getBorder() instanceof PaletteToolBarBorder) {
+                insets = ((PaletteToolBarBorder) c.getBorder()).getDragInsets(c);
+                } else {
+                insets = c.getInsets();
+                }
+                isArmed = ! (evt.getX() > insets.left && evt.getX() < c.getWidth() - insets.right &&
+                        evt.getY() > insets.top && evt.getY() < c.getHeight() - insets.bottom);
+            }
         }
 
         public void mouseReleased(MouseEvent evt) {
@@ -1163,6 +1179,9 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
 
         public void mouseDragged(MouseEvent evt) {
             if (!tb.isEnabled()) {
+                return;
+            }
+            if (! isArmed) {
                 return;
             }
             isDragging = true;

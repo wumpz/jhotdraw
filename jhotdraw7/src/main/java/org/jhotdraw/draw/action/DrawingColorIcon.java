@@ -1,7 +1,7 @@
 /*
- * @(#)SelectionColorIcon.java  2.1  2007-05-03
+ * @(#)DrawingColorIcon.java  1.0  2008-05-18
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -11,35 +11,35 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.draw.action;
 
 import java.awt.*;
 import java.awt.color.*;
 import java.awt.event.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.*;
 import javax.swing.*;
 import java.net.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.geom.*;
+
 /**
- * SelectionColorIcon draws a shape with the specified color for the selected
- * figures in the current drawing view.
- * If now figures are selcted, the specified color is taken from the DrawingEditor.
+ * DrawingColorIcon draws a shape with the specified color for the drawing in 
+ * the current drawing view.
  * <p>
  * The behavior for choosing the drawn color matches with
- * {@link SelectionColorChooserAction }.
+ * {@link DrawingColorChooserAction }.
  * 
  * @author Werner Randelshofer
- * @version 2.1 2007-05-03 Added parameters for setting the color rect.
- * <br>2.0 2006-06-07 Reworked.
- * <br>1.0 25. November 2003  Created.
+ * @version 1.0 2008-05-18 Created.
  */
-public class SelectionColorIcon extends javax.swing.ImageIcon {
+public class DrawingColorIcon extends javax.swing.ImageIcon {
+
     private DrawingEditor editor;
     private AttributeKey<Color> key;
     private Shape colorShape;
-    
+
     /** Creates a new instance.
      * @param editor The drawing editor.
      * @param key The key of the default attribute
@@ -47,7 +47,7 @@ public class SelectionColorIcon extends javax.swing.ImageIcon {
      * @param colorShape The shape to be drawn with the color of the default
      * attribute.
      */
-    public SelectionColorIcon(
+    public DrawingColorIcon(
             DrawingEditor editor,
             AttributeKey<Color> key,
             URL imageLocation,
@@ -57,7 +57,8 @@ public class SelectionColorIcon extends javax.swing.ImageIcon {
         this.key = key;
         this.colorShape = colorShape;
     }
-    public SelectionColorIcon(
+
+    public DrawingColorIcon(
             DrawingEditor editor,
             AttributeKey<Color> key,
             Image image,
@@ -67,17 +68,17 @@ public class SelectionColorIcon extends javax.swing.ImageIcon {
         this.key = key;
         this.colorShape = colorShape;
     }
-    
+
     @Override
     public void paintIcon(java.awt.Component c, java.awt.Graphics gr, int x, int y) {
         Graphics2D g = (Graphics2D) gr;
         super.paintIcon(c, g, x, y);
         Color color;
         DrawingView view = editor.getActiveView();
-        if (view != null && view.getSelectedFigures().size() == 1) {
-            color = key.get(view.getSelectedFigures().iterator().next());
+        if (view != null) {
+            color = key.get(view.getDrawing());
         } else {
-            color = key.get(editor.getDefaultAttributes());
+            color = key.getDefaultValue();
         }
         if (color != null) {
             g.setColor(color);

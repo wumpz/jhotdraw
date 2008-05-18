@@ -39,12 +39,12 @@ public class AttributeKeys {
      * This attribute is used by a Drawing object to specify the color of the canvas.
      * The default value is white.
      */
-    public final static AttributeKey<Color> CANVAS_FILL_COLOR = new AttributeKey<Color>("backgroundColor", Color.white);
+    public final static AttributeKey<Color> CANVAS_FILL_COLOR = new AttributeKey<Color>("canvasFillColor", Color.white);
     /**
      * Canvas fill color opacity. The value of this attribute is a Double object.
      * This is a value between 0 and 1 whereas 0 is translucent and 1 is fully opaque.
      */
-    public final static AttributeKey<Double> CANVAS_FILL_OPACITY = new AttributeKey<Double>("backgroundOpacity", 1d, false);
+    public final static AttributeKey<Double> CANVAS_FILL_OPACITY = new AttributeKey<Double>("canvasFillOpacity", 1d, false);
     /**
      * Figure fill color. The value of this attribute is a Color object.
      */

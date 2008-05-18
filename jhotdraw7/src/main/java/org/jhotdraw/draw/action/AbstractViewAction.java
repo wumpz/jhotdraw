@@ -74,6 +74,10 @@ public abstract class AbstractViewAction extends AbstractAction {
     protected void setEditor(DrawingEditor newValue) {
         editor = newValue;
     }
+    protected DrawingEditor getEditor() {
+        return editor;
+    }
+    
     protected DrawingView getView() {
         return (view != null) ? view : editor.getActiveView();
     }
@@ -89,9 +93,7 @@ public abstract class AbstractViewAction extends AbstractAction {
     
     public void updateEnabledState() {
         if (getView() != null) {
-            setEnabled(getView().isEnabled() && 
-                    getView().getSelectionCount() > 0
-                    );
+            setEnabled(getView().isEnabled());
         } else {
             setEnabled(false);
         }

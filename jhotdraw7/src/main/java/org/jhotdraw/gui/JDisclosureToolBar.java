@@ -29,7 +29,7 @@ public class JDisclosureToolBar extends JToolBar {
 
     private JButton disclosureButton;
     public final static String DISCLOSURE_STATE_PROPERTY = "disclosureState";
-    public final static String NUMBER_OF_DISCLOSURE_STATES_PROPERTY = "numberOfDisclosureStates";
+    public final static String DISCLOSURE_STATE_COUNT_PROPERTY = "disclosureStateCount";
 
     /** Creates new form. */
     public JDisclosureToolBar() {
@@ -52,12 +52,12 @@ public class JDisclosureToolBar extends JToolBar {
             btn.setOpaque(false);
             disclosureButton = (JButton) btn;
             disclosureButton.putClientProperty(DisclosureIcon.CURRENT_STATE_PROPERTY, 1);
-            disclosureButton.putClientProperty(DisclosureIcon.NUMBER_OF_STATES_PROPERTY, 2);
+            disclosureButton.putClientProperty(DisclosureIcon.STATE_COUNT_PROPERTY, 2);
             disclosureButton.addActionListener(new ActionListener() {
 
                 public void actionPerformed(ActionEvent e) {
                     int newState = ((Integer) disclosureButton.getClientProperty(DisclosureIcon.CURRENT_STATE_PROPERTY) + 1) %
-                            (Integer) disclosureButton.getClientProperty(DisclosureIcon.NUMBER_OF_STATES_PROPERTY);
+                            (Integer) disclosureButton.getClientProperty(DisclosureIcon.STATE_COUNT_PROPERTY);
                     setDisclosureState(newState);
                 }
             });
@@ -75,10 +75,10 @@ public class JDisclosureToolBar extends JToolBar {
         putClientProperty(PaletteToolBarUI.TOOLBAR_ICON_PROPERTY, new EmptyIcon(10, 8));
     }
     
-    public void setNumberOfDisclosureStates(int newValue) {
-        int oldValue = getNumberOfDisclosureStates();
-        disclosureButton.putClientProperty(DisclosureIcon.NUMBER_OF_STATES_PROPERTY, newValue);
-        firePropertyChange(NUMBER_OF_DISCLOSURE_STATES_PROPERTY, oldValue, newValue);
+    public void setDisclosureStateCount(int newValue) {
+        int oldValue = getDisclosureStateCount();
+        disclosureButton.putClientProperty(DisclosureIcon.STATE_COUNT_PROPERTY, newValue);
+        firePropertyChange(DISCLOSURE_STATE_COUNT_PROPERTY, oldValue, newValue);
     }
 
     public void setDisclosureState(int newValue) {
@@ -122,8 +122,8 @@ public class JDisclosureToolBar extends JToolBar {
         firePropertyChange(DISCLOSURE_STATE_PROPERTY, oldValue, newValue);
     }
 
-    public int getNumberOfDisclosureStates() {
-        Integer value = (Integer) disclosureButton.getClientProperty(DisclosureIcon.NUMBER_OF_STATES_PROPERTY);
+    public int getDisclosureStateCount() {
+        Integer value = (Integer) disclosureButton.getClientProperty(DisclosureIcon.STATE_COUNT_PROPERTY);
         return (value == null) ? 2 : value;
     }
 

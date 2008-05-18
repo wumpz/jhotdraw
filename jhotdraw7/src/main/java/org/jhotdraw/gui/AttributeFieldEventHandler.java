@@ -86,7 +86,7 @@ public class AttributeFieldEventHandler
     protected void updateFieldEnabledState() {
         if (getCurrentView() != null) {
             field.getComponent().setEnabled(getCurrentView().isEnabled() &&
-                    getCurrentView().getSelectionCount() > 0
+                    (field.isEnabledWithoutSelection() || getCurrentView().getSelectionCount() > 0)
                     );
         } else {
             field.getComponent().setEnabled(false);

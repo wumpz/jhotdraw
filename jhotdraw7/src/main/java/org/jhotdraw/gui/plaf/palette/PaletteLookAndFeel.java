@@ -208,7 +208,7 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
 	Object dialogPlain12 = new ProxyLazyValue(
 			  "javax.swing.plaf.FontUIResource",
 			  null,
-			  new Object[] {"Gill Sans", fontPlain, twelve});
+			  new Object[] {"Dialog Sans", fontPlain, twelve});
 	Object fieldPlain12 = new ProxyLazyValue(
 			  "javax.swing.plaf.FontUIResource",
 			  null,

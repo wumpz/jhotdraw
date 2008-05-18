@@ -1,7 +1,7 @@
 /*
- * @(#)AttributeField.java  1.0  15. Mai 2007
+ * @(#)AttributeField.java  2.0  2008-05-18
  *
- * Copyright (c) 2007 by the original authors of JHotDraw
+ * Copyright (c) 2007-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -27,9 +27,11 @@ import org.jhotdraw.draw.*;
  * single {@code DrawingView}.
  *
  * @author Werner Randelshofer
- * @version 1.0 15. Mai 2007 Created.
+ * @version 2.0 2008-05-18 Added method isEnabledWithoutSelection. 
+ * <br>1.0 15. Mai 2007 Created.
  */
 public interface AttributeField {
+    public final static String ENABLED_WITHOUT_SELECTION_PROPERTY = "enabledWithoutSelection";
     /**
      * Returns the JComponent of the attribute field.
      */
@@ -40,4 +42,9 @@ public interface AttributeField {
      * selected {@code Figure}s. 
      */
     public void updateField(Set<Figure> selectedFigures);
+    /**
+     * Returns true, if the field stays enabled, even when there is no
+     * selection in the current DrawingView. This is a bound property.
+     */
+    public boolean isEnabledWithoutSelection();
 }

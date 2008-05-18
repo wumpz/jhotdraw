@@ -15,6 +15,7 @@ package org.jhotdraw.draw;
 
 import java.awt.event.*;
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.*;
 
 /**
@@ -91,13 +92,28 @@ public class SelectAreaTracker extends AbstractTool {
 
     public void mouseMoved(MouseEvent evt) {
         clearRubberBand();
+        Point point = evt.getPoint();
         DrawingView view = editor.findView((Container) evt.getSource());
-        updateCursor(view, new Point(evt.getX(), evt.getY()));
+        updateCursor(view, point);
         if (view == null || editor.getActiveView() != view) {
             clearHoverHandles();
         } else {
-            Figure f = view.findFigure(evt.getPoint());
-            updateHoverHandles(view, f);
+            // Search first, if one of the selected figures contains
+            // the current mouse location. Only then search for other
+            // figures. This search sequence is consistent with the
+            // search sequence of the SelectionTool.
+            Figure hf = null;
+            Point2D.Double p = view.viewToDrawing(point);
+            for (Figure f : view.getSelectedFigures()) {
+                if (f.contains(p)) {
+                    hf = f;
+                }
+            }
+            if (hf == null) {
+                hf = view.findFigure(point);
+            }
+
+            updateHoverHandles(view, hf);
         }
     }
 
@@ -131,19 +147,13 @@ public class SelectAreaTracker extends AbstractTool {
     }
 
     protected void clearHoverHandles() {
-        hoverFigure = null;
-        for (Handle h : hoverHandles) {
-            h.setView(null);
-            h.dispose();
-        }
-        hoverHandles.clear();
+        updateHoverHandles(null, null);
     }
 
     protected void updateHoverHandles(DrawingView view, Figure f) {
         if (f != hoverFigure) {
             Rectangle r = null;
             if (hoverFigure != null) {
-                fireAreaInvalidated(view.drawingToView(hoverFigure.getDrawingArea()));
                 for (Handle h : hoverHandles) {
                     if (r == null) {
                         r = h.getDrawingArea();
@@ -174,6 +184,11 @@ public class SelectAreaTracker extends AbstractTool {
         }
     }
 
+    @Override
+    public void activate(DrawingEditor editor) {
+        super.activate(editor);
+        clearHoverHandles();
+    }
     @Override
     public void deactivate(DrawingEditor editor) {
         super.deactivate(editor);

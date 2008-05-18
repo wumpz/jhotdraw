@@ -1,5 +1,5 @@
 /*
- * @(#)JDoubleAttributeSlider.java  1.1  2008-05-18
+ * @(#)JDoubleDrawingAttributeSlider.java  1.0  2008-05-18
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -26,23 +26,20 @@ import org.jhotdraw.draw.*;
 import org.jhotdraw.util.*;
 
 /**
- * A JSlider that can be used to edit a double attribute of a Figure.
+ * A JSlider that can be used to edit a double attribute of a Drawing.
  *
  * @author Werner Randelshofer
- * @version 1.1 2008-05-18 Added property "enabledWithoutSelection".
- * <br>1.0 April 30, 2007 Created.
+ * @version 1.0 2008-05-18 Created.
  */
-public class JDoubleAttributeSlider extends JSlider {
+public class JDoubleDrawingAttributeSlider extends JSlider {
 
     private double scaleFactor = 1d;
     private DrawingEditor editor;
     private AttributeKey<Double> attributeKey;
-    private boolean isSelectionHasMultipleValues;
     protected ResourceBundleUtil labels =
             ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
     private int isUpdatingSlider = 0;
     private LinkedList<Object> attributeRestoreData = new LinkedList<Object>();
-    private boolean isEnabledWithoutSelection = true;
     public final static String ENABLED_WITHOUT_SELECTION_PROPERTY = "enabledWithoutSelection";
     private PropertyChangeListener viewEventHandler = new PropertyChangeListener() {
 
@@ -54,19 +51,17 @@ public class JDoubleAttributeSlider extends JSlider {
         }
     };
 
-    private class EditorEventHandler implements PropertyChangeListener, FigureSelectionListener {
+    private class EditorEventHandler implements PropertyChangeListener {
 
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
             if (name == DrawingEditor.ACTIVE_VIEW_PROPERTY) {
                 if (evt.getOldValue() != null) {
                     DrawingView view = ((DrawingView) evt.getOldValue());
-                    view.removeFigureSelectionListener(this);
                     view.removePropertyChangeListener(viewEventHandler);
                 }
                 if (evt.getNewValue() != null) {
                     DrawingView view = ((DrawingView) evt.getNewValue());
-                    view.addFigureSelectionListener(this);
                     view.addPropertyChangeListener(viewEventHandler);
                 }
                 updateEnabledState();
@@ -74,11 +69,6 @@ public class JDoubleAttributeSlider extends JSlider {
             } else if (name.equals(attributeKey.getKey())) {
                 updateSlider();
             }
-        }
-
-        public void selectionChanged(FigureSelectionEvent evt) {
-            updateEnabledState();
-            updateSlider();
         }
     };
     private EditorEventHandler eventHandler = new EditorEventHandler();
@@ -93,16 +83,16 @@ public class JDoubleAttributeSlider extends JSlider {
     private ChangeHandler changeHandler = new ChangeHandler();
 
     /** Creates new instance. */
-    public JDoubleAttributeSlider() {
+    public JDoubleDrawingAttributeSlider() {
         this(null, null);
     }
 
-    public JDoubleAttributeSlider(int orientation, int min, int max, int value) {
+    public JDoubleDrawingAttributeSlider(int orientation, int min, int max, int value) {
         super(orientation, min, max, value);
         getModel().addChangeListener(changeHandler);
     }
 
-    public JDoubleAttributeSlider(DrawingEditor editor, AttributeKey<Double> attributeKey) {
+    public JDoubleDrawingAttributeSlider(DrawingEditor editor, AttributeKey<Double> attributeKey) {
         initComponents();
         this.attributeKey = attributeKey;
         setEditor(editor);
@@ -116,16 +106,10 @@ public class JDoubleAttributeSlider extends JSlider {
     public void setEditor(DrawingEditor editor) {
         if (this.editor != null) {
             this.editor.removePropertyChangeListener(eventHandler);
-            if (getView() != null) {
-                getView().removeFigureSelectionListener(eventHandler);
-            }
         }
         this.editor = editor;
         if (this.editor != null) {
             this.editor.addPropertyChangeListener(eventHandler);
-            if (getView() != null) {
-                getView().addFigureSelectionListener(eventHandler);
-            }
             updateEnabledState();
             updateSlider();
         }
@@ -137,16 +121,6 @@ public class JDoubleAttributeSlider extends JSlider {
 
     protected DrawingView getView() {
         return (editor == null) ? null : editor.getActiveView();
-    }
-
-    public void setEnabledWithoutSelection(boolean newValue) {
-        boolean oldValue = isEnabledWithoutSelection;
-        updateEnabledState();
-        firePropertyChange(ENABLED_WITHOUT_SELECTION_PROPERTY, oldValue, newValue);
-    }
-
-    public boolean isEnabledWithoutSelection() {
-        return isEnabledWithoutSelection;
     }
 
     public void setModel(BoundedRangeModel brm) {
@@ -162,8 +136,7 @@ public class JDoubleAttributeSlider extends JSlider {
 
     protected void updateEnabledState() {
         if (getView() != null) {
-            setEnabled(getView().isEnabled() &&
-                    (isEnabledWithoutSelection || getView().getSelectionCount() > 0));
+            setEnabled(getView().isEnabled());
         } else {
             setEnabled(false);
         }
@@ -184,22 +157,8 @@ public class JDoubleAttributeSlider extends JSlider {
             } else {
                 Double sliderValue = null;
                 boolean isFirst = true;
-                isSelectionHasMultipleValues = false;
-                for (Figure f : getView().getSelectedFigures()) {
-                    if (isFirst) {
-                        isFirst = false;
-                        sliderValue = attributeKey.get(f);
-                    } else {
-                        Double figureValue = attributeKey.get(f);
-                        if (figureValue == sliderValue ||
-                                figureValue != null && sliderValue != null &&
-                                figureValue.equals(sliderValue)) {
-                        } else {
-                            sliderValue = null;
-                            isSelectionHasMultipleValues = true;
-                        }
-                    }
-                }
+                Figure f = getView().getDrawing();
+                sliderValue = attributeKey.get(f);
                 if (sliderValue != null) {
                     setValue((int) (sliderValue * scaleFactor));
                 }
@@ -214,50 +173,40 @@ public class JDoubleAttributeSlider extends JSlider {
             double value = getValue() / scaleFactor;
             if (getView() != null && attributeKey != null) {
                 if (attributeRestoreData.isEmpty()) {
-                    for (Figure f : getView().getSelectedFigures()) {
-                        attributeRestoreData.add(f.getAttributesRestoreData());
-                        attributeKey.set(f, value);
-                    }
+                    Figure f = getView().getDrawing();
+                    attributeRestoreData.add(f.getAttributesRestoreData());
+                    attributeKey.set(f, value);
                 } else {
-                    for (Figure f : getView().getSelectedFigures()) {
-                        attributeKey.set(f, value);
-                    }
+                    Figure f = getView().getDrawing();
+                    attributeKey.set(f, value);
                 }
-            }
-            if (editor != null) {
-                editor.setDefaultAttribute(attributeKey, value);
-            }
-            if (!getModel().getValueIsAdjusting()) {
-                final LinkedList<Figure> editedFigures =
-                        new LinkedList<Figure>(getView().getSelectedFigures());
-                final LinkedList<Object> editUndoData = new LinkedList<Object>(attributeRestoreData);
-                final double editRedoValue = value;
-                UndoableEdit edit = new AbstractUndoableEdit() {
+                if (!getModel().getValueIsAdjusting()) {
+                    final Figure editedFigure = getView().getDrawing();
+                    final LinkedList<Object> editUndoData = new LinkedList<Object>(attributeRestoreData);
+                    final double editRedoValue = value;
+                    UndoableEdit edit = new AbstractUndoableEdit() {
 
-                    public String getPresentationName() {
-                        return labels.getString(attributeKey.getKey());
-                    }
-
-                    public void undo() throws CannotRedoException {
-                        super.undo();
-                        Iterator<Object> di = editUndoData.iterator();
-                        for (Figure f : editedFigures) {
-                            f.willChange();
-                            f.restoreAttributesTo(di.next());
-                            f.changed();
+                        public String getPresentationName() {
+                            return labels.getString(attributeKey.getKey());
                         }
-                    }
 
-                    public void redo() throws CannotRedoException {
-                        super.redo();
-                        for (Figure f : editedFigures) {
-                            f.willChange();
-                            attributeKey.basicSet(f, editRedoValue);
-                            f.changed();
+                        public void undo() throws CannotRedoException {
+                            super.undo();
+                            Iterator<Object> di = editUndoData.iterator();
+                            editedFigure.willChange();
+                            editedFigure.restoreAttributesTo(di.next());
+                            editedFigure.changed();
                         }
-                    }
-                };
-                getView().getDrawing().fireUndoableEditHappened(edit);
+
+                        public void redo() throws CannotRedoException {
+                            super.redo();
+                            editedFigure.willChange();
+                            attributeKey.basicSet(editedFigure, editRedoValue);
+                            editedFigure.changed();
+                        }
+                    };
+                    getView().getDrawing().fireUndoableEditHappened(edit);
+                }
             }
         }
         isUpdatingSlider--;
@@ -266,9 +215,6 @@ public class JDoubleAttributeSlider extends JSlider {
     public void dispose() {
         if (this.editor != null) {
             this.editor.removePropertyChangeListener(eventHandler);
-            if (this.editor.getActiveView() != null) {
-                this.editor.getActiveView().removeFigureSelectionListener(eventHandler);
-            }
         }
         this.editor = null;
     }
@@ -278,9 +224,8 @@ public class JDoubleAttributeSlider extends JSlider {
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.
      */
-    // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

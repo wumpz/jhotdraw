@@ -34,7 +34,7 @@ import org.jhotdraw.undo.CompositeEdit;
 public class EditorColorChooserAction extends AbstractSelectedAction {
     protected AttributeKey<Color> key;
     private static JColorChooser colorChooser;
-    private HashMap<AttributeKey,Object> fixedAttributes;
+    protected Map<AttributeKey,Object> fixedAttributes;
     
     /** Creates a new instance. */
     public EditorColorChooserAction(DrawingEditor editor, AttributeKey<Color> key) {
@@ -59,6 +59,7 @@ public class EditorColorChooserAction extends AbstractSelectedAction {
         //putValue(AbstractAction.MNEMONIC_KEY, new Integer('V'));
         putValue(AbstractAction.SMALL_ICON, icon);
         setEnabled(true);
+        this.fixedAttributes = fixedAttributes;
     }
     
     public void actionPerformed(java.awt.event.ActionEvent e) {
