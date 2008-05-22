@@ -12,18 +12,13 @@
  */
 package org.jhotdraw.draw.action;
 
-import java.awt.event.ComponentEvent;
 import javax.swing.undo.*;
 import org.jhotdraw.app.action.Actions;
-import org.jhotdraw.undo.*;
 import javax.swing.*;
-import javax.swing.text.*;
 import java.util.*;
 import java.awt.*;
-import java.awt.event.ComponentListener;
 import java.beans.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.geom.*;
 import org.jhotdraw.gui.JFontChooser;
 import org.jhotdraw.util.ResourceBundleUtil;
 
@@ -39,6 +34,7 @@ public class FontChooserHandler extends AbstractSelectedAction
     protected AttributeKey key;
     protected JFontChooser fontChooser;
     protected JPopupMenu popupMenu;
+    protected int isUpdating;
     //protected Map<AttributeKey, Object> attributes;
 
     /** Creates a new instance. */
@@ -63,7 +59,7 @@ public class FontChooserHandler extends AbstractSelectedAction
 
     protected void applySelectedFontToFigures() {
         /*for (Map.Entry<AttributeKey, Object> entry : attributes.entrySet()) {
-            getEditor().setDefaultAttribute(entry.getKey(), entry.getValue());
+        getEditor().setDefaultAttribute(entry.getKey(), entry.getValue());
         }*/
 
         final ArrayList<Figure> selectedFigures = new ArrayList(getView().getSelectedFigures());
@@ -73,7 +69,7 @@ public class FontChooserHandler extends AbstractSelectedAction
             figure.willChange();
             /*
             for (Map.Entry<AttributeKey, Object> entry : attributes.entrySet()) {
-                entry.getKey().basicSet(figure, entry.getValue());
+            entry.getKey().basicSet(figure, entry.getValue());
             }*/
             key.basicSet(figure, fontChooser.getSelectedFont());
             getEditor().setDefaultAttribute(key, fontChooser.getSelectedFont());
@@ -121,23 +117,28 @@ public class FontChooserHandler extends AbstractSelectedAction
     protected void updateEnabledState() {
         setEnabled(getEditor().isEnabled());
         if (getView() != null && fontChooser != null && popupMenu != null) {
-        fontChooser.setEnabled(getView().getSelectionCount() > 0);
-        popupMenu.setEnabled(getView().getSelectionCount() > 0);
-        if (getView().getSelectionCount() > 0) {
-            for (Figure f : getView().getSelectedFigures()) {
-                if (f instanceof TextHolderFigure) {
-                    TextHolderFigure thf = (TextHolderFigure) f;
-                    fontChooser.setSelectedFont(thf.getFont());
-                    break;
+            fontChooser.setEnabled(getView().getSelectionCount() > 0);
+            popupMenu.setEnabled(getView().getSelectionCount() > 0);
+            isUpdating++;
+            if (getView().getSelectionCount() > 0 && fontChooser.isShowing()) {
+                for (Figure f : getView().getSelectedFigures()) {
+                    if (f instanceof TextHolderFigure) {
+                        TextHolderFigure thf = (TextHolderFigure) f;
+                        fontChooser.setSelectedFont(thf.getFont());
+                        break;
+                    }
                 }
             }
-        }
+            isUpdating--;
         }
     }
 
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName() == JFontChooser.SELECTED_FONT_PROPERTY) {
-            applySelectedFontToFigures();
+        if (isUpdating++ == 0) {
+            if (evt.getPropertyName() == JFontChooser.SELECTED_FONT_PROPERTY) {
+                applySelectedFontToFigures();
+            }
         }
+        isUpdating--;
     }
 }

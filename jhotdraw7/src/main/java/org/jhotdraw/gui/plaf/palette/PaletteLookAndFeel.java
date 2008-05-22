@@ -13,7 +13,6 @@
  */
 package org.jhotdraw.gui.plaf.palette;
 
-import ch.randelshofer.quaqua.util.ResourceBundleUtil;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.UIDefaults.*;

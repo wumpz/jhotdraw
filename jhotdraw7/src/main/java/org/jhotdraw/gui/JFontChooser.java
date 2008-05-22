@@ -338,7 +338,7 @@ public class JFontChooser extends JComponent {
                 // search in all collections
                 if (newFace == null) {
                     TreeNode root = (TreeNode) getModel().getRoot();
-                    for (int i = 0, n = root.getChildCount(); i < n; i++) {
+                   OuterLoop: for (int i = 0, n = root.getChildCount(); i < n; i++) {
                         FontCollectionNode collection = (FontCollectionNode) root.getChildAt(i);
                         for (FontFamilyNode family : collection.families()) {
                             for (FontFaceNode face : family.faces()) {
@@ -346,7 +346,7 @@ public class JFontChooser extends JComponent {
                                     newCollection = collection;
                                     newFamily = family;
                                     newFace = face;
-                                    break;
+                                    break OuterLoop;
                                 }
                             }
                         }
