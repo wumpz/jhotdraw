@@ -1,5 +1,5 @@
 /**
- * @(#)HandleAttributeKeys.java  1.0  11.05.2008
+ * @(#)HandleAttributeKeys.java  2.0  2008-05-22
  *
  * Copyright (c) 2008 Werner Randelshofer
  * Staldenmattweg 2, CH-6405 Immensee, Switzerland
@@ -10,7 +10,6 @@
  * accordance with the license agreement you entered into with  
  * Werner Randelshofer. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.draw;
 
 import java.awt.*;
@@ -22,147 +21,216 @@ import java.awt.*;
  * the desired values using {@link DrawingEditor#setHandleAttribute(org.jhotdraw.draw.AttributeKey, java.lang.Object)}.
  *
  * @author Werner Randelshofer
- * @version 1.0 11.05.2008 Created.
+ * @version 2.0 2008-05-22 Added support for hover handles. Assigned better names
+ * to attribute keys. Changed default
+ * values, to better much the look of well known drawing software, such as
+ * Adobe Fireworks and Adobe Illustrator. 
+ * <br>1.0 11.05.2008 Created.
  */
 public class HandleAttributeKeys {
+
     /**
-     * Handle size.
+     * General handle size.
      */
     public final static AttributeKey<Integer> HANDLE_SIZE = new AttributeKey<Integer>("handleSize", 7);
     /**
-     * Handle stroke color.
+     * General handle stroke color.
      */
     public final static AttributeKey<Color> HANDLE_STROKE_COLOR = new AttributeKey<Color>("handleStrokeColor", Color.WHITE);
     /**
-     * Handle fill color.
+     * General handle fill color.
      */
     public final static AttributeKey<Color> HANDLE_FILL_COLOR = new AttributeKey<Color>("handleFillColor", Color.BLACK);
     /**
-     * Handle stroke.
+     * General handle stroke.
      */
     public final static AttributeKey<Stroke> HANDLE_STROKE = new AttributeKey<Stroke>("handleStroke", new BasicStroke(1f));
-
     /**
-     * Handle stroke color.
+     * Rotate handle stroke color.
      */
     public final static AttributeKey<Color> ROTATE_HANDLE_STROKE_COLOR = new AttributeKey<Color>("rotateHandleStrokeColor", Color.WHITE);
     /**
-     * Handle fill color.
+     * Rotate handle fill color.
      */
-    public final static AttributeKey<Color> ROTATE_HANDLE_FILL_COLOR = new AttributeKey<Color>("rotateHandleFillColor", Color.GREEN.darker());
-
+    public final static AttributeKey<Color> ROTATE_HANDLE_FILL_COLOR = new AttributeKey<Color>("rotateHandleFillColor", Color.MAGENTA);
     /**
-     * Handle stroke color.
+     * Bezier control point handle stroke color.
      */
-    public final static AttributeKey<Color> BEZIER_CONTROL_POINT_HANDLE_STROKE_COLOR = new AttributeKey<Color>("bezierControlPointStrokeColor", Color.WHITE);
+    public final static AttributeKey<Color> BEZIER_CONTROL_POINT_HANDLE_STROKE_COLOR = new AttributeKey<Color>("bezierControlPointHandleStrokeColor", Color.WHITE);
     /**
-     * Handle fill color.
+     * Bezier control point handle fill color.
      */
-    public final static AttributeKey<Color> BEZIER_CONTROL_POINT_HANDLE_FILL_COLOR = new AttributeKey<Color>("bezierControlPointFillColor", Color.BLUE);
+    public final static AttributeKey<Color> BEZIER_CONTROL_POINT_HANDLE_FILL_COLOR = new AttributeKey<Color>("bezierControlPointHandleFillColor", Color.BLUE);
     /**
-     * Handle stroke color.
+     * Bezier tangent line stroke color 1.
      */
-    public final static AttributeKey<Color> BEZIER_CONTROL_POINT_HANDLE_STROKE_COLOR_1 = new AttributeKey<Color>("bezierControlPointStrokeColor1", Color.BLUE);
+    public final static AttributeKey<Color> BEZIER_TANGENT_COLOR_1 = new AttributeKey<Color>("bezierTangentColor1", Color.WHITE);
     /**
-     * Handle stroke color.
+     * Bezier tangent line stroke color 2.
      */
-    public final static AttributeKey<Color> BEZIER_CONTROL_POINT_HANDLE_STROKE_COLOR_2 = new AttributeKey<Color>("bezierControlPointStrokeColor2", Color.WHITE);
+    public final static AttributeKey<Color> BEZIER_TANGENT_COLOR_2 = new AttributeKey<Color>("bezierTangentColor1", Color.BLUE);
     /**
-     * Handle stroke.
+     * Bezier tangent line stroke 1.
      */
-    public final static AttributeKey<Stroke> BEZIER_CONTROL_POINT_HANDLE_STROKE_1 = new AttributeKey<Stroke>("bezierControlPointHandleStroke1", new BasicStroke(
-            1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] { 5f, 5f }, 0f
-            ));
+    public final static AttributeKey<Stroke> BEZIER_TANGENT_STROKE_1 = new AttributeKey<Stroke>("bezierTangentStroke1",
+            new BasicStroke(
+            1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[]{5f, 5f}, 0f));
     /**
-     * Handle stroke.
+     * Bezier tangent line stroke 2.
      */
-    public final static AttributeKey<Stroke> BEZIER_CONTROL_POINT_HANDLE_STROKE_2 = new AttributeKey<Stroke>("bezierControlPointHandleStroke2", new BasicStroke(
-            1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] { 5f, 5f }, 5f
-            ));
+    public final static AttributeKey<Stroke> BEZIER_TANGENT_STROKE_2 = new AttributeKey<Stroke>("bezierTangentStroke2",
+            new BasicStroke(
+            1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[]{5f, 5f}, 5f));
     /**
-     * Handle stroke color.
+     * Bezier node handle stroke color.
      */
     public final static AttributeKey<Color> BEZIER_NODE_HANDLE_STROKE_COLOR = new AttributeKey<Color>("bezierControlPointStrokeColor", Color.WHITE);
     /**
-     * Handle fill color.
+     * Bezier node handle fill color.
      */
-    public final static AttributeKey<Color> BEZIER_NODE_HANDLE_FILL_COLOR = new AttributeKey<Color>("bezierControlPointFillColor", Color.MAGENTA);
+    public final static AttributeKey<Color> BEZIER_NODE_HANDLE_FILL_COLOR = new AttributeKey<Color>("bezierControlPointFillColor", new Color(0x00a8ff));
     /**
-     * Handle stroke color.
+     * Bezier path stroke color 1.
      */
-    public final static AttributeKey<Color> BEZIER_OUTLINE_HANDLE_STROKE_COLOR_1 = new AttributeKey<Color>("bezierControlPointStrokeColor1", Color.MAGENTA);
+    public final static AttributeKey<Color> BEZIER_PATH_COLOR_1 = new AttributeKey<Color>("bezierPathColor1", Color.WHITE);
     /**
-     * Handle stroke color.
+     * Bezier path stroke color 2.
      */
-    public final static AttributeKey<Color> BEZIER_OUTLINE_HANDLE_STROKE_COLOR_2 = new AttributeKey<Color>("bezierControlPointStrokeColor2", Color.WHITE);
+    public final static AttributeKey<Color> BEZIER_PATH_COLOR_2 = new AttributeKey<Color>("bezierPathColor2", new Color(0x00a8ff));
     /**
-     * Handle stroke.
+     * Bezier path stroke 1.
      */
-    public final static AttributeKey<Stroke> BEZIER_OUTLINE_HANDLE_STROKE_1 = new AttributeKey<Stroke>("bezierControlPointHandleStroke1", new BasicStroke(
-            2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] { 3f, 7f }, 0f
-            ));
+    public final static AttributeKey<Stroke> BEZIER_PATH_STROKE_1 = new AttributeKey<Stroke>("bezierPathStroke1",
+            new BasicStroke(
+            3f));
     /**
-     * Handle stroke.
+     * Bezier path stroke 2.
      */
-    public final static AttributeKey<Stroke> BEZIER_OUTLINE_HANDLE_STROKE_2 = new AttributeKey<Stroke>("bezierControlPointHandleStroke2", new BasicStroke(
-            2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] { 3f, 7f }, 5f
-            ));
+    public final static AttributeKey<Stroke> BEZIER_PATH_STROKE_2 = new AttributeKey<Stroke>("bezierPathStroke2",
+            new BasicStroke(
+            1f));
+    //---
     /**
-     * Handle stroke color.
+     * Bezier path hover stroke color 1.
+     */
+    public final static AttributeKey<Color> BEZIER_PATH_HOVER_COLOR_1 = new AttributeKey<Color>("bezierPathHoverColor1", null);
+    /**
+     * Bezier path hover stroke color 2.
+     */
+    public final static AttributeKey<Color> BEZIER_PATH_HOVER_COLOR_2 = new AttributeKey<Color>("bezierPathHoverColor2", new Color(0x00a8ff));
+    /**
+     * Bezier path hover stroke 1.
+     */
+    public final static AttributeKey<Stroke> BEZIER_PATH_HOVER_STROKE_1 = new AttributeKey<Stroke>("bezierPathHoverStroke1",
+            null);
+    /**
+     * Bezier path hover stroke 2.
+     */
+    public final static AttributeKey<Stroke> BEZIER_PATH_HOVER_STROKE_2 = new AttributeKey<Stroke>("bezierPathHoverStroke2",
+            new BasicStroke(1f));
+    //---
+    /**
+     * Scale handle stroke color.
      */
     public final static AttributeKey<Color> SCALE_HANDLE_STROKE_COLOR = new AttributeKey<Color>("scaleHandleStrokeColor", Color.WHITE);
     /**
-     * Handle fill color.
+     * Scale handle fill color.
      */
     public final static AttributeKey<Color> SCALE_HANDLE_FILL_COLOR = new AttributeKey<Color>("scaleHandleFillColor", Color.ORANGE.darker());
     /**
-     * Handle stroke color.
+     * Resize handle stroke color.
      */
     public final static AttributeKey<Color> RESIZE_HANDLE_STROKE_COLOR = new AttributeKey<Color>("resizeHandleStrokeColor", Color.WHITE);
     /**
-     * Handle stroke color.
+     * Resize handle fill color.
      */
     public final static AttributeKey<Color> RESIZE_HANDLE_FILL_COLOR = new AttributeKey<Color>("resizeHandleFillColor", Color.BLUE);
     /**
-     * Handle stroke color.
+     * Handle bounds stroke color 1.
      */
-    public final static AttributeKey<Color> RESIZE_OUTLINE_HANDLE_STROKE_COLOR_1 = new AttributeKey<Color>("resizeOutlineHandleStrokeColor1", Color.BLUE);
+    public final static AttributeKey<Color> RESIZE_BOUNDS_COLOR_1 = new AttributeKey<Color>("resizeBoundsColor1", Color.WHITE);
     /**
-     * Handle stroke color.
+     * Resize bounds stroke color 2.
      */
-    public final static AttributeKey<Color> RESIZE_OUTLINE_HANDLE_STROKE_COLOR_2 = new AttributeKey<Color>("resizeOutlineHandleStrokeColor2", Color.WHITE);
+    public final static AttributeKey<Color> RESIZE_BOUNDS_COLOR_2 = new AttributeKey<Color>("resizeBoundsColor2", Color.BLUE);
     /**
-     * Handle stroke.
+     * Resize bounds stroke 1.
      */
-    public final static AttributeKey<Stroke> RESIZE_OUTLINE_HANDLE_STROKE_1 = new AttributeKey<Stroke>("bezierControlPointHandleStroke1", new BasicStroke(
-            2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] { 3f, 7f }, 0f
-            ));
+    public final static AttributeKey<Stroke> RESIZE_BOUNDS_STROKE_1 = new AttributeKey<Stroke>("resizeBoundsStroke1",
+            new BasicStroke(
+            3f));
     /**
-     * Handle stroke.
+     * Resize bounds stroke 2.
      */
-    public final static AttributeKey<Stroke> RESIZE_OUTLINE_HANDLE_STROKE_2 = new AttributeKey<Stroke>("bezierControlPointHandleStroke2", new BasicStroke(
-            2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] { 3f, 7f }, 5f
-            ));
+    public final static AttributeKey<Stroke> RESIZE_BOUNDS_STROKE_2 = new AttributeKey<Stroke>("resizeBoundsStroke2",
+            new BasicStroke(
+            1f));
+    //---
     /**
-     * Handle stroke color.
+     * Handle bounds hover stroke color 1.
      */
-    public final static AttributeKey<Color> TRANSFORM_OUTLINE_HANDLE_STROKE_COLOR_1 = new AttributeKey<Color>("bezierControlPointStrokeColor1", Color.GREEN.darker());
+    public final static AttributeKey<Color> RESIZE_BOUNDS_HOVER_COLOR_1 = new AttributeKey<Color>("resizeBoundsHoverColor1", null);
     /**
-     * Handle stroke color.
+     * Resize bounds hover stroke color 2.
      */
-    public final static AttributeKey<Color> TRANSFORM_OUTLINE_HANDLE_STROKE_COLOR_2 = new AttributeKey<Color>("bezierControlPointStrokeColor2", Color.WHITE);
+    public final static AttributeKey<Color> RESIZE_BOUNDS_HOVER_COLOR_2 = new AttributeKey<Color>("resizeBoundsHoverColor2", Color.BLUE);
     /**
-     * Handle stroke.
+     * Resize bounds hover stroke 1.
      */
-    public final static AttributeKey<Stroke> TRANSFORM_OUTLINE_HANDLE_STROKE_1 = new AttributeKey<Stroke>("bezierControlPointHandleStroke1", new BasicStroke(
-            2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] { 3f, 7f }, 0f
-            ));
+    public final static AttributeKey<Stroke> RESIZE_BOUNDS_HOVER_STROKE_1 = new AttributeKey<Stroke>("resizeBoundsHoverStroke1",
+            null);
     /**
-     * Handle stroke.
+     * Resize bounds hover stroke 2.
      */
-    public final static AttributeKey<Stroke> TRANSFORM_OUTLINE_HANDLE_STROKE_2 = new AttributeKey<Stroke>("bezierControlPointHandleStroke2", new BasicStroke(
-            2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] { 3f, 7f }, 5f
-            ));
+    public final static AttributeKey<Stroke> RESIZE_BOUNDS_HOVER_STROKE_2 = new AttributeKey<Stroke>("resizeBoundsHoverStroke2",
+            new BasicStroke(1f));
+    //---
+    /**
+     * Transform handle stroke color.
+     */
+    public final static AttributeKey<Color> TRANSFORM_HANDLE_STROKE_COLOR = new AttributeKey<Color>("transformHandleStrokeColor", Color.WHITE);
+    /**
+     * Transform handle fill color.
+     */
+    public final static AttributeKey<Color> TRANSFORM_HANDLE_FILL_COLOR = new AttributeKey<Color>("transformHandleFillColor", Color.MAGENTA);
+    /**
+     * Transform bounds color 1.
+     */
+    public final static AttributeKey<Color> TRANSFORM_BOUNDS_COLOR_1 = new AttributeKey<Color>("transformBoundsColor1", Color.WHITE);
+    /**
+     * Transform bounds color 2.
+     */
+    public final static AttributeKey<Color> TRANSFORM_BOUNDS_COLOR_2 = new AttributeKey<Color>("transformBoundsColor2", Color.MAGENTA);
+    /**
+     * Transform bounds stroke 1.
+     */
+    public final static AttributeKey<Stroke> TRANSFORM_BOUNDS_STROKE_1 = new AttributeKey<Stroke>("transformBoundsStroke1",
+            new BasicStroke(3f));
+    /**
+     * Transform bounds stroke 2.
+     */
+    public final static AttributeKey<Stroke> TRANSFORM_BOUNDS_STROKE_2 = new AttributeKey<Stroke>("transformBoundsStroke2",
+            new BasicStroke(1f));
+    //---
+    /**
+     * Transform bounds hover color 1.
+     */
+    public final static AttributeKey<Color> TRANSFORM_BOUNDS_HOVER_COLOR_1 = new AttributeKey<Color>("transformBoundsHoverColor1", null);
+    /**
+     * Transform bounds hover color 2.
+     */
+    public final static AttributeKey<Color> TRANSFORM_BOUNDS_HOVER_COLOR_2 = new AttributeKey<Color>("transformBoundsHoverColor2", Color.MAGENTA);
+    /**
+     * Transform bounds hover stroke 1.
+     */
+    public final static AttributeKey<Stroke> TRANSFORM_BOUNDS_HOVER_STROKE_1 = new AttributeKey<Stroke>("transformBoundsStroke1",
+            null);
+    /**
+     * Transform bounds hover stroke 2.
+     */
+    public final static AttributeKey<Stroke> TRANSFORM_BOUNDS_HOVER_STROKE_2 = new AttributeKey<Stroke>("transformBoundsStroke2",
+            new BasicStroke(1f));
+    //---
     /**
      * Handle stroke color.
      */
@@ -186,7 +254,7 @@ public class HandleAttributeKeys {
     /**
      * Handle fill color.
      */
-    public final static AttributeKey<Color> CONNECTED_CONNECTOR_HANDLE_FILL_COLOR = new AttributeKey<Color>("connectedConnectorHandleFillColor",  Color.GREEN);
+    public final static AttributeKey<Color> CONNECTED_CONNECTOR_HANDLE_FILL_COLOR = new AttributeKey<Color>("connectedConnectorHandleFillColor", Color.GREEN);
     /**
      * Handle stroke color.
      */

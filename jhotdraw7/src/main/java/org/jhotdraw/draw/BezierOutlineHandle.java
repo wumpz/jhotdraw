@@ -1,5 +1,5 @@
 /*
- * @(#)BezierOutlineHandle.java  2.0  2008-05-11
+ * @(#)BezierOutlineHandle.java  3.0  2008-05-22
  *
  * Copyright (c) 2007-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -19,7 +19,9 @@ import java.awt.*;
  * Draws the outlines of a BezierFigure to make adjustment easier.
  *
  * @author Werner Randelshofer
- * @version 2008-05-11 Handle attributes are now retrieved from
+ * @version 2008-05-22 Handle can be used to mark figure over which mouse is
+ * hovering.
+ * <br>2008-05-11 Handle attributes are now retrieved from
  * DrawingEditor. 
  * <br>1.1 2008-04-12 Improve visibility of the outline, by drawing it
  * using two differently colored strokes. 
@@ -27,9 +29,19 @@ import java.awt.*;
  */
 public class BezierOutlineHandle extends AbstractHandle {
 
+    /**
+     * Set this to true, if the handle is used for marking a figure over
+     * which the mouse pointer is hovering.
+     */
+    private boolean isHoverHandle = false;
+
     /** Creates a new instance. */
     public BezierOutlineHandle(BezierFigure owner) {
+        this(owner, false);
+    }
+    public BezierOutlineHandle(BezierFigure owner, boolean isHoverHandle) {
         super(owner);
+        this.isHoverHandle = isHoverHandle;
     }
 
     public BezierFigure getOwner() {
@@ -61,15 +73,27 @@ public class BezierOutlineHandle extends AbstractHandle {
             bounds = AttributeKeys.TRANSFORM.get(getOwner()).createTransformedShape(bounds);
         }
         bounds = view.getDrawingToViewTransform().createTransformedShape(bounds);
-        Stroke stroke = (Stroke) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_OUTLINE_HANDLE_STROKE_1);
-        Color strokeColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_OUTLINE_HANDLE_STROKE_COLOR_1);
+        Stroke stroke;
+        Color strokeColor;
+        if (isHoverHandle) {
+            stroke = (Stroke) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_PATH_HOVER_STROKE_1);
+            strokeColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_PATH_HOVER_COLOR_1);
+        } else {
+            stroke = (Stroke) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_PATH_STROKE_1);
+            strokeColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_PATH_COLOR_1);
+        }
         if (stroke != null && strokeColor != null) {
             g.setStroke(stroke);
             g.setColor(strokeColor);
             g.draw(bounds);
         }
-         stroke = (Stroke) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_OUTLINE_HANDLE_STROKE_2);
-         strokeColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_OUTLINE_HANDLE_STROKE_COLOR_2);
+        if (isHoverHandle) {
+            stroke = (Stroke) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_PATH_HOVER_STROKE_2);
+            strokeColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_PATH_HOVER_COLOR_2);
+        } else {
+            stroke = (Stroke) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_PATH_STROKE_2);
+            strokeColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_PATH_COLOR_2);
+        }
         if (stroke != null && strokeColor != null) {
             g.setStroke(stroke);
             g.setColor(strokeColor);

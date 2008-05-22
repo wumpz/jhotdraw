@@ -923,14 +923,14 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
                 Component child = dockingSource.getComponent(i);
                 Point childP = new Point(p.x - child.getX(), p.y - child.getY());
                 if (child.contains(childP)) {
-                    return new Integer((childP.x <= child.getWidth()) ? i : i + 1);
+                    return new Integer(Math.min(n - 1, (childP.x <= child.getWidth()) ? i : i + 1));
                 }
             }
             if (dockingSource.getComponentCount() == 0 ||
                     p.x < dockingSource.getComponent(0).getX()) {
                 return 0;
             }
-            return dockingSource.getComponentCount();
+            return dockingSource.getComponentCount() - 1;
         }
         return null;
     }
@@ -1049,14 +1049,16 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
      * @since 1.5
      */
     protected void paintDragWindow(Graphics g) {
+        int w = dragWindow.getWidth();
+        int h = dragWindow.getHeight();
+        
+        g.setColor(dragWindow.getBackground());	    
+        g.fillRect(0, 0, w, h);
+        
         Graphics g2 = g.create();
         toolBar.paint(g2);
         g2.dispose();
-        int w = dragWindow.getWidth();
-        int h = dragWindow.getHeight();
-        /*
-        g.setColor(dragWindow.getBackground());	    
-        g.fillRect(0, 0, w, h);*/
+
         g.setColor(dragWindow.getBorderColor());
         g.drawRect(0, 0, w - 1, h - 1);
     }

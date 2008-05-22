@@ -242,7 +242,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
 
         switch (detailLevel % 2) {
             case -1 : // Mouse hover handles
-                handles.add(new BoundsOutlineHandle(this));
+                handles.add(new BoundsOutlineHandle(this,false,true));
                 break;
             case 0:
                 ResizeHandleKit.addResizeHandles(this, handles);

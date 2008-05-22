@@ -282,7 +282,7 @@ public class SVGTextFigure
     }
     
     public Color getFillColor() {
-        return FILL_COLOR.get(this).equals(Color.white) ? Color.black : Color.WHITE;
+        return FILL_COLOR.get(this) == null || FILL_COLOR.get(this).equals(Color.white) ? Color.black : Color.WHITE;
         //  return FILL_COLOR.get(this);
     }
     

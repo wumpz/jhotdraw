@@ -26,6 +26,7 @@ import org.jhotdraw.app.action.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.gui.JFontChooser;
 
 /**
  * ButtonFactory.
@@ -1282,6 +1283,12 @@ public class ButtonFactory {
 
     public static JPopupButton createFontButton(DrawingEditor editor,
             ResourceBundleUtil labels) {
+        return createFontButton(editor, FONT_FACE, labels);
+        
+    }
+    public static JPopupButton createFontButton(DrawingEditor editor,
+            AttributeKey key,
+            ResourceBundleUtil labels) {
 
         JPopupButton fontPopupButton;
 
@@ -1290,87 +1297,94 @@ public class ButtonFactory {
         labels.configureToolBarButton(fontPopupButton, "attribute.font");
         fontPopupButton.setFocusable(false);
 
+        /*
         Font[] allFonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
         HashSet<String> fontExclusionList = new HashSet<String>(Arrays.asList(new String[]{
-                    // Mac OS X 10.3 Font Exclusion List
-                    "#GungSeo", "#HeadLineA", "#PCMyungjo", "#PilGi", "Al Bayan", "Apple LiGothic",
-                    "Apple LiSung", "AppleMyungjo", "Arial Hebrew", "Ayuthaya", "Baghdad",
-                    "BiauKai", "Charcoal CY", "Corsiva Hebrew", "DecoType Naskh",
-                    "Devanagari MT", "Fang Song", "GB18030 Bitmap", "Geeza Pro",
-                    "Geezah", "Geneva CY", "Gujarati MT", "Gurmukhi MT", "Hei",
-                    "Helvetica CY", "Hiragino Kaku Gothic Std", "Hiragino Maru Gothic Pro",
-                    "Hiragino Mincho Pro", "Hiragino Kaku Gothic Pro",
-                    "InaiMathi",
-                    "Kai",
-                    "Krungthep", "KufiStandardGK", "LiHei Pro", "LiSong Pro",
-                    "Mshtakan",
-                    "Monaco CY",
-                    "Nadeem",
-                    "New Peninim MT", "Osaka",
-                    "Plantagenet Cherokee",
-                    "Raanana", "STFangsong", "STHeiti",
-                    "STKaiti", "STSong", "Sathu", "Silom",
-                    "Thonburi", "Times CY",
-                    // Windows XP Professional Font Exclusion List
-                    "Arial Unicode MS", "Batang", "Estrangelo Edessa", "Gautami",
-                    "Kartika", "Latha", "Lucida Sans Unicode", "Mangal", "Marlett",
-                    "MS Mincho", "MS Outlook", "MV Boli", "OCR-B-10 BT",
-                    "Raavi", "Shruti", "SimSun", "Sylfaen", "Symbol", "Tunga",
-                    "Vrinda", "Wingdings", "Wingdings 2", "Wingdings 3",
-                    "ZWAdobeF"
-                }));
+        // Mac OS X 10.3 Font Exclusion List
+        "#GungSeo", "#HeadLineA", "#PCMyungjo", "#PilGi", "Al Bayan", "Apple LiGothic",
+        "Apple LiSung", "AppleMyungjo", "Arial Hebrew", "Ayuthaya", "Baghdad",
+        "BiauKai", "Charcoal CY", "Corsiva Hebrew", "DecoType Naskh",
+        "Devanagari MT", "Fang Song", "GB18030 Bitmap", "Geeza Pro",
+        "Geezah", "Geneva CY", "Gujarati MT", "Gurmukhi MT", "Hei",
+        "Helvetica CY", "Hiragino Kaku Gothic Std", "Hiragino Maru Gothic Pro",
+        "Hiragino Mincho Pro", "Hiragino Kaku Gothic Pro",
+        "InaiMathi",
+        "Kai",
+        "Krungthep", "KufiStandardGK", "LiHei Pro", "LiSong Pro",
+        "Mshtakan",
+        "Monaco CY",
+        "Nadeem",
+        "New Peninim MT", "Osaka",
+        "Plantagenet Cherokee",
+        "Raanana", "STFangsong", "STHeiti",
+        "STKaiti", "STSong", "Sathu", "Silom",
+        "Thonburi", "Times CY",
+        // Windows XP Professional Font Exclusion List
+        "Arial Unicode MS", "Batang", "Estrangelo Edessa", "Gautami",
+        "Kartika", "Latha", "Lucida Sans Unicode", "Mangal", "Marlett",
+        "MS Mincho", "MS Outlook", "MV Boli", "OCR-B-10 BT",
+        "Raavi", "Shruti", "SimSun", "Sylfaen", "Symbol", "Tunga",
+        "Vrinda", "Wingdings", "Wingdings 2", "Wingdings 3",
+        "ZWAdobeF"
+        }));
         LinkedList<Font> fontList = new LinkedList<Font>();
         for (int i = 0; i < allFonts.length; i++) {
-            if (!fontExclusionList.contains(allFonts[i].getFamily())) {
-                fontList.add(allFonts[i]);
-            }
+        if (!fontExclusionList.contains(allFonts[i].getFamily())) {
+        fontList.add(allFonts[i]);
+        }
         }
         allFonts = new Font[fontList.size()];
         allFonts = (Font[]) fontList.toArray(allFonts);
         Arrays.sort(allFonts, new Comparator<Font>() {
-
-            public int compare(Font f1, Font f2) {
-                int result = f1.getFamily().compareTo(f2.getFamily());
-                if (result == 0) {
-                    result = f1.getFontName().compareTo(f2.getFontName());
-                }
-                return result;
-            }
+        
+        public int compare(Font f1, Font f2) {
+        int result = f1.getFamily().compareTo(f2.getFamily());
+        if (result == 0) {
+        result = f1.getFontName().compareTo(f2.getFontName());
+        }
+        return result;
+        }
         });
         LinkedList<Font> fontFamilies = new LinkedList<Font>();
         JMenu submenu = null;
         for (int i = 0; i < allFonts.length; i++) {
-            if (submenu != null) {
-                if (!allFonts[i].getFamily().equals(allFonts[i - 1].getFamily())) {
-                    submenu = null;
-                }
-            }
-            if (submenu == null) {
-                if (i < allFonts.length - 2 && allFonts[i].getFamily().equals(allFonts[i + 1].getFamily())) {
-                    fontFamilies.add(allFonts[i]);
-                    submenu = new JMenu(allFonts[i].getFamily());
-                    //submenu.setFont(JPopupButton.ITEM_FONT);
-                    fontPopupButton.add(submenu);
-
-                }
-            }
-            Action action = new AttributeAction(
-                    editor,
-                    FONT_FACE,
-                    allFonts[i],
-                    (submenu == null) ? allFonts[i].getFamily() : allFonts[i].getFontName(),
-                    null,
-                    new StyledEditorKit.FontFamilyAction(allFonts[i].getFontName(), allFonts[i].getFamily()));
-
-            if (submenu == null) {
-                fontFamilies.add(allFonts[i]);
-                fontPopupButton.add(action);
-            } else {
-                JMenuItem item = submenu.add(action);
-            //item.setFont(JPopupButton.itemFont);
-            }
+        if (submenu != null) {
+        if (!allFonts[i].getFamily().equals(allFonts[i - 1].getFamily())) {
+        submenu = null;
         }
-        fontPopupButton.setColumnCount(Math.max(1, fontFamilies.size() / 32), true);
+        }
+        if (submenu == null) {
+        if (i < allFonts.length - 2 && allFonts[i].getFamily().equals(allFonts[i + 1].getFamily())) {
+        fontFamilies.add(allFonts[i]);
+        submenu = new JMenu(allFonts[i].getFamily());
+        //submenu.setFont(JPopupButton.ITEM_FONT);
+        fontPopupButton.add(submenu);
+        
+        }
+        }
+        Action action = new AttributeAction(
+        editor,
+        FONT_FACE,
+        allFonts[i],
+        (submenu == null) ? allFonts[i].getFamily() : allFonts[i].getFontName(),
+        null,
+        new StyledEditorKit.FontFamilyAction(allFonts[i].getFontName(), allFonts[i].getFamily()));
+        
+        if (submenu == null) {
+        fontFamilies.add(allFonts[i]);
+        fontPopupButton.add(action);
+        } else {
+        JMenuItem item = submenu.add(action);
+        //item.setFont(JPopupButton.itemFont);
+        }
+        }
+        fontPopupButton.setColumnCount(Math.max(1, fontFamilies.size() / 32), true);*/
+         JPopupMenu popupMenu = new JPopupMenu();
+         JFontChooser fontChooser = new JFontChooser();
+         new FontChooserHandler(editor, key, fontChooser, popupMenu);
+
+        popupMenu.add(fontChooser);
+        fontPopupButton.setPopupMenu(popupMenu);
         fontPopupButton.setFocusable(false);
 
         return fontPopupButton;
@@ -1599,4 +1613,5 @@ public class ButtonFactory {
         btn.setFocusable(false);
         return btn;
     }
+    
 }

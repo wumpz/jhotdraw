@@ -71,7 +71,7 @@ public class TransformHandleKit {
      * Adds handles for scaling, moving, rotating and shearing a Figure.
      */
     static public void addTransformHandles(Figure f, Collection<Handle> handles) {
-        handles.add(new BoundsOutlineHandle(f, true));
+        handles.add(new BoundsOutlineHandle(f, true, false));
         addCornerTransformHandles(f, handles);
         addEdgeTransformHandles(f, handles);
         handles.add(new RotateHandle(f));
@@ -127,7 +127,9 @@ public class TransformHandleKit {
          * Draws this handle.
          */
         public void draw(Graphics2D g) {
-            drawDiamond(g, Color.green.darker(), Color.white);
+                drawDiamond(g,
+                        (Color) getEditor().getHandleAttribute(HandleAttributeKeys.TRANSFORM_HANDLE_FILL_COLOR),
+                        (Color) getEditor().getHandleAttribute(HandleAttributeKeys.TRANSFORM_HANDLE_STROKE_COLOR));
         }
 
         protected Rectangle2D.Double getTransformedBounds() {

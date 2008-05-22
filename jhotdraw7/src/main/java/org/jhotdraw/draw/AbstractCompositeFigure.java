@@ -106,7 +106,7 @@ public abstract class AbstractCompositeFigure
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
         if (detailLevel == 0) {
-        handles.add(new BoundsOutlineHandle(this, true));
+        handles.add(new BoundsOutlineHandle(this, true, false));
             TransformHandleKit.addScaleMoveTransformHandles(this, handles);
         }
         return handles;

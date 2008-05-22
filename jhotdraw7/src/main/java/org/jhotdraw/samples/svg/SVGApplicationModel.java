@@ -174,9 +174,9 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         attributes.put(AttributeKeys.FILL_COLOR, Color.black);
         attributes.put(AttributeKeys.STROKE_COLOR, null);
         ButtonFactory.addToolTo(tb, editor, tt = new TextTool(new SVGTextFigure(), attributes), "createText", drawLabels);
-        tt.setToolDoneAfterCreation(false);
+        tt.setToolDoneAfterCreation(true);
         TextAreaTool tat = new TextAreaTool(new SVGTextAreaFigure(), attributes);
-        tat.setToolDoneAfterCreation(false);
+        tat.setToolDoneAfterCreation(true);
         tat.setRubberbandColor(Color.BLACK);
         ButtonFactory.addToolTo(tb, editor, tat, "createTextArea", drawLabels);
         attributes = new HashMap<AttributeKey,Object>();
@@ -184,7 +184,7 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         attributes.put(AttributeKeys.STROKE_COLOR, null);
         ImageTool it;
         ButtonFactory.addToolTo(tb, editor, it = new ImageTool(new SVGImageFigure(), attributes), "createImage", drawLabels);
-        it.setToolDoneAfterCreation(false);
+        it.setToolDoneAfterCreation(true);
     }
     /**
      * Creates toolbar buttons and adds them to the specified JToolBar

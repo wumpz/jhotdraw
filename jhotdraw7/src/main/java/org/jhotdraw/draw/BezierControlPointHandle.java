@@ -93,8 +93,8 @@ public class BezierControlPointHandle extends AbstractHandle {
                 TRANSFORM.get(getTransformOwner()).transform(pc, pc);
             }
 
-            Stroke stroke = (Stroke) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_CONTROL_POINT_HANDLE_STROKE_1);
-            Color strokeColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_CONTROL_POINT_HANDLE_STROKE_COLOR_1);
+            Stroke stroke = (Stroke) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_TANGENT_STROKE_1);
+            Color strokeColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_TANGENT_COLOR_1);
             if (stroke != null && strokeColor != null) {
                 g.setStroke(stroke);
                 g.setColor(strokeColor);
@@ -102,8 +102,8 @@ public class BezierControlPointHandle extends AbstractHandle {
                         view.drawingToView(p0),
                         view.drawingToView(pc)));
             }
-            stroke = (Stroke) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_CONTROL_POINT_HANDLE_STROKE_2);
-            strokeColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_CONTROL_POINT_HANDLE_STROKE_COLOR_2);
+            stroke = (Stroke) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_TANGENT_STROKE_2);
+            strokeColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_TANGENT_COLOR_2);
             if (stroke != null && strokeColor != null) {
                 g.setStroke(stroke);
                 g.setColor(strokeColor);

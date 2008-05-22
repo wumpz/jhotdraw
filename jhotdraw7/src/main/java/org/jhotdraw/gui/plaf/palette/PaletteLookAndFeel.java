@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.gui.plaf.palette;
 
+import ch.randelshofer.quaqua.util.ResourceBundleUtil;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.UIDefaults.*;
@@ -200,7 +201,9 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
     @Override
     protected void initComponentDefaults(UIDefaults table) {
         super.initComponentDefaults(table);
-
+        
+        table.addResourceBundle("org.jhotdraw.gui.Labels");
+        
         // *** Shared Fonts
 	Integer twelve = new Integer(12);
 	Integer fontPlain = new Integer(Font.PLAIN);
@@ -257,6 +260,12 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
 	    "Button.border", buttonBorder,
 	    "Button.margin", zeroInsets,
 
+	    // *** FontChooser
+	    "Button.background", control,
+	    "Button.foreground", controlText,
+	    "Button.border", buttonBorder,
+	    "Button.margin", zeroInsets,
+            
 	    // *** Slider
 	    "Slider.background", control,
 	    "Slider.foreground", controlText,
