@@ -1,5 +1,5 @@
 /*
- * @(#)ButtonFactory.java  2.2  2008-05-18
+ * @(#)ButtonFactory.java  2.3  2008-05-23
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -32,7 +32,8 @@ import org.jhotdraw.gui.JFontChooser;
  * ButtonFactory.
  *
  * @author Werner Randelshofer
- * @version 2.2 2008-05-18 Added method createDrawingColorButton.
+ * @version 2.3 2008-05-23 Factured SelectionComponentRepainter out. 
+ * <br>2.2 2008-05-18 Added method createDrawingColorButton.
  * <br>2.1 2008-03-25 Made method signature of createSelectionColorButton
  * compatible with createEditorColorButton.
  * <br>2.0.1 2007-12-17 Fixed createToggleGridButton method. 
@@ -574,59 +575,6 @@ public class ButtonFactory {
         return popupButton;
     }
 
-    private static class DrawingAttributeHandler extends FigureAdapter implements PropertyChangeListener {
-
-        private DrawingEditor editor;
-        private JComponent component;
-
-        public DrawingAttributeHandler(DrawingEditor editor, JComponent component) {
-            this.editor = editor;
-            this.component = component;
-            if (editor.getActiveView() != null) {
-                DrawingView view = editor.getActiveView();
-                view.addPropertyChangeListener(this);
-                if (view.getDrawing() != null) {
-                    view.getDrawing().addFigureListener(this);
-                }
-            }
-        }
-
-        @Override
-        public void attributeChanged(FigureEvent evt) {
-            component.repaint();
-        }
-
-        public void propertyChange(PropertyChangeEvent evt) {
-            String name = evt.getPropertyName();
-            if (name == DrawingEditor.ACTIVE_VIEW_PROPERTY) {
-                DrawingView view = (DrawingView) evt.getOldValue();
-                if (view != null) {
-                    view.removePropertyChangeListener(this);
-                    if (view.getDrawing() != null) {
-                        view.getDrawing().removeFigureListener(this);
-                    }
-                }
-                view = (DrawingView) evt.getNewValue();
-                if (view != null) {
-                    view.addPropertyChangeListener(this);
-                    if (view.getDrawing() != null) {
-                        view.getDrawing().addFigureListener(this);
-                    }
-                }
-                component.repaint();
-            } else if (name == DrawingView.DRAWING_PROPERTY) {
-                Drawing drawing = (Drawing) evt.getOldValue();
-                if (drawing != null) {
-                    drawing.removeFigureListener(this);
-                }
-                drawing = (Drawing) evt.getNewValue();
-                if (drawing != null) {
-                    drawing.addFigureListener(this);
-                }
-                component.repaint();
-            }
-        }
-    }
 
     /**
      * Creates a color button, with an action region and a popup menu. The
@@ -793,32 +741,7 @@ public class ButtonFactory {
         popupButton.setDisabledIcon(icon);
         popupButton.setFocusable(false);
 
-        final FigureSelectionListener selectionHandler = new FigureSelectionListener() {
-
-            public void selectionChanged(FigureSelectionEvent evt) {
-                popupButton.repaint();
-            }
-        };
-
-        editor.addPropertyChangeListener(new PropertyChangeListener() {
-
-            public void propertyChange(PropertyChangeEvent evt) {
-                String name = evt.getPropertyName();
-                if (name == DrawingEditor.ACTIVE_VIEW_PROPERTY) {
-                    if (evt.getOldValue() != null) {
-                        ((DrawingView) evt.getOldValue()).removeFigureSelectionListener(selectionHandler);
-                    }
-                    if (evt.getNewValue() != null) {
-                        ((DrawingView) evt.getNewValue()).addFigureSelectionListener(selectionHandler);
-                    }
-                    popupButton.repaint();
-                } else {
-                    popupButton.repaint();
-
-                }
-            }
-        });
-
+        new SelectionComponentRepainter(editor, popupButton);
         return popupButton;
     }
 
@@ -960,7 +883,7 @@ public class ButtonFactory {
         popupButton.setDisabledIcon(icon);
         popupButton.setFocusable(false);
 
-        editor.addPropertyChangeListener(new DrawingAttributeHandler(editor, popupButton));
+        editor.addPropertyChangeListener(new SelectionComponentRepainter(editor, popupButton));
 
         return popupButton;
     }
