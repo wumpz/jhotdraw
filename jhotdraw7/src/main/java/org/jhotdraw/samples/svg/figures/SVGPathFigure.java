@@ -143,7 +143,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         }
         return cachedPath;
     }
-
+    
     // int count;
     public Rectangle2D.Double getDrawingArea() {
         if (cachedDrawingArea == null) {
@@ -433,7 +433,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         if (evt.getClickCount() == 2 && view.getHandleDetailLevel() % 2 == 0) {
             for (Figure child : getChildren()) {
                 SVGBezierFigure bf = (SVGBezierFigure) child;
-                int index = bf.getBezierPath().findSegment(p, (float) (5f / view.getScaleFactor()));
+                int index = bf.findSegment(p, (float) (5f / view.getScaleFactor()));
                 if (index != -1) {
                     bf.handleMouseClick(p, evt, view);
                     evt.consume();

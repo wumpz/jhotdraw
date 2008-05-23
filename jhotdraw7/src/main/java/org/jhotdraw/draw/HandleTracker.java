@@ -108,6 +108,7 @@ public class HandleTracker extends AbstractTool {
             multicaster.trackDoubleClick(new Point(evt.getX(), evt.getY()),
                     evt.getModifiersEx(), getView());
         }
+        evt.consume();
     }
 
     public void mouseDragged(MouseEvent evt) {

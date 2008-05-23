@@ -133,11 +133,11 @@ public class DelegationSelectionTool extends SelectionTool {
         if (isMousePressedPopupTrigger) {
             isMousePressedPopupTrigger = false;
         } else {
-            super.mouseReleased(evt);
-        }
-
-        if (evt.isPopupTrigger()) {
-            handlePopupMenu(evt);
+            if (evt.isPopupTrigger()) {
+                handlePopupMenu(evt);
+            } else {
+                super.mouseReleased(evt);
+            }
         }
     }
 
@@ -324,7 +324,7 @@ public class DelegationSelectionTool extends SelectionTool {
             v.setHandleDetailLevel(v.getHandleDetailLevel() + 1);
         }
     }
-    
+
     public String getToolTipText(DrawingView view, MouseEvent evt) {
         Handle handle = view.findHandle(evt.getPoint());
         if (handle != null) {

@@ -1,5 +1,5 @@
 /*
- * @(#)BezierPath.java  1.3  2007-05-07
+ * @(#)BezierPath.java  1.4  2008-05-23
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -28,7 +28,9 @@ import java.util.*;
  * away from C0.
  *
  * @author Werner Randelshofer
- * @version 1.3 BezierPath has now its own BezierPathIterator.
+ * @version 1.4 2008-05-23 Method findSegment uses now double precision for
+ * the tolerance paremeters. 
+ * <br>1.3 BezierPath has now its own BezierPathIterator.
  * <br>1.2.1 Issue #1628647: Method splitSegment created incorrect control
  * point masks.
  * <br>1.2 2006-12-09 Method setWindingRule added.
@@ -872,7 +874,7 @@ System.out.println("- "+git.isDone()+"="+bit.isDone());
      * the given Point2D.Double.
      * @return the index of the segment or -1 if no segment was hit.
      */
-    public int findSegment(Point2D.Double find, float tolerance) {
+    public int findSegment(Point2D.Double find, double tolerance) {
         // XXX - This works only for straight lines!
         Node v1, v2;
         BezierPath tempPath = new BezierPath();
@@ -919,7 +921,7 @@ System.out.println("- "+git.isDone()+"="+bit.isDone());
      * of the bezier path.
      * @return the index of the joined segment or -1 if no segment was joined.
      */
-    public int joinSegments(Point2D.Double join, float tolerance) {
+    public int joinSegments(Point2D.Double join, double tolerance) {
         for (int i=0; i < size(); i++) {
             Node p = get(i);
             if (Geom.length(p.x[0], p.y[0], join.x, join.y) < tolerance) {
@@ -933,7 +935,7 @@ System.out.println("- "+git.isDone()+"="+bit.isDone());
      * Splits the segment at the given Point2D.Double if a segment was hit.
      * @return the index of the segment or -1 if no segment was hit.
      */
-    public int splitSegment(Point2D.Double split, float tolerance) {
+    public int splitSegment(Point2D.Double split, double tolerance) {
         int i = findSegment(split, tolerance);
         int nextI = (i + 1) % size();
         if (i != -1) {

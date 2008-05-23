@@ -1,5 +1,5 @@
 /*
- * @(#)BezierFigure.java 3.0.1  2007-11-30
+ * @(#)BezierFigure.java 3.1  2008-05-23
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -41,7 +41,8 @@ import org.jhotdraw.xml.DOMOutput;
  *
  * @see org.jhotdraw.geom.BezierPath
  *
- * @version 3.0.1 2007-11-30 Changed method removeNode from protected to public. 
+ * @version 3.1 2008-05-23 Added method findSegment with tolerance parameter.
+ * <br>3.0.1 2007-11-30 Changed method removeNode from protected to public. 
  * <br>3.0 2007-05-12 Got rid of basic methods.
  * <br>2.2.1 2007-04-22 Method contains did not work as expected for filled
  * unclosed beziers with thick line widths.
@@ -489,32 +490,26 @@ public class BezierFigure extends AbstractAttributedFigure {
     /**
      * Gets the segment of the polyline that is hit by
      * the given Point2D.Double.
+     * 
+     * @param find a Point on the bezier path
+     * @param tolerance a tolerance, tolerance should take into account
+     * the line width, plus 2 divided by the zoom factor. 
      * @return the index of the segment or -1 if no segment was hit.
-     *
-     * XXX - Move this to BezierPath
      */
-    public int findSegment(Point2D.Double find) {
-        // Fixme - use path iterator
-        
-        Point2D.Double p1, p2;
-        for (int i = 0, n = getNodeCount() - 1; i < n; i++) {
-            p1 = path.get(i, 0);
-            p2 = path.get(i+1, 0);
-            if (Geom.lineContainsPoint(p1.x, p1.y, p2.x, p2.y, find.x, find.y, 3d)) {
-                return i;
-            }
-        }
-        return -1;
+    public int findSegment(Point2D.Double find, double tolerance) {
+        return getBezierPath().findSegment(find, tolerance);
     }
     /**
      * Joins two segments into one if the given Point2D.Double hits a node
      * of the polyline.
      * @return true if the two segments were joined.
      *
-     * XXX - Move this to BezierPath
+     * @param join a Point at a node on the bezier path
+     * @param tolerance a tolerance, tolerance should take into account
+     * the line width, plus 2 divided by the zoom factor. 
      */
-    public boolean joinSegments(Point2D.Double join) {
-        int i = findSegment(join);
+    public boolean joinSegments(Point2D.Double join, double tolerance) {
+        int i = findSegment(join, tolerance);
         if (i != -1 && i > 1) {
             removeNode(i);
             return true;
@@ -525,10 +520,12 @@ public class BezierFigure extends AbstractAttributedFigure {
      * Splits the segment at the given Point2D.Double if a segment was hit.
      * @return the index of the segment or -1 if no segment was hit.
      *
-     * XXX - Move this to BezierPath
+     * @param join a Point at a node on the bezier path
+     * @param tolerance a tolerance, tolerance should take into account
+     * the line width, plus 2 divided by the zoom factor. 
      */
-    public int splitSegment(Point2D.Double split) {
-        int i = findSegment(split);
+    public int splitSegment(Point2D.Double split, double tolerance) {
+        int i = findSegment(split, tolerance);
         if (i != -1) {
             addNode(i + 1, new BezierPath.Node(split));
         }

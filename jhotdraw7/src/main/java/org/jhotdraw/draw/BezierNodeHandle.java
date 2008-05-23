@@ -165,7 +165,7 @@ public class BezierNodeHandle extends AbstractHandle {
 
         // Change node type
         if ((modifiersEx & (InputEvent.META_DOWN_MASK | InputEvent.CTRL_DOWN_MASK | InputEvent.ALT_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK)) != 0 &&
-                (modifiersEx & InputEvent.BUTTON2_DOWN_MASK) == 0) {
+                (modifiersEx & InputEvent.BUTTON2_MASK) == 0) {
             f.willChange();
             BezierPath.Node v = f.getNode(index);
             if (index > 0 && index < f.getNodeCount() || f.isClosed()) {
