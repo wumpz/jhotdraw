@@ -176,7 +176,6 @@ public class ButtonFactory {
         a.add(new CutAction());
         a.add(new CopyAction());
         a.add(new PasteAction());
-        a.add(new SelectAllAction());
         a.add(new SelectSameAction(editor));
 
         return a;

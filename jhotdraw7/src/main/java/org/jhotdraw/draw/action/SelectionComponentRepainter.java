@@ -86,5 +86,21 @@ public class SelectionComponentRepainter extends FigureAdapter
     public void selectionChanged(FigureSelectionEvent evt) {
         component.repaint();
     }
+
+    public void dispose() {
+        if (editor != null) {
+            if (editor.getActiveView() != null) {
+                DrawingView view = editor.getActiveView();
+                view.removePropertyChangeListener(this);
+                view.removeFigureSelectionListener(this);
+                if (view.getDrawing() != null) {
+                    view.getDrawing().removeFigureListener(this);
+                }
+            }
+            editor.removePropertyChangeListener(this);
+            editor = null;
+        }
+        component = null;
+    }
 }
 

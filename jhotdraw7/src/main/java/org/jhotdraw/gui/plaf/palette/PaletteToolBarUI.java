@@ -1056,7 +1056,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
         g.fillRect(0, 0, w, h);
         
         Graphics g2 = g.create();
-        toolBar.paint(g2);
+        toolBar.paintAll(g2);
         g2.dispose();
 
         g.setColor(dragWindow.getBorderColor());

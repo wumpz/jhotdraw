@@ -1,5 +1,5 @@
 /*
- * @(#)DrawingEditor.java  3.0 2008-05-11
+ * @(#)DrawingEditor.java  3.1 2008-05-23
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -38,7 +38,8 @@ import java.util.*;
  * drawing palettes.
  * 
  * @author Werner Randelshofer
- * @version 3.0 2008-05-11 Added methods setHandleAttribute, getHandleAttribute. 
+ * @version 3.1 2008-05-23 Added TOOL_PROPERTY. 
+ * <br>3.0 2008-05-11 Added methods setHandleAttribute, getHandleAttribute. 
  * <br>2.4 2007-12-25 Renamed PROP_CURRENT_VIEW to ACTIVE_VIEW_PROPERTY. 
  * <br>2.3 2007-05-26 Streamlined methods setActiveView, setFocusedView, getActiveView
  * into setActiveView, getActiveView.
@@ -49,9 +50,13 @@ import java.util.*;
  */
 public interface DrawingEditor {
     /**
-     * The property name for the active view Property.
+     * The property name for the active view property.
      */
     public final static String ACTIVE_VIEW_PROPERTY = "activeView";   
+    /**
+     * The property name for the active tool property.
+     */
+    public final static String TOOL_PROPERTY = "tool";   
     
     /**
      * Gets the editor's current drawing.
@@ -97,10 +102,14 @@ public interface DrawingEditor {
      * Calls activate on the provided tool.
      * Forwards all mouse, mouse moation and keyboard events that occur on the
      * DrawingView to the provided tool.
+     * <p>
+     * This is a bound property.
      */
     void setTool(Tool t);
     /**
      * Gets the current tool.
+     * <p>
+     * This is a bound property.
      */
     Tool getTool();
     /**

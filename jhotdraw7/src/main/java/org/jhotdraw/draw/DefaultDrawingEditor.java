@@ -66,8 +66,10 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor,
         views = new HashSet<DrawingView>();
     }
 
-    public void setTool(Tool t) {
-        if (t == tool) {
+    public void setTool(Tool newValue) {
+        Tool oldValue = tool;
+        
+        if (newValue == tool) {
             return;
         }
         if (tool != null) {
@@ -79,7 +81,7 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor,
             tool.deactivate(this);
             tool.removeToolListener(this);
         }
-        tool = t;
+        tool = newValue;
         if (tool != null) {
             tool.activate(this);
             for (DrawingView v : views) {
@@ -89,6 +91,8 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor,
             }
             tool.addToolListener(this);
         }
+        
+        firePropertyChange(TOOL_PROPERTY, oldValue, newValue);
     }
 
     public void areaInvalidated(ToolEvent evt) {
