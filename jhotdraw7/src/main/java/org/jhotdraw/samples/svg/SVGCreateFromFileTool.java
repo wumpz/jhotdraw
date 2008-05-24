@@ -63,8 +63,9 @@ public class SVGCreateFromFileTool extends CreationTool {
         this.groupPrototype = groupPrototype;
         this.imagePrototype = imagePrototype;
     }
+
     /** Creates a new instance. */
-    public SVGCreateFromFileTool(ImageHolderFigure imagePrototype, CompositeFigure groupPrototype, Map<AttributeKey,Object> attributes) {
+    public SVGCreateFromFileTool(ImageHolderFigure imagePrototype, CompositeFigure groupPrototype, Map<AttributeKey, Object> attributes) {
         super(imagePrototype, attributes);
         this.groupPrototype = groupPrototype;
         this.imagePrototype = imagePrototype;
@@ -83,7 +84,6 @@ public class SVGCreateFromFileTool extends CreationTool {
 
         if (getFileChooser().showOpenDialog(getView().getComponent()) == JFileChooser.APPROVE_OPTION) {
             final File file = getFileChooser().getSelectedFile();
-            final ImageHolderFigure loaderFigure = ((ImageHolderFigure) prototype.clone());
             Worker worker;
 
             if (file.getName().toLowerCase().endsWith(".svg") ||
@@ -132,6 +132,7 @@ public class SVGCreateFromFileTool extends CreationTool {
                 };
             } else {
                 prototype = imagePrototype;
+                final ImageHolderFigure loaderFigure = ((ImageHolderFigure) prototype.clone());
                 worker = new Worker() {
 
                     public Object construct() {
