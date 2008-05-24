@@ -1,26 +1,24 @@
 /*
  * @(#)QuaquaLabelUI.java  1.6  2007-11-18
  *
- * Copyright (c) 2005-2007 Werner Randelshofer
- * Staldenmattweg 2, Immensee, CH-6405, Switzerland.
+ * Copyright (c) 2008 by the original authors of JHotDraw
+ * and all its contributors.
  * All rights reserved.
  *
- * The copyright of this software is owned by Werner Randelshofer. 
+ * The copyright of this software is owned by the authors and  
+ * contributors of the JHotDraw project ("the copyright holders").  
  * You may not use, copy or modify this software, except in  
  * accordance with the license agreement you entered into with  
- * Werner Randelshofer. For details see accompanying license terms. 
+ * the copyright holders. For details see accompanying license terms. 
  */
 package org.jhotdraw.gui.plaf.palette;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.beans.*;
 
 import javax.swing.*;
-import javax.swing.border.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
-import javax.swing.text.*;
 
 /**
  * QuaquaLabelUI.
