@@ -1,7 +1,7 @@
 /*
- * @(#)CreationTool.java  2.3  2007-08-22
+ * @(#)CreationTool.java  2.5  2008-05-24
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -44,7 +44,9 @@ import org.jhotdraw.util.*;
  * the ConnectionTool for this type of figures instead.
  *
  * @author Werner Randelshofer
- * @version 2.2 2007-08-22 Added property 'toolDoneAfterCreation'.
+ * @version 2.4 2008-05-24 Made all private variables protected. Use crosshair
+ * cursor for creation tool.
+ * <br>2.2 2007-08-22 Added property 'toolDoneAfterCreation'.
  * <br>2.1.1 2006-07-20 Minimal size treshold was enforced too eagerly.
  * <br>2.1 2006-07-15 Changed to create prototype creation from class presentationName.
  * <br>2.0 2006-01-14 Changed to support double precision coordinates.
@@ -57,25 +59,25 @@ public class CreationTool extends AbstractTool {
      * These attributes override the default attributes of the
      * DrawingEditor.
      */
-    private Map<AttributeKey, Object> prototypeAttributes;
+    protected Map<AttributeKey, Object> prototypeAttributes;
     /**
      * A localized name for this tool. The presentationName is displayed by the
      * UndoableEdit.
      */
-    private String presentationName;
+    protected String presentationName;
     /**
      * Treshold for which we create a larger shape of a minimal size.
      */
-    private Dimension minimalSizeTreshold = new Dimension(2, 2);
+    protected Dimension minimalSizeTreshold = new Dimension(2, 2);
     /**
      * We set the figure to this minimal size, if it is smaller than the
      * minimal size treshold.
      */
-    private Dimension minimalSize = new Dimension(40, 40);
+    protected Dimension minimalSize = new Dimension(40, 40);
     /**
      * The prototype for new figures.
      */
-    private Figure prototype;
+    protected Figure prototype;
     /**
      * The created figure.
      */
@@ -164,8 +166,8 @@ public class CreationTool extends AbstractTool {
 
     public void activate(DrawingEditor editor) {
         super.activate(editor);
-    //getView().clearSelection();
-    //getView().setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+        //getView().clearSelection();
+        getView().setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
     }
 
     public void deactivate(DrawingEditor editor) {
@@ -300,5 +302,14 @@ public class CreationTool extends AbstractTool {
      */
     public boolean isToolDoneAfterCreation() {
         return isToolDoneAfterCreation;
+    }
+
+    @Override
+    public void updateCursor(DrawingView view, Point p) {
+        if (view.isEnabled()) {
+            view.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+        } else {
+            view.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        }
     }
 }

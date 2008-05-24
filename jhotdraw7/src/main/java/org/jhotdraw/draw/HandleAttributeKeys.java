@@ -73,14 +73,12 @@ public class HandleAttributeKeys {
      * Bezier tangent line stroke 1.
      */
     public final static AttributeKey<Stroke> BEZIER_TANGENT_STROKE_1 = new AttributeKey<Stroke>("bezierTangentStroke1",
-            new BasicStroke(
-            1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[]{5f, 5f}, 0f));
+            new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[]{5f, 5f}, 0f));
     /**
      * Bezier tangent line stroke 2.
      */
     public final static AttributeKey<Stroke> BEZIER_TANGENT_STROKE_2 = new AttributeKey<Stroke>("bezierTangentStroke2",
-            new BasicStroke(
-            1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[]{5f, 5f}, 5f));
+            new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[]{5f, 5f}, 5f));
     /**
      * Bezier node handle stroke color.
      */
@@ -101,14 +99,12 @@ public class HandleAttributeKeys {
      * Bezier path stroke 1.
      */
     public final static AttributeKey<Stroke> BEZIER_PATH_STROKE_1 = new AttributeKey<Stroke>("bezierPathStroke1",
-            new BasicStroke(
-            3f));
+            new BasicStroke(3f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL));
     /**
      * Bezier path stroke 2.
      */
     public final static AttributeKey<Stroke> BEZIER_PATH_STROKE_2 = new AttributeKey<Stroke>("bezierPathStroke2",
-            new BasicStroke(
-            1f));
+            new BasicStroke(1f));
     //---
     /**
      * Bezier path hover stroke color 1.
@@ -157,14 +153,12 @@ public class HandleAttributeKeys {
      * Resize bounds stroke 1.
      */
     public final static AttributeKey<Stroke> RESIZE_BOUNDS_STROKE_1 = new AttributeKey<Stroke>("resizeBoundsStroke1",
-            new BasicStroke(
-            3f));
+            new BasicStroke(3f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL));
     /**
      * Resize bounds stroke 2.
      */
     public final static AttributeKey<Stroke> RESIZE_BOUNDS_STROKE_2 = new AttributeKey<Stroke>("resizeBoundsStroke2",
-            new BasicStroke(
-            1f));
+            new BasicStroke(1f));
     //---
     /**
      * Handle bounds hover stroke color 1.
@@ -205,7 +199,7 @@ public class HandleAttributeKeys {
      * Transform bounds stroke 1.
      */
     public final static AttributeKey<Stroke> TRANSFORM_BOUNDS_STROKE_1 = new AttributeKey<Stroke>("transformBoundsStroke1",
-            new BasicStroke(3f));
+            new BasicStroke(3f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL));
     /**
      * Transform bounds stroke 2.
      */
