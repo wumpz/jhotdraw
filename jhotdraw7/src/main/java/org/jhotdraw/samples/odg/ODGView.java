@@ -207,7 +207,7 @@ public class ODGView extends AbstractView implements ExportableView {
             if (sf == null) {
                 sf = drawing.getInputFormats().get(0);
             }
-            sf.read(f, drawing);
+            sf.read(f, drawing, true);
             
             System.out.println("ODCView read("+f+") drawing.childCount="+drawing.getChildCount());
             

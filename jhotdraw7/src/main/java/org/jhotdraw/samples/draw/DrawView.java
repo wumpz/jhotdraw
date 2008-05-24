@@ -193,7 +193,7 @@ public class DrawView extends AbstractView {
             boolean success = false;
                 for (InputFormat sfi : drawing.getInputFormats()) {
                         try {
-                            sfi.read(f, drawing);
+                            sfi.read(f, drawing, true);
                             success = true;
                             break;
                         } catch (Exception e) {

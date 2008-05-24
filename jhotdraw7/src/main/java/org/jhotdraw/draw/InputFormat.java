@@ -1,7 +1,7 @@
 /*
- * @(#)InputFormat.java  1.1  2007-12-07
+ * @(#)InputFormat.java  3.0  2008-05-24
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -32,7 +32,8 @@ import javax.swing.filechooser.*;
  * OutputFormat to make it easy, to write classes that implement both interfaces.
  *
  * @author Werner Randelshofer
- * @version 2.0 2007-12-07 Method readFigures(Transferable) replaced by
+ * @version 3.0 2008-05-24 Added parameter isReplaceDrawing. 
+ * <br>2.0 2007-12-07 Method readFigures(Transferable) replaced by
  * read(Transferable, Drawing). 
  * <br>1.0 December 12, 2006 Created.
  */
@@ -56,20 +57,39 @@ public interface InputFormat {
     public JComponent getInputFormatAccessory();
     
     /**
-     * Reads figures from a file and adds them to the specified drawing.
+     * Reads figures from a file and replaces the children of the drawing
+     * with them.
+     * <p>
+     * This is a convenience method for calling read(File,Drawing,true).
      *
      * @param file The file.
      * @param drawing The drawing.
      */
     public void read(File file, Drawing drawing) throws IOException;
+    
+    /**
+     * Reads figures from a file and adds them to the specified drawing.
+     *
+     * @param file The file.
+     * @param drawing The drawing.
+     * @param replace Set this to true, if the contents of the file replaces the
+     * contents of the drawing (for example, when loading a drawing from a file).
+     * Set this to false, to add the contents of the file to the drawing (for
+     * example, when the file has been dropped into the drawing view).
+     */
+    public void read(File file, Drawing drawing, boolean replace) throws IOException;
 
     /**
      * Reads figures from a file and adds them to the specified drawing.
      *
      * @param in The input stream.
      * @param drawing The drawing.
+     * @param replace Set this to true, if the contents of the stream replaces the
+     * contents of the drawing (for example, when loading a drawing from a stream).
+     * Set this to false, to add the contents of the file to the drawing (for
+     * example, when the stream has been dropped into the drawing view).
      */
-    public void read(InputStream in, Drawing drawing) throws IOException;
+    public void read(InputStream in, Drawing drawing, boolean replace) throws IOException;
 
     /**
      * Returns true, if this InputFormat can readFigures TransferData using the 
@@ -85,6 +105,11 @@ public interface InputFormat {
      * 
      * @param t The Transferable. 
      * @param drawing The drawing.
+     * @param replace Set this to true, if the contents of the transferable
+     * replaces the contents of the drawing (for example, when loading a drawing
+     * from a transferable). Set this to false, to add the contents of the 
+     * transferable to the drawing (for example, when the transferable has been
+     * dropped or pasted into the drawing view).
      */
-    public void read(Transferable t, Drawing drawing) throws UnsupportedFlavorException, IOException;
+    public void read(Transferable t, Drawing drawing, boolean replace) throws UnsupportedFlavorException, IOException;
 }

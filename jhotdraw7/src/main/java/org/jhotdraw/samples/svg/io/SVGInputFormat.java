@@ -154,22 +154,19 @@ public class SVGInputFormat implements InputFormat {
         this.factory = factory;
     }
 
-    /**
-     * This is the main reading method.
-     */
-    public void read(InputStream in, Drawing drawing) throws IOException {
-        read(in, drawing, true);
+    public void read(File file, Drawing drawing) throws IOException {
+        read(file, drawing, true);
     }
     /**
      * This is the main reading method.
      *  
      * @param in The input stream.
      * @param drawing The drawing to which this method adds figures.
-     * @param isSetAttributesOnDrawing Whether attributes on the drawing object
+     * @param replace Whether attributes on the drawing object
      * should by changed by this method. Set this to false, when reading individual
      * images from the clipboard.
      */
-    public void read(InputStream in, Drawing drawing, boolean isSetAttributesOnDrawing) throws IOException {
+    public void read(InputStream in, Drawing drawing, boolean replace) throws IOException {
         long start = System.currentTimeMillis();
         this.figures = new LinkedList<Figure>();
         IXMLParser parser;
@@ -242,10 +239,13 @@ public class SVGInputFormat implements InputFormat {
         if (DEBUG) System.out.println("SVGInputFormat flatten:"+(end2-end1));
         if (DEBUG) System.out.println("SVGInputFormat build:"+(end-end2));
          */
+        if (replace) {
+            drawing.removeAllChildren();
+        }
         drawing.addAll(figures);
 
 
-        if (isSetAttributesOnDrawing) {
+        if (replace) {
         Viewport viewport = viewportStack.firstElement();
         VIEWPORT_FILL.set(drawing, VIEWPORT_FILL.get(viewport.attributes));
         VIEWPORT_FILL_OPACITY.set(drawing, VIEWPORT_FILL_OPACITY.get(viewport.attributes));
@@ -3200,12 +3200,12 @@ public class SVGInputFormat implements InputFormat {
         return null;
     }
 
-    public void read(File file, Drawing drawing) throws IOException {
+    public void read(File file, Drawing drawing, boolean replace) throws IOException {
         this.url = file.toURL();
         BufferedInputStream in = null;
         try {
             in = new BufferedInputStream(new FileInputStream(file));
-            read(in, drawing);
+            read(in, drawing, replace);
         } finally {
             if (in != null) {
                 in.close();
@@ -3219,7 +3219,7 @@ public class SVGInputFormat implements InputFormat {
                 flavor.getSubType().equals("svg+xml");
     }
 
-    public void read(Transferable t, Drawing drawing) throws UnsupportedFlavorException, IOException {
+    public void read(Transferable t, Drawing drawing, boolean replace) throws UnsupportedFlavorException, IOException {
         InputStream in = null;
         try {
             in = (InputStream) t.getTransferData(new DataFlavor("image/svg+xml", "Image SVG"));

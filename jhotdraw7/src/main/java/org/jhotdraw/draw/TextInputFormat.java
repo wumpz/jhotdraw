@@ -1,5 +1,5 @@
 /*
- * @(#)TextInputFormat.java  1.1.1  2008-03-19
+ * @(#)TextInputFormat.java  1.2  2008-05-24
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -37,7 +37,8 @@ import org.jhotdraw.io.*;
  * text to the same Figure, or it can create a new Figure for each line.
  *
  * @author Werner Randelshofer 
- * @version 1.1.1 2008-03-19 Throw an IOException if we are unable to read
+ * @version 1.2 2008-05-24 Adapted to changes in InputFormat.
+ * <br>1.1.1 2008-03-19 Throw an IOException if we are unable to read
  * text from the input stream. 
  * <br>1.1 2007-12-16 Adapted to changes in InputFormat.
  * <br>1.0 2007-04-12 Created.
@@ -106,10 +107,17 @@ public class TextInputFormat implements InputFormat {
     }
     
     public void read(File file, Drawing drawing) throws IOException {
-        read(new FileInputStream(file), drawing);
+        read(file, drawing, true);
     }
     
-    public void read(InputStream in, Drawing drawing) throws IOException {
+    public void read(File file, Drawing drawing, boolean replace) throws IOException {
+        read(new FileInputStream(file), drawing, replace);
+    }
+    
+    public void read(InputStream in, Drawing drawing, boolean replace) throws IOException {
+        if (replace) {
+            drawing.removeAllChildren();
+        }
         drawing.basicAddAll(0, createTextHolderFigures(in));
     }
     
@@ -159,7 +167,7 @@ public class TextInputFormat implements InputFormat {
         return flavor.equals(DataFlavor.stringFlavor);
     }
     
-    public void read(Transferable t, Drawing drawing) throws UnsupportedFlavorException, IOException {
+    public void read(Transferable t, Drawing drawing, boolean replace) throws UnsupportedFlavorException, IOException {
         String text = (String) t.getTransferData(DataFlavor.stringFlavor);
         
         LinkedList list = new LinkedList<Figure>();
@@ -191,6 +199,9 @@ public class TextInputFormat implements InputFormat {
                 figure.changed();
                 list.add(figure);
             }
+        }
+        if (replace) {
+            drawing.removeAllChildren();
         }
         drawing.addAll(list);
     }

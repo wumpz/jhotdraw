@@ -232,7 +232,7 @@ public class SVGView extends AbstractView implements ExportableView {
             boolean success = false;
             if (selectedFormat != null) {
                 try {
-                    selectedFormat.read(f, drawing);
+                    selectedFormat.read(f, drawing, true);
                     success = true;
                 } catch (Exception e) {
                         // try with the next input format
@@ -242,7 +242,7 @@ public class SVGView extends AbstractView implements ExportableView {
                 for (InputFormat sfi : drawing.getInputFormats()) {
                     if (sfi != selectedFormat) {
                         try {
-                            sfi.read(f, drawing);
+                            sfi.read(f, drawing, true);
                             success = true;
                             break;
                         } catch (Exception e) {

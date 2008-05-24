@@ -101,7 +101,7 @@ public class SVGApplet extends JApplet {
                                 in = url.openConnection().getInputStream();
                             }
                             if (in != null) {
-                                fmt.read(in, drawing);
+                                fmt.read(in, drawing, true);
                                 result = drawing;
                                 break;
                             }
@@ -179,7 +179,7 @@ public class SVGApplet extends JApplet {
                 // Try to read the data using all known input formats.
                 for (InputFormat fmt : drawing.getInputFormats()) {
                     try {
-                        fmt.read(in, drawing);
+                        fmt.read(in, drawing, true);
                         in =
                                 new ByteArrayInputStream(text.getBytes("UTF8"));
                         result =

@@ -1,5 +1,5 @@
 /*
- * @(#)ImageInputFormat.java  2.0  2008-03-20
+ * @(#)ImageInputFormat.java  2.1  2008-05-24
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -34,7 +34,8 @@ import org.jhotdraw.util.Images;
  * as a prototype for creating a figure that holds the imported image.
  * 
  * @author Werner Randelshor 
- * @version 2.0 2008-03-20 Added workaround for image clipboard issues on 
+ * @version 2.1 2008-05-24 Adapted to changes in InputFormat. 
+ * <br>2.0 2008-03-20 Added workaround for image clipboard issues on 
  * Mac OS X 10.5.2. 
  * <br>1.1 2007-12-16 Adapted to changes in InputFormat.
  * <br>1.0 January 3, 2007 Created.
@@ -98,7 +99,7 @@ public class ImageInputFormat implements InputFormat {
         return null;
     }
 
-    public void read(File file, Drawing drawing) throws IOException {
+    public void read(File file, Drawing drawing, boolean replace) throws IOException {
         ImageHolderFigure figure = (ImageHolderFigure) prototype.clone();
         figure.loadImage(file);
         figure.setBounds(
@@ -106,10 +107,20 @@ public class ImageInputFormat implements InputFormat {
                 new Point2D.Double(
                 figure.getBufferedImage().getWidth(),
                 figure.getBufferedImage().getHeight()));
+        if (replace) {
+            drawing.removeAllChildren();
+        }
         drawing.basicAdd(figure);
     }
 
-    public void read(InputStream in, Drawing drawing) throws IOException {
+    public void read(File file, Drawing drawing) throws IOException {
+        read(file, drawing, true);
+    }
+
+    public void read(InputStream in, Drawing drawing, boolean replace) throws IOException {
+        if (replace) {
+            drawing.removeAllChildren();
+        }
         drawing.basicAdd(createImageHolder(in));
     }
 
@@ -129,7 +140,7 @@ public class ImageInputFormat implements InputFormat {
                 flavor.equals(ImageTransferable.IMAGE_PNG_FLAVOR);
     }
 
-    public void read(Transferable t, Drawing drawing) throws UnsupportedFlavorException, IOException {
+    public void read(Transferable t, Drawing drawing, boolean replace) throws UnsupportedFlavorException, IOException {
         // 1. Try to read the image using the Java Image Flavor
         // This causes a NoSuchMethodError to be thrown on Mac OS X 10.5.2.
         if (t.isDataFlavorSupported(DataFlavor.imageFlavor)) {
@@ -145,13 +156,15 @@ public class ImageInputFormat implements InputFormat {
                         figure.getBufferedImage().getHeight()));
                 LinkedList list = new LinkedList<Figure>();
                 list.add(figure);
+                if (replace) {
+                    drawing.removeAllChildren();
+                }
                 drawing.addAll(list);
                 return;
             } catch (Throwable e) {
                 // no need to do anything here, because we try to read the
                 // image/png below.
                 //e.printStackTrace();
-                
             }
         }
         // 2. Try to read the image using our own image/png flavor.
@@ -169,6 +182,9 @@ public class ImageInputFormat implements InputFormat {
                         figure.getBufferedImage().getHeight()));
                 LinkedList list = new LinkedList<Figure>();
                 list.add(figure);
+                if (replace) {
+                    drawing.removeAllChildren();
+                }
                 drawing.addAll(list);
             } catch (Throwable e) {
                 e.printStackTrace();

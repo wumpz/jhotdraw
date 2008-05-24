@@ -202,7 +202,7 @@ public class NetView extends AbstractView {
         try {
             final Drawing drawing = createDrawing();
             InputFormat inputFormat = drawing.getInputFormats().get(0);
-            inputFormat.read(f, drawing);
+            inputFormat.read(f, drawing, true);
             SwingUtilities.invokeAndWait(new Runnable() { public void run() {
                 view.getDrawing().removeUndoableEditListener(undo);
                 view.setDrawing(drawing);

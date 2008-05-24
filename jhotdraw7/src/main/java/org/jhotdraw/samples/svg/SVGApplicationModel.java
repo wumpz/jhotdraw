@@ -182,8 +182,8 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         attributes = new HashMap<AttributeKey,Object>();
         attributes.put(AttributeKeys.FILL_COLOR, null);
         attributes.put(AttributeKeys.STROKE_COLOR, null);
-        ImageTool it;
-        ButtonFactory.addToolTo(tb, editor, it = new ImageTool(new SVGImageFigure(), attributes), "createImage", drawLabels);
+        SVGCreateFromFileTool it;
+        ButtonFactory.addToolTo(tb, editor, it = new SVGCreateFromFileTool(new SVGImageFigure(), new SVGGroupFigure()), "createImage", drawLabels);
         it.setToolDoneAfterCreation(true);
     }
     /**

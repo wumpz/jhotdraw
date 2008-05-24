@@ -1,5 +1,5 @@
 /**
- * @(#)PictImageInputFormat.java  1.0  Mar 18, 2008
+ * @(#)PictImageInputFormat.java  1.1  2008-05-24
  *
  * Copyright (c) 2008 Werner Randelshofer
  * Staldenmattweg 2, CH-6405 Immensee, Switzerland
@@ -34,7 +34,8 @@ import org.jhotdraw.util.Images;
  * as a prototype for creating a figure that holds the imported image.
  *
  * @author Werner Randelshofer
- * @version 1.0 Mar 18, 2008 Created.
+ * @version 1.1 2008-05-24 Adapted to changes in InputFormat. 
+ * <br>1.0 Mar 18, 2008 Created.
  */
 public class PictImageInputFormat implements InputFormat {
 
@@ -63,6 +64,7 @@ public class PictImageInputFormat implements InputFormat {
      * The image/x-pict data flavor is used by the Mac OS X clipboard. 
      */
     public final static DataFlavor PICT_FLAVOR;
+    
 
     static {
         try {
@@ -107,6 +109,10 @@ public class PictImageInputFormat implements InputFormat {
     }
 
     public void read(File file, Drawing drawing) throws IOException {
+        read(file, drawing, true);
+    }
+    
+    public void read(File file, Drawing drawing, boolean replace) throws IOException {
         InputStream in = null;
         try {
             in = new BufferedInputStream(new FileInputStream(file));
@@ -121,13 +127,16 @@ public class PictImageInputFormat implements InputFormat {
                     new Point2D.Double(
                     figure.getBufferedImage().getWidth(),
                     figure.getBufferedImage().getHeight()));
+            if (replace) {
+                drawing.removeAllChildren();
+            }
             drawing.basicAdd(figure);
         } finally {
             in.close();
         }
     }
 
-    public void read(InputStream in, Drawing drawing) throws IOException {
+    public void read(InputStream in, Drawing drawing, boolean replace) throws IOException {
         try {
             Image img = getImageFromPictStream(in);
             if (img == null) {
@@ -140,6 +149,9 @@ public class PictImageInputFormat implements InputFormat {
                     new Point2D.Double(
                     figure.getBufferedImage().getWidth(),
                     figure.getBufferedImage().getHeight()));
+            if (replace) {
+                drawing.removeAllChildren();
+            }
             drawing.basicAdd(figure);
         } finally {
             in.close();
@@ -161,7 +173,7 @@ public class PictImageInputFormat implements InputFormat {
         return flavor.equals(PICT_FLAVOR);
     }
 
-    public void read(Transferable t, Drawing drawing) throws UnsupportedFlavorException, IOException {
+    public void read(Transferable t, Drawing drawing, boolean replace) throws UnsupportedFlavorException, IOException {
         Object data = t.getTransferData(PICT_FLAVOR);
         if (data instanceof InputStream) {
             InputStream in = null;
@@ -178,6 +190,9 @@ public class PictImageInputFormat implements InputFormat {
                         new Point2D.Double(
                         figure.getBufferedImage().getWidth(),
                         figure.getBufferedImage().getHeight()));
+                if (replace) {
+                    drawing.removeAllChildren();
+                }
                 drawing.add(figure);
             } finally {
                 in.close();
@@ -279,7 +294,7 @@ public class PictImageInputFormat implements InputFormat {
             error.initCause(e);
             throw error;
         }
-            IOException error = new IOException("Couldn't read PICT image");
-            throw error;
+        IOException error = new IOException("Couldn't read PICT image");
+        throw error;
     }
 }

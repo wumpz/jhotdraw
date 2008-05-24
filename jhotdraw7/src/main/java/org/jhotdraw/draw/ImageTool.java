@@ -39,7 +39,7 @@ import org.jhotdraw.undo.*;
  * the following mouse gesture:
  * <ol>
  * <li>Press the mouse button and drag the mouse over the DrawingView. 
- * This defines the bounds of the Figure.</li>
+ * This defines the bounds of the created figure.</li>
  * </ol>
  * 
  * @author Werner Randelshofer
@@ -116,7 +116,7 @@ public class ImageTool extends CreationTool {
             workerThread = new Thread(worker);
             workerThread.start();
         } else {
-            getDrawing().remove(createdFigure);
+            //getDrawing().remove(createdFigure);
             if (isToolDoneAfterCreation()) {
                 fireToolDone();
             }

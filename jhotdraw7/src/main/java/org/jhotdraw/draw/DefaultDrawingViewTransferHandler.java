@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultDrawingViewTransferHandler.java  1.1.2  2008-03-20
+ * @(#)DefaultDrawingViewTransferHandler.java  1.2  2008-05-24
  *
  * Copyright (c) 2007-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -30,7 +30,8 @@ import org.jhotdraw.util.ReversedList;
  * Default TransferHandler for DrawingView objects.
  *
  * @author Werner Randelshofer
- * @version 1.1.2 2008-03-20 After import, only select imported figures in 
+ * @version 1.2 2008-05-24 Adapted to changes in InputFormat. 
+ * <br>1.1.2 2008-03-20 After import, only select imported figures in 
  * drawing view. 
  * <br>1.1.1 2008-03-10 In method importData, figures are added to drawing
  * by the InputFormat. 
@@ -76,7 +77,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                                     System.out.println(this + ".importData importing flavor " + flavor);
                                 }
                                  LinkedList<Figure> existingFigures = new LinkedList<Figure>(drawing.getChildren());
-                                format.read(t, drawing);
+                                format.read(t, drawing, false);
                                 final LinkedList<Figure> importedFigures = new LinkedList<Figure>(drawing.getChildren());
                                 importedFigures.removeAll(existingFigures);
                                 view.clearSelection();
@@ -120,7 +121,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                                     if (DEBUG) {
                                         System.out.println(this + ".importData importing file " + file);
                                     }
-                                    format.read(file, drawing);
+                                    format.read(file, drawing, false);
                                 }
                             }
                         }

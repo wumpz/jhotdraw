@@ -1,7 +1,7 @@
 /*
- * @(#)ODGInputFormat.java  1.1  2007-12-16
+ * @(#)ODGInputFormat.java  1.2  2008-05-24
  *
- * Copyright (c) 2007 by the original authors of JHotDraw
+ * Copyright (c) 2007-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -38,7 +38,8 @@ import org.jhotdraw.samples.odg.geom.*;
  * http://docs.oasis-open.org/office/v1.1/OS/OpenDocument-v1.1.pdf
  *
  * @author Werner Randelshofer
- * @version 1.1 2007-12-16 Adapted to changes in InputFormat. 
+ * @version 1.2 2005-05-24 Adapted to changes in InputFormat. 
+ * <br>1.1 2007-12-16 Adapted to changes in InputFormat. 
  * <br>1.0 April 11, 2007 Created.
  */
 public class ODGInputFormat implements InputFormat {
@@ -70,10 +71,14 @@ public class ODGInputFormat implements InputFormat {
     }
     
     public void read(File file, Drawing drawing) throws IOException {
+        read(file, drawing, true);
+    }
+    
+    public void read(File file, Drawing drawing, boolean replace) throws IOException {
         BufferedInputStream in = null;
         try {
             in = new BufferedInputStream(new FileInputStream(file));
-            read(in, drawing);
+            read(in, drawing, replace);
         } finally {
             if (in != null) {
                 in.close();
@@ -87,11 +92,11 @@ public class ODGInputFormat implements InputFormat {
                 flavor.getSubType().equals("vnd.oasis.opendocument.graphics");
     }
     
-    public void read(Transferable t, Drawing drawing) throws UnsupportedFlavorException, IOException {
+    public void read(Transferable t, Drawing drawing, boolean replace) throws UnsupportedFlavorException, IOException {
         InputStream in = null;
         try {
             in = (InputStream) t.getTransferData(new DataFlavor("application/vnd.oasis.opendocument.graphics", "Image SVG"));
-            read(in, drawing);
+            read(in, drawing, replace);
         } finally {
             if (in != null) { in.close(); }
         }
@@ -110,7 +115,7 @@ public class ODGInputFormat implements InputFormat {
         return tmp.toByteArray();
     }
     
-    public void read(InputStream in, Drawing drawing) throws IOException {
+    public void read(InputStream in, Drawing drawing, boolean replace) throws IOException {
         // Read the file into a byte array.
         byte[] tmp = readAllBytes(in);
         
@@ -149,14 +154,14 @@ public class ODGInputFormat implements InputFormat {
         styles = new ODGStylesReader();
         styles.read(stylesIn);
         
-        readFiguresFromDocumentContent(contentIn, drawing);
+        readFiguresFromDocumentContent(contentIn, drawing, replace);
     }
     
     /**
      * Reads figures from the content.xml file of an ODG open document drawing
      * document.
      */
-    public void readFiguresFromDocumentContent(InputStream in, Drawing drawing) throws IOException {
+    public void readFiguresFromDocumentContent(InputStream in, Drawing drawing, boolean replace) throws IOException {
         this.figures = new LinkedList<Figure>();
         IXMLParser parser;
         try {
@@ -218,6 +223,9 @@ public class ODGInputFormat implements InputFormat {
         
         readDrawingElement(drawingElem);
         
+        if (replace) {
+            drawing.removeAllChildren();
+        }
         drawing.addAll(figures);
     }
     /**

@@ -1,7 +1,7 @@
 /*
- * @(#)DOMStorableOutputFormat.java  1.1  2007-12-16
+ * @(#)DOMStorableOutputFormat.java  1.2  2008-05-24
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -30,7 +30,8 @@ import org.jhotdraw.xml.*;
  * An OutputFormat that can write Drawings with DOMStorable Figure's.
  *
  * @author Werner Randelshofer
- * @version 1.1 2007-12-16 Adapted to changes in InputFormat and OutputFormat.
+ * @version 1.2 2008-05-24 Adapted to changes in InputFormat. 
+ * <br>1.1 2007-12-16 Adapted to changes in InputFormat and OutputFormat.
  * <br>1.0 December 26, 2006 Created.
  */
 public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
@@ -143,10 +144,14 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
     
     
     public void read(File file, Drawing drawing) throws IOException {
+        read(file, drawing, true);
+    }
+    
+    public void read(File file, Drawing drawing, boolean replace) throws IOException {
         BufferedInputStream in = null;
         try {
             in = new BufferedInputStream(new FileInputStream(file));
-            read(in, drawing);
+            read(in, drawing, replace);
         } finally {
             if (in != null) {
                 in.close();
@@ -154,9 +159,12 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
         }
     }
     
-    public void read(InputStream in, Drawing drawing) throws IOException {
+    public void read(InputStream in, Drawing drawing, boolean replace) throws IOException {
         NanoXMLDOMInput domi = new NanoXMLDOMInput(factory, in);
         domi.openElement(factory.getName(drawing));
+        if (replace) {
+            drawing.removeAllChildren();
+        }
         drawing.read(domi);
         domi.closeElement();
     }
@@ -165,7 +173,7 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
         return flavor.equals(dataFlavor);
     }
     
-    public void read(Transferable t, Drawing drawing) throws UnsupportedFlavorException, IOException {
+    public void read(Transferable t, Drawing drawing, boolean replace) throws UnsupportedFlavorException, IOException {
         LinkedList<Figure> figures = new LinkedList<Figure>();
         InputStream in = (InputStream) t.getTransferData(new DataFlavor(mimeType,description));
         NanoXMLDOMInput domi = new NanoXMLDOMInput(factory, in);
@@ -175,6 +183,9 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
             figures.add(f);
         }
         domi.closeElement();
+        if (replace) {
+            drawing.removeAllChildren();
+        }
         drawing.addAll(figures);
     }
     public Transferable createTransferable(Drawing drawing, List<Figure> figures, double scaleFactor) throws IOException {
