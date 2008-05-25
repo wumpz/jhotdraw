@@ -115,6 +115,11 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
         Rectangle2D.Double b = getBounds();
         return new Dimension2DDouble(b.width, b.height);
     }
+    
+    public double getBaseline() {
+        return origin.y - getBounds().y;
+    }
+    
     /**
      * Gets the drawing area without taking the decorator into account.
      */
@@ -170,7 +175,8 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
     }
     
     public int getTextColumns() {
-        return (getText() == null) ? 4 : Math.max(getText().length(), 4);
+        //return (getText() == null) ? 4 : Math.max(getText().length(), 4);
+        return 4;
     }
     /**
      * Gets the number of characters used to expand tabs.

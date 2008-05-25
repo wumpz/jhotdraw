@@ -366,6 +366,9 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
         Insets2D.Double insets = new Insets2D.Double(4,4,4,4);
         return new Insets2D.Double(insets.top+sw,insets.left+sw,insets.bottom+sw,insets.right+sw);
     }
+    public double getBaseline() {
+        return getFont().getLineMetrics(getText(), getFontRenderContext()).getAscent() + getInsets().top;
+    }
     
     public int getTabSize() {
         return 8;

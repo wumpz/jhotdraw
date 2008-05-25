@@ -126,6 +126,9 @@ public class PaletteFontChooserUI extends FontChooserUI {
 
         chooserHandler = new FontChooserHandler();
         fontChooser.addPropertyChangeListener(chooserHandler);
+        if (fontChooser.getModel() != null) {
+            fontChooser.getModel().addTreeModelListener(chooserHandler);
+        }
     }
 
     /**
@@ -173,6 +176,9 @@ public class PaletteFontChooserUI extends FontChooserUI {
         selectionPanel.getCollectionList().removeMouseListener(selectionPanelHandler);
         selectionPanel.getFamilyList().removeMouseListener(selectionPanelHandler);
         selectionPanel.getFaceList().removeMouseListener(selectionPanelHandler);
+        if (fontChooser.getModel() != null) {
+            fontChooser.getModel().removeTreeModelListener(chooserHandler);
+        }
         chooserHandler = null;
         selectionPanelHandler = null;
     }
@@ -279,8 +285,13 @@ public class PaletteFontChooserUI extends FontChooserUI {
         FontFamilyNode newFamily = null;
         FontFaceNode newFace = null;
 
+        if ((oldFamily == null || oldFace == null) && fontChooser.getSelectedFont() != null) {
+            oldFace = new FontFaceNode(fontChooser.getSelectedFont());
+            oldFamily = new FontFamilyNode(fontChooser.getSelectedFont().getFamily());
+        }
+
         if (newCollection != null && oldFamily != null) {
-            for (int i = 0, n = newCollection.getChildCount(); i < n; i++) {
+            for (int i = 0,  n = newCollection.getChildCount(); i < n; i++) {
                 FontFamilyNode aFamily = newCollection.getChildAt(i);
                 if (aFamily.compareTo(oldFamily) == 0) {
                     newFamily = aFamily;
@@ -336,7 +347,7 @@ public class PaletteFontChooserUI extends FontChooserUI {
 
         FontFaceNode newFace = null;
         if (newFamily != null && oldFace != null) {
-            for (int i = 0, n = newFamily.getChildCount(); i < n; i++) {
+            for (int i = 0,  n = newFamily.getChildCount(); i < n; i++) {
                 FontFaceNode aFace = newFamily.getChildAt(i);
                 if (aFace.compareTo(oldFace) == 0) {
                     newFace = aFace;
@@ -476,7 +487,7 @@ public class PaletteFontChooserUI extends FontChooserUI {
         }
     }
 
-    private class FontChooserHandler implements PropertyChangeListener {
+    private class FontChooserHandler implements PropertyChangeListener, TreeModelListener {
 
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
@@ -486,7 +497,43 @@ public class PaletteFontChooserUI extends FontChooserUI {
                 updateFaceList();
             } else if (name == JFontChooser.SELECTED_FONT_PROPERTY) {
                 updatePreview();
+            } else if (name == JFontChooser.MODEL_PROPERTY) {
+                FontChooserModel m = (FontChooserModel) evt.getOldValue();
+                if (m != null) {
+                    m.removeTreeModelListener(this);
+                }
+                m = (FontChooserModel) evt.getNewValue();
+                if (m != null) {
+                    m.addTreeModelListener(this);
+                }
+                updateCollectionList();
+                updateFamilyList();
+                updateFaceList();
             }
+        }
+
+        public void treeNodesChanged(TreeModelEvent e) {
+            updateCollectionList();
+            updateFamilyList();
+            updateFaceList();
+        }
+
+        public void treeNodesInserted(TreeModelEvent e) {
+            updateCollectionList();
+            updateFamilyList();
+            updateFaceList();
+        }
+
+        public void treeNodesRemoved(TreeModelEvent e) {
+            updateCollectionList();
+            updateFamilyList();
+            updateFaceList();
+        }
+
+        public void treeStructureChanged(TreeModelEvent e) {
+            updateCollectionList();
+            updateFamilyList();
+            updateFaceList();
         }
     }
 }

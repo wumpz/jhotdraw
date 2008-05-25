@@ -64,6 +64,11 @@ public interface TextHolderFigure extends Figure {
      * Returns the text held by the Text Holder.
      */
     public String getText();
+    
+    /**
+     * Sets the text of the Text Holder.
+     * @param text
+     */
     public void setText(String text);
     /**
      * Gets the number of columns to be overlaid when the figure is edited.
@@ -78,6 +83,11 @@ public interface TextHolderFigure extends Figure {
      * Gets the font size of the text held by the TextHolderFigure.
      */
     public float getFontSize();
+    /**
+     * Gets the baseline of the first line of text, relative to the
+     * upper left corner of the figure bounds.
+     */
+    public double getBaseline();
     
     /**
      * Returns Insets to be used by the text editor relative to the handle bounds

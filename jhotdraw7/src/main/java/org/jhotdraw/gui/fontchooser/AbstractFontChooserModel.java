@@ -204,7 +204,7 @@ public abstract class AbstractFontChooserModel implements FontChooserModel {
      * @param path the path to the root node
      * @see EventListenerList
      */
-    private void fireTreeStructureChanged(Object source, TreePath path) {
+    protected void fireTreeStructureChanged(Object source, TreePath path) {
         // Guaranteed to return a non-null array
         Object[] listeners = listenerList.getListenerList();
         TreeModelEvent e = null;

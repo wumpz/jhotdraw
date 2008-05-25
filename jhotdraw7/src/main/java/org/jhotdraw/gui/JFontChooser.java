@@ -1,5 +1,5 @@
 /*
- * @(#)JFontChooser.java  1.0  2008-05-18
+ * @(#)JFontChooser.java  1.0.1  2008-05-25
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -15,7 +15,11 @@ package org.jhotdraw.gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.beans.*;
+import java.util.concurrent.*;
 import javax.swing.*;
+import javax.swing.event.TreeModelEvent;
+import javax.swing.event.TreeModelListener;
 import javax.swing.tree.*;
 import org.jhotdraw.gui.fontchooser.*;
 import org.jhotdraw.gui.plaf.*;
@@ -25,7 +29,9 @@ import org.jhotdraw.gui.plaf.palette.PaletteFontChooserUI;
  * Font chooser dialog.
  * 
  * @author  Werner Randelshofer
- * @version 1.0 2008-05-18 Created.
+ * @version 1.0.1 2008-05-25 By default, load fonts lazily. Update selection
+ * path when the contents of the model changes. 
+ * <br>1.0 2008-05-18 Created.
  */
 public class JFontChooser extends JComponent {
 
@@ -44,7 +50,6 @@ public class JFontChooser extends JComponent {
     public final static String SELECTION_PATH_PROPERTY = "selectionPath";
     /** Instruction to cancel the current selection. */
     public static final String CANCEL_SELECTION = "CancelSelection";
-
     /**
      * Instruction to approve the current selection
      * (same as pressing yes or ok).
@@ -66,35 +71,68 @@ public class JFontChooser extends JComponent {
      * Holds the model of the JFontChooser.
      */
     private FontChooserModel model;
-    
     // ********************************
     // ***** Dialog Return Values *****
     // ********************************
-
     /**
      * Return value if cancel is chosen.
      */
     public static final int CANCEL_OPTION = 1;
-
     /**
      * Return value if approve (yes, ok) is chosen.
      */
     public static final int APPROVE_OPTION = 0;
-
     /**
      * Return value if an error occured.
      */
     public static final int ERROR_OPTION = -1;
-    
     private int returnValue = ERROR_OPTION;
-    
     // DIALOG
     private JDialog dialog = null;
+    /**
+     * This future is used to load fonts lazily
+     */
+    private static FutureTask<Font[]> future;
+    private TreeModelListener modelHandler = new TreeModelListener() {
+
+        public void treeNodesChanged(TreeModelEvent e) {
+            updateSelectionPath(getSelectedFont());
+        }
+
+        public void treeNodesInserted(TreeModelEvent e) {
+            updateSelectionPath(getSelectedFont());
+        }
+
+        public void treeNodesRemoved(TreeModelEvent e) {
+            updateSelectionPath(getSelectedFont());
+        }
+
+        public void treeStructureChanged(TreeModelEvent e) {
+            updateSelectionPath(getSelectedFont());
+        }
+    };
 
     /** Creates new form JFontChooser */
     public JFontChooser() {
-        model = new DefaultFontChooserModel();
+        loadAllFonts();
+        model = new DefaultFontChooserModel.UIResource();
+        model.addTreeModelListener(modelHandler);
         updateUI();
+        addPropertyChangeListener(new PropertyChangeListener() {
+
+            public void propertyChange(PropertyChangeEvent evt) {
+                if (evt.getPropertyName() == "ancestor" && evt.getNewValue() != null) {
+                    Component ancestor = (Component) evt.getNewValue();
+
+                    try {
+                        ((DefaultFontChooserModel) model).setFonts(getAllFonts());
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    JFontChooser.this.removePropertyChangeListener(this);
+                }
+            }
+        });
     }
 
     /**
@@ -165,11 +203,11 @@ public class JFontChooser extends JComponent {
      * @see #APPROVE_SELECTION
      */
     public void approveSelection() {
-	returnValue = APPROVE_OPTION;
-	if(dialog != null) {
-	    dialog.setVisible(false);
-	}
-	fireActionPerformed(APPROVE_SELECTION);
+        returnValue = APPROVE_OPTION;
+        if (dialog != null) {
+            dialog.setVisible(false);
+        }
+        fireActionPerformed(APPROVE_SELECTION);
     }
 
     /**
@@ -182,13 +220,14 @@ public class JFontChooser extends JComponent {
      * @see #CANCEL_SELECTION
      */
     public void cancelSelection() {
-	returnValue = CANCEL_OPTION;
-	if(dialog != null) {
-	    dialog.setVisible(false);
-	}
-	fireActionPerformed(CANCEL_SELECTION);
+        returnValue = CANCEL_OPTION;
+        if (dialog != null) {
+            dialog.setVisible(false);
+        }
+        fireActionPerformed(CANCEL_SELECTION);
     }
-   /**
+
+    /**
      * Adds an <code>ActionListener</code> to the font chooser.
      *
      * @param l  the listener to be added
@@ -199,7 +238,7 @@ public class JFontChooser extends JComponent {
     public void addActionListener(ActionListener l) {
         listenerList.add(ActionListener.class, l);
     }
- 
+
     /**
      * Removes an <code>ActionListener</code> from the font chooser.
      *
@@ -210,6 +249,7 @@ public class JFontChooser extends JComponent {
     public void removeActionListener(ActionListener l) {
         listenerList.remove(ActionListener.class, l);
     }
+
     /**
      * Notifies all listeners that have registered interest for
      * notification on this event type. The event instance
@@ -224,25 +264,26 @@ public class JFontChooser extends JComponent {
         int modifiers = 0;
         AWTEvent currentEvent = EventQueue.getCurrentEvent();
         if (currentEvent instanceof InputEvent) {
-            modifiers = ((InputEvent)currentEvent).getModifiers();
+            modifiers = ((InputEvent) currentEvent).getModifiers();
         } else if (currentEvent instanceof ActionEvent) {
-            modifiers = ((ActionEvent)currentEvent).getModifiers();
+            modifiers = ((ActionEvent) currentEvent).getModifiers();
         }
         ActionEvent e = null;
         // Process the listeners last to first, notifying
         // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==ActionListener.class) {
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+            if (listeners[i] == ActionListener.class) {
                 // Lazily create the event:
                 if (e == null) {
                     e = new ActionEvent(this, ActionEvent.ACTION_PERFORMED,
-                                        command, mostRecentEventTime,
-                                        modifiers);
+                            command, mostRecentEventTime,
+                            modifiers);
                 }
-                ((ActionListener)listeners[i+1]).actionPerformed(e);
+                ((ActionListener) listeners[i + 1]).actionPerformed(e);
             }
         }
     }
+
     /**
      * Gets the selected Font.
      * This is a bound property.
@@ -268,8 +309,47 @@ public class JFontChooser extends JComponent {
         TreePath oldValue = selectionPath;
         this.selectionPath = newValue;
         firePropertyChange(SELECTION_PATH_PROPERTY, oldValue, newValue);
-        if (selectionPath.getPathCount() == 4) {
+        if (selectionPath != null && selectionPath.getPathCount() == 4) {
             setSelectedFont(((FontFaceNode) selectionPath.getLastPathComponent()).getFont());
+        }
+    }
+
+    /**
+     * Starts loading all fonts from the local graphics environment 
+     * using a worker thread.
+     */
+    public synchronized static void loadAllFonts() {
+        if (future == null) {
+            future = new FutureTask<Font[]>(new Callable<Font[]>() {
+
+                public Font[] call() throws Exception {
+                    long start = System.currentTimeMillis();
+                    Font[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
+                    long end = System.currentTimeMillis();
+                    //System.out.println("JFontChooser has loaded all fonts. Elapsed:"+(end-start));
+                    return fonts;
+                }
+            });
+            new Thread(future).start();
+        }
+    }
+
+    /**
+     * Gets all fonts from the graphics environment. This may take a long
+     * time. It is recommended to call loadAllFonts during the startup 
+     * of an application. If you do this, you can retrieve the fonts from
+     * this method from the AWT Event Dispatcher Thread.
+     * 
+     * @return All fonts.
+     */
+    public static synchronized Font[] getAllFonts() {
+        loadAllFonts();
+        try {
+            return future.get().clone();
+        } catch (InterruptedException ex) {
+            return new Font[0];
+        } catch (ExecutionException ex) {
+            return new Font[0];
         }
     }
 
@@ -299,7 +379,18 @@ public class JFontChooser extends JComponent {
         Font oldValue = selectedFont;
         this.selectedFont = newValue;
         firePropertyChange(SELECTED_FONT_PROPERTY, oldValue, newValue);
+        updateSelectionPath(newValue);
+    }
 
+    /**
+     * Updates the selection path to the selected font.
+     * <p>
+     * This method is invoked, when a font is selected, and when then
+     * structure of the model has changed.
+     * 
+     * @param newValue
+     */
+    protected void updateSelectionPath(Font newValue) {
         if (newValue == null || selectionPath == null || selectionPath.getPathCount() != 4 ||
                 !((FontFaceNode) selectionPath.getLastPathComponent()).getFont().getFontName().equals(newValue.getFontName())) {
             if (newValue == null) {
@@ -338,7 +429,8 @@ public class JFontChooser extends JComponent {
                 // search in all collections
                 if (newFace == null) {
                     TreeNode root = (TreeNode) getModel().getRoot();
-                   OuterLoop: for (int i = 0, n = root.getChildCount(); i < n; i++) {
+                    OuterLoop:
+                    for (int i = 0,  n = root.getChildCount(); i < n; i++) {
                         FontCollectionNode collection = (FontCollectionNode) root.getChildAt(i);
                         for (FontFamilyNode family : collection.families()) {
                             for (FontFaceNode face : family.faces()) {
@@ -352,16 +444,17 @@ public class JFontChooser extends JComponent {
                         }
                     }
                 }
-                
+
                 if (newFace != null) {
-                    setSelectionPath(new TreePath(new Object[] {
-                        getModel().getRoot(), newCollection, newFamily, newFace }));
+                    setSelectionPath(new TreePath(new Object[]{
+                                getModel().getRoot(), newCollection, newFamily, newFace
+                            }));
                 } else {
                     setSelectionPath(null);
                 }
             }
         }
-        }
+    }
 
     /**
      * Gets the selected Font.
@@ -369,8 +462,6 @@ public class JFontChooser extends JComponent {
      * 
      * @return The selected font, or null, if no font is selected.
      */
-    
-
     public FontChooserModel getModel() {
         return model;
     }
@@ -384,8 +475,15 @@ public class JFontChooser extends JComponent {
      */
     public void setModel(FontChooserModel newValue) {
         FontChooserModel oldValue = model;
+        if (oldValue != null) {
+            oldValue.removeTreeModelListener(modelHandler);
+        }
         this.model = newValue;
+        if (newValue != null) {
+            newValue.addTreeModelListener(modelHandler);
+        }
         firePropertyChange(MODEL_PROPERTY, oldValue, newValue);
+        updateSelectionPath(selectedFont);
     }
     /** This method is called from within the constructor to
      * initialize the form.

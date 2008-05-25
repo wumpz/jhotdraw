@@ -269,7 +269,8 @@ public class SVGTextFigure
     }
     
     public int getTextColumns() {
-        return (getText() == null) ? 4 : Math.max(getText().length(), 4);
+        //return (getText() == null) ? 4 : Math.min(getText().length(), 4);
+        return 4;
     }
     
     public Font getFont() {
@@ -358,12 +359,15 @@ public class SVGTextFigure
         return handles;
     }
     // CONNECTING
+    @Override
     public boolean canConnect() {
         return false; // SVG does not support connecting
     }
+    @Override
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
         return null; // SVG does not support connectors
     }
+    @Override
     public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
         return null; // SVG does not support connectors
     }
@@ -372,6 +376,7 @@ public class SVGTextFigure
      * Returns a specialized tool for the given coordinate.
      * <p>Returns null, if no specialized tool is available.
      */
+    @Override
     public Tool getTool(Point2D.Double p) {
         if (isEditable() && contains(p)) {
             TextTool tool = new TextTool(this);
@@ -379,6 +384,10 @@ public class SVGTextFigure
             return tool;
         }
         return null;
+    }
+    
+    public double getBaseline() {
+        return coordinates[0].y - getBounds().y;
     }
     
     /**

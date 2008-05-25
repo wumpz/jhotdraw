@@ -1,5 +1,5 @@
 /*
- * @(#)TextTool.java  2.3  2008-05-17
+ * @(#)TextTool.java  2.4  2008-05-24
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -53,7 +53,8 @@ import java.util.*;
  * @see FloatingTextField
  *
  * @author Werner Randelshofer
- * @version 2.3 2008-05-17 Honor toolDoneAfterCreation property.
+ * @version 2.4 2008-05-24 Moved code from this class into FloatingTextField.
+ * <br>2.3 2008-05-17 Honor toolDoneAfterCreation property.
  * <br>2.2 2007-11-30 Added variable isUsedForCreation.  
  * <br>2.1 2007-08-22 Added support for property 'toolDoneAfterCreation'.
  * <br>2.0 2006-01-14 Changed to support double precison coordinates.
@@ -113,7 +114,8 @@ public class TextTool extends CreationTool implements ActionListener {
         }
         if (textHolder != null) {
             beginEdit(textHolder);
-            return;
+            updateCursor(getView(), e.getPoint());
+                    return;
         }
         if (typingTarget != null) {
             endEdit();
@@ -127,7 +129,10 @@ public class TextTool extends CreationTool implements ActionListener {
             // when the overlay figure is drawn because a JTextField cannot be scrolled)
             //view().checkDamage();
             textHolder = (TextHolderFigure)getCreatedFigure();
+            getView().clearSelection();
+            getView().addToSelection(textHolder);
             beginEdit(textHolder);
+            updateCursor(getView(), e.getPoint());
         }
     }
     
@@ -143,32 +148,12 @@ public class TextTool extends CreationTool implements ActionListener {
         if (textHolder != typingTarget && typingTarget != null) {
             endEdit();
         }
+        
         textField.createOverlay(getView(), textHolder);
-        textField.setBounds(getFieldBounds(textHolder), textHolder.getText());
         textField.requestFocus();
         typingTarget = textHolder;
     }
     
-    
-    private Rectangle getFieldBounds(TextHolderFigure figure) {
-        /*
-        Rectangle box = getView().drawingToView(figure.getBounds());
-        int nChars = figure.getTextColumns();
-        Dimension d = textField.getPreferredSize(nChars);
-        d.width = Math.max(box.width, d.width);
-        return new Rectangle(box.x - 6, box.y - 4, d.width, d.height);
-         */
-        Rectangle box = getView().drawingToView(figure.getDrawingArea());
-        //Dimension d = textField.getPreferredSize(3);
-        //d.width = Math.max(box.width, d.width);
-        Insets insets = textField.getInsets();
-        return new Rectangle(
-                box.x - insets.left,
-                box.y - insets.top,
-                box.width + insets.left + insets.right,
-                box.height + insets.top + insets.bottom
-                );
-    }
     
     public void mouseReleased(MouseEvent evt) {
     }
@@ -207,7 +192,22 @@ public class TextTool extends CreationTool implements ActionListener {
             fireToolDone();
         }
     }
+    @Override
     protected void creationFinished(Figure createdFigure) {
         beginEdit((TextHolderFigure) createdFigure);
+        updateCursor(getView(), new Point(0,0));
+    }
+    
+    public boolean isEditing() {
+        return typingTarget != null;
+    }
+    
+    @Override
+    public void updateCursor(DrawingView view, Point p) {
+        if (view.isEnabled()) {
+            view.setCursor(Cursor.getPredefinedCursor(isEditing() ? Cursor.DEFAULT_CURSOR : Cursor.CROSSHAIR_CURSOR));
+        } else {
+            view.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        }
     }
 }

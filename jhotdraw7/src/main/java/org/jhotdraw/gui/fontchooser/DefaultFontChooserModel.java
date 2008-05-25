@@ -1,5 +1,5 @@
 /**
- * @(#)DefaultFontModel.java  1.0  May 18, 2008
+ * @(#)DefaultFontModel.java  2.0  2008-05-24
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -20,10 +20,27 @@ import javax.swing.tree.*;
 import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
- * DefaultFontChooserModel.
+ * DefaultFontChooserModel with a predefined set of font collections.
+ * <p>
+ * Loading the fonts may take a lot of time. Therefore it is recommended to 
+ * create a Future during the startup of an application, and set the fonts in 
+ * the font chooser model when they are needed.
+ * <p>
+ * Example:
+ * <pre>
+ *   private static FutureTask<Font[]> future = new FutureTask<Font[]>(new Callable<Font[]>() {
  *
+ *      public Font[] call() throws Exception {
+ *          return GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
+ *
+ *       }
+ *   });
+ * </pre>
+ * 
  * @author Werner Randelshofer
- * @version 1.0 May 18, 2008 Created.
+ * @version 2.0 2008-05-24 The DefaultFontChooser does not load the fonts
+ * on its own anymore.
+ * <br>1.0 May 18, 2008 Created.
  */
 public class DefaultFontChooserModel extends AbstractFontChooserModel {
 
@@ -34,15 +51,21 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
 
     public DefaultFontChooserModel() {
         root = new DefaultMutableTreeNode();
-        init(GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts());
     }
 
     public DefaultFontChooserModel(Font[] fonts) {
         root = new DefaultMutableTreeNode();
-        init(fonts);
+        setFonts(fonts);
     }
 
-    protected void init(Font[] fonts) {
+    /**
+     * Sets the fonts of the DefaultFontChooserModel.
+     * <p>
+     * Fires treeStructureChanged event on the root node.
+     * 
+     * @param fonts
+     */
+    public void setFonts(Font[] fonts) {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.gui.Labels");
 
         // collect families and sort them alphabetically
@@ -321,6 +344,8 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
         Collections.sort(otherFamilies);
         others.addAll(otherFamilies);
         root.add(others);
+        
+        fireTreeStructureChanged(this, new TreePath(root));
     }
 
     protected ArrayList<FontFamilyNode> collectFamiliesNamed(ArrayList<FontFamilyNode> families, String... names) {
@@ -381,5 +406,9 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
 
     public int getIndexOfChild(Object parent, Object child) {
         return ((TreeNode) parent).getIndex((TreeNode) child);
+    }
+    
+    public static class UIResource extends DefaultFontChooserModel implements javax.swing.plaf.UIResource {
+        
     }
 }

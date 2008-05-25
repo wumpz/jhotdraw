@@ -158,6 +158,8 @@ public class TextAreaTool extends CreationTool implements ActionListener {
      * The implementation of this class just invokes fireToolDone.
      */
     protected void creationFinished(Figure createdFigure) {
+        getView().clearSelection();
+        getView().addToSelection(createdFigure);
         beginEdit((TextHolderFigure) createdFigure);
     }
     /*

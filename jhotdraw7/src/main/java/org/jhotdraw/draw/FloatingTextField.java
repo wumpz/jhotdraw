@@ -1,7 +1,7 @@
 /*
- * @(#)FloatingTextField.java  2.0  2006-01-014
+ * @(#)FloatingTextField.java  3.0  2008-05-24
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -14,6 +14,7 @@
 
 package org.jhotdraw.draw;
 
+import com.sun.corba.se.spi.oa.OADefault;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
@@ -28,16 +29,23 @@ import java.awt.event.*;
  * @see org.jhotdraw.draw.TextFigure
  *
  * @author Werner Randelshofer
- * @version 2.0 2006-01-14 Changed to support double precision coordinates.
+ * @version 3.0 2008-05-24 Update when attributes of the edited figure change. 
+ * <br>2.0 2006-01-14 Changed to support double precision coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
 public  class FloatingTextField {
-    
-    private JTextField   editWidget;
+    private TextHolderFigure editedFigure;
+    private JTextField   textField;
     private DrawingView   view;
+    private FigureListener figureHandler = new FigureAdapter() {
+        @Override
+        public void attributeChanged(FigureEvent e) {
+            updateWidget();
+        }
+    };
     
     public FloatingTextField() {
-        editWidget = new JTextField(20);
+        textField = new JTextField(20);
     }
     
     /**
@@ -48,7 +56,7 @@ public  class FloatingTextField {
     }
     
     public void requestFocus() {
-        editWidget.requestFocus();
+        textField.requestFocus();
     }
     
     /**
@@ -56,58 +64,69 @@ public  class FloatingTextField {
      * specific font.
      */
     public void createOverlay(DrawingView view, TextHolderFigure figure) {
-        view.getComponent().add(editWidget, 0);
-        Font f = figure.getFont();
-        // FIXME - Should scale with fractional value!
-        f = f.deriveFont(f.getStyle(), (float) (figure.getFontSize() * view.getScaleFactor()));
-        editWidget.setFont(f);
-        editWidget.setForeground(figure.getTextColor());
-        editWidget.setBackground(figure.getFillColor());
+        view.getComponent().add(textField, 0);
+        textField.setText(figure.getText());
+        textField.setColumns(figure.getTextColumns());
+        textField.selectAll();
+        editedFigure = figure;
+        editedFigure.addFigureListener(figureHandler);
         this.view = view;
+        updateWidget();
+    }
+    
+    protected void updateWidget() {
+        Font font = editedFigure.getFont();
+        font = font.deriveFont(font.getStyle(), (float) (editedFigure.getFontSize() * view.getScaleFactor()));
+        textField.setFont(font);
+        textField.setForeground(editedFigure.getTextColor());
+        textField.setBackground(editedFigure.getFillColor());
+        
+        
+        Rectangle fBounds = view.drawingToView(editedFigure.getBounds());
+        Dimension tfDim = textField.getPreferredSize();
+        Insets tfInsets = textField.getInsets();
+        float fontBaseline = textField.getGraphics().getFontMetrics(font).getMaxAscent();
+        double fBaseline = editedFigure.getBaseline() * view.getScaleFactor();
+        textField.setBounds(
+                fBounds.x - tfInsets.left,
+                fBounds.y - tfInsets.top - (int) (fontBaseline - fBaseline),
+                Math.max(fBounds.width + tfInsets.left + tfInsets.right, tfDim.width),
+                Math.max(fBounds.height + tfInsets.top + tfInsets.bottom, tfDim.height)
+                );
     }
     
     public Insets getInsets() {
-        return editWidget.getInsets();
+        return textField.getInsets();
     }
     
     /**
      * Adds an action listener
      */
     public void addActionListener(ActionListener listener) {
-        editWidget.addActionListener(listener);
+        textField.addActionListener(listener);
     }
     
     /**
      * Remove an action listener
      */
     public void removeActionListener(ActionListener listener) {
-        editWidget.removeActionListener(listener);
+        textField.removeActionListener(listener);
     }
     
-    /**
-     * Positions the overlay.
-     */
-    public void setBounds(Rectangle r, String text) {
-        editWidget.setText(text);
-        editWidget.setBounds(r.x, r.y, r.width, r.height);
-        editWidget.setVisible(true);
-        editWidget.selectAll();
-        editWidget.requestFocus();
-    }
     
     /**
      * Gets the text contents of the overlay.
      */
     public String getText() {
-        return editWidget.getText();
+        return textField.getText();
     }
     
     /**
      * Gets the preferred size of the overlay.
      */
     public Dimension getPreferredSize(int cols) {
-        editWidget.setColumns(cols);
-        return editWidget.getPreferredSize();
+        textField.setColumns(cols);
+        return textField.getPreferredSize();
     }
     
     /**
@@ -115,12 +134,16 @@ public  class FloatingTextField {
      */
     public void endOverlay() {
         view.getComponent().requestFocus();
-        if (editWidget != null) {
-            editWidget.setVisible(false);
-            view.getComponent().remove(editWidget);
+        if (textField != null) {
+            textField.setVisible(false);
+            view.getComponent().remove(textField);
             
-            Rectangle bounds = editWidget.getBounds();
+            Rectangle bounds = textField.getBounds();
             view.getComponent().repaint(bounds.x, bounds.y, bounds.width, bounds.height);
+        }
+        if (editedFigure != null) {
+            editedFigure.removeFigureListener(figureHandler);
+            editedFigure = null;
         }
     }
 }

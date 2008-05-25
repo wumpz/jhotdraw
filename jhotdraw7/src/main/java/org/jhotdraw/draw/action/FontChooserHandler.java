@@ -121,7 +121,7 @@ public class FontChooserHandler extends AbstractSelectedAction
             fontChooser.setEnabled(getView().getSelectionCount() > 0);
             popupMenu.setEnabled(getView().getSelectionCount() > 0);
             isUpdating++;
-            if (getView().getSelectionCount() > 0 && fontChooser.isShowing()) {
+            if (getView().getSelectionCount() > 0 /*&& fontChooser.isShowing()*/) {
                 for (Figure f : getView().getSelectedFigures()) {
                     if (f instanceof TextHolderFigure) {
                         TextHolderFigure thf = (TextHolderFigure) f;
