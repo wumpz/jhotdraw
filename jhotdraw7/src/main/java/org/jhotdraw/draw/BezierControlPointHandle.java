@@ -93,31 +93,46 @@ public class BezierControlPointHandle extends AbstractHandle {
                 TRANSFORM.get(getTransformOwner()).transform(pc, pc);
             }
 
-            Stroke stroke = (Stroke) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_TANGENT_STROKE_1);
-            Color strokeColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_TANGENT_COLOR_1);
-            if (stroke != null && strokeColor != null) {
-                g.setStroke(stroke);
-                g.setColor(strokeColor);
+            Color handleFillColor;
+            Color handleStrokeColor;
+            Stroke stroke1;
+            Color strokeColor1;
+            Stroke stroke2;
+            Color strokeColor2;
+            if (getEditor().getTool().supportsHandleInteraction()) {
+                handleFillColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_CONTROL_POINT_HANDLE_FILL_COLOR);
+                handleStrokeColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_CONTROL_POINT_HANDLE_STROKE_COLOR);
+                stroke1 = (Stroke) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_TANGENT_STROKE_1);
+                strokeColor1 = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_TANGENT_COLOR_1);
+                stroke2 = (Stroke) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_TANGENT_STROKE_2);
+                strokeColor2 = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_TANGENT_COLOR_2);
+            } else {
+                handleFillColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_CONTROL_POINT_HANDLE_FILL_COLOR_DISABLED);
+                handleStrokeColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_CONTROL_POINT_HANDLE_STROKE_COLOR_DISABLED);
+                stroke1 = (Stroke) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_TANGENT_STROKE_1_DISABLED);
+                strokeColor1 = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_TANGENT_COLOR_1_DISABLED);
+                stroke2 = (Stroke) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_TANGENT_STROKE_2_DISABLED);
+                strokeColor2 = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_TANGENT_COLOR_2_DISABLED);
+            }
+            if (stroke1 != null && strokeColor1 != null) {
+                g.setStroke(stroke1);
+                g.setColor(strokeColor1);
                 g.draw(new Line2D.Double(
                         view.drawingToView(p0),
                         view.drawingToView(pc)));
             }
-            stroke = (Stroke) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_TANGENT_STROKE_2);
-            strokeColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_TANGENT_COLOR_2);
-            if (stroke != null && strokeColor != null) {
-                g.setStroke(stroke);
-                g.setColor(strokeColor);
+            if (stroke2 != null && strokeColor2 != null) {
+                g.setStroke(stroke2);
+                g.setColor(strokeColor2);
                 g.draw(new Line2D.Double(
                         view.drawingToView(p0),
                         view.drawingToView(pc)));
             }
-            Color fillColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_CONTROL_POINT_HANDLE_FILL_COLOR);
-            strokeColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_CONTROL_POINT_HANDLE_STROKE_COLOR);
             if (v.keepColinear && v.mask == BezierPath.C1C2_MASK &&
                     (index > 0 && index < f.getNodeCount() - 1 || f.isClosed())) {
-                drawCircle(g, strokeColor, fillColor);
+                drawCircle(g, handleStrokeColor, handleFillColor);
             } else {
-                drawCircle(g, fillColor, strokeColor);
+                drawCircle(g, handleFillColor, handleStrokeColor);
             }
 
         }
@@ -240,6 +255,7 @@ public class BezierControlPointHandle extends AbstractHandle {
             return labels.getString("bezierQuadraticControlHandle.tip");
         }
     }
+
     public BezierFigure getOwner() {
         return (BezierFigure) super.getOwner();
     }

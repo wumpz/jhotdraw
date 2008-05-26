@@ -1,5 +1,5 @@
 /*
- * @(#)Tool.java  2.0  2008-05-17
+ * @(#)Tool.java  3.0  2008-05-26
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -34,7 +34,8 @@ import javax.swing.event.*;
  * is performing changes.
  *
  * @author Werner Randelshofer
- * @version 2.0 2008-05-17 Added method getToolTipText. 
+ * @version 3.0 2008-05-26 Added method supportsHandleInteraction.  
+ * <br>2.0 2008-05-17 Added method getToolTipText. 
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
 public interface Tool extends MouseListener, MouseMotionListener, KeyListener {
@@ -105,4 +106,13 @@ public interface Tool extends MouseListener, MouseMotionListener, KeyListener {
      * @return A tooltip text or null.
      */
     public String getToolTipText(DrawingView view, MouseEvent evt);
+    
+    /**
+     * Returns true, if this tool lets the user interact with handles.
+     * <p>
+     * Handles may draw differently, if interaction is not possible.
+     * 
+     * @return True, if this tool supports interaction with the handles.
+     */
+    public boolean supportsHandleInteraction();
 }

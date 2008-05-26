@@ -88,6 +88,11 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
         this.editor = editor;
         editorProxy.setTarget(editor);
         isActive = true;
+        
+        // Repaint all handles
+        for (DrawingView v : editor.getDrawingViews()) {
+            v.getComponent().repaint();
+        }
     }
     
     public void deactivate(DrawingEditor editor) {
@@ -416,5 +421,15 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
     }
     public String getToolTipText(DrawingView view, MouseEvent evt) {
         return null;
+    }
+    /**
+     * Returns true, if this tool lets the user interact with handles.
+     * <p>
+     * Handles may draw differently, if interaction is not possible.
+     * 
+     * @return True, if this tool supports interaction with the handles.
+     */
+    public boolean supportsHandleInteraction() {
+        return false;
     }
 }

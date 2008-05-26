@@ -89,7 +89,7 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
         root.removeAllChildren();
 
         root.add(new FontCollectionNode(labels.getString("FontCollection.allFonts"), (ArrayList<FontFamilyNode>) families.clone()));
-        
+
         // Web-save fonts
         root.add(
                 new FontCollectionNode(labels.getString("FontCollection.web"), collectFamiliesNamed(families,
@@ -102,18 +102,18 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "Trebuchet MS",
                 "Verdana",
                 "Webdings")));
-        
+
         /*
         // PDF Fonts
         root.add(
-                new FontCollectionNode(labels.getString("FontCollection.pdf"), collectFamiliesNamed(families,
-                "Andale Mono",
-                "Courier",
-                "Helvetica",
-                "Symbol",
-                "Times",
-                "Zapf Dingbats")));
-        */
+        new FontCollectionNode(labels.getString("FontCollection.pdf"), collectFamiliesNamed(families,
+        "Andale Mono",
+        "Courier",
+        "Helvetica",
+        "Symbol",
+        "Times",
+        "Zapf Dingbats")));
+         */
         // Java System fonts
         root.add(
                 new FontCollectionNode(labels.getString("FontCollection.system"), collectFamiliesNamed(families,
@@ -122,6 +122,7 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "Monospaced",
                 "SansSerif",
                 "Serif")));
+        // Serif fonts
         root.add(
                 new FontCollectionNode(labels.getString("FontCollection.serif"), collectFamiliesNamed(families,
                 // Fonts on Mac OS X 10.5:
@@ -155,10 +156,49 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "Palatino",
                 "Times",
                 "Times New Roman",
-                
                 // Fonts on Windows XP:
-                "Palatino Linotype"
-                )));
+                "Palatino Linotype",
+                "Bitstream Vera Se...",
+                "Bodoni MT",
+                "Bodoni MT Black",
+                "Bodoni MT Condensed",
+                "Californian FB",
+                "Cambria",
+                "Cambria Math",
+                "Centaur",
+                "Constantia",
+                "High Tower Text",
+                "Perpetua",
+                "Poor Richard",
+                "Rockwell Condensed",
+                "Slimbach-Black",
+                "Slimbach-BlackItalic",
+                "Slimbach-Bold",
+                "Slimbach-BoldItalic",
+                "Slimbach-Book",
+                "Slimbach-BookItalic",
+                "Slimbach-Medium",
+                "Slimbach-MediumItalic",
+                "Sylfaen",
+                // Fonts on Windows Vista
+                "Andalus",
+                "Angsana New",
+                "AngsanaUPC",
+                "Arabic Typesetting",
+                "Cambria",
+                "Cambria Math",
+                "Constantia",
+                "DaunPenh",
+                "David",
+                "DilleniaUPC",
+                "EucrosiaUPC",
+                "Frank Ruehl",
+                "IrisUPC",
+                "Iskoola Pota",
+                "JasmineUPC",
+                "KodchiangUPC",
+                "Narkisim")));
+        // Sans Serif
         root.add(
                 new FontCollectionNode(labels.getString("FontCollection.sansSerif"), collectFamiliesNamed(families,
                 // Fonts on Mac OS X 10.5:
@@ -189,12 +229,65 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "Tahoma",
                 "Trebuchet MS",
                 "Verdana",
-                
                 // Fonts on Windows XP:
                 "Franklin Gothic Medium",
-                "Lucida Sans Unicode")));
+                "Lucida Sans Unicode",
+                "Agency FB",
+                "Berlin Sans FB",
+                "Berlin Sans FB Demi Bold",
+                "Bitstream Vera Sa...",
+                "Calibri",
+                "Candara",
+                "Corbel",
+                "Estrangelo Edessa",
+                "Eras Bold ITC",
+                "Eras Demi ITC",
+                "Eras Light ITC",
+                "Eras Medium ITC",
+                "Franklin Gothic Book",
+                "Franklin Gothic Demi",
+                "Franklin Gothic Demi Cond",
+                "Franklin Gothic Heavy",
+                "Frankln Gothic Medium Cond",
+                "Gill Sans MT",
+                "Gill Sans MT Condensed",
+                "Gill Sans MT Ext Condensed Bold",
+                "Gill Sans Ultra Bold Con...",
+                "Maiandra GD",
+                "MS Reference Sans...",
+                "Tw Cen MT",
+                "Tw Cen MT Condensed",
+                "Tw Cen MT Condensed Extra...",
+                // Fonts on Windows Vista:
+                "Aharoni",
+                "Browallia New",
+                "BrowalliaUPC",
+                "Calibri",
+                "Candara",
+                "Corbel",
+                "Cordia New",
+                "CordiaUPC",
+                "DokChampa",
+                "Dotum",
+                "DotumChe",
+                "Estrangelo Edessa",
+                "Euphemia",
+                "Freesia UPC",
+                "Gautami",
+                "Gisha",
+                "Kalinga",
+                "Kartika",
+                "Levenim MT",
+                "LilyUPC",
+                "Malgun Gothic",
+                "Meiryo",
+                "Miriam",
+                "Segoe UI")));
+
+        // Scripts 
         root.add(
                 new FontCollectionNode(labels.getString("FontCollection.script"), collectFamiliesNamed(families,
+                // Fonts on Mac OS X 10.5:
                 "Apple Chancery",
                 "Bickham Script Pro",
                 "Blackmoor LET",
@@ -231,6 +324,34 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "Tekton Pro",
                 "Trajan Pro",
                 "Zapfino",
+                // Fonts on Windows XP
+                "Blackadder ITC",
+                "Bradley Hand ITC",
+                "Chiller",
+                "Freestyle Script",
+                "French Script MT",
+                "Gigi",
+                "Harlow Solid Italic",
+                "Informal Roman",
+                "Juice ITC",
+                "Kristen ITC",
+                "Kunstler Script",
+                "Magneto Bold",
+                "Maiandra GD",
+                "Old English Text",
+                "Palace Script MT",
+                "Parchment",
+                "Pristina",
+                "Rage Italic",
+                "Ravie",
+                "Script MT Bold",
+                "Tempus Sans ITC",
+                "Viner Hand ITC",
+                "Vivaldi Italic",
+                "Vladimir Script",
+                // Fonts on Windows Vista
+                "Segoe Print",
+                "Segoe Script",
                 "")));
         root.add(
                 new FontCollectionNode(labels.getString("FontCollection.monospaced"), collectFamiliesNamed(families,
@@ -244,10 +365,17 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "OCR A Std",
                 "Orator Std",
                 "Prestige Elite Std",
-                
                 // Fonts on Windows XP:
-                "Lucida Console"
-                )));
+                "Lucida Console",
+                "Arial monospaced...",
+                "Bitstream Vera S...",
+                "Consolas",
+                "OCR A Extended",
+                "OCR B",
+                // Fonts on Windows Vista
+                "Consolas",
+                "Miriam Fixed",
+                "Rod")));
         root.add(
                 new FontCollectionNode(labels.getString("FontCollection.decorative"), collectFamiliesNamed(families,
                 // Fonts on Mac OS X 10.5:
@@ -308,7 +436,33 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "Stone Sans Sem OS ITCTT",
                 "Stone Sans Sem OS ITC TT",
                 "Synchro LET",
-                "Wide Latin")));
+                "Wide Latin",
+                // Fonts on Windows XP
+                "Algerian",
+                "Bodoni MT Black",
+                "Bodoni MT Poster Compressed",
+                "Broadway",
+                "Castellar",
+                "Elephant",
+                "Felix Titling",
+                "Franklin Gothic Heavy",
+                "Gill Sans MT Ext Condensed Bold",
+                "Gill Sans Ultra Bold Con...",
+                "Goudy Stout",
+                "Jokerman",
+                "Juice ITC",
+                "Magneto Bold",
+                "Niagara Engraved",
+                "Niagara Solid",
+                "Poor Richard",
+                "Ravie",
+                "Rockwell Condensed",
+                "Showcard Gothic",
+                "Slimbach-Black",
+                "Slimbach-BlackItalic",
+                "Snap ITC"
+                // Fonts on Windows Vista:
+                )));
         root.add(
                 new FontCollectionNode(labels.getString("FontCollection.symbols"), collectFamiliesNamed(families,
                 // Fonts on Mac OS X 10.5:
@@ -324,14 +478,20 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "Wingdings",
                 "Wingdings 2",
                 "Wingdings 3",
-                "Zapf Dingbats")));
-        
+                "Zapf Dingbats",
+                // Fonts on Windows XP
+
+                "Bookshelf Symbol..."
+                // Fonts on Windows Vista
+
+                )));
+
         // Collect font families, which are not in one of the other collections
         // (except the collection AllFonts).
         FontCollectionNode others = new FontCollectionNode(labels.getString("FontCollection.other"));
         HashSet<FontFamilyNode> otherFamilySet = new HashSet<FontFamilyNode>();
         otherFamilySet.addAll(families);
-        for (int i=1,n=root.getChildCount(); i < n; i++) {
+        for (int i = 1, n = root.getChildCount(); i < n; i++) {
             FontCollectionNode fcn = (FontCollectionNode) root.getChildAt(i);
             for (FontFamilyNode ffn : fcn.families()) {
                 otherFamilySet.remove(ffn);
@@ -344,7 +504,7 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
         Collections.sort(otherFamilies);
         others.addAll(otherFamilies);
         root.add(others);
-        
+
         fireTreeStructureChanged(this, new TreePath(root));
     }
 
@@ -407,8 +567,7 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
     public int getIndexOfChild(Object parent, Object child) {
         return ((TreeNode) parent).getIndex((TreeNode) child);
     }
-    
+
     public static class UIResource extends DefaultFontChooserModel implements javax.swing.plaf.UIResource {
-        
     }
 }

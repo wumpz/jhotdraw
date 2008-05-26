@@ -127,9 +127,15 @@ public class TransformHandleKit {
          * Draws this handle.
          */
         public void draw(Graphics2D g) {
+            if (getEditor().getTool().supportsHandleInteraction()) {
                 drawDiamond(g,
                         (Color) getEditor().getHandleAttribute(HandleAttributeKeys.TRANSFORM_HANDLE_FILL_COLOR),
                         (Color) getEditor().getHandleAttribute(HandleAttributeKeys.TRANSFORM_HANDLE_STROKE_COLOR));
+                } else {
+                drawDiamond(g,
+                        (Color) getEditor().getHandleAttribute(HandleAttributeKeys.TRANSFORM_HANDLE_FILL_COLOR_DISABLED),
+                        (Color) getEditor().getHandleAttribute(HandleAttributeKeys.TRANSFORM_HANDLE_STROKE_COLOR_DISABLED));                
+                }
         }
 
         protected Rectangle2D.Double getTransformedBounds() {

@@ -268,4 +268,14 @@ public class SelectionTool extends AbstractTool
     public void areaInvalidated(ToolEvent e) {
         fireAreaInvalidated(e.getInvalidatedArea());
     }
+    /**
+     * Returns true, if this tool lets the user interact with handles.
+     * <p>
+     * Handles may draw differently, if interaction is not possible.
+     * 
+     * @return True, if this tool supports interaction with the handles.
+     */
+    public boolean supportsHandleInteraction() {
+        return true;
+    }
 }

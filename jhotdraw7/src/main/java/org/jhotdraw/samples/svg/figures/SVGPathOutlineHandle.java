@@ -75,30 +75,36 @@ public class SVGPathOutlineHandle extends AbstractHandle {
             bounds = TRANSFORM.get(getOwner()).createTransformedShape(bounds);
         }
         bounds = view.getDrawingToViewTransform().createTransformedShape(bounds);
-        Stroke stroke;
-        Color strokeColor;
-        if (isHoverHandle) {
-            stroke = (Stroke) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_PATH_HOVER_STROKE_1);
-            strokeColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_PATH_HOVER_COLOR_1);
+        Stroke stroke1;
+        Color strokeColor1;
+        Stroke stroke2;
+        Color strokeColor2;
+        if (getEditor().getTool().supportsHandleInteraction()) {
+            if (isHoverHandle) {
+                stroke1 = (Stroke) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_PATH_STROKE_1_HOVER);
+                strokeColor1 = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_PATH_COLOR_1_HOVER);
+                stroke2 = (Stroke) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_PATH_STROKE_2_HOVER);
+                strokeColor2 = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_PATH_COLOR_2_HOVER);
+            } else {
+                stroke1 = (Stroke) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_PATH_STROKE_1);
+                strokeColor1 = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_PATH_COLOR_1);
+                stroke2 = (Stroke) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_PATH_STROKE_2);
+                strokeColor2 = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_PATH_COLOR_2);
+            }
         } else {
-            stroke = (Stroke) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_PATH_STROKE_1);
-            strokeColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_PATH_COLOR_1);
+            stroke1 = (Stroke) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_PATH_STROKE_1_DISABLED);
+            strokeColor1 = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_PATH_COLOR_1_DISABLED);
+            stroke2 = (Stroke) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_PATH_STROKE_2_DISABLED);
+            strokeColor2 = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_PATH_COLOR_2_DISABLED);
         }
-        if (stroke != null && strokeColor != null) {
-            g.setStroke(stroke);
-            g.setColor(strokeColor);
+        if (stroke1 != null && strokeColor1 != null) {
+            g.setStroke(stroke1);
+            g.setColor(strokeColor1);
             g.draw(bounds);
         }
-        if (isHoverHandle) {
-        stroke = (Stroke) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_PATH_HOVER_STROKE_2);
-        strokeColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_PATH_HOVER_COLOR_2);
-        } else {
-        stroke = (Stroke) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_PATH_STROKE_2);
-        strokeColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_PATH_COLOR_2);
-        }
-        if (stroke != null && strokeColor != null) {
-            g.setStroke(stroke);
-            g.setColor(strokeColor);
+        if (stroke2 != null && strokeColor2 != null) {
+            g.setStroke(stroke2);
+            g.setColor(strokeColor2);
             g.draw(bounds);
         }
     }

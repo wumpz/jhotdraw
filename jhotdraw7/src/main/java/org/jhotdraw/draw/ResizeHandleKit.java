@@ -125,14 +125,20 @@ public class ResizeHandleKit {
          */
         @Override
         public void draw(Graphics2D g) {
-            if (getOwner().isTransformable()) {
-                drawRectangle(g,
-                        (Color) getEditor().getHandleAttribute(HandleAttributeKeys.RESIZE_HANDLE_FILL_COLOR),
-                        (Color) getEditor().getHandleAttribute(HandleAttributeKeys.RESIZE_HANDLE_STROKE_COLOR));
+            if (getEditor().getTool().supportsHandleInteraction()) {
+                if (getOwner().isTransformable()) {
+                    drawRectangle(g,
+                            (Color) getEditor().getHandleAttribute(HandleAttributeKeys.RESIZE_HANDLE_FILL_COLOR),
+                            (Color) getEditor().getHandleAttribute(HandleAttributeKeys.RESIZE_HANDLE_STROKE_COLOR));
+                } else {
+                    drawRectangle(g,
+                            (Color) getEditor().getHandleAttribute(HandleAttributeKeys.NULL_HANDLE_FILL_COLOR),
+                            (Color) getEditor().getHandleAttribute(HandleAttributeKeys.NULL_HANDLE_STROKE_COLOR));
+                }
             } else {
                 drawRectangle(g,
-                        (Color) getEditor().getHandleAttribute(HandleAttributeKeys.NULL_HANDLE_FILL_COLOR),
-                        (Color) getEditor().getHandleAttribute(HandleAttributeKeys.NULL_HANDLE_STROKE_COLOR));
+                        (Color) getEditor().getHandleAttribute(HandleAttributeKeys.HANDLE_FILL_COLOR_DISABLED),
+                        (Color) getEditor().getHandleAttribute(HandleAttributeKeys.HANDLE_STROKE_COLOR_DISABLED));
             }
         }
 
@@ -260,16 +266,16 @@ public class ResizeHandleKit {
                     break;
                 case KeyEvent.VK_LEFT:
                     if (r.width > 1) {
-                    setBounds(
-                            new Point2D.Double(r.x, r.y),
-                            new Point2D.Double(r.x + r.width - 1, r.y + r.height));
+                        setBounds(
+                                new Point2D.Double(r.x, r.y),
+                                new Point2D.Double(r.x + r.width - 1, r.y + r.height));
                     }
                     evt.consume();
                     break;
                 case KeyEvent.VK_RIGHT:
-                        setBounds(
-                                new Point2D.Double(r.x, r.y),
-                                new Point2D.Double(r.x + r.width + 1, r.y + r.height));
+                    setBounds(
+                            new Point2D.Double(r.x, r.y),
+                            new Point2D.Double(r.x + r.width + 1, r.y + r.height));
                     evt.consume();
                     break;
             }
@@ -397,6 +403,7 @@ public class ResizeHandleKit {
                     new Point2D.Double(r.x, r.y),
                     new Point2D.Double(Math.max(r.x + 1, p.x), Math.max(r.y + 1, p.y)));
         }
+
         @Override
         public void keyPressed(KeyEvent evt) {
             Rectangle2D.Double r = getOwner().getBounds();
@@ -418,16 +425,16 @@ public class ResizeHandleKit {
                     break;
                 case KeyEvent.VK_LEFT:
                     if (r.width > 1) {
-                    setBounds(
-                            new Point2D.Double(r.x, r.y),
-                            new Point2D.Double(r.x + r.width - 1, r.y + r.height));
+                        setBounds(
+                                new Point2D.Double(r.x, r.y),
+                                new Point2D.Double(r.x + r.width - 1, r.y + r.height));
                     }
                     evt.consume();
                     break;
                 case KeyEvent.VK_RIGHT:
-                        setBounds(
-                                new Point2D.Double(r.x, r.y),
-                                new Point2D.Double(r.x + r.width + 1, r.y + r.height));
+                    setBounds(
+                            new Point2D.Double(r.x, r.y),
+                            new Point2D.Double(r.x + r.width + 1, r.y + r.height));
                     evt.consume();
                     break;
             }
@@ -452,6 +459,7 @@ public class ResizeHandleKit {
                     new Point2D.Double(r.x, r.y),
                     new Point2D.Double(r.x + r.width, Math.max(r.y + 1, p.y)));
         }
+
         @Override
         public void keyPressed(KeyEvent evt) {
             Rectangle2D.Double r = getOwner().getBounds();
@@ -481,7 +489,6 @@ public class ResizeHandleKit {
         }
 
         @Override
-
         public Cursor getCursor() {
             return Cursor.getPredefinedCursor(
                     getOwner().isTransformable() ? Cursor.S_RESIZE_CURSOR : Cursor.DEFAULT_CURSOR);

@@ -68,8 +68,15 @@ public class BezierNodeHandle extends AbstractHandle {
         BezierFigure f = getOwner();
         int size = f.getNodeCount();
         boolean isClosed = f.isClosed();
-        Color fillColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_NODE_HANDLE_FILL_COLOR);
-        Color strokeColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_NODE_HANDLE_STROKE_COLOR);
+        Color fillColor;
+        Color strokeColor;
+        if (getEditor().getTool().supportsHandleInteraction()) {
+            fillColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_NODE_HANDLE_FILL_COLOR);
+            strokeColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_NODE_HANDLE_STROKE_COLOR);
+        } else {
+            fillColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_NODE_HANDLE_FILL_COLOR_DISABLED);
+            strokeColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_NODE_HANDLE_STROKE_COLOR_DISABLED);
+        }
         if (size > index) {
             BezierPath.Node v = f.getNode(index);
             if (v.mask == 0 ||
