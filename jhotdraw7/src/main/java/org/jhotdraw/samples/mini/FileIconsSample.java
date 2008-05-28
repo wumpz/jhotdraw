@@ -20,6 +20,7 @@ import java.io.File;
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
@@ -69,7 +70,14 @@ public class FileIconsSample {
                     
                    // Create a text figure for the file name
                     TextFigure tef = new TextFigure(f.getName());
-                   // tef.setEditable(false);
+                    
+                    // Or if you want to use a TextAreaFigure instead:
+                    /*
+                    TextAreaFigure tef = new TextAreaFigure(f.getName());
+                    Dimension2DDouble dim = tef.getPreferredTextSize(Double.MAX_VALUE);
+                    Insets2D.Double insets = tef.getInsets();
+                    tef.setBounds(new Point2D.Double(0,0), new Point2D.Double(dim.width+insets.left+insets.right, dim.height+insets.top+insets.bottom));
+                    */
                     
                     // Create a GraphicalCompositeFigure with vertical layout
                     // and add the icon and the text figure to it
