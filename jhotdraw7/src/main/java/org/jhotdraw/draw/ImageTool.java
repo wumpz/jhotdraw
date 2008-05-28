@@ -1,5 +1,5 @@
 /*
- * @(#)ImageTool.java  2.0  2008-05-24
+ * @(#)ImageTool.java  2.1  2008-05-28
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -48,11 +48,11 @@ import org.jhotdraw.undo.*;
  * <br>1.0 December 14, 2006 Created.
  */
 public class ImageTool extends CreationTool {
+    protected FileDialog fileDialog;
+    protected JFileChooser fileChooser;
+    protected boolean useFileDialog;
+    protected Thread workerThread;
 
-   protected JFileChooser fileChooser;
-   
-   protected Thread workerThread;
-   
     /** Creates a new instance. */
     public ImageTool(ImageHolderFigure prototype) {
         super(prototype);
@@ -63,19 +63,48 @@ public class ImageTool extends CreationTool {
         super(prototype, attributes);
     }
 
+    public void setUseFileDialog(boolean newValue) {
+        useFileDialog = newValue;
+        if (useFileDialog) {
+            fileChooser = null;
+        } else {
+            fileDialog = null;
+        }
+    }
+
+    public boolean isUseFileDialog() {
+        return useFileDialog;
+    }
+
+    @Override
     public void activate(DrawingEditor editor) {
         super.activate(editor);
-        
+
         if (workerThread != null) {
             try {
                 workerThread.join();
             } catch (InterruptedException ex) {
-              // ignore
+                // ignore
             }
         }
-        
-        if (getFileChooser().showOpenDialog(getView().getComponent()) == JFileChooser.APPROVE_OPTION) {
-            final File file = getFileChooser().getSelectedFile();
+
+        final File file;
+        if (useFileDialog) {
+            getFileDialog().setVisible(true);
+            if (getFileDialog().getFile() != null) {
+                file = new File(getFileDialog().getDirectory(), getFileDialog().getFile());
+            } else {
+                file = null;
+            }
+        } else {
+            if (getFileChooser().showOpenDialog(getView().getComponent()) == JFileChooser.APPROVE_OPTION) {
+                file = getFileChooser().getSelectedFile();
+            } else {
+                file = null;
+            }
+        }
+
+        if (file != null) {
             final ImageHolderFigure loaderFigure = ((ImageHolderFigure) prototype.clone());
             Worker worker = new Worker() {
 
@@ -98,18 +127,18 @@ public class ImageTool extends CreationTool {
                         getDrawing().remove(createdFigure);
                         fireToolDone();
                     } else {
-                            try {
-                        if (createdFigure == null) {
+                        try {
+                            if (createdFigure == null) {
                                 ((ImageHolderFigure) prototype).setImage(loaderFigure.getImageData(), loaderFigure.getBufferedImage());
-                        } else {
+                            } else {
                                 ((ImageHolderFigure) createdFigure).setImage(loaderFigure.getImageData(), loaderFigure.getBufferedImage());
-                        }
-                            } catch (IOException ex) {
-                        JOptionPane.showMessageDialog(getView().getComponent(),
-                                ex.getMessage(),
-                                null,
-                                JOptionPane.ERROR_MESSAGE);
                             }
+                        } catch (IOException ex) {
+                            JOptionPane.showMessageDialog(getView().getComponent(),
+                                    ex.getMessage(),
+                                    null,
+                                    JOptionPane.ERROR_MESSAGE);
+                        }
                     }
                 }
             };
@@ -122,11 +151,18 @@ public class ImageTool extends CreationTool {
             }
         }
     }
-    
+
     private JFileChooser getFileChooser() {
         if (fileChooser == null) {
             fileChooser = new JFileChooser();
         }
         return fileChooser;
+    }
+
+    private FileDialog getFileDialog() {
+        if (fileDialog == null) {
+            fileDialog = new FileDialog(new Frame());
+        }
+        return fileDialog;
     }
 }

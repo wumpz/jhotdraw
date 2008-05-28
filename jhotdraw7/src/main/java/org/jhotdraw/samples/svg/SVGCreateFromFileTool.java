@@ -1,5 +1,5 @@
 /*
- * @(#)ImageTool.java  1.0  2008-05-24
+ * @(#)ImageTool.java  2.1  2008-05-28
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -46,16 +46,20 @@ import org.jhotdraw.undo.*;
  * </ol>
  * 
  * @author Werner Randelshofer
- * @version 2.0 2008-05-24 Changed behavior of ImageTool. 
+ * @version 2.1 2008-05-28 Added option for using FileDialog instead of
+ * JFontChooser. 
+ * <br>2.0 2008-05-24 Changed behavior of ImageTool. 
  * <br>1.1 2008-05-17 Honor toolDoneAfterCreation property.
  * <br>1.0 December 14, 2006 Created.
  */
 public class SVGCreateFromFileTool extends CreationTool {
 
+    protected FileDialog fileDialog;
     protected JFileChooser fileChooser;
     protected Thread workerThread;
     protected CompositeFigure groupPrototype;
     protected ImageHolderFigure imagePrototype;
+    protected boolean useFileDialog;
 
     /** Creates a new instance. */
     public SVGCreateFromFileTool(ImageHolderFigure imagePrototype, CompositeFigure groupPrototype) {
@@ -71,6 +75,19 @@ public class SVGCreateFromFileTool extends CreationTool {
         this.imagePrototype = imagePrototype;
     }
 
+    public void setUseFileDialog(boolean newValue) {
+        useFileDialog = newValue;
+        if (useFileDialog) {
+            fileChooser = null;
+        } else {
+            fileDialog = null;
+        }
+    }
+    
+    public boolean isUseFileDialog() {
+        return useFileDialog;
+    }
+    @Override
     public void activate(DrawingEditor editor) {
         super.activate(editor);
 
@@ -82,8 +99,23 @@ public class SVGCreateFromFileTool extends CreationTool {
             }
         }
 
-        if (getFileChooser().showOpenDialog(getView().getComponent()) == JFileChooser.APPROVE_OPTION) {
-            final File file = getFileChooser().getSelectedFile();
+        final File file;
+        if (useFileDialog) {
+           getFileDialog().setVisible(true);
+           if (getFileDialog().getFile() != null) {
+                file = new File(getFileDialog().getDirectory(), getFileDialog().getFile());
+            } else {
+                file = null;
+            }
+        } else {
+            if (getFileChooser().showOpenDialog(getView().getComponent()) == JFileChooser.APPROVE_OPTION) {
+                file = getFileChooser().getSelectedFile();
+            } else {
+                file = null;
+            }
+        }
+
+        if (file != null) {
             Worker worker;
 
             if (file.getName().toLowerCase().endsWith(".svg") ||
@@ -196,5 +228,12 @@ public class SVGCreateFromFileTool extends CreationTool {
             fileChooser = new JFileChooser();
         }
         return fileChooser;
+    }
+
+    private FileDialog getFileDialog() {
+        if (fileDialog == null) {
+            fileDialog = new FileDialog(new Frame());
+        }
+        return fileDialog;
     }
 }
