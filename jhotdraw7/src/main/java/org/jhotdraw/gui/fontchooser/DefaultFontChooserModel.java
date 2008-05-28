@@ -158,7 +158,7 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "Times New Roman",
                 // Fonts on Windows XP:
                 "Palatino Linotype",
-                "Bitstream Vera Se...",
+                "Bitstream Vera Serif Bold",
                 "Bodoni MT",
                 "Bodoni MT Black",
                 "Bodoni MT Condensed",
@@ -235,7 +235,7 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "Agency FB",
                 "Berlin Sans FB",
                 "Berlin Sans FB Demi Bold",
-                "Bitstream Vera Sa...",
+                "Bitstream Vera Sans Bold",
                 "Calibri",
                 "Candara",
                 "Corbel",
@@ -248,16 +248,15 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "Franklin Gothic Demi",
                 "Franklin Gothic Demi Cond",
                 "Franklin Gothic Heavy",
-                "Frankln Gothic Medium Cond",
+                "Franklin Gothic Medium Cond",
                 "Gill Sans MT",
                 "Gill Sans MT Condensed",
                 "Gill Sans MT Ext Condensed Bold",
-                "Gill Sans Ultra Bold Con...",
                 "Maiandra GD",
                 "MS Reference Sans...",
                 "Tw Cen MT",
                 "Tw Cen MT Condensed",
-                "Tw Cen MT Condensed Extra...",
+                "Tw Cen MT Condensed Extra Bold",
                 // Fonts on Windows Vista:
                 "Aharoni",
                 "Browallia New",
@@ -269,7 +268,6 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "CordiaUPC",
                 "DokChampa",
                 "Dotum",
-                "DotumChe",
                 "Estrangelo Edessa",
                 "Euphemia",
                 "Freesia UPC",
@@ -351,8 +349,9 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "Vladimir Script",
                 // Fonts on Windows Vista
                 "Segoe Print",
-                "Segoe Script",
-                "")));
+                "Segoe Script")));
+        
+        // Monospaced
         root.add(
                 new FontCollectionNode(labels.getString("FontCollection.monospaced"), collectFamiliesNamed(families,
                 // Fonts on Mac OS X 10.5:
@@ -367,15 +366,17 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "Prestige Elite Std",
                 // Fonts on Windows XP:
                 "Lucida Console",
-                "Arial monospaced...",
                 "Bitstream Vera S...",
                 "Consolas",
                 "OCR A Extended",
                 "OCR B",
                 // Fonts on Windows Vista
                 "Consolas",
+                "DotumChe",
                 "Miriam Fixed",
                 "Rod")));
+        
+        // Decorative
         root.add(
                 new FontCollectionNode(labels.getString("FontCollection.decorative"), collectFamiliesNamed(families,
                 // Fonts on Mac OS X 10.5:
@@ -447,10 +448,11 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "Felix Titling",
                 "Franklin Gothic Heavy",
                 "Gill Sans MT Ext Condensed Bold",
-                "Gill Sans Ultra Bold Con...",
+                "Gill Sans Ultra Bold Condensed",
                 "Goudy Stout",
                 "Jokerman",
                 "Juice ITC",
+                "Magneto",
                 "Magneto Bold",
                 "Niagara Engraved",
                 "Niagara Solid",
@@ -481,7 +483,7 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "Zapf Dingbats",
                 // Fonts on Windows XP
 
-                "Bookshelf Symbol..."
+                "Bookshelf Symbol"
                 // Fonts on Windows Vista
 
                 )));
