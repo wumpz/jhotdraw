@@ -1,7 +1,7 @@
 /*
- * @(#)AttributeKeys.java  1.4  2007-12-16
+ * @(#)AttributeKeys.java  1.5  2008-05-28
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -27,7 +27,8 @@ import org.jhotdraw.geom.*;
  * and to define all needed AttributeKeys as static variables in there.
  *
  * @author Werner Randelshofer
- * @version 1.4 2007-12-16 Added CANVAS_FILL_COLOR. 
+ * @version 1.8 2008-05-28 Added LAYOUT_ALIGNMENT. 
+ * <br>1.4 2007-12-16 Added CANVAS_FILL_COLOR. 
  * <br>1.3 2006-12-09 Streamlined to better support SVG.
  * <br>1.2 2006-07-09 Stroke dash factor added. 
  * <br>1.1 2006-06-07 Changed all values to double.
@@ -261,9 +262,50 @@ public class AttributeKeys {
     
     /**
      * The value of this attribute is a Insets2D.Double object.
+     * <p>
+     * This attribute can be set on a CompositeFigure, which uses
+     * a Layouter to lay out its children.
+     * <p>
+     * The insets are used to determine the insets between the bounds
+     * of the CompositeFigure and its children.
      */
     public final static AttributeKey<Insets2D.Double> LAYOUT_INSETS = new AttributeKey<Insets2D.Double>("borderInsets", new Insets2D.Double());
 
+    public static enum Alignment {
+        /** align on the left or the top */
+        LEADING,
+        /** align on the right or the bottom */
+        TRAILING,
+        /** align in the center */
+        CENTER,
+        /** stretch to fill horizontally, or vertically */
+        BLOCK,
+    }
+    /**
+     * The value of this attribute is a Alignment object.
+     * <p>
+     * This attribute can be set on a CompositeFigure, which uses
+     * a Layouter to lay out its children.
+     * <p>
+     * The insets are used to determine the default alignment of
+     * the children of the CompositeFigure.
+     */
+    public final static AttributeKey<Alignment> COMPOSITE_ALIGNMENT = new AttributeKey<Alignment>("layoutAlignment", Alignment.BLOCK);
+
+    /**
+     * The value of this attribute is a Alignment object.
+     * <p>
+     * Layouters should use this attribute, to determine the default alignment
+     * of the child figures contained in the CompositeFigure which they lay out.
+     */
+    public final static AttributeKey<Alignment> ALIGNMENT_CONSTRAINT = new AttributeKey<Alignment>("layoutAlignment", null);
+    
+    
+    /**
+     * Specifies the transform of a Figure.
+     */
+    public final static AttributeKey<AffineTransform>TRANSFORM = new AttributeKey<AffineTransform>("transform", null, true);
+    
     public static enum Orientation {
         NORTH,
         NORTH_EAST,
@@ -274,12 +316,6 @@ public class AttributeKeys {
         WEST,
         NORTH_WEST
     }
-    
-    /**
-     * Specifies the transform of a Figure.
-     */
-    public final static AttributeKey<AffineTransform>TRANSFORM = new AttributeKey<AffineTransform>("transform", null, true);
-    
     /**
      * Specifies the orientation of a Figure.
      */
