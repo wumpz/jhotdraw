@@ -225,6 +225,21 @@ public class AttributeKeys {
      * Text shadow offset. The value of this attribute is a Dimension2DDouble object.
      */
     public final static AttributeKey<Dimension2DDouble> TEXT_SHADOW_OFFSET = new AttributeKey<Dimension2DDouble>("textShadowOffset", new Dimension2DDouble(1d,1d), false);
+    
+    public static enum Alignment {
+        /** align on the left or the top */
+        LEADING,
+        /** align on the right or the bottom */
+        TRAILING,
+        /** align in the center */
+        CENTER,
+        /** stretch to fill horizontally, or vertically */
+        BLOCK,
+    }
+    /**
+     * Text alignment. The value of this attribute is a Alignment enum.
+     */
+    public final static AttributeKey<Alignment> TEXT_ALIGNMENT = new AttributeKey<Alignment>("textAlignment", Alignment.LEADING);
     /**
      * The value of this attribute is a Font object, which is used as a prototype
      * to create the font for the text.
@@ -271,16 +286,6 @@ public class AttributeKeys {
      */
     public final static AttributeKey<Insets2D.Double> LAYOUT_INSETS = new AttributeKey<Insets2D.Double>("borderInsets", new Insets2D.Double());
 
-    public static enum Alignment {
-        /** align on the left or the top */
-        LEADING,
-        /** align on the right or the bottom */
-        TRAILING,
-        /** align in the center */
-        CENTER,
-        /** stretch to fill horizontally, or vertically */
-        BLOCK,
-    }
     /**
      * The value of this attribute is a Alignment object.
      * <p>
@@ -295,10 +300,13 @@ public class AttributeKeys {
     /**
      * The value of this attribute is a Alignment object.
      * <p>
+     * This attribute can be set on a child of a CompositeFigure, which uses
+     * a Layouter to lay out its children.
+     * <p>
      * Layouters should use this attribute, to determine the default alignment
      * of the child figures contained in the CompositeFigure which they lay out.
      */
-    public final static AttributeKey<Alignment> ALIGNMENT_CONSTRAINT = new AttributeKey<Alignment>("layoutAlignment", null);
+    public final static AttributeKey<Alignment> CHILD_ALIGNMENT = new AttributeKey<Alignment>("layoutAlignment", null);
     
     
     /**

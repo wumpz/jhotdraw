@@ -179,6 +179,8 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
             float horizontalPos = leftMargin;
             LinkedList<TextLayout> layouts = new LinkedList<TextLayout>();
             LinkedList<Float> penPositions = new LinkedList<Float>();
+            
+            int first = layouts.size();
 
             while (!lineComplete && verticalPos <= maxVerticalPos) {
                 float wrappingWidth = rightMargin - horizontalPos;
@@ -219,6 +221,27 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
                     horizontalPos = tabStops[j];
                 }
             }
+            // If there is only one layout element on the line, and we are
+            // drawing, then honor alignemnt
+            if (first == layouts.size() - 1 && g != null) {
+                switch (TEXT_ALIGNMENT.get(this)) {
+                    case TRAILING :
+                penPositions.set(first, rightMargin - layouts.get(first).getVisibleAdvance() - 1);
+                        break;
+                    case CENTER :
+                penPositions.set(first, (rightMargin - 1 - leftMargin - layouts.get(first).getVisibleAdvance()) / 2 
+                        + leftMargin);
+                        break;
+                    case BLOCK :
+                        // not supported
+                        break;
+                    case LEADING :
+                    default :
+                        break;
+                }
+            }
+
+
 
             verticalPos += maxAscent;
 

@@ -68,15 +68,22 @@ public class FileIconsSample {
                     STROKE_COLOR.set(imf, null);
                     imf.setBounds(new Point2D.Double(0,0),new Point2D.Double(icon.getIconWidth(), icon.getIconHeight()));
                     
-                   // Create a text figure for the file name
-                    TextFigure tef = new TextFigure(f.getName());
-                    
-                    // Or if you want to use a TextAreaFigure instead:
-                    /*
+                    // Creata TextAreaFigure for the file name
+                    // We limit its width to 100 Pixels
                     TextAreaFigure tef = new TextAreaFigure(f.getName());
-                    Dimension2DDouble dim = tef.getPreferredTextSize(Double.MAX_VALUE);
+                    Dimension2DDouble dim = tef.getPreferredTextSize(100);
                     Insets2D.Double insets = tef.getInsets();
-                    tef.setBounds(new Point2D.Double(0,0), new Point2D.Double(dim.width+insets.left+insets.right, dim.height+insets.top+insets.bottom));
+                    tef.setBounds(new Point2D.Double(0,0), 
+                            new Point2D.Double(Math.max(100,dim.width)+insets.left+insets.right, 
+                            dim.height+insets.top+insets.bottom));
+                    STROKE_COLOR.set(tef, null);
+                    FILL_COLOR.set(tef, null);
+                    TEXT_ALIGNMENT.set(tef, Alignment.CENTER);
+
+                     
+                    // Alternatively, you could just create a TextFigure
+                    /*
+                    TextFigure tef = new TextFigure(f.getName());
                     */
                     
                     // Create a GraphicalCompositeFigure with vertical layout
