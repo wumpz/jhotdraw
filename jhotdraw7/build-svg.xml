@@ -215,4 +215,6 @@
         <arg value="${distdir}/SVGApplet.html"/>
         </exec>
     </target>
+    <target name="dist" depends="init,applet.jarsigned,application.jarsigned">
+    </target>
 </project>

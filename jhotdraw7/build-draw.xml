@@ -5,7 +5,6 @@
         <property name="libdir" value="lib"/>
         <property name="srcdir" value="src/main/java"/>
         <property name="builddir" value="build"/>
-        <property name="samplesdir" value="guide/samples/draw"/>
         <property name="classdir" value="${builddir}/classes"/>
         <property name="distdir" value="dist/Draw"/>
         <property name="docdir" value="javadoc"/>
@@ -44,6 +43,11 @@
         </copy>
         <copy todir="${classdir}/org/jhotdraw/draw/action/images">
             <fileset dir="${srcdir}/org/jhotdraw/draw/action/images" />
+        </copy>
+        <copy todir="${classdir}/org/jhotdraw/gui">
+            <fileset dir="${srcdir}/org/jhotdraw/gui">
+                <include name="*.properties"/>
+            </fileset>
         </copy>
         <copy todir="${classdir}/org/jhotdraw/undo">
             <fileset dir="${srcdir}/org/jhotdraw/undo">
@@ -222,21 +226,6 @@
         <arg value="${classdir}/DrawLiveConnectApplet.html"/>
         </exec>
     </target>
-    <target name="release" depends="init,applet.jar,application.jarsigned">
-        <copy todir="${samplesdir}/applet">
-            <fileset dir="${distdir}" >
-                <include name="jhotdraw_draw.*"/>
-             </fileset>
-        </copy>
-        <copy todir="${samplesdir}/webstart">
-            <fileset dir="${distdir}" >
-                <include name="JHotDraw Draw.jar"/>
-             </fileset>
-        </copy>
-        <copy todir="${samplesdir}/webstart">
-            <fileset dir="${libdir}" >
-                <include name="libquaqua.jnilib"/>
-             </fileset>
-        </copy>
+    <target name="dist" depends="init,applet.jarsigned,application.jarsigned">
     </target>
 </project>

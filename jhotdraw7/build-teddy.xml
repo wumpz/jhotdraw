@@ -108,4 +108,6 @@
             <jvmarg value="-Djava.library.path=${libdir}"/>
         </java>
     </target>
+    <target name="dist" depends="init,application.jarsigned">
+    </target>
 </project>

@@ -13,10 +13,10 @@
  */
 package org.jhotdraw.draw;
 
-import ch.randelshofer.quaqua.util.*;
 import java.awt.geom.*;
 import java.util.*;
 import javax.swing.undo.*;
+import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * RoundRectangleRadiusUndoableEdit.

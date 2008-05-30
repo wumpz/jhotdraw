@@ -51,6 +51,11 @@
         <copy todir="${classdir}/org/jhotdraw/draw">
             <fileset file="${srcdir}/org/jhotdraw/draw/Label*.properties"/>
         </copy>
+        <copy todir="${classdir}/org/jhotdraw/gui">
+            <fileset dir="${srcdir}/org/jhotdraw/gui">
+                <include name="*.properties"/>
+            </fileset>
+        </copy>
         <copy todir="${classdir}/org/jhotdraw/app">
             <fileset file="${srcdir}/org/jhotdraw/app/Label*.properties"/>
         </copy>
@@ -211,5 +216,7 @@
         <exec executable="appletviewer">
         <arg value="${builddir}/PertApplet.html"/>
         </exec>
+    </target>
+    <target name="dist" depends="init,applet.jarsigned,application.jarsigned">
     </target>
 </project>

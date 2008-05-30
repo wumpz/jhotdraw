@@ -14,8 +14,6 @@
 
 package org.jhotdraw.color;
 
-import ch.randelshofer.quaqua.util.*;
-
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.colorchooser.*;

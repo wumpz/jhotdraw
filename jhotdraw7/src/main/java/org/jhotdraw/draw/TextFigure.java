@@ -117,7 +117,8 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
     }
     
     public double getBaseline() {
-        return origin.y - getBounds().y;
+      TextLayout layout = getTextLayout();
+        return origin.y  + layout.getAscent() - getBounds().y;
     }
     
     /**
