@@ -1,7 +1,7 @@
 /*
- * @(#)ToFrontAction.java  1.0  24. November 2003
+ * @(#)SendToBackAction.java  2.0  2008-05-30
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 2003-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -21,18 +21,18 @@ import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
 
 /**
- * ToFrontAction.
+ * SendToBackAction.
  *
  * @author  Werner Randelshofer
- * @version 1.0 24. November 2003  Created.
+ * @version 2.0 2008-05-30 Renamed from MoveToBackAction to SendToBackAction
+ * for consistency with the API of Drawing.
+ * <br>1.0 24. November 2003  Created.
  */
-public class MoveToFrontAction extends AbstractSelectedAction {
-       private ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
+public class SendToBackAction extends AbstractSelectedAction {
     
-       public static String ID = "moveToFront";
-       
+       public static String ID = "sendToBack";
     /** Creates a new instance. */
-    public MoveToFrontAction(DrawingEditor editor) {
+    public SendToBackAction(DrawingEditor editor) {
         super(editor);
         labels.configureAction(this, ID);
     }
@@ -40,29 +40,38 @@ public class MoveToFrontAction extends AbstractSelectedAction {
     public void actionPerformed(java.awt.event.ActionEvent e) {
         final DrawingView view = getView();
         final LinkedList<Figure> figures = new LinkedList<Figure>(view.getSelectedFigures());
-        bringToFront(view, figures);
+        sendToBack(view, figures);
         fireUndoableEditHappened(new AbstractUndoableEdit() {
+            @Override
             public String getPresentationName() {
        return labels.getString(ID);
             }
+            @Override
             public void redo() throws CannotRedoException {
                 super.redo();
-                MoveToFrontAction.bringToFront(view, figures);
+                SendToBackAction.sendToBack(view, figures);
             }
+            @Override
             public void undo() throws CannotUndoException {
                 super.undo();
-                MoveToBackAction.sendToBack(view, figures);
+                BringToFrontAction.bringToFront(view, figures);
             }
         }
+        
+        
+        
+        
+        
+        
+        
         );
     }
-    public static void bringToFront(DrawingView view, Collection<Figure> figures) {
+    public static void sendToBack(DrawingView view, Collection figures) {
+        Iterator i = figures.iterator();
         Drawing drawing = view.getDrawing();
-        Iterator i = drawing.sort(figures).iterator();
         while (i.hasNext()) {
             Figure figure = (Figure) i.next();
-            drawing.bringToFront(figure);
+            drawing.sendToBack(figure);
         }
     }
-    
 }

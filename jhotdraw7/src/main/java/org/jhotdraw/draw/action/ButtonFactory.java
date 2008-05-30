@@ -192,8 +192,8 @@ public class ButtonFactory {
 
         a.add(null); // separator
 
-        a.add(new MoveToFrontAction(editor));
-        a.add(new MoveToBackAction(editor));
+        a.add(new BringToFrontAction(editor));
+        a.add(new SendToBackAction(editor));
 
         return a;
     }
@@ -1308,8 +1308,8 @@ public class ButtonFactory {
         bar.add(new MoveAction.North(editor)).setFocusable(false);
         bar.add(new MoveAction.South(editor)).setFocusable(false);
         bar.addSeparator();
-        bar.add(new MoveToFrontAction(editor)).setFocusable(false);
-        bar.add(new MoveToBackAction(editor)).setFocusable(false);
+        bar.add(new BringToFrontAction(editor)).setFocusable(false);
+        bar.add(new SendToBackAction(editor)).setFocusable(false);
 
     }
 

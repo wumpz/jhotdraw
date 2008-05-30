@@ -64,8 +64,8 @@ public class SVGDrawingPanel extends JPanel {
         pb.add(new GroupAction(editor));
         pb.add(new UngroupAction(editor));
         pb.addSeparator();
-        pb.add(new MoveToFrontAction(editor));
-        pb.add(new MoveToBackAction(editor));
+        pb.add(new BringToFrontAction(editor));
+        pb.add(new SendToBackAction(editor));
         pb.addSeparator();
         pb.add(new CutAction());
         pb.add(new CopyAction());
@@ -126,8 +126,8 @@ public class SVGDrawingPanel extends JPanel {
         a.add(new SplitAction(editor));
 
         a.add(null); // separator
-        a.add(new MoveToFrontAction(editor));
-        a.add(new MoveToBackAction(editor));
+        a.add(new BringToFrontAction(editor));
+        a.add(new SendToBackAction(editor));
 
         return a;
     }

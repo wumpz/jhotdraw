@@ -50,6 +50,7 @@ public class DefaultDrawing
     public DefaultDrawing() {
     }
 
+    @Override
     public void draw(Graphics2D g) {
         synchronized (getLock()) {
             ensureSorted();
@@ -181,6 +182,7 @@ public class DefaultDrawing
         return contained;
     }
 
+    @Override
     public Figure findFigureInside(Point2D.Double p) {
         Figure f = findFigure(p);
         return (f == null) ? null : f.findFigureInside(p);
@@ -195,6 +197,7 @@ public class DefaultDrawing
         return new ReversedList<Figure>(getChildren());
     }
 
+    @Override
     public void bringToFront(Figure figure) {
         if (basicRemove(figure) != -1) {
             basicAdd(figure);
@@ -203,6 +206,7 @@ public class DefaultDrawing
         }
     }
 
+    @Override
     public void sendToBack(Figure figure) {
         if (basicRemove(figure) != -1) {
             basicAdd(0, figure);
@@ -228,6 +232,7 @@ public class DefaultDrawing
             needsSorting = false;
         }
     }
+    @Override
     protected void setAttributeOnChildren(AttributeKey key, Object newValue) {
         // empty
     }
@@ -242,10 +247,12 @@ public class DefaultDrawing
         return (canvasSize == null) ? null : (Dimension2DDouble) canvasSize.clone();
     }
 
+    @Override
     public int indexOf(Figure figure) {
         return children.indexOf(figure);
     }
 
+    @Override
     public DefaultDrawing clone() {
         DefaultDrawing that = (DefaultDrawing) super.clone();
         that.canvasSize = (this.canvasSize == null) ? null : (Dimension2DDouble) this.canvasSize.clone();

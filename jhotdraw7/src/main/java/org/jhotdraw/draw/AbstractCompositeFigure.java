@@ -258,7 +258,7 @@ public abstract class AbstractCompositeFigure
      *
      * @param figure that is part of the drawing
      */
-    public synchronized void sendToFront(Figure figure) {
+    public synchronized void bringToFront(Figure figure) {
         if (basicRemove(figure) != -1) {
             basicAdd(figure);
             fireAreaInvalidated(figure.getDrawingArea());
