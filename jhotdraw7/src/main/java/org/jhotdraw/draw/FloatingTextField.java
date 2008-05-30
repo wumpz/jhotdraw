@@ -14,7 +14,6 @@
 
 package org.jhotdraw.draw;
 
-import com.sun.corba.se.spi.oa.OADefault;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
