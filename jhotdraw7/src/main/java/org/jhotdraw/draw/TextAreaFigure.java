@@ -130,13 +130,23 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
     }
 
     /**
-     * Draws or measures a paragraph of text at the specified y location and returns
-     * a rectangle with the bounds of the paragraph.
+     * Draws or measures a paragraph of text at the specified y location and
+     * the bounds of the paragraph.
      *
      * @param g Graphics object. This parameter is null, if we want to
      *  measure the size of the paragraph.
+     * @param styledText the text of the paragraph.
+     * @param verticalPos the top bound of the paragraph
+     * @param maxVerticalPos the bottom bound of the paragraph
+     * @param leftMargin the left bound of the paragraph
+     * @param rightMargin the right bound of the paragraph
+     * @param tabStops an array with tab stops
+     * @param tabCounts the number of entries in tabStops which contain actual
+     *        values
+     * @return Returns the actual bounds of the paragraph.
      */
-    private Rectangle2D.Double drawParagraph(Graphics2D g, AttributedCharacterIterator styledText, float verticalPos, float maxVerticalPos, float leftMargin, float rightMargin, float[] tabStops, int tabCount) {
+    private Rectangle2D.Double drawParagraph(Graphics2D g, AttributedCharacterIterator styledText,
+            float verticalPos, float maxVerticalPos, float leftMargin, float rightMargin, float[] tabStops, int tabCount) {
         // This method is based on the code sample given
         // in the class comment of java.awt.font.LineBreakMeasurer, 
 
@@ -179,7 +189,7 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
             float horizontalPos = leftMargin;
             LinkedList<TextLayout> layouts = new LinkedList<TextLayout>();
             LinkedList<Float> penPositions = new LinkedList<Float>();
-            
+
             int first = layouts.size();
 
             while (!lineComplete && verticalPos <= maxVerticalPos) {
@@ -225,18 +235,17 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
             // drawing, then honor alignemnt
             if (first == layouts.size() - 1 && g != null) {
                 switch (TEXT_ALIGNMENT.get(this)) {
-                    case TRAILING :
-                penPositions.set(first, rightMargin - layouts.get(first).getVisibleAdvance() - 1);
+                    case TRAILING:
+                        penPositions.set(first, rightMargin - layouts.get(first).getVisibleAdvance() - 1);
                         break;
-                    case CENTER :
-                penPositions.set(first, (rightMargin - 1 - leftMargin - layouts.get(first).getVisibleAdvance()) / 2 
-                        + leftMargin);
+                    case CENTER:
+                        penPositions.set(first, (rightMargin - 1 - leftMargin - layouts.get(first).getVisibleAdvance()) / 2 + leftMargin);
                         break;
-                    case BLOCK :
+                    case BLOCK:
                         // not supported
                         break;
-                    case LEADING :
-                    default :
+                    case LEADING:
+                    default:
                         break;
                 }
             }
@@ -255,13 +264,16 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
                 if (g != null) {
                     nextLayout.draw(g, nextPosition, verticalPos);
                 }
-                paragraphBounds.add(nextLayout.getBounds());
+                Rectangle2D layoutBounds = nextLayout.getBounds();
+                paragraphBounds.add(new Rectangle2D.Double(layoutBounds.getX() + nextPosition,
+                        layoutBounds.getY() + verticalPos,
+                        layoutBounds.getWidth(),
+                        layoutBounds.getHeight()));
             }
 
             verticalPos += maxDescent;
         }
 
-            paragraphBounds.height = verticalPos;
         return paragraphBounds;
     }
 
@@ -441,7 +453,8 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
 
     public boolean isTextOverflow() {
         if (isTextOverflow == null) {
-            isTextOverflow = getPreferredTextSize(getBounds().width).height > getBounds().height;
+            Insets2D.Double insets = getInsets();
+            isTextOverflow = getPreferredTextSize(getBounds().width - insets.left - insets.right).height > getBounds().height - insets.top - insets.bottom;
         }
         return isTextOverflow;
     }
@@ -472,26 +485,24 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
                     tabStops[i] = (float) (textRect.x + (int) (tabWidth * (i + 1)));
                 }
 
-                if (getText() != null) {
-                    String[] paragraphs = getText().split("\n");//Strings.split(getText(), '\n');
+                String[] paragraphs = getText().split("\n");//Strings.split(getText(), '\n');
 
-                    for (int i = 0; i < paragraphs.length; i++) {
-                        if (paragraphs[i].length() == 0) {
-                            paragraphs[i] = " ";
-                        }
-                        AttributedString as = new AttributedString(paragraphs[i]);
-                        as.addAttribute(TextAttribute.FONT, font);
-                        if (isUnderlined) {
-                            as.addAttribute(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
-                        }
-                        int tabCount = new StringTokenizer(paragraphs[i], "\t").countTokens() - 1;
-                        Rectangle2D.Double paragraphBounds = drawParagraph(null, as.getIterator(), verticalPos, maxVerticalPos, leftMargin, rightMargin, tabStops, tabCount);
-                        verticalPos = (float) (paragraphBounds.y + paragraphBounds.height);
-                        textRect.add(paragraphBounds);
+                for (int i = 0; i < paragraphs.length; i++) {
+                    if (paragraphs[i].length() == 0) {
+                        paragraphs[i] = " ";
                     }
+                    AttributedString as = new AttributedString(paragraphs[i]);
+                    as.addAttribute(TextAttribute.FONT, font);
+                    if (isUnderlined) {
+                        as.addAttribute(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
+                    }
+                    int tabCount = new StringTokenizer(paragraphs[i], "\t").countTokens() - 1;
+                    Rectangle2D.Double paragraphBounds = drawParagraph(null, as.getIterator(), verticalPos, maxVerticalPos, leftMargin, rightMargin, tabStops, tabCount);
+                    verticalPos = (float) (paragraphBounds.y + paragraphBounds.height);
+                    textRect.add(paragraphBounds);
                 }
             }
         }
-        return new Dimension2DDouble(textRect.width, textRect.height);
+        return new Dimension2DDouble(-Math.min(textRect.x,0) + textRect.width, -Math.min(textRect.y,0) + textRect.height);
     }
 }
