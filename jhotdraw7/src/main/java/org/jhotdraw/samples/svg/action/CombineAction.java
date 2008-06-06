@@ -42,7 +42,7 @@ public class CombineAction extends AbstractSelectedAction {
 
     /** Creates a new instance. */
     public CombineAction(DrawingEditor editor) {
-        this(editor, new SVGPathFigure(), true);
+        this(editor, new SVGPathFigure(true), true);
     }
 
     public CombineAction(DrawingEditor editor, SVGPathFigure prototype) {
@@ -154,7 +154,7 @@ public class CombineAction extends AbstractSelectedAction {
             int i = 0;
             int index = drawing.indexOf(group);
             for (Figure f : group.getChildren()) {
-                SVGPathFigure path = new SVGPathFigure();
+                SVGPathFigure path = new SVGPathFigure(true);
                 for (Map.Entry<AttributeKey, Object> entry : group.getAttributes().entrySet()) {
                     path.setAttribute(entry.getKey(), entry.getValue());
                 }
@@ -219,6 +219,8 @@ public class CombineAction extends AbstractSelectedAction {
             List<Figure> children = new LinkedList<Figure>(path.getChildren());
             path.basicRemoveAllChildren();
             for (Figure child : children) {
+                SVGBezierFigure bez = (SVGBezierFigure) child;
+                bez.flattenTransform();
                 group.basicAdd(child);
             }
 

@@ -1055,12 +1055,23 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
         g.setColor(dragWindow.getBackground());	    
         g.fillRect(0, 0, w, h);
         
+        
+	boolean wasDoubleBuffered = false;
+	if (toolBar.isDoubleBuffered()) {
+	    wasDoubleBuffered = true;
+	    toolBar.setDoubleBuffered(false);
+	}
+
         Graphics g2 = g.create();
         toolBar.paintAll(g2);
         g2.dispose();
 
         g.setColor(dragWindow.getBorderColor());
         g.drawRect(0, 0, w - 1, h - 1);
+        
+        if (wasDoubleBuffered) {
+            toolBar.setDoubleBuffered(true);
+        }
     }
 
     private static class Actions extends /*UI*/ AbstractAction {

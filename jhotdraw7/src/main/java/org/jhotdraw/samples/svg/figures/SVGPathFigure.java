@@ -55,6 +55,10 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         add(new SVGBezierFigure());
         SVGAttributeKeys.setDefaults(this);
     }
+    public SVGPathFigure(boolean isEmpty) {
+        if (! isEmpty) { add(new SVGBezierFigure()); }
+        SVGAttributeKeys.setDefaults(this);
+    }
 
     public void draw(Graphics2D g) {
         double opacity = OPACITY.get(this);
@@ -464,7 +468,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         AffineTransform tx = TRANSFORM.get(this);
         if (tx != null) {
             for (Figure child : getChildren()) {
-                ((SVGBezierFigure) child).transform(tx);
+                //((SVGBezierFigure) child).transform(tx);
                 ((SVGBezierFigure) child).flattenTransform();
             }
         }

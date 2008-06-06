@@ -28,7 +28,7 @@ import org.jhotdraw.geom.*;
  * @author  Werner Randelshofer
  * @version 2.0 2008-05-17 Added support for property toolDoneAfterCreation. 
  * Draw rubberband while editing.
- * <br>1.2 2007-11-30 Huw Jones: Factored calls to Bezier.fitBezierCurve out
+ * <br>1.2 2007-11-30 Huw Jones: Factored calls to Bezier.fitBezierPath out
  * into method calculateFittedPath.
  * <br>1.1 2006-07-12 Werner Randelshofer: Extended support for subclassing.
  * <br>1.0 2006-01-21 Werner Randelshofer: Created.
@@ -317,7 +317,7 @@ public class BezierTool extends AbstractTool {
     }
 
     protected BezierPath calculateFittedCurve(BezierPath path) {
-        return Bezier.fitBezierCurve(path, 1);
+        return Bezier.fitBezierPath(path, 2d / getView().getScaleFactor());
     }
 
     public void setToolDoneAfterCreation(boolean b) {
