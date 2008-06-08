@@ -1,7 +1,7 @@
 /*
- * @(#)AbstractSelectedAction.java  3.1.1  2006-07-09
+ * @(#)AbstractSelectedAction.java  3.1.2  2008-06-08
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 2003-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -30,7 +30,9 @@ import java.util.*;
  *
  * @author Werner Randelshofer
  *
- * @version 3.1.1. 2006-07-09 Fixed enabled state. 
+ * @version 3.1.2 2008-06-08 Method setEditor did not register the EventHandler
+ * to the active view of the editor.
+ * <br>3.1.1. 2006-07-09 Fixed enabled state. 
  * <br>3.1 2006-03-15 Support for enabled state of view added.
  * <br>3.0 2006-02-24 Changed to support multiple views.
  * <br>2.0 2006-02-14 Updated to work with multiple views.
@@ -105,15 +107,20 @@ public abstract class AbstractSelectedAction
     public void setEditor(DrawingEditor editor) {
         if (this.editor != null) {
             this.editor.removePropertyChangeListener(eventHandler);
-            if (getView() != null) {
-                getView().removeFigureSelectionListener(eventHandler);
+            if (this.editor.getActiveView() != null) {
+                this.editor.getActiveView().removeFigureSelectionListener(eventHandler);
             }
         }
         this.editor = editor;
         if (this.editor != null) {
             this.editor.addPropertyChangeListener(eventHandler);
+            if (this.editor.getActiveView() != null) {
+                this.editor.getActiveView().addFigureSelectionListener(eventHandler);
+            }
         }
+        updateEnabledState();
     }
+    
     public DrawingEditor getEditor() {
         return editor;
     }

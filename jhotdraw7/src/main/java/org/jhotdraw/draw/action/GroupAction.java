@@ -1,5 +1,5 @@
 /*
- * @(#)GroupAction.java  2.0.2  2008-05-12
+ * @(#)GroupAction.java  2.0.3  2008-06-08
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -24,7 +24,8 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * GroupAction.
  *
  * @author  Werner Randelshofer
- * @version 2.0.2 2008-05-12 Undoable edit events fired by this action
+ * @version 2.0.3 2008-06-08 Fixed NPE in methods canGroup/canUngroup. 
+ * <br>2.0.2 2008-05-12 Undoable edit events fired by this action
  * did not work.
  * <br>2.0.1 2008-04-12 Ungrouped figures must be inserted at the
  * z-index of the original group.
@@ -58,6 +59,7 @@ public class GroupAction extends AbstractSelectedAction {
         this.prototype = prototype;
         this.isGroupingAction = isGroupingAction;
         labels.configureAction(this, ID);
+        updateEnabledState();
     }
 
     @Override
@@ -70,11 +72,13 @@ public class GroupAction extends AbstractSelectedAction {
     }
 
     protected boolean canGroup() {
-        return getView().getSelectionCount() > 1;
+        return getView() != null && getView().getSelectionCount() > 1;
     }
 
     protected boolean canUngroup() {
-        return getView().getSelectionCount() == 1 &&
+        return getView() != null &&
+                getView().getSelectionCount() == 1 &&
+                prototype != null && 
                 getView().getSelectedFigures().iterator().next().getClass().equals(
                 prototype.getClass());
     }
