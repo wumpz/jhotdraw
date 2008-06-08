@@ -137,6 +137,7 @@ public class Bezier {
                 }
             }
         }
+System.out.println("Bezier.fitBezierPath(): "+fittedPath);        
         return fittedPath;
     }
 
@@ -317,7 +318,6 @@ public class Bezier {
                 previousCornerAngle = angle;
             }
         }
-
         return cornerIndices;
     }
 
@@ -471,10 +471,12 @@ public class Bezier {
         double error = Math.sqrt(errorSquared);
         if (connectsCorners && Geom.lineContainsPoint(lastNode.x[0], lastNode.y[0], bezCurve[3].x, bezCurve[3].y, bezCurve[1].x, bezCurve[1].y, error) &&
                 Geom.lineContainsPoint(lastNode.x[0], lastNode.y[0], bezCurve[3].x, bezCurve[3].y, bezCurve[2].x, bezCurve[2].y, error)) {
+System.out.println("Bezier.addCurveTo - lineTo "+bezierPath.size());            
             bezierPath.lineTo(
                     bezCurve[3].x, bezCurve[3].y);
 
         } else {
+System.out.println("Bezier.addCurveTo - curveTo "+bezierPath.size());            
             bezierPath.curveTo(
                     bezCurve[1].x, bezCurve[1].y,
                     bezCurve[2].x, bezCurve[2].y,

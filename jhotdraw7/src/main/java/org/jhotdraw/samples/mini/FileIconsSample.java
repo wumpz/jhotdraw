@@ -1,5 +1,5 @@
 /*
- * @(#)ConnectingFiguresSample.java   1.0  2008-05-28
+ * @(#)FileIconsSample.java   1.0  2008-05-28
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.

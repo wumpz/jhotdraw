@@ -1076,6 +1076,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
             throw new IllegalPathStateException("curveTo only allowed when not empty");
         }
         Node lastPoint = get(size() - 1);
+        
         lastPoint.mask |= C2_MASK;
         lastPoint.x[2] = x1;
         lastPoint.y[2] = y1;
