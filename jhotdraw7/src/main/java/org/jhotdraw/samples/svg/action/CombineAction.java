@@ -1,7 +1,7 @@
 /*
- * @(#)CombinePathsAction.java  2.0  2007-12-21
+ * @(#)CombinePathsAction.java  2.0.1  2008-06-08
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 2006-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -26,7 +26,9 @@ import javax.swing.undo.*;
  * CombinePathsAction.
  *
  * @author  Werner Randelshofer
- * @version 2.0 2007-12-21 Refactored this class, so that it can be used
+ * @version 2.0.1 2008-06-08 Fixed combining/splitting of
+ * transformed paths.
+ * <br>2.0 2007-12-21 Refactored this class, so that it can be used
  * as a base class for SplitAction. 
  * <br>1.0 2006-07-12 Created.
  */
@@ -109,8 +111,8 @@ public class CombineAction extends AbstractSelectedAction {
             for (Figure f : ungroupedPaths) {
                 ungroupedPathsIndices[i] = drawing.indexOf(f);
                 ungroupedPathsChildCounts[i] = ((CompositeFigure) f).getChildCount();
-                System.out.print("CombineAction indices[" + i + "] = " + ungroupedPathsIndices[i]);
-                System.out.println(" childCount[" + i + "] = " + ungroupedPathsChildCounts[i]);
+                //System.out.print("CombineAction indices[" + i + "] = " + ungroupedPathsIndices[i]);
+                //System.out.println(" childCount[" + i + "] = " + ungroupedPathsChildCounts[i]);
                 i++;
             }
             final CompositeFigure group = (CompositeFigure) prototype.clone();
