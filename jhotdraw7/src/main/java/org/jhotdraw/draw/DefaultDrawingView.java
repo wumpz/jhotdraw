@@ -44,8 +44,8 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * FIXME - Use double buffering for the drawing to improve performance.
  *
  * @author Werner Randelshofer
- * @version 4.5.2 2008-06-09 Method validateHandles must not create
- * handles, when the DrawingView has not a DrawingEditor. 
+ * @version 4.5.2 2008-06-09 A DrawingView must not create Handle's, if it
+ * has no DrawingEditor. 
  * <br>4.5.1 2008-05-18 Delete method did not preserve z-index on undo. 
  * <br>4.5 2008-05-18 Retrieve tooltip text from current tool.
  * <br>4.4 2007-12-18 Reduced repaints of the drawing area. 
@@ -451,7 +451,7 @@ public class DefaultDrawingView
             figure.addFigureListener(handleInvalidator);
             Set<Figure> newSelection = new HashSet<Figure>(selectedFigures);
             Rectangle invalidatedArea = null;
-            if (handlesAreValid) {
+            if (handlesAreValid && getEditor() != null) {
                 for (Handle h : figure.createHandles(detailLevel)) {
                     h.setView(this);
                     selectionHandles.add(h);
@@ -483,7 +483,7 @@ public class DefaultDrawingView
                 selectionChanged = true;
                 newSelection.add(figure);
                 figure.addFigureListener(handleInvalidator);
-                if (handlesAreValid) {
+                if (handlesAreValid && getEditor() != null) {
                     for (Handle h : figure.createHandles(detailLevel)) {
                         h.setView(this);
                         selectionHandles.add(h);
@@ -907,11 +907,13 @@ public class DefaultDrawingView
 
         getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
 
+            @Override
             public String getPresentationName() {
                 ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
                 return labels.getString("delete");
             }
 
+            @Override
             public void undo() throws CannotUndoException {
                 super.undo();
                 clearSelection();
@@ -922,6 +924,7 @@ public class DefaultDrawingView
                 addToSelection(deletedFigures);
             }
 
+            @Override
             public void redo() throws CannotRedoException {
                 super.redo();
                 for (int i = 0; i < deletedFigureIndices.length; i++) {
