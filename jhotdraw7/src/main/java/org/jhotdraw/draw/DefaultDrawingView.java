@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultDrawingView.java  4.5.1  2008-05-18
+ * @(#)DefaultDrawingView.java  4.5.2  2008-06-09
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -44,7 +44,9 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * FIXME - Use double buffering for the drawing to improve performance.
  *
  * @author Werner Randelshofer
- * @version 4.5.1 2008-05-18 Delete method did not preserve z-index on undo. 
+ * @version 4.5.2 2008-06-09 Method validateHandles must not create
+ * handles, when the DrawingView has not a DrawingEditor. 
+ * <br>4.5.1 2008-05-18 Delete method did not preserve z-index on undo. 
  * <br>4.5 2008-05-18 Retrieve tooltip text from current tool.
  * <br>4.4 2007-12-18 Reduced repaints of the drawing area. 
  * <br>4.3 2007-12-16 Retrieve canvasColor color from Drawing object.
@@ -629,7 +631,9 @@ public class DefaultDrawingView
      * Validates the handles.
      */
     private void validateHandles() {
-        if (!handlesAreValid) {
+        // Validate handles only, if they are invalid, and if
+        // the DrawingView has a DrawingEditor.
+        if (!handlesAreValid && getEditor() != null) {
             handlesAreValid = true;
             selectionHandles.clear();
             Rectangle invalidatedArea = null;
@@ -976,6 +980,7 @@ public class DefaultDrawingView
         DrawingEditor oldValue = editor;
         this.editor = editor;
         firePropertyChange("editor", oldValue, editor);
+        invalidateHandles();
         repaint();
     }
 
