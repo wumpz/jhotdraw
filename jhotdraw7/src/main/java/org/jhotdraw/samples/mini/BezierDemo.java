@@ -88,6 +88,7 @@ public class BezierDemo extends javax.swing.JPanel {
 
         @Override
         public void paintComponent(Graphics gr) {
+            long start = System.currentTimeMillis();
             super.paintComponent(gr);
             Graphics2D g = (Graphics2D) gr;
 
@@ -221,6 +222,9 @@ public class BezierDemo extends javax.swing.JPanel {
                     }
                 }
             }
+            long end = System.currentTimeMillis();
+            g.setColor(Color.BLACK);
+            g.drawString((end-start)+" ms", 5, g.getFontMetrics().getHeight());
         }
     }
     private Canvas canvas;
@@ -236,7 +240,7 @@ public class BezierDemo extends javax.swing.JPanel {
         add(canvas, BorderLayout.CENTER);
 
         Point2D.Double[] d = { //  Digitized points 
-        };
+        };     
         BezierPath digi = new BezierPath();
         digi.addAll(Arrays.asList(d));
         Example ex = new Example();

@@ -83,7 +83,7 @@ public class Bezier {
         // Split into segments at corners
         ArrayList<ArrayList<Point2D.Double>> segments = new ArrayList<ArrayList<Point2D.Double>>();
         segments = splitAtCorners(digitizedPoints, 77 / 180d * Math.PI, error * error);
-
+        
         // Clean up the data in the segments
         for (int i = 0, n = segments.size(); i < n; i++) {
             ArrayList<Point2D.Double> seg = segments.get(i);
@@ -272,7 +272,7 @@ public class Bezier {
 
         double squaredDistance = minDistance * minDistance;
 
-        int previousCorner = 0;
+        int previousCorner = -1;
         double previousCornerAngle = 0;
 
         for (int i = 1, n = digitizedPoints.size(); i < n - 1; i++) {
@@ -280,11 +280,11 @@ public class Bezier {
 
             // search for a preceding point for corner detection
             Point2D.Double prev = null;
-            boolean touchesPreviousCorner = false;
-            for (int j = i - 1; j > 0; j--) {
+            boolean intersectsPreviousCorner = false;
+            for (int j = i - 1; j >= 0; j--) {
                 if (j == previousCorner || v2SquaredDistanceBetween2Points(digitizedPoints.get(j), p) >= squaredDistance) {
                     prev = digitizedPoints.get(j);
-                    touchesPreviousCorner = j <= previousCorner;
+                    intersectsPreviousCorner = j < previousCorner;
                     break;
                 }
             }
@@ -308,7 +308,7 @@ public class Bezier {
             double aNext = Math.atan2(next.y - p.y, next.x - p.x);
             double angle = Math.abs(aPrev - aNext);
             if (angle < Math.PI - minAngle || angle > Math.PI + minAngle) {
-                if (touchesPreviousCorner) {
+                if (intersectsPreviousCorner) {
                     cornerIndices.set(cornerIndices.size() - 1, i);
                 } else {
                     cornerIndices.add(i);

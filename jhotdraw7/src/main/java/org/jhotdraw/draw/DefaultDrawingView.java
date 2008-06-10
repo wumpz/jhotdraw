@@ -256,6 +256,7 @@ public class DefaultDrawingView
      * Uses rendering hints for fast painting. Paints the canvasColor, the
      * grid, the drawing, the handles and the current tool.
      */
+    @Override
     public void paintComponent(Graphics gr) {
         Graphics2D g = (Graphics2D) gr;
 

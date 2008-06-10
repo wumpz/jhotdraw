@@ -239,12 +239,13 @@ public class BezierTool extends AbstractTool {
         if (createdFigure.getNodeCount() > nodeCountBeforeDrag + 1) {
             createdFigure.willChange();
             BezierPath figurePath = createdFigure.getBezierPath();
-            BezierPath fittedPath = new BezierPath();
+            BezierPath digitizedPath = new BezierPath();
             for (int i = nodeCountBeforeDrag - 1, n = figurePath.size(); i < n; i++) {
-                fittedPath.add(figurePath.get(nodeCountBeforeDrag - 1));
+                digitizedPath.add(figurePath.get(nodeCountBeforeDrag - 1));
                 figurePath.remove(nodeCountBeforeDrag - 1);
             }
-            fittedPath = calculateFittedCurve(fittedPath);
+            BezierPath fittedPath = calculateFittedCurve(digitizedPath);
+            //figurePath.addAll(digitizedPath);
             figurePath.addAll(fittedPath);
             createdFigure.setBezierPath(figurePath);
             createdFigure.changed();
@@ -252,7 +253,7 @@ public class BezierTool extends AbstractTool {
         }
 
         if (finishWhenMouseReleased == Boolean.TRUE) {
-            if (createdFigure.getNodeCount() > 2) {
+            if (createdFigure.getNodeCount() > 1) {
                 finishCreation(createdFigure);
                 createdFigure = null;
                 finishWhenMouseReleased = null;
