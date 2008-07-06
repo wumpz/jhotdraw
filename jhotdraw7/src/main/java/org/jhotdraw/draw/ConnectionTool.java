@@ -1,5 +1,5 @@
 /*
- * @(#)ConnectionTool.java  4.2  2008-03-31
+ * @(#)ConnectionTool.java  4.2.1  2008-07-06
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -41,7 +41,9 @@ import java.awt.dnd.*;
  * </ol>
  *
  * @author Werner Randelshofer
- * @version 4.2 2008-03-31 Added tow methods named canConnect() to this tool,
+ * @version 4.2.1 2008-07-06 Method mouseReleased allowed to connect to figures
+ * even if ConnectionFigure.canConnect(…,…) returned false.
+ * <br>4.2 2008-03-31 Added tow methods named canConnect() to this tool,
  * so that subclasses can override the behavior. Made variables startConnector
  * and endConnector protected instead of private. 
  * <br>4.1 2007-08-22 Added property 'toolDoneAfterCreation'.
@@ -274,8 +276,11 @@ public class ConnectionTool extends AbstractTool {
      * Connects the figures if the mouse is released over another
      * figure.
      */
+    @Override
     public void mouseReleased(MouseEvent e) {
-        if (createdFigure != null && startConnector != null && endConnector != null) {
+        if (createdFigure != null &&
+                startConnector != null && endConnector != null &&
+                createdFigure.canConnect(startConnector, endConnector)) {
             createdFigure.willChange();
             createdFigure.setStartConnector(startConnector);
             createdFigure.setEndConnector(endConnector);
