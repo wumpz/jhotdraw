@@ -320,7 +320,7 @@ public class BezierTool extends AbstractTool {
     }
 
     protected BezierPath calculateFittedCurve(BezierPath path) {
-        return Bezier.fitBezierPath(path, 2d / getView().getScaleFactor());
+        return Bezier.fitBezierPath(path, 1.5d / getView().getScaleFactor());
     }
 
     public void setToolDoneAfterCreation(boolean b) {
