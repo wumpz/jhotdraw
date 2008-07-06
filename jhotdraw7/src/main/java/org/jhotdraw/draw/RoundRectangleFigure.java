@@ -1,7 +1,7 @@
 /*
- * @(#)RoundRectangleFigure.java  2.2  2006-06-17
+ * @(#)RoundRectangleFigure.java  2.3  2008-07-06
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -28,15 +28,17 @@ import org.jhotdraw.xml.DOMOutput;
  * A Rectangle2D.Double with round corners.
  * 
  * @author Werner Randelshofer
- * @version 2.2 2006-06-17 Method chop added.
+ * @version 2.3 2008-07-06 Changed visibility of instance variables from private
+ * to protected. 
+ * <br>2.2 2006-06-17 Method chop added.
  * 2.1 2006-05-29 Method basetBoundsid not work for bounds smaller
  * than 1 pixel.
  * <br>2.0 2006-01-14 Changed to support double precison coordinates.
  * <br>1.0 2004-03-02 Derived from JHotDraw 6.0b1.
  */
 public class RoundRectangleFigure extends AbstractAttributedFigure {
-    private RoundRectangle2D.Double roundrect;
-    private static final double DEFAULT_ARC = 20;
+    protected RoundRectangle2D.Double roundrect;
+    protected static final double DEFAULT_ARC = 20;
     
     /** Creates a new instance. */
     public RoundRectangleFigure() {
@@ -54,7 +56,7 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
     // DRAWING
     protected void drawFill(Graphics2D g) {
         RoundRectangle2D.Double r = (RoundRectangle2D.Double) roundrect.clone();
-            double grow = AttributeKeys.getPerpendicularFillGrowth(this);
+            double grow = 2;
             r.x -= grow;
             r.y -= grow;
             r.width += grow * 2;
