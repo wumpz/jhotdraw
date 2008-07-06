@@ -1,7 +1,7 @@
 /*
- * @(#)BezierBezierLineConnection.java  1.0.2  2007-05-02
+ * @(#)BezierBezierLineConnection.java  1.1  2008-07-06
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -14,8 +14,6 @@
 
 package org.jhotdraw.draw;
 
-import org.jhotdraw.util.*;
-import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.*;
@@ -31,7 +29,8 @@ import org.jhotdraw.xml.DOMOutput;
  *
  *
  * @author Werner Randelshofer
- * @version 1.0.2 2007-05-02 Set connector variables directly when reading in
+ * @version 1.1 2008-07-06 Create BezierOutlineHandle on mouse over. 
+ * <br>1.0.2 2007-05-02 Set connector variables directly when reading in
  * connectors.
  * <br>1.0.1 2006-02-06 Fixed redo bug.
  * <br>1.0 23. Januar 2006 Created.
@@ -84,6 +83,7 @@ public class LineConnectionFigure extends LineFigure
      * Ensures that a connection is updated if the connection
      * was moved.
      */
+    @Override
     public void transform(AffineTransform tx) {
         super.transform(tx);
         updateConnection(); // make sure that we are still connected
@@ -98,9 +98,12 @@ public class LineConnectionFigure extends LineFigure
     @Override public Collection<Handle> createHandles(int detailLevel) {
         ArrayList<Handle> handles = new ArrayList<Handle>(getNodeCount());
         switch (detailLevel) {
+            case -1 : // Mouse hover handles
+                handles.add(new BezierOutlineHandle(this, true));
+                break;
             case 0 :
+                handles.add(new BezierOutlineHandle(this));
                 if (getLiner() == null) {
-                    handles.add(new BezierOutlineHandle(this));
                     for (int i = 1, n = getNodeCount() - 1; i < n; i++) {
                         handles.add(new BezierNodeHandle(this, i));
                     }
@@ -117,6 +120,7 @@ public class LineConnectionFigure extends LineFigure
      * Tests whether a figure can be a connection target.
      * ConnectionFigures cannot be connected and return false.
      */
+    @Override
     public boolean canConnect() {
         return false;
     }
@@ -138,6 +142,7 @@ public class LineConnectionFigure extends LineFigure
         changed();
     }
     
+    @Override
     public void validate() {
         super.validate();
         lineout();
@@ -252,6 +257,7 @@ public class LineConnectionFigure extends LineFigure
      *
      * @see #handleConnect
      */
+    @Override
     public void addNotify(Drawing drawing) {
         super.addNotify(drawing);
         
@@ -267,6 +273,7 @@ public class LineConnectionFigure extends LineFigure
      *
      * @see #handleDisconnect
      */
+    @Override
     public void removeNotify(Drawing drawing) {
         if (getStartConnector() != null && getEndConnector() != null) {
             handleDisconnect(getStartConnector(), getEndConnector());
@@ -307,6 +314,7 @@ public class LineConnectionFigure extends LineFigure
     }
     
     
+    @Override
     public LineConnectionFigure clone() {
         LineConnectionFigure that = (LineConnectionFigure) super.clone();
         that.connectionHandler = new ConnectionHandler(that);
@@ -333,6 +341,7 @@ public class LineConnectionFigure extends LineFigure
         return that;
     }
     
+    @Override
     public void remap(Map oldToNew) {
         willChange();
         super.remap(oldToNew);
@@ -366,6 +375,7 @@ public class LineConnectionFigure extends LineFigure
     /**
      * Handles a mouse click.
      */
+    @Override
     public boolean handleMouseClick(Point2D.Double p, MouseEvent evt, DrawingView view) {
         if (getLiner() == null &&
                 evt.getClickCount() == 2) {
@@ -374,6 +384,7 @@ public class LineConnectionFigure extends LineFigure
             if (index != -1) {
                 final BezierPath.Node newNode = getNode(index);
                 fireUndoableEditHappened(new AbstractUndoableEdit() {
+                    @Override
                     public void redo() throws CannotRedoException {
                         super.redo();
                         willChange();
@@ -381,6 +392,7 @@ public class LineConnectionFigure extends LineFigure
                         changed();
                     }
                     
+                    @Override
                     public void undo() throws CannotUndoException {
                         super.undo();
                         willChange();
@@ -396,6 +408,7 @@ public class LineConnectionFigure extends LineFigure
         return false;
     }
     // PERSISTENCE
+    @Override
     protected void readPoints(DOMInput in) throws IOException {
         super.readPoints(in);
         in.openElement("startConnector");
@@ -405,6 +418,7 @@ public class LineConnectionFigure extends LineFigure
         setEndConnector((Connector) in.readObject());
         in.closeElement();
     }
+    @Override
     public void read(DOMInput in) throws IOException {
         readAttributes(in);
         readLiner(in);
@@ -423,6 +437,7 @@ public class LineConnectionFigure extends LineFigure
         }
         
     }
+    @Override
     public void write(DOMOutput out) throws IOException {
         writePoints(out);
         writeAttributes(out);
@@ -435,6 +450,7 @@ public class LineConnectionFigure extends LineFigure
             out.closeElement();
         }
     }
+    @Override
     protected void writePoints(DOMOutput out) throws IOException {
         super.writePoints(out);
         out.openElement("startConnector");
@@ -450,6 +466,7 @@ public class LineConnectionFigure extends LineFigure
     }
     
     
+    @Override
     public void setNode(int index, BezierPath.Node p) {
         if (index != 0 && index != getNodeCount() - 1) {
             if (getStartConnector() != null) {
@@ -496,6 +513,7 @@ public class LineConnectionFigure extends LineFigure
     /**
      * FIXME - Liner must work with API of LineConnection!
      */
+    @Override
     public BezierPath getBezierPath() {
         return path;
     }
@@ -505,14 +523,17 @@ public class LineConnectionFigure extends LineFigure
         return liner;
     }
     
+    @Override
     public void setStartPoint(Point2D.Double p) {
         setPoint(0, p);
     }
     
+    @Override
     public void setPoint(int index, Point2D.Double p) {
         setPoint(index, 0, p);
     }
     
+    @Override
     public void setEndPoint(Point2D.Double p) {
         setPoint(getNodeCount() - 1, p);
     }

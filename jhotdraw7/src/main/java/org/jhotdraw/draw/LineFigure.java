@@ -1,7 +1,7 @@
 /*
- * @(#)LineFigure.java  2.0  2006-02-27
+ * @(#)LineFigure.java  2.1  2008-07-06
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -15,7 +15,6 @@
 package org.jhotdraw.draw;
 
 import javax.swing.undo.*;
-import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.*;
@@ -24,7 +23,8 @@ import org.jhotdraw.geom.*;
  * LineFigure.
  *
  * @author Werner Randelshofer
- * @version 2.0 2006-02-27 Support point editing at handle level 0. 
+ * @version 2.1 2008-07-06 Create BezierOutlineHandle on mouse over. 
+ * <br>2.0 2006-02-27 Support point editing at handle level 0. 
  * <br>2.0 2006-01-14 Changed to support double precison coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
@@ -40,9 +40,13 @@ public class LineFigure extends BezierFigure {
     // SHAPE AND BOUNDS
     // ATTRIBUTES
     // EDITING
+    @Override
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
         switch (detailLevel) {
+            case -1 : // Mouse hover handles
+                handles.add(new BezierOutlineHandle(this, true));
+                break;
             case 0 :
                 handles.add(new BezierOutlineHandle(this));
                 for (int i=0, n = path.size(); i < n; i++) {
@@ -56,12 +60,14 @@ public class LineFigure extends BezierFigure {
     // COMPOSITE FIGURES
     // CLONING
     // EVENT HANDLING
+    @Override
     public boolean canConnect() {
         return false;
     }
     /**
      * Handles a mouse click.
      */
+    @Override
     public boolean handleMouseClick(Point2D.Double p, MouseEvent evt, DrawingView view) {
         if (evt.getClickCount() == 2 && view.getHandleDetailLevel() == 0) {
             willChange();
@@ -69,6 +75,7 @@ public class LineFigure extends BezierFigure {
             if (index != -1) {
                 final BezierPath.Node newNode = getNode(index);
                 fireUndoableEditHappened(new AbstractUndoableEdit() {
+                    @Override
                     public void redo() throws CannotRedoException {
                         super.redo();
                         willChange();
@@ -76,6 +83,7 @@ public class LineFigure extends BezierFigure {
                         changed();
                     }
 
+                    @Override
                     public void undo() throws CannotUndoException {
                         super.undo();
                         willChange();

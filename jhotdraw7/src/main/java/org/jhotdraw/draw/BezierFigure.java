@@ -1,7 +1,7 @@
 /*
- * @(#)BezierFigure.java 3.1  2008-05-23
+ * @(#)BezierFigure.java 3.2  2008-07-06
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -41,7 +41,8 @@ import org.jhotdraw.xml.DOMOutput;
  *
  * @see org.jhotdraw.geom.BezierPath
  *
- * @version 3.1 2008-05-23 Added method findSegment with tolerance parameter.
+ * @version 3.2 2008-07-06 Create BezierOutlineHandle on mouse over. 
+ * <br>3.1 2008-05-23 Added method findSegment with tolerance parameter.
  * <br>3.0.1 2007-11-30 Changed method removeNode from protected to public. 
  * <br>3.0 2007-05-12 Got rid of basic methods.
  * <br>2.2.1 2007-04-22 Method contains did not work as expected for filled
@@ -215,12 +216,17 @@ public class BezierFigure extends AbstractAttributedFigure {
      * Checks if this figure can be connected. By default
      * filled BezierFigures can be connected.
      */
+    @Override
     public boolean canConnect() {
         return isClosed();
     }
+    @Override
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
         switch (detailLevel % 2) {
+            case -1 : // Mouse hover handles
+                handles.add(new BezierOutlineHandle(this, true));
+                break;
             case 0 :
                 handles.add(new BezierOutlineHandle(this));
                 for (int i=0, n = path.size(); i < n; i++) {
@@ -242,6 +248,7 @@ public class BezierFigure extends AbstractAttributedFigure {
         bounds.height = Math.max(1, bounds.height);
         return bounds;
     }
+    @Override
     public Rectangle2D.Double getDrawingArea() {
         Rectangle2D.Double r = super.getDrawingArea();
         
@@ -261,6 +268,7 @@ public class BezierFigure extends AbstractAttributedFigure {
         return r;
     }
     
+    @Override
     protected void validate() {
         super.validate();
         path.invalidatePath();
@@ -290,6 +298,7 @@ public class BezierFigure extends AbstractAttributedFigure {
     public void setClosed(boolean newValue) {
         CLOSED.set(this, newValue);
     }
+    @Override
     public void setAttribute(AttributeKey key, Object newValue) {
         if (key == CLOSED) {
             path.setClosed((Boolean) newValue);
@@ -306,6 +315,7 @@ public class BezierFigure extends AbstractAttributedFigure {
      * If the BezierFigure has not at least two nodes, nodes are added
      * to the figure until the BezierFigure has at least two nodes.
      */
+    @Override
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         setStartPoint(anchor);
         setEndPoint(lead);
@@ -315,6 +325,7 @@ public class BezierFigure extends AbstractAttributedFigure {
         path.transform(tx);
         invalidate();
     }
+    @Override
     public void invalidate() {
         super.invalidate();
         path.invalidatePath();
@@ -463,12 +474,14 @@ public class BezierFigure extends AbstractAttributedFigure {
     /**
      * Convenience method for getting the start point.
      */
+    @Override
     public Point2D.Double getStartPoint() {
         return getPoint(0, 0);
     }
     /**
      * Convenience method for getting the end point.
      */
+    @Override
     public Point2D.Double getEndPoint() {
         return getPoint(getNodeCount() - 1, 0);
     }
@@ -550,6 +563,7 @@ public class BezierFigure extends AbstractAttributedFigure {
         return path.size();
     }
     
+    @Override
     public BezierFigure clone() {
         BezierFigure that = (BezierFigure) super.clone();
         that.path = (BezierPath) this.path.clone();
@@ -613,10 +627,12 @@ public class BezierFigure extends AbstractAttributedFigure {
             if (index != -1) {
                 final BezierPath.Node newNode = getNode(index);
                 fireUndoableEditHappened(new AbstractUndoableEdit() {
+                    @Override
                     public String getPresentationName() {
                         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
                         return labels.getString("bezierPath.splitSegment");
                     }
+                    @Override
                     public void redo() throws CannotRedoException {
                         super.redo();
                         willChange();
@@ -624,6 +640,7 @@ public class BezierFigure extends AbstractAttributedFigure {
                         changed();
                     }
                     
+                    @Override
                     public void undo() throws CannotUndoException {
                         super.undo();
                         willChange();
@@ -640,6 +657,7 @@ public class BezierFigure extends AbstractAttributedFigure {
         return false;
     }
     
+    @Override
     public void write(DOMOutput out) throws IOException {
         writePoints(out);
         writeAttributes(out);
