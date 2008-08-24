@@ -30,6 +30,18 @@ import java.util.HashSet;
  * <p>
  * A Figure can be selected by clicking at it. Holding the alt key or the
  * ctrl key down, selects the Figure behind it.
+ * <p>
+ * Design pattern:<br>
+ * Name: Chain of Responsibility.<br>
+ * Role: Handler.<br>
+ * Partners: {@link SelectAreaTracker} as Handler, {@link DragTracker} as 
+ * Handler, {@link HandleTracker} as Handler. 
+ * <p>
+ * Design pattern:<br>
+ * Name: State.<br>
+ * Role: Context.<br>
+ * Partners: {@link SelectAreaTracker} as State, {@link DragTracker} as 
+ * State, {@link HandleTracker} as State. 
  *
  * @see SelectAreaTracker
  * @see DragTracker

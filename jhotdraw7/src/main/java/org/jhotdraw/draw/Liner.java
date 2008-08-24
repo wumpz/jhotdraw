@@ -22,6 +22,11 @@ import org.jhotdraw.geom.*;
 /**
  * A Liner encapsulates an algorithm to lineout
  * a ConnectionFigure.
+ * <p>
+ * Design pattern:<br>
+ * Name: Strategy.<br>
+ * Role: Strategy.<br>
+ * Partners: {@link LineFigure} as Context.
  * 
  * @author Werner Randelshofer
  * @version 1.0 2006-01-20 Created.

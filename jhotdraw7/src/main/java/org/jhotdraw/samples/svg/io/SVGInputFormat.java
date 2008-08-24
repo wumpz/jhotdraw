@@ -43,6 +43,11 @@ import org.jhotdraw.xml.css.CSSParser;
  * This format is aimed to comply to the Scalable Vector Graphics (SVG) Tiny 1.2
  * Specification supporting the <code>SVG-static</code> feature string.
  * <a href="http://www.w3.org/TR/SVGMobile12/">http://www.w3.org/TR/SVGMobile12/</a>
+ * <p>
+ * Design pattern:<br>
+ * Name: Abstract Factory.<br>
+ * Role: Client.<br>
+ * Partners: {@link SVGFigureFactory} as Abstract Factory. 
  *
  *
  * @author Werner Randelshofer

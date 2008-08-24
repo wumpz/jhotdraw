@@ -15,10 +15,14 @@
 
 package org.jhotdraw.draw;
 
-import java.awt.*;
 import java.util.*;
 /**
  * Change event passed to ToolListener's.
+ * <p>
+ * Design pattern:<br>
+ * Name: Observer.<br>
+ * Role: Observer.<br>
+ * Partners: {@link Tool} as Subject.
  *
  * @author Werner Randelshofer
  * @version 3.0 2003-02-13 Revised to support multiple views.

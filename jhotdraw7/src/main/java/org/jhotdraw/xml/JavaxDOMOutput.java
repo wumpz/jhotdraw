@@ -24,6 +24,11 @@ import org.w3c.dom.*;
 import java.io.*;
 /**
  * DOMOutput.
+ * <p>
+ * Design pattern:<br>
+ * Name: Adapter.<br>
+ * Role: Adapter.<br>
+ * Partners: {@link org.w3c.dom.Document} as Adaptee.
  *
  * @author  Werner Randelshofer
  * @version 2.1 2006-08-26 Method setDoctype added.  

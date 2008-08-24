@@ -52,7 +52,7 @@ public interface ColorSliderModel {
      * Returns the BoundedRangeModel used for the specified component
      * index.
      * 
-     * @param componentIndex.
+     * @param componentIndex .
      * 
      * @return BoundedRangeModel.
      */
@@ -68,7 +68,7 @@ public interface ColorSliderModel {
     /**
      * Sets the composite color value of the model.
      * 
-     * @param color.
+     * @param newValue .
      */
     public void setCompositeColor(CompositeColor newValue);
     
@@ -121,7 +121,7 @@ public interface ColorSliderModel {
      * Sets the color value of the model.
      * This is a convenience method for calling setCompositeColor(new CompositeColor(getColorSystem(), color.getRGB());
      * 
-     * @param color.
+     * @param newValue .
      */
     public void setColor(Color newValue);
 }

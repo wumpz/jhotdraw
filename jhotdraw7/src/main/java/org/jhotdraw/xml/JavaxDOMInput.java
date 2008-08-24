@@ -17,9 +17,6 @@ package org.jhotdraw.xml;
 import java.util.*;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.*;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.*;
-import javax.xml.transform.stream.*;
 import org.w3c.dom.*;
 import java.io.*;
 import java.awt.*;
@@ -27,6 +24,11 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 /**
  * DOMInput.
+ * <p>
+ * Design pattern:<br>
+ * Name: Adapter.<br>
+ * Role: Adapter.<br>
+ * Partners: {@link org.w3c.dom.Document} as Adaptee.
  *
  * @author  Werner Randelshofer
  * @version 2.2 2006-12-31 Use a DocumentBuilder instead of a Transformer for

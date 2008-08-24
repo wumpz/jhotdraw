@@ -13,12 +13,12 @@
  */
 package org.jhotdraw.draw;
 
+import ch.randelshofer.quaqua.util.ResourceBundleUtil;
 import org.jhotdraw.geom.BezierPath;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoableEdit;
-
 
 /**
  * BezierNodeEdit.
@@ -27,11 +27,12 @@ import javax.swing.undo.UndoableEdit;
  * @author Werner Randelshofer
  */
 class BezierNodeEdit extends AbstractUndoableEdit {
+
     private BezierFigure owner;
     private int index;
     private BezierPath.Node oldValue;
     private BezierPath.Node newValue;
-    
+
     /** Creates a new instance. */
     public BezierNodeEdit(BezierFigure owner, int index, BezierPath.Node oldValue, BezierPath.Node newValue) {
         this.owner = owner;
@@ -39,23 +40,37 @@ class BezierNodeEdit extends AbstractUndoableEdit {
         this.oldValue = oldValue;
         this.newValue = newValue;
     }
+
+    @Override
     public String getPresentationName() {
-        return "Punkt verschieben";
+        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+        if (oldValue.mask != newValue.mask) {
+        return labels.getString("bezierNode.changeType");
+        } else {
+        return labels.getString("bezierNode.movePoint");
+        }
     }
-    
+
+    @Override
     public void redo() throws CannotRedoException {
         super.redo();
         owner.willChange();
         owner.setNode(index, newValue);
         owner.changed();
+        if (oldValue.mask != newValue.mask) {
+            
+        }
     }
+
+    @Override
     public void undo() throws CannotUndoException {
         super.undo();
         owner.willChange();
         owner.setNode(index, oldValue);
         owner.changed();
     }
-    
+
+    @Override
     public boolean addEdit(UndoableEdit anEdit) {
         if (anEdit instanceof BezierNodeEdit) {
             BezierNodeEdit that = (BezierNodeEdit) anEdit;
@@ -67,6 +82,8 @@ class BezierNodeEdit extends AbstractUndoableEdit {
         }
         return false;
     }
+
+    @Override
     public boolean replaceEdit(UndoableEdit anEdit) {
         if (anEdit instanceof BezierNodeEdit) {
             BezierNodeEdit that = (BezierNodeEdit) anEdit;

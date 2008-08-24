@@ -19,6 +19,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.*;
+import javax.swing.undo.CannotRedoException;
+import javax.swing.undo.CannotUndoException;
 import org.jhotdraw.geom.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
@@ -35,6 +37,7 @@ public class BezierControlPointHandle extends AbstractHandle {
     protected int index,  controlPointIndex;
     private CompositeEdit edit;
     private Figure transformOwner;
+    private BezierPath.Node oldNode;
 
     /** Creates a new instance. */
     public BezierControlPointHandle(BezierFigure owner, int index, int coord) {
@@ -148,9 +151,11 @@ public class BezierControlPointHandle extends AbstractHandle {
     }
 
     public void trackStart(Point anchor, int modifiersEx) {
+        BezierFigure figure = getOwner();
         view.getDrawing().fireUndoableEditHappened(edit = new CompositeEdit("Punkt verschieben"));
         Point2D.Double location = view.getConstrainer().constrainPoint(view.viewToDrawing(getLocation()));
         Point2D.Double p = view.getConstrainer().constrainPoint(view.viewToDrawing(anchor));
+        oldNode = figure.getNode(index);
     }
 
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
@@ -203,30 +208,45 @@ public class BezierControlPointHandle extends AbstractHandle {
     }
 
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
-        BezierFigure figure = getBezierFigure();
+        final BezierFigure figure = getBezierFigure();
+        BezierPath.Node oldValue = (BezierPath.Node) oldNode.clone();
+        BezierPath.Node newValue = figure.getNode(index);
         if ((modifiersEx & (InputEvent.META_DOWN_MASK | InputEvent.CTRL_DOWN_MASK | InputEvent.ALT_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK)) != 0) {
             figure.willChange();
-            BezierPath.Node v = figure.getNode(index);
-            v.keepColinear = !v.keepColinear;
-            if (v.keepColinear) {
+            newValue.keepColinear = !newValue.keepColinear;
+            if (newValue.keepColinear) {
                 // move control point and opposite control point on same line
                 Point2D.Double p = figure.getPoint(index, controlPointIndex);
-                double a = Math.PI + Math.atan2(p.y - v.y[0], p.x - v.x[0]);
+                double a = Math.PI + Math.atan2(p.y - newValue.y[0], p.x - newValue.x[0]);
                 int c2 = (controlPointIndex == 1) ? 2 : 1;
-                double r = Math.sqrt((v.x[c2] - v.x[0]) * (v.x[c2] - v.x[0]) +
-                        (v.y[c2] - v.y[0]) * (v.y[c2] - v.y[0]));
+                double r = Math.sqrt((newValue.x[c2] - newValue.x[0]) * (newValue.x[c2] - newValue.x[0]) +
+                        (newValue.y[c2] - newValue.y[0]) * (newValue.y[c2] - newValue.y[0]));
                 double sina = Math.sin(a);
                 double cosa = Math.cos(a);
 
                 Point2D.Double p2 = new Point2D.Double(
-                        r * cosa + v.x[0],
-                        r * sina + v.y[0]);
-                v.x[c2] = p2.x;
-                v.y[c2] = p2.y;
+                        r * cosa + newValue.x[0],
+                        r * sina + newValue.y[0]);
+                newValue.x[c2] = p2.x;
+                newValue.y[c2] = p2.y;
             }
-            figure.setNode(index, v);
+            figure.setNode(index, newValue);
             figure.changed();
         }
+        view.getDrawing().fireUndoableEditHappened(new BezierNodeEdit(figure, index, oldValue, newValue) {
+
+            @Override
+            public void redo() throws CannotRedoException {
+                super.redo();
+                fireHandleRequestSecondaryHandles();
+            }
+
+            @Override
+            public void undo() throws CannotUndoException {
+                super.undo();
+                fireHandleRequestSecondaryHandles();
+            }
+        });
         view.getDrawing().fireUndoableEditHappened(edit);
     }
 
@@ -291,6 +311,10 @@ public class BezierControlPointHandle extends AbstractHandle {
                 f.setPoint(index, controlPointIndex, new Point2D.Double(oldNode.x[controlPointIndex] + 1d, oldNode.y[controlPointIndex]));
                 f.changed();
                 view.getDrawing().fireUndoableEditHappened(new BezierNodeEdit(f, index, oldNode, f.getNode(index)));
+                evt.consume();
+                break;
+            case KeyEvent.VK_DELETE:
+            case KeyEvent.VK_BACK_SPACE:
                 evt.consume();
                 break;
         }

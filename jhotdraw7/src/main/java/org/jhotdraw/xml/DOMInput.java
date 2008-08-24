@@ -19,6 +19,11 @@ import java.io.IOException;
 
 /**
  * DOMInput.
+ * <p>
+ * Design pattern:<br>
+ * Name: Abstract Factory.<br>
+ * Role: Client.<br>
+ * Partners: {@link DOMFactory} as the Abstract Factory of the Abstract Factory,.
  *
  * @author  Werner Randelshofer
  * @version 1.0 10. M�rz 2004  Created.

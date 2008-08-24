@@ -17,6 +17,11 @@ package org.jhotdraw.draw;
 /**
  * This interface is implemented by Figures that can be Decorated with another
  * Figure.
+ * <p>
+ * Design pattern:<br>
+ * Name: Decorator.<br>
+ * Role: Component.<br>
+ * Partners: {@link Figure} as Decorator. 
  *
  * @author Werner Randelshofer
  * @version 2.0 2008-01-10 This interface extends now the Figure interface. 

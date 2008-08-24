@@ -41,6 +41,11 @@ import org.jhotdraw.util.*;
  * Alltough the mouse gestures might be fitting for the creation of a connection,
  * the CreationTool is not suited for the creation of a ConnectionFigure. Use
  * the ConnectionTool for this type of figures instead.
+ * <p>
+ * Design pattern:<br>
+ * Name: Prototype.<br>
+ * Role: Client.<br>
+ * Partners: {@link Figure} as Prototype.
  *
  * @author Werner Randelshofer
  * @version 2.4 2008-05-24 Made all private variables protected. Use crosshair

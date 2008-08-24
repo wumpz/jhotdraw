@@ -17,6 +17,11 @@ package org.jhotdraw.draw;
 
 /**
  * FigureSelectionListener.
+ * <p>
+ * Design pattern:<br>
+ * Name: Observer.<br>
+ * Role: Observer.<br>
+ * Partners: {@link DrawingView} as Subject.
  *
  * @author Werner Randelshofer
  * @version 1.0 2003-12-01 Derived from JHotDraw 5.4b1.

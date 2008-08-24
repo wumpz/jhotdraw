@@ -17,7 +17,6 @@ package org.jhotdraw.draw;
 
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.event.*;
 /**
  * A tool defines a mode of the drawing view. All input events targeted to the
  * drawing view are forwarded to its current tool.
@@ -32,6 +31,22 @@ import javax.swing.event.*;
  * <p>
  * A Tool forwards UndoableEdit events to the Drawing object onto which it
  * is performing changes.
+ * <p>
+ * Design pattern:<br>
+ * Name: Mediator.<br>
+ * Role: Colleague.<br>
+ * Partners: {@link DrawingEditor} as Mediator, {@link Tool} as
+ * Colleague.
+ * <p>
+ * Design pattern:<br>
+ * Name: Model-View-Controller.<br>
+ * Role: Controller.<br>
+ * Partners: {@link DrawingView} as View, {@link Figure} as Model.
+ * <p>
+ * Design pattern:<br>
+ * Name: Observer.<br>
+ * Role: Subject.<br>
+ * Partners: {@link ToolListener} as Observer.
  *
  * @author Werner Randelshofer
  * @version 3.0 2008-05-26 Added method supportsHandleInteraction.  

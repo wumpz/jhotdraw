@@ -36,6 +36,18 @@ import java.util.*;
  * there is typically a single DrawingEditor instance for the application. All
  * document windows within the application share a single set of toolbars and 
  * drawing palettes.
+ * <p>
+ * Design pattern:<br>
+ * Name: Mediator.<br>
+ * Role: Mediator.<br>
+ * Partners: {@link DrawingView} as Colleague, {@link Tool} as
+ * Colleague.
+ * <p>
+ * Design pattern:<br>
+ * Name: Proxy.<br>
+ * Role: Subject.<br>
+ * Partners: {@link org.jhotdraw.draw.action.DrawingEditorProxy} as Proxy, {@link DefaultDrawingEditor} as
+ * Real Subject.
  * 
  * @author Werner Randelshofer
  * @version 3.1 2008-05-23 Added TOOL_PROPERTY. 

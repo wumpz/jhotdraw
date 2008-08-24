@@ -28,6 +28,12 @@ import org.jhotdraw.draw.Tool;
 
 /**
  * DrawingEditorProxy.
+ * <p>
+ * Design pattern:<br>
+ * Name: Proxy.<br>
+ * Role: Proxy.<br>
+ * Partners: {@link org.jhotdraw.draw.DrawingEditor} as Subject, 
+ * {@link org.jhotdraw.draw.DefaultDrawingEditor} as Real Subject.
  *
  * @author Werner Randelshofer
  * @version 1.0 April 29, 2007 Created.

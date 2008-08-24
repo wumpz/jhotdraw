@@ -31,6 +31,22 @@ import javax.swing.*;
  * <p>
  * A DrawingView can paint the drawing with a scale factor. It supports
  * conversion between scaled view coordinates and drawing coordinates.
+ * <p>
+ * Design pattern:<br>
+ * Name: Mediator.<br>
+ * Role: Colleague.<br>
+ * Partners: {@link DrawingEditor} as Mediator, {@link Tool} as
+ * Colleague.
+ * <p>
+ * Design pattern:<br>
+ * Name: Model-View-Controller.<br>
+ * Role: View.<br>
+ * Partners: {@link Tool} as Controller, {@link Figure} as Model.
+ * <p>
+ * Design pattern:<br>
+ * Name: Observer.<br>
+ * Role: Subject.<br>
+ * Partners: {@link FigureSelectionListener} as Observer.
  *
  * 
  * @author Werner Randelshofer
@@ -361,14 +377,14 @@ public interface DrawingView {
     /**
      * Adds a mouse listener to the drawing view.
      * 
-     * @param listener
+     * @param l the listener.
      */
     public void addMouseListener(MouseListener l);
 
     /**
      * Removes a mouse listener to the drawing view.
      * 
-     * @param listener
+     * @param l the listener.
      */
     public void removeMouseListener(MouseListener l);
 
@@ -376,28 +392,28 @@ public interface DrawingView {
     /**
      * Adds a key listener to the drawing view.
      * 
-     * @param listener
+     * @param l the listener.
      */
     public void addKeyListener(KeyListener l);
 
     /**
      * Removes a key listener to the drawing view.
      * 
-     * @param listener
+     * @param l the listener.
      */
     public void removeKeyListener(KeyListener l);
 
     /**
      * Adds a mouse motion  listener to the drawing view.
      * 
-     * @param listener
+     * @param l the listener.
      */
     public void addMouseMotionListener(MouseMotionListener l);
 
     /**
      * Removes a mouse motion listener to the drawing view.
      * 
-     * @param listener
+     * @param l the listener.
      */
     public void removeMouseMotionListener(MouseMotionListener l);
 }

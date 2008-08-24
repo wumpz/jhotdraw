@@ -19,6 +19,11 @@ import java.io.IOException;
 
 /**
  * DOMOutput.
+ * <p>
+ * Design pattern:<br>
+ * Name: Abstract Factory.<br>
+ * Role: Client.<br>
+ * Partners: {@link DOMFactory} as the Abstract Factory of the Abstract Factory,.
  *
  * @author  Werner Randelshofer
  * @version 1.2 2006-08-26 Added method setDoctype.

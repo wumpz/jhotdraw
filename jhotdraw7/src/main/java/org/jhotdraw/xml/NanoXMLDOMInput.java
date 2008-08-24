@@ -20,6 +20,11 @@ import java.awt.*;
 import net.n3.nanoxml.*;
 /**
  * NanoXMLDOMInput.
+ * <p>
+ * Design pattern:<br>
+ * Name: Adapter.<br>
+ * Role: Adapter.<br>
+ * Partners: {@link net.n3.nanoxml.XMLElement} as Adaptee.
  *
  * @author  Werner Randelshofer
  * @version 2.1.1 2006-08-21 Fixed exceptions.

@@ -25,6 +25,11 @@ import org.jhotdraw.samples.svg.*;
 
 /**
  * Creates Figures for SVG elements.
+ * <p>
+ * Design pattern:<br>
+ * Name: Abstract Factory.<br>
+ * Role: Abstract Factory.<br>
+ * Partners: {@link SVGInputFormat} as Client. 
  *
  * @author Werner Randelshofer
  * @version 1.0 December 7, 2006 Created.

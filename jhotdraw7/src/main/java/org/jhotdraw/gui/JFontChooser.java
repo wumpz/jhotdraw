@@ -166,11 +166,6 @@ public class JFontChooser extends JComponent {
      *
      * @param ui  the PanelUI L&F object
      * @see UIDefaults#getUI
-     * @beaninfo
-     *        bound: true
-     *       hidden: true
-     *    attribute: visualUpdate true
-     *  description: The UI object that implements the Component's LookAndFeel. 
      */
     public void setUI(FontChooserUI ui) {
         super.setUI(ui);
@@ -183,9 +178,6 @@ public class JFontChooser extends JComponent {
      * @return "FontChooserUI"
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
-     * @beaninfo
-     *        expert: true
-     *   description: A string that specifies the name of the L&F class.
      */
     @Override
     public String getUIClassID() {
@@ -254,8 +246,6 @@ public class JFontChooser extends JComponent {
      * Notifies all listeners that have registered interest for
      * notification on this event type. The event instance
      * is lazily created using the <code>command</code> parameter.
-     *
-     * @see EventListenerList
      */
     protected void fireActionPerformed(String command) {
         // Guaranteed to return a non-null array

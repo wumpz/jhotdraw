@@ -18,6 +18,11 @@ package org.jhotdraw.draw;
 import java.util.*;
 /**
  * Listener interested in Figure changes.
+ * <p>
+ * Design pattern:<br>
+ * Name: Observer.<br>
+ * Role: Observer.<br>
+ * Partners: {@link Figure} as Subject.
  *
  * @author Werner Randelshofer
  * @version 2.0 2007-07-17 Shortened method names. 

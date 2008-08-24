@@ -31,6 +31,11 @@ import java.util.*;
  * <p>
  * A Handle forwards UndoableEdit events to the Drawing object onto which it
  * is performing changes.
+ * <p>
+ * Design pattern:<br>
+ * Name: Observer.<br>
+ * Role: Subject.<br>
+ * Partners: {@link HandleListener} as Observer.
  *
  * @author Werner Randelshofer
  * @version 2.0 2006-01-14 Changed to support double precision coordinates.

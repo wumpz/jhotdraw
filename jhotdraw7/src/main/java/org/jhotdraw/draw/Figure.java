@@ -39,6 +39,31 @@ import org.jhotdraw.xml.DOMStorable;
  * Specialized subinterfaces of Figure allow to compose a figure from
  * several figures, to connect a figure to other figures, to hold text or
  * an image, and to layout a figure.
+ * <p>
+ * Design pattern:<br>
+ * Name: Composite.<br>
+ * Role: Component.<br>
+ * Partners: {@link CompositeFigure} as Composite. 
+ * <p>
+ * Design pattern:<br>
+ * Name: Decorator.<br>
+ * Role: Decorator.<br>
+ * Partners: {@link DecoratedFigure} as Component. 
+ * <p>
+ * Design pattern:<br>
+ * Name: Model-View-Controller.<br>
+ * Role: Model.<br>
+ * Partners: {@link DrawingView} as View, {@link Tool} as Controller.
+ * <p>
+ * Design pattern:<br>
+ * Name: Observer.<br>
+ * Role: Subject.<br>
+ * Partners: {@link FigureListener} as Observer.
+ * <p>
+ * Design pattern:<br>
+ * Name: Prototype.<br>
+ * Role: Prototype.<br>
+ * Partners: {@link CreationTool} as Client.
  * 
  * 
  * @author Werner Randelshofer

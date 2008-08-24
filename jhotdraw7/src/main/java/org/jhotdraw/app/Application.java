@@ -228,7 +228,7 @@ public interface Application {
      */
     public void removePalette(Window palette);
     /**
-     * Adds a (regular) window to the application.
+     * Adds a (non-palette) window to the application.
      *
      * @param window The window.
      * @param view The View to which this window is associated, or null,
@@ -236,7 +236,7 @@ public interface Application {
      */
     public void addWindow(Window window, View view);
     /**
-     * Removes a (regular) window from the application.
+     * Removes a (non-palette) window from the application.
      */
     public void removeWindow(Window window);
 }

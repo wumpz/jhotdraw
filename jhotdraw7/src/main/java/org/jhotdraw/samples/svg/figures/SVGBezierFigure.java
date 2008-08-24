@@ -192,7 +192,7 @@ public class SVGBezierFigure extends BezierFigure {
      * Splits the segment at the given Point2D.Double if a segment was hit.
      * @return the index of the segment or -1 if no segment was hit.
      *
-     * @param join a Point at a node on the bezier path
+     * @param split a Point on (or near) a segment of the bezier path
      * @param tolerance a tolerance, tolerance should take into account
      * the line width, plus 2 divided by the zoom factor. 
      */

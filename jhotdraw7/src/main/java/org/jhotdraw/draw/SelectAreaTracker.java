@@ -25,6 +25,18 @@ import java.util.*;
  * The <code>SelectAreaTracker</code> handles one of the three states of the 
  * <code>SelectionTool</code>. It comes into action, when the user presses
  * the mouse button over the background of a <code>Drawing</code>.
+ * <p>
+ * Design pattern:<br>
+ * Name: Chain of Responsibility.<br>
+ * Role: Handler.<br>
+ * Partners: {@link SelectionTool} as Handler, {@link DragTracker} as Handler, 
+ * {@link HandleTracker} as Handler. 
+ * <p>
+ * Design pattern:<br>
+ * Name: State.<br>
+ * Role: State.<br>
+ * Partners: {@link SelectionTool} as Context, {@link DragTracker} as 
+ * State, {@link HandleTracker} as State. 
  *
  * @see SelectionTool
  *

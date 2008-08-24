@@ -25,6 +25,11 @@ import java.awt.geom.*;
  * 
  * Note: Currently, only the GraphicalCompositeFigure uses
  *       such a Layouter to layout its child components.
+ * <p>
+ * Design pattern:<br>
+ * Name: Strategy.<br>
+ * Role: Strategy.<br>
+ * Partners: {@link ConnectionFigure} as Context.
  * 
  * 
  * @author Werner Randelshofer

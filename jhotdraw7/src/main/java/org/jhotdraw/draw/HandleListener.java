@@ -18,6 +18,11 @@ package org.jhotdraw.draw;
 import java.util.*;
 /**
  * HandleListener.
+ * <p>
+ * Design pattern:<br>
+ * Name: Observer.<br>
+ * Role: Observer.<br>
+ * Partners: {@link Handle} as Subject.
  *
  * @author Werner Randelshofer
  * @version 1.0 2003-12-01 Derived from JHotDraw 5.4b1.

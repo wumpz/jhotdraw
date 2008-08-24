@@ -23,6 +23,11 @@ import org.jhotdraw.geom.*;
  * A {@code ConnectionFigure} draws a connection between two {@link Connector}s.
  * A ConnectionFigure knows its start and end Connector.
  * A ConnectionFigure can be laid out using a {@link Liner}.
+ * <p>
+ * Design pattern:<br>
+ * Name: Strategy.<br>
+ * Role: Context.<br>
+ * Partners: {@link Liner} as Strategy.
  *
  * @see Connector
  * @see Liner

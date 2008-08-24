@@ -30,6 +30,13 @@ import org.jhotdraw.gui.JFontChooser;
 
 /**
  * ButtonFactory.
+ * <p>
+ * Design pattern:<br>
+ * Name: Abstract Factory.<br>
+ * Role: Abstract Factory.<br>
+ * Partners: {@link org.jhotdraw.samples.draw.DrawApplicationModel} as Client, 
+ * {@link org.jhotdraw.samples.draw.DrawView} as Client,
+ * {@link org.jhotdraw.samples.draw.DrawingPanel} as Client.
  *
  * @author Werner Randelshofer
  * @version 2.3 2008-05-23 Factured SelectionComponentRepainter out. 
@@ -593,7 +600,7 @@ public class ButtonFactory {
      *
      * @param editor The DrawingEditor.
      * @param attributeKey The AttributeKey of the color.
-     * @param colorMap A map with labeled colors containing the color palette
+     * @param swatches A list with labeled colors containing the color palette
      * of the popup menu. The actual labels are retrieved from the supplied
      * resource bundle. This is usually a LinkedHashMap, so that the colors have
      * a predictable order.
@@ -628,7 +635,7 @@ public class ButtonFactory {
      *
      * @param editor The DrawingEditor.
      * @param attributeKey The AttributeKey of the color.
-     * @param colorMap A map with labeled colors containing the color palette
+     * @param swatches A list with labeled colors containing the color palette
      * of the popup menu. The actual labels are retrieved from the supplied
      * resource bundle. This is usually a LinkedHashMap, so that the colors have
      * a predictable order.
@@ -667,7 +674,7 @@ public class ButtonFactory {
      *
      * @param editor The DrawingEditor.
      * @param attributeKey The AttributeKey of the color.
-     * @param colorMap A map with labeled colors containing the color palette
+     * @param swatches A list with labeled colors containing the color palette
      * of the popup menu. The actual labels are retrieved from the supplied
      * resource bundle. This is usually a LinkedHashMap, so that the colors have
      * a predictable order.
@@ -751,7 +758,7 @@ public class ButtonFactory {
      *
      * @param editor The DrawingEditor.
      * @param attributeKey The AttributeKey of the color.
-     * @param colorMap A map with labeled colors containing the color palette
+     * @param swatches A list with labeled colors containing the color palette
      * of the popup menu. The actual labels are retrieved from the supplied
      * resource bundle. This is usually a LinkedHashMap, so that the colors have
      * a predictable order.
@@ -778,7 +785,7 @@ public class ButtonFactory {
      *
      * @param editor The DrawingEditor.
      * @param attributeKey The AttributeKey of the color.
-     * @param colorMap A map with labeled colors containing the color palette
+     * @param swatches A list with labeled colors containing the color palette
      * of the popup menu. The actual labels are retrieved from the supplied
      * resource bundle. This is usually a LinkedHashMap, so that the colors have
      * a predictable order.
@@ -809,7 +816,7 @@ public class ButtonFactory {
      *
      * @param editor The DrawingEditor.
      * @param attributeKey The AttributeKey of the color.
-     * @param colorMap A map with labeled colors containing the color palette
+     * @param swatches A list with labeled colors containing the color palette
      * of the popup menu. The actual labels are retrieved from the supplied
      * resource bundle. This is usually a LinkedHashMap, so that the colors have
      * a predictable order.

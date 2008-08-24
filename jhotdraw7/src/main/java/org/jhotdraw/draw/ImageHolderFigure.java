@@ -58,7 +58,7 @@ public interface ImageHolderFigure extends Figure {
     /**
      * Gets the image data.
      *
-     * @param imageData The image data, or null, if the ImageHolderFigure does
+     * @return imageData The image data, or null, if the ImageHolderFigure does
      * not have an image.
      */
     public byte[] getImageData();

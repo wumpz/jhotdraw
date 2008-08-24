@@ -15,12 +15,11 @@ package org.jhotdraw.color;
 
 import java.awt.*;
 import java.awt.image.*;
-import java.awt.color.*;
 
 /**
  * Produces the image of a ColorWheel.
  *
- * @see ColorWheel
+ * @see JColorWheel
  *
  * @author  Werner Randelshofer
  * @version The association of component indices to radials, angulars and

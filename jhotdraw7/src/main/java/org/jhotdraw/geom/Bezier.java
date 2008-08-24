@@ -65,7 +65,7 @@ public class Bezier {
      * This is a convenience method for calling fitCubicSegments(List<Point2D.Double>, double);
      * 
      * @param digitizedPoints digited points.
-     * @param errorSquared the maximal allowed errorSquared between the bezier path and the
+     * @param error the maximal allowed error between the bezier path and the
      * digitized points. 
      */
     public static BezierPath fitBezierPath(Point2D.Double[] digitizedPoints, double error) {
@@ -76,7 +76,7 @@ public class Bezier {
      * Fits a bezier path to the specified list of digitized points.
      * 
      * @param digitizedPoints digited points.
-     * @param errorSquared the maximal allowed errorSquared between the bezier path and the
+     * @param error the maximal allowed error between the bezier path and the
      * digitized points. 
      */
     public static BezierPath fitBezierPath(java.util.List<Point2D.Double> digitizedPoints, double error) {
@@ -146,7 +146,7 @@ public class Bezier {
      * This is a convenience method for calling fitCubicSegments(List<Point2D.Double>, double);
      * 
      * @param digitizedPoints digited points.
-     * @param errorSquared the maximal allowed errorSquared between the bezier path and the
+     * @param error the maximal allowed error between the bezier path and the
      * digitized points. 
      */
     public static BezierPath fitBezierPath(BezierPath digitizedPoints, double error) {
@@ -235,7 +235,7 @@ public class Bezier {
      * the first point of a subsequent segment.
      * 
      * @param digitizedPoints Digitized points 
-     * @param minAngle maximal angle in radians between the current point and its
+     * @param maxAngle maximal angle in radians between the current point and its
      * predecessor and successor up to which the point does not break the
      * digitized list into segments. Recommended value 44° = 44 * 180d / Math.PI
      * @return Segments of digitized points, each segment having less than maximal
@@ -265,7 +265,7 @@ public class Bezier {
      * @param minAngle Minimal angle for corner points
      * @param minDistance Minimal distance between a point and adjacent points
      * for corner detection
-     * @return
+     * @return list of corner indices.
      */
     public static ArrayList<Integer> findCorners(java.util.List<Point2D.Double> digitizedPoints, double minAngle, double minDistance) {
         ArrayList<Integer> cornerIndices = new ArrayList<Integer>();

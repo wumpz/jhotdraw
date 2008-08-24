@@ -20,6 +20,11 @@ import java.io.*;
 import net.n3.nanoxml.*;
 /**
  * DOMOutput using Nano XML.
+ * <p>
+ * Design pattern:<br>
+ * Name: Adapter.<br>
+ * Role: Adapter.<br>
+ * Partners: {@link net.n3.nanoxml.XMLElement} as Adaptee.
  *
  * @author  Werner Randelshofer
  * @version  2.1 2006-08-26 Method setDoctype added.

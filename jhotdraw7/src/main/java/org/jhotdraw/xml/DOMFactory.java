@@ -16,6 +16,13 @@ package org.jhotdraw.xml;
 
 /**
  * DOMFactory.
+ * <p>
+ * Design pattern:<br>
+ * Name: Abstract Factory.<br>
+ * Role: Abstract Factory.<br>
+ * Partners: {@link DOMInput} as Client of the Abstract Factory, 
+ * {@link DOMOutput} as Client of the Abstract Factory.
+ * 
  *
  * @author  Werner Randelshofer
  * @version 1.0 February 17, 2004 Create..

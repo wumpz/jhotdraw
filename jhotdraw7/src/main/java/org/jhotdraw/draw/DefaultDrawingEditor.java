@@ -26,6 +26,12 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
  * DefaultDrawingEditor.
+ * <p>
+ * Design pattern:<br>
+ * Name: Proxy.<br>
+ * Role: Subject.<br>
+ * Partners: {@link org.jhotdraw.draw.action.DrawingEditorProxy} as Proxy, {@link DrawingEditor} as
+ * Subject.
  *
  * @author Werner Randelshofer
  * @version 3.2.2 Method getActiveView must fires now a PropertyChangeEvent, if
