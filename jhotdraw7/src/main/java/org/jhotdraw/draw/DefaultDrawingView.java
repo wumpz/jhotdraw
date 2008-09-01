@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultDrawingView.java  4.5.2  2008-06-09
+ * @(#)DefaultDrawingView.java  4.5.3  2008-09-01
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -15,25 +15,15 @@ package org.jhotdraw.draw;
 
 import javax.swing.event.*;
 import javax.swing.undo.*;
-import org.jhotdraw.gui.datatransfer.*;
 import org.jhotdraw.util.*;
-import org.jhotdraw.undo.*;
-import org.jhotdraw.io.*;
-import org.jhotdraw.geom.*;
 import java.awt.*;
-import java.awt.datatransfer.*;
 import java.awt.geom.*;
-import java.awt.color.*;
 import java.awt.event.*;
-import java.awt.font.FontRenderContext;
 import java.awt.image.BufferedImage;
-import java.io.*;
 import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.app.EditableComponent;
 import org.jhotdraw.geom.*;
-import org.jhotdraw.xml.*;
-import org.jhotdraw.xml.XMLTransferable;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
@@ -44,7 +34,8 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * FIXME - Use double buffering for the drawing to improve performance.
  *
  * @author Werner Randelshofer
- * @version 4.5.2 2008-06-09 A DrawingView must not create Handle's, if it
+ * @version 4.5.3 2008-09-01 Use an ordered set for the selected figures.
+ * <br>4.5.2 2008-06-09 A DrawingView must not create Handle's, if it
  * has no DrawingEditor. 
  * <br>4.5.1 2008-05-18 Delete method did not preserve z-index on undo. 
  * <br>4.5 2008-05-18 Retrieve tooltip text from current tool.
@@ -78,7 +69,12 @@ public class DefaultDrawingView
     private final static boolean DEBUG = false;
     private Drawing drawing;
     private Set<Figure> dirtyFigures = new HashSet<Figure>();
-    private Set<Figure> selectedFigures = new HashSet<Figure>();
+    
+    /**
+     * Holds the selected figures in an ordered set. The ordering reflects
+     * the sequence that was used to select the figures.
+     */
+    private Set<Figure> selectedFigures = new LinkedHashSet<Figure>();
     //private int rainbow = 0;
     private LinkedList<Handle> selectionHandles = new LinkedList<Handle>();
     private boolean isConstrainerVisible = false;
