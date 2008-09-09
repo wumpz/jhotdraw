@@ -178,7 +178,7 @@ public class SelectAreaTracker extends AbstractTool {
                 hoverHandles.clear();
             }
             hoverFigure = f;
-            if (hoverFigure != null) {
+            if (hoverFigure != null && f.isSelectable()) {
                 hoverHandles.addAll(hoverFigure.createHandles(-1));
                 for (Handle h : hoverHandles) {
                     h.setView(view);

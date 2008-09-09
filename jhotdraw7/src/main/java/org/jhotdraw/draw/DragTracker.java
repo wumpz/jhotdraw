@@ -145,9 +145,12 @@ public class DragTracker extends AbstractTool {
                     constrainedRect.y - previousOrigin.y);
             Constrainer c = view.getConstrainer();
             for (Figure f : view.getSelectedFigures()) {
-                f.willChange();
-                f.transform(tx);
-                f.changed();
+                if (f.isSelectable())
+                {
+                    f.willChange();
+                    f.transform(tx);
+                    f.changed();
+                }
             }
 
             previousPoint = currentPoint;

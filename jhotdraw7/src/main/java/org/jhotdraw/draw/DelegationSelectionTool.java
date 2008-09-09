@@ -280,7 +280,7 @@ public class DelegationSelectionTool extends SelectionTool {
             Point2D.Double p = viewToDrawing(pos);
             Figure outerFigure = getView().findFigure(pos);
             Figure figure = outerFigure;
-            if (figure != null) {
+            if (figure != null && figure.isSelectable()) {
                 if (DEBUG) {
                     System.out.println("DelegationSelectionTool.handleDoubleClick by figure");
                 }

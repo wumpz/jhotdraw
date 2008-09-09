@@ -204,7 +204,7 @@ public class SelectionTool extends AbstractTool
                     }
                 }
                 
-                if (figure != null) {
+                if (figure != null && figure.isSelectable()) {
                     newTracker = createDragTracker(figure);
                 } else {
                     if (! evt.isShiftDown()) {

@@ -539,7 +539,15 @@ public class DefaultDrawingView
     public void selectAll() {
         Set<Figure> oldSelection = new HashSet<Figure>(selectedFigures);
         selectedFigures.clear();
-        selectedFigures.addAll(drawing.getChildren());
+        
+        for (Figure figure : drawing.getChildren())
+        {
+            if (figure.isSelectable())
+            {
+                selectedFigures.add(figure);
+            }
+        }
+        
         Set<Figure> newSelection = new HashSet<Figure>(selectedFigures);
         invalidateHandles();
         fireSelectionChanged(oldSelection, newSelection);

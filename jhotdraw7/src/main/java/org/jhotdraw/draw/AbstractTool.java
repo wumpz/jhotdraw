@@ -409,7 +409,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
                 view.setCursor(handle.getCursor());
             } else {
                 Figure figure = view.findFigure(p);
-                if (figure != null) {
+                if (figure != null && figure.isSelectable()) {
                     view.setCursor(figure.getCursor(view.viewToDrawing(p)));
                 } else {
                     view.setCursor(Cursor.getDefaultCursor());
