@@ -150,18 +150,22 @@ public class HandleTracker extends AbstractTool {
             // the current mouse location. Only then search for other
             // figures. This search sequence is consistent with the
             // search sequence of the SelectionTool.
-            Figure hf = null;
+            Figure figure = null;
             Point2D.Double p = view.viewToDrawing(point);
             for (Figure f : view.getSelectedFigures()) {
                 if (f.contains(p)) {
-                    hf = f;
+                    figure = f;
                 }
             }
-            if (hf == null) {
-                hf = view.findFigure(point);
+            if (figure == null) {
+                figure = view.findFigure(point);
+                Drawing drawing = view.getDrawing();
+                while (figure != null && !figure.isSelectable()) {
+                    figure = drawing.findFigureBehind(p, figure);
+                }
             }
 
-            updateHoverHandles(view, hf);
+            updateHoverHandles(view, figure);
         }
     }
 
@@ -184,7 +188,7 @@ public class HandleTracker extends AbstractTool {
     protected void updateHoverHandles(DrawingView view, Figure f) {
         if (f != hoverFigure) {
             Rectangle r = null;
-            if (hoverFigure != null) {
+            if (hoverFigure != null && hoverFigure.isSelectable()) {
                 for (Handle h : hoverHandles) {
                     if (r == null) {
                         r = h.getDrawingArea();

@@ -84,10 +84,12 @@ public class DragTracker extends AbstractTool {
         anchorFigure = figure;
     }
 
+    @Override
     public void mouseMoved(MouseEvent evt) {
         updateCursor(editor.findView((Container) evt.getSource()), new Point(evt.getX(), evt.getY()));
     }
 
+    @Override
     public void mousePressed(MouseEvent evt) {
         super.mousePressed(evt);
         DrawingView view = getView();
@@ -145,12 +147,9 @@ public class DragTracker extends AbstractTool {
                     constrainedRect.y - previousOrigin.y);
             Constrainer c = view.getConstrainer();
             for (Figure f : view.getSelectedFigures()) {
-                if (f.isSelectable())
-                {
                     f.willChange();
                     f.transform(tx);
                     f.changed();
-                }
             }
 
             previousPoint = currentPoint;

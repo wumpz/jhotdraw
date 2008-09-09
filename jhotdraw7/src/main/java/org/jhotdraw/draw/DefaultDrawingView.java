@@ -69,7 +69,6 @@ public class DefaultDrawingView
     private final static boolean DEBUG = false;
     private Drawing drawing;
     private Set<Figure> dirtyFigures = new HashSet<Figure>();
-    
     /**
      * Holds the selected figures in an ordered set. The ordering reflects
      * the sequence that was used to select the figures.
@@ -539,15 +538,13 @@ public class DefaultDrawingView
     public void selectAll() {
         Set<Figure> oldSelection = new HashSet<Figure>(selectedFigures);
         selectedFigures.clear();
-        
-        for (Figure figure : drawing.getChildren())
-        {
-            if (figure.isSelectable())
-            {
+
+        for (Figure figure : drawing.getChildren()) {
+            if (figure.isSelectable()) {
                 selectedFigures.add(figure);
             }
         }
-        
+
         Set<Figure> newSelection = new HashSet<Figure>(selectedFigures);
         invalidateHandles();
         fireSelectionChanged(oldSelection, newSelection);
@@ -1049,7 +1046,6 @@ public class DefaultDrawingView
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     // End of variables declaration//GEN-END:variables
-
     public void setActiveHandle(Handle newValue) {
         Handle oldValue = activeHandle;
         if (oldValue != null) {

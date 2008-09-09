@@ -13,9 +13,7 @@
  */
 package org.jhotdraw.app;
 
-import org.jhotdraw.app.action.OSXDropOnDockAction;
 import ch.randelshofer.quaqua.*;
-import org.jhotdraw.app.action.PrintAction;
 import org.jhotdraw.gui.Worker;
 import org.jhotdraw.util.*;
 import org.jhotdraw.util.prefs.*;

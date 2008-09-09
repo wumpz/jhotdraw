@@ -47,6 +47,10 @@ public class EllipseFigure extends AbstractAttributedFigure {
         setAttributeEnabled(TEXT_COLOR, false);
     }
     
+    public boolean isSelectable() {
+        return false;
+    }
+    
     // DRAWING
     // SHAPE AND BOUNDS
     // ATTRIBUTES

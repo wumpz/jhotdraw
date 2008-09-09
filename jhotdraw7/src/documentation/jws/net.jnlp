@@ -23,6 +23,7 @@
   <resources>
     <j2se version="1.5+" initial-heap-size="64m" max-heap-size="512m" />
  	<nativelib href="guide/Net/libquaqua.jnilib_signed.jar"/> 
+ 	<nativelib href="guide/Net/libquaqua64.jnilib_signed.jar"/> 
  	<jar href="guide/Net/JHotDraw%20Net_signed.jar"/>
   </resources>
   <application-desc main-class="org.jhotdraw.samples.net.Main"/>

@@ -102,6 +102,7 @@ public class SelectAreaTracker extends AbstractTool {
         fireAreaInvalidated(invalidatedArea);
     }
 
+    @Override
     public void mouseMoved(MouseEvent evt) {
         clearRubberBand();
         Point point = evt.getPoint();
@@ -111,21 +112,25 @@ public class SelectAreaTracker extends AbstractTool {
             clearHoverHandles();
         } else {
             // Search first, if one of the selected figures contains
-            // the current mouse location. Only then search for other
+            // the current mouse location, and is selectable. 
+            // Only then search for other
             // figures. This search sequence is consistent with the
             // search sequence of the SelectionTool.
-            Figure hf = null;
+            Figure figure = null;
             Point2D.Double p = view.viewToDrawing(point);
             for (Figure f : view.getSelectedFigures()) {
                 if (f.contains(p)) {
-                    hf = f;
+                    figure = f;
                 }
             }
-            if (hf == null) {
-                hf = view.findFigure(point);
+            if (figure == null) {
+                figure = view.findFigure(point);
+                while (figure != null && !figure.isSelectable()) {
+                    figure = view.getDrawing().findFigureBehind(p, figure);
+                }
             }
 
-            updateHoverHandles(view, hf);
+            updateHoverHandles(view, figure);
         }
     }
 
@@ -155,7 +160,12 @@ public class SelectAreaTracker extends AbstractTool {
     }
 
     private void selectGroup(boolean toggle) {
-        getView().addToSelection(getView().findFiguresWithin(rubberband));
+        Collection<Figure> figures = getView().findFiguresWithin(rubberband);
+        for (Figure f : figures) {
+            if (f.isSelectable()) {
+                getView().addToSelection(f);
+            }
+        }
     }
 
     protected void clearHoverHandles() {
@@ -201,6 +211,7 @@ public class SelectAreaTracker extends AbstractTool {
         super.activate(editor);
         clearHoverHandles();
     }
+
     @Override
     public void deactivate(DrawingEditor editor) {
         super.deactivate(editor);

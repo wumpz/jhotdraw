@@ -284,7 +284,9 @@ public class CreationTool extends AbstractTool {
      * The implementation of this class just invokes fireToolDone.
      */
     protected void creationFinished(Figure createdFigure) {
-        getView().addToSelection(createdFigure);
+        if (createdFigure.isSelectable()) {
+            getView().addToSelection(createdFigure);
+        }
         if (isToolDoneAfterCreation()) {
             fireToolDone();
         }

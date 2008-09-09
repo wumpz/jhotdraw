@@ -112,7 +112,7 @@ public class TransformHandleKit {
     private static class TransformHandle extends LocatorHandle {
 
         private int dx,  dy;
-        Object geometry;
+        private Object geometry;
 
         TransformHandle(Figure owner, Locator loc) {
             super(owner, loc);
@@ -128,14 +128,22 @@ public class TransformHandleKit {
          */
         public void draw(Graphics2D g) {
             if (getEditor().getTool().supportsHandleInteraction()) {
+                drawArc(g);
+                /*
                 drawDiamond(g,
                         (Color) getEditor().getHandleAttribute(HandleAttributeKeys.TRANSFORM_HANDLE_FILL_COLOR),
                         (Color) getEditor().getHandleAttribute(HandleAttributeKeys.TRANSFORM_HANDLE_STROKE_COLOR));
+                 * */
                 } else {
                 drawDiamond(g,
                         (Color) getEditor().getHandleAttribute(HandleAttributeKeys.TRANSFORM_HANDLE_FILL_COLOR_DISABLED),
                         (Color) getEditor().getHandleAttribute(HandleAttributeKeys.TRANSFORM_HANDLE_STROKE_COLOR_DISABLED));                
                 }
+        }
+        
+        protected void drawArc(Graphics2D g) {
+            Point p = getLocation();
+            g.drawArc(p.x, p.y, 6, 6, 0, 180);
         }
 
         protected Rectangle2D.Double getTransformedBounds() {

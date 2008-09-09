@@ -11,14 +11,13 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
-
 package org.jhotdraw.draw;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Point2D;
 import java.util.HashSet;
+
 /**
  * Tool to select and manipulate figures.
  * <p>
@@ -53,28 +52,27 @@ import java.util.HashSet;
  */
 public class SelectionTool extends AbstractTool
         implements ToolListener {
+
     /**
      * The tracker encapsulates the current state of the SelectionTool.
      */
     private Tool tracker;
-    
     /**
      * Constant for the name of the selectBehindEnabled property.
      */
     public final static String SELECT_BEHIND_ENABLED_PROPERTY = "selectBehindEnabled";
-    
     /**
      * Represents the state of the selectBehindEnabled property.
      * By default, this property is set to true.
      */
     private boolean isSelectBehindEnabled = true;
-    
+
     /** Creates a new instance. */
     public SelectionTool() {
         tracker = createAreaTracker();
         tracker.addToolListener(this);
     }
-    
+
     /**
      * Sets the selectBehindEnabled property.
      * This is a bound property.
@@ -86,6 +84,7 @@ public class SelectionTool extends AbstractTool
         isSelectBehindEnabled = newValue;
         firePropertyChange(SELECT_BEHIND_ENABLED_PROPERTY, oldValue, newValue);
     }
+
     /**
      * Returns the value of the selectBehindEnabled property.
      * This is a bound property.
@@ -95,70 +94,71 @@ public class SelectionTool extends AbstractTool
     public boolean isSelectBehindEnabled() {
         return isSelectBehindEnabled;
     }
-    
+
     public void activate(DrawingEditor editor) {
         super.activate(editor);
         tracker.activate(editor);
     }
+
     public void deactivate(DrawingEditor editor) {
         super.deactivate(editor);
         tracker.deactivate(editor);
     }
-    
+
     public void keyPressed(KeyEvent e) {
         if (getView() != null && getView().isEnabled()) {
             tracker.keyPressed(e);
         }
     }
-    
+
     public void keyReleased(KeyEvent evt) {
         if (getView() != null && getView().isEnabled()) {
             tracker.keyReleased(evt);
         }
     }
-    
+
     public void keyTyped(KeyEvent evt) {
         if (getView() != null && getView().isEnabled()) {
             tracker.keyTyped(evt);
         }
     }
-    
+
     public void mouseClicked(MouseEvent evt) {
         if (getView() != null && getView().isEnabled()) {
             tracker.mouseClicked(evt);
         }
     }
-    
+
     public void mouseDragged(MouseEvent evt) {
         if (getView() != null && getView().isEnabled()) {
             tracker.mouseDragged(evt);
         }
     }
-    
+
     public void mouseEntered(MouseEvent evt) {
         super.mouseEntered(evt);
         tracker.mouseEntered(evt);
     }
-    
+
     public void mouseExited(MouseEvent evt) {
         super.mouseExited(evt);
         tracker.mouseExited(evt);
     }
-    
+
     public void mouseMoved(MouseEvent evt) {
         tracker.mouseMoved(evt);
     }
-    
+
     public void mouseReleased(MouseEvent evt) {
         if (getView() != null && getView().isEnabled()) {
             tracker.mouseReleased(evt);
         }
     }
+
     public void draw(Graphics2D g) {
         tracker.draw(g);
     }
-    
-    
+
     public void mousePressed(MouseEvent evt) {
         if (getView() != null && getView().isEnabled()) {
             super.mousePressed(evt);
@@ -169,11 +169,16 @@ public class SelectionTool extends AbstractTool
                 newTracker = createHandleTracker(handle);
             } else {
                 Figure figure;
-                if (isSelectBehindEnabled() && 
+                Drawing drawing = view.getDrawing();
+                Point2D.Double p = view.viewToDrawing(anchor);
+                if (isSelectBehindEnabled() &&
                         (evt.getModifiersEx() &
                         (InputEvent.ALT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK)) != 0) {
                     // Select a figure behind the current selection
                     figure = view.findFigure(anchor);
+                    while (figure != null && !figure.isSelectable()) {
+                        figure = drawing.findFigureBehind(p, figure);
+                    }
                     HashSet<Figure> ignoredFigures = new HashSet<Figure>(view.getSelectedFigures());
                     ignoredFigures.add(figure);
                     Figure figureBehind = view.getDrawing().findFigureBehind(
@@ -185,9 +190,8 @@ public class SelectionTool extends AbstractTool
                     // Note: The search sequence used here, must be
                     // consistent with the search sequence used by the
                     // HandleTracker and the SelectAreaTracker.
-                    
+
                     // If possible, continue to work with the current selection
-                    Point2D.Double p = view.viewToDrawing(anchor);
                     figure = null;
                     if (isSelectBehindEnabled()) {
                         for (Figure f : view.getSelectedFigures()) {
@@ -201,27 +205,30 @@ public class SelectionTool extends AbstractTool
                     // search for a figure.
                     if (figure == null) {
                         figure = view.findFigure(anchor);
+                        while (figure != null && !figure.isSelectable()) {
+                            figure = drawing.findFigureBehind(p, figure);
+                        }
                     }
                 }
-                
+
                 if (figure != null && figure.isSelectable()) {
                     newTracker = createDragTracker(figure);
                 } else {
-                    if (! evt.isShiftDown()) {
+                    if (!evt.isShiftDown()) {
                         view.clearSelection();
                         view.setHandleDetailLevel(0);
                     }
                     newTracker = createAreaTracker();
                 }
             }
-            
+
             if (newTracker != null) {
                 setTracker(newTracker);
             }
             tracker.mousePressed(evt);
         }
     }
-    
+
     protected void setTracker(Tool newTracker) {
         if (tracker != null) {
             tracker.deactivate(getEditor());
@@ -233,21 +240,21 @@ public class SelectionTool extends AbstractTool
             tracker.addToolListener(this);
         }
     }
-    
+
     /**
      * Factory method to create a Handle tracker. It is used to track a handle.
      */
     protected Tool createHandleTracker(Handle handle) {
         return new HandleTracker(handle, getView().getCompatibleHandles(handle));
     }
-    
+
     /**
      * Factory method to create a Drag tracker. It is used to drag a figure.
      */
     protected Tool createDragTracker(Figure f) {
         return new DragTracker(f);
     }
-    
+
     /**
      * Factory method to create an area tracker. It is used to select an
      * area.
@@ -255,14 +262,14 @@ public class SelectionTool extends AbstractTool
     protected Tool createAreaTracker() {
         return new SelectAreaTracker();
     }
-    
+
     public void toolStarted(ToolEvent event) {
-        
     }
+
     public void toolDone(ToolEvent event) {
         // Empty
         Tool newTracker = createAreaTracker();
-        
+
         if (newTracker != null) {
             if (tracker != null) {
                 tracker.deactivate(getEditor());
@@ -274,12 +281,14 @@ public class SelectionTool extends AbstractTool
         }
         fireToolDone();
     }
+
     /**
      * Sent when an area of the drawing view needs to be repainted.
      */
     public void areaInvalidated(ToolEvent e) {
         fireAreaInvalidated(e.getInvalidatedArea());
     }
+
     /**
      * Returns true, if this tool lets the user interact with handles.
      * <p>
