@@ -47,18 +47,16 @@ public class EllipseFigure extends AbstractAttributedFigure {
         setAttributeEnabled(TEXT_COLOR, false);
     }
     
-    public boolean isSelectable() {
-        return false;
-    }
-    
     // DRAWING
     // SHAPE AND BOUNDS
     // ATTRIBUTES
     // EDITING
     // CONNECTING
+    @Override
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
         return new ChopEllipseConnector(this);
     }
+    @Override
     public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
         return new ChopEllipseConnector(this);
     }
@@ -114,6 +112,7 @@ public class EllipseFigure extends AbstractAttributedFigure {
         return r.contains(p);
     }
     
+    @Override
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         ellipse.x = Math.min(anchor.x, lead.x);
         ellipse.y = Math.min(anchor.y , lead.y);
@@ -134,6 +133,7 @@ public class EllipseFigure extends AbstractAttributedFigure {
                 );
     }
     
+    @Override
     public EllipseFigure clone() {
         EllipseFigure that = (EllipseFigure) super.clone();
         that.ellipse = (Ellipse2D.Double) this.ellipse.clone();
