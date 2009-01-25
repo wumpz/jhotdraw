@@ -17,16 +17,12 @@ package org.jhotdraw.samples.draw;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.TextFigure;
 import org.jhotdraw.gui.*;
-import org.jhotdraw.util.*;
 
 import java.awt.*;
 import java.awt.geom.*;
-import java.awt.event.*;
 import java.io.*;
 import java.net.*;
-import java.util.*;
 import javax.swing.*;
-import javax.swing.event.*;
 
 import netscape.javascript.JSObject;
 import org.jhotdraw.xml.*;

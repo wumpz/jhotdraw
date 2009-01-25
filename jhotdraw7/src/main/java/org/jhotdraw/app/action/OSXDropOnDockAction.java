@@ -35,7 +35,7 @@ import org.jhotdraw.app.View;
  * <br>1.0  04 January 2005  Created.
  */
 public class OSXDropOnDockAction extends AbstractApplicationAction {
-    public final static String ID = "osxdrop";
+    public final static String ID = "file.drop";
     private JFileChooser fileChooser;
     private int entries;
     

@@ -33,7 +33,7 @@ import org.jhotdraw.app.View;
  * <br>1.0 October 9, 2005 Created.
  */
 public class RedoAction extends AbstractViewAction {
-    public final static String ID = "redo";
+    public final static String ID = "edit.redo";
     private ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
     
     private PropertyChangeListener redoActionPropertyListener = new PropertyChangeListener() {

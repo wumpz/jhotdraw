@@ -35,7 +35,7 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
 public class ViewSourceAction extends AbstractViewAction {
     private ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.svg.Labels");
     
-    public final static String ID = "viewSource";
+    public final static String ID = "view.viewSource";
     
     /** Creates a new instance. */
     public ViewSourceAction(Application app) {

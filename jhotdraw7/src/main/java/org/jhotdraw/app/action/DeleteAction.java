@@ -31,7 +31,7 @@ import org.jhotdraw.app.EditableComponent;
  * @version 1.0 October 9, 2005 Created.
  */
 public class DeleteAction extends TextAction {
-    public final static String ID = "delete";
+    public final static String ID = "edit.delete";
     
     /** Creates a new instance. */
     public DeleteAction() {

@@ -21,7 +21,7 @@ import java.util.*;
  * it has a slightly different behaviour:
  * The compound edit ends, when it is added to itself. This way it
  * can be fired two times to an UndoManager: The first time, when
- * a sequence of compuondable edits starts, end the last time, when
+ * a sequence of compoundable edits starts, end the last time, when
  * the sequence is over.
  * <p>
  * For example:

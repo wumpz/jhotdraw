@@ -83,7 +83,7 @@ public class UndoRedoManager extends UndoManager {//javax.swing.undo.UndoManager
     private class UndoAction
             extends AbstractAction {
         public UndoAction() {
-            labels.configureAction(this, "undo");
+            labels.configureAction(this, "edit.undo");
             setEnabled(false);
         }
         
@@ -107,7 +107,7 @@ public class UndoRedoManager extends UndoManager {//javax.swing.undo.UndoManager
     private class RedoAction
             extends AbstractAction {
         public RedoAction() {
-            labels.configureAction(this, "redo");
+            labels.configureAction(this, "edit.redo");
             setEnabled(false);
         }
         
@@ -228,7 +228,7 @@ public class UndoRedoManager extends UndoManager {//javax.swing.undo.UndoManager
             label = getUndoPresentationName();
         } else {
             undoAction.setEnabled(false);
-            label = labels.getString("undo");
+            label = labels.getString("edit.undo.text");
         }
         undoAction.putValue(Action.NAME, label);
         undoAction.putValue(Action.SHORT_DESCRIPTION, label);
@@ -238,7 +238,7 @@ public class UndoRedoManager extends UndoManager {//javax.swing.undo.UndoManager
             label = getRedoPresentationName();
         } else {
             redoAction.setEnabled(false);
-            label = labels.getString("redo");
+            label = labels.getString("edit.redo.text");
         }
         redoAction.putValue(Action.NAME, label);
         redoAction.putValue(Action.SHORT_DESCRIPTION, label);

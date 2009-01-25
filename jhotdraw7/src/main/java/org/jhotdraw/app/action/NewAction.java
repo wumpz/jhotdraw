@@ -32,13 +32,13 @@ import org.jhotdraw.app.View;
  * <br>1.0  04 January 2005  Created.
  */
 public class NewAction extends AbstractApplicationAction {
-    public final static String ID = "new";
+    public final static String ID = "file.new";
     
     /** Creates a new instance. */
     public NewAction(Application app) {
         super(app);
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
-        labels.configureAction(this, "new");
+        labels.configureAction(this, ID);
     }
     
     public void actionPerformed(ActionEvent evt) {

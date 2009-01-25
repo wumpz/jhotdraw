@@ -30,7 +30,7 @@ import org.jhotdraw.app.EditableComponent;
  * @version 1.0 February 27, 2006 Created.
  */
 public class SelectAllAction extends AbstractAction {
-    public final static String ID = "selectAll";
+    public final static String ID = "edit.selectAll";
     
     /** Creates a new instance. */
     public SelectAllAction() {

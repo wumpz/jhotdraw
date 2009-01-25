@@ -36,7 +36,7 @@ import org.jhotdraw.app.*;
  * <br>1.0 2006-04-07 Created.
  */
 public class ExportAction extends AbstractViewAction {
-    public final static String ID = "export";
+    public final static String ID = "file.export";
     private Component oldFocusOwner;
     
     /** Creates a new instance. */

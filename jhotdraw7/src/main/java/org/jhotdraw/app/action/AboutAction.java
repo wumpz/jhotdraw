@@ -28,7 +28,7 @@ import org.jhotdraw.app.*;
  * @version 1.0  04 January 2005  Created.
  */
 public class AboutAction extends AbstractApplicationAction {
-    public final static String ID = "about";
+    public final static String ID = "application.about";
     
     /** Creates a new instance. */
     public AboutAction(Application app) {

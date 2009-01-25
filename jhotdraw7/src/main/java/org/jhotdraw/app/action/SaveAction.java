@@ -37,7 +37,7 @@ import org.jhotdraw.gui.event.*;
  * <br>1.0 28. September 2005 Created.
  */
 public class SaveAction extends AbstractViewAction {
-    public final static String ID = "save";
+    public final static String ID = "file.save";
     private boolean saveAs;
     private Component oldFocusOwner;
     

@@ -29,7 +29,7 @@ import org.jhotdraw.app.Application;
  * @version 1.0 28. September 2005 Created.
  */
 public class SaveAsAction extends SaveAction {
-    public final static String ID = "saveAs";
+    public final static String ID = "file.saveAs";
 
     /** Creates a new instance. */
     public SaveAsAction(Application app) {

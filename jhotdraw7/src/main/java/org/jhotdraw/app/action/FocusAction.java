@@ -30,7 +30,7 @@ import org.jhotdraw.app.View;
  * <br>1.0  2005-06-10 Created.
  */
 public class FocusAction extends AbstractAction {
-    public final static String ID = "focus";
+    public final static String ID = "window.focus";
     private View view;
     
     /** Creates a new instance. */

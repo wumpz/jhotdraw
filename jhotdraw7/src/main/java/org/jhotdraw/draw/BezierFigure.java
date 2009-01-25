@@ -243,9 +243,6 @@ public class BezierFigure extends AbstractAttributedFigure {
     
     public Rectangle2D.Double getBounds() {
         Rectangle2D.Double bounds =path.getBounds2D();
-        // Make sure, bounds are not empty
-        bounds.width = Math.max(1, bounds.width);
-        bounds.height = Math.max(1, bounds.height);
         return bounds;
     }
     @Override

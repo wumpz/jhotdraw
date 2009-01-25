@@ -74,6 +74,7 @@
     <target name="application.jarsigned" depends="init,application.jar">
         <unjar src="${libdir}/quaqua.jar" dest="${classdir}" />
         <unjar src="${libdir}/MRJAdapter.jar" dest="${classdir}" />
+        <unjar src="${libdir}/swing-layout.jar" dest="${classdir}" />
         <jar destfile="${distdir}/JHotDraw Teddy_signed.jar" basedir="${classdir}">
             <manifest>
                 <attribute name="Built-By" value="${author}"/>
@@ -111,7 +112,15 @@
             >
         </signjar>        
     </target>
-    <target name="application.run" depends="init">
+    <target name="application.run-jar" depends="init">
+        <java fork="true" jar="${distdir}/JHotDraw Teddy.jar">
+            <jvmarg value="-Xdock:name=JHotDraw Teddy"/>
+            <jvmarg value="-Dlocale=en"/>
+            <jvmarg value="-Dapple.awt.graphics.UseQuartz=false"/>
+            <jvmarg value="-Djava.library.path=${libdir}"/>
+        </java>
+    </target>
+    <target name="application.run-jarsigned" depends="init">
         <java fork="true" jar="${distdir}/JHotDraw Teddy.jar">
             <jvmarg value="-Xdock:name=JHotDraw Teddy"/>
             <jvmarg value="-Dlocale=en"/>

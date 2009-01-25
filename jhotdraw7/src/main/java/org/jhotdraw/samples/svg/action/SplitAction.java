@@ -30,7 +30,7 @@ import javax.swing.undo.*;
  * @version 1.0 2006-07-12 Created.
  */
 public class SplitAction extends CombineAction {
-    public final static String ID = "selectionSplit";
+    public final static String ID = "edit.splitPaths";
     
     /** Creates a new instance. */
     public SplitAction(DrawingEditor editor) {

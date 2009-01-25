@@ -33,13 +33,13 @@ import org.jhotdraw.app.View;
  * @version 1.0  2005-10-16  Created.
  */
 public class LoadAction extends AbstractSaveBeforeAction {
-    public final static String ID = "load";
+    public final static String ID = "file.load";
     
     /** Creates a new instance. */
     public LoadAction(Application app) {
         super(app);
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
-        labels.configureAction(this, "open");
+        labels.configureAction(this, "file.open");
     }
     
     public void doIt(View view) {

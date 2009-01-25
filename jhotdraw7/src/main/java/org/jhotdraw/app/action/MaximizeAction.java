@@ -28,7 +28,7 @@ import org.jhotdraw.app.Application;
  * <br>1.0  2005-06-10 Created.
  */
 public class MaximizeAction extends AbstractViewAction {
-    public final static String ID = "maximize";
+    public final static String ID = "window.maximize";
     
     /** Creates a new instance. */
     public MaximizeAction(Application app) {

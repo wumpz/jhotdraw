@@ -41,7 +41,7 @@ import org.jhotdraw.app.View;
  */
 public class OpenAction extends AbstractApplicationAction {
 
-    public final static String ID = "open";
+    public final static String ID = "file.open";
 
     /** Creates a new instance. */
     public OpenAction(Application app) {

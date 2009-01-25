@@ -533,7 +533,7 @@ public class DefaultDrawingView
     }
 
     /**
-     * Selects all figures.
+     * Selects all selectable figures.
      */
     public void selectAll() {
         Set<Figure> oldSelection = new HashSet<Figure>(selectedFigures);

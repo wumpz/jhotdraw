@@ -30,13 +30,13 @@ import org.jhotdraw.app.View;
  * <br>1.0  2005-10-16 Created.
  */
 public class ClearAction extends AbstractSaveBeforeAction {
-    public final static String ID = "clear";
+    public final static String ID = "file.clear";
     
     /** Creates a new instance. */
     public ClearAction(Application app) {
         super(app);
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
-        labels.configureAction(this, "new");
+        labels.configureAction(this, "file.new");
     }
     
     @Override public void doIt(final View view) {

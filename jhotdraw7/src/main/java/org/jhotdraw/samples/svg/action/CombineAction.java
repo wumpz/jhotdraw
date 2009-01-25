@@ -34,7 +34,7 @@ import javax.swing.undo.*;
  */
 public class CombineAction extends AbstractSelectedAction {
 
-    public final static String ID = "selectionCombine";
+    public final static String ID = "edit.combinePaths";
     private CompositeFigure prototype;
     /**
      * If this variable is true, this action groups figures.

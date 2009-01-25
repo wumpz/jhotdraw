@@ -258,7 +258,7 @@ public class BezierDemo extends javax.swing.JPanel {
                 f.add(new BezierDemo());
                 f.setPreferredSize(new Dimension(400, 300));
                 f.pack();
-                f.show();
+                f.setVisible(true);
             }
         });
     }

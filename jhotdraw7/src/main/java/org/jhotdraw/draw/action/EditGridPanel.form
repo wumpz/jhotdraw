@@ -4,6 +4,7 @@
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
     <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="2"/>
@@ -28,7 +29,7 @@
                   <Component id="heightField" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="widthField" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="67" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -59,14 +60,14 @@
     <Component class="javax.swing.JLabel" name="widthLabel">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/jhotdraw/draw/Labels.properties" key="grid.width" replaceFormat="labels.getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/jhotdraw/draw/Labels.properties" key="view.grid.width.text" replaceFormat="labels.getString(&quot;{key}&quot;)"/>
         </Property>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="heightLabel">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/jhotdraw/draw/Labels.properties" key="grid.height" replaceFormat="labels.getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/jhotdraw/draw/Labels.properties" key="view.grid.height.text" replaceFormat="labels.getString(&quot;{key}&quot;)"/>
         </Property>
       </Properties>
     </Component>
@@ -83,7 +84,7 @@
     <Component class="javax.swing.JLabel" name="thetaLabel">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/jhotdraw/draw/Labels.properties" key="grid.theta" replaceFormat="labels.getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/jhotdraw/draw/Labels.properties" key="view.grid.theta.text" replaceFormat="labels.getString(&quot;{key}&quot;)"/>
         </Property>
       </Properties>
     </Component>

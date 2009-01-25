@@ -79,7 +79,7 @@ public class LabeledLineConnectionFigureSample {
                 view.setDrawing(drawing);
                 f.getContentPane().add(view.getComponent());
                 
-                f.show();
+                f.setVisible(true);
             }
         });
     }

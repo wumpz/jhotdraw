@@ -34,7 +34,7 @@ import org.jhotdraw.app.View;
  * @version 1.0 June 15, 2006 Created.
  */
 public class LoadRecentAction extends AbstractSaveBeforeAction {
-    public final static String ID = "loadRecent";
+    public final static String ID = "file.loadRecent";
     private File file;
     
     /** Creates a new instance. */

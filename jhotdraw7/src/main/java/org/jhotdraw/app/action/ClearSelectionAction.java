@@ -30,7 +30,7 @@ import org.jhotdraw.app.EditableComponent;
  * @version 1.0 2008-05-17 Created.
  */
 public class ClearSelectionAction extends AbstractAction {
-    public final static String ID = "selectionClear";
+    public final static String ID = "edit.clearSelection";
     
     /** Creates a new instance. */
     public ClearSelectionAction() {

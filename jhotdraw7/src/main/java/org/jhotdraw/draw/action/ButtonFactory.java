@@ -38,6 +38,9 @@ import org.jhotdraw.gui.JFontChooser;
  * {@link org.jhotdraw.samples.draw.DrawView} as Client,
  * {@link org.jhotdraw.samples.draw.DrawingPanel} as Client.
  *
+ * FIXME - All buttons created using the ButtonFactory must automatically
+ * become disabled/enabled, when the DrawingEditor is disabled/enabled.
+ *
  * @author Werner Randelshofer
  * @version 2.3 2008-05-23 Factured SelectionComponentRepainter out. 
  * <br>2.2 2008-05-18 Added method createDrawingColorButton.
@@ -565,7 +568,7 @@ public class ButtonFactory {
         labels.configureToolBarButton(popupButton, labelKey);
         Icon icon = new EditorColorIcon(editor,
                 attributeKey,
-                labels.getImageIcon(labelKey, ButtonFactory.class).getImage(),
+                labels.getIconProperty(labelKey, ButtonFactory.class).getImage(),
                 colorShape);
         popupButton.setIcon(icon);
         popupButton.setDisabledIcon(icon);
@@ -741,7 +744,7 @@ public class ButtonFactory {
         labels.configureToolBarButton(popupButton, labelKey);
         Icon icon = new SelectionColorIcon(editor,
                 attributeKey,
-                labels.getImageIcon(labelKey, ButtonFactory.class).getImage(),
+                labels.getIconProperty(labelKey, ButtonFactory.class).getImage(),
                 colorShape);
         popupButton.setIcon(icon);
         popupButton.setDisabledIcon(icon);
@@ -883,7 +886,7 @@ public class ButtonFactory {
         labels.configureToolBarButton(popupButton, labelKey);
         Icon icon = new DrawingColorIcon(editor,
                 attributeKey,
-                labels.getImageIcon(labelKey, ButtonFactory.class).getImage(),
+                labels.getIconProperty(labelKey, ButtonFactory.class).getImage(),
                 colorShape);
         popupButton.setIcon(icon);
         popupButton.setDisabledIcon(icon);

@@ -59,7 +59,7 @@ public class ConnectingFiguresSample {
                 view.setDrawing(drawing);
                 f.getContentPane().add(view.getComponent());
                 
-                f.show();
+                f.setVisible(true);
             }
         });
     }

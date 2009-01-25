@@ -104,7 +104,7 @@ public class DefaultSDIApplication extends AbstractApplication {
 
         m.putAction(ClearAction.ID, new ClearAction(this));
         m.putAction(NewAction.ID, new NewAction(this));
-        appLabels.configureAction(m.getAction(NewAction.ID), "newWindow");
+        appLabels.configureAction(m.getAction(NewAction.ID), "window.new");
         m.putAction(LoadAction.ID, new LoadAction(this));
         m.putAction(ClearRecentFilesAction.ID, new ClearRecentFilesAction(this));
         m.putAction(SaveAction.ID, new SaveAction(this));
@@ -254,15 +254,31 @@ public class DefaultSDIApplication extends AbstractApplication {
         }
         JMenu viewMenu = createViewMenu(p, toolBarActions);
         if (viewMenu != null) {
-        if (lastMenu != null && lastMenu.getText().equals(viewMenu.getText())) {
-            for (Component c : lastMenu.getMenuComponents()) {
-                viewMenu.add(c);
+            if (lastMenu != null && lastMenu.getText().equals(viewMenu.getText())) {
+                for (Component c : lastMenu.getMenuComponents()) {
+                    viewMenu.add(c);
+                }
+                mb.remove(lastMenu);
             }
-            mb.remove(lastMenu);
-        }
             mb.add(viewMenu);
         }
-        mb.add(createHelpMenu(p));
+
+        // Merge the help menu if one has been provided by the application model,
+        // otherwise just add it.
+        JMenu helpMenu = createHelpMenu(p);
+        for (Component mc : mb.getComponents()) {
+            JMenu m = (JMenu) mc;
+            if (m.getText().equals(helpMenu.getText())) {
+                for (Component c : helpMenu.getMenuComponents()) {
+                    m.add(c);
+                }
+                helpMenu = null;
+                break;
+            }
+        }
+        if (helpMenu != null) {
+            mb.add(helpMenu);
+        }
         return mb;
     }
 
@@ -281,7 +297,7 @@ public class DefaultSDIApplication extends AbstractApplication {
         m.add(model.getAction(NewAction.ID));
         m.add(model.getAction(LoadAction.ID));
         openRecentMenu = new JMenu();
-        labels.configureMenu(openRecentMenu, "openRecent");
+        labels.configureMenu(openRecentMenu, "file.openRecent");
         openRecentMenu.add(model.getAction(ClearRecentFilesAction.ID));
         updateOpenRecentMenu(openRecentMenu);
         m.add(openRecentMenu);
@@ -386,14 +402,14 @@ public class DefaultSDIApplication extends AbstractApplication {
         m = new JMenu();
         if (viewActions != null && viewActions.size() > 0) {
             m2 = (viewActions.size() == 1) ? m : new JMenu(labels.getString("toolBars"));
-            labels.configureMenu(m, labels.getString("view"));
+            labels.configureMenu(m, "view");
             for (Action a : viewActions) {
                 cbmi = new JCheckBoxMenuItem(a);
                 Actions.configureJCheckBoxMenuItem(cbmi, a);
                 m2.add(cbmi);
             }
             if (m2 != m) {
-            m.add(m2);
+                m.add(m2);
             }
         }
 

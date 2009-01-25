@@ -37,7 +37,7 @@ import org.jhotdraw.app.View;
  */
 public class OpenRecentAction extends AbstractApplicationAction {
 
-    public final static String ID = "openRecent";
+    public final static String ID = "file.openRecent";
     private File file;
 
     /** Creates a new instance. */

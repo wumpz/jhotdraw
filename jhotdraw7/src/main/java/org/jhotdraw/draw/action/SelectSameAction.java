@@ -26,7 +26,7 @@ import javax.swing.*;
  * <br>1.0 25. November 2003  Created.
  */
 public class SelectSameAction extends AbstractSelectedAction {
-    public final static String ID = "editSelectSame";
+    public final static String ID = "edit.selectSame";
     /** Creates a new instance. */
     public SelectSameAction(DrawingEditor editor) {
         super(editor);

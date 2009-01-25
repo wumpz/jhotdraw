@@ -322,7 +322,20 @@ public class DefaultOSXApplication extends AbstractApplication {
         for (JMenu mm : getModel().createMenus(this, p)) {
             mb.add(mm);
         }
-        mb.add(createWindowMenu(p));
+
+        // Determine the index of the help menu, if one has been provided
+        // Merge the help menu if one has been provided by the application model,
+        // otherwise just add it.
+        String helpMenuText = labels.getString("help.text");
+        int index = mb.getComponentCount();
+        for (int i=0, n=mb.getComponentCount(); i<n; i++) {
+            JMenu m = (JMenu) mb.getComponent(i);
+            if (m.getText() != null && m.getText().equals(helpMenuText)) {
+                index = i;
+                break;
+            }
+        }
+        mb.add(createWindowMenu(p), index);
         return mb;
     }
 
@@ -330,7 +343,6 @@ public class DefaultOSXApplication extends AbstractApplication {
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
         ApplicationModel model = getModel();
 
-        JMenuBar mb = new JMenuBar();
         JMenu m;
         JMenuItem mi;
 
@@ -429,7 +441,7 @@ public class DefaultOSXApplication extends AbstractApplication {
         mi = m.add(model.getAction(OpenAction.ID));
         mi.setIcon(null);
         openRecentMenu = new JMenu();
-        labels.configureMenu(openRecentMenu, "openRecent");
+        labels.configureMenu(openRecentMenu, "file.openRecent");
         openRecentMenu.setIcon(null);
         openRecentMenu.add(model.getAction(ClearRecentFilesAction.ID));
         updateOpenRecentMenu(openRecentMenu);

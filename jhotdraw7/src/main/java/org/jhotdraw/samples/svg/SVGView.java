@@ -235,6 +235,7 @@ public class SVGView extends AbstractView implements ExportableView {
                     selectedFormat.read(f, drawing, true);
                     success = true;
                 } catch (Exception e) {
+                    e.printStackTrace();
                         // try with the next input format
                 }
             }
@@ -252,8 +253,8 @@ public class SVGView extends AbstractView implements ExportableView {
                 }
             }
             if (!success) {
-                ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-                throw new IOException(labels.getFormatted("errorUnsupportedFileFormat", f.getName()));
+                ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+                throw new IOException(labels.getFormatted("error.unsupportedFileFormat", f.getName()));
             }
             SwingUtilities.invokeAndWait(new Runnable() {
 

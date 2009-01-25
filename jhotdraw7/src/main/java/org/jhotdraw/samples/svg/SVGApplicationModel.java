@@ -253,7 +253,7 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         appLabels.configureMenu(m, "view");
         m.add(getAction(EditDrawingAction.ID));
         m2 = new JMenu();
-        drawLabels.configureMenu(m2, "grid");
+        drawLabels.configureMenu(m2, "view.grid");
         cbmi = new JCheckBoxMenuItem(getAction(ToggleGridAction.ID));
         Actions.configureJCheckBoxMenuItem(cbmi, getAction(ToggleGridAction.ID));
         m2.add(cbmi);
@@ -261,7 +261,7 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         m2.add(getAction(EditGridAction.ID));
         m.add(m2);
         m2 = new JMenu();
-        drawLabels.configureMenu(m2, "zoom");
+        drawLabels.configureMenu(m2, "view.zoom");
         for (double sf : scaleFactors) {
             String id = (int) (sf*100)+"%";
             cbmi = new JCheckBoxMenuItem(getAction(id));

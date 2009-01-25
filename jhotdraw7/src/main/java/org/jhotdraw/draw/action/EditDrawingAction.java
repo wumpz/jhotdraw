@@ -15,16 +15,12 @@
 package org.jhotdraw.draw.action;
 
 import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Enumeration;
 import java.util.prefs.Preferences;
 import javax.swing.*;
 import org.jhotdraw.app.*;
-import org.jhotdraw.app.action.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
-import org.jhotdraw.draw.action.EditGridPanel;
 import org.jhotdraw.util.*;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 

@@ -29,7 +29,7 @@ import org.jhotdraw.util.*;
  * <br>1.0 October 9, 2005 Created.
  */
 public class CutAction extends AbstractAction {
-    public final static String ID = "cut";
+    public final static String ID = "edit.cut";
    
     /** Creates a new instance. */
     public CutAction() {

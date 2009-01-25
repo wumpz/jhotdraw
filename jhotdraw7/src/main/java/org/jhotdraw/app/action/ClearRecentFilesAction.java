@@ -25,7 +25,7 @@ import org.jhotdraw.app.Application;
  * @version 1.0 June 15, 2006 Created.
  */
 public class ClearRecentFilesAction extends AbstractApplicationAction {
-    public final static String ID = "clearRecentFiles";
+    public final static String ID = "file.clearRecentFiles";
     
     private PropertyChangeListener applicationListener;
     
@@ -33,7 +33,7 @@ public class ClearRecentFilesAction extends AbstractApplicationAction {
     public ClearRecentFilesAction(Application app) {
         super(app);
         ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
-        labels.configureAction(this, "clearMenu");
+        labels.configureAction(this, ID);
         updateEnabled();
     }
     

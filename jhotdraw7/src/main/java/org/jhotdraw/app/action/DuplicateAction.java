@@ -30,7 +30,7 @@ import org.jhotdraw.app.EditableComponent;
  * @version 1.0 February 27, 2006 Created.
  */
 public class DuplicateAction extends AbstractAction {
-    public final static String ID = "duplicate";
+    public final static String ID = "edit.duplicate";
     
     /** Creates a new instance. */
     public DuplicateAction() {

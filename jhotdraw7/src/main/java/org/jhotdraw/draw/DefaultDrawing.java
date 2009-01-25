@@ -13,14 +13,9 @@
  */
 package org.jhotdraw.draw;
 
-import java.awt.event.MouseEvent;
 import org.jhotdraw.geom.Dimension2DDouble;
-import org.jhotdraw.util.ReversedList;
 import java.awt.*;
 import java.awt.geom.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.undo.*;
 import org.jhotdraw.util.*;
 import java.util.*;
 

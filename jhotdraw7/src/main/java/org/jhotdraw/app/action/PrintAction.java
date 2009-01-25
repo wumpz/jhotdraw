@@ -45,7 +45,7 @@ import org.jhotdraw.util.*;
  */
 public class PrintAction extends AbstractViewAction {
 
-    public final static String ID = "print";
+    public final static String ID = "file.print";
 
     /** Creates a new instance. */
     public PrintAction(Application app) {

@@ -30,7 +30,7 @@ import org.jhotdraw.util.*;
  * <br>1.0 October 9, 2005 Created.
  */
 public class PasteAction extends AbstractAction {
-    public final static String ID = "paste";
+    public final static String ID = "edit.paste";
     
     /** Creates a new instance. */
     public PasteAction() {
