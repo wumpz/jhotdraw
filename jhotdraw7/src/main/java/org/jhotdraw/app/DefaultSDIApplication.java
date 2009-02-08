@@ -296,6 +296,9 @@ public class DefaultSDIApplication extends AbstractApplication {
         m.add(model.getAction(ClearAction.ID));
         m.add(model.getAction(NewAction.ID));
         m.add(model.getAction(LoadAction.ID));
+        if (model.getAction(LoadDirectoryAction.ID) != null) {
+            m.add(model.getAction(LoadDirectoryAction.ID));
+        }
         openRecentMenu = new JMenu();
         labels.configureMenu(openRecentMenu, "file.openRecent");
         openRecentMenu.add(model.getAction(ClearRecentFilesAction.ID));

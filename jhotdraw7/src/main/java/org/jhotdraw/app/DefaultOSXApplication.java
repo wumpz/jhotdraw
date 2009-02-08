@@ -192,7 +192,7 @@ public class DefaultOSXApplication extends AbstractApplication {
         if (window instanceof JFrame) {
             ((JFrame) window).setJMenuBar(createMenuBar(p));
         } else if (window instanceof JDialog) {
-        // ((JDialog) window).setJMenuBar(createMenuBar(null));
+            // ((JDialog) window).setJMenuBar(createMenuBar(null));
         }
 
         paletteHandler.add(window, p);
@@ -328,7 +328,7 @@ public class DefaultOSXApplication extends AbstractApplication {
         // otherwise just add it.
         String helpMenuText = labels.getString("help.text");
         int index = mb.getComponentCount();
-        for (int i=0, n=mb.getComponentCount(); i<n; i++) {
+        for (int i = 0, n = mb.getComponentCount(); i < n; i++) {
             JMenu m = (JMenu) mb.getComponent(i);
             if (m.getText() != null && m.getText().equals(helpMenuText)) {
                 index = i;
@@ -427,7 +427,7 @@ public class DefaultOSXApplication extends AbstractApplication {
     }
 
     protected JMenu createFileMenu(View p) {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        //ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
         ApplicationModel model = getModel();
 
         JMenu m;
@@ -440,6 +440,10 @@ public class DefaultOSXApplication extends AbstractApplication {
         mi.setIcon(null);
         mi = m.add(model.getAction(OpenAction.ID));
         mi.setIcon(null);
+        if (model.getAction(OpenDirectoryAction.ID) != null) {
+            mi = m.add(model.getAction(OpenDirectoryAction.ID));
+            mi.setIcon(null);
+        }
         openRecentMenu = new JMenu();
         labels.configureMenu(openRecentMenu, "file.openRecent");
         openRecentMenu.setIcon(null);

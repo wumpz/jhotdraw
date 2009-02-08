@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractView.java  1.2.1  2008-09-09
+ * @(#)AbstractView.java  1.3  2009-02-08
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -24,7 +24,9 @@ import java.util.prefs.*;
  * 
  * 
  * @author Werner Randelshofer
- * @version 1.2.1 2008-09-09 Explicitly dispose of the executor service. 
+ * @version 1.3 2009-02-08 Made preferences variable protected instead
+ * of private.
+ * <br>1.2.1 2008-09-09 Explicitly dispose of the executor service.
  * <br>1.2 2007-12-25 Updated to changes in View interface. 
  * <br>1.1.1 2006-04-11 Fixed view file preferences.
  * <br>1.1 2006-02-16 Support for preferences added.
@@ -66,7 +68,7 @@ public abstract class AbstractView extends JPanel implements View {
     /**
      * The preferences of the view.
      */
-    private Preferences prefs;
+    protected Preferences preferences;
     /**
      * This id is used to make multiple open projects from the same view file
      * identifiable.
@@ -85,7 +87,7 @@ public abstract class AbstractView extends JPanel implements View {
      * Creates a new instance.
      */
     public AbstractView() {
-        prefs = Preferences.userNodeForPackage(getClass());
+        preferences = Preferences.userNodeForPackage(getClass());
     }
 
     /** Initializes the view.
@@ -158,8 +160,8 @@ public abstract class AbstractView extends JPanel implements View {
     public void setFile(File newValue) {
         File oldValue = file;
         file = newValue;
-        if (prefs != null && newValue != null) {
-            prefs.put("projectFile", newValue.getPath());
+        if (preferences != null && newValue != null) {
+            preferences.put("projectFile", newValue.getPath());
         }
         firePropertyChange(FILE_PROPERTY, oldValue, newValue);
     }
@@ -176,8 +178,8 @@ public abstract class AbstractView extends JPanel implements View {
 
     protected JFileChooser createOpenChooser() {
         JFileChooser c = new JFileChooser();
-        if (prefs != null) {
-            c.setSelectedFile(new File(prefs.get("projectFile", System.getProperty("user.home"))));
+        if (preferences != null) {
+            c.setSelectedFile(new File(preferences.get("projectFile", System.getProperty("user.home"))));
         }
         return c;
     }
@@ -198,8 +200,8 @@ public abstract class AbstractView extends JPanel implements View {
 
     protected JFileChooser createSaveChooser() {
         JFileChooser c = new JFileChooser();
-        if (prefs != null) {
-            c.setCurrentDirectory(new File(prefs.get("projectFile", System.getProperty("user.home"))));
+        if (preferences != null) {
+            c.setCurrentDirectory(new File(preferences.get("projectFile", System.getProperty("user.home"))));
         }
         return c;
     }

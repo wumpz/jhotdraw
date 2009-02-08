@@ -1,5 +1,5 @@
 /*
- * @(#)OpenAction.java  2.1  2008-03-19
+ * @(#)OpenAction.java  2.2  2009-02-08
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -13,15 +13,10 @@
  */
 package org.jhotdraw.app.action;
 
-import org.jhotdraw.gui.Worker;
 import org.jhotdraw.util.*;
 import org.jhotdraw.gui.*;
-import org.jhotdraw.gui.event.*;
-
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
-import java.util.prefs.*;
 import javax.swing.*;
 import java.io.*;
 import org.jhotdraw.app.Application;
@@ -31,7 +26,8 @@ import org.jhotdraw.app.View;
  * Opens a file in new view, or in the current view, if it is empty.
  *
  * @author  Werner Randelshofer
- * @version 2.1 2008-03-19 Check whether file exists before opening it. 
+ * @version 2.2 2009-03-08 Moved call to getOpenChooser into separate method.
+ * <br>2.1 2008-03-19 Check whether file exists before opening it.
  * <br>2.0.2 2008-02-23 View and application was not enabled after
  * unsuccessful file open. 
  * <br>2.0.1 2006-05-18 Print stack trace added.
@@ -50,6 +46,10 @@ public class OpenAction extends AbstractApplicationAction {
         labels.configureAction(this, ID);
     }
 
+    protected JFileChooser getFileChooser(View view) {
+        return view.getOpenChooser();
+    }
+
     public void actionPerformed(ActionEvent evt) {
         final Application app = getApplication();
         if (app.isEnabled()) {
@@ -62,23 +62,23 @@ public class OpenAction extends AbstractApplicationAction {
                 emptyView = null;
             }
 
-            final View p;
+            final View view;
             boolean removeMe;
             if (emptyView == null) {
-                p = app.createView();
-                app.add(p);
+                view = app.createView();
+                app.add(view);
                 removeMe = true;
             } else {
-                p = emptyView;
+                view = emptyView;
                 removeMe = false;
             }
-            JFileChooser fileChooser = p.getOpenChooser();
+            JFileChooser fileChooser = getFileChooser(view);
             if (fileChooser.showOpenDialog(app.getComponent()) == JFileChooser.APPROVE_OPTION) {
-                app.show(p);
-                openFile(fileChooser, p);
+                app.show(view);
+                openFile(fileChooser, view);
             } else {
                 if (removeMe) {
-                    app.remove(p);
+                    app.remove(view);
                 }
                 app.setEnabled(true);
             }
