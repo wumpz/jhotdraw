@@ -146,6 +146,10 @@ public class OpenAction extends AbstractApplicationAction {
             String message;
             if ((value instanceof Throwable) && ((Throwable) value).getMessage() != null) {
                 message = ((Throwable) value).getMessage();
+                ((Throwable) value).printStackTrace();
+            } else if ((value instanceof Throwable)) {
+                message = value.toString();
+                ((Throwable) value).printStackTrace();
             } else {
                 message = value.toString();
             }

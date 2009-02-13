@@ -21,14 +21,10 @@ import java.io.*;
 import java.util.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.action.AttributeAction;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 import org.jhotdraw.samples.svg.*;
-import org.jhotdraw.samples.svg.SVGConstants;
 import org.jhotdraw.util.*;
-import org.jhotdraw.xml.*;
 import org.jhotdraw.geom.*;
 
 /**

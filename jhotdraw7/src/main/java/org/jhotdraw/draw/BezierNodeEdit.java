@@ -13,7 +13,7 @@
  */
 package org.jhotdraw.draw;
 
-import ch.randelshofer.quaqua.util.ResourceBundleUtil;
+import org.jhotdraw.util.ResourceBundleUtil;
 import org.jhotdraw.geom.BezierPath;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
