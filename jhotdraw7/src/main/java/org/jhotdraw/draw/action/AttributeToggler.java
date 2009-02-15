@@ -101,8 +101,8 @@ public class AttributeToggler extends AbstractAction {
                     name = (String) getValue(AbstractAction.NAME);
                 }
                 if (name == null) {
-                    ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-                    name = labels.getString("attribute");
+                    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+                    name = labels.getString("attribute.text");
                 }
                 return name;
             }

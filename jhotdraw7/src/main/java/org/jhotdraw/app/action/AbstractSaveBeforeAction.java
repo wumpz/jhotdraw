@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.app.action;
 
 import org.jhotdraw.gui.Worker;
@@ -25,6 +24,7 @@ import javax.swing.*;
 import java.io.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
+
 /**
  * Base class for actions that can only be safely performed when a 
  * {@link org.jhotdraw.app.View} has no unsaved changes.
@@ -44,45 +44,50 @@ import org.jhotdraw.app.View;
  * <br>1.0 27. September 2005 Created.
  */
 public abstract class AbstractSaveBeforeAction extends AbstractViewAction {
+
     private Component oldFocusOwner;
-    
+
     /** Creates a new instance. */
     public AbstractSaveBeforeAction(Application app) {
         super(app);
     }
-    
+
     public void actionPerformed(ActionEvent evt) {
-       final View p = getActiveView();
+        final View p = getActiveView();
         if (p.isEnabled()) {
-            final ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+            final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
             Window wAncestor = SwingUtilities.getWindowAncestor(p.getComponent());
             oldFocusOwner = (wAncestor == null) ? null : wAncestor.getFocusOwner();
             p.setEnabled(false);
 
             if (p.hasUnsavedChanges()) {
                 JOptionPane pane = new JOptionPane(
-                        "<html>"+UIManager.getString("OptionPane.css")+
-                        labels.getString("saveBeforeMessage"),
-                        JOptionPane.WARNING_MESSAGE
-                        );
-                Object[] options = { labels.getString("save"), labels.getString("cancel"), labels.getString("dontSave") };
+                        "<html>" + UIManager.getString("OptionPane.css") +
+                        labels.getString("file.saveBefore.doYouWantToSave.message"),
+                        JOptionPane.WARNING_MESSAGE);
+                Object[] options = { //
+                    labels.getString("file.saveBefore.saveOption.text"),//
+                    labels.getString("file.saveBefore.cancelOption.text"), //
+                    labels.getString("file.saveBefore.dontSaveOption.text")//
+                };
                 pane.setOptions(options);
                 pane.setInitialValue(options[0]);
                 pane.putClientProperty("Quaqua.OptionPane.destructiveOption", new Integer(2));
                 JSheet.showSheet(pane, p.getComponent(), new SheetListener() {
+
                     public void optionSelected(SheetEvent evt) {
                         Object value = evt.getValue();
-                        if (value == null || value.equals(labels.getString("cancel"))) {
+                        if (value == null || value.equals(labels.getString("file.saveBefore.cancelOption.text"))) {
                             p.setEnabled(true);
-                        } else if (value.equals(labels.getString("dontSave"))) {
+                        } else if (value.equals(labels.getString("file.saveBefore.dontSaveOption.text"))) {
                             doIt(p);
                             p.setEnabled(true);
-                        } else if (value.equals(labels.getString("save"))) {
+                        } else if (value.equals(labels.getString("file.saveBefore.saveOption.text"))) {
                             saveChanges(p);
                         }
                     }
                 });
-                
+
             } else {
                 doIt(p);
                 p.setEnabled(true);
@@ -92,18 +97,18 @@ public abstract class AbstractSaveBeforeAction extends AbstractViewAction {
             }
         }
     }
-    
+
     protected void saveChanges(final View p) {
         if (p.getFile() == null) {
             JFileChooser fileChooser = p.getSaveChooser();
             //int option = fileChooser.showSaveDialog(this);
             JSheet.showSaveSheet(fileChooser, p.getComponent(), new SheetListener() {
+
                 public void optionSelected(final SheetEvent evt) {
                     if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
                         final File file;
                         if (evt.getFileChooser().getFileFilter() instanceof ExtensionFileFilter) {
-                            file = ((ExtensionFileFilter) evt.getFileChooser().getFileFilter()).
-                                    makeAcceptable(evt.getFileChooser().getSelectedFile());
+                            file = ((ExtensionFileFilter) evt.getFileChooser().getFileFilter()).makeAcceptable(evt.getFileChooser().getSelectedFile());
                         } else {
                             file = evt.getFileChooser().getSelectedFile();
                         }
@@ -120,9 +125,10 @@ public abstract class AbstractSaveBeforeAction extends AbstractViewAction {
             saveToFile(p, p.getFile());
         }
     }
-    
+
     protected void saveToFile(final View p, final File file) {
         p.execute(new Worker() {
+
             public Object construct() {
                 try {
                     p.write(file);
@@ -131,12 +137,13 @@ public abstract class AbstractSaveBeforeAction extends AbstractViewAction {
                     return e;
                 }
             }
+
             public void finished(Object value) {
                 fileSaved(p, file, value);
             }
         });
     }
-    
+
     protected void fileSaved(View p, File file, Object value) {
         if (value == null) {
             p.setFile(file);
@@ -149,10 +156,10 @@ public abstract class AbstractSaveBeforeAction extends AbstractViewAction {
             } else {
                 message = value.toString();
             }
-            ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
             JSheet.showMessageSheet(getActiveView().getComponent(),
                     "<html>" + UIManager.getString("OptionPane.css") +
-                    "<b>" + labels.getFormatted("couldntSave", file.getName()) + "</b><br>" +
+                    "<b>" + labels.getFormatted("file.saveBefore.couldntSave.message", file.getName()) + "</b><br>" +
                     ((message == null) ? "" : message),
                     JOptionPane.ERROR_MESSAGE);
         }
@@ -161,6 +168,6 @@ public abstract class AbstractSaveBeforeAction extends AbstractViewAction {
             oldFocusOwner.requestFocus();
         }
     }
-    
+
     protected abstract void doIt(View p);
 }

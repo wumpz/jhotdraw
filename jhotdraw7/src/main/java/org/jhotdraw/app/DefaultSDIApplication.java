@@ -25,10 +25,12 @@ import javax.swing.*;
 import org.jhotdraw.app.action.*;
 
 /**
- * A DefaultSDIApplication can handle the life cycle of a single document window being
- * presented in a JFrame. The JFrame provides all the functionality needed to
- * work with the document, such as a menu bar, tool bars and palette windows.
- *
+ * A DefaultSDIApplication can handle the life cycle of a single document window
+ * being presented in a JFrame. The JFrame provides all the functionality needed
+ * to work with the document, such as a menu bar, tool bars and palette windows.
+ * <p>
+ * The life cycle of the application is tied to the JFrame. Closing the JFrame
+ * quits the application.
  *
  * @author Werner Randelshofer
  * @version 1.5.1 2008-07-13 Don't add the view menu to the menu bar if it is empty. 
@@ -97,7 +99,7 @@ public class DefaultSDIApplication extends AbstractApplication {
     }
 
     protected void initApplicationActions() {
-        ResourceBundleUtil appLabels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        ResourceBundleUtil appLabels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         ApplicationModel m = getModel();
         m.putAction(AboutAction.ID, new AboutAction(this));
         m.putAction(ExitAction.ID, new ExitAction(this));
@@ -284,7 +286,7 @@ public class DefaultSDIApplication extends AbstractApplication {
 
     protected JMenu createFileMenu(final View p) {
         ApplicationModel model = getModel();
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
 
         JMenuBar mb = new JMenuBar();
         JMenu m;
@@ -353,7 +355,7 @@ public class DefaultSDIApplication extends AbstractApplication {
         if (p.hasUnsavedChanges()) {
             title += "*";
         }
-        p.setTitle(labels.getFormatted("frameTitle", title, getName(), p.getMultipleOpenId()));
+        p.setTitle(labels.getFormatted("frame.title", title, getName(), p.getMultipleOpenId()));
         f.setTitle(p.getTitle());
     }
 
@@ -395,7 +397,7 @@ public class DefaultSDIApplication extends AbstractApplication {
      */
     protected JMenu createViewMenu(final View p, java.util.List<Action> viewActions) {
         ApplicationModel model = getModel();
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
 
         JMenu m, m2;
         JMenuItem mi;
@@ -421,7 +423,7 @@ public class DefaultSDIApplication extends AbstractApplication {
 
     protected JMenu createHelpMenu(View p) {
         ApplicationModel model = getModel();
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
 
         JMenu m;
         JMenuItem mi;

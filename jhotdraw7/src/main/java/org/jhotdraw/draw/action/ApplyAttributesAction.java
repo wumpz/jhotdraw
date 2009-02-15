@@ -33,14 +33,14 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  */
 public class ApplyAttributesAction extends AbstractSelectedAction {
 
-    private ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
+    private ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
     private Set<AttributeKey> excludedAttributes = new HashSet<AttributeKey>(
             Arrays.asList(new AttributeKey[]{TRANSFORM, TEXT}));
 
     /** Creates a new instance. */
     public ApplyAttributesAction(DrawingEditor editor) {
         super(editor);
-        labels.configureAction(this, "attributesApply");
+        labels.configureAction(this, "edit.applyAttributes");
         setEnabled(true);
     }
 
@@ -58,7 +58,7 @@ public class ApplyAttributesAction extends AbstractSelectedAction {
     public void applyAttributes() {
         DrawingEditor editor = getEditor();
 
-        CompositeEdit edit = new CompositeEdit(labels.getString("attributesApply"));
+        CompositeEdit edit = new CompositeEdit(labels.getString("edit.applyAttrbutes.text"));
         DrawingView view = getView();
         view.getDrawing().fireUndoableEditHappened(edit);
 

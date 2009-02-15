@@ -58,13 +58,13 @@ public class PertApplicationModel extends DefaultApplicationModel {
     }
     
     public void initApplication(Application a) {
-        ResourceBundleUtil drawLabels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.pert.Labels");
+        ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.pert.Labels");
         AbstractAction aa;
         
         putAction(ExportAction.ID, new ExportAction(a));
-        putAction("toggleGrid", aa = new ToggleViewPropertyAction(a, "gridVisible"));
-        drawLabels.configureAction(aa, "alignGrid");
+        putAction("toggleGrid", aa = new ToggleViewPropertyAction(a, PertView.GRID_VISIBLE_PROPERTY));
+        drawLabels.configureAction(aa, "view.toggleGrid");
         for (double sf : scaleFactors) {
             putAction((int) (sf*100)+"%",
                     aa = new ViewPropertyAction(a, "scaleFactor", Double.TYPE, new Double(sf))
@@ -90,8 +90,8 @@ public class PertApplicationModel extends DefaultApplicationModel {
         // AttributeKeys for the entitie sets
         HashMap<AttributeKey,Object> attributes;
         
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.pert.Labels");
-        ResourceBundleUtil drawLabels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.pert.Labels");
+        ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         
         ButtonFactory.addSelectionToolTo(tb, editor);
         tb.addSeparator();
@@ -100,13 +100,13 @@ public class PertApplicationModel extends DefaultApplicationModel {
         attributes.put(AttributeKeys.FILL_COLOR, Color.white);
         attributes.put(AttributeKeys.STROKE_COLOR, Color.black);
         attributes.put(AttributeKeys.TEXT_COLOR, Color.black);
-        ButtonFactory.addToolTo(tb, editor, new CreationTool(new TaskFigure(), attributes), "createTask", labels);
+        ButtonFactory.addToolTo(tb, editor, new CreationTool(new TaskFigure(), attributes), "edit.createTask", labels);
 
         attributes = new HashMap<AttributeKey,Object>();
         attributes.put(AttributeKeys.STROKE_COLOR, new Color(0x000099));
-        ButtonFactory.addToolTo(tb, editor, new ConnectionTool(new DependencyFigure(), attributes), "createDependency", labels);
+        ButtonFactory.addToolTo(tb, editor, new ConnectionTool(new DependencyFigure(), attributes), "edit.createDependency", labels);
         tb.addSeparator();
-        ButtonFactory.addToolTo(tb, editor, new TextAreaTool(new TextAreaFigure()), "createTextArea", drawLabels);
+        ButtonFactory.addToolTo(tb, editor, new TextAreaTool(new TextAreaFigure()), "edit.createTextArea", drawLabels);
         
     }
     /**
@@ -115,8 +115,8 @@ public class PertApplicationModel extends DefaultApplicationModel {
      * values.
      */
     public java.util.List<JToolBar> createToolBars(Application a, View pr) {
-        ResourceBundleUtil drawLabels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.pert.Labels");
+        ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.pert.Labels");
         PertView p = (PertView) pr;
         
         DrawingEditor editor;
@@ -130,15 +130,15 @@ public class PertApplicationModel extends DefaultApplicationModel {
         JToolBar tb;
         tb = new JToolBar();
         addCreationButtonsTo(tb, editor);
-        tb.setName(drawLabels.getString("drawToolBarTitle"));
+        tb.setName(drawLabels.getString("window.drawToolBar.title"));
         list.add(tb);
         tb = new JToolBar();
         ButtonFactory.addAttributesButtonsTo(tb, editor);
-        tb.setName(drawLabels.getString("attributesToolBarTitle"));
+        tb.setName(drawLabels.getString("window.attributesToolBar.title"));
         list.add(tb);
         tb = new JToolBar();
         ButtonFactory.addAlignmentButtonsTo(tb, editor);
-        tb.setName(drawLabels.getString("alignmentToolBarTitle"));
+        tb.setName(drawLabels.getString("window.alignmentToolBar.title"));
         list.add(tb);
         return list;
     }
@@ -146,7 +146,7 @@ public class PertApplicationModel extends DefaultApplicationModel {
     public java.util.List<JMenu> createMenus(Application a, View pr) {
         // FIXME - Add code for unconfiguring the menus!! We leak memory!
         PertView p = (PertView) pr;
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         
         //  JMenuBar mb = new JMenuBar();
         LinkedList<JMenu> mb =  new LinkedList<JMenu>();

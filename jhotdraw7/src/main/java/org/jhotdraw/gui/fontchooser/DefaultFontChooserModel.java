@@ -66,7 +66,7 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
      * @param fonts
      */
     public void setFonts(Font[] fonts) {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.gui.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.gui.Labels");
 
         // collect families and sort them alphabetically
         ArrayList<FontFamilyNode> families = new ArrayList<FontFamilyNode>();

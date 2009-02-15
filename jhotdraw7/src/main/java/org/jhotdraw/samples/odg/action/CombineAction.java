@@ -17,11 +17,8 @@ package org.jhotdraw.samples.odg.action;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.samples.odg.figures.*;
-import org.jhotdraw.undo.*;
 import org.jhotdraw.util.*;
 import java.util.*;
-import javax.swing.*;
-import javax.swing.undo.*;
 
 /**
  * CombinePathsAction.
@@ -30,13 +27,13 @@ import javax.swing.undo.*;
  * @version 1.0 2007-07-38 Created.
  */
 public class CombineAction extends GroupAction {
-    public final static String ID = "selectionCombine";
+    public final static String ID = "edit.combinePaths";
     
     /** Creates a new instance. */
     public CombineAction(DrawingEditor editor) {
         super(editor, new ODGPathFigure());
         
-        labels = ResourceBundleUtil.getLAFBundle(
+        labels = ResourceBundleUtil.getBundle(
                 "org.jhotdraw.samples.odg.Labels",
                 Locale.getDefault()
                 );

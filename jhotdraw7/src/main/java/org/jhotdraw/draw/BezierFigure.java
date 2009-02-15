@@ -626,8 +626,8 @@ public class BezierFigure extends AbstractAttributedFigure {
                 fireUndoableEditHappened(new AbstractUndoableEdit() {
                     @Override
                     public String getPresentationName() {
-                        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-                        return labels.getString("bezierPath.splitSegment");
+                        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+                        return labels.getString("edit.bezierPath.splitSegment.text");
                     }
                     @Override
                     public void redo() throws CannotRedoException {

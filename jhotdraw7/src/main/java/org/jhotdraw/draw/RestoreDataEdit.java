@@ -39,8 +39,8 @@ public class RestoreDataEdit extends AbstractUndoableEdit {
         this.newRestoreData = figure.getTransformRestoreData();
     }
     public String getPresentationName() {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
-        return labels.getString("transformFigure");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
+        return labels.getString("edit.transform.text");
     }
     
     public boolean addEdit(UndoableEdit anEdit) {

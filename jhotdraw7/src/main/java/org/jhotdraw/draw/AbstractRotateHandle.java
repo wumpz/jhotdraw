@@ -53,8 +53,8 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
 
     @Override
     public String getToolTipText(Point p) {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-        return labels.getString("rotateHandle.tip");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+        return labels.getString("handle.rotate.toolTipText");
     }
 
     /**

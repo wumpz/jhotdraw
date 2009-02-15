@@ -33,7 +33,7 @@ public class CloseAction extends AbstractSaveBeforeAction {
     /** Creates a new instance. */
     public CloseAction(Application app) {
         super(app);
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
     

@@ -28,7 +28,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * <br>1.0 25. November 2003  Created.
  */
 public class PickAttributesAction extends AbstractSelectedAction {
-    private ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
+    private ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
     
     private Set<AttributeKey> excludedAttributes = new HashSet<AttributeKey>(
             Arrays.asList(new AttributeKey[] { TRANSFORM, TEXT }));
@@ -36,7 +36,7 @@ public class PickAttributesAction extends AbstractSelectedAction {
     /** Creates a new instance. */
     public PickAttributesAction(DrawingEditor editor) {
         super(editor);
-        labels.configureAction(this, "attributesPick");
+        labels.configureAction(this, "edit.pickAttributes");
         setEnabled(true);
     }
     

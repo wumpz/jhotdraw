@@ -16,6 +16,7 @@ package org.jhotdraw.samples.teddy;
 
 import java.util.*;
 import org.jhotdraw.app.*;
+import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * Main class.

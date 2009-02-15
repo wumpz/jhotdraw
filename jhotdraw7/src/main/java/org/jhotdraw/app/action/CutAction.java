@@ -33,7 +33,7 @@ public class CutAction extends AbstractAction {
    
     /** Creates a new instance. */
     public CutAction() {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
     

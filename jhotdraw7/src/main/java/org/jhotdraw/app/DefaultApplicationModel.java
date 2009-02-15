@@ -135,7 +135,7 @@ public class DefaultApplicationModel
      * </ul>
      */
     public List<JToolBar> createToolBars(Application app, View p) {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         
         JToolBar tb = new JToolBar();
         tb.setName(labels.getString("standardToolBarTitle"));
@@ -179,7 +179,7 @@ public class DefaultApplicationModel
         return list;
     }
     protected JMenu createEditMenu(Application a, View p) {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         
         JMenu m;
         JMenuItem mi;

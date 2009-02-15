@@ -41,7 +41,7 @@ public class SVGRectRadiusUndoableEdit extends AbstractUndoableEdit {
     @Override
     public String getPresentationName() {
         ResourceBundleUtil labels =
-                ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
+                ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
         return labels.getString("attribute.roundRectRadius");
     }
 

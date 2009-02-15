@@ -112,8 +112,8 @@ public class CreationTool extends AbstractTool {
         }
         this.prototypeAttributes = attributes;
         if (name == null) {
-            ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-            name = labels.getString("createFigure");
+            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+            name = labels.getString("edit.createFigure.text");
         }
         this.presentationName = name;
     }
@@ -158,8 +158,8 @@ public class CreationTool extends AbstractTool {
         this.prototype = prototype;
         this.prototypeAttributes = attributes;
         if (name == null) {
-            ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-            name = labels.getString("createFigure");
+            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+            name = labels.getString("edit.createFigure.text");
         }
         this.presentationName = name;
     }

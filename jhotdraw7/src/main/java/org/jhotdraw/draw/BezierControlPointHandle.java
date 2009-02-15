@@ -250,6 +250,7 @@ public class BezierControlPointHandle extends AbstractHandle {
         view.getDrawing().fireUndoableEditHappened(edit);
     }
 
+    @Override
     public boolean isCombinableWith(Handle h) {
         if (super.isCombinableWith(h)) {
             BezierControlPointHandle that = (BezierControlPointHandle) h;
@@ -261,18 +262,19 @@ public class BezierControlPointHandle extends AbstractHandle {
         return false;
     }
 
+    @Override
     public String getToolTipText(Point p) {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         BezierPath.Node node = getBezierNode();
         if (node == null) {
             return null;
         }
         if (node.mask == BezierPath.C1C2_MASK) {
-            return labels.getFormatted("bezierCubicControlHandle.tip",
+            return labels.getFormatted("handle.bezierControlPoint.toolTipText",
                     labels.getFormatted(
-                    node.keepColinear ? "bezierCubicControl.colinearControl" : "bezierCubicControl.unconstrainedControl"));
+                    node.keepColinear ? "handle.bezierControlPoint.cubicColinear.value" : "handle.bezierControlPoint.cubicUnconstrained.value"));
         } else {
-            return labels.getString("bezierQuadraticControlHandle.tip");
+            return labels.getString("handle.bezierControlPoint.quadratic.toolTipText");
         }
     }
 

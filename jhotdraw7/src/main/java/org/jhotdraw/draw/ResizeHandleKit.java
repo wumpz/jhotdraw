@@ -112,8 +112,8 @@ public class ResizeHandleKit {
 
         @Override
         public String getToolTipText(Point p) {
-            ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-            return labels.getString("resizeHandle.tip");
+            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+            return labels.getString("handle.resize.toolTipText");
         }
 
         /**

@@ -31,6 +31,8 @@ import javax.swing.event.*;
 import javax.swing.text.*;
 import javax.swing.undo.*;
 import java.io.*;
+import org.jhotdraw.app.action.RedoAction;
+import org.jhotdraw.app.action.UndoAction;
 /**
  * TeddyView.
  *
@@ -190,8 +192,8 @@ public class TeddyView extends AbstractView {
     }
     
     private void initActions() {
-        putAction("undo", undoManager.getUndoAction());
-        putAction("redo", undoManager.getRedoAction());
+        putAction(UndoAction.ID, undoManager.getUndoAction());
+        putAction(RedoAction.ID, undoManager.getRedoAction());
     }
     
     private CharacterSetAccessory getAccessory() {
@@ -200,11 +202,13 @@ public class TeddyView extends AbstractView {
         }
         return characterSetAccessory;
     }
+    @Override
     public JFileChooser getOpenChooser() {
         JFileChooser chooser = super.getOpenChooser();
         chooser.setAccessory(getAccessory());
         return chooser;
     }
+    @Override
     public JFileChooser getSaveChooser() {
         JFileChooser chooser = super.getSaveChooser();
         chooser.setAccessory(getAccessory());

@@ -42,7 +42,7 @@ public class OpenAction extends AbstractApplicationAction {
     /** Creates a new instance. */
     public OpenAction(Application app) {
         super(app);
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
 
@@ -113,8 +113,8 @@ public class OpenAction extends AbstractApplicationAction {
                         view.read(file);
                         return null;
                     } else {
-                        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
-                        return new IOException(labels.getFormatted("errorFileDoesNotExist", file.getName()));
+                        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
+                        return new IOException(labels.getFormatted("file.open.fileDoesNotExist.message", file.getName()));
                     }
                 } catch (Throwable e) {
                     return e;
@@ -153,7 +153,7 @@ public class OpenAction extends AbstractApplicationAction {
             } else {
                 message = value.toString();
             }
-            ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
             JSheet.showMessageSheet(view.getComponent(),
                     "<html>" + UIManager.getString("OptionPane.css") +
                     "<b>" + labels.getFormatted("couldntOpen", file.getName()) + "</b><br>" +

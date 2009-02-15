@@ -146,11 +146,14 @@
                 <include name="*.png"/>
             </fileset>
         </copy>
+        <copy todir="${classdir}/org/jhotdraw/app">
+            <fileset file="${srcdir}/org/jhotdraw/app/Label*.properties"/>
+        </copy>
         <copy todir="${classdir}/org/jhotdraw/draw">
             <fileset file="${srcdir}/org/jhotdraw/draw/Label*.properties"/>
         </copy> 
-        <copy todir="${classdir}/org/jhotdraw/app">
-            <fileset file="${srcdir}/org/jhotdraw/app/Label*.properties"/>
+        <copy todir="${classdir}/org/jhotdraw/gui">
+            <fileset file="${srcdir}/org/jhotdraw/gui/Label*.properties"/>
         </copy>
         <copy todir="${classdir}/org/jhotdraw/samples/pert">
             <fileset file="${srcdir}/org/jhotdraw/samples/pert/Label*.properties"/>
@@ -213,15 +216,37 @@
             >
         </signjar>        
     </target>
-    <target name="application.run" depends="init">
+    <target name="application.run-jar" depends="init">
         <java fork="true" jar="${distdir}/JHotDraw Pert.jar">
+            <jvmarg value="-Xdock:name=JHotDraw Pert"/>
+            <jvmarg value="-Dlocale=en"/>
+            <jvmarg value="-Dapple.awt.graphics.UseQuartz=false"/>
+            <jvmarg value="-Djava.library.path=${libdir}"/>
+        </java>
+    </target>
+    <target name="application.run-compiled" depends="init">
+        <java fork="true" classname="org.jhotdraw.samples.pert.Main">
+            <classpath>
+                <path path="${classdir}"/>
+                <fileset dir="${libdir}">
+                    <include name="*.jar"/>
+                </fileset>
+            </classpath>
+            <jvmarg value="-Djava.library.path=${libdir}"/>
             <jvmarg value="-Xdock:name=JHotDraw Pert"/>
             <jvmarg value="-Dlocale=en"/>
             <jvmarg value="-Dapple.awt.graphics.UseQuartz=false"/>
         </java>
     </target>
-    <target name="applet.run" depends="init">
+    <target name="applet.run-jar" depends="init">
         <java fork="true" jar="${distdir}/jhotdraw_pert.jar"/>
+    </target>
+    <target name="applet.run-compiled" depends="init">
+        <java fork="true" classname="org.jhotdraw.samples.pert.PertApplet">
+            <classpath>
+                <pathelement path="${classdir}"/>
+            </classpath>
+        </java>
     </target>
     <target name="applet.appletviewer" depends="init">
         <exec executable="appletviewer">

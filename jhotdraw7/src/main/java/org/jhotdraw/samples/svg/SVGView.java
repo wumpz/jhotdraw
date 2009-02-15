@@ -55,6 +55,7 @@ import org.jhotdraw.xml.*;
  * <br>1.0 2006-02-07 Created.
  */
 public class SVGView extends AbstractView implements ExportableView {
+    public final static String GRID_VISIBLE_PROPERTY = "gridVisible";
 
     protected JFileChooser exportChooser;
     /**
@@ -116,7 +117,7 @@ public class SVGView extends AbstractView implements ExportableView {
             }
         });
 
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
 
         JPanel placardPanel = new JPanel(new BorderLayout());
         javax.swing.AbstractButton pButton;
@@ -130,7 +131,7 @@ public class SVGView extends AbstractView implements ExportableView {
         pButton.putClientProperty("Quaqua.Button.style", "placard");
         pButton.putClientProperty("Quaqua.Component.visualMargin", new Insets(0, 0, 0, 0));
         pButton.setFont(UIManager.getFont("SmallSystemFont"));
-        labels.configureToolBarButton(pButton, "alignGridSmall");
+        labels.configureToolBarButton(pButton, "view.toggleGrid.placard");
         placardPanel.add(pButton, BorderLayout.EAST);
         scrollPane.add(placardPanel, JScrollPane.LOWER_LEFT_CORNER);
 
@@ -254,8 +255,8 @@ public class SVGView extends AbstractView implements ExportableView {
                 }
             }
             if (!success) {
-                ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
-                throw new IOException(labels.getFormatted("error.unsupportedFileFormat", f.getName()));
+                ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
+                throw new IOException(labels.getFormatted("file.open.unsupportedFileFormat.message", f.getName()));
             }
             SwingUtilities.invokeAndWait(new Runnable() {
 
@@ -444,7 +445,7 @@ public class SVGView extends AbstractView implements ExportableView {
     public void setGridVisible(boolean newValue) {
         boolean oldValue = isGridVisible();
         view.setConstrainerVisible(newValue);
-        firePropertyChange("gridVisible", oldValue, newValue);
+        firePropertyChange(GRID_VISIBLE_PROPERTY, oldValue, newValue);
         prefs.putBoolean("view.gridVisible", newValue);
     }
 

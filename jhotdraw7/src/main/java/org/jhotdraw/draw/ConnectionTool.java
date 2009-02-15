@@ -119,8 +119,8 @@ public class ConnectionTool extends AbstractTool {
         this.prototype = prototype;
         this.prototypeAttributes = attributes;
         if (presentationName == null) {
-            ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-            presentationName = labels.getString("createConnectionFigure");
+            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+            presentationName = labels.getString("edit.createConnectionFigure.text");
         }
         this.presentationName = presentationName;
     }
@@ -137,8 +137,8 @@ public class ConnectionTool extends AbstractTool {
         }
         this.prototypeAttributes = attributes;
         if (presentationName == null) {
-            ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-            presentationName = labels.getString("createConnectionFigure");
+            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+            presentationName = labels.getString("edit.createConnectionFigure.text");
         }
         this.presentationName = presentationName;
     }

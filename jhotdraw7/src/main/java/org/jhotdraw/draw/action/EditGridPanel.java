@@ -38,7 +38,7 @@ public class EditGridPanel extends javax.swing.JPanel {
     
     /** Creates new instance. */
     public EditGridPanel() {
-        labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+        labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         initComponents();
         
         widthField.setMinimum(0);

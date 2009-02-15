@@ -25,7 +25,7 @@ import javax.swing.*;
  * <br>1.0 25. November 2003  Created.
  */
 public class IncreaseHandleDetailLevelAction extends AbstractSelectedAction {
-    public final static String ID = "increaseHandleDetailLevel";
+    public final static String ID = "view.increaseHandleDetailLevel";
     /** Creates a new instance. */
     public IncreaseHandleDetailLevelAction(DrawingEditor editor) {
         super(editor);

@@ -34,14 +34,14 @@ import org.jhotdraw.draw.*;
  * <br>1.0 January 16, 2006 Created.
  */
 public class ToggleGridAction extends AbstractEditorAction {
-    public final static String ID = "alignGrid";
+    public final static String ID = "view.toggleGrid";
     private String label;
     /**
      * Creates a new instance.
      */
     public ToggleGridAction(DrawingEditor editor) {
         super(editor);
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         labels.configureAction(this, ID);
         updateViewState();
     }

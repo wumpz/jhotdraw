@@ -34,7 +34,7 @@ public class SaveAsAction extends SaveAction {
     /** Creates a new instance. */
     public SaveAsAction(Application app) {
         super(app, true);
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
 }

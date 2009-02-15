@@ -38,7 +38,7 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * @version 1.0 July 31, 2007 Created.
  */
 public class EditGridAction extends AbstractEditorAction {
-    public final static String ID = "editGrid";
+    public final static String ID = "view.editGrid";
     private JDialog dialog;
     private EditGridPanel settingsPanel;
     private PropertyChangeListener propertyChangeHandler;
@@ -48,7 +48,7 @@ public class EditGridAction extends AbstractEditorAction {
     public EditGridAction(Application app, DrawingEditor editor) {
         super(editor);
         this.app = app;
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         labels.configureAction(this, ID);
     }
     
@@ -68,7 +68,7 @@ public class EditGridAction extends AbstractEditorAction {
     
     protected JDialog getDialog() {
         if (dialog == null) {
-            ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
             dialog = new JDialog();
             dialog.setTitle(labels.getString("editGrid"));
             dialog.setResizable(false);

@@ -36,7 +36,7 @@ public class JStringAttributeField extends JTextField {
     private AttributeKey<String> attributeKey;
     private boolean isMultipleValues;
     protected ResourceBundleUtil labels =
-            ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
+            ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
     private int isUpdatingField = 0;
     
     private PropertyChangeListener viewEventHandler = new PropertyChangeListener() {

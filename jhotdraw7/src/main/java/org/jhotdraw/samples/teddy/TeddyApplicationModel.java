@@ -48,7 +48,7 @@ public class TeddyApplicationModel extends DefaultApplicationModel {
     @Override public List<JMenu> createMenus(Application a, View p) {
         LinkedList<JMenu> mb = new LinkedList<JMenu>();
         
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.teddy.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.teddy.Labels");
         
         JMenu m;
         JCheckBoxMenuItem cbmi;
@@ -56,7 +56,7 @@ public class TeddyApplicationModel extends DefaultApplicationModel {
         mb.add(createEditMenu(a, p));
         
         m = new JMenu();
-        labels.configureMenu(m, "format");
+        labels.configureMenu(m, "view");
         cbmi = new JCheckBoxMenuItem(getAction(ToggleLineWrapAction.ID));
         Actions.configureJCheckBoxMenuItem(cbmi, getAction(ToggleLineWrapAction.ID));
         m.add(cbmi);

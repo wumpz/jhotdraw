@@ -20,6 +20,7 @@ import java.util.*;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.geom.*;
+import org.jhotdraw.util.ResourceBundleUtil;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
 /**
@@ -81,7 +82,13 @@ public class SVGBezierFigure extends BezierFigure {
             if (index != -1) {
                 final BezierPath.Node newNode = getNode(index);
                 fireUndoableEditHappened(new AbstractUndoableEdit() {
+                    @Override
+                    public String getPresentationName() {
+                        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+                        return labels.getString("edit.bezierPath.splitSegment.text");
+                    }
 
+                    @Override
                     public void redo() throws CannotRedoException {
                         super.redo();
                         willChange();
@@ -89,6 +96,7 @@ public class SVGBezierFigure extends BezierFigure {
                         changed();
                     }
 
+                    @Override
                     public void undo() throws CannotUndoException {
                         super.undo();
                         willChange();

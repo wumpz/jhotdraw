@@ -33,7 +33,7 @@ public class AboutAction extends AbstractApplicationAction {
     /** Creates a new instance. */
     public AboutAction(Application app) {
         super(app);
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
         }
     

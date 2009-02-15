@@ -287,9 +287,9 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
     public String getToolTipText(Point p) {
         ConnectionFigure f = (ConnectionFigure) getOwner();
         if (f.getLiner() == null && savedLiner == null) {
-            ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
             BezierPath.Node node = getBezierNode();
-            return (node == null) ? null : labels.getFormatted("bezierNodeHandle.tip",
+            return (node == null) ? null : labels.getFormatted("handle.bezierNode.toolTipText",
                     labels.getFormatted(
                     (node.getMask() == 0) ? "bezierNode.linearNode" : ((node.getMask() == BezierPath.C1C2_MASK) ? "bezierNode.cubicNode" : "bezierNode.quadraticNode")));
         } else {

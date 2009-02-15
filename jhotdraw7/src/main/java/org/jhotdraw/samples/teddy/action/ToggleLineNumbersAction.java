@@ -31,8 +31,8 @@ import javax.swing.event.*;
  * @version 1.0 October 1, 2005 Created.
  */
 public class ToggleLineNumbersAction extends AbstractViewAction {
-    public final static String ID = "showLineNumbers";
-    private ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.teddy.Labels");
+    public final static String ID = "view.toggleLineNumbers";
+    private ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.teddy.Labels");
     
     /**
      * Creates a new instance.

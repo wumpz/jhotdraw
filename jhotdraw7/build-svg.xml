@@ -11,6 +11,7 @@
         <property name="keystore.file" value="../../../../_Keystore/JavaKeystore"/>
         <property name="keystore.alias" value="werner"/>
         <property name="keystore.storepass" value="werner"/>
+        <property name="debug" value="true"/>
     </target>
     <target name="clean" depends="init">
         <delete dir="${classdir}" />
@@ -20,7 +21,7 @@
         <javac
                 destdir="${classdir}"
                 srcdir="${srcdir}"
-                debug="false"
+                debug="${debug}"
                 source="1.5"
                 target="1.5"
                 optimize="true"
@@ -237,6 +238,13 @@
     </target>
     <target name="applet.run-jar" depends="init">
         <java fork="true" jar="${distdir}/jhotdraw_svg.jar"/>
+    </target>
+    <target name="applet.run-compiled" depends="init">
+        <java fork="true" classname="org.jhotdraw.samples.svg.SVGApplet">
+            <classpath>
+                <pathelement path="${classdir}"/>
+            </classpath>
+        </java>
     </target>
     <target name="applet.appletviewer" depends="init">
         <exec executable="appletviewer">

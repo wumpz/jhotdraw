@@ -142,6 +142,7 @@ public class SVGRectRadiusHandle extends AbstractHandle {
     }
     @Override
     public String getToolTipText(Point p) {
-        return ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels").getString("roundRectangleRadiusHandle.tip");
+        return ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels").//
+                getString("handle.roundRectangleRadius.toolTipText");
         }
 }

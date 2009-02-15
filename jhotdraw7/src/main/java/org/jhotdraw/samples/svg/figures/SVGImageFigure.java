@@ -254,7 +254,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
 
     @Override
     public Collection<Action> getActions(Point2D.Double p) {
-        final ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.svg.Labels");
+        final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         LinkedList<Action> actions = new LinkedList<Action>();
         if (TRANSFORM.get(this) != null) {
             actions.add(new AbstractAction(labels.getString("removeTransform")) {
@@ -389,8 +389,8 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
             in = new FileInputStream(file);
             loadImage(in);
         } catch (Throwable t) {
-            ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-            IOException e = new IOException(labels.getFormatted("failedToLoadImage", file.getName()));
+            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+            IOException e = new IOException(labels.getFormatted("file.failedToLoadImage.message", file.getName()));
             e.initCause(t);
             throw e;
         } finally {
@@ -414,8 +414,8 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
             img = null;
         }
         if (img == null) {
-            ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-            throw new IOException(labels.getFormatted("failedToLoadImage", in.toString()));
+            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+            throw new IOException(labels.getFormatted("file.failedToLoadImage.message", in.toString()));
         }
         imageData = baos.toByteArray();
         bufferedImage = img;

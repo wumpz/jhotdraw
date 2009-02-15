@@ -37,7 +37,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  */
 public class GroupAction extends AbstractSelectedAction {
 
-    public final static String ID = "selectionGroup";
+    public final static String ID = "edit.groupSelection";
     private CompositeFigure prototype;
     /**
      * If this variable is true, this action groups figures.
@@ -93,7 +93,7 @@ public class GroupAction extends AbstractSelectedAction {
 
                     @Override
                     public String getPresentationName() {
-                        return labels.getString("selectionGroup");
+                        return labels.getString("edit.groupSelection.text");
                     }
 
                     public void redo() throws CannotRedoException {
@@ -124,7 +124,7 @@ public class GroupAction extends AbstractSelectedAction {
 
                     @Override
                     public String getPresentationName() {
-                        return labels.getString("selectionUngroup");
+                        return labels.getString("edit.ungroupSelection.text");
                     }
 
                     @Override

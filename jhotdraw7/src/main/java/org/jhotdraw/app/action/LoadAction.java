@@ -36,7 +36,7 @@ public class LoadAction extends AbstractSaveBeforeAction {
     /** Creates a new instance. */
     public LoadAction(Application app) {
         super(app);
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, "file.open");
     }
 

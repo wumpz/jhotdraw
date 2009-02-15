@@ -28,13 +28,14 @@ import org.jhotdraw.util.*;
  * @version 1.0 22. April 2007 Created.
  */
 public class TogglePropertiesPanelAction extends AbstractViewAction {
+    public final static String ID = "view.togglePropertiesPanel";
     
     /** Creates a new instance. */
     public TogglePropertiesPanelAction(Application app) {
         super(app);
         setPropertyName("propertiesPanelVisible");
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.svg.Labels");
-        putValue(AbstractAction.NAME, labels.getString("view.propertiesPanel.text"));
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
+        labels.configureAction(this, ID);
     }
     
     /**

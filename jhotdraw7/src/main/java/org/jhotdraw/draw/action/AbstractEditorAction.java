@@ -32,7 +32,7 @@ import java.beans.*;
 public abstract class AbstractEditorAction extends AbstractAction {
     protected DrawingEditor editor;
     protected final static ResourceBundleUtil labels = 
-            ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
+            ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
     private PropertyChangeListener propertyChangeHandler = new PropertyChangeListener() {
         public void propertyChange(PropertyChangeEvent evt) {
             if (evt.getPropertyName().equals("enabled")) {

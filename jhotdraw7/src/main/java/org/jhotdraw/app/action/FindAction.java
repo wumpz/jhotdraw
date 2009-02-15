@@ -49,7 +49,7 @@ public class FindAction extends AbstractViewAction {
     /** Creates a new instance. */
     public FindAction(Application app) {
         super(app);
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
     

@@ -105,7 +105,7 @@ public class CompositeEdit extends CompoundEdit {
      * @see javax.swing.undo.CompoundEdit#getUndoPresentationName()
      */
     public String getUndoPresentationName() {
-        return ((presentationName != null) ? UndoRedoManager.getLabels().getString("undo")+" "+presentationName : super.getUndoPresentationName());
+        return ((presentationName != null) ? UndoRedoManager.getLabels().getString("edit.undo.text")+" "+presentationName : super.getUndoPresentationName());
     }
     /**
      * Returns the redo presentation name.
@@ -114,7 +114,7 @@ public class CompositeEdit extends CompoundEdit {
      * @see javax.swing.undo.CompoundEdit#getRedoPresentationName()
      */
     public String getRedoPresentationName() {
-        return ((presentationName != null) ? UndoRedoManager.getLabels().getString("redo")+" "+presentationName : super.getRedoPresentationName());
+        return ((presentationName != null) ? UndoRedoManager.getLabels().getString("edit.redo.text")+" "+presentationName : super.getRedoPresentationName());
     }
     
     /**

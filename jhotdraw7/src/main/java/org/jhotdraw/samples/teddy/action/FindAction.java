@@ -30,7 +30,7 @@ public class FindAction extends AbstractAction {
     private FindDialog findDialog;
     private Application app;
     private ResourceBundleUtil labels =
-            ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.teddy.Labels");
+            ResourceBundleUtil.getBundle("org.jhotdraw.samples.teddy.Labels");
     
     /**
      * Creates a new instance.

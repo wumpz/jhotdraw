@@ -35,7 +35,7 @@ public class ClearAction extends AbstractSaveBeforeAction {
     /** Creates a new instance. */
     public ClearAction(Application app) {
         super(app);
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, "file.new");
     }
     

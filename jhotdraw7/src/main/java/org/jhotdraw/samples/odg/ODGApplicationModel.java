@@ -86,38 +86,30 @@ public class ODGApplicationModel extends DefaultApplicationModel {
         // AttributeKeys for the entitie sets
         HashMap<AttributeKey,Object> attributes;
         
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.odg.Labels");
-        ResourceBundleUtil drawLabels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
+        ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         
         ButtonFactory.addSelectionToolTo(tb, editor, createDrawingActions(editor), createSelectionActions(editor));
         tb.addSeparator();
         
         attributes = new HashMap<AttributeKey,Object>();
-        ButtonFactory.addToolTo(tb, editor, new CreationTool(new ODGRectFigure(), attributes), "createRectangle", drawLabels);
-        //ButtonFactory.addToolTo(tb, editor, new CreationTool(new ODGEllipseFigure(), attributes), "createEllipse", drawLabels);
-        //ButtonFactory.addToolTo(tb, editor, new PathTool(new ODGPathFigure(), new ODGBezierFigure(true), attributes), "createPolygon", drawLabels);
+        ButtonFactory.addToolTo(tb, editor, new CreationTool(new ODGRectFigure(), attributes), "edit.createRectangle", drawLabels);
         attributes = new HashMap<AttributeKey,Object>();
         attributes.put(AttributeKeys.FILL_COLOR, null);
         attributes.put(AttributeKeys.STROKE_COLOR, Color.black);
-        ButtonFactory.addToolTo(tb, editor, new CreationTool(new ODGPathFigure(), attributes), "createLine", drawLabels);
-        //ButtonFactory.addToolTo(tb, editor, new PathTool(new ODGPathFigure(), new ODGBezierFigure(false), attributes), "createScribble", drawLabels);
+        ButtonFactory.addToolTo(tb, editor, new CreationTool(new ODGPathFigure(), attributes), "edit.createLine", drawLabels);
         attributes = new HashMap<AttributeKey,Object>();
         attributes.put(AttributeKeys.FILL_COLOR, Color.black);
         attributes.put(AttributeKeys.STROKE_COLOR, null);
-        //ButtonFactory.addToolTo(tb, editor, new TextTool(new ODGTextFigure(), attributes), "createText", drawLabels);
-        //TextAreaTool tat = new TextAreaTool(new ODGTextAreaFigure(), attributes);
-        //tat.setRubberbandColor(Color.BLACK);
-        //ButtonFactory.addToolTo(tb, editor, tat, "createTextArea", drawLabels);
         attributes = new HashMap<AttributeKey,Object>();
         attributes.put(AttributeKeys.FILL_COLOR, null);
         attributes.put(AttributeKeys.STROKE_COLOR, null);
-        //ButtonFactory.addToolTo(tb, editor, new ImageTool(new ODGImageFigure(), attributes), "createImage", drawLabels);
     }
     /**
      * Creates toolbar buttons and adds them to the specified JToolBar
      */
     private void addAttributesButtonsTo(JToolBar bar, DrawingEditor editor) {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         JButton b;
         
         b = bar.add(new PickAttributesAction(editor));
@@ -133,7 +125,7 @@ public class ODGApplicationModel extends DefaultApplicationModel {
         ButtonFactory.addFontButtonsTo(bar, editor);
     }
     private void addColorButtonsTo(JToolBar bar, DrawingEditor editor) {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         HashMap<AttributeKey,Object> defaultAttributes = new HashMap<AttributeKey,Object>();
         STROKE_GRADIENT.set(defaultAttributes, (Gradient) null);
         bar.add(
@@ -163,7 +155,7 @@ public class ODGApplicationModel extends DefaultApplicationModel {
      * Creates toolbars for the application.
      */
     public java.util.List<JToolBar> createToolBars(Application a, View pr) {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         ODGView p = (ODGView) pr;
         
         DrawingEditor editor;
@@ -177,15 +169,15 @@ public class ODGApplicationModel extends DefaultApplicationModel {
         JToolBar tb;
         tb = new JToolBar();
         addCreationButtonsTo(tb, editor);
-        tb.setName(labels.getString("drawToolBarTitle"));
+        tb.setName(labels.getString("window.drawToolBar.title"));
         list.add(tb);
         tb = new JToolBar();
         addAttributesButtonsTo(tb, editor);
-        tb.setName(labels.getString("attributesToolBarTitle"));
+        tb.setName(labels.getString("window.attributesToolBar.title"));
         list.add(tb);
         tb = new JToolBar();
         ButtonFactory.addAlignmentButtonsTo(tb, editor);
-        tb.setName(labels.getString("alignmentToolBarTitle"));
+        tb.setName(labels.getString("window.alignmentToolBar.title"));
         list.add(tb);
         return list;
     }
@@ -196,13 +188,13 @@ public class ODGApplicationModel extends DefaultApplicationModel {
     }
     
     public void initApplication(Application a) {
-        ResourceBundleUtil drawLabels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.svg.Labels");
+        ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         AbstractAction aa;
         
         putAction(ExportAction.ID, new ExportAction(a));
-        putAction("toggleGrid", aa = new ToggleViewPropertyAction(a, "gridVisible"));
-        drawLabels.configureAction(aa, "alignGrid");
+        putAction("view.toggleGrid", aa = new ToggleViewPropertyAction(a, ODGView.GRID_VISIBLE_PROPERTY));
+        drawLabels.configureAction(aa, "view.toggleGrid");
         for (double sf : scaleFactors) {
             putAction((int) (sf*100)+"%",
                     aa = new ViewPropertyAction(a, "scaleFactor", Double.TYPE, new Double(sf))

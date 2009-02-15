@@ -1,5 +1,5 @@
 /*
- * @(#)EditDrawingAction.java  1.0  2007-12-18
+ * @(#)EditCanvasAction.java  1.0  2007-12-18
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -25,7 +25,7 @@ import org.jhotdraw.util.*;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 
 /**
- * EditDrawingAction.
+ * EditCanvasAction.
  * <p>
  * XXX - We shouldn't have a dependency to the application framework
  * from within the drawing framework.
@@ -33,18 +33,18 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * @author Werner Randelshofer
  * @version 1.0 2007-12-18 Created.
  */
-public class EditDrawingAction extends AbstractEditorAction {
-    public final static String ID = "editDrawing";
+public class EditCanvasAction extends AbstractEditorAction {
+    public final static String ID = "view.editCanvas";
     private JFrame frame;
-    private EditDrawingPanel settingsPanel;
+    private EditCanvasPanel settingsPanel;
     private PropertyChangeListener propertyChangeHandler;
     private Application app;
     
     /** Creates a new instance. */
-    public EditDrawingAction(Application app, DrawingEditor editor) {
+    public EditCanvasAction(Application app, DrawingEditor editor) {
         super(editor);
         this.app = app;
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         labels.configureAction(this, ID);
     }
     
@@ -64,11 +64,11 @@ public class EditDrawingAction extends AbstractEditorAction {
     
     protected JFrame getFrame() {
         if (frame == null) {
-            ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
             frame = new JFrame();
-            frame.setTitle(labels.getString("canvasSettings"));
+            frame.setTitle(labels.getString("window.editCanvas.title"));
             frame.setResizable(false);
-            settingsPanel = new EditDrawingPanel();
+            settingsPanel = new EditCanvasPanel();
             frame.add(settingsPanel);
             frame.pack();
             Preferences prefs = Preferences.userNodeForPackage(getClass());

@@ -56,7 +56,7 @@ public class CombineAction extends AbstractSelectedAction {
         this.prototype = prototype;
         this.isCombineAction = isGroupingAction;
 
-        labels = ResourceBundleUtil.getLAFBundle(
+        labels = ResourceBundleUtil.getBundle(
                 "org.jhotdraw.samples.svg.Labels",
                 Locale.getDefault());
         labels.configureAction(this, ID);
@@ -121,7 +121,7 @@ public class CombineAction extends AbstractSelectedAction {
 
                 @Override
                 public String getPresentationName() {
-                    return labels.getString("selectionCombine");
+                    return labels.getTextProperty("edit.combinePaths");
                 }
 
                 @Override
@@ -170,7 +170,7 @@ public class CombineAction extends AbstractSelectedAction {
 
                 @Override
                 public String getPresentationName() {
-                    return labels.getString("selectionSplit");
+                    return labels.getTextProperty("edit.splitPath");
                 }
 
                 @Override

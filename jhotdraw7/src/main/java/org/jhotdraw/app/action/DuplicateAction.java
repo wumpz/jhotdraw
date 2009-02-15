@@ -34,7 +34,7 @@ public class DuplicateAction extends AbstractAction {
     
     /** Creates a new instance. */
     public DuplicateAction() {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
     

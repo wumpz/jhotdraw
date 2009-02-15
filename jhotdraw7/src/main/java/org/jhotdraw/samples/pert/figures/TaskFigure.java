@@ -113,9 +113,9 @@ public class TaskFigure extends GraphicalCompositeFigure {
         setAttributeEnabled(STROKE_DASHES, false);
         
         ResourceBundleUtil labels =
-                ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.pert.Labels");
+                ResourceBundleUtil.getBundle("org.jhotdraw.samples.pert.Labels");
         
-        setName(labels.getString("taskDefaultName"));
+        setName(labels.getString("pert.task.defaultName"));
         setDuration(0);
         startTime = 0;
         

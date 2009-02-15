@@ -34,7 +34,7 @@ public abstract class AbstractViewAction extends AbstractAction {
     private DrawingEditor editor;
     private DrawingView view;
     protected final static ResourceBundleUtil labels =
-            ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
+            ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
     
     private PropertyChangeListener propertyChangeHandler = new PropertyChangeListener() {
         public void propertyChange(PropertyChangeEvent evt) {

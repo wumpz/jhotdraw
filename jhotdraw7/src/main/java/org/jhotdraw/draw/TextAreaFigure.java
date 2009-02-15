@@ -70,7 +70,7 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
 
     /** Creates a new instance. */
     public TextAreaFigure() {
-        this(ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels").
+        this(ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels").
                 getString("TextFigure.defaultText"));
     }
 

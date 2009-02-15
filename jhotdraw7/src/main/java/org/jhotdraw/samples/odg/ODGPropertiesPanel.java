@@ -29,7 +29,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * @version 1.0 2007-06-24 Created.
  */
 public class ODGPropertiesPanel extends javax.swing.JPanel {
-    private ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.odg.Labels");
+    private ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
     private DrawingEditor editor;
     private JDoubleAttributeSlider opacitySlider;
     

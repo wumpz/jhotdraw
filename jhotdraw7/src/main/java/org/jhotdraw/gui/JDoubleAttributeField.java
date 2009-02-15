@@ -54,7 +54,7 @@ public class JDoubleAttributeField extends JFormattedTextField
     private AttributeKey<Double> attributeKey;
     private boolean isMultipleValues;
     protected ResourceBundleUtil labels =
-            ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
+            ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
     private int isUpdatingField = 0;
     private boolean isEnabledWithoutSelection = true;
     private AttributeFieldEventHandler eventHandler = new AttributeFieldEventHandler(this);

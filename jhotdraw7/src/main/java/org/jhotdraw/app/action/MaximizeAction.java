@@ -33,7 +33,7 @@ public class MaximizeAction extends AbstractViewAction {
     /** Creates a new instance. */
     public MaximizeAction(Application app) {
         super(app);
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
     

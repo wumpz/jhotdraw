@@ -131,7 +131,7 @@ public class UndoRedoManager extends UndoManager {//javax.swing.undo.UndoManager
     
     public static ResourceBundleUtil getLabels() {
         if (labels == null) {
-            labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.undo.Labels");
+            labels = ResourceBundleUtil.getBundle("org.jhotdraw.undo.Labels");
         }
         return labels;
     }
@@ -144,7 +144,7 @@ public class UndoRedoManager extends UndoManager {//javax.swing.undo.UndoManager
     }
     
     public void setLocale(Locale l) {
-        labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.undo.Labels", l);
+        labels = ResourceBundleUtil.getBundle("org.jhotdraw.undo.Labels", l);
     }
     
     /**

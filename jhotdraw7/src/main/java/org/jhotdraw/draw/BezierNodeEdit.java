@@ -43,11 +43,11 @@ class BezierNodeEdit extends AbstractUndoableEdit {
 
     @Override
     public String getPresentationName() {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         if (oldValue.mask != newValue.mask) {
-        return labels.getString("bezierNode.changeType");
+            return labels.getString("edit.bezierNode.changeType.text");
         } else {
-        return labels.getString("bezierNode.movePoint");
+            return labels.getString("edit.bezierNode.movePoint.text");
         }
     }
 
@@ -58,7 +58,6 @@ class BezierNodeEdit extends AbstractUndoableEdit {
         owner.setNode(index, newValue);
         owner.changed();
         if (oldValue.mask != newValue.mask) {
-            
         }
     }
 

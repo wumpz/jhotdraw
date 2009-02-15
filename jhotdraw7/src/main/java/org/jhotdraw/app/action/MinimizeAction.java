@@ -33,7 +33,7 @@ public class MinimizeAction extends AbstractViewAction {
     /** Creates a new instance. */
     public MinimizeAction(Application app) {
         super(app);
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
     

@@ -18,11 +18,7 @@ import org.jhotdraw.app.*;
 import org.jhotdraw.app.action.*;
 import org.jhotdraw.samples.teddy.*;
 import org.jhotdraw.util.*;
-import java.awt.*;
 import java.awt.event.*;
-import java.beans.*;
-import javax.swing.*;
-import javax.swing.event.*;
 
 /**
  * ToggleLineWrapAction.
@@ -31,8 +27,8 @@ import javax.swing.event.*;
  * @version 1.0 October 1, 2005 Created.
  */
 public class ToggleLineWrapAction extends AbstractViewAction {
-    public final static String ID = "wrapLines";
-    private ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.teddy.Labels");
+    public final static String ID = "view.toggleLineWrap";
+    private ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.teddy.Labels");
     
     /**
      * Creates a new instance.

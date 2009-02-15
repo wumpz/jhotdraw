@@ -8,6 +8,7 @@
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
     <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="2"/>
@@ -22,7 +23,10 @@
     <Component class="javax.swing.JLabel" name="colorLabel">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/jhotdraw/draw/Labels.properties" key="attribute.backgroundColor" replaceFormat="labels.getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/jhotdraw/samples/svg/Labels.properties" key="attribute.backgroundColor.text" replaceFormat="labels.getString(&quot;{key}&quot;)"/>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="org/jhotdraw/samples/svg/Labels.properties" key="attribute.backgroundColor.toolTipText" replaceFormat="labels.getString(&quot;{key}&quot;)"/>
         </Property>
       </Properties>
       <Constraints>
@@ -34,6 +38,9 @@
     <Component class="javax.swing.JButton" name="colorButton">
       <Properties>
         <Property name="text" type="java.lang.String" value=" "/>
+        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="org/jhotdraw/samples/svg/Labels.properties" key="attribute.backgroundColor.toolTipText" replaceFormat="labels.getString(&quot;{key}&quot;)"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="colorButtonPerformed"/>
@@ -50,7 +57,7 @@
           <Image iconType="3" name="/org/jhotdraw/draw/action/images/attributeOpacity.png"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/jhotdraw/samples/svg/Labels.properties" key="opacity" replaceFormat="labels.getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/jhotdraw/samples/svg/Labels.properties" key="attribute.opacity.toolTipText" replaceFormat="labels.getString(&quot;{key}&quot;)"/>
         </Property>
       </Properties>
       <Constraints>
@@ -62,6 +69,9 @@
     <Component class="org.jhotdraw.gui.JDoubleTextField" name="opacityField">
       <Properties>
         <Property name="columns" type="int" value="4"/>
+        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="org/jhotdraw/samples/svg/Labels.properties" key="attribute.opacity.toolTipText" replaceFormat="labels.getString(&quot;{key}&quot;)"/>
+        </Property>
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -73,6 +83,9 @@
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/org/jhotdraw/draw/action/images/popupIcon.png"/>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="org/jhotdraw/samples/svg/Labels.properties" key="attribute.opacity.toolTipText" replaceFormat="labels.getString(&quot;{key}&quot;)"/>
         </Property>
       </Properties>
       <Constraints>

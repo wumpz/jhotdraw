@@ -111,10 +111,10 @@ public abstract class SVGAttributedFigure extends AbstractAttributedFigure {
     @Override public Collection<Action> getActions(Point2D.Double p) {
         LinkedList<Action> actions = new LinkedList<Action>();
         if (TRANSFORM.get(this) != null) {
-            ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.svg.Labels");
+            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
             actions.add(new AbstractAction(labels.getString("removeTransform")) {
                 public void actionPerformed(ActionEvent evt) {
-                    ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.svg.Labels");
+                    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
                     SVGAttributedFigure.this.willChange();
                     fireUndoableEditHappened(
                             TRANSFORM.setUndoable(SVGAttributedFigure.this, null, labels)

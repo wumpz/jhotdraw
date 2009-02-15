@@ -43,7 +43,7 @@ public class SVGDrawingPanel extends JPanel {
 
     /** Creates new instance. */
     public SVGDrawingPanel() {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         initComponents();
         undoManager = new UndoRedoManager();
         editor = new DefaultDrawingEditor();
@@ -75,7 +75,7 @@ public class SVGDrawingPanel extends JPanel {
         pb.addSeparator();
         pb.add(undoManager.getUndoAction());
         pb.add(undoManager.getRedoAction());
-        JMenu m = new JMenu(labels.getString("zoom"));
+        JMenu m = new JMenu(labels.getString("view.zoomFactor.text"));
         JRadioButtonMenuItem rbmi;
         ButtonGroup group = new ButtonGroup();
         for (double factor : new double[]{0.1, 0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 2, 3, 4}) {
@@ -136,8 +136,8 @@ public class SVGDrawingPanel extends JPanel {
         // AttributeKeys for the entitie sets
         HashMap<AttributeKey, Object> attributes;
 
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.svg.Labels");
-        ResourceBundleUtil drawLabels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
+        ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
 
         ButtonFactory.addSelectionToolTo(tb, editor,
                 ButtonFactory.createDrawingActions(editor),
@@ -147,21 +147,21 @@ public class SVGDrawingPanel extends JPanel {
         attributes = new HashMap<AttributeKey, Object>();
         attributes.put(AttributeKeys.FILL_COLOR, Color.white);
         attributes.put(AttributeKeys.STROKE_COLOR, Color.black);
-        ButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGRectFigure(), attributes), "createRectangle", drawLabels);
-        ButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGEllipseFigure(), attributes), "createEllipse", drawLabels);
-        ButtonFactory.addToolTo(tb, editor, new PathTool(new SVGPathFigure(), new SVGBezierFigure(true), attributes), "createPolygon", drawLabels);
+        ButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGRectFigure(), attributes), "edit.createRectangle", drawLabels);
+        ButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGEllipseFigure(), attributes), "edit.createEllipse", drawLabels);
+        ButtonFactory.addToolTo(tb, editor, new PathTool(new SVGPathFigure(), new SVGBezierFigure(true), attributes), "edit.createPolygon", drawLabels);
         attributes = new HashMap<AttributeKey, Object>();
         attributes.put(AttributeKeys.FILL_COLOR, null);
         attributes.put(AttributeKeys.STROKE_COLOR, Color.black);
-        ButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGPathFigure(), attributes), "createLine", drawLabels);
-        ButtonFactory.addToolTo(tb, editor, new PathTool(new SVGPathFigure(), new SVGBezierFigure(false), attributes), "createScribble", drawLabels);
+        ButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGPathFigure(), attributes), "edit.createLine", drawLabels);
+        ButtonFactory.addToolTo(tb, editor, new PathTool(new SVGPathFigure(), new SVGBezierFigure(false), attributes), "edit.createScribble", drawLabels);
         attributes = new HashMap<AttributeKey, Object>();
         attributes.put(AttributeKeys.FILL_COLOR, Color.black);
         attributes.put(AttributeKeys.STROKE_COLOR, null);
-        ButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGTextFigure(), attributes), "createText", drawLabels);
+        ButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGTextFigure(), attributes), "edit.createText", drawLabels);
         TextAreaTool tat = new TextAreaTool(new SVGTextAreaFigure(), attributes);
         tat.setRubberbandColor(Color.BLACK);
-        ButtonFactory.addToolTo(tb, editor, tat, "createTextArea", drawLabels);
+        ButtonFactory.addToolTo(tb, editor, tat, "edit.createTextArea", drawLabels);
     }
 
     /** This method is called from within the constructor to

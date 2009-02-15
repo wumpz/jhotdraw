@@ -16,14 +16,10 @@ package org.jhotdraw.draw.action;
 
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.Figure;
-import org.jhotdraw.draw.FigureSelectionEvent;
 import org.jhotdraw.draw.TransformEdit;
 import org.jhotdraw.undo.CompositeEdit;
-import javax.swing.*;
-import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
-import javax.swing.undo.*;
 import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
@@ -52,7 +48,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
         }
     }
     public void actionPerformed(java.awt.event.ActionEvent e) {
-        CompositeEdit edit = new CompositeEdit(labels.getString("align"));
+        CompositeEdit edit = new CompositeEdit(labels.getString("edit.align.text"));
         fireUndoableEditHappened(edit);
         alignFigures(getView().getSelectedFigures(), getSelectionBounds());
         fireUndoableEditHappened(edit);
@@ -78,11 +74,11 @@ public abstract class AlignAction extends AbstractSelectedAction {
     public static class North extends AlignAction {
         public North(DrawingEditor editor) {
             super(editor);
-            labels.configureAction(this, "alignNorth");
+            labels.configureAction(this, "edit.alignNorth");
         }
         public North(DrawingEditor editor, ResourceBundleUtil labels) {
             super(editor);
-            labels.configureAction(this, "alignNorth");
+            labels.configureAction(this, "edit.alignNorth");
         }
         
         protected void alignFigures(Collection selectedFigures, Rectangle2D.Double selectionBounds) {
@@ -104,11 +100,11 @@ public abstract class AlignAction extends AbstractSelectedAction {
     public static class East extends AlignAction {
         public East(DrawingEditor editor) {
             super(editor);
-            labels.configureAction(this, "alignEast");
+            labels.configureAction(this, "edit.alignEast");
         }
         public East(DrawingEditor editor, ResourceBundleUtil labels) {
             super(editor);
-            labels.configureAction(this, "alignEast");
+            labels.configureAction(this, "edit.alignEast");
         }
         
         protected void alignFigures(Collection selectedFigures, Rectangle2D.Double selectionBounds) {
@@ -130,11 +126,11 @@ public abstract class AlignAction extends AbstractSelectedAction {
     public static class West extends AlignAction {
         public West(DrawingEditor editor) {
             super(editor);
-            labels.configureAction(this, "alignWest");
+            labels.configureAction(this, "edit.alignWest");
         }
         public West(DrawingEditor editor, ResourceBundleUtil labels) {
             super(editor);
-            labels.configureAction(this, "alignWest");
+            labels.configureAction(this, "edit.alignWest");
         }
         
         protected void alignFigures(Collection selectedFigures, Rectangle2D.Double selectionBounds) {
@@ -156,11 +152,11 @@ public abstract class AlignAction extends AbstractSelectedAction {
     public static class South extends AlignAction {
         public South(DrawingEditor editor) {
             super(editor);
-            labels.configureAction(this, "alignSouth");
+            labels.configureAction(this, "edit.alignSouth");
         }
         public South(DrawingEditor editor, ResourceBundleUtil labels) {
             super(editor);
-            labels.configureAction(this, "alignSouth");
+            labels.configureAction(this, "edit.alignSouth");
         }
         
         protected void alignFigures(Collection selectedFigures, Rectangle2D.Double selectionBounds) {
@@ -182,11 +178,11 @@ public abstract class AlignAction extends AbstractSelectedAction {
     public static class Vertical extends AlignAction {
         public Vertical(DrawingEditor editor) {
             super(editor);
-            labels.configureAction(this, "alignVertical");
+            labels.configureAction(this, "edit.alignVertical");
         }
         public Vertical(DrawingEditor editor, ResourceBundleUtil labels) {
             super(editor);
-            labels.configureAction(this, "alignVertical");
+            labels.configureAction(this, "edit.alignVertical");
         }
         
         protected void alignFigures(Collection selectedFigures, Rectangle2D.Double selectionBounds) {
@@ -208,11 +204,11 @@ public abstract class AlignAction extends AbstractSelectedAction {
     public static class Horizontal extends AlignAction {
         public Horizontal(DrawingEditor editor) {
             super(editor);
-            labels.configureAction(this, "alignHorizontal");
+            labels.configureAction(this, "edit.alignHorizontal");
         }
         public Horizontal(DrawingEditor editor, ResourceBundleUtil labels) {
             super(editor);
-            labels.configureAction(this, "alignHorizontal");
+            labels.configureAction(this, "edit.alignHorizontal");
         }
         
         protected void alignFigures(Collection selectedFigures, Rectangle2D.Double selectionBounds) {

@@ -30,7 +30,7 @@ import org.jhotdraw.draw.*;
  */
 public class SendToBackAction extends AbstractSelectedAction {
     
-       public static String ID = "sendToBack";
+       public static String ID = "edit.sendToBack";
     /** Creates a new instance. */
     public SendToBackAction(DrawingEditor editor) {
         super(editor);
@@ -44,7 +44,7 @@ public class SendToBackAction extends AbstractSelectedAction {
         fireUndoableEditHappened(new AbstractUndoableEdit() {
             @Override
             public String getPresentationName() {
-       return labels.getString(ID);
+       return labels.getTextProperty(ID);
             }
             @Override
             public void redo() throws CannotRedoException {
@@ -57,13 +57,6 @@ public class SendToBackAction extends AbstractSelectedAction {
                 BringToFrontAction.bringToFront(view, figures);
             }
         }
-        
-        
-        
-        
-        
-        
-        
         );
     }
     public static void sendToBack(DrawingView view, Collection figures) {

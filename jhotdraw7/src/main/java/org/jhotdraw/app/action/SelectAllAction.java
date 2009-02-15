@@ -34,7 +34,7 @@ public class SelectAllAction extends AbstractAction {
     
     /** Creates a new instance. */
     public SelectAllAction() {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
     

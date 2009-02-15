@@ -325,20 +325,20 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
 
     @Override
     public Collection<Action> getActions(Point2D.Double p) {
-        final ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.svg.Labels");
+        final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         LinkedList<Action> actions = new LinkedList<Action>();
         if (TRANSFORM.get(this) != null) {
             actions.add(new AbstractAction(labels.getString("removeTransform")) {
 
                 public void actionPerformed(ActionEvent evt) {
-                    ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.svg.Labels");
+                    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
                     SVGPathFigure.this.willChange();
                     fireUndoableEditHappened(
                             TRANSFORM.setUndoable(SVGPathFigure.this, null, labels));
                     SVGPathFigure.this.changed();
                 }
             });
-            actions.add(new AbstractAction(labels.getString("flattenTransform")) {
+            actions.add(new AbstractAction(labels.getString("edit.flattenTransform.text")) {
 
                 public void actionPerformed(ActionEvent evt) {
                     // CompositeEdit edit = new CompositeEdit(labels.getString("flattenTransform"));
@@ -347,7 +347,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
                     UndoableEdit edit = new AbstractUndoableEdit() {
 
                         public String getPresentationName() {
-                            return labels.getString("flattenTransform");
+                            return labels.getString("edit.flattenTransform.text");
                         }
 
                         public void undo() throws CannotUndoException {
@@ -373,7 +373,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
             });
         }
         if (CLOSED.get(getChild(getChildCount() - 1))) {
-            actions.add(new AbstractAction(labels.getString("openPath")) {
+            actions.add(new AbstractAction(labels.getString("attribute.openPath.text")) {
 
                 public void actionPerformed(ActionEvent evt) {
                     SVGPathFigure.this.willChange();
@@ -385,7 +385,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
                 }
             });
         } else {
-            actions.add(new AbstractAction(labels.getString("closePath")) {
+            actions.add(new AbstractAction(labels.getString("attribute.closePath.text")) {
                 public void actionPerformed(ActionEvent evt) {
                     SVGPathFigure.this.willChange();
                     for (Figure child : getChildren()) {
@@ -397,7 +397,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
             });
         }
         if (WINDING_RULE.get(this) != WindingRule.EVEN_ODD) {
-            actions.add(new AbstractAction(labels.getString("windingRule.evenOdd")) {
+            actions.add(new AbstractAction(labels.getString("attribute.windingRule.evenOdd.text")) {
                 public void actionPerformed(ActionEvent evt) {
                     SVGPathFigure.this.willChange();
                     getDrawing().fireUndoableEditHappened(
@@ -406,7 +406,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
                 }
             });
         } else {
-            actions.add(new AbstractAction(labels.getString("windingRule.nonZero")) {
+            actions.add(new AbstractAction(labels.getString("attribute.windingRule.nonZero.text")) {
                 public void actionPerformed(ActionEvent evt) {
                     WINDING_RULE.set(SVGPathFigure.this, WindingRule.NON_ZERO);
                     getDrawing().fireUndoableEditHappened(

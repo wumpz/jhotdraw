@@ -30,7 +30,7 @@ public class FindDialog extends javax.swing.JDialog {
     /** Creates new form FindDialog */
     private FindDialog(Frame parent, boolean modal) {
         super(parent, modal);
-        labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.teddy.Labels");
+        labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.teddy.Labels");
         initComponents();
         buttonPanel.setBorder(new EmptyBorder(0,-5,0,-5));
         setAlwaysOnTop(true);
@@ -110,7 +110,7 @@ public class FindDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Find");
 
-        findLabel.setText(labels.getString("find.findLabe.text")); // NOI18N
+        findLabel.setText(labels.getString("find.findLabel.text")); // NOI18N
 
         replaceLabel.setText(labels.getString("find.replaceWithLabel.text")); // NOI18N
 
@@ -205,7 +205,7 @@ public class FindDialog extends javax.swing.JDialog {
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
                         .addContainerGap()
-                        .add(buttonPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 635, Short.MAX_VALUE))
+                        .add(buttonPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 684, Short.MAX_VALUE))
                     .add(layout.createSequentialGroup()
                         .add(11, 11, 11)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
@@ -213,7 +213,7 @@ public class FindDialog extends javax.swing.JDialog {
                             .add(findLabel))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(optionsPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE)
+                            .add(optionsPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
                             .add(replaceScrollPane)
                             .add(findScrollPane))))
                 .addContainerGap())

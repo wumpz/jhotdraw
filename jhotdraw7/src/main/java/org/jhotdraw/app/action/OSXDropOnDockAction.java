@@ -42,7 +42,7 @@ public class OSXDropOnDockAction extends AbstractApplicationAction {
     /** Creates a new instance. */
     public OSXDropOnDockAction(Application app) {
         super(app);
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         putValue(Action.NAME, "OSX Drop On Dock");
     }
     

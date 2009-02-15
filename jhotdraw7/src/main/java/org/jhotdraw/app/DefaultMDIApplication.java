@@ -27,11 +27,13 @@ import javax.swing.event.*;
 import org.jhotdraw.app.action.*;
 
 /**
- * A DefaultMDIApplication can handle the life cycle of multiple document windows each
- * being presented in a JInternalFrame of its own.  A parent JFrame provides all
- * the functionality needed to work with documents, such as a menu bar, tool
- * bars and palette windows.
- *
+ * A DefaultMDIApplication can handle the life cycle of multiple document 
+ * windows each being presented in a JInternalFrame of its own. A parent JFrame
+ * provides all the functionality needed to work with documents, such as a menu
+ * bar, tool bars and palette windows.
+ * <p>
+ * The life cycle of the application is tied t the parent JFrame. Closing the
+ * parent JFrame quits the application.
  *
  * @author Werner Randelshofer.
  * @version 1.1 2007-12-25 Added method updateViewTitle. 
@@ -323,7 +325,7 @@ public class DefaultMDIApplication extends AbstractApplication {
     }
 
     protected JMenu createFileMenu() {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         ApplicationModel model = getModel();
 
         JMenuBar mb = new JMenuBar();
@@ -389,7 +391,7 @@ public class DefaultMDIApplication extends AbstractApplication {
         if (v.hasUnsavedChanges()) {
             title += "*";
         }
-        v.setTitle(labels.getFormatted("frameTitle", title, getName(), v.getMultipleOpenId()));
+        v.setTitle(labels.getFormatted("frame.title", title, getName(), v.getMultipleOpenId()));
         f.setTitle(v.getTitle());
     }
 
@@ -414,7 +416,7 @@ public class DefaultMDIApplication extends AbstractApplication {
     }
 
     protected JMenu createWindowMenu() {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         ApplicationModel mo = getModel();
 
         JMenu m;
@@ -479,7 +481,7 @@ public class DefaultMDIApplication extends AbstractApplication {
     }
 
     protected JMenu createHelpMenu() {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         ApplicationModel mo = getModel();
 
         JMenu m;

@@ -18,7 +18,7 @@ public class PaletteFontChooserSelectionPanel extends javax.swing.JPanel {
 private ResourceBundleUtil labels;
     /** Creates new form FontChooserPanel */
     public PaletteFontChooserSelectionPanel() {
-         labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.gui.Labels");
+         labels = ResourceBundleUtil.getBundle("org.jhotdraw.gui.Labels");
         initComponents();
         collectionList.setModel(new DefaultListModel());
         familyList.setModel(new DefaultListModel());

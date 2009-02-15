@@ -33,7 +33,7 @@ public class TogglePropertiesPanelAction extends AbstractViewAction {
     public TogglePropertiesPanelAction(Application app) {
         super(app);
         setPropertyName("propertiesPanelVisible");
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.odg.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
         putValue(AbstractAction.NAME, labels.getString("propertiesPanel"));
     }
     

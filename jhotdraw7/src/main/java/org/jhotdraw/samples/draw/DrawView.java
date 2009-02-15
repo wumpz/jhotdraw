@@ -93,7 +93,7 @@ public class DrawView extends AbstractView {
             }
         });
         
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         
         JPanel placardPanel = new JPanel(new BorderLayout());
         javax.swing.AbstractButton pButton;
@@ -106,7 +106,7 @@ public class DrawView extends AbstractView {
         pButton.putClientProperty("Quaqua.Button.style","placard");
         pButton.putClientProperty("Quaqua.Component.visualMargin",new Insets(0,0,0,0));
         pButton.setFont(UIManager.getFont("SmallSystemFont"));
-        labels.configureToolBarButton(pButton, "alignGridSmall");
+        labels.configureToolBarButton(pButton, "view.toggleGrid.placard");
         placardPanel.add(pButton, BorderLayout.EAST);
         scrollPane.add(placardPanel, JScrollPane.LOWER_LEFT_CORNER);
     }
@@ -201,8 +201,8 @@ public class DrawView extends AbstractView {
                         }
                     }
             if (!success) {
-                ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-                throw new IOException(labels.getFormatted("errorUnsupportedFileFormat", f.getName()));
+                ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+                throw new IOException(labels.getFormatted("file.open.unsupportedFileFormat.message", f.getName()));
             }
             SwingUtilities.invokeAndWait(new Runnable() {
 

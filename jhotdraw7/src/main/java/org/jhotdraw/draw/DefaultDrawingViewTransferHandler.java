@@ -85,7 +85,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                                 drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
 
                                     public String getPresentationName() {
-                                        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+                                        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
                                         return labels.getString("editPaste");
                                     }
 
@@ -135,7 +135,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                             drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
 
                                 public String getPresentationName() {
-                                    ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+                                    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
                                     return labels.getString("editPaste");
                                 }
 
@@ -268,7 +268,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                 drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
 
                     public String getPresentationName() {
-                        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+                        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
                         return labels.getString("delete");
                     }
 

@@ -156,7 +156,7 @@ public class AttributeKey<T> {
         
         UndoableEdit edit = new AbstractUndoableEdit() {
             public String getPresentationName() {
-                return labels.getString(getKey());
+                return labels.getString("attribute."+getKey()+".text");
             }
             public void undo() {
                 super.undo();

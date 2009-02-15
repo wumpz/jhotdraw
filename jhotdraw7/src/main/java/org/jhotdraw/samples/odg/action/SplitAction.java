@@ -30,13 +30,13 @@ import javax.swing.undo.*;
  * @version 1.0 2007-07-28 Created.
  */
 public class SplitAction extends UngroupAction {
-    public final static String ID = "selectionSplit";
+    public final static String ID = "edit.splitPath";
     
     /** Creates a new instance. */
     public SplitAction(DrawingEditor editor) {
         super(editor, new ODGPathFigure());
         
-        labels = ResourceBundleUtil.getLAFBundle(
+        labels = ResourceBundleUtil.getBundle(
                 "org.jhotdraw.samples.odg.Labels",
                 Locale.getDefault()
                 );

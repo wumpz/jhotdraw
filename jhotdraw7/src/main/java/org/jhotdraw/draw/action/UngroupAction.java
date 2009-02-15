@@ -31,7 +31,7 @@ import javax.swing.undo.*;
  * <br>1.0 24. November 2003  Created.
  */
 public class UngroupAction extends GroupAction {
-    public final static String ID = "selectionUngroup";
+    public final static String ID = "edit.ungroupSelection";
     
     /** Creates a new instance. */
     private CompositeFigure prototype;

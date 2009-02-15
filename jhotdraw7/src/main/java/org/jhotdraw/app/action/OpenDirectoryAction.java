@@ -30,7 +30,7 @@ public class OpenDirectoryAction extends OpenAction {
     /** Creates a new instance. */
     public OpenDirectoryAction(Application app) {
         super(app);
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
     @Override

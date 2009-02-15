@@ -37,7 +37,7 @@ public class JDoubleDrawingAttributeSlider extends JSlider {
     private DrawingEditor editor;
     private AttributeKey<Double> attributeKey;
     protected ResourceBundleUtil labels =
-            ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
+            ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
     private int isUpdatingSlider = 0;
     private LinkedList<Object> attributeRestoreData = new LinkedList<Object>();
     public final static String ENABLED_WITHOUT_SELECTION_PROPERTY = "enabledWithoutSelection";

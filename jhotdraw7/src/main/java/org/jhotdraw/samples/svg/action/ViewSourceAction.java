@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.samples.svg.action;
 
 import java.awt.*;
@@ -33,16 +32,15 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * @version 1.0 19. Mai 2007 Created.
  */
 public class ViewSourceAction extends AbstractViewAction {
-    private ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.svg.Labels");
-    
     public final static String ID = "view.viewSource";
-    
+
     /** Creates a new instance. */
     public ViewSourceAction(Application app) {
         super(app);
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         labels.configureAction(this, ID);
     }
-    
+
     public void actionPerformed(ActionEvent e) {
         SVGView p = (SVGView) getActiveView();
         SVGOutputFormat format = new SVGOutputFormat();
@@ -52,8 +50,7 @@ public class ViewSourceAction extends AbstractViewAction {
             format.write(buf, p.getDrawing());
             String source = buf.toString("UTF-8");
             final JDialog dialog = new JDialog(
-                    (Frame) SwingUtilities.getWindowAncestor(p.getComponent())
-                    );
+                    (Frame) SwingUtilities.getWindowAncestor(p.getComponent()));
             dialog.setTitle(p.getTitle());
             dialog.setResizable(true);
             dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -65,21 +62,22 @@ public class ViewSourceAction extends AbstractViewAction {
             dialog.getContentPane().add(sp);
             dialog.setSize(400, 400);
             dialog.setLocationByPlatform(true);
-            
+
             Preferences prefs = Preferences.userNodeForPackage(getClass());
             PreferencesUtil.installFramePrefsHandler(prefs, "viewSource", dialog);
-            
+
             dialog.addWindowListener(new WindowAdapter() {
-                @Override public void windowClosed(WindowEvent evt) {
+
+                @Override
+                public void windowClosed(WindowEvent evt) {
                     getApplication().removeWindow(dialog);
                 }
             });
-            
+
             getApplication().addWindow(dialog, getActiveView());
             dialog.setVisible(true);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
-    
 }

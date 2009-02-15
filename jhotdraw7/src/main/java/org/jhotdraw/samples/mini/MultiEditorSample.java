@@ -34,7 +34,7 @@ public class MultiEditorSample {
      public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                ResourceBundleUtil labels =  ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+                ResourceBundleUtil labels =  ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
                 
                 // Create four drawing views, each one with its own drawing
                 DrawingView view1 = new DefaultDrawingView();
@@ -60,7 +60,7 @@ public class MultiEditorSample {
                 ButtonFactory.addToolTo(
                         tb, editor, 
                         new CreationTool(new RectangleFigure()),
-                        "createRectangle",
+                        "edit.createRectangle",
                         labels
                         );
                 tb.setOrientation(JToolBar.VERTICAL);

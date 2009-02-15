@@ -39,7 +39,7 @@ public class JDoubleAttributeSlider extends JSlider {
     private AttributeKey<Double> attributeKey;
     private boolean isSelectionHasMultipleValues;
     protected ResourceBundleUtil labels =
-            ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
+            ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
     private int isUpdatingSlider = 0;
     private LinkedList<Object> attributeRestoreData = new LinkedList<Object>();
     private boolean isEnabledWithoutSelection = true;
@@ -234,10 +234,12 @@ public class JDoubleAttributeSlider extends JSlider {
                 final double editRedoValue = value;
                 UndoableEdit edit = new AbstractUndoableEdit() {
 
+                    @Override
                     public String getPresentationName() {
-                        return labels.getString(attributeKey.getKey());
+                        return labels.getString("attribute."+attributeKey.getKey()+".text");
                     }
 
+                    @Override
                     public void undo() throws CannotRedoException {
                         super.undo();
                         Iterator<Object> di = editUndoData.iterator();
@@ -248,6 +250,7 @@ public class JDoubleAttributeSlider extends JSlider {
                         }
                     }
 
+                    @Override
                     public void redo() throws CannotRedoException {
                         super.redo();
                         for (Figure f : editedFigures) {

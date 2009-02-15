@@ -13,19 +13,16 @@
  */
 
 package org.jhotdraw.app.action;
-import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.text.*;
 import java.beans.*;
-import java.util.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
 /**
  * Undoes the last user action.
  * In order to work, this action requires that the View returns a view-specific 
- * undo action when invoking getAction("undo") on the View.
+ * undo action when invoking getAction(UndoAction.ID) on the View.
  *
  *
  * @author Werner Randelshofer
@@ -34,7 +31,7 @@ import org.jhotdraw.app.View;
  */
 public class UndoAction extends AbstractViewAction {
     public final static String ID = "edit.undo";
-    private ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+    private ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
     
     private PropertyChangeListener redoActionPropertyListener = new PropertyChangeListener() {
         public void propertyChange(PropertyChangeEvent evt) {
@@ -64,8 +61,8 @@ public class UndoAction extends AbstractViewAction {
     
     @Override protected void updateView(View oldValue, View newValue) {
         super.updateView(oldValue, newValue);
-        if (newValue != null && newValue.getAction("undo") != null) {
-            putValue(AbstractAction.NAME, newValue.getAction("undo").
+        if (newValue != null && newValue.getAction(ID) != null) {
+            putValue(AbstractAction.NAME, newValue.getAction(ID).
                     getValue(AbstractAction.NAME));
             updateEnabledState();
         }
@@ -75,8 +72,8 @@ public class UndoAction extends AbstractViewAction {
      */
     @Override protected void installViewListeners(View p) {
         super.installViewListeners(p);
-        if (p.getAction("undo") != null) {
-        p.getAction("undo").addPropertyChangeListener(redoActionPropertyListener);
+        if (p.getAction(ID) != null) {
+        p.getAction(ID).addPropertyChangeListener(redoActionPropertyListener);
         }
     }
     /**
@@ -84,8 +81,8 @@ public class UndoAction extends AbstractViewAction {
      */
     @Override protected void uninstallViewListeners(View p) {
         super.uninstallViewListeners(p);
-        if (p.getAction("undo") != null) {
-        p.getAction("undo").removePropertyChangeListener(redoActionPropertyListener);
+        if (p.getAction(ID) != null) {
+        p.getAction(ID).removePropertyChangeListener(redoActionPropertyListener);
         }
     }
     
@@ -97,7 +94,7 @@ public class UndoAction extends AbstractViewAction {
     }
     
     private Action getRealRedoAction() {
-        return (getActiveView() == null) ? null : getActiveView().getAction("undo");
+        return (getActiveView() == null) ? null : getActiveView().getAction(ID);
     }
     
 }

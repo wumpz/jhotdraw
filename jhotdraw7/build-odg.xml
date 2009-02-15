@@ -152,11 +152,14 @@
                 <include name="*.png"/>
             </fileset>
         </copy>
+        <copy todir="${classdir}/org/jhotdraw/app">
+            <fileset file="${srcdir}/org/jhotdraw/app/Label*.properties"/>
+        </copy>
         <copy todir="${classdir}/org/jhotdraw/draw">
             <fileset file="${srcdir}/org/jhotdraw/draw/Label*.properties"/>
         </copy> 
-        <copy todir="${classdir}/org/jhotdraw/app">
-            <fileset file="${srcdir}/org/jhotdraw/app/Label*.properties"/>
+        <copy todir="${classdir}/org/jhotdraw/gui">
+            <fileset file="${srcdir}/org/jhotdraw/gui/Label*.properties"/>
         </copy>
         <copy todir="${classdir}/org/jhotdraw/samples/odg">
             <fileset file="${srcdir}/org/jhotdraw/samples/odg/Label*.properties"/>
@@ -246,6 +249,13 @@
     </target>
     <target name="applet.run-jar" depends="init">
         <java fork="true" jar="${distdir}/jhotdraw_odg.jar"/>
+    </target>
+    <target name="applet.run-compiled" depends="init">
+        <java fork="true" classname="org.jhotdraw.samples.odg.ODGApplet">
+            <classpath>
+                <pathelement path="${classdir}"/>
+            </classpath>
+        </java>
     </target>
     <target name="applet.appletviewer" depends="init">
         <exec executable="appletviewer">

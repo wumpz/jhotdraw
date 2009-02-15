@@ -54,28 +54,28 @@ public abstract class MoveAction extends AbstractSelectedAction {
     }
     
     public static class East extends MoveAction {
-        public final static String ID = "moveEast";
+        public final static String ID = "edit.moveEast";
         public East(DrawingEditor editor) {
             super(editor, 1, 0);
             labels.configureAction(this, ID);
         }
     }
     public static class West extends MoveAction {
-        public final static String ID = "moveWest";
+        public final static String ID = "edit.moveWest";
         public West(DrawingEditor editor) {
             super(editor, -1, 0);
             labels.configureAction(this, ID);
         }
     }
     public static class North extends MoveAction {
-        public final static String ID = "moveNorth";
+        public final static String ID = "edit.moveNorth";
         public North(DrawingEditor editor) {
             super(editor, 0, -1);
             labels.configureAction(this, ID);
         }
     }
     public static class South extends MoveAction {
-        public final static String ID = "moveSouth";
+        public final static String ID = "edit.moveSouth";
         public South(DrawingEditor editor) {
             super(editor, 0, 1);
             labels.configureAction(this, ID);

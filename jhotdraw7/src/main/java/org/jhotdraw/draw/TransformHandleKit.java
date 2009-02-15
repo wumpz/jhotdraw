@@ -119,8 +119,8 @@ public class TransformHandleKit {
         }
 
         public String getToolTipText(Point p) {
-            ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-            return labels.getString("transformHandle.tip");
+            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+            return labels.getString("handle.transform.toolTipText");
         }
 
         /**

@@ -236,8 +236,8 @@ public class BezierNodeHandle extends AbstractHandle {
 
                 @Override
                 public String getPresentationName() {
-                    ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-                    return labels.getString("bezierPath.joinSegment");
+                    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+                    return labels.getString("edit.bezierPath.joinSegments.text");
                 }
 
                 @Override
@@ -296,11 +296,11 @@ public class BezierNodeHandle extends AbstractHandle {
 
     @Override
     public String getToolTipText(Point p) {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         BezierPath.Node node = getBezierNode();
-        return (node == null) ? null : labels.getFormatted("bezierNodeHandle.tip",
+        return (node == null) ? null : labels.getFormatted("handle.bezierNode.toolTipText",
                 labels.getFormatted(
-                (node.getMask() == 0) ? "bezierNode.linearNode" : ((node.getMask() == BezierPath.C1C2_MASK) ? "bezierNode.cubicNode" : "bezierNode.quadraticNode")));
+                (node.getMask() == 0) ? "handle.bezierNode.linear.value" : ((node.getMask() == BezierPath.C1C2_MASK) ? "handle.bezierNode.cubic.value" : "handle.bezierNode.quadratic.value")));
     }
 
     @Override
@@ -348,7 +348,7 @@ public class BezierNodeHandle extends AbstractHandle {
 
                     @Override
                     public String getPresentationName() {
-                        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+                        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
                         return labels.getString("bezierPath.joinSegment");
                     }
 

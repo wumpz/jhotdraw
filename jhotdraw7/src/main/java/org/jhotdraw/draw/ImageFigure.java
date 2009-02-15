@@ -172,7 +172,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
     
     // EDITING
     @Override public Collection<Action> getActions(Point2D.Double p) {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         LinkedList<Action> actions = new LinkedList<Action>();
         return actions;
     }
@@ -298,8 +298,8 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
             in = new FileInputStream(file);
             loadImage(in);
         } catch (Throwable t) {
-            ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-            IOException e = new IOException(labels.getFormatted("failedToLoadImage", file.getName()));
+            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+            IOException e = new IOException(labels.getFormatted("file.failedToLoadImage.message", file.getName()));
             e.initCause(t);
             throw e;
         } finally {
@@ -315,8 +315,8 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
         }
         BufferedImage img = ImageIO.read(new ByteArrayInputStream(baos.toByteArray()));
         if (img == null) {
-            ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-            throw new IOException(labels.getFormatted("failedToLoadImage", in.toString()));
+            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+            throw new IOException(labels.getFormatted("file.failedToLoadImage.message", in.toString()));
         }
         imageData = baos.toByteArray();
         bufferedImage = img;

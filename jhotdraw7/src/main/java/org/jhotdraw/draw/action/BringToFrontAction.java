@@ -30,7 +30,7 @@ import org.jhotdraw.draw.*;
  */
 public class BringToFrontAction extends AbstractSelectedAction {
     
-       public static String ID = "bringToFront";
+       public static String ID = "edit.bringToFront";
        
     /** Creates a new instance. */
     public BringToFrontAction(DrawingEditor editor) {
@@ -45,7 +45,7 @@ public class BringToFrontAction extends AbstractSelectedAction {
         fireUndoableEditHappened(new AbstractUndoableEdit() {
             @Override
             public String getPresentationName() {
-       return labels.getString(ID);
+       return labels.getTextProperty(ID);
             }
             @Override
             public void redo() throws CannotRedoException {

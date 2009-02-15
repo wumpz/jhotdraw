@@ -911,7 +911,7 @@ public class DefaultDrawingView
 
             @Override
             public String getPresentationName() {
-                ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+                ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
                 return labels.getString("delete");
             }
 
@@ -960,8 +960,8 @@ public class DefaultDrawingView
         getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
 
             public String getPresentationName() {
-                ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-                return labels.getString("duplicate");
+                ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+                return labels.getString("edit.duplicate.text");
             }
 
             public void undo() throws CannotUndoException {

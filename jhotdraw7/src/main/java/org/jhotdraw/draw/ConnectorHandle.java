@@ -103,7 +103,7 @@ public class ConnectorHandle extends AbstractHandle {
     public void trackStart(Point anchor, int modifiersEx) {
         setConnection(createConnection());
         
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         
         Point2D.Double p = getLocationOnDrawing();
         getConnection().setStartPoint(p);
@@ -152,8 +152,8 @@ public class ConnectorHandle extends AbstractHandle {
             view.addToSelection(createdConnection);
             view.getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
                 @Override public String getPresentationName() {
-                    ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels");
-                    return labels.getString("createConnectionFigure");
+                    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+                    return labels.getString("edit.createConnectionFigure.text");
                 }
                 @Override public void undo() throws CannotUndoException {
                     super.undo();

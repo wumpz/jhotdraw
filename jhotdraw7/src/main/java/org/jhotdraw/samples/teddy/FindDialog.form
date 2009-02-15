@@ -27,7 +27,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="buttonPanel" pref="635" max="32767" attributes="0"/>
+                      <Component id="buttonPanel" pref="684" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
@@ -37,7 +37,7 @@
                       </Group>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="optionsPanel" alignment="0" pref="551" max="32767" attributes="2"/>
+                          <Component id="optionsPanel" alignment="0" pref="600" max="32767" attributes="2"/>
                           <Component id="replaceScrollPane" alignment="0" max="32767" attributes="2"/>
                           <Component id="findScrollPane" alignment="0" max="32767" attributes="2"/>
                       </Group>
@@ -73,7 +73,7 @@
     <Component class="javax.swing.JLabel" name="findLabel">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="org/jhotdraw/samples/teddy/Labels.properties" key="find.findLabe.text" replaceFormat="labels.getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/jhotdraw/samples/teddy/Labels.properties" key="find.findLabel.text" replaceFormat="labels.getString(&quot;{key}&quot;)"/>
         </Property>
       </Properties>
     </Component>

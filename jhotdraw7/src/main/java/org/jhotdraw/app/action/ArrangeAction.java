@@ -38,7 +38,7 @@ public class ArrangeAction extends AbstractAction {
     public ArrangeAction(Arrangeable arrangeable, Arrangeable.Arrangement arrangement) {
         this.arrangeable = arrangeable;
         this.arrangement = arrangement;
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         String labelID;
         switch (arrangement) {
             case VERTICAL : labelID = VERTICAL_ID; break;

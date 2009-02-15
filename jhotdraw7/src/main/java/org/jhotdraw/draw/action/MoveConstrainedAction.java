@@ -85,7 +85,7 @@ public abstract class MoveConstrainedAction extends AbstractSelectedAction {
 
     public static class East extends MoveConstrainedAction {
 
-        public final static String ID = "moveConstrainedEast";
+        public final static String ID = "edit.moveConstrainedEast";
 
         public East(DrawingEditor editor) {
             super(editor, TranslationDirection.EAST);
@@ -95,7 +95,7 @@ public abstract class MoveConstrainedAction extends AbstractSelectedAction {
 
     public static class West extends MoveConstrainedAction {
 
-        public final static String ID = "moveConstrainedWest";
+        public final static String ID = "edit.moveConstrainedWest";
 
         public West(DrawingEditor editor) {
             super(editor, TranslationDirection.WEST);
@@ -105,7 +105,7 @@ public abstract class MoveConstrainedAction extends AbstractSelectedAction {
 
     public static class North extends MoveConstrainedAction {
 
-        public final static String ID = "moveConstrainedNorth";
+        public final static String ID = "edit.moveConstrainedNorth";
 
         public North(DrawingEditor editor) {
             super(editor, TranslationDirection.NORTH);
@@ -115,7 +115,7 @@ public abstract class MoveConstrainedAction extends AbstractSelectedAction {
 
     public static class South extends MoveConstrainedAction {
 
-        public final static String ID = "moveConstrainedSouth";
+        public final static String ID = "edit.moveConstrainedSouth";
 
         public South(DrawingEditor editor) {
             super(editor, TranslationDirection.SOUTH);

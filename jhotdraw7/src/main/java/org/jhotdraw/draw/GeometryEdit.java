@@ -36,8 +36,8 @@ public class GeometryEdit extends AbstractUndoableEdit {
     }
 
     public String getPresentationName() {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
-        return labels.getString("transformFigure");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
+        return labels.getString("edit.transform.text");
     }
     
     public void undo() throws CannotUndoException {

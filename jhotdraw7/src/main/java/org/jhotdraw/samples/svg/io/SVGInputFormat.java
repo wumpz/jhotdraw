@@ -5,11 +5,11 @@
  * and all its contributors.
  * All rights reserved.
  *
- * The copyright of this software is owned by the authors and  
- * contributors of the JHotDraw project ("the copyright holders").  
- * You may not use, copy or modify this software, except in  
- * accordance with the license agreement you entered into with  
- * the copyright holders. For details see accompanying license terms. 
+ * The copyright of this software is owned by the authors and
+ * contributors of the JHotDraw project ("the copyright holders").
+ * You may not use, copy or modify this software, except in
+ * accordance with the license agreement you entered into with
+ * the copyright holders. For details see accompanying license terms.
  */
 package org.jhotdraw.samples.svg.io;
 
@@ -29,7 +29,6 @@ import net.n3.nanoxml.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.InputFormat;
 import org.jhotdraw.xml.css.StyleManager;
-import org.jhotdraw.xml.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.io.*;
 import org.jhotdraw.samples.svg.*;
@@ -47,7 +46,7 @@ import org.jhotdraw.xml.css.CSSParser;
  * Design pattern:<br>
  * Name: Abstract Factory.<br>
  * Role: Client.<br>
- * Partners: {@link SVGFigureFactory} as Abstract Factory. 
+ * Partners: {@link SVGFigureFactory} as Abstract Factory.
  *
  *
  * @author Werner Randelshofer
@@ -84,7 +83,7 @@ public class SVGInputFormat implements InputFormat {
     private HashMap<IXMLElement, Object> elementObjects;
     /**
      * Tokenizer for parsing SVG path expressions.
-     * 
+     *
      */
     private StreamPosTokenizer toPathTokenizer;
     /**
@@ -164,7 +163,7 @@ public class SVGInputFormat implements InputFormat {
     }
     /**
      * This is the main reading method.
-     *  
+     *
      * @param in The input stream.
      * @param drawing The drawing to which this method adds figures.
      * @param replace Whether attributes on the drawing object
@@ -315,13 +314,17 @@ public class SVGInputFormat implements InputFormat {
     private Figure readElement(IXMLElement elem)
             throws IOException {
         if (DEBUG) {
-            System.out.println("SVGInputFormat.readElement " + elem.getName());
+            System.out.println("SVGInputFormat.readElement " + elem.getName()+" line:" +elem.getLineNr());
         }
         Figure f = null;
         if (elem.getNamespace() == null ||
                 elem.getNamespace().equals(SVG_NAMESPACE)) {
             String name = elem.getName();
-            if (name.equals("a")) {
+            if (name == null) {
+                if (DEBUG) {
+                    System.out.println("SVGInputFormat skipping nameless element at line "+elem.getLineNr());
+                }
+            } else if (name.equals("a")) {
                 f = readAElement(elem);
             } else if (name.equals("circle")) {
                 f = readCircleElement(elem);
@@ -976,12 +979,12 @@ public class SVGInputFormat implements InputFormat {
     //"http://www.w3.org/Graphics/SVG/feature/1.2/#TextFlow",
     //"http://www.w3.org/Graphics/SVG/feature/1.2/#TransformedVideo",
     //"http://www.w3.org/Graphics/SVG/feature/1.2/#ComposedVideo",
-          
-             
-                
-                    
+
+
+
+
                     }));
-    
+
     /**
      * Evaluates an SVG "switch" element.
      *

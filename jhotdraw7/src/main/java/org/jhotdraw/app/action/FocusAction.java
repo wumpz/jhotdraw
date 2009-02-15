@@ -36,14 +36,14 @@ public class FocusAction extends AbstractAction {
     /** Creates a new instance. */
     public FocusAction(View view) {
         this.view = view;
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
         //setEnabled(false);
         setEnabled(view != null);
         
         view.addPropertyChangeListener(new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
-                ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+                ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
                 String name = evt.getPropertyName();
                 if (name.equals(View.FILE_PROPERTY)) {
                     putValue(Action.NAME,
@@ -65,7 +65,7 @@ public class FocusAction extends AbstractAction {
     }
     
     private String getTitle() {
-        ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         String title = labels.getString("unnamedFile");
         if (view != null) {
             File file = view.getFile();
@@ -77,7 +77,7 @@ public class FocusAction extends AbstractAction {
             if (view.hasUnsavedChanges()) {
                 title += "*";
             }
-            title = (labels.getFormatted("internalFrameTitle", title, view.getApplication().getName(), view.getMultipleOpenId()));
+            title = (labels.getFormatted("internalFrame.title", title, view.getApplication().getName(), view.getMultipleOpenId()));
         }
         return title;
         

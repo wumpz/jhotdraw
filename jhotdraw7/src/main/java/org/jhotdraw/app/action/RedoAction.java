@@ -34,7 +34,7 @@ import org.jhotdraw.app.View;
  */
 public class RedoAction extends AbstractViewAction {
     public final static String ID = "edit.redo";
-    private ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.app.Labels");
+    private ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
     
     private PropertyChangeListener redoActionPropertyListener = new PropertyChangeListener() {
         public void propertyChange(PropertyChangeEvent evt) {
@@ -64,8 +64,8 @@ public class RedoAction extends AbstractViewAction {
     
     @Override protected void updateView(View oldValue, View newValue) {
         super.updateView(oldValue, newValue);
-        if (newValue != null && newValue.getAction("redo") !=  null) {
-            putValue(AbstractAction.NAME, newValue.getAction("redo").
+        if (newValue != null && newValue.getAction(ID) !=  null) {
+            putValue(AbstractAction.NAME, newValue.getAction(ID).
                     getValue(AbstractAction.NAME));
             updateEnabledState();
         }
@@ -75,8 +75,8 @@ public class RedoAction extends AbstractViewAction {
      */
     @Override protected void installViewListeners(View p) {
         super.installViewListeners(p);
-        if (p.getAction("redo") != null) {
-        p.getAction("redo").addPropertyChangeListener(redoActionPropertyListener);
+        if (p.getAction(ID) != null) {
+        p.getAction(ID).addPropertyChangeListener(redoActionPropertyListener);
         }
     }
     /**
@@ -84,8 +84,8 @@ public class RedoAction extends AbstractViewAction {
      */
     @Override protected void uninstallViewListeners(View p) {
         super.uninstallViewListeners(p);
-        if (p.getAction("redo") != null) {
-        p.getAction("redo").removePropertyChangeListener(redoActionPropertyListener);
+        if (p.getAction(ID) != null) {
+        p.getAction(ID).removePropertyChangeListener(redoActionPropertyListener);
         }
     }
     
@@ -97,7 +97,7 @@ public class RedoAction extends AbstractViewAction {
     }
     
     private Action getRealRedoAction() {
-        return (getActiveView() == null) ? null : getActiveView().getAction("redo");
+        return (getActiveView() == null) ? null : getActiveView().getAction(ID);
     }
     
 }

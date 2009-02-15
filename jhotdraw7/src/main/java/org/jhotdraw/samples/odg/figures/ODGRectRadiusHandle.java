@@ -94,7 +94,7 @@ public class ODGRectRadiusHandle extends AbstractHandle {
         final Dimension2DDouble newValue = odgRect.getArc();
         view.getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
             public String getPresentationName() {
-                ResourceBundleUtil labels = ResourceBundleUtil.getLAFBundle("org.jhotdraw.samples.odg.Labels");
+                ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
                 return labels.getString("arc");
             }
             public void undo() throws CannotUndoException {
@@ -112,6 +112,7 @@ public class ODGRectRadiusHandle extends AbstractHandle {
         });
     }
     public String getToolTipText(Point p) {
-        return ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels").getString("roundRectangleRadiusHandle.tip");
+        return ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels").//
+                getString("handle.roundRectangleRadius.toolTipText");
     }
 }

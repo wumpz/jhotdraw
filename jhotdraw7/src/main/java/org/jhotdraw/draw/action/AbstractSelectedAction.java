@@ -42,7 +42,7 @@ public abstract class AbstractSelectedAction
         extends AbstractAction  {
     private DrawingEditor editor;
     protected ResourceBundleUtil labels =
-            ResourceBundleUtil.getLAFBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
+            ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
     private PropertyChangeListener propertyChangeHandler = new PropertyChangeListener() {
         public void propertyChange(PropertyChangeEvent evt) {
             if (evt.getPropertyName().equals("enabled")) {
