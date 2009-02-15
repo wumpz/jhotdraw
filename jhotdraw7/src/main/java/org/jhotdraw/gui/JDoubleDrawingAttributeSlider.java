@@ -186,10 +186,12 @@ public class JDoubleDrawingAttributeSlider extends JSlider {
                     final double editRedoValue = value;
                     UndoableEdit edit = new AbstractUndoableEdit() {
 
+                        @Override
                         public String getPresentationName() {
-                            return labels.getString(attributeKey.getKey());
+                            return labels.getString("attribute."+attributeKey.getKey()+".text");
                         }
 
+                        @Override
                         public void undo() throws CannotRedoException {
                             super.undo();
                             Iterator<Object> di = editUndoData.iterator();
