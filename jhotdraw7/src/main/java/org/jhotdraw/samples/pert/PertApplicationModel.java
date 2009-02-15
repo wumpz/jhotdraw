@@ -83,7 +83,7 @@ public class PertApplicationModel extends DefaultApplicationModel {
     
     public void initView(Application a, View p) {
         if (a.isSharingToolsAmongViews()) {
-            ((PertView) p).setDrawingEditor(getSharedEditor());
+            ((PertView) p).setEditor(getSharedEditor());
         }
     }
     private void addCreationButtonsTo(JToolBar tb, final DrawingEditor editor) {
@@ -123,7 +123,7 @@ public class PertApplicationModel extends DefaultApplicationModel {
         if (p == null) {
             editor = getSharedEditor();
         } else {
-            editor = p.getDrawingEditor();
+            editor = p.getEditor();
         }
         
         LinkedList<JToolBar> list = new LinkedList<JToolBar>();

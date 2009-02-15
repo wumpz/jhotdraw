@@ -14,17 +14,14 @@
 
 package org.jhotdraw.draw;
 
-import java.beans.*;
 import javax.swing.*;
 import org.jhotdraw.app.action.*;
 import org.jhotdraw.beans.AbstractBean;
 import org.jhotdraw.draw.action.*;
-import org.jhotdraw.undo.CompositeEdit;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.event.*;
 import javax.swing.event.*;
-import java.util.*;
 
 /**
  * AbstractTool.

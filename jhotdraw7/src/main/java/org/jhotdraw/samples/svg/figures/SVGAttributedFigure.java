@@ -112,7 +112,7 @@ public abstract class SVGAttributedFigure extends AbstractAttributedFigure {
         LinkedList<Action> actions = new LinkedList<Action>();
         if (TRANSFORM.get(this) != null) {
             ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
-            actions.add(new AbstractAction(labels.getString("removeTransform")) {
+            actions.add(new AbstractAction(labels.getString("edit.removeTransform.text")) {
                 public void actionPerformed(ActionEvent evt) {
                     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
                     SVGAttributedFigure.this.willChange();

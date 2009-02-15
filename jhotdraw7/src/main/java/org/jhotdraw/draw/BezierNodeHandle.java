@@ -349,7 +349,7 @@ public class BezierNodeHandle extends AbstractHandle {
                     @Override
                     public String getPresentationName() {
                         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-                        return labels.getString("bezierPath.joinSegment");
+                        return labels.getString("edit.bezierPath.joinSegment.text");
                     }
 
                     @Override

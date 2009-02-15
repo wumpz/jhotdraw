@@ -257,7 +257,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         LinkedList<Action> actions = new LinkedList<Action>();
         if (TRANSFORM.get(this) != null) {
-            actions.add(new AbstractAction(labels.getString("removeTransform")) {
+            actions.add(new AbstractAction(labels.getString("edit.removeTransform.text")) {
 
                 public void actionPerformed(ActionEvent evt) {
                     willChange();

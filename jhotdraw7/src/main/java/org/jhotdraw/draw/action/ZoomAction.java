@@ -25,7 +25,7 @@ import org.jhotdraw.draw.*;
  * @version 1.1 2006-04-21 Constructor with DrawingEditor paremeter added.
  * <br>1.0 January 16, 2006 Created.
  */
-public class ZoomAction extends AbstractViewAction {
+public class ZoomAction extends AbstractDrawingViewAction {
     private double scaleFactor;
     private AbstractButton button;
     private String label;

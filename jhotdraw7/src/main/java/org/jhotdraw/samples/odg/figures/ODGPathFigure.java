@@ -322,7 +322,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
         final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
         LinkedList<Action> actions = new LinkedList<Action>();
         if (TRANSFORM.get(this) != null) {
-            actions.add(new AbstractAction(labels.getString("removeTransform")) {
+            actions.add(new AbstractAction(labels.getString("edit.removeTransform.text")) {
                 public void actionPerformed(ActionEvent evt) {
                     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
                     ODGPathFigure.this.willChange();
@@ -332,7 +332,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
                     ODGPathFigure.this.changed();
                 }
             });
-            actions.add(new AbstractAction(labels.getString("flattenTransform")) {
+            actions.add(new AbstractAction(labels.getString("edit.flattenTransform.text")) {
                 public void actionPerformed(ActionEvent evt) {
                     // CompositeEdit edit = new CompositeEdit(labels.getString("flattenTransform"));
                     //TransformEdit edit = new TransformEdit(ODGPathFigure.this, )

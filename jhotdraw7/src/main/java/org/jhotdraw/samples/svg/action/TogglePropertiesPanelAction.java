@@ -42,6 +42,7 @@ public class TogglePropertiesPanelAction extends AbstractViewAction {
      * This method is invoked, when the property changed and when
      * the view changed.
      */
+    @Override
     protected void updateView() {
         putValue(Actions.SELECTED_KEY,
                 getActiveView() != null &&

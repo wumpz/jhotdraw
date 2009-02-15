@@ -14,16 +14,13 @@
 
 package org.jhotdraw.app.action;
 
-import java.awt.*;
-import java.awt.event.*;
 import java.beans.*;
 import javax.swing.*;
-import javax.swing.event.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
 
 /**
- * An Action that acts on on the current <code>View</code> of an
+ * An Action that acts on on the current document <code>View</code> of an
  * <code>Application</code>.
  * If the current View object is disabled or is null, the
  * AbstractViewAction is disabled as well.

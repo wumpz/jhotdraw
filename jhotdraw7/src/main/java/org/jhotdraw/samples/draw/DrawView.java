@@ -17,20 +17,14 @@ package org.jhotdraw.samples.draw;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 import java.awt.print.Pageable;
-import org.jhotdraw.draw.ImageInputFormat;
-import org.jhotdraw.draw.ImageOutputFormat;
-import org.jhotdraw.draw.InputFormat;
-import org.jhotdraw.draw.OutputFormat;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.io.*;
-import org.jhotdraw.draw.DOMStorableInputOutputFormat;
 import org.jhotdraw.undo.*;
 import org.jhotdraw.util.*;
 import java.awt.*;
 import java.beans.*;
 import java.io.*;
 import java.lang.reflect.*;
-import java.util.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import org.jhotdraw.app.AbstractView;
@@ -38,7 +32,6 @@ import org.jhotdraw.app.action.RedoAction;
 import org.jhotdraw.app.action.UndoAction;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
-import org.jhotdraw.xml.*;
 
 /**
  * A view for JHotDraw drawings.
@@ -137,19 +130,6 @@ public class DrawView extends AbstractView {
         return drawing;
     }
     
-    public DrawingEditor getEditor() {
-        return editor;
-    }
-    public void setEditor(DrawingEditor newValue) {
-        DrawingEditor oldValue = editor;
-        if (oldValue != null) {
-            oldValue.remove(view);
-        }
-        editor = newValue;
-        if (newValue != null) {
-            newValue.add(view);
-        }
-    }
     
     /**
      * Creates a Pageable object for printing the view.
@@ -228,7 +208,7 @@ public class DrawView extends AbstractView {
     /**
      * Sets a drawing editor for the view.
      */
-    public void setDrawingEditor(DrawingEditor newValue) {
+    public void setEditor(DrawingEditor newValue) {
         if (editor != null) {
             editor.remove(view);
         }
@@ -241,7 +221,7 @@ public class DrawView extends AbstractView {
     /**
      * Gets the drawing editor of the view.
      */
-    public DrawingEditor getDrawingEditor() {
+    public DrawingEditor getEditor() {
         return editor;
     }
     

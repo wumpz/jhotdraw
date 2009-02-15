@@ -328,7 +328,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         LinkedList<Action> actions = new LinkedList<Action>();
         if (TRANSFORM.get(this) != null) {
-            actions.add(new AbstractAction(labels.getString("removeTransform")) {
+            actions.add(new AbstractAction(labels.getString("edit.removeTransform.text")) {
 
                 public void actionPerformed(ActionEvent evt) {
                     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
@@ -346,10 +346,12 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
                     final Object restoreData = getTransformRestoreData();
                     UndoableEdit edit = new AbstractUndoableEdit() {
 
+                        @Override
                         public String getPresentationName() {
                             return labels.getString("edit.flattenTransform.text");
                         }
 
+                        @Override
                         public void undo() throws CannotUndoException {
                             super.undo();
                             willChange();
@@ -357,6 +359,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
                             changed();
                         }
 
+                        @Override
                         public void redo() throws CannotRedoException {
                             super.redo();
                             willChange();

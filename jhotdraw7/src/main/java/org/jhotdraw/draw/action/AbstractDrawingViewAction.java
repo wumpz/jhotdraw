@@ -1,7 +1,7 @@
 /*
- * @(#)AbstractViewAction.java  1.2  2006-04-21
+ * @(#)AbstractDrawingViewAction.java  2.0 2009-02-15
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -26,15 +26,15 @@ import java.util.*;
  * Abstract super class for actions which act on a DrawingView.
  *
  * @author Werner Randelshofer
- * @version 1.2 2006-04-21 Method setEditor added.
+ * @version 2.0 2009-02-15 Renamed from AbstractViewAction to 
+ * AbstractDrawingViewAction.
+ * <br>1.2 2006-04-21 Method setEditor added.
  * <br>1.1 2006-03-15 Support for enabled state of view added.
  * <br>1.0 2003-12-01 Created.
  */
-public abstract class AbstractViewAction extends AbstractAction {
+public abstract class AbstractDrawingViewAction extends AbstractAction {
     private DrawingEditor editor;
     private DrawingView view;
-    protected final static ResourceBundleUtil labels =
-            ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
     
     private PropertyChangeListener propertyChangeHandler = new PropertyChangeListener() {
         public void propertyChange(PropertyChangeEvent evt) {
@@ -46,7 +46,7 @@ public abstract class AbstractViewAction extends AbstractAction {
     /**
      * Creates a view action which acts on the current view of the editor.
      */
-    public AbstractViewAction(DrawingEditor editor) {
+    public AbstractDrawingViewAction(DrawingEditor editor) {
         this.editor = editor;
         editor.addPropertyChangeListener(new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
@@ -67,7 +67,7 @@ public abstract class AbstractViewAction extends AbstractAction {
     /**
      * Creates a view action which acts on the specified view.
      */
-    public AbstractViewAction(DrawingView view) {
+    public AbstractDrawingViewAction(DrawingView view) {
         this.view = view;
     }
     

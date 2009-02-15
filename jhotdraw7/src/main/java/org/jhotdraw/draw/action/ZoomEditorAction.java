@@ -26,7 +26,7 @@ import javax.swing.undo.*;
  * @author  Werner Randelshofer
  * @version 1.0 January 16, 2006 Created.
  */
-public class ZoomEditorAction extends AbstractEditorAction {
+public class ZoomEditorAction extends AbstractDrawingEditorAction {
     public final static String ID = "zoomEditor";
     
     private double scaleFactor;

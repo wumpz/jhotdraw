@@ -17,12 +17,8 @@ package org.jhotdraw.samples.pert;
 import java.awt.print.Pageable;
 import java.util.*;
 import java.util.prefs.*;
-import org.jhotdraw.draw.ImageOutputFormat;
-import org.jhotdraw.draw.InputFormat;
-import org.jhotdraw.draw.OutputFormat;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.io.*;
-import org.jhotdraw.draw.DOMStorableInputOutputFormat;
 import org.jhotdraw.undo.*;
 import org.jhotdraw.util.*;
 import java.awt.*;
@@ -35,8 +31,6 @@ import org.jhotdraw.app.*;
 import org.jhotdraw.app.action.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
-import org.jhotdraw.xml.*;
-import org.jhotdraw.samples.pert.figures.*;
 
 /**
  * A view for Pert diagrams.
@@ -216,26 +210,6 @@ public class PertView extends AbstractView {
             e.initCause(e);
             throw error;
         }
-    }
-    
-    /**
-     * Sets a drawing editor for the view.
-     */
-    public void setDrawingEditor(DrawingEditor newValue) {
-        if (editor != null) {
-            editor.remove(view);
-        }
-        editor = newValue;
-        if (editor != null) {
-            editor.add(view);
-        }
-    }
-    
-    /**
-     * Gets the drawing editor of the view.
-     */
-    public DrawingEditor getDrawingEditor() {
-        return editor;
     }
     
     /**

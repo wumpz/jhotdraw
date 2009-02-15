@@ -14,17 +14,11 @@
 
 package org.jhotdraw.draw.action;
 
-import org.jhotdraw.app.*;
 import org.jhotdraw.app.action.*;
-import org.jhotdraw.util.*;
-import javax.swing.*;
-import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.util.ResourceBundleUtil;
 /**
- * ToggleGridAction.
- * <p>
- * XXX - We shouldn't have a dependency to the application framework
- * from within the drawing framework.
+ * Toggles the grid of the current view.
  *
  * @author  Werner Randelshofer
  * @version 2.0 2007-07-31 Rewritten to act on a GridProject instead
@@ -33,15 +27,15 @@ import org.jhotdraw.draw.*;
  * <br>1.1 2006-04-21 Constructor with DrawingEditor paremeter added.
  * <br>1.0 January 16, 2006 Created.
  */
-public class ToggleGridAction extends AbstractEditorAction {
+public class ToggleGridAction extends AbstractDrawingEditorAction {
     public final static String ID = "view.toggleGrid";
-    private String label;
     /**
      * Creates a new instance.
      */
     public ToggleGridAction(DrawingEditor editor) {
         super(editor);
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil labels =
+                ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         labels.configureAction(this, ID);
         updateViewState();
     }
@@ -53,6 +47,7 @@ public class ToggleGridAction extends AbstractEditorAction {
         }
     }
     
+    @Override
     protected void updateViewState() {
         DrawingView view = getView();
         putValue(Actions.SELECTED_KEY, view != null && view.isConstrainerVisible());

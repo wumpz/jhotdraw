@@ -342,7 +342,7 @@ public class DefaultMDIApplication extends AbstractApplication {
             mi.setIcon(null);
         }
         openRecentMenu = new JMenu();
-        labels.configureMenu(openRecentMenu, "openRecent");
+        labels.configureMenu(openRecentMenu, "file.openRecent");
         openRecentMenu.add(model.getAction(ClearRecentFilesAction.ID));
         updateOpenRecentMenu(openRecentMenu);
         m.add(openRecentMenu);
@@ -391,7 +391,7 @@ public class DefaultMDIApplication extends AbstractApplication {
         if (v.hasUnsavedChanges()) {
             title += "*";
         }
-        v.setTitle(labels.getFormatted("frame.title", title, getName(), v.getMultipleOpenId()));
+        v.setTitle(labels.getFormatted("internalFrame.title", title, getName(), v.getMultipleOpenId()));
         f.setTitle(v.getTitle());
     }
 

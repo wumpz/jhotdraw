@@ -14,20 +14,12 @@
  */
 package org.jhotdraw.samples.svg;
 
-import org.jhotdraw.app.ExportableView;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.print.Pageable;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.prefs.Preferences;
-import org.jhotdraw.draw.ImageInputFormat;
-import org.jhotdraw.draw.ImageOutputFormat;
-import org.jhotdraw.draw.OutputFormat;
-import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.gui.*;
-import org.jhotdraw.io.*;
-import org.jhotdraw.draw.InputFormat;
 import org.jhotdraw.samples.svg.figures.*;
 import org.jhotdraw.samples.svg.io.*;
 import org.jhotdraw.undo.*;
@@ -42,7 +34,6 @@ import org.jhotdraw.app.*;
 import org.jhotdraw.app.action.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
-import org.jhotdraw.xml.*;
 
 /**
  * A view for SVG drawings.
@@ -81,6 +72,7 @@ public class SVGView extends AbstractView implements ExportableView {
     /**
      * Initializes the View.
      */
+    @Override
     public void init() {
         super.init();
         prefs = Preferences.userNodeForPackage(getClass());
@@ -96,6 +88,8 @@ public class SVGView extends AbstractView implements ExportableView {
         scrollPane.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
 
         setEditor(new DefaultDrawingEditor());
+        editor.add(view);
+System.out.println("SVGView "+editor+" "+editor.getActiveView());
         undo = new UndoRedoManager();
         view.setDrawing(createDrawing());
         view.getDrawing().addUndoableEditListener(undo);
@@ -276,13 +270,6 @@ public class SVGView extends AbstractView implements ExportableView {
             error.initCause(e);
             throw error;
         }
-    }
-
-    /**
-     * Gets the drawing editor of the view.
-     */
-    public DrawingEditor getDrawingEditor() {
-        return editor;
     }
 
     public Drawing getDrawing() {

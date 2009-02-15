@@ -64,17 +64,17 @@ public class PathTool extends BezierTool {
     }
 
     @Override
-    protected void finishCreation(BezierFigure createdFigure) {
+    protected void finishCreation(BezierFigure createdFigure, DrawingView creationView) {
         if (DEBUG) {
             System.out.println("PathTool.finishCreation " + createdFigure);
         }
-        getDrawing().remove(createdFigure);
+        creationView.getDrawing().remove(createdFigure);
         SVGPathFigure createdPath = createPath();
         createdPath.removeAllChildren();
         createdPath.add(createdFigure);
-        getDrawing().add(createdPath);
-        fireUndoEvent(createdPath);
-        getView().addToSelection(createdPath);
+        creationView.getDrawing().add(createdPath);
+        fireUndoEvent(createdPath, creationView);
+        creationView.addToSelection(createdPath);
         if (isToolDoneAfterCreation()) {
             fireToolDone();
         }

@@ -26,8 +26,6 @@ public class Main {
     
     /** Creates a new instance. */
     public static void main(String[] args) {
-        ResourceBundleUtil.setVerbose(true);
-
         Application app;
         String os = System.getProperty("os.name").toLowerCase();
         if (os.startsWith("mac")) {
@@ -38,7 +36,6 @@ public class Main {
         } else {
             app = new DefaultSDIApplication();
         }
-        
         SVGApplicationModel model = new SVGApplicationModel();
         model.setName("JHotDraw SVG");
         model.setVersion(Main.class.getPackage().getImplementationVersion());

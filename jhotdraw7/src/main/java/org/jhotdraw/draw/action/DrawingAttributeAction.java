@@ -34,7 +34,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * <br>1.1 2006-02-27 Support for compatible text action added.
  * <br>1.0 25. November 2003  Created.
  */
-public class DrawingAttributeAction extends AbstractViewAction {
+public class DrawingAttributeAction extends AbstractDrawingViewAction {
 
     protected Map<AttributeKey, Object> attributes;
 

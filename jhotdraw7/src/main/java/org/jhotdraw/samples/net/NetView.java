@@ -15,9 +15,7 @@
 package org.jhotdraw.samples.net;
 
 import java.awt.print.Pageable;
-import java.util.*;
 import java.util.prefs.*;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.io.*;
 import org.jhotdraw.samples.net.figures.*;
@@ -33,8 +31,6 @@ import org.jhotdraw.app.*;
 import org.jhotdraw.app.action.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
-import org.jhotdraw.xml.*;
-import org.jhotdraw.samples.pert.figures.*;
 
 /**
  * A view for Network diagrams.
@@ -46,7 +42,7 @@ import org.jhotdraw.samples.pert.figures.*;
  * <br>1.1 2006-06-10 Extended to support DefaultDrawApplicationModel.
  * <br>1.0 2006-02-07 Created.
  */
-public class NetView extends AbstractView {
+public class NetView extends AbstractView  {
     public final static String GRID_VISIBLE_PROPERTY = "gridVisible";
     
     /**

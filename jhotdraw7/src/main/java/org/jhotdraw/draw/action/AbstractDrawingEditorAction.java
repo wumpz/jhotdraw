@@ -1,7 +1,7 @@
 /*
- * @(#)AbstractEditorAction.java  1.1 2006-03-15
+ * @(#)AbstractDrawingEditorAction.java  2.0  2009-02-15
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -26,13 +26,13 @@ import java.beans.*;
  * Abstract super class for actions which act on a DrawingEditor.
  *
  * @author Werner Randelshofer
- * @version 1.1 2006-03-15 Support for enabled state of editor added.
+ * @version 2.0 2009-02-15 Renamed from AbstractEditorAction to
+ * AbstractDrawingEditorAction.
+ * <br>1.1 2006-03-15 Support for enabled state of editor added.
  * <br>1.0 2003-12-01 Created.
  */
-public abstract class AbstractEditorAction extends AbstractAction {
+public abstract class AbstractDrawingEditorAction extends AbstractAction {
     protected DrawingEditor editor;
-    protected final static ResourceBundleUtil labels = 
-            ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
     private PropertyChangeListener propertyChangeHandler = new PropertyChangeListener() {
         public void propertyChange(PropertyChangeEvent evt) {
             if (evt.getPropertyName().equals("enabled")) {
@@ -44,7 +44,7 @@ public abstract class AbstractEditorAction extends AbstractAction {
     };
     
     /** Creates a new instance. */
-    public AbstractEditorAction(DrawingEditor editor) {
+    public AbstractDrawingEditorAction(DrawingEditor editor) {
         this.editor = editor;
         if (editor != null) {
             editor.addPropertyChangeListener(propertyChangeHandler);
