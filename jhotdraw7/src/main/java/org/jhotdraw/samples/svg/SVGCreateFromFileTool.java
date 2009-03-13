@@ -5,11 +5,11 @@
  * and all its contributors.
  * All rights reserved.
  *
- * The copyright of this software is owned by the authors and  
- * contributors of the JHotDraw project ("the copyright holders").  
- * You may not use, copy or modify this software, except in  
- * accordance with the license agreement you entered into with  
- * the copyright holders. For details see accompanying license terms. 
+ * The copyright of this software is owned by the authors and
+ * contributors of the JHotDraw project ("the copyright holders").
+ * You may not use, copy or modify this software, except in
+ * accordance with the license agreement you entered into with
+ * the copyright holders. For details see accompanying license terms.
  */
 package org.jhotdraw.samples.svg;
 
@@ -38,17 +38,17 @@ import org.jhotdraw.undo.*;
  * image, ths tool creates a SVGGroupFigure.
  * <p>
  * Immediately, after the ImageTool has been activated, it opens a JFileChooser,
- * letting the user specify a file. The the user then performs 
+ * letting the user specify a file. The the user then performs
  * the following mouse gesture:
  * <ol>
- * <li>Press the mouse button and drag the mouse over the DrawingView. 
+ * <li>Press the mouse button and drag the mouse over the DrawingView.
  * This defines the bounds of the created Figure.</li>
  * </ol>
- * 
+ *
  * @author Werner Randelshofer
  * @version 2.1 2008-05-28 Added option for using FileDialog instead of
- * JFontChooser. 
- * <br>2.0 2008-05-24 Changed behavior of ImageTool. 
+ * JFontChooser.
+ * <br>2.0 2008-05-24 Changed behavior of ImageTool.
  * <br>1.1 2008-05-17 Honor toolDoneAfterCreation property.
  * <br>1.0 December 14, 2006 Created.
  */
@@ -83,7 +83,7 @@ public class SVGCreateFromFileTool extends CreationTool {
             fileDialog = null;
         }
     }
-    
+
     public boolean isUseFileDialog() {
         return useFileDialog;
     }
@@ -120,8 +120,7 @@ public class SVGCreateFromFileTool extends CreationTool {
 
             if (file.getName().toLowerCase().endsWith(".svg") ||
                     file.getName().toLowerCase().endsWith(".svgz")) {
-                prototype = groupPrototype;
-                final Figure loaderFigure = ((Figure) prototype.clone());
+                prototype = ((Figure) groupPrototype.clone());
                 worker = new Worker() {
 
                     public Object construct() {
@@ -148,7 +147,7 @@ public class SVGCreateFromFileTool extends CreationTool {
                             Drawing drawing = (Drawing) value;
                             CompositeFigure parent;
                             if (createdFigure == null) {
-                                parent = (CompositeFigure) loaderFigure;
+                                parent = (CompositeFigure) prototype;
                                 for (Figure f : drawing.getChildren()) {
                                     parent.basicAdd(f);
                                 }
