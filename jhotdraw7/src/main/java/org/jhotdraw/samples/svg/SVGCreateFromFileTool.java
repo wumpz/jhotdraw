@@ -121,6 +121,7 @@ public class SVGCreateFromFileTool extends CreationTool {
             if (file.getName().toLowerCase().endsWith(".svg") ||
                     file.getName().toLowerCase().endsWith(".svgz")) {
                 prototype = groupPrototype;
+                final Figure loaderFigure = ((Figure) prototype.clone());
                 worker = new Worker() {
 
                     public Object construct() {
@@ -147,7 +148,7 @@ public class SVGCreateFromFileTool extends CreationTool {
                             Drawing drawing = (Drawing) value;
                             CompositeFigure parent;
                             if (createdFigure == null) {
-                                parent = (CompositeFigure) prototype;
+                                parent = (CompositeFigure) loaderFigure;
                                 for (Figure f : drawing.getChildren()) {
                                     parent.basicAdd(f);
                                 }
