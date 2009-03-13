@@ -13,13 +13,12 @@
  */
 package org.jhotdraw.gui.plaf.palette;
 
+import org.apache.batik.ext.awt.LinearGradientPaint;
+import org.apache.batik.ext.awt.MultipleGradientPaint;
 import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.*;
 import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import org.apache.batik.ext.awt.*;
 
 /**
  * QuaquaToolBarBorder.
