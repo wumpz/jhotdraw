@@ -15,13 +15,13 @@
 
 package org.jhotdraw.draw;
 
-import ch.randelshofer.quaqua.util.ResourceBundleUtil;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Point2D;
 import java.util.*;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.UndoableEdit;
+import org.jhotdraw.util.ResourceBundleUtil;
 /**
  * A tool to create new or edit existing figures that implement the TextHolderFigure
  * interface, such as TextFigure. The figure to be created is specified by a
