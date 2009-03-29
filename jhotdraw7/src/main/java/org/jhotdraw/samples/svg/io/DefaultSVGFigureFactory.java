@@ -47,7 +47,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
     }
     
     public Figure createCircle(double cx, double cy, double r, Map<AttributeKey, Object> a) {
-        return createEllipse(cx-r, cy-r, r*2d, r*2d, a);
+        return createEllipse(cx, cy, r, r, a);
     }
     
     public Figure createEllipse(double cx, double cy, double rx, double ry, Map<AttributeKey, Object> a) {

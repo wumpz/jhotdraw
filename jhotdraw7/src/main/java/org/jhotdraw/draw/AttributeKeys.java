@@ -412,6 +412,7 @@ public class AttributeKeys {
         boolean isAllZeroes = true;
         if (ddashes != null) {
             dashes = new float[ddashes.length];
+            // XXX - explicitly handle negative dash offsets here
             for (int i=0; i < dashes.length; i++) {
                 dashes[i] = Math.max(0f, (float) (ddashes[i] * dashFactor));
                 if (isAllZeroes && dashes[i] != 0) {
@@ -430,7 +431,7 @@ public class AttributeKeys {
                         STROKE_CAP.get(f),
                         STROKE_JOIN.get(f) ,
                         miterLimit,
-                        dashes, (float) (STROKE_DASH_PHASE.get(f) * dashFactor));
+                        dashes, Math.max(0, (float) (STROKE_DASH_PHASE.get(f) * dashFactor)));
                 //not reached
                 
             case DOUBLE :
@@ -440,7 +441,7 @@ public class AttributeKeys {
                         STROKE_CAP.get(f),
                         STROKE_JOIN.get(f),
                         miterLimit,
-                        dashes, (float) (STROKE_DASH_PHASE.get(f).floatValue() * dashFactor));
+                        dashes, Math.max(0, (float) (STROKE_DASH_PHASE.get(f).floatValue() * dashFactor)));
                 //not reached
         }
     }
