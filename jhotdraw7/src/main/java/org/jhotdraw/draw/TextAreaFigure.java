@@ -1,7 +1,7 @@
 /*
- * @(#)TextAreaFigure.java  2.1  2008-05-28
+ * @(#)TextAreaFigure.java  2.1.1  2009-03-29
  *
- * Copyright (c) 1996-2008 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -51,7 +51,9 @@ import org.jhotdraw.xml.DOMOutput;
  *
  * @author    Eduardo Francos - InContext (original version),
  *            Werner Randelshofer (this derived version)
- * @version 2.1 2008-05-28 Added method getPreferredTextBounds. 
+ * @version 2.1.1 2009-03-29 Two consecutive tab-characters in text caused
+ * ArrayIndexOutOfBoundsException.
+ * <br>2.1 2008-05-28 Added method getPreferredTextBounds.
  * <br>2.0.3 2007-04-05 Made all instance variables protected instead of private.
  * <br>2.0.2 2006-12-11 Implemented more efficient clipping.
  * <br>2.0.1 2006-02-27 Draw UNDERLINE_LOW_ONE_PIXEL instead of UNDERLINE_ON.
@@ -79,6 +81,7 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
     }
 
     // DRAWING
+    @Override
     protected void drawText(Graphics2D g) {
         if (getText() != null || isEditable()) {
             Font font = getFont();
@@ -116,7 +119,7 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
                         if (isUnderlined) {
                             as.addAttribute(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
                         }
-                        int tabCount = new StringTokenizer(paragraphs[i], "\t").countTokens() - 1;
+                        int tabCount = paragraphs[i].split("\t").length - 1;
                         Rectangle2D.Double paragraphBounds = drawParagraph(g, as.getIterator(), verticalPos, maxVerticalPos, leftMargin, rightMargin, tabStops, tabCount);
                         verticalPos = (float) (paragraphBounds.y + paragraphBounds.height);
                         if (verticalPos > maxVerticalPos) {
@@ -496,13 +499,13 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
                     if (isUnderlined) {
                         as.addAttribute(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
                     }
-                    int tabCount = new StringTokenizer(paragraphs[i], "\t").countTokens() - 1;
+                    int tabCount = paragraphs[i].split("\t").length - 1;
                     Rectangle2D.Double paragraphBounds = drawParagraph(null, as.getIterator(), verticalPos, maxVerticalPos, leftMargin, rightMargin, tabStops, tabCount);
                     verticalPos = (float) (paragraphBounds.y + paragraphBounds.height);
                     textRect.add(paragraphBounds);
                 }
             }
         }
-        return new Dimension2DDouble(-Math.min(textRect.x,0) + textRect.width, -Math.min(textRect.y,0) + textRect.height);
+        return new Dimension2DDouble(-Math.min(textRect.x, 0) + textRect.width, -Math.min(textRect.y, 0) + textRect.height);
     }
 }

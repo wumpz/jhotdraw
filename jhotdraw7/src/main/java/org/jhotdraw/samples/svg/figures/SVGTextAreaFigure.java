@@ -1,7 +1,7 @@
 /*
- * @(#)SVGTextArea.java  2.1  2008-05-31
+ * @(#)SVGTextArea.java  2.1.1  2009-03-29
  *
- * Copyright (c) 1996-2008 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -14,26 +14,22 @@
 package org.jhotdraw.samples.svg.figures;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.font.*;
 import java.awt.geom.*;
 import java.text.*;
 import java.util.*;
-import java.io.*;
-import javax.swing.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.samples.svg.*;
-import org.jhotdraw.samples.svg.SVGConstants;
-import org.jhotdraw.util.*;
 import org.jhotdraw.geom.*;
-import org.jhotdraw.xml.*;
 
 /**
  * SVGTextArea.
  *
  * @author Werner Randelshofer
- * @version 2.1 2008-05-31 Added method getPreferredTextSize.  
+ * @version 2.1.1 2009-03-29 Two consecutive tab-characters in text caused
+ * ArrayIndexOutOfBoundsException.
+ * <br>2.1 2008-05-31 Added method getPreferredTextSize.
  * <br>2.0.1 Rectangle returned by getDrawingArea needs to be cloned.
  * <br>2.0 2007-04-14 Adapted for new AttributeKeys.TRANSFORM support.
  * <br>1.0 December 9, 2006 Created.
@@ -64,6 +60,8 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
         SVGAttributeKeys.setDefaults(this);
     }
     // DRAWING
+
+    @Override
     protected void drawText(java.awt.Graphics2D g) {
     }
 
@@ -76,6 +74,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
         g.draw(getTextShape());
     }
     // SHAPE AND BOUNDS
+
     public Rectangle2D.Double getBounds() {
         return (Rectangle2D.Double) bounds.clone();
     }
@@ -149,11 +148,11 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
                             if (isUnderlined) {
                                 as.addAttribute(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
                             }
-                            int tabCount = new StringTokenizer(paragraphs[i], "\t").countTokens() - 1;
+                            int tabCount = paragraphs[i].split("\t").length - 1;
                             Rectangle2D.Double paragraphBounds = appendParagraph(
                                     shape, as.getIterator(),
                                     verticalPos, maxVerticalPos, leftMargin, rightMargin, tabStops, tabCount);
-                        verticalPos = (float) (paragraphBounds.y + paragraphBounds.height);
+                            verticalPos = (float) (paragraphBounds.y + paragraphBounds.height);
                             if (verticalPos > textRect.y + textRect.height) {
                                 break;
                             }
@@ -359,10 +358,10 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
                     bounds.clone(),
                     TRANSFORM.getClone(this),
                     FILL_GRADIENT.getClone(this),
-                    STROKE_GRADIENT.getClone(this),
-                };
+                    STROKE_GRADIENT.getClone(this),};
     }
 // ATTRIBUTES
+
     public String getText() {
         return (String) getAttribute(TEXT);
     }
@@ -454,6 +453,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
         return (float) Math.abs(p.y);
     }
 // EDITING
+
     public boolean isEditable() {
         return editable;
     }
@@ -497,6 +497,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
         return null;
     }
 // CONNECTING
+
     public boolean canConnect() {
         return false; // SVG does not support connecting
     }
@@ -511,6 +512,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
 // COMPOSITE FIGURES
 // CLONING
 // EVENT HANDLING
+
     /**
      * Gets the text shown by the text figure.
      */
@@ -572,7 +574,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
                         if (isUnderlined) {
                             as.addAttribute(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
                         }
-                        int tabCount = new StringTokenizer(paragraphs[i], "\t").countTokens() - 1;
+                        int tabCount = paragraphs[i].split("\t").length - 1;
                         Rectangle2D.Double paragraphBounds = appendParagraph(null, as.getIterator(), verticalPos, maxVerticalPos, leftMargin, rightMargin, tabStops, tabCount);
                         verticalPos = (float) (paragraphBounds.y + paragraphBounds.height);
                         textRect.add(paragraphBounds);
