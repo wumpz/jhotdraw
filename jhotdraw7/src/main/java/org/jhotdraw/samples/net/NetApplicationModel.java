@@ -157,8 +157,8 @@ public class NetApplicationModel extends DefaultApplicationModel {
         
         m = new JMenu();
         labels.configureMenu(m, "view");
-        cbmi = new JCheckBoxMenuItem(getAction("toggleGrid"));
-        Actions.configureJCheckBoxMenuItem(cbmi, getAction("toggleGrid"));
+        cbmi = new JCheckBoxMenuItem(getAction("view.toggleGrid"));
+        Actions.configureJCheckBoxMenuItem(cbmi, getAction("view.toggleGrid"));
         m.add(cbmi);
         m2 = new JMenu("Zoom");
         for (double sf : scaleFactors) {

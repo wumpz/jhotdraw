@@ -141,6 +141,9 @@
         <copy todir="${classdir}/org/jhotdraw/app">
             <fileset file="${srcdir}/org/jhotdraw/app/Label*.properties"/>
         </copy>
+        <copy todir="${classdir}/org/jhotdraw/gui">
+            <fileset file="${srcdir}/org/jhotdraw/gui/Label*.properties"/>
+        </copy>
         <copy todir="${classdir}/org/jhotdraw/samples/net">
             <fileset file="${srcdir}/org/jhotdraw/samples/net/Label*.properties"/>
         </copy>
@@ -207,6 +210,20 @@
             <jvmarg value="-Dlocale=en"/>
             <jvmarg value="-Dapple.awt.graphics.UseQuartz=false"/>
             <jvmarg value="-Djava.library.path=${libdir}"/>
+        </java>
+    </target>
+    <target name="application.run-compiled" depends="init">
+        <java fork="true" classname="org.jhotdraw.samples.net.Main">
+            <classpath>
+                <pathelement path="${classdir}"/>
+                <pathelement path="${libdir}/quaqua.jar"/>
+                <pathelement path="${libdir}/MRJAdapter.jar"/>
+            </classpath>
+            <jvmarg value="-Xdock:name=JHotDraw Net"/>
+            <jvmarg value="-Dlocale=en"/>
+            <jvmarg value="-Dapple.awt.graphics.UseQuartz=false"/>
+            <jvmarg value="-Djava.library.path=${libdir}"/>
+            <jvmarg value="-Xmx256M"/>
         </java>
     </target>
     <target name="applet.run-jar" depends="init">

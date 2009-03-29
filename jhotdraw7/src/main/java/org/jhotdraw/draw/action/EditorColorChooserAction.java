@@ -1,7 +1,7 @@
 /*
- * @(#)EditorColorChooserAction.java  2.0  2006-06-07
+ * @(#)EditorColorChooserAction.java  2.0.1  2009-03-29
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -14,10 +14,8 @@
 
 package org.jhotdraw.draw.action;
 
-import javax.swing.*;
 import java.util.*;
 import java.awt.*;
-import java.beans.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.undo.CompositeEdit;
@@ -28,7 +26,9 @@ import org.jhotdraw.undo.CompositeEdit;
  * {@link EditorColorIcon }.
  *
  * @author Werner Randelshofer
- * @version 2.0 2006-06-07 Reworked.
+ * @version 2.0.1 2009-03-29 Ensure that instance variable fixedAttributes is
+ * not null,
+ * <br>2.0 2006-06-07 Reworked.
  * <br>1.0 2004-03-02  Created.
  */
 public class EditorColorChooserAction extends AbstractSelectedAction {
@@ -59,7 +59,7 @@ public class EditorColorChooserAction extends AbstractSelectedAction {
         //putValue(AbstractAction.MNEMONIC_KEY, new Integer('V'));
         putValue(AbstractAction.SMALL_ICON, icon);
         setEnabled(true);
-        this.fixedAttributes = fixedAttributes;
+        this.fixedAttributes = (fixedAttributes != null) ? fixedAttributes : new HashMap<AttributeKey,Object>();
     }
     
     public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -67,6 +67,7 @@ public class EditorColorChooserAction extends AbstractSelectedAction {
             colorChooser = new JColorChooser();
         }
         Color initialColor = getInitialColor();
+        // FIXME - Reuse colorChooser object instead of calling static method here.
         Color chosenColor = colorChooser.showDialog((Component) e.getSource(), labels.getString("drawColor"), initialColor);
         if (chosenColor != null) {
             changeAttribute(chosenColor);
