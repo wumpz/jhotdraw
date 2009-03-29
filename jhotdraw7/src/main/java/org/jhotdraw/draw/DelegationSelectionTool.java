@@ -278,8 +278,28 @@ public class DelegationSelectionTool extends SelectionTool {
             handle.trackDoubleClick(pos, evt.getModifiersEx());
         } else {
             Point2D.Double p = viewToDrawing(pos);
-            Figure outerFigure = getView().findFigure(pos);
-            Figure figure = outerFigure;
+
+            // Note: The search sequence used here, must be
+            // consistent with the search sequence used by the
+            // HandleTracker, the SelectAreaTracker and SelectionTool.
+
+            // If possible, continue to work with the current selection
+            Figure figure = null;
+            if (isSelectBehindEnabled()) {
+                for (Figure f : v.getSelectedFigures()) {
+                    if (f.contains(p)) {
+                        figure = f;
+                        break;
+                    }
+                }
+            }
+            // If the point is not contained in the current selection,
+            // search for a figure in the drawing.
+            if (figure == null) {
+                figure = v.findFigure(pos);
+            }
+
+            Figure outerFigure = figure;
             if (figure != null && figure.isSelectable()) {
                 if (DEBUG) {
                     System.out.println("DelegationSelectionTool.handleDoubleClick by figure");
@@ -325,6 +345,7 @@ public class DelegationSelectionTool extends SelectionTool {
         }
     }
 
+    @Override
     public String getToolTipText(DrawingView view, MouseEvent evt) {
         Handle handle = view.findHandle(evt.getPoint());
         if (handle != null) {

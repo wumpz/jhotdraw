@@ -1,7 +1,7 @@
 /*
- * @(#)SVGInputFormat.java  1.2  2007-07-16
+ * @(#)SVGInputFormat.java  1.2.1  2009-03-29
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -50,7 +50,9 @@ import org.jhotdraw.xml.css.CSSParser;
  *
  *
  * @author Werner Randelshofer
- * @version 1.2 2007-12-16 Adapted to changes in InputFormat.
+ * @version 1.2.1 2009-03-29 readTextAreaElement only read multiline text
+ * in reverse order of the lines and omitted the line breaks.
+ * <br>1.2 2007-12-16 Adapted to changes in InputFormat.
  * <br>1.1.1 2007-04-23 Fixed reading of "transform" attribute, fixed reading
  * of "textArea" element.
  * <br>1.1 2007-04-22 Added support for "a" element.
@@ -888,7 +890,9 @@ public class SVGInputFormat implements InputFormat {
             } else {
                 for (IXMLElement node : elem.getChildren()) {
                     if (node.getName() == null) {
-                        doc.insertString(0, toText(elem, node.getContent()), null);
+                        doc.insertString(doc.getLength(), toText(elem, node.getContent()), null);
+                    } else if (node.getName().equals("tbreak")) {
+                        doc.insertString(doc.getLength(), "\n", null);
                     } else if (node.getName().equals("tspan")) {
                         readTSpanElement((IXMLElement) node, doc);
                     } else {

@@ -1,7 +1,7 @@
 /*
- * @(#)TextTool.java  2.4  2008-05-24
+ * @(#)TextTool.java  2.4.1  2009-03-29
  *
- * Copyright (c) 1996-2008 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -15,10 +15,13 @@
 
 package org.jhotdraw.draw;
 
+import ch.randelshofer.quaqua.util.ResourceBundleUtil;
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.event.*;
+import java.awt.geom.Point2D;
 import java.util.*;
+import javax.swing.undo.AbstractUndoableEdit;
+import javax.swing.undo.UndoableEdit;
 /**
  * A tool to create new or edit existing figures that implement the TextHolderFigure
  * interface, such as TextFigure. The figure to be created is specified by a
@@ -53,7 +56,9 @@ import java.util.*;
  * @see FloatingTextField
  *
  * @author Werner Randelshofer
- * @version 2.4 2008-05-24 Moved code from this class into FloatingTextField.
+ * @version 2.4.1 2009-03-29 Editing of a TextArea which is behind another figure
+ * did not work. Partially implemented undoable edit handling.
+ * <br>2.4 2008-05-24 Moved code from this class into FloatingTextField.
  * <br>2.3 2008-05-17 Honor toolDoneAfterCreation property.
  * <br>2.2 2007-11-30 Added variable isUsedForCreation.  
  * <br>2.1 2007-08-22 Added support for property 'toolDoneAfterCreation'.
@@ -104,9 +109,32 @@ public class TextTool extends CreationTool implements ActionListener {
      * If the pressed figure is a TextHolderFigure it can be edited otherwise
      * a new text figure is created.
      */
+    @Override
     public void mousePressed(MouseEvent e) {
         TextHolderFigure textHolder = null;
-        Figure pressedFigure = getDrawing().findFigureInside(getView().viewToDrawing(new Point(e.getX(), e.getY())));
+        // Note: The search sequence used here, must be
+        // consistent with the search sequence used by the
+        // HandleTracker, SelectAreaTracker, DelegationSelectionTool, SelectionTool.
+
+        // If possible, continue to work with the current selection
+        DrawingView v = getView();
+        Point2D.Double p = v.viewToDrawing(e.getPoint());
+        Figure pressedFigure = null;
+        if (true /*isSelectBehindEnabled()*/) {
+            for (Figure f : v.getSelectedFigures()) {
+                if (f.contains(p)) {
+                    pressedFigure = f;
+                    break;
+                }
+            }
+        }
+
+        // If the point is not contained in the current selection,
+        // search for a figure in the drawing.
+        if (pressedFigure == null) {
+            pressedFigure = getDrawing().findFigureInside(p);
+        }
+
         if (pressedFigure instanceof TextHolderFigure) {
             textHolder = ((TextHolderFigure) pressedFigure).getLabelFor();
             if (!textHolder.isEditable() || isForCreationOnly)
@@ -161,17 +189,48 @@ public class TextTool extends CreationTool implements ActionListener {
     protected void endEdit() {
         if (typingTarget != null) {
             typingTarget.willChange();
-            if (textField.getText().length() > 0) {
-                typingTarget.setText(textField.getText());
+
+            final TextHolderFigure editedFigure = typingTarget;
+            final String oldText = typingTarget.getText();
+            final String newText = textField.getText();
+
+            if (newText.length() > 0) {
+                typingTarget.setText(newText);
             } else {
                 if (createdFigure != null) {
                     getDrawing().remove((Figure)getAddedFigure());
+                // XXX - Fire undoable edit here!!
                 } else {
                     typingTarget.setText("");
                     typingTarget.changed();
                 }
             }
-            // XXX - Implement Undo/Redo behavior here
+            UndoableEdit edit = new AbstractUndoableEdit() {
+
+                @Override
+                public String getPresentationName() {
+                    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+                    return labels.getString("attribute.text.text");
+                }
+
+                @Override
+                public void undo() {
+                    super.undo();
+                    editedFigure.willChange();
+                    editedFigure.setText(oldText);
+                    editedFigure.changed();
+                }
+
+                @Override
+                public void redo() {
+                    super.redo();
+                    editedFigure.willChange();
+                    editedFigure.setText(newText);
+                    editedFigure.changed();
+                }
+            };
+            getDrawing().fireUndoableEditHappened(edit);
+
             typingTarget.changed();
             typingTarget = null;
             

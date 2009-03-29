@@ -189,7 +189,7 @@ public class SelectionTool extends AbstractTool
                 } else {
                     // Note: The search sequence used here, must be
                     // consistent with the search sequence used by the
-                    // HandleTracker and the SelectAreaTracker.
+                    // HandleTracker, the SelectAreaTracker and DelegationSelectionTool.
 
                     // If possible, continue to work with the current selection
                     figure = null;
@@ -202,7 +202,7 @@ public class SelectionTool extends AbstractTool
                         }
                     }
                     // If the point is not contained in the current selection,
-                    // search for a figure.
+                    // search for a figure in the drawing.
                     if (figure == null) {
                         figure = view.findFigure(anchor);
                         while (figure != null && !figure.isSelectable()) {

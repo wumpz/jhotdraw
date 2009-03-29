@@ -16,13 +16,9 @@ package org.jhotdraw.draw.action;
 
 import javax.swing.undo.*;
 import org.jhotdraw.app.action.Actions;
-import org.jhotdraw.undo.*;
 import javax.swing.*;
-import javax.swing.text.*;
 import java.util.*;
-import java.awt.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.geom.*;
 import org.jhotdraw.util.ResourceBundleUtil;
 /**
  * AttributeAction.
@@ -88,6 +84,7 @@ public class AttributeAction extends AbstractSelectedAction {
             figure.changed();
         }
         UndoableEdit edit = new AbstractUndoableEdit() {
+            @Override
             public String getPresentationName() {
                 String name = (String) getValue(Actions.UNDO_PRESENTATION_NAME_KEY);
                 if (name == null) {
@@ -99,6 +96,7 @@ public class AttributeAction extends AbstractSelectedAction {
                 }
                 return name;
             }
+            @Override
             public void undo() {
                 super.undo();
                 Iterator<Object> iRestore = restoreData.iterator();
@@ -108,6 +106,7 @@ public class AttributeAction extends AbstractSelectedAction {
                     figure.changed();
                 }
             }
+            @Override
             public void redo() {
                 super.redo();
                 for (Figure figure : selectedFigures) {
@@ -120,7 +119,7 @@ public class AttributeAction extends AbstractSelectedAction {
                 }
             }
         };
-        fireUndoableEditHappened(edit);
+        getDrawing().fireUndoableEditHappened(edit);
     }
     protected void updateEnabledState() {
         setEnabled(getEditor().isEnabled());
