@@ -1,5 +1,5 @@
 /*
- * @(#)SVGInputFormat.java  1.2.1  2009-03-29
+ * @(#)SVGInputFormat.java  1.2.2  2009-03-29
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -50,7 +50,10 @@ import org.jhotdraw.xml.css.CSSParser;
  *
  *
  * @author Werner Randelshofer
- * @version 1.2.1 2009-03-29 readTextAreaElement only read multiline text
+ * @version 1.2.2 2009-03-29 Ignore Transform "ref(...") attribute instead of 
+ * refusing to load the SVG file. Ignore malformed JPEG-image instead of
+ * refusing to load the SVG file. Handle "none" value in length attribute.
+ * <br>1.2.1 2009-03-29 readTextAreaElement only read multiline text
  * in reverse order of the lines and omitted the line breaks.
  * <br>1.2 2007-12-16 Adapted to changes in InputFormat.
  * <br>1.1.1 2007-04-23 Fixed reading of "transform" attribute, fixed reading
@@ -88,6 +91,7 @@ public class SVGInputFormat implements InputFormat {
      *
      */
     private StreamPosTokenizer toPathTokenizer;
+
     /**
      * Each SVG element establishes a new Viewport.
      */
@@ -163,6 +167,7 @@ public class SVGInputFormat implements InputFormat {
     public void read(File file, Drawing drawing) throws IOException {
         read(file, drawing, true);
     }
+
     /**
      * This is the main reading method.
      *
@@ -252,9 +257,9 @@ public class SVGInputFormat implements InputFormat {
 
 
         if (replace) {
-        Viewport viewport = viewportStack.firstElement();
-        VIEWPORT_FILL.set(drawing, VIEWPORT_FILL.get(viewport.attributes));
-        VIEWPORT_FILL_OPACITY.set(drawing, VIEWPORT_FILL_OPACITY.get(viewport.attributes));
+            Viewport viewport = viewportStack.firstElement();
+            VIEWPORT_FILL.set(drawing, VIEWPORT_FILL.get(viewport.attributes));
+            VIEWPORT_FILL_OPACITY.set(drawing, VIEWPORT_FILL_OPACITY.get(viewport.attributes));
         }
     }
 
@@ -316,7 +321,7 @@ public class SVGInputFormat implements InputFormat {
     private Figure readElement(IXMLElement elem)
             throws IOException {
         if (DEBUG) {
-            System.out.println("SVGInputFormat.readElement " + elem.getName()+" line:" +elem.getLineNr());
+            System.out.println("SVGInputFormat.readElement " + elem.getName() + " line:" + elem.getLineNr());
         }
         Figure f = null;
         if (elem.getNamespace() == null ||
@@ -324,7 +329,7 @@ public class SVGInputFormat implements InputFormat {
             String name = elem.getName();
             if (name == null) {
                 if (DEBUG) {
-                    System.out.println("SVGInputFormat skipping nameless element at line "+elem.getLineNr());
+                    System.err.println("SVGInputFormat warning: skipping nameless element at line " + elem.getLineNr());
                 }
             } else if (name.equals("a")) {
                 f = readAElement(elem);
@@ -368,13 +373,13 @@ public class SVGInputFormat implements InputFormat {
             } else if (name.equals("textArea")) {
                 f = readTextAreaElement(elem);
             } else if (name.equals("title")) {
-            //FIXME - Implement reading of title element
-            //f = readTitleElement(elem);
+                //FIXME - Implement reading of title element
+                //f = readTitleElement(elem);
             } else if (name.equals("use")) {
                 f = readUseElement(elem);
             } else if (name.equals("style")) {
-            // Nothing to do, style elements have been already
-            // processed in method flattenStyles
+                // Nothing to do, style elements have been already
+                // processed in method flattenStyles
             } else {
                 if (DEBUG) {
                     System.out.println("SVGInputFormat not implemented for <" + name + ">");
@@ -676,7 +681,7 @@ public class SVGInputFormat implements InputFormat {
                     }
                     imageData = bout.toByteArray();
                 } catch (FileNotFoundException e) {
-                // Use empty image
+                    // Use empty image
                 } finally {
                     if (in != null) {
                         in.close();
@@ -687,7 +692,12 @@ public class SVGInputFormat implements InputFormat {
         // Create a buffered image from the image data
         BufferedImage bufferedImage = null;
         if (imageData != null) {
+            try {
             bufferedImage = ImageIO.read(new ByteArrayInputStream(imageData));
+            } catch (IIOException e) {
+                System.err.println("SVGInputFormat warning: skipped unsupported image format.");
+                e.printStackTrace();
+            }
         }
         // Delete the image data in case of failure
         if (bufferedImage == null) {
@@ -947,54 +957,49 @@ public class SVGInputFormat implements InputFormat {
     }
     private final static HashSet<String> supportedFeatures = new HashSet<String>(
             Arrays.asList(new String[]{
-        "http://www.w3.org/Graphics/SVG/feature/1.2/#SVG-static",
-        //"http://www.w3.org/Graphics/SVG/feature/1.2/#SVG-static-DOM",
-        //"http://www.w3.org/Graphics/SVG/feature/1.2/#SVG-animated",
-        //"http://www.w3.org/Graphics/SVG/feature/1.2/#SVG-all",
-        "http://www.w3.org/Graphics/SVG/feature/1.2/#CoreAttribute",
-        //"http://www.w3.org/Graphics/SVG/feature/1.2/#NavigationAttribute",
-        "http://www.w3.org/Graphics/SVG/feature/1.2/#Structure",
-        "http://www.w3.org/Graphics/SVG/feature/1.2/#ConditionalProcessing",
-        "http://www.w3.org/Graphics/SVG/feature/1.2/#ConditionalProcessingAttribute",
-        "http://www.w3.org/Graphics/SVG/feature/1.2/#Image",
-        //"http://www.w3.org/Graphics/SVG/feature/1.2/#Prefetch",
-        //"http://www.w3.org/Graphics/SVG/feature/1.2/#Discard",
-        "http://www.w3.org/Graphics/SVG/feature/1.2/#Shape",
-        "http://www.w3.org/Graphics/SVG/feature/1.2/#Text",
-        "http://www.w3.org/Graphics/SVG/feature/1.2/#PaintAttribute",
-        "http://www.w3.org/Graphics/SVG/feature/1.2/#OpacityAttribute",
-        "http://www.w3.org/Graphics/SVG/feature/1.2/#GraphicsAttribute",
-        "http://www.w3.org/Graphics/SVG/feature/1.2/#Gradient",
-        "http://www.w3.org/Graphics/SVG/feature/1.2/#SolidColor",
-        //"http://www.w3.org/Graphics/SVG/feature/1.2/#Hyperlinking",
-        //"http://www.w3.org/Graphics/SVG/feature/1.2/#XlinkAttribute",
-        //"http://www.w3.org/Graphics/SVG/feature/1.2/#ExternalResourcesRequired",
-        //"http://www.w3.org/Graphics/SVG/feature/1.2/#Scripting",
-        //"http://www.w3.org/Graphics/SVG/feature/1.2/#Handler",
-        //"http://www.w3.org/Graphics/SVG/feature/1.2/#Listener",
-        //"http://www.w3.org/Graphics/SVG/feature/1.2/#TimedAnimation",
-        //"http://www.w3.org/Graphics/SVG/feature/1.2/#Animation",
-        //"http://www.w3.org/Graphics/SVG/feature/1.2/#Audio",
-        //"http://www.w3.org/Graphics/SVG/feature/1.2/#Video",
-        "http://www.w3.org/Graphics/SVG/feature/1.2/#Font"
-    ,
-    //"http://www.w3.org/Graphics/SVG/feature/1.2/#Extensibility",
-    //"http://www.w3.org/Graphics/SVG/feature/1.2/#MediaAttribute",
-    //"http://www.w3.org/Graphics/SVG/feature/1.2/#TextFlow",
-    //"http://www.w3.org/Graphics/SVG/feature/1.2/#TransformedVideo",
-    //"http://www.w3.org/Graphics/SVG/feature/1.2/#ComposedVideo",
-
-
-
-
-                    }));
+                "http://www.w3.org/Graphics/SVG/feature/1.2/#SVG-static",
+                //"http://www.w3.org/Graphics/SVG/feature/1.2/#SVG-static-DOM",
+                //"http://www.w3.org/Graphics/SVG/feature/1.2/#SVG-animated",
+                //"http://www.w3.org/Graphics/SVG/feature/1.2/#SVG-all",
+                "http://www.w3.org/Graphics/SVG/feature/1.2/#CoreAttribute",
+                //"http://www.w3.org/Graphics/SVG/feature/1.2/#NavigationAttribute",
+                "http://www.w3.org/Graphics/SVG/feature/1.2/#Structure",
+                "http://www.w3.org/Graphics/SVG/feature/1.2/#ConditionalProcessing",
+                "http://www.w3.org/Graphics/SVG/feature/1.2/#ConditionalProcessingAttribute",
+                "http://www.w3.org/Graphics/SVG/feature/1.2/#Image",
+                //"http://www.w3.org/Graphics/SVG/feature/1.2/#Prefetch",
+                //"http://www.w3.org/Graphics/SVG/feature/1.2/#Discard",
+                "http://www.w3.org/Graphics/SVG/feature/1.2/#Shape",
+                "http://www.w3.org/Graphics/SVG/feature/1.2/#Text",
+                "http://www.w3.org/Graphics/SVG/feature/1.2/#PaintAttribute",
+                "http://www.w3.org/Graphics/SVG/feature/1.2/#OpacityAttribute",
+                "http://www.w3.org/Graphics/SVG/feature/1.2/#GraphicsAttribute",
+                "http://www.w3.org/Graphics/SVG/feature/1.2/#Gradient",
+                "http://www.w3.org/Graphics/SVG/feature/1.2/#SolidColor",
+                //"http://www.w3.org/Graphics/SVG/feature/1.2/#Hyperlinking",
+                //"http://www.w3.org/Graphics/SVG/feature/1.2/#XlinkAttribute",
+                //"http://www.w3.org/Graphics/SVG/feature/1.2/#ExternalResourcesRequired",
+                //"http://www.w3.org/Graphics/SVG/feature/1.2/#Scripting",
+                //"http://www.w3.org/Graphics/SVG/feature/1.2/#Handler",
+                //"http://www.w3.org/Graphics/SVG/feature/1.2/#Listener",
+                //"http://www.w3.org/Graphics/SVG/feature/1.2/#TimedAnimation",
+                //"http://www.w3.org/Graphics/SVG/feature/1.2/#Animation",
+                //"http://www.w3.org/Graphics/SVG/feature/1.2/#Audio",
+                //"http://www.w3.org/Graphics/SVG/feature/1.2/#Video",
+                "http://www.w3.org/Graphics/SVG/feature/1.2/#Font",
+            //"http://www.w3.org/Graphics/SVG/feature/1.2/#Extensibility",
+            //"http://www.w3.org/Graphics/SVG/feature/1.2/#MediaAttribute",
+            //"http://www.w3.org/Graphics/SVG/feature/1.2/#TextFlow",
+            //"http://www.w3.org/Graphics/SVG/feature/1.2/#TransformedVideo",
+            //"http://www.w3.org/Graphics/SVG/feature/1.2/#ComposedVideo",
+            }));
 
     /**
      * Evaluates an SVG "switch" element.
      *
      */
     private Figure readSwitchElement(IXMLElement elem)
-    throws IOException {
+            throws IOException {
         for (IXMLElement node : elem.getChildren()) {
             if (node instanceof IXMLElement) {
                 IXMLElement child = (IXMLElement) node;
@@ -1202,7 +1207,7 @@ public class SVGInputFormat implements InputFormat {
      */
     private double toLength(IXMLElement elem, String str, double percentFactor) throws IOException {
         double scaleFactor = 1d;
-        if (str == null || str.length() == 0) {
+        if (str == null || str.length() == 0 || str.equals("none")) {
             return 0d;
         }
 
@@ -1737,16 +1742,15 @@ public class SVGInputFormat implements InputFormat {
 
     private void readCoreAttributes(IXMLElement elem, HashMap<AttributeKey, Object> a)
             throws IOException {
-    // read "id" or "xml:id"
-    //identifiedElements.put(elem.getAttribute("id"), elem);
-    //identifiedElements.put(elem.getAttribute("xml:id"), elem);
+        // read "id" or "xml:id"
+        //identifiedElements.put(elem.getAttribute("id"), elem);
+        //identifiedElements.put(elem.getAttribute("xml:id"), elem);
 
-    // XXX - Add
-    // xml:base
-    // xml:lang
-    // xml:space
-    // class
-
+        // XXX - Add
+        // xml:base
+        // xml:lang
+        // xml:space
+        // class
     }
 
     /**
@@ -3193,8 +3197,14 @@ public class SVGInputFormat implements InputFormat {
                     t.concatenate(new AffineTransform(
                             1, Math.tan(angle * Math.PI / 180), 0, 1, 0, 0));
 
+                } else if (type.equals("ref")) {
+                    System.err.println("SVGInputFormat warning: ignored ref(...) transform attribute in element " + elem);
+                    while (tt.nextToken() != ')' && tt.ttype != StreamPosTokenizer.TT_EOF) {
+                        // ignore tokens between brackets
+                    }
+                    tt.pushBack();
                 } else {
-                    throw new IOException("Unknown transform " + type + " in " + str);
+                    throw new IOException("Unknown transform " + type + " in " + str + " in element " + elem);
                 }
                 if (tt.nextToken() != ')') {
                     throw new IOException("')' not found in transform " + str);
