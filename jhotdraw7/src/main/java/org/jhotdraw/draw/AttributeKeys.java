@@ -413,7 +413,7 @@ public class AttributeKeys {
         if (ddashes != null) {
             dashes = new float[ddashes.length];
             for (int i=0; i < dashes.length; i++) {
-                dashes[i] = (float) (ddashes[i] * dashFactor);
+                dashes[i] = Math.max(0f, (float) (ddashes[i] * dashFactor));
                 if (isAllZeroes && dashes[i] != 0) {
                     isAllZeroes = false;
                 }

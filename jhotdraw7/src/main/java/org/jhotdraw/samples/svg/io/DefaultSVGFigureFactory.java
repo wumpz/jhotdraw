@@ -1,7 +1,7 @@
 /*
- * @(#)DefaultSVGFigureFactory.java  1.0  December 7, 2006
+ * @(#)DefaultSVGFigureFactory.java  1.0.1  2009-03-29
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -28,7 +28,9 @@ import org.jhotdraw.samples.svg.figures.*;
  * DefaultSVGFigureFactory.
  *
  * @author Werner Randelshofer
- * @version 1.0 December 7, 2006 Created.
+ * @version 1.0.1 2009-03-29 createCircle created figures at wrong location
+ * and with wrong radius.
+ * <br>1.0 December 7, 2006 Created.
  */
 public class DefaultSVGFigureFactory implements SVGFigureFactory {
     
@@ -45,12 +47,11 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
     }
     
     public Figure createCircle(double cx, double cy, double r, Map<AttributeKey, Object> a) {
-        return createEllipse(cx, cy, r, r, a);
+        return createEllipse(cx-r, cy-r, r*2d, r*2d, a);
     }
     
     public Figure createEllipse(double cx, double cy, double rx, double ry, Map<AttributeKey, Object> a) {
-        SVGEllipseFigure figure = new SVGEllipseFigure();
-        figure.setBounds(new Point2D.Double(cx-rx,cy-ry),new Point2D.Double(cx+rx,cy+ry));
+        SVGEllipseFigure figure = new SVGEllipseFigure(cx-rx, cy-ry, rx*2d, ry*2d);
         figure.setAttributes(a);
         return figure;
     }

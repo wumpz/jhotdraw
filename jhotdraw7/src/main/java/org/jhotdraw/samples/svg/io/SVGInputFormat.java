@@ -53,6 +53,7 @@ import org.jhotdraw.xml.css.CSSParser;
  * @version 1.2.2 2009-03-29 Ignore Transform "ref(...") attribute instead of 
  * refusing to load the SVG file. Ignore malformed JPEG-image instead of
  * refusing to load the SVG file. Handle "none" value in length attribute.
+ * Color values given in percent can be doubles.
  * <br>1.2.1 2009-03-29 readTextAreaElement only read multiline text
  * in reverse order of the lines and omitted the line breaks.
  * <br>1.2 2007-12-16 Adapted to changes in InputFormat.
@@ -2974,9 +2975,9 @@ public class SVGInputFormat implements InputFormat {
                 String g = tt.nextToken();
                 String b = tt.nextToken();
                 Color c = new Color(
-                        r.endsWith("%") ? (int) (Integer.decode(r.substring(0, r.length() - 1)) * 2.55) : Integer.decode(r),
-                        g.endsWith("%") ? (int) (Integer.decode(g.substring(0, g.length() - 1)) * 2.55) : Integer.decode(g),
-                        b.endsWith("%") ? (int) (Integer.decode(b.substring(0, b.length() - 1)) * 2.55) : Integer.decode(b));
+                        r.endsWith("%") ? (int) (Double.parseDouble(r.substring(0, r.length() - 1)) * 2.55) : Integer.decode(r),
+                        g.endsWith("%") ? (int) (Double.parseDouble(g.substring(0, g.length() - 1)) * 2.55) : Integer.decode(g),
+                        b.endsWith("%") ? (int) (Double.parseDouble(b.substring(0, b.length() - 1)) * 2.55) : Integer.decode(b));
                 return c;
             } catch (Exception e) {
                 /*if (DEBUG)*/ System.out.println("SVGInputFormat.toPaint illegal RGB value " + str);
