@@ -19,15 +19,23 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.*;
 import java.net.URL;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JComponent;
 import org.jhotdraw.gui.datatransfer.InputStreamTransferable;
 import org.jhotdraw.io.*;
 import org.jhotdraw.xml.*;
+
 /**
  * An OutputFormat that can write Drawings with DOMStorable Figure's.
+ * <p>
+ * This class is here to support quick-and-dirty implementations of drawings
+ * that can be read and written from/to output streams. For example, in student
+ * projects.
+ * <p>
+ * This class should no be used as a means to implement long-term storage of
+ * drawings, since it does not support structural changes that might occur in
+ * drawing application over time.
  *
  * @author Werner Randelshofer
  * @version 1.2 2008-05-24 Adapted to changes in InputFormat. 
