@@ -1,7 +1,7 @@
 /*
- * @(#)DefaultDrawing.java  2.2.1  2008-03-26
+ * @(#)DefaultDrawing.java  2.2.2  2009-04-04
  *
- * Copyright (c) 1996-2008 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -28,7 +28,8 @@ import java.util.*;
  *
  *
  * @author Werner Randelshofer
- * @version 2.2.1 Fixed NullPointerException when setting canvas size.
+ * @version 2.2.2 2009-04-04 Adding figures did not invalidate sort order.
+ * <br>2.2.1 Fixed NullPointerException when setting canvas size.
  * <br>2.2 2007-04-09 Methods setCanvasSize, getCanvasSize added.
  * <br>2.1 2007-02-09 Moved FigureListener and UndoableEditListener into
  * inner class.
@@ -43,6 +44,12 @@ public class DefaultDrawing
 
     /** Creates a new instance. */
     public DefaultDrawing() {
+    }
+
+    @Override
+    public void basicAdd(int index, Figure figure) {
+        super.basicAdd(index, figure);
+        invalidateSortOrder();
     }
 
     @Override
@@ -190,24 +197,6 @@ public class DefaultDrawing
     public java.util.List<Figure> getFiguresFrontToBack() {
         ensureSorted();
         return new ReversedList<Figure>(getChildren());
-    }
-
-    @Override
-    public void bringToFront(Figure figure) {
-        if (basicRemove(figure) != -1) {
-            basicAdd(figure);
-            invalidateSortOrder();
-            fireAreaInvalidated(figure.getDrawingArea());
-        }
-    }
-
-    @Override
-    public void sendToBack(Figure figure) {
-        if (basicRemove(figure) != -1) {
-            basicAdd(0, figure);
-            invalidateSortOrder();
-            fireAreaInvalidated(figure.getDrawingArea());
-        }
     }
 
     /**

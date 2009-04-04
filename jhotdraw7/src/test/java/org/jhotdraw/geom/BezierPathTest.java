@@ -388,7 +388,7 @@ public class BezierPathTest extends TestCase {
         BezierPath instance = new BezierPath();
         
         Rectangle2D.Double expResult = null;
-        Rectangle2D.Double result = instance.getBounds2DDouble();
+        Rectangle2D.Double result = instance.getBounds2D();
         assertEquals(expResult, result);
         
         // TODO review the generated test code and remove the default call to fail.

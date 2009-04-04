@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src/main/resources"/>
-	<classpathentry kind="src" path="src/test/resources"/>
 	<classpathentry kind="src" path="src/main/java"/>
-	<classpathentry kind="src" path="src/test/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
+	<classpathentry kind="lib" path="lib/java_30.zip"/>
 	<classpathentry kind="lib" path="lib/MRJAdapter.jar"/>
 	<classpathentry kind="lib" path="lib/quaqua.jar"/>
-	<classpathentry kind="lib" path="lib/java_30.zip"/>
-	<classpathentry kind="lib" path="D:/Development/Java/jdk1.5/lib/tools.jar"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="lib" path="lib/swing-layout.jar"/>
+	<classpathentry kind="lib" path="lib/swing-worker.jar"/>
+	<classpathentry kind="output" path="build/classes"/>
 </classpath>

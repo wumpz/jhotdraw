@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractDrawingViewAction.java  2.0 2009-02-15
+ * @(#)AbstractDrawingViewAction.java  2.0.1  2009-04-04
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -17,16 +17,16 @@ package org.jhotdraw.draw.action;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
-import org.jhotdraw.util.*;
 import java.beans.*;
 import javax.swing.*;
 import javax.swing.undo.*;
-import java.util.*;
 /**
  * Abstract super class for actions which act on a DrawingView.
  *
  * @author Werner Randelshofer
- * @version 2.0 2009-02-15 Renamed from AbstractViewAction to 
+ * @version 2.0.1 2009-04-04 PropertyChangeEvent was checked against the wrong
+ * property name and the view listener was attached to the old value.
+ * <br>2.0 2009-02-15 Renamed from AbstractViewAction to
  * AbstractDrawingViewAction.
  * <br>1.2 2006-04-21 Method setEditor added.
  * <br>1.1 2006-03-15 Support for enabled state of view added.
@@ -50,13 +50,14 @@ public abstract class AbstractDrawingViewAction extends AbstractAction {
         this.editor = editor;
         editor.addPropertyChangeListener(new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
-                if (evt.getPropertyName().equals("view")) {
+                // Note: We can check using == here, because String literals get interned.
+                if (evt.getPropertyName() == DrawingEditor.ACTIVE_VIEW_PROPERTY) {
                     if (evt.getOldValue() != null) {
                         DrawingView view = ((DrawingView) evt.getOldValue());
                         view.removePropertyChangeListener(propertyChangeHandler);
                     }
                     if (evt.getNewValue() != null) {
-                        DrawingView view = ((DrawingView) evt.getOldValue());
+                        DrawingView view = ((DrawingView) evt.getNewValue());
                         view.addPropertyChangeListener(propertyChangeHandler);
                         updateEnabledState();
                     }
