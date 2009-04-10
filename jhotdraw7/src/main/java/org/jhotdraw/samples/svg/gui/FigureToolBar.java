@@ -13,26 +13,16 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
-import java.beans.*;
-import java.util.prefs.*;
 import javax.swing.border.*;
 import org.jhotdraw.gui.*;
-import org.jhotdraw.samples.svg.*;
-import org.jhotdraw.undo.*;
 import org.jhotdraw.util.*;
 
 import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
 import javax.swing.*;
-import javax.swing.event.*;
 import javax.swing.plaf.SliderUI;
-import org.jhotdraw.app.action.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.gui.plaf.palette.*;
-import org.jhotdraw.samples.svg.action.*;
-import org.jhotdraw.samples.svg.figures.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
 /**
@@ -106,6 +96,8 @@ public class FigureToolBar extends AbstractToolBar {
                     p.add(linkLabel, gbc);
 
                     scrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+                    scrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+                    scrollPane.putClientProperty("JComponent.sizeVariant","small");
 
                     //linkField.setUI((TextUI) PaletteTextFieldUI.createUI(linkField));
                     linkField.setColumns(8);
@@ -181,6 +173,8 @@ public class FigureToolBar extends AbstractToolBar {
                     p.add(linkLabel, gbc);
 
                     scrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+                    scrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+                    scrollPane.putClientProperty("JComponent.sizeVariant","small");
 
                     //linkField.setUI((TextUI) PaletteTextFieldUI.createUI(linkField));
                     linkField.setColumns(12);

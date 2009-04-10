@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.gui.plaf.palette;
 
 import java.awt.*;
@@ -28,6 +27,7 @@ import javax.swing.text.*;
  * @version 1.0 Apr 10, 2008 Created.
  */
 public class PaletteTextFieldUI extends BasicTextFieldUI {
+
     /**
      * Creates a UI for a JTextField.
      *
@@ -37,6 +37,7 @@ public class PaletteTextFieldUI extends BasicTextFieldUI {
     public static ComponentUI createUI(JComponent c) {
         return new PaletteTextFieldUI();
     }
+
     /**
      * Initializes component properties, e.g. font, foreground, 
      * background, caret color, selection color, selected text color,
@@ -49,11 +50,10 @@ public class PaletteTextFieldUI extends BasicTextFieldUI {
      * @see #installUI
      */
     @Override
-    protected void installDefaults() 
-    {
+    protected void installDefaults() {
         JTextComponent editor = getComponent();
         PaletteLookAndFeel plaf = PaletteLookAndFeel.getInstance();
-        
+
         String prefix = getPropertyPrefix();
         Font f = editor.getFont();
         if ((f == null) || (f instanceof UIResource)) {
@@ -64,7 +64,7 @@ public class PaletteTextFieldUI extends BasicTextFieldUI {
         if ((bg == null) || (bg instanceof UIResource)) {
             editor.setBackground(plaf.getColor(prefix + ".background"));
         }
-        
+
         Color fg = editor.getForeground();
         if ((fg == null) || (fg instanceof UIResource)) {
             editor.setForeground(plaf.getColor(prefix + ".foreground"));
@@ -99,20 +99,23 @@ public class PaletteTextFieldUI extends BasicTextFieldUI {
         if (margin == null || margin instanceof UIResource) {
             editor.setMargin(plaf.getInsets(prefix + ".margin"));
         }
+
+        editor.setOpaque(plaf.getBoolean(prefix + ".opaque"));
     }
-    
+
     @Override
     protected void paintSafely(Graphics gr) {
         Graphics2D g = (Graphics2D) gr;
-        
+
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-        
+
         super.paintSafely(g);
     }
-    
-    @Override public void paintBackground(Graphics g) {
+
+    @Override
+    public void paintBackground(Graphics g) {
         JTextComponent c = getComponent();
         if (c.getBorder() instanceof BackdropBorder) {
             BackdropBorder bb = (BackdropBorder) c.getBorder();
@@ -121,5 +124,4 @@ public class PaletteTextFieldUI extends BasicTextFieldUI {
             super.paintBackground(g);
         }
     }
-
 }

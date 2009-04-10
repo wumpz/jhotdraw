@@ -149,4 +149,17 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         mi.setIcon(null);
         return m;
     }
+
+    /**
+     * Overriden to create no toolbars.
+     * 
+     * @param app
+     * @param p
+     * @return
+     */
+    @Override
+    public List<JToolBar> createToolBars(Application app, View p) {
+        LinkedList<JToolBar> list = new LinkedList<JToolBar>();
+        return list;
+    }
 }
