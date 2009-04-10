@@ -10,7 +10,6 @@
  * You may not use, copy or modify this software, except in  
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
-�
  */
 
 
@@ -19,7 +18,6 @@ package org.jhotdraw.draw;
 import org.jhotdraw.util.*;
 import org.jhotdraw.undo.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.util.*;
 
 /**

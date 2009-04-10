@@ -13,10 +13,6 @@
  */
 package org.jhotdraw.gui;
 
-import javax.swing.JSlider;
-
-import java.awt.*;
-import java.awt.event.*;
 import java.beans.*;
 import java.util.*;
 import javax.swing.*;
@@ -34,14 +30,14 @@ import org.jhotdraw.util.*;
  */
 public class JDoubleAttributeSlider extends JSlider {
 
-    private double scaleFactor = 1d;
+    protected double scaleFactor = 1d;
     private DrawingEditor editor;
-    private AttributeKey<Double> attributeKey;
+    protected AttributeKey<Double> attributeKey;
     private boolean isSelectionHasMultipleValues;
     protected ResourceBundleUtil labels =
             ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
-    private int isUpdatingSlider = 0;
-    private LinkedList<Object> attributeRestoreData = new LinkedList<Object>();
+    protected int isUpdatingSlider = 0;
+    protected LinkedList<Object> attributeRestoreData = new LinkedList<Object>();
     private boolean isEnabledWithoutSelection = true;
     public final static String ENABLED_WITHOUT_SELECTION_PROPERTY = "enabledWithoutSelection";
     private PropertyChangeListener viewEventHandler = new PropertyChangeListener() {
@@ -209,7 +205,7 @@ public class JDoubleAttributeSlider extends JSlider {
         isUpdatingSlider--;
     }
 
-    private void updateFigures() {
+    protected void updateFigures() {
         if (isUpdatingSlider++ == 0) {
             double value = getValue() / scaleFactor;
             if (getView() != null && attributeKey != null) {

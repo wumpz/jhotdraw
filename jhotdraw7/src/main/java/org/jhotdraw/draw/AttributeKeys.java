@@ -30,7 +30,7 @@ import org.jhotdraw.geom.*;
  * @version 1.5.1 2009-03-29 Method getStroke does not attempt to create a
  * dashed line, if all dashes are 0.
  * <br>1.8 2008-05-28 Added LAYOUT_ALIGNMENT.
- * <br>1.4 2007-12-16 Added CANVAS_FILL_COLOR. 
+ * <br>1.4 2007-12-16 Added CANVAS_FILL_COLOR.
  * <br>1.3 2006-12-09 Streamlined to better support SVG.
  * <br>1.2 2006-07-09 Stroke dash factor added. 
  * <br>1.1 2006-06-07 Changed all values to double.
@@ -39,12 +39,12 @@ import org.jhotdraw.geom.*;
 public class AttributeKeys {
     /**
      * Canvas fill color. The value of this attribute is a Color object.
-     * This attribute is used by a Drawing object to specify the color of the canvas.
-     * The default value is white.
+     * This attribute is used by a Drawing object to specify the fill color
+     * of the drawing. The default value is white.
      */
     public final static AttributeKey<Color> CANVAS_FILL_COLOR = new AttributeKey<Color>("canvasFillColor", Color.white);
     /**
-     * Canvas fill color opacity. The value of this attribute is a Double object.
+     * Canvas fill opacity. The value of this attribute is a Double object.
      * This is a value between 0 and 1 whereas 0 is translucent and 1 is fully opaque.
      */
     public final static AttributeKey<Double> CANVAS_FILL_OPACITY = new AttributeKey<Double>("canvasFillOpacity", 1d, false);

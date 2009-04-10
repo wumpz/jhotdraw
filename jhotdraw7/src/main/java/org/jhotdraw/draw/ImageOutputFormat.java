@@ -32,7 +32,7 @@ import org.jhotdraw.io.*;
  *
  * @author Werner Randelshofer
  * @version 1.1 2007-12-16 Adapted to changes in OutputFormat. 
- * Added support for AttributeKeys.CANVAS_FILL_COLOR. 
+ * Added support for AttributeKeys.CANVAS_FILL_COLOR.
  * <br>1.0 January 2, 2007 Created.
  */
 public class ImageOutputFormat implements OutputFormat {
