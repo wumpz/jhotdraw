@@ -1,23 +1,22 @@
 /*
- * @(#)SVGApplet.java  1.1  2008-03-24
+ * @(#)SVGApplet.java  1.1  2008-05-22
  *
- * Copyright (c) 1996-2008 by the original authors of JHotDraw
+ * Copyright (c) 2006-2008 by the original authors of AnyWikiDraw
  * and all its contributors.
  * All rights reserved.
  *
  * The copyright of this software is owned by the authors and  
- * contributors of the JHotDraw project ("the copyright holders").  
+ * contributors of the AnyWikiDraw project ("the copyright holders").
  * You may not use, copy or modify this software, except in  
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
 package org.jhotdraw.samples.svg;
 
+import org.jhotdraw.io.BoundedRangeInputStream;
+import java.applet.AppletContext;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.action.*;
 import org.jhotdraw.gui.*;
-import org.jhotdraw.samples.svg.figures.*;
-import org.jhotdraw.samples.svg.io.*;
 import org.jhotdraw.util.*;
 
 import java.awt.*;
@@ -27,25 +26,48 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 import javax.swing.*;
-import javax.swing.event.*;
-import org.jhotdraw.xml.*;
+import org.jhotdraw.samples.svg.figures.*;
+import org.jhotdraw.samples.svg.io.*;
+import org.jhotdraw.samples.svg.gui.*;
 
 /**
- * SVGApplet.
- *
- * @author  Werner Randelshofer
- * @version 1.1 2008-03-24 When reading data, attemmpt with all input formats
- * before giving up.
+ * This is the base class for concrete implementations of SVG drawing
+ * applets.
+ * <p>
+ * The base class loads and saves drawings asynchronously and handles
+ * errors. The actual data transmission and the editing of drawings
+ * is the responsibility of the subclasses.
+ * <p>
+ * FIXME - Applet must offer to save file locally, if uploading to server
+ * failed.
+ * <p>
+ * FIXME - Applet must save changes locally and reload them, if the user
+ * navigated out of the page and back again, without saving the changes.
+ * 
+ * @author Werner Randelshofer
+ * @version 1.1 2008-05-22 Added Locale parameter.
+ * <br>1.0.1 2008-03-26 Fixed ClassCastException when attempting to
+ * display an error message in method save(). 
  * <br>1.0 2006-07-08 Created.
  */
-public class SVGApplet extends JApplet {
+public abstract class SVGApplet extends JApplet {
 
-    private final static String NAME = "JHotDraw SVG";
-    private SVGDrawingPanel drawingPanel;
+    private DrawingComponent drawingComponent;
+    /**
+     * Lazily initialized in method getVersion();
+     */
+    private String version;
+    private long start;
+
+    public SVGApplet() {
+        setBackground(Color.WHITE);
+        start = System.currentTimeMillis();
+        //ResourceBundleUtil.setVerbose(true);
+    }
 
     /**
-     * We override getParameter() to make it work even if we have no Applet
-     * context.
+     * Same as <code>Applet.getParameter()</code> but doesn't throw a
+     * NullPointerException when used without an Applet context.
      */
     public String getParameter(String name) {
         try {
@@ -55,180 +77,273 @@ public class SVGApplet extends JApplet {
         }
     }
 
-    protected String getVersion() {
-        return SVGApplet.class.getPackage().getImplementationVersion();
+    /**
+     * Same as <code>Applet.getParameter()</code> but doesn't throw a
+     * NullPointerException when used without an Applet context.
+     */
+    public String getParameter(String name, String defaultValue) {
+        try {
+            String value = super.getParameter(name);
+            return (value == null) ? defaultValue : value;
+        } catch (NullPointerException e) {
+            return defaultValue;
+        }
     }
 
-    /** Initializes the applet SVGApplet */
-    public void init() {
+    /**
+     * Displays a progress indicator and then invokes <code>loadDrawing</code>
+     * on a worker thread. Displays the drawing panel when finished successfully.
+     * Displays an error message when finished unsuccessfully.
+     *
+     * @see #loadDrawing
+     */
+    @Override
+    public final void init() {
+        // set the language of the applet
+        if (getParameter("Locale") != null) {
+            Locale.setDefault(new Locale(getParameter("Locale")));
+        }
+
+
+        final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
+
         // Set look and feel
         // -----------------
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Throwable e) {
-        // Do nothing.
-        // If we can't set the desired look and feel, UIManager does
-        // automaticaly the right thing for us.
+            // Do nothing.
+            // If we can't set the desired look and feel, UIManager does
+            // automaticaly the right thing for us.
         }
 
-        // Display copyright info while we are loading the data
-        // ----------------------------------------------------
+        // Display a progress indicator while we are loading the drawing
+        // ----------------------------------------------------------
         Container c = getContentPane();
-        c.setLayout(new BoxLayout(c, BoxLayout.Y_AXIS));
-        String[] labels = getAppletInfo().split("\n");//Strings.split(getAppletInfo(), '\n');
-        for (int i = 0; i < labels.length; i++) {
-            c.add(new JLabel((labels[i].length() == 0) ? " " : labels[i]));
-        }
+        final ProgressIndicator progress = new ProgressIndicator(
+                getName(), labels.getString("progressInitializing"));
+        c.add(progress);
+        progress.revalidate();
 
-        // We load the data using a worker thread
+        // Load the drawing using a worker thread
         // --------------------------------------
         new Worker() {
 
             public Object construct() {
-                Object result = null;
-
-                InputStream in = null;
                 try {
-                    // Try to read the data using all known input formats.
-                                Drawing drawing = createDrawing();
-                    for (InputFormat fmt : drawing.getInputFormats()) {
-                        try {
-                            if (getParameter("data") != null) {
-                                in = new ByteArrayInputStream(
-                                        getParameter("data").getBytes("UTF8"));
-                            } else if (getParameter("datafile") != null) {
-                                URL url = new URL(getDocumentBase(), getParameter("datafile"));
-                                in = url.openConnection().getInputStream();
-                            }
-                            if (in != null) {
-                                fmt.read(in, drawing, true);
-                                result = drawing;
-                                break;
-                            }
-                        } catch (IOException e) {
-                            result = e;
+                    Thread t = new Thread() {
+
+                        public void run() {
+                            drawingComponent = createDrawingComponent();
                         }
-                    }
+                    };
+                    t.start();
+                    progress.setNote(labels.getString("progressLoading"));
+                    Object drawing = loadDrawing(progress);
+                    progress.setNote(labels.getString("progressOpeningEditor"));
+                    progress.setIndeterminate(true);
+                    t.join();
+                    return drawing;
                 } catch (Throwable t) {
-                    result = t;
-                } finally {
-                    if (in != null) {
-                        try {
-                            in.close();
-                        } catch (IOException ex) {
-                        // ignore
-                        }
-                    }
+                    return t;
                 }
-                return result;
             }
 
             public void finished(Object result) {
-                if (result instanceof Throwable) {
-                    ((Throwable) result).printStackTrace();
-                }
                 Container c = getContentPane();
                 c.setLayout(new BorderLayout());
                 c.removeAll();
-                c.add(drawingPanel = new SVGDrawingPanel());
+                if (result instanceof Throwable) {
+                    Throwable error = (Throwable) result;
+                    error.printStackTrace();
+                    String message = (error.getMessage() == null) ? error.toString() : error.getMessage();
+                    MessagePanel mp = new MessagePanel(
+                            UIManager.getIcon("OptionPane.errorIcon"),
+                            labels.getFormatted("messageLoadFailed",  htmlencode(getParameter("DrawingURL")), htmlencode(message)));
+                    c.add(mp);
+                    mp.addActionListener(new ActionListener() {
 
-                initComponents();
-                if (result != null) {
-                    if (result instanceof Drawing) {
-                        setDrawing((Drawing) result);
-                    } else if (result instanceof Throwable) {
-                        getDrawing().add(new SVGTextFigure(result.toString()));
-                        ((Throwable) result).printStackTrace();
+                        public void actionPerformed(ActionEvent evt) {
+                            if (evt.getActionCommand().equals("close")) {
+                                close();
+                            }
+                        }
+                    });
+                } else {
+                    c.add(drawingComponent.getComponent());
+                    drawingComponent.addActionListener(new ActionListener() {
+
+                        public void actionPerformed(ActionEvent evt) {
+                            if (evt.getActionCommand().equals("save")) {
+                                save();
+                            } else if (evt.getActionCommand().equals("cancel")) {
+                                cancel();
+                            }
+                        }
+                    });
+
+                    initComponents();
+                    if (result != null) {
+                        if (result instanceof Drawing) {
+                            setDrawing((Drawing) result);
+                        } else if (result instanceof Throwable) {
+                            setDrawing(createDrawing());
+                            getDrawing().add(new SVGTextFigure(result.toString()));
+                            ((Throwable) result).printStackTrace();
+                        }
                     }
                 }
-
                 c.validate();
+                long end = System.currentTimeMillis();
+                System.out.println("AbstractDrawingApplet startup latency:" + (end - start));
             }
         }.start();
     }
 
+    /**
+     * Sets the drawing on the drawing panel.
+     */
     private void setDrawing(Drawing d) {
-        drawingPanel.setDrawing(d);
+        drawingComponent.setDrawing(d);
     }
 
+    /**
+     * Gets the drawing from the drawing panel.
+     */
     private Drawing getDrawing() {
-        return drawingPanel.getDrawing();
+        return drawingComponent.getDrawing();
     }
 
-    private Drawing createDrawing() {
-        DefaultDrawing drawing = new DefaultDrawing();
-        LinkedList<InputFormat> inputFormats = new LinkedList<InputFormat>();
-        inputFormats.add(new SVGInputFormat());
-        inputFormats.add(new SVGZInputFormat());
-        inputFormats.add(new ImageInputFormat(new SVGImageFigure()));
-        inputFormats.add(new TextInputFormat(new SVGTextFigure()));
-        LinkedList<OutputFormat> outputFormats = new LinkedList<OutputFormat>();
-        outputFormats.add(new SVGOutputFormat());
-        outputFormats.add(new ImageOutputFormat());
-        drawing.setInputFormats(inputFormats);
-        drawing.setOutputFormats(outputFormats);
-        return drawing;
-    }
-
-    public void setData(String text) {
-        if (text != null && text.length() > 0) {
-            InputStream in = null;
+    /**
+     * Gets the version of the applet.
+     */
+    public String getVersion() {
+        if (version == null) {
+            BufferedReader r = null;
             try {
-                Object result = null;
-                Drawing drawing = createDrawing();
-                // Try to read the data using all known input formats.
-                for (InputFormat fmt : drawing.getInputFormats()) {
-                    try {
-                        fmt.read(in, drawing, true);
-                        in =
-                                new ByteArrayInputStream(text.getBytes("UTF8"));
-                        result =
-                                drawing;
-                        break;
-                    } catch (IOException e) {
-                        result = e;
-                    }
-
-                }
-                if (result instanceof IOException) {
-                    throw (IOException) result;
-                }
-
-                setDrawing(drawing);
-            } catch (Throwable e) {
-                getDrawing().removeAllChildren();
-                SVGTextFigure tf = new SVGTextFigure();
-                tf.setText(e.getMessage());
-                tf.setBounds(new Point2D.Double(10, 10), new Point2D.Double(100, 100));
-                getDrawing().add(tf);
-                e.printStackTrace();
+                InputStream resource = SVGApplet.class.getResourceAsStream("version.txt");
+                r = new BufferedReader(new InputStreamReader(resource, "UTF-8"));
+                version = r.readLine();
+            } catch (IOException e) {
+                version = "unknown";
+            } catch (NullPointerException e) {
+                version = "unknown";
             } finally {
-                if (in != null) {
+                if (r != null) {
                     try {
-                        in.close();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                        r.close();
+                    } catch (IOException e) {
+                        // suppress
                     }
-
                 }
             }
         }
+        return version;
     }
 
-    public String getData() {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        try {
-            getDrawing().getOutputFormats().get(0).write(out, getDrawing());
-            return out.toString("UTF8");
-        } catch (IOException e) {
-            SVGTextFigure tf = new SVGTextFigure();
-            tf.setText(e.getMessage());
-            tf.setBounds(new Point2D.Double(10, 10), new Point2D.Double(100, 100));
-            getDrawing().add(tf);
-            e.printStackTrace();
-            return "";
-        }
+    /**
+     * Returns information about the applet.
+     */
+    public String getAppletInfo() {
+        return getName() +
+                "\nVersion " + getVersion() +
+                "\n\nCopyright (c) by the authors of AnyWikiDraw.org" +
+                "\nThis software is licensed under LGPL or" +
+                "\nCreative Commons 2.5 BY";
+    }
 
+    /**
+     * Creates the drawing.
+     */
+    abstract protected Drawing createDrawing();
+
+    /**
+     * Creates the drawing component.
+     */
+    abstract protected DrawingComponent createDrawingComponent();
+
+    /**
+     * Returns the drawing component.
+     */
+    protected DrawingComponent getDrawingComponent() {
+        return drawingComponent;
+    }
+
+    /**
+     * Displays a progress indicator and then invokes <code>saveDrawing</code>
+     * on a worker thread. Closes the applet when finished successfully.
+     * Displays an error message when finished unsuccessfully.
+     *
+     * @see #loadDrawing
+     */
+    final public void save() {
+        final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
+
+        Container c = getContentPane();
+        c.removeAll();
+        final ProgressIndicator progress = new ProgressIndicator(
+                "JHotDraw", labels.getString("progressSaving"));
+        c.add(progress);
+        c.validate();
+
+        // We save the data using a worker thread
+        // --------------------------------------
+        new Worker() {
+
+            public Object construct() {
+                try {
+                    saveDrawing(drawingComponent.getDrawing(), progress);
+                    return null;
+                } catch (Throwable t) {
+                    return t;
+                }
+            }
+
+            public void finished(Object result) {
+                if (result instanceof ServerAuthenticationException) {
+                    if (showAuthenticationDialog() == JOptionPane.OK_OPTION) {
+                        save();
+                    } else {
+                        Container c = getContentPane();
+                        c.removeAll();
+                        c.add(drawingComponent.getComponent());
+                        c.validate();
+                        c.repaint();
+                    }
+                } else if (result instanceof Throwable) {
+                    Throwable error = ((Throwable) result);
+                    error.printStackTrace();
+                    Container c = getContentPane();
+                    c.setLayout(new BorderLayout());
+                    c.removeAll();
+                    String message = error.getMessage() == null ? error.toString() : error.getMessage();
+                    MessagePanel mp = new MessagePanel(
+                            UIManager.getIcon("OptionPane.errorIcon"),
+                            labels.getFormatted("messageSaveFailed",  htmlencode(getParameter("UploadURL")), htmlencode(message)));
+                    c.add(mp);
+                    mp.addActionListener(new ActionListener() {
+
+                        public void actionPerformed(ActionEvent evt) {
+                            if (evt.getActionCommand().equals("close")) {
+                                close();
+                            }
+                        }
+                    });
+                    c.validate();
+                } else {
+                    close();
+                }
+            }
+        }.start();
+    }
+
+    /**
+     * Cancels the applet. Displays a dialog when the drawing contains
+     * unsaved changes.
+     */
+    protected void cancel() {
+        // XXX - Display a dialog when the drawing contains unsaved changes.
+        close();
     }
 
     public String[][] getParameterInfo() {
@@ -237,12 +352,293 @@ public class SVGApplet extends JApplet {
             {"datafile", "URL", "an URL to a file containing the data to be displayed by this applet."}};
     }
 
-    public String getAppletInfo() {
-        return NAME +
-                "\nVersion " + getVersion() +
-                "\n\nCopyright 1996-2008 (c) by the authors of JHotDraw" +
-                "\nThis software is licensed under LGPL or" +
-                "\nCreative Commons 3.0 BY";
+
+    /**
+     * Loads the drawing.
+     * By convention this method is invoked on a worker thread.
+     *
+     * @param progress A ProgressIndicator to inform the user about the progress
+     * of the operation.
+     * @return The Drawing that was loaded.
+     */
+    protected Drawing loadDrawing(ProgressIndicator progress) throws IOException {
+        Drawing drawing = createDrawing();
+        InputStream in = null;
+        try {
+            if (getParameter("DrawingURL") != null) {
+                ByteArrayOutputStream buf = new ByteArrayOutputStream();
+                URL url = new URL(getDocumentBase(), getParameter("DrawingURL"));
+                URLConnection uc = url.openConnection();
+
+                // Disable caching. This ensures that we always request the 
+                // newest version of the drawing from the server.
+                // (Note: The server still needs to set the proper HTTP caching
+                // properties to prevent proxies from caching the drawing).
+                if (uc instanceof HttpURLConnection) {
+                    ((HttpURLConnection) uc).setUseCaches(false);
+                }
+
+                // Read the data into a buffer
+                int contentLength = uc.getContentLength();
+                in = uc.getInputStream();
+                if (contentLength != -1) {
+                    in = new BoundedRangeInputStream(in);
+                    ((BoundedRangeInputStream) in).setMaximum(contentLength + 1);
+                    progress.setProgressModel((BoundedRangeModel) in);
+                    progress.setIndeterminate(false);
+                }
+                BufferedInputStream bin = new BufferedInputStream(in);
+                bin.mark(512);
+
+                // Read the data using all supported input formats
+                // until we succeed
+                final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
+                IOException formatException = null;
+                for (InputFormat format : drawing.getInputFormats()) {
+                    try {
+                        bin.reset();
+                    } catch (IOException e) {
+                        uc = url.openConnection();
+                        in = uc.getInputStream();
+                        in = new BoundedRangeInputStream(in);
+                        ((BoundedRangeInputStream) in).setMaximum(contentLength + 1);
+                        progress.setProgressModel((BoundedRangeModel) in);
+                        bin = new BufferedInputStream(in);
+                        bin.mark(512);
+                    }
+                    try {
+                        bin.reset();
+                        format.read(bin, drawing, true);
+                        formatException = null;
+                        break;
+                    } catch (IOException e) {
+                        formatException = e;
+                    }
+                }
+                if (formatException != null) {
+                    throw formatException;
+                }
+            }
+        } finally {
+            if (in != null) {
+                in.close();
+            }
+        }
+        return drawing;
+    }
+
+    /**
+     * Saves the drawing.
+     * By convention this method is invoked on a worker thread.
+     *
+     * @param drawing The Drawing to be saved.
+     * @param progress A ProgressIndicator to inform the user about the progress
+     * of the operation.
+     * @throw IOException when an communication error occured
+     * @throw ServerAuthenticationException when we couldn't save, because
+     * we failed to authenticate. On this exception, the applet should open
+     * an authentication dialog, and give the user a second chance to save
+     * the drawing.
+     */
+    protected void saveDrawing(Drawing drawing,
+            ProgressIndicator progress) throws IOException, ServerAuthenticationException {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        // Determine rendering size
+        Dimension renderedSize = new Dimension(-1, -1);
+        try {
+            renderedSize.width = Integer.parseInt(getParameter("DrawingWidth"));
+        } catch (Exception e) {
+        }
+        try {
+            renderedSize.height = Integer.parseInt(getParameter("DrawingHeight"));
+        } catch (Exception e) {
+        }
+        if (renderedSize.width == -1 || renderedSize.height == -1) {
+            Rectangle2D.Double drawBounds = null;
+            for (Figure f : drawing.getChildren()) {
+                if (drawBounds == null) {
+                    drawBounds = f.getDrawingArea();
+                } else {
+                    drawBounds.add(f.getDrawingArea());
+                }
+            }
+            if (renderedSize.width == -1) {
+                renderedSize.width = (int) (Math.abs(drawBounds.x) + drawBounds.getWidth());
+            }
+            if (renderedSize.height == -1) {
+                renderedSize.height = (int) (Math.abs(drawBounds.y) + drawBounds.getHeight());
+            }
+        }
+        
+        // Write the drawing
+        String imageExtension = getParameter("DrawingName");
+        imageExtension = (imageExtension == null) ? "" : imageExtension.substring(imageExtension.lastIndexOf('.') + 1);
+        if (imageExtension.equals("")) {
+            imageExtension = "svg";
+        }
+        byte[] drawingData = null;
+        for (OutputFormat format : drawing.getOutputFormats()) {
+            if (imageExtension.equals(format.getFileExtension())) {
+                if (format instanceof ImageOutputFormat) {
+            ((ImageOutputFormat) format).write(out, drawing, new AffineTransform(), renderedSize);
+                } else {
+                format.write(out, drawing);
+                }
+                drawingData = out.toByteArray();
+                break;
+            }
+        }
+        if (drawingData == null) {
+            throw new IOException("Unsupported file format.");
+        }
+
+        // Write a rendered version of the drawing for SVG images
+        byte[] renderedData = null;
+        byte[] imageMapData = null;
+        if (imageExtension.startsWith("svg")) {
+            out = new ByteArrayOutputStream();
+            ImageOutputFormat imgOut = new ImageOutputFormat();
+            imgOut.write(out, drawing, new AffineTransform(), renderedSize);
+            renderedData = out.toByteArray();
+
+            out = new ByteArrayOutputStream();
+            ImageMapOutputFormat imgMapOut = new ImageMapOutputFormat();
+            imgMapOut.write(out, drawing, new AffineTransform(), renderedSize);
+            imageMapData = out.toByteArray();
+        }
+
+        // Post the data
+        HttpURLConnection conn = null;
+        BufferedReader response = null;
+        try {
+            URL url = new URL(getDocumentBase(), getParameter("UploadURL"));
+            conn = (HttpURLConnection) url.openConnection();
+            ClientHttpRequest request = new ClientHttpRequest(conn);
+            request.setParameter("Action", getParameter("UploadAction", ""));
+            request.setParameter("UploadSummary", getDrawingComponent().getSummary());
+            request.setParameter("DrawingName", getParameter("DrawingName"));
+            request.setParameter("DrawingRevision", getParameter("DrawingRevision", ""));
+            request.setParameter("DrawingWidth", Integer.toString(renderedSize.width));
+            request.setParameter("DrawingHeight", Integer.toString(renderedSize.height));
+            request.setParameter("DrawingData", getParameter("DrawingName"),
+                    new ByteArrayInputStream(drawingData));
+            if (renderedData != null) {
+                request.setParameter("RenderedImageData", getParameter("DrawingName") + ".png",
+                        new ByteArrayInputStream(renderedData));
+            }
+            if (imageMapData != null) {
+                request.setParameter("ImageMapData", getParameter("DrawingName") + ".map",
+                        new ByteArrayInputStream(imageMapData));
+            }
+            request.post();
+
+            // Read the response
+            int responseCode = conn.getResponseCode();
+            response = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream(), "UTF-8"));
+            StringBuilder responseText = new StringBuilder();
+            for (String line; null != (line = response.readLine());) {
+                responseText.append(line);
+            }
+            response.close();
+            response = null;
+            conn = null;
+
+        } catch (IOException e) {
+            if (conn != null) {
+                StringBuilder responseText = new StringBuilder();
+                try {
+                    InputStream errorStream = conn.getErrorStream();
+                    if (errorStream == null) {
+                        responseText.append(conn.getResponseMessage());
+                    } else {
+                        response = new BufferedReader(
+                                new InputStreamReader(errorStream, "UTF-8"));
+                        for (String line; null != (line = response.readLine());) {
+                            responseText.append(line);
+                        }
+                    }
+                } finally {
+                    if (response != null) {
+                        response.close();
+                        response = null;
+                    }
+
+                }
+                if (responseText.length() > 0) {
+                    IOException e2 = new IOException(responseText.toString());
+                    e2.initCause(e);
+                    throw e2;
+                } else {
+                    throw e;
+                }
+            }
+        }
+    }
+
+    /**
+     * Shows an authentication dialog.
+     *
+     * This is a stub method which always returns JOptionPane.CANCEL_OPTION.
+     *
+     * @return JOptionPane.OK_OPTION on success, JOptionPane.CANCEL_OPTION,
+     * if the user canceled the dialog.
+     */
+    protected int showAuthenticationDialog() {
+        return JOptionPane.CANCEL_OPTION;
+    }
+
+    /**
+     * Closes the applet. This method can be implemented by invoking
+     * <code>getAppletContext().showDocument(...)</code>.
+     */
+    protected void close() {
+        AppletContext appletContext;
+        try {
+            appletContext = getAppletContext();
+        } catch (Throwable e) {
+            appletContext = null;
+        }
+        if (appletContext == null) {
+            System.exit(0);
+        } else {
+            try {
+                appletContext.showDocument(new URL(getDocumentBase(), getParameter("PageURL")));
+            } catch (MalformedURLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Escapes all '<', '>' and '&' characters in a string.
+     * @param str A String.
+     * @return HTMlEncoded String.
+     */
+    private static String htmlencode(String str) {
+        if (str == null) {
+            return "";
+            } else {
+        StringBuilder buf = new StringBuilder();
+        for (char ch : str.toCharArray()) {
+            switch (ch) {
+                case '<':
+                    buf.append("&lt;");
+                    break;
+                case '>':
+                    buf.append("&gt;");
+                    break;
+                case '&':
+                    buf.append("&amp;");
+                    break;
+                default:
+                    buf.append(ch);
+                    break;
+            }
+        }
+        return buf.toString();
+        }
     }
 
     /** This method is called from within the init() method to
@@ -250,25 +646,9 @@ public class SVGApplet extends JApplet {
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.
      */
-    // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
     }// </editor-fold>//GEN-END:initComponents
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-
-            public void run() {
-                JFrame f = new JFrame("SVGDraw Applet");
-                f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                SVGApplet a = new SVGApplet();
-                f.getContentPane().add(a);
-                a.init();
-                f.setSize(500, 300);
-                f.setVisible(true);
-                a.start();
-            }
-        });
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

@@ -12,7 +12,7 @@
  * the copyright holders. For details see accompanying license terms. 
  */
 //package ch.randelshofer.io;
-package org.jhotdraw.samples.svg.io;
+package org.jhotdraw.io;
 
 import java.awt.event.*;
 import javax.swing.event.*;
