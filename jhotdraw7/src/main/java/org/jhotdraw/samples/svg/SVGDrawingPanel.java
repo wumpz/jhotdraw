@@ -32,7 +32,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * @version 1.1 2008-03-26 Tweaked toolbar area. 
  * <br>1.0 11. March 2004  Created.
  */
-public class JSVGDrawingPanel extends JPanel {
+public class SVGDrawingPanel extends JPanel {
 
     private UndoRedoManager undoManager;
     private DrawingEditor editor;
@@ -58,7 +58,7 @@ public class JSVGDrawingPanel extends JPanel {
     }
 
     /** Creates new instance. */
-    public JSVGDrawingPanel() {
+    public SVGDrawingPanel() {
         labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
 
@@ -74,24 +74,12 @@ public class JSVGDrawingPanel extends JPanel {
         toolsPane.setOpaque(true);
 
         undoManager = new UndoRedoManager();
-        editor = new DefaultDrawingEditor();
+        setEditor(new DefaultDrawingEditor());
         editor.setHandleAttribute(HandleAttributeKeys.HANDLE_SIZE, new Integer(7));
-        editor.add(view);
 
         DefaultDrawing drawing = new DefaultDrawing();
         view.setDrawing(drawing);
         drawing.addUndoableEditListener(undoManager);
-
-        creationToolBar.setEditor(editor);
-        fillToolBar.setEditor(editor);
-        strokeToolBar.setEditor(editor);
-        actionToolBar.setUndoManager(undoManager);
-        actionToolBar.setEditor(editor);
-        alignToolBar.setEditor(editor);
-        arrangeToolBar.setEditor(editor);
-        fontToolBar.setEditor(editor);
-        linkToolBar.setEditor(editor);
-        canvasToolBar.setEditor(editor);
 
         /* FIXME - Implement the code for handling constraints!
         toggleGridAction = actionToolBar.getToggleGridAction();
@@ -162,6 +150,27 @@ public class JSVGDrawingPanel extends JPanel {
     public DrawingEditor getEditor() {
         return editor;
     }
+    public void setEditor(DrawingEditor newValue) {
+        DrawingEditor oldValue = editor;
+        if (oldValue != null) {
+            oldValue.remove(view);
+        }
+        editor = newValue;
+        if (newValue != null) {
+            newValue.add(view);
+        }
+        creationToolBar.setEditor(editor);
+        fillToolBar.setEditor(editor);
+        strokeToolBar.setEditor(editor);
+        actionToolBar.setUndoManager(undoManager);
+        actionToolBar.setEditor(editor);
+        alignToolBar.setEditor(editor);
+        arrangeToolBar.setEditor(editor);
+        fontToolBar.setEditor(editor);
+        linkToolBar.setEditor(editor);
+        canvasToolBar.setEditor(editor);
+
+    }
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -191,6 +200,7 @@ public class JSVGDrawingPanel extends JPanel {
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new java.awt.BorderLayout());
 
+        scrollPane.setBorder(null);
         scrollPane.setViewportView(view);
 
         add(scrollPane, java.awt.BorderLayout.CENTER);
@@ -200,6 +210,7 @@ public class JSVGDrawingPanel extends JPanel {
         toolsPanel.setOpaque(true);
         toolsPanel.setLayout(new java.awt.GridBagLayout());
 
+        toolsScrollPane.setBorder(null);
         toolsScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         toolsScrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         toolsScrollPane.setMinimumSize(new java.awt.Dimension(0, 0));

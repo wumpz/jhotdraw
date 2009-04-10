@@ -1,7 +1,7 @@
 /*
- * @(#)SVGView.java  1.3.1  2008-03-19
+ * @(#)SVGView.java  2.0  2009-04-10
  *
- * Copyright (c) 1996-2008 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -19,7 +19,6 @@ import java.awt.print.Pageable;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.prefs.Preferences;
-import org.jhotdraw.gui.*;
 import org.jhotdraw.samples.svg.figures.*;
 import org.jhotdraw.samples.svg.io.*;
 import org.jhotdraw.undo.*;
@@ -29,17 +28,16 @@ import java.beans.*;
 import java.io.*;
 import java.lang.reflect.*;
 import javax.swing.*;
-import javax.swing.border.*;
 import org.jhotdraw.app.*;
 import org.jhotdraw.app.action.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.action.*;
 
 /**
  * A view for SVG drawings.
  *
  * @author Werner Randelshofer
- * @version 1.3.1 2008-03-19 Method read() tries out now all supported files format.
+ * @version 2.0 2009-04-10 Moved all drawing related toolbars into SVGDrawingPanel.
+ * <br>1.3.1 2008-03-19 Method read() tries out now all supported files format.
  * <br>1.3 2007-11-25 Method clear is now invoked on a worker thread. 
  * <br>1.2 2006-12-10 Used SVGStorage for reading SVG drawing (experimental).
  * <br>1.1 2006-06-10 Extended to support DefaultDrawApplicationModel.
@@ -54,11 +52,7 @@ public class SVGView extends AbstractView implements ExportableView {
      * This allows for undoing and redoing actions per view.
      */
     private UndoRedoManager undo;
-    /**
-     * Depending on the type of an application, there may be one editor per
-     * view, or a single shared editor for all views.
-     */
-    private DrawingEditor editor;
+
     private HashMap<javax.swing.filechooser.FileFilter, InputFormat> fileFilterInputFormatMap;
     private HashMap<javax.swing.filechooser.FileFilter, OutputFormat> fileFilterOutputFormatMap;
     private Preferences prefs;
@@ -80,19 +74,10 @@ public class SVGView extends AbstractView implements ExportableView {
         initComponents();
 
         JPanel zoomButtonPanel = new JPanel(new BorderLayout());
-        scrollPane.setLayout(new PlacardScrollPaneLayout());
-        scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 
-        // To improve performance while scrolling, we paint via
-        // a backing store.
-        scrollPane.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
-
-        setEditor(new DefaultDrawingEditor());
-        editor.add(view);
-System.out.println("SVGView "+editor+" "+editor.getActiveView());
         undo = new UndoRedoManager();
-        view.setDrawing(createDrawing());
-        view.getDrawing().addUndoableEditListener(undo);
+        svgPanel.setDrawing(createDrawing());
+        svgPanel.getDrawing().addUndoableEditListener(undo);
         initActions();
         undo.addPropertyChangeListener(new PropertyChangeListener() {
 
@@ -100,37 +85,6 @@ System.out.println("SVGView "+editor+" "+editor.getActiveView());
                 setHasUnsavedChanges(undo.hasSignificantEdits());
             }
         });
-
-        // Forward property changes of the view to property change listeners on the view
-        view.addPropertyChangeListener(new PropertyChangeListener() {
-
-            public void propertyChange(PropertyChangeEvent evt) {
-                if (evt.getPropertyName() == "scaleFactor") {
-                    firePropertyChange(evt.getPropertyName(), evt.getOldValue(), evt.getNewValue());
-                }
-            }
-        });
-
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-
-        JPanel placardPanel = new JPanel(new BorderLayout());
-        javax.swing.AbstractButton pButton;
-        pButton = ButtonFactory.createZoomButton(view);
-        pButton.putClientProperty("Quaqua.Button.style", "placard");
-        pButton.putClientProperty("Quaqua.Component.visualMargin", new Insets(0, 0, 0, 0));
-        pButton.setFont(UIManager.getFont("SmallSystemFont"));
-        placardPanel.add(pButton, BorderLayout.WEST);
-
-        pButton = ButtonFactory.createToggleGridButton(view);
-        pButton.putClientProperty("Quaqua.Button.style", "placard");
-        pButton.putClientProperty("Quaqua.Component.visualMargin", new Insets(0, 0, 0, 0));
-        pButton.setFont(UIManager.getFont("SmallSystemFont"));
-        labels.configureToolBarButton(pButton, "view.toggleGrid.placard");
-        placardPanel.add(pButton, BorderLayout.EAST);
-        scrollPane.add(placardPanel, JScrollPane.LOWER_LEFT_CORNER);
-
-        propertiesPanel.setVisible(prefs.getBoolean("propertiesPanelVisible", false));
-        propertiesPanel.setView(view);
     }
 
     /**
@@ -163,24 +117,16 @@ System.out.println("SVGView "+editor+" "+editor.getActiveView());
      * Creates a Pageable object for printing the View.
      */
     public Pageable createPageable() {
-        return new DrawingPageable(view.getDrawing());
+        return new DrawingPageable(svgPanel.getDrawing());
 
     }
 
     public DrawingEditor getEditor() {
-        return editor;
+        return svgPanel.getEditor();
     }
 
     public void setEditor(DrawingEditor newValue) {
-        DrawingEditor oldValue = editor;
-        if (oldValue != null) {
-            oldValue.remove(view);
-        }
-        editor = newValue;
-        propertiesPanel.setEditor(editor);
-        if (newValue != null) {
-            newValue.add(view);
-        }
+        svgPanel.setEditor(newValue);
     }
 
     /**
@@ -203,7 +149,7 @@ System.out.println("SVGView "+editor+" "+editor.getActiveView());
         OutputStream out = null;
         try {
             out = new BufferedOutputStream(new FileOutputStream(f));
-            new SVGOutputFormat().write(f, view.getDrawing());
+            new SVGOutputFormat().write(f, svgPanel.getDrawing());
         } finally {
             if (out != null) {
                 out.close();
@@ -255,9 +201,9 @@ System.out.println("SVGView "+editor+" "+editor.getActiveView());
             SwingUtilities.invokeAndWait(new Runnable() {
 
                 public void run() {
-                    view.getDrawing().removeUndoableEditListener(undo);
-                    view.setDrawing(drawing);
-                    view.getDrawing().addUndoableEditListener(undo);
+                    svgPanel.getDrawing().removeUndoableEditListener(undo);
+                    svgPanel.setDrawing(drawing);
+                    svgPanel.getDrawing().addUndoableEditListener(undo);
                     undo.discardAllEdits();
                 }
             });
@@ -273,24 +219,12 @@ System.out.println("SVGView "+editor+" "+editor.getActiveView());
     }
 
     public Drawing getDrawing() {
-        return view.getDrawing();
+        return svgPanel.getDrawing();
     }
 
     public void setEnabled(boolean newValue) {
-        view.setEnabled(newValue);
+        svgPanel.setEnabled(newValue);
         super.setEnabled(newValue);
-    }
-
-    public void setPropertiesPanelVisible(boolean newValue) {
-        boolean oldValue = propertiesPanel.isVisible();
-        propertiesPanel.setVisible(newValue);
-        firePropertyChange("propertiesPanelVisible", oldValue, newValue);
-        prefs.putBoolean("propertiesPanelVisible", newValue);
-        validate();
-    }
-
-    public boolean isPropertiesPanelVisible() {
-        return propertiesPanel.isVisible();
     }
 
     /**
@@ -302,9 +236,9 @@ System.out.println("SVGView "+editor+" "+editor.getActiveView());
             SwingUtilities.invokeAndWait(new Runnable() {
 
                 public void run() {
-                    view.getDrawing().removeUndoableEditListener(undo);
-                    view.setDrawing(newDrawing);
-                    view.getDrawing().addUndoableEditListener(undo);
+                    svgPanel.getDrawing().removeUndoableEditListener(undo);
+                    svgPanel.setDrawing(newDrawing);
+                    svgPanel.getDrawing().addUndoableEditListener(undo);
                     undo.discardAllEdits();
                 }
             });
@@ -320,7 +254,7 @@ System.out.println("SVGView "+editor+" "+editor.getActiveView());
         final JFileChooser c = super.createOpenChooser();
         fileFilterInputFormatMap = new HashMap<javax.swing.filechooser.FileFilter, InputFormat>();
         javax.swing.filechooser.FileFilter firstFF = null;
-        for (InputFormat format : view.getDrawing().getInputFormats()) {
+        for (InputFormat format : svgPanel.getDrawing().getInputFormats()) {
             javax.swing.filechooser.FileFilter ff = format.getFileFilter();
             if (firstFF == null) {
                 firstFF = ff;
@@ -348,7 +282,7 @@ System.out.println("SVGView "+editor+" "+editor.getActiveView());
 
         fileFilterOutputFormatMap = new HashMap<javax.swing.filechooser.FileFilter, OutputFormat>();
         //  c.addChoosableFileFilter(new ExtensionFileFilter("SVG Drawing","svg"));
-        for (OutputFormat format : view.getDrawing().getOutputFormats()) {
+        for (OutputFormat format : svgPanel.getDrawing().getOutputFormats()) {
             javax.swing.filechooser.FileFilter ff = format.getFileFilter();
             fileFilterOutputFormatMap.put(ff, format);
             c.addChoosableFileFilter(ff);
@@ -364,7 +298,7 @@ System.out.println("SVGView "+editor+" "+editor.getActiveView());
         fileFilterOutputFormatMap = new HashMap<javax.swing.filechooser.FileFilter, OutputFormat>();
         //  c.addChoosableFileFilter(new ExtensionFileFilter("SVG Drawing","svg"));
         javax.swing.filechooser.FileFilter currentFilter = null;
-        for (OutputFormat format : view.getDrawing().getOutputFormats()) {
+        for (OutputFormat format : svgPanel.getDrawing().getOutputFormats()) {
             javax.swing.filechooser.FileFilter ff = format.getFileFilter();
             fileFilterOutputFormatMap.put(ff, format);
             c.addChoosableFileFilter(ff);
@@ -395,18 +329,10 @@ System.out.println("SVGView "+editor+" "+editor.getActiveView());
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        scrollPane = new javax.swing.JScrollPane();
-        view = new org.jhotdraw.draw.DefaultDrawingView();
-        propertiesPanel = new org.jhotdraw.samples.svg.SVGPropertiesPanel();
+        svgPanel = new org.jhotdraw.samples.svg.SVGDrawingPanel();
 
         setLayout(new java.awt.BorderLayout());
-
-        scrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-        scrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollPane.setViewportView(view);
-
-        add(scrollPane, java.awt.BorderLayout.CENTER);
-        add(propertiesPanel, java.awt.BorderLayout.SOUTH);
+        add(svgPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
     public JFileChooser getExportChooser() {
         if (exportChooser == null) {
@@ -423,37 +349,14 @@ System.out.println("SVGView "+editor+" "+editor.getActiveView());
             f = new File(f.getPath() + "." + format.getFileExtension());
         }
 
-        format.write(f, view.getDrawing());
+        format.write(f, svgPanel.getDrawing());
 
         prefs.put("viewExportFile", f.getPath());
         prefs.put("viewExportFormat", filter.getDescription());
     }
 
-    public void setGridVisible(boolean newValue) {
-        boolean oldValue = isGridVisible();
-        view.setConstrainerVisible(newValue);
-        firePropertyChange(GRID_VISIBLE_PROPERTY, oldValue, newValue);
-        prefs.putBoolean("view.gridVisible", newValue);
-    }
 
-    public boolean isGridVisible() {
-        return view.isConstrainerVisible();
-    }
-
-    public double getScaleFactor() {
-        return view.getScaleFactor();
-    }
-
-    public void setScaleFactor(double newValue) {
-        double oldValue = getScaleFactor();
-        view.setScaleFactor(newValue);
-
-        firePropertyChange("scaleFactor", oldValue, newValue);
-        prefs.putDouble("view.scaleFactor", newValue);
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private org.jhotdraw.samples.svg.SVGPropertiesPanel propertiesPanel;
-    private javax.swing.JScrollPane scrollPane;
-    private org.jhotdraw.draw.DefaultDrawingView view;
+    private org.jhotdraw.samples.svg.SVGDrawingPanel svgPanel;
     // End of variables declaration//GEN-END:variables
 }

@@ -15,7 +15,7 @@ package org.jhotdraw.samples.svg;
 
 import java.beans.*;
 
-public class JSVGDrawingPanelBeanInfo extends SimpleBeanInfo {
+public class SVGDrawingPanelBeanInfo extends SimpleBeanInfo {
     
     // Bean descriptor information will be obtained from introspection.//GEN-FIRST:BeanDescriptor
     private static BeanDescriptor beanDescriptor = null;
@@ -23,7 +23,7 @@ public class JSVGDrawingPanelBeanInfo extends SimpleBeanInfo {
 //GEN-HEADEREND:BeanDescriptor
         
         // Here you can add code for customizing the BeanDescriptor.
-         if (beanDescriptor == null) beanDescriptor = new BeanDescriptor(JSVGDrawingPanelBeanInfo.class);
+         if (beanDescriptor == null) beanDescriptor = new BeanDescriptor(SVGDrawingPanelBeanInfo.class);
          beanDescriptor.setValue("isContainer", Boolean.FALSE);
      beanDescriptor.setDisplayName("SVGDrawingPanel");
         

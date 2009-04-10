@@ -14,7 +14,6 @@
 package org.jhotdraw.samples.svg.gui;
 
 import java.awt.*;
-import org.jhotdraw.gui.JDisclosureToolBar;
 import java.beans.*;
 import java.util.prefs.*;
 import javax.swing.*;
@@ -67,12 +66,12 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar {
                     String name = evt.getPropertyName();
                     if (name == DISCLOSURE_STATE_PROPERTY) {
                         try {
-                        prefs.putInt(getID() + ".disclosureState", (Integer) evt.getNewValue());
+                            prefs.putInt(getID() + ".disclosureState", (Integer) evt.getNewValue());
                         } catch (IllegalStateException e) {
                             // This happens, due to a bug in Apple's implementation
                             // of the Preferences class.
-                           System.err.println("Warning AbstractToolBar caught IllegalStateException of Preferences class");
-                           e.printStackTrace();
+                            System.err.println("Warning AbstractToolBar caught IllegalStateException of Preferences class");
+                            e.printStackTrace();
                         }
                     }
                 }
@@ -119,7 +118,7 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar {
     private class ProxyPanel extends JPanel {
 
         private Runnable runner;
-        
+
         public ProxyPanel() {
             setOpaque(false);
             // The paint method is only called, if the proxy panel is at least
@@ -135,22 +134,22 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar {
                 runner = new Runnable() {
 
                     public void run() {
-                        long start = System.currentTimeMillis();
+                        // long start = System.currentTimeMillis();
                         panels[state] = createDisclosedComponent(state);
-                        long end = System.currentTimeMillis();
-                        System.out.println(AbstractToolBar.this.getClass()+" state:"+state+" elapsed:"+(end-start));
-                            JComponent parent = (JComponent) getParent();
+                        // long end = System.currentTimeMillis();
+                        // System.out.println(AbstractToolBar.this.getClass()+" state:"+state+" elapsed:"+(end-start));
+                        JComponent parent = (JComponent) getParent();
                         if (getDisclosureState() == state && parent != null) {
-                          GridBagLayout layout = (GridBagLayout) parent.getLayout();
-                          GridBagConstraints gbc = layout.getConstraints(ProxyPanel.this);
-                                  
+                            GridBagLayout layout = (GridBagLayout) parent.getLayout();
+                            GridBagConstraints gbc = layout.getConstraints(ProxyPanel.this);
+
                             parent.remove(ProxyPanel.this);
                             if (panels[state] != null) {
                                 parent.add(panels[state], gbc);
                             }
                             parent.revalidate();
                             ((JComponent) parent.getRootPane().getContentPane()).revalidate();
-                            
+
                         }
                     }
                 };
