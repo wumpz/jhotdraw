@@ -190,6 +190,7 @@ public class JPopupButton extends javax.swing.JButton {
             }
 
             popupMenu.show(this, x, y);
+            popupMenu.repaint();
         }
     }
 

@@ -1,5 +1,5 @@
 /*
- * @(#)QuaquaToolBarBorder.java  1.2  2008-05-18
+ * @(#)PaletteToolBarBorder.java  1.2  2008-05-18
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -21,7 +21,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 /**
- * QuaquaToolBarBorder.
+ * PaletteToolBarBorder.
  *
  * @author  Werner Randelshofer
  * @version 1.2 2008-05-18 Added method getDragInsets. 

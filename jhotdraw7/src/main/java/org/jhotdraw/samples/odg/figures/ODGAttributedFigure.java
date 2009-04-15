@@ -122,7 +122,7 @@ public abstract class ODGAttributedFigure extends AbstractAttributedFigure imple
                     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
                     ODGAttributedFigure.this.willChange();
                     fireUndoableEditHappened(
-                            TRANSFORM.setUndoable(ODGAttributedFigure.this, null, labels)
+                            TRANSFORM.setUndoable(ODGAttributedFigure.this, null)
                             );
                     ODGAttributedFigure.this.changed();
                 }

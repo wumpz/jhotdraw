@@ -87,7 +87,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
 
                                     public String getPresentationName() {
                                         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-                                        return labels.getString("editPaste");
+                                        return labels.getString("edit.paste.text");
                                     }
 
                                     public void undo() throws CannotUndoException {
@@ -153,7 +153,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
 
                                             public String getPresentationName() {
                                                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-                                                return labels.getString("editPaste");
+                                                return labels.getString("edit.paste.text");
                                             }
 
                                             public void undo() throws CannotUndoException {

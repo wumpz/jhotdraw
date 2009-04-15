@@ -15,11 +15,8 @@
 package org.jhotdraw.draw.action;
 
 import java.beans.*;
-import java.text.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.text.*;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.gui.ScalableNumberFormatter;
 import org.jhotdraw.util.*;
 
 /**
@@ -40,14 +37,11 @@ public class EditGridPanel extends javax.swing.JPanel {
     public EditGridPanel() {
         labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         initComponents();
-        
-        widthField.setMinimum(0);
-        widthField.setMaximum(1000);
-        heightField.setMinimum(0);
-        heightField.setMaximum(1000);
-        thetaField.setMinimum(0);
-        thetaField.setMaximum(180);
-        
+
+        widthField.setFormatterFactory(ScalableNumberFormatter.createFormatterFactory(0, 1000, 1));
+        heightField.setFormatterFactory(ScalableNumberFormatter.createFormatterFactory(0, 1000, 1));
+        thetaField.setFormatterFactory(ScalableNumberFormatter.createFormatterFactory(0, 180, 1));
+
         constrainer = new GridConstrainer(10, 10);
         
         widthField.addPropertyChangeListener(new PropertyChangeListener() {
@@ -113,10 +107,10 @@ public class EditGridPanel extends javax.swing.JPanel {
 
         widthLabel = new javax.swing.JLabel();
         heightLabel = new javax.swing.JLabel();
-        widthField = new org.jhotdraw.gui.JDoubleTextField();
-        heightField = new org.jhotdraw.gui.JDoubleTextField();
+        widthField = new org.jhotdraw.gui.JLifeFormattedTextField();
+        heightField = new org.jhotdraw.gui.JLifeFormattedTextField();
         thetaLabel = new javax.swing.JLabel();
-        thetaField = new org.jhotdraw.gui.JDoubleTextField();
+        thetaField = new org.jhotdraw.gui.JLifeFormattedTextField();
 
         widthLabel.setText(labels.getString("view.grid.width.text")); // NOI18N
 
@@ -168,11 +162,11 @@ public class EditGridPanel extends javax.swing.JPanel {
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private org.jhotdraw.gui.JDoubleTextField heightField;
+    private org.jhotdraw.gui.JLifeFormattedTextField heightField;
     private javax.swing.JLabel heightLabel;
-    private org.jhotdraw.gui.JDoubleTextField thetaField;
+    private org.jhotdraw.gui.JLifeFormattedTextField thetaField;
     private javax.swing.JLabel thetaLabel;
-    private org.jhotdraw.gui.JDoubleTextField widthField;
+    private org.jhotdraw.gui.JLifeFormattedTextField widthField;
     private javax.swing.JLabel widthLabel;
     // End of variables declaration//GEN-END:variables
     

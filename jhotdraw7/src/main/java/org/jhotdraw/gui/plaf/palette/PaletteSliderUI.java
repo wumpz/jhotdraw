@@ -69,6 +69,7 @@ public class PaletteSliderUI extends BasicSliderUI {
         return vertDim;
     }
     
+    @Override
      public void paint( Graphics gr, JComponent c )   {
          Graphics2D g = (Graphics2D) gr;
          

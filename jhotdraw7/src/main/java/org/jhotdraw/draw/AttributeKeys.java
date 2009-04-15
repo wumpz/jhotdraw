@@ -14,6 +14,7 @@
 
 package org.jhotdraw.draw;
 
+import org.jhotdraw.util.ResourceBundleUtil;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
@@ -37,31 +38,44 @@ import org.jhotdraw.geom.*;
  * <br>1.0 23. 3. 2006 Created.
  */
 public class AttributeKeys {
+    private final static ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
     /**
      * Canvas fill color. The value of this attribute is a Color object.
      * This attribute is used by a Drawing object to specify the fill color
      * of the drawing. The default value is white.
      */
-    public final static AttributeKey<Color> CANVAS_FILL_COLOR = new AttributeKey<Color>("canvasFillColor", Color.white);
+    public final static AttributeKey<Color> CANVAS_FILL_COLOR = new AttributeKey<Color>("canvasFillColor", Color.white, true, labels);
     /**
      * Canvas fill opacity. The value of this attribute is a Double object.
      * This is a value between 0 and 1 whereas 0 is translucent and 1 is fully opaque.
      */
-    public final static AttributeKey<Double> CANVAS_FILL_OPACITY = new AttributeKey<Double>("canvasFillOpacity", 1d, false);
+    public final static AttributeKey<Double> CANVAS_FILL_OPACITY = new AttributeKey<Double>("canvasFillOpacity", 1d, false, labels);
+    /**
+     * The width of the canvas. The value of this attribute is a Double object.
+     * This is a value between 1 and Double.MAX_VALUE. If the value is null, the
+     * width is dynamically adapted to the content of the drawing.
+     */
+    public final static AttributeKey<Double> CANVAS_WIDTH = new AttributeKey<Double>("canvasWidth", null, true, labels);
+    /**
+     * The height of the canvas. The value of this attribute is a Double object.
+     * This is a value between 1 and Double.MAX_VALUE. If the value is null, the
+     * height is dynamically adapted to the content of the drawing.
+     */
+    public final static AttributeKey<Double> CANVAS_HEIGHT = new AttributeKey<Double>("canvasHeight", null, true, labels);
     /**
      * Figure fill color. The value of this attribute is a Color object.
      */
-    public final static AttributeKey<Color> FILL_COLOR = new AttributeKey<Color>("fillColor", Color.white);
+    public final static AttributeKey<Color> FILL_COLOR = new AttributeKey<Color>("fillColor", Color.white, true, labels);
     
     /**
      * Close BezierFigure. The value of this attribute is a Boolean object.
      */
-    public final static AttributeKey<Boolean> CLOSED = new AttributeKey<Boolean>("closed", false);
+    public final static AttributeKey<Boolean> CLOSED = new AttributeKey<Boolean>("closed", false, false, labels);
     
     /**
      * Fill BezierFigure. The value of this attribute is a Boolean object.
      */
-    public final static AttributeKey<Boolean> FILL_OPEN_PATH = new AttributeKey<Boolean>("fillOpenPath", false);
+    public final static AttributeKey<Boolean> FILL_OPEN_PATH = new AttributeKey<Boolean>("fillOpenPath", false, false, labels);
     
     public static enum WindingRule {
         /**
@@ -79,7 +93,7 @@ public class AttributeKeys {
     /**
      * Fill under stroke. The value of this attribute is a Boolean object.
      */
-    public final static AttributeKey<WindingRule> WINDING_RULE = new AttributeKey<WindingRule>("windingRule", WindingRule.EVEN_ODD, false);
+    public final static AttributeKey<WindingRule> WINDING_RULE = new AttributeKey<WindingRule>("windingRule", WindingRule.EVEN_ODD, false, labels);
 
     public static enum Underfill {
         /**
@@ -104,17 +118,17 @@ public class AttributeKeys {
     /**
      * Fill under stroke. The value of this attribute is a Boolean object.
      */
-    public final static AttributeKey<Underfill> FILL_UNDER_STROKE = new AttributeKey<Underfill>("fillUnderStroke", Underfill.CENTER, false);
+    public final static AttributeKey<Underfill> FILL_UNDER_STROKE = new AttributeKey<Underfill>("fillUnderStroke", Underfill.CENTER, false, labels);
     
     /**
      * Stroke color. The value of this attribute is a Color object.
      */
-    public final static AttributeKey<Color> STROKE_COLOR = new AttributeKey<Color>("strokeColor", Color.black);
+    public final static AttributeKey<Color> STROKE_COLOR = new AttributeKey<Color>("strokeColor", Color.black, true, labels);
     /**
      * Stroke width. A double used to construct a BasicStroke or the
      * outline of a DoubleStroke.
      */
-    public final static AttributeKey<Double> STROKE_WIDTH = new AttributeKey<Double>("strokeWidth", 1d, false);
+    public final static AttributeKey<Double> STROKE_WIDTH = new AttributeKey<Double>("strokeWidth", 1d, false, labels);
     /**
      * Factor for the stroke inner width. This is a double. The default value
      * is 2.
@@ -122,42 +136,42 @@ public class AttributeKeys {
      * @deprecated This is not flexible enough. Lets replace this with a 
      * STROKE_STRIPES_ARRAY<Double[]> and a IS_STROKE_STRIPES_FACTOR.
      */
-    public final static AttributeKey<Double> STROKE_INNER_WIDTH_FACTOR = new AttributeKey<Double>("innerStrokeWidthFactor", 2d, false);
+    public final static AttributeKey<Double> STROKE_INNER_WIDTH_FACTOR = new AttributeKey<Double>("innerStrokeWidthFactor", 2d, false, labels);
     /**
      * Stroke join. One of the BasicStroke.JOIN_... values used to
      * construct a BasicStroke.
      */
-    public final static AttributeKey<Integer> STROKE_JOIN = new AttributeKey<Integer>("strokeJoin", BasicStroke.JOIN_MITER, false);
+    public final static AttributeKey<Integer> STROKE_JOIN = new AttributeKey<Integer>("strokeJoin", BasicStroke.JOIN_MITER, false, labels);
     /**
      * Stroke join. One of the BasicStroke.CAP_... values used to
      * construct a BasicStroke.
      */
-    public final static AttributeKey<Integer> STROKE_CAP = new AttributeKey<Integer>("strokeCap", BasicStroke.CAP_BUTT, false);
+    public final static AttributeKey<Integer> STROKE_CAP = new AttributeKey<Integer>("strokeCap", BasicStroke.CAP_BUTT, false, labels);
     /**
      * Stroke miter limit factor. A double multiplied by total stroke width,
      * used to construct the miter limit of a BasicStroke.
      */
-    public final static AttributeKey<Double> STROKE_MITER_LIMIT = new AttributeKey<Double>("strokeMiterLimitFactor", 3d, false);
+    public final static AttributeKey<Double> STROKE_MITER_LIMIT = new AttributeKey<Double>("strokeMiterLimitFactor", 3d, false, labels);
     /**
      * A boolean used to indicate whether STROKE_MITER_LIMIT is a factor of 
      * STROKE_WIDTH, or whether it represents an absolute value.
      */
-    public final static AttributeKey<Boolean> IS_STROKE_MITER_LIMIT_FACTOR = new AttributeKey<Boolean>("isStrokeMiterLimitFactor", true);
+    public final static AttributeKey<Boolean> IS_STROKE_MITER_LIMIT_FACTOR = new AttributeKey<Boolean>("isStrokeMiterLimitFactor", true, false, labels);
     /**
      * An array of doubles used to specify the dash pattern in
      * a BasicStroke;
      */
-    public final static AttributeKey<double[]> STROKE_DASHES = new AttributeKey<double[]>("strokeDashes", null);
+    public final static AttributeKey<double[]> STROKE_DASHES = new AttributeKey<double[]>("strokeDashes", null, true, labels);
     /**
      * A double used to specify the starting phase of the stroke dashes.
      */
-    public final static AttributeKey<Double> STROKE_DASH_PHASE = new AttributeKey<Double>("strokeDashPhase", 0d, false);
+    public final static AttributeKey<Double> STROKE_DASH_PHASE = new AttributeKey<Double>("strokeDashPhase", 0d, false, labels);
     /**
      * A boolean used to indicate whether STROKE_DASHES and STROKE_DASH_PHASE
      * shall be interpreted as factors of STROKE_WIDTH, or whether they are
      * absolute values.
      */
-    public final static AttributeKey<Boolean> IS_STROKE_DASH_FACTOR = new AttributeKey<Boolean>("isStrokeDashFactor", true);
+    public final static AttributeKey<Boolean> IS_STROKE_DASH_FACTOR = new AttributeKey<Boolean>("isStrokeDashFactor", true, false, labels);
     
     
     public static enum StrokeType {
@@ -180,7 +194,7 @@ public class AttributeKeys {
      * or VALUE_STROKE_TYPE_DOUBLE.
      * FIXME - Type should be an enumeration.
      */
-    public final static AttributeKey<StrokeType> STROKE_TYPE = new AttributeKey<StrokeType>("strokeType", StrokeType.BASIC, false);
+    public final static AttributeKey<StrokeType> STROKE_TYPE = new AttributeKey<StrokeType>("strokeType", StrokeType.BASIC, false, labels);
     
     public static enum StrokePlacement {
         /**
@@ -207,26 +221,26 @@ public class AttributeKeys {
      * <p>
      * The default value is StrokePlacement.CENTER.
      */
-    public final static AttributeKey<StrokePlacement> STROKE_PLACEMENT = new AttributeKey<StrokePlacement>("strokePlacement", StrokePlacement.CENTER, false);
+    public final static AttributeKey<StrokePlacement> STROKE_PLACEMENT = new AttributeKey<StrokePlacement>("strokePlacement", StrokePlacement.CENTER, false, labels);
     
     /**
      * The value of this attribute is a String object, which is used to
      * display the text of the figure.
      */
-    public final static AttributeKey<String> TEXT = new AttributeKey<String>("text", null);
+    public final static AttributeKey<String> TEXT = new AttributeKey<String>("text", null, false, labels);
     
     /**
      * Text color. The value of this attribute is a Color object.
      */
-    public final static AttributeKey<Color> TEXT_COLOR = new AttributeKey<Color>("textColor", Color.black);
+    public final static AttributeKey<Color> TEXT_COLOR = new AttributeKey<Color>("textColor", Color.black, false, labels);
     /**
      * Text shadow color. The value of this attribute is a Color object.
      */
-    public final static AttributeKey<Color> TEXT_SHADOW_COLOR = new AttributeKey<Color>("textShadowColor", null);
+    public final static AttributeKey<Color> TEXT_SHADOW_COLOR = new AttributeKey<Color>("textShadowColor", null, false, labels);
     /**
      * Text shadow offset. The value of this attribute is a Dimension2DDouble object.
      */
-    public final static AttributeKey<Dimension2DDouble> TEXT_SHADOW_OFFSET = new AttributeKey<Dimension2DDouble>("textShadowOffset", new Dimension2DDouble(1d,1d), false);
+    public final static AttributeKey<Dimension2DDouble> TEXT_SHADOW_OFFSET = new AttributeKey<Dimension2DDouble>("textShadowOffset", new Dimension2DDouble(1d,1d), false, labels);
     
     public static enum Alignment {
         /** align on the left or the top */
@@ -241,41 +255,41 @@ public class AttributeKeys {
     /**
      * Text alignment. The value of this attribute is a Alignment enum.
      */
-    public final static AttributeKey<Alignment> TEXT_ALIGNMENT = new AttributeKey<Alignment>("textAlignment", Alignment.LEADING);
+    public final static AttributeKey<Alignment> TEXT_ALIGNMENT = new AttributeKey<Alignment>("textAlignment", Alignment.LEADING, false, labels);
     /**
      * The value of this attribute is a Font object, which is used as a prototype
      * to create the font for the text.
      */
-    public final static AttributeKey<Font> FONT_FACE = new AttributeKey<Font>("fontFace", new Font("VERDANA", Font.PLAIN, 10), false);
+    public final static AttributeKey<Font> FONT_FACE = new AttributeKey<Font>("fontFace", new Font("VERDANA", Font.PLAIN, 10), false, labels);
     /**
      * The value of this attribute is a double object.
      */
-    public final static AttributeKey<Double> FONT_SIZE = new AttributeKey<Double>("fontSize", 12d, false);
+    public final static AttributeKey<Double> FONT_SIZE = new AttributeKey<Double>("fontSize", 12d, false, labels);
     /**
      * The value of this attribute is a Boolean object.
      */
-    public final static AttributeKey<Boolean> FONT_BOLD = new AttributeKey<Boolean>("fontBold", false, false);
+    public final static AttributeKey<Boolean> FONT_BOLD = new AttributeKey<Boolean>("fontBold", false, false, labels);
     /**
      * The value of this attribute is a Boolean object.
      */
-    public final static AttributeKey<Boolean> FONT_ITALIC = new AttributeKey<Boolean>("fontItalic", false, false);
+    public final static AttributeKey<Boolean> FONT_ITALIC = new AttributeKey<Boolean>("fontItalic", false, false, labels);
     /**
      * The value of this attribute is a Boolean object.
      */
-    public final static AttributeKey<Boolean> FONT_UNDERLINE = new AttributeKey<Boolean>("fontUnderlined", false, false);
+    public final static AttributeKey<Boolean> FONT_UNDERLINE = new AttributeKey<Boolean>("fontUnderlined", false, false, labels);
     /**
      * The value of this attribute is a Liner object.
      */
-    public final static AttributeKey<Liner> BEZIER_PATH_LAYOUTER = new AttributeKey<Liner>("bezierPathLayouter", null);
+    public final static AttributeKey<Liner> BEZIER_PATH_LAYOUTER = new AttributeKey<Liner>("bezierPathLayouter", null, false, labels);
     
-    public static final AttributeKey<LineDecoration> END_DECORATION = new AttributeKey<LineDecoration>("endDecoration",  null);
+    public static final AttributeKey<LineDecoration> END_DECORATION = new AttributeKey<LineDecoration>("endDecoration",  null, false, labels);
     
-    public static final AttributeKey<LineDecoration> START_DECORATION = new AttributeKey<LineDecoration>("startDecoration", null);
+    public static final AttributeKey<LineDecoration> START_DECORATION = new AttributeKey<LineDecoration>("startDecoration", null, false, labels);
     
     /**
      * The value of this attribute is a Insets2D.Double object.
      */
-    public static final AttributeKey<Insets2D.Double> DECORATOR_INSETS = new AttributeKey<Insets2D.Double>("decoratorInsets", new Insets2D.Double(), false);
+    public static final AttributeKey<Insets2D.Double> DECORATOR_INSETS = new AttributeKey<Insets2D.Double>("decoratorInsets", new Insets2D.Double(), false, labels);
     
     /**
      * The value of this attribute is a Insets2D.Double object.
@@ -286,7 +300,7 @@ public class AttributeKeys {
      * The insets are used to determine the insets between the bounds
      * of the CompositeFigure and its children.
      */
-    public final static AttributeKey<Insets2D.Double> LAYOUT_INSETS = new AttributeKey<Insets2D.Double>("borderInsets", new Insets2D.Double());
+    public final static AttributeKey<Insets2D.Double> LAYOUT_INSETS = new AttributeKey<Insets2D.Double>("borderInsets", new Insets2D.Double(), false, labels);
 
     /**
      * The value of this attribute is a Alignment object.
@@ -297,7 +311,7 @@ public class AttributeKeys {
      * The insets are used to determine the default alignment of
      * the children of the CompositeFigure.
      */
-    public final static AttributeKey<Alignment> COMPOSITE_ALIGNMENT = new AttributeKey<Alignment>("layoutAlignment", Alignment.BLOCK);
+    public final static AttributeKey<Alignment> COMPOSITE_ALIGNMENT = new AttributeKey<Alignment>("layoutAlignment", Alignment.BLOCK, false, labels);
 
     /**
      * The value of this attribute is a Alignment object.
@@ -308,13 +322,13 @@ public class AttributeKeys {
      * Layouters should use this attribute, to determine the default alignment
      * of the child figures contained in the CompositeFigure which they lay out.
      */
-    public final static AttributeKey<Alignment> CHILD_ALIGNMENT = new AttributeKey<Alignment>("layoutAlignment", null);
+    public final static AttributeKey<Alignment> CHILD_ALIGNMENT = new AttributeKey<Alignment>("layoutAlignment", null, false, labels);
     
     
     /**
      * Specifies the transform of a Figure.
      */
-    public final static AttributeKey<AffineTransform>TRANSFORM = new AttributeKey<AffineTransform>("transform", null, true);
+    public final static AttributeKey<AffineTransform>TRANSFORM = new AttributeKey<AffineTransform>("transform", null, true, labels);
     
     public static enum Orientation {
         NORTH,
@@ -329,7 +343,7 @@ public class AttributeKeys {
     /**
      * Specifies the orientation of a Figure.
      */
-    public final static AttributeKey<Orientation> ORIENTATION = new AttributeKey<Orientation>("orientation", Orientation.NORTH);
+    public final static AttributeKey<Orientation> ORIENTATION = new AttributeKey<Orientation>("orientation", Orientation.NORTH, false, labels);
     /**
      * A set with all attributes defined by this class.
      */

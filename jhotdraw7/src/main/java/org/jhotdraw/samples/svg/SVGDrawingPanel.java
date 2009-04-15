@@ -23,6 +23,7 @@ import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.gui.ToolBarLayout;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.gui.plaf.palette.PaletteLookAndFeel;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
 /**
@@ -210,11 +211,12 @@ public class SVGDrawingPanel extends JPanel {
         toolsPanel.setOpaque(true);
         toolsPanel.setLayout(new java.awt.GridBagLayout());
 
-        toolsScrollPane.setBorder(null);
+        toolsScrollPane.setBorder(PaletteLookAndFeel.getInstance().getBorder("Ribbon.border"));
         toolsScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         toolsScrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         toolsScrollPane.setMinimumSize(new java.awt.Dimension(0, 0));
 
+        toolsPane.setForeground(new java.awt.Color(153, 153, 153));
         toolsPane.add(creationToolBar);
         toolsPane.add(actionToolBar);
         toolsPane.add(fillToolBar);

@@ -71,12 +71,12 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="org.jhotdraw.gui.JDoubleTextField" name="widthField">
+    <Component class="org.jhotdraw.gui.JLifeFormattedTextField" name="widthField">
       <Properties>
         <Property name="columns" type="int" value="5"/>
       </Properties>
     </Component>
-    <Component class="org.jhotdraw.gui.JDoubleTextField" name="heightField">
+    <Component class="org.jhotdraw.gui.JLifeFormattedTextField" name="heightField">
       <Properties>
         <Property name="columns" type="int" value="5"/>
       </Properties>
@@ -88,7 +88,7 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="org.jhotdraw.gui.JDoubleTextField" name="thetaField">
+    <Component class="org.jhotdraw.gui.JLifeFormattedTextField" name="thetaField">
       <Properties>
         <Property name="columns" type="int" value="5"/>
       </Properties>

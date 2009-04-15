@@ -224,7 +224,7 @@ public class DefaultDrawing
     public void setCanvasSize(Dimension2DDouble newValue) {
         Dimension2DDouble oldValue = canvasSize;
         canvasSize = (newValue == null) ? null : (Dimension2DDouble) newValue.clone();
-        firePropertyChange("canvasSize", oldValue, newValue);
+        firePropertyChange(CANVAS_SIZE_PROPERTY, oldValue, newValue);
     }
     
     public Dimension2DDouble getCanvasSize() {

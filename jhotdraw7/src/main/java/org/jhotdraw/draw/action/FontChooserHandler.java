@@ -67,19 +67,15 @@ public class FontChooserHandler extends AbstractSelectedAction
         final ArrayList<Object> restoreData = new ArrayList<Object>(selectedFigures.size());
         for (Figure figure : selectedFigures) {
             restoreData.add(figure.getAttributesRestoreData());
-            figure.willChange();
-            /*
-            for (Map.Entry<AttributeKey, Object> entry : attributes.entrySet()) {
-            entry.getKey().basicSet(figure, entry.getValue());
-            }*/
-            key.basicSet(figure, fontChooser.getSelectedFont());
-            getEditor().setDefaultAttribute(key, fontChooser.getSelectedFont());
-            figure.changed();
+            key.set(figure, fontChooser.getSelectedFont());
         }
+        getEditor().setDefaultAttribute(key, fontChooser.getSelectedFont());
         final Font undoValue = fontChooser.getSelectedFont();
         UndoableEdit edit = new AbstractUndoableEdit() {
 
             public String getPresentationName() {
+                return AttributeKeys.FONT_FACE.getPresentationName();
+                /*
                 String name = (String) getValue(Actions.UNDO_PRESENTATION_NAME_KEY);
                 if (name == null) {
                     name = (String) getValue(AbstractAction.NAME);
@@ -88,7 +84,7 @@ public class FontChooserHandler extends AbstractSelectedAction
                     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
                     name = labels.getString("attribute.text");
                 }
-                return name;
+                return name;*/
             }
 
             public void undo() {

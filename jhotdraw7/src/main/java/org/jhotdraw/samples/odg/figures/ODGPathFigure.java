@@ -327,7 +327,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
                     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
                     ODGPathFigure.this.willChange();
                     fireUndoableEditHappened(
-                            TRANSFORM.setUndoable(ODGPathFigure.this, null, labels)
+                            TRANSFORM.setUndoable(ODGPathFigure.this, null)
                             );
                     ODGPathFigure.this.changed();
                 }
@@ -369,7 +369,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
                 for (Figure child : getChildren()) {
                     ODGPathFigure.this.willChange();
                     getDrawing().fireUndoableEditHappened(
-                            CLOSED.setUndoable(child, true, labels)
+                            CLOSED.setUndoable(child, true)
                             );
                     ODGPathFigure.this.changed();
                 }
@@ -380,7 +380,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
                 for (Figure child : getChildren()) {
                     ODGPathFigure.this.willChange();
                     getDrawing().fireUndoableEditHappened(
-                            CLOSED.setUndoable(child, false, labels)
+                            CLOSED.setUndoable(child, false)
                             );
                     ODGPathFigure.this.changed();
                 }
@@ -390,7 +390,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
             public void actionPerformed(ActionEvent evt) {
                 ODGPathFigure.this.willChange();
                 getDrawing().fireUndoableEditHappened(
-                        WINDING_RULE.setUndoable(ODGPathFigure.this, WindingRule.EVEN_ODD, labels)
+                        WINDING_RULE.setUndoable(ODGPathFigure.this, WindingRule.EVEN_ODD)
                         );
                 ODGPathFigure.this.changed();
             }
@@ -399,7 +399,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
             public void actionPerformed(ActionEvent evt) {
                 WINDING_RULE.set(ODGPathFigure.this, WindingRule.NON_ZERO);
                 getDrawing().fireUndoableEditHappened(
-                        WINDING_RULE.setUndoable(ODGPathFigure.this, WindingRule.EVEN_ODD, labels)
+                        WINDING_RULE.setUndoable(ODGPathFigure.this, WindingRule.EVEN_ODD)
                         );
             }
         });

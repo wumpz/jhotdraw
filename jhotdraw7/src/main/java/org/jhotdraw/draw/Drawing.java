@@ -1,7 +1,7 @@
 /*
- * @(#)Drawing.java  3.0  2007-07-17
+ * @(#)Drawing.java  3.1  2009-04-15
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -15,8 +15,6 @@
 
 package org.jhotdraw.draw;
 
-import org.jhotdraw.geom.*;
-import org.jhotdraw.io.*;
 import org.jhotdraw.xml.*;
 
 import java.awt.Graphics2D;
@@ -43,7 +41,8 @@ import java.io.*;
  * into the clipboard.
  *
  * @author Werner Randelshofer
- * @version 3.0 2007-07-17 Refactored Drawing from an independent interface
+ * @version 3.1 2009-04-15 Factor canvasSize out into an attribute.
+ * <br>3.0 2007-07-17 Refactored Drawing from an independent interface
  * into an interface that extends from CompositeFigure. 
  * <br>2.4 2007-05-21 Added add-methods with index to the interface.
  * <br>2.3 2007-05-16 Added method findFigureBehind. 
@@ -53,6 +52,7 @@ import java.io.*;
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
 public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
+    public final static String CANVAS_SIZE_PROPERTY="canvasSize";
     /**
      * Adds a figure to the drawing.
      * The drawing sends an {@code addNotify} message to the figure
@@ -323,28 +323,6 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * Gets output formats for the Drawing in order of preferred formats.
      */
     List<OutputFormat> getOutputFormats();
-    
-    /**
-     * Sets the canvas size for this drawing.
-     * <p>
-     * If <code>canvasSize</code> is </code>null</code>, the size of the canvas 
-     * is expected to be adjusted dynamically to fit the drawing areas of all 
-     * figures contained in the drawing.
-     * <p>
-     * This is a bound property.
-     *
-     * @param canvasSize The canvas size, or null.
-     */
-    void setCanvasSize(Dimension2DDouble canvasSize);
-    
-    /**
-     * Gets the canvas size of this drawing.
-     * If null is returned, the canvas size needs to be adjusted dynamically
-     * to fit the drawing areas of all figures contained in the drawing.
-     *
-     * @return The canvas size, or null.
-     */
-    Dimension2DDouble getCanvasSize();
     
     // ATTRIBUTES
     /**

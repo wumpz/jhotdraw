@@ -713,7 +713,7 @@ public class ButtonFactory {
                     new AttributeAction(
                     editor,
                     attributes,
-                    labels.getString(labelKey),
+                    labels.getToolTipTextProperty(labelKey),
                     swatch));
             a.putValue(Action.SHORT_DESCRIPTION, swatch.getName());
         }
@@ -855,7 +855,7 @@ public class ButtonFactory {
                     new DrawingAttributeAction(
                     editor,
                     attributes,
-                    labels.getString(labelKey),
+                    labels.getToolTipTextProperty(labelKey),
                     swatch));
             a.putValue(Action.SHORT_DESCRIPTION, swatch.getName());
         }
@@ -1275,7 +1275,7 @@ public class ButtonFactory {
         AbstractAction a = new AttributeToggler(editor,
                 FONT_ITALIC, Boolean.TRUE, Boolean.FALSE,
                 new StyledEditorKit.BoldAction());
-        a.putValue(Actions.UNDO_PRESENTATION_NAME_KEY, labels.getString("attribute.fontStyle.italic"));
+        a.putValue(Actions.UNDO_PRESENTATION_NAME_KEY, labels.getString("attribute.fontStyle.italic.text"));
         btn.addActionListener(a);
         return btn;
     }
@@ -1295,7 +1295,7 @@ public class ButtonFactory {
         AbstractAction a = new AttributeToggler(editor,
                 FONT_UNDERLINE, Boolean.TRUE, Boolean.FALSE,
                 new StyledEditorKit.BoldAction());
-        a.putValue(Actions.UNDO_PRESENTATION_NAME_KEY, labels.getString("attribute.fontStyle.underline"));
+        a.putValue(Actions.UNDO_PRESENTATION_NAME_KEY, labels.getString("attribute.fontStyle.underline.text"));
         btn.addActionListener(a);
         return btn;
     }

@@ -55,8 +55,8 @@ public abstract class SVGAttributedFigure extends AbstractAttributedFigure {
                 if (! drawingArea.isEmpty()) {
                     
                     BufferedImage buf = new BufferedImage(
-                            (int) ((2 + drawingArea.width) * g.getTransform().getScaleX()),
-                            (int) ((2 + drawingArea.height) * g.getTransform().getScaleY()),
+                            Math.max(1, (int) ((2 + drawingArea.width) * g.getTransform().getScaleX())),
+                            Math.max(1, (int) ((2 + drawingArea.height) * g.getTransform().getScaleY())),
                             BufferedImage.TYPE_INT_ARGB);
                     Graphics2D gr = buf.createGraphics();
                     gr.scale(g.getTransform().getScaleX(), g.getTransform().getScaleY());
@@ -117,7 +117,7 @@ public abstract class SVGAttributedFigure extends AbstractAttributedFigure {
                     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
                     SVGAttributedFigure.this.willChange();
                     fireUndoableEditHappened(
-                            TRANSFORM.setUndoable(SVGAttributedFigure.this, null, labels)
+                            TRANSFORM.setUndoable(SVGAttributedFigure.this, null)
                             );
                     SVGAttributedFigure.this.changed();
                 }

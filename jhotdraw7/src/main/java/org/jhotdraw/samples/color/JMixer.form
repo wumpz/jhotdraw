@@ -134,7 +134,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="org.jhotdraw.gui.JDoubleTextField" name="customHueField">
+        <Component class="org.jhotdraw.gui.JLifeFormattedTextField" name="customHueField">
           <Properties>
             <Property name="columns" type="int" value="3"/>
             <Property name="horizontalAlignment" type="int" value="4"/>
@@ -184,7 +184,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="org.jhotdraw.gui.JDoubleTextField" name="analogousField">
+        <Component class="org.jhotdraw.gui.JLifeFormattedTextField" name="analogousField">
           <Properties>
             <Property name="columns" type="int" value="3"/>
             <Property name="editable" type="boolean" value="false"/>
@@ -234,7 +234,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="org.jhotdraw.gui.JDoubleTextField" name="primaryField">
+        <Component class="org.jhotdraw.gui.JLifeFormattedTextField" name="primaryField">
           <Properties>
             <Property name="columns" type="int" value="3"/>
             <Property name="editable" type="boolean" value="false"/>
@@ -284,7 +284,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="org.jhotdraw.gui.JDoubleTextField" name="clashField">
+        <Component class="org.jhotdraw.gui.JLifeFormattedTextField" name="clashField">
           <Properties>
             <Property name="columns" type="int" value="3"/>
             <Property name="editable" type="boolean" value="false"/>
@@ -334,7 +334,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="org.jhotdraw.gui.JDoubleTextField" name="triadField">
+        <Component class="org.jhotdraw.gui.JLifeFormattedTextField" name="triadField">
           <Properties>
             <Property name="columns" type="int" value="3"/>
             <Property name="editable" type="boolean" value="false"/>
@@ -384,7 +384,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="org.jhotdraw.gui.JDoubleTextField" name="splitField">
+        <Component class="org.jhotdraw.gui.JLifeFormattedTextField" name="splitField">
           <Properties>
             <Property name="columns" type="int" value="3"/>
             <Property name="editable" type="boolean" value="false"/>
@@ -434,7 +434,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="org.jhotdraw.gui.JDoubleTextField" name="complementaryField">
+        <Component class="org.jhotdraw.gui.JLifeFormattedTextField" name="complementaryField">
           <Properties>
             <Property name="columns" type="int" value="3"/>
             <Property name="editable" type="boolean" value="false"/>
@@ -481,7 +481,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="org.jhotdraw.gui.JDoubleTextField" name="achromaticField">
+        <Component class="org.jhotdraw.gui.JLifeFormattedTextField" name="achromaticField">
           <Properties>
             <Property name="columns" type="int" value="3"/>
             <Property name="horizontalAlignment" type="int" value="4"/>
@@ -528,7 +528,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="org.jhotdraw.gui.JDoubleTextField" name="monochromaticField">
+        <Component class="org.jhotdraw.gui.JLifeFormattedTextField" name="monochromaticField">
           <Properties>
             <Property name="columns" type="int" value="3"/>
             <Property name="horizontalAlignment" type="int" value="4"/>

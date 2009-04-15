@@ -94,6 +94,7 @@ public class AlignToolBar extends AbstractToolBar {
                     btn.setText(null);
                     p.add(btn, gbc);
 
+                    gbc.insets = new Insets(0, 3, 0, 0);
                     btn = new JButton(new AlignAction.East(editor, labels));
                     btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                     btn.putClientProperty("hideActionText", Boolean.TRUE);

@@ -249,7 +249,10 @@ public class SVGTextFigure
         return (String) getAttribute(TEXT);
     }
     public void setAttribute(AttributeKey key, Object newValue) {
-        if (key == SVGAttributeKeys.TRANSFORM) {
+        if (key == SVGAttributeKeys.TRANSFORM ||
+                key == SVGAttributeKeys.FONT_FACE ||
+                key == SVGAttributeKeys.FONT_BOLD ||
+                key == SVGAttributeKeys.FONT_ITALIC) {
             invalidate();
         }
         super.setAttribute(key, newValue);

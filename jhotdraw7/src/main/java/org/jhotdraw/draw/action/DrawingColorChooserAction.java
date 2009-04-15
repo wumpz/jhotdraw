@@ -1,5 +1,5 @@
 /*
- * @(#)DrawingColorChooserAction.java  1.0  2008-05-18
+ * @(#)DrawingColorChooserAction.java  1.0.1  2009-04-10
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -14,13 +14,10 @@
 
 package org.jhotdraw.draw.action;
 
-import javax.swing.*;
 import java.util.*;
 import java.awt.*;
-import java.beans.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.undo.CompositeEdit;
 /**
  * The DrawingColorChooserAction changes a color attribute of the Drawing object
  * in the current view of the DrawingEditor.
@@ -29,7 +26,8 @@ import org.jhotdraw.undo.CompositeEdit;
  * {@link DrawingColorIcon }.
  * 
  * @author Werner Randelshofer
- * @version 1.0 2008-05-18 Created.
+ * @version 1.0.1 2009-04-10 Action did not fire UndoableEdit events.
+ * <br>1.0 2008-05-18 Created.
  */
 public class DrawingColorChooserAction extends EditorColorChooserAction {
     
@@ -51,29 +49,25 @@ public class DrawingColorChooserAction extends EditorColorChooserAction {
     public DrawingColorChooserAction(DrawingEditor editor, final AttributeKey<Color> key, String name, Icon icon,
             Map<AttributeKey,Object> fixedAttributes) {
         super(editor, key, name, icon, fixedAttributes);
-        if (this.fixedAttributes == null) {
-            throw new NullPointerException();
-        }
     }
     
     @Override
-    public void changeAttribute(Color value) {
-        if (fixedAttributes == null) {
-            throw new NullPointerException();
+    public void actionPerformed(java.awt.event.ActionEvent e) {
+        if (colorChooser == null) {
+            colorChooser = new JColorChooser();
         }
-        CompositeEdit edit = new CompositeEdit("attributes");
-        fireUndoableEditHappened(edit);
-        Drawing drawing = getDrawing();
-       Figure figure = getView().getDrawing();
-            figure.willChange();
-            key.basicSet(figure, value);
-            for (Map.Entry<AttributeKey,Object> entry : fixedAttributes.entrySet()) {
-                entry.getKey().basicSet(figure, entry.getValue());
-            }
-            figure.changed();
-        //getEditor().setDefaultAttribute(key, value);
-        fireUndoableEditHappened(edit);
+        Color initialColor = getInitialColor();
+        // FIXME - Reuse colorChooser object instead of calling static method here.
+        Color chosenColor = colorChooser.showDialog((Component) e.getSource(), labels.getString("drawColor"), initialColor);
+        if (chosenColor != null) {
+            HashMap<AttributeKey, Object> attr = new HashMap<AttributeKey, Object>(attributes);
+            attr.put(key, chosenColor);
+            HashSet<Figure> figures = new HashSet<Figure>();
+            figures.add(getView().getDrawing());
+            applyAttributesTo(attr, figures);
+        }
     }
+
     @Override
     protected Color getInitialColor() {
         Color initialColor = null;

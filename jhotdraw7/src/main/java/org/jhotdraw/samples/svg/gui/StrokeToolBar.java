@@ -87,7 +87,7 @@ public class StrokeToolBar extends AbstractToolBar {
 
                     // Opacity slider
                     JPopupButton opacityPopupButton = new JPopupButton();
-                    JDoubleAttributeSlider opacitySlider = new JDoubleAttributeSlider(JSlider.VERTICAL, 0, 100, 100);
+                    JAttributeSlider opacitySlider = new JAttributeSlider(JSlider.VERTICAL, 0, 100, 100);
                     opacityPopupButton.add(opacitySlider);
                     labels.configureToolBarButton(opacityPopupButton, "attribute.strokeOpacity");
                     opacityPopupButton.setUI((PaletteButtonUI) PaletteButtonUI.createUI(opacityPopupButton));
@@ -103,12 +103,11 @@ public class StrokeToolBar extends AbstractToolBar {
                     p.add(opacityPopupButton, gbc);
                     opacitySlider.setUI((SliderUI) PaletteSliderUI.createUI(opacitySlider));
                     opacitySlider.setScaleFactor(100d);
-                    opacitySlider.setAttributeKey(STROKE_OPACITY);
-                    opacitySlider.setEditor(editor);
+                    new FigureAttributeEditorHandler(STROKE_OPACITY, opacitySlider, editor);
 
                     // Create stroke width popup slider
                     JPopupButton strokeWidthPopupButton = new JPopupButton();
-                    JDoubleAttributeSlider strokeWidthSlider = new JDoubleAttributeSlider(
+                    JAttributeSlider strokeWidthSlider = new JAttributeSlider(
                             JSlider.VERTICAL, 0, 50, 1);
                     strokeWidthSlider.setUI((SliderUI) PaletteSliderUI.createUI(strokeWidthSlider));
                     strokeWidthPopupButton.add(strokeWidthSlider);
@@ -119,8 +118,7 @@ public class StrokeToolBar extends AbstractToolBar {
                     gbc.gridx = 0;
                     gbc.insets = new Insets(3, 0, 0, 0);
                     p.add(strokeWidthPopupButton, gbc);
-                    strokeWidthSlider.setAttributeKey(STROKE_WIDTH);
-                    strokeWidthSlider.setEditor(editor);
+                    new FigureAttributeEditorHandler(STROKE_WIDTH, strokeWidthSlider, editor);
 
                     // Create stroke dashes buttons
                     btn = ButtonFactory.createStrokeDashesButton(editor, labels);
@@ -173,17 +171,15 @@ public class StrokeToolBar extends AbstractToolBar {
                     p.add(btn, gbc);
 
                     // Opacity field with slider
-                    JDoubleAttributeField opacityField = new JDoubleAttributeField();
-                    opacityField.setColumns(2);
+                    JAttributeTextField opacityField = new JAttributeTextField();
+                    opacityField.setColumns(3);
                     opacityField.setToolTipText(labels.getString("attribute.strokeOpacity.toolTipText"));
-                    opacityField.setHorizontalAlignment(JDoubleAttributeField.RIGHT);
+                    opacityField.setHorizontalAlignment(JAttributeTextField.RIGHT);
                     opacityField.putClientProperty("Palette.Component.segmentPosition", "first");
-                    opacityField.setUI((PaletteTextFieldUI) PaletteTextFieldUI.createUI(opacityField));
-                    opacityField.setScaleFactor(100d);
-                    opacityField.setMinimum(0d);
-                    opacityField.setMaximum(100d);
-                    opacityField.setAttributeKey(STROKE_OPACITY);
-                    opacityField.setEditor(editor);
+                    opacityField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(opacityField));
+                    opacityField.setFormatterFactory(ScalableNumberFormatter.createFormatterFactory(0d, 100d, 100d));
+                    opacityField.setHorizontalAlignment(JTextField.LEFT);
+                    new FigureAttributeEditorHandler(STROKE_OPACITY, opacityField, editor);
                     gbc = new GridBagConstraints();
                     gbc.gridx = 0;
                     gbc.insets = new Insets(3, 0, 0, 0);
@@ -191,7 +187,7 @@ public class StrokeToolBar extends AbstractToolBar {
                     gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                     p.add(opacityField, gbc);
                     JPopupButton opacityPopupButton = new JPopupButton();
-                    JDoubleAttributeSlider opacitySlider = new JDoubleAttributeSlider(JSlider.VERTICAL, 0, 100, 100);
+                    JAttributeSlider opacitySlider = new JAttributeSlider(JSlider.VERTICAL, 0, 100, 100);
                     opacityPopupButton.add(opacitySlider);
                     labels.configureToolBarButton(opacityPopupButton, "attribute.strokeOpacity");
                     opacityPopupButton.setUI((PaletteButtonUI) PaletteButtonUI.createUI(opacityPopupButton));
@@ -208,17 +204,18 @@ public class StrokeToolBar extends AbstractToolBar {
                     p.add(opacityPopupButton, gbc);
                     opacitySlider.setUI((SliderUI) PaletteSliderUI.createUI(opacitySlider));
                     opacitySlider.setScaleFactor(100d);
-                    opacitySlider.setAttributeKey(STROKE_OPACITY);
-                    opacitySlider.setEditor(editor);
+                    new FigureAttributeEditorHandler(STROKE_OPACITY, opacitySlider, editor);
 
                     // Create stroke width field with popup slider
-                    JDoubleAttributeField strokeWidthField = new JDoubleAttributeField();
-                    strokeWidthField.setFont(strokeWidthField.getFont().deriveFont(11f));
+                    JAttributeTextField strokeWidthField = new JAttributeTextField();
+                    //strokeWidthField.setFont(PaletteLookAndFeel.getInstance().getFont("SmallSystemFont"));
                     strokeWidthField.setColumns(2);
                     strokeWidthField.setToolTipText(labels.getString("attribute.strokeWidth.toolTipText"));
-                    strokeWidthField.setHorizontalAlignment(JDoubleAttributeField.RIGHT);
+                    strokeWidthField.setHorizontalAlignment(JAttributeTextField.LEFT);
                     strokeWidthField.putClientProperty("Palette.Component.segmentPosition", "first");
-                    strokeWidthField.setUI((PaletteTextFieldUI) PaletteTextFieldUI.createUI(strokeWidthField));
+                    strokeWidthField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(strokeWidthField));
+                    strokeWidthField.setFormatterFactory(ScalableNumberFormatter.createFormatterFactory(0d, 1000d, 1d));
+                    new FigureAttributeEditorHandler(STROKE_WIDTH, strokeWidthField, editor);
                     gbc = new GridBagConstraints();
                     gbc.gridx = 0;
                     gbc.gridy = 2;
@@ -226,7 +223,7 @@ public class StrokeToolBar extends AbstractToolBar {
                     gbc.fill = GridBagConstraints.BOTH;
                     p.add(strokeWidthField, gbc);
                     JPopupButton strokeWidthPopupButton = new JPopupButton();
-                    JDoubleAttributeSlider strokeWidthSlider = new JDoubleAttributeSlider(
+                    JAttributeSlider strokeWidthSlider = new JAttributeSlider(
                             JSlider.VERTICAL, 0, 50, 1);
                     strokeWidthSlider.setUI((SliderUI) PaletteSliderUI.createUI(strokeWidthSlider));
                     strokeWidthPopupButton.add(strokeWidthSlider);
@@ -237,11 +234,7 @@ public class StrokeToolBar extends AbstractToolBar {
                     gbc.gridx = 1;
                     gbc.insets = new Insets(3, 0, 0, 0);
                     p.add(strokeWidthPopupButton, gbc);
-                    strokeWidthField.setMinimum(0d);
-                    strokeWidthField.setAttributeKey(STROKE_WIDTH);
-                    strokeWidthSlider.setAttributeKey(STROKE_WIDTH);
-                    strokeWidthField.setEditor(editor);
-                    strokeWidthSlider.setEditor(editor);
+                    new FigureAttributeEditorHandler(STROKE_WIDTH, strokeWidthSlider, editor);
 
                     // Create stroke dashes button
                     btn = ButtonFactory.createStrokeDashesButton(editor, labels);

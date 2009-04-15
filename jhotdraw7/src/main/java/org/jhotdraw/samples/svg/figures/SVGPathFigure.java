@@ -334,7 +334,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
                     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
                     SVGPathFigure.this.willChange();
                     fireUndoableEditHappened(
-                            TRANSFORM.setUndoable(SVGPathFigure.this, null, labels));
+                            TRANSFORM.setUndoable(SVGPathFigure.this, null));
                     SVGPathFigure.this.changed();
                 }
             });
@@ -382,7 +382,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
                     SVGPathFigure.this.willChange();
                     for (Figure child : getChildren()) {
                         getDrawing().fireUndoableEditHappened(
-                                CLOSED.setUndoable(child, false, labels));
+                                CLOSED.setUndoable(child, false));
                     }
                     SVGPathFigure.this.changed();
                 }
@@ -393,7 +393,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
                     SVGPathFigure.this.willChange();
                     for (Figure child : getChildren()) {
                         getDrawing().fireUndoableEditHappened(
-                                CLOSED.setUndoable(child, true, labels));
+                                CLOSED.setUndoable(child, true));
                     }
                     SVGPathFigure.this.changed();
                 }
@@ -404,7 +404,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
                 public void actionPerformed(ActionEvent evt) {
                     SVGPathFigure.this.willChange();
                     getDrawing().fireUndoableEditHappened(
-                            WINDING_RULE.setUndoable(SVGPathFigure.this, WindingRule.EVEN_ODD, labels));
+                            WINDING_RULE.setUndoable(SVGPathFigure.this, WindingRule.EVEN_ODD));
                     SVGPathFigure.this.changed();
                 }
             });
@@ -413,7 +413,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
                 public void actionPerformed(ActionEvent evt) {
                     WINDING_RULE.set(SVGPathFigure.this, WindingRule.NON_ZERO);
                     getDrawing().fireUndoableEditHappened(
-                            WINDING_RULE.setUndoable(SVGPathFigure.this, WindingRule.NON_ZERO, labels));
+                            WINDING_RULE.setUndoable(SVGPathFigure.this, WindingRule.NON_ZERO));
                 }
             });
         }

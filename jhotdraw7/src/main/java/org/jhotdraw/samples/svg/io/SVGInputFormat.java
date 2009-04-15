@@ -259,8 +259,10 @@ public class SVGInputFormat implements InputFormat {
 
         if (replace) {
             Viewport viewport = viewportStack.firstElement();
-            VIEWPORT_FILL.set(drawing, VIEWPORT_FILL.get(viewport.attributes));
-            VIEWPORT_FILL_OPACITY.set(drawing, VIEWPORT_FILL_OPACITY.get(viewport.attributes));
+            VIEWPORT_FILL.basicSet(drawing, VIEWPORT_FILL.get(viewport.attributes));
+            VIEWPORT_FILL_OPACITY.basicSet(drawing, VIEWPORT_FILL_OPACITY.get(viewport.attributes));
+            VIEWPORT_HEIGHT.basicSet(drawing, VIEWPORT_HEIGHT.get(viewport.attributes));
+            VIEWPORT_WIDTH.basicSet(drawing, VIEWPORT_WIDTH.get(viewport.attributes));
         }
     }
 
@@ -2538,6 +2540,18 @@ public class SVGInputFormat implements InputFormat {
             throws IOException {
         Object value;
         Double doubleValue;
+        // width of the viewport
+        value = readAttribute(elem, "width", null);
+        if (value != null) {
+            doubleValue = toLength(elem,(String) value, 1);
+            VIEWPORT_WIDTH.set(a, doubleValue);
+        }
+        // height of the viewport
+        value = readAttribute(elem, "height", null);
+        if (value != null) {
+            doubleValue = toLength(elem, (String)value, 1);
+            VIEWPORT_HEIGHT.set(a, doubleValue);
+        }
 
         //'viewport-fill'
         //Value:	 "none" | <color> | inherit

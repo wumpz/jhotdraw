@@ -21,6 +21,9 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.text.*;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.gui.DrawingAttributeEditorHandler;
+import org.jhotdraw.gui.JAttributeSlider;
+import org.jhotdraw.gui.ScalableNumberFormatter;
 import org.jhotdraw.util.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
@@ -36,45 +39,25 @@ public class EditCanvasPanel extends javax.swing.JPanel {
 
     private ResourceBundleUtil labels;
     private Drawing drawing;
-    private JSlider backgroundOpacitySlider;
+    private JAttributeSlider opacitySlider;
     private JColorChooser colorChooser;
+    private DrawingAttributeEditorHandler<Double> opacityFieldHandler, opacitySliderHandler;
 
     /** Creates new form. */
     public EditCanvasPanel() {
         labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         initComponents();
         colorButton.putClientProperty("Quaqua.Button.style", "colorWell");
-        backgroundOpacitySlider = new JSlider(JSlider.VERTICAL, 0, 100, 100);
-        opacityPopupButton.add(backgroundOpacitySlider);
+        opacitySlider = new JAttributeSlider(JSlider.VERTICAL, 0, 100, 100);
+        opacityPopupButton.add(opacitySlider);
         opacityPopupButton.putClientProperty("JButton.buttonType", "toolbar");
         add(opacityPopupButton);
-
-        backgroundOpacitySlider.addChangeListener(new ChangeListener() {
-
-            public void stateChanged(ChangeEvent e) {
-                opacityField.setValue(backgroundOpacitySlider.getValue());
-                if (!backgroundOpacitySlider.getModel().getValueIsAdjusting()) {
-            drawing.fireUndoableEditHappened(
-                    CANVAS_FILL_OPACITY.setUndoable(drawing, opacityField.getValue() / 100d, labels)
-                    );
-                }
-            }
-        });
-
-        opacityField.setMaximum(100);
-        opacityField.setMinimum(0);
-        opacityField.setValue(100);
-        opacityField.addPropertyChangeListener("value", new PropertyChangeListener() {
-
-            public void propertyChange(PropertyChangeEvent evt) {
-                if (!backgroundOpacitySlider.getModel().getValueIsAdjusting()) {
-                    backgroundOpacitySlider.setValue((int) opacityField.getValue());
-            drawing.fireUndoableEditHappened(
-                    CANVAS_FILL_OPACITY.setUndoable(drawing, opacityField.getValue() / 100d, labels)
-                    );
-                }
-            }
-        });
+        NumberFormatter nf = new NumberFormatter();
+        nf.setMaximum(1d);
+        nf.setMinimum(0d);
+        opacityField.setFormatterFactory(ScalableNumberFormatter.createFormatterFactory(0d, 100d, 100d));
+        opacityFieldHandler=new DrawingAttributeEditorHandler<Double>(CANVAS_FILL_OPACITY, opacityField, null);
+        opacitySliderHandler=new DrawingAttributeEditorHandler<Double>(CANVAS_FILL_OPACITY, opacitySlider, null);
     }
 
     private JColorChooser getColorChooser() {
@@ -90,6 +73,9 @@ public class EditCanvasPanel extends javax.swing.JPanel {
      */
     public void setDrawing(Drawing newValue) {
         drawing = newValue;
+        // XXX - This does not work, we must pass the drawing editor here!
+        opacitySliderHandler.setDrawing(drawing);
+        opacityFieldHandler.setDrawing(drawing);
         updatePanel();
     }
 
@@ -99,10 +85,7 @@ public class EditCanvasPanel extends javax.swing.JPanel {
     private void updateDrawing() {
         if (drawing != null) {
             drawing.fireUndoableEditHappened(
-                    CANVAS_FILL_OPACITY.setUndoable(drawing, opacityField.getValue() / 100d, labels)
-                    );
-            drawing.fireUndoableEditHappened(
-                    CANVAS_FILL_COLOR.setUndoable(drawing, colorButton.getBackground(), labels)
+                    CANVAS_FILL_COLOR.setUndoable(drawing, colorButton.getBackground())
                     );
         }
     }
@@ -112,7 +95,6 @@ public class EditCanvasPanel extends javax.swing.JPanel {
      */
     private void updatePanel() {
         if (drawing != null) {
-            opacityField.setValue(CANVAS_FILL_OPACITY.get(drawing) * 100d);
             colorButton.setBackground(CANVAS_FILL_COLOR.get(drawing));
         }
     }
@@ -152,12 +134,12 @@ public class EditCanvasPanel extends javax.swing.JPanel {
         colorLabel = new javax.swing.JLabel();
         colorButton = new javax.swing.JButton();
         opacityLabel = new javax.swing.JLabel();
-        opacityField = new org.jhotdraw.gui.JDoubleTextField();
+        opacityField = new org.jhotdraw.gui.JAttributeTextField<Double>();
         opacityPopupButton = new org.jhotdraw.gui.JPopupButton();
 
         setLayout(new java.awt.GridBagLayout());
 
-        colorLabel.setText(labels.getString("attribute.backgroundColor.text")); // NOI18N
+        colorLabel.setText(labels.getString("attribute.canvasFillColor.text")); // NOI18N
         colorLabel.setToolTipText(labels.getString("attribute.backgroundColor.toolTipText")); // NOI18N
         add(colorLabel, new java.awt.GridBagConstraints());
 
@@ -176,8 +158,7 @@ public class EditCanvasPanel extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
         add(opacityLabel, gridBagConstraints);
 
-        opacityField.setColumns(4);
-        opacityField.setToolTipText(labels.getString("attribute.opacity.toolTipText")); // NOI18N
+        opacityField.setColumns(3);
         add(opacityField, new java.awt.GridBagConstraints());
 
         opacityPopupButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jhotdraw/draw/action/images/popupIcon.png"))); // NOI18N
@@ -198,7 +179,7 @@ public class EditCanvasPanel extends javax.swing.JPanel {
     private javax.swing.ButtonGroup bgColorButtonGroup;
     private javax.swing.JButton colorButton;
     private javax.swing.JLabel colorLabel;
-    private org.jhotdraw.gui.JDoubleTextField opacityField;
+    private org.jhotdraw.gui.JAttributeTextField opacityField;
     private javax.swing.JLabel opacityLabel;
     private org.jhotdraw.gui.JPopupButton opacityPopupButton;
     // End of variables declaration//GEN-END:variables

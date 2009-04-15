@@ -209,9 +209,14 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
         table.addResourceBundle("org.jhotdraw.gui.Labels");
 
         // *** Shared Fonts
+        Integer eleven = new Integer(11);
         Integer twelve = new Integer(12);
         Integer fontPlain = new Integer(Font.PLAIN);
         Integer fontBold = new Integer(Font.BOLD);
+        Object dialogPlain11 = new ProxyLazyValue(
+                "javax.swing.plaf.FontUIResource",
+                null,
+                new Object[]{"Dialog Sans", fontPlain, eleven});
         Object dialogPlain12 = new ProxyLazyValue(
                 "javax.swing.plaf.FontUIResource",
                 null,
@@ -257,6 +262,9 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
         Object textBorder = new BackdropBorder.UIResource(new PaletteTextComponentBorder());
 
         Object[] defaults = {
+            // *** Fonts
+            "SmallSystemFont", dialogPlain11,
+
             // *** Buttons
             "Button.font", dialogPlain12,
             "Button.background", control,
@@ -268,6 +276,19 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
             "Button.foreground", controlText,
             "Button.border", buttonBorder,
             "Button.margin", zeroInsets,
+            // *** FormattedTextField
+            "FormattedTextField.font", fieldPlain12,
+            "FormattedTextField.background", control,
+            "FormattedTextField.foreground", controlText,
+            "FormattedTextField.border", textBorder,
+            "FormattedTextField.margin", zeroInsets,
+            "FormattedTextField.opaque", Boolean.TRUE,
+            // *** Labels
+            "Label.font", dialogPlain12,
+            // *** Ribbons
+            "Ribbon.border", new UIDefaults.ProxyLazyValue("javax.swing.border.MatteBorder", new Object[] {new Insets(1,0,0,0), new Color(0xa5a5a5)}), //
+            // *** ScrollPane
+            "ScrollPane.border", new UIDefaults.ProxyLazyValue("javax.swing.border.MatteBorder", new Object[] {new Insets(1,1,1,1), new Color(0xa5a5a5)}), //
             // *** Slider
             "Slider.background", control,
             "Slider.foreground", controlText,
@@ -289,7 +310,8 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
             "ToolBar.floatingBackground", control,
             //	    "ToolBar.floatingForeground", darkGray,
             //	    "ToolBar.border", etchedBorder,
-            "ToolBar.border", new UIDefaults.ProxyLazyValue("org.jhotdraw.gui.plaf.palette.PaletteToolBarBorder$UIResource"), //	    "ToolBar.separatorSize", toolBarSeparatorSize,
+            "ToolBar.border", new UIDefaults.ProxyLazyValue("org.jhotdraw.gui.plaf.palette.PaletteToolBarBorder$UIResource"), //
+            //	    "ToolBar.separatorSize", toolBarSeparatorSize,
         };
 
         table.putDefaults(defaults);

@@ -60,11 +60,13 @@ public class PaletteLabelUI extends BasicLabelUI {
         return labelUI;
     }
 
+    @Override
     protected void installDefaults(JLabel b) {
         super.installDefaults(b);
 
         // load shared instance defaults
-        LookAndFeel.installBorder(b, "Label.border");
+        PaletteLookAndFeel.installBorder(b, "Label.border");
+        PaletteLookAndFeel.installColorsAndFont(b, "Label.background", "Label.foreground", "Label.font");
 
         // FIXME - Very, very dirty trick to achieve small labels on sliders
         //         This hack should be removed, when we implement a SliderUI

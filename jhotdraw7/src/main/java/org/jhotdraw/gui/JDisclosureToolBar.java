@@ -118,6 +118,7 @@ public class JDisclosureToolBar extends JToolBar {
             parent = parent.getParent();
         }
        parent.validate();
+       repaint();
 
         firePropertyChange(DISCLOSURE_STATE_PROPERTY, oldValue, newValue);
     }

@@ -331,10 +331,11 @@ public class DefaultDrawingView
         }
 
         if (getDrawing() != null) {
-            Dimension2DDouble canvasSize = getDrawing().getCanvasSize();
-            if (canvasSize != null) {
+            Double cw = CANVAS_WIDTH.get(getDrawing());
+            Double ch = CANVAS_HEIGHT.get(getDrawing());
+            if (cw != null && ch != null) {
                 Point lowerRight = drawingToView(
-                        new Point2D.Double(canvasSize.width, canvasSize.height));
+                        new Point2D.Double(cw, ch));
                 if (lowerRight.x < w) {
                     g.setColor(outerBackground);
                     g.fillRect(lowerRight.x, y, w - lowerRight.x, h - y);

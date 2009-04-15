@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.*;
 import javax.swing.plaf.SliderUI;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.gui.plaf.palette.*;
@@ -76,7 +78,7 @@ public class FillToolBar extends AbstractToolBar {
                     AbstractButton btn;
 
                     // Fill color
-                    Map<AttributeKey,Object> defaultAttributes = new HashMap<AttributeKey,Object>();
+                    Map<AttributeKey, Object> defaultAttributes = new HashMap<AttributeKey, Object>();
                     FILL_GRADIENT.set(defaultAttributes, null);
                     btn = ButtonFactory.createSelectionColorButton(editor,
                             FILL_COLOR, ButtonFactory.WEBSAVE_COLORS, ButtonFactory.WEBSAVE_COLORS_COLUMN_COUNT,
@@ -91,7 +93,7 @@ public class FillToolBar extends AbstractToolBar {
 
                     // Opacity slider
                     JPopupButton opacityPopupButton = new JPopupButton();
-                    JDoubleAttributeSlider opacitySlider = new JDoubleAttributeSlider(JSlider.VERTICAL, 0, 100, 100);
+                    JAttributeSlider opacitySlider = new JAttributeSlider(JSlider.VERTICAL, 0, 100, 100);
                     opacityPopupButton.add(opacitySlider);
                     labels.configureToolBarButton(opacityPopupButton, "attribute.fillOpacity");
                     opacityPopupButton.setUI((PaletteButtonUI) PaletteButtonUI.createUI(opacityPopupButton));
@@ -108,8 +110,7 @@ public class FillToolBar extends AbstractToolBar {
                     p.add(opacityPopupButton, gbc);
                     opacitySlider.setUI((SliderUI) PaletteSliderUI.createUI(opacitySlider));
                     opacitySlider.setScaleFactor(100d);
-                    opacitySlider.setAttributeKey(FILL_OPACITY);
-                    opacitySlider.setEditor(editor);
+                    new FigureAttributeEditorHandler(FILL_OPACITY, opacitySlider, editor);
                 }
                 break;
 
@@ -137,17 +138,14 @@ public class FillToolBar extends AbstractToolBar {
                     p.add(btn, gbc);
 
                     // Opacity field with slider
-                    JDoubleAttributeField opacityField = new JDoubleAttributeField();
-                    opacityField.setColumns(2);
+                    JAttributeTextField opacityField = new JAttributeTextField();
+                    opacityField.setColumns(3);
                     opacityField.setToolTipText(labels.getString("attribute.fillOpacity.toolTipText"));
-                    opacityField.setHorizontalAlignment(JDoubleAttributeField.RIGHT);
                     opacityField.putClientProperty("Palette.Component.segmentPosition", "first");
-                    opacityField.setUI((PaletteTextFieldUI) PaletteTextFieldUI.createUI(opacityField));
-                    opacityField.setScaleFactor(100d);
-                    opacityField.setMinimum(0d);
-                    opacityField.setMaximum(100d);
-                    opacityField.setAttributeKey(FILL_OPACITY);
-                    opacityField.setEditor(editor);
+                    opacityField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(opacityField));
+                    opacityField.setFormatterFactory(ScalableNumberFormatter.createFormatterFactory(0d, 100d, 100d));
+                    opacityField.setHorizontalAlignment(JTextField.LEFT);
+                    new FigureAttributeEditorHandler<Double>(FILL_OPACITY, opacityField, editor);
                     gbc = new GridBagConstraints();
                     gbc.gridx = 0;
                     gbc.insets = new Insets(3, 0, 0, 0);
@@ -155,7 +153,7 @@ public class FillToolBar extends AbstractToolBar {
                     gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                     p.add(opacityField, gbc);
                     JPopupButton opacityPopupButton = new JPopupButton();
-                    JDoubleAttributeSlider opacitySlider = new JDoubleAttributeSlider(JSlider.VERTICAL, 0, 100, 100);
+                    JAttributeSlider opacitySlider = new JAttributeSlider(JSlider.VERTICAL, 0, 100, 100);
                     opacityPopupButton.add(opacitySlider);
                     labels.configureToolBarButton(opacityPopupButton, "attribute.fillOpacity");
                     opacityPopupButton.setUI((PaletteButtonUI) PaletteButtonUI.createUI(opacityPopupButton));
@@ -173,8 +171,7 @@ public class FillToolBar extends AbstractToolBar {
                     p.add(opacityPopupButton, gbc);
                     opacitySlider.setUI((SliderUI) PaletteSliderUI.createUI(opacitySlider));
                     opacitySlider.setScaleFactor(100d);
-                    opacitySlider.setAttributeKey(FILL_OPACITY);
-                    opacitySlider.setEditor(editor);
+                    new FigureAttributeEditorHandler(FILL_OPACITY, opacitySlider, editor);
                 }
                 break;
         }

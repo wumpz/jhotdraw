@@ -1,5 +1,5 @@
 /*
- * @(#)JStringAttributeFieldBeanInfo.java  1.0  11. November 2003
+ * @(#)JAttributeSliderBeanInfo.java  1.0  11. November 2003
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -16,12 +16,12 @@ package org.jhotdraw.gui;
 import java.beans.*;
 
 /**
- * BeanInfo for JFigureAttributeField.
+ * BeanInfo for JDoubleAttributeSlider.
  *
  * @author  Werner Randelshofer
  * @version 1.0 2003-11-11 Created.
  */
-public class JStringAttributeFieldBeanInfo extends SimpleBeanInfo {
+public class JAttributeSliderBeanInfo extends SimpleBeanInfo {
     
     // Bean descriptor information will be obtained from introspection.//GEN-FIRST:BeanDescriptor
     private static BeanDescriptor beanDescriptor = null;
@@ -29,9 +29,9 @@ public class JStringAttributeFieldBeanInfo extends SimpleBeanInfo {
 //GEN-HEADEREND:BeanDescriptor
         
         // Here you can add code for customizing the BeanDescriptor.
-         if (beanDescriptor == null) beanDescriptor = new BeanDescriptor(JStringAttributeFieldBeanInfo.class);
+         if (beanDescriptor == null) beanDescriptor = new BeanDescriptor(JAttributeTextFieldBeanInfo.class);
          beanDescriptor.setValue("isContainer", Boolean.FALSE);
-     beanDescriptor.setDisplayName("JStringAttributeField");
+     beanDescriptor.setDisplayName("JDoubleAttributeSlider");
         
         return beanDescriptor;     }//GEN-LAST:BeanDescriptor
     

@@ -79,6 +79,7 @@ public class SVGOutputFormat implements OutputFormat {
     private boolean isPrettyPrint;
     private final static HashMap<Integer, String> strokeLinejoinMap;
 
+
     static {
         strokeLinejoinMap = new HashMap<Integer, String>();
         strokeLinejoinMap.put(BasicStroke.JOIN_MITER, "miter");
@@ -86,6 +87,7 @@ public class SVGOutputFormat implements OutputFormat {
         strokeLinejoinMap.put(BasicStroke.JOIN_BEVEL, "bevel");
     }
     private final static HashMap<Integer, String> strokeLinecapMap;
+
 
     static {
         strokeLinecapMap = new HashMap<Integer, String>();
@@ -147,7 +149,7 @@ public class SVGOutputFormat implements OutputFormat {
             if (path.getChildCount() == 1) {
                 BezierFigure bezier = (BezierFigure) path.getChild(0);
                 boolean isLinear = true;
-                for (int i = 0,  n = bezier.getNodeCount(); i < n; i++) {
+                for (int i = 0, n = bezier.getNodeCount(); i < n; i++) {
                     if (bezier.getNode(i).getMask() != 0) {
                         isLinear = false;
                         break;
@@ -348,7 +350,7 @@ public class SVGOutputFormat implements OutputFormat {
     protected void writePolygonElement(IXMLElement parent, SVGPathFigure f) throws IOException {
         LinkedList<Point2D.Double> points = new LinkedList<Point2D.Double>();
         BezierPath[] beziers = new BezierPath[f.getChildCount()];
-        for (int i = 0,  n = f.getChildCount(); i < n; i++) {
+        for (int i = 0, n = f.getChildCount(); i < n; i++) {
             BezierPath bezier = ((BezierFigure) f.getChild(i)).getBezierPath();
             for (BezierPath.Node node : bezier) {
                 points.add(new Point2D.Double(node.x[0], node.y[0]));
@@ -376,7 +378,7 @@ public class SVGOutputFormat implements OutputFormat {
     protected void writePolylineElement(IXMLElement parent, SVGPathFigure f) throws IOException {
         LinkedList<Point2D.Double> points = new LinkedList<Point2D.Double>();
         BezierPath[] beziers = new BezierPath[f.getChildCount()];
-        for (int i = 0,  n = f.getChildCount(); i < n; i++) {
+        for (int i = 0, n = f.getChildCount(); i < n; i++) {
             BezierPath bezier = ((BezierFigure) f.getChild(i)).getBezierPath();
             for (BezierPath.Node node : bezier) {
                 points.add(new Point2D.Double(node.x[0], node.y[0]));
@@ -946,6 +948,12 @@ public class SVGOutputFormat implements OutputFormat {
         Object value;
         Double doubleValue;
 
+        if (VIEWPORT_WIDTH.get(a) != null && VIEWPORT_HEIGHT.get(a) != null) {
+            // width of the viewport
+            writeAttribute(elem, "width", toNumber(VIEWPORT_WIDTH.get(a)), null);
+            // height of the viewport
+            writeAttribute(elem, "height", toNumber(VIEWPORT_HEIGHT.get(a)), null);
+        }
         //'viewport-fill'
         //Value:	 "none" | <color> | inherit
         //Initial:	 none
@@ -967,6 +975,7 @@ public class SVGOutputFormat implements OutputFormat {
         //Animatable:	 yes
         //Computed value:  	 Specified value, except inherit
         writeAttribute(elem, "viewport-fill-opacity", VIEWPORT_FILL_OPACITY.get(a), 1.0);
+
     }
 
     protected void writeAttribute(IXMLElement elem, String name, String value, String defaultValue) {
@@ -999,7 +1008,7 @@ public class SVGOutputFormat implements OutputFormat {
             BezierPath path = paths[j];
 
             if (path.size() == 0) {
-            // nothing to do
+                // nothing to do
             } else if (path.size() == 1) {
                 BezierPath.Node current = path.get(0);
                 buf.append("M ");
@@ -1020,7 +1029,7 @@ public class SVGOutputFormat implements OutputFormat {
                 buf.append(' ');
                 buf.append(toNumber(current.y[0]));
                 char nextCommand = 'L';
-                for (int i = 1,  n = path.size(); i < n; i++) {
+                for (int i = 1, n = path.size(); i < n; i++) {
                     previous = current;
                     current = path.get(i);
 
@@ -1030,7 +1039,7 @@ public class SVGOutputFormat implements OutputFormat {
                                 buf.append(" L ");
                                 nextCommand = 'L';
                             } else {
-                            buf.append(' ');
+                                buf.append(' ');
                             }
                             buf.append(toNumber(current.x[0]));
                             buf.append(' ');
@@ -1040,7 +1049,7 @@ public class SVGOutputFormat implements OutputFormat {
                                 buf.append(" Q ");
                                 nextCommand = 'Q';
                             } else {
-                            buf.append(' ');
+                                buf.append(' ');
                             }
                             buf.append(toNumber(current.x[1]));
                             buf.append(' ');
@@ -1056,7 +1065,7 @@ public class SVGOutputFormat implements OutputFormat {
                                 buf.append(" Q ");
                                 nextCommand = 'Q';
                             } else {
-                            buf.append(' ');
+                                buf.append(' ');
                             }
                             buf.append(toNumber(previous.x[2]));
                             buf.append(' ');
@@ -1070,7 +1079,7 @@ public class SVGOutputFormat implements OutputFormat {
                                 buf.append(" C ");
                                 nextCommand = 'C';
                             } else {
-                            buf.append(' ');
+                                buf.append(' ');
                             }
                             buf.append(toNumber(previous.x[2]));
                             buf.append(' ');
@@ -1093,22 +1102,22 @@ public class SVGOutputFormat implements OutputFormat {
 
                         if ((previous.mask & BezierPath.C2_MASK) == 0) {
                             if ((current.mask & BezierPath.C1_MASK) == 0) {
-                            if (nextCommand != 'L') {
-                                buf.append(" L ");
-                                nextCommand = 'L';
-                            } else {
-                            buf.append(' ');
-                            }
+                                if (nextCommand != 'L') {
+                                    buf.append(" L ");
+                                    nextCommand = 'L';
+                                } else {
+                                    buf.append(' ');
+                                }
                                 buf.append(toNumber(current.x[0]));
                                 buf.append(' ');
                                 buf.append(toNumber(current.y[0]));
                             } else {
-                            if (nextCommand != 'Q') {
-                                buf.append(" Q ");
-                                nextCommand = 'Q';
-                            } else {
-                            buf.append(' ');
-                            }
+                                if (nextCommand != 'Q') {
+                                    buf.append(" Q ");
+                                    nextCommand = 'Q';
+                                } else {
+                                    buf.append(' ');
+                                }
                                 buf.append(toNumber(current.x[1]));
                                 buf.append(' ');
                                 buf.append(toNumber(current.y[1]));
@@ -1119,12 +1128,12 @@ public class SVGOutputFormat implements OutputFormat {
                             }
                         } else {
                             if ((current.mask & BezierPath.C1_MASK) == 0) {
-                            if (nextCommand != 'Q') {
-                                buf.append(" Q ");
-                                nextCommand = 'Q';
-                            } else {
-                            buf.append(' ');
-                            }
+                                if (nextCommand != 'Q') {
+                                    buf.append(" Q ");
+                                    nextCommand = 'Q';
+                                } else {
+                                    buf.append(' ');
+                                }
                                 buf.append(toNumber(previous.x[2]));
                                 buf.append(' ');
                                 buf.append(toNumber(previous.y[2]));
@@ -1133,12 +1142,12 @@ public class SVGOutputFormat implements OutputFormat {
                                 buf.append(' ');
                                 buf.append(toNumber(current.y[0]));
                             } else {
-                            if (nextCommand != 'C') {
-                                buf.append(" C ");
-                                nextCommand = 'C';
-                            } else {
-                            buf.append(' ');
-                            }
+                                if (nextCommand != 'C') {
+                                    buf.append(" C ");
+                                    nextCommand = 'C';
+                                } else {
+                                    buf.append(' ');
+                                }
                                 buf.append(toNumber(previous.x[2]));
                                 buf.append(' ');
                                 buf.append(toNumber(previous.y[2]));

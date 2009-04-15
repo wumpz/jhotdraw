@@ -262,7 +262,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
                 public void actionPerformed(ActionEvent evt) {
                     willChange();
                     fireUndoableEditHappened(
-                            TRANSFORM.setUndoable(SVGImageFigure.this, null, labels)
+                            TRANSFORM.setUndoable(SVGImageFigure.this, null)
                             );
                     changed();
                 }
@@ -271,20 +271,24 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         return actions;
     }
     // CONNECTING
+    @Override
     public boolean canConnect() {
         return false; // SVG does not support connecting
     }
 
+    @Override
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
         return null; // SVG does not support connectors
     }
 
+    @Override
     public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
         return null; // SVG does not support connectors
     }
 
     // COMPOSITE FIGURES
     // CLONING
+    @Override
     public SVGImageFigure clone() {
         SVGImageFigure that = (SVGImageFigure) super.clone();
         that.rectangle = (Rectangle2D.Double) this.rectangle.clone();

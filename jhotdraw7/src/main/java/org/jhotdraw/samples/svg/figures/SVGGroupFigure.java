@@ -59,6 +59,7 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
         }
     }
     
+    @Override
     public void draw(Graphics2D g)  {
         double opacity = OPACITY.get(this);
         opacity = Math.min(Math.max(0d, opacity), 1d);

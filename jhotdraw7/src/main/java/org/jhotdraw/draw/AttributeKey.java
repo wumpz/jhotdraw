@@ -1,7 +1,7 @@
 /*
- * @(#)AttributeKey.java  2.0.1  2008-02-13
+ * @(#)AttributeKey.java  2.1  2009-04-15
  *
- * Copyright (c) 1996-2008 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -14,7 +14,6 @@
 
 package org.jhotdraw.draw;
 
-import java.lang.reflect.*;
 import java.util.*;
 import javax.swing.undo.*;
 import org.jhotdraw.util.*;
@@ -34,7 +33,9 @@ import org.jhotdraw.util.*;
  * See {@link AttributeKeys} for a list of useful attribute keys.
  * 
  * @author Werner Randelshofer
- * @version 2.0.1 2008-02-13 Fixed comments. Removed equals and hashCode.
+ * @version 2.1 2009-04-15 Added method getPresentationName. The labels are now
+ * part of the attribute key.
+ * <br>2.0.1 2008-02-13 Fixed comments. Removed equals and hashCode.
  * <br>2.0 2007-05-12 Removed basicSet methods.
  * <br>1.2 2007-04-10 Convenience methods for getting and setting a clone
  * of an attribute added.
@@ -48,6 +49,7 @@ public class AttributeKey<T> {
     private String key;
     private T defaultValue;
     private boolean isNullValueAllowed;
+    private ResourceBundleUtil labels;
     
     /** Creates a new instance with the specified attribute key,
      * default value null, and allowing null values. */
@@ -66,10 +68,23 @@ public class AttributeKey<T> {
         this.defaultValue = defaultValue;
         this.isNullValueAllowed = isNullValueAllowed;
     }
+    /** Creates a new instance with the specified attribute key,
+     * default value, and allowing or disallowing null values. */
+    public AttributeKey(String key, T defaultValue, boolean isNullValueAllowed, ResourceBundleUtil labels) {
+        this.key = key;
+        this.defaultValue = defaultValue;
+        this.isNullValueAllowed = isNullValueAllowed;
+        this.labels = labels;
+    }
     
     public String getKey() {
         return key;
     }
+
+    public String getPresentationName() {
+        return (labels == null) ? key : labels.getString("attribute."+key+".text");
+    }
+
     public T getDefaultValue() {
         return defaultValue;
     }
@@ -144,7 +159,7 @@ public class AttributeKey<T> {
      * Sets the attribute and returns an UndoableEditEvent which can be used
      * to undo it.
      */
-    public UndoableEdit setUndoable(final Figure figure, final T value, final ResourceBundleUtil labels) {
+    public UndoableEdit setUndoable(final Figure figure, final T value) {
         if (value == null && ! isNullValueAllowed) {
             throw new NullPointerException("Null value not allowed for AttributeKey "+key);
         }
@@ -155,15 +170,18 @@ public class AttributeKey<T> {
         figure.changed();
         
         UndoableEdit edit = new AbstractUndoableEdit() {
+            @Override
             public String getPresentationName() {
-                return labels.getString("attribute."+getKey()+".text");
+                return AttributeKey.this.getPresentationName();
             }
+            @Override
             public void undo() {
                 super.undo();
                 figure.willChange();
                 figure.restoreAttributesTo(restoreData);
                 figure.changed();
             }
+            @Override
             public void redo() {
                 super.redo();
                 figure.willChange();
