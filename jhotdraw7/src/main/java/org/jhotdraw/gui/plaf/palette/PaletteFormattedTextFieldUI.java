@@ -14,6 +14,7 @@
 package org.jhotdraw.gui.plaf.palette;
 
 import java.awt.*;
+import java.awt.geom.Line2D;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.plaf.*;
@@ -27,6 +28,7 @@ import javax.swing.text.*;
  * @version 1.0 2009-04-15 Created.
  */
 public class PaletteFormattedTextFieldUI extends BasicFormattedTextFieldUI {
+    private Color errorIndicatorForeground;
 
     /**
      * Creates a UI for a JTextField.
@@ -48,7 +50,10 @@ public class PaletteFormattedTextFieldUI extends BasicFormattedTextFieldUI {
     public View create(Element elem) {
         /* We create our own view here. This view always uses the
          * text alignment that was specified by the text component. Even
-         * then, when the text is longer than in the text component.*/
+         * then, when the text is longer than in the text component.
+         *
+         * Draws a wavy line if the value of the field is not valid.
+         */
         return new FieldView(elem) {
 
             /**
@@ -128,6 +133,19 @@ public class PaletteFormattedTextFieldUI extends BasicFormattedTextFieldUI {
                 }
                 return null;
             }
+
+            @Override
+            public void paint(Graphics gr, Shape a) {
+                Graphics2D g = (Graphics2D) gr;
+                JFormattedTextField editor = (JFormattedTextField) getComponent();
+                if (!editor.isEditValid()) {
+                    Rectangle r = (Rectangle) a;
+                    g.setColor(errorIndicatorForeground);
+                    g.setStroke(new BasicStroke(2.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{3f,3f},0.5f));
+                    g.draw(new Line2D.Float(r.x, r.y+r.height-0.5f, r.x+r.width-1,r.y+r.height-0.5f));
+                    }
+                    super.paint(g, a);
+            }
         };
     }
 
@@ -192,6 +210,8 @@ public class PaletteFormattedTextFieldUI extends BasicFormattedTextFieldUI {
         if (margin == null || margin instanceof UIResource) {
             editor.setMargin(plaf.getInsets(prefix + ".margin"));
         }
+
+        errorIndicatorForeground = plaf.getColor(prefix+".errorIndicatorForeground");
 
         editor.setOpaque(plaf.getBoolean(prefix + ".opaque"));
     }

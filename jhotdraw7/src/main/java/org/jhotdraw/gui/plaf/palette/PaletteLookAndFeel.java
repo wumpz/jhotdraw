@@ -249,6 +249,9 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
         ColorUIResource control = new ColorUIResource(0xf0f0f0);
         ColorUIResource controlText = black;
 
+        ColorUIResource selectionBackground = new ColorUIResource(0xb5d5ff);
+        ColorUIResource selectionForeground = black;
+
         // *** Shared Insets
         InsetsUIResource zeroInsets = new InsetsUIResource(0, 0, 0, 0);
         InsetsUIResource twoInsets = new InsetsUIResource(2, 2, 2, 2);
@@ -283,6 +286,9 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
             "FormattedTextField.border", textBorder,
             "FormattedTextField.margin", zeroInsets,
             "FormattedTextField.opaque", Boolean.TRUE,
+            "FormattedTextField.errorIndicatorForeground", new ColorUIResource(0xfe4a41),
+            "FormattedTextField.selectionBackground", selectionBackground,
+            "FormattedTextField.selectionForeground",  selectionForeground,
             // *** Labels
             "Label.font", dialogPlain12,
             // *** Ribbons
@@ -294,6 +300,9 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
             "Slider.foreground", controlText,
             "Slider.horizontalSize", new DimensionUIResource(100, 20),
             "Slider.verticalSize", new DimensionUIResource(20, 100),
+            // *** TextArea
+            "TextArea.selectionBackground", selectionBackground,
+            "TextArea.selectionForeground",  selectionForeground,
             // *** TextField
             "TextField.font", fieldPlain12,
             "TextField.background", control,
@@ -301,6 +310,8 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
             "TextField.border", textBorder,
             "TextField.margin", zeroInsets,
             "TextField.opaque", Boolean.TRUE,
+            "TextField.selectionBackground", selectionBackground,
+            "TextField.selectionForeground",  selectionForeground,
             // *** ToolBar
             "ToolBar.font", dialogPlain12,
             "ToolBar.background", control,

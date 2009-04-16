@@ -16,7 +16,7 @@ package org.jhotdraw.draw.action;
 
 import java.beans.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.gui.ScalableNumberFormatter;
+import org.jhotdraw.text.ScalableNumberFormatter;
 import org.jhotdraw.util.*;
 
 /**

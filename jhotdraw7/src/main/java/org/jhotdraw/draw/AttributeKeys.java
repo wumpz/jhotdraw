@@ -227,7 +227,7 @@ public class AttributeKeys {
      * The value of this attribute is a String object, which is used to
      * display the text of the figure.
      */
-    public final static AttributeKey<String> TEXT = new AttributeKey<String>("text", null, false, labels);
+    public final static AttributeKey<String> TEXT = new AttributeKey<String>("text", null, true, labels);
     
     /**
      * Text color. The value of this attribute is a Color object.
@@ -236,7 +236,7 @@ public class AttributeKeys {
     /**
      * Text shadow color. The value of this attribute is a Color object.
      */
-    public final static AttributeKey<Color> TEXT_SHADOW_COLOR = new AttributeKey<Color>("textShadowColor", null, false, labels);
+    public final static AttributeKey<Color> TEXT_SHADOW_COLOR = new AttributeKey<Color>("textShadowColor", null, true, labels);
     /**
      * Text shadow offset. The value of this attribute is a Dimension2DDouble object.
      */
@@ -280,11 +280,11 @@ public class AttributeKeys {
     /**
      * The value of this attribute is a Liner object.
      */
-    public final static AttributeKey<Liner> BEZIER_PATH_LAYOUTER = new AttributeKey<Liner>("bezierPathLayouter", null, false, labels);
+    public final static AttributeKey<Liner> BEZIER_PATH_LAYOUTER = new AttributeKey<Liner>("bezierPathLayouter", null, true, labels);
     
-    public static final AttributeKey<LineDecoration> END_DECORATION = new AttributeKey<LineDecoration>("endDecoration",  null, false, labels);
+    public static final AttributeKey<LineDecoration> END_DECORATION = new AttributeKey<LineDecoration>("endDecoration",  null, true, labels);
     
-    public static final AttributeKey<LineDecoration> START_DECORATION = new AttributeKey<LineDecoration>("startDecoration", null, false, labels);
+    public static final AttributeKey<LineDecoration> START_DECORATION = new AttributeKey<LineDecoration>("startDecoration", null, true, labels);
     
     /**
      * The value of this attribute is a Insets2D.Double object.
@@ -322,7 +322,7 @@ public class AttributeKeys {
      * Layouters should use this attribute, to determine the default alignment
      * of the child figures contained in the CompositeFigure which they lay out.
      */
-    public final static AttributeKey<Alignment> CHILD_ALIGNMENT = new AttributeKey<Alignment>("layoutAlignment", null, false, labels);
+    public final static AttributeKey<Alignment> CHILD_ALIGNMENT = new AttributeKey<Alignment>("layoutAlignment", null, true, labels);
     
     
     /**

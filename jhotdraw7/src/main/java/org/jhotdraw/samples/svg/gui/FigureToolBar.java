@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
+import org.jhotdraw.text.ScalableNumberFormatter;
 import javax.swing.border.*;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.util.*;
@@ -23,7 +24,6 @@ import javax.swing.plaf.LabelUI;
 import javax.swing.plaf.SliderUI;
 import javax.swing.text.DefaultFormatter;
 import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.NumberFormatter;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.gui.plaf.palette.*;
@@ -92,10 +92,9 @@ public class FigureToolBar extends AbstractToolBar {
                     linkField = new JAttributeTextArea();
 
                     linkLabel.setLabelFor(linkField);
-
                     gbc = new GridBagConstraints();
                     gbc.gridx = 0;
-                    gbc.insets = new Insets(3, 0, 0, 0);
+                    gbc.insets = new Insets(3, 0, -2, 0);
                     gbc.anchor = GridBagConstraints.SOUTHWEST;
                     p.add(linkLabel, gbc);
 
@@ -169,10 +168,9 @@ public class FigureToolBar extends AbstractToolBar {
                     linkLabel.setToolTipText(labels.getString("attribute.figureLink.toolTipText"));
                     linkLabel.setText(labels.getString("attribute.figureLink.text")); // NOI18N
                     linkLabel.setFont(PaletteLookAndFeel.getInstance().getFont("SmallSystemFont"));
-
                     gbc = new GridBagConstraints();
                     gbc.gridx = 0;
-                    gbc.insets = new Insets(3, 0, 0, 0);
+                    gbc.insets = new Insets(3, 0, -2, 0);
                     gbc.anchor = GridBagConstraints.SOUTHWEST;
                     p.add(linkLabel, gbc);
 

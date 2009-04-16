@@ -16,9 +16,11 @@ package org.jhotdraw.gui;
 import org.jhotdraw.draw.FigureEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Set;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
@@ -47,6 +49,7 @@ public abstract class AbstractAttributeEditorHandler<T> {
     protected AttributeKey<T> attributeKey;
     protected int updateDepth;
     protected LinkedList<Object> attributeRestoreData = new LinkedList<Object>();
+    protected Map<AttributeKey, Object> defaultAttributes;
     /**
      * If this variable is set to true, the attribute editor updates the
      * default values of the drawing editor.
@@ -149,7 +152,12 @@ public abstract class AbstractAttributeEditorHandler<T> {
     }
 
     public AbstractAttributeEditorHandler(AttributeKey<T> key, AttributeEditor<T> attributeEditor, DrawingEditor drawingEditor, boolean updateDrawingEditorDefaults) {
+        this(key, null, attributeEditor, drawingEditor, updateDrawingEditorDefaults);
+    }
+
+    public AbstractAttributeEditorHandler(AttributeKey<T> key, Map<AttributeKey, Object> defaultAttributes, AttributeEditor<T> attributeEditor, DrawingEditor drawingEditor, boolean updateDrawingEditorDefaults) {
         eventHandler = new EventHandler();
+        this.defaultAttributes = defaultAttributes == null ? Collections.EMPTY_MAP : defaultAttributes;
         attributeEditor.setAttributeValue(key.getDefaultValue());
         setAttributeKey(key);
         setAttributeEditor(attributeEditor);
@@ -328,12 +336,15 @@ public abstract class AbstractAttributeEditorHandler<T> {
                     attributeRestoreData = new LinkedList<Object>();
                     for (Figure f : figures) {
                         attributeRestoreData.add(f.getAttributesRestoreData());
-                        attributeKey.set(f, value);
                     }
-                } else {
-                    for (Figure f : figures) {
-                        attributeKey.set(f, value);
+                }
+                for (Figure f : figures) {
+                    f.willChange();
+                    attributeKey.basicSet(f, value);
+                    for (Map.Entry<AttributeKey, Object> entry : defaultAttributes.entrySet()) {
+                        entry.getKey().basicSet(f, entry.getValue());
                     }
+                    f.changed();
                 }
                 if (drawingEditor != null && isUpdateDrawingEditorDefaults) {
                     drawingEditor.setDefaultAttribute(attributeKey, value);

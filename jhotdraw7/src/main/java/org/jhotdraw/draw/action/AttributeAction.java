@@ -62,6 +62,7 @@ public class AttributeAction extends AbstractSelectedAction {
 
         putValue(AbstractAction.NAME, name);
         putValue(AbstractAction.SMALL_ICON, icon);
+        putValue(Actions.UNDO_PRESENTATION_NAME_KEY, key.getPresentationName());
         setEnabled(true);
     }
 

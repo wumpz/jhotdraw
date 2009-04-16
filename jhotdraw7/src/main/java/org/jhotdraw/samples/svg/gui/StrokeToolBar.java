@@ -13,15 +13,19 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
+import org.jhotdraw.text.ScalableNumberFormatter;
 import javax.swing.border.*;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.gui.plaf.palette.*;
 import org.jhotdraw.util.*;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.*;
 import javax.swing.plaf.SliderUI;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
+import org.jhotdraw.text.ColorFormatter;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
 /**
@@ -75,9 +79,11 @@ public class StrokeToolBar extends AbstractToolBar {
                     AbstractButton btn;
 
                     // Stroke color
+                    Map<AttributeKey, Object> defaultAttributes = new HashMap<AttributeKey, Object>();
+                    STROKE_GRADIENT.set(defaultAttributes, null);
                     btn = ButtonFactory.createSelectionColorButton(editor,
                             STROKE_COLOR, ButtonFactory.WEBSAVE_COLORS, ButtonFactory.WEBSAVE_COLORS_COLUMN_COUNT,
-                            "attribute.strokeColor", labels, null, new Rectangle(3, 3, 10, 10));
+                            "attribute.strokeColor", labels, defaultAttributes, new Rectangle(3, 3, 10, 10));
                     btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                     ((JPopupButton) btn).setAction(null, null);
                     gbc = new GridBagConstraints();
@@ -158,15 +164,30 @@ public class StrokeToolBar extends AbstractToolBar {
                     GridBagConstraints gbc;
                     AbstractButton btn;
 
-                    // Stroke color
+                    // Stroke color field and button
+                    Map<AttributeKey, Object> defaultAttributes = new HashMap<AttributeKey, Object>();
+                    STROKE_GRADIENT.set(defaultAttributes, null);
+                    JAttributeTextField colorField = new JAttributeTextField();
+                    colorField.setColumns(7);
+                    colorField.setToolTipText(labels.getString("attribute.strokeColor.toolTipText"));
+                    colorField.putClientProperty("Palette.Component.segmentPosition", "first");
+                    colorField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(colorField));
+                    colorField.setFormatterFactory(ColorFormatter.createFormatterFactory());
+                    colorField.setHorizontalAlignment(JTextField.LEFT);
+                    new FigureAttributeEditorHandler<Color>(STROKE_COLOR, defaultAttributes, colorField, editor, true);
+                    gbc = new GridBagConstraints();
+                    gbc.gridx = 0;
+                     gbc.gridwidth = 2;
+                    gbc.fill = GridBagConstraints.HORIZONTAL;
+                    gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+                    p.add(colorField, gbc);
                     btn = ButtonFactory.createSelectionColorButton(editor,
                             STROKE_COLOR, ButtonFactory.WEBSAVE_COLORS, ButtonFactory.WEBSAVE_COLORS_COLUMN_COUNT,
-                            "attribute.strokeColor", labels, null, new Rectangle(3, 3, 10, 10));
+                            "attribute.strokeColor", labels, defaultAttributes, new Rectangle(3, 3, 10, 10));
                     btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                     ((JPopupButton) btn).setAction(null, null);
                     gbc = new GridBagConstraints();
-                    gbc.gridx = 0;
-                    gbc.gridwidth = 2;
+                    gbc.gridx = 2;
                     gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                     p.add(btn, gbc);
 
@@ -242,6 +263,7 @@ public class StrokeToolBar extends AbstractToolBar {
                     gbc = new GridBagConstraints();
                     gbc.gridwidth = GridBagConstraints.REMAINDER;
                     gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+                    gbc.gridx = 3;
                     gbc.gridy = 0;
                     gbc.insets = new Insets(0, 3, 0, 0);
                     p.add(btn, gbc);
@@ -249,6 +271,7 @@ public class StrokeToolBar extends AbstractToolBar {
                     btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                     gbc = new GridBagConstraints();
                     gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+                    gbc.gridx = 3;
                     gbc.gridy = 1;
                     gbc.insets = new Insets(3, 3, 0, 0);
                     p.add(btn, gbc);
@@ -256,6 +279,7 @@ public class StrokeToolBar extends AbstractToolBar {
                     btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                     gbc = new GridBagConstraints();
                     gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+                    gbc.gridx = 3;
                     gbc.gridy = 2;
                     gbc.gridwidth = 2;
                     gbc.insets = new Insets(3, 3, 0, 0);

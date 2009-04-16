@@ -11,8 +11,10 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-package org.jhotdraw.gui;
+package org.jhotdraw.text;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import javax.swing.JFormattedTextField.AbstractFormatterFactory;
@@ -20,7 +22,8 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 
 /**
- * A NumberFormatter whitch supports a scale factor.
+ * {@code ScaledNumberFormatter} is used to format numbers. This class
+ * adds support for a scale factor to {@code java.text.NumberFormat}.
  *
  * @author Werner Randelshofer
  * @version 1.0 2009-04-15 Created.
@@ -28,7 +31,7 @@ import javax.swing.text.NumberFormatter;
 public class ScalableNumberFormatter extends NumberFormatter {
 
     private double scaleFactor = 1d;
-    private boolean isNullValueAllowed = false;
+    private boolean allowsNullValue = false;
 
     /**
      * Creates a <code>NumberFormatter</code> with the a default
@@ -61,12 +64,25 @@ public class ScalableNumberFormatter extends NumberFormatter {
      *
      * @param format Format used to dictate legal values
      */
-    public ScalableNumberFormatter(double min, double max, double scaleFactor, boolean isNullValueAllowed) {
+    public ScalableNumberFormatter(double min, double max, double scaleFactor, boolean allowsNullValue) {
         super();
         setMinimum(min);
         setMaximum(max);
         setScaleFactor(scaleFactor);
-        setNullValueAllowed(isNullValueAllowed);
+        setAllowsNullValue(allowsNullValue);
+System.out.println("SCalableNumberFormatter "+((DecimalFormat) getFormat()).toPattern());
+    }
+    /**
+     * Creates a NumberFormatter with the specified Format instance.
+     *
+     * @param format Format used to dictate legal values
+     */
+    public ScalableNumberFormatter(NumberFormat format, double min, double max, double scaleFactor, boolean allowsNullValue) {
+        super(format);
+        setMinimum(min);
+        setMaximum(max);
+        setScaleFactor(scaleFactor);
+        setAllowsNullValue(allowsNullValue);
     }
 
     /**
@@ -92,8 +108,8 @@ public class ScalableNumberFormatter extends NumberFormatter {
      *
      * @param newValue
      */
-    public void setNullValueAllowed(boolean newValue) {
-        isNullValueAllowed = newValue;
+    public void setAllowsNullValue(boolean newValue) {
+        allowsNullValue = newValue;
     }
 
     /**
@@ -101,8 +117,8 @@ public class ScalableNumberFormatter extends NumberFormatter {
      *
      * @param newValue
      */
-    public boolean isNullValueAllowed() {
-        return isNullValueAllowed;
+    public boolean getAllowsNullValue() {
+        return allowsNullValue;
     }
 
     /**
@@ -115,7 +131,7 @@ public class ScalableNumberFormatter extends NumberFormatter {
      */
     @Override
     public String valueToString(Object value) throws ParseException {
-        if (value == null && isNullValueAllowed()) {
+        if (value == null && getAllowsNullValue()) {
             return "";
         }
 
@@ -146,7 +162,7 @@ public class ScalableNumberFormatter extends NumberFormatter {
      */
     @Override
     public Object stringToValue(String text) throws ParseException {
-        if ((text == null || text.length() == 0) && isNullValueAllowed()) {
+        if ((text == null || text.length() == 0) && getAllowsNullValue()) {
             return null;
         }
          Object value = super.stringToValue(text);
@@ -168,16 +184,29 @@ public class ScalableNumberFormatter extends NumberFormatter {
 
     /**
      * Convenience method for creating a formatter factory with a
-     * ScalableNumberFormatter.
+     * {@code ScalableNumberFormatter} and a Java-style DecimalFormat.
      */
     public static AbstractFormatterFactory createFormatterFactory(double min, double max, double scaleFactor) {
         return createFormatterFactory( min,  max,  scaleFactor, false);
     }
     /**
      * Convenience method for creating a formatter factory with a
-     * ScalableNumberFormatter.
+     * {@code ScalableNumberFormatter} and a Java-style DecimalFormat.
      */
-    public static AbstractFormatterFactory createFormatterFactory(double min, double max, double scaleFactor, boolean isNullValueAllowed) {
-        return new DefaultFormatterFactory(new ScalableNumberFormatter(min, max, scaleFactor, isNullValueAllowed));
+    public static AbstractFormatterFactory createFormatterFactory(double min, double max, double scaleFactor, boolean allowsNullValue) {
+        DecimalFormat df = new DecimalFormat("#0.#");
+        DecimalFormatSymbols sym = df.getDecimalFormatSymbols();
+        sym.setGroupingSeparator('\''); // We don't want a grouping separator, but we set one here to avoid conflicts.
+        sym.setDecimalSeparator('.');
+        sym.setMinusSign('-');
+        sym.setExponentSeparator("E");
+        return new DefaultFormatterFactory(new ScalableNumberFormatter(df,min, max, scaleFactor, allowsNullValue));
+    }
+    /**
+     * Convenience method for creating a formatter factory with a
+     * {@code ScalableNumberFormatter}.
+     */
+    public static AbstractFormatterFactory createFormatterFactory(NumberFormat format, double min, double max, double scaleFactor, boolean allowsNullValue) {
+        return new DefaultFormatterFactory(new ScalableNumberFormatter(format, min, max, scaleFactor, allowsNullValue));
     }
 }

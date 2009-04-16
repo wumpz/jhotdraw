@@ -23,7 +23,7 @@ import javax.swing.text.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.gui.DrawingAttributeEditorHandler;
 import org.jhotdraw.gui.JAttributeSlider;
-import org.jhotdraw.gui.ScalableNumberFormatter;
+import org.jhotdraw.text.ScalableNumberFormatter;
 import org.jhotdraw.util.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 

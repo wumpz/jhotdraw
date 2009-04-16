@@ -877,7 +877,7 @@ public class SVGOutputFormat implements OutputFormat {
         // Media:  	visual
         // Animatable:  	yes
         // Computed value:  	 Specified value, except inherit
-        writeAttribute(elem, "font-family", FONT_FACE.get(a).getFamily(), "Dialog");
+        writeAttribute(elem, "font-family", FONT_FACE.get(a).getFontName(), "Dialog");
 
         // 'font-getChildCount'
         // Value:  	<absolute-getChildCount> | <relative-getChildCount> |
