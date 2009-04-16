@@ -475,6 +475,12 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
                 ((SVGBezierFigure) child).flattenTransform();
             }
         }
+        if (FILL_GRADIENT.get(this) != null) {
+            FILL_GRADIENT.get(this).transform(tx);
+        }
+        if (STROKE_GRADIENT.get(this) != null) {
+            STROKE_GRADIENT.get(this).transform(tx);
+        }
         TRANSFORM.basicSet(this, null);
         changed();
     }

@@ -75,20 +75,6 @@ class BezierNodeEdit extends AbstractUndoableEdit {
             BezierNodeEdit that = (BezierNodeEdit) anEdit;
             if (that.owner == this.owner && that.index == this.index) {
                 this.newValue = that.newValue;
-                that.die();
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public boolean replaceEdit(UndoableEdit anEdit) {
-        if (anEdit instanceof BezierNodeEdit) {
-            BezierNodeEdit that = (BezierNodeEdit) anEdit;
-            if (that.owner == this.owner && that.index == this.index) {
-                that.oldValue = this.oldValue;
-                this.die();
                 return true;
             }
         }

@@ -1,7 +1,7 @@
 /*
- * @(#)TextOverflowHandle.java  1.0  19. Mai 2007
+ * @(#)LinkHandle.java  1.0  2009-04-16
  *
- * Copyright (c) 2007 by the original authors of JHotDraw
+ * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -12,24 +12,24 @@
  * the copyright holders. For details see accompanying license terms.
  */
 
-package org.jhotdraw.draw;
+package org.jhotdraw.samples.svg.figures;
 
+import org.jhotdraw.draw.*;
 import java.awt.*;
 import java.awt.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
- * The TextOverflowHandle indicates when the text does not fit into the
- * bounds of a TextAreaFigure.
+ * The LinkHandle indicates when a figure has a link.
  *
  * @author Werner Randelshofer
- * @version 1.0 19. Mai 2007 Created.
+ * @version 1.0 2009-04-16 Created.
  */
-public class TextOverflowHandle extends AbstractHandle {
+public class LinkHandle extends AbstractHandle {
     
     /** Creates a new instance. */
-    public TextOverflowHandle(TextHolderFigure owner) {
+    public LinkHandle(TextHolderFigure owner) {
         super(owner);
     }
     

@@ -1,15 +1,15 @@
 /*
  * @(#)SVGApplet.java  1.1  2008-05-22
  *
- * Copyright (c) 2006-2008 by the original authors of AnyWikiDraw
+ * Copyright (c) 2006-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
- * The copyright of this software is owned by the authors and  
- * contributors of the AnyWikiDraw project ("the copyright holders").
- * You may not use, copy or modify this software, except in  
- * accordance with the license agreement you entered into with  
- * the copyright holders. For details see accompanying license terms. 
+ * The copyright of this software is owned by the authors and
+ * contributors of the JHotDraw project ("the copyright holders").
+ * You may not use, copy or modify this software, except in
+ * accordance with the license agreement you entered into with
+ * the copyright holders. For details see accompanying license terms.
  */
 package org.jhotdraw.samples.svg;
 
@@ -20,14 +20,12 @@ import org.jhotdraw.gui.*;
 import org.jhotdraw.util.*;
 
 import java.awt.*;
-import java.awt.geom.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.*;
 import java.util.*;
 import javax.swing.*;
-import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.samples.svg.figures.*;
 import org.jhotdraw.samples.svg.io.*;
 import org.jhotdraw.samples.svg.gui.*;
@@ -71,6 +69,7 @@ public class SVGApplet extends JApplet {
      * Same as <code>Applet.getParameter()</code> but doesn't throw a
      * NullPointerException when used without an Applet context.
      */
+    @Override
     public String getParameter(String name) {
         try {
             return super.getParameter(name);
@@ -135,6 +134,7 @@ public class SVGApplet extends JApplet {
                 try {
                     Thread t = new Thread() {
 
+                        @Override
                         public void run() {
                             drawingComponent = createDrawingComponent();
                         }

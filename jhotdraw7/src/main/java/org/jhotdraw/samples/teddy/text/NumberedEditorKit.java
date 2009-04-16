@@ -1,17 +1,17 @@
 /*
  * @(#)NumberedEditorKit.java  1.0  October 10, 2005
  *
- * Copyright (c) 2005 Werner Randelshofer
- * Staldenmattweg 2, Immensee, CH-6405, Switzerland.
+ * Copyright (c) 2005 by the original authors of JHotDraw
+ * and all its contributors.
  * All rights reserved.
  *
- * This software is the confidential and proprietary information of
- * Werner Randelshofer. ("Confidential Information").  You shall not
- * disclose such Confidential Information and shall use it only in
- * accordance with the terms of the license agreement you entered into
- * with Werner Randelshofer.
+ * The copyright of this software is owned by the authors and
+ * contributors of the JHotDraw project ("the copyright holders").
+ * You may not use, copy or modify this software, except in
+ * accordance with the license agreement you entered into with
+ * the copyright holders. For details see accompanying license terms.
  *
- * Original version � Stanislav Lapitsky
+ * Original version (c) Stanislav Lapitsky
  * http://www.developer.com/java/other/article.php/3318421
  */
 
@@ -33,6 +33,7 @@ import javax.swing.text.*;
 public class NumberedEditorKit extends StyledEditorKit {
     private NumberedViewFactory viewFactory;
     
+    @Override
     public ViewFactory getViewFactory() {
         if (viewFactory == null) {
             viewFactory = new NumberedViewFactory();
