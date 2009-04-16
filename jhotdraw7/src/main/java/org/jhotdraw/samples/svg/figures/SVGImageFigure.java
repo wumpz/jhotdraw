@@ -242,6 +242,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
                 break;
             case 0:
                 ResizeHandleKit.addResizeHandles(this, handles);
+                handles.add(new LinkHandle(this));
                 break;
             case 1:
                 TransformHandleKit.addTransformHandles(this, handles);

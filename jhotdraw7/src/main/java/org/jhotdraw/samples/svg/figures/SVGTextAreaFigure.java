@@ -474,6 +474,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
                 ResizeHandleKit.addResizeHandles(this, handles);
                 handles.add(new FontSizeHandle(this));
                 handles.add(new TextOverflowHandle(this));
+                handles.add(new LinkHandle(this));
                 break;
             case 1:
                 TransformHandleKit.addTransformHandles(this, handles);

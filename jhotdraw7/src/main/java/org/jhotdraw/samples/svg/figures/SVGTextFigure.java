@@ -354,6 +354,7 @@ public class SVGTextFigure
                 handles.add(new MoveHandle(this, RelativeLocator.southWest()));
                 handles.add(new MoveHandle(this, RelativeLocator.southEast()));
                 handles.add(new FontSizeHandle(this));
+                handles.add(new LinkHandle(this));
                 break;
             case 1 :
                 TransformHandleKit.addTransformHandles(this, handles);

@@ -125,6 +125,7 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
                 break;
             case 0 :
             TransformHandleKit.addTransformHandles(this, handles);
+                handles.add(new LinkHandle(this));
                 break;
         }
         return handles;

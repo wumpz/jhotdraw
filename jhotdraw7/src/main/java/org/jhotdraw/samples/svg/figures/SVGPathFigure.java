@@ -313,6 +313,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
                 for (Figure child : getChildren()) {
                     handles.addAll(((SVGBezierFigure) child).createHandles(this, detailLevel));
                 }
+                handles.add(new LinkHandle(this));
                 break;
             case 1:
                 TransformHandleKit.addTransformHandles(this, handles);

@@ -14,9 +14,6 @@
 package org.jhotdraw.app;
 
 import ch.randelshofer.quaqua.*;
-import java.lang.reflect.InvocationTargetException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jhotdraw.gui.Worker;
 import org.jhotdraw.util.*;
 import org.jhotdraw.util.prefs.*;
@@ -186,14 +183,17 @@ public class DefaultOSXApplication extends AbstractApplication {
         p.putAction(FocusAction.ID, new FocusAction(p));
     }
 
+    @Override
     public void addPalette(Window palette) {
         paletteHandler.addPalette(palette);
     }
 
+    @Override
     public void removePalette(Window palette) {
         paletteHandler.removePalette(palette);
     }
 
+    @Override
     public void addWindow(Window window, final View p) {
         if (window instanceof JFrame) {
             ((JFrame) window).setJMenuBar(createMenuBar(p));
@@ -204,6 +204,7 @@ public class DefaultOSXApplication extends AbstractApplication {
         paletteHandler.add(window, p);
     }
 
+    @Override
     public void removeWindow(Window window) {
         paletteHandler.remove(window);
     }
@@ -346,7 +347,6 @@ public class DefaultOSXApplication extends AbstractApplication {
     }
 
     protected JMenu createWindowMenu(final View p) {
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         ApplicationModel model = getModel();
 
         JMenu m;
