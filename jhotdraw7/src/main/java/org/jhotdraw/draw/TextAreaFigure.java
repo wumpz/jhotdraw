@@ -42,7 +42,7 @@ import org.jhotdraw.xml.DOMOutput;
  * as well as four additional attributes LeftMargin, RightMargin, TopMargin,
  * and TabSize.<br>
  * <p>
- * A DrawingEditor should provide the TextAreaTool to create a TextAreaFigure.
+ * A DrawingEditor should provide the TextAreaCreationTool to create a TextAreaFigure.
  * <p>
  * FIXME - TextAreaFigure should not draw a rectangle on its own but rather
  * rely on a decorator. We probably need a DecoratorConnector for this and we
@@ -395,8 +395,7 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
      */
     public Tool getTool(Point2D.Double p) {
         if (isEditable() && contains(p)) {
-            TextAreaTool tool = new TextAreaTool(this);
-            tool.setForCreationOnly(false);
+            TextAreaEditingTool tool = new TextAreaEditingTool(this);
             return tool;
         }
         return null;

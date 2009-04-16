@@ -186,7 +186,7 @@ public class PertPanel extends JPanel  {
         attributes.put(AttributeKeys.STROKE_COLOR, new Color(0x000099));
         ButtonFactory.addToolTo(tb, editor, new ConnectionTool(new DependencyFigure(), attributes), "edit.createDependency", labels);
         tb.addSeparator();
-        ButtonFactory.addToolTo(tb, editor, new TextAreaTool(new TextAreaFigure()), "edit.createTextArea", drawLabels);
+        ButtonFactory.addToolTo(tb, editor, new TextAreaCreationTool(new TextAreaFigure()), "edit.createTextArea", drawLabels);
     }
     
     

@@ -290,7 +290,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
 
                     public String getPresentationName() {
                         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-                        return labels.getString("delete");
+                        return labels.getString("edit.delete.text");
                     }
 
                     public void undo() throws CannotUndoException {

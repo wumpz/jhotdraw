@@ -1,5 +1,5 @@
 /*
- * @(#)TextAreaTool.java  2.3.1  2009-09-29
+ * @(#)TextAreaCreationTool.java  2.3.1  2009-09-29
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -27,7 +27,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * interface, such as TextAreaFigure. The figure to be created is specified by a
  * prototype.
  * <p>
- * To create a figure using the TextAreaTool, the user does the following mouse
+ * To create a figure using the TextAreaCreationTool, the user does the following mouse
  * gestures on a DrawingView:
  * <ol>
  * <li>Press the mouse button over the DrawingView. This defines the
@@ -35,17 +35,17 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * <li>Drag the mouse while keeping the mouse button pressed, and then release
  * the mouse button. This defines the end point of the Figure bounds.</li>
  * </ol>
- * When the user has performed these mouse gesture, the TextAreaTool overlays
+ * When the user has performed these mouse gesture, the TextAreaCreationTool overlays
  * a text area over the drawing where the user can enter the text for the Figure.
  * <p>
- * To edit an existing text figure using the TextAreaTool, the user does the
+ * To edit an existing text figure using the TextAreaCreationTool, the user does the
  * following mouse gesture on a DrawingView:
  * </p>
  * <ol>
  * <li>Press the mouse button over a Figure on the DrawingView.</li>
  * </ol>
  * <p>
- * The TextAreaTool then uses Figure.findFigureInside to find a Figure that
+ * The TextAreaCreationTool then uses Figure.findFigureInside to find a Figure that
  * implements the TextHolderFigure interface and that is editable. Then it overlays
  * a text area over the drawing where the user can enter the text for the Figure.
  * </p>
@@ -65,16 +65,10 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @see TextHolderFigure
  * @see FloatingTextArea
  */
-public class TextAreaTool extends CreationTool implements ActionListener {
+public class TextAreaCreationTool extends CreationTool implements ActionListener {
 
     private FloatingTextArea textArea;
     private TextHolderFigure typingTarget;
-    /**
-     * By default this tool is only used for the creation of new TextAreaFigures.
-     * If this variable is set to false, the tool is used to create new
-     * TextAreaFigures and edit existing TextAreaFigures.
-     */
-    private boolean isForCreationOnly = true;
     /**
      * Rubberband color of the tool. When this is null, the tool does not
      * draw a rubberband.
@@ -82,11 +76,11 @@ public class TextAreaTool extends CreationTool implements ActionListener {
     private Color rubberbandColor = null;
 
     /** Creates a new instance. */
-    public TextAreaTool(TextHolderFigure prototype) {
+    public TextAreaCreationTool(TextHolderFigure prototype) {
         super(prototype);
     }
 
-    public TextAreaTool(TextHolderFigure prototype, Map attributes) {
+    public TextAreaCreationTool(TextHolderFigure prototype, Map attributes) {
         super(prototype, attributes);
     }
 
@@ -100,23 +94,7 @@ public class TextAreaTool extends CreationTool implements ActionListener {
         rubberbandColor = c;
     }
 
-    /**
-     * By default this tool is used to create a new TextHolderFigure.
-     * If this property is set to false, the tool is used to create
-     * a new TextHolderFigure or to edit an existing TextHolderFigure.
-     */
-    public void setForCreationOnly(boolean newValue) {
-        isForCreationOnly = newValue;
-    }
-
-    /**
-     * Returns true, if this tool can be only be used for creation of
-     * TextHolderFigures and not for editing existing ones. 
-     */
-    public boolean isForCreationOnly() {
-        return isForCreationOnly;
-    }
-
+    @Override
     public void deactivate(DrawingEditor editor) {
         endEdit();
         super.deactivate(editor);
@@ -156,9 +134,7 @@ public class TextAreaTool extends CreationTool implements ActionListener {
         // 
         if (pressedFigure instanceof TextHolderFigure) {
             textHolder = (TextHolderFigure) pressedFigure;
-            if (!textHolder.isEditable() || isForCreationOnly) {
                 textHolder = null;
-            }
         }
 
         if (textHolder != null) {
@@ -173,13 +149,6 @@ public class TextAreaTool extends CreationTool implements ActionListener {
             }
         } else {
             super.mousePressed(e);
-        // update view so the created figure is drawn before the floating text
-        // figure is overlaid. (Note, fDamage should be null in StandardDrawingView
-        // when the overlay figure is drawn because a JTextField cannot be scrolled)
-        //view().checkDamage();
-            /*
-        textHolder = (TextHolderFigure)getCreatedFigure();
-        beginEdit(textHolder);*/
         }
     }
 

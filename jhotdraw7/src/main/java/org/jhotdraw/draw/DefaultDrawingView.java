@@ -276,6 +276,7 @@ public class DefaultDrawingView
      * Uses high quality rendering hints for printing. Only prints the drawing.
      * Doesn't print the canvasColor, the grid, the handles and the tool.
      */
+    @Override
     public void printComponent(Graphics gr) {
 
         Graphics2D g = (Graphics2D) gr;
@@ -431,6 +432,7 @@ public class DefaultDrawingView
         repaint(vr);
     }
 
+    @Override
     public void invalidate() {
         invalidateDimension();
         super.invalidate();
@@ -528,6 +530,7 @@ public class DefaultDrawingView
         }
     }
 
+    @Override
     public void setEnabled(boolean b) {
         super.setEnabled(b);
         setCursor(Cursor.getPredefinedCursor(b ? Cursor.DEFAULT_CURSOR : Cursor.WAIT_CURSOR));
@@ -913,7 +916,7 @@ public class DefaultDrawingView
             @Override
             public String getPresentationName() {
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-                return labels.getString("delete");
+                return labels.getString("edit.delete.text");
             }
 
             @Override
@@ -942,7 +945,6 @@ public class DefaultDrawingView
         HashMap<Figure, Figure> originalToDuplicateMap = new HashMap<Figure, Figure>(sorted.size());
 
         clearSelection();
-        Drawing drawing = getDrawing();
         final ArrayList<Figure> duplicates = new ArrayList<Figure>(sorted.size());
         AffineTransform tx = new AffineTransform();
         tx.translate(5, 5);
@@ -960,16 +962,19 @@ public class DefaultDrawingView
 
         getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
 
+            @Override
             public String getPresentationName() {
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
                 return labels.getString("edit.duplicate.text");
             }
 
+            @Override
             public void undo() throws CannotUndoException {
                 super.undo();
                 getDrawing().removeAll(duplicates);
             }
 
+            @Override
             public void redo() throws CannotRedoException {
                 super.redo();
                 getDrawing().addAll(duplicates);

@@ -169,7 +169,7 @@ public class ODGDrawingPanel extends JPanel  {
         attributes.put(AttributeKeys.FILL_COLOR, Color.black);
         attributes.put(AttributeKeys.STROKE_COLOR, null);
         ButtonFactory.addToolTo(tb, editor, new CreationTool(new SVGTextFigure(), attributes), "edit.createText", drawLabels);
-        TextAreaTool tat = new TextAreaTool(new SVGTextAreaFigure(), attributes);
+        TextAreaCreationTool tat = new TextAreaCreationTool(new SVGTextAreaFigure(), attributes);
         tat.setRubberbandColor(Color.BLACK);
         ButtonFactory.addToolTo(tb, editor, tat, "edit.createTextArea", drawLabels);
     }

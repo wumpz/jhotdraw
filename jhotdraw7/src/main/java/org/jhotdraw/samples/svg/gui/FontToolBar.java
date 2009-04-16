@@ -58,7 +58,7 @@ public class FontToolBar extends AbstractToolBar {
                 public void updateVisibility() {
                     boolean newValue = editor != null &&
                             editor.getActiveView() != null &&
-                            (isVisibleIfCreationTool && ((editor.getTool() instanceof TextTool) || editor.getTool() instanceof TextAreaTool) ||
+                            (isVisibleIfCreationTool && ((editor.getTool() instanceof TextCreationTool) || editor.getTool() instanceof TextAreaCreationTool) ||
                             containsTextHolderFigure(editor.getActiveView().getSelectedFigures())
                             );
                     component.setVisible(newValue);

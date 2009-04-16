@@ -61,8 +61,8 @@ public class ToolsToolBar extends AbstractToolBar {
         AbstractButton btn;
         CreationTool creationTool;
         PathTool pathTool;
-        TextTool textTool;
-        TextAreaTool textAreaTool;
+        TextCreationTool textTool;
+        TextAreaCreationTool textAreaTool;
         SVGCreateFromFileTool imageTool;
 
         HashMap<AttributeKey, Object> attributes;
@@ -128,7 +128,7 @@ public class ToolsToolBar extends AbstractToolBar {
         attributes = new HashMap<AttributeKey, Object>();
         attributes.put(AttributeKeys.FILL_COLOR, Color.black);
         attributes.put(AttributeKeys.STROKE_COLOR, null);
-        btn = ButtonFactory.addToolTo(this, editor, textTool = new TextTool(new SVGTextFigure(), attributes), "createText", labels);
+        btn = ButtonFactory.addToolTo(this, editor, textTool = new TextCreationTool(new SVGTextFigure(), attributes), "createText", labels);
         textTool.setToolDoneAfterCreation(true);
         btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
         gbc = new GridBagConstraints();
@@ -137,7 +137,7 @@ public class ToolsToolBar extends AbstractToolBar {
         gbc.insets = new Insets(3, 0, 0, 0);
         p.add(btn, gbc);
 
-        textAreaTool = new TextAreaTool(new SVGTextAreaFigure(), attributes);
+        textAreaTool = new TextAreaCreationTool(new SVGTextAreaFigure(), attributes);
         textAreaTool.setRubberbandColor(Color.BLACK);
         textAreaTool.setToolDoneAfterCreation(true);
         btn = ButtonFactory.addToolTo(this, editor, textAreaTool, "createTextArea", labels);

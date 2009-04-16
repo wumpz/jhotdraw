@@ -1,7 +1,7 @@
 /*
- * @(#)AbstractCompositeFigure.java  1.0.1  2008-03-30
+ * @(#)AbstractCompositeFigure.java  1.0.2  2009-04-16
  *
- * Copyright (c) 2007 by the original authors of JHotDraw
+ * Copyright (c) 2007-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -28,7 +28,8 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * AbstractCompositeFigure.
  *
  * @author Werner Randelshofer
- * @version 1.0.1 2008-03-30 Made basicRemove method non-final.
+ * @version 1.0.2 2009-04-16 Guard against infinity in method setBounds.
+ * <br>1.0.1 2008-03-30 Made basicRemove method non-final.
  * <br>1.0 July 17, 2007 Created.
  */
 public abstract class AbstractCompositeFigure
@@ -276,6 +277,7 @@ public abstract class AbstractCompositeFigure
     //invalidate();
     }
 
+    @Override
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         Rectangle2D.Double oldBounds = getBounds();
         Rectangle2D.Double newBounds = new Rectangle2D.Double(
@@ -290,6 +292,7 @@ public abstract class AbstractCompositeFigure
         AffineTransform tx = new AffineTransform();
         tx.translate(-oldBounds.x, -oldBounds.y);
         if (!Double.isNaN(sx) && !Double.isNaN(sy) &&
+                !Double.isInfinite(sx) && !Double.isInfinite(sy) &&
                 (sx != 1d || sy != 1d) &&
                 !(sx < 0.0001) && !(sy < 0.0001)) {
             transform(tx);
@@ -443,6 +446,7 @@ public abstract class AbstractCompositeFigure
         this.layouter = newLayouter;
     }
 
+    @Override
     public Dimension2DDouble getPreferredSize() {
         if (this.layouter != null) {
             Rectangle2D.Double r = layouter.calculateLayout(this, getStartPoint(), getEndPoint());
@@ -469,6 +473,7 @@ public abstract class AbstractCompositeFigure
         }
     }
 
+    @Override
     public Collection<Figure> getDecomposition() {
         LinkedList<Figure> list = new LinkedList<Figure>();
         list.add(this);
@@ -508,24 +513,8 @@ public abstract class AbstractCompositeFigure
         }
         return list;
     }
-    /*
-    public void willChange() {
-    super.willChange();
-    if (getChangingDepth() == 1) {
-    for (Figure child : getChildren()) {
-    child.willChange();
-    }
-    }
-    }
-    public void changed() {
-    if (getChangingDepth() == 1) {
-    for (Figure child : getChildren()) {
-    child.changed();
-    }
-    }
-    super.changed();
-    }*/
 
+    @Override
     protected void validate() {
         super.validate();
         layout();

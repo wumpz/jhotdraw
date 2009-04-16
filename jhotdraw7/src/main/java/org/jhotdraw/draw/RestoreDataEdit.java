@@ -17,7 +17,6 @@ package org.jhotdraw.draw;
 
 import org.jhotdraw.util.*;
 import javax.swing.undo.*;
-import java.awt.geom.*;
 import java.util.*;
 /**
  * RestoreDataEdit.
@@ -38,25 +37,30 @@ public class RestoreDataEdit extends AbstractUndoableEdit {
         this.oldRestoreData = oldRestoreData;
         this.newRestoreData = figure.getTransformRestoreData();
     }
+    @Override
     public String getPresentationName() {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
         return labels.getString("edit.transform.text");
     }
     
+    @Override
     public boolean addEdit(UndoableEdit anEdit) {
         return false;
     }
     
+    @Override
     public boolean replaceEdit(UndoableEdit anEdit) {
         return false;
     }
     
+    @Override
     public void redo() throws CannotRedoException {
         super.redo();
          figure.willChange();
         figure.restoreTransformTo(newRestoreData);
          figure.changed();
     }
+    @Override
     public void undo() throws CannotUndoException {
         super.undo();
          figure.willChange();

@@ -26,6 +26,9 @@ public class Main {
     
     /** Creates a new instance. */
     public static void main(String[] args) {
+        // Debug resource bundle
+        ResourceBundleUtil.setVerbose(true);
+
         Application app;
         String os = System.getProperty("os.name").toLowerCase();
         if (os.startsWith("mac")) {

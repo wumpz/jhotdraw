@@ -41,27 +41,18 @@ public class JColorWheel extends JPanel {
     /** Vertical color component index. */
     protected int verticalIndex = 2;
 
-    private class MouseHandler implements MouseListener, MouseMotionListener {
-        public void mouseClicked(MouseEvent e) {
-        }
-
+    private class MouseHandler extends MouseAdapter  {
+        @Override
         public void mouseDragged(MouseEvent e) {
             update(e);
         }
 
-        public void mouseEntered(MouseEvent e) {
-        }
-
-        public void mouseExited(MouseEvent e) {
-        }
-
-        public void mouseMoved(MouseEvent e) {
-        }
-
+        @Override
         public void mousePressed(MouseEvent e) {
             update(e);
         }
 
+        @Override
         public void mouseReleased(MouseEvent e) {
             update(e);
         }

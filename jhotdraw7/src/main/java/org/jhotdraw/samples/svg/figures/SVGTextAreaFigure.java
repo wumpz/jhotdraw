@@ -491,8 +491,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
      */
     public Tool getTool(Point2D.Double p) {
         if (isEditable() && contains(p)) {
-            TextAreaTool tool = new TextAreaTool(this);
-            tool.setForCreationOnly(false);
+            TextAreaEditingTool tool = new TextAreaEditingTool(this);
             return tool;
         }
         return null;

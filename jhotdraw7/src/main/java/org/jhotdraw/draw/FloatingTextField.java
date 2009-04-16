@@ -18,6 +18,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.event.*;
+import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
  * A text field overlay that is used to edit a TextFigure.
@@ -67,6 +68,7 @@ public  class FloatingTextField {
         textField.setText(figure.getText());
         textField.setColumns(figure.getTextColumns());
         textField.selectAll();
+        textField.setVisible(true);
         editedFigure = figure;
         editedFigure.addFigureListener(figureHandler);
         this.view = view;
@@ -79,18 +81,25 @@ public  class FloatingTextField {
         textField.setFont(font);
         textField.setForeground(editedFigure.getTextColor());
         textField.setBackground(editedFigure.getFillColor());
-        
-        
-        Rectangle fBounds = view.drawingToView(editedFigure.getBounds());
+
+        Rectangle2D.Double fDrawBounds = editedFigure.getBounds();
+        Point2D.Double fDrawLoc = new Point2D.Double(fDrawBounds.getX(), fDrawBounds.getY());
+        if (TRANSFORM.get(editedFigure) != null) {
+        TRANSFORM.get(editedFigure).transform(fDrawLoc, fDrawLoc);
+        }
+        Point fViewLoc = view.drawingToView(fDrawLoc);
+        Rectangle fViewBounds = view.drawingToView(fDrawBounds);
+        fViewBounds.x = fViewLoc.x;
+        fViewBounds.y = fViewLoc.y;
         Dimension tfDim = textField.getPreferredSize();
         Insets tfInsets = textField.getInsets();
         float fontBaseline = textField.getGraphics().getFontMetrics(font).getMaxAscent();
         double fBaseline = editedFigure.getBaseline() * view.getScaleFactor();
         textField.setBounds(
-                fBounds.x - tfInsets.left,
-                fBounds.y - tfInsets.top - (int) (fontBaseline - fBaseline),
-                Math.max(fBounds.width + tfInsets.left + tfInsets.right, tfDim.width),
-                Math.max(fBounds.height + tfInsets.top + tfInsets.bottom, tfDim.height)
+                fViewBounds.x - tfInsets.left,
+                fViewBounds.y - tfInsets.top - (int) (fontBaseline - fBaseline),
+                Math.max(fViewBounds.width + tfInsets.left + tfInsets.right, tfDim.width),
+                Math.max(fViewBounds.height + tfInsets.top + tfInsets.bottom, tfDim.height)
                 );
     }
     

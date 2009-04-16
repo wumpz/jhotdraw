@@ -180,7 +180,7 @@ public class NetPanel extends JPanel  {
         attributes.put(AttributeKeys.FILL_COLOR, Color.white);
         attributes.put(AttributeKeys.STROKE_COLOR, Color.black);
         attributes.put(AttributeKeys.TEXT_COLOR, Color.black);
-        ButtonFactory.addToolTo(tb, editor, new TextTool(new NodeFigure(), attributes), "edit.createNode", labels);
+        ButtonFactory.addToolTo(tb, editor, new TextCreationTool(new NodeFigure(), attributes), "edit.createNode", labels);
 
         attributes = new HashMap<AttributeKey,Object>();
         attributes.put(AttributeKeys.STROKE_COLOR, new Color(0x000099));

@@ -933,7 +933,7 @@ public class ButtonFactory {
             DrawingEditor editor, double[] widths, ResourceBundleUtil labels) {
         JPopupButton strokeWidthPopupButton = new JPopupButton();
 
-        labels.configureToolBarButton(strokeWidthPopupButton, "attribute.strokeWidth");
+        labels.configureToolBarButton(strokeWidthPopupButton, "attribute.strokeWidth.text");
         strokeWidthPopupButton.setFocusable(false);
 
         NumberFormat formatter = NumberFormat.getInstance();
@@ -950,7 +950,7 @@ public class ButtonFactory {
                     new Double(widths[i]),
                     label,
                     icon);
-            a.putValue(Actions.UNDO_PRESENTATION_NAME_KEY, labels.getString("attribute.strokeWidth"));
+            a.putValue(Actions.UNDO_PRESENTATION_NAME_KEY, labels.getString("attribute.strokeWidth.text"));
             AbstractButton btn = strokeWidthPopupButton.add(a);
             btn.setDisabledIcon(icon);
         }

@@ -1,7 +1,7 @@
 /*
- * @(#)TextTool.java  2.4.1  2009-03-29
+ * @(#)TextCreationTool.java  1.0  2009-04-16
  *
- * Copyright (c) 1996-2009 by the original authors of JHotDraw
+ * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -23,91 +23,45 @@ import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.UndoableEdit;
 import org.jhotdraw.util.ResourceBundleUtil;
 /**
- * A tool to create new or edit existing figures that implement the TextHolderFigure
- * interface, such as TextFigure. The figure to be created is specified by a
- * prototype.
+ * A tool to create figures which implement the {@code TextHolderFigure}
+ * interface, such as {@code TextFigure}. The figure to be created is specified
+ * by a prototype.
  * <p>
- * To create a figure using the TextTool, the user does the following mouse
+ * To create a figure using this tool, the user does the following mouse
  * gestures on a DrawingView:
  * <ol>
  * <li>Press the mouse button over an area on the DrawingView on which there
- * isn't a text figure present. This defines the location of the Figure.</li>
+ * isn't a text figure present. This defines the location of the figure.</li>
  * </ol>
- * When the user has performed this mouse gesture, the TextTool overlays
+ * When the user has performed this mouse gesture, the TextCreationTool overlays
  * a text field over the drawing where the user can enter the text for the Figure.
- * <p>
- * To edit an existing text figure using the TextTool, the user does the
- * following mouse gesture on a DrawingView:
- * <ol>
- * <li>Press the mouse button over a TextHolderFigure Figure on the DrawingView.</li>
- * </ol>
- * <p>
- * The TextTool then uses Figure.findFigureInside to find a Figure that
- * implements the TextHolderFigure interface and that is editable. Then it overlays
- * a text field over the drawing where the user can enter the text for the Figure.
- * <p>
- * </p>
- * XXX - Maybe this class should be split up into a CreateTextTool and
- * a EditTextTool.
- * </p>
- *
  *
  * @see TextHolderFigure
  * @see FloatingTextField
  *
  * @author Werner Randelshofer
- * @version 2.4.1 2009-03-29 Editing of a TextArea which is behind another figure
- * did not work. Partially implemented undoable edit handling.
- * <br>2.4 2008-05-24 Moved code from this class into FloatingTextField.
- * <br>2.3 2008-05-17 Honor toolDoneAfterCreation property.
- * <br>2.2 2007-11-30 Added variable isUsedForCreation.  
- * <br>2.1 2007-08-22 Added support for property 'toolDoneAfterCreation'.
- * <br>2.0 2006-01-14 Changed to support double precison coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version 1.0 2009-04-16 Refactored from TextTool.
  */
-public class TextTool extends CreationTool implements ActionListener {
+public class TextCreationTool extends CreationTool implements ActionListener {
     private FloatingTextField   textField;
     private TextHolderFigure  typingTarget;
-    /**
-     * By default this tool is only used for the creation of new TextHolderFigures.
-     * If this variable is set to false, the tool is used to create new
-     * TextHolderFigure and edit existing TextHolderFigure.
-     */
-    private boolean isForCreationOnly = true;
     
     /** Creates a new instance. */
-    public TextTool(TextHolderFigure prototype) {
+    public TextCreationTool(TextHolderFigure prototype) {
         super(prototype);
     }
     /** Creates a new instance. */
-    public TextTool(TextHolderFigure prototype, Map attributes) {
+    public TextCreationTool(TextHolderFigure prototype, Map attributes) {
         super(prototype, attributes);
     }
     
+    @Override
     public void deactivate(DrawingEditor editor) {
         endEdit();
         super.deactivate(editor);
     }
     /**
-     * By default this tool is used to create a new TextHolderFigure.
-     * If this property is set to false, the tool is used to create
-     * a new TextHolderFigure or to edit an existing TextHolderFigure.
-     */
-    public void setForCreationOnly(boolean newValue) {
-        isForCreationOnly = newValue;
-    }
-    /**
-     * Returns true, if this tool can be only be used for creation of
-     * TextHolderFigures and not for editing existing ones. 
-     */
-    public boolean isForCreationOnly() {
-        return isForCreationOnly;
-    }
-    
-    
-    /**
-     * If the pressed figure is a TextHolderFigure it can be edited otherwise
-     * a new text figure is created.
+     * Creates a new figure at the location where the mouse was pressed.
      */
     @Override
     public void mousePressed(MouseEvent e) {
@@ -137,7 +91,6 @@ public class TextTool extends CreationTool implements ActionListener {
 
         if (pressedFigure instanceof TextHolderFigure) {
             textHolder = ((TextHolderFigure) pressedFigure).getLabelFor();
-            if (!textHolder.isEditable() || isForCreationOnly)
                 textHolder = null;
         }
         if (textHolder != null) {
@@ -153,9 +106,7 @@ public class TextTool extends CreationTool implements ActionListener {
         } else {
             super.mousePressed(e);
             // update view so the created figure is drawn before the floating text
-            // figure is overlaid. (Note, fDamage should be null in StandardDrawingView
-            // when the overlay figure is drawn because a JTextField cannot be scrolled)
-            //view().checkDamage();
+            // figure is overlaid. 
             textHolder = (TextHolderFigure)getCreatedFigure();
             getView().clearSelection();
             getView().addToSelection(textHolder);
@@ -164,6 +115,7 @@ public class TextTool extends CreationTool implements ActionListener {
         }
     }
     
+    @Override
     public void mouseDragged(java.awt.event.MouseEvent e) {
     }
     
@@ -183,6 +135,7 @@ public class TextTool extends CreationTool implements ActionListener {
     }
     
     
+    @Override
     public void mouseReleased(MouseEvent evt) {
     }
     

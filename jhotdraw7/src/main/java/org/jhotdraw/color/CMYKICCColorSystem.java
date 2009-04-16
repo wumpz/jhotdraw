@@ -13,10 +13,8 @@
  */
 package org.jhotdraw.color;
 
-import java.awt.*;
 import java.awt.color.*;
 import java.io.*;
-import javax.swing.*;
 
 /**
  * A ColorSystem for CMYK color components (cyan, magenta, yellow, black) in

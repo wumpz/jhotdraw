@@ -116,8 +116,8 @@ public class DrawApplicationModel extends DefaultApplicationModel {
         lc.setLiner(new ElbowLiner());
         ButtonFactory.addToolTo(tb, editor, new BezierTool(new BezierFigure()), "edit.createScribble", labels);
         ButtonFactory.addToolTo(tb, editor, new BezierTool(new BezierFigure(true)), "edit.createPolygon", labels);
-        ButtonFactory.addToolTo(tb, editor, new TextTool(new TextFigure()), "edit.createText", labels);
-        ButtonFactory.addToolTo(tb, editor, new TextAreaTool(new TextAreaFigure()), "edit.createTextArea", labels);
+        ButtonFactory.addToolTo(tb, editor, new TextCreationTool(new TextFigure()), "edit.createText", labels);
+        ButtonFactory.addToolTo(tb, editor, new TextAreaCreationTool(new TextAreaFigure()), "edit.createTextArea", labels);
         ButtonFactory.addToolTo(tb, editor, new ImageTool(new ImageFigure()), "edit.createImage", labels);
     }     
 }
