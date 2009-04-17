@@ -92,6 +92,7 @@ public class PaletteFontChooserUI extends FontChooserUI {
      * @see javax.swing.JComponent#setUI
      * @see javax.swing.JComponent#updateUI
      */
+    @Override
     public void installUI(JComponent c) {
         installComponents(fontChooser);
         installListeners(fontChooser);

@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.samples.svg.figures;
 
 import java.awt.*;
@@ -23,6 +22,7 @@ import org.jhotdraw.draw.*;
 import org.jhotdraw.samples.svg.*;
 import org.jhotdraw.xml.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
+
 /**
  * SVGGroupFigure.
  *
@@ -31,49 +31,57 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * <br>1.0 July 8, 2006 Created.
  */
 public class SVGGroupFigure extends GroupFigure implements SVGFigure {
-    private HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey,Object>();
-    
-    
+
+    private HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey, Object>();
+
     /** Creates a new instance. */
     public SVGGroupFigure() {
         SVGAttributeKeys.setDefaults(this);
     }
-    
-    @Override public void setAttribute(AttributeKey key, Object value) {
+
+    @Override
+    public void setAttribute(AttributeKey key, Object value) {
         if (key == OPACITY) {
+            attributes.put(key, value);
+        } else if (key == LINK || key == LINK_TARGET) {
             attributes.put(key, value);
         } else {
             super.setAttribute(key, value);
         }
         invalidate();
     }
-    @Override public Object getAttribute(AttributeKey name) {
+
+    @Override
+    public Object getAttribute(AttributeKey name) {
         return attributes.get(name);
     }
-    @Override public Map<AttributeKey,Object> getAttributes() {
-        return new HashMap<AttributeKey,Object>(attributes);
+
+    @Override
+    public Map<AttributeKey, Object> getAttributes() {
+        return new HashMap<AttributeKey, Object>(attributes);
     }
+
     public void setAttributes(Map<AttributeKey, Object> map) {
         for (Map.Entry<AttributeKey, Object> entry : map.entrySet()) {
             setAttribute(entry.getKey(), entry.getValue());
         }
     }
-    
+
     @Override
-    public void draw(Graphics2D g)  {
+    public void draw(Graphics2D g) {
         double opacity = OPACITY.get(this);
         opacity = Math.min(Math.max(0d, opacity), 1d);
         if (opacity != 0d) {
             if (opacity != 1d) {
                 Rectangle2D.Double drawingArea = getDrawingArea();
-                
+
                 Rectangle2D clipBounds = g.getClipBounds();
                 if (clipBounds != null) {
                     Rectangle2D.intersect(drawingArea, clipBounds, drawingArea);
                 }
-                
-                if (! drawingArea.isEmpty()) {
-                    
+
+                if (!drawingArea.isEmpty()) {
+
                     BufferedImage buf = new BufferedImage(
                             Math.max(1, (int) ((2 + drawingArea.width) * g.getTransform().getScaleX())),
                             Math.max(1, (int) ((2 + drawingArea.height) * g.getTransform().getScaleY())),
@@ -95,7 +103,7 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
             }
         }
     }
-    
+
     public Rectangle2D.Double getBounds() {
         if (cachedBounds == null) {
             if (getChildCount() == 0) {
@@ -116,39 +124,44 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
         }
         return (Rectangle2D.Double) cachedBounds.clone();
     }
-    
-    @Override public LinkedList<Handle> createHandles(int detailLevel) {
+
+    @Override
+    public LinkedList<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
         switch (detailLevel) {
-            case -1 : // Mouse hover handles
-                handles.add(new BoundsOutlineHandle(this, true, true));
+            case -1: // Mouse hover handles
+                TransformHandleKit.addGroupHoverHandles(this, handles);
                 break;
-            case 0 :
-            TransformHandleKit.addTransformHandles(this, handles);
+            case 0:
+                TransformHandleKit.addGroupTransformHandles(this, handles);
                 handles.add(new LinkHandle(this));
                 break;
         }
         return handles;
     }
-    
-    @Override final public void write(DOMOutput out) throws IOException {
+
+    @Override
+    final public void write(DOMOutput out) throws IOException {
         throw new UnsupportedOperationException("Use SVGStorableOutput to write this Figure.");
     }
-    @Override final public void read(DOMInput in) throws IOException {
+
+    @Override
+    final public void read(DOMInput in) throws IOException {
         throw new UnsupportedOperationException("Use SVGStorableInput to read this Figure.");
     }
+
     public boolean isEmpty() {
         return getChildCount() == 0;
     }
-    
+
     public String toString() {
         StringBuilder buf = new StringBuilder();
-        buf.append(getClass().getName().substring(getClass().getName().lastIndexOf('.')+1));
+        buf.append(getClass().getName().substring(getClass().getName().lastIndexOf('.') + 1));
         buf.append('@');
         buf.append(hashCode());
         if (getChildCount() > 0) {
             buf.append('(');
-            for (Iterator<Figure> i = getChildren().iterator(); i.hasNext(); ) {
+            for (Iterator<Figure> i = getChildren().iterator(); i.hasNext();) {
                 Figure child = i.next();
                 buf.append(child);
                 if (i.hasNext()) {
@@ -159,9 +172,10 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
         }
         return buf.toString();
     }
+
     public SVGGroupFigure clone() {
         SVGGroupFigure that = (SVGGroupFigure) super.clone();
-        that.attributes = new HashMap<AttributeKey,Object>(this.attributes);
+        that.attributes = new HashMap<AttributeKey, Object>(this.attributes);
         return that;
     }
 }

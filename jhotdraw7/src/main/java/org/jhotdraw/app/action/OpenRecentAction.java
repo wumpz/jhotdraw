@@ -134,7 +134,7 @@ public class OpenRecentAction extends AbstractApplicationAction {
             ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
             JSheet.showMessageSheet(view.getComponent(),
                     "<html>" + UIManager.getString("OptionPane.css") +
-                    "<b>" + labels.getFormatted("couldntOpen", file.getName()) + "</b><br>" +
+                    "<b>" + labels.getFormatted("file.open.couldntOpen.message", file.getName()) + "</b><br>" +
                     (message == null ? "" : message),
                     JOptionPane.ERROR_MESSAGE, new SheetListener() {
 

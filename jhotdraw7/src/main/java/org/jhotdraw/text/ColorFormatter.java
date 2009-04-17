@@ -87,7 +87,7 @@ public class ColorFormatter extends DefaultFormatter {
     private boolean allowsNullValue = true;
     /**
      * Specifies whether the formatter should adaptively change its output
-     * format depending on the last used input format.
+     * format depending on the last input format used by the user.
      */
     private boolean isAdaptive = true;
     /**
@@ -162,7 +162,9 @@ public class ColorFormatter extends DefaultFormatter {
     }
 
     /**
-     * Sets whether a null value is allowed.
+     * Sets whether the color formatter adaptively selects its output
+     * format depending on the last input format used by the user.
+     *
      * @param newValue
      */
     public void setAdaptive(boolean newValue) {
@@ -173,7 +175,8 @@ public class ColorFormatter extends DefaultFormatter {
     }
 
     /**
-     * Returns true, if null value is allowed.
+     * Returns true, if the color formatter is adaptive.
+     *
      * @param newValue
      */
     public boolean getAdaptive() {
@@ -192,7 +195,7 @@ public class ColorFormatter extends DefaultFormatter {
     public Object stringToValue(String str) throws ParseException {
 
         // Handle null and empty case
-        if (str == null || str.trim().isEmpty()) {
+        if (str == null || str.trim().length()==0) {
             if (allowsNullValue) {
                 return null;
             } else {

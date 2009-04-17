@@ -1,7 +1,7 @@
 /**
- * @(#)HandleAttributeKeys.java  2.0  2008-05-22
+ * @(#)HandleAttributeKeys.java  2.1  2009-04-17
  *
- * Copyright (c) 2008 by the original authors of JHotDraw
+ * Copyright (c) 2008-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -22,15 +22,18 @@ import java.awt.*;
  * the desired values using {@link DrawingEditor#setHandleAttribute(org.jhotdraw.draw.AttributeKey, java.lang.Object)}.
  *
  * @author Werner Randelshofer
- * @version 2.0 2008-05-22 Added support for hover handles. Assigned better names
+ * @version 2.1 2009-04-17 Use semi-transparent colors for disabled handles.
+ * <br>2.0 2008-05-22 Added support for hover handles. Assigned better names
  * to attribute keys. Changed default
  * values, to better much the look of well known drawing software, such as
  * Adobe Fireworks and Adobe Illustrator. 
  * <br>1.0 11.05.2008 Created.
  */
 public class HandleAttributeKeys {
-    private final static Color FILL_COLOR_DISABLED_ = null;//new Color(0x80000000,true);
-    private final static Color STROKE_COLOR_DISABLED_ = null;//new Color(0x80ffffff,true);
+    /** Fill color of disabled handles. */
+    private final static Color FILL_COLOR_DISABLED_ = new Color(0x80000000,true);
+    /** Stroke color of disabled handles. */
+    private final static Color STROKE_COLOR_DISABLED_ = new Color(0x80ffffff,true);
 
     /**
      * General handle size.
@@ -347,6 +350,82 @@ public class HandleAttributeKeys {
      * Transform bounds disabled stroke 2.
      */
     public final static AttributeKey<Stroke> TRANSFORM_BOUNDS_STROKE_2_DISABLED = new AttributeKey<Stroke>("transformBoundsStroke2Disabled",
+            new BasicStroke(1f));
+    //---
+    //---
+    /**
+     * Group handle stroke color.
+     */
+    public final static AttributeKey<Color> GROUP_HANDLE_STROKE_COLOR = new AttributeKey<Color>("transformHandleStrokeColor", Color.WHITE);
+    /**
+     * Group handle fill color.
+     */
+    public final static AttributeKey<Color> GROUP_HANDLE_FILL_COLOR = new AttributeKey<Color>("transformHandleFillColor", Color.MAGENTA);
+    //---
+    /**
+     * Group handle stroke color.
+     */
+    public final static AttributeKey<Color> GROUP_HANDLE_STROKE_COLOR_DISABLED = new AttributeKey<Color>("transformHandleStrokeColorDisabled", STROKE_COLOR_DISABLED_);
+    /**
+     * Group handle fill color.
+     */
+    public final static AttributeKey<Color> GROUP_HANDLE_FILL_COLOR_DISABLED = new AttributeKey<Color>("transformHandleFillColorDisabled", FILL_COLOR_DISABLED_);
+    /**
+     * Group bounds color 1.
+     */
+    public final static AttributeKey<Color> GROUP_BOUNDS_COLOR_1 = new AttributeKey<Color>("transformBoundsColor1", Color.WHITE);
+    /**
+     * Group bounds color 2.
+     */
+    public final static AttributeKey<Color> GROUP_BOUNDS_COLOR_2 = new AttributeKey<Color>("transformBoundsColor2", Color.MAGENTA);
+    /**
+     * Group bounds stroke 1.
+     */
+    public final static AttributeKey<Stroke> GROUP_BOUNDS_STROKE_1 = new AttributeKey<Stroke>("transformBoundsStroke1",
+            new BasicStroke(3f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL));
+    /**
+     * Group bounds stroke 2.
+     */
+    public final static AttributeKey<Stroke> GROUP_BOUNDS_STROKE_2 = new AttributeKey<Stroke>("transformBoundsStroke2",
+            new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1f, new float[] {2f,2f}, 0f));
+    //---
+    /**
+     * Group bounds hover color 1.
+     */
+    public final static AttributeKey<Color> GROUP_BOUNDS_COLOR_1_HOVER = new AttributeKey<Color>("transformBoundsColor1Hover", null);
+    /**
+     * Group bounds hover color 2.
+     */
+    public final static AttributeKey<Color> GROUP_BOUNDS_COLOR_2_HOVER = new AttributeKey<Color>("transformBoundsColor2Hover", Color.MAGENTA);
+    /**
+     * Group bounds hover stroke 1.
+     */
+    public final static AttributeKey<Stroke> GROUP_BOUNDS_STROKE_1_HOVER = new AttributeKey<Stroke>("transformBoundsStroke1Hover",
+            null);
+    /**
+     * Group bounds hover stroke 2.
+     */
+    public final static AttributeKey<Stroke> GROUP_BOUNDS_STROKE_2_HOVER = new AttributeKey<Stroke>("transformBoundsStroke2Hover",
+            new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1f, new float[] {2f,2f}, 0f));
+    //---
+    //---
+    /**
+     * Group bounds disabled color 1.
+     */
+    public final static AttributeKey<Color> GROUP_BOUNDS_COLOR_1_DISABLED = new AttributeKey<Color>("transformBoundsColor1Disabled",STROKE_COLOR_DISABLED_);
+    /**
+     * Group bounds disabled color 2.
+     */
+    public final static AttributeKey<Color> GROUP_BOUNDS_COLOR_2_DISABLED = new AttributeKey<Color>("transformBoundsColor2Disabled", FILL_COLOR_DISABLED_);
+    /**
+     * Group bounds disabled stroke 1.
+     */
+    public final static AttributeKey<Stroke> GROUP_BOUNDS_STROKE_1_DISABLED = new AttributeKey<Stroke>("transformBoundsStroke1Disabled",
+            new BasicStroke(3f));
+    /**
+     * Group bounds disabled stroke 2.
+     */
+    public final static AttributeKey<Stroke> GROUP_BOUNDS_STROKE_2_DISABLED = new AttributeKey<Stroke>("transformBoundsStroke2Disabled",
             new BasicStroke(1f));
     //---
     /**

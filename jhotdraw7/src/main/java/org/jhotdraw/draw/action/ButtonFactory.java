@@ -1,7 +1,7 @@
 /*
- * @(#)ButtonFactory.java  2.3  2008-05-23
+ * @(#)ButtonFactory.java  2.4  2009-04-17
  *
- * Copyright (c) 1996-2008 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -42,7 +42,8 @@ import org.jhotdraw.gui.JFontChooser;
  * become disabled/enabled, when the DrawingEditor is disabled/enabled.
  *
  * @author Werner Randelshofer
- * @version 2.3 2008-05-23 Factured SelectionComponentRepainter out. 
+ * @version 2.4 2009-04-17 Added HSV_COLORS palette.
+ * <br>2.3 2008-05-23 Factured SelectionComponentRepainter out.
  * <br>2.2 2008-05-18 Added method createDrawingColorButton.
  * <br>2.1 2008-03-25 Made method signature of createSelectionColorButton
  * compatible with createEditorColorButton.
@@ -61,7 +62,7 @@ public class ButtonFactory {
      * This palette has 8 columns.
      */
     public final static java.util.List<ColorIcon> DEFAULT_COLORS;
-    
+
 
     static {
         LinkedList<ColorIcon> m = new LinkedList<ColorIcon>();
@@ -124,7 +125,7 @@ public class ButtonFactory {
      * primary colors easier.
      */
     public final static java.util.List<ColorIcon> WEBSAVE_COLORS;
-    
+
 
     static {
         LinkedList<ColorIcon> m = new LinkedList<ColorIcon>();
@@ -144,8 +145,7 @@ public class ButtonFactory {
             0x0000ff,
             0xff00ff,
             0x00ffff,
-            0xffff00,
-        };
+            0xffff00,};
         for (int b = 0x0, i = 0; b <= 0xff; b += 0x33, i++) {
             int rgb = (b << 16) | (b << 8) | b;
             m.add(new ColorIcon(firstColumn[i]));
@@ -159,6 +159,38 @@ public class ButtonFactory {
         WEBSAVE_COLORS = Collections.unmodifiableList(m);
     }
     public final static int WEBSAVE_COLORS_COLUMN_COUNT = 19;
+    /**
+     * HSV color palette.
+     * This is a 'human friendly' color palette which arranges
+     * the color in a way that makes it (hopefully) easy for humans to
+     * select the desired color.
+     * <p>
+     * This palette has 12 columns.
+     * The topmost row contains a null-color and gray scales.
+     */
+    public final static java.util.List<ColorIcon> HSV_COLORS;
+
+
+    static {
+        LinkedList<ColorIcon> m = new LinkedList<ColorIcon>();
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+        m.add(new ColorIcon(null, labels.getToolTipTextProperty("attribute.color.noColor")));
+        for (int b = 10; b >= 0; b--) {
+            m.add(new ColorIcon(Color.HSBtoRGB(0f, 0f, b * 0.1f)));
+        }
+        for (int b = 2; b <= 10; b += 2) {
+            for (int h = 0; h < 12; h++) {
+                m.add(new ColorIcon(Color.HSBtoRGB((h + 6) / 12f, 1f, b * 0.1f)));
+            }
+        }
+        for (int s = 8; s > 0; s -= 2) {
+            for (int h = 0; h < 12; h++) {
+                m.add(new ColorIcon(Color.HSBtoRGB((h + 6) / 12f, s * 0.1f, 1f)));
+            }
+        }
+        HSV_COLORS = Collections.unmodifiableList(m);
+    }
+    public final static int HSV_COLORS_COLUMN_COUNT = 12;
 
     private static class ToolButtonListener implements ItemListener {
 
@@ -323,6 +355,7 @@ public class ButtonFactory {
             zoomPopupButton.add(
                     new ZoomEditorAction(editor, factors[i], zoomPopupButton) {
 
+                        @Override
                         public void actionPerformed(java.awt.event.ActionEvent e) {
                             super.actionPerformed(e);
                             zoomPopupButton.setText((int) (editor.getActiveView().getScaleFactor() * 100) + " %");
@@ -363,6 +396,7 @@ public class ButtonFactory {
             zoomPopupButton.add(
                     new ZoomAction(view, factors[i], zoomPopupButton) {
 
+                        @Override
                         public void actionPerformed(java.awt.event.ActionEvent e) {
                             super.actionPerformed(e);
                             zoomPopupButton.setText((int) (view.getScaleFactor() * 100) + " %");
@@ -529,10 +563,14 @@ public class ButtonFactory {
                 new DefaultAttributeAction(editor, attributeKey, defaultAttributes),
                 new Rectangle(0, 0, 22, 22));
         popupButton.setColumnCount(columnCount, false);
+        boolean hasNullColor = false;
         for (ColorIcon swatch : swatches) {
             AttributeAction a;
             HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey, Object>(defaultAttributes);
             attributes.put(attributeKey, swatch.getColor());
+            if (swatch.getColor() == null) {
+                hasNullColor = true;
+            }
             popupButton.add(a =
                     new AttributeAction(
                     editor,
@@ -543,29 +581,32 @@ public class ButtonFactory {
         }
 
         // No color
-        AttributeAction a;
-        HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey, Object>(defaultAttributes);
-        attributes.put(attributeKey, null);
-        popupButton.add(a =
-                new AttributeAction(
-                editor,
-                attributes,
-                labels.getToolTipTextProperty("attribute.noColor"),
-                new ColorIcon(null, "---", swatches.get(0).getIconWidth(), swatches.get(0).getIconHeight())));
-        a.putValue(Action.SHORT_DESCRIPTION, "---");
+        if (!hasNullColor) {
+            AttributeAction a;
+            HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey, Object>(defaultAttributes);
+            attributes.put(attributeKey, null);
+            popupButton.add(a =
+                    new AttributeAction(
+                    editor,
+                    attributes,
+                    labels.getToolTipTextProperty("attribute.color.noColor"),
+                    new ColorIcon(null, labels.getToolTipTextProperty("attribute.color.noColor"), swatches.get(0).getIconWidth(), swatches.get(0).getIconHeight())));
+            a.putValue(Action.SHORT_DESCRIPTION, "---");
+        }
 
         // Color chooser
         ImageIcon chooserIcon = new ImageIcon(
-                ButtonFactory.class.getResource("/org/jhotdraw/draw/action/images/showColorChooser.png"));
-
+                ButtonFactory.class.getResource("/org/jhotdraw/draw/action/images/attribute.color.colorChooser.png"));
+Action a;
         popupButton.add(
-                new EditorColorChooserAction(
+               a=new EditorColorChooserAction(
                 editor,
                 attributeKey,
                 "color",
                 chooserIcon,
                 defaultAttributes));
         labels.configureToolBarButton(popupButton, labelKey);
+        a.putValue(Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.colorChooser"));
         Icon icon = new EditorColorIcon(editor,
                 attributeKey,
                 labels.getIconProperty(labelKey, ButtonFactory.class).getImage(),
@@ -583,7 +624,6 @@ public class ButtonFactory {
 
         return popupButton;
     }
-
 
     /**
      * Creates a color button, with an action region and a popup menu. The
@@ -705,10 +745,14 @@ public class ButtonFactory {
         }
 
         popupButton.setColumnCount(columnCount, false);
+        boolean hasNullColor = false;
         for (ColorIcon swatch : swatches) {
             AttributeAction a;
             HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey, Object>(defaultAttributes);
             attributes.put(attributeKey, swatch.getColor());
+            if (swatch.getColor() == null) {
+                hasNullColor = true;
+            }
             popupButton.add(a =
                     new AttributeAction(
                     editor,
@@ -719,28 +763,30 @@ public class ButtonFactory {
         }
 
         // No color
-        AttributeAction a;
-        HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey, Object>(defaultAttributes);
-        attributes.put(attributeKey, null);
-        popupButton.add(a =
-                new AttributeAction(
-                editor,
-                attributes,
-                labels.getString("attribute.noColor.toolTipText"),
-                new ColorIcon(null, "---")));
-        a.putValue(Action.SHORT_DESCRIPTION, "---");
-
+        if (!hasNullColor) {
+            AttributeAction a;
+            HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey, Object>(defaultAttributes);
+            attributes.put(attributeKey, null);
+            popupButton.add(a =
+                    new AttributeAction(
+                    editor,
+                    attributes,
+                    labels.getToolTipTextProperty("attribute.color.noColor"),
+                    new ColorIcon(null, labels.getToolTipTextProperty("attribute.color.noColor"))));
+            a.putValue(Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.noColor"));
+        }
         // Color chooser
         ImageIcon chooserIcon = new ImageIcon(
-                ButtonFactory.class.getResource("/org/jhotdraw/draw/action/images/showColorChooser.png"));
-
+                ButtonFactory.class.getResource("/org/jhotdraw/draw/action/images/attribute.color.colorChooser.png"));
+        Action a;
         popupButton.add(
-                new SelectionColorChooserAction(
+                a = new SelectionColorChooserAction(
                 editor,
                 attributeKey,
-                "color",
+                labels.getToolTipTextProperty("attribute.color.colorChooser"),
                 chooserIcon,
                 defaultAttributes));
+        a.putValue(Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.colorChooser"));
         labels.configureToolBarButton(popupButton, labelKey);
         Icon icon = new SelectionColorIcon(editor,
                 attributeKey,
@@ -847,10 +893,14 @@ public class ButtonFactory {
         }
 
         popupButton.setColumnCount(columnCount, false);
+        boolean hasNullColor = false;
         for (ColorIcon swatch : swatches) {
             DrawingAttributeAction a;
             HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey, Object>(defaultAttributes);
             attributes.put(attributeKey, swatch.getColor());
+            if (swatch.getColor() == null) {
+                hasNullColor = true;
+            }
             popupButton.add(a =
                     new DrawingAttributeAction(
                     editor,
@@ -861,29 +911,32 @@ public class ButtonFactory {
         }
 
         // No color
-        DrawingAttributeAction a;
-        HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey, Object>(defaultAttributes);
-        attributes.put(attributeKey, null);
-        popupButton.add(a =
-                new DrawingAttributeAction(
-                editor,
-                attributes,
-                labels.getString("attribute.noColor.toolTipText"),
-                new ColorIcon(null, "---")));
-        a.putValue(Action.SHORT_DESCRIPTION, "---");
+        if (!hasNullColor) {
+            DrawingAttributeAction a;
+            HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey, Object>(defaultAttributes);
+            attributes.put(attributeKey, null);
+            popupButton.add(a =
+                    new DrawingAttributeAction(
+                    editor,
+                    attributes,
+                    labels.getToolTipTextProperty("attribute.color.noColor"),
+                    new ColorIcon(null,  labels.getToolTipTextProperty("attribute.color.noColor"))));
+            a.putValue(Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.noColor"));
+        }
 
         // Color chooser
         ImageIcon chooserIcon = new ImageIcon(
-                ButtonFactory.class.getResource("/org/jhotdraw/draw/action/images/showColorChooser.png"));
-
+                ButtonFactory.class.getResource("/org/jhotdraw/draw/action/images/attribute.color.colorChooser.png"));
+Action a;
         popupButton.add(
-                new DrawingColorChooserAction(
+               a= new DrawingColorChooserAction(
                 editor,
                 attributeKey,
                 "color",
                 chooserIcon,
                 defaultAttributes));
         labels.configureToolBarButton(popupButton, labelKey);
+            a.putValue(Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.colorChooser"));
         Icon icon = new DrawingColorIcon(editor,
                 attributeKey,
                 labels.getIconProperty(labelKey, ButtonFactory.class).getImage(),
@@ -1015,8 +1068,7 @@ public class ButtonFactory {
                     {4d, 2d},
                     {2d, 4d},
                     {8d, 2d},
-                    {6d, 2d, 2d, 2d},
-                },
+                    {6d, 2d, 2d, 2d},},
                 labels);
     }
 
@@ -1216,8 +1268,9 @@ public class ButtonFactory {
     public static JPopupButton createFontButton(DrawingEditor editor,
             ResourceBundleUtil labels) {
         return createFontButton(editor, FONT_FACE, labels);
-        
+
     }
+
     public static JPopupButton createFontButton(DrawingEditor editor,
             AttributeKey key,
             ResourceBundleUtil labels) {
@@ -1229,9 +1282,9 @@ public class ButtonFactory {
         labels.configureToolBarButton(fontPopupButton, "attribute.font");
         fontPopupButton.setFocusable(false);
 
-         JPopupMenu popupMenu = new JPopupMenu();
-         JFontChooser fontChooser = new JFontChooser();
-         new FontChooserHandler(editor, key, fontChooser, popupMenu);
+        JPopupMenu popupMenu = new JPopupMenu();
+        JFontChooser fontChooser = new JFontChooser();
+        new FontChooserHandler(editor, key, fontChooser, popupMenu);
 
         popupMenu.add(fontChooser);
         fontPopupButton.setPopupMenu(popupMenu);
@@ -1463,5 +1516,4 @@ public class ButtonFactory {
         btn.setFocusable(false);
         return btn;
     }
-    
 }

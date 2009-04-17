@@ -1,5 +1,5 @@
 /*
- * @(#)SVGInputFormat.java  1.2.2  2009-03-29
+ * @(#)SVGInputFormat.java  1.3  2009-04-17
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -50,7 +50,9 @@ import org.jhotdraw.xml.css.CSSParser;
  *
  *
  * @author Werner Randelshofer
- * @version 1.2.2 2009-03-29 Ignore Transform "ref(...") attribute instead of 
+ * @version 1.3 2009-04-17 Added support for link target. Added support for
+ * linked SVG images.
+ * <br>1.2.2 2009-03-29 Ignore Transform "ref(...") attribute instead of
  * refusing to load the SVG file. Ignore malformed JPEG-image instead of
  * refusing to load the SVG file. Handle "none" value in length attribute.
  * Color values given in percent can be doubles.
@@ -459,6 +461,7 @@ public class SVGInputFormat implements InputFormat {
         if (href == null) {
             href = readAttribute(elem, "href", null);
         }
+        String target = readAttribute(elem, "target", null);
         if (DEBUG) {
             System.out.println("SVGInputFormat.readAElement href=" + href);
         }
@@ -476,6 +479,7 @@ public class SVGInputFormat implements InputFormat {
                 }
                 if (childFigure != null) {
                     LINK.basicSet(childFigure, href);
+                    LINK_TARGET.basicSet(childFigure, target);
                 } else {
                     if (DEBUG) {
                         System.out.println("SVGInputFormat <a> has no child figure");
@@ -672,6 +676,20 @@ public class SVGInputFormat implements InputFormat {
             } else {
                 URL imageUrl = new URL(url, href);
 
+                // Check whether the imageURL is an SVG image.
+                // Load it as a group.
+                if (imageUrl.getFile().endsWith("svg")) {
+                    SVGInputFormat svgImage = new SVGInputFormat(factory);
+                        Drawing svgDrawing = new DefaultDrawing();
+                        svgImage.read(imageUrl, svgDrawing, true);
+                        CompositeFigure svgImageGroup = factory.createG(a);
+                        for (Figure f : svgDrawing.getChildren()) {
+                            svgImageGroup.add(f);
+                        }
+                        svgImageGroup.setBounds(new Point2D.Double(x, y), new Point2D.Double(x + w, y + h));
+                        return svgImageGroup;
+                }
+
                 // Read the image data from the URL into a byte array
                 ByteArrayOutputStream bout = new ByteArrayOutputStream();
                 byte[] buf = new byte[512];
@@ -696,7 +714,7 @@ public class SVGInputFormat implements InputFormat {
         BufferedImage bufferedImage = null;
         if (imageData != null) {
             try {
-            bufferedImage = ImageIO.read(new ByteArrayInputStream(imageData));
+                bufferedImage = ImageIO.read(new ByteArrayInputStream(imageData));
             } catch (IIOException e) {
                 System.err.println("SVGInputFormat warning: skipped unsupported image format.");
                 e.printStackTrace();
@@ -989,8 +1007,7 @@ public class SVGInputFormat implements InputFormat {
                 //"http://www.w3.org/Graphics/SVG/feature/1.2/#Animation",
                 //"http://www.w3.org/Graphics/SVG/feature/1.2/#Audio",
                 //"http://www.w3.org/Graphics/SVG/feature/1.2/#Video",
-                "http://www.w3.org/Graphics/SVG/feature/1.2/#Font",
-            //"http://www.w3.org/Graphics/SVG/feature/1.2/#Extensibility",
+                "http://www.w3.org/Graphics/SVG/feature/1.2/#Font", //"http://www.w3.org/Graphics/SVG/feature/1.2/#Extensibility",
             //"http://www.w3.org/Graphics/SVG/feature/1.2/#MediaAttribute",
             //"http://www.w3.org/Graphics/SVG/feature/1.2/#TextFlow",
             //"http://www.w3.org/Graphics/SVG/feature/1.2/#TransformedVideo",
@@ -1121,7 +1138,7 @@ public class SVGInputFormat implements InputFormat {
     }
 
     /**
-     * Reads a font getChildCount attribute that is inherited.
+     * Reads a font size attribute that is inherited.
      * As specified by
      * http://www.w3.org/TR/SVGMobile12/text.html#FontPropertiesUsedBySVG
      * http://www.w3.org/TR/2006/CR-xsl11-20060220/#font-getChildCount
@@ -1133,6 +1150,10 @@ public class SVGInputFormat implements InputFormat {
             value = elem.getAttribute(attributeName, SVG_NAMESPACE, null);
         } else if (elem.hasAttribute(attributeName)) {
             value = elem.getAttribute(attributeName, null);
+        } else if (elem.getParent() != null &&
+                (elem.getParent().getNamespace() == null ||
+                elem.getParent().getNamespace().equals(SVG_NAMESPACE))) {
+            return readInheritFontSizeAttribute(elem.getParent(), attributeName, defaultValue);
         } else {
             value = defaultValue;
         }
@@ -2543,13 +2564,13 @@ public class SVGInputFormat implements InputFormat {
         // width of the viewport
         value = readAttribute(elem, "width", null);
         if (value != null) {
-            doubleValue = toLength(elem,(String) value, 1);
+            doubleValue = toLength(elem, (String) value, 1);
             VIEWPORT_WIDTH.set(a, doubleValue);
         }
         // height of the viewport
         value = readAttribute(elem, "height", null);
         if (value != null) {
-            doubleValue = toLength(elem, (String)value, 1);
+            doubleValue = toLength(elem, (String) value, 1);
             VIEWPORT_HEIGHT.set(a, doubleValue);
         }
 
@@ -3242,6 +3263,20 @@ public class SVGInputFormat implements InputFormat {
         BufferedInputStream in = null;
         try {
             in = new BufferedInputStream(new FileInputStream(file));
+            read(in, drawing, replace);
+        } finally {
+            if (in != null) {
+                in.close();
+            }
+        }
+        this.url = null;
+    }
+
+    public void read(URL url, Drawing drawing, boolean replace) throws IOException {
+        this.url = url;
+        InputStream in = null;
+        try {
+            in = url.openStream();
             read(in, drawing, replace);
         } finally {
             if (in != null) {

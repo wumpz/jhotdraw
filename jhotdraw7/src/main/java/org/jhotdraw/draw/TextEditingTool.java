@@ -57,10 +57,6 @@ public class TextEditingTool extends AbstractTool implements ActionListener {
         }
     }
 
-    @Override
-    public void mouseDragged(MouseEvent e) {
-    }
-
     protected void beginEdit(TextHolderFigure textHolder) {
         if (textField == null) {
             textField = new FloatingTextField();
@@ -148,5 +144,9 @@ public class TextEditingTool extends AbstractTool implements ActionListener {
         } else {
             view.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         }
+    }
+
+    public void mouseDragged(MouseEvent e) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

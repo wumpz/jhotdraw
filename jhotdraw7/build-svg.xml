@@ -121,7 +121,7 @@
                 <include name="org/jhotdraw/draw/Label*.properties"/>
                 <include name="org/jhotdraw/draw/action/images/showColorChooser.png"/>
 
-                <include name="org/jhotdraw/samples/svg/gui/images/*.png"/>
+                <include name="org/jhotdraw/samples/svg/action/images/*.png"/>
                 <include name="org/jhotdraw/samples/svg/Label*.properties"/>
 
                 <include name="org/jhotdraw/undo/images/*.png"/>

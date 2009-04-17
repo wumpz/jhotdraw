@@ -1,7 +1,7 @@
 /*
- * @(#)SVGPathFigure.java  1.1.1  2008-03-20
+ * @(#)SVGPathFigure.java  1.2  2009-04-17
  *
- * Copyright (c) 1996-2008 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -22,11 +22,8 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.action.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.samples.svg.*;
-import org.jhotdraw.samples.svg.SVGConstants;
-import org.jhotdraw.undo.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.xml.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
@@ -36,7 +33,9 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * SVGBezierFigures as its children.
  *
  * @author Werner Randelshofer
- * @version 1.1.1 2008-03-20 Attributes must be set on child figures in order
+ * @version 2.1 2009-04-17 Method contains() takes now into account
+ * whether the figure is filled.
+ * <br>1.1.1 2008-03-20 Attributes must be set on child figures in order
  * to ensure that the drawing area of the child figures is computed properly. 
  * <br>1.1 2007-12-21 Only close/open last path. 
  * <br>1.0 July 8, 2006 Created.
@@ -48,6 +47,10 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
      */
     private GeneralPath cachedPath;
     private Rectangle2D.Double cachedDrawingArea;
+    /**
+     * This is used to perform faster hit testing.
+     */
+    private Shape cachedHitShape;
     private final static boolean DEBUG = false;
 
     /** Creates a new instance. */
@@ -134,6 +137,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         super.invalidate();
         cachedPath = null;
         cachedDrawingArea = null;
+        cachedHitShape = null;
     }
 
     protected GeneralPath getPath() {
@@ -147,6 +151,17 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         }
         return cachedPath;
     }
+    protected Shape getHitShape() {
+        if (cachedHitShape == null) {
+            cachedHitShape = getPath();
+            if (FILL_COLOR.get(this) == null && FILL_GRADIENT.get(this) == null) {
+                cachedHitShape = SVGAttributeKeys.getHitStroke(this).createStrokedShape(cachedHitShape);
+                }
+
+        }
+        return cachedHitShape;
+    }
+
     
     // int count;
     public Rectangle2D.Double getDrawingArea() {
@@ -192,12 +207,15 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
                 ex.printStackTrace();
             }
         }
+        boolean isClosed = CLOSED.get(getChild(0));
+        if (isClosed && FILL_COLOR.get(this) == null && FILL_GRADIENT.get(this)==null) {
+            return getHitShape().contains(p);
+        }
         /*
         return cachedPath.contains(p2);
          */
-        boolean isClosed = CLOSED.get(getChild(0));
         double tolerance = Math.max(2f, AttributeKeys.getStrokeTotalWidth(this) / 2d);
-        if (isClosed || FILL_COLOR.get(this) != null) {
+        if (isClosed || FILL_COLOR.get(this) != null && FILL_GRADIENT.get(this)!=null) {
             if (getPath().contains(p)) {
                 return true;
             }

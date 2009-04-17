@@ -459,6 +459,39 @@ public class AttributeKeys {
                 //not reached
         }
     }
+    /**
+     * Returns a stroke which is useful for hit-testing.
+     * The stroke reflects the stroke width, but not the stroke dashes
+     * attribute.
+     * @param f
+     * @return
+     */
+    public static Stroke getHitStroke(Figure f) {
+        double strokeWidth = Math.max(1,STROKE_WIDTH.get(f));
+        float miterLimit = (float) getStrokeTotalMiterLimit(f);
+        double dashFactor = IS_STROKE_DASH_FACTOR.get(f) ? strokeWidth : 1d;
+        switch (STROKE_TYPE.get(f)) {
+            case BASIC :
+            default :
+                return new BasicStroke((float) strokeWidth,
+                        STROKE_CAP.get(f),
+                        STROKE_JOIN.get(f) ,
+                        miterLimit,
+                        null, Math.max(0, (float) (STROKE_DASH_PHASE.get(f) * dashFactor)));
+                //not reached
+
+            case DOUBLE :
+                return new DoubleStroke(
+                        (float) (STROKE_INNER_WIDTH_FACTOR.get(f) * strokeWidth),
+                        (float) strokeWidth,
+                        STROKE_CAP.get(f),
+                        STROKE_JOIN.get(f),
+                        miterLimit,
+                        null, Math.max(0, (float) (STROKE_DASH_PHASE.get(f).floatValue() * dashFactor)));
+                //not reached
+        }
+    }
+
     
     public static Font getFont(Figure f) {
         Font prototype = FONT_FACE.get(f);

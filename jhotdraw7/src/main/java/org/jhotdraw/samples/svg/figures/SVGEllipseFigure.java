@@ -1,5 +1,5 @@
 /*
- * @(#)SVGEllipse.java  2.0.3  2009-03-29
+ * @(#)SVGEllipse.java  2.1  2009-04-17
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -25,7 +25,9 @@ import org.jhotdraw.samples.svg.*;
  * SVGEllipse represents a SVG ellipse and a SVG circle element.
  *
  * @author Werner Randelshofer
- * @version 2.0.3 Don't draw ellipse if widht or height is 0.
+ * @version 2.1 2009-04-17 Method contains() takes now into account
+ * whether the figure is filled.
+ * <br>2.0.3 Don't draw ellipse if widht or height is 0.
  * <br>2.0.2 2008-03-20 Fixed contains() method.
  * <br>2.0 2007-04-14 Adapted for new AttributeKeys.TRANSFORM support.
  * <br>1.0 July 8, 2006 Created.
@@ -37,6 +39,10 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
      * This is used to perform faster drawing and hit testing.
      */
     private Shape cachedTransformedShape;
+    /**
+     * This is used to perform faster hit testing.
+     */
+    private Shape cachedHitShape;
 
     /** Creates a new instance. */
     public SVGEllipseFigure() {
@@ -102,22 +108,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
      * Checks if a Point2D.Double is inside the figure.
      */
     public boolean contains(Point2D.Double p) {
-        if (TRANSFORM.get(this) != null) {
-            try {
-
-                p = (Point2D.Double) TRANSFORM.get(this).createInverse().transform(p, new Point2D.Double());
-            } catch (NoninvertibleTransformException ex) {
-                ex.printStackTrace();
-            }
-        }
-        Ellipse2D.Double r = (Ellipse2D.Double) ellipse.clone();
-        double grow = STROKE_WIDTH.get(this) / 2d;
-        r.x -= grow;
-        r.y -= grow;
-        r.width += grow * 2;
-        r.height += grow * 2;
-
-        return r.contains(p);
+        return getHitShape().contains(p);
     }
 
     private Shape getTransformedShape() {
@@ -130,7 +121,20 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
         }
         return cachedTransformedShape;
     }
+    private Shape getHitShape() {
+        if (cachedHitShape == null) {
+            if (FILL_COLOR.get(this) != null || FILL_GRADIENT.get(this) != null) {
+                cachedHitShape = new GrowStroke(
+                        (float) SVGAttributeKeys.getStrokeTotalWidth(this) / 2f,
+                        (float) SVGAttributeKeys.getStrokeTotalMiterLimit(this)).createStrokedShape(getTransformedShape());
+            } else {
+                cachedHitShape = SVGAttributeKeys.getHitStroke(this).createStrokedShape(getTransformedShape());
+            }
+        }
+        return cachedHitShape;
+    }
 
+    @Override
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         ellipse.x = Math.min(anchor.x, lead.x);
         ellipse.y = Math.min(anchor.y, lead.y);
@@ -247,5 +251,6 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     public void invalidate() {
         super.invalidate();
         cachedTransformedShape = null;
+        cachedHitShape = null;
     }
 }

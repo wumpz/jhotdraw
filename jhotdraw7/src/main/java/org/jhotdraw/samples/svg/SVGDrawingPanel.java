@@ -168,9 +168,12 @@ public class SVGDrawingPanel extends JPanel {
         alignToolBar.setEditor(editor);
         arrangeToolBar.setEditor(editor);
         fontToolBar.setEditor(editor);
+        figureToolBar.setEditor(editor);
         linkToolBar.setEditor(editor);
+        DrawingView temp = editor.getActiveView();
+        editor.setActiveView(view);
         canvasToolBar.setEditor(editor);
-
+        editor.setActiveView(temp);
     }
 
     /** This method is called from within the constructor to
@@ -195,7 +198,8 @@ public class SVGDrawingPanel extends JPanel {
         fontToolBar = new org.jhotdraw.samples.svg.gui.FontToolBar();
         arrangeToolBar = new org.jhotdraw.samples.svg.gui.ArrangeToolBar();
         alignToolBar = new org.jhotdraw.samples.svg.gui.AlignToolBar();
-        linkToolBar = new org.jhotdraw.samples.svg.gui.FigureToolBar();
+        figureToolBar = new org.jhotdraw.samples.svg.gui.FigureToolBar();
+        linkToolBar = new org.jhotdraw.samples.svg.gui.LinkToolBar();
         canvasToolBar = new org.jhotdraw.samples.svg.gui.CanvasToolBar();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -226,6 +230,9 @@ public class SVGDrawingPanel extends JPanel {
         toolsPane.add(fontToolBar);
         toolsPane.add(arrangeToolBar);
         toolsPane.add(alignToolBar);
+        toolsPane.add(figureToolBar);
+
+        linkToolBar.setRollover(true);
         toolsPane.add(linkToolBar);
         toolsPane.add(canvasToolBar);
 
@@ -249,9 +256,10 @@ public class SVGDrawingPanel extends JPanel {
     private org.jhotdraw.samples.svg.gui.ArrangeToolBar arrangeToolBar;
     private org.jhotdraw.samples.svg.gui.CanvasToolBar canvasToolBar;
     private org.jhotdraw.samples.svg.gui.ToolsToolBar creationToolBar;
+    private org.jhotdraw.samples.svg.gui.FigureToolBar figureToolBar;
     private org.jhotdraw.samples.svg.gui.FillToolBar fillToolBar;
     private org.jhotdraw.samples.svg.gui.FontToolBar fontToolBar;
-    private org.jhotdraw.samples.svg.gui.FigureToolBar linkToolBar;
+    private org.jhotdraw.samples.svg.gui.LinkToolBar linkToolBar;
     private javax.swing.JScrollPane scrollPane;
     private org.jhotdraw.samples.svg.gui.StrokeToolBar strokeToolBar;
     private javax.swing.ButtonGroup toolButtonGroup;

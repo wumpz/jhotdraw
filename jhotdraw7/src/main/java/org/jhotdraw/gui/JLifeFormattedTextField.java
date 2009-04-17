@@ -128,6 +128,14 @@ public class JLifeFormattedTextField extends JFormattedTextField {
                 try {
                     String newText = getFormatter().valueToString(getValue());
                     setText(newText);
+                    if (!isFocusOwner()) {
+                        // This is like selectAll(), but we set the
+                        // cursor at the start of the field, because
+                        // the start of the field contains the most
+                        // significant part of the field content.
+                        setCaretPosition(getDocument().getLength());
+                        moveCaretPosition(0);
+                    }
                 } catch (ParseException ex) {
                     //ex.printStackTrace(); do nothing
                 }

@@ -1,5 +1,5 @@
 /*
- * @(#)SVGOutputFormat.java  1.2.1  2009-03-29
+ * @(#)SVGOutputFormat.java  1.3  2009-04-17
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -16,12 +16,9 @@ package org.jhotdraw.samples.svg.io;
 import java.awt.*;
 import java.awt.datatransfer.*;
 import java.awt.geom.*;
-import java.awt.image.*;
 import java.io.*;
 import java.net.*;
-import java.nio.Buffer;
 import java.util.*;
-import javax.imageio.*;
 import javax.swing.*;
 import javax.swing.text.*;
 import net.n3.nanoxml.*;
@@ -33,14 +30,14 @@ import org.jhotdraw.samples.svg.*;
 import org.jhotdraw.samples.svg.figures.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 import static org.jhotdraw.samples.svg.SVGConstants.*;
-import org.jhotdraw.xml.*;
 
 /**
  * An output format for storing drawings as
  * Scalable Vector Graphics SVG Tiny 1.2.
  *
  * @author Werner Randelshofer
- * @version 1.2.1 2009-03-29 createTextArea only added the last line of
+ * @version 1.3 2009-04-17 Added support for link target.
+ * <br>1.2.1 2009-03-29 createTextArea only added the last line of
  * a multiline text to the output.
  * <br>1.2 2007-12-16 Adapted to changes in OutputFormat.
  * <br>1.1.1 2007-04-23 Fixed writing of "path" attribute, fixed writing
@@ -128,6 +125,9 @@ public class SVGOutputFormat implements OutputFormat {
         if (LINK.get(f) != null && LINK.get(f).trim().length() > 0) {
             IXMLElement aElement = parent.createElement("a");
             aElement.setAttribute("xlink:href", LINK.get(f));
+            if (LINK_TARGET.get(f) != null && LINK.get(f).trim().length() > 0) {
+                aElement.setAttribute("target", LINK_TARGET.get(f));
+            }
             parent.addChild(aElement);
             parent = aElement;
         }

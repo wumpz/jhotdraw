@@ -70,7 +70,7 @@ public class PaletteFormattedTextFieldUI extends BasicFormattedTextFieldUI {
              *  to be adjusted.
              * @return the allocation that the superclass should use.
              */
-            protected Shape adjustAllocation(Shape a) {
+            protected Shape adjustAllocationXX(Shape a) {
                 if (a != null) {
                     Rectangle bounds = a.getBounds();
                     int vspan = (int) getPreferredSpan(Y_AXIS);
@@ -94,7 +94,7 @@ public class PaletteFormattedTextFieldUI extends BasicFormattedTextFieldUI {
                         }
                         vis.setRangeProperties(value, extent, vis.getMinimum(),
                                 max, false);
-                        if (true /*hspan < bounds.width*/) {
+                        if (hspan < bounds.width) {
                             // horizontally align the interior
                             int slop = bounds.width - 1 - hspan;
 
@@ -214,6 +214,7 @@ public class PaletteFormattedTextFieldUI extends BasicFormattedTextFieldUI {
         errorIndicatorForeground = plaf.getColor(prefix+".errorIndicatorForeground");
 
         editor.setOpaque(plaf.getBoolean(prefix + ".opaque"));
+
     }
 
     @Override

@@ -294,7 +294,7 @@ public class DefaultSDIApplication extends AbstractApplication {
         final JMenu openRecentMenu;
 
         m = new JMenu();
-        labels.configureMenu(m, labels.getString("file"));
+        labels.configureMenu(m, "file");
         m.add(model.getAction(ClearAction.ID));
         m.add(model.getAction(NewAction.ID));
         m.add(model.getAction(LoadAction.ID));
@@ -429,7 +429,7 @@ public class DefaultSDIApplication extends AbstractApplication {
         JMenuItem mi;
 
         m = new JMenu();
-        labels.configureMenu(m, labels.getString("help"));
+        labels.configureMenu(m, "help");
         m.add(model.getAction(AboutAction.ID));
 
         return m;

@@ -199,7 +199,7 @@ System.out.println("SCalableNumberFormatter "+((DecimalFormat) getFormat()).toPa
         sym.setGroupingSeparator('\''); // We don't want a grouping separator, but we set one here to avoid conflicts.
         sym.setDecimalSeparator('.');
         sym.setMinusSign('-');
-        sym.setExponentSeparator("E");
+        //sym.setExponentSeparator("E");
         return new DefaultFormatterFactory(new ScalableNumberFormatter(df,min, max, scaleFactor, allowsNullValue));
     }
     /**

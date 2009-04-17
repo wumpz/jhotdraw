@@ -85,7 +85,8 @@ public class CombineAction extends AbstractSelectedAction {
     }
 
     protected boolean canUngroup() {
-        return getView().getSelectionCount() == 1 &&
+        return getView()!=null&&getView().getSelectionCount() == 1 &&
+                prototype!=null&&
                 getView().getSelectedFigures().iterator().next().getClass().equals(
                 prototype.getClass()) &&
                 ((CompositeFigure) getView().getSelectedFigures().iterator().next()).getChildCount() > 1;

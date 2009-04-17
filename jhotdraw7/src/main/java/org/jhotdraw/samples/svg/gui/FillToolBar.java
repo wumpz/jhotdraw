@@ -81,7 +81,7 @@ public class FillToolBar extends AbstractToolBar {
                     Map<AttributeKey, Object> defaultAttributes = new HashMap<AttributeKey, Object>();
                     FILL_GRADIENT.set(defaultAttributes, null);
                     btn = ButtonFactory.createSelectionColorButton(editor,
-                            FILL_COLOR, ButtonFactory.WEBSAVE_COLORS, ButtonFactory.WEBSAVE_COLORS_COLUMN_COUNT,
+                            FILL_COLOR, ButtonFactory.HSV_COLORS, ButtonFactory.HSV_COLORS_COLUMN_COUNT,
                             "attribute.fillColor", labels, defaultAttributes, new Rectangle(3, 3, 10, 10));
                     btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                     ((JPopupButton) btn).setAction(null, null);
@@ -152,7 +152,7 @@ public class FillToolBar extends AbstractToolBar {
                     gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                     p1.add(colorField, gbc);
                     btn = ButtonFactory.createSelectionColorButton(editor,
-                            FILL_COLOR, ButtonFactory.WEBSAVE_COLORS, ButtonFactory.WEBSAVE_COLORS_COLUMN_COUNT,
+                            FILL_COLOR, ButtonFactory.HSV_COLORS, ButtonFactory.HSV_COLORS_COLUMN_COUNT,
                             "attribute.fillColor", labels, defaultAttributes, new Rectangle(3, 3, 10, 10));
                     btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                     ((JPopupButton) btn).setAction(null, null);
@@ -223,9 +223,6 @@ public class FillToolBar extends AbstractToolBar {
         return "fill";
     }
 
-    protected int getDefaultDisclosureState() {
-        return 1;
-    }
 
     /** This method is called from within the constructor to
      * initialize the form.

@@ -16,6 +16,7 @@ package org.jhotdraw.gui;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.*;
+import java.util.ArrayList;
 import java.util.concurrent.*;
 import javax.swing.*;
 import javax.swing.event.TreeModelEvent;
@@ -317,7 +318,17 @@ public class JFontChooser extends JComponent {
                     Font[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
                     long end = System.currentTimeMillis();
                     //System.out.println("JFontChooser has loaded all fonts. Elapsed:"+(end-start));
-                    return fonts;
+
+                    // get rid of bogus fonts
+                    ArrayList<Font> goodFonts = new ArrayList<Font>(fonts.length);
+                    for (Font f : fonts) {
+                        Font decoded = Font.decode(f.getFontName());
+                        if (decoded.getFontName().equals(f.getFontName()) || decoded.getFontName().endsWith("-Derived")) {
+                            goodFonts.add(f);
+                        }
+                    }
+                    return goodFonts.toArray(new Font[goodFonts.size()]);
+                // return fonts;
                 }
             });
             new Thread(future).start();
@@ -420,7 +431,7 @@ public class JFontChooser extends JComponent {
                 if (newFace == null) {
                     TreeNode root = (TreeNode) getModel().getRoot();
                     OuterLoop:
-                    for (int i = 0,  n = root.getChildCount(); i < n; i++) {
+                    for (int i = 0, n = root.getChildCount(); i < n; i++) {
                         FontCollectionNode collection = (FontCollectionNode) root.getChildAt(i);
                         for (FontFamilyNode family : collection.families()) {
                             for (FontFaceNode face : family.faces()) {

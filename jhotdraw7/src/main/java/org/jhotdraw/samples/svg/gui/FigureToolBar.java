@@ -1,7 +1,7 @@
 /*
- * @(#)FigureToolBar.java  1.2  2008-05-23
+ * @(#)FigureToolBar.java  2.0  2009-04-17
  *
- * Copyright (c) 2007-2008 by the original authors of JHotDraw
+ * Copyright (c) 2007-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -33,7 +33,8 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * FigureToolBar.
  * 
  * @author Werner Randelshofer
- * @version 1.2 2008-05-23 Hide the toolbar if nothing is selected, and no
+ * @version 2.0 2009-04-17 Moved hyperlink attributes out into LinkToolBar.
+ * <br>1.2 2008-05-23 Hide the toolbar if nothing is selected, and no
  * creation tool is active. 
  * <br>1.1 2008-03-26 Don't draw border.
  * <br>1.0 May 1, 2007 Created.
@@ -77,51 +78,6 @@ public class FigureToolBar extends AbstractToolBar {
                     AbstractButton btn;
                     p.setBorder(new EmptyBorder(5, 5, 5, 8));
 
-                    // Link field
-                    JLabel linkLabel;
-                    JScrollPane scrollPane;
-                    JAttributeTextArea linkField;
-
-                    linkLabel = new javax.swing.JLabel();
-                    linkLabel.setUI((LabelUI) PaletteLabelUI.createUI(linkLabel));
-                    linkLabel.setToolTipText(labels.getString("attribute.figureLink.toolTipText"));
-                    linkLabel.setText(labels.getString("attribute.figureLink.text")); // NOI18N
-                    linkLabel.setFont(PaletteLookAndFeel.getInstance().getFont("SmallSystemFont"));
-
-                    scrollPane = new javax.swing.JScrollPane();
-                    linkField = new JAttributeTextArea();
-
-                    linkLabel.setLabelFor(linkField);
-                    gbc = new GridBagConstraints();
-                    gbc.gridx = 0;
-                    gbc.insets = new Insets(3, 0, -2, 0);
-                    gbc.anchor = GridBagConstraints.SOUTHWEST;
-                    p.add(linkLabel, gbc);
-
-                    scrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-                    scrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-                    scrollPane.putClientProperty("JComponent.sizeVariant", "small");
-                    scrollPane.setBorder(PaletteLookAndFeel.getInstance().getBorder("ScrollPane.border"));
-                    linkField.setToolTipText(labels.getString("attribute.figureLink.toolTipText"));
-                    linkField.setColumns(8);
-                    linkField.setLineWrap(true);
-                    linkField.setRows(3);
-                    linkField.setWrapStyleWord(true);
-                    linkField.setFont(PaletteLookAndFeel.getInstance().getFont("SmallSystemFont"));
-                    linkField.setFormatterFactory(new DefaultFormatterFactory(new DefaultFormatter()));
-                    new FigureAttributeEditorHandler<String>(LINK, linkField, editor, false);
-
-                    scrollPane.setViewportView(linkField);
-                    gbc = new GridBagConstraints();
-                    gbc.gridx = 0;
-                    gbc.gridy = 1;
-                    gbc.insets = new Insets(3, 0, 0, 0);
-                    gbc.fill = GridBagConstraints.BOTH;
-                    gbc.gridwidth = GridBagConstraints.REMAINDER;
-                    gbc.weightx = 1d;
-                    gbc.weighty = 1d;
-                    p.add(scrollPane, gbc);
-
                     // Opacity slider
                     JPopupButton opacityPopupButton = new JPopupButton();
                     JAttributeSlider opacitySlider = new JAttributeSlider(JSlider.VERTICAL, 0, 100, 100);
@@ -137,7 +93,8 @@ public class FigureToolBar extends AbstractToolBar {
                     gbc.gridx = 2;
                     gbc.gridy = 0;
                     gbc.insets = new Insets(0, 0, 0, 0);
-                    gbc.anchor = GridBagConstraints.EAST;
+                    gbc.weighty=1;
+                    gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                     p.add(opacityPopupButton, gbc);
                     opacitySlider.setUI((SliderUI) PaletteSliderUI.createUI(opacitySlider));
                     opacitySlider.setScaleFactor(100d);
@@ -154,50 +111,6 @@ public class FigureToolBar extends AbstractToolBar {
                     AbstractButton btn;
                     p.setBorder(new EmptyBorder(5, 5, 5, 8));
 
-                    // Link field
-                    JLabel linkLabel;
-                    JScrollPane scrollPane;
-                    JAttributeTextArea linkField;
-
-                    linkLabel = new javax.swing.JLabel();
-                    scrollPane = new javax.swing.JScrollPane();
-                    linkField = new org.jhotdraw.gui.JAttributeTextArea();
-
-                    linkLabel.setUI((LabelUI) PaletteLabelUI.createUI(linkLabel));
-                    linkLabel.setLabelFor(linkField);
-                    linkLabel.setToolTipText(labels.getString("attribute.figureLink.toolTipText"));
-                    linkLabel.setText(labels.getString("attribute.figureLink.text")); // NOI18N
-                    linkLabel.setFont(PaletteLookAndFeel.getInstance().getFont("SmallSystemFont"));
-                    gbc = new GridBagConstraints();
-                    gbc.gridx = 0;
-                    gbc.insets = new Insets(3, 0, -2, 0);
-                    gbc.anchor = GridBagConstraints.SOUTHWEST;
-                    p.add(linkLabel, gbc);
-
-                    scrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-                    scrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-                    scrollPane.putClientProperty("JComponent.sizeVariant", "small");
-                    scrollPane.setBorder(PaletteLookAndFeel.getInstance().getBorder("ScrollPane.border"));
-
-                    linkField.setToolTipText(labels.getString("attribute.figureLink.toolTipText"));
-                    linkField.setColumns(12);
-                    linkField.setLineWrap(true);
-                    linkField.setRows(3);
-                    linkField.setWrapStyleWord(true);
-                    linkField.setFont(PaletteLookAndFeel.getInstance().getFont("SmallSystemFont"));
-                    linkField.setFormatterFactory(new DefaultFormatterFactory(new DefaultFormatter()));
-                    new FigureAttributeEditorHandler<String>(LINK, linkField, editor, false);
-                    scrollPane.setViewportView(linkField);
-                    gbc = new GridBagConstraints();
-                    gbc.gridx = 0;
-                    gbc.gridy = 1;
-                    gbc.insets = new Insets(3, 0, 0, 0);
-                    gbc.fill = GridBagConstraints.BOTH;
-                    gbc.gridwidth = GridBagConstraints.REMAINDER;
-                    gbc.weightx = 1d;
-                    gbc.weighty = 1d;
-                    p.add(scrollPane, gbc);
-
                     // Opacity field with slider
                     JAttributeTextField opacityField = new JAttributeTextField();
                     opacityField.setColumns(3);
@@ -212,7 +125,7 @@ public class FigureToolBar extends AbstractToolBar {
                     gbc.gridx = 1;
                     gbc.gridy = 0;
                     gbc.insets = new Insets(0, 0, 0, 0);
-                    gbc.anchor = GridBagConstraints.EAST;
+                    gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                     gbc.weightx = 1d;
                     p.add(opacityField, gbc);
                     JPopupButton opacityPopupButton = new JPopupButton();
@@ -228,6 +141,8 @@ public class FigureToolBar extends AbstractToolBar {
                     gbc = new GridBagConstraints();
                     gbc.gridx = 2;
                     gbc.gridy = 0;
+                    gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+                    gbc.weighty=1;
                     gbc.insets = new Insets(0, 0, 0, 0);
                     p.add(opacityPopupButton, gbc);
                     opacitySlider.setUI((SliderUI) PaletteSliderUI.createUI(opacitySlider));

@@ -18,6 +18,7 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.awt.event.*;
 import org.jhotdraw.util.ResourceBundleUtil;
+import static org.jhotdraw.draw.HandleAttributeKeys.*;
 
 /**
  * A set of utility methods to create Handles which transform a Figure by using
@@ -76,6 +77,33 @@ public class TransformHandleKit {
         addEdgeTransformHandles(f, handles);
         handles.add(new RotateHandle(f));
     }
+
+    /**
+     * Adds handles for scaling, moving, rotating and shearing a Figure.
+     */
+    static public void addGroupTransformHandles(Figure f, Collection<Handle> handles) {
+        handles.add(new BoundsOutlineHandle(f,
+                GROUP_BOUNDS_STROKE_1, GROUP_BOUNDS_COLOR_1,
+                GROUP_BOUNDS_STROKE_2, GROUP_BOUNDS_COLOR_2,
+                GROUP_BOUNDS_STROKE_1_DISABLED, GROUP_BOUNDS_COLOR_1_DISABLED,
+                GROUP_BOUNDS_STROKE_2_DISABLED, GROUP_BOUNDS_COLOR_2_DISABLED
+                ));
+        addCornerTransformHandles(f, handles);
+        addEdgeTransformHandles(f, handles);
+        handles.add(new RotateHandle(f));
+    }
+    /**
+     * Adds handles for scaling, moving, rotating and shearing a Figure.
+     */
+    static public void addGroupHoverHandles(Figure f, Collection<Handle> handles) {
+        handles.add(new BoundsOutlineHandle(f,
+                GROUP_BOUNDS_STROKE_1_HOVER, GROUP_BOUNDS_COLOR_1_HOVER,
+                GROUP_BOUNDS_STROKE_2_HOVER, GROUP_BOUNDS_COLOR_2_HOVER,
+                GROUP_BOUNDS_STROKE_1_DISABLED, GROUP_BOUNDS_COLOR_1_DISABLED,
+                GROUP_BOUNDS_STROKE_2_DISABLED, GROUP_BOUNDS_COLOR_2_DISABLED
+                ));
+    }
+
 
     static public Handle south(Figure owner) {
         return new SouthHandle(owner);

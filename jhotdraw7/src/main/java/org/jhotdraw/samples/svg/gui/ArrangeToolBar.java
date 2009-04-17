@@ -105,6 +105,7 @@ public class ArrangeToolBar extends AbstractToolBar {
                     gbc.gridy = 1;
                     gbc.insets = new Insets(3, 0, 0, 0);
                     gbc.anchor = GridBagConstraints.NORTH;
+                    gbc.weighty=1f;
                     p.add(btn, gbc);
                 }
                 break;
