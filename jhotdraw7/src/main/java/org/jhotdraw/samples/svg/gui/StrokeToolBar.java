@@ -127,14 +127,14 @@ public class StrokeToolBar extends AbstractToolBar {
                     new FigureAttributeEditorHandler(STROKE_WIDTH, strokeWidthSlider, editor);
 
                     // Create stroke dashes buttons
-                    btn = ButtonFactory.createStrokeDashesButton(editor, labels);
+                    btn = ButtonFactory.createStrokeJoinButton(editor, labels);
                     btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                     gbc = new GridBagConstraints();
-                    gbc.gridwidth = GridBagConstraints.REMAINDER;
                     gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                     gbc.gridy = 0;
                     gbc.insets = new Insets(0, 3, 0, 0);
                     p.add(btn, gbc);
+
                     btn = ButtonFactory.createStrokeCapButton(editor, labels);
                     btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                     gbc = new GridBagConstraints();
@@ -142,9 +142,11 @@ public class StrokeToolBar extends AbstractToolBar {
                     gbc.gridy = 1;
                     gbc.insets = new Insets(3, 3, 0, 0);
                     p.add(btn, gbc);
-                    btn = ButtonFactory.createStrokeJoinButton(editor, labels);
+
+                    btn = ButtonFactory.createStrokeDashesButton(editor, labels);
                     btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                     gbc = new GridBagConstraints();
+                    gbc.gridwidth = GridBagConstraints.REMAINDER;
                     gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                     gbc.gridy = 2;
                     gbc.insets = new Insets(3, 3, 0, 0);
@@ -177,7 +179,7 @@ public class StrokeToolBar extends AbstractToolBar {
                     new FigureAttributeEditorHandler<Color>(STROKE_COLOR, defaultAttributes, colorField, editor, true);
                     gbc = new GridBagConstraints();
                     gbc.gridx = 0;
-                     gbc.gridwidth = 2;
+                     gbc.gridwidth = 3;
                     gbc.fill = GridBagConstraints.HORIZONTAL;
                     gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                     p.add(colorField, gbc);
@@ -187,7 +189,7 @@ public class StrokeToolBar extends AbstractToolBar {
                     btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                     ((JPopupButton) btn).setAction(null, null);
                     gbc = new GridBagConstraints();
-                    gbc.gridx = 2;
+                    gbc.gridx = 3;
                     gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                     p.add(btn, gbc);
 
@@ -229,13 +231,12 @@ public class StrokeToolBar extends AbstractToolBar {
 
                     // Create stroke width field with popup slider
                     JAttributeTextField strokeWidthField = new JAttributeTextField();
-                    //strokeWidthField.setFont(PaletteLookAndFeel.getInstance().getFont("SmallSystemFont"));
                     strokeWidthField.setColumns(2);
                     strokeWidthField.setToolTipText(labels.getString("attribute.strokeWidth.toolTipText"));
                     strokeWidthField.setHorizontalAlignment(JAttributeTextField.LEFT);
                     strokeWidthField.putClientProperty("Palette.Component.segmentPosition", "first");
                     strokeWidthField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(strokeWidthField));
-                    strokeWidthField.setFormatterFactory(ScalableNumberFormatter.createFormatterFactory(0d, 1000d, 1d));
+                    strokeWidthField.setFormatterFactory(ScalableNumberFormatter.createFormatterFactory(0d, Double.MAX_VALUE, 1d));
                     new FigureAttributeEditorHandler(STROKE_WIDTH, strokeWidthField, editor);
                     gbc = new GridBagConstraints();
                     gbc.gridx = 0;
@@ -243,6 +244,7 @@ public class StrokeToolBar extends AbstractToolBar {
                     gbc.insets = new Insets(3, 0, 0, 0);
                     gbc.fill = GridBagConstraints.BOTH;
                     p.add(strokeWidthField, gbc);
+
                     JPopupButton strokeWidthPopupButton = new JPopupButton();
                     JAttributeSlider strokeWidthSlider = new JAttributeSlider(
                             JSlider.VERTICAL, 0, 50, 1);
@@ -257,31 +259,50 @@ public class StrokeToolBar extends AbstractToolBar {
                     p.add(strokeWidthPopupButton, gbc);
                     new FigureAttributeEditorHandler(STROKE_WIDTH, strokeWidthSlider, editor);
 
-                    // Create stroke dashes button
+
+                    btn = ButtonFactory.createStrokeJoinButton(editor, labels);
+                    btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
+                    gbc = new GridBagConstraints();
+                    gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+                    gbc.gridx = 4;
+                    gbc.gridy = 0;
+                    gbc.gridwidth = 2;
+                    gbc.insets = new Insets(0, 3, 0, 0);
+                    p.add(btn, gbc);
+
+                    btn = ButtonFactory.createStrokeCapButton(editor, labels);
+                    btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
+                    gbc = new GridBagConstraints();
+                    gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+                    gbc.gridx = 4;
+                    gbc.gridy = 1;
+                    gbc.insets = new Insets(3, 3, 0, 0);
+                    p.add(btn, gbc);
+                    
+                    // Create dash offset field and dashes button
+                    JAttributeTextField dashOffsetField = new JAttributeTextField();
+                    dashOffsetField.setColumns(1);
+                    dashOffsetField.setToolTipText(labels.getString("attribute.strokeDashPhase.toolTipText"));
+                    dashOffsetField.setHorizontalAlignment(JAttributeTextField.LEFT);
+                    //dashOffsetField.putClientProperty("Palette.Component.segmentPosition", "first");
+                    dashOffsetField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(dashOffsetField));
+                    dashOffsetField.setFormatterFactory(ScalableNumberFormatter.createFormatterFactory(-Double.MAX_VALUE, Double.MAX_VALUE, 1d));
+                    new FigureAttributeEditorHandler(STROKE_DASH_PHASE, dashOffsetField, editor);
+                    gbc = new GridBagConstraints();
+                    gbc.gridx = 2;
+                    gbc.gridy = 2;
+                    gbc.insets = new Insets(3, 3, 0, 0);
+                    gbc.fill = GridBagConstraints.BOTH;
+                    gbc.gridwidth=2;
+                    p.add(dashOffsetField, gbc);
+
                     btn = ButtonFactory.createStrokeDashesButton(editor, labels);
                     btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                     gbc = new GridBagConstraints();
                     gbc.gridwidth = GridBagConstraints.REMAINDER;
                     gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-                    gbc.gridx = 3;
-                    gbc.gridy = 0;
-                    gbc.insets = new Insets(0, 3, 0, 0);
-                    p.add(btn, gbc);
-                    btn = ButtonFactory.createStrokeCapButton(editor, labels);
-                    btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-                    gbc = new GridBagConstraints();
-                    gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-                    gbc.gridx = 3;
-                    gbc.gridy = 1;
-                    gbc.insets = new Insets(3, 3, 0, 0);
-                    p.add(btn, gbc);
-                    btn = ButtonFactory.createStrokeJoinButton(editor, labels);
-                    btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-                    gbc = new GridBagConstraints();
-                    gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-                    gbc.gridx = 3;
+                    gbc.gridx = 4;
                     gbc.gridy = 2;
-                    gbc.gridwidth = 2;
                     gbc.insets = new Insets(3, 3, 0, 0);
                     p.add(btn, gbc);
                 }

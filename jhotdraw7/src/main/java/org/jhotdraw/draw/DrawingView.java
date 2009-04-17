@@ -1,7 +1,7 @@
 /*
- * @(#)DrawingView.java  5.0  2008-05-11
+ * @(#)DrawingView.java  6.0  2009-04-18
  *
- * Copyright (c) 1996-2008 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -50,7 +50,8 @@ import javax.swing.*;
  *
  * 
  * @author Werner Randelshofer
- * @version 5.0 2008-05-11 Added methods setEditor, getEditor and setActiveHandle,
+ * @version 6.0 2009-04-18 Added method repaintHandles.
+ * <br>5.0 2008-05-11 Added methods setEditor, getEditor and setActiveHandle,
  * getActiveHandle. 
  * <br>4.3 2007-12-25 Renamed property names from PROP_… to …_PROPERTY. 
  * <br>4.2 2007-09-12 The DrawingView is now responsible for
@@ -357,6 +358,9 @@ public interface DrawingView {
      * This is a bound property.
      */
     public boolean isEnabled();
+
+    /** Repaints the handles of the view. */
+    public void repaintHandles();
 
     /**
      * Adds a property change listener to the drawing view.

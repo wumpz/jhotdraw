@@ -104,6 +104,28 @@ public class DefaultDrawingView
     };
     private Rectangle2D.Double cachedDrawingArea;
 
+    public void repaintHandles() {
+        validateHandles();
+        Rectangle r = null;
+            for (Handle h : getSelectionHandles()) {
+                if (r == null) {
+                    r = h.getDrawingArea();
+                } else {
+                    r.add(h.getDrawingArea());
+                }
+            }
+            for (Handle h : getSecondaryHandles()) {
+                if (r == null) {
+                    r = h.getDrawingArea();
+                } else {
+                    r.add(h.getDrawingArea());
+                }
+            }
+            if (r != null) {
+                repaint(r);
+            }
+    }
+
     private class EventHandler implements FigureListener, CompositeFigureListener, HandleListener, FocusListener {
 
         public void figureAdded(CompositeFigureEvent evt) {
@@ -355,6 +377,7 @@ public class DefaultDrawingView
     new Color(Color.HSBtoRGB((float) (rainbow / 360f), 0.3f, 1.0f)));
     g.fill(g.getClipBounds());*/
     }
+    //int rainbow;
 
     protected void drawConstrainer(Graphics2D g) {
         getConstrainer().draw(g, this);

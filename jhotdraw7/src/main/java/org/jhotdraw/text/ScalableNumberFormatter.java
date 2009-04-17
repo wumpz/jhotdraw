@@ -70,7 +70,6 @@ public class ScalableNumberFormatter extends NumberFormatter {
         setMaximum(max);
         setScaleFactor(scaleFactor);
         setAllowsNullValue(allowsNullValue);
-System.out.println("SCalableNumberFormatter "+((DecimalFormat) getFormat()).toPattern());
     }
     /**
      * Creates a NumberFormatter with the specified Format instance.

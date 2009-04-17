@@ -88,7 +88,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
         
         // Repaint all handles
         for (DrawingView v : editor.getDrawingViews()) {
-            v.getComponent().repaint();
+            v.repaintHandles();
         }
     }
     

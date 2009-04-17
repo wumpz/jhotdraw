@@ -59,7 +59,7 @@ public class LabelFigure extends TextFigure implements FigureListener {
      * <p>Returns null, if no specialized tool is available.
      */
     public Tool getTool(Point2D.Double p) {
-        return (target != null && contains(p)) ? new TextCreationTool(target) : null;
+        return (target != null && contains(p)) ? new TextEditingTool(target) : null;
     }
     
     

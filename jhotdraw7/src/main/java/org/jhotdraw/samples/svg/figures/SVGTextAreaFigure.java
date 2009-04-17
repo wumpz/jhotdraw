@@ -371,7 +371,15 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
     }
 
     public void setAttribute(AttributeKey key, Object newValue) {
-        if (key == SVGAttributeKeys.TRANSFORM) {
+        if (key == SVGAttributeKeys.TRANSFORM ||
+                key == SVGAttributeKeys.FONT_FACE ||
+                key == SVGAttributeKeys.FONT_BOLD ||
+                key == SVGAttributeKeys.FONT_ITALIC ||
+                key == SVGAttributeKeys.FONT_SIZE ||
+                key == SVGAttributeKeys.STROKE_WIDTH ||
+                key == SVGAttributeKeys.STROKE_COLOR ||
+                key == SVGAttributeKeys.STROKE_GRADIENT
+                ) {
             invalidate();
         }
         super.setAttribute(key, newValue);
@@ -388,8 +396,8 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
      * Returns the insets used to draw text.
      */
     public Insets2D.Double getInsets() {
-        double sw = Math.ceil(STROKE_WIDTH.get(this) / 2);
-        Insets2D.Double insets = new Insets2D.Double(4, 4, 4, 4);
+        double sw = (STROKE_COLOR.get(this)==null) ? 0 : Math.ceil(STROKE_WIDTH.get(this) / 2);
+        Insets2D.Double insets = new Insets2D.Double(0, 0, 0, 0);
         return new Insets2D.Double(insets.top + sw, insets.left + sw, insets.bottom + sw, insets.right + sw);
     }
 

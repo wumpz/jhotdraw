@@ -42,7 +42,7 @@ public class LinkHandle extends AbstractHandle {
      * Draws this handle.
      */
     @Override public void draw(Graphics2D g) {
-        if (LINK.get(getOwner())!=null) {
+        if (LINK.get(getOwner())!=null&&LINK.get(getOwner()).trim().length()>0) {
             g.setColor((Color) getEditor().getHandleAttribute(HandleAttributeKeys.OVERFLOW_HANDLE_STROKE_COLOR));
             Rectangle r = basicGetBounds();
             g.drawLine(r.x+(r.width/2)-1, r.y, r.x, r.y);

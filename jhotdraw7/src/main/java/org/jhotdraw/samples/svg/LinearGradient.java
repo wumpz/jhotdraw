@@ -1,5 +1,5 @@
 /*
- * @(#)LinearGradient.java  1.0.1  2009-03-29
+ * @(#)LinearGradient.java  1.0.2  2009-04-17
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -25,7 +25,8 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * Represents an SVG LinearGradient.
  *
  * @author Werner Randelshofer
- * @version 1.0.1 2009-03-29 Handle gradients which consist of only a single
+ * @version 1.0.2 2009-04-17 Gracefully handle non-invertible transforms.
+ * <br>1.0.1 2009-03-29 Handle gradients which consist of only a single
  * stop color, or which have illegal stop offsets.
  * <br>1.0 December 9, 2006 Created.
  */
@@ -137,8 +138,9 @@ public class LinearGradient implements Gradient {
             t.scale(bounds.width, bounds.height);
         }
         
-        // Construct a solid color, if only one stop color is given
-        if (stopColors.length == 1) {
+        // Construct a solid color, if only one stop color is given, or if
+        // transform is not invertible
+        if (stopColors.length == 1 || t.getDeterminant() == 0) {
             return colors[0];
         }
         // Construct a gradient

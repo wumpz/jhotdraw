@@ -187,7 +187,7 @@ public class LinkToolBar extends AbstractToolBar {
                     linkField.setWrapStyleWord(true);
                     linkField.setFont(PaletteLookAndFeel.getInstance().getFont("SmallSystemFont"));
                     linkField.setFormatterFactory(new DefaultFormatterFactory(new DefaultFormatter()));
-                    new FigureAttributeEditorHandler<String>(LINK, linkField, editor, true);
+                    new FigureAttributeEditorHandler<String>(LINK, linkField, editor, false);
 
                     scrollPane.setViewportView(linkField);
                     gbc = new GridBagConstraints();
