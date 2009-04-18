@@ -20,7 +20,8 @@ import org.jhotdraw.draw.*;
 import org.jhotdraw.geom.*;
 
 /**
- * StraightLineFigure.
+ * Example showing the minimal amount of code needed to implement a
+ * {@code Figure} by extending {@code AbstractAttributedFigure}.
  *
  * @author Werner Randelshofer
  * @version 1.0 January 4, 2007 Created.

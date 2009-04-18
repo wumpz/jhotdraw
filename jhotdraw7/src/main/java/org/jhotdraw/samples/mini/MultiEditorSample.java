@@ -14,18 +14,14 @@
 package org.jhotdraw.samples.mini;
 
 import java.awt.*;
-import java.awt.geom.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
-import org.jhotdraw.geom.*;
 import org.jhotdraw.util.*;
 
 /**
- * Example showing how to create a drawing and displaying it in an editor 
- * with a "delegation selection tool".
- * We don't make use of a toolbar, so users are not able to add new figure
- * to the drawing, they can just play around with the figures that are there.
+ * Example showing how to create a drawing editor which acts on four drawing
+ * views.
  *
  * @author Werner Randelshofer
  * @version 1.0 November 9, 2006 Created.
