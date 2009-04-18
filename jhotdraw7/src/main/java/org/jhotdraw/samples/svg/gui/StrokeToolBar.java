@@ -13,7 +13,7 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
-import org.jhotdraw.text.ScalableNumberFormatter;
+import org.jhotdraw.text.JavaNumberFormatter;
 import javax.swing.border.*;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.gui.plaf.palette.*;
@@ -200,7 +200,7 @@ public class StrokeToolBar extends AbstractToolBar {
                     opacityField.setHorizontalAlignment(JAttributeTextField.RIGHT);
                     opacityField.putClientProperty("Palette.Component.segmentPosition", "first");
                     opacityField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(opacityField));
-                    opacityField.setFormatterFactory(ScalableNumberFormatter.createFormatterFactory(0d, 100d, 100d));
+                    opacityField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0d, 1d, 100d));
                     opacityField.setHorizontalAlignment(JTextField.LEFT);
                     new FigureAttributeEditorHandler(STROKE_OPACITY, opacityField, editor);
                     gbc = new GridBagConstraints();
@@ -236,7 +236,7 @@ public class StrokeToolBar extends AbstractToolBar {
                     strokeWidthField.setHorizontalAlignment(JAttributeTextField.LEFT);
                     strokeWidthField.putClientProperty("Palette.Component.segmentPosition", "first");
                     strokeWidthField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(strokeWidthField));
-                    strokeWidthField.setFormatterFactory(ScalableNumberFormatter.createFormatterFactory(0d, Double.MAX_VALUE, 1d));
+                    strokeWidthField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0d, 100d, 1d));
                     new FigureAttributeEditorHandler(STROKE_WIDTH, strokeWidthField, editor);
                     gbc = new GridBagConstraints();
                     gbc.gridx = 0;
@@ -286,7 +286,7 @@ public class StrokeToolBar extends AbstractToolBar {
                     dashOffsetField.setHorizontalAlignment(JAttributeTextField.LEFT);
                     //dashOffsetField.putClientProperty("Palette.Component.segmentPosition", "first");
                     dashOffsetField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(dashOffsetField));
-                    dashOffsetField.setFormatterFactory(ScalableNumberFormatter.createFormatterFactory(-Double.MAX_VALUE, Double.MAX_VALUE, 1d));
+                    dashOffsetField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(-1000d, 1000d, 1d));
                     new FigureAttributeEditorHandler(STROKE_DASH_PHASE, dashOffsetField, editor);
                     gbc = new GridBagConstraints();
                     gbc.gridx = 2;

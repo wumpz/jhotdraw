@@ -28,7 +28,7 @@ import org.jhotdraw.gui.JFontChooser;
 import org.jhotdraw.gui.JPopupButton;
 import org.jhotdraw.gui.plaf.palette.*;
 import org.jhotdraw.text.FontFormatter;
-import org.jhotdraw.text.ScalableNumberFormatter;
+import org.jhotdraw.text.JavaNumberFormatter;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
 /**
@@ -158,7 +158,7 @@ public class FontToolBar extends AbstractToolBar {
                     sizeField.setHorizontalAlignment(JAttributeTextField.RIGHT);
                     sizeField.putClientProperty("Palette.Component.segmentPosition", "first");
                     sizeField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(sizeField));
-                    sizeField.setFormatterFactory(ScalableNumberFormatter.createFormatterFactory(0d, Double.MAX_VALUE, 1d));
+                    sizeField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0d, 1000d, 1d));
                     sizeField.setHorizontalAlignment(JTextField.LEADING);
                     new FigureAttributeEditorHandler<Double>(FONT_SIZE, sizeField, editor);
                     gbc = new GridBagConstraints();
@@ -277,7 +277,7 @@ public class FontToolBar extends AbstractToolBar {
                     sizeField.setHorizontalAlignment(JAttributeTextField.RIGHT);
                     sizeField.putClientProperty("Palette.Component.segmentPosition", "first");
                     sizeField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(sizeField));
-                    sizeField.setFormatterFactory(ScalableNumberFormatter.createFormatterFactory(0d, Double.MAX_VALUE, 1d));
+                    sizeField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0d, 1000d, 1d));
                     sizeField.setHorizontalAlignment(JTextField.LEADING);
                     new FigureAttributeEditorHandler<Double>(FONT_SIZE, sizeField, editor);
                     gbc = new GridBagConstraints();

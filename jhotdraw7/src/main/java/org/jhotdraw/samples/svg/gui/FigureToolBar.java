@@ -13,7 +13,7 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
-import org.jhotdraw.text.ScalableNumberFormatter;
+import org.jhotdraw.text.JavaNumberFormatter;
 import javax.swing.border.*;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.util.*;
@@ -118,7 +118,7 @@ public class FigureToolBar extends AbstractToolBar {
                     opacityField.setHorizontalAlignment(JAttributeTextField.RIGHT);
                     opacityField.putClientProperty("Palette.Component.segmentPosition", "first");
                     opacityField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(opacityField));
-                    opacityField.setFormatterFactory(ScalableNumberFormatter.createFormatterFactory(0d, 100d, 100d));
+                    opacityField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0d, 1d, 100d));
                     opacityField.setHorizontalAlignment(JTextField.LEADING);
                     new FigureAttributeEditorHandler<Double>(OPACITY, opacityField, editor);
                     gbc = new GridBagConstraints();

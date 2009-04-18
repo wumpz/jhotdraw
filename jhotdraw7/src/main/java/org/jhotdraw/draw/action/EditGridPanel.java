@@ -16,7 +16,7 @@ package org.jhotdraw.draw.action;
 
 import java.beans.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.text.ScalableNumberFormatter;
+import org.jhotdraw.text.JavaNumberFormatter;
 import org.jhotdraw.util.*;
 
 /**
@@ -38,9 +38,9 @@ public class EditGridPanel extends javax.swing.JPanel {
         labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         initComponents();
 
-        widthField.setFormatterFactory(ScalableNumberFormatter.createFormatterFactory(0, 1000, 1));
-        heightField.setFormatterFactory(ScalableNumberFormatter.createFormatterFactory(0, 1000, 1));
-        thetaField.setFormatterFactory(ScalableNumberFormatter.createFormatterFactory(0, 180, 1));
+        widthField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0, 1000, 1));
+        heightField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0, 1000, 1));
+        thetaField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0, 180, 1));
 
         constrainer = new GridConstrainer(10, 10);
         

@@ -15,15 +15,12 @@ package org.jhotdraw.draw.action;
 
 import ch.randelshofer.quaqua.QuaquaLookAndFeel;
 import java.awt.Color;
-import java.beans.*;
-import java.text.*;
 import javax.swing.*;
-import javax.swing.event.*;
 import javax.swing.text.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.gui.DrawingAttributeEditorHandler;
 import org.jhotdraw.gui.JAttributeSlider;
-import org.jhotdraw.text.ScalableNumberFormatter;
+import org.jhotdraw.text.JavaNumberFormatter;
 import org.jhotdraw.util.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
@@ -55,7 +52,7 @@ public class EditCanvasPanel extends javax.swing.JPanel {
         NumberFormatter nf = new NumberFormatter();
         nf.setMaximum(1d);
         nf.setMinimum(0d);
-        opacityField.setFormatterFactory(ScalableNumberFormatter.createFormatterFactory(0d, 100d, 100d));
+        opacityField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0d, 1d, 100d));
         opacityFieldHandler=new DrawingAttributeEditorHandler<Double>(CANVAS_FILL_OPACITY, opacityField, null);
         opacitySliderHandler=new DrawingAttributeEditorHandler<Double>(CANVAS_FILL_OPACITY, opacitySlider, null);
     }

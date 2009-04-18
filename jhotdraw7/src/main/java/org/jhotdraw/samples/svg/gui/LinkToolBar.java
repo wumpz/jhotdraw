@@ -13,7 +13,6 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
-import org.jhotdraw.text.ScalableNumberFormatter;
 import javax.swing.border.*;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.util.*;
@@ -21,12 +20,10 @@ import org.jhotdraw.util.*;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.LabelUI;
-import javax.swing.plaf.SliderUI;
 import javax.swing.plaf.TextUI;
 import javax.swing.text.DefaultFormatter;
 import javax.swing.text.DefaultFormatterFactory;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.action.*;
 import org.jhotdraw.gui.plaf.palette.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 

@@ -283,7 +283,7 @@ public class ColorFormatter extends DefaultFormatter {
     /**
      * Convenience method for creating a formatter factory with a
      * {@code ColorFormatter}.
-     * Uses the RGB_INTEGER format and allows null values.
+     * Uses the RGB_INTEGER format, allows null values and is adaptive.
      */
     public static AbstractFormatterFactory createFormatterFactory() {
         return createFormatterFactory(Format.RGB_INTEGER, true, true);

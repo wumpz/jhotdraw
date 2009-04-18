@@ -14,11 +14,9 @@
 
 package org.jhotdraw.samples.odg;
 
-import org.jhotdraw.text.ScalableNumberFormatter;
+import org.jhotdraw.text.JavaNumberFormatter;
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.NumberFormatter;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.util.*;
@@ -48,10 +46,7 @@ public class ODGPropertiesPanel extends javax.swing.JPanel {
         opacityPopupButton.putClientProperty("JButton.buttonType","toolbar");
         add(opacityPopupButton);
 
-        NumberFormatter nf = new NumberFormatter();
-        nf.setMaximum(1d);
-        nf.setMinimum(0d);
-        opacityField.setFormatterFactory(ScalableNumberFormatter.createFormatterFactory(0d, 100d, 100d));
+        opacityField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0d, 1d, 100d));
         opacityFieldHandler = new FigureAttributeEditorHandler(OPACITY, opacityField, editor);
         opacitySliderHandler = new FigureAttributeEditorHandler(OPACITY, opacitySlider, editor);
         linkFieldHandler = new FigureAttributeEditorHandler(LINK, linkField, editor);

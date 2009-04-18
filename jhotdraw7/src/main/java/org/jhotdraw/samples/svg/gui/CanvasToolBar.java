@@ -13,7 +13,7 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
-import org.jhotdraw.text.ScalableNumberFormatter;
+import org.jhotdraw.text.JavaNumberFormatter;
 import javax.swing.border.*;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.util.*;
@@ -150,7 +150,7 @@ public class CanvasToolBar extends AbstractToolBar {
                     widthField.setUI((TextUI) PaletteFormattedTextFieldUI.createUI(widthField));
                     widthField.setColumns(3);
                     widthField.setToolTipText(labels.getString("attribute.canvasWidth.toolTipText"));
-                    widthField.setFormatterFactory(ScalableNumberFormatter.createFormatterFactory(1d, Double.MAX_VALUE, 1d, true));
+                    widthField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(1d, 4096d, 1d, true, false));
                     widthField.setHorizontalAlignment(JTextField.LEADING);
                     new DrawingAttributeEditorHandler(CANVAS_WIDTH, widthField, editor);
                     gbc = new GridBagConstraints();
@@ -177,7 +177,7 @@ public class CanvasToolBar extends AbstractToolBar {
                     heightField.setUI((TextUI) PaletteFormattedTextFieldUI.createUI(widthField));
                     heightField.setColumns(3);
                     heightField.setToolTipText(labels.getString("attribute.canvasHeight.toolTipText"));
-                    heightField.setFormatterFactory(ScalableNumberFormatter.createFormatterFactory(1d, Double.MAX_VALUE, 1d, true));
+                    heightField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(1d, 4096d, 1d, true, false));
                     heightField.setHorizontalAlignment(JTextField.LEADING);
                     new DrawingAttributeEditorHandler(CANVAS_HEIGHT, heightField, editor);
                     gbc = new GridBagConstraints();
@@ -255,7 +255,7 @@ public class CanvasToolBar extends AbstractToolBar {
                     opacityField.setHorizontalAlignment(JAttributeTextField.RIGHT);
                     opacityField.putClientProperty("Palette.Component.segmentPosition", "first");
                     opacityField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(opacityField));
-                    opacityField.setFormatterFactory(ScalableNumberFormatter.createFormatterFactory(0d, 100d, 100d));
+                    opacityField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0d, 100d, 100d, true, false));
                     opacityField.setHorizontalAlignment(JTextField.LEADING);
                     new DrawingAttributeEditorHandler<Double>(CANVAS_FILL_OPACITY, opacityField, editor);
                     gbc = new GridBagConstraints();
@@ -332,7 +332,7 @@ public class CanvasToolBar extends AbstractToolBar {
                     widthField.setUI((TextUI) PaletteFormattedTextFieldUI.createUI(widthField));
                     widthField.setColumns(4);
                     widthField.setToolTipText(labels.getString("attribute.canvasWidth.toolTipText"));
-                    widthField.setFormatterFactory(ScalableNumberFormatter.createFormatterFactory(1d, Double.MAX_VALUE, 1d, true));
+                    widthField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(1d, 4096d, 1d, true, false));
                     widthField.setHorizontalAlignment(JTextField.LEADING);
                     new DrawingAttributeEditorHandler(CANVAS_WIDTH, widthField, editor);
                     gbc = new GridBagConstraints();
@@ -359,7 +359,7 @@ public class CanvasToolBar extends AbstractToolBar {
                     heightField.setUI((TextUI) PaletteFormattedTextFieldUI.createUI(widthField));
                     heightField.setColumns(4);
                     heightField.setToolTipText(labels.getString("attribute.canvasHeight.toolTipText"));
-                    heightField.setFormatterFactory(ScalableNumberFormatter.createFormatterFactory(1d, Double.MAX_VALUE, 1d, true));
+                    heightField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(1d, 4096d, 1d, true, false));
                     heightField.setHorizontalAlignment(JTextField.LEADING);
                     new DrawingAttributeEditorHandler(CANVAS_HEIGHT, heightField, editor);
                     gbc = new GridBagConstraints();
