@@ -35,7 +35,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  */
 public class SVGBezierFigure extends BezierFigure {
 
-    private Rectangle2D.Double cachedDrawingArea;
+    private transient Rectangle2D.Double cachedDrawingArea;
 
     /** Creates a new instance. */
     public SVGBezierFigure() {

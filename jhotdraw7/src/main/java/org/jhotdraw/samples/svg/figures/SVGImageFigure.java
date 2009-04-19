@@ -46,11 +46,11 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     /**
      * This is used to perform faster drawing.
      */
-    private Shape cachedTransformedShape;
+    private transient Shape cachedTransformedShape;
     /**
      * This is used to perform faster hit testing.
      */
-    private Shape cachedHitShape;
+    private transient Shape cachedHitShape;
     /**
      * The image data. This can be null, if the image was created from a
      * BufferedImage.

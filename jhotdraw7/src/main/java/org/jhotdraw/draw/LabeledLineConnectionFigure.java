@@ -43,7 +43,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
     
     private Layouter layouter;
     private ArrayList<Figure> children = new ArrayList<Figure>();
-    private Rectangle2D.Double cachedDrawingArea;
+    private transient Rectangle2D.Double cachedDrawingArea;
     
     /**
      * Handles figure changes in the children.
@@ -372,10 +372,10 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
         }
         return that;
     }
-    public void remap(HashMap<Figure,Figure> oldToNew) {
-        super.remap(oldToNew);
+    public void remap(Map<Figure,Figure> oldToNew, boolean disconnectIfNotInMap) {
+        super.remap(oldToNew, disconnectIfNotInMap);
         for (Figure child : children) {
-            child.remap(oldToNew);
+            child.remap(oldToNew, disconnectIfNotInMap);
         }
     }
 

@@ -17,6 +17,7 @@ package org.jhotdraw.draw.action;
 import java.awt.Container;
 import java.awt.Cursor;
 import java.beans.*;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 import org.jhotdraw.beans.AbstractBean;
@@ -40,15 +41,16 @@ import org.jhotdraw.draw.Tool;
  */
 public class DrawingEditorProxy extends AbstractBean implements DrawingEditor {
     private DrawingEditor target;
-    private PropertyChangeListener forwarder;
+    private class Forwarder implements PropertyChangeListener, Serializable {
+          public void propertyChange(PropertyChangeEvent evt) {
+              firePropertyChange(evt.getPropertyName(), evt.getOldValue(), evt.getNewValue());
+          }
+    }
+    private Forwarder forwarder;
     
     /** Creates a new instance. */
     public DrawingEditorProxy() {
-        forwarder = new PropertyChangeListener() {
-          public void propertyChange(PropertyChangeEvent evt) {
-              firePropertyChange(evt.getPropertyName(), evt.getOldValue(), evt.getNewValue());
-          }  
-        };
+        forwarder = new Forwarder();
     }
     
     /**

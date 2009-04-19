@@ -15,7 +15,6 @@
 package org.jhotdraw.draw;
 
 import java.io.IOException;
-import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.geom.*;
 import org.jhotdraw.geom.*;

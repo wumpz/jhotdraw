@@ -30,7 +30,7 @@ import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
  * @version 1.0 2007-07-28 Created.
  */
 public class ODGBezierFigure extends BezierFigure {
-    private Rectangle2D.Double cachedDrawingArea;
+    private transient Rectangle2D.Double cachedDrawingArea;
     
     /** Creates a new instance. */
     public ODGBezierFigure() {

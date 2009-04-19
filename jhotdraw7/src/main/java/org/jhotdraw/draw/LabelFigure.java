@@ -86,8 +86,8 @@ public class LabelFigure extends TextFigure implements FigureListener {
     }
     
     @Override
-    public void remap(HashMap<Figure,Figure> oldToNew) {
-        super.remap(oldToNew);
+    public void remap(Map<Figure,Figure> oldToNew, boolean disconnectIfNotInMap) {
+        super.remap(oldToNew, disconnectIfNotInMap);
         if (target != null) {
             Figure newTarget = (Figure) oldToNew.get(target);
             if (newTarget != null) {

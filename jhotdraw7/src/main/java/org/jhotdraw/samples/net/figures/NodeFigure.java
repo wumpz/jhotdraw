@@ -96,6 +96,15 @@ public class NodeFigure extends TextFigure {
     }
     
     @Override public Connector findCompatibleConnector(Connector c, boolean isStart) {
+        if (c instanceof LocatorConnector) {
+            LocatorConnector lc = (LocatorConnector) c;
+        for (Connector cc : connectors) {
+            LocatorConnector lcc = (LocatorConnector) cc;
+            if (lcc.getLocator().equals(lc.getLocator())) {
+                return lcc;
+            }
+        }
+        }
         return connectors.getFirst();
     }
     

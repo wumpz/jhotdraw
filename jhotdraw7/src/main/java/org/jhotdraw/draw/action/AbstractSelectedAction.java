@@ -21,6 +21,7 @@ import org.jhotdraw.draw.FigureSelectionEvent;
 import org.jhotdraw.draw.FigureSelectionListener;
 import javax.swing.*;
 import java.beans.*;
+import java.io.Serializable;
 import javax.swing.undo.*;
 import org.jhotdraw.util.*;
 import java.util.*;
@@ -43,27 +44,22 @@ public abstract class AbstractSelectedAction
     private DrawingEditor editor;
     protected ResourceBundleUtil labels =
             ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
-    private PropertyChangeListener propertyChangeHandler = new PropertyChangeListener() {
-        public void propertyChange(PropertyChangeEvent evt) {
-            if (evt.getPropertyName().equals("enabled")) {
-                updateEnabledState();
-            }
-        }
-    };
     
-    private class EventHandler implements PropertyChangeListener, FigureSelectionListener {
+    private class EventHandler implements PropertyChangeListener, FigureSelectionListener, Serializable {
         public void propertyChange(PropertyChangeEvent evt) {
             if (evt.getPropertyName() == DrawingEditor.ACTIVE_VIEW_PROPERTY) {
                 if (evt.getOldValue() != null) {
                     DrawingView view = ((DrawingView) evt.getOldValue());
                     view.removeFigureSelectionListener(this);
-                    view.removePropertyChangeListener(propertyChangeHandler);
+                    view.removePropertyChangeListener(this);
                 }
                 if (evt.getNewValue() != null) {
                     DrawingView view = ((DrawingView) evt.getNewValue());
                     view.addFigureSelectionListener(this);
-                    view.addPropertyChangeListener(propertyChangeHandler);
+                    view.addPropertyChangeListener(this);
                 }
+                updateEnabledState();
+            } else if (evt.getPropertyName().equals("enabled")) {
                 updateEnabledState();
             }
         }

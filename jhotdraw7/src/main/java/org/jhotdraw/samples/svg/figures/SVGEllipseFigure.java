@@ -38,11 +38,11 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     /**
      * This is used to perform faster drawing and hit testing.
      */
-    private Shape cachedTransformedShape;
+    private transient Shape cachedTransformedShape;
     /**
      * This is used to perform faster hit testing.
      */
-    private Shape cachedHitShape;
+    private transient Shape cachedHitShape;
 
     /** Creates a new instance. */
     public SVGEllipseFigure() {

@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.draw;
 
+import java.io.Serializable;
 import java.util.*;
 import javax.swing.undo.*;
 import org.jhotdraw.util.*;
@@ -46,7 +47,7 @@ import org.jhotdraw.util.*;
  * values are not allowed.
  * <br>1.0 7. Juni 2006 Created.
  */
-public class AttributeKey<T> {
+public class AttributeKey<T> implements Serializable {
 
     /**
      * Holds a String representation of the attribute key.
@@ -348,5 +349,17 @@ public class AttributeKey<T> {
     @Override
     public String toString() {
         return key;
+    }
+
+    @Override
+    public int hashCode() {
+        return key.hashCode();
+    }
+    @Override
+    public boolean equals(Object that) {
+        if (that instanceof AttributeKey) {
+        return ((AttributeKey) that).key.equals(this.key);
+        }
+        return false;
     }
 }

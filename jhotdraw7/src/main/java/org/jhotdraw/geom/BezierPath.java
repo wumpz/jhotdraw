@@ -15,6 +15,7 @@ package org.jhotdraw.geom;
 
 import java.awt.*;
 import java.awt.geom.*;
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -38,7 +39,7 @@ import java.util.*;
  * <br>1.0 January 20, 2006 Created.
  */
 public class BezierPath extends ArrayList<BezierPath.Node>
-        implements Shape {
+        implements Shape, Serializable {
 
     /** Constant for having only control point C0 in effect. C0 is the point
      * through whitch the curve passes. */
@@ -85,7 +86,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      * <li>C2 is used to control the curve going away from C0.</li>
      * </ul>
      */
-    public static class Node implements Cloneable {
+    public static class Node implements Cloneable, Serializable {
 
         /**
          * This mask is used to describe which control points in addition to

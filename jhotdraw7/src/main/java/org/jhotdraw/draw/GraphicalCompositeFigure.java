@@ -284,10 +284,10 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
         }
         return that;
     }
-    public void remap(HashMap<Figure,Figure> oldToNew) {
-        super.remap(oldToNew);
+    public void remap(HashMap<Figure,Figure> oldToNew, boolean disconnectIfNotInMap) {
+        super.remap(oldToNew, disconnectIfNotInMap);
         if (presentationFigure != null) {
-            presentationFigure.remap(oldToNew);
+            presentationFigure.remap(oldToNew, disconnectIfNotInMap);
         }
     }
     /**

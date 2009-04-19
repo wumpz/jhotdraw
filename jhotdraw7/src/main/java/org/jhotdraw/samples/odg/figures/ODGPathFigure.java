@@ -43,8 +43,8 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
     /**
      * This cachedPath is used for drawing.
      */
-    private GeneralPath cachedPath;
-    private Rectangle2D.Double cachedDrawingArea;
+    private transient GeneralPath cachedPath;
+    //private transient Rectangle2D.Double cachedDrawingArea;
     
     private final static boolean DEBUG = false;
     

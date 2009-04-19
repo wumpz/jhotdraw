@@ -417,7 +417,7 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * collection of figures to the new collection, connections can be remapped
      * to the new figures.
      */
-    public void remap(Map<Figure, Figure> oldToNew);
+    public void remap(Map<Figure, Figure> oldToNew, boolean disconnectIfNotInMap);
 
     // EVENT HANDLING
     /**

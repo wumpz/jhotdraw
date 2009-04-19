@@ -38,7 +38,7 @@ import java.io.*;
  */
 public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure implements Drawing {
     private final static Object lock = new JPanel().getTreeLock();
-    private FontRenderContext fontRenderContext;
+    private transient FontRenderContext fontRenderContext;
     private LinkedList<InputFormat> inputFormats = new LinkedList<InputFormat>();
     private LinkedList<OutputFormat> outputFormats = new LinkedList<OutputFormat>();
     private final static boolean DEBUG = false;

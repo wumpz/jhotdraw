@@ -47,8 +47,8 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
     /**
      * This is used to perform faster drawing and hit testing.
      */
-    private Rectangle2D.Double cachedDrawingArea;
-    private Shape cachedTextShape;
+    private transient Rectangle2D.Double cachedDrawingArea;
+    private transient Shape cachedTextShape;
 
     /** Creates a new instance. */
     public SVGTextAreaFigure() {

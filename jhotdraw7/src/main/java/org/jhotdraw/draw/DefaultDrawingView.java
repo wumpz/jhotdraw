@@ -83,7 +83,7 @@ public class DefaultDrawingView
     private Handle activeHandle;
     private LinkedList<Handle> secondaryHandles = new LinkedList<Handle>();
     private boolean handlesAreValid = true;
-    private Dimension cachedPreferredSize;
+    private transient Dimension cachedPreferredSize;
     private double scaleFactor = 1;
     private Point2D.Double translate = new Point2D.Double(0, 0);
     private int detailLevel;
@@ -102,7 +102,7 @@ public class DefaultDrawingView
             repaint();
         }
     };
-    private Rectangle2D.Double cachedDrawingArea;
+    private transient Rectangle2D.Double cachedDrawingArea;
 
     public void repaintHandles() {
         validateHandles();
@@ -979,7 +979,7 @@ public class DefaultDrawingView
             drawing.add(d);
         }
         for (Figure f : duplicates) {
-            f.remap(originalToDuplicateMap);
+            f.remap(originalToDuplicateMap, false);
         }
         addToSelection(duplicates);
 

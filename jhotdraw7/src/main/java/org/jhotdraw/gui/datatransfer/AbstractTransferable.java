@@ -15,7 +15,6 @@
 package org.jhotdraw.gui.datatransfer;
 
 import java.awt.datatransfer.*;
-import java.io.*;
 
 /**
  * Base class for transferable objects.
@@ -26,6 +25,10 @@ import java.io.*;
 public abstract class AbstractTransferable implements Transferable {
     private DataFlavor[] flavors;
     
+    /** Creates a new instance. */
+    public AbstractTransferable(DataFlavor flavor) {
+        this.flavors = new DataFlavor[] {flavor};
+    }
     /** Creates a new instance. */
     public AbstractTransferable(DataFlavor[] flavors) {
         this.flavors = flavors;

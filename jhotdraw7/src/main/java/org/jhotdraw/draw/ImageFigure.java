@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.draw;
 
 import java.awt.*;
@@ -41,6 +40,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  */
 public class ImageFigure extends AbstractAttributedDecoratedFigure
         implements ImageHolderFigure {
+
     /**
      * This rectangle describes the bounds into which we draw the image.
      */
@@ -50,21 +50,21 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
      * BufferedImage.
      */
     private byte[] imageData;
-    
     /**
      * The buffered image. This can be null, if we haven't yet parsed the
      * imageData.
      */
-    private BufferedImage bufferedImage;
-    
+    private transient BufferedImage bufferedImage;
+
     /** Creates a new instance. */
     public ImageFigure() {
-        this(0,0,0,0);
+        this(0, 0, 0, 0);
     }
+
     public ImageFigure(double x, double y, double width, double height) {
         rectangle = new Rectangle2D.Double(x, y, width, height);
     }
-    
+
     // DRAWING
     protected void drawFigure(Graphics2D g) {
         if (AttributeKeys.FILL_COLOR.get(this) != null) {
@@ -72,11 +72,11 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
             drawFill(g);
         }
         drawImage(g);
-        
+
         if (STROKE_COLOR.get(this) != null && STROKE_WIDTH.get(this) > 0d) {
             g.setStroke(AttributeKeys.getStroke(this));
             g.setColor(STROKE_COLOR.get(this));
-            
+
             drawStroke(g);
         }
         if (TEXT_COLOR.get(this) != null) {
@@ -86,19 +86,20 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
                 g.translate(d.width, d.height);
                 g.setColor(TEXT_SHADOW_COLOR.get(this));
                 drawText(g);
-                g.translate(-d.width,-d.height);
+                g.translate(-d.width, -d.height);
             }
             g.setColor(TEXT_COLOR.get(this));
             drawText(g);
         }
     }
+
     protected void drawFill(Graphics2D g) {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
         double grow = AttributeKeys.getPerpendicularFillGrowth(this);
         Geom.grow(r, grow, grow);
         g.fill(r);
     }
-    
+
     protected void drawImage(Graphics2D g) {
         BufferedImage image = getBufferedImage();
         if (image != null) {
@@ -111,26 +112,29 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
             g.draw(new Line2D.Double(rectangle.x + rectangle.width, rectangle.y, rectangle.x, rectangle.y + rectangle.height));
         }
     }
+
     protected void drawStroke(Graphics2D g) {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
         double grow = AttributeKeys.getPerpendicularDrawGrowth(this);
         Geom.grow(r, grow, grow);
-        
+
         g.draw(r);
     }
-    
+
     // SHAPE AND BOUNDS
     public Rectangle2D.Double getBounds() {
         Rectangle2D.Double bounds = (Rectangle2D.Double) rectangle.clone();
         return bounds;
     }
-    
-    @Override public Rectangle2D.Double getFigureDrawingArea() {
+
+    @Override
+    public Rectangle2D.Double getFigureDrawingArea() {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
         double grow = AttributeKeys.getPerpendicularHitGrowth(this);
         Geom.grow(r, grow, grow);
         return r;
     }
+
     /**
      * Checks if a Point2D.Double is inside the figure.
      */
@@ -140,13 +144,14 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
         Geom.grow(r, grow, grow);
         return r.contains(p);
     }
-    
+
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         rectangle.x = Math.min(anchor.x, lead.x);
-        rectangle.y = Math.min(anchor.y , lead.y);
+        rectangle.y = Math.min(anchor.y, lead.y);
         rectangle.width = Math.max(0.1, Math.abs(lead.x - anchor.x));
         rectangle.height = Math.max(0.1, Math.abs(lead.y - anchor.y));
     }
+
     /**
      * Transforms the figure.
      * @param tx The transformation.
@@ -156,36 +161,37 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
         Point2D.Double lead = getEndPoint();
         setBounds(
                 (Point2D.Double) tx.transform(anchor, anchor),
-                (Point2D.Double) tx.transform(lead, lead)
-                );
+                (Point2D.Double) tx.transform(lead, lead));
     }
     // ATTRIBUTES
-    
-    
+
     public void restoreTransformTo(Object geometry) {
         rectangle.setRect((Rectangle2D.Double) geometry);
     }
-    
+
     public Object getTransformRestoreData() {
         return (Rectangle2D.Double) rectangle.clone();
     }
-    
+
     // EDITING
-    @Override public Collection<Action> getActions(Point2D.Double p) {
+    @Override
+    public Collection<Action> getActions(Point2D.Double p) {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         LinkedList<Action> actions = new LinkedList<Action>();
         return actions;
     }
     // CONNECTING
+
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
         // XXX - This doesn't work with a transformed rect
         return new ChopRectangleConnector(this);
     }
+
     public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
         // XXX - This doesn't work with a transformed rect
         return new ChopRectangleConnector(this);
     }
-    
+
     // COMPOSITE FIGURES
     // CLONING
     public ImageFigure clone() {
@@ -193,9 +199,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
         that.rectangle = (Rectangle2D.Double) this.rectangle.clone();
         return that;
     }
-    
-    
-    
+
     public void read(DOMInput in) throws IOException {
         super.read(in);
         if (in.getElementCount("imageData") > 0) {
@@ -207,7 +211,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
             in.closeElement();
         }
     }
-    
+
     public void write(DOMOutput out) throws IOException {
         super.write(out);
         if (getImageData() != null) {
@@ -216,7 +220,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
             out.closeElement();
         }
     }
-    
+
     /**
      * Sets the image.
      *
@@ -231,6 +235,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
         this.bufferedImage = bufferedImage;
         changed();
     }
+
     /**
      * Sets the image data.
      * This clears the buffered image.
@@ -241,6 +246,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
         this.bufferedImage = null;
         changed();
     }
+
     /**
      * Sets the buffered image.
      * This clears the image data.
@@ -251,7 +257,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
         this.bufferedImage = image;
         changed();
     }
-    
+
     /**
      * Gets the buffered image. If necessary, this method creates the buffered
      * image from the image data.
@@ -270,6 +276,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
         }
         return bufferedImage;
     }
+
     /**
      * Gets the image data. If necessary, this method creates the image
      * data from the buffered image.
@@ -291,7 +298,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
         }
         return imageData;
     }
-    
+
     public void loadImage(File file) throws IOException {
         InputStream in = null;
         try {
@@ -303,9 +310,12 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
             e.initCause(t);
             throw e;
         } finally {
-            if (in != null) in.close();
+            if (in != null) {
+                in.close();
+            }
         }
     }
+
     public void loadImage(InputStream in) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         byte[] buf = new byte[512];
@@ -321,4 +331,11 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
         imageData = baos.toByteArray();
         bufferedImage = img;
     }
+
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        // The call to getImageData() ensures that we have serializable data
+        // in the imageData array.
+        getImageData();
+        out.defaultWriteObject();
+        }
 }

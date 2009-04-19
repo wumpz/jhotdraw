@@ -14,8 +14,6 @@
 
 package org.jhotdraw.draw;
 
-import org.jhotdraw.util.*;
-import java.awt.*;
 import java.awt.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.geom.*;
@@ -51,6 +49,7 @@ public class ChopRectangleConnector extends AbstractConnector {
         super(owner);
     }
     
+    @Override
     public Point2D.Double findStart(ConnectionFigure connection) {
         Figure startFigure = connection.getStartConnector().getOwner();
         Point2D.Double from;
@@ -67,6 +66,7 @@ public class ChopRectangleConnector extends AbstractConnector {
         return chop(startFigure, from);
     }
     
+    @Override
     public Point2D.Double findEnd(ConnectionFigure connection) {
         Figure endFigure = connection.getEndConnector().getOwner();
         Point2D.Double from;

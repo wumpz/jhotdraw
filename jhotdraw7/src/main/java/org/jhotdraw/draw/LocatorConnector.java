@@ -10,7 +10,6 @@
  * You may not use, copy or modify this software, except in  
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
-�
  */
 
 package org.jhotdraw.draw;
@@ -54,7 +53,11 @@ public class LocatorConnector extends AbstractConnector {
         super(owner);
         locator = l;
     }
-    
+
+    public Locator getLocator() {
+        return locator;
+    }
+
     protected Point2D.Double locate(ConnectionFigure connection) {
         return locator.locate(getOwner());
     }

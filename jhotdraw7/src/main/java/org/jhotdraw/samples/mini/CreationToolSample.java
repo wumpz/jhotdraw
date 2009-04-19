@@ -19,7 +19,6 @@ import javax.swing.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.util.*;
-import org.jhotdraw.xml.QuickAndDirtyDOMFactory;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
@@ -38,11 +37,12 @@ public class CreationToolSample {
             public void run() {
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
 
-                // Create a drawing view with a default drawing.
+                // Create a drawing view with a default drawing, and
+                // input/output formats for basic clipboard support.
                 DrawingView view = new DefaultDrawingView();
                 DefaultDrawing drawing = new DefaultDrawing();
-                drawing.addInputFormat(new DOMStorableInputOutputFormat(new QuickAndDirtyDOMFactory()));
-                drawing.addOutputFormat(new DOMStorableInputOutputFormat(new QuickAndDirtyDOMFactory()));
+                drawing.addInputFormat(new SerializationInputOutputFormat());
+                drawing.addOutputFormat(new SerializationInputOutputFormat());
                 view.setDrawing(drawing);
 
                 // Create a common drawing editor for the views
@@ -60,7 +60,7 @@ public class CreationToolSample {
                 FILL_COLOR.put(a, Color.GREEN);
                 ButtonFactory.addToolTo(
                         tb, editor,
-                        new CreationTool(new RectangleFigure(),a),
+                        new CreationTool(new RectangleFigure(), a),
                         "edit.createRectangle",
                         labels);
                 tb.setOrientation(JToolBar.VERTICAL);

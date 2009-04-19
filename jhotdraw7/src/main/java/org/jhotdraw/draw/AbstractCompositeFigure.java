@@ -17,6 +17,7 @@ import java.io.IOException;
 import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.geom.*;
+import java.io.Serializable;
 import java.util.*;
 import javax.swing.event.*;
 import org.jhotdraw.geom.*;
@@ -51,17 +52,17 @@ public abstract class AbstractCompositeFigure
     /**
      * Cached draw cachedBounds.
      */
-    protected Rectangle2D.Double cachedDrawingArea;
+    protected transient Rectangle2D.Double cachedDrawingArea;
     /**
      * Cached layout cachedBounds.
      */
-    protected Rectangle2D.Double cachedBounds;
+    protected transient Rectangle2D.Double cachedBounds;
     /**
      * Handles figure changes in the children.
      */
     protected EventHandler eventHandler;
 
-    protected class EventHandler extends FigureAdapter implements UndoableEditListener {
+    protected class EventHandler extends FigureAdapter implements UndoableEditListener, Serializable {
 
         @Override
         public void figureRequestRemove(FigureEvent e) {

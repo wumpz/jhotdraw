@@ -52,9 +52,9 @@ public class SVGTextFigure
     /**
      * This is used to perform faster drawing and hit testing.
      */
-    private Shape cachedTextShape;
-    private Rectangle2D.Double cachedBounds;
-    private Rectangle2D.Double cachedDrawingArea;
+    private transient Shape cachedTextShape;
+    private transient Rectangle2D.Double cachedBounds;
+    private transient Rectangle2D.Double cachedDrawingArea;
     
     /** Creates a new instance. */
     public SVGTextFigure() {

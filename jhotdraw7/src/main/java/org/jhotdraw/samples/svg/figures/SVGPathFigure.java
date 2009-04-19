@@ -45,12 +45,12 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
     /**
      * This cachedPath is used for drawing.
      */
-    private GeneralPath cachedPath;
-    private Rectangle2D.Double cachedDrawingArea;
+    private transient GeneralPath cachedPath;
+   // private transient Rectangle2D.Double cachedDrawingArea;
     /**
      * This is used to perform faster hit testing.
      */
-    private Shape cachedHitShape;
+    private transient Shape cachedHitShape;
     private final static boolean DEBUG = false;
 
     /** Creates a new instance. */

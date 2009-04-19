@@ -18,7 +18,6 @@ import javax.swing.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.util.*;
-import org.jhotdraw.xml.QuickAndDirtyDOMFactory;
 
 /**
  * Example showing how to create a drawing editor which acts on four drawing
@@ -99,9 +98,11 @@ public class MultiEditorSample {
      * @return a drawing
      */
     private static Drawing createDrawing() {
+        // Create a default drawing with
+        // input/output formats for basic clipboard support.
         DefaultDrawing drawing = new DefaultDrawing();
-        drawing.addInputFormat(new DOMStorableInputOutputFormat(new QuickAndDirtyDOMFactory()));
-        drawing.addOutputFormat(new DOMStorableInputOutputFormat(new QuickAndDirtyDOMFactory()));
+        drawing.addInputFormat(new SerializationInputOutputFormat());
+        drawing.addOutputFormat(new SerializationInputOutputFormat());
         return drawing;
     }
 }

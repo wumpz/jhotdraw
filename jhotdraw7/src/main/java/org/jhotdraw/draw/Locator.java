@@ -10,13 +10,11 @@
  * You may not use, copy or modify this software, except in  
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
-�
  */
 
 
 package org.jhotdraw.draw;
 
-import java.awt.*;
 import java.awt.geom.*;
 /**
  * Locators can be used to locate a position on a figure.<p>

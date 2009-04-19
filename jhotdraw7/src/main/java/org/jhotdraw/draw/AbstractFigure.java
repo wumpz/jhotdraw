@@ -272,8 +272,7 @@ public abstract class AbstractFigure
      */
     protected void fireAttributeChanged(AttributeKey attribute, Object oldValue, Object newValue) {
         if (listenerList.getListenerCount() > 0 &&
-                (oldValue == null || newValue == null || !oldValue.equals(newValue))
-                ) {
+                (oldValue == null || newValue == null || !oldValue.equals(newValue))) {
             FigureEvent event = null;
             // Notify all listeners that have registered interest for
             // Guaranteed to return a non-null array
@@ -333,6 +332,7 @@ public abstract class AbstractFigure
     }
      */
 
+    @Override
     public AbstractFigure clone() {
         AbstractFigure that = (AbstractFigure) super.clone();
         that.listenerList = new EventListenerList();
@@ -345,7 +345,7 @@ public abstract class AbstractFigure
         return null;
     }
 
-    public void remap(HashMap<Figure, Figure> oldToNew) {
+    public void remap(Map<Figure, Figure> oldToNew, boolean disconnectIfNotInMap) {
     }
 
     public Collection<Handle> createHandles(int detailLevel) {
@@ -414,7 +414,6 @@ public abstract class AbstractFigure
     }
 
     protected void validate() {
-
     }
 
     /**
@@ -502,9 +501,6 @@ public abstract class AbstractFigure
         return new Dimension2DDouble(r.width, r.height);
     }
 
-    public void remap(Map oldToNew) {
-    }
-
     public boolean isSelectable() {
         return isSelectable;
     }
@@ -586,4 +582,5 @@ public abstract class AbstractFigure
         connectors.add(new ChopRectangleConnector(this));
         return connectors;
     }
+
 }

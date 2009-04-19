@@ -15,6 +15,7 @@
 package org.jhotdraw.geom;
 
 import java.awt.geom.*;
+import java.io.Serializable;
 /**
  * Insets2D.
  *
@@ -23,7 +24,7 @@ import java.awt.geom.*;
  * expectations of people used to the java.awt.geom.xxx2D.Double/xxx2D.Float
  * idioms.
  */
-public abstract class Insets2D implements Cloneable {
+public abstract class Insets2D implements Cloneable, Serializable {
     
     /** Creates a new instance. */
     protected Insets2D() {
