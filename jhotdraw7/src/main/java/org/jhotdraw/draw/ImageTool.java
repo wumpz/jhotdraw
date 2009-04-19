@@ -59,7 +59,7 @@ public class ImageTool extends CreationTool {
     }
 
     /** Creates a new instance. */
-    public ImageTool(ImageHolderFigure prototype, Map attributes) {
+    public ImageTool(ImageHolderFigure prototype, Map<AttributeKey, Object>  attributes) {
         super(prototype, attributes);
     }
 

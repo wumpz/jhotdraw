@@ -46,6 +46,7 @@ import org.apache.batik.ext.awt.image.GraphicsUtil;
  * @version $Id: MultipleGradientPaintContext.java,v 1.19 2004/08/18 07:13:41 vhardy Exp $
  *
  */
+@SuppressWarnings("unchecked")
 abstract class MultipleGradientPaintContext implements PaintContext {
 
     protected final static boolean DEBUG = false;

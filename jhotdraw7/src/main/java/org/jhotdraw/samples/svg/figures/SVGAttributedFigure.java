@@ -102,7 +102,8 @@ public abstract class SVGAttributedFigure extends AbstractAttributedFigure {
             g.setTransform(savedTransform);
         }
     }
-    public void setAttribute(AttributeKey key, Object newValue) {
+    @Override
+    public <T> void setAttribute(AttributeKey<T> key, T newValue) {
         if (key == TRANSFORM) {
             invalidate();
         }

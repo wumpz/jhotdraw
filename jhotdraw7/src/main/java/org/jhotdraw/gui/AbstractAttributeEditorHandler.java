@@ -155,9 +155,10 @@ public abstract class AbstractAttributeEditorHandler<T> {
         this(key, null, attributeEditor, drawingEditor, updateDrawingEditorDefaults);
     }
 
+    @SuppressWarnings("unchecked")
     public AbstractAttributeEditorHandler(AttributeKey<T> key, Map<AttributeKey, Object> defaultAttributes, AttributeEditor<T> attributeEditor, DrawingEditor drawingEditor, boolean updateDrawingEditorDefaults) {
         eventHandler = new EventHandler();
-        this.defaultAttributes = defaultAttributes == null ? Collections.EMPTY_MAP : defaultAttributes;
+        this.defaultAttributes = (Map<AttributeKey, Object>) ((defaultAttributes == null) ? Collections.emptyMap() : defaultAttributes);
         attributeEditor.setAttributeValue(key.getDefaultValue());
         setAttributeKey(key);
         setAttributeEditor(attributeEditor);
@@ -326,6 +327,7 @@ public abstract class AbstractAttributeEditorHandler<T> {
         updateDepth--;
     }
 
+    @SuppressWarnings("unchecked")
     protected void updateFigures() {
         if (updateDepth++ == 0) {
             Set<Figure> figures = getEditedFigures();

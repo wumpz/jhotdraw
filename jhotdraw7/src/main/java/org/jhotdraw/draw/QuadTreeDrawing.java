@@ -94,7 +94,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
     
     
     public java.util.List<Figure> getChildren(Rectangle2D.Double bounds) {
-        return new LinkedList(quadTree.findInside(bounds));
+        return new LinkedList<Figure>(quadTree.findInside(bounds));
     }
     
     @Override

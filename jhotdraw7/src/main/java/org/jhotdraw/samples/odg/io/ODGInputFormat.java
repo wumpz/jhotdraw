@@ -161,6 +161,7 @@ public class ODGInputFormat implements InputFormat {
      * Reads figures from the content.xml file of an ODG open document drawing
      * document.
      */
+    @SuppressWarnings("unchecked")
     public void readFiguresFromDocumentContent(InputStream in, Drawing drawing, boolean replace) throws IOException {
         this.figures = new LinkedList<Figure>();
         IXMLParser parser;

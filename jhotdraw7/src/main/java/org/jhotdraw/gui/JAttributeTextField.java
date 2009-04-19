@@ -69,6 +69,7 @@ public class JAttributeTextField<T> extends JLifeFormattedTextField implements A
         return this;
     }
 
+    @SuppressWarnings("unchecked")
     public T getAttributeValue() {
         return (T) getValue();
     }

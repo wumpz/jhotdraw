@@ -295,7 +295,8 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
      * AttributeKey name and semantics are defined by the class implementing
      * the figure interface.
      */
-    public void setAttribute(AttributeKey key, Object newValue) {
+    @Override
+    public <T> void setAttribute(AttributeKey<T> key, T newValue) {
         if (forbiddenAttributes == null
                 || ! forbiddenAttributes.contains(key)) {
             if (getPresentationFigure() != null) {
@@ -318,21 +319,23 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
     /**
      * Gets an attribute from the figure.
      */
-    public Object getAttribute(AttributeKey key) {
+    @Override
+    public <T> T getAttribute(AttributeKey<T> key) {
         if (getPresentationFigure() != null) {
-            return getPresentationFigure().getAttribute(key);
+            return key.get(getPresentationFigure());
         } else {
             return (! attributes.containsKey(key)) ?
                 key.getDefaultValue() :
-                attributes.get(key);
+                key.get(attributes);
         }
     }
     /**
      * Applies all attributes of this figure to that figure.
      */
+    @SuppressWarnings("unchecked")
     protected void applyAttributesTo(Figure that) {
         for (Map.Entry<AttributeKey, Object> entry : attributes.entrySet()) {
-            that.setAttribute(entry.getKey(), entry.getValue());
+            entry.getKey().basicSet(that, entry.getValue());
         }
     }
     protected void writeAttributes(DOMOutput out) throws IOException {
@@ -362,6 +365,7 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
             out.closeElement();
         }
     }
+    @SuppressWarnings("unchecked")
     protected void readAttributes(DOMInput in) throws IOException {
         if (in.getElementCount("a") > 0) {
             in.openElement("a");
@@ -382,11 +386,13 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
         }
     }
     
+    @Override
     public void read(DOMInput in) throws IOException {
         super.read(in);
         readAttributes(in);
     }
     
+    @Override
     public void write(DOMOutput out) throws IOException {
         super.write(out);
         writeAttributes(out);

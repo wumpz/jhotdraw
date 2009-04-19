@@ -14,7 +14,6 @@
 
 package org.jhotdraw.samples.net.figures;
 
-import java.awt.*;
 import java.awt.geom.*;
 import java.io.*;
 import java.util.*;
@@ -31,7 +30,7 @@ import org.jhotdraw.xml.*;
  * @version 1.0 July 4, 2006 Created.
  */
 public class NodeFigure extends TextFigure {
-    private LinkedList<AbstractConnector> connectors;
+    private LinkedList<Connector> connectors;
     private static LocatorConnector north;
     private static LocatorConnector south;
     private static LocatorConnector east;
@@ -49,15 +48,15 @@ public class NodeFigure extends TextFigure {
     }
     
     private void createConnectors() {
-        connectors = new LinkedList<AbstractConnector>();
+        connectors = new LinkedList<Connector>();
         connectors.add(new LocatorConnector(this, RelativeLocator.north()));
         connectors.add(new LocatorConnector(this, RelativeLocator.east()));
         connectors.add(new LocatorConnector(this, RelativeLocator.west()));
         connectors.add(new LocatorConnector(this, RelativeLocator.south()));
     }
     
-    @Override public Collection getConnectors(ConnectionFigure prototype) {
-        return Collections.unmodifiableList(connectors);
+    @Override public Collection<Connector> getConnectors(ConnectionFigure prototype) {
+        return (List<Connector>) Collections.unmodifiableList(connectors);
     }
     
     @Override public Collection<Handle> createHandles(int detailLevel) {
@@ -100,6 +99,7 @@ public class NodeFigure extends TextFigure {
         return connectors.getFirst();
     }
     
+    @Override
     public NodeFigure clone() {
         NodeFigure that = (NodeFigure) super.clone();
         that.createConnectors();
@@ -117,7 +117,8 @@ public class NodeFigure extends TextFigure {
         // do nothing
     }
     
-    public void setAttribute(AttributeKey key, Object newValue) {
+    @Override
+    public <T> void setAttribute(AttributeKey<T> key, T newValue) {
         super.setAttribute(key, newValue);
         if (getDecorator() != null) {
             key.basicSet(getDecorator(), newValue);

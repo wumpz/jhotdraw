@@ -32,6 +32,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * @author Werner Randelshofer
  * @version 1.0 2007-12-18 Created.
  */
+@SuppressWarnings("unchecked")
 public class EditCanvasPanel extends javax.swing.JPanel {
 
     private ResourceBundleUtil labels;

@@ -98,7 +98,7 @@ public class BezierDemo extends javax.swing.JPanel {
                     ex.bezier = Bezier.fitBezierPath(ex.digitized, ex.error);
                 }
                 if (ex.segments == null) {
-                    ArrayList<Point2D.Double> digitizedPoints = new ArrayList();
+                    ArrayList<Point2D.Double> digitizedPoints = new ArrayList<Point2D.Double>();
                     for (BezierPath.Node node : ex.digitized) {
                         digitizedPoints.add(new Point2D.Double(node.x[0], node.y[0]));
                     }

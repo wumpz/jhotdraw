@@ -46,12 +46,12 @@ public class CSSRule {
     protected Map<String,String> properties;
     
     public CSSRule(String name, String value) {
-        properties = new HashMap();
+        properties = new HashMap<String,String>();
         properties.put(name, value);
     }
     public CSSRule(String selector, String propertyName, String propertyValue) {
         setSelector(selector);
-        properties = new HashMap();
+        properties = new HashMap<String,String>();
         properties.put(propertyName, propertyValue);
     }
     public CSSRule(String selector, Map<String,String> properties) {

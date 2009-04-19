@@ -200,6 +200,7 @@ public class TaskFigure extends GraphicalCompositeFigure {
         return (TextFigure) ((ListFigure) getChild(2)).getChild(1);
     }
     
+    @SuppressWarnings("unchecked")
     private void applyAttributes(Figure f) {
         Map<AttributeKey,Object> attr = ((AbstractAttributedFigure) getPresentationFigure()).getAttributes();
         for (Map.Entry<AttributeKey, Object> entry : attr.entrySet()) {
@@ -207,6 +208,7 @@ public class TaskFigure extends GraphicalCompositeFigure {
         }
     }
     
+    @Override
     public TaskFigure clone() {
         TaskFigure that = (TaskFigure) super.clone();
         that.dependencies = new HashSet<DependencyFigure>();
@@ -215,6 +217,7 @@ public class TaskFigure extends GraphicalCompositeFigure {
         that.updateStartTime();
         return that;
     }
+    @Override
     public void read(DOMInput in) throws IOException {
         double x = in.getAttribute("x", 0d);
         double y = in.getAttribute("y", 0d);

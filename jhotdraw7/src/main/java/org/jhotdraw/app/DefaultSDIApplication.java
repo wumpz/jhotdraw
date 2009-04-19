@@ -129,6 +129,7 @@ public class DefaultSDIApplication extends AbstractApplication {
         p.putAction(LoadAction.ID, m.getAction(LoadAction.ID));
     }
 
+@SuppressWarnings("unchecked")
     public void show(final View p) {
         if (!p.isShowing()) {
             p.setShowing(true);
@@ -208,7 +209,7 @@ public class DefaultSDIApplication extends AbstractApplication {
     protected Component wrapViewComponent(View p) {
         JComponent c = p.getComponent();
         if (getModel() != null) {
-            LinkedList<Action> toolBarActions = new LinkedList();
+            LinkedList<Action> toolBarActions = new LinkedList<Action>();
 
             int id = 0;
             for (JToolBar tb : new ReversedList<JToolBar>(getModel().createToolBars(this, p))) {

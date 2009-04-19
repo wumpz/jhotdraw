@@ -293,6 +293,7 @@ public class JavaNumberFormatter extends DefaultFormatter {
      *                 comparing the values, the exception is consumed and
      *                 false is returned.
      */
+    @SuppressWarnings("unchecked")
     boolean isValidValue(Object value, boolean wantsCCE) {
         Comparable min = getMinimum();
 

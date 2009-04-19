@@ -100,13 +100,15 @@ public abstract class QuadTreeCompositeFigure
     
     
     public java.util.List<Figure> getFigures(Rectangle2D.Double bounds) {
-        return new LinkedList(quadTree.findInside(bounds));
+        return new LinkedList<Figure>(quadTree.findInside(bounds));
     }
     
+    @Override
     public java.util.List<Figure> getChildren() {
         return Collections.unmodifiableList(children);
     }
     
+    @Override
     public Figure findFigureInside(Point2D.Double p) {
         Collection<Figure> c = quadTree.findContains(p);
         for (Figure f : getFiguresFrontToBack()) {

@@ -12,7 +12,6 @@
  */
 package org.jhotdraw.samples.svg.io;
 
-import java.net.HttpURLConnection;
 import java.net.URLConnection;
 import java.net.URL;
 import java.io.IOException;
@@ -29,7 +28,7 @@ import java.util.Iterator;
 public class ClientHttpRequest {
   URLConnection _connection;
   OutputStream _os = null;
-  Map _cookies = new HashMap();
+  Map<String,String> _cookies = new HashMap<String,String>();
   String _rawCookies = "";
 
   protected void connect() throws IOException {
@@ -149,7 +148,7 @@ public class ClientHttpRequest {
    * @param cookies the cookie "name-to-value" map
    * @throws IOException
    */
-  public void setCookies(Map cookies) throws IOException {
+  public void setCookies(Map<String,String> cookies) throws IOException {
     if (cookies == null) return;
     this._cookies.putAll(cookies);
   }
@@ -339,7 +338,7 @@ public class ClientHttpRequest {
    * @see setParameters
    * @see setCookies
    */
-  public InputStream post(Map cookies, Map parameters) throws IOException {
+  public InputStream post(Map<String,String> cookies, Map parameters) throws IOException {
     setCookies(cookies);
     postCookies();
     setParameters(parameters);
@@ -483,7 +482,7 @@ public class ClientHttpRequest {
    * @see setCookies
    * @see setParameters
    */
-  public static InputStream post(URL url, Map cookies, Map parameters) throws IOException {
+  public static InputStream post(URL url, Map<String,String> cookies, Map parameters) throws IOException {
     return new ClientHttpRequest(url).post(cookies, parameters);
   }
 

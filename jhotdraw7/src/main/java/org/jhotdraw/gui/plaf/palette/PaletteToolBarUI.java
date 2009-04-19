@@ -80,8 +80,8 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
     private static Border nonRolloverBorder;
     private static Border nonRolloverToggleBorder;
     private boolean rolloverBorders = false;
-    private HashMap borderTable = new HashMap();
-    private Hashtable rolloverTable = new Hashtable();
+    private HashMap<AbstractButton,Border> borderTable = new HashMap<AbstractButton,Border>();
+    private Hashtable<AbstractButton,Boolean> rolloverTable = new Hashtable<AbstractButton,Boolean>();
     /**
      * As of Java 2 platform v1.3 this previously undocumented field is no
      * longer used.

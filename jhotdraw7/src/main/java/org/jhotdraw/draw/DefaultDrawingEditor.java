@@ -157,15 +157,16 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor,
         setActiveView(null);
     }
 
+    @SuppressWarnings("unchecked")
     public void applyDefaultAttributesTo(Figure f) {
         for (Map.Entry<AttributeKey, Object> entry : defaultAttributes.entrySet()) {
-            f.setAttribute(entry.getKey(), entry.getValue());
+            entry.getKey().basicSet(f, entry.getValue());
         }
     }
 
-    public Object getDefaultAttribute(AttributeKey key) {
+    public <T> T getDefaultAttribute(AttributeKey<T> key) {
         if (defaultAttributes.containsKey(key)) {
-            return defaultAttributes.get(key);
+            return key.get(defaultAttributes);
         } else {
             return key.getDefaultValue();
         }
@@ -240,9 +241,9 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor,
         handleAttributes.put(key, value);
     }
 
-    public Object getHandleAttribute(AttributeKey key) {
+    public <T> T getHandleAttribute(AttributeKey<T> key) {
         if (handleAttributes.containsKey(key)) {
-        return handleAttributes.get(key);
+        return key.get(handleAttributes);
         } else {
             return key.getDefaultValue();
         }

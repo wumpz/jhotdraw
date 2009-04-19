@@ -167,7 +167,7 @@ public class DragTracker extends AbstractTool {
             updateCursor(editor.findView((Container) evt.getSource()), new Point(x, y));
             Point2D.Double newPoint = view.viewToDrawing(new Point(x, y));
 
-            Collection<Figure> draggedFigures = new LinkedList(view.getSelectedFigures());
+            Collection<Figure> draggedFigures = new LinkedList<Figure>(view.getSelectedFigures());
             Figure dropTarget = getDrawing().findFigureExcept(newPoint, draggedFigures);
             if (dropTarget != null) {
                 boolean snapBack = dropTarget.handleDrop(newPoint, draggedFigures, view);

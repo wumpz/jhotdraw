@@ -248,7 +248,8 @@ public class SVGTextFigure
     public String getText() {
         return (String) getAttribute(TEXT);
     }
-    public void setAttribute(AttributeKey key, Object newValue) {
+    @Override
+    public <T> void setAttribute(AttributeKey<T> key, T newValue) {
         if (key == SVGAttributeKeys.TRANSFORM ||
                 key == SVGAttributeKeys.FONT_FACE ||
                 key == SVGAttributeKeys.FONT_BOLD ||

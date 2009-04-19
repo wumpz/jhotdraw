@@ -19,11 +19,7 @@ import java.awt.geom.*;
 import java.awt.image.*;
 import java.io.*;
 import java.lang.reflect.*;
-import java.util.*;
-import javax.imageio.*;
 import javax.swing.*;
-import javax.swing.filechooser.*;
-import org.jhotdraw.gui.datatransfer.*;
 import org.jhotdraw.io.*;
 import org.jhotdraw.util.Images;
 
@@ -33,6 +29,8 @@ import org.jhotdraw.util.Images;
  * <p>
  * This class uses the prototype design pattern. A ImageHolderFigure figure is used
  * as a prototype for creating a figure that holds the imported image.
+ * <p>
+ * XXX - This class uses the deprecated Cocoa-Java bridge.
  *
  * @author Werner Randelshofer
  * @version 1.1 2008-05-24 Adapted to changes in InputFormat. 
@@ -207,7 +205,7 @@ public class PictImageInputFormat implements InputFormat {
      * XXX - This code performs extremly slow. We should replace it by JNI
      * code which directly accesses the native clipboard.
      */
-
+    @SuppressWarnings("unchecked")
     private static Image getImageFromPictStream(InputStream is) throws IOException {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();

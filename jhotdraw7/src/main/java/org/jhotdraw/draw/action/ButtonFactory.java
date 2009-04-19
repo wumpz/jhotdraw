@@ -467,7 +467,7 @@ public class ButtonFactory {
      * @param labels The resource bundle.
      */
     public static JPopupButton createEditorColorButton(
-            DrawingEditor editor, AttributeKey attributeKey,
+            DrawingEditor editor, AttributeKey<Color> attributeKey,
             java.util.List<ColorIcon> swatches, int columnCount,
             String labelKey, ResourceBundleUtil labels) {
         return createEditorColorButton(
@@ -508,7 +508,7 @@ public class ButtonFactory {
      * of the Figure to be cleared.
      */
     public static JPopupButton createEditorColorButton(
-            DrawingEditor editor, AttributeKey attributeKey,
+            DrawingEditor editor, AttributeKey<Color> attributeKey,
             java.util.List<ColorIcon> swatches, int columnCount,
             String labelKey, ResourceBundleUtil labels,
             Map<AttributeKey, Object> defaultAttributes) {
@@ -549,7 +549,7 @@ public class ButtonFactory {
      * The shape is drawn with the default color of the DrawingEditor.
      */
     public static JPopupButton createEditorColorButton(
-            DrawingEditor editor, AttributeKey attributeKey,
+            DrawingEditor editor, AttributeKey<Color> attributeKey,
             java.util.List<ColorIcon> swatches, int columnCount,
             String labelKey, ResourceBundleUtil labels,
             Map<AttributeKey, Object> defaultAttributes,
@@ -653,7 +653,7 @@ Action a;
      * @param labels The resource bundle.
      */
     public static JPopupButton createSelectionColorButton(
-            DrawingEditor editor, AttributeKey attributeKey,
+            DrawingEditor editor, AttributeKey<Color> attributeKey,
             java.util.List<ColorIcon> swatches, int columnCount,
             String labelKey, ResourceBundleUtil labels) {
         return createSelectionColorButton(
@@ -693,7 +693,7 @@ Action a;
      * of the Figure to be cleared.
      */
     public static JPopupButton createSelectionColorButton(
-            DrawingEditor editor, AttributeKey attributeKey,
+            DrawingEditor editor, AttributeKey<Color> attributeKey,
             java.util.List<ColorIcon> swatches, int columnCount,
             String labelKey, ResourceBundleUtil labels,
             Map<AttributeKey, Object> defaultAttributes) {
@@ -734,7 +734,7 @@ Action a;
      * The shape is drawn with the default color of the DrawingEditor.
      */
     public static JPopupButton createSelectionColorButton(
-            DrawingEditor editor, AttributeKey attributeKey,
+            DrawingEditor editor, AttributeKey<Color> attributeKey,
             java.util.List<ColorIcon> swatches, int columnCount,
             String labelKey, ResourceBundleUtil labels,
             Map<AttributeKey, Object> defaultAttributes,
@@ -817,7 +817,7 @@ Action a;
      * @param labels The resource bundle.
      */
     public static JPopupButton createDrawingColorButton(
-            DrawingEditor editor, AttributeKey attributeKey,
+            DrawingEditor editor, AttributeKey<Color> attributeKey,
             java.util.List<ColorIcon> swatches, int columnCount,
             String labelKey, ResourceBundleUtil labels) {
         return createDrawingColorButton(
@@ -849,7 +849,7 @@ Action a;
      * of the Figure to be cleared.
      */
     public static JPopupButton createDrawingColorButton(
-            DrawingEditor editor, AttributeKey attributeKey,
+            DrawingEditor editor, AttributeKey<Color> attributeKey,
             java.util.List<ColorIcon> swatches, int columnCount,
             String labelKey, ResourceBundleUtil labels,
             Map<AttributeKey, Object> defaultAttributes) {
@@ -882,7 +882,7 @@ Action a;
      * The shape is drawn with the default color of the DrawingEditor.
      */
     public static JPopupButton createDrawingColorButton(
-            DrawingEditor editor, AttributeKey attributeKey,
+            DrawingEditor editor, AttributeKey<Color> attributeKey,
             java.util.List<ColorIcon> swatches, int columnCount,
             String labelKey, ResourceBundleUtil labels,
             Map<AttributeKey, Object> defaultAttributes,
@@ -1272,7 +1272,7 @@ Action a;
     }
 
     public static JPopupButton createFontButton(DrawingEditor editor,
-            AttributeKey key,
+            AttributeKey<Font> key,
             ResourceBundleUtil labels) {
 
         JPopupButton fontPopupButton;
@@ -1305,7 +1305,7 @@ Action a;
         labels.configureToolBarButton(btn, "attribute.fontStyle.bold");
         btn.setFocusable(false);
 
-        AbstractAction a = new AttributeToggler(editor,
+        AbstractAction a = new AttributeToggler<Boolean>(editor,
                 FONT_BOLD, Boolean.TRUE, Boolean.FALSE,
                 new StyledEditorKit.BoldAction());
         a.putValue(Actions.UNDO_PRESENTATION_NAME_KEY, labels.getString("attribute.fontStyle.bold.text"));
@@ -1325,7 +1325,7 @@ Action a;
         labels.configureToolBarButton(btn, "attribute.fontStyle.italic");
         btn.setFocusable(false);
 
-        AbstractAction a = new AttributeToggler(editor,
+        AbstractAction a = new AttributeToggler<Boolean>(editor,
                 FONT_ITALIC, Boolean.TRUE, Boolean.FALSE,
                 new StyledEditorKit.BoldAction());
         a.putValue(Actions.UNDO_PRESENTATION_NAME_KEY, labels.getString("attribute.fontStyle.italic.text"));
@@ -1345,7 +1345,7 @@ Action a;
         labels.configureToolBarButton(btn, "attribute.fontStyle.underline");
         btn.setFocusable(false);
 
-        AbstractAction a = new AttributeToggler(editor,
+        AbstractAction a = new AttributeToggler<Boolean>(editor,
                 FONT_UNDERLINE, Boolean.TRUE, Boolean.FALSE,
                 new StyledEditorKit.BoldAction());
         a.putValue(Actions.UNDO_PRESENTATION_NAME_KEY, labels.getString("attribute.fontStyle.underline.text"));

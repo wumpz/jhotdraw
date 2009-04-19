@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.app;
 
 import java.awt.*;
@@ -22,6 +21,7 @@ import java.util.*;
 import java.util.prefs.*;
 import javax.swing.*;
 import java.io.*;
+
 /**
  * AbstractApplication.
  *
@@ -34,54 +34,56 @@ import java.io.*;
  * <br>1.0 October 4, 2005 Created.
  */
 public abstract class AbstractApplication extends AbstractBean implements Application {
+
     private LinkedList<View> views = new LinkedList<View>();
-    private Collection unmodifiableDocuments;
+    private Collection<View> unmodifiableDocuments;
     private boolean isEnabled = true;
     protected ResourceBundleUtil labels;
     private ApplicationModel model;
-    private LinkedList<File> recentFiles = new LinkedList();
+    private LinkedList<File> recentFiles = new LinkedList<File>();
     private final static int maxRecentFilesCount = 10;
     private Preferences prefs;
     private View activeView;
-    
     public final static String VIEW_COUNT_PROPERTY = "viewCount";
-    
+
     /** Creates a new instance. */
     public AbstractApplication() {
     }
-    
+
     public void init() {
         prefs = Preferences.userNodeForPackage((getModel() == null) ? getClass() : getModel().getClass());
-        
+
         int count = prefs.getInt("recentFileCount", 0);
-        for (int i=0; i < count; i++) {
-            String path = prefs.get("recentFile."+i, null);
+        for (int i = 0; i < count; i++) {
+            String path = prefs.get("recentFile." + i, null);
             if (path != null) {
                 recentFiles.add(new File(path));
             }
         }
-        
+
         if (model != null) {
             model.initApplication(this);
         }
     }
-    
+
     public void start() {
         final View p = createView();
         add(p);
         p.setEnabled(false);
         show(p);
         p.execute(new Worker() {
+
             public Object construct() {
                 p.clear();
                 return null;
             }
+
             public void finished(Object result) {
                 p.setEnabled(true);
             }
         });
     }
-    
+
     public final View createView() {
         View p = basicCreateView();
         p.init();
@@ -91,20 +93,21 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         initViewActions(p);
         return p;
     }
-    
+
     public void setModel(ApplicationModel newValue) {
         ApplicationModel oldValue = model;
         model = newValue;
-        firePropertyChange("model",oldValue,newValue);
+        firePropertyChange("model", oldValue, newValue);
     }
+
     public ApplicationModel getModel() {
         return model;
     }
-    
+
     protected View basicCreateView() {
         return model.createView();
     }
-    
+
     /**
      * Sets the active view. Calls deactivate on the previously
      * active view, and then calls activate on the given view.
@@ -122,7 +125,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         }
         firePropertyChange(ACTIVE_VIEW_PROPERTY, oldValue, newValue);
     }
-    
+
     /**
      * Gets the active view.
      * 
@@ -134,28 +137,28 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         }
         return activeView;
     }
-    
+
     public String getName() {
         return model.getName();
     }
-    
+
     public String getVersion() {
         return model.getVersion();
     }
-    
+
     public String getCopyright() {
         return model.getCopyright();
     }
+
     protected abstract void initViewActions(View p);
-    
-    
+
     public void stop() {
         for (View p : new LinkedList<View>(views())) {
             dispose(p);
         }
         System.exit(0);
     }
-    
+
     public void remove(View p) {
         hide(p);
         int oldCount = views.size();
@@ -163,7 +166,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         p.setApplication(null);
         firePropertyChange(VIEW_COUNT_PROPERTY, oldCount, views.size());
     }
-    
+
     public void add(View p) {
         if (p.getApplication() != this) {
             int oldCount = views.size();
@@ -172,65 +175,67 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
             firePropertyChange(VIEW_COUNT_PROPERTY, oldCount, views.size());
         }
     }
-    
+
     public void dispose(View p) {
         remove(p);
         p.dispose();
     }
-    
+
     public Collection<View> views() {
         if (unmodifiableDocuments == null) {
             unmodifiableDocuments = Collections.unmodifiableCollection(views);
         }
         return unmodifiableDocuments;
     }
-    
+
     public boolean isEnabled() {
         return isEnabled;
     }
-    
+
     public void setEnabled(boolean newValue) {
         boolean oldValue = isEnabled;
         isEnabled = newValue;
         firePropertyChange("enabled", oldValue, newValue);
     }
-    
+
     public Container createContainer() {
         return new JFrame();
     }
-    
+
     public void launch(String[] args) {
         configure(args);
         SwingUtilities.invokeLater(new Runnable() {
+
             public void run() {
                 init();
                 start();
             }
         });
     }
-    
+
     protected void initLabels() {
         labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
     }
-    
+
     public void configure(String[] args) {
     }
-    
+
     public java.util.List<File> recentFiles() {
         return Collections.unmodifiableList(recentFiles);
     }
-    
+
     public void clearRecentFiles() {
+        @SuppressWarnings("unchecked")
         java.util.List<File> oldValue = (java.util.List<File>) recentFiles.clone();
         recentFiles.clear();
         prefs.putInt("recentFileCount", recentFiles.size());
         firePropertyChange("recentFiles",
                 Collections.unmodifiableList(oldValue),
-                Collections.unmodifiableList(recentFiles)
-                );
+                Collections.unmodifiableList(recentFiles));
     }
-    
+
     public void addRecentFile(File file) {
+        @SuppressWarnings("unchecked")
         java.util.List<File> oldValue = (java.util.List<File>) recentFiles.clone();
         if (recentFiles.contains(file)) {
             recentFiles.remove(file);
@@ -239,30 +244,29 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         if (recentFiles.size() > maxRecentFilesCount) {
             recentFiles.removeLast();
         }
-        
+
         prefs.putInt("recentFileCount", recentFiles.size());
-        int i=0;
+        int i = 0;
         for (File f : recentFiles) {
-            prefs.put("recentFile."+i, f.getPath());
+            prefs.put("recentFile." + i, f.getPath());
             i++;
         }
-        
+
         firePropertyChange("recentFiles", oldValue, 0);
         firePropertyChange("recentFiles",
                 Collections.unmodifiableList(oldValue),
-                Collections.unmodifiableList(recentFiles)
-                );
+                Collections.unmodifiableList(recentFiles));
     }
-    
+
     public void removePalette(Window palette) {
     }
-    
+
     public void addPalette(Window palette) {
     }
-    
+
     public void removeWindow(Window window) {
     }
-    
+
     public void addWindow(Window window, View p) {
     }
 }

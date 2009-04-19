@@ -163,10 +163,12 @@ public class BidirectionalConnectionTool extends AbstractTool implements FigureL
         setCreatedFigure(null);
         fireToolDone();
     }
+    @Override
     public void activate(DrawingEditor editor) {
         super.activate(editor);
         getView().clearSelection();
     }
+    @Override
     public void deactivate(DrawingEditor editor) {
         super.deactivate(editor);
     }
@@ -175,12 +177,13 @@ public class BidirectionalConnectionTool extends AbstractTool implements FigureL
      * Creates the ConnectionFigure. By default the figure prototype is
      * cloned.
      */
+    @SuppressWarnings("unchecked")
     protected ConnectionFigure createFigure() {
         ConnectionFigure f = (ConnectionFigure) prototype.clone();
         getEditor().applyDefaultAttributesTo(f);
         if (attributes != null) {
             for (Map.Entry<AttributeKey, Object> entry : attributes.entrySet()) {
-                f.setAttribute(entry.getKey(), entry.getValue());
+                entry.getKey().basicSet(f, entry.getValue());
             }
         }
         return f;

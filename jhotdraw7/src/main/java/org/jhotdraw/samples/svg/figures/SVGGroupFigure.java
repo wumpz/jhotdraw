@@ -40,7 +40,7 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
     }
 
     @Override
-    public void setAttribute(AttributeKey key, Object value) {
+    public <T> void setAttribute(AttributeKey<T> key, T value) {
         if (key == OPACITY) {
             attributes.put(key, value);
         } else if (key == LINK || key == LINK_TARGET) {
@@ -52,8 +52,8 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
     }
 
     @Override
-    public Object getAttribute(AttributeKey name) {
-        return attributes.get(name);
+    public <T> T getAttribute(AttributeKey<T> key) {
+        return key.get(attributes);
     }
 
     @Override
@@ -61,6 +61,7 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
         return new HashMap<AttributeKey, Object>(attributes);
     }
 
+    @SuppressWarnings("unchecked")
     public void setAttributes(Map<AttributeKey, Object> map) {
         for (Map.Entry<AttributeKey, Object> entry : map.entrySet()) {
             setAttribute(entry.getKey(), entry.getValue());

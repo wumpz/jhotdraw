@@ -119,6 +119,7 @@ public class DefaultDOMFactory implements DOMFactory {
         return (enumToValueMap.containsKey(e)) ? enumToValueMap.get(e) : e.toString();
     }
     
+    @SuppressWarnings("unchecked")
     public Enum createEnum(String name, String value) {
         Class enumClass = nameToEnumClassMap.get(name);
         if (enumClass == null) {

@@ -55,6 +55,7 @@ public class ApplyAttributesAction extends AbstractSelectedAction {
         applyAttributes();
     }
 
+    @SuppressWarnings("unchecked")
     public void applyAttributes() {
         DrawingEditor editor = getEditor();
 
@@ -66,7 +67,7 @@ public class ApplyAttributesAction extends AbstractSelectedAction {
             figure.willChange();
             for (Map.Entry<AttributeKey, Object> entry : editor.getDefaultAttributes().entrySet()) {
                 if (!excludedAttributes.contains(entry.getKey())) {
-                    figure.setAttribute(entry.getKey(), entry.getValue());
+                    entry.getKey().basicSet(figure, entry.getValue());
                 }
             }
             figure.changed();

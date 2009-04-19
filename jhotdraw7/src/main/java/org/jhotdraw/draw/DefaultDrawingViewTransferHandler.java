@@ -48,6 +48,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public boolean importData(JComponent comp, Transferable t) {
         if (DEBUG) {
             System.out.println(this + ".importData");

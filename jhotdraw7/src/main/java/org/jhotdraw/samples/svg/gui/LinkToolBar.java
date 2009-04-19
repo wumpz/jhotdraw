@@ -75,7 +75,7 @@ public class LinkToolBar extends AbstractToolBar {
                     // Link field
                     JLabel linkLabel;
                     JScrollPane scrollPane;
-                    JAttributeTextArea linkField;
+                    JAttributeTextArea<String> linkField;
 
                     linkLabel = new javax.swing.JLabel();
                     linkLabel.setUI((LabelUI) PaletteLabelUI.createUI(linkLabel));
@@ -84,7 +84,7 @@ public class LinkToolBar extends AbstractToolBar {
                     linkLabel.setFont(PaletteLookAndFeel.getInstance().getFont("SmallSystemFont"));
 
                     scrollPane = new javax.swing.JScrollPane();
-                    linkField = new JAttributeTextArea();
+                    linkField = new JAttributeTextArea<String>();
 
                     linkLabel.setLabelFor(linkField);
                     gbc = new GridBagConstraints();
@@ -120,7 +120,7 @@ public class LinkToolBar extends AbstractToolBar {
 
                     // Target field
                     JLabel targetLabel;
-                    JAttributeTextField targetField;
+                    JAttributeTextField<String> targetField;
 
                     targetLabel = new javax.swing.JLabel();
                     targetLabel.setUI((LabelUI) PaletteLabelUI.createUI(targetLabel));
@@ -128,7 +128,7 @@ public class LinkToolBar extends AbstractToolBar {
                     targetLabel.setText(labels.getString("attribute.figureLinkTarget.text")); // NOI18N
                     //targetLabel.setFont(PaletteLookAndFeel.getInstance().getFont("SmallSystemFont"));
 
-                    targetField = new JAttributeTextField();
+                    targetField = new JAttributeTextField<String>();
 
                     targetLabel.setLabelFor(targetField);
                     gbc = new GridBagConstraints();
@@ -168,10 +168,10 @@ public class LinkToolBar extends AbstractToolBar {
 
                     // Link field
                     JScrollPane scrollPane;
-                    JAttributeTextArea linkField;
+                    JAttributeTextArea<String> linkField;
 
                     scrollPane = new javax.swing.JScrollPane();
-                    linkField = new JAttributeTextArea();
+                    linkField = new JAttributeTextArea<String>();
 
                     scrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
                     scrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -199,7 +199,7 @@ public class LinkToolBar extends AbstractToolBar {
 
                     // Target field
                     JLabel targetLabel;
-                    JAttributeTextField targetField;
+                    JAttributeTextField<String> targetField;
 
                     targetLabel = new javax.swing.JLabel();
                     targetLabel.setUI((LabelUI) PaletteLabelUI.createUI(targetLabel));
@@ -207,7 +207,7 @@ public class LinkToolBar extends AbstractToolBar {
                     targetLabel.setText(labels.getString("attribute.figureLinkTarget.text")); // NOI18N
                     //targetLabel.setFont(PaletteLookAndFeel.getInstance().getFont("SmallSystemFont"));
 
-                    targetField = new JAttributeTextField();
+                    targetField = new JAttributeTextField<String>();
 
                     targetLabel.setLabelFor(targetField);
                     gbc = new GridBagConstraints();

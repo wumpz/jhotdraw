@@ -85,7 +85,7 @@ public class CanvasToolBar extends AbstractToolBar {
                     JAttributeSlider opacitySlider = new JAttributeSlider(JSlider.VERTICAL, 0, 100, 100);
                     opacitySlider.setUI((SliderUI) PaletteSliderUI.createUI(opacitySlider));
                     opacitySlider.setScaleFactor(100d);
-                    new DrawingAttributeEditorHandler(CANVAS_FILL_OPACITY, opacitySlider, editor);
+                    new DrawingAttributeEditorHandler<Double>(CANVAS_FILL_OPACITY, opacitySlider, editor);
                     opacityPopupButton.add(opacitySlider);
                     labels.configureToolBarButton(opacityPopupButton, "attribute.canvasFillOpacity");
                     opacityPopupButton.setUI((PaletteButtonUI) PaletteButtonUI.createUI(opacityPopupButton));
@@ -128,12 +128,12 @@ public class CanvasToolBar extends AbstractToolBar {
 
                     // Width and height fields
                     JLabel widthLabel, heightLabel;
-                    JAttributeTextField widthField, heightField;
+                    JAttributeTextField<Double> widthField, heightField;
 
                     widthLabel = new javax.swing.JLabel();
                     heightLabel = new javax.swing.JLabel();
-                    widthField = new JAttributeTextField();
-                    heightField = new JAttributeTextField();
+                    widthField = new JAttributeTextField<Double>();
+                    heightField = new JAttributeTextField<Double>();
 
                     widthLabel.setUI((LabelUI) PaletteLabelUI.createUI(widthLabel));
                     widthLabel.setLabelFor(widthField);
@@ -152,7 +152,7 @@ public class CanvasToolBar extends AbstractToolBar {
                     widthField.setToolTipText(labels.getString("attribute.canvasWidth.toolTipText"));
                     widthField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(1d, 4096d, 1d, true, false));
                     widthField.setHorizontalAlignment(JTextField.LEADING);
-                    new DrawingAttributeEditorHandler(CANVAS_WIDTH, widthField, editor);
+                    new DrawingAttributeEditorHandler<Double>(CANVAS_WIDTH, widthField, editor);
                     gbc = new GridBagConstraints();
                     gbc.gridx = 1;
                     gbc.gridy = 2;
@@ -179,7 +179,7 @@ public class CanvasToolBar extends AbstractToolBar {
                     heightField.setToolTipText(labels.getString("attribute.canvasHeight.toolTipText"));
                     heightField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(1d, 4096d, 1d, true, false));
                     heightField.setHorizontalAlignment(JTextField.LEADING);
-                    new DrawingAttributeEditorHandler(CANVAS_HEIGHT, heightField, editor);
+                    new DrawingAttributeEditorHandler<Double>(CANVAS_HEIGHT, heightField, editor);
                     gbc = new GridBagConstraints();
                     gbc.gridx = 4;
                     gbc.gridy = 2;
@@ -225,7 +225,7 @@ public class CanvasToolBar extends AbstractToolBar {
                     AbstractButton btn;
 
                     // Fill color field with button
-                    JAttributeTextField colorField = new JAttributeTextField();
+                    JAttributeTextField<Color> colorField = new JAttributeTextField<Color>();
                     colorField.setColumns(7);
                     colorField.setToolTipText(labels.getString("attribute.canvasFillColor.toolTipText"));
                     colorField.putClientProperty("Palette.Component.segmentPosition", "first");
@@ -249,7 +249,7 @@ public class CanvasToolBar extends AbstractToolBar {
                     p1.add(btn, gbc);
 
                     // Opacity field with slider
-                    JAttributeTextField opacityField = new JAttributeTextField();
+                    JAttributeTextField<Double> opacityField = new JAttributeTextField<Double>();
                     opacityField.setColumns(3);
                     opacityField.setToolTipText(labels.getString("attribute.figureOpacity.toolTipText"));
                     opacityField.setHorizontalAlignment(JAttributeTextField.RIGHT);
@@ -268,7 +268,7 @@ public class CanvasToolBar extends AbstractToolBar {
                     JAttributeSlider opacitySlider = new JAttributeSlider(JSlider.VERTICAL, 0, 100, 100);
                     opacitySlider.setUI((SliderUI) PaletteSliderUI.createUI(opacitySlider));
                     opacitySlider.setScaleFactor(100d);
-                    new DrawingAttributeEditorHandler(CANVAS_FILL_OPACITY, opacitySlider, editor);
+                    new DrawingAttributeEditorHandler<Double>(CANVAS_FILL_OPACITY, opacitySlider, editor);
                     opacityPopupButton.add(opacitySlider);
                     labels.configureToolBarButton(opacityPopupButton, "attribute.canvasFillOpacity");
                     opacityPopupButton.setUI((PaletteButtonUI) PaletteButtonUI.createUI(opacityPopupButton));
@@ -310,12 +310,12 @@ public class CanvasToolBar extends AbstractToolBar {
 
                     // Width and height fields
                     JLabel widthLabel, heightLabel;
-                    JAttributeTextField widthField, heightField;
+                    JAttributeTextField<Double> widthField, heightField;
 
                     widthLabel = new javax.swing.JLabel();
                     heightLabel = new javax.swing.JLabel();
-                    widthField = new JAttributeTextField();
-                    heightField = new JAttributeTextField();
+                    widthField = new JAttributeTextField<Double>();
+                    heightField = new JAttributeTextField<Double>();
 
                     widthLabel.setUI((LabelUI) PaletteLabelUI.createUI(widthLabel));
                     widthLabel.setLabelFor(widthField);
@@ -334,7 +334,7 @@ public class CanvasToolBar extends AbstractToolBar {
                     widthField.setToolTipText(labels.getString("attribute.canvasWidth.toolTipText"));
                     widthField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(1d, 4096d, 1d, true, false));
                     widthField.setHorizontalAlignment(JTextField.LEADING);
-                    new DrawingAttributeEditorHandler(CANVAS_WIDTH, widthField, editor);
+                    new DrawingAttributeEditorHandler<Double>(CANVAS_WIDTH, widthField, editor);
                     gbc = new GridBagConstraints();
                     gbc.gridx = 1;
                     gbc.gridy = 2;
@@ -361,7 +361,7 @@ public class CanvasToolBar extends AbstractToolBar {
                     heightField.setToolTipText(labels.getString("attribute.canvasHeight.toolTipText"));
                     heightField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(1d, 4096d, 1d, true, false));
                     heightField.setHorizontalAlignment(JTextField.LEADING);
-                    new DrawingAttributeEditorHandler(CANVAS_HEIGHT, heightField, editor);
+                    new DrawingAttributeEditorHandler<Double>(CANVAS_HEIGHT, heightField, editor);
                     gbc = new GridBagConstraints();
                     gbc.gridx = 4;
                     gbc.gridy = 2;

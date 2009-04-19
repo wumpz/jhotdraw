@@ -46,6 +46,7 @@ import java.util.Vector;
  * @author Marc De Scheemaecker
  * @version $Name: RELEASE_2_2_1 $, $Revision: 1.4 $
  */
+@SuppressWarnings("unchecked")
 public class XMLWriter
 {
 

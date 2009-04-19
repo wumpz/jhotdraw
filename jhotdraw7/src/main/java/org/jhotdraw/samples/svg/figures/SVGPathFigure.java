@@ -279,6 +279,8 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         invalidate();
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
     public void restoreTransformTo(Object geometry) {
         invalidate();
         Object[] restoreData = (Object[]) geometry;
@@ -291,6 +293,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         STROKE_GRADIENT.basicSetClone(this, (Gradient) restoreData[3]);
     }
 
+    @Override
     public Object getTransformRestoreData() {
         ArrayList<Object> paths = new ArrayList<Object>(getChildCount());
         for (int i = 0,  n = getChildCount(); i < n; i++) {
@@ -304,7 +307,8 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         };   
     }
 
-    public void setAttribute(AttributeKey key, Object newValue) {
+    @Override
+    public <T> void setAttribute(AttributeKey<T> key, T newValue) {
         super.setAttribute(key, newValue);
         invalidate();
     }

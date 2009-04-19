@@ -60,7 +60,6 @@ public class BezierTool extends AbstractTool {
      */
     private String presentationName;
     private Point mouseLocation;
-
     /** Holds the view on which we are currently creating a figure. */
     private DrawingView creationView;
 
@@ -70,11 +69,11 @@ public class BezierTool extends AbstractTool {
     }
 
     /** Creates a new instance. */
-    public BezierTool(BezierFigure prototype, Map attributes) {
+    public BezierTool(BezierFigure prototype, Map<AttributeKey, Object> attributes) {
         this(prototype, attributes, null);
     }
 
-    public BezierTool(BezierFigure prototype, Map attributes, String name) {
+    public BezierTool(BezierFigure prototype, Map<AttributeKey, Object> attributes, String name) {
         this.prototype = prototype;
         this.attributes = attributes;
         if (name == null) {
@@ -130,7 +129,7 @@ public class BezierTool extends AbstractTool {
 
         if (createdFigure != null && creationView != getView()) {
             finishCreation(createdFigure, creationView);
-            createdFigure=null;
+            createdFigure = null;
         }
 
 
@@ -153,12 +152,13 @@ public class BezierTool extends AbstractTool {
         nodeCountBeforeDrag = createdFigure.getNodeCount();
     }
 
+    @SuppressWarnings("unchecked")
     protected BezierFigure createFigure() {
         BezierFigure f = (BezierFigure) prototype.clone();
         getEditor().applyDefaultAttributesTo(f);
         if (attributes != null) {
             for (Map.Entry<AttributeKey, Object> entry : attributes.entrySet()) {
-                f.setAttribute(entry.getKey(), entry.getValue());
+                entry.getKey().basicSet(f, entry.getValue());
             }
         }
         return f;
@@ -325,15 +325,15 @@ public class BezierTool extends AbstractTool {
     public void mouseMoved(MouseEvent evt) {
         if (createdFigure != null && anchor != null && mouseLocation != null) {
             if (evt.getSource() == creationView) {
-            Rectangle r = new Rectangle(anchor);
-            r.add(mouseLocation);
-            r.add(evt.getPoint());
-            if (createdFigure.isClosed() && createdFigure.getNodeCount() > 0) {
-                r.add(creationView.drawingToView(createdFigure.getStartPoint()));
-            }
-            r.grow(1, 1);
-            fireAreaInvalidated(r);
-        mouseLocation = evt.getPoint();
+                Rectangle r = new Rectangle(anchor);
+                r.add(mouseLocation);
+                r.add(evt.getPoint());
+                if (createdFigure.isClosed() && createdFigure.getNodeCount() > 0) {
+                    r.add(creationView.drawingToView(createdFigure.getStartPoint()));
+                }
+                r.grow(1, 1);
+                fireAreaInvalidated(r);
+                mouseLocation = evt.getPoint();
             }
         }
     }

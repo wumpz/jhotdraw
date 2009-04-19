@@ -296,7 +296,7 @@ public class BezierFigure extends AbstractAttributedFigure {
         CLOSED.set(this, newValue);
     }
     @Override
-    public void setAttribute(AttributeKey key, Object newValue) {
+    public <T> void setAttribute(AttributeKey<T> key, T newValue) {
         if (key == CLOSED) {
             path.setClosed((Boolean) newValue);
         } else if (key == WINDING_RULE) {

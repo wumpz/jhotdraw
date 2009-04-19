@@ -43,6 +43,7 @@ import java.util.Stack;
  * @author Marc De Scheemaecker
  * @version $Name: RELEASE_2_2_1 $, $Revision: 1.3 $
  */
+@SuppressWarnings("unchecked")
 public class StdXMLBuilder
    implements IXMLBuilder
 {

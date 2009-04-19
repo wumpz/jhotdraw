@@ -58,7 +58,7 @@ public class CharacterSetAccessory extends javax.swing.JPanel {
             new Worker() {
                 public Object construct() {
                     SortedMap<String,Charset> sm = Charset.availableCharsets();
-                    LinkedList list = new LinkedList();
+                    LinkedList<String> list = new LinkedList<String>();
                     for (String key : sm.keySet()) {
                         if (! key.startsWith("x-")) {
                             list.add(key);

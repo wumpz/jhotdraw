@@ -370,7 +370,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
         return (getText() == null) ? 4 : Math.max(getText().length(), 4);
     }
 
-    public void setAttribute(AttributeKey key, Object newValue) {
+    public <T> void setAttribute(AttributeKey<T> key, T newValue) {
         if (key == SVGAttributeKeys.TRANSFORM ||
                 key == SVGAttributeKeys.FONT_FACE ||
                 key == SVGAttributeKeys.FONT_BOLD ||

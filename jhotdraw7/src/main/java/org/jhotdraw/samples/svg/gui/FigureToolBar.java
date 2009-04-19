@@ -112,7 +112,7 @@ public class FigureToolBar extends AbstractToolBar {
                     p.setBorder(new EmptyBorder(5, 5, 5, 8));
 
                     // Opacity field with slider
-                    JAttributeTextField opacityField = new JAttributeTextField();
+                    JAttributeTextField<Double> opacityField = new JAttributeTextField<Double>();
                     opacityField.setColumns(3);
                     opacityField.setToolTipText(labels.getString("attribute.figureOpacity.toolTipText"));
                     opacityField.setHorizontalAlignment(JAttributeTextField.RIGHT);

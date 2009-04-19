@@ -261,12 +261,13 @@ public class CreationTool extends AbstractTool {
         }
     }
 
+    @SuppressWarnings("unchecked")
     protected Figure createFigure() {
         Figure f = (Figure) prototype.clone();
         getEditor().applyDefaultAttributesTo(f);
         if (prototypeAttributes != null) {
             for (Map.Entry<AttributeKey, Object> entry : prototypeAttributes.entrySet()) {
-                f.setAttribute(entry.getKey(), entry.getValue());
+                entry.getKey().basicSet(f, entry.getValue());
             }
         }
         return f;

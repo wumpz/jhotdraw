@@ -38,6 +38,7 @@ public class ODGPropertiesPanel extends javax.swing.JPanel {
     private FigureAttributeEditorHandler linkFieldHandler;
     
     /** Creates new instance. */
+    @SuppressWarnings("unchecked")
     public ODGPropertiesPanel() {
         initComponents();
         
@@ -47,9 +48,9 @@ public class ODGPropertiesPanel extends javax.swing.JPanel {
         add(opacityPopupButton);
 
         opacityField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0d, 1d, 100d));
-        opacityFieldHandler = new FigureAttributeEditorHandler(OPACITY, opacityField, editor);
-        opacitySliderHandler = new FigureAttributeEditorHandler(OPACITY, opacitySlider, editor);
-        linkFieldHandler = new FigureAttributeEditorHandler(LINK, linkField, editor);
+        opacityFieldHandler = new FigureAttributeEditorHandler<Double>(OPACITY, opacityField, editor);
+        opacitySliderHandler = new FigureAttributeEditorHandler<Double>(OPACITY, opacitySlider, editor);
+        linkFieldHandler = new FigureAttributeEditorHandler<String>(LINK, linkField, editor);
         
         // set fonts
         Font font = getFont().deriveFont(11f);

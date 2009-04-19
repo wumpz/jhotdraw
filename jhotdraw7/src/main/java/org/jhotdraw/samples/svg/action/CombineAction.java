@@ -146,6 +146,7 @@ public class CombineAction extends AbstractSelectedAction {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public void splitActionPerformed(java.awt.event.ActionEvent e) {
         final DrawingView view = getView();
         Drawing drawing = view.getDrawing();
@@ -207,6 +208,7 @@ public class CombineAction extends AbstractSelectedAction {
         view.addToSelection(ungroupedPaths);
     }
 
+    @SuppressWarnings("unchecked")
     public void combinePaths(DrawingView view, CompositeFigure group, Collection<Figure> figures, int groupIndex) {
         view.getDrawing().basicRemoveAll(figures);
         view.clearSelection();

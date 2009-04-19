@@ -86,6 +86,7 @@ public class AttributeAction extends AbstractSelectedAction {
      * @param a The attributes.
      * @param figures The figures to which the attributes are applied.
      */
+    @SuppressWarnings("unchecked")
     public void applyAttributesTo(final Map<AttributeKey, Object> a, Set<Figure> figures) {
         for (Map.Entry<AttributeKey, Object> entry : a.entrySet()) {
             getEditor().setDefaultAttribute(entry.getKey(), entry.getValue());

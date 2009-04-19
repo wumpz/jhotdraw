@@ -1,5 +1,5 @@
 /*
- * @(#)DrawingEditor.java  3.1 2008-05-23
+ * @(#)DrawingEditor.java  4.0  2009-04-19
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -15,7 +15,6 @@
 
 package org.jhotdraw.draw;
 
-import java.awt.event.*;
 import java.awt.*;
 import java.beans.*;
 import java.util.*;
@@ -50,7 +49,9 @@ import java.util.*;
  * Real Subject.
  * 
  * @author Werner Randelshofer
- * @version 3.1 2008-05-23 Added TOOL_PROPERTY. 
+ * @version 4.0 2009-04-18 Made set/getDefaultAttribute methods and
+ * set/getHandleAttribute methods type safe.
+ * <br>3.1 2008-05-23 Added TOOL_PROPERTY.
  * <br>3.0 2008-05-11 Added methods setHandleAttribute, getHandleAttribute. 
  * <br>2.4 2007-12-25 Renamed PROP_CURRENT_VIEW to ACTIVE_VIEW_PROPERTY. 
  * <br>2.3 2007-05-26 Streamlined methods setActiveView, setFocusedView, getActiveView
@@ -147,13 +148,13 @@ public interface DrawingEditor {
      * The default attribute will be used by creation tools, to create a new
      * figure.
      */
-    public void setDefaultAttribute(AttributeKey key, Object value);
+    public <T> void setDefaultAttribute(AttributeKey<T> key, T value);
     /**
      * Gets a default attribute from the editor.
      * The default attribute will be used by creation tools, to create a new
      * figure.
      */
-    public Object getDefaultAttribute(AttributeKey key);
+    public <T> T getDefaultAttribute(AttributeKey<T> key);
     /**
      * Applies the default attributes to the specified figure.
      */
@@ -171,7 +172,7 @@ public interface DrawingEditor {
      * @param key AttributeKey. 
      * @param value Attribute value. 
      */
-    public void setHandleAttribute(AttributeKey key, Object value);
+    public <T> void setHandleAttribute(AttributeKey<T> key, T value);
     /**
      * Gets a handle attribute from the editor.
      * The default attribute will be used by creation tools, to create a new
@@ -182,7 +183,7 @@ public interface DrawingEditor {
      * @return If the handle attribute has been set, returns the previously
      * set value. If the handle attribute has not been set, returns key.getDefaultValue().
      */
-    public Object getHandleAttribute(AttributeKey key);
+    public <T> T getHandleAttribute(AttributeKey<T> key);
     
      /**
       * Sets the enabled state of the drawing editor.

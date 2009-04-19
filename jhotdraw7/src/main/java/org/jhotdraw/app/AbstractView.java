@@ -58,9 +58,9 @@ public abstract class AbstractView extends JPanel implements View {
      */
     protected ExecutorService executor;
     /**
-     * Hash map for storing view actions.
+     * Hash map for storing view actions by their ID.
      */
-    private HashMap actions;
+    private HashMap<String,Action> actions;
     /**
      * This is set to true, if the view has unsaved changes.
      */
@@ -232,7 +232,7 @@ public abstract class AbstractView extends JPanel implements View {
      */
     public void putAction(String id, Action action) {
         if (actions == null) {
-            actions = new HashMap();
+            actions = new HashMap<String,Action>();
         }
         if (action == null) {
             actions.remove(id);

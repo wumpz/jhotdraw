@@ -67,6 +67,7 @@ public class JAttributeTextArea<T> extends JLifeFormattedTextArea implements Att
         return this;
     }
 
+    @SuppressWarnings("unchecked")
     public T getAttributeValue() {
         return (T) getValue();
     }

@@ -140,6 +140,7 @@ public class NetApplet extends JApplet {
     /**
      * Configure Drawing object to support copy and paste.
      */
+    @SuppressWarnings("unchecked")
     private void initDrawing(Drawing d) {
         d.setInputFormats((java.util.List<InputFormat>) Collections.EMPTY_LIST);
         d.setOutputFormats((java.util.List<OutputFormat>) Collections.EMPTY_LIST);

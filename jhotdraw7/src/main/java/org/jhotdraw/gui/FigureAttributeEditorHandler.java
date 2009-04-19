@@ -41,8 +41,9 @@ public class FigureAttributeEditorHandler<T> extends AbstractAttributeEditorHand
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     protected Set<Figure> getEditedFigures() {
-        return (activeView == null) ? Collections.EMPTY_SET : activeView.getSelectedFigures();
+        return (Set<Figure>) ((activeView == null) ? Collections.emptySet() : activeView.getSelectedFigures());
     }
 
 }

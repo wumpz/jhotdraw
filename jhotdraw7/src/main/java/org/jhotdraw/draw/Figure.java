@@ -1,7 +1,7 @@
 /*
- * @(#)Figure.java  7.1  2008-05-17
+ * @(#)Figure.java  8.0  2009-04-19
  *
- * Copyright (c) 1996-2008 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -13,15 +13,11 @@
  */
 package org.jhotdraw.draw;
 
-import org.jhotdraw.util.*;
-import java.beans.*;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
-import javax.swing.undo.*;
-import javax.swing.event.*;
 import java.io.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMStorable;
@@ -67,7 +63,8 @@ import org.jhotdraw.xml.DOMStorable;
  * 
  * 
  * @author Werner Randelshofer
- * @version 7.1 2008-05-17 Added support for mouse hover handles.
+ * @version 8.0 2009-04-18 Made set/getAttribute methods type safe.
+ * <br>7.1 2008-05-17 Added support for mouse hover handles.
  * <br>7.0.1 2008-02-13 Fixed comments on
  * setAttribute and getAttribute methods.
  * <br>7.0 2008-02-13 Huw Jones: Added method isTransformable.
@@ -231,25 +228,25 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * Sets an attribute of the figure and calls attributeChanged on all
      * registered FigureListener's.
      * <p>
-     * This method is not typesafe, you should never call it directly, use 
-     * <code>AttributeKey.set</code> instead.
+     * For efficiency reasons, the drawing is not automatically repainted.
+     * If you want the drawing to be repainted when the attribute is changed,
+     * you can either use {@code key.set(figure, value); } or
+     * {@code figure.willChange(); figure.setAttribute(key, value);
+     * figure.changed(); }.
      * 
      * @see AttributeKey#set
      */
-    public void setAttribute(AttributeKey key, Object value);
+    public <T> void setAttribute(AttributeKey<T> key, T value);
 
     /**
      * Gets an attribute from the Figure.
-     * <p>
-     * This method is not typesafe, you should never call it directly, use 
-     * <code>AttributeKey.get</code> instead.
      * 
      * @see AttributeKey#get
      *
      * @return Returns the attribute value. If the Figure does not have an
      * attribute with the specified key, returns key.getDefaultValue().
      */
-    public Object getAttribute(AttributeKey key);
+    public <T> T getAttribute(AttributeKey<T> key);
 
     /**
      * Returns a view to all attributes of this figure.

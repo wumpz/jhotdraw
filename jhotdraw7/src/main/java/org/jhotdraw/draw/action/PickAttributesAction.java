@@ -52,6 +52,7 @@ public class PickAttributesAction extends AbstractSelectedAction {
         pickAttributes();
     }
     
+    @SuppressWarnings("unchecked")
     public void pickAttributes() {
         DrawingEditor editor = getEditor();
         Collection<Figure> selection = getView().getSelectedFigures();

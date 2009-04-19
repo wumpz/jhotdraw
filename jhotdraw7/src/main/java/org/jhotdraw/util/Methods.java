@@ -23,6 +23,7 @@ import java.lang.reflect.*;
  * @version 1.0.1 2006-06-25 Fixed comments.
  * <br>1.0 September 24, 2005 Created.
  */
+@SuppressWarnings("unchecked")
 public class Methods {
     /**
      * Prevent instance creation.

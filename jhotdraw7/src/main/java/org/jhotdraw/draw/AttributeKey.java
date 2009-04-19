@@ -11,12 +11,12 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.draw;
 
 import java.util.*;
 import javax.swing.undo.*;
 import org.jhotdraw.util.*;
+
 /**
  * AttributeKey provides typesafe access to figure attributes.
  * <p>
@@ -46,28 +46,32 @@ import org.jhotdraw.util.*;
  * <br>1.0 7. Juni 2006 Created.
  */
 public class AttributeKey<T> {
+
     private String key;
     private T defaultValue;
     private boolean isNullValueAllowed;
     private ResourceBundleUtil labels;
-    
+
     /** Creates a new instance with the specified attribute key,
      * default value null, and allowing null values. */
     public AttributeKey(String key) {
         this(key, null, true);
     }
-    /** Creates a new instance with the specified attribute key, 
+
+    /** Creates a new instance with the specified attribute key,
      * and default value, and allowing null values. */
     public AttributeKey(String key, T defaultValue) {
         this(key, defaultValue, true);
     }
-    /** Creates a new instance with the specified attribute key, 
+
+    /** Creates a new instance with the specified attribute key,
      * default value, and allowing or disallowing null values. */
     public AttributeKey(String key, T defaultValue, boolean isNullValueAllowed) {
         this.key = key;
         this.defaultValue = defaultValue;
         this.isNullValueAllowed = isNullValueAllowed;
     }
+
     /** Creates a new instance with the specified attribute key,
      * default value, and allowing or disallowing null values. */
     public AttributeKey(String key, T defaultValue, boolean isNullValueAllowed, ResourceBundleUtil labels) {
@@ -76,32 +80,34 @@ public class AttributeKey<T> {
         this.isNullValueAllowed = isNullValueAllowed;
         this.labels = labels;
     }
-    
+
     public String getKey() {
         return key;
     }
 
     public String getPresentationName() {
-        return (labels == null) ? key : labels.getString("attribute."+key+".text");
+        return (labels == null) ? key : labels.getString("attribute." + key + ".text");
     }
 
     public T getDefaultValue() {
         return defaultValue;
     }
+
     /**
      * Gets a clone of the value from the Figure.
      */
+    @SuppressWarnings("unchecked")
     public T getClone(Figure f) {
         T value = get(f);
         try {
-            return value == null ? null : (T) Methods.invoke(value,"clone");
+            return value == null ? null : (T) Methods.invoke(value, "clone");
         } catch (NoSuchMethodException ex) {
             InternalError e = new InternalError();
             e.initCause(ex);
             throw e;
         }
     }
-    
+
     /**
      * Gets the value of the attribute denoted by this AttributeKey from
      * a Figure.
@@ -111,8 +117,9 @@ public class AttributeKey<T> {
      */
     public T get(Figure f) {
         T value = (T) f.getAttribute(this);
-        return (value == null && ! isNullValueAllowed) ? defaultValue : value;
+        return (value == null && !isNullValueAllowed) ? defaultValue : value;
     }
+
     /**
      * Gets the value of the attribute denoted by this AttributeKey from
      * a Map.
@@ -120,11 +127,12 @@ public class AttributeKey<T> {
      * @param a A Map.
      * @return The value of the attribute.
      */
-    public T get(Map<AttributeKey,Object> a) {
+    @SuppressWarnings("unchecked")
+    public T get(Map<AttributeKey, Object> a) {
         T value = (T) a.get(this);
-        return (value == null && ! isNullValueAllowed) ? defaultValue : value;
+        return (value == null && !isNullValueAllowed) ? defaultValue : value;
     }
-    
+
     /**
      * Convenience method for setting a value on the 
      * specified figure and calling willChange before and changed 
@@ -138,6 +146,7 @@ public class AttributeKey<T> {
         basicSet(f, value);
         f.changed();
     }
+
     /**
      * Sets a value on the specified figure without invoking {@code willChange}
      * and {@code changed} on the figure.
@@ -149,31 +158,33 @@ public class AttributeKey<T> {
      * @param value the attribute value
      */
     public void basicSet(Figure f, T value) {
-        if (value == null && ! isNullValueAllowed) {
-            throw new NullPointerException("Null value not allowed for AttributeKey "+key);
+        if (value == null && !isNullValueAllowed) {
+            throw new NullPointerException("Null value not allowed for AttributeKey " + key);
         }
         f.setAttribute(this, value);
     }
-    
+
     /**
      * Sets the attribute and returns an UndoableEditEvent which can be used
      * to undo it.
      */
     public UndoableEdit setUndoable(final Figure figure, final T value) {
-        if (value == null && ! isNullValueAllowed) {
-            throw new NullPointerException("Null value not allowed for AttributeKey "+key);
+        if (value == null && !isNullValueAllowed) {
+            throw new NullPointerException("Null value not allowed for AttributeKey " + key);
         }
-        
+
         final Object restoreData = figure.getAttributesRestoreData();
         figure.willChange();
         figure.setAttribute(this, value);
         figure.changed();
-        
+
         UndoableEdit edit = new AbstractUndoableEdit() {
+
             @Override
             public String getPresentationName() {
                 return AttributeKey.this.getPresentationName();
             }
+
             @Override
             public void undo() {
                 super.undo();
@@ -181,6 +192,7 @@ public class AttributeKey<T> {
                 figure.restoreAttributesTo(restoreData);
                 figure.changed();
             }
+
             @Override
             public void redo() {
                 super.redo();
@@ -190,8 +202,9 @@ public class AttributeKey<T> {
             }
         };
         return edit;
-        
+
     }
+
     /**
      * Convenience method for seting a clone of a value on the 
      * specified figure and calling willChange before and changed 
@@ -205,6 +218,7 @@ public class AttributeKey<T> {
         basicSetClone(f, value);
         f.changed();
     }
+
     /**
      * Sets a clone of a value on the specified figure, without invoking
      * {@code willChange} and {@code changed} on the figure.
@@ -215,47 +229,58 @@ public class AttributeKey<T> {
      * @param f the Figure
      * @param value the attribute value
      */
+    @SuppressWarnings("unchecked")
     public void basicSetClone(Figure f, T value) {
         try {
-            basicSet(f, value == null ? null : (T) Methods.invoke(value,"clone"));
+            basicSet(f, value == null ? null : (T) Methods.invoke(value, "clone"));
         } catch (NoSuchMethodException ex) {
             InternalError e = new InternalError();
             e.initCause(ex);
             throw e;
         }
     }
-    public void set(Map<AttributeKey,Object> a, T value) {
-        if (value == null && ! isNullValueAllowed) {
-            throw new NullPointerException("Null value not allowed for AttributeKey "+key);
-        }
-        a.put(this, value);
+
+    public void set(Map<AttributeKey, Object> a, T value) {
+        put(a, value);
     }
+
+    @SuppressWarnings("unchecked")
+    public T put(Map<AttributeKey, Object> a, T value) {
+        if (value == null && !isNullValueAllowed) {
+            throw new NullPointerException("Null value not allowed for AttributeKey " + key);
+        }
+        return (T) a.put(this, value);
+    }
+
     /**
      * Sets a clone of the value to the Figure without firing events.
      */
-    public void setClone(Map<AttributeKey,Object> a, T value) {
+    @SuppressWarnings("unchecked")
+    public void setClone(Map<AttributeKey, Object> a, T value) {
         try {
-            set(a, value == null ? null : (T) Methods.invoke(value,"clone"));
+            set(a, value == null ? null : (T) Methods.invoke(value, "clone"));
         } catch (NoSuchMethodException ex) {
             InternalError e = new InternalError();
             e.initCause(ex);
             throw e;
         }
     }
-    
+
+    @Override
     public String toString() {
         return key;
     }
-    
+
     public boolean isNullValueAllowed() {
         return isNullValueAllowed;
     }
-    
+
+    @SuppressWarnings("unchecked")
     public boolean isAssignable(Object value) {
         if (value == null) {
             return isNullValueAllowed();
         }
-        
+
         // XXX - This works, but maybe there is an easier way to do this?
         try {
             T a = (T) value;

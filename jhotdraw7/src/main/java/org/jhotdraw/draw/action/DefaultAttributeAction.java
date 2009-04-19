@@ -88,6 +88,7 @@ public class DefaultAttributeAction extends AbstractSelectedAction {
         }
     }
     
+    @SuppressWarnings("unchecked")
     public void changeAttribute() {
         CompositeEdit edit = new CompositeEdit("attributes");
         fireUndoableEditHappened(edit);

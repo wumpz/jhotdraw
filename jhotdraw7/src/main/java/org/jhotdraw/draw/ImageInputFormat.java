@@ -154,7 +154,7 @@ public class ImageInputFormat implements InputFormat {
                         new Point2D.Double(
                         figure.getBufferedImage().getWidth(),
                         figure.getBufferedImage().getHeight()));
-                LinkedList list = new LinkedList<Figure>();
+                LinkedList<Figure> list = new LinkedList<Figure>();
                 list.add(figure);
                 if (replace) {
                     drawing.removeAllChildren();
@@ -180,7 +180,7 @@ public class ImageInputFormat implements InputFormat {
                         new Point2D.Double(
                         figure.getBufferedImage().getWidth(),
                         figure.getBufferedImage().getHeight()));
-                LinkedList list = new LinkedList<Figure>();
+                LinkedList<Figure> list = new LinkedList<Figure>();
                 list.add(figure);
                 if (replace) {
                     drawing.removeAllChildren();

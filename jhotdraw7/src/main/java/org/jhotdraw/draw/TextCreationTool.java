@@ -51,7 +51,7 @@ public class TextCreationTool extends CreationTool implements ActionListener {
         super(prototype);
     }
     /** Creates a new instance. */
-    public TextCreationTool(TextHolderFigure prototype, Map attributes) {
+    public TextCreationTool(TextHolderFigure prototype, Map<AttributeKey,Object> attributes) {
         super(prototype, attributes);
     }
     

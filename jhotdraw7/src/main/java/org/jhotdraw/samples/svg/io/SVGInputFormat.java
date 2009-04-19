@@ -204,7 +204,7 @@ public class SVGInputFormat implements InputFormat {
         // Search for the first 'svg' element in the XML document
         // in preorder sequence
         IXMLElement svg = document;
-        Stack<Iterator> stack = new Stack<Iterator>();
+        Stack<Iterator<IXMLElement>> stack = new Stack<Iterator<IXMLElement>>();
         LinkedList<IXMLElement> ll = new LinkedList<IXMLElement>();
         ll.add(document);
         stack.push(ll.iterator());
@@ -1083,6 +1083,7 @@ public class SVGInputFormat implements InputFormat {
     /**
      * Reads an SVG "use" element.
      */
+    @SuppressWarnings("unchecked")
     private Figure readUseElement(IXMLElement elem)
             throws IOException {
         HashMap<AttributeKey, Object> a = new HashMap<AttributeKey, Object>();

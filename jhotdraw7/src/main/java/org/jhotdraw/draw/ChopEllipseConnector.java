@@ -41,10 +41,10 @@ public class ChopEllipseConnector extends ChopRectangleConnector {
     }
     
     private Color getStrokeColor(Figure f) {
-        return (Color) f.getAttribute(STROKE_COLOR);
+        return STROKE_COLOR.get(f);
     }
     private float getStrokeWidth(Figure f) {
-        Float w = (Float) f.getAttribute(STROKE_WIDTH);
+        Double w = STROKE_WIDTH.get(f);
         return (w == null) ? 1f : w.floatValue();
     }
 

@@ -77,6 +77,7 @@ public class DrawingAttributeAction extends AbstractDrawingViewAction {
         updateEnabledState();
     }
 
+    @SuppressWarnings("unchecked")
     public void actionPerformed(java.awt.event.ActionEvent evt) {
         final ArrayList<Object> restoreData = new ArrayList<Object>();
         final Figure drawing = getView().getDrawing();
@@ -89,6 +90,7 @@ public class DrawingAttributeAction extends AbstractDrawingViewAction {
 
         UndoableEdit edit = new AbstractUndoableEdit() {
 
+            @Override
             public String getPresentationName() {
                 String name = (String) getValue(Actions.UNDO_PRESENTATION_NAME_KEY);
                 if (name == null) {
@@ -101,6 +103,7 @@ public class DrawingAttributeAction extends AbstractDrawingViewAction {
                 return name;
             }
 
+            @Override
             public void undo() {
                 super.undo();
                 Iterator<Object> iRestore = restoreData.iterator();
@@ -110,6 +113,8 @@ public class DrawingAttributeAction extends AbstractDrawingViewAction {
                 drawing.changed();
             }
 
+            @Override
+    @SuppressWarnings("unchecked")
             public void redo() {
                 super.redo();
                 restoreData.add(drawing.getAttributesRestoreData());

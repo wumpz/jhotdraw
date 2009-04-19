@@ -65,6 +65,7 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
      * 
      * @param fonts
      */
+    @SuppressWarnings("unchecked")
     public void setFonts(Font[] fonts) {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.gui.Labels");
 

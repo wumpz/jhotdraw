@@ -258,6 +258,8 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
         }
         invalidate();
     }
+    @Override
+    @SuppressWarnings("unchecked")
     public void restoreTransformTo(Object geometry) {
         invalidate();
         Object[] restoreData = (Object[]) geometry;
@@ -270,6 +272,8 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
         STROKE_GRADIENT.basicSetClone(this, (Gradient) restoreData[3]);
     }
     
+    @Override
+    @SuppressWarnings("unchecked")
     public Object getTransformRestoreData() {
         ArrayList<BezierPath> paths = new ArrayList<BezierPath>(getChildCount());
         for (int i=0, n = getChildCount(); i < n; i++) {
@@ -282,11 +286,13 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
             STROKE_GRADIENT.getClone(this),
         };
     }
-    public void setAttribute(AttributeKey key, Object newValue) {
+    @Override
+    public <T> void setAttribute(AttributeKey<T> key, T newValue) {
         super.setAttribute(key, newValue);
         invalidate();
     }
-    protected void setAttributeOnChildren(AttributeKey key, Object newValue) {
+    @Override
+    protected <T> void setAttributeOnChildren(AttributeKey<T> key, T newValue) {
         // empty!
     }
     

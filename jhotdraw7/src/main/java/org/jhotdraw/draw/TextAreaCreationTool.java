@@ -80,7 +80,7 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
         super(prototype);
     }
 
-    public TextAreaCreationTool(TextHolderFigure prototype, Map attributes) {
+    public TextAreaCreationTool(TextHolderFigure prototype, Map<AttributeKey,Object> attributes) {
         super(prototype, attributes);
     }
 

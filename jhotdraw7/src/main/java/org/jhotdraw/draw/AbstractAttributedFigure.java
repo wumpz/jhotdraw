@@ -68,6 +68,7 @@ public abstract class AbstractAttributedFigure extends AbstractFigure {
         return forbiddenAttributes == null || ! forbiddenAttributes.contains(key);
     }
     
+    @SuppressWarnings("unchecked")
     public void setAttributes(Map<AttributeKey, Object> map) {
         for (Map.Entry<AttributeKey, Object> entry : map.entrySet()) {
             setAttribute(entry.getKey(), entry.getValue());
@@ -79,6 +80,7 @@ public abstract class AbstractAttributedFigure extends AbstractFigure {
     public Object getAttributesRestoreData() {
         return getAttributes();
     }
+    @SuppressWarnings("unchecked")
     public void restoreAttributesTo(Object restoreData) {
         attributes.clear();
         setAttributes((HashMap<AttributeKey,Object>) restoreData);
@@ -88,18 +90,18 @@ public abstract class AbstractAttributedFigure extends AbstractFigure {
      * AttributeKey name and semantics are defined by the class implementing
      * the figure interface.
      */
-    public void setAttribute(AttributeKey key, Object newValue) {
+    public <T> void setAttribute(AttributeKey<T> key, T newValue) {
         if (forbiddenAttributes == null
                 || ! forbiddenAttributes.contains(key)) {
-            Object oldValue = attributes.put(key, newValue);
+            T oldValue = (T) key.put(attributes, newValue);
             fireAttributeChanged(key, oldValue, newValue);
         }
     }
     /**
      * Gets an attribute from the figure.
      */
-    public Object getAttribute(AttributeKey key) {
-        return hasAttribute(key) ? attributes.get(key) : key.getDefaultValue();
+    public <T> T getAttribute(AttributeKey<T> key) {
+        return hasAttribute(key) ? key.get(attributes) : key.getDefaultValue();
     }
     
     
@@ -211,6 +213,7 @@ public abstract class AbstractAttributedFigure extends AbstractFigure {
             out.closeElement();
         }
     }
+    @SuppressWarnings("unchecked")
     protected void readAttributes(DOMInput in) throws IOException {
         if (in.getElementCount("a") > 0) {
             in.openElement("a");
@@ -239,9 +242,10 @@ public abstract class AbstractAttributedFigure extends AbstractFigure {
     /**
      * Applies all attributes of this figure to that figure.
      */
+    @SuppressWarnings("unchecked")
     protected void applyAttributesTo(Figure that) {
         for (Map.Entry<AttributeKey, Object> entry : attributes.entrySet()) {
-            that.setAttribute(entry.getKey(), entry.getValue());
+            entry.getKey().basicSet(that, entry.getValue());
         }
     }
     
@@ -264,9 +268,9 @@ public abstract class AbstractAttributedFigure extends AbstractFigure {
         readAttributes(in);
     }
     
-    public void removeAttribute(AttributeKey key) {
+    public <T> void removeAttribute(AttributeKey<T> key) {
         if (hasAttribute(key)) {
-            Object oldValue = getAttribute(key);
+            T oldValue = key.get(this);
             attributes.remove(key);
             fireAttributeChanged(key, oldValue, key.getDefaultValue());
         }

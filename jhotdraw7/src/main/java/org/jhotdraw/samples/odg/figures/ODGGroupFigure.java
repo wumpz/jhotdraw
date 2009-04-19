@@ -38,7 +38,7 @@ public class ODGGroupFigure extends GroupFigure implements ODGFigure {
         ODGAttributeKeys.setDefaults(this);
     }
     
-    @Override public void setAttribute(AttributeKey key, Object value) {
+    @Override public <T> void setAttribute(AttributeKey<T> key, T value) {
         if (key == OPACITY) {
             attributes.put(key, value);
         } else {
@@ -46,18 +46,20 @@ public class ODGGroupFigure extends GroupFigure implements ODGFigure {
         }
         invalidate();
     }
-    @Override public Object getAttribute(AttributeKey name) {
-        return attributes.get(name);
+    @Override public <T> T getAttribute(AttributeKey<T> key) {
+        return key.get(attributes);
     }
     @Override public Map<AttributeKey,Object> getAttributes() {
         return new HashMap<AttributeKey,Object>(attributes);
     }
+    @SuppressWarnings("unchecked")
     public void setAttributes(Map<AttributeKey, Object> map) {
         for (Map.Entry<AttributeKey, Object> entry : map.entrySet()) {
             setAttribute(entry.getKey(), entry.getValue());
         }
     }
     
+    @Override
     public void draw(Graphics2D g)  {
         double opacity = OPACITY.get(this);
         opacity = Math.min(Math.max(0d, opacity), 1d);

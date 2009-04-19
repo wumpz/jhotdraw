@@ -126,7 +126,7 @@ public class FontToolBar extends AbstractToolBar {
                     AbstractButton btn;
 
                     // Font face field and popup button
-                    JAttributeTextField faceField = new JAttributeTextField();
+                    JAttributeTextField<Font> faceField = new JAttributeTextField<Font>();
                     faceField.setColumns(2);
                     faceField.setToolTipText(labels.getString("attribute.font.toolTipText"));
                     faceField.setHorizontalAlignment(JAttributeTextField.RIGHT);
@@ -152,7 +152,7 @@ public class FontToolBar extends AbstractToolBar {
 
 
                     // Font size field with slider
-                    JAttributeTextField sizeField = new JAttributeTextField();
+                    JAttributeTextField<Double> sizeField = new JAttributeTextField<Double>();
                     sizeField.setColumns(1);
                     sizeField.setToolTipText(labels.getString("attribute.fontSize.toolTipText"));
                     sizeField.setHorizontalAlignment(JAttributeTextField.RIGHT);
@@ -246,7 +246,7 @@ public class FontToolBar extends AbstractToolBar {
                     AbstractButton btn;
 
                     // Font face field and popup button
-                    JAttributeTextField faceField = new JAttributeTextField();
+                    JAttributeTextField<Font> faceField = new JAttributeTextField<Font>();
                     faceField.setColumns(10);
                     faceField.setToolTipText(labels.getString("attribute.font.toolTipText"));
                     faceField.setHorizontalAlignment(JAttributeTextField.RIGHT);
@@ -271,7 +271,7 @@ public class FontToolBar extends AbstractToolBar {
                     p.add(btn, gbc);
 
                     // Font size field with slider
-                    JAttributeTextField sizeField = new JAttributeTextField();
+                    JAttributeTextField<Double> sizeField = new JAttributeTextField<Double>();
                     sizeField.setColumns(1);
                     sizeField.setToolTipText(labels.getString("attribute.fontSize.toolTipText"));
                     sizeField.setHorizontalAlignment(JAttributeTextField.RIGHT);

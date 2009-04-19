@@ -48,6 +48,7 @@ public class SplitAction extends UngroupAction {
         }
         return false;
     }
+    @SuppressWarnings("unchecked")
    @Override public Collection<Figure> ungroupFigures(DrawingView view, CompositeFigure group) {
         LinkedList<Figure> figures = new LinkedList<Figure>(group.getChildren());
         view.clearSelection();
@@ -67,6 +68,7 @@ public class SplitAction extends UngroupAction {
         view.addToSelection(paths);
         return figures;
     }
+    @SuppressWarnings("unchecked")
     @Override public void groupFigures(DrawingView view, CompositeFigure group, Collection<Figure> figures) {
         Collection<Figure> sorted = view.getDrawing().sort(figures);
         view.getDrawing().basicRemoveAll(figures);

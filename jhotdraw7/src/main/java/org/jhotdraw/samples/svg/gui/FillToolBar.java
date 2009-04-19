@@ -110,7 +110,7 @@ public class FillToolBar extends AbstractToolBar {
                     p.add(opacityPopupButton, gbc);
                     opacitySlider.setUI((SliderUI) PaletteSliderUI.createUI(opacitySlider));
                     opacitySlider.setScaleFactor(100d);
-                    new FigureAttributeEditorHandler(FILL_OPACITY, opacitySlider, editor);
+                    new FigureAttributeEditorHandler<Double>(FILL_OPACITY, opacitySlider, editor);
                 }
                 break;
 
@@ -138,7 +138,7 @@ public class FillToolBar extends AbstractToolBar {
                     // Fill color field and button
                     Map<AttributeKey, Object> defaultAttributes = new HashMap<AttributeKey, Object>();
                     FILL_GRADIENT.set(defaultAttributes, null);
-                    JAttributeTextField colorField = new JAttributeTextField();
+                    JAttributeTextField<Color> colorField = new JAttributeTextField<Color>();
                     colorField.setColumns(7);
                     colorField.setToolTipText(labels.getString("attribute.fillColor.toolTipText"));
                     colorField.putClientProperty("Palette.Component.segmentPosition", "first");
@@ -163,7 +163,7 @@ public class FillToolBar extends AbstractToolBar {
                     p1.add(btn, gbc);
 
                     // Opacity field with slider
-                    JAttributeTextField opacityField = new JAttributeTextField();
+                    JAttributeTextField<Double> opacityField = new JAttributeTextField<Double>();
                     opacityField.setColumns(3);
                     opacityField.setToolTipText(labels.getString("attribute.fillOpacity.toolTipText"));
                     opacityField.putClientProperty("Palette.Component.segmentPosition", "first");
@@ -196,7 +196,7 @@ public class FillToolBar extends AbstractToolBar {
                     p2.add(opacityPopupButton, gbc);
                     opacitySlider.setUI((SliderUI) PaletteSliderUI.createUI(opacitySlider));
                     opacitySlider.setScaleFactor(100d);
-                    new FigureAttributeEditorHandler(FILL_OPACITY, opacitySlider, editor);
+                    new FigureAttributeEditorHandler<Double>(FILL_OPACITY, opacitySlider, editor);
 
                     // Add horizontal strips
                     gbc = new GridBagConstraints();

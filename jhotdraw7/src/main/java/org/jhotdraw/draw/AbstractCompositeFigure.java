@@ -313,14 +313,14 @@ public abstract class AbstractCompositeFigure
         return children.size() == 0 ? new LinkedList<Figure>() : new ReversedList<Figure>(getChildren());
     }
 
-    public void setAttribute(AttributeKey key, Object value) {
+    public <T> void setAttribute(AttributeKey<T> key, T value) {
         for (Figure child : getChildren()) {
             child.setAttribute(key, value);
         }
         invalidate();
     }
 
-    public Object getAttribute(AttributeKey name) {
+    public <T> T getAttribute(AttributeKey<T> name) {
         return null;
     }
 
@@ -337,6 +337,7 @@ public abstract class AbstractCompositeFigure
     }
 
     public void restoreAttributesTo(Object newData) {
+        @SuppressWarnings("unchecked")
         Iterator<Object> data = ((LinkedList<Object>) newData).iterator();
         for (Figure child : getChildren()) {
             child.restoreAttributesTo(data.next());

@@ -127,6 +127,7 @@ public class TriangleRotationHandler extends AbstractHandle {
         ORIENTATION.set(getOwner(), newValue);
         updateBounds();
     }
+    @Override
     public void draw(Graphics2D g) {
         drawDiamond(g, 
                 (Color) getEditor().getHandleAttribute(HandleAttributeKeys.ATTRIBUTE_HANDLE_FILL_COLOR),
@@ -137,7 +138,7 @@ public class TriangleRotationHandler extends AbstractHandle {
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         if (newValue != oldValue) {
             fireUndoableEditHappened(
-                    new AttributeChangeEdit(getOwner(), ORIENTATION, oldValue, newValue)
+                    new AttributeChangeEdit<AttributeKeys.Orientation>(getOwner(), ORIENTATION, oldValue, newValue)
                     );
         }
     }

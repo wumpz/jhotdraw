@@ -582,7 +582,7 @@ public abstract class AbstractFigure
     }
 
     public Collection<Connector> getConnectors(ConnectionFigure prototype) {
-        LinkedList connectors = new LinkedList<Connector>();
+        LinkedList<Connector> connectors = new LinkedList<Connector>();
         connectors.add(new ChopRectangleConnector(this));
         return connectors;
     }

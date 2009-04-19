@@ -111,11 +111,11 @@ public class DrawingEditorProxy extends AbstractBean implements DrawingEditor {
         return target.findView(c);
     }
     
-    public void setDefaultAttribute(AttributeKey key, Object value) {
+    public <T> void setDefaultAttribute(AttributeKey<T> key, T value) {
         target.setDefaultAttribute(key, value);
     }
     
-    public Object getDefaultAttribute(AttributeKey key) {
+    public <T> T getDefaultAttribute(AttributeKey<T> key) {
         return target.getDefaultAttribute(key);
     }
     
@@ -135,11 +135,11 @@ public class DrawingEditorProxy extends AbstractBean implements DrawingEditor {
         return target.isEnabled();
     }
 
-    public void setHandleAttribute(AttributeKey key, Object value) {
+    public <T> void setHandleAttribute(AttributeKey<T> key, T value) {
         target.setHandleAttribute(key, value);
     }
 
-    public Object getHandleAttribute(AttributeKey key) {
+    public <T> T getHandleAttribute(AttributeKey<T> key) {
         return target.getHandleAttribute(key);
     }
 }

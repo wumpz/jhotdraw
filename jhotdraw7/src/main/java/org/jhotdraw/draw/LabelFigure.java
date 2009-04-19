@@ -85,7 +85,8 @@ public class LabelFigure extends TextFigure implements FigureListener {
     public void figureRequestRemove(FigureEvent e) {
     }
     
-    public void remap(HashMap oldToNew) {
+    @Override
+    public void remap(HashMap<Figure,Figure> oldToNew) {
         super.remap(oldToNew);
         if (target != null) {
             Figure newTarget = (Figure) oldToNew.get(target);

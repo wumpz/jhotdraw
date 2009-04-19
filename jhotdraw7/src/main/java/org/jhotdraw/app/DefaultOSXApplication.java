@@ -539,6 +539,7 @@ public class DefaultOSXApplication extends AbstractApplication {
             }
 
             public void finished(Object result) {
+                @SuppressWarnings("unchecked")
                 LinkedList<JFrame> palettes = (LinkedList<JFrame>) result;
                 if (palettes != null) {
                     for (JFrame p : palettes) {

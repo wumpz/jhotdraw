@@ -32,14 +32,14 @@ import org.jhotdraw.util.ResourceBundleUtil;
 public class FontChooserHandler extends AbstractSelectedAction
         implements PropertyChangeListener {
 
-    protected AttributeKey key;
+    protected AttributeKey<Font> key;
     protected JFontChooser fontChooser;
     protected JPopupMenu popupMenu;
     protected int isUpdating;
     //protected Map<AttributeKey, Object> attributes;
 
     /** Creates a new instance. */
-    public FontChooserHandler(DrawingEditor editor, AttributeKey key, JFontChooser fontChooser, JPopupMenu popupMenu) {
+    public FontChooserHandler(DrawingEditor editor, AttributeKey<Font> key, JFontChooser fontChooser, JPopupMenu popupMenu) {
         super(editor);
         this.key = key;
         this.fontChooser = fontChooser;
@@ -59,11 +59,7 @@ public class FontChooserHandler extends AbstractSelectedAction
     }
 
     protected void applySelectedFontToFigures() {
-        /*for (Map.Entry<AttributeKey, Object> entry : attributes.entrySet()) {
-        getEditor().setDefaultAttribute(entry.getKey(), entry.getValue());
-        }*/
-
-        final ArrayList<Figure> selectedFigures = new ArrayList(getView().getSelectedFigures());
+        final ArrayList<Figure> selectedFigures = new ArrayList<Figure>(getView().getSelectedFigures());
         final ArrayList<Object> restoreData = new ArrayList<Object>(selectedFigures.size());
         for (Figure figure : selectedFigures) {
             restoreData.add(figure.getAttributesRestoreData());
@@ -73,6 +69,7 @@ public class FontChooserHandler extends AbstractSelectedAction
         final Font undoValue = fontChooser.getSelectedFont();
         UndoableEdit edit = new AbstractUndoableEdit() {
 
+            @Override
             public String getPresentationName() {
                 return AttributeKeys.FONT_FACE.getPresentationName();
                 /*
@@ -87,6 +84,7 @@ public class FontChooserHandler extends AbstractSelectedAction
                 return name;*/
             }
 
+            @Override
             public void undo() {
                 super.undo();
                 Iterator<Object> iRestore = restoreData.iterator();
@@ -97,6 +95,7 @@ public class FontChooserHandler extends AbstractSelectedAction
                 }
             }
 
+            @Override
             public void redo() {
                 super.redo();
                 for (Figure figure : selectedFigures) {

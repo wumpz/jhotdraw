@@ -109,7 +109,7 @@ public class StrokeToolBar extends AbstractToolBar {
                     p.add(opacityPopupButton, gbc);
                     opacitySlider.setUI((SliderUI) PaletteSliderUI.createUI(opacitySlider));
                     opacitySlider.setScaleFactor(100d);
-                    new FigureAttributeEditorHandler(STROKE_OPACITY, opacitySlider, editor);
+                    new FigureAttributeEditorHandler<Double>(STROKE_OPACITY, opacitySlider, editor);
 
                     // Create stroke width popup slider
                     JPopupButton strokeWidthPopupButton = new JPopupButton();
@@ -124,7 +124,7 @@ public class StrokeToolBar extends AbstractToolBar {
                     gbc.gridx = 0;
                     gbc.insets = new Insets(3, 0, 0, 0);
                     p.add(strokeWidthPopupButton, gbc);
-                    new FigureAttributeEditorHandler(STROKE_WIDTH, strokeWidthSlider, editor);
+                    new FigureAttributeEditorHandler<Double>(STROKE_WIDTH, strokeWidthSlider, editor);
 
                     // Create stroke dashes buttons
                     btn = ButtonFactory.createStrokeJoinButton(editor, labels);
@@ -169,7 +169,7 @@ public class StrokeToolBar extends AbstractToolBar {
                     // Stroke color field and button
                     Map<AttributeKey, Object> defaultAttributes = new HashMap<AttributeKey, Object>();
                     STROKE_GRADIENT.set(defaultAttributes, null);
-                    JAttributeTextField colorField = new JAttributeTextField();
+                    JAttributeTextField<Color> colorField = new JAttributeTextField<Color>();
                     colorField.setColumns(7);
                     colorField.setToolTipText(labels.getString("attribute.strokeColor.toolTipText"));
                     colorField.putClientProperty("Palette.Component.segmentPosition", "first");
@@ -194,7 +194,7 @@ public class StrokeToolBar extends AbstractToolBar {
                     p.add(btn, gbc);
 
                     // Opacity field with slider
-                    JAttributeTextField opacityField = new JAttributeTextField();
+                    JAttributeTextField<Double> opacityField = new JAttributeTextField<Double>();
                     opacityField.setColumns(3);
                     opacityField.setToolTipText(labels.getString("attribute.strokeOpacity.toolTipText"));
                     opacityField.setHorizontalAlignment(JAttributeTextField.RIGHT);
@@ -202,7 +202,7 @@ public class StrokeToolBar extends AbstractToolBar {
                     opacityField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(opacityField));
                     opacityField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0d, 1d, 100d));
                     opacityField.setHorizontalAlignment(JTextField.LEFT);
-                    new FigureAttributeEditorHandler(STROKE_OPACITY, opacityField, editor);
+                    new FigureAttributeEditorHandler<Double>(STROKE_OPACITY, opacityField, editor);
                     gbc = new GridBagConstraints();
                     gbc.gridx = 0;
                     gbc.insets = new Insets(3, 0, 0, 0);
@@ -227,17 +227,17 @@ public class StrokeToolBar extends AbstractToolBar {
                     p.add(opacityPopupButton, gbc);
                     opacitySlider.setUI((SliderUI) PaletteSliderUI.createUI(opacitySlider));
                     opacitySlider.setScaleFactor(100d);
-                    new FigureAttributeEditorHandler(STROKE_OPACITY, opacitySlider, editor);
+                    new FigureAttributeEditorHandler<Double>(STROKE_OPACITY, opacitySlider, editor);
 
                     // Create stroke width field with popup slider
-                    JAttributeTextField strokeWidthField = new JAttributeTextField();
+                    JAttributeTextField<Double> strokeWidthField = new JAttributeTextField<Double>();
                     strokeWidthField.setColumns(2);
                     strokeWidthField.setToolTipText(labels.getString("attribute.strokeWidth.toolTipText"));
                     strokeWidthField.setHorizontalAlignment(JAttributeTextField.LEFT);
                     strokeWidthField.putClientProperty("Palette.Component.segmentPosition", "first");
                     strokeWidthField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(strokeWidthField));
                     strokeWidthField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0d, 100d, 1d));
-                    new FigureAttributeEditorHandler(STROKE_WIDTH, strokeWidthField, editor);
+                    new FigureAttributeEditorHandler<Double>(STROKE_WIDTH, strokeWidthField, editor);
                     gbc = new GridBagConstraints();
                     gbc.gridx = 0;
                     gbc.gridy = 2;
@@ -257,7 +257,7 @@ public class StrokeToolBar extends AbstractToolBar {
                     gbc.gridx = 1;
                     gbc.insets = new Insets(3, 0, 0, 0);
                     p.add(strokeWidthPopupButton, gbc);
-                    new FigureAttributeEditorHandler(STROKE_WIDTH, strokeWidthSlider, editor);
+                    new FigureAttributeEditorHandler<Double>(STROKE_WIDTH, strokeWidthSlider, editor);
 
 
                     btn = ButtonFactory.createStrokeJoinButton(editor, labels);
@@ -280,14 +280,14 @@ public class StrokeToolBar extends AbstractToolBar {
                     p.add(btn, gbc);
                     
                     // Create dash offset field and dashes button
-                    JAttributeTextField dashOffsetField = new JAttributeTextField();
+                    JAttributeTextField<Double> dashOffsetField = new JAttributeTextField<Double>();
                     dashOffsetField.setColumns(1);
                     dashOffsetField.setToolTipText(labels.getString("attribute.strokeDashPhase.toolTipText"));
                     dashOffsetField.setHorizontalAlignment(JAttributeTextField.LEFT);
                     //dashOffsetField.putClientProperty("Palette.Component.segmentPosition", "first");
                     dashOffsetField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(dashOffsetField));
                     dashOffsetField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(-1000d, 1000d, 1d));
-                    new FigureAttributeEditorHandler(STROKE_DASH_PHASE, dashOffsetField, editor);
+                    new FigureAttributeEditorHandler<Double>(STROKE_DASH_PHASE, dashOffsetField, editor);
                     gbc = new GridBagConstraints();
                     gbc.gridx = 2;
                     gbc.gridy = 2;

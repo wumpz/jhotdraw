@@ -48,6 +48,7 @@ import java.util.*;
  * @author Marc De Scheemaecker
  * @version $Name: RELEASE_2_2_1 $, $Revision: 1.5 $
  */
+@SuppressWarnings("unchecked")
 public class XMLElement implements IXMLElement, Serializable {
     
     /**

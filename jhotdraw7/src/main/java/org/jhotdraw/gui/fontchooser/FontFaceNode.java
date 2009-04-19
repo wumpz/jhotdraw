@@ -169,6 +169,7 @@ public class FontFaceNode implements MutableTreeNode, Comparable<FontFaceNode>, 
         return true;
     }
 
+    @SuppressWarnings("unchecked")
     public Enumeration children() {
         return Collections.enumeration(Collections.EMPTY_LIST);
     }

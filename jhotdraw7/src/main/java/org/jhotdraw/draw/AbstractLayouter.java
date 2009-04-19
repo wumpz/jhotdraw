@@ -14,8 +14,6 @@
 
 package org.jhotdraw.draw;
 
-import org.jhotdraw.util.*;
-import java.awt.*;
 import org.jhotdraw.geom.*;
 /**
  * AbstractLayouter.
@@ -27,7 +25,7 @@ import org.jhotdraw.geom.*;
 public abstract class AbstractLayouter implements Layouter {
     
     public Insets2D.Double getInsets(Figure child) {
-        Insets2D.Double value = (Insets2D.Double) child.getAttribute(CompositeFigure.LAYOUT_INSETS);
+        Insets2D.Double value =  CompositeFigure.LAYOUT_INSETS.get(child);
         return (value == null) ? new Insets2D.Double() : (Insets2D.Double) value.clone();
     }
 }

@@ -107,7 +107,8 @@ public abstract class ODGAttributedFigure extends AbstractAttributedFigure imple
             g.setTransform(savedTransform);
         }
     }
-    public void setAttribute(AttributeKey key, Object newValue) {
+    @Override
+    public <T> void setAttribute(AttributeKey<T> key, T newValue) {
         if (key == TRANSFORM) {
             invalidate();
         }
