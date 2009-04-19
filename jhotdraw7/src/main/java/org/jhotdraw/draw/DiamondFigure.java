@@ -36,7 +36,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
      * If the attribute IS_QUADRATIC is set to true, all sides of the diamond have
      * the same length.
      */
-    public final static AttributeKey<Boolean> IS_QUADRATIC = new AttributeKey<Boolean>("isQuadratic",false);
+    public final static AttributeKey<Boolean> IS_QUADRATIC = new AttributeKey<Boolean>("isQuadratic", Boolean.class, false);
     
     /**
      * The bounds of the diamond figure.

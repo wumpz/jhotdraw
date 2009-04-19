@@ -1,5 +1,5 @@
 /*
- * @(#)AttributeKey.java  2.1  2009-04-15
+ * @(#)AttributeKey.java  3.0  2009-04-19
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -33,7 +33,8 @@ import org.jhotdraw.util.*;
  * See {@link AttributeKeys} for a list of useful attribute keys.
  * 
  * @author Werner Randelshofer
- * @version 2.1 2009-04-15 Added method getPresentationName. The labels are now
+ * @version 3.0 2009-04-19 Added explicit
+ * <br>2.1 2009-04-15 Added method getPresentationName. The labels are now
  * part of the attribute key.
  * <br>2.0.1 2008-02-13 Fixed comments. Removed equals and hashCode.
  * <br>2.0 2007-05-12 Removed basicSet methods.
@@ -47,48 +48,88 @@ import org.jhotdraw.util.*;
  */
 public class AttributeKey<T> {
 
+    /**
+     * Holds a String representation of the attribute key.
+     */
     private String key;
+    /**
+     * Holds the default value.
+     */
     private T defaultValue;
+    /**
+     * Specifies whether null values are allowed.
+     */
     private boolean isNullValueAllowed;
+    /**
+     * Holds labels for the localization of the attribute.
+     */
     private ResourceBundleUtil labels;
+    /** This variable is used as a "type token" so that we can check for
+     * assignability of attribute values at runtime.
+     */
+    private Class<T> clazz;
 
-    /** Creates a new instance with the specified attribute key,
+    /** Creates a new instance with the specified attribute key, type token class,
      * default value null, and allowing null values. */
-    public AttributeKey(String key) {
-        this(key, null, true);
+    public AttributeKey(String key, Class<T> clazz) {
+        this(key, clazz, null, true);
     }
 
-    /** Creates a new instance with the specified attribute key,
+    /** Creates a new instance with the specified attribute key, type token class,
      * and default value, and allowing null values. */
-    public AttributeKey(String key, T defaultValue) {
-        this(key, defaultValue, true);
+    public AttributeKey(String key, Class<T> clazz, T defaultValue) {
+        this(key, clazz, defaultValue, true);
     }
 
-    /** Creates a new instance with the specified attribute key,
+    /** Creates a new instance with the specified attribute key, type token class,
      * default value, and allowing or disallowing null values. */
-    public AttributeKey(String key, T defaultValue, boolean isNullValueAllowed) {
+    public AttributeKey(String key, Class<T> clazz, T defaultValue, boolean isNullValueAllowed) {
         this.key = key;
+        this.clazz = clazz;
         this.defaultValue = defaultValue;
         this.isNullValueAllowed = isNullValueAllowed;
     }
 
-    /** Creates a new instance with the specified attribute key,
-     * default value, and allowing or disallowing null values. */
-    public AttributeKey(String key, T defaultValue, boolean isNullValueAllowed, ResourceBundleUtil labels) {
+    /** Creates a new instance with the specified attribute key, type token class,
+     * default value, and allowing or disallowing null values. 
+     * 
+     * @param key The key string. 
+     * @param clazz This is used as a "type token" for assignability checks
+     * at runtime.
+     * @param isNullValueAllowed whether null values are allowed.
+     * @param labels ResourceBundle for human friendly representation of this
+     * attribute key. The ResourceBundle must have a property named
+     * {@code "attribute." + key + ".text"}.
+     */
+    public AttributeKey(String key, Class<T> clazz, T defaultValue, boolean isNullValueAllowed, ResourceBundleUtil labels) {
         this.key = key;
+        this.clazz = clazz;
         this.defaultValue = defaultValue;
         this.isNullValueAllowed = isNullValueAllowed;
         this.labels = labels;
     }
 
+    /**
+     * Returns the key string.
+     * @return key string.
+     */
     public String getKey() {
         return key;
     }
 
+    /**
+     * Returns a localized human friendly presentation of the key.
+     * @return the presentation name of the key.
+     */
     public String getPresentationName() {
         return (labels == null) ? key : labels.getString("attribute." + key + ".text");
     }
 
+    /**
+     * Returns the default value of the attribute.
+     *
+     * @return the default value.
+     */
     public T getDefaultValue() {
         return defaultValue;
     }
@@ -100,7 +141,7 @@ public class AttributeKey<T> {
     public T getClone(Figure f) {
         T value = get(f);
         try {
-            return value == null ? null : (T) Methods.invoke(value, "clone");
+            return value == null ? null : clazz.cast(Methods.invoke(value, "clone"));
         } catch (NoSuchMethodException ex) {
             InternalError e = new InternalError();
             e.initCause(ex);
@@ -229,10 +270,10 @@ public class AttributeKey<T> {
      * @param f the Figure
      * @param value the attribute value
      */
-    @SuppressWarnings("unchecked")
     public void basicSetClone(Figure f, T value) {
         try {
-            basicSet(f, value == null ? null : (T) Methods.invoke(value, "clone"));
+            basicSet(f, value == null ? null : clazz.cast(Methods.invoke(value, "clone")));
+
         } catch (NoSuchMethodException ex) {
             InternalError e = new InternalError();
             e.initCause(ex);
@@ -240,10 +281,25 @@ public class AttributeKey<T> {
         }
     }
 
+    /**
+     * Use this method to perform a typeface put operation of an attribute
+     * into a Map.
+     *
+     * @param a An attribute map.
+     * @param value The new value.
+     */
     public void set(Map<AttributeKey, Object> a, T value) {
         put(a, value);
     }
 
+    /**
+     * Use this method to perform a typeface put operation of an attribute
+     * into a Map.
+     *
+     * @param a An attribute map.
+     * @param value The new value.
+     * @return The old value.
+     */
     @SuppressWarnings("unchecked")
     public T put(Map<AttributeKey, Object> a, T value) {
         if (value == null && !isNullValueAllowed) {
@@ -266,27 +322,31 @@ public class AttributeKey<T> {
         }
     }
 
-    @Override
-    public String toString() {
-        return key;
-    }
-
+    /**
+     * Returns true if null values are allowed.
+     * @return true if null values are allowed.
+     */
     public boolean isNullValueAllowed() {
         return isNullValueAllowed;
     }
 
-    @SuppressWarnings("unchecked")
+    /**
+     * Returns true if the specified value is assignable with this key.
+     *
+     * @param value
+     * @return True if assignable.
+     */
     public boolean isAssignable(Object value) {
         if (value == null) {
             return isNullValueAllowed();
         }
 
-        // XXX - This works, but maybe there is an easier way to do this?
-        try {
-            T a = (T) value;
-            return true;
-        } catch (ClassCastException e) {
-            return false;
-        }
+        return clazz.isInstance(value);
+    }
+
+    /** Returns the key string. */
+    @Override
+    public String toString() {
+        return key;
     }
 }
