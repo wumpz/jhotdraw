@@ -16,7 +16,9 @@ package org.jhotdraw.xml;
 
 import java.util.*;
 /**
- * DefaultDOMFactory.
+ * {@code DefaultDOMFactory} can be used to serialize DOMStorable objects
+ * in a DOM with the use of a mapping between Java class names and DOM element
+ * names.
  *
  * @author Werner Randelshofer.
  * @version 1.0.1 2006-07-05 Improved error reporting.

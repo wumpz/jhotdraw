@@ -14,14 +14,18 @@
 package org.jhotdraw.samples.mini;
 
 import java.awt.*;
+import java.util.HashMap;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.util.*;
+import org.jhotdraw.xml.QuickAndDirtyDOMFactory;
+import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
  * Example showing how to create a drawing editor with a creation tool for
- * rectangle figures.
+ * figures with pre-defined attribute values: the example editor creates
+ * green rectangles.
  *
  * @author Werner Randelshofer
  * @version 1.0 November 9, 2006 Created.
@@ -36,19 +40,27 @@ public class CreationToolSample {
 
                 // Create a drawing view with a default drawing.
                 DrawingView view = new DefaultDrawingView();
-                view.setDrawing(new DefaultDrawing());
+                DefaultDrawing drawing = new DefaultDrawing();
+                drawing.addInputFormat(new DOMStorableInputOutputFormat(new QuickAndDirtyDOMFactory()));
+                drawing.addOutputFormat(new DOMStorableInputOutputFormat(new QuickAndDirtyDOMFactory()));
+                view.setDrawing(drawing);
 
                 // Create a common drawing editor for the views
                 DrawingEditor editor = new DefaultDrawingEditor();
                 editor.add(view);
 
-                // Create a tool bar with selection tool and a
-                // creation tool for rectangle figures.
+                // Create a tool bar
                 JToolBar tb = new JToolBar();
+
+                // Add a selection tool to the toolbar.
                 ButtonFactory.addSelectionToolTo(tb, editor);
+
+                // Add a creation tool for green rectangles to the toolbar.
+                HashMap<AttributeKey, Object> a = new HashMap<AttributeKey, Object>();
+                FILL_COLOR.put(a, Color.GREEN);
                 ButtonFactory.addToolTo(
                         tb, editor,
-                        new CreationTool(new RectangleFigure()),
+                        new CreationTool(new RectangleFigure(),a),
                         "edit.createRectangle",
                         labels);
                 tb.setOrientation(JToolBar.VERTICAL);

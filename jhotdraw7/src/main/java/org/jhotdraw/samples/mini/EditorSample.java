@@ -17,6 +17,7 @@ import java.awt.geom.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.geom.*;
+import org.jhotdraw.xml.QuickAndDirtyDOMFactory;
 
 /**
  * Example showing how to create an editor that can edit multiple
@@ -43,6 +44,8 @@ public class EditorSample {
                 cf.setStartConnector(ta.findConnector(Geom.center(ta.getBounds()), cf));
                 cf.setEndConnector(tb.findConnector(Geom.center(tb.getBounds()), cf));
                 Drawing drawing = new DefaultDrawing();
+                drawing.addInputFormat(new DOMStorableInputOutputFormat(new QuickAndDirtyDOMFactory()));
+                drawing.addOutputFormat(new DOMStorableInputOutputFormat(new QuickAndDirtyDOMFactory()));
                 drawing.add(ta);
                 drawing.add(tb);
                 drawing.add(tc);

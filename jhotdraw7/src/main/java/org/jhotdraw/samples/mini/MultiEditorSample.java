@@ -18,6 +18,7 @@ import javax.swing.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.util.*;
+import org.jhotdraw.xml.QuickAndDirtyDOMFactory;
 
 /**
  * Example showing how to create a drawing editor which acts on four drawing
@@ -27,21 +28,23 @@ import org.jhotdraw.util.*;
  * @version 1.0 November 9, 2006 Created.
  */
 public class MultiEditorSample {
-     public static void main(String[] args) {
+
+    public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
+
             public void run() {
-                ResourceBundleUtil labels =  ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-                
+                ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+
                 // Create four drawing views, each one with its own drawing
                 DrawingView view1 = new DefaultDrawingView();
-                view1.setDrawing(new DefaultDrawing());
+                view1.setDrawing(createDrawing());
                 DrawingView view2 = new DefaultDrawingView();
-                view2.setDrawing(new DefaultDrawing());
+                view2.setDrawing(createDrawing());
                 DrawingView view3 = new DefaultDrawingView();
-                view3.setDrawing(new DefaultDrawing());
+                view3.setDrawing(createDrawing());
                 DrawingView view4 = new DefaultDrawingView();
-                view4.setDrawing(new DefaultDrawing());
-                
+                view4.setDrawing(createDrawing());
+
                 // Create a common drawing editor for the views
                 DrawingEditor editor = new DefaultDrawingEditor();
                 editor.add(view1);
@@ -54,18 +57,17 @@ public class MultiEditorSample {
                 JToolBar tb = new JToolBar();
                 ButtonFactory.addSelectionToolTo(tb, editor);
                 ButtonFactory.addToolTo(
-                        tb, editor, 
+                        tb, editor,
                         new CreationTool(new RectangleFigure()),
                         "edit.createRectangle",
-                        labels
-                        );
+                        labels);
                 tb.setOrientation(JToolBar.VERTICAL);
-                
+
                 // Put all together into a JFrame
                 JFrame f = new JFrame("Multi-Editor");
                 f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                f.setSize(400,300);
-                
+                f.setSize(400, 300);
+
                 // Set up the content pane
                 // Place the toolbar on the left
                 // Place each drawing view into a scroll pane of its own
@@ -74,19 +76,32 @@ public class MultiEditorSample {
                 innerPane.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
                 JScrollPane sp;
                 innerPane.add(sp = new JScrollPane(view1.getComponent()));
-                sp.setPreferredSize(new Dimension(200,200));
+                sp.setPreferredSize(new Dimension(200, 200));
                 innerPane.add(sp = new JScrollPane(view2.getComponent()));
-                sp.setPreferredSize(new Dimension(200,200));
+                sp.setPreferredSize(new Dimension(200, 200));
                 innerPane.add(sp = new JScrollPane(view3.getComponent()));
-                sp.setPreferredSize(new Dimension(200,200));
+                sp.setPreferredSize(new Dimension(200, 200));
                 innerPane.add(sp = new JScrollPane(view4.getComponent()));
-                sp.setPreferredSize(new Dimension(200,200));
+                sp.setPreferredSize(new Dimension(200, 200));
                 f.getContentPane().add(new JScrollPane(innerPane));
-                
+
                 f.getContentPane().add(tb, BorderLayout.WEST);
 
                 f.show();
             }
         });
+    }
+
+    /**
+     * Creates a drawing with input and output formats, so that drawing figures
+     * can be copied and pasted between drawing views.
+     * 
+     * @return a drawing
+     */
+    private static Drawing createDrawing() {
+        DefaultDrawing drawing = new DefaultDrawing();
+        drawing.addInputFormat(new DOMStorableInputOutputFormat(new QuickAndDirtyDOMFactory()));
+        drawing.addOutputFormat(new DOMStorableInputOutputFormat(new QuickAndDirtyDOMFactory()));
+        return drawing;
     }
 }
