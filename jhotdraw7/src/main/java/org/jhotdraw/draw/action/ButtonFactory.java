@@ -246,6 +246,13 @@ public class ButtonFactory {
 
     public static JToggleButton addSelectionToolTo(JToolBar tb, final DrawingEditor editor,
             Collection<Action> drawingActions, Collection<Action> selectionActions) {
+
+        Tool selectionTool = new DelegationSelectionTool(
+                drawingActions, selectionActions);
+        
+        return addSelectionToolTo(tb, editor, selectionTool);
+    }
+    public static JToggleButton addSelectionToolTo(JToolBar tb, final DrawingEditor editor, Tool selectionTool) {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
 
         JToggleButton t;
@@ -261,8 +268,6 @@ public class ButtonFactory {
         }
 
         // Selection tool
-        Tool selectionTool = new DelegationSelectionTool(
-                drawingActions, selectionActions);
         editor.setTool(selectionTool);
         t = new JToggleButton();
         final JToggleButton defaultToolButton = t;

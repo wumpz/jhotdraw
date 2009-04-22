@@ -86,7 +86,7 @@ public class DragTracker extends AbstractTool {
 
     @Override
     public void mouseMoved(MouseEvent evt) {
-        updateCursor(editor.findView((Container) evt.getSource()), new Point(evt.getX(), evt.getY()));
+        updateCursor(editor.findView((Container) evt.getSource()), evt.getPoint());
     }
 
     @Override

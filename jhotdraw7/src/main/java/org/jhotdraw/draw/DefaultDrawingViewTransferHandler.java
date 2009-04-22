@@ -15,7 +15,20 @@ package org.jhotdraw.draw;
 
 import java.awt.*;
 import java.awt.datatransfer.*;
+import java.awt.dnd.DragGestureEvent;
+import java.awt.dnd.DragGestureListener;
+import java.awt.dnd.DragGestureRecognizer;
+import java.awt.dnd.DragSource;
+import java.awt.dnd.DragSourceContext;
+import java.awt.dnd.DragSourceDragEvent;
+import java.awt.dnd.DragSourceDropEvent;
+import java.awt.dnd.DragSourceEvent;
+import java.awt.dnd.DragSourceListener;
 import java.awt.event.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
@@ -43,15 +56,64 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
 
     private final static boolean DEBUG = false;
 
+    /**
+     * We keep the exported figures in this list, so that we don't need to
+     * rely on figure selection, when method exportDone is called.
+     */
+    private HashSet<Figure> exportedFigures;
+
     /** Creates a new instance. */
     public DefaultDrawingViewTransferHandler() {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public boolean importData(JComponent comp, Transferable t) {
+    public boolean importData(TransferSupport support) {
         if (DEBUG) {
-            System.out.println(this + ".importData");
+            System.out.println(this + ".importData(support)");
+        }
+        HashSet<Figure> transferFigures = new HashSet<Figure>();
+        boolean success = support.getComponent() instanceof JComponent
+                ? importData((JComponent) support.getComponent(), support.getTransferable(), transferFigures)
+                : false;
+
+        if (success) {
+            final DrawingView view = (DrawingView) support.getComponent();
+            Point dropPoint = support.getDropLocation().getDropPoint();
+            Point2D.Double drawingDropPoint = view.viewToDrawing(dropPoint);
+            //Set<Figure> transferFigures = view.getSelectedFigures();
+            Rectangle2D.Double drawingArea = null;
+            for (Figure fig : transferFigures) {
+                if (drawingArea == null) {
+                    drawingArea = fig.getDrawingArea();
+                } else {
+                    drawingArea.add(fig.getDrawingArea());
+                }
+            }
+            AffineTransform t = new AffineTransform();
+            t.translate(-drawingArea.x, -drawingArea.y);
+            t.translate(drawingDropPoint.x, drawingDropPoint.y);
+            // XXX - instead of centering, we have to translate by the drag image offset here
+            t.translate(drawingArea.width / -2d, drawingArea.height / -2d);
+            for (Figure fig : transferFigures) {
+                fig.willChange();
+                fig.transform(t);
+                fig.changed();
+            }
+        }
+
+        return success;
+    }
+
+    @Override
+    public boolean importData(JComponent comp, Transferable t) {
+        return importData(comp, t, new HashSet<Figure>());
+    }
+
+    /** Imports data and stores the transferred figures into the supplied transferFigures collection. */
+    @SuppressWarnings("unchecked")
+    protected boolean importData(JComponent comp, Transferable t, HashSet<Figure> transferFigures) {
+        if (DEBUG) {
+            System.out.println(this + ".importData(comp,t)");
         }
         boolean retValue;
         if (comp instanceof DrawingView) {
@@ -84,6 +146,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                                 importedFigures.removeAll(existingFigures);
                                 view.clearSelection();
                                 view.addToSelection(importedFigures);
+                                transferFigures.addAll(importedFigures);
                                 drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
 
                                     public String getPresentationName() {
@@ -144,7 +207,6 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                                     ((Throwable) value).printStackTrace();
                                 } else {
                                     final LinkedList<Figure> importedFigures = (LinkedList<Figure>) value;
-                                    importedFigures.removeAll(existingFigures);
                                     importedFigures.removeAll(existingFigures);
                                     if (importedFigures.size() > 0) {
                                         view.clearSelection();
@@ -212,38 +274,48 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
         Transferable retValue;
         if (c instanceof DrawingView) {
             DrawingView view = (DrawingView) c;
-            Drawing drawing = view.getDrawing();
-
-            if (drawing.getOutputFormats() == null ||
-                    drawing.getOutputFormats().size() == 0) {
-                retValue = null;
-            } else {
-                java.util.List<Figure> toBeCopied = drawing.sort(view.getSelectedFigures());
-                if (toBeCopied.size() > 0) {
-                    try {
-                        CompositeTransferable transfer = new CompositeTransferable();
-                        for (OutputFormat format : drawing.getOutputFormats()) {
-                            Transferable t = format.createTransferable(
-                                    drawing,
-                                    toBeCopied,
-                                    view.getScaleFactor());
-                            if (!transfer.isDataFlavorSupported(t.getTransferDataFlavors()[0])) {
-                                transfer.add(t);
-                            }
-                        }
-                        retValue = transfer;
-                    } catch (IOException e) {
-                        if (DEBUG) {
-                            e.printStackTrace();
-                        }
-                        retValue = null;
-                    }
-                } else {
-                    retValue = null;
-                }
-            }
+            retValue = createTransferable(view, view.getSelectedFigures());
         } else {
             retValue = super.createTransferable(c);
+        }
+
+        return retValue;
+    }
+
+    protected Transferable createTransferable(DrawingView view, java.util.Set<Figure> transferFigures) {
+        if (DEBUG) {
+            System.out.println(this + ".createTransferable");
+        }
+        Transferable retValue;
+        Drawing drawing = view.getDrawing();
+
+        if (drawing.getOutputFormats() == null ||
+                drawing.getOutputFormats().size() == 0) {
+            retValue = null;
+        } else {
+            java.util.List<Figure> toBeCopied = drawing.sort(transferFigures);
+            if (toBeCopied.size() > 0) {
+                try {
+                    CompositeTransferable transfer = new CompositeTransferable();
+                    for (OutputFormat format : drawing.getOutputFormats()) {
+                        Transferable t = format.createTransferable(
+                                drawing,
+                                toBeCopied,
+                                view.getScaleFactor());
+                        if (!transfer.isDataFlavorSupported(t.getTransferDataFlavors()[0])) {
+                            transfer.add(t);
+                        }
+                    }
+                    retValue = transfer;
+                } catch (IOException e) {
+                    if (DEBUG) {
+                        e.printStackTrace();
+                    }
+                    retValue = null;
+                }
+            } else {
+                retValue = null;
+            }
         }
 
         return retValue;
@@ -259,7 +331,8 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
             final Drawing drawing = view.getDrawing();
             if (action == MOVE) {
                 final LinkedList<CompositeFigureEvent> deletionEvents = new LinkedList<CompositeFigureEvent>();
-                final LinkedList<Figure> selectedFigures = new LinkedList<Figure>(view.getSelectedFigures());
+                // final LinkedList<Figure> selectedFigures = new LinkedList<Figure>(view.getSelectedFigures());
+                final LinkedList<Figure> selectedFigures = new LinkedList<Figure>(exportedFigures);
 
                 // Abort, if not all of the selected figures may be removed from the
                 // drawing
@@ -270,7 +343,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                     }
                 }
 
-                view.clearSelection();
+               // view.clearSelection();
                 CompositeFigureListener removeListener = new CompositeFigureListener() {
 
                     public void areaInvalidated(CompositeFigureEvent e) {
@@ -314,6 +387,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
         } else {
             super.exportDone(source, data, action);
         }
+        exportedFigures = null;
     }
 
     @Override
@@ -323,6 +397,34 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
         }
         if (comp instanceof DrawingView) {
             DrawingView view = (DrawingView) comp;
+
+            HashSet<Figure> transferFigures = new HashSet<Figure>();
+            exportedFigures = transferFigures;
+            MouseEvent me = (MouseEvent) e;
+            Figure f = view.findFigure(me.getPoint());
+            if (view.getSelectedFigures().contains(f)) {
+                transferFigures.addAll(view.getSelectedFigures());
+            } else {
+                transferFigures.add(f);
+            }
+            Rectangle2D.Double drawingArea = null;
+            for (Figure fig : transferFigures) {
+                if (drawingArea == null) {
+                    drawingArea = fig.getDrawingArea();
+                } else {
+                    drawingArea.add(fig.getDrawingArea());
+                }
+            }
+            Rectangle viewArea = view.drawingToView(drawingArea);
+            Point imageOffset = me.getPoint();
+            imageOffset.x = viewArea.x - imageOffset.x;
+            imageOffset.y = viewArea.y - imageOffset.y;
+
+            int srcActions = getSourceActions(comp);
+            SwingDragGestureRecognizer recognizer = new SwingDragGestureRecognizer(new DragHandler(
+                    createTransferable(view, transferFigures), imageOffset));
+            recognizer.gestured(comp, me, srcActions, action);
+
         // XXX - What kind of drag gesture can we support for this??
         } else {
             super.exportAsDrag(comp, e, action);
@@ -380,5 +482,119 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
 
     private void getDrawing() {
         throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    /**
+     * This is the default drag handler for drag and drop operations that
+     * use the <code>TransferHandler</code>.
+     */
+    private static class DragHandler implements DragGestureListener, DragSourceListener {
+
+        private boolean scrolls;
+        private Transferable transferable;
+        private Point imageOffset;
+
+        public DragHandler(Transferable t, Point imageOffset) {
+            transferable = t;
+            this.imageOffset = imageOffset;
+        }
+
+        // --- DragGestureListener methods -----------------------------------
+        /**
+         * a Drag gesture has been recognized
+         */
+        public void dragGestureRecognized(DragGestureEvent dge) {
+            JComponent c = (JComponent) dge.getComponent();
+            DefaultDrawingViewTransferHandler th = (DefaultDrawingViewTransferHandler) c.getTransferHandler();
+            Transferable t = transferable;
+            if (t != null) {
+                scrolls = c.getAutoscrolls();
+                c.setAutoscrolls(false);
+                try {
+//                    dge.startDrag(null, t, this);
+                    Icon icon = th.getVisualRepresentation(t);
+                    Image dragImage;
+                    if (icon instanceof ImageIcon) {
+                        dragImage = ((ImageIcon) icon).getImage();
+                    } else {
+                        dragImage = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+                        Graphics g = ((BufferedImage) dragImage).createGraphics();
+                        icon.paintIcon(c, g, 0, 0);
+                        g.dispose();
+                    }
+                    dge.startDrag(null, dragImage, imageOffset, t, this);
+                    return;
+                } catch (RuntimeException re) {
+                    c.setAutoscrolls(scrolls);
+                }
+            }
+
+            th.exportDone(c, t, NONE);
+        }
+
+        // --- DragSourceListener methods -----------------------------------
+        /**
+         * as the hotspot enters a platform dependent drop site
+         */
+        public void dragEnter(DragSourceDragEvent dsde) {
+        }
+
+        /**
+         * as the hotspot moves over a platform dependent drop site
+         */
+        public void dragOver(DragSourceDragEvent dsde) {
+        }
+
+        /**
+         * as the hotspot exits a platform dependent drop site
+         */
+        public void dragExit(DragSourceEvent dsde) {
+        }
+
+        /**
+         * as the operation completes
+         */
+        public void dragDropEnd(DragSourceDropEvent dsde) {
+            DragSourceContext dsc = dsde.getDragSourceContext();
+            JComponent c = (JComponent) dsc.getComponent();
+            DefaultDrawingViewTransferHandler th = (DefaultDrawingViewTransferHandler) c.getTransferHandler();
+            if (dsde.getDropSuccess()) {
+                th.exportDone(c, dsc.getTransferable(), dsde.getDropAction());
+            } else {
+                th.exportDone(c, dsc.getTransferable(), NONE);
+            }
+            c.setAutoscrolls(scrolls);
+        }
+
+        public void dropActionChanged(DragSourceDragEvent dsde) {
+        }
+    }
+
+    private static class SwingDragGestureRecognizer extends DragGestureRecognizer {
+
+        SwingDragGestureRecognizer(DragGestureListener dgl) {
+            super(DragSource.getDefaultDragSource(), null, NONE, dgl);
+        }
+
+        void gestured(JComponent c, MouseEvent e, int srcActions, int action) {
+            setComponent(c);
+            setSourceActions(srcActions);
+            appendEvent(e);
+            fireDragGestureRecognized(action, e.getPoint());
+        }
+
+        /**
+         * register this DragGestureRecognizer's Listeners with the Component
+         */
+        protected void registerListeners() {
+        }
+
+        /**
+         * unregister this DragGestureRecognizer's Listeners with the Component
+         *
+         * subclasses must override this method
+         */
+        protected void unregisterListeners() {
+        }
     }
 }
