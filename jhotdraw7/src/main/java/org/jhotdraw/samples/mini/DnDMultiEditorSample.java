@@ -55,17 +55,8 @@ public class DnDMultiEditorSample {
                 // creation tool for rectangle figures.
                 JToolBar tb = new JToolBar();
 
-                DelegationSelectionTool selectionTool = new DelegationSelectionTool() {
-
-                    /**
-                     * Factory method to create a Drag tracker. It is used to drag a figure.
-                     */
-                    @Override
-                    protected Tool createDragTracker(Figure f) {
-                        return new DnDTracker(f);
-                    }
-                };
-                //  selectionTool.
+                SelectionTool selectionTool = new SelectionTool();
+                selectionTool.setDragTracker(new DnDTracker());
 
                 ButtonFactory.addSelectionToolTo(tb, editor, selectionTool);
 

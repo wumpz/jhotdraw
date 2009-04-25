@@ -78,7 +78,7 @@ public class SmartConnectionFigureSample {
                 drawing.add(cf);
                 
                 // Show the drawing
-                JFrame f = new JFrame("My Drawing");
+                JFrame f = new JFrame("'Smart' ConnectionFigure Sample");
                 f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 f.setSize(400,300);
                 

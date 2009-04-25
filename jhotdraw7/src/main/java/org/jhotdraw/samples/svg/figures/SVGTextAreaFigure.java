@@ -371,15 +371,14 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
     }
 
     public <T> void setAttribute(AttributeKey<T> key, T newValue) {
-        if (key == SVGAttributeKeys.TRANSFORM ||
-                key == SVGAttributeKeys.FONT_FACE ||
-                key == SVGAttributeKeys.FONT_BOLD ||
-                key == SVGAttributeKeys.FONT_ITALIC ||
-                key == SVGAttributeKeys.FONT_SIZE ||
-                key == SVGAttributeKeys.STROKE_WIDTH ||
-                key == SVGAttributeKeys.STROKE_COLOR ||
-                key == SVGAttributeKeys.STROKE_GRADIENT
-                ) {
+        if (key.equals(SVGAttributeKeys.TRANSFORM) ||
+                key.equals(SVGAttributeKeys.FONT_FACE) ||
+                key.equals(SVGAttributeKeys.FONT_BOLD) ||
+                key.equals(SVGAttributeKeys.FONT_ITALIC) ||
+                key.equals(SVGAttributeKeys.FONT_SIZE) ||
+                key.equals(SVGAttributeKeys.STROKE_WIDTH) ||
+                key.equals(SVGAttributeKeys.STROKE_COLOR) ||
+                key.equals(SVGAttributeKeys.STROKE_GRADIENT)) {
             invalidate();
         }
         super.setAttribute(key, newValue);
@@ -396,7 +395,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
      * Returns the insets used to draw text.
      */
     public Insets2D.Double getInsets() {
-        double sw = (STROKE_COLOR.get(this)==null) ? 0 : Math.ceil(STROKE_WIDTH.get(this) / 2);
+        double sw = (STROKE_COLOR.get(this) == null) ? 0 : Math.ceil(STROKE_WIDTH.get(this) / 2);
         Insets2D.Double insets = new Insets2D.Double(0, 0, 0, 0);
         return new Insets2D.Double(insets.top + sw, insets.left + sw, insets.bottom + sw, insets.right + sw);
     }

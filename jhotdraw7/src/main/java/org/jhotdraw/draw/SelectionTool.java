@@ -1,7 +1,7 @@
 /*
- * @(#)SelectionTool.java  1.1  2007-11-05
+ * @(#)SelectionTool.java  2.0  2009-04-25
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -24,8 +24,8 @@ import java.util.HashSet;
  * A selection tool is in one of three states: 1) area
  * selection, 2) figure dragging, 3) handle manipulation. The different
  * states are handled by different tracker objects: the
- * <code>SelectAreaTracker</code>, the <code>DragTracker</code> and the
- * <code>HandleTracker</code>.
+ * <code>DefaultSelectAreaTracker</code>, the <code>DefaultDragTracker</code> and the
+ * <code>DefaultHandleTracker</code>.
  * <p>
  * A Figure can be selected by clicking at it. Holding the alt key or the
  * ctrl key down, selects the Figure behind it.
@@ -33,21 +33,23 @@ import java.util.HashSet;
  * Design pattern:<br>
  * Name: Chain of Responsibility.<br>
  * Role: Handler.<br>
- * Partners: {@link SelectAreaTracker} as Handler, {@link DragTracker} as 
- * Handler, {@link HandleTracker} as Handler. 
+ * Partners: {@link DefaultSelectAreaTracker} as Handler, {@link DefaultDragTracker} as
+ * Handler, {@link DefaultHandleTracker} as Handler.
  * <p>
  * Design pattern:<br>
  * Name: State.<br>
  * Role: Context.<br>
- * Partners: {@link SelectAreaTracker} as State, {@link DragTracker} as 
- * State, {@link HandleTracker} as State. 
+ * Partners: {@link DefaultSelectAreaTracker} as State, {@link DefaultDragTracker} as
+ * State, {@link DefaultHandleTracker} as State.
  *
- * @see SelectAreaTracker
- * @see DragTracker
- * @see HandleTracker
+ * @see DefaultSelectAreaTracker
+ * @see DefaultDragTracker
+ * @see DefaultHandleTracker
  *
  * @author Werner Randelshofer
- * @version 1.1 2007-11-05 Added property selectBehindEnabled.
+ * @version 2.0 2009-04-25 Trackers can now be replaced without having to 
+ * subclass SelectionTool.
+ * <br>1.1 2007-11-05 Added property selectBehindEnabled.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
  */
 public class SelectionTool extends AbstractTool
@@ -57,6 +59,18 @@ public class SelectionTool extends AbstractTool
      * The tracker encapsulates the current state of the SelectionTool.
      */
     private Tool tracker;
+    /**
+     * The tracker encapsulates the current state of the SelectionTool.
+     */
+    private HandleTracker handleTracker;
+    /**
+     * The tracker encapsulates the current state of the SelectionTool.
+     */
+    private SelectAreaTracker selectAreaTracker;
+    /**
+     * The tracker encapsulates the current state of the SelectionTool.
+     */
+    private DragTracker dragTracker;
     /**
      * Constant for the name of the selectBehindEnabled property.
      */
@@ -69,7 +83,7 @@ public class SelectionTool extends AbstractTool
 
     /** Creates a new instance. */
     public SelectionTool() {
-        tracker = createAreaTracker();
+        tracker = getSelectAreaTracker();
         tracker.addToolListener(this);
     }
 
@@ -95,6 +109,7 @@ public class SelectionTool extends AbstractTool
         return isSelectBehindEnabled;
     }
 
+    @Override
     public void activate(DrawingEditor editor) {
         super.activate(editor);
         tracker.activate(editor);
@@ -145,20 +160,24 @@ public class SelectionTool extends AbstractTool
         tracker.mouseExited(evt);
     }
 
+    @Override
     public void mouseMoved(MouseEvent evt) {
         tracker.mouseMoved(evt);
     }
 
+    @Override
     public void mouseReleased(MouseEvent evt) {
         if (getView() != null && getView().isEnabled()) {
             tracker.mouseReleased(evt);
         }
     }
 
+    @Override
     public void draw(Graphics2D g) {
         tracker.draw(g);
     }
 
+    @Override
     public void mousePressed(MouseEvent evt) {
         if (getView() != null && getView().isEnabled()) {
             super.mousePressed(evt);
@@ -166,7 +185,7 @@ public class SelectionTool extends AbstractTool
             Handle handle = view.findHandle(anchor);
             Tool newTracker = null;
             if (handle != null) {
-                newTracker = createHandleTracker(handle);
+                newTracker = getHandleTracker(handle);
             } else {
                 Figure figure;
                 Drawing drawing = view.getDrawing();
@@ -189,7 +208,7 @@ public class SelectionTool extends AbstractTool
                 } else {
                     // Note: The search sequence used here, must be
                     // consistent with the search sequence used by the
-                    // HandleTracker, the SelectAreaTracker and DelegationSelectionTool.
+                    // DefaultHandleTracker, the DefaultSelectAreaTracker and DelegationSelectionTool.
 
                     // If possible, continue to work with the current selection
                     figure = null;
@@ -212,13 +231,13 @@ public class SelectionTool extends AbstractTool
                 }
 
                 if (figure != null && figure.isSelectable()) {
-                    newTracker = createDragTracker(figure);
+                    newTracker = getDragTracker(figure);
                 } else {
                     if (!evt.isShiftDown()) {
                         view.clearSelection();
                         view.setHandleDetailLevel(0);
                     }
-                    newTracker = createAreaTracker();
+                    newTracker = getSelectAreaTracker();
                 }
             }
 
@@ -242,33 +261,71 @@ public class SelectionTool extends AbstractTool
     }
 
     /**
-     * Factory method to create a Handle tracker. It is used to track a handle.
+     * Method to get a {@code HandleTracker} which handles user interaction
+     * for the specified handle.
      */
-    protected Tool createHandleTracker(Handle handle) {
-        return new HandleTracker(handle, getView().getCompatibleHandles(handle));
+    protected HandleTracker getHandleTracker(Handle handle) {
+        if (handleTracker == null) {
+            handleTracker = new DefaultHandleTracker();
+        }
+        handleTracker.setHandles(handle, getView().getCompatibleHandles(handle));
+        return handleTracker;
     }
 
     /**
-     * Factory method to create a Drag tracker. It is used to drag a figure.
+     * Method to get a {@code DragTracker} which handles user interaction
+     * for dragging the specified figure.
      */
-    protected Tool createDragTracker(Figure f) {
-        return new DragTracker(f);
+    protected DragTracker getDragTracker(Figure f) {
+        if (dragTracker == null) {
+            dragTracker = new DefaultDragTracker();
+        }
+        dragTracker.setDraggedFigure(f);
+        return dragTracker;
     }
 
     /**
-     * Factory method to create an area tracker. It is used to select an
-     * area.
+     * Method to get a {@code SelectAreaTracker} which handles user interaction
+     * for selecting an area on the drawing.
      */
-    protected Tool createAreaTracker() {
-        return new SelectAreaTracker();
+    protected SelectAreaTracker getSelectAreaTracker() {
+        if (selectAreaTracker == null) {
+            selectAreaTracker = new DefaultSelectAreaTracker();
+        }
+        return selectAreaTracker;
     }
+
+    /**
+     * Method to set a {@code HandleTracker}. If you specify null, the
+     * {@code SelectionTool} uses the {@code DefaultHandleTracker}.
+     */
+    public void setHandleTracker(HandleTracker newValue) {
+        handleTracker = newValue;
+    }
+
+    /**
+     * Method to set a {@code SelectAreaTracker}. If you specify null, the
+     * {@code SelectionTool} uses the {@code DefaultSelectAreaTracker}.
+     */
+    public void setSelectAreaTracker(SelectAreaTracker newValue) {
+        selectAreaTracker = newValue;
+    }
+
+    /**
+     * Method to set a {@code DragTracker}. If you specify null, the
+     * {@code SelectionTool} uses the {@code DefaultDragTracker}.
+     */
+    public void setDragTracker(DragTracker newValue) {
+        dragTracker = newValue;
+    }
+
 
     public void toolStarted(ToolEvent event) {
     }
 
     public void toolDone(ToolEvent event) {
         // Empty
-        Tool newTracker = createAreaTracker();
+        Tool newTracker = getSelectAreaTracker();
 
         if (newTracker != null) {
             if (tracker != null) {

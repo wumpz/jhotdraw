@@ -46,6 +46,7 @@ public class TaskFigure extends GraphicalCompositeFigure {
         public NameAdapter(TaskFigure target) {
             this.target = target;
         }
+        @Override
         public void attributeChanged(FigureEvent e) {
             // We could fire a property change event here, in case
             // some other object would like to observe us.
@@ -57,6 +58,7 @@ public class TaskFigure extends GraphicalCompositeFigure {
         public DurationAdapter(TaskFigure target) {
             this.target = target;
         }
+        @Override
         public void attributeChanged(FigureEvent evt) {
             // We could fire a property change event here, in case
             // some other object would like to observe us.
@@ -125,14 +127,20 @@ public class TaskFigure extends GraphicalCompositeFigure {
     }
     
     
+    @Override
     public Collection<Handle> createHandles(int detailLevel) {
-        List<Handle> handles = new LinkedList<Handle>();
-        if (detailLevel == 0) {
+        java.util.List<Handle> handles = new LinkedList<Handle>();
+        switch (detailLevel) {
+            case -1:
+                handles.add(new BoundsOutlineHandle(getPresentationFigure(), false, true));
+                break;
+            case 0:
             handles.add(new MoveHandle(this, RelativeLocator.northWest()));
             handles.add(new MoveHandle(this, RelativeLocator.northEast()));
             handles.add(new MoveHandle(this, RelativeLocator.southWest()));
             handles.add(new MoveHandle(this, RelativeLocator.southEast()));
             handles.add(new ConnectorHandle(new LocatorConnector(this, RelativeLocator.east()), new DependencyFigure()));
+                break;
         }
         return handles;
     }

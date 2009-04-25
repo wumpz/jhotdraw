@@ -596,7 +596,7 @@ public class ButtonFactory {
                     attributes,
                     labels.getToolTipTextProperty("attribute.color.noColor"),
                     new ColorIcon(null, labels.getToolTipTextProperty("attribute.color.noColor"), swatches.get(0).getIconWidth(), swatches.get(0).getIconHeight())));
-            a.putValue(Action.SHORT_DESCRIPTION, "---");
+            a.putValue(Action.SHORT_DESCRIPTION,  labels.getToolTipTextProperty("attribute.color.noColor"));
         }
 
         // Color chooser

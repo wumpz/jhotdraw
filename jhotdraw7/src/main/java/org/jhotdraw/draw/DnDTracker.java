@@ -37,7 +37,7 @@ import java.awt.geom.Rectangle2D;
  * @author Werner Randelshofer
  * @version 1.0 2009-04-22 Ported from JHotDraw6.
  */
-public class DnDTracker extends AbstractTool {
+public class DnDTracker extends AbstractTool implements DragTracker {
 
     protected Figure anchorFigure;
     /**
@@ -68,6 +68,10 @@ public class DnDTracker extends AbstractTool {
      */
     protected Point2D.Double anchorPoint;
     private boolean isDragging;
+
+    public DnDTracker() {
+       
+    }
 
     public DnDTracker(Figure figure) {
         anchorFigure = figure;
@@ -130,5 +134,9 @@ public class DnDTracker extends AbstractTool {
     public void mouseReleased(MouseEvent evt) {
             updateCursor(editor.findView((Container) evt.getSource()), evt.getPoint());
         fireToolDone();
+    }
+
+    public void setDraggedFigure(Figure f) {
+        anchorFigure = f;
     }
 }

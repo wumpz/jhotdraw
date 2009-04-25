@@ -52,11 +52,13 @@ public class DefaultSDIApplication extends AbstractApplication {
     public DefaultSDIApplication() {
     }
 
+    @Override
     public void launch(String[] args) {
         System.setProperty("apple.awt.graphics.UseQuartz", "false");
         super.launch(args);
     }
 
+    @Override
     public void init() {
         initLookAndFeel();
         super.init();
@@ -65,6 +67,7 @@ public class DefaultSDIApplication extends AbstractApplication {
         initApplicationActions();
     }
 
+    @Override
     public void remove(View p) {
         super.remove(p);
         if (views().size() == 0) {
@@ -72,6 +75,7 @@ public class DefaultSDIApplication extends AbstractApplication {
         }
     }
 
+    @Override
     public void configure(String[] args) {
         System.setProperty("apple.laf.useScreenMenuBar", "false");
         System.setProperty("com.apple.macos.useScreenMenuBar", "false");

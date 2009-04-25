@@ -1,7 +1,7 @@
 /*
- * @(#)CanvasToolBarBeanInfo.java  1.0  2008-05-18
+ * @(#)ViewToolBarBeanInfo.java  1.0  2009-04-25
  *
- * Copyright (c) 1996-2008 by the original authors of JHotDraw
+ * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -17,12 +17,12 @@ package org.jhotdraw.samples.svg.gui;
 import java.beans.*;
 
 /**
- * BeanInfo for CanvasToolBar.
+ * BeanInfo for ViewToolBar.
  *
  * @author  Werner Randelshofer
- * @version 1.0 2008-05-18 Created.
+ * @version 1.0 2009-04-15 Created.
  */
-public class CanvasToolBarBeanInfo extends SimpleBeanInfo {
+public class ViewToolBarBeanInfo extends SimpleBeanInfo {
     
     // Bean descriptor information will be obtained from introspection.//GEN-FIRST:BeanDescriptor
     private static BeanDescriptor beanDescriptor = null;
@@ -30,9 +30,9 @@ public class CanvasToolBarBeanInfo extends SimpleBeanInfo {
 //GEN-HEADEREND:BeanDescriptor
         
         // Here you can add code for customizing the BeanDescriptor.
-        if (beanDescriptor == null) beanDescriptor = new BeanDescriptor(CanvasToolBarBeanInfo.class);
+        if (beanDescriptor == null) beanDescriptor = new BeanDescriptor(ViewToolBarBeanInfo.class);
         beanDescriptor.setValue("isContainer", Boolean.FALSE);
-        beanDescriptor.setDisplayName("CanvasToolBar");
+        beanDescriptor.setDisplayName("ViewToolBar");
         
         return beanDescriptor;     }//GEN-LAST:BeanDescriptor
     

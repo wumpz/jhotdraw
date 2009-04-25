@@ -121,6 +121,11 @@
                 </Component>
                 <Component class="org.jhotdraw.samples.svg.gui.CanvasToolBar" name="canvasToolBar">
                 </Component>
+                <Component class="org.jhotdraw.samples.svg.gui.ViewToolBar" name="viewToolBar">
+                  <Properties>
+                    <Property name="rollover" type="boolean" value="true"/>
+                  </Properties>
+                </Component>
               </SubComponents>
             </Container>
           </SubComponents>

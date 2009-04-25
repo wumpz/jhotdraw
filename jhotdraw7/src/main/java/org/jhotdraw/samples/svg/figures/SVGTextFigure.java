@@ -250,11 +250,11 @@ public class SVGTextFigure
     }
     @Override
     public <T> void setAttribute(AttributeKey<T> key, T newValue) {
-        if (key == SVGAttributeKeys.TRANSFORM ||
-                key == SVGAttributeKeys.FONT_FACE ||
-                key == SVGAttributeKeys.FONT_BOLD ||
-                key == SVGAttributeKeys.FONT_ITALIC ||
-                key == SVGAttributeKeys.FONT_SIZE) {
+        if (key .equals( SVGAttributeKeys.TRANSFORM )||
+                key .equals( SVGAttributeKeys.FONT_FACE) ||
+                key .equals( SVGAttributeKeys.FONT_BOLD) ||
+                key .equals(SVGAttributeKeys.FONT_ITALIC) ||
+                key .equals(SVGAttributeKeys.FONT_SIZE)) {
             invalidate();
         }
         super.setAttribute(key, newValue);

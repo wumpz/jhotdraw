@@ -235,7 +235,7 @@ public class JavaNumberFormatter extends DefaultFormatter {
      */
     @Override
     public Object stringToValue(String text) throws ParseException {
-        if ((text == null || text.length() == 0) && getAppendsDotZero()) {
+        if ((text == null || text.length() == 0) && isAllowsNullValue()) {
             return null;
         }
         Class valueClass = getValueClass();

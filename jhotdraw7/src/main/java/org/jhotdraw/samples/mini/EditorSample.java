@@ -17,7 +17,6 @@ import java.awt.geom.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.geom.*;
-import org.jhotdraw.xml.QuickAndDirtyDOMFactory;
 
 /**
  * Example showing how to create an editor that can edit multiple

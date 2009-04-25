@@ -16,6 +16,7 @@ package org.jhotdraw.draw.action;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import org.jhotdraw.util.Images;
+import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * ColorIcon.
@@ -40,7 +41,7 @@ public class ColorIcon implements javax.swing.Icon {
     }
 
     public ColorIcon(Color color) {
-        this(color, (color==null)?"---" :color.getRed() + "," + color.getGreen() + "," + color.getBlue(), 14, 14);
+        this(color, (color==null)?  ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels").getToolTipTextProperty("attribute.color.noColor") :color.getRed() + "," + color.getGreen() + "," + color.getBlue(), 14, 14);
     }
 
     public ColorIcon(int rgb, String name) {
@@ -91,10 +92,11 @@ public class ColorIcon implements javax.swing.Icon {
                 g.fillPolygon(xpoints, ypoints, xpoints.length);
             }
         } else {
-            g.setColor(Color.WHITE);
-            g.fillRect(x + 1, y + 1, width - 2, height - 2);
+ //           g.setColor(Color.WHITE);
+ //           g.fillRect(x + 1, y + 1, width - 2, height - 2);
             g.setColor(fillColor);
-            g.fillRect(x + 2, y + 2, width - 4, height - 4);
+//            g.fillRect(x + 2, y + 2, width - 4, height - 4);
+            g.fillRect(x + 1, y + 1, width - 2, height - 2);
         }
         g.setColor(new Color(0x666666));
 

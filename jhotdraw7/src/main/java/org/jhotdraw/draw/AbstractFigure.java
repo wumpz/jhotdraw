@@ -350,8 +350,14 @@ public abstract class AbstractFigure
 
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
-        //handles.add(new DragHandle(this));
-        ResizeHandleKit.addResizeHandles(this, handles);
+        switch (detailLevel) {
+            case -1:
+                handles.add(new BoundsOutlineHandle(this,false,true));
+                break;
+            case 0:
+                ResizeHandleKit.addResizeHandles(this, handles);
+                break;
+        }
         return handles;
     }
 
@@ -582,5 +588,4 @@ public abstract class AbstractFigure
         connectors.add(new ChopRectangleConnector(this));
         return connectors;
     }
-
 }

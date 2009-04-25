@@ -100,32 +100,6 @@ public class CanvasToolBar extends AbstractToolBar {
                     gbc.insets = new Insets(3, 0, 0, 0);
                     p1.add(opacityPopupButton, gbc);
 
-                    // Toggle Grid Button
-                    btn = ButtonFactory.createToggleGridButton(editor.getActiveView());
-                    btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-                    labels.configureToolBarButton(btn, "alignGrid");
-                    gbc = new GridBagConstraints();
-                    gbc.gridx = 1;
-                    gbc.gridy = 0;
-                    gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-                    gbc.fill = GridBagConstraints.NONE;
-                    gbc.insets = new Insets(0, 3, 0, 0);
-                    p1.add(btn, gbc);
-
-                    // Zoom button
-                    btn = ButtonFactory.createZoomButton(editor.getActiveView());
-                    btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-                    labels.configureToolBarButton(btn, "view.zoomFactor");
-                    btn.setText("100 %");
-                    gbc = new GridBagConstraints();
-                    gbc.gridx = 1;
-                    gbc.gridy = 1;
-                    gbc.gridwidth = GridBagConstraints.REMAINDER;
-                    gbc.fill = GridBagConstraints.VERTICAL;
-                    gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-                    gbc.insets = new Insets(3, 3, 0, 0);
-                    p1.add(btn, gbc);
-
                     // Width and height fields
                     JLabel widthLabel, heightLabel;
                     JAttributeTextField<Double> widthField, heightField;
@@ -144,7 +118,7 @@ public class CanvasToolBar extends AbstractToolBar {
                     gbc.gridy = 2;
                     gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                     gbc.fill = GridBagConstraints.BOTH;
-                    gbc.insets = new Insets(3, 3, 0, 0);
+                    gbc.insets = new Insets(3, 0, 0, 0);
                     p3.add(widthLabel, gbc);
 
                     widthField.setUI((TextUI) PaletteFormattedTextFieldUI.createUI(widthField));
@@ -283,31 +257,6 @@ public class CanvasToolBar extends AbstractToolBar {
                     gbc.insets = new Insets(3, 0, 0, 0);
                     p1.add(opacityPopupButton, gbc);
 
-                    // Toggle Grid Button
-                    btn = ButtonFactory.createToggleGridButton(editor.getActiveView());
-                    btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-                    labels.configureToolBarButton(btn, "alignGrid");
-                    gbc = new GridBagConstraints();
-                    gbc.gridy = 0;
-                    gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-                    gbc.fill = GridBagConstraints.NONE;
-                    gbc.insets = new Insets(0, 3, 0, 0);
-                    p1.add(btn, gbc);
-
-                    // Zoom button
-                    btn = ButtonFactory.createZoomButton(editor.getActiveView());
-                    btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-                    labels.configureToolBarButton(btn, "view.zoomFactor");
-                    btn.setText("100 %");
-                    gbc = new GridBagConstraints();
-                    gbc.gridx = 2;
-                    gbc.gridy = 1;
-                    gbc.gridwidth = GridBagConstraints.REMAINDER;
-                    gbc.fill = GridBagConstraints.VERTICAL;
-                    gbc.anchor = GridBagConstraints.FIRST_LINE_END;
-                    gbc.insets = new Insets(3, 3, 0, 0);
-                    p1.add(btn, gbc);
-
                     // Width and height fields
                     JLabel widthLabel, heightLabel;
                     JAttributeTextField<Double> widthField, heightField;
@@ -330,7 +279,7 @@ public class CanvasToolBar extends AbstractToolBar {
                     p3.add(widthLabel, gbc);
 
                     widthField.setUI((TextUI) PaletteFormattedTextFieldUI.createUI(widthField));
-                    widthField.setColumns(4);
+                    widthField.setColumns(3);
                     widthField.setToolTipText(labels.getString("attribute.canvasWidth.toolTipText"));
                     widthField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(1d, 4096d, 1d, true, false));
                     widthField.setHorizontalAlignment(JTextField.LEADING);
@@ -357,7 +306,7 @@ public class CanvasToolBar extends AbstractToolBar {
                     p3.add(heightLabel, gbc);
 
                     heightField.setUI((TextUI) PaletteFormattedTextFieldUI.createUI(widthField));
-                    heightField.setColumns(4);
+                    heightField.setColumns(3);
                     heightField.setToolTipText(labels.getString("attribute.canvasHeight.toolTipText"));
                     heightField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(1d, 4096d, 1d, true, false));
                     heightField.setHorizontalAlignment(JTextField.LEADING);

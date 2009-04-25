@@ -74,6 +74,8 @@ public class SVGDrawingPanel extends JPanel {
         toolsPane.setBackground(new Color(0xf0f0f0));
         toolsPane.setOpaque(true);
 
+        viewToolBar.setView(view);
+
         undoManager = new UndoRedoManager();
         setEditor(new DefaultDrawingEditor());
         editor.setHandleAttribute(HandleAttributeKeys.HANDLE_SIZE, new Integer(7));
@@ -173,6 +175,7 @@ public class SVGDrawingPanel extends JPanel {
         DrawingView temp = editor.getActiveView();
         editor.setActiveView(view);
         canvasToolBar.setEditor(editor);
+        viewToolBar.setEditor(editor);
         editor.setActiveView(temp);
     }
 
@@ -201,6 +204,7 @@ public class SVGDrawingPanel extends JPanel {
         figureToolBar = new org.jhotdraw.samples.svg.gui.FigureToolBar();
         linkToolBar = new org.jhotdraw.samples.svg.gui.LinkToolBar();
         canvasToolBar = new org.jhotdraw.samples.svg.gui.CanvasToolBar();
+        viewToolBar = new org.jhotdraw.samples.svg.gui.ViewToolBar();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new java.awt.BorderLayout());
@@ -236,6 +240,9 @@ public class SVGDrawingPanel extends JPanel {
         toolsPane.add(linkToolBar);
         toolsPane.add(canvasToolBar);
 
+        viewToolBar.setRollover(true);
+        toolsPane.add(viewToolBar);
+
         toolsScrollPane.setViewportView(toolsPane);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -267,5 +274,6 @@ public class SVGDrawingPanel extends JPanel {
     private javax.swing.JPanel toolsPanel;
     private javax.swing.JScrollPane toolsScrollPane;
     private org.jhotdraw.draw.DefaultDrawingView view;
+    private org.jhotdraw.samples.svg.gui.ViewToolBar viewToolBar;
     // End of variables declaration//GEN-END:variables
 }
