@@ -155,7 +155,7 @@ public class SVGApplicationModel extends DefaultApplicationModel {
      * 
      * @param app
      * @param p
-     * @return
+     * @return An empty list.
      */
     @Override
     public List<JToolBar> createToolBars(Application app, View p) {

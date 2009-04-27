@@ -40,6 +40,10 @@ import org.jhotdraw.util.ReversedList;
 
 /**
  * Default TransferHandler for DrawingView objects.
+ * <p>
+ * Note: This class is here for backwards compatibilty with J2SE 5. If you
+ * have J2SE 6 available, you may want to use class
+ * {@link DnDDrawingViewTransferHandler} instead.
  *
  * @author Werner Randelshofer
  * @version 2.0 2009-03-13 Load drawings from files using a worker thread.
@@ -64,44 +68,6 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
 
     /** Creates a new instance. */
     public DefaultDrawingViewTransferHandler() {
-    }
-
-    @Override
-    public boolean importData(TransferSupport support) {
-        if (DEBUG) {
-            System.out.println(this + ".importData(support)");
-        }
-        HashSet<Figure> transferFigures = new HashSet<Figure>();
-        boolean success = support.getComponent() instanceof JComponent
-                ? importData((JComponent) support.getComponent(), support.getTransferable(), transferFigures)
-                : false;
-
-        if (success) {
-            final DrawingView view = (DrawingView) support.getComponent();
-            Point dropPoint = support.getDropLocation().getDropPoint();
-            Point2D.Double drawingDropPoint = view.viewToDrawing(dropPoint);
-            //Set<Figure> transferFigures = view.getSelectedFigures();
-            Rectangle2D.Double drawingArea = null;
-            for (Figure fig : transferFigures) {
-                if (drawingArea == null) {
-                    drawingArea = fig.getDrawingArea();
-                } else {
-                    drawingArea.add(fig.getDrawingArea());
-                }
-            }
-            AffineTransform t = new AffineTransform();
-            t.translate(-drawingArea.x, -drawingArea.y);
-            t.translate(drawingDropPoint.x, drawingDropPoint.y);
-            // XXX - instead of centering, we have to translate by the drag image offset here
-            t.translate(drawingArea.width / -2d, drawingArea.height / -2d);
-            for (Figure fig : transferFigures) {
-                fig.willChange();
-                fig.transform(t);
-                fig.changed();
-            }
-        }
-
-        return success;
     }
 
     @Override
@@ -214,16 +180,19 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
 
                                         drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
 
+                                            @Override
                                             public String getPresentationName() {
                                                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
                                                 return labels.getString("edit.paste.text");
                                             }
 
+                                            @Override
                                             public void undo() throws CannotUndoException {
                                                 super.undo();
                                                 drawing.removeAll(importedFigures);
                                             }
 
+                                            @Override
                                             public void redo() throws CannotRedoException {
                                                 super.redo();
                                                 drawing.addAll(importedFigures);
@@ -362,11 +331,13 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                 drawing.removeAll(selectedFigures);
                 drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
 
+                    @Override
                     public String getPresentationName() {
                         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
                         return labels.getString("edit.delete.text");
                     }
 
+                    @Override
                     public void undo() throws CannotUndoException {
                         super.undo();
                         view.clearSelection();
@@ -376,6 +347,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                         view.addToSelection(selectedFigures);
                     }
 
+                    @Override
                     public void redo() throws CannotRedoException {
                         super.redo();
                         for (CompositeFigureEvent evt : new ReversedList<CompositeFigureEvent>(deletionEvents)) {

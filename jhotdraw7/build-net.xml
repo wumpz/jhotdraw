@@ -6,8 +6,12 @@
         <property name="builddir" value="build"/>
         <property name="classdir" value="${builddir}/classes"/>
         <property name="distdir" value="dist/Net"/>
-        <property name="author" value="jhotdraw.org and contributors"/>
-        <property name="version" value="7.1"/>
+
+        <!-- properties for copyright and versioning -->
+        <property name="author" value="the authors and contributors of JHotDraw"/>
+        <property name="version" value="7.2"/>
+
+        <!-- properties for jar signing -->
         <property name="keystore.file" value="../../../../_Keystore/JavaKeystore"/>
         <property name="keystore.alias" value="werner"/>
         <property name="keystore.storepass" value="werner"/>

@@ -124,8 +124,7 @@ public class ClientHttpRequest {
 
   /**
    * adds a cookie to the requst
-   * @param name cookie name
-   * @param value cookie value
+   * @param rawCookies A string with raw cookie data.
    * @throws IOException
    */
   public void setCookies(String rawCookies) throws IOException {
@@ -308,7 +307,7 @@ public class ClientHttpRequest {
    * @param parameters request parameters
    * @return input stream with the server response
    * @throws IOException
-   * @see setParameters
+   * @see #setParameters
    */
   public InputStream post(Map parameters) throws IOException {
     postCookies();
@@ -321,7 +320,7 @@ public class ClientHttpRequest {
    * @param parameters request parameters
    * @return input stream with the server response
    * @throws IOException
-   * @see setParameters
+   * @see #setParameters
    */
   public InputStream post(Object[] parameters) throws IOException {
     postCookies();
@@ -335,8 +334,8 @@ public class ClientHttpRequest {
    * @param parameters request parameters
    * @return input stream with the server response
    * @throws IOException
-   * @see setParameters
-   * @see setCookies
+   * @see #setParameters
+   * @see #setCookies
    */
   public InputStream post(Map<String,String> cookies, Map parameters) throws IOException {
     setCookies(cookies);
@@ -347,12 +346,12 @@ public class ClientHttpRequest {
 
   /**
    * posts the requests to the server, with all the cookies and parameters that were added before (if any), and with cookies and parameters that are passed in the arguments
-   * @param cookies request cookies
+   * @param raw_cookies request cookies
    * @param parameters request parameters
    * @return input stream with the server response
    * @throws IOException
-   * @see setParameters
-   * @see setCookies
+   * @see #setParameters
+   * @see #setCookies
    */
   public InputStream post(String raw_cookies, Map parameters) throws IOException {
     setCookies(raw_cookies);
@@ -367,8 +366,8 @@ public class ClientHttpRequest {
    * @param parameters request parameters
    * @return input stream with the server response
    * @throws IOException
-   * @see setParameters
-   * @see setCookies
+   * @see #setParameters
+   * @see #setCookies
    */
   public InputStream post(String[] cookies, Object[] parameters) throws IOException {
     setCookies(cookies);
@@ -383,7 +382,7 @@ public class ClientHttpRequest {
    * @param value parameter value
    * @return input stream with the server response
    * @throws IOException
-   * @see setParameter
+   * @see #setParameter
    */
   public InputStream post(String name, Object value) throws IOException {
     postCookies();
@@ -399,7 +398,7 @@ public class ClientHttpRequest {
    * @param value2 second parameter value
    * @return input stream with the server response
    * @throws IOException
-   * @see setParameter
+   * @see #setParameter
    */
   public InputStream post(String name1, Object value1, String name2, Object value2) throws IOException {
     postCookies();
@@ -418,7 +417,7 @@ public class ClientHttpRequest {
    * @param value3 third parameter value
    * @return input stream with the server response
    * @throws IOException
-   * @see setParameter
+   * @see #setParameter
    */
   public InputStream post(String name1, Object value1, String name2, Object value2, String name3, Object value3) throws IOException {
     postCookies();
@@ -440,7 +439,7 @@ public class ClientHttpRequest {
    * @param value4 fourth parameter value
    * @return input stream with the server response
    * @throws IOException
-   * @see setParameter
+   * @see #setParameter
    */
   public InputStream post(String name1, Object value1, String name2, Object value2, String name3, Object value3, String name4, Object value4) throws IOException {
     postCookies();
@@ -456,7 +455,7 @@ public class ClientHttpRequest {
    * @param parameters request parameters
    * @return input stream with the server response
    * @throws IOException
-   * @see setParameters
+   * @see #setParameters
    */
   public static InputStream post(URL url, Map parameters) throws IOException {
     return new ClientHttpRequest(url).post(parameters);
@@ -467,7 +466,7 @@ public class ClientHttpRequest {
    * @param parameters request parameters
    * @return input stream with the server response
    * @throws IOException
-   * @see setParameters
+   * @see #setParameters
    */
   public static InputStream post(URL url, Object[] parameters) throws IOException {
     return new ClientHttpRequest(url).post(parameters);
@@ -479,8 +478,8 @@ public class ClientHttpRequest {
    * @param parameters request parameters
    * @return input stream with the server response
    * @throws IOException
-   * @see setCookies
-   * @see setParameters
+   * @see #setCookies
+   * @see #setParameters
    */
   public static InputStream post(URL url, Map<String,String> cookies, Map parameters) throws IOException {
     return new ClientHttpRequest(url).post(cookies, parameters);
@@ -488,12 +487,13 @@ public class ClientHttpRequest {
 
   /**
    * posts a new request to specified URL, with cookies and parameters that are passed in the argument
+   * @param url post URL
    * @param cookies request cookies
    * @param parameters request parameters
    * @return input stream with the server response
    * @throws IOException
-   * @see setCookies
-   * @see setParameters
+   * @see #setCookies
+   * @see #setParameters
    */
   public static InputStream post(URL url, String[] cookies, Object[] parameters) throws IOException {
     return new ClientHttpRequest(url).post(cookies, parameters);
@@ -501,11 +501,12 @@ public class ClientHttpRequest {
 
   /**
    * post the POST request specified URL, with the specified parameter
-   * @param name parameter name
-   * @param value parameter value
+   * @param url post URL
+   * @param name1 parameter name
+   * @param value1 parameter value
    * @return input stream with the server response
    * @throws IOException
-   * @see setParameter
+   * @see #setParameter
    */
   public static InputStream post(URL url, String name1, Object value1) throws IOException {
     return new ClientHttpRequest(url).post(name1, value1);
@@ -519,7 +520,7 @@ public class ClientHttpRequest {
    * @param value2 second parameter value
    * @return input stream with the server response
    * @throws IOException
-   * @see setParameter
+   * @see #setParameter
    */
   public static InputStream post(URL url, String name1, Object value1, String name2, Object value2) throws IOException {
     return new ClientHttpRequest(url).post(name1, value1, name2, value2);
@@ -535,7 +536,7 @@ public class ClientHttpRequest {
    * @param value3 third parameter value
    * @return input stream with the server response
    * @throws IOException
-   * @see setParameter
+   * @see #setParameter
    */
   public static InputStream post(URL url, String name1, Object value1, String name2, Object value2, String name3, Object value3) throws IOException {
     return new ClientHttpRequest(url).post(name1, value1, name2, value2, name3, value3);
@@ -553,7 +554,7 @@ public class ClientHttpRequest {
    * @param value4 fourth parameter value
    * @return input stream with the server response
    * @throws IOException
-   * @see setParameter
+   * @see #setParameter
    */
   public static InputStream post(URL url, String name1, Object value1, String name2, Object value2, String name3, Object value3, String name4, Object value4) throws IOException {
     return new ClientHttpRequest(url).post(name1, value1, name2, value2, name3, value3, name4, value4);

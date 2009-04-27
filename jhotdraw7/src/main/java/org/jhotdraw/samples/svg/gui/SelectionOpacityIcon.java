@@ -14,22 +14,12 @@
 package org.jhotdraw.samples.svg.gui;
 
 import java.awt.*;
-import java.awt.color.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.util.*;
-import javax.swing.*;
 import java.net.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.geom.*;
 
 /**
- * SelectionOpacityIcon draws a shape with the specified fillColor for the selected
- * figures in the current drawing view.
- * If now figures are selcted, the specified fillColor is taken from the DrawingEditor.
- * <p>
- * The behavior for choosing the drawn fillColor matches with
- * {@link SelectionColorChooserAction }.
+ * {@code SelectionOpacityIcon} visualizes an opacity attribute of the selected
+ * {@code Figure}(s) in the active {@code DrawingView} of a {@code DrawingEditor}.
  * 
  * @author Werner Randelshofer
  * @version 1.0 2008-05-23 Created.

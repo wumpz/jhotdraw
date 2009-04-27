@@ -99,6 +99,7 @@ public class ViewToolBar extends AbstractToolBar {
                     gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                     gbc.insets = new Insets(3, 0, 0, 0);
                     gbc.weighty = 1;
+                    gbc.weightx = 1;
                     btn.setPreferredSize(new Dimension(btn.getPreferredSize().width, toggleGridButton.getPreferredSize().height));
                     p.add(btn, gbc);
                 }

@@ -1,7 +1,7 @@
 /*
  * @(#)LocaleUtil.java  1.0  22. Mai 2006
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *

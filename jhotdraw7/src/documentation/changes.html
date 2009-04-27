@@ -19,13 +19,36 @@
 <!-- InstanceEndEditable --></h1>
 </div>
 <div class="article"><!-- InstanceBeginEditable name="articleRegion" -->
-  <h3>JHotDraw&nbsp;7.1<br />
-    <font size="-1">2008-03</font> </h3>
-  <p> Substantial changes have been made to fix shortcomings and bugs in the frameworks. </p>
-  <p>Please take a look at the JDiff for a detailed report of all changes between JHotDraw 7.0.9 and 7.1.</p>
+  <h3>JHotDraw&nbsp;7.2<br />
+    <font size="-1">2009-04</font> </h3>
+  <p>Substantial changes and enhancements have been made to fix shortcomings and bugs of the frameworks
+  and to improve the usability of drawing editors. </p>
+  <p>Please take a look at the <a href="http://www.randelshofer.ch/oop/jhotdraw/changes/jhotdraw_7.1_vs_7.2/changes.html">JDiff report</a> for a detailed description of all API changes between JHotDraw 7.1 and 7.2.</p>
   <p>Drawing Framework:</p>
   <ul>
-    <li>Most Figure methods with prefix basic… have been removed. These methods were used to support Undo/Redo by the Figure objects. In JHotDraw 7.1, this burden has been delegated to the Tool objects.</li>
+    <li>The type safety of figure attributes has been improved, by making use of
+    type tokens in AttributeKey and setter and getter methods with templates in
+    Figure.</li>
+    <li>The usability has been improved. Figures indicate there bounds when
+    the mouse is moved over them. A substantial number of user interface classes for the creation of toolbars have been
+    added, and are used by the SVG sample application.</li>
+    <li>Drawing objects can now be serialized using the
+    SerializationInputOutputFormat. This allows to easily implement short-term
+    persistence for drawings (for example for clipboard support).</li>
+  </ul>
+  <p>Application Framework: </p>
+  <ul>
+    <li>The resource support has been reimplemented to be close to JSR-296.
+    Resource bundles can now use place holders in their values. The resource
+    keys used by JHotDraw match now with the correspoinding JavaBeans property names.</li>
+  </ul>
+  <h3>JHotDraw&nbsp;7.1<br />
+    <font size="-1">2008-03</font> </h3>
+  <p>Substantial changes have been made to fix shortcomings and bugs of the frameworks. </p>
+  <p>Please take a look at the <a href="http://www.randelshofer.ch/oop/jhotdraw/changes/jhotdraw_7.0.9_vs_7.1/changes.html">JDiff report</a> for a detailed description of all API changes between JHotDraw 7.0.9 and 7.1.</p>
+  <p>Drawing Framework:</p>
+  <ul>
+    <li>Most Figure methods with prefix basic… have been removed. These methods were used to support Undo/Redo by the Figure objects. In JHotDraw 7.1, this task has been moved to the Tool objects.</li>
     <li>The class structure has been  modified to gain more flexibility. Most notably, the Drawing interface extends now from the CompositeFigure interface.</li>
   </ul>
   <p>Application Framework: </p>
@@ -146,7 +169,7 @@
 <!-- InstanceEndEditable -->
   <p>&nbsp;</p>
 </div><div class="footer">
-  <p>JHotDraw © 1999-2008 by the original authors and all contributors.</p>
+  <p>JHotDraw © 1996-2009 by the original authors and all contributors.</p>
 </div>
 </body>
 <!-- InstanceEnd --></html>

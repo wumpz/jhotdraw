@@ -47,8 +47,6 @@ public interface AttributeEditor<T> {
     public void setAttributeValue(T newValue);
     /**
      * Gets the attribute value.
-     *
-     * @param newValue
      */
     public T getAttributeValue();
 
@@ -62,8 +60,6 @@ public interface AttributeEditor<T> {
 
     /**
      * This method returns the value of the multipleValues property.
-     *
-     * @param newValue
      */
     public boolean isMultipleValues();
 

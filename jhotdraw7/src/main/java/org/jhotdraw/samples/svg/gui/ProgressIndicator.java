@@ -111,9 +111,6 @@ public class ProgressIndicator extends javax.swing.JPanel {
      * Indicate the progress of the operation being monitored.
      * @param nv an int specifying the current value, between the
      *        maximum and minimum specified for this component
-     * @see #setMinimum
-     * @see #setMaximum
-     * @see #close
      */
     public void setProgress(int nv) {
         progressModel.setValue(nv);

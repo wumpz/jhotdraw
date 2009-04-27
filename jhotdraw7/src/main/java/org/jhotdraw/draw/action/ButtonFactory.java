@@ -249,9 +249,10 @@ public class ButtonFactory {
 
         Tool selectionTool = new DelegationSelectionTool(
                 drawingActions, selectionActions);
-        
+
         return addSelectionToolTo(tb, editor, selectionTool);
     }
+
     public static JToggleButton addSelectionToolTo(JToolBar tb, final DrawingEditor editor, Tool selectionTool) {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
 
@@ -596,15 +597,15 @@ public class ButtonFactory {
                     attributes,
                     labels.getToolTipTextProperty("attribute.color.noColor"),
                     new ColorIcon(null, labels.getToolTipTextProperty("attribute.color.noColor"), swatches.get(0).getIconWidth(), swatches.get(0).getIconHeight())));
-            a.putValue(Action.SHORT_DESCRIPTION,  labels.getToolTipTextProperty("attribute.color.noColor"));
+            a.putValue(Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.noColor"));
         }
 
         // Color chooser
         ImageIcon chooserIcon = new ImageIcon(
                 ButtonFactory.class.getResource("/org/jhotdraw/draw/action/images/attribute.color.colorChooser.png"));
-Action a;
+        Action a;
         popupButton.add(
-               a=new EditorColorChooserAction(
+                a = new EditorColorChooserAction(
                 editor,
                 attributeKey,
                 "color",
@@ -925,23 +926,23 @@ Action a;
                     editor,
                     attributes,
                     labels.getToolTipTextProperty("attribute.color.noColor"),
-                    new ColorIcon(null,  labels.getToolTipTextProperty("attribute.color.noColor"))));
+                    new ColorIcon(null, labels.getToolTipTextProperty("attribute.color.noColor"))));
             a.putValue(Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.noColor"));
         }
 
         // Color chooser
         ImageIcon chooserIcon = new ImageIcon(
                 ButtonFactory.class.getResource("/org/jhotdraw/draw/action/images/attribute.color.colorChooser.png"));
-Action a;
+        Action a;
         popupButton.add(
-               a= new DrawingColorChooserAction(
+                a = new DrawingColorChooserAction(
                 editor,
                 attributeKey,
                 "color",
                 chooserIcon,
                 defaultAttributes));
         labels.configureToolBarButton(popupButton, labelKey);
-            a.putValue(Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.colorChooser"));
+        a.putValue(Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.colorChooser"));
         Icon icon = new DrawingColorIcon(editor,
                 attributeKey,
                 labels.getIconProperty(labelKey, ButtonFactory.class).getImage(),
@@ -950,7 +951,9 @@ Action a;
         popupButton.setDisabledIcon(icon);
         popupButton.setFocusable(false);
 
-        editor.addPropertyChangeListener(new SelectionComponentRepainter(editor, popupButton));
+        if (editor != null) {
+            editor.addPropertyChangeListener(new SelectionComponentRepainter(editor, popupButton));
+        }
 
         return popupButton;
     }

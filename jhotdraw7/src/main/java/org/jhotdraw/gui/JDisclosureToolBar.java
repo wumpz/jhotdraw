@@ -16,7 +16,6 @@ package org.jhotdraw.gui;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.border.*;
 import org.jhotdraw.gui.plaf.palette.*;
 
 /**
@@ -68,13 +67,15 @@ public class JDisclosureToolBar extends JToolBar {
         gbc.gridx = 0;
         gbc.insets = new Insets(0, 1, 0, 1);
         gbc.anchor = GridBagConstraints.SOUTHWEST;
+        gbc.fill = GridBagConstraints.NONE;
         gbc.weighty = 1d;
+        gbc.weightx = 1d;
         add(btn, gbc);
 
         putClientProperty(PaletteToolBarUI.TOOLBAR_INSETS_OVERRIDE_PROPERTY, new Insets(0, 0, 0, 0));
         putClientProperty(PaletteToolBarUI.TOOLBAR_ICON_PROPERTY, new EmptyIcon(10, 8));
     }
-    
+
     public void setDisclosureStateCount(int newValue) {
         int oldValue = getDisclosureStateCount();
         disclosureButton.putClientProperty(DisclosureIcon.STATE_COUNT_PROPERTY, newValue);
@@ -85,16 +86,10 @@ public class JDisclosureToolBar extends JToolBar {
         int oldValue = getDisclosureState();
         disclosureButton.putClientProperty(DisclosureIcon.CURRENT_STATE_PROPERTY, newValue);
 
-        Component[] components = getComponents();
-        for (int i = 0; i < components.length; i++) {
-            if (components[i] != disclosureButton) {
-                remove(components[i]);
-            }
-        }
-
+        removeAll();
         JComponent c = getDisclosedComponent(newValue);
-        GridBagLayout layout = (GridBagLayout) getLayout();    
-            GridBagConstraints gbc = new GridBagConstraints();
+        GridBagLayout layout = (GridBagLayout) getLayout();
+        GridBagConstraints gbc = new GridBagConstraints();
         if (c != null) {
             gbc = new GridBagConstraints();
             gbc.gridx = 1;
@@ -103,22 +98,32 @@ public class JDisclosureToolBar extends JToolBar {
             gbc.fill = GridBagConstraints.BOTH;
             gbc.anchor = GridBagConstraints.WEST;
             add(c, gbc);
-           gbc = layout.getConstraints(disclosureButton);
-           gbc.weightx = 0d;
-           layout.setConstraints(disclosureButton, gbc);
+            gbc = new GridBagConstraints();
+            gbc.gridx = 0;
+            gbc.weightx = 0d;
+            gbc.insets = new Insets(0, 1, 0, 1);
+            gbc.weighty = 1d;
+            gbc.fill = GridBagConstraints.NONE;
+            gbc.anchor = GridBagConstraints.SOUTHWEST;
+            add(disclosureButton, gbc);
         } else {
-           gbc = layout.getConstraints(disclosureButton);
-           gbc.weightx = 1d;
-           layout.setConstraints(disclosureButton, gbc);
+            gbc = new GridBagConstraints();
+            gbc.gridx = 1;
+            gbc.weightx = 1d;
+            gbc.weighty = 1d;
+            gbc.fill = GridBagConstraints.NONE;
+            gbc.anchor = GridBagConstraints.SOUTHWEST;
+            gbc.insets = new Insets(0, 1, 0, 1);
+            add(disclosureButton, gbc);
         }
 
         invalidate();
         Container parent = getParent();
-        while (parent.getParent() != null && ! parent.getParent().isValid()) {
+        while (parent.getParent() != null && !parent.getParent().isValid()) {
             parent = parent.getParent();
         }
-       parent.validate();
-       repaint();
+        parent.validate();
+        repaint();
 
         firePropertyChange(DISCLOSURE_STATE_PROPERTY, oldValue, newValue);
     }

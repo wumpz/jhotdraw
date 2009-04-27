@@ -7,11 +7,10 @@
         <property name="builddir" value="build"/>
         <property name="classdir" value="${builddir}/classes"/>
         <property name="distdir" value="dist/BezierDemo"/>
-        <property name="author" value="Werner Randelshofer"/>
-        <property name="version" value="7.1"/>
-        <property name="keystore.file" value="../../../../_Keystore/JavaKeystore"/>
-        <property name="keystore.alias" value="werner"/>
-        <property name="keystore.storepass" value="werner"/>
+
+        <!-- properties for copyright and versioning -->
+        <property name="author" value="the authors and contributors of JHotDraw"/>
+        <property name="version" value="7.2"/>
     </target>
     <target name="clean" depends="init">
         <delete dir="${classdir}" />

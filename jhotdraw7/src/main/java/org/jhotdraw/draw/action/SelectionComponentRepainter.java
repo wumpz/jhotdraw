@@ -33,15 +33,17 @@ public class SelectionComponentRepainter extends FigureAdapter
     public SelectionComponentRepainter(DrawingEditor editor, JComponent component) {
         this.editor = editor;
         this.component = component;
-        if (editor.getActiveView() != null) {
-            DrawingView view = editor.getActiveView();
-            view.addPropertyChangeListener(this);
-            view.addFigureSelectionListener(this);
-            if (view.getDrawing() != null) {
-                view.getDrawing().addFigureListener(this);
+        if (editor != null) {
+            if (editor.getActiveView() != null) {
+                DrawingView view = editor.getActiveView();
+                view.addPropertyChangeListener(this);
+                view.addFigureSelectionListener(this);
+                if (view.getDrawing() != null) {
+                    view.getDrawing().addFigureListener(this);
+                }
             }
+            editor.addPropertyChangeListener(this);
         }
-        editor.addPropertyChangeListener(this);
     }
 
     @Override

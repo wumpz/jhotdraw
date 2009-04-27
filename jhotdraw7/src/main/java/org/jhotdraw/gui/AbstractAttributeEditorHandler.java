@@ -173,7 +173,7 @@ public abstract class AbstractAttributeEditorHandler<T> {
      * changes of the drawing editor and calls setEnabled(boolean) and
      * updateField(Set&lt;Figure&gt;) on the field accordingly.
      *
-     * @param editor
+     * @param newValue a drawing editor.
      */
     public void setDrawingEditor(DrawingEditor newValue) {
         DrawingEditor oldValue = drawingEditor;
@@ -202,7 +202,7 @@ public abstract class AbstractAttributeEditorHandler<T> {
      * to selection changes of the specified view. If a null value is provided,
      * the FigureAttributeEditorHandler listens to all views of the drawing editor.
      *
-     * @param view Specif
+     * @param newValue a drawing view.
      */
     public void setView(DrawingView newValue) {
         this.view = newValue;

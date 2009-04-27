@@ -350,6 +350,10 @@ public class FontToolBar extends AbstractToolBar {
     protected String getID() {
         return "font";
     }
+    @Override
+    protected int getDefaultDisclosureState() {
+        return 1;
+    }
 
     /** This method is called from within the constructor to
      * initialize the form.

@@ -34,14 +34,17 @@ public class DrawingComponentRepainter extends FigureAdapter
     public DrawingComponentRepainter(DrawingEditor editor, JComponent component) {
         this.editor = editor;
         this.component = component;
-        if (editor.getActiveView() != null) {
-            DrawingView view = editor.getActiveView();
-            view.addPropertyChangeListener(this);
-            if (view.getDrawing() != null) {
-                view.getDrawing().addFigureListener(this);
+        if (editor != null) {
+            if (editor.getActiveView() != null) {
+                DrawingView view = editor.getActiveView();
+                view.addPropertyChangeListener(this);
+                if (view.getDrawing() != null) {
+                    view.getDrawing().addFigureListener(this);
+                }
             }
+
+            editor.addPropertyChangeListener(this);
         }
-        editor.addPropertyChangeListener(this);
     }
 
     @Override

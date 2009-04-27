@@ -262,25 +262,6 @@ implements BoundedRangeModel {
     
     /**
      * Ignored: The extent is always zero.
-     *
-     * The extent depends on the current read position.
-     *
-     * Sets the model's extent.  The <I>newExtent</I> is forced to
-     * be greater than or equal to zero and less than or equal to
-     * maximum - value.
-     * <p>
-     * When a BoundedRange model is used with a scrollbar the extent
-     * defines the length of the scrollbar knob (aka the "thumb" or
-     * "elevator").  The extent usually represents how much of the
-     * object being scrolled is visible. When used with a slider,
-     * the extent determines how much the value can "jump", for
-     * example when the user presses PgUp or PgDn.
-     * <p>
-     * Notifies any listeners if the model changes.
-     *
-     * @param  newExtent the model's new extent
-     * @see #getExtent
-     * @see #setValue
      */
     public void setExtent(int newExtent)
     { }
@@ -289,24 +270,6 @@ implements BoundedRangeModel {
     
     /**
      * Ignored: All values depend on the input stream.
-     *
-     * This method sets all of the model's data with a single method call.
-     * The method results in a single change event being generated. This is
-     * convenient when you need to adjust all the model data simulaneously and
-     * do not want individual change events to occur.
-     *
-     * @param value  an int giving the current value
-     * @param extent an int giving the amount by which the value can "jump"
-     * @param min    an int giving the minimum value
-     * @param max    an int giving the maximum value
-     * @param isAdjusting a boolean, true if a series of changes are in
-     *                    progress
-     *
-     * @see #setValue
-     * @see #setExtent
-     * @see #setMinimum
-     * @see #setMaximum
-     * @see #setValueIsAdjusting
      */
     public void setRangeProperties(int value, int extent, int min, int max, boolean adjusting)
     {}
@@ -316,7 +279,7 @@ implements BoundedRangeModel {
     /**
      * Adds a ChangeListener to the model's listener list.
      *
-     * @param x the ChangeListener to add
+     * @param l the ChangeListener to add
      * @see #removeChangeListener
      */
     public void addChangeListener(ChangeListener l) {

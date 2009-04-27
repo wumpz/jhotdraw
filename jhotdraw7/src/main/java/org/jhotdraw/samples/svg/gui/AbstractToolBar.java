@@ -121,6 +121,7 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar {
 
         public ProxyPanel() {
             setOpaque(false);
+            setBackground(Color.GREEN);
             // The paint method is only called, if the proxy panel is at least
             // one pixel wide and high.
             setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
@@ -134,18 +135,29 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar {
                 runner = new Runnable() {
 
                     public void run() {
+                        try {
                         // long start = System.currentTimeMillis();
                         panels[state] = createDisclosedComponent(state);
+                        } catch (Throwable t) {
+                            t.printStackTrace();
+                            panels[state]=null;
+                        }
                         // long end = System.currentTimeMillis();
                         // System.out.println(AbstractToolBar.this.getClass()+" state:"+state+" elapsed:"+(end-start));
                         JComponent parent = (JComponent) getParent();
-                        if (getDisclosureState() == state && parent != null) {
+                        if (parent != null) {
                             GridBagLayout layout = (GridBagLayout) parent.getLayout();
                             GridBagConstraints gbc = layout.getConstraints(ProxyPanel.this);
 
                             parent.remove(ProxyPanel.this);
+                            if (getDisclosureState() == state) {
                             if (panels[state] != null) {
                                 parent.add(panels[state], gbc);
+                            } else {
+                                JPanel empty = new JPanel(new BorderLayout());
+                                empty.setOpaque(false);
+                                parent.add(empty, gbc);
+                            }
                             }
                             parent.revalidate();
                             ((JComponent) parent.getRootPane().getContentPane()).revalidate();

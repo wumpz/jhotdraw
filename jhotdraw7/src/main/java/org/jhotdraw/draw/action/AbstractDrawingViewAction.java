@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.draw.action;
 
 import org.jhotdraw.draw.Drawing;
@@ -20,6 +19,7 @@ import org.jhotdraw.draw.DrawingView;
 import java.beans.*;
 import javax.swing.*;
 import javax.swing.undo.*;
+
 /**
  * Abstract super class for actions which act on a DrawingView.
  *
@@ -33,65 +33,71 @@ import javax.swing.undo.*;
  * <br>1.0 2003-12-01 Created.
  */
 public abstract class AbstractDrawingViewAction extends AbstractAction {
+
     private DrawingEditor editor;
     private DrawingView view;
-    
     private PropertyChangeListener propertyChangeHandler = new PropertyChangeListener() {
+
         public void propertyChange(PropertyChangeEvent evt) {
             if (evt.getPropertyName().equals("enabled")) {
                 updateEnabledState();
+            } else if (evt.getPropertyName() == DrawingEditor.ACTIVE_VIEW_PROPERTY) {
+                if (evt.getOldValue() != null) {
+                    DrawingView view = ((DrawingView) evt.getOldValue());
+                    view.removePropertyChangeListener(propertyChangeHandler);
+                }
+                if (evt.getNewValue() != null) {
+                    DrawingView view = ((DrawingView) evt.getNewValue());
+                    view.addPropertyChangeListener(propertyChangeHandler);
+                    updateEnabledState();
+                }
             }
         }
     };
+
     /**
      * Creates a view action which acts on the current view of the editor.
      */
     public AbstractDrawingViewAction(DrawingEditor editor) {
-        this.editor = editor;
-        editor.addPropertyChangeListener(new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent evt) {
-                // Note: We can check using == here, because String literals get interned.
-                if (evt.getPropertyName() == DrawingEditor.ACTIVE_VIEW_PROPERTY) {
-                    if (evt.getOldValue() != null) {
-                        DrawingView view = ((DrawingView) evt.getOldValue());
-                        view.removePropertyChangeListener(propertyChangeHandler);
-                    }
-                    if (evt.getNewValue() != null) {
-                        DrawingView view = ((DrawingView) evt.getNewValue());
-                        view.addPropertyChangeListener(propertyChangeHandler);
-                        updateEnabledState();
-                    }
-                }
-            }
-        });
+        setEditor(editor);
     }
+
     /**
      * Creates a view action which acts on the specified view.
      */
     public AbstractDrawingViewAction(DrawingView view) {
         this.view = view;
     }
-    
+
     protected void setEditor(DrawingEditor newValue) {
+        if (editor != null) {
+            editor.removePropertyChangeListener(propertyChangeHandler);
+        }
         editor = newValue;
+        if (editor != null) {
+            editor.addPropertyChangeListener(propertyChangeHandler);
+        }
     }
+
     protected DrawingEditor getEditor() {
         return editor;
     }
-    
+
     protected DrawingView getView() {
-        return (view != null) ? view : editor.getActiveView();
+        return (view != null) ? view : ((editor != null) ? editor.getActiveView():null);
     }
+
     protected Drawing getDrawing() {
         return getView().getDrawing();
     }
+
     protected void fireUndoableEditHappened(UndoableEdit edit) {
         getDrawing().fireUndoableEditHappened(edit);
     }
+
     protected void viewChanged() {
-        
     }
-    
+
     public void updateEnabledState() {
         if (getView() != null) {
             setEnabled(getView().isEnabled());

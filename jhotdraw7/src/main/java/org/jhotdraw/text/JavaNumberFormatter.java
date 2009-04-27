@@ -47,8 +47,6 @@ public class JavaNumberFormatter extends DefaultFormatter {
 
     /**
      * Creates a NumberFormatter with the specified Format instance.
-     *
-     * @param format Format used to dictate legal values
      */
     public JavaNumberFormatter(double min, double max, double scaleFactor) {
         this(min, max, scaleFactor, false, true);
@@ -56,8 +54,6 @@ public class JavaNumberFormatter extends DefaultFormatter {
 
     /**
      * Creates a NumberFormatter with the specified Format instance.
-     *
-     * @param format Format used to dictate legal values
      */
     public JavaNumberFormatter(double min, double max, double scaleFactor, boolean allowsNullValue, boolean appendsDotZero) {
         super();
@@ -130,8 +126,6 @@ public class JavaNumberFormatter extends DefaultFormatter {
 
     /**
      * Returns the scale factor of the number formatter.
-     *
-     * @param newValue
      */
     public double getScaleFactor() {
         return scaleFactor;
@@ -148,10 +142,8 @@ public class JavaNumberFormatter extends DefaultFormatter {
 
     /**
      * Returns true if null values are allowed.
-     *
-     * @param newValue
      */
-    public boolean isAllowsNullValue() {
+    public boolean getAllowsNullValue() {
         return allowsNullValue;
     }
 
@@ -167,8 +159,6 @@ public class JavaNumberFormatter extends DefaultFormatter {
 
     /**
      * Returns true if null values are allowed.
-     *
-     * @param newValue
      */
     public boolean getAppendsDotZero() {
         return appendsDotZero;
@@ -235,7 +225,7 @@ public class JavaNumberFormatter extends DefaultFormatter {
      */
     @Override
     public Object stringToValue(String text) throws ParseException {
-        if ((text == null || text.length() == 0) && isAllowsNullValue()) {
+        if ((text == null || text.length() == 0) && getAllowsNullValue()) {
             return null;
         }
         Class valueClass = getValueClass();

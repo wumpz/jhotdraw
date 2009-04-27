@@ -1,5 +1,5 @@
 /*
- * @(#)CanvasOpacityIcon.java  1.0  2008-06-08
+ * @(#)DrawingOpacityIcon.java  1.0  2008-06-08
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -18,17 +18,14 @@ import java.net.*;
 import org.jhotdraw.draw.*;
 
 /**
- * CanvasOpacityIcon draws a shape with the specified fillColor for the selected
- * figures in the current drawing view.
- * If now figures are selcted, the specified fillColor is taken from the DrawingEditor.
- * <p>
- * The behavior for choosing the drawn fillColor matches with
- * {@link SelectionColorChooserAction }.
+ * {@code DrawingOpacityIcon} visualizes an opacity attribute of the
+ * {@code Drawing} object which is in the active {@code DrawingView} of a
+ * {@code DrawingEditor}.
  * 
  * @author Werner Randelshofer
  * @version 1.0 2008-06-08 Created.
  */
-public class CanvasOpacityIcon extends javax.swing.ImageIcon {
+public class DrawingOpacityIcon extends javax.swing.ImageIcon {
 
     private DrawingEditor editor;
     private AttributeKey<Double> opacityKey;
@@ -44,7 +41,7 @@ public class CanvasOpacityIcon extends javax.swing.ImageIcon {
      * @param fillShape The shape to be drawn with the fillColor of the default
      * attribute.
      */
-    public CanvasOpacityIcon(
+    public DrawingOpacityIcon(
             DrawingEditor editor,
             AttributeKey<Double> opacityKey,
             AttributeKey<Color> fillColorKey,
@@ -61,7 +58,7 @@ public class CanvasOpacityIcon extends javax.swing.ImageIcon {
         this.strokeShape = strokeShape;
     }
 
-    public CanvasOpacityIcon(
+    public DrawingOpacityIcon(
             DrawingEditor editor,
             AttributeKey<Double> opacityKey,
             AttributeKey<Color> fillColorKey,
@@ -82,9 +79,10 @@ public class CanvasOpacityIcon extends javax.swing.ImageIcon {
     public void paintIcon(java.awt.Component c, java.awt.Graphics gr, int x, int y) {
         Graphics2D g = (Graphics2D) gr;
         super.paintIcon(c, g, x, y);
-        Double opacity;
-        Color fillColor;
-        Color strokeColor;
+        Double opacity=0d;
+        Color fillColor=null;
+        Color strokeColor=null;
+        if (editor != null) {
             DrawingView view = editor.getActiveView();
             if (view != null && view.getDrawing() != null) {
                 opacity = opacityKey.get(view.getDrawing());
@@ -95,6 +93,7 @@ public class CanvasOpacityIcon extends javax.swing.ImageIcon {
                 fillColor = (fillColorKey == null) ? null : fillColorKey.get(editor.getDefaultAttributes());
                 strokeColor = (strokeColorKey == null) ? null : strokeColorKey.get(editor.getDefaultAttributes());
             }
+        }
 
         if (fillColorKey != null && fillShape != null) {
             if (opacity != null) {
@@ -106,7 +105,7 @@ public class CanvasOpacityIcon extends javax.swing.ImageIcon {
                 g.fill(fillShape);
                 g.translate(-x, -y);
             }
-            }
+        }
         if (strokeColorKey != null && strokeShape != null) {
             if (opacity != null) {
                 if (strokeColor == null) {

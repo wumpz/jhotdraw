@@ -18,11 +18,9 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -32,16 +30,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.filechooser.FileFilter;
 import org.jhotdraw.gui.datatransfer.AbstractTransferable;
-import org.jhotdraw.gui.datatransfer.InputStreamTransferable;
 import org.jhotdraw.io.ExtensionFileFilter;
 
 /**
- * {@ SerializationInputOutputFormat} uses Java Serialization for reading and
+ * {@code SerializationInputOutputFormat} uses Java Serialization for reading and
  * and writing {@code Drawing} objects.
  *
  * @author Werner Randelshofer
@@ -79,11 +74,6 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
     }
 
     /** Creates a new instance using the specified parameters.
-     *
-     * @param factory The factory for creating Figures from XML elements.
-     * @param description The format description to be used for the file filter.
-     * @param fileExtension The file extension to be used for file filter.
-     * @param mimeType The Mime Type is used for clipboard access.
      */
     public SerializationInputOutputFormat(
             String description, String fileExtension, Drawing prototype) {

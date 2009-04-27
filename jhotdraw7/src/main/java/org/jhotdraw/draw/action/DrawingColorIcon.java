@@ -73,18 +73,20 @@ public class DrawingColorIcon extends javax.swing.ImageIcon {
     public void paintIcon(java.awt.Component c, java.awt.Graphics gr, int x, int y) {
         Graphics2D g = (Graphics2D) gr;
         super.paintIcon(c, g, x, y);
-        Color color;
-        DrawingView view = editor.getActiveView();
-        if (view != null) {
-            color = key.get(view.getDrawing());
-        } else {
-            color = key.getDefaultValue();
-        }
-        if (color != null) {
-            g.setColor(color);
-            g.translate(x, y);
-            g.fill(colorShape);
-            g.translate(-x, -y);
+        if (editor != null) {
+            Color color;
+            DrawingView view = editor.getActiveView();
+            if (view != null) {
+                color = key.get(view.getDrawing());
+            } else {
+                color = key.getDefaultValue();
+            }
+            if (color != null) {
+                g.setColor(color);
+                g.translate(x, y);
+                g.fill(colorShape);
+                g.translate(-x, -y);
+            }
         }
     }
 }

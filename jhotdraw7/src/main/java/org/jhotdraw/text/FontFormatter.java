@@ -53,7 +53,6 @@ public class FontFormatter extends DefaultFormatter {
 
     /**
      * Returns true, if null value is allowed.
-     * @param newValue
      */
     public boolean getAllowsNullValue() {
         return allowsNullValue;
@@ -63,7 +62,7 @@ public class FontFormatter extends DefaultFormatter {
     public Object stringToValue(String str) throws ParseException {
 
         // Handle null and empty case
-        if (str == null || str.trim().length()==0) {
+        if (str == null || str.trim().length() == 0) {
             if (allowsNullValue) {
                 return null;
             } else {
@@ -76,9 +75,8 @@ public class FontFormatter extends DefaultFormatter {
             throw new ParseException(str, 0);
         }
         String fontName = f.getFontName();
-        if (!fontName.equals(str)&&
-                !fontName.equals(str+"-Derived")) {
-System.out.println("FontFormatter "+str+" != "+f.getFontName());
+        if (!fontName.equals(str) &&
+                !fontName.equals(str + "-Derived")) {
             throw new ParseException(str, 0);
         }
         return f;

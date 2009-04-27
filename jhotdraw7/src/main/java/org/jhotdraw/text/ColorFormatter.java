@@ -131,7 +131,6 @@ public class ColorFormatter extends DefaultFormatter {
 
     /**
      * Gets the output format.
-     * @param newValue
      */
     public Format getOutputFormat() {
         return outputFormat;
@@ -139,7 +138,6 @@ public class ColorFormatter extends DefaultFormatter {
 
     /**
      * Gets the last used input format.
-     * @param newValue
      */
     public Format getLastUsedInputFormat() {
         return lastUsedInputFormat;
@@ -155,7 +153,6 @@ public class ColorFormatter extends DefaultFormatter {
 
     /**
      * Returns true, if null value is allowed.
-     * @param newValue
      */
     public boolean getAllowsNullValue() {
         return allowsNullValue;
@@ -176,10 +173,8 @@ public class ColorFormatter extends DefaultFormatter {
 
     /**
      * Returns true, if the color formatter is adaptive.
-     *
-     * @param newValue
      */
-    public boolean getAdaptive() {
+    public boolean isAdaptive() {
         return isAdaptive;
     }
 

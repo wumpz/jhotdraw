@@ -36,13 +36,17 @@ public class DnDMultiEditorSample {
 
                 // Create four drawing views, each one with its own drawing
                 DrawingView view1 = new DefaultDrawingView();
-                view1.setDrawing(createDrawing());
                 DrawingView view2 = new DefaultDrawingView();
-                view2.setDrawing(createDrawing());
                 DrawingView view3 = new DefaultDrawingView();
-                view3.setDrawing(createDrawing());
                 DrawingView view4 = new DefaultDrawingView();
+                view1.setDrawing(createDrawing());
+                view2.setDrawing(createDrawing());
+                view3.setDrawing(createDrawing());
                 view4.setDrawing(createDrawing());
+                view1.getComponent().setTransferHandler(new DnDDrawingViewTransferHandler());
+                view2.getComponent().setTransferHandler(new DnDDrawingViewTransferHandler());
+                view3.getComponent().setTransferHandler(new DnDDrawingViewTransferHandler());
+                view4.getComponent().setTransferHandler(new DnDDrawingViewTransferHandler());
 
                 // Create a common drawing editor for the views
                 DrawingEditor editor = new DefaultDrawingEditor();

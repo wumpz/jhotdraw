@@ -226,7 +226,7 @@ public class DefaultDrawingView
         setFocusable(true);
         addFocusListener(eventHandler);
         setTransferHandler(new DefaultDrawingViewTransferHandler());
-        setBorder(new EmptyBorder(10,10,10,10));
+        //setBorder(new EmptyBorder(10,10,10,10));
     }
 
     protected EventHandler createEventHandler() {

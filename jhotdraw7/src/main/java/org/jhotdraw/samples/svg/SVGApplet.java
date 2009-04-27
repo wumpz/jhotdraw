@@ -239,7 +239,7 @@ public class SVGApplet extends JApplet {
     public String getAppletInfo() {
         return getName() +
                 "\nVersion " + getVersion() +
-                "\n\nCopyright (c) by the authors of AnyWikiDraw.org" +
+                "\n\nCopyright 1996-2009 (c) by the original authors of JHotDraw and all its contributors" +
                 "\nThis software is licensed under LGPL or" +
                 "\nCreative Commons 2.5 BY";
     }

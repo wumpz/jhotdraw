@@ -41,8 +41,7 @@ public class JColorWheel extends JPanel {
     /** Vertical color component index. */
     protected int verticalIndex = 2;
 
-    private class MouseHandler extends MouseAdapter  {
-        @Override
+    private class MouseHandler extends MouseAdapter implements MouseMotionListener  {
         public void mouseDragged(MouseEvent e) {
             update(e);
         }
@@ -64,6 +63,10 @@ public class JColorWheel extends JPanel {
 
             // FIXME - We should only repaint the damaged area
             repaint();
+        }
+
+        public void mouseMoved(MouseEvent e) {
+            throw new UnsupportedOperationException("Not supported yet.");
         }
     }
     private MouseHandler mouseHandler;

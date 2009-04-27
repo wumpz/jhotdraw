@@ -464,7 +464,7 @@ public class AttributeKeys {
      * The stroke reflects the stroke width, but not the stroke dashes
      * attribute.
      * @param f
-     * @return
+     * @return A stroke suited for creating a shape for hit testing.
      */
     public static Stroke getHitStroke(Figure f) {
         double strokeWidth = Math.max(1, STROKE_WIDTH.get(f));
