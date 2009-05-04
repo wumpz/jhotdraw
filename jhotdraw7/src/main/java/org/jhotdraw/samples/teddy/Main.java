@@ -14,9 +14,7 @@
 
 package org.jhotdraw.samples.teddy;
 
-import java.util.*;
 import org.jhotdraw.app.*;
-import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * Main class.
@@ -35,12 +33,12 @@ public class Main {
      */
     public static void main(String[] args) {
         TeddyApplicationModel tam = new TeddyApplicationModel();
-        tam.setCopyright("© 2005-2008 Werner Randelshofer");
-        tam.setName("Teddy");
+        tam.setCopyright(COPYRIGHT);
+        tam.setName(NAME);
         tam.setViewClassName("org.jhotdraw.samples.teddy.TeddyView");
         tam.setVersion(Main.class.getPackage().getImplementationVersion());
         
-        AbstractApplication app;
+        Application app;
         if (System.getProperty("os.name").toLowerCase().startsWith("mac os x")) {
             app = new DefaultOSXApplication();
         } else if (System.getProperty("os.name").toLowerCase().startsWith("win")) {

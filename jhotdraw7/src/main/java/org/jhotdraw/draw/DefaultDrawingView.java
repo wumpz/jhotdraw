@@ -956,9 +956,8 @@ public class DefaultDrawingView
 
         firePropertyChange("scaleFactor", oldValue, newValue);
 
-        invalidateDimension();
-
         invalidate();
+        invalidateHandles();
 
         if (getParent() != null) {
             getParent().validate();

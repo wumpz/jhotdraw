@@ -215,7 +215,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         return cachedPath.contains(p2);
          */
         double tolerance = Math.max(2f, AttributeKeys.getStrokeTotalWidth(this) / 2d);
-        if (isClosed || FILL_COLOR.get(this) != null && FILL_GRADIENT.get(this)!=null) {
+        if (isClosed || FILL_COLOR.get(this) != null || FILL_GRADIENT.get(this)!=null) {
             if (getPath().contains(p)) {
                 return true;
             }
