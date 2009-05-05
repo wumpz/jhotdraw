@@ -18,6 +18,7 @@ import java.awt.*;
 import java.awt.geom.*;
 import org.jhotdraw.util.*;
 import java.util.*;
+import org.jhotdraw.geom.Geom;
 
 /**
  * DefaultDrawing to be used for drawings that contain only a few children.
@@ -84,7 +85,7 @@ public class DefaultDrawing
         }
     }
 
-    public java.util.List<Figure> sort(Collection<Figure> c) {
+    public java.util.List<Figure> sort(Collection<? extends Figure> c) {
         HashSet<Figure> unsorted = new HashSet<Figure>();
         unsorted.addAll(c);
         ArrayList<Figure> sorted = new ArrayList<Figure>(c.size());
@@ -135,7 +136,7 @@ public class DefaultDrawing
         return null;
     }
 
-    public Figure findFigureBehind(Point2D.Double p, Collection<Figure> children) {
+    public Figure findFigureBehind(Point2D.Double p, Collection<? extends Figure> children) {
         int inFrontOf = children.size();
         for (Figure f : getFiguresFrontToBack()) {
             if (inFrontOf == 0) {
@@ -151,7 +152,7 @@ public class DefaultDrawing
         return null;
     }
 
-    public Figure findFigureExcept(Point2D.Double p, Collection<Figure> ignore) {
+    public Figure findFigureExcept(Point2D.Double p, Collection<? extends Figure> ignore) {
         for (Figure f : getFiguresFrontToBack()) {
             if (!ignore.contains(f) && f.isVisible() && f.contains(p)) {
                 return f;
@@ -173,11 +174,12 @@ public class DefaultDrawing
     public java.util.List<Figure> findFiguresWithin(Rectangle2D.Double bounds) {
         LinkedList<Figure> contained = new LinkedList<Figure>();
         for (Figure f : getChildren()) {
-            Rectangle2D r = f.getBounds();
+            Rectangle2D.Double r = f.getBounds();
             if (AttributeKeys.TRANSFORM.get(f) != null) {
-                r = AttributeKeys.TRANSFORM.get(f).createTransformedShape(r).getBounds2D();
+                Rectangle2D rt = AttributeKeys.TRANSFORM.get(f).createTransformedShape(r).getBounds2D();
+                r = (rt instanceof Rectangle2D.Double) ? (Rectangle2D.Double) rt : new Rectangle2D.Double(rt.getX(), rt.getY(), rt.getWidth(), rt.getHeight());
             }
-            if (f.isVisible() && bounds.contains(r)) {
+            if (f.isVisible() && Geom.contains(bounds, r)) {
                 contained.add(f);
             }
         }
@@ -216,6 +218,7 @@ public class DefaultDrawing
             needsSorting = false;
         }
     }
+
     @Override
     protected void setAttributeOnChildren(AttributeKey key, Object newValue) {
         // empty
@@ -226,7 +229,7 @@ public class DefaultDrawing
         canvasSize = (newValue == null) ? null : (Dimension2DDouble) newValue.clone();
         firePropertyChange(CANVAS_SIZE_PROPERTY, oldValue, newValue);
     }
-    
+
     public Dimension2DDouble getCanvasSize() {
         return (canvasSize == null) ? null : (Dimension2DDouble) canvasSize.clone();
     }
@@ -245,11 +248,11 @@ public class DefaultDrawing
 
     @Override
     protected void drawFill(Graphics2D g) {
-    //  throw new UnsupportedOperationException("Not supported yet.");
+        //  throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     protected void drawStroke(Graphics2D g) {
-    //  throw new UnsupportedOperationException("Not supported yet.");
+        //  throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -132,11 +132,11 @@ public abstract class AbstractCompositeFigure
         invalidate();
     }
 
-    public void addAll(Collection<Figure> figures) {
+    public void addAll(Collection<? extends Figure> figures) {
         addAll(getChildCount(), figures);
     }
 
-    public final void addAll(int index, Collection<Figure> figures) {
+    public final void addAll(int index, Collection<? extends Figure> figures) {
         for (Figure f : figures) {
             basicAdd(index++, f);
             if (getDrawing() != null) {
@@ -151,7 +151,7 @@ public abstract class AbstractCompositeFigure
         basicAdd(getChildCount(), figure);
     }
 
-    public void basicAddAll(int index, Collection<Figure> newFigures) {
+    public void basicAddAll(int index, Collection<? extends Figure> newFigures) {
         for (Figure f : newFigures) {
             basicAdd(index++, f);
         }
@@ -199,7 +199,7 @@ public abstract class AbstractCompositeFigure
      *
      * @see #add
      */
-    public void removeAll(Collection<Figure> figures) {
+    public void removeAll(Collection<? extends Figure> figures) {
         for (Figure f : figures) {
             remove(f);
         }
@@ -237,7 +237,7 @@ public abstract class AbstractCompositeFigure
      *
      * @see #add
      */
-    public void basicRemoveAll(Collection<Figure> figures) {
+    public void basicRemoveAll(Collection<? extends Figure> figures) {
         for (Figure f : figures) {
             basicRemove(f);
         }

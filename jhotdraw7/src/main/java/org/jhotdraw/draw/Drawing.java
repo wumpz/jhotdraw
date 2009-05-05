@@ -1,5 +1,5 @@
 /*
- * @(#)Drawing.java  3.1  2009-04-15
+ * @(#)Drawing.java  3.2  2009-05-05
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -41,7 +41,9 @@ import java.io.*;
  * into the clipboard.
  *
  * @author Werner Randelshofer
- * @version 3.1 2009-04-15 Factor canvasSize out into an attribute.
+ * @version 3.2 2009-05-15 Methods taking figure collections as parameters
+ * now take collections of any extensions of figures as parameters.
+ * <br>3.1 2009-04-15 Factored canvasSize out into an attribute.
  * <br>3.0 2007-07-17 Refactored Drawing from an independent interface
  * into an interface that extends from CompositeFigure. 
  * <br>2.4 2007-05-21 Added add-methods with index to the interface.
@@ -83,7 +85,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      *
      * @param figures to be added to the drawing
      */
-    void addAll(Collection<Figure> figures);
+    void addAll(Collection<? extends Figure> figures);
     /**
      * Adds a collection of figures to the drawing.
      * The drawing sends an {@code addNotify}  message to each figure
@@ -94,7 +96,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * @param index The z-index of the figure.
      * @param figures to be added to the drawing
      */
-    void addAll(int index, Collection<Figure> figures);
+    void addAll(int index, Collection<? extends Figure> figures);
     
     /**
      * Removes a figure from the drawing.
@@ -116,7 +118,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * @param figures A collection of figures which are part of the drawing
      * and should be removed
      */
-    void removeAll(Collection<Figure> figures);
+    void removeAll(Collection<? extends Figure> figures);
     
     /**
      * Removes a figure temporarily from the drawing.
@@ -133,7 +135,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * @param figures A collection of figures which are part of the drawing
      * and should be removed
      */
-    void basicRemoveAll(Collection<Figure> figures);
+    void basicRemoveAll(Collection<? extends Figure> figures);
     /**
      * Reinserts a figure which was temporarily removed using basicRemove.
      * <p>
@@ -170,7 +172,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * and should be reinserted.
      * @see #basicRemoveAll(Collection)
      */
-    void basicAddAll(int index, Collection<Figure> figures);
+    void basicAddAll(int index, Collection<? extends Figure> figures);
     
     /**
      * Draws all the figures from back to front.
@@ -219,7 +221,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * Finds a top level Figure. Use this call for hit detection that
      * should not descend into the figure's children.
      */
-    Figure findFigureExcept(Point2D.Double p, Collection<Figure> ignore);
+    Figure findFigureExcept(Point2D.Double p, Collection<? extends Figure> ignore);
     /**
      * Finds a top level Figure which is behind the specified Figure.
      */
@@ -227,7 +229,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
     /**
      * Finds a top level Figure which is behind the specified Figures.
      */
-    Figure findFigureBehind(Point2D.Double p, Collection<Figure> figures);
+    Figure findFigureBehind(Point2D.Double p, Collection<? extends Figure> figures);
     
     
     /**
@@ -260,7 +262,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * Returns a copy of the provided collection which is sorted
      * in z order from back to front.
      */
-    List<Figure> sort(Collection<Figure> figures);
+    List<Figure> sort(Collection<? extends Figure> figures);
     
     /**
      * Adds a listener for undooable edit events.

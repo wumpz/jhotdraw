@@ -33,11 +33,12 @@ public class GrowStroke extends DoubleStroke {
     private float grow;
     
     public GrowStroke(float grow, float miterLimit) {
-        super(grow * 2, 1f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL, miterLimit, null, 0f);
+        super(grow * 2f, 1f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL, miterLimit, null, 0f);
    this.grow = grow;
     }
     
     public Shape createStrokedShape(Shape s) {
+
     BezierPath bp = new BezierPath();
         GeneralPath left = new GeneralPath();
         GeneralPath right = new GeneralPath();
@@ -85,7 +86,7 @@ public class GrowStroke extends DoubleStroke {
         }
         
         
-        if (left.getBounds2D().contains(right.getBounds2D())) {
+        if (Geom.contains(left.getBounds2D(),right.getBounds2D())) {
             return (grow > 0) ? left : right;
         } else {
             return (grow > 0) ? right : left;
