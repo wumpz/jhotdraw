@@ -178,6 +178,10 @@ public class ConvexHull {
      * @return true if right turn.
      */
     public static boolean isRightTurn(Point p1, Point p2, Point p3) {
+        if (p1.equals(p2)||p2.equals(p3)) {
+            // no right turn if points are at same location
+            return false;
+        }
         double val = (p2.x * p3.y + p1.x * p2.y + p3.x * p1.y) - (p2.x * p1.y + p3.x * p2.y + p1.x * p3.y);
         return val > 0;
     }
@@ -247,6 +251,11 @@ public class ConvexHull {
      * @return true if right turn.
      */
     public static boolean isRightTurn2D(Point.Double p1, Point.Double p2, Point.Double p3) {
+        if (p1.equals(p2)||p2.equals(p3)) {
+            // no right turn if points are at same location
+            return false;
+        }
+        
         double val = (p2.x * p3.y + p1.x * p2.y + p3.x * p1.y) - (p2.x * p1.y + p3.x * p2.y + p1.x * p3.y);
         return val > 0;
     }

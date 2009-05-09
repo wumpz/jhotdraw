@@ -654,6 +654,15 @@ public class DefaultDrawingView
                 }
                 handle.dispose();
             }
+            for (Handle handle : secondaryHandles) {
+                handle.removeHandleListener(eventHandler);
+                if (invalidatedArea == null) {
+                    invalidatedArea = handle.getDrawingArea();
+                } else {
+                    invalidatedArea.add(handle.getDrawingArea());
+                }
+                handle.dispose();
+            }
             selectionHandles.clear();
             secondaryHandles.clear();
             setActiveHandle(null);
