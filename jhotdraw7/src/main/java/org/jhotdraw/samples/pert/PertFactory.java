@@ -36,6 +36,8 @@ public class PertFactory extends DefaultDOMFactory {
         { SeparatorLineFigure.class, "separator" },
         
         { ChopRectangleConnector.class, "rectConnector" },
+        { LocatorConnector.class, "locConnector" },
+        { RelativeLocator.class, "relativeLocator" },
         { ArrowTip.class, "arrowTip" }
     };
     

@@ -15,6 +15,7 @@
 package org.jhotdraw.samples.pert.figures;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.beans.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.draw.*;
@@ -66,7 +67,7 @@ public class DependencyFigure extends LineConnectionFigure {
         return (start.getOwner() instanceof TaskFigure);
     }
     
-    
+
     /**
      * Handles the disconnection of a connection.
      * Override this method to handle this event.
