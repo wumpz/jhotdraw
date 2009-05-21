@@ -192,6 +192,7 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
     public void mouseReleased(MouseEvent evt) {
         multicaster.trackEnd(anchor, new Point(evt.getX(), evt.getY()),
                 evt.getModifiersEx(), getView());
+        fireToolDone();
     }
 
     protected void clearHoverHandles() {
