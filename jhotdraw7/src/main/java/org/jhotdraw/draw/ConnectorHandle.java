@@ -96,7 +96,6 @@ public class ConnectorHandle extends AbstractHandle {
         }
     }
 
-    @Override
     public void trackStart(Point anchor, int modifiersEx) {
         setConnection(createConnection());
 
@@ -108,7 +107,6 @@ public class ConnectorHandle extends AbstractHandle {
         view.getDrawing().add(getConnection());
     }
 
-    @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         //updateConnectors(lead);
         Point2D.Double p = view.viewToDrawing(lead);
@@ -141,7 +139,6 @@ public class ConnectorHandle extends AbstractHandle {
         }
     }
 
-    @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         Point2D.Double p = view.viewToDrawing(lead);
         view.getConstrainer().constrainPoint(p);

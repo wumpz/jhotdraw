@@ -183,8 +183,10 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
             return findConnector(p, targetFigure, getOwner());
         } else if (targetFigure != null) {
             Connector target = findConnector(p, targetFigure, getOwner());
-            if ((targetFigure != null) && targetFigure.canConnect() && targetFigure != savedTarget && !targetFigure.includes(getOwner()) && (canConnect(getSource(), target) ||
-                    getTarget() != null && getTarget().getOwner() == targetFigure)) {
+            if ((targetFigure != null) && targetFigure.canConnect()//
+                    && targetFigure != savedTarget //
+                    && !targetFigure.includes(getOwner()) //
+                    && (canConnect(getSource(), target))) {
                 return target;
             }
         }
@@ -200,6 +202,7 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
     /**
      * Draws this handle.
      */
+    @Override
     public void draw(Graphics2D g) {
         Graphics2D gg = (Graphics2D) g.create();
         gg.transform(view.getDrawingToViewTransform());
