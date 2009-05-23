@@ -561,6 +561,7 @@ public class ButtonFactory {
             Map<AttributeKey, Object> defaultAttributes,
             Shape colorShape) {
         final JPopupButton popupButton = new JPopupButton();
+        popupButton.setPopupAlpha(1f);
         if (defaultAttributes == null) {
             defaultAttributes = new HashMap<AttributeKey, Object>();
         }
@@ -746,6 +747,7 @@ public class ButtonFactory {
             Map<AttributeKey, Object> defaultAttributes,
             Shape colorShape) {
         final JPopupButton popupButton = new JPopupButton();
+        popupButton.setPopupAlpha(1f);
         if (defaultAttributes == null) {
             defaultAttributes = new HashMap<AttributeKey, Object>();
         }
@@ -894,6 +896,7 @@ public class ButtonFactory {
             Map<AttributeKey, Object> defaultAttributes,
             Shape colorShape) {
         final JPopupButton popupButton = new JPopupButton();
+        popupButton.setPopupAlpha(1f);
         if (defaultAttributes == null) {
             defaultAttributes = new HashMap<AttributeKey, Object>();
         }

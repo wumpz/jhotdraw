@@ -3,7 +3,7 @@
 <jnlp
   spec="1.5.0+"
   codebase="http://www.randelshofer.ch/oop/jhotdraw"
-  href="http://www.randelshofer.ch/oop/jhotdraw/guide/Documentation/jws/draw.jnlp">
+  href="http://www.randelshofer.ch/oop/jhotdraw/Documentation/jws/draw.jnlp">
   <information>
     <title>JHotDraw Draw</title>
     <vendor>Werner Randelshofer</vendor>
@@ -22,9 +22,9 @@
   </security> 
   <resources>
     <j2se version="1.5+" initial-heap-size="64m" max-heap-size="512m" />
- 	<nativelib href="guide/Draw/libquaqua.jnilib_signed.jar"/> 
- 	<nativelib href="guide/Draw/libquaqua64.jnilib_signed.jar"/> 
- 	<jar href="guide/Draw/JHotDraw%20Draw_signed.jar"/>
+ 	<nativelib href="Samples/Draw/signed/libquaqua.jnilib.jar"/>
+ 	<nativelib href="Samples/Draw/signed/libquaqua64.jnilib.jar"/>
+ 	<jar href="Samples/Draw/signed/JHotDraw%20Draw.jar"/>
   </resources>
   <application-desc main-class="org.jhotdraw.samples.draw.Main"/>
 </jnlp> 

@@ -246,7 +246,7 @@ public class SVGInputFormat implements InputFormat {
         readElement(svg);
 
         long end = System.currentTimeMillis();
-        if (true) {
+        if (DEBUG) {
             System.out.println("SVGInputFormat elapsed:" + (end - start));
         }
         /*if (DEBUG) System.out.println("SVGInputFormat read:"+(end1-start));
@@ -514,13 +514,13 @@ public class SVGInputFormat implements InputFormat {
             viewport.viewBox.y = toNumber(elem, viewBoxValues[1]);
             viewport.viewBox.width = toNumber(elem, viewBoxValues[2]);
             viewport.viewBox.height = toNumber(elem, viewBoxValues[3]);
-            
+
             // FIXME - Calculate percentages
-            if (widthValue.indexOf('%')>0) {
-                viewport.width=viewport.viewBox.width;
+            if (widthValue.indexOf('%') > 0) {
+                viewport.width = viewport.viewBox.width;
             }
-            if (heightValue.indexOf('%')>0) {
-                viewport.height=viewport.viewBox.height;
+            if (heightValue.indexOf('%') > 0) {
+                viewport.height = viewport.viewBox.height;
             }
         }
         if (viewportStack.size() == 1) {
@@ -1008,17 +1008,17 @@ public class SVGInputFormat implements InputFormat {
                 "http://www.w3.org/Graphics/SVG/feature/1.2/#Gradient",
                 "http://www.w3.org/Graphics/SVG/feature/1.2/#SolidColor",//
                 "http://www.w3.org/Graphics/SVG/feature/1.2/#Hyperlinking",//
-                //"http://www.w3.org/Graphics/SVG/feature/1.2/#XlinkAttribute",
-                //"http://www.w3.org/Graphics/SVG/feature/1.2/#ExternalResourcesRequired",
-                //"http://www.w3.org/Graphics/SVG/feature/1.2/#Scripting",
-                //"http://www.w3.org/Graphics/SVG/feature/1.2/#Handler",
-                //"http://www.w3.org/Graphics/SVG/feature/1.2/#Listener",
-                //"http://www.w3.org/Graphics/SVG/feature/1.2/#TimedAnimation",
-                //"http://www.w3.org/Graphics/SVG/feature/1.2/#Animation",
-                //"http://www.w3.org/Graphics/SVG/feature/1.2/#Audio",
-                //"http://www.w3.org/Graphics/SVG/feature/1.2/#Video",
-                //"http://www.w3.org/Graphics/SVG/feature/1.2/#Font", 
-                //"http://www.w3.org/Graphics/SVG/feature/1.2/#Extensibility",
+            //"http://www.w3.org/Graphics/SVG/feature/1.2/#XlinkAttribute",
+            //"http://www.w3.org/Graphics/SVG/feature/1.2/#ExternalResourcesRequired",
+            //"http://www.w3.org/Graphics/SVG/feature/1.2/#Scripting",
+            //"http://www.w3.org/Graphics/SVG/feature/1.2/#Handler",
+            //"http://www.w3.org/Graphics/SVG/feature/1.2/#Listener",
+            //"http://www.w3.org/Graphics/SVG/feature/1.2/#TimedAnimation",
+            //"http://www.w3.org/Graphics/SVG/feature/1.2/#Animation",
+            //"http://www.w3.org/Graphics/SVG/feature/1.2/#Audio",
+            //"http://www.w3.org/Graphics/SVG/feature/1.2/#Video",
+            //"http://www.w3.org/Graphics/SVG/feature/1.2/#Font",
+            //"http://www.w3.org/Graphics/SVG/feature/1.2/#Extensibility",
             //"http://www.w3.org/Graphics/SVG/feature/1.2/#MediaAttribute",
             //"http://www.w3.org/Graphics/SVG/feature/1.2/#TextFlow",
             //"http://www.w3.org/Graphics/SVG/feature/1.2/#TransformedVideo",
@@ -2608,7 +2608,9 @@ public class SVGInputFormat implements InputFormat {
         Double doubleValue;
         // width of the viewport
         value = readAttribute(elem, "width", null);
-System.out.println("SVGInputFormat READ viewport w/h factors:"+viewportStack.peek().widthPercentFactor+","+viewportStack.peek().heightPercentFactor);
+        if (DEBUG) {
+            System.out.println("SVGInputFormat READ viewport w/h factors:" + viewportStack.peek().widthPercentFactor + "," + viewportStack.peek().heightPercentFactor);
+        }
         if (value != null) {
             doubleValue = toLength(elem, (String) value, viewportStack.peek().widthPercentFactor);
             VIEWPORT_WIDTH.set(a, doubleValue);

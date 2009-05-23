@@ -20,8 +20,15 @@
 </div>
 <div class="article"><!-- InstanceBeginEditable name="articleRegion" -->
   <applet code="org.jhotdraw.samples.net.NetApplet"
-	  name="netApplet" width="600" height="520" archive="../Net/jhotdraw_net_signed.jar" id="netApplet">
+	  name="netApplet" width="600" height="520" archive="../Samples/Net/signed/jhotdraw_net.jar" id="netApplet">
     <param name="datafile" value="images/net.xml" />
+
+    <param name="codebase_lookup" value="false" />
+    <param name="classloader_cache" value="false" />
+    <param name="java_arguments" value="-Djnlp.packEnabled=true -Dswing.aatext=true" />
+    <!--param name="image" value="Splash.gif" /-->
+    <param name="boxborder" value="false" />
+    <param name="centerimage" value="true" />
   </applet>
 <!-- InstanceEndEditable -->
   <p>&nbsp;</p>

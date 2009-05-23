@@ -62,7 +62,7 @@ public class ConvexHull {
     /**
      * Computes the convex hull from a shape.
      *
-     * @param an arbitray shape
+     * @param shape an arbitray shape
      * @return convex hull of the points as a Polygon2D object.
      */
     public static Polygon2D.Double getConvexHullPath2D(Shape shape) {

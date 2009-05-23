@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="build-net" default="all" basedir=".">
     <target name="init">
+        <!-- properties for copyright and versioning -->
+        <property name="author" value="the authors and contributors of JHotDraw"/>
+        <property name="version" value="7.2"/>
+
+        <!-- build properties -->
         <property name="libdir" value="lib"/>
         <property name="srcdir" value="src/main/java"/>
         <property name="builddir" value="build"/>
         <property name="classdir" value="${builddir}/classes"/>
-        <property name="distdir" value="dist/Net"/>
-
-        <!-- properties for copyright and versioning -->
-        <property name="author" value="the authors and contributors of JHotDraw"/>
-        <property name="version" value="7.2"/>
+        <property name="distdir" value="dist/JHotdraw ${version}/Samples/Net"/>
 
         <!-- properties for jar signing -->
         <property name="keystore.file" value="../../../../_Keystore/JavaKeystore"/>
@@ -71,8 +72,8 @@
         </copy>
     </target>
     <target name="applet.jar" depends="init,applet.compile">
-        <mkdir dir="${distdir}"/>
-        <jar destfile="${distdir}/jhotdraw_net.jar" basedir="${classdir}" 
+        <mkdir dir="${distdir}/unsigned"/>
+        <jar destfile="${distdir}/unsigned/jhotdraw_net.jar" basedir="${classdir}"
         index="true" compress="false">
             <manifest>
                 <attribute name="Built-By" value="${author}"/>
@@ -81,23 +82,23 @@
             </manifest>
         </jar>
         <exec executable="pack200">
-            <arg value="${distdir}/jhotdraw_net.jar.pack.gz"/>
-            <arg value="${distdir}/jhotdraw_net.jar"/>
+            <arg value="${distdir}/unsigned/jhotdraw_net.jar.pack.gz"/>
+            <arg value="${distdir}/unsigned/jhotdraw_net.jar"/>
         </exec>
     </target>
     <target name="applet.jarsigned" depends="init,applet.jar">
-        <copy tofile="${distdir}/jhotdraw_net_signed.jar">
-            <fileset file="${distdir}/jhotdraw_net.jar"/>
+        <copy tofile="${distdir}/signed/jhotdraw_net.jar">
+            <fileset file="${distdir}/unsigned/jhotdraw_net.jar"/>
         </copy>
           <signjar alias="${keystore.alias}" 
                 storepass="${keystore.storepass}"
                 keystore="${keystore.file}" 
-                jar="${distdir}/jhotdraw_net_signed.jar"
+                jar="${distdir}/signed/jhotdraw_net.jar"
                 >
         </signjar>        
         <exec executable="pack200">
-            <arg value="${distdir}/jhotdraw_net_signed.jar.pack.gz"/>
-            <arg value="${distdir}/jhotdraw_net_signed.jar"/>
+            <arg value="${distdir}/signed/jhotdraw_net.jar.pack.gz"/>
+            <arg value="${distdir}/signed/jhotdraw_net.jar"/>
         </exec>
     </target>
     <target name="application.compile" depends="init,clean">
@@ -156,8 +157,8 @@
         </copy>
     </target>
     <target name="application.jar" depends="init,application.compile">
-        <mkdir dir="${distdir}"/>
-        <jar destfile="${distdir}/JHotDraw Net.jar" basedir="${classdir}">
+        <mkdir dir="${distdir}/unsigned"/>
+        <jar destfile="${distdir}/unsigned/JHotDraw Net.jar" basedir="${classdir}">
             <manifest>
                 <attribute name="Built-By" value="${author}"/>
                 <attribute name="Main-Class" value="org.jhotdraw.samples.net.Main"/>
@@ -165,14 +166,16 @@
                 <attribute name="Implementation-Version" value="${version}"/>
             </manifest>
         </jar>
-        <copy todir="${distdir}">
+        <copy todir="${distdir}/unsigned">
+            <fileset file="${libdir}/*.jar"/>
             <fileset file="${libdir}/*.jnilib"/>
         </copy>
     </target>
     <target name="application.jarsigned" depends="init,application.jar">
+        <mkdir dir="${distdir}/signed"/>
         <unjar src="${libdir}/quaqua.jar" dest="${classdir}" />
         <unjar src="${libdir}/MRJAdapter.jar" dest="${classdir}" />
-        <jar destfile="${distdir}/JHotDraw Net_signed.jar" basedir="${classdir}">
+        <jar destfile="${distdir}/signed/JHotDraw Net.jar" basedir="${classdir}">
             <manifest>
                 <attribute name="Built-By" value="${author}"/>
                 <attribute name="Main-Class" value="org.jhotdraw.samples.net.Main"/>
@@ -182,34 +185,34 @@
         <signjar alias="${keystore.alias}" 
                 storepass="${keystore.storepass}"
                 keystore="${keystore.file}" 
-                jar="${distdir}/JHotDraw Net_signed.jar"
+                jar="${distdir}/signed/JHotDraw Net.jar"
                 >
         </signjar>        
         <jar basedir="${libdir}" compress="true"
-             jarfile="${distdir}/libquaqua.jnilib_signed.jar" 
+             jarfile="${distdir}/signed/libquaqua.jnilib.jar"
              >
             <include name="libquaqua.jnilib"/>
         </jar>
         <signjar alias="${keystore.alias}" 
             storepass="${keystore.storepass}"
             keystore="${keystore.file}" 
-            jar="${distdir}/libquaqua.jnilib_signed.jar"
+            jar="${distdir}/signed/libquaqua.jnilib.jar"
             >
         </signjar>        
         <jar basedir="${libdir}" compress="true"
-             jarfile="${distdir}/libquaqua64.jnilib_signed.jar" 
+             jarfile="${distdir}/signed/libquaqua64.jnilib.jar"
              >
             <include name="libquaqua64.jnilib"/>
         </jar>
         <signjar alias="${keystore.alias}" 
             storepass="${keystore.storepass}"
             keystore="${keystore.file}" 
-            jar="${distdir}/libquaqua64.jnilib_signed.jar"
+            jar="${distdir}/signed/libquaqua64.jnilib.jar"
             >
         </signjar>        
     </target>
     <target name="application.run-jar" depends="init">
-        <java fork="true" jar="${distdir}/JHotDraw Net.jar">
+        <java fork="true" jar="${distdir}/unsigned/JHotDraw Net.jar">
             <jvmarg value="-Xdock:name=JHotDraw Net"/>
             <jvmarg value="-Dlocale=en"/>
             <jvmarg value="-Dapple.awt.graphics.UseQuartz=false"/>

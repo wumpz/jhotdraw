@@ -828,9 +828,9 @@ public class Geom {
      * when rectangle1 contains rectangle2 and either or both of them
      * are empty.
      *
-     * @param r1
-     * @param r2
-     * @return
+     * @param r1 Rectangle 1.
+     * @param r2 Rectangle 2.
+     * @return true if r1 contains r2.
      */
     public static boolean contains(Rectangle2D.Double r1, Rectangle2D.Double r2) {
         return (r2.x >= r1.x &&
@@ -846,9 +846,9 @@ public class Geom {
      * when rectangle1 contains rectangle2 and either or both of them
      * are empty.
      *
-     * @param r1
-     * @param r2
-     * @return
+     * @param r1 Rectangle 1.
+     * @param r2 Rectangle 2.
+     * @return true if r1 contains r2.
      */
     public static boolean contains(Rectangle2D r1, Rectangle2D r2) {
         return (r2.getX()) >= r1.getX() &&

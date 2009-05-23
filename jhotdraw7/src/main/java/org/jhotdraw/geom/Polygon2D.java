@@ -37,12 +37,9 @@ public abstract class Polygon2D implements Shape, Cloneable {
      * The total number of points.  The value of <code>npoints</code>
      * represents the number of valid points in this <code>Polygon</code>
      * and might be less than the number of elements in 
-     * {@link #xpoints xpoints} or {@link #ypoints ypoints}.
+     * {@code xpoints} or {@code ypoints}.
      * This value can be NULL.
      *
-     * @serial
-     * @see #addPoint(int, int)
-     * @since 1.0
      */
     public int npoints;
 
@@ -57,7 +54,7 @@ public abstract class Polygon2D implements Shape, Cloneable {
 
     /**
      * Creates an empty polygon.
-     * @since 1.0
+     * 
      */
     public Polygon2D() {
     }
@@ -77,7 +74,7 @@ public abstract class Polygon2D implements Shape, Cloneable {
      * smaller than the number of vertices in the data from before the
      * reset.
      * @see         java.awt.Polygon#invalidate
-     * @since 1.4
+     * 
      */
     public void reset() {
         npoints = 0;
@@ -94,7 +91,7 @@ public abstract class Polygon2D implements Shape, Cloneable {
      * that might cache data from earlier computations relating to
      * the vertex coordinates.
      * @see         java.awt.Polygon#getBounds
-     * @since 1.4
+     * 
      */
     public abstract void invalidate();
 
@@ -104,7 +101,7 @@ public abstract class Polygon2D implements Shape, Cloneable {
      * <code>deltaY</code> along the y axis.
      * @param deltaX the amount to translate along the X axis
      * @param deltaY the amount to translate along the Y axis
-     * @since 1.1
+     * 
      */
     public abstract void translate(double deltaX, double deltaY);
 
@@ -119,7 +116,7 @@ public abstract class Polygon2D implements Shape, Cloneable {
      * @param       y the specified Y coordinate
      * @see         java.awt.Polygon#getBounds
      * @see         java.awt.Polygon#contains
-     * @since 1.0
+     * 
      */
     public abstract void addPoint(double x, double y);
 
@@ -134,7 +131,7 @@ public abstract class Polygon2D implements Shape, Cloneable {
      * coordinate space, and can completely contain the <code>Polygon</code>.
      * @return a <code>Rectangle</code> that defines the bounds of this 
      * <code>Polygon</code>.
-     * @since 1.1
+     * 
      */
     public Rectangle getBounds() {
         return getBounds2D().getBounds();
@@ -147,7 +144,7 @@ public abstract class Polygon2D implements Shape, Cloneable {
      * @return <code>true</code> if the <code>Polygon</code> contains the
      * 			<code>Point</code>; <code>false</code> otherwise.
      * @see #contains(double, double)
-     * @since 1.0
+     * 
      */
     public boolean contains(Point p) {
         return contains(p.x, p.y);
@@ -163,7 +160,7 @@ public abstract class Polygon2D implements Shape, Cloneable {
      *         the specified coordinates {@code (x,y)};
      *         {@code false} otherwise.
      * @see #contains(double, double)
-     * @since 1.1
+     * 
      */
     public boolean contains(int x, int y) {
         return contains((double) x, (double) y);
@@ -180,7 +177,7 @@ public abstract class Polygon2D implements Shape, Cloneable {
      * @see #contains(double, double)
      * @deprecated As of JDK version 1.1,
      * replaced by <code>contains(int, int)</code>.
-     * @since 1.0
+     * 
      */
     @Deprecated
     public boolean inside(int x, int y) {
@@ -189,19 +186,19 @@ public abstract class Polygon2D implements Shape, Cloneable {
 
     /**
      * {@inheritDoc}
-     * @since 1.2
+     * 
      */
     public abstract Rectangle2D getBounds2D();
 
     /**
      * {@inheritDoc}
-     * @since 1.2
+     * 
      */
     public abstract boolean contains(double x, double y);
 
     /**
      * {@inheritDoc}
-     * @since 1.2
+     * 
      */
     public boolean contains(Point2D p) {
         return contains(p.getX(), p.getY());
@@ -209,13 +206,13 @@ public abstract class Polygon2D implements Shape, Cloneable {
 
     /**
      * {@inheritDoc}
-     * @since 1.2
+     * 
      */
     public abstract boolean intersects(double x, double y, double w, double h);
 
     /**
      * {@inheritDoc}
-     * @since 1.2
+     * 
      */
     public boolean intersects(Rectangle2D r) {
         return intersects(r.getX(), r.getY(), r.getWidth(), r.getHeight());
@@ -223,13 +220,13 @@ public abstract class Polygon2D implements Shape, Cloneable {
 
     /**
      * {@inheritDoc}
-     * @since 1.2
+     * 
      */
     public abstract boolean contains(double x, double y, double w, double h);
 
     /**
      * {@inheritDoc}
-     * @since 1.2
+     * 
      */
     public boolean contains(Rectangle2D r) {
         return contains(r.getX(), r.getY(), r.getWidth(), r.getHeight());
@@ -246,7 +243,7 @@ public abstract class Polygon2D implements Shape, Cloneable {
      *		<code>null</code> if untransformed coordinates are desired
      * @return a {@link PathIterator} object that provides access to the
      *		geometry of this <code>Polygon</code>.      
-     * @since 1.2
+     * 
      */
     public abstract PathIterator getPathIterator(AffineTransform at);
 
@@ -269,7 +266,7 @@ public abstract class Polygon2D implements Shape, Cloneable {
      * 		<code>flatness</code> parameter is ignored.
      * @return a <code>PathIterator</code> object that provides access to the
      * 		<code>Shape</code> object's geometry.
-     * @since 1.2
+     * 
      */
     public PathIterator getPathIterator(AffineTransform at, double flatness) {
         return getPathIterator(at);
@@ -289,9 +286,6 @@ public abstract class Polygon2D implements Shape, Cloneable {
          * array.  The value of {@link #npoints npoints} is equal to the
          * number of valid points in this <code>Polygon</code>.
          *
-         * @serial
-         * @see #addPoint(int, int)
-         * @since 1.0
          */
         public double xpoints[];
         /**
@@ -302,19 +296,13 @@ public abstract class Polygon2D implements Shape, Cloneable {
          * array.  The value of <code>npoints</code> is equal to the
          * number of valid points in this <code>Polygon</code>.
          *
-         * @serial
-         * @see #addPoint(int, int)
-         * @since 1.0
          */
         public double ypoints[];
         /**
          * The bounds of this {@code Polygon}.
          * This value can be null.
          *
-         * @serial
-         * @see #getBoundingBox()
-         * @see #getBounds()
-         * @since 1.0
+         * 
          */
         protected Rectangle2D.Double bounds;
 
@@ -337,7 +325,7 @@ public abstract class Polygon2D implements Shape, Cloneable {
          *             or the length of <code>ypoints</code>.
          * @exception  NullPointerException if <code>xpoints</code> or
          *             <code>ypoints</code> is <code>null</code>.
-         * @since 1.0
+         * 
          */
         public Double(double xpoints[], double ypoints[], int npoints) {
             // Fix 4489009: should throw IndexOutofBoundsException instead
@@ -369,7 +357,7 @@ public abstract class Polygon2D implements Shape, Cloneable {
          * <code>deltaY</code> along the y axis.
          * @param deltaX the amount to translate along the X axis
          * @param deltaY the amount to translate along the Y axis
-         * @since 1.1
+         * 
          */
         @Override
         public void translate(double deltaX, double deltaY) {
@@ -606,10 +594,6 @@ public abstract class Polygon2D implements Shape, Cloneable {
          * to be added to this <code>Polygon</code> without re-creating this
          * array.  The value of {@link #npoints npoints} is equal to the
          * number of valid points in this <code>Polygon</code>.
-         *
-         * @serial
-         * @see #addPoint(int, int)
-         * @since 1.0
          */
         public float xpoints[];
         /**
@@ -619,20 +603,11 @@ public abstract class Polygon2D implements Shape, Cloneable {
          * to be added to this <code>Polygon</code> without re-creating this
          * array.  The value of <code>npoints</code> is equal to the
          * number of valid points in this <code>Polygon</code>.
-         *
-         * @serial
-         * @see #addPoint(int, int)
-         * @since 1.0
          */
         public float ypoints[];
         /**
          * The bounds of this {@code Polygon}.
          * This value can be null.
-         *
-         * @serial
-         * @see #getBoundingBox()
-         * @see #getBounds()
-         * @since 1.0
          */
         protected Rectangle2D.Float bounds;
 
@@ -655,7 +630,7 @@ public abstract class Polygon2D implements Shape, Cloneable {
          *             or the length of <code>ypoints</code>.
          * @exception  NullPointerException if <code>xpoints</code> or
          *             <code>ypoints</code> is <code>null</code>.
-         * @since 1.0
+         * 
          */
         public Float(float xpoints[], float ypoints[], int npoints) {
             // Fix 4489009: should throw IndexOutofBoundsException instead
@@ -687,7 +662,7 @@ public abstract class Polygon2D implements Shape, Cloneable {
          * <code>deltaY</code> along the y axis.
          * @param deltaX the amount to translate along the X axis
          * @param deltaY the amount to translate along the Y axis
-         * @since 1.1
+         * 
          */
         @Override
         public void translate(double deltaX, double deltaY) {

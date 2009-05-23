@@ -55,7 +55,6 @@ public class SVGView extends AbstractView implements ExportableView {
 
     private HashMap<javax.swing.filechooser.FileFilter, InputFormat> fileFilterInputFormatMap;
     private HashMap<javax.swing.filechooser.FileFilter, OutputFormat> fileFilterOutputFormatMap;
-    private Preferences prefs;
 
     /**
      * Creates a new View.
@@ -69,7 +68,6 @@ public class SVGView extends AbstractView implements ExportableView {
     @Override
     public void init() {
         super.init();
-        prefs = Preferences.userNodeForPackage(getClass());
 
         initComponents();
 
@@ -251,7 +249,7 @@ public class SVGView extends AbstractView implements ExportableView {
 
     @Override
     protected JFileChooser createOpenChooser() {
-        final JFileChooser c = super.createOpenChooser();
+        final JFileChooser c = new JFileChooser();
         fileFilterInputFormatMap = new HashMap<javax.swing.filechooser.FileFilter, InputFormat>();
         javax.swing.filechooser.FileFilter firstFF = null;
         for (InputFormat format : svgPanel.getDrawing().getInputFormats()) {
@@ -272,13 +270,16 @@ public class SVGView extends AbstractView implements ExportableView {
                 }
             }
         });
+        if (preferences != null) {
+            c.setSelectedFile(new File(preferences.get("projectFile", System.getProperty("user.home"))));
+        }
 
         return c;
     }
 
     @Override
     protected JFileChooser createSaveChooser() {
-        JFileChooser c = super.createSaveChooser();
+        JFileChooser c = new JFileChooser();
 
         fileFilterOutputFormatMap = new HashMap<javax.swing.filechooser.FileFilter, OutputFormat>();
         //  c.addChoosableFileFilter(new ExtensionFileFilter("SVG Drawing","svg"));
@@ -287,6 +288,9 @@ public class SVGView extends AbstractView implements ExportableView {
             fileFilterOutputFormatMap.put(ff, format);
             c.addChoosableFileFilter(ff);
             break; // only add the first file filter
+        }
+        if (preferences != null) {
+            c.setSelectedFile(new File(preferences.get("projectFile", System.getProperty("user.home"))));
         }
 
         return c;
@@ -302,14 +306,14 @@ public class SVGView extends AbstractView implements ExportableView {
             javax.swing.filechooser.FileFilter ff = format.getFileFilter();
             fileFilterOutputFormatMap.put(ff, format);
             c.addChoosableFileFilter(ff);
-            if (ff.getDescription().equals(prefs.get("viewExportFormat", ""))) {
+            if (ff.getDescription().equals(preferences.get("viewExportFormat", ""))) {
                 currentFilter = ff;
             }
         }
         if (currentFilter != null) {
             c.setFileFilter(currentFilter);
         }
-        c.setSelectedFile(new File(prefs.get("viewExportFile", System.getProperty("user.home"))));
+        c.setSelectedFile(new File(preferences.get("viewExportFile", System.getProperty("user.home"))));
 
         return c;
     }
@@ -351,8 +355,8 @@ public class SVGView extends AbstractView implements ExportableView {
 
         format.write(f, svgPanel.getDrawing());
 
-        prefs.put("viewExportFile", f.getPath());
-        prefs.put("viewExportFormat", filter.getDescription());
+        preferences.put("viewExportFile", f.getPath());
+        preferences.put("viewExportFormat", filter.getDescription());
     }
 
 

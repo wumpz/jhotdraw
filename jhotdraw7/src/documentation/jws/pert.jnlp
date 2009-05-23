@@ -3,7 +3,7 @@
 <jnlp
   spec="1.5.0+"
   codebase="http://www.randelshofer.ch/oop/jhotdraw"
-  href="http://www.randelshofer.ch/oop/jhotdraw/guide/Documentation/jws/pert.jnlp">
+  href="http://www.randelshofer.ch/oop/jhotdraw/Documentation/jws/pert.jnlp">
   <information>
     <title>JHotDraw PERT</title>
     <vendor>Werner Randelshofer</vendor>
@@ -22,9 +22,9 @@
   </security> 
   <resources>
     <j2se version="1.5+" initial-heap-size="64m" max-heap-size="512m" />
- 	<nativelib href="guide/PERT/libquaqua.jnilib_signed.jar"/> 
- 	<nativelib href="guide/PERT/libquaqua64.jnilib_signed.jar"/> 
- 	<jar href="guide/PERT/JHotDraw%20PERT_signed.jar"/>
+ 	<nativelib href="Samples/PERT/signed/libquaqua.jnilib.jar"/>
+ 	<nativelib href="Samples/PERT/signed/libquaqua64.jnilib.jar"/>
+ 	<jar href="Samples/PERT/signed/JHotDraw%20PERT.jar"/>
   </resources>
   <application-desc main-class="org.jhotdraw.samples.pert.Main"/>
 </jnlp> 

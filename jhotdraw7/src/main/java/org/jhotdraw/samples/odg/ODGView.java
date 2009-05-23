@@ -66,7 +66,6 @@ public class ODGView extends AbstractView implements ExportableView {
     
     private GridConstrainer visibleConstrainer = new GridConstrainer(10, 10);
     private GridConstrainer invisibleConstrainer = new GridConstrainer(1, 1);
-    private Preferences prefs;
     /**
      * Creates a new view.
      */
@@ -78,7 +77,6 @@ public class ODGView extends AbstractView implements ExportableView {
      */
     public void init() {
         super.init();
-        prefs = Preferences.userNodeForPackage(getClass());
         
         initComponents();
         
@@ -114,7 +112,7 @@ public class ODGView extends AbstractView implements ExportableView {
         placardPanel.add(pButton, BorderLayout.EAST);
         scrollPane.add(placardPanel, JScrollPane.LOWER_LEFT_CORNER);
         
-        propertiesPanel.setVisible(prefs.getBoolean("propertiesPanelVisible", false));
+        propertiesPanel.setVisible(preferences.getBoolean("propertiesPanelVisible", false));
         propertiesPanel.setView(view);
     }
     
@@ -234,7 +232,7 @@ public class ODGView extends AbstractView implements ExportableView {
         boolean oldValue = propertiesPanel.isVisible();
         propertiesPanel.setVisible(newValue);
         firePropertyChange("propertiesPanelVisible", oldValue, newValue);
-        prefs.putBoolean("propertiesPanelVisible", newValue);
+        preferences.putBoolean("propertiesPanelVisible", newValue);
         validate();
     }
     public boolean isPropertiesPanelVisible() {
@@ -280,7 +278,7 @@ public class ODGView extends AbstractView implements ExportableView {
     }
     
     @Override protected JFileChooser createOpenChooser() {
-        final JFileChooser c = super.createOpenChooser();
+        final JFileChooser c = new JFileChooser();
         fileFilterInputFormatMap = new HashMap<javax.swing.filechooser.FileFilter,InputFormat>();
         javax.swing.filechooser.FileFilter firstFF = null;
         for (InputFormat format : view.getDrawing().getInputFormats()) {
@@ -300,11 +298,14 @@ public class ODGView extends AbstractView implements ExportableView {
                 }
             }
         });
+        if (preferences != null) {
+            c.setSelectedFile(new File(preferences.get("projectFile", System.getProperty("user.home"))));
+        }
         
         return c;
     }
     @Override protected JFileChooser createSaveChooser() {
-        JFileChooser c = super.createSaveChooser();
+        JFileChooser c = new JFileChooser();
         
         fileFilterOutputFormatMap = new HashMap<javax.swing.filechooser.FileFilter,OutputFormat>();
         //  c.addChoosableFileFilter(new ExtensionFileFilter("SVG Drawing","svg"));
@@ -313,6 +314,9 @@ public class ODGView extends AbstractView implements ExportableView {
             fileFilterOutputFormatMap.put(ff, format);
             c.addChoosableFileFilter(ff);
             break; // only add the first file filter
+        }
+        if (preferences != null) {
+            c.setSelectedFile(new File(preferences.get("projectFile", System.getProperty("user.home"))));
         }
         
         return c;
@@ -331,14 +335,14 @@ public class ODGView extends AbstractView implements ExportableView {
             javax.swing.filechooser.FileFilter ff = format.getFileFilter();
             fileFilterOutputFormatMap.put(ff, format);
             c.addChoosableFileFilter(ff);
-            if (ff.getDescription().equals(prefs.get("viewExportFormat",""))) {
+            if (ff.getDescription().equals(preferences.get("viewExportFormat",""))) {
                 currentFilter = ff;
             }
         }
         if (currentFilter != null) {
             c.setFileFilter(currentFilter);
         }
-        c.setSelectedFile(new File(prefs.get("viewExportFile", System.getProperty("user.home"))));
+        c.setSelectedFile(new File(preferences.get("viewExportFile", System.getProperty("user.home"))));
         
         return c;
     }
@@ -382,8 +386,8 @@ public class ODGView extends AbstractView implements ExportableView {
         
         format.write(f, view.getDrawing());
         
-        prefs.put("viewExportFile", f.getPath());
-        prefs.put("viewExportFormat", filter.getDescription());
+        preferences.put("viewExportFile", f.getPath());
+        preferences.put("viewExportFormat", filter.getDescription());
     }
     
     

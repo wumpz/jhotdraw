@@ -21,8 +21,15 @@
 <div class="article"><!-- InstanceBeginEditable name="articleRegion" -->
 <p>
   <applet code="org.jhotdraw.samples.svg.SVGApplet"
-	  name="svgApplet" width="600" height="600" archive="../SVG/jhotdraw_svg_signed.jar" id="svgApplet">
+	  name="svgApplet" width="600" height="600" archive="../Samples/SVG/signed/jhotdraw_svg.jar" id="svgApplet">
     <param name="datafile" value="images/lion.svgz">
+
+    <param name="codebase_lookup" value="false" />
+    <param name="classloader_cache" value="false" />
+    <param name="java_arguments" value="-Djnlp.packEnabled=true -Dswing.aatext=true" />
+    <!--param name="image" value="Splash.gif" /-->
+    <param name="boxborder" value="false" />
+    <param name="centerimage" value="true" />
   </applet>
 </p>
 <p>This is a signed applet. If you choose to trust this applet, you can copy and paste images from/into the applet, and you can drag  images from your computer into the applet.</p>

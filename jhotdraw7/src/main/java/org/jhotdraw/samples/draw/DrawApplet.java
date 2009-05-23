@@ -44,6 +44,7 @@ public class DrawApplet extends JApplet {
      * We override getParameter() to make it work even if we have no Applet
      * context.
      */
+    @Override
     public String getParameter(String name) {
         try {
             return super.getParameter(name);
@@ -56,6 +57,7 @@ public class DrawApplet extends JApplet {
     }
     
     /** Initializes the applet DrawApplet */
+    @Override
     public void init() {
         // Set look and feel
         // -----------------

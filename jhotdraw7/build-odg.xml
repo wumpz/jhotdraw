@@ -5,7 +5,7 @@
         <property name="srcdir" value="src/main/java"/>
         <property name="builddir" value="build"/>
         <property name="classdir" value="${builddir}/classes"/>
-        <property name="distdir" value="dist/ODG"/>
+        <property name="distdir" value="dist/Samples/ODG"/>
 
         <!-- properties for copyright and versioning -->
         <property name="author" value="the authors and contributors of JHotDraw"/>
@@ -78,8 +78,8 @@
         </copy>
     </target>
     <target name="applet.jar" depends="init,applet.compile">
-        <mkdir dir="${distdir}"/>
-        <jar destfile="${distdir}/jhotdraw_odg.jar" basedir="${classdir}" 
+        <mkdir dir="${distdir}/unsigned"/>
+        <jar destfile="${distdir}/unsigned/jhotdraw_odg.jar" basedir="${classdir}"
         index="true" compress="false">
             <manifest>
                 <attribute name="Built-By" value="${author}"/>
@@ -87,34 +87,35 @@
                 <attribute name="Implementation-Version" value="${version}"/>
             </manifest>
         </jar>
-        <exec executable="gzip" dir="${distdir}">
+        <exec executable="gzip" dir="${distdir}/unsigned">
             <arg value="-f"/>
             <arg value="jhotdraw_odg.jar"/>
         </exec>
-        <jar destfile="${distdir}/jhotdraw_odg.jar" basedir="${classdir}" index="true">
+        <jar destfile="${distdir}/unsigned/jhotdraw_odg.jar" basedir="${classdir}" index="true">
             <manifest>
                 <attribute name="Built-By" value="${author}"/>
                 <attribute name="Main-Class" value="org.jhotdraw.samples.odg.ODGApplet"/>
             </manifest>
         </jar>
         <exec executable="pack200">
-            <arg value="${distdir}/jhotdraw_odg.jar.pack.gz"/>
-            <arg value="${distdir}/jhotdraw_odg.jar"/>
+            <arg value="${distdir}/unsigned/jhotdraw_odg.jar.pack.gz"/>
+            <arg value="${distdir}/unsigned/jhotdraw_odg.jar"/>
         </exec>
     </target>
     <target name="applet.jarsigned" depends="init,applet.jar">
-        <copy tofile="${distdir}/jhotdraw_odg_signed.jar">
-            <fileset file="${distdir}/jhotdraw_odg.jar"/>
+        <mkdir dir="${distdir}/signed"/>
+        <copy tofile="${distdir}/signed/jhotdraw_odg.jar">
+            <fileset file="${distdir}/unsigned/jhotdraw_odg.jar"/>
         </copy>
           <signjar alias="${keystore.alias}" 
                 storepass="${keystore.storepass}"
                 keystore="${keystore.file}" 
-                jar="${distdir}/jhotdraw_odg_signed.jar"
+                jar="${distdir}/signed/jhotdraw_odg.jar"
                 >
         </signjar>        
         <exec executable="pack200">
-            <arg value="${distdir}/jhotdraw_odg_signed.jar.pack.gz"/>
-            <arg value="${distdir}/jhotdraw_odg_signed.jar"/>
+            <arg value="${distdir}/signed/jhotdraw_odg.jar.pack.gz"/>
+            <arg value="${distdir}/signed/jhotdraw_odg.jar"/>
         </exec>
     </target>
     <target name="application.compile" depends="init,clean">
@@ -173,8 +174,8 @@
         </copy>
     </target>
     <target name="application.jar" depends="init,application.compile">
-        <mkdir dir="${distdir}"/>
-        <jar destfile="${distdir}/JHotDraw ODG.jar" basedir="${classdir}">
+        <mkdir dir="${distdir}/unsigned"/>
+        <jar destfile="${distdir}/unsigned/JHotDraw ODG.jar" basedir="${classdir}">
             <manifest>
                 <attribute name="Built-By" value="${author}"/>
                 <attribute name="Main-Class" value="org.jhotdraw.samples.odg.Main"/>
@@ -182,14 +183,15 @@
                 <attribute name="Implementation-Version" value="${version}"/>
             </manifest>
         </jar>
-        <copy todir="${distdir}">
+        <copy todir="${distdir}/unsigned">
             <fileset file="${libdir}/*.jnilib"/>
         </copy>
     </target>
     <target name="application.jarsigned" depends="init,application.jar">
+        <mkdir dir="${distdir}/signed"/>
         <unjar src="${libdir}/quaqua.jar" dest="${classdir}" />
         <unjar src="${libdir}/MRJAdapter.jar" dest="${classdir}" />
-        <jar destfile="${distdir}/JHotDraw ODG_signed.jar" basedir="${classdir}">
+        <jar destfile="${distdir}/signed/JHotDraw ODG.jar" basedir="${classdir}">
             <manifest>
                 <attribute name="Built-By" value="${author}"/>
                 <attribute name="Main-Class" value="org.jhotdraw.samples.odg.Main"/>
@@ -199,30 +201,30 @@
           <signjar alias="${keystore.alias}" 
                 storepass="${keystore.storepass}"
                 keystore="${keystore.file}" 
-                jar="${distdir}/JHotDraw ODG_signed.jar"
+                jar="${distdir}/signed/JHotDraw ODG.jar"
                 
                 >
         </signjar>        
         <jar basedir="${libdir}" compress="true"
-             jarfile="${distdir}/libquaqua.jnilib_signed.jar" 
+             jarfile="${distdir}/signed/libquaqua.jnilib.jar"
              >
             <include name="libquaqua.jnilib"/>
         </jar>
         <signjar alias="${keystore.alias}" 
             storepass="${keystore.storepass}"
             keystore="${keystore.file}" 
-            jar="${distdir}/libquaqua.jnilib_signed.jar"
+            jar="${distdir}/signed/libquaqua.jnilib.jar"
             >
         </signjar>        
         <jar basedir="${libdir}" compress="true"
-             jarfile="${distdir}/libquaqua64.jnilib_signed.jar" 
+             jarfile="${distdir}/signed/libquaqua64.jnilib.jar"
              >
             <include name="libquaqua64.jnilib"/>
         </jar>
         <signjar alias="${keystore.alias}" 
             storepass="${keystore.storepass}"
             keystore="${keystore.file}" 
-            jar="${distdir}/libquaqua64.jnilib_signed.jar"
+            jar="${distdir}/signed/libquaqua64.jnilib.jar"
             >
         </signjar>        
     </target>
@@ -265,5 +267,7 @@
         <exec executable="appletviewer">
         <arg value="${builddir}/ODGApplet.html"/>
         </exec>
+    </target>
+    <target name="dist" depends="init,applet.jarsigned,application.jarsigned">
     </target>
 </project>

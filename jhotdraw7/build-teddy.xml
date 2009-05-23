@@ -2,15 +2,16 @@
 <!-- Builds the "JHotDraw Teddy" demo application and demo applet. -->
 <project name="build-teddy" default="all" basedir=".">
     <target name="init">
+        <!-- properties for copyright and versioning -->
+        <property name="author" value="the authors and contributors of JHotDraw"/>
+        <property name="version" value="7.2"/>
+
+        <!-- build properties -->
         <property name="libdir" value="lib"/>
         <property name="srcdir" value="src/main/java"/>
         <property name="builddir" value="build"/>
         <property name="classdir" value="${builddir}/classes"/>
-        <property name="distdir" value="dist/Teddy"/>
-
-        <!-- properties for copyright and versioning -->
-        <property name="author" value="the authors and contributors of JHotDraw"/>
-        <property name="version" value="7.2"/>
+        <property name="distdir" value="dist/JHotDraw ${version}/Samples/Teddy"/>
 
         <!-- properties for jar signing -->
         <property name="keystore.file" value="../../../../_Keystore/JavaKeystore"/>
@@ -62,8 +63,8 @@
         </copy>
     </target>
     <target name="application.jar" depends="init,application.compile">
-        <mkdir dir="${distdir}"/>
-        <jar destfile="${distdir}/JHotDraw Teddy.jar" basedir="${classdir}">
+        <mkdir dir="${distdir}/unsigned"/>
+        <jar destfile="${distdir}/unsigned/JHotDraw Teddy.jar" basedir="${classdir}">
             <manifest>
                 <attribute name="Built-By" value="${author}"/>
                 <attribute name="Main-Class" value="org.jhotdraw.samples.teddy.Main"/>
@@ -71,15 +72,17 @@
                 <attribute name="Implementation-Version" value="${version}"/>
             </manifest>
         </jar>
-        <copy todir="${distdir}">
+        <copy todir="${distdir}/unsigned">
+            <fileset file="${libdir}/*.jar"/>
             <fileset file="${libdir}/*.jnilib"/>
         </copy>
     </target>
     <target name="application.jarsigned" depends="init,application.jar">
+        <mkdir dir="${distdir}/signed"/>
         <unjar src="${libdir}/quaqua.jar" dest="${classdir}" />
         <unjar src="${libdir}/MRJAdapter.jar" dest="${classdir}" />
         <unjar src="${libdir}/swing-layout.jar" dest="${classdir}" />
-        <jar destfile="${distdir}/JHotDraw Teddy_signed.jar" basedir="${classdir}">
+        <jar destfile="${distdir}/signed/JHotDraw Teddy.jar" basedir="${classdir}">
             <manifest>
                 <attribute name="Built-By" value="${author}"/>
                 <attribute name="Main-Class" value="org.jhotdraw.samples.teddy.Main"/>
@@ -89,30 +92,30 @@
           <signjar alias="${keystore.alias}" 
                 storepass="${keystore.storepass}"
                 keystore="${keystore.file}" 
-                jar="${distdir}/JHotDraw Teddy_signed.jar"
+                jar="${distdir}/signed/JHotDraw Teddy.jar"
                 
                 >
         </signjar>        
         <jar basedir="${libdir}" compress="true"
-             jarfile="${distdir}/libquaqua.jnilib_signed.jar" 
+             jarfile="${distdir}/signed/libquaqua.jnilib.jar"
              >
             <include name="libquaqua.jnilib"/>
         </jar>
         <signjar alias="${keystore.alias}" 
             storepass="${keystore.storepass}"
             keystore="${keystore.file}" 
-            jar="${distdir}/libquaqua.jnilib_signed.jar"
+            jar="${distdir}/signed/libquaqua.jnilib.jar"
             >
         </signjar>        
         <jar basedir="${libdir}" compress="true"
-             jarfile="${distdir}/libquaqua64.jnilib_signed.jar" 
+             jarfile="${distdir}/signed/libquaqua64.jnilib.jar"
              >
             <include name="libquaqua64.jnilib"/>
         </jar>
         <signjar alias="${keystore.alias}" 
             storepass="${keystore.storepass}"
             keystore="${keystore.file}" 
-            jar="${distdir}/libquaqua64.jnilib_signed.jar"
+            jar="${distdir}/signed/libquaqua64.jnilib.jar"
             >
         </signjar>        
     </target>
@@ -147,5 +150,10 @@
         </java>
     </target>
     <target name="dist" depends="init,application.jarsigned">
+        <delete file="${distdir}/jhotdraw_teddy.jar" />
+        <delete file="${distdir}/jhotdraw_teddy.jar.pack.gz" />
+        <delete file="${distdir}/JHotDraw Teddy.jar" />
+        <delete file="${distdir}/libquaqua.jnilib" />
+        <delete file="${distdir}/libquaqua64.jnilib" />
     </target>
 </project>

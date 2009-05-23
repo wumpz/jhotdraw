@@ -512,6 +512,13 @@ public class DefaultOSXApplication extends AbstractApplication {
                     tb.setFocusable(false);
 
                     JFrame d = new JFrame();
+
+                    // Note: Client properties must be set before heavy-weight
+                    // peers are created
+                    d.getRootPane().putClientProperty("Window.style", "small");
+                    d.getRootPane().putClientProperty("Quaqua.RootPane.isVertical", Boolean.FALSE);
+                    d.getRootPane().putClientProperty("Quaqua.RootPane.isPalette", Boolean.TRUE);
+
                     d.setFocusable(false);
                     d.setResizable(false);
                     d.getContentPane().setLayout(new BorderLayout());
@@ -521,8 +528,6 @@ public class DefaultOSXApplication extends AbstractApplication {
                     d.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
                     d.getRootPane().setFont(
                             new Font("Lucida Grande", Font.PLAIN, 11));
-                    d.getRootPane().putClientProperty("Quaqua.RootPane.isVertical", Boolean.FALSE);
-                    d.getRootPane().putClientProperty("Quaqua.RootPane.isPalette", Boolean.TRUE);
 
                     d.setJMenuBar(createMenuBar(null));
 

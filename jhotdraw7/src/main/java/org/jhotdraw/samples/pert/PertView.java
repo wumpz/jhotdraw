@@ -56,8 +56,6 @@ public class PertView extends AbstractView {
      */
     private DrawingEditor editor;
     
-    private Preferences prefs;
-    
     /**
      * Creates a new view.
      */
@@ -104,9 +102,8 @@ public class PertView extends AbstractView {
         placardPanel.add(pButton, BorderLayout.EAST);
         scrollPane.add(placardPanel, JScrollPane.LOWER_LEFT_CORNER);
 
-        prefs = Preferences.userNodeForPackage(getClass());
-        setGridVisible(prefs.getBoolean("view.gridVisible", false));
-        setScaleFactor(prefs.getDouble("view.scaleFactor", 1d));   
+        setGridVisible(preferences.getBoolean("view.gridVisible", false));
+        setScaleFactor(preferences.getDouble("view.scaleFactor", 1d));
     }
     
     /**
@@ -151,7 +148,7 @@ public class PertView extends AbstractView {
         boolean oldValue = isGridVisible();
         view.setConstrainerVisible(newValue);
         firePropertyChange(GRID_VISIBLE_PROPERTY, oldValue, newValue);
-        prefs.putBoolean("view.gridVisible", newValue);
+        preferences.putBoolean("view.gridVisible", newValue);
     }
     public boolean isGridVisible() {
        return view.isConstrainerVisible();
@@ -164,7 +161,7 @@ public class PertView extends AbstractView {
         view.setScaleFactor(newValue);
         
         firePropertyChange("scaleFactor", oldValue, newValue);
-        prefs.putDouble("view.scaleFactor", newValue);
+        preferences.putDouble("view.scaleFactor", newValue);
     }
     /**
      * Initializes view specific actions.
@@ -234,13 +231,19 @@ public class PertView extends AbstractView {
     }
     
     @Override protected JFileChooser createOpenChooser() {
-        JFileChooser c = super.createOpenChooser();
+        JFileChooser c = new JFileChooser();
         c.addChoosableFileFilter(new ExtensionFileFilter("Pert Diagram","xml"));
+        if (preferences != null) {
+            c.setSelectedFile(new File(preferences.get("projectFile", System.getProperty("user.home"))));
+        }
         return c;
     }
     @Override protected JFileChooser createSaveChooser() {
-        JFileChooser c = super.createSaveChooser();
+        JFileChooser c = new JFileChooser();
         c.addChoosableFileFilter(new ExtensionFileFilter("Pert Diagram","xml"));
+        if (preferences != null) {
+            c.setSelectedFile(new File(preferences.get("projectFile", System.getProperty("user.home"))));
+        }
         return c;
     }
     @Override

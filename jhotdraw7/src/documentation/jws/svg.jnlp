@@ -3,7 +3,7 @@
 <jnlp
   spec="1.5.0+"
   codebase="http://www.randelshofer.ch/oop/jhotdraw"
-  href="http://www.randelshofer.ch/oop/jhotdraw/guide/Documentation/jws/svg.jnlp">
+  href="http://www.randelshofer.ch/oop/jhotdraw/Documentation/jws/svg.jnlp">
   <information>
     <title>JHotDraw SVG</title>
     <vendor>Werner Randelshofer</vendor>
@@ -22,9 +22,9 @@
   </security> 
   <resources>
     <j2se version="1.5+" initial-heap-size="64m" max-heap-size="512m" />
- 	<nativelib href="guide/SVG/libquaqua.jnilib_signed.jar"/> 
- 	<nativelib href="guide/SVG/libquaqua64.jnilib_signed.jar"/> 
- 	<jar href="guide/SVG/JHotDraw%20SVG_signed.jar"/>
+ 	<nativelib href="Samples/SVG/signed/libquaqua.jnilib.jar"/>
+ 	<nativelib href="Samples/SVG/signed/libquaqua64.jnilib.jar"/>
+ 	<jar href="Samples/SVG/signed/JHotDraw%20SVG.jar"/>
   </resources>
   <application-desc main-class="org.jhotdraw.samples.svg.Main"/>
 </jnlp> 

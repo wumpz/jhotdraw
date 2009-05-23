@@ -3,7 +3,7 @@
 <jnlp
   spec="1.5.0+"
   codebase="http://www.randelshofer.ch/oop/jhotdraw"
-  href="http://www.randelshofer.ch/oop/jhotdraw/guide/Documentation/jws/teddy.jnlp">
+  href="http://www.randelshofer.ch/oop/jhotdraw/Documentation/jws/teddy.jnlp">
   <information>
     <title>JHotDraw Teddy</title>
     <vendor>Werner Randelshofer</vendor>
@@ -22,9 +22,9 @@
   </security> 
   <resources>
     <j2se version="1.5+" initial-heap-size="64m" max-heap-size="512m" />
- 	<nativelib href="guide/Teddy/libquaqua.jnilib_signed.jar"/> 
- 	<nativelib href="guide/Teddy/libquaqua64.jnilib_signed.jar"/> 
- 	<jar href="guide/Teddy/JHotDraw%20Teddy_signed.jar"/>
+ 	<nativelib href="Samples/Teddy/signed/libquaqua.jnilib.jar"/>
+ 	<nativelib href="Samples/Teddy/signed/libquaqua64.jnilib.jar"/>
+ 	<jar href="Samples/Teddy/signed/JHotDraw%20Teddy.jar"/>
   </resources>
   <application-desc main-class="org.jhotdraw.samples.teddy.Main"/>
 </jnlp> 

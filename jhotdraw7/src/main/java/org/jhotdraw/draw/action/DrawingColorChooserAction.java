@@ -58,7 +58,7 @@ public class DrawingColorChooserAction extends EditorColorChooserAction {
         }
         Color initialColor = getInitialColor();
         // FIXME - Reuse colorChooser object instead of calling static method here.
-        Color chosenColor = colorChooser.showDialog((Component) e.getSource(), labels.getString("drawColor"), initialColor);
+        Color chosenColor = colorChooser.showDialog((Component) e.getSource(), labels.getString("attribute.color.text"), initialColor);
         if (chosenColor != null) {
             HashMap<AttributeKey, Object> attr = new HashMap<AttributeKey, Object>(attributes);
             attr.put(key, chosenColor);

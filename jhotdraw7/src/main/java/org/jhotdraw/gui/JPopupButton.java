@@ -1,5 +1,5 @@
 /*
- * @(#)JPopupButton.java  2.0  2008-05-23
+ * @(#)JPopupButton.java  2.1  2009-05-23
  *
  * Copyright (c) 2006-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -23,7 +23,8 @@ import org.jhotdraw.draw.action.*;
  * JPopupButton provides a popup menu.
  *
  * @author  Werner Randelshofer
- * @version 2.0 2008-05-23 Added popup anchor property.
+ * @version 2.1 2009-05-24 Added popupMenuAlpha property.
+ * <br>2.0 2008-05-23 Added popup anchor property.
  * <br>1.1 2006-06-25 Added more "add" methods.
  */
 public class JPopupButton extends javax.swing.JButton {
@@ -130,6 +131,17 @@ public class JPopupButton extends javax.swing.JButton {
         return popupMenu;
     }
 
+    public void setPopupAlpha(float newValue) {
+        float oldValue = getPopupAlpha();
+        getPopupMenu().putClientProperty("Quaqua.PopupMenu.alpha", newValue);
+        firePropertyChange("popupAlpha", oldValue, newValue);
+    }
+
+    public float getPopupAlpha() {
+        Float value = (Float) getPopupMenu().getClientProperty("Quaqua.PopupMenu.alpha");
+        return (value == null) ? 0.75f : value.floatValue();
+    }
+
     /**
      * Gets the popup anchor.
      * 
@@ -162,11 +174,12 @@ public class JPopupButton extends javax.swing.JButton {
 
             switch (popupAnchor) {
                 case SOUTH_EAST:
-                    x = getWidth() -popupMenu.getPreferredSize().width;;
+                    x = getWidth() - popupMenu.getPreferredSize().width;
+                    ;
                     y = getHeight();
                     break;
                 case SOUTH_WEST:
-                default :
+                default:
                     x = 0;
                     y = getHeight();
                     break;

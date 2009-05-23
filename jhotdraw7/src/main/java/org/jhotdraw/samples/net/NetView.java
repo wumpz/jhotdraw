@@ -57,7 +57,6 @@ public class NetView extends AbstractView  {
      */
     private DrawingEditor editor;
     
-    private Preferences prefs;
     private AbstractButton toggleGridButton;
     
     /**
@@ -106,15 +105,14 @@ public class NetView extends AbstractView  {
         placardPanel.add(pButton, BorderLayout.EAST);
         scrollPane.add(placardPanel, JScrollPane.LOWER_LEFT_CORNER);
         
-        prefs = Preferences.userNodeForPackage(getClass());
-        toggleGridButton.setSelected(prefs.getBoolean("view.gridVisible", false));
-        view.setScaleFactor(prefs.getDouble("view.scaleFactor", 1d));
+        toggleGridButton.setSelected(preferences.getBoolean("view.gridVisible", false));
+        view.setScaleFactor(preferences.getDouble("view.scaleFactor", 1d));
         
         view.addPropertyChangeListener(new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 String name = evt.getPropertyName();
                 if (name.equals("scaleFactor")) {
-                    prefs.putDouble("view.scaleFactor", (Double) evt.getNewValue());
+                    preferences.putDouble("view.scaleFactor", (Double) evt.getNewValue());
                     firePropertyChange("scaleFactor", evt.getOldValue(), evt.getNewValue());
                 }
             }
@@ -260,13 +258,19 @@ public class NetView extends AbstractView  {
     
     
     @Override protected JFileChooser createOpenChooser() {
-        JFileChooser c = super.createOpenChooser();
+        JFileChooser c =  new JFileChooser();
         c.addChoosableFileFilter(new ExtensionFileFilter("Net Diagram","xml"));
+        if (preferences != null) {
+            c.setSelectedFile(new File(preferences.get("projectFile", System.getProperty("user.home"))));
+        }
         return c;
     }
     @Override protected JFileChooser createSaveChooser() {
-        JFileChooser c = super.createSaveChooser();
+        JFileChooser c = new JFileChooser();
         c.addChoosableFileFilter(new ExtensionFileFilter("Net Diagram","xml"));
+        if (preferences != null) {
+            c.setSelectedFile(new File(preferences.get("projectFile", System.getProperty("user.home"))));
+        }
         return c;
     }
     @Override

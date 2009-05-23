@@ -181,7 +181,7 @@ public class DrawView extends AbstractView {
                         }
                     }
             if (!success) {
-                ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+                ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
                 throw new IOException(labels.getFormatted("file.open.unsupportedFileFormat.message", f.getName()));
             }
             SwingUtilities.invokeAndWait(new Runnable() {
@@ -247,13 +247,19 @@ public class DrawView extends AbstractView {
     }
     
     @Override protected JFileChooser createOpenChooser() {
-        JFileChooser c = super.createOpenChooser();
+        JFileChooser c = new JFileChooser();
         c.addChoosableFileFilter(new ExtensionFileFilter("Drawing .xml","xml"));
+        if (preferences != null) {
+            c.setSelectedFile(new File(preferences.get("projectFile", System.getProperty("user.home"))));
+        }
         return c;
     }
     @Override protected JFileChooser createSaveChooser() {
-        JFileChooser c = super.createSaveChooser();
+        JFileChooser c = new JFileChooser();
         c.addChoosableFileFilter(new ExtensionFileFilter("Drawing .xml","xml"));
+        if (preferences != null) {
+            c.setSelectedFile(new File(preferences.get("projectFile", System.getProperty("user.home"))));
+        }
         return c;
     }
     @Override

@@ -26,6 +26,7 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
 import org.jhotdraw.samples.svg.figures.*;
 import org.jhotdraw.samples.svg.io.*;
 import org.jhotdraw.samples.svg.gui.*;
@@ -62,6 +63,8 @@ public class SVGApplet extends JApplet {
     public SVGApplet() {
         setBackground(Color.WHITE);
         start = System.currentTimeMillis();
+        setName("JHotDraw SVG Applet");
+        ((JComponent) getContentPane()).setBorder(new MatteBorder(new Insets(1,1,1,1), new Color(0xa5a5a5)));
     //ResourceBundleUtil.setVerbose(true);
     }
 
