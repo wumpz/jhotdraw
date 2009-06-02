@@ -1,7 +1,7 @@
 /*
- * @(#)DefaultSDIApplication.java  1.5.1  2008-07-13
+ * @(#)DefaultSDIApplication.java  1.5.2  2009-06-02
  *
- * Copyright (c) 1996-2008 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.app;
 
+import javax.swing.event.AncestorEvent;
 import org.jhotdraw.util.*;
 import org.jhotdraw.util.prefs.*;
 import java.awt.*;
@@ -22,6 +23,7 @@ import java.io.*;
 import java.util.*;
 import java.util.prefs.*;
 import javax.swing.*;
+import javax.swing.event.AncestorListener;
 import org.jhotdraw.app.action.*;
 
 /**
@@ -33,7 +35,9 @@ import org.jhotdraw.app.action.*;
  * quits the application.
  *
  * @author Werner Randelshofer
- * @version 1.5.1 2008-07-13 Don't add the view menu to the menu bar if it is empty. 
+ * @version 1.6.1 2009-06-02 Fixed a memory leak caused by OpenRecentAction's
+ * not being disposed when they are no longer needed.
+ * <br>1.5.1 2008-07-13 Don't add the view menu to the menu bar if it is empty.
  * <br>1.5 2007-12-25 Added method updateViewTitle. Replaced 
  * currentProject by activeProject in super class. 
  * <br>1.4 2007-01-11 Removed method addStandardActionsTo.
@@ -133,7 +137,7 @@ public class DefaultSDIApplication extends AbstractApplication {
         p.putAction(LoadAction.ID, m.getAction(LoadAction.ID));
     }
 
-@SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
     public void show(final View p) {
         if (!p.isShowing()) {
             p.setShowing(true);
@@ -296,7 +300,7 @@ public class DefaultSDIApplication extends AbstractApplication {
         JMenuBar mb = new JMenuBar();
         JMenu m;
         JMenuItem mi;
-        final JMenu openRecentMenu;
+        JMenu openRecentMenu;
 
         m = new JMenu();
         labels.configureMenu(m, "file");
@@ -309,7 +313,6 @@ public class DefaultSDIApplication extends AbstractApplication {
         openRecentMenu = new JMenu();
         labels.configureMenu(openRecentMenu, "file.openRecent");
         openRecentMenu.add(model.getAction(ClearRecentFilesAction.ID));
-        updateOpenRecentMenu(openRecentMenu);
         m.add(openRecentMenu);
         m.addSeparator();
         m.add(model.getAction(SaveAction.ID));
@@ -325,20 +328,7 @@ public class DefaultSDIApplication extends AbstractApplication {
         m.add(model.getAction(ExitAction.ID));
         mb.add(m);
 
-        addPropertyChangeListener(new PropertyChangeListener() {
-
-            public void propertyChange(PropertyChangeEvent evt) {
-                String name = evt.getPropertyName();
-                if (name == "viewCount") {
-                    if (p == null || views().contains(p)) {
-                    } else {
-                        removePropertyChangeListener(this);
-                    }
-                } else if (name == "recentFiles") {
-                    updateOpenRecentMenu(openRecentMenu);
-                }
-            }
-        });
+        addPropertyChangeListener(new OpenRecentMenuHandler(openRecentMenu));
 
         return m;
     }
@@ -362,26 +352,6 @@ public class DefaultSDIApplication extends AbstractApplication {
         }
         p.setTitle(labels.getFormatted("frame.title", title, getName(), p.getMultipleOpenId()));
         f.setTitle(p.getTitle());
-    }
-
-    /**
-     * Updates the "file &gt; open recent" menu item.
-     * 
-     * @param openRecentMenu
-     */
-    protected void updateOpenRecentMenu(JMenu openRecentMenu) {
-        if (openRecentMenu.getItemCount() > 0) {
-            JMenuItem clearRecentFilesItem = (JMenuItem) openRecentMenu.getItem(
-                    openRecentMenu.getItemCount() - 1);
-            openRecentMenu.removeAll();
-            for (File f : recentFiles()) {
-                openRecentMenu.add(new LoadRecentAction(DefaultSDIApplication.this, f));
-            }
-            if (recentFiles().size() > 0) {
-                openRecentMenu.addSeparator();
-            }
-            openRecentMenu.add(clearRecentFilesItem);
-        }
     }
 
     public boolean isSharingToolsAmongViews() {
@@ -438,5 +408,57 @@ public class DefaultSDIApplication extends AbstractApplication {
         m.add(model.getAction(AboutAction.ID));
 
         return m;
+    }
+
+    /** Updates the menu items in the "Open Recent" file menu. */
+    private class OpenRecentMenuHandler implements PropertyChangeListener {
+
+        private JMenu openRecentMenu;
+        private LinkedList<OpenRecentAction> openRecentActions = new LinkedList<OpenRecentAction>();
+
+        public OpenRecentMenuHandler(JMenu openRecentMenu) {
+            this.openRecentMenu = openRecentMenu;
+            addPropertyChangeListener(this);
+            updateOpenRecentMenu();
+        }
+
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+
+            String name = evt.getPropertyName();
+            if (name == "recentFiles") {
+                updateOpenRecentMenu();
+            }
+        }
+
+        /**
+         * Updates the "File &gt; Open Recent" menu.
+         *
+         * @param openRecentMenu
+         */
+        protected void updateOpenRecentMenu() {
+            if (openRecentMenu.getItemCount() > 0) {
+                JMenuItem clearRecentFilesItem = (JMenuItem) openRecentMenu.getItem(
+                        openRecentMenu.getItemCount() - 1);
+
+                // Dispose the actions and the menu items that are currently in the menu
+                for (OpenRecentAction action : openRecentActions) {
+                    action.dispose();
+                }
+                openRecentActions.clear();
+                openRecentMenu.removeAll();
+
+                // Create new actions and add them to the menu
+                for (File f : recentFiles()) {
+                    openRecentMenu.add(new OpenRecentAction(DefaultSDIApplication.this, f));
+                }
+                if (recentFiles().size() > 0) {
+                    openRecentMenu.addSeparator();
+                }
+
+                // Add a separator and the clear recent files item.
+                openRecentMenu.add(clearRecentFilesItem);
+            }
+        }
     }
 }

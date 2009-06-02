@@ -15,12 +15,16 @@ package org.jhotdraw.samples.svg.gui;
 
 import java.awt.Dimension;
 import java.beans.*;
+import java.lang.ref.WeakReference;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
 
 /**
  * Calls setVisible(true/false) on components, which show attributes of the 
  * drawing editor and of its views based on the current selection.
+ * <p>
+ * Holds a @{code WeakReference} on the component. Automatically disposes
+ * itself if the component no longer exists.
  *
  * @author Werner Randelshofer
  * @version 1.0 23.05.2008 Created.
@@ -28,16 +32,17 @@ import org.jhotdraw.draw.*;
 public class SelectionComponentDisplayer
         implements PropertyChangeListener, FigureSelectionListener {
 
+    protected DrawingView view;
     protected DrawingEditor editor;
-    protected JComponent component;
+    protected WeakReference<JComponent> weakRef;
     protected int minSelectionCount = 1;
     protected boolean isVisibleIfCreationTool = true;
 
     public SelectionComponentDisplayer(DrawingEditor editor, JComponent component) {
         this.editor = editor;
-        this.component = component;
+        this.weakRef = new WeakReference<JComponent>(component);
         if (editor.getActiveView() != null) {
-            DrawingView view = editor.getActiveView();
+            view = editor.getActiveView();
             view.addPropertyChangeListener(this);
             view.addFigureSelectionListener(this);
         }
@@ -48,7 +53,6 @@ public class SelectionComponentDisplayer
     public void propertyChange(PropertyChangeEvent evt) {
         String name = evt.getPropertyName();
         if (name == DrawingEditor.ACTIVE_VIEW_PROPERTY) {
-            DrawingView view = (DrawingView) evt.getOldValue();
             if (view != null) {
                 view.removePropertyChangeListener(this);
                 view.removeFigureSelectionListener(this);
@@ -73,6 +77,11 @@ public class SelectionComponentDisplayer
                 editor.getActiveView() != null &&
                 (isVisibleIfCreationTool && editor.getTool() != null && !(editor.getTool() instanceof SelectionTool) ||
                 editor.getActiveView().getSelectionCount() >= minSelectionCount);
+        JComponent component = weakRef.get();
+        if (component == null) {
+            dispose();
+            return;
+        }
         component.setVisible(newValue);
 
         // The following is needed to trick BoxLayout
@@ -85,17 +94,20 @@ public class SelectionComponentDisplayer
         component.revalidate();
     }
 
+    protected JComponent getComponent() {
+        return weakRef.get();
+    }
+
     public void dispose() {
         if (editor != null) {
-            if (editor.getActiveView() != null) {
-                DrawingView view = editor.getActiveView();
-                view.removePropertyChangeListener(this);
-                view.removeFigureSelectionListener(this);
-            }
             editor.removePropertyChangeListener(this);
             editor = null;
         }
-        component = null;
+        if (view != null) {
+            view.removePropertyChangeListener(this);
+            view.removeFigureSelectionListener(this);
+            view = null;
+        }
     }
 
     public void setMinSelectionCount(int newValue) {

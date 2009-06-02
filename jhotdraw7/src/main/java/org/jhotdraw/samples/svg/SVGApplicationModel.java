@@ -51,13 +51,15 @@ public class SVGApplicationModel extends DefaultApplicationModel {
     }
 
     @Override
-    public void initView(Application a, View p) {
-        SVGView v = (SVGView) p;
+    public void initView(Application a, View view) {
+        SVGView v = (SVGView) view;
         if (a.isSharingToolsAmongViews()) {
             v.setEditor(getSharedEditor());
         }
 
-        p.putAction(SelectSameAction.ID, new SelectSameAction(v.getEditor()));
+        AbstractSelectedAction action;
+        view.putAction(SelectSameAction.ID, action = new SelectSameAction(v.getEditor()));
+        view.addDisposable(action);
     }
 
     @Override

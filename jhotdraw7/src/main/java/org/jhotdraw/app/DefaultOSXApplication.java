@@ -1,7 +1,7 @@
 /*
- * @(#)DefaultOSXApplication.java  1.2  2007-12-25
+ * @(#)DefaultOSXApplication.java  1.2.1  2009-06-02
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -14,6 +14,7 @@
 package org.jhotdraw.app;
 
 import ch.randelshofer.quaqua.*;
+import javax.swing.event.AncestorEvent;
 import org.jhotdraw.gui.Worker;
 import org.jhotdraw.util.*;
 import org.jhotdraw.util.prefs.*;
@@ -24,7 +25,10 @@ import java.beans.*;
 import java.awt.*;
 import javax.swing.*;
 import java.io.*;
+import javax.swing.event.AncestorListener;
 import org.jhotdraw.app.action.*;
+import org.jhotdraw.beans.Disposable;
+import org.jhotdraw.beans.WeakPropertyChangeListener;
 
 /**
  * A DefaultOSXApplication can handle the life cycle of multiple document 
@@ -99,7 +103,9 @@ import org.jhotdraw.app.action.*;
  * </pre>
  *
  * @author Werner Randelshofer
- * @version 1.2 2007-12-25 Added method updateViewTitle. 
+ * @version 1.2.1 2009-06-02 Fixed a memory leak caused by OpenRecentAction's
+ * not being disposed when they are no longer needed.
+ * <br>1.2 2007-12-25 Added method updateViewTitle.
  * <br>1.1 2007-01-11 Removed method addStandardActionsTo.
  * <br>1.0.1 2007-01-02 Floating palettes disappear now if the application
  * looses the focus.
@@ -183,6 +189,14 @@ public class DefaultOSXApplication extends AbstractApplication {
         p.putAction(FocusAction.ID, new FocusAction(p));
     }
 
+    public void dispose(View p) {
+        FocusAction a = (FocusAction) p.getAction(FocusAction.ID);
+        if (a != null) {
+            a.dispose();
+        }
+        super.dispose(p);
+    }
+
     @Override
     public void addPalette(Window palette) {
         paletteHandler.addPalette(palette);
@@ -194,28 +208,33 @@ public class DefaultOSXApplication extends AbstractApplication {
     }
 
     @Override
-    public void addWindow(Window window, final View p) {
+    public void addWindow(Window window, final View view) {
         if (window instanceof JFrame) {
-            ((JFrame) window).setJMenuBar(createMenuBar(p));
+            ((JFrame) window).setJMenuBar(createMenuBar(view));
         } else if (window instanceof JDialog) {
             // ((JDialog) window).setJMenuBar(createMenuBar(null));
         }
 
-        paletteHandler.add(window, p);
+        paletteHandler.add(window, view);
     }
 
     @Override
     public void removeWindow(Window window) {
+        if (window instanceof JFrame) {
+            // We explicitly set the JMenuBar to null to facilitate garbage
+            // collection
+            ((JFrame) window).setJMenuBar(null);
+        }
         paletteHandler.remove(window);
     }
 
-    public void show(final View p) {
-        if (!p.isShowing()) {
-            p.setShowing(true);
-            final JFrame f = new JFrame();
+    public void show(View view) {
+        if (!view.isShowing()) {
+            view.setShowing(true);
+            JFrame f = new JFrame();
             f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             f.setPreferredSize(new Dimension(400, 400));
-            updateViewTitle(p, f);
+            updateViewTitle(view, f);
 
             PreferencesUtil.installFramePrefsHandler(prefs, "view", f);
             Point loc = f.getLocation();
@@ -224,7 +243,7 @@ public class DefaultOSXApplication extends AbstractApplication {
                 moved = false;
                 for (Iterator i = views().iterator(); i.hasNext();) {
                     View aView = (View) i.next();
-                    if (aView != p && aView.isShowing() &&
+                    if (aView != view && aView.isShowing() &&
                             SwingUtilities.getWindowAncestor(aView.getComponent()).
                             getLocation().equals(loc)) {
                         loc.x += 22;
@@ -236,50 +255,12 @@ public class DefaultOSXApplication extends AbstractApplication {
             } while (moved);
             f.setLocation(loc);
 
+            FrameHandler frameHandler = new FrameHandler(f, view);
+            addWindow(f, view);
 
-            f.addWindowListener(new WindowAdapter() {
-
-                @Override
-                public void windowClosing(final WindowEvent evt) {
-                    setActiveView(p);
-                    getModel().getAction(CloseAction.ID).actionPerformed(
-                            new ActionEvent(f, ActionEvent.ACTION_PERFORMED,
-                            "windowClosing"));
-                }
-
-                @Override
-                public void windowClosed(final WindowEvent evt) {
-                    if (p == getActiveView()) {
-                        setActiveView(null);
-                    }
-                    p.stop();
-                }
-
-                @Override
-                public void windowActivated(WindowEvent evt) {
-                    setActiveView(p);
-                }
-            });
-
-            p.addPropertyChangeListener(new PropertyChangeListener() {
-
-                public void propertyChange(PropertyChangeEvent evt) {
-                    String name = evt.getPropertyName();
-                    if (name.equals(View.HAS_UNSAVED_CHANGES_PROPERTY)) {
-                        f.getRootPane().putClientProperty("windowModified", new Boolean(p.hasUnsavedChanges()));
-                    } else if (name.equals(View.FILE_PROPERTY)) {
-                        updateViewTitle(p, f);
-                    }
-                }
-            });
-
-            //f.setJMenuBar(createMenuBar(p));
-            //paletteHandler.add(f, p);
-            addWindow(f, p);
-
-            f.getContentPane().add(p.getComponent());
+            f.getContentPane().add(view.getComponent());
             f.setVisible(true);
-            p.start();
+            view.start();
         }
     }
 
@@ -309,9 +290,8 @@ public class DefaultOSXApplication extends AbstractApplication {
         if (p.isShowing()) {
             JFrame f = (JFrame) SwingUtilities.getWindowAncestor(p.getComponent());
             f.setVisible(false);
-            f.remove(p.getComponent());
-            //paletteHandler.remove(f, p);
             removeWindow(f);
+            f.remove(p.getComponent());
             f.dispose();
         }
     }
@@ -346,16 +326,15 @@ public class DefaultOSXApplication extends AbstractApplication {
         return mb;
     }
 
-    protected JMenu createWindowMenu(final View p) {
+    protected JMenu createWindowMenu(View view) {
         ApplicationModel model = getModel();
 
         JMenu m;
         JMenuItem mi;
 
         m = new JMenu();
-        final JMenu windowMenu = m;
+        JMenu windowMenu = m;
         labels.configureMenu(m, "window");
-        addViewWindowMenuItems(m, p);
         m.addSeparator();
         for (View pr : views()) {
             if (pr.getAction(FocusAction.ID) != null) {
@@ -372,73 +351,19 @@ public class DefaultOSXApplication extends AbstractApplication {
             }
         }
 
-        addPropertyChangeListener(new PropertyChangeListener() {
-
-            public void propertyChange(PropertyChangeEvent evt) {
-                String name = evt.getPropertyName();
-                if (name == "viewCount" || name == "paletteCount") {
-                    if (p == null || views().contains(p)) {
-                        JMenu m = windowMenu;
-                        m.removeAll();
-                        addViewWindowMenuItems(m, p);
-                        m.addSeparator();
-                        for (Iterator i = views().iterator(); i.hasNext();) {
-                            View pr = (View) i.next();
-                            if (pr.getAction(FocusAction.ID) != null) {
-                                m.add(pr.getAction(FocusAction.ID));
-                            }
-                        }
-                        if (paletteActions.size() > 0) {
-                            m.addSeparator();
-                            for (Action a : paletteActions) {
-                                JCheckBoxMenuItem cbmi = new JCheckBoxMenuItem(a);
-                                Actions.configureJCheckBoxMenuItem(cbmi, a);
-                                cbmi.setIcon(null);
-                                m.add(cbmi);
-                            }
-                        }
-                    } else {
-                        removePropertyChangeListener(this);
-                    }
-                }
-            }
-        });
-
+        if (view != null) {
+            new WindowMenuHandler(windowMenu, view);
+        }
         return m;
     }
 
-    protected void addViewWindowMenuItems(JMenu m, View p) {
-        JMenuItem mi;
-
-        ApplicationModel model = getModel();
-        mi = m.add(model.getAction(MinimizeAction.ID));
-        mi.setIcon(null);
-        mi = m.add(model.getAction(MaximizeAction.ID));
-        mi.setIcon(null);
-    }
-
-    protected void updateOpenRecentMenu(JMenu openRecentMenu) {
-        if (openRecentMenu.getItemCount() > 0) {
-            JMenuItem clearRecentFilesItem = (JMenuItem) openRecentMenu.getItem(
-                    openRecentMenu.getItemCount() - 1);
-            openRecentMenu.removeAll();
-            for (File f : recentFiles()) {
-                openRecentMenu.add(new OpenRecentAction(DefaultOSXApplication.this, f));
-            }
-            if (recentFiles().size() > 0) {
-                openRecentMenu.addSeparator();
-            }
-            openRecentMenu.add(clearRecentFilesItem);
-        }
-    }
-
-    protected JMenu createFileMenu(View p) {
+    protected JMenu createFileMenu(View view) {
         //ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         ApplicationModel model = getModel();
 
         JMenu m;
         JMenuItem mi;
-        final JMenu openRecentMenu;
+        JMenu openRecentMenu;
 
         m = new JMenu();
         labels.configureMenu(m, "file");
@@ -454,7 +379,6 @@ public class DefaultOSXApplication extends AbstractApplication {
         labels.configureMenu(openRecentMenu, "file.openRecent");
         openRecentMenu.setIcon(null);
         openRecentMenu.add(model.getAction(ClearRecentFilesAction.ID));
-        updateOpenRecentMenu(openRecentMenu);
         m.add(openRecentMenu);
         m.addSeparator();
         mi = m.add(model.getAction(CloseAction.ID));
@@ -473,16 +397,7 @@ public class DefaultOSXApplication extends AbstractApplication {
             mi.setIcon(null);
         }
 
-        addPropertyChangeListener(new PropertyChangeListener() {
-
-            public void propertyChange(PropertyChangeEvent evt) {
-                String name = evt.getPropertyName();
-                if (name == "recentFiles") {
-                    updateOpenRecentMenu(openRecentMenu);
-                }
-            }
-        });
-
+        OpenRecentMenuHandler handler = new OpenRecentMenuHandler(openRecentMenu, view);
         return m;
     }
 
@@ -562,5 +477,177 @@ public class DefaultOSXApplication extends AbstractApplication {
 
     public Component getComponent() {
         return null;
+    }
+
+    /** Updates the menu items in the "Open Recent" file menu. */
+    private class OpenRecentMenuHandler implements PropertyChangeListener, Disposable {
+
+        private JMenu openRecentMenu;
+        private LinkedList<OpenRecentAction> openRecentActions = new LinkedList<OpenRecentAction>();
+
+        public OpenRecentMenuHandler(JMenu openRecentMenu, View view) {
+            this.openRecentMenu = openRecentMenu;
+            if (view != null) {
+                view.addDisposable(this);
+            }
+            updateOpenRecentMenu();
+            addPropertyChangeListener(this);
+        }
+
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            String name = evt.getPropertyName();
+            if (name == "recentFiles") {
+                updateOpenRecentMenu();
+            }
+        }
+
+        /**
+         * Updates the "File &gt; Open Recent" menu.
+         *
+         * @param openRecentMenu
+         */
+        protected void updateOpenRecentMenu() {
+            if (openRecentMenu.getItemCount() > 0) {
+                JMenuItem clearRecentFilesItem = (JMenuItem) openRecentMenu.getItem(
+                        openRecentMenu.getItemCount() - 1);
+                openRecentMenu.remove(openRecentMenu.getItemCount() - 1);
+
+                // Dispose the actions and the menu items that are currently in the menu
+                for (OpenRecentAction action : openRecentActions) {
+                    action.dispose();
+                }
+                openRecentActions.clear();
+                openRecentMenu.removeAll();
+
+                // Create new actions and add them to the menu
+                for (File f : recentFiles()) {
+                    OpenRecentAction action = new OpenRecentAction(DefaultOSXApplication.this, f);
+                    openRecentMenu.add(action);
+                    openRecentActions.add(action);
+                }
+                if (recentFiles().size() > 0) {
+                    openRecentMenu.addSeparator();
+                }
+
+                // Add a separator and the clear recent files item.
+                openRecentMenu.add(clearRecentFilesItem);
+            }
+        }
+
+        @Override
+        public void dispose() {
+            removePropertyChangeListener(this);
+            // Dispose the actions and the menu items that are currently in the menu
+            for (OpenRecentAction action : openRecentActions) {
+                action.dispose();
+            }
+            openRecentActions.clear();
+        }
+    }
+
+    /** Updates the menu items in the "Open Recent" file menu. */
+    private class WindowMenuHandler implements PropertyChangeListener, Disposable {
+
+        private JMenu windowMenu;
+        private View view;
+
+        public WindowMenuHandler(JMenu windowMenu, View view) {
+            this.windowMenu = windowMenu;
+            this.view = view;
+            addPropertyChangeListener(this);
+            view.addDisposable(this);
+            updateViewWindowMenuItems(windowMenu, view);
+        }
+
+        public void propertyChange(PropertyChangeEvent evt) {
+            String name = evt.getPropertyName();
+            if (name == "viewCount" || name == "paletteCount") {
+                if (view == null || views().contains(view)) {
+                    JMenu m = windowMenu;
+                    m.removeAll();
+                    updateViewWindowMenuItems(m, view);
+                    m.addSeparator();
+                    for (Iterator i = views().iterator(); i.hasNext();) {
+                        View pr = (View) i.next();
+                        if (pr.getAction(FocusAction.ID) != null) {
+                            m.add(pr.getAction(FocusAction.ID));
+                        }
+                    }
+                    if (paletteActions.size() > 0) {
+                        m.addSeparator();
+                        for (Action a : paletteActions) {
+                            JCheckBoxMenuItem cbmi = new JCheckBoxMenuItem(a);
+                            Actions.configureJCheckBoxMenuItem(cbmi, a);
+                            cbmi.setIcon(null);
+                            m.add(cbmi);
+                        }
+                    }
+                } else {
+                    removePropertyChangeListener(this);
+                }
+            }
+        }
+
+        protected void updateViewWindowMenuItems(JMenu m, View p) {
+            JMenuItem mi;
+
+            ApplicationModel model = getModel();
+            mi = m.add(model.getAction(MinimizeAction.ID));
+            mi.setIcon(null);
+            mi = m.add(model.getAction(MaximizeAction.ID));
+            mi.setIcon(null);
+        }
+
+        public void dispose() {
+            windowMenu.removeAll();
+            removePropertyChangeListener(this);
+            view = null;
+        }
+    }
+
+    /** Updates the modifedState of the frame. */
+    private class FrameHandler extends WindowAdapter implements PropertyChangeListener, Disposable {
+
+        private JFrame frame;
+        private View view;
+
+        public FrameHandler(JFrame frame, View view) {
+            this.frame = frame;
+            this.view = view;
+            view.addPropertyChangeListener(this);
+            frame.addWindowListener(this);
+            view.addDisposable(this);
+        }
+
+        public void propertyChange(PropertyChangeEvent evt) {
+            String name = evt.getPropertyName();
+            if (name.equals(View.HAS_UNSAVED_CHANGES_PROPERTY)) {
+                frame.getRootPane().putClientProperty("windowModified", new Boolean(view.hasUnsavedChanges()));
+            } else if (name.equals(View.FILE_PROPERTY)) {
+                updateViewTitle(view, frame);
+            }
+        }
+
+        @Override
+        public void windowClosing(final WindowEvent evt) {
+            setActiveView(view);
+            getModel().getAction(CloseAction.ID).actionPerformed(
+                    new ActionEvent(frame, ActionEvent.ACTION_PERFORMED,
+                    "windowClosing"));
+        }
+
+        @Override
+        public void windowClosed(final WindowEvent evt) {
+            if (view == getActiveView()) {
+                setActiveView(null);
+            }
+            view.stop();
+        }
+
+        public void dispose() {
+            frame.removeWindowListener(this);
+            view.removePropertyChangeListener(this);
+        }
     }
 }

@@ -1344,6 +1344,7 @@ public class SVGOutputFormat implements OutputFormat {
 
         // Flush writer
         writer.flush();
+        document.dispose();
     }
 
     private void initStorageContext(IXMLElement root) {

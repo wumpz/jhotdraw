@@ -96,6 +96,7 @@ public class ActionsToolBar extends AbstractToolBar {
 
                 GridBagConstraints gbc;
                 AbstractButton btn;
+                AbstractSelectedAction d;
 
                 btn = new JButton(undoManager.getUndoAction());
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
@@ -118,7 +119,7 @@ public class ActionsToolBar extends AbstractToolBar {
                 p.add(btn, gbc);
 
 
-                btn = ButtonFactory.createPickAttributesButton(editor);
+                btn = ButtonFactory.createPickAttributesButton(editor, disposables);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                 labels.configureToolBarButton(btn, "attributesPick");
                 gbc = new GridBagConstraints();
@@ -126,7 +127,7 @@ public class ActionsToolBar extends AbstractToolBar {
                 gbc.insets = new Insets(3, 0, 0, 0);
                 p.add(btn, gbc);
 
-                btn = ButtonFactory.createApplyAttributesButton(editor);
+                btn = ButtonFactory.createApplyAttributesButton(editor, disposables);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                 labels.configureToolBarButton(btn, "attributesApply");
                 gbc = new GridBagConstraints();
@@ -140,14 +141,17 @@ public class ActionsToolBar extends AbstractToolBar {
                 labels.configureToolBarButton(pb, "actions");
                 pb.add(new DuplicateAction());
                 pb.addSeparator();
-                pb.add(new GroupAction(editor, new SVGGroupFigure()));
-                pb.add(new UngroupAction(editor, new SVGGroupFigure()));
+                pb.add(d=new GroupAction(editor, new SVGGroupFigure()));
+                disposables.add(d);
+                pb.add(d=new UngroupAction(editor, new SVGGroupFigure()));
+                disposables.add(d);
                 pb.addSeparator();
                 pb.add(new CutAction());
                 pb.add(new CopyAction());
                 pb.add(new PasteAction());
                 pb.add(new SelectAllAction());
-                pb.add(new SelectSameAction(editor));
+                pb.add(d=new SelectSameAction(editor));
+                disposables.add(d);
                 pb.add(new ClearSelectionAction());
 
                 gbc = new GridBagConstraints();

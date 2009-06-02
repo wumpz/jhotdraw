@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractDrawingEditorAction.java  2.0  2009-02-15
+ * @(#)AbstractDrawingEditorAction.java  3.0  2009-06-02
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -22,11 +22,18 @@ import javax.swing.*;
 import javax.swing.undo.*;
 import java.util.*;
 import java.beans.*;
+import org.jhotdraw.beans.WeakPropertyChangeListener;
 /**
- * Abstract super class for actions which act on a DrawingEditor.
+ * Abstract super class for actions which act on a {@link DrawingEditor}.
+ * <b>
+ * {@code AbstractDrawingEditorAction} listens using a
+ * {@link WeakPropertyChangeListener} on the {@code DrawingEditor} and thus may
+ * become garbage collected if it is not referenced by any other object.
  *
  * @author Werner Randelshofer
- * @version 2.0 2009-02-15 Renamed from AbstractEditorAction to
+ * @version 3.0 2009-06-02 Register with DrawingEditor using
+ * WeakPropertyChangeListener.
+ * <br>2.0 2009-02-15 Renamed from AbstractEditorAction to
  * AbstractDrawingEditorAction.
  * <br>1.1 2006-03-15 Support for enabled state of editor added.
  * <br>1.0 2003-12-01 Created.
@@ -45,16 +52,12 @@ public abstract class AbstractDrawingEditorAction extends AbstractAction {
     
     /** Creates a new instance. */
     public AbstractDrawingEditorAction(DrawingEditor editor) {
-        this.editor = editor;
-        if (editor != null) {
-            editor.addPropertyChangeListener(propertyChangeHandler);
-                updateEnabledState();
-        }
+        setEditor(editor);
     }
     
     public void setEditor(DrawingEditor newValue) {
         if (editor != null) {
-            editor.removePropertyChangeListener(propertyChangeHandler);
+            editor.removePropertyChangeListener(new WeakPropertyChangeListener(propertyChangeHandler));
         }
         editor = newValue;
         if (editor != null) {

@@ -69,6 +69,11 @@ public class FontToolBar extends AbstractToolBar {
                             editor.getActiveView() != null &&
                             (isVisibleIfCreationTool && ((editor.getTool() instanceof TextCreationTool) || editor.getTool() instanceof TextAreaCreationTool) ||
                             containsTextHolderFigure(editor.getActiveView().getSelectedFigures()));
+                    JComponent component = getComponent();
+                    if (component == null) {
+                        dispose();
+                        return;
+                    }
                     component.setVisible(newValue);
 
                     // The following is needed to trick BoxLayout
@@ -134,7 +139,7 @@ public class FontToolBar extends AbstractToolBar {
                     faceField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(faceField));
                     faceField.setHorizontalAlignment(JTextField.LEADING);
                     faceField.setFormatterFactory(FontFormatter.createFormatterFactory());
-                    new FigureAttributeEditorHandler<Font>(FONT_FACE, faceField, editor);
+                    disposables.add(new FigureAttributeEditorHandler<Font>(FONT_FACE, faceField, editor));
                     gbc = new GridBagConstraints();
                     gbc.gridx = 0;
                     gbc.gridy = 0;
@@ -143,7 +148,7 @@ public class FontToolBar extends AbstractToolBar {
                     gbc.gridwidth = 2;
                     gbc.fill = GridBagConstraints.HORIZONTAL;
                     p.add(faceField, gbc);
-                    btn = ButtonFactory.createFontButton(editor, labels);
+                    btn = ButtonFactory.createFontButton(editor, FONT_FACE, labels, disposables);
                     btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                     gbc = new GridBagConstraints();
                     gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -160,7 +165,7 @@ public class FontToolBar extends AbstractToolBar {
                     sizeField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(sizeField));
                     sizeField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0d, 1000d, 1d));
                     sizeField.setHorizontalAlignment(JTextField.LEADING);
-                    new FigureAttributeEditorHandler<Double>(FONT_SIZE, sizeField, editor);
+                    disposables.add(new FigureAttributeEditorHandler<Double>(FONT_SIZE, sizeField, editor));
                     gbc = new GridBagConstraints();
                     gbc.gridx = 0;
                     gbc.gridy = 1;
@@ -177,7 +182,7 @@ public class FontToolBar extends AbstractToolBar {
                     labels.configureToolBarButton(sizePopupButton, "attribute.fontSize");
                     sizePopupButton.setUI((PaletteButtonUI) PaletteButtonUI.createUI(sizePopupButton));
                     sizePopupButton.setPopupAnchor(SOUTH_EAST);
-                    new SelectionComponentRepainter(editor, sizePopupButton);
+                    disposables.add(new SelectionComponentRepainter(editor, sizePopupButton));
                     gbc = new GridBagConstraints();
                     gbc.gridx = 2;
                     gbc.gridy = 1;
@@ -186,7 +191,7 @@ public class FontToolBar extends AbstractToolBar {
                     p2.add(sizePopupButton, gbc);
                     sizeSlider.setUI((SliderUI) PaletteSliderUI.createUI(sizeSlider));
                     sizeSlider.setScaleFactor(1d);
-                    new FigureAttributeEditorHandler<Double>(FONT_SIZE, sizeSlider, editor);
+                    disposables.add(new FigureAttributeEditorHandler<Double>(FONT_SIZE, sizeSlider, editor));
 
                     gbc = new GridBagConstraints();
                     gbc.gridx = 0;
@@ -198,21 +203,21 @@ public class FontToolBar extends AbstractToolBar {
                     p.add(p2, gbc);
 
                     // Font style buttons
-                    btn = ButtonFactory.createFontStyleBoldButton(editor, labels);
+                    btn = ButtonFactory.createFontStyleBoldButton(editor, labels, disposables);
                     btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                     btn.putClientProperty("Palette.Component.segmentPosition", "first");
                     gbc = new GridBagConstraints();
                     gbc.gridy = 2;
                     gbc.insets = new Insets(3, 0, 0, 0);
                     p.add(btn, gbc);
-                    btn = ButtonFactory.createFontStyleItalicButton(editor, labels);
+                    btn = ButtonFactory.createFontStyleItalicButton(editor, labels, disposables);
                     btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                     btn.putClientProperty("Palette.Component.segmentPosition", "middle");
                     gbc = new GridBagConstraints();
                     gbc.gridy = 2;
                     gbc.insets = new Insets(3, 0, 0, 0);
                     p.add(btn, gbc);
-                    btn = ButtonFactory.createFontStyleUnderlineButton(editor, labels);
+                    btn = ButtonFactory.createFontStyleUnderlineButton(editor, labels, disposables);
                     btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                     btn.putClientProperty("Palette.Component.segmentPosition", "last");
                     gbc = new GridBagConstraints();
@@ -254,7 +259,7 @@ public class FontToolBar extends AbstractToolBar {
                     faceField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(faceField));
                     faceField.setHorizontalAlignment(JTextField.LEADING);
                     faceField.setFormatterFactory(FontFormatter.createFormatterFactory());
-                    new FigureAttributeEditorHandler<Font>(FONT_FACE, faceField, editor);
+                    disposables.add(new FigureAttributeEditorHandler<Font>(FONT_FACE, faceField, editor));
                     gbc = new GridBagConstraints();
                     gbc.gridx = 0;
                     gbc.gridy = 0;
@@ -263,7 +268,7 @@ public class FontToolBar extends AbstractToolBar {
                     gbc.gridwidth = 3;
                     gbc.fill = GridBagConstraints.HORIZONTAL;
                     p.add(faceField, gbc);
-                    btn = ButtonFactory.createFontButton(editor, labels);
+                    btn = ButtonFactory.createFontButton(editor, FONT_FACE, labels, disposables);
                     btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                     gbc = new GridBagConstraints();
                     gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -279,7 +284,7 @@ public class FontToolBar extends AbstractToolBar {
                     sizeField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(sizeField));
                     sizeField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0d, 1000d, 1d));
                     sizeField.setHorizontalAlignment(JTextField.LEADING);
-                    new FigureAttributeEditorHandler<Double>(FONT_SIZE, sizeField, editor);
+                    disposables.add(new FigureAttributeEditorHandler<Double>(FONT_SIZE, sizeField, editor));
                     gbc = new GridBagConstraints();
                     gbc.gridx = 0;
                     gbc.gridy = 1;
@@ -296,7 +301,7 @@ public class FontToolBar extends AbstractToolBar {
                     labels.configureToolBarButton(sizePopupButton, "attribute.fontSize");
                     sizePopupButton.setUI((PaletteButtonUI) PaletteButtonUI.createUI(sizePopupButton));
                     sizePopupButton.setPopupAnchor(SOUTH_EAST);
-                    new SelectionComponentRepainter(editor, sizePopupButton);
+                    disposables.add(new SelectionComponentRepainter(editor, sizePopupButton));
                     gbc = new GridBagConstraints();
                     gbc.gridx = 2;
                     gbc.gridy = 1;
@@ -305,7 +310,7 @@ public class FontToolBar extends AbstractToolBar {
                     p2.add(sizePopupButton, gbc);
                     sizeSlider.setUI((SliderUI) PaletteSliderUI.createUI(sizeSlider));
                     sizeSlider.setScaleFactor(1d);
-                    new FigureAttributeEditorHandler<Double>(FONT_SIZE, sizeSlider, editor);
+                    disposables.add(new FigureAttributeEditorHandler<Double>(FONT_SIZE, sizeSlider, editor));
 
                     gbc = new GridBagConstraints();
                     gbc.gridx = 0;
@@ -317,21 +322,21 @@ public class FontToolBar extends AbstractToolBar {
                     p.add(p2, gbc);
 
                     // Font style buttons
-                    btn = ButtonFactory.createFontStyleBoldButton(editor, labels);
+                    btn = ButtonFactory.createFontStyleBoldButton(editor, labels, disposables);
                     btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                     btn.putClientProperty("Palette.Component.segmentPosition", "first");
                     gbc = new GridBagConstraints();
                     gbc.gridy = 2;
                     gbc.insets = new Insets(3, 0, 0, 0);
                     p.add(btn, gbc);
-                    btn = ButtonFactory.createFontStyleItalicButton(editor, labels);
+                    btn = ButtonFactory.createFontStyleItalicButton(editor, labels, disposables);
                     btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                     btn.putClientProperty("Palette.Component.segmentPosition", "middle");
                     gbc = new GridBagConstraints();
                     gbc.gridy = 2;
                     gbc.insets = new Insets(3, 0, 0, 0);
                     p.add(btn, gbc);
-                    btn = ButtonFactory.createFontStyleUnderlineButton(editor, labels);
+                    btn = ButtonFactory.createFontStyleUnderlineButton(editor, labels, disposables);
                     btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                     btn.putClientProperty("Palette.Component.segmentPosition", "last");
                     gbc = new GridBagConstraints();

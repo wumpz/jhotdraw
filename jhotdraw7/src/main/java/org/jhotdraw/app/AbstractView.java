@@ -18,6 +18,7 @@ import java.util.*;
 import javax.swing.*;
 import java.util.concurrent.*;
 import java.util.prefs.*;
+import org.jhotdraw.beans.Disposable;
 
 /**
  * AbstractView.
@@ -60,7 +61,7 @@ public abstract class AbstractView extends JPanel implements View {
     /**
      * Hash map for storing view actions by their ID.
      */
-    private HashMap<String,Action> actions;
+    private HashMap<String, Action> actions;
     /**
      * This is set to true, if the view has unsaved changes.
      */
@@ -82,6 +83,8 @@ public abstract class AbstractView extends JPanel implements View {
      * The title of the view.
      */
     private String title;
+    /** List of objects that need to be disposed when this view is disposed. */
+    private LinkedList<Disposable> disposables;
 
     /**
      * Creates a new instance.
@@ -124,6 +127,21 @@ public abstract class AbstractView extends JPanel implements View {
             executor.shutdown();
             executor = null;
         }
+
+        if (openChooser != null) {
+            openChooser = null;
+        }
+        if (saveChooser != null) {
+            saveChooser = null;
+        }
+        if (disposables != null) {
+            for (Disposable d : disposables) {
+                d.dispose();
+            }
+            disposables = null;
+        }
+
+        removeAll();
     }
 
     /** This method is called from within the constructor to
@@ -232,7 +250,7 @@ public abstract class AbstractView extends JPanel implements View {
      */
     public void putAction(String id, Action action) {
         if (actions == null) {
-            actions = new HashMap<String,Action>();
+            actions = new HashMap<String, Action>();
         }
         if (action == null) {
             actions.remove(id);
@@ -285,5 +303,19 @@ public abstract class AbstractView extends JPanel implements View {
 
     public String getTitle() {
         return title;
+    }
+
+    /**
+     * Adds a disposable object, which will be disposed when the specified view
+     * is disposed.
+     *
+     * @param view
+     * @param disposable
+     */
+    public void addDisposable(Disposable disposable) {
+        if (disposables == null) {
+            disposables = new LinkedList<Disposable>();
+        }
+        disposables.add(disposable);
     }
 }

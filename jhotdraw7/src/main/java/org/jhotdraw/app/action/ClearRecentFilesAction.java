@@ -18,6 +18,7 @@ import org.jhotdraw.util.*;
 import java.awt.event.ActionEvent;
 import java.beans.*;
 import org.jhotdraw.app.Application;
+import org.jhotdraw.beans.WeakPropertyChangeListener;
 /**
  * ClearRecentFilesAction.
  *

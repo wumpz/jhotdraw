@@ -1,5 +1,5 @@
 /*
- * @(#)ButtonFactory.java  2.4  2009-04-17
+ * @(#)ButtonFactory.java  3.0  2009-06-02
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -23,6 +23,7 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.text.*;
 import org.jhotdraw.app.action.*;
+import org.jhotdraw.beans.Disposable;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.draw.*;
@@ -42,7 +43,9 @@ import org.jhotdraw.gui.JFontChooser;
  * become disabled/enabled, when the DrawingEditor is disabled/enabled.
  *
  * @author Werner Randelshofer
- * @version 2.4 2009-04-17 Added HSV_COLORS palette.
+ * @version 3.0 2009-06-02 Added methods with Disposable list parameter
+ * allowing to dispose of created objects at a later time.
+ * <br>2.4 2009-04-17 Added HSV_COLORS palette.
  * <br>2.3 2008-05-23 Factured SelectionComponentRepainter out.
  * <br>2.2 2008-05-18 Added method createDrawingColorButton.
  * <br>2.1 2008-03-25 Made method signature of createSelectionColorButton
@@ -214,13 +217,18 @@ public class ButtonFactory {
     }
 
     public static Collection<Action> createDrawingActions(DrawingEditor editor) {
-        LinkedList<Action> a = new LinkedList<Action>();
-        a.add(new CutAction());
-        a.add(new CopyAction());
-        a.add(new PasteAction());
-        a.add(new SelectSameAction(editor));
+        return createDrawingActions(editor, new LinkedList<Disposable>());
+    }
 
-        return a;
+    public static Collection<Action> createDrawingActions(DrawingEditor editor, java.util.List<Disposable> dsp) {
+        LinkedList<Action> list = new LinkedList<Action>();
+        AbstractSelectedAction a;
+        list.add(new CutAction());
+        list.add(new CopyAction());
+        list.add(new PasteAction());
+        list.add(a = new SelectSameAction(editor));
+        dsp.add(a);
+        return list;
     }
 
     public static Collection<Action> createSelectionActions(DrawingEditor editor) {
@@ -603,7 +611,8 @@ public class ButtonFactory {
 
         // Color chooser
         ImageIcon chooserIcon = new ImageIcon(
-                ButtonFactory.class.getResource("/org/jhotdraw/draw/action/images/attribute.color.colorChooser.png"));
+                Images.createImage(
+                ButtonFactory.class, "/org/jhotdraw/draw/action/images/attribute.color.colorChooser.png"));
         Action a;
         popupButton.add(
                 a = new EditorColorChooserAction(
@@ -746,6 +755,48 @@ public class ButtonFactory {
             String labelKey, ResourceBundleUtil labels,
             Map<AttributeKey, Object> defaultAttributes,
             Shape colorShape) {
+        return createSelectionColorButton(editor, attributeKey,
+                swatches, columnCount, labelKey, labels, defaultAttributes,
+                colorShape, new LinkedList<Disposable>());
+    }
+
+    /**
+     * Creates a color button, with an action region and a popup menu. The
+     * button works like the color button in Adobe Fireworks:
+     * <ul>
+     * <li>When the user clicks at the button a popup menu with a color palette
+     * is displayed.
+     * Choosing a color from the palette changes the default color of the
+     * editor and also changes the color of the selected figures.</li>
+     * <li>A shape on the color button displays the color of the selected
+     * figures. If no figures are selected, the default color of the
+     * DrawingEditor is displayed.</li>
+     * </ul>
+     *
+     * @param editor The DrawingEditor.
+     * @param attributeKey The AttributeKey of the color.
+     * @param swatches A list with labeled colors containing the color palette
+     * of the popup menu. The actual labels are retrieved from the supplied
+     * resource bundle. This is usually a LinkedHashMap, so that the colors have
+     * a predictable order.
+     * @param columnCount The number of columns of the color palette.
+     * @param labelKey The resource bundle key used for retrieving the icon and
+     * the tooltip of the button.
+     * @param labels The resource bundle.
+     * @param defaultAttributes A set of attributes which are also applied to
+     * the selected figures, when a color is selected. This can be used, to
+     * set attributes that otherwise prevent the color from being shown. For
+     * example, when the color attribute is set, we wan't the gradient attribute
+     * of the Figure to be cleared.
+     * @param colorShape This shape is superimposed on the icon of the button.
+     * The shape is drawn with the default color of the DrawingEditor.
+     */
+    public static JPopupButton createSelectionColorButton(
+            DrawingEditor editor, AttributeKey<Color> attributeKey,
+            java.util.List<ColorIcon> swatches, int columnCount,
+            String labelKey, ResourceBundleUtil labels,
+            Map<AttributeKey, Object> defaultAttributes,
+            Shape colorShape, java.util.List<Disposable> dsp) {
         final JPopupButton popupButton = new JPopupButton();
         popupButton.setPopupAlpha(1f);
         if (defaultAttributes == null) {
@@ -768,6 +819,7 @@ public class ButtonFactory {
                     labels.getToolTipTextProperty(labelKey),
                     swatch));
             a.putValue(Action.SHORT_DESCRIPTION, swatch.getName());
+            dsp.add(a);
         }
 
         // No color
@@ -782,11 +834,12 @@ public class ButtonFactory {
                     labels.getToolTipTextProperty("attribute.color.noColor"),
                     new ColorIcon(null, labels.getToolTipTextProperty("attribute.color.noColor"))));
             a.putValue(Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.noColor"));
+            dsp.add(a);
         }
         // Color chooser
         ImageIcon chooserIcon = new ImageIcon(
-                ButtonFactory.class.getResource("/org/jhotdraw/draw/action/images/attribute.color.colorChooser.png"));
-        Action a;
+                Images.createImage(ButtonFactory.class, "/org/jhotdraw/draw/action/images/attribute.color.colorChooser.png"));
+        AttributeAction a;
         popupButton.add(
                 a = new SelectionColorChooserAction(
                 editor,
@@ -795,6 +848,7 @@ public class ButtonFactory {
                 chooserIcon,
                 defaultAttributes));
         a.putValue(Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.colorChooser"));
+        dsp.add(a);
         labels.configureToolBarButton(popupButton, labelKey);
         Icon icon = new SelectionColorIcon(editor,
                 attributeKey,
@@ -804,7 +858,7 @@ public class ButtonFactory {
         popupButton.setDisabledIcon(icon);
         popupButton.setFocusable(false);
 
-        new SelectionComponentRepainter(editor, popupButton);
+        dsp.add(new SelectionComponentRepainter(editor, popupButton));
         return popupButton;
     }
 
@@ -895,6 +949,40 @@ public class ButtonFactory {
             String labelKey, ResourceBundleUtil labels,
             Map<AttributeKey, Object> defaultAttributes,
             Shape colorShape) {
+        return createDrawingColorButton(editor, attributeKey,
+                swatches, columnCount, labelKey, labels, defaultAttributes,
+                colorShape, new LinkedList<Disposable>());
+    }
+
+    /**
+     * Creates a color button, with an action region and a popup menu. The
+     * button acts on attributes of the Drawing object in the current DrawingView
+     * of the DrawingEditor.
+     *
+     * @param editor The DrawingEditor.
+     * @param attributeKey The AttributeKey of the color.
+     * @param swatches A list with labeled colors containing the color palette
+     * of the popup menu. The actual labels are retrieved from the supplied
+     * resource bundle. This is usually a LinkedHashMap, so that the colors have
+     * a predictable order.
+     * @param columnCount The number of columns of the color palette.
+     * @param labelKey The resource bundle key used for retrieving the icon and
+     * the tooltip of the button.
+     * @param labels The resource bundle.
+     * @param defaultAttributes A set of attributes which are also applied to
+     * the selected figures, when a color is selected. This can be used, to
+     * set attributes that otherwise prevent the color from being shown. For
+     * example, when the color attribute is set, we wan't the gradient attribute
+     * of the Figure to be cleared.
+     * @param colorShape This shape is superimposed on the icon of the button.
+     * The shape is drawn with the default color of the DrawingEditor.
+     */
+    public static JPopupButton createDrawingColorButton(
+            DrawingEditor editor, AttributeKey<Color> attributeKey,
+            java.util.List<ColorIcon> swatches, int columnCount,
+            String labelKey, ResourceBundleUtil labels,
+            Map<AttributeKey, Object> defaultAttributes,
+            Shape colorShape, java.util.List<Disposable> dsp) {
         final JPopupButton popupButton = new JPopupButton();
         popupButton.setPopupAlpha(1f);
         if (defaultAttributes == null) {
@@ -916,6 +1004,7 @@ public class ButtonFactory {
                     attributes,
                     labels.getToolTipTextProperty(labelKey),
                     swatch));
+            dsp.add(a);
             a.putValue(Action.SHORT_DESCRIPTION, swatch.getName());
         }
 
@@ -930,13 +1019,14 @@ public class ButtonFactory {
                     attributes,
                     labels.getToolTipTextProperty("attribute.color.noColor"),
                     new ColorIcon(null, labels.getToolTipTextProperty("attribute.color.noColor"))));
+            dsp.add(a);
             a.putValue(Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.noColor"));
         }
 
         // Color chooser
         ImageIcon chooserIcon = new ImageIcon(
-                ButtonFactory.class.getResource("/org/jhotdraw/draw/action/images/attribute.color.colorChooser.png"));
-        Action a;
+                Images.createImage(ButtonFactory.class, "/org/jhotdraw/draw/action/images/attribute.color.colorChooser.png"));
+        DrawingColorChooserAction a;
         popupButton.add(
                 a = new DrawingColorChooserAction(
                 editor,
@@ -944,6 +1034,7 @@ public class ButtonFactory {
                 "color",
                 chooserIcon,
                 defaultAttributes));
+        dsp.add(a);
         labels.configureToolBarButton(popupButton, labelKey);
         a.putValue(Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.colorChooser"));
         Icon icon = new DrawingColorIcon(editor,
@@ -955,7 +1046,7 @@ public class ButtonFactory {
         popupButton.setFocusable(false);
 
         if (editor != null) {
-            editor.addPropertyChangeListener(new SelectionComponentRepainter(editor, popupButton));
+            dsp.add(new SelectionComponentRepainter(editor, popupButton));
         }
 
         return popupButton;
@@ -1092,6 +1183,12 @@ public class ButtonFactory {
     public static JPopupButton createStrokeDashesButton(DrawingEditor editor,
             double[][] dashes,
             ResourceBundleUtil labels) {
+        return createStrokeDashesButton(editor, dashes,
+                labels, new LinkedList<Disposable>());
+    }
+
+    public static JPopupButton createStrokeDashesButton(DrawingEditor editor, double[][] dashes,
+            ResourceBundleUtil labels, java.util.List<Disposable> dsp) {
         JPopupButton strokeDashesPopupButton = new JPopupButton();
         labels.configureToolBarButton(strokeDashesPopupButton, "attribute.strokeDashes");
         strokeDashesPopupButton.setFocusable(false);
@@ -1112,14 +1209,15 @@ public class ButtonFactory {
                     new BasicStroke(2f, BasicStroke.CAP_BUTT,
                     BasicStroke.JOIN_BEVEL, 10f, fdashes, 0));
 
-
+            AttributeAction a;
             AbstractButton btn = strokeDashesPopupButton.add(
-                    new AttributeAction(
+                    a = new AttributeAction(
                     editor,
                     STROKE_DASHES,
                     dashes[i],
                     null,
                     icon));
+            dsp.add(a);
             btn.setDisabledIcon(icon);
         }
         return strokeDashesPopupButton;
@@ -1285,6 +1383,12 @@ public class ButtonFactory {
     public static JPopupButton createFontButton(DrawingEditor editor,
             AttributeKey<Font> key,
             ResourceBundleUtil labels) {
+        return createFontButton(editor, key, labels, new LinkedList<Disposable>());
+    }
+
+    public static JPopupButton createFontButton(DrawingEditor editor,
+            AttributeKey<Font> key,
+            ResourceBundleUtil labels, java.util.List<Disposable> dsp) {
 
         JPopupButton fontPopupButton;
 
@@ -1295,7 +1399,7 @@ public class ButtonFactory {
 
         JPopupMenu popupMenu = new JPopupMenu();
         JFontChooser fontChooser = new JFontChooser();
-        new FontChooserHandler(editor, key, fontChooser, popupMenu);
+        dsp.add(new FontChooserHandler(editor, key, fontChooser, popupMenu));
 
         popupMenu.add(fontChooser);
         fontPopupButton.setPopupMenu(popupMenu);
@@ -1311,6 +1415,12 @@ public class ButtonFactory {
 
     public static JButton createFontStyleBoldButton(DrawingEditor editor,
             ResourceBundleUtil labels) {
+        return createFontStyleBoldButton(editor,
+                labels, new LinkedList<Disposable>());
+    }
+
+    public static JButton createFontStyleBoldButton(DrawingEditor editor,
+            ResourceBundleUtil labels, java.util.List<Disposable> dsp) {
         JButton btn;
         btn = new JButton();
         labels.configureToolBarButton(btn, "attribute.fontStyle.bold");
@@ -1331,6 +1441,12 @@ public class ButtonFactory {
 
     public static JButton createFontStyleItalicButton(DrawingEditor editor,
             ResourceBundleUtil labels) {
+        return createFontStyleItalicButton(editor,
+                labels, new LinkedList<Disposable>());
+    }
+
+    public static JButton createFontStyleItalicButton(DrawingEditor editor,
+            ResourceBundleUtil labels, java.util.List<Disposable> dsp) {
         JButton btn;
         btn = new JButton();
         labels.configureToolBarButton(btn, "attribute.fontStyle.italic");
@@ -1351,6 +1467,12 @@ public class ButtonFactory {
 
     public static JButton createFontStyleUnderlineButton(DrawingEditor editor,
             ResourceBundleUtil labels) {
+        return createFontStyleUnderlineButton(editor,
+                labels, new LinkedList<Disposable>());
+    }
+
+    public static JButton createFontStyleUnderlineButton(DrawingEditor editor,
+            ResourceBundleUtil labels, java.util.List<Disposable> dsp) {
         JButton btn;
         btn = new JButton();
         labels.configureToolBarButton(btn, "attribute.fontStyle.underline");
@@ -1368,22 +1490,42 @@ public class ButtonFactory {
      * Creates toolbar buttons and adds them to the specified JToolBar
      */
     public static void addAlignmentButtonsTo(JToolBar bar, final DrawingEditor editor) {
+        addAlignmentButtonsTo(bar, editor, new LinkedList<Disposable>());
+    }
+
+    /**
+     * Creates toolbar buttons and adds them to the specified JToolBar.
+     */
+    public static void addAlignmentButtonsTo(JToolBar bar, final DrawingEditor editor, java.util.List<Disposable> dsp) {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
 
-        bar.add(new AlignAction.West(editor)).setFocusable(false);
-        bar.add(new AlignAction.East(editor)).setFocusable(false);
-        bar.add(new AlignAction.Horizontal(editor)).setFocusable(false);
-        bar.add(new AlignAction.North(editor)).setFocusable(false);
-        bar.add(new AlignAction.South(editor)).setFocusable(false);
-        bar.add(new AlignAction.Vertical(editor)).setFocusable(false);
+        AbstractSelectedAction d;
+        bar.add(d = new AlignAction.West(editor)).setFocusable(false);
+        dsp.add(d);
+        bar.add(d = new AlignAction.East(editor)).setFocusable(false);
+        dsp.add(d);
+        bar.add(d = new AlignAction.Horizontal(editor)).setFocusable(false);
+        dsp.add(d);
+        bar.add(d = new AlignAction.North(editor)).setFocusable(false);
+        dsp.add(d);
+        bar.add(d = new AlignAction.South(editor)).setFocusable(false);
+        dsp.add(d);
+        bar.add(d = new AlignAction.Vertical(editor)).setFocusable(false);
+        dsp.add(d);
         bar.addSeparator();
-        bar.add(new MoveAction.West(editor)).setFocusable(false);
-        bar.add(new MoveAction.East(editor)).setFocusable(false);
-        bar.add(new MoveAction.North(editor)).setFocusable(false);
-        bar.add(new MoveAction.South(editor)).setFocusable(false);
+        bar.add(d = new MoveAction.West(editor)).setFocusable(false);
+        dsp.add(d);
+        bar.add(d = new MoveAction.East(editor)).setFocusable(false);
+        dsp.add(d);
+        bar.add(d = new MoveAction.North(editor)).setFocusable(false);
+        dsp.add(d);
+        bar.add(d = new MoveAction.South(editor)).setFocusable(false);
+        dsp.add(d);
         bar.addSeparator();
         bar.add(new BringToFrontAction(editor)).setFocusable(false);
+        dsp.add(d);
         bar.add(new SendToBackAction(editor)).setFocusable(false);
+        dsp.add(d);
 
     }
 
@@ -1425,6 +1567,12 @@ public class ButtonFactory {
 
     public static JPopupButton createStrokeCapButton(DrawingEditor editor,
             ResourceBundleUtil labels) {
+        return createStrokeCapButton(editor,
+                labels, new LinkedList<Disposable>());
+    }
+
+    public static JPopupButton createStrokeCapButton(DrawingEditor editor,
+            ResourceBundleUtil labels, java.util.List<Disposable> dsp) {
 
         JPopupButton popupButton = new JPopupButton();
         labels.configureToolBarButton(popupButton, "attribute.strokeCap");
@@ -1433,28 +1581,32 @@ public class ButtonFactory {
         HashMap<AttributeKey, Object> attr;
         attr = new HashMap<AttributeKey, Object>();
         attr.put(STROKE_CAP, BasicStroke.CAP_BUTT);
+        AttributeAction a;
         popupButton.add(
-                new AttributeAction(
+                a = new AttributeAction(
                 editor,
                 attr,
                 labels.getString("attribute.strokeCap.butt"),
                 null));
+        dsp.add(a);
         attr = new HashMap<AttributeKey, Object>();
         attr.put(STROKE_CAP, BasicStroke.CAP_ROUND);
         popupButton.add(
-                new AttributeAction(
+                a = new AttributeAction(
                 editor,
                 attr,
                 labels.getString("attribute.strokeCap.round"),
                 null));
+        dsp.add(a);
         attr = new HashMap<AttributeKey, Object>();
         attr.put(STROKE_CAP, BasicStroke.CAP_SQUARE);
         popupButton.add(
-                new AttributeAction(
+                a = new AttributeAction(
                 editor,
                 attr,
                 labels.getString("attribute.strokeCap.square"),
                 null));
+        dsp.add(a);
         return popupButton;
     }
 
@@ -1465,6 +1617,12 @@ public class ButtonFactory {
 
     public static JPopupButton createStrokeJoinButton(DrawingEditor editor,
             ResourceBundleUtil labels) {
+        return createStrokeJoinButton(editor,
+                labels, new LinkedList<Disposable>());
+    }
+
+    public static JPopupButton createStrokeJoinButton(DrawingEditor editor,
+            ResourceBundleUtil labels, java.util.List<Disposable> dsp) {
 
         JPopupButton popupButton = new JPopupButton();
         labels.configureToolBarButton(popupButton, "attribute.strokeJoin");
@@ -1473,34 +1631,44 @@ public class ButtonFactory {
         HashMap<AttributeKey, Object> attr;
         attr = new HashMap<AttributeKey, Object>();
         attr.put(STROKE_JOIN, BasicStroke.JOIN_BEVEL);
+        AttributeAction a;
         popupButton.add(
-                new AttributeAction(
+                a = new AttributeAction(
                 editor,
                 attr,
                 labels.getString("attribute.strokeJoin.bevel"),
                 null));
+        dsp.add(a);
         attr = new HashMap<AttributeKey, Object>();
         attr.put(STROKE_JOIN, BasicStroke.JOIN_ROUND);
         popupButton.add(
-                new AttributeAction(
+                a = new AttributeAction(
                 editor,
                 attr,
                 labels.getString("attribute.strokeJoin.round"),
                 null));
+        dsp.add(a);
         attr = new HashMap<AttributeKey, Object>();
         attr.put(STROKE_JOIN, BasicStroke.JOIN_MITER);
         popupButton.add(
-                new AttributeAction(
+                a = new AttributeAction(
                 editor,
                 attr,
                 labels.getString("attribute.strokeJoin.miter"),
                 null));
+        dsp.add(a);
         return popupButton;
     }
 
     public static JButton createPickAttributesButton(DrawingEditor editor) {
+        return createPickAttributesButton(editor, new LinkedList<Disposable>());
+    }
+
+    public static JButton createPickAttributesButton(DrawingEditor editor, java.util.List<Disposable> dsp) {
         JButton btn;
-        btn = new JButton(new PickAttributesAction(editor));
+        AbstractSelectedAction d;
+        btn = new JButton(d = new PickAttributesAction(editor));
+        dsp.add(d);
         if (btn.getIcon() != null) {
             btn.putClientProperty("hideActionText", Boolean.TRUE);
         }
@@ -1516,8 +1684,14 @@ public class ButtonFactory {
      * the current selection.
      */
     public static JButton createApplyAttributesButton(DrawingEditor editor) {
+        return createApplyAttributesButton(editor, new LinkedList<Disposable>());
+    }
+
+    public static JButton createApplyAttributesButton(DrawingEditor editor, java.util.List<Disposable> dsp) {
         JButton btn;
-        btn = new JButton(new ApplyAttributesAction(editor));
+        AbstractSelectedAction d;
+        btn = new JButton(d = new ApplyAttributesAction(editor));
+        dsp.add(d);
         if (btn.getIcon() != null) {
             btn.putClientProperty("hideActionText", Boolean.TRUE);
         }

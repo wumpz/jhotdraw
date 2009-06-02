@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractBean.java  1.2  2006-06-21
+ * @(#)AbstractBean.java  2.0  2009-06-02
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -22,47 +22,106 @@ import java.io.*;
  * listeners.
  *
  * @author Werner Randelshofer
- * @version 1.2 2006-06-21 Implemented Cloneable. The cloned object has no listeners
+ * @version 2.0 2009-06-02 Added support for WeakPropertyChangeListener's.
+ * <br>1.2 2006-06-21 Implemented Cloneable. The cloned object has no listeners
  * assigned to it.
  * <br>1.1 2004-01-18
  * <br>1.0 2001-08-04
  */
 public class AbstractBean extends Object implements java.io.Serializable, Cloneable {
+
     protected PropertyChangeSupport propertySupport = new PropertyChangeSupport(this);
-    
+
+    /** Adds a @{code PropertyChangeListener} which can optionally be wrapped
+     * into a @{code WeakPropertyChangeListener}.
+     * @param listener
+     */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         propertySupport.addPropertyChangeListener(listener);
     }
+
+    /** Adds a @{code PropertyChangeListener} which can optionally be wrapped
+     * into a @{code WeakPropertyChangeListener}.
+     * @param listener
+     */
     public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
-        propertySupport.addPropertyChangeListener( propertyName, listener);
+        propertySupport.addPropertyChangeListener(propertyName, listener);
     }
+
+    /** Removes a @{code PropertyChangeListener}. If the listener was added
+     * wrapped into a @{code WeakPropertyChangeListener}, the
+     * @{code WeakPropertyChangeListener} is removed.
+     *
+     * @param listener
+     */
     public void removePropertyChangeListener(PropertyChangeListener listener) {
-        propertySupport.removePropertyChangeListener(listener);
+        //propertySupport.removePropertyChangeListener(listener);
+        for (PropertyChangeListener l : propertySupport.getPropertyChangeListeners()) {
+            if (l == listener) {
+                propertySupport.removePropertyChangeListener(l);
+                break;
+            }
+            if (l instanceof WeakPropertyChangeListener) {
+                WeakPropertyChangeListener wl = (WeakPropertyChangeListener) l;
+                PropertyChangeListener target = wl.getTarget();
+                if (target == listener) {
+                    propertySupport.removePropertyChangeListener(l);
+                    break;
+                }
+            }
+        }
     }
+
+    /** Removes a @{code PropertyChangeListener}. If the listener was added
+     * wrapped into a @{code WeakPropertyChangeListener}, the
+     * @{code WeakPropertyChangeListener} is removed.
+     *
+     * @param listener
+     */
     public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
-        propertySupport.removePropertyChangeListener(propertyName, listener);
+        //propertySupport.removePropertyChangeListener(propertyName, listener);
+        for (PropertyChangeListener l : propertySupport.getPropertyChangeListeners(propertyName)) {
+            if (l == listener) {
+                propertySupport.removePropertyChangeListener(l);
+                break;
+            }
+            if (l instanceof WeakPropertyChangeListener) {
+                WeakPropertyChangeListener wl = (WeakPropertyChangeListener) l;
+                PropertyChangeListener target = wl.getTarget();
+                if (target == listener) {
+                    propertySupport.removePropertyChangeListener(l);
+                    break;
+                }
+            }
+        }
     }
-    
+
     protected void firePropertyChange(String propertyName, boolean oldValue, boolean newValue) {
         propertySupport.firePropertyChange(propertyName, oldValue, newValue);
     }
+
     protected void firePropertyChange(String propertyName, int oldValue, int newValue) {
         propertySupport.firePropertyChange(propertyName, oldValue, newValue);
     }
+
     protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
         propertySupport.firePropertyChange(propertyName, oldValue, newValue);
     }
-    
+
     public AbstractBean clone() {
         AbstractBean that;
         try {
             that = (AbstractBean) super.clone();
         } catch (CloneNotSupportedException ex) {
-            InternalError error =  new InternalError("Clone failed");
+            InternalError error = new InternalError("Clone failed");
             error.initCause(ex);
             throw error;
         }
         that.propertySupport = new PropertyChangeSupport(that);
         return that;
+    }
+
+    public PropertyChangeListener[] getPropertyChangeListeners() {
+        return propertySupport.getPropertyChangeListeners();
     }
 }

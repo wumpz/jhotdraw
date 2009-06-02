@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractDrawingViewAction.java  2.0.1  2009-04-04
+ * @(#)AbstractDrawingViewAction.java  3.0  2009-06-02
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -19,12 +19,20 @@ import org.jhotdraw.draw.DrawingView;
 import java.beans.*;
 import javax.swing.*;
 import javax.swing.undo.*;
+import org.jhotdraw.beans.Disposable;
+import org.jhotdraw.beans.WeakPropertyChangeListener;
 
 /**
- * Abstract super class for actions which act on a DrawingView.
+ * Abstract super class for actions which act on a {@link DrawingView}.
+ * <b>
+ * {@code AbstractDrawingEditorAction} listens using a
+ * {@link WeakPropertyChangeListener} on the {@code DrawingEditor} and thus may
+ * become garbage collected if it is not referenced by any other object.
  *
  * @author Werner Randelshofer
- * @version 2.0.1 2009-04-04 PropertyChangeEvent was checked against the wrong
+ * @version 3.0 2009-06-02 Register with DrawingEditor using
+ * WeakPropertyChangeListener.
+ * <br>2.0.1 2009-04-04 PropertyChangeEvent was checked against the wrong
  * property name and the view listener was attached to the old value.
  * <br>2.0 2009-02-15 Renamed from AbstractViewAction to
  * AbstractDrawingViewAction.
@@ -32,10 +40,11 @@ import javax.swing.undo.*;
  * <br>1.1 2006-03-15 Support for enabled state of view added.
  * <br>1.0 2003-12-01 Created.
  */
-public abstract class AbstractDrawingViewAction extends AbstractAction {
+public abstract class AbstractDrawingViewAction extends AbstractAction implements Disposable {
 
     private DrawingEditor editor;
-    private DrawingView view;
+    private DrawingView specificView;
+    private DrawingView activeView;
     private PropertyChangeListener propertyChangeHandler = new PropertyChangeListener() {
 
         public void propertyChange(PropertyChangeEvent evt) {
@@ -43,12 +52,12 @@ public abstract class AbstractDrawingViewAction extends AbstractAction {
                 updateEnabledState();
             } else if (evt.getPropertyName() == DrawingEditor.ACTIVE_VIEW_PROPERTY) {
                 if (evt.getOldValue() != null) {
-                    DrawingView view = ((DrawingView) evt.getOldValue());
-                    view.removePropertyChangeListener(propertyChangeHandler);
+                    activeView = ((DrawingView) evt.getOldValue());
+                    activeView.removePropertyChangeListener(propertyChangeHandler);
                 }
                 if (evt.getNewValue() != null) {
-                    DrawingView view = ((DrawingView) evt.getNewValue());
-                    view.addPropertyChangeListener(propertyChangeHandler);
+                    activeView = ((DrawingView) evt.getNewValue());
+                    activeView.addPropertyChangeListener(propertyChangeHandler);
                     updateEnabledState();
                 }
             }
@@ -66,16 +75,24 @@ public abstract class AbstractDrawingViewAction extends AbstractAction {
      * Creates a view action which acts on the specified view.
      */
     public AbstractDrawingViewAction(DrawingView view) {
-        this.view = view;
+        this.specificView = view;
+        specificView.addPropertyChangeListener(propertyChangeHandler);
     }
 
     protected void setEditor(DrawingEditor newValue) {
         if (editor != null) {
             editor.removePropertyChangeListener(propertyChangeHandler);
         }
+        if (activeView != null) {
+            activeView.removePropertyChangeListener(propertyChangeHandler);
+        }
         editor = newValue;
         if (editor != null) {
-            editor.addPropertyChangeListener(propertyChangeHandler);
+            editor.addPropertyChangeListener(new WeakPropertyChangeListener(propertyChangeHandler));
+            activeView = editor.getActiveView();
+            if (activeView != null) {
+                activeView.addPropertyChangeListener(propertyChangeHandler);
+            }
         }
     }
 
@@ -84,7 +101,7 @@ public abstract class AbstractDrawingViewAction extends AbstractAction {
     }
 
     protected DrawingView getView() {
-        return (view != null) ? view : ((editor != null) ? editor.getActiveView():null);
+        return (specificView != null) ? specificView : activeView;
     }
 
     protected Drawing getDrawing() {
@@ -104,5 +121,9 @@ public abstract class AbstractDrawingViewAction extends AbstractAction {
         } else {
             setEnabled(false);
         }
+    }
+
+    public void dispose() {
+        setEditor(null);
     }
 }

@@ -1,7 +1,7 @@
 /*
- * @(#)NanoXMLDOMOutput.java  2.1  2006-08-26
+ * @(#)NanoXMLDOMOutput.java  2.2  2009-06-02
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -18,6 +18,7 @@ import java.awt.*;
 import java.util.*;
 import java.io.*;
 import net.n3.nanoxml.*;
+import org.jhotdraw.beans.Disposable;
 /**
  * DOMOutput using Nano XML.
  * <p>
@@ -27,7 +28,8 @@ import net.n3.nanoxml.*;
  * Partners: {@link net.n3.nanoxml.XMLElement} as Adaptee.
  *
  * @author  Werner Randelshofer
- * @version  2.1 2006-08-26 Method setDoctype added.
+ * @version  2.2 2009-06-02 Added Disposable support.
+ * <br>2.1 2006-08-26 Method setDoctype added.
  * <br>2.0.1 2006-08-21 Method save() and print() wrote an empty file.
  * <br>2.0 2006-06-10 Support for prototype objects added. Support for
  * Enum and double array objects added.
@@ -35,7 +37,7 @@ import net.n3.nanoxml.*;
  * <br>1.1 2006-01-18 Remove ".0" at the end of float and double numbers.
  * <br>1.0 February 17, 2004 Created.
  */
-public class NanoXMLDOMOutput implements DOMOutput {
+public class NanoXMLDOMOutput implements DOMOutput, Disposable {
     
     
     /**
@@ -334,5 +336,12 @@ public class NanoXMLDOMOutput implements DOMOutput {
     
     public void setDoctype(String doctype) {
         this.doctype = doctype;
+    }
+
+    public void dispose() {
+        if (document != null) {
+            document.dispose();
+            document = null;
+        }
     }
 }

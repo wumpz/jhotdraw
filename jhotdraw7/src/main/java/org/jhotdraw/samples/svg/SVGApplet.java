@@ -273,7 +273,11 @@ public class SVGApplet extends JApplet {
      * Creates the drawing component.
      */
     protected SVGDrawingPanel createDrawingComponent() {
-        return new SVGDrawingPanel();
+        SVGDrawingPanel p = new SVGDrawingPanel();
+        DefaultDrawingEditor editor = new DefaultDrawingEditor();
+        p.setEditor(new DefaultDrawingEditor());
+
+        return p;
     }
 
     protected SVGDrawingPanel getDrawingComponent() {

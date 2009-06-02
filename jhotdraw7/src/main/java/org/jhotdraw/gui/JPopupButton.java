@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.gui;
 
+import org.jhotdraw.gui.plaf.palette.PaletteMenuItemUI;
 import java.awt.*;
 import java.beans.*;
 import javax.swing.*;

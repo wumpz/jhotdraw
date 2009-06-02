@@ -194,7 +194,15 @@ public interface DrawingEditor {
       * Gets the enabled state of the drawing editor.
       */
      public boolean isEnabled();
-     
+
+     /**
+      * Adds a {@code PropertyChangeListener}.
+      * @param listener
+      */
      public void addPropertyChangeListener(PropertyChangeListener listener);
+     /**
+      * Removes a {@code PropertyChangeListener}.
+      * @param listener
+      */
      public void removePropertyChangeListener(PropertyChangeListener listener);
 }

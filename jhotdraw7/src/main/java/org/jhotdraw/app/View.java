@@ -1,7 +1,7 @@
 /*
- * @(#)View.java  4.1  2008-03-23
+ * @(#)View.java  4.2  2009-06-02
  *
- * Copyright (c) 1996-2008 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -17,6 +17,7 @@ package org.jhotdraw.app;
 import java.io.*;
 import java.beans.*;
 import javax.swing.*;
+import org.jhotdraw.beans.Disposable;
 /**
  * A view on a document or a set of related documents within an Application.
  * <p>
@@ -25,7 +26,8 @@ import javax.swing.*;
  * or method read(), in order to fully initialize the View.
  *
  * @author Werner Randelshofer
- * @version 4.1 2008-03-23 Added method canSaveTo(). 
+ * @version 4.2 2009-06-02 Added method addDisposable().
+ * <br>4.1 2008-03-23 Added method canSaveTo().
  * <br>4.0 2008-03-20 Renamed from Project to View.
  * <br>3.0 2007-12-25 Added start, stop, activate and deactivate methods.
  * Added constants for property names. 
@@ -279,4 +281,12 @@ public interface View {
      */
     public String getTitle();
     
+    /**
+     * Adds a disposable object, which will be disposed when the view
+     * is disposed.
+     *
+     * @param view
+     * @param disposable
+     */
+    public void addDisposable(Disposable disposable);
 }

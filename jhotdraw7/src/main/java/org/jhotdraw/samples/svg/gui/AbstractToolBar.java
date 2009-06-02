@@ -15,8 +15,10 @@ package org.jhotdraw.samples.svg.gui;
 
 import java.awt.*;
 import java.beans.*;
+import java.util.LinkedList;
 import java.util.prefs.*;
 import javax.swing.*;
+import org.jhotdraw.beans.Disposable;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.draw.*;
 
@@ -27,12 +29,13 @@ import org.jhotdraw.draw.*;
  * @version 2.0 2008-05-24 Reworked to create panels lazily.
  * <br>1.0 2008-04-13 Created.
  */
-public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar {
+public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements Disposable {
 
     protected DrawingEditor editor;
     private JComponent[] panels;
     protected Preferences prefs;
     protected PropertyChangeListener eventHandler;
+    protected LinkedList<Disposable> disposables = new LinkedList<Disposable>();
 
     /** Creates new form. */
     public AbstractToolBar() {
@@ -83,6 +86,10 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar {
     public void setEditor(DrawingEditor editor) {
         if (this.editor != null) {
             this.removePropertyChangeListener(getEventHandler());
+            for (Disposable d : disposables) {
+                d.dispose();
+            }
+            disposables.clear();
         }
         this.editor = editor;
         if (editor != null) {
@@ -115,6 +122,14 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar {
         return 0;
     }
 
+    @Override
+    public void dispose() {
+        for (Disposable d : disposables) {
+            d.dispose();
+        }
+        disposables.clear();
+    }
+
     private class ProxyPanel extends JPanel {
 
         private Runnable runner;
@@ -136,11 +151,10 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar {
 
                     public void run() {
                         try {
-                        // long start = System.currentTimeMillis();
-                        panels[state] = createDisclosedComponent(state);
+                            panels[state] = createDisclosedComponent(state);
                         } catch (Throwable t) {
                             t.printStackTrace();
-                            panels[state]=null;
+                            panels[state] = null;
                         }
                         // long end = System.currentTimeMillis();
                         // System.out.println(AbstractToolBar.this.getClass()+" state:"+state+" elapsed:"+(end-start));
@@ -151,13 +165,13 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar {
 
                             parent.remove(ProxyPanel.this);
                             if (getDisclosureState() == state) {
-                            if (panels[state] != null) {
-                                parent.add(panels[state], gbc);
-                            } else {
-                                JPanel empty = new JPanel(new BorderLayout());
-                                empty.setOpaque(false);
-                                parent.add(empty, gbc);
-                            }
+                                if (panels[state] != null) {
+                                    parent.add(panels[state], gbc);
+                                } else {
+                                    JPanel empty = new JPanel(new BorderLayout());
+                                    empty.setOpaque(false);
+                                    parent.add(empty, gbc);
+                                }
                             }
                             parent.revalidate();
                             ((JComponent) parent.getRootPane().getContentPane()).revalidate();

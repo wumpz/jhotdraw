@@ -85,10 +85,10 @@ public class FigureToolBar extends AbstractToolBar {
                     labels.configureToolBarButton(opacityPopupButton, "attribute.figureOpacity");
                     opacityPopupButton.setUI((PaletteButtonUI) PaletteButtonUI.createUI(opacityPopupButton));
                     opacityPopupButton.setIcon(
-                            new SelectionOpacityIcon(editor, OPACITY, FILL_COLOR, STROKE_COLOR, getClass().getResource(labels.getString("attribute.figureOpacity.icon")),
+                            new SelectionOpacityIcon(editor, OPACITY, FILL_COLOR, STROKE_COLOR, Images.createImage(getClass(),labels.getString("attribute.figureOpacity.icon")),
                             new Rectangle(5, 5, 6, 6), new Rectangle(4, 4, 7, 7)));
                     opacityPopupButton.setPopupAnchor(SOUTH_EAST);
-                    new SelectionComponentRepainter(editor, opacityPopupButton);
+                    disposables.add(new SelectionComponentRepainter(editor, opacityPopupButton));
                     gbc = new GridBagConstraints();
                     gbc.gridx = 2;
                     gbc.gridy = 0;
@@ -98,7 +98,7 @@ public class FigureToolBar extends AbstractToolBar {
                     p.add(opacityPopupButton, gbc);
                     opacitySlider.setUI((SliderUI) PaletteSliderUI.createUI(opacitySlider));
                     opacitySlider.setScaleFactor(100d);
-                    new FigureAttributeEditorHandler<Double>(OPACITY, opacitySlider, editor);
+                    disposables.add(new FigureAttributeEditorHandler<Double>(OPACITY, opacitySlider, editor));
                 }
                 break;
 
@@ -120,7 +120,7 @@ public class FigureToolBar extends AbstractToolBar {
                     opacityField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(opacityField));
                     opacityField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0d, 1d, 100d));
                     opacityField.setHorizontalAlignment(JTextField.LEADING);
-                    new FigureAttributeEditorHandler<Double>(OPACITY, opacityField, editor);
+                    disposables.add(new FigureAttributeEditorHandler<Double>(OPACITY, opacityField, editor));
                     gbc = new GridBagConstraints();
                     gbc.gridx = 1;
                     gbc.gridy = 0;
@@ -134,10 +134,10 @@ public class FigureToolBar extends AbstractToolBar {
                     labels.configureToolBarButton(opacityPopupButton, "attribute.figureOpacity");
                     opacityPopupButton.setUI((PaletteButtonUI) PaletteButtonUI.createUI(opacityPopupButton));
                     opacityPopupButton.setIcon(
-                            new SelectionOpacityIcon(editor, OPACITY, FILL_COLOR, STROKE_COLOR, getClass().getResource(labels.getString("attribute.figureOpacity.icon")),
+                            new SelectionOpacityIcon(editor, OPACITY, FILL_COLOR, STROKE_COLOR, Images.createImage(getClass(),labels.getString("attribute.figureOpacity.icon")),
                             new Rectangle(5, 5, 6, 6), new Rectangle(4, 4, 7, 7)));
                     opacityPopupButton.setPopupAnchor(SOUTH_EAST);
-                    new SelectionComponentRepainter(editor, opacityPopupButton);
+                    disposables.add(new SelectionComponentRepainter(editor, opacityPopupButton));
                     gbc = new GridBagConstraints();
                     gbc.gridx = 2;
                     gbc.gridy = 0;
@@ -147,7 +147,7 @@ public class FigureToolBar extends AbstractToolBar {
                     p.add(opacityPopupButton, gbc);
                     opacitySlider.setUI((SliderUI) PaletteSliderUI.createUI(opacitySlider));
                     opacitySlider.setScaleFactor(100d);
-                    new FigureAttributeEditorHandler<Double>(OPACITY, opacitySlider, editor);
+                    disposables.add(new FigureAttributeEditorHandler<Double>(OPACITY, opacitySlider, editor));
                 }
                 break;
         }

@@ -67,7 +67,7 @@ public class ToolsToolBar extends AbstractToolBar {
 
         HashMap<AttributeKey, Object> attributes;
         btn = ButtonFactory.addSelectionToolTo(this, editor,
-                ButtonFactory.createDrawingActions(editor),
+                ButtonFactory.createDrawingActions(editor, disposables),
                 createSelectionActions(editor));
         btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
         gbc = new GridBagConstraints();
@@ -166,23 +166,30 @@ public class ToolsToolBar extends AbstractToolBar {
         return p;
     }
 
-    public static Collection<Action> createSelectionActions(DrawingEditor editor) {
-        LinkedList<Action> a = new LinkedList<Action>();
-        a.add(new DuplicateAction());
+    public Collection<Action> createSelectionActions(DrawingEditor editor) {
+        LinkedList<Action> list = new LinkedList<Action>();
+        AbstractSelectedAction a;
+        list.add(new DuplicateAction());
 
-        a.add(null); // separator
+        list.add(null); // separator
 
-        a.add(new GroupAction(editor, new SVGGroupFigure()));
-        a.add(new UngroupAction(editor, new SVGGroupFigure()));
-        a.add(new CombineAction(editor));
-        a.add(new SplitAction(editor));
+        list.add(a=new GroupAction(editor, new SVGGroupFigure()));
+        disposables.add(a);
+        list.add(a=new UngroupAction(editor, new SVGGroupFigure()));
+        disposables.add(a);
+        list.add(a=new CombineAction(editor));
+        disposables.add(a);
+        list.add(a=new SplitAction(editor));
+        disposables.add(a);
 
-        a.add(null); // separator
+        list.add(null); // separator
 
-        a.add(new BringToFrontAction(editor));
-        a.add(new SendToBackAction(editor));
+        list.add(a=new BringToFrontAction(editor));
+        disposables.add(a);
+        list.add(a=new SendToBackAction(editor));
+        disposables.add(a);
 
-        return a;
+        return list;
     }
 
     @Override

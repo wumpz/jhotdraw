@@ -1,7 +1,7 @@
 /*
- * @(#)Images.java  2.1  2007-07-25
+ * @(#)Images.java  2.2  2009-05-31
  *
- * Copyright (c) 1996-2008 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -26,7 +26,8 @@ import javax.swing.*;
  * Image processing methods.
  *
  * @author  Werner Randelshofer
- * @version 2.1 2007-07-25 Added method toBufferedImage(RenderedImage).
+ * @version 2.2 Added methods createImage and split.
+ * <br>2.1 2007-07-25 Added method toBufferedImage(RenderedImage).
  * <br>1.0.2 2005-09-12 Brought my work-around for Java 1.4.1 back to
  * live.
  * <br>1.0.1 2005-05-21 Accidentaly used bitmask transparency
@@ -39,6 +40,15 @@ public class Images {
     private Images() {
     }
     
+    public static Image createImage(Class baseClass, String resourceName) {
+       URL resource = baseClass.getResource(resourceName);
+       if (resource == null) {
+           throw new InternalError("Ressource \""+resourceName+"\" not found for class "+baseClass);
+       }
+        Image image = Toolkit.getDefaultToolkit().createImage(resource);
+        return image;
+    }
+
     public static Image createImage(URL resource) {
         Image image = Toolkit.getDefaultToolkit().createImage(resource);
         return image;
@@ -165,4 +175,29 @@ public class Images {
         return cm.hasAlpha();
     }
     
+    /**
+     * Splits an image into count subimages.
+     */
+    public static BufferedImage[] split(Image image, int count, boolean isHorizontal) {
+        BufferedImage src = Images.toBufferedImage(image);
+        if (count == 1) {
+            return new BufferedImage[] { src };
+        }
+
+        BufferedImage[] parts = new BufferedImage[count];
+        for (int i=0; i < count; i++) {
+            if (isHorizontal) {
+                parts[i] = src.getSubimage(
+                        src.getWidth() / count * i, 0,
+                        src.getWidth() / count, src.getHeight()
+                        );
+            } else {
+                parts[i] = src.getSubimage(
+                        0, src.getHeight() / count * i,
+                        src.getWidth(), src.getHeight() / count
+                        );
+            }
+        }
+        return parts;
+    }
 }

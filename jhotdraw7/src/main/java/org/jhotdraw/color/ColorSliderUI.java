@@ -14,12 +14,12 @@
 
 package org.jhotdraw.color;
 
+import org.jhotdraw.util.Images;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 import org.jhotdraw.gui.plaf.palette.*;
@@ -55,14 +55,14 @@ public class ColorSliderUI extends BasicSliderUI {
         if (null == UIManager.getIcon("Slider.northThumb.small")) {
             UIManager.put("Slider.northThumb.small",
                     new SliderThumbIcon(Images.createImage(
-                    ColorSliderUI.class.getResource("/org/jhotdraw/color/images/Slider.northThumbs.small.png"))
+                    ColorSliderUI.class, "/org/jhotdraw/color/images/Slider.northThumbs.small.png")
                     , 6, true)
                     );
         }
         if (null ==  UIManager.getIcon("Slider.westThumb.small")) {
             UIManager.put("Slider.westThumb.small",
                     new SliderThumbIcon(Images.createImage(
-                    ColorSliderUI.class.getResource("/org/jhotdraw/color/images/Slider.westThumbs.small.png"))
+                    ColorSliderUI.class, "/org/jhotdraw/color/images/Slider.westThumbs.small.png")
                     , 6, true)
                     );
         }

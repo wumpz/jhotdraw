@@ -158,7 +158,8 @@ public class DelegationSelectionTool extends SelectionTool {
         }
         super.mouseClicked(evt);
         if (!evt.isConsumed()) {
-            if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {
+            if (evt.getClickCount() >= 2 && //
+                    evt.getButton() == MouseEvent.BUTTON1) {
                 handleDoubleClick(evt);
             } else if (evt.getClickCount() == 1 &&
                     evt.getModifiersEx() == 0 &&

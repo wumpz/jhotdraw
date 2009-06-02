@@ -1,5 +1,5 @@
 /*
- * @(#)OpenAction.java  2.2  2009-02-08
+ * @(#)OpenAction.java  2.2.1  2009-06-01
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -26,7 +26,9 @@ import org.jhotdraw.app.View;
  * Opens a file in new view, or in the current view, if it is empty.
  *
  * @author  Werner Randelshofer
- * @version 2.2 2009-03-08 Moved call to getOpenChooser into separate method.
+ * @version 2.2.1 2009-06-01 If a view is created just to get a file chooser
+ * we have to dispose it if the user does not select a file.
+ * <br>2.2 2009-03-08 Moved call to getOpenChooser into separate method.
  * <br>2.1 2008-03-19 Check whether file exists before opening it.
  * <br>2.0.2 2008-02-23 View and application was not enabled after
  * unsuccessful file open. 
@@ -58,27 +60,28 @@ public class OpenAction extends AbstractApplicationAction {
             View emptyView = app.getActiveView();
             if (emptyView == null ||
                     emptyView.getFile() != null ||
-                    emptyView.hasUnsavedChanges()) {
+                    emptyView.hasUnsavedChanges() ||
+                    !emptyView.isEnabled()) {
                 emptyView = null;
             }
 
             final View view;
-            boolean removeMe;
+            boolean disposeView;
             if (emptyView == null) {
                 view = app.createView();
                 app.add(view);
-                removeMe = true;
+                disposeView = true;
             } else {
                 view = emptyView;
-                removeMe = false;
+                disposeView = false;
             }
             JFileChooser fileChooser = getFileChooser(view);
             if (fileChooser.showOpenDialog(app.getComponent()) == JFileChooser.APPROVE_OPTION) {
                 app.show(view);
                 openFile(fileChooser, view);
             } else {
-                if (removeMe) {
-                    app.remove(view);
+                if (disposeView) {
+                    app.dispose(view);
                 }
                 app.setEnabled(true);
             }

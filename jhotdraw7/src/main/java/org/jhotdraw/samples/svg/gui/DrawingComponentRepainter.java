@@ -1,7 +1,7 @@
 /**
- * @(#)DrawingComponentRepainter.java  1.0  2008-06-08
+ * @(#)DrawingComponentRepainter.java  1.0  2009-06-02
  *
- * Copyright (c) 2008 by the original authors of JHotDraw
+ * Copyright (c) 2008-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -16,6 +16,7 @@ package org.jhotdraw.samples.svg.gui;
 import org.jhotdraw.draw.action.*;
 import java.beans.*;
 import javax.swing.*;
+import org.jhotdraw.beans.Disposable;
 import org.jhotdraw.draw.*;
 
 /**
@@ -23,10 +24,11 @@ import org.jhotdraw.draw.*;
  * on the current view of the editor.
  *
  * @author Werner Randelshofer
- * @version 1.0 23.05.2008 Created.
+ * @version 1.1 2009-06-02 Added Disposable-support.
+ * <br>1.0 23.05.2008 Created.
  */
 public class DrawingComponentRepainter extends FigureAdapter
-        implements PropertyChangeListener {
+        implements PropertyChangeListener, Disposable {
 
     private DrawingEditor editor;
     private JComponent component;

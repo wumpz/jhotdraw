@@ -64,7 +64,7 @@ public class SVGTextFigure
         setText(text);
         SVGAttributeKeys.setDefaults(this);
     }
-    
+
     // DRAWING
     protected void drawText(java.awt.Graphics2D g) {
     }

@@ -1,7 +1,7 @@
 /*
- * @(#)AbstractApplication.java  1.3  2007-12-24
+ * @(#)AbstractApplication.java  2.0  2009-06-02
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -21,13 +21,15 @@ import java.util.*;
 import java.util.prefs.*;
 import javax.swing.*;
 import java.io.*;
+import java.util.HashMap;
 
 /**
  * AbstractApplication.
  *
  *
  * @author Werner Randelshofer
- * @version 1.3 2007-12-24 Added support for active view. 
+ * @version 2.0 2009-06-02 Added support for disposable objects.
+ * <br>1.3 2007-12-24 Added support for active view.
  * <br>1.2 2007-11-25 Method View.clear is now invoked on a worker
  * thread.
  * <br>1.1 2006-05-01 System.exit(0) explicitly in method stop().
@@ -36,7 +38,7 @@ import java.io.*;
 public abstract class AbstractApplication extends AbstractBean implements Application {
 
     private LinkedList<View> views = new LinkedList<View>();
-    private Collection<View> unmodifiableDocuments;
+    private Collection<View> unmodifiableViews;
     private boolean isEnabled = true;
     protected ResourceBundleUtil labels;
     private ApplicationModel model;
@@ -160,6 +162,9 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     }
 
     public void remove(View p) {
+        if (p == activeView) {
+            setActiveView(null);
+        }
         hide(p);
         int oldCount = views.size();
         views.remove(p);
@@ -176,16 +181,16 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         }
     }
 
-    public void dispose(View p) {
-        remove(p);
-        p.dispose();
+    public void dispose(View view) {
+        remove(view);
+        view.dispose();
     }
 
     public Collection<View> views() {
-        if (unmodifiableDocuments == null) {
-            unmodifiableDocuments = Collections.unmodifiableCollection(views);
+        if (unmodifiableViews == null) {
+            unmodifiableViews = Collections.unmodifiableCollection(views);
         }
-        return unmodifiableDocuments;
+        return unmodifiableViews;
     }
 
     public boolean isEnabled() {

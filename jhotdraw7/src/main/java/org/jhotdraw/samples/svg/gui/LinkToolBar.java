@@ -105,7 +105,7 @@ public class LinkToolBar extends AbstractToolBar {
                     linkField.setWrapStyleWord(true);
                     linkField.setFont(PaletteLookAndFeel.getInstance().getFont("SmallSystemFont"));
                     linkField.setFormatterFactory(new DefaultFormatterFactory(new DefaultFormatter()));
-                    new FigureAttributeEditorHandler<String>(LINK, linkField, editor, false);
+                    disposables.add(new FigureAttributeEditorHandler<String>(LINK, linkField, editor, false));
 
                     scrollPane.setViewportView(linkField);
                     gbc = new GridBagConstraints();
@@ -144,7 +144,7 @@ public class LinkToolBar extends AbstractToolBar {
                     //targetField.setFont(PaletteLookAndFeel.getInstance().getFont("SmallSystemFont"));
                     targetField.setFormatterFactory(new DefaultFormatterFactory(new DefaultFormatter()));
                     targetField.setUI((TextUI) PaletteFormattedTextFieldUI.createUI(targetField));
-                    new FigureAttributeEditorHandler<String>(LINK_TARGET, targetField, editor, false);
+                    disposables.add(new FigureAttributeEditorHandler<String>(LINK_TARGET, targetField, editor, false));
                     gbc = new GridBagConstraints();
                     gbc.gridx = 1;
                     gbc.gridy = 2;
@@ -184,7 +184,7 @@ public class LinkToolBar extends AbstractToolBar {
                     linkField.setWrapStyleWord(true);
                     linkField.setFont(PaletteLookAndFeel.getInstance().getFont("SmallSystemFont"));
                     linkField.setFormatterFactory(new DefaultFormatterFactory(new DefaultFormatter()));
-                    new FigureAttributeEditorHandler<String>(LINK, linkField, editor, false);
+                    disposables.add(new FigureAttributeEditorHandler<String>(LINK, linkField, editor, false));
 
                     scrollPane.setViewportView(linkField);
                     gbc = new GridBagConstraints();
@@ -223,7 +223,7 @@ public class LinkToolBar extends AbstractToolBar {
                     //targetField.setFont(PaletteLookAndFeel.getInstance().getFont("SmallSystemFont"));
                     targetField.setFormatterFactory(new DefaultFormatterFactory(new DefaultFormatter()));
                     targetField.setUI((TextUI) PaletteFormattedTextFieldUI.createUI(targetField));
-                    new FigureAttributeEditorHandler<String>(LINK_TARGET, targetField, editor, true);
+                    disposables.add(new FigureAttributeEditorHandler<String>(LINK_TARGET, targetField, editor, true));
                     gbc = new GridBagConstraints();
                     gbc.gridx = 1;
                     gbc.gridy = 2;

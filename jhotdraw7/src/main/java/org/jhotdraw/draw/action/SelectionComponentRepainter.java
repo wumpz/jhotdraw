@@ -1,7 +1,7 @@
 /**
- * @(#)SelectionComponentRepainter.java  1.0  23.05.2008
+ * @(#)SelectionComponentRepainter.java  1.1  2009-06-02
  *
- * Copyright (c) 2008 by the original authors of JHotDraw
+ * Copyright (c) 2008-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -15,6 +15,7 @@ package org.jhotdraw.draw.action;
 
 import java.beans.*;
 import javax.swing.*;
+import org.jhotdraw.beans.Disposable;
 import org.jhotdraw.draw.*;
 
 /**
@@ -22,10 +23,11 @@ import org.jhotdraw.draw.*;
  * and of its views based on the current selection.
  *
  * @author Werner Randelshofer
- * @version 1.0 23.05.2008 Created.
+ * @version 1.1 2009-06-02 Added Disposable support.
+ * <br>1.0 23.05.2008 Created.
  */
 public class SelectionComponentRepainter extends FigureAdapter
-        implements PropertyChangeListener, FigureSelectionListener {
+        implements PropertyChangeListener, FigureSelectionListener, Disposable {
 
     private DrawingEditor editor;
     private JComponent component;

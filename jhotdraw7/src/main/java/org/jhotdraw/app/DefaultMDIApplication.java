@@ -1,7 +1,7 @@
 /*
- * @(#)DefaultMDIApplication.java  1.1  2007-12-25
+ * @(#)DefaultMDIApplication.java  1.1.1  2009-06-02
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -36,7 +36,9 @@ import org.jhotdraw.app.action.*;
  * parent JFrame quits the application.
  *
  * @author Werner Randelshofer.
- * @version 1.1 2007-12-25 Added method updateViewTitle. 
+ * @version 1.1.1 2009-06-02 Fixed a memory leak caused by OpenRecentAction's
+ * not being disposed when they are no longer needed.
+ * <br>1.1 2007-12-25 Added method updateViewTitle.
  * <br>1.0 June 5, 2006 Created.
  */
 public class DefaultMDIApplication extends AbstractApplication {
@@ -231,7 +233,7 @@ public class DefaultMDIApplication extends AbstractApplication {
             try {
                 f.setSelected(true);
             } catch (PropertyVetoException e) {
-            // Don't care.
+                // Don't care.
             }
             p.getComponent().requestFocusInWindow();
             p.start();
@@ -243,6 +245,12 @@ public class DefaultMDIApplication extends AbstractApplication {
             JInternalFrame f = (JInternalFrame) SwingUtilities.getRootPane(p.getComponent()).getParent();
             f.setVisible(false);
             f.remove(p.getComponent());
+
+            // Setting the JMenuBar to null triggers action disposal of
+            // actions in the openRecentMenu and the windowMenu. This is
+            // important to prevent memory leaks.
+            f.setJMenuBar(null);
+
             desktopPane.remove(f);
             f.dispose();
         }
@@ -331,7 +339,7 @@ public class DefaultMDIApplication extends AbstractApplication {
         JMenuBar mb = new JMenuBar();
         JMenu m;
         JMenuItem mi;
-        final JMenu openRecentMenu;
+        JMenu openRecentMenu;
 
         m = new JMenu();
         labels.configureMenu(m, "file");
@@ -344,7 +352,6 @@ public class DefaultMDIApplication extends AbstractApplication {
         openRecentMenu = new JMenu();
         labels.configureMenu(openRecentMenu, "file.openRecent");
         openRecentMenu.add(model.getAction(ClearRecentFilesAction.ID));
-        updateOpenRecentMenu(openRecentMenu);
         m.add(openRecentMenu);
         m.addSeparator();
         m.add(model.getAction(CloseAction.ID));
@@ -360,16 +367,7 @@ public class DefaultMDIApplication extends AbstractApplication {
         m.addSeparator();
         m.add(model.getAction(ExitAction.ID));
 
-        addPropertyChangeListener(new PropertyChangeListener() {
-
-            public void propertyChange(PropertyChangeEvent evt) {
-                String name = evt.getPropertyName();
-                ApplicationModel mo = getModel();
-                if (name == "recentFiles") {
-                    updateOpenRecentMenu(openRecentMenu);
-                }
-            }
-        });
+        addPropertyChangeListener(new OpenRecentMenuHandler(openRecentMenu));
 
         return m;
     }
@@ -395,26 +393,6 @@ public class DefaultMDIApplication extends AbstractApplication {
         f.setTitle(v.getTitle());
     }
 
-    /**
-     * Updates the "File &gt; Open Recent" menu.
-     * 
-     * @param openRecentMenu
-     */
-    protected void updateOpenRecentMenu(JMenu openRecentMenu) {
-        if (openRecentMenu.getItemCount() > 0) {
-            JMenuItem clearRecentFilesItem = (JMenuItem) openRecentMenu.getItem(
-                    openRecentMenu.getItemCount() - 1);
-            openRecentMenu.removeAll();
-            for (File f : recentFiles()) {
-                openRecentMenu.add(new OpenRecentAction(DefaultMDIApplication.this, f));
-            }
-            if (recentFiles().size() > 0) {
-                openRecentMenu.addSeparator();
-            }
-            openRecentMenu.add(clearRecentFilesItem);
-        }
-    }
-
     protected JMenu createWindowMenu() {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         ApplicationModel mo = getModel();
@@ -423,7 +401,7 @@ public class DefaultMDIApplication extends AbstractApplication {
         JMenuItem mi;
 
         m = new JMenu();
-        final JMenu windowMenu = m;
+        JMenu windowMenu = m;
         labels.configureMenu(m, "window");
         m.add(mo.getAction(ArrangeAction.CASCADE_ID));
         m.add(mo.getAction(ArrangeAction.VERTICAL_ID));
@@ -445,37 +423,7 @@ public class DefaultMDIApplication extends AbstractApplication {
             }
         }
 
-        addPropertyChangeListener(new PropertyChangeListener() {
-
-            public void propertyChange(PropertyChangeEvent evt) {
-                String name = evt.getPropertyName();
-                ApplicationModel mo = getModel();
-                if (name == "viewCount") {
-                    JMenu m = windowMenu;
-                    m.removeAll();
-
-                    m.add(mo.getAction(ArrangeAction.CASCADE_ID));
-                    m.add(mo.getAction(ArrangeAction.VERTICAL_ID));
-                    m.add(mo.getAction(ArrangeAction.HORIZONTAL_ID));
-
-                    m.addSeparator();
-                    for (Iterator i = views().iterator(); i.hasNext();) {
-                        View pr = (View) i.next();
-                        if (pr.getAction(FocusAction.ID) != null) {
-                            m.add(pr.getAction(FocusAction.ID));
-                        }
-                    }
-                    if (toolBarActions.size() > 0) {
-                        m.addSeparator();
-                        for (Action a : toolBarActions) {
-                            JCheckBoxMenuItem cbmi = new JCheckBoxMenuItem(a);
-                            Actions.configureJCheckBoxMenuItem(cbmi, a);
-                            m.add(cbmi);
-                        }
-                    }
-                }
-            }
-        });
+        addPropertyChangeListener(new WindowMenuHandler(windowMenu));
 
         return m;
     }
@@ -491,5 +439,100 @@ public class DefaultMDIApplication extends AbstractApplication {
         labels.configureMenu(m, labels.getString("help"));
         m.add(mo.getAction(AboutAction.ID));
         return m;
+    }
+
+    /** Updates the menu items in the "Open Recent" file menu. */
+    private class OpenRecentMenuHandler implements PropertyChangeListener {
+
+        private JMenu openRecentMenu;
+        private LinkedList<OpenRecentAction> openRecentActions = new LinkedList<OpenRecentAction>();
+
+        public OpenRecentMenuHandler(JMenu openRecentMenu) {
+            this.openRecentMenu = openRecentMenu;
+            addPropertyChangeListener(this);
+            updateOpenRecentMenu();
+        }
+
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+
+            String name = evt.getPropertyName();
+            if (name == "recentFiles") {
+                updateOpenRecentMenu();
+            }
+        }
+
+        /**
+         * Updates the "File &gt; Open Recent" menu.
+         *
+         * @param openRecentMenu
+         */
+        protected void updateOpenRecentMenu() {
+            if (openRecentMenu.getItemCount() > 0) {
+                JMenuItem clearRecentFilesItem = (JMenuItem) openRecentMenu.getItem(
+                        openRecentMenu.getItemCount() - 1);
+
+                // Dispose the actions and the menu items that are currently in the menu
+                for (OpenRecentAction action : openRecentActions) {
+                    action.dispose();
+                }
+                openRecentActions.clear();
+                openRecentMenu.removeAll();
+
+                openRecentMenu.removeAll();
+
+                // Create new actions and add them to the menu
+                for (File f : recentFiles()) {
+                    openRecentMenu.add(new OpenRecentAction(DefaultMDIApplication.this, f));
+                }
+                if (recentFiles().size() > 0) {
+                    openRecentMenu.addSeparator();
+                }
+
+                // Add a separator and the clear recent files item.
+                openRecentMenu.add(clearRecentFilesItem);
+            }
+        }
+    }
+
+    /** Updates the menu items in the "Open Recent" file menu. */
+    private class WindowMenuHandler implements PropertyChangeListener {
+
+        private JMenu windowMenu;
+
+        public WindowMenuHandler(JMenu windowMenu) {
+            this.windowMenu = windowMenu;
+            addPropertyChangeListener(this);
+        }
+
+        public void propertyChange(PropertyChangeEvent evt) {
+
+            String name = evt.getPropertyName();
+            ApplicationModel mo = getModel();
+            if (name == "viewCount") {
+                JMenu m = windowMenu;
+                m.removeAll();
+
+                m.add(mo.getAction(ArrangeAction.CASCADE_ID));
+                m.add(mo.getAction(ArrangeAction.VERTICAL_ID));
+                m.add(mo.getAction(ArrangeAction.HORIZONTAL_ID));
+
+                m.addSeparator();
+                for (Iterator i = views().iterator(); i.hasNext();) {
+                    View pr = (View) i.next();
+                    if (pr.getAction(FocusAction.ID) != null) {
+                        m.add(pr.getAction(FocusAction.ID));
+                    }
+                }
+                if (toolBarActions.size() > 0) {
+                    m.addSeparator();
+                    for (Action a : toolBarActions) {
+                        JCheckBoxMenuItem cbmi = new JCheckBoxMenuItem(a);
+                        Actions.configureJCheckBoxMenuItem(cbmi, a);
+                        m.add(cbmi);
+                    }
+                }
+            }
+        }
     }
 }

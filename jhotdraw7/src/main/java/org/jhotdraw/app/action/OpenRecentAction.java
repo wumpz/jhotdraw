@@ -88,6 +88,7 @@ public class OpenRecentAction extends AbstractApplicationAction {
         }
         view.setMultipleOpenId(multipleOpenId);
         view.setEnabled(false);
+        view.getOpenChooser(); // get open chooser is needed by read method.
 
         // Open the file
         view.execute(new Worker() {

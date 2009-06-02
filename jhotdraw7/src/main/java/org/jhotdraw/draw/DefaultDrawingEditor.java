@@ -114,6 +114,9 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor,
     }
 
     public void setActiveView(DrawingView newValue) {
+        if (newValue==null) {
+new Throwable().printStackTrace();
+}
         DrawingView oldValue = activeView;
         activeView = newValue;
 
@@ -141,20 +144,19 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor,
     }
 
     public DrawingView getActiveView() {
-        if (activeView == null && views.size() != 0) {
-           setActiveView(views.iterator().next());
-        }
         return activeView;
     }
 
     private void updateActiveView() {
+        DrawingView aView=null;
         for (DrawingView v : views) {
             if (v.getComponent().isFocusOwner()) {
                 setActiveView(v);
                 return;
             }
+            aView = v;
         }
-        setActiveView(null);
+        setActiveView(aView);
     }
 
     @SuppressWarnings("unchecked")

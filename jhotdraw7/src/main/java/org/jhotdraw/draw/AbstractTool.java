@@ -94,6 +94,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
     
     public void deactivate(DrawingEditor editor) {
         this.editor = editor;
+        editorProxy.setTarget(null);
         isActive = false;
     }
     

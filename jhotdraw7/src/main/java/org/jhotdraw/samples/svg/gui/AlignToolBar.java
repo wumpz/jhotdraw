@@ -86,16 +86,19 @@ public class AlignToolBar extends AbstractToolBar {
 
                     GridBagConstraints gbc;
                     AbstractButton btn;
+                    AbstractSelectedAction d;
 
                     gbc = new GridBagConstraints();
                     gbc.gridy = 0;
-                    btn = new JButton(new AlignAction.West(editor, labels));
+                    btn = new JButton(d = new AlignAction.West(editor, labels));
+                    disposables.add(d);
                     btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                     btn.setText(null);
                     p.add(btn, gbc);
 
                     gbc.insets = new Insets(0, 3, 0, 0);
-                    btn = new JButton(new AlignAction.East(editor, labels));
+                    btn = new JButton(d = new AlignAction.East(editor, labels));
+                    disposables.add(d);
                     btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                     btn.putClientProperty("hideActionText", Boolean.TRUE);
                     btn.setText(null);
@@ -103,14 +106,16 @@ public class AlignToolBar extends AbstractToolBar {
 
                     gbc.gridy = 1;
                     gbc.insets = new Insets(3, 0, 0, 0);
-                    btn = new JButton(new AlignAction.North(editor, labels));
+                    btn = new JButton(d = new AlignAction.North(editor, labels));
+                    disposables.add(d);
                     btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                     btn.putClientProperty("hideActionText", Boolean.TRUE);
                     btn.setText(null);
                     p.add(btn, gbc);
 
                     gbc.insets = new Insets(3, 3, 0, 0);
-                    btn = new JButton(new AlignAction.South(editor, labels));
+                    btn = new JButton(d = new AlignAction.South(editor, labels));
+                    disposables.add(d);
                     btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                     btn.putClientProperty("hideActionText", Boolean.TRUE);
                     btn.setText(null);
@@ -119,7 +124,8 @@ public class AlignToolBar extends AbstractToolBar {
                     gbc.gridx = 0;
                     gbc.gridy = 2;
                     gbc.insets = new Insets(3, 0, 0, 0);
-                    btn = new JButton(new AlignAction.Horizontal(editor, labels));
+                    btn = new JButton(d=new AlignAction.Horizontal(editor, labels));
+                    disposables.add(d);
                     btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                     btn.putClientProperty("hideActionText", Boolean.TRUE);
                     btn.setText(null);
@@ -127,7 +133,8 @@ public class AlignToolBar extends AbstractToolBar {
 
                     gbc.gridx = 1;
                     gbc.insets = new Insets(3, 3, 0, 0);
-                    btn = new JButton(new AlignAction.Vertical(editor, labels));
+                    btn = new JButton(d=new AlignAction.Vertical(editor, labels));
+                    disposables.add(d);
                     btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                     btn.putClientProperty("hideActionText", Boolean.TRUE);
                     btn.setText(null);

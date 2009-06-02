@@ -148,6 +148,7 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
         drawing.write(domo);
         domo.closeElement();
         domo.save(out);
+        domo.dispose();
     }
     
     
@@ -175,6 +176,7 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
         }
         drawing.read(domi);
         domi.closeElement();
+        domi.dispose();
     }
     
     public boolean isDataFlavorSupported(DataFlavor flavor) {

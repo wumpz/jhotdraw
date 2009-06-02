@@ -27,9 +27,11 @@ import java.awt.*;
 import java.beans.*;
 import java.io.*;
 import java.lang.reflect.*;
+import java.util.Arrays;
 import javax.swing.*;
 import org.jhotdraw.app.*;
 import org.jhotdraw.app.action.*;
+import org.jhotdraw.beans.AbstractBean;
 import org.jhotdraw.draw.*;
 
 /**
@@ -44,17 +46,17 @@ import org.jhotdraw.draw.*;
  * <br>1.0 2006-02-07 Created.
  */
 public class SVGView extends AbstractView implements ExportableView {
-    public final static String GRID_VISIBLE_PROPERTY = "gridVisible";
 
+    public final static String GRID_VISIBLE_PROPERTY = "gridVisible";
     protected JFileChooser exportChooser;
     /**
      * Each SVGView uses its own undo redo manager.
      * This allows for undoing and redoing actions per view.
      */
     private UndoRedoManager undo;
-
     private HashMap<javax.swing.filechooser.FileFilter, InputFormat> fileFilterInputFormatMap;
     private HashMap<javax.swing.filechooser.FileFilter, OutputFormat> fileFilterOutputFormatMap;
+    private PropertyChangeListener propertyHandler;
 
     /**
      * Creates a new View.
@@ -77,12 +79,23 @@ public class SVGView extends AbstractView implements ExportableView {
         svgPanel.setDrawing(createDrawing());
         svgPanel.getDrawing().addUndoableEditListener(undo);
         initActions();
-        undo.addPropertyChangeListener(new PropertyChangeListener() {
+        undo.addPropertyChangeListener(propertyHandler = new PropertyChangeListener() {
 
             public void propertyChange(PropertyChangeEvent evt) {
                 setHasUnsavedChanges(undo.hasSignificantEdits());
             }
         });
+    }
+
+    @Override
+    public void dispose() {
+        DrawingEditor e = getEditor();
+        clear();
+
+        undo.removePropertyChangeListener(propertyHandler);
+        propertyHandler = null;
+        svgPanel.dispose();
+        super.dispose();
     }
 
     /**
@@ -163,7 +176,7 @@ public class SVGView extends AbstractView implements ExportableView {
             JFileChooser fc = getOpenChooser();
 
             final Drawing drawing = createDrawing();
-            
+
             // We start with the selected file format in the file chooser,
             // and then try out all formats we can import.
             // We need to try out all formats, because the user may have
@@ -176,7 +189,7 @@ public class SVGView extends AbstractView implements ExportableView {
                     success = true;
                 } catch (Exception e) {
                     e.printStackTrace();
-                        // try with the next input format
+                // try with the next input format
                 }
             }
             if (!success) {
@@ -187,7 +200,7 @@ public class SVGView extends AbstractView implements ExportableView {
                             success = true;
                             break;
                         } catch (Exception e) {
-                        // try with the next input format
+                            // try with the next input format
                         }
                     }
                 }
@@ -199,7 +212,9 @@ public class SVGView extends AbstractView implements ExportableView {
             SwingUtilities.invokeAndWait(new Runnable() {
 
                 public void run() {
+                    if (svgPanel.getDrawing()!=null) {
                     svgPanel.getDrawing().removeUndoableEditListener(undo);
+                    }
                     svgPanel.setDrawing(drawing);
                     svgPanel.getDrawing().addUndoableEditListener(undo);
                     undo.discardAllEdits();
@@ -231,15 +246,21 @@ public class SVGView extends AbstractView implements ExportableView {
     public void clear() {
         final Drawing newDrawing = createDrawing();
         try {
-            SwingUtilities.invokeAndWait(new Runnable() {
+            Runnable r = new Runnable() {
 
                 public void run() {
                     svgPanel.getDrawing().removeUndoableEditListener(undo);
+                    svgPanel.getDrawing().removeAllChildren();
                     svgPanel.setDrawing(newDrawing);
                     svgPanel.getDrawing().addUndoableEditListener(undo);
                     undo.discardAllEdits();
                 }
-            });
+            };
+            if (SwingUtilities.isEventDispatchThread()) {
+                r.run();
+            } else {
+                SwingUtilities.invokeAndWait(r);
+            }
         } catch (InvocationTargetException ex) {
             ex.printStackTrace();
         } catch (InterruptedException ex) {
@@ -252,7 +273,11 @@ public class SVGView extends AbstractView implements ExportableView {
         final JFileChooser c = new JFileChooser();
         fileFilterInputFormatMap = new HashMap<javax.swing.filechooser.FileFilter, InputFormat>();
         javax.swing.filechooser.FileFilter firstFF = null;
-        for (InputFormat format : svgPanel.getDrawing().getInputFormats()) {
+        Drawing d = svgPanel.getDrawing();
+        if (d == null) {
+            d = createDrawing();
+        }
+        for (InputFormat format : d.getInputFormats()) {
             javax.swing.filechooser.FileFilter ff = format.getFileFilter();
             if (firstFF == null) {
                 firstFF = ff;
@@ -320,11 +345,10 @@ public class SVGView extends AbstractView implements ExportableView {
 
     @Override
     public boolean canSaveTo(File file) {
-        return file.getName().endsWith(".svg") || 
+        return file.getName().endsWith(".svg") ||
                 file.getName().endsWith(".svgz");
     }
-    
- 
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -338,6 +362,7 @@ public class SVGView extends AbstractView implements ExportableView {
         setLayout(new java.awt.BorderLayout());
         add(svgPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
+
     public JFileChooser getExportChooser() {
         if (exportChooser == null) {
             exportChooser = createExportChooser();
@@ -358,8 +383,6 @@ public class SVGView extends AbstractView implements ExportableView {
         preferences.put("viewExportFile", f.getPath());
         preferences.put("viewExportFormat", filter.getDescription());
     }
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jhotdraw.samples.svg.SVGDrawingPanel svgPanel;
     // End of variables declaration//GEN-END:variables

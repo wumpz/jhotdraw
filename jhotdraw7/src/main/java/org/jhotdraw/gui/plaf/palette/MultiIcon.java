@@ -16,6 +16,7 @@ package org.jhotdraw.gui.plaf.palette;
 
 import java.awt.*;
 import javax.swing.*;
+import org.jhotdraw.util.Images;
 
 /**
  * An icon which paints one out of multiple icons depending on the state

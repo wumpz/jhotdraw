@@ -1,4 +1,6 @@
-/* Werner Randelshofer 2006-12-31
+/* Werner Randelshofer 2009-06-01
+ * Added dispose method.
+ /* Werner Randelshofer 2006-12-31
  * Made methods return typed collections.
  * Werner Randelshofer 2006-11-26 
  * Added method getAttribute(String name, Map valueSet, String defaultKey, boolean allowLiterals);
@@ -570,5 +572,9 @@ public interface IXMLElement
     * @param elt the element to compare to
     */
    public boolean equalsXMLElement(IXMLElement elt);
+
+
+    /** Gets rid of the IXMLElement and of all its children. */
+    public void dispose() ;
 
 }

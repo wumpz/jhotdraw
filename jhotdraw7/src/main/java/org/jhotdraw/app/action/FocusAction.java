@@ -32,6 +32,7 @@ import org.jhotdraw.app.View;
 public class FocusAction extends AbstractAction {
     public final static String ID = "window.focus";
     private View view;
+    private PropertyChangeListener ppc;
     
     /** Creates a new instance. */
     public FocusAction(View view) {
@@ -41,7 +42,7 @@ public class FocusAction extends AbstractAction {
         //setEnabled(false);
         setEnabled(view != null);
         
-        view.addPropertyChangeListener(new PropertyChangeListener() {
+        view.addPropertyChangeListener(ppc = new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
                 String name = evt.getPropertyName();
@@ -55,7 +56,21 @@ public class FocusAction extends AbstractAction {
             }
         });
     }
-    
+
+    public void dispose() {
+        setView(null);
+    }
+
+    public void setView(View newValue) {
+        if (view != null) {
+            view.removePropertyChangeListener(ppc);
+        }
+        view = newValue;
+        if (view != null) {
+            view.addPropertyChangeListener(ppc);
+        }
+    }
+
     public Object getValue(String key) {
         if (key == Action.NAME && view != null) {
             return getTitle();

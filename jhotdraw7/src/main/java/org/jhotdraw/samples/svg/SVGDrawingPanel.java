@@ -19,8 +19,10 @@ import org.jhotdraw.util.*;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.beans.PropertyChangeListener;
 import java.util.*;
 import javax.swing.*;
+import org.jhotdraw.beans.Disposable;
 import org.jhotdraw.gui.ToolBarLayout;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.gui.plaf.palette.PaletteLookAndFeel;
@@ -33,12 +35,13 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * @version 1.1 2008-03-26 Tweaked toolbar area. 
  * <br>1.0 11. March 2004  Created.
  */
-public class SVGDrawingPanel extends JPanel {
+public class SVGDrawingPanel extends JPanel implements Disposable {
 
     private UndoRedoManager undoManager;
     private DrawingEditor editor;
     private ResourceBundleUtil labels;
     private Preferences prefs;
+    private ContainerListener containerHandler;
 
     private class ItemChangeHandler implements ItemListener {
 
@@ -77,8 +80,6 @@ public class SVGDrawingPanel extends JPanel {
         viewToolBar.setView(view);
 
         undoManager = new UndoRedoManager();
-        setEditor(new DefaultDrawingEditor());
-        editor.setHandleAttribute(HandleAttributeKeys.HANDLE_SIZE, new Integer(7));
 
         DefaultDrawing drawing = new DefaultDrawing();
         view.setDrawing(drawing);
@@ -97,15 +98,16 @@ public class SVGDrawingPanel extends JPanel {
         }
         });
          */
-        
+
         // Sort the toolbars according to the user preferences
         ArrayList<JToolBar> sortme = new ArrayList<JToolBar>();
         for (Component c : toolsPane.getComponents()) {
             if (c instanceof JToolBar) {
-            sortme.add((JToolBar) c);
-                    }
+                sortme.add((JToolBar) c);
+            }
         }
         Collections.sort(sortme, new Comparator<JToolBar>() {
+
             public int compare(JToolBar tb1, JToolBar tb2) {
                 int i1 = prefs.getInt("toolBarIndex." + tb1.getName(), 0);
                 int i2 = prefs.getInt("toolBarIndex." + tb2.getName(), 0);
@@ -117,7 +119,7 @@ public class SVGDrawingPanel extends JPanel {
             toolsPane.add(tb);
         }
 
-        toolsPane.addContainerListener(new ContainerListener() {
+        toolsPane.addContainerListener(containerHandler = new ContainerListener() {
 
             public void componentAdded(ContainerEvent e) {
                 int i = 0;
@@ -135,9 +137,33 @@ public class SVGDrawingPanel extends JPanel {
         });
     }
 
+    public void dispose() {
+        toolsPane.removeContainerListener(containerHandler);
+        containerHandler = null;
+        setEditor(null);
+        for (PropertyChangeListener pcl : view.getListeners(PropertyChangeListener.class)) {
+            view.removePropertyChangeListener(pcl);
+        }
+        view.setDrawing(null);
+        actionToolBar.dispose();
+        alignToolBar.dispose();
+        arrangeToolBar.dispose();
+        canvasToolBar.dispose();
+        creationToolBar.dispose();
+        figureToolBar.dispose();
+        fillToolBar.dispose();
+        fontToolBar.dispose();
+        linkToolBar.dispose();
+        strokeToolBar.dispose();
+        viewToolBar.dispose();
+        removeAll();
+    }
+
     public void setDrawing(Drawing d) {
         undoManager.discardAllEdits();
-        view.getDrawing().removeUndoableEditListener(undoManager);
+        if (view.getDrawing() != null) {
+            view.getDrawing().removeUndoableEditListener(undoManager);
+        }
         view.setDrawing(d);
         d.addUndoableEditListener(undoManager);
     }
@@ -153,6 +179,7 @@ public class SVGDrawingPanel extends JPanel {
     public DrawingEditor getEditor() {
         return editor;
     }
+
     public void setEditor(DrawingEditor newValue) {
         DrawingEditor oldValue = editor;
         if (oldValue != null) {
@@ -172,11 +199,15 @@ public class SVGDrawingPanel extends JPanel {
         fontToolBar.setEditor(editor);
         figureToolBar.setEditor(editor);
         linkToolBar.setEditor(editor);
-        DrawingView temp = editor.getActiveView();
-        editor.setActiveView(view);
+        DrawingView temp = (editor == null) ? null : editor.getActiveView();
+        if (editor != null) {
+            editor.setActiveView(view);
+        }
         canvasToolBar.setEditor(editor);
         viewToolBar.setEditor(editor);
-        editor.setActiveView(temp);
+        if (editor != null) {
+            editor.setActiveView(temp);
+        }
     }
 
     /** This method is called from within the constructor to

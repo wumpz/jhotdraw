@@ -82,7 +82,7 @@ public class FillToolBar extends AbstractToolBar {
                     FILL_GRADIENT.set(defaultAttributes, null);
                     btn = ButtonFactory.createSelectionColorButton(editor,
                             FILL_COLOR, ButtonFactory.HSV_COLORS, ButtonFactory.HSV_COLORS_COLUMN_COUNT,
-                            "attribute.fillColor", labels, defaultAttributes, new Rectangle(3, 3, 10, 10));
+                            "attribute.fillColor", labels, defaultAttributes, new Rectangle(3, 3, 10, 10), disposables);
                     btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                     ((JPopupButton) btn).setAction(null, null);
                     gbc = new GridBagConstraints();
@@ -98,10 +98,10 @@ public class FillToolBar extends AbstractToolBar {
                     labels.configureToolBarButton(opacityPopupButton, "attribute.fillOpacity");
                     opacityPopupButton.setUI((PaletteButtonUI) PaletteButtonUI.createUI(opacityPopupButton));
                     opacityPopupButton.setIcon(
-                            new SelectionOpacityIcon(editor, FILL_OPACITY, FILL_COLOR, null, getClass().getResource(labels.getString("attribute.fillOpacity.icon")),
+                            new SelectionOpacityIcon(editor, FILL_OPACITY, FILL_COLOR, null, Images.createImage(getClass(),labels.getString("attribute.fillOpacity.icon")),
                             new Rectangle(5, 5, 6, 6), new Rectangle(4, 4, 7, 7)));
                     opacityPopupButton.setPopupAnchor(SOUTH_EAST);
-                    new SelectionComponentRepainter(editor, opacityPopupButton);
+                    disposables.add(new SelectionComponentRepainter(editor, opacityPopupButton));
                     gbc = new GridBagConstraints();
                     gbc.gridx = 0;
                     gbc.anchor = GridBagConstraints.FIRST_LINE_START;
@@ -110,7 +110,7 @@ public class FillToolBar extends AbstractToolBar {
                     p.add(opacityPopupButton, gbc);
                     opacitySlider.setUI((SliderUI) PaletteSliderUI.createUI(opacitySlider));
                     opacitySlider.setScaleFactor(100d);
-                    new FigureAttributeEditorHandler<Double>(FILL_OPACITY, opacitySlider, editor);
+                    disposables.add(new FigureAttributeEditorHandler<Double>(FILL_OPACITY, opacitySlider, editor));
                 }
                 break;
 
@@ -145,7 +145,7 @@ public class FillToolBar extends AbstractToolBar {
                     colorField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(colorField));
                     colorField.setFormatterFactory(ColorFormatter.createFormatterFactory());
                     colorField.setHorizontalAlignment(JTextField.LEFT);
-                    new FigureAttributeEditorHandler<Color>(FILL_COLOR, defaultAttributes, colorField, editor, true);
+                    disposables.add(new FigureAttributeEditorHandler<Color>(FILL_COLOR, defaultAttributes, colorField, editor, true));
                     gbc = new GridBagConstraints();
                     gbc.gridx = 0;
                     gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -153,7 +153,7 @@ public class FillToolBar extends AbstractToolBar {
                     p1.add(colorField, gbc);
                     btn = ButtonFactory.createSelectionColorButton(editor,
                             FILL_COLOR, ButtonFactory.HSV_COLORS, ButtonFactory.HSV_COLORS_COLUMN_COUNT,
-                            "attribute.fillColor", labels, defaultAttributes, new Rectangle(3, 3, 10, 10));
+                            "attribute.fillColor", labels, defaultAttributes, new Rectangle(3, 3, 10, 10), disposables);
                     btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                     ((JPopupButton) btn).setAction(null, null);
                     gbc = new GridBagConstraints();
@@ -170,7 +170,7 @@ public class FillToolBar extends AbstractToolBar {
                     opacityField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(opacityField));
                     opacityField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0d, 1d, 100d));
                     opacityField.setHorizontalAlignment(JTextField.LEFT);
-                    new FigureAttributeEditorHandler<Double>(FILL_OPACITY, opacityField, editor);
+                    disposables.add(new FigureAttributeEditorHandler<Double>(FILL_OPACITY, opacityField, editor));
                     gbc = new GridBagConstraints();
                     gbc.gridx = 0;
                     gbc.insets = new Insets(3, 0, 0, 0);
@@ -184,10 +184,10 @@ public class FillToolBar extends AbstractToolBar {
                     opacityPopupButton.setUI((PaletteButtonUI) PaletteButtonUI.createUI(opacityPopupButton));
                     opacityPopupButton.setPopupAnchor(SOUTH_EAST);
                     opacityPopupButton.setIcon(
-                            new SelectionOpacityIcon(editor, FILL_OPACITY, FILL_COLOR, null, getClass().getResource(labels.getString("attribute.fillOpacity.icon")),
+                            new SelectionOpacityIcon(editor, FILL_OPACITY, FILL_COLOR, null, Images.createImage(getClass(),labels.getString("attribute.fillOpacity.icon")),
                             new Rectangle(5, 5, 6, 6), new Rectangle(4, 4, 7, 7)));
                     opacityPopupButton.setPopupAnchor(SOUTH_EAST);
-                    new SelectionComponentRepainter(editor, opacityPopupButton);
+                    disposables.add(new SelectionComponentRepainter(editor, opacityPopupButton));
                     gbc = new GridBagConstraints();
                     gbc.gridx = 1;
                     gbc.anchor = GridBagConstraints.FIRST_LINE_START;
@@ -196,7 +196,7 @@ public class FillToolBar extends AbstractToolBar {
                     p2.add(opacityPopupButton, gbc);
                     opacitySlider.setUI((SliderUI) PaletteSliderUI.createUI(opacitySlider));
                     opacitySlider.setScaleFactor(100d);
-                    new FigureAttributeEditorHandler<Double>(FILL_OPACITY, opacitySlider, editor);
+                    disposables.add(new FigureAttributeEditorHandler<Double>(FILL_OPACITY, opacitySlider, editor));
 
                     // Add horizontal strips
                     gbc = new GridBagConstraints();

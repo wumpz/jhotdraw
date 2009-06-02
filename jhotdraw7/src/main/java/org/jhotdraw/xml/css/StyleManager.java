@@ -56,4 +56,8 @@ public class StyleManager {
             }
         }
     }
+
+    public void clear() {
+        rules.clear();
+    }
 }

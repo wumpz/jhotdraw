@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractAttributeEditorHandler.java  1.0  2009-04-14
+ * @(#)AbstractAttributeEditorHandler.java  1.1  2009-06-02
  * 
  * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -25,6 +25,8 @@ import java.util.Set;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.UndoableEdit;
+import org.jhotdraw.beans.Disposable;
+import org.jhotdraw.beans.WeakPropertyChangeListener;
 import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
@@ -38,9 +40,10 @@ import org.jhotdraw.draw.FigureSelectionListener;
  * currently selected Figure's in a DrawingEditor.
  *
  * @author Werner Randelshofer
- * @version 1.0 2009-04-14 Created.
+ * @version 1.1 2009-06-02 Added Disposable-support.
+ * <br>1.0 2009-04-14 Created.
  */
-public abstract class AbstractAttributeEditorHandler<T> {
+public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
 
     protected DrawingEditor drawingEditor;
     protected DrawingView view;
@@ -182,7 +185,7 @@ public abstract class AbstractAttributeEditorHandler<T> {
         }
         this.drawingEditor = newValue;
         if (drawingEditor != null) {
-            drawingEditor.addPropertyChangeListener(eventHandler);
+            drawingEditor.addPropertyChangeListener(new WeakPropertyChangeListener(eventHandler));
         }
         updateActiveView();
     }
@@ -360,5 +363,9 @@ public abstract class AbstractAttributeEditorHandler<T> {
             }
         }
         updateDepth--;
+    }
+
+    public void dispose() {
+        setDrawingEditor(null);
     }
 }

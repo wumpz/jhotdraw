@@ -1,7 +1,7 @@
 /*
- * @(#)NanoXMLDOMInput.java  2.1.1  2006-08-21
+ * @(#)NanoXMLDOMInput.java  2.2  2009-06-02
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -18,6 +18,7 @@ import java.util.*;
 import java.io.*;
 import java.awt.*;
 import net.n3.nanoxml.*;
+import org.jhotdraw.beans.Disposable;
 /**
  * NanoXMLDOMInput.
  * <p>
@@ -27,11 +28,12 @@ import net.n3.nanoxml.*;
  * Partners: {@link net.n3.nanoxml.XMLElement} as Adaptee.
  *
  * @author  Werner Randelshofer
- * @version 2.1.1 2006-08-21 Fixed exceptions.
+ * @version 2.2 2009-06-02 Added Disposable support.
+ * <br>2.1.1 2006-08-21 Fixed exceptions.
  * <br>2.0 2006-06-10 Support for Enum and double array objects added.
  * <br>1.0 February 17, 2004 Created.
  */
-public class NanoXMLDOMInput implements DOMInput {
+public class NanoXMLDOMInput implements DOMInput, Disposable {
     /**
      * This map is used to unmarshall references to objects to
      * the XML DOM. A key in this map is a String representing a marshalled
@@ -296,5 +298,12 @@ public class NanoXMLDOMInput implements DOMInput {
         
         closeElement();
         return o;
+    }
+
+    public void dispose() {
+        if (document != null) {
+            document.dispose();
+            document = null;
+        }
     }
 }

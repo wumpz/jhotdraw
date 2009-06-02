@@ -266,6 +266,20 @@ public class SVGInputFormat implements InputFormat {
             VIEWPORT_HEIGHT.basicSet(drawing, VIEWPORT_HEIGHT.get(viewport.attributes));
             VIEWPORT_WIDTH.basicSet(drawing, VIEWPORT_WIDTH.get(viewport.attributes));
         }
+
+        // Get rid of all objects we don't need anymore to help garbage collector.
+        document.dispose();
+        identifiedElements.clear();
+        elementObjects.clear();
+        viewportStack.clear();
+        styleManager.clear();
+
+        document = null;
+        identifiedElements = null;
+        elementObjects = null;
+        viewportStack = null;
+        styleManager = null;
+
     }
 
     private void initStorageContext(IXMLElement root) {

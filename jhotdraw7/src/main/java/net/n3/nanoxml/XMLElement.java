@@ -1,3 +1,5 @@
+/* Werner Randelshofer 2009-06-01
+ * Removed finalize method. Added dispose method.
 /* Werner Randelshofer 2006-11-28
  * Added method getDoubleAttribue(String name, Map valueSet, String defaultKey, boolean allowLiterals);
 /* Werner Randelshofer 2006-11-26
@@ -78,7 +80,7 @@ public class XMLElement implements IXMLElement, Serializable {
     /**
      * The child iterator.
      */
-    private ArrayList children;
+    private ArrayList<IXMLElement> children;
     
     
     /**
@@ -256,7 +258,7 @@ public class XMLElement implements IXMLElement, Serializable {
     
     /**
      * Cleans up the object when it's destroyed.
-     */
+     * /
     protected void finalize() throws Throwable {
         this.attributes.clear();
         this.attributes = null;
@@ -268,7 +270,7 @@ public class XMLElement implements IXMLElement, Serializable {
         this.systemID = null;
         this.parent = null;
         super.finalize();
-    }
+    }*/
     
     
     /**
@@ -1113,6 +1115,24 @@ public class XMLElement implements IXMLElement, Serializable {
            throw error;
        }
        return buf.toString();
+    }
+
+    /** Gets rid of the XMLElement and of all its children. */
+    public void dispose() {
+        if (children != null) {
+            for (IXMLElement c : children) {
+                c.dispose();
+            }
+        }
+        this.attributes.clear();
+        this.attributes = null;
+        this.children = null;
+        this.fullName = null;
+        this.name = null;
+        this.namespace = null;
+        this.content = null;
+        this.systemID = null;
+        this.parent = null;
     }
     // END PATCH Werner Randelshofer
 }

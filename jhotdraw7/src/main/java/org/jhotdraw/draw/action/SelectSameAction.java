@@ -31,8 +31,6 @@ public class SelectSameAction extends AbstractSelectedAction {
     public SelectSameAction(DrawingEditor editor) {
         super(editor);
         labels.configureAction(this, ID);
-        //putValue(AbstractAction.NAME, labels.getString("editSelectSame"));
-        //  putValue(AbstractAction.MNEMONIC_KEY, labels.getString("editSelectSameMnem"));
     }
     
     public void actionPerformed(java.awt.event.ActionEvent e) {
