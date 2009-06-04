@@ -102,12 +102,42 @@ public class SVGTextFigure
         if (cachedBounds == null) {
             cachedBounds = new Rectangle2D.Double();
             cachedBounds.setRect(getTextShape().getBounds2D());
+
+            String text = getText();
+            if (text == null || text.length() == 0) {
+                text = " ";
+            }
+
+            FontRenderContext frc = getFontRenderContext();
+            HashMap<TextAttribute,Object> textAttributes = new HashMap<TextAttribute,Object>();
+            textAttributes.put(TextAttribute.FONT, getFont());
+            if (FONT_UNDERLINE.get(this)) {
+                textAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+            }
+            TextLayout textLayout = new TextLayout(text, textAttributes, frc);
+
+           cachedBounds.setRect(coordinates[0].x,coordinates[0].y-textLayout.getAscent(), textLayout.getAdvance(), textLayout.getAscent());
+            
+            AffineTransform tx = new AffineTransform();
+            tx.translate(coordinates[0].x, coordinates[0].y);
+            switch (TEXT_ANCHOR.get(this)) {
+                case END :
+                    cachedBounds.x -=textLayout.getAdvance();
+                    break;
+                case MIDDLE :
+                    cachedBounds.x -=textLayout.getAdvance() / 2d;
+                    break;
+                case START :
+                    break;
+            }
+            tx.rotate(rotates[0]);
+
         }
         return (Rectangle2D.Double) cachedBounds.clone();
     }
     @Override public Rectangle2D.Double getDrawingArea() {
         if (cachedDrawingArea == null) {
-            Rectangle2D rx = getBounds();
+            Rectangle2D rx = getTextShape().getBounds2D();
             Rectangle2D.Double r = (rx instanceof Rectangle2D.Double) ?
                 (Rectangle2D.Double) rx :
                 new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
@@ -175,6 +205,7 @@ public class SVGTextFigure
         }
         return cachedTextShape;
     }
+
     
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         coordinates = new Point2D.Double[] {

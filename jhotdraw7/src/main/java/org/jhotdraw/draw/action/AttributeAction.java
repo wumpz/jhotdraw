@@ -21,7 +21,8 @@ import org.jhotdraw.draw.*;
 import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
- * AttributeAction.
+ * {@code AttributeAction} applies attribute values on the selected figures of
+ * the current {@code DrawingView} of a {@code DrawingEditor}.
  *
  * @author Werner Randelshofer
  * @version 3.1 2009-04-10 Factored method applyAttributes out of method

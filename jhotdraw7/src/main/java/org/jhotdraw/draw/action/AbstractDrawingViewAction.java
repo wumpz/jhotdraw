@@ -24,10 +24,19 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
 
 /**
  * Abstract super class for actions which act on a {@link DrawingView}.
+ * {@code AbstractDrawingEditorAction} can either act on a specific
+ * {@code DrawingView} or on the currently active {@link DrawingView} of
+ * a {@link DrawingEditor}.
  * <b>
- * {@code AbstractDrawingEditorAction} listens using a
- * {@link WeakPropertyChangeListener} on the {@code DrawingEditor} and thus may
- * become garbage collected if it is not referenced by any other object.
+ * Altough {@code AbstractDrawingViewAction} has its own enabled state, it
+ * is automatically disabled, if the associated {@code DrawingView} is disabled.
+ * <b>
+ * If the {@code AbstractDrawingEditorAction} acts on the currently active
+ * {@code DrawingView} it listens for property changes in the
+ * {@code DrawingEditor}. It listens using a {@link WeakPropertyChangeListener}
+ * on the {@code DrawingEditor} and thus may become garbage collected if it is
+ * not referenced by any other object.
+ *
  *
  * @author Werner Randelshofer
  * @version 3.0 2009-06-02 Register with DrawingEditor using

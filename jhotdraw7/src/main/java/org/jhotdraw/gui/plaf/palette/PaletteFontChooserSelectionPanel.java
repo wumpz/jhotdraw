@@ -67,7 +67,6 @@ private ResourceBundleUtil labels;
         setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
         setLayout(new java.awt.GridBagLayout());
 
-        collectionsPanel.setMinimumSize(new java.awt.Dimension(10, 10));
         collectionsPanel.setPreferredSize(new java.awt.Dimension(80, 200));
         collectionsPanel.setLayout(new java.awt.BorderLayout());
 
@@ -88,12 +87,10 @@ private ResourceBundleUtil labels;
         gridBagConstraints.weighty = 1.0;
         add(collectionsPanel, gridBagConstraints);
 
-        familiesPanel.setMinimumSize(new java.awt.Dimension(10, 10));
-        familiesPanel.setPreferredSize(new java.awt.Dimension(100, 200));
+        familiesPanel.setPreferredSize(new java.awt.Dimension(140, 200));
         familiesPanel.setLayout(new java.awt.BorderLayout());
 
         familiesScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        familiesScrollPane.setPreferredSize(new java.awt.Dimension(130, 240));
 
         familyList.setFont(familyList.getFont().deriveFont((float)11));
         familiesScrollPane.setViewportView(familyList);
@@ -111,7 +108,6 @@ private ResourceBundleUtil labels;
         gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 0);
         add(familiesPanel, gridBagConstraints);
 
-        facesPanel.setMinimumSize(new java.awt.Dimension(10, 10));
         facesPanel.setPreferredSize(new java.awt.Dimension(80, 200));
         facesPanel.setLayout(new java.awt.BorderLayout());
 

@@ -114,9 +114,6 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor,
     }
 
     public void setActiveView(DrawingView newValue) {
-        if (newValue==null) {
-new Throwable().printStackTrace();
-}
         DrawingView oldValue = activeView;
         activeView = newValue;
 

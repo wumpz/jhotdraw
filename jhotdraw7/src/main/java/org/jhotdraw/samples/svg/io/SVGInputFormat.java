@@ -21,6 +21,7 @@ import java.awt.geom.*;
 import java.awt.image.*;
 import java.io.*;
 import java.net.*;
+import java.text.ParseException;
 import java.util.*;
 import javax.imageio.*;
 import javax.swing.*;
@@ -33,6 +34,7 @@ import org.jhotdraw.geom.*;
 import org.jhotdraw.io.*;
 import org.jhotdraw.samples.svg.*;
 import org.jhotdraw.samples.svg.figures.*;
+import org.jhotdraw.text.FontFormatter;
 import static org.jhotdraw.samples.svg.SVGConstants.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 import org.jhotdraw.xml.css.CSSParser;
@@ -94,6 +96,8 @@ public class SVGInputFormat implements InputFormat {
      *
      */
     private StreamPosTokenizer toPathTokenizer;
+    /** FontFormatter for parsing font family names. */
+    private FontFormatter fontFormatter = new FontFormatter();
 
     /**
      * Each SVG element establishes a new Viewport.
@@ -1347,6 +1351,32 @@ public class SVGInputFormat implements InputFormat {
     }
 
     /**
+     * Returns a value as a String array.
+     * The values are separated by commas with optional quotes and white space.
+     */
+    public static String[] toQuotedAndCommaSeparatedArray(String str) throws IOException {
+        LinkedList<String> values = new LinkedList<String>();
+        StreamTokenizer tt = new StreamTokenizer(new StringReader(str));
+        tt.wordChars('a', 'z');
+        tt.wordChars('A', 'Z');
+        tt.wordChars(128 + 32, 255);
+        tt.whitespaceChars(0, ' ');
+        tt.quoteChar('"');
+        tt.quoteChar('\'');
+
+        while (tt.nextToken() != StreamTokenizer.TT_EOF) {
+            switch (tt.ttype) {
+                case StreamTokenizer.TT_WORD:
+                case '"':
+                case '\'':
+                    values.add(tt.sval);
+                    break;
+            }
+        }
+        return values.toArray(new String[values.size()]);
+    }
+
+    /**
      * Returns a value as a Point2D.Double array.
      * as specified in http://www.w3.org/TR/SVGMobile12/shapes.html#PointsBNF
      */
@@ -1819,10 +1849,10 @@ public class SVGInputFormat implements InputFormat {
 
         return paths.toArray(new BezierPath[paths.size()]);
     }
+
     /* Reads core attributes as listed in
      * http://www.w3.org/TR/SVGMobile12/feature.html#CoreAttribute
      */
-
     private void readCoreAttributes(IXMLElement elem, HashMap<AttributeKey, Object> a)
             throws IOException {
         // read "id" or "xml:id"
@@ -2962,7 +2992,33 @@ public class SVGInputFormat implements InputFormat {
         // Animatable:  	yes
         // Computed value:  	 Specified value, except inherit
         value = readInheritAttribute(elem, "font-family", "Dialog");
-        FONT_FACE.set(a, new Font(value, Font.PLAIN, 12));
+        String[] familyNames = toQuotedAndCommaSeparatedArray(value);
+        Font font = null;
+
+        // Try to find a font with exactly matching name
+        for (int i = 0; i < familyNames.length; i++) {
+            try {
+                font = (Font) fontFormatter.stringToValue(familyNames[i]);
+                break;
+            } catch (ParseException e) {
+            }
+        }
+        if (font == null) {
+            // Try to create a similar font using the first name in the list
+            if (familyNames.length > 0) {
+                fontFormatter.setAllowsUnknownFont(true);
+                try {
+                    font = (Font) fontFormatter.stringToValue(familyNames[0]);
+                } catch (ParseException e) {
+                }
+                fontFormatter.setAllowsUnknownFont(false);
+            }
+        }
+        if (font == null) {
+            // Fallback to the system Dialog font
+            font = new Font("Dialog", Font.PLAIN, 12);
+        }
+        FONT_FACE.set(a, font);
 
         // 'font-getChildCount'
         // Value:  	<absolute-getChildCount> | <relative-getChildCount> |

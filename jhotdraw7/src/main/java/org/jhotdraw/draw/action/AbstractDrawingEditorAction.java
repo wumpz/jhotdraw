@@ -24,7 +24,12 @@ import java.util.*;
 import java.beans.*;
 import org.jhotdraw.beans.WeakPropertyChangeListener;
 /**
- * Abstract super class for actions which act on a {@link DrawingEditor}.
+ * Abstract super class for actions which act on a {@link DrawingEditor} and
+ * which need to listen for property changes of the {@code DrawingEditor}.
+ * <b>
+ * Altough {@code AbstractDrawingEditorAction} has its own enabled state, it
+ * is automatically disabled, if the associated {@code DrawingEditor}
+ * is disabled.
  * <b>
  * {@code AbstractDrawingEditorAction} listens using a
  * {@link WeakPropertyChangeListener} on the {@code DrawingEditor} and thus may
