@@ -593,6 +593,7 @@ public class ButtonFactory {
                     labels.getToolTipTextProperty(labelKey),
                     swatch));
             a.putValue(Action.SHORT_DESCRIPTION, swatch.getName());
+            a.setUpdatEnabledState(false);
         }
 
         // No color
@@ -607,6 +608,7 @@ public class ButtonFactory {
                     labels.getToolTipTextProperty("attribute.color.noColor"),
                     new ColorIcon(null, labels.getToolTipTextProperty("attribute.color.noColor"), swatches.get(0).getIconWidth(), swatches.get(0).getIconHeight())));
             a.putValue(Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.noColor"));
+            a.setUpdatEnabledState(false);
         }
 
         // Color chooser
@@ -819,6 +821,7 @@ public class ButtonFactory {
                     labels.getToolTipTextProperty(labelKey),
                     swatch));
             a.putValue(Action.SHORT_DESCRIPTION, swatch.getName());
+            a.setUpdatEnabledState(false);
             dsp.add(a);
         }
 
@@ -834,6 +837,7 @@ public class ButtonFactory {
                     labels.getToolTipTextProperty("attribute.color.noColor"),
                     new ColorIcon(null, labels.getToolTipTextProperty("attribute.color.noColor"))));
             a.putValue(Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.noColor"));
+            a.setUpdatEnabledState(false);
             dsp.add(a);
         }
         // Color chooser
@@ -1006,6 +1010,7 @@ public class ButtonFactory {
                     swatch));
             dsp.add(a);
             a.putValue(Action.SHORT_DESCRIPTION, swatch.getName());
+            a.setUpdatEnabledState(false);
         }
 
         // No color
@@ -1021,6 +1026,7 @@ public class ButtonFactory {
                     new ColorIcon(null, labels.getToolTipTextProperty("attribute.color.noColor"))));
             dsp.add(a);
             a.putValue(Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.noColor"));
+            a.setUpdatEnabledState(false);
         }
 
         // Color chooser

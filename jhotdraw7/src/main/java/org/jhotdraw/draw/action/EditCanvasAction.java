@@ -33,7 +33,7 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * @author Werner Randelshofer
  * @version 1.0 2007-12-18 Created.
  */
-public class EditCanvasAction extends AbstractDrawingEditorAction {
+public class EditCanvasAction extends AbstractDrawingViewAction {
     public final static String ID = "view.editCanvas";
     private JFrame frame;
     private EditCanvasPanel settingsPanel;

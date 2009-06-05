@@ -18,7 +18,6 @@ import java.awt.image.BufferedImage;
 import java.awt.print.Pageable;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.prefs.Preferences;
 import org.jhotdraw.samples.svg.figures.*;
 import org.jhotdraw.samples.svg.io.*;
 import org.jhotdraw.undo.*;
@@ -27,11 +26,9 @@ import java.awt.*;
 import java.beans.*;
 import java.io.*;
 import java.lang.reflect.*;
-import java.util.Arrays;
 import javax.swing.*;
 import org.jhotdraw.app.*;
 import org.jhotdraw.app.action.*;
-import org.jhotdraw.beans.AbstractBean;
 import org.jhotdraw.draw.*;
 
 /**

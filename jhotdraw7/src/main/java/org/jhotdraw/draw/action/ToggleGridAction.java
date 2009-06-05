@@ -27,7 +27,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * <br>1.1 2006-04-21 Constructor with DrawingEditor paremeter added.
  * <br>1.0 January 16, 2006 Created.
  */
-public class ToggleGridAction extends AbstractDrawingEditorAction {
+public class ToggleGridAction extends AbstractDrawingViewAction {
     public final static String ID = "view.toggleGrid";
     /**
      * Creates a new instance.

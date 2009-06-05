@@ -30,11 +30,14 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
 /**
  * Abstract super class for actions which act on the selected figures of the
  * currently active {@link DrawingView} of a  {@link DrawingEditor}.
- * <b>
- * Altough {@code AbstractDrawingViewAction} has its own enabled state, it
- * is automatically disabled, if the associated {@code DrawingView} is disabled
- * or has no selection.
- * <b>
+ * <p>
+ * By default the enabled state of this action reflects the enabled state of the
+ * active {@code DrawingView}. If no drawing view is active, this action is
+ * disabled. When many actions listen to the enabled state of the active drawing
+ * views this can considerably slow down the editor. If updating the enabled
+ * state is not necessary, you can prevent the action from doing so using
+ * {@link #setUpdateEnabledState}.
+ * <p>
  * {@code AbstractDrawingEditorAction} listens using a
  * {@link WeakPropertyChangeListener} on the {@code DrawingEditor} and thus may
  * become garbage collected if it is not referenced by any other object.
@@ -55,7 +58,7 @@ public abstract class AbstractSelectedAction
         extends AbstractAction implements Disposable {
 
     private DrawingEditor editor;
-    private DrawingView activeView;
+    transient private DrawingView activeView;
     protected ResourceBundleUtil labels =
             ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
 
@@ -78,8 +81,9 @@ public abstract class AbstractSelectedAction
             }
         }
 
+        @Override
         public String toString() {
-            return AbstractSelectedAction.this + " " + this.getClass();
+            return AbstractSelectedAction.this + " " + this.getClass() + "@" + hashCode();
         }
 
         public void selectionChanged(FigureSelectionEvent evt) {
@@ -97,6 +101,10 @@ public abstract class AbstractSelectedAction
         updateEnabledState();
     }
 
+    /** Updates the enabled state of this action to reflect the enabled state
+     * of the active {@code DrawingView}. If no drawing view is active, this
+     * action is disabled.
+     */
     protected void updateEnabledState() {
         if (getView() != null) {
             setEnabled(getView().isEnabled() &&
@@ -111,24 +119,12 @@ public abstract class AbstractSelectedAction
     }
 
     public void setEditor(DrawingEditor editor) {
-        if (this.editor != null) {
-            this.editor.removePropertyChangeListener(eventHandler);
-            if (this.editor.getActiveView() != null) {
-                this.editor.getActiveView().removeFigureSelectionListener(eventHandler);
-            }
-        }
-        if (activeView != null) {
-            activeView.removeFigureSelectionListener(eventHandler);
-            activeView.removePropertyChangeListener(eventHandler);
+        if (eventHandler != null) {
+            unregisterEventHandler();
         }
         this.editor = editor;
-        if (this.editor != null) {
-            this.editor.addPropertyChangeListener(new WeakPropertyChangeListener(eventHandler));
-            activeView = editor.getActiveView();
-            if (activeView != null) {
-                activeView.addFigureSelectionListener(eventHandler);
-                activeView.addPropertyChangeListener(eventHandler);
-            }
+        if (eventHandler != null) {
+            registerEventHandler();
             updateEnabledState();
         }
     }
@@ -147,5 +143,70 @@ public abstract class AbstractSelectedAction
 
     protected void fireUndoableEditHappened(UndoableEdit edit) {
         getDrawing().fireUndoableEditHappened(edit);
+    }
+
+    /** By default, the enabled state of this action is updated to reflect
+     * the enabled state of the active {@code DrawingView}.
+     * Since this is not always necessary, and since many listening actions
+     * may considerably slow down the drawing editor, you can switch this
+     * behavior off here.
+     *
+     * @param newValue Specify false to prevent automatic updating of the
+     * enabled state.
+     */
+    public void setUpdatEnabledState(boolean newValue) {
+        // Note: eventHandler != null yields true, if we are currently updating
+        // the enabled state.
+        if (eventHandler != null != newValue) {
+            if (newValue) {
+                eventHandler = new EventHandler();
+                registerEventHandler();
+            } else {
+                unregisterEventHandler();
+                eventHandler = null;
+            }
+        }
+        if (newValue) {
+            updateEnabledState();
+        }
+    }
+
+    /** Returns true, if this action automatically updates its enabled
+     * state to reflect the enabled state of the active {@code DrawingView}.
+     */
+    public boolean isUpdatEnabledState() {
+        return eventHandler != null;
+    }
+
+    /** Unregisters the event handler from the drawing editor and the
+     * active drawing view.
+     */
+    private void unregisterEventHandler() {
+        if (editor != null) {
+            editor.removePropertyChangeListener(eventHandler);
+        }
+        if (activeView != null) {
+            activeView.removeFigureSelectionListener(eventHandler);
+            activeView.removePropertyChangeListener(eventHandler);
+            activeView = null;
+        }
+    }
+
+    /** Registers the event handler from the drawing editor and the 
+     * active drawing view.
+     */
+    private void registerEventHandler() {
+        if (editor != null) {
+            editor.addPropertyChangeListener(new WeakPropertyChangeListener(eventHandler));
+            if (activeView != null) {
+                activeView.removeFigureSelectionListener(eventHandler);
+                activeView.removePropertyChangeListener(eventHandler);
+            }
+            activeView = editor.getActiveView();
+            if (activeView != null) {
+                activeView.addFigureSelectionListener(eventHandler);
+                activeView.addPropertyChangeListener(eventHandler);
+            }
+        }
     }
 }

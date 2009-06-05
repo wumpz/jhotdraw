@@ -14,7 +14,6 @@
 package org.jhotdraw.beans;
 
 import java.beans.*;
-import java.io.*;
 
 /**
  * Abstract class for objects which have to support property change listeners.<p>
@@ -55,7 +54,9 @@ public class AbstractBean extends Object implements java.io.Serializable, Clonea
      * @param listener
      */
     public void removePropertyChangeListener(PropertyChangeListener listener) {
-        //propertySupport.removePropertyChangeListener(listener);
+        // Removes a property change listener from our list.
+        // We need a somewhat complex procedure here in case a listener
+        // has been registered using addPropertyChangeListener(new WeakPropertyChangeListener(listener));
         for (PropertyChangeListener l : propertySupport.getPropertyChangeListeners()) {
             if (l == listener) {
                 propertySupport.removePropertyChangeListener(l);
@@ -79,17 +80,19 @@ public class AbstractBean extends Object implements java.io.Serializable, Clonea
      * @param listener
      */
     public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
-        //propertySupport.removePropertyChangeListener(propertyName, listener);
+        // Removes a property change listener from our list.
+        // We need a somewhat complex procedure here in case a listener
+        // has been registered using addPropertyChangeListener(propertyName, new WeakPropertyChangeListener(listener));
         for (PropertyChangeListener l : propertySupport.getPropertyChangeListeners(propertyName)) {
             if (l == listener) {
-                propertySupport.removePropertyChangeListener(l);
+                propertySupport.removePropertyChangeListener(propertyName, l);
                 break;
             }
             if (l instanceof WeakPropertyChangeListener) {
                 WeakPropertyChangeListener wl = (WeakPropertyChangeListener) l;
                 PropertyChangeListener target = wl.getTarget();
                 if (target == listener) {
-                    propertySupport.removePropertyChangeListener(l);
+                    propertySupport.removePropertyChangeListener(propertyName, l);
                     break;
                 }
             }

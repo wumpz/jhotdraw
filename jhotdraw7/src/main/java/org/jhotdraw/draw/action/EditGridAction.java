@@ -33,7 +33,7 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * @author Werner Randelshofer
  * @version 1.0 July 31, 2007 Created.
  */
-public class EditGridAction extends AbstractDrawingEditorAction {
+public class EditGridAction extends AbstractDrawingViewAction {
     public final static String ID = "view.editGrid";
     private JDialog dialog;
     private EditGridPanel settingsPanel;

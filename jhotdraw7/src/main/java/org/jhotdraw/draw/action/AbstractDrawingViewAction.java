@@ -27,10 +27,13 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  * {@code AbstractDrawingEditorAction} can either act on a specific
  * {@code DrawingView} or on the currently active {@link DrawingView} of
  * a {@link DrawingEditor}.
- * <b>
- * Altough {@code AbstractDrawingViewAction} has its own enabled state, it
- * is automatically disabled, if the associated {@code DrawingView} is disabled.
- * <b>
+ * <p>
+ * By default the enabled state of this action reflects the enabled state of the
+ * {@code DrawingView}. If no drawing view is active, this action is
+ * disabled. When many actions listen to the enabled state this can considerably
+ * slow down the editor. If updating the enabled state is not necessary, you can
+ * disable it using {@link #setUpdateEnabledState}.
+ * <p>
  * If the {@code AbstractDrawingEditorAction} acts on the currently active
  * {@code DrawingView} it listens for property changes in the
  * {@code DrawingEditor}. It listens using a {@link WeakPropertyChangeListener}
@@ -53,25 +56,32 @@ public abstract class AbstractDrawingViewAction extends AbstractAction implement
 
     private DrawingEditor editor;
     private DrawingView specificView;
-    private DrawingView activeView;
-    private PropertyChangeListener propertyChangeHandler = new PropertyChangeListener() {
+    transient private DrawingView activeView;
+
+    private class EventHandler implements PropertyChangeListener {
 
         public void propertyChange(PropertyChangeEvent evt) {
             if (evt.getPropertyName().equals("enabled")) {
                 updateEnabledState();
             } else if (evt.getPropertyName() == DrawingEditor.ACTIVE_VIEW_PROPERTY) {
-                if (evt.getOldValue() != null) {
-                    activeView = ((DrawingView) evt.getOldValue());
-                    activeView.removePropertyChangeListener(propertyChangeHandler);
+                if (activeView != null) {
+                    activeView.removePropertyChangeListener(eventHandler);
+                    activeView = null;
                 }
                 if (evt.getNewValue() != null) {
                     activeView = ((DrawingView) evt.getNewValue());
-                    activeView.addPropertyChangeListener(propertyChangeHandler);
+                    activeView.addPropertyChangeListener(eventHandler);
                     updateEnabledState();
                 }
+                updateViewState();
             }
         }
+
+        public String toString() {
+            return AbstractDrawingViewAction.this+"^$EventHandler";
+        }
     };
+    private EventHandler eventHandler = new EventHandler();
 
     /**
      * Creates a view action which acts on the current view of the editor.
@@ -85,23 +95,17 @@ public abstract class AbstractDrawingViewAction extends AbstractAction implement
      */
     public AbstractDrawingViewAction(DrawingView view) {
         this.specificView = view;
-        specificView.addPropertyChangeListener(propertyChangeHandler);
+        registerEventHandler();
     }
 
     protected void setEditor(DrawingEditor newValue) {
-        if (editor != null) {
-            editor.removePropertyChangeListener(propertyChangeHandler);
-        }
-        if (activeView != null) {
-            activeView.removePropertyChangeListener(propertyChangeHandler);
+        if (eventHandler != null) {
+            unregisterEventHandler();
         }
         editor = newValue;
-        if (editor != null) {
-            editor.addPropertyChangeListener(new WeakPropertyChangeListener(propertyChangeHandler));
-            activeView = editor.getActiveView();
-            if (activeView != null) {
-                activeView.addPropertyChangeListener(propertyChangeHandler);
-            }
+        if (eventHandler != null) {
+            registerEventHandler();
+            updateEnabledState();
         }
     }
 
@@ -121,9 +125,10 @@ public abstract class AbstractDrawingViewAction extends AbstractAction implement
         getDrawing().fireUndoableEditHappened(edit);
     }
 
-    protected void viewChanged() {
-    }
-
+    /** Updates the enabled state of this action to reflect the enabled state
+     * of the active {@code DrawingView}. If no drawing view is active, this
+     * action is disabled.
+     */
     public void updateEnabledState() {
         if (getView() != null) {
             setEnabled(getView().isEnabled());
@@ -132,7 +137,85 @@ public abstract class AbstractDrawingViewAction extends AbstractAction implement
         }
     }
 
+    /** This method is called when the active drawing view of the
+     * drawing editor changed. The implementation in this class does nothing.
+     */
+    protected void updateViewState() {
+    }
+
+    /** Frees all resources held by this object, so that it can be garbage
+     * collected.
+     */
     public void dispose() {
         setEditor(null);
+    }
+
+    /** By default, the enabled state of this action is updated to reflect
+     * the enabled state of the active {@code DrawingView}.
+     * Since this is not always necessary, and since many listening actions
+     * may considerably slow down the drawing editor, you can switch this
+     * behavior off here.
+     *
+     * @param newValue Specify false to prevent automatic updating of the
+     * enabled state.
+     */
+    public void setUpdatEnabledState(boolean newValue) {
+        // Note: eventHandler != null yields true, if we are currently updating
+        // the enabled state.
+        if (eventHandler != null != newValue) {
+            if (newValue) {
+                eventHandler = new EventHandler();
+                registerEventHandler();
+            } else {
+                unregisterEventHandler();
+                eventHandler = null;
+            }
+        }
+        if (newValue) {
+            updateEnabledState();
+        }
+    }
+
+    /** Returns true, if this action automatically updates its enabled
+     * state to reflect the enabled state of the active {@code DrawingView}.
+     */
+    public boolean isUpdatEnabledState() {
+        return eventHandler != null;
+    }
+
+    /** Unregisters the event handler from the drawing editor and the
+     * active drawing view.
+     */
+    private void unregisterEventHandler() {
+        if (editor != null) {
+            editor.removePropertyChangeListener(eventHandler);
+        }
+        if (activeView != null) {
+            activeView.removePropertyChangeListener(eventHandler);
+            activeView = null;
+        }
+        if (specificView != null) {
+            specificView.removePropertyChangeListener(eventHandler);
+        }
+    }
+
+    /** Registers the event handler from the drawing editor and the
+     * active drawing view.
+     */
+    private void registerEventHandler() {
+        if (specificView != null) {
+            specificView.addPropertyChangeListener(eventHandler);
+        } else {
+            if (editor != null) {
+                editor.addPropertyChangeListener(new WeakPropertyChangeListener(eventHandler));
+                if (activeView != null) {
+                    activeView.removePropertyChangeListener(eventHandler);
+                }
+                activeView = editor.getActiveView();
+                if (activeView != null) {
+                    activeView.addPropertyChangeListener(eventHandler);
+                }
+            }
+        }
     }
 }

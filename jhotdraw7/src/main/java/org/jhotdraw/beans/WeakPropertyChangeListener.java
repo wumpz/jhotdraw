@@ -103,4 +103,8 @@ public class WeakPropertyChangeListener implements PropertyChangeListener {
     public PropertyChangeListener getTarget() {
         return weakRef.get();
     }
+
+    public String toString() {
+        return super.toString()+"["+weakRef.get()+"]";
+    }
 }

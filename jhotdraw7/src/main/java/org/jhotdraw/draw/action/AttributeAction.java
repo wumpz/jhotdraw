@@ -34,6 +34,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * <br>1.0 25. November 2003  Created.
  */
 public class AttributeAction extends AbstractSelectedAction {
+
     protected Map<AttributeKey, Object> attributes;
 
     /** Creates a new instance. */
@@ -145,7 +146,10 @@ public class AttributeAction extends AbstractSelectedAction {
         getDrawing().fireUndoableEditHappened(edit);
     }
 
+    @Override
     protected void updateEnabledState() {
-        setEnabled(getEditor().isEnabled());
+        if (getEditor() != null) {
+            setEnabled(getEditor().isEnabled());
+        }
     }
 }
