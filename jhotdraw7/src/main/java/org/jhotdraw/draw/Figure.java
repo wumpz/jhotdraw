@@ -23,16 +23,20 @@ import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMStorable;
 
 /**
- * A Figure knows its bounds and it can draw itself. A figure is an element of a
- * {@link Drawing}. 
+ * A <em>figure</em> is an element of a {@link Drawing}.
  * <p>
- * A figure has a set of {@link Handle}s to manipulate its shape or attributes. A figure
- * has one or more {@link Connector}s that define how to locate a connection point.
+ * {@code Figure} knows its bounds and it can draw itself.
  * <p>
  * Figures can have an open ended set of attributes. An attribute is identified
  * by an {@link AttributeKey}.
  * <p>
- * Specialized subinterfaces of Figure allow to compose a figure from
+ * A figure can have {@link Connector}s that define how to locate a
+ * connection point on the figure.
+ * <p>
+ * A figure can create a set of {@link Handle}s which can interactively
+ * manipulate aspects of the figure.
+ * <p>
+ * Specialized subinterfaces of {@code Figure} allow to compose a figure from
  * several figures, to connect a figure to other figures, to hold text or
  * an image, and to layout a figure.
  * <p>

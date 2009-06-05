@@ -20,6 +20,10 @@ import org.jhotdraw.samples.svg.figures.*;
 import org.jhotdraw.xml.*;
 /**
  * ODGDrawing.
+ * <p>
+ * XXX - This class is going away in future versions: We don't need
+ * to subclass QuadTreeDrawing for ODG since we can represent all ODG-specific
+ * AttributeKey's instead of using JavaBeans properties.
  * 
  * @author Werner Randelshofer
  * @version 1.0 2007-06-24 Created.

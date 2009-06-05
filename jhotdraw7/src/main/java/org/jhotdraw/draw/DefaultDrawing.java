@@ -13,7 +13,6 @@
  */
 package org.jhotdraw.draw;
 
-import org.jhotdraw.geom.Dimension2DDouble;
 import java.awt.*;
 import java.awt.geom.*;
 import org.jhotdraw.util.*;
@@ -41,7 +40,6 @@ public class DefaultDrawing
         extends AbstractDrawing {
 
     private boolean needsSorting = false;
-    private Dimension2DDouble canvasSize;
 
     /** Creates a new instance. */
     public DefaultDrawing() {
@@ -224,26 +222,9 @@ public class DefaultDrawing
         // empty
     }
 
-    public void setCanvasSize(Dimension2DDouble newValue) {
-        Dimension2DDouble oldValue = canvasSize;
-        canvasSize = (newValue == null) ? null : (Dimension2DDouble) newValue.clone();
-        firePropertyChange(CANVAS_SIZE_PROPERTY, oldValue, newValue);
-    }
-
-    public Dimension2DDouble getCanvasSize() {
-        return (canvasSize == null) ? null : (Dimension2DDouble) canvasSize.clone();
-    }
-
     @Override
     public int indexOf(Figure figure) {
         return children.indexOf(figure);
-    }
-
-    @Override
-    public DefaultDrawing clone() {
-        DefaultDrawing that = (DefaultDrawing) super.clone();
-        that.canvasSize = (this.canvasSize == null) ? null : (Dimension2DDouble) this.canvasSize.clone();
-        return that;
     }
 
     @Override

@@ -23,7 +23,7 @@ import org.jhotdraw.geom.Geom;
 
 /**
  * QuadTreeDrawing uses a QuadTree2DDouble to improve responsiveness of drawings
- * which contain many children.
+ * which contain many figures.
  *
  * @author Werner Randelshofer
  * @version 2.2.2 2009-04-04 draw() method did not check isVisible() property.
@@ -39,7 +39,6 @@ public class QuadTreeDrawing extends AbstractDrawing {
 
     private QuadTree<Figure> quadTree = new QuadTree<Figure>();
     private boolean needsSorting = false;
-    private Dimension2DDouble canvasSize;
 
     @Override
     public int indexOf(Figure figure) {
@@ -283,19 +282,8 @@ public class QuadTreeDrawing extends AbstractDrawing {
         // empty
     }
 
-    public void setCanvasSize(Dimension2DDouble newValue) {
-        Dimension2DDouble oldValue = canvasSize;
-        canvasSize = (newValue == null) ? null : (Dimension2DDouble) newValue.clone();
-        firePropertyChange("canvasSize", oldValue, newValue);
-    }
-
-    public Dimension2DDouble getCanvasSize() {
-        return (canvasSize == null) ? null : (Dimension2DDouble) canvasSize.clone();
-    }
-
     public QuadTreeDrawing clone() {
         QuadTreeDrawing that = (QuadTreeDrawing) super.clone();
-        that.canvasSize = (this.canvasSize == null) ? null : (Dimension2DDouble) this.canvasSize.clone();
         that.quadTree = new QuadTree<Figure>();
         for (Figure f : getChildren()) {
             quadTree.add(f, f.getDrawingArea());
