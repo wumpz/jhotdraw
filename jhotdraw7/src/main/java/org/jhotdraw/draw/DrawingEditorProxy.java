@@ -12,7 +12,7 @@
  * the copyright holders. For details see accompanying license terms. 
  */
 
-package org.jhotdraw.draw.action;
+package org.jhotdraw.draw;
 
 import java.awt.Container;
 import java.awt.Cursor;
@@ -21,20 +21,19 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 import org.jhotdraw.beans.AbstractBean;
-import org.jhotdraw.draw.AttributeKey;
-import org.jhotdraw.draw.DrawingEditor;
-import org.jhotdraw.draw.DrawingView;
-import org.jhotdraw.draw.Figure;
-import org.jhotdraw.draw.Tool;
 
 /**
  * DrawingEditorProxy.
- * <p>
- * Design pattern:<br>
- * Name: Proxy.<br>
- * Role: Proxy.<br>
- * Partners: {@link org.jhotdraw.draw.DrawingEditor} as Subject, 
- * {@link org.jhotdraw.draw.DefaultDrawingEditor} as Real Subject.
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Proxy</em><br>
+ * To remove the need for null-handling, {@code AbstractTool} makes use of
+ * a proxy for {@code DrawingEditor}.
+ * Subject: {@link DrawingEditor}; Proxy: {@link DrawingEditorProxy};
+ * Client: {@link AbstractTool}.
+ * <hr>
+ *
  *
  * @author Werner Randelshofer
  * @version 1.0 April 29, 2007 Created.

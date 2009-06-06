@@ -17,7 +17,17 @@ package org.jhotdraw.app;
 import javax.swing.JFileChooser;
 
 /**
- * Interface for views which can select a directory.
+ * The interface of a {@link View} which can open a directory.
+ *
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Framework</em><br>
+ * The interfaces and classes listed below define together the contracts
+ * of a smaller framework inside of the JHotDraw framework for document oriented
+ * applications.<br>
+ * Contract: {@link DirectoryView}, {@link org.jhotdraw.app.action.LoadDirectoryAction}.
+ * <hr>
  *
  * @author Werner Randelshofer, Staldenmattweg 2, CH-6405 Immensee
  * @version 1.0 2009-02-08 Created.

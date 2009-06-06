@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
+import org.jhotdraw.gui.event.SelectionComponentDisplayer;
 import java.beans.*;
 import java.util.prefs.*;
 import javax.swing.border.*;

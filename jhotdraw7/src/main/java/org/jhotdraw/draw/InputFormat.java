@@ -16,20 +16,28 @@ package org.jhotdraw.draw;
 
 import java.awt.datatransfer.*;
 import java.io.*;
-import java.net.*;
-import java.util.*;
 import javax.swing.*;
-import javax.swing.filechooser.*;
 
 /**
- * Interface to define an input format for a Drawing. An InputFormat is a 
- * strategy that knows how to restore a Drawing according to a specific encoding.
- * Typically it can be recognized by a Mime type or by a file extension. 
- * To identify a valid file format for a Drawing an appropriate FileFilter for a
- * javax.swing.JFileChooser component can be requested.
+ * An <em>input format</em> implements a strategy for reading a {@link Drawing}
+ * which is encoded in an {@code InputStream}, a {@code File} or a
+ * {@code Transferable}.
+ * <p>
+ * Typically an encoding can be recognized by a Mime type or by a file extension.
+ * To identify the encoding used by a file, an appropriate {@code FileFilter}
+ * for a javax.swing.JFileChooser component can be requested from {@code InputFormat}.
  * <p>
  * This interface intentionally contains many identical operations like
  * OutputFormat to make it easy, to write classes that implement both interfaces.
+ *
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Strategy</em><br>
+ * {@code InputFormat} encapsulates a strategy for reading drawings from
+ * input streams.<br>
+ * Strategy: {@link InputFormat}; Context: {@link Drawing}.
+ * <hr>
  *
  * @author Werner Randelshofer
  * @version 3.0 2008-05-24 Added parameter isReplaceDrawing. 

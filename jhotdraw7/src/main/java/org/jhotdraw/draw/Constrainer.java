@@ -18,8 +18,22 @@ import java.awt.geom.*;
 import javax.swing.event.ChangeListener;
 
 /**
- * Interface to constrain points and figures on a Drawing.
- * This can be used to implement different kinds of grids.
+ * A <em>constrainer</em> constrains editing operations performed by
+ * {@link Tool}s and {@link Handle}s on a {@link DrawingView}.
+ * <p>
+ * {@code Constrainer} objects are associated to {@code DrawingView}'s.
+ * <p>
+ * Constrainers can draw themselves onto the drawing view to visualize the
+ * constraints that they impose. Typically by drawing a grid of some kind.
+ * 
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Strategy</em><br>
+ * Editing can be constrained by a constrainer which is associated to a
+ * drawing view.<br>
+ * Context: {@link DrawingView}; Strategy: {@link Constrainer}.
+ * <hr>
  *
  * @author  Werner Randelshofer
  * @version 5.0 2007-04-29 Werner Randelshofer: Refactored interface.

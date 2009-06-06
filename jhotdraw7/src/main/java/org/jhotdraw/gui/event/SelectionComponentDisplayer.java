@@ -11,7 +11,7 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-package org.jhotdraw.samples.svg.gui;
+package org.jhotdraw.gui.event;
 
 import java.awt.Dimension;
 import java.beans.*;
@@ -23,7 +23,7 @@ import org.jhotdraw.draw.*;
  * Calls setVisible(true/false) on components, which show attributes of the 
  * drawing editor and of its views based on the current selection.
  * <p>
- * Holds a @{code WeakReference} on the component. Automatically disposes
+ * Holds a {@code WeakReference} on the component. Automatically disposes
  * itself if the component no longer exists.
  *
  * @author Werner Randelshofer

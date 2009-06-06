@@ -14,6 +14,7 @@
 
 package org.jhotdraw.samples.odg;
 
+import org.jhotdraw.gui.event.FigureAttributeEditorHandler;
 import org.jhotdraw.text.JavaNumberFormatter;
 import java.awt.*;
 import javax.swing.*;

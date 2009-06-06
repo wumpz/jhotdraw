@@ -35,7 +35,8 @@ import java.io.*;
  * desired - for example when figures need to be temporarily removed in order to
  * group or ungroup them.</li>
  * 
- * <li>A drawing can find figures given a point or a rectangular region.
+ * <li>A drawing can find contained figures given a point or a rectangular
+ * region.
  * Specialized implementations of the {@code Drawing} interface can use
  * optimized strategies and data structures to find figures faster.</li>
  * 
@@ -48,6 +49,36 @@ import java.io.*;
  * {@link OutputFormat}s, allowing to read and write a drawing from/to a
  * stream, a file or the clipboard.</li>
  * </ul>
+ *
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Framework</em><br>
+ * The following interfaces define the contracts of a framework for structured
+ * drawing editors:<br>
+ * Contract: {@link Drawing}, {@link Figure}, {@link CompositeFigure},
+ * {@link ConnectionFigure}, {@link Connector}, {@link DrawingView},
+ * {@link DrawingEditor}, {@link Handle} and {@link Tool}.
+ *
+ * <p><em>Model-View-Controller</em><br>
+ * The following classes implement together the Model-View-Controller design
+ * pattern:<br>
+ * Model: {@link Drawing}; View: {@link DrawingView}; Controller:
+ * {@link DrawingEditor}.
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Strategy</em><br>
+ * {@code OutputFormat} encapsulates a strategy for writing drawings to
+ * output streams.<br>
+ * Strategy: {@link OutputFormat}; Context: {@link Drawing}.
+ *
+ * <p><em>Strategy</em><br>
+ * {@code InputFormat} encapsulates a strategy for reading drawings from input
+ * streams.<br>
+ * Strategy: {@link InputFormat}; Context: {@link Drawing}.
+ * <hr>
+ * <hr>
  *
  * @author Werner Randelshofer
  * @version 3.3 2009-06-05 Removed unused canvasSize property. Removed methods
@@ -140,6 +171,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * 
      * @param figure that is part of the drawing and should be removed
      */
+    @Override
     int basicRemove(Figure figure);
     /**
      * Removes the specified figures temporarily from the drawing.
@@ -158,6 +190,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * @param figure that is part of the drawing and should be removed
      * @see #basicRemove(Figure)
      */
+    @Override
     void basicAdd(Figure figure);
     /**
      * Reinserts a figure which was temporarily removed using basicRemove.
@@ -191,7 +224,10 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
     List<Figure> findFiguresWithin(Rectangle2D.Double bounds);
     /**
      * Finds a top level Figure. Use this call for hit detection that
-     * should not descend into the figure's children.
+     * should not descend into children of composite figures.
+     * <p>
+     * Use {@link #findFigureInside} If you need to descend into children of
+     * composite figures.
      */
     Figure findFigure(Point2D.Double p);
     
@@ -219,12 +255,25 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * Returns a list of the figures in Z-Order from front to back.
      */
     List<Figure> getFiguresFrontToBack();
+
     /**
-     * Finds a figure but descends into a figure's
-     * children. Use this method to implement <i>click-through</i>
-     * hit detection, that is, you want to detect the inner most
-     * figure containing the given point.
+     * Finds the innermost figure at the specified location.
+     * <p>
+     * In case a {@code CompositeFigure} is at the specified location, this
+     * method descends into its children and into its children's children until
+     * the innermost figure is found.
+     * <p>
+     * This functionality is implemented using the <em>Chain of
+     * Responsibility</em> design pattern in the {@code Figure} interface.
+     * Since it is often used from a drawing object as the starting point,
+     * and since {@code Drawing} defines other find methods as well, it is
+     * defined here again for clarity.
+     *
+     * @param p A location on the drawing.
+     * @return Returns the innermost figure at the location, or null if the
+     * location is not contained in a figure.
      */
+    @Override
     Figure findFigureInside(Point2D.Double p);
     
     /**

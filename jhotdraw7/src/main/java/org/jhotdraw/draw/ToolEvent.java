@@ -19,6 +19,16 @@ import java.awt.geom.*;
 import java.util.*;
 /**
  * An event sent to ToolListener's.
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Observer</em><br>
+ * State changes of tools can be observed by other objects. Specifically
+ * {@code DrawingEditor} observes area invalidations of tools and repaints
+ * its active drawing view accordingly.<br>
+ * Subject: {@link Tool}; Observer: {@link ToolListener}; Event:
+ * {@link ToolEvent}; Concrete Observer: {@link DrawingEditor}.
+ * <hr>
  *
  * @author Werner Randelshofer
  * @version 3.0 2006-02-13 Changed to support multiple views.

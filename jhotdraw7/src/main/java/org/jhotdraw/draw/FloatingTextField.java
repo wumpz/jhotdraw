@@ -21,10 +21,24 @@ import java.awt.event.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
- * A text field overlay that is used to edit a TextFigure.
- * A FloatingTextField requires a two step initialization:
+ * A <em>floating text field</em> that is used to edit a {@link TextHolderFigure}.
+ * <p>
+ * {@code FloatingTextField} requires a two step initialization:
  * In a first step the overlay is created and in a
  * second step it can be positioned.
+ *
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Framework</em><br>
+ * The text creation and editing tools and the {@code TextHolderFigure}
+ * interface define together the contracts of a smaller framework inside of the
+ * JHotDraw framework for  structured drawing editors.<br>
+ * Contract: {@link TextHolderFigure}, {@link TextCreationTool},
+ * {@link TextAreaCreationTool}, {@link TextEditingTool},
+ * {@link TextAreaEditingTool}, {@link FloatingTextField},
+ * {@link FloatingTextArea}.
+ * <hr>
  *
  * @see org.jhotdraw.draw.TextFigure
  *

@@ -36,6 +36,18 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * implements the TextHolderFigure interface and that is editable. Then it overlays
  * a text area over the drawing where the user can enter the text for the Figure.
  * </p>
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Framework</em><br>
+ * The text creation and editing tools and the {@code TextHolderFigure}
+ * interface define together the contracts of a smaller framework inside of the
+ * JHotDraw framework for  structured drawing editors.<br>
+ * Contract: {@link TextHolderFigure}, {@link TextCreationTool},
+ * {@link TextAreaCreationTool}, {@link TextEditingTool},
+ * {@link TextAreaEditingTool}, {@link FloatingTextField},
+ * {@link FloatingTextArea}.
+ * <hr>
  *
  * @author Werner Randelshofer
  * @version 1.0 2009-04-16 Refactored from TextAreaTool.

@@ -13,21 +13,11 @@
  */
 package org.jhotdraw.draw;
 
-import java.awt.image.*;
 import java.io.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.*;
-import java.awt.event.*;
-import javax.swing.event.*;
 import java.util.*;
-import org.jhotdraw.draw.action.*;
 import org.jhotdraw.gui.Worker;
-import org.jhotdraw.util.*;
-import org.jhotdraw.geom.*;
-import org.jhotdraw.undo.*;
 
 /**
  * A tool to create new figures that implement the ImageHolderFigure
@@ -41,6 +31,21 @@ import org.jhotdraw.undo.*;
  * <li>Press the mouse button and drag the mouse over the DrawingView. 
  * This defines the bounds of the created figure.</li>
  * </ol>
+ *
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Framework</em><br>
+ * The {@code ImageTool} and the {@code ImageHolderFigure} define the
+ * contracts of a smaller framework inside of the JHotDraw framework for
+ * structured drawing editors.<br>
+ * Contract: {@link ImageHolderFigure}, {@link ImageTool}.
+ *
+ * <p><em>Prototype</em><br>
+ * The {@code ImageTool} creates new figures by cloning a prototype
+ * {@code ImageHolderFigure} object.<br>
+ * Prototype: {@link ImageHolderFigure}; Client: {@link ImageTool}.
+ * <hr>
  * 
  * @author Werner Randelshofer
  * @version 2.0 2008-05-24 Changed behavior of ImageTool. 

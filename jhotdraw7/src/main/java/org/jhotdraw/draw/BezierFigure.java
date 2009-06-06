@@ -26,8 +26,8 @@ import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 /**
- * A BezierFigure can be used to draw arbitrary shapes using a <code>BezierPath</code>.
- * It can be used to draw an open path or a closed shape.
+ * A <em>bezier figure</em> can be used to draw arbitrary shapes using a
+ * {@link BezierPath}. It can be used to draw an open path or a closed shape.
  * <p>
  * A BezierFigure can have straight path segments and curved segments.
  * A straight path segment can be added by clicking on the drawing area.
@@ -38,6 +38,14 @@ import org.jhotdraw.xml.DOMOutput;
  * which closes the path, or by double clicking on the drawing area, or by
  * selecting a different tool in the DrawingEditor.
  * 
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Strategy</em><br>
+ * {@code LineDecoration} encapsulats a strategy for drawing line decorations
+ * of a {@code BezierFigure}.<br>
+ * Strategy: {@link LineDecoration}; Context: {@link BezierFigure}.
+ * <hr>
  *
  * @see org.jhotdraw.geom.BezierPath
  *

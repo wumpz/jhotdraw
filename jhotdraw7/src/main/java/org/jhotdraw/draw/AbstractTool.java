@@ -25,6 +25,16 @@ import javax.swing.event.*;
 
 /**
  * AbstractTool.
+ * 
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Proxy</em><br>
+ * To remove the need for null-handling, {@code AbstractTool} makes use of
+ * a proxy for {@code DrawingEditor}.
+ * Subject: {@link DrawingEditor}; Proxy: {@link DrawingEditorProxy};
+ * Client: {@link AbstractTool}.
+ * <hr>
  *
  * @author Werner Randelshofer
  * @version 5.0 2007-11-05 Changed superclass from Object to AbstractBean. 

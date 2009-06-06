@@ -13,6 +13,9 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
+import org.jhotdraw.gui.event.SelectionComponentRepainter;
+import org.jhotdraw.gui.event.FigureAttributeEditorHandler;
+import org.jhotdraw.gui.event.SelectionComponentDisplayer;
 import org.jhotdraw.text.JavaNumberFormatter;
 import javax.swing.border.*;
 import org.jhotdraw.gui.*;

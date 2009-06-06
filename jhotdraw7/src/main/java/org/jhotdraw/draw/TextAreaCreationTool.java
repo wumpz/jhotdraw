@@ -53,6 +53,24 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * XXX - Maybe this class should be split up into a CreateTextAreaTool and
  * a EditTextAreaTool.
  * </p>
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Framework</em><br>
+ * The text creation and editing tools and the {@code TextHolderFigure}
+ * interface define together the contracts of a smaller framework inside of the
+ * JHotDraw framework for  structured drawing editors.<br>
+ * Contract: {@link TextHolderFigure}, {@link TextCreationTool},
+ * {@link TextAreaCreationTool}, {@link TextEditingTool},
+ * {@link TextAreaEditingTool}, {@link FloatingTextField},
+ * {@link FloatingTextArea}.
+ *
+ * <p><em>Prototype</em><br>
+ * The text creation tools create new figures by cloning a prototype
+ * {@code TextHolderFigure} object.<br>
+ * Prototype: {@link TextHolderFigure}; Client: {@link TextCreationTool},
+ * {@link TextAreaCreationTool}.
+ * <hr>
  *
  * @author Werner Randelshofer
  * @version 2.3.1 2009-03-29 Editing of a TextArea which is behind another figure

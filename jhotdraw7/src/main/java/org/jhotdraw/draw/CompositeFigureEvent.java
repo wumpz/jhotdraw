@@ -20,6 +20,15 @@ import java.util.*;
 /**
  * Change event passed to CompositeFigureListeners.
  *
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Observer</em><br>
+ * Changes in the composition of a composite figure can be observed.<br>
+ * Subject: {@link CompositeFigure}; Observer:
+ * {@link CompositeFigureListener}; Event: {@link CompositeFigureEvent}.
+ * <hr>
+ *
  * @author Werner Randelshofer
  * @version 3.0 2007-07-17 Renamed from DrawingEvent to CompositeFigureEvent. 
  * <br>2.1 2007-05-21 Added z-index property. 

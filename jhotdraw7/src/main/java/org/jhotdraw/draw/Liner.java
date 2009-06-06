@@ -1,5 +1,4 @@
 /*
-/*
  * @(#)Liner.java  1.0  2006-01-20
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
@@ -19,13 +18,17 @@ import java.util.*;
 import java.io.*;
 import org.jhotdraw.geom.*;
 /**
- * A Liner encapsulates an algorithm to lineout
- * a ConnectionFigure.
- * <p>
- * Design pattern:<br>
- * Name: Strategy.<br>
- * Role: Strategy.<br>
- * Partners: {@link LineFigure} as Context.
+ * A <em>liner</em> encapsulates an algorithm to lay out the bezier path of
+ * a {@link ConnectionFigure}.
+ *
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Strategy</em><br>
+ * The control points of the bezier path of a connection figure can be laid out
+ * using different layout algorithms which are implemented by liners.<br>
+ * Context: {@link ConnectionFigure}; Strategy: {@link Liner}.
+ * <hr>
  * 
  * @author Werner Randelshofer
  * @version 1.0 2006-01-20 Created.

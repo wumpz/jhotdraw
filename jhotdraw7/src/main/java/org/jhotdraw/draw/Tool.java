@@ -18,8 +18,9 @@ package org.jhotdraw.draw;
 import java.awt.*;
 import java.awt.event.*;
 /**
- * A tool defines a mode of the drawing view. All input events targeted to the
- * drawing view are forwarded to its current tool.
+ * A <em>tool</em> defines a mode of a {@link DrawingEditor}. All input events
+ * targeted to the active {@link DrawingView} of the drawing editor are 
+ * forwarded to its current tool.
  * <p>
  * Tools inform listeners when they are done with an interaction by calling
  * the ToolListener's toolDone() method. The Tools are created once and reused.
@@ -31,22 +32,29 @@ import java.awt.event.*;
  * <p>
  * A Tool forwards UndoableEdit events to the Drawing object onto which it
  * is performing changes.
- * <p>
- * Design pattern:<br>
- * Name: Mediator.<br>
- * Role: Colleague.<br>
- * Partners: {@link DrawingEditor} as Mediator, {@link Tool} as
- * Colleague.
- * <p>
- * Design pattern:<br>
- * Name: Model-View-Controller.<br>
- * Role: Controller.<br>
- * Partners: {@link DrawingView} as View, {@link Figure} as Model.
- * <p>
- * Design pattern:<br>
- * Name: Observer.<br>
- * Role: Subject.<br>
- * Partners: {@link ToolListener} as Observer.
+ *
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Framework</em><br>
+ * The following interfaces define the contracts of a framework for structured
+ * drawing editors:<br>
+ * Contract: {@link Drawing}, {@link Figure}, {@link CompositeFigure},
+ * {@link ConnectionFigure}, {@link Connector}, {@link DrawingView},
+ * {@link DrawingEditor}, {@link Handle} and {@link Tool}.
+ *
+ * <p><em>Mediator</em><br>
+ * {@code DrawingEditor} acts as a mediator for coordinating drawing tools
+ * and drawing views:<br>
+ * Mediator: {@link DrawingEditor}; Colleagues: {@link DrawingView}, {@link Tool}.
+ *
+ * <p><em>Observer</em><br>
+ * State changes of tools can be observed by other objects. Specifically
+ * {@code DrawingEditor} observes area invalidations of tools and repaints
+ * its active drawing view accordingly.<br>
+ * Subject: {@link Tool}; Observer: {@link ToolListener}; Event:
+ * {@link ToolEvent}; Concrete Observer: {@link DrawingEditor}.
+ * <hr>
  *
  * @author Werner Randelshofer
  * @version 3.0 2008-05-26 Added method supportsHandleInteraction.  

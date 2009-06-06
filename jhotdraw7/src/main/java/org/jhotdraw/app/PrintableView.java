@@ -15,10 +15,19 @@
 package org.jhotdraw.app;
 
 import java.awt.print.*;
-import org.jhotdraw.app.*;
 
 /**
- * Defines the interface of a view which can be printed.
+ * The interface of a {@link View} which can print its document.
+ *
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Framework</em><br>
+ * The interfaces and classes listed below define together the contracts
+ * of a smaller framework inside of the JHotDraw framework for document oriented
+ * applications.<br>
+ * Contract: {@link PrintableView}, {@link org.jhotdraw.app.action.PrintAction}.
+ * <hr>
  *
  * @author Werner Randelshofer
  * @version 1.0 July 31, 2007 Created.

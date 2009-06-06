@@ -19,11 +19,22 @@ import java.beans.*;
 import javax.swing.*;
 import org.jhotdraw.beans.Disposable;
 /**
- * A view on a document or a set of related documents within an Application.
+ * Provides a <em>view</em> on a document or a set of related documents within
+ * an {@link Application}.
  * <p>
  * After a view has been initialized using init(),
  * either method clear() must be called
  * or method read(), in order to fully initialize the View.
+ *
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Framework</em><br>
+ * The interfaces and classes listed below together with the {@code Action}
+ * classes in the org.jhotddraw.app.action package define the contracts of a
+ * framework for document oriented applications:<br>
+ * Contract: {@link Application}, {@link ApplicationModel}, {@link View}.
+ * <hr>
  *
  * @author Werner Randelshofer
  * @version 4.2 2009-06-02 Added method addDisposable().
@@ -285,7 +296,6 @@ public interface View {
      * Adds a disposable object, which will be disposed when the view
      * is disposed.
      *
-     * @param view
      * @param disposable
      */
     public void addDisposable(Disposable disposable);

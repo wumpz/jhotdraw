@@ -21,34 +21,75 @@ import java.beans.*;
 import javax.swing.*;
 
 /**
- * A DrawingView paints a {@link Drawing} on a JComponent.
+ * A <em>drawing view</em> paints a {@link Drawing} on a JComponent.
  * <p>
  * To support editing, a DrawingView can paint {@link Handle}s and
  * the current {@link Tool} of the {@link DrawingEditor} on top of the
- * drawing. It can render a {@link Constrainer} below the drawing.
+ * drawing. It can also render a {@link Constrainer} below or on top of the
+ * drawing.
  * <p>
- * Tools can register mouse and key listeners on the DrawingView.
+ * Tools can register mouse and key listeners on the drawing view.
  * <p>
- * A DrawingView can paint the drawing with a scale factor. It supports
- * conversion between scaled view coordinates and drawing coordinates.
- * <p>
- * Design pattern:<br>
- * Name: Mediator.<br>
- * Role: Colleague.<br>
- * Partners: {@link DrawingEditor} as Mediator, {@link Tool} as
- * Colleague.
- * <p>
- * Design pattern:<br>
- * Name: Model-View-Controller.<br>
- * Role: View.<br>
- * Partners: {@link Tool} as Controller, {@link Figure} as Model.
- * <p>
- * Design pattern:<br>
- * Name: Observer.<br>
- * Role: Subject.<br>
- * Partners: {@link FigureSelectionListener} as Observer.
+ * {@code DrawingView} can paint the drawing with a scale factor. It supports
+ * conversion between view coordinates and drawing coordinates.
  *
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Chain of responsibility</em><br>
+ * Mouse and keyboard events of the user occur on the drawing view, and are
+ * preprocessed by the {@code DragTracker} of a {@code SelectionTool}. In
+ * turn {@code DragTracker} invokes "track" methods on a {@code Handle} which in
+ * turn changes an aspect of a figure.<br>
+ * Client: {@link SelectionTool}; Handler: {@link DragTracker}, {@link Handle}.
  * 
+ * <p><em>Framework</em><br>
+ * The following interfaces define the contracts of a framework for structured
+ * drawing editors:<br>
+ * Contract: {@link Drawing}, {@link Figure}, {@link CompositeFigure},
+ * {@link ConnectionFigure}, {@link Connector}, {@link DrawingView},
+ * {@link DrawingEditor}, {@link Handle} and {@link Tool}.
+ *
+ * <p><em>Mediator</em><br>
+ * {@code DrawingEditor} acts as a mediator for coordinating drawing tools
+ * and drawing views:<br>
+ * Mediator: {@link DrawingEditor}; Colleagues: {@link DrawingView}, {@link Tool}.
+ *
+ * <p><em>Model-View-Controller</em><br>
+ * The following classes implement together the Model-View-Controller design
+ * pattern:<br>
+ * Model: {@link Drawing}; View: {@link DrawingView}; Controller:
+ * {@link DrawingEditor}.
+ *
+ * <p><em>Observer</em><br>
+ * Selection changes of {@code DrawingView} are observed by user interface
+ * components which act on selected figures.<br>
+ * Subject: {@link org.jhotdraw.draw.DrawingView}; Observer:
+ * {@link FigureSelectionListener}; Event: {@link FigureSelectionEvent}.
+ * 
+ * <p><em>Observer</em><br>
+ * State changes of figures can be observed by other objects. Specifically
+ * {@code CompositeFigure} observes area invalidations and remove requests
+ * of its child figures. {@link DrawingView} also observes area invalidations
+ * of its drawing object.
+ * Subject: {@link Figure}; Observer:
+ * {@link FigureListener}; Event: {@link FigureEvent}; Concrete Observer:
+ * {@link CompositeFigure}, {@link DrawingView}.
+ *
+ * <p><em>Observer</em><br>
+ * State changes of handles can be observed by other objects. Specifically
+ * {@code DrawingView} observes area invalidations and remove requests of
+ * handles.<br>
+ * Subject: {@link Handle}; Observer: {@link HandleListener}; Event:
+ * {@link HandleEvent}; Concrete Observer: {@link DrawingView}.
+ * <hr>
+ *
+ * <p><em>Strategy</em><br>
+ * Editing can be constrained by a constrainer which is associated to a
+ * drawing view.<br>
+ * Context: {@link DrawingView}; Strategy: {@link Constrainer}.
+ * <hr>
+ *
  * @author Werner Randelshofer
  * @version 6.0 2009-04-18 Added method repaintHandles.
  * <br>5.0 2008-05-11 Added methods setEditor, getEditor and setActiveHandle,

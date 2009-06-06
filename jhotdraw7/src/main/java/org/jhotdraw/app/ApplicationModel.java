@@ -17,7 +17,17 @@ package org.jhotdraw.app;
 import java.util.*;
 import javax.swing.*;
 /**
- * ApplicationModel.
+ * {@code ApplicationModel} provides meta-data for an {@link Application},
+ * actions and factory methods for creating {@link View}s and toolbars.
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Framework</em><br>
+ * The interfaces and classes listed below together with the {@code Action}
+ * classes in the org.jhotddraw.app.action package define the contracts of a
+ * framework for document oriented applications:<br>
+ * Contract: {@link Application}, {@link ApplicationModel}, {@link View}.
+ * <hr>
  *
  * @author Werner Randelshofer.
  * @version 1.0 June 10, 2006 Created.

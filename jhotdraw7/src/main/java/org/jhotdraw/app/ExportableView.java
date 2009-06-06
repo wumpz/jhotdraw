@@ -17,10 +17,19 @@ package org.jhotdraw.app;
 import java.awt.*;
 import java.io.*;
 import javax.swing.*;
-import org.jhotdraw.app.*;
 
 /**
- * ExportableView is implemented by View's that support the ExportAction.
+ * The interface of a {@link View} which can export its document.
+ *
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Framework</em><br>
+ * The interfaces and classes listed below define together the contracts
+ * of a smaller framework inside of the JHotDraw framework for document oriented
+ * applications.<br>
+ * Contract: {@link ExportableView}, {@link org.jhotdraw.app.action.ExportAction}.
+ * <hr>
  *
  * @author Werner Randelshofer
  * @version 1.0 January 2, 2007 Created.

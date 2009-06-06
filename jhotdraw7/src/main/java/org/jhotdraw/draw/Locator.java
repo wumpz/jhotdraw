@@ -17,7 +17,8 @@ package org.jhotdraw.draw;
 
 import java.awt.geom.*;
 /**
- * Locators can be used to locate a position on a figure.<p>
+ * A <em>locator</em> encapsulates a strategy for locating a point on a
+ * {@link Figure}.
  *
  * @author Werner Randelshofer
  * @version 2.0 2006-01-14 Changed to support double precision coordinates.

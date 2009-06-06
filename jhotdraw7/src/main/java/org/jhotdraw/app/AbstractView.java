@@ -309,7 +309,6 @@ public abstract class AbstractView extends JPanel implements View {
      * Adds a disposable object, which will be disposed when the specified view
      * is disposed.
      *
-     * @param view
      * @param disposable
      */
     public void addDisposable(Disposable disposable) {

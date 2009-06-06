@@ -28,7 +28,18 @@ import org.jhotdraw.app.*;
  * Presents a file chooser to the user and then exports the 
  * {@link org.jhotdraw.app.View} to the chosen file.
  * <p>
- * This action requires that the view implements the ExportableView interface.
+ * This action requires that the view implements the 
+ * {@link org.jhotdraw.app.ExportableView} interface.
+ *
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Framework</em><br>
+ * The interfaces and classes listed below define together the contracts
+ * of a smaller framework inside of the JHotDraw framework for document oriented
+ * applications.<br>
+ * Contract: {@link org.jhotdraw.app.ExportableView}, {@link org.jhotdraw.app.action.ExportAction}.
+ * <hr>
  *
  * @author Werner Randelshofer
  * @version 2.0 2007-01-02 Revised to support an interface rather than relying

@@ -20,14 +20,18 @@ import java.util.*;
 import javax.swing.*;
 import java.io.*;
 /**
- * An Application handles the lifecycle of {@link View}s and provides windows
- * to present them on screen. Depending on the document interface style 
- * used by the Application, the Application can handle multiple Views 
+ * An <em>application</em> handles the lifecycle of {@link View}s and provides
+ * windows to present them on screen. Depending on the document interface style
+ * used by the application. An application can handle multiple views
  * at the same time, or only one.
+ * <p>
+ * An application owns a {@link ApplicationModel} which provides meta-data about
+ * the application, actions and factory methods for creating the views.
  * <p>
  * Typical document interface styles are the Single Document Interface (SDI),
  * the Multiple Document Interface (MDI) and the Mac OS X Application Document
- * Interface (OSX).
+ * Interface (OSX). Typically, for each of these styles an implementation of
+ * {@code Application} exists.
  * <p>
  * Typical usage of this class:
  * <pre>
@@ -43,6 +47,15 @@ import java.io.*;
  *         app.launch(args);
  *     } 
  * </pre>
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Framework</em><br>
+ * The interfaces and classes listed below together with the {@code Action}
+ * classes in the org.jhotddraw.app.action package define the contracts of a
+ * framework for document oriented applications:<br>
+ * Contract: {@link Application}, {@link ApplicationModel}, {@link View}.
+ * <hr>
  *
  * @author Werner Randelshofer
  * @version 2.0 2007-12-24 Renamed method getCurrentView to getActiveView. 

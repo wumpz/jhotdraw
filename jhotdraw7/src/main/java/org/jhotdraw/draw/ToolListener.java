@@ -17,12 +17,18 @@ package org.jhotdraw.draw;
 
 import java.util.*;
 /**
- * Change event passed to ToolListener's.
- * <p>
- * Design pattern:<br>
- * Name: Observer.<br>
- * Role: Observer.<br>
- * Partners: {@link Tool} as Subject.
+ * Interface implemented by observers of {@link Tool}s.
+ * 
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Observer</em><br>
+ * State changes of tools can be observed by other objects. Specifically
+ * {@code DrawingEditor} observes area invalidations of tools and repaints
+ * its active drawing view accordingly.<br>
+ * Subject: {@link Tool}; Observer: {@link ToolListener}; Event:
+ * {@link ToolEvent}; Concrete Observer: {@link DrawingEditor}.
+ * <hr>
  *
  * @author Werner Randelshofer
  * @version 3.0 2003-02-13 Revised to support multiple views.

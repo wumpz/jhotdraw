@@ -14,24 +14,31 @@
 
 package org.jhotdraw.draw;
 
-import java.awt.Dimension;
 import java.awt.datatransfer.*;
-import java.awt.geom.AffineTransform;
 import java.io.*;
-import java.net.*;
 import java.util.*;
 import javax.swing.*;
-import javax.swing.filechooser.*;
 
 /**
- * Interface to define an output format. An OutputFormat is a strategy that
- * knows how to store a Drawing according to a specific encoding. Typically it
- * can be recognized by a Mime type or by a file extension. To identify a valid
- * file format for a Drawing an appropriate FileFilter for a
- * javax.swing.JFileChooser component can be requested.
+ * An <em>output format</em> implements a strategy for writing a {@link Drawing}
+ * using a specific encoding into an {@code OutputStream}, a {@code File} or a
+ * {@code Transferable}.
+ * <p>
+ * Typically an encoding can be recognized by a Mime type or by a file extension.
+ * To identify the encoding used by a file, an appropriate {@code FileFilter}
+ * for a javax.swing.JFileChooser component can be requested from {@code OutputFormat}.
  * <p>
  * This interface intentionally contains many identical operations like
  * InputFormat to make it easy, to write classes that implement both interfaces.
+ *
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Strategy</em><br>
+ * {@code OutputFormat} encapsulates a strategy for writing drawings to output
+ * streams.<br>
+ * Strategy: {@link OutputFormat}; Context: {@link Drawing}.
+ * <hr>
  *
  * @author Werner Randelshofer
  * @version 2.0 2007-12-16 Method createTransferable needs Drawing object 

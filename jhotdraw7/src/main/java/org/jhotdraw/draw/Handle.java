@@ -16,26 +16,52 @@
 package org.jhotdraw.draw;
 
 import java.awt.*;
-import java.awt.geom.*;
 import java.awt.event.*;
-import javax.swing.event.*;
 import java.util.*;
 /**
- * Handles are used to change a figure by direct manipulation.
- * Handles know their owning figure and they provide methods to
- * locate the handle on the figure and to track changes.
+ * A <em>handle</em> is used to change one aspect of a {@link Figure} by direct
+ * manipulation.
  * <p>
- * Handles are used for user interaction. Unlike figures, a handle works with
- * the user interface coordinates of the DrawingView. The user interface
- * coordinates are expressed in integer pixels.
+ * A handle is owned by a figure and associated to a {@link DrawingView}.
+ * {@code Handle} knows its owning figure and its associated drawing view.
  * <p>
- * A Handle forwards UndoableEdit events to the Drawing object onto which it
- * is performing changes.
+ * Handles are drawn using the view coordinates of the associated
+ * {@link DrawingView}. {@code Handle} uses methods of the drawing view to
+ * translate the view coordinates into drawing coordinates, which is the
+ * coordinate system used by the owning figure.
  * <p>
- * Design pattern:<br>
- * Name: Observer.<br>
- * Role: Subject.<br>
- * Partners: {@link HandleListener} as Observer.
+ * Mouse and keyboard events of the user occur on a drawing view, and are
+ * preprocessed by the {@link DragTracker} of a {@link SelectionTool}. {@code
+ * DragTracker} invokes "track" methods on the handle, such as {@code trackStart},
+ * {@code trackStep} and {@code trackEnd}.
+ * <p>
+ * Handle forwards {@code UndoableEdit} events to the drawing object onto
+ * which it is performing changes.
+ *
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Framework</em><br>
+ * The following interfaces define the contracts of a framework for structured
+ * drawing editors:<br>
+ * Contract: {@link Drawing}, {@link Figure}, {@link CompositeFigure},
+ * {@link ConnectionFigure}, {@link Connector}, {@link DrawingView},
+ * {@link DrawingEditor}, {@link Handle} and {@link Tool}.
+ *
+ * <p><em>Observer</em><br>
+ * State changes of handles can be observed by other objects. Specifically
+ * {@code DrawingView} observes area invalidations and remove requests of
+ * handles.<br>
+ * Subject: {@link Handle}; Observer: {@link HandleListener}; Event:
+ * {@link HandleEvent}; Concrete Observer: {@link DrawingView}.
+ *
+ * <p><em>Chain of responsibility</em><br>
+ * Mouse and keyboard events of the user occur on the drawing view, and are
+ * preprocessed by the {@code DragTracker} of a {@code SelectionTool}. In
+ * turn {@code DragTracker} invokes "track" methods on a {@code Handle} which in
+ * turn changes an aspect of a figure.<br>
+ * Client: {@link SelectionTool}; Handler: {@link DragTracker}, {@link Handle}.
+ * <hr>
  *
  * @author Werner Randelshofer
  * @version 2.0 2006-01-14 Changed to support double precision coordinates.

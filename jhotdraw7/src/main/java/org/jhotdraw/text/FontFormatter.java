@@ -43,7 +43,8 @@ public class FontFormatter extends DefaultFormatter {
     /**
      * Map of generic font families.
      * By default, holds a map of HTML generic font families.
-     * @see http://www.w3.org/TR/CSS2/fonts.html#generic-font-families
+     * <a href="http://www.w3.org/TR/CSS2/fonts.html#generic-font-families"/>
+     * http://www.w3.org/TR/CSS2/fonts.html#generic-font-families</a>.
      */
     private HashMap<String, Font> genericFontFamilies = new HashMap<String, Font>();
 
@@ -115,7 +116,7 @@ public class FontFormatter extends DefaultFormatter {
                 throw new ParseException("Null value is not allowed.", 0);
             }
         }
-       String strLC = str.trim().toLowerCase();
+        String strLC = str.trim().toLowerCase();
 
         Font f = null;
         f = genericFontFamilies.get(strLC);

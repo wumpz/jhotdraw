@@ -11,7 +11,7 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-package org.jhotdraw.draw.action;
+package org.jhotdraw.gui.event;
 
 import java.beans.*;
 import javax.swing.*;

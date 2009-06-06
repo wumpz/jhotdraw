@@ -14,31 +14,45 @@
 
 package org.jhotdraw.draw;
 
-import org.jhotdraw.util.*;
-import java.beans.*;
-import java.awt.*;
-import java.awt.geom.*;
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.undo.*;
-import javax.swing.event.*;
-import java.io.*;
 import org.jhotdraw.geom.*;
 
 /**
- * A CompositeFigure is composed of several child Figures.
- * A CompositeFigure can be laid out using a Layouter.
- * <p>
- * Design pattern:<br>
- * Name: Composite.<br>
- * Role: Composite.<br>
- * Partners: {@link Figure} as Component. 
- * <p>
- * Design pattern:<br>
- * Name: Strategy.<br>
- * Role: Context.<br>
- * Partners: {@link Layouter} as Strategy.
+ * A <em>composite figure</em> is composed of several child {@link Figure}s.
+ * A composite figure can be laid out using a {@link Layouter}.
+ *
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Framework</em><br>
+ * The following interfaces define the contracts of a framework for structured
+ * drawing editors:<br>
+ * Contract: {@link Drawing}, {@link Figure}, {@link CompositeFigure},
+ * {@link ConnectionFigure}, {@link Connector}, {@link DrawingView},
+ * {@link DrawingEditor}, {@link Handle} and {@link Tool}.
+ *
+ * <p><em>Composite</em><br>
+ * Composite figures can be composed of other figures.<br>
+ * Component: {@link Figure}; Composite: {@link CompositeFigure}.
+ *
+ * <p><em>Observer</em><br>
+ * State changes of figures can be observed by other objects. Specifically
+ * {@code CompositeFigure} observes area invalidations and remove requests
+ * of its child figures. {@link DrawingView} also observes area invalidations
+ * of its drawing object.<br>
+ * Subject: {@link Figure}; Observer:
+ * {@link FigureListener}; Event: {@link FigureEvent}; Concrete Observer:
+ * {@link CompositeFigure}, {@link DrawingView}.
+ *
+ * <p><em>Observer</em><br>
+ * Changes in the composition of a composite figure can be observed.<br>
+ * Subject: {@link CompositeFigure}; Observer:
+ * {@link CompositeFigureListener}; Event: {@link CompositeFigureEvent}.
+ *
+ * <p><em>Strategy</em><br>
+ * Composite figures can be laid out using different layout algorithms which
+ * are implemented by layouters.<br>
+ * Context: {@link CompositeFigure}; Strategy: {@link Layouter}.
+ * <hr>
  *
  * @author Werner Randelshofer
  * @version 2.1 2007-12-20 Clarified purpose of basicAdd/basicRemove methods. 

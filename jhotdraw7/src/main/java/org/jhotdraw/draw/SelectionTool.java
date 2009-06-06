@@ -29,22 +29,22 @@ import java.util.HashSet;
  * <p>
  * A Figure can be selected by clicking at it. Holding the alt key or the
  * ctrl key down, selects the Figure behind it.
- * <p>
- * Design pattern:<br>
- * Name: Chain of Responsibility.<br>
- * Role: Handler.<br>
- * Partners: {@link DefaultSelectAreaTracker} as Handler, {@link DefaultDragTracker} as
- * Handler, {@link DefaultHandleTracker} as Handler.
- * <p>
- * Design pattern:<br>
- * Name: State.<br>
- * Role: Context.<br>
- * Partners: {@link DefaultSelectAreaTracker} as State, {@link DefaultDragTracker} as
- * State, {@link DefaultHandleTracker} as State.
+ * <hr>
+ * <b>Design Patterns</b>
  *
- * @see DefaultSelectAreaTracker
- * @see DefaultDragTracker
- * @see DefaultHandleTracker
+ * <p><em>Strategy</em><br>
+ * The different behavior states of the selection tool are implemented by
+ * trackers.<br>
+ * Context: {@link SelectionTool}; State: {@link DragTracker},
+ * {@link HandleTracker}, {@link SelectAreaTracker}.
+ *
+ * <p><em>Chain of responsibility</em><br>
+ * Mouse and keyboard events of the user occur on the drawing view, and are
+ * preprocessed by the {@code DragTracker} of a {@code SelectionTool}. In
+ * turn {@code DragTracker} invokes "track" methods on a {@code Handle} which in
+ * turn changes an aspect of a figure.<br>
+ * Client: {@link SelectionTool}; Handler: {@link DragTracker}, {@link Handle}.
+ * <hr>
  *
  * @author Werner Randelshofer
  * @version 2.0 2009-04-25 Trackers can now be replaced without having to 

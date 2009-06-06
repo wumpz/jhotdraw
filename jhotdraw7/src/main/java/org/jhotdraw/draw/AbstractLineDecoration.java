@@ -15,11 +15,9 @@
 
 package org.jhotdraw.draw;
 
-import java.io.*;
 import java.awt.*;
 import java.awt.geom.*;
 import org.jhotdraw.geom.Geom;
-import org.jhotdraw.util.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
@@ -65,7 +63,7 @@ public abstract class AbstractLineDecoration implements LineDecoration {
     
     /**
      * Draws the arrow tip in the direction specified by the given two
-     * Points.. (template method)
+     * Points. (template method)
      */
     public void draw(Graphics2D g, Figure f, Point2D.Double p1, Point2D.Double p2) {
         GeneralPath path = getTransformedDecoratorPath(f, p1, p2);

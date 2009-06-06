@@ -20,7 +20,7 @@ import java.awt.geom.*;
 import java.util.*;
 import org.jhotdraw.geom.*;
 /**
- * LineFigure.
+ * A <em>line figure</em> draws a continuous bezier path between two points.
  *
  * @author Werner Randelshofer
  * @version 2.1 2008-07-06 Create BezierOutlineHandle on mouse over. 

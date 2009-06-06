@@ -17,12 +17,20 @@ package org.jhotdraw.draw;
 
 import java.util.*;
 /**
- * Listener interested in Figure changes.
- * <p>
- * Design pattern:<br>
- * Name: Observer.<br>
- * Role: Observer.<br>
- * Partners: {@link Figure} as Subject.
+ * Interface implemented by observers of {@link Figure} objects.
+ *
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Observer</em><br>
+ * State changes of figures can be observed by other objects. Specifically
+ * {@code CompositeFigure} observes area invalidations and remove requests
+ * of its child figures. {@link DrawingView} also observes area invalidations
+ * of its drawing object.
+ * Subject: {@link Figure}; Observer:
+ * {@link FigureListener}; Event: {@link FigureEvent}; Concrete Observer:
+ * {@link CompositeFigure}, {@link DrawingView}.
+ * <hr>
  *
  * @author Werner Randelshofer
  * @version 2.0 2007-07-17 Shortened method names. 

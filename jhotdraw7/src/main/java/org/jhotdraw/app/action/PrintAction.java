@@ -13,13 +13,10 @@
  */
 package org.jhotdraw.app.action;
 
-import org.jhotdraw.app.PrintableView;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
 import java.awt.print.*;
-import java.util.Arrays;
-import javax.print.DocPrintJob;
 import javax.print.attribute.*;
 import javax.print.attribute.standard.*;
 import javax.swing.*;
@@ -28,15 +25,21 @@ import org.jhotdraw.gui.*;
 import org.jhotdraw.util.*;
 
 /**
- * Presents a printer dialog to the user and then prints the View to the
- * chosen printer.
+ * Presents a printer chooser to the user and then prints the
+ * {@link org.jhotdraw.app.View}.
  * <p>
- * This action requires that the view implements the PrintableView
+ * This action requires that the view implements the {@link PrintableView}
  * interface.
- * <pre>
- * public Pageable createPageable();
- * </pre>
  * <p>
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Framework</em><br>
+ * The interfaces and classes listed below define together the contracts
+ * of a smaller framework inside of the JHotDraw framework for document oriented
+ * applications.<br>
+ * Contract: {@link PrintableView}, {@link org.jhotdraw.app.action.PrintAction}.
+ * <hr>
  *
  * @author Werner Randelshofer
  * @version 2.0 2007-07-31 Rewritten to use an interface instead of

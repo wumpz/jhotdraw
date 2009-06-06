@@ -14,14 +14,12 @@
 package org.jhotdraw.draw;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.geom.*;
 import java.awt.image.*;
 import java.io.*;
 import java.util.*;
 import javax.imageio.*;
 import javax.swing.*;
-import javax.swing.event.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.io.Base64;
 import org.jhotdraw.util.*;

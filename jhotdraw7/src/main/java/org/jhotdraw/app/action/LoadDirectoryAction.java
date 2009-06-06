@@ -19,7 +19,21 @@ import org.jhotdraw.app.*;
 import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
- * LoadDirectoryAction.
+ * Presents a directory chooser to the user and then loads the directory
+ * into a {@link org.jhotdraw.app.View}.
+ * <p>
+ * This action requires that the view implements the
+ * {@link org.jhotdraw.app.DirectoryView} interface.
+ *
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Framework</em><br>
+ * The interfaces and classes listed below define together the contracts
+ * of a smaller framework inside of the JHotDraw framework for document oriented
+ * applications.<br>
+ * Contract: {@link org.jhotdraw.app.DirectoryView}, {@link LoadDirectoryAction}.
+ * <hr>
  *
  * @author Werner Randelshofer, Staldenmattweg 2, CH-6405 Immensee
  * @version 1.0 2009-02-08 Created.

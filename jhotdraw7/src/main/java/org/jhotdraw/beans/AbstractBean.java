@@ -31,25 +31,25 @@ public class AbstractBean extends Object implements java.io.Serializable, Clonea
 
     protected PropertyChangeSupport propertySupport = new PropertyChangeSupport(this);
 
-    /** Adds a @{code PropertyChangeListener} which can optionally be wrapped
-     * into a @{code WeakPropertyChangeListener}.
+    /** Adds a {@code PropertyChangeListener} which can optionally be wrapped
+     * into a {@code WeakPropertyChangeListener}.
      * @param listener
      */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         propertySupport.addPropertyChangeListener(listener);
     }
 
-    /** Adds a @{code PropertyChangeListener} which can optionally be wrapped
-     * into a @{code WeakPropertyChangeListener}.
+    /** Adds a {@code PropertyChangeListener} which can optionally be wrapped
+     * into a {@code WeakPropertyChangeListener}.
      * @param listener
      */
     public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         propertySupport.addPropertyChangeListener(propertyName, listener);
     }
 
-    /** Removes a @{code PropertyChangeListener}. If the listener was added
-     * wrapped into a @{code WeakPropertyChangeListener}, the
-     * @{code WeakPropertyChangeListener} is removed.
+    /** Removes a {@code PropertyChangeListener}. If the listener was added
+     * wrapped into a {@code WeakPropertyChangeListener}, the
+     * {@code WeakPropertyChangeListener} is removed.
      *
      * @param listener
      */
@@ -73,9 +73,9 @@ public class AbstractBean extends Object implements java.io.Serializable, Clonea
         }
     }
 
-    /** Removes a @{code PropertyChangeListener}. If the listener was added
-     * wrapped into a @{code WeakPropertyChangeListener}, the
-     * @{code WeakPropertyChangeListener} is removed.
+    /** Removes a {@code PropertyChangeListener}. If the listener was added
+     * wrapped into a {@code WeakPropertyChangeListener}, the
+     * {@code WeakPropertyChangeListener} is removed.
      *
      * @param listener
      */

@@ -14,23 +14,38 @@
 
 package org.jhotdraw.draw;
 
-import java.awt.*;
 import java.awt.geom.*;
-import java.util.*;
 import org.jhotdraw.geom.*;
 
 /**
- * A {@code ConnectionFigure} draws a connection between two {@link Connector}s.
- * A ConnectionFigure knows its start and end Connector.
- * A ConnectionFigure can be laid out using a {@link Liner}.
+ * A <em>connection figure</em> connects two figures with a 
+ * {@link org.jhotdraw.geom.BezierPath}.
  * <p>
- * Design pattern:<br>
- * Name: Strategy.<br>
- * Role: Context.<br>
- * Partners: {@link Liner} as Strategy.
+ * The location of the start and end points of the bezier path is defined by
+ * {@link Connector} objects, which are supplied by the connected figures.
+ * <p>
+ * The bezier path of the connection figure can be laid out using a {@link Liner}.
  *
- * @see Connector
- * @see Liner
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Framework</em><br>
+ * The following interfaces define the contracts of a framework for structured
+ * drawing editors:<br>
+ * Contract: {@link Drawing}, {@link Figure}, {@link CompositeFigure},
+ * {@link ConnectionFigure}, {@link Connector}, {@link DrawingView},
+ * {@link DrawingEditor}, {@link Handle} and {@link Tool}.
+ *
+ * <p><em>Strategy</em><br>
+ * The control points of the bezier path of a connection figure can be laid out
+ * using different layout algorithms which are implemented by liners.<br>
+ * Context: {@link ConnectionFigure}; Strategy: {@link Liner}.
+ *
+ * <p><em>Strategy</em><br>
+ * The location of the start and end points of a connection figure are determined
+ * by {@code Connector}s which are owned by the connected figures.<br>
+ * Context: {@link Figure}, {@link ConnectionFigure}; Strategy: {@link Connector}.
+ * <hr>
  *
  * @author Werner Randelshofer
  * @version 3.0 2007-05-18 Methods canConnect use now Connector objects as

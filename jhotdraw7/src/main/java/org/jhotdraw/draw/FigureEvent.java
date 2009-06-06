@@ -10,16 +10,27 @@
  * You may not use, copy or modify this software, except in  
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
-�
  */
 
 package org.jhotdraw.draw;
 
-import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
 /**
  * Change event passed to FigureListeners.
+ *
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Observer</em><br>
+ * State changes of figures can be observed by other objects. Specifically
+ * {@code CompositeFigure} observes area invalidations and remove requests
+ * of its child figures. {@link DrawingView} also observes area invalidations
+ * of its drawing object.
+ * Subject: {@link Figure}; Observer:
+ * {@link FigureListener}; Event: {@link FigureEvent}; Concrete Observer:
+ * {@link CompositeFigure}, {@link DrawingView}.
+ * <hr>
  *
  * @author Werner Randelshofer
  * @version 3.0 2006-06-07 Reworked.

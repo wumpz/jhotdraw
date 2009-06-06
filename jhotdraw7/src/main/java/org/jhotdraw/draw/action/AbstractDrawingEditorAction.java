@@ -106,7 +106,7 @@ public abstract class AbstractDrawingEditorAction extends AbstractAction {
      * @param newValue Specify false to prevent automatic updating of the
      * enabled state.
      */
-    public void setUpdatEnabledState(boolean newValue) {
+    public void setUpdateEnabledState(boolean newValue) {
         // Note: eventHandler != null yields true, if we are currently updating
         // the enabled state.
         if (eventHandler != null != newValue) {

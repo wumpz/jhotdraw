@@ -19,7 +19,7 @@ import java.awt.geom.*;
 import java.awt.image.*;
 import java.awt.print.*;
 /**
- * DrawingPageable can be used to print a Drawing using the
+ * {@code DrawingPageable} can be used to print a {@link Drawing} using the
  * java.awt.print API.
  * <p>
  * Usage:

@@ -11,8 +11,10 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-package org.jhotdraw.gui;
+package org.jhotdraw.gui.event;
 
+import org.jhotdraw.gui.*;
+import org.jhotdraw.gui.event.AbstractAttributeEditorHandler;
 import java.util.HashSet;
 import java.util.Set;
 import org.jhotdraw.draw.AttributeKey;

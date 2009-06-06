@@ -14,7 +14,6 @@
 
 
 package org.jhotdraw.draw;
-import java.awt.*;
 import java.awt.geom.*;
 /**
  * A Layouter encapsulates a algorithm to layout
@@ -23,14 +22,14 @@ import java.awt.geom.*;
  * The Layouter might need access to some information
  * specific to a certain figure in order to layout it out properly.
  * 
- * Note: Currently, only the GraphicalCompositeFigure uses
- *       such a Layouter to layout its child components.
- * <p>
- * Design pattern:<br>
- * Name: Strategy.<br>
- * Role: Strategy.<br>
- * Partners: {@link ConnectionFigure} as Context.
- * 
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Strategy</em><br>
+ * Composite figures can be laid out using different layout algorithms which
+ * are implemented by layouters.<br>
+ * Context: {@link CompositeFigure}; Strategy: {@link Layouter}.
+ * <hr>
  * 
  * @author Werner Randelshofer
  * @version 2.0 2006-01-14 Changed to support double precision coordinates.

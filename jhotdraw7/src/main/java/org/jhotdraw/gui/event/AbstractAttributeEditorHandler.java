@@ -11,8 +11,9 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-package org.jhotdraw.gui;
+package org.jhotdraw.gui.event;
 
+import org.jhotdraw.gui.*;
 import org.jhotdraw.draw.FigureEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -38,6 +39,17 @@ import org.jhotdraw.draw.FigureSelectionListener;
 /**
  * AbstractAttributeEditorHandler mediates between an AttributeEditor and the
  * currently selected Figure's in a DrawingEditor.
+ *
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Observer</em><br>
+ * Selection changes of {@code DrawingView} are observed by user interface
+ * components:<br>
+ * Subject: {@link org.jhotdraw.draw.DrawingView}; Observer: {@link FigureSelectionListener};
+ * Concrete-Observer: {@link AbstractAttributeEditorHandler},
+ * {@link SelectionComponentDisplayer}, {@link SelectionComponentRepainter}.
+ * <hr>
  *
  * @author Werner Randelshofer
  * @version 1.1 2009-06-02 Added Disposable-support.

@@ -17,7 +17,16 @@ package org.jhotdraw.draw;
 
 import java.util.*;
 /**
- * Listener interested in changes in a CompositeFigure.
+ * Interface implemented by observers of {@link CompositeFigure}.
+ *
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Observer</em><br>
+ * Changes in the composition of a composite figure can be observed.<br>
+ * Subject: {@link CompositeFigure}; Observer:
+ * {@link CompositeFigureListener}; Event: {@link CompositeFigureEvent}.
+ * <hr>
  *
  * @author Werner Randelshofer
  * @version 2.0 2007-07-17 Renamed from DrawingListener to CompositeFigureListener. 

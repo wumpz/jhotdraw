@@ -17,12 +17,17 @@ package org.jhotdraw.draw;
 
 import java.util.*;
 /**
- * HandleListener.
- * <p>
- * Design pattern:<br>
- * Name: Observer.<br>
- * Role: Observer.<br>
- * Partners: {@link Handle} as Subject.
+ * Interface implemented by observers of {@link Handle}s.
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Observer</em><br>
+ * State changes of handles can be observed by other objects. Specifically
+ * {@code DrawingView} observes area invalidations and remove requests of
+ * handles.<br>
+ * Subject: {@link Handle}; Observer: {@link HandleListener}; Event:
+ * {@link HandleEvent}; Concrete Observer: {@link DrawingView}.
+ * <hr>
  *
  * @author Werner Randelshofer
  * @version 1.0 2003-12-01 Derived from JHotDraw 5.4b1.

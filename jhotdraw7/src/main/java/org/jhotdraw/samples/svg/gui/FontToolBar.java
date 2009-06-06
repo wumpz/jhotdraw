@@ -13,6 +13,8 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
+import org.jhotdraw.gui.event.SelectionComponentRepainter;
+import org.jhotdraw.gui.event.SelectionComponentDisplayer;
 import javax.swing.border.*;
 import org.jhotdraw.util.*;
 import java.awt.*;
@@ -21,7 +23,7 @@ import javax.swing.*;
 import javax.swing.plaf.SliderUI;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
-import org.jhotdraw.gui.FigureAttributeEditorHandler;
+import org.jhotdraw.gui.event.FigureAttributeEditorHandler;
 import org.jhotdraw.gui.JAttributeSlider;
 import org.jhotdraw.gui.JAttributeTextField;
 import org.jhotdraw.gui.JFontChooser;

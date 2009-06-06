@@ -23,48 +23,70 @@ import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMStorable;
 
 /**
- * A <em>figure</em> is an element of a {@link Drawing}.
+ * A <em>figure</em> is a graphical element of a {@link Drawing}.
  * <p>
- * {@code Figure} knows its bounds and it can draw itself.
- * <p>
- * Figures can have an open ended set of attributes. An attribute is identified
- * by an {@link AttributeKey}.
- * <p>
- * A figure can have {@link Connector}s that define how to locate a
- * connection point on the figure.
- * <p>
- * A figure can create a set of {@link Handle}s which can interactively
- * manipulate aspects of the figure.
- * <p>
+ * {@code Figure} provides the following functionality:
+ * <ul>
+ * <li>{@code Figure} knows its bounds and it can draw itself.</li>
+ * 
+ * <li>Figures can have an open ended set of attributes. An attribute is
+ * identified by an {@link AttributeKey}.</li>
+ * 
+ * <li>A figure can have {@link Connector}s that define how to locate a
+ * connection point on the figure.</li>
+ * 
+ * <li>A figure can create a set of {@link Handle}s which can interactively
+ * manipulate aspects of the figure.</li>
+ *
+ * <li>A figure can return a set of actions associated with a specific
+ * point on the figure.</li>
+ *
+ * <li>A figure can be composed of other figures. If this is the case,
+ * the object implementing the {@code Figure} interface usually also
+ * implements the {@link CompositeFigure} interface.</li>
+ * </ul>
+ * 
  * Specialized subinterfaces of {@code Figure} allow to compose a figure from
  * several figures, to connect a figure to other figures, to hold text or
  * an image, and to layout a figure.
- * <p>
- * Design pattern:<br>
- * Name: Composite.<br>
- * Role: Component.<br>
- * Partners: {@link CompositeFigure} as Composite. 
- * <p>
- * Design pattern:<br>
- * Name: Decorator.<br>
- * Role: Decorator.<br>
- * Partners: {@link DecoratedFigure} as Component. 
- * <p>
- * Design pattern:<br>
- * Name: Model-View-Controller.<br>
- * Role: Model.<br>
- * Partners: {@link DrawingView} as View, {@link Tool} as Controller.
- * <p>
- * Design pattern:<br>
- * Name: Observer.<br>
- * Role: Subject.<br>
- * Partners: {@link FigureListener} as Observer.
- * <p>
- * Design pattern:<br>
- * Name: Prototype.<br>
- * Role: Prototype.<br>
- * Partners: {@link CreationTool} as Client.
+ *
+ * <hr>
+ * <b>Design Patterns</b>
  * 
+ * <p><em>Framework</em><br>
+ * The following interfaces define the contracts of a framework for structured
+ * drawing editors:<br>
+ * Contract: {@link Drawing}, {@link Figure}, {@link CompositeFigure},
+ * {@link ConnectionFigure}, {@link Connector}, {@link DrawingView},
+ * {@link DrawingEditor}, {@link Handle} and {@link Tool}.
+ *
+ * <p><em>Composite</em><br>
+ * Composite figures can be composed of other figures.<br>
+ * Component: {@link Figure}; Composite: {@link CompositeFigure}.
+ *
+ * <p><em>Decorator</em><br>
+ * Decorated figures can be adorned with another figure.<br>
+ * Component: {@link DecoratedFigure}; Decorator: {@link Figure}.
+ * 
+ * <p><em>Observer</em><br>
+ * State changes of figures can be observed by other objects. Specifically
+ * {@code CompositeFigure} observes area invalidations of its child figures. And
+ * {@code DrawingView} observers area invalidations of its drawing object.<br>
+ * Subject: {@link Figure}; Observer:
+ * {@link FigureListener}; Event: {@link FigureEvent}; Concrete Observer:
+ * {@link CompositeFigure}, {@link DrawingView}.
+ *
+ * <p><em>Prototype</em><br>
+ * The creation tool create new figures by cloning a prototype figure object.
+ * That's the reason why {@code Figure} extends the {@code Cloneable} interface.
+ * <br>
+ * Prototype: {@link Figure}; Client: {@link CreationTool}.
+ *
+ * <p><em>Strategy</em><br>
+ * The location of the start and end points of a connection figure are determined
+ * by {@code Connector}s which are owned by the connected figures.<br>
+ * Context: {@link Figure}, {@link ConnectionFigure}; Strategy: {@link Connector}.
+ * <hr>
  * 
  * @author Werner Randelshofer
  * @version 8.0 2009-04-18 Made set/getAttribute methods type safe.
@@ -395,7 +417,20 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
     public boolean includes(Figure figure);
 
     /**
-     * Returns the figure that contains the given point.
+     * Finds the innermost figure at the specified location.
+     * <p>
+     * In case of a {@code CompositeFigure}, this method descends into its
+     * children and into its children's children until the innermost figure is
+     * found.
+     * <p>
+     * This functionality is implemented using the <em>Chain of
+     * Responsibility</em> design pattern. A figure which is not composed
+     * of other figures returns itself if the point is contained by the figure.
+     * Composed figures pass the method call down to their children.
+     *
+     * @param p A location on the drawing.
+     * @return Returns the innermost figure at the location, or null if the
+     * location is not contained in a figure.
      */
     public Figure findFigureInside(Point2D.Double p);
 

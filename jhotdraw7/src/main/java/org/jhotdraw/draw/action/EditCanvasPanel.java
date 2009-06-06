@@ -18,7 +18,7 @@ import java.awt.Color;
 import javax.swing.*;
 import javax.swing.text.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.gui.DrawingAttributeEditorHandler;
+import org.jhotdraw.gui.event.DrawingAttributeEditorHandler;
 import org.jhotdraw.gui.JAttributeSlider;
 import org.jhotdraw.text.JavaNumberFormatter;
 import org.jhotdraw.util.*;
