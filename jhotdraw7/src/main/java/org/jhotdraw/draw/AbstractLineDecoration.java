@@ -21,9 +21,7 @@ import org.jhotdraw.geom.Geom;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
- * An standard implementation of a line decoration. It draws a shape which
- * is rotated and moved to the end of the line. The shape is scaled by the
- * stroke width.
+ * This abstract class can be extended to implement a {@link LineDecoration}.
  *
  * @author Werner Randelshofer
  * @version 2.0 2006-01-14 Changed to support double precison coordinates.
@@ -154,12 +152,12 @@ public abstract class AbstractLineDecoration implements LineDecoration {
     }
     
     /**
-     * Hook method to calculates the path of the decorator.
+     * Hook method to calculate the path of the decorator.
      */
     protected abstract GeneralPath getDecoratorPath(Figure f);
     
     /**
-     * Hook method to calculates the radius of the decorator path.
+     * Hook method to calculate the radius of the decorator path.
      */
     protected abstract double getDecoratorPathRadius(Figure f);
 }

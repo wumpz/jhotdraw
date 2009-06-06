@@ -16,7 +16,8 @@ package org.jhotdraw.beans;
 import java.beans.*;
 
 /**
- * Abstract class for objects which have to support property change listeners.<p>
+ * This abstract class can be extended to implement a JavaBean.
+ * <p>
  * Implements the methods required for adding and removing property change
  * listeners.
  *

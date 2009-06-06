@@ -22,7 +22,7 @@ import javax.swing.undo.*;
 import java.util.*;
 
 /**
- * AbstractHandle.
+ * This abstract class can be extended to implement a {@link Handle}.
  *
  * @author Werner Randelshofer
  * @version 2.0 2008-05-11 Handle attributes are now retrieved from

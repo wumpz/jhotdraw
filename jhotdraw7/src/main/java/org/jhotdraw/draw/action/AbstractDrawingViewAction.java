@@ -23,10 +23,8 @@ import org.jhotdraw.beans.Disposable;
 import org.jhotdraw.beans.WeakPropertyChangeListener;
 
 /**
- * Abstract super class for actions which act on a {@link DrawingView}.
- * {@code AbstractDrawingEditorAction} can either act on a specific
- * {@code DrawingView} or on the currently active {@link DrawingView} of
- * a {@link DrawingEditor}.
+ * This abstract class can be extended to implement an {@code Action} that acts
+ * on behalf of a {@link org.jhotdraw.draw.DrawingView}.
  * <p>
  * By default the enabled state of this action reflects the enabled state of the
  * {@code DrawingView}. If no drawing view is active, this action is

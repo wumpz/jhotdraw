@@ -22,14 +22,10 @@ import java.io.*;
  * A <em>line decoration</em> can be used to draw a decoration at the start or
  * end of a line.
  * <p>
- * Specifically, {@code LineDecoration} is used by {@link BezierFigure} to draw
- * decorations at the ends of a bezier path. A line decoration} can
- * be set as an attribute value to a bezier figure using the attribute keys
+ * Typically a line decoration is set as an attribute value to a
+ * {@link BezierFigure} using the attribute keys 
  * {@code AttributeKeys.START_DECORATION} and
  * {@code AttributeKeys.END_DECORATION}.
- * <p>
- * {@code LineDecoration} is not limited to this use. Any {@link Figure} can use
- * it to draw line decorations.
  *
  * <hr>
  * <b>Design Patterns</b>

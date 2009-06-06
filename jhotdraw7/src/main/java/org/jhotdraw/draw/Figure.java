@@ -86,6 +86,11 @@ import org.jhotdraw.xml.DOMStorable;
  * The location of the start and end points of a connection figure are determined
  * by {@code Connector}s which are owned by the connected figures.<br>
  * Context: {@link Figure}, {@link ConnectionFigure}; Strategy: {@link Connector}.
+ *
+ * <p><em>Strategy</em><br>
+ * {@code Locator} encapsulates a strategy for locating a point on a
+ * {@code Figure}.<br>
+ * Strategy: {@link Locator}; Context: {@link Figure}.
  * <hr>
  * 
  * @author Werner Randelshofer

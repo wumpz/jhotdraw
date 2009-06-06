@@ -15,8 +15,10 @@
 package org.jhotdraw.draw;
 
 import org.jhotdraw.geom.*;
+
 /**
- * AbstractLayouter.
+ * This abstract class can be extended to implement a {@link Layouter}-
+ * which has its own attribute set.
  *
  * @author  Werner Randelshofer
  * @version 2.0 2006-01-14 Changed to support double precision coordinates.

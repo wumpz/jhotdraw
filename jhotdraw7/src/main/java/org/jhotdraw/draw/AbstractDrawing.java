@@ -22,7 +22,7 @@ import java.util.*;
 import java.io.*;
 
 /**
- * AbstractDrawing.
+ * This abstract class can be extended to implement a {@link Drawing}.
  *
  * @author Werner Randelshofer
  * @version 4.1 2007-12-16 Drawing hold attributes on its own. 

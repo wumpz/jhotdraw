@@ -24,7 +24,7 @@ import java.awt.event.*;
 import javax.swing.event.*;
 
 /**
- * AbstractTool.
+ * This abstract class can be extended to implement a {@link Tool}.
  * 
  * <hr>
  * <b>Design Patterns</b>

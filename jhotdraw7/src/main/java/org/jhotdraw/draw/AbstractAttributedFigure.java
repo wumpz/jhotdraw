@@ -22,9 +22,10 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
+
 /**
- * A figure that can keep track of an open ended set of attributes.
- * <p>
+ * This abstract class can be extended to implement a {@link Figure}
+ * which has its own attribute set.
  *
  * @author Werner Randelshofer
  * @version 4.1 2007-05-18 Changed due to changes in Figure interface.

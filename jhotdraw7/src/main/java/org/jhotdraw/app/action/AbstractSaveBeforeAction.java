@@ -26,8 +26,9 @@ import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
 
 /**
- * Base class for actions that can only be safely performed when a 
- * {@link org.jhotdraw.app.View} has no unsaved changes.
+ * This abstract class can be extended to implement an {@code Action} that asks
+ * to save unsaved changes of a {@link org.jhotdraw.app.View} before the
+ * the action is performed.
  * <p>
  * If the view has no unsaved changes, method doIt is invoked immediately.
  * If unsaved changes are present, a dialog is shown asking whether the user

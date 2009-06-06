@@ -22,11 +22,10 @@ import java.util.*;
  * BezierPath allows the construction of paths consisting of straight lines,
  * quadratic curves and cubic curves.
  * <p>
- * A BezierPath represents a geometric path constructed by vertices.
- * Each Node has three control points: C0, C1, C2.
- * A mask defines which control points are in use. The path passes through
- * C0. C1 controls the curve going towards C0. C2 controls the curve going
- * away from C0.
+ * A BezierPath is defined by its nodes. Each node has three control points:
+ * C0, C1, C2. A mask defines which control points are in use. The path passes
+ * through C0. C1 controls the curve going towards C0. C2 controls the curve
+ * going away from C0.
  *
  * @author Werner Randelshofer
  * @version 1.4 2008-05-23 Method findSegment uses now double precision for

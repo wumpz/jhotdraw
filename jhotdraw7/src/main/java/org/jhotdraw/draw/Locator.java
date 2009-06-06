@@ -20,6 +20,15 @@ import java.awt.geom.*;
  * A <em>locator</em> encapsulates a strategy for locating a point on a
  * {@link Figure}.
  *
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Strategy</em><br>
+ * {@code Locator} encapsulates a strategy for locating a point on a
+ * {@code Figure}.<br>
+ * Strategy: {@link Locator}; Context: {@link Figure}.
+ * <hr>
+ *
  * @author Werner Randelshofer
  * @version 2.0 2006-01-14 Changed to support double precision coordinates.
  * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.

@@ -18,8 +18,7 @@ import java.awt.geom.*;
 import java.io.Serializable;
 import org.jhotdraw.xml.*;
 /**
- * AbstractLocator provides default implementations for
- * the Locator interface.
+ * This abstract class can be extended to implement a {@link Locator}.
  *
  * @author Werner Randelshofer
  * @version 2,1 2006-07-08 Added support for DOMStorable. 

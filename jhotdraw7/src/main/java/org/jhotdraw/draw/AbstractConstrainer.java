@@ -14,12 +14,11 @@
 
 package org.jhotdraw.draw;
 
-import javax.swing.*;
 import javax.swing.event.*;
 import org.jhotdraw.beans.*;
 
 /**
- * AbstractConstrainer.
+ * This abstract class can be extended to implement a {@link Constrainer}.
  *
  * @author Werner Randelshofer
  * @version 1.0 August 1, 2007 Created.

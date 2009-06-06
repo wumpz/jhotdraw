@@ -19,7 +19,8 @@ import javax.swing.undo.*;
 import org.jhotdraw.util.*;
 
 /**
- * AttributeKey provides typesafe access to figure attributes.
+ * An <em>attribute key</em> provides typesafe access to an attribute of
+ * a {@link Figure}.
  * <p>
  * An AttributeKey has a name, a type and a default value. The default value
  * is returned by Figure.getAttribute, if a Figure does not have an attribute

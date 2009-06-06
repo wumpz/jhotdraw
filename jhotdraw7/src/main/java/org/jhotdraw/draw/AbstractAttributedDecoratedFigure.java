@@ -22,7 +22,8 @@ import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.*;
 
 /**
- * AbstractAttributedDecoratedFigure.
+ * This abstract class can be extended to implement a {@link DecoratedFigure}
+ * which has an attribute set.
  *
  * @author Werner Randelshofer
  * @version 1.0 January 5, 2007 Created.

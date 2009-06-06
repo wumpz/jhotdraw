@@ -21,8 +21,8 @@ import java.awt.geom.*;
 import java.util.*;
 
 /**
- * AbstractConnectionHandle factors the common code for handles
- * that can be used to change the connection of a ConnectionFigure.
+ * This abstract class can be extended to implement a {@link Handle}
+ * the start or end point of a {@link ConnectionFigure}.
  *
  * XXX - Undo/Redo is not implemented yet.
  *

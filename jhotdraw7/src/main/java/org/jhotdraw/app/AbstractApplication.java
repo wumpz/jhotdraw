@@ -21,10 +21,9 @@ import java.util.*;
 import java.util.prefs.*;
 import javax.swing.*;
 import java.io.*;
-import java.util.HashMap;
 
 /**
- * AbstractApplication.
+ * This abstract class can be extended to implement an {@link Application}.
  *
  *
  * @author Werner Randelshofer

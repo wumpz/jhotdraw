@@ -65,8 +65,6 @@ import java.io.*;
  * pattern:<br>
  * Model: {@link Drawing}; View: {@link DrawingView}; Controller:
  * {@link DrawingEditor}.
- * <hr>
- * <b>Design Patterns</b>
  *
  * <p><em>Strategy</em><br>
  * {@code OutputFormat} encapsulates a strategy for writing drawings to

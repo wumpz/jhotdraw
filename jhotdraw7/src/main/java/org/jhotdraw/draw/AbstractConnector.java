@@ -21,8 +21,7 @@ import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 /**
- * AbstractConnector provides default implementation for
- * the Connector interface.
+ * This abstract class can be extended to implement a {@link Connector}.
  *
  * @see Connector
  *

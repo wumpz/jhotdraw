@@ -26,6 +26,7 @@ import org.jhotdraw.xml.DOMOutput;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
+ * This abstract class can be extended to implement a {@link CompositeFigure}.
  * AbstractCompositeFigure.
  *
  * @author Werner Randelshofer

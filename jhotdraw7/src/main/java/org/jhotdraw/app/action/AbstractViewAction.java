@@ -20,8 +20,9 @@ import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
 
 /**
- * An Action that acts on on the current document <code>View</code> of an
- * <code>Application</code>.
+ * This abstract class can be extended to implement an {@code Action} that acts
+ * on behalf of a {@link View}.
+ * <p>
  * If the current View object is disabled or is null, the
  * AbstractViewAction is disabled as well.
  * <p>

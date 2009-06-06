@@ -14,17 +14,18 @@
 package org.jhotdraw.app.action;
 
 import java.beans.*;
-import java.awt.event.*;
 import javax.swing.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.beans.Disposable;
 import org.jhotdraw.beans.WeakPropertyChangeListener;
 
 /**
- * An {@code Action} that acts on an {@link Application} object.
+ * This abstract class can be extended to implement an {@code Action} that acts
+ * on behalf of an {@link Application}.
+ * <p>
  * If the {@code Application} object is disabled, the
  * {@code AbstractApplicationAction} is disabled as well.
- * <b>
+ * <br>
  * {@code AbstractApplicationAction} listens using a
  * {@link WeakPropertyChangeListener} on the {@code Application} and thus may
  * become garbage collected if it is not referenced by any other object.

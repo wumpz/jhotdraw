@@ -20,7 +20,8 @@ import org.jhotdraw.geom.*;
 import org.jhotdraw.util.*;
 
 /**
- * AbstractRotateHandle.
+ * This abstract class can be extended to implement a {@link Handle} which
+ * can rotate a {@link Figure}.
  *
  * @author Werner Randelshofer
  * @version 4.0 2008-05-11 Handle attributes are now retrieved from

@@ -23,8 +23,8 @@ import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 
 /**
- * An AbstractAttributedCompositeFigure is a CompositeFigure which has
- * its own attribute set.
+ * This abstract class can be extended to implement a {@link CompositeFigure}
+ * which has its own attribute set.
  *
  * @author Werner Randelshofer
  * @version 2.0 2007-05-18 Changed due to changes in Figure interface. 

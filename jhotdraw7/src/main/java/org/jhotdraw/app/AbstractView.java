@@ -21,7 +21,7 @@ import java.util.prefs.*;
 import org.jhotdraw.beans.Disposable;
 
 /**
- * AbstractView.
+ * This abstract class can be extended to implement a {@link View}.
  * 
  * 
  * @author Werner Randelshofer
