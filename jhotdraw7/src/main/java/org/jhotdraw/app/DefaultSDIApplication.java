@@ -422,7 +422,6 @@ public class DefaultSDIApplication extends AbstractApplication {
             updateOpenRecentMenu();
         }
 
-        @Override
         public void propertyChange(PropertyChangeEvent evt) {
 
             String name = evt.getPropertyName();

@@ -494,7 +494,6 @@ public class DefaultOSXApplication extends AbstractApplication {
             addPropertyChangeListener(this);
         }
 
-        @Override
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
             if (name == "recentFiles") {
@@ -535,7 +534,6 @@ public class DefaultOSXApplication extends AbstractApplication {
             }
         }
 
-        @Override
         public void dispose() {
             removePropertyChangeListener(this);
             // Dispose the actions and the menu items that are currently in the menu

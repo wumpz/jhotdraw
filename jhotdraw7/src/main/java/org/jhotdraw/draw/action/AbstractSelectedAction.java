@@ -114,7 +114,6 @@ public abstract class AbstractSelectedAction
         }
     }
 
-    @Override
     public void dispose() {
         setEditor(null);
     }
