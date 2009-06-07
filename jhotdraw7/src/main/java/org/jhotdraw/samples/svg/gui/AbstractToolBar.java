@@ -94,6 +94,7 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements 
         this.editor = editor;
         if (editor != null) {
             init();
+            clearDisclosedComponents();
             setDisclosureState(Math.max(0, Math.min(getDisclosureStateCount(), prefs.getInt(getID() + ".disclosureState", getDefaultDisclosureState()))));
             this.addPropertyChangeListener(getEventHandler());
         }
@@ -101,6 +102,10 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements 
 
     public DrawingEditor getEditor() {
         return editor;
+    }
+
+    public void clearDisclosedComponents() {
+        panels = null;
     }
 
     @Override
@@ -122,7 +127,6 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements 
         return 0;
     }
 
-    @Override
     public void dispose() {
         for (Disposable d : disposables) {
             d.dispose();
@@ -148,7 +152,6 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements 
             final int state = getDisclosureState();
             if (runner == null) {
                 runner = new Runnable() {
-
                     public void run() {
                         try {
                             panels[state] = createDisclosedComponent(state);

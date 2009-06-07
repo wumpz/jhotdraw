@@ -15,13 +15,9 @@ package org.jhotdraw.draw.action;
 
 import javax.swing.undo.*;
 import org.jhotdraw.app.action.Actions;
-import org.jhotdraw.undo.*;
 import javax.swing.*;
-import javax.swing.text.*;
 import java.util.*;
-import java.awt.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.geom.*;
 import org.jhotdraw.util.ResourceBundleUtil;
 
 /**

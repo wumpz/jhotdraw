@@ -112,7 +112,7 @@ public abstract class AbstractDrawingViewAction extends AbstractAction implement
     }
 
     protected DrawingView getView() {
-        return (specificView != null) ? specificView : activeView;
+        return (specificView != null) ? specificView : editor.getActiveView();
     }
 
     protected Drawing getDrawing() {

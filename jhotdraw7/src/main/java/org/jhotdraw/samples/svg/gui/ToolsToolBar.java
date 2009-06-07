@@ -13,11 +13,16 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
 import javax.swing.border.*;
 import org.jhotdraw.gui.plaf.palette.*;
 import org.jhotdraw.samples.svg.*;
 import org.jhotdraw.util.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
 import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.app.action.*;
@@ -48,118 +53,119 @@ public class ToolsToolBar extends AbstractToolBar {
 
         switch (state) {
             case 1:
-               {
-                  p = new JPanel();
+                 {
+                    p = new JPanel();
                     p.setOpaque(false);
-        p.setBorder(new EmptyBorder(5, 5, 5, 8));
+                    p.setBorder(new EmptyBorder(5, 5, 5, 8));
 
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
+                    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
 
-        GridBagLayout layout = new GridBagLayout();
-        p.setLayout(layout);
-        GridBagConstraints gbc;
-        AbstractButton btn;
-        CreationTool creationTool;
-        PathTool pathTool;
-        TextCreationTool textTool;
-        TextAreaCreationTool textAreaTool;
-        SVGCreateFromFileTool imageTool;
+                    GridBagLayout layout = new GridBagLayout();
+                    p.setLayout(layout);
+                    GridBagConstraints gbc;
+                    AbstractButton btn;
+                    CreationTool creationTool;
+                    PathTool pathTool;
+                    TextCreationTool textTool;
+                    TextAreaCreationTool textAreaTool;
+                    SVGCreateFromFileTool imageTool;
 
-        HashMap<AttributeKey, Object> attributes;
-        btn = ButtonFactory.addSelectionToolTo(this, editor,
-                ButtonFactory.createDrawingActions(editor, disposables),
-                createSelectionActions(editor));
-        btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        p.add(btn, gbc);
-        labels.configureToolBarButton(btn, "selectionTool");
+                    HashMap<AttributeKey, Object> attributes;
+                    btn = ButtonFactory.addSelectionToolTo(this, editor,
+                            ButtonFactory.createDrawingActions(editor, disposables),
+                            createSelectionActions(editor));
+                    btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
+                    btn.addMouseListener(new SelectionToolButtonHandler(editor));
+                    gbc = new GridBagConstraints();
+                    gbc.gridx = 0;
+                    gbc.gridy = 0;
+                    p.add(btn, gbc);
+                    labels.configureToolBarButton(btn, "selectionTool");
 
-        attributes = new HashMap<AttributeKey, Object>();
-        btn = ButtonFactory.addToolTo(this, editor, creationTool = new CreationTool(new SVGRectFigure(), attributes), "createRectangle", labels);
-        creationTool.setToolDoneAfterCreation(false);
-        btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.insets = new Insets(3, 0, 0, 0);
-        p.add(btn, gbc);
+                    attributes = new HashMap<AttributeKey, Object>();
+                    btn = ButtonFactory.addToolTo(this, editor, creationTool = new CreationTool(new SVGRectFigure(), attributes), "createRectangle", labels);
+                    creationTool.setToolDoneAfterCreation(false);
+                    btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
+                    gbc = new GridBagConstraints();
+                    gbc.gridx = 0;
+                    gbc.gridy = 1;
+                    gbc.insets = new Insets(3, 0, 0, 0);
+                    p.add(btn, gbc);
 
-        btn = ButtonFactory.addToolTo(this, editor, creationTool = new CreationTool(new SVGEllipseFigure(), attributes), "createEllipse", labels);
-        creationTool.setToolDoneAfterCreation(false);
-        btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        gbc.insets = new Insets(3, 3, 0, 0);
-        p.add(btn, gbc);
+                    btn = ButtonFactory.addToolTo(this, editor, creationTool = new CreationTool(new SVGEllipseFigure(), attributes), "createEllipse", labels);
+                    creationTool.setToolDoneAfterCreation(false);
+                    btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
+                    gbc = new GridBagConstraints();
+                    gbc.gridx = 1;
+                    gbc.gridy = 1;
+                    gbc.insets = new Insets(3, 3, 0, 0);
+                    p.add(btn, gbc);
 
-        btn = ButtonFactory.addToolTo(this, editor, pathTool = new PathTool(new SVGPathFigure(), new SVGBezierFigure(true), attributes), "createPolygon", labels);
-        pathTool.setToolDoneAfterCreation(false);
-        btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 1;
-        gbc.insets = new Insets(3, 3, 0, 0);
-        p.add(btn, gbc);
+                    btn = ButtonFactory.addToolTo(this, editor, pathTool = new PathTool(new SVGPathFigure(), new SVGBezierFigure(true), attributes), "createPolygon", labels);
+                    pathTool.setToolDoneAfterCreation(false);
+                    btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
+                    gbc = new GridBagConstraints();
+                    gbc.gridx = 2;
+                    gbc.gridy = 1;
+                    gbc.insets = new Insets(3, 3, 0, 0);
+                    p.add(btn, gbc);
 
-        attributes = new HashMap<AttributeKey, Object>();
-        attributes.put(AttributeKeys.FILL_COLOR, null);
-        attributes.put(CLOSED, false);
-        btn = ButtonFactory.addToolTo(this, editor, creationTool = new CreationTool(new SVGPathFigure(), attributes), "createLine", labels);
-        creationTool.setToolDoneAfterCreation(false);
-        btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        gbc.insets = new Insets(0, 3, 0, 0);
-        p.add(btn, gbc);
+                    attributes = new HashMap<AttributeKey, Object>();
+                    attributes.put(AttributeKeys.FILL_COLOR, null);
+                    attributes.put(CLOSED, false);
+                    btn = ButtonFactory.addToolTo(this, editor, creationTool = new CreationTool(new SVGPathFigure(), attributes), "createLine", labels);
+                    creationTool.setToolDoneAfterCreation(false);
+                    btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
+                    gbc = new GridBagConstraints();
+                    gbc.gridx = 1;
+                    gbc.gridy = 0;
+                    gbc.insets = new Insets(0, 3, 0, 0);
+                    p.add(btn, gbc);
 
-        btn = ButtonFactory.addToolTo(this, editor, pathTool = new PathTool(new SVGPathFigure(), new SVGBezierFigure(false), attributes), "createScribble", labels);
-        pathTool.setToolDoneAfterCreation(false);
-        btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 0;
-        gbc.insets = new Insets(0, 3, 0, 0);
-        p.add(btn, gbc);
+                    btn = ButtonFactory.addToolTo(this, editor, pathTool = new PathTool(new SVGPathFigure(), new SVGBezierFigure(false), attributes), "createScribble", labels);
+                    pathTool.setToolDoneAfterCreation(false);
+                    btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
+                    gbc = new GridBagConstraints();
+                    gbc.gridx = 2;
+                    gbc.gridy = 0;
+                    gbc.insets = new Insets(0, 3, 0, 0);
+                    p.add(btn, gbc);
 
-        attributes = new HashMap<AttributeKey, Object>();
-        attributes.put(AttributeKeys.FILL_COLOR, Color.black);
-        attributes.put(AttributeKeys.STROKE_COLOR, null);
-        btn = ButtonFactory.addToolTo(this, editor, textTool = new TextCreationTool(new SVGTextFigure(), attributes), "createText", labels);
-        textTool.setToolDoneAfterCreation(true);
-        btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.insets = new Insets(3, 0, 0, 0);
-        p.add(btn, gbc);
+                    attributes = new HashMap<AttributeKey, Object>();
+                    attributes.put(AttributeKeys.FILL_COLOR, Color.black);
+                    attributes.put(AttributeKeys.STROKE_COLOR, null);
+                    btn = ButtonFactory.addToolTo(this, editor, textTool = new TextCreationTool(new SVGTextFigure(), attributes), "createText", labels);
+                    textTool.setToolDoneAfterCreation(true);
+                    btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
+                    gbc = new GridBagConstraints();
+                    gbc.gridx = 0;
+                    gbc.gridy = 2;
+                    gbc.insets = new Insets(3, 0, 0, 0);
+                    p.add(btn, gbc);
 
-        textAreaTool = new TextAreaCreationTool(new SVGTextAreaFigure(), attributes);
-        textAreaTool.setRubberbandColor(Color.BLACK);
-        textAreaTool.setToolDoneAfterCreation(true);
-        btn = ButtonFactory.addToolTo(this, editor, textAreaTool, "createTextArea", labels);
-        btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-        gbc.insets = new Insets(3, 3, 0, 0);
-        p.add(btn, gbc);
+                    textAreaTool = new TextAreaCreationTool(new SVGTextAreaFigure(), attributes);
+                    textAreaTool.setRubberbandColor(Color.BLACK);
+                    textAreaTool.setToolDoneAfterCreation(true);
+                    btn = ButtonFactory.addToolTo(this, editor, textAreaTool, "createTextArea", labels);
+                    btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
+                    gbc = new GridBagConstraints();
+                    gbc.gridx = 1;
+                    gbc.gridy = 2;
+                    gbc.insets = new Insets(3, 3, 0, 0);
+                    p.add(btn, gbc);
 
-        attributes = new HashMap<AttributeKey, Object>();
-        attributes.put(AttributeKeys.FILL_COLOR, null);
-        attributes.put(AttributeKeys.STROKE_COLOR, null);
-        btn = ButtonFactory.addToolTo(this, editor, imageTool = new SVGCreateFromFileTool(new SVGImageFigure(), new SVGGroupFigure(), attributes), "createImage", labels);
-        imageTool.setToolDoneAfterCreation(true);
-        imageTool.setUseFileDialog(true);
-        btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 2;
-        gbc.insets = new Insets(3, 3, 0, 0);
-        p.add(btn, gbc);
+                    attributes = new HashMap<AttributeKey, Object>();
+                    attributes.put(AttributeKeys.FILL_COLOR, null);
+                    attributes.put(AttributeKeys.STROKE_COLOR, null);
+                    btn = ButtonFactory.addToolTo(this, editor, imageTool = new SVGCreateFromFileTool(new SVGImageFigure(), new SVGGroupFigure(), attributes), "createImage", labels);
+                    imageTool.setToolDoneAfterCreation(true);
+                    imageTool.setUseFileDialog(true);
+                    btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
+                    gbc = new GridBagConstraints();
+                    gbc.gridx = 2;
+                    gbc.gridy = 2;
+                    gbc.insets = new Insets(3, 3, 0, 0);
+                    p.add(btn, gbc);
                 }
                 break;
         }
@@ -173,20 +179,20 @@ public class ToolsToolBar extends AbstractToolBar {
 
         list.add(null); // separator
 
-        list.add(a=new GroupAction(editor, new SVGGroupFigure()));
+        list.add(a = new GroupAction(editor, new SVGGroupFigure()));
         disposables.add(a);
-        list.add(a=new UngroupAction(editor, new SVGGroupFigure()));
+        list.add(a = new UngroupAction(editor, new SVGGroupFigure()));
         disposables.add(a);
-        list.add(a=new CombineAction(editor));
+        list.add(a = new CombineAction(editor));
         disposables.add(a);
-        list.add(a=new SplitAction(editor));
+        list.add(a = new SplitAction(editor));
         disposables.add(a);
 
         list.add(null); // separator
 
-        list.add(a=new BringToFrontAction(editor));
+        list.add(a = new BringToFrontAction(editor));
         disposables.add(a);
-        list.add(a=new SendToBackAction(editor));
+        list.add(a = new SendToBackAction(editor));
         disposables.add(a);
 
         return list;
@@ -196,9 +202,36 @@ public class ToolsToolBar extends AbstractToolBar {
     protected String getID() {
         return "tools";
     }
+
     protected int getDefaultDisclosureState() {
         return 1;
     }
+    private static class SelectionToolButtonHandler extends MouseAdapter {
+
+        private DrawingEditor editor;
+        private boolean wasSelectedOnPressed = false;
+
+        public SelectionToolButtonHandler(DrawingEditor editor) {
+            this.editor = editor;
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if (wasSelectedOnPressed) {
+                DrawingView view = editor.getActiveView();
+                if (view != null) {
+                    view.setHandleDetailLevel(view.getHandleDetailLevel() + 1);
+                }
+            }
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            // Note: we blindly assume here that selection changes occur on mouse release!!
+            wasSelectedOnPressed = ((AbstractButton) e.getSource()).isSelected();
+        }
+    }
+
 
     /** This method is called from within the constructor to
      * initialize the form.
