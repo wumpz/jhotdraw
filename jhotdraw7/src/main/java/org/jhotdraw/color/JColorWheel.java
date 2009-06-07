@@ -1,5 +1,5 @@
 /*
- * @(#)JColorWheel.java  1.0  August 27, 2005
+ * @(#)JColorWheel.java
  *
  * Copyright (c) 2007-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -14,7 +14,6 @@
 package org.jhotdraw.color;
 
 import java.awt.*;
-import java.awt.image.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -26,7 +25,7 @@ import javax.swing.event.*;
  * or HSV value.
  *
  * @author  Werner Randelshofer
- * @version 1.0 August 27, 2005 Created.
+ * @version $Id$
  */
 public class JColorWheel extends JPanel {
     private ColorSystem sys;

@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractDrawingViewAction.java  3.0  2009-06-02
+ * @(#)AbstractDrawingViewAction.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -40,15 +40,7 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  *
  *
  * @author Werner Randelshofer
- * @version 3.0 2009-06-02 Register with DrawingEditor using
- * WeakPropertyChangeListener.
- * <br>2.0.1 2009-04-04 PropertyChangeEvent was checked against the wrong
- * property name and the view listener was attached to the old value.
- * <br>2.0 2009-02-15 Renamed from AbstractViewAction to
- * AbstractDrawingViewAction.
- * <br>1.2 2006-04-21 Method setEditor added.
- * <br>1.1 2006-03-15 Support for enabled state of view added.
- * <br>1.0 2003-12-01 Created.
+ * @version $Id$
  */
 public abstract class AbstractDrawingViewAction extends AbstractAction implements Disposable {
 

@@ -1,5 +1,5 @@
 /*
- * @(#)ToolBarPrefsHandler.java  1.1  2006-06-15
+ * @(#)ToolBarPrefsHandler.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -25,9 +25,7 @@ import javax.swing.event.*;
  * ToolBarPrefsHandler.
  *
  * @author Werner Randelshofer
- * @version 1.1 2006-06-15 Code added to work with ToolBarUI's that don't extend
- * BasicToolBarUI.
- * <br>1.0 2. April 2004  Created.
+ * @version $Id$
  */
 public class ToolBarPrefsHandler implements ComponentListener, AncestorListener {
     private JToolBar toolbar;

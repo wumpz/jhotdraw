@@ -1,5 +1,5 @@
 /*
- * @(#)SVGGroupFigure.java  1.0.1  2007-07-28
+ * @(#)SVGGroupFigure.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -27,8 +27,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * SVGGroupFigure.
  *
  * @author Werner Randelshofer
- * @version 1.0.1 2007-07-28 Bounds were not computed correctly. 
- * <br>1.0 July 8, 2006 Created.
+ * @version $Id$
  */
 public class SVGGroupFigure extends GroupFigure implements SVGFigure {
 

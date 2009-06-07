@@ -1,5 +1,5 @@
 /*
- * @(#)ToggleStatusBarAction.java  1.0  October 1, 2005
+ * @(#)ToggleStatusBarAction.java
  *
  * Copyright (c) 2005 by the original authors of JHotDraw
  * and all its contributors.
@@ -24,7 +24,7 @@ import java.awt.event.*;
  * ToggleStatusBarAction.
  *
  * @author  Werner Randelshofer
- * @version 1.0 October 1, 2005 Created.
+ * @version $Id$
  */
 public class ToggleStatusBarAction extends AbstractViewAction {
     public final static String ID = "view.toggleStatusBar";

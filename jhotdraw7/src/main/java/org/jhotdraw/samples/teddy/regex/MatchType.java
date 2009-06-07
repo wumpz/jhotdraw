@@ -1,5 +1,5 @@
 /*
- * @(#)MatchType.java  1.0  November 14, 2004
+ * @(#)MatchType.java
  *
   * Copyright (c) 2004-2005 by the original authors of JHotDraw
  * and all its contributors.
@@ -18,8 +18,7 @@ package org.jhotdraw.samples.teddy.regex;
  * Typesafe Enumeration of Syntaxes for the Parser.
  *
  * @author  Werner Randelshofer
- * @version 5.0 2005-01-31 Reworked.
- * <br>1.0  November 14, 2004  Created.
+ * @version $Id$
  */
 public class MatchType  /*implements Comparable*/ {
     private MatchType() {

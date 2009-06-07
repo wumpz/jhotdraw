@@ -1,5 +1,5 @@
 /*
- * @(#)ImageBevelBorder.java  3.0 2003-08-31
+ * @(#)ImageBevelBorder.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -12,14 +12,11 @@
  * the copyright holders. For details see accompanying license terms. 
  */
 
-//package org.jhotdraw.quaqua;
 package org.jhotdraw.draw.action;
 
 import java.awt.*;
-import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.image.*;
-import javax.swing.plaf.basic.*;
 
 /**
  * Draws a filled bevel border using an image and insets.
@@ -37,17 +34,7 @@ import javax.swing.plaf.basic.*;
  * The inner area of the image is used to fill the inner area.
  *
  * @author  Werner Randelshofer
- * @version 3.0.x 2003-09-05 Copied into org.jhotdraw.quaqua for the Quaqua
- * look and feel.
- * <br>3.0 2003-08-31 Moved from package org.jhotdraw.gui.plaf to
- * org.jhotdraw.gui.border. Renamed from BevelBorder to ImageBevelBorder
- * to avoid name conflicts with class javax.swing.border.BevelBorder. Constructor
- * option 'fillContentArea' added.
- * <br>2.0 2003-07-19 Redesigned.
- * <br>1.1.1 2003-07-12 Class cast exception when filling a rectangle using
- * a texture.
- * <br>1.1 2002-05-29 Refactored.
- * <br>1.0 2001-10-16
+ * @version $Id$
  */
 public class ImageBevelBorder implements Border {
     private final static boolean VERBOSE = false;

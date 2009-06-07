@@ -1,5 +1,5 @@
 /*
- * @(#)ButtonFactory.java  3.0  2009-06-02
+ * @(#)ButtonFactory.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -44,20 +44,7 @@ import org.jhotdraw.gui.JFontChooser;
  * become disabled/enabled, when the DrawingEditor is disabled/enabled.
  *
  * @author Werner Randelshofer
- * @version 3.0 2009-06-02 Added methods with Disposable list parameter
- * allowing to dispose of created objects at a later time.
- * <br>2.4 2009-04-17 Added HSV_COLORS palette.
- * <br>2.3 2008-05-23 Factured SelectionComponentRepainter out.
- * <br>2.2 2008-05-18 Added method createDrawingColorButton.
- * <br>2.1 2008-03-25 Made method signature of createSelectionColorButton
- * compatible with createEditorColorButton.
- * <br>2.0.1 2007-12-17 Fixed createToggleGridButton method. 
- * <br>2.0 2007-03-31 Renamed from ToolBarButtonFactory to ButtonFactory.
- * Replaced most add...ButtonTo methods by create...Button methods.
- * <br>1.3 2006-12-29 Split methods even more up. Added additional buttons.
- * <br>1.2 2006-07-16 Split some methods up for better reuse.
- * <br>1.1 2006-03-27 Font exclusion list updated.
- * <br>1.0 13. Februar 2006 Created.
+ * @version $Id$
  */
 public class ButtonFactory {
 

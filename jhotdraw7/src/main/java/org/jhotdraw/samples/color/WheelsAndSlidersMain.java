@@ -1,5 +1,5 @@
 /**
- * @(#)WheelsAndSlidersMain.java  1.0  April 27, 2008
+ * @(#)WheelsAndSlidersMain.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -23,7 +23,7 @@ import javax.swing.event.*;
  * A demo of color wheels and color sliders using all kinds of color systems.
  *
  * @author Werner Randelshofer
- * @version 1.0 WheelsAndSlidersMain Created.
+ * @version $Id$
  */
 public class WheelsAndSlidersMain extends javax.swing.JPanel {
     private Color color;

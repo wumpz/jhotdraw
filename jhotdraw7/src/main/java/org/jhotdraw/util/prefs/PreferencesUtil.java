@@ -1,5 +1,5 @@
 /*
- * @(#)PreferencesUtil.java  1.1  2008-09-11
+ * @(#)PreferencesUtil.java
  *
  * Copyright (c) 2005-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -24,8 +24,7 @@ import javax.swing.event.ChangeListener;
  * PreferencesUtil.
  *
  * @author Werner Randelshofer
- * @version 1.1 2008-09-11 Added method installTabbedPanePrefsHandler.
- * <br>1.0 October 13, 2005 Created.
+ * @version $Id$
  */
 public class PreferencesUtil {
 

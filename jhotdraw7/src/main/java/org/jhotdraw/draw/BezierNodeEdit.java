@@ -1,5 +1,5 @@
 /*
- * @(#)BezierNodeEdit.java 1.0  2006-08-24
+ * @(#)BezierNodeEdit.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -23,7 +23,7 @@ import javax.swing.undo.UndoableEdit;
 /**
  * BezierNodeEdit.
  *
- * @version 1.0 2006-06-24 
+ * @version $Id$
  * @author Werner Randelshofer
  */
 class BezierNodeEdit extends AbstractUndoableEdit {

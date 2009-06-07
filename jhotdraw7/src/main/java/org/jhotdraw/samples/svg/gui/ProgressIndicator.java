@@ -1,5 +1,5 @@
 /*
- * @(#)ProgressIndicator.java  1.0  April 7, 2007
+ * @(#)ProgressIndicator.java
  *
  * Copyright (c) 2007-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -20,7 +20,7 @@ import javax.swing.*;
  * ProgressIndicator.
  *
  * @author Werner Randelshofer
- * @version 1.0 April 7, 2007 Created.
+ * @version $Id$
  */
 public class ProgressIndicator extends javax.swing.JPanel {
     ProgressMonitor m;

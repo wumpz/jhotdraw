@@ -1,5 +1,5 @@
 /*
- * @(#)DragTracker.java  1.0  2009-04-25
+ * @(#)DragTracker.java
  * 
  * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -37,7 +37,7 @@ package org.jhotdraw.draw;
  *
  *
  * @author Werner Randelshofer
- * @version 1.0 2009-04-25 Created.
+ * @version $Id$
  */
 public interface DragTracker extends Tool {
 

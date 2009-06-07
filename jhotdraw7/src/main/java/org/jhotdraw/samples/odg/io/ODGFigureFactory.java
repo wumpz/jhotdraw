@@ -1,5 +1,5 @@
 /*
- * @(#)ODGFigureFactory.java  1.0  April 11, 2007
+ * @(#)ODGFigureFactory.java
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -18,7 +18,7 @@ package org.jhotdraw.samples.odg.io;
  * ODGFigureFactory.
  *
  * @author Werner Randelshofer
- * @version 1.0 April 11, 2007 Created.
+ * @version $Id$
  */
 public class ODGFigureFactory {
     

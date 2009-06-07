@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultApplicationModel.java  1.1  2007-01-11
+ * @(#)DefaultApplicationModel.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -23,8 +23,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * DefaultApplicationModel.
  *
  * @author Werner Randelshofer.
- * @version 1.1 2007-01-11 Changed method createToolBars.
- * <br>1.0 June 10, 2006 Created.
+ * @version $Id$
  */
 public class DefaultApplicationModel
         extends AbstractBean

@@ -1,5 +1,5 @@
 /*
- * @(#)DuplicateAction.java  1.0  February 27, 2006
+ * @(#)DuplicateAction.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -17,9 +17,6 @@ package org.jhotdraw.app.action;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.text.*;
-import java.beans.*;
-import java.util.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.app.EditableComponent;
 
@@ -27,7 +24,7 @@ import org.jhotdraw.app.EditableComponent;
  * DuplicateAction.
  *
  * @author Werner Randelshofer.
- * @version 1.0 February 27, 2006 Created.
+ * @version $Id$
  */
 public class DuplicateAction extends AbstractAction {
     public final static String ID = "edit.duplicate";

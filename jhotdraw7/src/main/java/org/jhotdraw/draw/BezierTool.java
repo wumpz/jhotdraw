@@ -1,5 +1,5 @@
 /*
- * @(#)BezierTool.java  2.0.2  2009-03-15
+ * @(#)BezierTool.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -25,16 +25,7 @@ import org.jhotdraw.geom.*;
  * Tool to scribble a BezierFigure
  *
  * @author  Werner Randelshofer
- * @version 2.0.2 2009-03-15 Finish creation if the user switches to another
- * view.
- * <br>2.0.1 2008-06-08 FittedCurve did not include the point which
- * was digitized on mouse pressed.
- * <br>2.0 2008-05-17 Added support for property toolDoneAfterCreation. 
- * Draw rubberband while editing.
- * <br>1.2 2007-11-30 Huw Jones: Factored calls to Bezier.fitBezierPath out
- * into method calculateFittedPath.
- * <br>1.1 2006-07-12 Werner Randelshofer: Extended support for subclassing.
- * <br>1.0 2006-01-21 Werner Randelshofer: Created.
+ * @version $Id$
  */
 public class BezierTool extends AbstractTool {
 

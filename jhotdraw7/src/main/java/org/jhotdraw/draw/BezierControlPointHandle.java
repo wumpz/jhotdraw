@@ -1,5 +1,5 @@
 /*
- * @(#)BezierControlPointHandle.java  2.0  2008-05-12
+ * @(#)BezierControlPointHandle.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -18,7 +18,6 @@ import org.jhotdraw.undo.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
-import java.util.*;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import org.jhotdraw.geom.*;
@@ -28,9 +27,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * BezierControlPointHandle.
  *
  * @author Werner Randelshofer
- * @version 2.0 2008-05-11 Handle attributes are now retrieved from
- * DrawingEditor. Added keyPressed method.
- * <br>1.0 23. Januar 2006 Created.
+ * @version $Id$
  */
 public class BezierControlPointHandle extends AbstractHandle {
 

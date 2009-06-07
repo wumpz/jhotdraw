@@ -1,5 +1,5 @@
 /*
- * @(#)SVGApplet.java  1.1  2008-05-22
+ * @(#)SVGApplet.java
  *
  * Copyright (c) 2006-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -46,10 +46,7 @@ import org.jhotdraw.samples.svg.gui.*;
  * navigated out of the page and back again, without saving the changes.
  * 
  * @author Werner Randelshofer
- * @version 1.1 2008-05-22 Added Locale parameter.
- * <br>1.0.1 2008-03-26 Fixed ClassCastException when attempting to
- * display an error message in method save(). 
- * <br>1.0 2006-07-08 Created.
+ * @version $Id$
  */
 public class SVGApplet extends JApplet {
 

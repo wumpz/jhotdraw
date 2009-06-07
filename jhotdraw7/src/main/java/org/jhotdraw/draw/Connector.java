@@ -1,5 +1,5 @@
 /*
- * @(#)Connector.java  2.0  2007-05-19
+ * @(#)Connector.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -48,10 +48,7 @@ import java.io.*;
  *
  *
  * @author Werner Randelshofer
- * @version 2.0 2007-05-19 Connectors don't have the ability to draw themselves
- * anymore. Its the responsibility of the tools and handles to draw the
- * connectors they can connect with.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public interface Connector extends Cloneable, Serializable, DOMStorable {
     

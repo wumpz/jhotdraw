@@ -1,15 +1,15 @@
 /*
- * @(#)FigureToolBar.java  2.0  2009-04-17
+ * @(#)FigureToolBar.java
  *
  * Copyright (c) 2007-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
- * The copyright of this software is owned by the authors and  
- * contributors of the JHotDraw project ("the copyright holders").  
- * You may not use, copy or modify this software, except in  
- * accordance with the license agreement you entered into with  
- * the copyright holders. For details see accompanying license terms. 
+ * The copyright of this software is owned by the authors and
+ * contributors of the JHotDraw project ("the copyright holders").
+ * You may not use, copy or modify this software, except in
+ * accordance with the license agreement you entered into with
+ * the copyright holders. For details see accompanying license terms.
  */
 package org.jhotdraw.samples.svg.gui;
 
@@ -23,24 +23,16 @@ import org.jhotdraw.util.*;
 
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.plaf.LabelUI;
 import javax.swing.plaf.SliderUI;
-import javax.swing.text.DefaultFormatter;
-import javax.swing.text.DefaultFormatterFactory;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.action.*;
 import org.jhotdraw.gui.plaf.palette.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
 /**
  * FigureToolBar.
- * 
+ *
  * @author Werner Randelshofer
- * @version 2.0 2009-04-17 Moved hyperlink attributes out into LinkToolBar.
- * <br>1.2 2008-05-23 Hide the toolbar if nothing is selected, and no
- * creation tool is active. 
- * <br>1.1 2008-03-26 Don't draw border.
- * <br>1.0 May 1, 2007 Created.
+ * @version $Id$
  */
 public class FigureToolBar extends AbstractToolBar {
 

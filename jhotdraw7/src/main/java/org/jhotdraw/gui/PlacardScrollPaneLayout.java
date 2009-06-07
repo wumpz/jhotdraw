@@ -1,5 +1,5 @@
 /*
- * @(#)PlacardScrollPaneLayout.java  1.0  June 11, 2006
+ * @(#)PlacardScrollPaneLayout.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -22,7 +22,7 @@ import javax.swing.plaf.*;
  * PlacardScrollPaneLayout.
  *
  * @author Werner Randelshofer.
- * @version 1.0 June 11, 2006 Created.
+ * @version $Id$
  */
 public class PlacardScrollPaneLayout extends ScrollPaneLayout {
     /**

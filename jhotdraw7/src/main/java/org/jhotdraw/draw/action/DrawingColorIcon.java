@@ -1,5 +1,5 @@
 /*
- * @(#)DrawingColorIcon.java  1.0  2008-05-18
+ * @(#)DrawingColorIcon.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -14,15 +14,8 @@
 package org.jhotdraw.draw.action;
 
 import java.awt.*;
-import java.awt.color.*;
-import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.*;
-import javax.swing.*;
 import java.net.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.geom.*;
 
 /**
  * DrawingColorIcon draws a shape with the specified color for the drawing in 
@@ -32,7 +25,7 @@ import org.jhotdraw.geom.*;
  * {@link DrawingColorChooserAction }.
  * 
  * @author Werner Randelshofer
- * @version 1.0 2008-05-18 Created.
+ * @version $Id$
  */
 public class DrawingColorIcon extends javax.swing.ImageIcon {
 

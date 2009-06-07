@@ -1,5 +1,5 @@
 /*
- * @(#)SVGPathOutlineHandle.java  2.0  2008-05-22
+ * @(#)SVGPathOutlineHandle.java
  *
  * Copyright (c) 2007-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -21,11 +21,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * SVGPathOutlineHandle.
  *
  * @author Werner Randelshofer
- * @version 2.0 2008-05-22 Handle can be used to mark figure over which mouse is
- * hovering.
- * <br>1.1 2008-04-12 Improve visibility of the outline, by drawing it
- * using two differently colored strokes. 
- * <br>1.0 13. Mai 2007 Created.
+ * @version $Id$
  */
 public class SVGPathOutlineHandle extends AbstractHandle {
 

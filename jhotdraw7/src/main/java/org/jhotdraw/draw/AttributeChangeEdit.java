@@ -1,5 +1,5 @@
 /*
- * @(#)AttributeChangeEdit.java  2.0  2006-06-07
+ * @(#)AttributeChangeEdit.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -19,9 +19,7 @@ import javax.swing.undo.*;
  * AttributeChangeEdit.
  *
  * @author  Werner Randelshofer
- * @version 2.0 2006-06-07 Reworked.
- * <br>1.1 2006-03-15 Changed constructor.
- * <br>1.0 27. November 2003  Created.
+ * @version $Id$
  */
 public class AttributeChangeEdit<T> extends AbstractUndoableEdit {
     private Figure owner;

@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractConstrainer.java  1.0  August 1, 2007
+ * @(#)AbstractConstrainer.java
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -21,7 +21,7 @@ import org.jhotdraw.beans.*;
  * This abstract class can be extended to implement a {@link Constrainer}.
  *
  * @author Werner Randelshofer
- * @version 1.0 August 1, 2007 Created.
+ * @version $Id$
  */
 public abstract class AbstractConstrainer extends AbstractBean implements Constrainer {
     /** The listeners waiting for model changes. */

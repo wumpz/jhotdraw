@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractDrawingEditorAction.java  3.0  2009-06-02
+ * @(#)AbstractDrawingEditorAction.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -36,12 +36,7 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  * become garbage collected if it is not referenced by any other object.
  *
  * @author Werner Randelshofer
- * @version 3.0 2009-06-02 Register with DrawingEditor using
- * WeakPropertyChangeListener.
- * <br>2.0 2009-02-15 Renamed from AbstractEditorAction to
- * AbstractDrawingEditorAction.
- * <br>1.1 2006-03-15 Support for enabled state of editor added.
- * <br>1.0 2003-12-01 Created.
+ * @version $Id$
  */
 public abstract class AbstractDrawingEditorAction extends AbstractAction {
 

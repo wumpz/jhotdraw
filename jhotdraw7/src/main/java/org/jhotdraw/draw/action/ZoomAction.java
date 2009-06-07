@@ -1,5 +1,5 @@
 /*
- * @(#)ZoomAction.java  1.1 2006-04-21
+ * @(#)ZoomAction.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -16,14 +16,13 @@ package org.jhotdraw.draw.action;
 
 import java.awt.Rectangle;
 import javax.swing.*;
-import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
+
 /**
  * ZoomAction.
  *
  * @author  Werner Randelshofer
- * @version 1.1 2006-04-21 Constructor with DrawingEditor paremeter added.
- * <br>1.0 January 16, 2006 Created.
+ * @version $Id$
  */
 public class ZoomAction extends AbstractDrawingViewAction {
     private double scaleFactor;

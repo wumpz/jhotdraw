@@ -1,5 +1,5 @@
 /*
- * @(#)ClearSelectionAction.java  1.0  2008-05-17
+ * @(#)ClearSelectionAction.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -18,8 +18,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.text.*;
-import java.beans.*;
-import java.util.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.app.EditableComponent;
 
@@ -27,7 +25,7 @@ import org.jhotdraw.app.EditableComponent;
  * ClearSelectionAction.
  *
  * @author Werner Randelshofer.
- * @version 1.0 2008-05-17 Created.
+ * @version $Id$
  */
 public class ClearSelectionAction extends AbstractAction {
     public final static String ID = "edit.clearSelection";

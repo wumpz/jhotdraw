@@ -1,5 +1,5 @@
 /*
- * @(#)JLifeFormattedTextArea.java  1.0  2009-04-14
+ * @(#)JLifeFormattedTextArea.java
  * 
  * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -23,7 +23,7 @@ import javax.swing.text.Document;
  * JLifeFormattedTextArea.
  *
  * @author Werner Randelshofer
- * @version 1.0 2009-04-14 Created.
+ * @version $Id$
  */
 public class JLifeFormattedTextArea extends JTextArea {
 

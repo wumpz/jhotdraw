@@ -1,5 +1,5 @@
 /*
- * @(#)DOMStorableOutputFormat.java  1.2  2008-05-24
+ * @(#)DOMStorableOutputFormat.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -38,9 +38,7 @@ import org.jhotdraw.xml.*;
  * drawing application over time.
  *
  * @author Werner Randelshofer
- * @version 1.2 2008-05-24 Adapted to changes in InputFormat. 
- * <br>1.1 2007-12-16 Adapted to changes in InputFormat and OutputFormat.
- * <br>1.0 December 26, 2006 Created.
+ * @version $Id$
  */
 public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
     private DOMFactory factory;

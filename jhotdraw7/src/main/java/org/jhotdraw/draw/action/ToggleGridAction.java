@@ -1,5 +1,5 @@
 /*
- * @(#)ToggleGridAction.java  2.0 2007-07-31
+ * @(#)ToggleGridAction.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -17,15 +17,12 @@ package org.jhotdraw.draw.action;
 import org.jhotdraw.app.action.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.util.ResourceBundleUtil;
+
 /**
  * Toggles the grid of the current view.
  *
  * @author  Werner Randelshofer
- * @version 2.0 2007-07-31 Rewritten to act on a GridProject instead
- * of acting directly on DrawingView.
- * <br>1.2 2007-04-16 Added getOffConstrainer, getOnConstrainer methods.
- * <br>1.1 2006-04-21 Constructor with DrawingEditor paremeter added.
- * <br>1.0 January 16, 2006 Created.
+ * @version $Id$
  */
 public class ToggleGridAction extends AbstractDrawingViewAction {
     public final static String ID = "view.toggleGrid";

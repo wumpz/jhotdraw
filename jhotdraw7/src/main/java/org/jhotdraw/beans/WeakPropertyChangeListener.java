@@ -1,5 +1,5 @@
 /*
- * @(#)WeakPropertyChangeListener.java  1.0  2009-06-02
+ * @(#)WeakPropertyChangeListener.java
  * 
  * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -59,8 +59,8 @@ import java.lang.ref.*;
  *
  *  Design pattern: Proxy.
  *
- *  @version   $Revision: 1.2 $
- *  @author    Paul Speed
+ *  @author Paul Speed
+ *  @version $Id$
  */
 public class WeakPropertyChangeListener implements PropertyChangeListener {
     private WeakReference<PropertyChangeListener> weakRef;

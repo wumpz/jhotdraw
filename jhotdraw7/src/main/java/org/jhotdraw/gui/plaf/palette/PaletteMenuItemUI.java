@@ -1,5 +1,5 @@
 /*
- * @(#)PaletteMenuItemUI.java  1.1  2006-02-26
+ * @(#)PaletteMenuItemUI.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -15,19 +15,14 @@
 package org.jhotdraw.gui.plaf.palette;
 
 
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
 import javax.swing.*;
-import javax.swing.event.*;
 import java.awt.*;
-import java.awt.event.*;
+
 /**
  * PaletteMenuItemUI.
  *
  * @author  Werner Randelshofer
- * @version 1.1 2006-02-26 Removed antialiasing hint. 
- * <br>1.0 25. November 2003  Created.
+ * @version $Id$
  */
 public class PaletteMenuItemUI extends javax.swing.plaf.basic.BasicMenuItemUI {
     /** Creates a new instance. */

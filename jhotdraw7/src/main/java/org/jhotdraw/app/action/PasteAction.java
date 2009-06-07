@@ -1,5 +1,5 @@
 /*
- * @(#)PasteAction.java  2.0  2007-04-13
+ * @(#)PasteAction.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -19,15 +19,14 @@ import java.awt.datatransfer.*;
 import java.awt.event.*;
 import javax.swing.*;
 import org.jhotdraw.util.*;
+
 /**
  * Pastes the contents of the system clipboard at the caret position.
  * Acts on the EditableComponent or JTextComponent which had the focus when
  * the ActionEvent was generated.
  *
  * @author Werner Randelshofer
- * @version 2.0 2007-04-13 Use javax.swing.TransferHandler instead of
- * interface EditableComponent.
- * <br>1.0 October 9, 2005 Created.
+ * @version $Id$
  */
 public class PasteAction extends AbstractAction {
     public final static String ID = "edit.paste";

@@ -1,5 +1,5 @@
 /*
- * @(#)ODGAttributeKeys.java  1.0  July 28, 2007
+ * @(#)ODGAttributeKeys.java
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -28,7 +28,7 @@ import static org.jhotdraw.samples.odg.ODGConstants.*;
  * http://docs.oasis-open.org/office/v1.1/OS/OpenDocument-v1.1.pdf</a>
  *
  * @author Werner Randelshofer
- * @version 1.0 July 28, 2007 Created.
+ * @version $Id$
  */
 public class ODGAttributeKeys extends AttributeKeys {
      private final static ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");

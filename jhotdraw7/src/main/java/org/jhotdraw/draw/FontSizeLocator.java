@@ -1,5 +1,5 @@
 /*
- * @(#)FontSizeLocator.java  3.0  2007-04-14
+ * @(#)FontSizeLocator.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -14,17 +14,15 @@
 
 package org.jhotdraw.draw;
 
-import java.awt.*;
 import java.awt.geom.*;
 
 import static org.jhotdraw.draw.AttributeKeys.*;
+
 /**
  * FontSizeLocator.
  *
  * @author  Werner Randelshofer
- * @version 3.0 2007-04-14 Changed to support AttributeKey.TRANSFORM.
- * <br>2.0 2006-01-14 Changed to support double precison coordinates.
- * <br>1.0 10. March 2004  Created.
+ * @version $Id$
  */
 public class FontSizeLocator implements Locator {
     

@@ -1,5 +1,5 @@
 /*
- * @(#)DrawingEditor.java  4.0  2009-04-19
+ * @(#)DrawingEditor.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -72,17 +72,7 @@ import java.util.*;
  * <hr>
  * 
  * @author Werner Randelshofer
- * @version 4.0 2009-04-18 Made set/getDefaultAttribute methods and
- * set/getHandleAttribute methods type safe.
- * <br>3.1 2008-05-23 Added TOOL_PROPERTY.
- * <br>3.0 2008-05-11 Added methods setHandleAttribute, getHandleAttribute. 
- * <br>2.4 2007-12-25 Renamed PROP_CURRENT_VIEW to ACTIVE_VIEW_PROPERTY. 
- * <br>2.3 2007-05-26 Streamlined methods setActiveView, setFocusedView, getActiveView
- * into setActiveView, getActiveView.
- * <br>2.2 2007-04-16 Added method getDefaultAttributes 
- * <br>2.1 2006-03-15 Support for enabled state added.
- * <br>2.0 2006-02-13 Revised to support multiple drawing views.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public interface DrawingEditor {
 

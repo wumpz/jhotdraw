@@ -1,5 +1,5 @@
 /*
- * @(#)EditableComponent.java  3.0  2007-04-13
+ * @(#)EditableComponent.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -22,10 +22,7 @@ package org.jhotdraw.app;
  * See http://java.sun.com/docs/books/tutorial/uiswing/dnd/intro.html#cut
  *
  * @author Werner Randelshofer
- * @version 3.0 2007-04-13 We don't need to have Cut/Copy/Paste in this 
- * interface, because this functionality is already provided by
- * javax.swing.TransferHandler.
- * <br>2.0 2001-07-18
+ * @version $Id$
  */
 
 public interface EditableComponent {

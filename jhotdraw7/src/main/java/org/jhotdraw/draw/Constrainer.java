@@ -1,5 +1,5 @@
 /*
- * @(#)Constrainer.java  5.0  2007-12-17
+ * @(#)Constrainer.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -36,14 +36,7 @@ import javax.swing.event.ChangeListener;
  * <hr>
  *
  * @author  Werner Randelshofer
- * @version 5.0 2007-04-29 Werner Randelshofer: Refactored interface.
- * Huw Jones: Added constrainAngle() method. 
- * <br>4.0 2007-07-31 Werner Randelshofer: Redesigned to support the 
- * constrainement of rectangles.
- * <br>3.0 2007-04-29 Werner Randelshofer: Method constrainPoint(Point2D.Double, Direction) added.
- * <br>2.1 2006-07-03 Werner Randelshofer: Method isVisible() added.
- * <br>2.0 2006-01-17 Werner Randelshofer: Changed to support double precision coordinates.
- * <br>1.0 2004-03-14 Werner Randelshofer: Created.
+ * @version $Id$
  */
 public interface Constrainer {
 

@@ -1,5 +1,5 @@
 /**
- * @(#)ColorSystem.java  1.0  Apr 24, 2008
+ * @(#)ColorSystem.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -19,7 +19,7 @@ package org.jhotdraw.color;
  * components. Each component has a normalized value between 0 and 1.
  *
  * @author Werner Randelshofer
- * @version 1.0 Apr 24, 2008 Created.
+ * @version $Id$
  */
 public interface ColorSystem {
     /**

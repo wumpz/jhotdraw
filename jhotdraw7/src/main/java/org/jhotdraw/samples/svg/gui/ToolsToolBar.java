@@ -1,5 +1,5 @@
 /*
- * @(#)DrawToolsPane.java  2.0  2008-04-06
+ * @(#)DrawToolsPane.java
  *
  * Copyright (c) 2007-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -13,16 +13,13 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import javax.swing.border.*;
 import org.jhotdraw.gui.plaf.palette.*;
 import org.jhotdraw.samples.svg.*;
 import org.jhotdraw.util.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
-import java.awt.event.MouseListener;
 import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.app.action.*;
@@ -36,8 +33,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * DrawToolsPane.
  *
  * @author Werner Randelshofer
- * @version 2.0 2008-04-06 Reworked. 
- * <br>1.0 May 1, 2007 Created.
+ * @version $Id$
  */
 public class ToolsToolBar extends AbstractToolBar {
 

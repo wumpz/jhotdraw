@@ -1,5 +1,5 @@
 /*
- * @(#)PrintAction.java  2.0  2007-07-31
+ * @(#)PrintAction.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -42,9 +42,7 @@ import org.jhotdraw.util.*;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version 2.0 2007-07-31 Rewritten to use an interface instead of
- * relying on Java Reflection. 
- * <br>1.0 January 1, 2007 Created.
+ * @version $Id$
  */
 public class PrintAction extends AbstractViewAction {
 

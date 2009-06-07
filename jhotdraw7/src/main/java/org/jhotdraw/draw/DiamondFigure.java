@@ -1,5 +1,5 @@
 /*
- * @(#)DiamondFigure.java  1.1  2007-05-12
+ * @(#)DiamondFigure.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -17,19 +17,14 @@ package org.jhotdraw.draw;
 
 import java.awt.*;
 import java.awt.geom.*;
-import java.io.*;
-import java.util.*;
-import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.geom.Geom;
-import org.omg.CORBA.MARSHAL;
+
 /**
  * A diamond with vertices at the midpoints of its enclosing rectangle.
  *
  *
  * @author Werner Randelshofer
- * @version 1.1 2007-05-12 Removed convenience getters and setters for 
- * IS_QUADRATIC attribute. 
- * <br>1.0 2006-03-27 Created.
+ * @version $Id$
  */
 public class DiamondFigure extends AbstractAttributedFigure {
     /**

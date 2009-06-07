@@ -1,5 +1,5 @@
 /*
- * @(#)Matcher.java  2.0  2005-10-09
+ * @(#)Matcher.java
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -21,8 +21,7 @@ import javax.swing.text.*;
  * such as Boyer-Moore.
  *
  * @author  Werner Randelshofer
- * @version 2.0 2005-10-09 Reworked.
- * <br>1.0 2002-02-11 Created.
+ * @version $Id$
  */
 public class Matcher {
     /**

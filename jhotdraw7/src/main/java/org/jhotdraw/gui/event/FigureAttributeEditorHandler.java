@@ -1,5 +1,5 @@
 /*
- * @(#)FigureAttributeEditorHandler.java  1.0  2009-04-14
+ * @(#)FigureAttributeEditorHandler.java
  * 
  * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -27,7 +27,7 @@ import org.jhotdraw.draw.Figure;
  * currently selected Figure's in a DrawingEditor.
  *
  * @author Werner Randelshofer
- * @version 1.0 2009-04-14 Created.
+ * @version $Id$
  */
 public class FigureAttributeEditorHandler<T> extends AbstractAttributeEditorHandler<T> {
 

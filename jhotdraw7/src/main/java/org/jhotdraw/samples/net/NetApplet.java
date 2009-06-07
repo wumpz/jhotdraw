@@ -1,5 +1,5 @@
 /*
- * @(#)NetApplet.java  1.0  2006-07-15
+ * @(#)NetApplet.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -33,7 +33,7 @@ import org.jhotdraw.xml.*;
  * 
  * 
  * @author Werner Randelshofer
- * @version 1.0 2006-07-15 Created.
+ * @version $Id$
  */
 public class NetApplet extends JApplet {
     private final static String NAME = "JHotDraw Net";

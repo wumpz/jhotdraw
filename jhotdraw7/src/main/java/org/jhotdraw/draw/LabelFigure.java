@@ -1,5 +1,5 @@
 /*
- * @(#)LabelFigure.java  2.0  2006-01-14
+ * @(#)LabelFigure.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -14,11 +14,9 @@
 
 package org.jhotdraw.draw;
 
-import java.awt.*;
-import java.awt.font.*;
 import java.awt.geom.*;
 import java.util.*;
-import java.io.*;
+
 /**
  * A LabelFigure can be used to provide more double clickable area for a
  * TextHolderFigure.
@@ -26,8 +24,7 @@ import java.io.*;
  * FIXME - Move FigureListener into inner class.
  *
  * @author  Werner Randelshofer
- * @version 2.0 2006-01-14 Changed to support double precison coordinates.
- * <br>1.0 8. March 2004  Created.
+ * @version $Id$
  */
 public class LabelFigure extends TextFigure implements FigureListener {
     private TextHolderFigure target;

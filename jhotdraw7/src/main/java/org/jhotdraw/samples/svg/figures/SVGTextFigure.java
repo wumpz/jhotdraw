@@ -1,5 +1,5 @@
 /*
- * @(#)SVGText.java  2.1.1  2008-05-15
+ * @(#)SVGText.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -36,7 +36,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * Cache outline to improve performance.
  *
  * @author Werner Randelshofer
- * @version 2.1.1 Rectangle returned by getDrawingArea needs to be cloned.
+ * @version $Id$
  * <br>2.1 2007-05-13 Fixed transformation issues.
  * <br>2.0 2007-04-14 Adapted for new AttributeKeys.TRANSFORM support.
  * <br>1.0 July 8, 2006 Created.

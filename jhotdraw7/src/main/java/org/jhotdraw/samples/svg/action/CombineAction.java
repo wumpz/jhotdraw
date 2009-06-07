@@ -1,5 +1,5 @@
 /*
- * @(#)CombinePathsAction.java  2.0.1  2008-06-08
+ * @(#)CombinePathsAction.java
  *
  * Copyright (c) 2006-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -16,21 +16,15 @@ package org.jhotdraw.samples.svg.action;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.samples.svg.figures.*;
-import org.jhotdraw.undo.*;
 import org.jhotdraw.util.*;
 import java.util.*;
-import javax.swing.*;
 import javax.swing.undo.*;
 
 /**
  * CombinePathsAction.
  *
  * @author  Werner Randelshofer
- * @version 2.0.1 2008-06-08 Fixed combining/splitting of
- * transformed paths.
- * <br>2.0 2007-12-21 Refactored this class, so that it can be used
- * as a base class for SplitAction. 
- * <br>1.0 2006-07-12 Created.
+ * @version $Id$
  */
 public class CombineAction extends AbstractSelectedAction {
 

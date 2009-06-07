@@ -1,5 +1,5 @@
 /*
- * @(#)Geom.java  2.3  2009-05-04
+ * @(#)Geom.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -20,9 +20,7 @@ import static java.lang.Math.*;
 /**
  * Some geometric utilities.
  *
- * @version 2.3 2009-05-04 Method contains(Rectangle2D.Double, Rectangle2D.Double) added.
- * <br>2.2 2006-07-04 Method grow(Rectangle2D.Double) added.
- * <br>2.1 2006-01-20 Support for double precision coordinates enhanced.
+ * @version $Id$
  */
 public class Geom {
 

@@ -1,5 +1,5 @@
 /*
- * @(#)DOMStorable.java  1.0  February 17, 2004
+ * @(#)DOMStorable.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -23,7 +23,7 @@ import java.io.*;
  * provide a public parameterless constructor.
  *
  * @author  Werner Randelshofer
- * @version 1.0 February 17, 2004 Create.
+ * @version $Id$
  */
 public interface DOMStorable {
     public void write(DOMOutput out) throws IOException;

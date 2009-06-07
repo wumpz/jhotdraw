@@ -1,5 +1,5 @@
 /*
- * @(#)DrawApplet.java  2.1  2006-07-15
+ * @(#)DrawApplet.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -15,26 +15,21 @@
 package org.jhotdraw.samples.draw;
 
 import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.action.*;
 import org.jhotdraw.gui.*;
-import org.jhotdraw.util.*;
 
 import java.awt.*;
 import java.awt.geom.*;
-import java.awt.event.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
 import javax.swing.*;
-import javax.swing.event.*;
 import org.jhotdraw.xml.*;
+
 /**
  * DrawApplet.
  *
  * @author  wrandels
- * @version 2.1 2006-07-15 Added main method.
- * <br>2.0 Changed to support double precision coordinates.
- * <br>1.0 Created on 10. Marz 2004, 13:22.
+ * @version $Id$
  */
 public class DrawApplet extends JApplet {
     private final static String NAME = "JHotDraw Draw";

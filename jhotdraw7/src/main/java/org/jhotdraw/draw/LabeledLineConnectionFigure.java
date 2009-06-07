@@ -1,5 +1,5 @@
 /*
- * @(#)LabeledLineConnection.java  1.1  2006-02-14
+ * @(#)LabeledLineConnection.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -19,7 +19,6 @@ import java.util.*;
 import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.event.*;
-import javax.swing.undo.*;
 
 /**
  * A LineConnection with labels.
@@ -35,8 +34,7 @@ import javax.swing.undo.*;
  * </pre>
  *
  * @author Werner Randelshofer
- * @version 1.1 2006-02-14 Do not include labels in logical bounds.
- * <br>1.0 23. Januar 2006 Created.
+ * @version $Id$
  */
 public class LabeledLineConnectionFigure extends LineConnectionFigure
         implements CompositeFigure {

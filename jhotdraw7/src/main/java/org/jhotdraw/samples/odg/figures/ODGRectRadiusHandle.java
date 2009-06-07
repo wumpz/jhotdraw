@@ -1,5 +1,5 @@
 /*
- * @(#)ODGRectRadiusHandle.java  1.0  2007-07-28
+ * @(#)ODGRectRadiusHandle.java
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -27,7 +27,7 @@ import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
  * A Handle to manipulate the radius of a round lead rectangle.
  *
  * @author  Werner Randelshofer
- * @version 1.0 2007-07-28 Created.
+ * @version $Id$
  */
 public class ODGRectRadiusHandle extends AbstractHandle {
     private final static boolean DEBUG = false;

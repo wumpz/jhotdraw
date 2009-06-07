@@ -1,5 +1,5 @@
 /*
- * @(#)ToolEvent.java  3.0  2006-02-13
+ * @(#)ToolEvent.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -15,8 +15,8 @@
 package org.jhotdraw.draw;
 
 import java.awt.*;
-import java.awt.geom.*;
 import java.util.*;
+
 /**
  * An event sent to ToolListener's.
  * <hr>
@@ -31,9 +31,7 @@ import java.util.*;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version 3.0 2006-02-13 Changed to support multiple views.
- * <br>2.0 2006-01-14 Changed to support double precision coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public class ToolEvent extends EventObject {
     private Rectangle invalidatedArea;

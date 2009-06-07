@@ -1,5 +1,5 @@
 /*
- * @(#)SVGRect.java  2.1  2009-04-17
+ * @(#)SVGRect.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -25,10 +25,7 @@ import org.jhotdraw.geom.*;
  * SVGRect.
  *
  * @author Werner Randelshofer
- * @version 2.1 2009-04-17 Method contains() takes now into account
- * whether the figure is filled.
- * <br>2.0 2007-04-14 Adapted for new AttributeKeys.TRANSFORM support.
- * <br>1.0 July 8, 2006 Created.
+ * @version $Id$
  */
 public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
 

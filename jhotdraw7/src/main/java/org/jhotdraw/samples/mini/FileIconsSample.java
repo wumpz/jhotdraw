@@ -1,5 +1,5 @@
 /*
- * @(#)FileIconsSample.java   1.0  2008-05-28
+ * @(#)FileIconsSample.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -27,7 +27,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * Example showing how to lay out composite figures.
  *
  * @author Werner Randelshofer
- * @version 2008-05-28 Created.
+ * @version $Id$
  */
 public class FileIconsSample {
 

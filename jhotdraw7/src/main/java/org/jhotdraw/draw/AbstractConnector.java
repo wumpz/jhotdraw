@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractConnector.java  3.0  2007-05-18
+ * @(#)AbstractConnector.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -26,10 +26,7 @@ import org.jhotdraw.xml.DOMOutput;
  * @see Connector
  *
  * @author Werner Randelshofer
- * @version 3.0 2007-05-18 Rewritten due to changes in Connector interface.
- * <br>2.1 2006-06-05 Support connection to decorator.
- * <br>2.0 2006-01-14 Changed to support doubl precision coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public class AbstractConnector implements Connector {
     /**

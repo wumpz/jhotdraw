@@ -1,5 +1,5 @@
 /*
- * @(#)RotateHandle.java  3.0  2007-12-22
+ * @(#)RotateHandle.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -14,22 +14,13 @@
 
 package org.jhotdraw.draw;
 
-import org.jhotdraw.util.*;
-import org.jhotdraw.undo.*;
-import java.awt.*;
-import java.awt.event.*;
 import java.awt.geom.*;
-import java.util.*;
-import org.jhotdraw.geom.*;
-import static org.jhotdraw.draw.AttributeKeys.*;
+
 /**
  * A Handle to rotate a Figure.
  *
  * @author Werner Randelshofer.
- * @version 3.0 2007-12-22 Huw Jones: Changed base class from AbstractHandle to
- * AbstractRotateHandle. 
- * <br>2.0 2007-04-14 Werner Randelshofer: Added support for AttributeKeys.TRANSFORM.
- * <br>1.0 12. July 2006 Werner Randelshofer: Created.
+ * @version $Id$
  */
 public class RotateHandle extends AbstractRotateHandle {
 	

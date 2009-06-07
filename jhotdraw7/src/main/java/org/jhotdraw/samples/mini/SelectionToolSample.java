@@ -1,5 +1,5 @@
 /*
- * @(#)SelectionToolSample.java  1.0 January 11, 2007
+ * @(#)SelectionToolSample.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -45,7 +45,7 @@ import org.jhotdraw.geom.*;
  * 
  * 
  * @author Pondus
- * @version 1.0 January 11, 2007 Created.
+ * @version $Id$
  */
 public class SelectionToolSample {
 

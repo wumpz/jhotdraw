@@ -1,5 +1,5 @@
 /*
- * @(#)CanvasToolBar.java  1.0  2008-05-18
+ * @(#)CanvasToolBar.java
  *
  * Copyright (c) 2007-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -34,7 +34,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * CanvasToolBar.
  *
  * @author Werner Randelshofer
- * @version 1.0 2008-05-18 Created.
+ * @version $Id$
  */
 public class CanvasToolBar extends AbstractToolBar {
 

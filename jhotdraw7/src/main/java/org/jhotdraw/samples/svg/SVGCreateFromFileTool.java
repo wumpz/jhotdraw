@@ -1,5 +1,5 @@
 /*
- * @(#)ImageTool.java  2.1  2008-05-28
+ * @(#)ImageTool.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -14,23 +14,13 @@
 package org.jhotdraw.samples.svg;
 
 import org.jhotdraw.draw.*;
-import java.awt.image.*;
 import java.io.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.*;
-import java.awt.event.*;
-import javax.swing.event.*;
 import java.util.*;
-import org.jhotdraw.draw.action.*;
 import org.jhotdraw.gui.Worker;
-import org.jhotdraw.util.*;
-import org.jhotdraw.geom.*;
 import org.jhotdraw.samples.svg.io.SVGInputFormat;
 import org.jhotdraw.samples.svg.io.SVGZInputFormat;
-import org.jhotdraw.undo.*;
 
 /**
  * A tool to create new figures from an input file. If the file holds a bitmap
@@ -46,11 +36,7 @@ import org.jhotdraw.undo.*;
  * </ol>
  *
  * @author Werner Randelshofer
- * @version 2.1 2008-05-28 Added option for using FileDialog instead of
- * JFontChooser.
- * <br>2.0 2008-05-24 Changed behavior of ImageTool.
- * <br>1.1 2008-05-17 Honor toolDoneAfterCreation property.
- * <br>1.0 December 14, 2006 Created.
+ * @version $Id$
  */
 public class SVGCreateFromFileTool extends CreationTool {
 

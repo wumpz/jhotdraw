@@ -1,5 +1,5 @@
 /*
- * @(#)RelativeLocator.java  1.0  2006-03-29
+ * @(#)RelativeLocator.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -21,7 +21,7 @@ import java.awt.geom.*;
  * of a figures decorator.
  *
  * @author Werner Randelshofer
- * @version 2006-03-29 Created.
+ * @version $Id$
  */
 public class RelativeDecoratorLocator extends RelativeLocator {
     private boolean isQuadratic;

@@ -1,5 +1,5 @@
 /*
- * @(#)JavaxDOMInput.java  2.2  2006-12-31
+ * @(#)JavaxDOMInput.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -31,11 +31,7 @@ import org.xml.sax.SAXException;
  * Partners: {@link org.w3c.dom.Document} as Adaptee.
  *
  * @author  Werner Randelshofer
- * @version 2.2 2006-12-31 Use a DocumentBuilder instead of a Transformer for
- * better performance.
- * <br>2.1 2006-07-08 Support objects which don't have an ID.
- * <br>2.0 2006-06-10 Support for Enum and double array objects added.
- * <br>1.0 February 17, 2004 Created.
+ * @version $Id$
  */
 public class JavaxDOMInput implements DOMInput {
     /**

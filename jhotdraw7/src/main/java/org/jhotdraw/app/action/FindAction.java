@@ -1,5 +1,5 @@
 /*
- * @(#)FindAction.java  1.0  March 21, 2007
+ * @(#)FindAction.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -14,18 +14,10 @@
 
 package org.jhotdraw.app.action;
 
-import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.*;
-import java.awt.print.*;
-import java.util.Arrays;
-import javax.print.DocPrintJob;
-import javax.print.attribute.*;
-import javax.print.attribute.standard.*;
-import javax.swing.*;
 import org.jhotdraw.app.*;
-import org.jhotdraw.gui.*;
 import org.jhotdraw.util.*;
+
 /**
  * Presents a printer dialog to the user and then prints the View to the
  * chosen printer.
@@ -41,7 +33,7 @@ import org.jhotdraw.util.*;
  * @see org.jhotdraw.draw.DrawingPageable
  *
  * @author Werner Randelshofer
- * @version 1.0 March 21, 2007 Created.
+ * @version $Id$
  */
 public class FindAction extends AbstractViewAction {
     public final static String ID = "edit.find";

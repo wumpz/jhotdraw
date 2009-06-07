@@ -1,5 +1,5 @@
 /*
- * @(#)EllipseFigure.java  2.4  2006-12-23
+ * @(#)EllipseFigure.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -15,20 +15,15 @@
 package org.jhotdraw.draw;
 
 import org.jhotdraw.geom.Geom;
-import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
+
 /**
  * EllipseFigure.
  *
  * @author Werner Randelshofer
- * @version 2.4 2006-12-12 Made ellipse protected.
- * <br>2.3 2006-06-17 Added method chop(Point2D.Double).
- * <br>2.2 2006-05-19 Support for stroke placement added.
- * <br>2.1 2006-03-22 Method getFigureDrawBounds added.
- * <br>2.0 2006-01-14 Changed to support double precison coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public class EllipseFigure extends AbstractAttributedFigure {
     protected Ellipse2D.Double ellipse;

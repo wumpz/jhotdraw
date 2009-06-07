@@ -1,5 +1,5 @@
 /**
- * @(#)FontFaceNode.java  1.0  May 20, 2008
+ * @(#)FontFaceNode.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -23,7 +23,7 @@ import javax.swing.tree.TreeNode;
  * A FontFaceNode is a MutableTreeNode which does not allow children.
  *
  * @author Werner Randelshofer
- * @version 1.0 May 20, 2008 Created.
+ * @version $Id$
  */
 public class FontFaceNode implements MutableTreeNode, Comparable<FontFaceNode>, Cloneable {
 

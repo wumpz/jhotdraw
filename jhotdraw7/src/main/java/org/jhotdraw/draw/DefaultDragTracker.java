@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultDragTracker.java  2.0.1  2007-11-05
+ * @(#)DefaultDragTracker.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -41,11 +41,7 @@ import java.util.*;
  * @see SelectionTool
  *
  * @author Werner Randelshofer
- * @version 2.0.1 2007-11-05 Fixed a null pointer exception in method
- * mousePressed which occured, when the user deselected the selected
- * figure using shift-click.
- * <br>2.0 2006-01-14 Changed to support double precision coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public class DefaultDragTracker extends AbstractTool implements DragTracker {
 

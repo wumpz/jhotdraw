@@ -1,5 +1,5 @@
 /*
- * @(#)LineFigure.java  2.1  2008-07-06
+ * @(#)LineFigure.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -19,14 +19,12 @@ import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.*;
 import org.jhotdraw.geom.*;
+
 /**
  * A <em>line figure</em> draws a continuous bezier path between two points.
  *
  * @author Werner Randelshofer
- * @version 2.1 2008-07-06 Create BezierOutlineHandle on mouse over. 
- * <br>2.0 2006-02-27 Support point editing at handle level 0. 
- * <br>2.0 2006-01-14 Changed to support double precison coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public class LineFigure extends BezierFigure {
     

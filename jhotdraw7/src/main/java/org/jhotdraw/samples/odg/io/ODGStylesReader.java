@@ -1,5 +1,5 @@
 /*
- * @(#)ODGStylesReader.java  1.0  July 29, 2007
+ * @(#)ODGStylesReader.java
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -29,7 +29,7 @@ import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
  *
  *
  * @author Werner Randelshofer
- * @version 1.0 July 29, 2007 Created.
+ * @version $Id$
  */
 public class ODGStylesReader {
     private final static boolean DEBUG = false;

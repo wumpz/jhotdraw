@@ -1,5 +1,5 @@
 /*
- * @(#)EditCanvasAction.java  1.0  2007-12-18
+ * @(#)EditCanvasAction.java
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -20,7 +20,6 @@ import java.util.prefs.Preferences;
 import javax.swing.*;
 import org.jhotdraw.app.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.action.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 
@@ -31,7 +30,7 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * from within the drawing framework.
  *
  * @author Werner Randelshofer
- * @version 1.0 2007-12-18 Created.
+ * @version $Id$
  */
 public class EditCanvasAction extends AbstractDrawingViewAction {
     public final static String ID = "view.editCanvas";

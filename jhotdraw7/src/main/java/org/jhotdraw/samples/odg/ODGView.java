@@ -1,5 +1,5 @@
 /*
- * @(#)ODGView.java  1.3  2007-11-25
+ * @(#)ODGView.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -18,7 +18,6 @@ import java.awt.image.BufferedImage;
 import java.awt.print.Pageable;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.prefs.Preferences;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.samples.odg.io.ODGInputFormat;
 import org.jhotdraw.samples.svg.figures.*;
@@ -40,10 +39,7 @@ import org.jhotdraw.draw.action.*;
  * A view for ODG drawings.
  *
  * @author Werner Randelshofer
- * @version 1.3 2007-11-25 Method clear is now invoked on a worker thread. 
- * <br>1.2 2006-12-10 Used SVGStorage for reading SVG drawing (experimental).
- * <br>1.1 2006-06-10 Extended to support DefaultDrawApplicationModel.
- * <br>1.0 2006-02-07 Created.
+ * @version $Id$
  */
 public class ODGView extends AbstractView implements ExportableView {
     public final static String GRID_VISIBLE_PROPERTY = "gridVisible";

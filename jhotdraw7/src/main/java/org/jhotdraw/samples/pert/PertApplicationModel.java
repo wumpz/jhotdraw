@@ -1,5 +1,5 @@
 /*
- * @(#)PertApplicationModel.java  1.0  2006-06-18
+ * @(#)PertApplicationModel.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -29,7 +29,7 @@ import org.jhotdraw.samples.pert.figures.*;
  * PertApplicationModel.
  * 
  * @author Werner Randelshofer.
- * @version 1.0 2006-06-18 Created.
+ * @version $Id$
  */
 public class PertApplicationModel extends DefaultApplicationModel {
     private final static double[] scaleFactors = {5, 4, 3, 2, 1.5, 1.25, 1, 0.75, 0.5, 0.25, 0.10};

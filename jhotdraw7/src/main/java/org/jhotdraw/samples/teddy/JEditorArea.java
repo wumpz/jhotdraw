@@ -1,5 +1,5 @@
 /*
- * @(#)JEditorArea.java  1.0  October 10, 2005
+ * @(#)JEditorArea.java
  *
  * Copyright (c) 2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -22,7 +22,7 @@ import javax.swing.text.*;
  * A happy marriage between JTextArea and JEditorPane.
  *
  * @author Werner Randelshofer
- * @version 1.0 October 10, 2005 Created.
+ * @version $Id$
  */
 public class JEditorArea extends JEditorPane {
     private boolean wrap;

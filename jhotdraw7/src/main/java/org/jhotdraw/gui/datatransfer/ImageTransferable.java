@@ -1,5 +1,5 @@
 /*
- * @(#)ImageTransferable.java  2.0  2008-03-20
+ * @(#)ImageTransferable.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -24,9 +24,7 @@ import javax.imageio.ImageIO;
  * A Transferable with an Image as its transfer class.
  *
  * @author Werner Randelshofer
- * @version 2.0 2008-03-20 Explicitly export images in PNG format, to circumvent 
- * image clipboard issues on Mac OS X 10.5.2.
- * <br>1.0 January 2, 2007 Created.
+ * @version $Id$
  */
 public class ImageTransferable implements Transferable {
     private Image image;

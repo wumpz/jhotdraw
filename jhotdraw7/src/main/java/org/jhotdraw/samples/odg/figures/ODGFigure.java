@@ -1,5 +1,5 @@
 /*
- * @(#)ODGFigure.java  1.0  April 12, 2007
+ * @(#)ODGFigure.java
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -20,7 +20,7 @@ import org.jhotdraw.draw.Figure;
  * ODGFigure.
  *
  * @author Werner Randelshofer
- * @version 1.0 April 12, 2007 Created.
+ * @version $Id$
  */
 public interface ODGFigure extends Figure {
     /**

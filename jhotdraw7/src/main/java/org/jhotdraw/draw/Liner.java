@@ -1,5 +1,5 @@
 /*
- * @(#)Liner.java  1.0  2006-01-20
+ * @(#)Liner.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -31,7 +31,7 @@ import org.jhotdraw.geom.*;
  * <hr>
  * 
  * @author Werner Randelshofer
- * @version 1.0 2006-01-20 Created.
+ * @version $Id$
  */
 public interface Liner extends Serializable, Cloneable {
     

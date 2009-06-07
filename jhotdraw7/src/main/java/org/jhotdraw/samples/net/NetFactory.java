@@ -1,5 +1,5 @@
 /*
- * @(#)PertFactory.java  1.0  2006-01-18
+ * @(#)PertFactory.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -23,7 +23,7 @@ import org.jhotdraw.xml.*;
  * NetFactory.
  * 
  * @author Werner Randelshofer
- * @version 2006-01-18 Created.
+ * @version $Id$
  */
 public class NetFactory extends DefaultDOMFactory {
     private final static Object[][] classTagArray = {

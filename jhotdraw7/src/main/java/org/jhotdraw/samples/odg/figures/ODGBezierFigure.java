@@ -1,5 +1,5 @@
 /*
- * @(#)ODGBezierFigure.java  1.0  2007-07-28
+ * @(#)ODGBezierFigure.java
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -27,7 +27,7 @@ import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
  * represent a single BezierPath segment within an ODG path.
  * 
  * @author Werner Randelshofer
- * @version 1.0 2007-07-28 Created.
+ * @version $Id$
  */
 public class ODGBezierFigure extends BezierFigure {
     private transient Rectangle2D.Double cachedDrawingArea;

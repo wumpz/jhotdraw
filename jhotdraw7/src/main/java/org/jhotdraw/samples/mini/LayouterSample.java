@@ -1,5 +1,5 @@
 /*
- * @(#)LayouterSample.java   1.0  2009-01-25
+ * @(#)LayouterSample.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -21,7 +21,7 @@ import org.jhotdraw.draw.*;
  * within a graphical composite figure.
  *
  * @author Werner Randelshofer
- * @version 1.0 2009-01-25 Created.
+ * @version $Id$
  */
 public class LayouterSample {
     public static void main(String[] args) {

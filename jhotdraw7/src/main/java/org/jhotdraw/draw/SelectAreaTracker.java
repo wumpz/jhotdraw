@@ -1,5 +1,5 @@
 /*
- * @(#)SelectAreaTracker.java  1.0  2009-04-25
+ * @(#)SelectAreaTracker.java
  * 
  * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -29,7 +29,7 @@ package org.jhotdraw.draw;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version 1.0 2009-04-25 Created.
+ * @version $Id$
  */
 public interface SelectAreaTracker extends Tool {
 

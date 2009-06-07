@@ -1,5 +1,5 @@
 /*
- * @(#)TextFigure.java  1.0.2  2007-05-02
+ * @(#)TextFigure.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -32,11 +32,7 @@ import org.jhotdraw.xml.DOMOutput;
  * @see TextCreationTool
  *
  * @author Werner Randelshofer
- * @version 2.0.2 2007-05-02 Made all instance variables protected instead of
- * private. 
- * <br>2.0.1 2006-02-27 Draw UNDERLINE_LOW_ONE_PIXEL instead of UNDERLINE_ON.
- * <br>2.0 2006-01-14 Changed to support double precison coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public class TextFigure extends AbstractAttributedDecoratedFigure
         implements TextHolderFigure {

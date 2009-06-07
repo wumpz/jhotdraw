@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractViewAction.java  1.1  2007-03-22
+ * @(#)AbstractViewAction.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -31,9 +31,7 @@ import org.jhotdraw.app.View;
  * is invoked.
  * 
  * @author Werner Randelshofer
- * @version 1.0 October 9, 2005 Created.
- * @see org.jhotdraw.app.View
- * @see org.jhotdraw.app.Application
+ * @version $Id$
  */
 public abstract class AbstractViewAction extends AbstractAction {
     private Application app;

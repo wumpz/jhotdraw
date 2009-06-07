@@ -8,7 +8,7 @@
  * following may not be restricted.</p>
  *
  * @author Vlad Patryshev, Alexei Trebounskikh
- * @version 1.4
+ * @version $Id$
  */
 package org.jhotdraw.samples.svg.io;
 

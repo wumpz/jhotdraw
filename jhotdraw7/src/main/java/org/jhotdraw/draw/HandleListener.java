@@ -1,5 +1,5 @@
 /*
- * @(#)HandleListener.java  1.0  18. November 2003
+ * @(#)HandleListener.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -30,7 +30,7 @@ import java.util.*;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version 1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public interface HandleListener extends EventListener {
     /**

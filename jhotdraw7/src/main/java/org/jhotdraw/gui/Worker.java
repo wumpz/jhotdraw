@@ -1,5 +1,5 @@
 /*
- * @(#)Worker.java  2.1  2005-10-16
+ * @(#)Worker.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -13,7 +13,6 @@
  */
 package org.jhotdraw.gui;
 
-import java.awt.ActiveEvent;
 import javax.swing.SwingUtilities;
 
 /**
@@ -25,11 +24,7 @@ import javax.swing.SwingUtilities;
  * worker thread but it can also be like a Runnable object.
  *
  * @author Werner Randelshofer
- * @version 2.1 2005-10-16 Method start() added.
- * <br>2.0 2005-09-27 Revised.
- * <br>1.1.1 2001-08-24 Call finished() within finally block.
- * <br>1.1 2001-08-24 Reworked for JDK 1.3.
- * <br>1.0 1998-10-07 Created.
+ * @version $Id$
  */
 public abstract class Worker implements Runnable {
     private Object value;  // see getValue(), setValue()

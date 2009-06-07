@@ -1,5 +1,5 @@
 /*
- * @(#)SVGFigure.java  1.0  2006-07-09
+ * @(#)SVGFigure.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -20,7 +20,7 @@ import org.jhotdraw.draw.*;
  * SVGFigure.
  *
  * @author Werner Randelshofer
- * @version 1.0 2006-07-09 Created.
+ * @version $Id$
  */
 public interface SVGFigure extends Figure {
     /**

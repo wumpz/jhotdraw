@@ -1,5 +1,5 @@
 /*
- * @(#)TextInputFormat.java  1.2  2008-05-24
+ * @(#)TextInputFormat.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -14,17 +14,12 @@
 
 package org.jhotdraw.draw;
 
-import java.awt.*;
 import java.awt.datatransfer.*;
 import java.awt.geom.*;
-import java.awt.image.*;
 import java.io.*;
 import java.util.*;
-import javax.imageio.*;
 import javax.swing.*;
-import javax.swing.filechooser.*;
 import org.jhotdraw.geom.Dimension2DDouble;
-import org.jhotdraw.gui.datatransfer.*;
 import org.jhotdraw.io.*;
 
 /**
@@ -37,12 +32,7 @@ import org.jhotdraw.io.*;
  * text to the same Figure, or it can create a new Figure for each line.
  *
  * @author Werner Randelshofer 
- * @version 1.2 2008-05-24 Adapted to changes in InputFormat.
- * <br>1.1.1 2008-03-19 Throw an IOException if we are unable to read
- * text from the input stream. 
- * <br>1.1 2007-12-16 Adapted to changes in InputFormat.
- * <br>1.0 2007-04-12 Created.
- * @see org.jhotdraw.draw.TextHolderFigure
+ * @version $Id$
  */
 public class TextInputFormat implements InputFormat {
     /**

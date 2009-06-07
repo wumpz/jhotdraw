@@ -1,5 +1,5 @@
 /*
- * @(#)PrintableView.java  1.0  July 31, 2007
+ * @(#)PrintableView.java
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -30,7 +30,7 @@ import java.awt.print.*;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version 1.0 July 31, 2007 Created.
+ * @version $Id$
  */
 public interface PrintableView extends View {
 public Pageable createPageable();   

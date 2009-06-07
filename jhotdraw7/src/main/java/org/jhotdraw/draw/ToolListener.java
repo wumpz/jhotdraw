@@ -1,5 +1,5 @@
 /*
- * @(#)ToolListener.java  3.0  2006-02-13
+ * @(#)ToolListener.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -16,6 +16,7 @@
 package org.jhotdraw.draw;
 
 import java.util.*;
+
 /**
  * Interface implemented by observers of {@link Tool}s.
  * 
@@ -31,8 +32,7 @@ import java.util.*;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version 3.0 2003-02-13 Revised to support multiple views.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public interface ToolListener extends EventListener {
     /**

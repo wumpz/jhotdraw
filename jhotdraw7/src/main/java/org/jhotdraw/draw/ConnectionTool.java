@@ -1,5 +1,5 @@
 /*
- * @(#)ConnectionTool.java  4.2.1  2008-07-06
+ * @(#)ConnectionTool.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -40,21 +40,7 @@ import java.awt.dnd.*;
  * </ol>
  *
  * @author Werner Randelshofer
- * @version 4.2.1 2008-07-06 Method mouseReleased allowed to connect to figures
- * even if ConnectionFigure.canConnect(…,…) returned false.
- * <br>4.2 2008-03-31 Added tow methods named canConnect() to this tool,
- * so that subclasses can override the behavior. Made variables startConnector
- * and endConnector protected instead of private. 
- * <br>4.1 2007-08-22 Added property 'toolDoneAfterCreation'.
- * <br>4.0 2007-05 Reworked due to changes in ConnectionFigure interface.
- * Removed split/join functionality for connection points.
- * <br>3.1 2006-07-15 Added support for prototype class name.
- * <br>3.0 2006-06-07 Reworked.
- * <br>2.1 2006-03-15 When user is not pressing the mouse button, we use
- * the mouse over view as the current view.
- * <br>2.0.1 2006-02-14 Fixed drawing code.
- * <br>2.0 2006-01-14 Changed to support double precision coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public class ConnectionTool extends AbstractTool {
 

@@ -1,5 +1,5 @@
 /*
- * @(#)UndoAction.java  2.0  2006-06-15
+ * @(#)UndoAction.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -19,15 +19,14 @@ import java.beans.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
+
 /**
  * Undoes the last user action.
  * In order to work, this action requires that the View returns a view-specific 
  * undo action when invoking getAction(UndoAction.ID) on the View.
  *
- *
  * @author Werner Randelshofer
- * @version 2.0 2006-06-15 Reworked.
- * <br>1.0 October 9, 2005 Created.
+ * @version $Id$
  */
 public class UndoAction extends AbstractViewAction {
     public final static String ID = "edit.undo";

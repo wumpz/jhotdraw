@@ -1,5 +1,5 @@
 /*
- * @(#)SVGTextArea.java  2.1.1  2009-03-29
+ * @(#)SVGTextArea.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -27,12 +27,7 @@ import org.jhotdraw.geom.*;
  * SVGTextArea.
  *
  * @author Werner Randelshofer
- * @version 2.1.1 2009-03-29 Two consecutive tab-characters in text caused
- * ArrayIndexOutOfBoundsException.
- * <br>2.1 2008-05-31 Added method getPreferredTextSize.
- * <br>2.0.1 Rectangle returned by getDrawingArea needs to be cloned.
- * <br>2.0 2007-04-14 Adapted for new AttributeKeys.TRANSFORM support.
- * <br>1.0 December 9, 2006 Created.
+ * @version $Id$
  */
 public class SVGTextAreaFigure extends SVGAttributedFigure
         implements SVGFigure, TextHolderFigure {

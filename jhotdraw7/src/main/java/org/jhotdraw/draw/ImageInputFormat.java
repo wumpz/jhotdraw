@@ -1,5 +1,5 @@
 /*
- * @(#)ImageInputFormat.java  2.1  2008-05-24
+ * @(#)ImageInputFormat.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -21,7 +21,6 @@ import java.io.*;
 import java.util.*;
 import javax.imageio.*;
 import javax.swing.*;
-import javax.swing.filechooser.*;
 import org.jhotdraw.gui.datatransfer.*;
 import org.jhotdraw.io.*;
 import org.jhotdraw.util.Images;
@@ -34,12 +33,7 @@ import org.jhotdraw.util.Images;
  * as a prototype for creating a figure that holds the imported image.
  * 
  * @author Werner Randelshor 
- * @version 2.1 2008-05-24 Adapted to changes in InputFormat. 
- * <br>2.0 2008-03-20 Added workaround for image clipboard issues on 
- * Mac OS X 10.5.2. 
- * <br>1.1 2007-12-16 Adapted to changes in InputFormat.
- * <br>1.0 January 3, 2007 Created.
- * @see org.jhotdraw.draw.ImageHolderFigure
+ * @version $Id$
  */
 public class ImageInputFormat implements InputFormat {
 

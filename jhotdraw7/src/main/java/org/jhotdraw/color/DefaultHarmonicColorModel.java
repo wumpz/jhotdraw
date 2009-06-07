@@ -1,5 +1,5 @@
 /**
- * @(#)DefaultHarmonicColorModel.java  1.0  Apr 19, 2008
+ * @(#)DefaultHarmonicColorModel.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -17,15 +17,13 @@ import java.awt.Color;
 import java.beans.*;
 import java.util.ArrayList;
 import javax.swing.*;
-import javax.swing.event.*;
-
 import static org.jhotdraw.color.HarmonicColorModel.*;
 
 /**
  * DefaultHarmonicColorModel.
  *
  * @author Werner Randelshofer
- * @version 1.0 Apr 19, 2008 Created.
+ * @version $Id$
  */
 public class DefaultHarmonicColorModel extends AbstractListModel implements HarmonicColorModel {
 

@@ -1,5 +1,5 @@
 /*
- * @(#)Polygon2D.java  1.0  2009-05-03
+ * @(#)Polygon2D.java
  * 
  * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -29,7 +29,7 @@ import sun.awt.geom.Crossings;
  * Polygon2D.
  *
  * @author Werner Randelshofer
- * @version 1.0 2009-05-03 Created.
+ * @version $Id$
  */
 public abstract class Polygon2D implements Shape, Cloneable {
 

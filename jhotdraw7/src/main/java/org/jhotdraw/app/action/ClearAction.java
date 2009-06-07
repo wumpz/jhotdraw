@@ -1,5 +1,5 @@
 /*
- * @(#)ClearAction.java  1.1  2007-11-25
+ * @(#)ClearAction.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -16,9 +16,6 @@ package org.jhotdraw.app.action;
 
 import org.jhotdraw.gui.Worker;
 import org.jhotdraw.util.*;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
 
@@ -26,8 +23,7 @@ import org.jhotdraw.app.View;
  * Clears a view.
  *
  * @author Werner Randelshofer
- * @version 1.1 2007-11-25 Call method clear on a worker thread.
- * <br>1.0  2005-10-16 Created.
+ * @version $Id$
  */
 public class ClearAction extends AbstractSaveBeforeAction {
     public final static String ID = "file.clear";

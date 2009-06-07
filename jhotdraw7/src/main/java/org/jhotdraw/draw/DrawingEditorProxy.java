@@ -1,5 +1,5 @@
 /*
- * @(#)DrawingEditorProxy.java  1.0  April 29, 2007
+ * @(#)DrawingEditorProxy.java
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -36,7 +36,7 @@ import org.jhotdraw.beans.AbstractBean;
  *
  *
  * @author Werner Randelshofer
- * @version 1.0 April 29, 2007 Created.
+ * @version $Id$
  */
 public class DrawingEditorProxy extends AbstractBean implements DrawingEditor {
     private DrawingEditor target;

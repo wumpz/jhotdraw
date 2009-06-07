@@ -1,5 +1,5 @@
 /*
- * @(#)SelectionColorChooserAction.java  2.0  2006-06-07
+ * @(#)SelectionColorChooserAction.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -14,13 +14,11 @@
 
 package org.jhotdraw.draw.action;
 
-import javax.swing.*;
 import java.util.*;
 import java.awt.*;
-import java.beans.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.undo.CompositeEdit;
+
 /**
  * This is like EditorColorChooserAction, but the JColorChooser is initialized with
  * the color of the currently selected Figures.
@@ -29,8 +27,7 @@ import org.jhotdraw.undo.CompositeEdit;
  * {@link SelectionColorIcon }.
  * 
  * @author Werner Randelshofer
- * @version 2.0 2006-06-07 Reworked.
- * <br>1.0 2004-03-02  Created.
+ * @version $Id$
  */
 public class SelectionColorChooserAction extends EditorColorChooserAction {
     

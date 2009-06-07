@@ -1,5 +1,5 @@
 /*
- * @(#)SheetEvent.java  1.0  26. September 2005
+ * @(#)SheetEvent.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -22,7 +22,7 @@ import org.jhotdraw.gui.JSheet;
  * SheetEvent.
  *
  * @author  Werner Randelshofer
- * @version 1.0 26. September 2005 Created.
+ * @version $Id$
  */
 public class SheetEvent extends EventObject {
     private JComponent pane;

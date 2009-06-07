@@ -1,5 +1,5 @@
 /*
- * @(#)ODGPathOutlineHandle.java  1.0  2007-07-28
+ * @(#)ODGPathOutlineHandle.java
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -22,7 +22,7 @@ import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
  * ODGPathOutlineHandle.
  * 
  * @author Werner Randelshofer
- * @version 1.0 2007-07-28 Created.
+ * @version $Id$
  */
 public class ODGPathOutlineHandle extends AbstractHandle {
     private final static Color HANDLE_FILL_COLOR = new Color(0x00a8ff);

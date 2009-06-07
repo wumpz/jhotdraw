@@ -1,5 +1,5 @@
 /*
- * @(#)AttributeToggler.java  4.0  2006-06-07
+ * @(#)AttributeToggler.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -18,12 +18,12 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.text.*;
-import javax.swing.event.*;
 import java.util.*;
 import javax.swing.undo.*;
 import org.jhotdraw.app.action.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.util.ResourceBundleUtil;
+
 /**
  * AttributeToggler toggles an attribute of the selected figures between two
  * different values.
@@ -32,10 +32,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * it will apply the text action to the JTextComponent.
  *
  * @author  Werner Randelshofer
- * @version 4.0 2006-06-07 Reworked.
- * <br>3.0 2006-02-27 Support for compatible text action added.
- * <br>2.0 2006-02-27 Toggle attributes regardles from action state.
- * <br>1.0 27. November 2003  Created.
+ * @version $Id$
  */
 public class AttributeToggler<T> extends AbstractAction {
     private DrawingEditor editor;

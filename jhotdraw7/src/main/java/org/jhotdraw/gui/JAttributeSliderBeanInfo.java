@@ -1,5 +1,5 @@
 /*
- * @(#)JAttributeSliderBeanInfo.java  1.0  11. November 2003
+ * @(#)JAttributeSliderBeanInfo.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -19,7 +19,7 @@ import java.beans.*;
  * BeanInfo for JDoubleAttributeSlider.
  *
  * @author  Werner Randelshofer
- * @version 1.0 2003-11-11 Created.
+ * @version $Id$
  */
 public class JAttributeSliderBeanInfo extends SimpleBeanInfo {
     

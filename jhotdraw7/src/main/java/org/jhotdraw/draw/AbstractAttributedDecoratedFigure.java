@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractAttributedDecoratedFigure.java  1.0  January 5, 2007
+ * @(#)AbstractAttributedDecoratedFigure.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -26,7 +26,7 @@ import org.jhotdraw.xml.*;
  * which has an attribute set.
  *
  * @author Werner Randelshofer
- * @version 1.0 January 5, 2007 Created.
+ * @version $Id$
  */
 public abstract class AbstractAttributedDecoratedFigure
         extends AbstractAttributedFigure implements DecoratedFigure {

@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractConnectionHandle.java  3.0  2007-05-18
+ * @(#)AbstractConnectionHandle.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -27,12 +27,7 @@ import java.util.*;
  * XXX - Undo/Redo is not implemented yet.
  *
  * @author Werner Randelshofer
- * @version 3.0 2007-05-18 Changed due to changes in the canConnect methods
- * of the ConnectionFigure interface. Shortened the name from
- * AbstractChangeConnectionHandle to AbstractConnectionHandle.
- * <br>2.1 2006-02-16 Remove savedLiner from connection while tracking.
- * <br>2.0 2006-01-14 Changed to support double coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public abstract class AbstractConnectionHandle extends AbstractHandle {
 

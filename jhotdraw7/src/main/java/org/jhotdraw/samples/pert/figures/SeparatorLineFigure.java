@@ -1,5 +1,5 @@
 /*
- * @(#)SeparatorLineFigure.java  1.0  2. Dezember 2003
+ * @(#)SeparatorLineFigure.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -24,7 +24,7 @@ import org.jhotdraw.geom.*;
  * A horizontal line with a preferred size of 1,1.
  *
  * @author  Werner Randelshofer
- * @version 1.0 2. Dezember 2003  Created.
+ * @version $Id$
  */
 public class SeparatorLineFigure 
 extends LineFigure {

@@ -1,5 +1,5 @@
 /*
- * @(#)PaletteToolBarBorder.java  1.2  2008-05-18
+ * @(#)PaletteToolBarBorder.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -24,14 +24,7 @@ import javax.swing.border.*;
  * PaletteToolBarBorder.
  *
  * @author  Werner Randelshofer
- * @version 1.2 2008-05-18 Added method getDragInsets. 
- * <br>1.1 2005-12-18 Tweaked insets.
- * <br>1.0.4 2005-12-09 Inner class UIResource added.
- * <br>1.0.3 2005-09-10 Dont' implement UIResource.
- * <br>1.0.2 2005-05-28 Fixed class cast exceptions in methods paintBorder
- * and getBorderInsets.
- * <br>1.0.1 2005-04-21 Fixed insets.
- * <br>1.0  2005-03-30  Created.
+ * @version $Id$
  */
 public class PaletteToolBarBorder
         extends AbstractBorder

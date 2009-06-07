@@ -1,5 +1,5 @@
 /*
- * @(#)DirectoryView.java  1.0  2009-02-08
+ * @(#)DirectoryView.java
  * 
  * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -30,7 +30,7 @@ import javax.swing.JFileChooser;
  * <hr>
  *
  * @author Werner Randelshofer, Staldenmattweg 2, CH-6405 Immensee
- * @version 1.0 2009-02-08 Created.
+ * @version $Id$
  */
 public interface DirectoryView extends View {
     /**

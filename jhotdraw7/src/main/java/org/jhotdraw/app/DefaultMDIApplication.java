@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultMDIApplication.java  1.1.1  2009-06-02
+ * @(#)DefaultMDIApplication.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -36,10 +36,7 @@ import org.jhotdraw.app.action.*;
  * parent JFrame quits the application.
  *
  * @author Werner Randelshofer.
- * @version 1.1.1 2009-06-02 Fixed a memory leak caused by OpenRecentAction's
- * not being disposed when they are no longer needed.
- * <br>1.1 2007-12-25 Added method updateViewTitle.
- * <br>1.0 June 5, 2006 Created.
+ * @version $Id$
  */
 public class DefaultMDIApplication extends AbstractApplication {
 

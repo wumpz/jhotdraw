@@ -1,5 +1,5 @@
 /*
- * @(#)SVGEllipse.java  2.1  2009-04-17
+ * @(#)SVGEllipse.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -25,12 +25,7 @@ import org.jhotdraw.samples.svg.*;
  * SVGEllipse represents a SVG ellipse and a SVG circle element.
  *
  * @author Werner Randelshofer
- * @version 2.1 2009-04-17 Method contains() takes now into account
- * whether the figure is filled.
- * <br>2.0.3 Don't draw ellipse if widht or height is 0.
- * <br>2.0.2 2008-03-20 Fixed contains() method.
- * <br>2.0 2007-04-14 Adapted for new AttributeKeys.TRANSFORM support.
- * <br>1.0 July 8, 2006 Created.
+ * @version $Id$
  */
 public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
 

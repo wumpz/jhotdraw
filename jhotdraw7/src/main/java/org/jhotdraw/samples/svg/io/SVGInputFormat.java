@@ -1,5 +1,5 @@
 /*
- * @(#)SVGInputFormat.java  1.3  2009-04-17
+ * @(#)SVGInputFormat.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -52,20 +52,7 @@ import org.jhotdraw.xml.css.CSSParser;
  *
  *
  * @author Werner Randelshofer
- * @version 1.3 2009-04-17 Added support for link target. Added support for
- * linked SVG images.
- * <br>1.2.2 2009-03-29 Ignore Transform "ref(...") attribute instead of
- * refusing to load the SVG file. Ignore malformed JPEG-image instead of
- * refusing to load the SVG file. Handle "none" value in length attribute.
- * Color values given in percent can be doubles.
- * <br>1.2.1 2009-03-29 readTextAreaElement only read multiline text
- * in reverse order of the lines and omitted the line breaks.
- * <br>1.2 2007-12-16 Adapted to changes in InputFormat.
- * <br>1.1.1 2007-04-23 Fixed reading of "transform" attribute, fixed reading
- * of "textArea" element.
- * <br>1.1 2007-04-22 Added support for "a" element.
- * <br>0.2 2007-04-10 Fixed default attribute values for RadialGradient element.
- * <br>0.1 November 25, 2006 Created (Experimental).
+ * @version $Id$
  */
 public class SVGInputFormat implements InputFormat {
 

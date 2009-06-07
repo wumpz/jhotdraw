@@ -1,5 +1,5 @@
 /*
- * @(#)AboutAction.java  1.0  04 January 2005
+ * @(#)AboutAction.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -15,8 +15,6 @@
 package org.jhotdraw.app.action;
 
 import org.jhotdraw.util.*;
-
-import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import org.jhotdraw.app.*;
@@ -25,7 +23,7 @@ import org.jhotdraw.app.*;
  * Displays a dialog showing information about the application.
  *
  * @author  Werner Randelshofer
- * @version 1.0  04 January 2005  Created.
+ * @version $Id$
  */
 public class AboutAction extends AbstractApplicationAction {
     public final static String ID = "application.about";

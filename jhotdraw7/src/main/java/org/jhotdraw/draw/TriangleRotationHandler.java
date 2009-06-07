@@ -1,5 +1,5 @@
 /*
- * @(#)TriangleRotationHandler.java  1.0  June 11, 2006
+ * @(#)TriangleRotationHandler.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -26,7 +26,7 @@ import org.jhotdraw.geom.*;
  *
  * @author Werner Randelshofer.
  *         Original code by Doug Lea  (dl at gee, Sun Mar 2 19:15:28 1997)
- * @version 1.0 June 11, 2006 Created.
+ * @version $Id$
  */
 public class TriangleRotationHandler extends AbstractHandle {
     private Rectangle centerBox;

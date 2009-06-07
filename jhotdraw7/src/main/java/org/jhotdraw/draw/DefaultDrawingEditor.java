@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultDrawingEditor.java  3.2.2  2008-06-08
+ * @(#)DefaultDrawingEditor.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -27,14 +27,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * XXX - DefaultDrawingEditor should not publicly implement ToolListener.
  *
  * @author Werner Randelshofer
- * @version 3.2.2 Method getActiveView must fires now a PropertyChangeEvent, if
- * it automatically activates the first view of the editor. 
- * <br>3.2.1 2008-04-12 Method getDefaultAttribute returns default value of 
- * AttributeKey when the AttributeKey is not in the attribute map. 
- * <br>3.2 2007-04-22 Keep last focus view, even if we lost focus permanently.
- * <br>3.1 2007-04-16 Added method getDefaultAttributes.
- * <br>3.0 2006-02-13 Revised to handle multiple drawing views.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor, ToolListener {
 

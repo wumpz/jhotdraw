@@ -1,5 +1,5 @@
 /*
- * @(#)ODGPathFigure.java  1.0  2007-07-28
+ * @(#)ODGPathFigure.java
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -37,7 +37,7 @@ import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
  * ODGBezierFigures as its children.
  *
  * @author Werner Randelshofer
- * @version 1.0 2007-07-28 Created.
+ * @version $Id$
  */
 public class ODGPathFigure extends AbstractAttributedCompositeFigure implements ODGFigure {
     /**

@@ -1,5 +1,5 @@
 /*
- * @(#)BezierBezierLineConnection.java  1.1  2008-07-06
+ * @(#)BezierBezierLineConnection.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -29,11 +29,7 @@ import org.jhotdraw.xml.DOMOutput;
  *
  *
  * @author Werner Randelshofer
- * @version 1.1 2008-07-06 Create BezierOutlineHandle on mouse over. 
- * <br>1.0.2 2007-05-02 Set connector variables directly when reading in
- * connectors.
- * <br>1.0.1 2006-02-06 Fixed redo bug.
- * <br>1.0 23. Januar 2006 Created.
+ * @version $Id$
  */
 public class LineConnectionFigure extends LineFigure
         implements ConnectionFigure {

@@ -1,5 +1,5 @@
 /*
- * @(#)RoundRectangleFigure.java  2.3  2008-07-06
+ * @(#)RoundRectangleFigure.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -17,8 +17,6 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.io.*;
 import java.util.*;
-import javax.swing.undo.*;
-import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
@@ -27,13 +25,7 @@ import org.jhotdraw.xml.DOMOutput;
  * A Rectangle2D.Double with round corners.
  * 
  * @author Werner Randelshofer
- * @version 2.3 2008-07-06 Changed visibility of instance variables from private
- * to protected. 
- * <br>2.2 2006-06-17 Method chop added.
- * 2.1 2006-05-29 Method basetBoundsid not work for bounds smaller
- * than 1 pixel.
- * <br>2.0 2006-01-14 Changed to support double precison coordinates.
- * <br>1.0 2004-03-02 Derived from JHotDraw 6.0b1.
+ * @version $Id$
  */
 public class RoundRectangleFigure extends AbstractAttributedFigure {
 

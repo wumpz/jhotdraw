@@ -1,5 +1,5 @@
 /*
- * @(#)VerticalLayouter.java  3.0  2008-05-28
+ * @(#)VerticalLayouter.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -13,10 +13,7 @@
  */
 package org.jhotdraw.draw;
 
-import org.jhotdraw.util.*;
-import java.awt.*;
 import java.awt.geom.*;
-import java.util.*;
 import org.jhotdraw.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
@@ -33,9 +30,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * 
  * 
  * @author Werner Randelshofer
- * @version 3.0 2008-05-28 Added support for alignment.
- * <br>2.0 2006-01-14 Changed to support double precision coordinates.
- * <br>1.0 1. Dezember 2003  Created.
+ * @version $Id$
  */
 public class VerticalLayouter extends AbstractLayouter {
 

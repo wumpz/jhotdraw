@@ -1,5 +1,5 @@
 /**
- * @(#)JHarmonicColorWheel.java  1.0  April 19, 2008
+ * @(#)JHarmonicColorWheel.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -17,7 +17,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.beans.*;
-import java.util.ArrayList;
 import javax.swing.event.*;
 
 /**
@@ -26,7 +25,7 @@ import javax.swing.event.*;
  * FIXME - This is an experimental class. Do not use it.
  *
  * @author Werner Randelshofer
- * @version 1.0 JHarmonicColorWheel Created.
+ * @version $Id$
  */
 public class JHarmonicColorWheel extends JColorWheel {
 

@@ -1,5 +1,5 @@
 /*
- * @(#)LocatorLayouter.java  2.0  2006-01-14
+ * @(#)LocatorLayouter.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -15,18 +15,15 @@
 package org.jhotdraw.draw;
 
 import org.jhotdraw.geom.*;
-import org.jhotdraw.util.*;
-import java.awt.*;
 import java.awt.geom.*;
-import java.util.*;
+
 /**
  * A layouter which lays out all children of a CompositeFigure according to their
  * LayoutLocator property..
  * 
  * 
  * @author Werner Randelshofer
- * @version 2.0 2006-01-14 Changed to support double precision coordinates.
- * <br>1.0 3. Februar 2004  Created.
+ * @version $Id$
  */
 public class LocatorLayouter implements Layouter {
     /**

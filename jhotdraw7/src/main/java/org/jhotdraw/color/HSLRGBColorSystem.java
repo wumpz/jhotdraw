@@ -1,5 +1,5 @@
 /*
- * @(#)HSLRGBColorSystem.java  1.0  2008-04-19
+ * @(#)HSLRGBColorSystem.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -21,7 +21,7 @@ import javax.swing.*;
  * on the primary colors red, green and blue.
  *
  * @author  Werner Randelshofer
- * @version 1.0 2008-04-19 Created.
+ * @version $Id$
  */
 public class HSLRGBColorSystem extends AbstractColorSystem {
 

@@ -1,5 +1,5 @@
 /*
- * @(#)ArrangeAction.java  1.0  7. Februar 2006
+ * @(#)ArrangeAction.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -18,14 +18,14 @@ import org.jhotdraw.util.*;
 import org.jhotdraw.gui.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
-import java.awt.*;
+
 /**
  * ArrangeAction.
  * <p>
  * FIXME - Register as PropertyChangeListener on Arrangeable.
  *
  * @author Werner Randelshofer
- * @version 1.0 7. Februar 2006 Created.
+ * @version $Id$
  */
 public class ArrangeAction extends AbstractAction {
     public final static String VERTICAL_ID = "window.arrangeVertical";

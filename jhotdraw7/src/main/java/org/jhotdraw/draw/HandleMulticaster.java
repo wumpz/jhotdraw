@@ -1,5 +1,5 @@
 /*
- * @(#)HandleMulticaster.java  1.0  2003-12-01
+ * @(#)HandleMulticaster.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -24,7 +24,7 @@ import java.util.*;
  * Forwards events to one or many handles.
  *
  * @author Werner Randelshofer
- * @version 1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public class HandleMulticaster {
     LinkedList<Handle> handles;

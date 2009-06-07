@@ -1,5 +1,5 @@
 /*
- * @(#)StrokeIcon.java  1.0  25. November 2003
+ * @(#)StrokeIcon.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -15,12 +15,12 @@
 package org.jhotdraw.draw.action;
 
 import java.awt.*;
-import javax.swing.*;
+
 /**
  * StrokeIcon.
  *
  * @author  Werner Randelshofer
- * @version 1.0 25. November 2003  Created.
+ * @version $Id$
  */
 public class StrokeIcon implements javax.swing.Icon {
     private Stroke stroke;

@@ -1,5 +1,5 @@
 /*
- * @(#)FillToolBar.java  1.2  2008-05-23
+ * @(#)FillToolBar.java
  *
  * Copyright (c) 2007-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -35,10 +35,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * FillToolBar.
  *
  * @author Werner Randelshofer
- * @version 1.2 2008-05-23 Hide the toolbar if nothing is selected, and no
- * creation tool is active. 
- * <br>1.1 2008-03-26 Don't draw button borders. 
- * <br>1.0 May 1, 2007 Created.
+ * @version $Id$
  */
 public class FillToolBar extends AbstractToolBar {
 

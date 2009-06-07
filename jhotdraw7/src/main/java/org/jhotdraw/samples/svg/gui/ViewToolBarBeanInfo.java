@@ -1,5 +1,5 @@
 /*
- * @(#)ViewToolBarBeanInfo.java  1.0  2009-04-25
+ * @(#)ViewToolBarBeanInfo.java
  *
  * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -20,7 +20,7 @@ import java.beans.*;
  * BeanInfo for ViewToolBar.
  *
  * @author  Werner Randelshofer
- * @version 1.0 2009-04-15 Created.
+ * @version $Id$
  */
 public class ViewToolBarBeanInfo extends SimpleBeanInfo {
     

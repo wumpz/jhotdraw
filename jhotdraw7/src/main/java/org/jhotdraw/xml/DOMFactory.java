@@ -1,5 +1,5 @@
 /*
- * @(#)DOMFactory.java  1.0  February 17, 2004
+ * @(#)DOMFactory.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -25,7 +25,7 @@ package org.jhotdraw.xml;
  * 
  *
  * @author  Werner Randelshofer
- * @version 1.0 February 17, 2004 Create..
+ * @version $Id$
  */
 public interface DOMFactory {
     /**

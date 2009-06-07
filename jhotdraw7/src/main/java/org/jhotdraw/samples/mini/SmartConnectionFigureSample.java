@@ -1,5 +1,5 @@
 /*
- * @(#)SmartConnectionFigureSample.java   1.0  March 9, 2007
+ * @(#)SmartConnectionFigureSample.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -32,7 +32,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * 
  *
  * @author Werner Randelshofer
- * @version 1.0 March 9, 2007 Created.
+ * @version $Id$
  */
 public class SmartConnectionFigureSample {
     private static class SmartConnectionFigure extends LineConnectionFigure {

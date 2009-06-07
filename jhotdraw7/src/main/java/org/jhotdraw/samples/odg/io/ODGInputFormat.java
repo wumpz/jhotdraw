@@ -1,5 +1,5 @@
 /*
- * @(#)ODGInputFormat.java  1.2  2008-05-24
+ * @(#)ODGInputFormat.java
  *
  * Copyright (c) 2007-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -17,11 +17,9 @@ package org.jhotdraw.samples.odg.io;
 import java.awt.datatransfer.*;
 import java.awt.geom.*;
 import java.io.*;
-import java.net.URL;
 import java.util.*;
 import java.util.zip.*;
 import javax.swing.*;
-import javax.swing.filechooser.*;
 import net.n3.nanoxml.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.geom.BezierPath;
@@ -38,9 +36,7 @@ import org.jhotdraw.samples.odg.geom.*;
  * http://docs.oasis-open.org/office/v1.1/OS/OpenDocument-v1.1.pdf
  *
  * @author Werner Randelshofer
- * @version 1.2 2005-05-24 Adapted to changes in InputFormat. 
- * <br>1.1 2007-12-16 Adapted to changes in InputFormat. 
- * <br>1.0 April 11, 2007 Created.
+ * @version $Id$
  */
 public class ODGInputFormat implements InputFormat {
     /**

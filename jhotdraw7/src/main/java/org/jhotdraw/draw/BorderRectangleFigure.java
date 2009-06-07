@@ -1,5 +1,5 @@
 /*
- * @(#)BorderRectangle2D.DoubleFigure.java  1.0  8. April 2004
+ * @(#)BorderRectangle2D.DoubleFigure.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -15,17 +15,16 @@
 package org.jhotdraw.draw;
 
 import java.awt.*;
-import java.awt.geom.*;
 import javax.swing.*;
 import javax.swing.border.*;
+
 /**
  * BorderRectangle2D.DoubleFigure.
  *
  * @deprecated This class should be in one of the samples package
  *
  * @author  Werner Randelshofer
- * @version 2.0 2006-01-14 Changed to support double precison coordinates.
- * <br>1.0 8. April 2004  Created.
+ * @version $Id$
  */
 public class BorderRectangleFigure extends RectangleFigure {
     protected Border border;

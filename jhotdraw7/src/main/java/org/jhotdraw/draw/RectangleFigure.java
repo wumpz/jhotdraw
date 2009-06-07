@@ -1,5 +1,5 @@
 /*
- * @(#)RectangleFigure.java  2.3  2006-12-23
+ * @(#)RectangleFigure.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -17,19 +17,13 @@ package org.jhotdraw.draw;
 
 import java.awt.*;
 import java.awt.geom.*;
-import java.io.*;
-import java.util.*;
-import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.geom.Geom;
+
 /**
  * RectangleFigure.
  *
  * @author Werner Randelshofer
- * @version 2.3 2006-12-23 Made rectangle protected. 
- * <br>2.2 2006-03-23 Take stroke size into account in method contains.
- * <br>2.1 2006-03-22 Method getFigureDrawBounds added.
- * <br>2.0 2006-01-14 Changed to support double precison coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public class RectangleFigure extends AbstractAttributedFigure {
     protected Rectangle2D.Double rectangle;

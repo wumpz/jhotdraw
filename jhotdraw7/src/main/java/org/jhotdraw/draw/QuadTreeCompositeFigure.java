@@ -1,5 +1,5 @@
 /*
- * @(#)QuadTreeCompositeFigure.java  1.0  July 17, 2007
+ * @(#)QuadTreeCompositeFigure.java
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -28,7 +28,7 @@ import java.util.*;
  * 
  * 
  * @author Werner Randelshofer
- * @version 1.0 July 17, 2007 Created.
+ * @version $Id$
  */
 public abstract class QuadTreeCompositeFigure 
         extends AbstractCompositeFigure {

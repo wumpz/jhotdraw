@@ -1,5 +1,5 @@
 /*
- * @(#)ImageHolderFigure.java  2.0  2008-05-24
+ * @(#)ImageHolderFigure.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -39,8 +39,7 @@ import java.io.*;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version 2.0 2008-05-24 Added setImage and getImageData methods. 
- * <br>1.0 December 14, 2006 Created.
+ * @version $Id$
  */
 public interface ImageHolderFigure extends Figure {
     /**

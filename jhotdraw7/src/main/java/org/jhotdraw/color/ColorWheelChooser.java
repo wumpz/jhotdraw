@@ -1,5 +1,5 @@
 /*
- * @(#)ColorWheelChooser.java  1.1.1  2007-02-24
+ * @(#)ColorWheelChooser.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -19,17 +19,13 @@ import javax.swing.*;
 import javax.swing.colorchooser.*;
 import javax.swing.event.*;
 import javax.swing.plaf.*;
+
 /**
  * A HSB color chooser, which displays a hue/saturation color wheel, and a 
  * brightness slider.
  *
  * @author  Werner Randelshofer
- * @version 1.1.1 2007-02-24 To prevent rounding errors: Don't set color on
- * color model while updating the chooser from the color model. 
- * <br>1.1 2006-04-23 Retrieve labels from UIManager. 
- * <br>1.0.2 2005-11-07 Get "labels" resource bundle from UIManager.
- * <br>1.0.1 2005-09-11 Get icon from UIManager.
- * <br>1.0 August 27, 2005 Created.
+ * @version $Id$
  */
 public class ColorWheelChooser extends AbstractColorChooserPanel implements UIResource {
     private JColorWheel colorWheel;

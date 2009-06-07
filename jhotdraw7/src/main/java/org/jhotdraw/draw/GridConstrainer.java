@@ -1,5 +1,5 @@
 /*
- * @(#)GridConstrainer.java  4.0  2007-12-17
+ * @(#)GridConstrainer.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -20,15 +20,7 @@ import java.awt.geom.*;
  * Constrains a point such that it falls on a grid.
  *
  * @author  Werner Randelshofer
- * @version 4.0 2007-12-17 Huw Jones, Werner Randelshofer: Adapted due to changes
- * in Constrainer interface.
- * <br>3.1 2007-09-15 Werner Randelshofer: Added constructor which allows to 
- * control the visiblity of the grid. 
- * <br>3.0 2007-08-01 Werner Randelshofer: Reworked.
- * <br>2.1.1 2006-07-05 Werner Randelshofer: Fixed drawing bug.
- * <br>2.1 2006-07-03 Werner Randelshofer: Method isVisible added.
- * <br>2.0 2006-01-14 Werner Randelshofer: Changed to support double precision coordinates.
- * <br>1.0 2004-03-17  Werner Randelshofer: Created.
+ * @version $Id$
  */
 public class GridConstrainer extends AbstractConstrainer {
 

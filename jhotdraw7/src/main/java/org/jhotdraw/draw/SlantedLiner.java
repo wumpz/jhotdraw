@@ -1,5 +1,5 @@
 /*
- * @(#)SlantedLiner.java  1.1  2007-02-01
+ * @(#)SlantedLiner.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -18,7 +18,6 @@ import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 import org.jhotdraw.xml.DOMStorable;
 import java.util.*;
-import java.awt.*;
 import java.awt.geom.*;
 import org.jhotdraw.geom.*;
 
@@ -27,9 +26,7 @@ import org.jhotdraw.geom.*;
  *
  *
  * @author Werner Randelshofer
- * @version 1.1 2007-02-01 Added support for connections that connect to 
- * the same Figure on both ends.
- * <br>1.0 24. Januar 2006 Created.
+ * @version $Id$
  */
 public class SlantedLiner
         implements Liner, DOMStorable {

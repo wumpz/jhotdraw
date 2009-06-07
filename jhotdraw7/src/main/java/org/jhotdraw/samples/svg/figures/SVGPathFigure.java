@@ -1,5 +1,5 @@
 /*
- * @(#)SVGPathFigure.java  1.2  2009-04-17
+ * @(#)SVGPathFigure.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -33,12 +33,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * SVGBezierFigures as its children.
  *
  * @author Werner Randelshofer
- * @version 2.1 2009-04-17 Method contains() takes now into account
- * whether the figure is filled.
- * <br>1.1.1 2008-03-20 Attributes must be set on child figures in order
- * to ensure that the drawing area of the child figures is computed properly. 
- * <br>1.1 2007-12-21 Only close/open last path. 
- * <br>1.0 July 8, 2006 Created.
+ * @version $Id$
  */
 public class SVGPathFigure extends AbstractAttributedCompositeFigure implements SVGFigure {
 

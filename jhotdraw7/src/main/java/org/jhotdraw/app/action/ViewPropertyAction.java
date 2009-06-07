@@ -1,5 +1,5 @@
 /*
- * @(#)ViewPropertyAction.java  1.0  June 18, 2006
+ * @(#)ViewPropertyAction.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -23,7 +23,7 @@ import org.jhotdraw.app.View;
  * ViewPropertyAction.
  * 
  * @author Werner Randelshofer.
- * @version 1.0 June 18, 2006 Created.
+ * @version $Id$
  */
 public class ViewPropertyAction extends AbstractViewAction {
     private String propertyName;

@@ -1,5 +1,5 @@
 /*
- * @(#)NonUndoableEdit.java  1.0  5. April 2004
+ * @(#)NonUndoableEdit.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -19,7 +19,7 @@ import javax.swing.undo.*;
  * NonUndoableEdit.
  *
  * @author  Werner Randelshofer
- * @version 1.0 5. April 2004  Created.
+ * @version $Id$
  */
 public class NonUndoableEdit extends AbstractUndoableEdit {
     

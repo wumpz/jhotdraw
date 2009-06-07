@@ -1,5 +1,5 @@
 /*
- * @(#)ColorIcon.java  3.0  2009-04-17
+ * @(#)ColorIcon.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -22,10 +22,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * ColorIcon.
  *
  * @author  Werner Randelshofer
- * @version 3.0 2009-04-17 Changed default size and design of the color icon.
- * <br>2.0 2007-06-26 Added support for name and size.
- * <br>1.1 2006-02-26 Draw lines instead of draw rect.
- * <br>1.0 25. November 2003  Created.
+ * @version $Id$
  */
 public class ColorIcon implements javax.swing.Icon {
 

@@ -1,5 +1,5 @@
 /*
- * @(#)GroupAction.java  2.0.3  2008-06-08
+ * @(#)GroupAction.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -14,26 +14,14 @@
 package org.jhotdraw.draw.action;
 
 import org.jhotdraw.draw.*;
-import org.jhotdraw.undo.*;
 import java.util.*;
-import javax.swing.*;
 import javax.swing.undo.*;
-import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * GroupAction.
  *
  * @author  Werner Randelshofer
- * @version 2.0.3 2008-06-08 Fixed NPE in methods canGroup/canUngroup. 
- * <br>2.0.2 2008-05-12 Undoable edit events fired by this action
- * did not work.
- * <br>2.0.1 2008-04-12 Ungrouped figures must be inserted at the
- * z-index of the original group.
- * <br>2.0 2007-12-21 Refactored this class, so that it can be used as
- * a base class for UngroupAction. 
- * <br>1.1 2006-07-12 Changed to support any CompositeFigure.
- * <br>1.0.1 2006-07-09 Fixed enabled state.
- * <br>1.0 24. November 2003  Created.
+ * @version $Id$
  */
 public class GroupAction extends AbstractSelectedAction {
 

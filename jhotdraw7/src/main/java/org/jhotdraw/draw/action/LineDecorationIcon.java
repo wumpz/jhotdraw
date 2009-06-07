@@ -1,5 +1,5 @@
 /*
- * @(#)LineDecorationIcon.java  2.0  2006-01-15
+ * @(#)LineDecorationIcon.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -24,8 +24,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * LineDecorationIcon.
  *
  * @author  Werner Randelshofer
- * @version 2.0 2006-01-15 Changed to support double precision coordinates.
- * <br>1.0 26. November 2003  Created.
+ * @version $Id$
  */
 public class LineDecorationIcon implements Icon {
     private LineFigure lineFigure;

@@ -1,5 +1,5 @@
 /*
- * @(#)CompositeFigureEvent.java  3.0  2007-07-17
+ * @(#)CompositeFigureEvent.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -14,7 +14,6 @@
 
 package org.jhotdraw.draw;
 
-import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
 /**
@@ -30,10 +29,7 @@ import java.util.*;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version 3.0 2007-07-17 Renamed from DrawingEvent to CompositeFigureEvent. 
- * <br>2.1 2007-05-21 Added z-index property. 
- * <br>1.0 2006-01-14 Changed to support double precision coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public class CompositeFigureEvent extends EventObject {
     private Rectangle2D.Double invalidatedArea;

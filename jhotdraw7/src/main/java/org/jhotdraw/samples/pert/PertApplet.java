@@ -1,5 +1,5 @@
 /*
- * @(#)PertApplet.java  1.0  2006-07-15
+ * @(#)PertApplet.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -32,7 +32,7 @@ import org.jhotdraw.xml.*;
  * PertApplet.
  *
  * @author Werner Randelshofer
- * @version 1.0 2006-07-15 Created.
+ * @version $Id$
  */
 public class PertApplet extends JApplet {
     private final static String NAME = "JHotDraw Pert";

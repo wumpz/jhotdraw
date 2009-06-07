@@ -1,5 +1,5 @@
 /*
- * @(#)TriangleFigure.java  1.0  2006-03-27
+ * @(#)TriangleFigure.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -28,7 +28,7 @@ import org.jhotdraw.geom.*;
  *
  *
  * @author Werner Randelshofer
- * @version 1.0 2006-03-27 Created.
+ * @version $Id$
  */
 
 public class TriangleFigure extends AbstractAttributedFigure {

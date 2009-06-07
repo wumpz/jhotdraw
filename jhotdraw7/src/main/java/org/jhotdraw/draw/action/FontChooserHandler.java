@@ -1,5 +1,5 @@
 /**
- * @(#)FontChooserHandler.java  1.0  22.05.2008
+ * @(#)FontChooserHandler.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -14,20 +14,18 @@
 package org.jhotdraw.draw.action;
 
 import javax.swing.undo.*;
-import org.jhotdraw.app.action.Actions;
 import javax.swing.*;
 import java.util.*;
 import java.awt.*;
 import java.beans.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.gui.JFontChooser;
-import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * FontChooserHandler.
  *
  * @author Werner Randelshofer
- * @version 1.0 22.05.2008 Created.
+ * @version $Id$
  */
 public class FontChooserHandler extends AbstractSelectedAction
         implements PropertyChangeListener {

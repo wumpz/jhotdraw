@@ -1,5 +1,5 @@
 /**
- * @(#)PaletteToolBarUI.java  1.1  2008-05-18
+ * @(#)PaletteToolBarUI.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -25,7 +25,6 @@ import java.util.HashMap;
 
 import javax.swing.border.*;
 import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicGraphicsUtils;
 
 /**
  * ToolBarUI for palette components.
@@ -39,8 +38,7 @@ import javax.swing.plaf.basic.BasicGraphicsUtils;
  * its border.
  * 
  * @author Werner Randelshofer
- * @version 1.1 2008-05-18 Start dragging only over border insets. 
- * <br>1.0 Apr 6, 2008 Created.
+ * @version $Id$
  */
 public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
 

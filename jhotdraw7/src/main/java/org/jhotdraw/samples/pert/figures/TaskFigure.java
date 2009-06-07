@@ -1,5 +1,5 @@
 /*
- * @(#)TaskFigure.java  1.0  18. Juni 2006
+ * @(#)TaskFigure.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -26,7 +26,7 @@ import org.jhotdraw.xml.*;
  * TaskFigure.
  *
  * @author Werner Randelshofer.
- * @version 1.0 18. Juni 2006 Created.
+ * @version $Id$
  */
 public class TaskFigure extends GraphicalCompositeFigure {
 

@@ -1,5 +1,5 @@
 /*
- * @(#)BoundedRangeModel.java  1.0.2  1999-05-09
+ * @(#)BoundedRangeModel.java
  *
  * Copyright (c) 1999-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -23,7 +23,7 @@ import java.io.*;
  * the observation of the input reading process.
  *
  * @author  Werner Randelshofer, Staldenmattweg 2, CH-6405 Immensee, Switzerland.
- * @version     1.0.2  09.05.1999  Transferred into package ch.randelshofer.io
+ * @version $Id$
  * <br>history  1.0.1  02.05.1999  #setMaximum overrides the size information
  * from the file.
  * <br>history  1.0   20.03.1999  Derived from javax.swing.ProgressMonitorInputStream.

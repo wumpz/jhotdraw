@@ -1,5 +1,5 @@
 /**
- * @(#)PaletteRootPaneUI.java  1.0  Apr 11, 2008
+ * @(#)PaletteRootPaneUI.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -25,7 +25,7 @@ import javax.swing.plaf.basic.BasicRootPaneUI;
  * PaletteRootPaneUI.
  *
  * @author Werner Randelshofer
- * @version 1.0 Apr 11, 2008 Created.
+ * @version $Id$
  */
 public class PaletteRootPaneUI extends BasicRootPaneUI {
     private static RootPaneUI rootPaneUI = new PaletteRootPaneUI();

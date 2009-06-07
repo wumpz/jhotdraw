@@ -1,5 +1,5 @@
 /**
- * @(#)BackdropBorder.java  1.0  Apr 6, 2008
+ * @(#)BackdropBorder.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -22,7 +22,7 @@ import javax.swing.border.Border;
  * BackdropBorder.
  *
  * @author Werner Randelshofer
- * @version 1.0 Apr 6, 2008 Created.
+ * @version $Id$
  */
 public class BackdropBorder implements Border {
 

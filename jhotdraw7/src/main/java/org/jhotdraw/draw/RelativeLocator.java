@@ -1,5 +1,5 @@
 /*
- * @(#)RelativeLocator.java  3.0  2007-04-14
+ * @(#)RelativeLocator.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -24,12 +24,7 @@ import org.jhotdraw.xml.DOMOutput;
  * of a figure.
  *
  * @author Werner Randelshofer
- * @version 3.0 2007-04-12 Added support for TRANSFORM AttributeKey.
- * <br>2.3 2006-07-08 Added DOMStorable support.
- * <br>2.2 2006-07-05 Added support for DECORATOR_INSETS.
- * <br>2.1 2006-02-14 Fixed computed coordinate values.
- * <br>2.0 2006-01-14 Changed to support double precision coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public class RelativeLocator extends AbstractLocator {
     /**

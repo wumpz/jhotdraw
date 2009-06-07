@@ -1,5 +1,5 @@
 /*
- * @(#)CompositeTransferable.java  1.0  2002-04-07
+ * @(#)CompositeTransferable.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.

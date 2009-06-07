@@ -1,5 +1,5 @@
 /*
- * @(#)FigureChangeEvent.java  3.0  2006-06-07
+ * @(#)FigureChangeEvent.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -33,9 +33,7 @@ import java.util.*;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version 3.0 2006-06-07 Reworked.
- * <br>2.0 2006-01-14 Changed to support double precision coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public class FigureEvent extends EventObject {
     private Rectangle2D.Double invalidatedArea;

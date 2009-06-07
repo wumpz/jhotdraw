@@ -1,5 +1,5 @@
 /*
- * @(#)BezierDemo.java   1.0  2008-06-01
+ * @(#)BezierDemo.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -27,7 +27,7 @@ import org.jhotdraw.geom.*;
  * Demonstration of the curve fitting algorithm of class {@link Bezier}. 
  *
  * @author Werner Randelshofer
- * @version 1.0 2008-06-01 Created.
+ * @version $Id$
  */
 public class BezierDemo extends javax.swing.JPanel {
 

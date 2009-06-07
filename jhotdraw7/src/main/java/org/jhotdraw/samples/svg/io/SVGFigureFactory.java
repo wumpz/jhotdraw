@@ -1,5 +1,5 @@
 /*
- * @(#)SVGFigureFactory.java  1.0  December 7, 2006
+ * @(#)SVGFigureFactory.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -32,7 +32,7 @@ import org.jhotdraw.samples.svg.*;
  * Partners: {@link SVGInputFormat} as Client. 
  *
  * @author Werner Randelshofer
- * @version 1.0 December 7, 2006 Created.
+ * @version $Id$
  */
 public interface SVGFigureFactory {
     public Figure createRect(

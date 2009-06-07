@@ -1,5 +1,5 @@
 /**
- * @(#)FontCollectionNode.java  1.0  May 19, 2008
+ * @(#)FontCollectionNode.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -26,7 +26,7 @@ import javax.swing.tree.TreeNode;
  * as child nodes.
  *
  * @author Werner Randelshofer
- * @version 1.0 May 19, 2008 Created.
+ * @version $Id$
  */
 public class FontCollectionNode implements MutableTreeNode, Comparable<FontCollectionNode>, Cloneable {
     private MutableTreeNode parent;

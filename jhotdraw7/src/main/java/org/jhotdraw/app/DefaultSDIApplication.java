@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultSDIApplication.java  1.5.2  2009-06-02
+ * @(#)DefaultSDIApplication.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -13,7 +13,6 @@
  */
 package org.jhotdraw.app;
 
-import javax.swing.event.AncestorEvent;
 import org.jhotdraw.util.*;
 import org.jhotdraw.util.prefs.*;
 import java.awt.*;
@@ -23,7 +22,6 @@ import java.io.*;
 import java.util.*;
 import java.util.prefs.*;
 import javax.swing.*;
-import javax.swing.event.AncestorListener;
 import org.jhotdraw.app.action.*;
 
 /**
@@ -35,18 +33,7 @@ import org.jhotdraw.app.action.*;
  * quits the application.
  *
  * @author Werner Randelshofer
- * @version 1.6.1 2009-06-02 Fixed a memory leak caused by OpenRecentAction's
- * not being disposed when they are no longer needed.
- * <br>1.5.1 2008-07-13 Don't add the view menu to the menu bar if it is empty.
- * <br>1.5 2007-12-25 Added method updateViewTitle. Replaced 
- * currentProject by activeProject in super class. 
- * <br>1.4 2007-01-11 Removed method addStandardActionsTo.
- * <br>1.3 2006-05-03 Show asterisk in window title, when view has
- * unsaved changes.
- * <br>1.2.1 2006-02-28 Stop application when last view is closed.
- * <br>1.2 2006-02-06 Support for multiple open id added.
- * <br>1.1 2006-02-06 Revised.
- * <br>1.0 October 16, 2005 Created.
+ * @version $Id$
  */
 public class DefaultSDIApplication extends AbstractApplication {
 

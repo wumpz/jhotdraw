@@ -1,5 +1,5 @@
 /*
- * @(#)JAttributeTextField.java  1.0 2009-04-14
+ * @(#)JAttributeTextField.java
  *
  * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -21,7 +21,7 @@ import org.jhotdraw.util.*;
  * An entry field that can be used to edit an attribute of a {@code Figure}.
  * 
  * @author Werner Randelshofer
- * @version 1.0 2009-04-14 Created.
+ * @version $Id$
  */
 public class JAttributeTextField<T> extends JLifeFormattedTextField implements AttributeEditor<T> {
 

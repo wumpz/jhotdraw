@@ -1,5 +1,5 @@
 /*
- * @(#)InputFormat.java  3.0  2008-05-24
+ * @(#)InputFormat.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -40,10 +40,7 @@ import javax.swing.*;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version 3.0 2008-05-24 Added parameter isReplaceDrawing. 
- * <br>2.0 2007-12-07 Method readFigures(Transferable) replaced by
- * read(Transferable, Drawing). 
- * <br>1.0 December 12, 2006 Created.
+ * @version $Id$
  */
 public interface InputFormat {
     /**

@@ -1,5 +1,5 @@
 /*
- * @(#)LinearGradient.java  1.0.2  2009-04-17
+ * @(#)LinearGradient.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -18,17 +18,13 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.util.Arrays;
 import org.jhotdraw.draw.*;
-import org.apache.batik.ext.awt.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
 /**
  * Represents an SVG LinearGradient.
  *
  * @author Werner Randelshofer
- * @version 1.0.2 2009-04-17 Gracefully handle non-invertible transforms.
- * <br>1.0.1 2009-03-29 Handle gradients which consist of only a single
- * stop color, or which have illegal stop offsets.
- * <br>1.0 December 9, 2006 Created.
+ * @version $Id$
  */
 public class LinearGradient implements Gradient {
     private double x1;

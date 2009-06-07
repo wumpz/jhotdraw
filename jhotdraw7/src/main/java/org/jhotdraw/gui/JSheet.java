@@ -1,5 +1,5 @@
 /*
- * @(#)JSheet.java  3.0.1  2007-03-24
+ * @(#)JSheet.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -16,9 +16,7 @@ package org.jhotdraw.gui;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.peer.*;
 import java.beans.*;
-import java.lang.reflect.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.*;
@@ -43,21 +41,7 @@ import org.jhotdraw.util.*;
  * In such a case, we (hopefully) just end up with a non-opaque sheet.
  *
  * @author  Werner Randelshofer
- * @version 3.0.1 2008-03-24 Fixed NPE in method hide0. 
- * <br>3.0 2008-03-15 Display the glass pane while the JSheet is showing.
- * Call toFront on the owning window before showing the sheet.
- * <br>2.1.1 2007-11-24 Don't call toFront() on parent window when running
- * on Darwin.
- * <br>2.1 2007-01-08 Bounce dock icon when opening sheet.
- * <br>2.0 2006-08-20 Added support for native JSheets with J2SE 6.
- * <br>1.3 2006-04-15 Request focus. Show window title of parent window
- * when displaying sheet as a regular dialog window.
- * <br>1.2 2006-02-18 Set window decoration style to NONE. Get sheet border
- * from UIManager.
- * <br>1.1 2005-10-15 Bring sheet to front when showing an option pane
- * or a filechooser. Method showMessageSheet with a SheetListener added.
- * <br>1.0.1 2005-10-08 Clear value.
- * <br>1.0 September 25, 2005 Created.
+ * @version $Id$
  */
 public class JSheet extends JDialog {
 

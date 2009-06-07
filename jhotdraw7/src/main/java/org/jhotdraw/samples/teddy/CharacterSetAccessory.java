@@ -1,5 +1,5 @@
 /*
- * @(#)CharacterSetAccessory.java  1.0  8. Oktober 2005
+ * @(#)CharacterSetAccessory.java
  *
  * Copyright (c) 2005 by the original authors of JHotDraw
  * and all its contributors.
@@ -23,7 +23,7 @@ import java.util.prefs.*;
  * CharacterSetAccessory.
  *
  * @author Werner Randelshofer
- * @version 1.0 8. Oktober 2005 Created.
+ * @version $Id$
  */
 public class CharacterSetAccessory extends javax.swing.JPanel {
     private final static Preferences prefs = Preferences.userNodeForPackage(TeddyView.class);

@@ -1,5 +1,5 @@
 /*
- * @(#)TeddyApplicationModel.java  1.1  2008-08-24
+ * @(#)TeddyApplicationModel.java
  *
  * Copyright (c) 2007-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -25,8 +25,7 @@ import org.jhotdraw.util.*;
  * TeddyApplicationModel.
  *
  * @author Werner Randelshofer
- * @version 1.1 2008-08-24 Suppress toolbar.
- * <br>1.0 March 10, 2007 Created.
+ * @version $Id$
  */
 public class TeddyApplicationModel extends DefaultApplicationModel {
     

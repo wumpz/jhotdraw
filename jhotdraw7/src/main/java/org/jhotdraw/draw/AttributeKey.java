@@ -1,5 +1,5 @@
 /*
- * @(#)AttributeKey.java  3.0  2009-04-19
+ * @(#)AttributeKey.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -35,18 +35,7 @@ import org.jhotdraw.util.*;
  * See {@link AttributeKeys} for a list of useful attribute keys.
  * 
  * @author Werner Randelshofer
- * @version 3.0 2009-04-19 Added explicit
- * <br>2.1 2009-04-15 Added method getPresentationName. The labels are now
- * part of the attribute key.
- * <br>2.0.1 2008-02-13 Fixed comments. Removed equals and hashCode.
- * <br>2.0 2007-05-12 Removed basicSet methods.
- * <br>1.2 2007-04-10 Convenience methods for getting and setting a clone
- * of an attribute added.
- * <br>1.1 2006-12-29 Support for getting/setting attribute keys on a
- * Map added.
- * <br>1.0.1 2006-07-14 Null values are not returned anymore when null
- * values are not allowed.
- * <br>1.0 7. Juni 2006 Created.
+ * @version $Id$
  */
 public class AttributeKey<T> implements Serializable {
 

@@ -1,5 +1,5 @@
 /*
- * @(#)CSSLoader.java  1.0  6. Juni 2006
+ * @(#)CSSLoader.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -66,7 +66,7 @@ import java.util.*;
  * </pre>
  *
  * @author Werner Randelshofer
- * @version 1.0 6. Juni 2006 Created.
+ * @version $Id$
  */
 public class CSSParser {
     public void parse(String css, StyleManager rm) throws IOException {

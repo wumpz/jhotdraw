@@ -1,5 +1,5 @@
 /*
- * @(#)JPopupButton.java  2.1  2009-05-23
+ * @(#)JPopupButton.java
  *
  * Copyright (c) 2006-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -24,9 +24,7 @@ import org.jhotdraw.draw.action.*;
  * JPopupButton provides a popup menu.
  *
  * @author  Werner Randelshofer
- * @version 2.1 2009-05-24 Added popupMenuAlpha property.
- * <br>2.0 2008-05-23 Added popup anchor property.
- * <br>1.1 2006-06-25 Added more "add" methods.
+ * @version $Id$
  */
 public class JPopupButton extends javax.swing.JButton {
 

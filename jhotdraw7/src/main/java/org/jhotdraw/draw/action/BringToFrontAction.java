@@ -1,5 +1,5 @@
 /*
- * @(#)BringToFrontAction.java  2.0  2008-05-30
+ * @(#)BringToFrontAction.java
  *
  * Copyright (c) 2003-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -14,8 +14,6 @@
 
 package org.jhotdraw.draw.action;
 
-import org.jhotdraw.util.*;
-import javax.swing.*;
 import java.util.*;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
@@ -24,9 +22,7 @@ import org.jhotdraw.draw.*;
  * ToFrontAction.
  *
  * @author  Werner Randelshofer
- * @version 2.0 2008-05-30 Renamed from MoveToFrontAction to BringToFrontAction
- * for consistency with the API of Drawing. 
- * <br>1.0 24. November 2003  Created.
+ * @version $Id$
  */
 public class BringToFrontAction extends AbstractSelectedAction {
     

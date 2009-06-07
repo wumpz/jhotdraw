@@ -1,5 +1,5 @@
 /*
- * @(#)ODGPropertiesPanelBeanInfo.java  1.0  2007-04-22
+ * @(#)ODGPropertiesPanelBeanInfo.java
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -19,7 +19,7 @@ import java.beans.*;
  * BeanInfo for SVGPropertiespanel.
  *
  * @author  Werner Randelshofer
- * @version 1.0 2007-04-22 Created.
+ * @version $Id$
  */
 public class ODGPropertiesPanelBeanInfo extends SimpleBeanInfo {
     

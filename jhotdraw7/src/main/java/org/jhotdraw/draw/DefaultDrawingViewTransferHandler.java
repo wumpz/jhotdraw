@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultDrawingViewTransferHandler.java  2.0.1  2009-06-07
+ * @(#)DefaultDrawingViewTransferHandler.java
  *
  * Copyright (c) 2007-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -44,19 +44,7 @@ import org.jhotdraw.util.ReversedList;
  * {@link DnDDrawingViewTransferHandler} instead.
  *
  * @author Werner Randelshofer
- * @version 2.0.1 2009-06-07 Variable exportedFigures is now set in 
- * createTransferable. Method importData processes now the imported data
- * in the data flavor sequence given by the Transferable instead of in the
- * input format sequence of the drawing.
- * <br>2.0 2009-03-13 Load drawings from files using a worker thread.
- * <br>1.2 2008-05-24 Adapted to changes in InputFormat. Add support for
- * automatically grouping
- * <br>1.1.2 2008-03-20 After import, only select imported figures in 
- * drawing view. 
- * <br>1.1.1 2008-03-10 In method importData, figures are added to drawing
- * by the InputFormat. 
- * <br>1.1 2007-12-16 Adapted to changes in InputFormat and OutputFormat.
- * <br>1.0 April 13, 2007 Created.
+ * @version $Id$
  */
 public class DefaultDrawingViewTransferHandler extends TransferHandler {
 

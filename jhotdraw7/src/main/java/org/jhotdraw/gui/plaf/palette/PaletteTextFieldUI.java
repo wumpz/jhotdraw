@@ -1,5 +1,5 @@
 /**
- * @(#)PaletteTextFieldUI.java  1.0  Apr 10, 2008
+ * @(#)PaletteTextFieldUI.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -24,7 +24,7 @@ import javax.swing.text.*;
  * PaletteTextFieldUI.
  *
  * @author Werner Randelshofer
- * @version 1.0 Apr 10, 2008 Created.
+ * @version $Id$
  */
 public class PaletteTextFieldUI extends BasicTextFieldUI {
 

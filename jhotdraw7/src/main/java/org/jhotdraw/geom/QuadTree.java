@@ -1,5 +1,5 @@
 /*
- * @(#)QuadTree.java  2.0  2006-12-06
+ * @(#)QuadTree.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -27,9 +27,7 @@ import java.awt.*;
  * lower left and lower right quadrant of the parent rectangle. 
  *
  * @author  Werner Randelshofer
- * @version 2.0 2006-12-06 Renamed from QuadTree2DDouble to QuadTree because
- * this class isn't a Shape2D class.
- * <br>1.0 2006-01-14 Derived from class QuadTree.
+ * @version $Id$
  */
 public class QuadTree<T> {
     private HashMap<T,Rectangle2D.Double> outside = new HashMap<T,Rectangle2D.Double>();

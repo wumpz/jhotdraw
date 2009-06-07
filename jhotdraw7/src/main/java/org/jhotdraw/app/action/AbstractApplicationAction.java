@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractApplicationAction.java  2.0  2009-06-02
+ * @(#)AbstractApplicationAction.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -31,10 +31,7 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  * become garbage collected if it is not referenced by any other object.
  *
  * @author Werner Randelshofer.
- * @version 2.0 2009-06-02 Register as WeakPropertyChangeListener with the
- * Application.
- * <br>1.0 June 15, 2006 Created.
- * @see org.jhotdraw.app.Application
+ * @version $Id$
  */
 public abstract class AbstractApplicationAction extends AbstractAction implements Disposable {
 

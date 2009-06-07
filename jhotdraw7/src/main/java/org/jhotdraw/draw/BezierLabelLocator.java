@@ -1,5 +1,5 @@
 /*
- * @(#)PolyLineDecorationLocator.java  1.0  3. Februar 2004
+ * @(#)PolyLineDecorationLocator.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -15,8 +15,6 @@
 package org.jhotdraw.draw;
 
 import org.jhotdraw.geom.*;
-import org.jhotdraw.util.*;
-import java.awt.*;
 import java.awt.geom.*;
 import org.jhotdraw.xml.*;
 
@@ -26,8 +24,7 @@ import org.jhotdraw.xml.*;
  * The preferredSize of the label is used to determine its location.
  *
  * @author  Werner Randelshofer
- * @version 2.0 2006-01-14 Changed to support double precison coordinates.
- * <br>1.0 3. Februar 2004  Created.
+ * @version $Id$
  */
 public class BezierLabelLocator implements Locator, DOMStorable {
     private double relativePosition;

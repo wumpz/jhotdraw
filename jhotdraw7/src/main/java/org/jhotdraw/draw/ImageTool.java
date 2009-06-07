@@ -1,5 +1,5 @@
 /*
- * @(#)ImageTool.java  2.1  2008-05-28
+ * @(#)ImageTool.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -48,9 +48,7 @@ import org.jhotdraw.gui.Worker;
  * <hr>
  * 
  * @author Werner Randelshofer
- * @version 2.0 2008-05-24 Changed behavior of ImageTool. 
- * <br>1.1 2008-05-17 Honor toolDoneAfterCreation property.
- * <br>1.0 December 14, 2006 Created.
+ * @version $Id$
  */
 public class ImageTool extends CreationTool {
     protected FileDialog fileDialog;

@@ -1,5 +1,5 @@
 /*
- * @(#)ODGApplicationModel.java  1.0  January 15, 2007
+ * @(#)ODGApplicationModel.java
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -35,7 +35,7 @@ import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
  * ODGApplicationModel.
  *
  * @author Werner Randelshofer
- * @version 1.0 January 15, 2007 Created.
+ * @version $Id$
  */
 public class ODGApplicationModel extends DefaultApplicationModel {
     private final static double[] scaleFactors = {5, 4, 3, 2, 1.5, 1.25, 1, 0.75, 0.5, 0.25, 0.10};

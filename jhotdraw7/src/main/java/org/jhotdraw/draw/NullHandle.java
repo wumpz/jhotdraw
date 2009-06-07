@@ -1,5 +1,5 @@
 /*
- * @(#)NullHandle.java  1.0  2003-12-01
+ * @(#)NullHandle.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -22,7 +22,7 @@ import java.util.*;
  * to show feedback that a figure is selected.
  *
  * @author Werner Randelshofer
- * @version 1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public class NullHandle extends LocatorHandle {
     

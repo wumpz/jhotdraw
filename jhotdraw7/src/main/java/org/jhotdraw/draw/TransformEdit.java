@@ -1,5 +1,5 @@
 /*
- * @(#)TransformEdit.java  2.0  2006-01-14
+ * @(#)TransformEdit.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -19,6 +19,7 @@ import org.jhotdraw.util.*;
 import javax.swing.undo.*;
 import java.awt.geom.*;
 import java.util.*;
+
 /**
  * TransformEdit.
  * <p>
@@ -30,8 +31,7 @@ import java.util.*;
  * FIXME - Maybe TransformEdit should be replaced by GeometryEdit?
  *
  * @author Werner Randelshofer
- * @version 2.0 2006-01-14 Changed to support double precision coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public class TransformEdit extends AbstractUndoableEdit {
     /**

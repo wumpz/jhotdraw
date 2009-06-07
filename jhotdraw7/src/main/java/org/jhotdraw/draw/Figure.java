@@ -1,5 +1,5 @@
 /*
- * @(#)Figure.java  8.0  2009-04-19
+ * @(#)Figure.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -94,27 +94,7 @@ import org.jhotdraw.xml.DOMStorable;
  * <hr>
  * 
  * @author Werner Randelshofer
- * @version 8.0 2009-04-18 Made set/getAttribute methods type safe.
- * <br>7.1 2008-05-17 Added support for mouse hover handles.
- * <br>7.0.1 2008-02-13 Fixed comments on
- * setAttribute and getAttribute methods.
- * <br>7.0 2008-02-13 Huw Jones: Added method isTransformable.
- * <br>6.0 2007-12-19 Removed method invalidate. 
- * <br>5.0 2007-07-24 Removed method isSelectable and added
- * isSelectable and isRemovable instead.
- * <br>4.2 2007-05-19 Removed setConnectorsVisible, isConnectorsVisible
- * method due to changes in Connector interface. 
- * <br>4.1 2007-05-18 Removed addUndoableEditListener, 
- * removeUndoableEditListener methods. They are not needed anymore, due to
- * the removal of the basicSet methods for undoable attributes. 
- * <br>4.0 2007-05-12 Replaced set.../basicSet... design for undoable attributes 
- * by setAttribute/getAttributesRestoreData/restoreAttributesTo design.
- * <br>3.1 2007-04-14 Method handleMouseClick is now required to consume
- * an event, if it returns true. 
- * <br>3.0 2006-01-20 Reworked for J2SE 1.5.
- * @see Drawing
- * @see Handle
- * @see Connector
+ * @version $Id$
  */
 public interface Figure extends Cloneable, Serializable, DOMStorable {
     // DRAWING

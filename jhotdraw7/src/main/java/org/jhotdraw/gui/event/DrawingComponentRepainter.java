@@ -1,5 +1,5 @@
 /**
- * @(#)DrawingComponentRepainter.java  1.0  2009-06-02
+ * @(#)DrawingComponentRepainter.java
  *
  * Copyright (c) 2008-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -24,8 +24,7 @@ import org.jhotdraw.draw.*;
  * on the current view of the editor.
  *
  * @author Werner Randelshofer
- * @version 1.1 2009-06-02 Added Disposable-support.
- * <br>1.0 23.05.2008 Created.
+ * @version $Id$
  */
 public class DrawingComponentRepainter extends FigureAdapter
         implements PropertyChangeListener, Disposable {

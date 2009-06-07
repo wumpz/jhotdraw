@@ -1,5 +1,5 @@
 /*
- * @(#)ODGDrawing.java  2007-06-24
+ * @(#)ODGDrawing.java
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -26,7 +26,7 @@ import org.jhotdraw.xml.*;
  * AttributeKey's instead of using JavaBeans properties.
  * 
  * @author Werner Randelshofer
- * @version 1.0 2007-06-24 Created.
+ * @version $Id$
  */
 public class ODGDrawing extends QuadTreeDrawing {
     private String title;

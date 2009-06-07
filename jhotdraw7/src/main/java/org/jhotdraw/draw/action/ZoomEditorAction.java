@@ -1,5 +1,5 @@
 /*
- * @(#)ZoomEditorAction.java  1.0  January 16, 2006
+ * @(#)ZoomEditorAction.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -15,16 +15,14 @@
 package org.jhotdraw.draw.action;
 
 import org.jhotdraw.draw.DrawingEditor;
-
 import org.jhotdraw.draw.DrawingView;
-
 import javax.swing.*;
-import javax.swing.undo.*;
+
 /**
  * Zooms either the current view or all views of a DrawingEditor.
  *
  * @author  Werner Randelshofer
- * @version 1.0 January 16, 2006 Created.
+ * @version $Id$
  */
 public class ZoomEditorAction extends AbstractDrawingEditorAction {
     public final static String ID = "zoomEditor";

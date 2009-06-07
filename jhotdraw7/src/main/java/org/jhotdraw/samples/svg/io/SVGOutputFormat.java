@@ -1,5 +1,5 @@
 /*
- * @(#)SVGOutputFormat.java  1.3  2009-04-17
+ * @(#)SVGOutputFormat.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -36,14 +36,7 @@ import static org.jhotdraw.samples.svg.SVGConstants.*;
  * Scalable Vector Graphics SVG Tiny 1.2.
  *
  * @author Werner Randelshofer
- * @version 1.3 2009-04-17 Added support for link target.
- * <br>1.2.1 2009-03-29 createTextArea only added the last line of
- * a multiline text to the output.
- * <br>1.2 2007-12-16 Adapted to changes in OutputFormat.
- * <br>1.1.1 2007-04-23 Fixed writing of "path" attribute, fixed writing
- * of "textArea" element.
- * <br>1.1 2007-04-22 Added support for "a" element.
- * <br>1.0 December 12, 2006 Created.
+ * @version $Id$
  */
 public class SVGOutputFormat implements OutputFormat {
 

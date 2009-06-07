@@ -1,5 +1,5 @@
 /*
- * @(#)NumberedViewFactory.java  1.0  October 10, 2005
+ * @(#)NumberedViewFactory.java
  *
  * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -22,7 +22,7 @@ import javax.swing.text.*;
  * NumberedViewFactory.
  *
  * @author Werner Randelshofer
- * @version 1.0 October 10, 2005 Created.
+ * @version $Id$
  */
 public class NumberedViewFactory implements ViewFactory {
     private boolean isLineNumbersVisible;

@@ -1,5 +1,5 @@
 /**
- * @(#)AbstractHarmonicRule.java  1.0  May 1, 2008
+ * @(#)AbstractHarmonicRule.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -18,7 +18,7 @@ package org.jhotdraw.color;
  * AbstractHarmonicRule.
  *
  * @author Werner Randelshofer
- * @version 1.0 May 1, 2008 Created.
+ * @version $Id$
  */
 public abstract class AbstractHarmonicRule implements HarmonicRule {
     protected int baseIndex;

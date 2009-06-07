@@ -1,5 +1,5 @@
 /*
- * @(#)SVGView.java  2.0  2009-04-10
+ * @(#)SVGView.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -35,12 +35,7 @@ import org.jhotdraw.draw.*;
  * A view for SVG drawings.
  *
  * @author Werner Randelshofer
- * @version 2.0 2009-04-10 Moved all drawing related toolbars into SVGDrawingPanel.
- * <br>1.3.1 2008-03-19 Method read() tries out now all supported files format.
- * <br>1.3 2007-11-25 Method clear is now invoked on a worker thread. 
- * <br>1.2 2006-12-10 Used SVGStorage for reading SVG drawing (experimental).
- * <br>1.1 2006-06-10 Extended to support DefaultDrawApplicationModel.
- * <br>1.0 2006-02-07 Created.
+ * @version $Id$
  */
 public class SVGView extends AbstractView implements ExportableView {
 

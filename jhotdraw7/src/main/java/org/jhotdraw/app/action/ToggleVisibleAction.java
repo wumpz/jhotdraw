@@ -1,5 +1,5 @@
 /*
- * @(#)ToggleVisibleAction.java  1.0  June 17, 2006
+ * @(#)ToggleVisibleAction.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -17,12 +17,13 @@ package org.jhotdraw.app.action;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
 /**
  * Toggles the visible state of a Component.
  * Is selected, when the Component is visible.
  *
  * @author Werner Randelshofer.
- * @version 1.0 June 17, 2006 Created.
+ * @version $Id$
  */
 public class ToggleVisibleAction extends AbstractAction {
     private Component component;

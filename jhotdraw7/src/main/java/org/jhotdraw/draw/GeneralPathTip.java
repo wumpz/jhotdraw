@@ -1,5 +1,5 @@
 /*
- * @(#)GeneralPathLineDecoration.java  1.0  4. Februar 2004
+ * @(#)GeneralPathLineDecoration.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -15,13 +15,12 @@
 package org.jhotdraw.draw;
 
 import java.awt.geom.*;
-import java.awt.*;
+
 /**
  * GeneralPathLineDecoration.
  *
  * @author  Werner Randelshofer
- * @version 2.0 2006-01-14 Changed to support double precison coordinates.
- * <br>1.0 4. Februar 2004  Created.
+ * @version $Id$
  */
 public class GeneralPathTip extends AbstractLineDecoration {
     private GeneralPath path;

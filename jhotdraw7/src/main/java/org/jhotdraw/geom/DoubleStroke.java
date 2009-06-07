@@ -1,5 +1,5 @@
 /*
- * @(#)DoubleStroke.java  1.0  2006-06-18
+ * @(#)DoubleStroke.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -24,8 +24,7 @@ import java.awt.geom.*;
  * thickness of the outline.
  *
  * @author Werner Randelshofer
- * @version 1.0 2006-06-18 Fixed bugs.
- * <br>1.0 21. March 2006 Created.
+ * @version $Id$
  */
 public class DoubleStroke implements Stroke {
     private BasicStroke outlineStroke;

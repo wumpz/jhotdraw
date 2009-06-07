@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractView.java  1.3  2009-02-08
+ * @(#)AbstractView.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -23,15 +23,8 @@ import org.jhotdraw.beans.Disposable;
 /**
  * This abstract class can be extended to implement a {@link View}.
  * 
- * 
  * @author Werner Randelshofer
- * @version 1.3 2009-02-08 Made preferences variable protected instead
- * of private.
- * <br>1.2.1 2008-09-09 Explicitly dispose of the executor service.
- * <br>1.2 2007-12-25 Updated to changes in View interface. 
- * <br>1.1.1 2006-04-11 Fixed view file preferences.
- * <br>1.1 2006-02-16 Support for preferences added.
- * <br>1.0 January 3, 2006 Created.
+ * @version $Id$
  */
 public abstract class AbstractView extends JPanel implements View {
 

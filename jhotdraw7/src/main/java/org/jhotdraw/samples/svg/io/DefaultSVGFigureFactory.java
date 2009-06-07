@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultSVGFigureFactory.java  1.0.1  2009-03-29
+ * @(#)DefaultSVGFigureFactory.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -28,9 +28,7 @@ import org.jhotdraw.samples.svg.figures.*;
  * DefaultSVGFigureFactory.
  *
  * @author Werner Randelshofer
- * @version 1.0.1 2009-03-29 createCircle created figures at wrong location
- * and with wrong radius.
- * <br>1.0 December 7, 2006 Created.
+ * @version $Id$
  */
 public class DefaultSVGFigureFactory implements SVGFigureFactory {
     

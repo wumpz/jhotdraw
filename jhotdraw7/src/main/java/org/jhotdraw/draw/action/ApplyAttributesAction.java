@@ -1,5 +1,5 @@
 /*
- * @(#)ApplyAttributesAction.java  2.0.1  2008-02-26
+ * @(#)ApplyAttributesAction.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -15,21 +15,15 @@ package org.jhotdraw.draw.action;
 
 import org.jhotdraw.undo.*;
 import org.jhotdraw.util.*;
-import javax.swing.*;
 import java.util.*;
-import java.awt.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
  * ApplyAttributesAction.
  *
  * @author Werner Randelshofer
- * @version 2.1 2008-03-26 Made figures fire areInvalidated events, when
- * applying the attributes.
- * <br>2.0 2007-04-16 Added support exclusion of attributes.
- * <br>1.0 25. November 2003  Created.
+ * @version $Id$
  */
 public class ApplyAttributesAction extends AbstractSelectedAction {
 

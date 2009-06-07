@@ -1,5 +1,5 @@
 /*
- * @(#)CloseAction.java  1.0  04 January 2005
+ * @(#)CloseAction.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -25,7 +25,7 @@ import org.jhotdraw.app.View;
  * Closes a view.
  *
  * @author  Werner Randelshofer
- * @version 1.0  04 January 2005  Created.
+ * @version $Id$
  */
 public class CloseAction extends AbstractSaveBeforeAction {
     public final static String ID = "file.close";

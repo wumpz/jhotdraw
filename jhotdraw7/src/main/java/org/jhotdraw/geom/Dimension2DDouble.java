@@ -1,5 +1,5 @@
 /*
- * @(#)Dimension2DDouble.java  1.0  January 14, 2006
+ * @(#)Dimension2DDouble.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -20,7 +20,7 @@ import java.awt.geom.*;
  * Dimension2DDouble.
  *
  * @author  Werner Randelshofer
- * @version 1.0 January 14, 2006 Created.
+ * @version $Id$
  */
 public class Dimension2DDouble extends Dimension2D implements java.io.Serializable {
     

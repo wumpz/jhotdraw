@@ -1,5 +1,5 @@
 /*
- * @(#)DeleteAction.java  1.0  October 9, 2005
+ * @(#)DeleteAction.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -16,19 +16,17 @@ package org.jhotdraw.app.action;
 
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
 import javax.swing.text.*;
-import java.beans.*;
-import java.util.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.app.EditableComponent;
+
 /**
  * Deletes the region at (or after) the caret position.
  * Acts on the EditableComponent or JTextComponent which had the focus when
  * the ActionEvent was generated.
  *
  * @author Werner Randelshofer
- * @version 1.0 October 9, 2005 Created.
+ * @version $Id$
  */
 public class DeleteAction extends TextAction {
     public final static String ID = "edit.delete";

@@ -1,5 +1,5 @@
 /*
- * @(#)StickyRectangleConnector.java  2.0  2006-01-14
+ * @(#)StickyRectangleConnector.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -17,7 +17,6 @@ package org.jhotdraw.draw;
 
 import java.io.IOException;
 import org.jhotdraw.geom.Geom;
-import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.geom.*;
 import org.jhotdraw.xml.DOMInput;
@@ -33,8 +32,7 @@ import org.jhotdraw.xml.DOMOutput;
  * around will not change the location.
  * 
  * @author Werner Randelshofer
- * @version 2.0 2006-01-14 Changed to support double precison coordinates.
- * <br>1.0 5. Februar 2004  Created.
+ * @version $Id$
  */
 public class StickyRectangleConnector extends ChopRectangleConnector {
     private float angle;

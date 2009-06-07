@@ -1,5 +1,5 @@
 /*
- * @(#)ClearRecentFilesAction.java  1.0  June 15, 2006
+ * @(#)ClearRecentFilesAction.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -18,12 +18,12 @@ import org.jhotdraw.util.*;
 import java.awt.event.ActionEvent;
 import java.beans.*;
 import org.jhotdraw.app.Application;
-import org.jhotdraw.beans.WeakPropertyChangeListener;
+
 /**
  * ClearRecentFilesAction.
  *
  * @author Werner Randelshofer.
- * @version 1.0 June 15, 2006 Created.
+ * @version $Id$
  */
 public class ClearRecentFilesAction extends AbstractApplicationAction {
     public final static String ID = "file.clearRecentFiles";

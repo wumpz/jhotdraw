@@ -1,5 +1,5 @@
 /*
- * @(#)RestoreDataEdit.java  2.0  2006-01-14
+ * @(#)RestoreDataEdit.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -18,13 +18,13 @@ package org.jhotdraw.draw;
 import org.jhotdraw.util.*;
 import javax.swing.undo.*;
 import java.util.*;
+
 /**
  * RestoreDataEdit.
  *
  *
  * @author Werner Randelshofer
- * @version 2.0 2006-01-14 Changed to support double precision coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public class RestoreDataEdit extends AbstractUndoableEdit {
     private Figure figure;

@@ -1,5 +1,5 @@
 /*
- * @(#)Insets2D.java  1.0  December 6, 2006
+ * @(#)Insets2D.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -20,7 +20,7 @@ import java.io.Serializable;
  * Insets2D.
  *
  * @author Werner Randelshofer
- * @version 1.0 December 6, 2006 Refactored from Insets2DDouble to better match
+ * @version $Id$
  * expectations of people used to the java.awt.geom.xxx2D.Double/xxx2D.Float
  * idioms.
  */

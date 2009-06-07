@@ -1,5 +1,5 @@
 /*
- * @(#)SVGBezierFigure.java  1.0.2  2008-05-23
+ * @(#)SVGBezierFigure.java
  *
  * Copyright (c) 2007-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -28,10 +28,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * represent a single BezierPath segment within an SVG path.
  *
  * @author Werner Randelshofer
- * @version 1.0.2 2008-05-23 Operations on segments and handleMouseClick must
- * take transform into account. 
- * <br>1.0.1 2008-03-20 Fixed computation of clip bounds. 
- * <br>1.0 April 14, 2007 Created.
+ * @version $Id$
  */
 public class SVGBezierFigure extends BezierFigure {
 

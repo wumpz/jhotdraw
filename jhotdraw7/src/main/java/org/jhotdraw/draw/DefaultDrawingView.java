@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultDrawingView.java  4.6  2009-04-25
+ * @(#)DefaultDrawingView.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -34,32 +34,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * FIXME - Use double buffering for the drawing to improve performance.
  *
  * @author Werner Randelshofer
- * @version 4.6 2009-04-25 Center drawing in view, if view is larger than
- * the canvas size.
- * <br>4.5.3 2008-09-01 Use an ordered set for the selected figures.
- * <br>4.5.2 2008-06-09 A DrawingView must not create Handle's, if it
- * has no DrawingEditor. 
- * <br>4.5.1 2008-05-18 Delete method did not preserve z-index on undo. 
- * <br>4.5 2008-05-18 Retrieve tooltip text from current tool.
- * <br>4.4 2007-12-18 Reduced repaints of the drawing area. 
- * <br>4.3 2007-12-16 Retrieve canvasColor color from Drawing object.
- * <br>4.2 2007-09-12 The DrawingView is now responsible for
- * holding the Constrainer objects which affect editing on this view.
- * <br>4.0 2007-07-23 DefaultDrawingView does not publicly extend anymore
- * CompositeFigureListener and HandleListener.
- * <br>3.5 2007-04-13 Implement clipboard functions using TransferHandler.
- * <br>3.4 2007-04-09 Visualizes the canvas sgetChildCountof a Drawing by a filled
- * white rectangle on the canvasColor.
- * <br>3.3 2007-01-23 Only repaintDrawingArea handles on focus gained/lost.
- * <br>3.2 2006-12-26 Rewrote storage and clipboard support.
- * <br>3.1 2006-12-17 Added printing support.
- * <br>3.0.2 2006-07-03 Constrainer must be a bound property.
- * <br>3.0.1 2006-06-11 Draw handles when this DrawingView is the focused
- * drawing view of the DrawingEditor.
- * <br>3.0 2006-02-17 Reworked to support multiple drawing views in a
- * DrawingEditor.
- * <br>2.0 2006-01-14 Changed to support double precision coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public class DefaultDrawingView
         extends JComponent

@@ -1,5 +1,5 @@
 /*
- * @(#)JPopupButtonBeanInfo.java  1.0  11. November 2003
+ * @(#)JPopupButtonBeanInfo.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.

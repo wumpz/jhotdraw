@@ -1,5 +1,5 @@
 /*
- * @(#)MoveAction.java  1.0  2004-03-17
+ * @(#)MoveAction.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -18,17 +18,13 @@ import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.Figure;
 import org.jhotdraw.draw.TransformEdit;
 import org.jhotdraw.undo.CompositeEdit;
-import javax.swing.*;
-import java.awt.*;
 import java.awt.geom.*;
-import java.util.*;
-import javax.swing.undo.*;
 
 /**
  * Moves the selected figures by one unit.
  *
  * @author  Werner Randelshofer
- * @version 1.0 17. March 2004  Created.
+ * @version $Id$
  */
 public abstract class MoveAction extends AbstractSelectedAction {
     private int dx, dy;

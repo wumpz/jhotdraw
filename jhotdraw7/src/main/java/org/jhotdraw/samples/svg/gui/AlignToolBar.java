@@ -1,5 +1,5 @@
 /*
- * @(#)AlignToolBar.java  1.2  2008-05-23
+ * @(#)AlignToolBar.java
  *
  * Copyright (c) 2007-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -14,35 +14,20 @@
 package org.jhotdraw.samples.svg.gui;
 
 import org.jhotdraw.gui.event.SelectionComponentDisplayer;
-import java.beans.*;
-import java.util.prefs.*;
 import javax.swing.border.*;
-import org.jhotdraw.gui.*;
-import org.jhotdraw.samples.svg.*;
-import org.jhotdraw.undo.*;
 import org.jhotdraw.util.*;
 
 import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
 import javax.swing.*;
-import javax.swing.event.*;
-import org.jhotdraw.app.action.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.gui.plaf.palette.*;
-import org.jhotdraw.samples.svg.action.*;
-import org.jhotdraw.samples.svg.figures.*;
-import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
 /**
  * AlignToolBar.
  *
  * @author Werner Randelshofer
- * @version 1.2 2008-05-23 Hide the toolbar if nothing is selected, and no
- * creation tool is active. 
- * <br>1.1 2008-03-26 Don't draw button borders. 
- * <br>1.0 May 1, 2007 Created.
+ * @version $Id$
  */
 public class AlignToolBar extends AbstractToolBar {
 

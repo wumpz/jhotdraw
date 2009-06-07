@@ -1,5 +1,5 @@
 /*
- * @(#)SheetListener.java  1.0  26. September 2005
+ * @(#)SheetListener.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -19,7 +19,7 @@ import java.util.*;
  * SheetListener.
  *
  * @author  Werner Randelshofer
- * @version 1.0 26. September 2005 Created.
+ * @version $Id$
  */
 public interface SheetListener extends EventListener {
     /**

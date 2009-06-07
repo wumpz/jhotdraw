@@ -1,5 +1,5 @@
 /*
- * @(#)LocatorConnector.java  2.0.1  2006-07-05
+ * @(#)LocatorConnector.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -14,7 +14,6 @@
 
 package org.jhotdraw.draw;
 
-import java.awt.*;
 import java.awt.geom.*;
 import java.io.IOException;
 import org.jhotdraw.xml.*;
@@ -27,9 +26,7 @@ import org.jhotdraw.xml.*;
  * @see Connector
  *
  * @author Werner Randelshofer
- * @version 2.0.1 2006-07-05 Fixed override bugs.
- * <br>2.0 2006-01-14 Changed to support double precision coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public class LocatorConnector extends AbstractConnector {
     /**

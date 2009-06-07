@@ -1,5 +1,5 @@
 /*
- * @(#)SelectSameAction.java  1.1  2006-06-05
+ * @(#)SelectSameAction.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -17,13 +17,12 @@ package org.jhotdraw.draw.action;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.Figure;
 import java.util.*;
-import javax.swing.*;
+
 /**
  * SelectSameAction.
  *
  * @author  Werner Randelshofer
- * @version 1.1 2006-06-05 Optimized performance.
- * <br>1.0 25. November 2003  Created.
+ * @version $Id$
  */
 public class SelectSameAction extends AbstractSelectedAction {
     public final static String ID = "edit.selectSame";

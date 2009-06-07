@@ -1,5 +1,5 @@
 /*
- * @(#)AttributeEditor.java  3.0  2008-04-14
+ * @(#)AttributeEditor.java
  *
  * Copyright (c) 2007-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -15,9 +15,7 @@
 package org.jhotdraw.gui;
 
 import java.beans.PropertyChangeListener;
-import java.util.*;
 import javax.swing.*;
-import org.jhotdraw.draw.*;
 
 /**
  * Interface for a field or any other kind of editor which can be used to edit
@@ -28,9 +26,7 @@ import org.jhotdraw.draw.*;
  * {@code AttributeFieldHandler}.
  *
  * @author Werner Randelshofer
- * @version 3.0 2009-04-14 Reworked.
- * <br>2.0 2008-05-18 Added method isEnabledWithoutSelection.
- * <br>1.0 15. Mai 2007 Created.
+ * @version $Id$
  */
 public interface AttributeEditor<T> {
     public final static String ATTRIBUTE_VALUE_PROPERTY = "attributeValue";

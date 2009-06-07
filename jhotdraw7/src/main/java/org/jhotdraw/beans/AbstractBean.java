@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractBean.java  2.0  2009-06-02
+ * @(#)AbstractBean.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -22,11 +22,7 @@ import java.beans.*;
  * listeners.
  *
  * @author Werner Randelshofer
- * @version 2.0 2009-06-02 Added support for WeakPropertyChangeListener's.
- * <br>1.2 2006-06-21 Implemented Cloneable. The cloned object has no listeners
- * assigned to it.
- * <br>1.1 2004-01-18
- * <br>1.0 2001-08-04
+ * @version $Id$
  */
 public class AbstractBean extends Object implements java.io.Serializable, Cloneable {
 

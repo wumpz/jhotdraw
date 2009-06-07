@@ -1,5 +1,5 @@
 /*
- * @(#)EditGridPanel.java  2.0  2007-12-22
+ * @(#)EditGridPanel.java
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -26,8 +26,7 @@ import org.jhotdraw.util.*;
  * @see org.jhotdraw.draw.GridConstrainer
  *
  * @author Werner Randelshofer
- * @version 2.0 2007-12-22 Added support for angle constraint. 
- * <br>1.0 July 31, 2007 Created.
+ * @version $Id$
  */
 public class EditGridPanel extends javax.swing.JPanel {
     private ResourceBundleUtil labels;

@@ -1,5 +1,5 @@
 /*
- * @(#)OutputFormat.java  2.0  2007-12-16
+ * @(#)OutputFormat.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -41,9 +41,7 @@ import javax.swing.*;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version 2.0 2007-12-16 Method createTransferable needs Drawing object 
- * parameter in order to support attributes on the Drawing object.
- * <br>1.0 December 12, 2006 Created.
+ * @version $Id$
  */
 public interface OutputFormat {
     /**

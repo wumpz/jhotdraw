@@ -1,5 +1,5 @@
 /*
- * @(#)EditorSample.java   1.0  March 8, 2007
+ * @(#)EditorSample.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -23,7 +23,7 @@ import org.jhotdraw.geom.*;
  * drawing views. For simplicity, the editor can create rectangle figures only.
  *
  * @author Werner Randelshofer
- * @version 1.0 March 8, 2007 Created.
+ * @version $Id$
  */
 public class EditorSample {
     public static void main(String[] args) {

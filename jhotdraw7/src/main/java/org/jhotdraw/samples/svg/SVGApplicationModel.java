@@ -1,5 +1,5 @@
 /*
- * @(#)SVGApplicationModel.java  2.0  2009-04-10
+ * @(#)SVGApplicationModel.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -27,8 +27,7 @@ import org.jhotdraw.draw.action.*;
  * SVGApplicationModel.
  *
  * @author Werner Randelshofer.
- * @version 2.0 2009-04-10 Moved all drawing related toolbars into SVGDrawingPanel.
- * <br>1.0 June 10, 2006 Created.
+ * @version $Id$
  */
 public class SVGApplicationModel extends DefaultApplicationModel {
 

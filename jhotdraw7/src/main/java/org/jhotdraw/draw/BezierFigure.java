@@ -1,5 +1,5 @@
 /*
- * @(#)BezierFigure.java 3.2  2008-07-06
+ * @(#)BezierFigure.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -25,6 +25,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
+
 /**
  * A <em>bezier figure</em> can be used to draw arbitrary shapes using a
  * {@link BezierPath}. It can be used to draw an open path or a closed shape.
@@ -49,19 +50,8 @@ import org.jhotdraw.xml.DOMOutput;
  *
  * @see org.jhotdraw.geom.BezierPath
  *
- * @version 3.2 2008-07-06 Create BezierOutlineHandle on mouse over. 
- * <br>3.1 2008-05-23 Added method findSegment with tolerance parameter.
- * <br>3.0.1 2007-11-30 Changed method removeNode from protected to public. 
- * <br>3.0 2007-05-12 Got rid of basic methods.
- * <br>2.2.1 2007-04-22 Method contains did not work as expected for filled
- * unclosed beziers with thick line widths.
- * <br>2.2 2007-04-14 Added BezierContourHandle. We fill now open
- * paths as well.
- * <br>2.1.1 2006-06-08 Fixed caps drawing.
- * <br>2.1 2006-04-21 Improved caps drawing.
- * <br>2.0 2006-01-14 Changed to support double precison coordinates.
- * <br>1.0 March 14, 2004.
  * @author Werner Randelshofer
+ * @version $Id$
  */
 public class BezierFigure extends AbstractAttributedFigure {
     /**

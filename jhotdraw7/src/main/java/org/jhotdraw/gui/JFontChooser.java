@@ -1,5 +1,5 @@
 /*
- * @(#)JFontChooser.java  1.0.1  2008-05-25
+ * @(#)JFontChooser.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -30,9 +30,7 @@ import org.jhotdraw.gui.plaf.palette.PaletteFontChooserUI;
  * Font chooser dialog.
  * 
  * @author  Werner Randelshofer
- * @version 1.0.1 2008-05-25 By default, load fonts lazily. Update selection
- * path when the contents of the model changes. 
- * <br>1.0 2008-05-18 Created.
+ * @version $Id$
  */
 public class JFontChooser extends JComponent {
 

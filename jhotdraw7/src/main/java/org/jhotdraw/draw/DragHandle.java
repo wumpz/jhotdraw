@@ -1,5 +1,5 @@
 /*
- * @(#)DragHandle.java  1.0  July 24, 2007
+ * @(#)DragHandle.java
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -28,7 +28,7 @@ import java.util.*;
  * of child figures without having to decompose the CompositeFigure.
  *
  * @author Werner Randelshofer
- * @version 1.0 July 24, 2007 Created.
+ * @version $Id$
  */
 public class DragHandle extends AbstractHandle {
     /**

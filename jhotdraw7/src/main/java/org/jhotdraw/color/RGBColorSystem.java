@@ -1,5 +1,5 @@
 /*
- * @(#)RGBColorSystem.java  1.0  May 22, 2005
+ * @(#)RGBColorSystem.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -13,13 +13,11 @@
  */
 package org.jhotdraw.color;
 
-import javax.swing.*;
-
 /**
  * A ColorSystem for RGB color components (red, green, blue).
  *
  * @author  Werner Randelshofer
- * @version 1.0 May 22, 2005 Created.
+ * @version $Id$
  */
 public class RGBColorSystem extends AbstractColorSystem {
 

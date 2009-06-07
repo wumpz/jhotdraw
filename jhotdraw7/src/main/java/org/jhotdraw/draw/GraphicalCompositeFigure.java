@@ -1,5 +1,5 @@
 /*
- * @(#)GraphicalCompositeFigure.java  2.0  2006-01-14
+ * @(#)GraphicalCompositeFigure.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -47,13 +47,8 @@ import org.jhotdraw.xml.DOMOutput;
  * its contained figures.
  * 
  * 
- * 
- * 
- * 
- * 
  * @author Wolfram Kaiser (original code), Werner Randelshofer (this derived version)
- * @version 2.0 2006-01-14 Changed to support double precision coordinates.
- * <br>1.0 1. Dezember 2003  Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public class GraphicalCompositeFigure extends AbstractCompositeFigure {
     protected HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey,Object>();

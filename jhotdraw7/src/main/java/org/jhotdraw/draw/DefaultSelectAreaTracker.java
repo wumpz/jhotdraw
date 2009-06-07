@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultSelectAreaTracker.java  4.0  2008-05-17
+ * @(#)DefaultSelectAreaTracker.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -41,10 +41,7 @@ import java.util.*;
  * @see SelectionTool
  *
  * @author Werner Randelshofer
- * @version 4.0 2008-05-17 Displays handles with index -1, if the mouse
- * hovers over a figure. 
- * <br>3.0 2006-02-15 Updated to handle multiple views.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public class DefaultSelectAreaTracker extends AbstractTool implements SelectAreaTracker {
 

@@ -1,5 +1,5 @@
 /*
- * @(#)TranslationDirection.java  3.0  2007-12-16
+ * @(#)TranslationDirection.java
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -26,10 +26,7 @@ import java.awt.geom.Point2D;
  * @see Constrainer
  *
  * @author Werner Randelshofer
- * @version 3.0 Renamed from Direction to TranslationDirection. 
- * <br>2.0 2007-07-31 Added directions NORTH_WEST, SOUTH_WEST,
- * NORTH_EAST and SOUTH_EAST. Added method getDirection.
- * <br>1.0 2007-04-29 Created.
+ * @version $Id$
  */
 public enum TranslationDirection {
     NORTH,

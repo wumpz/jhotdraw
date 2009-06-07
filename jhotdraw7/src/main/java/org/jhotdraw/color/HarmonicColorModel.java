@@ -1,5 +1,5 @@
 /**
- * @(#)HarmonicColorModel.java  1.0  Apr 19, 2008
+ * @(#)HarmonicColorModel.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -14,7 +14,6 @@
 
 package org.jhotdraw.color;
 
-import java.awt.Color;
 import java.beans.PropertyChangeListener;
 import javax.swing.ListModel;
 
@@ -22,7 +21,7 @@ import javax.swing.ListModel;
  * HarmonicColorModel.
  *
  * @author Werner Randelshofer
- * @version 1.0 Apr 19, 2008 Created.
+ * @version $Id$
  */
 public interface HarmonicColorModel extends ListModel {
     public final static String COLOR_SYSTEM_PROPERTY = "colorSystem";

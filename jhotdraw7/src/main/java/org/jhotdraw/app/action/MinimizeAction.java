@@ -1,5 +1,5 @@
 /*
- * @(#)MinimizeAction.java  2.0  2006-05-05
+ * @(#)MinimizeAction.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -20,12 +20,12 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import org.jhotdraw.app.Application;
+
 /**
  * Minimizes the Frame of the current view.
  *
  * @author  Werner Randelshofer
- * @version 2.0 2006-05-05 Reworked.
- * <br>1.0  2005-06-10 Created.
+ * @version $Id$
  */
 public class MinimizeAction extends AbstractViewAction {
     public final static String ID = "window.minimize";

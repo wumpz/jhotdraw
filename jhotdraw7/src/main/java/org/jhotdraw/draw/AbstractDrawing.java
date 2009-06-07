@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractDrawing.java  4.1  2007-12-16
+ * @(#)AbstractDrawing.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -25,16 +25,7 @@ import java.io.*;
  * This abstract class can be extended to implement a {@link Drawing}.
  *
  * @author Werner Randelshofer
- * @version 4.1 2007-12-16 Drawing hold attributes on its own. 
- * <br>4.0 2007-07-17 Adapted to changes in Drawing interface. 
- * <br>3.0 2007-05-18 Don't fire UndoableEdit events when Figures
- * are added/removed from a Drawing. The
- * <br>2.2 2006-12-26 Support for InputFormat's and OutputFormat's added.
- * <br>2.1 2006-07-08 Extend AbstractBean.
- * <br>2.0.1 2006-02-06 Did ugly dirty fix for IndexOutOfBoundsException when
- * undoing removal of Figures.
- * <br>2.0 2006-01-14 Changed to support double precision coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure implements Drawing {
     private final static Object lock = new JPanel().getTreeLock();

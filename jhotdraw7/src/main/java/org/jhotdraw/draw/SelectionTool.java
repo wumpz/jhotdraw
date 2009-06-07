@@ -1,5 +1,5 @@
 /*
- * @(#)SelectionTool.java  2.0  2009-04-25
+ * @(#)SelectionTool.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -47,10 +47,7 @@ import java.util.HashSet;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version 2.0 2009-04-25 Trackers can now be replaced without having to 
- * subclass SelectionTool.
- * <br>1.1 2007-11-05 Added property selectBehindEnabled.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public class SelectionTool extends AbstractTool
         implements ToolListener {

@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractAttributedFigure.java  4.1  2007-05-18
+ * @(#)AbstractAttributedFigure.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -28,16 +28,7 @@ import org.jhotdraw.xml.DOMOutput;
  * which has its own attribute set.
  *
  * @author Werner Randelshofer
- * @version 4.1 2007-05-18 Changed due to changes in Figure interface.
- * <br>4.0 2007-01-03 Renamed from AttributedFigure to
- * AbstractAttributedFigure.
- * <br>3.2 2006-12-07 Changed method setAttributes(HashMap)
- * to setAttributes(Map);
- * <br>3.1 2006-06-17 Method chop(Point2D.Double) added.
- * <br>3.0 2006-06-07 Reworked.
- * <br>2.1 2006-02-20 Support for DoubleStroke added.
- * <br>2.0 2006-01-14 Changed to support double precision coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public abstract class AbstractAttributedFigure extends AbstractFigure {
     /**

@@ -1,5 +1,5 @@
  /*
- * @(#)SVGImage.java  2.1  2008-05-17
+ * @(#)SVGImage.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -31,11 +31,7 @@ import org.jhotdraw.geom.*;
  * SVGImage.
  *
  * @author Werner Randelshofer
- * @version 2.1 2008-05-17 Rendering hints must be copied, when creating
- * a local Graphics2D object. Remove transformation action was not undoable. 
- * <br>2.0.1 2008-04-13 We must catch all throwables when calling ImageIO.read(). 
- * <br>2.0 2007-04-14 Adapted for new AttributeKeys.TRANSFORM support.
- * <br>1.0 July 8, 2006 Created.
+ * @version $Id$
  */
 public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, ImageHolderFigure {
 

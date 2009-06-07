@@ -1,5 +1,5 @@
 /*
- * @(#)ChopEllipseConnector.java  2.1  2006-05-18
+ * @(#)ChopEllipseConnector.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -14,7 +14,6 @@
 
 package org.jhotdraw.draw;
 
-import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
@@ -25,9 +24,7 @@ import org.jhotdraw.geom.*;
  * figure's display box.
  *
  * @author Werner Randelshofer
- * @version 2.1 2006-05-18 Reworked.
- * <br>2.0 2006-01-14 Changed to support double precison coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public class ChopEllipseConnector extends ChopRectangleConnector {
     /** 

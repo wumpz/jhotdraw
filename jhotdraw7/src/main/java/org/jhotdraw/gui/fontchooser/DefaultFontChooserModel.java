@@ -1,5 +1,5 @@
 /**
- * @(#)DefaultFontModel.java  2.0  2008-05-24
+ * @(#)DefaultFontModel.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -38,9 +38,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * </pre>
  * 
  * @author Werner Randelshofer
- * @version 2.0 2008-05-24 The DefaultFontChooser does not load the fonts
- * on its own anymore.
- * <br>1.0 May 18, 2008 Created.
+ * @version $Id$
  */
 public class DefaultFontChooserModel extends AbstractFontChooserModel {
 

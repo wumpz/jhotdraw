@@ -1,5 +1,5 @@
 /*
- * @(#)CMYKICCColorSystem.java  2.0  2008-03-23
+ * @(#)CMYKICCColorSystem.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -27,9 +27,7 @@ import java.io.*;
  * 
  *
  * @author  Werner Randelshofer
- * @version 2.0 2008-04-23 Added component conversion methods.
- * <br>1.1 2008-04-23 Added constructor without parameters. 
- * <br>1.0 May 22, 2005 Created.
+ * @version $Id$
  */
 public class CMYKICCColorSystem extends AbstractColorSystem {
 

@@ -1,5 +1,5 @@
 /**
- * @(#)PaletteButtonBorder.java  1.0  Apr 6, 2008
+ * @(#)PaletteButtonBorder.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -28,7 +28,7 @@ import org.apache.batik.ext.awt.*;
  * PaletteButtonBorder.
  *
  * @author Werner Randelshofer
- * @version 1.0 Apr 6, 2008 Created.
+ * @version $Id$
  */
 public class PaletteButtonBorder implements Border, UIResource {
 

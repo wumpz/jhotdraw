@@ -1,5 +1,5 @@
 /*
- * @(#)SaveAsAction.java  1.0  28. September 2005
+ * @(#)SaveAsAction.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -13,20 +13,14 @@
  */
 
 package org.jhotdraw.app.action;
-import org.jhotdraw.gui.*;
-import org.jhotdraw.gui.event.*;
 import org.jhotdraw.util.*;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import java.io.*;
 import org.jhotdraw.app.Application;
 
 /**
  * SaveAsAction.
  *
  * @author  Werner Randelshofer
- * @version 1.0 28. September 2005 Created.
+ * @version $Id$
  */
 public class SaveAsAction extends SaveAction {
     public final static String ID = "file.saveAs";

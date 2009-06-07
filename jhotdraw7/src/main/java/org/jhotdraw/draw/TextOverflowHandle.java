@@ -1,5 +1,5 @@
 /*
- * @(#)TextOverflowHandle.java  1.0  19. Mai 2007
+ * @(#)TextOverflowHandle.java
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -24,7 +24,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * bounds of a TextAreaFigure.
  *
  * @author Werner Randelshofer
- * @version 1.0 19. Mai 2007 Created.
+ * @version $Id$
  */
 public class TextOverflowHandle extends AbstractHandle {
     

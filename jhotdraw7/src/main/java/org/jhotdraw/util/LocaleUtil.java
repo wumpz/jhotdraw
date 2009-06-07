@@ -1,5 +1,5 @@
 /*
- * @(#)LocaleUtil.java  1.0  22. Mai 2006
+ * @(#)LocaleUtil.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -21,7 +21,7 @@ import java.util.*;
  * their own locale.
  *
  * @author Werner Randelshofer
- * @version 1.0 22. Mai 2006 Created.
+ * @version $Id$
  */
 public class LocaleUtil {
     private static Locale defaultLocale;

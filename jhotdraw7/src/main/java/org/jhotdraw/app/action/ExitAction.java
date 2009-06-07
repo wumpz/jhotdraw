@@ -1,5 +1,5 @@
 /*
- * @(#)ExitAction.java  1.0  04 January 2005
+ * @(#)ExitAction.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -20,16 +20,16 @@ import org.jhotdraw.gui.event.*;
 import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
 import javax.swing.*;
 import java.io.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
+
 /**
  * Exits the application after letting the user review all unsaved views.
  *
  * @author  Werner Randelshofer
- * @version 1.0  04 January 2005  Created.
+ * @version $Id$
  */
 public class ExitAction extends AbstractApplicationAction {
     public final static String ID = "application.exit";

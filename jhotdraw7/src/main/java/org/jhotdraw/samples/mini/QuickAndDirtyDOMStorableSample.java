@@ -1,5 +1,5 @@
 /*
- * @(#)QuickAndDirtyDOMStorableSample.java  1.0  2009-04-19
+ * @(#)QuickAndDirtyDOMStorableSample.java
  * 
  * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -26,7 +26,7 @@ import java.util.logging.Logger;
  * String.
  *
  * @author Werner Randelshofer
- * @version 1.0 2009-04-19 Created.
+ * @version $Id$
  */
 public class QuickAndDirtyDOMStorableSample {
 

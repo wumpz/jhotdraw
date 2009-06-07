@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractFigure.java   6.0  2000-02-13
+ * @(#)AbstractFigure.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -29,19 +29,7 @@ import org.jhotdraw.geom.*;
  *
  *
  * @author Werner Randelshofer
- * @version 7.0 2008-02-13 Huw Jones: Added methods to support
- * Figure.isTransformable().
- * <br>5.1 2007-12-19 Method invalidate only fires an areInvalidated
- * event, when the Figure is part of a Drawing. 
- * <br>5.0 2007-07-17 Extends from AbstractBean.
- * <br>4.0 2007-05-18 Removed addUndoableEditListener and
- * removeUndoableEditListener, isConnectorsVisible, setConnectorsVisible
- * methods due to changes in Figure interface.
- * <br>3.4 2007-02-09 Method fireFigureHandlesChanged added.
- * <br>3.3 Reworked.
- * <br>3.2 2006-01-05 Added method getChangingDepth().
- * <br>3.0 2006-01-20 Reworked for J2SE 1.5.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public abstract class AbstractFigure
         extends AbstractBean

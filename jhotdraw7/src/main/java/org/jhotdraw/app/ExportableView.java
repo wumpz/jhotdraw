@@ -1,5 +1,5 @@
 /*
- * @(#)ExportableView.java  1.0  January 2, 2007
+ * @(#)ExportableView.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -32,7 +32,7 @@ import javax.swing.*;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version 1.0 January 2, 2007 Created.
+ * @version $Id$
  */
 public interface ExportableView extends View {
     /**

@@ -1,5 +1,5 @@
 /*
- * @(#)Bezier.java 2.0.1  2006-06-14
+ * @(#)Bezier.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -13,8 +13,6 @@
  */
 package org.jhotdraw.geom;
 
-//import org.jhotdraw.util.*;
-import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
 
@@ -30,12 +28,8 @@ import java.util.*;
  * <p>
  * http://autotrace.sourceforge.net/Interactive_Curve_Design.ps.gz
  *
- * @version 3.0 2008-06-03 Totally rewritten.
- * <br>2.0.1 2006-06-14 Fit bezier curve must preserve closed state of
- * fitted BezierPath object.
- * <br>2.0 2006-01-14 Changed to support double precision coordinates.
- * <br>1.0 March 14, 2004.
  * @author Werner Randelshofer
+ * @version $Id$
  */
 public class Bezier {
 

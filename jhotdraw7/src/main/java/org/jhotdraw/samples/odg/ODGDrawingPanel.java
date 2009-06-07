@@ -1,5 +1,5 @@
 /*
- * @(#)ODGDrawingPanel.java  1.0  2007-06-24
+ * @(#)ODGDrawingPanel.java
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -33,7 +33,7 @@ import org.jhotdraw.draw.action.*;
  * 
  * 
  * @author Werner Randelshofer
- * @version 1.0 2007-06-24  Created.
+ * @version $Id$
  */
 public class ODGDrawingPanel extends JPanel  {
     private UndoRedoManager undoManager;

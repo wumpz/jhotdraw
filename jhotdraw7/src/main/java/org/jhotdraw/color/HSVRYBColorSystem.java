@@ -1,5 +1,5 @@
 /*
- * @(#)HSVRybColorSystem.java  1.0  May 22, 2005
+ * @(#)HSVRybColorSystem.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -13,17 +13,13 @@
  */
 package org.jhotdraw.color;
 
-import java.awt.*;
-import java.util.Arrays;
-import javax.swing.*;
-
 /**
  * A ColorSystem for a historic version of the HSV color components 
  * (hue, saturation, value) based on the primary colors red, yellow
  * and blue.
  *
  * @author  Werner Randelshofer
- * @version 1.0 May 22, 2005 Created.
+ * @version $Id$
  */
 public class HSVRYBColorSystem extends AbstractColorSystem {
 

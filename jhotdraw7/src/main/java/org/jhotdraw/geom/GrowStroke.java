@@ -1,5 +1,5 @@
 /*
- * @(#)GrowStroke.java  1.1  2006-12-09
+ * @(#)GrowStroke.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -16,7 +16,6 @@ package org.jhotdraw.geom;
 
 import java.awt.*;
 import java.awt.geom.*;
-import java.awt.font.*;
 
 /**
  * GrowStroke can be used to grow/shrink a figure by a specified line width.
@@ -26,8 +25,7 @@ import java.awt.font.*;
  * shape, but one that can be used for filling. 
  * 
  * @author Werner Randelshofer.
- * @version 1.1 2006-12-09 Take winding rule into account. 
- * <br>1.0 June 9, 2006 Created.
+ * @version $Id$
  */
 public class GrowStroke extends DoubleStroke {
     private float grow;

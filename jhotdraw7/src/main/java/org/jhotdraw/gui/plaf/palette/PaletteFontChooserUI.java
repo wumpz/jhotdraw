@@ -1,5 +1,5 @@
 /**
- * @(#)PaletteFontChooserUI.java  1.0  May 18, 2008
+ * @(#)PaletteFontChooserUI.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -31,7 +31,7 @@ import org.jhotdraw.gui.plaf.FontChooserUI;
  * PaletteFontChooserUI.
  *
  * @author Werner Randelshofer
- * @version 1.0 May 18, 2008 Created.
+ * @version $Id$
  */
 public class PaletteFontChooserUI extends FontChooserUI {
 

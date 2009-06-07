@@ -1,5 +1,5 @@
 /*
- * @(#)BezierScaleHandle.java  2.0  2008-05-11
+ * @(#)BezierScaleHandle.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -14,22 +14,18 @@
 
 package org.jhotdraw.draw;
 
-import org.jhotdraw.util.*;
-import org.jhotdraw.undo.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
-import java.util.*;
 import org.jhotdraw.geom.*;
+
 /**
  * A Handle to scale and rotate a BezierFigure.
  * Pressing the alt key or the shift key while manipulating the handle restricts
  * the handle to only rotate the BezierFigure.
  *
  * @author Werner Randelshofer.
- * @version 2.0 2008-05-11 Handle attributes are now retrieved from
- * drawing editor.
- * <br>1.0 16. Juni 2006 Created.
+ * @version $Id$
  */
 public class BezierScaleHandle extends AbstractHandle {
     private Point location;

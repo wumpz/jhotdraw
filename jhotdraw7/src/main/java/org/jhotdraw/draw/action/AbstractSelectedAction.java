@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractSelectedAction.java  4.0  2008-06-08
+ * @(#)AbstractSelectedAction.java
  *
  * Copyright (c) 2003-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -43,16 +43,7 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  * become garbage collected if it is not referenced by any other object.
  *
  * @author Werner Randelshofer
- *
- * @version 4.0 2009-06-02 Register with DrawingEditor using
- * WeakPropertyChangeListener.
- * <br>3.1.2 2008-06-08 Method setEditor did not register the EventHandler
- * to the active view of the editor.
- * <br>3.1.1. 2006-07-09 Fixed enabled state. 
- * <br>3.1 2006-03-15 Support for enabled state of view added.
- * <br>3.0 2006-02-24 Changed to support multiple views.
- * <br>2.0 2006-02-14 Updated to work with multiple views.
- * <br>1.0 2003-12-01 Created.
+ * @version $Id$
  */
 public abstract class AbstractSelectedAction
         extends AbstractAction implements Disposable {

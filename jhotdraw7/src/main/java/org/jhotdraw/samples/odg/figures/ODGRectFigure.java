@@ -1,5 +1,5 @@
 /*
- * @(#)ODGRect.java  1.0  2007-07-28
+ * @(#)ODGRect.java
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -34,7 +34,7 @@ import org.jhotdraw.geom.*;
  * ODGRect.
  *
  * @author Werner Randelshofer
- * @version 1.0 2007-07-28 Created.
+ * @version $Id$
  */
 public class ODGRectFigure extends ODGAttributedFigure implements ODGFigure {
     private RoundRectangle2D.Double roundrect;

@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractTool.java  5.0  2007-11-05
+ * @(#)AbstractTool.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -37,12 +37,7 @@ import javax.swing.event.*;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version 5.0 2007-11-05 Changed superclass from Object to AbstractBean. 
- * <br>4.0 2007-04-29 Replaced code in method keyPressed by an InputMap
- * and a ActionMap.
- * <br>3.0 2006-02-15 Updated to handle multiple views.
- * <br>2.0 2006-01-14 Changed to support double precision coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public abstract class AbstractTool extends AbstractBean implements Tool {
     /**

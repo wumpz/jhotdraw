@@ -1,5 +1,5 @@
 /*
- * @(#)SelectionOpacityIcon.java  1.0  2008-05-23
+ * @(#)SelectionOpacityIcon.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -22,7 +22,7 @@ import org.jhotdraw.draw.*;
  * {@code Figure}(s) in the active {@code DrawingView} of a {@code DrawingEditor}.
  * 
  * @author Werner Randelshofer
- * @version 1.0 2008-05-23 Created.
+ * @version $Id$
  */
 public class SelectionOpacityIcon extends javax.swing.ImageIcon {
 

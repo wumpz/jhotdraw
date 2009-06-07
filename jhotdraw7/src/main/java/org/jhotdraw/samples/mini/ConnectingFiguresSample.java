@@ -1,5 +1,5 @@
 /*
- * @(#)ConnectingFiguresSample.java   1.0  November 9, 2006
+ * @(#)ConnectingFiguresSample.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -22,7 +22,7 @@ import org.jhotdraw.geom.*;
  * Example showing how to connect two text areas with an elbow connection.
  *
  * @author Werner Randelshofer
- * @version 1.0 November 9, 2006 Created.
+ * @version $Id$
  */
 public class ConnectingFiguresSample {
     public static void main(String[] args) {

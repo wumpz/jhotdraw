@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractToolBarBeanInfo.java  1.0  11. November 2003
+ * @(#)AbstractToolBarBeanInfo.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -20,7 +20,7 @@ import java.beans.*;
  * BeanInfo for AlignToolPane.
  *
  * @author  Werner Randelshofer
- * @version 1.0 2003-11-11 Created.
+ * @version $Id$
  */
 public class AbstractToolBarBeanInfo extends SimpleBeanInfo {
     

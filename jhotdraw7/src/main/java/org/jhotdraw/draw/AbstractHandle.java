@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractHandle.java  2.0  2008-05-11
+ * @(#)AbstractHandle.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -25,9 +25,7 @@ import java.util.*;
  * This abstract class can be extended to implement a {@link Handle}.
  *
  * @author Werner Randelshofer
- * @version 2.0 2008-05-11 Handle attributes are now retrieved from
- * DrawingEditor. 
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public abstract class AbstractHandle implements Handle, FigureListener {
 

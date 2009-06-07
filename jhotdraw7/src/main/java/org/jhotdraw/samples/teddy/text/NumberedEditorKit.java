@@ -1,5 +1,5 @@
 /*
- * @(#)NumberedEditorKit.java  1.0  October 10, 2005
+ * @(#)NumberedEditorKit.java
  *
  * Copyright (c) 2005 by the original authors of JHotDraw
  * and all its contributors.
@@ -28,7 +28,7 @@ import javax.swing.text.*;
  * </pre>
  *
  * @author Werner Randelshofer
- * @version 1.0 October 10, 2005 Created.
+ * @version $Id$
  */
 public class NumberedEditorKit extends StyledEditorKit {
     private NumberedViewFactory viewFactory;

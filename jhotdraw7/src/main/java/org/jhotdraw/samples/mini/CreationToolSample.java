@@ -1,5 +1,5 @@
 /*
- * @(#)CreationToolSample.java   1.0  2009-04-18
+ * @(#)CreationToolSample.java
  *
  * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -27,7 +27,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * green rectangles.
  *
  * @author Werner Randelshofer
- * @version 1.0 November 9, 2006 Created.
+ * @version $Id$
  */
 public class CreationToolSample {
 

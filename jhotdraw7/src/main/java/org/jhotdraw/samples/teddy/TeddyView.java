@@ -1,5 +1,5 @@
 /*
- * @(#)TeddyView.java  1.1  2006-11-02
+ * @(#)TeddyView.java
  *
  * Copyright (c) 2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -13,18 +13,16 @@
  */
 
 package org.jhotdraw.samples.teddy;
-//
+
 import java.awt.event.*;
 import org.jhotdraw.app.*;
 import org.jhotdraw.samples.teddy.text.*;
 import org.jhotdraw.samples.teddy.regex.*;
 import org.jhotdraw.undo.*;
 import org.jhotdraw.samples.teddy.io.*;
-
 import java.lang.reflect.*;
 import java.awt.*;
 import java.beans.*;
-import java.util.*;
 import java.util.prefs.*;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -33,14 +31,13 @@ import javax.swing.undo.*;
 import java.io.*;
 import org.jhotdraw.app.action.RedoAction;
 import org.jhotdraw.app.action.UndoAction;
+
 /**
  * TeddyView.
  *
  * @author Werner Randelshofer
- * @version 1.1 2006-11-02 Set the document after setting the editor kit.
- * This is because, setting the editor kit replaces the document.
- * <br>1.0 October 4, 2005 Created.
- */
+ * @version $Id$
+*/
 public class TeddyView extends AbstractView {
     private static Preferences prefs = Preferences.userNodeForPackage(TeddyView.class);
     

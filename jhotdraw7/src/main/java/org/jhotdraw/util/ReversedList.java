@@ -1,5 +1,5 @@
 /*
- * @(#)ReversedList.java  1.0  2006-01-20
+ * @(#)ReversedList.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.

@@ -1,5 +1,5 @@
 /*
- * @(#)LineDecoration.java  2.1  2007-05-20
+ * @(#)LineDecoration.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -18,6 +18,7 @@ package org.jhotdraw.draw;
 import java.awt.*;
 import java.awt.geom.*;
 import java.io.*;
+
 /**
  * A <em>line decoration</em> can be used to draw a decoration at the start or
  * end of a line.
@@ -37,9 +38,7 @@ import java.io.*;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version 2.1 2007-05-20 Renamed getDrawBounds to getDrawingArea.
- * <br>2.0 2006-01-14 Changed to support double precison coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public interface LineDecoration
 extends Cloneable, Serializable {

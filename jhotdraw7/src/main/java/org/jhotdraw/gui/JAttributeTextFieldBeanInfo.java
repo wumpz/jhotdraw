@@ -1,5 +1,5 @@
 /*
- * @(#)JAttributeTextFieldBeanInfo.java  1.0  2009-04-14
+ * @(#)JAttributeTextFieldBeanInfo.java
  *
  * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -19,7 +19,7 @@ import java.beans.*;
  * BeanInfo for JAttributeTextField.
  *
  * @author  Werner Randelshofer
- * @version 1.0 2009-04-14 Created.
+ * @version $Id$
  */
 public class JAttributeTextFieldBeanInfo extends SimpleBeanInfo {
 

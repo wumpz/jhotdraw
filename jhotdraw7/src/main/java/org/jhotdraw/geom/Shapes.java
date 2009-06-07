@@ -1,5 +1,5 @@
 /*
- * @(#)Shapes.java  1.0  8. Mai 2007
+ * @(#)Shapes.java
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -21,7 +21,7 @@ import java.awt.geom.*;
  * Shapes.
  *
  * @author Werner Randelshofer
- * @version 1.0 8. Mai 2007 Created.
+ * @version $Id$
  */
 public class Shapes {
     

@@ -1,5 +1,5 @@
 /**
- * @(#)JMixer.java  1.0  April 19, 2008
+ * @(#)JMixer.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -29,7 +29,7 @@ import javax.swing.plaf.SliderUI;
  *
 *
  * @author Werner Randelshofer
- * @version 1.0 JMixer Created.
+ * @version $Id$
  */
 public class JMixer extends javax.swing.JPanel {
 

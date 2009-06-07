@@ -1,5 +1,5 @@
 /*
- * @(#)JSVGDrawingAppletPanel.java  1.1  2008-03-27
+ * @(#)JSVGDrawingAppletPanel.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -32,8 +32,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * JSVGDrawingAppletPanel.
  * 
  * @author Werner Randelshofer
- * @version 1.1 2008-03-26 Tweaked toolbar area. 
- * <br>1.0 11. March 2004  Created.
+ * @version $Id$
  */
 public class SVGDrawingPanel extends JPanel implements Disposable {
 

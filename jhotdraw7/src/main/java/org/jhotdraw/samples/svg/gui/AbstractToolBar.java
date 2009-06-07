@@ -1,5 +1,5 @@
 /**
- * @(#)AbstractToolBar.java  2.0  2008-05-24
+ * @(#)AbstractToolBar.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -26,8 +26,7 @@ import org.jhotdraw.draw.*;
  * AbstractToolBar.
  *
  * @author Werner Randelshofer
- * @version 2.0 2008-05-24 Reworked to create panels lazily.
- * <br>1.0 2008-04-13 Created.
+ * @version $Id$
  */
 public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements Disposable {
 

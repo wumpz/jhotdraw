@@ -1,5 +1,5 @@
 /*
- * @(#)DrawingPageable.java  1.0  January 1, 2007
+ * @(#)DrawingPageable.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -37,7 +37,7 @@ import java.awt.print.*;
  * </pre>
  * 
  * @author Werner Randelshofer
- * @version 1.0 January 1, 2007 Created.
+ * @version $Id$
  * @see org.jhotdraw.app.action.PrintAction
  */
 public class DrawingPageable implements Pageable {

@@ -1,5 +1,5 @@
 /*
- * @(#)DOMInput.java  1.0  10. M�rz 2004
+ * @(#)DOMInput.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -26,7 +26,7 @@ import java.io.IOException;
  * Partners: {@link DOMFactory} as the Abstract Factory of the Abstract Factory,.
  *
  * @author  Werner Randelshofer
- * @version 1.0 10. M�rz 2004  Created.
+ * @version $Id$
  */
 public interface DOMInput {
     

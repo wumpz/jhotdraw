@@ -1,5 +1,5 @@
 /*
- * @(#)ArrowTip.java  1.0  19. November 2003
+ * @(#)ArrowTip.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -14,10 +14,7 @@
 
 package org.jhotdraw.draw;
 
-import java.io.*;
-import java.awt.*;
 import java.awt.geom.*;
-import org.jhotdraw.util.*;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 import org.jhotdraw.xml.DOMStorable;
@@ -26,8 +23,7 @@ import org.jhotdraw.xml.DOMStorable;
  * An arrow tip line decoration.
  *
  * @author Werner Randelshofer
- * @version 2.0 2006-01-14 Changed to support double precison coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public class ArrowTip extends AbstractLineDecoration
 implements DOMStorable {

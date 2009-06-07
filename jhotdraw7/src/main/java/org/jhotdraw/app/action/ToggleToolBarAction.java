@@ -1,5 +1,5 @@
 /*
- * @(#)ToggleToolBarAction.java  1.0  13. Februar 2006
+ * @(#)ToggleToolBarAction.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -14,17 +14,15 @@
 
 package org.jhotdraw.app.action;
 
-import org.jhotdraw.util.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.util.*;
 import java.beans.*;
+
 /**
  * ToggleToolBarAction.
  * 
- * 
  * @author Werner Randelshofer
- * @version 1.0 13. Februar 2006 Created.
+ * @version $Id$
  */
 public class ToggleToolBarAction extends AbstractAction {
     private JToolBar toolBar;

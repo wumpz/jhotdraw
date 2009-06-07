@@ -1,5 +1,5 @@
 /*
- * @(#)NetApplicationModel.java  1.0  2006-06-18
+ * @(#)NetApplicationModel.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -29,7 +29,7 @@ import org.jhotdraw.util.*;
  * NetApplicationModel.
  * 
  * @author Werner Randelshofer.
- * @version 1.0 2006-06-18 Created.
+ * @version $Id$
  */
 public class NetApplicationModel extends DefaultApplicationModel {
     private final static double[] scaleFactors = {5, 4, 3, 2, 1.5, 1.25, 1, 0.75, 0.5, 0.25, 0.10};

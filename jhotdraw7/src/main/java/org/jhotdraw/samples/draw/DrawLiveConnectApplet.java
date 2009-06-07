@@ -1,5 +1,5 @@
 /*
- * @(#)DrawLiveConnectApplet.java  2.0  2006-01-15
+ * @(#)DrawLiveConnectApplet.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -26,12 +26,12 @@ import javax.swing.*;
 
 import netscape.javascript.JSObject;
 import org.jhotdraw.xml.*;
+
 /**
  * DrawLiveConnectApplet. Supports loading and saving of images to JavaScript.
  *
  * @author  wrandels
- * @version 2.0 Changed to support double precision coordinates.
- * <br>1.0 Created on 10. M�rz 2004, 13:22.
+ * @version $Id$
  */
 public class DrawLiveConnectApplet extends JApplet {
     private final static String VERSION = "7.0.8";

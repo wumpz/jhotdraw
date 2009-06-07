@@ -1,5 +1,5 @@
 /*
- * @(#)ExtensionFileFilter.java  1.2  2006-05-19
+ * @(#)ExtensionFileFilter.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -15,16 +15,13 @@
 package org.jhotdraw.io;
 
 import java.io.*;
-import javax.swing.*;
-import javax.swing.filechooser.*;
 import java.util.*;
+
 /**
  * Filters files by their extensions.
  *
  * @author Werner Randelshofer
- * @version 1.2 2006-05-19 Method append extension added.
- * <br>1.1 2006-04-11 Method getExtensions added.
- * <br>1.0 7. April 2006 Created.
+ * @version $Id$
  */
 public class ExtensionFileFilter extends javax.swing.filechooser.FileFilter {
     private String description;

@@ -1,5 +1,5 @@
 /*
- * @(#)RadialGradient.java  1.0.2  2009-04-17
+ * @(#)RadialGradient.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -18,17 +18,13 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.util.Arrays;
 import org.jhotdraw.draw.*;
-import org.apache.batik.ext.awt.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
 /**
  * Represents an SVG RadialGradient.
  *
  * @author Werner Randelshofer
- * @version 1.0.2 2009-04-17 Gracefully handle non-invertible transforms.
- * <br>1.0.1 2007-04-10 Radius for gradients which are relative to figure
- * boudns is computed better.
- * <br>1.0 December 9, 2006 Created.
+ * @version $Id$
  */
 public class RadialGradient implements Gradient {
     private double cx;

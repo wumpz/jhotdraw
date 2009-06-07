@@ -1,5 +1,5 @@
 /*
- * @(#)HandleTracker.java  1.0  2009-04-25
+ * @(#)HandleTracker.java
  * 
  * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -32,7 +32,7 @@ import java.util.Collection;
  *
  *
  * @author Werner Randelshofer
- * @version 1.0 2009-04-25 Created.
+ * @version $Id$
  */
 public interface HandleTracker extends Tool {
 

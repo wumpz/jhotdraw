@@ -1,5 +1,5 @@
 /*
- * @(#)SVGRectRadiusHandle.java  2.0  2008-05-11
+ * @(#)SVGRectRadiusHandle.java
  *
  * Copyright (c) 2006-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -14,7 +14,6 @@
 
 package org.jhotdraw.samples.svg.figures;
 
-import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.util.*;
@@ -28,9 +27,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * A Handle to manipulate the radius of a round lead rectangle.
  *
  * @author  Werner Randelshofer
- * @version 2.0 2008-05-11 Added keyboard support. Handle attributes are
- * now retrieved from DrawingEditor.
- * <br>1.0 2006-12-10 Adapted from RoundRectangleHandle.
+ * @version $Id$
  */
 public class SVGRectRadiusHandle extends AbstractHandle {
     private final static boolean DEBUG = false;

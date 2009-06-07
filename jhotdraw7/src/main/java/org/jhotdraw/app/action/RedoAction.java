@@ -1,5 +1,5 @@
 /*
- * @(#)RedoAction.java  2.0  2006-06-15
+ * @(#)RedoAction.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -13,15 +13,13 @@
  */
 
 package org.jhotdraw.app.action;
-import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.text.*;
 import java.beans.*;
-import java.util.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
+
 /**
  * Redoes the last user action.
  * In order to work, this action requires that the View returns a project
@@ -29,8 +27,7 @@ import org.jhotdraw.app.View;
  *
  *
  * @author Werner Randelshofer
- * @version 2.0 2006-06-15 Reworked.
- * <br>1.0 October 9, 2005 Created.
+ * @version $Id$
  */
 public class RedoAction extends AbstractViewAction {
     public final static String ID = "edit.redo";

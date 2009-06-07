@@ -1,5 +1,5 @@
 /*
- * @(#)PertView.java  1.3  2007-11-25
+ * @(#)PertView.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -16,7 +16,6 @@ package org.jhotdraw.samples.pert;
 
 import java.awt.print.Pageable;
 import java.util.*;
-import java.util.prefs.*;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.io.*;
 import org.jhotdraw.undo.*;
@@ -36,10 +35,7 @@ import org.jhotdraw.draw.action.*;
  * A view for Pert diagrams.
  *
  * @author Werner Randelshofer
- * @version 1.3 2007-11-25 Method clear is now invoked on a worker thread. 
- * <br>1.2 2006-12-26 Reworked I/O Support. 
- * <br>1.1 2006-06-10 Extended to support DefaultDrawApplicationModel.
- * <br>1.0 2006-02-07 Created.
+ * @version $Id$
  */
 public class PertView extends AbstractView {
     public final static String GRID_VISIBLE_PROPERTY = "gridVisible";

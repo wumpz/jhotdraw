@@ -1,5 +1,5 @@
 /*
- * @(#)Tool.java  3.0  2008-05-26
+ * @(#)Tool.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -57,9 +57,7 @@ import java.awt.event.*;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version 3.0 2008-05-26 Added method supportsHandleInteraction.  
- * <br>2.0 2008-05-17 Added method getToolTipText. 
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public interface Tool extends MouseListener, MouseMotionListener, KeyListener {
     

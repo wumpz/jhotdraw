@@ -1,5 +1,5 @@
 /*
- * @(#)CMYKNominalColorSystem.java  2.0  2008-04-23
+ * @(#)CMYKNominalColorSystem.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -13,10 +13,6 @@
  */
 package org.jhotdraw.color;
 
-import java.awt.*;
-import java.awt.color.*;
-import java.io.*;
-import javax.swing.*;
 /**
  * A ColorSystem for CMYK color components (cyan, magenta, yellow, black) with
  * nominally converted color components from/to an RGB color model.
@@ -25,8 +21,7 @@ import javax.swing.*;
  * perfectly absorb the desired wavelenghts.
  *
  * @author  Werner Randelshofer
- * @version 2.0 2008-04-23 Added component conversion methods.
- * <br>1.0 May 22, 2005 Created.
+ * @version $Id$
  */
 public class CMYKNominalColorSystem extends AbstractColorSystem {
     /**

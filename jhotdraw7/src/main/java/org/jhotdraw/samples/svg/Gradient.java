@@ -1,5 +1,5 @@
 /*
- * @(#)Gradient.java  1.0  December 9, 2006
+ * @(#)Gradient.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -22,7 +22,7 @@ import org.jhotdraw.draw.*;
  * Represents an SVG Gradient.
  *
  * @author Werner Randelshofer
- * @version 1.0 December 9, 2006 Created.
+ * @version $Id$
  */
 public interface Gradient extends Cloneable {
     public Paint getPaint(Figure f, double opacity);

@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultAttributeAction.java  2.0  2006-06-07
+ * @(#)DefaultAttributeAction.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -16,18 +16,17 @@ package org.jhotdraw.draw.action;
 
 import org.jhotdraw.undo.*;
 import javax.swing.*;
-import java.awt.*;
 import java.beans.*;
 import java.util.*;
 import org.jhotdraw.draw.*;
+
 /**
  * DefaultAttributeAction.
  * <p>
  * XXX - should listen to changes in the default attributes of its DrawingEditor.
  *
  * @author  Werner Randelshofer
- * @version 2.0 2006-06-07 Reworked.
- * <br>1.0 26. November 2003  Created.
+ * @version $Id$
  */
 public class DefaultAttributeAction extends AbstractSelectedAction {
     private AttributeKey[] keys;

@@ -1,5 +1,5 @@
 /*
- * @(#)JAttributeSlider.java  1.1  2008-05-18
+ * @(#)JAttributeSlider.java
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -19,8 +19,7 @@ import javax.swing.*;
  * A JSlider that can be used to edit a double attribute of a Figure.
  *
  * @author Werner Randelshofer
- * @version 1.1 2008-05-18 Added property "enabledWithoutSelection".
- * <br>1.0 April 30, 2007 Created.
+ * @version $Id$
  */
 public class JAttributeSlider extends JSlider implements AttributeEditor<Double> {
     private boolean isMultipleValues;

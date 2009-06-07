@@ -1,5 +1,5 @@
 /*
- * @(#)PickAttributesAction.java  1.1  2007-04-16
+ * @(#)PickAttributesAction.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -15,17 +15,14 @@
 package org.jhotdraw.draw.action;
 
 import org.jhotdraw.util.*;
-import javax.swing.*;
 import java.util.*;
-import java.awt.*;
 import org.jhotdraw.draw.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 /**
  * PickAttributesAction.
  *
  * @author Werner Randelshofer
- * @version 1.1 2007-04-16 Added support exclusion of attributes.
- * <br>1.0 25. November 2003  Created.
+ * @version $Id$
  */
 public class PickAttributesAction extends AbstractSelectedAction {
     private ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels", Locale.getDefault());

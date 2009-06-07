@@ -1,5 +1,5 @@
 /*
- * @(#)View.java  4.2  2009-06-02
+ * @(#)View.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -18,6 +18,7 @@ import java.io.*;
 import java.beans.*;
 import javax.swing.*;
 import org.jhotdraw.beans.Disposable;
+
 /**
  * Provides a <em>view</em> on a document or a set of related documents within
  * an {@link Application}.
@@ -37,14 +38,7 @@ import org.jhotdraw.beans.Disposable;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version 4.2 2009-06-02 Added method addDisposable().
- * <br>4.1 2008-03-23 Added method canSaveTo().
- * <br>4.0 2008-03-20 Renamed from Project to View.
- * <br>3.0 2007-12-25 Added start, stop, activate and deactivate methods.
- * Added constants for property names. 
- * <br>2.0 2007-11-29 Method clear is now always invoked on a worker 
- * thread.
- * <br>1.0 October 4, 2005 Created.
+ * @version $Id$
  */
 public interface View {
     /**

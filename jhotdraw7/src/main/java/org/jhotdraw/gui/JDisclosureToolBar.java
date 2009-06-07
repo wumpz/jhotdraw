@@ -1,5 +1,5 @@
 /**
- * @(#)JDisclosureToolBar.java  1.0  April 12, 2008
+ * @(#)JDisclosureToolBar.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -22,7 +22,7 @@ import org.jhotdraw.gui.plaf.palette.*;
  * A ToolBar with disclosure functionality.
  *
  * @author Werner Randelshofer
- * @version 1.0 JDisclosureToolBar Created.
+ * @version $Id$
  */
 public class JDisclosureToolBar extends JToolBar {
 

@@ -1,5 +1,5 @@
 /*
- * @(#)DelegationSelectionTool.java  2.1.1  2008-05-15
+ * @(#)DelegationSelectionTool.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -30,11 +30,7 @@ import org.jhotdraw.app.action.Actions;
  * the figure which has been double clicked, provides a specialized tool.
  *
  * @author Werner Randelshofer
- * @version 2.1.1 2008-05-15 Only forward double clicks of left mouse button.
- * <br>2.1 2007-04-14 Added support for multi-clicks.
- * <br>2.0 2006-01-18 Changed to support double precision coordinates.
- * Popup timer added. Support for radio button menu items added.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public class DelegationSelectionTool extends SelectionTool {
 

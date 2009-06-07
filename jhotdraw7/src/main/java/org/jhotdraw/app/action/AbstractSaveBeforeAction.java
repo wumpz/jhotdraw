@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractSaveBeforeAction.java  2.0  2006-06-15
+ * @(#)AbstractSaveBeforeAction.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -13,7 +13,6 @@
  */
 package org.jhotdraw.app.action;
 
-import org.jhotdraw.gui.Worker;
 import org.jhotdraw.io.*;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.gui.event.*;
@@ -39,10 +38,7 @@ import org.jhotdraw.app.View;
  * is only invoked after the view was successfully saved.
  *
  * @author  Werner Randelshofer
- * @version 2.0 2006-06-15 Reworked. 
- * <br>1.2 2006-05-19 Make filename acceptable by ExtensionFileFilter.
- * <br>1.1 2006-05-03 Localized messages.
- * <br>1.0 27. September 2005 Created.
+ * @version $Id$
  */
 public abstract class AbstractSaveBeforeAction extends AbstractViewAction {
 

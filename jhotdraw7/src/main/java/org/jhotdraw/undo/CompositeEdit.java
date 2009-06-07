@@ -1,5 +1,5 @@
 /*
- * @(#)CompositeModel.java 1.1  2006-06-20
+ * @(#)CompositeModel.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -37,8 +37,7 @@ import java.util.*;
  * </pre>
  *
  * @author  Werner Randelshofer
- * @version 1.1 2006-06-20 Method setSignificant added.
- * <br>1.0 2001-01-01 Created.
+ * @version $Id$
  */
 public class CompositeEdit extends CompoundEdit {
     private String presentationName;

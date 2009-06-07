@@ -1,5 +1,5 @@
 /*
- * @(#)Drawing.java  3.3  2009-06-05
+ * @(#)Drawing.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -79,19 +79,7 @@ import java.io.*;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version 3.3 2009-06-05 Removed unused canvasSize property. Removed methods
- * that were already defined in Figure or in CompositeFigure.
- * <br>3.2 2009-05-15 Methods taking figure collections as parameters
- * now take collections of any extensions of figures as parameters.
- * <br>3.1 2009-04-15 Factored canvasSize out into an attribute.
- * <br>3.0 2007-07-17 Refactored Drawing from an independent interface
- * into an interface that extends from CompositeFigure. 
- * <br>2.4 2007-05-21 Added add-methods with index to the interface.
- * <br>2.3 2007-05-16 Added method findFigureBehind. 
- * <br>2.2 2007-04-09 Methods setCanvasSize, getCanvasSize added.
- * <br>2.1 2006-12-31 Changed to return lists instead of collections.
- * <br>2.0 2006-01-14 Changed to support double precision coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
     /**

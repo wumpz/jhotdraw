@@ -1,5 +1,5 @@
 /*
- * @(#)LinkHandle.java  1.0  2009-04-16
+ * @(#)LinkHandle.java
  *
  * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -24,7 +24,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * The LinkHandle indicates when a figure has a link.
  *
  * @author Werner Randelshofer
- * @version 1.0 2009-04-16 Created.
+ * @version $Id$
  */
 public class LinkHandle extends AbstractHandle {
     

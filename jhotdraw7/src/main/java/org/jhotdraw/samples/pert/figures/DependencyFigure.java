@@ -1,5 +1,5 @@
 /*
- * @(#)DependencyFigure.java  1.0  18. Juni 2006
+ * @(#)DependencyFigure.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -25,7 +25,7 @@ import org.jhotdraw.xml.*;
  * DependencyFigure.
  *
  * @author Werner Randelshofer.
- * @version 1.0 18. Juni 2006 Created.
+ * @version $Id$
  */
 public class DependencyFigure extends LineConnectionFigure {
     /** Creates a new instance. */

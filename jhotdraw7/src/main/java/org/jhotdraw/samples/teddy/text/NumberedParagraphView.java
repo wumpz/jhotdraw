@@ -1,5 +1,5 @@
 /*
- * @(#)NumberedParagraphView.java  1.0  October 10, 2005
+ * @(#)NumberedParagraphView.java
  *
  * Copyright (c) 2005 by the original authors of JHotDraw
  * and all its contributors.
@@ -20,7 +20,7 @@ import javax.swing.text.*;
  * NumberedParagraphView.
  *
  * @author Werner Randelshofer
- * @version 1.0 October 10, 2005 Created.
+ * @version $Id$
  */
 public class NumberedParagraphView extends ParagraphView {
     public static short NUMBERS_WIDTH=30;

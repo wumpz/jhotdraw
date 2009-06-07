@@ -1,5 +1,5 @@
 /*
- * @(#)DnDDDrawingViewTransferHandler.java  1.0  2009-04-25
+ * @(#)DnDDDrawingViewTransferHandler.java
  *
  * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -29,7 +29,7 @@ import javax.swing.*;
  * {@link DefaultDrawingViewTransferHandler} instead.
  *
  * @author Werner Randelshofer
- * @version 1.0 2009-04-25 Created.
+ * @version $Id$
  */
 public class DnDDrawingViewTransferHandler extends DefaultDrawingViewTransferHandler {
 

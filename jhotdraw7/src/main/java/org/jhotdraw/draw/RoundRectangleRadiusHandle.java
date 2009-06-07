@@ -1,5 +1,5 @@
 /*
- * @(#)RoundRectRadiusHandle.java  3.0  2008-05-11
+ * @(#)RoundRectRadiusHandle.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -24,10 +24,7 @@ import java.awt.geom.*;
  * A Handle to manipulate the radius of a round lead rectangle.
  *
  * @author  Werner Randelshofer
- * @version 3.0 2008-05-11 Added keyboard support. Handle attributes are 
- * now retrieved from DrawingEditor.
- * <br>2.0 2006-01-14 Changed to support double precison coordinates.
- * <br>1.0 2004-03-02 Derived from JHotDraw 6.0b1.
+ * @version $Id$
  */
 public class RoundRectangleRadiusHandle extends AbstractHandle {
 

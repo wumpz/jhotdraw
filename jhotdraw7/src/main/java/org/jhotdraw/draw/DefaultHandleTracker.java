@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultHandleTracker.java  2.0  2008-05-17
+ * @(#)DefaultHandleTracker.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -40,9 +40,7 @@ import java.util.*;
  * @see SelectionTool
  *
  * @author Werner Randelshofer
- * @version 2.0 2008-05-17 Added support for hover handles. 
- * <br>1.1 2008-05-15 Don't hide anchor field from super class. 
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public class DefaultHandleTracker extends AbstractTool implements HandleTracker {
 

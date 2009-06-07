@@ -1,5 +1,5 @@
 /*
- * @(#)HSVRGBColorSystem.java  1.0  May 22, 2005
+ * @(#)HSVRGBColorSystem.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -13,13 +13,11 @@
  */
 package org.jhotdraw.color;
 
-import java.awt.*;
-import javax.swing.*;
 /**
  * A ColorSystem for HSV color components (hue, saturation, value).
  *
  * @author  Werner Randelshofer
- * @version 1.0 May 22, 2005 Created.
+ * @version $Id$
  */
 public class HSVRGBColorSystem extends AbstractColorSystem {
     

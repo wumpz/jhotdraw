@@ -1,5 +1,5 @@
 /*
- * @(#)BezierNodeHandle.java  2.1  2008-07-25
+ * @(#)BezierNodeHandle.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -16,7 +16,6 @@ package org.jhotdraw.draw;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
-import org.jhotdraw.geom.BezierPath.Node;
 import org.jhotdraw.util.*;
 import org.jhotdraw.undo.*;
 import java.awt.*;
@@ -31,12 +30,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  *
  *
  * @author Werner Randelshofer
- * @version 2.1 2008-07-25 Handle Delete and Backspace key. 
- * <br>2.0 2008-05-11 Handle attributes are now retrieved from
- * DrawingEditor. Added keyPressed method.
- * <br>1.0.1 2006-04-21 Don't change node type when right mouse button
- * is down.
- * <br>1.0 January 20, 2006 Created.
+ * @version $Id$
  */
 public class BezierNodeHandle extends AbstractHandle {
 

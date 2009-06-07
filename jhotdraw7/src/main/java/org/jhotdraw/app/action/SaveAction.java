@@ -1,5 +1,5 @@
 /*
- * @(#)SaveAction.java  1.3  2008-03-23
+ * @(#)SaveAction.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -19,7 +19,6 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
 import org.jhotdraw.app.*;
-import org.jhotdraw.gui.Worker;
 import org.jhotdraw.io.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.gui.*;
@@ -29,12 +28,7 @@ import org.jhotdraw.gui.event.*;
  * SaveAction.
  *
  * @author  Werner Randelshofer
- * @version 1.3 2008-03-23 Added call to view#canSaveTo(File) when determining
- * whether a file chooser needs to be displayed. 
- * <br>1.2.1 2006-07-25 Add saved file to recent file list of application.
- * <br>1.2 2006-05-19 Make filename acceptable by ExtensionFileFilter.
- * <br>1.1 2006-02-23 Support multiple open id.
- * <br>1.0 28. September 2005 Created.
+ * @version $Id$
  */
 public class SaveAction extends AbstractViewAction {
     public final static String ID = "file.save";

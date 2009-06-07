@@ -1,5 +1,5 @@
 /*
- * @(#)Options.java  1.0.1  2005-03-14
+ * @(#)Options.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -18,7 +18,7 @@ package org.jhotdraw.draw;
  * Options.
  *
  * @author  Werner Randelshofer
- * @version 1.0.1 2005-03-13 Fractional metrics and antialiased text turned on.
+ * @version $Id$
  *  <br>1.0 8. April 2004  Created.
  */
 public class Options {

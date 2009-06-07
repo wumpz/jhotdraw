@@ -1,5 +1,5 @@
 /**
- * @(#)AbstractRotateHandle.java  4.0  2008-05-11
+ * @(#)AbstractRotateHandle.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -24,14 +24,7 @@ import org.jhotdraw.util.*;
  * can rotate a {@link Figure}.
  *
  * @author Werner Randelshofer
- * @version 4.0 2008-05-11 Handle attributes are now retrieved from
- * DrawingEditor. 
- * <br>3.0.1 2007-12-22 Werner Randelshofer: Fixed computation of current
- * theta. 
- * <br>3.0 2007-11-28 Huw Jones: Split up into an AbstractRotateHandle class
- * and a concrete default RotateHandle class.
- * <br>2.0 2007-04-14 Werner Randelshofer: Added support for AttributeKeys.TRANSFORM.
- * <br>1.0 2006-06-12 Werner Randelshofer: Created.
+ * @version $Id$
  */
 public abstract class AbstractRotateHandle extends AbstractHandle {
 

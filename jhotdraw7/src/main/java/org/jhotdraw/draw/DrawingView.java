@@ -1,5 +1,5 @@
 /*
- * @(#)DrawingView.java  6.0  2009-04-18
+ * @(#)DrawingView.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -91,20 +91,7 @@ import javax.swing.*;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version 6.0 2009-04-18 Added method repaintHandles.
- * <br>5.0 2008-05-11 Added methods setEditor, getEditor and setActiveHandle,
- * getActiveHandle. 
- * <br>4.3 2007-12-25 Renamed property names from PROP_… to …_PROPERTY. 
- * <br>4.2 2007-09-12 The DrawingView is now responsible for
- * holding the Constrainer objects which affect editing on this view.
- * <br>4.1 2007-05-15 getSelectedFigures returns a Set instead of a
- * Collection.
- * <br>4.0 2006-12-03 Replaced operation getContainer by getComponent. 
- * <br>3.1 2006-03-15 Support for enabled state added.
- * <br>3.0 2006-02-20 Changed to share a single DrawingEditor by multiple 
- * views.
- * <br>2.0 2006-01-14 Changed to support double precision coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public interface DrawingView {
 

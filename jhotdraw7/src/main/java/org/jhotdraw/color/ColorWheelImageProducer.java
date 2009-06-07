@@ -1,5 +1,5 @@
 /*
- * @(#)ColorWheelImageProducer.java  2.1  2008-05-01
+ * @(#)ColorWheelImageProducer.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -22,10 +22,7 @@ import java.awt.image.*;
  * @see JColorWheel
  *
  * @author  Werner Randelshofer
- * @version The association of component indices to radials, angulars and
- * verticals of the color wheel can now be specified.  
- * <br>2.0 2008-04-19 Made class more subclassing-friendly.
- * <br>1.0 August 27, 2005 Created.
+ * @version $Id$
  */
 public class ColorWheelImageProducer extends MemoryImageSource {
 

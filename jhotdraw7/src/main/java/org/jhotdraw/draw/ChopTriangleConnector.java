@@ -1,5 +1,5 @@
 /*
- * @(#)ChopTriangleConnector.java  1.0  June 17, 2006
+ * @(#)ChopTriangleConnector.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -20,7 +20,7 @@ import java.awt.geom.*;
  * ChopTriangleConnector.
  *
  * @author Werner Randelshofer.
- * @version 1.0 June 17, 2006 Created.
+ * @version $Id$
  */
 public class ChopTriangleConnector extends ChopRectangleConnector {
     

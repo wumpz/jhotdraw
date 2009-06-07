@@ -1,5 +1,5 @@
 /*
- * @(#)Disposable.java  1.0  2009-06-02
+ * @(#)Disposable.java
  * 
  * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -18,7 +18,7 @@ package org.jhotdraw.beans;
  * Interface for objects which have a dispose method.
  *
  * @author Werner Randelshofer
- * @version 1.0 2009-06-02 Created.
+ * @version $Id$
  */
 public interface Disposable {
     /** Disposes of all resources held by this object so that they can be

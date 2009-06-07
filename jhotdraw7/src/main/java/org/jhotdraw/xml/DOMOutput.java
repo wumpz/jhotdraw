@@ -1,5 +1,5 @@
 /*
- * @(#)DOMOutput.java  1.2  2006-08-26
+ * @(#)DOMOutput.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -26,9 +26,7 @@ import java.io.IOException;
  * Partners: {@link DOMFactory} as the Abstract Factory of the Abstract Factory,.
  *
  * @author  Werner Randelshofer
- * @version 1.2 2006-08-26 Added method setDoctype.
- * <br>1.1. 2006-06-18 Renamed addElement to openElement. 
- * <br>1.0 10. Maerz 2004  Created.
+ * @version $Id$
  */
 public interface DOMOutput {
     /**

@@ -1,5 +1,5 @@
 /*
- * @(#)FloatingPaletteHandler.java  1.1  2006-06-11
+ * @(#)FloatingPaletteHandler.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -16,16 +16,13 @@ package org.jhotdraw.app;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.prefs.*;
-import javax.swing.*;
 import java.util.*;
 /**
  * Hides all registered floating palettes, if none of the registered view
  * windows have focus anymore.
  *
  * @author Werner Randelshofer
- * @version 1.1 2006-06-11 Palettes can now be any subclass of java.awt.Window.
- * <br>1.0 October 9, 2005 Created.
+ * @version $Id$
  */
 public class OSXPaletteHandler {
     private HashSet<Window> palettes = new HashSet<Window>();

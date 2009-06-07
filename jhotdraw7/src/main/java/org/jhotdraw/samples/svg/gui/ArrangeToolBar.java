@@ -1,5 +1,5 @@
 /*
- * @(#)ArrangeToolBar.java  1.1  2008-05-23
+ * @(#)ArrangeToolBar.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -27,9 +27,7 @@ import org.jhotdraw.gui.plaf.palette.*;
  * ArrangeToolBar.
  *
  * @author Werner Randelshofer
- * @version 1.1 2008-05-23 Hide the toolbar if nothing is selected, and no
- * creation tool is active. 
- * <br>1.0 2008-04-11  Created.
+ * @version $Id$
  */
 public class ArrangeToolBar extends AbstractToolBar {
 

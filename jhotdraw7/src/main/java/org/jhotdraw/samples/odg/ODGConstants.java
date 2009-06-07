@@ -1,5 +1,5 @@
 /*
- * @(#)ODGConstants.java  1.0  April 11, 2007
+ * @(#)ODGConstants.java
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -20,7 +20,7 @@ import java.util.*;
  * ODGConstants.
  *
  * @author Werner Randelshofer
- * @version 1.0 April 11, 2007 Created.
+ * @version $Id$
  */
 public class ODGConstants {
     public final static String OFFICE_NAMESPACE = "urn:oasis:names:tc:opendocument:xmlns:office:1.0";

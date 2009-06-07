@@ -1,5 +1,5 @@
 /*
- * @(#)ElbowLiner.java  1.1  2007-02-09
+ * @(#)ElbowLiner.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -26,9 +26,7 @@ import org.jhotdraw.xml.DOMStorable;
  * A Liner that constrains a connection to orthogonal lines.
  *
  * @author Werner Randelshofer
- * @version 1.1 2007-02-09 Added support for connections that connect to 
- * the same Figure on both ends.
- * <br>1.0 2006-03-28 Created.
+ * @version $Id$
  */
 public class ElbowLiner
         implements Liner, DOMStorable {

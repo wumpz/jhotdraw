@@ -1,5 +1,5 @@
 /**
- * @(#)EmptyIcon.java  1.0  Apr 12, 2008
+ * @(#)EmptyIcon.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -22,7 +22,7 @@ import javax.swing.Icon;
  * EmptyIcon.
  *
  * @author Werner Randelshofer
- * @version 1.0 Apr 12, 2008 Created.
+ * @version $Id$
  */
 public class EmptyIcon implements Icon {
     private int width;

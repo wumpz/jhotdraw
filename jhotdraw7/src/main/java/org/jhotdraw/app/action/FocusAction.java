@@ -1,5 +1,5 @@
 /*
- * @(#)FocusAction.java  2.0  2006-05-05
+ * @(#)FocusAction.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -22,12 +22,12 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
 import org.jhotdraw.app.View;
+
 /**
  * Requests focus for a Frame.
  *
  * @author  Werner Randelshofer
- * @version 2.0 2006-05-05 Reworked.
- * <br>1.0  2005-06-10 Created.
+ * @version $Id$
  */
 public class FocusAction extends AbstractAction {
     public final static String ID = "window.focus";

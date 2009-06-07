@@ -1,5 +1,5 @@
 /*
- * @(#)OpenAction.java  2.2.1  2009-06-01
+ * @(#)OpenAction.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -26,16 +26,7 @@ import org.jhotdraw.app.View;
  * Opens a file in new view, or in the current view, if it is empty.
  *
  * @author  Werner Randelshofer
- * @version 2.2.1 2009-06-01 If a view is created just to get a file chooser
- * we have to dispose it if the user does not select a file.
- * <br>2.2 2009-03-08 Moved call to getOpenChooser into separate method.
- * <br>2.1 2008-03-19 Check whether file exists before opening it.
- * <br>2.0.2 2008-02-23 View and application was not enabled after
- * unsuccessful file open. 
- * <br>2.0.1 2006-05-18 Print stack trace added.
- * <br>2.0 2006-02-16 Support for preferences added.
- * <br>1.0.1 2005-07-14 Make view explicitly visible after creating it.
- * <br>1.0  04 January 2005  Created.
+ * @version $Id$
  */
 public class OpenAction extends AbstractApplicationAction {
 

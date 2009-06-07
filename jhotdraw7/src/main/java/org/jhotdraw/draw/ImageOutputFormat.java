@@ -1,5 +1,5 @@
 /*
- * @(#)ImageOutputFormat.java  1.1  2007-12-16
+ * @(#)ImageOutputFormat.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -19,10 +19,8 @@ import java.awt.datatransfer.*;
 import java.awt.geom.*;
 import java.awt.image.*;
 import java.io.*;
-import java.util.*;
 import javax.imageio.*;
 import javax.swing.*;
-import javax.swing.filechooser.*;
 import org.jhotdraw.gui.datatransfer.*;
 import org.jhotdraw.io.*;
 
@@ -31,9 +29,7 @@ import org.jhotdraw.io.*;
  * supported by javax.imageio.
  *
  * @author Werner Randelshofer
- * @version 1.1 2007-12-16 Adapted to changes in OutputFormat. 
- * Added support for AttributeKeys.CANVAS_FILL_COLOR.
- * <br>1.0 January 2, 2007 Created.
+ * @version $Id$
  */
 public class ImageOutputFormat implements OutputFormat {
     /**

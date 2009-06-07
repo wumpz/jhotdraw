@@ -1,5 +1,5 @@
 /*
- * @(#)Images.java  2.2  2009-05-31
+ * @(#)Images.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -16,9 +16,7 @@ package org.jhotdraw.util;
 
 import java.awt.*;
 import java.awt.image.*;
-import java.io.*;
 import java.net.*;
-import java.util.*;
 
 import javax.swing.*;
 
@@ -26,13 +24,7 @@ import javax.swing.*;
  * Image processing methods.
  *
  * @author  Werner Randelshofer
- * @version 2.2 Added methods createImage and split.
- * <br>2.1 2007-07-25 Added method toBufferedImage(RenderedImage).
- * <br>1.0.2 2005-09-12 Brought my work-around for Java 1.4.1 back to
- * live.
- * <br>1.0.1 2005-05-21 Accidentaly used bitmask transparency
- * instead of translucent transparency.
- * <br>1.0  13 March 2005  Created.
+ * @version $Id$
  */
 public class Images {
     

@@ -1,5 +1,5 @@
 /*
- * @(#)NetPanel.java  1.0  2006-07-15
+ * @(#)NetPanel.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -31,7 +31,7 @@ import org.jhotdraw.draw.action.*;
  * NetPanel.
  * 
  * @author Werner Randelshofer
- * @version 1.0 2006-07-15 Created.
+ * @version $Id$
  */
 public class NetPanel extends JPanel  {
     private UndoRedoManager undoManager;

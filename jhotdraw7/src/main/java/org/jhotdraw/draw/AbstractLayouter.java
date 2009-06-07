@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractLayouter.java  2.0  2006-01-14
+ * @(#)AbstractLayouter.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -21,8 +21,7 @@ import org.jhotdraw.geom.*;
  * which has its own attribute set.
  *
  * @author  Werner Randelshofer
- * @version 2.0 2006-01-14 Changed to support double precision coordinates.
- * <br>1.0 1. Dezember 2003  Created.
+ * @version $Id$
  */
 public abstract class AbstractLayouter implements Layouter {
     

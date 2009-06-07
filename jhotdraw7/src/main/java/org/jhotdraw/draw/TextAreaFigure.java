@@ -1,5 +1,5 @@
 /*
- * @(#)TextAreaFigure.java  2.1.1  2009-03-29
+ * @(#)TextAreaFigure.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -51,14 +51,7 @@ import org.jhotdraw.xml.DOMOutput;
  *
  * @author    Eduardo Francos - InContext (original version),
  *            Werner Randelshofer (this derived version)
- * @version 2.1.1 2009-03-29 Two consecutive tab-characters in text caused
- * ArrayIndexOutOfBoundsException.
- * <br>2.1 2008-05-28 Added method getPreferredTextBounds.
- * <br>2.0.3 2007-04-05 Made all instance variables protected instead of private.
- * <br>2.0.2 2006-12-11 Implemented more efficient clipping.
- * <br>2.0.1 2006-02-27 Draw UNDERLINE_LOW_ONE_PIXEL instead of UNDERLINE_ON.
- * <br>2.0 2006-01-14 Changed to support double precison coordinates.
- * <br>1.0 5. March 2004  Created.
+ * @version $Id$
  */
 public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements TextHolderFigure {
 

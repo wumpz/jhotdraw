@@ -1,5 +1,5 @@
 /*
- * @(#)SelectionColorIcon.java  2.1  2007-05-03
+ * @(#)SelectionColorIcon.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -15,13 +15,9 @@
 package org.jhotdraw.draw.action;
 
 import java.awt.*;
-import java.awt.color.*;
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.*;
 import java.net.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.geom.*;
+
 /**
  * SelectionColorIcon draws a shape with the specified color for the selected
  * figures in the current drawing view.
@@ -31,9 +27,7 @@ import org.jhotdraw.geom.*;
  * {@link SelectionColorChooserAction }.
  * 
  * @author Werner Randelshofer
- * @version 2.1 2007-05-03 Added parameters for setting the color rect.
- * <br>2.0 2006-06-07 Reworked.
- * <br>1.0 25. November 2003  Created.
+ * @version $Id$
  */
 public class SelectionColorIcon extends javax.swing.ImageIcon {
     private DrawingEditor editor;

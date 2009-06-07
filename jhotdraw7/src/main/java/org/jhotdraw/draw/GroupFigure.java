@@ -1,5 +1,5 @@
 /*
- * @(#)GroupFigure.java  1.0  24. November 2003
+ * @(#)GroupFigure.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -16,12 +16,12 @@ package org.jhotdraw.draw;
 
 import java.awt.geom.*;
 import org.jhotdraw.geom.*;
+
 /**
  * A Figure that groups a collection of figures.
  *
  * @author Werner Randelshofer
- * @version 2.0 2006-01-14 Changed to support double precison coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public class GroupFigure extends AbstractCompositeFigure {
     /** Creates a new instance. */

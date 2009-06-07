@@ -1,5 +1,5 @@
 /*
- * @(#)AttributeKeys.java  1.5.1  2009-03-29
+ * @(#)AttributeKeys.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -28,14 +28,7 @@ import org.jhotdraw.geom.*;
  * and to define all needed AttributeKeys as static variables in there.
  *
  * @author Werner Randelshofer
- * @version 1.5.1 2009-03-29 Method getStroke does not attempt to create a
- * dashed line, if all dashes are 0.
- * <br>1.8 2008-05-28 Added LAYOUT_ALIGNMENT.
- * <br>1.4 2007-12-16 Added CANVAS_FILL_COLOR.
- * <br>1.3 2006-12-09 Streamlined to better support SVG.
- * <br>1.2 2006-07-09 Stroke dash factor added. 
- * <br>1.1 2006-06-07 Changed all values to double.
- * <br>1.0 23. 3. 2006 Created.
+ * @version $Id$
  */
 public class AttributeKeys {
 

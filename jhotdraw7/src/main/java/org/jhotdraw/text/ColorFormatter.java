@@ -1,5 +1,5 @@
 /*
- * @(#)ColorFormatter.java  1.0  2009-04-16
+ * @(#)ColorFormatter.java
  * 
  * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -53,7 +53,7 @@ import javax.swing.text.DefaultFormatterFactory;
  * <p>
  *
  * @author Werner Randelshofer
- * @version 1.0 2009-04-16 Created.
+ * @version $Id$
  */
 public class ColorFormatter extends DefaultFormatter {
 

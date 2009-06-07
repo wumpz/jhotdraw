@@ -1,5 +1,5 @@
 /*
- * @(#)DrawFigureFactory.java  1.0  February 17, 2004
+ * @(#)DrawFigureFactory.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -21,7 +21,7 @@ import org.jhotdraw.xml.DefaultDOMFactory;
  * DrawFigureFactory.
  *
  * @author  Werner Randelshofer
- * @version 1.0 February 17, 2004 Created.
+ * @version $Id$
  */
 public class DrawFigureFactory extends DefaultDOMFactory {
     private final static Object[][] classTagArray = {

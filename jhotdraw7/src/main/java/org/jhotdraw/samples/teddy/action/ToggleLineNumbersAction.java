@@ -1,5 +1,5 @@
 /*
- * @(#)ToggleLineNumbersAction.java  1.0  October 1, 2005
+ * @(#)ToggleLineNumbersAction.java
  *
  * Copyright (c) 2005 by the original authors of JHotDraw
  * and all its contributors.
@@ -24,7 +24,7 @@ import java.awt.event.*;
  * ToggleLineNumbersAction.
  *
  * @author  Werner Randelshofer
- * @version 1.0 October 1, 2005 Created.
+ * @version $Id$
  */
 public class ToggleLineNumbersAction extends AbstractViewAction {
     public final static String ID = "view.toggleLineNumbers";

@@ -1,5 +1,5 @@
 /*
- *  @(#)FloatingTextArea.java  3.0  2008-05-24
+ *  @(#)FloatingTextArea.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -36,9 +36,7 @@ import javax.swing.JScrollPane;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version 3.0 2008-05-24 Update text area when attributes of the edited figure change. 
- * <br>2.0 2006-01-14 Changed to support double precision coordinates.
- * <br>1.0 2006-02-27 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public class FloatingTextArea {
 

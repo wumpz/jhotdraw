@@ -1,5 +1,5 @@
 /**
- * @(#)PaletteTextFieldUI.java  1.0  2009-04-15
+ * @(#)PaletteTextFieldUI.java
  *
  * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -25,7 +25,7 @@ import javax.swing.text.*;
  * PaletteFormattedTextFieldUI.
  *
  * @author Werner Randelshofer
- * @version 1.0 2009-04-15 Created.
+ * @version $Id$
  */
 public class PaletteFormattedTextFieldUI extends BasicFormattedTextFieldUI {
     private Color errorIndicatorForeground;

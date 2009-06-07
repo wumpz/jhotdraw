@@ -1,5 +1,5 @@
 /**
- * @(#)PaletteUtilities.java  1.0  21.05.2008
+ * @(#)PaletteUtilities.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -20,7 +20,7 @@ import javax.swing.plaf.basic.BasicGraphicsUtils;
  * PaletteUtilities.
  *
  * @author Werner Randelshofer
- * @version 1.0 21.05.2008 Created.
+ * @version $Id$
  */
 public class PaletteUtilities  extends BasicGraphicsUtils {
 

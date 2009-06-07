@@ -1,5 +1,5 @@
 /*
- * @(#)EditorColorChooserAction.java  3.0  2009-04-10
+ * @(#)EditorColorChooserAction.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -25,13 +25,7 @@ import org.jhotdraw.draw.*;
  * {@link EditorColorIcon }.
  *
  * @author Werner Randelshofer
- * @version 3.0 2009-04-10 Extend from AttributeAction instead of from 
- * AbstractSelectedAction to ensure that this action fires UndoableEdit events.
- * <br>
- * <br>2.0.1 2009-03-29 Ensure that instance variable fixedAttributes is
- * not null,
- * <br>2.0 2006-06-07 Reworked.
- * <br>1.0 2004-03-02  Created.
+ * @version $Id$
  */
 public class EditorColorChooserAction extends AttributeAction {
     protected AttributeKey<Color> key;

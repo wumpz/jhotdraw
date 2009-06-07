@@ -1,5 +1,5 @@
 /*
- * @(#)TextCreationTool.java  1.0  2009-04-16
+ * @(#)TextCreationTool.java
  *
  * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -56,7 +56,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version 1.0 2009-04-16 Refactored from TextTool.
+ * @version $Id$
  */
 public class TextCreationTool extends CreationTool implements ActionListener {
     private FloatingTextField   textField;

@@ -1,5 +1,5 @@
 /*
- * @(#)LoadRecentAction.java  1.0  June 15, 2006
+ * @(#)LoadRecentAction.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -14,24 +14,19 @@
 
 package org.jhotdraw.app.action;
 
-import org.jhotdraw.gui.Worker;
-import org.jhotdraw.util.*;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.gui.event.*;
-
 import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import java.util.prefs.*;
 import javax.swing.*;
 import java.io.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
+
 /**
  * LoadRecentAction.
  *
  * @author Werner Randelshofer.
- * @version 1.0 June 15, 2006 Created.
+ * @version $Id$
  */
 public class LoadRecentAction extends AbstractSaveBeforeAction {
     public final static String ID = "file.loadRecent";

@@ -1,5 +1,5 @@
 /*
- * @(#)Application.java  2.0  2007-12-24
+ * @(#)Application.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -58,8 +58,7 @@ import java.io.*;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version 2.0 2007-12-24 Renamed method getCurrentView to getActiveView. 
- * <br>1.0 October 4, 2005 Created.
+ * @version $Id$
  */
 public interface Application {
     /**

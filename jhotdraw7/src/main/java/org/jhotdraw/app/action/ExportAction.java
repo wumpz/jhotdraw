@@ -1,5 +1,5 @@
 /*
- * @(#)ExportAction.java  2.0  2007-01-02
+ * @(#)ExportAction.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -14,7 +14,6 @@
 
 package org.jhotdraw.app.action;
 
-import org.jhotdraw.app.ExportableView;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.gui.event.*;
 import org.jhotdraw.util.*;
@@ -42,9 +41,7 @@ import org.jhotdraw.app.*;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version 2.0 2007-01-02 Revised to support an interface rather than relying
- * on Reflection. 
- * <br>1.0 2006-04-07 Created.
+ * @version $Id$
  */
 public class ExportAction extends AbstractViewAction {
     public final static String ID = "file.export";

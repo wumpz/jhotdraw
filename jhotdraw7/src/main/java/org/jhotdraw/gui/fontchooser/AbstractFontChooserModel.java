@@ -1,5 +1,5 @@
 /**
- * @(#)AbstractFontChooserModel.java  1.0  May 20, 2008
+ * @(#)AbstractFontChooserModel.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -22,7 +22,7 @@ import javax.swing.tree.*;
  * AbstractFontChooserModel.
  *
  * @author Werner Randelshofer
- * @version 1.0 May 20, 2008 Created.
+ * @version $Id$
  */
 public abstract class AbstractFontChooserModel implements FontChooserModel {
     /** Listeners. */

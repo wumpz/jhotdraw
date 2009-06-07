@@ -1,5 +1,5 @@
 /*
- * @(#)AlignAction.java  2.1  2008-02-27
+ * @(#)AlignAction.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -28,9 +28,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * XXX - Fire edit events
  *
  * @author  Werner Randelshofer
- * @version 2.1 2008-02-27 Only align figures which are transformable. 
- * <br>2.0 2006-01-15 Changed to support double precision coordinates.
- * <br>1.0 17. March 2004  Created.
+ * @version $Id$
  */
 public abstract class AlignAction extends AbstractSelectedAction {
     

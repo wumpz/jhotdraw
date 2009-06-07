@@ -1,5 +1,5 @@
 /*
- * @(#)BoxHandleKit.java  2.0  2008-05-11
+ * @(#)BoxHandleKit.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -24,10 +24,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * using its <code>setBounds</code> method, if the Figure is transformable.
  * 
  * @author Werner Randelshofer
- * @version 2.0 2008-05-11 Added keyboard support. 
- * Handle attributes are now read from DrawingEditor.
- * <br>1.1 2008-02-28 Only resize a figure, if it is transformable. 
- * <br>1.0 2007-04-14 Created.
+ * @version $Id$
  */
 public class ResizeHandleKit {
 

@@ -1,5 +1,5 @@
 /*
- * @(#)NodeFigure.java  1.0  July 4, 2006
+ * @(#)NodeFigure.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -26,7 +26,7 @@ import org.jhotdraw.xml.*;
  * NodeFigure.
  *
  * @author Werner Randelshofer
- * @version 1.0 July 4, 2006 Created.
+ * @version $Id$
  */
 public class NodeFigure extends TextFigure {
 

@@ -1,5 +1,5 @@
 /*
- * @(#)ODGDrawingPanelBeanInfo.java  2007-06-24
+ * @(#)ODGDrawingPanelBeanInfo.java
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.

@@ -1,5 +1,5 @@
 /*
- * @(#)TextAreaCreationTool.java  2.3.1  2009-09-29
+ * @(#)TextAreaCreationTool.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -73,15 +73,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version 2.3.1 2009-03-29 Editing of a TextArea which is behind another figure
- * did not work. Partially implemented undoable edit handling.
- * <br>2.3 2008-05-17 Honor toolDoneAfterCreation property.
- * <br>2.2 2007-11-25 Added variable isForCreationOnly.
- * <br>2.1 2007-08-22 Added support for property 'toolDoneAfterCreation'.
- * <br>2.0 2006-01-14 Changed to support double precison coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
- * @see TextHolderFigure
- * @see FloatingTextArea
+ * @version $Id$
  */
 public class TextAreaCreationTool extends CreationTool implements ActionListener {
 

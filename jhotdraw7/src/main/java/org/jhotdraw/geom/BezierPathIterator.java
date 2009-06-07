@@ -1,5 +1,5 @@
 /*
- * @(#)BezierPathIterator.java  1.0  7. Mai 2007
+ * @(#)BezierPathIterator.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -26,7 +26,7 @@ import java.awt.geom.*;
  * Subsequent iterations require a new iterator.
  *
  * @author Werner Randelshofer
- * @version 1.0 7. Mai 2007 Created.
+ * @version $Id$
  */
 public class BezierPathIterator implements PathIterator {
     /**

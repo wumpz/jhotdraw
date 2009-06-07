@@ -1,5 +1,5 @@
 /*
- * @(#)CreationTool.java  2.5  2008-05-24
+ * @(#)CreationTool.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -54,13 +54,7 @@ import org.jhotdraw.util.*;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version 2.4 2008-05-24 Made all private variables protected. Use crosshair
- * cursor for creation tool.
- * <br>2.2 2007-08-22 Added property 'toolDoneAfterCreation'.
- * <br>2.1.1 2006-07-20 Minimal size treshold was enforced too eagerly.
- * <br>2.1 2006-07-15 Changed to create prototype creation from class presentationName.
- * <br>2.0 2006-01-14 Changed to support double precision coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public class CreationTool extends AbstractTool {
 

@@ -1,5 +1,5 @@
 /*
- * @(#)DrawingComponent.java  1.0  April 8, 2007
+ * @(#)DrawingComponent.java
  *
  * Copyright (c) 2007-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -28,7 +28,7 @@ import org.jhotdraw.draw.*;
  * commands.
  * 
  * @author Werner Randelshofer
- * @version 1.0 April 8, 2007 Created.
+ * @version $Id$
  */
 public interface DrawingComponent {
     /**

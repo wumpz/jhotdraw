@@ -1,5 +1,5 @@
 /*
- * @(#)DrawView.java  1.3.1  2008-03-19
+ * @(#)DrawView.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -37,11 +37,7 @@ import org.jhotdraw.draw.action.*;
  * A view for JHotDraw drawings.
  *
  * @author Werner Randelshofer
- * @version 1.3.1 2008-03-19 Method read() tries out now all supported files format.
- * <br>1.3 2007-11-25 Method clear() is now invoked from a worker thread.
- * <br>1.2 2006-12-26 Reworked I/O support.
- * <br>1.1 2006-06-10 Extended to support DefaultDrawApplicationModel.
- * <br>1.0 2006-02-07 Created.
+ * @version $Id$
  */
 public class DrawView extends AbstractView {
     

@@ -1,5 +1,5 @@
 /*
- * @(#)LocatorHandle.java  2.0  2006-01-14
+ * @(#)LocatorHandle.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -24,8 +24,7 @@ import java.awt.geom.*;
  * @see Locator
  *
  * @author Werner Randelshofer
- * @version 2.0 2006-01-14 Changed to support double precision coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public abstract class LocatorHandle extends AbstractHandle {
     private Locator locator;

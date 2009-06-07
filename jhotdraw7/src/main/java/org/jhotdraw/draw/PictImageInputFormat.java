@@ -1,5 +1,5 @@
 /**
- * @(#)PictImageInputFormat.java  1.1  2008-05-24
+ * @(#)PictImageInputFormat.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -33,8 +33,7 @@ import org.jhotdraw.util.Images;
  * XXX - This class uses the deprecated Cocoa-Java bridge.
  *
  * @author Werner Randelshofer
- * @version 1.1 2008-05-24 Adapted to changes in InputFormat. 
- * <br>1.0 Mar 18, 2008 Created.
+ * @version $Id$
  */
 public class PictImageInputFormat implements InputFormat {
 

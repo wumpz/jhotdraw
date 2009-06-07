@@ -1,5 +1,5 @@
 /*
- * @(#)SVGElementFactory.java  1.0  December 21, 2006
+ * @(#)SVGElementFactory.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -18,7 +18,7 @@ package org.jhotdraw.samples.svg.io;
  * Creates SVG elements from Figures.
  *
  * @author Werner Randelshofer
- * @version 1.0 December 21, 2006 Created.
+ * @version $Id$
  */
 public interface SVGElementFactory {
     

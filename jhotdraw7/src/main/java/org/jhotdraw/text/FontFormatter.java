@@ -1,5 +1,5 @@
 /*
- * @(#)FontFormatter.java  1.1  2009-06-02
+ * @(#)FontFormatter.java
  * 
  * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -26,9 +26,7 @@ import javax.swing.text.DefaultFormatterFactory;
  * <p>
  *
  * @author Werner Randelshofer
- * @version 1.1 2009-06-02 Added support for generic HTML font families and
- * for allowing unknown fonts.
- * <br>1.0 2009-04-17 Created.
+ * @version $Id$
  */
 public class FontFormatter extends DefaultFormatter {
 

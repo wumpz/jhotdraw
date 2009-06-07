@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractAttributeEditorHandler.java  1.1  2009-06-02
+ * @(#)AbstractAttributeEditorHandler.java
  * 
  * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -52,8 +52,7 @@ import org.jhotdraw.draw.FigureSelectionListener;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version 1.1 2009-06-02 Added Disposable-support.
- * <br>1.0 2009-04-14 Created.
+ * @version $Id$
  */
 public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
 

@@ -1,5 +1,5 @@
 /*
- * @(#)JLifeFormattedTextField.java  1.0  2009-04-14
+ * @(#)JLifeFormattedTextField.java
  *
  * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -24,7 +24,7 @@ import javax.swing.text.*;
  * the field.
  * 
  * @author Werner Randelshofer
- * @version 1.0 2009-04-14  Created.
+ * @version $Id$
  */
 public class JLifeFormattedTextField extends JFormattedTextField {
 

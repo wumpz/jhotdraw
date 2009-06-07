@@ -1,5 +1,5 @@
 /*
- * @(#)FigureSelectionListener.java  1.0  25. November 2003
+ * @(#)FigureSelectionListener.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -30,7 +30,7 @@ package org.jhotdraw.draw;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version 1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public interface FigureSelectionListener extends java.util.EventListener {
     public void selectionChanged(FigureSelectionEvent evt);

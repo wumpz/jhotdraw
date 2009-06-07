@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractApplication.java  2.0  2009-06-02
+ * @(#)AbstractApplication.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -25,14 +25,8 @@ import java.io.*;
 /**
  * This abstract class can be extended to implement an {@link Application}.
  *
- *
  * @author Werner Randelshofer
- * @version 2.0 2009-06-02 Added support for disposable objects.
- * <br>1.3 2007-12-24 Added support for active view.
- * <br>1.2 2007-11-25 Method View.clear is now invoked on a worker
- * thread.
- * <br>1.1 2006-05-01 System.exit(0) explicitly in method stop().
- * <br>1.0 October 4, 2005 Created.
+ * @version $Id$
  */
 public abstract class AbstractApplication extends AbstractBean implements Application {
 

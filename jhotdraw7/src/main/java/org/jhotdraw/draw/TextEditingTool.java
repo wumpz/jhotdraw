@@ -1,5 +1,5 @@
 /*
- * @(#)TextEditingTool.java  1.0  2009-04-16
+ * @(#)TextEditingTool.java
  *
  * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -44,7 +44,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version 1.0 2009-04-16 Derived from TextTool.
+ * @version $Id$
  */
 public class TextEditingTool extends AbstractTool implements ActionListener {
 

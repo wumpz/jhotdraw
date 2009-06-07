@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractAttributedCompositeFigure.java  2.0 2007-05-18
+ * @(#)AbstractAttributedCompositeFigure.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -27,8 +27,7 @@ import org.jhotdraw.xml.DOMOutput;
  * which has its own attribute set.
  *
  * @author Werner Randelshofer
- * @version 2.0 2007-05-18 Changed due to changes in Figure interface. 
- * <br>1.0 July 9, 2006 Created.
+ * @version $Id$
  */
 public abstract class AbstractAttributedCompositeFigure extends AbstractCompositeFigure {
 

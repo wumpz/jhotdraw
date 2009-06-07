@@ -1,5 +1,5 @@
 /*
- * @(#)FigureAdapter.java  2.0  2007-02-09
+ * @(#)FigureAdapter.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -18,8 +18,7 @@ package org.jhotdraw.draw;
  * FigureAdapter implements the FigureListener interface with empty methods.
  * 
  * @author Werner Randelshofer
- * @version 2.0 2007-02-09 Renamed from AbstractFigureListener to FigureAdapter.
- * <br>1.0 2. Februar 2004  Created.
+ * @version $Id$
  */
 public class FigureAdapter implements FigureListener {
     

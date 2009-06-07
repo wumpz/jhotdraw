@@ -1,5 +1,5 @@
 /*
- * @(#)LinkToolBar.java  1.0  2009-04-17
+ * @(#)LinkToolBar.java
  *
  * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -33,7 +33,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * LinkToolBar.
  * 
  * @author Werner Randelshofer
- * @version 1.0 2009-04-17 Created.
+ * @version $Id$
  */
 public class LinkToolBar extends AbstractToolBar {
 

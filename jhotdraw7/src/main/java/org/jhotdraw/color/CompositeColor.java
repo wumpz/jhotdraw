@@ -1,5 +1,5 @@
 /**
- * @(#)CompositeColor.java  1.0  Apr 24, 2008
+ * @(#)CompositeColor.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -15,14 +15,12 @@
 package org.jhotdraw.color;
 
 import java.awt.Color;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * CompositeColor represents an immutable value of a color system.
  *
  * @author Werner Randelshofer
- * @version 1.0 Apr 24, 2008 Created.
+ * @version $Id$
  */
 public class CompositeColor implements Cloneable {
     private ColorSystem system;

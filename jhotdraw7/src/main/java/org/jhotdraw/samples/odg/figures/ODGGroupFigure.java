@@ -1,5 +1,5 @@
 /*
- * @(#)ODGGroupFigure.java  1.0  2007-07-28
+ * @(#)ODGGroupFigure.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -27,7 +27,7 @@ import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
  * ODGGroupFigure.
  *
  * @author Werner Randelshofer
- * @version 1.0 2007-07-28 Created.
+ * @version $Id$
  */
 public class ODGGroupFigure extends GroupFigure implements ODGFigure {
     private HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey,Object>();

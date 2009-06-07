@@ -1,5 +1,5 @@
 /**
- * @(#)SelectionComponentDisplayer.java  1.0  23.05.2008
+ * @(#)SelectionComponentDisplayer.java
  *
  * Copyright (c) 2006-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -27,7 +27,7 @@ import org.jhotdraw.draw.*;
  * itself if the component no longer exists.
  *
  * @author Werner Randelshofer
- * @version 1.0 23.05.2008 Created.
+ * @version $Id$
  */
 public class SelectionComponentDisplayer
         implements PropertyChangeListener, FigureSelectionListener {

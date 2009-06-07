@@ -1,5 +1,5 @@
 /*
- * @(#)SliderThumbIcon.java  4.0  2007-12-02
+ * @(#)SliderThumbIcon.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -16,16 +16,13 @@ package org.jhotdraw.gui.plaf.palette;
 
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.plaf.*;
+
 /**
  * An Icon with different visuals reflecting the state of the slider
  * on which it draws on.
  *
  * @author  Werner Randelshofer
- * @version 4.0 2007-12-02 Added support for focus ring.
- * <br>3.0 2005-10-17 Changed superclass to MultIcon.
- * <br>2.0 2005-03-19 Reworked.
- * <br>1.0 October 5, 2003 Create..
+ * @version $Id$
  */
 public class SliderThumbIcon extends MultiIcon {
     private final static int E = 0;

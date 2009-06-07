@@ -1,5 +1,5 @@
 /*
- * @(#)UndoRedoManager.java 1.3.1  2006-04-12
+ * @(#)UndoRedoManager.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -17,7 +17,6 @@ package org.jhotdraw.undo;
 import java.awt.event.*;
 import java.beans.*;
 import javax.swing.*;
-import javax.swing.event.*;
 import javax.swing.undo.*;
 import java.util.*;
 import org.jhotdraw.util.*;
@@ -27,18 +26,7 @@ import org.jhotdraw.util.*;
  * redo operations.
  *
  * @author  Werner Randelshofer
- * @version 1.3.1 2006-04-12 Method setLocale added.
- * <br>1.3 2006-02-28 Support for PropertyChangeListener added.
- * <br>1.2.2 2006-02-25 Configure actions from resource bundle.
- * <br>1.2.1 2003-11-02 Adapted to changes in ResourceBundleUtil.
- * <br>1.2 2003-03-16 Texts and accelerator keys are now read from a
- * resource bundle.
- * <br>1.1.2 2003-03-12 Actions use now KeyStroke objects instead of
- * String objects as accelerator keys.
- * <br>1.1.1 2002-05-10 Method addEdit is now smarter when
- * determining whether an edit is significant.
- * <br>1.1 2002-04-08 Method hasSignificantEdits/clearChanged added.
- * <br>1.0 2001-10-09
+ * @version $Id$
  */
 public class UndoRedoManager extends UndoManager {//javax.swing.undo.UndoManager {
     protected PropertyChangeSupport propertySupport = new PropertyChangeSupport(this);

@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultOSXApplication.java  1.2.1  2009-06-02
+ * @(#)DefaultOSXApplication.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -14,7 +14,6 @@
 package org.jhotdraw.app;
 
 import ch.randelshofer.quaqua.*;
-import javax.swing.event.AncestorEvent;
 import org.jhotdraw.gui.Worker;
 import org.jhotdraw.util.*;
 import org.jhotdraw.util.prefs.*;
@@ -25,10 +24,8 @@ import java.beans.*;
 import java.awt.*;
 import javax.swing.*;
 import java.io.*;
-import javax.swing.event.AncestorListener;
 import org.jhotdraw.app.action.*;
 import org.jhotdraw.beans.Disposable;
-import org.jhotdraw.beans.WeakPropertyChangeListener;
 
 /**
  * A DefaultOSXApplication can handle the life cycle of multiple document 
@@ -103,13 +100,7 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  * </pre>
  *
  * @author Werner Randelshofer
- * @version 1.2.1 2009-06-02 Fixed a memory leak caused by OpenRecentAction's
- * not being disposed when they are no longer needed.
- * <br>1.2 2007-12-25 Added method updateViewTitle.
- * <br>1.1 2007-01-11 Removed method addStandardActionsTo.
- * <br>1.0.1 2007-01-02 Floating palettes disappear now if the application
- * looses the focus.
- * 1.0 October 4, 2005 Created.
+ * @version $Id$
  */
 public class DefaultOSXApplication extends AbstractApplication {
 

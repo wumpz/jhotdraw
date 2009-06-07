@@ -1,5 +1,5 @@
 /*
- * @(#)NanoXMLDOMInput.java  2.2  2009-06-02
+ * @(#)NanoXMLDOMInput.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -28,10 +28,7 @@ import org.jhotdraw.beans.Disposable;
  * Partners: {@link net.n3.nanoxml.XMLElement} as Adaptee.
  *
  * @author  Werner Randelshofer
- * @version 2.2 2009-06-02 Added Disposable support.
- * <br>2.1.1 2006-08-21 Fixed exceptions.
- * <br>2.0 2006-06-10 Support for Enum and double array objects added.
- * <br>1.0 February 17, 2004 Created.
+ * @version $Id$
  */
 public class NanoXMLDOMInput implements DOMInput, Disposable {
     /**

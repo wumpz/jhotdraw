@@ -1,7 +1,7 @@
 /**
- * @(#)PaletteButtonUI.java  1.0  Apr 6, 2008
+ * @(#)PaletteButtonUI.java
  *
- * Copyright (c) 2008 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -23,7 +23,7 @@ import javax.swing.plaf.basic.*;
  * ButtonUI for palette components.
  *
  * @author Werner Randelshofer
- * @version 1.0 Apr 6, 2008 Created.
+ * @version $Id$
  */
 public class PaletteButtonUI extends BasicButtonUI {
     // Shared UI object

@@ -1,5 +1,5 @@
 /*
- * @(#)ServerAuthenticationException.java  1.0  2007-05-29
+ * @(#)ServerAuthenticationException.java
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -25,7 +25,7 @@ import java.io.*;
  * it opens a page with a password form.
  *
  * @author Werner Randelshofer
- * @version 1.0 2007-05-29 Created.
+ * @version $Id$
  */
 public class ServerAuthenticationException extends IOException {
     

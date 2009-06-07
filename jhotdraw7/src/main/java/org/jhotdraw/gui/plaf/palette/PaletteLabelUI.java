@@ -1,5 +1,5 @@
 /*
- * @(#)QuaquaLabelUI.java  1.6  2007-11-18
+ * @(#)QuaquaLabelUI.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -15,7 +15,6 @@ package org.jhotdraw.gui.plaf.palette;
 
 import java.awt.*;
 import java.beans.*;
-
 import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
@@ -24,16 +23,7 @@ import javax.swing.plaf.basic.*;
  * QuaquaLabelUI.
  *
  * @author  Werner Randelshofer
- * @version 1.6 2007-11-18 Added support for property "Quaqua.Label.style"=
- * "emboss" and "shadow".
- * <br>1.5.1 2007-01-15 Perceiced bounds.height must reflect font size
- * even if the label is empty.
- * <br>1.5 2006-02-18 Tweaked perceived text bounds. Draw disabled label
- * with disabled text color. Draw background again if we are opaque.
- * <br>1.4 2005-12-08 Support for background border added.
- * <br>1.3 2005-07-17 Adapted to changes in interface VisuallyLayoutable.
- * <br>1.2 2006-06-20 Paint text antialiased.
- * <br>1.0  02 April 2005  Created.
+ * @version $Id$
  */
 public class PaletteLabelUI extends BasicLabelUI {
 

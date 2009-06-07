@@ -1,5 +1,5 @@
 /*
- * @(#)SummaryToolBar.java  1.0  May 1, 2007
+ * @(#)SummaryToolBar.java
  *
  * Copyright (c) 2007-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -37,7 +37,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * SummaryToolBar.
  *
  * @author Werner Randelshofer
- * @version 1.0 May 1, 2007 Created.
+ * @version $Id$
  */
 public class SummaryToolBar extends JToolBar {
     private ResourceBundleUtil labels;

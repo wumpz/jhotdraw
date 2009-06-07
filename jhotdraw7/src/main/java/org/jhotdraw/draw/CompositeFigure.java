@@ -1,5 +1,5 @@
 /*
- * @(#)CompositeFigure.java  2.0.1  2007-12-20
+ * @(#)CompositeFigure.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -55,12 +55,7 @@ import org.jhotdraw.geom.*;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version 2.1 2007-12-20 Clarified purpose of basicAdd/basicRemove methods. 
- * Added method indexOf.
- * <br>2.0 2007-07-17 Added support for CompositeFigureListener.
- * CompositeFigure is now streamlined with the java.util.List<Figure>
- * interface. 
- * <br>1.0 27. Januar 2006 Created.
+ * @version $Id$
  */
 public interface CompositeFigure extends Figure {
     /**

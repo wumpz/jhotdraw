@@ -1,5 +1,5 @@
 /*
- * @(#)EnhancedPath.java  1.0  June 24, 2007
+ * @(#)EnhancedPath.java
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -28,7 +28,7 @@ import org.jhotdraw.geom.*;
  * formula or a modifier.
  *
  * @author Werner Randelshofer
- * @version 1.0 June 24, 2007 Created.
+ * @version $Id$
  */
 public class EnhancedPath extends ArrayList<EnhancedPath.Segment>
         implements Shape {

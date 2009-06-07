@@ -1,5 +1,5 @@
 /*
- * @(#)OSXTogglePaletteAction.java  1.0  June 11, 2006
+ * @(#)OSXTogglePaletteAction.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -14,11 +14,8 @@
 
 package org.jhotdraw.app.action;
 
-import org.jhotdraw.util.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.util.*;
-import java.beans.*;
 import java.awt.*;
 import org.jhotdraw.app.DefaultOSXApplication;
 
@@ -26,7 +23,7 @@ import org.jhotdraw.app.DefaultOSXApplication;
  * OSXTogglePaletteAction.
  * 
  * @author Werner Randelshofer.
- * @version 1.0 June 11, 2006 Created.
+ * @version $Id$
  */
 public class OSXTogglePaletteAction extends AbstractAction {
     private Window palette;

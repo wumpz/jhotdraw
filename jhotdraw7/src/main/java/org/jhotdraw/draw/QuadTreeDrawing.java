@@ -1,5 +1,5 @@
 /*
- * @(#)QuadTreeDrawing.java  2.2.2  2009-04-04
+ * @(#)QuadTreeDrawing.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -13,7 +13,6 @@
  */
 package org.jhotdraw.draw;
 
-import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.geom.QuadTree;
 import java.awt.*;
 import java.awt.geom.*;
@@ -26,14 +25,7 @@ import org.jhotdraw.geom.Geom;
  * which contain many figures.
  *
  * @author Werner Randelshofer
- * @version 2.2.2 2009-04-04 draw() method did not check isVisible() property.
- * <br>2.2.1 2008-03-26 Fixed NullPointerException when setting the
- * canvas size. Fixed cloning of quadTree and canvasSize. 
- * <br>2.2 2007-04-09 Added methods setCanvasSize, getCanvasSize.
- * <br>2.1 2007-02-09 Moved FigureListener and UndoableEditListener into
- * inner class.
- * <br>2.0 2006-01-14 Changed to support double precision coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public class QuadTreeDrawing extends AbstractDrawing {
 

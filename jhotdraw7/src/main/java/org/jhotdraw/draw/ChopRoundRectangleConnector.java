@@ -1,5 +1,5 @@
 /*
- * @(#)ChopRoundRectangleConnector.java  2.1  2006-12-23
+ * @(#)ChopRoundRectangleConnector.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -14,22 +14,17 @@
 
 package org.jhotdraw.draw;
 
-import org.jhotdraw.util.*;
-import java.awt.*;
 import java.awt.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.geom.*;
+
 /**
  * A ChopRoundRectangleConnector locates a connection Point2D.Double by
  * chopping the connection at the horizontal and vertica lines defined by the
  * display box of a RoundRectangleFigure.
  *
  * @author  Werner Randelshofer
- * @version 2.2 2006-12-23 Renamed from ChopRoundRectConnector to 
- * ChopRoundRectangleConnector.
- * <br>2.0 2006-01-14 Changed to support double precison coordinates.
- * <br>1.0  2004-03-02  Derived from class ShortestDistanceConnector of
- * JHotDraw 6.0b1.
+ * @version $Id$
  */
 public class ChopRoundRectangleConnector extends ChopRectangleConnector {
     

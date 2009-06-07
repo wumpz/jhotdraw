@@ -1,5 +1,5 @@
 /*
- * @(#)DnDTracker.java  1.0  2009-04-22
+ * @(#)DnDTracker.java
  * 
  * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -35,7 +35,7 @@ import java.awt.geom.Rectangle2D;
  * how it looks.
  *
  * @author Werner Randelshofer
- * @version 1.0 2009-04-22 Ported from JHotDraw6.
+ * @version $Id$
  */
 public class DnDTracker extends AbstractTool implements DragTracker {
 

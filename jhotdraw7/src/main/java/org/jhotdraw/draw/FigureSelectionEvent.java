@@ -1,5 +1,5 @@
 /*
- * @(#)FigureSelectionEvent.java  2.0  2007-05-14
+ * @(#)FigureSelectionEvent.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -30,8 +30,7 @@ import java.util.*;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version 2.0 2007-05-14 Added getters for newValue and oldValue. 
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public class FigureSelectionEvent extends java.util.EventObject {
 private Set<Figure> oldValue;

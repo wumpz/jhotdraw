@@ -1,5 +1,5 @@
 /*
- * @(#)SplitPathsAction.java  1.0  2007-07-28
+ * @(#)SplitPathsAction.java
  *
  * Copyright (c) 2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -27,7 +27,7 @@ import javax.swing.undo.*;
  * SplitPathsAction.
  *
  * @author  Werner Randelshofer
- * @version 1.0 2007-07-28 Created.
+ * @version $Id$
  */
 public class SplitAction extends UngroupAction {
     public final static String ID = "edit.splitPath";

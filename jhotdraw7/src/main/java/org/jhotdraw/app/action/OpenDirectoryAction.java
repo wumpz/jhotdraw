@@ -1,5 +1,5 @@
 /*
- * @(#)OpenDirectoryAction.java  1.1  2009-02-08
+ * @(#)OpenDirectoryAction.java
  * 
  * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -22,7 +22,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * OpenDirectoryAction.
  *
  * @author Werner Randelshofer, Staldenmattweg 2, CH-6405 Immensee
- * @version 1.0 2009-02-08 Created.
+ * @version $Id$
  */
 public class OpenDirectoryAction extends OpenAction {
     public final static String ID = "file.openDirectory";

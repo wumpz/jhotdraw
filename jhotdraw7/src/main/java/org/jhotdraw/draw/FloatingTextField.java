@@ -1,5 +1,5 @@
 /*
- * @(#)FloatingTextField.java  3.0  2008-05-24
+ * @(#)FloatingTextField.java
  *
  * Copyright (c) 1996-2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -43,9 +43,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * @see org.jhotdraw.draw.TextFigure
  *
  * @author Werner Randelshofer
- * @version 3.0 2008-05-24 Update when attributes of the edited figure change. 
- * <br>2.0 2006-01-14 Changed to support double precision coordinates.
- * <br>1.0 2003-12-01 Derived from JHotDraw 5.4b1.
+ * @version $Id$
  */
 public  class FloatingTextField {
     private TextHolderFigure editedFigure;

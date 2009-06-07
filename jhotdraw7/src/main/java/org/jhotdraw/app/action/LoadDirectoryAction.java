@@ -1,5 +1,5 @@
 /*
- * @(#)LoadDirectoryAction.java  1.0  2009-02-08
+ * @(#)LoadDirectoryAction.java
  * 
  * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -36,7 +36,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * <hr>
  *
  * @author Werner Randelshofer, Staldenmattweg 2, CH-6405 Immensee
- * @version 1.0 2009-02-08 Created.
+ * @version $Id$
  */
 public class LoadDirectoryAction extends LoadAction {
     public final static String ID = "file.loadDirectory";

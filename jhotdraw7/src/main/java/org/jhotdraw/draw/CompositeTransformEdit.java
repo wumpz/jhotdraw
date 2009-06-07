@@ -1,5 +1,5 @@
 /*
- * @(#)CompositeTransformEdit.java  1.0  2006-01-21
+ * @(#)CompositeTransformEdit.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -21,7 +21,7 @@ import java.awt.geom.*;
  * CompositeTransformEdit.
  * 
  * @author Werner Randelshofer
- * @version 1.0 2006-01-21 Created.
+ * @version $Id$
  */
 public class CompositeTransformEdit extends AbstractUndoableEdit {
     private AbstractFigure owner;

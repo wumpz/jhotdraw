@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultDOMFactory.java  1.0.1  2006-07-05
+ * @(#)DefaultDOMFactory.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -21,8 +21,7 @@ import java.util.*;
  * names.
  *
  * @author Werner Randelshofer.
- * @version 1.0.1 2006-07-05 Improved error reporting.
- * <br>1.0 June 10, 2006 Created.
+ * @version $Id$
  */
 public class DefaultDOMFactory implements DOMFactory {
     private final static HashMap<Class,String> classToNameMap = new HashMap<Class,String>();
