@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultDrawingViewTransferHandler.java  2.0  2009-03-13
+ * @(#)DefaultDrawingViewTransferHandler.java  2.0.1  2009-06-07
  *
  * Copyright (c) 2007-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -25,8 +25,6 @@ import java.awt.dnd.DragSourceDropEvent;
 import java.awt.dnd.DragSourceEvent;
 import java.awt.dnd.DragSourceListener;
 import java.awt.event.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -46,7 +44,11 @@ import org.jhotdraw.util.ReversedList;
  * {@link DnDDrawingViewTransferHandler} instead.
  *
  * @author Werner Randelshofer
- * @version 2.0 2009-03-13 Load drawings from files using a worker thread.
+ * @version 2.0.1 2009-06-07 Variable exportedFigures is now set in 
+ * createTransferable. Method importData processes now the imported data
+ * in the data flavor sequence given by the Transferable instead of in the
+ * input format sequence of the drawing.
+ * <br>2.0 2009-03-13 Load drawings from files using a worker thread.
  * <br>1.2 2008-05-24 Adapted to changes in InputFormat. Add support for
  * automatically grouping
  * <br>1.1.2 2008-03-20 After import, only select imported figures in 
@@ -59,7 +61,6 @@ import org.jhotdraw.util.ReversedList;
 public class DefaultDrawingViewTransferHandler extends TransferHandler {
 
     private final static boolean DEBUG = false;
-
     /**
      * We keep the exported figures in this list, so that we don't need to
      * rely on figure selection, when method exportDone is called.
@@ -97,8 +98,8 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                 try {
                     // Search for a suitable input format
                     SearchLoop:
-                    for (InputFormat format : drawing.getInputFormats()) {
-                        for (DataFlavor flavor : t.getTransferDataFlavors()) {
+                    for (DataFlavor flavor : t.getTransferDataFlavors()) {
+                        for (InputFormat format : drawing.getInputFormats()) {
                             if (DEBUG) {
                                 System.out.println(this + ".importData trying to match " + format + " to flavor " + flavor);
                             }
@@ -115,16 +116,19 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                                 transferFigures.addAll(importedFigures);
                                 drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
 
+                                    @Override
                                     public String getPresentationName() {
                                         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
                                         return labels.getString("edit.paste.text");
                                     }
 
+                                    @Override
                                     public void undo() throws CannotUndoException {
                                         super.undo();
                                         drawing.removeAll(importedFigures);
                                     }
 
+                                    @Override
                                     public void redo() throws CannotRedoException {
                                         super.redo();
                                         drawing.addAll(importedFigures);
@@ -238,7 +242,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
     @Override
     protected Transferable createTransferable(JComponent c) {
         if (DEBUG) {
-            System.out.println(this + ".createTransferable");
+            System.out.println(this + ".createTransferable(" + c + ")");
         }
         Transferable retValue;
         if (c instanceof DrawingView) {
@@ -253,10 +257,11 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
 
     protected Transferable createTransferable(DrawingView view, java.util.Set<Figure> transferFigures) {
         if (DEBUG) {
-            System.out.println(this + ".createTransferable");
+            System.out.println(this + ".createTransferable(" + view + "," + transferFigures + ")");
         }
         Transferable retValue;
         Drawing drawing = view.getDrawing();
+        exportedFigures = null;
 
         if (drawing.getOutputFormats() == null ||
                 drawing.getOutputFormats().size() == 0) {
@@ -275,6 +280,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                             transfer.add(t);
                         }
                     }
+                    exportedFigures = new HashSet<Figure>(transferFigures);
                     retValue = transfer;
                 } catch (IOException e) {
                     if (DEBUG) {
@@ -300,10 +306,9 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
             final Drawing drawing = view.getDrawing();
             if (action == MOVE) {
                 final LinkedList<CompositeFigureEvent> deletionEvents = new LinkedList<CompositeFigureEvent>();
-                // final LinkedList<Figure> selectedFigures = new LinkedList<Figure>(view.getSelectedFigures());
                 final LinkedList<Figure> selectedFigures = (exportedFigures == null) ? //
-                    new LinkedList<Figure>() : //
-                    new LinkedList<Figure>(exportedFigures);
+                        new LinkedList<Figure>() : //
+                        new LinkedList<Figure>(exportedFigures);
 
                 // Abort, if not all of the selected figures may be removed from the
                 // drawing
@@ -314,7 +319,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                     }
                 }
 
-               // view.clearSelection();
+                // view.clearSelection();
                 CompositeFigureListener removeListener = new CompositeFigureListener() {
 
                     public void areaInvalidated(CompositeFigureEvent e) {
@@ -373,7 +378,6 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
             DrawingView view = (DrawingView) comp;
 
             HashSet<Figure> transferFigures = new HashSet<Figure>();
-            exportedFigures = transferFigures;
             MouseEvent me = (MouseEvent) e;
             Figure f = view.findFigure(me.getPoint());
             if (view.getSelectedFigures().contains(f)) {

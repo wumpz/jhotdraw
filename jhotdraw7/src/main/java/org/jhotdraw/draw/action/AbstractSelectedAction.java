@@ -114,6 +114,7 @@ public abstract class AbstractSelectedAction
         }
     }
 
+    @Override
     public void dispose() {
         setEditor(null);
     }
@@ -123,7 +124,7 @@ public abstract class AbstractSelectedAction
             unregisterEventHandler();
         }
         this.editor = editor;
-        if (eventHandler != null) {
+        if (editor != null && eventHandler != null) {
             registerEventHandler();
             updateEnabledState();
         }

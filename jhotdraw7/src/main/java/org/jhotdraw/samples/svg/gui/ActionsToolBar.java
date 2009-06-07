@@ -149,6 +149,8 @@ public class ActionsToolBar extends AbstractToolBar {
                 pb.add(new CutAction());
                 pb.add(new CopyAction());
                 pb.add(new PasteAction());
+                pb.add(new DeleteAction());
+                pb.addSeparator();
                 pb.add(new SelectAllAction());
                 pb.add(d=new SelectSameAction(editor));
                 disposables.add(d);

@@ -72,16 +72,16 @@ public class FontChooserHandler extends AbstractSelectedAction
             @Override
             public String getPresentationName() {
                 return AttributeKeys.FONT_FACE.getPresentationName();
-                /*
-                String name = (String) getValue(Actions.UNDO_PRESENTATION_NAME_KEY);
-                if (name == null) {
-                    name = (String) getValue(AbstractAction.NAME);
-                }
-                if (name == null) {
-                    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-                    name = labels.getString("attribute.text");
-                }
-                return name;*/
+            /*
+            String name = (String) getValue(Actions.UNDO_PRESENTATION_NAME_KEY);
+            if (name == null) {
+            name = (String) getValue(AbstractAction.NAME);
+            }
+            if (name == null) {
+            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+            name = labels.getString("attribute.text");
+            }
+            return name;*/
             }
 
             @Override
