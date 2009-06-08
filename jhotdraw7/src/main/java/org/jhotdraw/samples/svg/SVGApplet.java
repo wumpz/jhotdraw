@@ -60,8 +60,8 @@ public class SVGApplet extends JApplet {
     public SVGApplet() {
         setBackground(Color.WHITE);
         start = System.currentTimeMillis();
-        setName("JHotDraw SVG Applet");
-        ((JComponent) getContentPane()).setBorder(new MatteBorder(new Insets(1,1,1,1), new Color(0xa5a5a5)));
+        setName("JHotDraw SVG Applet "+getClass().getPackage().getImplementationVersion());
+        ((JComponent) getContentPane()).setBorder(new MatteBorder(new Insets(1, 1, 1, 1), new Color(0xa5a5a5)));
     //ResourceBundleUtil.setVerbose(true);
     }
 
@@ -171,6 +171,7 @@ public class SVGApplet extends JApplet {
                             }
                         }
                     });
+                    mp.revalidate();
                 } else {
                     c.add(drawingComponent.getComponent());
                     initComponents();
@@ -183,8 +184,8 @@ public class SVGApplet extends JApplet {
                             ((Throwable) result).printStackTrace();
                         }
                     }
+                    drawingComponent.revalidate();
                 }
-                c.validate();
                 long end = System.currentTimeMillis();
                 System.out.println("AbstractDrawingApplet startup latency:" + (end - start));
             }

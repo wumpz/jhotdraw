@@ -26,6 +26,7 @@ import org.jhotdraw.beans.Disposable;
 import org.jhotdraw.gui.ToolBarLayout;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.gui.plaf.palette.PaletteLookAndFeel;
+import org.jhotdraw.util.prefs.PreferencesUtil;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
 /**
@@ -66,7 +67,7 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
 
         try {
-            prefs = Preferences.userNodeForPackage(getClass());
+            prefs = PreferencesUtil.userNodeForPackage(getClass());
         } catch (SecurityException e) {
             // prefs is null, because we are not permitted to read preferences
         }

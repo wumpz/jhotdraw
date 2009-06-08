@@ -956,6 +956,7 @@ public class SVGOutputFormat implements OutputFormat {
         //Media:	 visual
         //Animatable:	 yes
         //Computed value:  	 "none" or specified <color> value, except inherit
+System.out.println(this+"viewport-fill:"+VIEWPORT_FILL.get(a)+" garbl:"+toColor(VIEWPORT_FILL.get(a)))      ;
         writeAttribute(elem, "viewport-fill", toColor(VIEWPORT_FILL.get(a)), "none");
 
         //'viewport-fill-opacity'
@@ -1315,6 +1316,9 @@ public class SVGOutputFormat implements OutputFormat {
         document.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink");
         document.setAttribute("version", "1.2");
         document.setAttribute("baseProfile", "tiny");
+System.out.println(this+"d1:"+drawing.getAttribute(VIEWPORT_FILL));
+System.out.println(this+"d2:"+drawing.getAttributes().get(VIEWPORT_FILL));
+System.out.println(this+"d3:"+VIEWPORT_FILL.get(drawing.getAttributes()));
         writeViewportAttributes(document, drawing.getAttributes());
 
         initStorageContext(document);

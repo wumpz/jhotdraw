@@ -91,7 +91,7 @@ public class DefaultMDIApplication extends AbstractApplication {
     public void init() {
         initLookAndFeel();
         super.init();
-        prefs = Preferences.userNodeForPackage((getModel() == null) ? getClass() : getModel().getClass());
+        prefs = PreferencesUtil.userNodeForPackage((getModel() == null) ? getClass() : getModel().getClass());
         initLabels();
 
         parentFrame = new JFrame(getName());

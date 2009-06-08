@@ -70,7 +70,7 @@ public class EditCanvasAction extends AbstractDrawingViewAction {
             settingsPanel = new EditCanvasPanel();
             frame.add(settingsPanel);
             frame.pack();
-            Preferences prefs = Preferences.userNodeForPackage(getClass());
+            Preferences prefs = PreferencesUtil.userNodeForPackage(getClass());
             PreferencesUtil.installFramePrefsHandler(prefs, "canvasSettings", frame);
             getApplication().addWindow(frame, null);
         }

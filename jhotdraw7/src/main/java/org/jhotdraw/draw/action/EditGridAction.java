@@ -69,7 +69,7 @@ public class EditGridAction extends AbstractDrawingViewAction {
             settingsPanel = new EditGridPanel();
             dialog.add(settingsPanel);
             dialog.pack();
-            Preferences prefs = Preferences.userNodeForPackage(getClass());
+            Preferences prefs = PreferencesUtil.userNodeForPackage(getClass());
             PreferencesUtil.installFramePrefsHandler(prefs, "editGrid", dialog);
             getApplication().addWindow(dialog, null);
         }

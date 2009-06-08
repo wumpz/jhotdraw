@@ -19,6 +19,7 @@ import javax.swing.*;
 import java.util.concurrent.*;
 import java.util.prefs.*;
 import org.jhotdraw.beans.Disposable;
+import org.jhotdraw.util.prefs.PreferencesUtil;
 
 /**
  * This abstract class can be extended to implement a {@link View}.
@@ -83,7 +84,7 @@ public abstract class AbstractView extends JPanel implements View {
      * Creates a new instance.
      */
     public AbstractView() {
-        preferences = Preferences.userNodeForPackage(getClass());
+        preferences = PreferencesUtil.userNodeForPackage(getClass());
     }
 
     /** Initializes the view.

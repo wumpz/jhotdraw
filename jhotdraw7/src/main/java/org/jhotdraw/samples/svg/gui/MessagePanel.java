@@ -40,7 +40,7 @@ public class MessagePanel extends javax.swing.JPanel {
     }
     
     public MessagePanel(Icon icon, String message) {
-        labels = ResourceBundleUtil.getBundle("org.anywikidraw.any.Labels");
+        labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         initComponents();
         setIcon(icon);
         setMessage(message);

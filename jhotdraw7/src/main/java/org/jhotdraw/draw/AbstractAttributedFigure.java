@@ -93,7 +93,7 @@ public abstract class AbstractAttributedFigure extends AbstractFigure {
      * Gets an attribute from the figure.
      */
     public <T> T getAttribute(AttributeKey<T> key) {
-        return hasAttribute(key) ? key.get(attributes) : key.getDefaultValue();
+        return key.get(attributes);
     }
     
     

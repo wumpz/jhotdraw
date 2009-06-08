@@ -21,6 +21,7 @@ import javax.swing.*;
 import org.jhotdraw.beans.Disposable;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.util.prefs.PreferencesUtil;
 
 /**
  * AbstractToolBar.
@@ -40,7 +41,7 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements 
     public AbstractToolBar() {
         initComponents();
         try {
-            prefs = Preferences.userNodeForPackage(getClass());
+            prefs = PreferencesUtil.userNodeForPackage(getClass());
         } catch (SecurityException e) {
             // prefs is null, because we are not permitted to read preferences
         }

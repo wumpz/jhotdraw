@@ -117,7 +117,7 @@ public class DefaultOSXApplication extends AbstractApplication {
         ResourceBundleUtil.putPropertyNameModifier("os", "mac", "default");
         super.init();
 
-        prefs = Preferences.userNodeForPackage((getModel() == null) ? getClass() : getModel().getClass());
+        prefs = PreferencesUtil.userNodeForPackage((getModel() == null) ? getClass() : getModel().getClass());
         initLookAndFeel();
         paletteHandler = new OSXPaletteHandler(this);
 

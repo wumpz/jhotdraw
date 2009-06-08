@@ -26,6 +26,7 @@ import org.jhotdraw.draw.action.*;
 import org.jhotdraw.gui.JLifeFormattedTextField;
 import org.jhotdraw.gui.plaf.palette.*;
 import org.jhotdraw.text.JavaNumberFormatter;
+import org.jhotdraw.util.prefs.PreferencesUtil;
 
 /**
  * ViewToolBar.
@@ -49,7 +50,7 @@ public class ViewToolBar extends AbstractToolBar {
 
     public void setView(DrawingView view) {
         this.view = view;
-        prefs = Preferences.userNodeForPackage(getClass());
+        prefs = PreferencesUtil.userNodeForPackage(getClass());
         GridConstrainer constrainer = (GridConstrainer) view.getVisibleConstrainer();
         constrainer.setHeight(prefs.getDouble("view.gridSize", 8d));
         constrainer.setWidth(prefs.getDouble("view.gridSize", 8d));
@@ -134,7 +135,7 @@ public class ViewToolBar extends AbstractToolBar {
                                 if (evt.getNewValue() != null) {
                                     constrainer.setWidth((Double) evt.getNewValue());
                                     constrainer.setHeight((Double) evt.getNewValue());
-                                    prefs = Preferences.userNodeForPackage(getClass());
+                                    prefs = PreferencesUtil.userNodeForPackage(getClass());
                                     prefs.putDouble("view.gridSize", (Double) evt.getNewValue());
                                     view.getComponent().repaint();
                                 }

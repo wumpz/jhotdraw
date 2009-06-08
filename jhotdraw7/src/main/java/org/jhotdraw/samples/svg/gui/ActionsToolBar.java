@@ -25,6 +25,7 @@ import org.jhotdraw.app.action.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.samples.svg.figures.*;
+import org.jhotdraw.util.prefs.PreferencesUtil;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
 /**
@@ -79,7 +80,7 @@ public class ActionsToolBar extends AbstractToolBar {
                 p.setOpaque(false);
                 p.setBorder(new EmptyBorder(5, 5, 5, 8));
 
-                Preferences prefs = Preferences.userNodeForPackage(getClass());
+                Preferences prefs = PreferencesUtil.userNodeForPackage(getClass());
 
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
 

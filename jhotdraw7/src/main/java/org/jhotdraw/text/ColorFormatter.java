@@ -21,6 +21,7 @@ import java.util.regex.Pattern;
 import javax.swing.JFormattedTextField.AbstractFormatterFactory;
 import javax.swing.text.DefaultFormatter;
 import javax.swing.text.DefaultFormatterFactory;
+import org.jhotdraw.util.prefs.PreferencesUtil;
 
 /**
  * {@code ColorFormatter} is used to format colors into a textual representation
@@ -105,7 +106,7 @@ public class ColorFormatter extends DefaultFormatter {
         this.isAdaptive = isAdaptive;
 
         // Retrieve last used input format from preferences
-        prefs = Preferences.userNodeForPackage(getClass());
+        prefs = PreferencesUtil.userNodeForPackage(getClass());
         try {
             lastUsedInputFormat = Format.valueOf(prefs.get("ColorFormatter.lastUsedInputFormat", Format.RGB_HEX.name()));
         } catch (IllegalArgumentException e) {

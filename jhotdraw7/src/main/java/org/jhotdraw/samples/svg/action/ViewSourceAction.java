@@ -76,7 +76,7 @@ public class ViewSourceAction extends AbstractViewAction {
                  ta.setText(source);
             }
 
-            Preferences prefs = Preferences.userNodeForPackage(getClass());
+            Preferences prefs = PreferencesUtil.userNodeForPackage(getClass());
             PreferencesUtil.installFramePrefsHandler(prefs, "viewSource", dialog);
 
             dialog.addWindowListener(new WindowAdapter() {

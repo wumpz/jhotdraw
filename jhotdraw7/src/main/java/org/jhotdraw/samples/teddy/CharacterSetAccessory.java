@@ -19,6 +19,7 @@ import java.nio.charset.*;
 import javax.swing.*;
 import java.util.*;
 import java.util.prefs.*;
+import org.jhotdraw.util.prefs.PreferencesUtil;
 /**
  * CharacterSetAccessory.
  *
@@ -26,7 +27,7 @@ import java.util.prefs.*;
  * @version $Id$
  */
 public class CharacterSetAccessory extends javax.swing.JPanel {
-    private final static Preferences prefs = Preferences.userNodeForPackage(TeddyView.class);
+    private final static Preferences prefs = PreferencesUtil.userNodeForPackage(TeddyView.class);
     private static Object[] availableCharSets;
     
     /** Creates a new instance. */

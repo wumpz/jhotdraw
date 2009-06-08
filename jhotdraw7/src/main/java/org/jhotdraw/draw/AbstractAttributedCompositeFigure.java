@@ -94,7 +94,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
      */
     @Override
     public <T> T getAttribute(AttributeKey<T> key) {
-        return hasAttribute(key) ? key.get(attributes) : key.getDefaultValue();
+        return key.get(attributes);
     }
 
     @Override

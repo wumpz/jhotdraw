@@ -148,8 +148,7 @@ public class AttributeKey<T> implements Serializable {
      * @return The value of the attribute.
      */
     public T get(Figure f) {
-        T value = (T) f.getAttribute(this);
-        return (value == null && !isNullValueAllowed) ? defaultValue : value;
+        return f.getAttribute(this);
     }
 
     /**
@@ -161,8 +160,7 @@ public class AttributeKey<T> implements Serializable {
      */
     @SuppressWarnings("unchecked")
     public T get(Map<AttributeKey, Object> a) {
-        T value = (T) a.get(this);
-        return (value == null && !isNullValueAllowed) ? defaultValue : value;
+        return a.containsKey(this) ? (T) a.get(this) : defaultValue;
     }
 
     /**

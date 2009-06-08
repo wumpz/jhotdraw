@@ -21,6 +21,7 @@ import java.util.*;
 import java.util.prefs.*;
 import javax.swing.*;
 import java.io.*;
+import org.jhotdraw.util.prefs.PreferencesUtil;
 
 /**
  * This abstract class can be extended to implement an {@link Application}.
@@ -46,7 +47,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     }
 
     public void init() {
-        prefs = Preferences.userNodeForPackage((getModel() == null) ? getClass() : getModel().getClass());
+        prefs = PreferencesUtil.userNodeForPackage((getModel() == null) ? getClass() : getModel().getClass());
 
         int count = prefs.getInt("recentFileCount", 0);
         for (int i = 0; i < count; i++) {

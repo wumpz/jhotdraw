@@ -31,6 +31,7 @@ import javax.swing.undo.*;
 import java.io.*;
 import org.jhotdraw.app.action.RedoAction;
 import org.jhotdraw.app.action.UndoAction;
+import org.jhotdraw.util.prefs.PreferencesUtil;
 
 /**
  * TeddyView.
@@ -39,7 +40,7 @@ import org.jhotdraw.app.action.UndoAction;
  * @version $Id$
 */
 public class TeddyView extends AbstractView {
-    private static Preferences prefs = Preferences.userNodeForPackage(TeddyView.class);
+    private static Preferences prefs = PreferencesUtil.userNodeForPackage(TeddyView.class);
     
     protected JTextPane editor;
     
@@ -106,7 +107,7 @@ public class TeddyView extends AbstractView {
     
     /** Creates a new instance. */
     public TeddyView() {
-        prefs = Preferences.userNodeForPackage(TeddyView.class);
+        prefs = PreferencesUtil.userNodeForPackage(TeddyView.class);
     }
     
     protected JTextPane createEditor() {
