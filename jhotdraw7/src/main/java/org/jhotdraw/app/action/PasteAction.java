@@ -11,13 +11,13 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.app.action;
 
 import java.awt.*;
 import java.awt.datatransfer.*;
 import java.awt.event.*;
 import javax.swing.*;
+import org.jhotdraw.gui.datatransfer.ClipboardUtil;
 import org.jhotdraw.util.*;
 
 /**
@@ -29,26 +29,25 @@ import org.jhotdraw.util.*;
  * @version $Id$
  */
 public class PasteAction extends AbstractAction {
+
     public final static String ID = "edit.paste";
-    
+
     /** Creates a new instance. */
     public PasteAction() {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
-    
+
     public void actionPerformed(ActionEvent evt) {
-        Component focusOwner = KeyboardFocusManager.
-                getCurrentKeyboardFocusManager().
+        Component focusOwner = KeyboardFocusManager.getCurrentKeyboardFocusManager().
                 getPermanentFocusOwner();
         if (focusOwner != null && focusOwner instanceof JComponent) {
             JComponent component = (JComponent) focusOwner;
-            Transferable t = component.getToolkit().getSystemClipboard().getContents(component);
+            Transferable t = ClipboardUtil.getClipboard().getContents(component);
             if (t != null && component.getTransferHandler() != null) {
                 component.getTransferHandler().importData(
                         component,
-                        t
-                        );
+                        t);
             }
         }
     }

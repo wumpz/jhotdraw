@@ -17,6 +17,7 @@ package org.jhotdraw.app.action;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import org.jhotdraw.gui.datatransfer.ClipboardUtil;
 import org.jhotdraw.util.*;
 
 /**
@@ -44,7 +45,7 @@ public class CutAction extends AbstractAction {
             JComponent component = (JComponent) focusOwner;
             component.getTransferHandler().exportToClipboard(
                     component,
-                    component.getToolkit().getSystemClipboard(),
+                    ClipboardUtil.getClipboard(),
                     TransferHandler.MOVE
                     );
         }

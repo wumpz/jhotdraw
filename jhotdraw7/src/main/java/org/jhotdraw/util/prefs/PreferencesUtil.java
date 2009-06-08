@@ -24,9 +24,9 @@ import java.io.OutputStream;
 import java.util.HashMap;
 
 /**
- * PreferencesUtil provides util methdos for java.util.pref.Preferences.
- * It can be used as a proxy for java.util.Preferences in case it can't be used
- * due to security restrictions.
+ * {@code PreferencesUtil} provides utility methods for {@code
+ * java.util.prefs.Preferences}, and can be used as a proxy when the system
+ * preferences are not available due to security restrictions.
  *
  * @author Werner Randelshofer
  * @version $Id$
@@ -213,31 +213,50 @@ public class PreferencesUtil
         //
     }
 
+    /** Gets the system node for the package of the class if
+     * permitted, gets a proxy otherwise.
+     *
+     * @return system node or a proxy.
+     */
     public static Preferences systemNodeForPackage(Class<?> c) {
+        if (systemNodes != null) {
+            if (!systemNodes.containsKey(c.getPackage())) {
+                systemNodes.put(c.getPackage(), new PreferencesUtil(false));
+            }
+            return systemNodes.get(c.getPackage());
+        }
+
+
         try {
             return Preferences.systemNodeForPackage(c);
         } catch (Throwable t) {
             if (systemNodes == null) {
                 systemNodes = new HashMap<Package, Preferences>();
             }
-            if (!systemNodes.containsKey(c.getPackage())) {
-                systemNodes.put(c.getPackage(), new PreferencesUtil(false));
-            }
-            return systemNodes.get(c.getPackage());
+            return systemNodeForPackage(c);
         }
     }
 
+    /** Gets the user node for the package of the class if
+     * permitted, gets a proxy otherwise.
+     *
+     * @return user node or a proxy.
+     */
     public static Preferences userNodeForPackage(Class<?> c) {
+        if (userNodes!=null) {
+            if (!userNodes.containsKey(c.getPackage())) {
+                userNodes.put(c.getPackage(), new PreferencesUtil(false));
+            }
+            return userNodes.get(c.getPackage());
+        }
+
         try {
             return Preferences.userNodeForPackage(c);
         } catch (Throwable t) {
             if (userNodes == null) {
                 userNodes = new HashMap<Package, Preferences>();
             }
-            if (!userNodes.containsKey(c.getPackage())) {
-                userNodes.put(c.getPackage(), new PreferencesUtil(false));
-            }
-            return userNodes.get(c.getPackage());
+            return userNodeForPackage(c);
         }
     }
 
