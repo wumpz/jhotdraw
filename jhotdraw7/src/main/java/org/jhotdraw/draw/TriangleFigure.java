@@ -17,20 +17,22 @@ package org.jhotdraw.draw;
 
 import java.awt.*;
 import java.awt.geom.*;
-import java.io.*;
 import java.util.*;
-import javax.swing.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.geom.*;
+
 /**
- * A triangle with same dimensions as its enclosing rectangle,
- * and apex at any of 8 places
- *
+ * Implements a {@link Figure} with a triangular shape.
+ * <p>
+ * The tip of the triangle points in the direction specified by the attribute
+ * {@link org.jhotdraw.draw.AttributeKeys#ORIENTATION}.
+ * <p>
+ * This figure creates a {@link OrientationHandle} which allows
+ * to interactively change the orientation of the triangle.
  *
  * @author Werner Randelshofer
  * @version $Id$
  */
-
 public class TriangleFigure extends AbstractAttributedFigure {
     
     /**
@@ -122,7 +124,7 @@ public class TriangleFigure extends AbstractAttributedFigure {
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = (LinkedList<Handle>) super.createHandles(detailLevel);
         if (detailLevel == 0) {
-            handles.add(new TriangleRotationHandler(this));
+            handles.add(new OrientationHandle(this));
         }
         return handles;
     }

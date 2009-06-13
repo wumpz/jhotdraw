@@ -17,7 +17,7 @@ package org.jhotdraw.draw;
 import java.awt.geom.*;
 
 /**
- * GeneralPathLineDecoration.
+ * A {@link LineDecoration} which draws a general path.
  *
  * @author  Werner Randelshofer
  * @version $Id$

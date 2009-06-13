@@ -20,7 +20,7 @@ import java.awt.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
- * EllipseFigure.
+ * A {@link Figure} with an elliptic shape.
  *
  * @author Werner Randelshofer
  * @version $Id$

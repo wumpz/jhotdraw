@@ -26,7 +26,9 @@ import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 
 /**
- * A TextAreaFigure contains formatted text.<br>
+ * A {@code TextHolderFigure} which holds multiple lines of text in a
+ * rectangular area.
+ * <p>
  * It automatically rearranges the text to fit its allocated display area,
  * breaking the lines at word boundaries whenever possible.<br>
  * The text can contain either LF or CRLF sequences to separate paragraphs,

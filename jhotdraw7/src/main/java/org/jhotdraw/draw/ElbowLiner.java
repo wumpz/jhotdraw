@@ -23,7 +23,7 @@ import org.jhotdraw.xml.DOMOutput;
 import org.jhotdraw.xml.DOMStorable;
 
 /**
- * A Liner that constrains a connection to orthogonal lines.
+ * A {@link Liner} that constrains a connection to orthogonal lines.
  *
  * @author Werner Randelshofer
  * @version $Id$

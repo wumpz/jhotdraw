@@ -20,7 +20,7 @@ import org.jhotdraw.xml.DOMOutput;
 import org.jhotdraw.xml.DOMStorable;
 
 /**
- * A perpendicular line decoration.
+ * A {@link LineDecoration} which draws a perpendicular bar.
  *
  * @author Huw Jones
  */

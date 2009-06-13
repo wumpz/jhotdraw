@@ -22,8 +22,26 @@ import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 
 /**
- * A Rectangle2D.Double with round corners.
- * 
+ * A {@link Figure} with a rounded rectangular shape.
+ * <p>
+ * This figure has two JavaBeans properties {@code arcWidth} and
+ * {@code arcHeight} which specify the corner radius.
+ * <p>
+ * This figure creates a {@link RoundRectangleRadiusHandle} which allows
+ * to interactively change the corner radius.
+ *
+ * <p>
+ * FIXME - Use a single JavaBeans property or a single attribute instead of
+ * two JavaBeans properties for specifying the corner radius.
+ *
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Framework</em><br>
+ * The following classes work together:<br>
+ * Contract: {@link RoundRectangleFigure}, {@link RoundRectangleRadiusHandle},
+ * {@link RoundRectangleRadiusUndoableEdit}.
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */

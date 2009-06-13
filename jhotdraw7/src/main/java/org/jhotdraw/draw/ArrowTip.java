@@ -20,7 +20,7 @@ import org.jhotdraw.xml.DOMOutput;
 import org.jhotdraw.xml.DOMStorable;
 
 /**
- * An arrow tip line decoration.
+ * A {@link LineDecoration} which draws an arrow tip.
  *
  * @author Werner Randelshofer
  * @version $Id$

@@ -19,7 +19,7 @@ import javax.swing.undo.*;
 import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
- * RoundRectangleRadiusUndoableEdit.
+ * An {@code UndoableEdit} event which is fired by {@link RoundRectangleRadiusHandle}.
  *
  * @author Werner Randelshofer
  * @version $Id$

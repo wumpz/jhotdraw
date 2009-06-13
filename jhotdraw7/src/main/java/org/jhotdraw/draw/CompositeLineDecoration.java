@@ -26,6 +26,9 @@ import org.jhotdraw.xml.DOMOutput;
 import org.jhotdraw.xml.DOMStorable;
 
 /**
+ * A {@link LineDecoration} which can compose multiple individual line
+ * decorations.
+ * <p>
  * An composite implementation of a line decoration. It allows more than
  * one line decoration shape to be rotated and moved to the end of the line.
  * The shape is scaled by the stroke width.

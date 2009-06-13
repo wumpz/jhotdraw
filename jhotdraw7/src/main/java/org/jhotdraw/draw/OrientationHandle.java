@@ -1,5 +1,5 @@
 /*
- * @(#)TriangleRotationHandler.java
+ * @(#)OrientationHandle.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -21,20 +21,20 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.geom.*;
 
 /**
- * A Handle to rotate a TriangleFigure
- * Based on RadiusHandle
+ * A {@link Handle} to change the value of the figure attribute
+ * {@link org.jhotdraw.draw.AttributeKeys#ORIENTATION}.
  *
  * @author Werner Randelshofer.
  *         Original code by Doug Lea  (dl at gee, Sun Mar 2 19:15:28 1997)
  * @version $Id$
  */
-public class TriangleRotationHandler extends AbstractHandle {
+public class OrientationHandle extends AbstractHandle {
     private Rectangle centerBox;
     private AttributeKeys.Orientation oldValue;
     private AttributeKeys.Orientation newValue;
     
     /** Creates a new instance. */
-    public TriangleRotationHandler(TriangleFigure owner) {
+    public OrientationHandle(TriangleFigure owner) {
         super(owner);
     }
     

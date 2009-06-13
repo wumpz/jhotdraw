@@ -76,6 +76,10 @@
         <copy tofile="${distdir}/signed/jhotdraw_svg.jar">
             <fileset file="${distdir}/unsigned/jhotdraw_svg.jar"/>
         </copy>
+        <exec executable="pack200">
+            <arg value="-r"/>
+            <arg value="${distdir}/signed/jhotdraw_svg.jar"/>
+        </exec>
           <signjar alias="${keystore.alias}" 
                 storepass="${keystore.storepass}"
                 keystore="${keystore.file}" 
@@ -156,6 +160,10 @@
                 <attribute name="Implementation-Version" value="${version}"/>
             </manifest>
         </jar>
+        <exec executable="pack200">
+            <arg value="-r"/>
+            <arg value="${distdir}/signed/JHotdraw SVG.jar"/>
+        </exec>
           <signjar alias="${keystore.alias}" 
                 storepass="${keystore.storepass}"
                 keystore="${keystore.file}" 

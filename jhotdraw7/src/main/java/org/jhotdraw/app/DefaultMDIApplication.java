@@ -450,7 +450,6 @@ public class DefaultMDIApplication extends AbstractApplication {
             updateOpenRecentMenu();
         }
 
-        @Override
         public void propertyChange(PropertyChangeEvent evt) {
 
             String name = evt.getPropertyName();

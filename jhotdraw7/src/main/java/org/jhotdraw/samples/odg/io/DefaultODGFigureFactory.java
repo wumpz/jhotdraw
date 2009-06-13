@@ -1,7 +1,7 @@
 /*
- * @(#)ODGFigureFactory.java
+ * @(#)DefaultODGFigureFactory.java
  *
- * Copyright (c) 2007 by the original authors of JHotDraw
+ * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -15,12 +15,15 @@
 package org.jhotdraw.samples.odg.io;
 
 /**
- * ODGFigureFactory.
+ * Default implementation of {@link ODGFigureFactory}.
  *
  * @author Werner Randelshofer
  * @version $Id$
  */
-public interface ODGFigureFactory {
+public class DefaultODGFigureFactory implements ODGFigureFactory {
     
+    /** Creates a new instance. */
+    public DefaultODGFigureFactory() {
+    }
     
 }

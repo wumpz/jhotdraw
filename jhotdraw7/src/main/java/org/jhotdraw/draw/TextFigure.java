@@ -25,7 +25,7 @@ import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 
 /**
- * A text figure.
+ * A {@code TextHolderFigure} which holds a single line of text.
  * <p>
  * A DrawingEditor should provide the TextCreationTool to create a TextFigure.
  *

@@ -27,7 +27,7 @@ import org.jhotdraw.xml.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
- * A Figure that shows an Image.
+ * An {@link ImageHolderFigure} which holds a buffered image.
  * <p>
  * A DrawingEditor should provide the ImageTool to create an ImageFigure.
  *

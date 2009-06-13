@@ -20,7 +20,9 @@ import java.awt.geom.*;
 import org.jhotdraw.geom.Geom;
 
 /**
- * A diamond with vertices at the midpoints of its enclosing rectangle.
+ * A {@link Figure} with a diamond shape.
+ * <p>
+ * The diamond vertices are located at the midpoints of its enclosing rectangle.
  *
  *
  * @author Werner Randelshofer

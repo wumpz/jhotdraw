@@ -23,17 +23,20 @@ import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 
 /**
- * A LineConnection is a standard implementation of the
- * ConnectionFigure interface. The interface is implemented with BezierFigure.
- *
- *
- *
+ * A {@link ConnectionFigure} which connects two figures using a bezier path.
+ * <p>
+ * The bezier path can be laid out manually using bezier handles provided
+ * by this figure, or automatically using a {@link Liner} which can be
+ * set using the JavaBeans property {@code liner}.
+ * 
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class LineConnectionFigure extends LineFigure
         implements ConnectionFigure {
 
+    /** The name of the JaveBeans property {@code liner}. */
+    public final static String LINER_PROPERTY = "liner";
     private Connector startConnector;
     private Connector endConnector;
     private Liner liner;
@@ -483,7 +486,9 @@ public class LineConnectionFigure extends LineFigure
     }
 
     public void setLiner(Liner newValue) {
+        Liner oldValue = liner;
         this.liner = newValue;
+        firePropertyChange(LINER_PROPERTY, oldValue, newValue);
     }
 
     @Override

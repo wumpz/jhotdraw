@@ -20,7 +20,7 @@ import java.awt.geom.*;
 import org.jhotdraw.geom.Geom;
 
 /**
- * RectangleFigure.
+ * A {@link Figure} with a rectangular shape.
  *
  * @author Werner Randelshofer
  * @version $Id$

@@ -21,7 +21,8 @@ import java.awt.event.KeyEvent;
 import java.awt.geom.*;
 
 /**
- * A Handle to manipulate the radius of a round lead rectangle.
+ * A {@link Handle} to manipulate the corner radius of a
+ * {@link RoundRectangleFigure}.
  *
  * @author  Werner Randelshofer
  * @version $Id$

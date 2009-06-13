@@ -101,6 +101,10 @@
         <copy tofile="${distdir}/signed/jhotdraw_pert.jar">
             <fileset file="${distdir}/unsigned/jhotdraw_pert.jar"/>
         </copy>
+        <exec executable="pack200">
+            <arg value="-r"/>
+            <arg value="${distdir}/signed/jhotdraw_pert.jar"/>
+        </exec>
           <signjar alias="${keystore.alias}" 
                 storepass="${keystore.storepass}"
                 keystore="${keystore.file}" 
@@ -192,6 +196,10 @@
                 <attribute name="Implementation-Version" value="${version}"/>
             </manifest>
         </jar>
+        <exec executable="pack200">
+            <arg value="-r"/>
+            <arg value="${distdir}/signed/JHotDraw PERT.jar"/>
+        </exec>
           <signjar alias="${keystore.alias}" 
                 storepass="${keystore.storepass}"
                 keystore="${keystore.file}" 
