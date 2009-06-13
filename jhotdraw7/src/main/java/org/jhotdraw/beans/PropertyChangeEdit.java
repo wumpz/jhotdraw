@@ -43,14 +43,16 @@ public class PropertyChangeEdit extends AbstractUndoableEdit {
     private Object newValue;
     /** The type of the property. */
     private Class type;
+    private String presentationName;
 
     /** Creates a new PropertyChangeEdit. */
     public <T> PropertyChangeEdit(Object source, String propertyName, Class<T> type, T oldValue, T newValue) {
         this.source = source;
-        this.propertyName = propertyName;
+        this.propertyName = this.presentationName = propertyName;
         this.type = type;
         this.oldValue = oldValue;
         this.newValue = newValue;
+
     }
 
     /** Creates a new PropertyChangeEdit. */
@@ -127,5 +129,20 @@ public class PropertyChangeEdit extends AbstractUndoableEdit {
             ie.initCause(e);
             throw ie;
         }
+    }
+
+    /** Returns the presentation name of the undoable edit.
+     * This is the same as the property name, unless you have set a different
+     * presentation name.
+     */
+    @Override
+    public String getPresentationName() {
+        return presentationName;
+    }
+
+    /** Sets the presentation name of the undoable edit.
+     */
+    public void setPresentationName(String presentationName) {
+        this.presentationName = presentationName;
     }
 }
