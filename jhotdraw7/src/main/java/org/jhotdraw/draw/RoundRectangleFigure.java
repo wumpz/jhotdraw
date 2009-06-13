@@ -94,7 +94,7 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
 
         return r;
     }
-    // ATTRIBUTES
+
     /** Gets the arc width. */
     public double getArcWidth() {
         return roundrect.arcwidth;

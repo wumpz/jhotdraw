@@ -99,7 +99,7 @@ public class FontSizeHandle extends LocatorHandle {
             @Override
             public String getPresentationName() {
                 ResourceBundleUtil labels =
-                        ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
+                        ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
                 return labels.getString("attribute.fontSize.text");
             }
 
@@ -157,7 +157,7 @@ public class FontSizeHandle extends LocatorHandle {
                 @Override
                 public String getPresentationName() {
                     ResourceBundleUtil labels =
-                            ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
+                            ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
                     return labels.getString("attribute.fontSize");
                 }
 

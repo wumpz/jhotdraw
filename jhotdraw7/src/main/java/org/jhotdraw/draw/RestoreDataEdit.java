@@ -39,7 +39,7 @@ public class RestoreDataEdit extends AbstractUndoableEdit {
     }
     @Override
     public String getPresentationName() {
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         return labels.getString("edit.transform.text");
     }
     

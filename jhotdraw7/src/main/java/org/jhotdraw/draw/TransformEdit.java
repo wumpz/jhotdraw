@@ -52,7 +52,7 @@ public class TransformEdit extends AbstractUndoableEdit {
         this.tx = (AffineTransform) tx.clone();
     }
     public String getPresentationName() {
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         return labels.getString("edit.transform.text");
     }
     

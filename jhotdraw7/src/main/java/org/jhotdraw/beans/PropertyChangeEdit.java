@@ -16,6 +16,7 @@ package org.jhotdraw.beans;
 import java.lang.reflect.Method;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
+import javax.swing.undo.UndoableEdit;
 
 /**
  * A {@code UndoableEdit} event which can undo a change of a JavaBeans property.
@@ -144,5 +145,29 @@ public class PropertyChangeEdit extends AbstractUndoableEdit {
      */
     public void setPresentationName(String presentationName) {
         this.presentationName = presentationName;
+    }
+
+    /** Adds the specified edit to this one, if it is a {@code PropertyChangeEdit}
+     * from the same owner and the same property.
+     *
+     * @param anEdit Edit to be added.
+     * @return True if added.
+     */
+    @Override
+    public boolean addEdit(UndoableEdit anEdit) {
+        if (anEdit instanceof PropertyChangeEdit) {
+            PropertyChangeEdit that = (PropertyChangeEdit) anEdit;
+            if (that.source == this.source && that.propertyName.equals(this.propertyName)) {
+                this.newValue = that.newValue;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /** Returns a string representation of this object useful for debugging. */
+    public String toString() {
+        return super.toString() + " [" + propertyName + "," + oldValue + "," + newValue + "]";
     }
 }

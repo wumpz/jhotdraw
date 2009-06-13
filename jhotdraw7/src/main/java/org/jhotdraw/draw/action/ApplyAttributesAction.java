@@ -27,7 +27,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  */
 public class ApplyAttributesAction extends AbstractSelectedAction {
 
-    private ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
+    private ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
     private Set<AttributeKey> excludedAttributes = new HashSet<AttributeKey>(
             Arrays.asList(new AttributeKey[]{TRANSFORM, TEXT}));
 

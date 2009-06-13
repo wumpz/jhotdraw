@@ -43,6 +43,20 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
     private Preferences prefs;
     private ContainerListener containerHandler;
 
+    public UndoRedoManager getUndoRedoManager() {
+        return undoManager;
+    }
+
+    public void setUndoRedoManager(UndoRedoManager undo) {
+        if (undoManager != null && getView().getDrawing() != null) {
+            getView().getDrawing().removeUndoableEditListener(undoManager);
+        }
+        undoManager = undo;
+        if (undoManager != null && getView().getDrawing() != null) {
+            getView().getDrawing().addUndoableEditListener(undoManager);
+        }
+    }
+
     private class ItemChangeHandler implements ItemListener {
 
         private JToolBar toolbar;

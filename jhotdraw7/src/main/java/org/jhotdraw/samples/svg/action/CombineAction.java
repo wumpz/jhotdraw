@@ -50,9 +50,7 @@ public class CombineAction extends AbstractSelectedAction {
         this.prototype = prototype;
         this.isCombineAction = isGroupingAction;
 
-        labels = ResourceBundleUtil.getBundle(
-                "org.jhotdraw.samples.svg.Labels",
-                Locale.getDefault());
+        labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         labels.configureAction(this, ID);
     }
 
@@ -79,8 +77,8 @@ public class CombineAction extends AbstractSelectedAction {
     }
 
     protected boolean canUngroup() {
-        return getView()!=null&&getView().getSelectionCount() == 1 &&
-                prototype!=null&&
+        return getView() != null && getView().getSelectionCount() == 1 &&
+                prototype != null &&
                 getView().getSelectedFigures().iterator().next().getClass().equals(
                 prototype.getClass()) &&
                 ((CompositeFigure) getView().getSelectedFigures().iterator().next()).getChildCount() > 1;

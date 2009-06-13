@@ -28,6 +28,10 @@ import org.jhotdraw.geom.*;
  * @version $Id$
  */
 public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
+    /** Identifies the {@code arcWidth} JavaBeans property. */
+    public final static String ARC_WIDTH_PROPERTY = "arcWidth";
+    /** Identifies the {@code arcHeight} JavaBeans property. */
+    public final static String ARC_HEIGHT_PROPERTY = "arcHeight";
 
     /** The variable acv is used for generating the locations of the control
      * points for the rounded rectangle using path.curveTo. */
@@ -126,14 +130,36 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
     public double getHeight() {
         return roundrect.height;
     }
-
+    /** Gets the arc width. */
     public double getArcWidth() {
-        return roundrect.arcwidth / 2d;
+        return roundrect.arcwidth;
     }
 
+    /** Gets the arc height. */
     public double getArcHeight() {
-        return roundrect.archeight / 2d;
+        return roundrect.archeight;
     }
+
+
+    /** Sets the arc width. */
+    public void setArcWidth(double newValue) {
+        double oldValue = roundrect.arcwidth;
+        roundrect.arcwidth = newValue;
+        firePropertyChange(ARC_WIDTH_PROPERTY, oldValue, newValue);
+    }
+    /** Sets the arc height. */
+    public void setArcHeight(double newValue) {
+        double oldValue = roundrect.archeight;
+        roundrect.archeight = newValue;
+        firePropertyChange(ARC_HEIGHT_PROPERTY, oldValue, newValue);
+    }
+
+    /** Convenience method for setting both the arc width and the arc height. */
+    public void setArc(double width, double height) {
+        setArcWidth(width);
+        setArcHeight(height);
+    }
+
 
     public Rectangle2D.Double getBounds() {
         return (Rectangle2D.Double) roundrect.getBounds2D();
@@ -245,23 +271,6 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
                 STROKE_GRADIENT.basicSet(this, g);
             }
         }
-    }
-    // ATTRIBUTES
-
-    public void setArc(double w, double h) {
-        roundrect.arcwidth = Math.max(0d, Math.min(roundrect.width, w * 2d));
-        roundrect.archeight = Math.max(0d, Math.min(roundrect.height, h * 2d));
-    }
-
-    public void setArc(Dimension2DDouble arc) {
-        roundrect.arcwidth = Math.max(0d, Math.min(roundrect.width, arc.width * 2d));
-        roundrect.archeight = Math.max(0d, Math.min(roundrect.height, arc.height * 2d));
-    }
-
-    public Dimension2DDouble getArc() {
-        return new Dimension2DDouble(
-                roundrect.arcwidth / 2d,
-                roundrect.archeight / 2d);
     }
 
     public void restoreTransformTo(Object geometry) {

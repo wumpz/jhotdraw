@@ -35,6 +35,7 @@ import org.jhotdraw.io.*;
 import org.jhotdraw.samples.svg.*;
 import org.jhotdraw.samples.svg.figures.*;
 import org.jhotdraw.text.FontFormatter;
+import org.jhotdraw.util.LocaleUtil;
 import static org.jhotdraw.samples.svg.SVGConstants.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 import org.jhotdraw.xml.css.CSSParser;
@@ -1054,7 +1055,7 @@ public class SVGInputFormat implements InputFormat {
 
                 if (isMatch && systemLanguage.length > 0) {
                     isMatch = false;
-                    Locale locale = Locale.getDefault();
+                    Locale locale = LocaleUtil.getDefault();
                     for (String lng : systemLanguage) {
                         int p = lng.indexOf('-');
                         if (p == -1) {

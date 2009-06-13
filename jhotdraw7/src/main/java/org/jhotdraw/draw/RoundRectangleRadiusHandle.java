@@ -32,7 +32,6 @@ public class RoundRectangleRadiusHandle extends AbstractHandle {
 
     private static final int OFFSET = 6;
     private Point originalArc;
-    CompositeEdit edit;
 
     /** Creates a new instance. */
     public RoundRectangleRadiusHandle(Figure owner) {
@@ -103,7 +102,7 @@ public class RoundRectangleRadiusHandle extends AbstractHandle {
 
         ResourceBundleUtil labels =
                 ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-        CompositeEdit edit = new CompositeEdit(labels.getString("attribute.roundRectRadius"));
+        CompositeFigureEdit edit = new CompositeFigureEdit(owner, labels.getString("attribute.roundRectRadius"));
         fireUndoableEditHappened(edit);
         fireUndoableEditHappened(new PropertyChangeEdit(owner, RoundRectangleFigure.ARC_WIDTH_PROPERTY, oldArc.x, newArc.x));
         fireUndoableEditHappened(new PropertyChangeEdit(owner, RoundRectangleFigure.ARC_HEIGHT_PROPERTY, oldArc.y, newArc.y));
@@ -144,7 +143,7 @@ public class RoundRectangleRadiusHandle extends AbstractHandle {
             owner.changed();
             ResourceBundleUtil labels =
                     ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-            CompositeEdit edit = new CompositeEdit(labels.getString("attribute.roundRectRadius"));
+            CompositeFigureEdit edit = new CompositeFigureEdit(owner, labels.getString("attribute.roundRectRadius"));
             fireUndoableEditHappened(edit);
             fireUndoableEditHappened(new PropertyChangeEdit(owner, RoundRectangleFigure.ARC_WIDTH_PROPERTY, oldArc.x, newArc.x));
             fireUndoableEditHappened(new PropertyChangeEdit(owner, RoundRectangleFigure.ARC_HEIGHT_PROPERTY, oldArc.y, newArc.y));

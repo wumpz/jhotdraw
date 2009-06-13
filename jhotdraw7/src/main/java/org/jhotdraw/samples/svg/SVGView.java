@@ -67,7 +67,7 @@ public class SVGView extends AbstractView implements ExportableView {
 
         JPanel zoomButtonPanel = new JPanel(new BorderLayout());
 
-        undo = new UndoRedoManager();
+        undo = svgPanel.getUndoRedoManager();
         svgPanel.setDrawing(createDrawing());
         svgPanel.getDrawing().addUndoableEditListener(undo);
         initActions();
@@ -204,11 +204,7 @@ public class SVGView extends AbstractView implements ExportableView {
             SwingUtilities.invokeAndWait(new Runnable() {
 
                 public void run() {
-                    if (svgPanel.getDrawing()!=null) {
-                    svgPanel.getDrawing().removeUndoableEditListener(undo);
-                    }
                     svgPanel.setDrawing(drawing);
-                    svgPanel.getDrawing().addUndoableEditListener(undo);
                     undo.discardAllEdits();
                 }
             });
@@ -241,10 +237,8 @@ public class SVGView extends AbstractView implements ExportableView {
             Runnable r = new Runnable() {
 
                 public void run() {
-                    svgPanel.getDrawing().removeUndoableEditListener(undo);
                     svgPanel.getDrawing().removeAllChildren();
                     svgPanel.setDrawing(newDrawing);
-                    svgPanel.getDrawing().addUndoableEditListener(undo);
                     undo.discardAllEdits();
                 }
             };

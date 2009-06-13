@@ -51,7 +51,7 @@ public abstract class AbstractSelectedAction
     private DrawingEditor editor;
     transient private DrawingView activeView;
     protected ResourceBundleUtil labels =
-            ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels", Locale.getDefault());
+            ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
 
     private class EventHandler implements PropertyChangeListener, FigureSelectionListener, Serializable {
 
