@@ -26,7 +26,7 @@ import org.jhotdraw.geom.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
 /**
- * BezierNodeHandle.
+ * A {@link Handle} which allows to interactively change a node of a bezier path.
  *
  *
  * @author Werner Randelshofer

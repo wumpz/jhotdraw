@@ -18,7 +18,8 @@ import java.awt.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
 /**
- * SVGPathOutlineHandle.
+ * A non-interactive {@link Handle} which draws the outline of a 
+ * {@link SVGPathFigure} to make adjustments easier.
  *
  * @author Werner Randelshofer
  * @version $Id$

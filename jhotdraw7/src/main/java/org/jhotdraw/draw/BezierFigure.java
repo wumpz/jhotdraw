@@ -27,7 +27,9 @@ import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 
 /**
- * A <em>bezier figure</em> can be used to draw arbitrary shapes using a
+ * A {@link Figure} which draws an opened or a closed bezier path.
+ * <p>
+ * A bezier figure can be used to draw arbitrary shapes using a
  * {@link BezierPath}. It can be used to draw an open path or a closed shape.
  * <p>
  * A BezierFigure can have straight path segments and curved segments.

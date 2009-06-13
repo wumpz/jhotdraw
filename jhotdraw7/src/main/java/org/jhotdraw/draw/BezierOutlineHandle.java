@@ -16,7 +16,8 @@ package org.jhotdraw.draw;
 import java.awt.*;
 
 /**
- * Draws the outlines of a BezierFigure to make adjustment easier.
+ * A non-interactive {@link Handle} which draws the outline of a 
+ * {@link BezierFigure} to make adjustments easier.
  *
  * @author Werner Randelshofer
  * @version $Id$

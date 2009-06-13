@@ -20,9 +20,10 @@ import java.awt.geom.*;
 import org.jhotdraw.geom.*;
 
 /**
- * A Handle to scale and rotate a BezierFigure.
+ * A {@code Handle} which allows to interactively scale and rotate a BezierFigure.
+ * <p>
  * Pressing the alt key or the shift key while manipulating the handle restricts
- * the handle to only rotate the BezierFigure.
+ * the handle to rotate the BezierFigure without scaling it.
  *
  * @author Werner Randelshofer.
  * @version $Id$

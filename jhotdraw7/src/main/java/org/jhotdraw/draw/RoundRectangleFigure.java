@@ -30,22 +30,14 @@ import org.jhotdraw.xml.DOMOutput;
  * This figure creates a {@link RoundRectangleRadiusHandle} which allows
  * to interactively change the corner radius.
  *
- * <p>
- * FIXME - Use a single JavaBeans property or a single attribute instead of
- * two JavaBeans properties for specifying the corner radius.
- *
- * <hr>
- * <b>Design Patterns</b>
- *
- * <p><em>Framework</em><br>
- * The following classes work together:<br>
- * Contract: {@link RoundRectangleFigure}, {@link RoundRectangleRadiusHandle},
- * {@link RoundRectangleRadiusUndoableEdit}.
- *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class RoundRectangleFigure extends AbstractAttributedFigure {
+    /** Identifies the {@code arcWidth} JavaBeans property. */
+    public final static String ARC_WIDTH_PROPERTY = "arcWidth";
+    /** Identifies the {@code arcHeight} JavaBeans property. */
+    public final static String ARC_HEIGHT_PROPERTY = "arcHeight";
 
     protected RoundRectangle2D.Double roundrect;
     protected static final double DEFAULT_ARC = 20;
@@ -103,19 +95,33 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
         return r;
     }
     // ATTRIBUTES
+    /** Gets the arc width. */
     public double getArcWidth() {
         return roundrect.arcwidth;
     }
 
+    /** Gets the arc height. */
     public double getArcHeight() {
         return roundrect.archeight;
     }
 
-    public void setArc(final double w, final double h) {
-        final double oldWidth = roundrect.getArcWidth();
-        final double oldHeight = roundrect.getArcHeight();
-        roundrect.arcwidth = w;
-        roundrect.archeight = h;
+    /** Sets the arc width. */
+    public void setArcWidth(double newValue) {
+        double oldValue = roundrect.arcwidth;
+        roundrect.arcwidth = newValue;
+        firePropertyChange(ARC_WIDTH_PROPERTY, oldValue, newValue);
+    }
+    /** Sets the arc height. */
+    public void setArcHeight(double newValue) {
+        double oldValue = roundrect.archeight;
+        roundrect.archeight = newValue;
+        firePropertyChange(ARC_HEIGHT_PROPERTY, oldValue, newValue);
+    }
+
+    /** Convenience method for setting both the arc width and the arc height. */
+    public void setArc(double width, double height) {
+        setArcWidth(width);
+        setArcHeight(height);
     }
 
     /**
@@ -201,4 +207,5 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
         out.addAttribute("arcWidth", roundrect.arcwidth);
         out.addAttribute("arcHeight", roundrect.archeight);
     }
+
 }

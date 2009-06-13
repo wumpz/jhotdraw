@@ -18,7 +18,7 @@ import java.awt.geom.*;
 import org.jhotdraw.xml.*;
 
 /**
- * BezierPointLocator.
+ * A {@link Locator} which locates a node on the bezier path of a BezierFigure.
  * 
  * 
  * @author Werner Randelshofer

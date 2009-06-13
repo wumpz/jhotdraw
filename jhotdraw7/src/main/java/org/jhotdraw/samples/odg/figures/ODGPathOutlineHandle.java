@@ -19,7 +19,8 @@ import java.awt.*;
 import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
 
 /**
- * ODGPathOutlineHandle.
+ * A non-interactive {@link Handle} which draws the outline of a
+ * {@link ODGPathFigure} to make adjustments easier.
  * 
  * @author Werner Randelshofer
  * @version $Id$

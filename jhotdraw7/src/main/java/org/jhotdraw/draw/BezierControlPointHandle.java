@@ -24,7 +24,8 @@ import org.jhotdraw.geom.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
 /**
- * BezierControlPointHandle.
+ * A {@link Handle} which allows to interactively change a control point
+ * of a bezier path.
  *
  * @author Werner Randelshofer
  * @version $Id$

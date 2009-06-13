@@ -19,6 +19,7 @@ import org.jhotdraw.undo.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.geom.*;
+import org.jhotdraw.beans.PropertyChangeEdit;
 
 /**
  * A {@link Handle} to manipulate the corner radius of a
@@ -99,7 +100,14 @@ public class RoundRectangleRadiusHandle extends AbstractHandle {
                 Geom.range(0, r.height, 2 * (originalArc.y / 2 + dy)));
         Point2D.Double oldArc = view.viewToDrawing(originalArc);
         Point2D.Double newArc = view.viewToDrawing(viewArc);
-        fireUndoableEditHappened(new RoundRectangleRadiusUndoableEdit(owner, oldArc, newArc));
+
+        ResourceBundleUtil labels =
+                ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+        CompositeEdit edit = new CompositeEdit(labels.getString("attribute.roundRectRadius"));
+        fireUndoableEditHappened(edit);
+        fireUndoableEditHappened(new PropertyChangeEdit(owner, RoundRectangleFigure.ARC_WIDTH_PROPERTY, oldArc.x, newArc.x));
+        fireUndoableEditHappened(new PropertyChangeEdit(owner, RoundRectangleFigure.ARC_HEIGHT_PROPERTY, oldArc.y, newArc.y));
+        fireUndoableEditHappened(edit);
     }
 
     @Override
@@ -131,9 +139,16 @@ public class RoundRectangleRadiusHandle extends AbstractHandle {
         }
         if (!newArc.equals(oldArc)) {
             owner.willChange();
-            owner.setArc(newArc.x, newArc.y);
+            owner.setArcWidth(newArc.x);
+            owner.setArcHeight(newArc.y);
             owner.changed();
-            fireUndoableEditHappened(new RoundRectangleRadiusUndoableEdit(owner, oldArc, newArc));
+            ResourceBundleUtil labels =
+                    ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+            CompositeEdit edit = new CompositeEdit(labels.getString("attribute.roundRectRadius"));
+            fireUndoableEditHappened(edit);
+            fireUndoableEditHappened(new PropertyChangeEdit(owner, RoundRectangleFigure.ARC_WIDTH_PROPERTY, oldArc.x, newArc.x));
+            fireUndoableEditHappened(new PropertyChangeEdit(owner, RoundRectangleFigure.ARC_HEIGHT_PROPERTY, oldArc.y, newArc.y));
+            fireUndoableEditHappened(edit);
         }
     }
 

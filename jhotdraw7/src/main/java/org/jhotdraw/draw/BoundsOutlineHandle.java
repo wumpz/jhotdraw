@@ -16,7 +16,8 @@ package org.jhotdraw.draw;
 import java.awt.*;
 
 /**
- * Draws the outline of the Figure bounds to make adjustment easier.
+ * A non-interactive {@link Handle} which draws the bounds of a {@link Figure} to
+ * make adjustments easier.
  *
  * @author Werner Randelshofer
  * @version $Id$

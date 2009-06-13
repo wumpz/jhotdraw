@@ -21,7 +21,7 @@ import java.util.*;
 import org.jhotdraw.geom.*;
 
 /**
- * A <em>line figure</em> draws a continuous bezier path between two points.
+ * A {@link Figure} which draws a continuous bezier path between two points.
  *
  * @author Werner Randelshofer
  * @version $Id$
