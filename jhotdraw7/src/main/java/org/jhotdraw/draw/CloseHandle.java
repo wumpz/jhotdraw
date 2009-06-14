@@ -17,7 +17,7 @@ package org.jhotdraw.draw;
 import java.awt.*;
 
 /**
- * CloseHandle.
+ * A {@link Handle} which requests to remove its owning figure when clicked.
  *
  * @author  Werner Randelshofer
  * @version $Id$
@@ -27,7 +27,11 @@ public class CloseHandle extends LocatorHandle {
     
     /** Creates a new instance. */
     public CloseHandle(Figure owner) {
-        super(owner, new RelativeLocator(1.0, 0.0));
+        this(owner, new RelativeLocator(1.0, 0.0));
+    }
+    /** Creates a new instance. */
+    public CloseHandle(Figure owner, Locator locator) {
+        super(owner, locator);
     }
     
     protected int getHandlesize() {

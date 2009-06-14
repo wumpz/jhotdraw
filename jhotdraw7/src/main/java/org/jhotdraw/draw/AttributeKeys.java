@@ -20,12 +20,11 @@ import java.util.*;
 import org.jhotdraw.geom.*;
 
 /**
- * Defines AttributeKeys used by the Figures in this package as well as some
- * helper methods.
+ * Defines a set of well known {@link Figure} attributes.
  * <p>
  * If you are developing an applications that uses a different set or an
- * extended set of attributes, it is best, to create a new AttributeKeys class,
- * and to define all needed AttributeKeys as static variables in there.
+ * extended set of attributes, it is recommended to create a new AttributeKeys
+ * class, and to define all needed AttributeKeys as static variables in there.
  *
  * @author Werner Randelshofer
  * @version $Id$

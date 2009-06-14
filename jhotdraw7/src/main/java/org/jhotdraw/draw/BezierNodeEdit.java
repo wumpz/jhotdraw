@@ -21,7 +21,8 @@ import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoableEdit;
 
 /**
- * BezierNodeEdit.
+ * An {@code UndoableEdit} event which can undo a change of a node in
+ * a {@link BezierFigure}.
  *
  * @version $Id$
  * @author Werner Randelshofer

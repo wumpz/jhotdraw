@@ -18,8 +18,10 @@ import org.jhotdraw.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
- * A layouter which lays out all children of a CompositeFigure in vertical
- * direction. The preferredSize of the figures is used to determine the layout.
+ * A {@link Layouter} which lays out all children of a {@link CompositeFigure}
+ * in horizontal direction.
+ * <p>
+ * The preferred size of the figures is used to determine the layout.
  * This may cause some figures to resize.
  * <p>
  * The HorizontalLayouter honors the LAYOUT_INSETS and the COMPOSITE_ALIGNMENT

@@ -27,8 +27,8 @@ import org.jhotdraw.app.EditableComponent;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
- * The DefaultDrawingView is suited for viewing drawings with a small number
- * of Figures.
+ * A default implementation of {@link DrawingView} suited for viewing drawings
+ * with a small number of figures.
  *
  * FIXME - Implement clone Method.
  * FIXME - Use double buffering for the drawing to improve performance.

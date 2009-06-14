@@ -22,7 +22,8 @@ import org.jhotdraw.util.ResourceBundleUtil;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
- * FontSizeHandle.
+ * A {@link Handle} which can be used to change the font size of a
+ * {@link TextHolderFigure}.
  *
  * @author Werner Randelshofer
  * @version $Id$

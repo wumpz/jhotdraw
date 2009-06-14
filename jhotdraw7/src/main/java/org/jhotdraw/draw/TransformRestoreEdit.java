@@ -1,5 +1,5 @@
 /*
- * @(#)GeometryEdit.java
+ * @(#)TransformRestoreEdit.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -18,21 +18,28 @@ import java.util.*;
 import javax.swing.undo.*;
 import org.jhotdraw.util.*;
 /**
- * GeometryEdit.
+ * An {@code UndoableEdit} event which can undo a lossy transform of a single
+ * {@link Figure} by restoring the figure using its transform restore data.
+ * <p>
+ * This object is useful for undoing lossy transformations, such as the
+ * rotation, scaling or shearing of a figure.
+ * <p>
+ * The transform restore data may consume a lot of memory. Undos of lossless
+ * transforms, such as translations of a figure, should use {@link TransformEdit}.
  *
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class GeometryEdit extends AbstractUndoableEdit {
+public class TransformRestoreEdit extends AbstractUndoableEdit {
     private Figure owner;
-    private Object oldGeometry;
-    private Object newGeometry;
+    private Object oldTransformRestoreData;
+    private Object newTransformRestoreData;
     
     /** Creates a new instance. */
-    public GeometryEdit(Figure owner, Object oldGeometry, Object newGeometry) {
+    public TransformRestoreEdit(Figure owner, Object oldTransformRestoreData, Object newTransformRestoreData) {
         this.owner = owner;
-        this.oldGeometry = oldGeometry;
-        this.newGeometry = newGeometry;
+        this.oldTransformRestoreData = oldTransformRestoreData;
+        this.newTransformRestoreData = newTransformRestoreData;
     }
 
     public String getPresentationName() {
@@ -43,14 +50,14 @@ public class GeometryEdit extends AbstractUndoableEdit {
     public void undo() throws CannotUndoException {
         super.undo();
         owner.willChange();
-        owner.restoreTransformTo(oldGeometry);
+        owner.restoreTransformTo(oldTransformRestoreData);
         owner.changed();
     }
 
     public void redo() throws CannotRedoException {
         super.redo();
         owner.willChange();
-        owner.restoreTransformTo(newGeometry);
+        owner.restoreTransformTo(newTransformRestoreData);
         owner.changed();
     }
     

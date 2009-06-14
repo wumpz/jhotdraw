@@ -16,7 +16,7 @@ package org.jhotdraw.draw;
 
 import java.util.*;
 /**
- * FigureLayerComparator.
+ * A {@code Comparator} used to sort figures by their layer property.
  *
  * @author  Werner Randelshofer
  * @version $Id$

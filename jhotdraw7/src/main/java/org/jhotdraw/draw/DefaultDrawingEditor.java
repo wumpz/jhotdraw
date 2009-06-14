@@ -22,7 +22,7 @@ import javax.swing.JComponent;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
- * DefaultDrawingEditor.
+ * A default implementation of {@link DrawingEditor}.
  *
  * XXX - DefaultDrawingEditor should not publicly implement ToolListener.
  *

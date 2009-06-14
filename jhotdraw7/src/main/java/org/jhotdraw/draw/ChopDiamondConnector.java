@@ -19,9 +19,9 @@ import java.awt.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.geom.*;
 /**
- * A ChopDiamondConnector locates connection points by choping the
- * connection between the centers of the two figures at the edge of
- * a diamond figure.
+ * A {@link Connector} which locates a connection point at the bounds
+ * of any figure which has a diamond shape, such as {@link DiamondFigure}.
+ * <p>
  *
  * @author Werner Randelshofer
  * @version $Id$

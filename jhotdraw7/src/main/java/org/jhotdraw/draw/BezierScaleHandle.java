@@ -20,7 +20,7 @@ import java.awt.geom.*;
 import org.jhotdraw.geom.*;
 
 /**
- * A {@code Handle} which allows to interactively scale and rotate a BezierFigure.
+ * A {@link Handle} which allows to interactively scale and rotate a BezierFigure.
  * <p>
  * Pressing the alt key or the shift key while manipulating the handle restricts
  * the handle to rotate the BezierFigure without scaling it.
@@ -160,7 +160,7 @@ public class BezierScaleHandle extends AbstractHandle {
     
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         view.getDrawing().fireUndoableEditHappened(
-                new RestoreDataEdit(getOwner(), restoreData));
+                new TransformRestoreEdit(getOwner(), restoreData, getOwner().getTransformRestoreData()));
         location = null;
     }
     

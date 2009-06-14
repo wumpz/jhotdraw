@@ -16,7 +16,9 @@ package org.jhotdraw.draw;
 
 import java.awt.geom.*;
 /**
- * ChopBezierConnector.
+ * A {@link Connector} which locates a connection point at the bounds
+ * of a {@link BezierFigure}.
+ * <p>
  * <p>
  * XXX - This connector does not take the stroke width of the polygon into
  * account.

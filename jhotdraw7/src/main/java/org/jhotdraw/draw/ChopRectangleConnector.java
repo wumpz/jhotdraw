@@ -18,9 +18,8 @@ import java.awt.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.geom.*;
 /**
- * A ChopRectangleConnector locates connection points by
- * choping the connection between the centers of the
- * two figures at the display box.
+ * A {@link Connector} which locates a connection point at the bounds
+ * of any figure which has a rectangular shape, such as {@link RectangleFigure}.
  * <p>
  * XXX - Replace all Chop...Connectors by a single ChopToCenterConnector and
  * move method chop(Point2D.Double) into Figure interface.

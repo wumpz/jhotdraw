@@ -168,7 +168,7 @@ public class ResizeHandleKit {
         public void trackEnd(Point anchor, Point lead, int modifiersEx) {
             if (getOwner().isTransformable()) {
                 fireUndoableEditHappened(
-                        new GeometryEdit(getOwner(), geometry, getOwner().getTransformRestoreData()));
+                        new TransformRestoreEdit(getOwner(), geometry, getOwner().getTransformRestoreData()));
             }
         }
 

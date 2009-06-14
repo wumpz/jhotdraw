@@ -33,7 +33,7 @@ import org.jhotdraw.util.Images;
  * XXX - This class uses the deprecated Cocoa-Java bridge.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class PictImageInputFormat implements InputFormat {
 

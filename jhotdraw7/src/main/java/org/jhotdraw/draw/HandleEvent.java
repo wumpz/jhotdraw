@@ -17,7 +17,7 @@ package org.jhotdraw.draw;
 import java.awt.*;
 import java.util.*;
 /**
- * HandleEvent.
+ * An {@code EventObject} sent to {@link HandleListener}s.
  *
  * <hr>
  * <b>Design Patterns</b>

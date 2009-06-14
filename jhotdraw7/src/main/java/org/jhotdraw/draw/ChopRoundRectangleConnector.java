@@ -19,9 +19,9 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.geom.*;
 
 /**
- * A ChopRoundRectangleConnector locates a connection Point2D.Double by
- * chopping the connection at the horizontal and vertica lines defined by the
- * display box of a RoundRectangleFigure.
+ * A {@link Connector} which locates a connection point at the bounds
+ * of a {@link RoundRectangleFigure}.
+ * <p>
  *
  * @author  Werner Randelshofer
  * @version $Id$

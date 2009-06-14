@@ -19,7 +19,8 @@ import java.awt.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
- * FontSizeLocator.
+ * {@code FontSizeLocator} is used by {@link FontSizeHandle} to locate
+ * its position on the drawing.
  *
  * @author  Werner Randelshofer
  * @version $Id$

@@ -20,8 +20,8 @@ import java.awt.*;
 import java.awt.geom.*;
 
 /**
- * A ConnectorHandle allows to create a ConnectionFigure by dragging the
- * connector handle to a connector.
+ * A {@link Handle} associated to a {@link Connector} which allows to create a
+ * new {@link ConnectionFigure} by dragging the handle to another connector.
  *
  * @author Werner Randelshofer.
  * @version $Id$

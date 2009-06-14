@@ -17,7 +17,7 @@ package org.jhotdraw.draw;
 import java.util.*;
 
 /**
- * FigureSelectionEvent.
+ * An {@code EventObject} sent to {@link FigureSelectionListener}s.
  *
  * <hr>
  * <b>Design Patterns</b>

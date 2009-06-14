@@ -21,8 +21,9 @@ import java.util.*;
 import org.jhotdraw.geom.Geom;
 
 /**
- * QuadTreeDrawing uses a QuadTree2DDouble to improve responsiveness of drawings
- * which contain many figures.
+ * An implementation of {@link Drawing} which uses a
+ * {@link org.jhotdraw.geom.QuadTree} to provide a good responsiveness for
+ * drawings which contain many figures.
  *
  * @author Werner Randelshofer
  * @version $Id$

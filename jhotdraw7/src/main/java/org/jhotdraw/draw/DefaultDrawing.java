@@ -20,8 +20,10 @@ import java.util.*;
 import org.jhotdraw.geom.Geom;
 
 /**
- * DefaultDrawing to be used for drawings that contain only a few children.
- * For larger drawings, {@link QuadTreeDrawing} should be used.
+ * A default implementation of {@link Drawing} useful for drawings which
+ * contain only a few figures.
+ * <p>
+ * For larger drawings, {@link QuadTreeDrawing} is recommended.
  * <p>
  * FIXME - Maybe we should rename this class to SimpleDrawing or we should
  * get rid of this class altogether.

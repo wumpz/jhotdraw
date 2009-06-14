@@ -21,11 +21,11 @@ import java.util.*;
 import org.jhotdraw.util.*;
 
 /**
- * A tool to create new figures. The figure to be created is specified by a
- * prototype.
+ * A {@link Tool} to create a new figure by drawing its bounds.
+ * The figure to be created is specified by a prototype.
  * <p>
- * To create a figure using the CreationTool, the user does the following mouse
- * gestures on a DrawingView:
+ * To create a figure using the {@code CreationTool}, the user does the
+ * following mouse gestures on a DrawingView:
  * <ol>
  * <li>Press the mouse button over the DrawingView. This defines the
  * start point of the Figure bounds.</li>

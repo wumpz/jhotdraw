@@ -22,7 +22,8 @@ import java.util.*;
 import org.jhotdraw.geom.*;
 
 /**
- * Tool to scribble a BezierFigure
+ * A {@link Tool} which allows to create a new {@link BezierFigure} by
+ * drawing its path.
  *
  * @author  Werner Randelshofer
  * @version $Id$

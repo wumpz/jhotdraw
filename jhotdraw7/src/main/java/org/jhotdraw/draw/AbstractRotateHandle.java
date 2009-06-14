@@ -141,7 +141,7 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
 
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         view.getDrawing().fireUndoableEditHappened(
-                new RestoreDataEdit(getOwner(), restoreData));
+                new TransformRestoreEdit(getOwner(), restoreData, getOwner().getTransformRestoreData()));
         fireAreaInvalidated(getDrawingArea());
         location = null;
         invalidate();

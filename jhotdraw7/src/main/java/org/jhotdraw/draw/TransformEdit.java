@@ -21,23 +21,20 @@ import java.awt.geom.*;
 import java.util.*;
 
 /**
- * TransformEdit.
+ * An {@code UndoableEdit} event which can undo a lossless transform of
+ * {@link Figure}s by applying the inverse of the transform to the figures.
  * <p>
- * FIXME - When we do group moves or moves of a composite figure we fail to
- * coallesce the TransformEdit events. This may exhaust memory!
+ * This object is useful for undoing lossless transformations, such as the
+ * translation of figures.
  * <p>
- * XXX - This edit should use getTransformRestoreData, restoreTransformTo.
- * <p>
- * FIXME - Maybe TransformEdit should be replaced by GeometryEdit?
+ * If a lossy transforms is performed, such as rotation, scaling or shearing,
+ * then undos should be performed with {@link TransformRestoreEdit} instead.
+ *
  *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class TransformEdit extends AbstractUndoableEdit {
-    /**
-     * Implementation note: Owner has package access, because it is accessed
-     * by CompositeMoveEdit.
-     */
     private Collection<Figure> figures;
     private AffineTransform tx;
     

@@ -17,7 +17,7 @@ package org.jhotdraw.draw;
 import java.awt.geom.*;
 import java.util.*;
 /**
- * Change event passed to CompositeFigureListeners.
+ * An {@code EventObject} sent to {@link CompositeFigureListener}s.
  *
  * <hr>
  * <b>Design Patterns</b>

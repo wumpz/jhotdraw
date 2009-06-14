@@ -200,7 +200,7 @@ public class TransformHandleKit {
 
         public void trackEnd(Point anchor, Point lead, int modifiersEx) {
             fireUndoableEditHappened(
-                    new GeometryEdit(getOwner(), geometry, getOwner().getTransformRestoreData()));
+                    new TransformRestoreEdit(getOwner(), geometry, getOwner().getTransformRestoreData()));
 
         }
 
@@ -288,7 +288,7 @@ public class TransformHandleKit {
             }
 
             fireUndoableEditHappened(
-                    new GeometryEdit(getOwner(), geom, getOwner().getTransformRestoreData()));
+                    new TransformRestoreEdit(getOwner(), geom, getOwner().getTransformRestoreData()));
         }
 
         @Override
@@ -342,7 +342,7 @@ public class TransformHandleKit {
             }
 
             fireUndoableEditHappened(
-                    new GeometryEdit(getOwner(), geom, getOwner().getTransformRestoreData()));
+                    new TransformRestoreEdit(getOwner(), geom, getOwner().getTransformRestoreData()));
         }
 
         @Override
@@ -395,7 +395,7 @@ public class TransformHandleKit {
             }
 
             fireUndoableEditHappened(
-                    new GeometryEdit(getOwner(), geom, getOwner().getTransformRestoreData()));
+                    new TransformRestoreEdit(getOwner(), geom, getOwner().getTransformRestoreData()));
         }
 
         @Override
@@ -456,7 +456,7 @@ public class TransformHandleKit {
             }
 
             fireUndoableEditHappened(
-                    new GeometryEdit(getOwner(), geom, getOwner().getTransformRestoreData()));
+                    new TransformRestoreEdit(getOwner(), geom, getOwner().getTransformRestoreData()));
         }
 
         @Override
@@ -517,7 +517,7 @@ public class TransformHandleKit {
             }
 
             fireUndoableEditHappened(
-                    new GeometryEdit(getOwner(), geom, getOwner().getTransformRestoreData()));
+                    new TransformRestoreEdit(getOwner(), geom, getOwner().getTransformRestoreData()));
         }
 
         @Override
@@ -570,7 +570,7 @@ public class TransformHandleKit {
             }
 
             fireUndoableEditHappened(
-                    new GeometryEdit(getOwner(), geom, getOwner().getTransformRestoreData()));
+                    new TransformRestoreEdit(getOwner(), geom, getOwner().getTransformRestoreData()));
         }
 
         @Override
@@ -631,7 +631,7 @@ public class TransformHandleKit {
             }
 
             fireUndoableEditHappened(
-                    new GeometryEdit(getOwner(), geom, getOwner().getTransformRestoreData()));
+                    new TransformRestoreEdit(getOwner(), geom, getOwner().getTransformRestoreData()));
         }
 
         @Override
@@ -684,7 +684,7 @@ public class TransformHandleKit {
             }
 
             fireUndoableEditHappened(
-                    new GeometryEdit(getOwner(), geom, getOwner().getTransformRestoreData()));
+                    new TransformRestoreEdit(getOwner(), geom, getOwner().getTransformRestoreData()));
         }
 
         @Override

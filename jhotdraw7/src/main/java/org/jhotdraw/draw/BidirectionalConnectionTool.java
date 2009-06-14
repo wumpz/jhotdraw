@@ -28,6 +28,8 @@ import java.util.*;
  * The connection object to be created is specified by a prototype.
  * <p>
  * FIXME: Use a Tracker instance for each state of this tool.
+ * <p>
+ * XXX - This tool is not needed anywhere. We should get rid of it.
  *
  * @author Werner Randelshofer
  * @version $Id$

@@ -19,9 +19,9 @@ import java.awt.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.geom.*;
 /**
- * A ChopEllipseConnector locates a connection Point2D.Double by
- * chopping the connection at the ellipse defined by the
- * figure's display box.
+ * A {@link Connector} which locates a connection point at the bounds
+ * of any figure which has an elliptic shape, such as {@link EllipseFigure}.
+ * <p>
  *
  * @author Werner Randelshofer
  * @version $Id$

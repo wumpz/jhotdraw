@@ -17,7 +17,9 @@ package org.jhotdraw.draw;
 import java.awt.geom.*;
 
 /**
- * ChopTriangleConnector.
+ * A {@link Connector} which locates a connection point at the bounds
+ * of a {@link TriangleFigure}.
+ * <p>
  *
  * @author Werner Randelshofer.
  * @version $Id$

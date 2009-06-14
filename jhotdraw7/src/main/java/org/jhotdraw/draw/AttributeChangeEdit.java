@@ -15,8 +15,10 @@
 package org.jhotdraw.draw;
 
 import javax.swing.undo.*;
+
 /**
- * AttributeChangeEdit.
+ * An {@code UndoableEdit} event which can undo a change of a {@link Figure}
+ * attribute.
  *
  * @author  Werner Randelshofer
  * @version $Id$

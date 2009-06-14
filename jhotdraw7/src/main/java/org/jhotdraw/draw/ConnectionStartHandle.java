@@ -17,8 +17,8 @@ package org.jhotdraw.draw;
 import java.awt.geom.*;
 
 /**
- * Handle to reconnect the
- * start of a connection to another figure.
+ * A {@link Handle} which allows to connect the start of a
+ * {@link ConnectionFigure} to another figure.
  *
  * @author Werner Randelshofer
  * @version $Id$

@@ -16,7 +16,7 @@ package org.jhotdraw.draw;
 import java.awt.*;
 
 /**
- * HandleAttributeKeys defines attribute keys for {@link Handle}'s.
+ * Defines a set of well known {@link Handle} attributes.
  * <p>
  * If you want different attribute values for your own editor, set
  * the desired values using {@link DrawingEditor#setHandleAttribute(org.jhotdraw.draw.AttributeKey, java.lang.Object)}.
