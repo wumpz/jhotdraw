@@ -543,7 +543,7 @@ public abstract class AbstractFigure
     protected FontRenderContext getFontRenderContext() {
         FontRenderContext frc = null;
         if (frc == null) {
-            frc = new FontRenderContext(new AffineTransform(), Options.isTextAntialiased(), Options.isFractionalMetrics());
+            frc = new FontRenderContext(new AffineTransform(), true, true);
         }
         return frc;
     }
