@@ -92,7 +92,7 @@ public class MessagePanel extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
         add(messageLabel, gridBagConstraints);
 
-        closeButton.setText("null");
+        closeButton.setText(labels.getString("messagePanel.close.text")); // NOI18N
         closeButton.setActionCommand("close");
         closeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

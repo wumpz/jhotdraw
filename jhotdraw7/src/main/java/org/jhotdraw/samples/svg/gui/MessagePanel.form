@@ -43,7 +43,7 @@
     <Component class="javax.swing.JButton" name="closeButton">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="" key="close" replaceFormat="labels.getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="org/jhotdraw/samples/svg/Labels.properties" key="messagePanel.close.text" replaceFormat="labels.getString(&quot;{key}&quot;)"/>
         </Property>
         <Property name="actionCommand" type="java.lang.String" value="close"/>
       </Properties>
