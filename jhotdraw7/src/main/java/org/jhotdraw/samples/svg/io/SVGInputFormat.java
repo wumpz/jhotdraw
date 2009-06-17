@@ -183,8 +183,10 @@ public class SVGInputFormat implements InputFormat {
             e.initCause(ex);
             throw e;
         }
+System.out.println("SVGInputFormat parser created "+(System.currentTimeMillis()-start));
         IXMLReader reader = new StdXMLReader(in);
         parser.setReader(reader);
+System.out.println("SVGInputFormat reader created "+(System.currentTimeMillis()-start));
         try {
             document = (IXMLElement) parser.parse();
         } catch (XMLException ex) {
@@ -192,6 +194,7 @@ public class SVGInputFormat implements InputFormat {
             e.initCause(ex);
             throw e;
         }
+System.out.println("SVGInputFormat document created "+(System.currentTimeMillis()-start));
 
         // Search for the first 'svg' element in the XML document
         // in preorder sequence

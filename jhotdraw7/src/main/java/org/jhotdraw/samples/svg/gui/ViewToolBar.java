@@ -76,7 +76,7 @@ public class ViewToolBar extends AbstractToolBar {
 
                     // Toggle Grid Button
                     AbstractButton toggleGridButton;
-                    toggleGridButton=btn = ButtonFactory.createToggleGridButton(view);
+                    toggleGridButton = btn = ButtonFactory.createToggleGridButton(view);
                     btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                     labels.configureToolBarButton(btn, "alignGrid");
                     gbc = new GridBagConstraints();
@@ -136,7 +136,10 @@ public class ViewToolBar extends AbstractToolBar {
                                     constrainer.setWidth((Double) evt.getNewValue());
                                     constrainer.setHeight((Double) evt.getNewValue());
                                     prefs = PreferencesUtil.userNodeForPackage(getClass());
-                                    prefs.putDouble("view.gridSize", (Double) evt.getNewValue());
+                                    try {
+                                        prefs.putDouble("view.gridSize", (Double) evt.getNewValue());
+                                    } catch (IllegalStateException e) {//ignore
+                                    }
                                     view.getComponent().repaint();
                                 }
                             }
@@ -184,13 +187,13 @@ public class ViewToolBar extends AbstractToolBar {
                     view.addPropertyChangeListener(new PropertyChangeListener() {
 
                         public void propertyChange(PropertyChangeEvent evt) {
-                            if (evt.getPropertyName()==DrawingView.SCALE_FACTOR_PROPERTY) {
+                            if (evt.getPropertyName() == DrawingView.SCALE_FACTOR_PROPERTY) {
                                 if (evt.getNewValue() != null) {
                                     scaleFactorField.setValue((Double) evt.getNewValue());
                                 }
                             }
                         }
-                    }); 
+                    });
                     gbc = new GridBagConstraints();
                     gbc.gridx = 0;
                     gbc.gridy = 1;

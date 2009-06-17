@@ -292,7 +292,7 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
             // *** Labels
             "Label.font", dialogPlain12,
             // *** Ribbons
-            "Ribbon.border", new UIDefaults.ProxyLazyValue("javax.swing.border.MatteBorder", new Object[] {new Insets(1,0,0,0), new Color(0xa5a5a5)}), //
+            "Ribbon.border", new UIDefaults.ProxyLazyValue("javax.swing.border.MatteBorder", new Object[] {new Insets(1,0,0,0), new Color(0x777777)}), //
             // *** ScrollPane
             "ScrollPane.border", new UIDefaults.ProxyLazyValue("javax.swing.border.MatteBorder", new Object[] {new Insets(1,1,1,1), new Color(0xa5a5a5)}), //
             // *** Slider
