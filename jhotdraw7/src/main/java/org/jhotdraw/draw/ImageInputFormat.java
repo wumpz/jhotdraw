@@ -29,8 +29,12 @@ import org.jhotdraw.util.Images;
  * An input format for importing drawings using one of the image formats 
  * supported by javax.imageio.
  * <p>
- * This class uses the prototype design pattern. A ImageHolderFigure figure is used
- * as a prototype for creating a figure that holds the imported image.
+ * This class uses the prototype design pattern. A ImageHolderFigure figure is 
+ * used as a prototype for creating a figure that holds the imported image.
+ * <p>
+ * If the drawing is replaced using the loaded image, the size of the
+ * drawing is set to match the size of the image using the attributes
+ * {@code AttributeKeys.CANVAS_WIDTH} and {@code AttributeKeys.CANVAS_HEIGHT}.
  * 
  * @author Werner Randelshor 
  * @version $Id$
@@ -103,6 +107,8 @@ public class ImageInputFormat implements InputFormat {
                 figure.getBufferedImage().getHeight()));
         if (replace) {
             drawing.removeAllChildren();
+            AttributeKeys.CANVAS_WIDTH.basicSet(drawing, figure.getBounds().width);
+            AttributeKeys.CANVAS_HEIGHT.basicSet(drawing, figure.getBounds().height);
         }
         drawing.basicAdd(figure);
     }
@@ -112,10 +118,13 @@ public class ImageInputFormat implements InputFormat {
     }
 
     public void read(InputStream in, Drawing drawing, boolean replace) throws IOException {
+        ImageHolderFigure figure = createImageHolder(in);
         if (replace) {
             drawing.removeAllChildren();
+            AttributeKeys.CANVAS_WIDTH.basicSet(drawing, figure.getBounds().width);
+            AttributeKeys.CANVAS_HEIGHT.basicSet(drawing, figure.getBounds().height);
         }
-        drawing.basicAdd(createImageHolder(in));
+        drawing.basicAdd(figure);
     }
 
     public ImageHolderFigure createImageHolder(InputStream in) throws IOException {
@@ -152,6 +161,8 @@ public class ImageInputFormat implements InputFormat {
                 list.add(figure);
                 if (replace) {
                     drawing.removeAllChildren();
+                    AttributeKeys.CANVAS_WIDTH.basicSet(drawing, figure.getBounds().width);
+                    AttributeKeys.CANVAS_HEIGHT.basicSet(drawing, figure.getBounds().height);
                 }
                 drawing.addAll(list);
                 return;
@@ -178,6 +189,8 @@ public class ImageInputFormat implements InputFormat {
                 list.add(figure);
                 if (replace) {
                     drawing.removeAllChildren();
+                    AttributeKeys.CANVAS_WIDTH.basicSet(drawing, figure.getBounds().width);
+                    AttributeKeys.CANVAS_HEIGHT.basicSet(drawing, figure.getBounds().height);
                 }
                 drawing.addAll(list);
             } catch (Throwable e) {
