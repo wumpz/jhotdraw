@@ -95,7 +95,9 @@ public class SVGRectRadiusHandle extends AbstractHandle {
             }
         }
         Rectangle2D.Double r = svgRect.getBounds();
-        svgRect.setArc(p.x - r.x, p.y - r.y);
+        svgRect.setArc(//
+                Math.min(svgRect.getWidth(),Math.max(0, p.x - r.x)),//
+                Math.min(svgRect.getHeight(),Math.max(0, p.y - r.y)));
         svgRect.changed();
     }
 
@@ -127,7 +129,7 @@ public class SVGRectRadiusHandle extends AbstractHandle {
                 evt.consume();
                 break;
             case KeyEvent.VK_DOWN:
-                newArc.height += 1;
+                newArc.height = Math.min(owner.getHeight(), newArc.height + 1);
                 evt.consume();
                 break;
             case KeyEvent.VK_LEFT:
@@ -137,7 +139,7 @@ public class SVGRectRadiusHandle extends AbstractHandle {
                 evt.consume();
                 break;
             case KeyEvent.VK_RIGHT:
-                newArc.width += 1;
+                newArc.width = Math.min(owner.getWidth(), newArc.width + 1);
                 evt.consume();
                 break;
         }

@@ -64,6 +64,7 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
     protected int updateDepth;
     protected LinkedList<Object> attributeRestoreData = new LinkedList<Object>();
     protected Map<AttributeKey, Object> defaultAttributes;
+    
     /**
      * If this variable is set to true, the attribute editor updates the
      * default values of the drawing editor.
@@ -130,7 +131,7 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
 
         @Override
         public String getPresentationName() {
-            return attributeKey.toString();
+            return attributeKey.getPresentationName();
         }
 
         @Override

@@ -57,7 +57,7 @@ public class ResourceBundleUtil implements Serializable {
     private transient ResourceBundle resource;
     /** The locale. */
     private Locale locale;
-
+    /** The base class */
     private Class baseClass = getClass();
     /**
      * The base name of the resource bundle.
@@ -474,7 +474,7 @@ public class ResourceBundleUtil implements Serializable {
 
     @Override
     public String toString() {
-        return super.toString() + "[" + resource + "]";
+        return super.toString() + "[" + baseName+", "+resource + "]";
     }
 
     public static void setVerbose(boolean newValue) {

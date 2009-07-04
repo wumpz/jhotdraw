@@ -75,10 +75,7 @@ public class AttributeKey<T> implements Serializable {
     /** Creates a new instance with the specified attribute key, type token class,
      * default value, and allowing or disallowing null values. */
     public AttributeKey(String key, Class<T> clazz, T defaultValue, boolean isNullValueAllowed) {
-        this.key = key;
-        this.clazz = clazz;
-        this.defaultValue = defaultValue;
-        this.isNullValueAllowed = isNullValueAllowed;
+        this(key, clazz, defaultValue, isNullValueAllowed, null);
     }
 
     /** Creates a new instance with the specified attribute key, type token class,
@@ -97,7 +94,7 @@ public class AttributeKey<T> implements Serializable {
         this.clazz = clazz;
         this.defaultValue = defaultValue;
         this.isNullValueAllowed = isNullValueAllowed;
-        this.labels = labels;
+        this.labels = (labels == null) ? ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels") : labels;
     }
 
     /**

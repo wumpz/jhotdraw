@@ -71,6 +71,7 @@ public class FillToolBar extends AbstractToolBar {
                     p = new JPanel();
                     p.setOpaque(false);
                     p.setBorder(new EmptyBorder(5, 5, 5, 8));
+                    ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
                     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
                     GridBagLayout layout = new GridBagLayout();
                     p.setLayout(layout);
@@ -82,7 +83,7 @@ public class FillToolBar extends AbstractToolBar {
                     FILL_GRADIENT.set(defaultAttributes, null);
                     btn = ButtonFactory.createSelectionColorButton(editor,
                             FILL_COLOR, ButtonFactory.HSV_COLORS, ButtonFactory.HSV_COLORS_COLUMN_COUNT,
-                            "attribute.fillColor", labels, defaultAttributes, new Rectangle(3, 3, 10, 10), disposables);
+                            "attribute.fillColor", drawLabels, defaultAttributes, new Rectangle(3, 3, 10, 10), disposables);
                     btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                     ((JPopupButton) btn).setAction(null, null);
                     gbc = new GridBagConstraints();
