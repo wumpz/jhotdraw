@@ -101,7 +101,9 @@ public class TextEditingTool extends AbstractTool implements ActionListener {
             final String newText = textField.getText();
 
             if (newText.length() > 0) {
+                typingTarget.willChange();
                 typingTarget.setText(newText);
+                typingTarget.changed();
             }
             UndoableEdit edit = new AbstractUndoableEdit() {
 

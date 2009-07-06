@@ -65,7 +65,6 @@ public class TextAreaEditingTool extends AbstractTool implements ActionListener 
         this.typingTarget = typingTarget;
     }
 
-
     @Override
     public void deactivate(DrawingEditor editor) {
         endEdit();
@@ -83,7 +82,6 @@ public class TextAreaEditingTool extends AbstractTool implements ActionListener 
             updateCursor(getView(), e.getPoint());
         }
     }
-
 
     @Override
     public void draw(Graphics2D g) {
@@ -128,11 +126,13 @@ public class TextAreaEditingTool extends AbstractTool implements ActionListener 
             final String oldText = typingTarget.getText();
             final String newText = textArea.getText();
 
+            typingTarget.willChange();
             if (newText.length() > 0) {
                 typingTarget.setText(newText);
             } else {
-                    typingTarget.setText("");
+                typingTarget.setText("");
             }
+            typingTarget.changed();
 
             UndoableEdit edit = new AbstractUndoableEdit() {
 
@@ -170,7 +170,7 @@ public class TextAreaEditingTool extends AbstractTool implements ActionListener 
 
     public void actionPerformed(ActionEvent event) {
         endEdit();
-            fireToolDone();
+        fireToolDone();
     }
 
     public void mouseDragged(MouseEvent e) {

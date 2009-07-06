@@ -70,8 +70,17 @@ public abstract class AbstractCompositeFigure
 
         @Override
         public void figureChanged(FigureEvent e) {
+            Rectangle2D.Double invalidatedArea = getDrawingArea();
+            invalidatedArea.add(e.getInvalidatedArea());
+
+            // We call invalidate/validate here, because we must layout
+            // the figure again.
             invalidate();
-                fireFigureChanged(e.getInvalidatedArea());
+            validate();
+
+            // Forward the figureChanged event to listeners on AbstractCompositeFigure.
+            invalidatedArea.add(getDrawingArea());
+            fireFigureChanged(invalidatedArea);
         }
 
         @Override
@@ -107,7 +116,7 @@ public abstract class AbstractCompositeFigure
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
         if (detailLevel == 0) {
-        handles.add(new BoundsOutlineHandle(this, true, false));
+            handles.add(new BoundsOutlineHandle(this, true, false));
             TransformHandleKit.addScaleMoveTransformHandles(this, handles);
         }
         return handles;
@@ -255,7 +264,7 @@ public abstract class AbstractCompositeFigure
     }
 
     /**
-     * Sends a figure to the front of the drawing.
+     * Brings a figure to the front of the drawing.
      *
      * @param figure that is part of the drawing
      */
@@ -566,7 +575,9 @@ public abstract class AbstractCompositeFigure
 
     public int basicRemove(Figure child) {
         int index = children.indexOf(child);
-        if (index != -1) { basicRemoveChild(index); }
+        if (index != -1) {
+            basicRemoveChild(index);
+        }
         return index;
     }
 
