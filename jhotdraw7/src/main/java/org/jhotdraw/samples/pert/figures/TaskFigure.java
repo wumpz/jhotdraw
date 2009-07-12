@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.samples.pert.figures;
 
+import java.awt.Point;
 import java.io.IOException;
 import java.awt.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
@@ -139,7 +140,9 @@ public class TaskFigure extends GraphicalCompositeFigure {
                 handles.add(new MoveHandle(this, RelativeLocator.northEast()));
                 handles.add(new MoveHandle(this, RelativeLocator.southWest()));
                 handles.add(new MoveHandle(this, RelativeLocator.southEast()));
-                handles.add(new ConnectorHandle(new LocatorConnector(this, RelativeLocator.east()), new DependencyFigure()));
+                ConnectorHandle ch;
+                handles.add(ch=new ConnectorHandle(new LocatorConnector(this, RelativeLocator.east()) , new DependencyFigure()));
+                ch.setToolTipText("Drag the connector to a dependent task");
                 break;
         }
         return handles;

@@ -31,6 +31,8 @@ public abstract class AbstractHandle implements Handle, FigureListener {
 
     final private Figure owner;
     protected DrawingView view;
+    /** Holds the tool tip text. By default a handle has no tool tip text. */
+    private String toolTipText;
     protected EventListenerList listenerList = new EventListenerList();
     /**
      * The bounds of the abstract handle.
@@ -365,8 +367,19 @@ public abstract class AbstractHandle implements Handle, FigureListener {
         return Collections.emptyList();
     }
 
+    /**
+     * Returns a tooltip for the specified location.
+     * By default, AbstractHandle returns null.
+     */
     public String getToolTipText(Point p) {
-        return null;
+        return toolTipText;
+    }
+
+    /**
+     * Changes the default tool tip text returned by AbstractHandle.
+     */
+    public void setToolTipText(String newValue) {
+         toolTipText = newValue;
     }
 
     public void figureHandlesChanged(FigureEvent e) {
