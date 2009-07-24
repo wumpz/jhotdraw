@@ -50,6 +50,7 @@ public class DrawFigureFactory extends DefaultDOMFactory {
         { ChopBezierConnector.class, "bezierConnector" },
         
         { ElbowLiner.class, "elbowLiner" },
+        { CurvedLiner.class, "curvedLiner" },
     };
     private final static Object[][] enumTagArray = {
         { AttributeKeys.StrokePlacement.class, "strokePlacement" },

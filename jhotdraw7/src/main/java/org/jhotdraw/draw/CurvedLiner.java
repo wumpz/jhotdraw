@@ -1,5 +1,5 @@
 /*
- * @(#)ElbowLiner.java
+ * @(#)CurvedLiner.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.draw;
 
 import java.util.*;
@@ -23,27 +22,29 @@ import org.jhotdraw.xml.DOMOutput;
 import org.jhotdraw.xml.DOMStorable;
 
 /**
- * A {@link Liner} that constrains a connection to orthogonal lines.
+ * A {@link Liner} that constrains a connection to a curved line.
  *
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class ElbowLiner
+public class CurvedLiner
         implements Liner, DOMStorable {
+
     private double shoulderSize;
-    
+
     /** Creates a new instance. */
-    public ElbowLiner() {
+    public CurvedLiner() {
         this(20);
     }
-    public ElbowLiner(double slantSize) {
+
+    public CurvedLiner(double slantSize) {
         this.shoulderSize = slantSize;
     }
-    
+
     public Collection<Handle> createHandles(BezierPath path) {
         return null;
     }
-    
+
     public void lineout(ConnectionFigure figure) {
         BezierPath path = ((LineConnectionFigure) figure).getBezierPath();
         Connector start = figure.getStartConnector();
@@ -51,12 +52,12 @@ public class ElbowLiner
         if (start == null || end == null || path == null) {
             return;
         }
-        
+
         // Special treatment if the connection connects the same figure
         if (figure.getStartFigure() == figure.getEndFigure()) {
             // Ensure path has exactly four nodes
             while (path.size() < 5) {
-                path.add(1, new BezierPath.Node(0,0));
+                path.add(1, new BezierPath.Node(0, 0));
             }
             while (path.size() > 5) {
                 path.remove(1);
@@ -73,23 +74,31 @@ public class ElbowLiner
             if (eoutcode == 0) {
                 eoutcode = Geom.outcode(sb, eb);
             }
-            
+
             path.get(0).moveTo(sp);
             path.get(path.size() - 1).moveTo(ep);
-            
-            
+
+
             switch (soutcode) {
-                case Geom.OUT_TOP : eoutcode = Geom.OUT_LEFT; break;
-                case Geom.OUT_RIGHT : eoutcode = Geom.OUT_TOP; break;
-                case Geom.OUT_BOTTOM : eoutcode = Geom.OUT_RIGHT; break;
-                case Geom.OUT_LEFT : eoutcode = Geom.OUT_BOTTOM; break;
-                default :
+                case Geom.OUT_TOP:
+                    eoutcode = Geom.OUT_LEFT;
+                    break;
+                case Geom.OUT_RIGHT:
+                    eoutcode = Geom.OUT_TOP;
+                    break;
+                case Geom.OUT_BOTTOM:
+                    eoutcode = Geom.OUT_RIGHT;
+                    break;
+                case Geom.OUT_LEFT:
+                    eoutcode = Geom.OUT_BOTTOM;
+                    break;
+                default:
                     eoutcode = Geom.OUT_TOP;
                     soutcode = Geom.OUT_RIGHT;
                     break;
             }
             path.get(1).moveTo(sp.x + shoulderSize, sp.y);
-            
+
             if ((soutcode & Geom.OUT_RIGHT) != 0) {
                 path.get(1).moveTo(sp.x + shoulderSize, sp.y);
             } else if ((soutcode & Geom.OUT_LEFT) != 0) {
@@ -108,31 +117,30 @@ public class ElbowLiner
             } else {
                 path.get(3).moveTo(ep.x, ep.y - shoulderSize);
             }
-            
+
             switch (soutcode) {
-                case Geom.OUT_RIGHT :
+                case Geom.OUT_RIGHT:
                     path.get(2).moveTo(path.get(1).x[0], path.get(3).y[0]);
                     break;
-                case Geom.OUT_TOP :
+                case Geom.OUT_TOP:
                     path.get(2).moveTo(path.get(1).y[0], path.get(3).x[0]);
                     break;
-                case Geom.OUT_LEFT :
+                case Geom.OUT_LEFT:
                     path.get(2).moveTo(path.get(1).x[0], path.get(3).y[0]);
                     break;
-                case Geom.OUT_BOTTOM :
-                default :
+                case Geom.OUT_BOTTOM:
+                default:
                     path.get(2).moveTo(path.get(1).y[0], path.get(3).x[0]);
                     break;
             }
         } else {
             Point2D.Double sp = start.findStart(figure);
             Point2D.Double ep = end.findEnd(figure);
-            
+
             path.clear();
-            path.add(new BezierPath.Node(sp.x,sp.y));
-            
+
             if (sp.x == ep.x || sp.y == ep.y) {
-                path.add(new BezierPath.Node(ep.x,ep.y));
+                path.add(new BezierPath.Node(ep.x, ep.y));
             } else {
                 Rectangle2D.Double sb = start.getBounds();
                 sb.x += 5d;
@@ -144,7 +152,7 @@ public class ElbowLiner
                 eb.y += 5d;
                 eb.width -= 10d;
                 eb.height -= 10d;
-                
+
                 int soutcode = sb.outcode(sp);
                 if (soutcode == 0) {
                     soutcode = Geom.outcode(sb, eb);
@@ -153,38 +161,35 @@ public class ElbowLiner
                 if (eoutcode == 0) {
                     eoutcode = Geom.outcode(eb, sb);
                 }
-                
+
                 if ((soutcode & (Geom.OUT_TOP | Geom.OUT_BOTTOM)) != 0 &&
                         (eoutcode & (Geom.OUT_TOP | Geom.OUT_BOTTOM)) != 0) {
-                    path.add(new BezierPath.Node(sp.x, (sp.y + ep.y)/2));
-                    path.add(new BezierPath.Node(ep.x, (sp.y + ep.y)/2));
+                    path.add(new BezierPath.Node(BezierPath.C2_MASK, sp.x, sp.y, sp.x, sp.y, sp.x, (sp.y + ep.y) / 2));
+                    path.add(new BezierPath.Node(BezierPath.C1_MASK, ep.x, ep.y, ep.x, (sp.y + ep.y) / 2, ep.x, ep.y));
                 } else if ((soutcode & (Geom.OUT_LEFT | Geom.OUT_RIGHT)) != 0 &&
                         (eoutcode & (Geom.OUT_LEFT | Geom.OUT_RIGHT)) != 0) {
-                    path.add(new BezierPath.Node((sp.x + ep.x)/2, sp.y));
-                    path.add(new BezierPath.Node((sp.x + ep.x)/2, ep.y));
-                } else if (soutcode == Geom.OUT_BOTTOM || soutcode == Geom.OUT_TOP) {
-                    path.add(new BezierPath.Node(sp.x, ep.y));
+                    path.add(new BezierPath.Node(BezierPath.C2_MASK, sp.x, sp.y, sp.x, sp.y, (sp.x + ep.x) / 2, sp.y));
+                    path.add(new BezierPath.Node(BezierPath.C1_MASK, ep.x, ep.y, (sp.x + ep.x) / 2, ep.y, ep.x, ep.y));
+                } else if (soutcode == Geom.OUT_BOTTOM || soutcode == Geom.OUT_TOP ) {
+                    path.add(new BezierPath.Node(BezierPath.C2_MASK, sp.x, sp.y, sp.x, sp.y, sp.x, ep.y));
+                    path.add(new BezierPath.Node(ep.x, ep.y));
                 } else {
-                    path.add(new BezierPath.Node(ep.x, sp.y));
+                    path.add(new BezierPath.Node(BezierPath.C2_MASK, sp.x, sp.y, sp.x, sp.y, ep.x, sp.y));
+                    path.add(new BezierPath.Node(ep.x, ep.y));
                 }
-                
-                path.add(new BezierPath.Node(ep.x,ep.y));
+
             }
         }
-        
-        // Ensure all path nodes are straight
-        for (BezierPath.Node node : path) {
-            node.setMask(BezierPath.C0_MASK);
-        }
-        
+
         path.invalidatePath();
     }
-    
+
     public void read(DOMInput in) {
     }
-    
+
     public void write(DOMOutput out) {
     }
+
     public Liner clone() {
         try {
             return (Liner) super.clone();
