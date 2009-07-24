@@ -24,6 +24,11 @@ import org.jhotdraw.geom.*;
  * The location of the start and end points of the bezier path is defined by
  * {@link Connector} objects, which are supplied by the connected figures.
  * <p>
+ * If a connected figure is removed, the connection figure needs to be
+ * removed as well. To achieve this, {@code ConnectionFigure} listens to
+ * {@code figureRemoved} events sent by the two figures that it connects, and
+ * then fires a {@code requestRemove} event to get removed as well.
+ * <p>
  * The bezier path of the connection figure can be laid out using a {@link Liner}.
  *
  * <hr>

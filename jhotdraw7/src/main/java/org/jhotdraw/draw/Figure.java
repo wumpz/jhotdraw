@@ -428,7 +428,7 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
     // CLONING
     /**
      * Returns a clone of the figure, with clones of all aggregated figures,
-     * such as chilrend and decorators. The cloned figure does not clone
+     * such as children and decorators. The cloned figure does not clone
      * the list of FigureListeners from its original. 
      */
     public Object clone();

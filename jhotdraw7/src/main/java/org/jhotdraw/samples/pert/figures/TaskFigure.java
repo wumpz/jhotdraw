@@ -142,7 +142,7 @@ public class TaskFigure extends GraphicalCompositeFigure {
                 handles.add(new MoveHandle(this, RelativeLocator.southEast()));
                 ConnectorHandle ch;
                 handles.add(ch=new ConnectorHandle(new LocatorConnector(this, RelativeLocator.east()) , new DependencyFigure()));
-                ch.setToolTipText("Drag the connector to a dependent task");
+                ch.setToolTipText("Drag the connector to a dependent task.");
                 break;
         }
         return handles;
@@ -163,6 +163,7 @@ public class TaskFigure extends GraphicalCompositeFigure {
             for (TaskFigure succ : getSuccessors()) {
                 succ.updateStartTime();
             }
+
         }
     }
 
@@ -172,6 +173,7 @@ public class TaskFigure extends GraphicalCompositeFigure {
         } catch (NumberFormatException e) {
             return 0;
         }
+
     }
 
     public void updateStartTime() {
@@ -182,6 +184,7 @@ public class TaskFigure extends GraphicalCompositeFigure {
             newValue = Math.max(newValue,
                     pre.getStartTime() + pre.getDuration());
         }
+
         getStartTimeFigure().setText(Integer.toString(newValue));
         if (newValue != oldValue) {
             for (TaskFigure succ : getSuccessors()) {
@@ -190,6 +193,7 @@ public class TaskFigure extends GraphicalCompositeFigure {
                 if (!this.isDependentOf(succ)) {
                     succ.updateStartTime();
                 }
+
             }
         }
         changed();
@@ -201,6 +205,7 @@ public class TaskFigure extends GraphicalCompositeFigure {
         } catch (NumberFormatException e) {
             return 0;
         }
+
     }
 
     private TextFigure getNameFigure() {
@@ -221,6 +226,7 @@ public class TaskFigure extends GraphicalCompositeFigure {
         for (Map.Entry<AttributeKey, Object> entry : attr.entrySet()) {
             entry.getKey().basicSet(f, entry.getValue());
         }
+
     }
 
     @Override
@@ -277,11 +283,13 @@ public class TaskFigure extends GraphicalCompositeFigure {
     public void addDependency(DependencyFigure f) {
         dependencies.add(f);
         updateStartTime();
+
     }
 
     public void removeDependency(DependencyFigure f) {
         dependencies.remove(f);
         updateStartTime();
+
     }
 
     /**
@@ -294,6 +302,7 @@ public class TaskFigure extends GraphicalCompositeFigure {
             if (c.getStartFigure() == this) {
                 list.add((TaskFigure) c.getEndFigure());
             }
+
         }
         return list;
     }
@@ -308,6 +317,7 @@ public class TaskFigure extends GraphicalCompositeFigure {
             if (c.getEndFigure() == this) {
                 list.add((TaskFigure) c.getStartFigure());
             }
+
         }
         return list;
     }
@@ -323,10 +333,12 @@ public class TaskFigure extends GraphicalCompositeFigure {
         if (this == t) {
             return true;
         }
+
         for (TaskFigure pre : getPredecessors()) {
             if (pre.isDependentOf(t)) {
                 return true;
             }
+
         }
         return false;
     }

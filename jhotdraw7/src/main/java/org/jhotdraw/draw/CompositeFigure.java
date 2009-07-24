@@ -18,7 +18,12 @@ import org.jhotdraw.geom.*;
 
 /**
  * A <em>composite figure</em> is composed of several child {@link Figure}s.
+ * <p>
  * A composite figure can be laid out using a {@link Layouter}.
+ * <p>
+ * {@code CompositeFigure} listens to {@code requestRemove} events
+ * sent by its child figures, and then removes the child figure which sent
+ * the event.
  *
  * <hr>
  * <b>Design Patterns</b>
