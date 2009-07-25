@@ -18,7 +18,6 @@ import java.awt.*;
 import java.beans.*;
 import javax.swing.*;
 import java.awt.event.*;
-import org.jhotdraw.draw.action.*;
 
 /**
  * JPopupButton provides a popup menu.

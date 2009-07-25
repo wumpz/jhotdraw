@@ -12,7 +12,7 @@
  * the copyright holders. For details see accompanying license terms. 
  */
 
-package org.jhotdraw.draw.action;
+package org.jhotdraw.gui;
 
 import java.awt.*;
 
