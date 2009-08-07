@@ -297,6 +297,7 @@ public class JSheet extends JDialog {
         uninstallSheet();
     }
 
+    @SuppressWarnings("deprecation")
     protected void hide0() {
         JRootPane rp = null;
         if (getOwner() instanceof JFrame) {
@@ -315,6 +316,7 @@ public class JSheet extends JDialog {
         super.hide();
     }
 
+    @SuppressWarnings("deprecation")
     protected void show0() {
         JRootPane rp = null;
         if (getOwner() instanceof JFrame) {
@@ -332,6 +334,7 @@ public class JSheet extends JDialog {
         super.show();
     }
 
+    @SuppressWarnings("deprecation")
     public void hide() {
         if (isAnimated() && isShowAsSheet() && !isNativeSheetSupported()) {
             getContentPane().setVisible(false);
@@ -380,6 +383,7 @@ public class JSheet extends JDialog {
         }
     }
 
+    @SuppressWarnings("deprecation")
     public void show() {
         if (isAnimated() && isShowAsSheet() && !isNativeSheetSupported()) {
             installSheet();

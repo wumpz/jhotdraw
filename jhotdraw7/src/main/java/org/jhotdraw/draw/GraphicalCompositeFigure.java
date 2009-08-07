@@ -1,7 +1,7 @@
 /*
  * @(#)GraphicalCompositeFigure.java
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -15,11 +15,9 @@
 package org.jhotdraw.draw;
 
 import java.io.IOException;
-import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
-import javax.swing.undo.*;
 import javax.swing.event.*;
 
 import static org.jhotdraw.draw.AttributeKeys.*;
@@ -122,11 +120,11 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
     }
     
     public boolean contains(Point2D.Double p) {
-        if (getPresentationFigure() != null) {
-            return getPresentationFigure().contains(p);
-        } else {
-            return super.contains(p);
+        boolean contains = super.contains(p);
+        if (! contains && getPresentationFigure() != null) {
+            contains = getPresentationFigure().contains(p);
         }
+        return contains;
     }
     
     public void addNotify(Drawing drawing) {
@@ -146,17 +144,9 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
      * encapsulated presentation figure.
      */
     public Rectangle2D.Double getDrawingArea() {
-        Rectangle2D.Double r;
+        Rectangle2D.Double r = super.getDrawingArea();
         if (getPresentationFigure() != null) {
-            Rectangle2D.Double presentationBounds = getPresentationFigure().getDrawingArea();
-            r = super.getDrawingArea();
-            if (r.isEmpty()) {
-                r = presentationBounds;
-            } else {
-                r.add(presentationBounds);
-            }
-        } else {
-            r = super.getDrawingArea();
+            r.add(getPresentationFigure().getDrawingArea());
         }
         return r;
     }

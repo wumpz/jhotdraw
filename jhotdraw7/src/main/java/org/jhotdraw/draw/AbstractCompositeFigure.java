@@ -524,12 +524,6 @@ public abstract class AbstractCompositeFigure
         return list;
     }
 
-    @Override
-    protected void validate() {
-        super.validate();
-        layout();
-    }
-
     public void basicAdd(int index, Figure figure) {
         children.add(index, figure);
         figure.addFigureListener(eventHandler);
@@ -568,10 +562,32 @@ public abstract class AbstractCompositeFigure
     }
 
     @Override
+    protected void validate() {
+        super.validate();
+        layout();
+    }
+
+    @Override
     protected void invalidate() {
         cachedBounds = null;
         cachedDrawingArea = null;
     }
+    @Override
+    public void willChange() {
+        super.willChange();
+        for (Figure child: children) {
+            child.willChange();
+        }
+    }
+
+    @Override
+    public void changed() {
+        for (Figure child: children) {
+            child.changed();
+        }
+        super.changed();
+    }
+
 
     public int basicRemove(Figure child) {
         int index = children.indexOf(child);

@@ -105,7 +105,7 @@ public class DefaultDrawingView
     /** Draws the background of the drawing view. */
     protected void drawBackground(Graphics2D g) {
         g.setColor(getBackground());
-        g.fillRect(0,0,getWidth(),getHeight());
+        g.fillRect(0, 0, getWidth(), getHeight());
     }
 
     private class EventHandler implements FigureListener, CompositeFigureListener, HandleListener, FocusListener {
@@ -213,8 +213,8 @@ public class DefaultDrawingView
 
     public void setBackground(Color c) {
         super.setBackground(c);
-        if (c.getRGB()==0xffffff||c.getRGB()==0xffffffff) {
-        new Throwable().printStackTrace();
+        if (c.getRGB() == 0xffffff || c.getRGB() == 0xffffffff) {
+            new Throwable().printStackTrace();
         }
     }
 
@@ -363,12 +363,12 @@ public class DefaultDrawingView
             g.fillRect(cb.x, cb.y, cb.width, cb.height);
         }
 
-    /*
-    //Fill canvasColor with alternating colors to debug clipping
-    rainbow = (rainbow + 10) % 360;
-    g.setColor(
-    new Color(Color.HSBtoRGB((float) (rainbow / 360f), 0.3f, 1.0f)));
-    g.fill(g.getClipBounds());*/
+        /*
+        //Fill canvasColor with alternating colors to debug clipping
+        rainbow = (rainbow + 10) % 360;
+        g.setColor(
+        new Color(Color.HSBtoRGB((float) (rainbow / 360f), 0.3f, 1.0f)));
+        g.fill(g.getClipBounds());*/
     }
 //int rainbow;
 
@@ -711,10 +711,9 @@ public class DefaultDrawingView
             handlesAreValid = true;
             selectionHandles.clear();
             Rectangle invalidatedArea = null;
-            int level = detailLevel;
-            do {
+            while (true) {
                 for (Figure figure : getSelectedFigures()) {
-                    for (Handle handle : figure.createHandles(level)) {
+                    for (Handle handle : figure.createHandles(detailLevel)) {
                         handle.setView(this);
                         selectionHandles.add(handle);
                         handle.addHandleListener(eventHandler);
@@ -726,9 +725,16 @@ public class DefaultDrawingView
 
                     }
                 }
-            } while (level-- > 0 && selectionHandles.size() == 0);
-            detailLevel =
-                    level + 1;
+
+                if (selectionHandles.size() == 0 && detailLevel != 0) {
+                    // No handles are available at the desired detail level.
+                    // Retry with detail level 0.
+                    detailLevel = 0;
+                    continue;
+                }
+                break;
+            }
+
 
             if (invalidatedArea != null) {
                 repaint(invalidatedArea);
@@ -1066,16 +1072,8 @@ public class DefaultDrawingView
         if (newValue != detailLevel) {
             detailLevel = newValue;
             invalidateHandles();
-
             validateHandles();
-
         }
-
-
-
-
-
-
     }
 
     public int getHandleDetailLevel() {
@@ -1099,14 +1097,7 @@ public class DefaultDrawingView
             if (!f.isRemovable()) {
                 getToolkit().beep();
                 return;
-
             }
-
-
-
-
-
-
         }
 
         // Get z-indices of deleted figures
