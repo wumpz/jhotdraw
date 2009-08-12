@@ -64,87 +64,97 @@ public class FigureToolBar extends AbstractToolBar {
         JPanel p = null;
 
         switch (state) {
-            case 1:
-                 {
-                    p = new JPanel();
-                    p.setOpaque(false);
-                    p.setLayout(new GridBagLayout());
-                    GridBagConstraints gbc;
-                    AbstractButton btn;
-                    p.setBorder(new EmptyBorder(5, 5, 5, 8));
+            case 1: {
+                p = new JPanel();
+                p.setOpaque(false);
+                p.setLayout(new GridBagLayout());
+                p.setBorder(new EmptyBorder(5, 5, 5, 8));
 
-                    // Opacity slider
-                    JPopupButton opacityPopupButton = new JPopupButton();
-                    JAttributeSlider opacitySlider = new JAttributeSlider(JSlider.VERTICAL, 0, 100, 100);
-                    opacityPopupButton.add(opacitySlider);
-                    labels.configureToolBarButton(opacityPopupButton, "attribute.figureOpacity");
-                    opacityPopupButton.setUI((PaletteButtonUI) PaletteButtonUI.createUI(opacityPopupButton));
-                    opacityPopupButton.setIcon(
-                            new SelectionOpacityIcon(editor, OPACITY, FILL_COLOR, STROKE_COLOR, Images.createImage(getClass(),labels.getString("attribute.figureOpacity.icon")),
-                            new Rectangle(5, 5, 6, 6), new Rectangle(4, 4, 7, 7)));
-                    opacityPopupButton.setPopupAnchor(SOUTH_EAST);
-                    disposables.add(new SelectionComponentRepainter(editor, opacityPopupButton));
-                    gbc = new GridBagConstraints();
-                    gbc.gridx = 2;
-                    gbc.gridy = 0;
-                    gbc.insets = new Insets(0, 0, 0, 0);
-                    gbc.weighty=1;
-                    gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-                    p.add(opacityPopupButton, gbc);
-                    opacitySlider.setUI((SliderUI) PaletteSliderUI.createUI(opacitySlider));
-                    opacitySlider.setScaleFactor(100d);
-                    disposables.add(new FigureAttributeEditorHandler<Double>(OPACITY, opacitySlider, editor));
+                // Abort if no editor is set
+                if (editor == null) {
+                    break;
                 }
-                break;
 
-            case 2:
-                 {
-                    p = new JPanel();
-                    p.setOpaque(false);
-                    p.setLayout(new GridBagLayout());
-                    GridBagConstraints gbc;
-                    AbstractButton btn;
-                    p.setBorder(new EmptyBorder(5, 5, 5, 8));
+                GridBagConstraints gbc;
+                AbstractButton btn;
 
-                    // Opacity field with slider
-                    JAttributeTextField<Double> opacityField = new JAttributeTextField<Double>();
-                    opacityField.setColumns(3);
-                    opacityField.setToolTipText(labels.getString("attribute.figureOpacity.toolTipText"));
-                    opacityField.setHorizontalAlignment(JAttributeTextField.RIGHT);
-                    opacityField.putClientProperty("Palette.Component.segmentPosition", "first");
-                    opacityField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(opacityField));
-                    opacityField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0d, 1d, 100d));
-                    opacityField.setHorizontalAlignment(JTextField.LEADING);
-                    disposables.add(new FigureAttributeEditorHandler<Double>(OPACITY, opacityField, editor));
-                    gbc = new GridBagConstraints();
-                    gbc.gridx = 1;
-                    gbc.gridy = 0;
-                    gbc.insets = new Insets(0, 0, 0, 0);
-                    gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-                    gbc.weightx = 1d;
-                    p.add(opacityField, gbc);
-                    JPopupButton opacityPopupButton = new JPopupButton();
-                    JAttributeSlider opacitySlider = new JAttributeSlider(JSlider.VERTICAL, 0, 100, 100);
-                    opacityPopupButton.add(opacitySlider);
-                    labels.configureToolBarButton(opacityPopupButton, "attribute.figureOpacity");
-                    opacityPopupButton.setUI((PaletteButtonUI) PaletteButtonUI.createUI(opacityPopupButton));
-                    opacityPopupButton.setIcon(
-                            new SelectionOpacityIcon(editor, OPACITY, FILL_COLOR, STROKE_COLOR, Images.createImage(getClass(),labels.getString("attribute.figureOpacity.icon")),
-                            new Rectangle(5, 5, 6, 6), new Rectangle(4, 4, 7, 7)));
-                    opacityPopupButton.setPopupAnchor(SOUTH_EAST);
-                    disposables.add(new SelectionComponentRepainter(editor, opacityPopupButton));
-                    gbc = new GridBagConstraints();
-                    gbc.gridx = 2;
-                    gbc.gridy = 0;
-                    gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-                    gbc.weighty=1;
-                    gbc.insets = new Insets(0, 0, 0, 0);
-                    p.add(opacityPopupButton, gbc);
-                    opacitySlider.setUI((SliderUI) PaletteSliderUI.createUI(opacitySlider));
-                    opacitySlider.setScaleFactor(100d);
-                    disposables.add(new FigureAttributeEditorHandler<Double>(OPACITY, opacitySlider, editor));
+                // Opacity slider
+                JPopupButton opacityPopupButton = new JPopupButton();
+                JAttributeSlider opacitySlider = new JAttributeSlider(JSlider.VERTICAL, 0, 100, 100);
+                opacityPopupButton.add(opacitySlider);
+                labels.configureToolBarButton(opacityPopupButton, "attribute.figureOpacity");
+                opacityPopupButton.setUI((PaletteButtonUI) PaletteButtonUI.createUI(opacityPopupButton));
+                opacityPopupButton.setIcon(
+                        new SelectionOpacityIcon(editor, OPACITY, FILL_COLOR, STROKE_COLOR, Images.createImage(getClass(), labels.getString("attribute.figureOpacity.icon")),
+                        new Rectangle(5, 5, 6, 6), new Rectangle(4, 4, 7, 7)));
+                opacityPopupButton.setPopupAnchor(SOUTH_EAST);
+                disposables.add(new SelectionComponentRepainter(editor, opacityPopupButton));
+                gbc = new GridBagConstraints();
+                gbc.gridx = 2;
+                gbc.gridy = 0;
+                gbc.insets = new Insets(0, 0, 0, 0);
+                gbc.weighty = 1;
+                gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+                p.add(opacityPopupButton, gbc);
+                opacitySlider.setUI((SliderUI) PaletteSliderUI.createUI(opacitySlider));
+                opacitySlider.setScaleFactor(100d);
+                disposables.add(new FigureAttributeEditorHandler<Double>(OPACITY, opacitySlider, editor));
+            }
+            break;
+
+            case 2: {
+                p = new JPanel();
+                p.setOpaque(false);
+                p.setLayout(new GridBagLayout());
+                p.setBorder(new EmptyBorder(5, 5, 5, 8));
+
+                // Abort if no editor is set
+                if (editor == null) {
+                    break;
                 }
-                break;
+
+                GridBagConstraints gbc;
+                AbstractButton btn;
+
+                // Opacity field with slider
+                JAttributeTextField<Double> opacityField = new JAttributeTextField<Double>();
+                opacityField.setColumns(3);
+                opacityField.setToolTipText(labels.getString("attribute.figureOpacity.toolTipText"));
+                opacityField.setHorizontalAlignment(JAttributeTextField.RIGHT);
+                opacityField.putClientProperty("Palette.Component.segmentPosition", "first");
+                opacityField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(opacityField));
+                opacityField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0d, 1d, 100d));
+                opacityField.setHorizontalAlignment(JTextField.LEADING);
+                disposables.add(new FigureAttributeEditorHandler<Double>(OPACITY, opacityField, editor));
+                gbc = new GridBagConstraints();
+                gbc.gridx = 1;
+                gbc.gridy = 0;
+                gbc.insets = new Insets(0, 0, 0, 0);
+                gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+                gbc.weightx = 1d;
+                p.add(opacityField, gbc);
+                JPopupButton opacityPopupButton = new JPopupButton();
+                JAttributeSlider opacitySlider = new JAttributeSlider(JSlider.VERTICAL, 0, 100, 100);
+                opacityPopupButton.add(opacitySlider);
+                labels.configureToolBarButton(opacityPopupButton, "attribute.figureOpacity");
+                opacityPopupButton.setUI((PaletteButtonUI) PaletteButtonUI.createUI(opacityPopupButton));
+                opacityPopupButton.setIcon(
+                        new SelectionOpacityIcon(editor, OPACITY, FILL_COLOR, STROKE_COLOR, Images.createImage(getClass(), labels.getString("attribute.figureOpacity.icon")),
+                        new Rectangle(5, 5, 6, 6), new Rectangle(4, 4, 7, 7)));
+                opacityPopupButton.setPopupAnchor(SOUTH_EAST);
+                disposables.add(new SelectionComponentRepainter(editor, opacityPopupButton));
+                gbc = new GridBagConstraints();
+                gbc.gridx = 2;
+                gbc.gridy = 0;
+                gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+                gbc.weighty = 1;
+                gbc.insets = new Insets(0, 0, 0, 0);
+                p.add(opacityPopupButton, gbc);
+                opacitySlider.setUI((SliderUI) PaletteSliderUI.createUI(opacitySlider));
+                opacitySlider.setScaleFactor(100d);
+                disposables.add(new FigureAttributeEditorHandler<Double>(OPACITY, opacitySlider, editor));
+            }
+            break;
         }
         return p;
     }

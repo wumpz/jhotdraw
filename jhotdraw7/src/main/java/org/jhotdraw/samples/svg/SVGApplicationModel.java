@@ -54,6 +54,8 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         SVGView v = (SVGView) view;
         if (a.isSharingToolsAmongViews()) {
             v.setEditor(getSharedEditor());
+        } else {
+            v.setEditor(new DefaultDrawingEditor());
         }
 
         AbstractSelectedAction action;

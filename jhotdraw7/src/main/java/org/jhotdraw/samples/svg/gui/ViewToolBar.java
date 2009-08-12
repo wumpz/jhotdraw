@@ -61,161 +61,168 @@ public class ViewToolBar extends AbstractToolBar {
         JPanel p = null;
 
         switch (state) {
-            case 1:
-                 {
-                    p = new JPanel();
-                    p.setOpaque(false);
+            case 1: {
+                p = new JPanel();
+                p.setOpaque(false);
+                p.setBorder(new EmptyBorder(5, 5, 5, 8));
 
-                    p.removeAll();
-                    p.setBorder(new EmptyBorder(5, 5, 5, 8));
-                    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
-                    GridBagLayout layout = new GridBagLayout();
-                    p.setLayout(layout);
-                    GridBagConstraints gbc;
-                    AbstractButton btn;
-
-                    // Toggle Grid Button
-                    AbstractButton toggleGridButton;
-                    toggleGridButton = btn = ButtonFactory.createToggleGridButton(view);
-                    btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-                    labels.configureToolBarButton(btn, "alignGrid");
-                    gbc = new GridBagConstraints();
-                    gbc.gridx = 1;
-                    gbc.gridy = 0;
-                    gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-                    gbc.fill = GridBagConstraints.NONE;
-                    gbc.insets = new Insets(0, 0, 0, 0);
-                    p.add(btn, gbc);
-
-                    // Zoom button
-                    btn = ButtonFactory.createZoomButton(view);
-                    btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-                    labels.configureToolBarButton(btn, "view.zoomFactor");
-                    btn.setText("100 %");
-                    gbc = new GridBagConstraints();
-                    gbc.gridx = 1;
-                    gbc.gridy = 1;
-                    gbc.gridwidth = GridBagConstraints.REMAINDER;
-                    gbc.fill = GridBagConstraints.HORIZONTAL;
-                    gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-                    gbc.insets = new Insets(3, 0, 0, 0);
-                    gbc.weighty = 1;
-                    gbc.weightx = 1;
-                    btn.setPreferredSize(new Dimension(btn.getPreferredSize().width, toggleGridButton.getPreferredSize().height));
-                    p.add(btn, gbc);
+                // Abort if no editor is set
+                if (editor == null) {
+                    break;
                 }
-                break;
-            case 2:
-                 {
-                    p = new JPanel();
-                    p.setOpaque(false);
 
-                    p.removeAll();
-                    p.setBorder(new EmptyBorder(5, 5, 5, 8));
-                    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
-                    GridBagLayout layout = new GridBagLayout();
-                    p.setLayout(layout);
-                    GridBagConstraints gbc;
-                    AbstractButton btn;
 
-                    // Grid size field and toggle grid button
-                    JLifeFormattedTextField gridSizeField = new JLifeFormattedTextField();
-                    gridSizeField.setColumns(3);
-                    gridSizeField.setToolTipText(labels.getString("view.gridSize.toolTipText"));
-                    gridSizeField.setHorizontalAlignment(JLifeFormattedTextField.RIGHT);
-                    gridSizeField.putClientProperty("Palette.Component.segmentPosition", "first");
-                    gridSizeField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(gridSizeField));
-                    gridSizeField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0d, 1000d, 1d, true, false));
-                    gridSizeField.setHorizontalAlignment(JTextField.LEADING);
-                    final GridConstrainer constrainer = (GridConstrainer) view.getVisibleConstrainer();
-                    gridSizeField.addPropertyChangeListener(new PropertyChangeListener() {
+                ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
+                GridBagLayout layout = new GridBagLayout();
+                p.setLayout(layout);
+                GridBagConstraints gbc;
+                AbstractButton btn;
 
-                        public void propertyChange(PropertyChangeEvent evt) {
-                            if (evt.getPropertyName().equals("value")) {
-                                if (evt.getNewValue() != null) {
-                                    constrainer.setWidth((Double) evt.getNewValue());
-                                    constrainer.setHeight((Double) evt.getNewValue());
-                                    prefs = PreferencesUtil.userNodeForPackage(getClass());
-                                    try {
-                                        prefs.putDouble("view.gridSize", (Double) evt.getNewValue());
-                                    } catch (IllegalStateException e) {//ignore
+                // Toggle Grid Button
+                AbstractButton toggleGridButton;
+                toggleGridButton = btn = ButtonFactory.createToggleGridButton(view);
+                btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
+                labels.configureToolBarButton(btn, "alignGrid");
+                gbc = new GridBagConstraints();
+                gbc.gridx = 1;
+                gbc.gridy = 0;
+                gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+                gbc.fill = GridBagConstraints.NONE;
+                gbc.insets = new Insets(0, 0, 0, 0);
+                p.add(btn, gbc);
+
+                // Zoom button
+                btn = ButtonFactory.createZoomButton(view);
+                btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
+                labels.configureToolBarButton(btn, "view.zoomFactor");
+                btn.setText("100 %");
+                gbc = new GridBagConstraints();
+                gbc.gridx = 1;
+                gbc.gridy = 1;
+                gbc.gridwidth = GridBagConstraints.REMAINDER;
+                gbc.fill = GridBagConstraints.HORIZONTAL;
+                gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+                gbc.insets = new Insets(3, 0, 0, 0);
+                gbc.weighty = 1;
+                gbc.weightx = 1;
+                btn.setPreferredSize(new Dimension(btn.getPreferredSize().width, toggleGridButton.getPreferredSize().height));
+                p.add(btn, gbc);
+            }
+            break;
+            case 2: {
+                p = new JPanel();
+                p.setOpaque(false);
+                p.setBorder(new EmptyBorder(5, 5, 5, 8));
+
+                // Abort if no editor is set
+                if (editor == null) {
+                    break;
+                }
+
+                ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
+                GridBagLayout layout = new GridBagLayout();
+                p.setLayout(layout);
+                GridBagConstraints gbc;
+                AbstractButton btn;
+
+                // Grid size field and toggle grid button
+                JLifeFormattedTextField gridSizeField = new JLifeFormattedTextField();
+                gridSizeField.setColumns(3);
+                gridSizeField.setToolTipText(labels.getString("view.gridSize.toolTipText"));
+                gridSizeField.setHorizontalAlignment(JLifeFormattedTextField.RIGHT);
+                gridSizeField.putClientProperty("Palette.Component.segmentPosition", "first");
+                gridSizeField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(gridSizeField));
+                gridSizeField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0d, 1000d, 1d, true, false));
+                gridSizeField.setHorizontalAlignment(JTextField.LEADING);
+                final GridConstrainer constrainer = (GridConstrainer) view.getVisibleConstrainer();
+                gridSizeField.addPropertyChangeListener(new PropertyChangeListener() {
+
+                    public void propertyChange(PropertyChangeEvent evt) {
+                        if (evt.getPropertyName().equals("value")) {
+                            if (evt.getNewValue() != null) {
+                                constrainer.setWidth((Double) evt.getNewValue());
+                                constrainer.setHeight((Double) evt.getNewValue());
+                                prefs = PreferencesUtil.userNodeForPackage(getClass());
+                                try {
+                                    prefs.putDouble("view.gridSize", (Double) evt.getNewValue());
+                                } catch (IllegalStateException e) {//ignore
                                     }
-                                    view.getComponent().repaint();
-                                }
+                                view.getComponent().repaint();
                             }
                         }
-                    });
-                    gridSizeField.setValue(constrainer.getHeight());
+                    }
+                });
+                gridSizeField.setValue(constrainer.getHeight());
 
-                    gbc = new GridBagConstraints();
-                    gbc.gridx = 0;
-                    gbc.gridy = 0;
-                    gbc.insets = new Insets(0, 0, 0, 0);
-                    gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-                    p.add(gridSizeField, gbc);
-                    btn = ButtonFactory.createToggleGridButton(view);
-                    btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-                    labels.configureToolBarButton(btn, "alignGrid");
-                    gbc = new GridBagConstraints();
-                    gbc.gridx = 1;
-                    gbc.gridy = 0;
-                    gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-                    gbc.fill = GridBagConstraints.NONE;
-                    gbc.insets = new Insets(0, 0, 0, 0);
-                    p.add(btn, gbc);
+                gbc = new GridBagConstraints();
+                gbc.gridx = 0;
+                gbc.gridy = 0;
+                gbc.insets = new Insets(0, 0, 0, 0);
+                gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+                p.add(gridSizeField, gbc);
+                btn = ButtonFactory.createToggleGridButton(view);
+                btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
+                labels.configureToolBarButton(btn, "alignGrid");
+                gbc = new GridBagConstraints();
+                gbc.gridx = 1;
+                gbc.gridy = 0;
+                gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+                gbc.fill = GridBagConstraints.NONE;
+                gbc.insets = new Insets(0, 0, 0, 0);
+                p.add(btn, gbc);
 
-                    // Zoom factor field and zoom button
-                    final JLifeFormattedTextField scaleFactorField = new JLifeFormattedTextField();
-                    scaleFactorField.setColumns(3);
-                    scaleFactorField.setToolTipText(labels.getString("view.zoomFactor.toolTipText"));
-                    scaleFactorField.setHorizontalAlignment(JLifeFormattedTextField.RIGHT);
-                    scaleFactorField.putClientProperty("Palette.Component.segmentPosition", "first");
-                    scaleFactorField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(scaleFactorField));
-                    scaleFactorField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0.01d, 50d, 100d, true, false));
-                    scaleFactorField.setHorizontalAlignment(JTextField.LEADING);
-                    scaleFactorField.setValue(view.getScaleFactor());
-                    scaleFactorField.addPropertyChangeListener(new PropertyChangeListener() {
+                // Zoom factor field and zoom button
+                final JLifeFormattedTextField scaleFactorField = new JLifeFormattedTextField();
+                scaleFactorField.setColumns(3);
+                scaleFactorField.setToolTipText(labels.getString("view.zoomFactor.toolTipText"));
+                scaleFactorField.setHorizontalAlignment(JLifeFormattedTextField.RIGHT);
+                scaleFactorField.putClientProperty("Palette.Component.segmentPosition", "first");
+                scaleFactorField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(scaleFactorField));
+                scaleFactorField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0.01d, 50d, 100d, true, false));
+                scaleFactorField.setHorizontalAlignment(JTextField.LEADING);
+                scaleFactorField.setValue(view.getScaleFactor());
+                scaleFactorField.addPropertyChangeListener(new PropertyChangeListener() {
 
-                        public void propertyChange(PropertyChangeEvent evt) {
-                            if (evt.getPropertyName().equals("value")) {
-                                if (evt.getNewValue() != null) {
-                                    view.setScaleFactor((Double) evt.getNewValue());
-                                }
+                    public void propertyChange(PropertyChangeEvent evt) {
+                        if (evt.getPropertyName().equals("value")) {
+                            if (evt.getNewValue() != null) {
+                                view.setScaleFactor((Double) evt.getNewValue());
                             }
                         }
-                    });
-                    view.addPropertyChangeListener(new PropertyChangeListener() {
+                    }
+                });
+                view.addPropertyChangeListener(new PropertyChangeListener() {
 
-                        public void propertyChange(PropertyChangeEvent evt) {
-                            if (evt.getPropertyName() == DrawingView.SCALE_FACTOR_PROPERTY) {
-                                if (evt.getNewValue() != null) {
-                                    scaleFactorField.setValue((Double) evt.getNewValue());
-                                }
+                    public void propertyChange(PropertyChangeEvent evt) {
+                        if (evt.getPropertyName() == DrawingView.SCALE_FACTOR_PROPERTY) {
+                            if (evt.getNewValue() != null) {
+                                scaleFactorField.setValue((Double) evt.getNewValue());
                             }
                         }
-                    });
-                    gbc = new GridBagConstraints();
-                    gbc.gridx = 0;
-                    gbc.gridy = 1;
-                    gbc.insets = new Insets(3, 0, 0, 0);
-                    gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-                    p.add(scaleFactorField, gbc);
-                    btn = ButtonFactory.createZoomButton(view);
-                    btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-                    labels.configureToolBarButton(btn, "view.zoomFactor");
-                    btn.setText("100 %");
-                    gbc = new GridBagConstraints();
-                    gbc.gridx = 1;
-                    gbc.gridy = 1;
-                    gbc.gridwidth = GridBagConstraints.REMAINDER;
-                    gbc.fill = GridBagConstraints.HORIZONTAL;
-                    gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-                    gbc.insets = new Insets(3, 0, 0, 0);
-                    gbc.weighty = 1;
-                    btn.setPreferredSize(new Dimension(btn.getPreferredSize().width, scaleFactorField.getPreferredSize().height));
-                    p.add(btn, gbc);
-                }
-                break;
+                    }
+                });
+                gbc = new GridBagConstraints();
+                gbc.gridx = 0;
+                gbc.gridy = 1;
+                gbc.insets = new Insets(3, 0, 0, 0);
+                gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+                p.add(scaleFactorField, gbc);
+                btn = ButtonFactory.createZoomButton(view);
+                btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
+                labels.configureToolBarButton(btn, "view.zoomFactor");
+                btn.setText("100 %");
+                gbc = new GridBagConstraints();
+                gbc.gridx = 1;
+                gbc.gridy = 1;
+                gbc.gridwidth = GridBagConstraints.REMAINDER;
+                gbc.fill = GridBagConstraints.HORIZONTAL;
+                gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+                gbc.insets = new Insets(3, 0, 0, 0);
+                gbc.weighty = 1;
+                btn.setPreferredSize(new Dimension(btn.getPreferredSize().width, scaleFactorField.getPreferredSize().height));
+                p.add(btn, gbc);
+            }
+            break;
         }
         return p;
     }

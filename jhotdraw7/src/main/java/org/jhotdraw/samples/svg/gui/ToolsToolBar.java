@@ -54,6 +54,11 @@ public class ToolsToolBar extends AbstractToolBar {
                     p.setOpaque(false);
                     p.setBorder(new EmptyBorder(5, 5, 5, 8));
 
+                     // Abort if no editor is set
+                     if (editor == null) {
+                         break;
+                     }
+
                     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
 
                     GridBagLayout layout = new GridBagLayout();

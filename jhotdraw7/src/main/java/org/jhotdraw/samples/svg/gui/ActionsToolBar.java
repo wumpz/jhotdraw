@@ -80,6 +80,11 @@ public class ActionsToolBar extends AbstractToolBar {
                 p.setOpaque(false);
                 p.setBorder(new EmptyBorder(5, 5, 5, 8));
 
+                // Abort if no editor is set
+                if (editor == null) {
+                    break;
+                }
+
                 Preferences prefs = PreferencesUtil.userNodeForPackage(getClass());
 
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
@@ -134,9 +139,9 @@ public class ActionsToolBar extends AbstractToolBar {
                 labels.configureToolBarButton(pb, "actions");
                 pb.add(new DuplicateAction());
                 pb.addSeparator();
-                pb.add(d=new GroupAction(editor, new SVGGroupFigure()));
+                pb.add(d = new GroupAction(editor, new SVGGroupFigure()));
                 disposables.add(d);
-                pb.add(d=new UngroupAction(editor, new SVGGroupFigure()));
+                pb.add(d = new UngroupAction(editor, new SVGGroupFigure()));
                 disposables.add(d);
                 pb.addSeparator();
                 pb.add(new CutAction());
@@ -145,7 +150,7 @@ public class ActionsToolBar extends AbstractToolBar {
                 pb.add(new DeleteAction());
                 pb.addSeparator();
                 pb.add(new SelectAllAction());
-                pb.add(d=new SelectSameAction(editor));
+                pb.add(d = new SelectSameAction(editor));
                 disposables.add(d);
                 pb.add(new ClearSelectionAction());
 
