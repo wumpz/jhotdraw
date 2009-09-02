@@ -253,17 +253,13 @@ public class SVGApplet extends JApplet {
      */
     protected Drawing createDrawing() {
         DefaultDrawing drawing = new DefaultDrawing();
-        LinkedList<InputFormat> inputFormats = new LinkedList<InputFormat>();
-        inputFormats.add(new SVGZInputFormat());
-        inputFormats.add(new ImageInputFormat(new SVGImageFigure()));
-        LinkedList<OutputFormat> outputFormats = new LinkedList<OutputFormat>();
-        outputFormats.add(new SVGOutputFormat());
-        outputFormats.add(new SVGZOutputFormat());
-        outputFormats.add(new ImageOutputFormat());
-        outputFormats.add(new ImageOutputFormat("JPG", "Joint Photographics Experts Group (JPEG)", "jpg", BufferedImage.TYPE_INT_RGB));
-        outputFormats.add(new ImageOutputFormat("BMP", "Windows Bitmap (BMP)", "bmp", BufferedImage.TYPE_BYTE_INDEXED));
-        drawing.setInputFormats(inputFormats);
-        drawing.setOutputFormats(outputFormats);
+        drawing.addInputFormat(new SVGZInputFormat());
+        drawing.addInputFormat(new ImageInputFormat(new SVGImageFigure()));
+        drawing.addOutputFormat(new SVGOutputFormat());
+        drawing.addOutputFormat(new SVGZOutputFormat());
+        drawing.addOutputFormat(new ImageOutputFormat());
+        drawing.addOutputFormat(new ImageOutputFormat("JPG", "Joint Photographics Experts Group (JPEG)", "jpg", BufferedImage.TYPE_INT_RGB));
+        drawing.addOutputFormat(new ImageOutputFormat("BMP", "Windows Bitmap (BMP)", "bmp", BufferedImage.TYPE_BYTE_INDEXED));
         return drawing;
     }
 

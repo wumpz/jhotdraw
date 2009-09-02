@@ -99,7 +99,7 @@ public class SaveAction extends AbstractViewAction {
         });
     }
     /**
-     * XXX - Change type of value to Throwable
+     * XXX - Split up in two methods: saveSucceeded and saveFailed.
      *
      * @param value is either null for success or a Throwable on failure.
      */

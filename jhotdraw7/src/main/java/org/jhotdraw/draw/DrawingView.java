@@ -21,17 +21,23 @@ import java.beans.*;
 import javax.swing.*;
 
 /**
- * A <em>drawing view</em> paints a {@link Drawing} on a JComponent.
+ * A <em>drawing view</em> paints a {@link Drawing} on a JComponent. A drawing
+ * view can hold only one drawing at a time, but a drawing can be in multiple
+ * drawing views at the same time.
  * <p>
- * To support editing, a DrawingView can paint {@link Handle}s and
- * the current {@link Tool} of the {@link DrawingEditor} on top of the
- * drawing. It can also render a {@link Constrainer} below or on top of the
- * drawing.
- * <p>
- * Tools can register mouse and key listeners on the drawing view.
+ * To support editing, a drawing view needs to be added to a {@link DrawingEditor}.
+ * The current {@link Tool} of the drawing editor can register mouse and key
+ * listeners on all drawing views of the drawing editor.
  * <p>
  * {@code DrawingView} can paint the drawing with a scale factor. It supports
  * conversion between view coordinates and drawing coordinates.
+ * A drawing view can paint {@link Handle}s and the current {@link Tool} of the
+ * drawing editor on top of the drawing. It can also paint a {@link Constrainer}
+ * below or on top of the drawing.
+ * <p>
+ * DrawingView maintains a selection of the {@link Figure}s contained in the
+ * drawing. The selected figures can be the target of the current tool
+ * of the drawing editor.
  *
  * <hr>
  * <b>Design Patterns</b>

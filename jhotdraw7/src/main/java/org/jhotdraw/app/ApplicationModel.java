@@ -50,9 +50,19 @@ public interface ApplicationModel {
      * Creates a new view for the application.
      */
     public View createView();
-    
+
+    /** Inits the supplied view for the application. */
     public void initView(Application a, View v);
-    
+
+    /** Inits the application model.
+     * <p>
+     * Typically, the application model creates a number of
+     * {@link org.jhotdraw.app.action.AbstractApplicationAction}
+     * objects, which can later be retrieved using getAction, and
+     * which are linked to menu items and toolbars created by the
+     * application model.
+     * <p>
+     */
     public void initApplication(Application a);
     /**
      * Puts an action with the specified id.
@@ -70,7 +80,7 @@ public interface ApplicationModel {
      * <p>
      * @param a Application.
      * @param v The view for which the toolbars need to be created, or null
-     * if the toolbar needs to be shared with multiple views.
+     * if the toolbars are shared by multiple views.
      */
     public List<JToolBar> createToolBars(Application a, View v);
     
@@ -82,7 +92,7 @@ public interface ApplicationModel {
      * <p>
      * @param a Application.
      * @param v The view for which the toolbars need to be created, or null
-     * if the toolbar needs to be shared with multiple views.
+     * if the menus are shared by multiple views.
      */
     public List<JMenu> createMenus(Application a, View v);
 }

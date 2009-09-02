@@ -158,4 +158,12 @@ public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure 
         }
         return drawingArea;
     }*/
+    @Override
+    @SuppressWarnings("unchecked")
+    public AbstractDrawing clone() {
+        AbstractDrawing that = (AbstractDrawing) super.clone();
+        that.inputFormats =  (this.inputFormats == null) ? null : (LinkedList<InputFormat>) this.inputFormats.clone();
+        that.outputFormats = (this.outputFormats == null) ? null : (LinkedList<OutputFormat>) this.outputFormats.clone();
+        return that;
+    }
 }

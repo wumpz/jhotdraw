@@ -44,8 +44,8 @@ import javax.swing.*;
  */
 public interface InputFormat {
     /**
-     * Return a FileFilter that can be used to identify files which can be restored
-     * with this Storage Format. Typically, each input format has its own 
+     * Return a FileFilter that can be used to identify files which can be read
+     * with this input format. Typically, each input format has its own
      * recognizable file naming convention.
      *
      * @return FileFilter to be used with a javax.swing.JFileChooser

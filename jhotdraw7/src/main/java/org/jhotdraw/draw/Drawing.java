@@ -24,7 +24,9 @@ import javax.swing.undo.*;
 import javax.swing.event.*;
 import java.io.*;
 /**
- * A <em>drawing</em> is a container for {@link Figure}s.
+ * A <em>drawing</em> is a container for {@link Figure}s. A drawing can hold
+ * multiple figures, but a figure can only be in one drawing at a time.
+ * A drawing can be in one or multiple {@link DrawingView}s.
  * <p>
  * {@code Drawing} is essentially a {@link CompositeFigure} with a number of
  * additional functionality:

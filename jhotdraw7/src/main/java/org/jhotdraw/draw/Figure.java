@@ -23,7 +23,8 @@ import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMStorable;
 
 /**
- * A <em>figure</em> is a graphical element of a {@link Drawing}.
+ * A <em>figure</em> is a graphical element of a {@link Drawing}. A figure
+ * can be only in one drawing at a time.
  * <p>
  * {@code Figure} provides the following functionality:
  * <ul>
