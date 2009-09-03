@@ -153,7 +153,7 @@ public class PrintAction extends AbstractViewAction {
         getActiveView().setEnabled(false);
         new Worker() {
 
-            public Object construct() {
+            protected Object construct() throws PrinterException {
 
                 // Compute page format from settings of the print job
                 Paper paper = new Paper();
@@ -194,15 +194,16 @@ public class PrintAction extends AbstractViewAction {
                         }
                         g.dispose();
                     }
-                } catch (Throwable t) {
-                    t.printStackTrace();
                 } finally {
                     pj.end();
                 }
                 return null;
             }
 
-            public void finished(Object value) {
+            protected void failed(Throwable error) {
+               error.printStackTrace();
+            }
+            protected void finished() {
                 getActiveView().setEnabled(true);
             }
         }.start();

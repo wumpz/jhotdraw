@@ -136,62 +136,62 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                         view.getEditor().setEnabled(false);
                         // FIXME - We should perform the following code in a
                         // worker thread.
-                        new Worker() {
+                        new Worker<LinkedList<Figure>>() {
 
                             @Override
-                            public Object construct() {
-                                try {
-                                    for (File file : files) {
-                                        FileFormatLoop:
-                                        for (InputFormat format : drawing.getInputFormats()) {
-                                            if (file.isFile() &&
-                                                    format.getFileFilter().accept(file)) {
-                                                if (DEBUG) {
-                                                    System.out.println(this + ".importData importing file " + file);
-                                                }
-                                                format.read(file, drawing, false);
+                            public LinkedList<Figure> construct() throws Exception {
+                                for (File file : files) {
+                                    FileFormatLoop:
+                                    for (InputFormat format : drawing.getInputFormats()) {
+                                        if (file.isFile() &&
+                                                format.getFileFilter().accept(file)) {
+                                            if (DEBUG) {
+                                                System.out.println(this + ".importData importing file " + file);
                                             }
+                                            format.read(file, drawing, false);
                                         }
                                     }
-                                    return new LinkedList<Figure>(drawing.getChildren());
-                                } catch (Throwable t) {
-                                    return t;
+                                }
+                                return new LinkedList<Figure>(drawing.getChildren());
+                            }
+
+                            @Override
+                            public void failed(Throwable error) {
+                                error.printStackTrace();
+                            }
+
+                            @Override
+                            public void done(final LinkedList<Figure> importedFigures) {
+                                importedFigures.removeAll(existingFigures);
+                                if (importedFigures.size() > 0) {
+                                    view.clearSelection();
+                                    view.addToSelection(importedFigures);
+
+                                    drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
+
+                                        @Override
+                                        public String getPresentationName() {
+                                            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+                                            return labels.getString("edit.paste.text");
+                                        }
+
+                                        @Override
+                                        public void undo() throws CannotUndoException {
+                                            super.undo();
+                                            drawing.removeAll(importedFigures);
+                                        }
+
+                                        @Override
+                                        public void redo() throws CannotRedoException {
+                                            super.redo();
+                                            drawing.addAll(importedFigures);
+                                        }
+                                    });
                                 }
                             }
 
                             @Override
-                            public void finished(Object value) {
-                                if (value instanceof Throwable) {
-                                    ((Throwable) value).printStackTrace();
-                                } else {
-                                    final LinkedList<Figure> importedFigures = (LinkedList<Figure>) value;
-                                    importedFigures.removeAll(existingFigures);
-                                    if (importedFigures.size() > 0) {
-                                        view.clearSelection();
-                                        view.addToSelection(importedFigures);
-
-                                        drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
-
-                                            @Override
-                                            public String getPresentationName() {
-                                                ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-                                                return labels.getString("edit.paste.text");
-                                            }
-
-                                            @Override
-                                            public void undo() throws CannotUndoException {
-                                                super.undo();
-                                                drawing.removeAll(importedFigures);
-                                            }
-
-                                            @Override
-                                            public void redo() throws CannotRedoException {
-                                                super.redo();
-                                                drawing.addAll(importedFigures);
-                                            }
-                                        });
-                                    }
-                                }
+                            public void finished() {
                                 view.getEditor().setEnabled(true);
                             }
                         }.start();
@@ -391,7 +391,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                     createTransferable(view, transferFigures), imageOffset));
             recognizer.gestured(comp, me, srcActions, action);
 
-        // XXX - What kind of drag gesture can we support for this??
+            // XXX - What kind of drag gesture can we support for this??
         } else {
             super.exportAsDrag(comp, e, action);
         }

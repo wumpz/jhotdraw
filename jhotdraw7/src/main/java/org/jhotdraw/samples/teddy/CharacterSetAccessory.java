@@ -69,7 +69,8 @@ public class CharacterSetAccessory extends javax.swing.JPanel {
                     Arrays.sort(availableCharSets);
                     return null;
                 }
-                public void finished(Object value) {
+                @Override
+                public void finished() {
                     Object selectedItem = charSetCombo.getSelectedItem();
                     charSetCombo.setModel(new DefaultComboBoxModel(availableCharSets));
                     charSetCombo.setSelectedItem(selectedItem);

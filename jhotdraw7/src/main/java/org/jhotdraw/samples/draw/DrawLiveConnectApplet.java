@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.samples.draw;
 
 import org.jhotdraw.draw.Drawing;
@@ -34,9 +33,10 @@ import org.jhotdraw.xml.*;
  * @version $Id$
  */
 public class DrawLiveConnectApplet extends JApplet {
+
     private final static String VERSION = "7.0.8";
     private final static String NAME = "JHotDraw Draw";
-    
+
     /** Initializes the applet DrawApplet */
     public void init() {
         // Set look and feel
@@ -48,58 +48,68 @@ public class DrawLiveConnectApplet extends JApplet {
             // If we can't set the desired look and feel, UIManager does
             // automaticaly the right thing for us.
         }
-        
+
         // Display copyright info while we are loading the data
         // ----------------------------------------------------
         Container c = getContentPane();
         c.setLayout(new BoxLayout(c, BoxLayout.Y_AXIS));
         String[] lines = getAppletInfo().split("\n");//Strings.split(getAppletInfo(), '\n');
-        for (int i=0; i < lines.length; i++) {
+        for (int i = 0; i < lines.length; i++) {
             c.add(new JLabel(lines[i]));
         }
-        
+
         // We load the data using a worker thread
         // --------------------------------------
-        new Worker() {
-            public Object construct() {
-                Object result;
-                try {
-                    if (getParameter("data") != null && getParameter("data").length() > 0) {
-                        NanoXMLDOMInput domi = new NanoXMLDOMInput(new DrawFigureFactory(), new StringReader(getParameter("data")));
-                        result = domi.readObject(0);
-                    } else if (getParameter("datafile") != null) {
-                        InputStream in = null;
-                        try {
-                            URL url = new URL(getDocumentBase(), getParameter("datafile"));
-                            in = url.openConnection().getInputStream();
-                            NanoXMLDOMInput domi = new NanoXMLDOMInput(new DrawFigureFactory(), in);
-                            result = domi.readObject(0);
-                        } finally {
-                            if (in != null) in.close();
+        new Worker<Drawing>() {
+
+            protected Drawing construct() throws IOException {
+                Drawing result;
+                if (getParameter("data") != null && getParameter("data").length() > 0) {
+                    NanoXMLDOMInput domi = new NanoXMLDOMInput(new DrawFigureFactory(), new StringReader(getParameter("data")));
+                    result = (Drawing) domi.readObject(0);
+                } else if (getParameter("datafile") != null) {
+                    InputStream in = null;
+                    try {
+                        URL url = new URL(getDocumentBase(), getParameter("datafile"));
+                        in = url.openConnection().getInputStream();
+                        NanoXMLDOMInput domi = new NanoXMLDOMInput(new DrawFigureFactory(), in);
+                        result = (Drawing) domi.readObject(0);
+                    } finally {
+                        if (in != null) {
+                            in.close();
                         }
-                    } else {
-                        result = null;
                     }
-                } catch (Throwable t) {
-                    result = t;
+                } else {
+                    result = null;
                 }
                 return result;
             }
-            public void finished(Object result) {
+
+            protected void done(Drawing result) {
                 Container c = getContentPane();
                 c.setLayout(new BorderLayout());
                 c.removeAll();
-                
+
                 initComponents();
                 if (result != null) {
-                    if (result instanceof Drawing) {
-                        setDrawing((Drawing) result);
-                    } else if (result instanceof Throwable) {
-                        getDrawing().add(new TextFigure(result.toString()));
-                        ((Throwable) result).printStackTrace();
-                    }
+                    setDrawing(result);
                 }
-                
+            }
+
+            @Override
+            protected void failed(Throwable result) {
+                Container c = getContentPane();
+                c.setLayout(new BorderLayout());
+                c.removeAll();
+
+                initComponents();
+                getDrawing().add(new TextFigure(result.toString()));
+                result.printStackTrace();
+
+            }
+
+            protected void finished() {
+                Container c = getContentPane();
                 boolean isLiveConnect;
                 try {
                     Class.forName("netscape.javascript.JSObject");
@@ -109,7 +119,7 @@ public class DrawLiveConnectApplet extends JApplet {
                 }
                 loadButton.setEnabled(isLiveConnect && getParameter("dataread") != null);
                 saveButton.setEnabled(isLiveConnect && getParameter("datawrite") != null);
-                
+
                 if (isLiveConnect) {
                     String methodName = getParameter("dataread");
                     if (methodName.indexOf('(') > 0) {
@@ -125,16 +135,15 @@ public class DrawLiveConnectApplet extends JApplet {
             }
         }.start();
     }
-    
-    
+
     private void setDrawing(Drawing d) {
         drawingPanel.setDrawing(d);
     }
+
     private Drawing getDrawing() {
         return drawingPanel.getDrawing();
     }
-    
-    
+
     public void setData(String text) {
         if (text != null && text.length() > 0) {
             StringReader in = new StringReader(text);
@@ -145,14 +154,17 @@ public class DrawLiveConnectApplet extends JApplet {
                 getDrawing().removeAllChildren();
                 TextFigure tf = new TextFigure();
                 tf.setText(e.getMessage());
-                tf.setBounds(new Point2D.Double(10,10), new Point2D.Double(100,100));
+                tf.setBounds(new Point2D.Double(10, 10), new Point2D.Double(100, 100));
                 getDrawing().add(tf);
                 e.printStackTrace();
             } finally {
-                if (in != null) in.close();
+                if (in != null) {
+                    in.close();
+                }
             }
         }
     }
+
     public String getData() {
         CharArrayWriter out = new CharArrayWriter();
         try {
@@ -162,30 +174,34 @@ public class DrawLiveConnectApplet extends JApplet {
         } catch (IOException e) {
             TextFigure tf = new TextFigure();
             tf.setText(e.getMessage());
-            tf.setBounds(new Point2D.Double(10,10), new Point2D.Double(100,100));
+            tf.setBounds(new Point2D.Double(10, 10), new Point2D.Double(100, 100));
             getDrawing().add(tf);
             e.printStackTrace();
         } finally {
-            if (out != null) out.close();
+            if (out != null) {
+                out.close();
+            }
         }
         return out.toString();
     }
-    
+
     public String[][] getParameterInfo() {
-        return new String[][] {
-            { "data", "String", "the data to be displayed by this applet." },
-            { "datafile", "URL", "an URL to a file containing the data to be displayed by this applet." },
-            { "dataread", "function()", "the name of a JavaScript function which can be used to read the data." },
-            { "datawrite", "function()", "the name of a JavaScript function which can be used to write the data." }
-        };
+        return new String[][]{
+                    {"data", "String", "the data to be displayed by this applet."},
+                    {"datafile", "URL", "an URL to a file containing the data to be displayed by this applet."},
+                    {"dataread", "function()", "the name of a JavaScript function which can be used to read the data."},
+                    {"datawrite", "function()", "the name of a JavaScript function which can be used to write the data."}
+                };
     }
+
     public String getAppletInfo() {
         return NAME +
-                "\nVersion "+VERSION +
+                "\nVersion " + VERSION +
                 "\n\nCopyright 1996-2008 (c) by the authors of JHotDraw" +
                 "\nThis software is licensed under LGPL or" +
                 "\nCreative Commons 3.0 BY";
     }
+
     /** This method is called from within the init() method to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -229,7 +245,7 @@ public class DrawLiveConnectApplet extends JApplet {
             }
         }
     }//GEN-END:initComponents
-    
+
     private void save(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_save
         try {
             String methodName = getParameter("datawrite");
@@ -237,16 +253,16 @@ public class DrawLiveConnectApplet extends JApplet {
                 methodName = methodName.substring(0, methodName.indexOf('(') - 1);
             }
             JSObject win = JSObject.getWindow(this);
-            Object result = win.call(methodName, new Object[] { getData() });
+            Object result = win.call(methodName, new Object[]{getData()});
         } catch (Throwable t) {
-            TextFigure tf = new TextFigure("Fehler: "+t);
+            TextFigure tf = new TextFigure("Fehler: " + t);
             AffineTransform tx = new AffineTransform();
             tx.translate(10, 20);
             tf.transform(tx);
             getDrawing().add(tf);
         }
     }//GEN-LAST:event_save
-    
+
     private void load(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_load
         try {
             String methodName = getParameter("dataread");
@@ -259,17 +275,14 @@ public class DrawLiveConnectApplet extends JApplet {
                 setData((String) result);
             }
         } catch (Throwable t) {
-            TextFigure tf = new TextFigure("Fehler: "+t);
+            TextFigure tf = new TextFigure("Fehler: " + t);
             AffineTransform tx = new AffineTransform();
             tx.translate(10, 20);
             tf.transform(tx);
             getDrawing().add(tf);
         }
-        
+
     }//GEN-LAST:event_load
-    
-    
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jhotdraw.samples.draw.DrawingPanel drawingPanel;
     private javax.swing.JToolBar jToolBar1;
@@ -277,5 +290,4 @@ public class DrawLiveConnectApplet extends JApplet {
     private javax.swing.JButton saveButton;
     private javax.swing.ButtonGroup toolButtonGroup;
     // End of variables declaration//GEN-END:variables
-    
 }

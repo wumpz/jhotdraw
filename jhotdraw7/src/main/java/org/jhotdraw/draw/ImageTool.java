@@ -51,6 +51,7 @@ import org.jhotdraw.gui.Worker;
  * @version $Id$
  */
 public class ImageTool extends CreationTool {
+
     protected FileDialog fileDialog;
     protected JFileChooser fileChooser;
     protected boolean useFileDialog;
@@ -62,7 +63,7 @@ public class ImageTool extends CreationTool {
     }
 
     /** Creates a new instance. */
-    public ImageTool(ImageHolderFigure prototype, Map<AttributeKey, Object>  attributes) {
+    public ImageTool(ImageHolderFigure prototype, Map<AttributeKey, Object> attributes) {
         super(prototype, attributes);
     }
 
@@ -111,38 +112,36 @@ public class ImageTool extends CreationTool {
             final ImageHolderFigure loaderFigure = ((ImageHolderFigure) prototype.clone());
             Worker worker = new Worker() {
 
-                public Object construct() {
-                    try {
-                        ((ImageHolderFigure) loaderFigure).loadImage(file);
-                    } catch (Throwable t) {
-                        return t;
-                    }
+                protected Object construct() throws IOException {
+                    ((ImageHolderFigure) loaderFigure).loadImage(file);
                     return null;
                 }
 
-                public void finished(Object value) {
-                    if (value instanceof Throwable) {
-                        Throwable t = (Throwable) value;
+                @Override
+                protected void done(Object value) {
+                    try {
+                        if (createdFigure == null) {
+                            ((ImageHolderFigure) prototype).setImage(loaderFigure.getImageData(), loaderFigure.getBufferedImage());
+                        } else {
+                            ((ImageHolderFigure) createdFigure).setImage(loaderFigure.getImageData(), loaderFigure.getBufferedImage());
+                        }
+                    } catch (IOException ex) {
                         JOptionPane.showMessageDialog(getView().getComponent(),
-                                t.getMessage(),
+                                ex.getMessage(),
                                 null,
                                 JOptionPane.ERROR_MESSAGE);
-                        getDrawing().remove(createdFigure);
-                        fireToolDone();
-                    } else {
-                        try {
-                            if (createdFigure == null) {
-                                ((ImageHolderFigure) prototype).setImage(loaderFigure.getImageData(), loaderFigure.getBufferedImage());
-                            } else {
-                                ((ImageHolderFigure) createdFigure).setImage(loaderFigure.getImageData(), loaderFigure.getBufferedImage());
-                            }
-                        } catch (IOException ex) {
-                            JOptionPane.showMessageDialog(getView().getComponent(),
-                                    ex.getMessage(),
-                                    null,
-                                    JOptionPane.ERROR_MESSAGE);
-                        }
                     }
+                }
+
+                @Override
+                protected void failed(Throwable value) {
+                    Throwable t = (Throwable) value;
+                    JOptionPane.showMessageDialog(getView().getComponent(),
+                            t.getMessage(),
+                            null,
+                            JOptionPane.ERROR_MESSAGE);
+                    getDrawing().remove(createdFigure);
+                    fireToolDone();
                 }
             };
             workerThread = new Thread(worker);

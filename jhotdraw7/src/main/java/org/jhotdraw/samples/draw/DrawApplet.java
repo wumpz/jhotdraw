@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.samples.draw;
 
 import org.jhotdraw.draw.*;
@@ -32,9 +31,10 @@ import org.jhotdraw.xml.*;
  * @version $Id$
  */
 public class DrawApplet extends JApplet {
+
     private final static String NAME = "JHotDraw Draw";
     private DrawingPanel drawingPanel;
-    
+
     /**
      * We override getParameter() to make it work even if we have no Applet
      * context.
@@ -47,10 +47,11 @@ public class DrawApplet extends JApplet {
             return null;
         }
     }
+
     protected String getVersion() {
         return DrawApplet.class.getPackage().getImplementationVersion();
     }
-    
+
     /** Initializes the applet DrawApplet */
     @Override
     public void init() {
@@ -63,76 +64,85 @@ public class DrawApplet extends JApplet {
             // If we can't set the desired look and feel, UIManager does
             // automaticaly the right thing for us.
         }
-        
+
         // Display copyright info while we are loading the data
         // ----------------------------------------------------
         Container c = getContentPane();
         c.setLayout(new BoxLayout(c, BoxLayout.Y_AXIS));
         String[] labels = getAppletInfo().split("\n");//Strings.split(getAppletInfo(), '\n');
-        for (int i=0; i < labels.length; i++) {
+        for (int i = 0; i < labels.length; i++) {
             c.add(new JLabel((labels[i].length() == 0) ? " " : labels[i]));
         }
-        
+
         // We load the data using a worker thread
         // --------------------------------------
-        new Worker() {
-            public Object construct() {
-                Object result;
-                try {
-                    if (getParameter("data") != null) {
-                        NanoXMLDOMInput domi = new NanoXMLDOMInput(new DrawFigureFactory(), new StringReader(getParameter("data")));
-                        result = domi.readObject(0);
-                    } else if (getParameter("datafile") != null) {
-                        InputStream in = null;
-                        try {
-                            URL url = new URL(getDocumentBase(), getParameter("datafile"));
-                            in = url.openConnection().getInputStream();
-                            NanoXMLDOMInput domi = new NanoXMLDOMInput(new DrawFigureFactory(), in);
-                            result = domi.readObject(0);
-                        } finally {
-                            if (in != null) in.close();
+        new Worker<Drawing>() {
+
+            protected Drawing construct() throws IOException {
+                Drawing result;
+                if (getParameter("data") != null) {
+                    NanoXMLDOMInput domi = new NanoXMLDOMInput(new DrawFigureFactory(), new StringReader(getParameter("data")));
+                    result = (Drawing) domi.readObject(0);
+                } else if (getParameter("datafile") != null) {
+                    InputStream in = null;
+                    try {
+                        URL url = new URL(getDocumentBase(), getParameter("datafile"));
+                        in = url.openConnection().getInputStream();
+                        NanoXMLDOMInput domi = new NanoXMLDOMInput(new DrawFigureFactory(), in);
+                        result = (Drawing) domi.readObject(0);
+                    } finally {
+                        if (in != null) {
+                            in.close();
                         }
-                    } else {
-                        result = null;
                     }
-                } catch (Throwable t) {
-                    result = t;
+                } else {
+                    result = null;
                 }
                 return result;
             }
-            public void finished(Object value) {
-                if (value instanceof Throwable) {
-                    ((Throwable) value).printStackTrace();
-                }
+
+            @Override
+            protected void done(Drawing result) {
                 Container c = getContentPane();
                 c.setLayout(new BorderLayout());
                 c.removeAll();
                 c.add(drawingPanel = new DrawingPanel());
-                
-                Object result = getValue();
+
                 initComponents();
                 if (result != null) {
-                    if (result instanceof Drawing) {
-                        Drawing drawing = (Drawing) result;
-                        setDrawing(drawing);
-                    } else if (result instanceof Throwable) {
-                        getDrawing().add(new TextFigure(result.toString()));
-                        ((Throwable) result).printStackTrace();
-                    }
+                    setDrawing(result);
                 }
+            }
+
+            @Override
+            protected void failed(Throwable result) {
+                Container c = getContentPane();
+                c.setLayout(new BorderLayout());
+                c.removeAll();
+                c.add(drawingPanel = new DrawingPanel());
+
+                result.printStackTrace();
+                getDrawing().add(new TextFigure(result.toString()));
+                result.printStackTrace();
+            }
+
+            @Override
+            protected void finished() {
+                Container c = getContentPane();
                 initDrawing(getDrawing());
                 c.validate();
             }
         }.start();
     }
-    
-    
+
     private void setDrawing(Drawing d) {
         drawingPanel.setDrawing(d);
     }
+
     private Drawing getDrawing() {
         return drawingPanel.getDrawing();
     }
+
     /**
      * Configure Drawing object to support copy and paste.
      */
@@ -141,16 +151,14 @@ public class DrawApplet extends JApplet {
         d.setInputFormats((java.util.List<InputFormat>) Collections.EMPTY_LIST);
         d.setOutputFormats((java.util.List<OutputFormat>) Collections.EMPTY_LIST);
         DOMStorableInputOutputFormat ioFormat = new DOMStorableInputOutputFormat(
-                new DrawFigureFactory()
-                );
+                new DrawFigureFactory());
         d.addInputFormat(ioFormat);
         d.addInputFormat(new ImageInputFormat(new ImageFigure()));
         d.addInputFormat(new TextInputFormat(new TextFigure()));
         d.addOutputFormat(ioFormat);
         d.addOutputFormat(new ImageOutputFormat());
     }
-    
-    
+
     public void setData(String text) {
         if (text != null && text.length() > 0) {
             StringReader in = new StringReader(text);
@@ -161,14 +169,17 @@ public class DrawApplet extends JApplet {
                 getDrawing().removeAllChildren();
                 TextFigure tf = new TextFigure();
                 tf.setText(e.getMessage());
-                tf.setBounds(new Point2D.Double(10,10), new Point2D.Double(100,100));
+                tf.setBounds(new Point2D.Double(10, 10), new Point2D.Double(100, 100));
                 getDrawing().add(tf);
                 e.printStackTrace();
             } finally {
-                if (in != null) in.close();
+                if (in != null) {
+                    in.close();
+                }
             }
         }
     }
+
     public String getData() {
         CharArrayWriter out = new CharArrayWriter();
         try {
@@ -178,28 +189,31 @@ public class DrawApplet extends JApplet {
         } catch (IOException e) {
             TextFigure tf = new TextFigure();
             tf.setText(e.getMessage());
-            tf.setBounds(new Point2D.Double(10,10), new Point2D.Double(100,100));
+            tf.setBounds(new Point2D.Double(10, 10), new Point2D.Double(100, 100));
             getDrawing().add(tf);
             e.printStackTrace();
         } finally {
-            if (out != null) out.close();
+            if (out != null) {
+                out.close();
+            }
         }
         return out.toString();
     }
-    
+
     public String[][] getParameterInfo() {
-        return new String[][] {
-            { "data", "String", "the data to be displayed by this applet." },
-            { "datafile", "URL", "an URL to a file containing the data to be displayed by this applet." },
-        };
+        return new String[][]{
+                    {"data", "String", "the data to be displayed by this applet."},
+                    {"datafile", "URL", "an URL to a file containing the data to be displayed by this applet."},};
     }
+
     public String getAppletInfo() {
         return NAME +
-                "\nVersion "+getVersion() +
+                "\nVersion " + getVersion() +
                 "\n\nCopyright 1996-2009 (c) by the original authors of JHotDraw and all its contributors" +
                 "\nThis software is licensed under LGPL or" +
                 "\nCreative Commons 3.0 BY";
     }
+
     /** This method is called from within the init() method to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -210,25 +224,23 @@ public class DrawApplet extends JApplet {
         toolButtonGroup = new javax.swing.ButtonGroup();
 
     }// </editor-fold>//GEN-END:initComponents
-    
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
+
             public void run() {
                 JFrame f = new JFrame("JHotDraw Draw Applet");
                 f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 DrawApplet a = new DrawApplet();
                 f.getContentPane().add(a);
                 a.init();
-                f.setSize(500,400);
+                f.setSize(500, 400);
                 f.setVisible(true);
                 a.start();
             }
         });
     }
-    
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup toolButtonGroup;
     // End of variables declaration//GEN-END:variables
-    
 }

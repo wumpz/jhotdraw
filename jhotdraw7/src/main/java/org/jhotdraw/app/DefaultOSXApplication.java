@@ -403,9 +403,9 @@ public class DefaultOSXApplication extends AbstractApplication {
     }
 
     protected void initPalettes(final LinkedList<Action> paletteActions) {
-        SwingUtilities.invokeLater(new Worker() {
+        SwingUtilities.invokeLater(new Worker<LinkedList<JFrame>>() {
 
-            public Object construct() {
+            public LinkedList<JFrame> construct() {
                 LinkedList<JFrame> palettes = new LinkedList<JFrame>();
                 LinkedList<JToolBar> toolBars = new LinkedList<JToolBar>(getModel().createToolBars(DefaultOSXApplication.this, null));
 
@@ -449,7 +449,8 @@ public class DefaultOSXApplication extends AbstractApplication {
 
             }
 
-            public void finished(Object result) {
+            @Override
+            protected void done(LinkedList<JFrame> result) {
                 @SuppressWarnings("unchecked")
                 LinkedList<JFrame> palettes = (LinkedList<JFrame>) result;
                 if (palettes != null) {

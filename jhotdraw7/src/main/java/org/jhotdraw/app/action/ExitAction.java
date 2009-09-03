@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.app.action;
 
 import org.jhotdraw.gui.*;
@@ -32,17 +31,18 @@ import org.jhotdraw.app.View;
  * @version $Id$
  */
 public class ExitAction extends AbstractApplicationAction {
+
     public final static String ID = "application.exit";
     private Component oldFocusOwner;
     private View unsavedView;
-    
+
     /** Creates a new instance. */
     public ExitAction(Application app) {
         super(app);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
-    
+
     public void actionPerformed(ActionEvent evt) {
         final Application app = getApplication();
         if (app.isEnabled()) {
@@ -62,28 +62,28 @@ public class ExitAction extends AbstractApplicationAction {
                 app.setEnabled(true);
                 return;
             }
-            
+
             switch (unsavedViewsCount) {
-                case 0 : {
+                case 0: {
                     doExit();
                     break;
                 }
-                case 1 : {
+                case 1: {
                     unsavedView = documentToBeReviewed;
                     oldFocusOwner = SwingUtilities.getWindowAncestor(unsavedView.getComponent()).getFocusOwner();
                     unsavedView.setEnabled(false);
                     JOptionPane pane = new JOptionPane(
-                            "<html>"+UIManager.getString("OptionPane.css")+
-                            "<b>Do you want to save changes to this document "+
-                            "before exiting?</b><p>"+
+                            "<html>" + UIManager.getString("OptionPane.css") +
+                            "<b>Do you want to save changes to this document " +
+                            "before exiting?</b><p>" +
                             "If you don't save, your changes will be lost.",
-                            JOptionPane.WARNING_MESSAGE
-                            );
-                    Object[] options = { "Save", "Cancel", "Don't Save" };
+                            JOptionPane.WARNING_MESSAGE);
+                    Object[] options = {"Save", "Cancel", "Don't Save"};
                     pane.setOptions(options);
                     pane.setInitialValue(options[0]);
                     pane.putClientProperty("Quaqua.OptionPane.destructiveOption", new Integer(2));
                     JSheet.showSheet(pane, unsavedView.getComponent(), new SheetListener() {
+
                         public void optionSelected(SheetEvent evt) {
                             Object value = evt.getValue();
                             if (value == null || value.equals("Cancel")) {
@@ -97,27 +97,25 @@ public class ExitAction extends AbstractApplicationAction {
                             }
                         }
                     });
-                    
+
                     break;
                 }
-                default : {
+                default: {
                     JOptionPane pane = new JOptionPane(
-                            "<html>"+UIManager.get("OptionPane.css")+
-                            "<b>You have "+unsavedViewsCount+" documents with unsaved changes. "+
-                            "Do you want to "+
-                            "review these changes before quitting?</b><p>"+
-                            "If you don't review your documents, "+
+                            "<html>" + UIManager.get("OptionPane.css") +
+                            "<b>You have " + unsavedViewsCount + " documents with unsaved changes. " +
+                            "Do you want to " +
+                            "review these changes before quitting?</b><p>" +
+                            "If you don't review your documents, " +
                             "all your changes will be lost.",
-                            JOptionPane.QUESTION_MESSAGE
-                            );
+                            JOptionPane.QUESTION_MESSAGE);
                     Object[] options = {
                         "Review Changes", "Cancel", "Discard Changes"
                     };
                     pane.setOptions(options);
                     pane.setInitialValue(options[0]);
                     pane.putClientProperty(
-                            "Quaqua.OptionPane.destructiveOption", new Integer(2)
-                            );
+                            "Quaqua.OptionPane.destructiveOption", new Integer(2));
                     JDialog dialog = pane.createDialog(app.getComponent(), null);
                     dialog.setVisible(true);
                     Object value = pane.getValue();
@@ -134,12 +132,13 @@ public class ExitAction extends AbstractApplicationAction {
             }
         }
     }
-    
+
     protected void saveChanges() {
         if (unsavedView.getFile() == null) {
             JFileChooser fileChooser = unsavedView.getSaveChooser();
             //int option = fileChooser.showSaveDialog(this);
             JSheet.showSaveSheet(fileChooser, unsavedView.getComponent(), new SheetListener() {
+
                 public void optionSelected(final SheetEvent evt) {
                     if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
                         final File file = evt.getFileChooser().getSelectedFile();
@@ -157,23 +156,23 @@ public class ExitAction extends AbstractApplicationAction {
             saveToFile(unsavedView.getFile());
         }
     }
-    
+
     protected void reviewChanges() {
         if (unsavedView.isEnabled()) {
             oldFocusOwner = SwingUtilities.getWindowAncestor(unsavedView.getComponent()).getFocusOwner();
             unsavedView.setEnabled(false);
             JOptionPane pane = new JOptionPane(
-                    "<html>"+UIManager.getString("OptionPane.css")+
-                    "<b>Do you want to save changes to this document "+
-                    "before exiting?</b><p>"+
+                    "<html>" + UIManager.getString("OptionPane.css") +
+                    "<b>Do you want to save changes to this document " +
+                    "before exiting?</b><p>" +
                     "If you don't save, your changes will be lost.",
-                    JOptionPane.WARNING_MESSAGE
-                    );
-            Object[] options = { "Save", "Cancel", "Don't Save" };
+                    JOptionPane.WARNING_MESSAGE);
+            Object[] options = {"Save", "Cancel", "Don't Save"};
             pane.setOptions(options);
             pane.setInitialValue(options[0]);
             pane.putClientProperty("Quaqua.OptionPane.destructiveOption", new Integer(2));
             JSheet.showSheet(pane, unsavedView.getComponent(), new SheetListener() {
+
                 public void optionSelected(SheetEvent evt) {
                     Object value = evt.getValue();
                     if (value == null || value.equals("Cancel")) {
@@ -192,14 +191,13 @@ public class ExitAction extends AbstractApplicationAction {
             System.out.println("review silently aborted");
         }
     }
-    
-    
-    
+
     protected void saveChangesAndReviewNext() {
         if (unsavedView.getFile() == null) {
             JFileChooser fileChooser = unsavedView.getSaveChooser();
             //int option = fileChooser.showSaveDialog(this);
             JSheet.showSaveSheet(fileChooser, unsavedView.getComponent(), new SheetListener() {
+
                 public void optionSelected(final SheetEvent evt) {
                     if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
                         final File file = evt.getFileChooser().getSelectedFile();
@@ -217,7 +215,7 @@ public class ExitAction extends AbstractApplicationAction {
             saveToFileAndReviewNext(unsavedView.getFile());
         }
     }
-    
+
     protected void reviewNext() {
         int unsavedViewsCount = 0;
         View documentToBeReviewed = null;
@@ -239,77 +237,72 @@ public class ExitAction extends AbstractApplicationAction {
             //System.out.println("exit silently aborted");
         }
     }
-    
+
     protected void saveToFile(final File file) {
         unsavedView.execute(new Worker() {
-            public Object construct() {
-                try {
-                    unsavedView.write(file);
-                    return null;
-                } catch (IOException e) {
-                    return e;
-                }
+
+            protected Object construct() throws IOException {
+                unsavedView.write(file);
+                return null;
             }
-            public void finished(Object value) {
-                fileSaved(unsavedView, file, value);
+
+            @Override
+            protected void done(Object value) {
+                unsavedView.setFile(file);
+                doExit();
+            }
+
+            @Override
+            protected void failed(Throwable error) {
+                JSheet.showMessageSheet(unsavedView.getComponent(),
+                        "<html>" + UIManager.getString("OptionPane.css") +
+                        "<b>Couldn't save to the file \"" + file + "\".<p>" +
+                        "Reason: " + error,
+                        JOptionPane.ERROR_MESSAGE);
+            }
+
+            @Override
+            public void finished() {
+                unsavedView.setEnabled(true);
+                if (oldFocusOwner != null) {
+                    oldFocusOwner.requestFocus();
+                }
+                getApplication().setEnabled(true);
             }
         });
     }
+
     protected void saveToFileAndReviewNext(final File file) {
         unsavedView.execute(new Worker() {
-            public Object construct() {
-                try {
-                    unsavedView.write(file);
-                    return null;
-                } catch (IOException e) {
-                    return e;
-                }
+
+            protected Object construct() throws IOException {
+                unsavedView.write(file);
+                return null;
             }
-            public void finished(Object value) {
-                fileSavedAndReviewNext(unsavedView, file, value);
+
+            @Override
+            protected void done(Object value) {
+                unsavedView.setFile(file);
+                getApplication().dispose(unsavedView);
+                reviewNext();
+            }
+
+            @Override
+            protected void failed(Throwable error) {
+                JSheet.showMessageSheet(unsavedView.getComponent(),
+                        "<html>" + UIManager.getString("OptionPane.css") +
+                        "<b>Couldn't save to the file \"" + file + "\".<p>" +
+                        "Reason: " + error,
+                        JOptionPane.ERROR_MESSAGE);
+                unsavedView.setEnabled(true);
+                if (oldFocusOwner != null) {
+                    oldFocusOwner.requestFocus();
+                }
+                getApplication().setEnabled(true);
             }
         });
     }
-    
-    protected void fileSaved(View unsavedView, File file, Object value) {
-        if (value == null) {
-            unsavedView.setFile(file);
-            doExit();
-        } else {
-            JSheet.showMessageSheet(unsavedView.getComponent(),
-                    "<html>"+UIManager.getString("OptionPane.css")+
-                    "<b>Couldn't save to the file \""+file+"\".<p>"+
-                    "Reason: "+value,
-                    JOptionPane.ERROR_MESSAGE
-                    );
-        }
-        unsavedView.setEnabled(true);
-        if (oldFocusOwner != null) {
-            oldFocusOwner.requestFocus();
-        }
-        getApplication().setEnabled(true);
-    }
-    protected void fileSavedAndReviewNext(View unsavedView, File file, Object value) {
-        if (value == null) {
-            unsavedView.setFile(file);
-            getApplication().dispose(unsavedView);
-            reviewNext();
-            return;
-        } else {
-            JSheet.showMessageSheet(unsavedView.getComponent(),
-                    "<html>"+UIManager.getString("OptionPane.css")+
-                    "<b>Couldn't save to the file \""+file+"\".<p>"+
-                    "Reason: "+value,
-                    JOptionPane.ERROR_MESSAGE
-                    );
-        }
-        unsavedView.setEnabled(true);
-        if (oldFocusOwner != null) {
-            oldFocusOwner.requestFocus();
-        }
-        getApplication().setEnabled(true);
-    }
-    
+
     protected void doExit() {
         getApplication().stop();
         System.exit(0);

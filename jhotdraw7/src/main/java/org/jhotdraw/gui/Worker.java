@@ -1,7 +1,7 @@
 /*
  * @(#)Worker.java
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -20,59 +20,116 @@ import javax.swing.SwingUtilities;
  * perform GUI-related work in a dedicated event dispatcher.
  * <p>
  * This class is similar to SwingWorker but less complex.
- * Like a SwingWorker it can run using an an internal
- * worker thread but it can also be like a Runnable object.
  *
  * @author Werner Randelshofer
  * @version $Id$
  */
-public abstract class Worker implements Runnable {
-    private Object value;  // see getValue(), setValue()
-    
+public abstract class Worker<T> implements Runnable {
+
+    private T value;  // see getValue(), setValue()
+    private Throwable error;  // see getError(), setError()
+
     /**
      * Calls #construct on the current thread and invokes
-     * #finished on the AWT event dispatcher thread.
+     * #done on the AWT event dispatcher thread.
      */
     public final void run() {
-        final Runnable doFinished = new Runnable() {
-            public void run() { 
-                finished(getValue()); 
-            }
-        };
         try {
             setValue(construct());
         } catch (Throwable e) {
-            e.printStackTrace();
-        } finally {
-            SwingUtilities.invokeLater(doFinished);
+            setError(e);
+            SwingUtilities.invokeLater(new Runnable() {
+
+                public void run() {
+                    failed(getError());
+                    finished();
+                }
+            });
+            return;
         }
+        SwingUtilities.invokeLater(new Runnable() {
+
+            public void run() {
+                done(getValue());
+                finished();
+            }
+        });
     }
-    
+
     /**
      * Compute the value to be returned by the <code>get</code> method.
      */
-    public abstract Object construct();
+    protected abstract T construct() throws Exception;
+
     /**
      * Called on the event dispatching thread (not on the worker thread)
-     * after the <code>construct</code> method has returned.
+     * after the <code>construct</code> method has returned without throwing
+     * an error.
+     * <p>
+     * The default implementation does nothing. Subclasses may override this
+     * method to perform done actions on the Event Dispatch Thread.
      *
      * @param value The return value of the construct method.
      */
-    public abstract void finished(Object value);
+    protected void done(T value) {
+    }
+
+    /**
+     * Called on the event dispatching thread (not on the worker thread)
+     * after the <code>construct</code> method has thrown an error.
+     * <p>
+     * The default implementation prints a stack trace. Subclasses may override
+     * this method to perform failure actions on the Event Dispatch Thread.
+     *
+     * @param error The error thrown by construct.
+     */
+    protected void failed(Throwable error) {
+        error.printStackTrace();
+    }
+
+    /**
+     * Called on the event dispatching thread (not on the worker thread)
+     * after the <code>construct</code> method has finished and after
+     * done() or failed() has been invoked.
+     * <p>
+     * The default implementation does nothing. Subclasses may override this
+     * method to perform completion actions on the Event Dispatch Thread.
+     *
+     * @param error The error thrown by construct.
+     */
+    protected void finished() {
+    }
+
     /**
      * Get the value produced by the worker thread, or null if it
      * hasn't been constructed yet.
      */
-    protected synchronized Object getValue() {
+    protected synchronized T getValue() {
         return value;
     }
+
     /**
-     * Set the value produced by worker thread
+     * Set the value produced by construct.
      */
-    private synchronized void setValue(Object x) {
+    private synchronized void setValue(T x) {
         value = x;
     }
-    
+
+    /**
+     * Get the error produced by the worker thread, or null if it
+     * hasn't thrown one.
+     */
+    protected synchronized Throwable getError() {
+        return error;
+    }
+
+    /**
+     * Set the error thrown by constrct.
+     */
+    private synchronized void setError(Throwable x) {
+        error = x;
+    }
+
     /**
      * Starts the Worker on an internal worker thread.
      */

@@ -62,7 +62,6 @@ public class PictImageInputFormat implements InputFormat {
      * The image/x-pict data flavor is used by the Mac OS X clipboard. 
      */
     public final static DataFlavor PICT_FLAVOR;
-    
 
     static {
         try {
@@ -109,7 +108,7 @@ public class PictImageInputFormat implements InputFormat {
     public void read(File file, Drawing drawing) throws IOException {
         read(file, drawing, true);
     }
-    
+
     public void read(File file, Drawing drawing, boolean replace) throws IOException {
         InputStream in = null;
         try {
@@ -204,6 +203,7 @@ public class PictImageInputFormat implements InputFormat {
      * XXX - This code performs extremly slow. We should replace it by JNI
      * code which directly accesses the native clipboard.
      */
+
     @SuppressWarnings("unchecked")
     private static Image getImageFromPictStream(InputStream is) throws IOException {
         try {
@@ -251,7 +251,14 @@ public class PictImageInputFormat implements InputFormat {
             //
             // --GP
             //IJ.log("quicktime.QTSession");
-            Class c = Class.forName("quicktime.QTSession");
+            Class c;
+            try {
+                c = Class.forName("quicktime.QTSession");
+            } catch (Throwable e) {
+                IOException error = new IOException("QuickTime for Java is not available.");
+                error.initCause(e);
+                throw error;
+            }
             Method m = c.getMethod("isInitialized");
             Boolean b = (Boolean) m.invoke(null, (Object[]) null);
             if (b.booleanValue() == false) {

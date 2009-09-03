@@ -162,6 +162,9 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
             public void componentRemoved(ContainerEvent e) {
             }
         });
+
+
+        setEditor(new DefaultDrawingEditor());
     }
 
     public void dispose() {
@@ -304,14 +307,64 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
                         throw ie;
                     }
                 }
+                // We get here if reading was successful.
+                // We can return since we are done.
+                return;
+                //
             } catch (IOException e) {
+                // We get here if reading failed.
+                // We only preserve the exception of the first input format,
+                // because that's the one which is best suited for this drawing.
                 if (firstIOException == null) {
                     firstIOException = e;
                 }
-                newDrawing = createDrawing();
             }
         }
         throw firstIOException;
+    }
+
+    /**
+     * Reads a drawing from the specified file into the SVGDrawingPanel using
+     * the specified input format.
+     * <p>
+     * This method should be called from a worker thread.
+     * Calling it from the Event Dispatcher Thread will block the user
+     * interface, until the drawing is read.
+     */
+    public void read(File f, InputFormat format) throws IOException {
+        if (format == null) {
+            read(f);
+            return;
+        }
+
+        // Create a new drawing object
+        Drawing newDrawing = createDrawing();
+        if (newDrawing.getInputFormats().size() == 0) {
+            throw new InternalError("Drawing object has no input formats.");
+        }
+
+        format.read(f, newDrawing);
+        final Drawing loadedDrawing = newDrawing;
+        Runnable r = new Runnable() {
+
+            public void run() {
+                // Set the drawing on the Event Dispatcher Thread
+                setDrawing(loadedDrawing);
+            }
+        };
+        if (SwingUtilities.isEventDispatchThread()) {
+            r.run();
+        } else {
+            try {
+                SwingUtilities.invokeAndWait(r);
+            } catch (InterruptedException ex) {
+                // suppress silently
+            } catch (InvocationTargetException ex) {
+                InternalError ie = new InternalError("Error setting drawing.");
+                ie.initCause(ex);
+                throw ie;
+            }
+        }
     }
 
     /**
@@ -343,9 +396,10 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
                 ie.initCause(ex);
                 throw ie;
             }
-        }
-        Drawing saveDrawing = helper[0];
 
+        }
+
+        Drawing saveDrawing = helper[0];
         if (saveDrawing.getOutputFormats().size() == 0) {
             throw new InternalError("Drawing object has no output formats.");
         }
@@ -355,9 +409,58 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
         for (OutputFormat format : saveDrawing.getOutputFormats()) {
             if (format.getFileFilter().accept(f)) {
                 format.write(f, saveDrawing);
+                // We get here if writing was successful.
+                // We can return since we are done.
+                return;
+
             }
+
+
         }
-        throw new IOException("No output format for "+f.getName());
+        throw new IOException("No output format for " + f.getName());
+    }
+
+    /**
+     * Writes the drawing from the SVGDrawingPanel into a file using the
+     * specified output format.
+     * <p>
+     * This method should be called from a worker thread.
+     * Calling it from the Event Dispatcher Thread will block the user
+     * interface, until the drawing is written.
+     */
+    public void write(File f, OutputFormat format) throws IOException {
+        if (format == null) {
+            write(f);
+            return;
+        }
+
+        // Defensively clone the drawing object, so that we are not
+        // affected by changes of the drawing while we write it into the file.
+        final Drawing[] helper = new Drawing[1];
+        Runnable r = new Runnable() {
+
+            public void run() {
+                helper[0] = (Drawing) getDrawing().clone();
+            }
+        };
+        if (SwingUtilities.isEventDispatchThread()) {
+            r.run();
+        } else {
+            try {
+                SwingUtilities.invokeAndWait(r);
+            } catch (InterruptedException ex) {
+                // suppress silently
+            } catch (InvocationTargetException ex) {
+                InternalError ie = new InternalError("Error getting drawing.");
+                ie.initCause(ex);
+                throw ie;
+            }
+
+        }
+
+        // Write drawing to file
+        Drawing saveDrawing = helper[0];
+        format.write(f, saveDrawing);
     }
 
     /** This method is called from within the constructor to

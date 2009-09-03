@@ -67,14 +67,15 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         add(p);
         p.setEnabled(false);
         show(p);
-        p.execute(new Worker() {
+        p.execute(new Worker<Object>() {
 
             public Object construct() {
                 p.clear();
                 return null;
             }
 
-            public void finished(Object result) {
+            @Override
+            public void finished() {
                 p.setEnabled(true);
             }
         });

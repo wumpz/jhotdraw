@@ -101,58 +101,52 @@ public class OpenAction extends AbstractApplicationAction {
         // Open the file
         view.execute(new Worker() {
 
-            public Object construct() {
-                try {
-                    if (file.exists()) {
-                        view.read(file);
-                        return null;
-                    } else {
-                        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
-                        return new IOException(labels.getFormatted("file.open.fileDoesNotExist.message", file.getName()));
-                    }
-                } catch (Throwable e) {
-                    return e;
+            public Object construct() throws IOException {
+                if (file.exists()) {
+                    view.read(file);
+                    return null;
+                } else {
+                    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
+                    throw new IOException(labels.getFormatted("file.open.fileDoesNotExist.message", file.getName()));
                 }
             }
 
-            public void finished(Object value) {
-                fileOpened(view, file, value);
+            @Override
+            protected void done(Object value) {
+                final Application app = getApplication();
+                view.setFile(file);
+                view.setEnabled(true);
+                Frame w = (Frame) SwingUtilities.getWindowAncestor(view.getComponent());
+                if (w != null) {
+                    w.setExtendedState(w.getExtendedState() & ~Frame.ICONIFIED);
+                    w.toFront();
+                }
+                view.getComponent().requestFocus();
+                app.addRecentFile(file);
+                app.setEnabled(true);
+            }
+
+            @Override
+            protected void failed(Throwable value) {
+                view.setEnabled(true);
+                app.setEnabled(true);
+                String message;
+                if ((value instanceof Throwable) && ((Throwable) value).getMessage() != null) {
+                    message = ((Throwable) value).getMessage();
+                    ((Throwable) value).printStackTrace();
+                } else if ((value instanceof Throwable)) {
+                    message = value.toString();
+                    ((Throwable) value).printStackTrace();
+                } else {
+                    message = value.toString();
+                }
+                ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
+                JSheet.showMessageSheet(view.getComponent(),
+                        "<html>" + UIManager.getString("OptionPane.css") +
+                        "<b>" + labels.getFormatted("file.open.couldntOpen.message", file.getName()) + "</b><br>" +
+                        ((message == null) ? "" : message),
+                        JOptionPane.ERROR_MESSAGE);
             }
         });
-    }
-
-    protected void fileOpened(final View view, File file, Object value) {
-        final Application app = getApplication();
-        if (value == null) {
-            view.setFile(file);
-            view.setEnabled(true);
-            Frame w = (Frame) SwingUtilities.getWindowAncestor(view.getComponent());
-            if (w != null) {
-                w.setExtendedState(w.getExtendedState() & ~Frame.ICONIFIED);
-                w.toFront();
-            }
-            view.getComponent().requestFocus();
-            app.addRecentFile(file);
-            app.setEnabled(true);
-        } else {
-            view.setEnabled(true);
-            app.setEnabled(true);
-            String message;
-            if ((value instanceof Throwable) && ((Throwable) value).getMessage() != null) {
-                message = ((Throwable) value).getMessage();
-                ((Throwable) value).printStackTrace();
-            } else if ((value instanceof Throwable)) {
-                message = value.toString();
-                ((Throwable) value).printStackTrace();
-            } else {
-                message = value.toString();
-            }
-            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
-            JSheet.showMessageSheet(view.getComponent(),
-                    "<html>" + UIManager.getString("OptionPane.css") +
-                    "<b>" + labels.getFormatted("file.open.couldntOpen.message", file.getName()) + "</b><br>" +
-                    ((message == null) ? "" : message),
-                    JOptionPane.ERROR_MESSAGE);
-        }
     }
 }

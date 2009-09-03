@@ -42,7 +42,7 @@ public class ClearAction extends AbstractSaveBeforeAction {
                 view.clear();
                 return null;
             }
-            public void finished(Object value) {
+            public void finished() {
                 view.setEnabled(true);
             }
         });

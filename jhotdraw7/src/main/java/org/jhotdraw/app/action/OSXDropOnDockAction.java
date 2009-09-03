@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.app.action;
 
 import org.jhotdraw.gui.Worker;
@@ -31,17 +30,18 @@ import org.jhotdraw.app.View;
  * @version $Id$
  */
 public class OSXDropOnDockAction extends AbstractApplicationAction {
+
     public final static String ID = "file.drop";
     private JFileChooser fileChooser;
     private int entries;
-    
+
     /** Creates a new instance. */
     public OSXDropOnDockAction(Application app) {
         super(app);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         putValue(Action.NAME, "OSX Drop On Dock");
     }
-    
+
     public void actionPerformed(ActionEvent evt) {
         final Application app = getApplication();
         if (evt instanceof ApplicationEvent) {
@@ -50,29 +50,28 @@ public class OSXDropOnDockAction extends AbstractApplicationAction {
             p.setEnabled(false);
             app.add(p);
             p.execute(new Worker() {
-                public Object construct() {
-                    try {
-                        p.read(ae.getFile());
-                        return null;
-                    } catch (IOException e) {
-                        return e;
-                    }
+
+                public Object construct() throws IOException {
+                    p.read(ae.getFile());
+                    return null;
                 }
-                public void finished(Object value) {
-                    if (value == null) {
-                        p.setFile(ae.getFile());
-                        p.setEnabled(true);
-                    } else {
-                        app.dispose(p);
-                        JOptionPane.showMessageDialog(
-                        null,
-                        "<html>"+UIManager.getString("OptionPane.css")+
-                        "<b>Can't open file "+ae.getFile()+"</b><p>"+
-                        value,
-                        "",
-                        JOptionPane.ERROR_MESSAGE
-                        );
-                    }
+
+                @Override
+                protected void done(Object value) {
+                    p.setFile(ae.getFile());
+                    p.setEnabled(true);
+                }
+
+                @Override
+                protected void failed(Throwable value) {
+                    app.dispose(p);
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "<html>" + UIManager.getString("OptionPane.css") +
+                            "<b>Can't open file " + ae.getFile() + "</b><p>" +
+                            value,
+                            "",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             });
         }

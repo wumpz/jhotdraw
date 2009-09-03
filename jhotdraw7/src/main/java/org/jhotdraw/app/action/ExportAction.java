@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.app.action;
 
 import org.jhotdraw.gui.*;
@@ -44,35 +43,34 @@ import org.jhotdraw.app.*;
  * @version $Id$
  */
 public class ExportAction extends AbstractViewAction {
+
     public final static String ID = "file.export";
     private Component oldFocusOwner;
-    
+
     /** Creates a new instance. */
     public ExportAction(Application app) {
         super(app);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
-    
-    
+
     public void actionPerformed(ActionEvent evt) {
         final ExportableView view = (ExportableView) getActiveView();
         if (view.isEnabled()) {
             ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
-            
+
             oldFocusOwner = SwingUtilities.getWindowAncestor(view.getComponent()).getFocusOwner();
             view.setEnabled(false);
-            
+
             File saveToFile;
             JFileChooser fileChooser = view.getExportChooser();
-            
+
             JSheet.showSheet(fileChooser, view.getComponent(), labels.getString("filechooser.export"), new SheetListener() {
+
                 public void optionSelected(final SheetEvent evt) {
                     if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
                         final File file = evt.getFileChooser().getSelectedFile();
-                        exportToFile(view, file, evt.getFileChooser().getFileFilter(), evt.getFileChooser().getAccessory()
-                                
-                                );
+                        exportToFile(view, file, evt.getFileChooser().getFileFilter(), evt.getFileChooser().getAccessory());
                     } else {
                         view.setEnabled(true);
                         if (oldFocusOwner != null) {
@@ -83,40 +81,35 @@ public class ExportAction extends AbstractViewAction {
             });
         }
     }
-    
+
     protected void exportToFile(final ExportableView view, final File file,
             final javax.swing.filechooser.FileFilter filter,
             final Component accessory) {
         view.execute(new Worker() {
-            public Object construct() {
-                try {
-                    view.export(file, filter, accessory);
-                    return null;
-                } catch (Throwable e) {
-                    return e;
+
+            protected Object construct() throws IOException {
+                view.export(file, filter, accessory);
+                return null;
+            }
+
+            protected void failed(Throwable value) {
+                System.out.flush();
+                ((Throwable) value).printStackTrace();
+                // FIXME localize this error messsage
+                JSheet.showMessageSheet(view.getComponent(),
+                        "<html>" + UIManager.getString("OptionPane.css") +
+                        "<b>Couldn't export to the file \"" + file + "\".<p>" +
+                        "Reason: " + value,
+                        JOptionPane.ERROR_MESSAGE);
+            }
+
+            protected void finished(Throwable value) {
+                view.setEnabled(true);
+                SwingUtilities.getWindowAncestor(view.getComponent()).toFront();
+                if (oldFocusOwner != null) {
+                    oldFocusOwner.requestFocus();
                 }
             }
-            public void finished(Object value) {
-                fileExported(view, file, value);
-            }
         });
-    }
-    protected void fileExported(ExportableView view, File file, Object value) {
-        if (value != null) {
-            System.out.flush();
-            ((Throwable) value).printStackTrace();
-            // FIXME localize this error messsage
-            JSheet.showMessageSheet(view.getComponent(),
-                    "<html>"+UIManager.getString("OptionPane.css")+
-                    "<b>Couldn't export to the file \""+file+"\".<p>"+
-                    "Reason: "+value,
-                    JOptionPane.ERROR_MESSAGE
-                    );
-        }
-        view.setEnabled(true);
-        SwingUtilities.getWindowAncestor(view.getComponent()).toFront();
-        if (oldFocusOwner != null) {
-            oldFocusOwner.requestFocus();
-        }
     }
 }

@@ -60,9 +60,9 @@ public class SVGApplet extends JApplet {
     public SVGApplet() {
         setBackground(Color.WHITE);
         start = System.currentTimeMillis();
-        setName("JHotDraw SVG Applet "+getClass().getPackage().getImplementationVersion());
+        setName("JHotDraw SVG Applet " + getClass().getPackage().getImplementationVersion());
         ((JComponent) getContentPane()).setBorder(new MatteBorder(new Insets(1, 1, 1, 1), new Color(0xa5a5a5)));
-    //ResourceBundleUtil.setVerbose(true);
+        //ResourceBundleUtil.setVerbose(true);
     }
 
     /**
@@ -93,8 +93,8 @@ public class SVGApplet extends JApplet {
 
     /**
      * Displays a progress indicator and then invokes <code>loadDrawing</code>
-     * on a worker thread. Displays the drawing panel when finished successfully.
-     * Displays an error message when finished unsuccessfully.
+     * on a worker thread. Displays the drawing panel when done successfully.
+     * Displays an error message when done unsuccessfully.
      *
      * @see #loadDrawing
      */
@@ -130,62 +130,64 @@ public class SVGApplet extends JApplet {
         // --------------------------------------
         new Worker() {
 
-            public Object construct() {
-                try {
-                    Thread t = new Thread() {
+            protected Object construct() throws Exception {
+                Thread t = new Thread() {
 
-                        @Override
-                        public void run() {
-                            drawingComponent = createDrawingComponent();
-                        }
-                    };
-                    t.start();
-                    progress.setNote(labels.getString("progressLoading"));
-                    Object drawing = loadDrawing(progress);
-                    progress.setNote(labels.getString("progressOpeningEditor"));
-                    progress.setIndeterminate(true);
-                    t.join();
-                    return drawing;
-                } catch (Throwable t) {
-                    return t;
-                }
+                    @Override
+                    public void run() {
+                        drawingComponent = createDrawingComponent();
+                    }
+                };
+                t.start();
+                progress.setNote(labels.getString("progressLoading"));
+                Object drawing = loadDrawing(progress);
+                progress.setNote(labels.getString("progressOpeningEditor"));
+                progress.setIndeterminate(true);
+                t.join();
+                return drawing;
             }
 
-            public void finished(Object result) {
+            protected void done(Object result) {
                 Container c = getContentPane();
                 c.setLayout(new BorderLayout());
                 c.removeAll();
-                if (result instanceof Throwable) {
-                    Throwable error = (Throwable) result;
-                    error.printStackTrace();
-                    String message = (error.getMessage() == null) ? error.toString() : error.getMessage();
-                    MessagePanel mp = new MessagePanel(
-                            UIManager.getIcon("OptionPane.errorIcon"),
-                            labels.getFormatted("messageLoadFailed", htmlencode(getParameter("DrawingURL")), htmlencode(message)));
-                    c.add(mp);
-                    mp.addActionListener(new ActionListener() {
+                c.add(drawingComponent.getComponent());
+                initComponents();
+                if (result != null) {
+                    if (result instanceof Drawing) {
+                        setDrawing((Drawing) result);
+                    } else if (result instanceof Throwable) {
+                        setDrawing(createDrawing());
+                        getDrawing().add(new SVGTextFigure(result.toString()));
+                        ((Throwable) result).printStackTrace();
+                    }
+                }
+                drawingComponent.revalidate();
+            }
 
-                        public void actionPerformed(ActionEvent evt) {
-                            if (evt.getActionCommand().equals("close")) {
-                                close();
-                            }
-                        }
-                    });
-                    mp.revalidate();
-                } else {
-                    c.add(drawingComponent.getComponent());
-                    initComponents();
-                    if (result != null) {
-                        if (result instanceof Drawing) {
-                            setDrawing((Drawing) result);
-                        } else if (result instanceof Throwable) {
-                            setDrawing(createDrawing());
-                            getDrawing().add(new SVGTextFigure(result.toString()));
-                            ((Throwable) result).printStackTrace();
+            protected void failed(Throwable result) {
+                Container c = getContentPane();
+                c.setLayout(new BorderLayout());
+                c.removeAll();
+                Throwable error = (Throwable) result;
+                error.printStackTrace();
+                String message = (error.getMessage() == null) ? error.toString() : error.getMessage();
+                MessagePanel mp = new MessagePanel(
+                        UIManager.getIcon("OptionPane.errorIcon"),
+                        labels.getFormatted("messageLoadFailed", htmlencode(getParameter("DrawingURL")), htmlencode(message)));
+                c.add(mp);
+                mp.addActionListener(new ActionListener() {
+
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getActionCommand().equals("close")) {
+                            close();
                         }
                     }
-                    drawingComponent.revalidate();
-                }
+                });
+                mp.revalidate();
+            }
+
+            protected void finished() {
                 long end = System.currentTimeMillis();
                 System.out.println("AbstractDrawingApplet startup latency:" + (end - start));
             }
