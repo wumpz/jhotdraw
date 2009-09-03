@@ -44,9 +44,17 @@ public class SVGDrawingPanelSample extends javax.swing.JFrame {
     private JFileChooser openChooser;
     /** Holds the file chooser for saving a file. */
     private JFileChooser saveChooser;
+    /** Maps file filters to input formats, so that we can
+     * determine the input format that the user selected for
+     * opening a drawing.
+     */
     private HashMap<javax.swing.filechooser.FileFilter, InputFormat> fileFilterInputFormatMap;
+    /** Maps file filters to output formats, so that we can
+     * determine the output format that the user selected for
+     * opening a drawing.
+     */
     private HashMap<javax.swing.filechooser.FileFilter, OutputFormat> fileFilterOutputFormatMap;
-    /** Holds the currently open file. */
+    /** Holds the currently opened file. */
     private File file;
 
     /** Creates new form SVGDrawingPanelSample */
