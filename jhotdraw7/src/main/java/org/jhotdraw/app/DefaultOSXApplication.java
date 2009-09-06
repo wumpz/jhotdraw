@@ -327,20 +327,6 @@ public class DefaultOSXApplication extends AbstractApplication {
         JMenu windowMenu = m;
         labels.configureMenu(m, "window");
         m.addSeparator();
-        for (View pr : views()) {
-            if (pr.getAction(FocusAction.ID) != null) {
-                windowMenu.add(pr.getAction(FocusAction.ID));
-            }
-        }
-        if (paletteActions.size() > 0) {
-            m.addSeparator();
-            for (Action a : paletteActions) {
-                JCheckBoxMenuItem cbmi = new JCheckBoxMenuItem(a);
-                Actions.configureJCheckBoxMenuItem(cbmi, a);
-                cbmi.setIcon(null);
-                m.add(cbmi);
-            }
-        }
 
         if (view != null) {
             new WindowMenuHandler(windowMenu, view);
@@ -548,46 +534,42 @@ public class DefaultOSXApplication extends AbstractApplication {
             this.view = view;
             addPropertyChangeListener(this);
             view.addDisposable(this);
-            updateViewWindowMenuItems(windowMenu, view);
+            updateWindowMenu();
         }
 
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
             if (name == "viewCount" || name == "paletteCount") {
-                if (view == null || views().contains(view)) {
-                    JMenu m = windowMenu;
-                    m.removeAll();
-                    updateViewWindowMenuItems(m, view);
-                    m.addSeparator();
-                    for (Iterator i = views().iterator(); i.hasNext();) {
-                        View pr = (View) i.next();
-                        if (pr.getAction(FocusAction.ID) != null) {
-                            m.add(pr.getAction(FocusAction.ID));
-                        }
-                    }
-                    if (paletteActions.size() > 0) {
-                        m.addSeparator();
-                        for (Action a : paletteActions) {
-                            JCheckBoxMenuItem cbmi = new JCheckBoxMenuItem(a);
-                            Actions.configureJCheckBoxMenuItem(cbmi, a);
-                            cbmi.setIcon(null);
-                            m.add(cbmi);
-                        }
-                    }
-                } else {
-                    removePropertyChangeListener(this);
-                }
+                updateWindowMenu();
             }
         }
 
-        protected void updateViewWindowMenuItems(JMenu m, View p) {
+        protected void updateWindowMenu() {
+            JMenu m = windowMenu;
             JMenuItem mi;
 
+            m.removeAll();
             ApplicationModel model = getModel();
             mi = m.add(model.getAction(MinimizeAction.ID));
             mi.setIcon(null);
             mi = m.add(model.getAction(MaximizeAction.ID));
             mi.setIcon(null);
+            m.addSeparator();
+            for (Iterator i = views().iterator(); i.hasNext();) {
+                View pr = (View) i.next();
+                if (pr.getAction(FocusAction.ID) != null) {
+                    m.add(pr.getAction(FocusAction.ID));
+                }
+            }
+            if (paletteActions.size() > 0) {
+                m.addSeparator();
+                for (Action a : paletteActions) {
+                    JCheckBoxMenuItem cbmi = new JCheckBoxMenuItem(a);
+                    Actions.configureJCheckBoxMenuItem(cbmi, a);
+                    cbmi.setIcon(null);
+                    m.add(cbmi);
+                }
+            }
         }
 
         public void dispose() {
