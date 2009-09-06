@@ -46,7 +46,11 @@ public abstract class AbstractSaveBeforeAction extends AbstractViewAction {
 
     /** Creates a new instance. */
     public AbstractSaveBeforeAction(Application app) {
-        super(app);
+        this(app, null);
+    }
+    /** Creates a new instance. */
+    public AbstractSaveBeforeAction(Application app, View view) {
+        super(app, view);
     }
 
     public void actionPerformed(ActionEvent evt) {

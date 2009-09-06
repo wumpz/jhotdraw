@@ -35,6 +35,7 @@ import org.jhotdraw.app.View;
  */
 public abstract class AbstractViewAction extends AbstractAction {
     private Application app;
+    private View view;
     private String propertyName;
     public final static String VIEW_PROPERTY = "view";
     public final static String ENABLED_PROPERTY = "enabled";
@@ -57,13 +58,18 @@ public abstract class AbstractViewAction extends AbstractAction {
         }
     };
     
-    /** Creates a new instance. */
+    /** Creates a new instance which acts on the active view of the application. */
     public AbstractViewAction(Application app) {
+        this(app, null);
+    }
+    /** Creates a new instance which acts on the specified view of the application. */
+    public AbstractViewAction(Application app, View view) {
         this.app = app;
+        this.view = view;
         this.enabled = true;
         if (app != null) {
             app.addPropertyChangeListener(applicationListener);
-            updateView(null, app.getActiveView());
+            updateView(null, getActiveView());
         }
     }
     
@@ -134,7 +140,7 @@ public abstract class AbstractViewAction extends AbstractAction {
         return app;
     }
     public View getActiveView() {
-        return app.getActiveView();
+        return (view == null) ? app.getActiveView() : view;
     }
     
     /**

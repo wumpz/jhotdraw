@@ -69,7 +69,7 @@ public class OpenAction extends AbstractApplicationAction {
             JFileChooser fileChooser = getFileChooser(view);
             if (fileChooser.showOpenDialog(app.getComponent()) == JFileChooser.APPROVE_OPTION) {
                 app.show(view);
-                openFile(fileChooser, view);
+                openFile(view, fileChooser.getSelectedFile());
             } else {
                 if (disposeView) {
                     app.dispose(view);
@@ -79,9 +79,8 @@ public class OpenAction extends AbstractApplicationAction {
         }
     }
 
-    protected void openFile(JFileChooser fileChooser, final View view) {
+    protected void openFile(final View view, final File file) {
         final Application app = getApplication();
-        final File file = fileChooser.getSelectedFile();
         app.setEnabled(true);
         view.setEnabled(false);
 

@@ -33,7 +33,11 @@ public class LoadAction extends AbstractSaveBeforeAction {
 
     /** Creates a new instance. */
     public LoadAction(Application app) {
-        super(app);
+        this(app,null);
+    }
+    /** Creates a new instance. */
+    public LoadAction(Application app, View view) {
+        super(app, view);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, "file.open");
     }
@@ -45,15 +49,14 @@ public class LoadAction extends AbstractSaveBeforeAction {
     public void doIt(View view) {
         JFileChooser fileChooser = getFileChooser(view);
         if (fileChooser.showOpenDialog(view.getComponent()) == JFileChooser.APPROVE_OPTION) {
-            openFile(view, fileChooser);
+            loadFile(view, fileChooser.getSelectedFile());
         } else {
             view.setEnabled(true);
         }
     }
 
-    protected void openFile(final View view, JFileChooser fileChooser) {
-        final File file = fileChooser.getSelectedFile();
-
+    public void loadFile(final View view, final File file) {
+ 
         view.setEnabled(false);
 
         // Open the file
@@ -73,10 +76,11 @@ public class LoadAction extends AbstractSaveBeforeAction {
 
             @Override
             protected void failed(Throwable value) {
+                ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
                 JSheet.showMessageSheet(view.getComponent(),
                         "<html>" + UIManager.getString("OptionPane.css") +
-                        "<b>Couldn't open the file \"" + file + "\".</b><br>" +
-                        value,
+                        "<b>" + labels.getFormatted("file.load.couldntLoad.message", file.getName()) + "</b><br>" +
+                        ((value == null) ? "" : value),
                         JOptionPane.ERROR_MESSAGE, new SheetListener() {
 
                     public void optionSelected(SheetEvent evt) {

@@ -43,7 +43,11 @@ public class LoadDirectoryAction extends LoadAction {
 
     /** Creates a new instance. */
     public LoadDirectoryAction(Application app) {
-        super(app);
+        this(app,null);
+    }
+    /** Creates a new instance. */
+    public LoadDirectoryAction(Application app, View view) {
+        super(app, view);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, "file.openDirectory");
     }
