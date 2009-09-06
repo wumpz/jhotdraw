@@ -21,8 +21,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.SwingWorker;
-import org.jhotdraw.draw.DefaultDrawingEditor;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.InputFormat;
 import org.jhotdraw.draw.OutputFormat;
