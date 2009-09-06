@@ -94,8 +94,6 @@ public abstract class Worker<T> implements Runnable {
      * <p>
      * The default implementation does nothing. Subclasses may override this
      * method to perform completion actions on the Event Dispatch Thread.
-     *
-     * @param error The error thrown by construct.
      */
     protected void finished() {
     }

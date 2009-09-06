@@ -25,7 +25,17 @@ import javax.swing.*;
 import org.jhotdraw.app.action.*;
 
 /**
- * A DefaultSDIApplication can handle the life cycle of a single document window
+ * {@code DefaultSDIApplication} handles the lifecycle of a {@link View}s
+ * using a single document interface (SDI).
+ * <p>
+ * An application consists of independent {@code JFrame}s for each view.
+ * Each JFrame contains a menu bar, toolbars and palette bars for
+ * the views.
+ * <p>
+ * The life cycle of the application is tied to the {@code JFrame}s. Closing the
+ * last {@code JFrame} quits the application.
+
+ * DefaultSDIApplication handles the life cycle of a single document window
  * being presented in a JFrame. The JFrame provides all the functionality needed
  * to work with the document, such as a menu bar, tool bars and palette windows.
  * <p>
@@ -245,38 +255,72 @@ public class DefaultSDIApplication extends AbstractApplication {
     protected JMenuBar createMenuBar(final View p, java.util.List<Action> toolBarActions) {
         JMenuBar mb = new JMenuBar();
         mb.add(createFileMenu(p));
-        JMenu lastMenu = null;
-        for (JMenu mm : getModel().createMenus(this, p)) {
-            mb.add(mm);
-            lastMenu = mm;
-        }
-        JMenu viewMenu = createViewMenu(p, toolBarActions);
-        if (viewMenu != null) {
-            if (lastMenu != null && lastMenu.getText().equals(viewMenu.getText())) {
-                for (Component c : lastMenu.getMenuComponents()) {
-                    viewMenu.add(c);
-                }
-                mb.remove(lastMenu);
+
+        JMenu editMenu = null;
+        JMenu viewMenu = null;
+        JMenu helpMenu = null;
+        String editMenuText = labels.getString("edit.text");
+        String viewMenuText = labels.getString("view.text");
+        String helpMenuText = labels.getString("help.text");
+        for (JMenu mm : getModel().createMenus(this, null)) {
+            if (mm.getText().equals(editMenuText)) {
+                editMenu = mm;
+            } else if (mm.getText().equals(viewMenuText)) {
+                viewMenu = mm;
+            } else if (mm.getText().equals(helpMenuText)) {
+                helpMenu = mm;
+                continue;
             }
-            mb.add(viewMenu);
+            mb.add(mm);
         }
 
-        // Merge the help menu if one has been provided by the application model,
-        // otherwise just add it.
-        JMenu helpMenu = createHelpMenu(p);
-        for (Component mc : mb.getComponents()) {
-            JMenu m = (JMenu) mc;
-            if (m.getText().equals(helpMenu.getText())) {
-                for (Component c : helpMenu.getMenuComponents()) {
-                    m.add(c);
+        // Merge edit menu
+        if (editMenu == null) {
+            JMenu m = createEditMenu();
+            if (m != null) {
+                mb.add(m, 1);
+            }
+        } else {
+            JMenu m = createEditMenu();
+            if (m != null) {
+                editMenu.addSeparator();
+                for (Component c : mb.getComponents()) {
+                    editMenu.add(c);
                 }
-                helpMenu = null;
-                break;
             }
         }
-        if (helpMenu != null) {
+
+        // Merge view menu
+        if (viewMenu == null) {
+            JMenu m = createViewMenu(p, toolBarActions);
+            if (m != null) {
+                mb.add(m, 1);
+            }
+        } else {
+            JMenu m = createViewMenu(p, toolBarActions);
+            if (m != null) {
+                viewMenu.addSeparator();
+                for (Component c : mb.getComponents()) {
+                    viewMenu.add(c);
+                }
+            }
+        }
+
+
+        // Merge help menu
+        if (helpMenu == null) {
+            mb.add(createHelpMenu(p));
+        } else {
+            JMenu m = createHelpMenu(p);
+            if (m != null) {
+                helpMenu.addSeparator();
+                for (Component c : mb.getComponents()) {
+                    helpMenu.add(c);
+                }
+            }
             mb.add(helpMenu);
         }
+
         return mb;
     }
 
@@ -317,6 +361,23 @@ public class DefaultSDIApplication extends AbstractApplication {
 
         addPropertyChangeListener(new OpenRecentMenuHandler(openRecentMenu));
 
+        return m;
+    }
+
+    protected JMenu createEditMenu() {
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
+        ApplicationModel mo = getModel();
+
+        if (mo.getAction(PreferencesAction.ID) == null) {
+            return null;
+        }
+
+        JMenu m;
+        JMenuItem mi;
+
+        m = new JMenu();
+        labels.configureMenu(m, labels.getString("edit"));
+        m.add(mo.getAction(PreferencesAction.ID));
         return m;
     }
 
@@ -364,7 +425,6 @@ public class DefaultSDIApplication extends AbstractApplication {
         JMenu m, m2;
         JMenuItem mi;
         JCheckBoxMenuItem cbmi;
-        final JMenu openRecentMenu;
 
         m = new JMenu();
         if (viewActions != null && viewActions.size() > 0) {

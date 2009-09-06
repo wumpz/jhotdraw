@@ -27,13 +27,63 @@ import javax.swing.event.*;
 import org.jhotdraw.app.action.*;
 
 /**
- * A DefaultMDIApplication can handle the life cycle of multiple document 
- * windows each being presented in a JInternalFrame of its own. A parent JFrame
- * provides all the functionality needed to work with documents, such as a menu
- * bar, tool bars and palette windows.
+ * {@code DefaultMDIApplication} handles the lifecycle of {@link View}s using a
+ * multiple document interface (MDI).
  * <p>
- * The life cycle of the application is tied t the parent JFrame. Closing the
- * parent JFrame quits the application.
+ * An application consists of a parent {@code JFrame} which holds a {@code JDesktopPane}.
+ * The views reside in {@code JInternalFrame}s inside of the {@code JDesktopPane}. 
+ * The parent frame also contains a menu bar, toolbars and palette windows for
+ * the views.
+ * <p>
+ * The life cycle of the application is tied to the parent {@code JFrame}.
+ * Closing the parent {@code JFrame} quits the application.
+ *
+ * The parent frame has the following standard menus:
+ * <pre>
+ * File Edit Window Help</pre>
+ *
+ * The <b>file menu</b> has the following standard menu items:
+ * <pre>
+ *  New ({@link NewAction}})
+ *  Open... ({@link OpenAction}})
+ *  Open Recent &gt; "Filename" ({@link OpenRecentAction}})
+ *  -
+ *  Close ({@link CloseAction.ID})
+ *  Save ({@link SaveAction.ID})
+ *  Save As... ({@link SaveAsAction.ID})
+ *  Save All
+ *  Revert to Saved ({@link RevertToSavedAction.ID})
+ *  -
+ *  Page Setup... ({@link PrintPageSetupAction.ID})
+ *  Print... ({@link PrintAction.ID})
+ *  -
+ *  Exit (ExitAction.ID)
+ * </pre>
+ *
+ * The <b>edit menu</b> has the following standard menu items:
+ * <pre>
+ *  Settings ({@link PreferencesAction.ID})
+ * </pre>
+ *
+ * The <b>window menu</b> has the following standard menu items:
+ * <pre>
+ *  Minimize ({@link MinimizeAction.ID})
+ *  Maximize ({@link MaximizeAction.ID})
+ *  -
+ *  "Filename" ({@link FocusAction.ID})
+ * </pre>
+ *
+ * The <b>help menu</b> has the following standard menu items:
+ * <pre>
+ *  About ({@link AboutAction.ID})
+ * </pre>
+ *
+ * The menus provided by the {@code ApplicationModel} are inserted between
+ * the file menu and the window menu. In case the application model supplies
+ * a menu with the title "Edit" or "Help", the standard menu items are added
+ * with a seperator to the end of the menu.
+ *
+ *
  *
  * @author Werner Randelshofer.
  * @version $Id$
@@ -276,44 +326,9 @@ public class DefaultMDIApplication extends AbstractApplication {
                 PreferencesUtil.installToolBarPrefsHandler(prefs, "toolbar." + id, tb);
                 toolBarActions.addFirst(new ToggleToolBarAction(tb, tb.getName()));
             }
-        /*
-        JToolBar tb = new JToolBar();
-        tb.setName(labels.getString("standardToolBarTitle"));
-        addStandardActionsTo(tb);
-        id++;
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.add(tb, BorderLayout.NORTH);
-        panel.add(c, BorderLayout.CENTER);
-        c = panel;
-        PreferencesUtil.installToolBarPrefsHandler(prefs, "toolbar."+id, tb);
-        toolBarActions.addFirst(new ToggleToolBarAction(tb, tb.getName()));
-        panel.putClientProperty("toolBarActions", toolBarActions);
-         */
         }
         return c;
     }
-    /*
-    protected void addStandardActionsTo(JToolBar tb) {
-    JButton b;
-    ApplicationModel model = getModel();
-    b = tb.add(model.getAction(NewAction.ID));
-    b.setFocusable(false);
-    b = tb.add(model.getAction(OpenAction.ID));
-    b.setFocusable(false);
-    b = tb.add(model.getAction(SaveAction.ID));
-    tb.addSeparator();
-    b = tb.add(model.getAction(UndoAction.ID));
-    b.setFocusable(false);
-    b = tb.add(model.getAction(RedoAction.ID));
-    b.setFocusable(false);
-    tb.addSeparator();
-    b = tb.add(model.getAction(CutAction.ID));
-    b.setFocusable(false);
-    b = tb.add(model.getAction(CopyAction.ID));
-    b.setFocusable(false);
-    b = tb.add(model.getAction(PasteAction.ID));
-    b.setFocusable(false);
-    }*/
 
     /**
      * Creates a menu bar.
@@ -321,11 +336,53 @@ public class DefaultMDIApplication extends AbstractApplication {
     protected JMenuBar createMenuBar() {
         JMenuBar mb = new JMenuBar();
         mb.add(createFileMenu());
+
+        JMenu editMenu = null;
+        JMenu helpMenu = null;
+        String editMenuText = labels.getString("edit.text");
+        String helpMenuText = labels.getString("help.text");
         for (JMenu mm : getModel().createMenus(this, null)) {
+            if (mm.getText().equals(editMenuText)) {
+                editMenu = mm;
+            } else if (mm.getText().equals(helpMenuText)) {
+                helpMenu = mm;
+                continue;
+            }
             mb.add(mm);
         }
+
+        // Merge edit menu
+        if (editMenu == null) {
+            JMenu m = createEditMenu();
+            if (m != null) {
+                mb.add(m, 1);
+            }
+        } else {
+            JMenu m = createEditMenu();
+            if (m != null) {
+                editMenu.addSeparator();
+                for (Component c : mb.getComponents()) {
+                    editMenu.add(c);
+                }
+            }
+        }
+
         mb.add(createWindowMenu());
-        mb.add(createHelpMenu());
+
+        // Merge help menu
+        if (helpMenu == null) {
+                mb.add(createHelpMenu());
+        } else {
+            JMenu m = createHelpMenu();
+            if (m != null) {
+                helpMenu.addSeparator();
+                for (Component c : mb.getComponents()) {
+                    helpMenu.add(c);
+                }
+            }
+            mb.add(helpMenu);
+        }
+
         return mb;
     }
 
@@ -422,6 +479,23 @@ public class DefaultMDIApplication extends AbstractApplication {
 
         addPropertyChangeListener(new WindowMenuHandler(windowMenu));
 
+        return m;
+    }
+
+    protected JMenu createEditMenu() {
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
+        ApplicationModel mo = getModel();
+
+        if (mo.getAction(PreferencesAction.ID) == null) {
+            return null;
+        }
+
+        JMenu m;
+        JMenuItem mi;
+
+        m = new JMenu();
+        labels.configureMenu(m, labels.getString("edit"));
+        m.add(mo.getAction(PreferencesAction.ID));
         return m;
     }
 

@@ -294,8 +294,8 @@ public class TeddyView extends AbstractView {
                 public void run() {
                     editor.getDocument().removeUndoableEditListener(undoManager);
                     editor.setDocument(newDocument);
-                    editor.getDocument().addUndoableEditListener(undoManager);
-                    setHasUnsavedChanges(false);
+                    newDocument.addUndoableEditListener(undoManager);
+                    undoManager.discardAllEdits();
                 }
             });
         } catch (InvocationTargetException ex) {

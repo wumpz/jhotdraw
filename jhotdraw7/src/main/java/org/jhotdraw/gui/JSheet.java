@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.gui;
 
 import java.awt.*;
@@ -201,7 +200,7 @@ public class JSheet extends JDialog {
                 } else {
                     sheetLoc = new Point(
                             ownerLoc.x + (owner.getWidth() - getWidth()) / 2,
-                            ownerLoc.y + (owner.getHeight() - getHeight()) / 2);
+                            ownerLoc.y + (owner.getHeight() - getHeight()) / 3);
                 }
                 setLocation(sheetLoc);
 
@@ -221,6 +220,13 @@ public class JSheet extends JDialog {
                 }
             }
             isInstalled = true;
+        } else {
+            Window owner = getOwner();
+            Point ownerLoc = owner.getLocation();
+            Point sheetLoc = new Point(
+                    ownerLoc.x + (owner.getWidth() - getWidth()) / 2,
+                    ownerLoc.y + (owner.getHeight() - getHeight()) / 3);
+                setLocation(sheetLoc);
         }
     }
 
@@ -254,7 +260,7 @@ public class JSheet extends JDialog {
     public void addNotify() {
         super.addNotify();
         if (UIManager.getBoolean("Sheet.showAsSheet")) {
-           // QuaquaUtilities.setWindowAlpha(this, 240);
+            // QuaquaUtilities.setWindowAlpha(this, 240);
         }
     }
 
@@ -420,12 +426,12 @@ public class JSheet extends JDialog {
                         setBounds(endBounds);
                         getContentPane().setVisible(true);
 
-                                Component c = getFocusTraversalPolicy().getInitialComponent(JSheet.this);
-                                if (c != null) {
-                                    c.requestFocus();
-                                } else {
-                                    getContentPane().requestFocus();
-                                }
+                        Component c = getFocusTraversalPolicy().getInitialComponent(JSheet.this);
+                        if (c != null) {
+                            c.requestFocus();
+                        } else {
+                            getContentPane().requestFocus();
+                        }
                     } else {
                         float ratio = (now - startTime) / (float) (endTime - startTime);
                         setBounds(
@@ -453,17 +459,17 @@ public class JSheet extends JDialog {
         /*
         NSApplication app = NSApplication.sharedApplication();
         int id = app.requestUserAttention(
-                                NSApplication.UserAttentionRequestInformational);
+        NSApplication.UserAttentionRequestInformational);
          */
         /*
         try {
-            Object app = Methods.invokeStatic("com.apple.cocoa.application.NSApplication", "sharedApplication");
-            Methods.invoke(app, "requestUserAttention", app.getClass().getDeclaredField("UserAttentionRequestInformational").getInt(app));
+        Object app = Methods.invokeStatic("com.apple.cocoa.application.NSApplication", "sharedApplication");
+        Methods.invoke(app, "requestUserAttention", app.getClass().getDeclaredField("UserAttentionRequestInformational").getInt(app));
         } catch (Throwable ex) {
-            System.err.println("Quaqua Warning: Couldn't invoke NSApplication.requestUserAttention");
+        System.err.println("Quaqua Warning: Couldn't invoke NSApplication.requestUserAttention");
         }*/
     }
-    
+
     /**
      * Adds a sheet listener.
      */
@@ -500,7 +506,7 @@ public class JSheet extends JDialog {
             } else {
                 option = JOptionPane.CLOSED_OPTION;
                 Object[] options = pane.getOptions();
-                for (int i = 0,  n = options.length; i < n; i++) {
+                for (int i = 0, n = options.length; i < n; i++) {
                     if (options[i].equals(value)) {
                         option = i;
                         break;
@@ -964,16 +970,19 @@ public class JSheet extends JDialog {
             int style) {
         Window window = getWindowForComponent(parentComponent);
         final JSheet sheet;
+        boolean isUndecorated;
         if (window instanceof Frame) {
+            isUndecorated = ((Frame) window).isUndecorated();
             sheet = new JSheet((Frame) window);
         } else {
+            isUndecorated = ((Dialog) window).isUndecorated();
             sheet = new JSheet((Dialog) window);
         }
 
         JComponent contentPane = (JComponent) sheet.getContentPane();
         contentPane.setLayout(new BorderLayout());
 
-        if (isNativeSheetSupported()) {
+        if (isNativeSheetSupported() && !isUndecorated) {
             contentPane.setBorder(new EmptyBorder(12, 0, 0, 0));
         }
 
@@ -1116,6 +1125,7 @@ public class JSheet extends JDialog {
         // End Create Dialog
 
         final ActionListener actionListener = new ActionListener() {
+
             public void actionPerformed(ActionEvent evt) {
                 int option;
                 if (evt.getActionCommand().equals("ApproveSelection")) {
@@ -1130,6 +1140,7 @@ public class JSheet extends JDialog {
         };
         chooser.addActionListener(actionListener);
         sheet.addWindowListener(new WindowAdapter() {
+
             public void windowClosing(WindowEvent e) {
                 sheet.fireOptionSelected(chooser, JFileChooser.CANCEL_OPTION);
                 chooser.removeActionListener(actionListener);

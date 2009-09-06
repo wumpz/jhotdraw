@@ -28,7 +28,7 @@ import org.jhotdraw.gui.Worker;
 import org.jhotdraw.io.ExtensionFileFilter;
 
 /**
- * Example showing how to embed the {@link SVGDrawingPanel} into an application
+ * Example showing how to embed the {@link org.jhotdraw.samples.svg.SVGDrawingPanel} into an application
  * that does not make use of the JHotDraw application framework.
  * <p>
  * In this case, the application consists of a JFrame with a File menu.
