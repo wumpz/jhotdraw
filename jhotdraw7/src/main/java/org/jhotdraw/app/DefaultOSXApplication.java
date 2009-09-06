@@ -328,9 +328,8 @@ public class DefaultOSXApplication extends AbstractApplication {
         labels.configureMenu(m, "window");
         m.addSeparator();
 
-        if (view != null) {
-            new WindowMenuHandler(windowMenu, view);
-        }
+        new WindowMenuHandler(windowMenu, view);
+
         return m;
     }
 
@@ -533,7 +532,9 @@ public class DefaultOSXApplication extends AbstractApplication {
             this.windowMenu = windowMenu;
             this.view = view;
             addPropertyChangeListener(this);
-            view.addDisposable(this);
+            if (view != null) {
+                view.addDisposable(this);
+            }
             updateWindowMenu();
         }
 
@@ -558,7 +559,7 @@ public class DefaultOSXApplication extends AbstractApplication {
             for (Iterator i = views().iterator(); i.hasNext();) {
                 View pr = (View) i.next();
                 if (pr.getAction(FocusAction.ID) != null) {
-                    m.add(pr.getAction(FocusAction.ID));
+                    mi = m.add(pr.getAction(FocusAction.ID));
                 }
             }
             if (paletteActions.size() > 0) {
