@@ -21,7 +21,7 @@ import java.awt.geom.*;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import org.jhotdraw.geom.*;
-import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
+import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
  * A {@link Handle} which allows to interactively change a control point

@@ -23,7 +23,7 @@ import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.*;
 import org.jhotdraw.geom.*;
-import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
+import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
  * A {@link Handle} which allows to interactively change a node of a bezier path.

@@ -936,6 +936,7 @@ public class StreamPosTokenizer
         if ((ctype & CT_COMMENT) != 0) {
             while ((c = read()) != '\n' && c != '\r' && c >= 0);
             peekc = c;
+            lineno++;
             return nextToken();
         }
         
