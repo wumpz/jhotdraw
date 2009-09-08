@@ -368,7 +368,7 @@ public class DefaultSDIApplication extends AbstractApplication {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         ApplicationModel mo = getModel();
 
-        if (mo.getAction(PreferencesAction.ID) == null) {
+        if (mo.getAction(AbstractPreferencesAction.ID) == null) {
             return null;
         }
 
@@ -377,7 +377,7 @@ public class DefaultSDIApplication extends AbstractApplication {
 
         m = new JMenu();
         labels.configureMenu(m, labels.getString("edit"));
-        m.add(mo.getAction(PreferencesAction.ID));
+        m.add(mo.getAction(AbstractPreferencesAction.ID));
         return m;
     }
 

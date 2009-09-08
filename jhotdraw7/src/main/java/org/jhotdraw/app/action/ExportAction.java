@@ -103,7 +103,7 @@ public class ExportAction extends AbstractViewAction {
                         JOptionPane.ERROR_MESSAGE);
             }
 
-            protected void finished(Throwable value) {
+            protected void finished() {
                 view.setEnabled(true);
                 SwingUtilities.getWindowAncestor(view.getComponent()).toFront();
                 if (oldFocusOwner != null) {

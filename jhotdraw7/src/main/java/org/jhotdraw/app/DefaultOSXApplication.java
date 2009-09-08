@@ -47,7 +47,7 @@ import org.jhotdraw.beans.Disposable;
  * <pre>
  *  About "Application-Name" ((&link AboutAction.ID))
  *  -
- *  Preferences... ((@link PreferencesAction.ID))
+ *  Preferences... ((@link AbstractPreferencesAction.ID))
  *  -
  *  Services
  *  -
@@ -62,7 +62,7 @@ import org.jhotdraw.beans.Disposable;
  * <pre>
  *  New ({@link NewAction}})
  *  Open... ({@link OpenAction}})
- *  Open Recent &gt; "Filename" ({@link OpenRecentAction}})
+ *  Open Recent &gt; "Filename" ({@link OpenRecentAction})
  *  -
  *  Close ({@link CloseAction.ID})
  *  Save ({@link SaveAction.ID})
@@ -376,8 +376,8 @@ public class DefaultOSXApplication extends AbstractApplication {
         paletteHandler.add(SwingUtilities.getWindowAncestor(mrjapp.getFramelessJMenuBar()), null);
         mrjapp.getAboutJMenuItem().setAction(model.getAction(AboutAction.ID));
         mrjapp.getQuitJMenuItem().setAction(model.getAction(ExitAction.ID));
-        if (model.getAction(PreferencesAction.ID) != null) {
-            mrjapp.getPreferencesJMenuItem().setAction(model.getAction(PreferencesAction.ID));
+        if (model.getAction(AbstractPreferencesAction.ID) != null) {
+            mrjapp.getPreferencesJMenuItem().setAction(model.getAction(AbstractPreferencesAction.ID));
         }
         mrjapp.addOpenDocumentListener(model.getAction(OSXDropOnDockAction.ID));
     }

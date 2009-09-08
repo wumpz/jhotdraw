@@ -62,7 +62,7 @@ import org.jhotdraw.app.action.*;
  *
  * The <b>edit menu</b> has the following standard menu items:
  * <pre>
- *  Settings ({@link PreferencesAction.ID})
+ *  Settings ({@link AbstractPreferencesAction.ID})
  * </pre>
  *
  * The <b>window menu</b> has the following standard menu items:
@@ -486,7 +486,7 @@ public class DefaultMDIApplication extends AbstractApplication {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         ApplicationModel mo = getModel();
 
-        if (mo.getAction(PreferencesAction.ID) == null) {
+        if (mo.getAction(AbstractPreferencesAction.ID) == null) {
             return null;
         }
 
@@ -495,7 +495,7 @@ public class DefaultMDIApplication extends AbstractApplication {
 
         m = new JMenu();
         labels.configureMenu(m, labels.getString("edit"));
-        m.add(mo.getAction(PreferencesAction.ID));
+        m.add(mo.getAction(AbstractPreferencesAction.ID));
         return m;
     }
 

@@ -1,5 +1,5 @@
 /*
- * @(#)PreferencesAction.java
+ * @(#)AbstractPreferencesAction.java
  * 
  * Copyright (c) 2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -13,8 +13,6 @@
  */
 package org.jhotdraw.app.action;
 
-import java.awt.event.ActionEvent;
-import javax.swing.JOptionPane;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.util.ResourceBundleUtil;
 
@@ -24,12 +22,12 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @author Werner Randelshofer
  * @version 1.0 2009-09-06 Created.
  */
-public abstract class PreferencesAction extends AbstractApplicationAction {
+public abstract class AbstractPreferencesAction extends AbstractApplicationAction {
 
     public final static String ID = "application.preferences";
 
     /** Creates a new instance. */
-    public PreferencesAction(Application app) {
+    public AbstractPreferencesAction(Application app) {
         super(app);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
