@@ -361,7 +361,7 @@ public class DefaultMDIApplication extends AbstractApplication {
             JMenu m = createEditMenu();
             if (m != null) {
                 editMenu.addSeparator();
-                for (Component c : mb.getComponents()) {
+                for (Component c : m.getComponents()) {
                     editMenu.add(c);
                 }
             }
@@ -376,11 +376,10 @@ public class DefaultMDIApplication extends AbstractApplication {
             JMenu m = createHelpMenu();
             if (m != null) {
                 helpMenu.addSeparator();
-                for (Component c : mb.getComponents()) {
+                for (Component c : m.getComponents()) {
                     helpMenu.add(c);
                 }
             }
-            mb.add(helpMenu);
         }
 
         return mb;
@@ -494,7 +493,7 @@ public class DefaultMDIApplication extends AbstractApplication {
         JMenuItem mi;
 
         m = new JMenu();
-        labels.configureMenu(m, labels.getString("edit"));
+        labels.configureMenu(m, "edit");
         m.add(mo.getAction(AbstractPreferencesAction.ID));
         return m;
     }
@@ -507,7 +506,7 @@ public class DefaultMDIApplication extends AbstractApplication {
         JMenuItem mi;
 
         m = new JMenu();
-        labels.configureMenu(m, labels.getString("help"));
+        labels.configureMenu(m, "help");
         m.add(mo.getAction(AboutAction.ID));
         return m;
     }

@@ -284,7 +284,7 @@ public class DefaultSDIApplication extends AbstractApplication {
             JMenu m = createEditMenu();
             if (m != null) {
                 editMenu.addSeparator();
-                for (Component c : mb.getComponents()) {
+                for (Component c : m.getComponents()) {
                     editMenu.add(c);
                 }
             }
@@ -292,15 +292,15 @@ public class DefaultSDIApplication extends AbstractApplication {
 
         // Merge view menu
         if (viewMenu == null) {
-            JMenu m = createViewMenu(p, toolBarActions);
-            if (m != null) {
-                mb.add(m, 1);
+            viewMenu = createViewMenu(p, toolBarActions);
+            if (viewMenu != null) {
+                mb.add(viewMenu, 1);
             }
         } else {
             JMenu m = createViewMenu(p, toolBarActions);
             if (m != null) {
                 viewMenu.addSeparator();
-                for (Component c : mb.getComponents()) {
+                for (Component c : m.getComponents()) {
                     viewMenu.add(c);
                 }
             }
@@ -309,16 +309,18 @@ public class DefaultSDIApplication extends AbstractApplication {
 
         // Merge help menu
         if (helpMenu == null) {
-            mb.add(createHelpMenu(p));
+            helpMenu = createHelpMenu(p);
+            if (helpMenu != null) {
+                mb.add(helpMenu);
+            }
         } else {
             JMenu m = createHelpMenu(p);
             if (m != null) {
                 helpMenu.addSeparator();
-                for (Component c : mb.getComponents()) {
+                for (Component c : m.getComponents()) {
                     helpMenu.add(c);
                 }
             }
-            mb.add(helpMenu);
         }
 
         return mb;
@@ -326,9 +328,7 @@ public class DefaultSDIApplication extends AbstractApplication {
 
     protected JMenu createFileMenu(final View p) {
         ApplicationModel model = getModel();
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
 
-        JMenuBar mb = new JMenuBar();
         JMenu m;
         JMenuItem mi;
         JMenu openRecentMenu;
@@ -357,7 +357,6 @@ public class DefaultSDIApplication extends AbstractApplication {
         }
         m.addSeparator();
         m.add(model.getAction(ExitAction.ID));
-        mb.add(m);
 
         addPropertyChangeListener(new OpenRecentMenuHandler(openRecentMenu));
 
@@ -365,7 +364,6 @@ public class DefaultSDIApplication extends AbstractApplication {
     }
 
     protected JMenu createEditMenu() {
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         ApplicationModel mo = getModel();
 
         if (mo.getAction(AbstractPreferencesAction.ID) == null) {
@@ -376,7 +374,7 @@ public class DefaultSDIApplication extends AbstractApplication {
         JMenuItem mi;
 
         m = new JMenu();
-        labels.configureMenu(m, labels.getString("edit"));
+        labels.configureMenu(m, "edit");
         m.add(mo.getAction(AbstractPreferencesAction.ID));
         return m;
     }

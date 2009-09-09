@@ -39,8 +39,13 @@ public class AboutAction extends AbstractApplicationAction {
         Application app = getApplication();
         JOptionPane.showMessageDialog(app.getComponent(),
                 app.getName()+" "+app.getVersion()+"\n"+app.getCopyright()+
-                "\n\nRunning on Java "+System.getProperty("java.vm.version")+
-                ", "+System.getProperty("java.vendor"), 
+                "\n\nRunning on" +
+                "\n  Java: "+System.getProperty("java.version")+
+                ", "+System.getProperty("java.vendor")+
+                "\n  JVM: "+System.getProperty("java.vm.version")+
+                ", "+System.getProperty("java.vm.vendor")+
+                "\n  OS: "+System.getProperty("os.name")+" "+System.getProperty("os.version")+
+                ", "+System.getProperty("os.arch"),
                 "About", JOptionPane.PLAIN_MESSAGE);
     }
 }
