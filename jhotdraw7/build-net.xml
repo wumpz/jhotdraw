@@ -188,7 +188,7 @@
         </jar>
         <exec executable="pack200">
             <arg value="-r"/>
-            <arg value="${distdir}/signed/JHotDraw SVG.jar"/>
+            <arg value="${distdir}/signed/JHotDraw Net.jar"/>
         </exec>
         <signjar alias="${keystore.alias}" 
                 storepass="${keystore.storepass}"

@@ -234,7 +234,7 @@ public class DrawApplet extends JApplet {
                 DrawApplet a = new DrawApplet();
                 f.getContentPane().add(a);
                 a.init();
-                f.setSize(500, 400);
+                f.setSize(620, 400);
                 f.setVisible(true);
                 a.start();
             }

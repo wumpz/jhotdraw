@@ -183,7 +183,7 @@
         </jar>
         <exec executable="pack200">
             <arg value="-r"/>
-            <arg value="${distdir}/signed/JHotDraw SVG.jar"/>
+            <arg value="${distdir}/signed/JHotDraw Draw.jar"/>
         </exec>
         <signjar alias="${keystore.alias}" 
                 storepass="${keystore.storepass}"
@@ -245,7 +245,7 @@
         </java>
     </target>
     <target name="applet.run-jar" depends="init">
-        <java fork="true" jar="${distdir}/jhotdraw_draw.jar">
+        <java fork="true" jar="${distdir}/unsigned/jhotdraw_draw.jar">
         </java>
     </target>
     <target name="applet.appletviewer" depends="init">

@@ -44,38 +44,35 @@ import org.jhotdraw.app.action.*;
  *
  * The <b>file menu</b> has the following standard menu items:
  * <pre>
- *  New ({@link NewAction}})
- *  Open... ({@link OpenAction}})
- *  Open Recent &gt; "Filename" ({@link OpenRecentAction}})
+ *  New ({@link NewAction#ID}})
+ *  Open... ({@link OpenAction#ID}})
+ *  Open Recent &gt; "Filename" ({@link OpenRecentAction#ID}})
  *  -
- *  Close ({@link CloseAction.ID})
- *  Save ({@link SaveAction.ID})
- *  Save As... ({@link SaveAsAction.ID})
- *  Save All
- *  Revert to Saved ({@link RevertToSavedAction.ID})
+ *  Close ({@link CloseAction#ID})
+ *  Save ({@link SaveAction#ID})
+ *  Save As... ({@link SaveAsAction#ID})
  *  -
- *  Page Setup... ({@link PrintPageSetupAction.ID})
- *  Print... ({@link PrintAction.ID})
+ *  Print... ({@link PrintAction#ID})
  *  -
- *  Exit (ExitAction.ID)
+ *  Exit ({@link ExitAction#ID})
  * </pre>
  *
  * The <b>edit menu</b> has the following standard menu items:
  * <pre>
- *  Settings ({@link AbstractPreferencesAction.ID})
+ *  Settings ({@link AbstractPreferencesAction#ID})
  * </pre>
  *
  * The <b>window menu</b> has the following standard menu items:
  * <pre>
- *  Minimize ({@link MinimizeAction.ID})
- *  Maximize ({@link MaximizeAction.ID})
+ *  Minimize ({@link MinimizeAction#ID})
+ *  Maximize ({@link MaximizeAction#ID})
  *  -
- *  "Filename" ({@link FocusAction.ID})
+ *  "Filename" ({@link FocusAction#ID})
  * </pre>
  *
  * The <b>help menu</b> has the following standard menu items:
  * <pre>
- *  About ({@link AboutAction.ID})
+ *  About ({@link AboutAction#ID})
  * </pre>
  *
  * The menus provided by the {@code ApplicationModel} are inserted between

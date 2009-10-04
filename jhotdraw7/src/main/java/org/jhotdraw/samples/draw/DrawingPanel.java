@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.samples.draw;
 
 import static org.jhotdraw.draw.AttributeKeys.*;
@@ -31,6 +30,7 @@ import org.jhotdraw.app.action.PasteAction;
 import org.jhotdraw.app.action.SelectAllAction;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
+
 /**
  * DrawingPanel.
  *
@@ -38,11 +38,12 @@ import org.jhotdraw.draw.action.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class DrawingPanel extends JPanel  {
+public class DrawingPanel extends JPanel {
+
     private UndoRedoManager undoManager;
     private Drawing drawing;
     private DrawingEditor editor;
-    
+
     /** Creates new instance. */
     public DrawingPanel() {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
@@ -50,10 +51,10 @@ public class DrawingPanel extends JPanel  {
         undoManager = new UndoRedoManager();
         editor = new DefaultDrawingEditor();
         editor.add(view);
-        
+
         addCreationButtonsTo(creationToolbar, editor);
         ButtonFactory.addAttributesButtonsTo(attributesToolbar, editor);
-        
+
         JPopupButton pb = new JPopupButton();
         pb.setItemFont(UIManager.getFont("MenuItem.font"));
         labels.configureToolBarButton(pb, "actions");
@@ -74,9 +75,9 @@ public class DrawingPanel extends JPanel  {
         pb.add(undoManager.getUndoAction());
         pb.add(undoManager.getRedoAction());
         // FIXME - We need a toggle grid action!
-       // pb.addSeparator();
-       // pb.add(new ToggleGridAction(editor));
-        
+        // pb.addSeparator();
+        // pb.add(new ToggleGridAction(editor));
+
         JMenu m = new JMenu(labels.getString("view.zoomFactor.text"));
         JRadioButtonMenuItem rbmi;
         ButtonGroup group = new ButtonGroup();
@@ -105,29 +106,32 @@ public class DrawingPanel extends JPanel  {
         pb.setFocusable(false);
         creationToolbar.addSeparator();
         creationToolbar.add(pb);
-        
-        
+
+
         DefaultDrawing drawing = new DefaultDrawing();
         view.setDrawing(drawing);
         drawing.addUndoableEditListener(undoManager);
     }
-    
+
     public void setDrawing(Drawing d) {
         undoManager.discardAllEdits();
         view.getDrawing().removeUndoableEditListener(undoManager);
         view.setDrawing(d);
         d.addUndoableEditListener(undoManager);
     }
+
     public Drawing getDrawing() {
         return view.getDrawing();
     }
+
     public DrawingView getView() {
         return view;
     }
+
     public DrawingEditor getEditor() {
         return editor;
     }
-    
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -173,23 +177,23 @@ public class DrawingPanel extends JPanel  {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addCreationButtonsTo(JToolBar tb, DrawingEditor editor) {
-        addDefaultCreationButtonsTo(tb, editor, 
-                ButtonFactory.createDrawingActions(editor), 
-                ButtonFactory.createSelectionActions(editor)
-                );
+        addDefaultCreationButtonsTo(tb, editor,
+                ButtonFactory.createDrawingActions(editor),
+                ButtonFactory.createSelectionActions(editor));
     }
+
     public void addDefaultCreationButtonsTo(JToolBar tb, final DrawingEditor editor,
             Collection<Action> drawingActions, Collection<Action> selectionActions) {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-        
+
         ButtonFactory.addSelectionToolTo(tb, editor, drawingActions, selectionActions);
         tb.addSeparator();
-        
+
         AbstractAttributedFigure af;
         CreationTool ct;
         ConnectionTool cnt;
         ConnectionFigure lc;
-        
+
         ButtonFactory.addToolTo(tb, editor, new CreationTool(new RectangleFigure()), "edit.createRectangle", labels);
         ButtonFactory.addToolTo(tb, editor, new CreationTool(new RoundRectangleFigure()), "edit.createRoundRectangle", labels);
         ButtonFactory.addToolTo(tb, editor, new CreationTool(new EllipseFigure()), "edit.createEllipse", labels);
@@ -197,19 +201,20 @@ public class DrawingPanel extends JPanel  {
         ButtonFactory.addToolTo(tb, editor, new CreationTool(new TriangleFigure()), "edit.createTriangle", labels);
         ButtonFactory.addToolTo(tb, editor, new CreationTool(new LineFigure()), "edit.createLine", labels);
         ButtonFactory.addToolTo(tb, editor, ct = new CreationTool(new LineFigure()), "edit.createArrow", labels);
-       af = (AbstractAttributedFigure) ct.getPrototype();
+        af = (AbstractAttributedFigure) ct.getPrototype();
         END_DECORATION.basicSet(af, new ArrowTip(0.35, 12, 11.3));
         ButtonFactory.addToolTo(tb, editor, new ConnectionTool(new LineConnectionFigure()), "edit.createLineConnection", labels);
         ButtonFactory.addToolTo(tb, editor, cnt = new ConnectionTool(new LineConnectionFigure()), "edit.createElbowConnection", labels);
-     lc =  cnt.getPrototype();
+        lc = cnt.getPrototype();
         lc.setLiner(new ElbowLiner());
+        ButtonFactory.addToolTo(tb, editor, cnt = new ConnectionTool(new LineConnectionFigure()), "edit.createCurvedConnection", labels);
+        lc = cnt.getPrototype();
+        lc.setLiner(new CurvedLiner());
         ButtonFactory.addToolTo(tb, editor, new BezierTool(new BezierFigure()), "edit.createScribble", labels);
         ButtonFactory.addToolTo(tb, editor, new BezierTool(new BezierFigure(true)), "edit.createPolygon", labels);
         ButtonFactory.addToolTo(tb, editor, new TextCreationTool(new TextFigure()), "edit.createText", labels);
         ButtonFactory.addToolTo(tb, editor, new TextAreaCreationTool(new TextAreaFigure()), "edit.createTextArea", labels);
     }
-    
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToolBar attributesToolbar;
     private javax.swing.JToolBar creationToolbar;
@@ -218,5 +223,4 @@ public class DrawingPanel extends JPanel  {
     private javax.swing.ButtonGroup toolButtonGroup;
     private org.jhotdraw.draw.DefaultDrawingView view;
     // End of variables declaration//GEN-END:variables
-    
 }

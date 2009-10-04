@@ -45,9 +45,9 @@ import org.jhotdraw.beans.Disposable;
  * The first menu, is the <b>application menu</b>. It has the following standard
  * menu items: 
  * <pre>
- *  About "Application-Name" ((&link AboutAction.ID))
+ *  About "Application-Name" ({@link AboutAction#ID})
  *  -
- *  Preferences... ((@link AbstractPreferencesAction.ID))
+ *  Preferences... ({@link AbstractPreferencesAction#ID})
  *  -
  *  Services
  *  -
@@ -55,31 +55,28 @@ import org.jhotdraw.beans.Disposable;
  *  Hide Others
  *  Show All
  *  -
- *  Quit "Application-Name" (ExitAction.ID)
+ *  Quit "Application-Name" ({@link ExitAction#ID})
  * </pre>
  *
  * The <b>file menu</b> has the following standard menu items:
  * <pre>
- *  New ({@link NewAction}})
- *  Open... ({@link OpenAction}})
- *  Open Recent &gt; "Filename" ({@link OpenRecentAction})
+ *  New ({@link NewAction#ID}})
+ *  Open... ({@link OpenAction#ID}})
+ *  Open Recent &gt; "Filename" ({@link OpenRecentAction#ID})
  *  -
- *  Close ({@link CloseAction.ID})
- *  Save ({@link SaveAction.ID})
- *  Save As... ({@link SaveAsAction.ID})
- *  Save All
- *  Revert to Saved ({@link RevertToSavedAction.ID})
+ *  Close ({@link CloseAction#ID})
+ *  Save ({@link SaveAction#ID})
+ *  Save As... ({@link SaveAsAction#ID})
  *  -
- *  Page Setup... ({@link PrintPageSetupAction.ID})
- *  Print... ({@link PrintAction.ID})
+ *  Print... ({@link PrintAction#ID})
  * </pre>
  *
  * The <b>window menu</b> has the following standard menu items:
  * <pre>
- *  Minimize ({@link MinimizeAction.ID})
- *  Zoom ({@link MaximizeAction.ID})
+ *  Minimize ({@link MinimizeAction#ID})
+ *  Zoom ({@link MaximizeAction#ID})
  *  -
- *  "Filename" ({@link FocusAction.ID})
+ *  "Filename" ({@link FocusAction#ID})
  * </pre>
  *
  * The menus provided by the {@code ApplicationModel} are inserted between
