@@ -16,6 +16,7 @@
             <fileset dir=".">
                 <exclude name="${distalldir}/**"/>
                 <exclude name="build/**"/>
+                <exclude name="nbproject/private/**"/>
             </fileset>
         </copy>
     </target>
@@ -32,6 +33,19 @@
         <ant antfile="build-jhotdraw.xml" target="documentation"/>
         <ant antfile="build-jhotdraw.xml" target="javadoc"/>
     </target>
+    <target name="dist-allsigned" depends="clean,src">
+        <ant antfile="build-draw.xml" target="distsigned"/>
+        <ant antfile="build-jhotdraw.xml" target="distsigned"/>
+        <ant antfile="build-net.xml" target="distsigned"/>
+        <!--ant antfile="build-odg.xml" target="dist"/-->
+        <ant antfile="build-pert.xml" target="distsigned"/>
+        <ant antfile="build-svg.xml" target="distsigned"/>
+        <ant antfile="build-teddy.xml" target="distsigned"/>
+
+        <ant antfile="build-jhotdraw.xml" target="documentation"/>
+        <ant antfile="build-jhotdraw.xml" target="javadoc"/>
+    </target>
+
 
     <target name="bundle-all" depends="dist-all">
         <zip file="${distalldir}/JHotDraw ${version}.zip" compress="false">

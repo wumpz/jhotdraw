@@ -276,6 +276,8 @@
         <arg value="${builddir}/ODGApplet.html"/>
         </exec>
     </target>
-    <target name="dist" depends="init,applet.jarsigned,application.jarsigned">
+    <target name="dist" depends="init,applet.jar,application.jar">
+    </target>
+    <target name="distsigned" depends="init,applet.jarsigned,application.jarsigned">
     </target>
 </project>

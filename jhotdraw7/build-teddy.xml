@@ -156,4 +156,11 @@
         <delete file="${distdir}/libquaqua.jnilib" />
         <delete file="${distdir}/libquaqua64.jnilib" />
     </target>
+    <target name="distsigned" depends="init,application.jar">
+        <delete file="${distdir}/jhotdraw_teddy.jar" />
+        <delete file="${distdir}/jhotdraw_teddy.jar.pack.gz" />
+        <delete file="${distdir}/JHotDraw Teddy.jar" />
+        <delete file="${distdir}/libquaqua.jnilib" />
+        <delete file="${distdir}/libquaqua64.jnilib" />
+    </target>
 </project>

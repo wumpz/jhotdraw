@@ -106,6 +106,8 @@
     </target>
     <target name="dist" depends="jar">
     </target>
+    <target name="distsigned" depends="jar">
+    </target>
     <target name="documentation" depends="init">
         <delete dir="${docdir}"/>
         <mkdir dir="${docdir}"/>
