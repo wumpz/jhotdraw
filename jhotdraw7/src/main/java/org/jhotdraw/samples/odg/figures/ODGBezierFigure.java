@@ -38,7 +38,7 @@ public class ODGBezierFigure extends BezierFigure {
     }
     public ODGBezierFigure(boolean isClosed) {
         super(isClosed);
-        FILL_OPEN_PATH.basicSet(this, true);
+        set(FILL_OPEN_PATH, true);
     }
     
     public Collection<Handle> createHandles(ODGPathFigure pathFigure, int detailLevel) {
@@ -87,14 +87,14 @@ public class ODGBezierFigure extends BezierFigure {
         return false;
     }
     public void transform(AffineTransform tx) {
-        if (TRANSFORM.get(this) != null ||
+        if (get(TRANSFORM) != null ||
                 (tx.getType() & (AffineTransform.TYPE_TRANSLATION)) != tx.getType()) {
-            if (TRANSFORM.get(this) == null) {
-                TRANSFORM.basicSetClone(this, tx);
+            if (get(TRANSFORM) == null) {
+                TRANSFORM.setClone(this, tx);
             } else {
                 AffineTransform t = TRANSFORM.getClone(this);
                 t.preConcatenate(tx);
-                TRANSFORM.basicSet(this, t);
+                set(TRANSFORM, t);
             }
         } else {
             super.transform(tx);
@@ -104,11 +104,11 @@ public class ODGBezierFigure extends BezierFigure {
     public Rectangle2D.Double getDrawingArea() {
         if (cachedDrawingArea == null) {
             
-            if (TRANSFORM.get(this) == null) {
+            if (get(TRANSFORM) == null) {
                 cachedDrawingArea = path.getBounds2D();
             } else {
                 BezierPath p2 = (BezierPath) path.clone();
-                p2.transform(TRANSFORM.get(this));
+                p2.transform(get(TRANSFORM));
                 cachedDrawingArea = p2.getBounds2D();
             }
         }
@@ -120,9 +120,9 @@ public class ODGBezierFigure extends BezierFigure {
      * and then sets the TRANSFORM attribute to null.
      */
     public void flattenTransform() {
-        if (TRANSFORM.get(this) != null) {
-            path.transform(TRANSFORM.get(this));
-            TRANSFORM.basicSet(this, null);
+        if (get(TRANSFORM) != null) {
+            path.transform(get(TRANSFORM));
+            set(TRANSFORM, null);
         }
         invalidate();
     }

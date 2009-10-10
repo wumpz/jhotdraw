@@ -73,7 +73,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     public void draw(Graphics2D g) {
         //super.draw(g);
 
-        double opacity = OPACITY.get(this);
+        double opacity = get(OPACITY);
         opacity = Math.min(Math.max(0d, opacity), 1d);
         if (opacity != 0d) {
             Composite savedComposite = g.getComposite();
@@ -83,7 +83,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
 
             BufferedImage image = getBufferedImage();
             if (image != null) {
-                if (TRANSFORM.get(this) != null) {
+                if (get(TRANSFORM) != null) {
                     // FIXME - We should cache the transformed image.
                     //         Drawing a transformed image appears to be very slow.
                     Graphics2D gx = (Graphics2D) g.create();
@@ -91,7 +91,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
                     // Use same rendering hints like parent graphics
                     gx.setRenderingHints(g.getRenderingHints());
                     
-                    gx.transform(TRANSFORM.get(this));
+                    gx.transform(get(TRANSFORM));
                     gx.drawImage(image, (int) rectangle.x, (int) rectangle.y, (int) rectangle.width, (int) rectangle.height, null);
                     gx.dispose();
                 } else {
@@ -169,8 +169,8 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     private Shape getTransformedShape() {
         if (cachedTransformedShape == null) {
             cachedTransformedShape = (Shape) rectangle.clone();
-            if (TRANSFORM.get(this) != null) {
-                cachedTransformedShape = TRANSFORM.get(this).createTransformedShape(cachedTransformedShape);
+            if (get(TRANSFORM) != null) {
+                cachedTransformedShape = get(TRANSFORM).createTransformedShape(cachedTransformedShape);
             }
         }
         return cachedTransformedShape;
@@ -191,14 +191,14 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
      */
     public void transform(AffineTransform tx) {
         invalidateTransformedShape();
-        if (TRANSFORM.get(this) != null ||
+        if (get(TRANSFORM) != null ||
                 (tx.getType() & (AffineTransform.TYPE_TRANSLATION | AffineTransform.TYPE_MASK_SCALE)) != tx.getType()) {
-            if (TRANSFORM.get(this) == null) {
-                TRANSFORM.basicSet(this, (AffineTransform) tx.clone());
+            if (get(TRANSFORM) == null) {
+                set(TRANSFORM, (AffineTransform) tx.clone());
             } else {
                 AffineTransform t = TRANSFORM.getClone(this);
                 t.preConcatenate(tx);
-                TRANSFORM.basicSet(this, t);
+                set(TRANSFORM, t);
             }
         } else {
             Point2D.Double anchor = getStartPoint();
@@ -214,16 +214,16 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         Object[] o = (Object[]) geometry;
         rectangle = (Rectangle2D.Double) ((Rectangle2D.Double) o[0]).clone();
         if (o[1] == null) {
-            TRANSFORM.basicSet(this, null);
+            set(TRANSFORM, null);
         } else {
-            TRANSFORM.basicSet(this, (AffineTransform) ((AffineTransform) o[1]).clone());
+            set(TRANSFORM, (AffineTransform) ((AffineTransform) o[1]).clone());
         }
     }
 
     public Object getTransformRestoreData() {
         return new Object[]{
             rectangle.clone(),
-            TRANSFORM.get(this)
+            get(TRANSFORM)
         };
     }
 
@@ -253,7 +253,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     public Collection<Action> getActions(Point2D.Double p) {
         final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         LinkedList<Action> actions = new LinkedList<Action>();
-        if (TRANSFORM.get(this) != null) {
+        if (get(TRANSFORM) != null) {
             actions.add(new AbstractAction(labels.getString("edit.removeTransform.text")) {
 
                 public void actionPerformed(ActionEvent evt) {

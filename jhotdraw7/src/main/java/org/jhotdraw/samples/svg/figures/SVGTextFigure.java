@@ -111,7 +111,7 @@ public class SVGTextFigure
             FontRenderContext frc = getFontRenderContext();
             HashMap<TextAttribute,Object> textAttributes = new HashMap<TextAttribute,Object>();
             textAttributes.put(TextAttribute.FONT, getFont());
-            if (FONT_UNDERLINE.get(this)) {
+            if (get(FONT_UNDERLINE)) {
                 textAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
             }
             TextLayout textLayout = new TextLayout(text, textAttributes, frc);
@@ -120,7 +120,7 @@ public class SVGTextFigure
             
             AffineTransform tx = new AffineTransform();
             tx.translate(coordinates[0].x, coordinates[0].y);
-            switch (TEXT_ANCHOR.get(this)) {
+            switch (get(TEXT_ANCHOR)) {
                 case END :
                     cachedBounds.x -=textLayout.getAdvance();
                     break;
@@ -143,11 +143,11 @@ public class SVGTextFigure
                 new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
             double g = SVGAttributeKeys.getPerpendicularHitGrowth(this);
             Geom.grow(r, g, g);
-            if (TRANSFORM.get(this) == null) {
+            if (get(TRANSFORM) == null) {
                 cachedDrawingArea = r;
             } else {
                 cachedDrawingArea = new Rectangle2D.Double();
-                cachedDrawingArea.setRect(TRANSFORM.get(this).createTransformedShape(r).getBounds2D());
+                cachedDrawingArea.setRect(get(TRANSFORM).createTransformedShape(r).getBounds2D());
             }
         }
         return (Rectangle2D.Double) cachedDrawingArea.clone();
@@ -156,9 +156,9 @@ public class SVGTextFigure
      * Checks if a Point2D.Double is inside the figure.
      */
     public boolean contains(Point2D.Double p) {
-        if (TRANSFORM.get(this) != null) {
+        if (get(TRANSFORM) != null) {
             try {
-                p = (Point2D.Double) TRANSFORM.get(this).inverseTransform(p, new Point2D.Double());
+                p = (Point2D.Double) get(TRANSFORM).inverseTransform(p, new Point2D.Double());
             } catch (NoninvertibleTransformException ex) {
                 ex.printStackTrace();
             }
@@ -176,14 +176,14 @@ public class SVGTextFigure
             FontRenderContext frc = getFontRenderContext();
             HashMap<TextAttribute,Object> textAttributes = new HashMap<TextAttribute,Object>();
             textAttributes.put(TextAttribute.FONT, getFont());
-            if (FONT_UNDERLINE.get(this)) {
+            if (get(FONT_UNDERLINE)) {
                 textAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
             }
             TextLayout textLayout = new TextLayout(text, textAttributes, frc);
             
             AffineTransform tx = new AffineTransform();
             tx.translate(coordinates[0].x, coordinates[0].y);
-            switch (TEXT_ANCHOR.get(this)) {
+            switch (get(TEXT_ANCHOR)) {
                 case END :
                     tx.translate(-textLayout.getAdvance(), 0);
                     break;
@@ -196,8 +196,8 @@ public class SVGTextFigure
             tx.rotate(rotates[0]);
             
             /*
-            if (TRANSFORM.get(this) != null) {
-                tx.preConcatenate(TRANSFORM.get(this));
+            if (get(TRANSFORM) != null) {
+                tx.preConcatenate(get(TRANSFORM));
             }*/
             
             cachedTextShape = tx.createTransformedShape(textLayout.getOutline(tx));
@@ -219,43 +219,43 @@ public class SVGTextFigure
      * @param tx the transformation.
      */
     public void transform(AffineTransform tx) {
-        if (TRANSFORM.get(this) != null ||
+        if (get(TRANSFORM) != null ||
                 tx.getType() != (tx.getType() & AffineTransform.TYPE_TRANSLATION)) {
-            if (TRANSFORM.get(this) == null) {
-                TRANSFORM.basicSet(this, (AffineTransform) tx.clone());
+            if (get(TRANSFORM) == null) {
+                set(TRANSFORM,  (AffineTransform) tx.clone());
             } else {
                 AffineTransform t = TRANSFORM.getClone(this);
                 t.preConcatenate(tx);
-                TRANSFORM.basicSet(this, t);
+                set(TRANSFORM,  t);
             }
         } else {
             for (int i=0; i < coordinates.length; i++) {
                 tx.transform(coordinates[i], coordinates[i]);
             }
-            if (FILL_GRADIENT.get(this) != null &&
-                    ! FILL_GRADIENT.get(this).isRelativeToFigureBounds()) {
+            if (get(FILL_GRADIENT) != null &&
+                    ! get(FILL_GRADIENT).isRelativeToFigureBounds()) {
                 Gradient g = FILL_GRADIENT.getClone(this);
                 g.transform(tx);
-                FILL_GRADIENT.basicSet(this, g);
+                set(FILL_GRADIENT,  g);
             }
-            if (STROKE_GRADIENT.get(this) != null && 
-                    ! STROKE_GRADIENT.get(this).isRelativeToFigureBounds()) {
+            if (get(STROKE_GRADIENT) != null &&
+                    ! get(STROKE_GRADIENT).isRelativeToFigureBounds()) {
                 Gradient g = STROKE_GRADIENT.getClone(this);
                 g.transform(tx);
-                STROKE_GRADIENT.basicSet(this, g);
+                set(STROKE_GRADIENT,  g);
             }
         }
         invalidate();
     }
     public void restoreTransformTo(Object geometry) {
         Object[] restoreData = (Object[]) geometry;
-        TRANSFORM.basicSetClone(this, (AffineTransform) restoreData[0]);
+        TRANSFORM.setClone(this, (AffineTransform) restoreData[0]);
         Point2D.Double[] restoredCoordinates = (Point2D.Double[]) restoreData[1];
         for (int i=0; i < this.coordinates.length; i++) {
             coordinates[i] = (Point2D.Double) restoredCoordinates[i].clone();
         }
-        FILL_GRADIENT.basicSetClone(this, (Gradient) restoreData[2]);
-        STROKE_GRADIENT.basicSetClone(this, (Gradient) restoreData[3]);
+        FILL_GRADIENT.setClone(this, (Gradient) restoreData[2]);
+        STROKE_GRADIENT.setClone(this, (Gradient) restoreData[3]);
         invalidate();
     }
     
@@ -277,10 +277,10 @@ public class SVGTextFigure
      * Gets the text shown by the text figure.
      */
     public String getText() {
-        return (String) getAttribute(TEXT);
+        return (String) get(TEXT);
     }
     @Override
-    public <T> void setAttribute(AttributeKey<T> key, T newValue) {
+    public <T> void set(AttributeKey<T> key, T newValue) {
         if (key .equals( SVGAttributeKeys.TRANSFORM )||
                 key .equals( SVGAttributeKeys.FONT_FACE) ||
                 key .equals( SVGAttributeKeys.FONT_BOLD) ||
@@ -288,14 +288,14 @@ public class SVGTextFigure
                 key .equals(SVGAttributeKeys.FONT_SIZE)) {
             invalidate();
         }
-        super.setAttribute(key, newValue);
+        super.set(key, newValue);
     }
     
     /**
      * Sets the text shown by the text figure.
      */
     public void setText(String newText) {
-        TEXT.set(this, newText);
+        set(TEXT, newText);
     }
     public boolean isEditable() {
         return editable;
@@ -314,19 +314,19 @@ public class SVGTextFigure
     }
     
     public Color getTextColor() {
-        return FILL_COLOR.get(this);
-        //   return TEXT_COLOR.get(this);
+        return get(FILL_COLOR);
+        //   return get(TEXT_COLOR);
     }
     
     public Color getFillColor() {
-        return FILL_COLOR.get(this) == null || FILL_COLOR.get(this).equals(Color.white) ? Color.black : Color.WHITE;
-        //  return FILL_COLOR.get(this);
+        return get(FILL_COLOR) == null || get(FILL_COLOR).equals(Color.white) ? Color.black : Color.WHITE;
+        //  return get(FILL_COLOR);
     }
     
     public void setFontSize(float size) {
-        // FONT_SIZE.basicSet(this, new Double(size));
+        // put(FONT_SIZE,  new Double(size));
         Point2D.Double p = new Point2D.Double(0, size);
-        AffineTransform tx =  TRANSFORM.get(this);
+        AffineTransform tx =  get(TRANSFORM);
         if (tx != null) {
             try {
                 tx.inverseTransform(p, p);
@@ -337,13 +337,13 @@ public class SVGTextFigure
                 ex.printStackTrace();
             }
         }
-        FONT_SIZE.set(this, Math.abs(p.y));
+        set(FONT_SIZE, Math.abs(p.y));
     }
     
     public float getFontSize() {
-        //   return FONT_SIZE.get(this).floatValue();
-        Point2D.Double p = new Point2D.Double(0, FONT_SIZE.get(this));
-        AffineTransform tx =  TRANSFORM.get(this);
+        //   return get(FONT_SIZE).floatValue();
+        Point2D.Double p = new Point2D.Double(0, get(FONT_SIZE));
+        AffineTransform tx =  get(TRANSFORM);
         if (tx != null) {
             tx.transform(p, p);
             Point2D.Double p0 = new Point2D.Double(0, 0);

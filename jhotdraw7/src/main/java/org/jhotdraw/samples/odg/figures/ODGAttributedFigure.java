@@ -41,7 +41,7 @@ public abstract class ODGAttributedFigure extends AbstractAttributedFigure imple
     }
     
     public void draw(Graphics2D g)  {
-        double opacity = OPACITY.get(this);
+        double opacity = get(OPACITY);
         opacity = Math.min(Math.max(0d, opacity), 1d);
         if (opacity != 0d) {
             if (opacity != 1d) {
@@ -82,12 +82,12 @@ public abstract class ODGAttributedFigure extends AbstractAttributedFigure imple
      */
     public void drawFigure(Graphics2D g) {
         AffineTransform savedTransform = null;
-        if (TRANSFORM.get(this) != null) {
+        if (get(TRANSFORM) != null) {
             savedTransform = g.getTransform();
-            g.transform(TRANSFORM.get(this));
+            g.transform(get(TRANSFORM));
         }
         
-        if (FILL_STYLE.get(this) != ODGConstants.FillStyle.NONE) {
+        if (get(FILL_STYLE) != ODGConstants.FillStyle.NONE) {
             Paint paint = ODGAttributeKeys.getFillPaint(this);
             if (paint != null) {
                 g.setPaint(paint);
@@ -95,7 +95,7 @@ public abstract class ODGAttributedFigure extends AbstractAttributedFigure imple
             }
         }
         
-        if (STROKE_STYLE.get(this) != ODGConstants.StrokeStyle.NONE) {
+        if (get(STROKE_STYLE) != ODGConstants.StrokeStyle.NONE) {
             Paint paint = ODGAttributeKeys.getStrokePaint(this);
             if (paint != null) {
                 g.setPaint(paint);
@@ -103,29 +103,29 @@ public abstract class ODGAttributedFigure extends AbstractAttributedFigure imple
                 drawStroke(g);
             }
         }
-        if (TRANSFORM.get(this) != null) {
+        if (get(TRANSFORM) != null) {
             g.setTransform(savedTransform);
         }
     }
     @Override
-    public <T> void setAttribute(AttributeKey<T> key, T newValue) {
+    public <T> void set(AttributeKey<T> key, T newValue) {
         if (key == TRANSFORM) {
             invalidate();
         }
-        super.setAttribute(key, newValue);
+        super.set(key, newValue);
     }
     @Override public Collection<Action> getActions(Point2D.Double p) {
         LinkedList<Action> actions = new LinkedList<Action>();
-        if (TRANSFORM.get(this) != null) {
+        if (get(TRANSFORM) != null) {
             ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
             actions.add(new AbstractAction(labels.getString("edit.removeTransform.text")) {
                 public void actionPerformed(ActionEvent evt) {
                     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
-                    ODGAttributedFigure.this.willChange();
+                    willChange();
                     fireUndoableEditHappened(
                             TRANSFORM.setUndoable(ODGAttributedFigure.this, null)
                             );
-                    ODGAttributedFigure.this.changed();
+                    changed();
                 }
             });
         }

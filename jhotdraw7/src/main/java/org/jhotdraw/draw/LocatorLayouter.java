@@ -94,6 +94,6 @@ public class LocatorLayouter implements Layouter {
     }
     
     private Locator getLocator(Figure f) {
-        return LAYOUT_LOCATOR.get(f);
+        return f.get(LAYOUT_LOCATOR);
     }
 }

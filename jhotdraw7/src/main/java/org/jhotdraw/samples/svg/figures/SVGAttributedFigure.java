@@ -41,7 +41,7 @@ public abstract class SVGAttributedFigure extends AbstractAttributedFigure {
     }
     
     public void draw(Graphics2D g)  {
-        double opacity = OPACITY.get(this);
+        double opacity = get(OPACITY);
         opacity = Math.min(Math.max(0d, opacity), 1d);
         if (opacity != 0d) {
             if (opacity != 1d) {
@@ -82,9 +82,9 @@ public abstract class SVGAttributedFigure extends AbstractAttributedFigure {
      */
     public void drawFigure(Graphics2D g) {
         AffineTransform savedTransform = null;
-        if (TRANSFORM.get(this) != null) {
+        if (get(TRANSFORM) != null) {
             savedTransform = g.getTransform();
-            g.transform(TRANSFORM.get(this));
+            g.transform(get(TRANSFORM));
         }
         
         Paint paint = SVGAttributeKeys.getFillPaint(this);
@@ -93,34 +93,34 @@ public abstract class SVGAttributedFigure extends AbstractAttributedFigure {
             drawFill(g);
         }
         paint = SVGAttributeKeys.getStrokePaint(this);
-        if (paint != null && STROKE_WIDTH.get(this) > 0) {
+        if (paint != null && get(STROKE_WIDTH) > 0) {
             g.setPaint(paint);
             g.setStroke(SVGAttributeKeys.getStroke(this));
             drawStroke(g);
         }
-        if (TRANSFORM.get(this) != null) {
+        if (get(TRANSFORM) != null) {
             g.setTransform(savedTransform);
         }
     }
     @Override
-    public <T> void setAttribute(AttributeKey<T> key, T newValue) {
+    public <T> void set(AttributeKey<T> key, T newValue) {
         if (key == TRANSFORM) {
             invalidate();
         }
-        super.setAttribute(key, newValue);
+        super.set(key, newValue);
     }
     @Override public Collection<Action> getActions(Point2D.Double p) {
         LinkedList<Action> actions = new LinkedList<Action>();
-        if (TRANSFORM.get(this) != null) {
+        if (get(TRANSFORM) != null) {
             ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
             actions.add(new AbstractAction(labels.getString("edit.removeTransform.text")) {
                 public void actionPerformed(ActionEvent evt) {
                     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
-                    SVGAttributedFigure.this.willChange();
+                    willChange();
                     fireUndoableEditHappened(
                             TRANSFORM.setUndoable(SVGAttributedFigure.this, null)
                             );
-                    SVGAttributedFigure.this.changed();
+                    changed();
                 }
             });
         }

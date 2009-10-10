@@ -77,10 +77,10 @@ public class FontSizeHandle extends LocatorHandle {
 
         Point2D.Double anchor2D = view.viewToDrawing(anchor);
         Point2D.Double lead2D = view.viewToDrawing(lead);
-        if (TRANSFORM.get(textOwner) != null) {
+        if (textOwner.get(TRANSFORM) != null) {
             try {
-                TRANSFORM.get(textOwner).inverseTransform(anchor2D, anchor2D);
-                TRANSFORM.get(textOwner).inverseTransform(lead2D, lead2D);
+                textOwner.get(TRANSFORM).inverseTransform(anchor2D, anchor2D);
+                textOwner.get(TRANSFORM).inverseTransform(lead2D, lead2D);
             } catch (NoninvertibleTransformException ex) {
                 ex.printStackTrace();
             }

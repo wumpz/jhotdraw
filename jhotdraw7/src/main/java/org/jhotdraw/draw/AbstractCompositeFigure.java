@@ -322,14 +322,14 @@ public abstract class AbstractCompositeFigure
         return children.size() == 0 ? new LinkedList<Figure>() : new ReversedList<Figure>(getChildren());
     }
 
-    public <T> void setAttribute(AttributeKey<T> key, T value) {
+    public <T> void set(AttributeKey<T> key, T value) {
         for (Figure child : getChildren()) {
-            child.setAttribute(key, value);
+            child.set(key, value);
         }
         invalidate();
     }
 
-    public <T> T getAttribute(AttributeKey<T> name) {
+    public <T> T get(AttributeKey<T> name) {
         return null;
     }
 
@@ -358,9 +358,9 @@ public abstract class AbstractCompositeFigure
     }
 
     public boolean contains(Point2D.Double p) {
-        if (TRANSFORM.get(this) != null) {
+        if (get(TRANSFORM) != null) {
             try {
-                p = (Point2D.Double) TRANSFORM.get(this).inverseTransform(p, new Point2D.Double());
+                p = (Point2D.Double) get(TRANSFORM).inverseTransform(p, new Point2D.Double());
             } catch (NoninvertibleTransformException ex) {
                 InternalError error = new InternalError(ex.getMessage());
                 error.initCause(ex);

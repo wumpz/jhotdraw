@@ -66,7 +66,7 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
     protected Map<AttributeKey, Object> defaultAttributes;
     
     /**
-     * If this variable is set to true, the attribute editor updates the
+     * If this variable is put to true, the attribute editor updates the
      * default values of the drawing editor.
      */
     private boolean isUpdateDrawingEditorDefaults;
@@ -149,7 +149,7 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
         public void redo() throws CannotRedoException {
             super.redo();
             for (Figure f : editedFigures) {
-                attributeKey.set(f, editRedoValue);
+                f.set(attributeKey, editRedoValue);
             }
         }
 
@@ -325,10 +325,10 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
                 attributeEditor.getComponent().setEnabled(false);
             } else {
                 attributeEditor.getComponent().setEnabled(true);
-                T value = attributeKey.get(figures.iterator().next());
+                T value = figures.iterator().next().get(attributeKey);
                 boolean isMultiple = false;
                 for (Figure f : figures) {
-                    T v = attributeKey.get(f);
+                    T v = f.get(attributeKey);
                     if ((v == null || value == null) && v != value || //
                             v != null && value != null && !v.equals(value)) {
                         isMultiple = true;
@@ -357,9 +357,9 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
                 }
                 for (Figure f : figures) {
                     f.willChange();
-                    attributeKey.basicSet(f, value);
+                    f.set(attributeKey, value);
                     for (Map.Entry<AttributeKey, Object> entry : defaultAttributes.entrySet()) {
-                        entry.getKey().basicSet(f, entry.getValue());
+                        f.set(entry.getKey(), entry.getValue());
                     }
                     f.changed();
                 }

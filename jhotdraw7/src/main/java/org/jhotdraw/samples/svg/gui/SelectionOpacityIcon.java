@@ -84,9 +84,10 @@ public class SelectionOpacityIcon extends javax.swing.ImageIcon {
         Color strokeColor;
         DrawingView view = (editor == null) ? null : editor.getActiveView();
         if (view != null && view.getSelectedFigures().size() == 1) {
-            opacity = opacityKey.get(view.getSelectedFigures().iterator().next());
-            fillColor = (fillColorKey == null) ? null : fillColorKey.get(view.getSelectedFigures().iterator().next());
-            strokeColor = (strokeColorKey == null) ? null : strokeColorKey.get(view.getSelectedFigures().iterator().next());
+            Figure f = view.getSelectedFigures().iterator().next();
+            opacity = f.get(opacityKey);
+            fillColor = (fillColorKey == null) ? null : f.get(fillColorKey);
+            strokeColor = (strokeColorKey == null) ? null : f.get(strokeColorKey);
         } else if (editor != null) {
             opacity = opacityKey.get(editor.getDefaultAttributes());
             fillColor = (fillColorKey == null) ? null : fillColorKey.get(editor.getDefaultAttributes());

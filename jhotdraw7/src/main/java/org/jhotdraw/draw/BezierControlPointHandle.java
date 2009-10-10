@@ -67,8 +67,8 @@ public class BezierControlPointHandle extends AbstractHandle {
     protected Point getLocation() {
         if (getBezierFigure().getNodeCount() > index) {
             Point2D.Double p = getBezierFigure().getPoint(index, controlPointIndex);
-            if (TRANSFORM.get(getTransformOwner()) != null) {
-                TRANSFORM.get(getTransformOwner()).transform(p, p);
+            if (getTransformOwner().get(TRANSFORM) != null) {
+                getTransformOwner().get(TRANSFORM).transform(p, p);
             }
             return view.drawingToView(p);
         } else {
@@ -89,9 +89,10 @@ public class BezierControlPointHandle extends AbstractHandle {
             BezierPath.Node v = f.getNode(index);
             Point2D.Double p0 = new Point2D.Double(v.x[0], v.y[0]);
             Point2D.Double pc = new Point2D.Double(v.x[controlPointIndex], v.y[controlPointIndex]);
-            if (TRANSFORM.get(getTransformOwner()) != null) {
-                TRANSFORM.get(getTransformOwner()).transform(p0, p0);
-                TRANSFORM.get(getTransformOwner()).transform(pc, pc);
+            Figure tOwner = getTransformOwner();
+            if (tOwner.get(TRANSFORM) != null) {
+                tOwner.get(TRANSFORM).transform(p0, p0);
+                tOwner.get(TRANSFORM).transform(pc, pc);
             }
 
             Color handleFillColor;
@@ -162,10 +163,10 @@ public class BezierControlPointHandle extends AbstractHandle {
         BezierPath.Node v = figure.getNode(index);
         fireAreaInvalidated(v);
         figure.willChange();
-
-        if (TRANSFORM.get(getTransformOwner()) != null) {
+        Figure tOwner = getTransformOwner();
+        if (tOwner.get(TRANSFORM) != null) {
             try {
-                TRANSFORM.get(getTransformOwner()).inverseTransform(p, p);
+                tOwner.get(TRANSFORM).inverseTransform(p, p);
             } catch (NoninvertibleTransformException ex) {
                 ex.printStackTrace();
             }

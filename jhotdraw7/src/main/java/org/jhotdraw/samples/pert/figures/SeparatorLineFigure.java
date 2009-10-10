@@ -38,7 +38,7 @@ extends LineFigure {
         setPoint(getNodeCount() - 1, 0, new Point2D.Double(lead.x, anchor.y));
     }
     public Dimension2DDouble getPreferredSize() {
-        double width = Math.ceil(STROKE_WIDTH.get(this));
+        double width = Math.ceil(get(STROKE_WIDTH));
         return new Dimension2DDouble(width, width);
     }
 }

@@ -68,8 +68,8 @@ public class SVGRectRadiusHandle extends AbstractHandle {
         Point2D.Double p = new Point2D.Double(
                 r.x + owner.getArcWidth(),
                 r.y + owner.getArcHeight());
-        if (TRANSFORM.get(owner) != null) {
-            TRANSFORM.get(owner).transform(p, p);
+        if (owner.get(TRANSFORM) != null) {
+            owner.get(TRANSFORM).transform(p, p);
         }
         return view.drawingToView(p);
     }
@@ -82,23 +82,23 @@ public class SVGRectRadiusHandle extends AbstractHandle {
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         int dx = lead.x - anchor.x;
         int dy = lead.y - anchor.y;
-        SVGRectFigure svgRect = (SVGRectFigure) getOwner();
-        svgRect.willChange();
+        SVGRectFigure owner = (SVGRectFigure) getOwner();
+        owner.willChange();
         Point2D.Double p = view.viewToDrawing(lead);
-        if (TRANSFORM.get(svgRect) != null) {
+        if (owner.get(TRANSFORM) != null) {
             try {
-                TRANSFORM.get(svgRect).inverseTransform(p, p);
+                owner.get(TRANSFORM).inverseTransform(p, p);
             } catch (NoninvertibleTransformException ex) {
                 if (DEBUG) {
                     ex.printStackTrace();
                 }
             }
         }
-        Rectangle2D.Double r = svgRect.getBounds();
-        svgRect.setArc(//
-                Math.min(svgRect.getWidth(),Math.max(0, p.x - r.x)),//
-                Math.min(svgRect.getHeight(),Math.max(0, p.y - r.y)));
-        svgRect.changed();
+        Rectangle2D.Double r = owner.getBounds();
+        owner.setArc(//
+                Math.min(owner.getWidth(),Math.max(0, p.x - r.x)),//
+                Math.min(owner.getHeight(),Math.max(0, p.y - r.y)));
+        owner.changed();
     }
 
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {

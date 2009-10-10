@@ -100,8 +100,8 @@ public class BezierNodeHandle extends AbstractHandle {
     protected Point getLocation() {
         if (getOwner().getNodeCount() > index) {
             Point2D.Double p = getOwner().getPoint(index, 0);
-            if (TRANSFORM.get(getTransformOwner()) != null) {
-                TRANSFORM.get(getTransformOwner()).transform(p, p);
+            if (getTransformOwner().get(TRANSFORM) != null) {
+                getTransformOwner().get(TRANSFORM).transform(p, p);
             }
             return view.drawingToView(p);
         } else {
@@ -140,9 +140,9 @@ public class BezierNodeHandle extends AbstractHandle {
         figure.willChange();
         Point2D.Double p = view.getConstrainer().constrainPoint(view.viewToDrawing(lead));
 
-        if (TRANSFORM.get(getTransformOwner()) != null) {
+        if (getTransformOwner().get(TRANSFORM) != null) {
             try {
-                TRANSFORM.get(getTransformOwner()).inverseTransform(p, p);
+                getTransformOwner().get(TRANSFORM).inverseTransform(p, p);
             } catch (NoninvertibleTransformException ex) {
                 ex.printStackTrace();
             }

@@ -300,17 +300,17 @@ public class ODGStylesReader {
         // none means that no stroke is drawn, and the value solid means that a solid stroke is drawn. If
         // the value is dash, the stroke referenced by the draw:stroke-dash property is drawn.
         if (elem.hasAttribute("stroke", DRAWING_NAMESPACE)) {
-            STROKE_STYLE.set(a, (StrokeStyle) elem.getAttribute("stroke", DRAWING_NAMESPACE, STROKE_STYLES, null));
+            STROKE_STYLE.put(a, (StrokeStyle) elem.getAttribute("stroke", DRAWING_NAMESPACE, STROKE_STYLES, null));
         }
         // The attribute svg:stroke-width specifies the width of the stroke on
         // the current object.
         if (elem.hasAttribute("stroke-width", SVG_NAMESPACE)) {
-            STROKE_WIDTH.set(a, toLength(elem.getAttribute("stroke-width", SVG_NAMESPACE, null)));
+            STROKE_WIDTH.put(a, toLength(elem.getAttribute("stroke-width", SVG_NAMESPACE, null)));
         }
         // The attribute svg:stroke-color specifies the color of the stroke on
         // the current object.
         if (elem.hasAttribute("stroke-color", SVG_NAMESPACE)) {
-            STROKE_COLOR.set(a, toColor(elem.getAttribute("stroke-color", SVG_NAMESPACE, null)));
+            STROKE_COLOR.put(a, toColor(elem.getAttribute("stroke-color", SVG_NAMESPACE, null)));
         }
         // FIXME read draw:marker-start-width, draw:marker-start-center, draw:marker-end-width,
         // draw:marker-end-centre
@@ -331,13 +331,13 @@ public class ODGStylesReader {
         //  • hatch:    the drawing object is filled with the hatch specified by
         //              the draw:fill-hatch-name attribute.
         if (elem.hasAttribute("fill", DRAWING_NAMESPACE)) {
-            FILL_STYLE.set(a, (FillStyle) elem.getAttribute("fill", DRAWING_NAMESPACE, FILL_STYLES, null));
+            FILL_STYLE.put(a, (FillStyle) elem.getAttribute("fill", DRAWING_NAMESPACE, FILL_STYLES, null));
         }
         // The attribute draw:fill-color specifies the color of the fill for a
         // graphic object. It is used only if the draw:fill attribute has the
         // value solid.
         if (elem.hasAttribute("fill-color", DRAWING_NAMESPACE)) {
-            FILL_COLOR.set(a, toColor(elem.getAttribute("fill-color", DRAWING_NAMESPACE, null)));
+            FILL_COLOR.put(a, toColor(elem.getAttribute("fill-color", DRAWING_NAMESPACE, null)));
         }
         // FIXME read fo:padding-top, fo:padding-bottom, fo:padding-left,
         // fo:padding-right
@@ -468,11 +468,11 @@ public class ODGStylesReader {
         readStylesChildren(elem, automaticStyles);
     }
     /**
-     * Reads a &lt;draw:layer-set&gt; element from the specified
+     * Reads a &lt;draw:layer-put&gt; element from the specified
      * XML element.
      * <p>
      *
-     * @param elem A &lt;layer-set&gt; element.
+     * @param elem A &lt;layer-put&gt; element.
      * @param a Style attributes to be filled in by this method.
      */
     private void readLayerSetElement(IXMLElement elem,  HashMap<String,Style> styles) throws IOException {

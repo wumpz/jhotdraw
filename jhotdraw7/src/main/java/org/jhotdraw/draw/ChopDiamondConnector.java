@@ -43,7 +43,7 @@ public class ChopDiamondConnector extends ChopRectangleConnector {
         target = getConnectorTarget(target);
         Rectangle2D.Double r = target.getBounds();
         
-        if (DiamondFigure.IS_QUADRATIC.get(target)) {
+        if (target.get(DiamondFigure.IS_QUADRATIC)) {
             double side = Math.max(r.width, r.height);
             r.x -= (side - r.width) / 2;
             r.y -= (side - r.height) / 2;
@@ -52,7 +52,7 @@ public class ChopDiamondConnector extends ChopRectangleConnector {
         double growx;
         double growy;
         // FIXME - This code is wrong. Copy correct code from DiamondFigure.
-        switch (STROKE_PLACEMENT.get(target)) {
+        switch (target.get(STROKE_PLACEMENT)) {
             case INSIDE : {
                 growx = growy = 0f;
                 break;

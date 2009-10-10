@@ -30,7 +30,7 @@ import org.jhotdraw.geom.Geom;
  */
 public class DiamondFigure extends AbstractAttributedFigure {
     /**
-     * If the attribute IS_QUADRATIC is set to true, all sides of the diamond have
+     * If the attribute IS_QUADRATIC is put to true, all sides of the diamond have
      * the same length.
      */
     public final static AttributeKey<Boolean> IS_QUADRATIC = new AttributeKey<Boolean>("isQuadratic", Boolean.class, false);
@@ -56,7 +56,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
     // DRAWING
     protected void drawFill(Graphics2D g) {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
-        if (IS_QUADRATIC.get(this)) {
+        if (get(IS_QUADRATIC)) {
             double side = Math.max(r.width, r.height);
             r.x -= (side - r.width) / 2;
             r.y -= (side - r.height) / 2;
@@ -92,7 +92,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
     
     protected void drawStroke(Graphics2D g) {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
-        if (IS_QUADRATIC.get(this)) {
+        if (get(IS_QUADRATIC)) {
             double side = Math.max(r.width, r.height);
             r.x -= (side - r.width) / 2;
             r.y -= (side - r.height) / 2;
@@ -132,7 +132,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
     }
     public Rectangle2D.Double getDrawingArea() {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
-        if (IS_QUADRATIC.get(this)) {
+        if (get(IS_QUADRATIC)) {
             double side = Math.max(r.width, r.height);
             r.x -= (side - r.width) / 2;
             r.y -= (side - r.height) / 2;
@@ -163,7 +163,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
      */
     public boolean contains(Point2D.Double p) {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
-        if (IS_QUADRATIC.get(this)) {
+        if (get(IS_QUADRATIC)) {
             double side = Math.max(r.width, r.height);
             r.x -= (side - r.width) / 2;
             r.y -= (side - r.height) / 2;

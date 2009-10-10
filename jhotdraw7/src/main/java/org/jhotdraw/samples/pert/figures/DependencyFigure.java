@@ -15,11 +15,8 @@
 package org.jhotdraw.samples.pert.figures;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
-import java.beans.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.xml.*;
 
 /**
  * DependencyFigure.
@@ -30,9 +27,9 @@ import org.jhotdraw.xml.*;
 public class DependencyFigure extends LineConnectionFigure {
     /** Creates a new instance. */
     public DependencyFigure() {
-        STROKE_COLOR.basicSet(this, new Color(0x000099));
-        STROKE_WIDTH.basicSet(this, 1d);
-        END_DECORATION.basicSet(this, new ArrowTip());
+        set(STROKE_COLOR, new Color(0x000099));
+        set(STROKE_WIDTH, 1d);
+        set(END_DECORATION, new ArrowTip());
         
         setAttributeEnabled(END_DECORATION, false);
         setAttributeEnabled(START_DECORATION, false);

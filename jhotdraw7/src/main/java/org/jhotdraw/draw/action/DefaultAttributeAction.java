@@ -91,16 +91,16 @@ public class DefaultAttributeAction extends AbstractSelectedAction {
     public void changeAttribute() {
         CompositeEdit edit = new CompositeEdit("attributes");
         fireUndoableEditHappened(edit);
-        Drawing drawing = getDrawing();
+        DrawingEditor editor = getEditor();
         Iterator i = getView().getSelectedFigures().iterator();
         while (i.hasNext()) {
             Figure figure = (Figure) i.next();
             figure.willChange();
             for (int j=0; j < keys.length; j++) {
-                keys[j].basicSet(figure, getEditor().getDefaultAttribute(keys[j]));
+                figure.set(keys[j], editor.getDefaultAttribute(keys[j]));
             }
             for (Map.Entry<AttributeKey,Object> entry : fixedAttributes.entrySet()) {
-                entry.getKey().basicSet(figure, entry.getValue());
+                figure.set(entry.getKey(), entry.getValue());
                 
             }
             figure.changed();

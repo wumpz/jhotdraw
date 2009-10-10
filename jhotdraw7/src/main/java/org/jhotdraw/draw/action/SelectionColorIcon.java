@@ -69,7 +69,7 @@ public class SelectionColorIcon extends javax.swing.ImageIcon {
         Color color;
         DrawingView view = editor.getActiveView();
         if (view != null && view.getSelectedFigures().size() == 1) {
-            color = key.get(view.getSelectedFigures().iterator().next());
+            color = view.getSelectedFigures().iterator().next().get(key);
         } else {
             color = key.get(editor.getDefaultAttributes());
         }

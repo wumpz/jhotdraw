@@ -73,7 +73,7 @@ public class RelativeLocator extends AbstractLocator {
         Rectangle2D.Double bounds = owner.getBounds();
         if ((owner instanceof DecoratedFigure) &&
                 ((DecoratedFigure) owner).getDecorator() != null) {
-            Insets2D.Double insets = DECORATOR_INSETS.get(owner);
+            Insets2D.Double insets = owner.get(DECORATOR_INSETS);
             if (insets != null) {
                 insets.addTo(bounds);
             }
@@ -85,12 +85,12 @@ public class RelativeLocator extends AbstractLocator {
                     bounds.x + bounds.width * relativeX,
                     bounds.y + bounds.height * relativeY
                     );
-            if (AttributeKeys.TRANSFORM.get(owner) != null) {
-                AttributeKeys.TRANSFORM.get(owner).transform(location, location);
+            if (owner.get(TRANSFORM) != null) {
+               owner.get(TRANSFORM).transform(location, location);
             }
         } else {
-            if (AttributeKeys.TRANSFORM.get(owner) != null) {
-                Rectangle2D r = AttributeKeys.TRANSFORM.get(owner).createTransformedShape(bounds).getBounds2D();
+            if (owner.get(TRANSFORM) != null) {
+                Rectangle2D r = owner.get(TRANSFORM).createTransformedShape(bounds).getBounds2D();
                 bounds.x = r.getX();
                 bounds.y = r.getY();
                 bounds.width = r.getWidth();

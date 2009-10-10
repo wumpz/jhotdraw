@@ -23,6 +23,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import org.jhotdraw.util.*;
 import java.util.*;
+import static org.jhotdraw.draw.AttributeKeys.*;
 /**
  * QuadTreeCompositeFigure.
  * 
@@ -226,8 +227,8 @@ public abstract class QuadTreeCompositeFigure
         LinkedList<Figure> contained = new LinkedList<Figure>();
         for (Figure f : children) {
             Rectangle2D r = f.getBounds();
-            if (AttributeKeys.TRANSFORM.get(f) != null) {
-                r = AttributeKeys.TRANSFORM.get(f).createTransformedShape(r).getBounds2D();
+            if (f.get(TRANSFORM) != null) {
+                r = f.get(TRANSFORM).createTransformedShape(r).getBounds2D();
             }
             if (f.isVisible() && bounds.contains(r)) {
                 contained.add(f);

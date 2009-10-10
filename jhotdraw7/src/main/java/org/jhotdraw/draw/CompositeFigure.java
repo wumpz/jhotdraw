@@ -225,7 +225,7 @@ public interface CompositeFigure extends Figure {
      * Set a Layouter object which encapsulated a layout
      * algorithm for this figure. Typically, a Layouter
      * accesses the child components of this figure and arranges
-     * their graphical presentation. It is a good idea to set
+     * their graphical presentation. It is a good idea to put
      * the Layouter in the protected initialize() method
      * so it can be recreated if a GraphicalCompositeFigure is
      * read and restored from a StorableInput stream.

@@ -38,15 +38,15 @@ public class ODGGroupFigure extends GroupFigure implements ODGFigure {
         ODGAttributeKeys.setDefaults(this);
     }
     
-    @Override public <T> void setAttribute(AttributeKey<T> key, T value) {
+    @Override public <T> void set(AttributeKey<T> key, T value) {
         if (key == OPACITY) {
             attributes.put(key, value);
         } else {
-            super.setAttribute(key, value);
+            super.set(key, value);
         }
         invalidate();
     }
-    @Override public <T> T getAttribute(AttributeKey<T> key) {
+    @Override public <T> T get(AttributeKey<T> key) {
         return key.get(attributes);
     }
     @Override public Map<AttributeKey,Object> getAttributes() {
@@ -55,13 +55,13 @@ public class ODGGroupFigure extends GroupFigure implements ODGFigure {
     @SuppressWarnings("unchecked")
     public void setAttributes(Map<AttributeKey, Object> map) {
         for (Map.Entry<AttributeKey, Object> entry : map.entrySet()) {
-            setAttribute(entry.getKey(), entry.getValue());
+            set(entry.getKey(), entry.getValue());
         }
     }
     
     @Override
     public void draw(Graphics2D g)  {
-        double opacity = OPACITY.get(this);
+        double opacity = get(OPACITY);
         opacity = Math.min(Math.max(0d, opacity), 1d);
         if (opacity != 0d) {
             if (opacity != 1d) {
@@ -103,8 +103,8 @@ public class ODGGroupFigure extends GroupFigure implements ODGFigure {
             } else {
                 for (Figure f : children) {
                     Rectangle2D.Double bounds = f.getBounds();
-                    if (TRANSFORM.get(f) != null) {
-                        bounds.setRect(TRANSFORM.get(f).createTransformedShape(bounds).getBounds2D());
+                    if (f.get(TRANSFORM) != null) {
+                        bounds.setRect(f.get(TRANSFORM).createTransformedShape(bounds).getBounds2D());
                     }
                     if (cachedBounds == null || cachedBounds.isEmpty()) {
                         cachedBounds = bounds;

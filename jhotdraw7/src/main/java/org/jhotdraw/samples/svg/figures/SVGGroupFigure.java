@@ -39,19 +39,19 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
     }
 
     @Override
-    public <T> void setAttribute(AttributeKey<T> key, T value) {
+    public <T> void set(AttributeKey<T> key, T value) {
         if (key == OPACITY) {
             attributes.put(key, value);
         } else if (key == LINK || key == LINK_TARGET) {
             attributes.put(key, value);
         } else {
-            super.setAttribute(key, value);
+            super.set(key, value);
         }
         invalidate();
     }
 
     @Override
-    public <T> T getAttribute(AttributeKey<T> key) {
+    public <T> T get(AttributeKey<T> key) {
         return key.get(attributes);
     }
 
@@ -63,13 +63,13 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
     @SuppressWarnings("unchecked")
     public void setAttributes(Map<AttributeKey, Object> map) {
         for (Map.Entry<AttributeKey, Object> entry : map.entrySet()) {
-            setAttribute(entry.getKey(), entry.getValue());
+            set(entry.getKey(), entry.getValue());
         }
     }
 
     @Override
     public void draw(Graphics2D g) {
-        double opacity = OPACITY.get(this);
+        double opacity = get(OPACITY);
         opacity = Math.min(Math.max(0d, opacity), 1d);
         if (opacity != 0d) {
             if (opacity != 1d) {
@@ -111,8 +111,8 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
             } else {
                 for (Figure f : children) {
                     Rectangle2D.Double bounds = f.getBounds();
-                    if (TRANSFORM.get(f) != null) {
-                        bounds.setRect(TRANSFORM.get(f).createTransformedShape(bounds).getBounds2D());
+                    if (f.get(TRANSFORM) != null) {
+                        bounds.setRect(f.get(TRANSFORM).createTransformedShape(bounds).getBounds2D());
                     }
                     if (cachedBounds == null || cachedBounds.isEmpty()) {
                         cachedBounds = bounds;

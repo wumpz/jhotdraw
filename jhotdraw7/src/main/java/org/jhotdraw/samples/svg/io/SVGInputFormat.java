@@ -256,10 +256,10 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
 
         if (replace) {
             Viewport viewport = viewportStack.firstElement();
-            VIEWPORT_FILL.basicSet(drawing, VIEWPORT_FILL.get(viewport.attributes));
-            VIEWPORT_FILL_OPACITY.basicSet(drawing, VIEWPORT_FILL_OPACITY.get(viewport.attributes));
-            VIEWPORT_HEIGHT.basicSet(drawing, VIEWPORT_HEIGHT.get(viewport.attributes));
-            VIEWPORT_WIDTH.basicSet(drawing, VIEWPORT_WIDTH.get(viewport.attributes));
+            drawing.set(VIEWPORT_FILL, VIEWPORT_FILL.get(viewport.attributes));
+            drawing.set(VIEWPORT_FILL_OPACITY, VIEWPORT_FILL_OPACITY.get(viewport.attributes));
+            drawing.set(VIEWPORT_HEIGHT, VIEWPORT_HEIGHT.get(viewport.attributes));
+            drawing.set(VIEWPORT_WIDTH, VIEWPORT_WIDTH.get(viewport.attributes));
         }
 
         // Get rid of all objects we don't need anymore to help garbage collector.
@@ -487,8 +487,8 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
                     }
                 }
                 if (childFigure != null) {
-                    LINK.basicSet(childFigure, href);
-                    LINK_TARGET.basicSet(childFigure, target);
+                    childFigure.set(LINK, href);
+                    childFigure.set(LINK_TARGET, target);
                 } else {
                     if (DEBUG) {
                         System.out.println("SVGInputFormat <a> has no child figure");
@@ -766,13 +766,13 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         // one-dimensional, they have no interior; thus, 'line' elements are
         // never filled (see the 'fill' property).
         if (FILL_COLOR.get(a) != null && STROKE_COLOR.get(a) == null) {
-            STROKE_COLOR.set(a, FILL_COLOR.get(a));
+            STROKE_COLOR.put(a, FILL_COLOR.get(a));
         }
         if (FILL_GRADIENT.get(a) != null && STROKE_GRADIENT.get(a) == null) {
-            STROKE_GRADIENT.set(a, FILL_GRADIENT.get(a));
+            STROKE_GRADIENT.put(a, FILL_GRADIENT.get(a));
         }
-        FILL_COLOR.set(a, null);
-        FILL_GRADIENT.set(a, null);
+        FILL_COLOR.put(a, null);
+        FILL_GRADIENT.put(a, null);
 
         double x1 = toNumber(elem, readAttribute(elem, "x1", "0"));
         double y1 = toNumber(elem, readAttribute(elem, "y1", "0"));
@@ -1115,7 +1115,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
                 if (obj instanceof Figure) {
                     Figure figure = (Figure) ((Figure) obj).clone();
                     for (Map.Entry<AttributeKey, Object> entry : a2.entrySet()) {
-                        figure.setAttribute(entry.getKey(), entry.getValue());
+                        figure.set(entry.getKey(), entry.getValue());
                     }
 
                     AffineTransform tx =
@@ -1847,8 +1847,8 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
     private void readCoreAttributes(IXMLElement elem, HashMap<AttributeKey, Object> a)
             throws IOException {
         // read "id" or "xml:id"
-        //identifiedElements.put(elem.getAttribute("id"), elem);
-        //identifiedElements.put(elem.getAttribute("xml:id"), elem);
+        //identifiedElements.putx(elem.get("id"), elem);
+        //identifiedElements.putx(elem.get("xml:id"), elem);
 
         // XXX - Add
         // xml:base
@@ -1890,7 +1890,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         //(fully opaque) shall be clamped to this range.
         //(See Clamping values which are restricted to a particular range.)
         double value = toDouble(elem, readAttribute(elem, "opacity", "1"), 1, 0, 1);
-        OPACITY.set(a, value);
+        OPACITY.put(a, value);
     }
     /* Reads text attributes as listed in
      * http://www.w3.org/TR/SVGMobile12/feature.html#Text
@@ -1911,7 +1911,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         //Computed value:  	 Specified value, except inherit
         value = readInheritAttribute(elem, "text-anchor", "start");
         if (SVG_TEXT_ANCHORS.get(value) != null) {
-            TEXT_ANCHOR.set(a, SVG_TEXT_ANCHORS.get(value));
+            TEXT_ANCHOR.put(a, SVG_TEXT_ANCHORS.get(value));
         }
 
         //'display-align'
@@ -1927,9 +1927,9 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         // XXX - Implement me properly
         if (!value.equals("auto")) {
             if (value.equals("center")) {
-                TEXT_ANCHOR.set(a, TextAnchor.MIDDLE);
+                TEXT_ANCHOR.put(a, TextAnchor.MIDDLE);
             } else if (value.equals("before")) {
-                TEXT_ANCHOR.set(a, TextAnchor.END);
+                TEXT_ANCHOR.put(a, TextAnchor.END);
             }
         }
 
@@ -1944,7 +1944,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         value = readInheritAttribute(elem, "text-align", "start");
         // XXX - Implement me properly
         if (!value.equals("start")) {
-            TEXT_ALIGN.set(a, SVG_TEXT_ALIGNS.get(value));
+            TEXT_ALIGN.put(a, SVG_TEXT_ALIGNS.get(value));
         }
     }
     /* Reads text flow attributes as listed in
@@ -1979,7 +1979,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         String value;
         value = readAttribute(elem, "transform", "none");
         if (!value.equals("none")) {
-            TRANSFORM.set(a, toTransform(elem, value));
+            TRANSFORM.put(a, toTransform(elem, value));
         }
     }
     /* Reads solid color attributes.
@@ -2065,13 +2065,13 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         // Computed value:  	 "none", system paint, specified <color> value or absolute IRI
         objectValue = toPaint(elem, readInheritColorAttribute(elem, "fill", "black"));
         if (objectValue instanceof Color) {
-            FILL_COLOR.set(a, (Color) objectValue);
+            FILL_COLOR.put(a, (Color) objectValue);
         } else if (objectValue instanceof Gradient) {
-            FILL_GRADIENT.setClone(a, (Gradient) objectValue);
+            FILL_GRADIENT.putClone(a, (Gradient) objectValue);
         } else if (objectValue == null) {
-            FILL_COLOR.set(a, null);
+            FILL_COLOR.put(a, null);
         } else {
-            FILL_COLOR.set(a, null);
+            FILL_COLOR.put(a, null);
             if (DEBUG) {
                 System.out.println("SVGInputFormat not implemented  fill=" + objectValue);
             }
@@ -2087,7 +2087,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
         objectValue = readInheritAttribute(elem, "fill-opacity", "1");
-        FILL_OPACITY.set(a, toDouble(elem, (String) objectValue, 1d, 0d, 1d));
+        FILL_OPACITY.put(a, toDouble(elem, (String) objectValue, 1d, 0d, 1d));
 
         // 'fill-rule'
         // Value:	 nonzero | evenodd | inherit
@@ -2099,7 +2099,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         // Animatable:  	 yes
         // Computed value:  	 Specified value, except inherit
         value = readInheritAttribute(elem, "fill-rule", "nonzero");
-        WINDING_RULE.set(a, SVG_FILL_RULES.get(value));
+        WINDING_RULE.put(a, SVG_FILL_RULES.get(value));
 
         //'stroke'
         //Value:  	<paint> | inherit (See Specifying paint)
@@ -2113,13 +2113,13 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         // or absolute IRI
         objectValue = toPaint(elem, readInheritColorAttribute(elem, "stroke", "none"));
         if (objectValue instanceof Color) {
-            STROKE_COLOR.set(a, (Color) objectValue);
+            STROKE_COLOR.put(a, (Color) objectValue);
         } else if (objectValue instanceof Gradient) {
-            STROKE_GRADIENT.setClone(a, (Gradient) objectValue);
+            STROKE_GRADIENT.putClone(a, (Gradient) objectValue);
         } else if (objectValue == null) {
-            STROKE_COLOR.set(a, null);
+            STROKE_COLOR.put(a, null);
         } else {
-            STROKE_COLOR.set(a, null);
+            STROKE_COLOR.put(a, null);
             if (DEBUG) {
                 System.out.println("SVGInputFormat not implemented  stroke=" + objectValue);
             }
@@ -2141,7 +2141,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
             for (int i = 0; i < values.length; i++) {
                 dashes[i] = toNumber(elem, values[i]);
             }
-            STROKE_DASHES.set(a, dashes);
+            STROKE_DASHES.put(a, dashes);
         }
 
         //'stroke-dashoffset'
@@ -2154,8 +2154,8 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
         doubleValue = toNumber(elem, readInheritAttribute(elem, "stroke-dashoffset", "0"));
-        STROKE_DASH_PHASE.set(a, doubleValue);
-        IS_STROKE_DASH_FACTOR.set(a, false);
+        STROKE_DASH_PHASE.put(a, doubleValue);
+        IS_STROKE_DASH_FACTOR.put(a, false);
 
         //'stroke-linecap'
         //Value:  	 butt | round | square | inherit
@@ -2167,7 +2167,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
         value = readInheritAttribute(elem, "stroke-linecap", "butt");
-        STROKE_CAP.set(a, SVG_STROKE_LINECAPS.get(value));
+        STROKE_CAP.put(a, SVG_STROKE_LINECAPS.get(value));
 
 
         //'stroke-linejoin'
@@ -2180,7 +2180,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
         value = readInheritAttribute(elem, "stroke-linejoin", "miter");
-        STROKE_JOIN.set(a, SVG_STROKE_LINEJOINS.get(value));
+        STROKE_JOIN.put(a, SVG_STROKE_LINEJOINS.get(value));
 
         //'stroke-miterlimit'
         //Value:  	 <miterlimit> | inherit
@@ -2192,8 +2192,8 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
         doubleValue = toDouble(elem, readInheritAttribute(elem, "stroke-miterlimit", "4"), 4d, 1d, Double.MAX_VALUE);
-        STROKE_MITER_LIMIT.set(a, doubleValue);
-        IS_STROKE_MITER_LIMIT_FACTOR.set(a, false);
+        STROKE_MITER_LIMIT.put(a, doubleValue);
+        IS_STROKE_MITER_LIMIT_FACTOR.put(a, false);
 
         //'stroke-opacity'
         //Value:  	 <opacity-value> | inherit
@@ -2205,7 +2205,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
         objectValue = readInheritAttribute(elem, "stroke-opacity", "1");
-        STROKE_OPACITY.set(a, toDouble(elem, (String) objectValue, 1d, 0d, 1d));
+        STROKE_OPACITY.put(a, toDouble(elem, (String) objectValue, 1d, 0d, 1d));
 
         //'stroke-width'
         //Value:  	<length> | inherit
@@ -2217,7 +2217,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
         doubleValue = toNumber(elem, readInheritAttribute(elem, "stroke-width", "1"));
-        STROKE_WIDTH.set(a, doubleValue);
+        STROKE_WIDTH.put(a, doubleValue);
     }
     /* Reads shape attributes for the SVG "use" element.
      */
@@ -2267,13 +2267,13 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         if (objectValue != null) {
             objectValue = toPaint(elem, (String) objectValue);
             if (objectValue instanceof Color) {
-                FILL_COLOR.set(a, (Color) objectValue);
+                FILL_COLOR.put(a, (Color) objectValue);
             } else if (objectValue instanceof Gradient) {
-                FILL_GRADIENT.set(a, (Gradient) objectValue);
+                FILL_GRADIENT.put(a, (Gradient) objectValue);
             } else if (objectValue == null) {
-                FILL_COLOR.set(a, null);
+                FILL_COLOR.put(a, null);
             } else {
-                FILL_COLOR.set(a, null);
+                FILL_COLOR.put(a, null);
                 if (DEBUG) {
                     System.out.println("SVGInputFormat not implemented  fill=" + objectValue);
                 }
@@ -2291,7 +2291,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         //Computed value:  	 Specified value, except inherit
         objectValue = readInheritAttribute(elem, "fill-opacity", null);
         if (objectValue != null) {
-            FILL_OPACITY.set(a, toDouble(elem, (String) objectValue, 1d, 0d, 1d));
+            FILL_OPACITY.put(a, toDouble(elem, (String) objectValue, 1d, 0d, 1d));
         }
 
         // 'fill-rule'
@@ -2305,7 +2305,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         // Computed value:  	 Specified value, except inherit
         value = readInheritAttribute(elem, "fill-rule", null);
         if (value != null) {
-            WINDING_RULE.set(a, SVG_FILL_RULES.get(value));
+            WINDING_RULE.put(a, SVG_FILL_RULES.get(value));
         }
 
         //'stroke'
@@ -2321,9 +2321,9 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         objectValue = toPaint(elem, readInheritColorAttribute(elem, "stroke", null));
         if (objectValue != null) {
             if (objectValue instanceof Color) {
-                STROKE_COLOR.set(a, (Color) objectValue);
+                STROKE_COLOR.put(a, (Color) objectValue);
             } else if (objectValue instanceof Gradient) {
-                STROKE_GRADIENT.set(a, (Gradient) objectValue);
+                STROKE_GRADIENT.put(a, (Gradient) objectValue);
             }
         }
 
@@ -2343,7 +2343,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
             for (int i = 0; i < values.length; i++) {
                 dashes[i] = toNumber(elem, values[i]);
             }
-            STROKE_DASHES.set(a, dashes);
+            STROKE_DASHES.put(a, dashes);
         }
 
         //'stroke-dashoffset'
@@ -2358,8 +2358,8 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         objectValue = readInheritAttribute(elem, "stroke-dashoffset", null);
         if (objectValue != null) {
             doubleValue = toNumber(elem, (String) objectValue);
-            STROKE_DASH_PHASE.set(a, doubleValue);
-            IS_STROKE_DASH_FACTOR.set(a, false);
+            STROKE_DASH_PHASE.put(a, doubleValue);
+            IS_STROKE_DASH_FACTOR.put(a, false);
         }
 
         //'stroke-linecap'
@@ -2373,7 +2373,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         //Computed value:  	 Specified value, except inherit
         value = readInheritAttribute(elem, "stroke-linecap", null);
         if (value != null) {
-            STROKE_CAP.set(a, SVG_STROKE_LINECAPS.get(value));
+            STROKE_CAP.put(a, SVG_STROKE_LINECAPS.get(value));
         }
 
         //'stroke-linejoin'
@@ -2387,7 +2387,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         //Computed value:  	 Specified value, except inherit
         value = readInheritAttribute(elem, "stroke-linejoin", null);
         if (value != null) {
-            STROKE_JOIN.set(a, SVG_STROKE_LINEJOINS.get(value));
+            STROKE_JOIN.put(a, SVG_STROKE_LINEJOINS.get(value));
         }
         //'stroke-miterlimit'
         //Value:  	 <miterlimit> | inherit
@@ -2401,8 +2401,8 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         objectValue = readInheritAttribute(elem, "stroke-miterlimit", null);
         if (objectValue != null) {
             doubleValue = toDouble(elem, (String) objectValue, 4d, 1d, Double.MAX_VALUE);
-            STROKE_MITER_LIMIT.set(a, doubleValue);
-            IS_STROKE_MITER_LIMIT_FACTOR.set(a, false);
+            STROKE_MITER_LIMIT.put(a, doubleValue);
+            IS_STROKE_MITER_LIMIT_FACTOR.put(a, false);
         }
 
         //'stroke-opacity'
@@ -2416,7 +2416,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         //Computed value:  	 Specified value, except inherit
         objectValue = readInheritAttribute(elem, "stroke-opacity", null);
         if (objectValue != null) {
-            STROKE_OPACITY.set(a, toDouble(elem, (String) objectValue, 1d, 0d, 1d));
+            STROKE_OPACITY.put(a, toDouble(elem, (String) objectValue, 1d, 0d, 1d));
         }
 
         //'stroke-width'
@@ -2431,7 +2431,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         objectValue = readInheritAttribute(elem, "stroke-width", null);
         if (objectValue != null) {
             doubleValue = toNumber(elem, (String) objectValue);
-            STROKE_WIDTH.set(a, doubleValue);
+            STROKE_WIDTH.put(a, doubleValue);
         }
     }
 
@@ -2480,13 +2480,13 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         // Computed value:  	 "none", system paint, specified <color> value or absolute IRI
         objectValue = toPaint(elem, readInheritColorAttribute(elem, "fill", "none"));
         if (objectValue instanceof Color) {
-            FILL_COLOR.set(a, (Color) objectValue);
+            FILL_COLOR.put(a, (Color) objectValue);
         } else if (objectValue instanceof Gradient) {
-            FILL_GRADIENT.setClone(a, (Gradient) objectValue);
+            FILL_GRADIENT.putClone(a, (Gradient) objectValue);
         } else if (objectValue == null) {
-            FILL_COLOR.set(a, null);
+            FILL_COLOR.put(a, null);
         } else {
-            FILL_COLOR.set(a, null);
+            FILL_COLOR.put(a, null);
             if (DEBUG) {
                 System.out.println("SVGInputFormat not implemented  fill=" + objectValue);
             }
@@ -2502,7 +2502,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
         objectValue = readInheritAttribute(elem, "fill-opacity", "1");
-        FILL_OPACITY.set(a, toDouble(elem, (String) objectValue, 1d, 0d, 1d));
+        FILL_OPACITY.put(a, toDouble(elem, (String) objectValue, 1d, 0d, 1d));
 
         // 'fill-rule'
         // Value:	 nonzero | evenodd | inherit
@@ -2514,7 +2514,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         // Animatable:  	 yes
         // Computed value:  	 Specified value, except inherit
         value = readInheritAttribute(elem, "fill-rule", "nonzero");
-        WINDING_RULE.set(a, SVG_FILL_RULES.get(value));
+        WINDING_RULE.put(a, SVG_FILL_RULES.get(value));
 
         //'stroke'
         //Value:  	<paint> | inherit (See Specifying paint)
@@ -2528,13 +2528,13 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         // or absolute IRI
         objectValue = toPaint(elem, readInheritColorAttribute(elem, "stroke", "black"));
         if (objectValue instanceof Color) {
-            STROKE_COLOR.set(a, (Color) objectValue);
+            STROKE_COLOR.put(a, (Color) objectValue);
         } else if (objectValue instanceof Gradient) {
-            STROKE_GRADIENT.setClone(a, (Gradient) objectValue);
+            STROKE_GRADIENT.putClone(a, (Gradient) objectValue);
         } else if (objectValue == null) {
-            STROKE_COLOR.set(a, null);
+            STROKE_COLOR.put(a, null);
         } else {
-            STROKE_COLOR.set(a, null);
+            STROKE_COLOR.put(a, null);
             if (DEBUG) {
                 System.out.println("SVGInputFormat not implemented  stroke=" + objectValue);
             }
@@ -2556,7 +2556,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
             for (int i = 0; i < values.length; i++) {
                 dashes[i] = toNumber(elem, values[i]);
             }
-            STROKE_DASHES.set(a, dashes);
+            STROKE_DASHES.put(a, dashes);
         }
 
         //'stroke-dashoffset'
@@ -2569,8 +2569,8 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
         doubleValue = toNumber(elem, readInheritAttribute(elem, "stroke-dashoffset", "0"));
-        STROKE_DASH_PHASE.set(a, doubleValue);
-        IS_STROKE_DASH_FACTOR.set(a, false);
+        STROKE_DASH_PHASE.put(a, doubleValue);
+        IS_STROKE_DASH_FACTOR.put(a, false);
 
         //'stroke-linecap'
         //Value:  	 butt | round | square | inherit
@@ -2582,7 +2582,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
         value = readInheritAttribute(elem, "stroke-linecap", "butt");
-        STROKE_CAP.set(a, SVG_STROKE_LINECAPS.get(value));
+        STROKE_CAP.put(a, SVG_STROKE_LINECAPS.get(value));
 
 
         //'stroke-linejoin'
@@ -2595,7 +2595,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
         value = readInheritAttribute(elem, "stroke-linejoin", "miter");
-        STROKE_JOIN.set(a, SVG_STROKE_LINEJOINS.get(value));
+        STROKE_JOIN.put(a, SVG_STROKE_LINEJOINS.get(value));
 
         //'stroke-miterlimit'
         //Value:  	 <miterlimit> | inherit
@@ -2607,8 +2607,8 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
         doubleValue = toDouble(elem, readInheritAttribute(elem, "stroke-miterlimit", "4"), 4d, 1d, Double.MAX_VALUE);
-        STROKE_MITER_LIMIT.set(a, doubleValue);
-        IS_STROKE_MITER_LIMIT_FACTOR.set(a, false);
+        STROKE_MITER_LIMIT.put(a, doubleValue);
+        IS_STROKE_MITER_LIMIT_FACTOR.put(a, false);
 
         //'stroke-opacity'
         //Value:  	 <opacity-value> | inherit
@@ -2620,7 +2620,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
         objectValue = readInheritAttribute(elem, "stroke-opacity", "1");
-        STROKE_OPACITY.set(a, toDouble(elem, (String) objectValue, 1d, 0d, 1d));
+        STROKE_OPACITY.put(a, toDouble(elem, (String) objectValue, 1d, 0d, 1d));
 
         //'stroke-width'
         //Value:  	<length> | inherit
@@ -2632,7 +2632,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
         doubleValue = toNumber(elem, readInheritAttribute(elem, "stroke-width", "1"));
-        STROKE_WIDTH.set(a, doubleValue);
+        STROKE_WIDTH.put(a, doubleValue);
     }
     /* Reads viewport attributes.
      */
@@ -2648,13 +2648,13 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         }
         if (value != null) {
             doubleValue = toLength(elem, (String) value, viewportStack.peek().widthPercentFactor);
-            VIEWPORT_WIDTH.set(a, doubleValue);
+            VIEWPORT_WIDTH.put(a, doubleValue);
         }
         // height of the viewport
         value = readAttribute(elem, "height", null);
         if (value != null) {
             doubleValue = toLength(elem, (String) value, viewportStack.peek().heightPercentFactor);
-            VIEWPORT_HEIGHT.set(a, doubleValue);
+            VIEWPORT_HEIGHT.put(a, doubleValue);
         }
 
         //'viewport-fill'
@@ -2668,7 +2668,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         //Computed value:  	 "none" or specified <color> value, except inherit
         value = toPaint(elem, readInheritColorAttribute(elem, "viewport-fill", "none"));
         if (value == null || (value instanceof Color)) {
-            VIEWPORT_FILL.set(a, (Color) value);
+            VIEWPORT_FILL.put(a, (Color) value);
         }
 
         //'viewport-fill-opacity'
@@ -2681,7 +2681,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         //Animatable:	 yes
         //Computed value:  	 Specified value, except inherit
         doubleValue = toDouble(elem, readAttribute(elem, "viewport-fill-opacity", "1.0"));
-        VIEWPORT_FILL_OPACITY.set(a, doubleValue);
+        VIEWPORT_FILL_OPACITY.put(a, doubleValue);
     }
     /* Reads graphics attributes as listed in
      * http://www.w3.org/TR/SVGMobile12/feature.html#GraphicsAttribute
@@ -3009,7 +3009,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
             // Fallback to the system Dialog font
             font = new Font("Dialog", Font.PLAIN, 12);
         }
-        FONT_FACE.set(a, font);
+        FONT_FACE.put(a, font);
 
         // 'font-getChildCount'
         // Value:  	<absolute-getChildCount> | <relative-getChildCount> |
@@ -3022,7 +3022,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         // Animatable:  	yes
         // Computed value:  	 Absolute length
         doubleValue = readInheritFontSizeAttribute(elem, "font-size", "medium");
-        FONT_SIZE.set(a, doubleValue);
+        FONT_SIZE.put(a, doubleValue);
 
         // 'font-style'
         // Value:  	normal | italic | oblique | inherit
@@ -3034,7 +3034,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         // Animatable:  	yes
         // Computed value:  	 Specified value, except inherit
         value = readInheritAttribute(elem, "font-style", "normal");
-        FONT_ITALIC.set(a, value.equals("italic"));
+        FONT_ITALIC.put(a, value.equals("italic"));
 
 
         //'font-variant'
@@ -3062,7 +3062,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         // values shall be converted to numeric values according to the rules
         // defined below.
         value = readInheritAttribute(elem, "font-weight", "normal");
-        FONT_BOLD.set(a, value.equals("bold") || value.equals("bolder") ||
+        FONT_BOLD.put(a, value.equals("bold") || value.equals("bolder") ||
                 value.equals("400") || value.equals("500") || value.equals("600") ||
                 value.equals("700") || value.equals("800") || value.equals("900"));
 
@@ -3076,7 +3076,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         //Media:  	visual
         //Animatable:  	yes
         value = readAttribute(elem, "text-decoration", "none");
-        FONT_UNDERLINE.set(a, value.equals("underline"));
+        FONT_UNDERLINE.put(a, value.equals("underline"));
     }
 
     /**

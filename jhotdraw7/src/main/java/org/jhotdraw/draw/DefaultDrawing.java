@@ -18,6 +18,7 @@ import java.awt.geom.*;
 import org.jhotdraw.util.*;
 import java.util.*;
 import org.jhotdraw.geom.Geom;
+import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
  * A default implementation of {@link Drawing} useful for drawings which
@@ -169,8 +170,8 @@ public class DefaultDrawing
         LinkedList<Figure> contained = new LinkedList<Figure>();
         for (Figure f : getChildren()) {
             Rectangle2D.Double r = f.getBounds();
-            if (AttributeKeys.TRANSFORM.get(f) != null) {
-                Rectangle2D rt = AttributeKeys.TRANSFORM.get(f).createTransformedShape(r).getBounds2D();
+            if (f.get(TRANSFORM) != null) {
+                Rectangle2D rt = f.get(TRANSFORM).createTransformedShape(r).getBounds2D();
                 r = (rt instanceof Rectangle2D.Double) ? (Rectangle2D.Double) rt : new Rectangle2D.Double(rt.getX(), rt.getY(), rt.getWidth(), rt.getHeight());
             }
             if (f.isVisible() && Geom.contains(bounds, r)) {

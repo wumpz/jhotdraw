@@ -37,7 +37,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 public class HorizontalLayouter extends AbstractLayouter {
 
     public Rectangle2D.Double calculateLayout(CompositeFigure compositeFigure, Point2D.Double anchor, Point2D.Double lead) {
-        Insets2D.Double layoutInsets = LAYOUT_INSETS.get(compositeFigure);
+        Insets2D.Double layoutInsets = compositeFigure.get(LAYOUT_INSETS);
 
         Rectangle2D.Double layoutBounds = new Rectangle2D.Double(anchor.x, anchor.y, 0, 0);
         for (Figure child : compositeFigure.getChildren()) {
@@ -55,8 +55,8 @@ public class HorizontalLayouter extends AbstractLayouter {
     }
 
     public Rectangle2D.Double layout(CompositeFigure compositeFigure, Point2D.Double anchor, Point2D.Double lead) {
-        Insets2D.Double layoutInsets = LAYOUT_INSETS.get(compositeFigure);
-        Alignment compositeAlignment = COMPOSITE_ALIGNMENT.get(compositeFigure);
+        Insets2D.Double layoutInsets = compositeFigure.get(LAYOUT_INSETS);
+        Alignment compositeAlignment = compositeFigure.get(COMPOSITE_ALIGNMENT);
 
         Rectangle2D.Double layoutBounds = calculateLayout(compositeFigure, anchor, lead);
         double x = layoutBounds.x + layoutInsets.left;

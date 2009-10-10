@@ -41,7 +41,7 @@ public class NodeFigure extends TextFigure {
         RectangleFigure rf = new RectangleFigure();
         setDecorator(rf);
         createConnectors();
-        DECORATOR_INSETS.basicSet(this, new Insets2D.Double(6, 10, 6, 10));
+        set(DECORATOR_INSETS, new Insets2D.Double(6, 10, 6, 10));
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.net.Labels");
         setText(labels.getString("nodeDefaultName"));
         setAttributeEnabled(DECORATOR_INSETS, false);
@@ -141,10 +141,10 @@ public class NodeFigure extends TextFigure {
     }
 
     @Override
-    public <T> void setAttribute(AttributeKey<T> key, T newValue) {
-        super.setAttribute(key, newValue);
+    public <T> void set(AttributeKey<T> key, T newValue) {
+        super.set(key, newValue);
         if (getDecorator() != null) {
-            key.basicSet(getDecorator(), newValue);
+            getDecorator().set(key, newValue);
         }
     }
 }

@@ -152,7 +152,7 @@ public class CombineAction extends AbstractSelectedAction {
             for (Figure f : group.getChildren()) {
                 SVGPathFigure path = new SVGPathFigure(true);
                 for (Map.Entry<AttributeKey, Object> entry : group.getAttributes().entrySet()) {
-                    path.setAttribute(entry.getKey(), entry.getValue());
+                    path.set(entry.getKey(), entry.getValue());
                 }
                 ungroupedPaths.add(path);
                 ungroupedPathsIndices[i] = index + i;
@@ -208,7 +208,7 @@ public class CombineAction extends AbstractSelectedAction {
         group.willChange();
         group.basicRemoveAllChildren();
         for (Map.Entry<AttributeKey, Object> entry : figures.iterator().next().getAttributes().entrySet()) {
-            group.setAttribute(entry.getKey(), entry.getValue());
+            group.set(entry.getKey(), entry.getValue());
         }
 
         for (Figure f : figures) {

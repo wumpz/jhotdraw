@@ -267,7 +267,7 @@ public class CreationTool extends AbstractTool {
         getEditor().applyDefaultAttributesTo(f);
         if (prototypeAttributes != null) {
             for (Map.Entry<AttributeKey, Object> entry : prototypeAttributes.entrySet()) {
-                entry.getKey().basicSet(f, entry.getValue());
+                f.set(entry.getKey(), entry.getValue());
             }
         }
         return f;

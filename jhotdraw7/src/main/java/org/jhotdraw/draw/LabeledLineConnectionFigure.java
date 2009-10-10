@@ -130,12 +130,12 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
      * AttributeKey name and semantics are defined by the class implementing
      * the figure interface.
      */
-    public <T> void setAttribute(AttributeKey<T> key, T newValue) {
-        super.setAttribute(key, newValue);
+    public <T> void set(AttributeKey<T> key, T newValue) {
+        super.set(key, newValue);
         if (isAttributeEnabled(key)) {
             if (children != null) {
                 for (Figure child : children) {
-                    key.basicSet(child, newValue);
+                    child.set(key, newValue);
                 }
             }
         }

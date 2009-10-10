@@ -60,8 +60,9 @@ public class TextOverflowHandle extends AbstractHandle {
     @Override protected Rectangle basicGetBounds() {
         Rectangle2D.Double b = getOwner().getBounds();
         Point2D.Double p = new Point2D.Double(b.x + b.width, b.y  + b.height);
-        if (TRANSFORM.get(getOwner()) != null) {
-            TRANSFORM.get(getOwner()).transform(p, p);
+        Figure o = getOwner();
+        if (o.get(TRANSFORM) != null) {
+            o.get(TRANSFORM).transform(p, p);
         }
         Rectangle r = new Rectangle(view.drawingToView(p));
         int h = getHandlesize();

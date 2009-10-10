@@ -61,7 +61,7 @@ public class ApplyAttributesAction extends AbstractSelectedAction {
             figure.willChange();
             for (Map.Entry<AttributeKey, Object> entry : editor.getDefaultAttributes().entrySet()) {
                 if (!excludedAttributes.contains(entry.getKey())) {
-                    entry.getKey().basicSet(figure, entry.getValue());
+                    figure.set(entry.getKey(), entry.getValue());
                 }
             }
             figure.changed();

@@ -76,7 +76,7 @@ public class AttributeToggler<T> extends AbstractAction {
         T toggleValue = value1;
         if (i.hasNext()) {
             Figure f = (Figure) i.next();
-            Object attr = key.get(f);
+            Object attr = f.get(key);
             if (value1 == null && attr == null ||
                     (value1 != null && attr != null && attr.equals(value1))) {
                 toggleValue = value2;
@@ -89,7 +89,7 @@ public class AttributeToggler<T> extends AbstractAction {
         final ArrayList<Object> restoreData = new ArrayList<Object>(selectedFigures.size());
         for (Figure figure : selectedFigures) {
             restoreData.add(figure.getAttributesRestoreData());
-            key.set(figure, newValue);
+            figure.set(key, newValue);
         }
         UndoableEdit edit = new AbstractUndoableEdit() {
             @Override
@@ -119,7 +119,9 @@ public class AttributeToggler<T> extends AbstractAction {
                 super.redo();
                 for (Figure figure : selectedFigures) {
                     restoreData.add(figure.getAttributesRestoreData());
-                    key.set(figure, newValue);
+                    figure.willChange();
+                    figure.set(key, newValue);
+                    figure.changed();
                 }
             }
         };

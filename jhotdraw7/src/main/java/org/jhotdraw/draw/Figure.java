@@ -237,18 +237,19 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
 
     // ATTRIBUTES
     /**
-     * Sets an attribute of the figure and calls attributeChanged on all
-     * registered FigureListener's.
+     * Sets an attribute on the figure and calls {@code attributeChanged}
+     * on all registered {@code FigureListener}s if the attribute value
+     * has changed.
      * <p>
      * For efficiency reasons, the drawing is not automatically repainted.
      * If you want the drawing to be repainted when the attribute is changed,
      * you can either use {@code key.set(figure, value); } or
-     * {@code figure.willChange(); figure.setAttribute(key, value);
+     * {@code figure.willChange(); figure.set(key, value);
      * figure.changed(); }.
      * 
      * @see AttributeKey#set
      */
-    public <T> void setAttribute(AttributeKey<T> key, T value);
+    public <T> void set(AttributeKey<T> key, T value);
 
     /**
      * Gets an attribute from the Figure.
@@ -258,7 +259,7 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * @return Returns the attribute value. If the Figure does not have an
      * attribute with the specified key, returns key.getDefaultValue().
      */
-    public <T> T getAttribute(AttributeKey<T> key);
+    public <T> T get(AttributeKey<T> key);
 
     /**
      * Returns a view to all attributes of this figure.
@@ -268,7 +269,7 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
 
     /**
      * Gets data which can be used to restore the attributes of the figure 
-     * after a setAttribute has been applied to it.
+     * after a set has been applied to it.
      */
     public Object getAttributesRestoreData();
 
@@ -458,20 +459,29 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
     public void removeNotify(Drawing d);
 
     /**
-     * Informs that a Figure is about to change its shape.
+     * Informs that the figure is about to change its visual representation
+     * (for example, its shape, or its color).
      * <p>
-     * <code>willChange</code> and <code>changed</code> are typically used 
+     * Note: <code>willChange</code> and <code>changed</code> are typically used
      * as pairs before and after invoking one or multiple basic-methods on
      * the Figure.
+     *
+     * @see #changed
      */
     public void willChange();
 
     /**
-     * Informs that a Figure changed its shape. 
+     * Informs that a Figure changed its visual representation and needs to
+     * be redrawn.
+     * <p>
      * This fires a <code>FigureListener.figureChanged</code>
      * event for the current display bounds of the figure.
+     * <p>
+     * Note: <code>willChange</code> and <code>changed</code> are typically used
+     * as pairs before and after invoking one or multiple basic-methods on
+     * the Figure.
      * 
-     * @see #willChange()
+     * @see #willChange
      */
     public void changed();
 

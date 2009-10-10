@@ -43,10 +43,11 @@ public class OrientationHandle extends AbstractHandle {
     }
     
     private Point2D.Double getLocation() {
-        Rectangle2D.Double r = getOwner().getBounds();
+        Figure owner = getOwner();
+        Rectangle2D.Double r = owner.getBounds();
         Point2D.Double p;
         double offset = getHandlesize();
-        switch (ORIENTATION.get(getOwner())) {
+        switch (owner.get(ORIENTATION)) {
             case NORTH :
             default :
                 p = new Point2D.Double(r.x + r.width / 2d, r.y + offset);
@@ -87,7 +88,7 @@ public class OrientationHandle extends AbstractHandle {
     }
     
     public void trackStart(Point anchor, int modifiersEx) {
-        oldValue = ORIENTATION.get(getOwner());
+        oldValue = getOwner().get(ORIENTATION);
         
         centerBox = view.drawingToView(getOwner().getBounds());
         centerBox.grow(centerBox.width / -3, centerBox.height / -3);
@@ -124,7 +125,7 @@ public class OrientationHandle extends AbstractHandle {
                 break;
         }
         // FIXME - Add undo redo support
-        ORIENTATION.set(getOwner(), newValue);
+        getOwner().set(ORIENTATION, newValue);
         updateBounds();
     }
     @Override

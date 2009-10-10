@@ -223,10 +223,10 @@ public class LineConnectionFigure extends LineFigure
     // LAYOUT
     /*
     public Liner getBezierPathLayouter() {
-    return (Liner) getAttribute(BEZIER_PATH_LAYOUTER);
+    return (Liner) get(BEZIER_PATH_LAYOUTER);
     }
     public void setBezierPathLayouter(Liner newValue) {
-    setAttribute(BEZIER_PATH_LAYOUTER, newValue);
+    set(BEZIER_PATH_LAYOUTER, newValue);
     }
     /**
      * Lays out the connection. This is called when the connection

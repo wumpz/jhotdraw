@@ -46,7 +46,7 @@ public class DefaultDrawingView
     private Drawing drawing;
     private Set<Figure> dirtyFigures = new HashSet<Figure>();
     /**
-     * Holds the selected figures in an ordered set. The ordering reflects
+     * Holds the selected figures in an ordered put. The ordering reflects
      * the sequence that was used to select the figures.
      */
     private Set<Figure> selectedFigures = new LinkedHashSet<Figure>();
@@ -324,8 +324,8 @@ public class DefaultDrawingView
         int h = getHeight();
 
         if (getDrawing() != null) {
-            Double cw = CANVAS_WIDTH.get(getDrawing());
-            Double ch = CANVAS_HEIGHT.get(getDrawing());
+            Double cw = getDrawing().get(CANVAS_WIDTH);
+            Double ch = getDrawing().get(CANVAS_HEIGHT);
             if (cw != null && ch != null) {
                 Point lowerRight = drawingToView(
                         new Point2D.Double(cw, ch));
@@ -349,9 +349,9 @@ public class DefaultDrawingView
         if (drawing == null) {
             canvasColor = CANVAS_FILL_COLOR.getDefaultValue();
         } else {
-            canvasColor = CANVAS_FILL_COLOR.get(drawing);
+            canvasColor = drawing.get(CANVAS_FILL_COLOR);
             if (canvasColor != null) {
-                canvasColor = new Color((canvasColor.getRGB() & 0xffffff) | ((int) (CANVAS_FILL_OPACITY.get(drawing) * 255) << 24), true);
+                canvasColor = new Color((canvasColor.getRGB() & 0xffffff) | ((int) (drawing.get(CANVAS_FILL_OPACITY) * 255) << 24), true);
             }
         }
         if (canvasColor == null || canvasColor.getAlpha() != 255) {
@@ -874,8 +874,8 @@ public class DefaultDrawingView
     public Dimension getPreferredSize() {
         if (cachedPreferredSize == null) {
             Rectangle2D.Double r = getDrawingArea();
-            Double cw = getDrawing() == null ? null : CANVAS_WIDTH.get(getDrawing());
-            Double ch = getDrawing() == null ? null : CANVAS_HEIGHT.get(getDrawing());
+            Double cw = getDrawing() == null ? null : getDrawing().get(CANVAS_WIDTH);
+            Double ch = getDrawing() == null ? null : getDrawing().get(CANVAS_HEIGHT);
             Insets insets = getInsets();
             if (cw == null || ch == null) {
                 cachedPreferredSize = new Dimension(
@@ -936,8 +936,8 @@ public class DefaultDrawingView
         int height = getHeight();
         Insets insets = getInsets();
         Rectangle2D.Double r = getDrawingArea();
-        Double cw = CANVAS_WIDTH.get(getDrawing());
-        Double ch = CANVAS_HEIGHT.get(getDrawing());
+        Double cw = getDrawing().get(CANVAS_WIDTH);
+        Double ch = getDrawing().get(CANVAS_HEIGHT);
 
         if (cw == null || ch == null) {
             // The canvas size is not specified. 

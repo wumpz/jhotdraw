@@ -18,6 +18,7 @@ import java.awt.event.KeyEvent;
 import java.awt.geom.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.util.*;
+import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
  * This abstract class can be extended to implement a {@link Handle} which
@@ -87,8 +88,8 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
     protected Rectangle2D.Double getTransformedBounds() {
         Figure owner = getOwner();
         Rectangle2D.Double bounds = owner.getBounds();
-        if (AttributeKeys.TRANSFORM.get(owner) != null) {
-            Rectangle2D r = AttributeKeys.TRANSFORM.get(owner).
+        if (owner.get(TRANSFORM) != null) {
+            Rectangle2D r = owner.get(TRANSFORM).
                     createTransformedShape(bounds).getBounds2D();
             bounds.x = r.getX();
             bounds.y = r.getY();

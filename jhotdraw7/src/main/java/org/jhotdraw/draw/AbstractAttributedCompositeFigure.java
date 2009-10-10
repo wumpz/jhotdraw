@@ -24,7 +24,7 @@ import org.jhotdraw.xml.DOMOutput;
 
 /**
  * This abstract class can be extended to implement a {@link CompositeFigure}
- * which has its own attribute set.
+ * which has its own attribute put.
  *
  * @author Werner Randelshofer
  * @version $Id$
@@ -33,8 +33,8 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
 
     private HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey, Object>();
     /**
-     * Forbidden attributes can't be set by the setAttribute() operation.
-     * They can only be changed by setAttribute().
+     * Forbidden attributes can't be put by the put() operation.
+     * They can only be changed by put().
      */
     private HashSet<AttributeKey> forbiddenAttributes;
 
@@ -60,7 +60,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
     @SuppressWarnings("unchecked")
     public void setAttributes(Map<AttributeKey, Object> map) {
         for (Map.Entry<AttributeKey, Object> entry : map.entrySet()) {
-            entry.getKey().basicSet(this, entry.getValue());
+            set(entry.getKey(), entry.getValue());
         }
     }
 
@@ -75,7 +75,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
      * the figure interface.
      */
     @Override
-    public <T> void setAttribute(AttributeKey<T> key, T newValue) {
+    public <T> void set(AttributeKey<T> key, T newValue) {
         if (forbiddenAttributes == null || !forbiddenAttributes.contains(key)) {
             Object oldValue = attributes.put(key, newValue);
             setAttributeOnChildren(key, newValue);
@@ -85,7 +85,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
 
     protected <T> void setAttributeOnChildren(AttributeKey<T> key, T newValue) {
         for (Figure child : getChildren()) {
-            key.basicSet(child, newValue);
+            child.set(key, newValue);
         }
     }
 
@@ -93,7 +93,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
      * Gets an attribute from the figure.
      */
     @Override
-    public <T> T getAttribute(AttributeKey<T> key) {
+    public <T> T get(AttributeKey<T> key) {
         return key.get(attributes);
     }
 
@@ -120,26 +120,26 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
 
     public void drawFigure(Graphics2D g) {
         drawChildren(g);
-        if (AttributeKeys.FILL_COLOR.get(this) != null) {
-            g.setColor(AttributeKeys.FILL_COLOR.get(this));
+        if (get(FILL_COLOR) != null) {
+            g.setColor(get(FILL_COLOR));
             drawFill(g);
         }
-        if (STROKE_COLOR.get(this) != null && STROKE_WIDTH.get(this) > 0d) {
+        if (get(STROKE_COLOR) != null && get(STROKE_WIDTH) > 0d) {
             g.setStroke(AttributeKeys.getStroke(this));
-            g.setColor(STROKE_COLOR.get(this));
+            g.setColor(get(STROKE_COLOR));
 
             drawStroke(g);
         }
-        if (TEXT_COLOR.get(this) != null) {
-            if (TEXT_SHADOW_COLOR.get(this) != null &&
-                    TEXT_SHADOW_OFFSET.get(this) != null) {
-                Dimension2DDouble d = TEXT_SHADOW_OFFSET.get(this);
+        if (get(TEXT_COLOR) != null) {
+            if (get(TEXT_SHADOW_COLOR) != null &&
+                    get(TEXT_SHADOW_OFFSET) != null) {
+                Dimension2DDouble d = get(TEXT_SHADOW_OFFSET);
                 g.translate(d.width, d.height);
-                g.setColor(TEXT_SHADOW_COLOR.get(this));
+                g.setColor(get(TEXT_SHADOW_COLOR));
                 drawText(g);
                 g.translate(-d.width, -d.height);
             }
-            g.setColor(TEXT_COLOR.get(this));
+            g.setColor(get(TEXT_COLOR));
             drawText(g);
         }
     }
@@ -155,14 +155,14 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
     }
 
     public double getStrokeMiterLimitFactor() {
-        Number value = (Number) getAttribute(AttributeKeys.STROKE_MITER_LIMIT);
+        Number value = (Number) get(AttributeKeys.STROKE_MITER_LIMIT);
         return (value != null) ? value.doubleValue() : 10f;
     }
 
     public Rectangle2D.Double getFigureDrawBounds() {
         double width = AttributeKeys.getStrokeTotalWidth(this) / 2d;
-        if (STROKE_JOIN.get(this) == BasicStroke.JOIN_MITER) {
-            width *= STROKE_MITER_LIMIT.get(this);
+        if (get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
+            width *= get(STROKE_MITER_LIMIT);
         }
         width++;
         Rectangle2D.Double r = getBounds();
@@ -211,8 +211,10 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
         for (Map.Entry<AttributeKey, Object> entry : attributes.entrySet()) {
             AttributeKey key = entry.getKey();
             if (forbiddenAttributes == null || !forbiddenAttributes.contains(key)) {
-                Object prototypeValue = key.get(prototype);
-                Object attributeValue = key.get(this);
+                @SuppressWarnings("unchecked")
+                Object prototypeValue = prototype.get(key);
+                @SuppressWarnings("unchecked")
+                Object attributeValue = get(key);
                 if (prototypeValue != attributeValue ||
                         (prototypeValue != null && attributeValue != null &&
                         !prototypeValue.equals(attributeValue))) {
@@ -242,7 +244,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
                 AttributeKey key = getAttributeKey(name);
                 if (key != null && key.isAssignable(value)) {
                     if (forbiddenAttributes == null || !forbiddenAttributes.contains(key)) {
-                        key.basicSet(this, value);
+                        set(key, value);
                     }
                 }
                 in.closeElement();
@@ -261,7 +263,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
     @SuppressWarnings("unchecked")
     protected void applyAttributesTo(Figure that) {
         for (Map.Entry<AttributeKey, Object> entry : attributes.entrySet()) {
-            entry.getKey().basicSet(that, entry.getValue());
+            that.set(entry.getKey(), entry.getValue());
         }
     }
 
@@ -279,7 +281,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
 
     public <T> void removeAttribute(AttributeKey<T> key) {
         if (hasAttribute(key)) {
-            T oldValue = getAttribute(key);
+            T oldValue = get(key);
             attributes.remove(key);
             fireAttributeChanged(key, oldValue, key.getDefaultValue());
         }

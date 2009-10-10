@@ -62,7 +62,7 @@ public class CombineAction extends GroupAction {
             ODGPathFigure path = new ODGPathFigure();
             path.removeAllChildren();
             for (Map.Entry<AttributeKey, Object> entry : group.getAttributes().entrySet()) {
-                path.setAttribute(entry.getKey(), entry.getValue());
+                path.set(entry.getKey(), entry.getValue());
             }
             path.add(f);
             view.getDrawing().basicAdd(path);
@@ -83,7 +83,7 @@ public class CombineAction extends GroupAction {
         group.willChange();
         ((ODGPathFigure) group).removeAllChildren();
         for (Map.Entry<AttributeKey, Object> entry : figures.iterator().next().getAttributes().entrySet()) {
-            group.setAttribute(entry.getKey(), entry.getValue());
+            group.set(entry.getKey(), entry.getValue());
         }
         for (Figure f : sorted) {
             ODGPathFigure path = (ODGPathFigure) f;

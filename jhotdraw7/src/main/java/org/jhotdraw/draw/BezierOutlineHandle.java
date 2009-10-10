@@ -14,6 +14,7 @@
 package org.jhotdraw.draw;
 
 import java.awt.*;
+import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
  * A non-interactive {@link Handle} which draws the outline of a 
@@ -64,9 +65,10 @@ public class BezierOutlineHandle extends AbstractHandle {
 
     @Override
     public void draw(Graphics2D g) {
-        Shape bounds = getOwner().getBezierPath();
-        if (AttributeKeys.TRANSFORM.get(getOwner()) != null) {
-            bounds = AttributeKeys.TRANSFORM.get(getOwner()).createTransformedShape(bounds);
+        BezierFigure owner = getOwner();
+        Shape bounds = owner.getBezierPath();
+        if (owner.get(TRANSFORM) != null) {
+            bounds = owner.get(TRANSFORM).createTransformedShape(bounds);
         }
         bounds = view.getDrawingToViewTransform().createTransformedShape(bounds);
         Stroke stroke1;

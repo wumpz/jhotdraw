@@ -115,7 +115,7 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
             Drawing d = (Drawing) oin.readObject();
             if (replace) {
                 for (Map.Entry<AttributeKey, Object> e : d.getAttributes().entrySet()) {
-                    e.getKey().basicSet(drawing, e.getValue());
+                    drawing.set(e.getKey(), e.getValue());
                 }
             }
             for (Figure f : d.getChildren()) {
@@ -139,7 +139,7 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
 
             if (replace) {
                 for (Map.Entry<AttributeKey, Object> e : d.getAttributes().entrySet()) {
-                    e.getKey().basicSet(drawing, e.getValue());
+                    drawing.set(e.getKey(), e.getValue());
                 }
             }
             for (Figure f : d.getChildren()) {

@@ -112,7 +112,7 @@ public class DrawApplicationModel extends DefaultApplicationModel {
         ButtonFactory.addToolTo(tb, editor, new CreationTool(new LineFigure()), "edit.createLine", labels);
         ButtonFactory.addToolTo(tb, editor, ct = new CreationTool(new LineFigure()), "edit.createArrow", labels);
         af = (AbstractAttributedFigure) ct.getPrototype();
-        END_DECORATION.basicSet(af, new ArrowTip(0.35, 12, 11.3));
+        af.set(END_DECORATION, new ArrowTip(0.35, 12, 11.3));
         ButtonFactory.addToolTo(tb, editor, new ConnectionTool(new LineConnectionFigure()), "edit.createLineConnection", labels);
         ButtonFactory.addToolTo(tb, editor, cnt = new ConnectionTool(new LineConnectionFigure()), "edit.createElbowConnection", labels);
         lc = cnt.getPrototype();

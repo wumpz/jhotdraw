@@ -31,6 +31,6 @@ extends GraphicalCompositeFigure {
     public ListFigure(Figure presentationFigure) {
         super(presentationFigure); 
         setLayouter(new VerticalLayouter());
-        LAYOUT_INSETS.basicSet(this, new Insets2D.Double(4,8,4,8));
+        set(LAYOUT_INSETS, new Insets2D.Double(4,8,4,8));
     }
 }

@@ -81,11 +81,11 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
             Rectangle2D.Double r = (rx instanceof Rectangle2D.Double) ? (Rectangle2D.Double) rx : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
             double g = SVGAttributeKeys.getPerpendicularHitGrowth(this);
             Geom.grow(r, g, g);
-            if (TRANSFORM.get(this) == null) {
+            if (get(TRANSFORM) == null) {
                 cachedDrawingArea = r;
             } else {
                 cachedDrawingArea = new Rectangle2D.Double();
-                cachedDrawingArea.setRect(TRANSFORM.get(this).createTransformedShape(r).getBounds2D());
+                cachedDrawingArea.setRect(get(TRANSFORM).createTransformedShape(r).getBounds2D());
             }
         }
         return (Rectangle2D.Double) cachedDrawingArea.clone();
@@ -95,9 +95,9 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
      * Checks if a Point2D.Double is inside the figure.
      */
     public boolean contains(Point2D.Double p) {
-        if (TRANSFORM.get(this) != null) {
+        if (get(TRANSFORM) != null) {
             try {
-                p = (Point2D.Double) TRANSFORM.get(this).inverseTransform(p, new Point2D.Double());
+                p = (Point2D.Double) get(TRANSFORM).inverseTransform(p, new Point2D.Double());
             } catch (NoninvertibleTransformException ex) {
                 ex.printStackTrace();
             }
@@ -114,7 +114,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
             if (getText() != null || isEditable()) {
 
                 Font font = getFont();
-                boolean isUnderlined = FONT_UNDERLINE.get(this);
+                boolean isUnderlined = get(FONT_UNDERLINE);
                 Insets2D.Double insets = getInsets();
                 Rectangle2D.Double textRect = new Rectangle2D.Double(
                         bounds.x + insets.left,
@@ -306,16 +306,16 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
      * @param tx the transformation.
      */
     public void transform(AffineTransform tx) {
-        if (TRANSFORM.get(this) != null ||
+        if (get(TRANSFORM) != null ||
                 (tx.getType() &
                 (AffineTransform.TYPE_TRANSLATION /*| AffineTransform.TYPE_MASK_SCALE*/)) !=
                 tx.getType()) {
-            if (TRANSFORM.get(this) == null) {
-                TRANSFORM.basicSet(this, (AffineTransform) tx.clone());
+            if (get(TRANSFORM) == null) {
+                set(TRANSFORM,  (AffineTransform) tx.clone());
             } else {
                 AffineTransform t = TRANSFORM.getClone(this);
                 t.preConcatenate(tx);
-                TRANSFORM.basicSet(this, t);
+                set(TRANSFORM,  t);
             }
         } else {
             Point2D.Double anchor = getStartPoint();
@@ -323,17 +323,17 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
             setBounds(
                     (Point2D.Double) tx.transform(anchor, anchor),
                     (Point2D.Double) tx.transform(lead, lead));
-            if (FILL_GRADIENT.get(this) != null &&
-                    !FILL_GRADIENT.get(this).isRelativeToFigureBounds()) {
+            if (get(FILL_GRADIENT) != null &&
+                    !get(FILL_GRADIENT).isRelativeToFigureBounds()) {
                 Gradient g = FILL_GRADIENT.getClone(this);
                 g.transform(tx);
-                FILL_GRADIENT.basicSet(this, g);
+                set(FILL_GRADIENT,  g);
             }
-            if (STROKE_GRADIENT.get(this) != null &&
-                    !STROKE_GRADIENT.get(this).isRelativeToFigureBounds()) {
+            if (get(STROKE_GRADIENT) != null &&
+                    !get(STROKE_GRADIENT).isRelativeToFigureBounds()) {
                 Gradient g = STROKE_GRADIENT.getClone(this);
                 g.transform(tx);
-                STROKE_GRADIENT.basicSet(this, g);
+                set(STROKE_GRADIENT,  g);
             }
         }
         invalidate();
@@ -342,9 +342,9 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
     public void restoreTransformTo(Object geometry) {
         Object[] restoreData = (Object[]) geometry;
         bounds = (Rectangle2D.Double) ((Rectangle2D.Double) restoreData[0]).clone();
-        TRANSFORM.basicSetClone(this, (AffineTransform) restoreData[1]);
-        FILL_GRADIENT.basicSetClone(this, (Gradient) restoreData[2]);
-        STROKE_GRADIENT.basicSetClone(this, (Gradient) restoreData[3]);
+        TRANSFORM.setClone(this, (AffineTransform) restoreData[1]);
+        FILL_GRADIENT.setClone(this, (Gradient) restoreData[2]);
+        STROKE_GRADIENT.setClone(this, (Gradient) restoreData[3]);
         invalidate();
     }
 
@@ -358,14 +358,14 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
 // ATTRIBUTES
 
     public String getText() {
-        return (String) getAttribute(TEXT);
+        return (String) get(TEXT);
     }
 
     public int getTextColumns() {
         return (getText() == null) ? 4 : Math.max(getText().length(), 4);
     }
 
-    public <T> void setAttribute(AttributeKey<T> key, T newValue) {
+    public <T> void set(AttributeKey<T> key, T newValue) {
         if (key.equals(SVGAttributeKeys.TRANSFORM) ||
                 key.equals(SVGAttributeKeys.FONT_FACE) ||
                 key.equals(SVGAttributeKeys.FONT_BOLD) ||
@@ -376,21 +376,21 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
                 key.equals(SVGAttributeKeys.STROKE_GRADIENT)) {
             invalidate();
         }
-        super.setAttribute(key, newValue);
+        super.set(key, newValue);
     }
 
     /**
      * Sets the text shown by the text figure.
      */
     public void setText(String newText) {
-        TEXT.set(this, newText);
+        set(TEXT, newText);
     }
 
     /**
      * Returns the insets used to draw text.
      */
     public Insets2D.Double getInsets() {
-        double sw = (STROKE_COLOR.get(this) == null) ? 0 : Math.ceil(STROKE_WIDTH.get(this) / 2);
+        double sw = (get(STROKE_COLOR) == null) ? 0 : Math.ceil(get(STROKE_WIDTH) / 2);
         Insets2D.Double insets = new Insets2D.Double(0, 0, 0, 0);
         return new Insets2D.Double(insets.top + sw, insets.left + sw, insets.bottom + sw, insets.right + sw);
     }
@@ -412,18 +412,17 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
     }
 
     public Color getTextColor() {
-        return FILL_COLOR.get(this);
+        return get(FILL_COLOR);
     //   return TEXT_COLOR.get(this);
     }
 
     public Color getFillColor() {
-        return FILL_COLOR.get(this).equals(Color.white) ? Color.black : Color.WHITE;
-    //  return FILL_COLOR.get(this);
+        return get(FILL_COLOR).equals(Color.white) ? Color.black : Color.WHITE;
     }
 
     public void setFontSize(float size) {
         Point2D.Double p = new Point2D.Double(0, size);
-        AffineTransform tx = TRANSFORM.get(this);
+        AffineTransform tx = get(TRANSFORM);
         if (tx != null) {
             try {
                 tx.inverseTransform(p, p);
@@ -434,12 +433,12 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
                 ex.printStackTrace();
             }
         }
-        FONT_SIZE.set(this, Math.abs(p.y));
+        set(FONT_SIZE, Math.abs(p.y));
     }
 
     public float getFontSize() {
-        Point2D.Double p = new Point2D.Double(0, FONT_SIZE.get(this));
-        AffineTransform tx = TRANSFORM.get(this);
+        Point2D.Double p = new Point2D.Double(0, get(FONT_SIZE));
+        AffineTransform tx = get(TRANSFORM);
         if (tx != null) {
             tx.transform(p, p);
             Point2D.Double p0 = new Point2D.Double(0, 0);
@@ -552,7 +551,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
         Rectangle2D.Double textRect = new Rectangle2D.Double();
         if (getText() != null) {
             Font font = getFont();
-            boolean isUnderlined = FONT_UNDERLINE.get(this);
+            boolean isUnderlined = get(FONT_UNDERLINE);
             float leftMargin = 0;
             float rightMargin = (float) maxWidth - 1;
             float verticalPos = 0;

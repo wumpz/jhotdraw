@@ -281,13 +281,13 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
      * the figure interface.
      */
     @Override
-    public <T> void setAttribute(AttributeKey<T> key, T newValue) {
+    public <T> void set(AttributeKey<T> key, T newValue) {
         if (forbiddenAttributes == null
                 || ! forbiddenAttributes.contains(key)) {
             if (getPresentationFigure() != null) {
-                getPresentationFigure().setAttribute(key, newValue);
+                getPresentationFigure().set(key, newValue);
             }
-            super.setAttribute(key, newValue);
+            super.set(key, newValue);
             Object oldValue = attributes.put(key, newValue);
         }
     }
@@ -305,9 +305,9 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
      * Gets an attribute from the figure.
      */
     @Override
-    public <T> T getAttribute(AttributeKey<T> key) {
+    public <T> T get(AttributeKey<T> key) {
         if (getPresentationFigure() != null) {
-            return key.get(getPresentationFigure());
+            return getPresentationFigure().get(key);
         } else {
             return (! attributes.containsKey(key)) ?
                 key.getDefaultValue() :
@@ -320,7 +320,7 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
     @SuppressWarnings("unchecked")
     protected void applyAttributesTo(Figure that) {
         for (Map.Entry<AttributeKey, Object> entry : attributes.entrySet()) {
-            entry.getKey().basicSet(that, entry.getValue());
+            that.set(entry.getKey(), entry.getValue());
         }
     }
     protected void writeAttributes(DOMOutput out) throws IOException {
@@ -331,8 +331,10 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
             AttributeKey key = entry.getKey();
             if (forbiddenAttributes == null
                     || ! forbiddenAttributes.contains(key)) {
-                Object prototypeValue = key.get(prototype);
-                Object attributeValue = key.get(this);
+                @SuppressWarnings("unchecked")
+                Object prototypeValue = prototype.get(key);
+                @SuppressWarnings("unchecked")
+                Object attributeValue = get(key);
                 if (prototypeValue != attributeValue ||
                         (prototypeValue != null && attributeValue != null &&
                         ! prototypeValue.equals(attributeValue))) {
@@ -362,7 +364,7 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
                 if (key != null && key.isAssignable(value)) {
                     if (forbiddenAttributes == null
                             || ! forbiddenAttributes.contains(key)) {
-                        key.basicSet(this, value);
+                        set(key, value);
                     }
                 }
                 in.closeElement();
@@ -401,9 +403,9 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
      */
     public Point2D.Double chop(Point2D.Double from) {
         Rectangle2D.Double r = getBounds();
-        if (STROKE_COLOR.get(this) != null) {
+        if (get(STROKE_COLOR) != null) {
             double grow;
-            switch (STROKE_PLACEMENT.get(this)) {
+            switch (get(STROKE_PLACEMENT)) {
                 case CENTER:
                 default :
                     grow = AttributeKeys.getStrokeTotalWidth(this);

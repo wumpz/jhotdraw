@@ -71,7 +71,7 @@ public class FillToolBar extends AbstractToolBar {
                 p.setOpaque(false);
                 p.setBorder(new EmptyBorder(5, 5, 5, 8));
 
-                // Abort if no editor is set
+                // Abort if no editor is put
                 if (editor == null) {
                     break;
                 }
@@ -85,7 +85,7 @@ public class FillToolBar extends AbstractToolBar {
 
                 // Fill color
                 Map<AttributeKey, Object> defaultAttributes = new HashMap<AttributeKey, Object>();
-                FILL_GRADIENT.set(defaultAttributes, null);
+                FILL_GRADIENT.put(defaultAttributes, null);
                 btn = ButtonFactory.createSelectionColorButton(editor,
                         FILL_COLOR, ButtonFactory.HSV_COLORS, ButtonFactory.HSV_COLORS_COLUMN_COUNT,
                         "attribute.fillColor", labels, defaultAttributes, new Rectangle(3, 3, 10, 10), disposables);
@@ -124,7 +124,7 @@ public class FillToolBar extends AbstractToolBar {
                 p = new JPanel();
                 p.setOpaque(false);
 
-                // Abort if no editor is set
+                // Abort if no editor is put
                 if (editor == null) {
                     break;
                 }
@@ -147,7 +147,7 @@ public class FillToolBar extends AbstractToolBar {
 
                 // Fill color field and button
                 Map<AttributeKey, Object> defaultAttributes = new HashMap<AttributeKey, Object>();
-                FILL_GRADIENT.set(defaultAttributes, null);
+                FILL_GRADIENT.put(defaultAttributes, null);
                 JAttributeTextField<Color> colorField = new JAttributeTextField<Color>();
                 colorField.setColumns(7);
                 colorField.setToolTipText(labels.getString("attribute.fillColor.toolTipText"));

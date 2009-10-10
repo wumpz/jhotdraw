@@ -42,7 +42,8 @@ public class LinkHandle extends AbstractHandle {
      * Draws this handle.
      */
     @Override public void draw(Graphics2D g) {
-        if (LINK.get(getOwner())!=null&&LINK.get(getOwner()).trim().length()>0) {
+        Figure o = getOwner();
+        if (o.get(LINK)!=null&&o.get(LINK).trim().length()>0) {
             g.setColor((Color) getEditor().getHandleAttribute(HandleAttributeKeys.OVERFLOW_HANDLE_STROKE_COLOR));
             Rectangle r = basicGetBounds();
             g.drawLine(r.x+(r.width/2)-1, r.y, r.x, r.y);
@@ -55,10 +56,11 @@ public class LinkHandle extends AbstractHandle {
     }
     
     @Override protected Rectangle basicGetBounds() {
-        Rectangle2D.Double b = getOwner().getBounds();
+        Figure o = getOwner();
+        Rectangle2D.Double b = o.getBounds();
         Point2D.Double p = new Point2D.Double(b.x + b.width, b.y  + b.height);
-        if (TRANSFORM.get(getOwner()) != null) {
-            TRANSFORM.get(getOwner()).transform(p, p);
+        if (o.get(TRANSFORM) != null) {
+            o.get(TRANSFORM).transform(p, p);
         }
         Rectangle r = new Rectangle(view.drawingToView(p));
         int h = getHandlesize();
@@ -80,7 +82,7 @@ public class LinkHandle extends AbstractHandle {
     
     @Override public String getToolTipText(Point p) {
         
-        return         (LINK.get(getOwner())!=null)  ?
+        return (getOwner().get(LINK)!=null)  ?
             ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels").//
             getString("handle.link.toolTipText") :
             null;

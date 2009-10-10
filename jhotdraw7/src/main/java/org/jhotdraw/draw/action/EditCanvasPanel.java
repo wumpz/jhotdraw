@@ -82,9 +82,11 @@ public class EditCanvasPanel extends javax.swing.JPanel {
      */
     private void updateDrawing() {
         if (drawing != null) {
+            drawing.willChange();
             drawing.fireUndoableEditHappened(
                     CANVAS_FILL_COLOR.setUndoable(drawing, colorButton.getBackground())
                     );
+            drawing.changed();
         }
     }
 
@@ -93,7 +95,7 @@ public class EditCanvasPanel extends javax.swing.JPanel {
      */
     private void updatePanel() {
         if (drawing != null) {
-            colorButton.setBackground(CANVAS_FILL_COLOR.get(drawing));
+            colorButton.setBackground(drawing.get(CANVAS_FILL_COLOR));
         }
     }
 
@@ -166,7 +168,7 @@ public class EditCanvasPanel extends javax.swing.JPanel {
     private void colorButtonPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_colorButtonPerformed
      if (drawing != null) {
         Color color = getColorChooser().showDialog(this, labels.getString("attribute.backgroundColor"), 
-               CANVAS_FILL_COLOR.get(drawing)
+               drawing.get(CANVAS_FILL_COLOR)
                );
         colorButton.setBackground(color);
         updateDrawing();

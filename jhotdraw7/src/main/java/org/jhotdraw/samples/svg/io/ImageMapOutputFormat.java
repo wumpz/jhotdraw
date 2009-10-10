@@ -301,12 +301,14 @@ public class ImageMapOutputFormat implements OutputFormat {
     }
 
     private void writeHrefAttribute(IXMLElement elem, SVGFigure f) {
-        if (LINK.get(f) != null && LINK.get(f).trim().length() > 0) {
-            elem.setAttribute("href", LINK.get(f));
-            elem.setAttribute("title", LINK.get(f));
-            elem.setAttribute("alt", LINK.get(f));
-            if (LINK_TARGET.get(f) != null && LINK_TARGET.get(f).trim().length() > 0) {
-                elem.setAttribute("target", LINK_TARGET.get(f));
+        String link = f.get(LINK);
+        if (link != null && link.trim().length() > 0) {
+            elem.setAttribute("href", link);
+            elem.setAttribute("title", link);
+            elem.setAttribute("alt", link);
+            String linkTarget = f.get(LINK_TARGET);
+            if (linkTarget != null && linkTarget.trim().length() > 0) {
+                elem.setAttribute("target", linkTarget);
             }
         } else {
             elem.setAttribute("nohref", "true");

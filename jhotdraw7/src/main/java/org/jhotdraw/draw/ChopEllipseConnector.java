@@ -38,10 +38,10 @@ public class ChopEllipseConnector extends ChopRectangleConnector {
     }
     
     private Color getStrokeColor(Figure f) {
-        return STROKE_COLOR.get(f);
+        return f.get(STROKE_COLOR);
     }
     private float getStrokeWidth(Figure f) {
-        Double w = STROKE_WIDTH.get(f);
+        Double w = f.get(STROKE_WIDTH);
         return (w == null) ? 1f : w.floatValue();
     }
 
@@ -50,7 +50,7 @@ public class ChopEllipseConnector extends ChopRectangleConnector {
         Rectangle2D.Double r = target.getBounds();
         if (getStrokeColor(target) != null) {
             double grow;
-            switch (STROKE_PLACEMENT.get(target)) {
+            switch (target.get(STROKE_PLACEMENT)) {
                 case CENTER:
                  default :
                     grow = getStrokeTotalWidth(target) / 2d;

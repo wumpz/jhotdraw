@@ -76,7 +76,7 @@ public class DrawingAttributeAction extends AbstractDrawingViewAction {
         restoreData.add(drawing.getAttributesRestoreData());
         drawing.willChange();
         for (Map.Entry<AttributeKey, Object> entry : attributes.entrySet()) {
-            entry.getKey().basicSet(drawing, entry.getValue());
+            drawing.set(entry.getKey(), entry.getValue());
         }
         drawing.changed();
 
@@ -112,7 +112,7 @@ public class DrawingAttributeAction extends AbstractDrawingViewAction {
                 restoreData.add(drawing.getAttributesRestoreData());
                 drawing.willChange();
                 for (Map.Entry<AttributeKey, Object> entry : attributes.entrySet()) {
-                    entry.getKey().basicSet(drawing, entry.getValue());
+                    drawing.set(entry.getKey(), entry.getValue());
                 }
                 drawing.changed();
             }

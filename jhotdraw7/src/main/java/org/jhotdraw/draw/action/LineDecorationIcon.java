@@ -34,11 +34,11 @@ public class LineDecorationIcon implements Icon {
         lineFigure = new LineFigure();
         lineFigure.setBounds(new Point2D.Double(2,8),new Point2D.Double(23,8));
         if (isStartDecoration) {
-            START_DECORATION.basicSet(lineFigure, decoration);
+            lineFigure.set(START_DECORATION,  decoration);
         } else {
-            END_DECORATION.basicSet(lineFigure, decoration);
+            lineFigure.set(END_DECORATION,  decoration);
         }
-        STROKE_COLOR.basicSet(lineFigure, Color.black);
+        lineFigure.set(STROKE_COLOR,  Color.black);
     }
     
     public int getIconHeight() {

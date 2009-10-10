@@ -24,6 +24,7 @@ import javax.swing.*;
 import org.jhotdraw.gui.datatransfer.*;
 import org.jhotdraw.io.*;
 import org.jhotdraw.util.Images;
+import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
  * An input format for importing drawings using one of the image formats 
@@ -107,8 +108,8 @@ public class ImageInputFormat implements InputFormat {
                 figure.getBufferedImage().getHeight()));
         if (replace) {
             drawing.removeAllChildren();
-            AttributeKeys.CANVAS_WIDTH.basicSet(drawing, figure.getBounds().width);
-            AttributeKeys.CANVAS_HEIGHT.basicSet(drawing, figure.getBounds().height);
+            drawing.set(CANVAS_WIDTH, figure.getBounds().width);
+            drawing.set(CANVAS_HEIGHT, figure.getBounds().height);
         }
         drawing.basicAdd(figure);
     }
@@ -121,8 +122,8 @@ public class ImageInputFormat implements InputFormat {
         ImageHolderFigure figure = createImageHolder(in);
         if (replace) {
             drawing.removeAllChildren();
-            AttributeKeys.CANVAS_WIDTH.basicSet(drawing, figure.getBounds().width);
-            AttributeKeys.CANVAS_HEIGHT.basicSet(drawing, figure.getBounds().height);
+            drawing.set(CANVAS_WIDTH, figure.getBounds().width);
+            drawing.set(CANVAS_HEIGHT, figure.getBounds().height);
         }
         drawing.basicAdd(figure);
     }
@@ -161,8 +162,8 @@ public class ImageInputFormat implements InputFormat {
                 list.add(figure);
                 if (replace) {
                     drawing.removeAllChildren();
-                    AttributeKeys.CANVAS_WIDTH.basicSet(drawing, figure.getBounds().width);
-                    AttributeKeys.CANVAS_HEIGHT.basicSet(drawing, figure.getBounds().height);
+                    drawing.set(CANVAS_WIDTH, figure.getBounds().width);
+                    drawing.set(CANVAS_HEIGHT, figure.getBounds().height);
                 }
                 drawing.addAll(list);
                 return;
@@ -189,8 +190,8 @@ public class ImageInputFormat implements InputFormat {
                 list.add(figure);
                 if (replace) {
                     drawing.removeAllChildren();
-                    AttributeKeys.CANVAS_WIDTH.basicSet(drawing, figure.getBounds().width);
-                    AttributeKeys.CANVAS_HEIGHT.basicSet(drawing, figure.getBounds().height);
+                    drawing.set(CANVAS_WIDTH, figure.getBounds().width);
+                    drawing.set(CANVAS_HEIGHT, figure.getBounds().height);
                 }
                 drawing.addAll(list);
             } catch (Throwable e) {

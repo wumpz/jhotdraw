@@ -16,6 +16,7 @@ package org.jhotdraw.samples.svg.figures;
 import org.jhotdraw.draw.*;
 import java.awt.*;
 import org.jhotdraw.geom.ConvexHull;
+import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
  * Draws the outline of the Figure bounds to make adjustment easier.
@@ -110,8 +111,8 @@ public class ConvexHullOutlineHandle extends AbstractHandle {
     @Override
     protected Rectangle basicGetBounds() {
         Shape bounds = getOwner().getBounds();
-        if (AttributeKeys.TRANSFORM.get(getOwner()) != null) {
-            bounds = AttributeKeys.TRANSFORM.get(getOwner()).createTransformedShape(bounds);
+        if (getOwner().get(TRANSFORM) != null) {
+            bounds = getOwner().get(TRANSFORM).createTransformedShape(bounds);
         }
         bounds = view.getDrawingToViewTransform().createTransformedShape(bounds);
 
@@ -142,8 +143,8 @@ public class ConvexHullOutlineHandle extends AbstractHandle {
     public void draw(Graphics2D g) {
         if (outline==null) {
         Shape bounds = getOwner().getPath();
-        if (AttributeKeys.TRANSFORM.get(getOwner()) != null) {
-            bounds = AttributeKeys.TRANSFORM.get(getOwner()).createTransformedShape(bounds);
+        if (getOwner().get(TRANSFORM) != null) {
+            bounds = getOwner().get(TRANSFORM).createTransformedShape(bounds);
         }
         bounds = view.getDrawingToViewTransform().createTransformedShape(bounds);
         outline = ConvexHull.getConvexHullPath2D(bounds);

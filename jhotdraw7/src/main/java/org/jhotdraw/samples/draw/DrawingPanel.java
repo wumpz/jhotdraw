@@ -18,11 +18,8 @@ import org.jhotdraw.gui.JPopupButton;
 import org.jhotdraw.undo.*;
 import org.jhotdraw.util.*;
 
-import java.awt.*;
-import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
-import javax.swing.event.*;
 import org.jhotdraw.app.action.CopyAction;
 import org.jhotdraw.app.action.CutAction;
 import org.jhotdraw.app.action.DuplicateAction;
@@ -202,7 +199,7 @@ public class DrawingPanel extends JPanel {
         ButtonFactory.addToolTo(tb, editor, new CreationTool(new LineFigure()), "edit.createLine", labels);
         ButtonFactory.addToolTo(tb, editor, ct = new CreationTool(new LineFigure()), "edit.createArrow", labels);
         af = (AbstractAttributedFigure) ct.getPrototype();
-        END_DECORATION.basicSet(af, new ArrowTip(0.35, 12, 11.3));
+        af.set(END_DECORATION, new ArrowTip(0.35, 12, 11.3));
         ButtonFactory.addToolTo(tb, editor, new ConnectionTool(new LineConnectionFigure()), "edit.createLineConnection", labels);
         ButtonFactory.addToolTo(tb, editor, cnt = new ConnectionTool(new LineConnectionFigure()), "edit.createElbowConnection", labels);
         lc = cnt.getPrototype();

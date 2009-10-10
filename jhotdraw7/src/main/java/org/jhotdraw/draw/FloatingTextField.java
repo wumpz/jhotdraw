@@ -96,8 +96,8 @@ public  class FloatingTextField {
 
         Rectangle2D.Double fDrawBounds = editedFigure.getBounds();
         Point2D.Double fDrawLoc = new Point2D.Double(fDrawBounds.getX(), fDrawBounds.getY());
-        if (TRANSFORM.get(editedFigure) != null) {
-        TRANSFORM.get(editedFigure).transform(fDrawLoc, fDrawLoc);
+        if (editedFigure.get(TRANSFORM) != null) {
+        editedFigure.get(TRANSFORM).transform(fDrawLoc, fDrawLoc);
         }
         Point fViewLoc = view.drawingToView(fDrawLoc);
         Rectangle fViewBounds = view.drawingToView(fDrawBounds);

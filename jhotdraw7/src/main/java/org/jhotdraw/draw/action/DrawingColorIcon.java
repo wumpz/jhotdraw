@@ -70,7 +70,7 @@ public class DrawingColorIcon extends javax.swing.ImageIcon {
             Color color;
             DrawingView view = editor.getActiveView();
             if (view != null) {
-                color = key.get(view.getDrawing());
+                color = view.getDrawing().get(key);
             } else {
                 color = key.getDefaultValue();
             }

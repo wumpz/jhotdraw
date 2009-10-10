@@ -67,9 +67,9 @@ public abstract class AbstractLineDecoration implements LineDecoration {
         Color color;
         if (isFilled) {
             if (isSolid) {
-                color = STROKE_COLOR.get(f);
+                color = f.get(STROKE_COLOR);
             } else {
-                color = FILL_COLOR.get(f);
+                color = f.get(FILL_COLOR);
             }
             if (color != null) {
                 g.setColor(color);
@@ -77,7 +77,7 @@ public abstract class AbstractLineDecoration implements LineDecoration {
             }
         }
         if (isStroked) {
-            color = STROKE_COLOR.get(f);
+            color = f.get(STROKE_COLOR);
             if (color != null) {
                 g.setColor(color);
                 g.setStroke(AttributeKeys.getStroke(f));
@@ -95,9 +95,9 @@ public abstract class AbstractLineDecoration implements LineDecoration {
         Rectangle2D.Double area = new Rectangle2D.Double(b.getX(), b.getY(), b.getWidth(), b.getHeight());
         
         if (isStroked) {
-            double strokeWidth = STROKE_WIDTH.get(f);
-            int strokeJoin = STROKE_JOIN.get(f);
-            double miterLimit = (STROKE_MITER_LIMIT.get(f) * strokeWidth);
+            double strokeWidth = f.get(STROKE_WIDTH);
+            int strokeJoin = f.get(STROKE_JOIN);
+            double miterLimit = (f.get(STROKE_MITER_LIMIT) * strokeWidth);
             
             double grow;
             if (strokeJoin == BasicStroke.JOIN_MITER) {
@@ -114,7 +114,7 @@ public abstract class AbstractLineDecoration implements LineDecoration {
     }
     
     public double getDecorationRadius(Figure f) {
-        double strokeWidth = STROKE_WIDTH.get(f);
+        double strokeWidth = f.get(STROKE_WIDTH);
         double scaleFactor;
         if (strokeWidth > 1f) {
             scaleFactor = 1d + (strokeWidth - 1d) / 2d;
@@ -126,7 +126,7 @@ public abstract class AbstractLineDecoration implements LineDecoration {
     
     private GeneralPath getTransformedDecoratorPath(Figure f, Point2D.Double p1, Point2D.Double p2) {
         GeneralPath path = getDecoratorPath(f);
-        double strokeWidth = STROKE_WIDTH.get(f);
+        double strokeWidth = f.get(STROKE_WIDTH);
         
         AffineTransform transform = new AffineTransform();
         transform.translate(p1.x, p1.y);

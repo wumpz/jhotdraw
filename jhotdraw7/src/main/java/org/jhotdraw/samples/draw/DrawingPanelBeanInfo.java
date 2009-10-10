@@ -15,6 +15,12 @@ package org.jhotdraw.samples.draw;
 
 import java.beans.*;
 
+/**
+ * The BeanInfo for {@link DrawingPanel}.
+ *
+ * @author Werner Randelshofer
+ * @version $Id$
+ */
 public class DrawingPanelBeanInfo extends SimpleBeanInfo {
     
     // Bean descriptor information will be obtained from introspection.//GEN-FIRST:BeanDescriptor

@@ -18,6 +18,7 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.awt.event.*;
 import org.jhotdraw.util.ResourceBundleUtil;
+import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
  * A set of utility methods to create handles which resize a Figure by
@@ -151,9 +152,9 @@ public class ResizeHandleKit {
                 Point2D.Double p = view.viewToDrawing(new Point(lead.x + dx, lead.y + dy));
                 view.getConstrainer().constrainPoint(p);
 
-                if (AttributeKeys.TRANSFORM.get(getOwner()) != null) {
+                if (getOwner().get(TRANSFORM) != null) {
                     try {
-                        AttributeKeys.TRANSFORM.get(getOwner()).inverseTransform(p, p);
+                        getOwner().get(TRANSFORM).inverseTransform(p, p);
                     } catch (NoninvertibleTransformException ex) {
                         if (DEBUG) {
                             ex.printStackTrace();

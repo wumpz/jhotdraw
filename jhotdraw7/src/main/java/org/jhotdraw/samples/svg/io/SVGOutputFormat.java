@@ -115,11 +115,11 @@ public class SVGOutputFormat implements OutputFormat {
 
     protected void writeElement(IXMLElement parent, Figure f) throws IOException {
         // Write link attribute as encosing "a" element
-        if (LINK.get(f) != null && LINK.get(f).trim().length() > 0) {
+        if (f.get(LINK) != null && f.get(LINK).trim().length() > 0) {
             IXMLElement aElement = parent.createElement("a");
-            aElement.setAttribute("xlink:href", LINK.get(f));
-            if (LINK_TARGET.get(f) != null && LINK.get(f).trim().length() > 0) {
-                aElement.setAttribute("target", LINK_TARGET.get(f));
+            aElement.setAttribute("xlink:href", f.get(LINK));
+            if (f.get(LINK_TARGET) != null && f.get(LINK).trim().length() > 0) {
+                aElement.setAttribute("target", f.get(LINK_TARGET));
             }
             parent.addChild(aElement);
             parent = aElement;
@@ -578,7 +578,7 @@ public class SVGOutputFormat implements OutputFormat {
     // ------------
     /* Writes shape attributes.
      */
-    protected void writeShapeAttributes(IXMLElement elem, Map<AttributeKey, Object> f)
+    protected void writeShapeAttributes(IXMLElement elem, Map<AttributeKey, Object> m)
             throws IOException {
         Color color;
         String value;
@@ -617,7 +617,7 @@ public class SVGOutputFormat implements OutputFormat {
         // Media:  	 visual
         // Animatable:  	 yes
         // Computed value:  	 "none", system paint, specified <color> value or absolute IRI
-        Gradient gradient = FILL_GRADIENT.get(f);
+        Gradient gradient = FILL_GRADIENT.get(m);
         if (gradient != null) {
             String id;
             if (gradientToIDMap.containsKey(gradient)) {
@@ -653,7 +653,7 @@ public class SVGOutputFormat implements OutputFormat {
             }
             writeAttribute(elem, "fill", "url(#" + id + ")", "#000");
         } else {
-            writeAttribute(elem, "fill", toColor(FILL_COLOR.get(f)), "#000");
+            writeAttribute(elem, "fill", toColor(FILL_COLOR.get(m)), "#000");
         }
 
 
@@ -666,7 +666,7 @@ public class SVGOutputFormat implements OutputFormat {
         //Media:  	 visual
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
-        writeAttribute(elem, "fill-opacity", FILL_OPACITY.get(f), 1d);
+        writeAttribute(elem, "fill-opacity", FILL_OPACITY.get(m), 1d);
 
         // 'fill-rule'
         // Value:	 nonzero | evenodd | inherit
@@ -677,7 +677,7 @@ public class SVGOutputFormat implements OutputFormat {
         // Media:  	 visual
         // Animatable:  	 yes
         // Computed value:  	 Specified value, except inherit
-        if (WINDING_RULE.get(f) != WindingRule.NON_ZERO) {
+        if (WINDING_RULE.get(m) != WindingRule.NON_ZERO) {
             writeAttribute(elem, "fill-rule", "evenodd", "nonzero");
         }
 
@@ -691,7 +691,7 @@ public class SVGOutputFormat implements OutputFormat {
         //Animatable:  	 yes
         //Computed value:  	 "none", system paint, specified <color> value
         // or absolute IRI
-        gradient = STROKE_GRADIENT.get(f);
+        gradient = STROKE_GRADIENT.get(m);
         if (gradient != null) {
             String id;
             if (gradientToIDMap.containsKey(gradient)) {
@@ -727,7 +727,7 @@ public class SVGOutputFormat implements OutputFormat {
             }
             writeAttribute(elem, "stroke", "url(#" + id + ")", "none");
         } else {
-            writeAttribute(elem, "stroke", toColor(STROKE_COLOR.get(f)), "none");
+            writeAttribute(elem, "stroke", toColor(STROKE_COLOR.get(m)), "none");
         }
 
         //'stroke-dasharray'
@@ -739,7 +739,7 @@ public class SVGOutputFormat implements OutputFormat {
         //Media:  	 visual
         //Animatable:  	 yes (non-additive)
         //Computed value:  	 Specified value, except inherit
-        double[] dashes = STROKE_DASHES.get(f);
+        double[] dashes = STROKE_DASHES.get(m);
         if (dashes != null) {
             StringBuilder buf = new StringBuilder();
             for (int i = 0; i < dashes.length; i++) {
@@ -760,7 +760,7 @@ public class SVGOutputFormat implements OutputFormat {
         //Media:  	 visual
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
-        writeAttribute(elem, "stroke-dashoffset", STROKE_DASH_PHASE.get(f), 0d);
+        writeAttribute(elem, "stroke-dashoffset", STROKE_DASH_PHASE.get(m), 0d);
 
         //'stroke-linecap'
         //Value:  	 butt | round | square | inherit
@@ -771,7 +771,7 @@ public class SVGOutputFormat implements OutputFormat {
         //Media:  	 visual
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
-        writeAttribute(elem, "stroke-linecap", strokeLinecapMap.get(STROKE_CAP.get(f)), "butt");
+        writeAttribute(elem, "stroke-linecap", strokeLinecapMap.get(STROKE_CAP.get(m)), "butt");
 
         //'stroke-linejoin'
         //Value:  	 miter | round | bevel | inherit
@@ -782,7 +782,7 @@ public class SVGOutputFormat implements OutputFormat {
         //Media:  	 visual
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
-        writeAttribute(elem, "stroke-linejoin", strokeLinejoinMap.get(STROKE_JOIN.get(f)), "miter");
+        writeAttribute(elem, "stroke-linejoin", strokeLinejoinMap.get(STROKE_JOIN.get(m)), "miter");
 
         //'stroke-miterlimit'
         //Value:  	 <miterlimit> | inherit
@@ -793,7 +793,7 @@ public class SVGOutputFormat implements OutputFormat {
         //Media:  	 visual
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
-        writeAttribute(elem, "stroke-miterlimit", STROKE_MITER_LIMIT.get(f), 4d);
+        writeAttribute(elem, "stroke-miterlimit", STROKE_MITER_LIMIT.get(m), 4d);
 
         //'stroke-opacity'
         //Value:  	 <opacity-value> | inherit
@@ -804,7 +804,7 @@ public class SVGOutputFormat implements OutputFormat {
         //Media:  	 visual
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
-        writeAttribute(elem, "stroke-opacity", STROKE_OPACITY.get(f), 1d);
+        writeAttribute(elem, "stroke-opacity", STROKE_OPACITY.get(m), 1d);
 
         //'stroke-width'
         //Value:  	<length> | inherit
@@ -815,12 +815,12 @@ public class SVGOutputFormat implements OutputFormat {
         //Media:  	 visual
         //Animatable:  	 yes
         //Computed value:  	 Specified value, except inherit
-        writeAttribute(elem, "stroke-width", STROKE_WIDTH.get(f), 1d);
+        writeAttribute(elem, "stroke-width", STROKE_WIDTH.get(m), 1d);
     }
     /* Writes the opacity attribute.
      */
 
-    protected void writeOpacityAttribute(IXMLElement elem, Map<AttributeKey, Object> f)
+    protected void writeOpacityAttribute(IXMLElement elem, Map<AttributeKey, Object> m)
             throws IOException {
         //'opacity'
         //Value:  	<opacity-value> | inherit
@@ -836,7 +836,7 @@ public class SVGOutputFormat implements OutputFormat {
         //Any values outside the range 0.0 (fully transparent) to 1.0
         //(fully opaque) shall be clamped to this range.
         //(See Clamping values which are restricted to a particular range.)
-        writeAttribute(elem, "opacity", OPACITY.get(f), 1d);
+        writeAttribute(elem, "opacity", OPACITY.get(m), 1d);
     }
     /* Writes the transform attribute as specified in
      * http://www.w3.org/TR/SVGMobile12/coords.html#TransformAttribute

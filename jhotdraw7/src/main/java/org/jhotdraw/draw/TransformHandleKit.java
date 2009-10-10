@@ -18,6 +18,7 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.awt.event.*;
 import org.jhotdraw.util.ResourceBundleUtil;
+import static org.jhotdraw.draw.AttributeKeys.*;
 import static org.jhotdraw.draw.HandleAttributeKeys.*;
 
 /**
@@ -173,8 +174,8 @@ public class TransformHandleKit {
         protected Rectangle2D.Double getTransformedBounds() {
             Figure owner = getOwner();
             Rectangle2D.Double bounds = owner.getBounds();
-            if (AttributeKeys.TRANSFORM.get(owner) != null) {
-                Rectangle2D r = AttributeKeys.TRANSFORM.get(owner).
+            if (owner.get(TRANSFORM) != null) {
+                Rectangle2D r = owner.get(TRANSFORM).
                         createTransformedShape(bounds).getBounds2D();
                 bounds.x = r.getX();
                 bounds.y = r.getY();

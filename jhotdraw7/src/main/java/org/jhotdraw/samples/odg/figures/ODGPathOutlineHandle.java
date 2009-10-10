@@ -56,8 +56,8 @@ public class ODGPathOutlineHandle extends AbstractHandle {
     
     @Override public void draw(Graphics2D g) {
         Shape bounds = getOwner().getPath();
-        if (TRANSFORM.get(getOwner()) != null) {
-            bounds = TRANSFORM.get(getOwner()).createTransformedShape(bounds);
+        if (getOwner().get(TRANSFORM) != null) {
+            bounds = getOwner().get(TRANSFORM).createTransformedShape(bounds);
         }
         bounds = view.getDrawingToViewTransform().createTransformedShape(bounds);
         g.setColor(HANDLE_FILL_COLOR);

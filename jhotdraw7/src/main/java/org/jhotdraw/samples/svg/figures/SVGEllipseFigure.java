@@ -87,13 +87,13 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     public Rectangle2D.Double getDrawingArea() {
         Rectangle2D rx = getTransformedShape().getBounds2D();
         Rectangle2D.Double r = (rx instanceof Rectangle2D.Double) ? (Rectangle2D.Double) rx : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
-        if (TRANSFORM.get(this) == null) {
+        if (get(TRANSFORM) == null) {
             double g = SVGAttributeKeys.getPerpendicularHitGrowth(this) * 2d + 1;
             Geom.grow(r, g, g);
         } else {
             double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this);
             double width = strokeTotalWidth / 2d;
-            width *= Math.max(TRANSFORM.get(this).getScaleX(), TRANSFORM.get(this).getScaleY()) + 1;
+            width *= Math.max(get(TRANSFORM).getScaleX(), get(TRANSFORM).getScaleY()) + 1;
             Geom.grow(r, width, width);
         }
         return r;
@@ -108,17 +108,17 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
 
     private Shape getTransformedShape() {
         if (cachedTransformedShape == null) {
-            if (TRANSFORM.get(this) == null) {
+            if (get(TRANSFORM) == null) {
                 cachedTransformedShape = ellipse;
             } else {
-                cachedTransformedShape = TRANSFORM.get(this).createTransformedShape(ellipse);
+                cachedTransformedShape = get(TRANSFORM).createTransformedShape(ellipse);
             }
         }
         return cachedTransformedShape;
     }
     private Shape getHitShape() {
         if (cachedHitShape == null) {
-            if (FILL_COLOR.get(this) != null || FILL_GRADIENT.get(this) != null) {
+            if (get(FILL_COLOR) != null || get(FILL_GRADIENT) != null) {
                 cachedHitShape = new GrowStroke(
                         (float) SVGAttributeKeys.getStrokeTotalWidth(this) / 2f,
                         (float) SVGAttributeKeys.getStrokeTotalMiterLimit(this)).createStrokedShape(getTransformedShape());
@@ -144,14 +144,14 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
      * @param tx the transformation.
      */
     public void transform(AffineTransform tx) {
-        if (TRANSFORM.get(this) != null ||
+        if (get(TRANSFORM) != null ||
                 (tx.getType() & (AffineTransform.TYPE_TRANSLATION)) != tx.getType()) {
-            if (TRANSFORM.get(this) == null) {
-                TRANSFORM.basicSetClone(this, tx);
+            if (get(TRANSFORM) == null) {
+                TRANSFORM.setClone(this, tx);
             } else {
                 AffineTransform t = TRANSFORM.getClone(this);
                 t.preConcatenate(tx);
-                TRANSFORM.basicSet(this, t);
+                set(TRANSFORM,  t);
             }
         } else {
             Point2D.Double anchor = getStartPoint();
@@ -159,17 +159,17 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
             setBounds(
                     (Point2D.Double) tx.transform(anchor, anchor),
                     (Point2D.Double) tx.transform(lead, lead));
-            if (FILL_GRADIENT.get(this) != null &&
-                    !FILL_GRADIENT.get(this).isRelativeToFigureBounds()) {
+            if (get(FILL_GRADIENT) != null &&
+                    !get(FILL_GRADIENT).isRelativeToFigureBounds()) {
                 Gradient g = FILL_GRADIENT.getClone(this);
                 g.transform(tx);
-                FILL_GRADIENT.basicSet(this, g);
+                set(FILL_GRADIENT,  g);
             }
-            if (STROKE_GRADIENT.get(this) != null &&
-                    !STROKE_GRADIENT.get(this).isRelativeToFigureBounds()) {
+            if (get(STROKE_GRADIENT) != null &&
+                    !get(STROKE_GRADIENT).isRelativeToFigureBounds()) {
                 Gradient g = STROKE_GRADIENT.getClone(this);
                 g.transform(tx);
-                STROKE_GRADIENT.basicSet(this, g);
+                set(STROKE_GRADIENT,  g);
             }
         }
         invalidate();
@@ -178,9 +178,9 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     public void restoreTransformTo(Object geometry) {
         Object[] restoreData = (Object[]) geometry;
         ellipse = (Ellipse2D.Double) ((Ellipse2D.Double) restoreData[0]).clone();
-        TRANSFORM.basicSetClone(this, (AffineTransform) restoreData[1]);
-        FILL_GRADIENT.basicSetClone(this, (Gradient) restoreData[2]);
-        STROKE_GRADIENT.basicSetClone(this, (Gradient) restoreData[3]);
+        TRANSFORM.setClone(this, (AffineTransform) restoreData[1]);
+        FILL_GRADIENT.setClone(this, (Gradient) restoreData[2]);
+        STROKE_GRADIENT.setClone(this, (Gradient) restoreData[3]);
         invalidate();
     }
 

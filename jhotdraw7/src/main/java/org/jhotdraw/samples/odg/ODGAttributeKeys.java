@@ -97,11 +97,11 @@ public class ODGAttributeKeys extends AttributeKeys {
      * Returns null if the figure is not filled.
      */
     public static Paint getFillPaint(Figure f) {
-        double opacity = FILL_OPACITY.get(f);
-        if (FILL_GRADIENT.get(f) != null) {
-            return FILL_GRADIENT.get(f).getPaint(f, opacity);
+        double opacity = f.get(FILL_OPACITY);
+        if (f.get(FILL_GRADIENT) != null) {
+            return f.get(FILL_GRADIENT).getPaint(f, opacity);
         }
-        Color color = FILL_COLOR.get(f);
+        Color color = f.get(FILL_COLOR);
         if (color != null) {
             if (opacity != 1) {
                 color = new Color(
@@ -117,11 +117,11 @@ public class ODGAttributeKeys extends AttributeKeys {
      * Returns null if the figure is not filled.
      */
     public static Paint getStrokePaint(Figure f) {
-        double opacity = STROKE_OPACITY.get(f);
-        if (STROKE_GRADIENT.get(f) != null) {
-            return STROKE_GRADIENT.get(f).getPaint(f, opacity);
+        double opacity = f.get(STROKE_OPACITY);
+        if (f.get(STROKE_GRADIENT) != null) {
+            return f.get(STROKE_GRADIENT).getPaint(f, opacity);
         }
-        Color color = STROKE_COLOR.get(f);
+        Color color = f.get(STROKE_COLOR);
         if (color != null) {
             if (opacity != 1) {
                 color = new Color(
@@ -132,7 +132,7 @@ public class ODGAttributeKeys extends AttributeKeys {
         return color;
     }
     public static Stroke getStroke(Figure f) {
-        double strokeWidth = STROKE_WIDTH.get(f);
+        double strokeWidth = f.get(STROKE_WIDTH);
         if (strokeWidth == 0) {
             strokeWidth = 1;
         }
@@ -142,18 +142,18 @@ public class ODGAttributeKeys extends AttributeKeys {
     /** Sets ODG default values. */
     public static void setDefaults(Figure f) {
         // Fill properties
-        FILL_COLOR.basicSet(f, Color.black);
-        WINDING_RULE.basicSet(f, WindingRule.NON_ZERO);
+        f.set(FILL_COLOR, Color.black);
+        f.set(WINDING_RULE, WindingRule.NON_ZERO);
         
         // Stroke properties
-        STROKE_COLOR.basicSet(f, null);
-        STROKE_WIDTH.basicSet(f, 1d);
-        STROKE_CAP.basicSet(f, BasicStroke.CAP_BUTT);
-        STROKE_JOIN.basicSet(f, BasicStroke.JOIN_MITER);
-        STROKE_MITER_LIMIT.basicSet(f, 4d);
-        IS_STROKE_MITER_LIMIT_FACTOR.basicSet(f, false);
-        STROKE_DASHES.basicSet(f, null);
-        STROKE_DASH_PHASE.basicSet(f, 0d);
-        IS_STROKE_DASH_FACTOR.basicSet(f, false);
+        f.set(STROKE_COLOR, null);
+        f.set(STROKE_WIDTH, 1d);
+        f.set(STROKE_CAP, BasicStroke.CAP_BUTT);
+        f.set(STROKE_JOIN, BasicStroke.JOIN_MITER);
+        f.set(STROKE_MITER_LIMIT, 4d);
+        f.set(IS_STROKE_MITER_LIMIT_FACTOR, false);
+        f.set(STROKE_DASHES, null);
+        f.set(STROKE_DASH_PHASE, 0d);
+        f.set(IS_STROKE_DASH_FACTOR, false);
     }
 }

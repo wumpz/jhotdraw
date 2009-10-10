@@ -16,9 +16,9 @@ package org.jhotdraw.draw;
 import java.awt.*;
 
 /**
- * Defines a set of well known {@link Handle} attributes.
+ * Defines a put of well known {@link Handle} attributes.
  * <p>
- * If you want different attribute values for your own editor, set
+ * If you want different attribute values for your own editor, put
  * the desired values using {@link DrawingEditor#setHandleAttribute(org.jhotdraw.draw.AttributeKey, java.lang.Object)}.
  *
  * @author Werner Randelshofer

@@ -145,7 +145,7 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor,
     @SuppressWarnings("unchecked")
     public void applyDefaultAttributesTo(Figure f) {
         for (Map.Entry<AttributeKey, Object> entry : defaultAttributes.entrySet()) {
-            entry.getKey().basicSet(f, entry.getValue());
+            f.set(entry.getKey(), entry.getValue());
         }
     }
 

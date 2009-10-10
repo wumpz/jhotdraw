@@ -14,6 +14,7 @@
 package org.jhotdraw.draw;
 
 import java.awt.*;
+import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
  * A non-interactive {@link Handle} which draws the bounds of a {@link Figure} to
@@ -108,8 +109,8 @@ public class BoundsOutlineHandle extends AbstractHandle {
     @Override
     protected Rectangle basicGetBounds() {
         Shape bounds = getOwner().getBounds();
-        if (AttributeKeys.TRANSFORM.get(getOwner()) != null) {
-            bounds = AttributeKeys.TRANSFORM.get(getOwner()).createTransformedShape(bounds);
+        if (getOwner().get(TRANSFORM) != null) {
+            bounds = getOwner().get(TRANSFORM).createTransformedShape(bounds);
         }
         bounds = view.getDrawingToViewTransform().createTransformedShape(bounds);
 
@@ -135,8 +136,8 @@ public class BoundsOutlineHandle extends AbstractHandle {
     @Override
     public void draw(Graphics2D g) {
         Shape bounds = getOwner().getBounds();
-        if (AttributeKeys.TRANSFORM.get(getOwner()) != null) {
-            bounds = AttributeKeys.TRANSFORM.get(getOwner()).createTransformedShape(bounds);
+        if (getOwner().get(TRANSFORM) != null) {
+            bounds = getOwner().get(TRANSFORM).createTransformedShape(bounds);
         }
         bounds = view.getDrawingToViewTransform().createTransformedShape(bounds);
         Stroke stroke1;

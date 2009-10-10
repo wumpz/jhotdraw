@@ -61,7 +61,9 @@ public class FontChooserHandler extends AbstractSelectedAction
         final ArrayList<Object> restoreData = new ArrayList<Object>(selectedFigures.size());
         for (Figure figure : selectedFigures) {
             restoreData.add(figure.getAttributesRestoreData());
-            key.set(figure, fontChooser.getSelectedFont());
+            figure.willChange();
+            figure.set(key, fontChooser.getSelectedFont());
+            figure.changed();
         }
         getEditor().setDefaultAttribute(key, fontChooser.getSelectedFont());
         final Font undoValue = fontChooser.getSelectedFont();
@@ -99,7 +101,7 @@ public class FontChooserHandler extends AbstractSelectedAction
                 for (Figure figure : selectedFigures) {
                     restoreData.add(figure.getAttributesRestoreData());
                     figure.willChange();
-                    key.basicSet(figure, undoValue);
+                    figure.set(key, undoValue);
                     figure.changed();
                 }
             }

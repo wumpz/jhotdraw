@@ -93,7 +93,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
             FontRenderContext frc = getFontRenderContext();
             HashMap<TextAttribute, Object> textAttributes = new HashMap<TextAttribute, Object>();
             textAttributes.put(TextAttribute.FONT, getFont());
-            if (FONT_UNDERLINE.get(this)) {
+            if (get(FONT_UNDERLINE)) {
                 textAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
             }
             textLayout = new TextLayout(text, textAttributes, frc);
@@ -157,7 +157,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
      * Gets the text shown by the text figure.
      */
     public String getText() {
-        return TEXT.get(this);
+        return get(TEXT);
     }
 
     /**
@@ -166,7 +166,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
      * AttribuTEXT.basicSet, changed.
      */
     public void setText(String newText) {
-        TEXT.set(this, newText);
+        set(TEXT, newText);
     }
 
     public int getTextColumns() {
@@ -194,19 +194,19 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
     }
 
     public Color getTextColor() {
-        return TEXT_COLOR.get(this);
+        return get(TEXT_COLOR);
     }
 
     public Color getFillColor() {
-        return FILL_COLOR.get(this);
+        return get(FILL_COLOR);
     }
 
     public void setFontSize(float size) {
-        FONT_SIZE.set(this, new Double(size));
+        set(FONT_SIZE, new Double(size));
     }
 
     public float getFontSize() {
-        return FONT_SIZE.get(this).floatValue();
+        return get(FONT_SIZE).floatValue();
     }
 
     // EDITING

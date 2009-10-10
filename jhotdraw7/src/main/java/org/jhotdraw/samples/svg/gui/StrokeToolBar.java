@@ -71,7 +71,7 @@ public class StrokeToolBar extends AbstractToolBar {
                 p.setOpaque(false);
                 p.setBorder(new EmptyBorder(5, 5, 5, 8));
 
-                // Abort if no editor is set
+                // Abort if no editor is put
                 if (editor == null) {
                     break;
                 }
@@ -85,7 +85,7 @@ public class StrokeToolBar extends AbstractToolBar {
 
                 // Stroke color
                 Map<AttributeKey, Object> defaultAttributes = new HashMap<AttributeKey, Object>();
-                STROKE_GRADIENT.set(defaultAttributes, null);
+                STROKE_GRADIENT.put(defaultAttributes, null);
                 btn = ButtonFactory.createSelectionColorButton(editor,
                         STROKE_COLOR, ButtonFactory.HSV_COLORS, ButtonFactory.HSV_COLORS_COLUMN_COUNT,
                         "attribute.strokeColor", labels, defaultAttributes, new Rectangle(3, 3, 10, 10), disposables);
@@ -171,7 +171,7 @@ public class StrokeToolBar extends AbstractToolBar {
                 p.setOpaque(false);
                 p.setBorder(new EmptyBorder(5, 5, 5, 8));
 
-                // Abort if no editor is set
+                // Abort if no editor is put
                 if (editor == null) {
                     break;
                 }
@@ -185,7 +185,7 @@ public class StrokeToolBar extends AbstractToolBar {
 
                 // Stroke color field and button
                 Map<AttributeKey, Object> defaultAttributes = new HashMap<AttributeKey, Object>();
-                STROKE_GRADIENT.set(defaultAttributes, null);
+                STROKE_GRADIENT.put(defaultAttributes, null);
                 JAttributeTextField<Color> colorField = new JAttributeTextField<Color>();
                 colorField.setColumns(7);
                 colorField.setToolTipText(labels.getString("attribute.strokeColor.toolTipText"));

@@ -65,28 +65,28 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
 
     // DRAWING
     protected void drawFigure(Graphics2D g) {
-        if (AttributeKeys.FILL_COLOR.get(this) != null) {
-            g.setColor(AttributeKeys.FILL_COLOR.get(this));
+        if (get(FILL_COLOR) != null) {
+            g.setColor(get(FILL_COLOR));
             drawFill(g);
         }
         drawImage(g);
 
-        if (STROKE_COLOR.get(this) != null && STROKE_WIDTH.get(this) > 0d) {
+        if (get(STROKE_COLOR) != null && get(STROKE_WIDTH) > 0d) {
             g.setStroke(AttributeKeys.getStroke(this));
-            g.setColor(STROKE_COLOR.get(this));
+            g.setColor(get(STROKE_COLOR));
 
             drawStroke(g);
         }
-        if (TEXT_COLOR.get(this) != null) {
-            if (TEXT_SHADOW_COLOR.get(this) != null &&
-                    TEXT_SHADOW_OFFSET.get(this) != null) {
-                Dimension2DDouble d = TEXT_SHADOW_OFFSET.get(this);
+        if (get(TEXT_COLOR) != null) {
+            if (get(TEXT_SHADOW_COLOR) != null &&
+                    get(TEXT_SHADOW_OFFSET) != null) {
+                Dimension2DDouble d = get(TEXT_SHADOW_OFFSET);
                 g.translate(d.width, d.height);
-                g.setColor(TEXT_SHADOW_COLOR.get(this));
+                g.setColor(get(TEXT_SHADOW_COLOR));
                 drawText(g);
                 g.translate(-d.width, -d.height);
             }
-            g.setColor(TEXT_COLOR.get(this));
+            g.setColor(get(TEXT_COLOR));
             drawText(g);
         }
     }
