@@ -87,10 +87,10 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
                     // FIXME - We should cache the transformed image.
                     //         Drawing a transformed image appears to be very slow.
                     Graphics2D gx = (Graphics2D) g.create();
-                    
+
                     // Use same rendering hints like parent graphics
                     gx.setRenderingHints(g.getRenderingHints());
-                    
+
                     gx.transform(get(TRANSFORM));
                     gx.drawImage(image, (int) rectangle.x, (int) rectangle.y, (int) rectangle.width, (int) rectangle.height, null);
                     gx.dispose();
@@ -111,11 +111,9 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     }
 
     protected void drawFill(Graphics2D g) {
-
     }
 
     protected void drawStroke(Graphics2D g) {
-
     }
 
     // SHAPE AND BOUNDS
@@ -209,6 +207,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         }
     }
     // ATTRIBUTES
+
     public void restoreTransformTo(Object geometry) {
         invalidateTransformedShape();
         Object[] o = (Object[]) geometry;
@@ -222,9 +221,9 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
 
     public Object getTransformRestoreData() {
         return new Object[]{
-            rectangle.clone(),
-            get(TRANSFORM)
-        };
+                    rectangle.clone(),
+                    get(TRANSFORM)
+                };
     }
 
     // EDITING
@@ -233,8 +232,8 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         LinkedList<Handle> handles = new LinkedList<Handle>();
 
         switch (detailLevel % 2) {
-            case -1 : // Mouse hover handles
-                handles.add(new BoundsOutlineHandle(this,false,true));
+            case -1: // Mouse hover handles
+                handles.add(new BoundsOutlineHandle(this, false, true));
                 break;
             case 0:
                 ResizeHandleKit.addResizeHandles(this, handles);
@@ -259,15 +258,63 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
                 public void actionPerformed(ActionEvent evt) {
                     willChange();
                     fireUndoableEditHappened(
-                            TRANSFORM.setUndoable(SVGImageFigure.this, null)
-                            );
+                            TRANSFORM.setUndoable(SVGImageFigure.this, null));
                     changed();
                 }
             });
         }
+        if (bufferedImage != null) {
+            if (rectangle.width != bufferedImage.getWidth() ||
+                    rectangle.height != bufferedImage.getHeight()) {
+                actions.add(new AbstractAction(labels.getString("edit.setToImageSize.text")) {
+
+                    public void actionPerformed(ActionEvent evt) {
+                        Object geometry = getTransformRestoreData();
+                        willChange();
+                        rectangle = new Rectangle2D.Double(//
+                                rectangle.x - (bufferedImage.getWidth() - rectangle.width) / 2d,//
+                                rectangle.y - (bufferedImage.getHeight() - rectangle.height) / 2d, //
+                                bufferedImage.getWidth(), //
+                                bufferedImage.getHeight());
+                        fireUndoableEditHappened(
+                                new TransformRestoreEdit(SVGImageFigure.this, geometry, getTransformRestoreData()));
+                        changed();
+                    }
+                });
+            }
+            double imageRatio = bufferedImage.getHeight() / (double) bufferedImage.getWidth();
+            double figureRatio = rectangle.height / rectangle.width;
+            if (Math.abs(imageRatio - figureRatio) > 0.001) {
+                actions.add(new AbstractAction(labels.getString("edit.adjustHeightToImageAspect.text")) {
+
+                    public void actionPerformed(ActionEvent evt) {
+                        Object geometry = getTransformRestoreData();
+                        willChange();
+                        double newHeight = bufferedImage.getHeight() * rectangle.width / bufferedImage.getWidth();
+                        rectangle = new Rectangle2D.Double(rectangle.x, rectangle.y - (newHeight - rectangle.height) / 2d, rectangle.width, newHeight);
+                        fireUndoableEditHappened(
+                                new TransformRestoreEdit(SVGImageFigure.this, geometry, getTransformRestoreData()));
+                        changed();
+                    }
+                });
+                actions.add(new AbstractAction(labels.getString("edit.adjustWidthToImageAspect.text")) {
+
+                    public void actionPerformed(ActionEvent evt) {
+                        Object geometry = getTransformRestoreData();
+                        willChange();
+                        double newWidth = bufferedImage.getWidth() * rectangle.height / bufferedImage.getHeight();
+                        rectangle = new Rectangle2D.Double(rectangle.x - (newWidth - rectangle.width) / 2d, rectangle.y, newWidth, rectangle.height);
+                        fireUndoableEditHappened(
+                                new TransformRestoreEdit(SVGImageFigure.this, geometry, getTransformRestoreData()));
+                        changed();
+                    }
+                });
+            }
+        }
         return actions;
     }
     // CONNECTING
+
     @Override
     public boolean canConnect() {
         return false; // SVG does not support connecting
