@@ -86,8 +86,8 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                 try {
                     // Search for a suitable input format
                     SearchLoop:
-                    for (DataFlavor flavor : t.getTransferDataFlavors()) {
-                        for (InputFormat format : drawing.getInputFormats()) {
+                    for (InputFormat format : drawing.getInputFormats()) {
+                        for (DataFlavor flavor : t.getTransferDataFlavors()) {
                             if (DEBUG) {
                                 System.out.println(this + ".importData trying to match " + format + " to flavor " + flavor);
                             }

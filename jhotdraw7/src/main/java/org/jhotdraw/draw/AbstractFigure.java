@@ -208,7 +208,7 @@ public abstract class AbstractFigure
     }
 
     public void fireFigureChanged() {
-        fireFigureChanged(getBounds());
+        fireFigureChanged(getDrawingArea());
     }
 
     /**

@@ -141,7 +141,7 @@ public class SVGTextFigure
             Rectangle2D.Double r = (rx instanceof Rectangle2D.Double) ?
                 (Rectangle2D.Double) rx :
                 new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
-            double g = SVGAttributeKeys.getPerpendicularHitGrowth(this);
+            double g = SVGAttributeKeys.getPerpendicularHitGrowth(this) + 1;
             Geom.grow(r, g, g);
             if (get(TRANSFORM) == null) {
                 cachedDrawingArea = r;

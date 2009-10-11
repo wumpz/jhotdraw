@@ -14,6 +14,7 @@
 package org.jhotdraw.gui.datatransfer;
 
 import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.ClipboardOwner;
 import java.awt.datatransfer.Transferable;
 
 /**
@@ -36,7 +37,7 @@ public abstract class AbstractClipboard extends Clipboard {
      *
      *    @return The current {@code Transferable} object on the clipboard.
      */
-    public abstract Transferable getContents();
+    public abstract Transferable getContents(Object requestor);
 
     /** Sets the current contents of the clipboard to the specified
      * {@code Transferable} object.
@@ -44,5 +45,5 @@ public abstract class AbstractClipboard extends Clipboard {
      * @param contents The {@code Transferable} object representing clipboard
      * content.
      */
-    public abstract void setContents(Transferable contents);
+    public abstract void setContents(Transferable contents, ClipboardOwner owner);
 }

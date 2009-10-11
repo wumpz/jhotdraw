@@ -24,6 +24,7 @@ import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.app.EditableComponent;
 import static org.jhotdraw.draw.AttributeKeys.*;
+import java.awt.image.VolatileImage;
 
 /**
  * A default implementation of {@link DrawingView} suited for viewing drawings
@@ -65,6 +66,7 @@ public class DefaultDrawingView
     private int detailLevel;
     private DrawingEditor editor;
     private JLabel emptyDrawingLabel;
+    protected BufferedImage backgroundTile;
     private FigureListener handleInvalidator = new FigureAdapter() {
 
         @Override
@@ -79,6 +81,15 @@ public class DefaultDrawingView
         }
     };
     private transient Rectangle2D.Double cachedDrawingArea;
+    public final static String DRAWING_DOUBLE_BUFFERED_PROPERTY = "drawingDoubleBuffered";
+    /** Whether the drawing is double buffered*/
+    private boolean isDrawingDoubleBuffered = true;
+    /** The drawingBuffer holds a rendered image of the drawing (in view coordinates). */
+    private VolatileImage drawingBuffer;
+    /** Holds the drawing area (in view coordinates) which is in the drawing buffer. */
+    private Rectangle bufferedArea = new Rectangle();
+    /** Holds the drawing area (in view coordinates) which has not been redrawn yet in the drawing buffer. */
+    private Rectangle dirtyArea = new Rectangle(0, 0, -1, -1);
 
     public void repaintHandles() {
         validateHandles();
@@ -271,22 +282,112 @@ public class DefaultDrawingView
     @Override
     public void paintComponent(Graphics gr) {
         Graphics2D g = (Graphics2D) gr;
-
-        // Set rendering hints for speed
-        g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_NORMALIZE);
-        g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
-        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
-        g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
-        g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-
+        setViewRenderingHints(g);
         drawBackground(g);
         drawCanvas(g);
         drawConstrainer(g);
-        drawDrawing(g);
+        if (isDrawingDoubleBuffered()) {
+            drawDrawingDoubleBuffered(g);
+        } else {
+            drawDrawing(g);
+        }
         drawHandles(g);
         drawTool(g);
+    }
+
+    /** Draws the drawing double buffered. */
+    protected void drawDrawingDoubleBuffered(Graphics2D g) {
+        Rectangle vr = getVisibleRect();
+        Point shift = new Point(0, 0);
+
+        if (bufferedArea.contains(vr)) {
+            // The visible rect fits into the buffered area; nothing to do.
+        } else if (bufferedArea.width >= vr.width && bufferedArea.height >= vr.height) {
+            // The visible rect fits into the buffered area, but is shifted; shift the buffered area.
+            shift.x = bufferedArea.x - vr.x;
+            shift.y = bufferedArea.y - vr.y;
+            if (shift.x > 0) {
+                dirtyArea.add(new Rectangle(bufferedArea.x - shift.x, vr.y, shift.x + bufferedArea.width - vr.width, bufferedArea.height));
+            } else if (shift.x < 0) {
+                dirtyArea.add(new Rectangle(bufferedArea.x + vr.width, vr.y, -shift.x + bufferedArea.width - vr.width, bufferedArea.height));
+            }
+            if (shift.y > 0) {
+                dirtyArea.add(new Rectangle(vr.x, bufferedArea.y - shift.y, bufferedArea.width, shift.y + bufferedArea.height - vr.height));
+            } else if (shift.y < 0) {
+                dirtyArea.add(new Rectangle(vr.x, bufferedArea.y + vr.height, bufferedArea.width, -shift.y + bufferedArea.height - vr.height));
+            }
+            bufferedArea.x = vr.x;
+            bufferedArea.y = vr.y;
+        } else {
+            // The buffered drawing area does not match the visible rect;
+            // resize it, and mark everything as dirty.
+            bufferedArea.setBounds(vr);
+            dirtyArea.setBounds(vr);
+
+            if (drawingBuffer != null && //
+                    (drawingBuffer.getWidth() != vr.width ||
+                    drawingBuffer.getHeight() != vr.height)) {
+                // The dimension of the drawing buffer does not fit into the visible rect;
+                // throw the buffer away.
+                drawingBuffer.flush();
+                drawingBuffer = null;
+            }
+        }
+        // Update the contents of the buffer if necessary
+        while (true) {
+            int valid = (drawingBuffer == null) ? //
+                    VolatileImage.IMAGE_INCOMPATIBLE : //
+                    drawingBuffer.validate(getGraphicsConfiguration());
+            switch (valid) {
+                case VolatileImage.IMAGE_INCOMPATIBLE:
+                    // old buffer doesn't work with new GraphicsConfig; (re-)create it
+                    drawingBuffer = getGraphicsConfiguration().createCompatibleVolatileImage(vr.width, vr.height, Transparency.TRANSLUCENT);
+                    dirtyArea.setBounds(bufferedArea);
+                    break;
+                case VolatileImage.IMAGE_RESTORED:
+                    // image was restored, but buffer lost; redraw everything
+                    dirtyArea.setBounds(bufferedArea);
+                    break;
+            }
+
+            if (!dirtyArea.isEmpty()) {
+                // An area of the drawing buffer is dirty; repaint it
+                Graphics2D gBuf = drawingBuffer.createGraphics();
+                setViewRenderingHints(gBuf);
+
+                // For shifting and cleaning, we need to erase everything underneath
+                gBuf.setComposite(AlphaComposite.Src);
+
+                // Perform shifting if needed
+                if (shift.x != 0 || shift.y != 0) {
+                    gBuf.copyArea(0, 0, drawingBuffer.getWidth(), drawingBuffer.getHeight(), shift.x, shift.y);
+                    shift.x = shift.y = 0;
+                }
+
+                // Clip the dirty area
+                gBuf.translate(-bufferedArea.x, -bufferedArea.y);
+                gBuf.clip(dirtyArea);
+
+                // Clear the dirty area
+                gBuf.setBackground(new Color(0x0, true));
+                gBuf.clearRect(dirtyArea.x, dirtyArea.y, dirtyArea.width, dirtyArea.height);
+                gBuf.setComposite(AlphaComposite.SrcOver);
+
+                // Repaint the dirty area
+                drawDrawing(gBuf);
+                gBuf.dispose();
+            }
+
+//            g.drawImage(drawingBuffer, vr.x, vr.y, null);
+            g.drawImage(drawingBuffer, bufferedArea.x, bufferedArea.y, null);
+
+            if (drawingBuffer.contentsLost()) {
+                dirtyArea.setBounds(bufferedArea);
+            } else {
+                dirtyArea.setSize(-1, -1);
+                break;
+            }
+        }
     }
 
     /**
@@ -310,9 +411,21 @@ public class DefaultDrawingView
         drawDrawing(g);
     }
 
+    protected void setViewRenderingHints(Graphics2D g) {
+        // Set rendering hints for speed
+        g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_NORMALIZE);
+        g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+        g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+        g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
+    }
+
     /**
      * Returns the bounds of the canvas on the drawing view.
-     * 
+     *
      * @return The current bounds of the canvas on the drawing view.
      */
     protected Rectangle getCanvasViewBounds() {
@@ -329,9 +442,12 @@ public class DefaultDrawingView
             if (cw != null && ch != null) {
                 Point lowerRight = drawingToView(
                         new Point2D.Double(cw, ch));
-                w = lowerRight.x - x;
-                h = lowerRight.y - y;
+                w =
+                        lowerRight.x - x;
+                h =
+                        lowerRight.y - y;
             }
+
         }
 
         return new Rectangle(x, y, w, h);
@@ -346,6 +462,7 @@ public class DefaultDrawingView
 
         // Retrieve the canvasColor color from the drawing
         Color canvasColor;
+
         if (drawing == null) {
             canvasColor = CANVAS_FILL_COLOR.getDefaultValue();
         } else {
@@ -353,24 +470,19 @@ public class DefaultDrawingView
             if (canvasColor != null) {
                 canvasColor = new Color((canvasColor.getRGB() & 0xffffff) | ((int) (drawing.get(CANVAS_FILL_OPACITY) * 255) << 24), true);
             }
+
         }
         if (canvasColor == null || canvasColor.getAlpha() != 255) {
             g.setPaint(getBackgroundPaint(cb.x, cb.y));
             g.fillRect(cb.x, cb.y, cb.width, cb.height);
         }
+
         if (canvasColor != null) {
             g.setColor(canvasColor);
             g.fillRect(cb.x, cb.y, cb.width, cb.height);
         }
 
-        /*
-        //Fill canvasColor with alternating colors to debug clipping
-        rainbow = (rainbow + 10) % 360;
-        g.setColor(
-        new Color(Color.HSBtoRGB((float) (rainbow / 360f), 0.3f, 1.0f)));
-        g.fill(g.getClipBounds());*/
     }
-//int rainbow;
 
     protected void drawConstrainer(Graphics2D g) {
         Shape clip = g.getClip();
@@ -436,12 +548,14 @@ public class DefaultDrawingView
 
 
 
-
         this.drawing = newValue;
         if (this.drawing != null) {
             this.drawing.addCompositeFigureListener(eventHandler);
             this.drawing.addFigureListener(eventHandler);
         }
+
+        // mark complete buffer area as dirty
+        dirtyArea.add(bufferedArea);
 
         invalidateDimension();
         if (getParent() != null) {
@@ -459,13 +573,13 @@ public class DefaultDrawingView
 
         revalidate();
 
-        repaint();
-
     }
 
     protected void repaintDrawingArea(Rectangle2D.Double r) {
         Rectangle vr = drawingToView(r);
         vr.grow(1, 1);
+        dirtyArea.add(vr);
+
         repaint(vr);
     }
 
@@ -560,6 +674,10 @@ public class DefaultDrawingView
             repaint();
 
         }
+
+
+
+
 
 
 
@@ -731,10 +849,14 @@ public class DefaultDrawingView
                     // Retry with detail level 0.
                     detailLevel = 0;
                     continue;
+
                 }
+
+
+
+
                 break;
             }
-
 
             if (invalidatedArea != null) {
                 repaint(invalidatedArea);
@@ -834,22 +956,6 @@ public class DefaultDrawingView
                             2) {
                 if (listeners[i] == FigureSelectionListener.class) {
                     // Lazily create the event:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                     if (event == null) {
                         event = new FigureSelectionEvent(this, oldValue, newValue);
                     }
@@ -862,8 +968,7 @@ public class DefaultDrawingView
 
     protected void invalidateDimension() {
         cachedPreferredSize = null;
-        cachedDrawingArea =
-                null;
+        cachedDrawingArea = null;
     }
 
     public Constrainer getConstrainer() {
@@ -900,8 +1005,8 @@ public class DefaultDrawingView
             } else {
                 cachedDrawingArea = new Rectangle2D.Double();
             }
-
         }
+
         return (Rectangle2D.Double) cachedDrawingArea.clone();
     }
 
@@ -925,10 +1030,6 @@ public class DefaultDrawingView
             return;
 
         }
-
-
-
-
 
         Point2D.Double oldTranslate = (Point2D.Double) translate.clone();
 
@@ -981,11 +1082,15 @@ public class DefaultDrawingView
         // Move the canvas out of the center if needed
 
         if (!oldTranslate.equals(translate)) {
-
+            dirtyArea.setBounds(bufferedArea);
             fireViewTransformChanged();
             repaint();
 
         }
+
+
+
+
 
 
 
@@ -1038,11 +1143,11 @@ public class DefaultDrawingView
 
     public void setScaleFactor(double newValue) {
         double oldValue = scaleFactor;
-        scaleFactor =
-                newValue;
+        scaleFactor = newValue;
 
         //fireViewTransformChanged();
         validateViewTranslation();
+        dirtyArea.setBounds(bufferedArea);
 
         firePropertyChange("scaleFactor", oldValue, newValue);
 
@@ -1072,8 +1177,14 @@ public class DefaultDrawingView
         if (newValue != detailLevel) {
             detailLevel = newValue;
             invalidateHandles();
+
             validateHandles();
+
         }
+
+
+
+
     }
 
     public int getHandleDetailLevel() {
@@ -1097,7 +1208,12 @@ public class DefaultDrawingView
             if (!f.isRemovable()) {
                 getToolkit().beep();
                 return;
+
             }
+
+
+
+
         }
 
         // Get z-indices of deleted figures
@@ -1239,7 +1355,34 @@ public class DefaultDrawingView
     public boolean isConstrainerVisible() {
         return isConstrainerVisible;
     }
-    protected BufferedImage backgroundTile;
+
+    /** Sets whether the drawing is double buffered.
+     * <p>
+     * The default value is true.
+     * <p>
+     * This is a bound property.
+     * <p>
+     * If the drawing view is used for editing, you should leave this to true.
+     * If the drawing view is used for viewing only, you should set this to false.
+     */
+    public void setDrawingDoubleBuffered(boolean newValue) {
+        boolean oldValue = isDrawingDoubleBuffered;
+        isDrawingDoubleBuffered =
+                newValue;
+        if (!isDrawingDoubleBuffered && drawingBuffer != null) {
+            drawingBuffer.flush();
+            drawingBuffer =
+                    null;
+        }
+
+        firePropertyChange(DRAWING_DOUBLE_BUFFERED_PROPERTY, oldValue, newValue);
+    }
+
+    /** Returns true, if the the drawing is double buffered.
+     */
+    public boolean isDrawingDoubleBuffered() {
+        return isDrawingDoubleBuffered;
+    }
 
     /**
      * Returns a paint for drawing the background of the drawing area.

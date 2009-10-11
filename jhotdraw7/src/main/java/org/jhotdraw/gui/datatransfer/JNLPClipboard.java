@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.gui.datatransfer;
 
+import java.awt.datatransfer.ClipboardOwner;
 import java.awt.datatransfer.Transferable;
 
 /**
@@ -54,7 +55,7 @@ public class JNLPClipboard extends AbstractClipboard {
         return target;
     }
 
-    public Transferable getContents() {
+    public Transferable getContents(Object requestor) {
         try {
             return (Transferable) target.getClass().getMethod("getContents").invoke(target);
         } catch (Exception ex) {
@@ -64,7 +65,7 @@ public class JNLPClipboard extends AbstractClipboard {
         }
     }
 
-    public void setContents(Transferable contents) {
+    public void setContents(Transferable contents, ClipboardOwner owner) {
         try {
             target.getClass().getMethod("setContents", Transferable.class).invoke(target, contents);
         } catch (Exception ex) {

@@ -29,6 +29,9 @@ public class Main {
         // Debug resource bundle
         ResourceBundleUtil.setVerbose(true);
 
+        // Switch off the Quartz rendering engine
+        System.setProperty("apple.awt.graphics.UseQuartz","false");
+
         Application app;
         String os = System.getProperty("os.name").toLowerCase();
         if (os.startsWith("mac")) {
