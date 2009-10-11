@@ -118,6 +118,15 @@ public class SVGApplet extends JApplet {
             // automaticaly the right thing for us.
         }
 
+        // Set our own popup factory, because the one that comes with Mac OS X
+        // creates translucent popups which is not useful for color selection
+        // using pop menus.
+        try {
+            PopupFactory.setSharedInstance(new PopupFactory());
+        } catch (Throwable e) {
+            // If we can't set the popup factory, we have to use what is there.
+        }
+
         // Display a progress indicator while we are loading the drawing
         // ----------------------------------------------------------
         Container c = getContentPane();

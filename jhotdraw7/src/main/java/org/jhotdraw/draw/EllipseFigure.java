@@ -40,7 +40,8 @@ public class EllipseFigure extends AbstractAttributedFigure {
      * Constructs and initializes an {@code EllipseFigure} from the
      * specified coordinates.
      *
-     * @param x,&nbsp;y the coordinates of the bounding rectangle
+     * @param x the x coordinate of the bounding rectangle
+     * @param y the y coordinate of the bounding rectangle
      * @param width the width of the rectangle
      * @param height the height of the rectangle
      */
