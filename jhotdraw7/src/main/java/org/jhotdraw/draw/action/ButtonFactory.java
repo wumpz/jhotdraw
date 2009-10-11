@@ -1082,7 +1082,7 @@ public class ButtonFactory {
             DrawingEditor editor, double[] widths, ResourceBundleUtil labels) {
         JPopupButton strokeWidthPopupButton = new JPopupButton();
 
-        labels.configureToolBarButton(strokeWidthPopupButton, "attribute.strokeWidth.text");
+        labels.configureToolBarButton(strokeWidthPopupButton, "attribute.strokeWidth");
         strokeWidthPopupButton.setFocusable(false);
 
         NumberFormat formatter = NumberFormat.getInstance();

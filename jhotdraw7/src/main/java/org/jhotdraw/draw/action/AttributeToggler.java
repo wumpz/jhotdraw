@@ -89,7 +89,9 @@ public class AttributeToggler<T> extends AbstractAction {
         final ArrayList<Object> restoreData = new ArrayList<Object>(selectedFigures.size());
         for (Figure figure : selectedFigures) {
             restoreData.add(figure.getAttributesRestoreData());
+            figure.willChange();
             figure.set(key, newValue);
+            figure.changed();
         }
         UndoableEdit edit = new AbstractUndoableEdit() {
             @Override

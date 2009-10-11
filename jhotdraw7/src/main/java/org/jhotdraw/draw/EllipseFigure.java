@@ -41,8 +41,8 @@ public class EllipseFigure extends AbstractAttributedFigure {
      * specified coordinates.
      *
      * @param x,&nbsp;y the coordinates of the bounding rectangle
-     * @param w the width of the rectangle
-     * @param h the height of the rectangle
+     * @param width the width of the rectangle
+     * @param height the height of the rectangle
      */
     public EllipseFigure(double x, double y, double width, double height) {
         ellipse = new Ellipse2D.Double(x, y, width, height);
