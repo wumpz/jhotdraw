@@ -182,7 +182,7 @@ public class DefaultDrawingView
         public void attributeChanged(FigureEvent e) {
             if (e.getSource() == drawing) {
                 if (e.getAttribute().equals(CANVAS_HEIGHT) || e.getAttribute().equals(CANVAS_WIDTH)) {
-                    validateViewTranslation();
+                    validateViewTranslation(false);
                 }
                 repaint();
             } else {
@@ -420,7 +420,6 @@ public class DefaultDrawingView
         g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
         g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-
     }
 
     /**
@@ -543,10 +542,7 @@ public class DefaultDrawingView
             this.drawing.removeCompositeFigureListener(eventHandler);
             this.drawing.removeFigureListener(eventHandler);
             clearSelection();
-
         }
-
-
 
         this.drawing = newValue;
         if (this.drawing != null) {
@@ -569,10 +565,9 @@ public class DefaultDrawingView
 
         }
         firePropertyChange(DRAWING_PROPERTY, oldValue, newValue);
-        validateViewTranslation();
+        validateViewTranslation(false);
 
         revalidate();
-
     }
 
     protected void repaintDrawingArea(Rectangle2D.Double r) {
@@ -992,7 +987,7 @@ public class DefaultDrawingView
                         (int) (Math.max((Math.max(0, r.y) + r.height), ch) * scaleFactor) + insets.top + insets.bottom);
             }
 
-            validateViewTranslation();
+            validateViewTranslation(true);
         }
 
         return (Dimension) cachedPreferredSize.clone();
@@ -1016,7 +1011,7 @@ public class DefaultDrawingView
     @Override
     public void setBounds(int x, int y, int width, int height) {
         super.setBounds(x, y, width, height);
-        validateViewTranslation();
+        validateViewTranslation(false);
 
     }
 
@@ -1024,7 +1019,7 @@ public class DefaultDrawingView
      * Updates the view translation taking into account the current dimension
      * of the view JComponent, the size of the drawing, and the scale factor.
      */
-    private void validateViewTranslation() {
+    private void validateViewTranslation(boolean repaint) {
         if (getDrawing() == null) {
             translate.x = translate.y = 0;
             return;
@@ -1084,17 +1079,8 @@ public class DefaultDrawingView
         if (!oldTranslate.equals(translate)) {
             dirtyArea.setBounds(bufferedArea);
             fireViewTransformChanged();
-            repaint();
-
+            if (repaint) { repaint(); }
         }
-
-
-
-
-
-
-
-
     }
 
     /**
@@ -1145,21 +1131,11 @@ public class DefaultDrawingView
         double oldValue = scaleFactor;
         scaleFactor = newValue;
 
-        //fireViewTransformChanged();
-        validateViewTranslation();
+        validateViewTranslation(false);
         dirtyArea.setBounds(bufferedArea);
-
-        firePropertyChange("scaleFactor", oldValue, newValue);
-
-        invalidate();
-
         invalidateHandles();
-
-        if (getParent() != null) {
-            getParent().validate();
-        }
-
-        repaint();
+        revalidate();
+        firePropertyChange("scaleFactor", oldValue, newValue);
     }
 
     protected void fireViewTransformChanged() {
