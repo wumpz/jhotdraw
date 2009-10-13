@@ -133,7 +133,6 @@ public class ResourceBundleUtil implements Serializable {
      * Recursive part of the getString method.
      *
      * @param key
-     * @return
      * @throws java.util.MissingResourceException
      */
     private String getStringRecursive(String key) throws MissingResourceException {

@@ -705,7 +705,7 @@ abstract class MultipleGradientPaintContext implements PaintContext {
      * @param position the unmanipulated position.  want to map this into the
      * range 0 to 1
      *
-     * @returns integer color to display
+     * @return integer color to display
      *
      */
     protected final int indexIntoGradientsArrays(float position) {
@@ -841,7 +841,7 @@ abstract class MultipleGradientPaintContext implements PaintContext {
      * range 0 to 1
      * @param sz the size in gradient space to average.
      *
-     * @returns ARGB integer color to display
+     * @return ARGB integer color to display
      */
     protected final int indexGradientAntiAlias(float position, float sz) {
         //first, manipulate position value depending on the cycle method.

@@ -477,8 +477,6 @@ public class DefaultSDIApplication extends AbstractApplication {
 
         /**
          * Updates the "File &gt; Open Recent" menu.
-         *
-         * @param openRecentMenu
          */
         protected void updateOpenRecentMenu() {
             if (openRecentMenu.getItemCount() > 0) {

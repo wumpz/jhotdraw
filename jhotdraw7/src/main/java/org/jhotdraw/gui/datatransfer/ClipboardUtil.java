@@ -41,7 +41,8 @@ public class ClipboardUtil {
 
         // Try to access the system clipboard
         try {
-            instance = new AWTClipboard(Toolkit.getDefaultToolkit().getSystemClipboard());
+//          instance = new AWTClipboard(Toolkit.getDefaultToolkit().getSystemClipboard());
+            instance = new OSXClipboard(Toolkit.getDefaultToolkit().getSystemClipboard());
         } catch (SecurityException e1) {
 
             // Fall back to JNLP ClipboardService

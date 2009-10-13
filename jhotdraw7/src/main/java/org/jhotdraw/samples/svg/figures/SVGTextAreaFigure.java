@@ -172,7 +172,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
      * @param leftMargin the left bound of the paragraph
      * @param rightMargin the right bound of the paragraph
      * @param tabStops an array with tab stops
-     * @param tabCounts the number of entries in tabStops which contain actual
+     * @param tabCount the number of entries in tabStops which contain actual
      *        values
      * @return Returns the actual bounds of the paragraph.
      */

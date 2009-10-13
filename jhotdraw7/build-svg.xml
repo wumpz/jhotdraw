@@ -3,7 +3,7 @@
     <target name="init">
         <!-- properties for copyright and versioning -->
         <property name="author" value="the authors and contributors of JHotDraw"/>
-        <property name="version" value="7.3alpha"/>
+        <property name="version" value="7.3.1alpha1"/>
 
         <!-- build properties -->
         <property name="libdir" value="lib"/>
@@ -136,7 +136,7 @@
         </copy>
     </target>
     <target name="application.jar" depends="init,application.compile">
-        <mkdir dir="${distdir}"/>
+        <mkdir dir="${distdir}/unsigned"/>
         <jar destfile="${distdir}/unsigned/JHotDraw SVG.jar" basedir="${classdir}">
             <manifest>
                 <attribute name="Built-By" value="${author}"/>

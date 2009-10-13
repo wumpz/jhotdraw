@@ -495,7 +495,13 @@ final class LinearGradientPaintContext extends MultipleGradientPaintContext {
      * operation.  This is where the area is filled with colors distributed
      * linearly.
      *
-     * @param x,y,w,h The area in device space for which colors are
+     * @param x The area in device space for which colors are
+     * generated.
+     * @param y The area in device space for which colors are
+     * generated.
+     * @param w The area in device space for which colors are
+     * generated.
+     * @param h The area in device space for which colors are
      * generated.
      *
      */

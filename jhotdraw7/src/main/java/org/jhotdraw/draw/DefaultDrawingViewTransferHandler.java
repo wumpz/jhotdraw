@@ -68,7 +68,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
     @SuppressWarnings("unchecked")
     protected boolean importData(JComponent comp, Transferable t, HashSet<Figure> transferFigures) {
         if (DEBUG) {
-            System.out.println(this + ".importData(comp,t)");
+            System.out.println("DefaultDrawingViewTransferHandler.importData(comp,t)");
         }
         boolean retValue;
         if (comp instanceof DrawingView) {
@@ -78,52 +78,79 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
             if (drawing.getInputFormats() == null ||
                     drawing.getInputFormats().size() == 0) {
                 if (DEBUG) {
-                    System.out.println(this + ".importData failed - drawing has no import formats");
+                    System.out.println("DefaultDrawingViewTransferHandler  import failed; drawing has no import formats");
                 }
                 retValue = false;
             } else {
                 retValue = false;
                 try {
+                    DataFlavor[] transferFlavors = t.getTransferDataFlavors();
+
+                    // The Apple JVM magically inserts a PNG image add the beginning of
+                    // the transfer flavors. Move it to the end, because in many
+                    // cases, PNG is not the most descriptive data flavor.
+                    if (System.getProperty("os.name").toLowerCase().startsWith("mac")) {
+                        if (transferFlavors.length > 1 &&//
+                                transferFlavors[0].equals(new DataFlavor("image/png", "PNG"))) {
+                            DataFlavor tmp = transferFlavors[0];
+                            for (int i = 0, n = transferFlavors.length - 2; i < n; i++) {
+                                transferFlavors[i] = transferFlavors[i + 1];
+                            }
+                            transferFlavors[transferFlavors.length - 1] = tmp;
+                        }
+                    }
+
                     // Search for a suitable input format
                     SearchLoop:
-                    for (InputFormat format : drawing.getInputFormats()) {
-                        for (DataFlavor flavor : t.getTransferDataFlavors()) {
-                            if (DEBUG) {
-                                System.out.println(this + ".importData trying to match " + format + " to flavor " + flavor);
-                            }
+                    for (DataFlavor flavor : transferFlavors) {
+                        if (DEBUG) {
+                            System.out.println("DefaultDrawingViewTransferHandler  trying flavor:" + flavor.getMimeType());
+                        }
+                        for (InputFormat format : drawing.getInputFormats()) {
                             if (format.isDataFlavorSupported(flavor)) {
                                 if (DEBUG) {
-                                    System.out.println(this + ".importData importing flavor " + flavor);
+                                    System.out.println("DefaultDrawingViewTransferHandler    trying format:" + format);
                                 }
                                 LinkedList<Figure> existingFigures = new LinkedList<Figure>(drawing.getChildren());
-                                format.read(t, drawing, false);
-                                final LinkedList<Figure> importedFigures = new LinkedList<Figure>(drawing.getChildren());
-                                importedFigures.removeAll(existingFigures);
-                                view.clearSelection();
-                                view.addToSelection(importedFigures);
-                                transferFigures.addAll(importedFigures);
-                                drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
-
-                                    @Override
-                                    public String getPresentationName() {
-                                        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-                                        return labels.getString("edit.paste.text");
+                                try {
+                                    format.read(t, drawing, false);
+                                    if (DEBUG) {
+                                        System.out.println("DefaultDrawingViewTransferHandler    import succeeded");
                                     }
+                                    final LinkedList<Figure> importedFigures = new LinkedList<Figure>(drawing.getChildren());
+                                    importedFigures.removeAll(existingFigures);
+                                    view.clearSelection();
+                                    view.addToSelection(importedFigures);
+                                    transferFigures.addAll(importedFigures);
+                                    drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
 
-                                    @Override
-                                    public void undo() throws CannotUndoException {
-                                        super.undo();
-                                        drawing.removeAll(importedFigures);
-                                    }
+                                        @Override
+                                        public String getPresentationName() {
+                                            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+                                            return labels.getString("edit.paste.text");
+                                        }
 
-                                    @Override
-                                    public void redo() throws CannotRedoException {
-                                        super.redo();
-                                        drawing.addAll(importedFigures);
+                                        @Override
+                                        public void undo() throws CannotUndoException {
+                                            super.undo();
+                                            drawing.removeAll(importedFigures);
+                                        }
+
+                                        @Override
+                                        public void redo() throws CannotRedoException {
+                                            super.redo();
+                                            drawing.addAll(importedFigures);
+                                        }
+                                    });
+                                    retValue = true;
+                                    break SearchLoop;
+                                } catch (IOException e) {
+                                    if (DEBUG) {
+                                        System.out.println("    import failed");
+                                        e.printStackTrace();
                                     }
-                                });
-                                retValue = true;
-                                break SearchLoop;
+                                    // failed to read transferalbe, try with next InputFormat
+                                }
                             }
                         }
                     }
@@ -146,7 +173,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                                         if (file.isFile() &&
                                                 format.getFileFilter().accept(file)) {
                                             if (DEBUG) {
-                                                System.out.println(this + ".importData importing file " + file);
+                                                System.out.println("DefaultDrawingViewTransferHandler  importing file " + file);
                                             }
                                             format.read(file, drawing, false);
                                         }
@@ -205,6 +232,10 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
         } else {
             retValue = super.importData(comp, t);
         }
+        
+        if (DEBUG) {
+            System.out.println("DefaultDrawingViewTransferHandler .importData(comp,t):" + retValue);
+        }
         return retValue;
     }
 
@@ -214,28 +245,34 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
         if (c instanceof DrawingView) {
             DrawingView view = (DrawingView) c;
             if (DEBUG) {
-                System.out.println(this + ".getSourceActions outputFormats.size=" + view.getDrawing().getOutputFormats().size());
+                System.out.println("DefaultDrawingViewTransferHandler .getSourceActions outputFormats.size=" + view.getDrawing().getOutputFormats().size());
             }
+
             retValue = (view.getDrawing().getOutputFormats().size() > 0 &&
                     view.getSelectionCount() > 0) ? COPY | MOVE : NONE;
         } else {
             retValue = super.getSourceActions(c);
         }
+
         if (DEBUG) {
-            System.out.println(this + ".getSourceActions:" + retValue);
+            System.out.println("DefaultDrawingViewTransferHandler .getSourceActions:" + retValue);
         }
+
         return retValue;
     }
 
     @Override
-    protected Transferable createTransferable(JComponent c) {
+    protected Transferable createTransferable(
+            JComponent c) {
         if (DEBUG) {
-            System.out.println(this + ".createTransferable(" + c + ")");
+            System.out.println("DefaultDrawingViewTransferHandler .createTransferable(" + c + ")");
         }
+
         Transferable retValue;
         if (c instanceof DrawingView) {
             DrawingView view = (DrawingView) c;
-            retValue = createTransferable(view, view.getSelectedFigures());
+            retValue =
+                    createTransferable(view, view.getSelectedFigures());
         } else {
             retValue = super.createTransferable(c);
         }
@@ -245,11 +282,13 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
 
     protected Transferable createTransferable(DrawingView view, java.util.Set<Figure> transferFigures) {
         if (DEBUG) {
-            System.out.println(this + ".createTransferable(" + view + "," + transferFigures + ")");
+            System.out.println("DefaultDrawingViewTransferHandler .createTransferable(" + view + "," + transferFigures + ")");
         }
+
         Transferable retValue;
         Drawing drawing = view.getDrawing();
-        exportedFigures = null;
+        exportedFigures =
+                null;
 
         if (drawing.getOutputFormats() == null ||
                 drawing.getOutputFormats().size() == 0) {
@@ -267,18 +306,23 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                         if (!transfer.isDataFlavorSupported(t.getTransferDataFlavors()[0])) {
                             transfer.add(t);
                         }
+
                     }
                     exportedFigures = new HashSet<Figure>(transferFigures);
-                    retValue = transfer;
+                    retValue =
+                            transfer;
                 } catch (IOException e) {
                     if (DEBUG) {
                         e.printStackTrace();
                     }
+
                     retValue = null;
                 }
+
             } else {
                 retValue = null;
             }
+
         }
 
         return retValue;
@@ -287,8 +331,9 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
     @Override
     protected void exportDone(JComponent source, Transferable data, int action) {
         if (DEBUG) {
-            System.out.println(this + ".exportDone " + action + " move=" + MOVE);
+            System.out.println("DefaultDrawingViewTransferHandler .exportDone " + action + " move=" + MOVE);
         }
+
         if (source instanceof DrawingView) {
             final DrawingView view = (DrawingView) source;
             final Drawing drawing = view.getDrawing();
@@ -304,7 +349,10 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                     if (!f.isRemovable()) {
                         source.getToolkit().beep();
                         return;
+
                     }
+
+
                 }
 
                 // view.clearSelection();
@@ -339,6 +387,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                         for (CompositeFigureEvent evt : deletionEvents) {
                             drawing.add(evt.getIndex(), evt.getChildFigure());
                         }
+
                         view.addToSelection(selectedFigures);
                     }
 
@@ -348,20 +397,24 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                         for (CompositeFigureEvent evt : new ReversedList<CompositeFigureEvent>(deletionEvents)) {
                             drawing.remove(evt.getChildFigure());
                         }
+
                     }
                 });
             }
+
         } else {
             super.exportDone(source, data, action);
         }
+
         exportedFigures = null;
     }
 
     @Override
     public void exportAsDrag(JComponent comp, InputEvent e, int action) {
         if (DEBUG) {
-            System.out.println(this + ".exportAsDrag");
+            System.out.println("DefaultDrawingViewTransferHandler .exportAsDrag");
         }
+
         if (comp instanceof DrawingView) {
             DrawingView view = (DrawingView) comp;
 
@@ -373,6 +426,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
             } else {
                 transferFigures.add(f);
             }
+
             Rectangle2D.Double drawingArea = null;
             for (Figure fig : transferFigures) {
                 if (drawingArea == null) {
@@ -380,6 +434,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                 } else {
                     drawingArea.add(fig.getDrawingArea());
                 }
+
             }
             Rectangle viewArea = view.drawingToView(drawingArea);
             Point imageOffset = me.getPoint();
@@ -395,13 +450,16 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
         } else {
             super.exportAsDrag(comp, e, action);
         }
+
     }
 
     @Override
-    public Icon getVisualRepresentation(Transferable t) {
+    public Icon getVisualRepresentation(
+            Transferable t) {
         if (DEBUG) {
-            System.out.println(this + ".getVisualRepresentation");
+            System.out.println("DefaultDrawingViewTransferHandler .getVisualRepresentation");
         }
+
         Image image = null;
         try {
             image = (Image) t.getTransferData(DataFlavor.imageFlavor);
@@ -409,10 +467,12 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
             if (DEBUG) {
                 ex.printStackTrace();
             }
+
         } catch (UnsupportedFlavorException ex) {
             if (DEBUG) {
                 ex.printStackTrace();
             }
+
         }
 
         return (image == null) ? null : new ImageIcon(image);
@@ -421,15 +481,17 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
     @Override
     public boolean canImport(JComponent comp, DataFlavor[] transferFlavors) {
         if (DEBUG) {
-            System.out.println(this + ".canImport " + Arrays.asList(transferFlavors));
+            System.out.println("DefaultDrawingViewTransferHandler .canImport " + Arrays.asList(transferFlavors));
         }
+
         boolean retValue;
         if (comp instanceof DrawingView) {
             DrawingView view = (DrawingView) comp;
             Drawing drawing = view.getDrawing();
 
             // Search for a suitable input format
-            retValue = false;
+            retValue =
+                    false;
             SearchLoop:
             for (InputFormat format : drawing.getInputFormats()) {
                 for (DataFlavor flavor : transferFlavors) {
@@ -438,11 +500,13 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                         retValue = true;
                         break SearchLoop;
                     }
+
                 }
             }
         } else {
             retValue = super.canImport(comp, transferFlavors);
         }
+
         return retValue;
     }
 
@@ -454,7 +518,8 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
      * This is the default drag handler for drag and drop operations that
      * use the <code>TransferHandler</code>.
      */
-    private static class DragHandler implements DragGestureListener, DragSourceListener {
+    private static class DragHandler
+            implements DragGestureListener, DragSourceListener {
 
         private boolean scrolls;
         private Transferable transferable;

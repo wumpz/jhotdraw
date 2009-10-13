@@ -142,8 +142,6 @@ class XMLAttribute
 
    /**
     * Returns the type of the attribute.
-    *
-    * @param type the new type.
     */
    String getType()
    {

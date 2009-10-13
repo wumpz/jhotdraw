@@ -194,7 +194,7 @@ public class ODGStylesReader {
      * supported depending on the style family.
      *
      * @param elem A &lt;default-style&gt; element.
-     * @param a Style attributes to be filled in by this method.
+     * @param styles Style attributes to be filled in by this method.
      */
     private void readDefaultStyleElement(IXMLElement elem, HashMap<String,Style> styles) throws IOException {
         String styleName = elem.getAttribute("family", STYLE_NAMESPACE, null);
@@ -361,7 +361,7 @@ public class ODGStylesReader {
      *
      *
      * @param elem A &lt;style&gt; element.
-     * @param a Style attributes to be filled in by this method.
+     * @param styles Style attributes to be filled in by this method.
      */
     private void readStyleElement(IXMLElement elem, HashMap<String,Style> styles) throws IOException {
         // The style:name attribute identifies the name of the style. This attribute, combined with the
@@ -473,7 +473,7 @@ public class ODGStylesReader {
      * <p>
      *
      * @param elem A &lt;layer-put&gt; element.
-     * @param a Style attributes to be filled in by this method.
+     * @param styles Style attributes to be filled in by this method.
      */
     private void readLayerSetElement(IXMLElement elem,  HashMap<String,Style> styles) throws IOException {
         if (DEBUG) System.out.println("ODGStylesReader unsupported <"+elem.getName()+"> element.");
@@ -484,7 +484,7 @@ public class ODGStylesReader {
      * <p>
      *
      * @param elem A &lt;list-style&gt; element.
-     * @param a Style attributes to be filled in by this method.
+     * @param styles Style attributes to be filled in by this method.
      */
     private void readListStyleElement(IXMLElement elem,  HashMap<String,Style> styles) throws IOException {
         if (DEBUG) System.out.println("ODGStylesReader unsupported <"+elem.getName()+"> element.");
@@ -512,7 +512,7 @@ public class ODGStylesReader {
      *
      *
      * @param elem A &lt;master-styles&gt; element.
-     * @param a Style attributes to be filled in by this method.
+     * @param styles Style attributes to be filled in by this method.
      */
     private void readMarkerElement(IXMLElement elem,  HashMap<String,Style> styles) throws IOException {
         //if (DEBUG) System.out.println("ODGStylesReader unsupported <"+elem.getName()+"> element.");
@@ -523,7 +523,7 @@ public class ODGStylesReader {
      * <p>
      *
      * @param elem A &lt;page-layout&gt; element.
-     * @param a Style attributes to be filled in by this method.
+     * @param styles Style attributes to be filled in by this method.
      */
     private void readMasterPageElement(IXMLElement elem,  HashMap<String,Style> styles) throws IOException {
         if (DEBUG) System.out.println("ODGStylesReader unsupported <"+elem.getName()+"> element.");
@@ -538,7 +538,7 @@ public class ODGStylesReader {
      * optional elements that specify the properties of headers and footers.
      *
      * @param elem A &lt;page-layout&gt; element.
-     * @param a Style attributes to be filled in by this method.
+     * @param styles Style attributes to be filled in by this method.
      */
     private void readPageLayoutElement(IXMLElement elem,  HashMap<String,Style> styles) throws IOException {
         //if (DEBUG) System.out.println("ODGStylesReader unsupported <"+elem.getName()+"> element.");

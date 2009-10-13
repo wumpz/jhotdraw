@@ -140,8 +140,13 @@ public class ImageInputFormat implements InputFormat {
     }
 
     public boolean isDataFlavorSupported(DataFlavor flavor) {
-        return flavor.equals(DataFlavor.imageFlavor) ||
-                flavor.equals(ImageTransferable.IMAGE_PNG_FLAVOR);
+        try {
+            return flavor.equals(DataFlavor.imageFlavor) ||//
+                    flavor.equals(ImageTransferable.IMAGE_PNG_FLAVOR) ||//
+                    flavor.equals(new DataFlavor("application/octet-stream; type=public.png"));
+        } catch (ClassNotFoundException ex) {
+            return false;
+        }
     }
 
     public void read(Transferable t, Drawing drawing, boolean replace) throws UnsupportedFlavorException, IOException {
@@ -173,12 +178,31 @@ public class ImageInputFormat implements InputFormat {
                 //e.printStackTrace();
             }
         }
-        // 2. Try to read the image using our own image/png flavor.
-        if (t.isDataFlavorSupported(ImageTransferable.IMAGE_PNG_FLAVOR)) {
+
+        DataFlavor imgFlavor = null;
+        try {
+            // 2. Try to read the image using a image input stream flavor.
+            DataFlavor[] flavors = new DataFlavor[]{//
+                ImageTransferable.IMAGE_PNG_FLAVOR,//
+                new DataFlavor("application/octet-stream; type=public.png")};
+
+            for (DataFlavor f : flavors) {
+                if (t.isDataFlavorSupported(f)) {
+                    imgFlavor = f;
+                    break;
+                }
+            }
+
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+
+        if (imgFlavor != null) {
             try {
-                InputStream in = (InputStream) t.getTransferData(ImageTransferable.IMAGE_PNG_FLAVOR);
+                InputStream in = (InputStream) t.getTransferData(imgFlavor);
                 Image img = ImageIO.read(in);
-                img = Images.toBufferedImage(img);
+                img =
+                        Images.toBufferedImage(img);
                 ImageHolderFigure figure = (ImageHolderFigure) prototype.clone();
                 figure.setBufferedImage((BufferedImage) img);
                 figure.setBounds(
@@ -193,6 +217,7 @@ public class ImageInputFormat implements InputFormat {
                     drawing.set(CANVAS_WIDTH, figure.getBounds().width);
                     drawing.set(CANVAS_HEIGHT, figure.getBounds().height);
                 }
+
                 drawing.addAll(list);
             } catch (Throwable e) {
                 e.printStackTrace();
@@ -200,6 +225,7 @@ public class ImageInputFormat implements InputFormat {
                 ex.initCause(e);
                 throw ex;
             }
+
         } else {
             throw new IOException("Couldn't import image.");
         }
