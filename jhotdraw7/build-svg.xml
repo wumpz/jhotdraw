@@ -60,7 +60,7 @@
     <target name="applet.jar" depends="init,applet.compile">
         <mkdir dir="${distdir}/unsigned"/>
         <jar destfile="${distdir}/unsigned/jhotdraw_svg.jar" basedir="${classdir}"
-        index="true" compress="false">
+        index="true" compress="true">
             <manifest>
                 <attribute name="Built-By" value="${author}"/>
                 <attribute name="Main-Class" value="org.jhotdraw.samples.svg.SVGApplet"/>

@@ -35,7 +35,7 @@ import org.jhotdraw.xml.*;
  * <p>
  * This class should no be used as a means to implement long-term storage of
  * drawings, since it does not support structural changes that might occur in
- * drawing application over time.
+ * a drawing application over time.
  *
  * @author Werner Randelshofer
  * @version $Id$

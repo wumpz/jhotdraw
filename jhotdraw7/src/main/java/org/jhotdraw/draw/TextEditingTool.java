@@ -15,7 +15,6 @@ package org.jhotdraw.draw;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.Point2D;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.UndoableEdit;
 import org.jhotdraw.util.ResourceBundleUtil;

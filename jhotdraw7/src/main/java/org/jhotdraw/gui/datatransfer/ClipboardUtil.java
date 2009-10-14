@@ -59,6 +59,11 @@ public class ClipboardUtil {
         return instance;
     }
 
+    /** Sets the Clipboard singleton used by the JHotDraw framework.
+     * <p>
+     * If you set this null, the next call to getClipboard will create a new
+     * singleton.
+     */
     public static void setClipboard(Clipboard instance) {
         ClipboardUtil.instance = instance;
     }

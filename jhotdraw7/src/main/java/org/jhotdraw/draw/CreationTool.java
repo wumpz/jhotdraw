@@ -47,7 +47,7 @@ import org.jhotdraw.util.*;
  * <b>Design Patterns</b>
  *
  * <p><em>Prototype</em><br>
- * The creation tool create new figures by cloning a prototype figure object.
+ * The creation tool creates new figures by cloning a prototype figure object.
  * That's the reason why {@code Figure} extends the {@code Cloneable} interface.
  * <br>
  * Prototype: {@link Figure}; Client: {@link CreationTool}.

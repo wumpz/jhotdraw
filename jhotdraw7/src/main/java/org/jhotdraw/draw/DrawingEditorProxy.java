@@ -1,7 +1,7 @@
 /*
  * @(#)DrawingEditorProxy.java
  *
- * Copyright (c) 2007 by the original authors of JHotDraw
+ * Copyright (c) 2007-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -20,6 +20,8 @@ import java.beans.*;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
 import org.jhotdraw.beans.AbstractBean;
 
 /**
@@ -40,6 +42,7 @@ import org.jhotdraw.beans.AbstractBean;
  */
 public class DrawingEditorProxy extends AbstractBean implements DrawingEditor {
     private DrawingEditor target;
+
     private class Forwarder implements PropertyChangeListener, Serializable {
           public void propertyChange(PropertyChangeEvent evt) {
               firePropertyChange(evt.getPropertyName(), evt.getOldValue(), evt.getNewValue());
@@ -142,5 +145,21 @@ public class DrawingEditorProxy extends AbstractBean implements DrawingEditor {
 
     public <T> T getHandleAttribute(AttributeKey<T> key) {
         return target.getHandleAttribute(key);
+    }
+
+    public void setInputMap(InputMap newValue) {
+        target.setInputMap(newValue);
+    }
+
+    public InputMap getInputMap() {
+        return target.getInputMap();
+    }
+
+    public void setActionMap(ActionMap newValue) {
+        target.setActionMap(newValue);
+    }
+
+    public ActionMap getActionMap() {
+        return target.getActionMap();
     }
 }

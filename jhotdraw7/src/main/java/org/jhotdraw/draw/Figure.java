@@ -78,7 +78,7 @@ import org.jhotdraw.xml.DOMStorable;
  * {@link CompositeFigure}, {@link DrawingView}.
  *
  * <p><em>Prototype</em><br>
- * The creation tool create new figures by cloning a prototype figure object.
+ * The creation tool creates new figures by cloning a prototype figure object.
  * That's the reason why {@code Figure} extends the {@code Cloneable} interface.
  * <br>
  * Prototype: {@link Figure}; Client: {@link CreationTool}.
@@ -168,16 +168,18 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
     public Point2D.Double getEndPoint();
 
     /**
-     * Returns the untransformed logicalbounds of the figure as a Rectangle.
-     * The handle bounds are used by Handle objects for adjusting the 
+     * Returns the untransformed logical bounds of the figure as a Rectangle.
+     * <p>
+     * The bounds are used by Handle objects for adjusting the 
      * figure and for aligning the figure on a grid.
      */
     public Rectangle2D.Double getBounds();
 
     /**
      * Returns the drawing area of the figure as a Rectangle.
-     * The drawing area is used to improve the performance of GraphicView, for
-     * example for clipping of repaints and for clipping of mouse events.
+     * <p>
+     * The drawing area is used to inform {@link DrawingView} about the
+     * area that is needed to draw this figure.
      * <p>
      * The drawing area needs to be large enough, to take line width, line caps
      * and other decorations into account that exceed the bounds of the Figure.
@@ -358,7 +360,7 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
 
     // CONNECTING 
     /**
-     * Checks if this Figure can be connected.
+     * Checks wether this Figure can be connected to a {@link ConnectionFigure}.
      */
     public boolean canConnect();
 

@@ -1,7 +1,7 @@
 /*
  * @(#)DrawingEditor.java
  *
- * Copyright (c) 1996-2008 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -16,6 +16,8 @@ package org.jhotdraw.draw;
 import java.awt.*;
 import java.beans.*;
 import java.util.*;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
 
 /**
  * A <em>drawing editor</em> coordinates drawing tools and drawing views.
@@ -51,6 +53,11 @@ import java.util.*;
  * and drawing views:<br>
  * Mediator: {@link DrawingEditor}; Colleagues: {@link DrawingView}, {@link Tool}.
  *
+ * <p><em>Mediator</em><br>
+ * {@code DrawingEditor} acts as a mediator for coordinating keyboard input from
+ * {@code Tool}s and Swing action objects:<br>
+ * Mediator: {@link DrawingEditor}; Colleagues: {@link Tool}, javax.swing.Action.
+ *
  * <p><em>Model-View-Controller</em><br>
  * The following classes implement together the Model-View-Controller design
  * pattern:<br>
@@ -84,6 +91,14 @@ public interface DrawingEditor {
      * The property name for the active tool property.
      */
     public final static String TOOL_PROPERTY = "tool";
+    /**
+     * The property name for the input map property.
+     */
+    public final static String INPUT_MAP_PROPERTY = "inputMap";
+    /**
+     * The property name for the action map property.
+     */
+    public final static String ACTION_MAP_PROPERTY = "actionMap";
 
     /**
      * Gets the editor's current drawing.
@@ -205,6 +220,44 @@ public interface DrawingEditor {
      * set value. If the handle attribute has not been set, returns key.getDefaultValue().
      */
     public <T> T getHandleAttribute(AttributeKey<T> key);
+
+    /**
+     * Sets the input map used by the tool of this drawing editor as a fall back
+     * for handling keyboard events.
+     * <p>
+     * This is a bound property.
+     */
+    public void setInputMap(InputMap newValue);
+    /**
+     * Sets the input map used by the tool of this drawing editor as a fall back
+     * for handling keyboard events.
+     * <p>
+     * {@code Tool}s use the input map of the drawing editor to determine what
+     * to do when a key was pressed that the tool can not handle.
+     * <p>
+     * This is a bound property.
+     */
+    public InputMap getInputMap();
+
+    /**
+     * Sets the action map used by the tool of this drawing editor as a fall back
+     * for performing actions.
+     * <p>
+     * This is a bound property.
+     */
+    public void setActionMap(ActionMap newValue);
+
+    /**
+     * Gets the action map used by the tool of this drawing editor as a fall back
+     * for performing actions.
+     * <p>
+     * {@code Tool}s use the action map of the drawing editor to determine what
+     * to do when an action needs to be invoked from the InputMap of the
+     * drawing editor.
+     * <p>
+     * This is a bound property.
+     */
+    public ActionMap getActionMap();
 
     /**
      * Sets the enabled state of the drawing editor.

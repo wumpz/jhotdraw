@@ -49,11 +49,11 @@ public abstract class AbstractCompositeFigure
      */
     protected ArrayList<Figure> children = new ArrayList<Figure>();
     /**
-     * Cached draw cachedBounds.
+     * Caches the drawing area to improve the performance of method {@link #getDrawingArea}.
      */
     protected transient Rectangle2D.Double cachedDrawingArea;
     /**
-     * Cached layout cachedBounds.
+     * Caches the bounds to improve the performance of method {@link #getBounds}.
      */
     protected transient Rectangle2D.Double cachedBounds;
     /**
