@@ -25,6 +25,7 @@ import javax.swing.*;
 import org.jhotdraw.app.EditableComponent;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import java.awt.image.VolatileImage;
+import sun.swing.SwingUtilities2;
 
 /**
  * A default implementation of {@link DrawingView} suited for viewing drawings
@@ -45,13 +46,11 @@ public class DefaultDrawingView
      */
     private final static boolean DEBUG = false;
     private Drawing drawing;
-    private Set<Figure> dirtyFigures = new HashSet<Figure>();
     /**
      * Holds the selected figures in an ordered put. The ordering reflects
      * the sequence that was used to select the figures.
      */
     private Set<Figure> selectedFigures = new LinkedHashSet<Figure>();
-    //private int rainbow = 0;
     private LinkedList<Handle> selectionHandles = new LinkedList<Handle>();
     private boolean isConstrainerVisible = false;
     private Constrainer visibleConstrainer = new GridConstrainer(8, 8);
@@ -62,7 +61,7 @@ public class DefaultDrawingView
     private boolean handlesAreValid = true;
     private transient Dimension cachedPreferredSize;
     private double scaleFactor = 1;
-    private Point2D.Double translate = new Point2D.Double(0, 0);
+    private Point translation = new Point(0, 0);
     private int detailLevel;
     private DrawingEditor editor;
     private JLabel emptyDrawingLabel;
@@ -72,12 +71,6 @@ public class DefaultDrawingView
         @Override
         public void figureHandlesChanged(FigureEvent e) {
             invalidateHandles();
-        }
-    };
-    private ChangeListener changeHandler = new ChangeListener() {
-
-        public void stateChanged(ChangeEvent evt) {
-            repaint();
         }
     };
     private transient Rectangle2D.Double cachedDrawingArea;
@@ -90,6 +83,7 @@ public class DefaultDrawingView
     private Rectangle bufferedArea = new Rectangle();
     /** Holds the drawing area (in view coordinates) which has not been redrawn yet in the drawing buffer. */
     private Rectangle dirtyArea = new Rectangle(0, 0, -1, -1);
+    private boolean paintEnabled = true;
 
     public void repaintHandles() {
         validateHandles();
@@ -181,10 +175,15 @@ public class DefaultDrawingView
 
         public void attributeChanged(FigureEvent e) {
             if (e.getSource() == drawing) {
-                if (e.getAttribute().equals(CANVAS_HEIGHT) || e.getAttribute().equals(CANVAS_WIDTH)) {
-                    validateViewTranslation(false);
+                AttributeKey a = e.getAttribute();
+                if (a.equals(CANVAS_HEIGHT) || a.equals(CANVAS_WIDTH)) {
+                    validateViewTranslation();
+                    repaint();
+                } else if (a.equals(CANVAS_FILL_COLOR) || a.equals(CANVAS_FILL_OPACITY)) {
+                    repaint();
+                } else {
+                    repaintDrawingArea(e.getInvalidatedArea());
                 }
-                repaint();
             } else {
                 repaintDrawingArea(e.getInvalidatedArea());
             }
@@ -217,7 +216,6 @@ public class DefaultDrawingView
         setFocusable(true);
         addFocusListener(eventHandler);
         setTransferHandler(new DefaultDrawingViewTransferHandler());
-        //setBorder(new EmptyBorder(10,10,10,10));
         setBackground(new Color(0xb0b0b0));
         setOpaque(true);
     }
@@ -281,6 +279,7 @@ public class DefaultDrawingView
      */
     @Override
     public void paintComponent(Graphics gr) {
+        long start = System.currentTimeMillis();
         Graphics2D g = (Graphics2D) gr;
         setViewRenderingHints(g);
         drawBackground(g);
@@ -299,11 +298,9 @@ public class DefaultDrawingView
     protected void drawDrawingDoubleBuffered(Graphics2D g) {
         Rectangle vr = getVisibleRect();
         Point shift = new Point(0, 0);
-
-        if (bufferedArea.contains(vr)) {
-            // The visible rect fits into the buffered area; nothing to do.
-        } else if (bufferedArea.width >= vr.width && bufferedArea.height >= vr.height) {
-            // The visible rect fits into the buffered area, but is shifted; shift the buffered area.
+        if (bufferedArea.contains(vr) ||
+                bufferedArea.width >= vr.width && bufferedArea.height >= vr.height) {
+            // The visible rect fits into the buffered area, but may be shifted; shift the buffered area.
             shift.x = bufferedArea.x - vr.x;
             shift.y = bufferedArea.y - vr.y;
             if (shift.x > 0) {
@@ -323,7 +320,6 @@ public class DefaultDrawingView
             // resize it, and mark everything as dirty.
             bufferedArea.setBounds(vr);
             dirtyArea.setBounds(vr);
-
             if (drawingBuffer != null && //
                     (drawingBuffer.getWidth() != vr.width ||
                     drawingBuffer.getHeight() != vr.height)) {
@@ -341,13 +337,24 @@ public class DefaultDrawingView
             switch (valid) {
                 case VolatileImage.IMAGE_INCOMPATIBLE:
                     // old buffer doesn't work with new GraphicsConfig; (re-)create it
-                    drawingBuffer = getGraphicsConfiguration().createCompatibleVolatileImage(vr.width, vr.height, Transparency.TRANSLUCENT);
+                    try {
+                        drawingBuffer = getGraphicsConfiguration().createCompatibleVolatileImage(vr.width, vr.height, Transparency.TRANSLUCENT);
+                    } catch (OutOfMemoryError e) {
+                        drawingBuffer = null;
+                    }
                     dirtyArea.setBounds(bufferedArea);
                     break;
                 case VolatileImage.IMAGE_RESTORED:
                     // image was restored, but buffer lost; redraw everything
                     dirtyArea.setBounds(bufferedArea);
                     break;
+            }
+
+            if (drawingBuffer == null) {
+                // There is not enough memory available for a drawing buffer;
+                // draw without buffering.
+                drawDrawing(g);
+                break;
             }
 
             if (!dirtyArea.isEmpty()) {
@@ -378,8 +385,9 @@ public class DefaultDrawingView
                 gBuf.dispose();
             }
 
-//            g.drawImage(drawingBuffer, vr.x, vr.y, null);
-            g.drawImage(drawingBuffer, bufferedArea.x, bufferedArea.y, null);
+            if (!drawingBuffer.contentsLost()) {
+                g.drawImage(drawingBuffer, bufferedArea.x, bufferedArea.y, null);
+            }
 
             if (drawingBuffer.contentsLost()) {
                 dirtyArea.setBounds(bufferedArea);
@@ -429,8 +437,8 @@ public class DefaultDrawingView
      */
     protected Rectangle getCanvasViewBounds() {
         // Position of the zero coordinate point on the view
-        int x = (int) (-translate.x * scaleFactor);
-        int y = (int) (-translate.y * scaleFactor);
+        int x = -translation.x;
+        int y = -translation.y;
 
         int w = getWidth();
         int h = getHeight();
@@ -441,10 +449,8 @@ public class DefaultDrawingView
             if (cw != null && ch != null) {
                 Point lowerRight = drawingToView(
                         new Point2D.Double(cw, ch));
-                w =
-                        lowerRight.x - x;
-                h =
-                        lowerRight.y - y;
+                w = lowerRight.x - x;
+                h = lowerRight.y - y;
             }
 
         }
@@ -502,7 +508,7 @@ public class DefaultDrawingView
             } else {
                 Graphics2D g = (Graphics2D) gr.create();
                 AffineTransform tx = g.getTransform();
-                tx.translate(-translate.x * scaleFactor, -translate.y * scaleFactor);
+                tx.translate(-translation.x, -translation.y);
                 tx.scale(scaleFactor, scaleFactor);
                 g.setTransform(tx);
 
@@ -549,25 +555,29 @@ public class DefaultDrawingView
             this.drawing.addCompositeFigureListener(eventHandler);
             this.drawing.addFigureListener(eventHandler);
         }
-
-        // mark complete buffer area as dirty
         dirtyArea.add(bufferedArea);
 
-        invalidateDimension();
-        if (getParent() != null) {
-            getParent().validate();
-            if (getParent() instanceof JViewport) {
-                JViewport vp = (JViewport) getParent();
-
-                Rectangle2D.Double r = getDrawingArea();
-                vp.setViewPosition(drawingToView(new Point2D.Double(Math.min(0, -r.x), Math.min(0, -r.y))));
-            }
-
-        }
         firePropertyChange(DRAWING_PROPERTY, oldValue, newValue);
-        validateViewTranslation(false);
 
+        // Revalidate without flickering
         revalidate();
+        validateViewTranslation();
+        paintEnabled = false;
+        javax.swing.Timer t = new javax.swing.Timer(10, new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                repaint();
+                paintEnabled = true;
+            }
+        });
+        t.setRepeats(false);
+        t.start();
+    }
+
+    public void paint(Graphics g) {
+        if (paintEnabled) {
+            super.paint(g);
+        }
     }
 
     protected void repaintDrawingArea(Rectangle2D.Double r) {
@@ -582,6 +592,15 @@ public class DefaultDrawingView
     public void invalidate() {
         invalidateDimension();
         super.invalidate();
+    }
+
+    @Override
+    public void removeNotify() {
+      super.removeNotify();
+      if (drawingBuffer!=null) {
+          drawingBuffer.flush();
+          drawingBuffer=null;
+      }
     }
 
     /**
@@ -732,8 +751,6 @@ public class DefaultDrawingView
 
             fireSelectionChanged(oldSelection, newSelection);
         }
-//repaintDrawingArea();
-
     }
 
     /**
@@ -983,11 +1000,9 @@ public class DefaultDrawingView
                         (int) ((Math.max(0, r.y) + r.height) * scaleFactor) + insets.top + insets.bottom);
             } else {
                 cachedPreferredSize = new Dimension(
-                        (int) (Math.max((Math.max(0, r.x) + r.width), cw) * scaleFactor) + insets.left + insets.right,
-                        (int) (Math.max((Math.max(0, r.y) + r.height), ch) * scaleFactor) + insets.top + insets.bottom);
+                        (int) ((-Math.min(0, r.x) + Math.max(Math.max(0, r.x) + r.width + Math.min(0, r.x), cw)) * scaleFactor) + insets.left + insets.right,
+                        (int) ((-Math.min(0, r.y) + Math.max(Math.max(0, r.y) + r.height + Math.min(0, r.y), ch)) * scaleFactor) + insets.top + insets.bottom);
             }
-
-            validateViewTranslation(true);
         }
 
         return (Dimension) cachedPreferredSize.clone();
@@ -1011,75 +1026,71 @@ public class DefaultDrawingView
     @Override
     public void setBounds(int x, int y, int width, int height) {
         super.setBounds(x, y, width, height);
-        validateViewTranslation(false);
-
+        validateViewTranslation();
     }
 
     /**
      * Updates the view translation taking into account the current dimension
      * of the view JComponent, the size of the drawing, and the scale factor.
      */
-    private void validateViewTranslation(boolean repaint) {
+    private void validateViewTranslation() {
         if (getDrawing() == null) {
-            translate.x = translate.y = 0;
+            translation.x = translation.y = 0;
             return;
 
         }
-
-        Point2D.Double oldTranslate = (Point2D.Double) translate.clone();
+        Point oldTranslation = (Point) translation.clone();
 
         int width = getWidth();
         int height = getHeight();
         Insets insets = getInsets();
-        Rectangle2D.Double r = getDrawingArea();
-        Double cw = getDrawing().get(CANVAS_WIDTH);
-        Double ch = getDrawing().get(CANVAS_HEIGHT);
+        Rectangle2D.Double da = getDrawingArea();
+        Rectangle r = new Rectangle((int) (da.x * scaleFactor), (int) (da.y * scaleFactor), (int) (da.width * scaleFactor), (int) (da.height * scaleFactor));
+        Double cwd = getDrawing().get(CANVAS_WIDTH);
+        Double chd = getDrawing().get(CANVAS_HEIGHT);
 
-        if (cw == null || ch == null) {
+        if (cwd == null || chd == null) {
             // The canvas size is not specified. 
 
             // Place the drawing at the top left corner.
-            translate.x = Math.min(0, r.x);
-            translate.y = Math.min(0, r.y);
+            translation.x = Math.min(0, r.x) - insets.left;
+            translation.y = Math.min(0, r.y) - insets.top;
         } else {
-            // The canvas size is not specified.
+            int cw = (int) (cwd * scaleFactor);
+            int ch = (int) (chd * scaleFactor);
+            // The canvas size is specified.
 
             //Place the canvas at the center
-            Dimension preferred = getPreferredSize();
-            if (cw != null && ch != null) {
-                if (cw * scaleFactor < width) {
-                    translate.x = (width / scaleFactor - cw) / -2d;
-                }
-
-                if (ch * scaleFactor < height) {
-                    translate.y = (height / scaleFactor - ch) / -2d;
-                }
-
+            if (cw < width) {
+                translation.x = (width - cw) / -2;
+            }
+            if (ch < height) {
+                translation.y = (height - ch) / -2;
             }
 
-            if (r.y - translate.y < insets.top / scaleFactor) {
-                // We cut off the upper part of the drawing -> shift the canvas down
-                translate.y = r.y;
-            } else if (r.y - translate.y + r.height > (height - insets.bottom) / scaleFactor) {
+            if (r.y + r.height - translation.y > (height - insets.bottom)) {
                 // We cut off the lower part of the drawing -> shift the canvas up
-                translate.y = r.y + r.height - (height - insets.bottom) / scaleFactor;
+                translation.y = r.y + r.height - (height - insets.bottom);
+            }
+            if (Math.min(0, r.y) - translation.y < insets.top) {
+                // We cut off the upper part of the drawing -> shift the canvas down
+                translation.y = Math.min(0, r.y) - insets.top;
             }
 
-            if (r.x - translate.x < insets.left / scaleFactor) {
-                // We cut off the left part of the drawing -> shift the canvas right
-                translate.x = r.x;
-            } else if (r.x - translate.x + r.width > (width - insets.right) / scaleFactor) {
+            if (r.x + r.width - translation.x > (width - insets.right)) {
                 // We cut off the right part of the drawing -> shift the canvas left
-                translate.x = r.x + r.width - (width - insets.right) / scaleFactor;
+                translation.x = r.x + r.width - (width - insets.right);
+            }
+            if (Math.min(0, r.x) - translation.x < insets.left) {
+                // We cut off the left part of the drawing -> shift the canvas right
+                translation.x = Math.min(0, r.x) - insets.left;
             }
 
         }
-        // Move the canvas out of the center if needed
 
-        if (!oldTranslate.equals(translate)) {
-            dirtyArea.setBounds(bufferedArea);
+        if (!oldTranslation.equals(translation)) {
+            bufferedArea.translate(oldTranslation.x - translation.x, oldTranslation.y - translation.y);
             fireViewTransformChanged();
-            if (repaint) { repaint(); }
         }
     }
 
@@ -1089,8 +1100,17 @@ public class DefaultDrawingView
     public Point drawingToView(
             Point2D.Double p) {
         return new Point(
-                (int) ((p.x - translate.x) * scaleFactor),
-                (int) ((p.y - translate.y) * scaleFactor));
+                (int) (p.x * scaleFactor) - translation.x,
+                (int) (p.y * scaleFactor) - translation.y);
+    }
+
+    public Rectangle drawingToView(
+            Rectangle2D.Double r) {
+        return new Rectangle(
+                (int) (r.x * scaleFactor) - translation.x,
+                (int) (r.y * scaleFactor) - translation.y,
+                (int) (r.width * scaleFactor),
+                (int) (r.height * scaleFactor));
     }
 
     /**
@@ -1098,23 +1118,14 @@ public class DefaultDrawingView
      */
     public Point2D.Double viewToDrawing(Point p) {
         return new Point2D.Double(
-                p.x / scaleFactor + translate.x,
-                p.y / scaleFactor + translate.y);
-    }
-
-    public Rectangle drawingToView(
-            Rectangle2D.Double r) {
-        return new Rectangle(
-                (int) ((r.x - translate.x) * scaleFactor),
-                (int) ((r.y - translate.y) * scaleFactor),
-                (int) (r.width * scaleFactor),
-                (int) (r.height * scaleFactor));
+                (p.x + translation.x) / scaleFactor,
+                (p.y + translation.y) / scaleFactor);
     }
 
     public Rectangle2D.Double viewToDrawing(Rectangle r) {
         return new Rectangle2D.Double(
-                r.x / scaleFactor + translate.x,
-                r.y / scaleFactor + translate.y,
+                (r.x + translation.x) / scaleFactor,
+                (r.y + translation.y) / scaleFactor,
                 r.width / scaleFactor,
                 r.height / scaleFactor);
     }
@@ -1131,10 +1142,11 @@ public class DefaultDrawingView
         double oldValue = scaleFactor;
         scaleFactor = newValue;
 
-        validateViewTranslation(false);
+        validateViewTranslation();
         dirtyArea.setBounds(bufferedArea);
         invalidateHandles();
         revalidate();
+        repaint();
         firePropertyChange("scaleFactor", oldValue, newValue);
     }
 
@@ -1169,8 +1181,8 @@ public class DefaultDrawingView
 
     public AffineTransform getDrawingToViewTransform() {
         AffineTransform t = new AffineTransform();
+        t.translate(-translation.x, -translation.y);
         t.scale(scaleFactor, scaleFactor);
-        t.translate(-translate.x, -translate.y);
         return t;
     }
 

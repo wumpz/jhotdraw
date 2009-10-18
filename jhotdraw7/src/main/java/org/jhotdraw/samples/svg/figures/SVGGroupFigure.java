@@ -114,7 +114,7 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
                     if (f.get(TRANSFORM) != null) {
                         bounds.setRect(f.get(TRANSFORM).createTransformedShape(bounds).getBounds2D());
                     }
-                    if (cachedBounds == null || cachedBounds.isEmpty()) {
+                    if (cachedBounds == null) {
                         cachedBounds = bounds;
                     } else {
                         cachedBounds.add(bounds);

@@ -41,7 +41,7 @@ public class SVGBezierFigure extends BezierFigure {
 
     public SVGBezierFigure(boolean isClosed) {
         super(isClosed);
-        set(FILL_OPEN_PATH, true);
+        set(UNCLOSED_PATH_FILLED, true);
     }
 
     public Collection<Handle> createHandles(SVGPathFigure pathFigure, int detailLevel) {

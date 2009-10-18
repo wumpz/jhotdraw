@@ -33,7 +33,7 @@ import javax.swing.*;
  */
 public class DnDDrawingViewTransferHandler extends DefaultDrawingViewTransferHandler {
 
-    private final static boolean DEBUG = false;
+    private final static boolean DEBUG = true;
 
     /** Creates a new instance. */
     public DnDDrawingViewTransferHandler() {
@@ -41,8 +41,11 @@ public class DnDDrawingViewTransferHandler extends DefaultDrawingViewTransferHan
 
     @Override
     public boolean importData(TransferSupport support) {
+       return importData((JComponent) support.getComponent(), support.getTransferable(), new HashSet<Figure>() , support.getDropLocation()==null?null:support.getDropLocation().getDropPoint());
+        }
+    /*
         if (DEBUG) {
-            System.out.println(this + ".importData(support)");
+            System.out.println(this + ".importData("+support+")");
         }
         HashSet<Figure> transferFigures = new HashSet<Figure>();
         boolean success = support.getComponent() instanceof JComponent
@@ -50,8 +53,11 @@ public class DnDDrawingViewTransferHandler extends DefaultDrawingViewTransferHan
                 : false;
 
         if (success) {
+            try {
             final DrawingView view = (DrawingView) support.getComponent();
             Point dropPoint = support.getDropLocation().getDropPoint();
+System.out.println("dropPoint:"+dropPoint);
+System.out.println("transferFigures:"+transferFigures);
             Point2D.Double drawingDropPoint = view.viewToDrawing(dropPoint);
             //Set<Figure> transferFigures = view.getSelectedFigures();
             Rectangle2D.Double drawingArea = null;
@@ -62,19 +68,25 @@ public class DnDDrawingViewTransferHandler extends DefaultDrawingViewTransferHan
                     drawingArea.add(fig.getDrawingArea());
                 }
             }
+            if (drawingArea!=null) {
             AffineTransform t = new AffineTransform();
             t.translate(-drawingArea.x, -drawingArea.y);
             t.translate(drawingDropPoint.x, drawingDropPoint.y);
             // XXX - instead of centering, we have to translate by the drag image offset here
             t.translate(drawingArea.width / -2d, drawingArea.height / -2d);
+System.out.println("DnDDrawigViewTransferHandler translate:"+t);
             for (Figure fig : transferFigures) {
                 fig.willChange();
                 fig.transform(t);
                 fig.changed();
             }
+            }
+            } catch (Throwable t) {
+                t.printStackTrace();
+            }
         }
 
         return success;
-    }
+    }*/
 
 }

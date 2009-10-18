@@ -88,7 +88,7 @@ public class BezierFigure extends AbstractAttributedFigure {
      */
     public BezierFigure(boolean isClosed) {
         path = new BezierPath();
-        set(CLOSED, isClosed);
+        set(PATH_CLOSED, isClosed);
         //path.setClosed(isClosed);
     }
     
@@ -154,7 +154,7 @@ public class BezierFigure extends AbstractAttributedFigure {
     }
     
     protected void drawFill(Graphics2D g) {
-        if (isClosed() || get(FILL_OPEN_PATH)) {
+        if (isClosed() || get(UNCLOSED_PATH_FILLED)) {
             double grow = AttributeKeys.getPerpendicularFillGrowth(this);
             if (grow == 0d) {
                 g.fill(path);
@@ -170,7 +170,7 @@ public class BezierFigure extends AbstractAttributedFigure {
     
     public boolean contains(Point2D.Double p) {
         double tolerance = Math.max(2f, AttributeKeys.getStrokeTotalWidth(this) / 2d);
-        if (isClosed() || get(FILL_COLOR) != null && get(FILL_OPEN_PATH)) {
+        if (isClosed() || get(FILL_COLOR) != null && get(UNCLOSED_PATH_FILLED)) {
             if (path.contains(p)) {
                 return true;
             }
@@ -290,14 +290,14 @@ public class BezierFigure extends AbstractAttributedFigure {
     }
     
     public boolean isClosed() {
-        return (Boolean) get(CLOSED);
+        return (Boolean) get(PATH_CLOSED);
     }
     public void setClosed(boolean newValue) {
-        set(CLOSED, newValue);
+        set(PATH_CLOSED, newValue);
     }
     @Override
     public <T> void set(AttributeKey<T> key, T newValue) {
-        if (key == CLOSED) {
+        if (key == PATH_CLOSED) {
             path.setClosed((Boolean) newValue);
         } else if (key == WINDING_RULE) {
             path.setWindingRule(newValue == AttributeKeys.WindingRule.EVEN_ODD ? GeneralPath.WIND_EVEN_ODD : GeneralPath.WIND_NON_ZERO);

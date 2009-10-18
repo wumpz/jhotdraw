@@ -13,15 +13,19 @@
  */
 package org.jhotdraw.samples.svg.action;
 
+import java.awt.geom.AffineTransform;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.samples.svg.figures.*;
 import org.jhotdraw.util.*;
 import java.util.*;
 import javax.swing.undo.*;
+import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
 /**
  * CombinePathsAction.
+ * <p>
+ * FIXME - Transforms are lost during Undo/Redo.
  *
  * @author  Werner Randelshofer
  * @version $Id$
@@ -188,12 +192,16 @@ public class CombineAction extends AbstractSelectedAction {
         Iterator<Figure> groupedFigures = new LinkedList<Figure>(group.getChildren()).iterator();
         group.basicRemoveAllChildren();
         view.getDrawing().remove(group);
+        SVGPathFigure pathFigure = (SVGPathFigure) group;
+        pathFigure.flattenTransform();
         for (int i = 0; i < ungroupedPaths.size(); i++) {
             CompositeFigure path = (CompositeFigure) ungroupedPaths.get(i);
             view.getDrawing().add(ungroupedPathsIndices[i], path);
             path.willChange();
             for (int j = 0; j < ungroupedPathsChildCounts[i]; j++) {
-                path.basicAdd(groupedFigures.next());
+                Figure child = groupedFigures.next();
+                child.willChange();
+                path.basicAdd(child);
             }
             path.changed();
         }
@@ -207,17 +215,37 @@ public class CombineAction extends AbstractSelectedAction {
         view.getDrawing().add(groupIndex, group);
         group.willChange();
         group.basicRemoveAllChildren();
+
+        // Verify if all figures have the same transform
+        AffineTransform tx = figures.iterator().next().get(TRANSFORM);
+        for (Figure f : figures) {
+            AffineTransform ftx = f.get(TRANSFORM);
+            if (ftx == tx || ftx != null && tx != null && ftx.equals(tx)) {
+            } else {
+                tx = null;
+                break;
+            }
+        }
         for (Map.Entry<AttributeKey, Object> entry : figures.iterator().next().getAttributes().entrySet()) {
             group.set(entry.getKey(), entry.getValue());
         }
 
+        // In case all figures have the same transforms, we set it here.
+        // In case the transforms are different, we set null here.
+        group.set(TRANSFORM, tx);
+
         for (Figure f : figures) {
             SVGPathFigure path = (SVGPathFigure) f;
+
+            // In case the transforms are different, we flatten it in the figures.
+            if (tx == null) {
+                path.flattenTransform();
+            }
             List<Figure> children = new LinkedList<Figure>(path.getChildren());
             path.basicRemoveAllChildren();
             for (Figure child : children) {
                 SVGBezierFigure bez = (SVGBezierFigure) child;
-                bez.flattenTransform();
+                child.willChange();
                 group.basicAdd(child);
             }
 

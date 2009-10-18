@@ -14,8 +14,6 @@
 package org.jhotdraw.samples.svg;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.prefs.*;
 import org.jhotdraw.undo.*;
 import org.jhotdraw.util.*;
@@ -28,7 +26,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import javax.swing.*;
-import javax.swing.text.JTextComponent;
 import org.jhotdraw.beans.Disposable;
 import org.jhotdraw.gui.ToolBarLayout;
 import org.jhotdraw.draw.*;
@@ -98,8 +95,9 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
         } catch (SecurityException e) {
             // prefs is null, because we are not permitted to read preferences
         }
-
+        
         initComponents();
+
         toolsPane.setLayout(new ToolBarLayout());
         toolsPane.setBackground(new Color(0xf0f0f0));
         toolsPane.setOpaque(true);
@@ -112,19 +110,13 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
         view.setDrawing(drawing);
         drawing.addUndoableEditListener(undoManager);
 
-        /* FIXME - Implement the code for handling constraints!
-        toggleGridAction = actionToolBar.getToggleGridAction();
-        if (prefs != null && prefs.getBoolean("gridVisible", false)) {
-        view.setConstrainer(view.getOnConstrainer());
+        // Try to install the DnDDrawingViewTransferHandler
+        // Since this class only works on J2SE 6, we have to use reflection.
+        try {
+            view.setTransferHandler((TransferHandler) Class.forName("org.jhotdraw.draw.DnDDrawingViewTransferHandler").newInstance());
+        } catch (Exception e) {
+            // bail silently
         }
-        view.addPropertyChangeListener(new PropertyChangeListener() {
-        public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("constrainer") && prefs) {
-        prefs.putBoolean("gridVisible", evt.getNewValue() == toggleGridAction.getOnConstrainer());
-        }
-        }
-        });
-         */
 
         // Sort the toolbars according to the user preferences
         ArrayList<JToolBar> sortme = new ArrayList<JToolBar>();

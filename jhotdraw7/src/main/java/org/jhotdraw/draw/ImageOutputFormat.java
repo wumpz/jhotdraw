@@ -230,10 +230,11 @@ public class ImageOutputFormat implements OutputFormat {
         Color background = drawing.get(CANVAS_FILL_COLOR);
         double opacity = drawing.get(CANVAS_FILL_OPACITY);
         if (background == null) {
-            background = new Color(0xff, 0xff, 0xff, (int)(255 * opacity));
+            background = new Color(0xff, 0xff, 0xff, 0x0);
         } else {
             background = new Color(background.getRed(), background.getGreen(), background.getBlue(), (int)(background.getAlpha() * opacity));
         }
+
         BufferedImage buf = new BufferedImage(
                 imageSize.width, imageSize.height,
                 (background.getAlpha() == 255) ? BufferedImage.TYPE_INT_RGB : BufferedImage.TYPE_INT_ARGB

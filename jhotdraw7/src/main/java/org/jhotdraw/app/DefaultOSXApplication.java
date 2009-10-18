@@ -291,7 +291,7 @@ public class DefaultOSXApplication extends AbstractApplication {
             if (mm.getText().equals(helpMenuText)) {
                 helpMenu = mm;
             } else {
-            mb.add(mm);
+                mb.add(mm);
             }
         }
 
@@ -445,8 +445,10 @@ public class DefaultOSXApplication extends AbstractApplication {
     }
 
     public Component getComponent() {
+        return null;
+        /*
         net.roydesign.app.Application mrjapp = net.roydesign.app.Application.getInstance();
-        return mrjapp.getFramelessJMenuBar().getParent();
+        return mrjapp.getFramelessJMenuBar().getParent();*/
     }
 
     /** Updates the menu items in the "Open Recent" file menu. */

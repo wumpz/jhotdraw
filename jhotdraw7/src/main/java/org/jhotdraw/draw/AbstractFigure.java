@@ -415,7 +415,7 @@ public abstract class AbstractFigure
             validate();
             fireFigureChanged(getDrawingArea());
         } else if (changingDepth < 0) {
-            throw new InternalError("changed was called without a prior call to willChange.");
+            throw new InternalError("changed was called without a prior call to willChange. "+changingDepth);
         }
         changingDepth--;
     }

@@ -168,12 +168,14 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
             } else if (get(STROKE_CAP) != BasicStroke.CAP_BUTT) {
                 width += strokeTotalWidth * 2;
             }
-            GeneralPath gp = (GeneralPath) getPath();
+            Shape gp = (GeneralPath) getPath();
             Rectangle2D strokeRect = new Rectangle2D.Double(0, 0, width, width);
-            if (get(TRANSFORM) != null) {
-                gp = (GeneralPath) gp.clone();
-                gp.transform(get(TRANSFORM));
-                strokeRect = get(TRANSFORM).createTransformedShape(strokeRect).getBounds2D();
+            AffineTransform tx = get(TRANSFORM);
+            if (tx != null) {
+                // We have to use the (rectangular) bounds of the path here,
+                // because we draw a rectangular handle over the shape of the figure
+                gp = tx.createTransformedShape(gp.getBounds2D());
+                strokeRect = tx.createTransformedShape(strokeRect).getBounds2D();
             }
             Rectangle2D rx = gp.getBounds2D();
             Rectangle2D.Double r = (rx instanceof Rectangle2D.Double) ? (Rectangle2D.Double) rx : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
@@ -202,7 +204,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
                 ex.printStackTrace();
             }
         }
-        boolean isClosed = getChild(0).get(CLOSED);
+        boolean isClosed = getChild(0).get(PATH_CLOSED);
         if (isClosed && get(FILL_COLOR) == null && get(FILL_GRADIENT)==null) {
             return getHitShape().contains(p);
         }
@@ -393,14 +395,14 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
                 }
             });
         }
-        if (getChild(getChildCount() - 1).get(CLOSED)) {
+        if (getChild(getChildCount() - 1).get(PATH_CLOSED)) {
             actions.add(new AbstractAction(labels.getString("attribute.openPath.text")) {
 
                 public void actionPerformed(ActionEvent evt) {
                     willChange();
                     for (Figure child : getChildren()) {
                         getDrawing().fireUndoableEditHappened(
-                                CLOSED.setUndoable(child, false));
+                                PATH_CLOSED.setUndoable(child, false));
                     }
                     changed();
                 }
@@ -411,7 +413,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
                     willChange();
                     for (Figure child : getChildren()) {
                         getDrawing().fireUndoableEditHappened(
-                                CLOSED.setUndoable(child, true));
+                                PATH_CLOSED.setUndoable(child, true));
                     }
                     changed();
                 }

@@ -38,7 +38,7 @@ public class ODGBezierFigure extends BezierFigure {
     }
     public ODGBezierFigure(boolean isClosed) {
         super(isClosed);
-        set(FILL_OPEN_PATH, true);
+        set(UNCLOSED_PATH_FILLED, true);
     }
     
     public Collection<Handle> createHandles(ODGPathFigure pathFigure, int detailLevel) {

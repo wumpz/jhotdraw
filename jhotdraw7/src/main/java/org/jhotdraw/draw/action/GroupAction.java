@@ -152,6 +152,7 @@ public class GroupAction extends AbstractSelectedAction {
         view.getDrawing().add(index, group);
         group.willChange();
         for (Figure f : sorted) {
+            f.willChange();
             group.basicAdd(f);
         }
         group.changed();

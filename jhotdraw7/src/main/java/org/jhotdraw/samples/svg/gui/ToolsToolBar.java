@@ -113,7 +113,7 @@ public class ToolsToolBar extends AbstractToolBar {
 
                     attributes = new HashMap<AttributeKey, Object>();
                     attributes.put(AttributeKeys.FILL_COLOR, null);
-                    attributes.put(CLOSED, false);
+                    attributes.put(PATH_CLOSED, false);
                     btn = ButtonFactory.addToolTo(this, editor, creationTool = new CreationTool(new SVGPathFigure(), attributes), "createLine", labels);
                     creationTool.setToolDoneAfterCreation(false);
                     btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));

@@ -82,6 +82,7 @@ public class SelectionComponentDisplayer
             dispose();
             return;
         }
+        if (newValue != component.isVisible()) {
         component.setVisible(newValue);
 
         // The following is needed to trick BoxLayout
@@ -92,6 +93,7 @@ public class SelectionComponentDisplayer
         }
 
         component.revalidate();
+        }
     }
 
     protected JComponent getComponent() {
