@@ -52,9 +52,22 @@
             <fileset dir="${distalldir}">
                 <include name="JHotDraw ${version}/**"/>
                 <exclude name="**/.*"/>
-                <exclude name="**/Samples/**/signed/JHotDraw *.jar"/>
-                <exclude name="**/Samples/**/signed/libquaqua*.jnilib.jar"/>
-                <exclude name="**/Samples/**/unsigned/jhotdraw_*.jar"/>
+                <exclude name="**/Samples/**/signed/**"/>
+            </fileset>
+        </zip>
+        <zip file="${distalldir}/jhotdraw-${version}.nested.zip" compress="true">
+            <fileset dir="${distalldir}">
+                <include name="JHotDraw ${version}.zip"/>
+            </fileset>
+        </zip>
+        <delete file="${distalldir}/JHotDraw ${version}.zip"/>
+    </target>
+    <target name="bundle-allsigned" depends="dist-allsigned">
+        <zip file="${distalldir}/JHotDraw ${version}.zip" compress="false">
+            <fileset dir="${distalldir}">
+                <include name="JHotDraw ${version}/**"/>
+                <exclude name="**/.*"/>
+                <exclude name="**/Samples/**/unsigned/**"/>
             </fileset>
         </zip>
         <zip file="${distalldir}/jhotdraw-${version}.nested.zip" compress="true">
