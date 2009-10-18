@@ -42,7 +42,8 @@ public class Main {
         if (System.getProperty("os.name").toLowerCase().startsWith("mac os x")) {
             app = new DefaultOSXApplication();
         } else if (System.getProperty("os.name").toLowerCase().startsWith("win")) {
-            app = new DefaultMDIApplication();
+            //app = new DefaultMDIApplication();
+            app = new DefaultSDIApplication();
         } else {
             app = new DefaultSDIApplication();
         }
