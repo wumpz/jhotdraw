@@ -113,7 +113,6 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor,
         Rectangle r = evt.getInvalidatedArea();
         evt.getView().getComponent().repaint(r.x, r.y, r.width, r.height);
     }
-    private Dimension preferredViewSize;
 
     public void toolStarted(ToolEvent evt) {
         setActiveView(evt.getView());
@@ -123,9 +122,6 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor,
         DrawingView oldValue = activeView;
         activeView = newValue;
 
-        if (newValue != null && newValue != oldValue) {
-            preferredViewSize = activeView.getComponent().getPreferredSize();
-        }
         firePropertyChange(ACTIVE_VIEW_PROPERTY, oldValue, newValue);
     }
 
@@ -134,11 +130,7 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor,
         DrawingView v = getActiveView();
         if (v != null) {
             JComponent c = v.getComponent();
-            Dimension oldPreferredViewSize = preferredViewSize;
-            preferredViewSize = c.getPreferredSize();
-            if (oldPreferredViewSize == null || !oldPreferredViewSize.equals(preferredViewSize)) {
-                c.revalidate();
-            }
+            c.revalidate();
         }
     }
 

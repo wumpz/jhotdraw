@@ -236,7 +236,7 @@ public class ImageOutputFormat implements OutputFormat {
         }
 
         BufferedImage buf = new BufferedImage(
-                imageSize.width, imageSize.height,
+                Math.max(1,imageSize.width), Math.max(1,imageSize.height),
                 (background.getAlpha() == 255) ? BufferedImage.TYPE_INT_RGB : BufferedImage.TYPE_INT_ARGB
                 );
         Graphics2D g = buf.createGraphics();

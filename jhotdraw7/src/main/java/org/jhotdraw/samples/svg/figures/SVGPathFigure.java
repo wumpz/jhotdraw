@@ -161,7 +161,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
     // int count;
     public Rectangle2D.Double getDrawingArea() {
         if (cachedDrawingArea == null) {
-            double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this);
+            double strokeTotalWidth = Math.max(1d,AttributeKeys.getStrokeTotalWidth(this));
             double width = strokeTotalWidth / 2d;
             if (get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
                 width *= get(STROKE_MITER_LIMIT);

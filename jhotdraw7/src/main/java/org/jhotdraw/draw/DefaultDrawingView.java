@@ -78,12 +78,26 @@ public class DefaultDrawingView
     /** Whether the drawing is double buffered*/
     private boolean isDrawingDoubleBuffered = true;
     /** The drawingBuffer holds a rendered image of the drawing (in view coordinates). */
-    private VolatileImage drawingBuffer;
+    private VolatileImage drawingBufferV;
+    /** The drawingBuffer holds a rendered image of the drawing (in view coordinates). */
+    private BufferedImage drawingBufferNV;
     /** Holds the drawing area (in view coordinates) which is in the drawing buffer. */
     private Rectangle bufferedArea = new Rectangle();
     /** Holds the drawing area (in view coordinates) which has not been redrawn yet in the drawing buffer. */
     private Rectangle dirtyArea = new Rectangle(0, 0, -1, -1);
     private boolean paintEnabled = true;
+    private final static boolean isWindows;
+
+    static {
+        boolean b = false;
+        try {
+            if (System.getProperty("os.name").toLowerCase().startsWith("win")) {
+                b = true;
+            }
+        } catch (Throwable t) {
+        }
+        isWindows = b;
+    }
 
     public void repaintHandles() {
         validateHandles();
@@ -286,7 +300,11 @@ public class DefaultDrawingView
         drawCanvas(g);
         drawConstrainer(g);
         if (isDrawingDoubleBuffered()) {
-            drawDrawingDoubleBuffered(g);
+            if (isWindows) {
+                drawDrawingNonvolatileBuffered(g);
+            } else {
+                drawDrawingVolatileBuffered(g);
+            }
         } else {
             drawDrawing(g);
         }
@@ -294,8 +312,8 @@ public class DefaultDrawingView
         drawTool(g);
     }
 
-    /** Draws the drawing double buffered. */
-    protected void drawDrawingDoubleBuffered(Graphics2D g) {
+    /** Draws the drawing double buffered using a volatile image. */
+    protected void drawDrawingVolatileBuffered(Graphics2D g) {
         Rectangle vr = getVisibleRect();
         Point shift = new Point(0, 0);
         if (bufferedArea.contains(vr) ||
@@ -320,27 +338,27 @@ public class DefaultDrawingView
             // resize it, and mark everything as dirty.
             bufferedArea.setBounds(vr);
             dirtyArea.setBounds(vr);
-            if (drawingBuffer != null && //
-                    (drawingBuffer.getWidth() != vr.width ||
-                    drawingBuffer.getHeight() != vr.height)) {
+            if (drawingBufferV != null && //
+                    (drawingBufferV.getWidth() != vr.width ||
+                    drawingBufferV.getHeight() != vr.height)) {
                 // The dimension of the drawing buffer does not fit into the visible rect;
                 // throw the buffer away.
-                drawingBuffer.flush();
-                drawingBuffer = null;
+                drawingBufferV.flush();
+                drawingBufferV = null;
             }
         }
         // Update the contents of the buffer if necessary
         while (true) {
-            int valid = (drawingBuffer == null) ? //
+            int valid = (drawingBufferV == null) ? //
                     VolatileImage.IMAGE_INCOMPATIBLE : //
-                    drawingBuffer.validate(getGraphicsConfiguration());
+                    drawingBufferV.validate(getGraphicsConfiguration());
             switch (valid) {
                 case VolatileImage.IMAGE_INCOMPATIBLE:
                     // old buffer doesn't work with new GraphicsConfig; (re-)create it
                     try {
-                        drawingBuffer = getGraphicsConfiguration().createCompatibleVolatileImage(vr.width, vr.height, Transparency.TRANSLUCENT);
+                        drawingBufferV = getGraphicsConfiguration().createCompatibleVolatileImage(vr.width, vr.height, Transparency.TRANSLUCENT);
                     } catch (OutOfMemoryError e) {
-                        drawingBuffer = null;
+                        drawingBufferV = null;
                     }
                     dirtyArea.setBounds(bufferedArea);
                     break;
@@ -350,7 +368,7 @@ public class DefaultDrawingView
                     break;
             }
 
-            if (drawingBuffer == null) {
+            if (drawingBufferV == null) {
                 // There is not enough memory available for a drawing buffer;
                 // draw without buffering.
                 drawDrawing(g);
@@ -359,7 +377,7 @@ public class DefaultDrawingView
 
             if (!dirtyArea.isEmpty()) {
                 // An area of the drawing buffer is dirty; repaint it
-                Graphics2D gBuf = drawingBuffer.createGraphics();
+                Graphics2D gBuf = drawingBufferV.createGraphics();
                 setViewRenderingHints(gBuf);
 
                 // For shifting and cleaning, we need to erase everything underneath
@@ -367,7 +385,7 @@ public class DefaultDrawingView
 
                 // Perform shifting if needed
                 if (shift.x != 0 || shift.y != 0) {
-                    gBuf.copyArea(0, 0, drawingBuffer.getWidth(), drawingBuffer.getHeight(), shift.x, shift.y);
+                    gBuf.copyArea(Math.max(0, -shift.x), Math.max(0, -shift.y), drawingBufferV.getWidth() - Math.abs(shift.x), drawingBufferV.getHeight() - Math.abs(shift.y), shift.x, shift.y);
                     shift.x = shift.y = 0;
                 }
 
@@ -385,17 +403,108 @@ public class DefaultDrawingView
                 gBuf.dispose();
             }
 
-            if (!drawingBuffer.contentsLost()) {
-                g.drawImage(drawingBuffer, bufferedArea.x, bufferedArea.y, null);
+            if (!drawingBufferV.contentsLost()) {
+                g.drawImage(drawingBufferV, bufferedArea.x, bufferedArea.y, null);
             }
 
-            if (drawingBuffer.contentsLost()) {
+            if (drawingBufferV.contentsLost()) {
                 dirtyArea.setBounds(bufferedArea);
             } else {
                 dirtyArea.setSize(-1, -1);
                 break;
             }
         }
+    }
+
+    /** Draws the drawing double buffered using a buffered image. */
+    protected void drawDrawingNonvolatileBuffered(Graphics2D g) {
+        Rectangle vr = getVisibleRect();
+        Point shift = new Point(0, 0);
+        if (bufferedArea.contains(vr) ||
+                bufferedArea.width >= vr.width && bufferedArea.height >= vr.height) {
+            // The visible rect fits into the buffered area, but may be shifted; shift the buffered area.
+            shift.x = bufferedArea.x - vr.x;
+            shift.y = bufferedArea.y - vr.y;
+            if (shift.x > 0) {
+                dirtyArea.add(new Rectangle(bufferedArea.x - shift.x, vr.y, shift.x + bufferedArea.width - vr.width, bufferedArea.height));
+            } else if (shift.x < 0) {
+                dirtyArea.add(new Rectangle(bufferedArea.x + vr.width, vr.y, -shift.x + bufferedArea.width - vr.width, bufferedArea.height));
+            }
+            if (shift.y > 0) {
+                dirtyArea.add(new Rectangle(vr.x, bufferedArea.y - shift.y, bufferedArea.width, shift.y + bufferedArea.height - vr.height));
+            } else if (shift.y < 0) {
+                dirtyArea.add(new Rectangle(vr.x, bufferedArea.y + vr.height, bufferedArea.width, -shift.y + bufferedArea.height - vr.height));
+            }
+            bufferedArea.x = vr.x;
+            bufferedArea.y = vr.y;
+        } else {
+            // The buffered drawing area does not match the visible rect;
+            // resize it, and mark everything as dirty.
+            bufferedArea.setBounds(vr);
+            dirtyArea.setBounds(vr);
+            if (drawingBufferNV != null && //
+                    (drawingBufferNV.getWidth() != vr.width ||
+                    drawingBufferNV.getHeight() != vr.height)) {
+                // The dimension of the drawing buffer does not fit into the visible rect;
+                // throw the buffer away.
+                drawingBufferNV.flush();
+                drawingBufferNV = null;
+            }
+        }
+        // Update the contents of the buffer if necessary
+
+        int valid = (drawingBufferNV == null) ? //
+                VolatileImage.IMAGE_INCOMPATIBLE : VolatileImage.IMAGE_OK;
+        switch (valid) {
+            case VolatileImage.IMAGE_INCOMPATIBLE:
+                // old buffer doesn't work with new GraphicsConfig; (re-)create it
+                try {
+                    drawingBufferNV = getGraphicsConfiguration().createCompatibleImage(vr.width, vr.height, Transparency.TRANSLUCENT);
+                } catch (OutOfMemoryError e) {
+                    drawingBufferNV = null;
+                }
+                dirtyArea.setBounds(bufferedArea);
+                break;
+        }
+
+        if (drawingBufferNV == null) {
+            // There is not enough memory available for a drawing buffer;
+            // draw without buffering.
+            drawDrawing(g);
+            return;
+        }
+
+        if (!dirtyArea.isEmpty()) {
+            // An area of the drawing buffer is dirty; repaint it
+            Graphics2D gBuf = drawingBufferNV.createGraphics();
+            setViewRenderingHints(gBuf);
+
+            // For shifting and cleaning, we need to erase everything underneath
+            gBuf.setComposite(AlphaComposite.Src);
+
+            // Perform shifting if needed
+            if (shift.x != 0 || shift.y != 0) {
+                gBuf.copyArea(Math.max(0, -shift.x), Math.max(0, -shift.y), drawingBufferNV.getWidth() - Math.abs(shift.x), drawingBufferNV.getHeight() - Math.abs(shift.y), shift.x, shift.y);
+                shift.x = shift.y = 0;
+            }
+
+            // Clip the dirty area
+            gBuf.translate(-bufferedArea.x, -bufferedArea.y);
+            gBuf.clip(dirtyArea);
+
+            // Clear the dirty area
+            gBuf.setBackground(new Color(0x0, true));
+            gBuf.clearRect(dirtyArea.x, dirtyArea.y, dirtyArea.width, dirtyArea.height);
+            gBuf.setComposite(AlphaComposite.SrcOver);
+
+            // Repaint the dirty area
+            drawDrawing(gBuf);
+            gBuf.dispose();
+        }
+
+        g.drawImage(drawingBufferNV, bufferedArea.x, bufferedArea.y, null);
+
+        dirtyArea.setSize(-1, -1);
     }
 
     /**
@@ -596,11 +705,15 @@ public class DefaultDrawingView
 
     @Override
     public void removeNotify() {
-      super.removeNotify();
-      if (drawingBuffer!=null) {
-          drawingBuffer.flush();
-          drawingBuffer=null;
-      }
+        super.removeNotify();
+        if (drawingBufferNV != null) {
+            drawingBufferNV.flush();
+            drawingBufferNV = null;
+        }
+        if (drawingBufferNV != null) {
+            drawingBufferNV.flush();
+            drawingBufferNV = null;
+        }
     }
 
     /**
@@ -861,12 +974,7 @@ public class DefaultDrawingView
                     // Retry with detail level 0.
                     detailLevel = 0;
                     continue;
-
                 }
-
-
-
-
                 break;
             }
 
@@ -1046,46 +1154,50 @@ public class DefaultDrawingView
         Insets insets = getInsets();
         Rectangle2D.Double da = getDrawingArea();
         Rectangle r = new Rectangle((int) (da.x * scaleFactor), (int) (da.y * scaleFactor), (int) (da.width * scaleFactor), (int) (da.height * scaleFactor));
+
+        int cw, ch;
         Double cwd = getDrawing().get(CANVAS_WIDTH);
         Double chd = getDrawing().get(CANVAS_HEIGHT);
-
         if (cwd == null || chd == null) {
-            // The canvas size is not specified. 
+            // The canvas size is not explicitly specified.
 
-            // Place the drawing at the top left corner.
-            translation.x = Math.min(0, r.x) - insets.left;
-            translation.y = Math.min(0, r.y) - insets.top;
+            cw = Math.max(width - insets.left - insets.right, (int) ((Math.max(0, da.x) + da.width) * scaleFactor));
+            ch = Math.max(height - insets.top - insets.bottom, (int) ((Math.max(0, da.y) + da.height) * scaleFactor));
+
+            //Place the canvas at the top left
+            translation.x = insets.top;
+            translation.y = insets.left;
         } else {
-            int cw = (int) (cwd * scaleFactor);
-            int ch = (int) (chd * scaleFactor);
-            // The canvas size is specified.
+            // The canvas size is explicitly specified.
+            cw = (int) (cwd * scaleFactor);
+            ch = (int) (chd * scaleFactor);
 
             //Place the canvas at the center
             if (cw < width) {
-                translation.x = (width - cw) / -2;
+                translation.x = insets.left + (width - insets.left - insets.right - cw) / -2;
             }
             if (ch < height) {
-                translation.y = (height - ch) / -2;
+                translation.y = insets.top + (height - insets.top - insets.bottom - ch) / -2;
             }
 
-            if (r.y + r.height - translation.y > (height - insets.bottom)) {
-                // We cut off the lower part of the drawing -> shift the canvas up
-                translation.y = r.y + r.height - (height - insets.bottom);
-            }
-            if (Math.min(0, r.y) - translation.y < insets.top) {
-                // We cut off the upper part of the drawing -> shift the canvas down
-                translation.y = Math.min(0, r.y) - insets.top;
-            }
+        }
 
-            if (r.x + r.width - translation.x > (width - insets.right)) {
-                // We cut off the right part of the drawing -> shift the canvas left
-                translation.x = r.x + r.width - (width - insets.right);
-            }
-            if (Math.min(0, r.x) - translation.x < insets.left) {
-                // We cut off the left part of the drawing -> shift the canvas right
-                translation.x = Math.min(0, r.x) - insets.left;
-            }
+        if (r.y + r.height - translation.y > (height - insets.bottom)) {
+            // We cut off the lower part of the drawing -> shift the canvas up
+            translation.y = r.y + r.height - (height - insets.bottom);
+        }
+        if (Math.min(0, r.y) - translation.y < insets.top) {
+            // We cut off the upper part of the drawing -> shift the canvas down
+            translation.y = Math.min(0, r.y) - insets.top;
+        }
 
+        if (r.x + r.width - translation.x > (width - insets.right)) {
+            // We cut off the right part of the drawing -> shift the canvas left
+            translation.x = r.x + r.width - (width - insets.right);
+        }
+        if (Math.min(0, r.x) - translation.x < insets.left) {
+            // We cut off the left part of the drawing -> shift the canvas right
+            translation.x = Math.min(0, r.x) - insets.left;
         }
 
         if (!oldTranslation.equals(translation)) {
@@ -1357,10 +1469,13 @@ public class DefaultDrawingView
         boolean oldValue = isDrawingDoubleBuffered;
         isDrawingDoubleBuffered =
                 newValue;
-        if (!isDrawingDoubleBuffered && drawingBuffer != null) {
-            drawingBuffer.flush();
-            drawingBuffer =
-                    null;
+        if (!isDrawingDoubleBuffered && drawingBufferV != null) {
+            drawingBufferV.flush();
+            drawingBufferV = null;
+        }
+        if (!isDrawingDoubleBuffered && drawingBufferNV != null) {
+            drawingBufferNV.flush();
+            drawingBufferNV = null;
         }
 
         firePropertyChange(DRAWING_DOUBLE_BUFFERED_PROPERTY, oldValue, newValue);
