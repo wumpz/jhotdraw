@@ -83,7 +83,6 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
     }
 
     public DefaultDragTracker() {
-
     }
 
     @Override
@@ -149,9 +148,9 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
                     constrainedRect.y - previousOrigin.y);
             Constrainer c = view.getConstrainer();
             for (Figure f : view.getSelectedFigures()) {
-                    f.willChange();
-                    f.transform(tx);
-                    f.changed();
+                f.willChange();
+                f.transform(tx);
+                f.changed();
             }
 
             previousPoint = currentPoint;
@@ -184,6 +183,9 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
                         f.transform(tx);
                         f.changed();
                     }
+                    Rectangle r = new Rectangle(anchor.x, anchor.y, 0, 0);
+                    r.add(evt.getX(), evt.getY());
+                    maybeFireBoundsInvalidated(r);
                     fireToolDone();
                     return;
                 }
@@ -198,6 +200,9 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
                         draggedFigures, tx));
             }
         }
+        Rectangle r = new Rectangle(anchor.x, anchor.y, 0, 0);
+        r.add(evt.getX(), evt.getY());
+        maybeFireBoundsInvalidated(r);
         fireToolDone();
     }
 

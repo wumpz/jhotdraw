@@ -34,6 +34,7 @@ import org.jhotdraw.beans.Disposable;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.event.ToolAdapter;
 import org.jhotdraw.gui.JFontChooser;
 
 /**
@@ -279,16 +280,11 @@ public class ButtonFactory {
         if (tb.getClientProperty("toolHandler") instanceof ToolListener) {
             toolHandler = (ToolListener) tb.getClientProperty("toolHandler");
         } else {
-            toolHandler = new ToolListener() {
+            toolHandler = new ToolAdapter() {
 
-                public void toolStarted(ToolEvent event) {
-                }
-
+                @Override
                 public void toolDone(ToolEvent event) {
                     defaultToolButton.setSelected(true);
-                }
-
-                public void areaInvalidated(ToolEvent e) {
                 }
             };
             tb.putClientProperty("toolHandler", toolHandler);

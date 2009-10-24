@@ -1108,21 +1108,21 @@ public class DefaultDrawingView
     @Override
     public Dimension getPreferredSize() {
         if (cachedPreferredSize == null) {
+            long start=System.currentTimeMillis();
             Rectangle2D.Double r = getDrawingArea();
             Double cw = getDrawing() == null ? null : getDrawing().get(CANVAS_WIDTH);
             Double ch = getDrawing() == null ? null : getDrawing().get(CANVAS_HEIGHT);
             Insets insets = getInsets();
             if (cw == null || ch == null) {
                 cachedPreferredSize = new Dimension(
-                        (int) ((Math.max(0, r.x) + r.width) * scaleFactor) + insets.left + insets.right,
-                        (int) ((Math.max(0, r.y) + r.height) * scaleFactor) + insets.top + insets.bottom);
+                        (int) Math.ceil((Math.max(0, r.x) + r.width) * scaleFactor) + insets.left + insets.right,
+                        (int) Math.ceil((Math.max(0, r.y) + r.height) * scaleFactor) + insets.top + insets.bottom);
             } else {
                 cachedPreferredSize = new Dimension(
-                        (int) ((-Math.min(0, r.x) + Math.max(Math.max(0, r.x) + r.width + Math.min(0, r.x), cw)) * scaleFactor) + insets.left + insets.right,
-                        (int) ((-Math.min(0, r.y) + Math.max(Math.max(0, r.y) + r.height + Math.min(0, r.y), ch)) * scaleFactor) + insets.top + insets.bottom);
+                        (int) Math.ceil((-Math.min(0, r.x) + Math.max(Math.max(0, r.x) + r.width + Math.min(0, r.x), cw)) * scaleFactor) + insets.left + insets.right,
+                        (int) Math.ceil((-Math.min(0, r.y) + Math.max(Math.max(0, r.y) + r.height + Math.min(0, r.y), ch)) * scaleFactor) + insets.top + insets.bottom);
             }
         }
-
         return (Dimension) cachedPreferredSize.clone();
     }
 

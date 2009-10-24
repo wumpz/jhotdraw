@@ -27,6 +27,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Point2D;
 import java.util.HashSet;
+import org.jhotdraw.draw.event.ToolAdapter;
 
 /**
  * Tool to select and manipulate figures.
@@ -59,8 +60,7 @@ import java.util.HashSet;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class SelectionTool extends AbstractTool
-        implements ToolListener {
+public class SelectionTool extends AbstractTool {
 
     /**
      * The tracker encapsulates the current state of the SelectionTool.
@@ -78,6 +78,44 @@ public class SelectionTool extends AbstractTool
      * The tracker encapsulates the current state of the SelectionTool.
      */
     private DragTracker dragTracker;
+
+    private class TrackerHandler extends ToolAdapter {
+        @Override
+    public void toolDone(ToolEvent event) {
+        // Empty
+        Tool newTracker = getSelectAreaTracker();
+
+        if (newTracker != null) {
+            if (tracker != null) {
+                tracker.deactivate(getEditor());
+                tracker.removeToolListener(this);
+            }
+            tracker = newTracker;
+            tracker.activate(getEditor());
+            tracker.addToolListener(this);
+        }
+        fireToolDone();
+    }
+
+    /**
+     * Sent when an area of the drawing view needs to be repainted.
+     */
+        @Override
+    public void areaInvalidated(ToolEvent e) {
+        fireAreaInvalidated(e.getInvalidatedArea());
+    }
+    /**
+     * Sent when the bounds need to be revalidated.
+     */
+        @Override
+    public void boundsInvalidated(ToolEvent e) {
+        fireBoundsInvalidated(e.getInvalidatedArea());
+    }
+
+
+    }
+    private TrackerHandler trackerHandler;
+
     /**
      * Constant for the name of the selectBehindEnabled property.
      */
@@ -91,7 +129,8 @@ public class SelectionTool extends AbstractTool
     /** Creates a new instance. */
     public SelectionTool() {
         tracker = getSelectAreaTracker();
-        tracker.addToolListener(this);
+        trackerHandler = new TrackerHandler();
+        tracker.addToolListener(trackerHandler);
     }
 
     /**
@@ -258,12 +297,12 @@ public class SelectionTool extends AbstractTool
     protected void setTracker(Tool newTracker) {
         if (tracker != null) {
             tracker.deactivate(getEditor());
-            tracker.removeToolListener(this);
+            tracker.removeToolListener(trackerHandler);
         }
         tracker = newTracker;
         if (tracker != null) {
             tracker.activate(getEditor());
-            tracker.addToolListener(this);
+            tracker.addToolListener(trackerHandler);
         }
     }
 
@@ -326,32 +365,6 @@ public class SelectionTool extends AbstractTool
         dragTracker = newValue;
     }
 
-
-    public void toolStarted(ToolEvent event) {
-    }
-
-    public void toolDone(ToolEvent event) {
-        // Empty
-        Tool newTracker = getSelectAreaTracker();
-
-        if (newTracker != null) {
-            if (tracker != null) {
-                tracker.deactivate(getEditor());
-                tracker.removeToolListener(this);
-            }
-            tracker = newTracker;
-            tracker.activate(getEditor());
-            tracker.addToolListener(this);
-        }
-        fireToolDone();
-    }
-
-    /**
-     * Sent when an area of the drawing view needs to be repainted.
-     */
-    public void areaInvalidated(ToolEvent e) {
-        fireAreaInvalidated(e.getInvalidatedArea());
-    }
 
     /**
      * Returns true, if this tool lets the user interact with handles.

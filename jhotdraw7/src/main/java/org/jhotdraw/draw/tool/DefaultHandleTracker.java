@@ -193,7 +193,13 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
     public void mouseReleased(MouseEvent evt) {
         multicaster.trackEnd(anchor, new Point(evt.getX(), evt.getY()),
                 evt.getModifiersEx(), getView());
-        fireToolDone();
+
+        // Note: we must not fire "Tool Done" in this method, because then we can not
+        // listen to keyboard events for the handle.
+
+        Rectangle r = new Rectangle(anchor.x, anchor.y, 0, 0);
+        r.add(evt.getX(), evt.getY());
+        maybeFireBoundsInvalidated(r);
     }
 
     protected void clearHoverHandles() {

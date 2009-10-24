@@ -261,6 +261,9 @@ public class BezierTool extends AbstractTool {
 
         if (finishWhenMouseReleased == Boolean.TRUE) {
             if (createdFigure.getNodeCount() > 1) {
+                Rectangle r = new Rectangle(anchor.x, anchor.y, 0, 0);
+                r.add(evt.getX(), evt.getY());
+                maybeFireBoundsInvalidated(r);
                 finishCreation(createdFigure, creationView);
                 createdFigure = null;
                 finishWhenMouseReleased = null;

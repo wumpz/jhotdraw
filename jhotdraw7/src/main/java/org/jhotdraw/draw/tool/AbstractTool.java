@@ -25,6 +25,7 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.awt.event.*;
 import javax.swing.event.*;
+import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
  * This abstract class can be extended to implement a {@link Tool}.
@@ -241,8 +242,8 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
                 al = (ActionListener) obj;
             } else if (obj != null) {
                 // Lookup the action map of the tool
-                if (actionMap !=null) {
-                al = actionMap.get(obj);
+                if (actionMap != null) {
+                    al = actionMap.get(obj);
                 }
                 if (al == null) {
                     // Fall back to the action map of the drawing editor
@@ -383,6 +384,50 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
                     event = new ToolEvent(this, getView(), invalidatedArea);
                 }
                 ((ToolListener) listeners[i + 1]).areaInvalidated(event);
+            }
+        }
+    }
+
+    /**
+     * Notify all listenerList that have registered interest for
+     * notification on this event type.
+     *
+     * Note: This method only fires an event, if the invalidated area
+     * is outside of the canvas bounds.
+     */
+    protected void maybeFireBoundsInvalidated(Rectangle invalidatedArea) {
+        Drawing d = getDrawing();
+        Rectangle2D.Double canvasBounds = new Rectangle2D.Double(0, 0, 0, 0);
+        if (d.get(CANVAS_WIDTH) != null) {
+            canvasBounds.width += d.get(CANVAS_WIDTH);
+        }
+        if (d.get(CANVAS_HEIGHT) != null) {
+            canvasBounds.height += d.get(CANVAS_HEIGHT);
+        }
+        if (!canvasBounds.contains(invalidatedArea)) {
+           fireBoundsInvalidated(invalidatedArea);
+           }
+    }
+
+    /**
+     * Notify all listenerList that have registered interest for
+     * notification on this event type.
+     */
+    protected void fireBoundsInvalidated(Rectangle invalidatedArea) {
+
+        ToolEvent event = null;
+        // Notify all listeners that have registered interest for
+        // Guaranteed to return a non-null array
+        Object[] listeners = listenerList.getListenerList();
+        // Process the listeners last to first, notifying
+        // those that are interested in this event
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+            if (listeners[i] == ToolListener.class) {
+                // Lazily create the event:
+                if (event == null) {
+                    event = new ToolEvent(this, getView(), invalidatedArea);
+                }
+                ((ToolListener) listeners[i + 1]).boundsInvalidated(event);
             }
         }
     }

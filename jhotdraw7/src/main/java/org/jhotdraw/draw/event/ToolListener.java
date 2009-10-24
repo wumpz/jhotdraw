@@ -50,5 +50,10 @@ public interface ToolListener extends EventListener {
      * Sent when an area of the drawing view needs to be repainted.
      */
     public void areaInvalidated(ToolEvent e);
+    /**
+     * Sent when the tool has edited an area outside of the bounds
+     * of the canvas.
+     */
+    public void boundsInvalidated(ToolEvent e);
     
 }
