@@ -67,7 +67,8 @@ public class OpenAction extends AbstractApplicationAction {
                 disposeView = false;
             }
             JFileChooser fileChooser = getFileChooser(view);
-            if (fileChooser.showOpenDialog(app.getComponent()) == JFileChooser.APPROVE_OPTION) {
+            fileChooser.setDialogType(JFileChooser.OPEN_DIALOG);
+            if (showDialog(fileChooser, app.getComponent()) == JFileChooser.APPROVE_OPTION) {
                 app.show(view);
                 openFile(view, fileChooser.getSelectedFile());
             } else {
@@ -147,5 +148,79 @@ public class OpenAction extends AbstractApplicationAction {
                         JOptionPane.ERROR_MESSAGE);
             }
         });
+    }
+
+    /** We implement JFileChooser.showDialog by ourselves, so that we can center
+     * dialogs properly on screen on Mac OS X.
+     */
+    public int showDialog(JFileChooser chooser, Component parent) {
+        final Component finalParent = parent;
+        final int[] returnValue = new int[1];
+        final JDialog dialog = createDialog(chooser, finalParent);
+        dialog.addWindowListener(new WindowAdapter() {
+
+            public void windowClosing(WindowEvent e) {
+                returnValue[0] = JFileChooser.CANCEL_OPTION;
+            }
+        });
+        chooser.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                if (e.getActionCommand().equals("CancelSelection")) {
+                    returnValue[0] = JFileChooser.CANCEL_OPTION;
+                    dialog.setVisible(false);
+                } else if (e.getActionCommand().equals("ApproveSelection")) {
+                    returnValue[0] = JFileChooser.APPROVE_OPTION;
+                    dialog.setVisible(false);
+                }
+            }
+        });
+        returnValue[0] = JFileChooser.ERROR_OPTION;
+        chooser.rescanCurrentDirectory();
+
+        dialog.show();
+        //chooser.firePropertyChange("JFileChooserDialogIsClosingProperty", dialog, null);
+        dialog.removeAll();
+        dialog.dispose();
+        return returnValue[0];
+    }
+
+    /** We implement JFileChooser.showDialog by ourselves, so that we can center
+     * dialogs properly on screen on Mac OS X.
+     */
+    protected JDialog createDialog(JFileChooser chooser, Component parent) throws HeadlessException {
+        String title = chooser.getUI().getDialogTitle(chooser);
+        chooser.getAccessibleContext().setAccessibleDescription(title);
+
+        JDialog dialog;
+        Window window = (parent instanceof Window) ? (Window) parent : SwingUtilities.getWindowAncestor(parent);
+        if (window instanceof Frame) {
+            dialog = new JDialog((Frame) window, title, true);
+        } else {
+            dialog = new JDialog((Dialog) window, title, true);
+        }
+        dialog.setComponentOrientation(chooser.getComponentOrientation());
+
+        Container contentPane = dialog.getContentPane();
+        contentPane.setLayout(new BorderLayout());
+        contentPane.add(chooser, BorderLayout.CENTER);
+
+        if (JDialog.isDefaultLookAndFeelDecorated()) {
+            boolean supportsWindowDecorations =
+                    UIManager.getLookAndFeel().getSupportsWindowDecorations();
+            if (supportsWindowDecorations) {
+                dialog.getRootPane().setWindowDecorationStyle(JRootPane.FILE_CHOOSER_DIALOG);
+            }
+        }
+        dialog.pack();
+        if (window.getBounds().isEmpty()) {
+            Rectangle screenBounds = window.getGraphicsConfiguration().getBounds();
+            dialog.setLocation(screenBounds.x + (screenBounds.width - dialog.getWidth()) / 2, //
+                    screenBounds.y + (screenBounds.height - dialog.getHeight()) / 3);
+        } else {
+            dialog.setLocationRelativeTo(parent);
+        }
+
+        return dialog;
     }
 }

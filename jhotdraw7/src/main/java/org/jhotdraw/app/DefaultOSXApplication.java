@@ -91,6 +91,9 @@ public class DefaultOSXApplication extends AbstractApplication {
     private OSXPaletteHandler paletteHandler;
     private Preferences prefs;
     private LinkedList<Action> paletteActions;
+    /** The "invisible" frame is used to hold the frameless menu bar on Mac OS X.
+     */
+    private JFrame invisibleFrame;
 
     /** Creates a new instance. */
     public DefaultOSXApplication() {
@@ -368,9 +371,9 @@ public class DefaultOSXApplication extends AbstractApplication {
 
     protected void initScreenMenuBar() {
         ApplicationModel model = getModel();
+        setScreenMenuBar(createMenuBar(null));
+        paletteHandler.add((JFrame) getComponent(), null);
         net.roydesign.app.Application mrjapp = net.roydesign.app.Application.getInstance();
-        mrjapp.setFramelessJMenuBar(createMenuBar(null));
-        paletteHandler.add(SwingUtilities.getWindowAncestor(mrjapp.getFramelessJMenuBar()), null);
         mrjapp.getAboutJMenuItem().setAction(model.getAction(AboutAction.ID));
         mrjapp.getQuitJMenuItem().setAction(model.getAction(ExitAction.ID));
         if (model.getAction(AbstractPreferencesAction.ID) != null) {
@@ -444,11 +447,29 @@ public class DefaultOSXApplication extends AbstractApplication {
         return true;
     }
 
+    /** Returns the Frame which holds the frameless JMenuBar.
+     */
     public Component getComponent() {
-        return null;
-        /*
-        net.roydesign.app.Application mrjapp = net.roydesign.app.Application.getInstance();
-        return mrjapp.getFramelessJMenuBar().getParent();*/
+        if (invisibleFrame == null) {
+            invisibleFrame = new JFrame();
+            invisibleFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            invisibleFrame.setUndecorated(true);
+            // Move it way off screen
+            invisibleFrame.setLocation(10000,10000);
+            // make the frame transparent and shadowless
+            // see https://developer.apple.com/mac/library/technotes/tn2007/tn2196.html
+            invisibleFrame.getRootPane().putClientProperty("Window.alpha", 0f);
+            invisibleFrame.getRootPane().putClientProperty("Window.shadow", false);
+            // make it visible, so the menu bar will show
+            invisibleFrame.setVisible(true);
+        }
+        return invisibleFrame;
+    }
+
+    protected void setScreenMenuBar(JMenuBar mb) {
+        ((JFrame) getComponent()).setJMenuBar(mb);
+            // pack it (without calling pack, the screen menu bar won't work for some reason)
+        invisibleFrame.pack();
     }
 
     /** Updates the menu items in the "Open Recent" file menu. */
