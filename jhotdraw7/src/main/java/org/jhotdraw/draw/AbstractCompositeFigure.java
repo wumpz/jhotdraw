@@ -13,6 +13,12 @@
  */
 package org.jhotdraw.draw;
 
+import org.jhotdraw.draw.layouter.Layouter;
+import org.jhotdraw.draw.event.FigureAdapter;
+import org.jhotdraw.draw.event.FigureEvent;
+import org.jhotdraw.draw.event.CompositeFigureEvent;
+import org.jhotdraw.draw.event.CompositeFigureListener;
+import org.jhotdraw.draw.*;
 import java.io.IOException;
 import org.jhotdraw.util.*;
 import java.awt.*;
@@ -20,6 +26,9 @@ import java.awt.geom.*;
 import java.io.Serializable;
 import java.util.*;
 import javax.swing.event.*;
+import org.jhotdraw.draw.handle.BoundsOutlineHandle;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;

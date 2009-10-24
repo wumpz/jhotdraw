@@ -13,6 +13,14 @@
  */
 package org.jhotdraw.samples.mini;
 
+import org.jhotdraw.draw.tool.DelegationSelectionTool;
+import org.jhotdraw.draw.handle.ResizeHandleKit;
+import org.jhotdraw.draw.handle.MoveHandle;
+import org.jhotdraw.draw.handle.DragHandle;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.EllipseFigure;
+import org.jhotdraw.draw.LabelFigure;
+import org.jhotdraw.draw.GraphicalCompositeFigure;
 import java.awt.BorderLayout;
 import java.awt.geom.*;
 import java.util.*;

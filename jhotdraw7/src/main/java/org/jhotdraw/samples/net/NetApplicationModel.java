@@ -14,6 +14,10 @@
 
 package org.jhotdraw.samples.net;
 
+import org.jhotdraw.draw.tool.Tool;
+import org.jhotdraw.draw.tool.TextCreationTool;
+import org.jhotdraw.draw.LineConnectionFigure;
+import org.jhotdraw.draw.tool.ConnectionTool;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;

@@ -14,6 +14,11 @@
 
 package org.jhotdraw.samples.pert;
 
+import org.jhotdraw.draw.tool.Tool;
+import org.jhotdraw.draw.tool.CreationTool;
+import org.jhotdraw.draw.tool.TextAreaCreationTool;
+import org.jhotdraw.draw.TextAreaFigure;
+import org.jhotdraw.draw.tool.ConnectionTool;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;

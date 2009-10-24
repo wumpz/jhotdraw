@@ -15,6 +15,12 @@
 
 package org.jhotdraw.draw;
 
+import org.jhotdraw.draw.connector.ChopTriangleConnector;
+import org.jhotdraw.draw.handle.OrientationHandle;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.connector.Connector;
+import org.jhotdraw.draw.ConnectionFigure;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
@@ -61,24 +67,20 @@ public class TriangleFigure extends AbstractAttributedFigure {
     // ATTRIBUTES
     // EDITING
     // CONNECTING
+    /**
+     * Returns the Figures connector for the specified location.
+     * By default a {@link org.jhotdraw.draw.connector.ChopTriangleConnector} is returned.
+     */
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
-        return new ChopTriangleConnector(this);
-    }
-    public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
         return new ChopTriangleConnector(this);
     }
     /**
-     * Returns the Figures connector for the specified location.
-     * By default a ChopDiamondConnector is returned.
-     * @see ChopDiamondConnector
-     *//*
-    public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
+     * Returns a compatible connector.
+     * By default a {@link org.jhotdraw.draw.connector.ChopTriangleConnector} is returned.
+     */
+    public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
         return new ChopTriangleConnector(this);
     }
-        
-    public Connector findCompatibleConnector(Connector c, boolean isStart) {
-        return new ChopTriangleConnector(this);
-    }*/
     // COMPOSITE FIGURES
     // CLONING
     // EVENT HANDLING

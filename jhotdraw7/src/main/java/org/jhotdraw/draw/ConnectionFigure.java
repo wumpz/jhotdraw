@@ -14,6 +14,9 @@
 
 package org.jhotdraw.draw;
 
+import org.jhotdraw.draw.liner.Liner;
+import org.jhotdraw.draw.connector.Connector;
+import org.jhotdraw.draw.*;
 import java.awt.geom.*;
 import org.jhotdraw.geom.*;
 
@@ -35,15 +38,16 @@ import org.jhotdraw.geom.*;
  * <b>Design Patterns</b>
  *
  * <p><em>Framework</em><br>
- * The following interfaces define the contracts of a framework for structured
- * drawing editors:<br>
- * Contract: {@link Drawing}, {@link Figure}, {@link CompositeFigure},
- * {@link ConnectionFigure}, {@link Connector}, {@link DrawingView},
- * {@link DrawingEditor}, {@link Handle} and {@link Tool}.
+ * Two figures can be connected using a connection figure.  The location of
+ * the start or end point of the connection is handled by a connector object
+ * at each connected figure.<br>
+ * Contract: {@link org.jhotdraw.draw.Figure},
+ * {@link ConnectionFigure},
+ * {@link Connector}.
  *
  * <p><em>Strategy</em><br>
  * The control points of the bezier path of a connection figure can be laid out
- * using different layout algorithms which are implemented by liners.<br>
+ * using different layout algorithms which are implemented by a liner object.<br>
  * Context: {@link ConnectionFigure}; Strategy: {@link Liner}.
  *
  * <p><em>Strategy</em><br>

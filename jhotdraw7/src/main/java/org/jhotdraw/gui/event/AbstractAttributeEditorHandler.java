@@ -14,7 +14,7 @@
 package org.jhotdraw.gui.event;
 
 import org.jhotdraw.gui.*;
-import org.jhotdraw.draw.FigureEvent;
+import org.jhotdraw.draw.event.FigureEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Collections;
@@ -32,9 +32,9 @@ import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.Figure;
-import org.jhotdraw.draw.FigureAdapter;
-import org.jhotdraw.draw.FigureSelectionEvent;
-import org.jhotdraw.draw.FigureSelectionListener;
+import org.jhotdraw.draw.event.FigureAdapter;
+import org.jhotdraw.draw.event.FigureSelectionEvent;
+import org.jhotdraw.draw.event.FigureSelectionListener;
 
 /**
  * AbstractAttributeEditorHandler mediates between an AttributeEditor and the

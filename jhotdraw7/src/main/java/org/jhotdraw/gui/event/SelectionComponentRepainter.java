@@ -13,6 +13,10 @@
  */
 package org.jhotdraw.gui.event;
 
+import org.jhotdraw.draw.event.FigureSelectionEvent;
+import org.jhotdraw.draw.event.FigureSelectionListener;
+import org.jhotdraw.draw.event.FigureAdapter;
+import org.jhotdraw.draw.event.FigureEvent;
 import java.beans.*;
 import javax.swing.*;
 import org.jhotdraw.beans.Disposable;

@@ -22,8 +22,8 @@ import java.util.HashMap;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import org.jhotdraw.draw.Drawing;
-import org.jhotdraw.draw.InputFormat;
-import org.jhotdraw.draw.OutputFormat;
+import org.jhotdraw.draw.io.InputFormat;
+import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.gui.Worker;
 import org.jhotdraw.io.ExtensionFileFilter;
 

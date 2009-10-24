@@ -13,6 +13,11 @@
  */
 package org.jhotdraw.draw;
 
+import org.jhotdraw.draw.tool.TextAreaEditingTool;
+import org.jhotdraw.draw.tool.Tool;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.handle.TextOverflowHandle;
+import org.jhotdraw.draw.handle.FontSizeHandle;
 import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.font.*;

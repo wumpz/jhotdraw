@@ -13,6 +13,8 @@
  */
 package org.jhotdraw.draw;
 
+import org.jhotdraw.draw.decoration.LineDecoration;
+import org.jhotdraw.draw.liner.Liner;
 import org.jhotdraw.util.ResourceBundleUtil;
 import java.awt.*;
 import java.awt.geom.*;

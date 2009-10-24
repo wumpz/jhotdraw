@@ -14,6 +14,12 @@
  */
 package org.jhotdraw.samples.odg;
 
+import org.jhotdraw.draw.io.TextInputFormat;
+import org.jhotdraw.draw.io.OutputFormat;
+import org.jhotdraw.draw.io.InputFormat;
+import org.jhotdraw.draw.io.ImageOutputFormat;
+import org.jhotdraw.draw.io.ImageInputFormat;
+import org.jhotdraw.draw.print.DrawingPageable;
 import java.awt.image.BufferedImage;
 import java.awt.print.Pageable;
 import java.util.HashMap;

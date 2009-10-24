@@ -13,6 +13,10 @@
  */
 package org.jhotdraw.draw;
 
+import org.jhotdraw.draw.io.InputFormat;
+import org.jhotdraw.draw.io.OutputFormat;
+import org.jhotdraw.draw.event.CompositeFigureEvent;
+import org.jhotdraw.draw.event.CompositeFigureListener;
 import java.awt.*;
 import java.awt.datatransfer.*;
 import java.awt.dnd.DragGestureEvent;
@@ -292,7 +296,14 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
     }
 
     protected void moveToDropPoint(JComponent component, HashSet<Figure> transferFigures, Point dropPoint) {
-        if (dropPoint != null) {
+        if (dropPoint == null) {
+            // This ugly code sequence is needed to ensure that the drawing view
+            // repaints the area which contains the dropped figures.
+            for (Figure fig : transferFigures) {
+                fig.willChange();
+                fig.changed();
+            }
+        } else {
             final DrawingView view = (DrawingView) component;
             Point2D.Double drawingDropPoint = view.viewToDrawing(dropPoint);
             //Set<Figure> transferFigures = view.getSelectedFigures();

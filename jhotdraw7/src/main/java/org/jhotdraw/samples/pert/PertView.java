@@ -14,6 +14,11 @@
  */
 package org.jhotdraw.samples.pert;
 
+import org.jhotdraw.draw.io.OutputFormat;
+import org.jhotdraw.draw.io.InputFormat;
+import org.jhotdraw.draw.io.ImageOutputFormat;
+import org.jhotdraw.draw.print.DrawingPageable;
+import org.jhotdraw.draw.io.DOMStorableInputOutputFormat;
 import java.awt.print.Pageable;
 import java.util.*;
 import org.jhotdraw.gui.*;

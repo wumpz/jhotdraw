@@ -77,7 +77,7 @@ public class FindDialog extends javax.swing.JDialog {
     
     /** Creates new form FindDialog */
     public FindDialog(Application app) {
-        this((Frame) SwingUtilities.getWindowAncestor(app.getComponent()), false);
+        this((app.getComponent()==null)?null:(Frame) SwingUtilities.getWindowAncestor(app.getComponent()), false);
         this.app = app;
     }
     

@@ -14,12 +14,12 @@
 
 package org.jhotdraw.samples.odg.figures;
 
-import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.handle.AbstractHandle;
 import java.awt.*;
 import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
 
 /**
- * A non-interactive {@link Handle} which draws the outline of a
+ * A non-interactive {@link org.jhotdraw.draw.handle.Handle} which draws the outline of a
  * {@link ODGPathFigure} to make adjustments easier.
  * 
  * @author Werner Randelshofer

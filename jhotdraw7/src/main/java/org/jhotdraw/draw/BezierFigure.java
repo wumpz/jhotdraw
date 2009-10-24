@@ -14,6 +14,12 @@
 
 package org.jhotdraw.draw;
 
+import org.jhotdraw.draw.connector.Connector;
+import org.jhotdraw.draw.connector.ChopBezierConnector;
+import org.jhotdraw.draw.handle.TransformHandleKit;
+import org.jhotdraw.draw.handle.BezierNodeHandle;
+import org.jhotdraw.draw.handle.BezierOutlineHandle;
+import org.jhotdraw.draw.handle.BezierScaleHandle;
 import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -21,6 +27,7 @@ import java.awt.geom.*;
 import java.util.*;
 import javax.swing.undo.*;
 import java.io.*;
+import org.jhotdraw.draw.handle.Handle;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMInput;
@@ -44,10 +51,11 @@ import org.jhotdraw.xml.DOMOutput;
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Strategy</em><br>
- * {@code LineDecoration} encapsulats a strategy for drawing line decorations
- * of a {@code BezierFigure}.<br>
- * Strategy: {@link LineDecoration}; Context: {@link BezierFigure}.
+ * <p><em>Decorator</em><br>
+ * The start and end point of a {@code BezierFigure} can be decorated with
+ * a line decoration.<br>
+ * Component: {@link BezierFigure};
+ * Decorator: {@link org.jhotdraw.draw.decoration.LineDecoration}.
  * <hr>
  *
  * @see org.jhotdraw.geom.BezierPath
@@ -99,8 +107,7 @@ public class BezierFigure extends AbstractAttributedFigure {
     // CONNECTING
     /**
      * Returns the Figures connector for the specified location.
-     * By default a ChopDiamondConnector is returned.
-     * @see ChopDiamondConnector
+     * By default a {@link ChopBezierConnector} is returned.
      */
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
         return new ChopBezierConnector(this);

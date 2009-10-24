@@ -14,10 +14,13 @@
 
 package org.jhotdraw.draw;
 
+import org.jhotdraw.draw.handle.BezierOutlineHandle;
+import org.jhotdraw.draw.handle.BezierNodeHandle;
 import javax.swing.undo.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.*;
+import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.geom.*;
 
 /**

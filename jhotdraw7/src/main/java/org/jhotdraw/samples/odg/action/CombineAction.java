@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.samples.odg.action;
 
+import org.jhotdraw.draw.CompositeFigure;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.samples.odg.figures.*;

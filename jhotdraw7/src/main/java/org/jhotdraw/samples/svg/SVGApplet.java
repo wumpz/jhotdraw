@@ -13,6 +13,9 @@
  */
 package org.jhotdraw.samples.svg;
 
+import org.jhotdraw.draw.io.InputFormat;
+import org.jhotdraw.draw.io.ImageOutputFormat;
+import org.jhotdraw.draw.io.ImageInputFormat;
 import org.jhotdraw.io.BoundedRangeInputStream;
 import java.applet.AppletContext;
 import org.jhotdraw.draw.*;

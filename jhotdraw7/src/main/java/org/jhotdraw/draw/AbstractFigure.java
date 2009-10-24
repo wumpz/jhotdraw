@@ -13,6 +13,12 @@
  */
 package org.jhotdraw.draw;
 
+import org.jhotdraw.draw.tool.Tool;
+import org.jhotdraw.draw.connector.Connector;
+import org.jhotdraw.draw.connector.ChopRectangleConnector;
+import org.jhotdraw.draw.event.SetBoundsEdit;
+import org.jhotdraw.draw.event.FigureListener;
+import org.jhotdraw.draw.event.FigureEvent;
 import org.jhotdraw.beans.AbstractBean;
 import javax.swing.event.*;
 import java.awt.*;
@@ -22,6 +28,9 @@ import java.awt.geom.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.undo.*;
+import org.jhotdraw.draw.handle.BoundsOutlineHandle;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.handle.ResizeHandleKit;
 import org.jhotdraw.geom.*;
 
 /**

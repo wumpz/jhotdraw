@@ -14,6 +14,7 @@
 
 package org.jhotdraw.samples.odg.figures;
 
+import org.jhotdraw.draw.handle.AbstractHandle;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.geom.*;

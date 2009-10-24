@@ -16,6 +16,7 @@
 
 package org.jhotdraw.draw;
 
+import org.jhotdraw.draw.*;
 import java.awt.*;
 import org.jhotdraw.geom.*;
 
@@ -25,20 +26,20 @@ import org.jhotdraw.geom.*;
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Framework</em><br>
- * The text creation and editing tools and the {@code TextHolderFigure}
- * interface define together the contracts of a smaller framework inside of the
- * JHotDraw framework for  structured drawing editors.<br>
- * Contract: {@link TextHolderFigure}, {@link TextCreationTool},
- * {@link TextAreaCreationTool}, {@link TextEditingTool},
- * {@link TextAreaEditingTool}, {@link FloatingTextField},
- * {@link FloatingTextArea}.
- *
  * <p><em>Prototype</em><br>
  * The text creation tools create new figures by cloning a prototype
  * {@code TextHolderFigure} object.<br>
- * Prototype: {@link TextHolderFigure}; Client: {@link TextCreationTool},
- * {@link TextAreaCreationTool}.
+ * Prototype: {@link TextHolderFigure}; 
+ * Client: {@link org.jhotdraw.draw.tool.TextCreationTool},
+ * {@link org.jhotdraw.draw.tool.TextAreaCreationTool}.
+ *
+ * <p><em>Prototype</em><br>
+ * The text input format creates new text holder figures by cloning a prototype figure
+ * object and assigning an image to it, which was read from data input.
+ * That's the reason why {@code Figure} extends the {@code Cloneable} interface.
+ * <br>
+ * Prototype: {@link TextHolderFigure};
+ * Client: {@link org.jhotdraw.draw.io.TextInputFormat}.
  * <hr>
  *
  * @author Werner Randelshofer

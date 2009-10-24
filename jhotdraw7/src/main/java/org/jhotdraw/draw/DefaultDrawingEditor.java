@@ -13,6 +13,9 @@
  */
 package org.jhotdraw.draw;
 
+import org.jhotdraw.draw.tool.Tool;
+import org.jhotdraw.draw.event.ToolEvent;
+import org.jhotdraw.draw.event.ToolListener;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import org.jhotdraw.beans.*;

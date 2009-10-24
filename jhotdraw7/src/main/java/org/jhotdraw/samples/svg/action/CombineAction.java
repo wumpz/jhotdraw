@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.samples.svg.action;
 
+import org.jhotdraw.draw.CompositeFigure;
 import java.awt.geom.AffineTransform;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;

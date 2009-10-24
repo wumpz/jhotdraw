@@ -13,6 +13,16 @@
  */
 package org.jhotdraw.draw;
 
+import org.jhotdraw.draw.event.FigureSelectionEvent;
+import org.jhotdraw.draw.event.FigureSelectionListener;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.event.HandleListener;
+import org.jhotdraw.draw.event.HandleEvent;
+import org.jhotdraw.draw.event.FigureListener;
+import org.jhotdraw.draw.event.FigureAdapter;
+import org.jhotdraw.draw.event.FigureEvent;
+import org.jhotdraw.draw.event.CompositeFigureListener;
+import org.jhotdraw.draw.event.CompositeFigureEvent;
 import javax.swing.event.*;
 import javax.swing.undo.*;
 import org.jhotdraw.util.*;

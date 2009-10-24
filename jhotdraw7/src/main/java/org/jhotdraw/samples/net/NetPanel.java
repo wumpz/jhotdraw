@@ -14,6 +14,9 @@
 
 package org.jhotdraw.samples.net;
 
+import org.jhotdraw.draw.tool.TextCreationTool;
+import org.jhotdraw.draw.LineConnectionFigure;
+import org.jhotdraw.draw.tool.ConnectionTool;
 import org.jhotdraw.gui.JPopupButton;
 import org.jhotdraw.samples.net.figures.*;
 import org.jhotdraw.undo.*;

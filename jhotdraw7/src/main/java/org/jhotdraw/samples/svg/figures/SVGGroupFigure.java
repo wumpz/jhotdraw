@@ -13,6 +13,9 @@
  */
 package org.jhotdraw.samples.svg.figures;
 
+import org.jhotdraw.draw.handle.TransformHandleKit;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.GroupFigure;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;

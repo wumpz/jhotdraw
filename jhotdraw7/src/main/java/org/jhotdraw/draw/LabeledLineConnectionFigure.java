@@ -14,6 +14,11 @@
 
 package org.jhotdraw.draw;
 
+import org.jhotdraw.draw.layouter.Layouter;
+import org.jhotdraw.draw.event.FigureAdapter;
+import org.jhotdraw.draw.event.FigureEvent;
+import org.jhotdraw.draw.event.CompositeFigureEvent;
+import org.jhotdraw.draw.event.CompositeFigureListener;
 import org.jhotdraw.util.*;
 import java.util.*;
 import java.awt.*;

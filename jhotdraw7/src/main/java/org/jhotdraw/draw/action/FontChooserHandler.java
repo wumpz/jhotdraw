@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.draw.action;
 
+import org.jhotdraw.draw.TextHolderFigure;
 import javax.swing.undo.*;
 import javax.swing.*;
 import java.util.*;

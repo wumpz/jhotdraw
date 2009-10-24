@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.draw;
 
+import org.jhotdraw.draw.tool.Tool;
 import java.awt.*;
 import java.beans.*;
 import java.util.*;
@@ -44,19 +45,21 @@ import javax.swing.InputMap;
  * <p><em>Framework</em><br>
  * The following interfaces define the contracts of a framework for structured
  * drawing editors:<br>
- * Contract: {@link Drawing}, {@link Figure}, {@link CompositeFigure},
- * {@link ConnectionFigure}, {@link Connector}, {@link DrawingView},
- * {@link DrawingEditor}, {@link Handle} and {@link Tool}.
+ * Contract: {@link Drawing}, {@link Figure}, {@link DrawingView},
+ * {@link DrawingEditor}, {@link org.jhotdraw.draw.handle.Handle} and
+ * {@link org.jhotdraw.draw.tool.Tool}.
  *
  * <p><em>Mediator</em><br>
  * {@code DrawingEditor} acts as a mediator for coordinating drawing tools
  * and drawing views:<br>
- * Mediator: {@link DrawingEditor}; Colleagues: {@link DrawingView}, {@link Tool}.
+ * Mediator: {@link DrawingEditor}; Colleagues: {@link DrawingView}, 
+ * {@link org.jhotdraw.draw.tool.Tool}.
  *
  * <p><em>Mediator</em><br>
  * {@code DrawingEditor} acts as a mediator for coordinating keyboard input from
  * {@code Tool}s and Swing action objects:<br>
- * Mediator: {@link DrawingEditor}; Colleagues: {@link Tool}, javax.swing.Action.
+ * Mediator: {@link DrawingEditor}; Colleagues: 
+ * {@link org.jhotdraw.draw.tool.Tool}, javax.swing.Action.
  *
  * <p><em>Model-View-Controller</em><br>
  * The following classes implement together the Model-View-Controller design
@@ -68,14 +71,15 @@ import javax.swing.InputMap;
  * State changes of tools can be observed by other objects. Specifically
  * {@code DrawingEditor} observes area invalidations of tools and repaints
  * its active drawing view accordingly.<br>
- * Subject: {@link Tool}; Observer: {@link ToolListener}; Event:
- * {@link ToolEvent}; Concrete Observer: {@link DrawingEditor}.
+ * Subject: {@link Tool}; 
+ * Observer: {@link org.jhotdraw.draw.event.ToolListener}; Event:
+ * {@link org.jhotdraw.draw.event.ToolEvent}; Concrete Observer: {@link DrawingEditor}.
  *
  * <p><em>Proxy</em><br>
  * To remove the need for null-handling, {@code AbstractTool} makes use of
  * a proxy for {@code DrawingEditor}.
  * Subject: {@link DrawingEditor}; Proxy: {@link DrawingEditorProxy};
- * Client: {@link AbstractTool}.
+ * Client: {@link org.jhotdraw.draw.tool.AbstractTool}.
  * <hr>
  * 
  * @author Werner Randelshofer

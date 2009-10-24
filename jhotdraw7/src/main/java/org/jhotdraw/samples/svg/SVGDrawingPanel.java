@@ -13,6 +13,12 @@
  */
 package org.jhotdraw.samples.svg;
 
+import org.jhotdraw.draw.io.TextInputFormat;
+import org.jhotdraw.draw.io.PictImageInputFormat;
+import org.jhotdraw.draw.io.OutputFormat;
+import org.jhotdraw.draw.io.InputFormat;
+import org.jhotdraw.draw.io.ImageOutputFormat;
+import org.jhotdraw.draw.io.ImageInputFormat;
 import java.lang.reflect.InvocationTargetException;
 import java.util.prefs.*;
 import org.jhotdraw.undo.*;

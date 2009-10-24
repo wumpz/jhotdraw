@@ -14,6 +14,9 @@
  */
 package org.jhotdraw.samples.svg;
 
+import org.jhotdraw.draw.io.OutputFormat;
+import org.jhotdraw.draw.io.InputFormat;
+import org.jhotdraw.draw.print.DrawingPageable;
 import java.awt.print.Pageable;
 import java.util.HashMap;
 import org.jhotdraw.samples.svg.io.*;

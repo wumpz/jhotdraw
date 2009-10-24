@@ -14,6 +14,16 @@
 
 package org.jhotdraw.samples.svg.figures;
 
+import org.jhotdraw.draw.tool.Tool;
+import org.jhotdraw.draw.locator.RelativeLocator;
+import org.jhotdraw.draw.handle.TransformHandleKit;
+import org.jhotdraw.draw.handle.MoveHandle;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.TextHolderFigure;
+import org.jhotdraw.draw.tool.TextEditingTool;
+import org.jhotdraw.draw.handle.FontSizeHandle;
+import org.jhotdraw.draw.connector.Connector;
+import org.jhotdraw.draw.ConnectionFigure;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.font.*;
@@ -22,6 +32,7 @@ import java.io.*;
 import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.handle.BoundsOutlineHandle;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.samples.svg.*;
 import org.jhotdraw.samples.svg.SVGConstants;

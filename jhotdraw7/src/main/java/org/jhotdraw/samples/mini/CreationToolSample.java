@@ -13,6 +13,9 @@
  */
 package org.jhotdraw.samples.mini;
 
+import org.jhotdraw.draw.tool.CreationTool;
+import org.jhotdraw.draw.RectangleFigure;
+import org.jhotdraw.draw.io.SerializationInputOutputFormat;
 import java.awt.*;
 import java.util.HashMap;
 import javax.swing.*;

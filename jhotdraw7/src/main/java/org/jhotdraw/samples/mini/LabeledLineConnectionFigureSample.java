@@ -13,6 +13,12 @@
  */
 package org.jhotdraw.samples.mini;
 
+import org.jhotdraw.draw.RectangleFigure;
+import org.jhotdraw.draw.locator.BezierLabelLocator;
+import org.jhotdraw.draw.TextFigure;
+import org.jhotdraw.draw.layouter.LocatorLayouter;
+import org.jhotdraw.draw.LabeledLineConnectionFigure;
+import org.jhotdraw.draw.liner.ElbowLiner;
 import java.awt.geom.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;

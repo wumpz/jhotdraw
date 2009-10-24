@@ -13,6 +13,12 @@
  */
 package org.jhotdraw.samples.mini;
 
+import org.jhotdraw.draw.tool.SelectionTool;
+import org.jhotdraw.draw.tool.CreationTool;
+import org.jhotdraw.draw.RectangleFigure;
+import org.jhotdraw.draw.tool.DnDTracker;
+import org.jhotdraw.draw.io.SerializationInputOutputFormat;
+import org.jhotdraw.draw.io.ImageOutputFormat;
 import java.awt.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;

@@ -18,7 +18,7 @@ import java.awt.geom.*;
 import org.jhotdraw.geom.*;
 
 /**
- * A {@link Figure} which groups a collection of figures.
+ * A {@link org.jhotdraw.draw.Figure} which groups a collection of figures.
  *
  * @author Werner Randelshofer
  * @version $Id$

@@ -13,12 +13,19 @@
  */
 package org.jhotdraw.draw;
 
+import org.jhotdraw.draw.tool.Tool;
+import org.jhotdraw.draw.tool.TextEditingTool;
+import org.jhotdraw.draw.handle.FontSizeHandle;
 import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.font.*;
 import java.awt.geom.*;
 import java.util.*;
 import java.io.*;
+import org.jhotdraw.draw.handle.BoundsOutlineHandle;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.handle.MoveHandle;
+import org.jhotdraw.draw.locator.RelativeLocator;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMInput;
@@ -27,9 +34,9 @@ import org.jhotdraw.xml.DOMOutput;
 /**
  * A {@code TextHolderFigure} which holds a single line of text.
  * <p>
- * A DrawingEditor should provide the TextCreationTool to create a TextFigure.
- *
- * @see TextCreationTool
+ * A DrawingEditor should provide the 
+ * {@link org.jhotdraw.draw.tool.TextCreationTool} to create a
+ * {@code TextFigure}.
  *
  * @author Werner Randelshofer
  * @version $Id$

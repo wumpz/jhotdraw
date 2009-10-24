@@ -14,6 +14,9 @@
 
 package org.jhotdraw.draw;
 
+import org.jhotdraw.draw.layouter.Layouter;
+import org.jhotdraw.draw.event.CompositeFigureListener;
+import org.jhotdraw.draw.*;
 import org.jhotdraw.geom.*;
 
 /**
@@ -28,13 +31,6 @@ import org.jhotdraw.geom.*;
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Framework</em><br>
- * The following interfaces define the contracts of a framework for structured
- * drawing editors:<br>
- * Contract: {@link Drawing}, {@link Figure}, {@link CompositeFigure},
- * {@link ConnectionFigure}, {@link Connector}, {@link DrawingView},
- * {@link DrawingEditor}, {@link Handle} and {@link Tool}.
- *
  * <p><em>Composite</em><br>
  * Composite figures can be composed of other figures.<br>
  * Component: {@link Figure}; Composite: {@link CompositeFigure}.
@@ -44,14 +40,16 @@ import org.jhotdraw.geom.*;
  * {@code CompositeFigure} observes area invalidations and remove requests
  * of its child figures. {@link DrawingView} also observes area invalidations
  * of its drawing object.<br>
- * Subject: {@link Figure}; Observer:
- * {@link FigureListener}; Event: {@link FigureEvent}; Concrete Observer:
- * {@link CompositeFigure}, {@link DrawingView}.
+ * Subject: {@link Figure}; 
+ * Observer: {@link org.jhotdraw.draw.event.FigureListener};
+ * Event: {@link org.jhotdraw.draw.event.FigureEvent};
+ * Concrete Observer: {@link CompositeFigure}, {@link DrawingView}.
  *
  * <p><em>Observer</em><br>
  * Changes in the composition of a composite figure can be observed.<br>
  * Subject: {@link CompositeFigure}; Observer:
- * {@link CompositeFigureListener}; Event: {@link CompositeFigureEvent}.
+ * {@link org.jhotdraw.draw.event.CompositeFigureListener};
+ * Event: {@link org.jhotdraw.draw.event.CompositeFigureEvent}.
  *
  * <p><em>Strategy</em><br>
  * Composite figures can be laid out using different layout algorithms which
@@ -93,7 +91,7 @@ public interface CompositeFigure extends Figure {
      * This method can be used to reinsert a child figure which has been
      * temporarily removed from this CompositeFigure (for example to reorder
      * the sequence of the children) and to efficiently build a drawing from 
-     * an {@link InputFormat}.
+     * an {@link org.jhotdraw.draw.io.InputFormat}.
      * 
      * This is a convenience method for calling
      * {@code basicAdd(getChildCount(), child);}.
@@ -106,7 +104,7 @@ public interface CompositeFigure extends Figure {
      * This method can be used to reinsert a child figure which has been
      * temporarily removed from this CompositeFigure (for example to reorder
      * the sequence of the children) and to efficiently build a drawing from 
-     * an {@link InputFormat}.
+     * an {@link org.jhotdraw.draw.io.InputFormat}.
      */
     public void basicAdd(int index, Figure child);
     /**

@@ -14,6 +14,12 @@
 
 package org.jhotdraw.draw;
 
+import org.jhotdraw.draw.handle.MoveHandle;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.event.FigureAdapter;
+import org.jhotdraw.draw.event.FigureEvent;
+import org.jhotdraw.draw.AbstractCompositeFigure;
+import org.jhotdraw.draw.*;
 import java.io.IOException;
 import java.awt.*;
 import java.awt.geom.*;
@@ -34,15 +40,15 @@ import org.jhotdraw.xml.DOMOutput;
  * its graphical presentation to another (graphical) figure which
  * purpose it is to draw the container for all contained figures.
  * 
- * The GraphicalCompositeFigure adds to the {@link CompositeFigure CompositeFigure}
+ * The GraphicalCompositeFigure adds to the {@link CompositeFigure}
  * by containing a presentation figure by default which can not be removed.  Normally,
- * the {@link CompositeFigure CompositeFigure} can not be seen without containing a figure
+ * the {@code CompositeFigure} can not be seen without containing a figure
  * because it has no mechanism to draw itself.  It instead relies on its contained
- * figures to draw themselves thereby giving the {@link CompositeFigure BasicCompositeFigure} its
+ * figures to draw themselves thereby giving the {@code CompositeFigure} its
  * appearance.  However, the <b>GraphicalCompositeFigure</b>'s presentation figure
  * can draw itself even when the <b>GraphicalCompositeFigure</b> contains no other figures.
- * The <b>GraphicalCompositeFigure</b> also uses a {@link Layouter Layouter} or layout
- * its contained figures.
+ * The <b>GraphicalCompositeFigure</b> also uses a 
+ * {@link org.jhotdraw.draw.layouter.Layouter} to lay out its child figures.
  * 
  * 
  * @author Wolfram Kaiser (original code), Werner Randelshofer (this derived version)

@@ -13,6 +13,8 @@
  */
 package org.jhotdraw.draw;
 
+import org.jhotdraw.draw.connector.ChopRectangleConnector;
+import org.jhotdraw.draw.connector.Connector;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.*;
@@ -27,11 +29,8 @@ import org.jhotdraw.xml.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
- * An {@link ImageHolderFigure} which holds a buffered image.
- * <p>
- * A DrawingEditor should provide the ImageTool to create an ImageFigure.
- *
- * @see ImageTool
+ * A default implementation of {@link ImageHolderFigure} which can hold a
+ * buffered image.
  *
  * @author Werner Randelshofer
  * @version $Id$

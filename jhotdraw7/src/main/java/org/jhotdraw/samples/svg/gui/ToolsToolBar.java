@@ -13,6 +13,9 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
+import org.jhotdraw.draw.tool.CreationTool;
+import org.jhotdraw.draw.tool.TextCreationTool;
+import org.jhotdraw.draw.tool.TextAreaCreationTool;
 import java.awt.event.MouseEvent;
 import javax.swing.border.*;
 import org.jhotdraw.gui.plaf.palette.*;

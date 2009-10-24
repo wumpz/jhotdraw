@@ -13,6 +13,8 @@
  */
 package org.jhotdraw.draw;
 
+import org.jhotdraw.draw.event.FigureSelectionListener;
+import org.jhotdraw.draw.handle.Handle;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.event.*;
@@ -26,12 +28,13 @@ import javax.swing.*;
  * drawing views at the same time.
  * <p>
  * To support editing, a drawing view needs to be added to a {@link DrawingEditor}.
- * The current {@link Tool} of the drawing editor can register mouse and key
- * listeners on all drawing views of the drawing editor.
+ * The current {@link org.jhotdraw.draw.tool.Tool} of the drawing editor
+ * receives mouse and key events from all drawing views of the drawing editor.
  * <p>
  * {@code DrawingView} can paint the drawing with a scale factor. It supports
  * conversion between view coordinates and drawing coordinates.
- * A drawing view can paint {@link Handle}s and the current {@link Tool} of the
+ * A drawing view can paint {@link org.jhotdraw.draw.handle.Handle}s and the
+ * current {@link org.jhotdraw.draw.tool.Tool} of the
  * drawing editor on top of the drawing. It can also paint a {@link Constrainer}
  * below or on top of the drawing.
  * <p>
@@ -42,24 +45,27 @@ import javax.swing.*;
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Chain of responsibility</em><br>
- * Mouse and keyboard events of the user occur on the drawing view, and are
- * preprocessed by the {@code DragTracker} of a {@code SelectionTool}. In
- * turn {@code DragTracker} invokes "track" methods on a {@code Handle} which in
- * turn changes an aspect of a figure.<br>
- * Client: {@link SelectionTool}; Handler: {@link DragTracker}, {@link Handle}.
- * 
  * <p><em>Framework</em><br>
  * The following interfaces define the contracts of a framework for structured
  * drawing editors:<br>
- * Contract: {@link Drawing}, {@link Figure}, {@link CompositeFigure},
- * {@link ConnectionFigure}, {@link Connector}, {@link DrawingView},
- * {@link DrawingEditor}, {@link Handle} and {@link Tool}.
+ * Contract: {@link Drawing}, {@link Figure}, {@link DrawingView},
+ * {@link DrawingEditor}, {@link org.jhotdraw.draw.handle.Handle} and
+ * {@link org.jhotdraw.draw.tool.Tool}.
  *
+ * <p><em>Chain of responsibility</em><br>
+ * Mouse and keyboard events of the user occur on the drawing view, and are
+ * preprocessed by the {@code DragTracker} of a {@code SelectionTool}. In
+ * turn {@code org.jhotdraw.draw.selectiontool.DragTracker} invokes "track" methods on a {@code Handle} which in
+ * turn changes an aspect of a figure.<br>
+ * Client: {@link org.jhotdraw.draw.tool.SelectionTool};
+ * Handler: {@link org.jhotdraw.draw.tool.DragTracker}, 
+ * {@link org.jhotdraw.draw.handle.Handle}.
+ * 
  * <p><em>Mediator</em><br>
  * {@code DrawingEditor} acts as a mediator for coordinating drawing tools
  * and drawing views:<br>
- * Mediator: {@link DrawingEditor}; Colleagues: {@link DrawingView}, {@link Tool}.
+ * Mediator: {@link DrawingEditor}; 
+ * Colleagues: {@link DrawingView}, {@link org.jhotdraw.draw.tool.Tool}.
  *
  * <p><em>Model-View-Controller</em><br>
  * The following classes implement together the Model-View-Controller design
@@ -70,24 +76,28 @@ import javax.swing.*;
  * <p><em>Observer</em><br>
  * Selection changes of {@code DrawingView} are observed by user interface
  * components which act on selected figures.<br>
- * Subject: {@link org.jhotdraw.draw.DrawingView}; Observer:
- * {@link FigureSelectionListener}; Event: {@link FigureSelectionEvent}.
+ * Subject: {@link org.jhotdraw.draw.DrawingView}; 
+ * Observer: {@link org.jhotdraw.draw.event.FigureSelectionListener};
+ * Event: {@link org.jhotdraw.draw.event.FigureSelectionEvent}.
  * 
  * <p><em>Observer</em><br>
  * State changes of figures can be observed by other objects. Specifically
  * {@code CompositeFigure} observes area invalidations and remove requests
- * of its child figures. {@link DrawingView} also observes area invalidations
+ * of its child figures. {@code DrawingView} also observes area invalidations
  * of its drawing object.
  * Subject: {@link Figure}; Observer:
- * {@link FigureListener}; Event: {@link FigureEvent}; Concrete Observer:
- * {@link CompositeFigure}, {@link DrawingView}.
+ * {@link org.jhotdraw.draw.event.FigureListener};
+ * Event: {@link org.jhotdraw.draw.event.FigureEvent}; 
+ * Concrete Observer: {@link CompositeFigure}, {@link DrawingView}.
  *
  * <p><em>Observer</em><br>
  * State changes of handles can be observed by other objects. Specifically
  * {@code DrawingView} observes area invalidations and remove requests of
  * handles.<br>
- * Subject: {@link Handle}; Observer: {@link HandleListener}; Event:
- * {@link HandleEvent}; Concrete Observer: {@link DrawingView}.
+ * Subject: {@link Handle}; 
+ * Observer: {@link org.jhotdraw.draw.event.HandleListener};
+ * Event: {@link org.jhotdraw.draw.event.HandleEvent};
+ * Concrete Observer: {@link DrawingView}.
  * <hr>
  *
  * <p><em>Strategy</em><br>

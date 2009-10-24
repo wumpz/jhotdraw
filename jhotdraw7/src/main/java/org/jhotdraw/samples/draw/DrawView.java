@@ -14,6 +14,17 @@
  */
 package org.jhotdraw.samples.draw;
 
+import org.jhotdraw.draw.io.TextInputFormat;
+import org.jhotdraw.draw.TextFigure;
+import org.jhotdraw.draw.TextAreaFigure;
+import org.jhotdraw.draw.io.PictImageInputFormat;
+import org.jhotdraw.draw.io.OutputFormat;
+import org.jhotdraw.draw.io.InputFormat;
+import org.jhotdraw.draw.io.ImageOutputFormat;
+import org.jhotdraw.draw.io.ImageInputFormat;
+import org.jhotdraw.draw.ImageFigure;
+import org.jhotdraw.draw.print.DrawingPageable;
+import org.jhotdraw.draw.io.DOMStorableInputOutputFormat;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 import java.awt.print.Pageable;

@@ -14,6 +14,8 @@
 
 package org.jhotdraw.draw.action;
 
+import org.jhotdraw.draw.LineFigure;
+import org.jhotdraw.draw.decoration.LineDecoration;
 import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.*;

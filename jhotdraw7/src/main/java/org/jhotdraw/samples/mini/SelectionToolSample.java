@@ -14,6 +14,8 @@
 
 package org.jhotdraw.samples.mini;
 
+import org.jhotdraw.draw.tool.SelectionTool;
+import org.jhotdraw.draw.LineFigure;
 import java.awt.geom.*; 
 import javax.swing.*; 
 import org.jhotdraw.draw.*; 

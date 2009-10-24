@@ -10,7 +10,7 @@
         <property name="srcdir" value="src/main/java"/>
         <property name="builddir" value="build"/>
         <property name="classdir" value="${builddir}/classes"/>
-        <property name="distdir" value="dist/JHotdraw ${version}/Samples/Net"/>
+        <property name="distdir" value="dist/JHotDraw ${version}/Samples/Net"/>
 
         <!-- properties for jar signing -->
         <property name="keystore.file" value="../../../../_Keystore/JavaKeystore"/>

@@ -13,6 +13,10 @@
  */
 package org.jhotdraw.draw;
 
+import org.jhotdraw.draw.connector.ChopRoundRectangleConnector;
+import org.jhotdraw.draw.handle.RoundRectangleRadiusHandle;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.connector.Connector;
 import java.awt.*;
 import java.awt.geom.*;
 import java.io.*;

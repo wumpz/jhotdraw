@@ -14,6 +14,8 @@
 
 package org.jhotdraw.samples.odg.io;
 
+import org.jhotdraw.draw.io.InputFormat;
+import org.jhotdraw.draw.CompositeFigure;
 import java.awt.datatransfer.*;
 import java.awt.geom.*;
 import java.io.*;

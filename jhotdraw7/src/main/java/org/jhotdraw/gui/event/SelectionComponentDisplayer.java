@@ -13,6 +13,9 @@
  */
 package org.jhotdraw.gui.event;
 
+import org.jhotdraw.draw.tool.SelectionTool;
+import org.jhotdraw.draw.event.FigureSelectionEvent;
+import org.jhotdraw.draw.event.FigureSelectionListener;
 import java.awt.Dimension;
 import java.beans.*;
 import java.lang.ref.WeakReference;

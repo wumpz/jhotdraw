@@ -14,6 +14,7 @@
 
 package org.jhotdraw.draw;
 
+import org.jhotdraw.draw.layouter.VerticalLayouter;
 import org.jhotdraw.geom.*;
 
 /**

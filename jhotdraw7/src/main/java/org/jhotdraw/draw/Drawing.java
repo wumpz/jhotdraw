@@ -15,6 +15,8 @@
 
 package org.jhotdraw.draw;
 
+import org.jhotdraw.draw.io.InputFormat;
+import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.xml.*;
 
 import java.awt.font.*;
@@ -47,8 +49,8 @@ import java.io.*;
  * edit listeners only need to register on the drawing object in order to
  * receive all undoable edit events related to changes made in the drawing.</li>
  *
- * <li>Drawing can hold a number of {@link InputFormat}s and
- * {@link OutputFormat}s, allowing to read and write a drawing from/to a
+ * <li>Drawing can hold a number of {@link org.jhotdraw.draw.io.InputFormat}s and
+ * {@link org.jhotdraw.draw.io.OutputFormat}s, allowing to read and write a drawing from/to a
  * stream, a file or the clipboard.</li>
  * </ul>
  *
@@ -58,9 +60,9 @@ import java.io.*;
  * <p><em>Framework</em><br>
  * The following interfaces define the contracts of a framework for structured
  * drawing editors:<br>
- * Contract: {@link Drawing}, {@link Figure}, {@link CompositeFigure},
- * {@link ConnectionFigure}, {@link Connector}, {@link DrawingView},
- * {@link DrawingEditor}, {@link Handle} and {@link Tool}.
+ * Contract: {@link Drawing}, {@link Figure}, {@link DrawingView},
+ * {@link DrawingEditor}, {@link org.jhotdraw.draw.handle.Handle} and
+ * {@link org.jhotdraw.draw.tool.Tool}.
  *
  * <p><em>Model-View-Controller</em><br>
  * The following classes implement together the Model-View-Controller design
@@ -69,15 +71,14 @@ import java.io.*;
  * {@link DrawingEditor}.
  *
  * <p><em>Strategy</em><br>
- * {@code OutputFormat} encapsulates a strategy for writing drawings to
+ * {@code org.jhotdraw.draw.io.OutputFormat} encapsulates a strategy for writing drawings to
  * output streams.<br>
- * Strategy: {@link OutputFormat}; Context: {@link Drawing}.
+ * Strategy: {@link org.jhotdraw.draw.io.OutputFormat}; Context: {@link Drawing}.
  *
  * <p><em>Strategy</em><br>
- * {@code InputFormat} encapsulates a strategy for reading drawings from input
- * streams.<br>
- * Strategy: {@link InputFormat}; Context: {@link Drawing}.
- * <hr>
+ * {@code org.jhotdraw.draw.io.InputFormat} encapsulates a strategy for 
+ * reading drawings from input streams.<br>
+ * Strategy: {@link org.jhotdraw.draw.io.InputFormat}; Context: {@link Drawing}.
  * <hr>
  *
  * @author Werner Randelshofer

@@ -13,6 +13,14 @@
  */
 package org.jhotdraw.samples.net;
 
+import org.jhotdraw.draw.io.TextInputFormat;
+import org.jhotdraw.draw.TextFigure;
+import org.jhotdraw.draw.io.OutputFormat;
+import org.jhotdraw.draw.io.InputFormat;
+import org.jhotdraw.draw.io.ImageOutputFormat;
+import org.jhotdraw.draw.io.ImageInputFormat;
+import org.jhotdraw.draw.ImageFigure;
+import org.jhotdraw.draw.io.DOMStorableInputOutputFormat;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.gui.*;

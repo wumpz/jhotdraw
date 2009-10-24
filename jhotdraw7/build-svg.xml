@@ -10,7 +10,7 @@
         <property name="srcdir" value="src/main/java"/>
         <property name="builddir" value="build"/>
         <property name="classdir" value="${builddir}/classes"/>
-        <property name="distdir" value="dist/JHotdraw ${version}/Samples/SVG"/>
+        <property name="distdir" value="dist/JHotDraw ${version}/Samples/SVG"/>
 
         <!-- properties for jar signing -->
         <property name="keystore.file" value="../../../../_Keystore/JavaKeystore"/>
@@ -162,7 +162,7 @@
         </jar>
         <exec executable="pack200">
             <arg value="-r"/>
-            <arg value="${distdir}/signed/JHotdraw SVG.jar"/>
+            <arg value="${distdir}/signed/JHotDraw SVG.jar"/>
         </exec>
           <signjar alias="${keystore.alias}" 
                 storepass="${keystore.storepass}"

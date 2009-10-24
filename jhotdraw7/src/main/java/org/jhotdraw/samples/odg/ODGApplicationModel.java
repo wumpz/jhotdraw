@@ -14,6 +14,7 @@
 
 package org.jhotdraw.samples.odg;
 
+import org.jhotdraw.draw.tool.CreationTool;
 import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.app.*;

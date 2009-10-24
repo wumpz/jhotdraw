@@ -14,6 +14,8 @@
 
 package org.jhotdraw.samples.odg;
 
+import org.jhotdraw.draw.tool.CreationTool;
+import org.jhotdraw.draw.tool.TextAreaCreationTool;
 import org.jhotdraw.gui.JPopupButton;
 import org.jhotdraw.samples.svg.action.*;
 import org.jhotdraw.samples.svg.figures.*;

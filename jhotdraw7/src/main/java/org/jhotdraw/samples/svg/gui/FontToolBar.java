@@ -13,6 +13,10 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
+import org.jhotdraw.draw.tool.TextCreationTool;
+import org.jhotdraw.draw.tool.TextAreaCreationTool;
+import org.jhotdraw.draw.TextHolderFigure;
+import org.jhotdraw.draw.CompositeFigure;
 import org.jhotdraw.gui.event.SelectionComponentRepainter;
 import org.jhotdraw.gui.event.SelectionComponentDisplayer;
 import javax.swing.border.*;

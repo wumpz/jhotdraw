@@ -14,6 +14,10 @@
 
 package org.jhotdraw.samples.pert;
 
+import org.jhotdraw.draw.tool.CreationTool;
+import org.jhotdraw.draw.tool.TextAreaCreationTool;
+import org.jhotdraw.draw.TextAreaFigure;
+import org.jhotdraw.draw.tool.ConnectionTool;
 import org.jhotdraw.gui.JPopupButton;
 import org.jhotdraw.samples.pert.figures.*;
 import org.jhotdraw.undo.*;

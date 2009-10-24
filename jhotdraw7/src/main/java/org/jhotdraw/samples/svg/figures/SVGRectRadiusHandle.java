@@ -13,6 +13,9 @@
  */
 package org.jhotdraw.samples.svg.figures;
 
+import org.jhotdraw.draw.handle.HandleAttributeKeys;
+import org.jhotdraw.draw.handle.AbstractHandle;
+import org.jhotdraw.draw.event.CompositeFigureEdit;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.util.*;

@@ -13,11 +13,20 @@
  */
 package org.jhotdraw.draw;
 
+import org.jhotdraw.draw.liner.Liner;
+import org.jhotdraw.draw.event.FigureAdapter;
+import org.jhotdraw.draw.event.FigureEvent;
+import org.jhotdraw.draw.handle.BezierOutlineHandle;
+import org.jhotdraw.draw.handle.BezierNodeHandle;
+import org.jhotdraw.draw.connector.Connector;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.*;
 import javax.swing.undo.*;
 import java.io.*;
+import org.jhotdraw.draw.handle.ConnectionEndHandle;
+import org.jhotdraw.draw.handle.ConnectionStartHandle;
+import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;

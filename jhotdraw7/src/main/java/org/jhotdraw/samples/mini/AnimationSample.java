@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.samples.mini;
 
+import org.jhotdraw.draw.EllipseFigure;
 import java.awt.Color;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;

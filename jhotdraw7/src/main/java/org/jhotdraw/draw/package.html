@@ -36,9 +36,6 @@ The key interfaces for the representation of a drawing are:
 <ul>
     <li>{@link org.jhotdraw.draw.Drawing}</li> 
     <li>{@link org.jhotdraw.draw.Figure}</li>
-    <li>{@link org.jhotdraw.draw.CompositeFigure}</li> 
-    <li>{@link org.jhotdraw.draw.ConnectionFigure}</li> 
-    <li>{@link org.jhotdraw.draw.Connector}</li>
 </ul>
 <p>
 The key interface for displaying a drawing on screen is: 
@@ -51,18 +48,10 @@ The key interfaces for editing a drawing are:
 </p>
 <ul>
     <li>{@link org.jhotdraw.draw.DrawingEditor}</li>
-    <li>{@link org.jhotdraw.draw.Tool}</li>
-    <li>{@link org.jhotdraw.draw.Handle}</li>
+    <li>{@link org.jhotdraw.draw.tool.Tool} (in sub-package "tool")</li>
+    <li>{@link org.jhotdraw.draw.handle.Handle} (in sub-package "handle")</li>
 </ul>
 <p>
-The key interfaces for loading and saving a drawing, and for providing
-copy and paste functionality are: 
-</p>
-<ul>
-    <li>{@link org.jhotdraw.draw.InputFormat}</li>
-    <li>{@link org.jhotdraw.draw.OutputFormat}</li>
-</ul>
-
 <!--
 <h2>Package Specification</h2>
 

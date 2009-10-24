@@ -13,6 +13,10 @@
  */
 package org.jhotdraw.samples.svg;
 
+import org.jhotdraw.draw.tool.CreationTool;
+import org.jhotdraw.draw.io.InputFormat;
+import org.jhotdraw.draw.ImageHolderFigure;
+import org.jhotdraw.draw.CompositeFigure;
 import org.jhotdraw.draw.*;
 import java.io.*;
 import javax.swing.*;

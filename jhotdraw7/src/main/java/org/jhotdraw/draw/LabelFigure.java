@@ -14,6 +14,13 @@
 
 package org.jhotdraw.draw;
 
+import org.jhotdraw.draw.tool.Tool;
+import org.jhotdraw.draw.event.FigureListener;
+import org.jhotdraw.draw.event.FigureEvent;
+import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.TextFigure;
+import org.jhotdraw.draw.TextHolderFigure;
+import org.jhotdraw.draw.tool.TextEditingTool;
 import java.awt.geom.*;
 import java.util.*;
 

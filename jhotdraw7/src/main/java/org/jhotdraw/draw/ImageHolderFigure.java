@@ -14,28 +14,34 @@
 
 package org.jhotdraw.draw;
 
+import org.jhotdraw.draw.*;
 import java.awt.image.*;
 import java.io.*;
 
 /**
  * The interface of a {@link Figure} which has some editable image contents.
  * <p>
- * The {@link ImageTool} can be used to create figures which implement this
+ * The {@link org.jhotdraw.draw.tool.ImageTool} can be used to create figures which implement this
  * interface.
  *
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Framework</em><br>
- * The {@code ImageTool} and the {@code ImageHolderFigure} define the
- * contracts of a smaller framework inside of the JHotDraw framework for
- * structured drawing editors.<br>
- * Contract: {@link ImageHolderFigure}, {@link ImageTool}.
+ * <p><em>Prototype</em><br>
+ * The image tool creates new figures by cloning a prototype figure object.
+ * That's the reason why {@code Figure} extends the {@code Cloneable} interface.
+ * <br>
+ * Prototype: {@link ImageHolderFigure}; 
+ * Client: {@link org.jhotdraw.draw.tool.ImageTool}.
+ *
  *
  * <p><em>Prototype</em><br>
- * The {@code ImageTool} creates new figures by cloning a prototype
- * {@code ImageHolderFigure} object.<br>
- * Prototype: {@link ImageHolderFigure}; Client: {@link ImageTool}.
+ * The image input format creates new image holder figures by cloning a prototype figure
+ * object and assigning an image to it, which was read from data input.
+ * That's the reason why {@code Figure} extends the {@code Cloneable} interface.
+ * <br>
+ * Prototype: {@link ImageHolderFigure};
+ * Client: {@link org.jhotdraw.draw.io.ImageInputFormat}.
  * <hr>
  *
  * @author Werner Randelshofer

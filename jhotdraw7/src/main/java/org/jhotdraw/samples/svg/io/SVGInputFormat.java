@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.samples.svg.io;
 
+import org.jhotdraw.draw.CompositeFigure;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -28,7 +29,7 @@ import javax.swing.*;
 import javax.swing.text.*;
 import net.n3.nanoxml.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.InputFormat;
+import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.xml.css.StyleManager;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.io.*;

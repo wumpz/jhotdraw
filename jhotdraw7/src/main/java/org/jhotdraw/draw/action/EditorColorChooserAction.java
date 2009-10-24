@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.draw.action;
 
+import org.jhotdraw.draw.event.FigureSelectionEvent;
 import java.util.*;
 import java.awt.*;
 import javax.swing.*;

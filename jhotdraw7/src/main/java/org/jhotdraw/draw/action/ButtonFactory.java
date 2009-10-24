@@ -13,6 +13,12 @@
  */
 package org.jhotdraw.draw.action;
 
+import org.jhotdraw.draw.tool.Tool;
+import org.jhotdraw.draw.tool.DelegationSelectionTool;
+import org.jhotdraw.draw.event.ToolEvent;
+import org.jhotdraw.draw.event.ToolListener;
+import org.jhotdraw.draw.decoration.LineDecoration;
+import org.jhotdraw.draw.decoration.ArrowTip;
 import org.jhotdraw.gui.event.SelectionComponentRepainter;
 import org.jhotdraw.gui.JPopupButton;
 import org.jhotdraw.util.*;

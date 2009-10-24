@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.draw;
 
+import org.jhotdraw.draw.event.FigureEvent;
 import org.jhotdraw.geom.QuadTree;
 import java.awt.*;
 import java.awt.geom.*;

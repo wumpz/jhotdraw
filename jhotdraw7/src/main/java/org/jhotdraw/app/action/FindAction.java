@@ -30,8 +30,6 @@ import org.jhotdraw.util.*;
  * The FindAction invokes this method using Java Reflection. Thus there is
  * no Java Interface that the View needs to implement.
  *
- * @see org.jhotdraw.draw.DrawingPageable
- *
  * @author Werner Randelshofer
  * @version $Id$
  */

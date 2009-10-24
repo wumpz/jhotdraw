@@ -13,6 +13,8 @@
  */
 package org.jhotdraw.gui.event;
 
+import org.jhotdraw.draw.event.FigureAdapter;
+import org.jhotdraw.draw.event.FigureEvent;
 import org.jhotdraw.draw.action.*;
 import java.beans.*;
 import javax.swing.*;

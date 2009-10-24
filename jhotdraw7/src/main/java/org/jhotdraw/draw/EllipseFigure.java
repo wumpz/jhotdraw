@@ -13,6 +13,10 @@
  */
 package org.jhotdraw.draw;
 
+import org.jhotdraw.draw.connector.ChopEllipseConnector;
+import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.connector.Connector;
+import org.jhotdraw.draw.ConnectionFigure;
 import org.jhotdraw.geom.Geom;
 import java.awt.*;
 import java.awt.geom.*;

@@ -14,6 +14,10 @@
 
 package org.jhotdraw.samples.odg.figures;
 
+import org.jhotdraw.draw.handle.TransformHandleKit;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.BezierFigure;
+import org.jhotdraw.draw.handle.BezierNodeHandle;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.*;

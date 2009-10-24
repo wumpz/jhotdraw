@@ -13,6 +13,8 @@
  */
 package org.jhotdraw.samples.svg;
 
+import org.jhotdraw.draw.BezierFigure;
+import org.jhotdraw.draw.tool.BezierTool;
 import javax.swing.undo.*;
 import org.jhotdraw.samples.svg.figures.*;
 import org.jhotdraw.draw.*;

@@ -13,6 +13,11 @@
  */
 package org.jhotdraw.samples.mini;
 
+import org.jhotdraw.draw.tool.DelegationSelectionTool;
+import org.jhotdraw.draw.layouter.VerticalLayouter;
+import org.jhotdraw.draw.TextAreaFigure;
+import org.jhotdraw.draw.ImageFigure;
+import org.jhotdraw.draw.GraphicalCompositeFigure;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.*;
