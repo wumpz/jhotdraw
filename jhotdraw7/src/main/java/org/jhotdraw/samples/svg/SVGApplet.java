@@ -309,24 +309,23 @@ public class SVGApplet extends JApplet {
      */
     protected Drawing loadDrawing(ProgressIndicator progress) throws IOException {
         Drawing drawing = createDrawing();
-        InputStream in = null;
-        try {
-            if (getParameter("datafile") != null) {
-                ByteArrayOutputStream buf = new ByteArrayOutputStream();
-                URL url = new URL(getDocumentBase(), getParameter("datafile"));
-                URLConnection uc = url.openConnection();
+        if (getParameter("datafile") != null) {
+            ByteArrayOutputStream buf = new ByteArrayOutputStream();
+            URL url = new URL(getDocumentBase(), getParameter("datafile"));
+            URLConnection uc = url.openConnection();
 
-                // Disable caching. This ensures that we always request the 
-                // newest version of the drawing from the server.
-                // (Note: The server still needs to set the proper HTTP caching
-                // properties to prevent proxies from caching the drawing).
-                if (uc instanceof HttpURLConnection) {
-                    ((HttpURLConnection) uc).setUseCaches(false);
-                }
+            // Disable caching. This ensures that we always request the
+            // newest version of the drawing from the server.
+            // (Note: The server still needs to set the proper HTTP caching
+            // properties to prevent proxies from caching the drawing).
+            if (uc instanceof HttpURLConnection) {
+                ((HttpURLConnection) uc).setUseCaches(false);
+            }
 
-                // Read the data into a buffer
-                int contentLength = uc.getContentLength();
-                in = uc.getInputStream();
+            // Read the data into a buffer
+            int contentLength = uc.getContentLength();
+            InputStream in = uc.getInputStream();
+            try {
                 if (contentLength != -1) {
                     in = new BoundedRangeInputStream(in);
                     ((BoundedRangeInputStream) in).setMaximum(contentLength + 1);
@@ -364,9 +363,7 @@ public class SVGApplet extends JApplet {
                 if (formatException != null) {
                     throw formatException;
                 }
-            }
-        } finally {
-            if (in != null) {
+            } finally {
                 in.close();
             }
         }
@@ -384,6 +381,7 @@ public class SVGApplet extends JApplet {
         } catch (Throwable e) {
             appletContext = null;
         }
+
         if (appletContext == null) {
             System.exit(0);
         } else {
@@ -392,6 +390,7 @@ public class SVGApplet extends JApplet {
             } catch (MalformedURLException ex) {
                 ex.printStackTrace();
             }
+
         }
     }
 
@@ -410,19 +409,29 @@ public class SVGApplet extends JApplet {
                     case '<':
                         buf.append("&lt;");
                         break;
+
                     case '>':
                         buf.append("&gt;");
                         break;
+
                     case '&':
                         buf.append("&amp;");
                         break;
+
                     default:
+
                         buf.append(ch);
                         break;
+
                 }
+
+
+
+
             }
             return buf.toString();
         }
+
     }
 
     public static void main(String[] args) {

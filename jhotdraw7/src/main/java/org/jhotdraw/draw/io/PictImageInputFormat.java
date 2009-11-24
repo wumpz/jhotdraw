@@ -112,9 +112,8 @@ public class PictImageInputFormat implements InputFormat {
     }
 
     public void read(File file, Drawing drawing, boolean replace) throws IOException {
-        InputStream in = null;
+        InputStream in = new BufferedInputStream(new FileInputStream(file));
         try {
-            in = new BufferedInputStream(new FileInputStream(file));
             Image img = getImageFromPictStream(in);
             if (img == null) {
                 throw new IOException("Couldn't read pict image");
@@ -136,25 +135,21 @@ public class PictImageInputFormat implements InputFormat {
     }
 
     public void read(InputStream in, Drawing drawing, boolean replace) throws IOException {
-        try {
-            Image img = getImageFromPictStream(in);
-            if (img == null) {
-                throw new IOException("Couldn't read pict image");
-            }
-            ImageHolderFigure figure = (ImageHolderFigure) prototype.clone();
-            figure.setBufferedImage(Images.toBufferedImage(img));
-            figure.setBounds(
-                    new Point2D.Double(0, 0),
-                    new Point2D.Double(
-                    figure.getBufferedImage().getWidth(),
-                    figure.getBufferedImage().getHeight()));
-            if (replace) {
-                drawing.removeAllChildren();
-            }
-            drawing.basicAdd(figure);
-        } finally {
-            in.close();
+        Image img = getImageFromPictStream(in);
+        if (img == null) {
+            throw new IOException("Couldn't read pict image");
         }
+        ImageHolderFigure figure = (ImageHolderFigure) prototype.clone();
+        figure.setBufferedImage(Images.toBufferedImage(img));
+        figure.setBounds(
+                new Point2D.Double(0, 0),
+                new Point2D.Double(
+                figure.getBufferedImage().getWidth(),
+                figure.getBufferedImage().getHeight()));
+        if (replace) {
+            drawing.removeAllChildren();
+        }
+        drawing.basicAdd(figure);
     }
 
     public ImageHolderFigure createImageHolder(InputStream in) throws IOException {
@@ -175,9 +170,8 @@ public class PictImageInputFormat implements InputFormat {
     public void read(Transferable t, Drawing drawing, boolean replace) throws UnsupportedFlavorException, IOException {
         Object data = t.getTransferData(PICT_FLAVOR);
         if (data instanceof InputStream) {
-            InputStream in = null;
+            InputStream in = (InputStream) data;
             try {
-                in = (InputStream) data;
                 Image img = getImageFromPictStream(in);
                 if (img == null) {
                     throw new IOException("Couldn't read pict image");

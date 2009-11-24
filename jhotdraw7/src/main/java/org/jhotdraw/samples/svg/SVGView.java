@@ -130,14 +130,11 @@ public class SVGView extends AbstractView implements ExportableView {
      * Writes the view to the specified file.
      */
     public void write(File f) throws IOException {
-        OutputStream out = null;
+        OutputStream out = new BufferedOutputStream(new FileOutputStream(f));
         try {
-            out = new BufferedOutputStream(new FileOutputStream(f));
             new SVGOutputFormat().write(f, svgPanel.getDrawing());
         } finally {
-            if (out != null) {
-                out.close();
-            }
+            out.close();
         }
     }
 

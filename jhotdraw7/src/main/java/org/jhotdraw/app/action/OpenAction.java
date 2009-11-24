@@ -178,7 +178,7 @@ public class OpenAction extends AbstractApplicationAction {
         returnValue[0] = JFileChooser.ERROR_OPTION;
         chooser.rescanCurrentDirectory();
 
-        dialog.show();
+        dialog.setVisible(true);
         //chooser.firePropertyChange("JFileChooserDialogIsClosingProperty", dialog, null);
         dialog.removeAll();
         dialog.dispose();

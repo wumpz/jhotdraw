@@ -23,22 +23,21 @@ import javax.swing.InputMap;
 /**
  * A <em>drawing editor</em> coordinates drawing tools and drawing views.
  * 
- * <p><b>Usage of drawing editors with the application framework</b>
- * For {@link org.jhotdraw.app.Application}s which provide a single document
+ * <p>Usage of drawing editor in conjunction with the JHotDraw application framework:</p>
+ * <ul>
+ * <li>For {@link org.jhotdraw.app.Application}s which provide a single document
  * interface (SDI) there is typically one drawing editor instance per
  * {@link org.jhotdraw.app.View}. So that each view can have its own toolbars
- * and drawing palettes.
- * <p>
- * For applications with a Windows-style multiple document interface (MDI) there
+ * and drawing palettes.</li>
+ * <li>For applications with a Windows-style multiple document interface (MDI) there
  * is typically one drawing editor instance per parent window. All views within
  * a parent window share the toolbars and drawing palettes provided be the
- * parent window.
- * <p>
- * For applications with a Mac OS X-style application document interface (OSX) 
+ * parent window.</li>
+ * <li>For applications with a Mac OS X-style application document interface (OSX)
  * there is typically a single drawing editor instance for the application. All
  * views within the application share a single set of toolbars and
- * drawing palettes.
- *
+ * drawing palettes.</li>
+ * </ul>
  * <hr>
  * <b>Design Patterns</b>
  *
@@ -77,7 +76,7 @@ import javax.swing.InputMap;
  *
  * <p><em>Proxy</em><br>
  * To remove the need for null-handling, {@code AbstractTool} makes use of
- * a proxy for {@code DrawingEditor}.
+ * a proxy for {@code DrawingEditor}.<br>
  * Subject: {@link DrawingEditor}; Proxy: {@link DrawingEditorProxy};
  * Client: {@link org.jhotdraw.draw.tool.AbstractTool}.
  * <hr>

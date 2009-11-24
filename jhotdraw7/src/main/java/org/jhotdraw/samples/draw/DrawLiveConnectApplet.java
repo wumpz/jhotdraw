@@ -158,9 +158,7 @@ public class DrawLiveConnectApplet extends JApplet {
                 getDrawing().add(tf);
                 e.printStackTrace();
             } finally {
-                if (in != null) {
-                    in.close();
-                }
+                in.close();
             }
         }
     }
@@ -178,9 +176,7 @@ public class DrawLiveConnectApplet extends JApplet {
             getDrawing().add(tf);
             e.printStackTrace();
         } finally {
-            if (out != null) {
-                out.close();
-            }
+            out.close();
         }
         return out.toString();
     }

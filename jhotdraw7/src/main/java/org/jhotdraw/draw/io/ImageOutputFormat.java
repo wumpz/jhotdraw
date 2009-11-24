@@ -91,14 +91,11 @@ public class ImageOutputFormat implements OutputFormat {
      * the image.
      */
     public void write(File file, Drawing drawing) throws IOException {
-        BufferedOutputStream out = null;
+        BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file));
         try {
-            out = new BufferedOutputStream(new FileOutputStream(file));
             write(out, drawing);
         } finally {
-            if (out != null) {
                 out.close();
-            }
         }
     }
     

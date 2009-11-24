@@ -98,14 +98,11 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
     }
 
     public void read(File file, Drawing drawing, boolean replace) throws IOException {
-        BufferedInputStream in = null;
+        BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
         try {
-            in = new BufferedInputStream(new FileInputStream(file));
             read(in, drawing, replace);
         } finally {
-            if (in != null) {
-                in.close();
-            }
+            in.close();
         }
     }
 
@@ -164,9 +161,7 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
         try {
             write(out, drawing);
         } finally {
-            if (out != null) {
-                out.close();
-            }
+            out.close();
         }
     }
 

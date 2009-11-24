@@ -71,7 +71,6 @@ public class SVGOutputFormat implements OutputFormat {
     private boolean isPrettyPrint;
     private final static HashMap<Integer, String> strokeLinejoinMap;
 
-
     static {
         strokeLinejoinMap = new HashMap<Integer, String>();
         strokeLinejoinMap.put(BasicStroke.JOIN_MITER, "miter");
@@ -79,7 +78,6 @@ public class SVGOutputFormat implements OutputFormat {
         strokeLinejoinMap.put(BasicStroke.JOIN_BEVEL, "bevel");
     }
     private final static HashMap<Integer, String> strokeLinecapMap;
-
 
     static {
         strokeLinecapMap = new HashMap<Integer, String>();
@@ -1299,9 +1297,7 @@ public class SVGOutputFormat implements OutputFormat {
         try {
             write(out, drawing);
         } finally {
-            if (out != null) {
-                out.close();
-            }
+            out.close();
         }
     }
 

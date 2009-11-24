@@ -104,16 +104,13 @@ public class PertApplet extends JApplet {
                     NanoXMLDOMInput domi = new NanoXMLDOMInput(new PertFactory(), new StringReader(getParameter("data")));
                     result = (Drawing) domi.readObject(0);
                 } else if (getParameter("datafile") != null) {
-                    InputStream in = null;
+                    URL url = new URL(getDocumentBase(), getParameter("datafile"));
+                    InputStream in = url.openConnection().getInputStream();
                     try {
-                        URL url = new URL(getDocumentBase(), getParameter("datafile"));
-                        in = url.openConnection().getInputStream();
                         NanoXMLDOMInput domi = new NanoXMLDOMInput(new PertFactory(), in);
                         result = (Drawing) domi.readObject(0);
                     } finally {
-                        if (in != null) {
-                            in.close();
-                        }
+                        in.close();
                     }
                 } else {
                     result = null;
@@ -196,9 +193,7 @@ public class PertApplet extends JApplet {
                 getDrawing().add(tf);
                 e.printStackTrace();
             } finally {
-                if (in != null) {
-                    in.close();
-                }
+                in.close();
             }
 
         }
@@ -217,20 +212,20 @@ public class PertApplet extends JApplet {
             getDrawing().add(tf);
             e.printStackTrace();
         } finally {
-            if (out != null) {
-                out.close();
-            }
+            out.close();
         }
 
         return out.toString();
     }
 
+    @Override
     public String[][] getParameterInfo() {
         return new String[][]{
                     {"data", "String", "the data to be displayed by this applet."},
                     {"datafile", "URL", "an URL to a file containing the data to be displayed by this applet."},};
     }
 
+    @Override
     public String getAppletInfo() {
         return NAME +
                 "\nVersion " + getVersion() +

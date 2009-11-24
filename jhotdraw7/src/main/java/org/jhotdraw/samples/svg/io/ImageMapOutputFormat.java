@@ -80,9 +80,7 @@ public class ImageMapOutputFormat implements OutputFormat {
         try {
             write(out, drawing);
         } finally {
-            if (out != null) {
-                out.close();
-            }
+            out.close();
         }
     }
 

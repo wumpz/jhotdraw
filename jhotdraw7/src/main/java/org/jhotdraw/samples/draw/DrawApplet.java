@@ -101,16 +101,13 @@ public class DrawApplet extends JApplet {
                     NanoXMLDOMInput domi = new NanoXMLDOMInput(new DrawFigureFactory(), new StringReader(getParameter("data")));
                     result = (Drawing) domi.readObject(0);
                 } else if (getParameter("datafile") != null) {
-                    InputStream in = null;
+                    URL url = new URL(getDocumentBase(), getParameter("datafile"));
+                    InputStream in = url.openConnection().getInputStream();
                     try {
-                        URL url = new URL(getDocumentBase(), getParameter("datafile"));
-                        in = url.openConnection().getInputStream();
                         NanoXMLDOMInput domi = new NanoXMLDOMInput(new DrawFigureFactory(), in);
                         result = (Drawing) domi.readObject(0);
                     } finally {
-                        if (in != null) {
-                            in.close();
-                        }
+                        in.close();
                     }
                 } else {
                     result = null;
@@ -190,9 +187,7 @@ public class DrawApplet extends JApplet {
                 getDrawing().add(tf);
                 e.printStackTrace();
             } finally {
-                if (in != null) {
-                    in.close();
-                }
+                in.close();
             }
         }
     }
@@ -210,9 +205,7 @@ public class DrawApplet extends JApplet {
             getDrawing().add(tf);
             e.printStackTrace();
         } finally {
-            if (out != null) {
-                out.close();
-            }
+            out.close();
         }
         return out.toString();
     }

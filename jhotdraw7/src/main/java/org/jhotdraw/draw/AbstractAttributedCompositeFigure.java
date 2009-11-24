@@ -25,7 +25,7 @@ import org.jhotdraw.xml.DOMOutput;
 
 /**
  * This abstract class can be extended to implement a {@link CompositeFigure}
- * which has its own attribute put.
+ * which has its own attribute set.
  *
  * @author Werner Randelshofer
  * @version $Id$

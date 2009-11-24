@@ -184,10 +184,10 @@ public class SVGInputFormat implements InputFormat {
             e.initCause(ex);
             throw e;
         }
-System.out.println("SVGInputFormat parser created "+(System.currentTimeMillis()-start));
+        System.out.println("SVGInputFormat parser created " + (System.currentTimeMillis() - start));
         IXMLReader reader = new StdXMLReader(in);
         parser.setReader(reader);
-System.out.println("SVGInputFormat reader created "+(System.currentTimeMillis()-start));
+        System.out.println("SVGInputFormat reader created " + (System.currentTimeMillis() - start));
         try {
             document = (IXMLElement) parser.parse();
         } catch (XMLException ex) {
@@ -195,7 +195,7 @@ System.out.println("SVGInputFormat reader created "+(System.currentTimeMillis()-
             e.initCause(ex);
             throw e;
         }
-System.out.println("SVGInputFormat document created "+(System.currentTimeMillis()-start));
+        System.out.println("SVGInputFormat document created " + (System.currentTimeMillis() - start));
 
         // Search for the first 'svg' element in the XML document
         // in preorder sequence
@@ -380,7 +380,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
                 f = null;
             } else if (name.equals("svg")) {
                 f = readSVGElement(elem);
-            //f = readGElement(elem);
+                //f = readGElement(elem);
             } else if (name.equals("switch")) {
                 f = readSwitchElement(elem);
             } else if (name.equals("text")) {
@@ -714,9 +714,8 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
                 ByteArrayOutputStream bout = new ByteArrayOutputStream();
                 byte[] buf = new byte[512];
                 int len = 0;
-                InputStream in = null;
+                InputStream in = imageUrl.openStream();
                 try {
-                    in = imageUrl.openStream();
                     while ((len = in.read(buf)) > 0) {
                         bout.write(buf, 0, len);
                     }
@@ -724,9 +723,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
                 } catch (FileNotFoundException e) {
                     // Use empty image
                 } finally {
-                    if (in != null) {
-                        in.close();
-                    }
+                    in.close();
                 }
             }
         }
@@ -743,7 +740,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         // Delete the image data in case of failure
         if (bufferedImage == null) {
             imageData = null;
-        //if (DEBUG) System.out.println("FAILED:"+imageUrl);
+            //if (DEBUG) System.out.println("FAILED:"+imageUrl);
         }
 
         // Create a figure from the image data and the buffered image.
@@ -1850,7 +1847,6 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
         // read "id" or "xml:id"
         //identifiedElements.putx(elem.get("id"), elem);
         //identifiedElements.putx(elem.get("xml:id"), elem);
-
         // XXX - Add
         // xml:base
         // xml:lang
@@ -2860,7 +2856,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
             stopColors[i] = toColor(stopElem, readAttribute(stopElem, "stop-color", "black"));
             if (stopColors[i] == null) {
                 stopColors[i] = new Color(0x0, true);
-            //throw new IOException("stop color missing in "+stopElem);
+                //throw new IOException("stop color missing in "+stopElem);
             }
 
             //'stop-opacity'
@@ -2940,7 +2936,7 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
             stopColors[i] = toColor(stopElem, readAttribute(stopElem, "stop-color", "black"));
             if (stopColors[i] == null) {
                 stopColors[i] = new Color(0x0, true);
-            //throw new IOException("stop color missing in "+stopElem);
+                //throw new IOException("stop color missing in "+stopElem);
             }
             //'stop-opacity'
             //Value:  	<opacity-value> | inherit
@@ -3220,10 +3216,10 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
             return Math.max(Math.min(d, max), min);
         } catch (NumberFormatException e) {
             return defaultValue;
-        /*
-        IOException ex = new IOException(elem.getTagName()+"@"+elem.getLineNr()+" "+e.getMessage());
-        ex.initCause(e);
-        throw ex;*/
+            /*
+            IOException ex = new IOException(elem.getTagName()+"@"+elem.getLineNr()+" "+e.getMessage());
+            ex.initCause(e);
+            throw ex;*/
         }
     }
 
@@ -3370,28 +3366,22 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
 
     public void read(File file, Drawing drawing, boolean replace) throws IOException {
         this.url = file.toURL();
-        BufferedInputStream in = null;
+        BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
         try {
-            in = new BufferedInputStream(new FileInputStream(file));
             read(in, drawing, replace);
         } finally {
-            if (in != null) {
-                in.close();
-            }
+            in.close();
         }
         this.url = null;
     }
 
     public void read(URL url, Drawing drawing, boolean replace) throws IOException {
         this.url = url;
-        InputStream in = null;
+        InputStream in = url.openStream();
         try {
-            in = url.openStream();
             read(in, drawing, replace);
         } finally {
-            if (in != null) {
-                in.close();
-            }
+            in.close();
         }
         this.url = null;
     }
@@ -3402,14 +3392,11 @@ System.out.println("SVGInputFormat document created "+(System.currentTimeMillis(
     }
 
     public void read(Transferable t, Drawing drawing, boolean replace) throws UnsupportedFlavorException, IOException {
-        InputStream in = null;
+        InputStream in = (InputStream) t.getTransferData(new DataFlavor("image/svg+xml", "Image SVG"));
         try {
-            in = (InputStream) t.getTransferData(new DataFlavor("image/svg+xml", "Image SVG"));
             read(in, drawing, false);
         } finally {
-            if (in != null) {
-                in.close();
-            }
+            in.close();
         }
     }
 }

@@ -169,6 +169,7 @@ public class ODGView extends AbstractView implements ExportableView {
         putAction(UndoAction.ID, undo.getUndoAction());
         putAction(RedoAction.ID, undo.getRedoAction());
     }
+    @Override
     protected void setHasUnsavedChanges(boolean newValue) {
         super.setHasUnsavedChanges(newValue);
         undo.setHasSignificantEdits(newValue);
@@ -178,12 +179,11 @@ public class ODGView extends AbstractView implements ExportableView {
      * Writes the view to the specified file.
      */
     public void write(File f) throws IOException {
-        OutputStream out = null;
+        OutputStream out = new BufferedOutputStream(new FileOutputStream(f));
         try {
-            out = new BufferedOutputStream(new FileOutputStream(f));
             new SVGOutputFormat().write(f, view.getDrawing());
         } finally {
-            if (out != null) out.close();
+             out.close();
         }
     }
     

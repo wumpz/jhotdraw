@@ -11,9 +11,9 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.app.action;
 
+import java.awt.Component;
 import org.jhotdraw.util.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -26,26 +26,37 @@ import org.jhotdraw.app.*;
  * @version $Id$
  */
 public class AboutAction extends AbstractApplicationAction {
+
     public final static String ID = "application.about";
-    
+
     /** Creates a new instance. */
     public AboutAction(Application app) {
         super(app);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
-        }
-    
+    }
+
     public void actionPerformed(ActionEvent evt) {
         Application app = getApplication();
-        JOptionPane.showMessageDialog(app.getComponent(),
-                app.getName()+" "+app.getVersion()+"\n"+app.getCopyright()+
+
+        Component c = app.getComponent();
+
+        // This ensures that we open the option pane on the center of the screen
+        // on Mac OS X.
+        if (c.getBounds().isEmpty()) {
+            c = null;
+        }
+
+
+        JOptionPane.showMessageDialog(c,
+                app.getName() + " " + app.getVersion() + "\n" + app.getCopyright() +
                 "\n\nRunning on" +
-                "\n  Java: "+System.getProperty("java.version")+
-                ", "+System.getProperty("java.vendor")+
-                "\n  JVM: "+System.getProperty("java.vm.version")+
-                ", "+System.getProperty("java.vm.vendor")+
-                "\n  OS: "+System.getProperty("os.name")+" "+System.getProperty("os.version")+
-                ", "+System.getProperty("os.arch"),
+                "\n  Java: " + System.getProperty("java.version") +
+                ", " + System.getProperty("java.vendor") +
+                "\n  JVM: " + System.getProperty("java.vm.version") +
+                ", " + System.getProperty("java.vm.vendor") +
+                "\n  OS: " + System.getProperty("os.name") + " " + System.getProperty("os.version") +
+                ", " + System.getProperty("os.arch"),
                 "About", JOptionPane.PLAIN_MESSAGE);
     }
 }

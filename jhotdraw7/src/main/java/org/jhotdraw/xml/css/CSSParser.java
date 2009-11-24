@@ -190,17 +190,4 @@ public class CSSParser {
         tt.pushBack();
         return map;
     }
-    /*
-    public static void main(String[] args) {
-        InputStreamReader in = null;
-        try {
-            CSSLoader l = new CSSLoader();
-            in = new InputStreamReader(CSSLoader.class.getResourceAsStream("/test.css"));
-            l.load(in, new StyleManager());
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try { if (in != null) in.close(); } catch (IOException e) {}
-        }
-    }*/
 }

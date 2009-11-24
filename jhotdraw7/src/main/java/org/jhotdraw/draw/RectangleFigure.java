@@ -15,7 +15,6 @@
 
 package org.jhotdraw.draw;
 
-import org.jhotdraw.draw.*;
 import java.awt.*;
 import java.awt.geom.*;
 import org.jhotdraw.geom.Geom;
@@ -61,7 +60,7 @@ public class RectangleFigure extends AbstractAttributedFigure {
     
     @Override public Rectangle2D.Double getDrawingArea() {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
-        double grow = AttributeKeys.getPerpendicularHitGrowth(this) + 1d;
+        double grow = AttributeKeys.getPerpendicularDrawGrowth(this) + 1d;
         Geom.grow(r, grow, grow);
         return r;
     }
@@ -95,22 +94,14 @@ public class RectangleFigure extends AbstractAttributedFigure {
     }
     
     public void restoreTransformTo(Object geometry) {
-        Rectangle2D.Double r = (Rectangle2D.Double) geometry;
-        rectangle.x = r.x;
-        rectangle.y = r.y;
-        rectangle.width = r.width;
-        rectangle.height = r.height;
+        rectangle.setRect( (Rectangle2D.Double) geometry );
     }
     
     public Object getTransformRestoreData() {
         return rectangle.clone();
     }
     
-    // ATTRIBUTES
-    // EDITING
-    // CONNECTING
-    // COMPOSITE FIGURES
-    // CLONING
+    @Override
     public RectangleFigure clone() {
         RectangleFigure that = (RectangleFigure) super.clone();
         that.rectangle = (Rectangle2D.Double) this.rectangle.clone();
