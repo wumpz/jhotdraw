@@ -66,6 +66,7 @@ public class DefaultSDIApplication extends AbstractApplication {
         prefs = PreferencesUtil.userNodeForPackage((getModel() == null) ? getClass() : getModel().getClass());
         initLabels();
         initApplicationActions();
+        getModel().initApplication(this);
     }
 
     @Override

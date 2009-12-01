@@ -152,6 +152,7 @@ public class DefaultMDIApplication extends AbstractApplication {
 
 
         initApplicationActions();
+        getModel().initApplication(this);
         parentFrame.getContentPane().add(
                 wrapDesktopPane(scrollPane, toolBarActions));
 
