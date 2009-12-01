@@ -56,10 +56,6 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
                 recentFiles.add(new File(path));
             }
         }
-
-        if (model != null) {
-            model.initApplication(this);
-        }
     }
 
     public void start() {

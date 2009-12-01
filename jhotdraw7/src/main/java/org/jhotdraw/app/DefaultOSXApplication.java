@@ -101,9 +101,9 @@ public class DefaultOSXApplication extends AbstractApplication {
 
     @Override
     public void init() {
-        ResourceBundleUtil.putPropertyNameModifier("os", "mac", "default");
         super.init();
 
+        ResourceBundleUtil.putPropertyNameModifier("os", "mac", "default");
         prefs = PreferencesUtil.userNodeForPackage((getModel() == null) ? getClass() : getModel().getClass());
         initLookAndFeel();
         paletteHandler = new OSXPaletteHandler(this);
