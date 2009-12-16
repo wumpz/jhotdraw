@@ -17,11 +17,15 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
+import java.net.URI;
 import org.jhotdraw.app.*;
 import org.jhotdraw.io.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.gui.*;
+import org.jhotdraw.gui.chooser.URIChooser;
+import org.jhotdraw.gui.chooser.JFileURIChooser;
 import org.jhotdraw.gui.event.*;
+import org.jhotdraw.net.URIUtil;
 
 /**
  * SaveAction.
@@ -47,30 +51,28 @@ public class SaveAction extends AbstractViewAction {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
-
     public void actionPerformed(ActionEvent evt) {
         final View view = getActiveView();
         if (view.isEnabled()) {
             oldFocusOwner = SwingUtilities.getWindowAncestor(view.getComponent()).getFocusOwner();
             view.setEnabled(false);
 
-            File saveToFile;
-            if (!saveAs && view.getFile() != null && view.canSaveTo(view.getFile())) {
-                saveToFile(view, view.getFile());
+            if (!saveAs && view.getURI() != null && view.canSaveTo(view.getURI())) {
+                saveViewToURI(view, view.getURI());
             } else {
-                JFileChooser fileChooser = view.getSaveChooser();
+                URIChooser fileChooser = view.getSaveChooser();
 
                 JSheet.showSaveSheet(fileChooser, view.getComponent(), new SheetListener() {
 
                     public void optionSelected(final SheetEvent evt) {
                         if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
-                            final File file;
-                            if (evt.getFileChooser().getFileFilter() instanceof ExtensionFileFilter) {
-                                file = ((ExtensionFileFilter) evt.getFileChooser().getFileFilter()).makeAcceptable(evt.getFileChooser().getSelectedFile());
+                            final URI uri;
+                            if ((evt.getChooser()instanceof JFileURIChooser) && (evt.getFileChooser().getFileFilter() instanceof ExtensionFileFilter)) {
+                                uri = ((ExtensionFileFilter) evt.getFileChooser().getFileFilter()).makeAcceptable(evt.getFileChooser().getSelectedFile()).toURI();
                             } else {
-                                file = evt.getFileChooser().getSelectedFile();
+                                uri = evt.getChooser().getSelectedURI();
                             }
-                            saveToFile(view, file);
+                            saveViewToURI(view, uri);
                         } else {
                             view.setEnabled(true);
                             if (oldFocusOwner != null) {
@@ -83,7 +85,7 @@ public class SaveAction extends AbstractViewAction {
         }
     }
 
-    protected void saveToFile(final View view, final File file) {
+    protected void saveViewToURI(final View view, final URI file) {
         view.execute(new Worker() {
 
             protected Object construct() throws IOException {
@@ -93,15 +95,15 @@ public class SaveAction extends AbstractViewAction {
 
             @Override
             protected void done(Object value) {
-                view.setFile(file);
+                view.setURI(file);
                 view.markChangesAsSaved();
                 int multiOpenId = 1;
                 for (View p : view.getApplication().views()) {
-                    if (p != view && p.getFile() != null && p.getFile().equals(file)) {
+                    if (p != view && p.getURI() != null && p.getURI().equals(file)) {
                         multiOpenId = Math.max(multiOpenId, p.getMultipleOpenId() + 1);
                     }
                 }
-                getApplication().addRecentFile(file);
+                getApplication().addRecentURI(file);
                 view.setMultipleOpenId(multiOpenId);
             }
 
@@ -116,7 +118,7 @@ public class SaveAction extends AbstractViewAction {
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
                 JSheet.showMessageSheet(getActiveView().getComponent(),
                         "<html>" + UIManager.getString("OptionPane.css") +
-                        "<b>" + labels.getFormatted("couldntSave", file.getName()) + "</b><br>" +
+                        "<b>" + labels.getFormatted("file.save.couldntSave.message", URIUtil.getName(file)) + "</b><p>" +
                         ((message == null) ? "" : message),
                         JOptionPane.ERROR_MESSAGE);
             }

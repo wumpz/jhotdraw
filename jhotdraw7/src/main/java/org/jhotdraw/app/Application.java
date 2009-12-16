@@ -19,11 +19,13 @@ import java.beans.*;
 import java.util.*;
 import javax.swing.*;
 import java.io.*;
+import java.net.URI;
 /**
  * An <em>application</em> handles the lifecycle of {@link View}s and provides
- * windows to present them on screen. Depending on the document interface style
- * used by the application. An application can handle multiple views
- * at the same time, or only one.
+ * windows to present them on screen. 
+ * <p>
+ * Depending on the document interface style used by the application.
+ * An application can handle multiple views at the same time, or only one.
  * <p>
  * An application owns a {@link ApplicationModel} which provides meta-data about
  * the application, actions and factory methods for creating the views.
@@ -37,9 +39,9 @@ import java.io.*;
  * <pre>
  * public class MyMainClass {
  *     public static void main(String[] args) {
- *         Application app = new DefaultADIApplication();
+ *         Application app = new DefaultSDIApplication();
  *         DefaultApplicationModel model = new DefaultApplicationModel();
- *         model.setName("MyAppliciation");
+ *         model.setName("MyApplication");
  *         model.setVersion("1.0");
  *         model.setCopyright("Copyright 2006 (c) Werner Randelshofer. All Rights Reserved.");
  *         model.setViewClassName("org.jhotdraw.myapplication.MyView");
@@ -65,6 +67,10 @@ public interface Application {
      * The property name of the activeView property.
      */
     public final static String ACTIVE_VIEW_PROPERTY = "activeView";
+    /**
+     * The property name of the recentURIs property.
+     */
+    public final static String RECENT_URIS_PROPERTY = "recentURIs";
     
     /**
      * Launches the application from the main method.
@@ -216,22 +222,6 @@ public interface Application {
     public Component getComponent();
     
     /**
-     * Returns the recently opened files.
-     * By convention, this is an immutable list.
-     */
-    public java.util.List<File> recentFiles();
-    /**
-     * Appends a file to the list of recent files.
-     * This fires a property change event for the property "recentFiles".
-     */
-    public void addRecentFile(File file);
-    /**
-     * Clears the list of recent files.
-     * This fires a property change event for the property "recentFiles".
-     */
-    public void clearRecentFiles();
-    
-    /**
      * Adds a palette window to the application.
      */
     public void addPalette(Window palette);
@@ -243,7 +233,7 @@ public interface Application {
      * Adds a (non-palette) window to the application.
      *
      * @param window The window.
-     * @param view The View to which this window is associated, or null,
+     * @param view The View to which this window is associated, or null
      * if the window is associated to the application.
      */
     public void addWindow(Window window, View view);
@@ -251,4 +241,22 @@ public interface Application {
      * Removes a (non-palette) window from the application.
      */
     public void removeWindow(Window window);
+
+    /**
+     * Returns the recently opened URIs.
+     * By convention, this is an immutable list.
+     */
+    public java.util.List<URI> getRecentURIs();
+    /**
+     * Appends a URI to the list of recent URIs.
+     * This fires a property change event for the property "recentURIs".
+     */
+    public void addRecentURI(URI uri);
+    /**
+     * Clears the list of recent URIs.
+     * This fires a property change event for the property "recentURIs".
+     */
+    public void clearRecentURIs();
+
+
 }

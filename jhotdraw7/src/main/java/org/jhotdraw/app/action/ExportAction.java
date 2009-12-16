@@ -20,7 +20,11 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
+import java.net.URI;
 import org.jhotdraw.app.*;
+import org.jhotdraw.gui.chooser.JFileURIChooser;
+import org.jhotdraw.gui.chooser.URIChooser;
+import org.jhotdraw.net.URIUtil;
 
 /**
  * Presents a file chooser to the user and then exports the 
@@ -62,15 +66,18 @@ public class ExportAction extends AbstractViewAction {
             oldFocusOwner = SwingUtilities.getWindowAncestor(view.getComponent()).getFocusOwner();
             view.setEnabled(false);
 
-            File saveToFile;
-            JFileChooser fileChooser = view.getExportChooser();
+            URIChooser fileChooser = view.getExportChooser();
 
             JSheet.showSheet(fileChooser, view.getComponent(), labels.getString("filechooser.export"), new SheetListener() {
 
                 public void optionSelected(final SheetEvent evt) {
                     if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
-                        final File file = evt.getFileChooser().getSelectedFile();
-                        exportToFile(view, file, evt.getFileChooser().getFileFilter(), evt.getFileChooser().getAccessory());
+                        final URI uri = evt.getChooser().getSelectedURI();
+                        if (evt.getChooser()instanceof JFileURIChooser) {
+                        exportView(view, uri, evt.getFileChooser().getFileFilter(), evt.getFileChooser().getAccessory());
+                        } else {
+                        exportView(view, uri, null,null);
+                        }
                     } else {
                         view.setEnabled(true);
                         if (oldFocusOwner != null) {
@@ -82,13 +89,13 @@ public class ExportAction extends AbstractViewAction {
         }
     }
 
-    protected void exportToFile(final ExportableView view, final File file,
+    protected void exportView(final ExportableView view, final URI uri,
             final javax.swing.filechooser.FileFilter filter,
             final Component accessory) {
         view.execute(new Worker() {
 
             protected Object construct() throws IOException {
-                view.export(file, filter, accessory);
+                view.export(uri, filter, accessory);
                 return null;
             }
 
@@ -98,7 +105,7 @@ public class ExportAction extends AbstractViewAction {
                 // FIXME localize this error messsage
                 JSheet.showMessageSheet(view.getComponent(),
                         "<html>" + UIManager.getString("OptionPane.css") +
-                        "<b>Couldn't export to the file \"" + file + "\".<p>" +
+                        "<b>Couldn't export to the file \"" + URIUtil.getName(uri) + "\".<p>" +
                         "Reason: " + value,
                         JOptionPane.ERROR_MESSAGE);
             }

@@ -30,12 +30,15 @@ import java.awt.*;
 import java.beans.*;
 import java.io.*;
 import java.lang.reflect.*;
+import java.net.URI;
 import javax.swing.*;
 import javax.swing.border.*;
 import org.jhotdraw.app.*;
 import org.jhotdraw.app.action.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
+import org.jhotdraw.gui.chooser.URIChooser;
+import org.jhotdraw.gui.chooser.JFileURIChooser;
 
 /**
  * A view for Network diagrams.
@@ -183,22 +186,22 @@ public class NetView extends AbstractView  {
     }
     
     /**
-     * Writes the view to the specified file.
+     * Writes the view to the specified uri.
      */
-    public void write(File f) throws IOException {
+    public void write(URI f) throws IOException {
             Drawing drawing = view.getDrawing();
             OutputFormat outputFormat = drawing.getOutputFormats().get(0);
-            outputFormat.write(f, drawing);
+            outputFormat.write(new File(f), drawing);
     }
     
     /**
-     * Reads the view from the specified file.
+     * Reads the view from the specified uri.
      */
-    public void read(File f) throws IOException {
+    public void read(URI f) throws IOException {
         try {
             final Drawing drawing = createDrawing();
             InputFormat inputFormat = drawing.getInputFormats().get(0);
-            inputFormat.read(f, drawing, true);
+            inputFormat.read(new File(f), drawing, true);
             SwingUtilities.invokeAndWait(new Runnable() { public void run() {
                 view.getDrawing().removeUndoableEditListener(undo);
                 view.setDrawing(drawing);
@@ -258,16 +261,16 @@ public class NetView extends AbstractView  {
     }
     
     
-    @Override protected JFileChooser createOpenChooser() {
-        JFileChooser c =  new JFileChooser();
+    @Override protected URIChooser createOpenChooser() {
+        JFileURIChooser c =  new JFileURIChooser();
         c.addChoosableFileFilter(new ExtensionFileFilter("Net Diagram","xml"));
         if (preferences != null) {
             c.setSelectedFile(new File(preferences.get("projectFile", System.getProperty("user.home"))));
         }
         return c;
     }
-    @Override protected JFileChooser createSaveChooser() {
-        JFileChooser c = new JFileChooser();
+    @Override protected JFileURIChooser createSaveChooser() {
+        JFileURIChooser c = new JFileURIChooser();
         c.addChoosableFileFilter(new ExtensionFileFilter("Net Diagram","xml"));
         if (preferences != null) {
             c.setSelectedFile(new File(preferences.get("projectFile", System.getProperty("user.home"))));
@@ -275,8 +278,8 @@ public class NetView extends AbstractView  {
         return c;
     }
     @Override
-    public boolean canSaveTo(File file) {
-        return file.getName().endsWith(".xml");
+    public boolean canSaveTo(URI file) {
+        return new File(file).getName().endsWith(".xml");
     }
     /** This method is called from within the constructor to
      * initialize the form.

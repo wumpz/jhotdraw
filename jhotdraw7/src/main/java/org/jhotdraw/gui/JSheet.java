@@ -20,6 +20,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.*;
 import javax.swing.plaf.*;
+import org.jhotdraw.gui.chooser.URIChooser;
 import org.jhotdraw.gui.event.*;
 import org.jhotdraw.util.*;
 
@@ -566,6 +567,28 @@ public class JSheet extends JDialog {
             }
         }
     }
+    /**
+     * Notify all listeners that have registered interest for
+     *   notification on this event type.  The event instance
+     *   is lazily created using the parameters passed into
+     *   the fire method.
+     */
+    protected void fireOptionSelected(URIChooser pane, int option) {
+        SheetEvent sheetEvent = null;
+        // Guaranteed to return a non-null array
+        Object[] listeners = listenerList.getListenerList();
+        // Process the listeners last to first, notifying
+        // those that are interested in this event
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+            if (listeners[i] == SheetListener.class) {
+                // Lazily create the event:
+                if (sheetEvent == null) {
+                    sheetEvent = new SheetEvent(this, pane, option, null);
+                }
+                ((SheetListener) listeners[i + 1]).optionSelected(sheetEvent);
+            }
+        }
+    }
 
     /**
      * Displays an option pane as a sheet on its parent window.
@@ -1095,6 +1118,34 @@ public class JSheet extends JDialog {
     }
 
     /**
+     * Displays a "Save File" file chooser sheet. Note that the
+     * text that appears in the approve button is determined by
+     * the L&F.
+     *
+     * @param    parent  the parent component of the dialog,
+     *			can be <code>null</code>.
+     * @param listener The listener for SheetEvents.
+     */
+    public static void showSaveSheet(URIChooser chooser, Component parent, SheetListener listener) {
+        chooser.setDialogType(JFileChooser.SAVE_DIALOG);
+        showSheet(chooser, parent, null, listener);
+    }
+
+    /**
+     * Displays an "Open File" file chooser sheet. Note that the
+     * text that appears in the approve button is determined by
+     * the L&F.
+     *
+     * @param    parent  the parent component of the dialog,
+     *			can be <code>null</code>.
+     * @param listener The listener for SheetEvents.
+     */
+    public static void showOpenSheet(URIChooser chooser, Component parent, SheetListener listener) {
+        chooser.setDialogType(JFileChooser.OPEN_DIALOG);
+        showSheet(chooser, parent, null, listener);
+    }
+
+    /**
      * Displays a custom file chooser sheet with a custom approve button.
      *
      * @param   parent  the parent component of the dialog;
@@ -1122,6 +1173,65 @@ public class JSheet extends JDialog {
         Container contentPane = sheet.getContentPane();
         contentPane.setLayout(new BorderLayout());
         contentPane.add(chooser, BorderLayout.CENTER);
+        // End Create Dialog
+
+        final ActionListener actionListener = new ActionListener() {
+
+            public void actionPerformed(ActionEvent evt) {
+                int option;
+                if (evt.getActionCommand().equals("ApproveSelection")) {
+                    option = JFileChooser.APPROVE_OPTION;
+                } else {
+                    option = JFileChooser.CANCEL_OPTION;
+                }
+                sheet.hide();
+                sheet.fireOptionSelected(chooser, option);
+                chooser.removeActionListener(this);
+            }
+        };
+        chooser.addActionListener(actionListener);
+        sheet.addWindowListener(new WindowAdapter() {
+
+            public void windowClosing(WindowEvent e) {
+                sheet.fireOptionSelected(chooser, JFileChooser.CANCEL_OPTION);
+                chooser.removeActionListener(actionListener);
+            }
+        });
+        chooser.rescanCurrentDirectory();
+        sheet.pack();
+        sheet.show();
+        sheet.toFront();
+    }
+    /**
+     * Displays a custom file chooser sheet with a custom approve button.
+     *
+     * @param   parent  the parent component of the dialog;
+     *			can be <code>null</code>
+     * @param   approveButtonText the text of the <code>ApproveButton</code>
+     * @param listener The listener for SheetEvents.
+     */
+    public static void showSheet(final URIChooser chooser, Component parent,
+            String approveButtonText, SheetListener listener) {
+        if (approveButtonText != null) {
+            chooser.setApproveButtonText(approveButtonText);
+            chooser.setDialogType(URIChooser.CUSTOM_DIALOG);
+        }
+
+        // Begin Create Dialog
+        Frame frame = parent instanceof Frame ? (Frame) parent
+                : (Frame) SwingUtilities.getAncestorOfClass(Frame.class, parent);
+
+        if (chooser instanceof JFileChooser) {
+        String title = ((JFileChooser) chooser).getUI().getDialogTitle((JFileChooser) chooser);
+        ((JFileChooser) chooser).getAccessibleContext().setAccessibleDescription(title);
+        }
+
+        final JSheet sheet = new JSheet(frame);
+        sheet.addSheetListener(listener);
+
+        Container contentPane = sheet.getContentPane();
+        contentPane.setLayout(new BorderLayout());
+        contentPane.add(chooser.getComponent(), BorderLayout.CENTER);
         // End Create Dialog
 
         final ActionListener actionListener = new ActionListener() {

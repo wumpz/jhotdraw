@@ -36,6 +36,7 @@ import java.awt.*;
 import java.beans.*;
 import java.io.*;
 import java.lang.reflect.*;
+import java.net.URI;
 import javax.swing.*;
 import javax.swing.border.*;
 import org.jhotdraw.app.AbstractView;
@@ -43,6 +44,9 @@ import org.jhotdraw.app.action.RedoAction;
 import org.jhotdraw.app.action.UndoAction;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
+import org.jhotdraw.gui.chooser.URIChooser;
+import org.jhotdraw.gui.chooser.JFileURIChooser;
+import org.jhotdraw.net.URIUtil;
 
 /**
  * A view for JHotDraw drawings.
@@ -160,27 +164,27 @@ public class DrawView extends AbstractView {
     }
     
     /**
-     * Writes the view to the specified file.
+     * Writes the view to the specified uri.
      */
-    public void write(File f) throws IOException {
+    public void write(URI f) throws IOException {
         Drawing drawing = view.getDrawing();
         OutputFormat outputFormat = drawing.getOutputFormats().get(0);
-        outputFormat.write(f, drawing);
+        outputFormat.write(new File(f), drawing);
     }
     
     /**
-     * Reads the view from the specified file.
+     * Reads the view from the specified uri.
      */
-    public void read(File f) throws IOException {
+    public void read(URI f) throws IOException {
         try {
-            JFileChooser fc = getOpenChooser();
+            URIChooser fc = getOpenChooser();
 
             final Drawing drawing = createDrawing();
 
             boolean success = false;
                 for (InputFormat sfi : drawing.getInputFormats()) {
                         try {
-                            sfi.read(f, drawing, true);
+                            sfi.read(new File(f), drawing, true);
                             success = true;
                             break;
                         } catch (Exception e) {
@@ -189,7 +193,7 @@ public class DrawView extends AbstractView {
                     }
             if (!success) {
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
-                throw new IOException(labels.getFormatted("file.open.unsupportedFileFormat.message", f.getName()));
+                throw new IOException(labels.getFormatted("file.open.unsupportedFileFormat.message", URIUtil.getName(f)));
             }
             SwingUtilities.invokeAndWait(new Runnable() {
 
@@ -253,16 +257,16 @@ public class DrawView extends AbstractView {
         }
     }
     
-    @Override protected JFileChooser createOpenChooser() {
-        JFileChooser c = new JFileChooser();
+    @Override protected URIChooser createOpenChooser() {
+        JFileURIChooser c = new JFileURIChooser();
         c.addChoosableFileFilter(new ExtensionFileFilter("Drawing .xml","xml"));
         if (preferences != null) {
             c.setSelectedFile(new File(preferences.get("projectFile", System.getProperty("user.home"))));
         }
         return c;
     }
-    @Override protected JFileChooser createSaveChooser() {
-        JFileChooser c = new JFileChooser();
+    @Override protected URIChooser createSaveChooser() {
+        JFileURIChooser c = new JFileURIChooser();
         c.addChoosableFileFilter(new ExtensionFileFilter("Drawing .xml","xml"));
         if (preferences != null) {
             c.setSelectedFile(new File(preferences.get("projectFile", System.getProperty("user.home"))));
@@ -270,8 +274,8 @@ public class DrawView extends AbstractView {
         return c;
     }
     @Override
-    public boolean canSaveTo(File file) {
-        return file.getName().endsWith(".xml");
+    public boolean canSaveTo(URI file) {
+        return new File(file).getName().endsWith(".xml");
     }
     
     /** This method is called from within the constructor to

@@ -19,10 +19,12 @@ import java.awt.*;
 import java.awt.event.*;
 import java.beans.*;
 import java.io.*;
+import java.net.URI;
 import java.util.*;
 import java.util.prefs.*;
 import javax.swing.*;
 import org.jhotdraw.app.action.*;
+import org.jhotdraw.net.URIUtil;
 
 /**
  * {@code DefaultSDIApplication} handles the lifecycle of a {@link View}s
@@ -65,7 +67,6 @@ public class DefaultSDIApplication extends AbstractApplication {
         super.init();
         prefs = PreferencesUtil.userNodeForPackage((getModel() == null) ? getClass() : getModel().getClass());
         initLabels();
-        initApplicationActions();
         getModel().initApplication(this);
     }
 
@@ -100,39 +101,13 @@ public class DefaultSDIApplication extends AbstractApplication {
             e.printStackTrace();
         }
         if (UIManager.getString("OptionPane.css") == null) {
-            UIManager.put("OptionPane.css", "");
+            UIManager.put("OptionPane.css", "<head>" +
+            "<style type=\"text/css\">" +
+            "b { font: 13pt \"Dialog\" }" +
+            "p { font: 11pt \"Dialog\"; margin-top: 8px }" +
+            "</style>" +
+            "</head>");
         }
-    }
-
-    protected void initApplicationActions() {
-        ResourceBundleUtil appLabels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
-        ApplicationModel m = getModel();
-        m.putAction(AboutAction.ID, new AboutAction(this));
-        m.putAction(ExitAction.ID, new ExitAction(this));
-
-        m.putAction(ClearAction.ID, new ClearAction(this));
-        m.putAction(NewAction.ID, new NewAction(this));
-        appLabels.configureAction(m.getAction(NewAction.ID), "window.new");
-        m.putAction(LoadAction.ID, new LoadAction(this));
-        m.putAction(ClearRecentFilesAction.ID, new ClearRecentFilesAction(this));
-        m.putAction(SaveAction.ID, new SaveAction(this));
-        m.putAction(SaveAsAction.ID, new SaveAsAction(this));
-        m.putAction(CloseAction.ID, new CloseAction(this));
-        m.putAction(PrintAction.ID, new PrintAction(this));
-
-        m.putAction(UndoAction.ID, new UndoAction(this));
-        m.putAction(RedoAction.ID, new RedoAction(this));
-        m.putAction(CutAction.ID, new CutAction());
-        m.putAction(CopyAction.ID, new CopyAction());
-        m.putAction(PasteAction.ID, new PasteAction());
-        m.putAction(DeleteAction.ID, new DeleteAction());
-        m.putAction(DuplicateAction.ID, new DuplicateAction());
-        m.putAction(SelectAllAction.ID, new SelectAllAction());
-    }
-
-    protected void initViewActions(View p) {
-        ApplicationModel m = getModel();
-        p.putAction(LoadAction.ID, m.getAction(LoadAction.ID));
     }
 
     @SuppressWarnings("unchecked")
@@ -196,7 +171,7 @@ public class DefaultSDIApplication extends AbstractApplication {
                 public void propertyChange(PropertyChangeEvent evt) {
                     String name = evt.getPropertyName();
                     if (name.equals(View.HAS_UNSAVED_CHANGES_PROPERTY) ||
-                            name.equals(View.FILE_PROPERTY) ||
+                            name.equals(View.URI_PROPERTY) ||
                             name.equals(View.MULTIPLE_OPEN_ID_PROPERTY)) {
                         updateViewTitle(p, f);
                     }
@@ -285,7 +260,7 @@ public class DefaultSDIApplication extends AbstractApplication {
             JMenu m = createEditMenu();
             if (m != null) {
                 editMenu.addSeparator();
-                for (Component c : m.getComponents()) {
+                for (Component c : m.getPopupMenu().getComponents()) {
                     editMenu.add(c);
                 }
             }
@@ -301,8 +276,8 @@ public class DefaultSDIApplication extends AbstractApplication {
             JMenu m = createViewMenu(p, toolBarActions);
             if (m != null) {
                 viewMenu.addSeparator();
-                for (Component c : m.getComponents()) {
-                    viewMenu.add(c);
+                for (Component c : m.getPopupMenu().getComponents()) {
+                     viewMenu.add(c);
                 }
             }
         }
@@ -318,48 +293,68 @@ public class DefaultSDIApplication extends AbstractApplication {
             JMenu m = createHelpMenu(p);
             if (m != null) {
                 helpMenu.addSeparator();
-                for (Component c : m.getComponents()) {
+                for (Component c : m.getPopupMenu().getComponents()) {
                     helpMenu.add(c);
                 }
             }
+            mb.add(helpMenu);
         }
 
         return mb;
     }
 
-    protected JMenu createFileMenu(final View p) {
+    protected JMenu createFileMenu(final View view) {
         ApplicationModel model = getModel();
 
         JMenu m;
         JMenuItem mi;
-        JMenu openRecentMenu;
 
         m = new JMenu();
         labels.configureMenu(m, "file");
-        m.add(model.getAction(ClearAction.ID));
-        m.add(model.getAction(NewAction.ID));
-        m.add(model.getAction(LoadAction.ID));
-        if (model.getAction(LoadDirectoryAction.ID) != null) {
-            m.add(model.getAction(LoadDirectoryAction.ID));
+        if (model.getAction(ClearAction.ID) != null) {
+            mi = m.add(model.getAction(ClearAction.ID));
+            mi.setIcon(null);
         }
-        openRecentMenu = new JMenu();
-        labels.configureMenu(openRecentMenu, "file.openRecent");
-        openRecentMenu.add(model.getAction(ClearRecentFilesAction.ID));
-        m.add(openRecentMenu);
-        m.addSeparator();
-        m.add(model.getAction(SaveAction.ID));
-        m.add(model.getAction(SaveAsAction.ID));
+        if (model.getAction(NewWindowAction.ID) != null) {
+            mi = m.add(model.getAction(NewWindowAction.ID));
+            mi.setIcon(null);
+        }
+        if (model.getAction(LoadAction.ID) != null) {
+            mi = m.add(model.getAction(LoadAction.ID));
+            mi.setIcon(null);
+        }
+        if (model.getAction(LoadDirectoryAction.ID) != null) {
+           mi= m.add(model.getAction(LoadDirectoryAction.ID));
+            mi.setIcon(null);
+        }
+        if (model.getAction(OpenAction.ID) != null || model.getAction(OpenDirectoryAction.ID) != null) {
+            m.add(createOpenRecentFileMenu(view));
+        }
+        if (m.getPopupMenu().getComponentCount() > 0) {
+            m.addSeparator();
+        }
+        if (model.getAction(SaveAction.ID) != null) {
+            mi = m.add(model.getAction(SaveAction.ID));
+            mi.setIcon(null);
+        }
+        if (model.getAction(SaveAsAction.ID) != null) {
+            mi = m.add(model.getAction(SaveAsAction.ID));
+            mi.setIcon(null);
+        }
         if (model.getAction(ExportAction.ID) != null) {
             mi = m.add(model.getAction(ExportAction.ID));
+            mi.setIcon(null);
         }
         if (model.getAction(PrintAction.ID) != null) {
             m.addSeparator();
-            m.add(model.getAction(PrintAction.ID));
+            mi = m.add(model.getAction(PrintAction.ID));
+            mi.setIcon(null);
         }
-        m.addSeparator();
-        m.add(model.getAction(ExitAction.ID));
-
-        addPropertyChangeListener(new OpenRecentMenuHandler(openRecentMenu));
+        if (m.getPopupMenu().getComponentCount() > 0) {
+            m.addSeparator();
+        }
+        mi = m.add(model.getAction(CloseAction.ID));
+        mi.setIcon(null);
 
         return m;
     }
@@ -376,7 +371,10 @@ public class DefaultSDIApplication extends AbstractApplication {
 
         m = new JMenu();
         labels.configureMenu(m, "edit");
-        m.add(mo.getAction(AbstractPreferencesAction.ID));
+        if (mo.getAction(AbstractPreferencesAction.ID) != null) {
+            mi = m.add(mo.getAction(AbstractPreferencesAction.ID));
+            mi.setIcon(null);
+        }
         return m;
     }
 
@@ -387,12 +385,12 @@ public class DefaultSDIApplication extends AbstractApplication {
      * @param f The frame.
      */
     protected void updateViewTitle(View p, JFrame f) {
-        File file = p.getFile();
+        URI uri = p.getURI();
         String title;
-        if (file == null) {
+        if (uri == null) {
             title = labels.getString("unnamedFile");
         } else {
-            title = file.getName();
+            title = URIUtil.getName(uri);
         }
         if (p.hasUnsavedChanges()) {
             title += "*";
@@ -456,52 +454,4 @@ public class DefaultSDIApplication extends AbstractApplication {
         return m;
     }
 
-    /** Updates the menu items in the "Open Recent" file menu. */
-    private class OpenRecentMenuHandler implements PropertyChangeListener {
-
-        private JMenu openRecentMenu;
-        private LinkedList<OpenRecentAction> openRecentActions = new LinkedList<OpenRecentAction>();
-
-        public OpenRecentMenuHandler(JMenu openRecentMenu) {
-            this.openRecentMenu = openRecentMenu;
-            addPropertyChangeListener(this);
-            updateOpenRecentMenu();
-        }
-
-        public void propertyChange(PropertyChangeEvent evt) {
-
-            String name = evt.getPropertyName();
-            if (name == "recentFiles") {
-                updateOpenRecentMenu();
-            }
-        }
-
-        /**
-         * Updates the "File &gt; Open Recent" menu.
-         */
-        protected void updateOpenRecentMenu() {
-            if (openRecentMenu.getItemCount() > 0) {
-                JMenuItem clearRecentFilesItem = (JMenuItem) openRecentMenu.getItem(
-                        openRecentMenu.getItemCount() - 1);
-
-                // Dispose the actions and the menu items that are currently in the menu
-                for (OpenRecentAction action : openRecentActions) {
-                    action.dispose();
-                }
-                openRecentActions.clear();
-                openRecentMenu.removeAll();
-
-                // Create new actions and add them to the menu
-                for (File f : recentFiles()) {
-                    openRecentMenu.add(new OpenRecentAction(DefaultSDIApplication.this, f));
-                }
-                if (recentFiles().size() > 0) {
-                    openRecentMenu.addSeparator();
-                }
-
-                // Add a separator and the clear recent files item.
-                openRecentMenu.add(clearRecentFilesItem);
-            }
-        }
-    }
 }

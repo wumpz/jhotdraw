@@ -21,7 +21,9 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
+import java.net.URI;
 import org.jhotdraw.app.View;
+import org.jhotdraw.net.URIUtil;
 
 /**
  * Requests focus for a Frame.
@@ -46,11 +48,11 @@ public class FocusAction extends AbstractAction {
             public void propertyChange(PropertyChangeEvent evt) {
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
                 String name = evt.getPropertyName();
-                if (name.equals(View.FILE_PROPERTY)) {
+                if (name.equals(View.URI_PROPERTY)) {
                     putValue(Action.NAME,
                             (evt.getNewValue() == null) ?
                                 labels.getString("unnamedFile") :
-                                ((File) evt.getNewValue()).getName()
+                                URIUtil.getName((URI) evt.getNewValue())
                                 );
                 }
             }
@@ -83,11 +85,11 @@ public class FocusAction extends AbstractAction {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         String title = labels.getString("unnamedFile");
         if (view != null) {
-            File file = view.getFile();
-            if (file == null) {
+            URI uri = view.getURI();
+            if (uri == null) {
                 title = labels.getString("unnamedFile");
             } else {
-                title = file.getName();
+                title = URIUtil.getName(uri);
             }
             if (view.hasUnsavedChanges()) {
                 title += "*";

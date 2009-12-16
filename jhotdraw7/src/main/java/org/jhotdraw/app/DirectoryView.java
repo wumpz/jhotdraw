@@ -15,6 +15,7 @@
 package org.jhotdraw.app;
 
 import javax.swing.JFileChooser;
+import org.jhotdraw.gui.chooser.URIChooser;
 
 /**
  * The interface of a {@link View} which can open a directory.
@@ -34,8 +35,8 @@ import javax.swing.JFileChooser;
  */
 public interface DirectoryView extends View {
     /**
-     * Gets the file chooser for opening a directory for the view.
+     * Gets the chooser for opening a directory for the view.
      */
-    public JFileChooser getOpenDirectoryChooser();
+    public URIChooser getOpenDirectoryChooser();
 
 }

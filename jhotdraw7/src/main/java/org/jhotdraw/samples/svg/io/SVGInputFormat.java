@@ -714,16 +714,18 @@ public class SVGInputFormat implements InputFormat {
                 ByteArrayOutputStream bout = new ByteArrayOutputStream();
                 byte[] buf = new byte[512];
                 int len = 0;
-                InputStream in = imageUrl.openStream();
                 try {
-                    while ((len = in.read(buf)) > 0) {
-                        bout.write(buf, 0, len);
+                    InputStream in = imageUrl.openStream();
+                    try {
+                        while ((len = in.read(buf)) > 0) {
+                            bout.write(buf, 0, len);
+                        }
+                        imageData = bout.toByteArray();
+                    } finally {
+                        in.close();
                     }
-                    imageData = bout.toByteArray();
                 } catch (FileNotFoundException e) {
                     // Use empty image
-                } finally {
-                    in.close();
                 }
             }
         }

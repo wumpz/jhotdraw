@@ -26,10 +26,14 @@ import java.awt.*;
 import java.beans.*;
 import java.io.*;
 import java.lang.reflect.*;
+import java.net.URI;
 import javax.swing.*;
 import org.jhotdraw.app.*;
 import org.jhotdraw.app.action.*;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.gui.chooser.JFileURIChooser;
+import org.jhotdraw.gui.chooser.URIChooser;
+import org.jhotdraw.net.URIUtil;
 
 /**
  * A view for SVG drawings.
@@ -40,7 +44,7 @@ import org.jhotdraw.draw.*;
 public class SVGView extends AbstractView implements ExportableView {
 
     public final static String GRID_VISIBLE_PROPERTY = "gridVisible";
-    protected JFileChooser exportChooser;
+    protected JFileURIChooser exportChooser;
     /**
      * Each SVGView uses its own undo redo manager.
      * This allows for undoing and redoing actions per view.
@@ -127,35 +131,30 @@ public class SVGView extends AbstractView implements ExportableView {
     }
 
     /**
-     * Writes the view to the specified file.
+     * Writes the view to the specified uri.
      */
-    public void write(File f) throws IOException {
-        OutputStream out = new BufferedOutputStream(new FileOutputStream(f));
-        try {
-            new SVGOutputFormat().write(f, svgPanel.getDrawing());
-        } finally {
-            out.close();
-        }
+    public void write(URI uri) throws IOException {
+            new SVGOutputFormat().write(new File(uri), svgPanel.getDrawing());
     }
 
     /**
-     * Reads the view from the specified file.
+     * Reads the view from the specified uri.
      */
-    public void read(final File f) throws IOException {
+    public void read(final URI uri) throws IOException {
         try {
-            JFileChooser fc = getOpenChooser();
+            JFileURIChooser fc = (JFileURIChooser)getOpenChooser();
 
             final Drawing drawing = createDrawing();
 
-            // We start with the selected file format in the file chooser,
+            // We start with the selected uri format in the uri chooser,
             // and then try out all formats we can import.
             // We need to try out all formats, because the user may have
-            // chosen to load a file without having used the file chooser.
+            // chosen to load a uri without having used the uri chooser.
             InputFormat selectedFormat = fileFilterInputFormatMap.get(fc.getFileFilter());
             boolean success = false;
             if (selectedFormat != null) {
                 try {
-                    selectedFormat.read(f, drawing, true);
+                    selectedFormat.read(new File(uri), drawing, true);
                     success = true;
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -166,7 +165,7 @@ public class SVGView extends AbstractView implements ExportableView {
                 for (InputFormat sfi : drawing.getInputFormats()) {
                     if (sfi != selectedFormat) {
                         try {
-                            sfi.read(f, drawing, true);
+                            sfi.read(new File(uri), drawing, true);
                             success = true;
                             break;
                         } catch (Exception e) {
@@ -177,7 +176,7 @@ public class SVGView extends AbstractView implements ExportableView {
             }
             if (!success) {
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
-                throw new IOException(labels.getFormatted("file.open.unsupportedFileFormat.message", f.getName()));
+                throw new IOException(labels.getFormatted("file.open.unsupportedFileFormat.message", URIUtil.getName(uri)));
             }
             SwingUtilities.invokeAndWait(new Runnable() {
 
@@ -236,8 +235,8 @@ public class SVGView extends AbstractView implements ExportableView {
     }
 
     @Override
-    protected JFileChooser createOpenChooser() {
-        final JFileChooser c = new JFileChooser();
+    protected URIChooser createOpenChooser() {
+        final JFileURIChooser c = new JFileURIChooser();
         fileFilterInputFormatMap =
                 new HashMap<javax.swing.filechooser.FileFilter, InputFormat>();
         javax.swing.filechooser.FileFilter firstFF = null;
@@ -275,8 +274,8 @@ public class SVGView extends AbstractView implements ExportableView {
     }
 
     @Override
-    protected JFileChooser createSaveChooser() {
-        JFileChooser c = new JFileChooser();
+    protected URIChooser createSaveChooser() {
+        JFileURIChooser c = new JFileURIChooser();
 
         fileFilterOutputFormatMap =
                 new HashMap<javax.swing.filechooser.FileFilter, OutputFormat>();
@@ -285,7 +284,7 @@ public class SVGView extends AbstractView implements ExportableView {
             javax.swing.filechooser.FileFilter ff = format.getFileFilter();
             fileFilterOutputFormatMap.put(ff, format);
             c.addChoosableFileFilter(ff);
-            break; // only add the first file filter
+            break; // only add the first uri filter
 
         }
 
@@ -297,8 +296,8 @@ public class SVGView extends AbstractView implements ExportableView {
         return c;
     }
 
-    protected JFileChooser createExportChooser() {
-        JFileChooser c = new JFileChooser();
+    protected JFileURIChooser createExportChooser() {
+        JFileURIChooser c = new JFileURIChooser();
 
         fileFilterOutputFormatMap =
                 new HashMap<javax.swing.filechooser.FileFilter, OutputFormat>();
@@ -323,9 +322,9 @@ public class SVGView extends AbstractView implements ExportableView {
     }
 
     @Override
-    public boolean canSaveTo(File file) {
-        return file.getName().endsWith(".svg") ||
-                file.getName().endsWith(".svgz");
+    public boolean canSaveTo(URI file) {
+        return file.getPath().endsWith(".svg") ||
+                file.getPath().endsWith(".svgz");
     }
 
     /** This method is called from within the constructor to
@@ -342,7 +341,7 @@ public class SVGView extends AbstractView implements ExportableView {
         add(svgPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    public JFileChooser getExportChooser() {
+    public URIChooser getExportChooser() {
         if (exportChooser == null) {
             exportChooser = createExportChooser();
         }
@@ -350,8 +349,8 @@ public class SVGView extends AbstractView implements ExportableView {
         return exportChooser;
     }
 
-    public void export(File f, javax.swing.filechooser.FileFilter filter, Component accessory) throws IOException {
-
+    public void export(URI uri, javax.swing.filechooser.FileFilter filter, Component accessory) throws IOException {
+File f =new File(uri);
         OutputFormat format = fileFilterOutputFormatMap.get(filter);
 
         if (!f.getName().endsWith("." + format.getFileExtension())) {

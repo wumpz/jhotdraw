@@ -13,11 +13,17 @@
  */
 package org.jhotdraw.app;
 
+import java.net.URISyntaxException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.jhotdraw.gui.chooser.URIChooser;
 import java.io.*;
+import java.net.URI;
 import java.util.*;
 import javax.swing.*;
 import java.util.concurrent.*;
 import java.util.prefs.*;
+import org.jhotdraw.gui.chooser.JFileURIChooser;
 import org.jhotdraw.beans.Disposable;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 
@@ -30,22 +36,6 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
 public abstract class AbstractView extends JPanel implements View {
 
     private Application application;
-    /**
-     * The file chooser used for saving the view.
-     * Has a null value, if the file chooser has not been used yet.
-     */
-    protected JFileChooser saveChooser;
-    /**
-     * The file chooser used for opening the view.
-     * Has a null value, if the file chooser has not been used yet.
-     */
-    protected JFileChooser openChooser;
-    /**
-     * The view file. 
-     * Has a null value, if the view has not been loaded from a file
-     * or has not been saved yet.
-     */
-    protected File file;
     /**
      * The executor used to perform background tasks for the View in a
      * controlled manner. This executor ensures that all background tasks
@@ -65,7 +55,7 @@ public abstract class AbstractView extends JPanel implements View {
      */
     protected Preferences preferences;
     /**
-     * This id is used to make multiple open projects from the same view file
+     * This id is used to make multiple open views of the same URI
      * identifiable.
      */
     private int multipleOpenId = 1;
@@ -79,6 +69,22 @@ public abstract class AbstractView extends JPanel implements View {
     private String title;
     /** List of objects that need to be disposed when this view is disposed. */
     private LinkedList<Disposable> disposables;
+    /**
+     * The chooser used for saving the view.
+     * Has a null value, if the chooser has not been used yet.
+     */
+    protected URIChooser saveChooser;
+    /**
+     * The chooser used for opening the view.
+     * Has a null value, if the chooser has not been used yet.
+     */
+    protected URIChooser openChooser;
+    /**
+     * The URI of the view.
+     * Has a null value, if the view has not been loaded from a URI
+     * or has not been saved yet.
+     */
+    protected URI uri;
 
     /**
      * Creates a new instance.
@@ -122,21 +128,75 @@ public abstract class AbstractView extends JPanel implements View {
             executor = null;
         }
 
-        if (openChooser != null) {
-            openChooser = null;
-        }
-        if (saveChooser != null) {
-            saveChooser = null;
-        }
         if (disposables != null) {
             for (Disposable d : disposables) {
                 d.dispose();
             }
             disposables = null;
         }
+        if (openChooser != null) {
+            openChooser = null;
+        }
+        if (saveChooser != null) {
+            saveChooser = null;
+        }
 
         removeAll();
     }
+
+    public boolean canSaveTo(URI uri) {
+        return true;
+    }
+    public URI getURI() {
+        return uri;
+    }
+
+    public void setURI(URI newValue) {
+        URI oldValue = uri;
+        uri = newValue;
+        if (preferences != null && newValue != null) {
+            preferences.put("projectFile", newValue.toString());
+        }
+        firePropertyChange(URI_PROPERTY, oldValue, newValue);
+    }
+
+    /**
+     * Gets the open uri chooser for the view.
+     */
+    public URIChooser getOpenChooser() {
+        if (openChooser == null) {
+            openChooser = createOpenChooser();
+        }
+        return openChooser;
+    }
+
+    protected URIChooser createOpenChooser() {
+        URIChooser c = new JFileURIChooser();
+        if (preferences != null) {
+                c.setSelectedURI(new File(preferences.get("projectFile", System.getProperty("user.home"))).toURI());
+        }
+        return c;
+    }
+
+    /**
+     * Gets the save uri chooser for the view.
+     */
+    public URIChooser getSaveChooser() {
+        if (saveChooser == null) {
+            saveChooser = createSaveChooser();
+        }
+        return saveChooser;
+    }
+
+    protected URIChooser createSaveChooser() {
+        JFileURIChooser c = new JFileURIChooser();
+        if (preferences != null) {
+            c.setCurrentDirectory(new File(preferences.get("projectFile", System.getProperty("user.home"))));
+        }
+        return c;
+    }
+
+
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -163,59 +223,6 @@ public abstract class AbstractView extends JPanel implements View {
 
     public JComponent getComponent() {
         return this;
-    }
-
-    public File getFile() {
-        return file;
-    }
-
-    public void setFile(File newValue) {
-        File oldValue = file;
-        file = newValue;
-        if (preferences != null && newValue != null) {
-            preferences.put("projectFile", newValue.getPath());
-        }
-        firePropertyChange(FILE_PROPERTY, oldValue, newValue);
-    }
-
-    /**
-     * Gets the open file chooser for the view.
-     */
-    public JFileChooser getOpenChooser() {
-        if (openChooser == null) {
-            openChooser = createOpenChooser();
-        }
-        return openChooser;
-    }
-
-    protected JFileChooser createOpenChooser() {
-        JFileChooser c = new JFileChooser();
-        if (preferences != null) {
-            c.setSelectedFile(new File(preferences.get("projectFile", System.getProperty("user.home"))));
-        }
-        return c;
-    }
-
-    /**
-     * Gets the save file chooser for the view.
-     */
-    public JFileChooser getSaveChooser() {
-        if (saveChooser == null) {
-            saveChooser = createSaveChooser();
-        }
-        return saveChooser;
-    }
-
-    public boolean canSaveTo(File file) {
-        return true;
-    }
-
-    protected JFileChooser createSaveChooser() {
-        JFileChooser c = new JFileChooser();
-        if (preferences != null) {
-            c.setCurrentDirectory(new File(preferences.get("projectFile", System.getProperty("user.home"))));
-        }
-        return c;
     }
 
     /**

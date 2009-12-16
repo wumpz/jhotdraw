@@ -49,13 +49,14 @@ public class AboutAction extends AbstractApplicationAction {
 
 
         JOptionPane.showMessageDialog(c,
-                app.getName() + " " + app.getVersion() + "\n" + app.getCopyright() +
-                "\n\nRunning on" +
-                "\n  Java: " + System.getProperty("java.version") +
+                "<html>" + UIManager.getString("OptionPane.css") +
+                "<p><b>"+app.getName() + " " + app.getVersion() + "</b><br>" + app.getCopyright().replace("\n", "<br>") +
+                "<br><br>Running on" +
+                "<br>  Java: " + System.getProperty("java.version") +
                 ", " + System.getProperty("java.vendor") +
-                "\n  JVM: " + System.getProperty("java.vm.version") +
+                "<br>  JVM: " + System.getProperty("java.vm.version") +
                 ", " + System.getProperty("java.vm.vendor") +
-                "\n  OS: " + System.getProperty("os.name") + " " + System.getProperty("os.version") +
+                "<br>  OS: " + System.getProperty("os.name") + " " + System.getProperty("os.version") +
                 ", " + System.getProperty("os.arch"),
                 "About", JOptionPane.PLAIN_MESSAGE);
     }

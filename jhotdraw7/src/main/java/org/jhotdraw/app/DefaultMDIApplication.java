@@ -13,6 +13,11 @@
  */
 package org.jhotdraw.app;
 
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.util.prefs.*;
@@ -20,15 +25,17 @@ import java.awt.*;
 import java.awt.event.*;
 import java.beans.*;
 import java.io.*;
+import java.net.URI;
 import java.util.*;
 import java.util.prefs.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import org.jhotdraw.app.action.*;
+import org.jhotdraw.net.URIUtil;
 
 /**
- * {@code DefaultMDIApplication} handles the lifecycle of {@link View}s using a
- * multiple document interface (MDI).
+ * {@code DefaultMDIApplication} handles the lifecycle of {@link FileView}s
+ * using a multiple document interface (MDI).
  * <p>
  * An application consists of a parent {@code JFrame} which holds a {@code JDesktopPane}.
  * The views reside in {@code JInternalFrame}s inside of the {@code JDesktopPane}. 
@@ -44,7 +51,7 @@ import org.jhotdraw.app.action.*;
  *
  * The <b>file menu</b> has the following standard menu items:
  * <pre>
- *  New ({@link NewAction#ID}})
+ *  New ({@link NewFileAction#ID}})
  *  Open... ({@link OpenAction#ID}})
  *  Open Recent &gt; "Filename" ({@link OpenRecentAction#ID}})
  *  -
@@ -89,7 +96,7 @@ public class DefaultMDIApplication extends AbstractApplication {
 
     private JFrame parentFrame;
     private JScrollPane scrollPane;
-    private MDIDesktopPane desktopPane;
+    private JMDIDesktopPane desktopPane;
     private Preferences prefs;
     private LinkedList<Action> toolBarActions;
 
@@ -102,7 +109,7 @@ public class DefaultMDIApplication extends AbstractApplication {
         mo.putAction(AboutAction.ID, new AboutAction(this));
         mo.putAction(ExitAction.ID, new ExitAction(this));
 
-        mo.putAction(NewAction.ID, new NewAction(this));
+        mo.putAction(NewFileAction.ID, new NewFileAction(this));
         mo.putAction(OpenAction.ID, new OpenAction(this));
         mo.putAction(ClearRecentFilesAction.ID, new ClearRecentFilesAction(this));
         mo.putAction(SaveAction.ID, new SaveAction(this));
@@ -131,10 +138,12 @@ public class DefaultMDIApplication extends AbstractApplication {
         p.putAction(FocusAction.ID, new FocusAction(p));
     }
 
+    @Override
     public void launch(String[] args) {
         super.launch(args);
     }
 
+    @Override
     public void init() {
         initLookAndFeel();
         super.init();
@@ -144,7 +153,8 @@ public class DefaultMDIApplication extends AbstractApplication {
         parentFrame = new JFrame(getName());
         parentFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-        desktopPane = new MDIDesktopPane();
+        desktopPane = new JMDIDesktopPane();
+        desktopPane.setTransferHandler(new DropFileTransferHandler());
 
         scrollPane = new JScrollPane();
         scrollPane.setViewportView(desktopPane);
@@ -192,7 +202,12 @@ public class DefaultMDIApplication extends AbstractApplication {
             e.printStackTrace();
         }
         if (UIManager.getString("OptionPane.css") == null) {
-            UIManager.put("OptionPane.css", "");
+            UIManager.put("OptionPane.css", "<head>" +
+            "<style type=\"text/css\">" +
+            "b { font: 13pt \"Dialog\" }" +
+            "p { font: 11pt \"Dialog\"; margin-top: 8px }" +
+            "</style>" +
+            "</head>");
         }
     }
 
@@ -208,7 +223,7 @@ public class DefaultMDIApplication extends AbstractApplication {
             updateViewTitle(p, f);
 
             PreferencesUtil.installInternalFramePrefsHandler(prefs, "view", f, desktopPane);
-            Point loc = f.getLocation();
+            Point loc = new Point(desktopPane.getInsets().left,desktopPane.getInsets().top);
             boolean moved;
             do {
                 moved = false;
@@ -217,8 +232,9 @@ public class DefaultMDIApplication extends AbstractApplication {
                     if (aView != p && aView.isShowing() &&
                             SwingUtilities.getRootPane(aView.getComponent()).getParent().
                             getLocation().equals(loc)) {
-                        loc.x += 22;
-                        loc.y += 22;
+            Point offset = SwingUtilities.convertPoint(SwingUtilities.getRootPane(aView.getComponent()), 0, 0, SwingUtilities.getRootPane(aView.getComponent()).getParent());
+                        loc.x += Math.max(offset.x,offset.y);
+                        loc.y += Math.max(offset.x,offset.y);
                         moved = true;
                         break;
                     }
@@ -251,7 +267,7 @@ public class DefaultMDIApplication extends AbstractApplication {
                 public void propertyChange(PropertyChangeEvent evt) {
                     String name = evt.getPropertyName();
                     if (name == View.HAS_UNSAVED_CHANGES_PROPERTY ||
-                            name == View.FILE_PROPERTY) {
+                            name == View.URI_PROPERTY) {
                         updateViewTitle(p, f);
                     }
                 }
@@ -363,13 +379,14 @@ public class DefaultMDIApplication extends AbstractApplication {
                     editMenu.add(c);
                 }
             }
+            mb.add(editMenu);
         }
 
         mb.add(createWindowMenu());
 
         // Merge help menu
         if (helpMenu == null) {
-                mb.add(createHelpMenu());
+            mb.add(createHelpMenu());
         } else {
             JMenu m = createHelpMenu();
             if (m != null) {
@@ -378,6 +395,7 @@ public class DefaultMDIApplication extends AbstractApplication {
                     helpMenu.add(c);
                 }
             }
+            mb.add(helpMenu);
         }
 
         return mb;
@@ -390,52 +408,72 @@ public class DefaultMDIApplication extends AbstractApplication {
         JMenuBar mb = new JMenuBar();
         JMenu m;
         JMenuItem mi;
-        JMenu openRecentMenu;
 
         m = new JMenu();
         labels.configureMenu(m, "file");
-        m.add(model.getAction(NewAction.ID));
-        m.add(model.getAction(OpenAction.ID));
+        if (model.getAction(NewFileAction.ID) != null) {
+            mi = m.add(model.getAction(NewFileAction.ID));
+            mi.setIcon(null);
+        }
+        if (model.getAction(OpenAction.ID) != null) {
+            mi = m.add(model.getAction(OpenAction.ID));
+            mi.setIcon(null);
+        }
         if (model.getAction(OpenDirectoryAction.ID) != null) {
             mi = m.add(model.getAction(OpenDirectoryAction.ID));
             mi.setIcon(null);
         }
-        openRecentMenu = new JMenu();
-        labels.configureMenu(openRecentMenu, "file.openRecent");
-        openRecentMenu.add(model.getAction(ClearRecentFilesAction.ID));
-        m.add(openRecentMenu);
-        m.addSeparator();
-        m.add(model.getAction(CloseAction.ID));
-        m.add(model.getAction(SaveAction.ID));
-        m.add(model.getAction(SaveAsAction.ID));
+        if (model.getAction(OpenAction.ID) != null || model.getAction(OpenDirectoryAction.ID) != null) {
+            m.add(createOpenRecentFileMenu(null));
+        }
+        if (m.getPopupMenu().getComponentCount() > 0) {
+            m.addSeparator();
+        }
+        if (model.getAction(CloseAction.ID) != null) {
+            mi = m.add(model.getAction(CloseAction.ID));
+            mi.setIcon(null);
+        }
+        if (model.getAction(SaveAction.ID) != null) {
+            mi = m.add(model.getAction(SaveAction.ID));
+            mi.setIcon(null);
+        }
+        if (model.getAction(SaveAsAction.ID) != null) {
+            mi = m.add(model.getAction(SaveAsAction.ID));
+            mi.setIcon(null);
+        }
         if (model.getAction(ExportAction.ID) != null) {
             mi = m.add(model.getAction(ExportAction.ID));
+            mi.setIcon(null);
         }
         if (model.getAction(PrintAction.ID) != null) {
-            m.addSeparator();
-            m.add(model.getAction(PrintAction.ID));
+            if (m.getComponentCount() > 0) {
+                m.addSeparator();
+            }
+            mi = m.add(model.getAction(PrintAction.ID));
+            mi.setIcon(null);
         }
-        m.addSeparator();
-        m.add(model.getAction(ExitAction.ID));
-
-        addPropertyChangeListener(new OpenRecentMenuHandler(openRecentMenu));
+        if (m.getPopupMenu().getComponentCount() > 0) {
+            m.addSeparator();
+        }
+        mi = m.add(model.getAction(ExitAction.ID));
+        mi.setIcon(null);
 
         return m;
     }
 
     /**
      * Updates the title of a view and displays it in the given frame.
-     * 
+     *
      * @param v The view.
      * @param f The frame.
      */
     protected void updateViewTitle(View v, JInternalFrame f) {
-        File file = v.getFile();
+        URI uri = v.getURI();
         String title;
-        if (file == null) {
+        if (uri == null) {
             title = labels.getString("unnamedFile");
         } else {
-            title = file.getName();
+            title = URIUtil.getName(uri);
         }
         if (v.hasUnsavedChanges()) {
             title += "*";
@@ -497,7 +535,6 @@ public class DefaultMDIApplication extends AbstractApplication {
     }
 
     protected JMenu createHelpMenu() {
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         ApplicationModel mo = getModel();
 
         JMenu m;
@@ -509,58 +546,7 @@ public class DefaultMDIApplication extends AbstractApplication {
         return m;
     }
 
-    /** Updates the menu items in the "Open Recent" file menu. */
-    private class OpenRecentMenuHandler implements PropertyChangeListener {
-
-        private JMenu openRecentMenu;
-        private LinkedList<OpenRecentAction> openRecentActions = new LinkedList<OpenRecentAction>();
-
-        public OpenRecentMenuHandler(JMenu openRecentMenu) {
-            this.openRecentMenu = openRecentMenu;
-            addPropertyChangeListener(this);
-            updateOpenRecentMenu();
-        }
-
-        public void propertyChange(PropertyChangeEvent evt) {
-
-            String name = evt.getPropertyName();
-            if (name == "recentFiles") {
-                updateOpenRecentMenu();
-            }
-        }
-
-        /**
-         * Updates the "File &gt; Open Recent" menu.
-         */
-        protected void updateOpenRecentMenu() {
-            if (openRecentMenu.getItemCount() > 0) {
-                JMenuItem clearRecentFilesItem = (JMenuItem) openRecentMenu.getItem(
-                        openRecentMenu.getItemCount() - 1);
-
-                // Dispose the actions and the menu items that are currently in the menu
-                for (OpenRecentAction action : openRecentActions) {
-                    action.dispose();
-                }
-                openRecentActions.clear();
-                openRecentMenu.removeAll();
-
-                openRecentMenu.removeAll();
-
-                // Create new actions and add them to the menu
-                for (File f : recentFiles()) {
-                    openRecentMenu.add(new OpenRecentAction(DefaultMDIApplication.this, f));
-                }
-                if (recentFiles().size() > 0) {
-                    openRecentMenu.addSeparator();
-                }
-
-                // Add a separator and the clear recent files item.
-                openRecentMenu.add(clearRecentFilesItem);
-            }
-        }
-    }
-
-    /** Updates the menu items in the "Open Recent" file menu. */
+    /** Updates the menu items in the "Window" menu. */
     private class WindowMenuHandler implements PropertyChangeListener {
 
         private JMenu windowMenu;
@@ -568,35 +554,97 @@ public class DefaultMDIApplication extends AbstractApplication {
         public WindowMenuHandler(JMenu windowMenu) {
             this.windowMenu = windowMenu;
             addPropertyChangeListener(this);
+            updateWindowMenu();
         }
 
         public void propertyChange(PropertyChangeEvent evt) {
-
             String name = evt.getPropertyName();
+            if (name == VIEW_COUNT_PROPERTY || name == "paletteCount") {
+                updateWindowMenu();
+            }
+        }
+
+        protected void updateWindowMenu() {
+            JMenu m = windowMenu;
             ApplicationModel mo = getModel();
-            if (name == "viewCount") {
-                JMenu m = windowMenu;
-                m.removeAll();
+            m.removeAll();
 
-                m.add(mo.getAction(ArrangeAction.CASCADE_ID));
-                m.add(mo.getAction(ArrangeAction.VERTICAL_ID));
-                m.add(mo.getAction(ArrangeAction.HORIZONTAL_ID));
+            m.add(mo.getAction(ArrangeAction.CASCADE_ID));
+            m.add(mo.getAction(ArrangeAction.VERTICAL_ID));
+            m.add(mo.getAction(ArrangeAction.HORIZONTAL_ID));
 
+            m.addSeparator();
+            for (Iterator i = views().iterator(); i.hasNext();) {
+                View pr = (View) i.next();
+                if (pr.getAction(FocusAction.ID) != null) {
+                    m.add(pr.getAction(FocusAction.ID));
+                }
+            }
+            if (toolBarActions.size() > 0) {
                 m.addSeparator();
-                for (Iterator i = views().iterator(); i.hasNext();) {
-                    View pr = (View) i.next();
-                    if (pr.getAction(FocusAction.ID) != null) {
-                        m.add(pr.getAction(FocusAction.ID));
-                    }
+                for (Action a : toolBarActions) {
+                    JCheckBoxMenuItem cbmi = new JCheckBoxMenuItem(a);
+                    Actions.configureJCheckBoxMenuItem(cbmi, a);
+                    m.add(cbmi);
                 }
-                if (toolBarActions.size() > 0) {
-                    m.addSeparator();
-                    for (Action a : toolBarActions) {
-                        JCheckBoxMenuItem cbmi = new JCheckBoxMenuItem(a);
-                        Actions.configureJCheckBoxMenuItem(cbmi, a);
-                        m.add(cbmi);
-                    }
+            }
+        }
+    }
+
+    /** This transfer handler opens a new view for each dropped file. */
+    private class DropFileTransferHandler extends TransferHandler {
+
+        @Override
+        public boolean canImport(JComponent comp, DataFlavor[] transferFlavors) {
+            for (DataFlavor f : transferFlavors) {
+                if (f.isFlavorJavaFileListType()) {
+                    return true;
                 }
+            }
+            return false;
+        }
+
+        @Override
+        public boolean importData(JComponent comp, Transferable t) {
+            try {
+                @SuppressWarnings("unchecked")
+                java.util.List<File> files = (java.util.List<File>) t.getTransferData(DataFlavor.javaFileListFlavor);
+                for (final File f : files) {
+                    final View p = createView();
+                    p.setEnabled(false);
+                    add(p);
+                    show(p);
+                    p.execute(new Worker() {
+
+                        public Object construct() throws IOException {
+                            p.read(f.toURI());
+                            return null;
+                        }
+
+                        @Override
+                        protected void done(Object value) {
+                            p.setURI(f.toURI());
+                            p.setEnabled(true);
+                        }
+
+                        @Override
+                        protected void failed(Throwable value) {
+                            dispose(p);
+                            JOptionPane.showMessageDialog(
+                                    getComponent(),
+                                    "<html>" + UIManager.getString("OptionPane.css") +
+                                    "<b>" + labels.getFormatted("file.open.couldntOpen.message", f.getName()) + "</b><p>" +
+                                    value,
+                                    "",
+                                    JOptionPane.ERROR_MESSAGE);
+                        }
+                    });
+                }
+                return true;
+            } catch (UnsupportedFlavorException ex) {
+                return false;
+            } catch (IOException ex) {
+                return false;
             }
         }
     }

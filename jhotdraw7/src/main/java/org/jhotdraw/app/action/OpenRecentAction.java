@@ -20,8 +20,10 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
+import java.net.URI;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
+import org.jhotdraw.net.URIUtil;
 
 /**
  * OpenRecentAction.
@@ -32,13 +34,13 @@ import org.jhotdraw.app.View;
 public class OpenRecentAction extends AbstractApplicationAction {
 
     public final static String ID = "file.openRecent";
-    private File file;
+    private URI uri;
 
     /** Creates a new instance. */
-    public OpenRecentAction(Application app, File file) {
+    public OpenRecentAction(Application app, URI uri) {
         super(app);
-        this.file = file;
-        putValue(Action.NAME, file.getName());
+        this.uri = uri;
+        putValue(Action.NAME, URIUtil.getName(uri));
     }
 
     public void actionPerformed(ActionEvent evt) {
@@ -48,7 +50,7 @@ public class OpenRecentAction extends AbstractApplicationAction {
             // Search for an empty view
             View emptyView = app.getActiveView();
             if (emptyView == null ||
-                    emptyView.getFile() != null ||
+                    emptyView.getURI() != null ||
                     emptyView.hasUnsavedChanges()) {
                 emptyView = null;
             }
@@ -61,11 +63,11 @@ public class OpenRecentAction extends AbstractApplicationAction {
             } else {
                 p = emptyView;
             }
-            openFile(p);
+            openView(p);
         }
     }
 
-    protected void openFile(final View view) {
+    protected void openView(final View view) {
         final Application app = getApplication();
         app.setEnabled(true);
 
@@ -75,8 +77,8 @@ public class OpenRecentAction extends AbstractApplicationAction {
         int multipleOpenId = 1;
         for (View aView : app.views()) {
             if (aView != view &&
-                    aView.getFile() != null &&
-                    aView.getFile().equals(file)) {
+                    aView.getURI() != null &&
+                    aView.getURI().equals(uri)) {
                 multipleOpenId = Math.max(multipleOpenId, aView.getMultipleOpenId() + 1);
             }
         }
@@ -88,18 +90,25 @@ public class OpenRecentAction extends AbstractApplicationAction {
         view.execute(new Worker() {
 
             protected Object construct() throws IOException {
-                if (file.exists()) {
-                    view.read(file);
+                boolean exists = true;
+                try {
+                    File f = new File(uri);
+                    exists = f.exists();
+                } catch (IllegalArgumentException e) {
+                    // The URI does not denote a file, thus we can not check whether the file exists.
+                }
+                if (exists) {
+                    view.read(uri);
                     return null;
                 } else {
                     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
-                    throw new IOException(labels.getFormatted("file.open.fileDoesNotExist.message", file.getName()));
+                    throw new IOException(labels.getFormatted("file.open.fileDoesNotExist.message", URIUtil.getName(uri)));
                 }
             }
 
             @Override
             protected void done(Object value) {
-                view.setFile(file);
+                view.setURI(uri);
                 Frame w = (Frame) SwingUtilities.getWindowAncestor(view.getComponent());
                 if (w != null) {
                     w.setExtendedState(w.getExtendedState() & ~Frame.ICONIFIED);
@@ -122,7 +131,7 @@ public class OpenRecentAction extends AbstractApplicationAction {
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
                 JSheet.showMessageSheet(view.getComponent(),
                         "<html>" + UIManager.getString("OptionPane.css") +
-                        "<b>" + labels.getFormatted("file.open.couldntOpen.message", file.getName()) + "</b><br>" +
+                        "<b>" + labels.getFormatted("file.open.couldntOpen.message", URIUtil.getName(uri)) + "</b><p>" +
                         (message == null ? "" : message),
                         JOptionPane.ERROR_MESSAGE, new SheetListener() {
 

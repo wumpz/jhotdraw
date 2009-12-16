@@ -16,7 +16,9 @@ package org.jhotdraw.app;
 
 import java.awt.*;
 import java.io.*;
+import java.net.URI;
 import javax.swing.*;
+import org.jhotdraw.gui.chooser.URIChooser;
 
 /**
  * The interface of a {@link View} which can export its document.
@@ -36,17 +38,17 @@ import javax.swing.*;
  */
 public interface ExportableView extends View {
     /**
-     * Gets the file chooser for exporting the view.
+     * Gets the chooser for exporting the view.
      */
-  public JFileChooser getExportChooser();
+  public URIChooser getExportChooser();
  
   /**
    * Exports the view. 
    * By convention this method is never invoked on the AWT Event Dispatcher Thread. 
    *
-   * @param f The file to which export the view.
-   * @param filter The FileFilter that was used to choose the file. This can be null.
-   * @param accessory The Accessory used by the JFileChooser. This can be null.
+   * @param uri The URI to which export the view.
+   * @param filter The FileFilter that was used to choose the URI. This can be null.
+   * @param accessory The Accessory used by the URIChooser. This can be null.
    */
-  public void export(File f, javax.swing.filechooser.FileFilter filter, Component accessory) throws IOException;
+  public void export(URI uri, javax.swing.filechooser.FileFilter filter, Component accessory) throws IOException;
 }

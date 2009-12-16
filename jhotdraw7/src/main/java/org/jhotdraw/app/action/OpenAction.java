@@ -19,11 +19,14 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
+import java.net.URI;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
+import org.jhotdraw.gui.chooser.URIChooser;
+import org.jhotdraw.net.URIUtil;
 
 /**
- * Opens a file in new view, or in the current view, if it is empty.
+ * Opens a file in a new view, or in the current view, if it is empty.
  *
  * @author  Werner Randelshofer
  * @version $Id$
@@ -39,7 +42,7 @@ public class OpenAction extends AbstractApplicationAction {
         labels.configureAction(this, ID);
     }
 
-    protected JFileChooser getFileChooser(View view) {
+    protected URIChooser getChooser(View view) {
         return view.getOpenChooser();
     }
 
@@ -50,7 +53,7 @@ public class OpenAction extends AbstractApplicationAction {
             // Search for an empty view
             View emptyView = app.getActiveView();
             if (emptyView == null ||
-                    emptyView.getFile() != null ||
+                    emptyView.getURI() != null ||
                     emptyView.hasUnsavedChanges() ||
                     !emptyView.isEnabled()) {
                 emptyView = null;
@@ -66,11 +69,11 @@ public class OpenAction extends AbstractApplicationAction {
                 view = emptyView;
                 disposeView = false;
             }
-            JFileChooser fileChooser = getFileChooser(view);
+            URIChooser fileChooser = getChooser(view);
             fileChooser.setDialogType(JFileChooser.OPEN_DIALOG);
             if (showDialog(fileChooser, app.getComponent()) == JFileChooser.APPROVE_OPTION) {
                 app.show(view);
-                openFile(view, fileChooser.getSelectedFile());
+                openViewFromURI(view, fileChooser.getSelectedURI());
             } else {
                 if (disposeView) {
                     app.dispose(view);
@@ -80,7 +83,7 @@ public class OpenAction extends AbstractApplicationAction {
         }
     }
 
-    protected void openFile(final View view, final File file) {
+    protected void openViewFromURI(final View view, final URI uri) {
         final Application app = getApplication();
         app.setEnabled(true);
         view.setEnabled(false);
@@ -90,8 +93,8 @@ public class OpenAction extends AbstractApplicationAction {
         int multipleOpenId = 1;
         for (View aView : app.views()) {
             if (aView != view &&
-                    aView.getFile() != null &&
-                    aView.getFile().equals(file)) {
+                    aView.getURI() != null &&
+                    aView.getURI().equals(uri)) {
                 multipleOpenId = Math.max(multipleOpenId, aView.getMultipleOpenId() + 1);
             }
         }
@@ -102,19 +105,25 @@ public class OpenAction extends AbstractApplicationAction {
         view.execute(new Worker() {
 
             public Object construct() throws IOException {
-                if (file.exists()) {
-                    view.read(file);
+                boolean exists = true;
+                try {
+                    exists = new File(uri).exists();
+                } catch (IllegalArgumentException e) {
+
+                }
+                if (exists) {
+                    view.read(uri);
                     return null;
                 } else {
                     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
-                    throw new IOException(labels.getFormatted("file.open.fileDoesNotExist.message", file.getName()));
+                    throw new IOException(labels.getFormatted("file.open.fileDoesNotExist.message", URIUtil.getName(uri)));
                 }
             }
 
             @Override
             protected void done(Object value) {
                 final Application app = getApplication();
-                view.setFile(file);
+                view.setURI(uri);
                 view.setEnabled(true);
                 Frame w = (Frame) SwingUtilities.getWindowAncestor(view.getComponent());
                 if (w != null) {
@@ -122,7 +131,7 @@ public class OpenAction extends AbstractApplicationAction {
                     w.toFront();
                 }
                 view.getComponent().requestFocus();
-                app.addRecentFile(file);
+                app.addRecentURI(uri);
                 app.setEnabled(true);
             }
 
@@ -143,7 +152,7 @@ public class OpenAction extends AbstractApplicationAction {
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
                 JSheet.showMessageSheet(view.getComponent(),
                         "<html>" + UIManager.getString("OptionPane.css") +
-                        "<b>" + labels.getFormatted("file.open.couldntOpen.message", file.getName()) + "</b><br>" +
+                        "<b>" + labels.getFormatted("file.open.couldntOpen.message", URIUtil.getName(uri)) + "</b><p>" +
                         ((message == null) ? "" : message),
                         JOptionPane.ERROR_MESSAGE);
             }
@@ -153,7 +162,7 @@ public class OpenAction extends AbstractApplicationAction {
     /** We implement JFileChooser.showDialog by ourselves, so that we can center
      * dialogs properly on screen on Mac OS X.
      */
-    public int showDialog(JFileChooser chooser, Component parent) {
+    public int showDialog(URIChooser chooser, Component parent) {
         final Component finalParent = parent;
         final int[] returnValue = new int[1];
         final JDialog dialog = createDialog(chooser, finalParent);
@@ -176,7 +185,7 @@ public class OpenAction extends AbstractApplicationAction {
             }
         });
         returnValue[0] = JFileChooser.ERROR_OPTION;
-        chooser.rescanCurrentDirectory();
+       chooser.rescanCurrentDirectory();
 
         dialog.setVisible(true);
         //chooser.firePropertyChange("JFileChooserDialogIsClosingProperty", dialog, null);
@@ -188,9 +197,11 @@ public class OpenAction extends AbstractApplicationAction {
     /** We implement JFileChooser.showDialog by ourselves, so that we can center
      * dialogs properly on screen on Mac OS X.
      */
-    protected JDialog createDialog(JFileChooser chooser, Component parent) throws HeadlessException {
-        String title = chooser.getUI().getDialogTitle(chooser);
-        chooser.getAccessibleContext().setAccessibleDescription(title);
+    protected JDialog createDialog(URIChooser chooser, Component parent) throws HeadlessException {
+        String title = chooser.getDialogTitle();
+       if (chooser instanceof JFileChooser) {
+           ((JFileChooser) chooser).getAccessibleContext().setAccessibleDescription(title);
+        }
 
         JDialog dialog;
         Window window = (parent instanceof Window) ? (Window) parent : SwingUtilities.getWindowAncestor(parent);
@@ -199,11 +210,11 @@ public class OpenAction extends AbstractApplicationAction {
         } else {
             dialog = new JDialog((Dialog) window, title, true);
         }
-        dialog.setComponentOrientation(chooser.getComponentOrientation());
+        dialog.setComponentOrientation(chooser.getComponent().getComponentOrientation());
 
         Container contentPane = dialog.getContentPane();
         contentPane.setLayout(new BorderLayout());
-        contentPane.add(chooser, BorderLayout.CENTER);
+        contentPane.add(chooser.getComponent(), BorderLayout.CENTER);
 
         if (JDialog.isDefaultLookAndFeelDecorated()) {
             boolean supportsWindowDecorations =

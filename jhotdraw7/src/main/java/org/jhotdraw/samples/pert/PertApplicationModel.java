@@ -63,6 +63,7 @@ public class PertApplicationModel extends DefaultApplicationModel {
     }
     
     public void initApplication(Application a) {
+        super.initApplication(a);
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.pert.Labels");
         AbstractAction aa;

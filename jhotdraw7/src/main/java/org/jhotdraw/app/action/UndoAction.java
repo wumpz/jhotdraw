@@ -22,7 +22,7 @@ import org.jhotdraw.app.View;
 
 /**
  * Undoes the last user action.
- * In order to work, this action requires that the View returns a view-specific 
+ * In order to work, this action requires that the View returns a view-specific
  * undo action when invoking getAction(UndoAction.ID) on the View.
  *
  * @author Werner Randelshofer

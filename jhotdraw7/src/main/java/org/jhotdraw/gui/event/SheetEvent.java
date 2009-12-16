@@ -17,6 +17,7 @@ package org.jhotdraw.gui.event;
 import org.jhotdraw.gui.*;
 import java.util.*;
 import javax.swing.*;
+import org.jhotdraw.gui.chooser.URIChooser;
 import org.jhotdraw.gui.JSheet;
 /**
  * SheetEvent.
@@ -25,7 +26,7 @@ import org.jhotdraw.gui.JSheet;
  * @version $Id$
  */
 public class SheetEvent extends EventObject {
-    private JComponent pane;
+    private Object pane;
     private int option;
     private Object value;
     private Object inputValue;
@@ -48,6 +49,15 @@ public class SheetEvent extends EventObject {
     /**
      * Creates a new instance.
      */
+    public SheetEvent(JSheet source, URIChooser chooser, int option, Object value) {
+        super(source);
+        this.pane = chooser;
+        this.option = option;
+        this.value = value;
+    }
+    /**
+     * Creates a new instance.
+     */
     public SheetEvent(JSheet source, JOptionPane optionPane, int option, Object value, Object inputValue) {
         super(source);
         this.pane = optionPane;
@@ -57,10 +67,10 @@ public class SheetEvent extends EventObject {
     }
     
     /**
-     * Returns the pane on the sheet. This is either a JFileChooser or a
+     * Returns the pane on the sheet. This is either a JFileChooser, a URIChooser or a
      * JOptionPane.
      */
-    public JComponent getPane() {
+    public Object getPane() {
         return pane;
     }
     /**
@@ -68,6 +78,12 @@ public class SheetEvent extends EventObject {
      */
     public JFileChooser getFileChooser() {
         return (JFileChooser) pane;
+    }
+    /**
+     * Returns the URIChooser pane on the sheet.
+     */
+    public URIChooser getChooser() {
+        return (URIChooser) pane;
     }
     /**
      * Returns the JOptionPane pane on the sheet.

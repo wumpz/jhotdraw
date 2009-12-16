@@ -1,5 +1,5 @@
 /*
- * @(#)MDIDesktopPane.java
+ * @(#)JMDIDesktopPane.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -20,10 +20,11 @@ import javax.swing.event.*;
 import java.awt.*;
 import java.beans.*;
 
+
 /**
  * An extension of JDesktopPane that supports often used MDI functionality. This
  * class also handles setting scroll bars for when windows move too far to the left or
- * bottom, providing the MDIDesktopPane is in a ScrollPane.
+ * bottom, providing the JMDIDesktopPane is in a ScrollPane.
  * Note by dnoyeb: I dont know why the container does not fire frame close events when the frames
  * are removed from the container with remove as opposed to simply closed with the
  * "x".  so if you say removeAll from container you wont be notified.  No biggie.
@@ -34,11 +35,10 @@ import java.beans.*;
  * C.L.Gilbert <dnoyeb@users.sourceforge.net>
  * @version $Id$
  */
-public class MDIDesktopPane extends JDesktopPane implements Arrangeable {
-    private static int FRAME_OFFSET=20;
+public class JMDIDesktopPane extends JDesktopPane implements Arrangeable {
     private MDIDesktopManager manager;
     
-    public MDIDesktopPane() {
+    public JMDIDesktopPane() {
         manager = new MDIDesktopManager(this);
         setDesktopManager(manager);
         setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
@@ -71,8 +71,6 @@ public class MDIDesktopPane extends JDesktopPane implements Arrangeable {
      * Cascade all internal frames
      */
     private void arrangeFramesCascading() {
-        int x = 0;
-        int y = 0;
         JInternalFrame[] allFrames = getAllFrames();
         
         // do nothing if no frames to work with
@@ -81,9 +79,16 @@ public class MDIDesktopPane extends JDesktopPane implements Arrangeable {
         }
         
         manager.setNormalSize();
-        
-        int frameHeight = (getBounds().height - 5) - allFrames.length * FRAME_OFFSET;
-        int frameWidth = (getBounds().width - 5) - allFrames.length * FRAME_OFFSET;
+        Insets insets = getInsets();
+        int x = insets.left;
+        int y = insets.top;
+        int frameOffset=0;
+        for (int i = allFrames.length - 1; i >= 0; i--) {
+            Point p=SwingUtilities.convertPoint(allFrames[i].getContentPane(),0,0,allFrames[i]);
+            frameOffset=Math.max(frameOffset,Math.max(p.x,p.y));
+        }
+        int frameHeight = (getBounds().height-insets.top-insets.bottom) - allFrames.length * frameOffset;
+        int frameWidth = (getBounds().width-insets.left-insets.right) - allFrames.length * frameOffset;
         for (int i = allFrames.length - 1; i >= 0; i--) {
             try {
                 allFrames[i].setMaximum(false);
@@ -92,8 +97,8 @@ public class MDIDesktopPane extends JDesktopPane implements Arrangeable {
             }
             
             allFrames[i].setBounds(x, y, frameWidth, frameHeight);
-            x = x + FRAME_OFFSET;
-            y = y + FRAME_OFFSET;
+            x = x + frameOffset;
+            y = y + frameOffset;
         }
         
         checkDesktopSize();
@@ -290,15 +295,14 @@ public class MDIDesktopPane extends JDesktopPane implements Arrangeable {
     }
     
 }
-
 /**
  * Private class used to replace the standard DesktopManager for JDesktopPane.
  * Used to provide scrollbar functionality.
  */
 class MDIDesktopManager extends DefaultDesktopManager {
-    private MDIDesktopPane desktop;
+    private JMDIDesktopPane desktop;
     
-    public MDIDesktopManager(MDIDesktopPane newDesktop) {
+    public MDIDesktopManager(JMDIDesktopPane newDesktop) {
         this.desktop = newDesktop;
     }
     

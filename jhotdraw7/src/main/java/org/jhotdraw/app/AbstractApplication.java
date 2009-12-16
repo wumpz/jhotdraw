@@ -14,6 +14,11 @@
 package org.jhotdraw.app;
 
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.net.URISyntaxException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jhotdraw.beans.*;
 import org.jhotdraw.gui.Worker;
 import org.jhotdraw.util.*;
@@ -21,6 +26,11 @@ import java.util.*;
 import java.util.prefs.*;
 import javax.swing.*;
 import java.io.*;
+import java.net.URI;
+import org.jhotdraw.app.action.ClearRecentFilesAction;
+import org.jhotdraw.app.action.OpenAction;
+import org.jhotdraw.app.action.OpenDirectoryAction;
+import org.jhotdraw.app.action.OpenRecentAction;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 
 /**
@@ -36,11 +46,12 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     private boolean isEnabled = true;
     protected ResourceBundleUtil labels;
     private ApplicationModel model;
-    private LinkedList<File> recentFiles = new LinkedList<File>();
-    private final static int maxRecentFilesCount = 10;
     private Preferences prefs;
     private View activeView;
     public final static String VIEW_COUNT_PROPERTY = "viewCount";
+    private LinkedList<URI> recentFiles = new LinkedList<URI>();
+    private final static int maxRecentFilesCount = 10;
+
 
     /** Creates a new instance. */
     public AbstractApplication() {
@@ -48,12 +59,15 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
 
     public void init() {
         prefs = PreferencesUtil.userNodeForPackage((getModel() == null) ? getClass() : getModel().getClass());
-
         int count = prefs.getInt("recentFileCount", 0);
         for (int i = 0; i < count; i++) {
             String path = prefs.get("recentFile." + i, null);
             if (path != null) {
-                recentFiles.add(new File(path));
+                try {
+                    recentFiles.add(new URI(path));
+                } catch (URISyntaxException ex) {
+                    // Silently don't add this URI
+                }
             }
         }
     }
@@ -83,7 +97,6 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         if (getModel() != null) {
             getModel().initView(this, p);
         }
-        initViewActions(p);
         return p;
     }
 
@@ -143,8 +156,6 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         return model.getCopyright();
     }
 
-    protected abstract void initViewActions(View p);
-
     public void stop() {
         for (View p : new LinkedList<View>(views())) {
             dispose(p);
@@ -168,8 +179,13 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
             int oldCount = views.size();
             views.add(p);
             p.setApplication(this);
+            initViewActions(p);
             firePropertyChange(VIEW_COUNT_PROPERTY, oldCount, views.size());
         }
+    }
+
+    protected void initViewActions(View p) {
+
     }
 
     public void dispose(View view) {
@@ -216,43 +232,6 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     public void configure(String[] args) {
     }
 
-    public java.util.List<File> recentFiles() {
-        return Collections.unmodifiableList(recentFiles);
-    }
-
-    public void clearRecentFiles() {
-        @SuppressWarnings("unchecked")
-        java.util.List<File> oldValue = (java.util.List<File>) recentFiles.clone();
-        recentFiles.clear();
-        prefs.putInt("recentFileCount", recentFiles.size());
-        firePropertyChange("recentFiles",
-                Collections.unmodifiableList(oldValue),
-                Collections.unmodifiableList(recentFiles));
-    }
-
-    public void addRecentFile(File file) {
-        @SuppressWarnings("unchecked")
-        java.util.List<File> oldValue = (java.util.List<File>) recentFiles.clone();
-        if (recentFiles.contains(file)) {
-            recentFiles.remove(file);
-        }
-        recentFiles.addFirst(file);
-        if (recentFiles.size() > maxRecentFilesCount) {
-            recentFiles.removeLast();
-        }
-
-        prefs.putInt("recentFileCount", recentFiles.size());
-        int i = 0;
-        for (File f : recentFiles) {
-            prefs.put("recentFile." + i, f.getPath());
-            i++;
-        }
-
-        firePropertyChange("recentFiles", oldValue, 0);
-        firePropertyChange("recentFiles",
-                Collections.unmodifiableList(oldValue),
-                Collections.unmodifiableList(recentFiles));
-    }
 
     public void removePalette(Window palette) {
     }
@@ -264,5 +243,117 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     }
 
     public void addWindow(Window window, View p) {
+    }
+
+    public java.util.List<URI> getRecentURIs() {
+        return Collections.unmodifiableList(recentFiles);
+    }
+
+    public void clearRecentURIs() {
+        @SuppressWarnings("unchecked")
+        java.util.List<URI> oldValue = (java.util.List<URI>) recentFiles.clone();
+        recentFiles.clear();
+        prefs.putInt("recentFileCount", recentFiles.size());
+        firePropertyChange("recentFiles",
+                Collections.unmodifiableList(oldValue),
+                Collections.unmodifiableList(recentFiles));
+    }
+
+    public void addRecentURI(URI uri) {
+        @SuppressWarnings("unchecked")
+        java.util.List<URI> oldValue = (java.util.List<URI>) recentFiles.clone();
+        if (recentFiles.contains(uri)) {
+            recentFiles.remove(uri);
+        }
+        recentFiles.addFirst(uri);
+        if (recentFiles.size() > maxRecentFilesCount) {
+            recentFiles.removeLast();
+        }
+
+        prefs.putInt("recentFileCount", recentFiles.size());
+        int i = 0;
+        for (URI f : recentFiles) {
+            prefs.put("recentFile." + i, f.toString());
+            i++;
+        }
+
+        firePropertyChange("recentFiles", oldValue, 0);
+        firePropertyChange("recentFiles",
+                Collections.unmodifiableList(oldValue),
+                Collections.unmodifiableList(recentFiles));
+    }
+    protected JMenu createOpenRecentFileMenu(View view) {
+        JMenuItem mi;
+        JMenu m;
+
+        m = new JMenu();
+            labels.configureMenu(m, "file.openRecent");
+            m.setIcon(null);
+            m.add(getModel().getAction(ClearRecentFilesAction.ID));
+
+        OpenRecentMenuHandler handler = new OpenRecentMenuHandler(m, view);
+        return m;
+    }
+    /** Updates the menu items in the "Open Recent" file menu. */
+    private class OpenRecentMenuHandler implements PropertyChangeListener, Disposable {
+
+        private JMenu openRecentMenu;
+        private LinkedList<OpenRecentAction> openRecentActions = new LinkedList<OpenRecentAction>();
+
+        public OpenRecentMenuHandler(JMenu openRecentMenu, View view) {
+            this.openRecentMenu = openRecentMenu;
+            if (view != null) {
+                view.addDisposable(this);
+            }
+            updateOpenRecentMenu();
+            addPropertyChangeListener(this);
+        }
+
+        public void propertyChange(PropertyChangeEvent evt) {
+            String name = evt.getPropertyName();
+            if (name == "recentFiles") {
+                updateOpenRecentMenu();
+            }
+        }
+
+        /**
+         * Updates the "File &gt; Open Recent" menu.
+         */
+        protected void updateOpenRecentMenu() {
+            if (openRecentMenu.getItemCount() > 0) {
+                JMenuItem clearRecentFilesItem = (JMenuItem) openRecentMenu.getItem(
+                        openRecentMenu.getItemCount() - 1);
+                openRecentMenu.remove(openRecentMenu.getItemCount() - 1);
+
+                // Dispose the actions and the menu items that are currently in the menu
+                for (OpenRecentAction action : openRecentActions) {
+                    action.dispose();
+                }
+                openRecentActions.clear();
+                openRecentMenu.removeAll();
+
+                // Create new actions and add them to the menu
+                for (URI f : getRecentURIs()) {
+                    OpenRecentAction action = new OpenRecentAction(AbstractApplication.this, f);
+                    openRecentMenu.add(action);
+                    openRecentActions.add(action);
+                }
+                if (getRecentURIs().size() > 0) {
+                    openRecentMenu.addSeparator();
+                }
+
+                // Add a separator and the clear recent files item.
+                openRecentMenu.add(clearRecentFilesItem);
+            }
+        }
+
+        public void dispose() {
+            removePropertyChangeListener(this);
+            // Dispose the actions and the menu items that are currently in the menu
+            for (OpenRecentAction action : openRecentActions) {
+                action.dispose();
+            }
+            openRecentActions.clear();
+        }
     }
 }

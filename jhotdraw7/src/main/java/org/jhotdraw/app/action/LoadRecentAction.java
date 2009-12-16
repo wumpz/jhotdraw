@@ -13,13 +13,16 @@
  */
 package org.jhotdraw.app.action;
 
+import ch.randelshofer.quaqua.util.ResourceBundleUtil;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.gui.event.*;
 import java.awt.*;
 import javax.swing.*;
 import java.io.*;
+import java.net.URI;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
+import org.jhotdraw.net.URIUtil;
 
 /**
  * LoadRecentAction.
@@ -30,13 +33,13 @@ import org.jhotdraw.app.View;
 public class LoadRecentAction extends AbstractSaveBeforeAction {
 
     public final static String ID = "file.loadRecent";
-    private File file;
+    private URI uri;
 
     /** Creates a new instance. */
-    public LoadRecentAction(Application app, File file) {
+    public LoadRecentAction(Application app, URI uri) {
         super(app);
-        this.file = file;
-        putValue(Action.NAME, file.getName());
+        this.uri = uri;
+        putValue(Action.NAME, URIUtil.getName(uri));
     }
 
     public void doIt(final View view) {
@@ -48,8 +51,8 @@ public class LoadRecentAction extends AbstractSaveBeforeAction {
         int multipleOpenId = 1;
         for (View aView : app.views()) {
             if (aView != view &&
-                    aView.getFile() != null &&
-                    aView.getFile().equals(file)) {
+                    aView.getURI() != null &&
+                    aView.getURI().equals(uri)) {
                 multipleOpenId = Math.max(multipleOpenId, aView.getMultipleOpenId() + 1);
             }
         }
@@ -59,14 +62,26 @@ public class LoadRecentAction extends AbstractSaveBeforeAction {
         view.execute(new Worker() {
 
             protected Object construct() throws IOException {
-                view.read(file);
-                return null;
+                boolean exists = true;
+                try {
+                    File f = new File(uri);
+                    exists = f.exists();
+                } catch (IllegalArgumentException e) {
+                    // The URI does not denote a file, thus we can not check whether the file exists.
+                }
+                if (exists) {
+                    view.read(uri);
+                    return null;
+                } else {
+                    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
+                    throw new IOException(labels.getFormatted("file.load.fileDoesNotExist.message", URIUtil.getName(uri)));
+                }
             }
 
             @Override
             protected void done(Object value) {
                 final Application app = getApplication();
-                view.setFile(file);
+                view.setURI(uri);
                 view.setEnabled(true);
                 Frame w = (Frame) SwingUtilities.getWindowAncestor(view.getComponent());
                 if (w != null) {
@@ -80,14 +95,15 @@ public class LoadRecentAction extends AbstractSaveBeforeAction {
             }
 
             @Override
-            protected void failed(Throwable value) {
+            protected void failed(Throwable error) {
                 final Application app = getApplication();
-                ((Throwable) value).printStackTrace();
+                error.printStackTrace();
+                    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
 
                 JSheet.showMessageSheet(view.getComponent(),
                         "<html>" + UIManager.getString("OptionPane.css") +
-                        "<b>Couldn't open the file \"" + file + "\".</b><br>" +
-                        value,
+                        "<b>" + labels.getFormatted("file.load.couldntLoad.message", URIUtil.getName(uri)) + "</b><p>" +
+                        error,
                         JOptionPane.ERROR_MESSAGE, new SheetListener() {
 
                     public void optionSelected(SheetEvent evt) {

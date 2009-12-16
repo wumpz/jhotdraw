@@ -38,7 +38,6 @@ public class OSXDropOnDockAction extends AbstractApplicationAction {
     /** Creates a new instance. */
     public OSXDropOnDockAction(Application app) {
         super(app);
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         putValue(Action.NAME, "OSX Drop On Dock");
     }
 
@@ -49,26 +48,28 @@ public class OSXDropOnDockAction extends AbstractApplicationAction {
             final View p = app.createView();
             p.setEnabled(false);
             app.add(p);
+            app.show(p);
             p.execute(new Worker() {
 
                 public Object construct() throws IOException {
-                    p.read(ae.getFile());
+                    p.read(ae.getFile().toURI());
                     return null;
                 }
 
                 @Override
                 protected void done(Object value) {
-                    p.setFile(ae.getFile());
+                    p.setURI(ae.getFile().toURI());
                     p.setEnabled(true);
                 }
 
                 @Override
                 protected void failed(Throwable value) {
+                    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
                     app.dispose(p);
                     JOptionPane.showMessageDialog(
                             null,
                             "<html>" + UIManager.getString("OptionPane.css") +
-                            "<b>Can't open file " + ae.getFile() + "</b><p>" +
+                            "<b>" + labels.getFormatted("file.open.couldntOpen.message", ae.getFile().getName()) + "</b><p>" +
                             value,
                             "",
                             JOptionPane.ERROR_MESSAGE);

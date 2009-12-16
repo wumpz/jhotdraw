@@ -43,8 +43,8 @@ public class Main {
         DefaultApplicationModel model = new PertApplicationModel();
         model.setName("JHotDraw Pert");
         model.setVersion(Main.class.getPackage().getImplementationVersion());
-        model.setCopyright("Copyright 2006-2009 (c) by the authors of JHotDraw\n" +
-                "This software is licensed under LGPL or Creative Commons 3.0 BY");
+        model.setCopyright("Copyright 2006-2009 (c) by the authors of JHotDraw and all its contributors.\n" +
+                "This software is licensed under LGPL and Creative Commons 3.0 Attribution.");
         model.setViewClassName("org.jhotdraw.samples.pert.PertView");
         app.setModel(model);
         app.launch(args);

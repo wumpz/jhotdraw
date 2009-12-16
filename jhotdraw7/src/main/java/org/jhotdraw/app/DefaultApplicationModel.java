@@ -141,7 +141,7 @@ public class DefaultApplicationModel
         
         JButton b;
         Action a;
-        if (null != (a = getAction(NewAction.ID))) {
+        if (null != (a = getAction(NewFileAction.ID))) {
             b = tb.add(a);
             b.setFocusable(false);
         }
@@ -214,6 +214,37 @@ public class DefaultApplicationModel
     }
     
     public void initApplication(Application a) {
+        putAction(AboutAction.ID, new AboutAction(a));
+        putAction(ExitAction.ID, new ExitAction(a));
+        putAction(OSXDropOnDockAction.ID, new OSXDropOnDockAction(a));
+
+        putAction(NewFileAction.ID, new NewFileAction(a));
+        putAction(NewWindowAction.ID, new NewWindowAction(a));
+        putAction(ClearAction.ID, new ClearAction(a));
+        putAction(OpenAction.ID, new OpenAction(a));
+        putAction(LoadAction.ID, new LoadAction(a));
+        putAction(ClearRecentFilesAction.ID, new ClearRecentFilesAction(a));
+        putAction(SaveAction.ID, new SaveAction(a));
+        putAction(SaveAsAction.ID, new SaveAsAction(a));
+        //putAction(PrintAction.ID, new PrintAction(a));
+        putAction(CloseAction.ID, new CloseAction(a));
+
+        putAction(UndoAction.ID, new UndoAction(a));
+        putAction(RedoAction.ID, new RedoAction(a));
+        putAction(CutAction.ID, new CutAction());
+        putAction(CopyAction.ID, new CopyAction());
+        putAction(PasteAction.ID, new PasteAction());
+        putAction(DeleteAction.ID, new DeleteAction());
+        putAction(DuplicateAction.ID, new DuplicateAction());
+        putAction(SelectAllAction.ID, new SelectAllAction());
+
+        putAction(MaximizeAction.ID, new MaximizeAction(a));
+        putAction(MinimizeAction.ID, new MinimizeAction(a));
+        /*
+        putAction(ArrangeAction.VERTICAL_ID, new ArrangeAction(desktopPane, Arrangeable.Arrangement.VERTICAL));
+        putAction(ArrangeAction.HORIZONTAL_ID, new ArrangeAction(desktopPane, Arrangeable.Arrangement.HORIZONTAL));
+        putAction(ArrangeAction.CASCADE_ID, new ArrangeAction(desktopPane, Arrangeable.Arrangement.CASCADE));
+         */
     }
     /**
      * Returns the action with the specified id.

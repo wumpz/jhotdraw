@@ -16,6 +16,7 @@ package org.jhotdraw.app.action;
 
 import javax.swing.JFileChooser;
 import org.jhotdraw.app.*;
+import org.jhotdraw.gui.chooser.URIChooser;
 import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
@@ -52,7 +53,7 @@ public class LoadDirectoryAction extends LoadAction {
         labels.configureAction(this, "file.openDirectory");
     }
     @Override
-    protected JFileChooser getFileChooser(View view) {
+    protected URIChooser getFileChooser(View view) {
         return ((DirectoryView) view).getOpenDirectoryChooser();
     }
 

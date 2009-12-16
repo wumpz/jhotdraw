@@ -29,8 +29,10 @@ import javax.swing.event.*;
 import javax.swing.text.*;
 import javax.swing.undo.*;
 import java.io.*;
+import java.net.URI;
 import org.jhotdraw.app.action.RedoAction;
 import org.jhotdraw.app.action.UndoAction;
+import org.jhotdraw.gui.chooser.JFileURIChooser;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 
 /**
@@ -201,22 +203,22 @@ public class TeddyView extends AbstractView {
         return characterSetAccessory;
     }
     @Override
-    public JFileChooser getOpenChooser() {
-        JFileChooser chooser = super.getOpenChooser();
+    public JFileURIChooser getOpenChooser() {
+        JFileURIChooser chooser = (JFileURIChooser) super.getOpenChooser();
         chooser.setAccessory(getAccessory());
         return chooser;
     }
     @Override
-    public JFileChooser getSaveChooser() {
-        JFileChooser chooser = super.getSaveChooser();
+    public JFileURIChooser getSaveChooser() {
+        JFileURIChooser chooser = (JFileURIChooser)super.getSaveChooser();
         chooser.setAccessory(getAccessory());
         return chooser;
     }
-    public void read(File f) throws IOException {
+    public void read(URI f) throws IOException {
         read(f, getAccessory().getCharacterSet());
     }
-    public void read(File f, String characterSet) throws IOException {
-        final Document doc = readDocument(f, characterSet);
+    public void read(URI f, String characterSet) throws IOException {
+        final Document doc = readDocument(new File(f), characterSet);
         try {
             SwingUtilities.invokeAndWait(new Runnable() {
                 public void run() {
@@ -234,11 +236,11 @@ public class TeddyView extends AbstractView {
             throw error;
         }
     }
-    public void write(File f) throws IOException {
+    public void write(URI f) throws IOException {
         write(f, getAccessory().getCharacterSet(), getAccessory().getLineSeparator());
     }
-    public void write(File f, String characterSet, String lineSeparator) throws IOException {
-        writeDocument(editor.getDocument(), f, characterSet, lineSeparator);
+    public void write(URI f, String characterSet, String lineSeparator) throws IOException {
+        writeDocument(editor.getDocument(), new File(f), characterSet, lineSeparator);
         try {
             SwingUtilities.invokeAndWait(new Runnable() {
                 public void run() {

@@ -18,8 +18,11 @@ import org.jhotdraw.gui.*;
 import org.jhotdraw.gui.event.*;
 import javax.swing.*;
 import java.io.*;
+import java.net.URI;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
+import org.jhotdraw.gui.chooser.URIChooser;
+import org.jhotdraw.net.URIUtil;
 
 /**
  * Loads a file into the current view.
@@ -42,36 +45,35 @@ public class LoadAction extends AbstractSaveBeforeAction {
         labels.configureAction(this, "file.open");
     }
 
-    protected JFileChooser getFileChooser(View view) {
+    protected URIChooser getFileChooser(View view) {
         return view.getOpenChooser();
     }
 
     public void doIt(View view) {
-        JFileChooser fileChooser = getFileChooser(view);
-        if (fileChooser.showOpenDialog(view.getComponent()) == JFileChooser.APPROVE_OPTION) {
-            loadFile(view, fileChooser.getSelectedFile());
+        URIChooser fileChooser = getFileChooser(view);
+        if (fileChooser.showOpenDialog(view.getComponent()) == URIChooser.APPROVE_OPTION) {
+            loadViewFromURI(view, fileChooser.getSelectedURI());
         } else {
             view.setEnabled(true);
         }
     }
 
-    public void loadFile(final View view, final File file) {
- 
+    public void loadViewFromURI(final View view, final URI uri) {
         view.setEnabled(false);
 
         // Open the file
         view.execute(new Worker() {
 
             protected Object construct() throws IOException {
-                view.read(file);
+                view.read(uri);
                 return null;
             }
 
             @Override
             protected void done(Object value) {
-                view.setFile(file);
+                view.setURI(uri);
                 view.setEnabled(true);
-                getApplication().addRecentFile(file);
+                getApplication().addRecentURI(uri);
             }
 
             @Override
@@ -79,7 +81,7 @@ public class LoadAction extends AbstractSaveBeforeAction {
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
                 JSheet.showMessageSheet(view.getComponent(),
                         "<html>" + UIManager.getString("OptionPane.css") +
-                        "<b>" + labels.getFormatted("file.load.couldntLoad.message", file.getName()) + "</b><br>" +
+                        "<b>" + labels.getFormatted("file.load.couldntLoad.message", URIUtil.getName(uri)) + "</b><p>" +
                         ((value == null) ? "" : value),
                         JOptionPane.ERROR_MESSAGE, new SheetListener() {
 

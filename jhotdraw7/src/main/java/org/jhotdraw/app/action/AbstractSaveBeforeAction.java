@@ -21,8 +21,12 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
+import java.net.URI;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
+import org.jhotdraw.gui.chooser.URIChooser;
+import org.jhotdraw.gui.chooser.JFileURIChooser;
+import org.jhotdraw.net.URIUtil;
 
 /**
  * This abstract class can be extended to implement an {@code Action} that asks
@@ -62,9 +66,12 @@ public abstract class AbstractSaveBeforeAction extends AbstractViewAction {
             p.setEnabled(false);
 
             if (p.hasUnsavedChanges()) {
+                URI unsavedURI = p.getURI();
                 JOptionPane pane = new JOptionPane(
-                        "<html>" + UIManager.getString("OptionPane.css") +
-                        labels.getString("file.saveBefore.doYouWantToSave.message"),
+                        "<html>" + UIManager.getString("OptionPane.css") +//
+                        "<b>"+labels.getFormatted("file.saveBefore.doYouWantToSave.message",//
+                         (unsavedURI==null)?labels.getString("unnamedFile"):URIUtil.getName(unsavedURI))+"</b><p>"+//
+                        labels.getString("file.saveBefore.doYouWantToSave.details"),
                         JOptionPane.WARNING_MESSAGE);
                 Object[] options = { //
                     labels.getString("file.saveBefore.saveOption.text"),//
@@ -84,7 +91,7 @@ public abstract class AbstractSaveBeforeAction extends AbstractViewAction {
                             doIt(p);
                             p.setEnabled(true);
                         } else if (value.equals(labels.getString("file.saveBefore.saveOption.text"))) {
-                            saveChanges(p);
+                            saveView(p);
                         }
                     }
                 });
@@ -99,21 +106,21 @@ public abstract class AbstractSaveBeforeAction extends AbstractViewAction {
         }
     }
 
-    protected void saveChanges(final View p) {
-        if (p.getFile() == null) {
-            JFileChooser fileChooser = p.getSaveChooser();
+    protected void saveView(final View p) {
+        if (p.getURI() == null) {
+           URIChooser fileChooser = p.getSaveChooser();
             //int option = fileChooser.showSaveDialog(this);
             JSheet.showSaveSheet(fileChooser, p.getComponent(), new SheetListener() {
 
                 public void optionSelected(final SheetEvent evt) {
                     if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
-                        final File file;
-                        if (evt.getFileChooser().getFileFilter() instanceof ExtensionFileFilter) {
-                            file = ((ExtensionFileFilter) evt.getFileChooser().getFileFilter()).makeAcceptable(evt.getFileChooser().getSelectedFile());
+                        final URI uri;
+                        if ((evt.getChooser() instanceof JFileURIChooser) && evt.getFileChooser().getFileFilter() instanceof ExtensionFileFilter) {
+                            uri = ((ExtensionFileFilter) evt.getFileChooser().getFileFilter()).makeAcceptable(evt.getFileChooser().getSelectedFile()).toURI();
                         } else {
-                            file = evt.getFileChooser().getSelectedFile();
+                            uri = evt.getChooser().getSelectedURI();
                         }
-                        saveToFile(p, file);
+                        saveViewToURI(p, uri);
                     } else {
                         p.setEnabled(true);
                         if (oldFocusOwner != null) {
@@ -123,21 +130,21 @@ public abstract class AbstractSaveBeforeAction extends AbstractViewAction {
                 }
             });
         } else {
-            saveToFile(p, p.getFile());
+            saveViewToURI(p, p.getURI());
         }
     }
 
-    protected void saveToFile(final View p, final File file) {
+    protected void saveViewToURI(final View p, final URI uri) {
         p.execute(new Worker() {
 
             protected Object construct() throws IOException {
-                p.write(file);
+                p.write(uri);
                 return null;
             }
 
             @Override
             protected void done(Object value) {
-                p.setFile(file);
+                p.setURI(uri);
                 p.markChangesAsSaved();
                 doIt(p);
             }
@@ -153,7 +160,7 @@ public abstract class AbstractSaveBeforeAction extends AbstractViewAction {
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
                 JSheet.showMessageSheet(getActiveView().getComponent(),
                         "<html>" + UIManager.getString("OptionPane.css") +
-                        "<b>" + labels.getFormatted("file.saveBefore.couldntSave.message", file.getName()) + "</b><br>" +
+                        "<b>" + labels.getFormatted("file.save.couldntSave.message", URIUtil.getName(uri)) + "</b><p>" +
                         ((message == null) ? "" : message),
                         JOptionPane.ERROR_MESSAGE);
             }

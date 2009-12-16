@@ -34,6 +34,7 @@ public class TeddyApplicationModel extends DefaultApplicationModel {
     }
     
     @Override public void initApplication(Application a) {
+        super.initApplication(a);
         putAction(org.jhotdraw.samples.teddy.action.FindAction.ID, new org.jhotdraw.samples.teddy.action.FindAction(a));
         putAction(ToggleLineWrapAction.ID, new ToggleLineWrapAction(a));
         putAction(ToggleStatusBarAction.ID, new ToggleStatusBarAction(a));

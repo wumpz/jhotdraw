@@ -62,6 +62,7 @@ public class NetApplicationModel extends DefaultApplicationModel {
     }
     
     public void initApplication(Application a) {
+        super.initApplication(a);
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.net.Labels");
         AbstractAction aa;

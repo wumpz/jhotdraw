@@ -37,7 +37,7 @@ public class ClearRecentFilesAction extends AbstractApplicationAction {
         labels.configureAction(this, ID);
         updateEnabled();
     }
-    
+
     /**
      * Installs listeners on the application object.
      */
@@ -66,11 +66,11 @@ public class ClearRecentFilesAction extends AbstractApplicationAction {
     }
     
     public void actionPerformed(ActionEvent e) {
-        getApplication().clearRecentFiles();
+        getApplication().clearRecentURIs();
     }
     
     private void updateEnabled() {
-        setEnabled(getApplication().recentFiles().size() > 0);
+        setEnabled(getApplication().getRecentURIs().size() > 0);
         
     }
     

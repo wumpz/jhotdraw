@@ -14,6 +14,7 @@
 
 package org.jhotdraw.app;
 
+import java.net.URI;
 import java.util.*;
 import javax.swing.*;
 /**

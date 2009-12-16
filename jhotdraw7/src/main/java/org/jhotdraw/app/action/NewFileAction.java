@@ -1,7 +1,7 @@
 /*
- * @(#)NewAction.java
+ * @(#)NewFile.java
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -20,16 +20,16 @@ import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
 
 /**
- * Creates a new view.
+ * Creates a new file.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id: NewAction.java 527 2009-06-07 14:28:19Z rawcoder $
  */
-public class NewAction extends AbstractApplicationAction {
+public class NewFileAction extends AbstractApplicationAction {
     public final static String ID = "file.new";
     
     /** Creates a new instance. */
-    public NewAction(Application app) {
+    public NewFileAction(Application app) {
         super(app);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
@@ -40,7 +40,7 @@ public class NewAction extends AbstractApplicationAction {
         final View newP = app.createView();
         int multiOpenId = 1;
         for (View existingP : app.views()) {
-            if (existingP.getFile() == null) {
+            if (existingP.getURI() == null) {
                 multiOpenId = Math.max(multiOpenId, existingP.getMultipleOpenId() + 1);
             }
         }

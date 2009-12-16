@@ -24,8 +24,10 @@ import java.beans.*;
 import java.awt.*;
 import javax.swing.*;
 import java.io.*;
+import java.net.URI;
 import org.jhotdraw.app.action.*;
 import org.jhotdraw.beans.Disposable;
+import org.jhotdraw.net.URIUtil;
 
 /**
  * {@code DefaultOSXApplication} handles the lifecycle of {@link View}s using a
@@ -60,7 +62,7 @@ import org.jhotdraw.beans.Disposable;
  *
  * The <b>file menu</b> has the following standard menu items:
  * <pre>
- *  New ({@link NewAction#ID}})
+ *  New ({@link NewFileAction#ID}})
  *  Open... ({@link OpenAction#ID}})
  *  Open Recent &gt; "Filename" ({@link OpenRecentAction#ID})
  *  -
@@ -109,7 +111,6 @@ public class DefaultOSXApplication extends AbstractApplication {
         paletteHandler = new OSXPaletteHandler(this);
 
         initLabels();
-        initApplicationActions();
         getModel().initApplication(this);
         paletteActions = new LinkedList<Action>();
         initPalettes(paletteActions);
@@ -134,33 +135,14 @@ public class DefaultOSXApplication extends AbstractApplication {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    protected void initApplicationActions() {
-        ApplicationModel mo = getModel();
-        mo.putAction(AboutAction.ID, new AboutAction(this));
-        mo.putAction(ExitAction.ID, new ExitAction(this));
-        mo.putAction(OSXDropOnDockAction.ID, new OSXDropOnDockAction(this));
-
-        mo.putAction(NewAction.ID, new NewAction(this));
-        mo.putAction(OpenAction.ID, new OpenAction(this));
-        mo.putAction(ClearRecentFilesAction.ID, new ClearRecentFilesAction(this));
-        mo.putAction(SaveAction.ID, new SaveAction(this));
-        mo.putAction(SaveAsAction.ID, new SaveAsAction(this));
-        mo.putAction(PrintAction.ID, new PrintAction(this));
-        mo.putAction(CloseAction.ID, new CloseAction(this));
-
-        mo.putAction(UndoAction.ID, new UndoAction(this));
-        mo.putAction(RedoAction.ID, new RedoAction(this));
-        mo.putAction(CutAction.ID, new CutAction());
-        mo.putAction(CopyAction.ID, new CopyAction());
-        mo.putAction(PasteAction.ID, new PasteAction());
-        mo.putAction(DeleteAction.ID, new DeleteAction());
-        mo.putAction(DuplicateAction.ID, new DuplicateAction());
-        mo.putAction(SelectAllAction.ID, new SelectAllAction());
-
-        mo.putAction(MaximizeAction.ID, new MaximizeAction(this));
-        mo.putAction(MinimizeAction.ID, new MinimizeAction(this));
+        if (UIManager.getString("OptionPane.css") == null) {
+            UIManager.put("OptionPane.css", "<head>" +
+            "<style type=\"text/css\">" +
+            "b { font: 13pt \"Dialog\" }" +
+            "p { font: 11pt \"Dialog\"; margin-top: 8px }" +
+            "</style>" +
+            "</head>");
+        }
     }
 
     protected void initViewActions(View p) {
@@ -250,18 +232,22 @@ public class DefaultOSXApplication extends AbstractApplication {
      */
     protected void updateViewTitle(View p, JFrame f) {
         String title;
-        File file = p.getFile();
-        if (file == null) {
+        URI uri = p.getURI();
+        if (uri == null) {
             title = labels.getString("unnamedFile");
         } else {
-            title = file.getName();
+            title = URIUtil.getName(uri);
         }
         p.setTitle(labels.getFormatted("frame.title", title, getName(), p.getMultipleOpenId()));
         f.setTitle(p.getTitle());
 
         // Adds a proxy icon for the file to the title bar
         // See http://developer.apple.com/technotes/tn2007/tn2196.html#WINDOW_DOCUMENTFILE
-        f.getRootPane().putClientProperty("Window.documentFile", file);
+        if (uri!=null&&uri.getScheme()!=null&&uri.getScheme().equals("file")) {
+        f.getRootPane().putClientProperty("Window.documentFile", new File(uri));
+        } else {
+        f.getRootPane().putClientProperty("Window.documentFile", null);
+        }
     }
 
     public void hide(View p) {
@@ -331,30 +317,39 @@ public class DefaultOSXApplication extends AbstractApplication {
 
         JMenu m;
         JMenuItem mi;
-        JMenu openRecentMenu;
 
         m = new JMenu();
         labels.configureMenu(m, "file");
-        mi = m.add(model.getAction(NewAction.ID));
-        mi.setIcon(null);
-        mi = m.add(model.getAction(OpenAction.ID));
-        mi.setIcon(null);
+        if (model.getAction(NewFileAction.ID) != null) {
+            mi = m.add(model.getAction(NewFileAction.ID));
+            mi.setIcon(null);
+        }
+        if (model.getAction(OpenAction.ID) != null) {
+            mi = m.add(model.getAction(OpenAction.ID));
+            mi.setIcon(null);
+        }
         if (model.getAction(OpenDirectoryAction.ID) != null) {
             mi = m.add(model.getAction(OpenDirectoryAction.ID));
             mi.setIcon(null);
         }
-        openRecentMenu = new JMenu();
-        labels.configureMenu(openRecentMenu, "file.openRecent");
-        openRecentMenu.setIcon(null);
-        openRecentMenu.add(model.getAction(ClearRecentFilesAction.ID));
-        m.add(openRecentMenu);
-        m.addSeparator();
-        mi = m.add(model.getAction(CloseAction.ID));
-        mi.setIcon(null);
-        mi = m.add(model.getAction(SaveAction.ID));
-        mi.setIcon(null);
-        mi = m.add(model.getAction(SaveAsAction.ID));
-        mi.setIcon(null);
+        if (model.getAction(OpenAction.ID) != null || model.getAction(OpenDirectoryAction.ID) != null) {
+            m.add(createOpenRecentFileMenu(view));
+        }
+        if (m.getPopupMenu().getComponentCount() > 0) {
+            m.addSeparator();
+        }
+        if (model.getAction(CloseAction.ID) != null) {
+            mi = m.add(model.getAction(CloseAction.ID));
+            mi.setIcon(null);
+        }
+        if (model.getAction(SaveAction.ID) != null) {
+            mi = m.add(model.getAction(SaveAction.ID));
+            mi.setIcon(null);
+        }
+        if (model.getAction(SaveAsAction.ID) != null) {
+            mi = m.add(model.getAction(SaveAsAction.ID));
+            mi.setIcon(null);
+        }
         if (model.getAction(ExportAction.ID) != null) {
             mi = m.add(model.getAction(ExportAction.ID));
             mi.setIcon(null);
@@ -365,7 +360,6 @@ public class DefaultOSXApplication extends AbstractApplication {
             mi.setIcon(null);
         }
 
-        OpenRecentMenuHandler handler = new OpenRecentMenuHandler(openRecentMenu, view);
         return m;
     }
 
@@ -376,10 +370,14 @@ public class DefaultOSXApplication extends AbstractApplication {
         net.roydesign.app.Application mrjapp = net.roydesign.app.Application.getInstance();
         mrjapp.getAboutJMenuItem().setAction(model.getAction(AboutAction.ID));
         mrjapp.getQuitJMenuItem().setAction(model.getAction(ExitAction.ID));
-        if (model.getAction(AbstractPreferencesAction.ID) != null) {
-            mrjapp.getPreferencesJMenuItem().setAction(model.getAction(AbstractPreferencesAction.ID));
+        Action a;
+        if ((a=model.getAction(AbstractPreferencesAction.ID)) != null) {
+            mrjapp.getPreferencesJMenuItem().setAction(a);
         }
-        mrjapp.addOpenDocumentListener(model.getAction(OSXDropOnDockAction.ID));
+
+        if ((a = model.getAction(OSXDropOnDockAction.ID)) != null) {
+        mrjapp.addOpenDocumentListener(a);
+        }
     }
 
     protected void initPalettes(final LinkedList<Action> paletteActions) {
@@ -455,7 +453,7 @@ public class DefaultOSXApplication extends AbstractApplication {
             invisibleFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             invisibleFrame.setUndecorated(true);
             // Move it way off screen
-            invisibleFrame.setLocation(10000,10000);
+            invisibleFrame.setLocation(10000, 10000);
             // make the frame transparent and shadowless
             // see https://developer.apple.com/mac/library/technotes/tn2007/tn2196.html
             invisibleFrame.getRootPane().putClientProperty("Window.alpha", 0f);
@@ -468,74 +466,11 @@ public class DefaultOSXApplication extends AbstractApplication {
 
     protected void setScreenMenuBar(JMenuBar mb) {
         ((JFrame) getComponent()).setJMenuBar(mb);
-            // pack it (without calling pack, the screen menu bar won't work for some reason)
+        // pack it (without calling pack, the screen menu bar won't work for some reason)
         invisibleFrame.pack();
     }
 
-    /** Updates the menu items in the "Open Recent" file menu. */
-    private class OpenRecentMenuHandler implements PropertyChangeListener, Disposable {
-
-        private JMenu openRecentMenu;
-        private LinkedList<OpenRecentAction> openRecentActions = new LinkedList<OpenRecentAction>();
-
-        public OpenRecentMenuHandler(JMenu openRecentMenu, View view) {
-            this.openRecentMenu = openRecentMenu;
-            if (view != null) {
-                view.addDisposable(this);
-            }
-            updateOpenRecentMenu();
-            addPropertyChangeListener(this);
-        }
-
-        public void propertyChange(PropertyChangeEvent evt) {
-            String name = evt.getPropertyName();
-            if (name == "recentFiles") {
-                updateOpenRecentMenu();
-            }
-        }
-
-        /**
-         * Updates the "File &gt; Open Recent" menu.
-         */
-        protected void updateOpenRecentMenu() {
-            if (openRecentMenu.getItemCount() > 0) {
-                JMenuItem clearRecentFilesItem = (JMenuItem) openRecentMenu.getItem(
-                        openRecentMenu.getItemCount() - 1);
-                openRecentMenu.remove(openRecentMenu.getItemCount() - 1);
-
-                // Dispose the actions and the menu items that are currently in the menu
-                for (OpenRecentAction action : openRecentActions) {
-                    action.dispose();
-                }
-                openRecentActions.clear();
-                openRecentMenu.removeAll();
-
-                // Create new actions and add them to the menu
-                for (File f : recentFiles()) {
-                    OpenRecentAction action = new OpenRecentAction(DefaultOSXApplication.this, f);
-                    openRecentMenu.add(action);
-                    openRecentActions.add(action);
-                }
-                if (recentFiles().size() > 0) {
-                    openRecentMenu.addSeparator();
-                }
-
-                // Add a separator and the clear recent files item.
-                openRecentMenu.add(clearRecentFilesItem);
-            }
-        }
-
-        public void dispose() {
-            removePropertyChangeListener(this);
-            // Dispose the actions and the menu items that are currently in the menu
-            for (OpenRecentAction action : openRecentActions) {
-                action.dispose();
-            }
-            openRecentActions.clear();
-        }
-    }
-
-    /** Updates the menu items in the "Open Recent" file menu. */
+    /** Updates the menu items in the "Window" menu. */
     private class WindowMenuHandler implements PropertyChangeListener, Disposable {
 
         private JMenu windowMenu;
@@ -553,7 +488,7 @@ public class DefaultOSXApplication extends AbstractApplication {
 
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
-            if (name == "viewCount" || name == "paletteCount") {
+            if (name == VIEW_COUNT_PROPERTY || name == "paletteCount") {
                 updateWindowMenu();
             }
         }
@@ -611,7 +546,7 @@ public class DefaultOSXApplication extends AbstractApplication {
             String name = evt.getPropertyName();
             if (name.equals(View.HAS_UNSAVED_CHANGES_PROPERTY)) {
                 frame.getRootPane().putClientProperty("windowModified", new Boolean(view.hasUnsavedChanges()));
-            } else if (name.equals(View.FILE_PROPERTY)) {
+            } else if (name.equals(View.URI_PROPERTY)) {
                 updateViewTitle(view, frame);
             }
         }
