@@ -36,8 +36,8 @@ import org.jhotdraw.app.*;
 import org.jhotdraw.app.action.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
-import org.jhotdraw.gui.chooser.JFileURIChooser;
-import org.jhotdraw.gui.chooser.URIChooser;
+import org.jhotdraw.gui.JFileURIChooser;
+import org.jhotdraw.gui.URIChooser;
 
 /**
  * A view for Pert diagrams.

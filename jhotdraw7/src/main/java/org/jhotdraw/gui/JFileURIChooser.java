@@ -12,7 +12,7 @@
  * the copyright holders. For details see accompanying license terms. 
  */
 
-package org.jhotdraw.gui.chooser;
+package org.jhotdraw.gui;
 
 import java.io.File;
 import java.net.URI;

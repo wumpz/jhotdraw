@@ -14,7 +14,7 @@
 
 package org.jhotdraw.app;
 
-import org.jhotdraw.gui.chooser.URIChooser;
+import org.jhotdraw.gui.URIChooser;
 import java.io.*;
 import java.beans.*;
 import java.net.URI;

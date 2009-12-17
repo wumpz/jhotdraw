@@ -37,8 +37,8 @@ import org.jhotdraw.app.*;
 import org.jhotdraw.app.action.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
-import org.jhotdraw.gui.chooser.URIChooser;
-import org.jhotdraw.gui.chooser.JFileURIChooser;
+import org.jhotdraw.gui.URIChooser;
+import org.jhotdraw.gui.JFileURIChooser;
 
 /**
  * A view for Network diagrams.

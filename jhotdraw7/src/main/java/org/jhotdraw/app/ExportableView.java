@@ -18,7 +18,7 @@ import java.awt.*;
 import java.io.*;
 import java.net.URI;
 import javax.swing.*;
-import org.jhotdraw.gui.chooser.URIChooser;
+import org.jhotdraw.gui.URIChooser;
 
 /**
  * The interface of a {@link View} which can export its document.

@@ -32,7 +32,7 @@ import java.io.*;
 import java.net.URI;
 import org.jhotdraw.app.action.RedoAction;
 import org.jhotdraw.app.action.UndoAction;
-import org.jhotdraw.gui.chooser.JFileURIChooser;
+import org.jhotdraw.gui.JFileURIChooser;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 
 /**

@@ -44,8 +44,8 @@ import org.jhotdraw.app.action.RedoAction;
 import org.jhotdraw.app.action.UndoAction;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
-import org.jhotdraw.gui.chooser.URIChooser;
-import org.jhotdraw.gui.chooser.JFileURIChooser;
+import org.jhotdraw.gui.URIChooser;
+import org.jhotdraw.gui.JFileURIChooser;
 import org.jhotdraw.net.URIUtil;
 
 /**

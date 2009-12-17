@@ -24,7 +24,7 @@ import java.io.*;
 import java.net.URI;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
-import org.jhotdraw.gui.chooser.URIChooser;
+import org.jhotdraw.gui.URIChooser;
 import org.jhotdraw.net.URIUtil;
 
 /**

@@ -16,7 +16,7 @@ package org.jhotdraw.app.action;
 
 import javax.swing.JFileChooser;
 import org.jhotdraw.app.*;
-import org.jhotdraw.gui.chooser.URIChooser;
+import org.jhotdraw.gui.URIChooser;
 import org.jhotdraw.util.ResourceBundleUtil;
 
 /**

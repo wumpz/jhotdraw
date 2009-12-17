@@ -13,7 +13,6 @@
  */
 package org.jhotdraw.app.action;
 
-import ch.randelshofer.quaqua.util.ResourceBundleUtil;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.gui.event.*;
 import java.awt.*;
@@ -23,6 +22,7 @@ import java.net.URI;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
 import org.jhotdraw.net.URIUtil;
+import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * LoadRecentAction.

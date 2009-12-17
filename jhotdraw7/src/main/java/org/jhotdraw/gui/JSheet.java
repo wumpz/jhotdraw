@@ -20,7 +20,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.*;
 import javax.swing.plaf.*;
-import org.jhotdraw.gui.chooser.URIChooser;
 import org.jhotdraw.gui.event.*;
 import org.jhotdraw.util.*;
 

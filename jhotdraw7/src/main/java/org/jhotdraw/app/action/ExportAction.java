@@ -22,8 +22,8 @@ import javax.swing.*;
 import java.io.*;
 import java.net.URI;
 import org.jhotdraw.app.*;
-import org.jhotdraw.gui.chooser.JFileURIChooser;
-import org.jhotdraw.gui.chooser.URIChooser;
+import org.jhotdraw.gui.JFileURIChooser;
+import org.jhotdraw.gui.URIChooser;
 import org.jhotdraw.net.URIUtil;
 
 /**
