@@ -1,5 +1,5 @@
 /*
- * @(#)FloatingPaletteHandler.java
+ * @(#)OSXPaletteHandler.java
  *
  * Copyright (c) 1996-2007 by the original authors of JHotDraw
  * and all its contributors.
@@ -12,11 +12,13 @@
  * the copyright holders. For details see accompanying license terms. 
  */
 
-package org.jhotdraw.app;
+package org.jhotdraw.app.osx;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+import org.jhotdraw.app.DefaultOSXApplication;
+import org.jhotdraw.app.View;
 /**
  * Hides all registered floating palettes, if none of the registered view
  * windows have focus anymore.

@@ -17,12 +17,9 @@
     </target>
     <target name="application.compile" depends="init,clean">
         <mkdir dir="${classdir}"/>
-        <javac
-                destdir="${classdir}"
+        <javac  destdir="${classdir}"
                 srcdir="${srcdir}"
                 debug="true"
-                source="1.5"
-                target="1.5"
                 optimize="true"
                 encoding="UTF-8"
          >

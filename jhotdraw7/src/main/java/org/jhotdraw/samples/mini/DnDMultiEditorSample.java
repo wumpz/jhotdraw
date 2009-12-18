@@ -15,7 +15,6 @@ package org.jhotdraw.samples.mini;
 
 import org.jhotdraw.draw.tool.SelectionTool;
 import org.jhotdraw.draw.tool.CreationTool;
-import org.jhotdraw.draw.RectangleFigure;
 import org.jhotdraw.draw.tool.DnDTracker;
 import org.jhotdraw.draw.io.SerializationInputOutputFormat;
 import org.jhotdraw.draw.io.ImageOutputFormat;
@@ -49,10 +48,6 @@ public class DnDMultiEditorSample {
                 view2.setDrawing(createDrawing());
                 view3.setDrawing(createDrawing());
                 view4.setDrawing(createDrawing());
-                view1.getComponent().setTransferHandler(new DnDDrawingViewTransferHandler());
-                view2.getComponent().setTransferHandler(new DnDDrawingViewTransferHandler());
-                view3.getComponent().setTransferHandler(new DnDDrawingViewTransferHandler());
-                view4.getComponent().setTransferHandler(new DnDDrawingViewTransferHandler());
 
                 // Create a common drawing editor for the views
                 DrawingEditor editor = new DefaultDrawingEditor();
@@ -101,7 +96,7 @@ public class DnDMultiEditorSample {
 
                 f.getContentPane().add(tb, BorderLayout.WEST);
 
-                f.show();
+                f.setVisible(true);
             }
         });
     }

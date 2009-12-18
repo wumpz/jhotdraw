@@ -216,7 +216,6 @@ public class DefaultApplicationModel
     public void initApplication(Application a) {
         putAction(AboutAction.ID, new AboutAction(a));
         putAction(ExitAction.ID, new ExitAction(a));
-        putAction(OSXDropOnDockAction.ID, new OSXDropOnDockAction(a));
 
         putAction(NewFileAction.ID, new NewFileAction(a));
         putAction(NewWindowAction.ID, new NewWindowAction(a));

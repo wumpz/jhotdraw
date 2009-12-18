@@ -13,7 +13,6 @@
  */
 package org.jhotdraw.draw.action;
 
-import ch.randelshofer.quaqua.QuaquaLookAndFeel;
 import java.awt.Color;
 import javax.swing.*;
 import javax.swing.text.*;
@@ -110,8 +109,8 @@ public class EditCanvasPanel extends javax.swing.JPanel {
 
     public static void main(String[] args) {
         try {
-            UIManager.setLookAndFeel(new QuaquaLookAndFeel());
-        } catch (UnsupportedLookAndFeelException ex) {
+            UIManager.setLookAndFeel("ch.randelshofer.quaqua.QuaquaLookAndFeel");
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         JFrame f = new JFrame("Drawing Settings2");

@@ -28,8 +28,6 @@
                 destdir="${classdir}"
                 srcdir="${srcdir}"
                 debug="false"
-                source="1.5"
-                target="1.5"
                 optimize="true"
                 encoding="UTF-8"
          >
@@ -111,7 +109,6 @@
                 destdir="${classdir}"
                 srcdir="${srcdir}"
                 debug="true"
-                source="1.5"
                 optimize="true"
                 encoding="UTF-8"
          >

@@ -13,7 +13,7 @@
  */
 package org.jhotdraw.app;
 
-import ch.randelshofer.quaqua.*;
+import org.jhotdraw.app.osx.OSXPaletteHandler;
 import org.jhotdraw.gui.Worker;
 import org.jhotdraw.util.*;
 import org.jhotdraw.util.prefs.*;
@@ -26,6 +26,7 @@ import javax.swing.*;
 import java.io.*;
 import java.net.URI;
 import org.jhotdraw.app.action.*;
+import org.jhotdraw.app.osx.OSXAdapter;
 import org.jhotdraw.beans.Disposable;
 import org.jhotdraw.net.URIUtil;
 
@@ -111,7 +112,17 @@ public class DefaultOSXApplication extends AbstractApplication {
         paletteHandler = new OSXPaletteHandler(this);
 
         initLabels();
-        getModel().initApplication(this);
+        ApplicationModel m = getModel();
+
+        // Set OSX-specific actions
+        m.putAction(OSXOpenApplicationAction.ID, new OSXOpenApplicationAction(this));
+        m.putAction(OSXReOpenApplicationAction.ID, new OSXReOpenApplicationAction(this));
+        m.putAction(OSXOpenFileAction.ID, new OSXOpenFileAction(this));
+        m.putAction(OSXPrintFileAction.ID, new OSXPrintFileAction(this));
+
+        // Init model
+        m.initApplication(this);
+
         paletteActions = new LinkedList<Action>();
         initPalettes(paletteActions);
         initScreenMenuBar();
@@ -131,17 +142,17 @@ public class DefaultOSXApplication extends AbstractApplication {
 
     protected void initLookAndFeel() {
         try {
-            UIManager.setLookAndFeel(QuaquaManager.getLookAndFeelClassName());
+            UIManager.setLookAndFeel("ch.randelshofer.quaqua.QuaquaLookAndFeel");
         } catch (Exception e) {
             e.printStackTrace();
         }
         if (UIManager.getString("OptionPane.css") == null) {
-            UIManager.put("OptionPane.css", "<head>" +
-            "<style type=\"text/css\">" +
-            "b { font: 13pt \"Dialog\" }" +
-            "p { font: 11pt \"Dialog\"; margin-top: 8px }" +
-            "</style>" +
-            "</head>");
+            UIManager.put("OptionPane.css", "<head>"
+                    + "<style type=\"text/css\">"
+                    + "b { font: 13pt \"Dialog\" }"
+                    + "p { font: 11pt \"Dialog\"; margin-top: 8px }"
+                    + "</style>"
+                    + "</head>");
         }
     }
 
@@ -203,8 +214,8 @@ public class DefaultOSXApplication extends AbstractApplication {
                 moved = false;
                 for (Iterator i = views().iterator(); i.hasNext();) {
                     View aView = (View) i.next();
-                    if (aView != view && aView.isShowing() &&
-                            SwingUtilities.getWindowAncestor(aView.getComponent()).
+                    if (aView != view && aView.isShowing()
+                            && SwingUtilities.getWindowAncestor(aView.getComponent()).
                             getLocation().equals(loc)) {
                         loc.x += 22;
                         loc.y += 22;
@@ -243,10 +254,10 @@ public class DefaultOSXApplication extends AbstractApplication {
 
         // Adds a proxy icon for the file to the title bar
         // See http://developer.apple.com/technotes/tn2007/tn2196.html#WINDOW_DOCUMENTFILE
-        if (uri!=null&&uri.getScheme()!=null&&uri.getScheme().equals("file")) {
-        f.getRootPane().putClientProperty("Window.documentFile", new File(uri));
+        if (uri != null && uri.getScheme() != null && uri.getScheme().equals("file")) {
+            f.getRootPane().putClientProperty("Window.documentFile", new File(uri));
         } else {
-        f.getRootPane().putClientProperty("Window.documentFile", null);
+            f.getRootPane().putClientProperty("Window.documentFile", null);
         }
     }
 
@@ -367,16 +378,31 @@ public class DefaultOSXApplication extends AbstractApplication {
         ApplicationModel model = getModel();
         setScreenMenuBar(createMenuBar(null));
         paletteHandler.add((JFrame) getComponent(), null);
-        net.roydesign.app.Application mrjapp = net.roydesign.app.Application.getInstance();
-        mrjapp.getAboutJMenuItem().setAction(model.getAction(AboutAction.ID));
-        mrjapp.getQuitJMenuItem().setAction(model.getAction(ExitAction.ID));
-        Action a;
-        if ((a=model.getAction(AbstractPreferencesAction.ID)) != null) {
-            mrjapp.getPreferencesJMenuItem().setAction(a);
-        }
 
-        if ((a = model.getAction(OSXDropOnDockAction.ID)) != null) {
-        mrjapp.addOpenDocumentListener(a);
+        Action a;
+        if (null != (a = model.getAction(OSXOpenApplicationAction.ID))) {
+            OSXAdapter.setOpenApplicationHandler(a);
+        }
+        if (null != (a = model.getAction(OSXReOpenApplicationAction.ID))) {
+            OSXAdapter.setReOpenApplicationHandler(a);
+        }
+        if (null != (a = model.getAction(OSXOpenFileAction.ID))) {
+            OSXAdapter.setOpenFileHandler(a);
+        }
+        if (null != (a = model.getAction(OSXPrintFileAction.ID))) {
+            OSXAdapter.setPrintFileHandler(a);
+        }
+        if (null != (a = model.getAction(AboutAction.ID))) {
+            OSXAdapter.setAboutHandler(a);
+        }
+        if (null != (a = model.getAction(AbstractPreferencesAction.ID))) {
+            OSXAdapter.setPreferencesHandler(a);
+        }
+        if (null != (a = model.getAction(ExitAction.ID))) {
+            OSXAdapter.setQuitHandler(a);
+        }
+        if (null != (a = model.getAction(OSXOpenFileAction.ID))) {
+            OSXAdapter.setOpenFileHandler(a);
         }
     }
 
@@ -570,6 +596,18 @@ public class DefaultOSXApplication extends AbstractApplication {
         public void dispose() {
             frame.removeWindowListener(this);
             view.removePropertyChangeListener(this);
+        }
+    }
+
+    private class QuitHandler {
+
+        /** This method is invoked, when the user has selected the Quit menu item.
+         *
+         * @return Returns true if the application has no unsaved changes and
+         * can be closed.
+         */
+        public boolean handleQuit() {
+            return false;
         }
     }
 }

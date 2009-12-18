@@ -15,19 +15,13 @@
         <property name="javadocdir" value="dist/JHotDraw ${version}/JavaDoc"/>
         <property name="docdir" value="dist/JHotDraw ${version}/Documentation"/>
         <property name="docsrcdir" value="src/documentation"/>
-
-        <!-- compilation properties -->
-        <property name="j2se5.bootclasspath" value="/System/Library/Frameworks/JavaVM.framework/Versions/1.5/Classes/classes.jar:/System/Library/Frameworks/JavaVM.framework/Versions/1.5 s/Classes/ui.jar" />
-        <property name="j2se5.javac" value="/System/Library/Frameworks/JavaVM.framework/Versions/1.5/Home/bin/javac" />
-        <property name="j2se6.bootclasspath" value="/System/Library/Frameworks/JavaVM.framework/Versions/1.6/Classes/classes.jar:/System/Library/Frameworks/JavaVM.framework/Versions/1.6/Classes/ui.jar" />
-        <property name="j2se6.javac" value="/System/Library/Frameworks/JavaVM.framework/Versions/1.6/Home/bin/javac" />
     </target>
     <target name="clean" depends="init">
         <delete dir="${classdir}" />
     </target>
     <target depends="init" description="Javadoc for my API." name="javadoc">
         <mkdir dir="${javadocdir}"/>
-        <javadoc destdir="${javadocdir}" bootclasspath="${j2se6.bootclasspath}"
+        <javadoc destdir="${javadocdir}" 
         footer="&lt;font size=-2>Copyright 1996-2009 (c) by the authors and contributors of the JHotDraw project.&lt;br>Some rights reserved.&lt;/font>"
         header="JHotDraw ${version}" 
         windowtitle="JHotDraw ${version}"
@@ -52,35 +46,11 @@
     </target>
     <target name="compile" depends="init,clean">
         <mkdir dir="${classdir}"/>
-        <javac  bootclasspath="${j2se5.bootclasspath}"
-                destdir="${classdir}"
+        <javac  destdir="${classdir}"
                 srcdir="${srcdir}"
                 debug="true"
-                source="1.5"
-                target="1.5"
                 optimize="true"
                 encoding="UTF-8"
-                fork="yes"
-                executable="${j2se5.javac}"
-         >
-            <classpath path="${libdir}/quaqua.jar"/>
-            <classpath path="${libdir}/MRJAdapter.jar"/>
-            <classpath path="${libdir}/java_30.zip"/>
-            <classpath path="${libdir}/appframework-0.42.jar"/>
-            <include name="**/*.java"/> 
-            <exclude name="**/DnDDrawingViewTransferHandler*.java"/>
-            <exclude name="**/DnDMultiEditorSample*.java"/>
-        </javac>
-        <javac  bootclasspath="${j2se6.bootclasspath}"
-                destdir="${classdir}"
-                srcdir="${srcdir}"
-                debug="true"
-                source="1.6"
-                target="1.6"
-                optimize="true"
-                encoding="UTF-8"
-                fork="yes"
-                executable="${j2se6.javac}"
          >
             <classpath path="${libdir}/quaqua.jar"/>
             <classpath path="${libdir}/MRJAdapter.jar"/>

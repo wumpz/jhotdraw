@@ -119,15 +119,15 @@ public class RadialGradient implements Gradient {
             return colors[0];
         }
         // Construct the paint
-        org.apache.batik.ext.awt.RadialGradientPaint gp;
-        gp = new org.apache.batik.ext.awt.RadialGradientPaint(
+        RadialGradientPaint gp;
+        gp = new RadialGradientPaint(
                 cp,
                 (float) rr,
                 fp,
                 fractions,
                 colors,
-                org.apache.batik.ext.awt.RadialGradientPaint.NO_CYCLE,
-                org.apache.batik.ext.awt.RadialGradientPaint.SRGB,
+                RadialGradientPaint.CycleMethod.NO_CYCLE,
+                RadialGradientPaint.ColorSpaceType.SRGB,
                 t
                 );
         return gp;

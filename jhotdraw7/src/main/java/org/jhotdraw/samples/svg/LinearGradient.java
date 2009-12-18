@@ -140,11 +140,11 @@ public class LinearGradient implements Gradient {
             return colors[0];
         }
         // Construct a gradient
-        org.apache.batik.ext.awt.LinearGradientPaint gp;
-        gp = new org.apache.batik.ext.awt.LinearGradientPaint(
+        LinearGradientPaint gp;
+        gp = new LinearGradientPaint(
                 p1, p2, fractions, colors,
-                org.apache.batik.ext.awt.LinearGradientPaint.NO_CYCLE,
-                org.apache.batik.ext.awt.LinearGradientPaint.SRGB,
+                LinearGradientPaint.CycleMethod.NO_CYCLE,
+                LinearGradientPaint.ColorSpaceType.SRGB,
                 t
                 );
         

@@ -14,8 +14,6 @@
 
 package org.jhotdraw.gui.plaf.palette;
 
-import org.apache.batik.ext.awt.LinearGradientPaint;
-import org.apache.batik.ext.awt.MultipleGradientPaint;
 import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.*;
@@ -159,8 +157,7 @@ public class PaletteSliderUI extends BasicSliderUI {
                         LinearGradientPaint lgp = new LinearGradientPaint(
                                 new Point2D.Float(2, 2), new Point2D.Float(2, 2+h-4),
                                 stops, stopColors,
-                                MultipleGradientPaint.REPEAT,
-                                MultipleGradientPaint.LINEAR_RGB);
+                                MultipleGradientPaint.CycleMethod.REPEAT);
                         g.setPaint(lgp);
             g.fillOval(2,2,w - 4,h - 4);
             g.setColor(new Color(0x444444));

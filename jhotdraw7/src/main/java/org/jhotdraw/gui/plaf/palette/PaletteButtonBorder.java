@@ -18,11 +18,12 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
+import java.awt.LinearGradientPaint;
+import java.awt.MultipleGradientPaint;
 import java.awt.geom.Point2D;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.plaf.UIResource;
-import org.apache.batik.ext.awt.*;
 
 /**
  * PaletteButtonBorder.
@@ -74,8 +75,7 @@ public class PaletteButtonBorder implements Border, UIResource {
         LinearGradientPaint lgp = new LinearGradientPaint(
                 new Point2D.Float(x, y), new Point2D.Float(x, y + height - 1),
                 stops, stopColors,
-                MultipleGradientPaint.REPEAT,
-                MultipleGradientPaint.LINEAR_RGB);
+                MultipleGradientPaint.CycleMethod.REPEAT);
         g.setPaint(lgp);
         g.fillRect(x + 1, y + 1, width - 2, height - 2);
     }

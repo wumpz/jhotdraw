@@ -56,12 +56,12 @@ public class PrintAction extends AbstractViewAction {
     }
 
     public void actionPerformed(ActionEvent evt) {
-        View view = getActiveView();
+        PrintableView view = (PrintableView)getActiveView();
         view.setEnabled(false);
         if (System.getProperty("apple.awt.graphics.UseQuartz", "false").equals("true")) {
-            printQuartz();
+            printQuartz(view);
         } else {
-            printJava2D();
+            printJava2D(view);
         }
         view.setEnabled(true);
     }
@@ -69,8 +69,8 @@ public class PrintAction extends AbstractViewAction {
      * This prints at 72 DPI only. We might need this for some JVM versions on
      * Mac OS X.*/
 
-    public void printJava2D() {
-        Pageable pageable = ((PrintableView) getActiveView()).createPageable();
+    public void printJava2D(PrintableView v) {
+        Pageable pageable = v.createPageable();
         if (pageable == null) {
             throw new InternalError("View does not have a method named java.awt.Pageable createPageable()");
         }
@@ -104,8 +104,8 @@ public class PrintAction extends AbstractViewAction {
      * This prints at 72 DPI only. We might need this for some JVM versions on
      * Mac OS X.*/
 
-    public void printJava2DAlternative() {
-        Pageable pageable = (Pageable) Methods.invokeGetter(getActiveView(), "createPageable", null);
+    public void printJava2DAlternative(PrintableView v) {
+        Pageable pageable = v.createPageable();
         if (pageable == null) {
             throw new InternalError("View does not have a method named java.awt.Pageable createPageable()");
         }
@@ -135,9 +135,9 @@ public class PrintAction extends AbstractViewAction {
      * On Mac OS X with the Quartz rendering engine, the following code achieves
      * the best results.
      */
-    public void printQuartz() {
-        Frame frame = (Frame) SwingUtilities.getWindowAncestor(getActiveView().getComponent());
-        final Pageable pageable = (Pageable) Methods.invokeGetter(getActiveView(), "createPageable", null);
+    public void printQuartz(PrintableView v) {
+        Frame frame = (Frame) SwingUtilities.getWindowAncestor(v.getComponent());
+        final Pageable pageable = v.createPageable();
         final double resolution = 300d;
         JobAttributes jobAttr = new JobAttributes();
         // FIXME - PageAttributes should be retrieved from View

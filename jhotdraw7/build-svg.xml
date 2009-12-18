@@ -27,8 +27,6 @@
                 destdir="${classdir}"
                 srcdir="${srcdir}"
                 debug="${debug}"
-                source="1.5"
-                target="1.5"
                 optimize="true"
                 encoding="UTF-8"
          >
@@ -97,12 +95,9 @@
                 destdir="${classdir}"
                 srcdir="${srcdir}"
                 debug="true"
-                source="1.5"
-                target="1.5"
                 optimize="true"
                 encoding="UTF-8"
          >
-            <classpath path="${libdir}/quaqua.jar"/>
             <classpath path="${libdir}/MRJAdapter.jar"/>
             <classpath path="${libdir}/java_30.zip"/>
             <include name="org/jhotdraw/samples/svg/Main.java"/>

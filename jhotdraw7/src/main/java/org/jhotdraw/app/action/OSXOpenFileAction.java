@@ -1,5 +1,5 @@
 /*
- * @(#)OSXDropOnDockAction.java
+ * @(#)OSXOpenFileAction.java
  *
  * Copyright (c) 1996-2006 by the original authors of JHotDraw
  * and all its contributors.
@@ -15,7 +15,6 @@ package org.jhotdraw.app.action;
 
 import org.jhotdraw.gui.Worker;
 import org.jhotdraw.util.*;
-import net.roydesign.event.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
@@ -24,41 +23,40 @@ import org.jhotdraw.app.View;
 
 /**
  * Opens a new view for each file dropped on the dock icon of the application.
- * This action must be registered with net.roydesign.app.Application.
  *
  * @author  Werner Randelshofer
  * @version $Id$
  */
-public class OSXDropOnDockAction extends AbstractApplicationAction {
+public class OSXOpenFileAction extends AbstractApplicationAction {
 
-    public final static String ID = "file.drop";
+    public final static String ID = "application.openFile";
     private JFileChooser fileChooser;
     private int entries;
 
     /** Creates a new instance. */
-    public OSXDropOnDockAction(Application app) {
+    public OSXOpenFileAction(Application app) {
         super(app);
-        putValue(Action.NAME, "OSX Drop On Dock");
+        putValue(Action.NAME, "OSX Open File");
     }
 
     public void actionPerformed(ActionEvent evt) {
         final Application app = getApplication();
-        if (evt instanceof ApplicationEvent) {
-            final ApplicationEvent ae = (ApplicationEvent) evt;
+        final String filename = evt.getActionCommand();
             final View p = app.createView();
             p.setEnabled(false);
             app.add(p);
             app.show(p);
             p.execute(new Worker() {
 
+            @Override
                 public Object construct() throws IOException {
-                    p.read(ae.getFile().toURI());
+                    p.read(new File(filename).toURI());
                     return null;
                 }
 
                 @Override
                 protected void done(Object value) {
-                    p.setURI(ae.getFile().toURI());
+                    p.setURI(new File(filename).toURI());
                     p.setEnabled(true);
                 }
 
@@ -69,12 +67,11 @@ public class OSXDropOnDockAction extends AbstractApplicationAction {
                     JOptionPane.showMessageDialog(
                             null,
                             "<html>" + UIManager.getString("OptionPane.css") +
-                            "<b>" + labels.getFormatted("file.open.couldntOpen.message", ae.getFile().getName()) + "</b><p>" +
+                            "<b>" + labels.getFormatted("file.open.couldntOpen.message", new File(filename).getName()) + "</b><p>" +
                             value,
                             "",
                             JOptionPane.ERROR_MESSAGE);
                 }
             });
         }
-    }
 }

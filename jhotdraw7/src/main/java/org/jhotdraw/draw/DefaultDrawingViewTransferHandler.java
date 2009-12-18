@@ -69,6 +69,10 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
     public boolean importData(JComponent comp, Transferable t) {
         return importData(comp, t, new HashSet<Figure>(), null);
     }
+    @Override
+    public boolean importData(TransferSupport support) {
+       return importData((JComponent) support.getComponent(), support.getTransferable(), new HashSet<Figure>() , support.getDropLocation()==null?null:support.getDropLocation().getDropPoint());
+        }
 
     /** Imports data and stores the transferred figures into the supplied transferFigures collection. */
     @SuppressWarnings("unchecked")

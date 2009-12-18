@@ -69,7 +69,6 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
             for (DrawingView v : views) {
                 if (v.getDrawing() == d) {
                     JComponent c = v.getComponent();
-System.out.println("DefaultDrawingEditor revalidating "+c);
                     c.revalidate();
                 }
             }
