@@ -14,6 +14,14 @@
 
 package org.jhotdraw.samples.odg;
 
+import org.jhotdraw.app.action.view.ViewPropertyAction;
+import org.jhotdraw.app.action.view.ToggleViewPropertyAction;
+import org.jhotdraw.app.action.file.ExportFileAction;
+import org.jhotdraw.app.action.edit.PasteAction;
+import org.jhotdraw.app.action.edit.CutAction;
+import org.jhotdraw.app.action.edit.CopyAction;
+import org.jhotdraw.app.action.edit.DuplicateAction;
+import org.jhotdraw.app.action.edit.SelectAllAction;
 import org.jhotdraw.draw.tool.CreationTool;
 import java.util.*;
 import javax.swing.*;
@@ -194,7 +202,7 @@ public class ODGApplicationModel extends DefaultApplicationModel {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         AbstractAction aa;
         
-        putAction(ExportAction.ID, new ExportAction(a));
+        putAction(ExportFileAction.ID, new ExportFileAction(a));
         putAction("view.toggleGrid", aa = new ToggleViewPropertyAction(a, ODGView.GRID_VISIBLE_PROPERTY));
         drawLabels.configureAction(aa, "view.toggleGrid");
         for (double sf : scaleFactors) {

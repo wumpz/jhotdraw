@@ -30,8 +30,8 @@ import javax.swing.text.*;
 import javax.swing.undo.*;
 import java.io.*;
 import java.net.URI;
-import org.jhotdraw.app.action.RedoAction;
-import org.jhotdraw.app.action.UndoAction;
+import org.jhotdraw.app.action.edit.RedoAction;
+import org.jhotdraw.app.action.edit.UndoAction;
 import org.jhotdraw.gui.JFileURIChooser;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 

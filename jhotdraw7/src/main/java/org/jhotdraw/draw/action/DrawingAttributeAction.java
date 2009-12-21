@@ -1,7 +1,7 @@
 /*
  * @(#)AttributeAction.java
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -14,7 +14,7 @@
 package org.jhotdraw.draw.action;
 
 import javax.swing.undo.*;
-import org.jhotdraw.app.action.Actions;
+import org.jhotdraw.app.action.ActionUtil;
 import javax.swing.*;
 import java.util.*;
 import org.jhotdraw.draw.*;
@@ -84,7 +84,7 @@ public class DrawingAttributeAction extends AbstractDrawingViewAction {
 
             @Override
             public String getPresentationName() {
-                String name = (String) getValue(Actions.UNDO_PRESENTATION_NAME_KEY);
+                String name = (String) getValue(ActionUtil.UNDO_PRESENTATION_NAME_KEY);
                 if (name == null) {
                     name = (String) getValue(AbstractAction.NAME);
                 }

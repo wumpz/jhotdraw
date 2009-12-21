@@ -250,6 +250,12 @@ public interface View {
      * @param disposable
      */
     public void addDisposable(Disposable disposable);
+    /**
+     * Removes a disposable object, which was previously added.
+     *
+     * @param disposable
+     */
+    public void removeDisposable(Disposable disposable);
 
     /**
      * Returns the uri which holds the document of the view.

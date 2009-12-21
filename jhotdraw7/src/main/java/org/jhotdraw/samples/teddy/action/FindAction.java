@@ -1,5 +1,5 @@
 /*
- * @(#)FindAction.java
+ * @(#)AbstractFindAction.java
  *
  * Copyright (c) 2005 by the original authors of JHotDraw
  * and all its contributors.
@@ -20,13 +20,13 @@ import org.jhotdraw.util.*;
 import java.awt.event.*;
 import javax.swing.*;
 /**
- * FindAction shows the find dialog.
+ * AbstractFindAction shows the find dialog.
  *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class FindAction extends AbstractAction {
-    public final static String ID = org.jhotdraw.app.action.FindAction.ID;
+    public final static String ID = org.jhotdraw.app.action.edit.AbstractFindAction.ID;
     private FindDialog findDialog;
     private Application app;
     private ResourceBundleUtil labels =

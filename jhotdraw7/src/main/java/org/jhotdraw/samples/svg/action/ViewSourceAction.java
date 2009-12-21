@@ -15,11 +15,17 @@ package org.jhotdraw.samples.svg.action;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.*;
 import java.util.prefs.Preferences;
+import javax.swing.event.UndoableEditEvent;
 import org.jhotdraw.app.*;
 import org.jhotdraw.app.action.*;
 import javax.swing.*;
+import javax.swing.event.UndoableEditListener;
+import org.jhotdraw.beans.Disposable;
+import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.samples.svg.*;
 import org.jhotdraw.samples.svg.io.*;
 import org.jhotdraw.util.ResourceBundleUtil;
@@ -47,51 +53,104 @@ public class ViewSourceAction extends AbstractViewAction {
     }
 
     public void actionPerformed(ActionEvent e) {
-        final SVGView p = (SVGView) getActiveView();
-        SVGOutputFormat format = new SVGOutputFormat();
-        format.setPrettyPrint(true);
-        ByteArrayOutputStream buf = new ByteArrayOutputStream();
-        try {
-                format.write(buf, p.getDrawing());
-                String source = buf.toString("UTF-8");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
+        final SVGView v = (SVGView) getActiveView();
+        Drawing drawing = v.getDrawing();
+        final JDialog dialog;
+        if (v.getClientProperty(DIALOG_CLIENT_PROPERTY) == null) {
+            dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(v.getComponent()));
+            v.putClientProperty(DIALOG_CLIENT_PROPERTY, dialog);
+            dialog.setTitle(labels.getFormatted("view.viewSource.titleText", v.getTitle()));
+            dialog.setResizable(true);
+            dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+            final JTextArea ta = new JTextArea();
+            ta.setWrapStyleWord(true);
+            ta.setLineWrap(true);
+            JScrollPane sp = new JScrollPane(ta);
+            //sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+            dialog.getContentPane().add(sp);
+            dialog.setSize(400, 400);
+            dialog.setLocationByPlatform(true);
+            updateSource(drawing, ta);
 
-            final JDialog dialog;
-            if (p.getClientProperty(DIALOG_CLIENT_PROPERTY) == null) {
-                dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(p.getComponent()));
-                p.putClientProperty(DIALOG_CLIENT_PROPERTY, dialog);
-                dialog.setTitle(p.getTitle());
-                dialog.setResizable(true);
-                dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-                JTextArea ta = new JTextArea(source);
-                ta.setWrapStyleWord(true);
-                ta.setLineWrap(true);
-                JScrollPane sp = new JScrollPane(ta);
-                //sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-                dialog.getContentPane().add(sp);
-                dialog.setSize(400, 400);
-                dialog.setLocationByPlatform(true);
-            } else {
-                dialog = (JDialog) p.getClientProperty(DIALOG_CLIENT_PROPERTY);
-                JTextArea ta = (JTextArea) ((JScrollPane) dialog.getContentPane().getComponent(0)).getViewport().getView();
-                 ta.setText(source);
-            }
+            final UndoableEditListener undoableEditHandler = new UndoableEditListener() {
 
-            Preferences prefs = PreferencesUtil.userNodeForPackage(getClass());
-            PreferencesUtil.installFramePrefsHandler(prefs, "viewSource", dialog);
+                @Override
+                public void undoableEditHappened(UndoableEditEvent e) {
+                    updateSource(v.getDrawing(), ta);
+                }
+            };
+            v.getDrawing().addUndoableEditListener(undoableEditHandler);
+
+            final PropertyChangeListener propertyChangeHandler = new PropertyChangeListener() {
+
+                @Override
+                public void propertyChange(PropertyChangeEvent evt) {
+                    if (evt.getPropertyName() == SVGView.DRAWING_PROPERTY) {
+                        Drawing oldDrawing = (Drawing) evt.getOldValue();
+                        if (oldDrawing != null) {
+                            oldDrawing.removeUndoableEditListener(undoableEditHandler);
+                        }
+                        Drawing newDrawing = (Drawing) evt.getNewValue();
+                        if (newDrawing != null) {
+                            newDrawing.addUndoableEditListener(undoableEditHandler);
+                        }
+                        updateSource(newDrawing, ta);
+                    } else if (evt.getPropertyName() == View.TITLE_PROPERTY) {
+                        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
+                        dialog.setTitle(labels.getFormatted("view.viewSource.titleText", v.getTitle()));
+                    }
+                }
+            };
+            v.addPropertyChangeListener(propertyChangeHandler);
+
+            final Disposable disposable = new Disposable() {
+
+                @Override
+                public void dispose() {
+                    if (v.getDrawing()!=null) {
+                    v.getDrawing().removeUndoableEditListener(undoableEditHandler);
+                    }
+                    v.removePropertyChangeListener(propertyChangeHandler);
+                    getApplication().removeWindow(dialog);
+                    v.putClientProperty(DIALOG_CLIENT_PROPERTY, null);
+                    v.removeDisposable(this);
+                }
+            };
 
             dialog.addWindowListener(new WindowAdapter() {
 
                 @Override
                 public void windowClosed(WindowEvent evt) {
-                    getApplication().removeWindow(dialog);
-                    p.putClientProperty(DIALOG_CLIENT_PROPERTY, null);
+                    disposable.dispose();
                 }
             });
 
-            getApplication().addWindow(dialog, getActiveView());
-            dialog.setVisible(true);
+            v.addDisposable(disposable);
+        } else {
+            dialog = (JDialog) v.getClientProperty(DIALOG_CLIENT_PROPERTY);
+            JTextArea ta = (JTextArea) ((JScrollPane) dialog.getContentPane().getComponent(0)).getViewport().getView();
+            updateSource(drawing, ta);
+        }
+
+        Preferences prefs = PreferencesUtil.userNodeForPackage(getClass());
+        PreferencesUtil.installFramePrefsHandler(prefs, "viewSource", dialog);
+
+        getApplication().addWindow(dialog, getActiveView());
+        dialog.setVisible(true);
+    }
+
+    private void updateSource(Drawing drawing, JTextArea textArea) {
+        SVGOutputFormat format = new SVGOutputFormat();
+        format.setPrettyPrint(true);
+        ByteArrayOutputStream buf = new ByteArrayOutputStream();
+        try {
+            format.write(buf, drawing);
+            String source = buf.toString("UTF-8");
+            textArea.setText(source);
+
         } catch (IOException ex) {
-            ex.printStackTrace();
+            textArea.setText(ex.toString());
         }
     }
 }

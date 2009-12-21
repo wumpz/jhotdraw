@@ -49,7 +49,7 @@ public class ToggleLineWrapAction extends AbstractViewAction {
     
     protected void updateView() {
         putValue(
-                Actions.SELECTED_KEY,
+                ActionUtil.SELECTED_KEY,
                 getActiveView() != null && getActiveView().isLineWrap()
                 );
     }

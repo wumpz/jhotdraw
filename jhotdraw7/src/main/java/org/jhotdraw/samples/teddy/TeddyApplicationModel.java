@@ -14,6 +14,7 @@
 
 package org.jhotdraw.samples.teddy;
 
+import org.jhotdraw.app.action.file.PrintFileAction;
 import javax.swing.*;
 import org.jhotdraw.app.*;
 import java.util.*;
@@ -39,7 +40,7 @@ public class TeddyApplicationModel extends DefaultApplicationModel {
         putAction(ToggleLineWrapAction.ID, new ToggleLineWrapAction(a));
         putAction(ToggleStatusBarAction.ID, new ToggleStatusBarAction(a));
         putAction(ToggleLineNumbersAction.ID, new ToggleLineNumbersAction(a));
-        putAction(PrintAction.ID, null);
+        putAction(PrintFileAction.ID, null);
     }
     
     @Override public void initView(Application a, View p) {
@@ -53,18 +54,16 @@ public class TeddyApplicationModel extends DefaultApplicationModel {
         JMenu m;
         JCheckBoxMenuItem cbmi;
         
-        mb.add(createEditMenu(a, p));
-        
         m = new JMenu();
         labels.configureMenu(m, "view");
         cbmi = new JCheckBoxMenuItem(getAction(ToggleLineWrapAction.ID));
-        Actions.configureJCheckBoxMenuItem(cbmi, getAction(ToggleLineWrapAction.ID));
+        ActionUtil.configureJCheckBoxMenuItem(cbmi, getAction(ToggleLineWrapAction.ID));
         m.add(cbmi);
         cbmi = new JCheckBoxMenuItem(getAction(ToggleLineNumbersAction.ID));
-        Actions.configureJCheckBoxMenuItem(cbmi, getAction(ToggleLineNumbersAction.ID));
+        ActionUtil.configureJCheckBoxMenuItem(cbmi, getAction(ToggleLineNumbersAction.ID));
         m.add(cbmi);
         cbmi = new JCheckBoxMenuItem(getAction(ToggleStatusBarAction.ID));
-        Actions.configureJCheckBoxMenuItem(cbmi, getAction(ToggleStatusBarAction.ID));
+        ActionUtil.configureJCheckBoxMenuItem(cbmi, getAction(ToggleStatusBarAction.ID));
         m.add(cbmi);
         mb.add(m);
         

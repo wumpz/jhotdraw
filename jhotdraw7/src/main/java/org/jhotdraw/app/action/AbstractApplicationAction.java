@@ -21,7 +21,7 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
 
 /**
  * This abstract class can be extended to implement an {@code Action} that acts
- * on behalf of an {@link Application}.
+ * on an {@link Application}.
  * <p>
  * If the {@code Application} object is disabled, the
  * {@code AbstractApplicationAction} is disabled as well.

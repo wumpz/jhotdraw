@@ -13,6 +13,13 @@
  */
 package org.jhotdraw.samples.svg;
 
+import org.jhotdraw.app.action.file.ExportFileAction;
+import org.jhotdraw.app.action.edit.PasteAction;
+import org.jhotdraw.app.action.edit.CutAction;
+import org.jhotdraw.app.action.edit.CopyAction;
+import org.jhotdraw.app.action.edit.DuplicateAction;
+import org.jhotdraw.app.action.edit.ClearSelectionAction;
+import org.jhotdraw.app.action.edit.SelectAllAction;
 import org.jhotdraw.app.action.*;
 import org.jhotdraw.samples.svg.action.*;
 import org.jhotdraw.samples.svg.figures.*;
@@ -74,7 +81,7 @@ public class SVGApplicationModel extends DefaultApplicationModel {
 
         putAction(ClearSelectionAction.ID, new ClearSelectionAction());
         putAction(ViewSourceAction.ID, new ViewSourceAction(a));
-        putAction(ExportAction.ID, new ExportAction(a));
+        putAction(ExportFileAction.ID, new ExportFileAction(a));
     }
 
     public Collection<Action> createDrawingActions(Application app, DrawingEditor editor) {
@@ -132,25 +139,27 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         return m;
     }
 
-    @Override
     protected JMenu createEditMenu(Application a, View p) {
+        ResourceBundleUtil appLabels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
 
-        JMenu m = super.createEditMenu(a, p);
+        JMenu m = a.createEditMenu(p);
+        if (m == null) {
+            m = new JMenu();
+            appLabels.configureMenu(m, "edit");
+        }
         JMenuItem mi;
-
-        mi = m.add(getAction(ClearSelectionAction.ID));
-        mi.setIcon(null);
 
         if (p != null) {
             mi = m.add(p.getAction(SelectSameAction.ID));
+        mi.setIcon(null);
         } else {
+            /*
             mi = new JMenuItem();
             drawLabels.configureMenu(mi, SelectSameAction.ID);
             mi.setEnabled(false);
-            m.add(mi);
+            m.add(mi);*/
         }
-        mi.setIcon(null);
         return m;
     }
 

@@ -27,10 +27,10 @@ import java.util.prefs.*;
 import javax.swing.*;
 import java.io.*;
 import java.net.URI;
-import org.jhotdraw.app.action.ClearRecentFilesAction;
-import org.jhotdraw.app.action.OpenAction;
-import org.jhotdraw.app.action.OpenDirectoryAction;
-import org.jhotdraw.app.action.OpenRecentAction;
+import org.jhotdraw.app.action.file.ClearRecentFilesMenuAction;
+import org.jhotdraw.app.action.file.OpenFileAction;
+import org.jhotdraw.app.action.file.OpenDirectoryAction;
+import org.jhotdraw.app.action.file.OpenRecentFileAction;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 
 /**
@@ -45,13 +45,12 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     private Collection<View> unmodifiableViews;
     private boolean isEnabled = true;
     protected ResourceBundleUtil labels;
-    private ApplicationModel model;
+    protected ApplicationModel model;
     private Preferences prefs;
     private View activeView;
     public final static String VIEW_COUNT_PROPERTY = "viewCount";
     private LinkedList<URI> recentFiles = new LinkedList<URI>();
     private final static int maxRecentFilesCount = 10;
-
 
     /** Creates a new instance. */
     public AbstractApplication() {
@@ -135,12 +134,9 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     /**
      * Gets the active view.
      * 
-     * @return The active view, can be null.
+     * @return The active view can be null.
      */
     public View getActiveView() {
-        if (activeView == null && views.size() > 0) {
-            return views.getLast();
-        }
         return activeView;
     }
 
@@ -164,10 +160,10 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     }
 
     public void remove(View p) {
-        if (p == activeView) {
+        hide(p);
+        if (p == getActiveView()) {
             setActiveView(null);
         }
-        hide(p);
         int oldCount = views.size();
         views.remove(p);
         p.setApplication(null);
@@ -185,7 +181,6 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     }
 
     protected void initViewActions(View p) {
-
     }
 
     public void dispose(View view) {
@@ -232,7 +227,6 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     public void configure(String[] args) {
     }
 
-
     public void removePalette(Window palette) {
     }
 
@@ -243,6 +237,42 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     }
 
     public void addWindow(Window window, View p) {
+    }
+
+    /** Adds the specified action as a menu item to the supplied menu. */
+    protected void addAction(JMenu m, String actionID) {
+        addAction(m, model.getAction(actionID));
+    }
+
+    /** Adds the specified action as a menu item to the supplied menu. */
+    protected void addAction(JMenu m, Action a) {
+        if (a != null) {
+            if (m.getClientProperty("needsSeparator") == Boolean.TRUE) {
+                m.addSeparator();
+                m.putClientProperty("needsSeparator", null);
+            }
+            JMenuItem mi;
+            mi = m.add(a);
+            mi.setIcon(null);
+            mi.setToolTipText(null);
+        }
+    }
+
+    /** Adds the specified action as a menu item to the supplied menu. */
+    protected void addMenuItem(JMenu m, JMenuItem mi) {
+        if (mi != null) {
+            if (m.getClientProperty("needsSeparator") == Boolean.TRUE) {
+                m.addSeparator();
+                m.putClientProperty("needsSeparator", null);
+            }
+            m.add(mi);
+        }
+    }
+
+    /** Adds a separator to the supplied menu. The separator will only
+    be added, if additional items are added using addAction. */
+    protected void maybeAddSeparator(JMenu m) {
+        m.putClientProperty("needsSeparator", Boolean.TRUE);
     }
 
     public java.util.List<URI> getRecentURIs() {
@@ -282,23 +312,25 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
                 Collections.unmodifiableList(oldValue),
                 Collections.unmodifiableList(recentFiles));
     }
+
     protected JMenu createOpenRecentFileMenu(View view) {
         JMenuItem mi;
         JMenu m;
 
         m = new JMenu();
-            labels.configureMenu(m, "file.openRecent");
-            m.setIcon(null);
-            m.add(getModel().getAction(ClearRecentFilesAction.ID));
+        labels.configureMenu(m, "file.openRecent");
+        m.setIcon(null);
+        m.add(model.getAction(ClearRecentFilesMenuAction.ID));
 
         OpenRecentMenuHandler handler = new OpenRecentMenuHandler(m, view);
         return m;
     }
+
     /** Updates the menu items in the "Open Recent" file menu. */
     private class OpenRecentMenuHandler implements PropertyChangeListener, Disposable {
 
         private JMenu openRecentMenu;
-        private LinkedList<OpenRecentAction> openRecentActions = new LinkedList<OpenRecentAction>();
+        private LinkedList<OpenRecentFileAction> openRecentActions = new LinkedList<OpenRecentFileAction>();
 
         public OpenRecentMenuHandler(JMenu openRecentMenu, View view) {
             this.openRecentMenu = openRecentMenu;
@@ -326,7 +358,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
                 openRecentMenu.remove(openRecentMenu.getItemCount() - 1);
 
                 // Dispose the actions and the menu items that are currently in the menu
-                for (OpenRecentAction action : openRecentActions) {
+                for (OpenRecentFileAction action : openRecentActions) {
                     action.dispose();
                 }
                 openRecentActions.clear();
@@ -334,7 +366,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
 
                 // Create new actions and add them to the menu
                 for (URI f : getRecentURIs()) {
-                    OpenRecentAction action = new OpenRecentAction(AbstractApplication.this, f);
+                    OpenRecentFileAction action = new OpenRecentFileAction(AbstractApplication.this, f);
                     openRecentMenu.add(action);
                     openRecentActions.add(action);
                 }
@@ -350,7 +382,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         public void dispose() {
             removePropertyChangeListener(this);
             // Dispose the actions and the menu items that are currently in the menu
-            for (OpenRecentAction action : openRecentActions) {
+            for (OpenRecentFileAction action : openRecentActions) {
                 action.dispose();
             }
             openRecentActions.clear();

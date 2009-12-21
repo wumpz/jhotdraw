@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
+import org.jhotdraw.app.action.edit.DuplicateAction;
 import org.jhotdraw.draw.tool.CreationTool;
 import org.jhotdraw.draw.tool.TextCreationTool;
 import org.jhotdraw.draw.tool.TextAreaCreationTool;

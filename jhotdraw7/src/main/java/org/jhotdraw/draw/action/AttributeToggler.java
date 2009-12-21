@@ -1,7 +1,7 @@
 /*
  * @(#)AttributeToggler.java
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -96,7 +96,7 @@ public class AttributeToggler<T> extends AbstractAction {
         UndoableEdit edit = new AbstractUndoableEdit() {
             @Override
             public String getPresentationName() {
-                String name = (String) getValue(Actions.UNDO_PRESENTATION_NAME_KEY);
+                String name = (String) getValue(ActionUtil.UNDO_PRESENTATION_NAME_KEY);
                 if (name == null) {
                     name = (String) getValue(AbstractAction.NAME);
                 }

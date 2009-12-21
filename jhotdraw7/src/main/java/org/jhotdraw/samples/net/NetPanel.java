@@ -1,7 +1,7 @@
 /*
  * @(#)NetPanel.java
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -14,6 +14,11 @@
 
 package org.jhotdraw.samples.net;
 
+import org.jhotdraw.app.action.edit.PasteAction;
+import org.jhotdraw.app.action.edit.CutAction;
+import org.jhotdraw.app.action.edit.DuplicateAction;
+import org.jhotdraw.app.action.edit.CopyAction;
+import org.jhotdraw.app.action.edit.SelectAllAction;
 import org.jhotdraw.draw.tool.TextCreationTool;
 import org.jhotdraw.draw.LineConnectionFigure;
 import org.jhotdraw.draw.tool.ConnectionTool;

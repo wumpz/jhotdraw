@@ -14,6 +14,9 @@
  */
 package org.jhotdraw.samples.svg;
 
+import org.jhotdraw.app.action.edit.RedoAction;
+import org.jhotdraw.app.action.edit.UndoAction;
+import org.jhotdraw.beans.Disposable;
 import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.print.DrawingPageable;
@@ -43,6 +46,7 @@ import org.jhotdraw.net.URIUtil;
  */
 public class SVGView extends AbstractView implements ExportableView {
 
+    public final static String DRAWING_PROPERTY = "drawing";
     public final static String GRID_VISIBLE_PROPERTY = "gridVisible";
     protected JFileURIChooser exportChooser;
     /**
@@ -72,7 +76,9 @@ public class SVGView extends AbstractView implements ExportableView {
         JPanel zoomButtonPanel = new JPanel(new BorderLayout());
 
         undo = svgPanel.getUndoRedoManager();
+        Drawing oldDrawing = svgPanel.getDrawing();
         svgPanel.setDrawing(createDrawing());
+        firePropertyChange(DRAWING_PROPERTY, oldDrawing, svgPanel.getDrawing());
         svgPanel.getDrawing().addUndoableEditListener(undo);
         initActions();
         undo.addPropertyChangeListener(propertyHandler = new PropertyChangeListener() {
@@ -134,7 +140,7 @@ public class SVGView extends AbstractView implements ExportableView {
      * Writes the view to the specified uri.
      */
     public void write(URI uri) throws IOException {
-            new SVGOutputFormat().write(new File(uri), svgPanel.getDrawing());
+        new SVGOutputFormat().write(new File(uri), svgPanel.getDrawing());
     }
 
     /**
@@ -142,7 +148,7 @@ public class SVGView extends AbstractView implements ExportableView {
      */
     public void read(final URI uri) throws IOException {
         try {
-            JFileURIChooser fc = (JFileURIChooser)getOpenChooser();
+            JFileURIChooser fc = (JFileURIChooser) getOpenChooser();
 
             final Drawing drawing = createDrawing();
 
@@ -181,7 +187,9 @@ public class SVGView extends AbstractView implements ExportableView {
             SwingUtilities.invokeAndWait(new Runnable() {
 
                 public void run() {
+                    Drawing oldDrawing = svgPanel.getDrawing();
                     svgPanel.setDrawing(drawing);
+                    firePropertyChange(DRAWING_PROPERTY, oldDrawing, svgPanel.getDrawing());
                     undo.discardAllEdits();
                 }
             });
@@ -216,6 +224,7 @@ public class SVGView extends AbstractView implements ExportableView {
                 public void run() {
                     Drawing oldDrawing = svgPanel.getDrawing();
                     svgPanel.setDrawing(newDrawing);
+                    firePropertyChange(DRAWING_PROPERTY, oldDrawing, newDrawing);
                     if (oldDrawing != null) {
                         oldDrawing.removeAllChildren();
                     }
@@ -323,8 +332,8 @@ public class SVGView extends AbstractView implements ExportableView {
 
     @Override
     public boolean canSaveTo(URI file) {
-        return file.getPath().endsWith(".svg") ||
-                file.getPath().endsWith(".svgz");
+        return file.getPath().endsWith(".svg")
+                || file.getPath().endsWith(".svgz");
     }
 
     /** This method is called from within the constructor to
@@ -350,7 +359,7 @@ public class SVGView extends AbstractView implements ExportableView {
     }
 
     public void export(URI uri, javax.swing.filechooser.FileFilter filter, Component accessory) throws IOException {
-File f =new File(uri);
+        File f = new File(uri);
         OutputFormat format = fileFilterOutputFormatMap.get(filter);
 
         if (!f.getName().endsWith("." + format.getFileExtension())) {

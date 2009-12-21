@@ -122,6 +122,7 @@ public abstract class AbstractView extends JPanel implements View {
      * Gets rid of all the resources of the view.
      * No other methods should be invoked on the view afterwards.
      */
+            @SuppressWarnings("unchecked")
     public void dispose() {
         if (executor != null) {
             executor.shutdown();
@@ -129,7 +130,7 @@ public abstract class AbstractView extends JPanel implements View {
         }
 
         if (disposables != null) {
-            for (Disposable d : disposables) {
+            for (Disposable d : (LinkedList<Disposable>)disposables.clone()) {
                 d.dispose();
             }
             disposables = null;
@@ -147,6 +148,7 @@ public abstract class AbstractView extends JPanel implements View {
     public boolean canSaveTo(URI uri) {
         return true;
     }
+
     public URI getURI() {
         return uri;
     }
@@ -173,7 +175,7 @@ public abstract class AbstractView extends JPanel implements View {
     protected URIChooser createOpenChooser() {
         URIChooser c = new JFileURIChooser();
         if (preferences != null) {
-                c.setSelectedURI(new File(preferences.get("projectFile", System.getProperty("user.home"))).toURI());
+            c.setSelectedURI(new File(preferences.get("projectFile", System.getProperty("user.home"))).toURI());
         }
         return c;
     }
@@ -195,8 +197,6 @@ public abstract class AbstractView extends JPanel implements View {
         }
         return c;
     }
-
-
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -317,5 +317,19 @@ public abstract class AbstractView extends JPanel implements View {
             disposables = new LinkedList<Disposable>();
         }
         disposables.add(disposable);
+    }
+
+    /**
+     * Removes a disposable object, which was previously added.
+     *
+     * @param disposable
+     */
+    public void removeDisposable(Disposable disposable) {
+        if (disposables != null) {
+            disposables.remove(disposable);
+            if (disposables.isEmpty()) {
+                disposables = null;
+            }
+        }
     }
 }

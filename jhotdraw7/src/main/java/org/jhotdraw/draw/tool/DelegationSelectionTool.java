@@ -1,7 +1,7 @@
 /*
  * @(#)DelegationSelectionTool.java
  *
- * Copyright (c) 1996-2008 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -20,7 +20,7 @@ import java.awt.geom.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
-import org.jhotdraw.app.action.Actions;
+import org.jhotdraw.app.action.ActionUtil;
 
 /**
  * A SelectionTool, which recognizes double clicks and popup menu triggers.
@@ -214,9 +214,9 @@ public class DelegationSelectionTool extends SelectionTool {
 
         HashMap<Object, ButtonGroup> buttonGroups = new HashMap<Object, ButtonGroup>();
         for (Action a : popupActions) {
-            if (a != null && a.getValue(Actions.SUBMENU_KEY) != null) {
-                if (submenuName == null || !submenuName.equals(a.getValue(Actions.SUBMENU_KEY))) {
-                    submenuName = (String) a.getValue(Actions.SUBMENU_KEY);
+            if (a != null && a.getValue(ActionUtil.SUBMENU_KEY) != null) {
+                if (submenuName == null || !submenuName.equals(a.getValue(ActionUtil.SUBMENU_KEY))) {
+                    submenuName = (String) a.getValue(ActionUtil.SUBMENU_KEY);
                     submenu = new JMenu(submenuName);
                     menu.add(submenu);
                 }
@@ -233,18 +233,18 @@ public class DelegationSelectionTool extends SelectionTool {
             } else {
                 AbstractButton button;
 
-                if (a.getValue(Actions.BUTTON_GROUP_KEY) != null) {
-                    ButtonGroup bg = buttonGroups.get(a.getValue(Actions.BUTTON_GROUP_KEY));
+                if (a.getValue(ActionUtil.BUTTON_GROUP_KEY) != null) {
+                    ButtonGroup bg = buttonGroups.get(a.getValue(ActionUtil.BUTTON_GROUP_KEY));
                     if (bg == null) {
                         bg = new ButtonGroup();
-                        buttonGroups.put(a.getValue(Actions.BUTTON_GROUP_KEY), bg);
+                        buttonGroups.put(a.getValue(ActionUtil.BUTTON_GROUP_KEY), bg);
                     }
                     button = new JRadioButtonMenuItem(a);
                     bg.add(button);
-                    button.setSelected(a.getValue(Actions.SELECTED_KEY) == Boolean.TRUE);
-                } else if (a.getValue(Actions.SELECTED_KEY) != null) {
+                    button.setSelected(a.getValue(ActionUtil.SELECTED_KEY) == Boolean.TRUE);
+                } else if (a.getValue(ActionUtil.SELECTED_KEY) != null) {
                     button = new JCheckBoxMenuItem(a);
-                    button.setSelected(a.getValue(Actions.SELECTED_KEY) == Boolean.TRUE);
+                    button.setSelected(a.getValue(ActionUtil.SELECTED_KEY) == Boolean.TRUE);
                 } else {
                     button = new JMenuItem(a);
                 }

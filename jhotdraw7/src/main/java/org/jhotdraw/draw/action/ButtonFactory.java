@@ -13,6 +13,10 @@
  */
 package org.jhotdraw.draw.action;
 
+import org.jhotdraw.app.action.edit.PasteAction;
+import org.jhotdraw.app.action.edit.CutAction;
+import org.jhotdraw.app.action.edit.CopyAction;
+import org.jhotdraw.app.action.edit.DuplicateAction;
 import org.jhotdraw.draw.tool.Tool;
 import org.jhotdraw.draw.tool.DelegationSelectionTool;
 import org.jhotdraw.draw.event.ToolEvent;
@@ -1101,7 +1105,7 @@ public class ButtonFactory {
                     new Double(widths[i]),
                     label,
                     icon);
-            a.putValue(Actions.UNDO_PRESENTATION_NAME_KEY, labels.getString("attribute.strokeWidth.text"));
+            a.putValue(ActionUtil.UNDO_PRESENTATION_NAME_KEY, labels.getString("attribute.strokeWidth.text"));
             AbstractButton btn = strokeWidthPopupButton.add(a);
             btn.setDisabledIcon(icon);
         }
@@ -1425,7 +1429,7 @@ public class ButtonFactory {
         AbstractAction a = new AttributeToggler<Boolean>(editor,
                 FONT_BOLD, Boolean.TRUE, Boolean.FALSE,
                 new StyledEditorKit.BoldAction());
-        a.putValue(Actions.UNDO_PRESENTATION_NAME_KEY, labels.getString("attribute.fontStyle.bold.text"));
+        a.putValue(ActionUtil.UNDO_PRESENTATION_NAME_KEY, labels.getString("attribute.fontStyle.bold.text"));
         btn.addActionListener(a);
         return btn;
     }
@@ -1451,7 +1455,7 @@ public class ButtonFactory {
         AbstractAction a = new AttributeToggler<Boolean>(editor,
                 FONT_ITALIC, Boolean.TRUE, Boolean.FALSE,
                 new StyledEditorKit.BoldAction());
-        a.putValue(Actions.UNDO_PRESENTATION_NAME_KEY, labels.getString("attribute.fontStyle.italic.text"));
+        a.putValue(ActionUtil.UNDO_PRESENTATION_NAME_KEY, labels.getString("attribute.fontStyle.italic.text"));
         btn.addActionListener(a);
         return btn;
     }
@@ -1477,7 +1481,7 @@ public class ButtonFactory {
         AbstractAction a = new AttributeToggler<Boolean>(editor,
                 FONT_UNDERLINE, Boolean.TRUE, Boolean.FALSE,
                 new StyledEditorKit.BoldAction());
-        a.putValue(Actions.UNDO_PRESENTATION_NAME_KEY, labels.getString("attribute.fontStyle.underline.text"));
+        a.putValue(ActionUtil.UNDO_PRESENTATION_NAME_KEY, labels.getString("attribute.fontStyle.underline.text"));
         btn.addActionListener(a);
         return btn;
     }

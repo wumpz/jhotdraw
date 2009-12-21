@@ -13,6 +13,13 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
+import org.jhotdraw.app.action.edit.PasteAction;
+import org.jhotdraw.app.action.edit.CutAction;
+import org.jhotdraw.app.action.edit.DeleteAction;
+import org.jhotdraw.app.action.edit.DuplicateAction;
+import org.jhotdraw.app.action.edit.CopyAction;
+import org.jhotdraw.app.action.edit.ClearSelectionAction;
+import org.jhotdraw.app.action.edit.SelectAllAction;
 import java.util.prefs.*;
 import javax.swing.border.*;
 import org.jhotdraw.gui.*;

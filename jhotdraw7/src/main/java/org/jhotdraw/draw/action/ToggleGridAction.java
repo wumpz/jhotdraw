@@ -1,7 +1,7 @@
 /*
  * @(#)ToggleGridAction.java
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -47,6 +47,6 @@ public class ToggleGridAction extends AbstractDrawingViewAction {
     @Override
     protected void updateViewState() {
         DrawingView view = getView();
-        putValue(Actions.SELECTED_KEY, view != null && view.isConstrainerVisible());
+        putValue(ActionUtil.SELECTED_KEY, view != null && view.isConstrainerVisible());
     }
 }

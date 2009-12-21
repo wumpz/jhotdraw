@@ -128,11 +128,11 @@ public class OSXAdapter implements InvocationHandler {
     public static void setQuitHandler(ActionListener aboutHandler) {
         setHandler(new OSXAdapter("handleQuit", aboutHandler) {
 
-            // Override OSXAdapter.callTarget to always return true.
+            // Override OSXAdapter.callTarget to always return false.
             @Override
             public boolean callTarget(Object appleEvent)  throws InvocationTargetException, IllegalAccessException {
                 super.callTarget(appleEvent);
-                return true;
+                return false;
             }
         });
     }

@@ -52,7 +52,7 @@ public class ToggleLineNumbersAction extends AbstractViewAction {
     @Override
     protected void updateView() {
         putValue(
-                Actions.SELECTED_KEY,
+                ActionUtil.SELECTED_KEY,
                 getActiveView() != null && getActiveView().isLineNumbersVisible()
                 );
     }

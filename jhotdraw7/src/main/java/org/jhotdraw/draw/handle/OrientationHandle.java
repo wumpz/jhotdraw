@@ -1,7 +1,7 @@
 /*
  * @(#)OrientationHandle.java
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -128,8 +128,9 @@ public class OrientationHandle extends AbstractHandle {
                 newValue = AttributeKeys.Orientation.NORTH_WEST;
                 break;
         }
-        // FIXME - Add undo redo support
+        getOwner().willChange();
         getOwner().set(ORIENTATION, newValue);
+        getOwner().changed();
         updateBounds();
     }
     @Override

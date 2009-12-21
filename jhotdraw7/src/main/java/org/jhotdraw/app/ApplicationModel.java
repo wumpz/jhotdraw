@@ -1,7 +1,7 @@
 /*
  * @(#)ApplicationModel.java
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -90,6 +90,12 @@ public interface ApplicationModel {
      * <p>
      * Depending on the document interface of the application, this method
      * may be invoked only once for the application, or for each opened view.
+     * <p>
+     * If this method creates a menu with the same title as a standard menu
+     * created by {@code Application}, the menu created by this method is used.
+     * This method can create a standard menu from scratch, or call one of the
+     * createMenu-methods in {@code Application} and add additional items
+     * to the menu.
      * <p>
      * @param a Application.
      * @param v The view for which the toolbars need to be created, or null

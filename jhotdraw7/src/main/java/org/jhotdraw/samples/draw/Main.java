@@ -1,7 +1,7 @@
 /*
  * @(#)Main.java
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -14,6 +14,7 @@
 
 package org.jhotdraw.samples.draw;
 
+import org.jhotdraw.util.ResourceBundleUtil;
 import org.jhotdraw.app.*;
 /**
  * Main.
@@ -25,6 +26,8 @@ public class Main {
     
     /** Creates a new instance. */
     public static void main(String[] args) {
+        ResourceBundleUtil.setVerbose(true);
+
         Application app;
         String os = System.getProperty("os.name").toLowerCase();
         if (os.startsWith("mac")) {

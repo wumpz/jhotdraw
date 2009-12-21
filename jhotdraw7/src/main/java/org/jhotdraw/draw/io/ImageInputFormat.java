@@ -1,7 +1,7 @@
 /*
  * @(#)ImageInputFormat.java
  *
- * Copyright (c) 1996-2008 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -66,45 +66,57 @@ public class ImageInputFormat implements InputFormat {
     /**
      * File name extension used for the file filter.
      */
-    private String fileExtension;
+    private String[] fileExtensions;
     /**
      * Image IO image format name.
      */
     private String formatName;
     /**
-     * The image type must match the output format, for example, PNG supports
-     * BufferedImage.TYPE_INT_ARGB whereas GIF needs BufferedImage.TYPE_
+     * The mime types which must be matched.
      */
-    private int imageType;
+    private String[] mimeTypes;
 
-    /** Creates a new image output format for Portable Network Graphics PNG. */
+    /** Creates a new image input format for all formats supported by
+     * {@code javax.imageio.ImageIO}. */
     public ImageInputFormat(ImageHolderFigure prototype) {
-        this(prototype, "PNG", "Portable Network Graphics (PNG)", "png", BufferedImage.TYPE_INT_ARGB);
+        this(prototype, "Image", "Image", ImageIO.getReaderFileSuffixes(), ImageIO.getReaderMIMETypes());
     }
 
-    /** Creates a new image output format for the specified image format.
+    /** Creates a new image input format for the specified image format.
      *
      * @param formatName The format name for the javax.imageio.ImageIO object.
      * @param description The format description to be used for the file filter.
-     * @param fileExtension The file extension to be used for file filter.
-     * @param bufferedImageType The BufferedImage type used to produce the image.
-     *          The value of this parameter must match with the format name.
+     * @param fileExtension The file extension to be used for the file filter.
+     * @param mimeType The mime type used for filtering data flavors from
+     * Transferable objects.
      */
     public ImageInputFormat(ImageHolderFigure prototype, String formatName, String description, String fileExtension,
-            int bufferedImageType) {
+            String mimeType) {
+        this(prototype, formatName, description, new String[]{fileExtension}, new String[]{mimeType});
+    }
+
+    /** Creates a new image input format for the specified image format.
+     *
+     * @param formatName The format name for the javax.imageio.ImageIO object.
+     * @param description The format description to be used for the file filter.
+     * @param fileExtensions The file extensions to be used for the file filter.
+     * @param mimeTypes The mime typse used for filtering data flavors from
+     * Transferable objects.
+     */
+    public ImageInputFormat(ImageHolderFigure prototype, String formatName, String description, String fileExtensions[], String[] mimeTypes) {
         this.prototype = prototype;
         this.formatName = formatName;
         this.description = description;
-        this.fileExtension = fileExtension;
-        this.imageType = bufferedImageType;
+        this.fileExtensions = fileExtensions;
+        this.mimeTypes = mimeTypes;
     }
 
     public javax.swing.filechooser.FileFilter getFileFilter() {
-        return new ExtensionFileFilter(description, fileExtension);
+        return new ExtensionFileFilter(description, fileExtensions);
     }
 
-    public String getFileExtension() {
-        return fileExtension;
+    public String[] getFileExtensions() {
+        return fileExtensions;
     }
 
     public JComponent getInputFormatAccessory() {
@@ -153,94 +165,58 @@ public class ImageInputFormat implements InputFormat {
     }
 
     public boolean isDataFlavorSupported(DataFlavor flavor) {
-        try {
-            return flavor.equals(DataFlavor.imageFlavor) ||//
-                    flavor.equals(ImageTransferable.IMAGE_PNG_FLAVOR) ||//
-                    flavor.equals(new DataFlavor("application/octet-stream; type=public.png"));
-        } catch (ClassNotFoundException ex) {
-            return false;
+        if (DataFlavor.imageFlavor.match(flavor)) {
+            return true;
         }
+        for (String mimeType : mimeTypes) {
+            if (flavor.isMimeTypeEqual(mimeType)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void read(Transferable t, Drawing drawing, boolean replace) throws UnsupportedFlavorException, IOException {
-        // 1. Try to read the image using the Java Image Flavor
-        // This causes a NoSuchMethodError to be thrown on Mac OS X 10.5.2.
-        if (t.isDataFlavorSupported(DataFlavor.imageFlavor)) {
-            try {
-                Image img = (Image) t.getTransferData(DataFlavor.imageFlavor);
-                img = Images.toBufferedImage(img);
-                ImageHolderFigure figure = (ImageHolderFigure) prototype.clone();
-                figure.setBufferedImage((BufferedImage) img);
-                figure.setBounds(
-                        new Point2D.Double(0, 0),
-                        new Point2D.Double(
-                        figure.getBufferedImage().getWidth(),
-                        figure.getBufferedImage().getHeight()));
-                LinkedList<Figure> list = new LinkedList<Figure>();
-                list.add(figure);
-                if (replace) {
-                    drawing.removeAllChildren();
-                    drawing.set(CANVAS_WIDTH, figure.getBounds().width);
-                    drawing.set(CANVAS_HEIGHT, figure.getBounds().height);
+        DataFlavor importFlavor = null;
+        SearchLoop:
+        for (DataFlavor flavor : t.getTransferDataFlavors()) {
+            if (DataFlavor.imageFlavor.match(flavor)) {
+                importFlavor = flavor;
+                break SearchLoop;
+            }
+            for (String mimeType : mimeTypes) {
+                if (flavor.isMimeTypeEqual(mimeType)) {
+                    importFlavor = flavor;
+                    break SearchLoop;
                 }
-                drawing.addAll(list);
-                return;
-            } catch (Throwable e) {
-                // no need to do anything here, because we try to read the
-                // image/png below.
-                //e.printStackTrace();
             }
         }
 
-        DataFlavor imgFlavor = null;
-        try {
-            // 2. Try to read the image using a image input stream flavor.
-            DataFlavor[] flavors = new DataFlavor[]{//
-                ImageTransferable.IMAGE_PNG_FLAVOR,//
-                new DataFlavor("application/octet-stream; type=public.png")};
-
-            for (DataFlavor f : flavors) {
-                if (t.isDataFlavorSupported(f)) {
-                    imgFlavor = f;
-                    break;
-                }
-            }
-
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
+        Object data = t.getTransferData(importFlavor);
+        Image img = null;
+        if (data instanceof Image) {
+            img = (Image) data;
+        } else if (data instanceof InputStream) {
+            img = ImageIO.read((InputStream) data);
+        }
+        if (img == null) {
+            throw new IOException("Unsupported data format " + importFlavor);
         }
 
-        if (imgFlavor != null) {
-            try {
-                InputStream in = (InputStream) t.getTransferData(imgFlavor);
-                Image img = ImageIO.read(in);
-                img =
-                        Images.toBufferedImage(img);
-                ImageHolderFigure figure = (ImageHolderFigure) prototype.clone();
-                figure.setBufferedImage((BufferedImage) img);
-                figure.setBounds(
-                        new Point2D.Double(0, 0),
-                        new Point2D.Double(
-                        figure.getBufferedImage().getWidth(),
-                        figure.getBufferedImage().getHeight()));
-                LinkedList<Figure> list = new LinkedList<Figure>();
-                list.add(figure);
-                if (replace) {
-                    drawing.removeAllChildren();
-                    drawing.set(CANVAS_WIDTH, figure.getBounds().width);
-                    drawing.set(CANVAS_HEIGHT, figure.getBounds().height);
-                }
-
-                drawing.addAll(list);
-            } catch (Throwable e) {
-                e.printStackTrace();
-                IOException ex = new IOException("Couldn't import image as image/png flavor");
-                ex.initCause(e);
-                throw ex;
-            }
-
-        } else {
-            throw new IOException("Couldn't import image.");
+        ImageHolderFigure figure = (ImageHolderFigure) prototype.clone();
+        figure.setBufferedImage(Images.toBufferedImage(img));
+        figure.setBounds(
+                new Point2D.Double(0, 0),
+                new Point2D.Double(
+                figure.getBufferedImage().getWidth(),
+                figure.getBufferedImage().getHeight()));
+        LinkedList<Figure> list = new LinkedList<Figure>();
+        list.add(figure);
+        if (replace) {
+            drawing.removeAllChildren();
+            drawing.set(CANVAS_WIDTH, figure.getBounds().width);
+            drawing.set(CANVAS_HEIGHT, figure.getBounds().height);
         }
+        drawing.addAll(list);
     }
 }

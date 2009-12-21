@@ -13,6 +13,25 @@
  */
 package org.jhotdraw.app;
 
+import org.jhotdraw.app.action.app.AbstractPreferencesAction;
+import org.jhotdraw.app.action.window.TogglePaletteAction;
+import org.jhotdraw.app.action.window.WindowFocusAction;
+import org.jhotdraw.app.action.window.WindowMaximizeAction;
+import org.jhotdraw.app.action.window.WindowMinimizeAction;
+import org.jhotdraw.app.action.file.SaveFileAsAction;
+import org.jhotdraw.app.action.file.SaveFileAction;
+import org.jhotdraw.app.action.file.PrintFileAction;
+import org.jhotdraw.app.action.file.NewFileAction;
+import org.jhotdraw.app.action.file.OpenFileAction;
+import org.jhotdraw.app.action.file.CloseFileAction;
+import org.jhotdraw.app.action.file.OpenDirectoryAction;
+import org.jhotdraw.app.action.file.ExportFileAction;
+import org.jhotdraw.app.action.app.OpenApplicationAction;
+import org.jhotdraw.app.action.app.OpenApplicationFileAction;
+import org.jhotdraw.app.action.app.AboutAction;
+import org.jhotdraw.app.action.app.ExitAction;
+import org.jhotdraw.app.action.app.PrintApplicationFileAction;
+import org.jhotdraw.app.action.app.ReOpenApplicationAction;
 import org.jhotdraw.app.osx.OSXPaletteHandler;
 import org.jhotdraw.gui.Worker;
 import org.jhotdraw.util.*;
@@ -25,7 +44,22 @@ import java.awt.*;
 import javax.swing.*;
 import java.io.*;
 import java.net.URI;
-import org.jhotdraw.app.action.*;
+import org.jhotdraw.app.action.ActionUtil;
+import org.jhotdraw.app.action.edit.AbstractFindAction;
+import org.jhotdraw.app.action.edit.ClearSelectionAction;
+import org.jhotdraw.app.action.edit.CopyAction;
+import org.jhotdraw.app.action.edit.CutAction;
+import org.jhotdraw.app.action.edit.DeleteAction;
+import org.jhotdraw.app.action.edit.DuplicateAction;
+import org.jhotdraw.app.action.edit.PasteAction;
+import org.jhotdraw.app.action.edit.RedoAction;
+import org.jhotdraw.app.action.edit.SelectAllAction;
+import org.jhotdraw.app.action.edit.UndoAction;
+import org.jhotdraw.app.action.file.ClearFileAction;
+import org.jhotdraw.app.action.file.ClearRecentFilesMenuAction;
+import org.jhotdraw.app.action.file.LoadDirectoryAction;
+import org.jhotdraw.app.action.file.LoadFileAction;
+import org.jhotdraw.app.action.file.NewWindowAction;
 import org.jhotdraw.app.osx.OSXAdapter;
 import org.jhotdraw.beans.Disposable;
 import org.jhotdraw.net.URIUtil;
@@ -64,22 +98,22 @@ import org.jhotdraw.net.URIUtil;
  * The <b>file menu</b> has the following standard menu items:
  * <pre>
  *  New ({@link NewFileAction#ID}})
- *  Open... ({@link OpenAction#ID}})
+ *  Open... ({@link OpenFileAction#ID}})
  *  Open Recent &gt; "Filename" ({@link OpenRecentAction#ID})
  *  -
- *  Close ({@link CloseAction#ID})
- *  Save ({@link SaveAction#ID})
- *  Save As... ({@link SaveAsAction#ID})
+ *  Close ({@link CloseFileAction#ID})
+ *  Save ({@link SaveFileAction#ID})
+ *  Save As... ({@link SaveFileAsAction#ID})
  *  -
- *  Print... ({@link PrintAction#ID})
+ *  Print... ({@link PrintFileAction#ID})
  * </pre>
  *
  * The <b>window menu</b> has the following standard menu items:
  * <pre>
- *  Minimize ({@link MinimizeAction#ID})
- *  Zoom ({@link MaximizeAction#ID})
+ *  Minimize ({@link WindowMinimizeAction#ID})
+ *  Zoom ({@link WindowMaximizeAction#ID})
  *  -
- *  "Filename" ({@link FocusAction#ID})
+ *  "Filename" ({@link WindowFocusAction#ID})
  * </pre>
  *
  * The menus provided by the {@code ApplicationModel} are inserted between
@@ -105,7 +139,6 @@ public class DefaultOSXApplication extends AbstractApplication {
     @Override
     public void init() {
         super.init();
-
         ResourceBundleUtil.putPropertyNameModifier("os", "mac", "default");
         prefs = PreferencesUtil.userNodeForPackage((getModel() == null) ? getClass() : getModel().getClass());
         initLookAndFeel();
@@ -114,16 +147,9 @@ public class DefaultOSXApplication extends AbstractApplication {
         initLabels();
         ApplicationModel m = getModel();
 
-        // Set OSX-specific actions
-        m.putAction(OSXOpenApplicationAction.ID, new OSXOpenApplicationAction(this));
-        m.putAction(OSXReOpenApplicationAction.ID, new OSXReOpenApplicationAction(this));
-        m.putAction(OSXOpenFileAction.ID, new OSXOpenFileAction(this));
-        m.putAction(OSXPrintFileAction.ID, new OSXPrintFileAction(this));
-
-        // Init model
-        m.initApplication(this);
-
         paletteActions = new LinkedList<Action>();
+        initApplicationActions(getModel());
+        getModel().initApplication(this);
         initPalettes(paletteActions);
         initScreenMenuBar();
     }
@@ -157,11 +183,11 @@ public class DefaultOSXApplication extends AbstractApplication {
     }
 
     protected void initViewActions(View p) {
-        p.putAction(FocusAction.ID, new FocusAction(p));
+        p.putAction(WindowFocusAction.ID, new WindowFocusAction(p));
     }
 
     public void dispose(View p) {
-        FocusAction a = (FocusAction) p.getAction(FocusAction.ID);
+        WindowFocusAction a = (WindowFocusAction) p.getAction(WindowFocusAction.ID);
         if (a != null) {
             a.dispose();
         }
@@ -204,7 +230,8 @@ public class DefaultOSXApplication extends AbstractApplication {
             view.setShowing(true);
             JFrame f = new JFrame();
             f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            f.setPreferredSize(new Dimension(400, 400));
+            f.setPreferredSize(new Dimension(600, 400));
+            f.setSize(f.getPreferredSize());
             updateViewTitle(view, f);
 
             PreferencesUtil.installFramePrefsHandler(prefs, "view", f);
@@ -273,32 +300,71 @@ public class DefaultOSXApplication extends AbstractApplication {
 
     /**
      * Creates a menu bar.
-     *
-     * @param p The view for which the menu bar is created. This may be
-     * <code>null</code> if the menu bar is attached to an application
-     * component, such as the screen menu bar or a floating palette window.
      */
-    protected JMenuBar createMenuBar(View p) {
+    protected JMenuBar createMenuBar(View v) {
         JMenuBar mb = new JMenuBar();
 
-        // Add the file menu
-        mb.add(createFileMenu(p));
-
-        // Add menus provided by the application model except the help menu
+        // Get menus from application model
+        JMenu fileMenu = null;
+        JMenu editMenu = null;
         JMenu helpMenu = null;
+        JMenu viewMenu = null;
+        JMenu windowMenu = null;
+        String fileMenuText = labels.getString("file.text");
+        String editMenuText = labels.getString("edit.text");
+        String viewMenuText = labels.getString("view.text");
+        String windowMenuText = labels.getString("window.text");
         String helpMenuText = labels.getString("help.text");
-        for (JMenu mm : getModel().createMenus(this, p)) {
-            if (mm.getText().equals(helpMenuText)) {
+        for (JMenu mm : getModel().createMenus(this, null)) {
+            if (mm.getText().equals(fileMenuText)) {
+                fileMenu = mm;
+                continue;
+            } else if (mm.getText().equals(editMenuText)) {
+                editMenu = mm;
+                continue;
+            } else if (mm.getText().equals(viewMenuText)) {
+                viewMenu = mm;
+                continue;
+            } else if (mm.getText().equals(windowMenuText)) {
+                windowMenu = mm;
+                continue;
+            } else if (mm.getText().equals(helpMenuText)) {
                 helpMenu = mm;
-            } else {
-                mb.add(mm);
+                continue;
             }
+            mb.add(mm);
         }
 
-        // Add the window menu b
-        mb.add(createWindowMenu(p));
+        // Create missing standard menus
+        if (fileMenu == null) {
+            fileMenu = createFileMenu(v);
+        }
+        if (editMenu == null) {
+            editMenu = createEditMenu(v);
+        }
+        if (viewMenu == null) {
+            viewMenu = createViewMenu(v);
+        }
+        if (windowMenu == null) {
+            windowMenu = createWindowMenu(v);
+        }
+        if (helpMenu == null) {
+            helpMenu = createHelpMenu(v);
+        }
 
-        // Add the help menu
+        // Insert standard menus into menu bar
+        if (fileMenu != null) {
+            mb.add(fileMenu, 0);
+        }
+        if (editMenu != null) {
+            mb.add(editMenu, Math.min(1, mb.getComponentCount()));
+        }
+        if (viewMenu != null) {
+            mb.add(viewMenu, Math.min(2, mb.getComponentCount()));
+        }
+        if (windowMenu != null) {
+            mb.add(windowMenu);
+        }
         if (helpMenu != null) {
             mb.add(helpMenu);
         }
@@ -306,7 +372,13 @@ public class DefaultOSXApplication extends AbstractApplication {
         return mb;
     }
 
-    protected JMenu createWindowMenu(View view) {
+    @Override
+    public JMenu createViewMenu(View view) {
+        return null;
+    }
+
+    @Override
+    public JMenu createWindowMenu(View view) {
         ApplicationModel model = getModel();
 
         JMenu m;
@@ -322,56 +394,66 @@ public class DefaultOSXApplication extends AbstractApplication {
         return m;
     }
 
-    protected JMenu createFileMenu(View view) {
-        //ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
-        ApplicationModel model = getModel();
-
+    @Override
+    public JMenu createFileMenu(View view) {
+        JMenuBar mb = new JMenuBar();
         JMenu m;
-        JMenuItem mi;
 
         m = new JMenu();
         labels.configureMenu(m, "file");
-        if (model.getAction(NewFileAction.ID) != null) {
-            mi = m.add(model.getAction(NewFileAction.ID));
-            mi.setIcon(null);
-        }
-        if (model.getAction(OpenAction.ID) != null) {
-            mi = m.add(model.getAction(OpenAction.ID));
-            mi.setIcon(null);
-        }
-        if (model.getAction(OpenDirectoryAction.ID) != null) {
-            mi = m.add(model.getAction(OpenDirectoryAction.ID));
-            mi.setIcon(null);
-        }
-        if (model.getAction(OpenAction.ID) != null || model.getAction(OpenDirectoryAction.ID) != null) {
-            m.add(createOpenRecentFileMenu(view));
-        }
-        if (m.getPopupMenu().getComponentCount() > 0) {
-            m.addSeparator();
-        }
-        if (model.getAction(CloseAction.ID) != null) {
-            mi = m.add(model.getAction(CloseAction.ID));
-            mi.setIcon(null);
-        }
-        if (model.getAction(SaveAction.ID) != null) {
-            mi = m.add(model.getAction(SaveAction.ID));
-            mi.setIcon(null);
-        }
-        if (model.getAction(SaveAsAction.ID) != null) {
-            mi = m.add(model.getAction(SaveAsAction.ID));
-            mi.setIcon(null);
-        }
-        if (model.getAction(ExportAction.ID) != null) {
-            mi = m.add(model.getAction(ExportAction.ID));
-            mi.setIcon(null);
-        }
-        if (model.getAction(PrintAction.ID) != null) {
-            m.addSeparator();
-            mi = m.add(model.getAction(PrintAction.ID));
-            mi.setIcon(null);
-        }
+        addAction(m, ClearFileAction.ID);
+        addAction(m, NewFileAction.ID);
+        addAction(m, NewWindowAction.ID);
 
-        return m;
+        addAction(m, LoadFileAction.ID);
+        addAction(m, OpenFileAction.ID);
+        addAction(m, LoadDirectoryAction.ID);
+        addAction(m, OpenDirectoryAction.ID);
+
+        if (model.getAction(LoadFileAction.ID) != null ||//
+                model.getAction(OpenFileAction.ID) != null ||//
+                model.getAction(LoadDirectoryAction.ID) != null ||//
+                model.getAction(OpenDirectoryAction.ID) != null) {
+            m.add(createOpenRecentFileMenu(null));
+        }
+        maybeAddSeparator(m);
+
+        addAction(m, CloseFileAction.ID);
+        addAction(m, SaveFileAction.ID);
+        addAction(m, SaveFileAsAction.ID);
+        addAction(m, ExportFileAction.ID);
+        addAction(m, PrintFileAction.ID);
+
+        return (m.getPopupMenu().getComponentCount() == 0) ? null : m;
+    }
+
+    public JMenu createEditMenu(View p) {
+
+        JMenu m;
+        JMenuItem mi;
+        Action a;
+        m = new JMenu();
+        labels.configureMenu(m, "edit");
+        addAction(m, UndoAction.ID);
+        addAction(m, RedoAction.ID);
+
+        maybeAddSeparator(m);
+
+        addAction(m, CutAction.ID);
+        addAction(m, CopyAction.ID);
+        addAction(m, PasteAction.ID);
+        addAction(m, DuplicateAction.ID);
+        addAction(m, DeleteAction.ID);
+        maybeAddSeparator(m);
+        addAction(m, SelectAllAction.ID);
+        addAction(m, ClearSelectionAction.ID);
+        maybeAddSeparator(m);
+        addAction(m, AbstractFindAction.ID);
+        return (m.getPopupMenu().getComponentCount() == 0) ? null : m;
+    }
+
+    public JMenu createHelpMenu(View p) {
+        return null;
     }
 
     protected void initScreenMenuBar() {
@@ -380,16 +462,16 @@ public class DefaultOSXApplication extends AbstractApplication {
         paletteHandler.add((JFrame) getComponent(), null);
 
         Action a;
-        if (null != (a = model.getAction(OSXOpenApplicationAction.ID))) {
+        if (null != (a = model.getAction(OpenApplicationAction.ID))) {
             OSXAdapter.setOpenApplicationHandler(a);
         }
-        if (null != (a = model.getAction(OSXReOpenApplicationAction.ID))) {
+        if (null != (a = model.getAction(ReOpenApplicationAction.ID))) {
             OSXAdapter.setReOpenApplicationHandler(a);
         }
-        if (null != (a = model.getAction(OSXOpenFileAction.ID))) {
+        if (null != (a = model.getAction(OpenApplicationFileAction.ID))) {
             OSXAdapter.setOpenFileHandler(a);
         }
-        if (null != (a = model.getAction(OSXPrintFileAction.ID))) {
+        if (null != (a = model.getAction(PrintApplicationFileAction.ID))) {
             OSXAdapter.setPrintFileHandler(a);
         }
         if (null != (a = model.getAction(AboutAction.ID))) {
@@ -401,7 +483,7 @@ public class DefaultOSXApplication extends AbstractApplication {
         if (null != (a = model.getAction(ExitAction.ID))) {
             OSXAdapter.setQuitHandler(a);
         }
-        if (null != (a = model.getAction(OSXOpenFileAction.ID))) {
+        if (null != (a = model.getAction(OpenApplicationFileAction.ID))) {
             OSXAdapter.setOpenFileHandler(a);
         }
     }
@@ -446,7 +528,7 @@ public class DefaultOSXApplication extends AbstractApplication {
                     PreferencesUtil.installPalettePrefsHandler(prefs, "toolbar." + i, d, x);
                     x += d.getWidth();
 
-                    paletteActions.add(new OSXTogglePaletteAction(DefaultOSXApplication.this, d, tb.getName()));
+                    paletteActions.add(new TogglePaletteAction(DefaultOSXApplication.this, d, tb.getName()));
                     palettes.add(d);
                 }
                 return palettes;
@@ -496,6 +578,16 @@ public class DefaultOSXApplication extends AbstractApplication {
         invisibleFrame.pack();
     }
 
+    protected void initApplicationActions(ApplicationModel m) {
+        m.putAction(AboutAction.ID, new AboutAction(this));
+        m.putAction(ExitAction.ID, new ExitAction((this)));
+        m.putAction(OpenApplicationAction.ID, new OpenApplicationAction(this));
+        m.putAction(ReOpenApplicationAction.ID, new ReOpenApplicationAction(this));
+        m.putAction(WindowMaximizeAction.ID, new WindowMaximizeAction(this));
+        m.putAction(WindowMinimizeAction.ID, new WindowMinimizeAction(this));
+        m.putAction(ClearRecentFilesMenuAction.ID, new ClearRecentFilesMenuAction(this));
+    }
+
     /** Updates the menu items in the "Window" menu. */
     private class WindowMenuHandler implements PropertyChangeListener, Disposable {
 
@@ -525,22 +617,22 @@ public class DefaultOSXApplication extends AbstractApplication {
 
             m.removeAll();
             ApplicationModel model = getModel();
-            mi = m.add(model.getAction(MinimizeAction.ID));
+            mi = m.add(model.getAction(WindowMinimizeAction.ID));
             mi.setIcon(null);
-            mi = m.add(model.getAction(MaximizeAction.ID));
+            mi = m.add(model.getAction(WindowMaximizeAction.ID));
             mi.setIcon(null);
             m.addSeparator();
             for (Iterator i = views().iterator(); i.hasNext();) {
                 View pr = (View) i.next();
-                if (pr.getAction(FocusAction.ID) != null) {
-                    mi = m.add(pr.getAction(FocusAction.ID));
+                if (pr.getAction(WindowFocusAction.ID) != null) {
+                    mi = m.add(pr.getAction(WindowFocusAction.ID));
                 }
             }
             if (paletteActions.size() > 0) {
                 m.addSeparator();
                 for (Action a : paletteActions) {
                     JCheckBoxMenuItem cbmi = new JCheckBoxMenuItem(a);
-                    Actions.configureJCheckBoxMenuItem(cbmi, a);
+                    ActionUtil.configureJCheckBoxMenuItem(cbmi, a);
                     cbmi.setIcon(null);
                     m.add(cbmi);
                 }
@@ -580,9 +672,19 @@ public class DefaultOSXApplication extends AbstractApplication {
         @Override
         public void windowClosing(final WindowEvent evt) {
             setActiveView(view);
-            getModel().getAction(CloseAction.ID).actionPerformed(
-                    new ActionEvent(frame, ActionEvent.ACTION_PERFORMED,
-                    "windowClosing"));
+
+            // If there is no means provided to open a new windows, we quit
+            // the appliction when the view is closed.
+            ApplicationModel m = getModel();
+            Action a = (m.getAction(NewFileAction.ID) == null ||//
+                    m.getAction(CloseFileAction.ID) == null) ?//
+                    m.getAction(ExitAction.ID) : //
+                    m.getAction(CloseFileAction.ID);
+            if (a != null) {
+                a.actionPerformed(
+                        new ActionEvent(frame, ActionEvent.ACTION_PERFORMED,
+                        "windowClosing"));
+            }
         }
 
         @Override
@@ -591,6 +693,19 @@ public class DefaultOSXApplication extends AbstractApplication {
                 setActiveView(null);
             }
             view.stop();
+        }
+
+        @Override
+        public void windowIconified(WindowEvent e) {
+            if (view == getActiveView()) {
+                setActiveView(null);
+            }
+            view.stop();
+        }
+
+        @Override
+        public void windowDeiconified(WindowEvent e) {
+            view.start();
         }
 
         public void dispose() {

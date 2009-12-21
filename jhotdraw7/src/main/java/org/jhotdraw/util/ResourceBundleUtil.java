@@ -28,7 +28,7 @@ import java.net.*;
  * <b>Placeholders</b><br>
  * On top of the functionality provided by ResourceBundle, a property value
  * can include text from another property, by specifying the desired
- * property name between <code>"${"</code> and <code>"}"</code>.
+ * property name and format type between <code>"${"</code> and <code>"}"</code>.
  * <p>
  * For example, if there is a {@code "imagedir"} property with the value
  * {@code "/org/jhotdraw/undo/images"}, then this could be used in an attribute
@@ -47,12 +47,26 @@ import java.net.*;
  * <p>
  * The property name modifier "os" is defined by default. It can assume the
  * values "win", "mac" and "other". Its fallback chain is "default".
+ * <p>
+ * The format type can be optinally specified after a comma.
+ * The following format types are supported:
+ * <ul>
+ * <li>{@code string} This is the default format.</li>
+ * <li>{@code accelerator} This format replaces all occurences of the keywords
+ * shift, control, ctrl, meta, alt, altGraph by properties which start with
+ * {@code accelerator.}. For example, shift is replaced by {@code accelerator.shift}.
+ * </li>
+ * </ul>
  *
  * @author  Werner Randelshofer, Staldenmattweg 2, CH-6405 Immensee, Switzerland
  * @version $Id$
  */
 public class ResourceBundleUtil implements Serializable {
 
+    private final static HashSet<String> acceleratorKeys = new HashSet<String>(
+            Arrays.asList(new String[]{
+                "shift", "control", "ctrl", "meta", "alt", "altGraph"
+            }));
     /** The wrapped resource bundle. */
     private transient ResourceBundle resource;
     /** The locale. */
@@ -73,7 +87,6 @@ public class ResourceBundleUtil implements Serializable {
      * the value of this map is a fallback chain.
      */
     private static HashMap<String, String[]> propertyNameModifiers = new HashMap<String, String[]>();
-
 
     static {
         String osName = System.getProperty("os.name").toLowerCase();
@@ -123,7 +136,7 @@ public class ResourceBundleUtil implements Serializable {
             // System.out.println("ResourceBundleUtil "+baseName+" get("+key+"):***MISSING***");
             if (isVerbose) {
                 System.err.println("Warning ResourceBundleUtil[" + baseName + "] \"" + key + "\" not found.");
-            //e.printStackTrace();
+                //e.printStackTrace();
             }
             return key;
         }
@@ -146,21 +159,45 @@ public class ResourceBundleUtil implements Serializable {
             }
 
             String placeholderKey = value.substring(p1 + 2, p2);
+            String placeholderFormat;
+            int p3 = placeholderKey.indexOf(',');
+            if (p3 != -1) {
+                placeholderFormat = placeholderKey.substring(p3 + 1);
+                placeholderKey = placeholderKey.substring(0, p3);
+            } else {
+                placeholderFormat = "string";
+            }
             ArrayList<String> fallbackKeys = new ArrayList<String>();
             generateFallbackKeys(placeholderKey, fallbackKeys);
 
-            boolean resourceFound = false;
+            String placeholderValue = null;
             for (String fk : fallbackKeys) {
                 try {
-                    value = value.substring(0, p1) + getStringRecursive(fk) + value.substring(p2 + 1);
-                    resourceFound = true;
+                    placeholderValue = getStringRecursive(fk);
                     break;
                 } catch (MissingResourceException e) {
                 }
             }
-            if (resourceFound == false) {
+            if (placeholderValue == null) {
                 throw new MissingResourceException("Resource not found.", baseName, key);
             }
+
+            // Do post-processing depending on placeholder format 
+            if (placeholderFormat.equals("accelerator")) {
+                // Localize the keywords shift, control, ctrl, meta, alt, altGraph
+                StringBuilder b = new StringBuilder();
+                for (String s : placeholderValue.split(" ")) {
+                    if (acceleratorKeys.contains(s)) {
+                        b.append(getString("accelerator." + s));
+                    } else {
+                        b.append(s);
+                    }
+                }
+                placeholderValue = b.toString();
+            }
+
+            // Insert placeholder value into value
+            value = value.substring(0, p1) + placeholderValue + value.substring(p2 + 1);
         }
 
         return value;
@@ -225,7 +262,7 @@ public class ResourceBundleUtil implements Serializable {
         } catch (MissingResourceException e) {
             if (isVerbose) {
                 System.err.println("Warning ResourceBundleUtil[" + baseName + "] \"" + key + "\" not found.");
-            //e.printStackTrace();
+                //e.printStackTrace();
             }
             return new Integer(-1);
         }
@@ -241,8 +278,6 @@ public class ResourceBundleUtil implements Serializable {
      */
     public ImageIcon getIconProperty(String key, Class baseClass) {
         try {
-
-
             String rsrcName = getStringRecursive(key + ".icon");
 
             if (rsrcName.equals("")) {
@@ -251,13 +286,13 @@ public class ResourceBundleUtil implements Serializable {
 
             URL url = baseClass.getResource(rsrcName);
             if (isVerbose && url == null) {
-                System.err.println("Warning ResourceBundleUtil[" + baseName + "].getIconProperty \"" + key + ".icon\" resource:"+rsrcName+" not found.");
+                System.err.println("Warning ResourceBundleUtil[" + baseName + "].getIconProperty \"" + key + ".icon\" resource:" + rsrcName + " not found.");
             }
             return (url == null) ? null : new ImageIcon(url);
         } catch (MissingResourceException e) {
             if (isVerbose) {
                 System.err.println("Warning ResourceBundleUtil[" + baseName + "].getIconProperty \"" + key + ".icon\" not found.");
-            //e.printStackTrace();
+                //e.printStackTrace();
             }
             return null;
         }
@@ -291,7 +326,7 @@ public class ResourceBundleUtil implements Serializable {
         } catch (MissingResourceException e) {
             if (isVerbose) {
                 System.err.println("Warning ResourceBundleUtil[" + baseName + "] \"" + key + ".mnemonic\" not found.");
-            //e.printStackTrace();
+                //e.printStackTrace();
             }
             s = null;
         }
@@ -312,11 +347,10 @@ public class ResourceBundleUtil implements Serializable {
         } catch (MissingResourceException e) {
             if (isVerbose) {
                 System.err.println("Warning ResourceBundleUtil[" + baseName + "] \"" + key + ".toolTipText\" not found.");
-            //e.printStackTrace();
+                //e.printStackTrace();
             }
             return null;
         }
-
     }
 
     /**
@@ -333,11 +367,10 @@ public class ResourceBundleUtil implements Serializable {
         } catch (MissingResourceException e) {
             if (isVerbose) {
                 System.err.println("Warning ResourceBundleUtil[" + baseName + "] \"" + key + ".text\" not found.");
-            //e.printStackTrace();
+                //e.printStackTrace();
             }
             return null;
         }
-
     }
 
     /**
@@ -375,7 +408,7 @@ public class ResourceBundleUtil implements Serializable {
         } catch (MissingResourceException e) {
             if (isVerbose) {
                 System.err.println("Warning ResourceBundleUtil[" + baseName + "] \"" + key + ".accelerator\" not found.");
-            //e.printStackTrace();
+                //e.printStackTrace();
             }
         } catch (NoSuchElementException e) {
         }
@@ -467,13 +500,13 @@ public class ResourceBundleUtil implements Serializable {
     public static ResourceBundleUtil getBundle(String baseName, Locale locale)
             throws MissingResourceException {
         ResourceBundleUtil r;
-        r = new ResourceBundleUtil(baseName,locale);
+        r = new ResourceBundleUtil(baseName, locale);
         return r;
     }
 
     @Override
     public String toString() {
-        return super.toString() + "[" + baseName+", "+resource + "]";
+        return super.toString() + "[" + baseName + ", " + resource + "]";
     }
 
     public static void setVerbose(boolean newValue) {

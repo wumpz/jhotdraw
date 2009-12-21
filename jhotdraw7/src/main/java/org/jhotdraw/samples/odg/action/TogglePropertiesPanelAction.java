@@ -42,7 +42,7 @@ public class TogglePropertiesPanelAction extends AbstractViewAction {
      * the view changed.
      */
     protected void updateView() {
-        putValue(Actions.SELECTED_KEY,
+        putValue(ActionUtil.SELECTED_KEY,
                 getActiveView() != null &&
                 ! getActiveView().isPropertiesPanelVisible()
                 );

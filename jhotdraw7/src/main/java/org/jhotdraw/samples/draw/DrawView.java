@@ -1,7 +1,7 @@
 /*
  * @(#)DrawView.java
  *
- * Copyright (c) 1996-2008 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -17,7 +17,6 @@ package org.jhotdraw.samples.draw;
 import org.jhotdraw.draw.io.TextInputFormat;
 import org.jhotdraw.draw.TextFigure;
 import org.jhotdraw.draw.TextAreaFigure;
-import org.jhotdraw.draw.io.PictImageInputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.ImageOutputFormat;
@@ -40,8 +39,8 @@ import java.net.URI;
 import javax.swing.*;
 import javax.swing.border.*;
 import org.jhotdraw.app.AbstractView;
-import org.jhotdraw.app.action.RedoAction;
-import org.jhotdraw.app.action.UndoAction;
+import org.jhotdraw.app.action.edit.RedoAction;
+import org.jhotdraw.app.action.edit.UndoAction;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.gui.URIChooser;
@@ -125,12 +124,7 @@ public class DrawView extends AbstractView {
         
         drawing.addInputFormat(ioFormat);
         ImageFigure prototype = new ImageFigure();
-        
         drawing.addInputFormat(new ImageInputFormat(prototype));
-        drawing.addInputFormat(new ImageInputFormat(prototype, "JPG","Joint Photographics Experts Group (JPEG)", "jpg", BufferedImage.TYPE_INT_RGB));
-        drawing.addInputFormat(new ImageInputFormat(prototype, "GIF","Graphics Interchange Format (GIF)", "gif", BufferedImage.TYPE_INT_ARGB));
-        drawing.addInputFormat(new ImageInputFormat(prototype));
-        drawing.addInputFormat(new PictImageInputFormat(prototype));
         drawing.addInputFormat(new TextInputFormat(new TextFigure()));
         TextAreaFigure taf = new TextAreaFigure();
         taf.setBounds(new Point2D.Double(10,10), new Point2D.Double(60,40));

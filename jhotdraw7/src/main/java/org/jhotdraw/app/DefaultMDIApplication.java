@@ -13,6 +13,38 @@
  */
 package org.jhotdraw.app;
 
+import org.jhotdraw.app.action.app.AbstractPreferencesAction;
+import org.jhotdraw.app.action.window.ToggleToolBarAction;
+import org.jhotdraw.app.action.window.WindowFocusAction;
+import org.jhotdraw.app.action.window.WindowArrangeAction;
+import org.jhotdraw.app.action.window.WindowMaximizeAction;
+import org.jhotdraw.app.action.window.WindowMinimizeAction;
+import org.jhotdraw.app.action.file.SaveFileAsAction;
+import org.jhotdraw.app.action.file.SaveFileAction;
+import org.jhotdraw.app.action.file.PrintFileAction;
+import org.jhotdraw.app.action.file.NewFileAction;
+import org.jhotdraw.app.action.file.OpenFileAction;
+import org.jhotdraw.app.action.file.CloseFileAction;
+import org.jhotdraw.app.action.file.OpenDirectoryAction;
+import org.jhotdraw.app.action.file.ExportFileAction;
+import org.jhotdraw.app.action.edit.AbstractFindAction;
+import org.jhotdraw.app.action.edit.ClearSelectionAction;
+import org.jhotdraw.app.action.edit.CopyAction;
+import org.jhotdraw.app.action.edit.CutAction;
+import org.jhotdraw.app.action.edit.DeleteAction;
+import org.jhotdraw.app.action.edit.DuplicateAction;
+import org.jhotdraw.app.action.edit.PasteAction;
+import org.jhotdraw.app.action.edit.RedoAction;
+import org.jhotdraw.app.action.edit.SelectAllAction;
+import org.jhotdraw.app.action.edit.UndoAction;
+import org.jhotdraw.app.action.file.ClearFileAction;
+import org.jhotdraw.app.action.file.ClearRecentFilesMenuAction;
+import org.jhotdraw.app.action.file.LoadDirectoryAction;
+import org.jhotdraw.app.action.file.LoadFileAction;
+import org.jhotdraw.app.action.file.NewWindowAction;
+import org.jhotdraw.app.action.app.AboutAction;
+import org.jhotdraw.app.action.app.OpenApplicationFileAction;
+import org.jhotdraw.app.action.app.ExitAction;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -31,6 +63,11 @@ import java.util.prefs.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import org.jhotdraw.app.action.*;
+import org.jhotdraw.app.action.file.ClearFileAction;
+import org.jhotdraw.app.action.file.ClearRecentFilesMenuAction;
+import org.jhotdraw.app.action.file.LoadDirectoryAction;
+import org.jhotdraw.app.action.file.LoadFileAction;
+import org.jhotdraw.app.action.file.NewWindowAction;
 import org.jhotdraw.net.URIUtil;
 
 /**
@@ -52,14 +89,14 @@ import org.jhotdraw.net.URIUtil;
  * The <b>file menu</b> has the following standard menu items:
  * <pre>
  *  New ({@link NewFileAction#ID}})
- *  Open... ({@link OpenAction#ID}})
+ *  Open... ({@link OpenFileAction#ID}})
  *  Open Recent &gt; "Filename" ({@link OpenRecentAction#ID}})
  *  -
- *  Close ({@link CloseAction#ID})
- *  Save ({@link SaveAction#ID})
- *  Save As... ({@link SaveAsAction#ID})
+ *  Close ({@link CloseFileAction#ID})
+ *  Save ({@link SaveFileAction#ID})
+ *  Save As... ({@link SaveFileAsAction#ID})
  *  -
- *  Print... ({@link PrintAction#ID})
+ *  Print... ({@link PrintFileAction#ID})
  *  -
  *  Exit ({@link ExitAction#ID})
  * </pre>
@@ -71,10 +108,10 @@ import org.jhotdraw.net.URIUtil;
  *
  * The <b>window menu</b> has the following standard menu items:
  * <pre>
- *  Minimize ({@link MinimizeAction#ID})
- *  Maximize ({@link MaximizeAction#ID})
+ *  Minimize ({@link WindowMinimizeAction#ID})
+ *  Maximize ({@link WindowMaximizeAction#ID})
  *  -
- *  "Filename" ({@link FocusAction#ID})
+ *  "Filename" ({@link WindowFocusAction#ID})
  * </pre>
  *
  * The <b>help menu</b> has the following standard menu items:
@@ -104,54 +141,16 @@ public class DefaultMDIApplication extends AbstractApplication {
     public DefaultMDIApplication() {
     }
 
-    protected void initApplicationActions() {
-        ApplicationModel mo = getModel();
-        mo.putAction(AboutAction.ID, new AboutAction(this));
-        mo.putAction(ExitAction.ID, new ExitAction(this));
-
-        mo.putAction(NewFileAction.ID, new NewFileAction(this));
-        mo.putAction(OpenAction.ID, new OpenAction(this));
-        mo.putAction(ClearRecentFilesAction.ID, new ClearRecentFilesAction(this));
-        mo.putAction(SaveAction.ID, new SaveAction(this));
-        mo.putAction(SaveAsAction.ID, new SaveAsAction(this));
-        mo.putAction(CloseAction.ID, new CloseAction(this));
-        mo.putAction(PrintAction.ID, new PrintAction(this));
-
-        mo.putAction(UndoAction.ID, new UndoAction(this));
-        mo.putAction(RedoAction.ID, new RedoAction(this));
-        mo.putAction(CutAction.ID, new CutAction());
-        mo.putAction(CopyAction.ID, new CopyAction());
-        mo.putAction(PasteAction.ID, new PasteAction());
-        mo.putAction(DeleteAction.ID, new DeleteAction());
-        mo.putAction(DuplicateAction.ID, new DuplicateAction());
-        mo.putAction(SelectAllAction.ID, new SelectAllAction());
-        /*
-        model.putAction(MaximizeAction.ID, new MaximizeAction(this));
-        model.putAction(MinimizeAction.ID, new MinimizeAction(this));
-         */
-        mo.putAction(ArrangeAction.VERTICAL_ID, new ArrangeAction(desktopPane, Arrangeable.Arrangement.VERTICAL));
-        mo.putAction(ArrangeAction.HORIZONTAL_ID, new ArrangeAction(desktopPane, Arrangeable.Arrangement.HORIZONTAL));
-        mo.putAction(ArrangeAction.CASCADE_ID, new ArrangeAction(desktopPane, Arrangeable.Arrangement.CASCADE));
-    }
-
-    protected void initViewActions(View p) {
-        p.putAction(FocusAction.ID, new FocusAction(p));
-    }
-
-    @Override
-    public void launch(String[] args) {
-        super.launch(args);
-    }
-
     @Override
     public void init() {
-        initLookAndFeel();
         super.init();
+        initLookAndFeel();
         prefs = PreferencesUtil.userNodeForPackage((getModel() == null) ? getClass() : getModel().getClass());
         initLabels();
 
         parentFrame = new JFrame(getName());
         parentFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        parentFrame.setPreferredSize(new Dimension(600, 400));
 
         desktopPane = new JMDIDesktopPane();
         desktopPane.setTransferHandler(new DropFileTransferHandler());
@@ -160,8 +159,7 @@ public class DefaultMDIApplication extends AbstractApplication {
         scrollPane.setViewportView(desktopPane);
         toolBarActions = new LinkedList<Action>();
 
-
-        initApplicationActions();
+        initApplicationActions(getModel());
         getModel().initApplication(this);
         parentFrame.getContentPane().add(
                 wrapDesktopPane(scrollPane, toolBarActions));
@@ -173,11 +171,34 @@ public class DefaultMDIApplication extends AbstractApplication {
                         new ActionEvent(parentFrame, ActionEvent.ACTION_PERFORMED, "windowClosing"));
             }
         });
-        parentFrame.setJMenuBar(createMenuBar());
+        parentFrame.setJMenuBar(createMenuBar(null));
 
         PreferencesUtil.installFramePrefsHandler(prefs, "parentFrame", parentFrame);
 
         parentFrame.setVisible(true);
+    }
+
+    protected void initApplicationActions(ApplicationModel mo) {
+        mo.putAction(AboutAction.ID, new AboutAction(this));
+        mo.putAction(ExitAction.ID, new ExitAction(this));
+        mo.putAction(ClearRecentFilesMenuAction.ID, new ClearRecentFilesMenuAction(this));
+
+        mo.putAction(WindowMaximizeAction.ID, new WindowMaximizeAction(this));
+        mo.putAction(WindowMinimizeAction.ID, new WindowMinimizeAction(this));
+
+        mo.putAction(WindowArrangeAction.VERTICAL_ID, new WindowArrangeAction(desktopPane, Arrangeable.Arrangement.VERTICAL));
+        mo.putAction(WindowArrangeAction.HORIZONTAL_ID, new WindowArrangeAction(desktopPane, Arrangeable.Arrangement.HORIZONTAL));
+        mo.putAction(WindowArrangeAction.CASCADE_ID, new WindowArrangeAction(desktopPane, Arrangeable.Arrangement.CASCADE));
+    }
+
+    @Override
+    protected void initViewActions(View p) {
+        p.putAction(WindowFocusAction.ID, new WindowFocusAction(p));
+    }
+
+    @Override
+    public void launch(String[] args) {
+        super.launch(args);
     }
 
     public void configure(String[] args) {
@@ -189,25 +210,18 @@ public class DefaultMDIApplication extends AbstractApplication {
 
     protected void initLookAndFeel() {
         try {
-            String lafName;
-            if (System.getProperty("os.name").toLowerCase().startsWith("mac os x")) {
-                JFrame.setDefaultLookAndFeelDecorated(true);
-                JDialog.setDefaultLookAndFeelDecorated(true);
-                lafName = UIManager.getCrossPlatformLookAndFeelClassName();
-            } else {
-                lafName = UIManager.getSystemLookAndFeelClassName();
-            }
+            String lafName = UIManager.getSystemLookAndFeelClassName();
             UIManager.setLookAndFeel(lafName);
         } catch (Exception e) {
             e.printStackTrace();
         }
         if (UIManager.getString("OptionPane.css") == null) {
-            UIManager.put("OptionPane.css", "<head>" +
-            "<style type=\"text/css\">" +
-            "b { font: 13pt \"Dialog\" }" +
-            "p { font: 11pt \"Dialog\"; margin-top: 8px }" +
-            "</style>" +
-            "</head>");
+            UIManager.put("OptionPane.css", "<head>"
+                    + "<style type=\"text/css\">"
+                    + "b { font: 13pt \"Dialog\" }"
+                    + "p { font: 11pt \"Dialog\"; margin-top: 8px }"
+                    + "</style>"
+                    + "</head>");
         }
     }
 
@@ -216,25 +230,26 @@ public class DefaultMDIApplication extends AbstractApplication {
             p.setShowing(true);
             final JInternalFrame f = new JInternalFrame();
             f.setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
-            f.setClosable(true);
+            f.setClosable(getModel().getAction(CloseFileAction.ID) != null);
             f.setMaximizable(true);
             f.setResizable(true);
             f.setIconifiable(false);
+            f.setPreferredSize(new Dimension(400, 400));
             updateViewTitle(p, f);
 
             PreferencesUtil.installInternalFramePrefsHandler(prefs, "view", f, desktopPane);
-            Point loc = new Point(desktopPane.getInsets().left,desktopPane.getInsets().top);
+            Point loc = new Point(desktopPane.getInsets().left, desktopPane.getInsets().top);
             boolean moved;
             do {
                 moved = false;
                 for (Iterator i = views().iterator(); i.hasNext();) {
                     View aView = (View) i.next();
-                    if (aView != p && aView.isShowing() &&
-                            SwingUtilities.getRootPane(aView.getComponent()).getParent().
+                    if (aView != p && aView.isShowing()
+                            && SwingUtilities.getRootPane(aView.getComponent()).getParent().
                             getLocation().equals(loc)) {
-            Point offset = SwingUtilities.convertPoint(SwingUtilities.getRootPane(aView.getComponent()), 0, 0, SwingUtilities.getRootPane(aView.getComponent()).getParent());
-                        loc.x += Math.max(offset.x,offset.y);
-                        loc.y += Math.max(offset.x,offset.y);
+                        Point offset = SwingUtilities.convertPoint(SwingUtilities.getRootPane(aView.getComponent()), 0, 0, SwingUtilities.getRootPane(aView.getComponent()).getParent());
+                        loc.x += Math.max(offset.x, offset.y);
+                        loc.y += Math.max(offset.x, offset.y);
                         moved = true;
                         break;
                     }
@@ -248,7 +263,7 @@ public class DefaultMDIApplication extends AbstractApplication {
 
                 @Override
                 public void internalFrameClosing(final InternalFrameEvent evt) {
-                    getModel().getAction(CloseAction.ID).actionPerformed(
+                    getModel().getAction(CloseFileAction.ID).actionPerformed(
                             new ActionEvent(f, ActionEvent.ACTION_PERFORMED,
                             "windowClosing"));
                 }
@@ -266,8 +281,8 @@ public class DefaultMDIApplication extends AbstractApplication {
 
                 public void propertyChange(PropertyChangeEvent evt) {
                     String name = evt.getPropertyName();
-                    if (name == View.HAS_UNSAVED_CHANGES_PROPERTY ||
-                            name == View.URI_PROPERTY) {
+                    if (name == View.HAS_UNSAVED_CHANGES_PROPERTY
+                            || name == View.URI_PROPERTY) {
                         updateViewTitle(p, f);
                     }
                 }
@@ -290,6 +305,13 @@ public class DefaultMDIApplication extends AbstractApplication {
             f.getContentPane().add(p.getComponent());
             f.setVisible(true);
             desktopPane.add(f);
+            if (desktopPane.getComponentCount() == 1) {
+                try {
+                    f.setMaximum(true);
+                } catch (PropertyVetoException ex) {
+                    // ignore veto
+                }
+            }
             f.toFront();
             try {
                 f.setSelected(true);
@@ -347,17 +369,33 @@ public class DefaultMDIApplication extends AbstractApplication {
     /**
      * Creates a menu bar.
      */
-    protected JMenuBar createMenuBar() {
+    protected JMenuBar createMenuBar(View v) {
         JMenuBar mb = new JMenuBar();
-        mb.add(createFileMenu());
 
+        // Get menus from application model
+        JMenu fileMenu = null;
         JMenu editMenu = null;
         JMenu helpMenu = null;
+        JMenu viewMenu = null;
+        JMenu windowMenu = null;
+        String fileMenuText = labels.getString("file.text");
         String editMenuText = labels.getString("edit.text");
+        String viewMenuText = labels.getString("view.text");
+        String windowMenuText = labels.getString("window.text");
         String helpMenuText = labels.getString("help.text");
         for (JMenu mm : getModel().createMenus(this, null)) {
-            if (mm.getText().equals(editMenuText)) {
+            if (mm.getText().equals(fileMenuText)) {
+                fileMenu = mm;
+                continue;
+            } else if (mm.getText().equals(editMenuText)) {
                 editMenu = mm;
+                continue;
+            } else if (mm.getText().equals(viewMenuText)) {
+                viewMenu = mm;
+                continue;
+            } else if (mm.getText().equals(windowMenuText)) {
+                windowMenu = mm;
+                continue;
             } else if (mm.getText().equals(helpMenuText)) {
                 helpMenu = mm;
                 continue;
@@ -365,98 +403,74 @@ public class DefaultMDIApplication extends AbstractApplication {
             mb.add(mm);
         }
 
-        // Merge edit menu
+        // Create missing standard menus
+        if (fileMenu == null) {
+            fileMenu = createFileMenu(v);
+        }
         if (editMenu == null) {
-            JMenu m = createEditMenu();
-            if (m != null) {
-                mb.add(m, 1);
-            }
-        } else {
-            JMenu m = createEditMenu();
-            if (m != null) {
-                editMenu.addSeparator();
-                for (Component c : m.getComponents()) {
-                    editMenu.add(c);
-                }
-            }
-            mb.add(editMenu);
+            editMenu = createEditMenu(v);
+        }
+        if (viewMenu == null) {
+            viewMenu = createViewMenu(v);
+        }
+        if (windowMenu == null) {
+            windowMenu = createWindowMenu(v);
+        }
+        if (helpMenu == null) {
+            helpMenu = createHelpMenu(v);
         }
 
-        mb.add(createWindowMenu());
-
-        // Merge help menu
-        if (helpMenu == null) {
-            mb.add(createHelpMenu());
-        } else {
-            JMenu m = createHelpMenu();
-            if (m != null) {
-                helpMenu.addSeparator();
-                for (Component c : m.getComponents()) {
-                    helpMenu.add(c);
-                }
-            }
+        // Insert standard menus into menu bar
+        if (fileMenu != null) {
+            mb.add(fileMenu, 0);
+        }
+        if (editMenu != null) {
+            mb.add(editMenu, Math.min(1, mb.getComponentCount()));
+        }
+        if (viewMenu != null) {
+            mb.add(viewMenu, Math.min(2, mb.getComponentCount()));
+        }
+        if (windowMenu != null) {
+            mb.add(windowMenu);
+        }
+        if (helpMenu != null) {
             mb.add(helpMenu);
         }
 
         return mb;
     }
 
-    protected JMenu createFileMenu() {
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
-        ApplicationModel model = getModel();
-
+    @Override
+    public JMenu createFileMenu(View view) {
         JMenuBar mb = new JMenuBar();
         JMenu m;
-        JMenuItem mi;
 
         m = new JMenu();
         labels.configureMenu(m, "file");
-        if (model.getAction(NewFileAction.ID) != null) {
-            mi = m.add(model.getAction(NewFileAction.ID));
-            mi.setIcon(null);
-        }
-        if (model.getAction(OpenAction.ID) != null) {
-            mi = m.add(model.getAction(OpenAction.ID));
-            mi.setIcon(null);
-        }
-        if (model.getAction(OpenDirectoryAction.ID) != null) {
-            mi = m.add(model.getAction(OpenDirectoryAction.ID));
-            mi.setIcon(null);
-        }
-        if (model.getAction(OpenAction.ID) != null || model.getAction(OpenDirectoryAction.ID) != null) {
+        addAction(m, ClearFileAction.ID);
+        addAction(m, NewFileAction.ID);
+        addAction(m, NewWindowAction.ID);
+
+        addAction(m, LoadFileAction.ID);
+        addAction(m, OpenFileAction.ID);
+        addAction(m, LoadDirectoryAction.ID);
+        addAction(m, OpenDirectoryAction.ID);
+
+        if (model.getAction(LoadFileAction.ID) != null ||//
+                model.getAction(OpenFileAction.ID) != null ||//
+                model.getAction(LoadDirectoryAction.ID) != null ||//
+                model.getAction(OpenDirectoryAction.ID) != null) {
             m.add(createOpenRecentFileMenu(null));
         }
-        if (m.getPopupMenu().getComponentCount() > 0) {
-            m.addSeparator();
-        }
-        if (model.getAction(CloseAction.ID) != null) {
-            mi = m.add(model.getAction(CloseAction.ID));
-            mi.setIcon(null);
-        }
-        if (model.getAction(SaveAction.ID) != null) {
-            mi = m.add(model.getAction(SaveAction.ID));
-            mi.setIcon(null);
-        }
-        if (model.getAction(SaveAsAction.ID) != null) {
-            mi = m.add(model.getAction(SaveAsAction.ID));
-            mi.setIcon(null);
-        }
-        if (model.getAction(ExportAction.ID) != null) {
-            mi = m.add(model.getAction(ExportAction.ID));
-            mi.setIcon(null);
-        }
-        if (model.getAction(PrintAction.ID) != null) {
-            if (m.getComponentCount() > 0) {
-                m.addSeparator();
-            }
-            mi = m.add(model.getAction(PrintAction.ID));
-            mi.setIcon(null);
-        }
-        if (m.getPopupMenu().getComponentCount() > 0) {
-            m.addSeparator();
-        }
-        mi = m.add(model.getAction(ExitAction.ID));
-        mi.setIcon(null);
+        maybeAddSeparator(m);
+        addAction(m, CloseFileAction.ID);
+        addAction(m, SaveFileAction.ID);
+        addAction(m, SaveFileAsAction.ID);
+        addAction(m, ExportFileAction.ID);
+        addAction(m, PrintFileAction.ID);
+
+        maybeAddSeparator(m);
+        addAction(m, ExitAction.ID);
 
         return m;
     }
@@ -482,7 +496,11 @@ public class DefaultMDIApplication extends AbstractApplication {
         f.setTitle(v.getTitle());
     }
 
-    protected JMenu createWindowMenu() {
+    public JMenu createViewMenu(View v) {
+        return null;
+    }
+
+    public JMenu createWindowMenu(View v) {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         ApplicationModel mo = getModel();
 
@@ -492,23 +510,22 @@ public class DefaultMDIApplication extends AbstractApplication {
         m = new JMenu();
         JMenu windowMenu = m;
         labels.configureMenu(m, "window");
-        m.add(mo.getAction(ArrangeAction.CASCADE_ID));
-        m.add(mo.getAction(ArrangeAction.VERTICAL_ID));
-        m.add(mo.getAction(ArrangeAction.HORIZONTAL_ID));
+        addAction(m, WindowArrangeAction.CASCADE_ID);
+        addAction(m, WindowArrangeAction.VERTICAL_ID);
+        addAction(m, WindowArrangeAction.HORIZONTAL_ID);
 
-        m.addSeparator();
+       maybeAddSeparator(m);
         for (View pr : views()) {
-            if (pr.getAction(FocusAction.ID) != null) {
-                windowMenu.add(pr.getAction(FocusAction.ID));
+            if (pr.getAction(WindowFocusAction.ID) != null) {
+                addAction(m, pr.getAction(WindowFocusAction.ID));
             }
         }
         if (toolBarActions.size() > 0) {
-            m.addSeparator();
+       maybeAddSeparator(m);
             for (Action a : toolBarActions) {
                 JCheckBoxMenuItem cbmi = new JCheckBoxMenuItem(a);
-                Actions.configureJCheckBoxMenuItem(cbmi, a);
-
-                m.add(cbmi);
+                ActionUtil.configureJCheckBoxMenuItem(cbmi, a);
+                addMenuItem(m, cbmi);
             }
         }
 
@@ -517,24 +534,35 @@ public class DefaultMDIApplication extends AbstractApplication {
         return m;
     }
 
-    protected JMenu createEditMenu() {
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
-        ApplicationModel mo = getModel();
-
-        if (mo.getAction(AbstractPreferencesAction.ID) == null) {
-            return null;
-        }
+    @Override
+    public JMenu createEditMenu(View view) {
 
         JMenu m;
         JMenuItem mi;
-
+        Action a;
         m = new JMenu();
         labels.configureMenu(m, "edit");
-        m.add(mo.getAction(AbstractPreferencesAction.ID));
-        return m;
+        addAction(m, UndoAction.ID);
+        addAction(m, RedoAction.ID);
+
+        maybeAddSeparator(m);
+
+        addAction(m, CutAction.ID);
+        addAction(m, CopyAction.ID);
+        addAction(m, PasteAction.ID);
+        addAction(m, DuplicateAction.ID);
+        addAction(m, DeleteAction.ID);
+        maybeAddSeparator(m);
+        addAction(m, SelectAllAction.ID);
+        addAction(m, ClearSelectionAction.ID);
+        maybeAddSeparator(m);
+        addAction(m, AbstractFindAction.ID);
+        maybeAddSeparator(m);
+        addAction(m, AbstractPreferencesAction.ID);
+        return (m.getPopupMenu().getComponentCount() == 0) ? null : m;
     }
 
-    protected JMenu createHelpMenu() {
+    public JMenu createHelpMenu(View v) {
         ApplicationModel mo = getModel();
 
         JMenu m;
@@ -542,7 +570,7 @@ public class DefaultMDIApplication extends AbstractApplication {
 
         m = new JMenu();
         labels.configureMenu(m, "help");
-        m.add(mo.getAction(AboutAction.ID));
+        addAction(m, AboutAction.ID);
         return m;
     }
 
@@ -569,22 +597,22 @@ public class DefaultMDIApplication extends AbstractApplication {
             ApplicationModel mo = getModel();
             m.removeAll();
 
-            m.add(mo.getAction(ArrangeAction.CASCADE_ID));
-            m.add(mo.getAction(ArrangeAction.VERTICAL_ID));
-            m.add(mo.getAction(ArrangeAction.HORIZONTAL_ID));
+            m.add(mo.getAction(WindowArrangeAction.CASCADE_ID));
+            m.add(mo.getAction(WindowArrangeAction.VERTICAL_ID));
+            m.add(mo.getAction(WindowArrangeAction.HORIZONTAL_ID));
 
             m.addSeparator();
             for (Iterator i = views().iterator(); i.hasNext();) {
                 View pr = (View) i.next();
-                if (pr.getAction(FocusAction.ID) != null) {
-                    m.add(pr.getAction(FocusAction.ID));
+                if (pr.getAction(WindowFocusAction.ID) != null) {
+                    m.add(pr.getAction(WindowFocusAction.ID));
                 }
             }
             if (toolBarActions.size() > 0) {
                 m.addSeparator();
                 for (Action a : toolBarActions) {
                     JCheckBoxMenuItem cbmi = new JCheckBoxMenuItem(a);
-                    Actions.configureJCheckBoxMenuItem(cbmi, a);
+                    ActionUtil.configureJCheckBoxMenuItem(cbmi, a);
                     m.add(cbmi);
                 }
             }
@@ -596,6 +624,10 @@ public class DefaultMDIApplication extends AbstractApplication {
 
         @Override
         public boolean canImport(JComponent comp, DataFlavor[] transferFlavors) {
+            Action a = getModel().getAction(OpenApplicationFileAction.ID);
+            if (a == null) {
+                return false;
+            }
             for (DataFlavor f : transferFlavors) {
                 if (f.isFlavorJavaFileListType()) {
                     return true;
@@ -606,39 +638,15 @@ public class DefaultMDIApplication extends AbstractApplication {
 
         @Override
         public boolean importData(JComponent comp, Transferable t) {
+            Action a = getModel().getAction(OpenApplicationFileAction.ID);
+            if (a == null) {
+                return false;
+            }
             try {
                 @SuppressWarnings("unchecked")
                 java.util.List<File> files = (java.util.List<File>) t.getTransferData(DataFlavor.javaFileListFlavor);
                 for (final File f : files) {
-                    final View p = createView();
-                    p.setEnabled(false);
-                    add(p);
-                    show(p);
-                    p.execute(new Worker() {
-
-                        public Object construct() throws IOException {
-                            p.read(f.toURI());
-                            return null;
-                        }
-
-                        @Override
-                        protected void done(Object value) {
-                            p.setURI(f.toURI());
-                            p.setEnabled(true);
-                        }
-
-                        @Override
-                        protected void failed(Throwable value) {
-                            dispose(p);
-                            JOptionPane.showMessageDialog(
-                                    getComponent(),
-                                    "<html>" + UIManager.getString("OptionPane.css") +
-                                    "<b>" + labels.getFormatted("file.open.couldntOpen.message", f.getName()) + "</b><p>" +
-                                    value,
-                                    "",
-                                    JOptionPane.ERROR_MESSAGE);
-                        }
-                    });
+                    a.actionPerformed(new ActionEvent(desktopPane, ActionEvent.ACTION_PERFORMED, f.toString()));
                 }
                 return true;
             } catch (UnsupportedFlavorException ex) {

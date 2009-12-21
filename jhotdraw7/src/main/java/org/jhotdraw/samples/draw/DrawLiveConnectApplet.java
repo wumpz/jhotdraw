@@ -1,7 +1,7 @@
 /*
  * @(#)DrawLiveConnectApplet.java
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -193,7 +193,7 @@ public class DrawLiveConnectApplet extends JApplet {
     public String getAppletInfo() {
         return NAME +
                 "\nVersion " + VERSION +
-                "\n\nCopyright 1996-2008 (c) by the authors of JHotDraw" +
+                "\n\nCopyright 1996-2009 (c) by the authors of JHotDraw" +
                 "\nThis software is licensed under LGPL or" +
                 "\nCreative Commons 3.0 BY";
     }

@@ -1,7 +1,7 @@
 /*
  * @(#)DrawingPanel.java
  *
- * Copyright (c) 1996-2006 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -39,11 +39,11 @@ import org.jhotdraw.util.*;
 
 import java.util.*;
 import javax.swing.*;
-import org.jhotdraw.app.action.CopyAction;
-import org.jhotdraw.app.action.CutAction;
-import org.jhotdraw.app.action.DuplicateAction;
-import org.jhotdraw.app.action.PasteAction;
-import org.jhotdraw.app.action.SelectAllAction;
+import org.jhotdraw.app.action.edit.CopyAction;
+import org.jhotdraw.app.action.edit.CutAction;
+import org.jhotdraw.app.action.edit.DuplicateAction;
+import org.jhotdraw.app.action.edit.PasteAction;
+import org.jhotdraw.app.action.edit.SelectAllAction;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 

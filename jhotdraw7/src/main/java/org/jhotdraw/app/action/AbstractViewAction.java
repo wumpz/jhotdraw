@@ -1,7 +1,7 @@
 /*
  * @(#)AbstractViewAction.java
  *
- * Copyright (c) 1996-2007 by the original authors of JHotDraw
+ * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -132,7 +132,6 @@ public abstract class AbstractViewAction extends AbstractAction {
      * state of the view.
      */
     protected void updateEnabled(boolean oldValue, boolean newValue) {
-       // System.out.println("AbstractViewAction updateEnabled"+oldValue+","+newValue);
         firePropertyChange("enabled", oldValue, newValue && isEnabled());
     }
     
