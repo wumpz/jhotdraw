@@ -388,19 +388,19 @@ public class DefaultSDIApplication extends AbstractApplication {
      * @param view The view.
      * @param f The frame.
      */
-    protected void updateViewTitle(View p, JFrame f) {
-        URI uri = p.getURI();
+    protected void updateViewTitle(View view, JFrame f) {
+        URI uri = view.getURI();
         String title;
         if (uri == null) {
             title = labels.getString("unnamedFile");
         } else {
             title = URIUtil.getName(uri);
         }
-        if (p.hasUnsavedChanges()) {
+        if (view.hasUnsavedChanges()) {
             title += "*";
         }
-        p.setTitle(labels.getFormatted("frame.title", title, getName(), p.getMultipleOpenId()));
-        f.setTitle(p.getTitle());
+        view.setTitle(labels.getFormatted("frame.title", title, getName(), view.getMultipleOpenId()));
+        f.setTitle(view.getTitle());
     }
 
     public boolean isSharingToolsAmongViews() {
@@ -420,12 +420,11 @@ public class DefaultSDIApplication extends AbstractApplication {
      * Creates the window menu.
      * 
      * @param view The View
-     * @param viewActions ActionUtil for the view menu
-     * @return A JMenu or null, if no view actions are provided
+     * @return A JMenu or null, if the menu doesn't have any items.
      */
     @SuppressWarnings("unchecked")
-    public JMenu createViewMenu(final View p) {
-        Object object = p.getComponent().getClientProperty("toolBarActions");
+    public JMenu createViewMenu(final View view) {
+        Object object = view.getComponent().getClientProperty("toolBarActions");
         LinkedList<Action> viewActions = (LinkedList<Action>) object;
         ApplicationModel model = getModel();
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");

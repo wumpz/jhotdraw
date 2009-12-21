@@ -71,7 +71,7 @@ import org.jhotdraw.app.action.file.NewWindowAction;
 import org.jhotdraw.net.URIUtil;
 
 /**
- * {@code DefaultMDIApplication} handles the lifecycle of {@link FileView}s
+ * {@code DefaultMDIApplication} handles the lifecycle of {@link View}s
  * using a multiple document interface (MDI).
  * <p>
  * An application consists of a parent {@code JFrame} which holds a {@code JDesktopPane}.
@@ -90,7 +90,7 @@ import org.jhotdraw.net.URIUtil;
  * <pre>
  *  New ({@link NewFileAction#ID}})
  *  Open... ({@link OpenFileAction#ID}})
- *  Open Recent &gt; "Filename" ({@link OpenRecentAction#ID}})
+ *  Open Recent &gt; "Filename" ({@link org.jhotdraw.app.action.file.OpenRecentFileAction#ID}})
  *  -
  *  Close ({@link CloseFileAction#ID})
  *  Save ({@link SaveFileAction#ID})

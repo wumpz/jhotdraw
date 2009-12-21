@@ -32,8 +32,8 @@ import org.jhotdraw.app.action.AbstractApplicationAction;
  * {@code DefaultMDIApplication}. 
  * <p>
  * If you want this behavior in your application, you have to create an action
- * with this ID and put it in your {@code ApplicationModel) in method
- * {@link ApplicationModel#initApplication}.
+ * with this ID and put it in your {@code ApplicationModel} in method
+ * {@link org.jhotdraw.app.ApplicationModel#initApplication}.
  *
  * @author  Werner Randelshofer
  * @version $Id$

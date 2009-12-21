@@ -39,7 +39,7 @@ import java.awt.print.*;
  * 
  * @author Werner Randelshofer
  * @version $Id$
- * @see org.jhotdraw.app.action.PrintAction
+ * @see org.jhotdraw.app.action.file.PrintFileAction
  */
 public class DrawingPageable implements Pageable {
     private Drawing drawing;

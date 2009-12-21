@@ -36,8 +36,8 @@ import org.jhotdraw.util.*;
  * menu. The menu item is automatically created by the application.
  * <p>
  * If you want this behavior in your application, you have to create it
- * and put it in your {@code ApplicationModel) in method
- * {@link ApplicationModel#initApplication}.
+ * and put it in your {@code ApplicationModel} in method
+ * {@link org.jhotdraw.app.ApplicationModel#initApplication}.
  * <p>
  * You should also create a {@link PrintFileAction} when you create this action.
  * <hr>
@@ -47,7 +47,7 @@ import org.jhotdraw.util.*;
  * The interfaces and classes listed below define together the contracts
  * of a smaller framework inside of the JHotDraw framework for document oriented
  * applications.<br>
- * Contract: {@link PrintableView}, {@link org.jhotdraw.app.action.PrintFileAction}.
+ * Contract: {@link PrintableView}, {@link org.jhotdraw.app.action.file.PrintFileAction}.
  * <hr>
  *
  * @author Werner Randelshofer

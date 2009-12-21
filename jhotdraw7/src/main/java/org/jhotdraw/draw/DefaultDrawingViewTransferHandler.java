@@ -44,10 +44,6 @@ import org.jhotdraw.util.ReversedList;
 
 /**
  * Default TransferHandler for DrawingView objects.
- * <p>
- * Note: This class is here for backwards compatibilty with J2SE 5. If you
- * have J2SE 6 available, you may want to use class
- * {@link DnDDrawingViewTransferHandler} instead.
  *
  * @author Werner Randelshofer
  * @version $Id$

@@ -38,7 +38,7 @@ import org.jhotdraw.net.URIUtil;
  * menu. The menu item is automatically created by the application.
  * <p>
  * If you want this behavior in your application, you have to create an action
- * with this ID and put it in your {@code ApplicationModel) in method
+ * with this ID and put it in your {@code ApplicationModel} in method
  * {@link ApplicationModel#initApplication}. The views created by
  * {@code ApplicationModel} must implement the {@link ExportableView} interface.
  *
@@ -49,7 +49,7 @@ import org.jhotdraw.net.URIUtil;
  * The interfaces and classes listed below define together the contracts
  * of a smaller framework inside of the JHotDraw framework for document oriented
  * applications.<br>
- * Contract: {@link org.jhotdraw.app.ExportableView}, {@link org.jhotdraw.app.action.ExportFileAction}.
+ * Contract: {@link org.jhotdraw.app.ExportableView}, {@link org.jhotdraw.app.action.file.ExportFileAction}.
  * <hr>
  *
  * @author Werner Randelshofer

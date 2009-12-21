@@ -26,7 +26,7 @@ import org.jhotdraw.gui.URIChooser;
  * The interfaces and classes listed below define together the contracts
  * of a smaller framework inside of the JHotDraw framework for document oriented
  * applications.<br>
- * Contract: {@link DirectoryView}, {@link org.jhotdraw.app.action.LoadDirectoryAction}.
+ * Contract: {@link DirectoryView}, {@link org.jhotdraw.app.action.file.LoadDirectoryAction}.
  * <hr>
  *
  * @author Werner Randelshofer, Staldenmattweg 2, CH-6405 Immensee

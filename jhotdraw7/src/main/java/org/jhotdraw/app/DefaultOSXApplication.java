@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.app;
 
+import ch.randelshofer.quaqua.QuaquaManager;
 import org.jhotdraw.app.action.app.AbstractPreferencesAction;
 import org.jhotdraw.app.action.window.TogglePaletteAction;
 import org.jhotdraw.app.action.window.WindowFocusAction;
@@ -99,7 +100,7 @@ import org.jhotdraw.net.URIUtil;
  * <pre>
  *  New ({@link NewFileAction#ID}})
  *  Open... ({@link OpenFileAction#ID}})
- *  Open Recent &gt; "Filename" ({@link OpenRecentAction#ID})
+ *  Open Recent &gt; "Filename" ({@link org.jhotdraw.app.action.file.OpenRecentFileAction#ID})
  *  -
  *  Close ({@link CloseFileAction#ID})
  *  Save ({@link SaveFileAction#ID})
@@ -168,7 +169,7 @@ public class DefaultOSXApplication extends AbstractApplication {
 
     protected void initLookAndFeel() {
         try {
-            UIManager.setLookAndFeel("ch.randelshofer.quaqua.QuaquaLookAndFeel");
+            UIManager.setLookAndFeel(QuaquaManager.getLookAndFeel());
         } catch (Exception e) {
             e.printStackTrace();
         }

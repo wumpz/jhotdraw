@@ -36,7 +36,7 @@ import org.jhotdraw.net.URIUtil;
  * The menu item is automatically created by the application.
  * <p>
  * This action is automatically created by the application and put into
- * the {@code ApplicationModel} before {@link ApplicationModel#initApplication}
+ * the {@code ApplicationModel} before {@link org.jhotdraw.app.ApplicationModel#initApplication}
  * is called.
  *
  * @author  Werner Randelshofer

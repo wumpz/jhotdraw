@@ -91,9 +91,6 @@ public interface URIChooser {
     /**
      * Sets the selected URI.
      *
-     * @beaninfo
-     *       bound: true
-     *
      * @param uri the selected uri
      */
     public void setSelectedURI(URI uri);
@@ -136,19 +133,10 @@ public interface URIChooser {
      *
      * @exception IllegalArgumentException if {@code dialogType} is
      *				not legal
-     * @beaninfo
-     *   preferred: true
-     *       bound: true
-     * description: The type (open, save, custom) of the URIChooser.
-     *        enum:
-     *              OPEN_DIALOG URIChooser.OPEN_DIALOG
-     *              SAVE_DIALOG URIChooser.SAVE_DIALOG
-     *              CUSTOM_DIALOG URIChooser.CUSTOM_DIALOG
-     *
      * @see #getDialogType
      * @see #setApproveButtonText
      */
-    public void setDialogType(int type);
+    public void setDialogType(int dialogType);
 
     /**
      * Returns the text used in the <code>ApproveButton</code>.
@@ -167,11 +155,6 @@ public interface URIChooser {
     /**
      * Sets the text used in the <code>ApproveButton</code> in the
      * <code>FileChooserUI</code>.
-     *
-     * @beaninfo
-     *   preferred: true
-     *       bound: true
-     * description: The text that goes in the ApproveButton.
      *
      * @param approveButtonText the text used in the <code>ApproveButton</code>
      *
@@ -193,11 +176,6 @@ public interface URIChooser {
      *
      * @param mnemonic  an integer value for the mnemonic key
      *
-     * @beaninfo
-     *   preferred: true
-     *       bound: true
-     * description: The mnemonic key accelerator for the ApproveButton.
-     *
      * @see #getApproveButtonMnemonic
      */
     public void setApproveButtonMnemonic(int mnemonic);
@@ -215,9 +193,6 @@ public interface URIChooser {
      * Adds an <code>ActionListener</code> to the chooser.
      *
      * @param l  the listener to be added
-     *
-     * @see #approveSelection
-     * @see #cancelSelection
      */
     public void addActionListener(ActionListener l);
 
@@ -235,11 +210,6 @@ public interface URIChooser {
      * title bar.
      *
      * @param dialogTitle the new <code>String</code> for the title bar
-     *
-     * @beaninfo
-     *   preferred: true
-     *       bound: true
-     * description: The title of the URIChooser dialog window.
      *
      * @see #getDialogTitle
      *

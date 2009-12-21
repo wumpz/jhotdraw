@@ -26,7 +26,7 @@ import org.jhotdraw.util.*;
  * menu. The menu item is automatically created by the application.
  * <p>
  * If you want this behavior in your application, you have to create an action
- * with this ID and put it in your {@code ApplicationModel) in method
+ * with this ID and put it in your {@code ApplicationModel} in method
  * {@link ApplicationModel#initApplication}.
  *
  * @author Werner Randelshofer

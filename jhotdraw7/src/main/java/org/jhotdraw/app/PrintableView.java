@@ -26,7 +26,7 @@ import java.awt.print.*;
  * The interfaces and classes listed below define together the contracts
  * of a smaller framework inside of the JHotDraw framework for document oriented
  * applications.<br>
- * Contract: {@link PrintableView}, {@link org.jhotdraw.app.action.PrintAction}.
+ * Contract: {@link PrintableView}, {@link org.jhotdraw.app.action.file.PrintFileAction}.
  * <hr>
  *
  * @author Werner Randelshofer

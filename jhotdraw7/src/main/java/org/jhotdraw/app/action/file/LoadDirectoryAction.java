@@ -35,7 +35,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * This action should not be used together with {@code FileOpenAction}.
  * <p>
  * If you want this behavior in your application, you have to create it
- * and put it in your {@code ApplicationModel) in method
+ * and put it in your {@code ApplicationModel} in method
  * {@link ApplicationModel#initApplication}. The views created by
  * {@code ApplicationModel} must implement the {@link DirectoryView} interface.
  * <p>

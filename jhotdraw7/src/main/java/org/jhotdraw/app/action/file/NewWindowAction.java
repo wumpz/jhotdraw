@@ -24,8 +24,8 @@ import org.jhotdraw.app.Application;
  * menu.
  * <p>
  * If you want this behavior in your application, you have to create it
- * and put it in your {@code ApplicationModel) in method
- * {@link ApplicationModel#initApplication}.
+ * and put it in your {@code ApplicationModel} in method
+ * {@link org.jhotdraw.app.ApplicationModel#initApplication}.
  * <p>
  * This action is designed for applications which do not automatically
  * create a new view for each opened file. This action goes together with

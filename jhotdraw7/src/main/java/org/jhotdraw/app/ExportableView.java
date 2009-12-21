@@ -30,7 +30,7 @@ import org.jhotdraw.gui.URIChooser;
  * The interfaces and classes listed below define together the contracts
  * of a smaller framework inside of the JHotDraw framework for document oriented
  * applications.<br>
- * Contract: {@link ExportableView}, {@link org.jhotdraw.app.action.ExportAction}.
+ * Contract: {@link ExportableView}, {@link org.jhotdraw.app.action.file.ExportFileAction}.
  * <hr>
  *
  * @author Werner Randelshofer

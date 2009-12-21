@@ -23,11 +23,11 @@ import javax.swing.*;
  * Changes the arrangement of an {@link Arrangeable} object.
  * <p>
  * If you want this behavior in your application, you have to create it
- * and put it in your {@code ApplicationModel) in method
- * {@link ApplicationModel#initApplication}.
+ * and put it in your {@code ApplicationModel} in method
+ * {@link org.jhotdraw.app.ApplicationModel#initApplication}.
  * <p>
  * If you want a menu item for this action, you have to create it in
- * method {@link ApplicationModel#createMenus}.
+ * method {@link org.jhotdraw.app.ApplicationModel#createMenus}.
  *
  * FIXME - Register as PropertyChangeListener on Arrangeable.
  *

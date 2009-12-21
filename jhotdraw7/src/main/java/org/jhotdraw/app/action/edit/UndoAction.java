@@ -31,8 +31,8 @@ import org.jhotdraw.app.action.AbstractViewAction;
  * menu. The menu item is automatically created by the application.
  * <p>
  * If you want this behavior in your application, you have to create an action
- * with this ID and put it in your {@code ApplicationModel) in method
- * {@link ApplicationModel#initApplication}.
+ * with this ID and put it in your {@code ApplicationModel} in method
+ * {@link org.jhotdraw.app.ApplicationModel#initApplication}.
  *
  * @author Werner Randelshofer
  * @version $Id$

@@ -27,7 +27,7 @@ import org.jhotdraw.app.action.AbstractApplicationAction;
  * <p>
  * This action is automatically created by {@code DefaultOSXApplication}
  * and put into the {@code ApplicationModel} before
- * {@link ApplicationModel#initApplication} is called.
+ * {@link org.jhotdraw.app.ApplicationModel#initApplication} is called.
  *
  * @author Werner Randelshofer
  * @version 1.0 2009-12-18 Created.
