@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultMDIApplication.java
+ * @(#)MDIApplication.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -15,10 +15,10 @@ package org.jhotdraw.app;
 
 import org.jhotdraw.app.action.app.AbstractPreferencesAction;
 import org.jhotdraw.app.action.window.ToggleToolBarAction;
-import org.jhotdraw.app.action.window.WindowFocusAction;
-import org.jhotdraw.app.action.window.WindowArrangeAction;
-import org.jhotdraw.app.action.window.WindowMaximizeAction;
-import org.jhotdraw.app.action.window.WindowMinimizeAction;
+import org.jhotdraw.app.action.window.FocusWindowAction;
+import org.jhotdraw.app.action.window.ArrangeWindowsAction;
+import org.jhotdraw.app.action.window.MaximizeWindowAction;
+import org.jhotdraw.app.action.window.MinimizeWindowAction;
 import org.jhotdraw.app.action.file.SaveFileAsAction;
 import org.jhotdraw.app.action.file.SaveFileAction;
 import org.jhotdraw.app.action.file.PrintFileAction;
@@ -71,7 +71,7 @@ import org.jhotdraw.app.action.file.NewWindowAction;
 import org.jhotdraw.net.URIUtil;
 
 /**
- * {@code DefaultMDIApplication} handles the lifecycle of {@link View}s
+ * {@code MDIApplication} handles the lifecycle of {@link View}s
  * using a multiple document interface (MDI).
  * <p>
  * An application consists of a parent {@code JFrame} which holds a {@code JDesktopPane}.
@@ -108,10 +108,10 @@ import org.jhotdraw.net.URIUtil;
  *
  * The <b>window menu</b> has the following standard menu items:
  * <pre>
- *  Minimize ({@link WindowMinimizeAction#ID})
- *  Maximize ({@link WindowMaximizeAction#ID})
+ *  Minimize ({@link MinimizeWindowAction#ID})
+ *  Maximize ({@link MaximizeWindowAction#ID})
  *  -
- *  "Filename" ({@link WindowFocusAction#ID})
+ *  "Filename" ({@link FocusWindowAction#ID})
  * </pre>
  *
  * The <b>help menu</b> has the following standard menu items:
@@ -129,7 +129,7 @@ import org.jhotdraw.net.URIUtil;
  * @author Werner Randelshofer.
  * @version $Id$
  */
-public class DefaultMDIApplication extends AbstractApplication {
+public class MDIApplication extends AbstractApplication {
 
     private JFrame parentFrame;
     private JScrollPane scrollPane;
@@ -138,7 +138,7 @@ public class DefaultMDIApplication extends AbstractApplication {
     private LinkedList<Action> toolBarActions;
 
     /** Creates a new instance. */
-    public DefaultMDIApplication() {
+    public MDIApplication() {
     }
 
     @Override
@@ -183,17 +183,17 @@ public class DefaultMDIApplication extends AbstractApplication {
         mo.putAction(ExitAction.ID, new ExitAction(this));
         mo.putAction(ClearRecentFilesMenuAction.ID, new ClearRecentFilesMenuAction(this));
 
-        mo.putAction(WindowMaximizeAction.ID, new WindowMaximizeAction(this));
-        mo.putAction(WindowMinimizeAction.ID, new WindowMinimizeAction(this));
+        mo.putAction(MaximizeWindowAction.ID, new MaximizeWindowAction(this));
+        mo.putAction(MinimizeWindowAction.ID, new MinimizeWindowAction(this));
 
-        mo.putAction(WindowArrangeAction.VERTICAL_ID, new WindowArrangeAction(desktopPane, Arrangeable.Arrangement.VERTICAL));
-        mo.putAction(WindowArrangeAction.HORIZONTAL_ID, new WindowArrangeAction(desktopPane, Arrangeable.Arrangement.HORIZONTAL));
-        mo.putAction(WindowArrangeAction.CASCADE_ID, new WindowArrangeAction(desktopPane, Arrangeable.Arrangement.CASCADE));
+        mo.putAction(ArrangeWindowsAction.VERTICAL_ID, new ArrangeWindowsAction(desktopPane, Arrangeable.Arrangement.VERTICAL));
+        mo.putAction(ArrangeWindowsAction.HORIZONTAL_ID, new ArrangeWindowsAction(desktopPane, Arrangeable.Arrangement.HORIZONTAL));
+        mo.putAction(ArrangeWindowsAction.CASCADE_ID, new ArrangeWindowsAction(desktopPane, Arrangeable.Arrangement.CASCADE));
     }
 
     @Override
     protected void initViewActions(View p) {
-        p.putAction(WindowFocusAction.ID, new WindowFocusAction(p));
+        p.putAction(FocusWindowAction.ID, new FocusWindowAction(p));
     }
 
     @Override
@@ -510,14 +510,14 @@ public class DefaultMDIApplication extends AbstractApplication {
         m = new JMenu();
         JMenu windowMenu = m;
         labels.configureMenu(m, "window");
-        addAction(m, WindowArrangeAction.CASCADE_ID);
-        addAction(m, WindowArrangeAction.VERTICAL_ID);
-        addAction(m, WindowArrangeAction.HORIZONTAL_ID);
+        addAction(m, ArrangeWindowsAction.CASCADE_ID);
+        addAction(m, ArrangeWindowsAction.VERTICAL_ID);
+        addAction(m, ArrangeWindowsAction.HORIZONTAL_ID);
 
        maybeAddSeparator(m);
         for (View pr : views()) {
-            if (pr.getAction(WindowFocusAction.ID) != null) {
-                addAction(m, pr.getAction(WindowFocusAction.ID));
+            if (pr.getAction(FocusWindowAction.ID) != null) {
+                addAction(m, pr.getAction(FocusWindowAction.ID));
             }
         }
         if (toolBarActions.size() > 0) {
@@ -597,15 +597,15 @@ public class DefaultMDIApplication extends AbstractApplication {
             ApplicationModel mo = getModel();
             m.removeAll();
 
-            m.add(mo.getAction(WindowArrangeAction.CASCADE_ID));
-            m.add(mo.getAction(WindowArrangeAction.VERTICAL_ID));
-            m.add(mo.getAction(WindowArrangeAction.HORIZONTAL_ID));
+            m.add(mo.getAction(ArrangeWindowsAction.CASCADE_ID));
+            m.add(mo.getAction(ArrangeWindowsAction.VERTICAL_ID));
+            m.add(mo.getAction(ArrangeWindowsAction.HORIZONTAL_ID));
 
             m.addSeparator();
             for (Iterator i = views().iterator(); i.hasNext();) {
                 View pr = (View) i.next();
-                if (pr.getAction(WindowFocusAction.ID) != null) {
-                    m.add(pr.getAction(WindowFocusAction.ID));
+                if (pr.getAction(FocusWindowAction.ID) != null) {
+                    m.add(pr.getAction(FocusWindowAction.ID));
                 }
             }
             if (toolBarActions.size() > 0) {

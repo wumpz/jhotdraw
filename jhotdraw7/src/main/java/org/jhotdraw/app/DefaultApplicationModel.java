@@ -40,13 +40,8 @@ import org.jhotdraw.app.action.edit.ClearSelectionAction;
 public class DefaultApplicationModel
         extends AbstractApplicationModel {
 
-
-     @Override
-    public List<JMenu> createMenus(Application a, View p) {
-        return Collections.emptyList();
-    }
     @Override
-   public void initView(Application a, View p) {
+    public void initView(Application a, View p) {
     }
 
     @Override
@@ -71,5 +66,47 @@ public class DefaultApplicationModel
     @Override
     public List<JToolBar> createToolBars(Application app, View p) {
         return Collections.emptyList();
+    }
+
+    @Override
+    public List<JMenu> createMenus(Application a, View v) {
+        LinkedList<JMenu> menus = new LinkedList<JMenu>();
+        JMenu m;
+        if ((m = createFileMenu(a, v)) != null) {
+            menus.add(m);
+        }
+        if ((m = createEditMenu(a, v)) != null) {
+            menus.add(m);
+        }
+        if ((m = createViewMenu(a, v)) != null) {
+            menus.add(m);
+        }
+        if ((m = createWindowMenu(a, v)) != null) {
+            menus.add(m);
+        }
+        if ((m = createHelpMenu(a, v)) != null) {
+            menus.add(m);
+        }
+        return menus;
+    }
+
+    protected JMenu createFileMenu(Application app, View view) {
+        return null;
+    }
+
+    protected JMenu createEditMenu(Application app, View view) {
+        return null;
+    }
+
+    protected JMenu createViewMenu(Application app, View view) {
+        return null;
+    }
+
+    protected JMenu createWindowMenu(Application app, View view) {
+        return null;
+    }
+
+    protected JMenu createHelpMenu(Application app, View view) {
+        return null;
     }
 }

@@ -40,12 +40,12 @@ public class Main {
         
         Application app;
         if (System.getProperty("os.name").toLowerCase().startsWith("mac os x")) {
-            app = new DefaultOSXApplication();
+            app = new OSXApplication();
         } else if (System.getProperty("os.name").toLowerCase().startsWith("win")) {
             //app = new DefaultMDIApplication();
-            app = new DefaultSDIApplication();
+            app = new SDIApplication();
         } else {
-            app = new DefaultSDIApplication();
+            app = new SDIApplication();
         }
         app.setModel(tam);
         app.launch(args);

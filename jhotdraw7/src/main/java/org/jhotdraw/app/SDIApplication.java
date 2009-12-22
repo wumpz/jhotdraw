@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultSDIApplication.java
+ * @(#)SDIApplication.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -15,8 +15,8 @@ package org.jhotdraw.app;
 
 import org.jhotdraw.app.action.app.AbstractPreferencesAction;
 import org.jhotdraw.app.action.window.ToggleVisibleAction;
-import org.jhotdraw.app.action.window.WindowMaximizeAction;
-import org.jhotdraw.app.action.window.WindowMinimizeAction;
+import org.jhotdraw.app.action.window.MaximizeWindowAction;
+import org.jhotdraw.app.action.window.MinimizeWindowAction;
 import org.jhotdraw.app.action.file.SaveFileAsAction;
 import org.jhotdraw.app.action.file.SaveFileAction;
 import org.jhotdraw.app.action.file.LoadDirectoryAction;
@@ -55,7 +55,7 @@ import org.jhotdraw.app.action.file.NewWindowAction;
 import org.jhotdraw.net.URIUtil;
 
 /**
- * {@code DefaultSDIApplication} handles the lifecycle of a {@link View}s
+ * {@code SDIApplication} handles the lifecycle of a {@link View}s
  * using a single document interface (SDI).
  * <p>
  * An application consists of independent {@code JFrame}s for each view.
@@ -65,7 +65,7 @@ import org.jhotdraw.net.URIUtil;
  * The life cycle of the application is tied to the {@code JFrame}s. Closing the
  * last {@code JFrame} quits the application.
 
- * DefaultSDIApplication handles the life cycle of a single document window
+ * SDIApplication handles the life cycle of a single document window
  * being presented in a JFrame. The JFrame provides all the functionality needed
  * to work with the document, such as a menu bar, tool bars and palette windows.
  * <p>
@@ -75,12 +75,12 @@ import org.jhotdraw.net.URIUtil;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class DefaultSDIApplication extends AbstractApplication {
+public class SDIApplication extends AbstractApplication {
 
     private Preferences prefs;
 
     /** Creates a new instance. */
-    public DefaultSDIApplication() {
+    public SDIApplication() {
     }
 
     @Override
@@ -170,7 +170,7 @@ public class DefaultSDIApplication extends AbstractApplication {
             f.addWindowListener(new WindowAdapter() {
 
                 public void windowClosing(final WindowEvent evt) {
-                    getModel().getAction(CloseFileAction.ID).actionPerformed(
+                       getModel().getAction(CloseFileAction.ID).actionPerformed(
                             new ActionEvent(f, ActionEvent.ACTION_PERFORMED,
                             "windowClosing"));
                 }
@@ -468,8 +468,8 @@ public class DefaultSDIApplication extends AbstractApplication {
     protected void initApplicationActions(ApplicationModel m) {
         m.putAction(AboutAction.ID, new AboutAction(this));
         m.putAction(CloseFileAction.ID, new CloseFileAction(this));
-        m.putAction(WindowMaximizeAction.ID, new WindowMaximizeAction(this));
-        m.putAction(WindowMinimizeAction.ID, new WindowMinimizeAction(this));
+        m.putAction(MaximizeWindowAction.ID, new MaximizeWindowAction(this));
+        m.putAction(MinimizeWindowAction.ID, new MinimizeWindowAction(this));
         m.putAction(ClearRecentFilesMenuAction.ID, new ClearRecentFilesMenuAction(this));
     }
 }

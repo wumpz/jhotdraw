@@ -1,5 +1,5 @@
 /*
- * @(#)WindowFocusAction.java
+ * @(#)FocusWindowAction.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -31,13 +31,13 @@ import org.jhotdraw.net.URIUtil;
  * @author  Werner Randelshofer
  * @version $Id$
  */
-public class WindowFocusAction extends AbstractAction {
+public class FocusWindowAction extends AbstractAction {
     public final static String ID = "window.focus";
     private View view;
     private PropertyChangeListener ppc;
     
     /** Creates a new instance. */
-    public WindowFocusAction(View view) {
+    public FocusWindowAction(View view) {
         this.view = view;
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);

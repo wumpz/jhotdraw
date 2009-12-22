@@ -108,7 +108,8 @@ public interface Application {
     public void stop();
 
     /**
-     * Creates a new view for this application.
+     * Creates a new view for this application and initializes it, by calling
+     * {@link View#init}.
      */
     public View createView();
 

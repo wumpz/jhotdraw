@@ -16,8 +16,8 @@ package org.jhotdraw.samples.pert;
 
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.DefaultApplicationModel;
-import org.jhotdraw.app.DefaultOSXApplication;
-import org.jhotdraw.app.DefaultSDIApplication;
+import org.jhotdraw.app.OSXApplication;
+import org.jhotdraw.app.SDIApplication;
 /**
  * Main.
  *
@@ -31,12 +31,12 @@ public class Main {
         Application app;
         String os = System.getProperty("os.name").toLowerCase();
         if (os.startsWith("mac")) {
-            app = new DefaultOSXApplication();
+            app = new OSXApplication();
         } else if (os.startsWith("win")) {
           //  app = new DefaultMDIApplication();
-            app = new DefaultSDIApplication();
+            app = new SDIApplication();
         } else {
-            app = new DefaultSDIApplication();
+            app = new SDIApplication();
         }
         
         

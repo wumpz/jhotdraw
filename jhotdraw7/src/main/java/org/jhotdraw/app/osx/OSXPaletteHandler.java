@@ -17,7 +17,7 @@ package org.jhotdraw.app.osx;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
-import org.jhotdraw.app.DefaultOSXApplication;
+import org.jhotdraw.app.OSXApplication;
 import org.jhotdraw.app.View;
 /**
  * Hides all registered floating palettes, if none of the registered view
@@ -31,7 +31,7 @@ public class OSXPaletteHandler {
     private HashMap<Window,View> windows = new HashMap<Window,View>();
     private static OSXPaletteHandler instance;
     private javax.swing.Timer timer;
-    private DefaultOSXApplication app;
+    private OSXApplication app;
     private WindowFocusListener focusHandler = new WindowFocusListener() {
         /**
          * Invoked when the Window is set to be the focused Window, which means
@@ -57,7 +57,7 @@ public class OSXPaletteHandler {
     };
     
     /** Creates a new instance. */
-    public OSXPaletteHandler(DefaultOSXApplication app) {
+    public OSXPaletteHandler(OSXApplication app) {
         this.app = app;
         timer = new javax.swing.Timer(60, new ActionListener() {
             public void actionPerformed(ActionEvent evt) {

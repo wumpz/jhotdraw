@@ -33,8 +33,8 @@ import org.jhotdraw.app.action.AbstractSaveUnsavedChangesAction;
  * <p>
  * You should include this action in applications which use at least
  * one of the following actions, so that the user can close views that he/she
- * created: {@code FileNewAction}, {@code FileNewWindowAction},
- * {@code FileOpenAction}, {@code FileOpenDirectoryAction}.
+ * created: {@link NewFileAction}, {@link NewWindowAction},
+ * {@link OpenFileAction}, {@link OpenDirectoryAction}.
  * <p>
  *
  * @author  Werner Randelshofer

@@ -1,5 +1,5 @@
 /*
- * @(#)WindowMinimizeAction.java
+ * @(#)MaximizeWindowAction.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -15,7 +15,6 @@
 package org.jhotdraw.app.action.window;
 
 import org.jhotdraw.util.*;
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -23,16 +22,16 @@ import org.jhotdraw.app.Application;
 import org.jhotdraw.app.action.AbstractViewAction;
 
 /**
- * Minimizes the Frame of the current view.
- *
- * @author  Werner Randelshofer
+ * Maximizes the window of the active view.
+ * 
+ * @author Werner Randelshofer
  * @version $Id$
  */
-public class WindowMinimizeAction extends AbstractViewAction {
-    public final static String ID = "window.minimize";
-
+public class MaximizeWindowAction extends AbstractViewAction {
+    public final static String ID = "window.maximize";
+    
     /** Creates a new instance. */
-    public WindowMinimizeAction(Application app) {
+    public MaximizeWindowAction(Application app) {
         super(app);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
@@ -43,10 +42,11 @@ public class WindowMinimizeAction extends AbstractViewAction {
                 getActiveView().getComponent()
                 );
     }
+    
     public void actionPerformed(ActionEvent evt) {
         JFrame frame = getFrame();
         if (frame != null) {
-            frame.setExtendedState(frame.getExtendedState() ^ Frame.ICONIFIED);
+            frame.setExtendedState(frame.getExtendedState() ^ Frame.MAXIMIZED_BOTH);
         } else {
             Toolkit.getDefaultToolkit().beep();
         }

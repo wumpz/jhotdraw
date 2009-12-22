@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultOSXApplication.java
+ * @(#)OSXApplication.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -16,9 +16,9 @@ package org.jhotdraw.app;
 import ch.randelshofer.quaqua.QuaquaManager;
 import org.jhotdraw.app.action.app.AbstractPreferencesAction;
 import org.jhotdraw.app.action.window.TogglePaletteAction;
-import org.jhotdraw.app.action.window.WindowFocusAction;
-import org.jhotdraw.app.action.window.WindowMaximizeAction;
-import org.jhotdraw.app.action.window.WindowMinimizeAction;
+import org.jhotdraw.app.action.window.FocusWindowAction;
+import org.jhotdraw.app.action.window.MaximizeWindowAction;
+import org.jhotdraw.app.action.window.MinimizeWindowAction;
 import org.jhotdraw.app.action.file.SaveFileAsAction;
 import org.jhotdraw.app.action.file.SaveFileAction;
 import org.jhotdraw.app.action.file.PrintFileAction;
@@ -66,7 +66,7 @@ import org.jhotdraw.beans.Disposable;
 import org.jhotdraw.net.URIUtil;
 
 /**
- * {@code DefaultOSXApplication} handles the lifecycle of {@link View}s using a
+ * {@code OSXApplication} handles the lifecycle of {@link View}s using a
  * Mac OS X document interface.
  * <p>
  * An application consists of a screen menu bar and {@code JFrame}s for the
@@ -111,10 +111,10 @@ import org.jhotdraw.net.URIUtil;
  *
  * The <b>window menu</b> has the following standard menu items:
  * <pre>
- *  Minimize ({@link WindowMinimizeAction#ID})
- *  Zoom ({@link WindowMaximizeAction#ID})
+ *  Minimize ({@link MinimizeWindowAction#ID})
+ *  Zoom ({@link MaximizeWindowAction#ID})
  *  -
- *  "Filename" ({@link WindowFocusAction#ID})
+ *  "Filename" ({@link FocusWindowAction#ID})
  * </pre>
  *
  * The menus provided by the {@code ApplicationModel} are inserted between
@@ -124,7 +124,7 @@ import org.jhotdraw.net.URIUtil;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class DefaultOSXApplication extends AbstractApplication {
+public class OSXApplication extends AbstractApplication {
 
     private OSXPaletteHandler paletteHandler;
     private Preferences prefs;
@@ -134,7 +134,7 @@ public class DefaultOSXApplication extends AbstractApplication {
     private JFrame invisibleFrame;
 
     /** Creates a new instance. */
-    public DefaultOSXApplication() {
+    public OSXApplication() {
     }
 
     @Override
@@ -184,11 +184,11 @@ public class DefaultOSXApplication extends AbstractApplication {
     }
 
     protected void initViewActions(View p) {
-        p.putAction(WindowFocusAction.ID, new WindowFocusAction(p));
+        p.putAction(FocusWindowAction.ID, new FocusWindowAction(p));
     }
 
     public void dispose(View p) {
-        WindowFocusAction a = (WindowFocusAction) p.getAction(WindowFocusAction.ID);
+        FocusWindowAction a = (FocusWindowAction) p.getAction(FocusWindowAction.ID);
         if (a != null) {
             a.dispose();
         }
@@ -494,7 +494,7 @@ public class DefaultOSXApplication extends AbstractApplication {
 
             public LinkedList<JFrame> construct() {
                 LinkedList<JFrame> palettes = new LinkedList<JFrame>();
-                LinkedList<JToolBar> toolBars = new LinkedList<JToolBar>(getModel().createToolBars(DefaultOSXApplication.this, null));
+                LinkedList<JToolBar> toolBars = new LinkedList<JToolBar>(getModel().createToolBars(OSXApplication.this, null));
 
                 int i = 0;
                 int x = 0;
@@ -529,7 +529,7 @@ public class DefaultOSXApplication extends AbstractApplication {
                     PreferencesUtil.installPalettePrefsHandler(prefs, "toolbar." + i, d, x);
                     x += d.getWidth();
 
-                    paletteActions.add(new TogglePaletteAction(DefaultOSXApplication.this, d, tb.getName()));
+                    paletteActions.add(new TogglePaletteAction(OSXApplication.this, d, tb.getName()));
                     palettes.add(d);
                 }
                 return palettes;
@@ -584,8 +584,8 @@ public class DefaultOSXApplication extends AbstractApplication {
         m.putAction(ExitAction.ID, new ExitAction((this)));
         m.putAction(OpenApplicationAction.ID, new OpenApplicationAction(this));
         m.putAction(ReOpenApplicationAction.ID, new ReOpenApplicationAction(this));
-        m.putAction(WindowMaximizeAction.ID, new WindowMaximizeAction(this));
-        m.putAction(WindowMinimizeAction.ID, new WindowMinimizeAction(this));
+        m.putAction(MaximizeWindowAction.ID, new MaximizeWindowAction(this));
+        m.putAction(MinimizeWindowAction.ID, new MinimizeWindowAction(this));
         m.putAction(ClearRecentFilesMenuAction.ID, new ClearRecentFilesMenuAction(this));
     }
 
@@ -618,15 +618,15 @@ public class DefaultOSXApplication extends AbstractApplication {
 
             m.removeAll();
             ApplicationModel model = getModel();
-            mi = m.add(model.getAction(WindowMinimizeAction.ID));
+            mi = m.add(model.getAction(MinimizeWindowAction.ID));
             mi.setIcon(null);
-            mi = m.add(model.getAction(WindowMaximizeAction.ID));
+            mi = m.add(model.getAction(MaximizeWindowAction.ID));
             mi.setIcon(null);
             m.addSeparator();
             for (Iterator i = views().iterator(); i.hasNext();) {
                 View pr = (View) i.next();
-                if (pr.getAction(WindowFocusAction.ID) != null) {
-                    mi = m.add(pr.getAction(WindowFocusAction.ID));
+                if (pr.getAction(FocusWindowAction.ID) != null) {
+                    mi = m.add(pr.getAction(FocusWindowAction.ID));
                 }
             }
             if (paletteActions.size() > 0) {
@@ -674,18 +674,9 @@ public class DefaultOSXApplication extends AbstractApplication {
         public void windowClosing(final WindowEvent evt) {
             setActiveView(view);
 
-            // If there is no means provided to open a new windows, we quit
-            // the appliction when the view is closed.
-            ApplicationModel m = getModel();
-            Action a = (m.getAction(NewFileAction.ID) == null ||//
-                    m.getAction(CloseFileAction.ID) == null) ?//
-                    m.getAction(ExitAction.ID) : //
-                    m.getAction(CloseFileAction.ID);
-            if (a != null) {
-                a.actionPerformed(
-                        new ActionEvent(frame, ActionEvent.ACTION_PERFORMED,
-                        "windowClosing"));
-            }
+         getModel().getAction(CloseFileAction.ID).actionPerformed(
+                            new ActionEvent(evt.getSource(), ActionEvent.ACTION_PERFORMED,
+                            "windowClosing"));
         }
 
         @Override

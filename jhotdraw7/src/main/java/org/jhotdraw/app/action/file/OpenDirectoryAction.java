@@ -33,8 +33,8 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * <p>
  * This action is designed for applications which automatically
  * create a new view for each opened file. This action goes together with
- * {@code NewAction}, {@code OpenFileAction} and {@code FileCloseAction}.
- * This action should not be used together with {@code FileLoadAction}.
+ * {@link NewFileAction}, {@link OpenFileAction} and {@link CloseFileAction}.
+ * This action should not be used together with {@link LoadFileAction}.
  *
  * @author Werner Randelshofer, Staldenmattweg 2, CH-6405 Immensee
  * @version $Id$

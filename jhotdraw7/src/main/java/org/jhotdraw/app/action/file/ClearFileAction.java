@@ -32,8 +32,8 @@ import org.jhotdraw.app.action.AbstractSaveUnsavedChangesAction;
  * <p>
  * This action is designed for applications which do not automatically
  * create a new view for each opened file. This action goes together with
- * {@code FileNewWindowAction}, {@code FileLoadAction}, {@code FileLoadDirectoryAction}
- * and {@code FileCloseAction}.
+ * {@link NewWindowAction}, {@link LoadFileAction}, {@link LoadDirectoryAction}
+ * and {@link CloseFileAction}.
  * This action should not be used together with {@code FileNewAction}.
  *
  * @author Werner Randelshofer

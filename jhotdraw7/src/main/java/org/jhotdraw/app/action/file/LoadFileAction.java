@@ -13,6 +13,8 @@
  */
 package org.jhotdraw.app.action.file;
 
+import java.awt.Component;
+import java.awt.Window;
 import org.jhotdraw.util.*;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.gui.event.*;
@@ -23,6 +25,7 @@ import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
 import org.jhotdraw.app.action.AbstractSaveUnsavedChangesAction;
 import org.jhotdraw.gui.URIChooser;
+import org.jhotdraw.io.ExtensionFileFilter;
 import org.jhotdraw.net.URIUtil;
 
 /**
@@ -39,9 +42,9 @@ import org.jhotdraw.net.URIUtil;
  * <p>
  * This action is designed for applications which do not automatically
  * create a new view for each opened file. This action goes together with
- * {@code FileClearAction}, {@code FileNewWindowAction}, {@code LoadFileAction},
- * {@code FileLoadDirectoryAction} and {@code FileCloseAction}.
- * This action should not be used together with {@code FileOpenAction}.
+ * {@link ClearFileAction}, {@link NewWindowAction}, {@link LoadFileAction},
+ * {@link LoadDirectoryAction} and {@link CloseFileAction}.
+ * This action should not be used together with {@link OpenFileAction}.
  *
  * @author  Werner Randelshofer
  * @version $Id$
@@ -65,13 +68,30 @@ public class LoadFileAction extends AbstractSaveUnsavedChangesAction {
         return view.getOpenChooser();
     }
 
-    public void doIt(View view) {
+    public void doIt(final View view) {
         URIChooser fileChooser = getFileChooser(view);
-        if (fileChooser.showOpenDialog(view.getComponent()) == URIChooser.APPROVE_OPTION) {
-            loadViewFromURI(view, fileChooser.getSelectedURI());
-        } else {
-            view.setEnabled(true);
-        }
+            Window wAncestor = SwingUtilities.getWindowAncestor(view.getComponent());
+            final Component oldFocusOwner = (wAncestor == null) ? null : wAncestor.getFocusOwner();
+
+                    JSheet.showOpenSheet(fileChooser, view.getComponent(), new SheetListener() {
+
+                public void optionSelected(final SheetEvent evt) {
+                    if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
+                        final URI uri;
+                        if ((evt.getChooser() instanceof JFileURIChooser) && evt.getFileChooser().getFileFilter() instanceof ExtensionFileFilter) {
+                            uri = ((ExtensionFileFilter) evt.getFileChooser().getFileFilter()).makeAcceptable(evt.getFileChooser().getSelectedFile()).toURI();
+                        } else {
+                            uri = evt.getChooser().getSelectedURI();
+                        }
+                        loadViewFromURI(view, uri);
+                    } else {
+                        view.setEnabled(true);
+                        if (oldFocusOwner != null) {
+                            oldFocusOwner.requestFocus();
+                        }
+                    }
+                }
+            });
     }
 
     public void loadViewFromURI(final View view, final URI uri) {

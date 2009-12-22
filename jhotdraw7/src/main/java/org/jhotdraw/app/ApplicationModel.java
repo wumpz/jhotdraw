@@ -58,7 +58,8 @@ public interface ApplicationModel {
     /** Inits the application model.
      * <p>
      * Typically, the application model creates a number of
-     * {@link org.jhotdraw.app.action.AbstractApplicationAction}
+     * {@link org.jhotdraw.app.action.AbstractApplicationAction} and
+     *  {@link org.jhotdraw.app.action.AbstractViewAction}
      * objects, which can later be retrieved using getAction, and
      * which are linked to menu items and toolbars created by the
      * application model.

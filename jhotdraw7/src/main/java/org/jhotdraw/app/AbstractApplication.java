@@ -28,6 +28,9 @@ import javax.swing.*;
 import java.io.*;
 import java.net.URI;
 import org.jhotdraw.app.action.file.ClearRecentFilesMenuAction;
+import org.jhotdraw.app.action.file.LoadDirectoryAction;
+import org.jhotdraw.app.action.file.LoadFileAction;
+import org.jhotdraw.app.action.file.LoadRecentFileAction;
 import org.jhotdraw.app.action.file.OpenFileAction;
 import org.jhotdraw.app.action.file.OpenDirectoryAction;
 import org.jhotdraw.app.action.file.OpenRecentFileAction;
@@ -318,7 +321,12 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         JMenu m;
 
         m = new JMenu();
-        labels.configureMenu(m, "file.openRecent");
+        labels.configureMenu(m, //
+                (model.getAction(LoadFileAction.ID) != null || //
+                model.getAction(LoadDirectoryAction.ID) != null) ?//
+                "file.loadRecent" ://
+                "file.openRecent"//
+                );
         m.setIcon(null);
         m.add(model.getAction(ClearRecentFilesMenuAction.ID));
 
@@ -330,7 +338,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     private class OpenRecentMenuHandler implements PropertyChangeListener, Disposable {
 
         private JMenu openRecentMenu;
-        private LinkedList<OpenRecentFileAction> openRecentActions = new LinkedList<OpenRecentFileAction>();
+        private LinkedList<Action> openRecentActions = new LinkedList<Action>();
 
         public OpenRecentMenuHandler(JMenu openRecentMenu, View view) {
             this.openRecentMenu = openRecentMenu;
@@ -358,17 +366,28 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
                 openRecentMenu.remove(openRecentMenu.getItemCount() - 1);
 
                 // Dispose the actions and the menu items that are currently in the menu
-                for (OpenRecentFileAction action : openRecentActions) {
-                    action.dispose();
+                for (Action action : openRecentActions) {
+                    if (action instanceof Disposable) {
+                        ((Disposable) action).dispose();
+                    }
                 }
                 openRecentActions.clear();
                 openRecentMenu.removeAll();
 
                 // Create new actions and add them to the menu
-                for (URI f : getRecentURIs()) {
-                    OpenRecentFileAction action = new OpenRecentFileAction(AbstractApplication.this, f);
-                    openRecentMenu.add(action);
-                    openRecentActions.add(action);
+                if (model.getAction(LoadFileAction.ID) != null || //
+                        model.getAction(LoadDirectoryAction.ID) != null) {
+                    for (URI f : getRecentURIs()) {
+                        LoadRecentFileAction action = new LoadRecentFileAction(AbstractApplication.this, f);
+                        openRecentMenu.add(action);
+                        openRecentActions.add(action);
+                    }
+                } else {
+                    for (URI f : getRecentURIs()) {
+                        OpenRecentFileAction action = new OpenRecentFileAction(AbstractApplication.this, f);
+                        openRecentMenu.add(action);
+                        openRecentActions.add(action);
+                    }
                 }
                 if (getRecentURIs().size() > 0) {
                     openRecentMenu.addSeparator();
@@ -382,8 +401,10 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         public void dispose() {
             removePropertyChangeListener(this);
             // Dispose the actions and the menu items that are currently in the menu
-            for (OpenRecentFileAction action : openRecentActions) {
-                action.dispose();
+            for (Action action : openRecentActions) {
+                if (action instanceof Disposable) {
+                    ((Disposable) action).dispose();
+                }
             }
             openRecentActions.clear();
         }

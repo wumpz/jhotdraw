@@ -1,5 +1,5 @@
 /*
- * @(#)WindowArrangeAction.java
+ * @(#)ArrangeWindowsAction.java
  *
  * Copyright (c) 1996-2009 by the original authors of JHotDraw
  * and all its contributors.
@@ -34,7 +34,7 @@ import javax.swing.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class WindowArrangeAction extends AbstractAction {
+public class ArrangeWindowsAction extends AbstractAction {
     public final static String VERTICAL_ID = "window.arrangeVertical";
     public final static String HORIZONTAL_ID = "window.arrangeHorizontal";
     public final static String CASCADE_ID = "window.arrangeCascade";
@@ -42,7 +42,7 @@ public class WindowArrangeAction extends AbstractAction {
     private Arrangeable.Arrangement arrangement;
     
     /** Creates a new instance. */
-    public WindowArrangeAction(Arrangeable arrangeable, Arrangeable.Arrangement arrangement) {
+    public ArrangeWindowsAction(Arrangeable arrangeable, Arrangeable.Arrangement arrangement) {
         this.arrangeable = arrangeable;
         this.arrangement = arrangement;
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");

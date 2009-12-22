@@ -17,7 +17,7 @@ package org.jhotdraw.app.action.window;
 import java.awt.event.*;
 import javax.swing.*;
 import java.awt.*;
-import org.jhotdraw.app.DefaultOSXApplication;
+import org.jhotdraw.app.OSXApplication;
 import org.jhotdraw.app.action.ActionUtil;
 
 /**
@@ -28,11 +28,11 @@ import org.jhotdraw.app.action.ActionUtil;
  */
 public class TogglePaletteAction extends AbstractAction {
     private Window palette;
-    private DefaultOSXApplication app;
+    private OSXApplication app;
     private WindowListener windowHandler;
     
     /** Creates a new instance. */
-    public TogglePaletteAction(DefaultOSXApplication app, Window palette, String label) {
+    public TogglePaletteAction(OSXApplication app, Window palette, String label) {
         super(label);
         this.app = app;
         

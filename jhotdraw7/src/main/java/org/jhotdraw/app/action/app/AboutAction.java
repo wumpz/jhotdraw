@@ -23,8 +23,10 @@ import org.jhotdraw.app.action.AbstractApplicationAction;
 /**
  * Displays a dialog showing information about the application.
  * <p>
- * This action is called when the user selects the About item in the Application
- * menu. The menu item is automatically created by the application.
+ * This action is called when the user selects the "About" menu item.
+ * The menu item is automatically created by the application.
+ * {@link DefaultOSXApplication} places the menu item in the "Application" menu,
+ * {@link DefaultSDIApplication} and {@link DefaultMDIApplication} in the "Help" menu.
  * <p>
  * This action is automatically created by the application and put into the
  * {@code ApplicationModel} before {@link ApplicationModel#initApplication} is

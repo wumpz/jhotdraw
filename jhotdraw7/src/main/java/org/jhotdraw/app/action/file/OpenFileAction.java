@@ -40,8 +40,8 @@ import org.jhotdraw.net.URIUtil;
  * <p>
  * This action is designed for applications which automatically
  * create a new view for each opened file. This action goes together with
- * {@code NewAction}, {@code FileOpenDirectoryAction} and {@code FileCloseAction}.
- * This action should not be used together with {@code FileLoadAction}.
+ * {@link NewFileAction}, {@link OpenDirectoryAction} and {@link CloseFileAction}.
+ * This action should not be used together with {@link LoadFileAction}.
  *
  * @author  Werner Randelshofer
  * @version $Id$

@@ -32,12 +32,12 @@ public class Main {
         Application app;
         String os = System.getProperty("os.name").toLowerCase();
         if (os.startsWith("mac")) {
-            app = new DefaultOSXApplication();
+            app = new OSXApplication();
         } else if (os.startsWith("win")) {
           //  app = new DefaultMDIApplication();
-            app = new DefaultSDIApplication();
+            app = new SDIApplication();
         } else {
-            app = new DefaultSDIApplication();
+            app = new SDIApplication();
         }
         SVGApplicationModel model = new SVGApplicationModel();
         model.setName("JHotDraw SVG");

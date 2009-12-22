@@ -32,8 +32,8 @@ import org.jhotdraw.app.action.AbstractApplicationAction;
  * <p>
  * This action is designed for applications which automatically create
  * a new view for each opened file. This action goes together with
- * {@code FileOpenAction} and {@code FileCloseAction}. It should
- * not be used together with {@code FileNewWindowAction}.
+ * {@link OpenFileAction} and {@link CloseFileAction}. It should
+ * not be used together with {@link NewWindowAction}.
  *
  * @author Werner Randelshofer
  * @version $Id$
@@ -43,9 +43,12 @@ public class NewFileAction extends AbstractApplicationAction {
     
     /** Creates a new instance. */
     public NewFileAction(Application app) {
+        this(app,ID);
+    }
+    public NewFileAction(Application app, String id) {
         super(app);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
-        labels.configureAction(this, ID);
+        labels.configureAction(this, id);
     }
     
     public void actionPerformed(ActionEvent evt) {

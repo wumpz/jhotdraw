@@ -32,7 +32,7 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Application app = new DefaultOSXApplication();
+        Application app = new OSXApplication();
         ApplicationModel appModel = new ODGApplicationModel();
         app.setModel(appModel);
         app.launch(args);
