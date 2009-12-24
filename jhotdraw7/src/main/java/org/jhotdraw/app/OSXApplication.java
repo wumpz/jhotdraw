@@ -149,10 +149,10 @@ public class OSXApplication extends AbstractApplication {
         ApplicationModel m = getModel();
 
         paletteActions = new LinkedList<Action>();
-        initApplicationActions(getModel());
-        getModel().initApplication(this);
+        setActionMap(createModelActionMap(model));
         initPalettes(paletteActions);
         initScreenMenuBar();
+        model.initApplication(this);
     }
 
     @Override
@@ -183,12 +183,8 @@ public class OSXApplication extends AbstractApplication {
         }
     }
 
-    protected void initViewActions(View p) {
-        p.putAction(FocusWindowAction.ID, new FocusWindowAction(p));
-    }
-
     public void dispose(View p) {
-        FocusWindowAction a = (FocusWindowAction) p.getAction(FocusWindowAction.ID);
+        FocusWindowAction a = (FocusWindowAction) getAction(p, FocusWindowAction.ID);
         if (a != null) {
             a.dispose();
         }
@@ -231,8 +227,7 @@ public class OSXApplication extends AbstractApplication {
             view.setShowing(true);
             JFrame f = new JFrame();
             f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            f.setPreferredSize(new Dimension(600, 400));
-            f.setSize(f.getPreferredSize());
+            f.setSize(new Dimension(600, 400));
             updateViewTitle(view, f);
 
             PreferencesUtil.installFramePrefsHandler(prefs, "view", f);
@@ -266,7 +261,7 @@ public class OSXApplication extends AbstractApplication {
     /**
      * Updates the title of a view and displays it in the given frame.
      * 
-     * @param p The view.
+     * @param view The view.
      * @param f The frame.
      */
     protected void updateViewTitle(View p, JFrame f) {
@@ -316,7 +311,7 @@ public class OSXApplication extends AbstractApplication {
         String viewMenuText = labels.getString("view.text");
         String windowMenuText = labels.getString("window.text");
         String helpMenuText = labels.getString("help.text");
-        for (JMenu mm : getModel().createMenus(this, null)) {
+        for (JMenu mm : getModel().createMenus(this, v)) {
             if (mm.getText().equals(fileMenuText)) {
                 fileMenu = mm;
                 continue;
@@ -402,54 +397,53 @@ public class OSXApplication extends AbstractApplication {
 
         m = new JMenu();
         labels.configureMenu(m, "file");
-        addAction(m, ClearFileAction.ID);
-        addAction(m, NewFileAction.ID);
-        addAction(m, NewWindowAction.ID);
+        addAction(m, view, ClearFileAction.ID);
+        addAction(m, view, NewFileAction.ID);
+        addAction(m, view, NewWindowAction.ID);
 
-        addAction(m, LoadFileAction.ID);
-        addAction(m, OpenFileAction.ID);
-        addAction(m, LoadDirectoryAction.ID);
-        addAction(m, OpenDirectoryAction.ID);
+        addAction(m, view, LoadFileAction.ID);
+        addAction(m, view, OpenFileAction.ID);
+        addAction(m, view, LoadDirectoryAction.ID);
+        addAction(m, view, OpenDirectoryAction.ID);
 
-        if (model.getAction(LoadFileAction.ID) != null ||//
-                model.getAction(OpenFileAction.ID) != null ||//
-                model.getAction(LoadDirectoryAction.ID) != null ||//
-                model.getAction(OpenDirectoryAction.ID) != null) {
+        if (getAction(view, LoadFileAction.ID) != null ||//
+                getAction(view, OpenFileAction.ID) != null ||//
+                getAction(view, LoadDirectoryAction.ID) != null ||//
+                getAction(view, OpenDirectoryAction.ID) != null) {
             m.add(createOpenRecentFileMenu(null));
         }
         maybeAddSeparator(m);
 
-        addAction(m, CloseFileAction.ID);
-        addAction(m, SaveFileAction.ID);
-        addAction(m, SaveFileAsAction.ID);
-        addAction(m, ExportFileAction.ID);
-        addAction(m, PrintFileAction.ID);
+        addAction(m, view, CloseFileAction.ID);
+        addAction(m, view, SaveFileAction.ID);
+        addAction(m, view, SaveFileAsAction.ID);
+        addAction(m, view, ExportFileAction.ID);
+        addAction(m, view, PrintFileAction.ID);
 
         return (m.getPopupMenu().getComponentCount() == 0) ? null : m;
     }
 
-    public JMenu createEditMenu(View p) {
-
+    public JMenu createEditMenu(View view) {
         JMenu m;
         JMenuItem mi;
         Action a;
         m = new JMenu();
         labels.configureMenu(m, "edit");
-        addAction(m, UndoAction.ID);
-        addAction(m, RedoAction.ID);
+        addAction(m, view, UndoAction.ID);
+        addAction(m, view, RedoAction.ID);
 
         maybeAddSeparator(m);
 
-        addAction(m, CutAction.ID);
-        addAction(m, CopyAction.ID);
-        addAction(m, PasteAction.ID);
-        addAction(m, DuplicateAction.ID);
-        addAction(m, DeleteAction.ID);
+        addAction(m, view, CutAction.ID);
+        addAction(m, view, CopyAction.ID);
+        addAction(m, view, PasteAction.ID);
+        addAction(m, view, DuplicateAction.ID);
+        addAction(m, view, DeleteAction.ID);
         maybeAddSeparator(m);
-        addAction(m, SelectAllAction.ID);
-        addAction(m, ClearSelectionAction.ID);
+        addAction(m, view, SelectAllAction.ID);
+        addAction(m, view, ClearSelectionAction.ID);
         maybeAddSeparator(m);
-        addAction(m, AbstractFindAction.ID);
+        addAction(m, view, AbstractFindAction.ID);
         return (m.getPopupMenu().getComponentCount() == 0) ? null : m;
     }
 
@@ -463,28 +457,28 @@ public class OSXApplication extends AbstractApplication {
         paletteHandler.add((JFrame) getComponent(), null);
 
         Action a;
-        if (null != (a = model.getAction(OpenApplicationAction.ID))) {
+        if (null != (a = getAction(null, OpenApplicationAction.ID))) {
             OSXAdapter.setOpenApplicationHandler(a);
         }
-        if (null != (a = model.getAction(ReOpenApplicationAction.ID))) {
+        if (null != (a = getAction(null, ReOpenApplicationAction.ID))) {
             OSXAdapter.setReOpenApplicationHandler(a);
         }
-        if (null != (a = model.getAction(OpenApplicationFileAction.ID))) {
+        if (null != (a = getAction(null, OpenApplicationFileAction.ID))) {
             OSXAdapter.setOpenFileHandler(a);
         }
-        if (null != (a = model.getAction(PrintApplicationFileAction.ID))) {
+        if (null != (a = getAction(null, PrintApplicationFileAction.ID))) {
             OSXAdapter.setPrintFileHandler(a);
         }
-        if (null != (a = model.getAction(AboutAction.ID))) {
+        if (null != (a = getAction(null, AboutAction.ID))) {
             OSXAdapter.setAboutHandler(a);
         }
-        if (null != (a = model.getAction(AbstractPreferencesAction.ID))) {
+        if (null != (a = getAction(null, AbstractPreferencesAction.ID))) {
             OSXAdapter.setPreferencesHandler(a);
         }
-        if (null != (a = model.getAction(ExitAction.ID))) {
+        if (null != (a = getAction(null, ExitAction.ID))) {
             OSXAdapter.setQuitHandler(a);
         }
-        if (null != (a = model.getAction(OpenApplicationFileAction.ID))) {
+        if (null != (a = getAction(null, OpenApplicationFileAction.ID))) {
             OSXAdapter.setOpenFileHandler(a);
         }
     }
@@ -531,6 +525,9 @@ public class OSXApplication extends AbstractApplication {
 
                     paletteActions.add(new TogglePaletteAction(OSXApplication.this, d, tb.getName()));
                     palettes.add(d);
+                        if (prefs.getBoolean("toolbar."+i+".visible", true)) {
+                        addPalette(d);
+                    }
                 }
                 return palettes;
 
@@ -541,9 +538,10 @@ public class OSXApplication extends AbstractApplication {
                 @SuppressWarnings("unchecked")
                 LinkedList<JFrame> palettes = (LinkedList<JFrame>) result;
                 if (palettes != null) {
-                    for (JFrame p : palettes) {
+                    /*for (JFrame p : palettes) {
+                        if (prefs.getBoolean("toolbar.", true))
                         addPalette(p);
-                    }
+                    }*/
                     firePropertyChange("paletteCount", 0, palettes.size());
                 }
             }
@@ -579,14 +577,32 @@ public class OSXApplication extends AbstractApplication {
         invisibleFrame.pack();
     }
 
-    protected void initApplicationActions(ApplicationModel m) {
-        m.putAction(AboutAction.ID, new AboutAction(this));
-        m.putAction(ExitAction.ID, new ExitAction((this)));
-        m.putAction(OpenApplicationAction.ID, new OpenApplicationAction(this));
-        m.putAction(ReOpenApplicationAction.ID, new ReOpenApplicationAction(this));
-        m.putAction(MaximizeWindowAction.ID, new MaximizeWindowAction(this));
-        m.putAction(MinimizeWindowAction.ID, new MinimizeWindowAction(this));
-        m.putAction(ClearRecentFilesMenuAction.ID, new ClearRecentFilesMenuAction(this));
+    protected ActionMap createModelActionMap(ApplicationModel mo) {
+        ActionMap rootMap = new ActionMap();
+        rootMap.put(AboutAction.ID, new AboutAction(this));
+        rootMap.put(ExitAction.ID, new ExitAction(this));
+        rootMap.put(OpenApplicationAction.ID, new OpenApplicationAction(this));
+        rootMap.put(ReOpenApplicationAction.ID, new ReOpenApplicationAction(this));
+        rootMap.put(ClearRecentFilesMenuAction.ID, new ClearRecentFilesMenuAction(this));
+        rootMap.put(MaximizeWindowAction.ID, new MaximizeWindowAction(this, null));
+        rootMap.put(MinimizeWindowAction.ID, new MinimizeWindowAction(this, null));
+
+        ActionMap moMap = mo.createActionMap(this, null);
+        moMap.setParent(rootMap);
+        return moMap;
+    }
+
+    @Override
+    protected ActionMap createViewActionMap(View v) {
+        ActionMap intermediateMap = new ActionMap();
+        intermediateMap.put(FocusWindowAction.ID, new FocusWindowAction(v));
+        intermediateMap.put(MaximizeWindowAction.ID, new MaximizeWindowAction(this, v));
+        intermediateMap.put(MinimizeWindowAction.ID, new MinimizeWindowAction(this, v));
+
+        ActionMap vMap = model.createActionMap(this, v);
+        vMap.setParent(intermediateMap);
+        intermediateMap.setParent(getActionMap(null));
+        return vMap;
     }
 
     /** Updates the menu items in the "Window" menu. */
@@ -598,7 +614,7 @@ public class OSXApplication extends AbstractApplication {
         public WindowMenuHandler(JMenu windowMenu, View view) {
             this.windowMenu = windowMenu;
             this.view = view;
-            addPropertyChangeListener(this);
+            OSXApplication.this.addPropertyChangeListener(this);
             if (view != null) {
                 view.addDisposable(this);
             }
@@ -618,15 +634,15 @@ public class OSXApplication extends AbstractApplication {
 
             m.removeAll();
             ApplicationModel model = getModel();
-            mi = m.add(model.getAction(MinimizeWindowAction.ID));
+            mi = m.add(getAction(view, MinimizeWindowAction.ID));
             mi.setIcon(null);
-            mi = m.add(model.getAction(MaximizeWindowAction.ID));
+            mi = m.add(getAction(view, MaximizeWindowAction.ID));
             mi.setIcon(null);
             m.addSeparator();
             for (Iterator i = views().iterator(); i.hasNext();) {
                 View pr = (View) i.next();
-                if (pr.getAction(FocusWindowAction.ID) != null) {
-                    mi = m.add(pr.getAction(FocusWindowAction.ID));
+                if (getAction(pr, FocusWindowAction.ID) != null) {
+                    mi = m.add(getAction(pr, FocusWindowAction.ID));
                 }
             }
             if (paletteActions.size() > 0) {
@@ -661,30 +677,25 @@ public class OSXApplication extends AbstractApplication {
             view.addDisposable(this);
         }
 
+        @Override
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
             if (name.equals(View.HAS_UNSAVED_CHANGES_PROPERTY)) {
                 frame.getRootPane().putClientProperty("windowModified", new Boolean(view.hasUnsavedChanges()));
-            } else if (name.equals(View.URI_PROPERTY)) {
+            } else if (name.equals(View.URI_PROPERTY)||name.equals(View.TITLE_PROPERTY)) {
                 updateViewTitle(view, frame);
             }
         }
 
         @Override
         public void windowClosing(final WindowEvent evt) {
-            setActiveView(view);
-
-         getModel().getAction(CloseFileAction.ID).actionPerformed(
-                            new ActionEvent(evt.getSource(), ActionEvent.ACTION_PERFORMED,
-                            "windowClosing"));
+            getAction(view, CloseFileAction.ID).actionPerformed(
+                    new ActionEvent(evt.getSource(), ActionEvent.ACTION_PERFORMED,
+                    "windowClosing"));
         }
 
         @Override
         public void windowClosed(final WindowEvent evt) {
-            if (view == getActiveView()) {
-                setActiveView(null);
-            }
-            view.stop();
         }
 
         @Override
@@ -700,9 +711,15 @@ public class OSXApplication extends AbstractApplication {
             view.start();
         }
 
+        @Override
         public void dispose() {
             frame.removeWindowListener(this);
             view.removePropertyChangeListener(this);
+        }
+
+        @Override
+        public void windowGainedFocus(WindowEvent e) {
+            setActiveView(view);
         }
     }
 

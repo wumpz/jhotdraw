@@ -20,6 +20,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import org.jhotdraw.app.Application;
+import org.jhotdraw.app.View;
 import org.jhotdraw.app.action.AbstractViewAction;
 
 /**
@@ -32,8 +33,8 @@ public class MinimizeWindowAction extends AbstractViewAction {
     public final static String ID = "window.minimize";
 
     /** Creates a new instance. */
-    public MinimizeWindowAction(Application app) {
-        super(app);
+    public MinimizeWindowAction(Application app, View view) {
+        super(app, view);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }

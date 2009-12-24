@@ -67,7 +67,7 @@ public class OpenApplicationFileAction extends AbstractApplicationAction {
 
             @Override
             public Object construct() throws IOException {
-                p.read(new File(filename).toURI());
+                p.read(new File(filename).toURI(), null);
                 return null;
             }
 

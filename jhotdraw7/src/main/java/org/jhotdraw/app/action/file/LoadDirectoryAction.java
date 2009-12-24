@@ -57,17 +57,13 @@ public class LoadDirectoryAction extends LoadFileAction {
     public final static String ID = "file.loadDirectory";
 
     /** Creates a new instance. */
-    public LoadDirectoryAction(Application app) {
-        this(app,null);
-    }
-    /** Creates a new instance. */
     public LoadDirectoryAction(Application app, View view) {
         super(app, view);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
     @Override
-    protected URIChooser getFileChooser(View view) {
+    protected URIChooser getChooser(View view) {
         return ((DirectoryView) view).getOpenDirectoryChooser();
     }
 }

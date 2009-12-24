@@ -11,12 +11,14 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.app;
 
 import org.jhotdraw.beans.*;
 import java.util.*;
 import javax.swing.*;
+import org.jhotdraw.gui.JFileURIChooser;
+import org.jhotdraw.gui.URIChooser;
+
 /**
  * AbstractApplicationModel.
  *
@@ -26,7 +28,6 @@ import javax.swing.*;
 public abstract class AbstractApplicationModel extends AbstractBean
         implements ApplicationModel {
 
-    protected HashMap<String, Action> actions;
     protected String name;
     protected String version;
     protected String copyright;
@@ -116,35 +117,55 @@ public abstract class AbstractApplicationModel extends AbstractBean
     }
 
     /**
-     * Returns the action with the specified id.
-     */
-    public Action getAction(String id) {
-        return (actions == null) ? null : (Action) actions.get(id);
-    }
-
-    /**
-     * Puts an action with the specified id.
-     */
-    public void putAction(String id, Action action) {
-        if (actions == null) {
-            actions = new HashMap<String, Action>();
-        }
-        if (action == null) {
-            actions.remove(id);
-        } else {
-            actions.put(id, action);
-        }
-    }
-    /**
      * Creates toolbars for the application.
      */
-    public abstract List<JToolBar> createToolBars(Application app, View p);
+    @Override
+    public abstract List<JToolBar> createToolBars(Application a, View p);
 
+    @Override
     public abstract List<JMenu> createMenus(Application a, View p);
 
+    /** This method is empty. */
+    @Override
     public void initView(Application a, View p) {
     }
+    /** This method is empty. */
+    @Override
+    public void destroyView(Application a, View p) {
+    }
 
-    public abstract void initApplication(Application a);
+    /** This method is empty. */
+    @Override
+    public void initApplication(Application a) {
+    }
+    /** This method is empty. */
+    @Override
+    public void destroyApplication(Application a) {
+    }
 
+    @Override
+    public URIChooser createOpenChooser(Application a, View v) {
+        URIChooser c = new JFileURIChooser();
+
+        return c;
+    }
+
+    @Override
+    public URIChooser createSaveChooser(Application a, View v) {
+        JFileURIChooser c = new JFileURIChooser();
+        return c;
+    }
+    /** Returns createOpenChooser. */
+    @Override
+    public URIChooser createImportChooser(Application a, View v) {
+        return createOpenChooser(a,v);
+    }
+
+    /** Returns createSaveChooser. */
+    @Override
+    public URIChooser createExportChooser(Application a, View v) {
+        return createSaveChooser(a,v);
+    }
+
+  
 }

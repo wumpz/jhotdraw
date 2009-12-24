@@ -95,8 +95,8 @@ public class SDIApplication extends AbstractApplication {
         initLookAndFeel();
         prefs = PreferencesUtil.userNodeForPackage((getModel() == null) ? getClass() : getModel().getClass());
         initLabels();
-        initApplicationActions(getModel());
-        getModel().initApplication(this);
+        setActionMap(createModelActionMap(model));
+        model.initApplication(this);
     }
 
     @Override
@@ -133,19 +133,17 @@ public class SDIApplication extends AbstractApplication {
     }
 
     @SuppressWarnings("unchecked")
-    public void show(final View p) {
-        if (!p.isShowing()) {
-            p.setShowing(true);
+    public void show(final View view) {
+        if (!view.isShowing()) {
+            view.setShowing(true);
             final JFrame f = new JFrame();
             f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            updateViewTitle(p, f);
+            updateViewTitle(view, f);
 
-            JPanel panel = (JPanel) wrapViewComponent(p);
+            JPanel panel = (JPanel) wrapViewComponent(view);
             f.add(panel);
-            f.setMinimumSize(new Dimension(200, 200));
-            f.setPreferredSize(new Dimension(600, 400));
-            f.setSize(f.getPreferredSize());
-            f.setJMenuBar(createMenuBar(p));
+            f.setSize(new Dimension(600, 400));
+            f.setJMenuBar(createMenuBar(view));
 
             PreferencesUtil.installFramePrefsHandler(prefs, "view", f);
             Point loc = f.getLocation();
@@ -154,7 +152,7 @@ public class SDIApplication extends AbstractApplication {
                 moved = false;
                 for (Iterator i = views().iterator(); i.hasNext();) {
                     View aView = (View) i.next();
-                    if (aView != p
+                    if (aView != view
                             && SwingUtilities.getWindowAncestor(aView.getComponent()) != null
                             && SwingUtilities.getWindowAncestor(aView.getComponent()).
                             getLocation().equals(loc)) {
@@ -170,38 +168,37 @@ public class SDIApplication extends AbstractApplication {
             f.addWindowListener(new WindowAdapter() {
 
                 public void windowClosing(final WindowEvent evt) {
-                       getModel().getAction(CloseFileAction.ID).actionPerformed(
+                       getAction(view,CloseFileAction.ID).actionPerformed(
                             new ActionEvent(f, ActionEvent.ACTION_PERFORMED,
                             "windowClosing"));
                 }
 
                 @Override
                 public void windowClosed(final WindowEvent evt) {
-                    if (p == getActiveView()) {
-                        setActiveView(null);
-                    }
-                    p.stop();
+                    view.stop();
                 }
 
-                public void windowActivated(WindowEvent e) {
-                    setActiveView(p);
+                @Override
+                public void windowGainedFocus(WindowEvent e) {
+                    setActiveView(view);
                 }
             });
 
-            p.addPropertyChangeListener(new PropertyChangeListener() {
+            view.addPropertyChangeListener(new PropertyChangeListener() {
 
                 public void propertyChange(PropertyChangeEvent evt) {
                     String name = evt.getPropertyName();
                     if (name.equals(View.HAS_UNSAVED_CHANGES_PROPERTY)
                             || name.equals(View.URI_PROPERTY)
+                            || name.equals(View.TITLE_PROPERTY)
                             || name.equals(View.MULTIPLE_OPEN_ID_PROPERTY)) {
-                        updateViewTitle(p, f);
+                        updateViewTitle(view, f);
                     }
                 }
             });
 
             f.setVisible(true);
-            p.start();
+            view.start();
         }
     }
 
@@ -327,29 +324,29 @@ public class SDIApplication extends AbstractApplication {
 
         m = new JMenu();
         labels.configureMenu(m, "file");
-        addAction(m, ClearFileAction.ID);
-        addAction(m, NewFileAction.ID);
-        addAction(m, NewWindowAction.ID);
+        addAction(m, view,ClearFileAction.ID);
+        addAction(m, view,NewFileAction.ID);
+        addAction(m, view,NewWindowAction.ID);
 
-        addAction(m, LoadFileAction.ID);
-        addAction(m, OpenFileAction.ID);
-        addAction(m, LoadDirectoryAction.ID);
-        addAction(m, OpenDirectoryAction.ID);
+        addAction(m, view,LoadFileAction.ID);
+        addAction(m, view,OpenFileAction.ID);
+        addAction(m, view,LoadDirectoryAction.ID);
+        addAction(m, view,OpenDirectoryAction.ID);
 
-        if (model.getAction(LoadFileAction.ID) != null ||//
-                model.getAction(OpenFileAction.ID) != null ||//
-                model.getAction(LoadDirectoryAction.ID) != null ||//
-                model.getAction(OpenDirectoryAction.ID) != null) {
+        if (getAction(view,LoadFileAction.ID) != null ||//
+                getAction(view,OpenFileAction.ID) != null ||//
+                getAction(view,LoadDirectoryAction.ID) != null ||//
+                getAction(view,OpenDirectoryAction.ID) != null) {
             m.add(createOpenRecentFileMenu(null));
         }
         maybeAddSeparator(m);
-        addAction(m, SaveFileAction.ID);
-        addAction(m, SaveFileAsAction.ID);
-        addAction(m, ExportFileAction.ID);
-        addAction(m, PrintFileAction.ID);
+        addAction(m, view,SaveFileAction.ID);
+        addAction(m, view,SaveFileAsAction.ID);
+        addAction(m, view,ExportFileAction.ID);
+        addAction(m, view,PrintFileAction.ID);
 
         maybeAddSeparator(m);
-        addAction(m, CloseFileAction.ID);
+        addAction(m, view,CloseFileAction.ID);
 
         return m;
     }
@@ -362,23 +359,23 @@ public class SDIApplication extends AbstractApplication {
         Action a;
         m = new JMenu();
         labels.configureMenu(m, "edit");
-        addAction(m, UndoAction.ID);
-        addAction(m, RedoAction.ID);
+        addAction(m, view,UndoAction.ID);
+        addAction(m, view,RedoAction.ID);
 
         maybeAddSeparator(m);
 
-        addAction(m, CutAction.ID);
-        addAction(m, CopyAction.ID);
-        addAction(m, PasteAction.ID);
-        addAction(m, DuplicateAction.ID);
-        addAction(m, DeleteAction.ID);
+        addAction(m, view,CutAction.ID);
+        addAction(m, view,CopyAction.ID);
+        addAction(m, view,PasteAction.ID);
+        addAction(m, view,DuplicateAction.ID);
+        addAction(m, view,DeleteAction.ID);
         maybeAddSeparator(m);
-        addAction(m, SelectAllAction.ID);
-        addAction(m, ClearSelectionAction.ID);
+        addAction(m, view,SelectAllAction.ID);
+        addAction(m, view,ClearSelectionAction.ID);
         maybeAddSeparator(m);
-        addAction(m, AbstractFindAction.ID);
+        addAction(m, view,AbstractFindAction.ID);
         maybeAddSeparator(m);
-        addAction(m, AbstractPreferencesAction.ID);
+        addAction(m, view,AbstractPreferencesAction.ID);
         return (m.getPopupMenu().getComponentCount() == 0) ? null : m;
     }
  
@@ -460,16 +457,29 @@ public class SDIApplication extends AbstractApplication {
 
         m = new JMenu();
         labels.configureMenu(m, "help");
-        m.add(model.getAction(AboutAction.ID));
+        m.add(getAction(p,AboutAction.ID));
 
         return m;
     }
 
-    protected void initApplicationActions(ApplicationModel m) {
-        m.putAction(AboutAction.ID, new AboutAction(this));
-        m.putAction(CloseFileAction.ID, new CloseFileAction(this));
-        m.putAction(MaximizeWindowAction.ID, new MaximizeWindowAction(this));
-        m.putAction(MinimizeWindowAction.ID, new MinimizeWindowAction(this));
-        m.putAction(ClearRecentFilesMenuAction.ID, new ClearRecentFilesMenuAction(this));
+    protected ActionMap createModelActionMap(ApplicationModel mo) {
+        ActionMap rootMap = new ActionMap();
+        rootMap.put(AboutAction.ID, new AboutAction(this));
+        rootMap.put(ClearRecentFilesMenuAction.ID, new ClearRecentFilesMenuAction(this));
+
+        ActionMap moMap = mo.createActionMap(this, null);
+        moMap.setParent(rootMap);
+        return moMap;
+    }
+
+    @Override
+    protected ActionMap createViewActionMap(View v) {
+        ActionMap intermediateMap = new ActionMap();
+        intermediateMap.put(CloseFileAction.ID, new CloseFileAction(this,v));
+
+        ActionMap vMap = model.createActionMap(this, v);
+        vMap.setParent(intermediateMap);
+        intermediateMap.setParent(getActionMap(null));
+        return vMap;
     }
 }

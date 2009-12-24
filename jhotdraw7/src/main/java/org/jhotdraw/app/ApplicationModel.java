@@ -17,6 +17,7 @@ package org.jhotdraw.app;
 import java.net.URI;
 import java.util.*;
 import javax.swing.*;
+import org.jhotdraw.gui.URIChooser;
 /**
  * {@code ApplicationModel} provides meta-data for an {@link Application},
  * actions and factory methods for creating {@link View}s and toolbars.
@@ -52,28 +53,27 @@ public interface ApplicationModel {
      */
     public View createView();
 
+    /** Inits the application. */
+    public void initApplication(Application a);
+    /** Destroys the application. */
+    public void destroyApplication(Application a);
     /** Inits the supplied view for the application. */
     public void initView(Application a, View v);
+    /** Destroys the supplied view. */
+    public void destroyView(Application a, View v);
 
-    /** Inits the application model.
+    /** Creates an action map.
      * <p>
-     * Typically, the application model creates a number of
-     * {@link org.jhotdraw.app.action.AbstractApplicationAction} and
-     *  {@link org.jhotdraw.app.action.AbstractViewAction}
-     * objects, which can later be retrieved using getAction, and
-     * which are linked to menu items and toolbars created by the
-     * application model.
+     * This method is invoked once for the application, and once for each
+     * created view.
      * <p>
+     * The application adds the created map to a hierarchy of action maps.
+     *
+     * @param a Application.
+     * @param v The view for which the toolbars need to be created, or null
+     * if the actions are shared by multiple views.
      */
-    public void initApplication(Application a);
-    /**
-     * Puts an action with the specified id.
-     */
-    public void putAction(String id, Action action);
-    /**
-     * Returns the action with the specified id.
-     */
-    public Action getAction(String id);
+    public ActionMap createActionMap(Application a, View v);
     /**
      * Creates tool bars.
      * <p>
@@ -97,10 +97,45 @@ public interface ApplicationModel {
      * This method can create a standard menu from scratch, or call one of the
      * createMenu-methods in {@code Application} and add additional items
      * to the menu.
-     * <p>
+     * 
      * @param a Application.
      * @param v The view for which the toolbars need to be created, or null
      * if the menus are shared by multiple views.
      */
     public List<JMenu> createMenus(Application a, View v);
+
+    /**
+     * Creates an open chooser.
+     *
+     * @param a Application.
+     * @param v The view for which the chooser needs to be created, or null
+     * if the chooser is shared by multiple views.
+     */
+    public URIChooser createOpenChooser(Application a, View v);
+    /**
+     * Creates a save chooser.
+     *
+     * @param a Application.
+     * @param v The view for which the chooser needs to be created, or null
+     * if the chooser is shared by multiple views.
+     */
+    public URIChooser createSaveChooser(Application a, View v);
+    /**
+     * Creates an import chooser.
+     *
+     * @param a Application.
+     * @param v The view for which the chooser needs to be created, or null
+     * if the chooser is shared by multiple views.
+     */
+    public URIChooser createImportChooser(Application a, View v);
+    /**
+     * Creates an export chooser.
+     *
+     * @param a Application.
+     * @param v The view for which the chooser needs to be created, or null
+     * if the chooser is shared by multiple views.
+     */
+    public URIChooser createExportChooser(Application a, View v);
+
+
 }

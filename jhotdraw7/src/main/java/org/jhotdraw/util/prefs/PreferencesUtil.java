@@ -243,7 +243,7 @@ public class PreferencesUtil
      * @return user node or a proxy.
      */
     public static Preferences userNodeForPackage(Class<?> c) {
-        if (userNodes!=null) {
+        if (userNodes != null) {
             if (!userNodes.containsKey(c.getPackage())) {
                 userNodes.put(c.getPackage(), new PreferencesUtil(false));
             }
@@ -274,12 +274,32 @@ public class PreferencesUtil
      * corner of the screen.
      * On subsequent runs, sets the window the last size and location where
      * the user had placed it before.
+     * <p>
+     * If no preferences are stored yet for this window, a default size
+     * of 400 x 300 pixels is used.
      *
      * @param prefs Preferences for storing/retrieving preferences values.
      * @param name Base name of the preference.
      * @param window The window for which to track preferences.
      */
     public static void installFramePrefsHandler(final Preferences prefs, final String name, Window window) {
+        installFramePrefsHandler(prefs, name, window, new Dimension(400, 300));
+    }
+
+    /**
+     * Installs a frame preferences handler.
+     * On first run, sets the window to its preferred size at the top left
+     * corner of the screen.
+     * On subsequent runs, sets the window the last size and location where
+     * the user had placed it before.
+     *
+     * @param prefs Preferences for storing/retrieving preferences values.
+     * @param name Base name of the preference.
+     * @param window The window for which to track preferences.
+     * @param defaultSize This size is used when no prefences are stored yet for this window.
+     *
+     */
+    public static void installFramePrefsHandler(final Preferences prefs, final String name, Window window, Dimension defaultSize) {
         GraphicsConfiguration conf = window.getGraphicsConfiguration();
         Rectangle screenBounds = conf.getBounds();
         Insets screenInsets = window.getToolkit().getScreenInsets(conf);
@@ -288,16 +308,28 @@ public class PreferencesUtil
         screenBounds.y += screenInsets.top;
         screenBounds.width -= screenInsets.left + screenInsets.right;
         screenBounds.height -= screenInsets.top + screenInsets.bottom;
-
+        window.pack();
         Dimension preferredSize = window.getPreferredSize();
-        Dimension minSize = window.getMinimumSize();
 
-        Rectangle bounds = new Rectangle(
-                prefs.getInt(name + ".x", 0),
-                prefs.getInt(name + ".y", 0),
-                Math.max(minSize.width, prefs.getInt(name + ".width", preferredSize.width)),
-                Math.max(minSize.height, prefs.getInt(name + ".height", preferredSize.height)));
-
+        boolean resizable = true;
+        if (window instanceof Frame) {
+            resizable = ((Frame) window).isResizable();
+        } else if (window instanceof Dialog) {
+            resizable = ((Dialog) window).isResizable();
+        }
+        Rectangle bounds;
+        if (resizable) {
+            bounds = new Rectangle(
+                    prefs.getInt(name + ".x", 0),
+                    prefs.getInt(name + ".y", 0),
+                    Math.max(defaultSize.width, prefs.getInt(name + ".width", preferredSize.width)),
+                    Math.max(defaultSize.height, prefs.getInt(name + ".height", preferredSize.height)));
+        } else {
+            bounds = new Rectangle(
+                    prefs.getInt(name + ".x", 0),
+                    prefs.getInt(name + ".y", 0),
+                    window.getWidth(), window.getHeight());
+        }
         if (!screenBounds.contains(bounds)) {
             bounds.x = screenBounds.x + (screenBounds.width - bounds.width) / 2;
             bounds.y = screenBounds.y + (screenBounds.height - bounds.height) / 2;
@@ -305,18 +337,19 @@ public class PreferencesUtil
         }
         window.setBounds(bounds);
 
-        window.addComponentListener(new ComponentAdapter() {
+        window.addComponentListener(
+                new ComponentAdapter() {
 
-            public void componentMoved(ComponentEvent evt) {
-                prefs.putInt(name + ".x", evt.getComponent().getX());
-                prefs.putInt(name + ".y", evt.getComponent().getY());
-            }
+                    public void componentMoved(ComponentEvent evt) {
+                        prefs.putInt(name + ".x", evt.getComponent().getX());
+                        prefs.putInt(name + ".y", evt.getComponent().getY());
+                    }
 
-            public void componentResized(ComponentEvent evt) {
-                prefs.putInt(name + ".width", evt.getComponent().getWidth());
-                prefs.putInt(name + ".height", evt.getComponent().getHeight());
-            }
-        });
+                    public void componentResized(ComponentEvent evt) {
+                        prefs.putInt(name + ".width", evt.getComponent().getWidth());
+                        prefs.putInt(name + ".height", evt.getComponent().getHeight());
+                    }
+                });
 
     }
 
@@ -371,7 +404,18 @@ public class PreferencesUtil
             prefs.putInt(name+".height", evt.getComponent().getHeight());
             }*/
         });
+        window.addWindowListener(new WindowAdapter() {
 
+            @Override
+            public void windowClosing(WindowEvent e) {
+                prefs.putBoolean(name + ".visible", false);
+            }
+
+            @Override
+            public void windowOpened(WindowEvent e) {
+                prefs.putBoolean(name + ".visible", true);
+            }
+        });
     }
 
     /**
@@ -403,6 +447,7 @@ public class PreferencesUtil
                 prefs.getInt(name + ".y", 0),
                 Math.max(minSize.width, prefs.getInt(name + ".width", preferredSize.width)),
                 Math.max(minSize.height, prefs.getInt(name + ".height", preferredSize.height)));
+
         if (!screenBounds.contains(bounds)) {
             bounds.x = screenBounds.x + (screenBounds.width - bounds.width) / 2;
             bounds.y = screenBounds.y + (screenBounds.height - bounds.height) / 2;
@@ -436,7 +481,6 @@ public class PreferencesUtil
      */
     public static void installToolBarPrefsHandler(final Preferences prefs, final String name, JToolBar toolbar) {
         new ToolBarPrefsHandler(toolbar, name, prefs);
-
     }
 
     /**

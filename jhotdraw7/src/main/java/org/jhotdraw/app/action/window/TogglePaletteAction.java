@@ -42,8 +42,8 @@ public class TogglePaletteAction extends AbstractAction {
             }
         };
         
+        putValue(ActionUtil.SELECTED_KEY, false);
         setPalette(palette);
-        putValue(ActionUtil.SELECTED_KEY, true);
     }
     
     public void putValue(String key, Object newValue) {

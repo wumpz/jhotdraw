@@ -159,15 +159,14 @@ public class MDIApplication extends AbstractApplication {
         scrollPane.setViewportView(desktopPane);
         toolBarActions = new LinkedList<Action>();
 
-        initApplicationActions(getModel());
-        getModel().initApplication(this);
+        setActionMap(createModelActionMap(model));
         parentFrame.getContentPane().add(
                 wrapDesktopPane(scrollPane, toolBarActions));
 
         parentFrame.addWindowListener(new WindowAdapter() {
 
             public void windowClosing(final WindowEvent evt) {
-                getModel().getAction(ExitAction.ID).actionPerformed(
+                getAction(null, ExitAction.ID).actionPerformed(
                         new ActionEvent(parentFrame, ActionEvent.ACTION_PERFORMED, "windowClosing"));
             }
         });
@@ -176,24 +175,36 @@ public class MDIApplication extends AbstractApplication {
         PreferencesUtil.installFramePrefsHandler(prefs, "parentFrame", parentFrame);
 
         parentFrame.setVisible(true);
+        model.initApplication(this);
     }
 
-    protected void initApplicationActions(ApplicationModel mo) {
-        mo.putAction(AboutAction.ID, new AboutAction(this));
-        mo.putAction(ExitAction.ID, new ExitAction(this));
-        mo.putAction(ClearRecentFilesMenuAction.ID, new ClearRecentFilesMenuAction(this));
+    protected ActionMap createModelActionMap(ApplicationModel mo) {
+     ActionMap rootMap= new ActionMap();
+        rootMap.put(AboutAction.ID, new AboutAction(this));
+        rootMap.put(ExitAction.ID, new ExitAction(this));
+        rootMap.put(ClearRecentFilesMenuAction.ID, new ClearRecentFilesMenuAction(this));
 
-        mo.putAction(MaximizeWindowAction.ID, new MaximizeWindowAction(this));
-        mo.putAction(MinimizeWindowAction.ID, new MinimizeWindowAction(this));
+        rootMap.put(MaximizeWindowAction.ID, new MaximizeWindowAction(this,null));
+        rootMap.put(MinimizeWindowAction.ID, new MinimizeWindowAction(this,null));
 
-        mo.putAction(ArrangeWindowsAction.VERTICAL_ID, new ArrangeWindowsAction(desktopPane, Arrangeable.Arrangement.VERTICAL));
-        mo.putAction(ArrangeWindowsAction.HORIZONTAL_ID, new ArrangeWindowsAction(desktopPane, Arrangeable.Arrangement.HORIZONTAL));
-        mo.putAction(ArrangeWindowsAction.CASCADE_ID, new ArrangeWindowsAction(desktopPane, Arrangeable.Arrangement.CASCADE));
+        rootMap.put(ArrangeWindowsAction.VERTICAL_ID, new ArrangeWindowsAction(desktopPane, Arrangeable.Arrangement.VERTICAL));
+        rootMap.put(ArrangeWindowsAction.HORIZONTAL_ID, new ArrangeWindowsAction(desktopPane, Arrangeable.Arrangement.HORIZONTAL));
+        rootMap.put(ArrangeWindowsAction.CASCADE_ID, new ArrangeWindowsAction(desktopPane, Arrangeable.Arrangement.CASCADE));
+
+        ActionMap moMap = mo.createActionMap(this, null);
+        moMap.setParent(rootMap);
+       return moMap;
     }
 
     @Override
-    protected void initViewActions(View p) {
-        p.putAction(FocusWindowAction.ID, new FocusWindowAction(p));
+    protected ActionMap createViewActionMap(View v) {
+        ActionMap intermediateMap = new ActionMap();
+        intermediateMap.put(FocusWindowAction.ID, new FocusWindowAction(v));
+
+        ActionMap vMap = model.createActionMap(this, v);
+        vMap.setParent(intermediateMap);
+        intermediateMap.setParent(getActionMap(null));
+        return vMap;
     }
 
     @Override
@@ -225,17 +236,17 @@ public class MDIApplication extends AbstractApplication {
         }
     }
 
-    public void show(final View p) {
-        if (!p.isShowing()) {
-            p.setShowing(true);
+    public void show(final View v) {
+        if (!v.isShowing()) {
+            v.setShowing(true);
             final JInternalFrame f = new JInternalFrame();
             f.setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
-            f.setClosable(getModel().getAction(CloseFileAction.ID) != null);
+            f.setClosable(getAction(v,CloseFileAction.ID) != null);
             f.setMaximizable(true);
             f.setResizable(true);
             f.setIconifiable(false);
-            f.setPreferredSize(new Dimension(400, 400));
-            updateViewTitle(p, f);
+            f.setSize(new Dimension(400, 400));
+            updateViewTitle(v, f);
 
             PreferencesUtil.installInternalFramePrefsHandler(prefs, "view", f, desktopPane);
             Point loc = new Point(desktopPane.getInsets().left, desktopPane.getInsets().top);
@@ -244,7 +255,7 @@ public class MDIApplication extends AbstractApplication {
                 moved = false;
                 for (Iterator i = views().iterator(); i.hasNext();) {
                     View aView = (View) i.next();
-                    if (aView != p && aView.isShowing()
+                    if (aView != v && aView.isShowing()
                             && SwingUtilities.getRootPane(aView.getComponent()).getParent().
                             getLocation().equals(loc)) {
                         Point offset = SwingUtilities.convertPoint(SwingUtilities.getRootPane(aView.getComponent()), 0, 0, SwingUtilities.getRootPane(aView.getComponent()).getParent());
@@ -263,27 +274,24 @@ public class MDIApplication extends AbstractApplication {
 
                 @Override
                 public void internalFrameClosing(final InternalFrameEvent evt) {
-                    getModel().getAction(CloseFileAction.ID).actionPerformed(
+                    getAction(v,CloseFileAction.ID).actionPerformed(
                             new ActionEvent(f, ActionEvent.ACTION_PERFORMED,
                             "windowClosing"));
                 }
 
                 @Override
                 public void internalFrameClosed(final InternalFrameEvent evt) {
-                    if (p == getActiveView()) {
-                        setActiveView(null);
-                    }
-                    p.stop();
+                    v.stop();
                 }
             });
 
-            p.addPropertyChangeListener(new PropertyChangeListener() {
+            v.addPropertyChangeListener(new PropertyChangeListener() {
 
                 public void propertyChange(PropertyChangeEvent evt) {
                     String name = evt.getPropertyName();
                     if (name == View.HAS_UNSAVED_CHANGES_PROPERTY
                             || name == View.URI_PROPERTY) {
-                        updateViewTitle(p, f);
+                        updateViewTitle(v, f);
                     }
                 }
             });
@@ -294,7 +302,11 @@ public class MDIApplication extends AbstractApplication {
                     String name = evt.getPropertyName();
                     if (name.equals("selected")) {
                         if (evt.getNewValue().equals(Boolean.TRUE)) {
-                            setActiveView(p);
+                            setActiveView(v);
+                        } else {
+                            if (v == getActiveView()) {
+                                setActiveView(null);
+                            }
                         }
                     }
                 }
@@ -302,7 +314,7 @@ public class MDIApplication extends AbstractApplication {
 
             //f.setJMenuBar(createMenuBar(v));
 
-            f.getContentPane().add(p.getComponent());
+            f.getContentPane().add(v.getComponent());
             f.setVisible(true);
             desktopPane.add(f);
             if (desktopPane.getComponentCount() == 1) {
@@ -318,16 +330,16 @@ public class MDIApplication extends AbstractApplication {
             } catch (PropertyVetoException e) {
                 // Don't care.
             }
-            p.getComponent().requestFocusInWindow();
-            p.start();
+            v.getComponent().requestFocusInWindow();
+            v.start();
         }
     }
 
-    public void hide(View p) {
-        if (p.isShowing()) {
-            JInternalFrame f = (JInternalFrame) SwingUtilities.getRootPane(p.getComponent()).getParent();
+    public void hide(View v) {
+        if (v.isShowing()) {
+            JInternalFrame f = (JInternalFrame) SwingUtilities.getRootPane(v.getComponent()).getParent();
             f.setVisible(false);
-            f.remove(p.getComponent());
+            f.remove(v.getComponent());
 
             // Setting the JMenuBar to null triggers action disposal of
             // actions in the openRecentMenu and the windowMenu. This is
@@ -383,7 +395,7 @@ public class MDIApplication extends AbstractApplication {
         String viewMenuText = labels.getString("view.text");
         String windowMenuText = labels.getString("window.text");
         String helpMenuText = labels.getString("help.text");
-        for (JMenu mm : getModel().createMenus(this, null)) {
+        for (JMenu mm : getModel().createMenus(this, v)) {
             if (mm.getText().equals(fileMenuText)) {
                 fileMenu = mm;
                 continue;
@@ -447,30 +459,30 @@ public class MDIApplication extends AbstractApplication {
 
         m = new JMenu();
         labels.configureMenu(m, "file");
-        addAction(m, ClearFileAction.ID);
-        addAction(m, NewFileAction.ID);
-        addAction(m, NewWindowAction.ID);
+        addAction(m, view,ClearFileAction.ID);
+        addAction(m, view,NewFileAction.ID);
+        addAction(m, view,NewWindowAction.ID);
 
-        addAction(m, LoadFileAction.ID);
-        addAction(m, OpenFileAction.ID);
-        addAction(m, LoadDirectoryAction.ID);
-        addAction(m, OpenDirectoryAction.ID);
+        addAction(m, view,LoadFileAction.ID);
+        addAction(m, view,OpenFileAction.ID);
+        addAction(m, view,LoadDirectoryAction.ID);
+        addAction(m, view,OpenDirectoryAction.ID);
 
-        if (model.getAction(LoadFileAction.ID) != null ||//
-                model.getAction(OpenFileAction.ID) != null ||//
-                model.getAction(LoadDirectoryAction.ID) != null ||//
-                model.getAction(OpenDirectoryAction.ID) != null) {
-            m.add(createOpenRecentFileMenu(null));
+        if (getAction(view,LoadFileAction.ID) != null ||//
+                getAction(view,OpenFileAction.ID) != null ||//
+                getAction(view,LoadDirectoryAction.ID) != null ||//
+                getAction(view,OpenDirectoryAction.ID) != null) {
+            m.add(createOpenRecentFileMenu(view));
         }
         maybeAddSeparator(m);
-        addAction(m, CloseFileAction.ID);
-        addAction(m, SaveFileAction.ID);
-        addAction(m, SaveFileAsAction.ID);
-        addAction(m, ExportFileAction.ID);
-        addAction(m, PrintFileAction.ID);
+        addAction(m, view,CloseFileAction.ID);
+        addAction(m, view,SaveFileAction.ID);
+        addAction(m, view,SaveFileAsAction.ID);
+        addAction(m, view,ExportFileAction.ID);
+        addAction(m, view,PrintFileAction.ID);
 
         maybeAddSeparator(m);
-        addAction(m, ExitAction.ID);
+        addAction(m, view,ExitAction.ID);
 
         return m;
     }
@@ -478,7 +490,7 @@ public class MDIApplication extends AbstractApplication {
     /**
      * Updates the title of a view and displays it in the given frame.
      *
-     * @param v The view.
+     * @param view The view.
      * @param f The frame.
      */
     protected void updateViewTitle(View v, JInternalFrame f) {
@@ -500,7 +512,7 @@ public class MDIApplication extends AbstractApplication {
         return null;
     }
 
-    public JMenu createWindowMenu(View v) {
+    public JMenu createWindowMenu(View view) {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         ApplicationModel mo = getModel();
 
@@ -510,18 +522,16 @@ public class MDIApplication extends AbstractApplication {
         m = new JMenu();
         JMenu windowMenu = m;
         labels.configureMenu(m, "window");
-        addAction(m, ArrangeWindowsAction.CASCADE_ID);
-        addAction(m, ArrangeWindowsAction.VERTICAL_ID);
-        addAction(m, ArrangeWindowsAction.HORIZONTAL_ID);
+        addAction(m, view,ArrangeWindowsAction.CASCADE_ID);
+        addAction(m, view,ArrangeWindowsAction.VERTICAL_ID);
+        addAction(m, view,ArrangeWindowsAction.HORIZONTAL_ID);
 
-       maybeAddSeparator(m);
+        maybeAddSeparator(m);
         for (View pr : views()) {
-            if (pr.getAction(FocusWindowAction.ID) != null) {
-                addAction(m, pr.getAction(FocusWindowAction.ID));
-            }
+                addAction(m, view,FocusWindowAction.ID);
         }
         if (toolBarActions.size() > 0) {
-       maybeAddSeparator(m);
+            maybeAddSeparator(m);
             for (Action a : toolBarActions) {
                 JCheckBoxMenuItem cbmi = new JCheckBoxMenuItem(a);
                 ActionUtil.configureJCheckBoxMenuItem(cbmi, a);
@@ -529,7 +539,7 @@ public class MDIApplication extends AbstractApplication {
             }
         }
 
-        addPropertyChangeListener(new WindowMenuHandler(windowMenu));
+        addPropertyChangeListener(new WindowMenuHandler(windowMenu, view));
 
         return m;
     }
@@ -542,27 +552,27 @@ public class MDIApplication extends AbstractApplication {
         Action a;
         m = new JMenu();
         labels.configureMenu(m, "edit");
-        addAction(m, UndoAction.ID);
-        addAction(m, RedoAction.ID);
+        addAction(m, view,UndoAction.ID);
+        addAction(m, view,RedoAction.ID);
 
         maybeAddSeparator(m);
 
-        addAction(m, CutAction.ID);
-        addAction(m, CopyAction.ID);
-        addAction(m, PasteAction.ID);
-        addAction(m, DuplicateAction.ID);
-        addAction(m, DeleteAction.ID);
+        addAction(m, view,CutAction.ID);
+        addAction(m, view,CopyAction.ID);
+        addAction(m, view,PasteAction.ID);
+        addAction(m, view,DuplicateAction.ID);
+        addAction(m, view,DeleteAction.ID);
         maybeAddSeparator(m);
-        addAction(m, SelectAllAction.ID);
-        addAction(m, ClearSelectionAction.ID);
+        addAction(m, view,SelectAllAction.ID);
+        addAction(m, view,ClearSelectionAction.ID);
         maybeAddSeparator(m);
-        addAction(m, AbstractFindAction.ID);
+        addAction(m, view,AbstractFindAction.ID);
         maybeAddSeparator(m);
-        addAction(m, AbstractPreferencesAction.ID);
+        addAction(m, view,AbstractPreferencesAction.ID);
         return (m.getPopupMenu().getComponentCount() == 0) ? null : m;
     }
 
-    public JMenu createHelpMenu(View v) {
+    public JMenu createHelpMenu(View view) {
         ApplicationModel mo = getModel();
 
         JMenu m;
@@ -570,7 +580,7 @@ public class MDIApplication extends AbstractApplication {
 
         m = new JMenu();
         labels.configureMenu(m, "help");
-        addAction(m, AboutAction.ID);
+        addAction(m, view,AboutAction.ID);
         return m;
     }
 
@@ -578,10 +588,12 @@ public class MDIApplication extends AbstractApplication {
     private class WindowMenuHandler implements PropertyChangeListener {
 
         private JMenu windowMenu;
+        private View view;
 
-        public WindowMenuHandler(JMenu windowMenu) {
+        public WindowMenuHandler(JMenu windowMenu, View view) {
             this.windowMenu = windowMenu;
-            addPropertyChangeListener(this);
+            this.view=view;
+           MDIApplication.this.addPropertyChangeListener(this);
             updateWindowMenu();
         }
 
@@ -597,15 +609,15 @@ public class MDIApplication extends AbstractApplication {
             ApplicationModel mo = getModel();
             m.removeAll();
 
-            m.add(mo.getAction(ArrangeWindowsAction.CASCADE_ID));
-            m.add(mo.getAction(ArrangeWindowsAction.VERTICAL_ID));
-            m.add(mo.getAction(ArrangeWindowsAction.HORIZONTAL_ID));
+            m.add(getAction(view,ArrangeWindowsAction.CASCADE_ID));
+            m.add(getAction(view,ArrangeWindowsAction.VERTICAL_ID));
+            m.add(getAction(view,ArrangeWindowsAction.HORIZONTAL_ID));
 
             m.addSeparator();
             for (Iterator i = views().iterator(); i.hasNext();) {
                 View pr = (View) i.next();
-                if (pr.getAction(FocusWindowAction.ID) != null) {
-                    m.add(pr.getAction(FocusWindowAction.ID));
+                if (getAction(pr,FocusWindowAction.ID) != null) {
+                    m.add(getAction(pr,FocusWindowAction.ID));
                 }
             }
             if (toolBarActions.size() > 0) {
@@ -624,7 +636,7 @@ public class MDIApplication extends AbstractApplication {
 
         @Override
         public boolean canImport(JComponent comp, DataFlavor[] transferFlavors) {
-            Action a = getModel().getAction(OpenApplicationFileAction.ID);
+            Action a = getAction(null,OpenApplicationFileAction.ID);
             if (a == null) {
                 return false;
             }
@@ -638,7 +650,7 @@ public class MDIApplication extends AbstractApplication {
 
         @Override
         public boolean importData(JComponent comp, Transferable t) {
-            Action a = getModel().getAction(OpenApplicationFileAction.ID);
+            Action a = getAction(null,OpenApplicationFileAction.ID);
             if (a == null) {
                 return false;
             }

@@ -54,22 +54,23 @@ public class LoadFileAction extends AbstractSaveUnsavedChangesAction {
     public final static String ID = "file.load";
 
     /** Creates a new instance. */
-    public LoadFileAction(Application app) {
-        this(app,null);
-    }
-    /** Creates a new instance. */
     public LoadFileAction(Application app, View view) {
         super(app, view);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
 
-    protected URIChooser getFileChooser(View view) {
-        return view.getOpenChooser();
+    protected URIChooser getChooser(View view) {
+        URIChooser chsr = (URIChooser) (view.getComponent()).getClientProperty("loadChooser");
+        if (chsr == null) {
+            chsr = getApplication().getModel().createSaveChooser(getApplication(), view);
+            view.getComponent().putClientProperty("loadChooser", chsr);
+        }
+        return chsr;
     }
 
     public void doIt(final View view) {
-        URIChooser fileChooser = getFileChooser(view);
+        URIChooser fileChooser = getChooser(view);
             Window wAncestor = SwingUtilities.getWindowAncestor(view.getComponent());
             final Component oldFocusOwner = (wAncestor == null) ? null : wAncestor.getFocusOwner();
 
@@ -83,7 +84,7 @@ public class LoadFileAction extends AbstractSaveUnsavedChangesAction {
                         } else {
                             uri = evt.getChooser().getSelectedURI();
                         }
-                        loadViewFromURI(view, uri);
+                        loadViewFromURI(view, uri, evt.getChooser());
                     } else {
                         view.setEnabled(true);
                         if (oldFocusOwner != null) {
@@ -94,14 +95,14 @@ public class LoadFileAction extends AbstractSaveUnsavedChangesAction {
             });
     }
 
-    public void loadViewFromURI(final View view, final URI uri) {
+    public void loadViewFromURI(final View view, final URI uri, final URIChooser chooser) {
         view.setEnabled(false);
 
         // Open the file
         view.execute(new Worker() {
 
             protected Object construct() throws IOException {
-                view.read(uri);
+                view.read(uri, chooser);
                 return null;
             }
 

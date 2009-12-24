@@ -13,27 +13,27 @@
  */
 package org.jhotdraw.app;
 
-import java.awt.*;
+import java.awt.Container;
+import java.awt.Window;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.net.URISyntaxException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jhotdraw.beans.*;
 import org.jhotdraw.gui.Worker;
 import org.jhotdraw.util.*;
-import java.util.*;
 import java.util.prefs.*;
 import javax.swing.*;
-import java.io.*;
 import java.net.URI;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import org.jhotdraw.app.action.file.ClearRecentFilesMenuAction;
 import org.jhotdraw.app.action.file.LoadDirectoryAction;
 import org.jhotdraw.app.action.file.LoadFileAction;
 import org.jhotdraw.app.action.file.LoadRecentFileAction;
-import org.jhotdraw.app.action.file.OpenFileAction;
-import org.jhotdraw.app.action.file.OpenDirectoryAction;
 import org.jhotdraw.app.action.file.OpenRecentFileAction;
+import org.jhotdraw.gui.URIChooser;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 
 /**
@@ -54,6 +54,11 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     public final static String VIEW_COUNT_PROPERTY = "viewCount";
     private LinkedList<URI> recentFiles = new LinkedList<URI>();
     private final static int maxRecentFilesCount = 10;
+    private ActionMap actionMap;
+    private URIChooser openChooser;
+    private URIChooser saveChooser;
+    private URIChooser importChooser;
+    private URIChooser exportChooser;
 
     /** Creates a new instance. */
     public AbstractApplication() {
@@ -81,6 +86,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         show(p);
         p.execute(new Worker<Object>() {
 
+            @Override
             public Object construct() {
                 p.clear();
                 return null;
@@ -93,13 +99,11 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         });
     }
 
+    @Override
     public final View createView() {
-        View p = basicCreateView();
-        p.init();
-        if (getModel() != null) {
-            getModel().initView(this, p);
-        }
-        return p;
+        View v = basicCreateView();
+        v.setActionMap(createViewActionMap(v));
+        return v;
     }
 
     public void setModel(ApplicationModel newValue) {
@@ -159,35 +163,41 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         for (View p : new LinkedList<View>(views())) {
             dispose(p);
         }
+    }
+
+    public void destroy() {
+        stop();
+        model.destroyApplication(this);
         System.exit(0);
     }
 
-    public void remove(View p) {
-        hide(p);
-        if (p == getActiveView()) {
+    public void remove(View v) {
+        hide(v);
+        if (v == getActiveView()) {
             setActiveView(null);
         }
         int oldCount = views.size();
-        views.remove(p);
-        p.setApplication(null);
+        views.remove(v);
+        v.setApplication(null);
         firePropertyChange(VIEW_COUNT_PROPERTY, oldCount, views.size());
     }
 
-    public void add(View p) {
-        if (p.getApplication() != this) {
+    public void add(View v) {
+        if (v.getApplication() != this) {
             int oldCount = views.size();
-            views.add(p);
-            p.setApplication(this);
-            initViewActions(p);
+            views.add(v);
+            v.setApplication(this);
+            v.init();
+            model.initView(this, v);
             firePropertyChange(VIEW_COUNT_PROPERTY, oldCount, views.size());
         }
     }
 
-    protected void initViewActions(View p) {
-    }
+    protected abstract ActionMap createViewActionMap(View p);
 
     public void dispose(View view) {
         remove(view);
+        model.destroyView(this, view);
         view.dispose();
     }
 
@@ -198,10 +208,12 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         return unmodifiableViews;
     }
 
+    @Override
     public boolean isEnabled() {
         return isEnabled;
     }
 
+    @Override
     public void setEnabled(boolean newValue) {
         boolean oldValue = isEnabled;
         isEnabled = newValue;
@@ -212,10 +224,12 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         return new JFrame();
     }
 
+    @Override
     public void launch(String[] args) {
         configure(args);
         SwingUtilities.invokeLater(new Runnable() {
 
+            @Override
             public void run() {
                 init();
                 start();
@@ -227,9 +241,11 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
     }
 
+    @Override
     public void configure(String[] args) {
     }
 
+    @Override
     public void removePalette(Window palette) {
     }
 
@@ -242,9 +258,13 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     public void addWindow(Window window, View p) {
     }
 
+    protected Action getAction(View view, String actionID) {
+        return getActionMap(view).get(actionID);
+    }
+
     /** Adds the specified action as a menu item to the supplied menu. */
-    protected void addAction(JMenu m, String actionID) {
-        addAction(m, model.getAction(actionID));
+    protected void addAction(JMenu m, View view, String actionID) {
+        addAction(m, getAction(view, actionID));
     }
 
     /** Adds the specified action as a menu item to the supplied menu. */
@@ -322,13 +342,13 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
 
         m = new JMenu();
         labels.configureMenu(m, //
-                (model.getAction(LoadFileAction.ID) != null || //
-                model.getAction(LoadDirectoryAction.ID) != null) ?//
+                (getAction(view, LoadFileAction.ID) != null || //
+                getAction(view, LoadDirectoryAction.ID) != null) ?//
                 "file.loadRecent" ://
                 "file.openRecent"//
                 );
         m.setIcon(null);
-        m.add(model.getAction(ClearRecentFilesMenuAction.ID));
+        m.add(getAction(view, ClearRecentFilesMenuAction.ID));
 
         OpenRecentMenuHandler handler = new OpenRecentMenuHandler(m, view);
         return m;
@@ -339,9 +359,11 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
 
         private JMenu openRecentMenu;
         private LinkedList<Action> openRecentActions = new LinkedList<Action>();
+        private View view;
 
         public OpenRecentMenuHandler(JMenu openRecentMenu, View view) {
             this.openRecentMenu = openRecentMenu;
+            this.view = view;
             if (view != null) {
                 view.addDisposable(this);
             }
@@ -375,10 +397,10 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
                 openRecentMenu.removeAll();
 
                 // Create new actions and add them to the menu
-                if (model.getAction(LoadFileAction.ID) != null || //
-                        model.getAction(LoadDirectoryAction.ID) != null) {
+                if (getAction(view, LoadFileAction.ID) != null || //
+                        getAction(view, LoadDirectoryAction.ID) != null) {
                     for (URI f : getRecentURIs()) {
-                        LoadRecentFileAction action = new LoadRecentFileAction(AbstractApplication.this, f);
+                        LoadRecentFileAction action = new LoadRecentFileAction(AbstractApplication.this, view, f);
                         openRecentMenu.add(action);
                         openRecentActions.add(action);
                     }
@@ -408,5 +430,97 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
             }
             openRecentActions.clear();
         }
+    }
+
+    @Override
+    public URIChooser getOpenChooser(View v) {
+        if (v == null) {
+            if (openChooser == null) {
+                openChooser = model.createOpenChooser(this, null);
+                List<URI> ruris = getRecentURIs();
+                if (ruris.size() > 0) {
+                    openChooser.setSelectedURI(ruris.get(0));
+                }
+            }
+            return openChooser;
+        } else {
+            URIChooser chooser = (URIChooser) v.getComponent().getClientProperty("openChooser");
+            if (chooser == null) {
+                chooser = model.createOpenChooser(this, v);
+                v.getComponent().putClientProperty("openChooser", chooser);
+                List<URI> ruris = getRecentURIs();
+                if (ruris.size() > 0) {
+                    chooser.setSelectedURI(ruris.get(0));
+                }
+            }
+            return chooser;
+        }
+    }
+
+    @Override
+    public URIChooser getSaveChooser(View v) {
+        if (v == null) {
+            if (saveChooser == null) {
+                saveChooser = model.createSaveChooser(this, null);
+            }
+            return saveChooser;
+        } else {
+            URIChooser chooser = (URIChooser) v.getComponent().getClientProperty("saveChooser");
+            if (chooser == null) {
+                chooser = model.createSaveChooser(this, v);
+                v.getComponent().putClientProperty("saveChooser", chooser);
+                chooser.setSelectedURI(v.getURI());
+            }
+            return chooser;
+        }
+    }
+
+    @Override
+    public URIChooser getImportChooser(View v) {
+        if (v == null) {
+            if (importChooser == null) {
+                importChooser = model.createImportChooser(this, null);
+            }
+            return importChooser;
+        } else {
+            URIChooser chooser = (URIChooser) v.getComponent().getClientProperty("importChooser");
+            if (chooser == null) {
+                chooser = model.createImportChooser(this, v);
+                v.getComponent().putClientProperty("importChooser", chooser);
+            }
+            return chooser;
+        }
+    }
+
+    @Override
+    public URIChooser getExportChooser(View v) {
+        if (v == null) {
+            if (exportChooser == null) {
+                exportChooser = model.createExportChooser(this, null);
+            }
+            return exportChooser;
+        } else {
+            URIChooser chooser = (URIChooser) v.getComponent().getClientProperty("exportChooser");
+            if (chooser == null) {
+                chooser = model.createExportChooser(this, v);
+                v.getComponent().putClientProperty("exportChooser", chooser);
+            }
+            return chooser;
+        }
+    }
+
+    /**
+     * Sets the application-wide action map.
+     */
+    public void setActionMap(ActionMap m) {
+        actionMap = m;
+    }
+
+    /**
+     * Gets the action map.
+     */
+    @Override
+    public ActionMap getActionMap(View v) {
+        return (v == null) ? actionMap : v.getActionMap();
     }
 }

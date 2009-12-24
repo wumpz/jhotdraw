@@ -30,8 +30,8 @@ import org.jhotdraw.util.*;
 public class TogglePropertiesPanelAction extends AbstractViewAction {
     
     /** Creates a new instance. */
-    public TogglePropertiesPanelAction(Application app) {
-        super(app);
+    public TogglePropertiesPanelAction(Application app, View view) {
+        super(app, view);
         setPropertyName("propertiesPanelVisible");
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
         putValue(AbstractAction.NAME, labels.getString("propertiesPanel"));

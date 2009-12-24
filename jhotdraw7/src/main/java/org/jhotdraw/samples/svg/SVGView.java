@@ -44,7 +44,7 @@ import org.jhotdraw.net.URIUtil;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class SVGView extends AbstractView implements ExportableView {
+public class SVGView extends AbstractView {
 
     public final static String DRAWING_PROPERTY = "drawing";
     public final static String GRID_VISIBLE_PROPERTY = "gridVisible";
@@ -127,10 +127,11 @@ public class SVGView extends AbstractView implements ExportableView {
      * Initializes view specific actions.
      */
     private void initActions() {
-        putAction(UndoAction.ID, undo.getUndoAction());
-        putAction(RedoAction.ID, undo.getRedoAction());
+        getActionMap().put(UndoAction.ID, undo.getUndoAction());
+        getActionMap().put(RedoAction.ID, undo.getRedoAction());
     }
 
+    @Override
     protected void setHasUnsavedChanges(boolean newValue) {
         super.setHasUnsavedChanges(newValue);
         undo.setHasSignificantEdits(newValue);
@@ -139,16 +140,16 @@ public class SVGView extends AbstractView implements ExportableView {
     /**
      * Writes the view to the specified uri.
      */
-    public void write(URI uri) throws IOException {
+    public void write(URI uri, URIChooser chooser) throws IOException {
         new SVGOutputFormat().write(new File(uri), svgPanel.getDrawing());
     }
 
     /**
      * Reads the view from the specified uri.
      */
-    public void read(final URI uri) throws IOException {
+    public void read(final URI uri, URIChooser chooser) throws IOException {
         try {
-            JFileURIChooser fc = (JFileURIChooser) getOpenChooser();
+            JFileURIChooser fc = (JFileURIChooser) chooser;
 
             final Drawing drawing = createDrawing();
 
@@ -243,93 +244,7 @@ public class SVGView extends AbstractView implements ExportableView {
         }
     }
 
-    @Override
-    protected URIChooser createOpenChooser() {
-        final JFileURIChooser c = new JFileURIChooser();
-        fileFilterInputFormatMap =
-                new HashMap<javax.swing.filechooser.FileFilter, InputFormat>();
-        javax.swing.filechooser.FileFilter firstFF = null;
-        Drawing d = svgPanel.getDrawing();
-        if (d == null) {
-            d = createDrawing();
-        }
-
-        for (InputFormat format : d.getInputFormats()) {
-            javax.swing.filechooser.FileFilter ff = format.getFileFilter();
-            if (firstFF == null) {
-                firstFF = ff;
-            }
-
-            fileFilterInputFormatMap.put(ff, format);
-            c.addChoosableFileFilter(ff);
-        }
-
-        c.setFileFilter(firstFF);
-        c.addPropertyChangeListener(new PropertyChangeListener() {
-
-            public void propertyChange(PropertyChangeEvent evt) {
-                if (evt.getPropertyName().equals("fileFilterChanged")) {
-                    InputFormat inputFormat = fileFilterInputFormatMap.get(evt.getNewValue());
-                    c.setAccessory((inputFormat == null) ? null : inputFormat.getInputFormatAccessory());
-                }
-
-            }
-        });
-        if (preferences != null) {
-            c.setSelectedFile(new File(preferences.get("projectFile", System.getProperty("user.home"))));
-        }
-
-        return c;
-    }
-
-    @Override
-    protected URIChooser createSaveChooser() {
-        JFileURIChooser c = new JFileURIChooser();
-
-        fileFilterOutputFormatMap =
-                new HashMap<javax.swing.filechooser.FileFilter, OutputFormat>();
-        //  c.addChoosableFileFilter(new ExtensionFileFilter("SVG Drawing","svg"));
-        for (OutputFormat format : svgPanel.getDrawing().getOutputFormats()) {
-            javax.swing.filechooser.FileFilter ff = format.getFileFilter();
-            fileFilterOutputFormatMap.put(ff, format);
-            c.addChoosableFileFilter(ff);
-            break; // only add the first uri filter
-
-        }
-
-
-        if (preferences != null) {
-            c.setSelectedFile(new File(preferences.get("projectFile", System.getProperty("user.home"))));
-        }
-
-        return c;
-    }
-
-    protected JFileURIChooser createExportChooser() {
-        JFileURIChooser c = new JFileURIChooser();
-
-        fileFilterOutputFormatMap =
-                new HashMap<javax.swing.filechooser.FileFilter, OutputFormat>();
-        //  c.addChoosableFileFilter(new ExtensionFileFilter("SVG Drawing","svg"));
-        javax.swing.filechooser.FileFilter currentFilter = null;
-        for (OutputFormat format : svgPanel.getDrawing().getOutputFormats()) {
-            javax.swing.filechooser.FileFilter ff = format.getFileFilter();
-            fileFilterOutputFormatMap.put(ff, format);
-            c.addChoosableFileFilter(ff);
-            if (ff.getDescription().equals(preferences.get("viewExportFormat", ""))) {
-                currentFilter = ff;
-            }
-
-        }
-        if (currentFilter != null) {
-            c.setFileFilter(currentFilter);
-        }
-
-        c.setSelectedFile(new File(preferences.get("viewExportFile", System.getProperty("user.home"))));
-
-        return c;
-    }
-
+    
     @Override
     public boolean canSaveTo(URI file) {
         return file.getPath().endsWith(".svg")
@@ -350,27 +265,7 @@ public class SVGView extends AbstractView implements ExportableView {
         add(svgPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    public URIChooser getExportChooser() {
-        if (exportChooser == null) {
-            exportChooser = createExportChooser();
-        }
 
-        return exportChooser;
-    }
-
-    public void export(URI uri, javax.swing.filechooser.FileFilter filter, Component accessory) throws IOException {
-        File f = new File(uri);
-        OutputFormat format = fileFilterOutputFormatMap.get(filter);
-
-        if (!f.getName().endsWith("." + format.getFileExtension())) {
-            f = new File(f.getPath() + "." + format.getFileExtension());
-        }
-
-        format.write(f, svgPanel.getDrawing());
-
-        preferences.put("viewExportFile", f.getPath());
-        preferences.put("viewExportFormat", filter.getDescription());
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jhotdraw.samples.svg.SVGDrawingPanel svgPanel;
     // End of variables declaration//GEN-END:variables

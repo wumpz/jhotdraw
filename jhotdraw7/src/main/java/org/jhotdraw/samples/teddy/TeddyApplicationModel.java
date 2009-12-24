@@ -19,6 +19,7 @@ import javax.swing.*;
 import org.jhotdraw.app.*;
 import java.util.*;
 import org.jhotdraw.app.action.*;
+import org.jhotdraw.gui.JFileURIChooser;
 import org.jhotdraw.samples.teddy.action.*;
 import org.jhotdraw.util.*;
 
@@ -34,36 +35,43 @@ public class TeddyApplicationModel extends DefaultApplicationModel {
     public TeddyApplicationModel() {
     }
     
-    @Override public void initApplication(Application a) {
-        super.initApplication(a);
-        putAction(org.jhotdraw.samples.teddy.action.FindAction.ID, new org.jhotdraw.samples.teddy.action.FindAction(a));
-        putAction(ToggleLineWrapAction.ID, new ToggleLineWrapAction(a));
-        putAction(ToggleStatusBarAction.ID, new ToggleStatusBarAction(a));
-        putAction(ToggleLineNumbersAction.ID, new ToggleLineNumbersAction(a));
-        putAction(PrintFileAction.ID, null);
+    public ActionMap createActionMap(Application a, View v) {
+        ActionMap m = super.createActionMap(a, v);
+        ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
+        AbstractAction aa;
+
+        m.put(FindAction.ID, new FindAction(a));
+        m.put(ToggleLineWrapAction.ID, new ToggleLineWrapAction(a,v));
+        m.put(ToggleStatusBarAction.ID, new ToggleStatusBarAction(a,v));
+        m.put(ToggleLineNumbersAction.ID, new ToggleLineNumbersAction(a,v));
+        m.put(PrintFileAction.ID, null);
+
+        return m;
     }
     
-    @Override public void initView(Application a, View p) {
+    @Override public void initView(Application a, View v) {
     }
     
-    @Override public List<JMenu> createMenus(Application a, View p) {
+    @Override public List<JMenu> createMenus(Application a, View v) {
         LinkedList<JMenu> mb = new LinkedList<JMenu>();
         
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.teddy.Labels");
         
         JMenu m;
         JCheckBoxMenuItem cbmi;
-        
+        ActionMap am = a.getActionMap(v);
+
         m = new JMenu();
         labels.configureMenu(m, "view");
-        cbmi = new JCheckBoxMenuItem(getAction(ToggleLineWrapAction.ID));
-        ActionUtil.configureJCheckBoxMenuItem(cbmi, getAction(ToggleLineWrapAction.ID));
+        cbmi = new JCheckBoxMenuItem(am.get(ToggleLineWrapAction.ID));
+        ActionUtil.configureJCheckBoxMenuItem(cbmi, am.get(ToggleLineWrapAction.ID));
         m.add(cbmi);
-        cbmi = new JCheckBoxMenuItem(getAction(ToggleLineNumbersAction.ID));
-        ActionUtil.configureJCheckBoxMenuItem(cbmi, getAction(ToggleLineNumbersAction.ID));
+        cbmi = new JCheckBoxMenuItem(am.get(ToggleLineNumbersAction.ID));
+        ActionUtil.configureJCheckBoxMenuItem(cbmi, am.get(ToggleLineNumbersAction.ID));
         m.add(cbmi);
-        cbmi = new JCheckBoxMenuItem(getAction(ToggleStatusBarAction.ID));
-        ActionUtil.configureJCheckBoxMenuItem(cbmi, getAction(ToggleStatusBarAction.ID));
+        cbmi = new JCheckBoxMenuItem(am.get(ToggleStatusBarAction.ID));
+        ActionUtil.configureJCheckBoxMenuItem(cbmi, am.get(ToggleStatusBarAction.ID));
         m.add(cbmi);
         mb.add(m);
         
@@ -76,5 +84,18 @@ public class TeddyApplicationModel extends DefaultApplicationModel {
      */
     public List<JToolBar> createToolBars(Application app, View p) {
         return Collections.emptyList();
+    }
+
+    @Override
+    public JFileURIChooser createOpenChooser(Application app, View p) {
+        JFileURIChooser chooser = new JFileURIChooser();
+        chooser.setAccessory(new CharacterSetAccessory());
+        return chooser;
+    }
+    @Override
+    public JFileURIChooser createSaveChooser(Application app, View p) {
+        JFileURIChooser chooser = new JFileURIChooser();
+        chooser.setAccessory(new CharacterSetAccessory());
+        return chooser;
     }
 }

@@ -26,7 +26,8 @@ public class EmptyApplicationModel
         extends AbstractApplicationModel {
 
     @Override
-    public void initApplication(Application a) {
+    public ActionMap createActionMap(Application a, View v) {
+        return new ActionMap();
     }
 
     @Override

@@ -173,9 +173,10 @@ public class PertView extends AbstractView {
      * Initializes view specific actions.
      */
     private void initActions() {
-        putAction(UndoAction.ID, undo.getUndoAction());
-        putAction(RedoAction.ID, undo.getRedoAction());
+        getActionMap().put(UndoAction.ID, undo.getUndoAction());
+        getActionMap().put(RedoAction.ID, undo.getRedoAction());
     }
+    @Override
     protected void setHasUnsavedChanges(boolean newValue) {
         super.setHasUnsavedChanges(newValue);
         undo.setHasSignificantEdits(newValue);
@@ -184,7 +185,8 @@ public class PertView extends AbstractView {
     /**
      * Writes the view to the specified uri.
      */
-    public void write(URI f) throws IOException {
+    @Override
+    public void write(URI f, URIChooser chooser) throws IOException {
             Drawing drawing = view.getDrawing();
             OutputFormat outputFormat = drawing.getOutputFormats().get(0);
             outputFormat.write(new File(f), drawing);
@@ -193,7 +195,8 @@ public class PertView extends AbstractView {
     /**
      * Reads the view from the specified uri.
      */
-    public void read(URI f) throws IOException {
+    @Override
+    public void read(URI f, URIChooser chooser) throws IOException {
         try {
             final Drawing drawing = createDrawing();
             InputFormat inputFormat = drawing.getInputFormats().get(0);
@@ -236,22 +239,7 @@ public class PertView extends AbstractView {
         }
     }
     
-    @Override protected URIChooser createOpenChooser() {
-        JFileURIChooser c = new JFileURIChooser();
-        c.addChoosableFileFilter(new ExtensionFileFilter("Pert Diagram","xml"));
-        if (preferences != null) {
-            c.setSelectedFile(new File(preferences.get("projectFile", System.getProperty("user.home"))));
-        }
-        return c;
-    }
-    @Override protected URIChooser createSaveChooser() {
-        JFileURIChooser c = new JFileURIChooser();
-        c.addChoosableFileFilter(new ExtensionFileFilter("Pert Diagram","xml"));
-        if (preferences != null) {
-            c.setSelectedFile(new File(preferences.get("projectFile", System.getProperty("user.home"))));
-        }
-        return c;
-    }
+
     @Override
     public boolean canSaveTo(URI uri) {
         return uri.getPath().endsWith(".xml");

@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.app.action;
 
 import java.beans.*;
@@ -34,13 +33,14 @@ import org.jhotdraw.app.View;
  * @version $Id$
  */
 public abstract class AbstractViewAction extends AbstractAction {
+
     private Application app;
     private View view;
     private String propertyName;
     public final static String VIEW_PROPERTY = "view";
     public final static String ENABLED_PROPERTY = "enabled";
-    
     private PropertyChangeListener applicationListener = new PropertyChangeListener() {
+
         public void propertyChange(PropertyChangeEvent evt) {
             if (evt.getPropertyName() == Application.ACTIVE_VIEW_PROPERTY) { // Strings get interned
                 updateView((View) evt.getOldValue(), (View) evt.getNewValue());
@@ -48,6 +48,7 @@ public abstract class AbstractViewAction extends AbstractAction {
         }
     };
     private PropertyChangeListener viewListener = new PropertyChangeListener() {
+
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
             if (name == "enabled") { // Strings get interned
@@ -57,39 +58,40 @@ public abstract class AbstractViewAction extends AbstractAction {
             }
         }
     };
-    
-    /** Creates a new instance which acts on the active view of the application. */
-    public AbstractViewAction(Application app) {
-        this(app, null);
-    }
+
     /** Creates a new instance which acts on the specified view of the application. */
     public AbstractViewAction(Application app, View view) {
         this.app = app;
         this.view = view;
         this.enabled = true;
-        if (app != null) {
+        if (view == null) {
             app.addPropertyChangeListener(applicationListener);
-            updateView(null, getActiveView());
+        } else {
+            view.addPropertyChangeListener(viewListener);
         }
+        updateView(null, getActiveView());
     }
-    
+
     /**
      * Updates the listeners of this action depending on the current view
      * of the application.
      */
     protected void updateView(View oldValue, View newValue) {
-        if (oldValue != null) {
-            uninstallViewListeners(oldValue);
+        // We only need to do this, if the view has not been explicitly set
+        if (view == null) {
+            if (oldValue != null) {
+                uninstallViewListeners(oldValue);
+            }
+            if (newValue != null) {
+                installViewListeners(newValue);
+            }
+            firePropertyChange(VIEW_PROPERTY, oldValue, newValue);
+            updateEnabled(oldValue != null && oldValue.isEnabled(),
+                    newValue != null && newValue.isEnabled());
+            updateView();
         }
-        if (newValue != null) {
-            installViewListeners(newValue);
-        }
-        firePropertyChange(VIEW_PROPERTY, oldValue, newValue);
-        updateEnabled(oldValue != null && oldValue.isEnabled(),
-                newValue != null && newValue.isEnabled());
-        updateView();
     }
-    
+
     /**
      * Sets the property name.
      */
@@ -99,34 +101,35 @@ public abstract class AbstractViewAction extends AbstractAction {
             updateView();
         }
     }
+
     /**
      * Gets the property name.
      */
     protected String getPropertyName() {
         return propertyName;
     }
-    
+
     /**
      * This method is invoked, when the property changed and when
      * the view changed.
      */
     protected void updateView() {
-        
     }
-    
+
     /**
      * Installs listeners on the view object.
      */
     protected void installViewListeners(View p) {
         p.addPropertyChangeListener(viewListener);
     }
+
     /**
      * Uninstalls listeners on the view object.
      */
     protected void uninstallViewListeners(View p) {
         p.removePropertyChangeListener(viewListener);
     }
-    
+
     /**
      * Updates the enabled state of this action depending on the new enabled
      * state of the view.
@@ -134,14 +137,15 @@ public abstract class AbstractViewAction extends AbstractAction {
     protected void updateEnabled(boolean oldValue, boolean newValue) {
         firePropertyChange("enabled", oldValue, newValue && isEnabled());
     }
-    
+
     public Application getApplication() {
         return app;
     }
+
     public View getActiveView() {
         return (view == null) ? app.getActiveView() : view;
     }
-    
+
     /**
      * Returns true if the action is enabled.
      * The enabled state of the action depends on the state that has been set
@@ -150,12 +154,13 @@ public abstract class AbstractViewAction extends AbstractAction {
      * @return true if the action is enabled, false otherwise
      * @see Action#isEnabled
      */
-    @Override public boolean isEnabled() {
-        return getActiveView() != null && 
-                getActiveView().isEnabled() &&
-                this.enabled;
+    @Override
+    public boolean isEnabled() {
+        return getActiveView() != null
+                && getActiveView().isEnabled()
+                && this.enabled;
     }
-    
+
     /**
      * Enables or disables the action. The enabled state of the action
      * depends on the value that is set here and on the enabled state of
@@ -165,16 +170,16 @@ public abstract class AbstractViewAction extends AbstractAction {
      *                  disable it
      * @see Action#setEnabled
      */
-    @Override public void setEnabled(boolean newValue) {
+    @Override
+    public void setEnabled(boolean newValue) {
         boolean oldValue = this.enabled;
         this.enabled = newValue;
-        
+
         boolean projIsEnabled = getActiveView() != null && getActiveView().isEnabled();
-        
+
         firePropertyChange(ENABLED_PROPERTY,
                 Boolean.valueOf(oldValue && projIsEnabled),
-                Boolean.valueOf(newValue && projIsEnabled)
-                );
-        
+                Boolean.valueOf(newValue && projIsEnabled));
+
     }
 }

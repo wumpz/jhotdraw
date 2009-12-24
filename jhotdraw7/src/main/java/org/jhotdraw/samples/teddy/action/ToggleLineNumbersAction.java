@@ -33,8 +33,8 @@ public class ToggleLineNumbersAction extends AbstractViewAction {
     /**
      * Creates a new instance.
      */
-    public ToggleLineNumbersAction(Application app) {
-        super(app);
+    public ToggleLineNumbersAction(Application app, View view) {
+        super(app, view);
         labels.configureAction(this, ID);
         setPropertyName("lineNumbersVisible");
     }

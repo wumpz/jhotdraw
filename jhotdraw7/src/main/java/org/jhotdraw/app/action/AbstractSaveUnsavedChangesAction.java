@@ -49,10 +49,6 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
     private Component oldFocusOwner;
 
     /** Creates a new instance. */
-    public AbstractSaveUnsavedChangesAction(Application app) {
-        this(app, null);
-    }
-    /** Creates a new instance. */
     public AbstractSaveUnsavedChangesAction(Application app, View view) {
         super(app, view);
     }
@@ -69,8 +65,8 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
                 URI unsavedURI = p.getURI();
                 JOptionPane pane = new JOptionPane(
                         "<html>" + UIManager.getString("OptionPane.css") +//
-                        "<b>"+labels.getFormatted("file.saveBefore.doYouWantToSave.message",//
-                         (unsavedURI==null)?labels.getString("unnamedFile"):URIUtil.getName(unsavedURI))+"</b><p>"+//
+                        "<b>" + labels.getFormatted("file.saveBefore.doYouWantToSave.message",//
+                        (unsavedURI == null) ? labels.getString("unnamedFile") : URIUtil.getName(unsavedURI)) + "</b><p>" +//
                         labels.getString("file.saveBefore.doYouWantToSave.details"),
                         JOptionPane.WARNING_MESSAGE);
                 Object[] options = { //
@@ -106,11 +102,20 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
         }
     }
 
+    protected URIChooser getChooser(View view) {
+        URIChooser chsr = (URIChooser) (view.getComponent()).getClientProperty("saveChooser");
+        if (chsr == null) {
+            chsr = getApplication().getModel().createSaveChooser(getApplication(), view);
+            view.getComponent().putClientProperty("saveChooser", chsr);
+        }
+        return chsr;
+    }
+
     protected void saveView(final View p) {
         if (p.getURI() == null) {
-           URIChooser fileChooser = p.getSaveChooser();
+            URIChooser chooser = getChooser(p);
             //int option = fileChooser.showSaveDialog(this);
-            JSheet.showSaveSheet(fileChooser, p.getComponent(), new SheetListener() {
+            JSheet.showSaveSheet(chooser, p.getComponent(), new SheetListener() {
 
                 public void optionSelected(final SheetEvent evt) {
                     if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
@@ -120,7 +125,7 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
                         } else {
                             uri = evt.getChooser().getSelectedURI();
                         }
-                        saveViewToURI(p, uri);
+                        saveViewToURI(p, uri, evt.getChooser());
                     } else {
                         p.setEnabled(true);
                         if (oldFocusOwner != null) {
@@ -130,15 +135,15 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
                 }
             });
         } else {
-            saveViewToURI(p, p.getURI());
+            saveViewToURI(p, p.getURI(), null);
         }
     }
 
-    protected void saveViewToURI(final View p, final URI uri) {
+    protected void saveViewToURI(final View p, final URI uri, final URIChooser chooser) {
         p.execute(new Worker() {
 
             protected Object construct() throws IOException {
-                p.write(uri);
+                p.write(uri, chooser);
                 return null;
             }
 
@@ -159,9 +164,9 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
                 }
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
                 JSheet.showMessageSheet(getActiveView().getComponent(),
-                        "<html>" + UIManager.getString("OptionPane.css") +
-                        "<b>" + labels.getFormatted("file.save.couldntSave.message", URIUtil.getName(uri)) + "</b><p>" +
-                        ((message == null) ? "" : message),
+                        "<html>" + UIManager.getString("OptionPane.css")
+                        + "<b>" + labels.getFormatted("file.save.couldntSave.message", URIUtil.getName(uri)) + "</b><p>"
+                        + ((message == null) ? "" : message),
                         JOptionPane.ERROR_MESSAGE);
             }
 

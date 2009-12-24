@@ -43,11 +43,11 @@ public class ViewPropertyAction extends AbstractViewAction {
     };
     
     /** Creates a new instance. */
-    public ViewPropertyAction(Application app, String propertyName, Object propertyValue) {
-        this(app, propertyName, propertyValue.getClass(), propertyValue);
+    public ViewPropertyAction(Application app, View view, String propertyName, Object propertyValue) {
+        this(app, view, propertyName, propertyValue.getClass(), propertyValue);
     }
-    public ViewPropertyAction(Application app, String propertyName, Class propertyClass, Object propertyValue) {
-        super(app);
+    public ViewPropertyAction(Application app, View view, String propertyName, Class propertyClass, Object propertyValue) {
+        super(app, view);
         this.propertyName = propertyName;
         this.parameterClass = new Class[] { propertyClass };
         this.propertyValue = propertyValue;

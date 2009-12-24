@@ -36,8 +36,8 @@ public abstract class AbstractFindAction extends AbstractViewAction {
     public final static String ID = "edit.find";
     
     /** Creates a new instance. */
-    public AbstractFindAction(Application app) {
-        super(app);
+    public AbstractFindAction(Application app, View view) {
+        super(app, view);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }    

@@ -43,10 +43,6 @@ public abstract class AbstractView extends JPanel implements View {
      */
     protected ExecutorService executor;
     /**
-     * Hash map for storing view actions by their ID.
-     */
-    private HashMap<String, Action> actions;
-    /**
      * This is set to true, if the view has unsaved changes.
      */
     private boolean hasUnsavedChanges;
@@ -69,16 +65,6 @@ public abstract class AbstractView extends JPanel implements View {
     private String title;
     /** List of objects that need to be disposed when this view is disposed. */
     private LinkedList<Disposable> disposables;
-    /**
-     * The chooser used for saving the view.
-     * Has a null value, if the chooser has not been used yet.
-     */
-    protected URIChooser saveChooser;
-    /**
-     * The chooser used for opening the view.
-     * Has a null value, if the chooser has not been used yet.
-     */
-    protected URIChooser openChooser;
     /**
      * The URI of the view.
      * Has a null value, if the view has not been loaded from a URI
@@ -135,12 +121,6 @@ public abstract class AbstractView extends JPanel implements View {
             }
             disposables = null;
         }
-        if (openChooser != null) {
-            openChooser = null;
-        }
-        if (saveChooser != null) {
-            saveChooser = null;
-        }
 
         removeAll();
     }
@@ -162,41 +142,6 @@ public abstract class AbstractView extends JPanel implements View {
         firePropertyChange(URI_PROPERTY, oldValue, newValue);
     }
 
-    /**
-     * Gets the open uri chooser for the view.
-     */
-    public URIChooser getOpenChooser() {
-        if (openChooser == null) {
-            openChooser = createOpenChooser();
-        }
-        return openChooser;
-    }
-
-    protected URIChooser createOpenChooser() {
-        URIChooser c = new JFileURIChooser();
-        if (preferences != null) {
-            c.setSelectedURI(new File(preferences.get("projectFile", System.getProperty("user.home"))).toURI());
-        }
-        return c;
-    }
-
-    /**
-     * Gets the save uri chooser for the view.
-     */
-    public URIChooser getSaveChooser() {
-        if (saveChooser == null) {
-            saveChooser = createSaveChooser();
-        }
-        return saveChooser;
-    }
-
-    protected URIChooser createSaveChooser() {
-        JFileURIChooser c = new JFileURIChooser();
-        if (preferences != null) {
-            c.setCurrentDirectory(new File(preferences.get("projectFile", System.getProperty("user.home"))));
-        }
-        return c;
-    }
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -224,7 +169,6 @@ public abstract class AbstractView extends JPanel implements View {
     public JComponent getComponent() {
         return this;
     }
-
     /**
      * Returns true, if the view has unsaved changes.
      * This is a bound property.
@@ -237,27 +181,6 @@ public abstract class AbstractView extends JPanel implements View {
         boolean oldValue = hasUnsavedChanges;
         hasUnsavedChanges = newValue;
         firePropertyChange(HAS_UNSAVED_CHANGES_PROPERTY, oldValue, newValue);
-    }
-
-    /**
-     * Returns the action with the specified id.
-     */
-    public Action getAction(String id) {
-        return (actions == null) ? null : (Action) actions.get(id);
-    }
-
-    /**
-     * Puts an action with the specified id.
-     */
-    public void putAction(String id, Action action) {
-        if (actions == null) {
-            actions = new HashMap<String, Action>();
-        }
-        if (action == null) {
-            actions.remove(id);
-        } else {
-            actions.put(id, action);
-        }
     }
 
     /**

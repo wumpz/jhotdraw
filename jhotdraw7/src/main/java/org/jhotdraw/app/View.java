@@ -183,14 +183,14 @@ public interface View {
     public void dispose();
     
     /**
-     * Returns the action with the specified id.
+     * Gets the action map of the view.
      */
-    public Action getAction(String id);
+    public ActionMap getActionMap();
     
     /**
-     * Puts an action with the specified id.
+     * Sets the action map for the view.
      */
-    public void putAction(String id, Action action);
+    public void setActionMap(ActionMap m);
     
     /**
      * Adds a property change listener.
@@ -284,23 +284,25 @@ public interface View {
 
     /**
      * Writes the view to the specified URI.
+     * <p>
      * By convention this method is never invoked on the AWT Event Dispatcher Thread.
+     *
+     * @param uri The location where to write the view.
+     * @param chooser The chooser which was used for selecting the URI. This
+     * parameter is null if no chooser was used.
      */
-    public void write(URI uri) throws IOException;
+    public void write(URI uri, URIChooser chooser) throws IOException;
 
     /**
      * Reads the view from the specified URI.
+     * <p>
      * By convention this method is never invoked on the AWT Event Dispatcher Thread.
+     *
+     * @param uri The location where to write the view.
+     * @param chooser The chooser which was used for selecting the URI. This
+     * parameter is null if no chooser was used.
      */
-    public void read(URI uri) throws IOException;
+    public void read(URI uri, URIChooser chooser) throws IOException;
 
-    /**
-     * Gets the open chooser for the view.
-     */
-    public URIChooser getOpenChooser();
-    /**
-     * Gets the save chooser for the view.
-     */
-    public URIChooser getSaveChooser();
 
 }

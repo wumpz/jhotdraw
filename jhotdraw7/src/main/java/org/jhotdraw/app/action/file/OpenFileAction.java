@@ -20,11 +20,13 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
 import java.net.URI;
+import java.util.prefs.Preferences;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
 import org.jhotdraw.app.action.AbstractApplicationAction;
 import org.jhotdraw.gui.URIChooser;
 import org.jhotdraw.net.URIUtil;
+import org.jhotdraw.util.prefs.PreferencesUtil;
 
 /**
  * Presents an {@code URIChooser} and loads the selected URI into an
@@ -58,7 +60,8 @@ public class OpenFileAction extends AbstractApplicationAction {
     }
 
     protected URIChooser getChooser(View view) {
-        return view.getOpenChooser();
+        // Note: We pass null here, because we want the application-wide chooser
+        return getApplication().getOpenChooser(null);
     }
 
     public void actionPerformed(ActionEvent evt) {
@@ -84,11 +87,11 @@ public class OpenFileAction extends AbstractApplicationAction {
                 view = emptyView;
                 disposeView = false;
             }
-            URIChooser fileChooser = getChooser(view);
-            fileChooser.setDialogType(JFileChooser.OPEN_DIALOG);
-            if (showDialog(fileChooser, app.getComponent()) == JFileChooser.APPROVE_OPTION) {
+            URIChooser chooser = getChooser(view);
+            chooser.setDialogType(JFileChooser.OPEN_DIALOG);
+            if (showDialog(chooser, app.getComponent()) == JFileChooser.APPROVE_OPTION) {
                 app.show(view);
-                openViewFromURI(view, fileChooser.getSelectedURI());
+                openViewFromURI(view, chooser.getSelectedURI(), chooser);
             } else {
                 if (disposeView) {
                     app.dispose(view);
@@ -98,7 +101,7 @@ public class OpenFileAction extends AbstractApplicationAction {
         }
     }
 
-    protected void openViewFromURI(final View view, final URI uri) {
+    protected void openViewFromURI(final View view, final URI uri, final URIChooser chooser) {
         final Application app = getApplication();
         app.setEnabled(true);
         view.setEnabled(false);
@@ -127,7 +130,7 @@ public class OpenFileAction extends AbstractApplicationAction {
 
                 }
                 if (exists) {
-                    view.read(uri);
+                    view.read(uri, chooser);
                     return null;
                 } else {
                     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
@@ -238,14 +241,18 @@ public class OpenFileAction extends AbstractApplicationAction {
                 dialog.getRootPane().setWindowDecorationStyle(JRootPane.FILE_CHOOSER_DIALOG);
             }
         }
-        dialog.pack();
+        //dialog.pack();
+        Preferences prefs = PreferencesUtil.userNodeForPackage(getApplication().getModel().getClass());
+
+         PreferencesUtil.installFramePrefsHandler(prefs, "openChooser", dialog);
+         /*
         if (window.getBounds().isEmpty()) {
             Rectangle screenBounds = window.getGraphicsConfiguration().getBounds();
             dialog.setLocation(screenBounds.x + (screenBounds.width - dialog.getWidth()) / 2, //
                     screenBounds.y + (screenBounds.height - dialog.getHeight()) / 3);
         } else {
             dialog.setLocationRelativeTo(parent);
-        }
+        }*/
 
         return dialog;
     }

@@ -28,6 +28,9 @@ import org.jhotdraw.app.*;
 import org.jhotdraw.app.action.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
+import org.jhotdraw.gui.JFileURIChooser;
+import org.jhotdraw.gui.URIChooser;
+import org.jhotdraw.io.ExtensionFileFilter;
 import org.jhotdraw.samples.net.figures.*;
 import org.jhotdraw.util.*;
 
@@ -67,21 +70,22 @@ public class NetApplicationModel extends DefaultApplicationModel {
     public NetApplicationModel() {
     }
 
-    public void initApplication(Application a) {
-        super.initApplication(a);
+    public ActionMap createActionMap(Application a, View v) {
+        ActionMap m=super.createActionMap(a,v);
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.net.Labels");
         AbstractAction aa;
 
-        putAction(ExportFileAction.ID, new ExportFileAction(a));
-        putAction("view.toggleGrid", aa = new ToggleViewPropertyAction(a, NetView.GRID_VISIBLE_PROPERTY));
+        m.put(ExportFileAction.ID, new ExportFileAction(a,v));
+        m.put("view.toggleGrid", aa = new ToggleViewPropertyAction(a, v,NetView.GRID_VISIBLE_PROPERTY));
         drawLabels.configureAction(aa, "view.toggleGrid");
         for (double sf : scaleFactors) {
-            putAction((int) (sf * 100) + "%",
-                    aa = new ViewPropertyAction(a, "scaleFactor", Double.TYPE, new Double(sf)));
+            m.put((int) (sf * 100) + "%",
+                    aa = new ViewPropertyAction(a, v, "scaleFactor", Double.TYPE, new Double(sf)));
             aa.putValue(Action.NAME, (int) (sf * 100) + " %");
 
         }
+        return m;
     }
 
     public DefaultDrawingEditor getSharedEditor() {
@@ -152,9 +156,9 @@ public class NetApplicationModel extends DefaultApplicationModel {
         return list;
     }
 
-    public java.util.List<JMenu> createMenus(Application a, View pr) {
+    public java.util.List<JMenu> createMenus(Application a, View v) {
         // FIXME - Add code for unconfiguring the menus!! We leak memory!
-        NetView p = (NetView) pr;
+        NetView p = (NetView) v;
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
 
         //  JMenuBar mb = new JMenuBar();
@@ -165,26 +169,39 @@ public class NetApplicationModel extends DefaultApplicationModel {
         JCheckBoxMenuItem cbmi;
         ButtonGroup group;
 
-        m = a.createViewMenu(pr);
+        m = a.createViewMenu(v);
         if (m == null) {
             m = new JMenu();
             labels.configureMenu(m, "view");
         }
 
-
-        cbmi = new JCheckBoxMenuItem(getAction("view.toggleGrid"));
-        ActionUtil.configureJCheckBoxMenuItem(cbmi, getAction("view.toggleGrid"));
+        ActionMap am = a.getActionMap(v);
+        cbmi = new JCheckBoxMenuItem(am.get("view.toggleGrid"));
+        ActionUtil.configureJCheckBoxMenuItem(cbmi, am.get("view.toggleGrid"));
         m.add(cbmi);
         m2 = new JMenu("Zoom");
         for (double sf : scaleFactors) {
             String id = (int) (sf * 100) + "%";
-            cbmi = new JCheckBoxMenuItem(getAction(id));
-            ActionUtil.configureJCheckBoxMenuItem(cbmi, getAction(id));
+            cbmi = new JCheckBoxMenuItem(am.get(id));
+            ActionUtil.configureJCheckBoxMenuItem(cbmi, am.get(id));
             m2.add(cbmi);
         }
         m.add(m2);
         mb.add(m);
 
         return mb;
+    }
+    @Override
+    public URIChooser createOpenChooser(Application a, View v) {
+        JFileURIChooser c = new JFileURIChooser();
+        c.addChoosableFileFilter(new ExtensionFileFilter("Net Diagram .xml","xml"));
+        return c;
+    }
+
+    @Override
+    public URIChooser createSaveChooser(Application a, View v) {
+        JFileURIChooser c = new JFileURIChooser();
+        c.addChoosableFileFilter(new ExtensionFileFilter("Net Diagram .xml","xml"));
+        return c;
     }
 }

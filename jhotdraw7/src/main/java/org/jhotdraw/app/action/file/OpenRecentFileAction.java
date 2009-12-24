@@ -93,7 +93,6 @@ public class OpenRecentFileAction extends AbstractApplicationAction {
         }
         view.setMultipleOpenId(multipleOpenId);
         view.setEnabled(false);
-        view.getOpenChooser(); // get open chooser is needed by read method.
 
         // Open the file
         view.execute(new Worker() {
@@ -107,7 +106,7 @@ public class OpenRecentFileAction extends AbstractApplicationAction {
                     // The URI does not denote a file, thus we can not check whether the file exists.
                 }
                 if (exists) {
-                    view.read(uri);
+                    view.read(uri, null);
                     return null;
                 } else {
                     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");

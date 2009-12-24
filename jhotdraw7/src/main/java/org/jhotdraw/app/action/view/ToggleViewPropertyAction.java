@@ -44,12 +44,12 @@ public class ToggleViewPropertyAction extends AbstractViewAction {
     };
     
     /** Creates a new instance. */
-    public ToggleViewPropertyAction(Application app, String propertyName) {
-        this(app, propertyName, Boolean.TYPE, true, false);
+    public ToggleViewPropertyAction(Application app, View view, String propertyName) {
+        this(app, view, propertyName, Boolean.TYPE, true, false);
     }
-    public ToggleViewPropertyAction(Application app, String propertyName, Class propertyClass,
+    public ToggleViewPropertyAction(Application app, View view, String propertyName, Class propertyClass,
             Object selectedPropertyValue, Object deselectedPropertyValue) {
-        super(app);
+        super(app, view);
         this.propertyName = propertyName;
         this.parameterClass = new Class[] { propertyClass };
         this.selectedPropertyValue = selectedPropertyValue;

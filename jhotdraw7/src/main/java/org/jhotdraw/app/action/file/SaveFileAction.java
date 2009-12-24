@@ -49,13 +49,22 @@ public class SaveFileAction extends AbstractViewAction {
     private Component oldFocusOwner;
 
     /** Creates a new instance. */
-    public SaveFileAction(Application app) {
-        this(app, false);
+    public SaveFileAction(Application app, View view) {
+        this(app, view, false);
+    }
+
+    protected URIChooser getChooser(View view) {
+        URIChooser chsr = (URIChooser) (view.getComponent()).getClientProperty("saveChooser");
+        if (chsr == null) {
+            chsr = getApplication().getModel().createSaveChooser(getApplication(), view);
+            view.getComponent().putClientProperty("saveChooser", chsr);
+        }
+        return chsr;
     }
 
     /** Creates a new instance. */
-    public SaveFileAction(Application app, boolean saveAs) {
-        super(app);
+    public SaveFileAction(Application app, View view, boolean saveAs) {
+        super(app, view);
         this.saveAs = saveAs;
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
@@ -67,9 +76,9 @@ public class SaveFileAction extends AbstractViewAction {
             view.setEnabled(false);
 
             if (!saveAs && view.getURI() != null && view.canSaveTo(view.getURI())) {
-                saveViewToURI(view, view.getURI());
+                saveViewToURI(view, view.getURI(), null);
             } else {
-                URIChooser fileChooser = view.getSaveChooser();
+                URIChooser fileChooser = getChooser(view);
 
                 JSheet.showSaveSheet(fileChooser, view.getComponent(), new SheetListener() {
 
@@ -81,7 +90,7 @@ public class SaveFileAction extends AbstractViewAction {
                             } else {
                                 uri = evt.getChooser().getSelectedURI();
                             }
-                            saveViewToURI(view, uri);
+                            saveViewToURI(view, uri, evt.getChooser());
                         } else {
                             view.setEnabled(true);
                             if (oldFocusOwner != null) {
@@ -94,11 +103,11 @@ public class SaveFileAction extends AbstractViewAction {
         }
     }
 
-    protected void saveViewToURI(final View view, final URI file) {
+    protected void saveViewToURI(final View view, final URI file, final URIChooser chooser) {
         view.execute(new Worker() {
 
             protected Object construct() throws IOException {
-                view.write(file);
+                view.write(file, chooser);
                 return null;
             }
 

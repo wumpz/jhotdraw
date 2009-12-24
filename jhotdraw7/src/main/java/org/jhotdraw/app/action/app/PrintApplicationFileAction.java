@@ -50,7 +50,7 @@ public class PrintApplicationFileAction extends PrintFileAction {
 
     /** Creates a new instance. */
     public PrintApplicationFileAction(Application app) {
-        super(app);
+        super(app, null);
         putValue(Action.NAME, "OSX Print File");
     }
 
@@ -69,7 +69,7 @@ public class PrintApplicationFileAction extends PrintFileAction {
 
             @Override
             public Object construct() throws IOException {
-                p.read(new File(filename).toURI());
+                p.read(new File(filename).toURI(), null);
                 return null;
             }
 

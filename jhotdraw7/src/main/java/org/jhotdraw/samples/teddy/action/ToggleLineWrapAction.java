@@ -33,8 +33,8 @@ public class ToggleLineWrapAction extends AbstractViewAction {
     /**
      * Creates a new instance.
      */
-    public ToggleLineWrapAction(Application app) {
-        super(app);
+    public ToggleLineWrapAction(Application app, View view) {
+        super(app, view);
         labels.configureAction(this, ID);
         setPropertyName("lineWrap");
     }

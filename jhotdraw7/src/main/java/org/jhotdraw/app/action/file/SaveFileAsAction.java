@@ -15,6 +15,7 @@
 package org.jhotdraw.app.action.file;
 import org.jhotdraw.util.*;
 import org.jhotdraw.app.Application;
+import org.jhotdraw.app.View;
 
 /**
  * Presents an {@code URIChooser} and then saves the active view to the
@@ -34,8 +35,8 @@ public class SaveFileAsAction extends SaveFileAction {
     public final static String ID = "file.saveAs";
 
     /** Creates a new instance. */
-    public SaveFileAsAction(Application app) {
-        super(app, true);
+    public SaveFileAsAction(Application app, View view) {
+        super(app, view, true);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }

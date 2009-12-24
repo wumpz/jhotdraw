@@ -19,6 +19,7 @@ import java.util.*;
 import javax.swing.*;
 import java.io.*;
 import java.net.URI;
+import org.jhotdraw.gui.URIChooser;
 
 /**
  * An <em>application</em> handles the lifecycle of {@link View}s and provides
@@ -106,6 +107,10 @@ public interface Application {
      * <code>init()</code> must have been invoked before the application is stopped.
      */
     public void stop();
+    /**
+     * Destroys the application and calls System.exit(0).
+     */
+    public void destroy();
 
     /**
      * Creates a new view for this application and initializes it, by calling
@@ -287,6 +292,7 @@ public interface Application {
      * Returns null, if the menu is empty.
      */
     public JMenu createViewMenu(View v);
+
     /**
      * Creates a window menu for the specified view.
      * Returns null, if the menu is empty.
@@ -298,4 +304,38 @@ public interface Application {
      * Returns null, if the menu is empty.
      */
     public JMenu createHelpMenu(View v);
+
+    /**
+     * Gets the open chooser.
+     *
+     * @param v View or null for application-wide chooser.
+     */
+    public URIChooser getOpenChooser(View v);
+
+    /**
+     * Gets the save chooser.
+     *
+     * @param v View or null for application-wide chooser.
+     */
+    public URIChooser getSaveChooser(View v);
+
+    /**
+     * Gets the export chooser.
+     *
+     * @param v View or null for application-wide chooser.
+     */
+    public URIChooser getExportChooser(View v);
+    /**
+     * Gets the import chooser.
+     *
+     * @param v View or null for application-wide chooser.
+     */
+    public URIChooser getImportChooser(View v);
+
+    /**
+     * Gets the action map.
+     *
+     * @param v View or null for application-wide action map.
+     */
+    public ActionMap getActionMap(View v);
 }

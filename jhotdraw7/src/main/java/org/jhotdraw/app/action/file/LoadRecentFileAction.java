@@ -44,8 +44,8 @@ public class LoadRecentFileAction extends AbstractSaveUnsavedChangesAction {
     private URI uri;
 
     /** Creates a new instance. */
-    public LoadRecentFileAction(Application app, URI uri) {
-        super(app);
+    public LoadRecentFileAction(Application app, View view, URI uri) {
+        super(app, view);
         this.uri = uri;
         putValue(Action.NAME, URIUtil.getName(uri));
     }
@@ -78,7 +78,7 @@ public class LoadRecentFileAction extends AbstractSaveUnsavedChangesAction {
                     // The URI does not denote a file, thus we can not check whether the file exists.
                 }
                 if (exists) {
-                    view.read(uri);
+                    view.read(uri,null);
                     return null;
                 } else {
                     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");

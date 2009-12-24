@@ -52,7 +52,7 @@ import org.jhotdraw.gui.URIChooser;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class ODGView extends AbstractView implements ExportableView {
+public class ODGView extends AbstractView {
 
     public final static String GRID_VISIBLE_PROPERTY = "gridVisible";
     protected JFileURIChooser exportChooser;
@@ -66,8 +66,6 @@ public class ODGView extends AbstractView implements ExportableView {
      * view, or a single shared editor for all views.
      */
     private DrawingEditor editor;
-    private HashMap<javax.swing.filechooser.FileFilter, InputFormat> fileFilterInputFormatMap;
-    private HashMap<javax.swing.filechooser.FileFilter, OutputFormat> fileFilterOutputFormatMap;
     private GridConstrainer visibleConstrainer = new GridConstrainer(10, 10);
     private GridConstrainer invisibleConstrainer = new GridConstrainer(1, 1);
 
@@ -171,8 +169,8 @@ public class ODGView extends AbstractView implements ExportableView {
      * Initializes view specific actions.
      */
     private void initActions() {
-        putAction(UndoAction.ID, undo.getUndoAction());
-        putAction(RedoAction.ID, undo.getRedoAction());
+        getActionMap().put(UndoAction.ID, undo.getUndoAction());
+        getActionMap().put(RedoAction.ID, undo.getRedoAction());
     }
 
     @Override
@@ -184,19 +182,21 @@ public class ODGView extends AbstractView implements ExportableView {
     /**
      * Writes the view to the specified uri.
      */
-    public void write(URI f) throws IOException {
+    public void write(URI f, URIChooser fc) throws IOException {
         new SVGOutputFormat().write(new File(f), view.getDrawing());
     }
 
     /**
      * Reads the view from the specified uri.
      */
-    public void read(URI f) throws IOException {
+    @SuppressWarnings("unchecked")
+    @Override
+    public void read(URI f, URIChooser fc) throws IOException {
         try {
-            JFileURIChooser fc = (JFileURIChooser) getOpenChooser();
-
             final Drawing drawing = createDrawing();
-            InputFormat sf = fileFilterInputFormatMap.get(fc.getFileFilter());
+            HashMap<FileFilter, InputFormat> fileFilterInputFormatMap = (HashMap<FileFilter, InputFormat>)((JFileURIChooser) fc).getClientProperty("ffInputFormatMap");
+
+            InputFormat sf = fileFilterInputFormatMap.get(((JFileURIChooser) fc).getFileFilter());
             if (sf == null) {
                 sf = drawing.getInputFormats().get(0);
             }
@@ -288,80 +288,10 @@ public class ODGView extends AbstractView implements ExportableView {
     }
 
     @Override
-    protected URIChooser createOpenChooser() {
-        final JFileURIChooser c = new JFileURIChooser();
-        fileFilterInputFormatMap = new HashMap<javax.swing.filechooser.FileFilter, InputFormat>();
-        javax.swing.filechooser.FileFilter firstFF = null;
-        for (InputFormat format : view.getDrawing().getInputFormats()) {
-            javax.swing.filechooser.FileFilter ff = format.getFileFilter();
-            if (firstFF == null) {
-                firstFF = ff;
-            }
-            fileFilterInputFormatMap.put(ff, format);
-            c.addChoosableFileFilter(ff);
-        }
-        c.setFileFilter(firstFF);
-        c.addPropertyChangeListener(new PropertyChangeListener() {
-
-            public void propertyChange(PropertyChangeEvent evt) {
-                if (evt.getPropertyName().equals("fileFilterChanged")) {
-                    InputFormat inputFormat = fileFilterInputFormatMap.get(evt.getNewValue());
-                    c.setAccessory((inputFormat == null) ? null : inputFormat.getInputFormatAccessory());
-                }
-            }
-        });
-        if (preferences != null) {
-            c.setSelectedFile(new File(preferences.get("projectFile", System.getProperty("user.home"))));
-        }
-
-        return c;
-    }
-
-    @Override
-    protected URIChooser createSaveChooser() {
-        JFileURIChooser c = new JFileURIChooser();
-
-        fileFilterOutputFormatMap = new HashMap<javax.swing.filechooser.FileFilter, OutputFormat>();
-        //  c.addChoosableFileFilter(new ExtensionFileFilter("SVG Drawing","svg"));
-        for (OutputFormat format : view.getDrawing().getOutputFormats()) {
-            javax.swing.filechooser.FileFilter ff = format.getFileFilter();
-            fileFilterOutputFormatMap.put(ff, format);
-            c.addChoosableFileFilter(ff);
-            break; // only add the first uri filter
-        }
-        if (preferences != null) {
-            c.setSelectedFile(new File(preferences.get("projectFile", System.getProperty("user.home"))));
-        }
-
-        return c;
-    }
-
-    @Override
     public boolean canSaveTo(URI uri) {
         return uri.getPath().endsWith(".odg");
     }
 
-    protected JFileURIChooser createExportChooser() {
-        JFileURIChooser c = new JFileURIChooser();
-
-        fileFilterOutputFormatMap = new HashMap<javax.swing.filechooser.FileFilter, OutputFormat>();
-        //  c.addChoosableFileFilter(new ExtensionFileFilter("SVG Drawing","svg"));
-        javax.swing.filechooser.FileFilter currentFilter = null;
-        for (OutputFormat format : view.getDrawing().getOutputFormats()) {
-            javax.swing.filechooser.FileFilter ff = format.getFileFilter();
-            fileFilterOutputFormatMap.put(ff, format);
-            c.addChoosableFileFilter(ff);
-            if (ff.getDescription().equals(preferences.get("viewExportFormat", ""))) {
-                currentFilter = ff;
-            }
-        }
-        if (currentFilter != null) {
-            c.setFileFilter(currentFilter);
-        }
-        c.setSelectedFile(new File(preferences.get("viewExportFile", System.getProperty("user.home"))));
-
-        return c;
-    }
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -385,26 +315,7 @@ public class ODGView extends AbstractView implements ExportableView {
         add(propertiesPanel, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents
 
-    public JFileURIChooser getExportChooser() {
-        if (exportChooser == null) {
-            exportChooser = createExportChooser();
-        }
-        return exportChooser;
-    }
 
-    public void export(URI uri, javax.swing.filechooser.FileFilter filter, Component accessory) throws IOException {
-    File f = new File(uri);
-        OutputFormat format = fileFilterOutputFormatMap.get(filter);
-
-        if (!f.getName().endsWith("." + format.getFileExtension())) {
-            f = new File(f.getPath() + "." + format.getFileExtension());
-        }
-
-        format.write(f, view.getDrawing());
-
-        preferences.put("viewExportFile", f.getPath());
-        preferences.put("viewExportFormat", filter.getDescription());
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jhotdraw.samples.odg.ODGPropertiesPanel propertiesPanel;
     private javax.swing.JScrollPane scrollPane;

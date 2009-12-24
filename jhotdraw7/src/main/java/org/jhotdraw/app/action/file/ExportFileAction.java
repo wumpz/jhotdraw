@@ -61,21 +61,21 @@ public class ExportFileAction extends AbstractViewAction {
     private Component oldFocusOwner;
 
     /** Creates a new instance. */
-    public ExportFileAction(Application app) {
-        super(app);
+    public ExportFileAction(Application app, View view) {
+        super(app, view);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
 
     public void actionPerformed(ActionEvent evt) {
-        final ExportableView view = (ExportableView) getActiveView();
+        final View view = (View) getActiveView();
         if (view.isEnabled()) {
             ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
 
             oldFocusOwner = SwingUtilities.getWindowAncestor(view.getComponent()).getFocusOwner();
             view.setEnabled(false);
 
-            URIChooser fileChooser = view.getExportChooser();
+            URIChooser fileChooser = getApplication().getExportChooser(view);
 
             JSheet.showSheet(fileChooser, view.getComponent(), labels.getString("filechooser.export"), new SheetListener() {
 
@@ -83,9 +83,9 @@ public class ExportFileAction extends AbstractViewAction {
                     if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
                         final URI uri = evt.getChooser().getSelectedURI();
                         if (evt.getChooser()instanceof JFileURIChooser) {
-                        exportView(view, uri, evt.getFileChooser().getFileFilter(), evt.getFileChooser().getAccessory());
+                        exportView(view, uri, evt.getChooser());
                         } else {
-                        exportView(view, uri, null,null);
+                        exportView(view, uri, null);
                         }
                     } else {
                         view.setEnabled(true);
@@ -98,13 +98,12 @@ public class ExportFileAction extends AbstractViewAction {
         }
     }
 
-    protected void exportView(final ExportableView view, final URI uri,
-            final javax.swing.filechooser.FileFilter filter,
-            final Component accessory) {
+    protected void exportView(final View view, final URI uri,
+            final URIChooser chooser) {
         view.execute(new Worker() {
 
             protected Object construct() throws IOException {
-                view.export(uri, filter, accessory);
+                view.write(uri,chooser);
                 return null;
             }
 

@@ -147,18 +147,26 @@ public class ExitAction extends AbstractApplicationAction {
             }
         }
     }
+    protected URIChooser getChooser(View view) {
+        URIChooser chsr = (URIChooser) (view.getComponent()).getClientProperty("saveChooser");
+        if (chsr == null) {
+            chsr = getApplication().getModel().createSaveChooser(getApplication(), view);
+            view.getComponent().putClientProperty("saveChooser", chsr);
+        }
+        return chsr;
+    }
 
     protected void saveChanges() {
         View v = unsavedView;
         if (v.getURI() == null) {
-            URIChooser fileChooser = v.getSaveChooser();
+            URIChooser chooser = getChooser(v);
             //int option = fileChooser.showSaveDialog(this);
-            JSheet.showSaveSheet(fileChooser, v.getComponent(), new SheetListener() {
+            JSheet.showSaveSheet(chooser, v.getComponent(), new SheetListener() {
 
                 public void optionSelected(final SheetEvent evt) {
                     if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
                         final URI uri = evt.getChooser().getSelectedURI();
-                        saveToFile(uri);
+                        saveToFile(uri, evt.getChooser());
                     } else {
                         unsavedView.setEnabled(true);
                         if (oldFocusOwner != null) {
@@ -169,7 +177,7 @@ public class ExitAction extends AbstractApplicationAction {
                 }
             });
         } else {
-            saveToFile(v.getURI());
+            saveToFile(v.getURI(), null);
         }
     }
 
@@ -211,14 +219,13 @@ public class ExitAction extends AbstractApplicationAction {
     protected void saveChangesAndReviewNext() {
         final View v = unsavedView;
         if (v.getURI() == null) {
-            URIChooser fileChooser = v.getSaveChooser();
-            //int option = fileChooser.showSaveDialog(this);
-            JSheet.showSaveSheet(fileChooser, unsavedView.getComponent(), new SheetListener() {
+            URIChooser chooser = getChooser(v);
+            JSheet.showSaveSheet(chooser, unsavedView.getComponent(), new SheetListener() {
 
                 public void optionSelected(final SheetEvent evt) {
                     if (evt.getOption() == URIChooser.APPROVE_OPTION) {
                         final URI uri = evt.getChooser().getSelectedURI();
-                        saveToFileAndReviewNext(uri);
+                        saveToFileAndReviewNext(uri, evt.getChooser());
                     } else {
                         v.setEnabled(true);
                         if (oldFocusOwner != null) {
@@ -229,7 +236,7 @@ public class ExitAction extends AbstractApplicationAction {
                 }
             });
         } else {
-            saveToFileAndReviewNext(v.getURI());
+            saveToFileAndReviewNext(v.getURI(), null);
         }
     }
 
@@ -255,12 +262,12 @@ public class ExitAction extends AbstractApplicationAction {
         }
     }
 
-    protected void saveToFile(final URI uri) {
+    protected void saveToFile(final URI uri, final URIChooser chooser) {
         final View v = unsavedView;
         v.execute(new Worker() {
 
             protected Object construct() throws IOException {
-                v.write(uri);
+                v.write(uri, chooser);
                 return null;
             }
 
@@ -291,12 +298,12 @@ public class ExitAction extends AbstractApplicationAction {
         });
     }
 
-    protected void saveToFileAndReviewNext(final URI uri) {
+    protected void saveToFileAndReviewNext(final URI uri, final URIChooser chooser) {
         final View v = unsavedView;
         v.execute(new Worker() {
 
             protected Object construct() throws IOException {
-                v.write(uri);
+                v.write(uri, chooser);
                 return null;
             }
 
@@ -325,7 +332,6 @@ public class ExitAction extends AbstractApplicationAction {
     }
 
     protected void doExit() {
-        getApplication().stop();
-        System.exit(0);
+        getApplication().destroy();
     }
 }

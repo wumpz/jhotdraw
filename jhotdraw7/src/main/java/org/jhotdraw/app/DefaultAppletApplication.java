@@ -35,6 +35,13 @@ public class DefaultAppletApplication extends AbstractApplication {
     }
     
     @Override
+    public void init() {
+        super.init();
+        initLabels();
+        setActionMap(model.createActionMap(this, null));
+        model.initApplication(this);
+    }
+    @Override
     public void show(View v) {
         this.view = v;
         applet.getContentPane().removeAll();
@@ -67,7 +74,8 @@ public class DefaultAppletApplication extends AbstractApplication {
     }
 
     @Override
-    protected void initViewActions(View p) {
+    protected ActionMap createViewActionMap(View p) {
+        return new ActionMap();
     }
 
     @Override

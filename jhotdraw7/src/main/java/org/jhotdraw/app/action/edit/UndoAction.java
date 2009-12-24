@@ -25,7 +25,7 @@ import org.jhotdraw.app.action.AbstractViewAction;
  * Undoes the last user action.
  * <p>
  * This action requires that the View returns a project
- * specific undo action when invoking getAction("redo") on a View.
+ * specific undo action when invoking getActionMap("redo") on a View.
  * <p>
  * This action is called when the user selects the Undo item in the Edit
  * menu. The menu item is automatically created by the application.
@@ -53,24 +53,26 @@ public class UndoAction extends AbstractViewAction {
     };
     
     /** Creates a new instance. */
-    public UndoAction(Application app) {
-        super(app);
+    public UndoAction(Application app, View view) {
+        super(app, view);
         labels.configureAction(this, ID);
     }
     
     protected void updateEnabledState() {
         boolean isEnabled = false;
-        Action realRedoAction = getRealRedoAction();
-        if (realRedoAction != null) {
-            isEnabled = realRedoAction.isEnabled();
+        Action realAction = getRealUndoAction();
+        if (realAction != null && realAction!=this) {
+            isEnabled = realAction.isEnabled();
         }
         setEnabled(isEnabled);
     }
     
     @Override protected void updateView(View oldValue, View newValue) {
         super.updateView(oldValue, newValue);
-        if (newValue != null && newValue.getAction(ID) != null) {
-            putValue(AbstractAction.NAME, newValue.getAction(ID).
+        if (newValue != null && //
+                newValue.getActionMap().get(ID) != null && //
+                newValue.getActionMap().get(ID) != this) {
+            putValue(AbstractAction.NAME, newValue.getActionMap().get(ID).
                     getValue(AbstractAction.NAME));
             updateEnabledState();
         }
@@ -80,8 +82,9 @@ public class UndoAction extends AbstractViewAction {
      */
     @Override protected void installViewListeners(View p) {
         super.installViewListeners(p);
-        if (p.getAction(ID) != null) {
-        p.getAction(ID).addPropertyChangeListener(redoActionPropertyListener);
+        Action undoActionInView = p.getActionMap().get(ID);
+        if (undoActionInView != null && undoActionInView != this) {
+        undoActionInView.addPropertyChangeListener(redoActionPropertyListener);
         }
     }
     /**
@@ -89,20 +92,21 @@ public class UndoAction extends AbstractViewAction {
      */
     @Override protected void uninstallViewListeners(View p) {
         super.uninstallViewListeners(p);
-        if (p.getAction(ID) != null) {
-        p.getAction(ID).removePropertyChangeListener(redoActionPropertyListener);
+        Action undoActionInView = p.getActionMap().get(ID);
+        if (undoActionInView != null && undoActionInView != this) {
+        undoActionInView.removePropertyChangeListener(redoActionPropertyListener);
         }
     }
     
     public void actionPerformed(ActionEvent e) {
-        Action realRedoAction = getRealRedoAction();
-        if (realRedoAction != null) {
-            realRedoAction.actionPerformed(e);
+        Action realUndoAction = getRealUndoAction();
+        if (realUndoAction != null && realUndoAction!=this) {
+            realUndoAction.actionPerformed(e);
         }
     }
     
-    private Action getRealRedoAction() {
-        return (getActiveView() == null) ? null : getActiveView().getAction(ID);
+    private Action getRealUndoAction() {
+        return (getActiveView() == null) ? null : getActiveView().getActionMap().get(ID);
     }
     
 }

@@ -33,6 +33,7 @@ import java.net.URI;
 import org.jhotdraw.app.action.edit.RedoAction;
 import org.jhotdraw.app.action.edit.UndoAction;
 import org.jhotdraw.gui.JFileURIChooser;
+import org.jhotdraw.gui.URIChooser;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 
 /**
@@ -104,7 +105,6 @@ public class TeddyView extends AbstractView {
      * The Matcher used to perform find operation.
      */
     private Matcher matcher;
-    private CharacterSetAccessory characterSetAccessory;
     
     
     /** Creates a new instance. */
@@ -192,30 +192,12 @@ public class TeddyView extends AbstractView {
     }
     
     private void initActions() {
-        putAction(UndoAction.ID, undoManager.getUndoAction());
-        putAction(RedoAction.ID, undoManager.getRedoAction());
+        getActionMap().put(UndoAction.ID, undoManager.getUndoAction());
+        getActionMap().put(RedoAction.ID, undoManager.getRedoAction());
     }
     
-    private CharacterSetAccessory getAccessory() {
-        if (characterSetAccessory == null) {
-            characterSetAccessory = new CharacterSetAccessory();
-        }
-        return characterSetAccessory;
-    }
-    @Override
-    public JFileURIChooser getOpenChooser() {
-        JFileURIChooser chooser = (JFileURIChooser) super.getOpenChooser();
-        chooser.setAccessory(getAccessory());
-        return chooser;
-    }
-    @Override
-    public JFileURIChooser getSaveChooser() {
-        JFileURIChooser chooser = (JFileURIChooser)super.getSaveChooser();
-        chooser.setAccessory(getAccessory());
-        return chooser;
-    }
-    public void read(URI f) throws IOException {
-        read(f, getAccessory().getCharacterSet());
+    public void read(URI f, URIChooser chooser) throws IOException {
+        read(f, ((CharacterSetAccessory)((JFileURIChooser)chooser).getAccessory()).getCharacterSet());
     }
     public void read(URI f, String characterSet) throws IOException {
         final Document doc = readDocument(new File(f), characterSet);
@@ -236,8 +218,9 @@ public class TeddyView extends AbstractView {
             throw error;
         }
     }
-    public void write(URI f) throws IOException {
-        write(f, getAccessory().getCharacterSet(), getAccessory().getLineSeparator());
+    public void write(URI f, URIChooser chooser) throws IOException {
+
+        write(f, ((CharacterSetAccessory)((JFileURIChooser)chooser).getAccessory()).getCharacterSet(), ((CharacterSetAccessory)((JFileURIChooser)chooser).getAccessory()).getLineSeparator());
     }
     public void write(URI f, String characterSet, String lineSeparator) throws IOException {
         writeDocument(editor.getDocument(), new File(f), characterSet, lineSeparator);

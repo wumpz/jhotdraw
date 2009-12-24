@@ -34,12 +34,15 @@ import org.jhotdraw.draw.liner.CurvedLiner;
 import org.jhotdraw.draw.tool.ConnectionTool;
 import org.jhotdraw.draw.ConnectionFigure;
 import org.jhotdraw.draw.decoration.ArrowTip;
+import org.jhotdraw.gui.URIChooser;
 import org.jhotdraw.util.*;
 import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.app.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
+import org.jhotdraw.gui.JFileURIChooser;
+import org.jhotdraw.io.ExtensionFileFilter;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
@@ -147,4 +150,20 @@ public class DrawApplicationModel extends DefaultApplicationModel {
         ButtonFactory.addToolTo(tb, editor, new TextAreaCreationTool(new TextAreaFigure()), "edit.createTextArea", labels);
         ButtonFactory.addToolTo(tb, editor, new ImageTool(new ImageFigure()), "edit.createImage", labels);
     }
+
+    @Override
+    public URIChooser createOpenChooser(Application a, View v) {
+        JFileURIChooser c = new JFileURIChooser();
+        c.addChoosableFileFilter(new ExtensionFileFilter("Drawing .xml","xml"));
+        return c;
+    }
+
+    @Override
+    public URIChooser createSaveChooser(Application a, View v) {
+        JFileURIChooser c = new JFileURIChooser();
+        c.addChoosableFileFilter(new ExtensionFileFilter("Drawing .xml","xml"));
+        return c;
+    }
+
+
 }

@@ -41,26 +41,28 @@ public class DefaultApplicationModel
         extends AbstractApplicationModel {
 
     @Override
-    public void initView(Application a, View p) {
+    public void initView(Application a, View v) {
     }
 
     @Override
-    public void initApplication(Application a) {
-        putAction(NewFileAction.ID, new NewFileAction(a));
-        putAction(OpenFileAction.ID, new OpenFileAction(a));
-        putAction(SaveFileAction.ID, new SaveFileAction(a));
-        putAction(SaveFileAsAction.ID, new SaveFileAsAction(a));
-        putAction(CloseFileAction.ID, new CloseFileAction(a));
+    public ActionMap createActionMap(Application a, View v) {
+        ActionMap m=new ActionMap();
+        m.put(NewFileAction.ID, new NewFileAction(a));
+        m.put(OpenFileAction.ID, new OpenFileAction(a));
+        m.put(SaveFileAction.ID, new SaveFileAction(a,v));
+        m.put(SaveFileAsAction.ID, new SaveFileAsAction(a,v));
+        m.put(CloseFileAction.ID, new CloseFileAction(a,v));
 
-        putAction(UndoAction.ID, new UndoAction(a));
-        putAction(RedoAction.ID, new RedoAction(a));
-        putAction(CutAction.ID, new CutAction());
-        putAction(CopyAction.ID, new CopyAction());
-        putAction(PasteAction.ID, new PasteAction());
-        putAction(DeleteAction.ID, new DeleteAction());
-        putAction(DuplicateAction.ID, new DuplicateAction());
-        putAction(SelectAllAction.ID, new SelectAllAction());
-        putAction(ClearSelectionAction.ID, new ClearSelectionAction());
+        m.put(UndoAction.ID, new UndoAction(a,v));
+        m.put(RedoAction.ID, new RedoAction(a,v));
+        m.put(CutAction.ID, new CutAction());
+        m.put(CopyAction.ID, new CopyAction());
+        m.put(PasteAction.ID, new PasteAction());
+        m.put(DeleteAction.ID, new DeleteAction());
+        m.put(DuplicateAction.ID, new DuplicateAction());
+        m.put(SelectAllAction.ID, new SelectAllAction());
+        m.put(ClearSelectionAction.ID, new ClearSelectionAction());
+        return m;
     }
 
     @Override
