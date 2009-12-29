@@ -168,7 +168,7 @@ public class SDIApplication extends AbstractApplication {
             f.addWindowListener(new WindowAdapter() {
 
                 public void windowClosing(final WindowEvent evt) {
-                       getAction(view,CloseFileAction.ID).actionPerformed(
+                    getAction(view, CloseFileAction.ID).actionPerformed(
                             new ActionEvent(f, ActionEvent.ACTION_PERFORMED,
                             "windowClosing"));
                 }
@@ -261,19 +261,21 @@ public class SDIApplication extends AbstractApplication {
         String windowMenuText = labels.getString("window.text");
         String helpMenuText = labels.getString("help.text");
         for (JMenu mm : getModel().createMenus(this, v)) {
-            if (mm.getText().equals(fileMenuText)) {
+            String text = mm.getText();
+            if (text == null) {
+            } else if (text.equals(fileMenuText)) {
                 fileMenu = mm;
                 continue;
-            } else if (mm.getText().equals(editMenuText)) {
+            } else if (text.equals(editMenuText)) {
                 editMenu = mm;
                 continue;
-            } else if (mm.getText().equals(viewMenuText)) {
+            } else if (text.equals(viewMenuText)) {
                 viewMenu = mm;
                 continue;
-            } else if (mm.getText().equals(windowMenuText)) {
+            } else if (text.equals(windowMenuText)) {
                 windowMenu = mm;
                 continue;
-            } else if (mm.getText().equals(helpMenuText)) {
+            } else if (text.equals(helpMenuText)) {
                 helpMenu = mm;
                 continue;
             }
@@ -324,29 +326,29 @@ public class SDIApplication extends AbstractApplication {
 
         m = new JMenu();
         labels.configureMenu(m, "file");
-        addAction(m, view,ClearFileAction.ID);
-        addAction(m, view,NewFileAction.ID);
-        addAction(m, view,NewWindowAction.ID);
+        addAction(m, view, ClearFileAction.ID);
+        addAction(m, view, NewFileAction.ID);
+        addAction(m, view, NewWindowAction.ID);
 
-        addAction(m, view,LoadFileAction.ID);
-        addAction(m, view,OpenFileAction.ID);
-        addAction(m, view,LoadDirectoryAction.ID);
-        addAction(m, view,OpenDirectoryAction.ID);
+        addAction(m, view, LoadFileAction.ID);
+        addAction(m, view, OpenFileAction.ID);
+        addAction(m, view, LoadDirectoryAction.ID);
+        addAction(m, view, OpenDirectoryAction.ID);
 
-        if (getAction(view,LoadFileAction.ID) != null ||//
-                getAction(view,OpenFileAction.ID) != null ||//
-                getAction(view,LoadDirectoryAction.ID) != null ||//
-                getAction(view,OpenDirectoryAction.ID) != null) {
+        if (getAction(view, LoadFileAction.ID) != null ||//
+                getAction(view, OpenFileAction.ID) != null ||//
+                getAction(view, LoadDirectoryAction.ID) != null ||//
+                getAction(view, OpenDirectoryAction.ID) != null) {
             m.add(createOpenRecentFileMenu(null));
         }
         maybeAddSeparator(m);
-        addAction(m, view,SaveFileAction.ID);
-        addAction(m, view,SaveFileAsAction.ID);
-        addAction(m, view,ExportFileAction.ID);
-        addAction(m, view,PrintFileAction.ID);
+        addAction(m, view, SaveFileAction.ID);
+        addAction(m, view, SaveFileAsAction.ID);
+        addAction(m, view, ExportFileAction.ID);
+        addAction(m, view, PrintFileAction.ID);
 
         maybeAddSeparator(m);
-        addAction(m, view,CloseFileAction.ID);
+        addAction(m, view, CloseFileAction.ID);
 
         return m;
     }
@@ -359,26 +361,26 @@ public class SDIApplication extends AbstractApplication {
         Action a;
         m = new JMenu();
         labels.configureMenu(m, "edit");
-        addAction(m, view,UndoAction.ID);
-        addAction(m, view,RedoAction.ID);
+        addAction(m, view, UndoAction.ID);
+        addAction(m, view, RedoAction.ID);
 
         maybeAddSeparator(m);
 
-        addAction(m, view,CutAction.ID);
-        addAction(m, view,CopyAction.ID);
-        addAction(m, view,PasteAction.ID);
-        addAction(m, view,DuplicateAction.ID);
-        addAction(m, view,DeleteAction.ID);
+        addAction(m, view, CutAction.ID);
+        addAction(m, view, CopyAction.ID);
+        addAction(m, view, PasteAction.ID);
+        addAction(m, view, DuplicateAction.ID);
+        addAction(m, view, DeleteAction.ID);
         maybeAddSeparator(m);
-        addAction(m, view,SelectAllAction.ID);
-        addAction(m, view,ClearSelectionAction.ID);
+        addAction(m, view, SelectAllAction.ID);
+        addAction(m, view, ClearSelectionAction.ID);
         maybeAddSeparator(m);
-        addAction(m, view,AbstractFindAction.ID);
+        addAction(m, view, AbstractFindAction.ID);
         maybeAddSeparator(m);
-        addAction(m, view,AbstractPreferencesAction.ID);
+        addAction(m, view, AbstractPreferencesAction.ID);
         return (m.getPopupMenu().getComponentCount() == 0) ? null : m;
     }
- 
+
     /**
      * Updates the title of a view and displays it in the given frame.
      * 
@@ -457,7 +459,7 @@ public class SDIApplication extends AbstractApplication {
 
         m = new JMenu();
         labels.configureMenu(m, "help");
-        m.add(getAction(p,AboutAction.ID));
+        m.add(getAction(p, AboutAction.ID));
 
         return m;
     }
@@ -475,7 +477,7 @@ public class SDIApplication extends AbstractApplication {
     @Override
     protected ActionMap createViewActionMap(View v) {
         ActionMap intermediateMap = new ActionMap();
-        intermediateMap.put(CloseFileAction.ID, new CloseFileAction(this,v));
+        intermediateMap.put(CloseFileAction.ID, new CloseFileAction(this, v));
 
         ActionMap vMap = model.createActionMap(this, v);
         vMap.setParent(intermediateMap);

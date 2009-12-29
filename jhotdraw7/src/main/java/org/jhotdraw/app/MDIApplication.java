@@ -179,13 +179,13 @@ public class MDIApplication extends AbstractApplication {
     }
 
     protected ActionMap createModelActionMap(ApplicationModel mo) {
-     ActionMap rootMap= new ActionMap();
+        ActionMap rootMap = new ActionMap();
         rootMap.put(AboutAction.ID, new AboutAction(this));
         rootMap.put(ExitAction.ID, new ExitAction(this));
         rootMap.put(ClearRecentFilesMenuAction.ID, new ClearRecentFilesMenuAction(this));
 
-        rootMap.put(MaximizeWindowAction.ID, new MaximizeWindowAction(this,null));
-        rootMap.put(MinimizeWindowAction.ID, new MinimizeWindowAction(this,null));
+        rootMap.put(MaximizeWindowAction.ID, new MaximizeWindowAction(this, null));
+        rootMap.put(MinimizeWindowAction.ID, new MinimizeWindowAction(this, null));
 
         rootMap.put(ArrangeWindowsAction.VERTICAL_ID, new ArrangeWindowsAction(desktopPane, Arrangeable.Arrangement.VERTICAL));
         rootMap.put(ArrangeWindowsAction.HORIZONTAL_ID, new ArrangeWindowsAction(desktopPane, Arrangeable.Arrangement.HORIZONTAL));
@@ -193,7 +193,7 @@ public class MDIApplication extends AbstractApplication {
 
         ActionMap moMap = mo.createActionMap(this, null);
         moMap.setParent(rootMap);
-       return moMap;
+        return moMap;
     }
 
     @Override
@@ -241,7 +241,7 @@ public class MDIApplication extends AbstractApplication {
             v.setShowing(true);
             final JInternalFrame f = new JInternalFrame();
             f.setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
-            f.setClosable(getAction(v,CloseFileAction.ID) != null);
+            f.setClosable(getAction(v, CloseFileAction.ID) != null);
             f.setMaximizable(true);
             f.setResizable(true);
             f.setIconifiable(false);
@@ -274,7 +274,7 @@ public class MDIApplication extends AbstractApplication {
 
                 @Override
                 public void internalFrameClosing(final InternalFrameEvent evt) {
-                    getAction(v,CloseFileAction.ID).actionPerformed(
+                    getAction(v, CloseFileAction.ID).actionPerformed(
                             new ActionEvent(f, ActionEvent.ACTION_PERFORMED,
                             "windowClosing"));
                 }
@@ -396,19 +396,22 @@ public class MDIApplication extends AbstractApplication {
         String windowMenuText = labels.getString("window.text");
         String helpMenuText = labels.getString("help.text");
         for (JMenu mm : getModel().createMenus(this, v)) {
-            if (mm.getText().equals(fileMenuText)) {
+            String text = mm.getText();
+            if (text == null) {
+                mm.setText("-null-");
+            } else if (text.equals(fileMenuText)) {
                 fileMenu = mm;
                 continue;
-            } else if (mm.getText().equals(editMenuText)) {
+            } else if (text.equals(editMenuText)) {
                 editMenu = mm;
                 continue;
-            } else if (mm.getText().equals(viewMenuText)) {
+            } else if (text.equals(viewMenuText)) {
                 viewMenu = mm;
                 continue;
-            } else if (mm.getText().equals(windowMenuText)) {
+            } else if (text.equals(windowMenuText)) {
                 windowMenu = mm;
                 continue;
-            } else if (mm.getText().equals(helpMenuText)) {
+            } else if (text.equals(helpMenuText)) {
                 helpMenu = mm;
                 continue;
             }
@@ -459,30 +462,30 @@ public class MDIApplication extends AbstractApplication {
 
         m = new JMenu();
         labels.configureMenu(m, "file");
-        addAction(m, view,ClearFileAction.ID);
-        addAction(m, view,NewFileAction.ID);
-        addAction(m, view,NewWindowAction.ID);
+        addAction(m, view, ClearFileAction.ID);
+        addAction(m, view, NewFileAction.ID);
+        addAction(m, view, NewWindowAction.ID);
 
-        addAction(m, view,LoadFileAction.ID);
-        addAction(m, view,OpenFileAction.ID);
-        addAction(m, view,LoadDirectoryAction.ID);
-        addAction(m, view,OpenDirectoryAction.ID);
+        addAction(m, view, LoadFileAction.ID);
+        addAction(m, view, OpenFileAction.ID);
+        addAction(m, view, LoadDirectoryAction.ID);
+        addAction(m, view, OpenDirectoryAction.ID);
 
-        if (getAction(view,LoadFileAction.ID) != null ||//
-                getAction(view,OpenFileAction.ID) != null ||//
-                getAction(view,LoadDirectoryAction.ID) != null ||//
-                getAction(view,OpenDirectoryAction.ID) != null) {
+        if (getAction(view, LoadFileAction.ID) != null ||//
+                getAction(view, OpenFileAction.ID) != null ||//
+                getAction(view, LoadDirectoryAction.ID) != null ||//
+                getAction(view, OpenDirectoryAction.ID) != null) {
             m.add(createOpenRecentFileMenu(view));
         }
         maybeAddSeparator(m);
-        addAction(m, view,CloseFileAction.ID);
-        addAction(m, view,SaveFileAction.ID);
-        addAction(m, view,SaveFileAsAction.ID);
-        addAction(m, view,ExportFileAction.ID);
-        addAction(m, view,PrintFileAction.ID);
+        addAction(m, view, CloseFileAction.ID);
+        addAction(m, view, SaveFileAction.ID);
+        addAction(m, view, SaveFileAsAction.ID);
+        addAction(m, view, ExportFileAction.ID);
+        addAction(m, view, PrintFileAction.ID);
 
         maybeAddSeparator(m);
-        addAction(m, view,ExitAction.ID);
+        addAction(m, view, ExitAction.ID);
 
         return m;
     }
@@ -522,13 +525,13 @@ public class MDIApplication extends AbstractApplication {
         m = new JMenu();
         JMenu windowMenu = m;
         labels.configureMenu(m, "window");
-        addAction(m, view,ArrangeWindowsAction.CASCADE_ID);
-        addAction(m, view,ArrangeWindowsAction.VERTICAL_ID);
-        addAction(m, view,ArrangeWindowsAction.HORIZONTAL_ID);
+        addAction(m, view, ArrangeWindowsAction.CASCADE_ID);
+        addAction(m, view, ArrangeWindowsAction.VERTICAL_ID);
+        addAction(m, view, ArrangeWindowsAction.HORIZONTAL_ID);
 
         maybeAddSeparator(m);
         for (View pr : views()) {
-                addAction(m, view,FocusWindowAction.ID);
+            addAction(m, view, FocusWindowAction.ID);
         }
         if (toolBarActions.size() > 0) {
             maybeAddSeparator(m);
@@ -552,23 +555,23 @@ public class MDIApplication extends AbstractApplication {
         Action a;
         m = new JMenu();
         labels.configureMenu(m, "edit");
-        addAction(m, view,UndoAction.ID);
-        addAction(m, view,RedoAction.ID);
+        addAction(m, view, UndoAction.ID);
+        addAction(m, view, RedoAction.ID);
 
         maybeAddSeparator(m);
 
-        addAction(m, view,CutAction.ID);
-        addAction(m, view,CopyAction.ID);
-        addAction(m, view,PasteAction.ID);
-        addAction(m, view,DuplicateAction.ID);
-        addAction(m, view,DeleteAction.ID);
+        addAction(m, view, CutAction.ID);
+        addAction(m, view, CopyAction.ID);
+        addAction(m, view, PasteAction.ID);
+        addAction(m, view, DuplicateAction.ID);
+        addAction(m, view, DeleteAction.ID);
         maybeAddSeparator(m);
-        addAction(m, view,SelectAllAction.ID);
-        addAction(m, view,ClearSelectionAction.ID);
+        addAction(m, view, SelectAllAction.ID);
+        addAction(m, view, ClearSelectionAction.ID);
         maybeAddSeparator(m);
-        addAction(m, view,AbstractFindAction.ID);
+        addAction(m, view, AbstractFindAction.ID);
         maybeAddSeparator(m);
-        addAction(m, view,AbstractPreferencesAction.ID);
+        addAction(m, view, AbstractPreferencesAction.ID);
         return (m.getPopupMenu().getComponentCount() == 0) ? null : m;
     }
 
@@ -580,7 +583,7 @@ public class MDIApplication extends AbstractApplication {
 
         m = new JMenu();
         labels.configureMenu(m, "help");
-        addAction(m, view,AboutAction.ID);
+        addAction(m, view, AboutAction.ID);
         return m;
     }
 
@@ -592,8 +595,8 @@ public class MDIApplication extends AbstractApplication {
 
         public WindowMenuHandler(JMenu windowMenu, View view) {
             this.windowMenu = windowMenu;
-            this.view=view;
-           MDIApplication.this.addPropertyChangeListener(this);
+            this.view = view;
+            MDIApplication.this.addPropertyChangeListener(this);
             updateWindowMenu();
         }
 
@@ -609,15 +612,15 @@ public class MDIApplication extends AbstractApplication {
             ApplicationModel mo = getModel();
             m.removeAll();
 
-            m.add(getAction(view,ArrangeWindowsAction.CASCADE_ID));
-            m.add(getAction(view,ArrangeWindowsAction.VERTICAL_ID));
-            m.add(getAction(view,ArrangeWindowsAction.HORIZONTAL_ID));
+            m.add(getAction(view, ArrangeWindowsAction.CASCADE_ID));
+            m.add(getAction(view, ArrangeWindowsAction.VERTICAL_ID));
+            m.add(getAction(view, ArrangeWindowsAction.HORIZONTAL_ID));
 
             m.addSeparator();
             for (Iterator i = views().iterator(); i.hasNext();) {
                 View pr = (View) i.next();
-                if (getAction(pr,FocusWindowAction.ID) != null) {
-                    m.add(getAction(pr,FocusWindowAction.ID));
+                if (getAction(pr, FocusWindowAction.ID) != null) {
+                    m.add(getAction(pr, FocusWindowAction.ID));
                 }
             }
             if (toolBarActions.size() > 0) {
@@ -636,7 +639,7 @@ public class MDIApplication extends AbstractApplication {
 
         @Override
         public boolean canImport(JComponent comp, DataFlavor[] transferFlavors) {
-            Action a = getAction(null,OpenApplicationFileAction.ID);
+            Action a = getAction(null, OpenApplicationFileAction.ID);
             if (a == null) {
                 return false;
             }
@@ -650,7 +653,7 @@ public class MDIApplication extends AbstractApplication {
 
         @Override
         public boolean importData(JComponent comp, Transferable t) {
-            Action a = getAction(null,OpenApplicationFileAction.ID);
+            Action a = getAction(null, OpenApplicationFileAction.ID);
             if (a == null) {
                 return false;
             }

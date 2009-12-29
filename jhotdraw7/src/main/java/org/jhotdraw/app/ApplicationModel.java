@@ -68,6 +68,8 @@ public interface ApplicationModel {
      * created view.
      * <p>
      * The application adds the created map to a hierarchy of action maps.
+     * Thus actions created for the application are accessible from the
+     * action maps of the views.
      *
      * @param a Application.
      * @param v The view for which the toolbars need to be created, or null

@@ -312,19 +312,22 @@ public class OSXApplication extends AbstractApplication {
         String windowMenuText = labels.getString("window.text");
         String helpMenuText = labels.getString("help.text");
         for (JMenu mm : getModel().createMenus(this, v)) {
-            if (mm.getText().equals(fileMenuText)) {
+            String text = mm.getText();
+            if (text == null) {
+                mm.setText("-null-");
+            } else if (text.equals(fileMenuText)) {
                 fileMenu = mm;
                 continue;
-            } else if (mm.getText().equals(editMenuText)) {
+            } else if (text.equals(editMenuText)) {
                 editMenu = mm;
                 continue;
-            } else if (mm.getText().equals(viewMenuText)) {
+            } else if (text.equals(viewMenuText)) {
                 viewMenu = mm;
                 continue;
-            } else if (mm.getText().equals(windowMenuText)) {
+            } else if (text.equals(windowMenuText)) {
                 windowMenu = mm;
                 continue;
-            } else if (mm.getText().equals(helpMenuText)) {
+            } else if (text.equals(helpMenuText)) {
                 helpMenu = mm;
                 continue;
             }
@@ -525,7 +528,7 @@ public class OSXApplication extends AbstractApplication {
 
                     paletteActions.add(new TogglePaletteAction(OSXApplication.this, d, tb.getName()));
                     palettes.add(d);
-                        if (prefs.getBoolean("toolbar."+i+".visible", true)) {
+                    if (prefs.getBoolean("toolbar." + i + ".visible", true)) {
                         addPalette(d);
                     }
                 }
@@ -539,8 +542,8 @@ public class OSXApplication extends AbstractApplication {
                 LinkedList<JFrame> palettes = (LinkedList<JFrame>) result;
                 if (palettes != null) {
                     /*for (JFrame p : palettes) {
-                        if (prefs.getBoolean("toolbar.", true))
-                        addPalette(p);
+                    if (prefs.getBoolean("toolbar.", true))
+                    addPalette(p);
                     }*/
                     firePropertyChange("paletteCount", 0, palettes.size());
                 }
@@ -682,7 +685,7 @@ public class OSXApplication extends AbstractApplication {
             String name = evt.getPropertyName();
             if (name.equals(View.HAS_UNSAVED_CHANGES_PROPERTY)) {
                 frame.getRootPane().putClientProperty("windowModified", new Boolean(view.hasUnsavedChanges()));
-            } else if (name.equals(View.URI_PROPERTY)||name.equals(View.TITLE_PROPERTY)) {
+            } else if (name.equals(View.URI_PROPERTY) || name.equals(View.TITLE_PROPERTY)) {
                 updateViewTitle(view, frame);
             }
         }

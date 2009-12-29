@@ -70,10 +70,10 @@ public class OpenFileAction extends AbstractApplicationAction {
             app.setEnabled(false);
             // Search for an empty view
             View emptyView = app.getActiveView();
-            if (emptyView == null ||
-                    emptyView.getURI() != null ||
-                    emptyView.hasUnsavedChanges() ||
-                    !emptyView.isEnabled()) {
+            if (emptyView == null
+                    || emptyView.getURI() != null
+                    || emptyView.hasUnsavedChanges()
+                    || !emptyView.isEnabled()) {
                 emptyView = null;
             }
 
@@ -110,9 +110,9 @@ public class OpenFileAction extends AbstractApplicationAction {
         // id of our view to max(multiple open id) + 1.
         int multipleOpenId = 1;
         for (View aView : app.views()) {
-            if (aView != view &&
-                    aView.getURI() != null &&
-                    aView.getURI().equals(uri)) {
+            if (aView != view
+                    && aView.getURI() != null
+                    && aView.getURI().equals(uri)) {
                 multipleOpenId = Math.max(multipleOpenId, aView.getMultipleOpenId() + 1);
             }
         }
@@ -127,7 +127,6 @@ public class OpenFileAction extends AbstractApplicationAction {
                 try {
                     exists = new File(uri).exists();
                 } catch (IllegalArgumentException e) {
-
                 }
                 if (exists) {
                     view.read(uri, chooser);
@@ -155,6 +154,7 @@ public class OpenFileAction extends AbstractApplicationAction {
 
             @Override
             protected void failed(Throwable value) {
+                value.printStackTrace();
                 view.setEnabled(true);
                 app.setEnabled(true);
                 String message;
@@ -169,9 +169,9 @@ public class OpenFileAction extends AbstractApplicationAction {
                 }
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
                 JSheet.showMessageSheet(view.getComponent(),
-                        "<html>" + UIManager.getString("OptionPane.css") +
-                        "<b>" + labels.getFormatted("file.open.couldntOpen.message", URIUtil.getName(uri)) + "</b><p>" +
-                        ((message == null) ? "" : message),
+                        "<html>" + UIManager.getString("OptionPane.css")
+                        + "<b>" + labels.getFormatted("file.open.couldntOpen.message", URIUtil.getName(uri)) + "</b><p>"
+                        + ((message == null) ? "" : message),
                         JOptionPane.ERROR_MESSAGE);
             }
         });
@@ -203,7 +203,7 @@ public class OpenFileAction extends AbstractApplicationAction {
             }
         });
         returnValue[0] = JFileChooser.ERROR_OPTION;
-       chooser.rescanCurrentDirectory();
+        chooser.rescanCurrentDirectory();
 
         dialog.setVisible(true);
         //chooser.firePropertyChange("JFileChooserDialogIsClosingProperty", dialog, null);
@@ -217,8 +217,8 @@ public class OpenFileAction extends AbstractApplicationAction {
      */
     protected JDialog createDialog(URIChooser chooser, Component parent) throws HeadlessException {
         String title = chooser.getDialogTitle();
-       if (chooser instanceof JFileChooser) {
-           ((JFileChooser) chooser).getAccessibleContext().setAccessibleDescription(title);
+        if (chooser instanceof JFileChooser) {
+            ((JFileChooser) chooser).getAccessibleContext().setAccessibleDescription(title);
         }
 
         JDialog dialog;
@@ -244,14 +244,14 @@ public class OpenFileAction extends AbstractApplicationAction {
         //dialog.pack();
         Preferences prefs = PreferencesUtil.userNodeForPackage(getApplication().getModel().getClass());
 
-         PreferencesUtil.installFramePrefsHandler(prefs, "openChooser", dialog);
-         /*
+        PreferencesUtil.installFramePrefsHandler(prefs, "openChooser", dialog);
+        /*
         if (window.getBounds().isEmpty()) {
-            Rectangle screenBounds = window.getGraphicsConfiguration().getBounds();
-            dialog.setLocation(screenBounds.x + (screenBounds.width - dialog.getWidth()) / 2, //
-                    screenBounds.y + (screenBounds.height - dialog.getHeight()) / 3);
+        Rectangle screenBounds = window.getGraphicsConfiguration().getBounds();
+        dialog.setLocation(screenBounds.x + (screenBounds.width - dialog.getWidth()) / 2, //
+        screenBounds.y + (screenBounds.height - dialog.getHeight()) / 3);
         } else {
-            dialog.setLocationRelativeTo(parent);
+        dialog.setLocationRelativeTo(parent);
         }*/
 
         return dialog;

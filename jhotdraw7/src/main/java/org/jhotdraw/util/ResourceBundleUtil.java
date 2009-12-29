@@ -179,7 +179,7 @@ public class ResourceBundleUtil implements Serializable {
                 }
             }
             if (placeholderValue == null) {
-                throw new MissingResourceException("Resource not found.", baseName, key);
+                throw new MissingResourceException("\""+key+"\" not found in "+baseName, baseName, key);
             }
 
             // Do post-processing depending on placeholder format 

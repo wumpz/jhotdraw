@@ -69,6 +69,7 @@ public class SaveFileAction extends AbstractViewAction {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
+
     public void actionPerformed(ActionEvent evt) {
         final View view = getActiveView();
         if (view.isEnabled()) {
@@ -85,7 +86,7 @@ public class SaveFileAction extends AbstractViewAction {
                     public void optionSelected(final SheetEvent evt) {
                         if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
                             final URI uri;
-                            if ((evt.getChooser()instanceof JFileURIChooser) && (evt.getFileChooser().getFileFilter() instanceof ExtensionFileFilter)) {
+                            if ((evt.getChooser() instanceof JFileURIChooser) && (evt.getFileChooser().getFileFilter() instanceof ExtensionFileFilter)) {
                                 uri = ((ExtensionFileFilter) evt.getFileChooser().getFileFilter()).makeAcceptable(evt.getFileChooser().getSelectedFile()).toURI();
                             } else {
                                 uri = evt.getChooser().getSelectedURI();
@@ -127,6 +128,7 @@ public class SaveFileAction extends AbstractViewAction {
 
             @Override
             protected void failed(Throwable value) {
+                value.printStackTrace();
                 String message;
                 if ((value instanceof Throwable) && ((Throwable) value).getMessage() != null) {
                     message = ((Throwable) value).getMessage();
@@ -135,9 +137,9 @@ public class SaveFileAction extends AbstractViewAction {
                 }
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
                 JSheet.showMessageSheet(getActiveView().getComponent(),
-                        "<html>" + UIManager.getString("OptionPane.css") +
-                        "<b>" + labels.getFormatted("file.save.couldntSave.message", URIUtil.getName(file)) + "</b><p>" +
-                        ((message == null) ? "" : message),
+                        "<html>" + UIManager.getString("OptionPane.css")
+                        + "<b>" + labels.getFormatted("file.save.couldntSave.message", URIUtil.getName(file)) + "</b><p>"
+                        + ((message == null) ? "" : message),
                         JOptionPane.ERROR_MESSAGE);
             }
 
@@ -151,5 +153,4 @@ public class SaveFileAction extends AbstractViewAction {
             }
         });
     }
-
 }

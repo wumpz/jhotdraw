@@ -58,9 +58,9 @@ public class OpenRecentFileAction extends AbstractApplicationAction {
             app.setEnabled(false);
             // Search for an empty view
             View emptyView = app.getActiveView();
-            if (emptyView == null ||
-                    emptyView.getURI() != null ||
-                    emptyView.hasUnsavedChanges()) {
+            if (emptyView == null
+                    || emptyView.getURI() != null
+                    || emptyView.hasUnsavedChanges()) {
                 emptyView = null;
             }
 
@@ -85,9 +85,9 @@ public class OpenRecentFileAction extends AbstractApplicationAction {
         // id of our view to max(multiple open id) + 1.
         int multipleOpenId = 1;
         for (View aView : app.views()) {
-            if (aView != view &&
-                    aView.getURI() != null &&
-                    aView.getURI().equals(uri)) {
+            if (aView != view
+                    && aView.getURI() != null
+                    && aView.getURI().equals(uri)) {
                 multipleOpenId = Math.max(multipleOpenId, aView.getMultipleOpenId() + 1);
             }
         }
@@ -128,6 +128,7 @@ public class OpenRecentFileAction extends AbstractApplicationAction {
 
             @Override
             protected void failed(Throwable value) {
+                value.printStackTrace();
                 String message = null;
                 if (value instanceof Throwable) {
                     ((Throwable) value).printStackTrace();
@@ -138,9 +139,9 @@ public class OpenRecentFileAction extends AbstractApplicationAction {
                 }
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
                 JSheet.showMessageSheet(view.getComponent(),
-                        "<html>" + UIManager.getString("OptionPane.css") +
-                        "<b>" + labels.getFormatted("file.open.couldntOpen.message", URIUtil.getName(uri)) + "</b><p>" +
-                        (message == null ? "" : message),
+                        "<html>" + UIManager.getString("OptionPane.css")
+                        + "<b>" + labels.getFormatted("file.open.couldntOpen.message", URIUtil.getName(uri)) + "</b><p>"
+                        + (message == null ? "" : message),
                         JOptionPane.ERROR_MESSAGE, new SheetListener() {
 
                     public void optionSelected(SheetEvent evt) {
