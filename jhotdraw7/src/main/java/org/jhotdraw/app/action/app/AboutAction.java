@@ -53,21 +53,21 @@ public class AboutAction extends AbstractApplicationAction {
 
         // This ensures that we open the option pane on the center of the screen
         // on Mac OS X.
-        if (c.getBounds().isEmpty()) {
+        if (c == null || c.getBounds().isEmpty()) {
             c = null;
         }
 
 
         JOptionPane.showMessageDialog(c,
-                "<html>" + UIManager.getString("OptionPane.css") +
-                "<p><b>"+app.getName() + (app.getVersion()==null?"":" "+app.getVersion()) + "</b><br>" + app.getCopyright().replace("\n", "<br>") +
-                "<br><br>Running on" +
-                "<br>  Java: " + System.getProperty("java.version") +
-                ", " + System.getProperty("java.vendor") +
-                "<br>  JVM: " + System.getProperty("java.vm.version") +
-                ", " + System.getProperty("java.vm.vendor") +
-                "<br>  OS: " + System.getProperty("os.name") + " " + System.getProperty("os.version") +
-                ", " + System.getProperty("os.arch"),
+                "<html>" + UIManager.getString("OptionPane.css")
+                + "<p><b>" + app.getName() + (app.getVersion() == null ? "" : " " + app.getVersion()) + "</b><br>" + app.getCopyright().replace("\n", "<br>")
+                + "<br><br>Running on"
+                + "<br>  Java: " + System.getProperty("java.version")
+                + ", " + System.getProperty("java.vendor")
+                + "<br>  JVM: " + System.getProperty("java.vm.version")
+                + ", " + System.getProperty("java.vm.vendor")
+                + "<br>  OS: " + System.getProperty("os.name") + " " + System.getProperty("os.version")
+                + ", " + System.getProperty("os.arch"),
                 "About", JOptionPane.PLAIN_MESSAGE);
     }
 }
