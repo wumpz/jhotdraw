@@ -481,9 +481,6 @@ public class OSXApplication extends AbstractApplication {
         if (null != (a = getAction(null, ExitAction.ID))) {
             OSXAdapter.setQuitHandler(a);
         }
-        if (null != (a = getAction(null, OpenApplicationFileAction.ID))) {
-            OSXAdapter.setOpenFileHandler(a);
-        }
     }
 
     protected void initPalettes(final LinkedList<Action> paletteActions) {
@@ -585,6 +582,7 @@ public class OSXApplication extends AbstractApplication {
         rootMap.put(AboutAction.ID, new AboutAction(this));
         rootMap.put(ExitAction.ID, new ExitAction(this));
         rootMap.put(OpenApplicationAction.ID, new OpenApplicationAction(this));
+        rootMap.put(OpenApplicationFileAction.ID, new OpenApplicationFileAction(this));
         rootMap.put(ReOpenApplicationAction.ID, new ReOpenApplicationAction(this));
         rootMap.put(ClearRecentFilesMenuAction.ID, new ClearRecentFilesMenuAction(this));
         rootMap.put(MaximizeWindowAction.ID, new MaximizeWindowAction(this, null));
