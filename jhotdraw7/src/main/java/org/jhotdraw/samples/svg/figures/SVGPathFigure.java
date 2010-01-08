@@ -447,7 +447,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         return actions;
     }
     // CONNECTING
-    public boolean canConnect() {
+    public boolean isConnectable() {
         return false; // SVG does not support connecting
     }
 

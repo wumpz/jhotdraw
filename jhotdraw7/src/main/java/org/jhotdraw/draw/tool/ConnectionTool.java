@@ -171,7 +171,7 @@ public class ConnectionTool extends AbstractTool {
         Rectangle2D.Double invalidArea = null;
         Point2D.Double targetPoint = viewToDrawing(new Point(evt.getX(), evt.getY()));
         Figure aFigure = getDrawing().findFigureExcept(targetPoint, createdFigure);
-        if (aFigure != null && !aFigure.canConnect()) {
+        if (aFigure != null && !aFigure.isConnectable()) {
             aFigure = null;
         }
         if (targetFigure != aFigure) {

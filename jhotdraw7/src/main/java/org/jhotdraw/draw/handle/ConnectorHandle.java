@@ -213,7 +213,7 @@ public class ConnectorHandle extends AbstractHandle {
     private Figure findConnectableFigure(Point2D.Double p, Drawing drawing) {
         for (Figure figure : drawing.getFiguresFrontToBack()) {
             if (!figure.includes(getConnection()) &&
-                    figure.canConnect() &&
+                    figure.isConnectable() &&
                     figure.contains(p)) {
                 return figure;
             }
@@ -228,7 +228,7 @@ public class ConnectorHandle extends AbstractHandle {
     protected Connector findConnectableConnector(Figure connectableFigure, Point2D.Double p) {
         Connector target = (connectableFigure == null) ? null : connectableFigure.findConnector(p, getConnection());
 
-        if ((connectableFigure != null) && connectableFigure.canConnect() && !connectableFigure.includes(getOwner()) && getConnection().canConnect(connector, target)) {
+        if ((connectableFigure != null) && connectableFigure.isConnectable() && !connectableFigure.includes(getOwner()) && getConnection().canConnect(connector, target)) {
             return target;
         }
         return null;

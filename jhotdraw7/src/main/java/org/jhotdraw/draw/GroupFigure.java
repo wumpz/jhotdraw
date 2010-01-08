@@ -28,7 +28,7 @@ public class GroupFigure extends AbstractCompositeFigure {
     public GroupFigure() {
     }
     
-    public boolean canConnect() {
+    public boolean isConnectable() {
         return true;
     }
     

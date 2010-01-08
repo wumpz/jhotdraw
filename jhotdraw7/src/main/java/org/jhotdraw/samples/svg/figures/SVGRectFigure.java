@@ -319,7 +319,7 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
     }
     // CONNECTING
 
-    public boolean canConnect() {
+    public boolean isConnectable() {
         return false; // SVG does not support connecting
     }
 

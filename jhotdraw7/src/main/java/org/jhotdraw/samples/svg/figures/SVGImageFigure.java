@@ -324,7 +324,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     // CONNECTING
 
     @Override
-    public boolean canConnect() {
+    public boolean isConnectable() {
         return false; // SVG does not support connecting
     }
 

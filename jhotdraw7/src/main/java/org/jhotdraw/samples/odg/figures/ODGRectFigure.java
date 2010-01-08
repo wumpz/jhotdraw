@@ -259,7 +259,7 @@ public class ODGRectFigure extends ODGAttributedFigure implements ODGFigure {
     }
     // CONNECTING
 
-    public boolean canConnect() {
+    public boolean isConnectable() {
         return false; // ODG does not support connecting
     }
 

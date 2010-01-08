@@ -382,7 +382,7 @@ public abstract class AbstractFigure
      * Checks if this figure can be connected. By default
      * AbstractFigures can be connected.
      */
-    public boolean canConnect() {
+    public boolean isConnectable() {
         return true;
     }
 

@@ -224,7 +224,7 @@ public class BezierFigure extends AbstractAttributedFigure {
      * filled BezierFigures can be connected.
      */
     @Override
-    public boolean canConnect() {
+    public boolean isConnectable() {
         return isClosed();
     }
     @Override

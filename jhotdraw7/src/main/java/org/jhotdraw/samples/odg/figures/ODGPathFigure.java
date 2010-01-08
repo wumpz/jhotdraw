@@ -417,7 +417,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
         return actions;
     }
     // CONNECTING
-    public boolean canConnect() {
+    public boolean isConnectable() {
         return false; // ODG does not support connecting
     }
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {

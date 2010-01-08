@@ -370,9 +370,9 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
 
     // CONNECTING 
     /**
-     * Checks wether this Figure can be connected to a {@link ConnectionFigure}.
+     * Returns true if this Figure can be connected to a {@link ConnectionFigure}.
      */
-    public boolean canConnect();
+    public boolean isConnectable();
 
     /**
      * Gets a connector for this figure at the given location.

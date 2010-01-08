@@ -138,7 +138,7 @@ public class LineConnectionFigure extends LineFigure
      * ConnectionFigures cannot be connected and return false.
      */
     @Override
-    public boolean canConnect() {
+    public boolean isConnectable() {
         return false;
     }
 
@@ -167,7 +167,7 @@ public class LineConnectionFigure extends LineFigure
     }
 
     public boolean canConnect(Connector start, Connector end) {
-        return start.getOwner().canConnect() && end.getOwner().canConnect();
+        return start.getOwner().isConnectable() && end.getOwner().isConnectable();
     }
 
     public Connector getEndConnector() {
@@ -396,7 +396,7 @@ public class LineConnectionFigure extends LineFigure
     }
 
     public boolean canConnect(Connector start) {
-        return start.getOwner().canConnect();
+        return start.getOwner().isConnectable();
     }
 
     /**

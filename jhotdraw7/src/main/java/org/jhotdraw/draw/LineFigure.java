@@ -62,7 +62,7 @@ public class LineFigure extends BezierFigure {
     // CLONING
     // EVENT HANDLING
     @Override
-    public boolean canConnect() {
+    public boolean isConnectable() {
         return false;
     }
     /**
