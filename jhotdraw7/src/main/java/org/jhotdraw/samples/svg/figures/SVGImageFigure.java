@@ -74,6 +74,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     public SVGImageFigure(double x, double y, double width, double height) {
         rectangle = new Rectangle2D.Double(x, y, width, height);
         SVGAttributeKeys.setDefaults(this);
+        setConnectable(false);
     }
 
     // DRAWING
@@ -322,22 +323,6 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         return actions;
     }
     // CONNECTING
-
-    @Override
-    public boolean isConnectable() {
-        return false; // SVG does not support connecting
-    }
-
-    @Override
-    public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
-        return null; // SVG does not support connectors
-    }
-
-    @Override
-    public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
-        return null; // SVG does not support connectors
-    }
-
     // COMPOSITE FIGURES
     // CLONING
     @Override

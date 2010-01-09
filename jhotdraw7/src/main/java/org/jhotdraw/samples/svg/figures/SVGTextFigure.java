@@ -74,6 +74,7 @@ public class SVGTextFigure
     public SVGTextFigure(String text) {
         setText(text);
         SVGAttributeKeys.setDefaults(this);
+        setConnectable(false);
     }
 
     // DRAWING
@@ -406,20 +407,7 @@ public class SVGTextFigure
         }
         return handles;
     }
-    // CONNECTING
-    @Override
-    public boolean isConnectable() {
-        return false; // SVG does not support connecting
-    }
-    @Override
-    public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
-        return null; // SVG does not support connectors
-    }
-    @Override
-    public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
-        return null; // SVG does not support connectors
-    }
-    
+    // EDITING
     /**
      * Returns a specialized tool for the given coordinate.
      * <p>Returns null, if no specialized tool is available.

@@ -258,11 +258,6 @@ public class ODGRectFigure extends ODGAttributedFigure implements ODGFigure {
         return handles;
     }
     // CONNECTING
-
-    public boolean isConnectable() {
-        return false; // ODG does not support connecting
-    }
-
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
         return null; // ODG does not support connectors
     }

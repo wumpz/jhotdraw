@@ -134,12 +134,12 @@ public class LineConnectionFigure extends LineFigure
 
 // CONNECTING
     /**
-     * Tests whether a figure can be a connection target.
-     * ConnectionFigures cannot be connected and return false.
+     * 
+     * ConnectionFigures cannot be connected and always sets connectable to false.
      */
     @Override
-    public boolean isConnectable() {
-        return false;
+    public void setConnectable(boolean newValue) {
+        super.setConnectable(false);
     }
 
     public void updateConnection() {

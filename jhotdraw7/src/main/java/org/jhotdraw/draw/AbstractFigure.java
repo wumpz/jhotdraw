@@ -50,6 +50,7 @@ public abstract class AbstractFigure
     private boolean isRemovable = true;
     private boolean isVisible = true;
     private boolean isTransformable = true;
+    private boolean isConnectable=true;
     /**
      * This variable is used to prevent endless change loops.
      * We increase its value on each invocation of willChange() and
@@ -69,19 +70,23 @@ public abstract class AbstractFigure
     // COMPOSITE FIGURES
     // CLONING
     // EVENT HANDLING
+    @Override
     public void addFigureListener(FigureListener l) {
         listenerList.add(FigureListener.class, l);
     }
 
+    @Override
     public void removeFigureListener(FigureListener l) {
         listenerList.remove(FigureListener.class, l);
     }
 
+    @Override
     public void addNotify(Drawing d) {
         this.drawing = d;
         fireFigureAdded();
     }
 
+    @Override
     public void removeNotify(Drawing d) {
         fireFigureRemoved();
         this.drawing = null;
@@ -339,9 +344,11 @@ public abstract class AbstractFigure
         return null;
     }
 
+    @Override
     public void remap(Map<Figure, Figure> oldToNew, boolean disconnectIfNotInMap) {
     }
 
+    @Override
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
         switch (detailLevel) {
@@ -355,6 +362,7 @@ public abstract class AbstractFigure
         return handles;
     }
 
+    @Override
     public Cursor getCursor(Point2D.Double p) {
         if (contains(p)) {
             return Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
@@ -367,6 +375,7 @@ public abstract class AbstractFigure
         setBounds(new Point2D.Double(bounds.x, bounds.y), new Point2D.Double(bounds.x + bounds.width, bounds.y + bounds.height));
     }
 
+    @Override
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         Point2D.Double oldAnchor = getStartPoint();
         Point2D.Double oldLead = getEndPoint();
@@ -376,14 +385,6 @@ public abstract class AbstractFigure
             changed();
             fireUndoableEditHappened(new SetBoundsEdit(this, oldAnchor, oldLead, anchor, lead));
         }
-    }
-
-    /**
-     * Checks if this figure can be connected. By default
-     * AbstractFigures can be connected.
-     */
-    public boolean isConnectable() {
-        return true;
     }
 
     /**
@@ -405,6 +406,7 @@ public abstract class AbstractFigure
      * Informs that a figure is about to change something that
      * affects the contents of its display box.
      */
+    @Override
     public void willChange() {
         if (changingDepth == 0) {
             fireAreaInvalidated();
@@ -419,6 +421,7 @@ public abstract class AbstractFigure
     /**
      * Informs that a figure changed the area of its display box.
      */
+    @Override
     public void changed() {
         if (changingDepth == 1) {
             validate();
@@ -436,18 +439,22 @@ public abstract class AbstractFigure
      *
      * @see ChopRectangleConnector
      */
+    @Override
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
         return new ChopRectangleConnector(this);
     }
 
+    @Override
     public boolean includes(Figure figure) {
         return figure == this;
     }
 
+    @Override
     public Figure findFigureInside(Point2D.Double p) {
         return (contains(p)) ? this : null;
     }
 
+    @Override
     public Connector findCompatibleConnector(Connector c, boolean isStart) {
         return new ChopRectangleConnector(this);
     }
@@ -458,6 +465,7 @@ public abstract class AbstractFigure
      * <p>The collection may contain null entries. These entries are used
      * interpreted as separators in the popup menu.
      */
+    @Override
     public Collection<Action> getActions(Point2D.Double p) {
         return Collections.emptyList();
     }
@@ -466,6 +474,7 @@ public abstract class AbstractFigure
      * Returns a specialized tool for the given coordinate.
      * <p>Returns null, if no specialized tool is available.
      */
+    @Override
     public Tool getTool(Point2D.Double p) {
         return null;
     }
@@ -473,19 +482,23 @@ public abstract class AbstractFigure
     /**
      * Handles a mouse click.
      */
+    @Override
     public boolean handleMouseClick(Point2D.Double p, MouseEvent evt, DrawingView view) {
         return false;
     }
 
+    @Override
     public boolean handleDrop(Point2D.Double p, Collection<Figure> droppedFigures, DrawingView view) {
         return false;
     }
 
+    @Override
     public Point2D.Double getEndPoint() {
         Rectangle2D.Double r = getBounds();
         return new Point2D.Double(r.x + r.width, r.y + r.height);
     }
 
+    @Override
     public Point2D.Double getStartPoint() {
         Rectangle2D.Double r = getBounds();
         return new Point2D.Double(r.x, r.y);
@@ -496,11 +509,31 @@ public abstract class AbstractFigure
     }
      */
 
+    @Override
     public Dimension2DDouble getPreferredSize() {
         Rectangle2D.Double r = getBounds();
         return new Dimension2DDouble(r.width, r.height);
     }
+    /**
+     * Checks whether this figure is connectable. By default
+     * {@code AbstractFigure} can be connected.
+     */
+    @Override
+    public boolean isConnectable() {
+        return isConnectable;
+    }
 
+    public void setConnectable(boolean newValue) {
+        boolean oldValue = isConnectable;
+        isConnectable = newValue;
+        firePropertyChange(CONNECTABLE_PROPERTY, oldValue, newValue);
+    }
+
+    /**
+     * Checks whether this figure is selectable. By default
+     * {@code AbstractFigure} can be selected.
+     */
+    @Override
     public boolean isSelectable() {
         return isSelectable;
     }
@@ -508,9 +541,14 @@ public abstract class AbstractFigure
     public void setSelectable(boolean newValue) {
         boolean oldValue = isSelectable;
         isSelectable = newValue;
-        firePropertyChange("selectable", oldValue, newValue);
+        firePropertyChange(SELECTABLE_PROPERTY, oldValue, newValue);
     }
 
+    /**
+     * Checks whether this figure is removable. By default
+     * {@code AbstractFigure} can be removed.
+     */
+    @Override
     public boolean isRemovable() {
         return isRemovable;
     }
@@ -518,9 +556,14 @@ public abstract class AbstractFigure
     public void setRemovable(boolean newValue) {
         boolean oldValue = isRemovable;
         isRemovable = newValue;
-        firePropertyChange("removable", oldValue, newValue);
+        firePropertyChange(REMOVABLE_PROPERTY, oldValue, newValue);
     }
 
+    /**
+     * Checks whether this figure is transformable. By default
+     * {@code AbstractFigure} can be transformed.
+     */
+    @Override
     public boolean isTransformable() {
         return isTransformable;
     }
@@ -528,9 +571,14 @@ public abstract class AbstractFigure
     public void setTransformable(boolean newValue) {
         boolean oldValue = isTransformable;
         isTransformable = newValue;
-        firePropertyChange("transformable", oldValue, newValue);
+        firePropertyChange(TRANSFORMABLE_PROPERTY, oldValue, newValue);
     }
 
+    /**
+     * Checks whether this figure is visible. By default
+     * {@code AbstractFigure} is visible.
+     */
+    @Override
     public boolean isVisible() {
         return isVisible;
     }
@@ -543,6 +591,7 @@ public abstract class AbstractFigure
         }
     }
 
+    @Override
     public Collection<Figure> getDecomposition() {
         LinkedList<Figure> list = new LinkedList<Figure>();
         list.add(this);
@@ -557,18 +606,22 @@ public abstract class AbstractFigure
         return frc;
     }
 
+    @Override
     public void requestRemove() {
         fireFigureRequestRemove();
     }
 
+    @Override
     public int getLayer() {
         return 0;
     }
 
+    @Override
     public String getToolTipText(Point2D.Double p) {
         return null;
     }
 
+    @Override
     public String toString() {
         StringBuilder buf = new StringBuilder();
         buf.append(getClass().getName().substring(getClass().getName().lastIndexOf('.') + 1));
@@ -577,6 +630,7 @@ public abstract class AbstractFigure
         return buf.toString();
     }
 
+    @Override
     public Collection<Connector> getConnectors(ConnectionFigure prototype) {
         LinkedList<Connector> connectors = new LinkedList<Connector>();
         connectors.add(new ChopRectangleConnector(this));

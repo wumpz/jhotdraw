@@ -109,16 +109,19 @@ public class BezierFigure extends AbstractAttributedFigure {
      * Returns the Figures connector for the specified location.
      * By default a {@link ChopBezierConnector} is returned.
      */
+    @Override
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
         return new ChopBezierConnector(this);
     }
     
+    @Override
     public Connector findCompatibleConnector(Connector c, boolean isStart) {
         return new ChopBezierConnector(this);
     }
     // COMPOSITE FIGURES
     // CLONING
     // EVENT HANDLING
+    @Override
     protected void drawStroke(Graphics2D g) {
         if (isClosed()) {
             double grow = AttributeKeys.getPerpendicularDrawGrowth(this);
@@ -160,6 +163,7 @@ public class BezierFigure extends AbstractAttributedFigure {
         }
     }
     
+    @Override
     protected void drawFill(Graphics2D g) {
         if (isClosed() || get(UNCLOSED_PATH_FILLED)) {
             double grow = AttributeKeys.getPerpendicularFillGrowth(this);
@@ -175,6 +179,7 @@ public class BezierFigure extends AbstractAttributedFigure {
         }
     }
     
+    @Override
     public boolean contains(Point2D.Double p) {
         double tolerance = Math.max(2f, AttributeKeys.getStrokeTotalWidth(this) / 2d);
         if (isClosed() || get(FILL_COLOR) != null && get(UNCLOSED_PATH_FILLED)) {
@@ -219,14 +224,7 @@ public class BezierFigure extends AbstractAttributedFigure {
         }
         return false;
     }
-    /**
-     * Checks if this figure can be connected. By default
-     * filled BezierFigures can be connected.
-     */
-    @Override
-    public boolean isConnectable() {
-        return isClosed();
-    }
+    
     @Override
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
@@ -248,6 +246,7 @@ public class BezierFigure extends AbstractAttributedFigure {
         return handles;
     }
     
+    @Override
     public Rectangle2D.Double getBounds() {
         Rectangle2D.Double bounds =path.getBounds2D();
         return bounds;
@@ -301,6 +300,7 @@ public class BezierFigure extends AbstractAttributedFigure {
     }
     public void setClosed(boolean newValue) {
         set(PATH_CLOSED, newValue);
+        setConnectable(newValue);
     }
     @Override
     public <T> void set(AttributeKey<T> key, T newValue) {
@@ -325,6 +325,7 @@ public class BezierFigure extends AbstractAttributedFigure {
         setEndPoint(lead);
         invalidate();
     }
+    @Override
     public void transform(AffineTransform tx) {
         path.transform(tx);
         invalidate();
@@ -575,10 +576,12 @@ public class BezierFigure extends AbstractAttributedFigure {
         return that;
     }
     
+    @Override
     public void restoreTransformTo(Object geometry) {
         path.setTo((BezierPath) geometry);
     }
     
+    @Override
     public Object getTransformRestoreData() {
         return path.clone();
     }
@@ -687,7 +690,8 @@ public class BezierFigure extends AbstractAttributedFigure {
         out.closeElement();
     }
     
-    @Override public void read(DOMInput in) throws IOException {
+    @Override
+    public void read(DOMInput in) throws IOException {
         readPoints(in);
         readAttributes(in);
     }

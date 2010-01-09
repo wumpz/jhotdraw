@@ -26,10 +26,7 @@ import org.jhotdraw.geom.*;
 public class GroupFigure extends AbstractCompositeFigure {
     /** Creates a new instance. */
     public GroupFigure() {
-    }
-    
-    public boolean isConnectable() {
-        return true;
+        setConnectable(false);
     }
     
     /**

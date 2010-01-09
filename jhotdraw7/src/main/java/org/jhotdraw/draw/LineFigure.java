@@ -35,6 +35,7 @@ public class LineFigure extends BezierFigure {
     public LineFigure() {
         addNode(new BezierPath.Node(new Point2D.Double(0,0)));
         addNode(new BezierPath.Node(new Point2D.Double(0,0)));
+        setConnectable(false);
     }
     
     // DRAWING
@@ -61,10 +62,6 @@ public class LineFigure extends BezierFigure {
     // COMPOSITE FIGURES
     // CLONING
     // EVENT HANDLING
-    @Override
-    public boolean isConnectable() {
-        return false;
-    }
     /**
      * Handles a mouse click.
      */

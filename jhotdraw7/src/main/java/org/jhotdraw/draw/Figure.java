@@ -1,7 +1,7 @@
 /*
  * @(#)Figure.java
  *
- * Copyright (c) 1996-2009 by the original authors of JHotDraw
+ * Copyright (c) 1996-2010 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -20,6 +20,7 @@ import org.jhotdraw.draw.event.FigureListener;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.event.*;
+import java.beans.PropertyChangeListener;
 import java.util.*;
 import javax.swing.*;
 import java.io.*;
@@ -108,6 +109,17 @@ import org.jhotdraw.xml.DOMStorable;
  * @version $Id$
  */
 public interface Figure extends Cloneable, Serializable, DOMStorable {
+    // PROPERTIES
+    /** The name of the "connectable" property. */
+    public final static String CONNECTABLE_PROPERTY="connectable";
+    /** The name of the "removable" property. */
+    public final static String REMOVABLE_PROPERTY="removable";
+    /** The name of the "selectable" property. */
+    public final static String SELECTABLE_PROPERTY="selectable";
+    /** The name of the "transformable" property. */
+    public final static String TRANSFORMABLE_PROPERTY="transformable";
+
+
     // DRAWING
     /**
      * Draws the figure.
@@ -533,4 +545,17 @@ public interface Figure extends Cloneable, Serializable, DOMStorable {
      * Removes a listener for FigureEvent's.
      */
     public void removeFigureListener(FigureListener l);
+
+    /** Adds a {@code PropertyChangeListener} which can optionally be wrapped
+     * into a {@code WeakPropertyChangeListener}.
+     * @param listener
+     */
+    public void addPropertyChangeListener(PropertyChangeListener listener);
+    /** Removes a {@code PropertyChangeListener}. If the listener was added
+     * wrapped into a {@code WeakPropertyChangeListener}, the
+     * {@code WeakPropertyChangeListener} is removed.
+     *
+     * @param listener
+     */
+    public void removePropertyChangeListener(PropertyChangeListener listener);
 }

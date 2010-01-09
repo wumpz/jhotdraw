@@ -64,6 +64,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
     public SVGTextAreaFigure(String text) {
         setText(text);
         SVGAttributeKeys.setDefaults(this);
+        setConnectable(false);
     }
     // DRAWING
 
@@ -509,18 +510,6 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
         return null;
     }
 // CONNECTING
-
-    public boolean isConnectable() {
-        return false; // SVG does not support connecting
-    }
-
-    public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
-        return null; // SVG does not support connectors
-    }
-
-    public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
-        return null; // SVG does not support connectors
-    }
 // COMPOSITE FIGURES
 // CLONING
 // EVENT HANDLING

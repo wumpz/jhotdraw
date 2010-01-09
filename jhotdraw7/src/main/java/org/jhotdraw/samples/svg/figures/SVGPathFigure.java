@@ -61,6 +61,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
     public SVGPathFigure(boolean isEmpty) {
         if (! isEmpty) { add(new SVGBezierFigure()); }
         SVGAttributeKeys.setDefaults(this);
+        setConnectable(false);
     }
 
     public void draw(Graphics2D g) {
@@ -447,18 +448,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         return actions;
     }
     // CONNECTING
-    public boolean isConnectable() {
-        return false; // SVG does not support connecting
-    }
-
-    public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
-        return null; // SVG does not support connectors
-    }
-
-    public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
-        return null; // SVG does not support connectors
-    }
-
+    // EDITING
     /**
      * Handles a mouse click.
      */
