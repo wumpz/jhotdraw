@@ -1,7 +1,7 @@
 /*
  * @(#)DrawView.java
  *
- * Copyright (c) 1996-2009 by the original authors of JHotDraw
+ * Copyright (c) 1996-2010 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -151,15 +151,6 @@ public class DrawView extends AbstractView {
     private void initActions() {
         getActionMap().put(UndoAction.ID, undo.getUndoAction());
         getActionMap().put(RedoAction.ID, undo.getRedoAction());
-
-        undo.getUndoAction().addPropertyChangeListener(new PropertyChangeListener() {
-
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                System.out.println("DrawView undo@"+evt.getSource().hashCode()+" "+evt.getPropertyName()+"="+evt.getNewValue());
-            }
-
-        });
     }
     protected void setHasUnsavedChanges(boolean newValue) {
         super.setHasUnsavedChanges(newValue);

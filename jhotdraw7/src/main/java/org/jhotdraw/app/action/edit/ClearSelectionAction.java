@@ -41,24 +41,43 @@ import org.jhotdraw.app.EditableComponent;
 public class ClearSelectionAction extends AbstractAction {
     public final static String ID = "edit.clearSelection";
     
-    /** Creates a new instance. */
+    /** The target of the action or null if the action acts on the currently
+     * focused component.
+     */
+    private JComponent target;
+
+    /** Creates a new instance which acts on the currently focused component. */
     public ClearSelectionAction() {
+        this(null);
+    }
+
+    /** Creates a new instance which acts on the specified component.
+     *
+     * @param target The target of the action. Specify null for the currently
+     * focused component.
+     */
+    public ClearSelectionAction(JComponent target) {
+        this.target = target;
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
     
+    @Override
     public void actionPerformed(ActionEvent evt) {
-        Component focusOwner = KeyboardFocusManager.
-                getCurrentKeyboardFocusManager().
-                getPermanentFocusOwner();
-        if (focusOwner != null) {
-            if (focusOwner instanceof EditableComponent) {
-                ((EditableComponent) focusOwner).clearSelection();
-            } else if (focusOwner instanceof JTextComponent) {
-               JTextComponent tc = ((JTextComponent) focusOwner);
+        JComponent c = target;
+        if (c == null && (KeyboardFocusManager.getCurrentKeyboardFocusManager().
+                getPermanentFocusOwner() instanceof JComponent)) {
+            c = (JComponent) KeyboardFocusManager.getCurrentKeyboardFocusManager().
+                    getPermanentFocusOwner();
+        }
+        if (c != null) {
+            if (c instanceof EditableComponent) {
+                ((EditableComponent) c).clearSelection();
+            } else if (c instanceof JTextComponent) {
+               JTextComponent tc = ((JTextComponent) c);
                tc.select(tc.getSelectionStart(), tc.getSelectionStart());
             } else {
-                focusOwner.getToolkit().beep();
+                c.getToolkit().beep();
             }
         }
     }

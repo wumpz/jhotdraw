@@ -1,7 +1,7 @@
 /*
  * @(#)CutAction.java
  *
- * Copyright (c) 1996-2009 by the original authors of JHotDraw
+ * Copyright (c) 1996-2010 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.app.action.edit;
 
 import java.awt.*;
@@ -38,25 +37,42 @@ import org.jhotdraw.util.*;
  * @version $Id$
  */
 public class CutAction extends AbstractAction {
+
     public final static String ID = "edit.cut";
-   
-    /** Creates a new instance. */
+
+    /** The target of the action or null if the action acts on the currently
+     * focused component.
+     */
+    private JComponent target;
+
+    /** Creates a new instance which acts on the currently focused component. */
     public CutAction() {
+        this(null);
+    }
+
+    /** Creates a new instance which acts on the specified component.
+     *
+     * @param target The target of the action. Specify null for the currently
+     * focused component.
+     */
+    public CutAction(JComponent target) {
+        this.target = target;
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
-    
+
     public void actionPerformed(ActionEvent evt) {
-        Component focusOwner = KeyboardFocusManager.
-                getCurrentKeyboardFocusManager().
-                getPermanentFocusOwner();
-        if (focusOwner != null && focusOwner instanceof JComponent) {
-            JComponent component = (JComponent) focusOwner;
-            component.getTransferHandler().exportToClipboard(
-                    component,
+        JComponent c = target;
+        if (c == null && (KeyboardFocusManager.getCurrentKeyboardFocusManager().
+                getPermanentFocusOwner() instanceof JComponent)) {
+            c = (JComponent) KeyboardFocusManager.getCurrentKeyboardFocusManager().
+                    getPermanentFocusOwner();
+        }
+        if (c != null) {
+            c.getTransferHandler().exportToClipboard(
+                    c,
                     ClipboardUtil.getClipboard(),
-                    TransferHandler.MOVE
-                    );
+                    TransferHandler.MOVE);
         }
     }
 }

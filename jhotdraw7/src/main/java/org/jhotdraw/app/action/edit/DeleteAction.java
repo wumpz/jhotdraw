@@ -1,7 +1,7 @@
 /*
  * @(#)DeleteAction.java
  *
- * Copyright (c) 1996-2009 by the original authors of JHotDraw
+ * Copyright (c) 1996-2010 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -16,6 +16,7 @@ package org.jhotdraw.app.action.edit;
 
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.JComponent;
 import javax.swing.text.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.app.EditableComponent;
@@ -40,19 +41,38 @@ import org.jhotdraw.app.EditableComponent;
 public class DeleteAction extends TextAction {
     public final static String ID = "edit.delete";
     
-    /** Creates a new instance. */
+    /** The target of the action or null if the action acts on the currently
+     * focused component.
+     */
+    private JComponent target;
+
+    /** Creates a new instance which acts on the currently focused component. */
     public DeleteAction() {
+        this(null);
+    }
+
+    /** Creates a new instance which acts on the specified component.
+     *
+     * @param target The target of the action. Specify null for the currently
+     * focused component.
+     */
+    public DeleteAction(JComponent target) {
         super(ID);
+        this.target=target;
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
     
+    @Override
     public void actionPerformed(ActionEvent evt) {
-        Component focusOwner = KeyboardFocusManager.
-                getCurrentKeyboardFocusManager().
-                getPermanentFocusOwner();
-        if (focusOwner != null && focusOwner instanceof EditableComponent) {
-            ((EditableComponent) focusOwner).delete();
+        JComponent c = target;
+        if (c == null && (KeyboardFocusManager.getCurrentKeyboardFocusManager().
+                getPermanentFocusOwner() instanceof JComponent)) {
+            c = (JComponent) KeyboardFocusManager.getCurrentKeyboardFocusManager().
+                    getPermanentFocusOwner();
+        }
+        if (c != null) {
+            ((EditableComponent) c).delete();
         } else {
             deleteNextChar(evt);
         }
@@ -61,12 +81,12 @@ public class DeleteAction extends TextAction {
      * DefaultEditorKit.DeleteNextCharAction.actionPerformed(ActionEvent).
      */
     public void deleteNextChar(ActionEvent e) {
-        JTextComponent target = getTextComponent(e);
+        JTextComponent c = getTextComponent(e);
         boolean beep = true;
-        if ((target != null) && (target.isEditable())) {
+        if ((c != null) && (c.isEditable())) {
             try {
-                javax.swing.text.Document doc = target.getDocument();
-                Caret caret = target.getCaret();
+                javax.swing.text.Document doc = c.getDocument();
+                Caret caret = c.getCaret();
                 int dot = caret.getDot();
                 int mark = caret.getMark();
                 if (dot != mark) {

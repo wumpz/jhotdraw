@@ -1,7 +1,7 @@
 /*
  * @(#)AbstractDrawingEditorAction.java
  *
- * Copyright (c) 1996-2009 by the original authors of JHotDraw
+ * Copyright (c) 1996-2010 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *

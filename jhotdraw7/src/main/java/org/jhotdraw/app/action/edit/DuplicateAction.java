@@ -1,7 +1,7 @@
 /*
  * @(#)DuplicateAction.java
  *
- * Copyright (c) 1996-2009 by the original authors of JHotDraw
+ * Copyright (c) 1996-2010 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -40,21 +40,40 @@ import org.jhotdraw.app.EditableComponent;
 public class DuplicateAction extends AbstractAction {
     public final static String ID = "edit.duplicate";
     
-    /** Creates a new instance. */
+    /** The target of the action or null if the action acts on the currently
+     * focused component.
+     */
+    private JComponent target;
+
+    /** Creates a new instance which acts on the currently focused component. */
     public DuplicateAction() {
+        this(null);
+    }
+
+    /** Creates a new instance which acts on the specified component.
+     *
+     * @param target The target of the action. Specify null for the currently
+     * focused component.
+     */
+    public DuplicateAction(JComponent target) {
+        this.target=target;
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
     
+    @Override
     public void actionPerformed(ActionEvent evt) {
-        Component focusOwner = KeyboardFocusManager.
-                getCurrentKeyboardFocusManager().
-                getPermanentFocusOwner();
-        if (focusOwner != null) {
-            if (focusOwner instanceof EditableComponent) {
-                ((EditableComponent) focusOwner).duplicate();
+        JComponent c = target;
+        if (c == null && (KeyboardFocusManager.getCurrentKeyboardFocusManager().
+                getPermanentFocusOwner() instanceof JComponent)) {
+            c = (JComponent) KeyboardFocusManager.getCurrentKeyboardFocusManager().
+                    getPermanentFocusOwner();
+        }
+        if (c != null) {
+            if (c instanceof EditableComponent) {
+                ((EditableComponent) c).duplicate();
             } else {
-                focusOwner.getToolkit().beep();
+                c.getToolkit().beep();
             }
         }
     }
