@@ -19,6 +19,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.app.EditableComponent;
+import org.jhotdraw.app.action.AbstractSelectionAction;
 
 /**
  * Duplicates the selected region.
@@ -37,14 +38,9 @@ import org.jhotdraw.app.EditableComponent;
  * @author Werner Randelshofer.
  * @version $Id$
  */
-public class DuplicateAction extends AbstractAction {
+public class DuplicateAction extends AbstractSelectionAction {
     public final static String ID = "edit.duplicate";
     
-    /** The target of the action or null if the action acts on the currently
-     * focused component.
-     */
-    private JComponent target;
-
     /** Creates a new instance which acts on the currently focused component. */
     public DuplicateAction() {
         this(null);
@@ -56,7 +52,7 @@ public class DuplicateAction extends AbstractAction {
      * focused component.
      */
     public DuplicateAction(JComponent target) {
-        this.target=target;
+        super(target);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
@@ -69,7 +65,7 @@ public class DuplicateAction extends AbstractAction {
             c = (JComponent) KeyboardFocusManager.getCurrentKeyboardFocusManager().
                     getPermanentFocusOwner();
         }
-        if (c != null) {
+        if (c != null && c.isEnabled()) {
             if (c instanceof EditableComponent) {
                 ((EditableComponent) c).duplicate();
             } else {

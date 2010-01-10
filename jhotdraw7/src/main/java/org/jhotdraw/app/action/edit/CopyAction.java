@@ -11,12 +11,12 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.app.action.edit;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import org.jhotdraw.app.action.AbstractSelectionAction;
 import org.jhotdraw.gui.datatransfer.ClipboardUtil;
 import org.jhotdraw.util.*;
 
@@ -37,13 +37,9 @@ import org.jhotdraw.util.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class CopyAction extends AbstractAction {
+public class CopyAction extends AbstractSelectionAction {
+
     public final static String ID = "edit.copy";
-    
-    /** The target of the action or null if the action acts on the currently
-     * focused component.
-     */
-    private JComponent target;
 
     /** Creates a new instance which acts on the currently focused component. */
     public CopyAction() {
@@ -56,24 +52,25 @@ public class CopyAction extends AbstractAction {
      * focused component.
      */
     public CopyAction(JComponent target) {
-        this.target=target;
+        super(target);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
-    
-   public void actionPerformed(ActionEvent evt) {
+
+    @Override
+    public void actionPerformed(ActionEvent evt) {
         JComponent c = target;
         if (c == null && (KeyboardFocusManager.getCurrentKeyboardFocusManager().
                 getPermanentFocusOwner() instanceof JComponent)) {
             c = (JComponent) KeyboardFocusManager.getCurrentKeyboardFocusManager().
                     getPermanentFocusOwner();
         }
+        // Note: copying is allowed for disabled components
         if (c != null) {
             c.getTransferHandler().exportToClipboard(
                     c,
                     ClipboardUtil.getClipboard(),
-                    TransferHandler.COPY
-                    );
+                    TransferHandler.COPY);
         }
     }
 }

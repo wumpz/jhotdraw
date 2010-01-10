@@ -19,6 +19,7 @@ import javax.swing.*;
 import javax.swing.text.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.app.EditableComponent;
+import org.jhotdraw.app.action.AbstractSelectionAction;
 
 /**
  * Selects all items.
@@ -37,14 +38,9 @@ import org.jhotdraw.app.EditableComponent;
  * @author Werner Randelshofer.
  * @version $Id$
  */
-public class SelectAllAction extends AbstractAction {
+public class SelectAllAction extends AbstractSelectionAction {
 
     public final static String ID = "edit.selectAll";
-
-    /** The target of the action or null if the action acts on the currently
-     * focused component.
-     */
-    private JComponent target;
 
     /** Creates a new instance which acts on the currently focused component. */
     public SelectAllAction() {
@@ -57,7 +53,7 @@ public class SelectAllAction extends AbstractAction {
      * focused component.
      */
     public SelectAllAction(JComponent target) {
-        this.target = target;
+        super(target);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
@@ -70,7 +66,7 @@ public class SelectAllAction extends AbstractAction {
             c = (JComponent) KeyboardFocusManager.getCurrentKeyboardFocusManager().
                     getPermanentFocusOwner();
         }
-        if (c != null) {
+        if (c != null && c.isEnabled()) {
             if (c instanceof EditableComponent) {
                 ((EditableComponent) c).selectAll();
             } else if (c instanceof JTextComponent) {
@@ -78,6 +74,12 @@ public class SelectAllAction extends AbstractAction {
             } else {
                 c.getToolkit().beep();
             }
+        }
+    }
+    @Override
+    protected void updateEnabled() {
+        if (target != null) {
+            setEnabled(target.isEnabled());
         }
     }
 }

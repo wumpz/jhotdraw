@@ -137,6 +137,11 @@ public class DefaultDrawingView
         g.fillRect(0, 0, getWidth(), getHeight());
     }
 
+    @Override
+    public boolean isSelectionEmpty() {
+        return selectedFigures.isEmpty();
+    }
+
     private class EventHandler implements FigureListener, CompositeFigureListener, HandleListener, FocusListener {
 
         public void figureAdded(CompositeFigureEvent evt) {
@@ -825,6 +830,7 @@ public class DefaultDrawingView
      * If a figure isn't selected it is added to the selection.
      * Otherwise it is removed from the selection.
      */
+    @Override
     public void toggleSelection(Figure figure) {
         if (selectedFigures.contains(figure)) {
             removeFromSelection(figure);
@@ -843,6 +849,7 @@ public class DefaultDrawingView
     /**
      * Selects all selectable figures.
      */
+    @Override
     public void selectAll() {
         Set<Figure> oldSelection = new HashSet<Figure>(selectedFigures);
         selectedFigures.clear();
@@ -865,6 +872,7 @@ public class DefaultDrawingView
     /**
      * Clears the current selection.
      */
+    @Override
     public void clearSelection() {
         if (getSelectionCount() > 0) {
             Set<Figure> oldSelection = new HashSet<Figure>(selectedFigures);
@@ -879,6 +887,7 @@ public class DefaultDrawingView
     /**
      * Test whether a given figure is selected.
      */
+    @Override
     public boolean isFigureSelected(Figure checkFigure) {
         return selectedFigures.contains(checkFigure);
     }
@@ -887,6 +896,7 @@ public class DefaultDrawingView
      * Gets the current selection as a FigureSelection. A FigureSelection
      * can be cut, copied, pasted.
      */
+    @Override
     public Set<Figure> getSelectedFigures() {
         return Collections.unmodifiableSet(selectedFigures);
     }
@@ -894,6 +904,7 @@ public class DefaultDrawingView
     /**
      * Gets the number of selected figures.
      */
+    @Override
     public int getSelectionCount() {
         return selectedFigures.size();
     }
@@ -1000,6 +1011,7 @@ public class DefaultDrawingView
      * Finds a handle at a given coordinates.
      * @return A handle, null if no handle is found.
      */
+    @Override
     public Handle findHandle(
             Point p) {
         validateHandles();
@@ -1023,6 +1035,7 @@ public class DefaultDrawingView
      * Gets compatible handles.
      * @return A collection containing the handle and all compatible handles.
      */
+    @Override
     public Collection<Handle> getCompatibleHandles(Handle master) {
         validateHandles();
 
@@ -1046,23 +1059,28 @@ public class DefaultDrawingView
      * Finds a figure at a given coordinates.
      * @return A figure, null if no figure is found.
      */
+    @Override
     public Figure findFigure(
             Point p) {
         return getDrawing().findFigure(viewToDrawing(p));
     }
 
+    @Override
     public Collection<Figure> findFigures(Rectangle r) {
         return getDrawing().findFigures(viewToDrawing(r));
     }
 
+    @Override
     public Collection<Figure> findFiguresWithin(Rectangle r) {
         return getDrawing().findFiguresWithin(viewToDrawing(r));
     }
 
+    @Override
     public void addFigureSelectionListener(FigureSelectionListener fsl) {
         listenerList.add(FigureSelectionListener.class, fsl);
     }
 
+    @Override
     public void removeFigureSelectionListener(FigureSelectionListener fsl) {
         listenerList.remove(FigureSelectionListener.class, fsl);
     }
@@ -1070,6 +1088,8 @@ public class DefaultDrawingView
     /**
      *  Notify all listenerList that have registered interest for
      * notification on this event type.
+     * Also notify listeners who listen for
+     * {@link EditableComponent#SELECTION_EMPTY_PROPERTY}.
      */
     protected void fireSelectionChanged(
             Set<Figure> oldValue,
@@ -1094,6 +1114,8 @@ public class DefaultDrawingView
             }
 
         }
+
+        firePropertyChange(EditableComponent.SELECTION_EMPTY_PROPERTY, oldValue.isEmpty(), newValue.isEmpty());
     }
 
     protected void invalidateDimension() {
@@ -1101,6 +1123,7 @@ public class DefaultDrawingView
         cachedDrawingArea = null;
     }
 
+    @Override
     public Constrainer getConstrainer() {
         return isConstrainerVisible() ? visibleConstrainer : invisibleConstrainer;
     }
@@ -1219,6 +1242,7 @@ public class DefaultDrawingView
     /**
      * Converts drawing coordinates to view coordinates.
      */
+    @Override
     public Point drawingToView(
             Point2D.Double p) {
         return new Point(
@@ -1226,6 +1250,7 @@ public class DefaultDrawingView
                 (int) (p.y * scaleFactor) - translation.y);
     }
 
+    @Override
     public Rectangle drawingToView(
             Rectangle2D.Double r) {
         return new Rectangle(
@@ -1238,12 +1263,14 @@ public class DefaultDrawingView
     /**
      * Converts view coordinates to drawing coordinates.
      */
+    @Override
     public Point2D.Double viewToDrawing(Point p) {
         return new Point2D.Double(
                 (p.x + translation.x) / scaleFactor,
                 (p.y + translation.y) / scaleFactor);
     }
 
+    @Override
     public Rectangle2D.Double viewToDrawing(Rectangle r) {
         return new Rectangle2D.Double(
                 (r.x + translation.x) / scaleFactor,
@@ -1252,14 +1279,17 @@ public class DefaultDrawingView
                 r.height / scaleFactor);
     }
 
+    @Override
     public JComponent getComponent() {
         return this;
     }
 
+    @Override
     public double getScaleFactor() {
         return scaleFactor;
     }
 
+    @Override
     public void setScaleFactor(double newValue) {
         double oldValue = scaleFactor;
         scaleFactor = newValue;
@@ -1283,6 +1313,7 @@ public class DefaultDrawingView
 
     }
 
+    @Override
     public void setHandleDetailLevel(int newValue) {
         if (newValue != detailLevel) {
             detailLevel = newValue;
@@ -1297,10 +1328,12 @@ public class DefaultDrawingView
 
     }
 
+    @Override
     public int getHandleDetailLevel() {
         return detailLevel;
     }
 
+    @Override
     public AffineTransform getDrawingToViewTransform() {
         AffineTransform t = new AffineTransform();
         t.translate(-translation.x, -translation.y);
@@ -1308,6 +1341,7 @@ public class DefaultDrawingView
         return t;
     }
 
+    @Override
     public void delete() {
         final LinkedList<CompositeFigureEvent> deletionEvents = new LinkedList<CompositeFigureEvent>();
         final java.util.List<Figure> deletedFigures = drawing.sort(getSelectedFigures());
@@ -1370,6 +1404,7 @@ public class DefaultDrawingView
         });
     }
 
+    @Override
     public void duplicate() {
         Collection<Figure> sorted = getDrawing().sort(getSelectedFigures());
         HashMap<Figure, Figure> originalToDuplicateMap = new HashMap<Figure, Figure>(sorted.size());
@@ -1415,12 +1450,14 @@ public class DefaultDrawingView
         });
     }
 
+    @Override
     public void removeNotify(DrawingEditor editor) {
         this.editor = null;
         repaint();
 
     }
 
+    @Override
     public void addNotify(DrawingEditor editor) {
         DrawingEditor oldValue = editor;
         this.editor = editor;
@@ -1431,6 +1468,7 @@ public class DefaultDrawingView
 
     }
 
+    @Override
     public void setVisibleConstrainer(Constrainer newValue) {
         Constrainer oldValue = visibleConstrainer;
         visibleConstrainer =
@@ -1438,10 +1476,12 @@ public class DefaultDrawingView
         firePropertyChange(VISIBLE_CONSTRAINER_PROPERTY, oldValue, newValue);
     }
 
+    @Override
     public Constrainer getVisibleConstrainer() {
         return visibleConstrainer;
     }
 
+    @Override
     public void setInvisibleConstrainer(Constrainer newValue) {
         Constrainer oldValue = invisibleConstrainer;
         invisibleConstrainer =
@@ -1449,10 +1489,12 @@ public class DefaultDrawingView
         firePropertyChange(INVISIBLE_CONSTRAINER_PROPERTY, oldValue, newValue);
     }
 
+    @Override
     public Constrainer getInvisibleConstrainer() {
         return invisibleConstrainer;
     }
 
+    @Override
     public void setConstrainerVisible(boolean newValue) {
         boolean oldValue = isConstrainerVisible;
         isConstrainerVisible =
@@ -1462,6 +1504,7 @@ public class DefaultDrawingView
 
     }
 
+    @Override
     public boolean isConstrainerVisible() {
         return isConstrainerVisible;
     }
@@ -1518,12 +1561,14 @@ public class DefaultDrawingView
                 new Rectangle(x, y, backgroundTile.getWidth(), backgroundTile.getHeight()));
     }
 
+    @Override
     public DrawingEditor getEditor() {
         return editor;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 
+    @Override
     public void setActiveHandle(Handle newValue) {
         Handle oldValue = activeHandle;
         if (oldValue != null) {
@@ -1538,6 +1583,7 @@ public class DefaultDrawingView
         firePropertyChange(ACTIVE_HANDLE_PROPERTY, oldValue, newValue);
     }
 
+    @Override
     public Handle getActiveHandle() {
         return activeHandle;
     }

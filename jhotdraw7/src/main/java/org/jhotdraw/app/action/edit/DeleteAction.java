@@ -11,15 +11,17 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.app.action.edit;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import javax.swing.JComponent;
 import javax.swing.text.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.app.EditableComponent;
+import org.jhotdraw.beans.WeakPropertyChangeListener;
 
 /**
  * Deletes the region at (or after) the caret position.
@@ -39,12 +41,14 @@ import org.jhotdraw.app.EditableComponent;
  * @version $Id$
  */
 public class DeleteAction extends TextAction {
+
     public final static String ID = "edit.delete";
-    
     /** The target of the action or null if the action acts on the currently
      * focused component.
      */
     private JComponent target;
+    /** This variable keeps a strong reference on the property change listener. */
+    private PropertyChangeListener propertyHandler;
 
     /** Creates a new instance which acts on the currently focused component. */
     public DeleteAction() {
@@ -58,11 +62,24 @@ public class DeleteAction extends TextAction {
      */
     public DeleteAction(JComponent target) {
         super(ID);
-        this.target=target;
+        this.target = target;
+        if (target != null) {
+            // Register with a weak reference on the JComponent.
+            propertyHandler = new PropertyChangeListener() {
+
+                @Override
+                public void propertyChange(PropertyChangeEvent evt) {
+                    if (evt.getPropertyName().equals("enabled")) {
+                        setEnabled((Boolean) evt.getNewValue());
+                    }
+                }
+            };
+            target.addPropertyChangeListener(new WeakPropertyChangeListener(propertyHandler));
+        }
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent evt) {
         JComponent c = target;
@@ -71,12 +88,15 @@ public class DeleteAction extends TextAction {
             c = (JComponent) KeyboardFocusManager.getCurrentKeyboardFocusManager().
                     getPermanentFocusOwner();
         }
-        if (c != null) {
-            ((EditableComponent) c).delete();
-        } else {
-            deleteNextChar(evt);
+        if (c != null && c.isEnabled()) {
+            if (c instanceof EditableComponent) {
+                ((EditableComponent) c).delete();
+            } else {
+                deleteNextChar(evt);
+            }
         }
     }
+
     /** This method was copied from
      * DefaultEditorKit.DeleteNextCharAction.actionPerformed(ActionEvent).
      */
@@ -96,7 +116,8 @@ public class DeleteAction extends TextAction {
                     doc.remove(dot, 1);
                     beep = false;
                 }
-            } catch (BadLocationException bl) {}
+            } catch (BadLocationException bl) {
+            }
         }
         if (beep) {
             Toolkit.getDefaultToolkit().beep();

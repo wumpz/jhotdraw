@@ -16,6 +16,7 @@ package org.jhotdraw.app.action.edit;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import org.jhotdraw.app.action.AbstractSelectionAction;
 import org.jhotdraw.gui.datatransfer.ClipboardUtil;
 import org.jhotdraw.util.*;
 
@@ -36,14 +37,9 @@ import org.jhotdraw.util.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class CutAction extends AbstractAction {
+public class CutAction extends AbstractSelectionAction {
 
     public final static String ID = "edit.cut";
-
-    /** The target of the action or null if the action acts on the currently
-     * focused component.
-     */
-    private JComponent target;
 
     /** Creates a new instance which acts on the currently focused component. */
     public CutAction() {
@@ -56,11 +52,12 @@ public class CutAction extends AbstractAction {
      * focused component.
      */
     public CutAction(JComponent target) {
-        this.target = target;
+        super(target);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
 
+    @Override
     public void actionPerformed(ActionEvent evt) {
         JComponent c = target;
         if (c == null && (KeyboardFocusManager.getCurrentKeyboardFocusManager().
@@ -68,7 +65,7 @@ public class CutAction extends AbstractAction {
             c = (JComponent) KeyboardFocusManager.getCurrentKeyboardFocusManager().
                     getPermanentFocusOwner();
         }
-        if (c != null) {
+        if (c != null && c.isEnabled()) {
             c.getTransferHandler().exportToClipboard(
                     c,
                     ClipboardUtil.getClipboard(),

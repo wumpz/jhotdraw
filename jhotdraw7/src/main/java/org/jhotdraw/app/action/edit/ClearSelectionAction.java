@@ -11,15 +11,16 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.app.action.edit;
 
+import ch.randelshofer.quaqua.QuaquaCheckBoxUI.PropertyChangeHandler;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.text.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.app.EditableComponent;
+import org.jhotdraw.app.action.AbstractSelectionAction;
 
 /**
  * Clears (de-selects) the selected region.
@@ -38,13 +39,9 @@ import org.jhotdraw.app.EditableComponent;
  * @author Werner Randelshofer.
  * @version $Id$
  */
-public class ClearSelectionAction extends AbstractAction {
+public class ClearSelectionAction extends AbstractSelectionAction {
+
     public final static String ID = "edit.clearSelection";
-    
-    /** The target of the action or null if the action acts on the currently
-     * focused component.
-     */
-    private JComponent target;
 
     /** Creates a new instance which acts on the currently focused component. */
     public ClearSelectionAction() {
@@ -57,11 +54,11 @@ public class ClearSelectionAction extends AbstractAction {
      * focused component.
      */
     public ClearSelectionAction(JComponent target) {
-        this.target = target;
+        super(target);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent evt) {
         JComponent c = target;
@@ -70,15 +67,22 @@ public class ClearSelectionAction extends AbstractAction {
             c = (JComponent) KeyboardFocusManager.getCurrentKeyboardFocusManager().
                     getPermanentFocusOwner();
         }
-        if (c != null) {
+        if (c != null && c.isEnabled()) {
             if (c instanceof EditableComponent) {
                 ((EditableComponent) c).clearSelection();
             } else if (c instanceof JTextComponent) {
-               JTextComponent tc = ((JTextComponent) c);
-               tc.select(tc.getSelectionStart(), tc.getSelectionStart());
+                JTextComponent tc = ((JTextComponent) c);
+                tc.select(tc.getSelectionStart(), tc.getSelectionStart());
             } else {
                 c.getToolkit().beep();
             }
+        }
+    }
+
+    @Override
+    protected void updateEnabled() {
+        if (target != null) {
+            setEnabled(target.isEnabled());
         }
     }
 }

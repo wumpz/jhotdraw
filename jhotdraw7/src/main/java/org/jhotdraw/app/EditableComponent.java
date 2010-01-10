@@ -13,6 +13,8 @@
  */
 package org.jhotdraw.app;
 
+import java.beans.PropertyChangeListener;
+
 /**
  * This interface must be implemented by components
  * which are editable.
@@ -24,22 +26,41 @@ package org.jhotdraw.app;
  * @author Werner Randelshofer
  * @version $Id$
  */
-
 public interface EditableComponent {
-	/**
-	 * Deletes the component at (or after) the caret position.
-	 */
-	public void delete();
-	/**
-	 * Duplicates the selected region.
-	 */
-	public void duplicate();
-	/**
-	 * Selects all.
-	 */
-	public void selectAll();
-	/**
-	 * Selects nothing.
-	 */
-	public void clearSelection();
+
+    /** The name of the "selectionEmpty" property. */
+    public final static String SELECTION_EMPTY_PROPERTY = "selectionEmpty";
+
+    /**
+     * Deletes the selected components or the component at (or after) the
+     * caret position.
+     */
+    public void delete();
+
+    /**
+     * Duplicates the selected region.
+     */
+    public void duplicate();
+
+    /**
+     * Selects all.
+     */
+    public void selectAll();
+
+    /**
+     * Selects nothing.
+     */
+    public void clearSelection();
+
+    /**
+     * Returns true if the selection is empty.
+     * This is a bound property.
+     */
+    public boolean isSelectionEmpty();
+
+    /** Adds a property change listener. */
+    public void addPropertyChangeListener(PropertyChangeListener l);
+    
+    /** Removes a property change listener. */
+    public void removePropertyChangeListener(PropertyChangeListener l);
 }

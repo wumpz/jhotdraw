@@ -17,6 +17,7 @@ import java.awt.*;
 import java.awt.datatransfer.*;
 import java.awt.event.*;
 import javax.swing.*;
+import org.jhotdraw.app.action.AbstractSelectionAction;
 import org.jhotdraw.gui.datatransfer.ClipboardUtil;
 import org.jhotdraw.util.*;
 
@@ -37,14 +38,9 @@ import org.jhotdraw.util.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class PasteAction extends AbstractAction {
+public class PasteAction extends AbstractSelectionAction {
 
     public final static String ID = "edit.paste";
-
-    /** The target of the action or null if the action acts on the currently
-     * focused component.
-     */
-    private JComponent target;
 
     /** Creates a new instance which acts on the currently focused component. */
     public PasteAction() {
@@ -57,7 +53,7 @@ public class PasteAction extends AbstractAction {
      * focused component.
      */
     public PasteAction(JComponent target) {
-        this.target=target;
+        super(target);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
@@ -70,13 +66,19 @@ public class PasteAction extends AbstractAction {
             c = (JComponent) KeyboardFocusManager.getCurrentKeyboardFocusManager().
                     getPermanentFocusOwner();
         }
-        if (c != null) {
+        if (c != null && c.isEnabled()) {
             Transferable t = ClipboardUtil.getClipboard().getContents(c);
             if (t != null && c.getTransferHandler() != null) {
                 c.getTransferHandler().importData(
                         c,
                         t);
             }
+        }
+    }
+    @Override
+    protected void updateEnabled() {
+        if (target != null) {
+            setEnabled(target.isEnabled());
         }
     }
 }
