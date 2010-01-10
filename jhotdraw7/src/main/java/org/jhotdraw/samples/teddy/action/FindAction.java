@@ -16,38 +16,34 @@ package org.jhotdraw.samples.teddy.action;
 
 import org.jhotdraw.app.*;
 import org.jhotdraw.samples.teddy.*;
-import org.jhotdraw.util.*;
 import java.awt.event.*;
-import javax.swing.*;
+import org.jhotdraw.app.action.edit.AbstractFindAction;
 /**
  * AbstractFindAction shows the find dialog.
  *
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class FindAction extends AbstractAction {
-    public final static String ID = org.jhotdraw.app.action.edit.AbstractFindAction.ID;
+public class FindAction extends AbstractFindAction {
+    public final static String ID = AbstractFindAction.ID;
     private FindDialog findDialog;
-    private Application app;
-    private ResourceBundleUtil labels =
-            ResourceBundleUtil.getBundle("org.jhotdraw.samples.teddy.Labels");
     
     /**
      * Creates a new instance.
      */
-    public FindAction(Application app) {
-        this.app = app;
-        labels.configureAction(this, ID);
+    public FindAction(Application app, View v) {
+        super(app,v);
     }
     
+    @Override
     public void actionPerformed(ActionEvent e) {
         if (findDialog == null) {
-            findDialog = new FindDialog(app);
-            if (app instanceof OSXApplication) {
+            findDialog = new FindDialog(getApplication());
+            if (getApplication() instanceof OSXApplication) {
                 findDialog.addWindowListener(new WindowAdapter() {
                     @Override public void windowClosing(WindowEvent evt) {
                         if (findDialog != null) {
-                            ((OSXApplication) app).removePalette(findDialog);
+                            ((OSXApplication) getApplication()).removePalette(findDialog);
                             findDialog.setVisible(false);
                         }
                     }
@@ -55,8 +51,8 @@ public class FindAction extends AbstractAction {
             }
         }
         findDialog.setVisible(true);
-        if (app instanceof OSXApplication) {
-            ((OSXApplication) app).addPalette(findDialog);
+        if (getApplication() instanceof OSXApplication) {
+            ((OSXApplication) getApplication()).addPalette(findDialog);
         }
     }
 }

@@ -18,6 +18,7 @@ import org.jhotdraw.app.action.*;
 import org.jhotdraw.samples.teddy.*;
 import org.jhotdraw.util.*;
 import java.awt.event.*;
+import javax.swing.Action;
 
 /**
  * ToggleStatusBarAction.
@@ -47,10 +48,11 @@ public class ToggleStatusBarAction extends AbstractViewAction {
     @Override
     protected void updateView() {
         putValue(
-                ActionUtil.SELECTED_KEY,
+                Action.SELECTED_KEY,
                 getActiveView() != null && getActiveView().isStatusBarVisible());
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
         getActiveView().setStatusBarVisible(!getActiveView().isStatusBarVisible());
     }

@@ -35,13 +35,14 @@ public class TeddyApplicationModel extends DefaultApplicationModel {
     public TeddyApplicationModel() {
     }
     
+    @Override
     public ActionMap createActionMap(Application a, View v) {
         ActionMap m = super.createActionMap(a, v);
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         AbstractAction aa;
 
-        m.put(FindAction.ID, new FindAction(a));
+        m.put(FindAction.ID, new FindAction(a,v));
         m.put(ToggleLineWrapAction.ID, new ToggleLineWrapAction(a,v));
         m.put(ToggleStatusBarAction.ID, new ToggleStatusBarAction(a,v));
         m.put(ToggleLineNumbersAction.ID, new ToggleLineNumbersAction(a,v));
