@@ -22,12 +22,49 @@ import javax.swing.*;
 import org.jhotdraw.beans.Disposable;
 
 /**
- * Provides a <em>view</em> on a document or a set of related documents within
- * an {@link Application}.
+ * Provides a <em>view</em> on a document within an {@link Application}.
  * <p>
- * After a view has been initialized using {@code init()},
- * Immediately after {@code init()}, method {@code clear()} or method
- * {@code read()} must be called to fully initialize the View.
+ * The document is identified by an {@code URI}. If the same {@code URI} is
+ * opened in multiple views, the application sets a 'multiple open ID' on
+ * the view, so that the user can distinguish between the views.
+ * <p>
+ * The life of view objects is managed by an application. See the class
+ * comment of {@link Application} on how to launch an application.
+ * <p>
+ * The lifecycle of a view consists of the following steps:
+ * <ol>
+ * <li><b>Creation</b><br>
+ * The application instantiates the view object by calling {@code newInstance()}
+ * on the class of the view.
+ * </li>
+ * <li><b>Initialisation</b><br>
+ * The application calls the following methods: {@code setActionMap();
+ * setApplication(); init()}.
+ * Then it either calls {@code clear()} or {@code read()} on a worker thread.
+ * </li>
+ * <li><b>Start</b><br>
+ * The application adds the component of the view to a container (for example
+ * a JFrame) and then calls {@code start()}.
+ * </li>
+ * <li><b>Activation</b><br>
+ * When a view becomes the active view of the application, application calls
+ * {@code activate()}.
+ * </li>
+ * <li><b>Deactivation</b><br>
+ * When a view is not anymore the active view of the application, application
+ * calls {@code deactivate()}. At a later time, the view may become activated again.
+ * </li>
+ * <li><b>Stop</b><br>
+ * The application calls {@code stop()} on the view and then removes the
+ * component from its container. At a later time, the view may be started
+ * again.
+ * </li>
+ * <li><b>Dispose</b><br>
+ * When the view is no longer needed, application calls {@code dispose()} on
+ * the view, followed by {@code setApplication(null)} and then removes all
+ * references to it, so that it can be garbage collected.
+ * </li>
+ * </ol>
  *
  * <hr>
  * <b>Design Patterns</b>

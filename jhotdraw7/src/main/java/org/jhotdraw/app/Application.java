@@ -22,14 +22,14 @@ import java.net.URI;
 import org.jhotdraw.gui.URIChooser;
 
 /**
- * An <em>application</em> handles the lifecycle of {@link View}s and provides
- * windows to present them on screen. 
- * <p>
- * Depending on the document interface style used by the application.
- * An application can handle multiple views at the same time, or only one.
+ * An <em>application</em> handles the lifecycle of {@link View} objects and
+ * provides windows to present them on screen.
  * <p>
  * An application owns a {@link ApplicationModel} which provides meta-data about
  * the application, actions and factory methods for creating the views.
+ * <p>
+ * Depending on the document interface style used by the application, an
+ * application can handle multiple views at the same time, or only one.
  * <p>
  * Typical document interface styles are the Single Document Interface (SDI),
  * the Multiple Document Interface (MDI) and the Mac OS X Application Document
@@ -40,7 +40,7 @@ import org.jhotdraw.gui.URIChooser;
  * <pre>
  * public class MyMainClass {
  *     public static void main(String[] args) {
- *         Application app = new DefaultSDIApplication();
+ *         Application app = new SDIApplication(); // or OSXApplication(), MDIApplication().
  *         DefaultApplicationModel model = new DefaultApplicationModel();
  *         model.setName("MyApplication");
  *         model.setVersion("1.0");
