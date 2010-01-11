@@ -52,6 +52,7 @@ public class OpenRecentFileAction extends AbstractApplicationAction {
         putValue(Action.NAME, URIUtil.getName(uri));
     }
 
+    @Override
     public void actionPerformed(ActionEvent evt) {
         final Application app = getApplication();
         if (app.isEnabled()) {
@@ -81,7 +82,7 @@ public class OpenRecentFileAction extends AbstractApplicationAction {
         app.setEnabled(true);
 
 
-        // If there is another view with we set the multiple open
+        // If there is another view with the same URI we set the multiple open
         // id of our view to max(multiple open id) + 1.
         int multipleOpenId = 1;
         for (View aView : app.views()) {

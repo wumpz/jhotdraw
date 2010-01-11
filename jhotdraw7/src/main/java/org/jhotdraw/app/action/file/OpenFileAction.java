@@ -64,6 +64,7 @@ public class OpenFileAction extends AbstractApplicationAction {
         return getApplication().getOpenChooser(null);
     }
 
+    @Override
     public void actionPerformed(ActionEvent evt) {
         final Application app = getApplication();
         if (app.isEnabled()) {
@@ -106,7 +107,7 @@ public class OpenFileAction extends AbstractApplicationAction {
         app.setEnabled(true);
         view.setEnabled(false);
 
-        // If there is another view with we set the multiple open
+        // If there is another view with the same URI we set the multiple open
         // id of our view to max(multiple open id) + 1.
         int multipleOpenId = 1;
         for (View aView : app.views()) {
@@ -122,6 +123,7 @@ public class OpenFileAction extends AbstractApplicationAction {
         // Open the file
         view.execute(new Worker() {
 
+            @Override
             public Object construct() throws IOException {
                 boolean exists = true;
                 try {
@@ -186,12 +188,14 @@ public class OpenFileAction extends AbstractApplicationAction {
         final JDialog dialog = createDialog(chooser, finalParent);
         dialog.addWindowListener(new WindowAdapter() {
 
+            @Override
             public void windowClosing(WindowEvent e) {
                 returnValue[0] = JFileChooser.CANCEL_OPTION;
             }
         });
         chooser.addActionListener(new ActionListener() {
 
+            @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getActionCommand().equals("CancelSelection")) {
                     returnValue[0] = JFileChooser.CANCEL_OPTION;
