@@ -31,26 +31,15 @@ import org.jhotdraw.net.URIUtil;
  * Presents a file chooser to the user and then exports the contents of the
  * active view to the chosen file.
  * <p>
- * This action requires that the active view implements the
- * {@link org.jhotdraw.app.ExportableView} interface.
+ * This action requires that {@link ApplicationModel#createExportChooser}
+ * creates an appropriate {@link URIChooser}.
  * <p>
  * This action is called when the user selects the Export item in the File
  * menu. The menu item is automatically created by the application.
  * <p>
  * If you want this behavior in your application, you have to create an action
  * with this ID and put it in your {@code ApplicationModel} in method
- * {@link ApplicationModel#initApplication}. The views created by
- * {@code ApplicationModel} must implement the {@link ExportableView} interface.
- *
- * <hr>
- * <b>Design Patterns</b>
- *
- * <p><em>Framework</em><br>
- * The interfaces and classes listed below define together the contracts
- * of a smaller framework inside of the JHotDraw framework for document oriented
- * applications.<br>
- * Contract: {@link org.jhotdraw.app.ExportableView}, {@link org.jhotdraw.app.action.file.ExportFileAction}.
- * <hr>
+ * {@link ApplicationModel#initApplication}. 
  *
  * @author Werner Randelshofer
  * @version $Id$

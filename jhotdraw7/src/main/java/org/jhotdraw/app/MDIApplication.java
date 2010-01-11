@@ -493,7 +493,7 @@ public class MDIApplication extends AbstractApplication {
     /**
      * Updates the title of a view and displays it in the given frame.
      *
-     * @param view The view.
+     * @param v The view.
      * @param f The frame.
      */
     protected void updateViewTitle(View v, JInternalFrame f) {

@@ -261,19 +261,19 @@ public class OSXApplication extends AbstractApplication {
     /**
      * Updates the title of a view and displays it in the given frame.
      * 
-     * @param view The view.
+     * @param v The view.
      * @param f The frame.
      */
-    protected void updateViewTitle(View p, JFrame f) {
+    protected void updateViewTitle(View v, JFrame f) {
         String title;
-        URI uri = p.getURI();
+        URI uri = v.getURI();
         if (uri == null) {
             title = labels.getString("unnamedFile");
         } else {
             title = URIUtil.getName(uri);
         }
-        p.setTitle(labels.getFormatted("frame.title", title, getName(), p.getMultipleOpenId()));
-        f.setTitle(p.getTitle());
+        v.setTitle(labels.getFormatted("frame.title", title, getName(), v.getMultipleOpenId()));
+        f.setTitle(v.getTitle());
 
         // Adds a proxy icon for the file to the title bar
         // See http://developer.apple.com/technotes/tn2007/tn2196.html#WINDOW_DOCUMENTFILE
