@@ -115,6 +115,14 @@ public interface ApplicationModel {
      */
     public URIChooser createOpenChooser(Application a, View v);
     /**
+     * Creates an open chooser for directories.
+     *
+     * @param a Application.
+     * @param v The view for which the chooser needs to be created, or null
+     * if the chooser is shared by multiple views.
+     */
+    public URIChooser createOpenDirectoryChooser(Application a, View v);
+    /**
      * Creates a save chooser.
      *
      * @param a Application.

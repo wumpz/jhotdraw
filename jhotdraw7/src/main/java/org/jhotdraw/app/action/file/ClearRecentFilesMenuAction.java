@@ -26,8 +26,8 @@ import org.jhotdraw.app.action.AbstractApplicationAction;
  * This action is called when the user selects the Clear Recent Files item in
  * the Recent Files sub-menu of the File menu. The action and the menu item
  * is automatically created by the application, when the
- * {@code ApplicationModel} provides a {@code FileLoadAction} or a
- * {@code FileOpenAction}.
+ * {@code ApplicationModel} provides a {@code LoadFileAction} or a
+ * {@code OpenFileAction}.
  *
  *
  * @author Werner Randelshofer.

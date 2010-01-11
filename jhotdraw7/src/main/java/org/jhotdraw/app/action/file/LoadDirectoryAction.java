@@ -25,30 +25,11 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * This action is called when the user selects the Load Directory item in the File
  * menu. The menu item is automatically created by the application.
  * <p>
- * This action requires that the active view implements the
- * {@link org.jhotdraw.app.DirectoryView} interface.
- * <p>
  * This action is designed for applications which do not automatically
  * create a new view for each opened file. This action goes together with
- * {@code FileClearAction}, {@code FileNewWindowAction}, {@code LoadFileAction},
- * {@code LoadDirectoryAction} and {@code FileCloseAction}.
- * This action should not be used together with {@code FileOpenAction}.
- * <p>
- * If you want this behavior in your application, you have to create it
- * and put it in your {@code ApplicationModel} in method
- * {@link ApplicationModel#initApplication}. The views created by
- * {@code ApplicationModel} must implement the {@link DirectoryView} interface.
- * <p>
- *
- * <hr>
- * <b>Design Patterns</b>
- *
- * <p><em>Framework</em><br>
- * The interfaces and classes listed below define together the contracts
- * of a smaller framework inside of the JHotDraw framework for document oriented
- * applications.<br>
- * Contract: {@link org.jhotdraw.app.DirectoryView}, {@link LoadDirectoryAction}.
- * <hr>
+ * {@code ClearFileAction}, {@code NewWindowAction}, {@code LoadFileAction},
+ * {@code LoadDirectoryAction} and {@code CloseFileAction}.
+ * This action should not be used together with {@code OpenDirectoryAction}.
  *
  * @author Werner Randelshofer, Staldenmattweg 2, CH-6405 Immensee
  * @version $Id$
@@ -64,6 +45,6 @@ public class LoadDirectoryAction extends LoadFileAction {
     }
     @Override
     protected URIChooser getChooser(View view) {
-        return ((DirectoryView) view).getOpenDirectoryChooser();
+        return getApplication().getModel().createOpenDirectoryChooser(getApplication(), view);
     }
 }

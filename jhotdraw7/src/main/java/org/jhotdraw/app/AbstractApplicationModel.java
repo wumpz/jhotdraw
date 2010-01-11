@@ -149,6 +149,13 @@ public abstract class AbstractApplicationModel extends AbstractBean
 
         return c;
     }
+    @Override
+    public URIChooser createOpenDirectoryChooser(Application a, View v) {
+        JFileURIChooser c = new JFileURIChooser();
+        c.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        return c;
+    }
+
 
     @Override
     public URIChooser createSaveChooser(Application a, View v) {

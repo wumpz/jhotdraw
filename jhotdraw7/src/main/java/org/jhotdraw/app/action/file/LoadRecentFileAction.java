@@ -32,7 +32,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * This action is called when the user selects an item in the Recent Files
  * submenu of the File menu. The action and the menu item is automatically
  * created by the application, when the {@code ApplicationModel} provides a
- * {@code FileLoadAction}.
+ * {@code LoadFileAction}.
  *
  *
  * @author Werner Randelshofer.

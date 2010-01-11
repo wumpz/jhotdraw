@@ -50,6 +50,6 @@ public class OpenDirectoryAction extends OpenFileAction {
     }
     @Override
     protected URIChooser getChooser(View view) {
-        return ((DirectoryView) view).getOpenDirectoryChooser();
+        return getApplication().getModel().createOpenDirectoryChooser(getApplication(), view);
     }
 }

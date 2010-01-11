@@ -35,7 +35,7 @@ import org.jhotdraw.net.URIUtil;
  * This action is called when the user selects an item in the Recent Files
  * submenu of the File menu. The action and the menu item is automatically
  * created by the application, when the {@code ApplicationModel} provides a
- * {@code FileOpenAction}.
+ * {@code OpenFileAction}.
  *
  * @author Werner Randelshofer.
  * @version $Id$

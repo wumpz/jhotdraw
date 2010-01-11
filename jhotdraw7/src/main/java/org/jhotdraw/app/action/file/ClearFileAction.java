@@ -34,7 +34,7 @@ import org.jhotdraw.app.action.AbstractSaveUnsavedChangesAction;
  * create a new view for each opened file. This action goes together with
  * {@link NewWindowAction}, {@link LoadFileAction}, {@link LoadDirectoryAction}
  * and {@link CloseFileAction}.
- * This action should not be used together with {@code FileNewAction}.
+ * This action should not be used together with {@code NewFileAction}.
  *
  * @author Werner Randelshofer
  * @version $Id$
