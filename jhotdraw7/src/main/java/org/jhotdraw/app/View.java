@@ -22,11 +22,14 @@ import javax.swing.*;
 import org.jhotdraw.beans.Disposable;
 
 /**
- * Provides a <em>view</em> on a document within an {@link Application}.
+ * A <em>view</em> paints a document on a {@code JComponent} within an
+ * {@link Application}.
  * <p>
- * The document is identified by an {@code URI}. If the same {@code URI} is
- * opened in multiple views, the application sets a 'multiple open ID' on
- * the view, so that the user can distinguish between the views.
+ * The document is identified by an {@code URI} (for example a text document
+ * which is identified by the URI {@code "file://home/readme.txt"}).
+ * If the same {@code URI} is opened in multiple views, the application sets
+ * a 'multiple open ID' on the view, so that the user can distinguish between
+ * the views.
  * <p>
  * The life of view objects is managed by an application. See the class
  * comment of {@link Application} on how to launch an application.

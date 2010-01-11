@@ -23,8 +23,8 @@ import java.beans.*;
 import javax.swing.*;
 
 /**
- * A <em>drawing view</em> paints a {@link Drawing} on a JComponent. A drawing
- * view can hold only one drawing at a time, but a drawing can be in multiple
+ * A <em>drawing view</em> paints a {@link Drawing} on a {@code JComponent}.
+ * A drawing view can hold only one drawing at a time, but a drawing can be in multiple
  * drawing views at the same time.
  * <p>
  * To support editing, a drawing view needs to be added to a {@link DrawingEditor}.
