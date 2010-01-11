@@ -166,4 +166,4 @@ public class OpenApplicationFileAction extends AbstractApplicationAction {
             }
         });
     }
-    }
+}

@@ -64,6 +64,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     public AbstractApplication() {
     }
 
+    @Override
     public void init() {
         prefs = PreferencesUtil.userNodeForPackage((getModel() == null) ? getClass() : getModel().getClass());
         int count = prefs.getInt("recentFileCount", 0);
@@ -79,22 +80,28 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         }
     }
 
+    @Override
     public void start() {
-        final View p = createView();
-        add(p);
-        p.setEnabled(false);
-        show(p);
-        p.execute(new Worker<Object>() {
+        final View v = createView();
+        add(v);
+        v.setEnabled(false);
+        show(v);
+
+        // Set the start view immediately active, so that
+        // ApplicationOpenFileAction picks it up on Mac OS X.
+        setActiveView(v);
+
+        v.execute(new Worker<Object>() {
 
             @Override
             public Object construct() {
-                p.clear();
+                v.clear();
                 return null;
             }
 
             @Override
             public void finished() {
-                p.setEnabled(true);
+                v.setEnabled(true);
             }
         });
     }
@@ -106,12 +113,14 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         return v;
     }
 
+    @Override
     public void setModel(ApplicationModel newValue) {
         ApplicationModel oldValue = model;
         model = newValue;
         firePropertyChange("model", oldValue, newValue);
     }
 
+    @Override
     public ApplicationModel getModel() {
         return model;
     }
