@@ -64,7 +64,7 @@ public abstract class AbstractLineDecoration implements LineDecoration {
      * Points. (template method)
      */
     public void draw(Graphics2D g, Figure f, Point2D.Double p1, Point2D.Double p2) {
-        GeneralPath path = getTransformedDecoratorPath(f, p1, p2);
+        Path2D.Double path = getTransformedDecoratorPath(f, p1, p2);
         Color color;
         if (isFilled) {
             if (isSolid) {
@@ -91,7 +91,7 @@ public abstract class AbstractLineDecoration implements LineDecoration {
      * Returns the drawing area of the decorator.
      */
     public Rectangle2D.Double getDrawingArea(Figure f, Point2D.Double p1, Point2D.Double p2) {
-        GeneralPath path = getTransformedDecoratorPath(f, p1, p2);
+        Path2D.Double path = getTransformedDecoratorPath(f, p1, p2);
         Rectangle2D b = path.getBounds2D();
         Rectangle2D.Double area = new Rectangle2D.Double(b.getX(), b.getY(), b.getWidth(), b.getHeight());
         
@@ -125,8 +125,8 @@ public abstract class AbstractLineDecoration implements LineDecoration {
         return getDecoratorPathRadius(f) * scaleFactor;
     }
     
-    private GeneralPath getTransformedDecoratorPath(Figure f, Point2D.Double p1, Point2D.Double p2) {
-        GeneralPath path = getDecoratorPath(f);
+    private Path2D.Double getTransformedDecoratorPath(Figure f, Point2D.Double p1, Point2D.Double p2) {
+        Path2D.Double path = getDecoratorPath(f);
         double strokeWidth = f.get(STROKE_WIDTH);
         
         AffineTransform transform = new AffineTransform();
@@ -154,7 +154,7 @@ public abstract class AbstractLineDecoration implements LineDecoration {
     /**
      * Hook method to calculate the path of the decorator.
      */
-    protected abstract GeneralPath getDecoratorPath(Figure f);
+    protected abstract Path2D.Double getDecoratorPath(Figure f);
     
     /**
      * Hook method to calculate the radius of the decorator path.

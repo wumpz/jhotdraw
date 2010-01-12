@@ -121,8 +121,8 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
 
     private Shape getTextShape() {
         if (cachedTextShape == null) {
-            GeneralPath shape;
-            cachedTextShape = shape = new GeneralPath();
+            Path2D.Double shape;
+            cachedTextShape = shape = new Path2D.Double();
             if (getText() != null || isEditable()) {
 
                 Font font = getFont();
@@ -188,7 +188,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
      *        values
      * @return Returns the actual bounds of the paragraph.
      */
-    private Rectangle2D.Double appendParagraph(GeneralPath shape,
+    private Rectangle2D.Double appendParagraph(Path2D.Double shape,
             AttributedCharacterIterator styledText,
             float verticalPos, float maxVerticalPos,
             float leftMargin, float rightMargin,

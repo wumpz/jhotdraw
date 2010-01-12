@@ -24,21 +24,21 @@ import java.awt.geom.*;
  * @version $Id: GeneralPathTip.java -1   $
  */
 public class GeneralPathTip extends AbstractLineDecoration {
-    private GeneralPath path;
+    private Path2D.Double path;
     double decorationRadius;
     
     /** Creates a new instance. */
-    public GeneralPathTip(GeneralPath path, double decorationRadius) {
+    public GeneralPathTip(Path2D.Double path, double decorationRadius) {
         this(path, decorationRadius, false, true, false);
     }
-    public GeneralPathTip(GeneralPath path, double decorationRadius, boolean isFilled, boolean isStroked, boolean isSolid) {
+    public GeneralPathTip(Path2D.Double path, double decorationRadius, boolean isFilled, boolean isStroked, boolean isSolid) {
         super(isFilled, isStroked, isSolid);
         this.path = path;
         this.decorationRadius = decorationRadius;
     }
     
-    protected GeneralPath getDecoratorPath(org.jhotdraw.draw.Figure f) {
-        return (GeneralPath) path.clone();
+    protected Path2D.Double getDecoratorPath(org.jhotdraw.draw.Figure f) {
+        return (Path2D.Double) path.clone();
     }
     
     protected double getDecoratorPathRadius(org.jhotdraw.draw.Figure f) {

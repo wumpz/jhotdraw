@@ -66,9 +66,9 @@ public class EnhancedPath extends ArrayList<EnhancedPath.Segment>
         }
     }
     /**
-     * We cache a GeneralPath instance to speed up Shape operations.
+     * We cache a Path2D.Double instance to speed up Shape operations.
      */
-    private transient GeneralPath generalPath;
+    private transient Path2D.Double generalPath;
     /**
      * We cache a Rectangle2D.Double instance to speed up getBounds operations.
      */
@@ -76,7 +76,7 @@ public class EnhancedPath extends ArrayList<EnhancedPath.Segment>
     /**
      * The winding rule for filling the bezier path.
      */
-    private int windingRule = GeneralPath.WIND_EVEN_ODD;
+    private int windingRule = Path2D.Double.WIND_EVEN_ODD;
     
     
     public Rectangle getBounds() {
@@ -221,9 +221,9 @@ public class EnhancedPath extends ArrayList<EnhancedPath.Segment>
         generalPath = null;
         bounds = null;
     }
-    /** Converts the EnhancedPath into a GeneralPath. */
-    public GeneralPath toGeneralPath() {
-        GeneralPath gp = new GeneralPath();
+    /** Converts the EnhancedPath into a Path2D.Double. */
+    public Path2D.Double toGeneralPath() {
+        Path2D.Double gp = new Path2D.Double();
         // XXX implement me
         return gp;
     }
@@ -336,7 +336,7 @@ public class EnhancedPath extends ArrayList<EnhancedPath.Segment>
     }
     /**
      * Sets winding rule for filling the bezier path.
-     * @param newValue Must be GeneralPath.WIND_EVEN_ODD or GeneralPath.WIND_NON_ZERO.
+     * @param newValue Must be Path2D.Double.WIND_EVEN_ODD or Path2D.Double.WIND_NON_ZERO.
      */
     public void setWindingRule(int newValue) {
         if (newValue != windingRule) {
@@ -347,7 +347,7 @@ public class EnhancedPath extends ArrayList<EnhancedPath.Segment>
     }
     /**
      * Gets winding rule for filling the bezier path.
-     * @return GeneralPath.WIND_EVEN_ODD or GeneralPath.WIND_NON_ZERO.
+     * @return Path2D.Double.WIND_EVEN_ODD or Path2D.Double.WIND_NON_ZERO.
      */
     public int getWindingRule() {
         return windingRule;

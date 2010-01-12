@@ -128,9 +128,9 @@ public class BezierFigure extends AbstractAttributedFigure {
             if (grow == 0d) {
                 g.draw(path);
             } else {
-                GrowStroke gs = new GrowStroke((float) grow,
-                        (float) (AttributeKeys.getStrokeTotalWidth(this) *
-                        get(STROKE_MITER_LIMIT))
+                GrowStroke gs = new GrowStroke(grow,
+                        AttributeKeys.getStrokeTotalWidth(this) *
+                        get(STROKE_MITER_LIMIT)
                         );
                 g.draw(gs.createStrokedShape(path));
             }
@@ -170,9 +170,9 @@ public class BezierFigure extends AbstractAttributedFigure {
             if (grow == 0d) {
                 g.fill(path);
             } else {
-                GrowStroke gs = new GrowStroke((float) grow,
-                        (float) (AttributeKeys.getStrokeTotalWidth(this) *
-                        get(STROKE_MITER_LIMIT))
+                GrowStroke gs = new GrowStroke(grow,
+                        AttributeKeys.getStrokeTotalWidth(this) *
+                        get(STROKE_MITER_LIMIT)
                         );
                 g.fill(gs.createStrokedShape(path));
             }
@@ -187,9 +187,9 @@ public class BezierFigure extends AbstractAttributedFigure {
                 return true;
             }
             double grow = AttributeKeys.getPerpendicularHitGrowth(this) * 2d;
-            GrowStroke gs = new GrowStroke((float) grow,
-                    (float) (AttributeKeys.getStrokeTotalWidth(this) *
-                    get(STROKE_MITER_LIMIT))
+            GrowStroke gs = new GrowStroke(grow,
+                    AttributeKeys.getStrokeTotalWidth(this) *
+                    get(STROKE_MITER_LIMIT)
                     );
             if (gs.createStrokedShape(path).contains(p)) {
                 return true;
@@ -307,7 +307,7 @@ public class BezierFigure extends AbstractAttributedFigure {
         if (key == PATH_CLOSED) {
             path.setClosed((Boolean) newValue);
         } else if (key == WINDING_RULE) {
-            path.setWindingRule(newValue == AttributeKeys.WindingRule.EVEN_ODD ? GeneralPath.WIND_EVEN_ODD : GeneralPath.WIND_NON_ZERO);
+            path.setWindingRule(newValue == AttributeKeys.WindingRule.EVEN_ODD ? Path2D.Double.WIND_EVEN_ODD : Path2D.Double.WIND_NON_ZERO);
         }
         super.set(key, newValue);
         invalidate();
@@ -592,9 +592,9 @@ public class BezierFigure extends AbstractAttributedFigure {
             if (grow == 0d) {
                 return path.chop(p);
             } else {
-                GrowStroke gs = new GrowStroke((float) grow,
-                        (float) (AttributeKeys.getStrokeTotalWidth(this) *
-                        get(STROKE_MITER_LIMIT))
+                GrowStroke gs = new GrowStroke(grow,
+                        AttributeKeys.getStrokeTotalWidth(this) *
+                        get(STROKE_MITER_LIMIT)
                         );
                 return Geom.chop(gs.createStrokedShape(path), p);
             }
@@ -630,7 +630,7 @@ public class BezierFigure extends AbstractAttributedFigure {
     @Override public boolean handleMouseClick(Point2D.Double p, MouseEvent evt, DrawingView view) {
         if (evt.getClickCount() == 2 && view.getHandleDetailLevel() % 2 == 0) {
             willChange();
-            final int index = splitSegment(p, (float) (5f / view.getScaleFactor()));
+            final int index = splitSegment(p, 5f / view.getScaleFactor());
             if (index != -1) {
                 final BezierPath.Node newNode = getNode(index);
                 fireUndoableEditHappened(new AbstractUndoableEdit() {

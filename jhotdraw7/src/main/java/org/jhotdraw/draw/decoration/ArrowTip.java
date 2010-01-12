@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.draw.decoration;
 
 import org.jhotdraw.draw.*;
@@ -28,18 +27,19 @@ import org.jhotdraw.xml.DOMStorable;
  * @version $Id: ArrowTip.java -1   $
  */
 public class ArrowTip extends AbstractLineDecoration
-implements DOMStorable {
+        implements DOMStorable {
+
     /**
      * Pointiness of arrow.
      */
-    private double  angle;         
-    private double  outerRadius;   
-    private double  innerRadius;
-    
+    private double angle;
+    private double outerRadius;
+    private double innerRadius;
+
     public ArrowTip() {
         this(0.35, 12, 11.3);
     }
-    
+
     /**
      * Constructs an arrow tip with the specified angle and outer and inner 
      * radius.
@@ -47,6 +47,7 @@ implements DOMStorable {
     public ArrowTip(double angle, double outerRadius, double innerRadius) {
         this(angle, outerRadius, innerRadius, true, false, true);
     }
+
     /**
      * Constructs an arrow tip with the specified parameters.
      */
@@ -56,33 +57,35 @@ implements DOMStorable {
         this.outerRadius = outerRadius;
         this.innerRadius = innerRadius;
     }
-    
-    
-    protected GeneralPath getDecoratorPath(Figure f) {
+
+    @Override
+    protected Path2D.Double getDecoratorPath(Figure f) {
         // FIXME - This should take the stroke join an the outer radius into
         // account to compute the offset properly.
         double offset = (isStroked()) ? 1 : 0;
-        
-        
-        
-        GeneralPath path = new GeneralPath();
-        path.moveTo((float) (outerRadius * Math.sin(-angle)), (float) (offset + outerRadius * Math.cos(-angle)));
-        path.lineTo(0, (float) offset);
-        path.lineTo((float) (outerRadius * Math.sin(angle)), (float) (offset + outerRadius * Math.cos(angle)));
+
+
+
+        Path2D.Double path = new Path2D.Double();
+        path.moveTo((outerRadius * Math.sin(-angle)), (offset + outerRadius * Math.cos(-angle)));
+        path.lineTo(0, offset);
+        path.lineTo((outerRadius * Math.sin(angle)), (offset + outerRadius * Math.cos(angle)));
         if (innerRadius != 0) {
-            path.lineTo(0, (float) (innerRadius + offset));
+            path.lineTo(0, (innerRadius + offset));
             path.closePath();
         }
-        
+
         return path;
     }
-    
+
+    @Override
     protected double getDecoratorPathRadius(Figure f) {
         double offset = (isStroked()) ? 0.5 : -0.1;
 
         return innerRadius + offset;
     }
-    
+
+    @Override
     public void read(DOMInput in) {
         angle = in.getAttribute("angle", 0.35f);
         innerRadius = in.getAttribute("innerRadius", 12f);
@@ -91,7 +94,8 @@ implements DOMStorable {
         setStroked(in.getAttribute("isStroked", false));
         setSolid(in.getAttribute("isSolid", false));
     }
-    
+
+    @Override
     public void write(DOMOutput out) {
         out.addAttribute("angle", angle);
         out.addAttribute("innerRadius", innerRadius);
@@ -100,5 +104,4 @@ implements DOMStorable {
         out.addAttribute("isStroked", isStroked());
         out.addAttribute("isSolid", isSolid());
     }
-    
 }

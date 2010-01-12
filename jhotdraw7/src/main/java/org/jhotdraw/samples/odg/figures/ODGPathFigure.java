@@ -48,7 +48,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
     /**
      * This cachedPath is used for drawing.
      */
-    private transient GeneralPath cachedPath;
+    private transient Path2D.Double cachedPath;
     //private transient Rectangle2D.Double cachedDrawingArea;
     
     private final static boolean DEBUG = false;
@@ -139,12 +139,12 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
         cachedDrawingArea = null;
     }
     
-    protected GeneralPath getPath() {
+    protected Path2D.Double getPath() {
         if (cachedPath == null) {
-            cachedPath = new GeneralPath();
+            cachedPath = new Path2D.Double();
             cachedPath.setWindingRule(get(WINDING_RULE) == WindingRule.EVEN_ODD ?
-                GeneralPath.WIND_EVEN_ODD :
-                GeneralPath.WIND_NON_ZERO
+                Path2D.Double.WIND_EVEN_ODD :
+                Path2D.Double.WIND_NON_ZERO
                     );
             for (Figure child : getChildren()) {
                 ODGBezierFigure b = (ODGBezierFigure) child;
@@ -163,10 +163,10 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
             } else if (get(STROKE_CAP) != BasicStroke.CAP_BUTT) {
                 width += strokeTotalWidth * 2;
             }
-            GeneralPath gp = (GeneralPath) getPath();
+            Path2D.Double gp = (Path2D.Double) getPath();
             Rectangle2D strokeRect = new Rectangle2D.Double(0,0,width,width);
             if (get(TRANSFORM) != null) {
-                gp = (GeneralPath) gp.clone();
+                gp = (Path2D.Double) gp.clone();
                 gp.transform(get(TRANSFORM));
                 strokeRect = get(TRANSFORM).createTransformedShape(strokeRect).getBounds2D();
             }
@@ -206,8 +206,8 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
                 return true;
             }
             double grow = AttributeKeys.getPerpendicularHitGrowth(this) * 2d;
-            GrowStroke gs = new GrowStroke((float) grow,
-                    (float) (AttributeKeys.getStrokeTotalWidth(this) *
+            GrowStroke gs = new GrowStroke(grow,
+                    (AttributeKeys.getStrokeTotalWidth(this) *
                     get(STROKE_MITER_LIMIT))
                     );
             if (gs.createStrokedShape(getPath()).contains(p)) {
@@ -430,7 +430,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
         if (evt.getClickCount() == 2 && view.getHandleDetailLevel() % 2 == 0) {
             for (Figure child : getChildren()) {
                 ODGBezierFigure bf = (ODGBezierFigure) child;
-                int index = bf.getBezierPath().findSegment(p, (float) (5f / view.getScaleFactor()));
+                int index = bf.getBezierPath().findSegment(p, 5f / view.getScaleFactor());
                 if (index != -1) {
                     bf.handleMouseClick(p, evt, view);
                     evt.consume();

@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.geom;
 
 import java.awt.*;
@@ -28,50 +27,51 @@ import java.awt.geom.*;
  * @version $Id$
  */
 public class GrowStroke extends DoubleStroke {
-    private float grow;
-    
-    public GrowStroke(float grow, float miterLimit) {
-        super(grow * 2f, 1f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL, miterLimit, null, 0f);
-   this.grow = grow;
+
+    private double grow;
+
+    public GrowStroke(double grow, double miterLimit) {
+        super(grow * 2d, 1d, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL, miterLimit, null, 0f);
+        this.grow = grow;
     }
-    
+
     public Shape createStrokedShape(Shape s) {
 
-    BezierPath bp = new BezierPath();
-        GeneralPath left = new GeneralPath();
-        GeneralPath right = new GeneralPath();
-        
-        if (s instanceof GeneralPath) {
-            left.setWindingRule(((GeneralPath) s).getWindingRule());
-            right.setWindingRule(((GeneralPath) s).getWindingRule());
+        BezierPath bp = new BezierPath();
+        Path2D.Double left = new Path2D.Double();
+        Path2D.Double right = new Path2D.Double();
+
+        if (s instanceof Path2D.Double) {
+            left.setWindingRule(((Path2D.Double) s).getWindingRule());
+            right.setWindingRule(((Path2D.Double) s).getWindingRule());
         } else if (s instanceof BezierPath) {
             left.setWindingRule(((BezierPath) s).getWindingRule());
             right.setWindingRule(((BezierPath) s).getWindingRule());
         }
-        
+
         double[] coords = new double[6];
         // FIXME - We only do a flattened path
-        for (PathIterator i = s.getPathIterator(null, 0.1d); ! i.isDone(); i.next()) {
+        for (PathIterator i = s.getPathIterator(null, 0.1d); !i.isDone(); i.next()) {
             int type = i.currentSegment(coords);
-            
+
             switch (type) {
-                case PathIterator.SEG_MOVETO :
+                case PathIterator.SEG_MOVETO:
                     if (bp.size() != 0) {
                         traceStroke(bp, left, right);
                     }
                     bp.clear();
                     bp.moveTo(coords[0], coords[1]);
                     break;
-                case PathIterator.SEG_LINETO :
-                    if (coords[0] != bp.get(bp.size() - 1).x[0] ||
-                            coords[1] != bp.get(bp.size() - 1).y[0]) {
+                case PathIterator.SEG_LINETO:
+                    if (coords[0] != bp.get(bp.size() - 1).x[0]
+                            || coords[1] != bp.get(bp.size() - 1).y[0]) {
                         bp.lineTo(coords[0], coords[1]);
                     }
                     break;
-                case PathIterator.SEG_QUADTO :
+                case PathIterator.SEG_QUADTO:
                     bp.quadTo(coords[0], coords[1], coords[2], coords[3]);
                     break;
-                case PathIterator.SEG_CUBICTO :
+                case PathIterator.SEG_CUBICTO:
                     bp.curveTo(coords[0], coords[1], coords[2], coords[3], coords[4], coords[5]);
                     break;
                 case PathIterator.SEG_CLOSE:
@@ -82,13 +82,12 @@ public class GrowStroke extends DoubleStroke {
         if (bp.size() > 1) {
             traceStroke(bp, left, right);
         }
-        
-        
-        if (Geom.contains(left.getBounds2D(),right.getBounds2D())) {
+
+
+        if (Geom.contains(left.getBounds2D(), right.getBounds2D())) {
             return (grow > 0) ? left : right;
         } else {
             return (grow > 0) ? right : left;
         }
     }
-    
 }

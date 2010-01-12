@@ -218,7 +218,7 @@ public abstract class AbstractHandle implements Handle, FigureListener {
         if (stroke != null) {
             Rectangle r = getBounds();
             r.grow(1, 1);
-            GeneralPath p = new GeneralPath();
+            Path2D.Double p = new Path2D.Double();
             p.moveTo(r.x + r.width / 2f, r.y);
             p.lineTo(r.x + r.width, r.y + r.height / 2f);
             p.lineTo(r.x + r.width / 2f, r.y + r.height);
@@ -229,7 +229,7 @@ public abstract class AbstractHandle implements Handle, FigureListener {
         }
         if (fill != null) {
             Rectangle r = getBounds();
-            GeneralPath p = new GeneralPath();
+            Path2D.Double p = new Path2D.Double();
             p.moveTo(r.x + r.width / 2f, r.y);
             p.lineTo(r.x + r.width, r.y + r.height / 2f);
             p.lineTo(r.x + r.width / 2f, r.y + r.height);
@@ -241,7 +241,7 @@ public abstract class AbstractHandle implements Handle, FigureListener {
         if (stroke != null && getView().getActiveHandle() == this) {
             Rectangle r = getBounds();
             r.grow(-1, -1);
-            GeneralPath p = new GeneralPath();
+            Path2D.Double p = new Path2D.Double();
             p.moveTo(r.x + r.width / 2f, r.y);
             p.lineTo(r.x + r.width, r.y + r.height / 2f);
             p.lineTo(r.x + r.width / 2f, r.y + r.height);

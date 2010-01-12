@@ -28,7 +28,7 @@ public class ActionUtil {
      * Key for the selected state of an action.
      * The value must be a Boolean.
      */
-    public final static String SELECTED_KEY = "selected";
+    public final static String SELECTED_KEY = Action.SELECTED_KEY;
     /**
      * All actions with equal value are put into the
      * same submenu.
