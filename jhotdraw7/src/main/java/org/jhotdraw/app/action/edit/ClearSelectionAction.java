@@ -13,7 +13,6 @@
  */
 package org.jhotdraw.app.action.edit;
 
-import ch.randelshofer.quaqua.QuaquaCheckBoxUI.PropertyChangeHandler;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
