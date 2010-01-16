@@ -4,7 +4,7 @@
     <target name="init">
         <!-- properties for copyright and versioning -->
         <property name="author" value="the authors and contributors of JHotDraw"/>
-        <property name="version" value="7.3.1"/>
+        <property name="version" value="7.4"/>
 
         <!-- build properties -->
         <property name="libdir" value="lib"/>
@@ -113,7 +113,6 @@
                 encoding="UTF-8"
          >
             <classpath path="${libdir}/quaqua.jar"/>
-            <classpath path="${libdir}/MRJAdapter.jar"/>
             <classpath path="${libdir}/java_30.zip"/>
             <include name="net/n3/nanoxml/*.java"/> 
             <include name="org/jhotdraw/samples/draw/Main.java"/> 
@@ -158,7 +157,7 @@
             <manifest>
                 <attribute name="Built-By" value="${author}"/>
                 <attribute name="Main-Class" value="org.jhotdraw.samples.draw.Main"/>
-                <attribute name="Class-Path" value="quaqua.jar lib/quaqua.jar ../lib/quaqua.jar ../../lib/quaqua.jar MRJAdapter.jar lib/MRJAdapter.jar ../lib/MRJAdapter.jar ../../lib/MRJAdapter.jar"/>
+                <attribute name="Class-Path" value="quaqua.jar lib/quaqua.jar ../lib/quaqua.jar ../../lib/quaqua.jar"/>
                 <attribute name="Implementation-Version" value="${version}"/>
             </manifest>
         </jar>
@@ -170,7 +169,6 @@
     <target name="application.jarsigned" depends="init,application.jar">
         <mkdir dir="${distdir}/signed"/>
         <unjar src="${libdir}/quaqua.jar" dest="${classdir}" />
-        <unjar src="${libdir}/MRJAdapter.jar" dest="${classdir}" />
         <jar destfile="${distdir}/signed/JHotDraw Draw.jar" basedir="${classdir}">
             <manifest>
                 <attribute name="Built-By" value="${author}"/>
@@ -227,9 +225,7 @@
             <classpath>
                 <pathelement path="${classdir}"/>
                 <pathelement path="${libdir}/quaqua.jar"/>
-                <pathelement path="${libdir}/MRJAdapter.jar"/>
                 <pathelement path="${libdir}/java_30.zip"/>
-                <pathelement path="${libdir}/appframework-0.42.jar"/>
             </classpath>
             <jvmarg value="-Xdock:name=JHotDraw Draw"/>
             <jvmarg value="-Dlocale=en"/>

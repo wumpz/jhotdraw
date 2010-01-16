@@ -36,10 +36,6 @@
             </sourcepath>
             <classpath>
                 <pathelement location="${libdir}/quaqua.jar"/>
-                <pathelement location="${libdir}/MRJAdapter.jar"/>
-                <pathelement location="${libdir}/appframework-0.42.jar"/>
-                <pathelement location="${libdir}/swing-layout.jar"/>
-                <pathelement location="${libdir}/swing-worker.jar"/>
                 <pathelement location="${libdir}/java_30.zip"/>
             </classpath>
         </javadoc>
@@ -53,9 +49,7 @@
                 encoding="UTF-8"
          >
             <classpath path="${libdir}/quaqua.jar"/>
-            <classpath path="${libdir}/MRJAdapter.jar"/>
             <classpath path="${libdir}/java_30.zip"/>
-            <classpath path="${libdir}/appframework-0.42.jar"/>
             <include name="**/*.java"/>
         </javac>
         <copy todir="${classdir}">
@@ -71,7 +65,7 @@
             <manifest>
                 <attribute name="Built-By" value="${author}"/>
                 <attribute name="Main-Class" value="org.jhotdraw.samples.draw.Main"/>
-                <attribute name="Class-Path" value="quaqua.jar lib/quaqua.jar ../lib/quaqua.jar MRJAdapter.jar lib/MRJAdapter.jar ../lib/MRJAdapter.jar"/>
+                <attribute name="Class-Path" value="quaqua.jar lib/quaqua.jar ../lib/quaqua.jar"/>
             </manifest>
         </jar>
     </target>

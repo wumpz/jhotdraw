@@ -229,7 +229,7 @@ public class PertApplet extends JApplet {
     public String getAppletInfo() {
         return NAME +
                 "\nVersion " + getVersion() +
-                "\n\nCopyright 1996-2009 (c) by the original authors of JHotDraw and all its contributors" +
+                "\n\nCopyright 1996-2010 (c) by the original authors of JHotDraw and all its contributors" +
                 "\nThis software is licensed under LGPL or" +
                 "\nCreative Commons 3.0 BY";
     }

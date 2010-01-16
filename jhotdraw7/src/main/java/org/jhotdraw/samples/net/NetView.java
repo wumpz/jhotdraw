@@ -69,14 +69,6 @@ public class NetView extends AbstractView  {
      * Creates a new view.
      */
     public NetView() {
-    }
-    
-    /**
-     * Initializes the view.
-     */
-    public void init() {
-        super.init();
-        
         initComponents();
         
         JPanel zoomButtonPanel = new JPanel(new BorderLayout());

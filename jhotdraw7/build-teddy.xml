@@ -31,7 +31,6 @@
                 encoding="UTF-8"
          >
             <classpath path="${libdir}/quaqua.jar"/>
-            <classpath path="${libdir}/MRJAdapter.jar"/>
             <include name="org/jhotdraw/samples/teddy/Main.java"/> 
             <include name="org/jhotdraw/samples/teddy/TeddyProject.java"/> 
         </javac>
@@ -66,7 +65,7 @@
             <manifest>
                 <attribute name="Built-By" value="${author}"/>
                 <attribute name="Main-Class" value="org.jhotdraw.samples.teddy.Main"/>
-                <attribute name="Class-Path" value="quaqua.jar lib/quaqua.jar ../lib/quaqua.jar ../../lib/quaqua.jar MRJAdapter.jar lib/MRJAdapter.jar ../lib/MRJAdapter.jar ../../lib/MRJAdapter.jar"/>
+                <attribute name="Class-Path" value="quaqua.jar lib/quaqua.jar ../lib/quaqua.jar ../../lib/quaqua.jar"/>
                 <attribute name="Implementation-Version" value="${version}"/>
             </manifest>
         </jar>
@@ -78,8 +77,6 @@
     <target name="application.jarsigned" depends="init,application.jar">
         <mkdir dir="${distdir}/signed"/>
         <unjar src="${libdir}/quaqua.jar" dest="${classdir}" />
-        <unjar src="${libdir}/MRJAdapter.jar" dest="${classdir}" />
-        <unjar src="${libdir}/swing-layout.jar" dest="${classdir}" />
         <jar destfile="${distdir}/signed/JHotDraw Teddy.jar" basedir="${classdir}">
             <manifest>
                 <attribute name="Built-By" value="${author}"/>

@@ -24,7 +24,6 @@
                 encoding="UTF-8"
          >
             <classpath path="${libdir}/quaqua.jar"/>
-            <classpath path="${libdir}/MRJAdapter.jar"/>
             <include name="org/jhotdraw/samples/mini/BezierDemo.java"/> 
         </javac>
         <copy todir="${classdir}/org/jhotdraw/geom">

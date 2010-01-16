@@ -98,7 +98,7 @@
                 optimize="true"
                 encoding="UTF-8"
          >
-            <classpath path="${libdir}/MRJAdapter.jar"/>
+            <classpath path="${libdir}/quaqua.jar"/>
             <classpath path="${libdir}/java_30.zip"/>
             <include name="org/jhotdraw/samples/svg/Main.java"/>
             <include name="org/jhotdraw/samples/svg/DrawProject.java"/> 
@@ -136,7 +136,7 @@
             <manifest>
                 <attribute name="Built-By" value="${author}"/>
                 <attribute name="Main-Class" value="org.jhotdraw.samples.svg.Main"/>
-                <attribute name="Class-Path" value="quaqua.jar lib/quaqua.jar ../lib/quaqua.jar ../../lib/quaqua.jar MRJAdapter.jar lib/MRJAdapter.jar ../lib/MRJAdapter.jar ../../lib/MRJAdapter.jar"/>
+                <attribute name="Class-Path" value="quaqua.jar lib/quaqua.jar ../lib/quaqua.jar ../../lib/quaqua.jar"/>
                 <attribute name="Implementation-Version" value="${version}"/>
             </manifest>
         </jar>
@@ -147,7 +147,6 @@
     </target>
     <target name="application.jarsigned" depends="init,application.jar">
         <unjar src="${libdir}/quaqua.jar" dest="${classdir}" />
-        <unjar src="${libdir}/MRJAdapter.jar" dest="${classdir}" />
         <jar destfile="${distdir}/signed/JHotDraw SVG.jar" basedir="${classdir}">
             <manifest>
                 <attribute name="Built-By" value="${author}"/>
@@ -194,7 +193,6 @@
             <classpath>
                 <pathelement path="${classdir}"/>
                 <pathelement path="${libdir}/quaqua.jar"/>
-                <pathelement path="${libdir}/MRJAdapter.jar"/>
             </classpath>
             <jvmarg value="-Xdock:name=JHotDraw SVG"/>
             <jvmarg value="-Dlocale=en"/>
