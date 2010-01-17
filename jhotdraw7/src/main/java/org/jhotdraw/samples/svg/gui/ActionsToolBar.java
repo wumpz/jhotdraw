@@ -13,6 +13,9 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import org.jhotdraw.app.action.edit.PasteAction;
 import org.jhotdraw.app.action.edit.CutAction;
 import org.jhotdraw.app.action.edit.DeleteAction;
@@ -26,7 +29,9 @@ import org.jhotdraw.gui.*;
 import org.jhotdraw.undo.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.gui.plaf.palette.*;
-import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import javax.swing.*;
 import org.jhotdraw.app.action.*;
 import org.jhotdraw.draw.*;
@@ -45,6 +50,8 @@ public class ActionsToolBar extends AbstractToolBar {
 
     private ToggleGridAction toggleGridAction;
     private UndoRedoManager undoManager;
+    private ArrayList<Action> actions;
+    private JPopupButton popupButton;
 
     /** Creates new instance. */
     public ActionsToolBar() {
@@ -60,6 +67,7 @@ public class ActionsToolBar extends AbstractToolBar {
         this.editor = newValue;
         if (editor != null && undoManager != null) {
             init();
+            updatePopupMenu();
             setDisclosureState(prefs.getInt(getID() + ".disclosureState", 1));
             this.addPropertyChangeListener(getEventHandler());
         }
@@ -77,6 +85,35 @@ public class ActionsToolBar extends AbstractToolBar {
         }
     }
 
+    /** Sets the actions for the "Action" popup menu in the toolbar.
+     * <p>
+     * This list may contain null items which are used to denote a
+     * separator in the popup menu.
+     * <p>
+     * Set this to null to set the drop down menus to the default actions.
+     */
+    public void setPopupActions(List<Action> actions) {
+        if (actions == null) {
+            this.actions = null;
+        } else {
+            this.actions = new ArrayList<Action>();
+            this.actions.addAll(actions);
+        }
+    }
+
+    /** Gets the actions of the "Action" popup menu in the toolbar.
+     * This list may contain null items which are used to denote a
+     * separator in the popup menu.
+     *
+     * @return An unmodifiable list with actions.
+     */
+    public List<Action> getPopupActions() {
+        if (actions == null) {
+            actions = new ArrayList<Action>();
+        }
+        return Collections.unmodifiableList(actions);
+    }
+
     @Override
     protected JComponent createDisclosedComponent(int state) {
         JPanel p = null;
@@ -92,7 +129,7 @@ public class ActionsToolBar extends AbstractToolBar {
                     break;
                 }
 
-                Preferences prefs = PreferencesUtil.userNodeForPackage(getClass());
+                // Preferences prefs = PreferencesUtil.userNodeForPackage(getClass());
 
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
 
@@ -101,7 +138,6 @@ public class ActionsToolBar extends AbstractToolBar {
 
                 GridBagConstraints gbc;
                 AbstractButton btn;
-                AbstractSelectedAction d;
 
                 btn = new JButton(undoManager.getUndoAction());
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
@@ -144,22 +180,8 @@ public class ActionsToolBar extends AbstractToolBar {
                 pb.setUI((PaletteButtonUI) PaletteButtonUI.createUI(pb));
                 pb.setItemFont(UIManager.getFont("MenuItem.font"));
                 labels.configureToolBarButton(pb, "actions");
-                pb.add(new DuplicateAction());
-                pb.addSeparator();
-                pb.add(d = new GroupAction(editor, new SVGGroupFigure()));
-                disposables.add(d);
-                pb.add(d = new UngroupAction(editor, new SVGGroupFigure()));
-                disposables.add(d);
-                pb.addSeparator();
-                pb.add(new CutAction());
-                pb.add(new CopyAction());
-                pb.add(new PasteAction());
-                pb.add(new DeleteAction());
-                pb.addSeparator();
-                pb.add(new SelectAllAction());
-                pb.add(d = new SelectSameAction(editor));
-                disposables.add(d);
-                pb.add(new ClearSelectionAction());
+                popupButton = pb;
+                updatePopupMenu();
 
                 gbc = new GridBagConstraints();
                 gbc.gridy = 2;
@@ -169,6 +191,40 @@ public class ActionsToolBar extends AbstractToolBar {
             }
         }
         return p;
+    }
+
+    private void updatePopupMenu() {
+        if (popupButton != null) {
+            AbstractSelectedAction d;
+            JPopupButton pb = popupButton;
+            pb.removeAll();
+            pb.add(new DuplicateAction());
+            pb.addSeparator();
+            pb.add(d = new GroupAction(editor, new SVGGroupFigure()));
+            disposables.add(d);
+            pb.add(d = new UngroupAction(editor, new SVGGroupFigure()));
+            disposables.add(d);
+            pb.addSeparator();
+            pb.add(new CutAction());
+            pb.add(new CopyAction());
+            pb.add(new PasteAction());
+            pb.add(new DeleteAction());
+            pb.addSeparator();
+            pb.add(new SelectAllAction());
+            pb.add(d = new SelectSameAction(editor));
+            disposables.add(d);
+            pb.add(new ClearSelectionAction());
+            if (!getPopupActions().isEmpty()) {
+                pb.addSeparator();
+                for (Action a : getPopupActions()) {
+                    if (a == null) {
+                        pb.addSeparator();
+                    } else {
+                        pb.add(a);
+                    }
+                }
+            }
+        }
     }
 
     public ToggleGridAction getToggleGridAction() {

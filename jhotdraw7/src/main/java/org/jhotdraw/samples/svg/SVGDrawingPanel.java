@@ -13,6 +13,12 @@
  */
 package org.jhotdraw.samples.svg;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.event.ContainerEvent;
+import java.awt.event.ContainerListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import org.jhotdraw.draw.io.TextInputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.draw.io.InputFormat;
@@ -23,14 +29,21 @@ import java.util.prefs.*;
 import org.jhotdraw.undo.*;
 import org.jhotdraw.util.*;
 
-import java.awt.*;
-import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
-import javax.swing.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import javax.swing.Action;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JToolBar;
+import javax.swing.SwingUtilities;
+import javax.swing.TransferHandler;
 import org.jhotdraw.beans.Disposable;
 import org.jhotdraw.gui.ToolBarLayout;
 import org.jhotdraw.draw.*;
@@ -82,6 +95,7 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
             this.prefkey = prefkey;
         }
 
+        @Override
         public void itemStateChanged(ItemEvent e) {
             boolean b = e.getStateChange() == ItemEvent.SELECTED;
             toolbar.setVisible(b);
@@ -132,6 +146,7 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
         }
         Collections.sort(sortme, new Comparator<JToolBar>() {
 
+            @Override
             public int compare(JToolBar tb1, JToolBar tb2) {
                 int i1 = prefs.getInt("toolBarIndex." + tb1.getName(), 0);
                 int i2 = prefs.getInt("toolBarIndex." + tb2.getName(), 0);
@@ -145,6 +160,7 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
 
         toolsPane.addContainerListener(containerHandler = new ContainerListener() {
 
+            @Override
             public void componentAdded(ContainerEvent e) {
                 int i = 0;
                 for (Component c : toolsPane.getComponents()) {
@@ -156,6 +172,7 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
                 }
             }
 
+            @Override
             public void componentRemoved(ContainerEvent e) {
             }
         });
@@ -164,6 +181,7 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
         setEditor(new DefaultDrawingEditor());
     }
 
+    @Override
     public void dispose() {
         toolsPane.removeContainerListener(containerHandler);
         containerHandler = null;
@@ -284,6 +302,7 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
                 final Drawing loadedDrawing = newDrawing;
                 Runnable r = new Runnable() {
 
+                    @Override
                     public void run() {
                         // Set the drawing on the Event Dispatcher Thread
                         setDrawing(loadedDrawing);
@@ -342,6 +361,7 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
         final Drawing loadedDrawing = newDrawing;
         Runnable r = new Runnable() {
 
+            @Override
             public void run() {
                 // Set the drawing on the Event Dispatcher Thread
                 setDrawing(loadedDrawing);
@@ -375,6 +395,7 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
         final Drawing[] helper = new Drawing[1];
         Runnable r = new Runnable() {
 
+            @Override
             public void run() {
                 helper[0] = (Drawing) getDrawing().clone();
             }
@@ -434,6 +455,7 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
         final Drawing[] helper = new Drawing[1];
         Runnable r = new Runnable() {
 
+            @Override
             public void run() {
                 helper[0] = (Drawing) getDrawing().clone();
             }
@@ -458,6 +480,29 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
         format.write(f, saveDrawing);
     }
 
+    /** Sets the actions for the "Action" popup menu in the toolbar.
+     * <p>
+     * This list may contain null items which are used to denote a
+     * separator in the popup menu.
+     * <p>
+     * Set this to null to set the drop down menus to the default actions.
+     */
+    public void setPopupActions(List<Action> actions) {
+        actionToolBar.setPopupActions(actions);
+    }
+    /** Gets the actions of the "Action" popup menu in the toolbar.
+     * This list may contain null items which are used to denote a
+     * separator in the popup menu.
+     *
+     * @return An unmodifiable list with actions.
+     */
+    public List<Action> getPopupActions() {
+        return actionToolBar.getPopupActions();
+    }
+    
+    public JComponent getComponent() {
+        return this;
+    }
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -529,9 +574,7 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
         add(toolsPanel, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents
 
-    public JComponent getComponent() {
-        return this;
-    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jhotdraw.samples.svg.gui.ActionsToolBar actionToolBar;
     private org.jhotdraw.samples.svg.gui.AlignToolBar alignToolBar;

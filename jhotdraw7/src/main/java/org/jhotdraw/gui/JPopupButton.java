@@ -101,6 +101,13 @@ public class JPopupButton extends javax.swing.JButton {
         getPopupMenu().add(submenu);
     }
 
+    @Override
+    public void removeAll() {
+        getPopupMenu().removeAll();
+    }
+
+
+
     private void updateFont(MenuElement menu) {
         menu.getComponent().setFont(itemFont);
         for (MenuElement child : menu.getSubElements()) {

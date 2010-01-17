@@ -95,14 +95,17 @@ import org.jhotdraw.xml.*;
         }
     }
 
+    @Override
     public javax.swing.filechooser.FileFilter getFileFilter() {
         return new ExtensionFileFilter(description, fileExtension);
     }
 
+    @Override
     public JComponent getOutputFormatAccessory() {
         return null;
     }
 
+    @Override
     public JComponent getInputFormatAccessory() {
         return null;
     }
@@ -126,10 +129,12 @@ import org.jhotdraw.xml.*;
         drawing.basicAddAll(drawing.getChildCount(), figures);
     }
 
+    @Override
     public String getFileExtension() {
         return fileExtension;
     }
 
+    @Override
     public void write(File file, Drawing drawing) throws IOException {
         BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file));
         try {
@@ -139,6 +144,7 @@ import org.jhotdraw.xml.*;
         }
     }
 
+    @Override
     public void write(OutputStream out, Drawing drawing) throws IOException {
         NanoXMLDOMOutput domo = new NanoXMLDOMOutput(factory);
         domo.openElement(factory.getName(drawing));
@@ -148,10 +154,12 @@ import org.jhotdraw.xml.*;
         domo.dispose();
     }
 
+    @Override
     public void read(File file, Drawing drawing) throws IOException {
         read(file, drawing, true);
     }
 
+    @Override
     public void read(File file, Drawing drawing, boolean replace) throws IOException {
         BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
         try {
@@ -161,6 +169,7 @@ import org.jhotdraw.xml.*;
         }
     }
 
+    @Override
     public void read(InputStream in, Drawing drawing, boolean replace) throws IOException {
         NanoXMLDOMInput domi = new NanoXMLDOMInput(factory, in);
         domi.openElement(factory.getName(drawing));
@@ -172,10 +181,12 @@ import org.jhotdraw.xml.*;
         domi.dispose();
     }
 
+    @Override
     public boolean isDataFlavorSupported(DataFlavor flavor) {
         return flavor.equals(dataFlavor);
     }
 
+    @Override
     public void read(Transferable t, Drawing drawing, boolean replace) throws UnsupportedFlavorException, IOException {
         LinkedList<Figure> figures = new LinkedList<Figure>();
         InputStream in = (InputStream) t.getTransferData(new DataFlavor(mimeType, description));
@@ -192,6 +203,7 @@ import org.jhotdraw.xml.*;
         drawing.addAll(figures);
     }
 
+    @Override
     public Transferable createTransferable(Drawing drawing, List<Figure> figures, double scaleFactor) throws IOException {
         ByteArrayOutputStream buf = new ByteArrayOutputStream();
         NanoXMLDOMOutput domo = new NanoXMLDOMOutput(factory);
