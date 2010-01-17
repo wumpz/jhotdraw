@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.draw.io;
 
+import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.ImageHolderFigure;
 import java.awt.*;

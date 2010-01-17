@@ -14,6 +14,7 @@
 
 package org.jhotdraw.draw.io;
 
+import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.draw.TextHolderFigure;
 import org.jhotdraw.draw.*;
 import java.awt.datatransfer.*;

@@ -30,7 +30,7 @@ import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.gui.JFileURIChooser;
 import org.jhotdraw.gui.URIChooser;
-import org.jhotdraw.io.ExtensionFileFilter;
+import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.samples.net.figures.*;
 import org.jhotdraw.util.*;
 

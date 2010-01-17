@@ -25,7 +25,7 @@ import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.gui.Worker;
-import org.jhotdraw.io.ExtensionFileFilter;
+import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 
 /**
  * Example showing how to embed the {@link org.jhotdraw.samples.svg.SVGDrawingPanel} into an application

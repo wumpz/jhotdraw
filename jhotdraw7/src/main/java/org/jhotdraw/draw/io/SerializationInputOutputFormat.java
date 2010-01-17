@@ -34,7 +34,7 @@ import java.util.Map;
 import javax.swing.JComponent;
 import javax.swing.filechooser.FileFilter;
 import org.jhotdraw.gui.datatransfer.AbstractTransferable;
-import org.jhotdraw.io.ExtensionFileFilter;
+import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 
 /**
  * {@code SerializationInputOutputFormat} uses Java Serialization for reading and

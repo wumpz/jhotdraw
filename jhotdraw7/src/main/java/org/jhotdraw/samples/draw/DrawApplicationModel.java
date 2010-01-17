@@ -42,7 +42,7 @@ import org.jhotdraw.app.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.gui.JFileURIChooser;
-import org.jhotdraw.io.ExtensionFileFilter;
+import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**

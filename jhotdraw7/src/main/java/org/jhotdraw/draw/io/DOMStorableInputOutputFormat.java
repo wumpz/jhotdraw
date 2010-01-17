@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.draw.io;
 
+import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.draw.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -39,8 +40,9 @@ import org.jhotdraw.xml.*;
  *
  * @author Werner Randelshofer
  * @version $Id$
+ * @deprecated This class will go away in a future release of JHotDraw.
  */
-public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
+@Deprecated public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
 
     private DOMFactory factory;
     /**

@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.samples.odg.io;
 
+import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.CompositeFigure;
 import java.awt.datatransfer.*;

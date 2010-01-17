@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.app.action;
 
+import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.io.*;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.gui.event.*;
