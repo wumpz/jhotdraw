@@ -11,7 +11,7 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-package org.jhotdraw.gui.event;
+package org.jhotdraw.draw.event;
 
 import org.jhotdraw.draw.tool.SelectionTool;
 import org.jhotdraw.draw.event.FigureSelectionEvent;

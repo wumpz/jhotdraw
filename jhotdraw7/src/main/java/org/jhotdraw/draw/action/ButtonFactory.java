@@ -23,7 +23,7 @@ import org.jhotdraw.draw.event.ToolEvent;
 import org.jhotdraw.draw.event.ToolListener;
 import org.jhotdraw.draw.decoration.LineDecoration;
 import org.jhotdraw.draw.decoration.ArrowTip;
-import org.jhotdraw.gui.event.SelectionComponentRepainter;
+import org.jhotdraw.draw.event.SelectionComponentRepainter;
 import org.jhotdraw.gui.JPopupButton;
 import org.jhotdraw.util.*;
 import java.awt.*;
