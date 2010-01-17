@@ -22,8 +22,9 @@ import java.io.*;
  *
  * @author  Werner Randelshofer
  * @version $Id$
+ * @deprecated This class will be removed in a future release of JHotDraw.
  */
-public class XMLTransferable implements java.awt.datatransfer.Transferable, java.awt.datatransfer.ClipboardOwner {
+@Deprecated public class XMLTransferable implements java.awt.datatransfer.Transferable, java.awt.datatransfer.ClipboardOwner {
     private byte[] data;
     private DataFlavor flavor;
     

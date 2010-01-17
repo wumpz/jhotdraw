@@ -29,8 +29,9 @@ import org.jhotdraw.beans.Disposable;
  *
  * @author  Werner Randelshofer
  * @version $Id$
+ * @deprecated This class will be removed in a future release of JHotDraw.
  */
-public class NanoXMLDOMInput implements DOMInput, Disposable {
+@Deprecated public class NanoXMLDOMInput implements DOMInput, Disposable {
     /**
      * This map is used to unmarshall references to objects to
      * the XML DOM. A key in this map is a String representing a marshalled

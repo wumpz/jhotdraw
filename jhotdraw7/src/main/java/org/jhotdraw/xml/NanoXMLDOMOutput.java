@@ -29,8 +29,9 @@ import org.jhotdraw.beans.Disposable;
  *
  * @author  Werner Randelshofer
  * @version $Id$
+ * @deprecated This class will be removed in a future release of JHotDraw.
  */
-public class NanoXMLDOMOutput implements DOMOutput, Disposable {
+@Deprecated public class NanoXMLDOMOutput implements DOMOutput, Disposable {
     
     
     /**

@@ -26,8 +26,9 @@ package org.jhotdraw.xml;
  *
  * @author  Werner Randelshofer
  * @version $Id$
+ * @deprecated This interface will be removed in a future release of JHotDraw.
  */
-public interface DOMFactory {
+@Deprecated public interface DOMFactory {
     /**
      * Returns the element name for the specified object.
      * Note: The element names "string", "int", "float", "long", "double", 

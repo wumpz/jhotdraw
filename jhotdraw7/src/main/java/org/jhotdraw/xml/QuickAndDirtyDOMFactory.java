@@ -30,8 +30,9 @@ import java.util.regex.Matcher;
  *
  * @author Werner Randelshofer
  * @version $Id$
+ * @deprecated This class will be removed in a future release of JHotDraw.
  */
-public class QuickAndDirtyDOMFactory implements DOMFactory {
+@Deprecated public class QuickAndDirtyDOMFactory implements DOMFactory {
 
     private String escape(String name) {
         // Escape dollar characters by two full-stop characters

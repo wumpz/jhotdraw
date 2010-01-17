@@ -27,8 +27,9 @@ import java.io.IOException;
  *
  * @author  Werner Randelshofer
  * @version $Id$
+ * @deprecated This interface will be removed in a future release of JHotDraw.
  */
-public interface DOMInput {
+@Deprecated public interface DOMInput {
     
     /**
      * Returns the tag name of the current element.

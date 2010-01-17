@@ -27,8 +27,9 @@ import java.io.IOException;
  *
  * @author  Werner Randelshofer
  * @version $Id$
+ * @deprecated This interface will be removed in a future release of JHotDraw.
  */
-public interface DOMOutput {
+@Deprecated public interface DOMOutput {
     /**
      * Sets the doctype for the XML document.
      */

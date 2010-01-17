@@ -24,8 +24,9 @@ import java.io.*;
  *
  * @author  Werner Randelshofer
  * @version $Id$
+ * @deprecated This interface will be removed in a future release of JHotDraw.
  */
-public interface DOMStorable {
+@Deprecated public interface DOMStorable {
     public void write(DOMOutput out) throws IOException;
     public void read(DOMInput in) throws IOException;
 }

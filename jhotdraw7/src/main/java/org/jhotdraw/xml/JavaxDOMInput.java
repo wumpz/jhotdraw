@@ -32,8 +32,9 @@ import org.xml.sax.SAXException;
  *
  * @author  Werner Randelshofer
  * @version $Id$
+ * @deprecated This class will be removed in a future release of JHotDraw.
  */
-public class JavaxDOMInput implements DOMInput {
+@Deprecated public class JavaxDOMInput implements DOMInput {
     /**
      * This map is used to unmarshall references to objects to
      * the XML DOM. A key in this map is a String representing a marshalled

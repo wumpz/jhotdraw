@@ -22,8 +22,9 @@ import java.util.*;
  *
  * @author Werner Randelshofer.
  * @version $Id$
+ * @deprecated This class will be removed in a future release of JHotDraw.
  */
-public class DefaultDOMFactory implements DOMFactory {
+@Deprecated public class DefaultDOMFactory implements DOMFactory {
     private final static HashMap<Class,String> classToNameMap = new HashMap<Class,String>();
     private final static HashMap<String,Object> nameToPrototypeMap = new HashMap<String,Object>();
     private final static HashMap<Class,String> enumClassToNameMap = new HashMap<Class,String>();
