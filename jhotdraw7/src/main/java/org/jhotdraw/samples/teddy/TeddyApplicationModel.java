@@ -38,8 +38,6 @@ public class TeddyApplicationModel extends DefaultApplicationModel {
     @Override
     public ActionMap createActionMap(Application a, View v) {
         ActionMap m = super.createActionMap(a, v);
-        ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         AbstractAction aa;
 
         m.put(FindAction.ID, new FindAction(a,v));
@@ -83,6 +81,7 @@ public class TeddyApplicationModel extends DefaultApplicationModel {
      * Creates toolbars for the application.
      * This class returns an empty list - we don't want toolbars in a text editor.
      */
+    @Override
     public List<JToolBar> createToolBars(Application app, View p) {
         return Collections.emptyList();
     }
