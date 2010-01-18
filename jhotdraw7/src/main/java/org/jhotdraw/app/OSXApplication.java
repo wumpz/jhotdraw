@@ -62,7 +62,6 @@ import org.jhotdraw.app.action.file.LoadDirectoryAction;
 import org.jhotdraw.app.action.file.LoadFileAction;
 import org.jhotdraw.app.action.file.NewWindowAction;
 import org.jhotdraw.app.osx.OSXAdapter;
-import org.jhotdraw.beans.Disposable;
 import org.jhotdraw.net.URIUtil;
 
 /**

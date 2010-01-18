@@ -19,7 +19,6 @@ import java.io.*;
 import java.beans.*;
 import java.net.URI;
 import javax.swing.*;
-import org.jhotdraw.beans.Disposable;
 
 /**
  * A <em>view</em> paints a document on a {@code JComponent} within an
@@ -82,7 +81,7 @@ import org.jhotdraw.beans.Disposable;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public interface View {
+public interface View extends Disposable {
     /**
      * The name of the uri property.
      */
@@ -220,6 +219,7 @@ public interface View {
      * A view must not consume many resources after method dispose() has been called.
      * This is crucial for the responsivenes of an application.
      */
+    @Override
     public void dispose();
     
     /**

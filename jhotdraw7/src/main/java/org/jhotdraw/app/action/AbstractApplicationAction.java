@@ -16,7 +16,7 @@ package org.jhotdraw.app.action;
 import java.beans.*;
 import javax.swing.*;
 import org.jhotdraw.app.Application;
-import org.jhotdraw.beans.Disposable;
+import org.jhotdraw.app.Disposable;
 import org.jhotdraw.beans.WeakPropertyChangeListener;
 
 /**

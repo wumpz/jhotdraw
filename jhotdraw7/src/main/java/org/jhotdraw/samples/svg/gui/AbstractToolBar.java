@@ -18,7 +18,7 @@ import java.beans.*;
 import java.util.LinkedList;
 import java.util.prefs.*;
 import javax.swing.*;
-import org.jhotdraw.beans.Disposable;
+import org.jhotdraw.app.Disposable;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.util.prefs.PreferencesUtil;

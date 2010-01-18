@@ -34,7 +34,7 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.text.*;
 import org.jhotdraw.app.action.*;
-import org.jhotdraw.beans.Disposable;
+import org.jhotdraw.app.Disposable;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.draw.*;

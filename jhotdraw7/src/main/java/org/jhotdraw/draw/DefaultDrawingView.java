@@ -32,7 +32,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.*;
 import javax.swing.*;
-import org.jhotdraw.app.EditableComponent;
+import org.jhotdraw.gui.EditableComponent;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import java.awt.image.VolatileImage;
 import sun.swing.SwingUtilities2;

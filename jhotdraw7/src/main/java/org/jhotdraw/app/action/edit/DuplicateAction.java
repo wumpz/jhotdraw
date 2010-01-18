@@ -18,7 +18,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import org.jhotdraw.util.*;
-import org.jhotdraw.app.EditableComponent;
+import org.jhotdraw.gui.EditableComponent;
 
 /**
  * Duplicates the selected region.

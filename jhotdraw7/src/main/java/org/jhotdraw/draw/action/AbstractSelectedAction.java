@@ -24,7 +24,7 @@ import java.io.Serializable;
 import javax.swing.undo.*;
 import org.jhotdraw.util.*;
 import java.util.*;
-import org.jhotdraw.beans.Disposable;
+import org.jhotdraw.app.Disposable;
 import org.jhotdraw.beans.WeakPropertyChangeListener;
 
 /**

@@ -18,7 +18,7 @@ import java.util.*;
 import java.io.*;
 import java.awt.*;
 import net.n3.nanoxml.*;
-import org.jhotdraw.beans.Disposable;
+import org.jhotdraw.app.Disposable;
 /**
  * NanoXMLDOMInput.
  * <p>

@@ -11,7 +11,7 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-package org.jhotdraw.app;
+package org.jhotdraw.gui;
 
 import java.beans.PropertyChangeListener;
 

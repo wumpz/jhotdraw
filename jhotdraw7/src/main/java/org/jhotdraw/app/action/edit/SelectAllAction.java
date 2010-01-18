@@ -18,7 +18,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.text.*;
 import org.jhotdraw.util.*;
-import org.jhotdraw.app.EditableComponent;
+import org.jhotdraw.gui.EditableComponent;
 
 /**
  * Selects all items.

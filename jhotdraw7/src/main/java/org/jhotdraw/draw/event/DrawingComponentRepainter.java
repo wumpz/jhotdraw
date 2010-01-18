@@ -18,7 +18,7 @@ import org.jhotdraw.draw.event.FigureEvent;
 import org.jhotdraw.draw.action.*;
 import java.beans.*;
 import javax.swing.*;
-import org.jhotdraw.beans.Disposable;
+import org.jhotdraw.app.Disposable;
 import org.jhotdraw.draw.*;
 
 /**

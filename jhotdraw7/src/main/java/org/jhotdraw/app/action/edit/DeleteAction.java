@@ -20,7 +20,7 @@ import java.beans.PropertyChangeListener;
 import javax.swing.JComponent;
 import javax.swing.text.*;
 import org.jhotdraw.util.*;
-import org.jhotdraw.app.EditableComponent;
+import org.jhotdraw.gui.EditableComponent;
 import org.jhotdraw.beans.WeakPropertyChangeListener;
 
 /**

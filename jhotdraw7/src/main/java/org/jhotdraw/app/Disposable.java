@@ -12,10 +12,10 @@
  * the copyright holders. For details see accompanying license terms. 
  */
 
-package org.jhotdraw.beans;
+package org.jhotdraw.app;
 
 /**
- * Interface for objects which have a dispose method.
+ * Interface for objects which explicitly must be disposed to free resources.
  *
  * @author Werner Randelshofer
  * @version $Id$
