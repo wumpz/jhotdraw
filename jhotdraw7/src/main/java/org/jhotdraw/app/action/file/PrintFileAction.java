@@ -47,7 +47,8 @@ import org.jhotdraw.util.*;
  * The interfaces and classes listed below define together the contracts
  * of a smaller framework inside of the JHotDraw framework for document oriented
  * applications.<br>
- * Contract: {@link PrintableView}, {@link org.jhotdraw.app.action.file.PrintFileAction}.
+ * Contract: {@link PrintableView}.<br>
+ * Client: {@link org.jhotdraw.app.action.file.PrintFileAction}.
  * <hr>
  *
  * @author Werner Randelshofer

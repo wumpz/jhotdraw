@@ -17,7 +17,14 @@ import java.util.*;
 import javax.swing.*;
 
 /**
- * EmptyApplicationModel.
+ * An {@link ApplicationModel} which neither creates {@code Action}s,
+ * nor overrides the menu bars, nor creates tool bars.
+ * <p>
+ * The {@code createActionMap} method of this model returns an empty ActionMap.
+ * <p>
+ * The {@code createMenu...} methods of this model return null, resulting in
+ * a set of default menu bars created by the {@link Application} which holds
+ * this model.
  *
  * @author Werner Randelshofer.
  * @version $Id$
@@ -25,16 +32,19 @@ import javax.swing.*;
 public class EmptyApplicationModel
         extends AbstractApplicationModel {
 
+    /** Returns an empty ActionMap. */
     @Override
     public ActionMap createActionMap(Application a, View v) {
         return new ActionMap();
     }
 
+    /** Returns an empty unmodifiable list. */
     @Override
     public List<JToolBar> createToolBars(Application app, View v) {
         return Collections.emptyList();
     }
 
+    /** Returns an empty modifiable list. */
     @Override
     public List<JMenu> createMenus(Application a, View v) {
         LinkedList<JMenu> menus = new LinkedList<JMenu>();
@@ -57,18 +67,23 @@ public class EmptyApplicationModel
         return menus;
     }
 
+    /** Returns null. */
     protected JMenu createFileMenu(Application app, View view) {
         return null;
     }
+    /** Returns null. */
     protected JMenu createEditMenu(Application app, View view) {
         return null;
     }
+    /** Returns null. */
     protected JMenu createViewMenu(Application app, View view) {
         return null;
     }
+    /** Returns null. */
     protected JMenu createWindowMenu(Application app, View view) {
         return null;
     }
+    /** Returns null. */
     protected JMenu createHelpMenu(Application app, View view) {
         return null;
     }

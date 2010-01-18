@@ -23,6 +23,20 @@ import java.beans.PropertyChangeListener;
  * TransferHandler of a component and retrieve its cut/copy/paste actions.
  * See http://java.sun.com/docs/books/tutorial/uiswing/dnd/intro.html#cut
  *
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Framework</em><br>
+ * The interfaces and classes listed below work together:
+ * <br>
+ * Contract: {@link org.jhotdraw.app.EditableComponent}, {@code JTextComponent}.<br>
+ * Client: {@link org.jhotdraw.app.action.edit.AbstractSelectionAction},
+ * {@link org.jhotdraw.app.action.edit.DeleteAction},
+ * {@link org.jhotdraw.app.action.edit.DuplicateAction},
+ * {@link org.jhotdraw.app.action.edit.SelectAllAction},
+ * {@link org.jhotdraw.app.action.edit.ClearSelectionAction}.
+ * <hr>
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */

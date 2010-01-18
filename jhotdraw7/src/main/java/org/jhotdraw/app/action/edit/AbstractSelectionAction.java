@@ -11,7 +11,7 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-package org.jhotdraw.app.action;
+package org.jhotdraw.app.action.edit;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -24,10 +24,24 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  * {@code AbstractSelectionAction} acts on the selection of a target component.
  * <p>
  * By default, the action is disabled when the target component is disabled or has
- * no selection.  * If the target component is null, updateEnabled does nothing.
+ * no selection. If the target component is null, updateEnabled does nothing.
  * You can change this behavior by overriding method {@code updateEnabled()}.
  * <p>
  * This action registers a {@link WeakPropertyChangeListener} on the component.
+ *
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Framework</em><br>
+ * The interfaces and classes listed below work together:
+ * <br>
+ * Contract: {@link org.jhotdraw.app.EditableComponent}, {@code JTextComponent}.<br>
+ * Client: {@link org.jhotdraw.app.action.edit.AbstractSelectionAction},
+ * {@link org.jhotdraw.app.action.edit.DeleteAction},
+ * {@link org.jhotdraw.app.action.edit.DuplicateAction},
+ * {@link org.jhotdraw.app.action.edit.SelectAllAction},
+ * {@link org.jhotdraw.app.action.edit.ClearSelectionAction}.
+ * <hr>
  *
  * @author Werner Randelshofer
  * @version 1.0 2010-01-10 Created.

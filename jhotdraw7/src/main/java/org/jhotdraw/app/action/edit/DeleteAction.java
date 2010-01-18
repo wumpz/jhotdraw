@@ -37,6 +37,20 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  * with this ID and put it in your {@code ApplicationModel} in method
  * {@link org.jhotdraw.app.ApplicationModel#initApplication}.
  *
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Framework</em><br>
+ * The interfaces and classes listed below work together:
+ * <br>
+ * Contract: {@link org.jhotdraw.app.EditableComponent}, {@code JTextComponent}.<br>
+ * Client: {@link org.jhotdraw.app.action.edit.AbstractSelectionAction},
+ * {@link org.jhotdraw.app.action.edit.DeleteAction},
+ * {@link org.jhotdraw.app.action.edit.DuplicateAction},
+ * {@link org.jhotdraw.app.action.edit.SelectAllAction},
+ * {@link org.jhotdraw.app.action.edit.ClearSelectionAction}.
+ * <hr>
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */

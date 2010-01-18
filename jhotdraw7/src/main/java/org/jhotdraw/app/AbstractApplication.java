@@ -448,7 +448,11 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
                 openChooser = model.createOpenChooser(this, null);
                 List<URI> ruris = getRecentURIs();
                 if (ruris.size() > 0) {
-                    openChooser.setSelectedURI(ruris.get(0));
+                    try {
+                        openChooser.setSelectedURI(ruris.get(0));
+                    } catch (IllegalArgumentException e) {
+                        // Ignore illegal values in recent URI list.
+                    }
                 }
             }
             return openChooser;
@@ -459,7 +463,11 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
                 v.getComponent().putClientProperty("openChooser", chooser);
                 List<URI> ruris = getRecentURIs();
                 if (ruris.size() > 0) {
-                    chooser.setSelectedURI(ruris.get(0));
+                    try {
+                        chooser.setSelectedURI(ruris.get(0));
+                    } catch (IllegalArgumentException e) {
+                        // Ignore illegal values in recent URI list.
+                    }
                 }
             }
             return chooser;
@@ -478,7 +486,11 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
             if (chooser == null) {
                 chooser = model.createSaveChooser(this, v);
                 v.getComponent().putClientProperty("saveChooser", chooser);
-                chooser.setSelectedURI(v.getURI());
+                try {
+                    chooser.setSelectedURI(v.getURI());
+                } catch (IllegalArgumentException e) {
+                    // ignore illegal values
+                }
             }
             return chooser;
         }

@@ -1,5 +1,5 @@
 /*
- * @(#)DefaultAppletApplication.java
+ * @(#)AppletApplication.java
  *
  * Copyright (c) 1996-2010 by the original authors of JHotDraw
  * and all its contributors.
@@ -18,19 +18,20 @@ import java.awt.*;
 import javax.swing.*;
 
 /**
- * Default Application that can be run as an Applet.
+ * {@code AppletApplication} handles the lifecycle of a single {@link View}
+ * running inside of an Applet.
  * <v>
  * FIXME - To be implemented.
  *
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class DefaultAppletApplication extends AbstractApplication {
+public class AppletApplication extends AbstractApplication {
     private JApplet applet;
     private View view;
     
-    /** Creates a new instance of DefaultAppletApplication */
-    public DefaultAppletApplication(JApplet applet) {
+    /** Creates a new instance of AppletApplication */
+    public AppletApplication(JApplet applet) {
         this.applet = applet;
     }
     

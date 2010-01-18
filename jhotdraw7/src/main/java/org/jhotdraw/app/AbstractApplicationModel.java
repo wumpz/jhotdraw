@@ -20,7 +20,7 @@ import org.jhotdraw.gui.JFileURIChooser;
 import org.jhotdraw.gui.URIChooser;
 
 /**
- * AbstractApplicationModel.
+ * This abstract class can be extended to implement an {@link ApplicationModel}.
  *
  * @author Werner Randelshofer
  * @version 1.0 2009-12-19 Created.
