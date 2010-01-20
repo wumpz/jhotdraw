@@ -29,9 +29,8 @@ import org.jhotdraw.app.Disposable;
  *
  * @author  Werner Randelshofer
  * @version $Id$
- * @deprecated This class will be removed in a future release of JHotDraw.
  */
-@Deprecated public class NanoXMLDOMInput implements DOMInput, Disposable {
+public class NanoXMLDOMInput implements DOMInput, Disposable {
     /**
      * This map is used to unmarshall references to objects to
      * the XML DOM. A key in this map is a String representing a marshalled
@@ -85,39 +84,43 @@ import org.jhotdraw.app.Disposable;
     /**
      * Returns the tag name of the current element.
      */
+    @Override
     public String getTagName() {
         return current.getName();
     }
     /**
      * Gets an attribute of the current element of the DOM Document.
      */
+    @Override
     public String getAttribute(String name, String defaultValue) {
-        String value = (String) current.getAttribute(name);
-        return (value == null || value.length() == 0) ? defaultValue : value;
+        return current.getAttribute(name, defaultValue);
     }
     /**
      * Gets an attribute of the current element of the DOM Document and of
      * all parent DOM elements.
      */
+    @Override
     public java.util.List<String> getInheritedAttribute(String name) {
         LinkedList<String> values = new LinkedList<String>();
         for (XMLElement node: stack) {
-            String value = (String) node.getAttribute(name);
+            String value = (String) node.getAttribute(name,null);
             values.add(value);
         }
-        String value = (String) current.getAttribute(name);
+        String value = (String) current.getAttribute(name,null);
         values.add(value);
         return values;
     }
     /**
      * Gets the text of the current element of the DOM Document.
      */
+    @Override
     public String getText() {
         return getText(null);
     }
     /**
      * Gets the text of the current element of the DOM Document.
      */
+    @Override
     public String getText(String defaultValue) {
         String value = current.getContent();
         return (value == null) ? defaultValue : value;
@@ -125,22 +128,25 @@ import org.jhotdraw.app.Disposable;
     /**
      * Gets an attribute of the current element of the DOM Document.
      */
+    @Override
     public int getAttribute(String name, int defaultValue) {
-        String value = (String) current.getAttribute(name);
+        String value = (String) current.getAttribute(name, null);
         return (value == null || value.length() == 0) ? defaultValue : (int) Long.decode(value).intValue();
     }
     /**
      * Gets an attribute of the current element of the DOM Document.
      */
+    @Override
     public double getAttribute(String name, double defaultValue) {
-        String value = (String) current.getAttribute(name);
+        String value = (String) current.getAttribute(name, null);
         return (value == null || value.length() == 0) ? defaultValue : Double.parseDouble(value);
     }
     /**
      * Gets an attribute of the current element of the DOM Document.
      */
+    @Override
     public boolean getAttribute(String name, boolean defaultValue) {
-        String value = (String) current.getAttribute(name);
+        String value = (String) current.getAttribute(name, null);
         return (value == null || value.length() == 0) ? defaultValue : Boolean.valueOf(value).booleanValue();
     }
     
@@ -148,6 +154,7 @@ import org.jhotdraw.app.Disposable;
     /**
      * Returns the number of child elements of the current element.
      */
+    @Override
     public int getElementCount() {
         return current.getChildrenCount();
     }
@@ -155,6 +162,7 @@ import org.jhotdraw.app.Disposable;
      * Returns the number of child elements with the specified tag name
      * of the current element.
      */
+    @Override
     public int getElementCount(String tagName) {
         int count = 0;
         ArrayList list = current.getChildren();
@@ -195,6 +203,7 @@ import org.jhotdraw.app.Disposable;
      * Opens the element with the specified name and index and makes it the
      * current node.
      */
+    @Override
     public void openElement(String tagName, int index) throws IOException {
         int count = 0;
         ArrayList list = current.getChildren();
@@ -217,6 +226,7 @@ import org.jhotdraw.app.Disposable;
      * @exception IllegalArgumentException if the provided tagName does
      * not match the tag name of the element.
      */
+    @Override
     public void closeElement() {
         current = (XMLElement) stack.pop();
     }
@@ -224,73 +234,40 @@ import org.jhotdraw.app.Disposable;
     /**
      * Reads an object from the current element.
      */
+    @Override
     public Object readObject() throws IOException {
         return readObject(0);
     }
     /**
      * Reads an object from the current element.
      */
+    @Override
     public Object readObject(int index) throws IOException {
         openElement(index);
         Object o;
         
         String tagName = getTagName();
-        if (tagName.equals("null")) {
-            o =  null;
-        } else if (tagName.equals("string")) {
-            o = getText();
-        } else if (tagName.equals("int")) {
-            o = Integer.decode(getText());
-        } else if (tagName.equals("long")) {
-            o = Long.decode(getText());
-        } else if (tagName.equals("float")) {
-            o = new Float(Float.parseFloat(getText()));
-        } else if (tagName.equals("double")) {
-            o = new Double(Double.parseDouble(getText()));
-        } else if (tagName.equals("boolean")) {
-            o = Boolean.valueOf(getText());
-        } else if (tagName.equals("color")) {
-            o = new Color(getAttribute("rgba",0xff));
-        } else if (tagName.equals("intArray")) {
-            int[] a = new int[getElementCount()];
-            for (int i=0; i < a.length; i++) {
-                a[i] = ((Integer) readObject(i)).intValue();
-            }
-            o = a;
-        } else if (tagName.equals("floatArray")) {
-            float[] a = new float[getElementCount()];
-            for (int i=0; i < a.length; i++) {
-                a[i] = ((Float) readObject(i)).floatValue();
-            }
-            o = a;
-        } else if (tagName.equals("doubleArray")) {
-            double[] a = new double[getElementCount()];
-            for (int i=0; i < a.length; i++) {
-                a[i] = ((Double) readObject(i)).doubleValue();
-            }
-            o = a;
-        } else if (tagName.equals("font")) {
-            o = new Font(getAttribute("name", "Dialog"), getAttribute("style", 0), getAttribute("size", 0));
-        } else if (tagName.equals("enum")) {
-            o = factory.createEnum(getAttribute("type",(String)null), getText());
+
+        String ref = getAttribute("ref", null);
+        String id = getAttribute("id", null);
+
+        if (ref != null && id != null) {
+            throw new IOException("Element has both an id and a ref attribute: <" + getTagName() + " id=" + id + " ref=" + ref + ">");
+        }
+        if (id != null && idobjects.containsKey(id)) {
+            throw new IOException("Duplicate id attribute: <" + getTagName() + " id=" + id + ">");
+        }
+        if (ref != null && !idobjects.containsKey(ref)) {
+            throw new IOException("Illegal ref attribute value: <" + getTagName() + " ref=" + ref + ">");
+        }
+
+        // Keep track of objects which have an ID
+        if (ref != null) {
+            o = idobjects.get(id);
         } else {
-            String ref = getAttribute("ref", null);
-            String id = getAttribute("id", ref);
-            
-            // Keep track of objects which have an ID
-            if (id == null) {
-                o = factory.create(getTagName());
-            } else if (idobjects.containsKey(id)) {
-                o = idobjects.get(id);
-            } else {
-                o = factory.create(getTagName());
+            o = factory.read(this);
+            if (id != null) {
                 idobjects.put(id, o);
-            }
-            
-            if (ref == null) {
-                if (o instanceof DOMStorable) {
-                    ((DOMStorable) o).read(this);
-                }
             }
         }
         

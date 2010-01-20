@@ -68,6 +68,7 @@ public class CompositeLineDecoration implements LineDecoration, DOMStorable {
      * Draws the arrow tip in the direction specified by the given two
      * Points.. (template method)
      */
+    @Override
     public void draw(Graphics2D g, Figure f, Point2D.Double p1, Point2D.Double p2) {
     	for (LineDecoration decoration : decorations) {
     		decoration.draw(g, f, p1, p2);
@@ -77,6 +78,7 @@ public class CompositeLineDecoration implements LineDecoration, DOMStorable {
     /**
      * Returns the drawing area of the decorator.
      */
+    @Override
     public Rectangle2D.Double getDrawingArea(Figure f, Point2D.Double p1, Point2D.Double p2) {
     	Rectangle2D.Double r = null;
     	
@@ -96,6 +98,7 @@ public class CompositeLineDecoration implements LineDecoration, DOMStorable {
      * This is used to crop the end of the line, to prevent it from being
      * drawn it over the decorator.
      */
+    @Override
     public double getDecorationRadius(Figure f) {
     	double radius = 0;
     	
@@ -106,6 +109,7 @@ public class CompositeLineDecoration implements LineDecoration, DOMStorable {
     	return radius;
     }
     
+    @Override
     public void read(DOMInput in) throws IOException {
         for (int i = in.getElementCount("decoration") - 1; i >= 0; i--) {
     		in.openElement("decoration", i);
@@ -119,6 +123,7 @@ public class CompositeLineDecoration implements LineDecoration, DOMStorable {
     	}
     }
     
+    @Override
     public void write(DOMOutput out) throws IOException {
     	for (LineDecoration decoration : decorations) {
         	out.openElement("decoration");

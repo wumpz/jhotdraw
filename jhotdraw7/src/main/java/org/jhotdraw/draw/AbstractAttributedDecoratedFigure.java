@@ -31,9 +31,10 @@ import org.jhotdraw.xml.*;
  * @version $Id$
  */
 public abstract class AbstractAttributedDecoratedFigure
-        extends AbstractAttributedFigure implements DecoratedFigure {
+        extends AbstractAttributedFigure implements DecoratedFigure, DOMStorable {
     private Figure decorator;
     
+    @Override
     public final void draw(Graphics2D g) {
         if (decorator != null) {
             drawDecorator(g);
@@ -48,6 +49,7 @@ public abstract class AbstractAttributedDecoratedFigure
         decorator.draw(g);
     }
     
+    @Override
     public final Rectangle2D.Double getDrawingArea() {
         Rectangle2D.Double r = getFigureDrawingArea();
         if (decorator != null) {
@@ -60,6 +62,7 @@ public abstract class AbstractAttributedDecoratedFigure
         return super.getDrawingArea();
     }
     
+    @Override
     public void setDecorator(Figure newValue) {
         willChange();
         decorator = newValue;
@@ -69,6 +72,7 @@ public abstract class AbstractAttributedDecoratedFigure
         changed();
     }
     
+    @Override
     public Figure getDecorator() {
         return decorator;
     }
@@ -85,6 +89,7 @@ public abstract class AbstractAttributedDecoratedFigure
         }
     }
     
+    @Override
     public final boolean contains(Point2D.Double p) {
         if (decorator != null) {
             updateDecoratorBounds();
@@ -96,12 +101,14 @@ public abstract class AbstractAttributedDecoratedFigure
     }
     protected abstract boolean figureContains(Point2D.Double p);
     
+    @Override
     public void read(DOMInput in) throws IOException {
         super.read(in);
         readDecorator(in);
     }
     
     
+    @Override
     public void write(DOMOutput out) throws IOException {
         super.write(out);
         writeDecorator(out);
@@ -122,6 +129,7 @@ public abstract class AbstractAttributedDecoratedFigure
             decorator = null;
         }
     }
+    @Override
     public AbstractAttributedDecoratedFigure clone() {
         AbstractAttributedDecoratedFigure that = (AbstractAttributedDecoratedFigure) super.clone();
         if (this.decorator != null) {

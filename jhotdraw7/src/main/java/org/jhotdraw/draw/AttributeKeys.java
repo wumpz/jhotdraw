@@ -124,8 +124,8 @@ public class AttributeKeys {
     /**
      * Factor for the stroke inner width. This is a double. The default value
      * is 2.
-     *
-     * @deprecated This is not flexible enough. Lets replace this with a 
+     * <p>
+     * FIXME - This is not flexible enough. Lets replace this with a
      * STROKE_STRIPES_ARRAY<Double[]> and a IS_STROKE_STRIPES_FACTOR.
      */
     public final static AttributeKey<Double> STROKE_INNER_WIDTH_FACTOR = new AttributeKey<Double>("innerStrokeWidthFactor", Double.class, 2d, false, labels);
@@ -175,8 +175,6 @@ public class AttributeKeys {
         /**
          * If STROKE_TYPE is put to this value, a DoubleStroke instance is used
          * for stroking.
-         * @deprecated This is not flexible enough. Lets replace this with
-         * STRIPED. for example to support for striped strokes.  
          */
         DOUBLE
     }

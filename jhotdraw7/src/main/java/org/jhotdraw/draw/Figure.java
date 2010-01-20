@@ -25,7 +25,6 @@ import java.util.*;
 import javax.swing.*;
 import java.io.*;
 import org.jhotdraw.geom.*;
-import org.jhotdraw.xml.DOMStorable;
 
 /**
  * A <em>figure</em> is a graphical element of a {@link Drawing}. A figure
@@ -108,7 +107,7 @@ import org.jhotdraw.xml.DOMStorable;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public interface Figure extends Cloneable, Serializable, DOMStorable {
+public interface Figure extends Cloneable, Serializable {
     // PROPERTIES
     /** The name of the "connectable" property. */
     public final static String CONNECTABLE_PROPERTY="connectable";

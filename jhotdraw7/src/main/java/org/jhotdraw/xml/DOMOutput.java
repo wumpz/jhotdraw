@@ -20,16 +20,25 @@ import java.io.IOException;
 /**
  * DOMOutput.
  * <p>
- * Design pattern:<br>
- * Name: Abstract Factory.<br>
- * Role: Client.<br>
- * Partners: {@link DOMFactory} as the Abstract Factory of the Abstract Factory,.
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Abstract Factory</em><br>
+ * {@code DOMFactory} is used by {@code DOMInput} and {@code DOMOutput} for
+ * creating Java objects and DOM elements.
+ * Abstract Factory: {@link DOMFactory}<br>
+ * Client: {@link DOMInput}, {@link DOMOutput}.
+ *
+ * <p><em>Strategy</em><br>
+ * {@code DOMFactory} is used by {@code DOMInput} and {@code DOMOutput} for
+ * reading and writing objects.
+ * Client: {@link DOMInput}, {@link DOMOutput}.<br>
+ * Strategy: {@link DOMFactory}.<br>
  *
  * @author  Werner Randelshofer
  * @version $Id$
- * @deprecated This interface will be removed in a future release of JHotDraw.
  */
-@Deprecated public interface DOMOutput {
+public interface DOMOutput {
     /**
      * Sets the doctype for the XML document.
      */

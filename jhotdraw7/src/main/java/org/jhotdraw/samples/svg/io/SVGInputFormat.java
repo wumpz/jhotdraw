@@ -1145,7 +1145,7 @@ public class SVGInputFormat implements InputFormat {
                 return value;
             }
         } else if (elem.hasAttribute(attributeName)) {
-            String value = elem.getAttribute(attributeName);
+            String value = elem.getAttribute(attributeName,"");
             if (value.equals("inherit")) {
                 return readInheritAttribute(elem.getParent(), attributeName, defaultValue);
             } else {
@@ -1173,7 +1173,7 @@ public class SVGInputFormat implements InputFormat {
                 return readInheritColorAttribute(elem.getParent(), attributeName, defaultValue);
             }
         } else if (elem.hasAttribute(attributeName)) {
-            value = elem.getAttribute(attributeName);
+            value = elem.getAttribute(attributeName,"");
             if (value.equals("inherit")) {
                 return readInheritColorAttribute(elem.getParent(), attributeName, defaultValue);
             }
@@ -1862,8 +1862,8 @@ public class SVGInputFormat implements InputFormat {
      * hashtable {@code identifiedElements}.
      */
     private void identifyElements(IXMLElement elem) {
-        identifiedElements.put(elem.getAttribute("id"), elem);
-        identifiedElements.put(elem.getAttribute("xml:id"), elem);
+        identifiedElements.put(elem.getAttribute("id",""), elem);
+        identifiedElements.put(elem.getAttribute("xml:id",""), elem);
 
         for (IXMLElement child : elem.getChildren()) {
             identifyElements(child);
@@ -3359,16 +3359,19 @@ public class SVGInputFormat implements InputFormat {
         return t;
     }
 
+    @Override
     public javax.swing.filechooser.FileFilter getFileFilter() {
         return new ExtensionFileFilter("Scalable Vector Graphics (SVG)", "svg");
     }
 
+    @Override
     public JComponent getInputFormatAccessory() {
         return null;
     }
 
+    @Override
     public void read(File file, Drawing drawing, boolean replace) throws IOException {
-        this.url = file.toURL();
+        this.url = file.toURI().toURL();
         BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
         try {
             read(in, drawing, replace);

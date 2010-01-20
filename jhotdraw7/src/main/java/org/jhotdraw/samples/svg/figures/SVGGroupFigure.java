@@ -144,19 +144,11 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
     }
 
     @Override
-    final public void write(DOMOutput out) throws IOException {
-        throw new UnsupportedOperationException("Use SVGStorableOutput to write this Figure.");
-    }
-
-    @Override
-    final public void read(DOMInput in) throws IOException {
-        throw new UnsupportedOperationException("Use SVGStorableInput to read this Figure.");
-    }
-
     public boolean isEmpty() {
         return getChildCount() == 0;
     }
 
+    @Override
     public String toString() {
         StringBuilder buf = new StringBuilder();
         buf.append(getClass().getName().substring(getClass().getName().lastIndexOf('.') + 1));
@@ -176,6 +168,7 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
         return buf.toString();
     }
 
+    @Override
     public SVGGroupFigure clone() {
         SVGGroupFigure that = (SVGGroupFigure) super.clone();
         that.attributes = new HashMap<AttributeKey, Object>(this.attributes);

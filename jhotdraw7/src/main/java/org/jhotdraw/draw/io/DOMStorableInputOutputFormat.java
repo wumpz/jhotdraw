@@ -40,9 +40,8 @@ import org.jhotdraw.xml.*;
  *
  * @author Werner Randelshofer
  * @version $Id$
- * @deprecated This class will go away in a future release of JHotDraw.
  */
-@Deprecated public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
+public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
 
     private DOMFactory factory;
     /**

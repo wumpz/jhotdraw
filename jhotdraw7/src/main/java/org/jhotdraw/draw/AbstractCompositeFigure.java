@@ -32,6 +32,7 @@ import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
+import org.jhotdraw.xml.DOMStorable;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
@@ -43,7 +44,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  */
 public abstract class AbstractCompositeFigure
         extends AbstractFigure
-        implements CompositeFigure {
+        implements CompositeFigure, DOMStorable {
 
     /**
      * A Layouter determines how the children of the CompositeFigure
@@ -500,6 +501,7 @@ public abstract class AbstractCompositeFigure
         return list;
     }
 
+    @Override
     public void read(DOMInput in) throws IOException {
         in.openElement("children");
         for (int i = 0; i < in.getElementCount(); i++) {
@@ -508,6 +510,7 @@ public abstract class AbstractCompositeFigure
         in.closeElement();
     }
 
+    @Override
     public void write(DOMOutput out) throws IOException {
         out.openElement("children");
         for (Figure child : getChildren()) {
@@ -516,6 +519,7 @@ public abstract class AbstractCompositeFigure
         out.closeElement();
     }
 
+    @Override
     public void restoreTransformTo(Object geometry) {
         LinkedList list = (LinkedList) geometry;
         Iterator i = list.iterator();

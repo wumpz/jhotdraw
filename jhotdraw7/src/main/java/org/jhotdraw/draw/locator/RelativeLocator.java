@@ -70,6 +70,7 @@ public class RelativeLocator extends AbstractLocator {
         this.isTransform = isTransform;
     }
     
+    @Override
     public java.awt.geom.Point2D.Double locate(Figure owner) {
         Rectangle2D.Double bounds = owner.getBounds();
         if ((owner instanceof DecoratedFigure) &&
@@ -243,11 +244,13 @@ public class RelativeLocator extends AbstractLocator {
         return new RelativeLocator(0.5, 0.5, isTransform);
     }
     
+    @Override
     public void write(DOMOutput out) {
         out.addAttribute("relativeX", relativeX, 0.5);
         out.addAttribute("relativeY", relativeY, 0.5);
     }
     
+    @Override
     public void read(DOMInput in) {
         relativeX = in.getAttribute("relativeX", 0.5);
         relativeY = in.getAttribute("relativeY", 0.5);

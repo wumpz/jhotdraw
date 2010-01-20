@@ -346,7 +346,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
                     }
                     Component comp = toolBar.getComponentAtIndex(j++);
 
-                    if (comp != null && comp.isFocusTraversable() && comp.isEnabled()) {
+                    if (comp != null && comp.isFocusable() && comp.isEnabled()) {
                         comp.requestFocus();
                         break;
                     }
@@ -368,7 +368,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
                     }
                     Component comp = toolBar.getComponentAtIndex(j--);
 
-                    if (comp != null && comp.isFocusTraversable() && comp.isEnabled()) {
+                    if (comp != null && comp.isFocusable() && comp.isEnabled()) {
                         comp.requestFocus();
                         break;
                     }
@@ -797,7 +797,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
                     ((Window) floatingToolBar).setLocation(floatingX, floatingY);
                 }
                 if (floatingToolBar instanceof Window) {
-                    ((Window) floatingToolBar).show();
+                    ((Window) floatingToolBar).setVisible(true);
                 }
             } else {
                 if (floatingToolBar == null) {
@@ -974,7 +974,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
                     //Dimension size = toolBar.getPreferredSize();
                     Dimension size = toolBar.getSize();
                     dragWindow.setSize(size.width, size.height);
-                    dragWindow.show();
+                    dragWindow.setVisible(true);
                 }
             } catch (IllegalComponentStateException e) {
             }

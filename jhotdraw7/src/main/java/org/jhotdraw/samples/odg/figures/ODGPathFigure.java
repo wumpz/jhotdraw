@@ -180,13 +180,6 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
         return (Rectangle2D.Double) cachedDrawingArea.clone();
     }
     
-    @Override final public void write(DOMOutput out) throws IOException {
-        throw new UnsupportedOperationException("Use ODGStorableOutput to write this Figure.");
-    }
-    @Override final public void read(DOMInput in) throws IOException {
-        throw new UnsupportedOperationException("Use ODGStorableInput to read this Figure.");
-    }
-    
     public boolean contains(Point2D.Double p) {
         getPath();
         if (get(TRANSFORM) != null) {

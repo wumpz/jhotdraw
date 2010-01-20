@@ -131,7 +131,7 @@ public class FileIconsSample {
                 editor.add(view);
                 editor.setActiveView(view);
 
-                f.show();
+                f.setVisible(true);
             }
         });
     }

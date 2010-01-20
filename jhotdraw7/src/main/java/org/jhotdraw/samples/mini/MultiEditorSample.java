@@ -89,7 +89,7 @@ public class MultiEditorSample {
 
                 f.getContentPane().add(tb, BorderLayout.WEST);
 
-                f.show();
+                f.setVisible(true);
             }
         });
     }

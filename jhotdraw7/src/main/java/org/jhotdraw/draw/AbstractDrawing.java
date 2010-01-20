@@ -72,10 +72,12 @@ public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure 
         }
     }
 
+    @Override
     public FontRenderContext getFontRenderContext() {
         return fontRenderContext;
     }
 
+    @Override
     public void setFontRenderContext(FontRenderContext frc) {
         fontRenderContext = frc;
     }

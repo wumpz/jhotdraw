@@ -206,13 +206,16 @@ public class SlantedLiner
         
     }
     
+    @Override
     public void read(DOMInput in) {
         slantSize = in.getAttribute("slant", 20d);
     }
     
+    @Override
     public void write(DOMOutput out) {
         out.addAttribute("slant", slantSize);
     }
+    @Override
     public Liner clone() {
         try {
             return (Liner) super.clone();
