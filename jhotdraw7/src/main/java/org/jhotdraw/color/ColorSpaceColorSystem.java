@@ -27,7 +27,7 @@ import java.io.InputStream;
  */
 public class ColorSpaceColorSystem extends AbstractColorSystem {
 
-    private ColorSpace colorSpace;
+    protected ColorSpace colorSpace;
     private String name;
 
     /**

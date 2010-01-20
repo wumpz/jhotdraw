@@ -46,12 +46,12 @@ import java.io.*;
  */
 public class MunsellUPLabColorSystem extends ColorSpaceColorSystem {
 
-    private ICC_ColorSpace colorSpace;
-
     /**
      * Creates a new instance.
      */
     public MunsellUPLabColorSystem() {
-        super("Munsell CIELab_to_UPLab2.icc","Munsell UP LAB");
+        // "Munsell CIELab_to_UPLab.icc" is for conversion from CIE Lab to UP Lab
+        // "Munsell CIELab_to_UPLab2.icc" is for conversion from UP Lab to CIE Lab
+        super("Munsell CIELab_to_UPLab.icc","Munsell UP LAB");
     }
 }
