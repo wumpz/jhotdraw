@@ -485,6 +485,7 @@ public class OSXApplication extends AbstractApplication {
     protected void initPalettes(final LinkedList<Action> paletteActions) {
         SwingUtilities.invokeLater(new Worker<LinkedList<JFrame>>() {
 
+            @Override
             public LinkedList<JFrame> construct() {
                 LinkedList<JFrame> palettes = new LinkedList<JFrame>();
                 LinkedList<JToolBar> toolBars = new LinkedList<JToolBar>(getModel().createToolBars(OSXApplication.this, null));
@@ -522,11 +523,13 @@ public class OSXApplication extends AbstractApplication {
                     PreferencesUtil.installPalettePrefsHandler(prefs, "toolbar." + i, d, x);
                     x += d.getWidth();
 
-                    paletteActions.add(new TogglePaletteAction(OSXApplication.this, d, tb.getName()));
+                    TogglePaletteAction tpa=new TogglePaletteAction(OSXApplication.this, d, tb.getName());
                     palettes.add(d);
                     if (prefs.getBoolean("toolbar." + i + ".visible", true)) {
                         addPalette(d);
+                        tpa.putValue(ActionUtil.SELECTED_KEY, true);
                     }
+                    paletteActions.add(tpa);
                 }
                 return palettes;
 

@@ -37,6 +37,7 @@ public class TogglePaletteAction extends AbstractAction {
         this.app = app;
         
         windowHandler = new WindowAdapter() {
+            @Override
             public void windowClosing(WindowEvent evt) {
                 putValue(ActionUtil.SELECTED_KEY, false);
             }
@@ -46,8 +47,10 @@ public class TogglePaletteAction extends AbstractAction {
         setPalette(palette);
     }
     
+    @Override
     public void putValue(String key, Object newValue) {
         super.putValue(key, newValue);
+        /*
         if (key == ActionUtil.SELECTED_KEY) {
             if (palette != null) {
                 boolean b = (Boolean) newValue;
@@ -59,7 +62,7 @@ public class TogglePaletteAction extends AbstractAction {
                     palette.setVisible(false);
                 }
             }
-        }
+        }*/
     }
     
     public void setPalette(Window newValue) {
@@ -81,9 +84,18 @@ public class TogglePaletteAction extends AbstractAction {
         }
     }
     
+    @Override
     public void actionPerformed(ActionEvent e) {
         if (palette != null) {
-            putValue(ActionUtil.SELECTED_KEY, ! palette.isVisible());
+           // putValue(ActionUtil.SELECTED_KEY, ! palette.isVisible());
+            boolean b = (Boolean) getValue(ActionUtil.SELECTED_KEY);
+                if (b) {
+                    app.addPalette(palette);
+                    palette.setVisible(true);
+                } else {
+                    app.removePalette(palette);
+                    palette.setVisible(false);
+                }
         }
     }
 }
