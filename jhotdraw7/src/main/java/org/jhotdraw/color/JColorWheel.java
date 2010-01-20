@@ -19,19 +19,23 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 /**
- * The JColorWheel displays a hue/saturation wheel of an HSL or an HSV ColorSystem. 
- * The user can click at the wheel to pick a color on the JColorWheel. 
- * The JColorWheel should be used together with a color slider for HSL luminance
- * or HSV value.
+ * The {@code JColorWheel} displays a wheel made of two components of a
+ * {@link ColorSystem}.
+ * <p>
+ * The user can click at the wheel to pick a color.
+ * <p>
+ * The {@code JColorWheel} should be used together with a color slider for the
+ * remaining color component(s) of the color system.
  *
  * @author  Werner Randelshofer
  * @version $Id$
  */
 public class JColorWheel extends JPanel {
+
     private ColorSystem sys;
     protected Insets wheelInsets;
     protected Image colorWheelImage;
-    protected ColorWheelImageProducer colorWheelProducer;
+    protected AbstractColorWheelImageProducer colorWheelProducer;
     protected ColorSliderModel model;
     /** Radial color component index. */
     protected int radialIndex = 1;
@@ -40,7 +44,8 @@ public class JColorWheel extends JPanel {
     /** Vertical color component index. */
     protected int verticalIndex = 2;
 
-    private class MouseHandler extends MouseAdapter implements MouseMotionListener  {
+    private class MouseHandler extends MouseAdapter implements MouseMotionListener {
+
         public void mouseDragged(MouseEvent e) {
             update(e);
         }
@@ -68,6 +73,7 @@ public class JColorWheel extends JPanel {
 
     private class ModelHandler implements ChangeListener {
 
+        @Override
         public void stateChanged(ChangeEvent e) {
             repaint();
         }
@@ -79,10 +85,11 @@ public class JColorWheel extends JPanel {
      */
     public JColorWheel() {
         this(new HSVRGBColorSystem());
-        }
+    }
+
     public JColorWheel(ColorSystem sys) {
         this.sys = sys;
-        wheelInsets = new Insets(0,0,0,0);
+        wheelInsets = new Insets(0, 0, 0, 0);
         model = new DefaultColorSliderModel(sys);
         initComponents();
         colorWheelProducer = createWheelProducer(0, 0);
@@ -91,7 +98,7 @@ public class JColorWheel extends JPanel {
         installMouseListeners();
         setOpaque(false);
     }
-    
+
     protected void installMouseListeners() {
         mouseHandler = new MouseHandler();
         addMouseListener(mouseHandler);
@@ -105,34 +112,39 @@ public class JColorWheel extends JPanel {
         model = m;
         if (model != null) {
             model.addChangeListener(modelHandler);
-        colorWheelProducer = createWheelProducer(getWidth(), getHeight());
+            colorWheelProducer = createWheelProducer(getWidth(), getHeight());
             repaint();
         }
     }
+
     public void setRadialComponentIndex(int newValue) {
         radialIndex = newValue;
         colorWheelImage = null;
         repaint();
     }
+
     public void setAngularComponentIndex(int newValue) {
         angularIndex = newValue;
         colorWheelImage = null;
         repaint();
     }
+
     public void setVerticalComponentIndex(int newValue) {
         verticalIndex = newValue;
         colorWheelImage = null;
         repaint();
     }
-    
+
     public void setWheelInsets(Insets newValue) {
         wheelInsets = newValue;
         repaint();
     }
+
     public Insets getWheelInsets() {
         return wheelInsets;
     }
 
+    @Override
     public Dimension getPreferredSize() {
         return new Dimension(100, 100);
     }
@@ -141,20 +153,21 @@ public class JColorWheel extends JPanel {
         return model;
     }
 
+    @Override
     public void paintComponent(Graphics gr) {
         Graphics2D g = (Graphics2D) gr;
         paintWheel(g);
         paintThumb(g);
     }
 
-    protected ColorWheelImageProducer createWheelProducer(int w, int h) {
-        ColorWheelImageProducer p = new ColorWheelImageProducer(model.getColorSystem(), w, h);
+    protected AbstractColorWheelImageProducer createWheelProducer(int w, int h) {
+        AbstractColorWheelImageProducer p = new ColorWheelImageProducer(model.getColorSystem(), w, h);
         p.setAngularComponentIndex(angularIndex);
         p.setRadialComponentIndex(radialIndex);
         p.setVerticalComponentIndex(verticalIndex);
         return p;
     }
-    
+
     protected void paintWheel(Graphics2D g) {
         int w = getWidth() - wheelInsets.left - wheelInsets.right;
         int h = getHeight() - wheelInsets.top - wheelInsets.bottom;
@@ -190,38 +203,31 @@ public class JColorWheel extends JPanel {
                 wheelInsets.left + w / 2,
                 wheelInsets.top + h / 2);
     }
+
     protected int getRadius() {
         return colorWheelProducer.getRadius();
     }
+
     protected Point getThumbLocation() {
-        return getColorLocation(
-                model.getComponentValue(0),
-                model.getComponentValue(1),
-                model.getComponentValue(2));
+        return getColorLocation(model.getComponentValues());
     }
 
     protected Point getColorLocation(Color c) {
-        Point p = colorWheelProducer.getColorLocation(c, 
-                getWidth() - wheelInsets.left - wheelInsets.right,
-                getHeight() - wheelInsets.top - wheelInsets.bottom);
+        Point p = colorWheelProducer.getColorLocation(c);
         p.x += wheelInsets.left;
         p.y += wheelInsets.top;
         return p;
     }
 
-    protected Point getColorLocation(float hue, float saturation, float brightness) {
-        Point p = colorWheelProducer.getColorLocation(hue, saturation, brightness, 
-                getWidth() - wheelInsets.left - wheelInsets.right,
-                getHeight() - wheelInsets.top - wheelInsets.bottom);
+    protected Point getColorLocation(float[] components) {
+        Point p = colorWheelProducer.getColorLocation(components);
         p.x += wheelInsets.left;
         p.y += wheelInsets.top;
         return p;
     }
 
     protected float[] getColorAt(int x, int y) {
-float[] cc = colorWheelProducer.getColorAt(x - wheelInsets.left, y - wheelInsets.top,
-                getWidth() - wheelInsets.left - wheelInsets.right,
-                getHeight() - wheelInsets.top - wheelInsets.bottom);        
+        float[] cc = colorWheelProducer.getColorAt(x - wheelInsets.left, y - wheelInsets.top);
         return cc;
     }
 

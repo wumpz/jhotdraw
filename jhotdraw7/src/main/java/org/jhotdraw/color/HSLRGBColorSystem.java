@@ -13,9 +13,6 @@
  */
 package org.jhotdraw.color;
 
-import java.awt.*;
-import javax.swing.*;
-
 /**
  * A ColorSystem for HSL color components (hue, saturation, lightness) based
  * on the primary colors red, green and blue.
@@ -31,6 +28,7 @@ public class HSLRGBColorSystem extends AbstractColorSystem {
     public HSLRGBColorSystem() {
     }
 
+    @Override
     public int toRGB(float... components) {
         float hue = components[0];
         float saturation = components[1];
@@ -160,6 +158,16 @@ public class HSLRGBColorSystem extends AbstractColorSystem {
 
     public int getComponentCount() {
         return 3;
+    }
+
+    @Override
+    public float getMinValue(int component) {
+        return 0f;
+    }
+
+    @Override
+    public float getMaxValue(int component) {
+        return 1f;
     }
 
 }

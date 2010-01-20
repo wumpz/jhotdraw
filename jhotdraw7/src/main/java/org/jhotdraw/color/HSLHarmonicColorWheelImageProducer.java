@@ -136,15 +136,16 @@ public class HSLHarmonicColorWheelImageProducer extends ColorWheelImageProducer 
     }
 
     @Override
-    protected Point getColorLocation(Color c, int width, int height) {
+    public Point getColorLocation(Color c) {
         float[] hsb = new float[3];
         hsb = colorSystem.toComponents(c.getRGB(), hsb);
-        return getColorLocation(hsb[0], hsb[1], hsb[2], width, height);
+        return getColorLocation(hsb);
     }
 
     @Override
-    protected Point getColorLocation(float hue, float saturation, float brightness, int width, int height) {
-        float radius = Math.min(width, height) / 2f;
+    public Point getColorLocation(float[] hsb) {
+        float hue=hsb[0]; float saturation=hsb[1]; float brightness=hsb[2];
+        float radius = Math.min(w, h) / 2f;
         float radiusH = radius / 2f;
 
         saturation = Math.max(0f, Math.min(1f, saturation));
@@ -152,18 +153,18 @@ public class HSLHarmonicColorWheelImageProducer extends ColorWheelImageProducer 
         
         Point p;
             p = new Point(
-                    width / 2 + (int) ((radius - radius * brightness) * Math.cos(hue * Math.PI * 2d)),
-                    height / 2 - (int) ((radius - radius * brightness) * Math.sin(hue * Math.PI * 2d)));
+                    w / 2 + (int) ((radius - radius * brightness) * Math.cos(hue * Math.PI * 2d)),
+                    h / 2 - (int) ((radius - radius * brightness) * Math.sin(hue * Math.PI * 2d)));
         return p;
     }
 
     @Override
-    protected float[] getColorAt(int x, int y, int width, int height) {
-        x -= width / 2;
-        y -= height / 2;
+    public float[] getColorAt(int x, int y) {
+        x -= w / 2;
+        y -= h / 2;
         float r = (float) Math.sqrt(x * x + y * y);
         float theta = (float) Math.atan2(-y, x);
-        float radius = Math.min(width, height) / 2f;
+        float radius = Math.min(w, h) / 2f;
 
         float[] hsb;
         float sat = (float) r / radius ;

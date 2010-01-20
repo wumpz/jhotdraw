@@ -27,6 +27,7 @@ public class HSVRGBColorSystem extends AbstractColorSystem {
     public HSVRGBColorSystem() {
     }
     
+    @Override
     public int toRGB(float... components) {
         float hue = components[0] * 360f;
         float saturation = components[1];
@@ -135,8 +136,19 @@ public class HSVRGBColorSystem extends AbstractColorSystem {
         return components;
     }
 
+    @Override
     public int getComponentCount() {
         return 3;
+    }
+
+    @Override
+    public float getMinValue(int component) {
+        return 0f;
+    }
+
+    @Override
+    public float getMaxValue(int component) {
+        return 1f;
     }
 
 }

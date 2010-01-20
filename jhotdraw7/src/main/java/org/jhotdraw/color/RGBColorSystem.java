@@ -27,6 +27,7 @@ public class RGBColorSystem extends AbstractColorSystem {
     public RGBColorSystem() {
     }
 
+    @Override
     public float[] toComponents(int r, int g, int b, float[] components) {
         if (components == null || components.length != 3) {
             components = new float[3];
@@ -37,6 +38,7 @@ public class RGBColorSystem extends AbstractColorSystem {
         return components;
     }
 
+    @Override
     public int toRGB(float... components) {
         return 0xff000000 | 
                 ((int) (components[0] * 255) << 16) | 
@@ -44,7 +46,18 @@ public class RGBColorSystem extends AbstractColorSystem {
                 (int) (components[2] * 255);
     }
 
+    @Override
     public int getComponentCount() {
         return 3;
+    }
+
+    @Override
+    public float getMinValue(int component) {
+        return 0f;
+    }
+
+    @Override
+    public float getMaxValue(int component) {
+        return 1f;
     }
 }

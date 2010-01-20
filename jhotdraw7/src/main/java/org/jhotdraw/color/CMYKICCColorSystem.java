@@ -13,9 +13,6 @@
  */
 package org.jhotdraw.color;
 
-import java.awt.color.*;
-import java.io.*;
-
 /**
  * A {@code ColorSystem} for CMYK color components (cyan, magenta, yellow, black) in
  * a color space defined by a ICC color profile (International Color Consortium).
@@ -29,57 +26,12 @@ import java.io.*;
  * @author  Werner Randelshofer
  * @version $Id$
  */
-public class CMYKICCColorSystem extends AbstractColorSystem {
-
-    private ICC_ColorSpace colorSpace;
+public class CMYKICCColorSystem extends ColorSpaceColorSystem {
 
     /**
      * Creates a new instance.
      */
     public CMYKICCColorSystem() {
-        try {
-            read(getClass().getResourceAsStream("Generic CMYK Profile.icc"));
-        } catch (IOException e) {
-            InternalError err = new InternalError("Couldn't load \"Generic CMYK Profile.icc\".");
-            err.initCause(e);
-            throw err;
-        }
-
+        super("Generic CMYK Profile.icc");
     }
-
-    /**
-     * Creates a new instance.
-     */
-    public CMYKICCColorSystem(InputStream iccProfile) throws IOException {
-        read(iccProfile);
-    }
-
-    public void read(InputStream iccProfile) throws IOException {
-        this.colorSpace = new ICC_ColorSpace(ICC_Profile.getInstance(iccProfile));
-    }
-
-    @Override
-    public float[] toComponents(int r, int g, int b, float[] component) {
-        if (component == null || component.length != 4) {
-            component = new float[4];
-        }
-        component[0] = r / 255f;
-        component[1] = g / 255f;
-        component[2] = b / 255f;
-        float[] cmyk = colorSpace.fromRGB(component);
-        System.arraycopy(cmyk, 0, component, 0, 4);
-        return component;
-    }
-
-    @Override
-    public int toRGB(float... component) {
-        float[] rgb = colorSpace.toRGB(component);
-        return 0xff000000 | ((int) (rgb[0] * 255f) << 16) | ((int) (rgb[1] * 255f) << 8) | (int) (rgb[2] * 255f);
-    }
-
-    @Override
-    public int getComponentCount() {
-        return 4;
-    }
-
 }

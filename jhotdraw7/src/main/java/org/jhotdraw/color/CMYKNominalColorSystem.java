@@ -24,18 +24,20 @@ package org.jhotdraw.color;
  * @version $Id$
  */
 public class CMYKNominalColorSystem extends AbstractColorSystem {
+
     /**
      * Creates a new instance.
      */
     public CMYKNominalColorSystem() {
     }
-    
+
+    @Override
     public float[] toComponents(int r, int g, int b, float[] component) {
         if (component == null || component.length != 4) {
             component = new float[4];
         }
         float cyan, magenta, yellow, black;
-        
+
         cyan = 1f - r / 255f;
         magenta = 1f - g / 255f;
         yellow = 1f - b / 255f;
@@ -44,7 +46,7 @@ public class CMYKNominalColorSystem extends AbstractColorSystem {
             black = 1f;
         } else {
             black = Math.min(Math.min(cyan, magenta), yellow);
-            
+
             if (black > 0f) {
                 cyan = (cyan - black) / (1 - black);
                 magenta = (magenta - black) / (1 - black);
@@ -59,25 +61,37 @@ public class CMYKNominalColorSystem extends AbstractColorSystem {
         return component;
     }
 
+    @Override
     public int toRGB(float... component) {
         float cyan, magenta, yellow, black;
-        
+
         cyan = component[0];
         magenta = component[1];
         yellow = component[2];
         black = component[3];
-        
+
         float red, green, blue;
         red = 1f - cyan * (1f - black) - black;
         green = 1f - magenta * (1f - black) - black;
         blue = 1f - yellow * (1f - black) - black;
         return 0xff000000
-        | ((int) (red * 255) << 16)
-        | ((int) (green * 255) << 8)
-        | (int) (blue * 255);
+                | ((int) (red * 255) << 16)
+                | ((int) (green * 255) << 8)
+                | (int) (blue * 255);
     }
 
+    @Override
     public int getComponentCount() {
         return 4;
+    }
+
+    @Override
+    public float getMinValue(int component) {
+        return 0f;
+    }
+
+    @Override
+    public float getMaxValue(int component) {
+        return 1f;
     }
 }

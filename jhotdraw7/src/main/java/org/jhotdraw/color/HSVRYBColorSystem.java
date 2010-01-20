@@ -29,6 +29,7 @@ public class HSVRYBColorSystem extends AbstractColorSystem {
     public HSVRYBColorSystem() {
     }
 
+    @Override
     public int toRGB(float... components) {
         float hue = components[0];
         float saturation = components[1];
@@ -137,6 +138,7 @@ public class HSVRYBColorSystem extends AbstractColorSystem {
         return rgb;
     }
 
+    @Override
     public float[] toComponents(int red, int green, int blue, float[] components) {
         if (components == null || components.length != 3) {
             components = new float[3];
@@ -183,8 +185,19 @@ public class HSVRYBColorSystem extends AbstractColorSystem {
         return components;
     }
 
+    @Override
     public int getComponentCount() {
         return 3;
+    }
+
+    @Override
+    public float getMinValue(int component) {
+        return 0f;
+    }
+
+    @Override
+    public float getMaxValue(int component) {
+        return 1f;
     }
 
 }

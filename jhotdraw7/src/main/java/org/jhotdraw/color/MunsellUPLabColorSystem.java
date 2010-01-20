@@ -36,15 +36,15 @@ import java.io.*;
  * </a>
  * <p>
  * CIE Lab to Uniform Perceptual Lab profile is
- * copyright © 2003 Bruce Justin Lindbloom.
- * All rights reserved.
+ * copyright © 2003 Bruce Justin Lindbloom.<br>
+ * All rights reserved.<br>
  * <a href="http://www.brucelindbloom.com">http://www.brucelindbloom.com</a>
  * 
  *
  * @author  Werner Randelshofer
  * @version $Id$
  */
-public class MunsellUPLabColorSystem extends AbstractColorSystem {
+public class MunsellUPLabColorSystem extends ColorSpaceColorSystem {
 
     private ICC_ColorSpace colorSpace;
 
@@ -52,63 +52,6 @@ public class MunsellUPLabColorSystem extends AbstractColorSystem {
      * Creates a new instance.
      */
     public MunsellUPLabColorSystem() {
-        try {
-            read(getClass().getResourceAsStream("Munsell CIELab_to_UPLab2.icc"));
-        } catch (IOException e) {
-            InternalError err = new InternalError("Couldn't load \"Munsell CIELab_to_UPLab2.icc\".");
-            err.initCause(e);
-            throw err;
-        }
-
-    }
-
-    /**
-     * Creates a new instance.
-     */
-    public MunsellUPLabColorSystem(InputStream iccProfile) throws IOException {
-        read(iccProfile);
-    }
-
-    public void read(InputStream iccProfile) throws IOException {
-        this.colorSpace = new ICC_ColorSpace(ICC_Profile.getInstance(iccProfile));
-    }
-
-    @Override
-    public float[] toComponents(int r, int g, int b, float[] component) {
-        if (component == null || component.length != getComponentCount()) {
-            component = new float[getComponentCount()];
-        }
-        // We abuse the component array to temporarily store the rgb values as floats
-        component[0] = r / 255f;
-        component[1] = g / 255f;
-        component[2] = b / 255f;
-        float[] lab = colorSpace.fromRGB(component);
-        // Scale color components
-        for (int i = 0; i < lab.length; i++) {
-            component[i] = (lab[i] - colorSpace.getMinValue(i)) / (colorSpace.getMaxValue(i) - colorSpace.getMinValue(i));
-        }
-
-        return component;
-    }
-
-    @Override
-    public int toRGB(float... component) {
-        float[] lab = new float[getComponentCount()];
-        // Scale color components
-        for (int i = 0; i < lab.length; i++) {
-            lab[i] = component[i] * (colorSpace.getMaxValue(i) - colorSpace.getMinValue(i)) + colorSpace.getMinValue(i);
-        }
-
-        float[] rgb = colorSpace.toRGB(lab);
-        return 0xff000000 | ((int) (rgb[0] * 255f) << 16) | ((int) (rgb[1] * 255f) << 8) | (int) (rgb[2] * 255f);
-    }
-
-    @Override
-    public int getComponentCount() {
-        return colorSpace.getNumComponents();
-    }
-
-    public static void main(String[] args) {
-        System.out.println(new MunsellUPLabColorSystem().getComponentCount());
+        super("Munsell CIELab_to_UPLab2.icc","Munsell UP LAB");
     }
 }

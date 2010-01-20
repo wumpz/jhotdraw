@@ -96,6 +96,13 @@ public interface ColorSliderModel {
      * @return Value
      */
     public float getComponentValue(int componentIndex);
+    /**
+     * Gets all component values.
+     *
+     * @param componentIndex
+     * @return Value
+     */
+    public float[] getComponentValues();
     
     public void addChangeListener(ChangeListener l);
 

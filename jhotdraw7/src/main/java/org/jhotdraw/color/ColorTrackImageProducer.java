@@ -91,8 +91,10 @@ public class ColorTrackImageProducer extends MemoryImageSource {
         float[] components = colorizer.getCompositeColor().getComponents();
         ColorSystem sys = colorizer.getColorSystem();
         int offset = trackBuffer / 2;
+        float minv = sys.getMinValue(componentIndex);
+        float maxv = sys.getMaxValue(componentIndex);
         for (int x = 0, n = w - trackBuffer - 1; x <= n; x++) {
-            components[componentIndex] =  x / (float) n;
+            components[componentIndex] =  (x / (float) n)*(maxv-minv)+minv;
             pixels[x + offset] = sys.toRGB(components);
         }
         for (int x=0; x < offset; x++) {
@@ -107,8 +109,11 @@ public class ColorTrackImageProducer extends MemoryImageSource {
         float[] components = colorizer.getCompositeColor().getComponents();
         ColorSystem sys = colorizer.getColorSystem();
         int offset = trackBuffer / 2;
+        float minv = sys.getMinValue(componentIndex);
+        float maxv = sys.getMaxValue(componentIndex);
         for (int y = 0, n = h - trackBuffer - 1; y <= n; y++) {
-            components[componentIndex] =  1f - (y / (float) n);
+            // Note: removed + minv - minv from formula below
+            components[componentIndex] =  maxv - (y / (float) n)*(maxv-minv);
             pixels[(y + offset) * w] = sys.toRGB(components);
         }
         for (int y=0; y < offset; y++) {

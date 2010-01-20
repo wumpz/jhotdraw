@@ -37,22 +37,28 @@ public class JHarmonicColorWheel extends JColorWheel {
 
     private class MouseHandler implements MouseListener, MouseMotionListener {
 
+        @Override
         public void mouseClicked(MouseEvent e) {
         }
 
+        @Override
         public void mouseDragged(MouseEvent e) {
             update(e);
         }
 
+        @Override
         public void mouseEntered(MouseEvent e) {
         }
 
+        @Override
         public void mouseExited(MouseEvent e) {
         }
 
+        @Override
         public void mouseMoved(MouseEvent e) {
         }
 
+        @Override
         public void mousePressed(MouseEvent e) {
             int x = e.getX();
             int y = e.getY();
@@ -328,9 +334,7 @@ public class JHarmonicColorWheel extends JColorWheel {
     }
 
     protected Point getColorLocation(CompositeColor c) {
-        Point p = colorWheelProducer.getColorLocation(c,
-                getWidth() - wheelInsets.left - wheelInsets.right,
-                getHeight() - wheelInsets.top - wheelInsets.bottom);
+        Point p = colorWheelProducer.getColorLocation(c);
         p.x += wheelInsets.left;
         p.y += wheelInsets.top;
         return p;

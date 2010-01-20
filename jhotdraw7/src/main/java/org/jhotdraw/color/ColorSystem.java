@@ -16,7 +16,7 @@ package org.jhotdraw.color;
 
 /**
  * A ColorSystem defines a system to describe colors using a number of
- * components. Each component has a normalized value between 0 and 1.
+ * components. 
  *
  * @author Werner Randelshofer
  * @version $Id$
@@ -47,4 +47,30 @@ public interface ColorSystem {
      */
     public float[] toComponents(int rgb, float[] components);
     
+    /**
+     * Returns the minimum normalized color component value for the
+     * specified component.
+
+     * @param component The component.
+     * @return The minimal value.
+     */
+    public float getMinValue(int component);
+
+    /**
+     * Returns the maximum normalized color component value for the
+     * specified component.
+
+     * @param component The component.
+     * @return The maximal value.
+     */
+    public float getMaxValue(int component);
+
+    /** Returns the name of the color system. */
+    public String getName();
+
+    @Override
+    public boolean equals(Object that);
+
+    @Override
+    public int hashCode();
 }

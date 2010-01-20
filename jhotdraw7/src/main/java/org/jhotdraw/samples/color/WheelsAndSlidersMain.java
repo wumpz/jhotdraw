@@ -15,6 +15,7 @@ package org.jhotdraw.samples.color;
 
 import org.jhotdraw.color.*;
 import java.awt.*;
+import java.awt.color.ICC_ColorSpace;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -43,7 +44,15 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
                 previewLabel.setBackground(color);
                 for (ColorSliderModel c : models) {
                     if (c != m) {
-                        c.setColor(color);
+                        if (c.getColorSystem().equals(m.getColorSystem())) {
+                            // If the color system is the same, directly set the components (=lossless)
+                            for (int i = 0; i < m.getComponentCount(); i++) {
+                                c.setComponentValue(i, m.getComponentValue(i));
+                            }
+                        } else {
+                            // If the color system is different, set the RGB color (=lossy)
+                            c.setColor(color);
+                        }
                     }
                 }
             }
@@ -63,13 +72,21 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
 
         chooserPanel.add(createColorWheelChooser(new HSVRGBColorSystem()));
         chooserPanel.add(createColorWheelChooser(new HSLRGBColorSystem()));
+        chooserPanel.add(createColorWheelChooser(new HSLRGBColorSystem(), 0, 2, 1));
         chooserPanel.add(new JPanel());
         chooserPanel.add(createColorWheelChooser(new HSVRYBColorSystem()));
         chooserPanel.add(createColorWheelChooser(new HSLRYBColorSystem()));
         chooserPanel.add(createColorWheelChooser(new HSLRYBColorSystem(), 0, 2, 1));
-        chooserPanel.add(createSliderChooser(new HSVRGBColorSystem()));
-        chooserPanel.add(createSliderChooser(new RGBColorSystem()));
         chooserPanel.add(new JPanel());
+        chooserPanel.add(createColorWheelChooser(new ColorSpaceColorSystem(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_LINEAR_RGB),"Linear RGB"),0,1,2,true));
+        chooserPanel.add(createColorWheelChooser(new ColorSpaceColorSystem(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_CIEXYZ),"CIE XYZ"),0,1,2,true));
+        chooserPanel.add(createColorWheelChooser(new ColorSpaceColorSystem(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_PYCC),"PYCC"),1,2,0,true));
+        chooserPanel.add(new JPanel());
+        chooserPanel.add(createColorWheelChooser(new ColorSpaceColorSystem(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_sRGB),"sRGB"),0,1,2,true));
+        chooserPanel.add(new JPanel());
+        chooserPanel.add(new JPanel());
+        chooserPanel.add(createColorWheelChooser(new MunsellUPLabColorSystem(),1,2,0,true));
+        chooserPanel.add(createSliderChooser(new RGBColorSystem()));
         chooserPanel.add(createSliderChooser(new CMYKICCColorSystem()));
         chooserPanel.add(createSliderChooser(new CMYKNominalColorSystem()));
         chooserPanel.add(createSliderChooser(new MunsellUPLabColorSystem()));
@@ -80,33 +97,48 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
     }
 
     private JPanel createColorWheelChooser(ColorSystem sys, int angularIndex, int radialIndex, int verticalIndex) {
+        return createColorWheelChooser(sys, angularIndex, radialIndex, verticalIndex, false);
+    }
+    private JPanel createColorWheelChooser(ColorSystem sys, int angularIndex, int radialIndex, int verticalIndex, boolean isSquare) {
         JPanel p = new JPanel(new BorderLayout());
         DefaultColorSliderModel m = new DefaultColorSliderModel(sys);
         models.add(m);
         m.addChangeListener(handler);
-        JColorWheel w = new JColorWheel();
+        JColorWheel w = (isSquare)?new JColorSquare():new JColorWheel();
         w.setAngularComponentIndex(angularIndex);
         w.setRadialComponentIndex(radialIndex);
         w.setVerticalComponentIndex(verticalIndex);
         w.setModel(m);
         JSlider s = new JSlider(JSlider.VERTICAL);
         m.configureSlider(verticalIndex, s);
-        p.add(new JLabel("<html>" + sys.getClass().getSimpleName() + "<br>α:" + angularIndex + " r:" + radialIndex + " v:" + verticalIndex), BorderLayout.NORTH);
+        p.add(new JLabel("<html>" + sys.getName() + "<br>α:" + angularIndex + " r:" + radialIndex + " v:" + verticalIndex), BorderLayout.NORTH);
         p.add(w, BorderLayout.CENTER);
         p.add(s, BorderLayout.EAST);
         return p;
     }
 
     private JPanel createSliderChooser(ColorSystem sys) {
-        JPanel p = new JPanel(new GridLayout(0, 1));
+        return createSliderChooser(sys, false);
+    }
+
+    private JPanel createSliderChooser(ColorSystem sys, boolean vertical) {
+        JPanel p = new JPanel(new GridLayout(vertical ? 1 : 0, vertical ? 0 : 1));
         DefaultColorSliderModel m = new DefaultColorSliderModel(sys);
+
         models.add(m);
-        p.add(new JLabel("<html>"+sys.getClass().getSimpleName()), BorderLayout.NORTH);
+        if (!vertical) {
+            p.add(new JLabel(
+                    "<html>" + sys.getClass().getSimpleName()), BorderLayout.NORTH);
+        }
         m.addChangeListener(handler);
-        for (int i = 0; i < m.getComponentCount(); i++) {
+
+        for (int i = 0;
+                i < m.getComponentCount();
+                i++) {
             JSlider s = new JSlider(JSlider.HORIZONTAL);
             s.setMajorTickSpacing(50);
             s.setPaintTicks(true);
+            s.setOrientation(vertical ? JSlider.VERTICAL : JSlider.HORIZONTAL);
             m.configureSlider(i, s);
             p.add(s);
         }
@@ -116,14 +148,19 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
 
+            @Override
             public void run() {
-                JFrame f = new JFrame("Wheel");
+                JFrame f = new JFrame("Color Wheels, Squares and Sliders");
                 f.add(new WheelsAndSlidersMain());
                 f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 f.pack();
                 f.setVisible(true);
+
+
             }
         });
+
+
     }
 
     /** This method is called from within the constructor to
@@ -140,7 +177,7 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
         setLayout(new java.awt.BorderLayout());
 
         chooserPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        chooserPanel.setLayout(new java.awt.GridLayout(0, 3, 10, 10));
+        chooserPanel.setLayout(new java.awt.GridLayout(0, 4, 10, 10));
         add(chooserPanel, java.awt.BorderLayout.CENTER);
 
         previewLabel.setText("Selected Color");

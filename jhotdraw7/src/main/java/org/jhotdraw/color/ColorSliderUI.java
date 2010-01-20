@@ -118,6 +118,7 @@ public class ColorSliderUI extends BasicSliderUI {
             return UIManager.getIcon("Slider.westThumb.small");
         }
     }
+    @Override
     public void paintThumb(Graphics g)  {
         Rectangle knobBounds = thumbRect;
         int w = knobBounds.width;
@@ -129,6 +130,7 @@ public class ColorSliderUI extends BasicSliderUI {
         ((Graphics2D) g).draw(knobBounds);
          */
     }
+    @Override
     public void paintTrack(Graphics g)  {
         int cx, cy, cw, ch;
         int pad;
@@ -159,6 +161,7 @@ public class ColorSliderUI extends BasicSliderUI {
         g.drawRect(cx,cy,cw - 1,ch - 1);
         paintColorTrack(g, cx + 2, cy + 2, cw - 4, ch - 4, trackBuffer);
     }
+    @Override
     public void paintTicks(Graphics g)  {
         Rectangle tickBounds = tickRect;
         int i;
@@ -248,20 +251,25 @@ public class ColorSliderUI extends BasicSliderUI {
         ((Graphics2D) g).draw(tickBounds);
          */
     }
+    @Override
     protected void paintMajorTickForHorizSlider( Graphics g, Rectangle tickBounds, int x) {
         g.drawLine(x, 0, x, tickBounds.height - 1);
     }
+    @Override
     protected void paintMinorTickForHorizSlider( Graphics g, Rectangle tickBounds, int x ) {
         //g.drawLine( x, 0, x, tickBounds.height / 2 - 1 );
         g.drawLine(x, 0, x, tickBounds.height - 1);
     }
+    @Override
     protected void paintMinorTickForVertSlider( Graphics g, Rectangle tickBounds, int y ) {
         g.drawLine( tickBounds.width / 2, y, tickBounds.width / 2 - 1, y);
     }
     
+    @Override
     protected void paintMajorTickForVertSlider( Graphics g, Rectangle tickBounds, int y ) {
         g.drawLine(0, y,  tickBounds.width - 1, y);
     }
+    @Override
     public void paintFocus(Graphics g)  {
     }
     public void paintColorTrack(Graphics g, int x, int y, int width, int height, int buffer) {
@@ -287,6 +295,7 @@ public class ColorSliderUI extends BasicSliderUI {
         }
         g.drawImage(colorTrackImage, x, y, slider);
     }
+    @Override
     protected void calculateTrackRect() {
         int centerSpacing = 0; // used to center sliders added using BorderLayout.CENTER (bug 4275631)
         if ( slider.getOrientation() == JSlider.HORIZONTAL ) {

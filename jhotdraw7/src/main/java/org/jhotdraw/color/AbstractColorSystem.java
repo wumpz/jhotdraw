@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.color;
 
 /**
@@ -21,9 +20,32 @@ package org.jhotdraw.color;
  * @version $Id$
  */
 public abstract class AbstractColorSystem implements ColorSystem {
+
+    @Override
     public float[] toComponents(int rgb, float[] components) {
         return toComponents((rgb & 0xff0000) >> 16, (rgb & 0xff00) >> 8, rgb & 0xff, components);
     }
-    
+
     public abstract float[] toComponents(int r, int g, int b, float[] components);
+
+    @Override
+    public String getName() {
+        return getClass().getSimpleName();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof ColorSystem) {
+            ColorSystem that=(ColorSystem)obj;
+            return that.getName().equals(getName());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return getName().hashCode();
+    }
+
+
 }

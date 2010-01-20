@@ -39,11 +39,12 @@ public class DefaultColorSliderModel extends AbstractColorSlidersModel {
     public DefaultColorSliderModel() {
         setColorSystem(new HSLRGBColorSystem());
     }
+
     public DefaultColorSliderModel(ColorSystem sys) {
         setColorSystem(sys);
     }
 
-
+    @Override
     public void setColorSystem(ColorSystem newValue) {
         ColorSystem oldValue = system;
         system = newValue;
@@ -55,6 +56,7 @@ public class DefaultColorSliderModel extends AbstractColorSlidersModel {
             componentModels[i].addChangeListener(
                     new ChangeListener() {
 
+                        @Override
                         public void stateChanged(ChangeEvent e) {
                             fireColorChanged(componentIndex);
                             fireStateChanged();
@@ -68,6 +70,7 @@ public class DefaultColorSliderModel extends AbstractColorSlidersModel {
      * If the JSlider is already configured for another AbstractColorSystem,
      * it is unconfigured first.
      */
+    @Override
     public void configureSlider(int componentIndex, JSlider slider) {
         if (slider.getClientProperty("colorSliderModel") != null) {
             ((DefaultColorSliderModel) slider.getClientProperty("colorSliderModel")).unconfigureSlider(slider);
@@ -84,6 +87,7 @@ public class DefaultColorSliderModel extends AbstractColorSlidersModel {
     /**
      * Unconfigures a JSlider from this AbstractColorSystem.
      */
+    @Override
     public void unconfigureSlider(JSlider slider) {
         if (slider.getClientProperty("colorSliderModel") == this) {
             // XXX - This creates a NullPointerException ??
@@ -98,6 +102,7 @@ public class DefaultColorSliderModel extends AbstractColorSlidersModel {
     /**
      * Returns the bounded range model of the specified color componentIndex.
      */
+    @Override
     public DefaultBoundedRangeModel getBoundedRangeModel(int componentIndex) {
         return componentModels[componentIndex];
     }
@@ -133,61 +138,95 @@ public class DefaultColorSliderModel extends AbstractColorSlidersModel {
         }
     }
 
+    @Override
     public ColorSystem getColorSystem() {
         return system;
     }
 
+    @Override
     public int getComponentCount() {
         return system.getComponentCount();
     }
 
+    @Override
     public CompositeColor getCompositeColor() {
         float[] c = new float[system.getComponentCount()];
         int i = 0;
-        for (DefaultBoundedRangeModel m : componentModels) {
-            c[i] = (m.getValue() - m.getMinimum()) /
-                    (float) (m.getMaximum() - m.getMinimum());
+        for (DefaultBoundedRangeModel brm : componentModels) {
+            c[i] = (brm.getValue() - brm.getMinimum())
+                    / (float) (brm.getMaximum() - brm.getMinimum())
+                    * (system.getMaxValue(i) - system.getMinValue(i))
+                    + system.getMinValue(i);
             i++;
         }
         return new CompositeColor(system, c);
     }
 
-    public int getInterpolatedRGB(int componentIndex, float componentValue) {
+    @Override
+    public int getInterpolatedRGB(int i, float componentValue) {
         float[] c = new float[system.getComponentCount()];
-        int i = 0;
-        for (DefaultBoundedRangeModel m : componentModels) {
-            c[i] = (m.getValue() - m.getMinimum()) /
-                    (float) (m.getMaximum() - m.getMinimum());
-            i++;
+        int j = 0;
+        for (DefaultBoundedRangeModel brm : componentModels) {
+            c[j] = ((brm.getValue() - brm.getMinimum())
+                    / (float) (brm.getMaximum() - brm.getMinimum()))
+                    * (system.getMaxValue(j) - system.getMinValue(j))
+                    + system.getMinValue(j);
+            j++;
         }
-        c[componentIndex] = componentValue;
+        c[i] = componentValue;
         return system.toRGB(c);
     }
 
-    public void setComponentValue(int componentIndex, float newValue) {
-       BoundedRangeModel brm = componentModels[componentIndex];
-       brm.setValue((int) ((brm.getMaximum() - brm.getMinimum()) * newValue) + brm.getMinimum());
+    @Override
+    public void setComponentValue(int i, float newValue) {
+        BoundedRangeModel brm = componentModels[i];
+        brm.setValue((int) (((newValue - system.getMinValue(i))//
+                / (system.getMaxValue(i) - system.getMinValue(i)))//
+                * (brm.getMaximum() - brm.getMinimum())) + brm.getMinimum());
     }
 
-    public float getComponentValue(int componentIndex) {
-       BoundedRangeModel brm = componentModels[componentIndex];
-       return (brm.getValue() - brm.getMinimum()) / (float) (brm.getMaximum() - brm.getMinimum());
+    @Override
+    public float getComponentValue(int i) {
+        BoundedRangeModel brm = componentModels[i];
+        return (brm.getValue() - brm.getMinimum()) //
+                / (float) (brm.getMaximum() - brm.getMinimum())//
+                * (system.getMaxValue(i) - system.getMinValue(i))//
+                + system.getMinValue(i);
     }
 
+    @Override
     public void setCompositeColor(CompositeColor newValue) {
         float[] c = newValue.getComponents();
         int i = 0;
-        for (DefaultBoundedRangeModel m : componentModels) {
-            m.setValue((int) (c[i] * (m.getMaximum() - m.getMinimum() + m.getMinimum())));
+        for (DefaultBoundedRangeModel brm : componentModels) {
+            brm.setValue(//
+                    (int) (((c[i] - system.getMinValue(i))//
+                    / (system.getMaxValue(i) - system.getMinValue(i))) //
+                    * (brm.getMaximum() - brm.getMinimum()) + brm.getMinimum()));
             i++;
         }
     }
 
+    @Override
     public Color getColor() {
         return getCompositeColor().getColor();
     }
 
+    @Override
     public void setColor(Color newValue) {
         setCompositeColor(new CompositeColor(system, newValue));
+    }
+
+    @Override
+    public float[] getComponentValues() {
+        float[] c = new float[getComponentCount()];
+        for (int i = 0; i < c.length; i++) {
+            BoundedRangeModel brm = componentModels[i];
+            c[i] = (brm.getValue() - brm.getMinimum()) //
+                    / (float) (brm.getMaximum() - brm.getMinimum())//
+                    * (system.getMaxValue(i) - system.getMinValue(i))//
+                    + system.getMinValue(i);
+        }
+        return c;
     }
 }
