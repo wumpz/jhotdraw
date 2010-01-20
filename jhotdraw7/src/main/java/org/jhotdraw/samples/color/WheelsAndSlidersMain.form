@@ -4,6 +4,7 @@
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
     <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="2"/>
@@ -30,15 +31,15 @@
       </Constraints>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
-        <Property name="columns" type="int" value="0"/>
+        <Property name="columns" type="int" value="3"/>
         <Property name="horizontalGap" type="int" value="10"/>
-        <Property name="rows" type="int" value="2"/>
+        <Property name="rows" type="int" value="0"/>
         <Property name="verticalGap" type="int" value="10"/>
       </Layout>
     </Container>
     <Component class="javax.swing.JLabel" name="previewLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Color"/>
+        <Property name="text" type="java.lang.String" value="Selected Color"/>
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">

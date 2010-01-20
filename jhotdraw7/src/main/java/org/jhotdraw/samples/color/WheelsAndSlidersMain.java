@@ -26,53 +26,59 @@ import javax.swing.event.*;
  * @version $Id$
  */
 public class WheelsAndSlidersMain extends javax.swing.JPanel {
+
     private Color color;
     private JLabel colorLabel;
-    
     private LinkedList<ColorSliderModel> models;
 
     private class Handler implements ChangeListener {
+
         private int adjusting;
+
+        @Override
         public void stateChanged(ChangeEvent e) {
             if (adjusting++ == 0) {
-            ColorSliderModel m = (ColorSliderModel) e.getSource();
-            color = m.getColor();
-            previewLabel.setBackground(color);
-            for (ColorSliderModel c : models) {
-                if (c != m) {
-                    c.setColor(color);
+                ColorSliderModel m = (ColorSliderModel) e.getSource();
+                color = m.getColor();
+                previewLabel.setBackground(color);
+                for (ColorSliderModel c : models) {
+                    if (c != m) {
+                        c.setColor(color);
+                    }
                 }
-            }
             }
             adjusting--;
         }
-        
     }
     private Handler handler;
-    
+
     /** Creates new form. */
     public WheelsAndSlidersMain() {
         initComponents();
 
         models = new LinkedList<ColorSliderModel>();
         handler = new Handler();
-        
+
         previewLabel.setOpaque(true);
-        
+
         chooserPanel.add(createColorWheelChooser(new HSVRGBColorSystem()));
         chooserPanel.add(createColorWheelChooser(new HSLRGBColorSystem()));
+        chooserPanel.add(new JPanel());
         chooserPanel.add(createColorWheelChooser(new HSVRYBColorSystem()));
         chooserPanel.add(createColorWheelChooser(new HSLRYBColorSystem()));
         chooserPanel.add(createColorWheelChooser(new HSLRYBColorSystem(), 0, 2, 1));
         chooserPanel.add(createSliderChooser(new HSVRGBColorSystem()));
         chooserPanel.add(createSliderChooser(new RGBColorSystem()));
+        chooserPanel.add(new JPanel());
         chooserPanel.add(createSliderChooser(new CMYKICCColorSystem()));
         chooserPanel.add(createSliderChooser(new CMYKNominalColorSystem()));
+        chooserPanel.add(createSliderChooser(new MunsellUPLabColorSystem()));
     }
 
     private JPanel createColorWheelChooser(ColorSystem sys) {
         return createColorWheelChooser(sys, 0, 1, 2);
     }
+
     private JPanel createColorWheelChooser(ColorSystem sys, int angularIndex, int radialIndex, int verticalIndex) {
         JPanel p = new JPanel(new BorderLayout());
         DefaultColorSliderModel m = new DefaultColorSliderModel(sys);
@@ -85,23 +91,27 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
         w.setModel(m);
         JSlider s = new JSlider(JSlider.VERTICAL);
         m.configureSlider(verticalIndex, s);
+        p.add(new JLabel("<html>" + sys.getClass().getSimpleName() + "<br>α:" + angularIndex + " r:" + radialIndex + " v:" + verticalIndex), BorderLayout.NORTH);
         p.add(w, BorderLayout.CENTER);
         p.add(s, BorderLayout.EAST);
         return p;
     }
+
     private JPanel createSliderChooser(ColorSystem sys) {
         JPanel p = new JPanel(new GridLayout(0, 1));
         DefaultColorSliderModel m = new DefaultColorSliderModel(sys);
         models.add(m);
+        p.add(new JLabel("<html>"+sys.getClass().getSimpleName()), BorderLayout.NORTH);
         m.addChangeListener(handler);
-        for (int i=0; i < m.getComponentCount(); i++) {
-        JSlider s = new JSlider(JSlider.HORIZONTAL);
-        m.configureSlider(i, s);
-        p.add(s);
+        for (int i = 0; i < m.getComponentCount(); i++) {
+            JSlider s = new JSlider(JSlider.HORIZONTAL);
+            s.setMajorTickSpacing(50);
+            s.setPaintTicks(true);
+            m.configureSlider(i, s);
+            p.add(s);
         }
         return p;
     }
-
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
@@ -130,10 +140,10 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
         setLayout(new java.awt.BorderLayout());
 
         chooserPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        chooserPanel.setLayout(new java.awt.GridLayout(2, 0, 10, 10));
+        chooserPanel.setLayout(new java.awt.GridLayout(0, 3, 10, 10));
         add(chooserPanel, java.awt.BorderLayout.CENTER);
 
-        previewLabel.setText("Color");
+        previewLabel.setText("Selected Color");
         add(previewLabel, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables

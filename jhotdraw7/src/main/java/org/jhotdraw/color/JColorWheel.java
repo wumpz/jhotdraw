@@ -63,10 +63,6 @@ public class JColorWheel extends JPanel {
             // FIXME - We should only repaint the damaged area
             repaint();
         }
-
-        public void mouseMoved(MouseEvent e) {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
     }
     private MouseHandler mouseHandler;
 

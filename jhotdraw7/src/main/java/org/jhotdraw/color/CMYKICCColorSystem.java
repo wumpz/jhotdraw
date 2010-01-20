@@ -17,7 +17,7 @@ import java.awt.color.*;
 import java.io.*;
 
 /**
- * A ColorSystem for CMYK color components (cyan, magenta, yellow, black) in
+ * A {@code ColorSystem} for CMYK color components (cyan, magenta, yellow, black) in
  * a color space defined by a ICC color profile (International Color Consortium).
  * <p>
  * XXX - This does not work. I think this is because of 
@@ -58,6 +58,7 @@ public class CMYKICCColorSystem extends AbstractColorSystem {
         this.colorSpace = new ICC_ColorSpace(ICC_Profile.getInstance(iccProfile));
     }
 
+    @Override
     public float[] toComponents(int r, int g, int b, float[] component) {
         if (component == null || component.length != 4) {
             component = new float[4];
@@ -70,11 +71,13 @@ public class CMYKICCColorSystem extends AbstractColorSystem {
         return component;
     }
 
+    @Override
     public int toRGB(float... component) {
         float[] rgb = colorSpace.toRGB(component);
         return 0xff000000 | ((int) (rgb[0] * 255f) << 16) | ((int) (rgb[1] * 255f) << 8) | (int) (rgb[2] * 255f);
     }
 
+    @Override
     public int getComponentCount() {
         return 4;
     }

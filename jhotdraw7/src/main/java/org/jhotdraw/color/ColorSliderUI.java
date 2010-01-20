@@ -140,7 +140,7 @@ public class ColorSliderUI extends BasicSliderUI {
             cy = trackBounds.y;
             //cy = (trackBounds.height / 2) - 4;
             cw = trackBounds.width + pad * 2 - 2;
-            ch = trackBounds.height;
+            ch = trackBounds.height-1;
         } else {
             pad = trackBuffer;
             //cx = (trackBounds.width / 2) - 4;
@@ -295,7 +295,7 @@ public class ColorSliderUI extends BasicSliderUI {
             if ( slider.getPaintLabels() ) centerSpacing += getHeightOfTallestLabel();
             trackRect.x = contentRect.x + trackBuffer + 1;
             //trackRect.y = contentRect.y + (contentRect.height - centerSpacing - 1)/2;
-            trackRect.height = 13;
+            trackRect.height = 14;
             trackRect.y = contentRect.y + contentRect.height - trackRect.height;
             trackRect.width = contentRect.width - (trackBuffer * 2) - 1;
         }
