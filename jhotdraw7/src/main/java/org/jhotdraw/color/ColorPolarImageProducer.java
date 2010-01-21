@@ -22,25 +22,33 @@ import java.awt.image.*;
  * @see JColorWheel
  *
  * @author  Werner Randelshofer
- * @version $Id$
+ * @version $Id: ColorWheelImageProducer.java 527 2009-06-07 14:28:19Z rawcoder $
  */
-public class ColorWheelImageProducer extends AbstractColorWheelImageProducer {
+public class ColorPolarImageProducer extends AbstractColorWheelImageProducer {
+
     /** Lookup table for angular component values. */
     protected float[] angulars;
     /** Lookup table for radial component values. */
     protected float[] radials;
-    /** Lookup table for alphas. 
+    /** Lookup table for alphas.
      * The alpha value is used for antialiasing the
      * color wheel.
      */
     protected int[] alphas;
+    private boolean flipX, flipY;
 
     /** Creates a new instance. */
-    public ColorWheelImageProducer(ColorSystem sys, int w, int h) {
+    public ColorPolarImageProducer(ColorSystem sys, int w, int h) {
+        this(sys,w,h,false,false);
+    }
+    /** Creates a new instance. */
+    public ColorPolarImageProducer(ColorSystem sys, int w, int h, boolean flipX, boolean flipY) {
         super(sys, w, h);
+        this.flipX = flipX;
+        this.flipY = flipY;
     }
 
-    protected void generateLookupTables() {
+    protected void generateLookupTables1() {
         radials = new float[w * h];
         angulars = new float[w * h];
         alphas = new int[w * h];
@@ -60,28 +68,89 @@ public class ColorWheelImageProducer extends AbstractColorWheelImageProducer {
         float minA = colorSystem.getMinValue(angularIndex);
         float extentA = maxA - minA;
 
-        for (int x = 0; x < w; x++) {
-            int kx = x - cx; // Kartesian coordinates of x
-            int squarekx = kx * kx; // Square of kartesian x
+        int side = Math.min(w - 1, h - 1); // side length
+        int xOffset = (w - side) / 2;
+        int yOffset = (h - side) / 2 * w;
+        float extentX = side - 1;
+        float extentY = extentX;
+        for (int x = 0; x < side; x++) {
+            float xRatio = (flipX) ? 1f - x / extentX : x / extentX;
 
-            for (int y = 0; y < h; y++) {
-                int ky = cy - y; // Kartesian coordinates of y
+            for (int y = 0; y < side; y++) {
+                float yRatio = (flipY) ? 1f - y / extentY : y / extentY;
 
-                int index = x + y * w;
-                float radiusRatio = (float) (Math.sqrt(squarekx + ky * ky) / radius);
-                if (radiusRatio <= 1f) {
-                    alphas[index] = 0xff000000;
-                    radials[index] = radiusRatio * extentR + minR;
-                } else {
-                    alphas[index] = (int) ((blend - Math.min(blend, radiusRatio - 1f)) * 255 / blend) << 24;
-                    radials[index] = maxR;
-                }
-                if (alphas[index] != 0) {
-                    angulars[index] = (float) (Math.atan2(ky, kx) / Math.PI / 2d) * extentA + minA;
-                }
+                int index = x + y * w + xOffset + yOffset;
+
+                alphas[index] = 0xff000000;
+                radials[index] = xRatio * extentR + minR;
+                angulars[index] = yRatio * extentA + minA;
             }
         }
         isLookupValid = true;
+    }
+    protected void generateLookupTables() {
+        radials = new float[w * h];
+        angulars = new float[w * h];
+        alphas = new int[w * h];
+        float radius = getRadius();
+
+        // blend is used to create a linear alpha gradient of two extra pixels
+        float blend = (radius + 2f) / radius - 1f;
+
+        // Center of the color wheel circle
+
+        float maxR = colorSystem.getMaxValue(radialIndex);
+        float minR = colorSystem.getMinValue(radialIndex);
+        float extentR = maxR - minR;
+        float maxA = colorSystem.getMaxValue(angularIndex);
+        float minA = colorSystem.getMinValue(angularIndex);
+        float extentA = maxA - minA;
+        int side = Math.min(w, h); // side length
+        int cx = side / 2;
+        int cy = side / 2;
+        int xOffset = (w - side) / 2;
+        int yOffset = (h - side) / 2 * w;
+        float extentX = side - 1;
+        float extentY = extentX;
+
+        for (int x = 0; x < side; x++) {
+            float kx = (x - cx)/radius;
+            float squarekx=kx*kx;
+
+            for (int y = 0; y < side; y++) {
+                float ky = (cy - y)/radius;
+
+                int index = x + y * w+xOffset+yOffset;
+
+                float radiusRatio = (float) Math.sqrt(squarekx + ky * ky);
+                if (radiusRatio <= 1f) {
+                    alphas[index] = 0xff000000;
+                    //radials[index] = radiusRatio;
+                } else {
+                    alphas[index] = (int) ((blend - Math.min(blend, radiusRatio - 1f)) * 255 / blend) << 24;
+                    //radials[index] = maxR;
+                }
+                if (alphas[index] != 0) {
+                    //angulars[index] = (float) (Math.atan2(ky, kx));
+                }
+                float angle=(float)Math.atan2(ky,kx);
+                float scale=(float)Math.max(Math.abs(Math.sin(angle)),Math.abs(Math.cos(angle)))+0.1f;
+                radials[index] = (kx/scale+1f)/2f * extentR + minR;
+                angulars[index] = (ky/scale+1f)/2f * extentA + minA;
+            }
+        }
+        isLookupValid = true;
+    }
+
+    public boolean needsGeneration() {
+        return !isPixelsValid;
+    }
+
+    @Override
+    public void regenerateColorWheel() {
+        if (!isPixelsValid) {
+            generateColorWheel();
+        }
     }
 
     @Override
@@ -117,13 +186,21 @@ public class ColorWheelImageProducer extends AbstractColorWheelImageProducer {
                 / (colorSystem.getMaxValue(radialIndex) - colorSystem.getMinValue(radialIndex));
         float angular = (components[angularIndex] - colorSystem.getMinValue(angularIndex))//
                 / (colorSystem.getMaxValue(angularIndex) - colorSystem.getMinValue(angularIndex));
+        if (flipX) radial=1f-radial;
+        if (!flipY) angular=1f-angular;
 
+                float angle=(float)Math.atan2(radial-0.5f,angular-0.5f);
+                float scale=(float)Math.max(Math.abs(Math.sin(angle)),Math.abs(Math.cos(angle)))+0.01f;
 
-        float radius = Math.min(w, h) / 2f;
-        radial = Math.max(0f, Math.min(1f, radial));
+        int side = Math.min(w - 1, h - 1); // side length
+        float radius=side/2f;
+        int xOffset = (w - side) / 2;
+        int yOffset = (h - side) / 2;
+
         Point p = new Point(
-                w / 2 + (int) (radius * radial * Math.cos(angular * Math.PI * 2d)),
-                h / 2 - (int) (radius * radial * Math.sin(angular * Math.PI * 2d)));
+                (int) (side * (radial-0.5f)*scale) + w/2,
+                (int) (side*(angular-0.5f)*scale) + h/2//
+                );
         return p;
     }
 
@@ -134,13 +211,14 @@ public class ColorWheelImageProducer extends AbstractColorWheelImageProducer {
 
     @Override
     public float[] getColorAt(int x, int y) {
-        x -= w / 2;
-        y -= h / 2;
-        float r = (float) Math.sqrt(x * x + y * y);
-        float theta = (float) Math.atan2(y, -x);
+        int side = Math.min(w - 1, h - 1); // side length
+        int xOffset = (w - side) / 2;
+        int yOffset = (h - side) / 2;
 
-        float angular = (float) (0.5 + (theta / Math.PI / 2d));
-        float radial=Math.min(1f, (float) r / getRadius());
+        float radial = (x - xOffset) / (float) side;
+        float angular = (y - yOffset) / (float) side;
+        if (flipX) radial=1f-radial;
+        if (flipY) angular=1f-angular;
 
         float[] hsb = new float[3];
         hsb[angularIndex] = angular//

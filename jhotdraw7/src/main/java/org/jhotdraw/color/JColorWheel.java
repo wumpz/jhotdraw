@@ -32,6 +32,13 @@ import javax.swing.event.*;
  */
 public class JColorWheel extends JPanel {
 
+    public enum Type {
+
+        WHEEL,
+        SQUARE,
+        POLAR
+    }
+    private Type type = Type.WHEEL;
     private ColorSystem sys;
     protected Insets wheelInsets;
     protected Image colorWheelImage;
@@ -99,6 +106,11 @@ public class JColorWheel extends JPanel {
         setOpaque(false);
     }
 
+    public void setType(Type type) {
+        this.type = type;
+        colorWheelProducer = createWheelProducer(0, 0);
+    }
+
     protected void installMouseListeners() {
         mouseHandler = new MouseHandler();
         addMouseListener(mouseHandler);
@@ -161,7 +173,19 @@ public class JColorWheel extends JPanel {
     }
 
     protected AbstractColorWheelImageProducer createWheelProducer(int w, int h) {
-        AbstractColorWheelImageProducer p = new ColorWheelImageProducer(model.getColorSystem(), w, h);
+        AbstractColorWheelImageProducer p;
+        switch (type) {
+            case WHEEL:
+            default:
+                p = new ColorWheelImageProducer(model.getColorSystem(), w, h);
+                break;
+            case SQUARE:
+                p = new ColorSquareImageProducer(model.getColorSystem(), w, h, false, true);
+                break;
+            case POLAR:
+                p = new ColorPolarImageProducer(model.getColorSystem(), w, h);
+                break;
+        }
         p.setAngularComponentIndex(angularIndex);
         p.setRadialComponentIndex(radialIndex);
         p.setVerticalComponentIndex(verticalIndex);
@@ -181,7 +205,17 @@ public class JColorWheel extends JPanel {
         }
 
         colorWheelProducer.setVerticalValue(model.getComponentValue(verticalIndex));
-        colorWheelProducer.regenerateColorWheel();
+        if (colorWheelProducer.needsGeneration()) {
+            // To keep the UI responsive, we only perform the time consuming
+            // regeneration of the color track if we don't already have
+            // a latency of more than a 10th of a second on the most recent event.
+            long latency = System.currentTimeMillis() - EventQueue.getMostRecentEventTime();
+            if (latency > 100) {
+                repaint();
+            } else {
+                colorWheelProducer.regenerateColorWheel();
+            }
+        }
 
         g.drawImage(colorWheelImage, wheelInsets.left, wheelInsets.top, this);
     }

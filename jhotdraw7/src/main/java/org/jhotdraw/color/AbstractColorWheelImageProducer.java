@@ -68,6 +68,10 @@ public abstract class AbstractColorWheelImageProducer extends MemoryImageSource 
         verticalValue = newValue;
     }
 
+    public boolean needsGeneration() {
+        return !isPixelsValid;
+    }
+
     public void regenerateColorWheel() {
         if (!isPixelsValid) {
             generateColorWheel();

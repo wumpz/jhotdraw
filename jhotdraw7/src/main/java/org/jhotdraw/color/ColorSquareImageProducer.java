@@ -35,10 +35,17 @@ public class ColorSquareImageProducer extends AbstractColorWheelImageProducer {
      * color wheel.
      */
     protected int[] alphas;
+    private boolean flipX, flipY;
 
     /** Creates a new instance. */
     public ColorSquareImageProducer(ColorSystem sys, int w, int h) {
+        this(sys,w,h,false,false);
+    }
+    /** Creates a new instance. */
+    public ColorSquareImageProducer(ColorSystem sys, int w, int h, boolean flipX, boolean flipY) {
         super(sys, w, h);
+        this.flipX = flipX;
+        this.flipY = flipY;
     }
 
     protected void generateLookupTables() {
@@ -67,10 +74,10 @@ public class ColorSquareImageProducer extends AbstractColorWheelImageProducer {
         float extentX = side - 1;
         float extentY = extentX;
         for (int x = 0; x < side; x++) {
-            float xRatio = x / extentX;
+            float xRatio = (flipX) ? 1f - x / extentX : x / extentX;
 
             for (int y = 0; y < side; y++) {
-                float yRatio = y / extentY;
+                float yRatio = (flipY) ? 1f - y / extentY : y / extentY;
 
                 int index = x + y * w + xOffset + yOffset;
 
@@ -126,6 +133,8 @@ public class ColorSquareImageProducer extends AbstractColorWheelImageProducer {
                 / (colorSystem.getMaxValue(radialIndex) - colorSystem.getMinValue(radialIndex));
         float angular = (components[angularIndex] - colorSystem.getMinValue(angularIndex))//
                 / (colorSystem.getMaxValue(angularIndex) - colorSystem.getMinValue(angularIndex));
+        if (flipX) radial=1f-radial;
+        if (flipY) angular=1f-angular;
 
 
         int side = Math.min(w - 1, h - 1); // side length
@@ -152,6 +161,8 @@ public class ColorSquareImageProducer extends AbstractColorWheelImageProducer {
 
         float radial = (x - xOffset) / (float) side;
         float angular = (y - yOffset) / (float) side;
+        if (flipX) radial=1f-radial;
+        if (flipY) angular=1f-angular;
 
         float[] hsb = new float[3];
         hsb[angularIndex] = angular//

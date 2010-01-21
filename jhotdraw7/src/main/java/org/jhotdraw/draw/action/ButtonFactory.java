@@ -162,13 +162,32 @@ public class ButtonFactory {
     }
     public final static int WEBSAVE_COLORS_COLUMN_COUNT = 19;
     /**
-     * HSV color palette.
-     * This is a 'human friendly' color palette which arranges
-     * the color in a way that makes it (hopefully) easy for humans to
-     * select the desired color.
+     * HSV color palette with a set of colors chosen based on a physical criteria.
      * <p>
-     * This palette has 12 columns.
-     * The topmost row contains a null-color and gray scales.
+     * This is a 'human friendly' color palette which arranges the color in a
+     * way that makes it easy for humans to select the desired
+     * color. The colors are ordered in a way which minimizes the color contrast
+     * effect in the human visual system.
+     * <p>
+     * This palette has 12 columns and 10 rows.
+     * <p>
+     * The topmost row contains a null-color and a gray scale from white to
+     * black in 10 percent steps.
+     * <p>
+     * The remaining rows contain colors taken from the outer hull of the HSV
+     * color model:
+     * <p>
+     * The columns are ordered by hue starting with red - the lowest wavelength -
+     * and ending with purple - the highest wavelength. There are 12 different
+     * hues, so that all primary colors with their additive complements can be
+     * selected. 
+     * <p>
+     * The rows are orderd by brightness with the brightest color at the top (sky)
+     * and the darkest color at the bottom (earth).
+     * The first 5 rows contain colors with maximal brightness and a saturation
+     * ranging form 20% up to 100%. The remaining 4 rows contain colors with
+     * maximal saturation and a brightness ranging from 90% to 20% (this also
+     * makes for a range from 100% to 20% if the 5th row is taken into account).
      */
     public final static java.util.List<ColorIcon> HSV_COLORS;
 
@@ -180,14 +199,14 @@ public class ButtonFactory {
         for (int b = 10; b >= 0; b--) {
             m.add(new ColorIcon(Color.HSBtoRGB(0f, 0f, b * 0.1f)));
         }
-        for (int b = 2; b <= 10; b += 2) {
+        for (int s = 2; s <=8; s += 2) {
             for (int h = 0; h < 12; h++) {
-                m.add(new ColorIcon(Color.HSBtoRGB((h + 6) / 12f, 1f, b * 0.1f)));
+                m.add(new ColorIcon(Color.HSBtoRGB((h) / 12f, s * 0.1f, 1f)));
             }
         }
-        for (int s = 8; s > 0; s -= 2) {
+        for (int b = 10; b >= 2; b -= 2) {
             for (int h = 0; h < 12; h++) {
-                m.add(new ColorIcon(Color.HSBtoRGB((h + 6) / 12f, s * 0.1f, 1f)));
+                m.add(new ColorIcon(Color.HSBtoRGB((h) / 12f, 1f, b * 0.1f)));
             }
         }
         HSV_COLORS = Collections.unmodifiableList(m);
@@ -804,6 +823,7 @@ public class ButtonFactory {
         for (ColorIcon swatch : swatches) {
             AttributeAction a;
             HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey, Object>(defaultAttributes);
+            if (swatch != null) {
             attributes.put(attributeKey, swatch.getColor());
             if (swatch.getColor() == null) {
                 hasNullColor = true;
@@ -817,6 +837,10 @@ public class ButtonFactory {
             a.putValue(Action.SHORT_DESCRIPTION, swatch.getName());
             a.setUpdateEnabledState(false);
             dsp.add(a);
+            } else {
+                popupButton.add(new JPanel());
+            }
+
         }
 
         // No color
@@ -992,6 +1016,7 @@ public class ButtonFactory {
         for (ColorIcon swatch : swatches) {
             DrawingAttributeAction a;
             HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey, Object>(defaultAttributes);
+            if (swatch !=null) {
             attributes.put(attributeKey, swatch.getColor());
             if (swatch.getColor() == null) {
                 hasNullColor = true;
@@ -1005,6 +1030,9 @@ public class ButtonFactory {
             dsp.add(a);
             a.putValue(Action.SHORT_DESCRIPTION, swatch.getName());
             a.setUpdateEnabledState(false);
+            } else {
+                popupButton.add(new JPanel());
+            }
         }
 
         // No color
