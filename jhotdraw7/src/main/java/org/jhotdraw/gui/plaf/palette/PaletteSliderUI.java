@@ -27,9 +27,9 @@ import javax.swing.plaf.basic.*;
  * @version $Id$
  */
 public class PaletteSliderUI extends BasicSliderUI {
-    private final static float[] enabledStops = new float[]{0f, 0.35f, 0.35f, 1f};
+    private final static float[] enabledStops = new float[]{0f, 0.35f, 0.351f, 1f};
     private final static Color[] enabledStopColors = new Color[]{new Color(0xf3f3f3), new Color(0xcccccc), new Color(0xbababa), new Color(0xf3f3f3)};
-    private final static float[] disabledStops = new float[]{0f, 0.35f, 0.35f, 1f};
+    private final static float[] disabledStops = new float[]{0f, 0.35f, 0.351f, 1f};
     private final static Color[] disabledStopColors = new Color[]{new Color(0xf3f3f3), new Color(0xeeeeee), new Color(0xcacaca), new Color(0xf3f3f3)};
     private final static float[] selectedStops = new float[]{0f, 0.2f, 1f};
     private final static Color[] selectedStopColors = new Color[]{new Color(0x999999), new Color(0xaaaaaa), new Color(0x666666)};
@@ -153,7 +153,7 @@ public class PaletteSliderUI extends BasicSliderUI {
 	    paintThumbArrowShape == Boolean.FALSE) {
 
 	    // "plain" version
-            
+
                         LinearGradientPaint lgp = new LinearGradientPaint(
                                 new Point2D.Float(2, 2), new Point2D.Float(2, 2+h-4),
                                 stops, stopColors,

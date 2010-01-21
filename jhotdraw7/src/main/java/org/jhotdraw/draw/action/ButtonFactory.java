@@ -154,7 +154,7 @@ public class ButtonFactory {
             for (int r = 0x99; r <= 0xff; r += 0x33) {
                 for (int g = 0; g <= 0xff; g += 0x33) {
                     rgb = 0xff000000 | (r << 16) | (g << 8) | b;
-                    m.add(new ColorIcon(rgb));
+                    m.add(new ColorIcon(rgb,"#"+Integer.toHexString(rgb).substring(2)));
                 }
             }
         }
@@ -162,7 +162,7 @@ public class ButtonFactory {
     }
     public final static int WEBSAVE_COLORS_COLUMN_COUNT = 19;
     /**
-     * HSV color palette with a set of colors chosen based on a physical criteria.
+     * HSB color palette with a set of colors chosen based on a physical criteria.
      * <p>
      * This is a 'human friendly' color palette which arranges the color in a
      * way that makes it easy for humans to select the desired
@@ -189,7 +189,7 @@ public class ButtonFactory {
      * maximal saturation and a brightness ranging from 90% to 20% (this also
      * makes for a range from 100% to 20% if the 5th row is taken into account).
      */
-    public final static java.util.List<ColorIcon> HSV_COLORS;
+    public final static java.util.List<ColorIcon> HSB_COLORS;
 
 
     static {
@@ -197,21 +197,24 @@ public class ButtonFactory {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         m.add(new ColorIcon(null, labels.getToolTipTextProperty("attribute.color.noColor")));
         for (int b = 10; b >= 0; b--) {
-            m.add(new ColorIcon(Color.HSBtoRGB(0f, 0f, b * 0.1f)));
+            m.add(new ColorIcon(Color.HSBtoRGB(0f, 0f, b * 0.1f),//
+                    labels.getFormatted("attribute.color.grayComponents.toolTipText", b*10)));
         }
         for (int s = 2; s <=8; s += 2) {
             for (int h = 0; h < 12; h++) {
-                m.add(new ColorIcon(Color.HSBtoRGB((h) / 12f, s * 0.1f, 1f)));
+                m.add(new ColorIcon(Color.HSBtoRGB((h) / 12f, s * 0.1f, 1f),//
+                        labels.getFormatted("attribute.color.hsbComponents.toolTipText", h*360/12,s*10,100)));
             }
         }
         for (int b = 10; b >= 2; b -= 2) {
             for (int h = 0; h < 12; h++) {
-                m.add(new ColorIcon(Color.HSBtoRGB((h) / 12f, 1f, b * 0.1f)));
+                m.add(new ColorIcon(Color.HSBtoRGB((h) / 12f, 1f, b * 0.1f),//
+                        labels.getFormatted("attribute.color.hsbComponents.toolTipText", h*360/12,100,b*10)));
             }
         }
-        HSV_COLORS = Collections.unmodifiableList(m);
+        HSB_COLORS = Collections.unmodifiableList(m);
     }
-    public final static int HSV_COLORS_COLUMN_COUNT = 12;
+    public final static int HSB_COLORS_COLUMN_COUNT = 12;
 
     private static class ToolButtonListener implements ItemListener {
 

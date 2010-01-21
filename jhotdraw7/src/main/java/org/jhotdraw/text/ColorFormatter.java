@@ -21,6 +21,7 @@ import java.util.regex.Pattern;
 import javax.swing.JFormattedTextField.AbstractFormatterFactory;
 import javax.swing.text.DefaultFormatter;
 import javax.swing.text.DefaultFormatterFactory;
+import org.jhotdraw.color.HSVRGBColorSystem;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 
 /**
@@ -47,6 +48,12 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * Examples: {@code 233, 150, 122} (i.e. a salmon pink), {@code 255, 165, 0}
  * (i.e. an orange).
  * </li>
+ * <li><b>Format.HSB_INTEGER - {@code hue°, saturation%, brightness%}.</b>
+ * Each integer represents one HSV component in the order hue, saturation and
+ * value, separated by a comma and
+ * optionally by white space. Hue is in the range from 0 to 359, saturation
+ * and brightness in the range from 0 to 100.
+ * </li>
  * </ul>
  * <p>
  * By default, the formatter formats Color objects with Format.RGB_INTEGER.
@@ -64,7 +71,8 @@ public class ColorFormatter extends DefaultFormatter {
     public enum Format {
 
         RGB_HEX,
-        RGB_INTEGER
+        RGB_INTEGER,
+        HSB_INTEGER;
     };
     /**
      * Specifies the preferred output format.
@@ -79,9 +87,15 @@ public class ColorFormatter extends DefaultFormatter {
      */
     private final static Pattern rgbHexPattern = Pattern.compile("^\\s*#\\s*([0-9a-fA-F]{3,6})\\s*$");
     /**
-     * This regular expression is used for parsing the RGB_HEX format.
+     * This regular expression is used for parsing the RGB_INTEGER format.
      */
-    private final static Pattern rgbIntegerPattern = Pattern.compile("^\\s*([0-9]{1,3})\\s*,\\s*([0-9]{1,3}),\\s*([0-9]{1,3})\\s*$");
+    private final static Pattern rgbIntegerPattern = Pattern.compile("^\\s*([0-9]{1,3})\\s*,?\\s*([0-9]{1,3}),?\\s*([0-9]{1,3})\\s*$");
+    /**
+     * This regular expression is used for parsing the HSV_INTEGER format.
+     * Note: This pattern is intentionally ambiguous with the rgbIntegerPattern.
+     * It is only used, if the rgbIntegerPattern does not match.
+     */
+    private final static Pattern hsvIntegerPattern = Pattern.compile("^\\s*([0-9]{1,3})\\s*°?\\s*,?\\s*([0-9]{1,3})\\s*%?,?\\s*([0-9]{1,3})\\s*%?\\s*$");
     /**
      * Specifies whether the formatter allows null values.
      */
@@ -243,6 +257,26 @@ public class ColorFormatter extends DefaultFormatter {
             }
         }
 
+        // Format HSV_INTEGER
+        matcher = hsvIntegerPattern.matcher(str);
+        if (matcher.matches()) {
+            setLastUsedInputFormat(Format.HSB_INTEGER);
+            try {
+                return new Color(Color.HSBtoRGB(//
+                        Integer.parseInt(matcher.group(1))/360f, //
+                        Integer.parseInt(matcher.group(2))/100f, //
+                        Integer.parseInt(matcher.group(3))/100f));
+            } catch (NumberFormatException nfe) {
+                ParseException pe = new ParseException(str, 0);
+                pe.initCause(nfe);
+                throw pe;
+            } catch (IllegalArgumentException iae) {
+                ParseException pe = new ParseException(str, 0);
+                pe.initCause(iae);
+                throw pe;
+            }
+        }
+
         throw new ParseException(str, 0);
     }
 
@@ -270,6 +304,12 @@ public class ColorFormatter extends DefaultFormatter {
                     break;
                 case RGB_INTEGER:
                     str = c.getRed() + "," + c.getGreen() + "," + c.getBlue();
+                    break;
+                case HSB_INTEGER:
+                    float[] components=Color.RGBtoHSB(c.getRed(), c.getGreen(), c.getBlue(), new float[3]);
+                    str = (int)(components[0]*360)+ "°,"//
+                            + (int)(components[1]*100) + "%," //
+                            + (int)(components[2]*100) + "%";
                     break;
             }
         }

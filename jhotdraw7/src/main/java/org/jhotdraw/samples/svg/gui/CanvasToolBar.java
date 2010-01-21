@@ -68,7 +68,7 @@ public class CanvasToolBar extends AbstractToolBar {
 
                 // Fill color
                 btn = ButtonFactory.createDrawingColorButton(editor,
-                        CANVAS_FILL_COLOR, ButtonFactory.HSV_COLORS, ButtonFactory.HSV_COLORS_COLUMN_COUNT,
+                        CANVAS_FILL_COLOR, ButtonFactory.HSB_COLORS, ButtonFactory.HSB_COLORS_COLUMN_COUNT,
                         "attribute.canvasFillColor", labels, null, new Rectangle(3, 3, 10, 10), disposables);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                 disposables.add(new DrawingComponentRepainter(editor, btn));
@@ -203,7 +203,7 @@ public class CanvasToolBar extends AbstractToolBar {
                 gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                 p1.add(colorField, gbc);
                 btn = ButtonFactory.createDrawingColorButton(editor,
-                        CANVAS_FILL_COLOR, ButtonFactory.HSV_COLORS, ButtonFactory.HSV_COLORS_COLUMN_COUNT,
+                        CANVAS_FILL_COLOR, ButtonFactory.HSB_COLORS, ButtonFactory.HSB_COLORS_COLUMN_COUNT,
                         "attribute.canvasFillColor", labels, null, new Rectangle(3, 3, 10, 10), disposables);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                 disposables.add(new DrawingComponentRepainter(editor, btn));

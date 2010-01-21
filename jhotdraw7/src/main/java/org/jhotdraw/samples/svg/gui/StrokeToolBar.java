@@ -87,7 +87,7 @@ public class StrokeToolBar extends AbstractToolBar {
                 Map<AttributeKey, Object> defaultAttributes = new HashMap<AttributeKey, Object>();
                 STROKE_GRADIENT.put(defaultAttributes, null);
                 btn = ButtonFactory.createSelectionColorButton(editor,
-                        STROKE_COLOR, ButtonFactory.HSV_COLORS, ButtonFactory.HSV_COLORS_COLUMN_COUNT,
+                        STROKE_COLOR, ButtonFactory.HSB_COLORS, ButtonFactory.HSB_COLORS_COLUMN_COUNT,
                         "attribute.strokeColor", labels, defaultAttributes, new Rectangle(3, 3, 10, 10), disposables);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                 ((JPopupButton) btn).setAction(null, null);
@@ -201,7 +201,7 @@ public class StrokeToolBar extends AbstractToolBar {
                 gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                 p.add(colorField, gbc);
                 btn = ButtonFactory.createSelectionColorButton(editor,
-                        STROKE_COLOR, ButtonFactory.HSV_COLORS, ButtonFactory.HSV_COLORS_COLUMN_COUNT,
+                        STROKE_COLOR, ButtonFactory.HSB_COLORS, ButtonFactory.HSB_COLORS_COLUMN_COUNT,
                         "attribute.strokeColor", labels, defaultAttributes, new Rectangle(3, 3, 10, 10), disposables);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                 ((JPopupButton) btn).setAction(null, null);
