@@ -187,7 +187,7 @@ public class StrokeToolBar extends AbstractToolBar {
                 Map<AttributeKey, Object> defaultAttributes = new HashMap<AttributeKey, Object>();
                 STROKE_GRADIENT.put(defaultAttributes, null);
                 JAttributeTextField<Color> colorField = new JAttributeTextField<Color>();
-                colorField.setColumns(9);
+                colorField.setColumns(12);
                 colorField.setToolTipText(labels.getString("attribute.strokeColor.toolTipText"));
                 colorField.putClientProperty("Palette.Component.segmentPosition", "first");
                 colorField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(colorField));
@@ -212,7 +212,7 @@ public class StrokeToolBar extends AbstractToolBar {
 
                 // Opacity field with slider
                 JAttributeTextField<Double> opacityField = new JAttributeTextField<Double>();
-                opacityField.setColumns(3);
+                opacityField.setColumns(4);
                 opacityField.setToolTipText(labels.getString("attribute.strokeOpacity.toolTipText"));
                 opacityField.setHorizontalAlignment(JAttributeTextField.RIGHT);
                 opacityField.putClientProperty("Palette.Component.segmentPosition", "first");

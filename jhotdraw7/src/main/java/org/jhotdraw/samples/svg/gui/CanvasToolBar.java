@@ -190,7 +190,7 @@ public class CanvasToolBar extends AbstractToolBar {
 
                 // Fill color field with button
                 JAttributeTextField<Color> colorField = new JAttributeTextField<Color>();
-                colorField.setColumns(9);
+                colorField.setColumns(12);
                 colorField.setToolTipText(labels.getString("attribute.canvasFillColor.toolTipText"));
                 colorField.putClientProperty("Palette.Component.segmentPosition", "first");
                 colorField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(colorField));
@@ -214,7 +214,7 @@ public class CanvasToolBar extends AbstractToolBar {
 
                 // Opacity field with slider
                 JAttributeTextField<Double> opacityField = new JAttributeTextField<Double>();
-                opacityField.setColumns(3);
+                opacityField.setColumns(4);
                 opacityField.setToolTipText(labels.getString("attribute.figureOpacity.toolTipText"));
                 opacityField.setHorizontalAlignment(JAttributeTextField.RIGHT);
                 opacityField.putClientProperty("Palette.Component.segmentPosition", "first");
