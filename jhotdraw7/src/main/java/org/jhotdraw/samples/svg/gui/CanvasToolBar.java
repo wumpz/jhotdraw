@@ -219,7 +219,7 @@ public class CanvasToolBar extends AbstractToolBar {
                 opacityField.setHorizontalAlignment(JAttributeTextField.RIGHT);
                 opacityField.putClientProperty("Palette.Component.segmentPosition", "first");
                 opacityField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(opacityField));
-                opacityField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0d, 100d, 100d, true, false));
+                opacityField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0d, 100d, 100d, false, false,"%"));
                 opacityField.setHorizontalAlignment(JTextField.LEADING);
                 disposables.add(new DrawingAttributeEditorHandler<Double>(CANVAS_FILL_OPACITY, opacityField, editor));
                 gbc = new GridBagConstraints();

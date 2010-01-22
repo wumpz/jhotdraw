@@ -178,7 +178,7 @@ public class FillToolBar extends AbstractToolBar {
                 opacityField.setToolTipText(labels.getString("attribute.fillOpacity.toolTipText"));
                 opacityField.putClientProperty("Palette.Component.segmentPosition", "first");
                 opacityField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(opacityField));
-                opacityField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0d, 1d, 100d));
+                opacityField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0d, 1d, 100d,false,false,"%"));
                 opacityField.setHorizontalAlignment(JTextField.LEFT);
                 disposables.add(new FigureAttributeEditorHandler<Double>(FILL_OPACITY, opacityField, editor));
                 gbc = new GridBagConstraints();
