@@ -17,7 +17,7 @@ import java.awt.Color;
 import java.awt.color.ColorSpace;
 
 /**
- * A ColorSystem for CMYK color components (cyan, magenta, yellow, black) with
+ * A {@code ColorSpace} for CMYK color components (cyan, magenta, yellow, black) with
  * nominally converted color components from/to an RGB color model.
  * <p>
  * This model may not be very useful. It assumes that the color components

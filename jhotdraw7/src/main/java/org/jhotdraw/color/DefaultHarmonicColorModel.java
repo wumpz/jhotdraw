@@ -190,7 +190,7 @@ public class DefaultHarmonicColorModel extends AbstractListModel implements Harm
     public void setColorSpace(ColorSpace newValue) {
         ColorSpace oldValue = sliderModel.getColorSpace();
         sliderModel.setColorSpace(newValue);
-        firePropertyChange(COLOR_SYSTEM_PROPERTY, oldValue, newValue);
+        firePropertyChange(COLOR_SPACE_PROPERTY, oldValue, newValue);
         for (int i = 0; i < colors.size(); i++) {
             if (get(i) != null) {
                 set(i, new Color(newValue, ColorSpaceUtil.fromColor(newValue,get(i)),1f));

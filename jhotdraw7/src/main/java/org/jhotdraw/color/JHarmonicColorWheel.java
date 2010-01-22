@@ -108,7 +108,7 @@ public class JHarmonicColorWheel extends JColorWheel {
 
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
-            if (name == HarmonicColorModel.COLOR_SYSTEM_PROPERTY) {
+            if (name == HarmonicColorModel.COLOR_SPACE_PROPERTY) {
                 model.setColorSpace(harmonicModel.getColorSpace());
                 model.setComponent(1, 1f);
                 colorWheelProducer = createWheelProducer(getWidth(), getHeight());
@@ -202,11 +202,6 @@ public class JHarmonicColorWheel extends JColorWheel {
             colorWheelProducer = createWheelProducer(getWidth(), getHeight());
         }
     }
-    /*
-    @Override
-    protected ColorWheelImageProducer createWheelProducer(int w, int h) {
-    return new HSLHarmonicColorWheelImageProducer(harmonicModel == null ? new HSLRYBColorSystem() : harmonicModel.getColorSpace(), w, h);
-    }*/
 
     @Override
     public void paintComponent(Graphics gr) {

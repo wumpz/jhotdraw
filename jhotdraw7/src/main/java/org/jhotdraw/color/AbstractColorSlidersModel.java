@@ -26,7 +26,7 @@ import org.jhotdraw.beans.*;
 public abstract class AbstractColorSlidersModel extends AbstractBean implements ColorSliderModel {
 
     /**
-     * ChangeListener's listening to changes in this AbstractColorSystem.
+     * ChangeListener's listening to changes in this model.
      */
     protected LinkedList<ChangeListener> listeners;
 

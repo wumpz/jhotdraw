@@ -18,7 +18,7 @@ import java.awt.color.ICC_Profile;
 import java.io.IOException;
 
 /**
- * CMYKColorSpace.
+ * A {@code ColorSpace} for CMYK color components using a generic CMYK profile.
  *
  * @author Werner Randelshofer
  * @version 1.0 2010-01-22 Created.

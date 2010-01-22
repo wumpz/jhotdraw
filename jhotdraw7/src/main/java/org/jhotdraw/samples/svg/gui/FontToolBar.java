@@ -264,7 +264,7 @@ public class FontToolBar extends AbstractToolBar {
 
                 // Font face field and popup button
                 JAttributeTextField<Font> faceField = new JAttributeTextField<Font>();
-                faceField.setColumns(10);
+                faceField.setColumns(12);
                 faceField.setToolTipText(labels.getString("attribute.font.toolTipText"));
                 faceField.setHorizontalAlignment(JAttributeTextField.RIGHT);
                 faceField.putClientProperty("Palette.Component.segmentPosition", "first");

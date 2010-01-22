@@ -118,12 +118,12 @@ public class FigureToolBar extends AbstractToolBar {
 
                 // Opacity field with slider
                 JAttributeTextField<Double> opacityField = new JAttributeTextField<Double>();
-                opacityField.setColumns(3);
+                opacityField.setColumns(4);
                 opacityField.setToolTipText(labels.getString("attribute.figureOpacity.toolTipText"));
                 opacityField.setHorizontalAlignment(JAttributeTextField.RIGHT);
                 opacityField.putClientProperty("Palette.Component.segmentPosition", "first");
                 opacityField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(opacityField));
-                opacityField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0d, 1d, 100d));
+                opacityField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0d, 1d, 100d,false,false,"%"));
                 opacityField.setHorizontalAlignment(JTextField.LEADING);
                 disposables.add(new FigureAttributeEditorHandler<Double>(OPACITY, opacityField, editor));
                 gbc = new GridBagConstraints();

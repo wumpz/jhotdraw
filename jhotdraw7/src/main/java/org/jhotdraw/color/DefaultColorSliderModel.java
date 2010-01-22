@@ -29,7 +29,7 @@ public class DefaultColorSliderModel extends AbstractColorSlidersModel {
 
     protected ColorSpace colorSpace;
     /**
-     * JSlider's associated to this AbstractColorSystem.
+     * JSlider's associated to this model.
      */
     protected LinkedList<JSlider> sliders = new LinkedList<JSlider>();
     /**
@@ -67,8 +67,8 @@ public class DefaultColorSliderModel extends AbstractColorSlidersModel {
     }
 
     /**
-     * Configures a JSlider for this AbstractColorSystem.
-     * If the JSlider is already configured for another AbstractColorSystem,
+     * Configures a JSlider for this model.
+     * If the JSlider is already configured for another model,
      * it is unconfigured first.
      */
     @Override
@@ -86,7 +86,7 @@ public class DefaultColorSliderModel extends AbstractColorSlidersModel {
     }
 
     /**
-     * Unconfigures a JSlider from this AbstractColorSystem.
+     * Unconfigures a JSlider from this model.
      */
     @Override
     public void unconfigureSlider(JSlider slider) {
