@@ -35,7 +35,7 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  * <p><em>Framework</em><br>
  * The interfaces and classes listed below work together:
  * <br>
- * Contract: {@link org.jhotdraw.app.EditableComponent}, {@code JTextComponent}.<br>
+ * Contract: {@link org.jhotdraw.gui.EditableComponent}, {@code JTextComponent}.<br>
  * Client: {@link org.jhotdraw.app.action.edit.AbstractSelectionAction},
  * {@link org.jhotdraw.app.action.edit.DeleteAction},
  * {@link org.jhotdraw.app.action.edit.DuplicateAction},

@@ -1,10 +1,10 @@
 /*
- * @(#)HSBColorSliderModel.java
- *
- * Copyright (c) 2008 by the original authors of JHotDraw
+ * @(#)HSLPsychologicColorSpace.java
+ * 
+ * Copyright (c) 2010 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
- *
+ * 
  * The copyright of this software is owned by the authors and  
  * contributors of the JHotDraw project ("the copyright holders").  
  * You may not use, copy or modify this software, except in  
@@ -13,23 +13,32 @@
  */
 package org.jhotdraw.color;
 
+import java.awt.color.ColorSpace;
+
 /**
- * A ColorSystem for a historic version of the HSL color components 
- * (hue, saturation, lightness) based on the primary colors red, yellow
- * and blue.
+ * A HSL color space with psychological opposites in the hue color wheel:
+ * red is opposite green and yellow is opposite blue.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
-public class HSLRYBColorSystem extends AbstractColorSystem {
-    /**
-     * Creates a new instance.
-     */
-    public HSLRYBColorSystem() {
+public class HSLPsychologicColorSpace extends ColorSpace implements NamedColorSpace {
+
+    private static HSLPsychologicColorSpace instance;
+
+    public static HSLPsychologicColorSpace getInstance() {
+        if (instance == null) {
+            instance = new HSLPsychologicColorSpace();
+        }
+        return instance;
+    }
+
+    public HSLPsychologicColorSpace() {
+        super(ColorSpace.TYPE_HSV, 3);
     }
 
     @Override
-    public int toRGB(float... components) {
+    public float[] toRGB(float[] components) {
         float hue = components[0];
         float saturation = components[1];
         float lightness = components[2];
@@ -82,7 +91,7 @@ public class HSLRYBColorSystem extends AbstractColorSystem {
         }
         float p = 2f * lightness - q;
 
-        
+
         // compute red, green and blue
         float red = hk + 1f / 3f;
         float green = hk;
@@ -136,24 +145,15 @@ public class HSLRYBColorSystem extends AbstractColorSystem {
             blue = p;
         }
 
-        // pack red, green and blue into 24-bit rgb
-        int rgb = ((int) (red * 255)) << 16 |
-                ((int) (green * 255)) << 8 |
-                ((int) (blue * 255));
-
-
-        return rgb;
+        return new float[]{red, green, blue};
     }
 
-    @Override
-    public float[] toComponents(int red, int green, int blue, float[] components) {
-        if (components == null || components.length != 3) {
-            components = new float[3];
-        }
 
-        float r = red / 255f;
-        float g = green / 255f;
-        float b = blue / 255f;
+    @Override
+    public float[] fromRGB(float[] rgbvalue) {
+        float r = rgbvalue[0];
+        float g = rgbvalue[1];
+        float b = rgbvalue[2];
 
         float max = Math.max(Math.max(r, g), b);
         float min = Math.min(Math.min(r, g), b);
@@ -188,16 +188,41 @@ public class HSLRYBColorSystem extends AbstractColorSystem {
             saturation = (max - min) / (2 - (max + min));
         }
 
-        components[0] = hue / 360f;
-        components[1] = saturation;
-        components[2] = luminance;
-
-        return components;
+        return new float[]{
+                    hue / 360f,
+                    saturation,
+                    luminance};
     }
 
     @Override
-    public int getComponentCount() {
-        return 3;
+    public float[] toCIEXYZ(float[] colorvalue) {
+        float[] rgb = toRGB(colorvalue);
+        return ColorSpace.getInstance(CS_sRGB).toCIEXYZ(rgb);
+    }
+
+    @Override
+    public float[] fromCIEXYZ(float[] colorvalue) {
+        float[] sRGB = ColorSpace.getInstance(ColorSpace.CS_sRGB).fromCIEXYZ(colorvalue);
+        return fromRGB(sRGB);
+    }
+
+    @Override
+    public String getName(int idx) {
+        switch (idx) {
+            case 0:
+                return "Hue";
+            case 1:
+                return "Saturation";
+            case 2:
+                return "Lightness";
+            default:
+                throw new IllegalArgumentException("index must be between 0 and 2:" + idx);
+        }
+    }
+
+    @Override
+    public float getMaxValue(int component) {
+        return 1f;
     }
 
     @Override
@@ -206,8 +231,17 @@ public class HSLRYBColorSystem extends AbstractColorSystem {
     }
 
     @Override
-    public float getMaxValue(int component) {
-        return 1f;
+    public boolean equals(Object o) {
+        return (o instanceof HSLPsychologicColorSpace);
     }
 
+    @Override
+    public int hashCode() {
+
+        return getClass().getSimpleName().hashCode();
+    }
+    @Override
+    public String getName() {
+        return "psychological HSL";
+    }
 }

@@ -14,13 +14,14 @@
 package org.jhotdraw.color;
 
 import java.awt.*;
+import java.awt.color.ColorSpace;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
 /**
  * The {@code JColorWheel} displays a wheel made of two components of a
- * {@link ColorSystem}.
+ * {@code ColorSpace}.
  * <p>
  * The user can click at the wheel to pick a color.
  * <p>
@@ -31,15 +32,16 @@ import javax.swing.event.*;
  * @version $Id$
  */
 public class JColorWheel extends JPanel {
+    private boolean isFlipX, isFlipY;
 
     public enum Type {
 
-        WHEEL,
+        POLAR,
         SQUARE,
-        POLAR
+        COMPLEX;
     }
-    private Type type = Type.WHEEL;
-    private ColorSystem sys;
+    private Type type = Type.POLAR;
+    private ColorSpace sys;
     protected Insets wheelInsets;
     protected Image colorWheelImage;
     protected AbstractColorWheelImageProducer colorWheelProducer;
@@ -69,8 +71,8 @@ public class JColorWheel extends JPanel {
 
         private void update(MouseEvent e) {
             float[] hsb = getColorAt(e.getX(), e.getY());
-            model.setComponentValue(angularIndex, hsb[angularIndex]);
-            model.setComponentValue(radialIndex, hsb[radialIndex]);
+            model.setComponent(angularIndex, hsb[angularIndex]);
+            model.setComponent(radialIndex, hsb[radialIndex]);
 
             // FIXME - We should only repaint the damaged area
             repaint();
@@ -91,10 +93,10 @@ public class JColorWheel extends JPanel {
      * Creates a new instance.
      */
     public JColorWheel() {
-        this(new HSVRGBColorSystem());
+        this(HSBColorSpace.getInstance());
     }
 
-    public JColorWheel(ColorSystem sys) {
+    public JColorWheel(ColorSpace sys) {
         this.sys = sys;
         wheelInsets = new Insets(0, 0, 0, 0);
         model = new DefaultColorSliderModel(sys);
@@ -172,18 +174,32 @@ public class JColorWheel extends JPanel {
         paintThumb(g);
     }
 
+    public void setFlipX(boolean newValue) {
+     isFlipX=newValue;
+        colorWheelProducer = createWheelProducer(0, 0);
+    }
+    public void setFlipY(boolean newValue) {
+     isFlipY=newValue;
+        colorWheelProducer = createWheelProducer(0, 0);
+    }
+    public boolean isFlipX() {
+        return isFlipX;
+    }
+    public boolean isFlipY() {
+        return isFlipY;
+    }
     protected AbstractColorWheelImageProducer createWheelProducer(int w, int h) {
         AbstractColorWheelImageProducer p;
         switch (type) {
-            case WHEEL:
+            case POLAR:
             default:
-                p = new ColorWheelImageProducer(model.getColorSystem(), w, h);
+                p = new PolarColorWheelImageProducer(model.getColorSpace(), w, h);
                 break;
             case SQUARE:
-                p = new ColorSquareImageProducer(model.getColorSystem(), w, h, false, true);
+                p = new ColorSquareImageProducer(model.getColorSpace(), w, h, isFlipX, isFlipY);
                 break;
-            case POLAR:
-                p = new ColorPolarImageProducer(model.getColorSystem(), w, h);
+            case COMPLEX:
+                p = new ComplexColorWheelImageProducer(model.getColorSpace(), w, h, isFlipX, isFlipY);
                 break;
         }
         p.setAngularComponentIndex(angularIndex);
@@ -204,7 +220,7 @@ public class JColorWheel extends JPanel {
             colorWheelImage = createImage(colorWheelProducer);
         }
 
-        colorWheelProducer.setVerticalValue(model.getComponentValue(verticalIndex));
+        colorWheelProducer.setVerticalValue(model.getComponent(verticalIndex));
         if (colorWheelProducer.needsGeneration()) {
             // To keep the UI responsive, we only perform the time consuming
             // regeneration of the color track if we don't already have
@@ -243,7 +259,7 @@ public class JColorWheel extends JPanel {
     }
 
     protected Point getThumbLocation() {
-        return getColorLocation(model.getComponentValues());
+        return getColorLocation(model.getComponents());
     }
 
     protected Point getColorLocation(Color c) {

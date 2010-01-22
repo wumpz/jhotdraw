@@ -15,7 +15,10 @@ package org.jhotdraw.samples.color;
 
 import org.jhotdraw.color.*;
 import java.awt.*;
+import java.awt.color.ColorSpace;
 import java.awt.color.ICC_ColorSpace;
+import java.awt.color.ICC_Profile;
+import java.io.IOException;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -44,10 +47,10 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
                 previewLabel.setBackground(color);
                 for (ColorSliderModel c : models) {
                     if (c != m) {
-                        if (c.getColorSystem().equals(m.getColorSystem())) {
+                        if (c.getColorSpace().equals(m.getColorSpace())) {
                             // If the color system is the same, directly set the components (=lossless)
                             for (int i = 0; i < m.getComponentCount(); i++) {
-                                c.setComponentValue(i, m.getComponentValue(i));
+                                c.setComponent(i, m.getComponent(i));
                             }
                         } else {
                             // If the color system is different, set the RGB color (=lossy)
@@ -70,37 +73,45 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
 
         previewLabel.setOpaque(true);
 
-//        chooserPanel.add(createColorWheelChooser(new HSVRGBColorSystem()));
-        chooserPanel.add(createColorWheelChooser(new HSVRGBColorSystem(),0,1,2,JColorWheel.Type.SQUARE));
-        chooserPanel.add(createColorWheelChooser(new HSLRGBColorSystem()));
-        chooserPanel.add(createColorWheelChooser(new HSLRGBColorSystem(), 0, 2, 1));
+//        chooserPanel.add(createColorWheelChooser(new HSVRGBColorSpace()));
+        chooserPanel.add(createColorWheelChooser(HSBColorSpace.getInstance()));
+        chooserPanel.add(createColorWheelChooser(HSVColorSpace.getInstance(),1,0,2,JColorWheel.Type.SQUARE,false,false));
+        chooserPanel.add(createColorWheelChooser(HSLColorSpace.getInstance()));
+        chooserPanel.add(createColorWheelChooser(HSLColorSpace.getInstance(), 0, 2, 1));
         chooserPanel.add(new JPanel());
-        chooserPanel.add(createColorWheelChooser(new HSVRYBColorSystem()));
-        chooserPanel.add(createColorWheelChooser(new HSLRYBColorSystem()));
-        chooserPanel.add(createColorWheelChooser(new HSLRYBColorSystem(), 0, 2, 1));
+        chooserPanel.add(createColorWheelChooser(HSVPsychologicColorSpace.getInstance()));
+        chooserPanel.add(createColorWheelChooser(HSLPsychologicColorSpace.getInstance()));
+        chooserPanel.add(createColorWheelChooser(HSLPsychologicColorSpace.getInstance(), 0, 2, 1));
+        chooserPanel.add(createColorWheelChooser(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_LINEAR_RGB),0,1,2,JColorWheel.Type.SQUARE));
+        chooserPanel.add(createColorWheelChooser(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_CIEXYZ),1,0,2,JColorWheel.Type.SQUARE));
+        chooserPanel.add(createColorWheelChooser(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_PYCC),1,2,0,JColorWheel.Type.SQUARE));
         chooserPanel.add(new JPanel());
-        chooserPanel.add(createColorWheelChooser(new ColorSpaceColorSystem(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_LINEAR_RGB),"Linear RGB"),0,1,2,JColorWheel.Type.SQUARE));
-        chooserPanel.add(createColorWheelChooser(new ColorSpaceColorSystem(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_CIEXYZ),"CIE XYZ"),1,0,2,JColorWheel.Type.SQUARE));
-        chooserPanel.add(createColorWheelChooser(new ColorSpaceColorSystem(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_PYCC),"Photo YCC"),1,2,0,JColorWheel.Type.SQUARE));
-        chooserPanel.add(new JPanel());
-        chooserPanel.add(createColorWheelChooser(new ColorSpaceColorSystem(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_sRGB),"sRGB"),0,1,2,JColorWheel.Type.SQUARE));
-        chooserPanel.add(new JPanel());
-        chooserPanel.add(createColorWheelChooser(new MunsellUPLabColorSystem(),2,1,0,JColorWheel.Type.SQUARE));
-        chooserPanel.add(createColorWheelChooser(new MunsellUPLabColorSystem(),2,1,0,JColorWheel.Type.POLAR));
-        chooserPanel.add(createSliderChooser(new RGBColorSystem()));
-        chooserPanel.add(createSliderChooser(new CMYKICCColorSystem()));
-        chooserPanel.add(createSliderChooser(new CMYKNominalColorSystem()));
-        chooserPanel.add(createSliderChooser(new MunsellUPLabColorSystem()));
+        chooserPanel.add(createColorWheelChooser(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_sRGB),0,1,2,JColorWheel.Type.SQUARE));
+        
+        try {
+            chooserPanel.add(createColorWheelChooser(new ICC_ColorSpace(ICC_Profile.getInstance(WheelsAndSlidersMain.class.getResourceAsStream("/org/jhotdraw/color/Munsell CIELab_to_UPLab.icc"))), 2, 1, 0, JColorWheel.Type.SQUARE));
+            chooserPanel.add(createColorWheelChooser(new ICC_ColorSpace(ICC_Profile.getInstance(WheelsAndSlidersMain.class.getResourceAsStream("/org/jhotdraw/color/Munsell CIELab_to_UPLab2.icc"))), 2, 1, 0, JColorWheel.Type.SQUARE));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+//      chooserPanel.add(createColorWheelChooser("Munsell CIELab_to_UPLab.icc","Munsell UP LAB"),2,1,0,JColorWheel.Type.COMPLEX));
+        chooserPanel.add(createSliderChooser(ColorSpace.getInstance(ColorSpace.CS_sRGB)));
+        chooserPanel.add(createSliderChooser(CMYKColorSpace.getInstance()));
+        chooserPanel.add(createSliderChooser(CMYKNominalColorSpace.getInstance()));
+ //       chooserPanel.add(createSliderChooser("Munsell CIELab_to_UPLab.icc","Munsell UP LAB")));
     }
 
-    private JPanel createColorWheelChooser(ColorSystem sys) {
+    private JPanel createColorWheelChooser(ColorSpace sys) {
         return createColorWheelChooser(sys, 0, 1, 2);
     }
 
-    private JPanel createColorWheelChooser(ColorSystem sys, int angularIndex, int radialIndex, int verticalIndex) {
-        return createColorWheelChooser(sys, angularIndex, radialIndex, verticalIndex, JColorWheel.Type.WHEEL);
+    private JPanel createColorWheelChooser(ColorSpace sys, int angularIndex, int radialIndex, int verticalIndex) {
+        return createColorWheelChooser(sys, angularIndex, radialIndex, verticalIndex, JColorWheel.Type.POLAR);
     }
-    private JPanel createColorWheelChooser(ColorSystem sys, int angularIndex, int radialIndex, int verticalIndex, JColorWheel.Type type) {
+    private JPanel createColorWheelChooser(ColorSpace sys, int angularIndex, int radialIndex, int verticalIndex, JColorWheel.Type type) {
+        return createColorWheelChooser(sys, angularIndex, radialIndex, verticalIndex, type,false,false);
+    }
+    private JPanel createColorWheelChooser(ColorSpace sys, int angularIndex, int radialIndex, int verticalIndex, JColorWheel.Type type, boolean flipX,boolean flipY) {
         JPanel p = new JPanel(new BorderLayout());
         DefaultColorSliderModel m = new DefaultColorSliderModel(sys);
         models.add(m);
@@ -110,27 +121,29 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
         w.setAngularComponentIndex(angularIndex);
         w.setRadialComponentIndex(radialIndex);
         w.setVerticalComponentIndex(verticalIndex);
+w.setFlipX(flipX);
+w.setFlipY(flipY);
         w.setModel(m);
         JSlider s = new JSlider(JSlider.VERTICAL);
         m.configureSlider(verticalIndex, s);
-        p.add(new JLabel("<html>" + sys.getName() + "<br>α:" + angularIndex + " r:" + radialIndex + " v:" + verticalIndex), BorderLayout.NORTH);
+        p.add(new JLabel("<html>" + ColorSpaceUtil.getName(sys) + "<br>α:" + angularIndex + " r:" + radialIndex + " v:" + verticalIndex), BorderLayout.NORTH);
         p.add(w, BorderLayout.CENTER);
         p.add(s, BorderLayout.EAST);
         return p;
     }
 
-    private JPanel createSliderChooser(ColorSystem sys) {
+    private JPanel createSliderChooser(ColorSpace sys) {
         return createSliderChooser(sys, false);
     }
 
-    private JPanel createSliderChooser(ColorSystem sys, boolean vertical) {
+    private JPanel createSliderChooser(ColorSpace sys, boolean vertical) {
         JPanel p = new JPanel(new GridLayout(vertical ? 1 : 0, vertical ? 0 : 1));
         DefaultColorSliderModel m = new DefaultColorSliderModel(sys);
 
         models.add(m);
         if (!vertical) {
             p.add(new JLabel(
-                    "<html>" + sys.getClass().getSimpleName()), BorderLayout.NORTH);
+                    "<html>" + ColorSpaceUtil.getName(sys)), BorderLayout.NORTH);
         }
         m.addChangeListener(handler);
 

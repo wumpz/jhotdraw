@@ -13,6 +13,8 @@
  */
 package org.jhotdraw.color;
 
+import java.awt.Color;
+
 /**
  * SimpleHarmonicRule.
  *
@@ -47,21 +49,22 @@ public class SimpleHarmonicRule extends AbstractHarmonicRule {
         return componentIndex;
     }
 
+    @Override
     public void apply(HarmonicColorModel model) {
         if (derivedIndices != null) {
-            CompositeColor baseColor = model.get(getBaseIndex());
+            Color baseColor = model.get(getBaseIndex());
             if (baseColor != null) {
                 float[] derivedComponents = null;
                 for (int i = 0; i < derivedIndices.length; i++) {
                     derivedComponents = baseColor.getComponents(derivedComponents);
-                    derivedComponents[componentIndex] = baseColor.getComponent(componentIndex) + difference * (i + 1);
-                    model.set(derivedIndices[i], new CompositeColor(model.getColorSystem(), derivedComponents));
+                    derivedComponents[componentIndex] += difference * (i + 1);
+                    model.set(derivedIndices[i], new Color(model.getColorSpace(), derivedComponents,1f));
                 }
             }
         }
     }
 
-    public void colorChanged(HarmonicColorModel model, int index, CompositeColor oldValue, CompositeColor newValue) {
+    public void colorChanged(HarmonicColorModel model, int index, Color oldValue, Color newValue) {
         //
     }
 }

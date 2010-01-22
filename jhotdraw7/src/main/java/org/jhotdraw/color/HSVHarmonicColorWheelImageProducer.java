@@ -22,14 +22,14 @@ import java.awt.Point;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class HSVHarmonicColorWheelImageProducer extends ColorWheelImageProducer {
+public class HSVHarmonicColorWheelImageProducer extends PolarColorWheelImageProducer {
 
     private float wheelScaleFactor;
     private float[] brights;
     private boolean isDiscrete = true;
 
     public HSVHarmonicColorWheelImageProducer(int w, int h) {
-        super(new HSVRYBColorSystem(), w, h);
+        super(HSVPsychologicColorSpace.getInstance(), w, h);
     }
 
     @Override
@@ -131,7 +131,7 @@ public class HSVHarmonicColorWheelImageProducer extends ColorWheelImageProducer 
         float radius = (float) Math.min(w, h);
         for (int index = 0; index < pixels.length; index++) {
             if (alphas[index] != 0) {
-                pixels[index] = alphas[index] | 0xffffff & colorSystem.toRGB(angulars[index], radials[index], brights[index]);
+                pixels[index] = alphas[index] | 0xffffff & ColorSpaceUtil.toRGB(colorSpace,angulars[index], radials[index], brights[index]);
             }
         }
         newPixels();
@@ -140,8 +140,7 @@ public class HSVHarmonicColorWheelImageProducer extends ColorWheelImageProducer 
 
     @Override
     public Point getColorLocation(Color c) {
-        float[] hsb = new float[3];
-        hsb = colorSystem.toComponents(c.getRGB(), hsb);
+        float[] hsb = ColorSpaceUtil.fromColor(colorSpace, c);
         return getColorLocation(hsb);
     }
 

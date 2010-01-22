@@ -1,5 +1,5 @@
 /*
- * @(#)ColorWheelImageProducer.java
+ * @(#)PolarColorWheelImageProducer.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -14,17 +14,16 @@
 package org.jhotdraw.color;
 
 import java.awt.*;
-import java.awt.image.*;
+import java.awt.color.ColorSpace;
 
 /**
- * Produces the image of a ColorWheel.
- *
- * @see JColorWheel
+ * Produces the image of a {@link JColorWheel} by interpreting two components
+ * of a {@code ColorSpace} as polar coordinates (angle and radius).
  *
  * @author  Werner Randelshofer
  * @version $Id$
  */
-public class ColorWheelImageProducer extends AbstractColorWheelImageProducer {
+public class PolarColorWheelImageProducer extends AbstractColorWheelImageProducer {
     /** Lookup table for angular component values. */
     protected float[] angulars;
     /** Lookup table for radial component values. */
@@ -36,7 +35,7 @@ public class ColorWheelImageProducer extends AbstractColorWheelImageProducer {
     protected int[] alphas;
 
     /** Creates a new instance. */
-    public ColorWheelImageProducer(ColorSystem sys, int w, int h) {
+    public PolarColorWheelImageProducer(ColorSpace sys, int w, int h) {
         super(sys, w, h);
     }
 
@@ -53,11 +52,11 @@ public class ColorWheelImageProducer extends AbstractColorWheelImageProducer {
         int cx = w / 2;
         int cy = h / 2;
 
-        float maxR = colorSystem.getMaxValue(radialIndex);
-        float minR = colorSystem.getMinValue(radialIndex);
+        float maxR = colorSpace.getMaxValue(radialIndex);
+        float minR = colorSpace.getMinValue(radialIndex);
         float extentR = maxR - minR;
-        float maxA = colorSystem.getMaxValue(angularIndex);
-        float minA = colorSystem.getMinValue(angularIndex);
+        float maxA = colorSpace.getMaxValue(angularIndex);
+        float minA = colorSpace.getMinValue(angularIndex);
         float extentA = maxA - minA;
 
         for (int x = 0; x < w; x++) {
@@ -90,14 +89,14 @@ public class ColorWheelImageProducer extends AbstractColorWheelImageProducer {
             generateLookupTables();
         }
 
-        float[] components = new float[colorSystem.getComponentCount()];
+        float[] components = new float[colorSpace.getNumComponents()];
         float radius = (float) Math.min(w, h);
         for (int index = 0; index < pixels.length; index++) {
             if (alphas[index] != 0) {
                 components[angularIndex] = angulars[index];
                 components[radialIndex] = radials[index];
                 components[verticalIndex] = verticalValue;
-                pixels[index] = alphas[index] | 0xffffff & colorSystem.toRGB(components);
+                pixels[index] = alphas[index] | 0xffffff & ColorSpaceUtil.toRGB(colorSpace, components);
             }
         }
         newPixels();
@@ -106,17 +105,16 @@ public class ColorWheelImageProducer extends AbstractColorWheelImageProducer {
 
     @Override
     public Point getColorLocation(Color c) {
-        float[] hsb = new float[3];
-        hsb = colorSystem.toComponents(c.getRGB(), hsb);
+        float[] hsb = ColorSpaceUtil.fromColor(colorSpace, c);
         return getColorLocation(hsb);
     }
 
     @Override
     public Point getColorLocation(float[] components) {
-        float radial = (components[radialIndex] - colorSystem.getMinValue(radialIndex))//
-                / (colorSystem.getMaxValue(radialIndex) - colorSystem.getMinValue(radialIndex));
-        float angular = (components[angularIndex] - colorSystem.getMinValue(angularIndex))//
-                / (colorSystem.getMaxValue(angularIndex) - colorSystem.getMinValue(angularIndex));
+        float radial = (components[radialIndex] - colorSpace.getMinValue(radialIndex))//
+                / (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex));
+        float angular = (components[angularIndex] - colorSpace.getMinValue(angularIndex))//
+                / (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex));
 
 
         float radius = Math.min(w, h) / 2f;
@@ -125,11 +123,6 @@ public class ColorWheelImageProducer extends AbstractColorWheelImageProducer {
                 w / 2 + (int) (radius * radial * Math.cos(angular * Math.PI * 2d)),
                 h / 2 - (int) (radius * radial * Math.sin(angular * Math.PI * 2d)));
         return p;
-    }
-
-    @Override
-    public Point getColorLocation(CompositeColor c) {
-        return getColorLocation(c.getComponents());
     }
 
     @Override
@@ -144,11 +137,11 @@ public class ColorWheelImageProducer extends AbstractColorWheelImageProducer {
 
         float[] hsb = new float[3];
         hsb[angularIndex] = angular//
-                * (colorSystem.getMaxValue(angularIndex) - colorSystem.getMinValue(angularIndex))//
-                + colorSystem.getMinValue(angularIndex);
+                * (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex))//
+                + colorSpace.getMinValue(angularIndex);
         hsb[radialIndex] = radial//
-                * (colorSystem.getMaxValue(radialIndex) - colorSystem.getMinValue(radialIndex))//
-                + colorSystem.getMinValue(radialIndex);
+                * (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex))//
+                + colorSpace.getMinValue(radialIndex);
         hsb[verticalIndex] = verticalValue;
         return hsb;
     }

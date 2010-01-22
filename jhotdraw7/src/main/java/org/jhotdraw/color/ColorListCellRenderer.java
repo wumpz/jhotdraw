@@ -68,16 +68,10 @@ public class ColorListCellRenderer extends DefaultListCellRenderer {
             boolean isSelected,
             boolean cellHasFocus) {
         super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-        if (value instanceof CompositeColor) {
-            value = ((CompositeColor) value).getColor();
-        }
         if (value instanceof Color) {
             Color c = (Color) value;
             icon.setColor(c);
-            String text = "000000"+Integer.toHexString(c.getRGB());
-            text = '#'+text.substring(text.length() - 6);
-            //setText(text);
-            setToolTipText(text);
+            setToolTipText(ColorSpaceUtil.toToolTipText(c));
             setText("");
         } else {
             icon.setColor(null);

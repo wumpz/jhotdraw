@@ -23,7 +23,7 @@ import org.jhotdraw.gui.EditableComponent;
 /**
  * Selects all items.
  * <p>
- * This action acts on the last {@link org.jhotdraw.app.EditableComponent} /
+ * This action acts on the last {@link org.jhotdraw.gui.EditableComponent} /
  * {@code JTextComponent} which had the focus when the {@code ActionEvent}
  * was generated.
  * <p>
@@ -40,7 +40,7 @@ import org.jhotdraw.gui.EditableComponent;
  * <p><em>Framework</em><br>
  * The interfaces and classes listed below work together:
  * <br>
- * Contract: {@link org.jhotdraw.app.EditableComponent}, {@code JTextComponent}.<br>
+ * Contract: {@link org.jhotdraw.gui.EditableComponent}, {@code JTextComponent}.<br>
  * Client: {@link org.jhotdraw.app.action.edit.AbstractSelectionAction},
  * {@link org.jhotdraw.app.action.edit.DeleteAction},
  * {@link org.jhotdraw.app.action.edit.DuplicateAction},

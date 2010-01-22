@@ -1,10 +1,10 @@
 /*
- * @(#)HSVRGBColorSystem.java
- *
- * Copyright (c) 2008 by the original authors of JHotDraw
+ * @(#)HSVColorSpace.java
+ * 
+ * Copyright (c) 2010 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
- *
+ * 
  * The copyright of this software is owned by the authors and  
  * contributors of the JHotDraw project ("the copyright holders").  
  * You may not use, copy or modify this software, except in  
@@ -13,35 +13,46 @@
  */
 package org.jhotdraw.color;
 
+import java.awt.color.ColorSpace;
+
 /**
- * A ColorSystem for HSV color components (hue, saturation, value).
+ * A HSV color space with additive complements in the hue color wheel:
+ * red opposite cyan, magenta opposite green, blue opposite yellow.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
-public class HSVRGBColorSystem extends AbstractColorSystem {
-    
-    /**
-     * Creates a new instance.
-     */
-    public HSVRGBColorSystem() {
+public class HSVColorSpace extends ColorSpace implements NamedColorSpace {
+
+    private static HSVColorSpace instance;
+
+    public static HSVColorSpace getInstance() {
+        if (instance == null) {
+            instance = new HSVColorSpace();
+        }
+        return instance;
     }
-    
+
+    public HSVColorSpace() {
+        super(ColorSpace.TYPE_HSV, 3);
+    }
+
     @Override
-    public int toRGB(float... components) {
-        float hue = components[0] * 360f;
+    public float[] toRGB(float[] components) {
+        float hue = components[0]*360f;
         float saturation = components[1];
         float value = components[2];
-        
+
+
         // compute hi and f from hue
         int hi = (int) (Math.floor(hue / 60f) % 6);
         float f = (float) (hue / 60f - Math.floor(hue / 60f));
-        
-        // compute p and q from saturation 
+
+        // compute p and q from saturation
         float p = value * (1 - saturation);
         float q = value * (1 - f * saturation);
         float t = value * (1 - (1 - f) * saturation);
-        
+
         // compute red, green and blue
         float red;
         float green;
@@ -81,34 +92,28 @@ public class HSVRGBColorSystem extends AbstractColorSystem {
                 green = p;
                 blue = q;
                 break;
-            default :	 
+            default :
                 red = green = blue = 0;
                 break;
         }
-        
-        // pack red, green and blue into 24-bit rgb
-        int rgb = ((int) (red * 255)) << 16 | 
-                ((int) (green * 255)) << 8 | 
-                ((int) (blue * 255));
-        
-        return rgb;
+
+
+        return new float[]{red, green, blue};
     }
-    public float[] toComponents(int red, int green, int blue, float components[]) {
-        if (components == null || components.length != 3) {
-            components = new float[3];
-        }
-        
-        float r = red / 255f;
-        float g = green / 255f;
-        float b = blue / 255f;
-        
+
+    @Override
+    public float[] fromRGB(float[] rgbvalue) {
+        float r = rgbvalue[0];
+        float g = rgbvalue[1];
+        float b = rgbvalue[2];
+
         float max = Math.max(Math.max(r, g), b);
         float min = Math.min(Math.min(r, g), b);
-        
+
         float hue;
         float saturation;
         float value;
-        
+
         if (max == min) {
             hue = 0;
         } else if (max == r && g >= b) {
@@ -120,25 +125,50 @@ public class HSVRGBColorSystem extends AbstractColorSystem {
         } else /*if (max == b)*/ {
             hue = 60f * (r - g) / (max - min) + 240f;
         }
-        
+
         value = max;
-        
+
         if (max == 0) {
             saturation = 0;
         } else  {
             saturation = (max - min) / max;
         }
-        
-        components[0] = hue / 360f;
-        components[1] = saturation;
-        components[2] = value;
-        
-        return components;
+
+        return new float[]{
+                    hue / 360f,
+                    saturation,
+                    value};
     }
 
     @Override
-    public int getComponentCount() {
-        return 3;
+    public float[] toCIEXYZ(float[] colorvalue) {
+        float[] rgb = toRGB(colorvalue);
+        return ColorSpace.getInstance(CS_sRGB).toCIEXYZ(rgb);
+    }
+
+    @Override
+    public float[] fromCIEXYZ(float[] colorvalue) {
+        float[] sRGB = ColorSpace.getInstance(ColorSpace.CS_sRGB).fromCIEXYZ(colorvalue);
+        return fromRGB(sRGB);
+    }
+
+    @Override
+    public String getName(int idx) {
+        switch (idx) {
+            case 0:
+                return "Hue";
+            case 1:
+                return "Saturation";
+            case 2:
+                return "Lightness";
+            default:
+                throw new IllegalArgumentException("index must be between 0 and 2:" + idx);
+        }
+    }
+
+    @Override
+    public float getMaxValue(int component) {
+        return 1f;
     }
 
     @Override
@@ -147,8 +177,17 @@ public class HSVRGBColorSystem extends AbstractColorSystem {
     }
 
     @Override
-    public float getMaxValue(int component) {
-        return 1f;
+    public boolean equals(Object o) {
+        return (o instanceof HSVColorSpace);
     }
 
+    @Override
+    public int hashCode() {
+
+        return getClass().getSimpleName().hashCode();
+    }
+    @Override
+    public String getName() {
+        return "HSV";
+    }
 }

@@ -23,7 +23,7 @@ import org.jhotdraw.util.*;
 /**
  * Pastes the contents of the system clipboard at the caret position.
  * <p>
- * This action acts on the last {@link org.jhotdraw.app.EditableComponent} /
+ * This action acts on the last {@link org.jhotdraw.gui.EditableComponent} /
  * {@code JTextComponent} which had the focus when the {@code ActionEvent}
  * was generated.
  * <p>

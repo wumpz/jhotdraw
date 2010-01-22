@@ -14,6 +14,7 @@
 package org.jhotdraw.color;
 
 import java.awt.Color;
+import java.awt.color.ColorSpace;
 import java.beans.*;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -28,7 +29,7 @@ import static org.jhotdraw.color.HarmonicColorModel.*;
 public class DefaultHarmonicColorModel extends AbstractListModel implements HarmonicColorModel {
 
     protected PropertyChangeSupport propertySupport = new PropertyChangeSupport(this);
-    private ArrayList<CompositeColor> colors;
+    private ArrayList<Color> colors;
     private ColorSliderModel sliderModel;
     private int base;
     private ArrayList<HarmonicRule> rules;
@@ -36,23 +37,24 @@ public class DefaultHarmonicColorModel extends AbstractListModel implements Harm
     private int adjusting;
 
     public DefaultHarmonicColorModel() {
-        ColorSystem sys = new HSLRYBColorSystem();
+        ColorSpace sys = HSLPsychologicColorSpace.getInstance();
         sliderModel = new DefaultColorSliderModel(sys);
-        colors = new ArrayList<CompositeColor>();
+        colors = new ArrayList<Color>();
         rules = new ArrayList<HarmonicRule>();
 
         base = 0;
-        add(new CompositeColor(sys, Color.RED));
+        add(Color.RED);
 
         DefaultListModel x;
     }
 
+    @Override
     public void setSize(int newValue) {
         int oldSize = size();
         while (colors.size() > newValue) {
             colors.remove(colors.size() - 1);
         }
-        ColorSystem sys = sliderModel.getColorSystem();
+        ColorSpace sys = sliderModel.getColorSpace();
         while (colors.size() < newValue) {
             colors.add(null);
         }
@@ -72,9 +74,9 @@ public class DefaultHarmonicColorModel extends AbstractListModel implements Harm
         return adjusting > 0;
     }
 
-    public void set(int index, CompositeColor newValue) {
+    public void set(int index, Color newValue) {
         adjusting++;
-        CompositeColor oldValue = colors.set(index, newValue);
+        Color oldValue = colors.set(index, newValue);
         for (HarmonicRule r : rules) {
             r.colorChanged(this, index, oldValue, newValue);
         }
@@ -95,11 +97,11 @@ public class DefaultHarmonicColorModel extends AbstractListModel implements Harm
         }
     }
 
-    public CompositeColor get(int index) {
+    public Color get(int index) {
         return colors.get(index);
     }
 
-    public boolean add(CompositeColor c) {
+    public boolean add(Color c) {
         boolean b = colors.add(c);
         if (b) {
             fireIntervalAdded(this, size() - 1, size() - 1);
@@ -116,11 +118,11 @@ public class DefaultHarmonicColorModel extends AbstractListModel implements Harm
     }
 
     public float[] RGBtoComponent(int rgb, float[] hsb) {
-        return sliderModel.getColorSystem().toComponents(rgb, hsb);
+        return ColorSpaceUtil.fromColor(sliderModel.getColorSpace(), new Color(rgb));
     }
 
     public int componentToRGB(float h, float s, float b) {
-        return sliderModel.getColorSystem().toRGB(h, s, b);
+        return ColorSpaceUtil.toRGB(sliderModel.getColorSpace(), h,s,b);
     }
 
     public int getSize() {
@@ -131,8 +133,8 @@ public class DefaultHarmonicColorModel extends AbstractListModel implements Harm
         return get(index);
     }
 
-    public ColorSystem getColorSystem() {
-        return sliderModel.getColorSystem();
+    public ColorSpace getColorSpace() {
+        return sliderModel.getColorSpace();
     }
 
     public void addRule(HarmonicRule newValue) {
@@ -184,13 +186,14 @@ public class DefaultHarmonicColorModel extends AbstractListModel implements Harm
         return that;
     }
 
-    public void setColorSystem(ColorSystem newValue) {
-        ColorSystem oldValue = sliderModel.getColorSystem();
-        sliderModel.setColorSystem(newValue);
+    @Override
+    public void setColorSpace(ColorSpace newValue) {
+        ColorSpace oldValue = sliderModel.getColorSpace();
+        sliderModel.setColorSpace(newValue);
         firePropertyChange(COLOR_SYSTEM_PROPERTY, oldValue, newValue);
         for (int i = 0; i < colors.size(); i++) {
             if (get(i) != null) {
-                set(i, new CompositeColor(newValue, get(i).getColor()));
+                set(i, new Color(newValue, ColorSpaceUtil.fromColor(newValue,get(i)),1f));
             }
         }
         fireContentsChanged(this, 0, size() - 1);

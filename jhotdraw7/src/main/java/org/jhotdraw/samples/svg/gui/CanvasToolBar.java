@@ -190,7 +190,7 @@ public class CanvasToolBar extends AbstractToolBar {
 
                 // Fill color field with button
                 JAttributeTextField<Color> colorField = new JAttributeTextField<Color>();
-                colorField.setColumns(7);
+                colorField.setColumns(9);
                 colorField.setToolTipText(labels.getString("attribute.canvasFillColor.toolTipText"));
                 colorField.putClientProperty("Palette.Component.segmentPosition", "first");
                 colorField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(colorField));

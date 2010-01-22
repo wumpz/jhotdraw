@@ -27,6 +27,7 @@ import org.jhotdraw.draw.event.SelectionComponentRepainter;
 import org.jhotdraw.gui.JPopupButton;
 import org.jhotdraw.util.*;
 import java.awt.*;
+import java.awt.color.ColorSpace;
 import java.awt.event.*;
 import java.beans.*;
 import java.text.*;
@@ -35,6 +36,7 @@ import javax.swing.*;
 import javax.swing.text.*;
 import org.jhotdraw.app.action.*;
 import org.jhotdraw.app.Disposable;
+import org.jhotdraw.color.HSBColorSpace;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.draw.*;
@@ -193,22 +195,24 @@ public class ButtonFactory {
 
 
     static {
+        ColorSpace grayCS=ColorSpace.getInstance(ColorSpace.CS_GRAY);
+        HSBColorSpace hsbCS=HSBColorSpace.getInstance();
         LinkedList<ColorIcon> m = new LinkedList<ColorIcon>();
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         m.add(new ColorIcon(null, labels.getToolTipTextProperty("attribute.color.noColor")));
         for (int b = 10; b >= 0; b--) {
-            m.add(new ColorIcon(Color.HSBtoRGB(0f, 0f, b * 0.1f),//
+            m.add(new ColorIcon(new Color(grayCS, new float[]{b * 0.1f}, 1f),//
                     labels.getFormatted("attribute.color.grayComponents.toolTipText", b*10)));
         }
         for (int s = 2; s <=8; s += 2) {
             for (int h = 0; h < 12; h++) {
-                m.add(new ColorIcon(Color.HSBtoRGB((h) / 12f, s * 0.1f, 1f),//
+                m.add(new ColorIcon(new Color(hsbCS, new float[]{(h) / 12f, s * 0.1f, 1f},1f),//
                         labels.getFormatted("attribute.color.hsbComponents.toolTipText", h*360/12,s*10,100)));
             }
         }
         for (int b = 10; b >= 2; b -= 2) {
             for (int h = 0; h < 12; h++) {
-                m.add(new ColorIcon(Color.HSBtoRGB((h) / 12f, 1f, b * 0.1f),//
+                m.add(new ColorIcon(new Color(hsbCS, new float[]{(h) / 12f, 1f, b * 0.1f},1f),//
                         labels.getFormatted("attribute.color.hsbComponents.toolTipText", h*360/12,100,b*10)));
             }
         }

@@ -15,6 +15,7 @@ package org.jhotdraw.color;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.color.ColorSpace;
 import java.awt.image.ColorModel;
 import java.awt.image.MemoryImageSource;
 
@@ -28,7 +29,7 @@ public abstract class AbstractColorWheelImageProducer extends MemoryImageSource 
 
     protected int[] pixels;
     protected int w, h;
-    protected ColorSystem colorSystem;
+    protected ColorSpace colorSpace;
     protected int radialIndex = 1;
     protected int angularIndex = 0;
     protected int verticalIndex = 2;
@@ -36,13 +37,13 @@ public abstract class AbstractColorWheelImageProducer extends MemoryImageSource 
     protected float verticalValue = 1f;
     protected boolean isLookupValid = false;
 
-    public AbstractColorWheelImageProducer(ColorSystem sys, int w, int h) {
+    public AbstractColorWheelImageProducer(ColorSpace sys, int w, int h) {
         super(w, h, null, 0, w);
-        this.colorSystem = sys;
+        this.colorSpace = sys;
         pixels = new int[w * h];
         this.w = w;
         this.h = h;
-        this.colorSystem = sys;
+        this.colorSpace = sys;
         setAnimated(true);
 
         newPixels(pixels, ColorModel.getRGBdefault(), 0, w);
@@ -84,11 +85,13 @@ public abstract class AbstractColorWheelImageProducer extends MemoryImageSource 
 
     protected abstract void generateColorWheel();
 
-    public abstract Point getColorLocation(Color c);
+    public Point getColorLocation(Color c) {
+        float[] components =ColorSpaceUtil.fromColor(colorSpace, c);
+        return getColorLocation(components);
+    }
+
 
     public abstract Point getColorLocation(float[] components);
 
     public abstract float[] getColorAt(int x, int y);
-
-    public abstract Point getColorLocation(CompositeColor c);
 }

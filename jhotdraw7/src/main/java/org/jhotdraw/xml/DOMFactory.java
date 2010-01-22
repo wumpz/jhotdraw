@@ -59,11 +59,9 @@ public interface DOMFactory {
      * This method is only ever called from DOMOutput. You should never call
      * this method directly.
      *
-     * @param out The DOMOutput object which creates the element for the object
-     * in a DOM.
      * @param object The object to be written.
      */
-    public void write(DOMOutput in, Object object) throws IOException;
+    public void write(DOMOutput out, Object object) throws IOException;
 
     /** Reads the specified object from DOMInput.
      * <p>
@@ -72,7 +70,6 @@ public interface DOMFactory {
      *
      * @param in The DOMInput object which creates the object from an element
      * in a DOM.
-     * @param object The object to be read.
      */
     public Object read(DOMInput in) throws IOException;
 }
