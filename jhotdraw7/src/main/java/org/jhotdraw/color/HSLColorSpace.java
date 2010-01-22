@@ -17,7 +17,7 @@ import java.awt.color.ColorSpace;
 
 /**
  * A HSL color space with additive complements in the hue color wheel:
- * red opposite cyan, magenta opposite green, blue opposite yellow.
+ * red is opposite cyan, magenta is opposite green, blue is opposite yellow.
  *
  * @author Werner Randelshofer
  * @version $Id$
