@@ -2,7 +2,7 @@
 <!-- Builds the "JHotDraw Draw" demo application and demo applet. -->
 <project name="build-all" default="all" basedir=".">
     <target name="init">
-        <property name="version" value="7 rev634"/>
+        <property name="version" value="7 rev636"/>
         <property name="srcalldir" value="dist"/>
         <property name="distalldir" value="dist"/>
     </target>
