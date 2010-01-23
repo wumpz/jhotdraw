@@ -16,8 +16,6 @@ package org.jhotdraw.samples.svg;
 
 import org.jhotdraw.app.action.edit.RedoAction;
 import org.jhotdraw.app.action.edit.UndoAction;
-import org.jhotdraw.app.Disposable;
-import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.print.DrawingPageable;
 import java.awt.print.Pageable;
@@ -32,7 +30,6 @@ import java.lang.reflect.*;
 import java.net.URI;
 import javax.swing.*;
 import org.jhotdraw.app.*;
-import org.jhotdraw.app.action.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.gui.JFileURIChooser;
 import org.jhotdraw.gui.URIChooser;
@@ -72,6 +69,7 @@ public class SVGView extends AbstractView {
         initActions();
         undo.addPropertyChangeListener(propertyHandler = new PropertyChangeListener() {
 
+            @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 setHasUnsavedChanges(undo.hasSignificantEdits());
             }
@@ -129,6 +127,7 @@ public class SVGView extends AbstractView {
     /**
      * Writes the view to the specified uri.
      */
+    @Override
     public void write(URI uri, URIChooser chooser) throws IOException {
         new SVGOutputFormat().write(new File(uri), svgPanel.getDrawing());
     }
@@ -137,6 +136,7 @@ public class SVGView extends AbstractView {
      * Reads the view from the specified uri.
      */
     @SuppressWarnings("unchecked")
+    @Override
     public void read(final URI uri, URIChooser chooser) throws IOException {
         try {
             JFileURIChooser fc = (JFileURIChooser) chooser;
@@ -159,7 +159,7 @@ public class SVGView extends AbstractView {
             boolean success = false;
             if (selectedFormat != null) {
                 try {
-                    selectedFormat.read(new File(uri), drawing, true);
+                    selectedFormat.read(uri, drawing, true);
                     success = true;
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -170,7 +170,7 @@ public class SVGView extends AbstractView {
                 for (InputFormat sfi : drawing.getInputFormats()) {
                     if (sfi != selectedFormat) {
                         try {
-                            sfi.read(new File(uri), drawing, true);
+                            sfi.read(uri, drawing, true);
                             success = true;
                             break;
                         } catch (Exception e) {
@@ -185,6 +185,7 @@ public class SVGView extends AbstractView {
             }
             SwingUtilities.invokeAndWait(new Runnable() {
 
+                @Override
                 public void run() {
                     Drawing oldDrawing = svgPanel.getDrawing();
                     svgPanel.setDrawing(drawing);
@@ -207,6 +208,7 @@ public class SVGView extends AbstractView {
         return svgPanel.getDrawing();
     }
 
+    @Override
     public void setEnabled(boolean newValue) {
         svgPanel.setEnabled(newValue);
         super.setEnabled(newValue);
@@ -215,11 +217,13 @@ public class SVGView extends AbstractView {
     /**
      * Clears the view.
      */
+    @Override
     public void clear() {
         final Drawing newDrawing = createDrawing();
         try {
             Runnable r = new Runnable() {
 
+                @Override
                 public void run() {
                     Drawing oldDrawing = svgPanel.getDrawing();
                     svgPanel.setDrawing(newDrawing);

@@ -15,8 +15,6 @@ package org.jhotdraw.samples.svg;
 
 import org.jhotdraw.draw.tool.CreationTool;
 import org.jhotdraw.draw.io.InputFormat;
-import org.jhotdraw.draw.ImageHolderFigure;
-import org.jhotdraw.draw.CompositeFigure;
 import org.jhotdraw.draw.*;
 import java.io.*;
 import javax.swing.*;
@@ -114,10 +112,11 @@ public class SVGCreateFromFileTool extends CreationTool {
                 prototype = ((Figure) groupPrototype.clone());
                 worker = new Worker<Drawing>() {
 
+                    @Override
                     public Drawing construct() throws IOException {
                         Drawing drawing = new DefaultDrawing();
                         InputFormat in = (file.getName().toLowerCase().endsWith(".svg")) ? new SVGInputFormat() : new SVGZInputFormat();
-                        in.read(file, drawing);
+                        in.read(file.toURI(), drawing);
                         return drawing;
                     }
 
@@ -158,6 +157,7 @@ public class SVGCreateFromFileTool extends CreationTool {
                 final ImageHolderFigure loaderFigure = ((ImageHolderFigure) prototype.clone());
                 worker = new Worker() {
 
+                    @Override
                     protected Object construct() throws IOException {
                         ((ImageHolderFigure) loaderFigure).loadImage(file);
                         return null;
@@ -200,6 +200,7 @@ public class SVGCreateFromFileTool extends CreationTool {
         }
     }
 
+    @Override
     protected Figure createFigure() {
         if (prototype instanceof CompositeFigure) {
             // we must not apply default attributs to the composite figure,

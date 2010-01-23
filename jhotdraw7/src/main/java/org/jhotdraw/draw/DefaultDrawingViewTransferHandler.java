@@ -229,7 +229,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                                             if (DEBUG) {
                                                 System.out.println("DefaultDrawingViewTransferHandler  importing file " + file);
                                             }
-                                            format.read(file, drawing, false);
+                                            format.read(file.toURI(), drawing, false);
                                         }
                                     }
                                 }

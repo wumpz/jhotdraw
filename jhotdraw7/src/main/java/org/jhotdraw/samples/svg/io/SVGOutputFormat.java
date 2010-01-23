@@ -1280,16 +1280,22 @@ public class SVGOutputFormat implements OutputFormat {
         String value;
         value = "000000" + Integer.toHexString(color.getRGB());
         value = "#" + value.substring(value.length() - 6);
-        if (value.charAt(1) == value.charAt(2) &&
-                value.charAt(3) == value.charAt(4) &&
-                value.charAt(5) == value.charAt(6)) {
+        if (value.charAt(1) == value.charAt(2)
+                && value.charAt(3) == value.charAt(4)
+                && value.charAt(5) == value.charAt(6)) {
             value = "#" + value.charAt(1) + value.charAt(3) + value.charAt(5);
         }
         return value;
     }
 
+    @Override
     public String getFileExtension() {
         return "svg";
+    }
+
+    @Override
+    public void write(URI uri, Drawing drawing) throws IOException {
+        write(new File(uri), drawing);
     }
 
     public void write(File file, Drawing drawing) throws IOException {
@@ -1302,6 +1308,7 @@ public class SVGOutputFormat implements OutputFormat {
         }
     }
 
+    @Override
     public void write(OutputStream out, Drawing drawing) throws IOException {
         write(out, drawing, drawing.getChildren());
     }
@@ -1357,6 +1364,7 @@ public class SVGOutputFormat implements OutputFormat {
         }
     }
 
+    @Override
     public Transferable createTransferable(Drawing drawing, java.util.List<Figure> figures, double scaleFactor) throws IOException {
         ByteArrayOutputStream buf = new ByteArrayOutputStream();
         write(buf, drawing, figures);

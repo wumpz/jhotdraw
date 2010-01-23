@@ -13,19 +13,17 @@
  */
 package org.jhotdraw.draw.io;
 
+import java.net.URI;
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.ImageHolderFigure;
 import java.awt.*;
 import java.awt.datatransfer.*;
 import java.awt.geom.*;
-import java.awt.image.*;
 import java.io.*;
 import java.util.*;
 import javax.imageio.*;
 import javax.swing.*;
-import org.jhotdraw.gui.datatransfer.*;
-import org.jhotdraw.io.*;
 import org.jhotdraw.util.Images;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
@@ -112,6 +110,7 @@ public class ImageInputFormat implements InputFormat {
         this.mimeTypes = mimeTypes;
     }
 
+    @Override
     public javax.swing.filechooser.FileFilter getFileFilter() {
         return new ExtensionFileFilter(description, fileExtensions);
     }
@@ -120,8 +119,19 @@ public class ImageInputFormat implements InputFormat {
         return fileExtensions;
     }
 
+    @Override
     public JComponent getInputFormatAccessory() {
         return null;
+    }
+
+    @Override
+    public void read(URI uri, Drawing drawing) throws IOException {
+        read(new File(uri), drawing);
+    }
+
+    @Override
+    public void read(URI uri, Drawing drawing, boolean replace) throws IOException {
+        read(new File(uri), drawing, replace);
     }
 
     public void read(File file, Drawing drawing, boolean replace) throws IOException {
@@ -144,6 +154,7 @@ public class ImageInputFormat implements InputFormat {
         read(file, drawing, true);
     }
 
+    @Override
     public void read(InputStream in, Drawing drawing, boolean replace) throws IOException {
         ImageHolderFigure figure = createImageHolder(in);
         if (replace) {
@@ -165,6 +176,7 @@ public class ImageInputFormat implements InputFormat {
         return figure;
     }
 
+    @Override
     public boolean isDataFlavorSupported(DataFlavor flavor) {
         if (DataFlavor.imageFlavor.match(flavor)) {
             return true;
@@ -177,6 +189,7 @@ public class ImageInputFormat implements InputFormat {
         return false;
     }
 
+    @Override
     public void read(Transferable t, Drawing drawing, boolean replace) throws UnsupportedFlavorException, IOException {
         DataFlavor importFlavor = null;
         SearchLoop:

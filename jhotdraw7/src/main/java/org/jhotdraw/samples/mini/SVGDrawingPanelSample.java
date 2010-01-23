@@ -127,7 +127,7 @@ public class SVGDrawingPanelSample extends javax.swing.JFrame {
 
                 @Override
                 protected Object construct() throws IOException {
-                    svgPanel.read(selectedFile, selectedFormat);
+                    svgPanel.read(selectedFile.toURI(), selectedFormat);
                     return null;
                 }
 
@@ -173,7 +173,7 @@ public class SVGDrawingPanelSample extends javax.swing.JFrame {
 
                 @Override
                 protected Object construct() throws IOException {
-                    svgPanel.write(selectedFile, selectedFormat);
+                    svgPanel.write(selectedFile.toURI(), selectedFormat);
                     return null;
                 }
 
@@ -217,6 +217,7 @@ public class SVGDrawingPanelSample extends javax.swing.JFrame {
             openChooser.setFileFilter(firstFF);
             openChooser.addPropertyChangeListener(new PropertyChangeListener() {
 
+                @Override
                 public void propertyChange(PropertyChangeEvent evt) {
                     if (evt.getPropertyName().equals("fileFilterChanged")) {
                         InputFormat inputFormat = fileFilterInputFormatMap.get(evt.getNewValue());
@@ -246,6 +247,7 @@ public class SVGDrawingPanelSample extends javax.swing.JFrame {
             saveChooser.setFileFilter(firstFF);
             saveChooser.addPropertyChangeListener(new PropertyChangeListener() {
 
+                @Override
                 public void propertyChange(PropertyChangeEvent evt) {
                     if (evt.getPropertyName().equals("fileFilterChanged")) {
                         OutputFormat outputFormat = fileFilterOutputFormatMap.get(evt.getNewValue());
@@ -263,6 +265,7 @@ public class SVGDrawingPanelSample extends javax.swing.JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
+            @Override
             public void run() {
                 new SVGDrawingPanelSample().setVisible(true);
             }

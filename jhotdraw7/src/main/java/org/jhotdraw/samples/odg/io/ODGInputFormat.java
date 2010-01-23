@@ -15,10 +15,10 @@ package org.jhotdraw.samples.odg.io;
 
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.draw.io.InputFormat;
-import org.jhotdraw.draw.CompositeFigure;
 import java.awt.datatransfer.*;
 import java.awt.geom.*;
 import java.io.*;
+import java.net.URI;
 import java.util.*;
 import java.util.zip.*;
 import javax.swing.*;
@@ -60,12 +60,22 @@ public class ODGInputFormat implements InputFormat {
     public ODGInputFormat() {
     }
 
+    @Override
     public javax.swing.filechooser.FileFilter getFileFilter() {
         return new ExtensionFileFilter("Open Document Drawing (ODG)", "odg");
     }
 
+    @Override
     public JComponent getInputFormatAccessory() {
         return null;
+    }
+    @Override
+    public void read(URI uri, Drawing drawing) throws IOException {
+        read(new File(uri),drawing);
+    }
+    @Override
+    public void read(URI uri, Drawing drawing, boolean replace) throws IOException {
+        read(new File(uri),drawing, replace);
     }
 
     public void read(File file, Drawing drawing) throws IOException {
@@ -81,11 +91,13 @@ public class ODGInputFormat implements InputFormat {
         }
     }
 
+    @Override
     public boolean isDataFlavorSupported(DataFlavor flavor) {
         return flavor.getPrimaryType().equals("application") &&
                 flavor.getSubType().equals("vnd.oasis.opendocument.graphics");
     }
 
+    @Override
     public void read(Transferable t, Drawing drawing, boolean replace) throws UnsupportedFlavorException, IOException {
         InputStream in = (InputStream) t.getTransferData(new DataFlavor("application/vnd.oasis.opendocument.graphics", "Image SVG"));
         try {
@@ -108,6 +120,7 @@ public class ODGInputFormat implements InputFormat {
         return tmp.toByteArray();
     }
 
+    @Override
     public void read(InputStream in, Drawing drawing, boolean replace) throws IOException {
         // Read the file into a byte array.
         byte[] tmp = readAllBytes(in);

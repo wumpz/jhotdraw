@@ -33,6 +33,7 @@ import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -47,6 +48,7 @@ import javax.swing.TransferHandler;
 import org.jhotdraw.app.Disposable;
 import org.jhotdraw.gui.ToolBarLayout;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.gui.URIChooser;
 import org.jhotdraw.gui.plaf.palette.PaletteLookAndFeel;
 import org.jhotdraw.samples.svg.figures.SVGImageFigure;
 import org.jhotdraw.samples.svg.figures.SVGTextFigure;
@@ -287,7 +289,7 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
      * Calling it from the Event Dispatcher Thread will block the user
      * interface, until the drawing is read.
      */
-    public void read(File f) throws IOException {
+    public void read(URI f) throws IOException {
         // Create a new drawing object
         Drawing newDrawing = createDrawing();
         if (newDrawing.getInputFormats().size() == 0) {
@@ -345,7 +347,7 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
      * Calling it from the Event Dispatcher Thread will block the user
      * interface, until the drawing is read.
      */
-    public void read(File f, InputFormat format) throws IOException {
+    public void read(URI f, InputFormat format) throws IOException {
         if (format == null) {
             read(f);
             return;
@@ -389,7 +391,7 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
      * Calling it from the Event Dispatcher Thread will block the user
      * interface, until the drawing is written.
      */
-    public void write(File f) throws IOException {
+    public void write(URI uri) throws IOException {
         // Defensively clone the drawing object, so that we are not
         // affected by changes of the drawing while we write it into the file.
         final Drawing[] helper = new Drawing[1];
@@ -422,9 +424,10 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
 
         // Try out all output formats until we find one which accepts the
         // filename entered by the user.
+        File f = new File(uri);
         for (OutputFormat format : saveDrawing.getOutputFormats()) {
             if (format.getFileFilter().accept(f)) {
-                format.write(f, saveDrawing);
+                format.write(uri, saveDrawing);
                 // We get here if writing was successful.
                 // We can return since we are done.
                 return;
@@ -444,7 +447,7 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
      * Calling it from the Event Dispatcher Thread will block the user
      * interface, until the drawing is written.
      */
-    public void write(File f, OutputFormat format) throws IOException {
+    public void write(URI f, OutputFormat format) throws IOException {
         if (format == null) {
             write(f);
             return;

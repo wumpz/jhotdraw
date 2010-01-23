@@ -19,6 +19,7 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.*;
+import java.net.URI;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
@@ -132,8 +133,16 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
     public String getFileExtension() {
         return fileExtension;
     }
+    @Override
+    public boolean isDataFlavorSupported(DataFlavor flavor) {
+        return flavor.equals(dataFlavor);
+    }
 
     @Override
+    public void write(URI uri, Drawing drawing) throws IOException {
+        write(new File(uri),drawing);
+    }
+
     public void write(File file, Drawing drawing) throws IOException {
         BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file));
         try {
@@ -154,11 +163,19 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
     }
 
     @Override
+    public void read(URI uri, Drawing drawing) throws IOException {
+        read(new File(uri), drawing);
+    }
+
+    @Override
+    public void read(URI uri, Drawing drawing, boolean replace) throws IOException {
+        read(new File(uri), drawing, replace);
+    }
+
     public void read(File file, Drawing drawing) throws IOException {
         read(file, drawing, true);
     }
 
-    @Override
     public void read(File file, Drawing drawing, boolean replace) throws IOException {
         BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
         try {
@@ -178,11 +195,6 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
         drawing.read(domi);
         domi.closeElement();
         domi.dispose();
-    }
-
-    @Override
-    public boolean isDataFlavorSupported(DataFlavor flavor) {
-        return flavor.equals(dataFlavor);
     }
 
     @Override

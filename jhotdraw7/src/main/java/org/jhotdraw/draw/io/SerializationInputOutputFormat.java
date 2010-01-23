@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -85,12 +86,24 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
         this.dataFlavor = new DataFlavor(prototype.getClass(), description);
     }
 
+    @Override
     public FileFilter getFileFilter() {
         return new ExtensionFileFilter(description, fileExtension);
     }
 
+    @Override
     public JComponent getInputFormatAccessory() {
         return null;
+    }
+
+    @Override
+    public void read(URI uri, Drawing drawing) throws IOException {
+        read(new File(uri), drawing);
+    }
+
+    @Override
+    public void read(URI uri, Drawing drawing, boolean replace) throws IOException {
+        read(new File(uri), drawing, replace);
     }
 
     public void read(File file, Drawing drawing) throws IOException {
@@ -107,6 +120,7 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public void read(InputStream in, Drawing drawing, boolean replace) throws IOException {
         try {
             ObjectInputStream oin = new ObjectInputStream(in);
@@ -126,11 +140,13 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
         }
     }
 
+    @Override
     public boolean isDataFlavorSupported(DataFlavor flavor) {
         return flavor.equals(dataFlavor);
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public void read(Transferable t, Drawing drawing, boolean replace) throws UnsupportedFlavorException, IOException {
         try {
             Drawing d = (Drawing) t.getTransferData(dataFlavor);
@@ -148,12 +164,19 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
         }
     }
 
+    @Override
     public String getFileExtension() {
         return fileExtension;
     }
 
+    @Override
     public JComponent getOutputFormatAccessory() {
         return null;
+    }
+
+    @Override
+    public void write(URI uri, Drawing drawing) throws IOException {
+        write(new File(uri),drawing);
     }
 
     public void write(File file, Drawing drawing) throws IOException {
@@ -165,6 +188,7 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
         }
     }
 
+    @Override
     public void write(OutputStream out, Drawing drawing) throws IOException {
         ObjectOutputStream oout = new ObjectOutputStream(out);
         oout.writeObject(drawing);
@@ -172,6 +196,7 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public Transferable createTransferable(Drawing drawing, List<Figure> figures, double scaleFactor) throws IOException {
         final Drawing d = (Drawing) prototype.clone();
 
@@ -190,6 +215,7 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
 
         return new AbstractTransferable(dataFlavor) {
 
+            @Override
             public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
                 if (isDataFlavorSupported(flavor)) {
                     return d;

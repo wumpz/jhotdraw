@@ -20,10 +20,10 @@ import java.awt.datatransfer.*;
 import java.awt.geom.*;
 import java.awt.image.*;
 import java.io.*;
+import java.net.URI;
 import javax.imageio.*;
 import javax.swing.*;
 import org.jhotdraw.gui.datatransfer.*;
-import org.jhotdraw.io.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
@@ -74,18 +74,25 @@ public class ImageOutputFormat implements OutputFormat {
         this.imageType = bufferedImageType;
     }
 
+    @Override
     public javax.swing.filechooser.FileFilter getFileFilter() {
         return new ExtensionFileFilter(description, fileExtension);
     }
 
+    @Override
     public String getFileExtension() {
         return fileExtension;
     }
 
+    @Override
     public JComponent getOutputFormatAccessory() {
         return null;
     }
 
+    @Override
+    public void write(URI uri, Drawing drawing) throws IOException {
+        write(new File(uri),drawing);
+    }
     /**
      * Writes the drawing to the specified file.
      * This method ensures that all figures of the drawing are visible on
@@ -105,6 +112,7 @@ public class ImageOutputFormat implements OutputFormat {
      * This method ensures that all figures of the drawing are visible on
      * the image.
      */
+    @Override
     public void write(OutputStream out, Drawing drawing) throws IOException {
         write(out, drawing, drawing.getChildren(), null, null);
     }
@@ -124,6 +132,7 @@ public class ImageOutputFormat implements OutputFormat {
      * This method ensures that all figures of the drawing are visible on
      * the image.
      */
+    @Override
     public Transferable createTransferable(Drawing drawing, java.util.List<Figure> figures, double scaleFactor) throws IOException {
         return new ImageTransferable(toImage(drawing, figures, scaleFactor, true));
     }

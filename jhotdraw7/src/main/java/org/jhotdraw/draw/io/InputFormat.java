@@ -17,15 +17,16 @@ package org.jhotdraw.draw.io;
 import org.jhotdraw.draw.*;
 import java.awt.datatransfer.*;
 import java.io.*;
+import java.net.URI;
 import javax.swing.*;
 
 /**
  * An <em>input format</em> implements a strategy for reading a {@link Drawing}
- * which is encoded in an {@code InputStream}, a {@code File} or a
- * {@code Transferable}.
+ * using a specific format from either an {@code InputStream}, an {@code URI} or
+ * a {@code Transferable}.
  * <p>
- * Typically an encoding can be recognized by a Mime type or by a file extension.
- * To identify the encoding used by a file, an appropriate {@code FileFilter}
+ * Typically the format can be recognized by a Mime type or by a file extension.
+ * To identify the format used by a file, an appropriate {@code FileFilter}
  * for a javax.swing.JFileChooser component can be requested from {@code InputFormat}.
  * <p>
  * This interface intentionally contains many identical operations like
@@ -63,27 +64,27 @@ public interface InputFormat {
     public JComponent getInputFormatAccessory();
     
     /**
-     * Reads figures from a file and replaces the children of the drawing
+     * Reads figures from an URI and replaces the children of the drawing
      * with them.
      * <p>
-     * This is a convenience method for calling read(File,Drawing,true).
+     * This is a convenience method for calling read(URI,Drawing,true).
      *
-     * @param file The file.
+     * @param uri The URI.
      * @param drawing The drawing.
      */
-    public void read(File file, Drawing drawing) throws IOException;
+    public void read(URI uri, Drawing drawing) throws IOException;
     
     /**
-     * Reads figures from a file and adds them to the specified drawing.
+     * Reads figures from an URI and adds them to the specified drawing.
      *
-     * @param file The file.
+     * @param URI The URI.
      * @param drawing The drawing.
      * @param replace Set this to true, if the contents of the file replaces the
      * contents of the drawing (for example, when loading a drawing from a file).
      * Set this to false, to add the contents of the file to the drawing (for
      * example, when the file has been dropped into the drawing view).
      */
-    public void read(File file, Drawing drawing, boolean replace) throws IOException;
+    public void read(URI uri, Drawing drawing, boolean replace) throws IOException;
 
     /**
      * Reads figures from a file and adds them to the specified drawing.

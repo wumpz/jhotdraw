@@ -48,65 +48,65 @@ import org.jhotdraw.gui.JFileURIChooser;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class NetView extends AbstractView  {
+public class NetView extends AbstractView {
+
     public final static String GRID_VISIBLE_PROPERTY = "gridVisible";
-    
     /**
      * Each NetView uses its own undo redo manager.
      * This allows for undoing and redoing actions per view.
      */
     private UndoRedoManager undo;
-    
     /**
      * Depending on the type of an application, there may be one editor per
      * view, or a single shared editor for all views.
      */
     private DrawingEditor editor;
-    
     private AbstractButton toggleGridButton;
-    
+
     /**
      * Creates a new view.
      */
     public NetView() {
         initComponents();
-        
+
         JPanel zoomButtonPanel = new JPanel(new BorderLayout());
         scrollPane.setLayout(new PlacardScrollPaneLayout());
-        scrollPane.setBorder(new EmptyBorder(0,0,0,0));
-        
+        scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
+
         setEditor(new DefaultDrawingEditor());
         undo = new UndoRedoManager();
         view.setDrawing(createDrawing());
         view.getDrawing().addUndoableEditListener(undo);
         initActions();
         undo.addPropertyChangeListener(new PropertyChangeListener() {
+
             public void propertyChange(PropertyChangeEvent evt) {
                 setHasUnsavedChanges(undo.hasSignificantEdits());
             }
         });
-        
+
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-        
+
         JPanel placardPanel = new JPanel(new BorderLayout());
         javax.swing.AbstractButton pButton;
         pButton = ButtonFactory.createZoomButton(view);
-        pButton.putClientProperty("Quaqua.Button.style","placard");
-        pButton.putClientProperty("Quaqua.Component.visualMargin",new Insets(0,0,0,0));
+        pButton.putClientProperty("Quaqua.Button.style", "placard");
+        pButton.putClientProperty("Quaqua.Component.visualMargin", new Insets(0, 0, 0, 0));
         pButton.setFont(UIManager.getFont("SmallSystemFont"));
         placardPanel.add(pButton, BorderLayout.WEST);
         toggleGridButton = pButton = ButtonFactory.createToggleGridButton(view);
-        pButton.putClientProperty("Quaqua.Button.style","placard");
-        pButton.putClientProperty("Quaqua.Component.visualMargin",new Insets(0,0,0,0));
+        pButton.putClientProperty("Quaqua.Button.style", "placard");
+        pButton.putClientProperty("Quaqua.Component.visualMargin", new Insets(0, 0, 0, 0));
         pButton.setFont(UIManager.getFont("SmallSystemFont"));
         labels.configureToolBarButton(pButton, "view.toggleGrid.placard");
         placardPanel.add(pButton, BorderLayout.EAST);
         scrollPane.add(placardPanel, JScrollPane.LOWER_LEFT_CORNER);
-        
+
         toggleGridButton.setSelected(preferences.getBoolean("view.gridVisible", false));
         view.setScaleFactor(preferences.getDouble("view.scaleFactor", 1d));
-        
+
         view.addPropertyChangeListener(new PropertyChangeListener() {
+
             public void propertyChange(PropertyChangeEvent evt) {
                 String name = evt.getPropertyName();
                 if (name.equals("scaleFactor")) {
@@ -116,16 +116,17 @@ public class NetView extends AbstractView  {
             }
         });
     }
-    
+
     public boolean isGridVisible() {
         return view.isConstrainerVisible();
     }
+
     public void setGridVisible(boolean newValue) {
         boolean oldValue = isGridVisible();
         view.setConstrainerVisible(newValue);
         firePropertyChange(GRID_VISIBLE_PROPERTY, oldValue, newValue);
     }
-    
+
     /**
      * Creates a new Drawing for this view.
      */
@@ -139,17 +140,19 @@ public class NetView extends AbstractView  {
         drawing.addOutputFormat(new ImageOutputFormat());
         return drawing;
     }
+
     /**
      * Creates a Pageable object for printing the view.
      */
     public Pageable createPageable() {
         return new DrawingPageable(view.getDrawing());
-        
+
     }
-    
+
     public DrawingEditor getEditor() {
         return editor;
     }
+
     public void setEditor(DrawingEditor newValue) {
         DrawingEditor oldValue = editor;
         if (oldValue != null) {
@@ -160,13 +163,15 @@ public class NetView extends AbstractView  {
             newValue.add(view);
         }
     }
-    
+
     public double getScaleFactor() {
         return view.getScaleFactor();
     }
+
     public void setScaleFactor(double newValue) {
         view.setScaleFactor(newValue);
     }
+
     /**
      * Initializes view specific actions.
      */
@@ -174,34 +179,42 @@ public class NetView extends AbstractView  {
         getActionMap().put(UndoAction.ID, undo.getUndoAction());
         getActionMap().put(RedoAction.ID, undo.getRedoAction());
     }
+
+    @Override
     protected void setHasUnsavedChanges(boolean newValue) {
         super.setHasUnsavedChanges(newValue);
         undo.setHasSignificantEdits(newValue);
     }
-    
+
     /**
      * Writes the view to the specified uri.
      */
+    @Override
     public void write(URI f, URIChooser chooser) throws IOException {
-            Drawing drawing = view.getDrawing();
-            OutputFormat outputFormat = drawing.getOutputFormats().get(0);
-            outputFormat.write(new File(f), drawing);
+        Drawing drawing = view.getDrawing();
+        OutputFormat outputFormat = drawing.getOutputFormats().get(0);
+        outputFormat.write(f, drawing);
     }
-    
+
     /**
      * Reads the view from the specified uri.
      */
+    @Override
     public void read(URI f, URIChooser chooser) throws IOException {
         try {
             final Drawing drawing = createDrawing();
             InputFormat inputFormat = drawing.getInputFormats().get(0);
-            inputFormat.read(new File(f), drawing, true);
-            SwingUtilities.invokeAndWait(new Runnable() { public void run() {
-                view.getDrawing().removeUndoableEditListener(undo);
-                view.setDrawing(drawing);
-                view.getDrawing().addUndoableEditListener(undo);
-                undo.discardAllEdits();
-            }});
+            inputFormat.read(f, drawing, true);
+            SwingUtilities.invokeAndWait(new Runnable() {
+
+                @Override
+                public void run() {
+                    view.getDrawing().removeUndoableEditListener(undo);
+                    view.setDrawing(drawing);
+                    view.getDrawing().addUndoableEditListener(undo);
+                    undo.discardAllEdits();
+                }
+            });
         } catch (InterruptedException e) {
             InternalError error = new InternalError();
             e.initCause(e);
@@ -212,7 +225,7 @@ public class NetView extends AbstractView  {
             throw error;
         }
     }
-    
+
     /**
      * Sets a drawing editor for the view.
      */
@@ -225,21 +238,24 @@ public class NetView extends AbstractView  {
             editor.add(view);
         }
     }
-    
+
     /**
      * Gets the drawing editor of the view.
      */
     public DrawingEditor getDrawingEditor() {
         return editor;
     }
-    
+
     /**
      * Clears the view.
      */
+    @Override
     public void clear() {
         final Drawing newDrawing = createDrawing();
         try {
             SwingUtilities.invokeAndWait(new Runnable() {
+
+                @Override
                 public void run() {
                     view.getDrawing().removeUndoableEditListener(undo);
                     view.setDrawing(newDrawing);
@@ -253,12 +269,12 @@ public class NetView extends AbstractView  {
             ex.printStackTrace();
         }
     }
-    
-    
+
     @Override
     public boolean canSaveTo(URI file) {
         return new File(file).getName().endsWith(".xml");
     }
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -278,11 +294,8 @@ public class NetView extends AbstractView  {
 
         add(scrollPane, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
-    
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane scrollPane;
     private org.jhotdraw.draw.DefaultDrawingView view;
     // End of variables declaration//GEN-END:variables
-    
 }

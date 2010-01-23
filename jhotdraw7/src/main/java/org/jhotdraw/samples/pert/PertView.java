@@ -186,7 +186,7 @@ public class PertView extends AbstractView {
     public void write(URI f, URIChooser chooser) throws IOException {
         Drawing drawing = view.getDrawing();
         OutputFormat outputFormat = drawing.getOutputFormats().get(0);
-        outputFormat.write(new File(f), drawing);
+        outputFormat.write(f, drawing);
     }
 
     /**
@@ -197,7 +197,7 @@ public class PertView extends AbstractView {
         try {
             final Drawing drawing = createDrawing();
             InputFormat inputFormat = drawing.getInputFormats().get(0);
-            inputFormat.read(new File(f), drawing, true);
+            inputFormat.read(f, drawing, true);
             SwingUtilities.invokeAndWait(new Runnable() {
 
                 @Override

@@ -200,7 +200,7 @@ public class ODGView extends AbstractView {
             if (sf == null) {
                 sf = drawing.getInputFormats().get(0);
             }
-            sf.read(new File(f), drawing, true);
+            sf.read(f, drawing, true);
 
             System.out.println("ODCView read(" + f + ") drawing.childCount=" + drawing.getChildCount());
 

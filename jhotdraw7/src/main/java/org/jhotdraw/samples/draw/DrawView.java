@@ -15,20 +15,15 @@
 package org.jhotdraw.samples.draw;
 
 import org.jhotdraw.draw.io.TextInputFormat;
-import org.jhotdraw.draw.TextFigure;
-import org.jhotdraw.draw.TextAreaFigure;
 import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.ImageOutputFormat;
 import org.jhotdraw.draw.io.ImageInputFormat;
-import org.jhotdraw.draw.ImageFigure;
 import org.jhotdraw.draw.print.DrawingPageable;
 import org.jhotdraw.draw.io.DOMStorableInputOutputFormat;
 import java.awt.geom.*;
-import java.awt.image.BufferedImage;
 import java.awt.print.Pageable;
 import org.jhotdraw.gui.*;
-import org.jhotdraw.io.*;
 import org.jhotdraw.undo.*;
 import org.jhotdraw.util.*;
 import java.awt.*;
@@ -44,7 +39,6 @@ import org.jhotdraw.app.action.edit.UndoAction;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.gui.URIChooser;
-import org.jhotdraw.gui.JFileURIChooser;
 import org.jhotdraw.net.URIUtil;
 
 /**
@@ -71,14 +65,6 @@ public class DrawView extends AbstractView {
      * Creates a new view.
      */
     public DrawView() {
-    }
-    
-    /**
-     * Initializes the view.
-     */
-    public void init() {
-        super.init();
-        
         initComponents();
         
         JPanel zoomButtonPanel = new JPanel(new BorderLayout());
@@ -91,6 +77,7 @@ public class DrawView extends AbstractView {
         view.getDrawing().addUndoableEditListener(undo);
         initActions();
         undo.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 setHasUnsavedChanges(undo.hasSignificantEdits());
             }
@@ -152,6 +139,7 @@ public class DrawView extends AbstractView {
         getActionMap().put(UndoAction.ID, undo.getUndoAction());
         getActionMap().put(RedoAction.ID, undo.getRedoAction());
     }
+    @Override
     protected void setHasUnsavedChanges(boolean newValue) {
         super.setHasUnsavedChanges(newValue);
         undo.setHasSignificantEdits(newValue);
@@ -160,15 +148,17 @@ public class DrawView extends AbstractView {
     /**
      * Writes the view to the specified uri.
      */
+    @Override
     public void write(URI f, URIChooser fc) throws IOException {
         Drawing drawing = view.getDrawing();
         OutputFormat outputFormat = drawing.getOutputFormats().get(0);
-        outputFormat.write(new File(f), drawing);
+        outputFormat.write(f, drawing);
     }
     
     /**
      * Reads the view from the specified uri.
      */
+    @Override
     public void read(URI f, URIChooser fc) throws IOException {
         try {
 
@@ -177,7 +167,7 @@ public class DrawView extends AbstractView {
             boolean success = false;
                 for (InputFormat sfi : drawing.getInputFormats()) {
                         try {
-                            sfi.read(new File(f), drawing, true);
+                            sfi.read(f, drawing, true);
                             success = true;
                             break;
                         } catch (Exception e) {
@@ -189,7 +179,7 @@ public class DrawView extends AbstractView {
                 throw new IOException(labels.getFormatted("file.open.unsupportedFileFormat.message", URIUtil.getName(f)));
             }
             SwingUtilities.invokeAndWait(new Runnable() {
-
+                @Override
                 public void run() {
                     view.getDrawing().removeUndoableEditListener(undo);
                     view.setDrawing(drawing);
@@ -232,10 +222,12 @@ public class DrawView extends AbstractView {
     /**
      * Clears the view.
      */
+    @Override
     public void clear() {
         final Drawing newDrawing = createDrawing();
         try {
             SwingUtilities.invokeAndWait(new Runnable() {
+                @Override
                 public void run() {
                     view.getDrawing().removeUndoableEditListener(undo);
                     view.setDrawing(newDrawing);
