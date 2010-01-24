@@ -15,7 +15,6 @@ package org.jhotdraw.gui;
 
 import java.awt.*;
 import java.io.Serializable;
-import javax.swing.BoxLayout;
 
 /**
  * A layout which lays out components horizontally or vertically according
@@ -61,13 +60,16 @@ public class ToolBarLayout implements LayoutManager2, Serializable {
     }
 
 
+    @Override
     public void addLayoutComponent(Component comp, Object constraints) {
     }
 
+    @Override
     public Dimension maximumLayoutSize(Container target) {
         return preferredLayoutSize(target);
     }
 
+    @Override
     public float getLayoutAlignmentX(Container target) {
         switch (axis) {
             case Y_AXIS:
@@ -78,6 +80,7 @@ public class ToolBarLayout implements LayoutManager2, Serializable {
         }
     }
 
+    @Override
     public float getLayoutAlignmentY(Container target) {
         switch (axis) {
             case Y_AXIS:
@@ -88,15 +91,19 @@ public class ToolBarLayout implements LayoutManager2, Serializable {
         }
     }
 
+    @Override
     public void invalidateLayout(Container target) {
     }
 
+    @Override
     public void addLayoutComponent(String name, Component comp) {
     }
 
+    @Override
     public void removeLayoutComponent(Component comp) {
     }
 
+    @Override
     public Dimension preferredLayoutSize(Container parent) {
         int w = 0;
         int h = 0;
@@ -122,10 +129,12 @@ public class ToolBarLayout implements LayoutManager2, Serializable {
         return new Dimension(w + i.left + i.right, h + i.top + i.bottom);
     }
 
+    @Override
     public Dimension minimumLayoutSize(Container parent) {
         return preferredLayoutSize(parent);
     }
 
+    @Override
     public void layoutContainer(Container parent) {
         Dimension ps = preferredLayoutSize(parent);
         Insets insets = parent.getInsets();

@@ -55,6 +55,7 @@ public class ExitAction extends AbstractApplicationAction {
         labels.configureAction(this, ID);
     }
 
+    @Override
     public void actionPerformed(ActionEvent evt) {
         final Application app = getApplication();
         if (app.isEnabled()) {
@@ -99,6 +100,7 @@ public class ExitAction extends AbstractApplicationAction {
                     pane.putClientProperty("Quaqua.OptionPane.destructiveOption", new Integer(2));
                     JSheet.showSheet(pane, unsavedView.getComponent(), new SheetListener() {
 
+                    @Override
                         public void optionSelected(SheetEvent evt) {
                             Object value = evt.getValue();
                             if (value == null || value.equals(labels.getString("application.exit.cancelOption"))) {
@@ -163,6 +165,7 @@ public class ExitAction extends AbstractApplicationAction {
             //int option = fileChooser.showSaveDialog(this);
             JSheet.showSaveSheet(chooser, v.getComponent(), new SheetListener() {
 
+                @Override
                 public void optionSelected(final SheetEvent evt) {
                     if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
                         final URI uri = evt.getChooser().getSelectedURI();
@@ -198,6 +201,7 @@ public class ExitAction extends AbstractApplicationAction {
             pane.putClientProperty("Quaqua.OptionPane.destructiveOption", new Integer(2));
             JSheet.showSheet(pane, unsavedView.getComponent(), new SheetListener() {
 
+                @Override
                 public void optionSelected(SheetEvent evt) {
                     Object value = evt.getValue();
                     if (value == null || value.equals(labels.getString("application.exit.cancelOption"))) {
@@ -222,6 +226,7 @@ public class ExitAction extends AbstractApplicationAction {
             URIChooser chooser = getChooser(v);
             JSheet.showSaveSheet(chooser, unsavedView.getComponent(), new SheetListener() {
 
+                @Override
                 public void optionSelected(final SheetEvent evt) {
                     if (evt.getOption() == URIChooser.APPROVE_OPTION) {
                         final URI uri = evt.getChooser().getSelectedURI();
@@ -266,6 +271,7 @@ public class ExitAction extends AbstractApplicationAction {
         final View v = unsavedView;
         v.execute(new Worker() {
 
+            @Override
             protected Object construct() throws IOException {
                 v.write(uri, chooser);
                 return null;
@@ -302,6 +308,7 @@ public class ExitAction extends AbstractApplicationAction {
         final View v = unsavedView;
         v.execute(new Worker() {
 
+            @Override
             protected Object construct() throws IOException {
                 v.write(uri, chooser);
                 return null;

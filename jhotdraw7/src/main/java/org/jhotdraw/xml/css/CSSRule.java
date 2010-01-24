@@ -18,7 +18,6 @@
 package org.jhotdraw.xml.css;
 
 import java.util.*;
-import javax.swing.*;
 import net.n3.nanoxml.IXMLElement;
 import org.w3c.dom.Element;
 
@@ -150,6 +149,7 @@ public class CSSRule {
     }
     
     
+    @Override
     public String toString() {
         return "CSSRule["+selector+properties+"]";
     }

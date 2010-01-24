@@ -52,6 +52,7 @@ public class BezierControlPointHandle extends AbstractHandle {
         transformOwner.addFigureListener(this);
     }
 
+    @Override
     public void dispose() {
         super.dispose();
         transformOwner.removeFigureListener(this);
@@ -85,6 +86,7 @@ public class BezierControlPointHandle extends AbstractHandle {
     /**
      * Draws this handle.
      */
+    @Override
     public void draw(Graphics2D g) {
         BezierFigure f = getBezierFigure();
         if (f.getNodeCount() > index) {
@@ -142,6 +144,7 @@ public class BezierControlPointHandle extends AbstractHandle {
         }
     }
 
+    @Override
     protected Rectangle basicGetBounds() {
         Rectangle r = new Rectangle(getLocation());
         int h = getHandlesize();
@@ -151,6 +154,7 @@ public class BezierControlPointHandle extends AbstractHandle {
         return r;
     }
 
+    @Override
     public void trackStart(Point anchor, int modifiersEx) {
         BezierFigure figure = getOwner();
         view.getDrawing().fireUndoableEditHappened(edit = new CompositeEdit("Punkt verschieben"));
@@ -159,6 +163,7 @@ public class BezierControlPointHandle extends AbstractHandle {
         oldNode = figure.getNode(index);
     }
 
+    @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         BezierFigure figure = getBezierFigure();
         Point2D.Double p = view.getConstrainer().constrainPoint(view.viewToDrawing(lead));
@@ -208,6 +213,7 @@ public class BezierControlPointHandle extends AbstractHandle {
         fireAreaInvalidated(vr);
     }
 
+    @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         final BezierFigure figure = getBezierFigure();
         BezierPath.Node oldValue = (BezierPath.Node) oldNode.clone();
@@ -279,10 +285,12 @@ public class BezierControlPointHandle extends AbstractHandle {
         }
     }
 
+    @Override
     public BezierFigure getOwner() {
         return (BezierFigure) super.getOwner();
     }
 
+    @Override
     public void keyPressed(KeyEvent evt) {
         final BezierFigure f = getOwner();
         BezierPath.Node oldNode = f.getNode(index);

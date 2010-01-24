@@ -11,15 +11,12 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.draw;
 
 import org.jhotdraw.draw.handle.MoveHandle;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.event.FigureAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
-import org.jhotdraw.draw.AbstractCompositeFigure;
-import org.jhotdraw.draw.*;
 import java.io.IOException;
 import java.awt.*;
 import java.awt.geom.*;
@@ -30,6 +27,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
+
 /**
  * The GraphicalCompositeFigure fills in the gap between a CompositeFigure
  * and other figures which mainly have a presentation purpose. The
@@ -55,9 +53,9 @@ import org.jhotdraw.xml.DOMOutput;
  * @version $Id$
  */
 public class GraphicalCompositeFigure extends AbstractCompositeFigure {
-    protected HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey,Object>();
+
+    protected HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey, Object>();
     private HashSet<AttributeKey> forbiddenAttributes;
-    
     /**
      * Figure which performs all presentation tasks for this
      * BasicCompositeFigure as CompositeFigures usually don't have
@@ -65,39 +63,46 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
      * children.
      */
     private Figure presentationFigure;
-    
     /**
      * Handles figure changes in the children.
      */
     private PresentationFigureHandler presentationFigureHandler = new PresentationFigureHandler(this);
+
     private static class PresentationFigureHandler extends FigureAdapter implements UndoableEditListener {
+
         private GraphicalCompositeFigure owner;
+
         private PresentationFigureHandler(GraphicalCompositeFigure owner) {
             this.owner = owner;
         }
-        @Override public void figureRequestRemove(FigureEvent e) {
+
+        @Override
+        public void figureRequestRemove(FigureEvent e) {
             owner.remove(e.getFigure());
         }
-        
-        @Override public void figureChanged(FigureEvent e) {
-            if (! owner.isChanging()) {
+
+        @Override
+        public void figureChanged(FigureEvent e) {
+            if (!owner.isChanging()) {
                 owner.willChange();
                 owner.fireFigureChanged(e);
                 owner.changed();
             }
         }
-        
-        @Override public void areaInvalidated(FigureEvent e) {
-            if (! owner.isChanging()) {
+
+        @Override
+        public void areaInvalidated(FigureEvent e) {
+            if (!owner.isChanging()) {
                 owner.fireAreaInvalidated(e.getInvalidatedArea());
             }
         }
-        
+
+        @Override
         public void undoableEditHappened(UndoableEditEvent e) {
             owner.fireUndoableEditHappened(e.getEdit());
         }
     };
-    
+
     /**
      * Default constructor which uses nothing as presentation
      * figure. This constructor is needed by the Storable mechanism.
@@ -105,6 +110,7 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
     public GraphicalCompositeFigure() {
         this(null);
     }
+
     /**
      * Constructor which creates a GraphicalCompositeFigure with
      * a given graphical figure for presenting it.
@@ -115,40 +121,49 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
         super();
         setPresentationFigure(newPresentationFigure);
     }
-    
+
     /**
      * Return the logcal display area. This method is delegated to the encapsulated
      * presentation figure.
      */
+    @Override
     public Rectangle2D.Double getBounds() {
-        if (getPresentationFigure() == null) return super.getBounds();
+        if (getPresentationFigure() == null) {
+            return super.getBounds();
+        }
         return getPresentationFigure().getBounds();
     }
-    
+
+    @Override
     public boolean contains(Point2D.Double p) {
         boolean contains = super.contains(p);
-        if (! contains && getPresentationFigure() != null) {
+        if (!contains && getPresentationFigure() != null) {
             contains = getPresentationFigure().contains(p);
         }
         return contains;
     }
-    
+
+    @Override
     public void addNotify(Drawing drawing) {
         super.addNotify(drawing);
         if (getPresentationFigure() != null) {
             getPresentationFigure().addNotify(drawing);
         }
     }
+
+    @Override
     public void removeNotify(Drawing drawing) {
         super.removeNotify(drawing);
         if (getPresentationFigure() != null) {
             getPresentationFigure().removeNotify(drawing);
         }
     }
+
     /**
      * Return the draw area. This method is delegated to the
      * encapsulated presentation figure.
      */
+    @Override
     public Rectangle2D.Double getDrawingArea() {
         Rectangle2D.Double r = super.getDrawingArea();
         if (getPresentationFigure() != null) {
@@ -156,11 +171,13 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
         }
         return r;
     }
+
     /**
      * Moves the figure. This is the
      * method that subclassers override. Clients usually
      * call displayBox.
      */
+    @Override
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         if (getLayouter() == null) {
             super.setBounds(anchor, lead);
@@ -170,58 +187,61 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
             basicSetPresentationFigureBounds(new Point2D.Double(r.getX(), r.getY()),
                     new Point2D.Double(
                     Math.max(lead.x, (int) r.getMaxX()),
-                    Math.max(lead.y, (int) r.getMaxY())
-                    )
-                    );
+                    Math.max(lead.y, (int) r.getMaxY())));
             invalidate();
         }
     }
-    
+
     protected void superBasicSetBounds(Point2D.Double anchor, Point2D.Double lead) {
         super.setBounds(anchor, lead);
     }
+
     protected void basicSetPresentationFigureBounds(Point2D.Double anchor, Point2D.Double lead) {
         if (getPresentationFigure() != null) {
             getPresentationFigure().setBounds(anchor, lead);
         }
     }
-    
+
     /**
      * Standard presentation method which is delegated to the encapsulated presentation figure.
      * The presentation figure is moved as well as all contained figures.
      */
+    @Override
     public void transform(AffineTransform tx) {
         super.transform(tx);
         if (getPresentationFigure() != null) {
             getPresentationFigure().transform(tx);
         }
     }
-    
+
     /**
      * Draw the figure. This method is delegated to the encapsulated presentation figure.
      */
+    @Override
     public void draw(Graphics2D g) {
         drawPresentationFigure(g);
         super.draw(g);
     }
-    
+
     protected void drawPresentationFigure(Graphics2D g) {
         if (getPresentationFigure() != null) {
             getPresentationFigure().draw(g);
         }
     }
-    
+
     /**
      * Return default handles from the presentation figure.
      */
+    @Override
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
         if (detailLevel == 0) {
-        MoveHandle.addMoveHandles(this, handles);
+            MoveHandle.addMoveHandles(this, handles);
         }
         return handles;
         //return getPresentationFigure().getHandles();
     }
+
     /**
      * Set a figure which renders this BasicCompositeFigure. The presentation
      * tasks for the BasicCompositeFigure are delegated to this presentation
@@ -249,7 +269,7 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
         }
         // FIXME: We should calculate the layout here.
     }
-    
+
     /**
      * Get a figure which renders this BasicCompositeFigure. The presentation
      * tasks for the BasicCompositeFigure are delegated to this presentation
@@ -264,23 +284,26 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
     public Figure getPresentationFigure() {
         return presentationFigure;
     }
-    
+
+    @Override
     public GraphicalCompositeFigure clone() {
         GraphicalCompositeFigure that = (GraphicalCompositeFigure) super.clone();
-        that.presentationFigure = (this.presentationFigure == null) ?
-            null :
-            (Figure) this.presentationFigure.clone();
+        that.presentationFigure = (this.presentationFigure == null)
+                ? null
+                : (Figure) this.presentationFigure.clone();
         if (that.presentationFigure != null) {
             that.presentationFigure.addFigureListener(that.presentationFigureHandler);
         }
         return that;
     }
-    public void remap(HashMap<Figure,Figure> oldToNew, boolean disconnectIfNotInMap) {
+
+    public void remap(HashMap<Figure, Figure> oldToNew, boolean disconnectIfNotInMap) {
         super.remap(oldToNew, disconnectIfNotInMap);
         if (presentationFigure != null) {
             presentationFigure.remap(oldToNew, disconnectIfNotInMap);
         }
     }
+
     /**
      * Sets an attribute of the figure.
      * AttributeKey name and semantics are defined by the class implementing
@@ -289,7 +312,7 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
     @Override
     public <T> void set(AttributeKey<T> key, T newValue) {
         if (forbiddenAttributes == null
-                || ! forbiddenAttributes.contains(key)) {
+                || !forbiddenAttributes.contains(key)) {
             if (getPresentationFigure() != null) {
                 getPresentationFigure().set(key, newValue);
             }
@@ -297,6 +320,7 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
             Object oldValue = attributes.put(key, newValue);
         }
     }
+
     public void setAttributeEnabled(AttributeKey key, boolean b) {
         if (forbiddenAttributes == null) {
             forbiddenAttributes = new HashSet<AttributeKey>();
@@ -307,6 +331,7 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
             forbiddenAttributes.add(key);
         }
     }
+
     /**
      * Gets an attribute from the figure.
      */
@@ -315,11 +340,12 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
         if (getPresentationFigure() != null) {
             return getPresentationFigure().get(key);
         } else {
-            return (! attributes.containsKey(key)) ?
-                key.getDefaultValue() :
-                key.get(attributes);
+            return (!attributes.containsKey(key))
+                    ? key.getDefaultValue()
+                    : key.get(attributes);
         }
     }
+
     /**
      * Applies all attributes of this figure to that figure.
      */
@@ -329,22 +355,23 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
             that.set(entry.getKey(), entry.getValue());
         }
     }
+
     protected void writeAttributes(DOMOutput out) throws IOException {
         Figure prototype = (Figure) out.getPrototype();
-        
+
         boolean isElementOpen = false;
         for (Map.Entry<AttributeKey, Object> entry : attributes.entrySet()) {
             AttributeKey key = entry.getKey();
             if (forbiddenAttributes == null
-                    || ! forbiddenAttributes.contains(key)) {
+                    || !forbiddenAttributes.contains(key)) {
                 @SuppressWarnings("unchecked")
                 Object prototypeValue = prototype.get(key);
                 @SuppressWarnings("unchecked")
                 Object attributeValue = get(key);
-                if (prototypeValue != attributeValue ||
-                        (prototypeValue != null && attributeValue != null &&
-                        ! prototypeValue.equals(attributeValue))) {
-                    if (! isElementOpen) {
+                if (prototypeValue != attributeValue
+                        || (prototypeValue != null && attributeValue != null
+                        && !prototypeValue.equals(attributeValue))) {
+                    if (!isElementOpen) {
                         out.openElement("a");
                         isElementOpen = true;
                     }
@@ -358,18 +385,19 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
             out.closeElement();
         }
     }
+
     @SuppressWarnings("unchecked")
     protected void readAttributes(DOMInput in) throws IOException {
         if (in.getElementCount("a") > 0) {
             in.openElement("a");
-            for (int i=in.getElementCount() - 1; i >= 0; i-- ) {
+            for (int i = in.getElementCount() - 1; i >= 0; i--) {
                 in.openElement(i);
                 String name = in.getTagName();
                 Object value = in.readObject();
                 AttributeKey key = getAttributeKey(name);
                 if (key != null && key.isAssignable(value)) {
                     if (forbiddenAttributes == null
-                            || ! forbiddenAttributes.contains(key)) {
+                            || !forbiddenAttributes.contains(key)) {
                         set(key, value);
                     }
                 }
@@ -378,25 +406,28 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
             in.closeElement();
         }
     }
-    
+
     @Override
     public void read(DOMInput in) throws IOException {
         super.read(in);
         readAttributes(in);
     }
-    
+
     @Override
     public void write(DOMOutput out) throws IOException {
         super.write(out);
         writeAttributes(out);
     }
-    
+
     protected AttributeKey getAttributeKey(String name) {
         return AttributeKeys.supportedAttributeMap.get(name);
     }
+
+    @Override
     public Map<AttributeKey, Object> getAttributes() {
-        return new HashMap<AttributeKey,Object>(attributes);
+        return new HashMap<AttributeKey, Object>(attributes);
     }
+
     /**
      * This is a default implementation that chops the point at the rectangle
      * returned by getBounds() of the figure.
@@ -413,13 +444,13 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
             double grow;
             switch (get(STROKE_PLACEMENT)) {
                 case CENTER:
-                default :
+                default:
                     grow = AttributeKeys.getStrokeTotalWidth(this);
                     break;
-                case OUTSIDE :
+                case OUTSIDE:
                     grow = AttributeKeys.getStrokeTotalWidth(this);
                     break;
-                case INSIDE :
+                case INSIDE:
                     grow = 0d;
                     break;
             }

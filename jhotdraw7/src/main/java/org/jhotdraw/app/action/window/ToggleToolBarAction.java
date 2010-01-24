@@ -34,6 +34,7 @@ public class ToggleToolBarAction extends AbstractAction {
         super(label);
         
         propertyHandler = new PropertyChangeListener() {
+            @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 String name = evt.getPropertyName();
                 if (name.equals("visible")) {
@@ -46,6 +47,7 @@ public class ToggleToolBarAction extends AbstractAction {
         setToolBar(toolBar);
     }
     
+    @Override
     public void putValue(String key, Object newValue) {
         super.putValue(key, newValue);
         if (key == ActionUtil.SELECTED_KEY) {
@@ -68,6 +70,7 @@ public class ToggleToolBarAction extends AbstractAction {
         }
     }
     
+    @Override
     public void actionPerformed(ActionEvent e) {
         if (toolBar != null) {
             putValue(ActionUtil.SELECTED_KEY, ! toolBar.isVisible());

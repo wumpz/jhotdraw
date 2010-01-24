@@ -171,11 +171,13 @@ public class TextAreaEditingTool extends AbstractTool implements ActionListener 
     //	        view().checkDamage();
     }
 
+    @Override
     public void actionPerformed(ActionEvent event) {
         endEdit();
         fireToolDone();
     }
 
+    @Override
     public void mouseDragged(MouseEvent e) {
         throw new UnsupportedOperationException("Not supported yet.");
     }

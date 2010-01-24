@@ -39,6 +39,7 @@ public class LocatorLayouter implements Layouter {
     public LocatorLayouter() {
     }
     
+    @Override
     public Rectangle2D.Double calculateLayout(CompositeFigure compositeFigure, Point2D.Double anchor, Point2D.Double lead) {
         Rectangle2D.Double bounds = null;
         
@@ -64,6 +65,7 @@ public class LocatorLayouter implements Layouter {
         return (bounds == null) ? new Rectangle2D.Double() : bounds;
     }
     
+    @Override
     public Rectangle2D.Double layout(CompositeFigure compositeFigure, Point2D.Double anchor, Point2D.Double lead) {
         Rectangle2D.Double bounds = null;
         

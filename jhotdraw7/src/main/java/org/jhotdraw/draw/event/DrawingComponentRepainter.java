@@ -13,9 +13,6 @@
  */
 package org.jhotdraw.draw.event;
 
-import org.jhotdraw.draw.event.FigureAdapter;
-import org.jhotdraw.draw.event.FigureEvent;
-import org.jhotdraw.draw.action.*;
 import java.beans.*;
 import javax.swing.*;
 import org.jhotdraw.app.Disposable;
@@ -55,6 +52,7 @@ public class DrawingComponentRepainter extends FigureAdapter
         component.repaint();
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String name = evt.getPropertyName();
         if (name == DrawingEditor.ACTIVE_VIEW_PROPERTY) {
@@ -88,6 +86,7 @@ public class DrawingComponentRepainter extends FigureAdapter
         }
     }
 
+    @Override
     public void dispose() {
         if (editor != null) {
             if (editor.getActiveView() != null) {

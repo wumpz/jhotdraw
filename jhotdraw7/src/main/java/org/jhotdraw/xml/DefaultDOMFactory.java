@@ -14,7 +14,6 @@
 
 package org.jhotdraw.xml;
 
-import java.io.IOException;
 import java.util.*;
 /**
  * {@code DefaultDOMFactory} can be used to serialize DOMStorable objects
@@ -126,6 +125,7 @@ public class DefaultDOMFactory extends JavaPrimitivesDOMFactory {
     }
     
     @SuppressWarnings("unchecked")
+    @Override
     protected Enum createEnum(String name, String value) {
         Class enumClass = nameToEnumClassMap.get(name);
         if (enumClass == null) {

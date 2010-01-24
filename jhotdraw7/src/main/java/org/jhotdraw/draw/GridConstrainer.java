@@ -143,6 +143,7 @@ public class GridConstrainer extends AbstractConstrainer {
     /**
      * Constrains a point to the closest grid point in any direction.
      */
+    @Override
     public Point2D.Double constrainPoint(Point2D.Double p) {
         p.x = Math.round(p.x / width) * width;
         p.y = Math.round(p.y / height) * height;
@@ -208,6 +209,7 @@ public class GridConstrainer extends AbstractConstrainer {
     /**
      * Moves a point to the closest grid point in a direction.
      */
+    @Override
     public Point2D.Double translatePoint(Point2D.Double p, TranslationDirection dir) {
         Point2D.Double p0 = constrainPoint((Point2D.Double) p.clone());
 
@@ -239,6 +241,7 @@ public class GridConstrainer extends AbstractConstrainer {
         return p;
     }
 
+    @Override
     public Rectangle2D.Double constrainRectangle(Rectangle2D.Double r) {
         Point2D.Double p0 = constrainPoint(new Point2D.Double(r.x, r.y));
         Point2D.Double p1 = constrainPoint(new Point2D.Double(r.x + r.width, r.y + r.height));
@@ -303,6 +306,7 @@ public class GridConstrainer extends AbstractConstrainer {
         return r;
     }
 
+    @Override
     public Rectangle2D.Double translateRectangle(Rectangle2D.Double r, TranslationDirection dir) {
         double x = r.x;
         double y = r.y;
@@ -345,6 +349,7 @@ public class GridConstrainer extends AbstractConstrainer {
         return r;
     }
 
+    @Override
     public String toString() {
         return super.toString() + "[" + width + "," + height + "]";
     }
@@ -377,6 +382,7 @@ public class GridConstrainer extends AbstractConstrainer {
         fireStateChanged();
     }
 
+    @Override
     public void draw(Graphics2D g, DrawingView view) {
         if (isVisible) {
             AffineTransform t = view.getDrawingToViewTransform();
@@ -437,6 +443,7 @@ public class GridConstrainer extends AbstractConstrainer {
         }
     }
 
+    @Override
     public double constrainAngle(double angle) {
         // No step specified then no constraining
         if (theta == 0) {
@@ -447,6 +454,7 @@ public class GridConstrainer extends AbstractConstrainer {
         return theta * factor;
     }
 
+    @Override
     public double rotateAngle(double angle, RotationDirection dir) {
         // Check parameters
         if (dir == null) {

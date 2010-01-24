@@ -13,7 +13,6 @@
  */
 package org.jhotdraw.color;
 
-import java.awt.Color;
 import java.awt.color.ColorSpace;
 
 /**

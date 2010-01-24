@@ -26,13 +26,9 @@ import org.jhotdraw.samples.svg.action.*;
 import org.jhotdraw.samples.svg.figures.*;
 import org.jhotdraw.undo.*;
 import org.jhotdraw.util.*;
-
 import java.awt.*;
-import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
-import javax.swing.event.*;
-import org.jhotdraw.app.action.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 /**

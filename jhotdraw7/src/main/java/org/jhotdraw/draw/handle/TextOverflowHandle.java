@@ -14,8 +14,6 @@
 
 package org.jhotdraw.draw.handle;
 
-import org.jhotdraw.draw.handle.AbstractHandle;
-import org.jhotdraw.draw.TextHolderFigure;
 import org.jhotdraw.draw.*;
 import java.awt.*;
 import java.awt.geom.*;
@@ -36,6 +34,7 @@ public class TextOverflowHandle extends AbstractHandle {
         super(owner);
     }
     
+    @Override
     public TextHolderFigure getOwner() {
         return (TextHolderFigure) super.getOwner();
     }
@@ -75,12 +74,15 @@ public class TextOverflowHandle extends AbstractHandle {
         return r;
     }
     
+    @Override
     public void trackStart(Point anchor, int modifiersEx) {
     }
     
+    @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
     }
     
+    @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
     }
     

@@ -32,6 +32,7 @@ public class IncreaseHandleDetailLevelAction extends AbstractSelectedAction {
         //  putValue(AbstractAction.MNEMONIC_KEY, labels.getString("editSelectSameMnem"));
     }
     
+    @Override
     public void actionPerformed(java.awt.event.ActionEvent e) {
         increaseHandleDetaiLevel();
     }

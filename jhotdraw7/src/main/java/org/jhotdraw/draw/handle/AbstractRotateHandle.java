@@ -14,8 +14,6 @@
 package org.jhotdraw.draw.handle;
 
 import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.draw.handle.AbstractHandle;
 import org.jhotdraw.draw.event.TransformRestoreEdit;
 import org.jhotdraw.draw.event.TransformEdit;
 import java.awt.*;
@@ -116,6 +114,7 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
 
     protected abstract Point2D.Double getCenter();
 
+    @Override
     public void trackStart(Point anchor, int modifiersEx) {
         location = new Point(anchor.x, anchor.y);
         restoreData = getOwner().getTransformRestoreData();
@@ -126,6 +125,7 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
         startLength = Geom.length(center.x, center.y, anchorPoint.x, anchorPoint.y);
     }
 
+    @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         location = new Point(lead.x, lead.y);
         Point2D.Double leadPoint = view.viewToDrawing(lead);
@@ -145,6 +145,7 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
         getOwner().changed();
     }
 
+    @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         view.getDrawing().fireUndoableEditHappened(
                 new TransformRestoreEdit(getOwner(), restoreData, getOwner().getTransformRestoreData()));

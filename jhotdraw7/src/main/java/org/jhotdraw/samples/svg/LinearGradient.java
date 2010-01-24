@@ -70,6 +70,7 @@ public class LinearGradient implements Gradient {
     public void setRelativeToFigureBounds(boolean b) {
         isRelativeToFigureBounds = b;
     }
+    @Override
     public boolean isRelativeToFigureBounds() {
         return isRelativeToFigureBounds;
     }
@@ -99,6 +100,7 @@ public class LinearGradient implements Gradient {
         return transform;
     }
     
+    @Override
     public Paint getPaint(Figure f, double opacity) {
         // No stops, like fill = none
         if (stopColors.length == 0) {
@@ -173,6 +175,7 @@ public class LinearGradient implements Gradient {
         transform = tx;
     }
     
+    @Override
     public void transform(AffineTransform tx) {
         if (transform == null) {
             transform = (AffineTransform) tx.clone();
@@ -180,6 +183,7 @@ public class LinearGradient implements Gradient {
             transform.preConcatenate(tx);
         }
     }
+    @Override
     public Object clone() {
         try {
             LinearGradient that = (LinearGradient) super.clone();
@@ -195,6 +199,7 @@ public class LinearGradient implements Gradient {
         }
     }
     
+    @Override
     public void makeRelativeToFigureBounds(Figure f) {
         if (! isRelativeToFigureBounds) {
             isRelativeToFigureBounds = true;
@@ -206,6 +211,7 @@ public class LinearGradient implements Gradient {
         }
     }
     
+    @Override
     public int hashCode() {
 	long bits = Double.doubleToLongBits(x1);
 	bits += Double.doubleToLongBits(y1) * 31;
@@ -216,6 +222,7 @@ public class LinearGradient implements Gradient {
 	return (((int) bits) ^ ((int) (bits >> 32)));
     }
     
+    @Override
     public boolean equals(Object o) {
         if (o instanceof LinearGradient) {
             return equals((LinearGradient) o);

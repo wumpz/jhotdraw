@@ -116,6 +116,7 @@ public class DnDTracker extends AbstractTool implements DragTracker {
         }
     }
 
+    @Override
     public void mouseDragged(MouseEvent e) {
         DrawingView v = getView();
 
@@ -137,6 +138,7 @@ public class DnDTracker extends AbstractTool implements DragTracker {
         fireToolDone();
     }
 
+    @Override
     public void setDraggedFigure(Figure f) {
         anchorFigure = f;
     }

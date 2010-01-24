@@ -89,6 +89,7 @@ public class QuantizingColorWheelImageProducer extends AbstractColorWheelImagePr
         isLookupValid = true;
     }
 
+    @Override
     public boolean needsGeneration() {
         return !isPixelsValid;
     }

@@ -63,6 +63,7 @@ public abstract class AbstractLineDecoration implements LineDecoration {
      * Draws the arrow tip in the direction specified by the given two
      * Points. (template method)
      */
+    @Override
     public void draw(Graphics2D g, Figure f, Point2D.Double p1, Point2D.Double p2) {
         Path2D.Double path = getTransformedDecoratorPath(f, p1, p2);
         Color color;
@@ -90,6 +91,7 @@ public abstract class AbstractLineDecoration implements LineDecoration {
     /**
      * Returns the drawing area of the decorator.
      */
+    @Override
     public Rectangle2D.Double getDrawingArea(Figure f, Point2D.Double p1, Point2D.Double p2) {
         Path2D.Double path = getTransformedDecoratorPath(f, p1, p2);
         Rectangle2D b = path.getBounds2D();
@@ -114,6 +116,7 @@ public abstract class AbstractLineDecoration implements LineDecoration {
         return area;
     }
     
+    @Override
     public double getDecorationRadius(Figure f) {
         double strokeWidth = f.get(STROKE_WIDTH);
         double scaleFactor;

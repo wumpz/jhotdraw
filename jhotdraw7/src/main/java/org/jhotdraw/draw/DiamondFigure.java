@@ -14,9 +14,7 @@
 package org.jhotdraw.draw;
 
 import org.jhotdraw.draw.connector.ChopDiamondConnector;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.connector.Connector;
-import org.jhotdraw.draw.ConnectionFigure;
 import java.awt.*;
 import java.awt.geom.*;
 import org.jhotdraw.geom.Geom;
@@ -56,6 +54,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
     }
 
     // DRAWING
+    @Override
     protected void drawFill(Graphics2D g) {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
         if (get(IS_QUADRATIC)) {
@@ -92,6 +91,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
         g.fill(diamond);
     }
 
+    @Override
     protected void drawStroke(Graphics2D g) {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
         if (get(IS_QUADRATIC)) {
@@ -129,11 +129,13 @@ public class DiamondFigure extends AbstractAttributedFigure {
     }
 // SHAPE AND BOUNDS
 
+    @Override
     public Rectangle2D.Double getBounds() {
         Rectangle2D.Double bounds = (Rectangle2D.Double) rectangle.clone();
         return bounds;
     }
 
+    @Override
     public Rectangle2D.Double getDrawingArea() {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
         if (get(IS_QUADRATIC)) {
@@ -166,6 +168,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
     /**
      * Checks if a Point2D.Double is inside the figure.
      */
+    @Override
     public boolean contains(Point2D.Double p) {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
         if (get(IS_QUADRATIC)) {
@@ -203,6 +206,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
         return diamond.contains(p);
     }
 
+    @Override
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         rectangle.x = Math.min(anchor.x, lead.x);
         rectangle.y = Math.min(anchor.y, lead.y);
@@ -214,6 +218,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
      * Moves the Figure to a new location.
      * @param tx the transformation matrix.
      */
+    @Override
     public void transform(AffineTransform tx) {
         Point2D.Double anchor = getStartPoint();
         Point2D.Double lead = getEndPoint();
@@ -222,6 +227,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
                 (Point2D.Double) tx.transform(lead, lead));
     }
 
+    @Override
     public void restoreTransformTo(Object geometry) {
         Rectangle2D.Double r = (Rectangle2D.Double) geometry;
         rectangle.x = r.x;
@@ -230,6 +236,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
         rectangle.height = r.height;
     }
 
+    @Override
     public Object getTransformRestoreData() {
         return rectangle.clone();
     }
@@ -242,16 +249,19 @@ public class DiamondFigure extends AbstractAttributedFigure {
      * By default a ChopDiamondConnector is returned.
      * @see ChopDiamondConnector
      */
+    @Override
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
         return new ChopDiamondConnector(this);
     }
 
+    @Override
     public Connector findCompatibleConnector(Connector c, boolean isStart) {
         return new ChopDiamondConnector(this);
     }
 // COMPOSITE FIGURES
 // CLONING
 
+    @Override
     public DiamondFigure clone() {
         DiamondFigure that = (DiamondFigure) super.clone();
         that.rectangle = (Rectangle2D.Double) this.rectangle.clone();

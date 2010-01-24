@@ -44,6 +44,7 @@ public class FontCollectionNode implements MutableTreeNode, Comparable<FontColle
         this.children = families;
     }
 
+    @Override
     public int compareTo(FontCollectionNode that) {
         return Collator.getInstance().compare(this.name, that.name);
     }
@@ -81,6 +82,7 @@ public class FontCollectionNode implements MutableTreeNode, Comparable<FontColle
         children.addAll(c);
     }
 
+    @Override
     public void insert(MutableTreeNode newChild, int index) {
         FontCollectionNode oldParent = (FontCollectionNode) newChild.getParent();
         if (oldParent != null) {
@@ -90,12 +92,14 @@ public class FontCollectionNode implements MutableTreeNode, Comparable<FontColle
         children.add(index, (FontFamilyNode) newChild);
     }
 
+    @Override
     public void remove(int childIndex) {
 	MutableTreeNode child = (MutableTreeNode)getChildAt(childIndex);
 	children.remove(childIndex);
 	child.setParent(null);
     }
 
+    @Override
     public void remove(MutableTreeNode aChild) {
 	if (aChild == null) {
 	    throw new IllegalArgumentException("argument is null");
@@ -107,44 +111,54 @@ public class FontCollectionNode implements MutableTreeNode, Comparable<FontColle
 	remove(getIndex(aChild));	// linear search
     }
 
+    @Override
     public void setUserObject(Object object) {
         throw new UnsupportedOperationException("Not supported.");
     }
 
+    @Override
     public void removeFromParent() {
 	if (parent != null) {
 	    parent.remove(this);
 	}
     }
 
+    @Override
     public void setParent(MutableTreeNode newParent) {
         this.parent = newParent;
     }
 
+    @Override
     public FontFamilyNode getChildAt(int childIndex) {
         return children.get(childIndex);
     }
 
+    @Override
     public int getChildCount() {
         return children.size();
     }
 
+    @Override
     public MutableTreeNode getParent() {
         return parent;
     }
 
+    @Override
     public int getIndex(TreeNode node) {
         return children.indexOf(node);
     }
 
+    @Override
     public boolean getAllowsChildren() {
         return true;
     }
 
+    @Override
     public boolean isLeaf() {
         return children.isEmpty();
     }
 
+    @Override
     public Enumeration children() {
         return Collections.enumeration(children);
     }

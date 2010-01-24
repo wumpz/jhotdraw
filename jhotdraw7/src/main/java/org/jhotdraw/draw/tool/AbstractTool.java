@@ -85,6 +85,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
         listenerList.remove(UndoableEditListener.class, l);
     }
 
+    @Override
     public void activate(DrawingEditor editor) {
         this.editor = editor;
         editorProxy.setTarget(editor);
@@ -96,6 +97,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
         }
     }
 
+    @Override
     public void deactivate(DrawingEditor editor) {
         this.editor = editor;
         editorProxy.setTarget(null);
@@ -167,6 +169,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
      * Depending on the tool, this could be selected figures, selected points
      * or selected text.
      */
+    @Override
     public void editDelete() {
         getView().getDrawing().removeAll(getView().getSelectedFigures());
     }
@@ -176,6 +179,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
      * Depending on the tool, this could be selected figures, selected points
      * or selected text.
      */
+    @Override
     public void editCut() {
     }
 
@@ -184,6 +188,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
      * Depending on the tool, this could be selected figures, selected points
      * or selected text.
      */
+    @Override
     public void editCopy() {
     }
 
@@ -192,6 +197,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
      * Depending on the tool, this could be selected figures, selected points
      * or selected text.
      */
+    @Override
     public void editDuplicate() {
     }
 
@@ -200,13 +206,16 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
      * Depending on the tool, this could be selected figures, selected points
      * or selected text.
      */
+    @Override
     public void editPaste() {
     }
 
+    @Override
     public void keyReleased(KeyEvent evt) {
         fireToolDone();
     }
 
+    @Override
     public void keyTyped(KeyEvent evt) {
     }
 
@@ -217,6 +226,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
      * If the corresponding value of the InputMap is a ActionListener, the
      * actionPerformed method of the ActionListener is performed.
      */
+    @Override
     public void keyPressed(KeyEvent evt) {
         if (!evt.isConsumed()) {
             if (evt.getSource() instanceof Container) {
@@ -274,21 +284,26 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
         return null;
     }
 
+    @Override
     public void mouseClicked(MouseEvent evt) {
     }
 
+    @Override
     public void mouseEntered(MouseEvent evt) {
         /*if (! isWorking) {
         editor.setActiveView(editor.findView((Container) evt.getSource()));
         }*/
     }
 
+    @Override
     public void mouseExited(MouseEvent evt) {
     }
 
+    @Override
     public void mouseMoved(MouseEvent evt) {
     }
 
+    @Override
     public void mousePressed(MouseEvent evt) {
         DrawingView view = editor.findView((Container) evt.getSource());
         view.requestFocus();
@@ -297,14 +312,17 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
         fireToolStarted(view);
     }
 
+    @Override
     public void mouseReleased(MouseEvent evt) {
         isWorking = false;
     }
 
+    @Override
     public void addToolListener(ToolListener l) {
         listenerList.add(ToolListener.class, l);
     }
 
+    @Override
     public void removeToolListener(ToolListener l) {
         listenerList.remove(ToolListener.class, l);
     }
@@ -430,6 +448,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
         }
     }
 
+    @Override
     public void draw(Graphics2D g) {
     }
 
@@ -456,6 +475,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
         }
     }
 
+    @Override
     public String getToolTipText(DrawingView view, MouseEvent evt) {
         return null;
     }
@@ -467,6 +487,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
      * 
      * @return True, if this tool supports interaction with the handles.
      */
+    @Override
     public boolean supportsHandleInteraction() {
         return false;
     }

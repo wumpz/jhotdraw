@@ -13,7 +13,6 @@
  */
 package org.jhotdraw.samples.svg.action;
 
-import org.jhotdraw.draw.CompositeFigure;
 import java.awt.geom.AffineTransform;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
@@ -89,6 +88,7 @@ public class CombineAction extends AbstractSelectedAction {
                 ((CompositeFigure) getView().getSelectedFigures().iterator().next()).getChildCount() > 1;
     }
 
+    @Override
     public void actionPerformed(java.awt.event.ActionEvent e) {
         if (isCombineAction) {
             combineActionPerformed(e);

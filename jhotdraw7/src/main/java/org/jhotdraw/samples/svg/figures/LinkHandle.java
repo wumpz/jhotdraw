@@ -73,12 +73,15 @@ public class LinkHandle extends AbstractHandle {
         return r;
     }
     
+    @Override
     public void trackStart(Point anchor, int modifiersEx) {
     }
     
+    @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
     }
     
+    @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
     }
     

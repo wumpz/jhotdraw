@@ -57,9 +57,11 @@ public class UndoRedoManager extends UndoManager {//javax.swing.undo.UndoManager
      * disables the Undo and Redo functions of the manager.
      */
     public final static UndoableEdit DISCARD_ALL_EDITS = new AbstractUndoableEdit() {
+    @Override
         public boolean canUndo() {
             return false;
         }
+    @Override
         public boolean canRedo() {
             return false;
         }
@@ -78,6 +80,7 @@ public class UndoRedoManager extends UndoManager {//javax.swing.undo.UndoManager
         /**
          * Invoked when an action occurs.
          */
+    @Override
         public void actionPerformed(ActionEvent evt) {
             try {
                 undo();
@@ -102,6 +105,7 @@ public class UndoRedoManager extends UndoManager {//javax.swing.undo.UndoManager
         /**
          * Invoked when an action occurs.
          */
+    @Override
         public void actionPerformed(ActionEvent evt) {
             try {
                 redo();
@@ -138,6 +142,7 @@ public class UndoRedoManager extends UndoManager {//javax.swing.undo.UndoManager
     /**
      * Discards all edits.
      */
+    @Override
     public void discardAllEdits() {
         super.discardAllEdits();
         updateActions();
@@ -174,6 +179,7 @@ public class UndoRedoManager extends UndoManager {//javax.swing.undo.UndoManager
      * @see CompoundEdit#end
      * @see CompoundEdit#addEdit
      */
+    @Override
     public boolean addEdit(UndoableEdit anEdit) {
         if (DEBUG) System.out.println("UndoRedoManager@"+hashCode()+".add "+anEdit);
         if (undoOrRedoInProgress) {
@@ -237,6 +243,7 @@ public class UndoRedoManager extends UndoManager {//javax.swing.undo.UndoManager
      * The UndoRedoManager ignores all incoming UndoableEdit events,
      * while undo is in progress.
      */
+    @Override
     public void undo()
     throws CannotUndoException {
         undoOrRedoInProgress = true;
@@ -253,6 +260,7 @@ public class UndoRedoManager extends UndoManager {//javax.swing.undo.UndoManager
      * The UndoRedoManager ignores all incoming UndoableEdit events,
      * while redo is in progress.
      */
+    @Override
     public void redo()
     throws CannotUndoException {
         undoOrRedoInProgress = true;
@@ -269,6 +277,7 @@ public class UndoRedoManager extends UndoManager {//javax.swing.undo.UndoManager
      * The UndoRedoManager ignores all incoming UndoableEdit events,
      * while undo or redo is in progress.
      */
+    @Override
     public void undoOrRedo()
     throws CannotUndoException, CannotRedoException {
         undoOrRedoInProgress = true;

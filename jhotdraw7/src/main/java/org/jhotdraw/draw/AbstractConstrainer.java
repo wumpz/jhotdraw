@@ -41,6 +41,7 @@ public abstract class AbstractConstrainer extends AbstractBean implements Constr
     /**
      * Adds a <code>ChangeListener</code>.
      */
+    @Override
     public void addChangeListener(ChangeListener l) {
         listenerList.add(ChangeListener.class, l);
     }
@@ -48,6 +49,7 @@ public abstract class AbstractConstrainer extends AbstractBean implements Constr
     /**
      * Removes a <code>ChangeListener</code>.
      */
+    @Override
     public void removeChangeListener(ChangeListener l) {
         listenerList.remove(ChangeListener.class, l);
     }
@@ -69,6 +71,7 @@ public abstract class AbstractConstrainer extends AbstractBean implements Constr
         }
     }
     
+    @Override
     public AbstractConstrainer clone() {
         AbstractConstrainer that = (AbstractConstrainer) super.clone();
         that.listenerList = new EventListenerList();

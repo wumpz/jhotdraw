@@ -23,15 +23,19 @@ package org.jhotdraw.draw.event;
  */
 public class ToolAdapter implements ToolListener {
 
+    @Override
     public void toolStarted(ToolEvent event) {
     }
 
+    @Override
     public void toolDone(ToolEvent event) {
     }
 
+    @Override
     public void areaInvalidated(ToolEvent e) {
     }
 
+    @Override
     public void boundsInvalidated(ToolEvent e) {
     }
 

@@ -14,7 +14,6 @@
 
 package org.jhotdraw.samples.svg.io;
 
-import org.jhotdraw.draw.CompositeFigure;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.*;

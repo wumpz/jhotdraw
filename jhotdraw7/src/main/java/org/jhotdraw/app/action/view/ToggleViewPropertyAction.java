@@ -36,6 +36,7 @@ public class ToggleViewPropertyAction extends AbstractViewAction {
     private String getterName;
     
     private PropertyChangeListener viewListener = new PropertyChangeListener() {
+        @Override
         public void propertyChange(PropertyChangeEvent evt) {
             if (evt.getPropertyName() == propertyName) { // Strings get interned
                 updateView();
@@ -62,6 +63,7 @@ public class ToggleViewPropertyAction extends AbstractViewAction {
         updateView();
     }
     
+    @Override
     public void actionPerformed(ActionEvent evt) {
         View p = getActiveView();
         Object value = getCurrentValue();
@@ -94,6 +96,7 @@ public class ToggleViewPropertyAction extends AbstractViewAction {
     }
     
     
+    @Override
     protected void installViewListeners(View p) {
         super.installViewListeners(p);
         p.addPropertyChangeListener(viewListener);
@@ -102,6 +105,7 @@ public class ToggleViewPropertyAction extends AbstractViewAction {
     /**
      * Installs listeners on the view object.
      */
+    @Override
     protected void uninstallViewListeners(View p) {
         super.uninstallViewListeners(p);
         p.removePropertyChangeListener(viewListener);

@@ -14,7 +14,6 @@
 
 package org.jhotdraw.draw.locator;
 
-import org.jhotdraw.draw.locator.Locator;
 import org.jhotdraw.draw.locator.RelativeLocator;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.DecoratedFigure;
@@ -51,6 +50,7 @@ public class RelativeDecoratorLocator extends RelativeLocator {
         this.isQuadratic = isQuadratic;
     }
     
+    @Override
     public java.awt.geom.Point2D.Double locate(Figure owner) {
         Rectangle2D.Double r;
         if ((owner instanceof DecoratedFigure) && 

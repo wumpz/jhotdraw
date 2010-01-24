@@ -16,7 +16,6 @@ package org.jhotdraw.draw;
 
 import org.jhotdraw.draw.liner.Liner;
 import org.jhotdraw.draw.connector.Connector;
-import org.jhotdraw.draw.*;
 import java.awt.geom.*;
 import org.jhotdraw.geom.*;
 

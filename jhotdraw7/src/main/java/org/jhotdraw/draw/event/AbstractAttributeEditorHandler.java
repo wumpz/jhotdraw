@@ -14,7 +14,6 @@
 package org.jhotdraw.draw.event;
 
 import org.jhotdraw.gui.*;
-import org.jhotdraw.draw.event.FigureEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Collections;
@@ -32,9 +31,6 @@ import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.Figure;
-import org.jhotdraw.draw.event.FigureAdapter;
-import org.jhotdraw.draw.event.FigureSelectionEvent;
-import org.jhotdraw.draw.event.FigureSelectionListener;
 
 /**
  * AbstractAttributeEditorHandler mediates between an AttributeEditor and the
@@ -78,6 +74,7 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
 
     protected class EventHandler extends FigureAdapter implements FigureSelectionListener, PropertyChangeListener {
 
+        @Override
         public void selectionChanged(FigureSelectionEvent evt) {
             attributeRestoreData = null;
             if (figuresOfInterest != null) {
@@ -92,6 +89,7 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
             updateAttributeEditor();
         }
 
+        @Override
         public void propertyChange(PropertyChangeEvent evt) {
             Object src = evt.getSource();
             String name = evt.getPropertyName();
@@ -377,6 +375,7 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
         updateDepth--;
     }
 
+    @Override
     public void dispose() {
         setDrawingEditor(null);
     }

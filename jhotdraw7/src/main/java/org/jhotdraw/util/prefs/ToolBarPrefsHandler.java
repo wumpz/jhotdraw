@@ -71,10 +71,12 @@ public class ToolBarPrefsHandler implements ComponentListener, AncestorListener 
         );
         window.toFront();
     }*/
+    @Override
     public void componentHidden(ComponentEvent e) {
         prefs.putBoolean(prefsPrefix+".visible", false);
     }
     
+    @Override
     public void componentMoved(ComponentEvent e) {
         locationChanged();
     }
@@ -116,18 +118,22 @@ public class ToolBarPrefsHandler implements ComponentListener, AncestorListener 
         }
     }
     
+    @Override
     public void componentResized(ComponentEvent e) {
         locationChanged();
     }
     
+    @Override
     public void componentShown(ComponentEvent e) {
         prefs.putBoolean(prefsPrefix+".visible", true);
     }
     
+    @Override
     public void ancestorAdded(AncestorEvent event) {
         locationChanged();
     }
     
+    @Override
     public void ancestorMoved(AncestorEvent event) {
         if (toolbar.getUI() instanceof BasicToolBarUI) {
             if (((BasicToolBarUI) toolbar.getUI()).isFloating()) {
@@ -136,6 +142,7 @@ public class ToolBarPrefsHandler implements ComponentListener, AncestorListener 
         }
     }
     
+    @Override
     public void ancestorRemoved(AncestorEvent event) {
         if (toolbar.getUI() instanceof BasicToolBarUI) {
             if (((BasicToolBarUI) toolbar.getUI()).isFloating()) {

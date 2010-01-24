@@ -36,6 +36,7 @@ public class DnDMultiEditorSample {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
 
+            @Override
             public void run() {
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
 

@@ -71,6 +71,7 @@ public class AttributeAction extends AbstractSelectedAction {
         updateEnabledState();
     }
 
+    @Override
     public void actionPerformed(java.awt.event.ActionEvent evt) {
         applyAttributesTo(attributes, getView().getSelectedFigures());
     }

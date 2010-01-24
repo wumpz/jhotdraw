@@ -23,7 +23,6 @@ import org.jhotdraw.draw.event.FigureAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
 import org.jhotdraw.draw.event.CompositeFigureListener;
 import org.jhotdraw.draw.event.CompositeFigureEvent;
-import javax.swing.event.*;
 import javax.swing.undo.*;
 import org.jhotdraw.util.*;
 import java.awt.*;
@@ -35,7 +34,6 @@ import javax.swing.*;
 import org.jhotdraw.gui.EditableComponent;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import java.awt.image.VolatileImage;
-import sun.swing.SwingUtilities2;
 
 /**
  * A default implementation of {@link DrawingView} suited for viewing drawings
@@ -109,6 +107,7 @@ public class DefaultDrawingView
         isWindows = b;
     }
 
+    @Override
     public void repaintHandles() {
         validateHandles();
         Rectangle r = null;
@@ -144,6 +143,7 @@ public class DefaultDrawingView
 
     private class EventHandler implements FigureListener, CompositeFigureListener, HandleListener, FocusListener {
 
+    @Override
         public void figureAdded(CompositeFigureEvent evt) {
             if (drawing.getChildCount() == 1 && getEmptyDrawingMessage() != null) {
                 repaint();
@@ -153,6 +153,7 @@ public class DefaultDrawingView
             invalidateDimension();
         }
 
+    @Override
         public void figureRemoved(CompositeFigureEvent evt) {
             if (drawing.getChildCount() == 0 && getEmptyDrawingMessage() != null) {
                 repaint();
@@ -163,16 +164,19 @@ public class DefaultDrawingView
             invalidateDimension();
         }
 
+    @Override
         public void areaInvalidated(FigureEvent evt) {
             repaintDrawingArea(evt.getInvalidatedArea());
             invalidateDimension();
         }
 
+    @Override
         public void areaInvalidated(HandleEvent evt) {
             repaint(evt.getInvalidatedArea());
             invalidateDimension();
         }
 
+    @Override
         public void handleRequestSecondaryHandles(HandleEvent e) {
             secondaryHandleOwner = e.getHandle();
             secondaryHandles.clear();
@@ -184,6 +188,7 @@ public class DefaultDrawingView
             repaint();
         }
 
+    @Override
         public void focusGained(FocusEvent e) {
             //   repaintHandles();
             if (editor != null) {
@@ -191,10 +196,12 @@ public class DefaultDrawingView
             }
         }
 
+    @Override
         public void focusLost(FocusEvent e) {
             //   repaintHandles();
         }
 
+    @Override
         public void handleRequestRemove(HandleEvent e) {
             selectionHandles.remove(e.getHandle());
             e.getHandle().dispose();
@@ -202,6 +209,7 @@ public class DefaultDrawingView
             repaint(e.getInvalidatedArea());
         }
 
+    @Override
         public void attributeChanged(FigureEvent e) {
             if (e.getSource() == drawing) {
                 AttributeKey a = e.getAttribute();
@@ -218,19 +226,24 @@ public class DefaultDrawingView
             }
         }
 
+    @Override
         public void figureHandlesChanged(FigureEvent e) {
         }
 
+    @Override
         public void figureChanged(FigureEvent e) {
             repaintDrawingArea(e.getInvalidatedArea());
         }
 
+    @Override
         public void figureAdded(FigureEvent e) {
         }
 
+    @Override
         public void figureRemoved(FigureEvent e) {
         }
 
+    @Override
         public void figureRequestRemove(FigureEvent e) {
         }
     }
@@ -249,6 +262,7 @@ public class DefaultDrawingView
         setOpaque(true);
     }
 
+    @Override
     public void setBackground(Color c) {
         super.setBackground(c);
         if (c.getRGB() == 0xffffff || c.getRGB() == 0xffffffff) {
@@ -273,6 +287,7 @@ public class DefaultDrawingView
         setLayout(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    @Override
     public Drawing getDrawing() {
         return drawing;
     }
@@ -666,6 +681,7 @@ public class DefaultDrawingView
 
     }
 
+    @Override
     public void setDrawing(Drawing newValue) {
         Drawing oldValue = drawing;
         if (this.drawing != null) {
@@ -689,6 +705,7 @@ public class DefaultDrawingView
         paintEnabled = false;
         javax.swing.Timer t = new javax.swing.Timer(10, new ActionListener() {
 
+    @Override
             public void actionPerformed(ActionEvent e) {
                 repaint();
                 paintEnabled = true;
@@ -698,6 +715,7 @@ public class DefaultDrawingView
         t.start();
     }
 
+    @Override
     public void paint(Graphics g) {
         if (paintEnabled) {
             super.paint(g);
@@ -734,6 +752,7 @@ public class DefaultDrawingView
     /**
      * Adds a figure to the current selection.
      */
+    @Override
     public void addToSelection(Figure figure) {
         if (DEBUG) {
             System.out.println("DefaultDrawingView" + ".addToSelection(" + figure + ")");
@@ -768,6 +787,7 @@ public class DefaultDrawingView
     /**
      * Adds a collection of figures to the current selection.
      */
+    @Override
     public void addToSelection(Collection<Figure> figures) {
         Set<Figure> oldSelection = new HashSet<Figure>(selectedFigures);
         Set<Figure> newSelection = new HashSet<Figure>(selectedFigures);
@@ -805,6 +825,7 @@ public class DefaultDrawingView
     /**
      * Removes a figure from the selection.
      */
+    @Override
     public void removeFromSelection(Figure figure) {
         Set<Figure> oldSelection = new HashSet<Figure>(selectedFigures);
         if (selectedFigures.remove(figure)) {

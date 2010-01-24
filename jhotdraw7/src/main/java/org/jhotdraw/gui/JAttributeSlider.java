@@ -35,15 +35,18 @@ public class JAttributeSlider extends JSlider implements AttributeEditor<Double>
         super(orientation, min, max, value);
     }
 
+    @Override
     public JComponent getComponent() {
         return this;
     }
 
+    @Override
     public void setAttributeValue(Double newValue) {
         attributeValue = newValue;
         setValue((int) (newValue * scaleFactor));
     }
 
+    @Override
     public Double getAttributeValue() {
         return attributeValue;
     }
@@ -55,12 +58,14 @@ public class JAttributeSlider extends JSlider implements AttributeEditor<Double>
         return scaleFactor;
     }
 
+    @Override
     public void setMultipleValues(boolean newValue) {
         boolean oldValue = isMultipleValues;
         isMultipleValues = newValue;
         firePropertyChange(MULTIPLE_VALUES_PROPERTY, oldValue, newValue);
     }
 
+    @Override
     public boolean isMultipleValues() {
         throw new UnsupportedOperationException("Not supported yet.");
     }

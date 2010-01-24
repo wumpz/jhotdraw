@@ -18,9 +18,7 @@ package org.jhotdraw.draw;
 import org.jhotdraw.draw.connector.ChopTriangleConnector;
 import org.jhotdraw.draw.handle.OrientationHandle;
 import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.connector.Connector;
-import org.jhotdraw.draw.ConnectionFigure;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
@@ -71,6 +69,7 @@ public class TriangleFigure extends AbstractAttributedFigure {
      * Returns the Figures connector for the specified location.
      * By default a {@link org.jhotdraw.draw.connector.ChopTriangleConnector} is returned.
      */
+    @Override
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
         return new ChopTriangleConnector(this);
     }
@@ -78,17 +77,20 @@ public class TriangleFigure extends AbstractAttributedFigure {
      * Returns a compatible connector.
      * By default a {@link org.jhotdraw.draw.connector.ChopTriangleConnector} is returned.
      */
+    @Override
     public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
         return new ChopTriangleConnector(this);
     }
     // COMPOSITE FIGURES
     // CLONING
     // EVENT HANDLING
+    @Override
     public Rectangle2D.Double getBounds() {
         Rectangle2D.Double bounds = (Rectangle2D.Double) rectangle.clone();
         return bounds;
     }
     
+    @Override
     protected void drawFill(Graphics2D g) {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
         
@@ -105,6 +107,7 @@ public class TriangleFigure extends AbstractAttributedFigure {
         g.fill(triangle);
     }
     
+    @Override
     protected void drawStroke(Graphics2D g) {
         Shape triangle = getBezierPath();
         
@@ -119,6 +122,7 @@ public class TriangleFigure extends AbstractAttributedFigure {
         
         g.draw(triangle);
     }
+    @Override
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = (LinkedList<Handle>) super.createHandles(detailLevel);
         if (detailLevel == 0) {
@@ -180,6 +184,7 @@ public class TriangleFigure extends AbstractAttributedFigure {
     /**
      * Checks if a Point2D.Double is inside the figure.
      */
+    @Override
     public boolean contains(Point2D.Double p) {
         Shape triangle = getBezierPath();
         
@@ -193,12 +198,14 @@ public class TriangleFigure extends AbstractAttributedFigure {
         }
         return triangle.contains(p);
     }
+    @Override
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         rectangle.x = Math.min(anchor.x, lead.x);
         rectangle.y = Math.min(anchor.y , lead.y);
         rectangle.width = Math.max(0.1, Math.abs(lead.x - anchor.x));
         rectangle.height = Math.max(0.1, Math.abs(lead.y - anchor.y));
     }
+    @Override
     public Rectangle2D.Double getDrawingArea() {
         double totalStrokeWidth = AttributeKeys.getStrokeTotalWidth(this);
         double width = 0d;
@@ -246,6 +253,7 @@ public class TriangleFigure extends AbstractAttributedFigure {
      * Moves the Figure to a new location.
      * @param tx the transformation matrix.
      */
+    @Override
     public void transform(AffineTransform tx) {
         Point2D.Double anchor = getStartPoint();
         Point2D.Double lead = getEndPoint();
@@ -255,11 +263,13 @@ public class TriangleFigure extends AbstractAttributedFigure {
                 );
     }
     
+    @Override
     public TriangleFigure clone() {
         TriangleFigure that = (TriangleFigure) super.clone();
         that.rectangle = (Rectangle2D.Double) this.rectangle.clone();
         return that;
     }
+    @Override
     public void restoreTransformTo(Object geometry) {
         Rectangle2D.Double r = (Rectangle2D.Double) geometry;
         rectangle.x = r.x;
@@ -268,6 +278,7 @@ public class TriangleFigure extends AbstractAttributedFigure {
         rectangle.height = r.height;
     }
     
+    @Override
     public Object getTransformRestoreData() {
         return rectangle.clone();
     }

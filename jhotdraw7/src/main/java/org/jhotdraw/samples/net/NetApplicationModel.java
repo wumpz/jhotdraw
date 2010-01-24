@@ -18,7 +18,6 @@ import org.jhotdraw.app.action.view.ToggleViewPropertyAction;
 import org.jhotdraw.app.action.file.ExportFileAction;
 import org.jhotdraw.draw.tool.Tool;
 import org.jhotdraw.draw.tool.TextCreationTool;
-import org.jhotdraw.draw.LineConnectionFigure;
 import org.jhotdraw.draw.tool.ConnectionTool;
 import java.awt.*;
 import java.awt.event.*;
@@ -54,6 +53,7 @@ public class NetApplicationModel extends DefaultApplicationModel {
             this.editor = editor;
         }
 
+        @Override
         public void itemStateChanged(ItemEvent evt) {
             if (evt.getStateChange() == ItemEvent.SELECTED) {
                 editor.setTool(tool);
@@ -70,14 +70,15 @@ public class NetApplicationModel extends DefaultApplicationModel {
     public NetApplicationModel() {
     }
 
+    @Override
     public ActionMap createActionMap(Application a, View v) {
-        ActionMap m=super.createActionMap(a,v);
+        ActionMap m = super.createActionMap(a, v);
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.net.Labels");
         AbstractAction aa;
 
-        m.put(ExportFileAction.ID, new ExportFileAction(a,v));
-        m.put("view.toggleGrid", aa = new ToggleViewPropertyAction(a, v,NetView.GRID_VISIBLE_PROPERTY));
+        m.put(ExportFileAction.ID, new ExportFileAction(a, v));
+        m.put("view.toggleGrid", aa = new ToggleViewPropertyAction(a, v, NetView.GRID_VISIBLE_PROPERTY));
         drawLabels.configureAction(aa, "view.toggleGrid");
         for (double sf : scaleFactors) {
             m.put((int) (sf * 100) + "%",
@@ -95,6 +96,7 @@ public class NetApplicationModel extends DefaultApplicationModel {
         return sharedEditor;
     }
 
+    @Override
     public void initView(Application a, View p) {
         if (a.isSharingToolsAmongViews()) {
             ((NetView) p).setDrawingEditor(getSharedEditor());
@@ -127,6 +129,7 @@ public class NetApplicationModel extends DefaultApplicationModel {
      * This class always returns an empty list. Subclasses may return other
      * values.
      */
+    @Override
     public java.util.List<JToolBar> createToolBars(Application a, View pr) {
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.net.Labels");
@@ -156,6 +159,7 @@ public class NetApplicationModel extends DefaultApplicationModel {
         return list;
     }
 
+    @Override
     public java.util.List<JMenu> createMenus(Application a, View v) {
         // FIXME - Add code for unconfiguring the menus!! We leak memory!
         NetView p = (NetView) v;
@@ -191,17 +195,18 @@ public class NetApplicationModel extends DefaultApplicationModel {
 
         return mb;
     }
+
     @Override
     public URIChooser createOpenChooser(Application a, View v) {
         JFileURIChooser c = new JFileURIChooser();
-        c.addChoosableFileFilter(new ExtensionFileFilter("Net Diagram .xml","xml"));
+        c.addChoosableFileFilter(new ExtensionFileFilter("Net Diagram .xml", "xml"));
         return c;
     }
 
     @Override
     public URIChooser createSaveChooser(Application a, View v) {
         JFileURIChooser c = new JFileURIChooser();
-        c.addChoosableFileFilter(new ExtensionFileFilter("Net Diagram .xml","xml"));
+        c.addChoosableFileFilter(new ExtensionFileFilter("Net Diagram .xml", "xml"));
         return c;
     }
 }

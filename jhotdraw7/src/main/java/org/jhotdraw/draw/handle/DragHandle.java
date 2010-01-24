@@ -15,7 +15,6 @@
 package org.jhotdraw.draw.handle;
 
 import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.handle.AbstractHandle;
 import org.jhotdraw.draw.event.TransformEdit;
 import java.awt.*;
 import java.awt.geom.*;
@@ -49,11 +48,14 @@ public class DragHandle extends AbstractHandle {
      * Draws nothing.
      * Drag Handles have no visual appearance of their own.
      */
+    @Override
     public void draw(Graphics2D g) {
     }
+    @Override
     public void trackStart(Point anchor, int modifiersEx) {
         oldPoint = view.getConstrainer().constrainPoint(view.viewToDrawing(anchor));
     }
+    @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         Figure f = getOwner();
         Point2D.Double newPoint = view.getConstrainer().constrainPoint(view.viewToDrawing(lead));
@@ -65,6 +67,7 @@ public class DragHandle extends AbstractHandle {
         
         oldPoint = newPoint;
     }
+    @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         AffineTransform tx = new AffineTransform();
         tx.translate(lead.x - anchor.x, lead.y - anchor.y);
@@ -96,16 +99,19 @@ public class DragHandle extends AbstractHandle {
         }
     }
     
+    @Override
     public boolean contains(Point p) {
         return getOwner().contains(getView().viewToDrawing(p));
     }
     
+    @Override
     protected Rectangle basicGetBounds() {
         return getView().drawingToView(getOwner().getDrawingArea());
     }
     /**
      * Returns a cursor for the handle.
      */
+    @Override
     public Cursor getCursor() {
         return Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
     }

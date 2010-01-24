@@ -13,7 +13,6 @@
  */
 package org.jhotdraw.draw.handle;
 
-import org.jhotdraw.draw.BezierFigure;
 import org.jhotdraw.draw.*;
 import java.awt.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
@@ -43,10 +42,12 @@ public class BezierOutlineHandle extends AbstractHandle {
         this.isHoverHandle = isHoverHandle;
     }
 
+    @Override
     public BezierFigure getOwner() {
         return (BezierFigure) super.getOwner();
     }
 
+    @Override
     protected Rectangle basicGetBounds() {
         return view.drawingToView(getOwner().getDrawingArea());
     }
@@ -56,12 +57,15 @@ public class BezierOutlineHandle extends AbstractHandle {
         return false;
     }
 
+    @Override
     public void trackStart(Point anchor, int modifiersEx) {
     }
 
+    @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
     }
 
+    @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
     }
 

@@ -16,7 +16,6 @@ package org.jhotdraw.draw.handle;
 import org.jhotdraw.draw.locator.RelativeLocator;
 import org.jhotdraw.draw.locator.Locator;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.event.TransformEdit;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -85,10 +84,12 @@ public class MoveHandle extends LocatorHandle {
                 getOwner().isTransformable() ? Cursor.MOVE_CURSOR : Cursor.DEFAULT_CURSOR);
     }
 
+    @Override
     public void trackStart(Point anchor, int modifiersEx) {
         oldPoint = view.getConstrainer().constrainPoint(view.viewToDrawing(anchor));
     }
 
+    @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         Figure f = getOwner();
         if (f.isTransformable()) {
@@ -103,6 +104,7 @@ public class MoveHandle extends LocatorHandle {
         }
     }
 
+    @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         if (getOwner().isTransformable()) {
             AffineTransform tx = new AffineTransform();

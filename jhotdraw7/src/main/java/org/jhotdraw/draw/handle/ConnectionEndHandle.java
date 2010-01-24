@@ -37,6 +37,7 @@ public class ConnectionEndHandle extends AbstractConnectionHandle {
     /**
      * Sets the start of the connection.
      */
+    @Override
     protected void connect(Connector c) {
         getOwner().setEndConnector(c);
     }
@@ -44,11 +45,13 @@ public class ConnectionEndHandle extends AbstractConnectionHandle {
     /**
      * Disconnects the start figure.
      */
+    @Override
     protected void disconnect() {
         getOwner().setEndConnector(null);
     }
     
     
+    @Override
     protected Connector getTarget() {
         return getOwner().getEndConnector();
     }
@@ -56,6 +59,7 @@ public class ConnectionEndHandle extends AbstractConnectionHandle {
     /**
      * Sets the start point of the connection.
      */
+    @Override
     protected void setLocation(Point2D.Double p) {
         getOwner().willChange();
         getOwner().setEndPoint(p);
@@ -65,14 +69,17 @@ public class ConnectionEndHandle extends AbstractConnectionHandle {
     /**
      * Returns the start point of the connection.
      */
+    @Override
     protected Point2D.Double getLocation() {
         return getOwner().getEndPoint();
     }
     
+    @Override
     protected boolean canConnect(Connector existingEnd, Connector targetEnd) {
         return getOwner().canConnect(existingEnd, targetEnd);
     }
     
+    @Override
     protected int getBezierNodeIndex() {
         return getBezierFigure().getNodeCount() - 1;
     }

@@ -91,6 +91,7 @@ public class DelegationSelectionTool extends SelectionTool {
      * MouseListener method for mousePressed events. If the popup trigger has
      * been activated, then the appropriate hook method is called.
      */
+    @Override
     public void mousePressed(final MouseEvent evt) {
         if (popupTimer != null) {
             popupTimer.stop();
@@ -108,6 +109,7 @@ public class DelegationSelectionTool extends SelectionTool {
             super.mousePressed(evt);
             popupTimer = new javax.swing.Timer(1000, new ActionListener() {
 
+    @Override
                 public void actionPerformed(ActionEvent aevt) {
                     handlePopupMenu(evt);
                     popupTimer = null;
@@ -122,6 +124,7 @@ public class DelegationSelectionTool extends SelectionTool {
      * MouseListener method for mouseReleased events. If the popup trigger has
      * been activated, then the appropriate hook method is called.
      */
+    @Override
     public void mouseReleased(MouseEvent evt) {
         if (popupTimer != null) {
             popupTimer.stop();
@@ -139,6 +142,7 @@ public class DelegationSelectionTool extends SelectionTool {
         }
     }
 
+    @Override
     public void mouseDragged(MouseEvent evt) {
         if (popupTimer != null) {
             popupTimer.stop();
@@ -150,6 +154,7 @@ public class DelegationSelectionTool extends SelectionTool {
         }
     }
 
+    @Override
     public void mouseClicked(MouseEvent evt) {
         if (DEBUG) {
             System.out.println("DelegationSelectionTool.mouseClicked " + evt);

@@ -20,7 +20,6 @@ import org.jhotdraw.app.action.edit.CopyAction;
 import org.jhotdraw.app.action.edit.SelectAllAction;
 import org.jhotdraw.draw.tool.Tool;
 import org.jhotdraw.draw.event.ToolEvent;
-import org.jhotdraw.draw.event.ToolListener;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import org.jhotdraw.beans.*;
@@ -32,7 +31,6 @@ import java.awt.event.KeyEvent;
 import java.util.*;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
-import org.jhotdraw.app.action.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.draw.event.ToolAdapter;
 import static org.jhotdraw.draw.AttributeKeys.*;
@@ -92,10 +90,12 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
      */
     private FocusListener focusHandler = new FocusListener() {
 
+    @Override
         public void focusGained(FocusEvent e) {
             setActiveView((DrawingView) findView((Container) e.getSource()));
         }
 
+    @Override
         public void focusLost(FocusEvent e) {
             /*
             if (! e.isTemporary()) {
@@ -116,6 +116,7 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
         actionMap = createActionMap();
     }
 
+    @Override
     public void setTool(Tool newValue) {
         Tool oldValue = tool;
 
@@ -145,6 +146,7 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
         firePropertyChange(TOOL_PROPERTY, oldValue, newValue);
     }
 
+    @Override
     public void setActiveView(DrawingView newValue) {
         DrawingView oldValue = activeView;
         activeView = newValue;
@@ -152,10 +154,12 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
         firePropertyChange(ACTIVE_VIEW_PROPERTY, oldValue, newValue);
     }
 
+    @Override
     public Tool getTool() {
         return tool;
     }
 
+    @Override
     public DrawingView getActiveView() {
         return activeView;
     }
@@ -173,12 +177,14 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public void applyDefaultAttributesTo(Figure f) {
         for (Map.Entry<AttributeKey, Object> entry : defaultAttributes.entrySet()) {
             f.set(entry.getKey(), entry.getValue());
         }
     }
 
+    @Override
     public <T> T getDefaultAttribute(AttributeKey<T> key) {
         if (defaultAttributes.containsKey(key)) {
             return key.get(defaultAttributes);
@@ -187,11 +193,13 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
         }
     }
 
+    @Override
     public void setDefaultAttribute(AttributeKey key, Object newValue) {
         Object oldValue = defaultAttributes.put(key, newValue);
         firePropertyChange(key.getKey(), oldValue, newValue);
     }
 
+    @Override
     public void remove(DrawingView view) {
         view.getComponent().removeFocusListener(focusHandler);
         views.remove(view);
@@ -208,6 +216,7 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
         updateActiveView();
     }
 
+    @Override
     public void add(DrawingView view) {
         views.add(view);
         view.addNotify(this);
@@ -220,13 +229,16 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
         updateActiveView();
     }
 
+    @Override
     public void setCursor(Cursor c) {
     }
 
+    @Override
     public Collection<DrawingView> getDrawingViews() {
         return Collections.unmodifiableCollection(views);
     }
 
+    @Override
     public DrawingView findView(Container c) {
         for (DrawingView v : views) {
             if (v.getComponent() == c) {
@@ -236,6 +248,7 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
         return null;
     }
 
+    @Override
     public void setEnabled(boolean newValue) {
         if (newValue != isEnabled) {
             boolean oldValue = isEnabled;
@@ -244,18 +257,22 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
         }
     }
 
+    @Override
     public boolean isEnabled() {
         return isEnabled;
     }
 
+    @Override
     public Map<AttributeKey, Object> getDefaultAttributes() {
         return Collections.unmodifiableMap(defaultAttributes);
     }
 
+    @Override
     public void setHandleAttribute(AttributeKey key, Object value) {
         handleAttributes.put(key, value);
     }
 
+    @Override
     public <T> T getHandleAttribute(AttributeKey<T> key) {
         if (handleAttributes.containsKey(key)) {
             return key.get(handleAttributes);
@@ -264,22 +281,26 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
         }
     }
 
+    @Override
     public void setInputMap(InputMap newValue) {
         InputMap oldValue = inputMap;
         inputMap = newValue;
         firePropertyChange(INPUT_MAP_PROPERTY, oldValue, newValue);
     }
 
+    @Override
     public InputMap getInputMap() {
         return inputMap;
     }
 
+    @Override
     public void setActionMap(ActionMap newValue) {
         ActionMap oldValue = actionMap;
         actionMap = newValue;
         firePropertyChange(ACTION_MAP_PROPERTY, oldValue, newValue);
     }
 
+    @Override
     public ActionMap getActionMap() {
         return actionMap;
     }

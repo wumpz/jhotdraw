@@ -16,13 +16,10 @@ package org.jhotdraw.draw;
 
 import org.jhotdraw.draw.event.FigureAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.geom.QuadTree;
-import org.jhotdraw.util.ReversedList;
 import java.awt.*;
 import java.awt.geom.*;
-import javax.swing.*;
 import javax.swing.event.*;
 import org.jhotdraw.util.*;
 import java.util.*;
@@ -36,7 +33,6 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  */
 public abstract class QuadTreeCompositeFigure 
         extends AbstractCompositeFigure {
-    private ArrayList<Figure> children = new ArrayList<Figure>();
     private QuadTree<Figure> quadTree = new QuadTree<Figure>();
     private boolean needsSorting = false;
     private FigureHandler figureHandler;
@@ -51,16 +47,19 @@ public abstract class QuadTreeCompositeFigure
         return new FigureHandler();
     }
     
+    @Override
     public int indexOf(Figure figure) {
         return children.indexOf(figure);
     }
     
+    @Override
     public void basicAdd(int index, Figure figure) {
         children.add(index, figure);
         quadTree.add(figure, figure.getDrawingArea());
         figure.addFigureListener(figureHandler);
         needsSorting = true;
     }
+    @Override
     public Figure basicRemoveChild(int index) {
         Figure figure = children.get(index); 
         children.remove(index);
@@ -70,6 +69,7 @@ public abstract class QuadTreeCompositeFigure
         return figure;
     }
     
+    @Override
     public void draw(Graphics2D g) {
         Rectangle2D clipBounds = g.getClipBounds();
         if (clipBounds != null) {
@@ -240,6 +240,7 @@ public abstract class QuadTreeCompositeFigure
         return contained;
     }
     
+    @Override
     public void bringToFront(Figure figure) {
         if (children.remove(figure)) {
             children.add(figure);
@@ -247,6 +248,7 @@ public abstract class QuadTreeCompositeFigure
             fireAreaInvalidated(figure.getDrawingArea());
         }
     }
+    @Override
     public void sendToBack(Figure figure) {
         if (children.remove(figure)) {
             children.add(0, figure);
@@ -255,6 +257,7 @@ public abstract class QuadTreeCompositeFigure
         }
     }
     
+    @Override
     public boolean contains(Figure f) {
         return children.contains(f);
     }
@@ -287,6 +290,7 @@ public abstract class QuadTreeCompositeFigure
          * We propagate all edit events from our children to
          * undoable edit listeners, which have registered with us.
          */
+        @Override
         public void undoableEditHappened(UndoableEditEvent e) {
             fireUndoableEditHappened(e.getEdit());
         }

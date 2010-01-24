@@ -60,6 +60,7 @@ public class EditorColorIcon extends javax.swing.ImageIcon {
         this.colorShape = colorShape;
     }
     
+    @Override
     public void paintIcon(java.awt.Component c, java.awt.Graphics gr, int x, int y) {
         Graphics2D g = (Graphics2D) gr;
         super.paintIcon(c, g, x, y);

@@ -13,17 +13,11 @@
  */
 package org.jhotdraw.app;
 
-import java.net.URISyntaxException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.jhotdraw.gui.URIChooser;
-import java.io.*;
 import java.net.URI;
 import java.util.*;
 import javax.swing.*;
 import java.util.concurrent.*;
 import java.util.prefs.*;
-import org.jhotdraw.gui.JFileURIChooser;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 
 /**
@@ -80,26 +74,31 @@ public abstract class AbstractView extends JPanel implements View {
 
     /** Initializes the view.
      * This method does nothing, subclasses don't neet to call super. */
+    @Override
     public void init() {
     }
 
     /** Starts the view.
      * This method does nothing, subclasses don't neet to call super. */
+    @Override
     public void start() {
     }
 
     /** Activates the view.
      * This method does nothing, subclasses don't neet to call super. */
+    @Override
     public void activate() {
     }
 
     /** Deactivates the view.
      * This method does nothing, subclasses don't neet to call super. */
+    @Override
     public void deactivate() {
     }
 
     /** Stops the view.
      * This method does nothing, subclasses don't neet to call super. */
+    @Override
     public void stop() {
     }
 
@@ -108,6 +107,7 @@ public abstract class AbstractView extends JPanel implements View {
      * No other methods should be invoked on the view afterwards.
      */
             @SuppressWarnings("unchecked")
+    @Override
     public void dispose() {
         if (executor != null) {
             executor.shutdown();
@@ -124,14 +124,17 @@ public abstract class AbstractView extends JPanel implements View {
         removeAll();
     }
 
+    @Override
     public boolean canSaveTo(URI uri) {
         return true;
     }
 
+    @Override
     public URI getURI() {
         return uri;
     }
 
+    @Override
     public void setURI(URI newValue) {
         URI oldValue = uri;
         uri = newValue;
@@ -155,16 +158,19 @@ public abstract class AbstractView extends JPanel implements View {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+    @Override
     public void setApplication(Application newValue) {
         Application oldValue = application;
         application = newValue;
         firePropertyChange("application", oldValue, newValue);
     }
 
+    @Override
     public Application getApplication() {
         return application;
     }
 
+    @Override
     public JComponent getComponent() {
         return this;
     }
@@ -172,6 +178,7 @@ public abstract class AbstractView extends JPanel implements View {
      * Returns true, if the view has unsaved changes.
      * This is a bound property.
      */
+    @Override
     public boolean hasUnsavedChanges() {
         return hasUnsavedChanges;
     }
@@ -187,6 +194,7 @@ public abstract class AbstractView extends JPanel implements View {
      * Execution is perfomred sequentially in the same sequence as the
      * runnables have been passed to this method.
      */
+    @Override
     public void execute(Runnable worker) {
         if (executor == null) {
             executor = Executors.newSingleThreadExecutor();
@@ -194,36 +202,43 @@ public abstract class AbstractView extends JPanel implements View {
         executor.execute(worker);
     }
 
+    @Override
     public void setMultipleOpenId(int newValue) {
         int oldValue = multipleOpenId;
         multipleOpenId = newValue;
         firePropertyChange(MULTIPLE_OPEN_ID_PROPERTY, oldValue, newValue);
     }
 
+    @Override
     public int getMultipleOpenId() {
         return multipleOpenId;
     }
 
+    @Override
     public void setShowing(boolean newValue) {
         boolean oldValue = isShowing;
         isShowing = newValue;
         firePropertyChange(SHOWING_PROPERTY, oldValue, newValue);
     }
 
+    @Override
     public boolean isShowing() {
         return isShowing;
     }
 
+    @Override
     public void markChangesAsSaved() {
         setHasUnsavedChanges(false);
     }
 
+    @Override
     public void setTitle(String newValue) {
         String oldValue = title;
         title = newValue;
         firePropertyChange(TITLE_PROPERTY, oldValue, newValue);
     }
 
+    @Override
     public String getTitle() {
         return title;
     }
@@ -234,6 +249,7 @@ public abstract class AbstractView extends JPanel implements View {
      *
      * @param disposable
      */
+    @Override
     public void addDisposable(Disposable disposable) {
         if (disposables == null) {
             disposables = new LinkedList<Disposable>();
@@ -246,6 +262,7 @@ public abstract class AbstractView extends JPanel implements View {
      *
      * @param disposable
      */
+    @Override
     public void removeDisposable(Disposable disposable) {
         if (disposables != null) {
             disposables.remove(disposable);

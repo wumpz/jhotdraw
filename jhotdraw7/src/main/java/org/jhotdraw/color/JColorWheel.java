@@ -55,6 +55,7 @@ public class JColorWheel extends JPanel {
 
     private class MouseHandler extends MouseAdapter implements MouseMotionListener {
 
+        @Override
         public void mouseDragged(MouseEvent e) {
             update(e);
         }

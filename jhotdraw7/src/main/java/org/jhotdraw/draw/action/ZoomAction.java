@@ -47,6 +47,7 @@ public class ZoomAction extends AbstractDrawingViewAction {
         putValue(Action.NAME, label);
     }
     
+    @Override
     public void actionPerformed(java.awt.event.ActionEvent e) {
         if (button != null) {
             button.setText(label);
@@ -55,6 +56,7 @@ public class ZoomAction extends AbstractDrawingViewAction {
         final double oldFactor = getView().getScaleFactor();
         getView().setScaleFactor(scaleFactor);
         SwingUtilities.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 if (vRect != null) {
                     vRect.x = (int) (vRect.x / oldFactor * scaleFactor);

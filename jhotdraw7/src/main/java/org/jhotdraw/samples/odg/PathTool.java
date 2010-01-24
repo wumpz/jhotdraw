@@ -14,18 +14,10 @@
 
 package org.jhotdraw.samples.odg;
 
-import org.jhotdraw.draw.BezierFigure;
 import org.jhotdraw.draw.tool.BezierTool;
-import javax.swing.undo.*;
 import org.jhotdraw.samples.svg.figures.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.util.*;
-import org.jhotdraw.undo.*;
-import java.awt.*;
-import java.awt.geom.*;
-import java.awt.event.*;
 import java.util.*;
-import org.jhotdraw.geom.*;
 /**
  * Tool to scribble a ODGPath
  *

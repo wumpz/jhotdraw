@@ -18,7 +18,6 @@ package org.jhotdraw.draw.handle;
 import org.jhotdraw.draw.locator.Locator;
 import org.jhotdraw.draw.locator.RelativeLocator;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.handle.Handle;
 import java.awt.*;
 import java.util.*;
 /**
@@ -35,16 +34,20 @@ public class NullHandle extends LocatorHandle {
         super(owner, locator);
     }
     
+    @Override
     public Cursor getCursor() {
         return Cursor.getDefaultCursor();
     }
     
+    @Override
     public void trackStart(Point anchor, int modifiersEx) {
         
     }
+    @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         
     }
+    @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         
     }
@@ -63,6 +66,7 @@ public class NullHandle extends LocatorHandle {
      * Draws this handle.
      * Null Handles are drawn as unfilled rectangles.
      */
+    @Override
     public void draw(Graphics2D g) {
         drawRectangle(g, 
                 (Color) getEditor().getHandleAttribute(HandleAttributeKeys.NULL_HANDLE_FILL_COLOR),

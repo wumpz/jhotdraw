@@ -14,7 +14,6 @@
 
 package org.jhotdraw.samples.mini;
 
-import org.jhotdraw.draw.RectangleFigure;
 import org.jhotdraw.draw.*;
 import java.awt.*;
 import javax.swing.*;

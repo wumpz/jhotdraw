@@ -14,8 +14,6 @@
 
 package org.jhotdraw.draw.locator;
 
-import org.jhotdraw.draw.locator.Locator;
-import org.jhotdraw.draw.TextHolderFigure;
 import org.jhotdraw.draw.*;
 import java.awt.geom.*;
 
@@ -38,6 +36,7 @@ public class FontSizeLocator implements Locator {
      * Locates a position on the provided figure.
      * @return a Point2D.Double on the figure.
      */
+    @Override
     public Point2D.Double locate(Figure owner) {
         Point2D.Double p = (Point2D.Double) owner.getStartPoint().clone();
         
@@ -55,6 +54,7 @@ public class FontSizeLocator implements Locator {
         return p;
     }
     
+    @Override
     public Point2D.Double locate(Figure owner, Figure dependent) {
         return locate(owner);
     }

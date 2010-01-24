@@ -14,7 +14,6 @@
 
 package org.jhotdraw.draw.connector;
 
-import org.jhotdraw.draw.BezierFigure;
 import org.jhotdraw.draw.*;
 import java.awt.geom.*;
 /**
@@ -39,6 +38,7 @@ public class ChopBezierConnector extends ChopRectangleConnector {
         super(owner);
     }
     
+    @Override
     protected Point2D.Double chop(Figure target, Point2D.Double from) {
         BezierFigure bf = (BezierFigure) getConnectorTarget(target);
         return bf.chop(from);

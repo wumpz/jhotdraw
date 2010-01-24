@@ -13,14 +13,8 @@
  */
 package org.jhotdraw.draw.handle;
 
-import org.jhotdraw.draw.handle.HandleAttributeKeys;
-import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.draw.handle.AbstractHandle;
 import org.jhotdraw.draw.liner.Liner;
 import org.jhotdraw.draw.connector.Connector;
-import org.jhotdraw.draw.ConnectionFigure;
-import org.jhotdraw.draw.BezierFigure;
-import org.jhotdraw.draw.handle.BezierControlPointHandle;
 import org.jhotdraw.draw.*;
 import java.awt.event.InputEvent;
 import org.jhotdraw.geom.*;
@@ -63,10 +57,12 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
         super(owner);
     }
 
+    @Override
     public ConnectionFigure getOwner() {
         return (ConnectionFigure) super.getOwner();
     }
 
+    @Override
     public boolean isCombinableWith(Handle handle) {
         return false;
     }
@@ -110,6 +106,7 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
     /**
      * Disconnects the connection.
      */
+    @Override
     public void trackStart(Point anchor, int modifiersEx) {
         savedTarget = getTarget();
         start = anchor;
@@ -122,6 +119,7 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
     /**
      * Finds a new connectableConnector of the connection.
      */
+    @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         Point2D.Double p = view.viewToDrawing(lead);
         view.getConstrainer().constrainPoint(p);
@@ -142,6 +140,7 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
      * Connects the figure to the new connectableConnector. If there is no
      * new connectableConnector the connection reverts to its original one.
      */
+    @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         ConnectionFigure f = getOwner();
         // Change node type
@@ -240,6 +239,7 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
         this.connectableConnector = newTarget;
     }
 
+    @Override
     protected Rectangle basicGetBounds() {
         //if (connection.getPointCount() == 0) return new Rectangle(0, 0, getHandlesize(), getHandlesize());
         Point center = view.drawingToView(getLocation());
@@ -291,6 +291,7 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
         return getBezierFigure().getNodeCount() > index ? getBezierFigure().getNode(index) : null;
     }
 
+    @Override
     public String getToolTipText(Point p) {
         ConnectionFigure f = (ConnectionFigure) getOwner();
         if (f.getLiner() == null && savedLiner == null) {

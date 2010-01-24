@@ -133,6 +133,7 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
         evt.consume();
     }
 
+    @Override
     public void mouseDragged(MouseEvent evt) {
         multicaster.trackStep(anchor, new Point(evt.getX(), evt.getY()),
                 evt.getModifiersEx(), getView());
@@ -240,6 +241,7 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
         }
     }
 
+    @Override
     public void setHandles(Handle handle, Collection<Handle> compatibleHandles) {
         masterHandle = handle;
         multicaster = new HandleMulticaster(handle);

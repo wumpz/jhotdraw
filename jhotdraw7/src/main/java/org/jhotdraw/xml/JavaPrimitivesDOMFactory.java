@@ -126,6 +126,7 @@ public class JavaPrimitivesDOMFactory implements DOMFactory {
         return escape(o.getClass().getName());
     }
 
+    @Override
     public Object create(String name) {
         name = unescape(name);
 

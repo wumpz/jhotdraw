@@ -67,6 +67,7 @@ public class ExtensionFileFilter extends javax.swing.filechooser.FileFilter {
         return Collections.unmodifiableSet(extensions);
     }
     
+    @Override
     public boolean accept(File pathname) {
         if (pathname.isDirectory()) {
             return true;
@@ -92,6 +93,7 @@ public class ExtensionFileFilter extends javax.swing.filechooser.FileFilter {
         }
     }
     
+    @Override
     public String getDescription() {
         return description;
     }

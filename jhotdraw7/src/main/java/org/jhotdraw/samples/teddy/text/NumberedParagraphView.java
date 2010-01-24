@@ -38,12 +38,14 @@ public class NumberedParagraphView extends ParagraphView {
      *
      * @return the inset >= 0
      */
+    @Override
     protected short getLeftInset() {
         short left = super.getLeftInset();
         return (viewFactory.isLineNumbersVisible()) ? (short) (left + NUMBERS_WIDTH) : left;
     }
     
     
+    @Override
     public void paintChild(Graphics g, Rectangle r, int n) {
         super.paintChild(g, r, n);
         if (viewFactory.isLineNumbersVisible()) {

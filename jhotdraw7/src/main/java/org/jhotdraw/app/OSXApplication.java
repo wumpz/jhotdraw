@@ -182,6 +182,7 @@ public class OSXApplication extends AbstractApplication {
         }
     }
 
+    @Override
     public void dispose(View p) {
         FocusWindowAction a = (FocusWindowAction) getAction(p, FocusWindowAction.ID);
         if (a != null) {
@@ -221,6 +222,7 @@ public class OSXApplication extends AbstractApplication {
         paletteHandler.remove(window);
     }
 
+    @Override
     public void show(View view) {
         if (!view.isShowing()) {
             view.setShowing(true);
@@ -283,6 +285,7 @@ public class OSXApplication extends AbstractApplication {
         }
     }
 
+    @Override
     public void hide(View p) {
         if (p.isShowing()) {
             JFrame f = (JFrame) SwingUtilities.getWindowAncestor(p.getComponent());
@@ -377,8 +380,6 @@ public class OSXApplication extends AbstractApplication {
 
     @Override
     public JMenu createWindowMenu(View view) {
-        ApplicationModel model = getModel();
-
         JMenu m;
         JMenuItem mi;
 
@@ -425,6 +426,7 @@ public class OSXApplication extends AbstractApplication {
         return (m.getPopupMenu().getComponentCount() == 0) ? null : m;
     }
 
+    @Override
     public JMenu createEditMenu(View view) {
         JMenu m;
         JMenuItem mi;
@@ -449,12 +451,12 @@ public class OSXApplication extends AbstractApplication {
         return (m.getPopupMenu().getComponentCount() == 0) ? null : m;
     }
 
+    @Override
     public JMenu createHelpMenu(View p) {
         return null;
     }
 
     protected void initScreenMenuBar() {
-        ApplicationModel model = getModel();
         setScreenMenuBar(createMenuBar(null));
         paletteHandler.add((JFrame) getComponent(), null);
 
@@ -550,12 +552,14 @@ public class OSXApplication extends AbstractApplication {
         });
     }
 
+    @Override
     public boolean isSharingToolsAmongViews() {
         return true;
     }
 
     /** Returns the Frame which holds the frameless JMenuBar.
      */
+    @Override
     public Component getComponent() {
         if (invisibleFrame == null) {
             invisibleFrame = new JFrame();
@@ -624,6 +628,7 @@ public class OSXApplication extends AbstractApplication {
             updateWindowMenu();
         }
 
+        @Override
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
             if (name == VIEW_COUNT_PROPERTY || name == "paletteCount") {
@@ -659,6 +664,7 @@ public class OSXApplication extends AbstractApplication {
             }
         }
 
+        @Override
         public void dispose() {
             windowMenu.removeAll();
             removePropertyChangeListener(this);

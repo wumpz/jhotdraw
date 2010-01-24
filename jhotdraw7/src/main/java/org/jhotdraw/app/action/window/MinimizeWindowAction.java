@@ -44,6 +44,7 @@ public class MinimizeWindowAction extends AbstractViewAction {
                 getActiveView().getComponent()
                 );
     }
+    @Override
     public void actionPerformed(ActionEvent evt) {
         JFrame frame = getFrame();
         if (frame != null) {

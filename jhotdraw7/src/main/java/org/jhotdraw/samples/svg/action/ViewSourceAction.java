@@ -52,6 +52,7 @@ public class ViewSourceAction extends AbstractViewAction {
         labels.configureAction(this, ID);
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         final SVGView v = (SVGView) getActiveView();

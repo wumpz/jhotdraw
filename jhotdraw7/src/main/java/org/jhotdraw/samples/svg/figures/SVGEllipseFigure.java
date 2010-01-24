@@ -16,8 +16,6 @@ package org.jhotdraw.samples.svg.figures;
 import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.handle.ResizeHandleKit;
 import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.draw.connector.Connector;
-import org.jhotdraw.draw.ConnectionFigure;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
@@ -57,12 +55,14 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     }
 
     // DRAWING
+    @Override
     protected void drawFill(Graphics2D g) {
         if (ellipse.width > 0 && ellipse.height > 0) {
             g.fill(ellipse);
         }
     }
 
+    @Override
     protected void drawStroke(Graphics2D g) {
         if (ellipse.width > 0 && ellipse.height > 0) {
             g.draw(ellipse);
@@ -86,6 +86,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
         return ellipse.getHeight();
     }
 
+    @Override
     public Rectangle2D.Double getBounds() {
         return (Rectangle2D.Double) ellipse.getBounds2D();
     }
@@ -109,6 +110,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     /**
      * Checks if a Point2D.Double is inside the figure.
      */
+    @Override
     public boolean contains(Point2D.Double p) {
         return getHitShape().contains(p);
     }
@@ -150,6 +152,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
      *
      * @param tx the transformation.
      */
+    @Override
     public void transform(AffineTransform tx) {
         if (get(TRANSFORM) != null ||
                 (tx.getType() & (AffineTransform.TYPE_TRANSLATION)) != tx.getType()) {
@@ -182,6 +185,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
         invalidate();
     }
 
+    @Override
     public void restoreTransformTo(Object geometry) {
         Object[] restoreData = (Object[]) geometry;
         ellipse = (Ellipse2D.Double) ((Ellipse2D.Double) restoreData[0]).clone();
@@ -191,6 +195,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
         invalidate();
     }
 
+    @Override
     public Object getTransformRestoreData() {
         return new Object[]{
                     ellipse.clone(),
@@ -224,6 +229,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     // COMPOSITE FIGURES
     // CLONING
 
+    @Override
     public SVGEllipseFigure clone() {
         SVGEllipseFigure that = (SVGEllipseFigure) super.clone();
         that.ellipse = (Ellipse2D.Double) this.ellipse.clone();
@@ -232,6 +238,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     }
 
     // EVENT HANDLING
+    @Override
     public boolean isEmpty() {
         Rectangle2D.Double b = getBounds();
         return b.width <= 0 || b.height <= 0;

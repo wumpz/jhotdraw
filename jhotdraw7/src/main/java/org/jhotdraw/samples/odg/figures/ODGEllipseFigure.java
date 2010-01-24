@@ -17,20 +17,13 @@ import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.handle.ResizeHandleKit;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.connector.Connector;
-import org.jhotdraw.draw.ConnectionFigure;
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.geom.*;
-import java.io.*;
 import java.util.*;
-import javax.swing.*;
 import org.jhotdraw.draw.*;
 import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.samples.odg.*;
-import org.jhotdraw.samples.odg.ODGConstants;
-import org.jhotdraw.xml.*;
-import org.jhotdraw.util.*;
 
 /**
  * ODGEllipse represents a ODG ellipse and a ODG circle element.
@@ -57,11 +50,13 @@ public class ODGEllipseFigure extends ODGAttributedFigure implements ODGFigure {
     }
 
     // DRAWING
+    @Override
     protected void drawFill(Graphics2D g) {
         g.fill(ellipse);
         //g.fill(getTransformedShape());
     }
 
+    @Override
     protected void drawStroke(Graphics2D g) {
         g.draw(ellipse);
         /*
@@ -92,6 +87,7 @@ public class ODGEllipseFigure extends ODGAttributedFigure implements ODGFigure {
         return ellipse.getHeight();
     }
 
+    @Override
     public Rectangle2D.Double getBounds() {
         return (Rectangle2D.Double) ellipse.getBounds2D();
     }
@@ -115,6 +111,7 @@ public class ODGEllipseFigure extends ODGAttributedFigure implements ODGFigure {
     /**
      * Checks if a Point2D.Double is inside the figure.
      */
+    @Override
     public boolean contains(Point2D.Double p) {
         // XXX - This does not take the stroke width into account!
         return getTransformedShape().contains(p);
@@ -131,6 +128,7 @@ public class ODGEllipseFigure extends ODGAttributedFigure implements ODGFigure {
         return cachedTransformedShape;
     }
 
+    @Override
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         ellipse.x = Math.min(anchor.x, lead.x);
         ellipse.y = Math.min(anchor.y, lead.y);
@@ -143,6 +141,7 @@ public class ODGEllipseFigure extends ODGAttributedFigure implements ODGFigure {
      *
      * @param tx the transformation.
      */
+    @Override
     public void transform(AffineTransform tx) {
         if (get(TRANSFORM) != null ||
                 (tx.getType() & (AffineTransform.TYPE_TRANSLATION)) != tx.getType()) {
@@ -175,6 +174,7 @@ public class ODGEllipseFigure extends ODGAttributedFigure implements ODGFigure {
         invalidate();
     }
 
+    @Override
     public void restoreTransformTo(Object geometry) {
         Object[] restoreData = (Object[]) geometry;
         ellipse = (Ellipse2D.Double) ((Ellipse2D.Double) restoreData[0]).clone();
@@ -184,6 +184,7 @@ public class ODGEllipseFigure extends ODGAttributedFigure implements ODGFigure {
         invalidate();
     }
 
+    @Override
     public Object getTransformRestoreData() {
         return new Object[]{
                     ellipse.clone(),
@@ -210,16 +211,19 @@ public class ODGEllipseFigure extends ODGAttributedFigure implements ODGFigure {
         return handles;
     }
     // CONNECTING
+    @Override
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
         return null; // ODG does not support connectors
     }
 
+    @Override
     public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
         return null; // ODG does not support connectors
     }
     // COMPOSITE FIGURES
     // CLONING
 
+    @Override
     public ODGEllipseFigure clone() {
         ODGEllipseFigure that = (ODGEllipseFigure) super.clone();
         that.ellipse = (Ellipse2D.Double) this.ellipse.clone();
@@ -228,6 +232,7 @@ public class ODGEllipseFigure extends ODGAttributedFigure implements ODGFigure {
     }
 
     // EVENT HANDLING
+    @Override
     public boolean isEmpty() {
         Rectangle2D.Double b = getBounds();
         return b.width <= 0 || b.height <= 0;

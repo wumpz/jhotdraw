@@ -17,7 +17,6 @@ package org.jhotdraw.samples.svg;
 import java.awt.*;
 import java.util.*;
 import javax.swing.*;
-import org.jhotdraw.draw.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
 /**

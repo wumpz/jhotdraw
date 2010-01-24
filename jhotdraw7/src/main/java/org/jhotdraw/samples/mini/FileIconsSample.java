@@ -15,9 +15,6 @@ package org.jhotdraw.samples.mini;
 
 import org.jhotdraw.draw.tool.DelegationSelectionTool;
 import org.jhotdraw.draw.layouter.VerticalLayouter;
-import org.jhotdraw.draw.TextAreaFigure;
-import org.jhotdraw.draw.ImageFigure;
-import org.jhotdraw.draw.GraphicalCompositeFigure;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.*;
@@ -39,6 +36,7 @@ public class FileIconsSample {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
 
+            @Override
             public void run() {
                 // Let the user choose a directory
                 JFileChooser fc = new JFileChooser();
@@ -71,26 +69,26 @@ public class FileIconsSample {
                     ImageFigure imf = new ImageFigure();
                     imf.setBufferedImage(bimg);
                     imf.set(STROKE_COLOR, null);
-                    imf.setBounds(new Point2D.Double(0,0),new Point2D.Double(icon.getIconWidth(), icon.getIconHeight()));
-                    
+                    imf.setBounds(new Point2D.Double(0, 0), new Point2D.Double(icon.getIconWidth(), icon.getIconHeight()));
+
                     // Creata TextAreaFigure for the file name
                     // We limit its width to 100 Pixels
                     TextAreaFigure tef = new TextAreaFigure(f.getName());
                     Dimension2DDouble dim = tef.getPreferredTextSize(100);
                     Insets2D.Double insets = tef.getInsets();
-                    tef.setBounds(new Point2D.Double(0,0), 
-                            new Point2D.Double(Math.max(100,dim.width)+insets.left+insets.right, 
-                            dim.height+insets.top+insets.bottom));
+                    tef.setBounds(new Point2D.Double(0, 0),
+                            new Point2D.Double(Math.max(100, dim.width) + insets.left + insets.right,
+                            dim.height + insets.top + insets.bottom));
                     tef.set(STROKE_COLOR, null);
                     tef.set(FILL_COLOR, null);
                     tef.set(TEXT_ALIGNMENT, Alignment.CENTER);
 
-                     
+
                     // Alternatively, you could just create a TextFigure
                     /*
                     TextFigure tef = new TextFigure(f.getName());
-                    */
-                    
+                     */
+
                     // Create a GraphicalCompositeFigure with vertical layout
                     // and add the icon and the text figure to it
                     GraphicalCompositeFigure gcf = new GraphicalCompositeFigure();
@@ -108,18 +106,18 @@ public class FileIconsSample {
                     }
                     Rectangle2D.Double b = gcf.getBounds();
                     rowHeight = Math.max(rowHeight, b.height);
-                    
+
                     AffineTransform at = new AffineTransform();
                     at.translate(tx, ty);
                     gcf.transform(at);
-                    
+
                     tx += b.width + 20;
-                    
+
                     drawing.add(gcf);
-                 }
+                }
 
                 // Show the drawing
-                JFrame f = new JFrame("Contents of directory "+dir.getName());
+                JFrame f = new JFrame("Contents of directory " + dir.getName());
                 f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 f.setSize(400, 300);
 

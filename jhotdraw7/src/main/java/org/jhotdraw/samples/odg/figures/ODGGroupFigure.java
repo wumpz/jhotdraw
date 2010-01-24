@@ -16,15 +16,12 @@ package org.jhotdraw.samples.odg.figures;
 
 import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.draw.GroupFigure;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
 import java.util.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.samples.odg.*;
-import org.jhotdraw.xml.*;
 import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
 /**
  * ODGGroupFigure.
@@ -99,6 +96,7 @@ public class ODGGroupFigure extends GroupFigure implements ODGFigure {
         }
     }
     
+    @Override
     public Rectangle2D.Double getBounds() {
         if (cachedBounds == null) {
             if (getChildCount() == 0) {

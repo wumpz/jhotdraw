@@ -14,7 +14,6 @@
 
 package org.jhotdraw.color;
 
-import java.awt.Color;
 import java.awt.color.ColorSpace;
 import java.awt.image.*;
 import javax.swing.*;
@@ -47,7 +46,7 @@ public class ColorTrackImageProducer extends MemoryImageSource {
         this.h = h;
         // trackBuffer must be even
         this.trackBuffer = (trackBuffer % 2 == 1) ? trackBuffer - 1 : trackBuffer;
-        this.componentIndex = componentIndex;
+        //this.componentIndex = componentIndex;
         this.isHorizontal = isHorizontal;
         newPixels(pixels, new DirectColorModel(24,
 					      0x00ff0000,	// Red

@@ -523,6 +523,7 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
         return coll;
     }
 
+    @Override
     public boolean isEditable(MutableTreeNode node) {
         boolean result = true;
         if (node instanceof FontFaceNode) {
@@ -544,27 +545,33 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
         return result;
     }
 
+    @Override
     public Object getRoot() {
         return root;
     }
 
+    @Override
     public Object getChild(
             Object parent, int index) {
         return ((TreeNode) parent).getChildAt(index);
     }
 
+    @Override
     public int getChildCount(Object parent) {
         return ((TreeNode) parent).getChildCount();
     }
 
+    @Override
     public boolean isLeaf(Object node) {
         return ((TreeNode) node).isLeaf();
     }
 
+    @Override
     public void valueForPathChanged(TreePath path, Object newValue) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public int getIndexOfChild(Object parent, Object child) {
         return ((TreeNode) parent).getIndex((TreeNode) child);
     }

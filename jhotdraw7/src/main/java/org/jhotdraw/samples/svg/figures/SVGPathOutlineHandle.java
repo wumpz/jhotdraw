@@ -45,10 +45,12 @@ public class SVGPathOutlineHandle extends AbstractHandle {
         this.isHoverHandle = isHoverHandle;
     }
 
+    @Override
     public SVGPathFigure getOwner() {
         return (SVGPathFigure) super.getOwner();
     }
 
+    @Override
     protected Rectangle basicGetBounds() {
         return view.drawingToView(getOwner().getDrawingArea());
     }
@@ -58,12 +60,15 @@ public class SVGPathOutlineHandle extends AbstractHandle {
         return false;
     }
 
+    @Override
     public void trackStart(Point anchor, int modifiersEx) {
     }
 
+    @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
     }
 
+    @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
     }
 

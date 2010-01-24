@@ -11,15 +11,12 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.samples.mini;
 
 import org.jhotdraw.draw.tool.SelectionTool;
-import org.jhotdraw.draw.LineFigure;
-import java.awt.geom.*; 
-import javax.swing.*; 
-import org.jhotdraw.draw.*; 
-import org.jhotdraw.geom.*; 
+import java.awt.geom.*;
+import javax.swing.*;
+import org.jhotdraw.draw.*;
 
 /**
  * SelectionToolSample demonstrates how the <code>SelectionTool</code> works.
@@ -51,57 +48,60 @@ import org.jhotdraw.geom.*;
  */
 public class SelectionToolSample {
 
-        /**
+    /**
      * Creates a new instance of SelectionToolSample
      */
-        public SelectionToolSample() {
-            LineFigure lf = new LineFigure();
-            lf.setBounds(new Point2D.Double(40,40), new Point2D.Double(200,
-40));
+    public SelectionToolSample() {
+        LineFigure lf = new LineFigure();
+        lf.setBounds(new Point2D.Double(40, 40), new Point2D.Double(200,
+                40));
 
-            // Add all figures to a drawing 
-            Drawing drawing = new DefaultDrawing(); 
+        // Add all figures to a drawing
+        Drawing drawing = new DefaultDrawing();
 
-            drawing.add(lf);
+        drawing.add(lf);
 
-            // Show the drawing 
-            JFrame f = new JFrame("UltraMini"); 
-            f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-            f.setSize(600,300); 
+        // Show the drawing
+        JFrame f = new JFrame("UltraMini");
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.setSize(600, 300);
 
-            DrawingView view = new DefaultDrawingView(); 
-            view.setDrawing(drawing);
+        DrawingView view = new DefaultDrawingView();
+        view.setDrawing(drawing);
 
-            f.getContentPane().add(view.getComponent()); 
-            // set up the drawing editor
-            DrawingEditor editor = new DefaultDrawingEditor();
-            editor.add(view);
-            
-            
-            // Activate the following line to see the SelectionTool in full
-            // action.
-            editor.setTool(new SelectionTool());
+        f.getContentPane().add(view.getComponent());
+        // set up the drawing editor
+        DrawingEditor editor = new DefaultDrawingEditor();
+        editor.add(view);
 
-            // Activate the following line to only see the SelectAreaTracker in 
-            // action.
-            //editor.setTool(new SelectAreaTracker());
-            
-            // Activate the following line to only see the DragTracker in 
-            // action.
-            //editor.setTool(new DragTracker(lf));
-            
-            // Activate the following lines to only see the HandleTracker in 
-            // action.
-            //view.selectAll();
-            //editor.setTool(new HandleTracker(view.findHandle(view.drawingToView(lf.getStartPoint()))));
-            
-            f.setVisible(true);
-        }
-      public static void main(String[] args) { 
-            SwingUtilities.invokeLater(new Runnable() { 
-                public void run() { 
-                    new SelectionToolSample(); 
-            } 
-        }); 
-      }    
+
+        // Activate the following line to see the SelectionTool in full
+        // action.
+        editor.setTool(new SelectionTool());
+
+        // Activate the following line to only see the SelectAreaTracker in
+        // action.
+        //editor.setTool(new SelectAreaTracker());
+
+        // Activate the following line to only see the DragTracker in
+        // action.
+        //editor.setTool(new DragTracker(lf));
+
+        // Activate the following lines to only see the HandleTracker in
+        // action.
+        //view.selectAll();
+        //editor.setTool(new HandleTracker(view.findHandle(view.drawingToView(lf.getStartPoint()))));
+
+        f.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                new SelectionToolSample();
+            }
+        });
+    }
 }

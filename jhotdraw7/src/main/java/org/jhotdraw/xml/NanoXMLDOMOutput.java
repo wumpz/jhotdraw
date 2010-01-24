@@ -14,7 +14,6 @@
 
 package org.jhotdraw.xml;
 
-import java.awt.*;
 import java.util.*;
 import java.io.*;
 import net.n3.nanoxml.*;

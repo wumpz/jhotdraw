@@ -17,12 +17,9 @@ import org.jhotdraw.draw.tool.Tool;
 import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.handle.ResizeHandleKit;
 import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.draw.TextHolderFigure;
 import org.jhotdraw.draw.tool.TextAreaEditingTool;
 import org.jhotdraw.draw.handle.TextOverflowHandle;
 import org.jhotdraw.draw.handle.FontSizeHandle;
-import org.jhotdraw.draw.connector.Connector;
-import org.jhotdraw.draw.ConnectionFigure;
 import java.awt.*;
 import java.awt.font.*;
 import java.awt.geom.*;
@@ -72,16 +69,19 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
     protected void drawText(java.awt.Graphics2D g) {
     }
 
+    @Override
     protected void drawFill(Graphics2D g) {
         g.fill(getTextShape());
         g.draw(new Rectangle2D.Double(getBounds().x, getBounds().y, getPreferredTextSize(changingDepth).width, getPreferredTextSize(changingDepth).height));
     }
 
+    @Override
     protected void drawStroke(Graphics2D g) {
         g.draw(getTextShape());
     }
     // SHAPE AND BOUNDS
 
+    @Override
     public Rectangle2D.Double getBounds() {
         return (Rectangle2D.Double) bounds.clone();
     }
@@ -106,6 +106,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
     /**
      * Checks if a Point2D.Double is inside the figure.
      */
+    @Override
     public boolean contains(Point2D.Double p) {
         if (get(TRANSFORM) != null) {
             try {
@@ -304,6 +305,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
         return paragraphBounds;
     }
 
+    @Override
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         bounds.x = Math.min(anchor.x, lead.x);
         bounds.y = Math.min(anchor.y, lead.y);
@@ -317,6 +319,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
      *
      * @param tx the transformation.
      */
+    @Override
     public void transform(AffineTransform tx) {
         if (get(TRANSFORM) != null ||
                 (tx.getType() &
@@ -351,6 +354,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
         invalidate();
     }
 
+    @Override
     public void restoreTransformTo(Object geometry) {
         Object[] restoreData = (Object[]) geometry;
         bounds = (Rectangle2D.Double) ((Rectangle2D.Double) restoreData[0]).clone();
@@ -360,6 +364,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
         invalidate();
     }
 
+    @Override
     public Object getTransformRestoreData() {
         return new Object[]{
                     bounds.clone(),
@@ -369,14 +374,17 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
     }
 // ATTRIBUTES
 
+    @Override
     public String getText() {
         return (String) get(TEXT);
     }
 
+    @Override
     public int getTextColumns() {
         return (getText() == null) ? 4 : Math.max(getText().length(), 4);
     }
 
+    @Override
     public <T> void set(AttributeKey<T> key, T newValue) {
         if (key.equals(SVGAttributeKeys.TRANSFORM) ||
                 key.equals(SVGAttributeKeys.FONT_FACE) ||
@@ -394,6 +402,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
     /**
      * Sets the text shown by the text figure.
      */
+    @Override
     public void setText(String newText) {
         set(TEXT, newText);
     }
@@ -401,37 +410,45 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
     /**
      * Returns the insets used to draw text.
      */
+    @Override
     public Insets2D.Double getInsets() {
         double sw = (get(STROKE_COLOR) == null) ? 0 : Math.ceil(get(STROKE_WIDTH) / 2);
         Insets2D.Double insets = new Insets2D.Double(0, 0, 0, 0);
         return new Insets2D.Double(insets.top + sw, insets.left + sw, insets.bottom + sw, insets.right + sw);
     }
 
+    @Override
     public double getBaseline() {
         return getFont().getLineMetrics(getText(), getFontRenderContext()).getAscent() + getInsets().top;
     }
 
+    @Override
     public int getTabSize() {
         return 8;
     }
 
+    @Override
     public TextHolderFigure getLabelFor() {
         return this;
     }
 
+    @Override
     public Font getFont() {
         return SVGAttributeKeys.getFont(this);
     }
 
+    @Override
     public Color getTextColor() {
         return get(FILL_COLOR);
     //   return TEXT_COLOR.get(this);
     }
 
+    @Override
     public Color getFillColor() {
         return get(FILL_COLOR).equals(Color.white) ? Color.black : Color.WHITE;
     }
 
+    @Override
     public void setFontSize(float size) {
         Point2D.Double p = new Point2D.Double(0, size);
         AffineTransform tx = get(TRANSFORM);
@@ -448,6 +465,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
         set(FONT_SIZE, Math.abs(p.y));
     }
 
+    @Override
     public float getFontSize() {
         Point2D.Double p = new Point2D.Double(0, get(FONT_SIZE));
         AffineTransform tx = get(TRANSFORM);
@@ -467,6 +485,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
     }
 // EDITING
 
+    @Override
     public boolean isEditable() {
         return editable;
     }
@@ -502,6 +521,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
      * Returns a specialized tool for the given coordinate.
      * <p>Returns null, if no specialized tool is available.
      */
+    @Override
     public Tool getTool(Point2D.Double p) {
         if (isEditable() && contains(p)) {
             TextAreaEditingTool tool = new TextAreaEditingTool(this);
@@ -517,6 +537,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
     /**
      * Gets the text shown by the text figure.
      */
+    @Override
     public boolean isEmpty() {
         return getText() == null || getText().length() == 0;
     }
@@ -529,6 +550,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
         isTextOverflow = null;
     }
 
+    @Override
     public boolean isTextOverflow() {
         if (isTextOverflow == null) {
             Insets2D.Double insets = getInsets();
@@ -586,6 +608,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
         return new Dimension2DDouble(Math.abs(textRect.x) + textRect.width, Math.abs(textRect.y) + textRect.height);
     }
 
+    @Override
     public SVGTextAreaFigure clone() {
         SVGTextAreaFigure that = (SVGTextAreaFigure) super.clone();
         that.bounds = (Rectangle2D.Double) this.bounds.clone();

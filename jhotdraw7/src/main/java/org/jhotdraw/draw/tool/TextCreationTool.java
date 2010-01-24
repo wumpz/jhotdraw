@@ -217,6 +217,7 @@ public class TextCreationTool extends CreationTool implements ActionListener {
             fireToolDone();
         }
     }
+    @Override
     public void actionPerformed(ActionEvent event) {
         endEdit();
         if (isToolDoneAfterCreation()) {

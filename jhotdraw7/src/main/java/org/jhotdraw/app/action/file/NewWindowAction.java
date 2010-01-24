@@ -14,7 +14,6 @@
 
 package org.jhotdraw.app.action.file;
 
-import org.jhotdraw.util.*;
 import org.jhotdraw.app.Application;
 
 /**

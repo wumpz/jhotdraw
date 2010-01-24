@@ -42,12 +42,14 @@ public class BackdropBorder implements Border {
         return backgroundBorder;
     }
 
+    @Override
     public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
         if (foregroundBorder != null) {
             foregroundBorder.paintBorder(c, g, x, y, width, height);
         }
     }
 
+    @Override
     public Insets getBorderInsets(Component c) {
         if (foregroundBorder != null) {
             return foregroundBorder.getBorderInsets(c);
@@ -56,6 +58,7 @@ public class BackdropBorder implements Border {
         }
     }
 
+    @Override
     public boolean isBorderOpaque() {
         return backgroundBorder.isBorderOpaque();
     }

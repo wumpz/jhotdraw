@@ -167,6 +167,7 @@ public class PropertyChangeEdit extends AbstractUndoableEdit {
     }
 
     /** Returns a string representation of this object useful for debugging. */
+    @Override
     public String toString() {
         return super.toString() + " [" + propertyName + "," + oldValue + "," + newValue + "]";
     }

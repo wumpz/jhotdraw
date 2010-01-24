@@ -51,6 +51,7 @@ public class NewFileAction extends AbstractApplicationAction {
         labels.configureAction(this, id);
     }
     
+    @Override
     public void actionPerformed(ActionEvent evt) {
         Application app = getApplication();
         final View newP = app.createView();
@@ -63,6 +64,7 @@ public class NewFileAction extends AbstractApplicationAction {
         newP.setMultipleOpenId(multiOpenId);
         app.add(newP);
         newP.execute(new Runnable() {
+            @Override
             public void run() {
                 newP.clear();
             }

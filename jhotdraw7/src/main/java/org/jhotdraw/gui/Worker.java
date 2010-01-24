@@ -33,6 +33,7 @@ public abstract class Worker<T> implements Runnable {
      * Calls #construct on the current thread and invokes
      * #done on the AWT event dispatcher thread.
      */
+    @Override
     public final void run() {
         try {
             setValue(construct());
@@ -40,6 +41,7 @@ public abstract class Worker<T> implements Runnable {
             setError(e);
             SwingUtilities.invokeLater(new Runnable() {
 
+                @Override
                 public void run() {
                     failed(getError());
                     finished();
@@ -49,6 +51,7 @@ public abstract class Worker<T> implements Runnable {
         }
         SwingUtilities.invokeLater(new Runnable() {
 
+            @Override
             public void run() {
                 done(getValue());
                 finished();

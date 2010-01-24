@@ -15,12 +15,10 @@
 package org.jhotdraw.draw.liner;
 
 import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.draw.LineConnectionFigure;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.ConnectionFigure;
 import java.util.*;
-import java.awt.*;
 import java.awt.geom.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMInput;
@@ -45,10 +43,12 @@ public class ElbowLiner
         this.shoulderSize = slantSize;
     }
     
+    @Override
     public Collection<Handle> createHandles(BezierPath path) {
         return null;
     }
     
+    @Override
     public void lineout(ConnectionFigure figure) {
         BezierPath path = ((LineConnectionFigure) figure).getBezierPath();
         Connector start = figure.getStartConnector();

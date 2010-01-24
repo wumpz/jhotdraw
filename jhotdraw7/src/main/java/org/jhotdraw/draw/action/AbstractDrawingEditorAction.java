@@ -44,6 +44,7 @@ public abstract class AbstractDrawingEditorAction extends AbstractAction {
 
     private class EventHandler implements PropertyChangeListener {
 
+        @Override
         public void propertyChange(PropertyChangeEvent evt) {
             if (evt.getPropertyName().equals("enabled")) {
                 updateEnabledState();

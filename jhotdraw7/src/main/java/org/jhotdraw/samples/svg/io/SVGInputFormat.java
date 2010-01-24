@@ -14,7 +14,6 @@
 package org.jhotdraw.samples.svg.io;
 
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
-import org.jhotdraw.draw.CompositeFigure;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -126,6 +125,7 @@ public class SVGInputFormat implements InputFormat {
         public boolean isPreserveAspectRatio = true;
         private HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey, Object>();
 
+    @Override
         public String toString() {
             return "widthPercentFactor:" + widthPercentFactor + ";"
                     + "heightPercentFactor:" + heightPercentFactor + ";"
@@ -207,6 +207,7 @@ public class SVGInputFormat implements InputFormat {
      * should by changed by this method. Set this to false, when reading individual
      * images from the clipboard.
      */
+    @Override
     public void read(InputStream in, Drawing drawing, boolean replace) throws IOException {
         long start = System.currentTimeMillis();
         this.figures = new LinkedList<Figure>();

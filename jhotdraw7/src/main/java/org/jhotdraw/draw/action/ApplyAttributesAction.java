@@ -15,7 +15,6 @@ package org.jhotdraw.draw.action;
 
 import org.jhotdraw.draw.event.FigureSelectionEvent;
 import org.jhotdraw.undo.*;
-import org.jhotdraw.util.*;
 import java.util.*;
 import org.jhotdraw.draw.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
@@ -28,7 +27,6 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  */
 public class ApplyAttributesAction extends AbstractSelectedAction {
 
-    private ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
     private Set<AttributeKey> excludedAttributes = new HashSet<AttributeKey>(
             Arrays.asList(new AttributeKey[]{TRANSFORM, TEXT}));
 
@@ -46,6 +44,7 @@ public class ApplyAttributesAction extends AbstractSelectedAction {
         this.excludedAttributes = a;
     }
 
+    @Override
     public void actionPerformed(java.awt.event.ActionEvent e) {
         applyAttributes();
     }

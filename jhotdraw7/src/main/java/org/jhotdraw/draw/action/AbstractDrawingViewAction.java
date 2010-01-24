@@ -50,6 +50,7 @@ public abstract class AbstractDrawingViewAction extends AbstractAction implement
 
     private class EventHandler implements PropertyChangeListener {
 
+        @Override
         public void propertyChange(PropertyChangeEvent evt) {
             if (evt.getPropertyName().equals("enabled")) {
                 updateEnabledState();
@@ -67,6 +68,7 @@ public abstract class AbstractDrawingViewAction extends AbstractAction implement
             }
         }
 
+        @Override
         public String toString() {
             return AbstractDrawingViewAction.this+"^$EventHandler";
         }
@@ -136,6 +138,7 @@ public abstract class AbstractDrawingViewAction extends AbstractAction implement
     /** Frees all resources held by this object, so that it can be garbage
      * collected.
      */
+    @Override
     public void dispose() {
         setEditor(null);
     }

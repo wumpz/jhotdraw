@@ -75,6 +75,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
             }
         }
 
+    @Override
         public void undoableEditHappened(UndoableEditEvent e) {
             owner.fireUndoableEditHappened(e.getEdit());
         }
@@ -86,6 +87,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
     /**
      * Draw the figure. This method is delegated to the encapsulated presentation figure.
      */
+    @Override
     public void draw(Graphics2D g) {
         super.draw(g);
         for (Figure child : children) {
@@ -99,6 +101,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
     /**
      * Transforms the figure.
      */
+    @Override
     public void transform(AffineTransform tx) {
         super.transform(tx);
         for (Figure f : children) {
@@ -106,6 +109,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
         }
         invalidate();
     }
+    @Override
     public Rectangle2D.Double getDrawingArea() {
         if (cachedDrawingArea == null) {
             cachedDrawingArea = super.getDrawingArea();
@@ -120,6 +124,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
         }
         return (Rectangle2D.Double) cachedDrawingArea.clone();
     }
+    @Override
     public boolean contains(Point2D.Double p) {
         if (getDrawingArea().contains(p)) {
             for (Figure child : getChildrenFrontToBack()) {
@@ -135,6 +140,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
      * AttributeKey name and semantics are defined by the class implementing
      * the figure interface.
      */
+    @Override
     public <T> void set(AttributeKey<T> key, T newValue) {
         super.set(key, newValue);
         if (isAttributeEnabled(key)) {
@@ -146,6 +152,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
         }
     }
     // EDITING
+    @Override
     public Figure findFigureInside(Point2D.Double p) {
         if (getDrawingArea().contains(p)) {
             Figure found = null;
@@ -161,18 +168,22 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
         return null;
     }
     // CONNECTING
+    @Override
     public void updateConnection() {
         super.updateConnection();
         layout();
     }
     
     // COMPOSITE FIGURES
+    @Override
     public java.util.List<Figure> getChildren() {
         return Collections.unmodifiableList(children);
     }
+    @Override
     public int getChildCount() {
         return children.size();
     }
+    @Override
     public Figure getChild(int index) {
         return children.get(index);
     }
@@ -186,6 +197,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
             new ReversedList<Figure>(children);
     }
     
+    @Override
     public boolean add(Figure figure) {
         basicAdd(figure);
         if (getDrawing() != null) {
@@ -193,20 +205,24 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
         }
         return true;
     }
+    @Override
     public void add(int index, Figure figure) {
         basicAdd(index, figure);
         if (getDrawing() != null) {
             figure.addNotify(getDrawing());
         }
     }
+    @Override
     public void basicAdd(Figure figure) {
         basicAdd(children.size(), figure);
     }
+    @Override
     public void basicAdd(int index, Figure figure) {
         children.add(index, figure);
         figure.addFigureListener(childHandler);
         invalidate();
     }
+    @Override
     public boolean remove(final Figure figure) {
         int index = children.indexOf(figure);
         if (index == -1) {
@@ -221,6 +237,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
             return true;
         }
     }
+    @Override
     public Figure removeChild(int index) {
         willChange();
         Figure figure = basicRemoveChild(index);
@@ -230,6 +247,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
         changed();
         return figure;
     }
+    @Override
     public int basicRemove(final Figure figure) {
         int index = children.indexOf(figure);
         if (index != -1) {
@@ -237,12 +255,14 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
         }
         return index;
     }
+    @Override
     public Figure basicRemoveChild(int index) {
         Figure figure = children.remove(index);
         figure.removeFigureListener(childHandler);
         return figure;
     }
     
+    @Override
     public void removeAllChildren() {
         willChange();
         while (children.size() > 0) {
@@ -253,6 +273,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
         }
         changed();
     }
+    @Override
     public void basicRemoveAllChildren() {
         while (children.size() > 0) {
             basicRemoveChild(children.size() - 1);
@@ -268,9 +289,11 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
      *
      * @return layout strategy used by this figure
      */
+    @Override
     public Layouter getLayouter() {
         return layouter;
     }
+    @Override
     public void setLayouter(Layouter newLayouter) {
         this.layouter = newLayouter;
     }
@@ -281,6 +304,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
      * layouting the child components for presentation is delegated
      * to a Layouter which can be plugged in at runtime.
      */
+    @Override
     public void layout() {
         if (getLayouter() != null) {
             Rectangle2D.Double bounds = getBounds();
@@ -294,30 +318,36 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
     
 // EVENT HANDLING
     
+    @Override
     public void invalidate() {
         super.invalidate();
         cachedDrawingArea = null;
     }
+    @Override
     public void validate() {
         super.validate();
         layout();
     }
+    @Override
     public void addNotify(Drawing drawing) {
         for (Figure child : new LinkedList<Figure>(children)) {
             child.addNotify(drawing);
         }
         super.addNotify(drawing);
     }
+    @Override
     public void removeNotify(Drawing drawing) {
         for (Figure child : new LinkedList<Figure>(children)) {
             child.removeNotify(drawing);
         }
         super.removeNotify(drawing);
     }
+    @Override
     public void removeCompositeFigureListener(CompositeFigureListener listener) {
         listenerList.remove(CompositeFigureListener.class, listener);
     }
 
+    @Override
     public void addCompositeFigureListener(CompositeFigureListener listener) {
         listenerList.add(CompositeFigureListener.class, listener);
     }
@@ -364,6 +394,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
     }
     
     // CLONING
+    @Override
     public LabeledLineConnectionFigure clone() {
         LabeledLineConnectionFigure that = (LabeledLineConnectionFigure) super.clone();
         that.childHandler = new ChildHandler(that);
@@ -375,6 +406,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
         }
         return that;
     }
+    @Override
     public void remap(Map<Figure,Figure> oldToNew, boolean disconnectIfNotInMap) {
         super.remap(oldToNew, disconnectIfNotInMap);
         for (Figure child : children) {
@@ -382,10 +414,12 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
         }
     }
 
+    @Override
     public boolean contains(Figure f) {
         return children.contains(f);
     }
 
+    @Override
     public int indexOf(Figure child) {
         return children.indexOf(child);
     }

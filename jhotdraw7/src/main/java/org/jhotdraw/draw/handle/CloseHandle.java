@@ -37,6 +37,7 @@ public class CloseHandle extends LocatorHandle {
         super(owner, locator);
     }
     
+    @Override
     protected int getHandlesize() {
         return 9;
     }
@@ -44,6 +45,7 @@ public class CloseHandle extends LocatorHandle {
     /**
      * Draws this handle.
      */
+    @Override
     public void draw(Graphics2D g) {
         drawRectangle(g, (pressed) ? Color.orange : Color.white, Color.black);
         Rectangle r = getBounds();
@@ -55,21 +57,25 @@ public class CloseHandle extends LocatorHandle {
     /**
      * Returns a cursor for the handle.
      */
+    @Override
     public Cursor getCursor() {
         return Cursor.getDefaultCursor();
     }
     
+    @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         pressed = basicGetBounds().contains(lead);
         if (pressed) getOwner().requestRemove();
         fireAreaInvalidated(getDrawingArea());
     }
     
+    @Override
     public void trackStart(Point anchor, int modifiersEx) {
         pressed = true;
         fireAreaInvalidated(getDrawingArea());
     }
     
+    @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         boolean oldValue = pressed;
         pressed = basicGetBounds().contains(lead);

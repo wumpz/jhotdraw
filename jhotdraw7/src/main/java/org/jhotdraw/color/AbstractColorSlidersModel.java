@@ -30,6 +30,7 @@ public abstract class AbstractColorSlidersModel extends AbstractBean implements 
      */
     protected LinkedList<ChangeListener> listeners;
 
+    @Override
     public void addChangeListener(ChangeListener l) {
         if (listeners == null) {
             listeners = new LinkedList<ChangeListener>();
@@ -37,6 +38,7 @@ public abstract class AbstractColorSlidersModel extends AbstractBean implements 
         listeners.add(l);
     }
 
+    @Override
     public void removeChangeListener(ChangeListener l) {
         listeners.remove(l);
     }

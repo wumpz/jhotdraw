@@ -149,7 +149,7 @@ public class TaskFigure extends GraphicalCompositeFigure {
                 handles.add(new MoveHandle(this, RelativeLocator.southWest()));
                 handles.add(new MoveHandle(this, RelativeLocator.southEast()));
                 ConnectorHandle ch;
-                handles.add(ch=new ConnectorHandle(new LocatorConnector(this, RelativeLocator.east()) , new DependencyFigure()));
+                handles.add(ch = new ConnectorHandle(new LocatorConnector(this, RelativeLocator.east()), new DependencyFigure()));
                 ch.setToolTipText("Drag the connector to a dependent task.");
                 break;
         }
@@ -265,6 +265,7 @@ public class TaskFigure extends GraphicalCompositeFigure {
         in.closeElement();
     }
 
+    @Override
     public void write(DOMOutput out) throws IOException {
         Rectangle2D.Double r = getBounds();
         out.addAttribute("x", r.x);
@@ -280,6 +281,7 @@ public class TaskFigure extends GraphicalCompositeFigure {
         out.closeElement();
     }
 
+    @Override
     public int getLayer() {
         return 0;
     }
@@ -351,6 +353,7 @@ public class TaskFigure extends GraphicalCompositeFigure {
         return false;
     }
 
+    @Override
     public String toString() {
         return "TaskFigure#" + hashCode() + " " + getName() + " " + getDuration() + " " + getStartTime();
     }

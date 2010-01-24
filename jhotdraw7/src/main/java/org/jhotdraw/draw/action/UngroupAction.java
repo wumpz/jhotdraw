@@ -14,8 +14,6 @@
 
 package org.jhotdraw.draw.action;
 
-import org.jhotdraw.draw.GroupFigure;
-import org.jhotdraw.draw.CompositeFigure;
 import org.jhotdraw.draw.*;
 
 /**

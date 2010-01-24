@@ -29,6 +29,7 @@ public class PaletteMenuItemUI extends javax.swing.plaf.basic.BasicMenuItemUI {
     public PaletteMenuItemUI() {
     }
     
+    @Override
     protected void installDefaults() {
         super.installDefaults();
         defaultTextIconGap = 0;   // Should be from table
@@ -37,6 +38,7 @@ public class PaletteMenuItemUI extends javax.swing.plaf.basic.BasicMenuItemUI {
         arrowIcon = null;
         checkIcon = null;
     }
+    @Override
     protected Dimension getPreferredMenuItemSize(JComponent c,
                                                      Icon checkIcon,
                                                      Icon arrowIcon,
@@ -48,6 +50,7 @@ public class PaletteMenuItemUI extends javax.swing.plaf.basic.BasicMenuItemUI {
         }
         return new Dimension(icon.getIconWidth() + 2, icon.getIconHeight() + 2);
     }
+    @Override
     public void paint(Graphics g, JComponent c) {
         JMenuItem b = (JMenuItem) c;
 

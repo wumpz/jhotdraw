@@ -13,24 +13,18 @@
  */
 package org.jhotdraw.samples.pert;
 
-import org.jhotdraw.draw.TextFigure;
 import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.ImageOutputFormat;
 import org.jhotdraw.draw.io.DOMStorableInputOutputFormat;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.action.*;
 import org.jhotdraw.gui.*;
-import org.jhotdraw.util.*;
-
 import java.awt.*;
 import java.awt.geom.*;
-import java.awt.event.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
 import javax.swing.*;
-import javax.swing.event.*;
 import org.jhotdraw.xml.*;
 
 /**
@@ -48,6 +42,7 @@ public class PertApplet extends JApplet {
      * We override getParameter() to make it work even if we have no Applet
      * context.
      */
+    @Override
     public String getParameter(String name) {
         try {
             return super.getParameter(name);
@@ -63,6 +58,7 @@ public class PertApplet extends JApplet {
     /**
      * Initializes the applet PertApplet
      */
+    @Override
     public void init() {
         // Set look and feel
         // -----------------
@@ -97,6 +93,7 @@ public class PertApplet extends JApplet {
         // --------------------------------------
         new Worker<Drawing>() {
 
+    @Override
             public Drawing construct() throws IOException {
                 Drawing result;
                 System.out.println("getParameter.datafile:" + getParameter("datafile"));
@@ -248,6 +245,7 @@ public class PertApplet extends JApplet {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
 
+    @Override
             public void run() {
                 JFrame f = new JFrame("JHotDraw Pert Applet");
                 f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

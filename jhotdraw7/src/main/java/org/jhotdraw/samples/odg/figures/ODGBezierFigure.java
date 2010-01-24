@@ -11,12 +11,10 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.samples.odg.figures;
 
 import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.draw.BezierFigure;
 import org.jhotdraw.draw.handle.BezierNodeHandle;
 import java.awt.event.*;
 import java.awt.geom.*;
@@ -34,26 +32,28 @@ import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
  * @version $Id$
  */
 public class ODGBezierFigure extends BezierFigure {
+
     private transient Rectangle2D.Double cachedDrawingArea;
-    
+
     /** Creates a new instance. */
     public ODGBezierFigure() {
         this(false);
     }
+
     public ODGBezierFigure(boolean isClosed) {
         super(isClosed);
         set(UNCLOSED_PATH_FILLED, true);
     }
-    
+
     public Collection<Handle> createHandles(ODGPathFigure pathFigure, int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
         switch (detailLevel % 2) {
-            case 0 :
-                for (int i=0, n = path.size(); i < n; i++) {
+            case 0:
+                for (int i = 0, n = path.size(); i < n; i++) {
                     handles.add(new BezierNodeHandle(this, i, pathFigure));
                 }
                 break;
-            case 1 :
+            case 1:
                 TransformHandleKit.addTransformHandles(this, handles);
                 break;
             default:
@@ -61,27 +61,31 @@ public class ODGBezierFigure extends BezierFigure {
         }
         return handles;
     }
-    @Override public boolean handleMouseClick(Point2D.Double p, MouseEvent evt, DrawingView view) {
+
+    @Override
+    public boolean handleMouseClick(Point2D.Double p, MouseEvent evt, DrawingView view) {
         if (evt.getClickCount() == 2/* && view.getHandleDetailLevel() == 0*/) {
             willChange();
             final int index = splitSegment(p, (float) (5f / view.getScaleFactor()));
             if (index != -1) {
                 final BezierPath.Node newNode = getNode(index);
                 fireUndoableEditHappened(new AbstractUndoableEdit() {
+
+                    @Override
                     public void redo() throws CannotRedoException {
                         super.redo();
                         willChange();
                         addNode(index, newNode);
                         changed();
                     }
-                    
+
+                    @Override
                     public void undo() throws CannotUndoException {
                         super.undo();
                         willChange();
                         removeNode(index);
                         changed();
                     }
-                    
                 });
                 changed();
                 evt.consume();
@@ -90,9 +94,11 @@ public class ODGBezierFigure extends BezierFigure {
         }
         return false;
     }
+
+    @Override
     public void transform(AffineTransform tx) {
-        if (get(TRANSFORM) != null ||
-                (tx.getType() & (AffineTransform.TYPE_TRANSLATION)) != tx.getType()) {
+        if (get(TRANSFORM) != null
+                || (tx.getType() & (AffineTransform.TYPE_TRANSLATION)) != tx.getType()) {
             if (get(TRANSFORM) == null) {
                 TRANSFORM.setClone(this, tx);
             } else {
@@ -104,10 +110,11 @@ public class ODGBezierFigure extends BezierFigure {
             super.transform(tx);
         }
     }
-    
+
+    @Override
     public Rectangle2D.Double getDrawingArea() {
         if (cachedDrawingArea == null) {
-            
+
             if (get(TRANSFORM) == null) {
                 cachedDrawingArea = path.getBounds2D();
             } else {
@@ -118,7 +125,7 @@ public class ODGBezierFigure extends BezierFigure {
         }
         return (Rectangle2D.Double) cachedDrawingArea.clone();
     }
-    
+
     /**
      * Transforms all coords of the figure by the current TRANSFORM attribute
      * and then sets the TRANSFORM attribute to null.
@@ -130,7 +137,8 @@ public class ODGBezierFigure extends BezierFigure {
         }
         invalidate();
     }
-    
+
+    @Override
     public void invalidate() {
         super.invalidate();
         cachedDrawingArea = null;

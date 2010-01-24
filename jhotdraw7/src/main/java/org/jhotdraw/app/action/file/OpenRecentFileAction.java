@@ -98,6 +98,7 @@ public class OpenRecentFileAction extends AbstractApplicationAction {
         // Open the file
         view.execute(new Worker() {
 
+            @Override
             protected Object construct() throws IOException {
                 boolean exists = true;
                 try {
@@ -145,6 +146,7 @@ public class OpenRecentFileAction extends AbstractApplicationAction {
                         + (message == null ? "" : message),
                         JOptionPane.ERROR_MESSAGE, new SheetListener() {
 
+                    @Override
                     public void optionSelected(SheetEvent evt) {
                         view.setEnabled(true);
                     }

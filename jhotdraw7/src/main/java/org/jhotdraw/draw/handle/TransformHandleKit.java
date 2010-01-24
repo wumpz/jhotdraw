@@ -16,7 +16,6 @@ package org.jhotdraw.draw.handle;
 import org.jhotdraw.draw.locator.RelativeLocator;
 import org.jhotdraw.draw.locator.Locator;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.event.TransformRestoreEdit;
 import java.util.*;
 import java.awt.*;
@@ -88,12 +87,12 @@ public class TransformHandleKit {
                 GROUP_BOUNDS_STROKE_1, GROUP_BOUNDS_COLOR_1,
                 GROUP_BOUNDS_STROKE_2, GROUP_BOUNDS_COLOR_2,
                 GROUP_BOUNDS_STROKE_1_DISABLED, GROUP_BOUNDS_COLOR_1_DISABLED,
-                GROUP_BOUNDS_STROKE_2_DISABLED, GROUP_BOUNDS_COLOR_2_DISABLED
-                ));
+                GROUP_BOUNDS_STROKE_2_DISABLED, GROUP_BOUNDS_COLOR_2_DISABLED));
         addCornerTransformHandles(f, handles);
         addEdgeTransformHandles(f, handles);
         handles.add(new RotateHandle(f));
     }
+
     /**
      * Adds handles for scaling, moving, rotating and shearing a Figure.
      */
@@ -102,10 +101,8 @@ public class TransformHandleKit {
                 GROUP_BOUNDS_STROKE_1_HOVER, GROUP_BOUNDS_COLOR_1_HOVER,
                 GROUP_BOUNDS_STROKE_2_HOVER, GROUP_BOUNDS_COLOR_2_HOVER,
                 GROUP_BOUNDS_STROKE_1_DISABLED, GROUP_BOUNDS_COLOR_1_DISABLED,
-                GROUP_BOUNDS_STROKE_2_DISABLED, GROUP_BOUNDS_COLOR_2_DISABLED
-                ));
+                GROUP_BOUNDS_STROKE_2_DISABLED, GROUP_BOUNDS_COLOR_2_DISABLED));
     }
-
 
     static public Handle south(Figure owner) {
         return new SouthHandle(owner);
@@ -141,13 +138,14 @@ public class TransformHandleKit {
 
     private static class TransformHandle extends LocatorHandle {
 
-        private int dx,  dy;
+        private int dx, dy;
         private Object geometry;
 
         TransformHandle(Figure owner, Locator loc) {
             super(owner, loc);
         }
 
+        @Override
         public String getToolTipText(Point p) {
             ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
             return labels.getString("handle.transform.toolTipText");
@@ -156,21 +154,22 @@ public class TransformHandleKit {
         /**
          * Draws this handle.
          */
+        @Override
         public void draw(Graphics2D g) {
             if (getEditor().getTool().supportsHandleInteraction()) {
                 //drawArc(g);
-                
+
                 drawDiamond(g,
                         (Color) getEditor().getHandleAttribute(HandleAttributeKeys.TRANSFORM_HANDLE_FILL_COLOR),
                         (Color) getEditor().getHandleAttribute(HandleAttributeKeys.TRANSFORM_HANDLE_STROKE_COLOR));
-                
-                } else {
+
+            } else {
                 drawDiamond(g,
                         (Color) getEditor().getHandleAttribute(HandleAttributeKeys.TRANSFORM_HANDLE_FILL_COLOR_DISABLED),
-                        (Color) getEditor().getHandleAttribute(HandleAttributeKeys.TRANSFORM_HANDLE_STROKE_COLOR_DISABLED));                
-                }
+                        (Color) getEditor().getHandleAttribute(HandleAttributeKeys.TRANSFORM_HANDLE_STROKE_COLOR_DISABLED));
+            }
         }
-        
+
         protected void drawArc(Graphics2D g) {
             Point p = getLocation();
             g.drawArc(p.x, p.y, 6, 6, 0, 180);
@@ -190,6 +189,7 @@ public class TransformHandleKit {
             return bounds;
         }
 
+        @Override
         public void trackStart(Point anchor, int modifiersEx) {
             geometry = getOwner().getTransformRestoreData();
             Point location = getLocation();
@@ -197,6 +197,7 @@ public class TransformHandleKit {
             dy = -anchor.y + location.y;
         }
 
+        @Override
         public void trackStep(Point anchor, Point lead, int modifiersEx) {
             Point2D.Double p = view.viewToDrawing(new Point(lead.x + dx, lead.y + dy));
             view.getConstrainer().constrainPoint(p);
@@ -204,6 +205,7 @@ public class TransformHandleKit {
             trackStepNormalized(p);
         }
 
+        @Override
         public void trackEnd(Point anchor, Point lead, int modifiersEx) {
             fireUndoableEditHappened(
                     new TransformRestoreEdit(getOwner(), geometry, getOwner().getTransformRestoreData()));
@@ -227,9 +229,9 @@ public class TransformHandleKit {
 
             AffineTransform tx = new AffineTransform();
             tx.translate(-oldBounds.x, -oldBounds.y);
-            if (!Double.isNaN(sx) && !Double.isNaN(sy) &&
-                    (sx != 1d || sy != 1d) &&
-                    !(sx < 0.0001) && !(sy < 0.0001)) {
+            if (!Double.isNaN(sx) && !Double.isNaN(sy)
+                    && (sx != 1d || sy != 1d)
+                    && !(sx < 0.0001) && !(sy < 0.0001)) {
                 f.transform(tx);
                 tx.setToIdentity();
                 tx.scale(sx, sy);

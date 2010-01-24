@@ -1077,6 +1077,7 @@ public class StreamPosTokenizer
      * @see     java.io.StreamTokenizer#sval
      * @see     java.io.StreamTokenizer#ttype
      */
+    @Override
     public String toString() {
         String ret;
         switch (ttype) {

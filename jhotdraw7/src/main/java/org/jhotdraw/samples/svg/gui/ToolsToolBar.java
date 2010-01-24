@@ -26,7 +26,6 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.util.*;
 import javax.swing.*;
-import org.jhotdraw.app.action.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.samples.svg.action.*;
@@ -208,6 +207,7 @@ public class ToolsToolBar extends AbstractToolBar {
         return "tools";
     }
 
+    @Override
     protected int getDefaultDisclosureState() {
         return 1;
     }

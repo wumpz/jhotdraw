@@ -28,10 +28,12 @@ public class ReversedList<T> extends AbstractList<T> {
         this.target = target;
     }
 
+    @Override
     public T get(int index) {
         return target.get(target.size() - 1 - index);
     }
 
+    @Override
     public int size() {
         return target.size();
     }

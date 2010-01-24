@@ -45,6 +45,7 @@ public class DrawingEditorProxy extends AbstractBean implements DrawingEditor {
     private DrawingEditor target;
 
     private class Forwarder implements PropertyChangeListener, Serializable {
+    @Override
           public void propertyChange(PropertyChangeEvent evt) {
               firePropertyChange(evt.getPropertyName(), evt.getOldValue(), evt.getNewValue());
           }
@@ -76,22 +77,27 @@ public class DrawingEditorProxy extends AbstractBean implements DrawingEditor {
     }
     
     
+    @Override
     public void add(DrawingView view) {
         target.add(view);
     }
     
+    @Override
     public void remove(DrawingView view) {
         target.remove(view);
     }
     
+    @Override
     public Collection<DrawingView> getDrawingViews() {
         return target.getDrawingViews();
     }
     
+    @Override
     public DrawingView getActiveView() {
         return (target == null) ? null : target.getActiveView();
     }
     
+    @Override
     public void setActiveView(DrawingView newValue) {
         target.setActiveView(newValue);
     }
@@ -100,66 +106,82 @@ public class DrawingEditorProxy extends AbstractBean implements DrawingEditor {
         return (target == null) ? null : target.getActiveView();
     }
     
+    @Override
     public void setTool(Tool t) {
         target.setTool(t);
     }
     
+    @Override
     public Tool getTool() {
         return target.getTool();
     }
     
+    @Override
     public void setCursor(Cursor c) {
         target.setCursor(c);
     }
     
+    @Override
     public DrawingView findView(Container c) {
         return target.findView(c);
     }
     
+    @Override
     public <T> void setDefaultAttribute(AttributeKey<T> key, T value) {
         target.setDefaultAttribute(key, value);
     }
     
+    @Override
     public <T> T getDefaultAttribute(AttributeKey<T> key) {
         return target.getDefaultAttribute(key);
     }
     
+    @Override
     public void applyDefaultAttributesTo(Figure f) {
         target.applyDefaultAttributesTo(f);
     }
     
+    @Override
     public Map<AttributeKey, Object> getDefaultAttributes() {
         return target.getDefaultAttributes();
     }
     
+    @Override
     public void setEnabled(boolean newValue) {
         target.setEnabled(newValue);
     }
     
+    @Override
     public boolean isEnabled() {
         return target.isEnabled();
     }
 
+    @Override
     public <T> void setHandleAttribute(AttributeKey<T> key, T value) {
         target.setHandleAttribute(key, value);
     }
 
+    @Override
     public <T> T getHandleAttribute(AttributeKey<T> key) {
         return target.getHandleAttribute(key);
     }
 
+    @Override
     public void setInputMap(InputMap newValue) {
         target.setInputMap(newValue);
     }
 
+    @Override
     public InputMap getInputMap() {
         return target.getInputMap();
     }
 
+    @Override
     public void setActionMap(ActionMap newValue) {
         target.setActionMap(newValue);
     }
 
+    @Override
     public ActionMap getActionMap() {
         return target.getActionMap();
     }

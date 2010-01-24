@@ -14,10 +14,7 @@
 
 package org.jhotdraw.samples.odg;
 
-import java.io.IOException;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.samples.svg.figures.*;
-import org.jhotdraw.xml.*;
 /**
  * ODGDrawing.
  * <p>

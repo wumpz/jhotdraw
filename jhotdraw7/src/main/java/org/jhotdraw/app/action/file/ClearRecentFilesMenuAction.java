@@ -58,6 +58,7 @@ public class ClearRecentFilesMenuAction extends AbstractApplicationAction {
     }
     private PropertyChangeListener createApplicationListener() {
         return new PropertyChangeListener() {
+            @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if (evt.getPropertyName() == "recentFiles") { // Strings get interned
                     updateEnabled();
@@ -73,6 +74,7 @@ public class ClearRecentFilesMenuAction extends AbstractApplicationAction {
         app.removePropertyChangeListener(applicationListener);
     }
     
+    @Override
     public void actionPerformed(ActionEvent e) {
         getApplication().clearRecentURIs();
     }

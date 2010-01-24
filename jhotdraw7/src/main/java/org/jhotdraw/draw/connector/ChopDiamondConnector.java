@@ -14,9 +14,7 @@
 
 package org.jhotdraw.draw.connector;
 
-import org.jhotdraw.draw.DiamondFigure;
 import org.jhotdraw.draw.*;
-import java.awt.*;
 import java.awt.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.geom.*;
@@ -41,6 +39,7 @@ public class ChopDiamondConnector extends ChopRectangleConnector {
     /**
      * Return an appropriate connection point on the edge of a diamond figure
      */
+    @Override
     protected Point2D.Double chop(Figure target, Point2D.Double from) {
         target = getConnectorTarget(target);
         Rectangle2D.Double r = target.getBounds();

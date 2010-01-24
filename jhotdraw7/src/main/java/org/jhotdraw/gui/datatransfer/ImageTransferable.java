@@ -45,11 +45,13 @@ public class ImageTransferable implements Transferable {
         this.image = image;
     }
 
+    @Override
     public boolean isDataFlavorSupported(DataFlavor flavor) {
         return flavor.equals(DataFlavor.imageFlavor) ||
                 flavor.equals(IMAGE_PNG_FLAVOR);
     }
 
+    @Override
     public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
         /*if (! isDataFlavorSupported(flavor)) {
             throw new UnsupportedFlavorException(flavor);
@@ -66,6 +68,7 @@ public class ImageTransferable implements Transferable {
         }
     }
 
+    @Override
     public DataFlavor[] getTransferDataFlavors() {
         return new DataFlavor[] { DataFlavor.imageFlavor, IMAGE_PNG_FLAVOR };
     }

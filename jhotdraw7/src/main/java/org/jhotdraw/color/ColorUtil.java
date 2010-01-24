@@ -1,5 +1,5 @@
 /*
- * @(#)Colors.java
+ * @(#)ColorUtil.java
  *
  * Copyright (c) 1996-2010 by the original authors of JHotDraw
  * and all its contributors.
@@ -12,20 +12,20 @@
  * the copyright holders. For details see accompanying license terms. 
  */
 
-package org.jhotdraw.draw.action;
+package org.jhotdraw.color;
 
 import java.awt.*;
 
 /**
- * Colors.
+ * ColorUtil.
  *
  * @author  Werner Randelshofer
  * @version $Id$
  */
-public class Colors {
+public class ColorUtil {
     
     /** Prevent instance creation. */
-    private Colors() {
+    private ColorUtil() {
     }
 
     /**

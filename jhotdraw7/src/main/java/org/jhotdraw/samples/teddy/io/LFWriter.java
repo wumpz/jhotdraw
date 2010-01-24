@@ -60,6 +60,7 @@ public class LFWriter extends FilterWriter {
      *
      * @exception  IOException  If an I/O error occurs
      */
+    @Override
     public void write(int c) throws IOException {
         switch (c) {
             case '\r':
@@ -86,6 +87,7 @@ public class LFWriter extends FilterWriter {
      *
      * @exception  IOException  If an I/O error occurs
      */
+    @Override
     public void write(char cbuf[], int off, int len) throws IOException {
         int end = off + len;
         for (int i=off; i < end; i++) {

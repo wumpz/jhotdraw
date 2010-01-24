@@ -15,13 +15,7 @@
 package org.jhotdraw.samples.svg.action;
 
 import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.action.*;
 import org.jhotdraw.samples.svg.figures.*;
-import org.jhotdraw.undo.*;
-import org.jhotdraw.util.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.undo.*;
 
 /**
  * SplitPathsAction.

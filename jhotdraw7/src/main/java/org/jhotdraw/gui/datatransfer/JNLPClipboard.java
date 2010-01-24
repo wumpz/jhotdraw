@@ -55,6 +55,7 @@ public class JNLPClipboard extends AbstractClipboard {
         return target;
     }
 
+    @Override
     public Transferable getContents(Object requestor) {
         try {
             return (Transferable) target.getClass().getMethod("getContents").invoke(target);
@@ -65,6 +66,7 @@ public class JNLPClipboard extends AbstractClipboard {
         }
     }
 
+    @Override
     public void setContents(Transferable contents, ClipboardOwner owner) {
         try {
             target.getClass().getMethod("setContents", Transferable.class).invoke(target, contents);

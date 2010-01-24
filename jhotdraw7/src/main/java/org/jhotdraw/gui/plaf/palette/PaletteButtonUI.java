@@ -13,7 +13,6 @@
  */
 package org.jhotdraw.gui.plaf.palette;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import javax.swing.*;
 import javax.swing.plaf.*;

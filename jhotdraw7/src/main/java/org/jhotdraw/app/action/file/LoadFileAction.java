@@ -60,6 +60,7 @@ public class LoadFileAction extends AbstractSaveUnsavedChangesAction {
         labels.configureAction(this, ID);
     }
 
+    @Override
     protected URIChooser getChooser(View view) {
         URIChooser chsr = (URIChooser) (view.getComponent()).getClientProperty("loadChooser");
         if (chsr == null) {
@@ -69,6 +70,7 @@ public class LoadFileAction extends AbstractSaveUnsavedChangesAction {
         return chsr;
     }
 
+    @Override
     public void doIt(final View view) {
         URIChooser fileChooser = getChooser(view);
             Window wAncestor = SwingUtilities.getWindowAncestor(view.getComponent());
@@ -76,6 +78,7 @@ public class LoadFileAction extends AbstractSaveUnsavedChangesAction {
 
                     JSheet.showOpenSheet(fileChooser, view.getComponent(), new SheetListener() {
 
+            @Override
                 public void optionSelected(final SheetEvent evt) {
                     if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
                         final URI uri;
@@ -101,6 +104,7 @@ public class LoadFileAction extends AbstractSaveUnsavedChangesAction {
         // Open the file
         view.execute(new Worker() {
 
+            @Override
             protected Object construct() throws IOException {
                 view.read(uri, chooser);
                 return null;
@@ -122,6 +126,7 @@ public class LoadFileAction extends AbstractSaveUnsavedChangesAction {
                         ((value == null) ? "" : value),
                         JOptionPane.ERROR_MESSAGE, new SheetListener() {
 
+                    @Override
                     public void optionSelected(SheetEvent evt) {
                         view.clear();
                         view.setEnabled(true);

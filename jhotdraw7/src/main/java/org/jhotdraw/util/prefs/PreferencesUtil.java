@@ -340,11 +340,13 @@ public class PreferencesUtil
         window.addComponentListener(
                 new ComponentAdapter() {
 
+                    @Override
                     public void componentMoved(ComponentEvent evt) {
                         prefs.putInt(name + ".x", evt.getComponent().getX());
                         prefs.putInt(name + ".y", evt.getComponent().getY());
                     }
 
+                    @Override
                     public void componentResized(ComponentEvent evt) {
                         prefs.putInt(name + ".width", evt.getComponent().getWidth());
                         prefs.putInt(name + ".height", evt.getComponent().getHeight());
@@ -394,6 +396,7 @@ public class PreferencesUtil
 
         window.addComponentListener(new ComponentAdapter() {
 
+            @Override
             public void componentMoved(ComponentEvent evt) {
                 prefs.putInt(name + ".x", evt.getComponent().getX());
                 prefs.putInt(name + ".y", evt.getComponent().getY());
@@ -457,11 +460,13 @@ public class PreferencesUtil
 
         window.addComponentListener(new ComponentAdapter() {
 
+            @Override
             public void componentMoved(ComponentEvent evt) {
                 prefs.putInt(name + ".x", evt.getComponent().getX());
                 prefs.putInt(name + ".y", evt.getComponent().getY());
             }
 
+            @Override
             public void componentResized(ComponentEvent evt) {
                 prefs.putInt(name + ".width", evt.getComponent().getWidth());
                 prefs.putInt(name + ".height", evt.getComponent().getHeight());
@@ -499,6 +504,7 @@ public class PreferencesUtil
         }
         tabbedPane.addChangeListener(new ChangeListener() {
 
+            @Override
             public void stateChanged(ChangeEvent e) {
                 prefs.putInt(name, tabbedPane.getSelectedIndex());
             }

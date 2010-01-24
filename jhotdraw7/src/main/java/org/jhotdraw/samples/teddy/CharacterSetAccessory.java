@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with
  * the copyright holders. For details see accompanying license terms.
  */
-
 package org.jhotdraw.samples.teddy;
 
 import org.jhotdraw.gui.*;
@@ -20,6 +19,7 @@ import javax.swing.*;
 import java.util.*;
 import java.util.prefs.*;
 import org.jhotdraw.util.prefs.PreferencesUtil;
+
 /**
  * CharacterSetAccessory.
  *
@@ -27,24 +27,25 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * @version $Id$
  */
 public class CharacterSetAccessory extends javax.swing.JPanel {
+
     private final static Preferences prefs = PreferencesUtil.userNodeForPackage(TeddyView.class);
     private static Object[] availableCharSets;
-    
+
     /** Creates a new instance. */
     public CharacterSetAccessory() {
         if (UIManager.getLookAndFeel().getID().toLowerCase().equals("aqua")) {
-        initComponents();
+            initComponents();
         } else {
-        initComponentsWin();
+            initComponentsWin();
         }
-        
-        String selectedItem = prefs.get("characterSet","UTF-8");
-        charSetCombo.setModel(new DefaultComboBoxModel(new String[] { selectedItem }));
+
+        String selectedItem = prefs.get("characterSet", "UTF-8");
+        charSetCombo.setModel(new DefaultComboBoxModel(new String[]{selectedItem}));
         charSetCombo.setSelectedItem(selectedItem);
         charSetCombo.setEnabled(false);
         fetchAvailableCharSets();
-        
-        String lineSeparator = prefs.get("lineSeparator","\n");
+
+        String lineSeparator = prefs.get("lineSeparator", "\n");
         if (lineSeparator.equals("\r")) {
             lineSepCombo.setSelectedIndex(0);
         } else if (lineSeparator.equals("\n")) {
@@ -53,15 +54,17 @@ public class CharacterSetAccessory extends javax.swing.JPanel {
             lineSepCombo.setSelectedIndex(2);
         }
     }
-    
+
     public void fetchAvailableCharSets() {
         if (availableCharSets == null) {
             new Worker() {
+
+                @Override
                 public Object construct() {
-                    SortedMap<String,Charset> sm = Charset.availableCharsets();
+                    SortedMap<String, Charset> sm = Charset.availableCharsets();
                     LinkedList<String> list = new LinkedList<String>();
                     for (String key : sm.keySet()) {
-                        if (! key.startsWith("x-")) {
+                        if (!key.startsWith("x-")) {
                             list.add(key);
                         }
                     }
@@ -69,6 +72,7 @@ public class CharacterSetAccessory extends javax.swing.JPanel {
                     Arrays.sort(availableCharSets);
                     return null;
                 }
+
                 @Override
                 public void finished() {
                     Object selectedItem = charSetCombo.getSelectedItem();
@@ -76,7 +80,6 @@ public class CharacterSetAccessory extends javax.swing.JPanel {
                     charSetCombo.setSelectedItem(selectedItem);
                     charSetCombo.setEnabled(true);
                 }
-                
             }.start();
         } else {
             Object selectedItem = charSetCombo.getSelectedItem();
@@ -85,22 +88,30 @@ public class CharacterSetAccessory extends javax.swing.JPanel {
             charSetCombo.setEnabled(true);
         }
     }
-    
+
     public String getCharacterSet() {
         prefs.put("characterSet", (String) charSetCombo.getSelectedItem());
         return (String) charSetCombo.getSelectedItem();
     }
+
     public String getLineSeparator() {
         String lineSeparator;
         switch (charSetCombo.getSelectedIndex()) {
-            case 0 : default : lineSeparator = "\n"; break;
-            case 1 : lineSeparator = "\r"; break;
-            case 2 : lineSeparator = "\r\n"; break;
+            case 0:
+            default:
+                lineSeparator = "\n";
+                break;
+            case 1:
+                lineSeparator = "\r";
+                break;
+            case 2:
+                lineSeparator = "\r\n";
+                break;
         }
         prefs.put("lineSeparator", lineSeparator);
         return lineSeparator;
     }
-    
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -151,46 +162,33 @@ public class CharacterSetAccessory extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-    
+
     private void initComponentsWin() {
         charSetLabel = new javax.swing.JLabel();
         charSetCombo = new javax.swing.JComboBox();
         lineSepLabel = new javax.swing.JLabel();
         lineSepCombo = new javax.swing.JComboBox();
-        
+
         setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         charSetLabel.setText("Character Set:");
-        
-        charSetCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        
+
+        charSetCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Item 1", "Item 2", "Item 3", "Item 4"}));
+
         lineSepLabel.setText("Line Separator:");
-        
-        lineSepCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "CR", "LF", "CR LF" }));
-        
-       GroupLayout layout = new GroupLayout(this);
+
+        lineSepCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"CR", "LF", "CR LF"}));
+
+        GroupLayout layout = new GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                .addComponent(charSetLabel)
-                .addComponent(charSetCombo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addComponent(lineSepLabel)
-                .addComponent(lineSepCombo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                );
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(charSetLabel).addComponent(charSetCombo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE).addComponent(lineSepLabel).addComponent(lineSepCombo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE));
         layout.setVerticalGroup(
-                layout.createSequentialGroup()
-                .addComponent(charSetLabel)
-                .addComponent(charSetCombo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lineSepLabel)
-                .addComponent(lineSepCombo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                );
+                layout.createSequentialGroup().addComponent(charSetLabel).addComponent(charSetCombo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE).addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED).addComponent(lineSepLabel).addComponent(lineSepCombo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE));
     }
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JComboBox charSetCombo;
     public javax.swing.JLabel charSetLabel;
     public javax.swing.JComboBox lineSepCombo;
     public javax.swing.JLabel lineSepLabel;
     // End of variables declaration//GEN-END:variables
-    
 }

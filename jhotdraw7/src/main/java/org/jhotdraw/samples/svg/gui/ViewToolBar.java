@@ -136,6 +136,7 @@ public class ViewToolBar extends AbstractToolBar {
                 final GridConstrainer constrainer = (GridConstrainer) view.getVisibleConstrainer();
                 gridSizeField.addPropertyChangeListener(new PropertyChangeListener() {
 
+                    @Override
                     public void propertyChange(PropertyChangeEvent evt) {
                         if (evt.getPropertyName().equals("value")) {
                             if (evt.getNewValue() != null) {
@@ -145,7 +146,7 @@ public class ViewToolBar extends AbstractToolBar {
                                 try {
                                     prefs.putDouble("view.gridSize", (Double) evt.getNewValue());
                                 } catch (IllegalStateException e) {//ignore
-                                    }
+                                }
                                 view.getComponent().repaint();
                             }
                         }
@@ -177,12 +178,12 @@ public class ViewToolBar extends AbstractToolBar {
                 scaleFactorField.setHorizontalAlignment(JLifeFormattedTextField.RIGHT);
                 scaleFactorField.putClientProperty("Palette.Component.segmentPosition", "first");
                 scaleFactorField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(scaleFactorField));
-                scaleFactorField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0.01d, 50d, 100d, true, false,"%"));
+                scaleFactorField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0.01d, 50d, 100d, true, false, "%"));
                 scaleFactorField.setHorizontalAlignment(JTextField.LEADING);
                 scaleFactorField.setValue(view.getScaleFactor());
                 scaleFactorField.addPropertyChangeListener(new PropertyChangeListener() {
 
-                @Override
+                    @Override
                     public void propertyChange(PropertyChangeEvent evt) {
                         if (evt.getPropertyName().equals("value")) {
                             if (evt.getNewValue() != null) {
@@ -193,7 +194,7 @@ public class ViewToolBar extends AbstractToolBar {
                 });
                 view.addPropertyChangeListener(new PropertyChangeListener() {
 
-                @Override
+                    @Override
                     public void propertyChange(PropertyChangeEvent evt) {
                         if (evt.getPropertyName() == DrawingView.SCALE_FACTOR_PROPERTY) {
                             if (evt.getNewValue() != null) {

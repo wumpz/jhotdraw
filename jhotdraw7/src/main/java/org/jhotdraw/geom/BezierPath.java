@@ -181,6 +181,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
             }
         }
 
+    @Override
         public Object clone() {
             try {
                 Node that = (Node) super.clone();
@@ -194,6 +195,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
             }
         }
 
+    @Override
         public String toString() {
             StringBuilder buf = new StringBuilder();
             buf.append('[');
@@ -219,12 +221,14 @@ public class BezierPath extends ArrayList<BezierPath.Node>
             return buf.toString();
         }
 
+    @Override
         public int hashCode() {
             return (mask & 0x3) << 29
                     | (Arrays.hashCode(x) & 0x3fff0000)
                     | (Arrays.hashCode(y) & 0xffff);
         }
 
+    @Override
         public boolean equals(Object o) {
             if (o instanceof BezierPath.Node) {
                 BezierPath.Node that = (BezierPath.Node) o;
@@ -383,6 +387,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
         return gp;
     }
 
+    @Override
     public boolean contains(Point2D p) {
         validatePath();
         return generalPath.contains(p);
@@ -425,11 +430,13 @@ public class BezierPath extends ArrayList<BezierPath.Node>
          */
     }
 
+    @Override
     public boolean intersects(Rectangle2D r) {
         validatePath();
         return generalPath.intersects(r);
     }
 
+    @Override
     public PathIterator getPathIterator(AffineTransform at) {
         /*
         validatePath();
@@ -454,6 +461,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
         return new BezierPathIterator(this, at);
     }
 
+    @Override
     public PathIterator getPathIterator(AffineTransform at, double flatness) {
         /*
         validatePath();
@@ -462,16 +470,19 @@ public class BezierPath extends ArrayList<BezierPath.Node>
         return new FlatteningPathIterator(new BezierPathIterator(this, at), flatness);
     }
 
+    @Override
     public boolean contains(Rectangle2D r) {
         validatePath();
         return generalPath.contains(r);
     }
 
+    @Override
     public boolean intersects(double x, double y, double w, double h) {
         validatePath();
         return generalPath.intersects(x, y, w, h);
     }
 
+    @Override
     public Rectangle2D.Double getBounds2D() {
         if (bounds == null) {
             double x1, y1, x2, y2;
@@ -622,15 +633,18 @@ public class BezierPath extends ArrayList<BezierPath.Node>
         return (Rectangle2D.Double) bounds.clone();
     }
 
+    @Override
     public Rectangle getBounds() {
         return getBounds2D().getBounds();
     }
 
+    @Override
     public boolean contains(double x, double y, double w, double h) {
         validatePath();
         return generalPath.contains(x, y, w, h);
     }
 
+    @Override
     public boolean contains(double x, double y) {
         validatePath();
         return generalPath.contains(x, y);
@@ -648,6 +662,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
     }
 
     /** Creates a deep copy of the BezierPath. */
+    @Override
     public BezierPath clone() {
         BezierPath that = (BezierPath) super.clone();
         for (int i = 0, n = this.size(); i < n; i++) {

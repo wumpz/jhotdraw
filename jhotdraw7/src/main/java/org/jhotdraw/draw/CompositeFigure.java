@@ -16,7 +16,6 @@ package org.jhotdraw.draw;
 
 import org.jhotdraw.draw.layouter.Layouter;
 import org.jhotdraw.draw.event.CompositeFigureListener;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.geom.*;
 
 /**

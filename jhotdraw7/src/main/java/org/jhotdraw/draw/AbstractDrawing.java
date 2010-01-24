@@ -40,10 +40,12 @@ public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure 
     public AbstractDrawing() {
     }
 
+    @Override
     public void addUndoableEditListener(UndoableEditListener l) {
         listenerList.add(UndoableEditListener.class, l);
     }
 
+    @Override
     public void removeUndoableEditListener(UndoableEditListener l) {
         listenerList.remove(UndoableEditListener.class, l);
     }
@@ -109,10 +111,12 @@ public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure 
         return lock;
     }
 
+    @Override
     public void addInputFormat(InputFormat format) {
         inputFormats.add(format);
     }
 
+    @Override
     public void addOutputFormat(OutputFormat format) {
         outputFormats.add(format);
         if (DEBUG) {
@@ -120,18 +124,22 @@ public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure 
         }
     }
 
+    @Override
     public void setOutputFormats(java.util.List<OutputFormat> formats) {
         this.outputFormats = new LinkedList<OutputFormat>(formats);
     }
 
+    @Override
     public void setInputFormats(java.util.List<InputFormat> formats) {
         this.inputFormats = new LinkedList<InputFormat>(formats);
     }
 
+    @Override
     public java.util.List<InputFormat> getInputFormats() {
         return inputFormats;
     }
 
+    @Override
     public java.util.List<OutputFormat> getOutputFormats() {
         if (DEBUG) {
             System.out.println(this + ".getOutputFormats size:" + outputFormats.size());

@@ -51,6 +51,7 @@ public class SelectionColorChooserAction extends EditorColorChooserAction {
         super(editor, key, name, icon, fixedAttributes);
     }
     
+    @Override
     protected Color getInitialColor() {
         Color initialColor = null;
         
@@ -60,7 +61,7 @@ public class SelectionColorChooserAction extends EditorColorChooserAction {
             initialColor = f.get(key);
         }
         if (initialColor == null) {
-            initialColor = super.getInitialColor();;
+            initialColor = super.getInitialColor();
         }
         return initialColor;
     }

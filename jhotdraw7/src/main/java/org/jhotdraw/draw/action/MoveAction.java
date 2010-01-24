@@ -36,6 +36,7 @@ public abstract class MoveAction extends AbstractSelectedAction {
         this.dy = dy;
     }
     
+    @Override
     public void actionPerformed(java.awt.event.ActionEvent e) {
         CompositeEdit edit;
         AffineTransform tx = new AffineTransform();

@@ -11,14 +11,13 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.draw.print;
 
 import org.jhotdraw.draw.*;
 import java.awt.*;
 import java.awt.geom.*;
-import java.awt.image.*;
 import java.awt.print.*;
+
 /**
  * {@code DrawingPageable} can be used to print a {@link Drawing} using the
  * java.awt.print API.
@@ -42,10 +41,11 @@ import java.awt.print.*;
  * @see org.jhotdraw.app.action.file.PrintFileAction
  */
 public class DrawingPageable implements Pageable {
+
     private Drawing drawing;
     private PageFormat pageFormat;
     private boolean isAutorotate = false;
-    
+
     /** Creates a new instance. */
     public DrawingPageable(Drawing drawing) {
         this.drawing = drawing;
@@ -53,35 +53,40 @@ public class DrawingPageable implements Pageable {
         pageFormat = new PageFormat();
         pageFormat.setPaper(paper);
     }
-    
+
+    @Override
     public int getNumberOfPages() {
         return 1;
     }
-    
+
+    @Override
     public PageFormat getPageFormat(int pageIndex) throws IndexOutOfBoundsException {
         return pageFormat;
     }
-    
+
+    @Override
     public Printable getPrintable(int pageIndex) throws IndexOutOfBoundsException {
         if (pageIndex < 0 || pageIndex >= getNumberOfPages()) {
-            throw new IndexOutOfBoundsException("Invalid page index:"+pageIndex);
+            throw new IndexOutOfBoundsException("Invalid page index:" + pageIndex);
         }
         return new Printable() {
+
+            @Override
             public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
                 return printPage(graphics, pageFormat, pageIndex);
             }
         };
     }
-    
+
     public int printPage(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
         if (pageIndex < 0 || pageIndex >= getNumberOfPages()) {
             return Printable.NO_SUCH_PAGE;
         }
         if (drawing.getChildCount() > 0) {
-            
+
             Graphics2D g = (Graphics2D) graphics;
             setRenderingHints(g);
-            
+
             // Determine the draw bounds of the drawing
             Rectangle2D.Double drawBounds = null;
             for (Figure f : drawing.getChildren()) {
@@ -91,23 +96,21 @@ public class DrawingPageable implements Pageable {
                     drawBounds.add(f.getDrawingArea());
                 }
             }
-            
+
             // Setup a transformation for the drawing
             AffineTransform tx = new AffineTransform();
             tx.translate(
                     pageFormat.getImageableX(),
-                    pageFormat.getImageableY()
-                    );
-            
+                    pageFormat.getImageableY());
+
             // Maybe rotate drawing
-            if (isAutorotate &&
-                    drawBounds.width > drawBounds.height &&
-                    pageFormat.getImageableWidth() < pageFormat.getImageableHeight()) {
-                
+            if (isAutorotate
+                    && drawBounds.width > drawBounds.height
+                    && pageFormat.getImageableWidth() < pageFormat.getImageableHeight()) {
+
                 double scaleFactor = Math.min(
                         pageFormat.getImageableWidth() / drawBounds.height,
-                        pageFormat.getImageableHeight() / drawBounds.width
-                        );
+                        pageFormat.getImageableHeight() / drawBounds.width);
                 tx.scale(scaleFactor, scaleFactor);
                 tx.translate(drawBounds.height, 0d);
                 tx.rotate(Math.PI / 2d, 0, 0);
@@ -115,18 +118,18 @@ public class DrawingPageable implements Pageable {
             } else {
                 double scaleFactor = Math.min(
                         pageFormat.getImageableWidth() / drawBounds.width,
-                        pageFormat.getImageableHeight() / drawBounds.height
-                        );
+                        pageFormat.getImageableHeight() / drawBounds.height);
                 tx.scale(scaleFactor, scaleFactor);
                 tx.translate(-drawBounds.x, -drawBounds.y);
             }
             g.transform(tx);
-            
+
             // Draw the drawing
             drawing.draw(g);
         }
         return Printable.PAGE_EXISTS;
     }
+
     protected void setRenderingHints(Graphics2D g) {
         g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION,
                 RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);

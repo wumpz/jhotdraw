@@ -68,6 +68,7 @@ public class DefaultAttributeAction extends AbstractSelectedAction {
         putValue(AbstractAction.SMALL_ICON, icon);
         setEnabled(true);
         editor.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if (evt.getPropertyName().equals(DefaultAttributeAction.this.keys[0])) {
                     putValue("attribute_"+DefaultAttributeAction.this.keys[0], evt.getNewValue());
@@ -79,6 +80,7 @@ public class DefaultAttributeAction extends AbstractSelectedAction {
         this.fixedAttributes = fixedAttributes;
     }
     
+    @Override
     public void actionPerformed(java.awt.event.ActionEvent evt) {
         if (getView() != null && getView().getSelectionCount() > 0) {
             CompositeEdit edit = new CompositeEdit(labels.getString("drawAttributeChange"));

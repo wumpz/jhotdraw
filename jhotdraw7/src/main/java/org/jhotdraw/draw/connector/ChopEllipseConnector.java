@@ -46,6 +46,7 @@ public class ChopEllipseConnector extends ChopRectangleConnector {
         return (w == null) ? 1f : w.floatValue();
     }
 
+    @Override
     protected Point2D.Double chop(Figure target, Point2D.Double from) {
         target =  getConnectorTarget(target);
         Rectangle2D.Double r = target.getBounds();

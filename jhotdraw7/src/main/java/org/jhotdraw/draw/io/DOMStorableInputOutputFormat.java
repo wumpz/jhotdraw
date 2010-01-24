@@ -25,7 +25,6 @@ import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JComponent;
 import org.jhotdraw.gui.datatransfer.InputStreamTransferable;
-import org.jhotdraw.io.*;
 import org.jhotdraw.xml.*;
 
 /**

@@ -21,19 +21,14 @@ import org.jhotdraw.app.action.edit.CopyAction;
 import org.jhotdraw.app.action.edit.SelectAllAction;
 import org.jhotdraw.draw.tool.CreationTool;
 import org.jhotdraw.draw.tool.TextAreaCreationTool;
-import org.jhotdraw.draw.TextAreaFigure;
 import org.jhotdraw.draw.tool.ConnectionTool;
 import org.jhotdraw.gui.JPopupButton;
 import org.jhotdraw.samples.pert.figures.*;
 import org.jhotdraw.undo.*;
 import org.jhotdraw.util.*;
-
 import java.awt.*;
-import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
-import javax.swing.event.*;
-import org.jhotdraw.app.action.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 /**

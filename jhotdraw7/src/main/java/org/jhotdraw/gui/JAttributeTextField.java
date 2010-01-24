@@ -65,28 +65,34 @@ public class JAttributeTextField<T> extends JLifeFormattedTextField implements A
     private void initComponents() {
     }// </editor-fold>//GEN-END:initComponents
 
+    @Override
     public JComponent getComponent() {
         return this;
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public T getAttributeValue() {
         return (T) getValue();
     }
 
+    @Override
     public void setMultipleValues(boolean newValue) {
         isMultipleValues = newValue;
         repaint();
     }
 
+    @Override
     public boolean isMultipleValues() {
         return isMultipleValues;
     }
 
+    @Override
     public boolean getValueIsAdjusting() {
         return isFocusOwner();
     }
 
+    @Override
     public void setAttributeValue(T newValue) {
         setValue(newValue);
     }

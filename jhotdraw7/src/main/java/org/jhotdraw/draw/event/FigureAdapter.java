@@ -22,24 +22,31 @@ package org.jhotdraw.draw.event;
  * @version $Id$
  */
 public class FigureAdapter implements FigureListener {
+    @Override
     public void areaInvalidated(FigureEvent e) {
     }
     
+    @Override
     public void attributeChanged(FigureEvent e) {
     }
     
+    @Override
     public void figureAdded(FigureEvent e) {
     }
     
+    @Override
     public void figureChanged(FigureEvent e) {
     }
     
+    @Override
     public void figureRemoved(FigureEvent e) {
     }
     
+    @Override
     public void figureRequestRemove(FigureEvent e) {
     }
 
+    @Override
     public void figureHandlesChanged(FigureEvent e) {
     }
     

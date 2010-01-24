@@ -60,6 +60,7 @@ public class AttributeToggler<T> extends AbstractAction {
         return editor;
     }
     
+    @Override
     public void actionPerformed(ActionEvent evt) {
         if (compatibleTextAction != null) {
             Component focusOwner = KeyboardFocusManager.

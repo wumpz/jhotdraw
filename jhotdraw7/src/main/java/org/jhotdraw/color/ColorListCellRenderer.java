@@ -33,6 +33,7 @@ public class ColorListCellRenderer extends DefaultListCellRenderer {
             color = newValue;
         }
 
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             if (color != null) {
             g.setColor(new Color(0x333333));
@@ -44,10 +45,12 @@ public class ColorListCellRenderer extends DefaultListCellRenderer {
             }
         }
 
+        @Override
         public int getIconWidth() {
             return 24;
         }
 
+        @Override
         public int getIconHeight() {
             return 18;
         }

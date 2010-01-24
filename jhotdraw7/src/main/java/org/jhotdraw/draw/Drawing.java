@@ -94,6 +94,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      *
      * @param figure to be added to the drawing
      */
+    @Override
     boolean add(Figure figure);
     /**
      * Adds a figure to the drawing.
@@ -105,6 +106,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * @param index The z-index of the figure.
      * @param figure to be added to the drawing
      */
+    @Override
     void add(int index, Figure figure);
     /**
      * Adds a collection of figures to the drawing.
@@ -137,6 +139,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      *
      * @param figure that is part of the drawing and should be removed
      */
+    @Override
     boolean remove(Figure figure);
     /**
      * Removes the specified figures from the drawing.
@@ -157,6 +160,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * 
      * @param figure that is part of the drawing and should be removed
      */
+    @Override
     int basicRemove(Figure figure);
     /**
      * Removes the specified figures temporarily from the drawing.
@@ -175,6 +179,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * @param figure that is part of the drawing and should be removed
      * @see #basicRemove(Figure)
      */
+    @Override
     void basicAdd(Figure figure);
     /**
      * Reinserts a figure which was temporarily removed using basicRemove.
@@ -182,6 +187,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * @see #basicRemove(Figure)
      * @param figure that is part of the drawing and should be removed
      */
+    @Override
     void basicAdd(int index, Figure figure);
     
     /**
@@ -257,6 +263,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * @return Returns the innermost figure at the location, or null if the
      * location is not contained in a figure.
      */
+    @Override
     Figure findFigureInside(Point2D.Double p);
     
     /**

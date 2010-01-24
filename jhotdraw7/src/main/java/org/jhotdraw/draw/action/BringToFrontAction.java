@@ -34,6 +34,7 @@ public class BringToFrontAction extends AbstractSelectedAction {
         labels.configureAction(this, ID);
     }
     
+    @Override
     public void actionPerformed(java.awt.event.ActionEvent e) {
         final DrawingView view = getView();
         final LinkedList<Figure> figures = new LinkedList<Figure>(view.getSelectedFigures());

@@ -13,9 +13,6 @@
  */
 package org.jhotdraw.draw.handle;
 
-import org.jhotdraw.draw.handle.HandleAttributeKeys;
-import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.draw.handle.AbstractHandle;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.ConnectionFigure;
@@ -98,6 +95,7 @@ public class ConnectorHandle extends AbstractHandle {
         }
     }
 
+    @Override
     public void trackStart(Point anchor, int modifiersEx) {
         setConnection(createConnection());
 
@@ -109,6 +107,7 @@ public class ConnectorHandle extends AbstractHandle {
         view.getDrawing().add(getConnection());
     }
 
+    @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         //updateConnectors(lead);
         Point2D.Double p = view.viewToDrawing(lead);
@@ -141,6 +140,7 @@ public class ConnectorHandle extends AbstractHandle {
         }
     }
 
+    @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         Point2D.Double p = view.viewToDrawing(lead);
         view.getConstrainer().constrainPoint(p);
@@ -234,6 +234,7 @@ public class ConnectorHandle extends AbstractHandle {
         return null;
     }
 
+    @Override
     protected Rectangle basicGetBounds() {
         Rectangle r = new Rectangle(getLocation());
         int h = getHandlesize();

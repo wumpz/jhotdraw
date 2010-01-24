@@ -23,7 +23,6 @@ import org.jhotdraw.app.action.edit.DuplicateAction;
 import org.jhotdraw.app.action.edit.CopyAction;
 import org.jhotdraw.app.action.edit.ClearSelectionAction;
 import org.jhotdraw.app.action.edit.SelectAllAction;
-import java.util.prefs.*;
 import javax.swing.border.*;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.undo.*;
@@ -33,12 +32,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.swing.*;
-import org.jhotdraw.app.action.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.samples.svg.figures.*;
-import org.jhotdraw.util.prefs.PreferencesUtil;
-import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
 /**
  * ActionsToolBar.
@@ -245,6 +241,7 @@ public class ActionsToolBar extends AbstractToolBar {
         return "actions";
     }
 
+    @Override
     protected int getDefaultDisclosureState() {
         return 1;
     }

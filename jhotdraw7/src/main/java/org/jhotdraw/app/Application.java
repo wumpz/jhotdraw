@@ -17,7 +17,6 @@ import java.awt.*;
 import java.beans.*;
 import java.util.*;
 import javax.swing.*;
-import java.io.*;
 import java.net.URI;
 import org.jhotdraw.gui.URIChooser;
 

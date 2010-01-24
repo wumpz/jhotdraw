@@ -14,10 +14,7 @@
 package org.jhotdraw.samples.mini;
 
 import org.jhotdraw.draw.tool.DelegationSelectionTool;
-import org.jhotdraw.draw.TextAreaFigure;
-import org.jhotdraw.draw.LineConnectionFigure;
 import org.jhotdraw.draw.liner.ElbowLiner;
-import org.jhotdraw.draw.ConnectionFigure;
 import java.awt.geom.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
@@ -31,18 +28,21 @@ import org.jhotdraw.geom.*;
  * @version $Id$
  */
 public class EditorSample {
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
             public void run() {
-                
+
                 // Create a simple drawing consisting of three
                 // text areas and an elbow connection.
                 TextAreaFigure ta = new TextAreaFigure();
-                ta.setBounds(new Point2D.Double(10,10),new Point2D.Double(100,100));
+                ta.setBounds(new Point2D.Double(10, 10), new Point2D.Double(100, 100));
                 TextAreaFigure tb = new TextAreaFigure();
-                tb.setBounds(new Point2D.Double(220,120),new Point2D.Double(310,210));
+                tb.setBounds(new Point2D.Double(220, 120), new Point2D.Double(310, 210));
                 TextAreaFigure tc = new TextAreaFigure();
-                tc.setBounds(new Point2D.Double(220,10),new Point2D.Double(310,100));
+                tc.setBounds(new Point2D.Double(220, 10), new Point2D.Double(310, 100));
                 ConnectionFigure cf = new LineConnectionFigure();
                 cf.setLiner(new ElbowLiner());
                 cf.setStartConnector(ta.findConnector(Geom.center(ta.getBounds()), cf));
@@ -52,11 +52,11 @@ public class EditorSample {
                 drawing.add(tb);
                 drawing.add(tc);
                 drawing.add(cf);
-                
+
                 // Create a frame with a drawing view and a drawing editor
                 JFrame f = new JFrame("My Drawing");
                 f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                f.setSize(400,300);
+                f.setSize(400, 300);
                 DrawingView view = new DefaultDrawingView();
                 view.setDrawing(drawing);
                 f.getContentPane().add(view.getComponent());

@@ -17,7 +17,6 @@ package org.jhotdraw.draw.connector;
 import org.jhotdraw.draw.locator.Locator;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.ConnectionFigure;
-import org.jhotdraw.draw.connector.AbstractConnector;
 import java.awt.geom.*;
 import java.io.IOException;
 import org.jhotdraw.xml.*;

@@ -71,6 +71,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
     /**
      * Implementation note: Sorting can not be done for orphaned children.
      */
+    @Override
     public java.util.List<Figure> sort(Collection<? extends Figure> c) {
         ensureSorted();
         ArrayList<Figure> sorted = new ArrayList<Figure>(c.size());
@@ -115,11 +116,13 @@ public class QuadTreeDrawing extends AbstractDrawing {
      * Returns an iterator to iterate in
      * Z-order front to back over the children.
      */
+    @Override
     public java.util.List<Figure> getFiguresFrontToBack() {
         ensureSorted();
         return new ReversedList<Figure>(children);
     }
 
+    @Override
     public Figure findFigure(Point2D.Double p) {
         Collection<Figure> c = quadTree.findContains(p);
         switch (c.size()) {
@@ -140,6 +143,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
         }
     }
 
+    @Override
     public Figure findFigureExcept(Point2D.Double p, Figure ignore) {
         Collection<Figure> c = quadTree.findContains(p);
         switch (c.size()) {
@@ -161,6 +165,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
         }
     }
 
+    @Override
     public Figure findFigureExcept(Point2D.Double p, Collection<? extends Figure> ignore) {
         Collection<Figure> c = quadTree.findContains(p);
         switch (c.size()) {
@@ -182,6 +187,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
         }
     }
 
+    @Override
     public Figure findFigureBehind(Point2D.Double p, Figure figure) {
         boolean isBehind = false;
         for (Figure f : getFiguresFrontToBack()) {
@@ -196,6 +202,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
         return null;
     }
 
+    @Override
     public Figure findFigureBehind(Point2D.Double p, Collection<? extends Figure> children) {
         int inFrontOf = children.size();
         for (Figure f : getFiguresFrontToBack()) {
@@ -212,6 +219,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
         return null;
     }
 
+    @Override
     public java.util.List<Figure> findFigures(Rectangle2D.Double r) {
         LinkedList<Figure> c = new LinkedList<Figure>(quadTree.findIntersects(r));
         switch (c.size()) {
@@ -224,6 +232,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
         }
     }
 
+    @Override
     public java.util.List<Figure> findFiguresWithin(Rectangle2D.Double bounds) {
         LinkedList<Figure> contained = new LinkedList<Figure>();
         for (Figure f : children) {
@@ -277,6 +286,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
         // empty
     }
 
+    @Override
     public QuadTreeDrawing clone() {
         QuadTreeDrawing that = (QuadTreeDrawing) super.clone();
         that.quadTree = new QuadTree<Figure>();
@@ -286,6 +296,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
         return that;
     }
 
+    @Override
     protected EventHandler createEventHandler() {
         return new QuadTreeEventHandler();
     }

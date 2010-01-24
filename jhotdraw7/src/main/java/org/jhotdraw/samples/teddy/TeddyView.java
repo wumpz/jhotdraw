@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with
  * the copyright holders. For details see accompanying license terms.
  */
-
 package org.jhotdraw.samples.teddy;
 
 import java.awt.event.*;
@@ -41,16 +40,17 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
+ */
 public class TeddyView extends AbstractView {
+
     private static Preferences prefs = PreferencesUtil.userNodeForPackage(TeddyView.class);
-    
     protected JTextPane editor;
-    
+
     private static class EditorPanel extends JPanel implements Scrollable {
+
         private JTextComponent editor;
         private boolean isLineWrap;
-        
+
         public void setEditor(JTextComponent newValue) {
             editor = newValue;
             removeAll();
@@ -59,44 +59,48 @@ public class TeddyView extends AbstractView {
             setBackground(UIManager.getColor("TextField.background"));
             setOpaque(true);
         }
+
         public void setLineWrap(boolean newValue) {
             isLineWrap = newValue;
             editor.revalidate();
             editor.repaint();
         }
+
         public boolean getLineWrap() {
             return isLineWrap;
         }
-        
+
+        @Override
         public Dimension getPreferredScrollableViewportSize() {
             // System.out.println("EditorViewport: "+editor.getPreferredScrollableViewportSize());
             return editor.getPreferredScrollableViewportSize();
         }
-        
+
+        @Override
         public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
             return editor.getScrollableUnitIncrement(visibleRect, orientation, direction);
         }
-        
+
+        @Override
         public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
             return editor.getScrollableBlockIncrement(visibleRect, orientation, direction);
         }
-        
+
+        @Override
         public boolean getScrollableTracksViewportWidth() {
             return isLineWrap;
         }
-        
+
+        @Override
         public boolean getScrollableTracksViewportHeight() {
             return editor.getScrollableTracksViewportHeight();
         }
     }
-    
     protected EditorPanel editorViewport;
-    
     /**
      * The undo/redo manager.
      */
     protected UndoRedoManager undoManager;
-    
     /**
      * The panel used for the find feature.
      */
@@ -105,8 +109,7 @@ public class TeddyView extends AbstractView {
      * The Matcher used to perform find operation.
      */
     private Matcher matcher;
-    
-    
+
     /** Creates a new instance. */
     public TeddyView() {
         prefs = PreferencesUtil.userNodeForPackage(TeddyView.class);
@@ -119,13 +122,17 @@ public class TeddyView extends AbstractView {
         editorViewport.setLineWrap(prefs.getBoolean("lineWrap", true));
         scrollPane.setViewportView(editorViewport);
         editor.addCaretListener(new CaretListener() {
+
+            @Override
             public void caretUpdate(CaretEvent evt) {
                 TeddyView.this.caretUpdate(evt);
             }
         });
         scrollPane.getViewport().setBackground(editor.getBackground());
         scrollPane.getViewport().addMouseListener(new MouseAdapter() {
-            @Override public void mousePressed(MouseEvent evt) {
+
+            @Override
+            public void mousePressed(MouseEvent evt) {
                 editor.requestFocus();
             }
         });
@@ -139,8 +146,7 @@ public class TeddyView extends AbstractView {
 
 
         NumberedEditorKit editorKit = new NumberedEditorKit();
-        ((NumberedViewFactory) editorKit.getViewFactory()).
-                setLineNumbersVisible(prefs.getBoolean("lineNumbersVisible", false));
+        ((NumberedViewFactory) editorKit.getViewFactory()).setLineNumbersVisible(prefs.getBoolean("lineNumbersVisible", false));
         editor.setEditorKit(editorKit);
         editor.setDocument(createDocument());
 
@@ -150,62 +156,67 @@ public class TeddyView extends AbstractView {
         undoManager = new UndoRedoManager();
         editor.getDocument().addUndoableEditListener(undoManager);
         undoManager.addPropertyChangeListener(new PropertyChangeListener() {
+
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 setHasUnsavedChanges(undoManager.hasSignificantEdits());
             }
         });
     }
-    
+
     protected JTextPane createEditor() {
         return new JTextPane();
     }
-    
+
     @Override
     public void init() {
         initActions();
     }
-    
-    
+
     @Override
     public void setEnabled(boolean newValue) {
         super.setEnabled(newValue);
         editor.setEnabled(newValue);
         scrollPane.setEnabled(newValue);
     }
-    
+
     public void setStatusBarVisible(boolean newValue) {
         boolean oldValue = statusBar.isVisible();
         statusBar.setVisible(newValue);
         prefs.putBoolean("statusBarVisible", newValue);
         firePropertyChange("statusBarVisible", oldValue, newValue);
     }
+
     public boolean isStatusBarVisible() {
         return statusBar.isVisible();
     }
+
     public void setLineWrap(boolean newValue) {
         boolean oldValue = editorViewport.getLineWrap();
         editorViewport.setLineWrap(newValue);
         prefs.putBoolean("lineWrap", newValue);
         firePropertyChange("lineWrap", oldValue, newValue);
     }
+
     public boolean isLineWrap() {
         return editorViewport.getLineWrap();
     }
-    
+
     private void initActions() {
         getActionMap().put(UndoAction.ID, undoManager.getUndoAction());
         getActionMap().put(RedoAction.ID, undoManager.getRedoAction());
     }
-    
+
     @Override
     public void read(URI f, URIChooser chooser) throws IOException {
-        read(f, ((CharacterSetAccessory)((JFileURIChooser)chooser).getAccessory()).getCharacterSet());
+        read(f, ((CharacterSetAccessory) ((JFileURIChooser) chooser).getAccessory()).getCharacterSet());
     }
+
     public void read(URI f, String characterSet) throws IOException {
         final Document doc = readDocument(new File(f), characterSet);
         try {
             SwingUtilities.invokeAndWait(new Runnable() {
+
                 @Override
                 public void run() {
                     editor.getDocument().removeUndoableEditListener(undoManager);
@@ -222,15 +233,18 @@ public class TeddyView extends AbstractView {
             throw error;
         }
     }
+
     @Override
     public void write(URI f, URIChooser chooser) throws IOException {
 
-        write(f, ((CharacterSetAccessory)((JFileURIChooser)chooser).getAccessory()).getCharacterSet(), ((CharacterSetAccessory)((JFileURIChooser)chooser).getAccessory()).getLineSeparator());
+        write(f, ((CharacterSetAccessory) ((JFileURIChooser) chooser).getAccessory()).getCharacterSet(), ((CharacterSetAccessory) ((JFileURIChooser) chooser).getAccessory()).getLineSeparator());
     }
+
     public void write(URI f, String characterSet, String lineSeparator) throws IOException {
         writeDocument(editor.getDocument(), new File(f), characterSet, lineSeparator);
         try {
             SwingUtilities.invokeAndWait(new Runnable() {
+
                 @Override
                 public void run() {
                     undoManager.setHasSignificantEdits(false);
@@ -244,16 +258,16 @@ public class TeddyView extends AbstractView {
             throw error;
         }
     }
-    
+
     /**
      * Reads a document from a file using the specified character set.
      */
     private Document readDocument(File f, String characterSet)
-    throws IOException {
-        ProgressMonitorInputStream pin = new ProgressMonitorInputStream(this, "Reading "+f.getName(), new FileInputStream(f));
+            throws IOException {
+        ProgressMonitorInputStream pin = new ProgressMonitorInputStream(this, "Reading " + f.getName(), new FileInputStream(f));
         BufferedReader in = new BufferedReader(new InputStreamReader(pin, characterSet));
         try {
-            
+
             // PlainDocument doc = new PlainDocument();
             StyledDocument doc = createDocument();
             MutableAttributeSet attrs = ((StyledEditorKit) editor.getEditorKit()).getInputAttributes();
@@ -277,12 +291,13 @@ public class TeddyView extends AbstractView {
             in.close();
         }
     }
-    
+
     @Override
     public void clear() {
         final Document newDocument = createDocument();
         try {
             SwingUtilities.invokeAndWait(new Runnable() {
+
                 @Override
                 public void run() {
                     editor.getDocument().removeUndoableEditListener(undoManager);
@@ -297,24 +312,23 @@ public class TeddyView extends AbstractView {
             ex.printStackTrace();
         }
     }
-    
+
     protected StyledDocument createDocument() {
         DefaultStyledDocument doc = new DefaultStyledDocument();
         doc.setParagraphAttributes(0, 1, ((StyledEditorKit) editor.getEditorKit()).getInputAttributes(), true);
         return doc;
     }
-    
-    
+
     /**
      * Writes a document into a file using the specified character set.
      */
     private void writeDocument(Document doc, File f, String characterSet, String lineSeparator)
-    throws IOException {
+            throws IOException {
         LFWriter out = new LFWriter(new OutputStreamWriter(new FileOutputStream(f), characterSet));
         out.setLineSeparator(lineSeparator);
         try {
             String sequence;
-            for (int i=0; i < doc.getLength(); i+=256) {
+            for (int i = 0; i < doc.getLength(); i += 256) {
                 out.write(doc.getText(i, Math.min(256, doc.getLength() - i)));
             }
         } catch (BadLocationException e) {
@@ -324,8 +338,7 @@ public class TeddyView extends AbstractView {
             undoManager.discardAllEdits();
         }
     }
-    
-    
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -353,12 +366,11 @@ public class TeddyView extends AbstractView {
         scrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         add(scrollPane, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
-    
+
     public Document getDocument() {
         return editor.getDocument();
     }
-    
-    
+
     /**
      * Accessor for text area.
      * This is used by Actions that need ot act on the text area of the View.
@@ -371,7 +383,7 @@ public class TeddyView extends AbstractView {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * Accessor for text area.
      * This is used by Actions that need ot act on the text area of the View.
@@ -379,6 +391,7 @@ public class TeddyView extends AbstractView {
     public int getSelectionStart() {
         return editor.getSelectionStart();
     }
+
     /**
      * Accessor for text area.
      * This is used by Actions that need ot act on the project text area.
@@ -386,6 +399,7 @@ public class TeddyView extends AbstractView {
     public int getSelectionEnd() {
         return editor.getSelectionEnd();
     }
+
     /**
      * Determines the number of lines contained in the area.
      *
@@ -395,6 +409,7 @@ public class TeddyView extends AbstractView {
         Element map = getDocument().getDefaultRootElement();
         return map.getElementCount();
     }
+
     /**
      * Accessor for text area.
      * This is used by Actions that need to act on the text area of the View.
@@ -408,7 +423,7 @@ public class TeddyView extends AbstractView {
         if (doc != null) {
             try {
                 if (doc instanceof AbstractDocument) {
-                    ((AbstractDocument)doc).replace(start, end - start, str,
+                    ((AbstractDocument) doc).replace(start, end - start, str,
                             null);
                 } else {
                     doc.remove(start, end - start);
@@ -419,7 +434,7 @@ public class TeddyView extends AbstractView {
             }
         }
     }
-    
+
     /**
      * Accessor for text area.
      * This is used by Actions that need ot act on the text area of the View.
@@ -430,12 +445,13 @@ public class TeddyView extends AbstractView {
         if (offset < 0) {
             throw new BadLocationException("Can't translate offset to line", -1);
         } else if (offset > doc.getLength()) {
-            throw new BadLocationException("Can't translate offset to line", doc.getLength()+1);
+            throw new BadLocationException("Can't translate offset to line", doc.getLength() + 1);
         } else {
             Element map = getDocument().getDefaultRootElement();
             return map.getElementIndex(offset);
         }
     }
+
     /**
      * Accessor for text area.
      * This is used by Actions that need ot act on the text area of the View.
@@ -446,32 +462,31 @@ public class TeddyView extends AbstractView {
         if (line < 0) {
             throw new BadLocationException("Negative line", -1);
         } else if (line >= lineCount) {
-            throw new BadLocationException("No such line", getDocument().getLength()+1);
+            throw new BadLocationException("No such line", getDocument().getLength() + 1);
         } else {
             Element map = getDocument().getDefaultRootElement();
             Element lineElem = map.getElement(line);
             return lineElem.getStartOffset();
         }
     }
-    
+
     public void fireEdit(UndoableEdit edit) {
         undoManager.addEdit(edit);
     }
-    
+
     private void caretUpdate(javax.swing.event.CaretEvent evt) {
         try {
             int pos = editor.getCaretPosition();
             int line = getLineOfOffset(pos);
             int lineStartOffset = getLineStartOffset(line);
-            caretInfoLabel.setText((line + 1)+":"+(pos - lineStartOffset + 1));
+            caretInfoLabel.setText((line + 1) + ":" + (pos - lineStartOffset + 1));
         } catch (BadLocationException e) {
             caretInfoLabel.setText(e.toString());
         }
     }
-    
+
     public void setLineNumbersVisible(boolean newValue) {
-        NumberedViewFactory viewFactory = (NumberedViewFactory) editor.
-                getEditorKit().
+        NumberedViewFactory viewFactory = (NumberedViewFactory) editor.getEditorKit().
                 getViewFactory();
         boolean oldValue = viewFactory.isLineNumbersVisible();
         if (oldValue != newValue) {
@@ -481,20 +496,17 @@ public class TeddyView extends AbstractView {
             editor.revalidate();
             editor.repaint();
         }
-        
+
     }
+
     public boolean isLineNumbersVisible() {
-        NumberedViewFactory viewFactory = (NumberedViewFactory) editor.
-                getEditorKit().
+        NumberedViewFactory viewFactory = (NumberedViewFactory) editor.getEditorKit().
                 getViewFactory();
         return viewFactory.isLineNumbersVisible();
     }
-    
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JLabel caretInfoLabel;
     public javax.swing.JScrollPane scrollPane;
     public javax.swing.JPanel statusBar;
     // End of variables declaration//GEN-END:variables
-    
 }

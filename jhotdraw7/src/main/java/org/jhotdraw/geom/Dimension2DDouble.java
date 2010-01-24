@@ -78,6 +78,7 @@ public class Dimension2DDouble extends Dimension2D implements java.io.Serializab
      * Returns the width of this dimension in double precision.
      * @return the width of this dimension in double precision
      */
+    @Override
     public double getWidth() {
 	return width;
     }
@@ -86,6 +87,7 @@ public class Dimension2DDouble extends Dimension2D implements java.io.Serializab
      * Returns the height of this dimension in double precision.
      * @return the height of this dimension in double precision
      */
+    @Override
     public double getHeight() {
 	return height;
     }
@@ -100,6 +102,7 @@ public class Dimension2DDouble extends Dimension2D implements java.io.Serializab
      * @param width  the new width for the <code>Dimension2DDouble</code> object
      * @param height the new height for the <code>Dimension2DDouble</code> object
      */
+    @Override
     public void setSize(double width, double height) {
     	this.width = width;
     	this.height = height;
@@ -136,6 +139,7 @@ public class Dimension2DDouble extends Dimension2D implements java.io.Serializab
     /**
      * Checks whether two dimension objects have equal values.
      */
+    @Override
     public boolean equals(Object obj) {
 	if (obj instanceof Dimension2DDouble) {
 	    Dimension2DDouble d = (Dimension2DDouble)obj;
@@ -149,6 +153,7 @@ public class Dimension2DDouble extends Dimension2D implements java.io.Serializab
      *
      * @return    a hash code for this <code>Dimension2DDouble</code>
      */
+    @Override
     public int hashCode() {
         float sum = (float) (width + height);
         return Float.floatToIntBits(sum * (sum + 1)/2 + (float) width);
@@ -165,6 +170,7 @@ public class Dimension2DDouble extends Dimension2D implements java.io.Serializab
      * @return  a string representation of this <code>Dimension2DDouble</code> 
      *          object
      */
+    @Override
     public String toString() {
 	return getClass().getName() + "[width=" + width + ",height=" + height + "]";
     }

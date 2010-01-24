@@ -148,6 +148,7 @@ public class TextEditingTool extends AbstractTool implements ActionListener {
         }
     }
 
+    @Override
     public void actionPerformed(ActionEvent event) {
         endEdit();
         fireToolDone();
@@ -166,6 +167,7 @@ public class TextEditingTool extends AbstractTool implements ActionListener {
         }
     }
 
+    @Override
     public void mouseDragged(MouseEvent e) {
         throw new UnsupportedOperationException("Not supported yet.");
     }

@@ -37,6 +37,7 @@ public class ToggleGridAction extends AbstractDrawingViewAction {
         updateViewState();
     }
     
+    @Override
     public void actionPerformed(java.awt.event.ActionEvent e) {
         DrawingView view = getView();
         if (view != null) {

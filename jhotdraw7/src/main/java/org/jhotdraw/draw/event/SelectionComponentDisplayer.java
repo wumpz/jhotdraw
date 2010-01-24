@@ -14,8 +14,6 @@
 package org.jhotdraw.draw.event;
 
 import org.jhotdraw.draw.tool.SelectionTool;
-import org.jhotdraw.draw.event.FigureSelectionEvent;
-import org.jhotdraw.draw.event.FigureSelectionListener;
 import java.awt.Dimension;
 import java.beans.*;
 import java.lang.ref.WeakReference;
@@ -53,6 +51,7 @@ public class SelectionComponentDisplayer
         updateVisibility();
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String name = evt.getPropertyName();
         if (name == DrawingEditor.ACTIVE_VIEW_PROPERTY) {
@@ -71,6 +70,7 @@ public class SelectionComponentDisplayer
         }
     }
 
+    @Override
     public void selectionChanged(FigureSelectionEvent evt) {
         updateVisibility();
     }

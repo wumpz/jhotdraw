@@ -65,6 +65,7 @@ public class PrintFileAction extends AbstractViewAction {
         labels.configureAction(this, ID);
     }
 
+    @Override
     public void actionPerformed(ActionEvent evt) {
         PrintableView view = (PrintableView)getActiveView();
         view.setEnabled(false);
@@ -163,6 +164,7 @@ public class PrintFileAction extends AbstractViewAction {
         getActiveView().setEnabled(false);
         new Worker() {
 
+            @Override
             protected Object construct() throws PrinterException {
 
                 // Compute page format from settings of the print job
@@ -210,9 +212,11 @@ public class PrintFileAction extends AbstractViewAction {
                 return null;
             }
 
+            @Override
             protected void failed(Throwable error) {
                error.printStackTrace();
             }
+            @Override
             protected void finished() {
                 getActiveView().setEnabled(true);
             }

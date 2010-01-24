@@ -16,7 +16,6 @@
 
 package org.jhotdraw.draw;
 
-import org.jhotdraw.draw.*;
 import java.awt.*;
 import org.jhotdraw.geom.*;
 

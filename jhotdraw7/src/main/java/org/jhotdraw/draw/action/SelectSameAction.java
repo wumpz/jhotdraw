@@ -32,6 +32,7 @@ public class SelectSameAction extends AbstractSelectedAction {
         labels.configureAction(this, ID);
     }
     
+    @Override
     public void actionPerformed(java.awt.event.ActionEvent e) {
         selectSame();
     }

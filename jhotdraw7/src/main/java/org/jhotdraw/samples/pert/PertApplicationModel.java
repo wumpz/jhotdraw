@@ -19,7 +19,6 @@ import org.jhotdraw.app.action.file.ExportFileAction;
 import org.jhotdraw.draw.tool.Tool;
 import org.jhotdraw.draw.tool.CreationTool;
 import org.jhotdraw.draw.tool.TextAreaCreationTool;
-import org.jhotdraw.draw.TextAreaFigure;
 import org.jhotdraw.draw.tool.ConnectionTool;
 import java.awt.*;
 import java.awt.event.*;
@@ -55,6 +54,7 @@ public class PertApplicationModel extends DefaultApplicationModel {
             this.editor = editor;
         }
 
+        @Override
         public void itemStateChanged(ItemEvent evt) {
             if (evt.getStateChange() == ItemEvent.SELECTED) {
                 editor.setTool(tool);
@@ -71,14 +71,15 @@ public class PertApplicationModel extends DefaultApplicationModel {
     public PertApplicationModel() {
     }
 
+    @Override
     public ActionMap createActionMap(Application a, View v) {
-        ActionMap m=super.createActionMap(a,v);
+        ActionMap m = super.createActionMap(a, v);
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.pert.Labels");
         AbstractAction aa;
 
-        m.put(ExportFileAction.ID, new ExportFileAction(a,v));
-        m.put("view.toggleGrid", aa = new ToggleViewPropertyAction(a, v,PertView.GRID_VISIBLE_PROPERTY));
+        m.put(ExportFileAction.ID, new ExportFileAction(a, v));
+        m.put("view.toggleGrid", aa = new ToggleViewPropertyAction(a, v, PertView.GRID_VISIBLE_PROPERTY));
         drawLabels.configureAction(aa, "view.toggleGrid");
         for (double sf : scaleFactors) {
             m.put((int) (sf * 100) + "%",
@@ -96,6 +97,7 @@ public class PertApplicationModel extends DefaultApplicationModel {
         return sharedEditor;
     }
 
+    @Override
     public void initView(Application a, View p) {
         if (a.isSharingToolsAmongViews()) {
             ((PertView) p).setEditor(getSharedEditor());
@@ -131,6 +133,7 @@ public class PertApplicationModel extends DefaultApplicationModel {
      * This class always returns an empty list. Subclasses may return other
      * values.
      */
+    @Override
     public java.util.List<JToolBar> createToolBars(Application a, View pr) {
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.pert.Labels");
@@ -195,14 +198,18 @@ public class PertApplicationModel extends DefaultApplicationModel {
 
         return mb;
     }
-    @Override public URIChooser createOpenChooser(Application a,View v) {
+
+    @Override
+    public URIChooser createOpenChooser(Application a, View v) {
         JFileURIChooser c = new JFileURIChooser();
-        c.addChoosableFileFilter(new ExtensionFileFilter("Pert Diagram","xml"));
+        c.addChoosableFileFilter(new ExtensionFileFilter("Pert Diagram", "xml"));
         return c;
     }
-    @Override public URIChooser createSaveChooser(Application a, View v) {
+
+    @Override
+    public URIChooser createSaveChooser(Application a, View v) {
         JFileURIChooser c = new JFileURIChooser();
-        c.addChoosableFileFilter(new ExtensionFileFilter("Pert Diagram","xml"));
+        c.addChoosableFileFilter(new ExtensionFileFilter("Pert Diagram", "xml"));
         return c;
     }
 }

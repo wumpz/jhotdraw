@@ -124,6 +124,7 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
         }
     }
 
+    @Override
     public void mouseDragged(MouseEvent evt) {
         DrawingView view = getView();
         if (!view.getSelectedFigures().isEmpty()) {
@@ -158,6 +159,7 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
         }
     }
 
+    @Override
     public void mouseReleased(MouseEvent evt) {
         super.mouseReleased(evt);
         DrawingView view = getView();
@@ -206,6 +208,7 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
         fireToolDone();
     }
 
+    @Override
     public void setDraggedFigure(Figure f) {
         anchorFigure = f;
     }

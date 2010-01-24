@@ -157,6 +157,7 @@ public class PaletteFontChooserUI extends FontChooserUI {
      * @see #installUI
      * @see javax.swing.JComponent#updateUI
      */
+    @Override
     public void uninstallUI(JComponent c) {
         uninstallListeners(fontChooser);
         uninstallComponents(fontChooser);
@@ -415,6 +416,7 @@ public class PaletteFontChooserUI extends FontChooserUI {
 
     private class SelectionPanelHandler implements KeyListener, MouseListener, ListSelectionListener {
 
+    @Override
         public void valueChanged(ListSelectionEvent evt) {
             if (isUpdating ==
                     0) {
@@ -429,6 +431,7 @@ public class PaletteFontChooserUI extends FontChooserUI {
             }
         }
 
+    @Override
         public void keyReleased(KeyEvent evt) {
             Object src = evt.getSource();
             switch (evt.getKeyCode()) {
@@ -463,33 +466,41 @@ public class PaletteFontChooserUI extends FontChooserUI {
             }
         }
 
+    @Override
         public void keyPressed(KeyEvent evt) {
         }
 
+    @Override
         public void keyTyped(KeyEvent evt) {
         }
 
+    @Override
         public void mouseClicked(MouseEvent evt) {
             if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {
                 fontChooser.approveSelection();
             }
         }
 
+    @Override
         public void mousePressed(MouseEvent e) {
         }
 
+    @Override
         public void mouseReleased(MouseEvent e) {
         }
 
+    @Override
         public void mouseEntered(MouseEvent e) {
         }
 
+    @Override
         public void mouseExited(MouseEvent e) {
         }
     }
 
     private class FontChooserHandler implements PropertyChangeListener, TreeModelListener {
 
+    @Override
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
             if (name == JFontChooser.SELECTION_PATH_PROPERTY) {
@@ -513,24 +524,28 @@ public class PaletteFontChooserUI extends FontChooserUI {
             }
         }
 
+    @Override
         public void treeNodesChanged(TreeModelEvent e) {
             updateCollectionList();
             updateFamilyList();
             updateFaceList();
         }
 
+    @Override
         public void treeNodesInserted(TreeModelEvent e) {
             updateCollectionList();
             updateFamilyList();
             updateFaceList();
         }
 
+    @Override
         public void treeNodesRemoved(TreeModelEvent e) {
             updateCollectionList();
             updateFamilyList();
             updateFaceList();
         }
 
+    @Override
         public void treeStructureChanged(TreeModelEvent e) {
             updateCollectionList();
             updateFamilyList();

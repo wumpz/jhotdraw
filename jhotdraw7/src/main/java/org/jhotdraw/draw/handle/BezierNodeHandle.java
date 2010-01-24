@@ -14,7 +14,6 @@
 package org.jhotdraw.draw.handle;
 
 import org.jhotdraw.draw.event.BezierNodeEdit;
-import org.jhotdraw.draw.BezierFigure;
 import org.jhotdraw.draw.*;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
@@ -116,6 +115,7 @@ public class BezierNodeHandle extends AbstractHandle {
         return getOwner().getNodeCount() > index ? getOwner().getNode(index) : null;
     }
 
+    @Override
     protected Rectangle basicGetBounds() {
         Rectangle r = new Rectangle(getLocation());
         int h = getHandlesize();
@@ -129,6 +129,7 @@ public class BezierNodeHandle extends AbstractHandle {
         return transformOwner;
     }
 
+    @Override
     public void trackStart(Point anchor, int modifiersEx) {
         BezierFigure figure = getOwner();
         view.getDrawing().fireUndoableEditHappened(edit = new CompositeEdit("Punkt verschieben"));
@@ -138,6 +139,7 @@ public class BezierNodeHandle extends AbstractHandle {
         fireHandleRequestSecondaryHandles();
     }
 
+    @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         BezierFigure figure = getOwner();
         figure.willChange();
@@ -169,6 +171,7 @@ public class BezierNodeHandle extends AbstractHandle {
         fireAreaInvalidated(vr);
     }
 
+    @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         final BezierFigure f = getOwner();
              BezierPath.Node oldValue = (BezierPath.Node) oldNode.clone();;

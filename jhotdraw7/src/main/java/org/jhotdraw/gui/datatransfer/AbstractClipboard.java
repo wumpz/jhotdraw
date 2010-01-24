@@ -37,6 +37,7 @@ public abstract class AbstractClipboard extends Clipboard {
      *
      *    @return The current {@code Transferable} object on the clipboard.
      */
+    @Override
     public abstract Transferable getContents(Object requestor);
 
     /** Sets the current contents of the clipboard to the specified
@@ -45,5 +46,6 @@ public abstract class AbstractClipboard extends Clipboard {
      * @param contents The {@code Transferable} object representing clipboard
      * content.
      */
+    @Override
     public abstract void setContents(Transferable contents, ClipboardOwner owner);
 }

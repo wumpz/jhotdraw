@@ -15,7 +15,6 @@ package org.jhotdraw.color;
 
 import java.awt.*;
 import java.awt.color.ColorSpace;
-import java.awt.image.*;
 
 /**
  * Produces the image of a {@link JColorWheel} by interpreting two components
@@ -145,6 +144,7 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
         isLookupValid = true;
     }
 
+    @Override
     public boolean needsGeneration() {
         return !isPixelsValid;
     }

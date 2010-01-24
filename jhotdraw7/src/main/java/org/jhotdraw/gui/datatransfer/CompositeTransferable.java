@@ -50,6 +50,7 @@ public class CompositeTransferable implements Transferable, ClipboardOwner {
      * @exception UnsupportedFlavorException if the requested data flavor is
      *             not supported.
      */
+    @Override
     public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
         Transferable t = (Transferable) transferables.get(flavor);
         if (t == null) throw new UnsupportedFlavorException(flavor);
@@ -62,6 +63,7 @@ public class CompositeTransferable implements Transferable, ClipboardOwner {
      * for providing the data (from most richly descriptive to least descriptive).
      * @return an array of data flavors in which this data can be transferred
      */
+    @Override
     public DataFlavor[] getTransferDataFlavors() {
         return (DataFlavor[]) flavors.toArray(new DataFlavor[transferables.size()]);
     }
@@ -72,10 +74,12 @@ public class CompositeTransferable implements Transferable, ClipboardOwner {
      * @param flavor the requested flavor for the data
      * @return boolean indicating wjether or not the data flavor is supported
      */
+    @Override
     public boolean isDataFlavorSupported(DataFlavor flavor) {
         return transferables.containsKey(flavor);
     }
 
+    @Override
     public void lostOwnership(Clipboard clipboard, Transferable contents) {
     }
 }

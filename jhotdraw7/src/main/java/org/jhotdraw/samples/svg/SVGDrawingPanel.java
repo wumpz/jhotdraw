@@ -28,7 +28,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.prefs.*;
 import org.jhotdraw.undo.*;
 import org.jhotdraw.util.*;
-
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -48,7 +47,6 @@ import javax.swing.TransferHandler;
 import org.jhotdraw.app.Disposable;
 import org.jhotdraw.gui.ToolBarLayout;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.gui.URIChooser;
 import org.jhotdraw.gui.plaf.palette.PaletteLookAndFeel;
 import org.jhotdraw.samples.svg.figures.SVGImageFigure;
 import org.jhotdraw.samples.svg.figures.SVGTextFigure;

@@ -15,7 +15,6 @@
 package org.jhotdraw.draw.handle;
 
 import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.handle.AbstractRotateHandle;
 import java.awt.geom.*;
 
 /**
@@ -31,11 +30,13 @@ public class RotateHandle extends AbstractRotateHandle {
         super(owner);
     }
     
+    @Override
     protected Point2D.Double getCenter() {
         Rectangle2D.Double bounds = getTransformedBounds();
     	return new Point2D.Double(bounds.getCenterX(), bounds.getCenterY());
     }
 
+    @Override
     protected Point2D.Double getOrigin() {
         // This handle is placed above the figure.
         // We move it up by a handlesizes, so that it won't overlap with

@@ -273,6 +273,7 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
     //	        view().checkDamage();
     }
 
+    @Override
     public void actionPerformed(ActionEvent event) {
         endEdit();
         if (isToolDoneAfterCreation()) {

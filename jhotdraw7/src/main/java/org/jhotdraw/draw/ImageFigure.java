@@ -63,6 +63,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
     }
 
     // DRAWING
+    @Override
     protected void drawFigure(Graphics2D g) {
         if (get(FILL_COLOR) != null) {
             g.setColor(get(FILL_COLOR));
@@ -90,6 +91,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
         }
     }
 
+    @Override
     protected void drawFill(Graphics2D g) {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
         double grow = AttributeKeys.getPerpendicularFillGrowth(this);
@@ -110,6 +112,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
         }
     }
 
+    @Override
     protected void drawStroke(Graphics2D g) {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
         double grow = AttributeKeys.getPerpendicularDrawGrowth(this);
@@ -119,6 +122,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
     }
 
     // SHAPE AND BOUNDS
+    @Override
     public Rectangle2D.Double getBounds() {
         Rectangle2D.Double bounds = (Rectangle2D.Double) rectangle.clone();
         return bounds;
@@ -135,6 +139,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
     /**
      * Checks if a Point2D.Double is inside the figure.
      */
+    @Override
     public boolean figureContains(Point2D.Double p) {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
         double grow = AttributeKeys.getPerpendicularHitGrowth(this) + 1d;
@@ -142,6 +147,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
         return r.contains(p);
     }
 
+    @Override
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         rectangle.x = Math.min(anchor.x, lead.x);
         rectangle.y = Math.min(anchor.y, lead.y);
@@ -153,6 +159,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
      * Transforms the figure.
      * @param tx The transformation.
      */
+    @Override
     public void transform(AffineTransform tx) {
         Point2D.Double anchor = getStartPoint();
         Point2D.Double lead = getEndPoint();
@@ -162,10 +169,12 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
     }
     // ATTRIBUTES
 
+    @Override
     public void restoreTransformTo(Object geometry) {
         rectangle.setRect((Rectangle2D.Double) geometry);
     }
 
+    @Override
     public Object getTransformRestoreData() {
         return (Rectangle2D.Double) rectangle.clone();
     }
@@ -179,11 +188,13 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
     }
     // CONNECTING
 
+    @Override
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
         // XXX - This doesn't work with a transformed rect
         return new ChopRectangleConnector(this);
     }
 
+    @Override
     public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
         // XXX - This doesn't work with a transformed rect
         return new ChopRectangleConnector(this);
@@ -191,6 +202,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
 
     // COMPOSITE FIGURES
     // CLONING
+    @Override
     public ImageFigure clone() {
         ImageFigure that = (ImageFigure) super.clone();
         that.rectangle = (Rectangle2D.Double) this.rectangle.clone();
@@ -228,6 +240,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
      * @param bufferedImage An image constructed from the imageData. If this
      * is null, imageData must be provided.
      */
+    @Override
     public void setImage(byte[] imageData, BufferedImage bufferedImage) {
         willChange();
         this.imageData = imageData;
@@ -250,6 +263,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
      * Sets the buffered image.
      * This clears the image data.
      */
+    @Override
     public void setBufferedImage(BufferedImage image) {
         willChange();
         this.imageData = null;
@@ -261,6 +275,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
      * Gets the buffered image. If necessary, this method creates the buffered
      * image from the image data.
      */
+    @Override
     public BufferedImage getBufferedImage() {
         if (bufferedImage == null && imageData != null) {
             try {
@@ -280,6 +295,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
      * Gets the image data. If necessary, this method creates the image
      * data from the buffered image.
      */
+    @Override
     public byte[] getImageData() {
         if (bufferedImage != null && imageData == null) {
             try {
@@ -298,6 +314,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
         return imageData;
     }
 
+    @Override
     public void loadImage(File file) throws IOException {
         InputStream in = new FileInputStream(file);
         try {
@@ -312,6 +329,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
         }
     }
 
+    @Override
     public void loadImage(InputStream in) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         byte[] buf = new byte[512];

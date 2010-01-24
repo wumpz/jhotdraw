@@ -40,7 +40,6 @@ import java.net.URI;
 import javax.swing.*;
 import javax.swing.border.*;
 import org.jhotdraw.app.*;
-import org.jhotdraw.app.action.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.gui.JFileURIChooser;
@@ -73,14 +72,6 @@ public class ODGView extends AbstractView {
      * Creates a new view.
      */
     public ODGView() {
-    }
-
-    /**
-     * Initializes the view.
-     */
-    public void init() {
-        super.init();
-
         initComponents();
 
         JPanel zoomButtonPanel = new JPanel(new BorderLayout());
@@ -94,6 +85,7 @@ public class ODGView extends AbstractView {
         initActions();
         undo.addPropertyChangeListener(new PropertyChangeListener() {
 
+            @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 setHasUnsavedChanges(undo.hasSignificantEdits());
             }
@@ -182,6 +174,7 @@ public class ODGView extends AbstractView {
     /**
      * Writes the view to the specified uri.
      */
+    @Override
     public void write(URI f, URIChooser fc) throws IOException {
         new SVGOutputFormat().write(new File(f), view.getDrawing());
     }
@@ -194,7 +187,7 @@ public class ODGView extends AbstractView {
     public void read(URI f, URIChooser fc) throws IOException {
         try {
             final Drawing drawing = createDrawing();
-            HashMap<FileFilter, InputFormat> fileFilterInputFormatMap = (HashMap<FileFilter, InputFormat>)((JFileURIChooser) fc).getClientProperty("ffInputFormatMap");
+            HashMap<FileFilter, InputFormat> fileFilterInputFormatMap = (HashMap<FileFilter, InputFormat>) ((JFileURIChooser) fc).getClientProperty("ffInputFormatMap");
 
             InputFormat sf = fileFilterInputFormatMap.get(((JFileURIChooser) fc).getFileFilter());
             if (sf == null) {
@@ -206,6 +199,7 @@ public class ODGView extends AbstractView {
 
             SwingUtilities.invokeAndWait(new Runnable() {
 
+                @Override
                 public void run() {
                     view.getDrawing().removeUndoableEditListener(undo);
                     view.setDrawing(drawing);
@@ -228,6 +222,7 @@ public class ODGView extends AbstractView {
         return view.getDrawing();
     }
 
+    @Override
     public void setEnabled(boolean newValue) {
         view.setEnabled(newValue);
         super.setEnabled(newValue);
@@ -268,11 +263,13 @@ public class ODGView extends AbstractView {
     /**
      * Clears the view.
      */
+    @Override
     public void clear() {
         final Drawing newDrawing = createDrawing();
         try {
             SwingUtilities.invokeAndWait(new Runnable() {
 
+                @Override
                 public void run() {
                     view.getDrawing().removeUndoableEditListener(undo);
                     view.setDrawing(newDrawing);
@@ -291,7 +288,6 @@ public class ODGView extends AbstractView {
     public boolean canSaveTo(URI uri) {
         return uri.getPath().endsWith(".odg");
     }
-
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -314,8 +310,6 @@ public class ODGView extends AbstractView {
         add(scrollPane, java.awt.BorderLayout.CENTER);
         add(propertiesPanel, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jhotdraw.samples.odg.ODGPropertiesPanel propertiesPanel;
     private javax.swing.JScrollPane scrollPane;

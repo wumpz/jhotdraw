@@ -13,7 +13,6 @@
  */
 package org.jhotdraw.draw.action;
 
-import org.jhotdraw.draw.TextHolderFigure;
 import javax.swing.undo.*;
 import javax.swing.*;
 import java.util.*;
@@ -49,6 +48,7 @@ public class FontChooserHandler extends AbstractSelectedAction
         updateEnabledState();
     }
 
+    @Override
     public void actionPerformed(java.awt.event.ActionEvent evt) {
         if (evt.getActionCommand() == JFontChooser.APPROVE_SELECTION) {
             applySelectedFontToFigures();
@@ -130,6 +130,7 @@ public class FontChooserHandler extends AbstractSelectedAction
         }
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (isUpdating++ == 0) {
             if (evt.getPropertyName() == JFontChooser.SELECTED_FONT_PROPERTY) {

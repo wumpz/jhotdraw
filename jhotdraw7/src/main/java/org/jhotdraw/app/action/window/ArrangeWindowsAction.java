@@ -57,6 +57,7 @@ public class ArrangeWindowsAction extends AbstractAction {
         labels.configureAction(this, labelID);
     }
     
+    @Override
     public void actionPerformed(ActionEvent e) {
             arrangeable.setArrangement(arrangement);
     }

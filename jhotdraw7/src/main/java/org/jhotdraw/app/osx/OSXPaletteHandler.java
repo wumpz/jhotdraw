@@ -38,6 +38,7 @@ public class OSXPaletteHandler {
          * that the Window, or one of its subcomponents, will receive keyboard
          * events.
          */
+        @Override
         public void windowGainedFocus(WindowEvent e) {
             timer.stop();
             if (windows.get(e.getWindow()) != null) {
@@ -51,6 +52,7 @@ public class OSXPaletteHandler {
          * that keyboard events will no longer be delivered to the Window or any of
          * its subcomponents.
          */
+        @Override
         public void windowLostFocus(WindowEvent e) {
             timer.restart();
         }
@@ -60,6 +62,7 @@ public class OSXPaletteHandler {
     public OSXPaletteHandler(OSXApplication app) {
         this.app = app;
         timer = new javax.swing.Timer(60, new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent evt) {
                 maybeHidePalettes();
             }

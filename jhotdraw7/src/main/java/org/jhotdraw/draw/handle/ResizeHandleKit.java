@@ -16,7 +16,6 @@ package org.jhotdraw.draw.handle;
 import org.jhotdraw.draw.locator.RelativeLocator;
 import org.jhotdraw.draw.locator.Locator;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.event.TransformRestoreEdit;
 import java.util.*;
 import java.awt.*;
@@ -106,7 +105,7 @@ public class ResizeHandleKit {
 
     private static class ResizeHandle extends LocatorHandle {
 
-        private int dx,  dy;
+        private int dx, dy;
         Object geometry;
 
         ResizeHandle(Figure owner, Locator loc) {
@@ -145,6 +144,7 @@ public class ResizeHandleKit {
             }
         }
 
+        @Override
         public void trackStart(Point anchor, int modifiersEx) {
             geometry = getOwner().getTransformRestoreData();
             Point location = getLocation();
@@ -152,6 +152,7 @@ public class ResizeHandleKit {
             dy = -anchor.y + location.y;
         }
 
+        @Override
         public void trackStep(Point anchor, Point lead, int modifiersEx) {
             if (getOwner().isTransformable()) {
                 Point2D.Double p = view.viewToDrawing(new Point(lead.x + dx, lead.y + dy));
@@ -171,6 +172,7 @@ public class ResizeHandleKit {
             }
         }
 
+        @Override
         public void trackEnd(Point anchor, Point lead, int modifiersEx) {
             if (getOwner().isTransformable()) {
                 fireUndoableEditHappened(
@@ -195,6 +197,7 @@ public class ResizeHandleKit {
             super(owner, RelativeLocator.northEast(true));
         }
 
+        @Override
         protected void trackStepNormalized(Point2D.Double p) {
             Rectangle2D.Double r = getOwner().getBounds();
             setBounds(
@@ -238,6 +241,7 @@ public class ResizeHandleKit {
             }
         }
 
+        @Override
         public Cursor getCursor() {
             return Cursor.getPredefinedCursor(
                     getOwner().isTransformable() ? Cursor.NE_RESIZE_CURSOR : Cursor.DEFAULT_CURSOR);
@@ -250,6 +254,7 @@ public class ResizeHandleKit {
             super(owner, RelativeLocator.east(true));
         }
 
+        @Override
         protected void trackStepNormalized(Point2D.Double p) {
             Rectangle2D.Double r = getOwner().getBounds();
             setBounds(
@@ -297,6 +302,7 @@ public class ResizeHandleKit {
             super(owner, RelativeLocator.north(true));
         }
 
+        @Override
         protected void trackStepNormalized(Point2D.Double p) {
             Rectangle2D.Double r = getOwner().getBounds();
             setBounds(
@@ -332,6 +338,7 @@ public class ResizeHandleKit {
             }
         }
 
+        @Override
         public Cursor getCursor() {
             return Cursor.getPredefinedCursor(
                     getOwner().isTransformable() ? Cursor.N_RESIZE_CURSOR : Cursor.DEFAULT_CURSOR);
@@ -344,6 +351,7 @@ public class ResizeHandleKit {
             super(owner, RelativeLocator.northWest(true));
         }
 
+        @Override
         protected void trackStepNormalized(Point2D.Double p) {
             Rectangle2D.Double r = getOwner().getBounds();
             setBounds(
@@ -400,6 +408,7 @@ public class ResizeHandleKit {
             super(owner, RelativeLocator.southEast(true));
         }
 
+        @Override
         protected void trackStepNormalized(Point2D.Double p) {
             Rectangle2D.Double r = getOwner().getBounds();
             setBounds(
@@ -456,6 +465,7 @@ public class ResizeHandleKit {
             super(owner, RelativeLocator.south(true));
         }
 
+        @Override
         protected void trackStepNormalized(Point2D.Double p) {
             Rectangle2D.Double r = getOwner().getBounds();
             setBounds(
@@ -504,6 +514,7 @@ public class ResizeHandleKit {
             super(owner, RelativeLocator.southWest(true));
         }
 
+        @Override
         protected void trackStepNormalized(Point2D.Double p) {
             Rectangle2D.Double r = getOwner().getBounds();
             setBounds(
@@ -560,6 +571,7 @@ public class ResizeHandleKit {
             super(owner, RelativeLocator.west(true));
         }
 
+        @Override
         protected void trackStepNormalized(Point2D.Double p) {
             Rectangle2D.Double r = getOwner().getBounds();
             setBounds(

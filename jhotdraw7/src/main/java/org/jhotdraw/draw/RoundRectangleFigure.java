@@ -59,6 +59,7 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
      */
     }
     // DRAWING
+    @Override
     protected void drawFill(Graphics2D g) {
         RoundRectangle2D.Double r = (RoundRectangle2D.Double) roundrect.clone();
         double grow = AttributeKeys.getPerpendicularFillGrowth(this);
@@ -73,6 +74,7 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
         }
     }
 
+    @Override
     protected void drawStroke(Graphics2D g) {
         RoundRectangle2D.Double r = (RoundRectangle2D.Double) roundrect.clone();
         double grow = AttributeKeys.getPerpendicularDrawGrowth(this);
@@ -87,10 +89,12 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
         }
     }
     // SHAPE AND BOUNDS
+    @Override
     public Rectangle2D.Double getBounds() {
         return (Rectangle2D.Double) roundrect.getBounds2D();
     }
 
+    @Override
     public Rectangle2D.Double getDrawingArea() {
         Rectangle2D.Double r = (Rectangle2D.Double) roundrect.getBounds2D();
         double grow = AttributeKeys.getPerpendicularHitGrowth(this) + 1;
@@ -131,6 +135,7 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
     /**
      * Checks if a Point2D.Double is inside the figure.
      */
+    @Override
     public boolean contains(Point2D.Double p) {
         RoundRectangle2D.Double r = (RoundRectangle2D.Double) roundrect.clone();
         double grow = AttributeKeys.getPerpendicularHitGrowth(this);
@@ -143,6 +148,7 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
         return r.contains(p);
     }
 
+    @Override
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         roundrect.x = Math.min(anchor.x, lead.x);
         roundrect.y = Math.min(anchor.y, lead.y);
@@ -154,6 +160,7 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
      * Transforms the figure.
      * @param tx The transformation.
      */
+    @Override
     public void transform(AffineTransform tx) {
         Point2D.Double anchor = getStartPoint();
         Point2D.Double lead = getEndPoint();
@@ -162,6 +169,7 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
                 (Point2D.Double) tx.transform(lead, lead));
     }
     // EDITING
+    @Override
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = (LinkedList<Handle>) super.createHandles(detailLevel);
         handles.add(new RoundRectangleRadiusHandle(this));
@@ -169,6 +177,7 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
         return handles;
     }
 
+    @Override
     public void restoreTransformTo(Object geometry) {
         RoundRectangle2D.Double r = (RoundRectangle2D.Double) geometry;
         roundrect.x = r.x;
@@ -177,19 +186,23 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
         roundrect.height = r.height;
     }
 
+    @Override
     public Object getTransformRestoreData() {
         return roundrect.clone();
     }
     // CONNECTING
+    @Override
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
         return new ChopRoundRectangleConnector(this);
     }
 
+    @Override
     public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
         return new ChopRoundRectangleConnector(this);
     }
     // COMPOSITE FIGURES
     // CLONING
+    @Override
     public RoundRectangleFigure clone() {
         RoundRectangleFigure that = (RoundRectangleFigure) super.clone();
         that.roundrect = (RoundRectangle2D.Double) this.roundrect.clone();

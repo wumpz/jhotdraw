@@ -13,8 +13,6 @@
  */
 package org.jhotdraw.draw.action;
 
-import org.jhotdraw.draw.GroupFigure;
-import org.jhotdraw.draw.CompositeFigure;
 import org.jhotdraw.draw.*;
 import java.util.*;
 import javax.swing.undo.*;
@@ -73,6 +71,7 @@ public class GroupAction extends AbstractSelectedAction {
                 prototype.getClass());
     }
 
+    @Override
     public void actionPerformed(java.awt.event.ActionEvent e) {
         if (isGroupingAction) {
             if (canGroup()) {
@@ -86,6 +85,7 @@ public class GroupAction extends AbstractSelectedAction {
                         return labels.getString("edit.groupSelection.text");
                     }
 
+                    @Override
                     public void redo() throws CannotRedoException {
                         super.redo();
                         groupFigures(view, group, ungroupedFigures);

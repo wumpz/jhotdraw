@@ -35,16 +35,19 @@ public class ToggleVisibleAction extends AbstractAction {
         putValue(Action.NAME, name);
         putValue(ActionUtil.SELECTED_KEY, c.isVisible());
         c.addComponentListener(new ComponentAdapter() {
+            @Override
             public void componentShown(ComponentEvent e) {
                 putValue(ActionUtil.SELECTED_KEY, component.isVisible());
             }
             
+            @Override
             public void componentHidden(ComponentEvent e) {
                 putValue(ActionUtil.SELECTED_KEY, component.isVisible());
             }
         });
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
         component.setVisible(! component.isVisible());
     }

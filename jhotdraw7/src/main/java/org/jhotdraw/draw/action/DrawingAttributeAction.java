@@ -70,6 +70,7 @@ public class DrawingAttributeAction extends AbstractDrawingViewAction {
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public void actionPerformed(java.awt.event.ActionEvent evt) {
         final ArrayList<Object> restoreData = new ArrayList<Object>();
         final Figure drawing = getView().getDrawing();

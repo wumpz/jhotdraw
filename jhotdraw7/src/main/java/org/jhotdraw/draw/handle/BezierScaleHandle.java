@@ -15,7 +15,6 @@
 package org.jhotdraw.draw.handle;
 
 import org.jhotdraw.draw.event.TransformRestoreEdit;
-import org.jhotdraw.draw.BezierFigure;
 import org.jhotdraw.draw.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -44,6 +43,7 @@ public class BezierScaleHandle extends AbstractHandle {
         super(owner);
     }
     
+    @Override
     public boolean isCombinableWith(Handle h) {
         return false;
     }
@@ -52,6 +52,7 @@ public class BezierScaleHandle extends AbstractHandle {
     /**
      * Draws this handle.
      */
+    @Override
     public void draw(Graphics2D g) {
         drawCircle(g, 
                 (Color) getEditor().getHandleAttribute(HandleAttributeKeys.SCALE_HANDLE_FILL_COLOR),
@@ -59,6 +60,7 @@ public class BezierScaleHandle extends AbstractHandle {
                 );
     }
     
+    @Override
     protected Rectangle basicGetBounds() {
         Rectangle r = new Rectangle(getLocation());
         int h = getHandlesize();
@@ -101,6 +103,7 @@ public class BezierScaleHandle extends AbstractHandle {
                     outer.y * (1.0 - u) + ctr.y * u);
         }
     }
+    @Override
     public void trackStart(Point anchor, int modifiersEx) {
         location = new Point(anchor.x, anchor.y);
         restoreData = getBezierFigure().getTransformRestoreData();
@@ -111,6 +114,7 @@ public class BezierScaleHandle extends AbstractHandle {
         startLength = Geom.length(center.x, center.y, anchorPoint.x, anchorPoint.y);
     }
     
+    @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         location = new Point(lead.x, lead.y);
         Point2D.Double leadPoint = view.viewToDrawing(lead);
@@ -161,6 +165,7 @@ public class BezierScaleHandle extends AbstractHandle {
         }
      */
     
+    @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         view.getDrawing().fireUndoableEditHappened(
                 new TransformRestoreEdit(getOwner(), restoreData, getOwner().getTransformRestoreData()));

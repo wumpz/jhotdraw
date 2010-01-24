@@ -41,6 +41,7 @@ public class TogglePropertiesPanelAction extends AbstractViewAction {
      * This method is invoked, when the property changed and when
      * the view changed.
      */
+    @Override
     protected void updateView() {
         putValue(ActionUtil.SELECTED_KEY,
                 getActiveView() != null &&
@@ -49,10 +50,12 @@ public class TogglePropertiesPanelAction extends AbstractViewAction {
     }
     
     
+    @Override
     public ODGView getActiveView() {
         return (ODGView) super.getActiveView();
     }
     
+    @Override
     public void actionPerformed(ActionEvent e) {
         getActiveView().setPropertiesPanelVisible(
                 ! getActiveView().isPropertiesPanelVisible()

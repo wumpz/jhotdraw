@@ -230,6 +230,7 @@ public class ButtonFactory {
             this.editor = editor;
         }
 
+        @Override
         public void itemStateChanged(ItemEvent evt) {
             if (evt.getStateChange() == ItemEvent.SELECTED) {
                 editor.setTool(tool);
@@ -372,6 +373,7 @@ public class ButtonFactory {
         }
         editor.addPropertyChangeListener(new PropertyChangeListener() {
 
+            @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 // String constants are interned
                 if (evt.getPropertyName() == DrawingEditor.ACTIVE_VIEW_PROPERTY) {
@@ -418,6 +420,7 @@ public class ButtonFactory {
 
         view.addPropertyChangeListener(new PropertyChangeListener() {
 
+            @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 // String constants are interned
                 if (evt.getPropertyName() == "scaleFactor") {
@@ -655,6 +658,7 @@ public class ButtonFactory {
 
         editor.addPropertyChangeListener(new PropertyChangeListener() {
 
+            @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 popupButton.repaint();
             }
@@ -1577,6 +1581,7 @@ public class ButtonFactory {
         toggleButton.setFocusable(false);
         toggleButton.addItemListener(new ItemListener() {
 
+            @Override
             public void itemStateChanged(ItemEvent event) {
                 view.setConstrainerVisible(toggleButton.isSelected());
             //view.getComponent().repaint();
@@ -1584,6 +1589,7 @@ public class ButtonFactory {
         });
         view.addPropertyChangeListener(new PropertyChangeListener() {
 
+            @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 // String constants are interned
                 if (evt.getPropertyName() == DrawingView.CONSTRAINER_VISIBLE_PROPERTY) {

@@ -16,7 +16,6 @@ package org.jhotdraw.app;
 import org.jhotdraw.app.action.file.SaveFileAsAction;
 import org.jhotdraw.app.action.file.SaveFileAction;
 import org.jhotdraw.app.action.file.NewFileAction;
-import org.jhotdraw.app.action.file.ClearFileAction;
 import org.jhotdraw.app.action.file.OpenFileAction;
 import org.jhotdraw.app.action.file.CloseFileAction;
 import org.jhotdraw.app.action.edit.PasteAction;

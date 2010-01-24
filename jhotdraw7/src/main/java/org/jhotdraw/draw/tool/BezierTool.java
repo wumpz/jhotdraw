@@ -220,15 +220,18 @@ public class BezierTool extends AbstractTool {
         final DrawingView addedView = creationView;
         getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
 
+            @Override
             public String getPresentationName() {
                 return presentationName;
             }
 
+            @Override
             public void undo() throws CannotUndoException {
                 super.undo();
                 addedDrawing.remove(addedFigure);
             }
 
+            @Override
             public void redo() throws CannotRedoException {
                 super.redo();
                 addedView.clearSelection();
@@ -238,6 +241,7 @@ public class BezierTool extends AbstractTool {
         });
     }
 
+    @Override
     public void mouseReleased(MouseEvent evt) {
         if (DEBUG) {
             System.out.println("BezierTool.mouseReleased " + evt);
@@ -292,6 +296,7 @@ public class BezierTool extends AbstractTool {
         }
     }
 
+    @Override
     public void mouseDragged(MouseEvent evt) {
         if (finishWhenMouseReleased == null) {
             finishWhenMouseReleased = Boolean.TRUE;

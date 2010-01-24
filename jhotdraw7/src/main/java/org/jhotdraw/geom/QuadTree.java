@@ -17,7 +17,6 @@ package org.jhotdraw.geom;
 
 import java.awt.geom.*;
 import java.util.*;
-import java.awt.*;
 /**
  * A QuadTree allows to quickly find an object on a two-dimensional space.
  * <p>

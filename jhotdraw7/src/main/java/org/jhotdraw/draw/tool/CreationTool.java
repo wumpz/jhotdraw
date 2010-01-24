@@ -190,6 +190,7 @@ public class CreationTool extends AbstractTool {
         }
     }
 
+    @Override
     public void mousePressed(MouseEvent evt) {
         super.mousePressed(evt);
         getView().clearSelection();
@@ -201,6 +202,7 @@ public class CreationTool extends AbstractTool {
         getDrawing().add(createdFigure);
     }
 
+    @Override
     public void mouseDragged(MouseEvent evt) {
         if (createdFigure != null) {
             Point2D.Double p = constrainPoint(new Point(evt.getX(), evt.getY()));
@@ -212,6 +214,7 @@ public class CreationTool extends AbstractTool {
         }
     }
 
+    @Override
     public void mouseReleased(MouseEvent evt) {
         if (createdFigure != null) {
             Rectangle2D.Double bounds = createdFigure.getBounds();

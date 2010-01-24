@@ -70,6 +70,7 @@ public class RadialGradient implements Gradient {
     public void setRelativeToFigureBounds(boolean b) {
         isRelativeToFigureBounds = b;
     }
+    @Override
     public void makeRelativeToFigureBounds(Figure f) {
         if (! isRelativeToFigureBounds) {
             isRelativeToFigureBounds = true;
@@ -81,6 +82,7 @@ public class RadialGradient implements Gradient {
     }
     
     
+    @Override
     public Paint getPaint(Figure f, double opacity) {
         if (stopColors.length == 0 || r <= 0) {
             return new Color(0xa0a0a000,true);
@@ -157,6 +159,7 @@ public class RadialGradient implements Gradient {
     public double[] getStopOpacities() {
         return stopOpacities.clone();
     }
+    @Override
     public boolean isRelativeToFigureBounds() {
         return isRelativeToFigureBounds;
     }
@@ -168,6 +171,7 @@ public class RadialGradient implements Gradient {
         return transform;
     }
     
+    @Override
     public void transform(AffineTransform tx) {
         if (transform == null) {
             transform = (AffineTransform) tx.clone();
@@ -176,6 +180,7 @@ public class RadialGradient implements Gradient {
         }
     }
     
+    @Override
     public Object clone() {
         try {
             RadialGradient that = (RadialGradient) super.clone();
@@ -190,6 +195,7 @@ public class RadialGradient implements Gradient {
             throw e;
         }
     }
+    @Override
     public int hashCode() {
 	long bits = Double.doubleToLongBits(cx);
 	bits += Double.doubleToLongBits(cy) * 37;
@@ -198,6 +204,7 @@ public class RadialGradient implements Gradient {
 	return (((int) bits) ^ ((int) (bits >> 32)));
     }
     
+    @Override
     public boolean equals(Object o) {
         if (o instanceof RadialGradient) {
             return equals((RadialGradient) o);

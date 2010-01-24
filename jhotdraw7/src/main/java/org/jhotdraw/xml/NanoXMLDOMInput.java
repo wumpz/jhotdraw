@@ -178,6 +178,7 @@ public class NanoXMLDOMInput implements DOMInput, Disposable {
     /**
      * Opens the element with the specified index and makes it the current node.
      */
+    @Override
     public void openElement(int index) {
         stack.push(current);
         ArrayList list = current.getChildren();
@@ -187,6 +188,7 @@ public class NanoXMLDOMInput implements DOMInput, Disposable {
     /**
      * Opens the last element with the specified name and makes it the current node.
      */
+    @Override
     public void openElement(String tagName) throws IOException {
         ArrayList list = current.getChildren();
         for (int i=0; i < list.size(); i++) {
@@ -275,6 +277,7 @@ public class NanoXMLDOMInput implements DOMInput, Disposable {
         return o;
     }
 
+    @Override
     public void dispose() {
         if (document != null) {
             document.dispose();

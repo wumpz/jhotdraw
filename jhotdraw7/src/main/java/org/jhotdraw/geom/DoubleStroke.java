@@ -46,6 +46,7 @@ public class DoubleStroke implements Stroke {
         outlineStroke = new BasicStroke((float) outlineWidth, cap, BasicStroke.JOIN_BEVEL, (float) miterLimit, dashes, dashPhase);
     }
 
+    @Override
     public Shape createStrokedShape(Shape s) {
         BezierPath bp = new BezierPath();
         Path2D.Double left = new Path2D.Double();

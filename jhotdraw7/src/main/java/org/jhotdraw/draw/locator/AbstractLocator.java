@@ -15,7 +15,6 @@
 package org.jhotdraw.draw.locator;
 
 import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.locator.Locator;
 import java.awt.geom.*;
 import java.io.Serializable;
 import org.jhotdraw.xml.*;
@@ -31,6 +30,7 @@ public abstract class AbstractLocator implements Locator, DOMStorable, Serializa
     public AbstractLocator() {
     }
     
+    @Override
     public Point2D.Double locate(Figure owner, Figure dependent) {
         return locate(owner);
     }

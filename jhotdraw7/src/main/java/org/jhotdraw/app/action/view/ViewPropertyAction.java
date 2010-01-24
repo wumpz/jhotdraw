@@ -35,6 +35,7 @@ public class ViewPropertyAction extends AbstractViewAction {
     private String getterName;
     
     private PropertyChangeListener viewListener = new PropertyChangeListener() {
+        @Override
         public void propertyChange(PropertyChangeEvent evt) {
             if (evt.getPropertyName() == propertyName) { // Strings get interned
                 updateSelectedState();
@@ -59,6 +60,7 @@ public class ViewPropertyAction extends AbstractViewAction {
         updateSelectedState();
     }
     
+    @Override
     public void actionPerformed(ActionEvent evt) {
         View p = getActiveView();
         try {

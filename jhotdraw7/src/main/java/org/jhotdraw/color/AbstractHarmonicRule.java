@@ -25,18 +25,22 @@ public abstract class AbstractHarmonicRule implements HarmonicRule {
     protected int[] derivedIndices;
     
     
+    @Override
     public void setBaseIndex() {
-        this.baseIndex = baseIndex;
+       // this.baseIndex = baseIndex;
     }
 
+    @Override
     public int getBaseIndex() {
         return baseIndex;
     }
 
+    @Override
     public void setDerivedIndices(int... indices) {
         this.derivedIndices = indices;
     }
 
+    @Override
     public int[] getDerivedIndices() {
         return derivedIndices;
     }

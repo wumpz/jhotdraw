@@ -14,8 +14,6 @@
 
 package org.jhotdraw.samples.pert.figures;
 
-import org.jhotdraw.util.*;
-import java.awt.*;
 import java.awt.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.draw.LineFigure;
@@ -33,10 +31,12 @@ extends LineFigure {
     public SeparatorLineFigure() {
     }
 
+    @Override
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         setPoint(0, 0, anchor);
         setPoint(getNodeCount() - 1, 0, new Point2D.Double(lead.x, anchor.y));
     }
+    @Override
     public Dimension2DDouble getPreferredSize() {
         double width = Math.ceil(get(STROKE_WIDTH));
         return new Dimension2DDouble(width, width);

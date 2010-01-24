@@ -66,14 +66,17 @@ public class DefaultHarmonicColorModel extends AbstractListModel implements Harm
         }
     }
 
+    @Override
     public int size() {
         return colors.size();
     }
 
+    @Override
     public boolean isAdjusting() {
         return adjusting > 0;
     }
 
+    @Override
     public void set(int index, Color newValue) {
         adjusting++;
         Color oldValue = colors.set(index, newValue);
@@ -89,6 +92,7 @@ public class DefaultHarmonicColorModel extends AbstractListModel implements Harm
         fireContentsChanged(this, index, index);
     }
     
+    @Override
     public void applyRules() {
         for (HarmonicRule r : rules) {
             if (r.getBaseIndex() == base) {
@@ -97,10 +101,12 @@ public class DefaultHarmonicColorModel extends AbstractListModel implements Harm
         }
     }
 
+    @Override
     public Color get(int index) {
         return colors.get(index);
     }
 
+    @Override
     public boolean add(Color c) {
         boolean b = colors.add(c);
         if (b) {
@@ -109,42 +115,52 @@ public class DefaultHarmonicColorModel extends AbstractListModel implements Harm
         return b;
     }
 
+    @Override
     public void setBase(int newValue) {
         base = newValue;
     }
 
+    @Override
     public int getBase() {
         return base;
     }
 
+    @Override
     public float[] RGBtoComponent(int rgb, float[] hsb) {
         return ColorSpaceUtil.fromColor(sliderModel.getColorSpace(), new Color(rgb));
     }
 
+    @Override
     public int componentToRGB(float h, float s, float b) {
         return ColorSpaceUtil.toRGB(sliderModel.getColorSpace(), h,s,b);
     }
 
+    @Override
     public int getSize() {
         return size();
     }
 
+    @Override
     public Object getElementAt(int index) {
         return get(index);
     }
 
+    @Override
     public ColorSpace getColorSpace() {
         return sliderModel.getColorSpace();
     }
 
+    @Override
     public void addRule(HarmonicRule newValue) {
         rules.add(newValue);
     }
 
+    @Override
     public void removeAllRules() {
         rules.clear();
     }
 
+    @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         propertySupport.addPropertyChangeListener(listener);
     }
@@ -153,6 +169,7 @@ public class DefaultHarmonicColorModel extends AbstractListModel implements Harm
         propertySupport.addPropertyChangeListener(propertyName, listener);
     }
 
+    @Override
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         propertySupport.removePropertyChangeListener(listener);
     }
@@ -173,6 +190,7 @@ public class DefaultHarmonicColorModel extends AbstractListModel implements Harm
         propertySupport.firePropertyChange(propertyName, oldValue, newValue);
     }
 
+    @Override
     public DefaultHarmonicColorModel clone() {
         DefaultHarmonicColorModel that;
         try {

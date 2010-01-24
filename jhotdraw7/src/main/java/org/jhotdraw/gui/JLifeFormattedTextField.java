@@ -38,14 +38,17 @@ public class JLifeFormattedTextField extends JFormattedTextField {
      */
     private class DocumentHandler implements DocumentListener {
 
+    @Override
         public void insertUpdate(DocumentEvent e) {
             updateValue();
         }
 
+    @Override
         public void removeUpdate(DocumentEvent e) {
             updateValue();
         }
 
+    @Override
         public void changedUpdate(DocumentEvent e) {
             updateValue();
         }

@@ -24,7 +24,6 @@ import org.jhotdraw.draw.print.DrawingPageable;
 import org.jhotdraw.draw.io.DOMStorableInputOutputFormat;
 import java.awt.print.Pageable;
 import org.jhotdraw.gui.*;
-import org.jhotdraw.io.*;
 import org.jhotdraw.samples.net.figures.*;
 import org.jhotdraw.undo.*;
 import org.jhotdraw.util.*;
@@ -36,11 +35,9 @@ import java.net.URI;
 import javax.swing.*;
 import javax.swing.border.*;
 import org.jhotdraw.app.*;
-import org.jhotdraw.app.action.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.gui.URIChooser;
-import org.jhotdraw.gui.JFileURIChooser;
 
 /**
  * A view for Network diagrams.
@@ -80,6 +77,7 @@ public class NetView extends AbstractView {
         initActions();
         undo.addPropertyChangeListener(new PropertyChangeListener() {
 
+            @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 setHasUnsavedChanges(undo.hasSignificantEdits());
             }
@@ -107,6 +105,7 @@ public class NetView extends AbstractView {
 
         view.addPropertyChangeListener(new PropertyChangeListener() {
 
+            @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 String name = evt.getPropertyName();
                 if (name.equals("scaleFactor")) {

@@ -64,6 +64,7 @@ public class SimpleHarmonicRule extends AbstractHarmonicRule {
         }
     }
 
+    @Override
     public void colorChanged(HarmonicColorModel model, int index, Color oldValue, Color newValue) {
         //
     }

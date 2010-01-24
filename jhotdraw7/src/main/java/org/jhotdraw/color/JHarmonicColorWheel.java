@@ -87,6 +87,7 @@ public class JHarmonicColorWheel extends JColorWheel {
             setSelectedIndex(closestIndex);
         }
 
+        @Override
         public void mouseReleased(MouseEvent e) {
             //update(e);
         }
@@ -106,6 +107,7 @@ public class JHarmonicColorWheel extends JColorWheel {
 
     private class ModelHandler implements PropertyChangeListener, ListDataListener {
 
+        @Override
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
             if (name == HarmonicColorModel.COLOR_SPACE_PROPERTY) {
@@ -117,14 +119,17 @@ public class JHarmonicColorWheel extends JColorWheel {
             repaint();
         }
 
+        @Override
         public void intervalAdded(ListDataEvent e) {
             repaint();
         }
 
+        @Override
         public void intervalRemoved(ListDataEvent e) {
             repaint();
         }
 
+        @Override
         public void contentsChanged(ListDataEvent e) {
             repaint();
         }
@@ -159,6 +164,7 @@ public class JHarmonicColorWheel extends JColorWheel {
         return harmonicModel;
     }
 
+    @Override
     public String getToolTipText(MouseEvent evt) {
         float[] hsb = getColorAt(evt.getX(), evt.getY());
         if (hsb == null) {
@@ -328,6 +334,7 @@ public class JHarmonicColorWheel extends JColorWheel {
         return selectedIndex;
     }
 
+    @Override
     protected Point getColorLocation(Color c) {
         Point p = colorWheelProducer.getColorLocation(c);
         p.x += wheelInsets.left;

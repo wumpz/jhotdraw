@@ -34,6 +34,7 @@ public abstract class MoveConstrainedAction extends AbstractSelectedAction {
         this.dir = dir;
     }
 
+    @Override
     public void actionPerformed(java.awt.event.ActionEvent e) {
         if (getView().getSelectionCount() > 0) {
         

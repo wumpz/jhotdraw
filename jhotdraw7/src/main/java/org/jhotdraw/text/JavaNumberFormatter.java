@@ -302,8 +302,6 @@ public class JavaNumberFormatter extends DefaultFormatter {
      */
     @SuppressWarnings("unchecked")
     boolean isValidValue(Object value, boolean wantsCCE) {
-        Comparable min = getMinimum();
-
         try {
             if (min != null && min.compareTo(value) > 0) {
                 return false;
@@ -315,7 +313,6 @@ public class JavaNumberFormatter extends DefaultFormatter {
             return false;
         }
 
-        Comparable max = getMaximum();
         try {
             if (max != null && max.compareTo(value) < 0) {
                 return false;

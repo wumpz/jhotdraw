@@ -14,7 +14,6 @@
 //package ch.randelshofer.io;
 package org.jhotdraw.io;
 
-import java.awt.event.*;
 import javax.swing.event.*;
 import javax.swing.BoundedRangeModel;
 import java.io.*;
@@ -60,6 +59,7 @@ implements BoundedRangeModel {
      * Overrides <code>FilterInputStream.read</code>
      * to update the value after the read.
      */
+    @Override
     public int read()
     throws IOException {
         int c = in.read();
@@ -71,6 +71,7 @@ implements BoundedRangeModel {
      * Overrides <code>FilterInputStream.read</code>
      * to update the value after the read.
      */
+    @Override
     public int read(byte b[])
     throws IOException {
         int nr = in.read(b);
@@ -82,6 +83,7 @@ implements BoundedRangeModel {
      * Overrides <code>FilterInputStream.read</code>
      * to update the value after the read.
      */
+    @Override
     public int read(byte b[],int off,int len)
     throws IOException {
         int nr = in.read(b, off, len);
@@ -92,6 +94,7 @@ implements BoundedRangeModel {
      * Overrides <code>FilterInputStream.skip</code>
      * to update the value after the skip.
      */
+    @Override
     public long skip(long n) throws IOException {
         long nr = in.skip(n);
         incrementValue( (int)nr);
@@ -101,6 +104,7 @@ implements BoundedRangeModel {
      * Overrides <code>FilterInputStream.reset</code>
      * to reset the progress monitor as well as the stream.
      */
+    @Override
     public synchronized void reset()
     throws IOException {
         in.reset();
@@ -127,6 +131,7 @@ implements BoundedRangeModel {
      * @return the value of the minimum property
      * @see #setMinimum
      */
+    @Override
     public int getMinimum()
     { return 0; }
     
@@ -147,6 +152,7 @@ implements BoundedRangeModel {
      * @see #getMinimum
      * @see #addChangeListener
      */
+    @Override
     public void setMinimum(int newMinimum) {}
     
     
@@ -158,6 +164,7 @@ implements BoundedRangeModel {
      * @see #setMaximum
      * @see #setExtent
      */
+    @Override
     public int getMaximum() { return size_; }
     
     
@@ -176,6 +183,7 @@ implements BoundedRangeModel {
      * @see #getMaximum
      * @see #addChangeListener
      */
+    @Override
     public void setMaximum(int newMaximum) {
         size_ = newMaximum;
         fireStateChanged();
@@ -192,6 +200,7 @@ implements BoundedRangeModel {
      * @return  the model's value
      * @see     #setValue
      */
+    @Override
     public int getValue() { return nread_; }
     
     
@@ -219,6 +228,7 @@ implements BoundedRangeModel {
      * @param newValue the model's new value
      * @see #getValue
      */
+    @Override
     public void setValue(int newValue) {}
     
     
@@ -234,6 +244,7 @@ implements BoundedRangeModel {
      *
      * @param b true if the upcoming changes to the value property are part of a series
      */
+    @Override
     public void setValueIsAdjusting(boolean b)
     { valueIsAdjusting_ = b; }
     
@@ -245,6 +256,7 @@ implements BoundedRangeModel {
      * @return the valueIsAdjustingProperty.
      * @see #setValueIsAdjusting
      */
+    @Override
     public boolean getValueIsAdjusting()
     { return valueIsAdjusting_; }
     
@@ -257,12 +269,14 @@ implements BoundedRangeModel {
      * @see     #setExtent
      * @see     #setValue
      */
+    @Override
     public int getExtent() { return 0; }
     
     
     /**
      * Ignored: The extent is always zero.
      */
+    @Override
     public void setExtent(int newExtent)
     { }
     
@@ -271,6 +285,7 @@ implements BoundedRangeModel {
     /**
      * Ignored: All values depend on the input stream.
      */
+    @Override
     public void setRangeProperties(int value, int extent, int min, int max, boolean adjusting)
     {}
     
@@ -282,6 +297,7 @@ implements BoundedRangeModel {
      * @param l the ChangeListener to add
      * @see #removeChangeListener
      */
+    @Override
     public void addChangeListener(ChangeListener l) {
         listenerList_.add(ChangeListener.class, l);
     }
@@ -294,6 +310,7 @@ implements BoundedRangeModel {
      * @see #addChangeListener
      * @see BoundedRangeModel#removeChangeListener
      */
+    @Override
     public void removeChangeListener(ChangeListener l) {
         listenerList_.remove(ChangeListener.class, l);
     }

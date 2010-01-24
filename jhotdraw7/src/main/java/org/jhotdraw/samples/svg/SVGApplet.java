@@ -142,6 +142,7 @@ public class SVGApplet extends JApplet {
         // --------------------------------------
         new Worker() {
 
+            @Override
             protected Object construct() throws Exception {
                 Thread t = new Thread() {
 
@@ -159,6 +160,7 @@ public class SVGApplet extends JApplet {
                 return drawing;
             }
 
+            @Override
             protected void done(Object result) {
                 Container c = getContentPane();
                 c.setLayout(new BorderLayout());
@@ -177,6 +179,7 @@ public class SVGApplet extends JApplet {
                 drawingComponent.revalidate();
             }
 
+            @Override
             protected void failed(Throwable result) {
                 Container c = getContentPane();
                 c.setLayout(new BorderLayout());
@@ -190,6 +193,7 @@ public class SVGApplet extends JApplet {
                 c.add(mp);
                 mp.addActionListener(new ActionListener() {
 
+                    @Override
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getActionCommand().equals("close")) {
                             close();
@@ -199,6 +203,7 @@ public class SVGApplet extends JApplet {
                 mp.revalidate();
             }
 
+            @Override
             protected void finished() {
                 long end = System.currentTimeMillis();
                 System.out.println("AbstractDrawingApplet startup latency:" + (end - start));
@@ -252,11 +257,11 @@ public class SVGApplet extends JApplet {
      */
     @Override
     public String getAppletInfo() {
-        return getName() +
-                "\nVersion " + getVersion() +
-                "\n\nCopyright 1996-2010 (c) by the original authors of JHotDraw and all its contributors" +
-                "\nThis software is licensed under LGPL or" +
-                "\nCreative Commons 2.5 BY";
+        return getName()
+                + "\nVersion " + getVersion()
+                + "\n\nCopyright 1996-2010 (c) by the original authors of JHotDraw and all its contributors"
+                + "\nThis software is licensed under LGPL or"
+                + "\nCreative Commons 2.5 BY";
     }
 
     /**
@@ -422,12 +427,7 @@ public class SVGApplet extends JApplet {
 
                         buf.append(ch);
                         break;
-
                 }
-
-
-
-
             }
             return buf.toString();
         }
@@ -437,6 +437,7 @@ public class SVGApplet extends JApplet {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
 
+            @Override
             public void run() {
                 JFrame f = new JFrame("JHotDraw SVG Sample Applet");
                 f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

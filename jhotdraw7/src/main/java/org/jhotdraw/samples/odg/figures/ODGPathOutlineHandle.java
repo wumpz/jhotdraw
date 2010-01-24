@@ -34,10 +34,12 @@ public class ODGPathOutlineHandle extends AbstractHandle {
         super(owner);
     }
     
+    @Override
     public ODGPathFigure getOwner() {
         return (ODGPathFigure) super.getOwner();
     }
     
+    @Override
     protected Rectangle basicGetBounds() {
         return view.drawingToView(getOwner().getDrawingArea());
     }
@@ -45,9 +47,11 @@ public class ODGPathOutlineHandle extends AbstractHandle {
         return false;
     }
     
+    @Override
     public void trackStart(Point anchor, int modifiersEx) {
     }
     
+    @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
     }
     

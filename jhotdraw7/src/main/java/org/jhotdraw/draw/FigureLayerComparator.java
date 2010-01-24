@@ -28,6 +28,7 @@ public class FigureLayerComparator implements Comparator<Figure> {
     private FigureLayerComparator() {
     }
     
+    @Override
     public int compare(Figure f1, Figure f2) {
         return f1.getLayer() - f2.getLayer();
     }

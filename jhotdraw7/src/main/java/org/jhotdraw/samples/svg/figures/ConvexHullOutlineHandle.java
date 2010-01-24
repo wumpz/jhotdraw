@@ -123,6 +123,7 @@ public class ConvexHullOutlineHandle extends AbstractHandle {
         return r;
     }
 
+    @Override
     public SVGPathFigure getOwner() {
         return (SVGPathFigure) super.getOwner();
     }
@@ -132,12 +133,15 @@ public class ConvexHullOutlineHandle extends AbstractHandle {
         return false;
     }
 
+    @Override
     public void trackStart(Point anchor, int modifiersEx) {
     }
 
+    @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
     }
 
+    @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
     }
 
@@ -178,6 +182,7 @@ public class ConvexHullOutlineHandle extends AbstractHandle {
             g.draw(outline);
         }
     }
+    @Override
     protected void updateBounds() {
         outline=null;
         super.updateBounds();

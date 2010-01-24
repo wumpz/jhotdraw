@@ -14,7 +14,6 @@
 package org.jhotdraw.samples.svg.io;
 
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
-import org.jhotdraw.draw.BezierFigure;
 import org.jhotdraw.draw.io.OutputFormat;
 import java.awt.*;
 import java.awt.datatransfer.*;

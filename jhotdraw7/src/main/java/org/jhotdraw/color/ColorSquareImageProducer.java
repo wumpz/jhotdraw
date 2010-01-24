@@ -90,6 +90,7 @@ public class ColorSquareImageProducer extends AbstractColorWheelImageProducer {
         isLookupValid = true;
     }
 
+    @Override
     public boolean needsGeneration() {
         return !isPixelsValid;
     }

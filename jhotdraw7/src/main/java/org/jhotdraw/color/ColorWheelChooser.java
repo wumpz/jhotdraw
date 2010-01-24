@@ -52,6 +52,7 @@ public class ColorWheelChooser extends AbstractColorChooserPanel implements UIRe
         colorWheel.setModel(ccModel);
         
         ccModel.addChangeListener(new ChangeListener() {
+            @Override
             public void stateChanged(ChangeEvent evt) {
                 setColorToModel(ccModel.getColor());
             }
@@ -75,21 +76,26 @@ public class ColorWheelChooser extends AbstractColorChooserPanel implements UIRe
 
     }//GEN-END:initComponents
 
+    @Override
     protected void buildChooser() {
     }    
     
+    @Override
     public String getDisplayName() {
         return UIManager.getString("ColorChooser.colorWheel");
     }    
     
+    @Override
     public javax.swing.Icon getLargeDisplayIcon() {
         return UIManager.getIcon("ColorChooser.colorWheelIcon");
     }
     
+    @Override
     public Icon getSmallDisplayIcon() {
         return getLargeDisplayIcon();
     }
     
+    @Override
     public void updateChooser() {
         updatingChooser++;
         ccModel.setColor(getColorFromModel());

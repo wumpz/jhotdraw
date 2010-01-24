@@ -49,6 +49,7 @@ public abstract class AbstractApplicationModel extends AbstractBean
         firePropertyChange(NAME_PROPERTY, oldValue, newValue);
     }
 
+    @Override
     public String getName() {
         return name;
     }
@@ -59,6 +60,7 @@ public abstract class AbstractApplicationModel extends AbstractBean
         firePropertyChange(VERSION_PROPERTY, oldValue, newValue);
     }
 
+    @Override
     public String getVersion() {
         return version;
     }
@@ -69,6 +71,7 @@ public abstract class AbstractApplicationModel extends AbstractBean
         firePropertyChange(COPYRIGHT_PROPERTY, oldValue, newValue);
     }
 
+    @Override
     public String getCopyright() {
         return copyright;
     }
@@ -106,6 +109,7 @@ public abstract class AbstractApplicationModel extends AbstractBean
         return viewClass;
     }
 
+    @Override
     public View createView() {
         try {
             return (View) getViewClass().newInstance();

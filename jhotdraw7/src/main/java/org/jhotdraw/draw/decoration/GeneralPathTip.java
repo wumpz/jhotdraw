@@ -14,7 +14,6 @@
 
 package org.jhotdraw.draw.decoration;
 
-import org.jhotdraw.draw.decoration.AbstractLineDecoration;
 import java.awt.geom.*;
 
 /**
@@ -37,10 +36,12 @@ public class GeneralPathTip extends AbstractLineDecoration {
         this.decorationRadius = decorationRadius;
     }
     
+    @Override
     protected Path2D.Double getDecoratorPath(org.jhotdraw.draw.Figure f) {
         return (Path2D.Double) path.clone();
     }
     
+    @Override
     protected double getDecoratorPathRadius(org.jhotdraw.draw.Figure f) {
         return decorationRadius;
     }

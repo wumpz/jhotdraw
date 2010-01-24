@@ -38,6 +38,7 @@ public class DrawLiveConnectApplet extends JApplet {
     private final static String NAME = "JHotDraw Draw";
 
     /** Initializes the applet DrawApplet */
+    @Override
     public void init() {
         // Set look and feel
         // -----------------
@@ -62,6 +63,7 @@ public class DrawLiveConnectApplet extends JApplet {
         // --------------------------------------
         new Worker<Drawing>() {
 
+            @Override
             protected Drawing construct() throws IOException {
                 Drawing result;
                 if (getParameter("data") != null && getParameter("data").length() > 0) {
@@ -85,6 +87,7 @@ public class DrawLiveConnectApplet extends JApplet {
                 return result;
             }
 
+            @Override
             protected void done(Drawing result) {
                 Container c = getContentPane();
                 c.setLayout(new BorderLayout());
@@ -108,6 +111,7 @@ public class DrawLiveConnectApplet extends JApplet {
 
             }
 
+            @Override
             protected void finished() {
                 Container c = getContentPane();
                 boolean isLiveConnect;
@@ -181,6 +185,7 @@ public class DrawLiveConnectApplet extends JApplet {
         return out.toString();
     }
 
+    @Override
     public String[][] getParameterInfo() {
         return new String[][]{
                     {"data", "String", "the data to be displayed by this applet."},
@@ -190,12 +195,13 @@ public class DrawLiveConnectApplet extends JApplet {
                 };
     }
 
+    @Override
     public String getAppletInfo() {
-        return NAME +
-                "\nVersion " + VERSION +
-                "\n\nCopyright 1996-2009 (c) by the authors of JHotDraw" +
-                "\nThis software is licensed under LGPL or" +
-                "\nCreative Commons 3.0 BY";
+        return NAME
+                + "\nVersion " + VERSION
+                + "\n\nCopyright 1996-2009 (c) by the authors of JHotDraw"
+                + "\nThis software is licensed under LGPL or"
+                + "\nCreative Commons 3.0 BY";
     }
 
     /** This method is called from within the init() method to

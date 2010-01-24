@@ -38,6 +38,7 @@ public class RectangleFigure extends AbstractAttributedFigure {
     }
     
     // DRAWING
+    @Override
     protected void drawFill(Graphics2D g) {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
             double grow = AttributeKeys.getPerpendicularFillGrowth(this);
@@ -45,6 +46,7 @@ public class RectangleFigure extends AbstractAttributedFigure {
         g.fill(r);
     }
     
+    @Override
     protected void drawStroke(Graphics2D g) {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
         double grow = AttributeKeys.getPerpendicularDrawGrowth(this);
@@ -53,6 +55,7 @@ public class RectangleFigure extends AbstractAttributedFigure {
         g.draw(r);
     }
     // SHAPE AND BOUNDS
+    @Override
     public Rectangle2D.Double getBounds() {
         Rectangle2D.Double bounds = (Rectangle2D.Double) rectangle.clone();
         return bounds;
@@ -67,6 +70,7 @@ public class RectangleFigure extends AbstractAttributedFigure {
     /**
      * Checks if a Point2D.Double is inside the figure.
      */
+    @Override
     public boolean contains(Point2D.Double p) {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
         double grow = AttributeKeys.getPerpendicularHitGrowth(this) + 1d;
@@ -74,6 +78,7 @@ public class RectangleFigure extends AbstractAttributedFigure {
         return r.contains(p);
     }
     
+    @Override
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         rectangle.x = Math.min(anchor.x, lead.x);
         rectangle.y = Math.min(anchor.y , lead.y);
@@ -84,6 +89,7 @@ public class RectangleFigure extends AbstractAttributedFigure {
      * Moves the Figure to a new location.
      * @param tx the transformation matrix.
      */
+    @Override
     public void transform(AffineTransform tx) {
         Point2D.Double anchor = getStartPoint();
         Point2D.Double lead = getEndPoint();
@@ -93,10 +99,12 @@ public class RectangleFigure extends AbstractAttributedFigure {
                 );
     }
     
+    @Override
     public void restoreTransformTo(Object geometry) {
         rectangle.setRect( (Rectangle2D.Double) geometry );
     }
     
+    @Override
     public Object getTransformRestoreData() {
         return rectangle.clone();
     }

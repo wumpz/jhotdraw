@@ -7,7 +7,6 @@
 package org.jhotdraw.samples.teddy;
 
 import java.awt.*;
-import java.awt.event.*;
 import org.jhotdraw.app.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.samples.teddy.regex.*;

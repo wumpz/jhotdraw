@@ -88,6 +88,7 @@ public class DefaultSelectAreaTracker extends AbstractTool implements SelectArea
 
     }
 
+    @Override
     public void mouseDragged(MouseEvent evt) {
         Rectangle invalidatedArea = (Rectangle) rubberband.clone();
         rubberband.setBounds(

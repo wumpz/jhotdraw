@@ -85,6 +85,7 @@ public class WeakPropertyChangeListener implements PropertyChangeListener {
         }
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent event) {
         PropertyChangeListener listener = (PropertyChangeListener) weakRef.get();
         if (listener == null) {
@@ -104,6 +105,7 @@ public class WeakPropertyChangeListener implements PropertyChangeListener {
         return weakRef.get();
     }
 
+    @Override
     public String toString() {
         return super.toString()+"["+weakRef.get()+"]";
     }

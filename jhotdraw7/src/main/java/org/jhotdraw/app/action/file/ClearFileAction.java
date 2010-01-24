@@ -52,10 +52,12 @@ public class ClearFileAction extends AbstractSaveUnsavedChangesAction {
     @Override public void doIt(final View view) {
         view.setEnabled(false);
         view.execute(new Worker() {
+            @Override
             public Object construct() {
                 view.clear();
                 return null;
             }
+            @Override
             public void finished() {
                 view.setEnabled(true);
             }

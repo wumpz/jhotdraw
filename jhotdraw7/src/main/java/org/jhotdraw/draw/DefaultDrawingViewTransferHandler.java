@@ -65,10 +65,11 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
     public boolean importData(JComponent comp, Transferable t) {
         return importData(comp, t, new HashSet<Figure>(), null);
     }
+
     @Override
     public boolean importData(TransferSupport support) {
-       return importData((JComponent) support.getComponent(), support.getTransferable(), new HashSet<Figure>() , support.getDropLocation()==null?null:support.getDropLocation().getDropPoint());
-        }
+        return importData((JComponent) support.getComponent(), support.getTransferable(), new HashSet<Figure>(), support.getDropLocation() == null ? null : support.getDropLocation().getDropPoint());
+    }
 
     /** Imports data and stores the transferred figures into the supplied transferFigures collection. */
     @SuppressWarnings("unchecked")
@@ -81,8 +82,8 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
             final DrawingView view = (DrawingView) comp;
             final Drawing drawing = view.getDrawing();
 
-            if (drawing.getInputFormats() == null ||
-                    drawing.getInputFormats().size() == 0) {
+            if (drawing.getInputFormats() == null
+                    || drawing.getInputFormats().size() == 0) {
                 if (DEBUG) {
                     System.out.println("DefaultDrawingViewTransferHandler  import failed; drawing has no import formats");
                 }
@@ -224,8 +225,8 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                                 for (File file : files) {
                                     FileFormatLoop:
                                     for (InputFormat format : drawing.getInputFormats()) {
-                                        if (file.isFile() &&
-                                                format.getFileFilter().accept(file)) {
+                                        if (file.isFile()
+                                                && format.getFileFilter().accept(file)) {
                                             if (DEBUG) {
                                                 System.out.println("DefaultDrawingViewTransferHandler  importing file " + file);
                                             }
@@ -341,8 +342,8 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                 System.out.println("DefaultDrawingViewTransferHandler .getSourceActions outputFormats.size=" + view.getDrawing().getOutputFormats().size());
             }
 
-            retValue = (view.getDrawing().getOutputFormats().size() > 0 &&
-                    view.getSelectionCount() > 0) ? COPY | MOVE : NONE;
+            retValue = (view.getDrawing().getOutputFormats().size() > 0
+                    && view.getSelectionCount() > 0) ? COPY | MOVE : NONE;
         } else {
             retValue = super.getSourceActions(c);
         }
@@ -382,8 +383,8 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
         exportedFigures =
                 null;
 
-        if (drawing.getOutputFormats() == null ||
-                drawing.getOutputFormats().size() == 0) {
+        if (drawing.getOutputFormats() == null
+                || drawing.getOutputFormats().size() == 0) {
             retValue = null;
         } else {
             java.util.List<Figure> toBeCopied = drawing.sort(transferFigures);
@@ -450,12 +451,11 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                 // view.clearSelection();
                 CompositeFigureListener removeListener = new CompositeFigureListener() {
 
-                    public void areaInvalidated(CompositeFigureEvent e) {
-                    }
-
+                    @Override
                     public void figureAdded(CompositeFigureEvent e) {
                     }
 
+                    @Override
                     public void figureRemoved(CompositeFigureEvent evt) {
                         deletionEvents.addFirst(evt);
                     }
@@ -587,8 +587,8 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
             SearchLoop:
             for (InputFormat format : drawing.getInputFormats()) {
                 for (DataFlavor flavor : transferFlavors) {
-                    if (flavor.isFlavorJavaFileListType() ||
-                            format.isDataFlavorSupported(flavor)) {
+                    if (flavor.isFlavorJavaFileListType()
+                            || format.isDataFlavorSupported(flavor)) {
                         retValue = true;
                         break SearchLoop;
                     }
@@ -626,6 +626,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
         /**
          * a Drag gesture has been recognized
          */
+        @Override
         public void dragGestureRecognized(DragGestureEvent dge) {
             JComponent c = (JComponent) dge.getComponent();
             DefaultDrawingViewTransferHandler th = (DefaultDrawingViewTransferHandler) c.getTransferHandler();
@@ -659,24 +660,28 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
         /**
          * as the hotspot enters a platform dependent drop site
          */
+        @Override
         public void dragEnter(DragSourceDragEvent dsde) {
         }
 
         /**
          * as the hotspot moves over a platform dependent drop site
          */
+        @Override
         public void dragOver(DragSourceDragEvent dsde) {
         }
 
         /**
          * as the hotspot exits a platform dependent drop site
          */
+        @Override
         public void dragExit(DragSourceEvent dsde) {
         }
 
         /**
          * as the operation completes
          */
+        @Override
         public void dragDropEnd(DragSourceDropEvent dsde) {
             DragSourceContext dsc = dsde.getDragSourceContext();
             JComponent c = (JComponent) dsc.getComponent();
@@ -689,6 +694,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
             c.setAutoscrolls(scrolls);
         }
 
+        @Override
         public void dropActionChanged(DragSourceDragEvent dsde) {
         }
     }
@@ -709,6 +715,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
         /**
          * register this DragGestureRecognizer's Listeners with the Component
          */
+        @Override
         protected void registerListeners() {
         }
 
@@ -717,6 +724,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
          *
          * subclasses must override this method
          */
+        @Override
         protected void unregisterListeners() {
         }
     }

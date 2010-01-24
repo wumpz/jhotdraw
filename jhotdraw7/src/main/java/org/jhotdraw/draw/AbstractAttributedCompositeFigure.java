@@ -13,7 +13,6 @@
  */
 package org.jhotdraw.draw;
 
-import org.jhotdraw.draw.*;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
@@ -196,6 +195,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
     protected void drawText(java.awt.Graphics2D g) {
     }
 
+    @Override
     public AbstractAttributedCompositeFigure clone() {
         AbstractAttributedCompositeFigure that = (AbstractAttributedCompositeFigure) super.clone();
         that.attributes = new HashMap<AttributeKey, Object>(this.attributes);

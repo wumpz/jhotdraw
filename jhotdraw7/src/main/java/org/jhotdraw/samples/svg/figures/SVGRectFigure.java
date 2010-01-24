@@ -16,8 +16,6 @@ package org.jhotdraw.samples.svg.figures;
 import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.handle.ResizeHandleKit;
 import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.draw.connector.Connector;
-import org.jhotdraw.draw.ConnectionFigure;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
@@ -80,6 +78,7 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
     }
 
     // DRAWING
+    @Override
     protected void drawFill(Graphics2D g) {
         if (getArcHeight() == 0d && getArcWidth() == 0d) {
             g.fill(roundrect.getBounds2D());
@@ -88,6 +87,7 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
         }
     }
 
+    @Override
     protected void drawStroke(Graphics2D g) {
         if (roundrect.archeight == 0 && roundrect.arcwidth == 0) {
             g.draw(roundrect.getBounds2D());
@@ -168,6 +168,7 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
     }
 
 
+    @Override
     public Rectangle2D.Double getBounds() {
         return (Rectangle2D.Double) roundrect.getBounds2D();
     }
@@ -197,6 +198,7 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
     /**
      * Checks if a Point2D.Double is inside the figure.
      */
+    @Override
     public boolean contains(Point2D.Double p) {
         return getHitShape().contains(p);
     }
@@ -247,6 +249,7 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
      * Transforms the figure.
      * @param tx The transformation.
      */
+    @Override
     public void transform(AffineTransform tx) {
         invalidateTransformedShape();
         if (get(TRANSFORM) != null ||
@@ -280,6 +283,7 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
         }
     }
 
+    @Override
     public void restoreTransformTo(Object geometry) {
         invalidateTransformedShape();
         Object[] restoreData = (Object[]) geometry;
@@ -289,6 +293,7 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
         STROKE_GRADIENT.setClone(this, (Gradient) restoreData[3]);
     }
 
+    @Override
     public Object getTransformRestoreData() {
         return new Object[]{
                     roundrect.clone(),
@@ -319,6 +324,7 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
         return handles;
     }
     // CLONING
+    @Override
     public SVGRectFigure clone() {
         SVGRectFigure that = (SVGRectFigure) super.clone();
         that.roundrect = (RoundRectangle2D.Double) this.roundrect.clone();
@@ -327,6 +333,7 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
         return that;
     }
 
+    @Override
     public boolean isEmpty() {
         Rectangle2D.Double b = getBounds();
         return b.width <= 0 || b.height <= 0;

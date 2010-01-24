@@ -14,8 +14,6 @@
 
 package org.jhotdraw.draw.connector;
 
-import org.jhotdraw.draw.ConnectionFigure;
-import org.jhotdraw.draw.DecoratedFigure;
 import org.jhotdraw.draw.*;
 import java.io.IOException;
 import java.awt.*;

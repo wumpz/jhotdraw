@@ -44,6 +44,7 @@ public class MaximizeWindowAction extends AbstractViewAction {
                 );
     }
     
+    @Override
     public void actionPerformed(ActionEvent evt) {
         JFrame frame = getFrame();
         if (frame != null) {

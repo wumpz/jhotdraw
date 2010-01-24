@@ -46,6 +46,7 @@ public class EditGridAction extends AbstractDrawingViewAction {
         labels.configureAction(this, ID);
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
         getDialog().setVisible(true);
     }

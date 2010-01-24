@@ -22,7 +22,6 @@ import org.jhotdraw.app.action.edit.CopyAction;
 import org.jhotdraw.app.action.edit.DuplicateAction;
 import org.jhotdraw.app.action.edit.ClearSelectionAction;
 import org.jhotdraw.app.action.edit.SelectAllAction;
-import org.jhotdraw.app.action.*;
 import org.jhotdraw.samples.svg.action.*;
 import org.jhotdraw.samples.svg.figures.*;
 import org.jhotdraw.util.*;
@@ -44,11 +43,11 @@ import org.jhotdraw.gui.URIChooser;
  * @version $Id$
  */
 public class SVGApplicationModel extends DefaultApplicationModel {
-    /** Client property on the URIFileChooser. */
-public final static String INPUT_FORMAT_MAP_CLIENT_PROPERTY="InputFormatMap";
-    /** Client property on the URIFileChooser. */
-public final static String OUTPUT_FORMAT_MAP_CLIENT_PROPERTY="OutputFormatMap";
 
+    /** Client property on the URIFileChooser. */
+    public final static String INPUT_FORMAT_MAP_CLIENT_PROPERTY = "InputFormatMap";
+    /** Client property on the URIFileChooser. */
+    public final static String OUTPUT_FORMAT_MAP_CLIENT_PROPERTY = "OutputFormatMap";
     private final static double[] scaleFactors = {5, 4, 3, 2, 1.5, 1.25, 1, 0.75, 0.5, 0.25, 0.10};
     private GridConstrainer gridConstrainer;
     /**
@@ -82,6 +81,7 @@ public final static String OUTPUT_FORMAT_MAP_CLIENT_PROPERTY="OutputFormatMap";
         view.addDisposable(action);
     }
 
+    @Override
     public ActionMap createActionMap(Application a, View v) {
         ActionMap m = super.createActionMap(a, v);
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
@@ -182,7 +182,8 @@ public final static String OUTPUT_FORMAT_MAP_CLIENT_PROPERTY="OutputFormatMap";
         return list;
     }
 
-    public URIChooser createOpenChooser(Application a,View v) {
+    @Override
+    public URIChooser createOpenChooser(Application a, View v) {
         final JFileURIChooser c = new JFileURIChooser();
         final HashMap<FileFilter, InputFormat> fileFilterInputFormatMap =
                 new HashMap<FileFilter, InputFormat>();
@@ -211,6 +212,7 @@ public final static String OUTPUT_FORMAT_MAP_CLIENT_PROPERTY="OutputFormatMap";
         c.setFileFilter(firstFF);
         c.addPropertyChangeListener(new PropertyChangeListener() {
 
+            @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if (evt.getPropertyName().equals("fileFilterChanged")) {
                     InputFormat inputFormat = fileFilterInputFormatMap.get(evt.getNewValue());
@@ -223,7 +225,8 @@ public final static String OUTPUT_FORMAT_MAP_CLIENT_PROPERTY="OutputFormatMap";
         return c;
     }
 
-    public URIChooser createSaveChooser(Application a,View v) {
+    @Override
+    public URIChooser createSaveChooser(Application a, View v) {
         JFileURIChooser c = new JFileURIChooser();
 
         final HashMap<FileFilter, OutputFormat> fileFilterOutputFormatMap =
@@ -249,7 +252,8 @@ public final static String OUTPUT_FORMAT_MAP_CLIENT_PROPERTY="OutputFormatMap";
         return c;
     }
 
-    public URIChooser createExportChooser(Application a,View v) {
+    @Override
+    public URIChooser createExportChooser(Application a, View v) {
         JFileURIChooser c = new JFileURIChooser();
 
         final HashMap<FileFilter, OutputFormat> fileFilterOutputFormatMap =
@@ -257,7 +261,7 @@ public final static String OUTPUT_FORMAT_MAP_CLIENT_PROPERTY="OutputFormatMap";
 
         c.putClientProperty("ffOutputFormatMap", fileFilterOutputFormatMap);
 
-         if (v == null) {
+        if (v == null) {
             v = new SVGView();
         }
 
@@ -270,7 +274,7 @@ public final static String OUTPUT_FORMAT_MAP_CLIENT_PROPERTY="OutputFormatMap";
             c.addChoosableFileFilter(ff);
             // FIXME use preferences
             /*if (ff.getDescription().equals(preferences.get("viewExportFormat", ""))) {
-                currentFilter = ff;
+            currentFilter = ff;
             }*/
 
         }

@@ -16,7 +16,6 @@
 package org.jhotdraw.draw.connector;
 
 import org.jhotdraw.draw.*;
-import org.jhotdraw.xml.DOMStorable;
 
 import java.awt.*;
 import java.awt.geom.*;

@@ -36,6 +36,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
     public AlignAction(DrawingEditor editor) {
         super(editor);
     }
+    @Override
     public void updateEnabledState() {
         if (getView() != null) {
             setEnabled(getView().isEnabled() &&
@@ -45,6 +46,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
             setEnabled(false);
         }
     }
+    @Override
     public void actionPerformed(java.awt.event.ActionEvent e) {
         CompositeEdit edit = new CompositeEdit(labels.getString("edit.align.text"));
         fireUndoableEditHappened(edit);
@@ -79,6 +81,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
             labels.configureAction(this, "edit.alignNorth");
         }
         
+        @Override
         protected void alignFigures(Collection selectedFigures, Rectangle2D.Double selectionBounds) {
             double y = selectionBounds.y;
             for (Iterator i=getView().getSelectedFigures().iterator(); i.hasNext(); ) {
@@ -105,6 +108,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
             labels.configureAction(this, "edit.alignEast");
         }
         
+        @Override
         protected void alignFigures(Collection selectedFigures, Rectangle2D.Double selectionBounds) {
             double x = selectionBounds.x + selectionBounds.width;
             for (Iterator i=getView().getSelectedFigures().iterator(); i.hasNext(); ) {
@@ -131,6 +135,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
             labels.configureAction(this, "edit.alignWest");
         }
         
+        @Override
         protected void alignFigures(Collection selectedFigures, Rectangle2D.Double selectionBounds) {
             double x = selectionBounds.x;
             for (Iterator i=getView().getSelectedFigures().iterator(); i.hasNext(); ) {
@@ -157,6 +162,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
             labels.configureAction(this, "edit.alignSouth");
         }
         
+        @Override
         protected void alignFigures(Collection selectedFigures, Rectangle2D.Double selectionBounds) {
             double y = selectionBounds.y + selectionBounds.height;
             for (Iterator i=getView().getSelectedFigures().iterator(); i.hasNext(); ) {
@@ -183,6 +189,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
             labels.configureAction(this, "edit.alignVertical");
         }
         
+        @Override
         protected void alignFigures(Collection selectedFigures, Rectangle2D.Double selectionBounds) {
             double y = selectionBounds.y + selectionBounds.height / 2;
             for (Iterator i=getView().getSelectedFigures().iterator(); i.hasNext(); ) {
@@ -209,6 +216,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
             labels.configureAction(this, "edit.alignHorizontal");
         }
         
+        @Override
         protected void alignFigures(Collection selectedFigures, Rectangle2D.Double selectionBounds) {
             double x = selectionBounds.x + selectionBounds.width / 2;
             for (Iterator i=getView().getSelectedFigures().iterator(); i.hasNext(); ) {

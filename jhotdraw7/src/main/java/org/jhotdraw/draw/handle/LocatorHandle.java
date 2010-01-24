@@ -17,7 +17,6 @@ package org.jhotdraw.draw.handle;
 
 import org.jhotdraw.draw.locator.Locator;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.handle.AbstractHandle;
 import java.awt.*;
 import java.awt.geom.*;
 /**
@@ -48,6 +47,7 @@ public abstract class LocatorHandle extends AbstractHandle {
         return view.drawingToView(locator.locate(getOwner()));
     }
     
+    @Override
     protected Rectangle basicGetBounds() {
         Rectangle r = new Rectangle(getLocation());
         int h = getHandlesize();

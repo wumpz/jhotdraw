@@ -51,6 +51,7 @@ public class BezierDemo extends javax.swing.JPanel {
 
         private Example example;
 
+        @Override
         public void mouseDragged(MouseEvent e) {
             double zoomFactor = getZoomFactor();
             example.digitized.lineTo(e.getX() / zoomFactor, e.getY() / zoomFactor);
@@ -58,12 +59,15 @@ public class BezierDemo extends javax.swing.JPanel {
             canvas.repaint();
         }
 
+        @Override
         public void mouseMoved(MouseEvent e) {
         }
 
+        @Override
         public void mouseClicked(MouseEvent e) {
         }
 
+        @Override
         public void mousePressed(MouseEvent e) {
             example = new Example();
             examples.add(example);
@@ -73,12 +77,15 @@ public class BezierDemo extends javax.swing.JPanel {
             canvas.repaint();
         }
 
+        @Override
         public void mouseReleased(MouseEvent e) {
         }
 
+        @Override
         public void mouseEntered(MouseEvent e) {
         }
 
+        @Override
         public void mouseExited(MouseEvent e) {
         }
     }
@@ -224,7 +231,7 @@ public class BezierDemo extends javax.swing.JPanel {
             }
             long end = System.currentTimeMillis();
             g.setColor(Color.BLACK);
-            g.drawString((end-start)+" ms", 5, g.getFontMetrics().getHeight());
+            g.drawString((end - start) + " ms", 5, g.getFontMetrics().getHeight());
         }
     }
     private Canvas canvas;
@@ -240,7 +247,7 @@ public class BezierDemo extends javax.swing.JPanel {
         add(canvas, BorderLayout.CENTER);
 
         Point2D.Double[] d = { //  Digitized points 
-        };     
+        };
         BezierPath digi = new BezierPath();
         digi.addAll(Arrays.asList(d));
         Example ex = new Example();
@@ -466,4 +473,4 @@ private void checkboxPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:even
     private javax.swing.JLabel toleranceLabel;
     private javax.swing.JSlider zoomSlider;
     // End of variables declaration//GEN-END:variables
-    }
+}

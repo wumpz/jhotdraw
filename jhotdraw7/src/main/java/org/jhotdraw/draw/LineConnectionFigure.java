@@ -142,6 +142,7 @@ public class LineConnectionFigure extends LineFigure
         super.setConnectable(false);
     }
 
+    @Override
     public void updateConnection() {
         willChange();
         if (getStartConnector() != null) {
@@ -166,26 +167,32 @@ public class LineConnectionFigure extends LineFigure
         lineout();
     }
 
+    @Override
     public boolean canConnect(Connector start, Connector end) {
         return start.getOwner().isConnectable() && end.getOwner().isConnectable();
     }
 
+    @Override
     public Connector getEndConnector() {
         return endConnector;
     }
 
+    @Override
     public Figure getEndFigure() {
         return (endConnector == null) ? null : endConnector.getOwner();
     }
 
+    @Override
     public Connector getStartConnector() {
         return startConnector;
     }
 
+    @Override
     public Figure getStartFigure() {
         return (startConnector == null) ? null : startConnector.getOwner();
     }
 
+    @Override
     public void setEndConnector(Connector newEnd) {
         if (newEnd != endConnector) {
             if (endConnector != null) {
@@ -209,6 +216,7 @@ public class LineConnectionFigure extends LineFigure
         }
     }
 
+    @Override
     public void setStartConnector(Connector newStart) {
         if (newStart != startConnector) {
             if (startConnector != null) {
@@ -395,6 +403,7 @@ public class LineConnectionFigure extends LineFigure
         changed();
     }
 
+    @Override
     public boolean canConnect(Connector start) {
         return start.getOwner().isConnectable();
     }
@@ -494,6 +503,7 @@ public class LineConnectionFigure extends LineFigure
         out.closeElement();
     }
 
+    @Override
     public void setLiner(Liner newValue) {
         Liner oldValue = liner;
         this.liner = newValue;
@@ -540,6 +550,7 @@ public class LineConnectionFigure extends LineFigure
     }
      */
 
+    @Override
     public void lineout() {
         if (liner != null) {
             liner.lineout(this);
@@ -554,6 +565,7 @@ public class LineConnectionFigure extends LineFigure
         return path;
     }
 
+    @Override
     public Liner getLiner() {
         return liner;
     }

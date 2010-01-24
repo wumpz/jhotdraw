@@ -15,7 +15,6 @@
 
 package org.jhotdraw.draw.event;
 
-import org.jhotdraw.draw.event.CompositeFigureEvent;
 import java.util.*;
 
 /**

@@ -41,6 +41,7 @@ public abstract class AbstractViewAction extends AbstractAction {
     public final static String ENABLED_PROPERTY = "enabled";
     private PropertyChangeListener applicationListener = new PropertyChangeListener() {
 
+        @Override
         public void propertyChange(PropertyChangeEvent evt) {
             if (evt.getPropertyName() == Application.ACTIVE_VIEW_PROPERTY) { // Strings get interned
                 updateView((View) evt.getOldValue(), (View) evt.getNewValue());
@@ -49,6 +50,7 @@ public abstract class AbstractViewAction extends AbstractAction {
     };
     private PropertyChangeListener viewListener = new PropertyChangeListener() {
 
+        @Override
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
             if (name == "enabled") { // Strings get interned

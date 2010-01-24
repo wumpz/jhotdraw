@@ -14,8 +14,6 @@
 
 package org.jhotdraw.samples.teddy;
 
-import org.jhotdraw.samples.teddy.text.*;
-import java.awt.*;
 import javax.swing.*;
 import javax.swing.text.*;
 /**
@@ -80,6 +78,7 @@ public class JEditorArea extends JEditorPane {
      * @return true if a viewport should force the Scrollables width
      * to match its own.
      */
+    @Override
     public boolean getScrollableTracksViewportWidth() {
         return wrap;
     }

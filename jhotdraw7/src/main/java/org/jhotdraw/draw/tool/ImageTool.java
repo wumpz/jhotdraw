@@ -108,6 +108,7 @@ public class ImageTool extends CreationTool {
             final ImageHolderFigure loaderFigure = ((ImageHolderFigure) prototype.clone());
             Worker worker = new Worker() {
 
+                @Override
                 protected Object construct() throws IOException {
                     ((ImageHolderFigure) loaderFigure).loadImage(file);
                     return null;

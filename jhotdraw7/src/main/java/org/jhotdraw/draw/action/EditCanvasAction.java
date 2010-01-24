@@ -47,6 +47,7 @@ public class EditCanvasAction extends AbstractDrawingViewAction {
         labels.configureAction(this, ID);
     }
     
+    @Override
     public void actionPerformed(ActionEvent e) {
         getFrame().setVisible(true);
     }

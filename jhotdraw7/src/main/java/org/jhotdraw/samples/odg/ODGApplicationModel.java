@@ -22,16 +22,9 @@ import org.jhotdraw.app.action.edit.CopyAction;
 import org.jhotdraw.app.action.edit.DuplicateAction;
 import org.jhotdraw.app.action.edit.SelectAllAction;
 import org.jhotdraw.draw.tool.CreationTool;
-import java.util.*;
-import javax.swing.*;
-import org.jhotdraw.app.*;
-
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.geom.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import org.jhotdraw.app.action.*;
 import org.jhotdraw.samples.odg.action.*;
 import org.jhotdraw.samples.odg.figures.*;
 import org.jhotdraw.util.*;
@@ -172,6 +165,7 @@ public class ODGApplicationModel extends DefaultApplicationModel {
     /**
      * Creates toolbars for the application.
      */
+    @Override
     public java.util.List<JToolBar> createToolBars(Application a, View pr) {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         ODGView p = (ODGView) pr;
@@ -200,12 +194,14 @@ public class ODGApplicationModel extends DefaultApplicationModel {
         return list;
     }
 
+    @Override
     public void initView(Application a, View p) {
         if (a.isSharingToolsAmongViews()) {
             ((ODGView) p).setEditor(getSharedEditor());
         }
     }
 
+    @Override
     public ActionMap createActionMap(Application a, View v) {
         ActionMap m = super.createActionMap(a, v);
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
@@ -246,6 +242,7 @@ public class ODGApplicationModel extends DefaultApplicationModel {
         c.setFileFilter(firstFF);
         c.addPropertyChangeListener(new PropertyChangeListener() {
 
+    @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if (evt.getPropertyName().equals("fileFilterChanged")) {
                     InputFormat inputFormat = fileFilterInputFormatMap.get(evt.getNewValue());
@@ -274,6 +271,7 @@ public class ODGApplicationModel extends DefaultApplicationModel {
         }
         return c;
     }
+    @Override
     public URIChooser createExportChooser(Application a, View view) {
         JFileURIChooser c = new JFileURIChooser();
         final HashMap<javax.swing.filechooser.FileFilter, OutputFormat> fileFilterOutputFormatMap = new HashMap<javax.swing.filechooser.FileFilter, OutputFormat>();

@@ -159,6 +159,7 @@ public class ConnectionTool extends AbstractTool {
         return f.canConnect(startConnector, endConnector);
     }
 
+    @Override
     public void mouseMoved(MouseEvent evt) {
         repaintConnectors(evt);
     }
@@ -205,6 +206,7 @@ public class ConnectionTool extends AbstractTool {
      * mouse down hits a figure start a new connection. If the mousedown
      * hits a connection split a segment or join two segments.
      */
+    @Override
     public void mousePressed(MouseEvent evt) {
         super.mousePressed(evt);
         getView().clearSelection();
@@ -233,6 +235,7 @@ public class ConnectionTool extends AbstractTool {
     /**
      * Adjust the created connection.
      */
+    @Override
     public void mouseDragged(java.awt.event.MouseEvent e) {
         repaintConnectors(e);
         if (createdFigure != null) {
@@ -261,9 +264,9 @@ public class ConnectionTool extends AbstractTool {
      */
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (createdFigure != null &&
-                startConnector != null && endConnector != null &&
-                createdFigure.canConnect(startConnector, endConnector)) {
+        if (createdFigure != null
+                && startConnector != null && endConnector != null
+                && createdFigure.canConnect(startConnector, endConnector)) {
             createdFigure.willChange();
             createdFigure.setStartConnector(startConnector);
             createdFigure.setEndConnector(endConnector);
@@ -274,15 +277,18 @@ public class ConnectionTool extends AbstractTool {
             final Drawing addedDrawing = getDrawing();
             getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
 
+                @Override
                 public String getPresentationName() {
                     return presentationName;
                 }
 
+                @Override
                 public void undo() throws CannotUndoException {
                     super.undo();
                     addedDrawing.remove(addedFigure);
                 }
 
+                @Override
                 public void redo() throws CannotRedoException {
                     super.redo();
                     addedDrawing.add(addedFigure);
@@ -307,6 +313,7 @@ public class ConnectionTool extends AbstractTool {
         }
     }
 
+    @Override
     public void activate(DrawingEditor editor) {
         super.activate(editor);
     }

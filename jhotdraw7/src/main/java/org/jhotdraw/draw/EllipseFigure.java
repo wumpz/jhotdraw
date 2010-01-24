@@ -69,10 +69,12 @@ public class EllipseFigure extends AbstractAttributedFigure {
     // CLONING
     // EVENT HANDLING
 
+    @Override
     public Rectangle2D.Double getBounds() {
         return (Rectangle2D.Double) ellipse.getBounds2D();
     }
 
+    @Override
     public Rectangle2D.Double getDrawingArea() {
         Rectangle2D.Double r = (Rectangle2D.Double) ellipse.getBounds2D();
         double grow = AttributeKeys.getPerpendicularHitGrowth(this);
@@ -80,6 +82,7 @@ public class EllipseFigure extends AbstractAttributedFigure {
         return r;
     }
 
+    @Override
     protected void drawFill(Graphics2D g) {
         Ellipse2D.Double r = (Ellipse2D.Double) ellipse.clone();
         double grow = AttributeKeys.getPerpendicularFillGrowth(this);
@@ -92,6 +95,7 @@ public class EllipseFigure extends AbstractAttributedFigure {
         }
     }
 
+    @Override
     protected void drawStroke(Graphics2D g) {
         Ellipse2D.Double r = (Ellipse2D.Double) ellipse.clone();
         double grow = AttributeKeys.getPerpendicularDrawGrowth(this);
@@ -108,6 +112,7 @@ public class EllipseFigure extends AbstractAttributedFigure {
     /**
      * Checks if a Point2D.Double is inside the figure.
      */
+    @Override
     public boolean contains(Point2D.Double p) {
         Ellipse2D.Double r = (Ellipse2D.Double) ellipse.clone();
         double grow = AttributeKeys.getPerpendicularHitGrowth(this);
@@ -132,6 +137,7 @@ public class EllipseFigure extends AbstractAttributedFigure {
      *
      * @param tx the transformation.
      */
+    @Override
     public void transform(AffineTransform tx) {
         Point2D.Double anchor = getStartPoint();
         Point2D.Double lead = getEndPoint();
@@ -147,6 +153,7 @@ public class EllipseFigure extends AbstractAttributedFigure {
         return that;
     }
 
+    @Override
     public void restoreTransformTo(Object geometry) {
         Ellipse2D.Double e = (Ellipse2D.Double) geometry;
         ellipse.x = e.x;
@@ -155,6 +162,7 @@ public class EllipseFigure extends AbstractAttributedFigure {
         ellipse.height = e.height;
     }
 
+    @Override
     public Object getTransformRestoreData() {
         return ellipse.clone();
     }

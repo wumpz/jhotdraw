@@ -35,6 +35,7 @@ public class InputStreamTransferable extends AbstractTransferable {
         this.data = data;
     }
 
+    @Override
     public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
         if (! isDataFlavorSupported(flavor)) {
             throw new UnsupportedFlavorException(flavor);

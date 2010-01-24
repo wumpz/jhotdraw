@@ -38,6 +38,7 @@ public abstract class AbstractFontChooserModel implements FontChooserModel {
      * @see     #removeTreeModelListener
      * @param   l       the listener to add
      */
+    @Override
     public void addTreeModelListener(TreeModelListener l) {
         listenerList.add(TreeModelListener.class, l);
     }
@@ -48,6 +49,7 @@ public abstract class AbstractFontChooserModel implements FontChooserModel {
      * @see     #addTreeModelListener
      * @param   l       the listener to remove
      */  
+    @Override
     public void removeTreeModelListener(TreeModelListener l) {
         listenerList.remove(TreeModelListener.class, l);
     }

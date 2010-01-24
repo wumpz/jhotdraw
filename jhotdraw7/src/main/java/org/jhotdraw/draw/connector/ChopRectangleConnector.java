@@ -14,9 +14,7 @@
 
 package org.jhotdraw.draw.connector;
 
-import org.jhotdraw.draw.ConnectionFigure;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.connector.AbstractConnector;
 import java.awt.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.geom.*;

@@ -16,7 +16,6 @@
 package org.jhotdraw.gui;
 
 import javax.swing.*;
-import javax.swing.event.*;
 import java.awt.*;
 import java.beans.*;
 
@@ -45,6 +44,7 @@ public class JMDIDesktopPane extends JDesktopPane implements Arrangeable {
         setAlignmentX(JComponent.LEFT_ALIGNMENT);
     }
     
+    @Override
     public void setArrangement(Arrangeable.Arrangement newValue) {
         Arrangeable.Arrangement oldValue = getArrangement();
         switch (newValue) {
@@ -62,6 +62,7 @@ public class JMDIDesktopPane extends JDesktopPane implements Arrangeable {
     }
     
     
+    @Override
     public Arrangeable.Arrangement getArrangement() {
         // FIXME Check for the arrangement of the JInternalFrames here
         // and return the true value

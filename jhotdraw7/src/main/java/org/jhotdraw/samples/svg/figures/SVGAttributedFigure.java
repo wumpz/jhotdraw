@@ -18,16 +18,12 @@ import java.awt.event.*;
 import java.awt.image.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
-
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
-import java.io.*;
 import org.jhotdraw.samples.svg.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
-import org.jhotdraw.geom.*;
 import org.jhotdraw.util.*;
-import org.jhotdraw.xml.*;
 /**
  * SVGAttributedFigure.
  *
@@ -40,6 +36,7 @@ public abstract class SVGAttributedFigure extends AbstractAttributedFigure {
     public SVGAttributedFigure() {
     }
     
+    @Override
     public void draw(Graphics2D g)  {
         double opacity = get(OPACITY);
         opacity = Math.min(Math.max(0d, opacity), 1d);

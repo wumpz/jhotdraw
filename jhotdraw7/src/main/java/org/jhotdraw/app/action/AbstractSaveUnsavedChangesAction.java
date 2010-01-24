@@ -14,7 +14,6 @@
 package org.jhotdraw.app.action;
 
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
-import org.jhotdraw.io.*;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.gui.event.*;
 import org.jhotdraw.util.*;
@@ -54,6 +53,7 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
         super(app, view);
     }
 
+    @Override
     public void actionPerformed(ActionEvent evt) {
         final View p = getActiveView();
         if (p.isEnabled()) {
@@ -80,6 +80,7 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
                 pane.putClientProperty("Quaqua.OptionPane.destructiveOption", new Integer(2));
                 JSheet.showSheet(pane, p.getComponent(), new SheetListener() {
 
+                    @Override
                     public void optionSelected(SheetEvent evt) {
                         Object value = evt.getValue();
                         if (value == null || value.equals(labels.getString("file.saveBefore.cancelOption.text"))) {
@@ -118,6 +119,7 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
             //int option = fileChooser.showSaveDialog(this);
             JSheet.showSaveSheet(chooser, p.getComponent(), new SheetListener() {
 
+                @Override
                 public void optionSelected(final SheetEvent evt) {
                     if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
                         final URI uri;
@@ -143,6 +145,7 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
     protected void saveViewToURI(final View p, final URI uri, final URIChooser chooser) {
         p.execute(new Worker() {
 
+            @Override
             protected Object construct() throws IOException {
                 p.write(uri, chooser);
                 return null;

@@ -14,9 +14,7 @@
 
 package org.jhotdraw.draw.connector;
 
-import org.jhotdraw.draw.TriangleFigure;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.connector.ChopRectangleConnector;
 import java.awt.geom.*;
 
 /**
@@ -39,6 +37,7 @@ public class ChopTriangleConnector extends ChopRectangleConnector {
         super(owner);
     }
     
+    @Override
     protected Point2D.Double chop(Figure target, Point2D.Double from) {
         TriangleFigure bf = (TriangleFigure) getConnectorTarget(target);
         return bf.chop(from);

@@ -14,11 +14,8 @@
 package org.jhotdraw.samples.mini;
 
 import org.jhotdraw.draw.tool.DelegationSelectionTool;
-import org.jhotdraw.draw.TextAreaFigure;
-import org.jhotdraw.draw.LineConnectionFigure;
 import org.jhotdraw.draw.liner.ElbowLiner;
 import org.jhotdraw.draw.connector.Connector;
-import org.jhotdraw.draw.ConnectionFigure;
 import java.awt.geom.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
@@ -41,21 +38,25 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * @version $Id$
  */
 public class SmartConnectionFigureSample {
+
     private static class SmartConnectionFigure extends LineConnectionFigure {
+
         public SmartConnectionFigure() {
             setAttributeEnabled(STROKE_TYPE, false);
         }
-        
-        @Override public void handleConnect(Connector start, Connector end) {
+
+        @Override
+        public void handleConnect(Connector start, Connector end) {
             setAttributeEnabled(STROKE_TYPE, true);
             willChange();
             set(STROKE_TYPE,
-                    (start.getOwner() == end.getOwner()) ? StrokeType.DOUBLE : StrokeType.BASIC
-                    );
+                    (start.getOwner() == end.getOwner()) ? StrokeType.DOUBLE : StrokeType.BASIC);
             changed();
             setAttributeEnabled(STROKE_TYPE, false);
         }
-        @Override public void handleDisconnect(Connector start, Connector end) {
+
+        @Override
+        public void handleDisconnect(Connector start, Connector end) {
             setAttributeEnabled(STROKE_TYPE, true);
             willChange();
             set(STROKE_TYPE, StrokeType.BASIC);
@@ -63,20 +64,21 @@ public class SmartConnectionFigureSample {
             setAttributeEnabled(STROKE_TYPE, false);
         }
     }
-    
-    
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
             public void run() {
-                
+
                 // Create a simple drawing consisting of three
                 // text areas and an elbow connection.
                 TextAreaFigure ta = new TextAreaFigure();
-                ta.setBounds(new Point2D.Double(10,30),new Point2D.Double(100,100));
+                ta.setBounds(new Point2D.Double(10, 30), new Point2D.Double(100, 100));
                 TextAreaFigure tb = new TextAreaFigure();
-                tb.setBounds(new Point2D.Double(220,130),new Point2D.Double(310,210));
+                tb.setBounds(new Point2D.Double(220, 130), new Point2D.Double(310, 210));
                 TextAreaFigure tc = new TextAreaFigure();
-                tc.setBounds(new Point2D.Double(220,30),new Point2D.Double(310,100));
+                tc.setBounds(new Point2D.Double(220, 30), new Point2D.Double(310, 100));
                 ConnectionFigure cf = new SmartConnectionFigure();
                 cf.setLiner(new ElbowLiner());
                 cf.setStartConnector(ta.findConnector(Geom.center(ta.getBounds()), cf));
@@ -86,22 +88,22 @@ public class SmartConnectionFigureSample {
                 drawing.add(tb);
                 drawing.add(tc);
                 drawing.add(cf);
-                
+
                 // Show the drawing
                 JFrame f = new JFrame("'Smart' ConnectionFigure Sample");
                 f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                f.setSize(400,300);
-                
+                f.setSize(400, 300);
+
                 // Set up the drawing view
                 DrawingView view = new DefaultDrawingView();
                 view.setDrawing(drawing);
                 f.getContentPane().add(view.getComponent());
-                
+
                 // Set up the drawing editor
                 DrawingEditor editor = new DefaultDrawingEditor();
                 editor.add(view);
                 editor.setTool(new DelegationSelectionTool());
-                
+
                 f.setVisible(true);
             }
         });

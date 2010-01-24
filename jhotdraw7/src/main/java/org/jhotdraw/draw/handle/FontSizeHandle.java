@@ -48,12 +48,14 @@ public class FontSizeHandle extends LocatorHandle {
     /**
      * Draws this handle.
      */
+    @Override
     public void draw(Graphics2D g) {
         drawDiamond(g,
                 (Color) getEditor().getHandleAttribute(HandleAttributeKeys.ATTRIBUTE_HANDLE_FILL_COLOR),
                 (Color) getEditor().getHandleAttribute(HandleAttributeKeys.ATTRIBUTE_HANDLE_STROKE_COLOR));
     }
 
+    @Override
     public Cursor getCursor() {
         return Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR);
     }
@@ -68,12 +70,14 @@ public class FontSizeHandle extends LocatorHandle {
         return r;
     }
 
+    @Override
     public void trackStart(Point anchor, int modifiersEx) {
         TextHolderFigure textOwner = (TextHolderFigure) getOwner();
         oldSize = newSize = textOwner.getFontSize();
         restoreData = textOwner.getAttributesRestoreData();
     }
 
+    @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         TextHolderFigure textOwner = (TextHolderFigure) getOwner();
 
@@ -93,6 +97,7 @@ public class FontSizeHandle extends LocatorHandle {
         textOwner.changed();
     }
 
+    @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         final TextHolderFigure textOwner = (TextHolderFigure) getOwner();
         final Object editRestoreData = restoreData;

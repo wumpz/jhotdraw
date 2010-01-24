@@ -15,7 +15,6 @@
 package org.jhotdraw.app.action;
 
 import javax.swing.*;
-import java.beans.*;
 
 /**
  * Provides constants and static operations on <code>Action</code> objects.

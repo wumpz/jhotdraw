@@ -97,10 +97,10 @@ public class JSheet extends JDialog {
 
     static {
         // SoyLatte doesn't properly support document modal dialogs yet.
-        isDocumentModalitySupported = !System.getProperty("os.name").equals("Darwin") &&
-                System.getProperty("java.version").compareTo("1.6") >= 0;
-        isNativeSheetSupported = System.getProperty("os.name").toLowerCase().startsWith("mac os x") &&
-                System.getProperty("java.version").compareTo("1.6") >= 0;
+        isDocumentModalitySupported = !System.getProperty("os.name").equals("Darwin")
+                && System.getProperty("java.version").compareTo("1.6") >= 0;
+        isNativeSheetSupported = System.getProperty("os.name").toLowerCase().startsWith("mac os x")
+                && System.getProperty("java.version").compareTo("1.6") >= 0;
     }
 
     /**
@@ -140,6 +140,7 @@ public class JSheet extends JDialog {
         // the sheet.
         ownerMovementHandler = new ComponentAdapter() {
 
+            @Override
             public void componentMoved(ComponentEvent evt) {
                 Window owner = getOwner();
                 Point newLocation = owner.getLocation();
@@ -155,7 +156,7 @@ public class JSheet extends JDialog {
     }
 
     protected boolean isShowAsSheet() {
-        return UIManager.getLookAndFeel().getID().equals("Aqua")||UIManager.getBoolean("Sheet.showAsSheet");
+        return UIManager.getLookAndFeel().getID().equals("Aqua") || UIManager.getBoolean("Sheet.showAsSheet");
     }
 
     /**
@@ -226,7 +227,7 @@ public class JSheet extends JDialog {
             Point sheetLoc = new Point(
                     ownerLoc.x + (owner.getWidth() - getWidth()) / 2,
                     ownerLoc.y + (owner.getHeight() - getHeight()) / 3);
-                setLocation(sheetLoc);
+            setLocation(sheetLoc);
         }
     }
 
@@ -257,6 +258,7 @@ public class JSheet extends JDialog {
         }
     }
 
+    @Override
     public void addNotify() {
         super.addNotify();
         if (UIManager.getBoolean("Sheet.showAsSheet")) {
@@ -298,6 +300,7 @@ public class JSheet extends JDialog {
         return isDocumentModalitySupported;
     }
 
+    @Override
     public void dispose() {
         super.dispose();
         uninstallSheet();
@@ -341,6 +344,7 @@ public class JSheet extends JDialog {
     }
 
     @SuppressWarnings("deprecation")
+    @Override
     public void hide() {
         if (isAnimated() && isShowAsSheet() && !isNativeSheetSupported()) {
             getContentPane().setVisible(false);
@@ -358,6 +362,7 @@ public class JSheet extends JDialog {
                 long startTime;
                 long endTime;
 
+                @Override
                 public void actionPerformed(ActionEvent evt) {
                     long now = System.currentTimeMillis();
                     if (startTime == 0) {
@@ -390,6 +395,7 @@ public class JSheet extends JDialog {
     }
 
     @SuppressWarnings("deprecation")
+    @Override
     public void show() {
         if (isAnimated() && isShowAsSheet() && !isNativeSheetSupported()) {
             installSheet();
@@ -415,6 +421,7 @@ public class JSheet extends JDialog {
                 long startTime;
                 long endTime;
 
+                @Override
                 public void actionPerformed(ActionEvent evt) {
                     long now = System.currentTimeMillis();
                     if (startTime == 0) {
@@ -566,6 +573,7 @@ public class JSheet extends JDialog {
             }
         }
     }
+
     /**
      * Notify all listeners that have registered interest for
      *   notification on this event type.  The event instance
@@ -1015,16 +1023,19 @@ public class JSheet extends JDialog {
             private boolean gotFocus = false;
             int count;
 
+            @Override
             public void windowClosing(WindowEvent we) {
                 pane.setValue(null);
             }
 
+            @Override
             public void windowClosed(WindowEvent we) {
                 if (pane.getValue() == JOptionPane.UNINITIALIZED_VALUE) {
                     sheet.fireOptionSelected(pane);
                 }
             }
 
+            @Override
             public void windowGainedFocus(WindowEvent we) {
                 // Once window gets focus, set initial focus
                 if (!gotFocus) {
@@ -1042,6 +1053,7 @@ public class JSheet extends JDialog {
         });
         sheet.addComponentListener(new ComponentAdapter() {
 
+            @Override
             public void componentShown(ComponentEvent ce) {
                 // reset value to ensure closing works properly
                 pane.setValue(JOptionPane.UNINITIALIZED_VALUE);
@@ -1049,14 +1061,15 @@ public class JSheet extends JDialog {
         });
         pane.addPropertyChangeListener(new PropertyChangeListener() {
 
+            @Override
             public void propertyChange(PropertyChangeEvent event) {
                 // Let the defaultCloseOperation handle the closing
                 // if the user closed the window without selecting a button
                 // (newValue = null in that case).  Otherwise, close the sheet.
-                if (sheet.isVisible() && event.getSource() == pane &&
-                        (event.getPropertyName().equals(JOptionPane.VALUE_PROPERTY)) &&
-                        event.getNewValue() != null &&
-                        event.getNewValue() != JOptionPane.UNINITIALIZED_VALUE) {
+                if (sheet.isVisible() && event.getSource() == pane
+                        && (event.getPropertyName().equals(JOptionPane.VALUE_PROPERTY))
+                        && event.getNewValue() != null
+                        && event.getNewValue() != JOptionPane.UNINITIALIZED_VALUE) {
                     sheet.setVisible(false);
                     sheet.fireOptionSelected(pane);
                 }
@@ -1176,6 +1189,7 @@ public class JSheet extends JDialog {
 
         final ActionListener actionListener = new ActionListener() {
 
+            @Override
             public void actionPerformed(ActionEvent evt) {
                 int option;
                 if (evt.getActionCommand().equals("ApproveSelection")) {
@@ -1191,6 +1205,7 @@ public class JSheet extends JDialog {
         chooser.addActionListener(actionListener);
         sheet.addWindowListener(new WindowAdapter() {
 
+            @Override
             public void windowClosing(WindowEvent e) {
                 sheet.fireOptionSelected(chooser, JFileChooser.CANCEL_OPTION);
                 chooser.removeActionListener(actionListener);
@@ -1201,6 +1216,7 @@ public class JSheet extends JDialog {
         sheet.show();
         sheet.toFront();
     }
+
     /**
      * Displays a custom file chooser sheet with a custom approve button.
      *
@@ -1221,8 +1237,8 @@ public class JSheet extends JDialog {
                 : (Frame) SwingUtilities.getAncestorOfClass(Frame.class, parent);
 
         if (chooser instanceof JFileChooser) {
-        String title = ((JFileChooser) chooser).getUI().getDialogTitle((JFileChooser) chooser);
-        ((JFileChooser) chooser).getAccessibleContext().setAccessibleDescription(title);
+            String title = ((JFileChooser) chooser).getUI().getDialogTitle((JFileChooser) chooser);
+            ((JFileChooser) chooser).getAccessibleContext().setAccessibleDescription(title);
         }
 
         final JSheet sheet = new JSheet(frame);
@@ -1235,6 +1251,7 @@ public class JSheet extends JDialog {
 
         final ActionListener actionListener = new ActionListener() {
 
+            @Override
             public void actionPerformed(ActionEvent evt) {
                 int option;
                 if (evt.getActionCommand().equals("ApproveSelection")) {
@@ -1250,6 +1267,7 @@ public class JSheet extends JDialog {
         chooser.addActionListener(actionListener);
         sheet.addWindowListener(new WindowAdapter() {
 
+            @Override
             public void windowClosing(WindowEvent e) {
                 sheet.fireOptionSelected(chooser, JFileChooser.CANCEL_OPTION);
                 chooser.removeActionListener(actionListener);

@@ -34,10 +34,12 @@ public abstract class AbstractTransferable implements Transferable {
         this.flavors = flavors;
     }
 
+    @Override
     public DataFlavor[] getTransferDataFlavors() {
         return flavors.clone();
     }
 
+    @Override
     public boolean isDataFlavorSupported(DataFlavor flavor) {
         for (DataFlavor f : flavors) {
             if (f.equals(flavor)) {

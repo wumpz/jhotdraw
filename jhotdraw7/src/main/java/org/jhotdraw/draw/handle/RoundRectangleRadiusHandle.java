@@ -13,13 +13,10 @@
  */
 package org.jhotdraw.draw.handle;
 
-import org.jhotdraw.draw.handle.AbstractHandle;
-import org.jhotdraw.draw.RoundRectangleFigure;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.CompositeFigureEdit;
 import org.jhotdraw.geom.Geom;
 import org.jhotdraw.util.*;
-import org.jhotdraw.undo.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.geom.*;
@@ -58,6 +55,7 @@ public class RoundRectangleRadiusHandle extends AbstractHandle {
         }
     }
 
+    @Override
     protected Rectangle basicGetBounds() {
         Rectangle r = new Rectangle(locate());
         int h = getHandlesize();
@@ -74,11 +72,13 @@ public class RoundRectangleRadiusHandle extends AbstractHandle {
         return new Point(r.x + arc.x / 2 + OFFSET, r.y + arc.y / 2 + OFFSET);
     }
 
+    @Override
     public void trackStart(Point anchor, int modifiersEx) {
         RoundRectangleFigure owner = (RoundRectangleFigure) getOwner();
         originalArc = view.drawingToView(new Point2D.Double(owner.getArcWidth(), owner.getArcHeight()));
     }
 
+    @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         int dx = lead.x - anchor.x;
         int dy = lead.y - anchor.y;
@@ -93,6 +93,7 @@ public class RoundRectangleRadiusHandle extends AbstractHandle {
         owner.changed();
     }
 
+    @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         int dx = lead.x - anchor.x;
         int dy = lead.y - anchor.y;

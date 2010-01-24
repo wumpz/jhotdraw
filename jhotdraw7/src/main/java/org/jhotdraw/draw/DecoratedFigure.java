@@ -14,8 +14,6 @@
 
 package org.jhotdraw.draw;
 
-import org.jhotdraw.draw.*;
-
 /**
  * A <em>decorated figure</em> can be decorated with another {@link Figure},
  * for example to draw a border around the decorated figure.

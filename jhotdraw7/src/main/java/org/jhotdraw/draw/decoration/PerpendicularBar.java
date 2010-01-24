@@ -14,7 +14,6 @@
 package org.jhotdraw.draw.decoration;
 
 import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.decoration.AbstractLineDecoration;
 import java.awt.geom.Path2D;
 
 import org.jhotdraw.xml.DOMInput;

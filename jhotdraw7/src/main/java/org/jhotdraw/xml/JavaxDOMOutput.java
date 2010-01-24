@@ -14,7 +14,6 @@
 
 package org.jhotdraw.xml;
 
-import java.awt.*;
 import java.util.*;
 import javax.xml.parsers.*;
 import javax.xml.transform.*;

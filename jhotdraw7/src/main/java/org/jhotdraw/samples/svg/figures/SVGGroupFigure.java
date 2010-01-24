@@ -15,15 +15,12 @@ package org.jhotdraw.samples.svg.figures;
 
 import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.draw.GroupFigure;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
 import java.util.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.samples.svg.*;
-import org.jhotdraw.xml.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
 /**
@@ -107,6 +104,7 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
         }
     }
 
+    @Override
     public Rectangle2D.Double getBounds() {
         if (cachedBounds == null) {
             if (getChildCount() == 0) {

@@ -152,34 +152,41 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
      * 
      * @return The active view can be null.
      */
+    @Override
     public View getActiveView() {
         return activeView;
     }
 
+    @Override
     public String getName() {
         return model.getName();
     }
 
+    @Override
     public String getVersion() {
         return model.getVersion();
     }
 
+    @Override
     public String getCopyright() {
         return model.getCopyright();
     }
 
+    @Override
     public void stop() {
         for (View p : new LinkedList<View>(views())) {
             dispose(p);
         }
     }
 
+    @Override
     public void destroy() {
         stop();
         model.destroyApplication(this);
         System.exit(0);
     }
 
+    @Override
     public void remove(View v) {
         hide(v);
         if (v == getActiveView()) {
@@ -191,6 +198,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         firePropertyChange(VIEW_COUNT_PROPERTY, oldCount, views.size());
     }
 
+    @Override
     public void add(View v) {
         if (v.getApplication() != this) {
             int oldCount = views.size();
@@ -204,12 +212,14 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
 
     protected abstract ActionMap createViewActionMap(View p);
 
+    @Override
     public void dispose(View view) {
         remove(view);
         model.destroyView(this, view);
         view.dispose();
     }
 
+    @Override
     public Collection<View> views() {
         if (unmodifiableViews == null) {
             unmodifiableViews = Collections.unmodifiableCollection(views);
@@ -258,12 +268,15 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     public void removePalette(Window palette) {
     }
 
+    @Override
     public void addPalette(Window palette) {
     }
 
+    @Override
     public void removeWindow(Window window) {
     }
 
+    @Override
     public void addWindow(Window window, View p) {
     }
 
@@ -307,10 +320,12 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         m.putClientProperty("needsSeparator", Boolean.TRUE);
     }
 
+    @Override
     public java.util.List<URI> getRecentURIs() {
         return Collections.unmodifiableList(recentFiles);
     }
 
+    @Override
     public void clearRecentURIs() {
         @SuppressWarnings("unchecked")
         java.util.List<URI> oldValue = (java.util.List<URI>) recentFiles.clone();
@@ -321,6 +336,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
                 Collections.unmodifiableList(recentFiles));
     }
 
+    @Override
     public void addRecentURI(URI uri) {
         @SuppressWarnings("unchecked")
         java.util.List<URI> oldValue = (java.util.List<URI>) recentFiles.clone();
@@ -380,6 +396,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
             addPropertyChangeListener(this);
         }
 
+        @Override
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
             if (name == "recentFiles") {
@@ -429,6 +446,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
             }
         }
 
+        @Override
         public void dispose() {
             removePropertyChangeListener(this);
             // Dispose the actions and the menu items that are currently in the menu

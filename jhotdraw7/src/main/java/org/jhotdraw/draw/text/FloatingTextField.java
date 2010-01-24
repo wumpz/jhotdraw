@@ -17,7 +17,6 @@ package org.jhotdraw.draw.text;
 import org.jhotdraw.draw.event.FigureListener;
 import org.jhotdraw.draw.event.FigureAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
-import org.jhotdraw.draw.TextHolderFigure;
 import org.jhotdraw.draw.*;
 import javax.swing.*;
 import java.awt.*;

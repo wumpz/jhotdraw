@@ -18,7 +18,6 @@ import javax.xml.XMLConstants;
 import javax.xml.parsers.*;
 import org.w3c.dom.*;
 import java.io.*;
-import java.awt.*;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 

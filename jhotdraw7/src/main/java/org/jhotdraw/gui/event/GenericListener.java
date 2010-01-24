@@ -144,6 +144,7 @@ public abstract class GenericListener {
      */
     private static class DefaultInvoker implements InvocationHandler  {
         
+    @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
             if (method.getDeclaringClass() == Object.class)  {
                 String methodName = method.getName();

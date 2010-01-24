@@ -14,25 +14,13 @@
 package org.jhotdraw.samples.draw;
 
 import org.jhotdraw.draw.tool.CreationTool;
-import org.jhotdraw.draw.TriangleFigure;
-import org.jhotdraw.draw.RoundRectangleFigure;
-import org.jhotdraw.draw.RectangleFigure;
-import org.jhotdraw.draw.LineFigure;
-import org.jhotdraw.draw.EllipseFigure;
-import org.jhotdraw.draw.DiamondFigure;
-import org.jhotdraw.draw.BezierFigure;
 import org.jhotdraw.draw.tool.BezierTool;
 import org.jhotdraw.draw.tool.TextCreationTool;
-import org.jhotdraw.draw.TextFigure;
 import org.jhotdraw.draw.tool.TextAreaCreationTool;
-import org.jhotdraw.draw.TextAreaFigure;
-import org.jhotdraw.draw.LineConnectionFigure;
 import org.jhotdraw.draw.tool.ImageTool;
-import org.jhotdraw.draw.ImageFigure;
 import org.jhotdraw.draw.liner.ElbowLiner;
 import org.jhotdraw.draw.liner.CurvedLiner;
 import org.jhotdraw.draw.tool.ConnectionTool;
-import org.jhotdraw.draw.ConnectionFigure;
 import org.jhotdraw.draw.decoration.ArrowTip;
 import org.jhotdraw.gui.URIChooser;
 import org.jhotdraw.util.*;
@@ -71,6 +59,7 @@ public class DrawApplicationModel extends DefaultApplicationModel {
         return sharedEditor;
     }
 
+    @Override
     public void initView(Application a, View p) {
         if (a.isSharingToolsAmongViews()) {
             ((DrawView) p).setEditor(getSharedEditor());
@@ -82,6 +71,7 @@ public class DrawApplicationModel extends DefaultApplicationModel {
      * This class always returns an empty list. Subclasses may return other
      * values.
      */
+    @Override
     public List<JToolBar> createToolBars(Application a, View pr) {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         DrawView p = (DrawView) pr;
