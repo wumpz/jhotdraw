@@ -24,7 +24,7 @@ import java.io.*;
  * A <em>connector</em> knows how to locate the start point or the end point
  * of a {@link ConnectionFigure} on a connected figure.
  * <p>
- * A connector is owned by a {@link Figure}.
+ * A connector is created and owned by a {@link Figure}.
  * <p>
  * A connector knows its owning figure. A connector has bounds which describe
  * the area of the figure it is responsible for. A connector can be drawn, so

@@ -138,7 +138,7 @@ public class JHarmonicColorWheel extends JColorWheel {
 
     /** Creates new form. */
     public JHarmonicColorWheel() {
-        super(HSLPsychologicColorSpace.getInstance());
+        super(HSLPhysiologicColorSpace.getInstance());
         initComponents();
 
         setRadialComponentIndex(2);
@@ -238,7 +238,7 @@ public class JHarmonicColorWheel extends JColorWheel {
                 if (harmonicModel.get(i) != null) {
                     Point p = getColorLocation(harmonicModel.get(i));
                     Color mixerColor = harmonicModel.get(i);
-                    comp = ColorSpaceUtil.fromColor(harmonicModel.getColorSpace(),mixerColor);
+                    comp = ColorUtil.fromColor(harmonicModel.getColorSpace(),mixerColor);
                     if (i == selectedIndex) {
                         g.setColor(Color.white);
                         oval.x = p.x - baseRadius;

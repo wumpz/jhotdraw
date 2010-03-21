@@ -58,7 +58,7 @@ import java.net.*;
  * </li>
  * </ul>
  *
- * @author  Werner Randelshofer, Staldenmattweg 2, CH-6405 Immensee, Switzerland
+ * @author  Werner Randelshofer, Hausmatt 10, CH-6405 Immensee, Switzerland
  * @version $Id$
  */
 public class ResourceBundleUtil implements Serializable {

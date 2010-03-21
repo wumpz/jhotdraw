@@ -19,7 +19,7 @@ import java.awt.color.ColorSpace;
 
 /**
  * {@code CompositeColor} is identical to {@code java.awt.Color} with
- * the exception that it allows to construct an instance with color componenents
+ * the exception that it allows to construct an instance with color components
  * outside of the range of 0 and 1.
  *
  * @author Werner Randelshofer
@@ -75,7 +75,7 @@ public class CompositeColor extends Color {
      * @see #getColorComponents
      */
     public CompositeColor(ColorSpace cspace, float components[], float alpha) {
-        super(((int)(alpha*255)<<24)|ColorSpaceUtil.toRGB(cspace, components),true);
+        super(((int)(alpha*255)<<24)|ColorUtil.toRGB(cspace, components),true);
         boolean rangeError = false;
         String badComponentString = "";
         int n = cspace.getNumComponents();

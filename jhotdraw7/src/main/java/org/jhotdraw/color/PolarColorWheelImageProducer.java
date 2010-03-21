@@ -96,7 +96,7 @@ public class PolarColorWheelImageProducer extends AbstractColorWheelImageProduce
                 components[angularIndex] = angulars[index];
                 components[radialIndex] = radials[index];
                 components[verticalIndex] = verticalValue;
-                pixels[index] = alphas[index] | 0xffffff & ColorSpaceUtil.toRGB(colorSpace, components);
+                pixels[index] = alphas[index] | 0xffffff & ColorUtil.toRGB(colorSpace, components);
             }
         }
         newPixels();
@@ -105,7 +105,7 @@ public class PolarColorWheelImageProducer extends AbstractColorWheelImageProduce
 
     @Override
     public Point getColorLocation(Color c) {
-        float[] hsb = ColorSpaceUtil.fromColor(colorSpace, c);
+        float[] hsb = ColorUtil.fromColor(colorSpace, c);
         return getColorLocation(hsb);
     }
 

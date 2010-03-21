@@ -169,7 +169,7 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
                 components[angularIndex] = angulars[index];
                 components[radialIndex] = radials[index];
                 components[verticalIndex] = verticalValue;
-                pixels[index] = alphas[index] | 0xffffff & ColorSpaceUtil.toRGB(colorSpace, components);
+                pixels[index] = alphas[index] | 0xffffff & ColorUtil.toRGB(colorSpace, components);
             }
         }
         newPixels();

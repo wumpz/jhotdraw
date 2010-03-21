@@ -86,7 +86,7 @@ public abstract class AbstractColorWheelImageProducer extends MemoryImageSource 
     protected abstract void generateColorWheel();
 
     public Point getColorLocation(Color c) {
-        float[] components =ColorSpaceUtil.fromColor(colorSpace, c);
+        float[] components =ColorUtil.fromColor(colorSpace, c);
         return getColorLocation(components);
     }
 

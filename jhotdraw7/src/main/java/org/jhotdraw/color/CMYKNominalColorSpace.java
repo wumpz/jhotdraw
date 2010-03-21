@@ -98,13 +98,15 @@ public class CMYKNominalColorSpace extends ColorSpace implements NamedColorSpace
     public String getName(int idx) {
         switch (idx) {
             case 0:
-                return "Hue";
+                return "Cyan";
             case 1:
-                return "Saturation";
+                return "Magenta";
             case 2:
-                return "Brightness";
+                return "Yellow";
+            case 3:
+                return "Black";
             default:
-                throw new IllegalArgumentException("index must be between 0 and 2:" + idx);
+                throw new IllegalArgumentException("index must be between 0 and 3:" + idx);
         }
     }
 

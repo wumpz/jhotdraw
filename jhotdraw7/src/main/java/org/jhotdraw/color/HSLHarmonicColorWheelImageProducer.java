@@ -29,7 +29,7 @@ public class HSLHarmonicColorWheelImageProducer extends PolarColorWheelImageProd
     private boolean isDiscrete = true;
 
     public HSLHarmonicColorWheelImageProducer(int w, int h) {
-        super(HSLPsychologicColorSpace.getInstance(), w, h);
+        super(HSLPhysiologicColorSpace.getInstance(), w, h);
     }
 
     public HSLHarmonicColorWheelImageProducer(ColorSpace sys, int w, int h) {
@@ -130,7 +130,7 @@ public class HSLHarmonicColorWheelImageProducer extends PolarColorWheelImageProd
         float radius = (float) Math.min(w, h);
         for (int index = 0; index < pixels.length; index++) {
             if (alphas[index] != 0) {
-                pixels[index] = alphas[index] | 0xffffff & ColorSpaceUtil.toRGB(colorSpace, angulars[index], radials[index], brights[index]);
+                pixels[index] = alphas[index] | 0xffffff & ColorUtil.toRGB(colorSpace, angulars[index], radials[index], brights[index]);
             }
         }
         newPixels();
@@ -139,7 +139,7 @@ public class HSLHarmonicColorWheelImageProducer extends PolarColorWheelImageProd
 
     @Override
     public Point getColorLocation(Color c) {
-        float[] hsb = ColorSpaceUtil.fromColor(colorSpace, c);
+        float[] hsb = ColorUtil.fromColor(colorSpace, c);
         return getColorLocation(hsb);
     }
 

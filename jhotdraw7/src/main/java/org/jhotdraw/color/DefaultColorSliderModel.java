@@ -161,7 +161,7 @@ public class DefaultColorSliderModel extends AbstractColorSlidersModel {
             i++;
         }
         try {
-            return ColorSpaceUtil.toColor(colorSpace, c);
+            return ColorUtil.toColor(colorSpace, c);
         } catch (IllegalArgumentException e) {
             for (i = 0; i < c.length; i++) {
                 System.err.println(i + "=" + c[i]+" "+colorSpace.getMinValue(i)+".."+colorSpace.getMaxValue(i));
@@ -182,7 +182,7 @@ public class DefaultColorSliderModel extends AbstractColorSlidersModel {
             j++;
         }
         c[i] = componentValue;
-        return ColorSpaceUtil.toRGB(colorSpace, c);
+        return ColorUtil.toRGB(colorSpace, c);
     }
 
     @Override
@@ -204,7 +204,7 @@ public class DefaultColorSliderModel extends AbstractColorSlidersModel {
 
     @Override
     public void setColor(Color newValue) {
-        float[] c = ColorSpaceUtil.fromColor(colorSpace, newValue);
+        float[] c = ColorUtil.fromColor(colorSpace, newValue);
         int i = 0;
         for (DefaultBoundedRangeModel brm : componentModels) {
             brm.setValue(//

@@ -611,6 +611,9 @@ public abstract class AbstractFigure
         fireFigureRequestRemove();
     }
 
+    /** AbstractFigure always returns 0.
+     * Override this method if your figure needs to be on a different layer.
+     */
     @Override
     public int getLayer() {
         return 0;

@@ -459,6 +459,12 @@ public abstract class AbstractCompositeFigure
      */
     @Override
     public void layout() {
+        for (Figure child:getChildren()) {
+            if (child instanceof CompositeFigure) {
+                CompositeFigure cf = (CompositeFigure) child;
+                cf.layout();
+            }
+        }
         if (getLayouter() != null) {
             Rectangle2D.Double bounds = getBounds();
             Point2D.Double p = new Point2D.Double(bounds.x, bounds.y);

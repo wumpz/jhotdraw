@@ -36,7 +36,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * {@link NewFileAction}, {@link OpenFileAction} and {@link CloseFileAction}.
  * This action should not be used together with {@link LoadFileAction}.
  *
- * @author Werner Randelshofer, Staldenmattweg 2, CH-6405 Immensee
+ * @author Werner Randelshofer, Hausmatt 10, CH-6405 Immensee
  * @version $Id$
  */
 public class OpenDirectoryAction extends OpenFileAction {

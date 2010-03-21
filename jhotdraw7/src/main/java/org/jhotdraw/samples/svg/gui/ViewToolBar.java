@@ -19,6 +19,7 @@ import org.jhotdraw.util.*;
 import java.awt.*;
 import java.beans.PropertyChangeListener;
 import javax.swing.*;
+import javax.swing.text.DefaultFormatterFactory;
 import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.GridConstrainer;
 import org.jhotdraw.draw.action.*;
@@ -131,7 +132,7 @@ public class ViewToolBar extends AbstractToolBar {
                 gridSizeField.setHorizontalAlignment(JLifeFormattedTextField.RIGHT);
                 gridSizeField.putClientProperty("Palette.Component.segmentPosition", "first");
                 gridSizeField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(gridSizeField));
-                gridSizeField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0d, 1000d, 1d, true, false));
+                gridSizeField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0d, 1000d, 1d, true));
                 gridSizeField.setHorizontalAlignment(JTextField.LEADING);
                 final GridConstrainer constrainer = (GridConstrainer) view.getVisibleConstrainer();
                 gridSizeField.addPropertyChangeListener(new PropertyChangeListener() {
@@ -178,7 +179,10 @@ public class ViewToolBar extends AbstractToolBar {
                 scaleFactorField.setHorizontalAlignment(JLifeFormattedTextField.RIGHT);
                 scaleFactorField.putClientProperty("Palette.Component.segmentPosition", "first");
                 scaleFactorField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(scaleFactorField));
-                scaleFactorField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0.01d, 50d, 100d, true, false, "%"));
+                JavaNumberFormatter formatter = new JavaNumberFormatter(0.01d, 50d, 100d, false, "%");
+                formatter.setUsesScientificNotation(false);
+                formatter.setMaximumFractionDigits(1);
+                scaleFactorField.setFormatterFactory(new DefaultFormatterFactory(formatter));
                 scaleFactorField.setHorizontalAlignment(JTextField.LEADING);
                 scaleFactorField.setValue(view.getScaleFactor());
                 scaleFactorField.addPropertyChangeListener(new PropertyChangeListener() {

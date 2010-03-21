@@ -63,7 +63,7 @@ public class RectangleFigure extends AbstractAttributedFigure {
     
     @Override public Rectangle2D.Double getDrawingArea() {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
-        double grow = AttributeKeys.getPerpendicularDrawGrowth(this) + 1d;
+        double grow = AttributeKeys.getPerpendicularHitGrowth(this) + 1d;
         Geom.grow(r, grow, grow);
         return r;
     }

@@ -49,6 +49,8 @@ import org.jhotdraw.geom.*;
  * <li>A figure can be composed of other figures. If this is the case,
  * the object implementing the {@code Figure} interface usually also
  * implements the {@link CompositeFigure} interface.</li>
+ *
+ * <li>A figure can create a clone of itself.</li>
  * </ul>
  * 
  *

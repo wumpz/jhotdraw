@@ -1,5 +1,5 @@
 /*
- * @(#)HSLPsychologicalColorSpace.java
+ * @(#)HSLPhysiologicColorSpace.java
  * 
  * Copyright (c) 2010 by the original authors of JHotDraw
  * and all its contributors.
@@ -16,24 +16,24 @@ package org.jhotdraw.color;
 import java.awt.color.ColorSpace;
 
 /**
- * A HSV color space with psychological opposites in the hue color wheel:
+ * A HSL color space with physiologic opposites in the hue color wheel:
  * red is opposite green and yellow is opposite blue.
  *
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class HSVPsychologicColorSpace extends ColorSpace implements NamedColorSpace {
+public class HSLPhysiologicColorSpace extends ColorSpace implements NamedColorSpace {
 
-    private static HSVPsychologicColorSpace instance;
+    private static HSLPhysiologicColorSpace instance;
 
-    public static HSVPsychologicColorSpace getInstance() {
+    public static HSLPhysiologicColorSpace getInstance() {
         if (instance == null) {
-            instance = new HSVPsychologicColorSpace();
+            instance = new HSLPhysiologicColorSpace();
         }
         return instance;
     }
 
-    public HSVPsychologicColorSpace() {
+    public HSLPhysiologicColorSpace() {
         super(ColorSpace.TYPE_HSV, 3);
     }
 
@@ -41,13 +41,12 @@ public class HSVPsychologicColorSpace extends ColorSpace implements NamedColorSp
     public float[] toRGB(float[] components) {
         float hue = components[0];
         float saturation = components[1];
-        float value = components[2];
-
+        float lightness = components[2];
 
         // normalize hue
         hue = hue - (float) Math.floor(hue);
         if (hue < 0) {
-            hue -= 1f;
+            hue = 1f + hue;
         }
         // normalize saturation
         if (saturation > 1f) {
@@ -56,93 +55,99 @@ public class HSVPsychologicColorSpace extends ColorSpace implements NamedColorSp
             saturation = 0f;
         }
         // normalize value
-        if (value > 1f) {
-            value = 1f;
-        } else if (value < 0f) {
-            value = 0f;
+        if (lightness > 1f) {
+            lightness = 1f;
+        } else if (lightness < 0f) {
+            lightness = 0f;
         }
 
-
-        // compute hi and f from hue
-        int hi;
-        float f;
         float hueDeg = hue * 360f;
+        if (hueDeg < 0) {
+            hueDeg += 360f;
+        }
+        // compute hi and f from hue
+       // float f;
+        float hk = hue - (float) Math.floor(hue); // / 360f;
         if (hueDeg < 120f) { // red to yellow
-            hi = 0;
-            f = (hueDeg / 120f);
-
+            hk /= 2f;
         } else if (hueDeg < 160f) { // yellow to green
-            hi = 1;
-            f = (hueDeg - 120f) / 40f;
-
+            hk = (hk - 120f/360f) * 3f/2f + 60f/360f;
         } else if (hueDeg < 220f) { // green to cyan
-            hi = 2;
-            f = (hueDeg - 160f) / 60f;
-
+            hk = (hk - 160f/360f) + 120f/360f;
         } else if (hueDeg < 280f) { // cyan to blue
-            hi = 3;
-            f = (hueDeg - 220f) / 60f;
-
+            hk = (hk - 220f/360f) + 180f/360f;
         } else if (hueDeg < 340f) { // blue to purple
-            hi = 4;
-            f = (hueDeg - 280f) / 60f;
-
+            hk = (hk - 280f/360f) + 240f/360f;
         } else { // purple to red
-            f = (hueDeg - 340f) / 20f;
-            hi = 5;
+            hk = (hk - 340f/360f) *3f + 300f/360f;
         }
 
-        // compute p, q, t from saturation
-        float p = value * (1 - saturation);
-        float q = value * (1 - f * saturation);
-        float t = value * (1 - (1 - f) * saturation);
+        // compute p and q from saturation and lightness
+        float q;
+        if (lightness < 0.5f) {
+            q = lightness * (1f + saturation);
+        } else {
+            q = lightness + saturation - (lightness * saturation);
+        }
+        float p = 2f * lightness - q;
+
 
         // compute red, green and blue
-        float red;
-        float green;
-        float blue;
-        switch (hi) {
-            case 0:
-                red = value;
-                green = t;
-                blue = p;
-                break;
-            case 1:
-                red = q;
-                green = value;
-                blue = p;
-                break;
-            case 2:
-                red = p;
-                green = value;
-                blue = t;
-                break;
-            case -3:
-            case 3:
-                red = p;
-                green = q;
-                blue = value;
-                break;
-            case -2:
-            case 4:
-                red = t;
-                green = p;
-                blue = value;
-                break;
-            case -1:
-            case 5:
-                //default :
-                red = value;
-                green = p;
-                blue = q;
-                break;
-            default:
-                red = green = blue = 0;
-                break;
+        float red = hk + 1f / 3f;
+        float green = hk;
+        float blue = hk - 1f / 3f;
+
+        if (red < 0) {
+            red = red + 1f;
+        }
+        if (green < 0) {
+            green = green + 1f;
+        }
+        if (blue < 0) {
+            blue = blue + 1f;
+        }
+        if (red > 1) {
+            red = red - 1f;
+        }
+        if (green > 1) {
+            green = green - 1f;
+        }
+        if (blue > 1) {
+            blue = blue - 1f;
+        }
+
+        if (red < 1f / 6f) {
+            red = p + ((q - p) * 6 * red);
+        } else if (red < 0.5f) {
+            red = q;
+        } else if (red < 2f / 3f) {
+            red = p + ((q - p) * 6 * (2f / 3f - red));
+        } else {
+            red = p;
+        }
+        if (green < 1f / 6f) {
+            green = p + ((q - p) * 6 * green);
+        } else if (green < 0.5f) {
+            green = q;
+        } else if (green < 2f / 3f) {
+            green = p + ((q - p) * 6 * (2f / 3f - green));
+        } else {
+            green = p;
+        }
+
+        if (blue < 1f / 6f) {
+            blue = p + ((q - p) * 6 * blue);
+        } else if (blue < 0.5f) {
+            blue = q;
+        } else if (blue < 2f / 3f) {
+            blue = p + ((q - p) * 6 * (2f / 3f - blue));
+        } else {
+            blue = p;
         }
 
         return new float[]{red, green, blue};
     }
+
 
     @Override
     public float[] fromRGB(float[] rgbvalue) {
@@ -155,7 +160,7 @@ public class HSVPsychologicColorSpace extends ColorSpace implements NamedColorSp
 
         float hue;
         float saturation;
-        float value;
+        float luminance;
 
         if (max == min) {
             hue = 0;
@@ -173,20 +178,21 @@ public class HSVPsychologicColorSpace extends ColorSpace implements NamedColorSp
             hue = 60f * (r - g) / (max - min) + 240f + 40f;
         }
 
-        value = max;
+        luminance = (max + min) / 2f;
 
-        if (max == 0) {
+        if (max == min) {
             saturation = 0;
-        } else {
-            saturation = (max - min) / max;
+        } else if (luminance <= 0.5f) {
+            saturation = (max - min) / (max + min);
+        } else /* if (lightness  > 0.5f)*/ {
+            saturation = (max - min) / (2 - (max + min));
         }
 
         return new float[]{
                     hue / 360f,
                     saturation,
-                    value};
+                    luminance};
     }
-
 
     @Override
     public float[] toCIEXYZ(float[] colorvalue) {
@@ -226,7 +232,7 @@ public class HSVPsychologicColorSpace extends ColorSpace implements NamedColorSp
 
     @Override
     public boolean equals(Object o) {
-        return (o instanceof HSVPsychologicColorSpace);
+        return (o instanceof HSLPhysiologicColorSpace);
     }
 
     @Override
@@ -236,6 +242,6 @@ public class HSVPsychologicColorSpace extends ColorSpace implements NamedColorSp
     }
     @Override
     public String getName() {
-        return "psychological HSV";
+        return "physiologic HSL";
     }
 }

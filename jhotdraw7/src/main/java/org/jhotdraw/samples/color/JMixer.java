@@ -180,7 +180,7 @@ public class JMixer extends javax.swing.JPanel {
                         if (index != -1) {
                             Color cc = sliderModel.getColor();
                             Color oldValue = hcm.get(index);
-                            Color newValue = new Color(oldValue.getColorSpace(), ColorSpaceUtil.fromColor(oldValue.getColorSpace(), cc), 1f);
+                            Color newValue = new Color(oldValue.getColorSpace(), ColorUtil.fromColor(oldValue.getColorSpace(), cc), 1f);
                             hcm.set(index, newValue);
                         }
                     }
@@ -195,14 +195,14 @@ public class JMixer extends javax.swing.JPanel {
 
         HarmonicColorModel h = harmonicWheel.getHarmonicColorModel();
         ColorSpace sys = h.getColorSpace();
-        h.set(0, new Color(sys, ColorSpaceUtil.fromRGB(sys, 0, 19, 148), 1f));
-        h.set(1, new Color(sys, ColorSpaceUtil.fromRGB(sys, 218, 37, 26), 1f));
-        h.set(2, new Color(sys, ColorSpaceUtil.fromRGB(sys, 70, 148, 27), 1f));
-        h.set(3, new Color(sys, ColorSpaceUtil.fromRGB(sys, 174, 46, 248), 1f));
-        h.set(4, new Color(sys, ColorSpaceUtil.fromRGB(sys, 255, 252, 76), 1f));
-        h.set(5, new Color(sys, ColorSpaceUtil.fromRGB(sys, 234, 155, 65), 1f));
-        h.set(6, new Color(sys, ColorSpaceUtil.fromRGB(sys, 51, 51, 51), 1f));
-        h.set(7, new Color(sys, ColorSpaceUtil.fromRGB(sys, 153, 153, 153), 1f));
+        h.set(0, new Color(sys, ColorUtil.fromRGB(sys, 0, 19, 148), 1f));
+        h.set(1, new Color(sys, ColorUtil.fromRGB(sys, 218, 37, 26), 1f));
+        h.set(2, new Color(sys, ColorUtil.fromRGB(sys, 70, 148, 27), 1f));
+        h.set(3, new Color(sys, ColorUtil.fromRGB(sys, 174, 46, 248), 1f));
+        h.set(4, new Color(sys, ColorUtil.fromRGB(sys, 255, 252, 76), 1f));
+        h.set(5, new Color(sys, ColorUtil.fromRGB(sys, 234, 155, 65), 1f));
+        h.set(6, new Color(sys, ColorUtil.fromRGB(sys, 51, 51, 51), 1f));
+        h.set(7, new Color(sys, ColorUtil.fromRGB(sys, 153, 153, 153), 1f));
     }
 
     public static void main(String[] args) {
@@ -732,7 +732,7 @@ private void systemChangePerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:
     if (sysRGBToggle.isSelected()) {
         sys = HSLColorSpace.getInstance();
     } else {
-        sys = HSLPsychologicColorSpace.getInstance();
+        sys = HSLPhysiologicColorSpace.getInstance();
     }
     m.setColorSpace(sys);
     sliderModel.setColorSpace(sys);

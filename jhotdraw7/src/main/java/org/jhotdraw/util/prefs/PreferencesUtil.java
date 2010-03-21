@@ -332,7 +332,7 @@ public class PreferencesUtil
         }
         if (!screenBounds.contains(bounds)) {
             bounds.x = screenBounds.x + (screenBounds.width - bounds.width) / 2;
-            bounds.y = screenBounds.y + (screenBounds.height - bounds.height) / 2;
+            bounds.y = screenBounds.y + (screenBounds.height - bounds.height) / 3;
             Rectangle.intersect(screenBounds, bounds, bounds);
         }
         window.setBounds(bounds);

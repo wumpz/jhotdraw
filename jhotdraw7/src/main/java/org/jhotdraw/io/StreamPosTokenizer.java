@@ -24,7 +24,7 @@ import java.util.Vector;
  * The handling of numeric data is also different: a single dot
  * '.' and minus dot '-.' are not treated as numbers.
  *
- * @author  Werner Randelshofer, Staldenmattweg 2, Immensee, CH-6405, Switzerland
+ * @author  Werner Randelshofer, Hausmatt 10, Immensee, CH-6405, Switzerland
  * @version $Id$
  */
 

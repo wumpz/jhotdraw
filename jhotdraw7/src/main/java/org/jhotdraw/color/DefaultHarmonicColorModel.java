@@ -37,7 +37,7 @@ public class DefaultHarmonicColorModel extends AbstractListModel implements Harm
     private int adjusting;
 
     public DefaultHarmonicColorModel() {
-        ColorSpace sys = HSLPsychologicColorSpace.getInstance();
+        ColorSpace sys = HSLPhysiologicColorSpace.getInstance();
         sliderModel = new DefaultColorSliderModel(sys);
         colors = new ArrayList<Color>();
         rules = new ArrayList<HarmonicRule>();
@@ -127,12 +127,12 @@ public class DefaultHarmonicColorModel extends AbstractListModel implements Harm
 
     @Override
     public float[] RGBtoComponent(int rgb, float[] hsb) {
-        return ColorSpaceUtil.fromColor(sliderModel.getColorSpace(), new Color(rgb));
+        return ColorUtil.fromColor(sliderModel.getColorSpace(), new Color(rgb));
     }
 
     @Override
     public int componentToRGB(float h, float s, float b) {
-        return ColorSpaceUtil.toRGB(sliderModel.getColorSpace(), h,s,b);
+        return ColorUtil.toRGB(sliderModel.getColorSpace(), h,s,b);
     }
 
     @Override
@@ -211,7 +211,7 @@ public class DefaultHarmonicColorModel extends AbstractListModel implements Harm
         firePropertyChange(COLOR_SPACE_PROPERTY, oldValue, newValue);
         for (int i = 0; i < colors.size(); i++) {
             if (get(i) != null) {
-                set(i, new Color(newValue, ColorSpaceUtil.fromColor(newValue,get(i)),1f));
+                set(i, new Color(newValue, ColorUtil.fromColor(newValue,get(i)),1f));
             }
         }
         fireContentsChanged(this, 0, size() - 1);

@@ -74,7 +74,7 @@ public class ColorListCellRenderer extends DefaultListCellRenderer {
         if (value instanceof Color) {
             Color c = (Color) value;
             icon.setColor(c);
-            setToolTipText(ColorSpaceUtil.toToolTipText(c));
+            setToolTipText(ColorUtil.toToolTipText(c));
             setText("");
         } else {
             icon.setColor(null);

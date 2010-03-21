@@ -262,14 +262,6 @@ public class DefaultDrawingView
         setOpaque(true);
     }
 
-    @Override
-    public void setBackground(Color c) {
-        super.setBackground(c);
-        if (c.getRGB() == 0xffffff || c.getRGB() == 0xffffffff) {
-            new Throwable().printStackTrace();
-        }
-    }
-
     protected EventHandler createEventHandler() {
         return new EventHandler();
     }

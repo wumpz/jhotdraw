@@ -71,7 +71,6 @@ public abstract class AbstractViewAction extends AbstractAction {
         } else {
             view.addPropertyChangeListener(viewListener);
         }
-        updateView(null, getActiveView());
     }
 
     /**

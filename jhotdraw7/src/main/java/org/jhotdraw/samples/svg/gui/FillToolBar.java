@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.*;
 import javax.swing.plaf.SliderUI;
+import javax.swing.text.DefaultFormatterFactory;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.gui.plaf.palette.*;
@@ -149,7 +150,7 @@ public class FillToolBar extends AbstractToolBar {
                 Map<AttributeKey, Object> defaultAttributes = new HashMap<AttributeKey, Object>();
                 FILL_GRADIENT.put(defaultAttributes, null);
                 JAttributeTextField<Color> colorField = new JAttributeTextField<Color>();
-                colorField.setColumns(12);
+                colorField.setColumns(10);
                 colorField.setToolTipText(labels.getString("attribute.fillColor.toolTipText"));
                 colorField.putClientProperty("Palette.Component.segmentPosition", "first");
                 colorField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(colorField));
@@ -178,7 +179,10 @@ public class FillToolBar extends AbstractToolBar {
                 opacityField.setToolTipText(labels.getString("attribute.fillOpacity.toolTipText"));
                 opacityField.putClientProperty("Palette.Component.segmentPosition", "first");
                 opacityField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(opacityField));
-                opacityField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0d, 1d, 100d,false,false,"%"));
+                JavaNumberFormatter formatter = new JavaNumberFormatter(0d, 100d, 100d, false, "%");
+                formatter.setUsesScientificNotation(false);
+                formatter.setMaximumFractionDigits(1);
+                opacityField.setFormatterFactory(new DefaultFormatterFactory(formatter));
                 opacityField.setHorizontalAlignment(JTextField.LEFT);
                 disposables.add(new FigureAttributeEditorHandler<Double>(FILL_OPACITY, opacityField, editor));
                 gbc = new GridBagConstraints();

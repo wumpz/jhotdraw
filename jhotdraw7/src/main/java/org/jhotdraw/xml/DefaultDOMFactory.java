@@ -105,7 +105,10 @@ public class DefaultDOMFactory extends JavaPrimitivesDOMFactory {
     public String getName(Object o) {
         String name = classToNameMap.get(o.getClass());
         if (name == null) {
-            throw new IllegalArgumentException("Storable class not known to factory. Storable:"+o+" Factory:"+this.getClass());
+            name=super.getName(o);
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Storable class not known to factory. Storable class:"+o.getClass()+" Factory:"+this.getClass());
         }
         return name;
     }

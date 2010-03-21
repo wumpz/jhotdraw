@@ -335,7 +335,7 @@ public class JavaxDOMInput implements DOMInput {
 
         // Keep track of objects which have an ID
         if (ref != null) {
-            o = idobjects.get(id);
+            o = idobjects.get(ref);
         } else {
             o = factory.read(this);
             if (id != null) {

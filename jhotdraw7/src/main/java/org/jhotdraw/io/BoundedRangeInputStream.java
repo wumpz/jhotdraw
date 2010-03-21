@@ -21,7 +21,7 @@ import java.io.*;
  * This input stream implements the BoundedRangeModel and allows
  * the observation of the input reading process.
  *
- * @author  Werner Randelshofer, Staldenmattweg 2, CH-6405 Immensee, Switzerland.
+ * @author  Werner Randelshofer, Hausmatt 10, CH-6405 Immensee, Switzerland.
  * @version $Id$
  * <br>history  1.0.1  02.05.1999  #setMaximum overrides the size information
  * from the file.

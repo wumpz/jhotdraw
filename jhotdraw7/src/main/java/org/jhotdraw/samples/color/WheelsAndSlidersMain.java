@@ -79,9 +79,9 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
         chooserPanel.add(createColorWheelChooser(HSLColorSpace.getInstance()));
         chooserPanel.add(createColorWheelChooser(HSLColorSpace.getInstance(), 0, 2, 1));
         chooserPanel.add(new JPanel());
-        chooserPanel.add(createColorWheelChooser(HSVPsychologicColorSpace.getInstance()));
-        chooserPanel.add(createColorWheelChooser(HSLPsychologicColorSpace.getInstance()));
-        chooserPanel.add(createColorWheelChooser(HSLPsychologicColorSpace.getInstance(), 0, 2, 1));
+        chooserPanel.add(createColorWheelChooser(HSVPhysiologicColorSpace.getInstance()));
+        chooserPanel.add(createColorWheelChooser(HSLPhysiologicColorSpace.getInstance()));
+        chooserPanel.add(createColorWheelChooser(HSLPhysiologicColorSpace.getInstance(), 0, 2, 1));
         chooserPanel.add(createColorWheelChooser(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_LINEAR_RGB),0,1,2,JColorWheel.Type.SQUARE));
         chooserPanel.add(createColorWheelChooser(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_CIEXYZ),1,0,2,JColorWheel.Type.SQUARE));
         chooserPanel.add(createColorWheelChooser(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_PYCC),1,2,0,JColorWheel.Type.SQUARE));
@@ -96,7 +96,7 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
         }
 //      chooserPanel.add(createColorWheelChooser("Munsell CIELab_to_UPLab.icc","Munsell UP LAB"),2,1,0,JColorWheel.Type.COMPLEX));
         chooserPanel.add(createSliderChooser(ColorSpace.getInstance(ColorSpace.CS_sRGB)));
-        chooserPanel.add(createSliderChooser(CMYKColorSpace.getInstance()));
+        chooserPanel.add(createSliderChooser(CMYKGenericColorSpace.getInstance()));
         chooserPanel.add(createSliderChooser(CMYKNominalColorSpace.getInstance()));
  //       chooserPanel.add(createSliderChooser("Munsell CIELab_to_UPLab.icc","Munsell UP LAB")));
     }
@@ -126,7 +126,7 @@ w.setFlipY(flipY);
         w.setModel(m);
         JSlider s = new JSlider(JSlider.VERTICAL);
         m.configureSlider(verticalIndex, s);
-        p.add(new JLabel("<html>" + ColorSpaceUtil.getName(sys) + "<br>α:" + angularIndex + " r:" + radialIndex + " v:" + verticalIndex), BorderLayout.NORTH);
+        p.add(new JLabel("<html>" + ColorUtil.getName(sys) + "<br>α:" + angularIndex + " r:" + radialIndex + " v:" + verticalIndex), BorderLayout.NORTH);
         p.add(w, BorderLayout.CENTER);
         p.add(s, BorderLayout.EAST);
         return p;
@@ -143,7 +143,7 @@ w.setFlipY(flipY);
         models.add(m);
         if (!vertical) {
             p.add(new JLabel(
-                    "<html>" + ColorSpaceUtil.getName(sys)), BorderLayout.NORTH);
+                    "<html>" + ColorUtil.getName(sys)), BorderLayout.NORTH);
         }
         m.addChangeListener(handler);
 
