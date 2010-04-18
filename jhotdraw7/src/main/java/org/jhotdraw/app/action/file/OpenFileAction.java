@@ -226,7 +226,7 @@ public class OpenFileAction extends AbstractApplicationAction {
         }
 
         JDialog dialog;
-        Window window = (parent instanceof Window) ? (Window) parent : SwingUtilities.getWindowAncestor(parent);
+        Window window = (parent==null ||(parent instanceof Window)) ? (Window) parent : SwingUtilities.getWindowAncestor(parent);
         if (window instanceof Frame) {
             dialog = new JDialog((Frame) window, title, true);
         } else {
