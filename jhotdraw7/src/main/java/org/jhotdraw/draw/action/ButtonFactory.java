@@ -67,7 +67,6 @@ public class ButtonFactory {
      */
     public final static java.util.List<ColorIcon> DEFAULT_COLORS;
 
-
     static {
         LinkedList<ColorIcon> m = new LinkedList<ColorIcon>();
         m.add(new ColorIcon(0x800000, "Cayenne"));
@@ -130,7 +129,6 @@ public class ButtonFactory {
      */
     public final static java.util.List<ColorIcon> WEBSAVE_COLORS;
 
-
     static {
         LinkedList<ColorIcon> m = new LinkedList<ColorIcon>();
         for (int b = 0; b <= 0xff; b += 0x33) {
@@ -156,7 +154,7 @@ public class ButtonFactory {
             for (int r = 0x99; r <= 0xff; r += 0x33) {
                 for (int g = 0; g <= 0xff; g += 0x33) {
                     rgb = 0xff000000 | (r << 16) | (g << 8) | b;
-                    m.add(new ColorIcon(rgb,"#"+Integer.toHexString(rgb).substring(2)));
+                    m.add(new ColorIcon(rgb, "#" + Integer.toHexString(rgb).substring(2)));
                 }
             }
         }
@@ -176,7 +174,7 @@ public class ButtonFactory {
      * The topmost row contains a null-color and a gray scale from white to
      * black in 10 percent steps.
      * <p>
-     * The remaining rows contain colors taken from the outer hull of the HSV
+     * The remaining rows contain colors taken from the outer hull of the HSB
      * color model:
      * <p>
      * The columns are ordered by hue starting with red - the lowest wavelength -
@@ -192,33 +190,59 @@ public class ButtonFactory {
      * makes for a range from 100% to 20% if the 5th row is taken into account).
      */
     public final static java.util.List<ColorIcon> HSB_COLORS;
-
+    public final static int HSB_COLORS_COLUMN_COUNT = 12;
+    /**
+     * This is the same palette as HSB_COLORS, but all color values are
+     * specified in the sRGB color space.
+     *
+     * @see HSB_COLORS
+     */
+    public final static java.util.List<ColorIcon> HSB_COLORS_AS_RGB;
+    public final static int HSB_COLORS_AS_RGB_COLUMN_COUNT = 12;
 
     static {
-        ColorSpace grayCS=ColorSpace.getInstance(ColorSpace.CS_GRAY);
-        HSBColorSpace hsbCS=HSBColorSpace.getInstance();
+        ColorSpace grayCS = ColorSpace.getInstance(ColorSpace.CS_GRAY);
+        HSBColorSpace hsbCS = HSBColorSpace.getInstance();
         LinkedList<ColorIcon> m = new LinkedList<ColorIcon>();
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         m.add(new ColorIcon(null, labels.getToolTipTextProperty("attribute.color.noColor")));
+
         for (int b = 10; b >= 0; b--) {
-            m.add(new ColorIcon(new Color(grayCS, new float[]{b * 0.1f}, 1f),//
-                    labels.getFormatted("attribute.color.grayComponents.toolTipText", b*10)));
+            Color c = new Color(grayCS, new float[]{b / 10f}, 1f);
+            m.add(new ColorIcon(c,//
+                    labels.getFormatted("attribute.color.grayComponents.toolTipText", b * 10)));
         }
-        for (int s = 2; s <=8; s += 2) {
+        for (int s = 2; s <= 8; s += 2) {
             for (int h = 0; h < 12; h++) {
-                m.add(new ColorIcon(new Color(hsbCS, new float[]{(h) / 12f, s * 0.1f, 1f},1f),//
-                        labels.getFormatted("attribute.color.hsbComponents.toolTipText", h*360/12,s*10,100)));
+                Color c = new Color(hsbCS, new float[]{(h) / 12f, s * 0.1f, 1f}, 1f);
+                m.add(new ColorIcon(c,//
+                        labels.getFormatted("attribute.color.hsbComponents.toolTipText", h * 360 / 12, s * 10, 100)));
             }
         }
         for (int b = 10; b >= 2; b -= 2) {
             for (int h = 0; h < 12; h++) {
-                m.add(new ColorIcon(new Color(hsbCS, new float[]{(h) / 12f, 1f, b * 0.1f},1f),//
-                        labels.getFormatted("attribute.color.hsbComponents.toolTipText", h*360/12,100,b*10)));
+                Color c = new Color(hsbCS, new float[]{(h) / 12f, 1f, b * 0.1f}, 1f);
+                m.add(new ColorIcon(new Color(hsbCS, new float[]{(h) / 12f, 1f, b * 0.1f}, 1f),//
+                        labels.getFormatted("attribute.color.hsbComponents.toolTipText", h * 360 / 12, 100, b * 10)));
             }
         }
         HSB_COLORS = Collections.unmodifiableList(m);
+
+        m = new LinkedList<ColorIcon>();
+        for (ColorIcon ci : HSB_COLORS) {
+            if (ci.getColor() == null) {
+                m.add(new ColorIcon(null, labels.getToolTipTextProperty("attribute.color.noColor")));
+            } else {
+                Color c = ci.getColor().getColorSpace() == grayCS //
+                        ? new Color(ci.getColor().getGreen(), ci.getColor().getGreen(), ci.getColor().getGreen())//workaround for rounding error
+                        : new Color(ci.getColor().getRGB());
+                m.add(new ColorIcon(c,//
+                        labels.getFormatted("attribute.color.rgbComponents.toolTipText", c.getRed(), c.getGreen(), c.getBlue())));
+            }
+        }
+
+        HSB_COLORS_AS_RGB = Collections.unmodifiableList(m);
     }
-    public final static int HSB_COLORS_COLUMN_COUNT = 12;
 
     private static class ToolButtonListener implements ItemListener {
 
@@ -835,19 +859,19 @@ public class ButtonFactory {
             AttributeAction a;
             HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey, Object>(defaultAttributes);
             if (swatch != null) {
-            attributes.put(attributeKey, swatch.getColor());
-            if (swatch.getColor() == null) {
-                hasNullColor = true;
-            }
-            popupButton.add(a =
-                    new AttributeAction(
-                    editor,
-                    attributes,
-                    labels.getToolTipTextProperty(labelKey),
-                    swatch));
-            a.putValue(Action.SHORT_DESCRIPTION, swatch.getName());
-            a.setUpdateEnabledState(false);
-            dsp.add(a);
+                attributes.put(attributeKey, swatch.getColor());
+                if (swatch.getColor() == null) {
+                    hasNullColor = true;
+                }
+                popupButton.add(a =
+                        new AttributeAction(
+                        editor,
+                        attributes,
+                        labels.getToolTipTextProperty(labelKey),
+                        swatch));
+                a.putValue(Action.SHORT_DESCRIPTION, swatch.getName());
+                a.setUpdateEnabledState(false);
+                dsp.add(a);
             } else {
                 popupButton.add(new JPanel());
             }
@@ -1027,20 +1051,20 @@ public class ButtonFactory {
         for (ColorIcon swatch : swatches) {
             DrawingAttributeAction a;
             HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey, Object>(defaultAttributes);
-            if (swatch !=null) {
-            attributes.put(attributeKey, swatch.getColor());
-            if (swatch.getColor() == null) {
-                hasNullColor = true;
-            }
-            popupButton.add(a =
-                    new DrawingAttributeAction(
-                    editor,
-                    attributes,
-                    labels.getToolTipTextProperty(labelKey),
-                    swatch));
-            dsp.add(a);
-            a.putValue(Action.SHORT_DESCRIPTION, swatch.getName());
-            a.setUpdateEnabledState(false);
+            if (swatch != null) {
+                attributes.put(attributeKey, swatch.getColor());
+                if (swatch.getColor() == null) {
+                    hasNullColor = true;
+                }
+                popupButton.add(a =
+                        new DrawingAttributeAction(
+                        editor,
+                        attributes,
+                        labels.getToolTipTextProperty(labelKey),
+                        swatch));
+                dsp.add(a);
+                a.putValue(Action.SHORT_DESCRIPTION, swatch.getName());
+                a.setUpdateEnabledState(false);
             } else {
                 popupButton.add(new JPanel());
             }
@@ -1584,7 +1608,7 @@ public class ButtonFactory {
             @Override
             public void itemStateChanged(ItemEvent event) {
                 view.setConstrainerVisible(toggleButton.isSelected());
-            //view.getComponent().repaint();
+                //view.getComponent().repaint();
             }
         });
         view.addPropertyChangeListener(new PropertyChangeListener() {

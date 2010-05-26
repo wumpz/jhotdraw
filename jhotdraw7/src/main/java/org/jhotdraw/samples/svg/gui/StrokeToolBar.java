@@ -88,7 +88,7 @@ public class StrokeToolBar extends AbstractToolBar {
                 Map<AttributeKey, Object> defaultAttributes = new HashMap<AttributeKey, Object>();
                 STROKE_GRADIENT.put(defaultAttributes, null);
                 btn = ButtonFactory.createSelectionColorButton(editor,
-                        STROKE_COLOR, ButtonFactory.HSB_COLORS, ButtonFactory.HSB_COLORS_COLUMN_COUNT,
+                        STROKE_COLOR, ButtonFactory.HSB_COLORS_AS_RGB, ButtonFactory.HSB_COLORS_AS_RGB_COLUMN_COUNT,
                         "attribute.strokeColor", labels, defaultAttributes, new Rectangle(3, 3, 10, 10), disposables);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                 ((JPopupButton) btn).setAction(null, null);
@@ -188,7 +188,7 @@ public class StrokeToolBar extends AbstractToolBar {
                 Map<AttributeKey, Object> defaultAttributes = new HashMap<AttributeKey, Object>();
                 STROKE_GRADIENT.put(defaultAttributes, null);
                 JAttributeTextField<Color> colorField = new JAttributeTextField<Color>();
-                colorField.setColumns(10);
+                colorField.setColumns(7);
                 colorField.setToolTipText(labels.getString("attribute.strokeColor.toolTipText"));
                 colorField.putClientProperty("Palette.Component.segmentPosition", "first");
                 colorField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(colorField));
@@ -202,7 +202,7 @@ public class StrokeToolBar extends AbstractToolBar {
                 gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                 p.add(colorField, gbc);
                 btn = ButtonFactory.createSelectionColorButton(editor,
-                        STROKE_COLOR, ButtonFactory.HSB_COLORS, ButtonFactory.HSB_COLORS_COLUMN_COUNT,
+                        STROKE_COLOR, ButtonFactory.HSB_COLORS_AS_RGB, ButtonFactory.HSB_COLORS_AS_RGB_COLUMN_COUNT,
                         "attribute.strokeColor", labels, defaultAttributes, new Rectangle(3, 3, 10, 10), disposables);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                 ((JPopupButton) btn).setAction(null, null);
