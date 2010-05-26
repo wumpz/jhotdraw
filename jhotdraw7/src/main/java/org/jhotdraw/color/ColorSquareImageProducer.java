@@ -1,5 +1,5 @@
 /*
- * @(#)ColorWheelImageProducer.java
+ * @(#)ColorSquareImageProducer.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -115,7 +115,7 @@ public class ColorSquareImageProducer extends AbstractColorWheelImageProducer {
                 components[angularIndex] = angulars[index];
                 components[radialIndex] = radials[index];
                 components[verticalIndex] = verticalValue;
-                pixels[index] = alphas[index] | 0xffffff & ColorUtil.toRGB(colorSpace,components);
+                pixels[index] = (alphas[index] | 0xffffff) & ColorUtil.toRGB(colorSpace,components);
             }
         }
         newPixels();

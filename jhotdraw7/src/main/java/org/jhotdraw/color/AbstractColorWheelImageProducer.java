@@ -23,7 +23,7 @@ import java.awt.image.MemoryImageSource;
  * AbstractColorWheelImageProducer.
  *
  * @author Werner Randelshofer
- * @version 1.0 2010-01-20 Created.
+ * @version $Id$
  */
 public abstract class AbstractColorWheelImageProducer extends MemoryImageSource {
 
@@ -43,7 +43,6 @@ public abstract class AbstractColorWheelImageProducer extends MemoryImageSource 
         pixels = new int[w * h];
         this.w = w;
         this.h = h;
-        this.colorSpace = sys;
         setAnimated(true);
 
         newPixels(pixels, ColorModel.getRGBdefault(), 0, w);

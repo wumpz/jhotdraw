@@ -53,6 +53,13 @@ public class CMYKNominalColorSpace extends ColorSpace implements NamedColorSpace
         red = 1f - cyan * (1f - black) - black;
         green = 1f - magenta * (1f - black) - black;
         blue = 1f - yellow * (1f - black) - black;
+
+        // clamp values
+        red = Math.min(1f, Math.max(0f, red));
+        green = Math.min(1f, Math.max(0f, green));
+        blue = Math.min(1f, Math.max(0f, blue));
+
+
         return new float[]{red, green, blue};
     }
 
@@ -79,6 +86,13 @@ public class CMYKNominalColorSpace extends ColorSpace implements NamedColorSpace
                 yellow = (yellow - black) / (1 - black);
             }
         }
+
+        // clamp values
+        cyan = Math.min(1f, Math.max(0f, cyan));
+        yellow = Math.min(1f, Math.max(0f, yellow));
+        magenta = Math.min(1f, Math.max(0f, magenta));
+        black = Math.min(1f, Math.max(0f, black));
+
         return new float[]{cyan, magenta, yellow, black};
     }
 

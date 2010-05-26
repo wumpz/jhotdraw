@@ -209,7 +209,7 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
         float radial = (x - xOffset) / (float) side;
         float angular = (y - yOffset) / (float) side;
         if (flipX) radial=1f-radial;
-        if (flipY) angular=1f-angular;
+        if (!flipY) angular=1f-angular;
 
         float[] hsb = new float[3];
         hsb[angularIndex] = angular//

@@ -78,7 +78,10 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
         chooserPanel.add(createColorWheelChooser(HSVColorSpace.getInstance(),1,0,2,JColorWheel.Type.SQUARE,false,false));
         chooserPanel.add(createColorWheelChooser(HSLColorSpace.getInstance()));
         chooserPanel.add(createColorWheelChooser(HSLColorSpace.getInstance(), 0, 2, 1));
-        chooserPanel.add(new JPanel());
+        CIELABColorSpace cielab=new CIELABColorSpace();
+        cielab.setOutsideGamutHandling(CIELABColorSpace.OutsideGamutHandling.LEAVE_OUTSIDE);
+        chooserPanel.add(createColorWheelChooser(cielab,1,2,0,JColorWheel.Type.COMPLEX));
+  //      chooserPanel.add(new JPanel());
         chooserPanel.add(createColorWheelChooser(HSVPhysiologicColorSpace.getInstance()));
         chooserPanel.add(createColorWheelChooser(HSLPhysiologicColorSpace.getInstance()));
         chooserPanel.add(createColorWheelChooser(HSLPhysiologicColorSpace.getInstance(), 0, 2, 1));

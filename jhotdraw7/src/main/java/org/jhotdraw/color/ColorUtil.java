@@ -27,7 +27,7 @@ import org.jhotdraw.text.ColorToolTipTextFormatter;
  * A utility class for {@code Color} and {@code ColorSpace} objects.
  *
  * @author Werner Randelshofer
- * @version 1.0 2010-01-22 Created.
+ * @version $Id$
  */
 public class ColorUtil {
 
@@ -73,6 +73,11 @@ public class ColorUtil {
      */
     public static int toRGB(ColorSpace colorSpace, float... components) {
         float[] rgb = colorSpace.toRGB(components);
+
+        // If the color is not displayable in RGB, we return transparent black.
+        if (rgb[0]<0f||rgb[1]<0f||rgb[2]<0f||rgb[0]>1f||rgb[1]>1f||rgb[2]>1f) {
+            return 0;
+        }
         return 0xff000000 | ((int) (rgb[0] * 255f) << 16) | ((int) (rgb[1] * 255f) << 8) | (int) (rgb[2] * 255f);
     }
 
