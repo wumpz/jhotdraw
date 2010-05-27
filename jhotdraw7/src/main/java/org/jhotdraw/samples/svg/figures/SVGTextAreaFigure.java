@@ -72,7 +72,6 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
     @Override
     protected void drawFill(Graphics2D g) {
         g.fill(getTextShape());
-        g.draw(new Rectangle2D.Double(getBounds().x, getBounds().y, getPreferredTextSize(changingDepth).width, getPreferredTextSize(changingDepth).height));
     }
 
     @Override
@@ -301,7 +300,6 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
 
             verticalPos += maxDescent;
         }
-
         return paragraphBounds;
     }
 
