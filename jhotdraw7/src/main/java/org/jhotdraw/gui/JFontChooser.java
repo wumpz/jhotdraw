@@ -326,9 +326,12 @@ public class JFontChooser extends JComponent {
                     // get rid of bogus fonts
                     ArrayList<Font> goodFonts = new ArrayList<Font>(fonts.length);
                     for (Font f : fonts) {
+                        //System.out.println("JFontChooser "+f.getFontName());
                         Font decoded = Font.decode(f.getFontName());
                         if (decoded.getFontName().equals(f.getFontName()) || decoded.getFontName().endsWith("-Derived")) {
                             goodFonts.add(f);
+                        } else {
+                            //System.out.println("JFontChooser ***bogus*** "+decoded.getFontName());
                         }
                     }
                     return goodFonts.toArray(new Font[goodFonts.size()]);

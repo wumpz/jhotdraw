@@ -13,7 +13,6 @@
  */
 package org.jhotdraw.app;
 
-import ch.randelshofer.quaqua.QuaquaManager;
 import org.jhotdraw.app.action.app.AbstractPreferencesAction;
 import org.jhotdraw.app.action.window.TogglePaletteAction;
 import org.jhotdraw.app.action.window.FocusWindowAction;
@@ -168,7 +167,7 @@ public class OSXApplication extends AbstractApplication {
 
     protected void initLookAndFeel() {
         try {
-            UIManager.setLookAndFeel(QuaquaManager.getLookAndFeel());
+            UIManager.setLookAndFeel("ch.randelshofer.quaqua.QuaquaLookAndFeel");
         } catch (Exception e) {
             e.printStackTrace();
         }
