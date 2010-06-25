@@ -20,6 +20,8 @@ import java.io.*;
 import java.net.URI;
 import java.util.*;
 import javax.swing.*;
+import org.jhotdraw.annotations.NotNull;
+import org.jhotdraw.annotations.Nullable;
 
 /**
  * An <em>output format</em> implements a strategy for writing a {@link Drawing}
@@ -45,6 +47,7 @@ import javax.swing.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
+@NotNull
 public interface OutputFormat {
     /**
      * Return a FileFilter that can be used to identify files which can be stored 
@@ -69,7 +72,7 @@ public interface OutputFormat {
      * @return A JFileChooser accessory to be used with a javax.swing.JFileChooser
      * Returns null, if no accessory is provided for this format.
      */
-    public JComponent getOutputFormatAccessory();
+    @Nullable public JComponent getOutputFormatAccessory();
     
     /**
      * Writes a Drawing into an URI.

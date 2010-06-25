@@ -15,9 +15,6 @@ package org.jhotdraw.color;
 
 /**
  * Interface for {@code ColorSpace} classes which have a name.
- * <p>
- * This interface is used by {@link ColorSpaceUtil} to retrieve a name from
- * a {@code ColorSpace}.
  *
  * @author Werner Randelshofer
  * @version 1.0 2010-01-22 Created.

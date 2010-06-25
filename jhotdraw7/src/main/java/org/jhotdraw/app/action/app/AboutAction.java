@@ -46,6 +46,7 @@ public class AboutAction extends AbstractApplicationAction {
         labels.configureAction(this, ID);
     }
 
+    @Override
     public void actionPerformed(ActionEvent evt) {
         Application app = getApplication();
 

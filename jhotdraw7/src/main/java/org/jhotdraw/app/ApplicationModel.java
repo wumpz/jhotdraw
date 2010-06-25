@@ -14,9 +14,10 @@
 
 package org.jhotdraw.app;
 
-import java.net.URI;
 import java.util.*;
 import javax.swing.*;
+import org.jhotdraw.annotations.NotNull;
+import org.jhotdraw.annotations.Nullable;
 import org.jhotdraw.gui.URIChooser;
 /**
  * {@code ApplicationModel} provides meta-data for an {@link Application},
@@ -35,6 +36,7 @@ import org.jhotdraw.gui.URIChooser;
  * @author Werner Randelshofer.
  * @version $Id$
  */
+@NotNull
 public interface ApplicationModel {
     /**
      * Returns the name of the application.
@@ -76,7 +78,7 @@ public interface ApplicationModel {
      * @param v The view for which the toolbars need to be created, or null
      * if the actions are shared by multiple views.
      */
-    public ActionMap createActionMap(Application a, View v);
+    public ActionMap createActionMap(Application a, @Nullable View v);
     /**
      * Creates tool bars.
      * <p>
@@ -87,7 +89,7 @@ public interface ApplicationModel {
      * @param v The view for which the toolbars need to be created, or null
      * if the toolbars are shared by multiple views.
      */
-    public List<JToolBar> createToolBars(Application a, View v);
+    public List<JToolBar> createToolBars(Application a, @Nullable View v);
     
     /**
      * Creates menus.
@@ -105,7 +107,7 @@ public interface ApplicationModel {
      * @param v The view for which the toolbars need to be created, or null
      * if the menus are shared by multiple views.
      */
-    public List<JMenu> createMenus(Application a, View v);
+    public List<JMenu> createMenus(Application a, @Nullable View v);
 
     /**
      * Creates an open chooser.
@@ -114,7 +116,7 @@ public interface ApplicationModel {
      * @param v The view for which the chooser needs to be created, or null
      * if the chooser is shared by multiple views.
      */
-    public URIChooser createOpenChooser(Application a, View v);
+    public URIChooser createOpenChooser(Application a, @Nullable View v);
     /**
      * Creates an open chooser for directories.
      *
@@ -122,7 +124,7 @@ public interface ApplicationModel {
      * @param v The view for which the chooser needs to be created, or null
      * if the chooser is shared by multiple views.
      */
-    public URIChooser createOpenDirectoryChooser(Application a, View v);
+    public URIChooser createOpenDirectoryChooser(Application a, @Nullable View v);
     /**
      * Creates a save chooser.
      *
@@ -130,7 +132,7 @@ public interface ApplicationModel {
      * @param v The view for which the chooser needs to be created, or null
      * if the chooser is shared by multiple views.
      */
-    public URIChooser createSaveChooser(Application a, View v);
+    public URIChooser createSaveChooser(Application a, @Nullable View v);
     /**
      * Creates an import chooser.
      *
@@ -138,7 +140,7 @@ public interface ApplicationModel {
      * @param v The view for which the chooser needs to be created, or null
      * if the chooser is shared by multiple views.
      */
-    public URIChooser createImportChooser(Application a, View v);
+    public URIChooser createImportChooser(Application a, @Nullable View v);
     /**
      * Creates an export chooser.
      *
@@ -146,7 +148,7 @@ public interface ApplicationModel {
      * @param v The view for which the chooser needs to be created, or null
      * if the chooser is shared by multiple views.
      */
-    public URIChooser createExportChooser(Application a, View v);
+    public URIChooser createExportChooser(Application a, @Nullable View v);
 
 
 }

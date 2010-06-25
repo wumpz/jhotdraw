@@ -16,6 +16,7 @@
 package org.jhotdraw.draw.event;
 
 import java.util.*;
+import org.jhotdraw.annotations.NotNull;
 /**
  * Interface implemented by observers of {@link org.jhotdraw.draw.Figure} objects.
  *
@@ -37,6 +38,7 @@ import java.util.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
+@NotNull
 public interface FigureListener extends EventListener {
     
     /**

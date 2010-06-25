@@ -16,6 +16,7 @@ package org.jhotdraw.draw;
 import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.event.ChangeListener;
+import org.jhotdraw.annotations.NotNull;
 
 /**
  * A <em>constrainer</em> constrains editing operations performed by
@@ -39,6 +40,7 @@ import javax.swing.event.ChangeListener;
  * @author  Werner Randelshofer
  * @version $Id$
  */
+@NotNull
 public interface Constrainer {
 
     /**

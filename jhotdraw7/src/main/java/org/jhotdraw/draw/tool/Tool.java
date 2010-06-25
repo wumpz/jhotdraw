@@ -19,6 +19,8 @@ import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.ToolListener;
 import java.awt.*;
 import java.awt.event.*;
+import org.jhotdraw.annotations.NotNull;
+import org.jhotdraw.annotations.Nullable;
 /**
  * A <em>tool</em> defines a mode of a {@link DrawingEditor}. All input events
  * targeted to the active {@link DrawingView} of the drawing editor are 
@@ -71,6 +73,7 @@ import java.awt.event.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
+@NotNull
 public interface Tool extends MouseListener, MouseMotionListener, KeyListener {
     
     /**
@@ -138,7 +141,7 @@ public interface Tool extends MouseListener, MouseMotionListener, KeyListener {
      * @param evt A mouse event.
      * @return A tooltip text or null.
      */
-    public String getToolTipText(DrawingView view, MouseEvent evt);
+    @Nullable public String getToolTipText(DrawingView view, MouseEvent evt);
     
     /**
      * Returns true, if this tool lets the user interact with handles.

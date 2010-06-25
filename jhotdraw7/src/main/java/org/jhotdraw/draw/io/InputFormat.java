@@ -19,6 +19,8 @@ import java.awt.datatransfer.*;
 import java.io.*;
 import java.net.URI;
 import javax.swing.*;
+import org.jhotdraw.annotations.NotNull;
+import org.jhotdraw.annotations.Nullable;
 
 /**
  * An <em>input format</em> implements a strategy for reading a {@link Drawing}
@@ -44,6 +46,7 @@ import javax.swing.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
+@NotNull
 public interface InputFormat {
     /**
      * Return a FileFilter that can be used to identify files which can be read
@@ -61,7 +64,7 @@ public interface InputFormat {
      * @return A JFileChooser accessory to be used with a javax.swing.JFileChooser
      * Returns null, if no accessory is provided for this format.
      */
-    public JComponent getInputFormatAccessory();
+    @Nullable public JComponent getInputFormatAccessory();
     
     /**
      * Reads figures from an URI and replaces the children of the drawing
@@ -77,7 +80,7 @@ public interface InputFormat {
     /**
      * Reads figures from an URI and adds them to the specified drawing.
      *
-     * @param URI The URI.
+     * @param uri The URI.
      * @param drawing The drawing.
      * @param replace Set this to true, if the contents of the file replaces the
      * contents of the drawing (for example, when loading a drawing from a file).

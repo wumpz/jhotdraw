@@ -14,6 +14,8 @@
 
 package org.jhotdraw.draw.tool;
 
+import org.jhotdraw.annotations.NotNull;
+
 /**
  * A <em>select area tracker</em> provides the behavior for selecting figures
  * in a drawing area to the {@link SelectionTool}.
@@ -31,6 +33,7 @@ package org.jhotdraw.draw.tool;
  * @author Werner Randelshofer
  * @version $Id: SelectAreaTracker.java -1   $
  */
+@NotNull
 public interface SelectAreaTracker extends Tool {
 
 }

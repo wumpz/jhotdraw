@@ -16,6 +16,8 @@ package org.jhotdraw.draw;
 
 import java.awt.image.*;
 import java.io.*;
+import org.jhotdraw.annotations.NotNull;
+import org.jhotdraw.annotations.Nullable;
 
 /**
  * The interface of a {@link Figure} which has some editable image contents.
@@ -46,6 +48,7 @@ import java.io.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
+@NotNull
 public interface ImageHolderFigure extends Figure {
     /**
      * Loads an image from a File.
@@ -62,11 +65,11 @@ public interface ImageHolderFigure extends Figure {
     /**
      * Gets the buffered image from the figure.
      */
-    public BufferedImage getBufferedImage();
+    @Nullable public BufferedImage getBufferedImage();
     /**
      * Sets the buffered image for the figure.
      */
-    public void setBufferedImage(BufferedImage image);
+    public void setBufferedImage(@Nullable BufferedImage image);
     
     /**
      * Sets the image.
@@ -76,13 +79,13 @@ public interface ImageHolderFigure extends Figure {
      * @param bufferedImage An image constructed from the imageData. If this
      * is null, imageData must be provided.
      */
-    public void setImage(byte[] imageData, BufferedImage bufferedImage) throws IOException;
+    public void setImage(@Nullable byte[] imageData, @Nullable BufferedImage bufferedImage) throws IOException;
     /**
      * Gets the image data.
      *
      * @return imageData The image data, or null, if the ImageHolderFigure does
      * not have an image.
      */
-    public byte[] getImageData();
+    @Nullable public byte[] getImageData();
 
 }

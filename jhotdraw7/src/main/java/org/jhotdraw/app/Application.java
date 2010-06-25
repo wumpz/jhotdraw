@@ -18,6 +18,8 @@ import java.beans.*;
 import java.util.*;
 import javax.swing.*;
 import java.net.URI;
+import org.jhotdraw.annotations.NotNull;
+import org.jhotdraw.annotations.Nullable;
 import org.jhotdraw.gui.URIChooser;
 
 /**
@@ -62,6 +64,7 @@ import org.jhotdraw.gui.URIChooser;
  * @author Werner Randelshofer
  * @version $Id$
  */
+@NotNull
 public interface Application {
 
     /**
@@ -230,7 +233,7 @@ public interface Application {
      * This may return null, if the application is not represented by a component
      * of its own on the user interface.
      */
-    public Component getComponent();
+    @Nullable public Component getComponent();
 
     /**
      * Adds a palette window to the application.
@@ -249,7 +252,7 @@ public interface Application {
      * @param view The View to which this window is associated, or null
      * if the window is associated to the application.
      */
-    public void addWindow(Window window, View view);
+    public void addWindow(Window window, @Nullable View view);
 
     /**
      * Removes a (non-palette) window from the application.
@@ -278,63 +281,63 @@ public interface Application {
      * Creates a file menu for the specified view.
      * Returns null, if the menu is empty.
      */
-    public JMenu createFileMenu(View v);
+    @Nullable public JMenu createFileMenu(@Nullable View v);
 
     /**
      * Creates an edit menu for the specified view.
      * Returns null, if the menu is empty.
      */
-    public JMenu createEditMenu(View v);
+    @Nullable public JMenu createEditMenu(@Nullable View v);
 
     /**
      * Creates a view menu for the specified view.
      * Returns null, if the menu is empty.
      */
-    public JMenu createViewMenu(View v);
+    @Nullable public JMenu createViewMenu(@Nullable View v);
 
     /**
      * Creates a window menu for the specified view.
      * Returns null, if the menu is empty.
      */
-    public JMenu createWindowMenu(View v);
+    @Nullable public JMenu createWindowMenu(@Nullable View v);
 
     /** 
      * Creates a help menu for the specified view.
      * Returns null, if the menu is empty.
      */
-    public JMenu createHelpMenu(View v);
+    @Nullable public JMenu createHelpMenu(@Nullable View v);
 
     /**
      * Gets the open chooser.
      *
      * @param v View or null for application-wide chooser.
      */
-    public URIChooser getOpenChooser(View v);
+    public URIChooser getOpenChooser(@Nullable View v);
 
     /**
      * Gets the save chooser.
      *
      * @param v View or null for application-wide chooser.
      */
-    public URIChooser getSaveChooser(View v);
+    public URIChooser getSaveChooser(@Nullable View v);
 
     /**
      * Gets the export chooser.
      *
      * @param v View or null for application-wide chooser.
      */
-    public URIChooser getExportChooser(View v);
+    public URIChooser getExportChooser(@Nullable View v);
     /**
      * Gets the import chooser.
      *
      * @param v View or null for application-wide chooser.
      */
-    public URIChooser getImportChooser(View v);
+    public URIChooser getImportChooser(@Nullable View v);
 
     /**
      * Gets the action map.
      *
      * @param v View or null for application-wide action map.
      */
-    public ActionMap getActionMap(View v);
+    public ActionMap getActionMap(@Nullable View v);
 }

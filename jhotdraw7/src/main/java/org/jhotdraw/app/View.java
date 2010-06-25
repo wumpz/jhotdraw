@@ -19,6 +19,8 @@ import java.io.*;
 import java.beans.*;
 import java.net.URI;
 import javax.swing.*;
+import org.jhotdraw.annotations.NotNull;
+import org.jhotdraw.annotations.Nullable;
 
 /**
  * A <em>view</em> paints a document on a {@code JComponent} within an
@@ -81,6 +83,7 @@ import javax.swing.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
+@NotNull
 public interface View extends Disposable {
     /**
      * The name of the uri property.
@@ -331,7 +334,7 @@ public interface View extends Disposable {
      * @param chooser The chooser which was used for selecting the URI. This
      * parameter is null if no chooser was used.
      */
-    public void write(URI uri, URIChooser chooser) throws IOException;
+    public void write(URI uri, @Nullable URIChooser chooser) throws IOException;
 
     /**
      * Reads the view from the specified URI.
@@ -342,7 +345,7 @@ public interface View extends Disposable {
      * @param chooser The chooser which was used for selecting the URI. This
      * parameter is null if no chooser was used.
      */
-    public void read(URI uri, URIChooser chooser) throws IOException;
+    public void read(URI uri, @Nullable URIChooser chooser) throws IOException;
 
 
 }

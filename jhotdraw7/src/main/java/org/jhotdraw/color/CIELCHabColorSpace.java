@@ -131,8 +131,8 @@ public class CIELCHabColorSpace extends ColorSpace implements NamedColorSpace {
      * Source: <a href="http://www.brucelindbloom.com/index.html?Equations.html"
      * >http://www.brucelindbloom.com/index.html?Equations.html</a>
      *
-     * @param colorvalue
-     * @return
+     * @param colorvalue Lab color value.
+     * @return CIEXYZ color value.
      */
     @Override
     public float[] toCIEXYZ(float[] colorvalue) {
@@ -206,8 +206,8 @@ public class CIELCHabColorSpace extends ColorSpace implements NamedColorSpace {
      * Source: <a href="http://www.brucelindbloom.com/index.html?Equations.html"
      * >http://www.brucelindbloom.com/index.html?Equations.html</a>
      *
-     * @param colorvalue
-     * @return
+     * @param colorvalue CIEXYZ color value.
+     * @return Lab color value.
      */
     @Override
     public float[] fromCIEXYZ(float[] colorvalue) {

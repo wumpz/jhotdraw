@@ -14,6 +14,7 @@
 
 package org.jhotdraw.draw;
 
+import org.jhotdraw.annotations.NotNull;
 import org.jhotdraw.draw.layouter.Layouter;
 import org.jhotdraw.draw.event.CompositeFigureListener;
 import org.jhotdraw.geom.*;
@@ -59,6 +60,7 @@ import org.jhotdraw.geom.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
+@NotNull
 public interface CompositeFigure extends Figure {
     /**
      * The value of this attribute is a Insets2D.Double object.

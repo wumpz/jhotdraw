@@ -19,6 +19,8 @@ import java.awt.event.ActionListener;
 import java.net.URI;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
+import org.jhotdraw.annotations.NotNull;
+import org.jhotdraw.annotations.Nullable;
 
 /**
  *{@code URIChooser} provides a mechanism for the user to choose a URI.
@@ -26,23 +28,24 @@ import javax.swing.JFileChooser;
  * @author Werner Randelshofer
  * @version 1.0 2009-12-16 Created.
  */
+@NotNull
 public interface URIChooser {
     // ************************
     // ***** Dialog Types *****
     // ************************
 
     /**
-     * Type value indicating that the <code>URIChooser</code> supports an
+     * Type value indicating that the {@code URIChooser}  supports an
      * "Open" file operation.
      */
     public static final int OPEN_DIALOG = JFileChooser.OPEN_DIALOG;
     /**
-     * Type value indicating that the <code>URIChooser</code> supports a
+     * Type value indicating that the {@code URIChooser}  supports a
      * "Save" file operation.
      */
     public static final int SAVE_DIALOG = JFileChooser.SAVE_DIALOG;
     /**
-     * Type value indicating that the <code>URIChooser</code> supports a
+     * Type value indicating that the {@code URIChooser}  supports a
      * developer-specified file operation.
      */
     public static final int CUSTOM_DIALOG = JFileChooser.CUSTOM_DIALOG;
@@ -139,24 +142,24 @@ public interface URIChooser {
     public void setDialogType(int dialogType);
 
     /**
-     * Returns the text used in the <code>ApproveButton</code>.
-     * If <code>null</code>, the UI object will determine the button's text.
+     * Returns the text used in the {@code ApproveButton} .
+     * If {@code null} , the UI object will determine the button's text.
      *
      * Typically, this would be "Open" or "Save".
      *
-     * @return the text used in the <code>ApproveButton</code>
+     * @return the text used in the {@code ApproveButton}
      *
      * @see #setApproveButtonText
      * @see #setDialogType
      * @see #showDialog
      */
-    public String getApproveButtonText();
+    @Nullable public String getApproveButtonText();
 
     /**
-     * Sets the text used in the <code>ApproveButton</code> in the
-     * <code>FileChooserUI</code>.
+     * Sets the text used in the {@code ApproveButton}  in the
+     * {@code FileChooserUI} .
      *
-     * @param approveButtonText the text used in the <code>ApproveButton</code>
+     * @param approveButtonText the text used in the {@code ApproveButton}
      *
      * @see #getApproveButtonText
      * @see #setDialogType
@@ -190,14 +193,14 @@ public interface URIChooser {
     public JComponent getComponent();
 
     /**
-     * Adds an <code>ActionListener</code> to the chooser.
+     * Adds an {@code ActionListener}  to the chooser.
      *
      * @param l  the listener to be added
      */
     public void addActionListener(ActionListener l);
 
     /**
-     * Removes an <code>ActionListener</code> from the chooser.
+     * Removes an {@code ActionListener}  from the chooser.
      *
      * @param l  the listener to be removed
      *
@@ -206,10 +209,10 @@ public interface URIChooser {
     public void removeActionListener(ActionListener l);
 
     /**
-     * Sets the string that goes in the <code>URIChooser</code> window's
+     * Sets the string that goes in the {@code URIChooser}  window's
      * title bar.
      *
-     * @param dialogTitle the new <code>String</code> for the title bar
+     * @param dialogTitle the new {@code String}  for the title bar
      *
      * @see #getDialogTitle
      *
@@ -217,7 +220,7 @@ public interface URIChooser {
     public void setDialogTitle(String dialogTitle);
 
     /**
-     * Gets the string that goes in the <code>URIChooser</code>'s titlebar.
+     * Gets the string that goes in the {@code URIChooser} 's titlebar.
      *
      * @see #setDialogTitle
      */
@@ -237,8 +240,8 @@ public interface URIChooser {
      * the L&F.
      *
      * @param    parent  the parent component of the dialog,
-     *			can be <code>null</code>;
-     *                  see <code>showDialog</code> for details
+     *			can be {@code null};
+     *                  see {@code showDialog}  for details
      * @return   the return state of the file chooser on popdown:
      * <ul>
      * <li>URIChooser.CANCEL_OPTION
@@ -251,7 +254,7 @@ public interface URIChooser {
      * @see java.awt.GraphicsEnvironment#isHeadless
      * @see #showDialog
      */
-    public int showOpenDialog(Component parent) throws HeadlessException;
+    public int showOpenDialog(@Nullable Component parent) throws HeadlessException;
 
     /**
      * Pops up a "Save File" file chooser dialog. Note that the
@@ -259,8 +262,8 @@ public interface URIChooser {
      * the L&F.
      *
      * @param    parent  the parent component of the dialog,
-     *			can be <code>null</code>;
-     *                  see <code>showDialog</code> for details
+     *			can be {@code null} ;
+     *                  see {@code showDialog}  for details
      * @return   the return state of the file chooser on popdown:
      * <ul>
      * <li>URIChooser.CANCEL_OPTION
@@ -273,7 +276,7 @@ public interface URIChooser {
      * @see java.awt.GraphicsEnvironment#isHeadless
      * @see #showDialog
      */
-    public int showSaveDialog(Component parent) throws HeadlessException;
+    public int showSaveDialog(@Nullable Component parent) throws HeadlessException;
 
     /**
      * Pops a custom file chooser dialog with a custom approve button.
@@ -298,11 +301,11 @@ public interface URIChooser {
      *
      * <p>
      *
-     * The <code>parent</code> argument determines two things:
+     * The {@code parent}  argument determines two things:
      * the frame on which the open dialog depends and
      * the component whose position the look and feel
      * should consider when placing the dialog.  If the parent
-     * is a <code>Frame</code> object (such as a <code>JFrame</code>)
+     * is a {@code Frame</code> object (such as a <code>JFrame} )
      * then the dialog depends on the frame and
      * the look and feel positions the dialog
      * relative to the frame (for example, centered over the frame).
@@ -310,14 +313,14 @@ public interface URIChooser {
      * depends on the frame containing the component,
      * and is positioned relative to the component
      * (for example, centered over the component).
-     * If the parent is <code>null</code>, then the dialog depends on
+     * If the parent is {@code null} , then the dialog depends on
      * no visible window, and it's placed in a
      * look-and-feel-dependent position
      * such as the center of the screen.
      *
      * @param   parent  the parent component of the dialog;
-     *			can be <code>null</code>
-     * @param   approveButtonText the text of the <code>ApproveButton</code>
+     *			can be {@code null}
+     * @param   approveButtonText the text of the {@code ApproveButton}
      * @return  the return state of the file chooser on popdown:
      * <ul>
      * <li>URIChooser.CANCEL_OPTION
@@ -329,5 +332,5 @@ public interface URIChooser {
      * returns true.
      * @see java.awt.GraphicsEnvironment#isHeadless
      */
-    public int showDialog(final Component parent, final String approveButtonText) throws HeadlessException;
+    public int showDialog(@Nullable Component parent, String approveButtonText) throws HeadlessException;
 }

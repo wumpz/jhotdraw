@@ -17,6 +17,8 @@ package org.jhotdraw.draw;
 import org.jhotdraw.draw.liner.Liner;
 import org.jhotdraw.draw.connector.Connector;
 import java.awt.geom.*;
+import org.jhotdraw.annotations.NotNull;
+import org.jhotdraw.annotations.Nullable;
 import org.jhotdraw.geom.*;
 
 /**
@@ -58,6 +60,7 @@ import org.jhotdraw.geom.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
+@NotNull
 public interface ConnectionFigure
         extends Figure {
     // DRAWING
@@ -70,24 +73,24 @@ public interface ConnectionFigure
      * Set this to null to disconnect the start connection.
      * @param start the start Connector of the connection
      */
-    public void setStartConnector(Connector start);
+    public void setStartConnector(@Nullable Connector start);
     /**
      * Gets the start {@code Connector}.
      * Returns null, if there is no start connection.
      */
-    public Connector getStartConnector();
+    @Nullable public Connector getStartConnector();
  
     /**
      * Sets the end Connector of the connection.
      * Set this to null to disconnect the end connection.
      * @param end the end Connector of the connection
      */
-    public void setEndConnector(Connector end);
+    public void setEndConnector(@Nullable Connector end);
     /**
      * Gets the end Connector.
      * Returns null, if there is no end connection.
      */
-    public Connector getEndConnector();
+    @Nullable public Connector getEndConnector();
     
     /**
      * Updates the start and end point of the figure and fires figureChanged
@@ -143,11 +146,13 @@ public interface ConnectionFigure
     /**
      * Gets the start point.
      */
+    @Override
     public Point2D.Double getStartPoint();
     
     /**
      * Gets the end point.
      */
+    @Override
     public Point2D.Double getEndPoint();
     
     /**
@@ -155,14 +160,14 @@ public interface ConnectionFigure
      * This is a convenience method for doing getStartConnector().getOwner()
      * and handling null cases.
      */
-    public Figure getStartFigure();
+    @Nullable public Figure getStartFigure();
     
     /**
      * Gets the end figure of the connection.
      * This is a convenience method for doing getEndConnector().getOwner()
      * and handling null cases.
      */
-    public Figure getEndFigure();
+    @Nullable public Figure getEndFigure();
 // COMPOSITE FIGURES
     /**
      * Get a Liner object which encapsulated a lineout
@@ -172,7 +177,7 @@ public interface ConnectionFigure
      *
      * @return lineout strategy used by this figure
      */
-    public Liner getLiner();
+    @Nullable public Liner getLiner();
     /**
      * Set a Liner object which encapsulated a lineout
      * algorithm for this figure. Typically, a Liner
@@ -181,11 +186,11 @@ public interface ConnectionFigure
      *
      * @param newValue	encapsulation of a lineout algorithm.
      */
-    public void setLiner(Liner newValue);
+    public void setLiner(@Nullable Liner newValue);
     /**
-     * A lineout algorithm is used to define how the child components
+     * A "lineout" algorithm is used to define how the child components
      * should be laid out in relation to each other. The task for
-     * lineouting the child components for presentation is delegated
+     * layouting the child components for presentation is delegated
      * to a Liner which can be plugged in at runtime.
      */
     public void lineout();

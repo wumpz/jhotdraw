@@ -19,6 +19,8 @@ import java.beans.*;
 import java.util.*;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
+import org.jhotdraw.annotations.NotNull;
+import org.jhotdraw.annotations.Nullable;
 
 /**
  * A <em>drawing editor</em> coordinates drawing tools and drawing views.
@@ -84,6 +86,7 @@ import javax.swing.InputMap;
  * @author Werner Randelshofer
  * @version $Id$
  */
+@NotNull
 public interface DrawingEditor {
 
     /**
@@ -135,13 +138,13 @@ public interface DrawingEditor {
      * Gets the editor's active drawing view.
      * This can be null, if the editor has no views.
      */
-    DrawingView getActiveView();
+    @Nullable DrawingView getActiveView();
 
     /**
      * Sets the editor's active drawing view.
      * This can be set to null, if the editor has no views.
      */
-    void setActiveView(DrawingView newValue);
+    void setActiveView(@Nullable DrawingView newValue);
 
     /**
      * Calls deactivate on the previously active tool of this drawing editor.
@@ -165,12 +168,6 @@ public interface DrawingEditor {
      */
     void setCursor(Cursor c);
 
-    /**
-     * Finds a handle at the given coordinates.
-     * @return A handle, null if no handle is found.
-     * /
-    public Handle findHandle(Point p);
-     */
     /**
      * Finds a drawing view.
      * This is used by Tool to identify the view of which it has received

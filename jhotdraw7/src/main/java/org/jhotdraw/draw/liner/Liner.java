@@ -17,6 +17,7 @@ package org.jhotdraw.draw.liner;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.ConnectionFigure;
 import java.util.*;
+import org.jhotdraw.annotations.NotNull;
 import org.jhotdraw.geom.*;
 /**
  * A <em>liner</em> encapsulates a strategy for laying out the bezier path of
@@ -34,6 +35,7 @@ import org.jhotdraw.geom.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
+@NotNull
 public interface Liner extends Cloneable {
     
     /**

@@ -15,12 +15,14 @@
 package org.jhotdraw.gui.event;
 
 import java.util.*;
+import org.jhotdraw.annotations.NotNull;
 /**
  * SheetListener.
  *
  * @author  Werner Randelshofer
  * @version $Id$
  */
+@NotNull
 public interface SheetListener extends EventListener {
     /**
      * This method is invoked, when the user selected an option on the

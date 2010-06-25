@@ -16,6 +16,7 @@ package org.jhotdraw.draw.tool;
 
 import org.jhotdraw.draw.handle.Handle;
 import java.util.Collection;
+import org.jhotdraw.annotations.NotNull;
 
 /**
  * A <em>handle tracker</em> provides the behavior for manipulating a
@@ -35,6 +36,7 @@ import java.util.Collection;
  * @author Werner Randelshofer
  * @version $Id: HandleTracker.java -1   $
  */
+@NotNull
 public interface HandleTracker extends Tool {
 
     public void setHandles(Handle handle, Collection<Handle> compatibleHandles);

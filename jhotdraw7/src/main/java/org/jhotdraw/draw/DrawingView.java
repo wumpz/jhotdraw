@@ -21,6 +21,8 @@ import java.awt.event.*;
 import java.util.*;
 import java.beans.*;
 import javax.swing.*;
+import org.jhotdraw.annotations.NotNull;
+import org.jhotdraw.annotations.Nullable;
 
 /**
  * A <em>drawing view</em> paints a {@link Drawing} on a {@code JComponent}.
@@ -109,6 +111,7 @@ import javax.swing.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
+@NotNull
 public interface DrawingView {
 
     /**
@@ -220,7 +223,7 @@ public interface DrawingView {
      * Finds a handle at the given coordinates.
      * @return A handle, null if no handle is found.
      */
-    public Handle findHandle(Point p);
+    @Nullable public Handle findHandle(Point p);
 
     /**
      * Gets compatible handles.
@@ -240,7 +243,7 @@ public interface DrawingView {
      * Finds a figure at the given point.
      * @return A figure, null if no figure is found.
      */
-    public Figure findFigure(Point p);
+    @Nullable public Figure findFigure(Point p);
 
     /**
      * Returns all figures that lie within or intersect the specified

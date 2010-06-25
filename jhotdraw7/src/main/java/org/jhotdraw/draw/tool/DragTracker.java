@@ -14,6 +14,7 @@
 
 package org.jhotdraw.draw.tool;
 
+import org.jhotdraw.annotations.NotNull;
 import org.jhotdraw.draw.*;
 
 /**
@@ -42,6 +43,7 @@ import org.jhotdraw.draw.*;
  * @author Werner Randelshofer
  * @version $Id: DragTracker.java -1   $
  */
+@NotNull
 public interface DragTracker extends Tool {
 
     public void setDraggedFigure(Figure f);

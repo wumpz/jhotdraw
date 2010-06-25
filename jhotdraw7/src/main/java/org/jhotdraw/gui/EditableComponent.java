@@ -14,6 +14,7 @@
 package org.jhotdraw.gui;
 
 import java.beans.PropertyChangeListener;
+import org.jhotdraw.annotations.NotNull;
 
 /**
  * This interface must be implemented by components
@@ -40,6 +41,7 @@ import java.beans.PropertyChangeListener;
  * @author Werner Randelshofer
  * @version $Id$
  */
+@NotNull
 public interface EditableComponent {
 
     /** The name of the "selectionEmpty" property. */

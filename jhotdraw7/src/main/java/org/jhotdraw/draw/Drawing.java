@@ -11,8 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
-
 package org.jhotdraw.draw;
 
 import org.jhotdraw.draw.io.InputFormat;
@@ -25,6 +23,9 @@ import java.util.*;
 import javax.swing.undo.*;
 import javax.swing.event.*;
 import java.io.*;
+import org.jhotdraw.annotations.NotNull;
+import org.jhotdraw.annotations.Nullable;
+
 /**
  * A <em>drawing</em> is a container for {@link Figure}s. A drawing can hold
  * multiple figures, but a figure can only be in one drawing at a time.
@@ -84,7 +85,9 @@ import java.io.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
+@NotNull
 public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
+
     /**
      * Adds a figure to the drawing.
      * The drawing sends an {@code addNotify} message to the figure
@@ -96,6 +99,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      */
     @Override
     boolean add(Figure figure);
+
     /**
      * Adds a figure to the drawing.
      * The drawing sends an {@code addNotify} message to the figure
@@ -108,6 +112,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      */
     @Override
     void add(int index, Figure figure);
+
     /**
      * Adds a collection of figures to the drawing.
      * The drawing sends an {@code addNotify}  message to each figure
@@ -118,6 +123,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * @param figures to be added to the drawing
      */
     void addAll(Collection<? extends Figure> figures);
+
     /**
      * Adds a collection of figures to the drawing.
      * The drawing sends an {@code addNotify}  message to each figure
@@ -141,6 +147,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      */
     @Override
     boolean remove(Figure figure);
+
     /**
      * Removes the specified figures from the drawing.
      * The drawing sends a {@code removeNotify}  message to each figure
@@ -162,6 +169,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      */
     @Override
     int basicRemove(Figure figure);
+
     /**
      * Removes the specified figures temporarily from the drawing.
      *
@@ -170,6 +178,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * and should be removed
      */
     void basicRemoveAll(Collection<? extends Figure> figures);
+
     /**
      * Reinserts a figure which was temporarily removed using basicRemove.
      * <p>
@@ -181,6 +190,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      */
     @Override
     void basicAdd(Figure figure);
+
     /**
      * Reinserts a figure which was temporarily removed using basicRemove.
      *
@@ -189,7 +199,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      */
     @Override
     void basicAdd(int index, Figure figure);
-    
+
     /**
      * Reinserts the specified figures which were temporarily removed from
      * the drawing.
@@ -201,17 +211,19 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * @see #basicRemoveAll(Collection)
      */
     void basicAddAll(int index, Collection<? extends Figure> figures);
-    
+
     /**
      * Returns all figures that lie within or intersect the specified
      * bounds. The figures are returned in Z-order from back to front.
      */
     List<Figure> findFigures(Rectangle2D.Double bounds);
+
     /**
      * Returns all figures that lie within the specified
      * bounds. The figures are returned in Z-order from back to front.
      */
     List<Figure> findFiguresWithin(Rectangle2D.Double bounds);
+
     /**
      * Finds a top level Figure. Use this call for hit detection that
      * should not descend into children of composite figures.
@@ -220,27 +232,29 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * composite figures.
      */
     Figure findFigure(Point2D.Double p);
-    
+
     /**
      * Finds a top level Figure. Use this call for hit detection that
      * should not descend into the figure's children.
      */
     Figure findFigureExcept(Point2D.Double p, Figure ignore);
+
     /**
      * Finds a top level Figure. Use this call for hit detection that
      * should not descend into the figure's children.
      */
     Figure findFigureExcept(Point2D.Double p, Collection<? extends Figure> ignore);
+
     /**
      * Finds a top level Figure which is behind the specified Figure.
      */
     Figure findFigureBehind(Point2D.Double p, Figure figure);
+
     /**
      * Finds a top level Figure which is behind the specified Figures.
      */
     Figure findFigureBehind(Point2D.Double p, Collection<? extends Figure> figures);
-    
-    
+
     /**
      * Returns a list of the figures in Z-Order from front to back.
      */
@@ -264,67 +278,71 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * location is not contained in a figure.
      */
     @Override
+    @Nullable
     Figure findFigureInside(Point2D.Double p);
-    
+
     /**
      * Sends a figure to the back of the drawing.
      *
      * @param figure that is part of the drawing
      */
     void sendToBack(Figure figure);
-    
+
     /**
      * Brings a figure to the front.
      *
      * @param figure that is part of the drawing
      */
     void bringToFront(Figure figure);
-    
+
     /**
      * Returns a copy of the provided collection which is sorted
      * in z order from back to front.
      */
     List<Figure> sort(Collection<? extends Figure> figures);
-    
+
     /**
      * Adds a listener for undooable edit events.
      */
     void addUndoableEditListener(UndoableEditListener l);
-    
+
     /**
      * Removes a listener for undoable edit events.
      */
     void removeUndoableEditListener(UndoableEditListener l);
+
     /**
      * Notify all listenerList that have registered interest for
      * notification on this event type.
      */
     void fireUndoableEditHappened(UndoableEdit edit);
-    
+
     /**
      * Returns the font render context used to do text leyout and text drawing.
      */
     FontRenderContext getFontRenderContext();
+
     /**
      * Sets the font render context used to do text leyout and text drawing.
      */
     void setFontRenderContext(FontRenderContext frc);
-    
+
     /**
      * Returns the lock object on which all threads acting in Figures in this
      * drawing synchronize to prevent race conditions.
      */
     Object getLock();
-    
+
     /**
      * Adds an input format to the drawing.
      */
     void addInputFormat(InputFormat format);
+
     /**
      * Adds an output format to the drawing.
      */
     void addOutputFormat(OutputFormat format);
-    
+
     /**
      * Sets input formats for the Drawing in order of preferred formats.
      * <p>
@@ -332,10 +350,12 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * pasting Figures from the clipboard into the Drawing.
      */
     void setInputFormats(List<InputFormat> formats);
+
     /**
      * Gets input formats for the Drawing in order of preferred formats.
      */
     List<InputFormat> getInputFormats();
+
     /**
      * Sets output formats for the Drawing in order of preferred formats.
      * <p>
@@ -343,6 +363,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * cutting and copying Figures from the Drawing into the clipboard.
      */
     void setOutputFormats(List<OutputFormat> formats);
+
     /**
      * Gets output formats for the Drawing in order of preferred formats.
      */

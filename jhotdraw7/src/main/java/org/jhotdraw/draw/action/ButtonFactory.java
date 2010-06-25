@@ -194,8 +194,6 @@ public class ButtonFactory {
     /**
      * This is the same palette as HSB_COLORS, but all color values are
      * specified in the sRGB color space.
-     *
-     * @see HSB_COLORS
      */
     public final static java.util.List<ColorIcon> HSB_COLORS_AS_RGB;
     public final static int HSB_COLORS_AS_RGB_COLUMN_COUNT = 12;

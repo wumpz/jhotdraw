@@ -19,6 +19,7 @@ import org.jhotdraw.draw.*;
 import java.awt.*;
 import java.awt.geom.*;
 import java.io.*;
+import org.jhotdraw.annotations.NotNull;
 
 /**
  * A <em>line decoration</em> can be used to draw a decoration at the start or
@@ -42,6 +43,7 @@ import java.io.*;
  * @author Werner Randelshofer
  * @version $Id: LineDecoration.java -1   $
  */
+@NotNull
 public interface LineDecoration
 extends Cloneable, Serializable {
     

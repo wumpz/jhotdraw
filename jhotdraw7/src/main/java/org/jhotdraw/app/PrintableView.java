@@ -15,6 +15,7 @@
 package org.jhotdraw.app;
 
 import java.awt.print.*;
+import org.jhotdraw.annotations.NotNull;
 
 /**
  * The interface of a {@link View} which can print its document.
@@ -33,6 +34,7 @@ import java.awt.print.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
+@NotNull
 public interface PrintableView extends View {
 public Pageable createPageable();   
 }

@@ -16,7 +16,7 @@ package org.jhotdraw.gui;
 import javax.swing.SwingUtilities;
 
 /**
- * This is an abstract class that you subclass to
+ * This is an abstract class that you can subclass to
  * perform GUI-related work in a dedicated event dispatcher.
  * <p>
  * This class is similar to SwingWorker but less complex.
