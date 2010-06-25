@@ -43,10 +43,13 @@ import java.util.*;
  * @see SelectionTool
  *
  * @author Werner Randelshofer
- * @version $Id: DefaultHandleTracker.java -1   $
+ * @version $Id$
  */
 public class DefaultHandleTracker extends AbstractTool implements HandleTracker {
-
+    /** Last dragged mouse location. This variable is only non-null when
+     * the mouse is being pressed or dragged.
+     */
+    private Point dragLocation;
     private Handle masterHandle;
     private HandleMulticaster multicaster;
     /**
@@ -104,6 +107,7 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
         getView().setCursor(Cursor.getDefaultCursor());
         getView().setActiveHandle(null);
         clearHoverHandles();
+        dragLocation = null;
     }
 
     @Override
@@ -111,12 +115,23 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
         multicaster.keyPressed(evt);
         if (!evt.isConsumed()) {
             super.keyPressed(evt);
+
+            // Forward key presses to the handler
+            if (dragLocation != null) {
+                multicaster.trackStep(anchor, dragLocation,
+                        evt.getModifiersEx(), getView());
+            }
         }
     }
 
     @Override
     public void keyReleased(KeyEvent evt) {
         multicaster.keyReleased(evt);
+        // Forward key releases to the handler
+        if (dragLocation != null) {
+            multicaster.trackStep(anchor, dragLocation,
+                    evt.getModifiersEx(), getView());
+        }
     }
 
     @Override
@@ -135,7 +150,8 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
 
     @Override
     public void mouseDragged(MouseEvent evt) {
-        multicaster.trackStep(anchor, new Point(evt.getX(), evt.getY()),
+        dragLocation = new Point(evt.getX(), evt.getY());
+        multicaster.trackStep(anchor, dragLocation,
                 evt.getModifiersEx(), getView());
         clearHoverHandles();
     }
@@ -148,6 +164,7 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
     public void mouseExited(MouseEvent evt) {
         DrawingView view = editor.findView((Container) evt.getSource());
         updateHoverHandles(view, null);
+        dragLocation = null;
     }
 
     @Override
@@ -192,7 +209,8 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
 
     @Override
     public void mouseReleased(MouseEvent evt) {
-        multicaster.trackEnd(anchor, new Point(evt.getX(), evt.getY()),
+        dragLocation = new Point(evt.getX(), evt.getY());
+        multicaster.trackEnd(anchor, dragLocation,
                 evt.getModifiersEx(), getView());
 
         // Note: we must not fire "Tool Done" in this method, because then we can not
@@ -201,6 +219,7 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
         Rectangle r = new Rectangle(anchor.x, anchor.y, 0, 0);
         r.add(evt.getX(), evt.getY());
         maybeFireBoundsInvalidated(r);
+        dragLocation = null;
     }
 
     protected void clearHoverHandles() {

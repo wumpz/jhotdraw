@@ -105,8 +105,14 @@ public class ResizeHandleKit {
 
     private static class ResizeHandle extends LocatorHandle {
 
-        private int dx, dy;
-        Object geometry;
+        /** Mouse coordinates on track start. */
+        private int sx, sy;
+        /** Geometry for undo. */
+        private Object geometry;
+        /** Figure bounds on track start. */
+        protected Rectangle2D.Double sb;
+        /** Aspect ratio on track start. */
+        double aspectRatio;
 
         ResizeHandle(Figure owner, Locator loc) {
             super(owner, loc);
@@ -148,14 +154,16 @@ public class ResizeHandleKit {
         public void trackStart(Point anchor, int modifiersEx) {
             geometry = getOwner().getTransformRestoreData();
             Point location = getLocation();
-            dx = -anchor.x + location.x;
-            dy = -anchor.y + location.y;
+            sx = -anchor.x + location.x;
+            sy = -anchor.y + location.y;
+            sb = getOwner().getBounds();
+            aspectRatio = sb.height / sb.width;
         }
 
         @Override
         public void trackStep(Point anchor, Point lead, int modifiersEx) {
             if (getOwner().isTransformable()) {
-                Point2D.Double p = view.viewToDrawing(new Point(lead.x + dx, lead.y + dy));
+                Point2D.Double p = view.viewToDrawing(new Point(lead.x + sx, lead.y + sy));
                 view.getConstrainer().constrainPoint(p);
 
                 if (getOwner().get(TRANSFORM) != null) {
@@ -167,8 +175,7 @@ public class ResizeHandleKit {
                         }
                     }
                 }
-
-                trackStepNormalized(p);
+                trackStepNormalized(p, (modifiersEx & (InputEvent.ALT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK)) != 0);
             }
         }
 
@@ -180,7 +187,7 @@ public class ResizeHandleKit {
             }
         }
 
-        protected void trackStepNormalized(Point2D.Double p) {
+        protected void trackStepNormalized(Point2D.Double p, boolean keepAspect) {
         }
 
         protected void setBounds(Point2D.Double anchor, Point2D.Double lead) {
@@ -198,11 +205,20 @@ public class ResizeHandleKit {
         }
 
         @Override
-        protected void trackStepNormalized(Point2D.Double p) {
-            Rectangle2D.Double r = getOwner().getBounds();
+        protected void trackStepNormalized(Point2D.Double p, boolean keepAspect) {
+            double nx = Math.max(sb.x + 1, p.x);
+            double ny = Math.min(sb.y + sb.height - 1, p.y);
+            if (keepAspect) {
+                double nxx = sb.x + sb.width - 1 + Math.max(1, (sb.y - p.y) / aspectRatio);
+                if (nxx >= p.x) {
+                    nx = nxx;
+                } else {
+                    ny = sb.y + sb.height - Math.max(1, (p.x - sb.x) * aspectRatio);
+                }
+            }
             setBounds(
-                    new Point2D.Double(r.x, Math.min(r.y + r.height - 1, p.y)),
-                    new Point2D.Double(Math.max(r.x, p.x), r.y + r.height));
+                    new Point2D.Double(sb.x, ny),
+                    new Point2D.Double(nx, sb.y + sb.height));
         }
 
         @Override
@@ -255,11 +271,10 @@ public class ResizeHandleKit {
         }
 
         @Override
-        protected void trackStepNormalized(Point2D.Double p) {
-            Rectangle2D.Double r = getOwner().getBounds();
+        protected void trackStepNormalized(Point2D.Double p, boolean keepAspect) {
             setBounds(
-                    new Point2D.Double(r.x, r.y),
-                    new Point2D.Double(Math.max(r.x + 1, p.x), r.y + r.height));
+                    new Point2D.Double(sb.x, sb.y),
+                    new Point2D.Double(Math.max(sb.x + 1, p.x), sb.y + sb.height));
         }
 
         @Override
@@ -303,11 +318,10 @@ public class ResizeHandleKit {
         }
 
         @Override
-        protected void trackStepNormalized(Point2D.Double p) {
-            Rectangle2D.Double r = getOwner().getBounds();
+        protected void trackStepNormalized(Point2D.Double p, boolean keepAspect) {
             setBounds(
-                    new Point2D.Double(r.x, Math.min(r.y + r.height - 1, p.y)),
-                    new Point2D.Double(r.x + r.width, r.y + r.height));
+                    new Point2D.Double(sb.x, Math.min(sb.y + sb.height - 1, p.y)),
+                    new Point2D.Double(sb.x + sb.width, sb.y + sb.height));
         }
 
         @Override
@@ -352,11 +366,20 @@ public class ResizeHandleKit {
         }
 
         @Override
-        protected void trackStepNormalized(Point2D.Double p) {
-            Rectangle2D.Double r = getOwner().getBounds();
+        protected void trackStepNormalized(Point2D.Double p, boolean keepAspect) {
+            double nx = Math.min(sb.x + sb.width - 1, p.x);
+            double ny = Math.min(sb.y + sb.height - 1, p.y);
+            if (keepAspect) {
+                double nxx = sb.x - Math.max(1, (sb.y - p.y) / aspectRatio);
+                if (nxx <= p.x) {
+                    nx = nxx;
+                } else {
+                    ny = sb.y - Math.max(1, (sb.x - p.x) * aspectRatio);
+                }
+            }
             setBounds(
-                    new Point2D.Double(Math.min(r.x + r.width - 1, p.x), Math.min(r.y + r.height - 1, p.y)),
-                    new Point2D.Double(r.x + r.width, r.y + r.height));
+                    new Point2D.Double(nx, ny),
+                    new Point2D.Double(sb.x + sb.width, sb.y + sb.height));
         }
 
         @Override
@@ -409,11 +432,20 @@ public class ResizeHandleKit {
         }
 
         @Override
-        protected void trackStepNormalized(Point2D.Double p) {
-            Rectangle2D.Double r = getOwner().getBounds();
+        protected void trackStepNormalized(Point2D.Double p, boolean keepAspect) {
+            double nx = Math.max(sb.x + 1, p.x);
+            double ny = Math.max(sb.y + 1, p.y);
+            if (keepAspect) {
+                double nxx = sb.x + Math.max(1, (p.y - sb.y) / aspectRatio);
+                if (nxx >= p.x) {
+                    nx = nxx;
+                } else {
+                    ny = sb.y + Math.max(1, (p.x - sb.x) * aspectRatio);
+                }
+            }
             setBounds(
-                    new Point2D.Double(r.x, r.y),
-                    new Point2D.Double(Math.max(r.x + 1, p.x), Math.max(r.y + 1, p.y)));
+                    new Point2D.Double(sb.x, sb.y),
+                    new Point2D.Double(nx, ny));
         }
 
         @Override
@@ -466,11 +498,10 @@ public class ResizeHandleKit {
         }
 
         @Override
-        protected void trackStepNormalized(Point2D.Double p) {
-            Rectangle2D.Double r = getOwner().getBounds();
+        protected void trackStepNormalized(Point2D.Double p, boolean keepAspect) {
             setBounds(
-                    new Point2D.Double(r.x, r.y),
-                    new Point2D.Double(r.x + r.width, Math.max(r.y + 1, p.y)));
+                    new Point2D.Double(sb.x, sb.y),
+                    new Point2D.Double(sb.x + sb.width, Math.max(sb.y + 1, p.y)));
         }
 
         @Override
@@ -515,11 +546,20 @@ public class ResizeHandleKit {
         }
 
         @Override
-        protected void trackStepNormalized(Point2D.Double p) {
-            Rectangle2D.Double r = getOwner().getBounds();
+        protected void trackStepNormalized(Point2D.Double p, boolean keepAspect) {
+            double nx = Math.min(sb.x + sb.width - 1, p.x);
+            double ny = Math.max(sb.y + 1, p.y);
+            if (keepAspect) {
+                double nxx = sb.x + sb.width - Math.max(1, (p.y - sb.y) / aspectRatio);
+                if (nxx <= p.x) {
+                    nx = nxx;
+                } else {
+                    ny = sb.y + Math.max(1, (sb.x + sb.width - 1 - p.x) * aspectRatio);
+                }
+            }
             setBounds(
-                    new Point2D.Double(Math.min(r.x + r.width - 1, p.x), r.y),
-                    new Point2D.Double(r.x + r.width, Math.max(r.y + 1, p.y)));
+                    new Point2D.Double(nx, sb.y),
+                    new Point2D.Double(sb.x + sb.width, ny));
         }
 
         @Override
@@ -572,11 +612,10 @@ public class ResizeHandleKit {
         }
 
         @Override
-        protected void trackStepNormalized(Point2D.Double p) {
-            Rectangle2D.Double r = getOwner().getBounds();
+        protected void trackStepNormalized(Point2D.Double p, boolean keepAspect) {
             setBounds(
-                    new Point2D.Double(Math.min(r.x + r.width - 1, p.x), r.y),
-                    new Point2D.Double(r.x + r.width, r.y + r.height));
+                    new Point2D.Double(Math.min(sb.x + sb.width - 1, p.x), sb.y),
+                    new Point2D.Double(sb.x + sb.width, sb.y + sb.height));
         }
 
         @Override
