@@ -79,17 +79,19 @@ public abstract class AbstractCompositeFigure
 
         @Override
         public void figureChanged(FigureEvent e) {
-            Rectangle2D.Double invalidatedArea = getDrawingArea();
-            invalidatedArea.add(e.getInvalidatedArea());
+            if (!isChanging()) {
+                Rectangle2D.Double invalidatedArea = getDrawingArea();
+                invalidatedArea.add(e.getInvalidatedArea());
 
-            // We call invalidate/validate here, because we must layout
-            // the figure again.
-            invalidate();
-            validate();
+                // We call invalidate/validate here, because we must layout
+                // the figure again.
+                invalidate();
+                validate();
 
-            // Forward the figureChanged event to listeners on AbstractCompositeFigure.
-            invalidatedArea.add(getDrawingArea());
-            fireFigureChanged(invalidatedArea);
+                // Forward the figureChanged event to listeners on AbstractCompositeFigure.
+                invalidatedArea.add(getDrawingArea());
+                fireFigureChanged(invalidatedArea);
+            }
         }
 
         @Override
@@ -459,7 +461,7 @@ public abstract class AbstractCompositeFigure
      */
     @Override
     public void layout() {
-        for (Figure child:getChildren()) {
+        for (Figure child : getChildren()) {
             if (child instanceof CompositeFigure) {
                 CompositeFigure cf = (CompositeFigure) child;
                 cf.layout();

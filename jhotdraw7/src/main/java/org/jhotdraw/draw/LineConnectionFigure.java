@@ -79,11 +79,13 @@ public class LineConnectionFigure extends LineFigure
 
         @Override
         public void figureChanged(FigureEvent e) {
-            if (e.getSource() == owner.getStartFigure() ||
-                    e.getSource() == owner.getEndFigure()) {
-                owner.willChange();
-                owner.updateConnection();
-                owner.changed();
+            if (!owner.isChanging()) {
+                if (e.getSource() == owner.getStartFigure()
+                        || e.getSource() == owner.getEndFigure()) {
+                    owner.willChange();
+                    owner.updateConnection();
+                    owner.changed();
+                }
             }
         }
     };
@@ -413,8 +415,8 @@ public class LineConnectionFigure extends LineFigure
      */
     @Override
     public boolean handleMouseClick(Point2D.Double p, MouseEvent evt, DrawingView view) {
-        if (getLiner() == null &&
-                evt.getClickCount() == 2) {
+        if (getLiner() == null
+                && evt.getClickCount() == 2) {
             willChange();
             final int index = splitSegment(p, (float) (5f / view.getScaleFactor()));
             if (index != -1) {

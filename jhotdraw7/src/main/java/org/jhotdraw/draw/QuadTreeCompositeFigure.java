@@ -302,7 +302,7 @@ public abstract class QuadTreeCompositeFigure
             quadTree.remove(e.getFigure());
             quadTree.add(e.getFigure(), e.getFigure().getDrawingArea());
             needsSorting = true;
-            fireAreaInvalidated(e.getInvalidatedArea());
+            if (! isChanging()) fireAreaInvalidated(e.getInvalidatedArea());
         }
         @Override public void figureRequestRemove(FigureEvent e) {
             remove(e.getFigure());

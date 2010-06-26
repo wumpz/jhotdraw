@@ -53,7 +53,7 @@ public class ApplyAttributesAction extends AbstractSelectedAction {
     public void applyAttributes() {
         DrawingEditor editor = getEditor();
 
-        CompositeEdit edit = new CompositeEdit(labels.getString("edit.applyAttrbutes.text"));
+        CompositeEdit edit = new CompositeEdit(labels.getString("edit.applyAttributes.text"));
         DrawingView view = getView();
         view.getDrawing().fireUndoableEditHappened(edit);
 
