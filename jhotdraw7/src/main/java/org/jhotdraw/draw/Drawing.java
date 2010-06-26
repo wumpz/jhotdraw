@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.draw;
 
+import java.awt.Graphics2D;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.xml.*;
@@ -88,6 +89,15 @@ import org.jhotdraw.annotations.Nullable;
 @NotNull
 public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
 
+    /** Draws on the <em>canvas area</em>. The canvas is the background area
+     * onto which the drawing is drawn.
+     * <p>
+     * By convention this method is only invoked by {@link DrawingView}.
+     * <p>
+     * {@link AttributeKeys} defines a number of attribute keys which can be
+     * used to determine what to draw on the canvas.
+     */
+    public void drawCanvas(Graphics2D g);
     /**
      * Adds a figure to the drawing.
      * The drawing sends an {@code addNotify} message to the figure

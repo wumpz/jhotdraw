@@ -26,8 +26,8 @@ import org.jhotdraw.annotations.Nullable;
 
 /**
  * A <em>drawing view</em> paints a {@link Drawing} on a {@code JComponent}.
- * A drawing view can hold only one drawing at a time, but a drawing can be in multiple
- * drawing views at the same time.
+ * A drawing view can hold only one drawing at a time, but a drawing can be in
+ * multiple drawing views at the same time.
  * <p>
  * To support editing, a drawing view needs to be added to a {@link DrawingEditor}.
  * The current {@link org.jhotdraw.draw.tool.Tool} of the drawing editor
@@ -35,14 +35,23 @@ import org.jhotdraw.annotations.Nullable;
  * <p>
  * {@code DrawingView} can paint the drawing with a scale factor. It supports
  * conversion between view coordinates and drawing coordinates.
- * A drawing view can paint {@link org.jhotdraw.draw.handle.Handle}s and the
- * current {@link org.jhotdraw.draw.tool.Tool} of the
- * drawing editor on top of the drawing. It can also paint a {@link Constrainer}
- * below or on top of the drawing.
  * <p>
  * DrawingView maintains a selection of the {@link Figure}s contained in the
  * drawing. The selected figures can be the target of the current tool
  * of the drawing editor.
+ * <p>
+ * The painting process of {@code DrawingView} view usually involves the
+ * following steps:
+ * <ol>
+ * <li>Paint the background of the drawing view.</li>
+ * <li>Invoke {@link Drawing#drawCanvas}.</li>
+ * <li>Invoke {@link Constrainer#draw} if a constrainer is set.</li>
+ * <li>Invoke {@link Drawing#draw}.</li>
+ * <li>Invoke {@link org.jhotdraw.draw.handle.Handle#draw(...)} on the handles
+ * of selected figures.</li>
+ * <li>Invoke {@link org.jhotdraw.draw.tool.Tool#draw(...)} if the drawing view
+ * is the active view of the {@code DrawingEditor}.</li>
+ * </ol>
  *
  * <hr>
  * <b>Design Patterns</b>
@@ -159,19 +168,21 @@ public interface DrawingView {
      * Gets the drawing.
      * This is a bound property.
      */
+    @Nullable
     public Drawing getDrawing();
 
     /**
      * Sets and installs another drawing in the view.
      * This is a bound property.
      */
+    @Nullable
     public void setDrawing(Drawing d);
 
     /**
      * Sets the cursor of the DrawingView.
      * This is a bound property.
      */
-    public void setCursor(Cursor c);
+    public void setCursor(@Nullable Cursor c);
 
     /**
      * Test whether a given figure is selected.
@@ -223,7 +234,8 @@ public interface DrawingView {
      * Finds a handle at the given coordinates.
      * @return A handle, null if no handle is found.
      */
-    @Nullable public Handle findHandle(Point p);
+    @Nullable
+    public Handle findHandle(Point p);
 
     /**
      * Gets compatible handles.
@@ -235,15 +247,19 @@ public interface DrawingView {
      * Sets the active handle.
      */
     public void setActiveHandle(Handle newValue);
+
     /**
      * Gets the active handle.
      */
+    @Nullable
     public Handle getActiveHandle();
+
     /**
      * Finds a figure at the given point.
      * @return A figure, null if no figure is found.
      */
-    @Nullable public Figure findFigure(Point p);
+    @Nullable
+    public Figure findFigure(Point p);
 
     /**
      * Returns all figures that lie within or intersect the specified
@@ -274,6 +290,7 @@ public interface DrawingView {
      * Gets the drawing editor associated to the DrawingView.
      * This is a bound property.
      */
+    @Nullable
     public DrawingEditor getEditor();
 
     /**
@@ -288,6 +305,8 @@ public interface DrawingView {
      */
     public void removeFigureSelectionListener(FigureSelectionListener fsl);
 
+    /** This is a convenience method for invoking
+     * {@code getComponent().requestFocus()}. */
     public void requestFocus();
 
     /**
@@ -316,21 +335,21 @@ public interface DrawingView {
      * otherwise it returns getInvisibleConstrainer.
      * This is a bound property.
      */
-    public Constrainer getConstrainer();
+    @Nullable public Constrainer getConstrainer();
 
     /**
      * Sets the editor's constrainer for this view, for use, when the
      * visible constrainer is turned on.
      * This is a bound property.
      */
-    public void setVisibleConstrainer(Constrainer constrainer);
+    public void setVisibleConstrainer(@Nullable Constrainer constrainer);
 
     /**
      * Gets the editor's constrainer for this view, for use, when the
      * visible constrainer is turned on.
      * This is a bound property.
      */
-    public Constrainer getVisibleConstrainer();
+    @Nullable public Constrainer getVisibleConstrainer();
 
     /**
      * Sets the editor's constrainer for this view, for use, when the
@@ -416,14 +435,12 @@ public interface DrawingView {
      */
     public void addPropertyChangeListener(PropertyChangeListener listener);
 
-
     /**
      * Removes a property change listener to the drawing view.
      * 
      * @param listener
      */
     public void removePropertyChangeListener(PropertyChangeListener listener);
-
 
     /**
      * Adds a mouse listener to the drawing view.
@@ -438,7 +455,6 @@ public interface DrawingView {
      * @param l the listener.
      */
     public void removeMouseListener(MouseListener l);
-
 
     /**
      * Adds a key listener to the drawing view.

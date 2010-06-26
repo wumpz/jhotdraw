@@ -19,6 +19,8 @@ import org.jhotdraw.util.ResourceBundleUtil;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
+import org.jhotdraw.annotations.NotNull;
+import org.jhotdraw.annotations.Nullable;
 import org.jhotdraw.geom.*;
 
 /**
@@ -31,6 +33,7 @@ import org.jhotdraw.geom.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
+@NotNull
 public class AttributeKeys {
 
     private final static ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
@@ -484,7 +487,7 @@ public class AttributeKeys {
         }
     }
 
-    public static Font getFont(Figure f) {
+    @Nullable public static Font getFont(Figure f) {
         Font prototype = f.get(FONT_FACE);
         if (prototype == null) {
             return null;
