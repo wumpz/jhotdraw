@@ -283,9 +283,8 @@ public class ResizeHandleKit {
 
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_UP:
-                    evt.consume();
-                    break;
                 case KeyEvent.VK_DOWN:
+                    evt.consume();
                     break;
                 case KeyEvent.VK_LEFT:
                     if (r.width > 1) {
@@ -344,8 +343,6 @@ public class ResizeHandleKit {
                     evt.consume();
                     break;
                 case KeyEvent.VK_LEFT:
-                    evt.consume();
-                    break;
                 case KeyEvent.VK_RIGHT:
                     evt.consume();
                     break;
@@ -624,8 +621,6 @@ public class ResizeHandleKit {
 
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_UP:
-                    evt.consume();
-                    break;
                 case KeyEvent.VK_DOWN:
                     evt.consume();
                     break;
