@@ -396,12 +396,16 @@ public class ColorFormatter extends DefaultFormatter {
             Format f = outputFormat;
 
             if (isAdaptive) {
-                if (c.getColorSpace().equals(HSBColorSpace.getInstance())) {
-                    f = Format.HSB_PERCENTAGE;
-                } else if (c.getColorSpace().equals(ColorSpace.getInstance(ColorSpace.CS_GRAY))) {
-                    f = Format.GRAY_PERCENTAGE;
-                } else {
-                    f = Format.RGB_INTEGER_SHORT;
+                switch (c.getColorSpace().getType()) {
+                    case ColorSpace.TYPE_HSV:
+                        f = Format.HSB_PERCENTAGE;
+                        break;
+                    case ColorSpace.TYPE_GRAY:
+                        f = Format.GRAY_PERCENTAGE;
+                        break;
+                    case ColorSpace.TYPE_RGB:
+                    default:
+                        f = Format.RGB_INTEGER_SHORT;
                 }
             }
             switch (f) {
@@ -420,7 +424,7 @@ public class ColorFormatter extends DefaultFormatter {
                     break;
                 case HSB_PERCENTAGE: {
                     float[] components;
-                    if (c.getColorSpace().equals(HSBColorSpace.getInstance())) {
+                    if (c.getColorSpace().getType()==ColorSpace.TYPE_HSV) {
                         components = c.getComponents(null);
                     } else {
                         components = Color.RGBtoHSB(c.getRed(), c.getGreen(), c.getBlue(), new float[3]);
@@ -432,7 +436,7 @@ public class ColorFormatter extends DefaultFormatter {
                 }
                 case GRAY_PERCENTAGE: {
                     float[] components;
-                    if (c.getColorSpace().equals(ColorSpace.getInstance(ColorSpace.CS_GRAY))) {
+                    if (c.getColorSpace().getType()==ColorSpace.TYPE_GRAY) {
                         components = c.getComponents(null);
                     } else {
                         components = c.getColorComponents(ColorSpace.getInstance(ColorSpace.CS_GRAY), null);

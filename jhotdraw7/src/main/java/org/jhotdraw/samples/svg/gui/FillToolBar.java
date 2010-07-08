@@ -83,15 +83,21 @@ public class FillToolBar extends AbstractToolBar {
                 p.setLayout(layout);
                 GridBagConstraints gbc;
                 AbstractButton btn;
-
+ 
                 // Fill color
                 Map<AttributeKey, Object> defaultAttributes = new HashMap<AttributeKey, Object>();
                 FILL_GRADIENT.put(defaultAttributes, null);
+                /*
                 btn = ButtonFactory.createSelectionColorButton(editor,
-                        FILL_COLOR, ButtonFactory.HSB_COLORS_AS_RGB, ButtonFactory.HSB_COLORS_AS_RGB_COLUMN_COUNT,
-                        "attribute.fillColor", labels, defaultAttributes, new Rectangle(3, 3, 10, 10), disposables);
+                FILL_COLOR, ButtonFactory.HSB_COLORS_AS_RGB, ButtonFactory.HSB_COLORS_AS_RGB_COLUMN_COUNT,
+                "attribute.fillColor", labels, defaultAttributes, new Rectangle(3, 3, 10, 10), disposables);
+                 * 
+                 */
+                btn = ButtonFactory.createSelectionColorChooserButton(editor,
+                        FILL_COLOR, "attribute.fillColor", labels,
+                        defaultAttributes, new Rectangle(3, 3, 10, 10), disposables, PaletteColorChooserUI.class);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-                ((JPopupButton) btn).setAction(null, null);
+                //((JPopupButton) btn).setAction(null, null);
                 gbc = new GridBagConstraints();
                 gbc.gridx = 0;
                 gbc.gridwidth = 2;
@@ -154,7 +160,7 @@ public class FillToolBar extends AbstractToolBar {
                 colorField.setToolTipText(labels.getString("attribute.fillColor.toolTipText"));
                 colorField.putClientProperty("Palette.Component.segmentPosition", "first");
                 colorField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(colorField));
-                colorField.setFormatterFactory(ColorFormatter.createFormatterFactory());
+                colorField.setFormatterFactory(ColorFormatter.createFormatterFactory(ColorFormatter.Format.RGB_INTEGER_SHORT, false, false));
                 colorField.setHorizontalAlignment(JTextField.LEFT);
                 disposables.add(new FigureAttributeEditorHandler<Color>(FILL_COLOR, defaultAttributes, colorField, editor, true));
                 gbc = new GridBagConstraints();
@@ -162,11 +168,11 @@ public class FillToolBar extends AbstractToolBar {
                 gbc.fill = GridBagConstraints.HORIZONTAL;
                 gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                 p1.add(colorField, gbc);
-                btn = ButtonFactory.createSelectionColorButton(editor,
-                        FILL_COLOR, ButtonFactory.HSB_COLORS_AS_RGB, ButtonFactory.HSB_COLORS_AS_RGB_COLUMN_COUNT,
-                        "attribute.fillColor", labels, defaultAttributes, new Rectangle(3, 3, 10, 10), disposables);
+                 btn = ButtonFactory.createSelectionColorChooserButton(editor,
+                        FILL_COLOR, "attribute.fillColor", labels,
+                        defaultAttributes, new Rectangle(3, 3, 10, 10), disposables, PaletteColorChooserUI.class);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-                ((JPopupButton) btn).setAction(null, null);
+                //((JPopupButton) btn).setAction(null, null);
                 gbc = new GridBagConstraints();
                 gbc.gridx = 1;
                 gbc.gridwidth = 2;

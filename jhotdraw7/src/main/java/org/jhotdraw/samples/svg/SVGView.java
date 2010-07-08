@@ -110,6 +110,10 @@ public class SVGView extends AbstractView {
         svgPanel.setEditor(newValue);
     }
 
+    public UndoRedoManager getUndoManager() {
+        return undo;
+    }
+
     /**
      * Initializes view specific actions.
      */
@@ -230,8 +234,10 @@ public class SVGView extends AbstractView {
                     firePropertyChange(DRAWING_PROPERTY, oldDrawing, newDrawing);
                     if (oldDrawing != null) {
                         oldDrawing.removeAllChildren();
+                        oldDrawing.removeUndoableEditListener(undo);
                     }
                     undo.discardAllEdits();
+                    newDrawing.addUndoableEditListener(undo);
                 }
             };
             if (SwingUtilities.isEventDispatchThread()) {

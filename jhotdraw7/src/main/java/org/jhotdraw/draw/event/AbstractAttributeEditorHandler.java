@@ -95,6 +95,8 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
             String name = evt.getPropertyName();
             if (src == drawingEditor && name == DrawingEditor.ACTIVE_VIEW_PROPERTY) {
                 updateActiveView();
+            } else if (src == drawingEditor && name.equals(DrawingEditor.DEFAULT_ATTRIBUTE_PROPERTY_PREFIX+attributeKey.getKey())) {
+            updateAttributeEditor();
             } else if (src == attributeEditor && name == AttributeEditor.ATTRIBUTE_VALUE_PROPERTY) {
                 updateFigures();
             } else if (src == activeView && name == DrawingView.DRAWING_PROPERTY) {
@@ -319,8 +321,13 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
     protected void updateAttributeEditor() {
         if (updateDepth++ == 0) {
             Set<Figure> figures = getEditedFigures();
-            if (activeView == null || figures.isEmpty()) {
+            if (drawingEditor==null) {
                 attributeEditor.getComponent().setEnabled(false);
+            } else if (activeView == null || figures.isEmpty()) {
+                attributeEditor.getComponent().setEnabled(true);
+                T value = drawingEditor.getDefaultAttribute(attributeKey);
+                attributeEditor.setAttributeValue(value);
+                attributeEditor.setMultipleValues(false);
             } else {
                 attributeEditor.getComponent().setEnabled(true);
                 T value = figures.iterator().next().get(attributeKey);

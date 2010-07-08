@@ -105,6 +105,10 @@ public interface DrawingEditor {
      * The property name for the action map property.
      */
     public final static String ACTION_MAP_PROPERTY = "actionMap";
+    /**
+     * The prefix for default attribute property changes.
+     */
+    public final static String DEFAULT_ATTRIBUTE_PROPERTY_PREFIX = "defaultAttribute.";
 
     /**
      * Gets the editor's current drawing.
@@ -179,6 +183,9 @@ public interface DrawingEditor {
      * Sets a default attribute of the editor.
      * The default attribute will be used by creation tools, to create a new
      * figure.
+     * <p>
+     * Fires a property change event with the name of the attribute key,
+     * and the prefix {@code "defaultAttribute."}.
      */
     public <T> void setDefaultAttribute(AttributeKey<T> key, T value);
 

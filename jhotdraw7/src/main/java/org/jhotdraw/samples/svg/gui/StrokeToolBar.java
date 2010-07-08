@@ -87,9 +87,9 @@ public class StrokeToolBar extends AbstractToolBar {
                 // Stroke color
                 Map<AttributeKey, Object> defaultAttributes = new HashMap<AttributeKey, Object>();
                 STROKE_GRADIENT.put(defaultAttributes, null);
-                btn = ButtonFactory.createSelectionColorButton(editor,
-                        STROKE_COLOR, ButtonFactory.HSB_COLORS_AS_RGB, ButtonFactory.HSB_COLORS_AS_RGB_COLUMN_COUNT,
-                        "attribute.strokeColor", labels, defaultAttributes, new Rectangle(3, 3, 10, 10), disposables);
+                btn = ButtonFactory.createSelectionColorChooserButton(editor,
+                        STROKE_COLOR, "attribute.strokeColor", labels,
+                        defaultAttributes, new Rectangle(3, 3, 10, 10), disposables, PaletteColorChooserUI.class);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                 ((JPopupButton) btn).setAction(null, null);
                 gbc = new GridBagConstraints();
@@ -192,7 +192,7 @@ public class StrokeToolBar extends AbstractToolBar {
                 colorField.setToolTipText(labels.getString("attribute.strokeColor.toolTipText"));
                 colorField.putClientProperty("Palette.Component.segmentPosition", "first");
                 colorField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(colorField));
-                colorField.setFormatterFactory(ColorFormatter.createFormatterFactory());
+                colorField.setFormatterFactory(ColorFormatter.createFormatterFactory(ColorFormatter.Format.RGB_INTEGER_SHORT, false, false));
                 colorField.setHorizontalAlignment(JTextField.LEFT);
                 disposables.add(new FigureAttributeEditorHandler<Color>(STROKE_COLOR, defaultAttributes, colorField, editor, true));
                 gbc = new GridBagConstraints();
@@ -201,9 +201,9 @@ public class StrokeToolBar extends AbstractToolBar {
                 gbc.fill = GridBagConstraints.HORIZONTAL;
                 gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                 p.add(colorField, gbc);
-                btn = ButtonFactory.createSelectionColorButton(editor,
-                        STROKE_COLOR, ButtonFactory.HSB_COLORS_AS_RGB, ButtonFactory.HSB_COLORS_AS_RGB_COLUMN_COUNT,
-                        "attribute.strokeColor", labels, defaultAttributes, new Rectangle(3, 3, 10, 10), disposables);
+                btn = ButtonFactory.createSelectionColorChooserButton(editor,
+                        STROKE_COLOR, "attribute.strokeColor", labels,
+                        defaultAttributes, new Rectangle(3, 3, 10, 10), disposables, PaletteColorChooserUI.class);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                 ((JPopupButton) btn).setAction(null, null);
                 gbc = new GridBagConstraints();

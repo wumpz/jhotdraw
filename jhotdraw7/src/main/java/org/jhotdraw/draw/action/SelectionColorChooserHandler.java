@@ -1,7 +1,7 @@
 /**
- * @(#)FontChooserHandler.java
+ * @(#)SelectionColorChooserHandler.java
  *
- * Copyright (c) 2008 by the original authors of JHotDraw
+ * Copyright (c) 2010 by the original authors of JHotDraw
  * and all its contributors.
  * All rights reserved.
  *
@@ -13,61 +13,68 @@
  */
 package org.jhotdraw.draw.action;
 
+import javax.swing.event.ChangeEvent;
 import javax.swing.undo.*;
 import javax.swing.*;
 import java.util.*;
 import java.awt.*;
-import java.beans.*;
+import javax.swing.event.ChangeListener;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.gui.JFontChooser;
 
 /**
- * FontChooserHandler.
+ * SelectionColorChooserHandler.
  *
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class FontChooserHandler extends AbstractSelectedAction
-        implements PropertyChangeListener {
+public class SelectionColorChooserHandler extends AbstractSelectedAction
+        implements ChangeListener {
 
-    protected AttributeKey<Font> key;
-    protected JFontChooser fontChooser;
+    protected AttributeKey<Color> key;
+    protected JColorChooser colorChooser;
     protected JPopupMenu popupMenu;
     protected int isUpdating;
     //protected Map<AttributeKey, Object> attributes;
 
     /** Creates a new instance. */
-    public FontChooserHandler(DrawingEditor editor, AttributeKey<Font> key, JFontChooser fontChooser, JPopupMenu popupMenu) {
+    public SelectionColorChooserHandler(DrawingEditor editor, AttributeKey<Color> key, JColorChooser colorChooser, JPopupMenu popupMenu) {
         super(editor);
         this.key = key;
-        this.fontChooser = fontChooser;
+        this.colorChooser = colorChooser;
         this.popupMenu = popupMenu;
 
-        fontChooser.addActionListener(this);
-        fontChooser.addPropertyChangeListener(this);
+        //colorChooser.addActionListener(this);
+        colorChooser.getSelectionModel().addChangeListener(this);
         updateEnabledState();
     }
 
     @Override
     public void actionPerformed(java.awt.event.ActionEvent evt) {
-        if (evt.getActionCommand() == JFontChooser.APPROVE_SELECTION) {
-            applySelectedFontToFigures();
-        } else if (evt.getActionCommand() == JFontChooser.CANCEL_SELECTION) {
-        }
+        /*
+        if (evt.getActionCommand() == JColorChooser.APPROVE_SELECTION) {
+            applySelectedColorToFigures();
+        } else if (evt.getActionCommand() == JColorChooser.CANCEL_SELECTION) {
+        }*/
         popupMenu.setVisible(false);
     }
 
-    protected void applySelectedFontToFigures() {
+    protected void applySelectedColorToFigures() {
         final ArrayList<Figure> selectedFigures = new ArrayList<Figure>(getView().getSelectedFigures());
         final ArrayList<Object> restoreData = new ArrayList<Object>(selectedFigures.size());
+
+        Color selectedColor = colorChooser.getColor();
+        if (selectedColor!=null&&selectedColor.getAlpha()==0) {
+            selectedColor=null;
+        }
+
         for (Figure figure : selectedFigures) {
             restoreData.add(figure.getAttributesRestoreData());
             figure.willChange();
-            figure.set(key, fontChooser.getSelectedFont());
+            figure.set(key, selectedColor);
             figure.changed();
         }
-        getEditor().setDefaultAttribute(key, fontChooser.getSelectedFont());
-        final Font undoValue = fontChooser.getSelectedFont();
+        getEditor().setDefaultAttribute(key, selectedColor);
+        final Color undoValue = selectedColor;
         UndoableEdit edit = new AbstractUndoableEdit() {
 
             @Override
@@ -113,17 +120,15 @@ public class FontChooserHandler extends AbstractSelectedAction
     @Override
     protected void updateEnabledState() {
         setEnabled(getEditor().isEnabled());
-        if (getView() != null && fontChooser != null && popupMenu != null) {
-            fontChooser.setEnabled(getView().getSelectionCount() > 0);
+        if (getView() != null && colorChooser != null && popupMenu != null) {
+            colorChooser.setEnabled(getView().getSelectionCount() > 0);
             popupMenu.setEnabled(getView().getSelectionCount() > 0);
             isUpdating++;
-            if (getView().getSelectionCount() > 0 /*&& fontChooser.isShowing()*/) {
+            if (getView().getSelectionCount() > 0 /*&& colorChooser.isShowing()*/) {
                 for (Figure f : getView().getSelectedFigures()) {
-                    if (f instanceof TextHolderFigure) {
-                        TextHolderFigure thf = (TextHolderFigure) f;
-                        fontChooser.setSelectedFont(thf.getFont());
+                        Color figureColor = f.get(key);
+                        colorChooser.setColor(figureColor==null?new Color(0,true):figureColor);
                         break;
-                    }
                 }
             }
             isUpdating--;
@@ -131,11 +136,9 @@ public class FontChooserHandler extends AbstractSelectedAction
     }
 
     @Override
-    public void propertyChange(PropertyChangeEvent evt) {
+    public void stateChanged(ChangeEvent e) {
         if (isUpdating++ == 0) {
-            if (evt.getPropertyName() == JFontChooser.SELECTED_FONT_PROPERTY) {
-                applySelectedFontToFigures();
-            }
+                applySelectedColorToFigures();
         }
         isUpdating--;
     }

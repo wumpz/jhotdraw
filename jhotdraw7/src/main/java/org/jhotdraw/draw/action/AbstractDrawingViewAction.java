@@ -121,7 +121,7 @@ public abstract class AbstractDrawingViewAction extends AbstractAction implement
      * of the active {@code DrawingView}. If no drawing view is active, this
      * action is disabled.
      */
-    public void updateEnabledState() {
+    protected void updateEnabledState() {
         if (getView() != null) {
             setEnabled(getView().isEnabled());
         } else {

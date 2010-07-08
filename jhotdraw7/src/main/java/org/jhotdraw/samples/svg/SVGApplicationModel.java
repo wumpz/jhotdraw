@@ -29,6 +29,8 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import org.jhotdraw.app.*;
+import org.jhotdraw.app.action.edit.RedoAction;
+import org.jhotdraw.app.action.edit.UndoAction;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.draw.io.InputFormat;
@@ -91,6 +93,11 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         m.put(ClearSelectionAction.ID, new ClearSelectionAction());
         m.put(ViewSourceAction.ID, new ViewSourceAction(a, v));
         m.put(ExportFileAction.ID, new ExportFileAction(a, v));
+        if (v instanceof SVGView) {
+            SVGView svgView=(SVGView)v;
+            m.put(UndoAction.ID, svgView.getUndoManager().getUndoAction());
+            m.put(RedoAction.ID, svgView.getUndoManager().getRedoAction());
+        }
         return m;
     }
 

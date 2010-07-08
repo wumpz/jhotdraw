@@ -121,7 +121,7 @@ public class AttributeToggler<T> extends AbstractAction {
             public void redo() {
                 super.redo();
                 for (Figure figure : selectedFigures) {
-                    restoreData.add(figure.getAttributesRestoreData());
+                    //restoreData.add(figure.getAttributesRestoreData());
                     figure.willChange();
                     figure.set(key, newValue);
                     figure.changed();

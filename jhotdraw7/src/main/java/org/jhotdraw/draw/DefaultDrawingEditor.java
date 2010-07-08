@@ -196,7 +196,7 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
     @Override
     public void setDefaultAttribute(AttributeKey key, Object newValue) {
         Object oldValue = defaultAttributes.put(key, newValue);
-        firePropertyChange(key.getKey(), oldValue, newValue);
+        firePropertyChange(DEFAULT_ATTRIBUTE_PROPERTY_PREFIX+key.getKey(), oldValue, newValue);
     }
 
     @Override

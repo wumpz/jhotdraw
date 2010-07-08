@@ -21,7 +21,7 @@ import java.util.*;
  * <p>
  * Source:<br>
  * Phoenix: An Interactive Curve Design System Based on the Automatic Fitting
- * of Hand-Sketched Curves.
+ * of Hand-Sketched Curves.<br>
  * © Copyright by Philip J. Schneider 1988.<br>
  * A thesis submitted in partial fulfillment of the requirements for the degree
  * of Master of Science, University of Washington.

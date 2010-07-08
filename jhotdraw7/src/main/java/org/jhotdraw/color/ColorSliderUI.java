@@ -37,10 +37,10 @@ public class ColorSliderUI extends BasicSliderUI {
     private final static Color trackBackground = new Color(0xffffff);
     private ColorTrackImageProducer colorTrackImageProducer;
     private Image colorTrackImage;
-    private static final Dimension PREFERRED_HORIZONTAL_SIZE = new Dimension(36, 16);
-    private static final Dimension PREFERRED_VERTICAL_SIZE = new Dimension(26, 100);
-    private static final Dimension MINIMUM_HORIZONTAL_SIZE = new Dimension(36, 16);
-    private static final Dimension MINIMUM_VERTICAL_SIZE = new Dimension(26, 36);
+    private static final Dimension PREFERRED_HORIZONTAL_SIZE = new Dimension(160, 4);
+    private static final Dimension PREFERRED_VERTICAL_SIZE = new Dimension(4, 160);
+    private static final Dimension MINIMUM_HORIZONTAL_SIZE = new Dimension(16, 4);
+    private static final Dimension MINIMUM_VERTICAL_SIZE = new Dimension(4, 16);
 
     /** Creates a new instance. */
     public ColorSliderUI(JSlider b) {
@@ -61,6 +61,7 @@ public class ColorSliderUI extends BasicSliderUI {
         return new ColorSliderUI((JSlider) b);
     }
 
+    @Override
     protected void installDefaults(JSlider slider) {
         super.installDefaults(slider);
         focusInsets = new Insets(0, 0, 0, 0);
@@ -74,27 +75,52 @@ public class ColorSliderUI extends BasicSliderUI {
         slider.setRequestFocusEnabled(true);
     }
 
+    @Override
     protected Dimension getThumbSize() {
         Icon thumb = getThumbIcon();
         return new Dimension(thumb.getIconWidth(), thumb.getIconHeight());
     }
+    @Override
+    public Dimension getPreferredSize(JComponent c)    {
+        recalculateIfInsetsChanged();
+        Dimension d;
+        if ( slider.getOrientation() == JSlider.VERTICAL ) {
+            d = new Dimension(getPreferredVerticalSize());
+	    d.width += insetCache.left + insetCache.right;
+	    d.width += focusInsets.left + focusInsets.right;
+	    d.width += trackRect.width + tickRect.width + labelRect.width;
+        }
+        else {
+            d = new Dimension(getPreferredHorizontalSize());
+	    d.height += insetCache.top + insetCache.bottom;
+	    d.height += focusInsets.top + focusInsets.bottom;
+	    d.height += trackRect.height + tickRect.height + labelRect.height;
+        }
 
+        return d;
+    }
+
+    @Override
     public Dimension getPreferredHorizontalSize() {
         return PREFERRED_HORIZONTAL_SIZE;
     }
 
+    @Override
     public Dimension getPreferredVerticalSize() {
         return PREFERRED_VERTICAL_SIZE;
     }
 
+    @Override
     public Dimension getMinimumHorizontalSize() {
         return MINIMUM_HORIZONTAL_SIZE;
     }
 
+    @Override
     public Dimension getMinimumVerticalSize() {
         return MINIMUM_VERTICAL_SIZE;
     }
 
+    @Override
     protected void calculateThumbLocation() {
         super.calculateThumbLocation();
         if (slider.getOrientation() == JSlider.HORIZONTAL) {
@@ -351,7 +377,7 @@ public class ColorSliderUI extends BasicSliderUI {
             trackRect.x = contentRect.x + (contentRect.width - centerSpacing - 1)/2 + 2;
              */
             trackRect.width = 14;
-            trackRect.x = contentRect.x + contentRect.width - trackRect.width;
+            trackRect.x = contentRect.x + (contentRect.width - trackRect.width)/2;
             trackRect.y = contentRect.y + trackBuffer;
             trackRect.height = contentRect.height - (trackBuffer * 2) + 1;
 
@@ -360,6 +386,7 @@ public class ColorSliderUI extends BasicSliderUI {
 
     }
 
+    @Override
     protected void calculateTickRect() {
         if (slider.getOrientation() == JSlider.HORIZONTAL) {
             tickRect.x = trackRect.x;
@@ -408,12 +435,14 @@ public class ColorSliderUI extends BasicSliderUI {
      * determine the tick area rectangle.  If you want to give your ticks some room,
      * make this larger than you need and paint your ticks away from the sides in paintTicks().
      */
+    @Override
     protected int getTickLength() {
         return 4;
 
 
     }
 
+    @Override
     protected PropertyChangeListener createPropertyChangeListener(JSlider slider) {
         return new CSUIPropertyChangeHandler();
 
@@ -426,6 +455,7 @@ public class ColorSliderUI extends BasicSliderUI {
 
     public class CSUIPropertyChangeHandler extends BasicSliderUI.PropertyChangeHandler {
 
+        @Override
         public void propertyChange(PropertyChangeEvent e) {
             String propertyName = e.getPropertyName();
 
@@ -479,8 +509,9 @@ public class ColorSliderUI extends BasicSliderUI {
         }
     }
 
+    @Override
     protected TrackListener createTrackListener(JSlider slider) {
-        return new QuaquaTrackListener();
+        return new TrackListener();
 
 
 
@@ -498,7 +529,7 @@ public class ColorSliderUI extends BasicSliderUI {
     {
     }
 
-    public class QuaquaTrackListener extends BasicSliderUI.TrackListener {
+    public class TrackListener extends BasicSliderUI.TrackListener {
 
         /**
          * If the mouse is pressed above the "thumb" component
@@ -507,6 +538,7 @@ public class ColorSliderUI extends BasicSliderUI {
          * thumb then page up if the mouse is in the upper half
          * of the track.
          */
+        @Override
         public void mousePressed(MouseEvent e) {
             if (!slider.isEnabled()) {
                 return;

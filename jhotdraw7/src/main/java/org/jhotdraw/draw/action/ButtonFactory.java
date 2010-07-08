@@ -33,7 +33,10 @@ import java.beans.*;
 import java.text.*;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.plaf.ColorChooserUI;
 import javax.swing.text.*;
+import org.jhotdraw.annotations.NotNull;
+import org.jhotdraw.annotations.Nullable;
 import org.jhotdraw.app.action.*;
 import org.jhotdraw.app.Disposable;
 import org.jhotdraw.color.HSBColorSpace;
@@ -41,6 +44,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.ToolAdapter;
+import org.jhotdraw.gui.JComponentPopup;
 import org.jhotdraw.gui.JFontChooser;
 
 /**
@@ -59,6 +63,7 @@ import org.jhotdraw.gui.JFontChooser;
  * @author Werner Randelshofer
  * @version $Id$
  */
+@NotNull
 public class ButtonFactory {
 
     /**
@@ -203,7 +208,7 @@ public class ButtonFactory {
         HSBColorSpace hsbCS = HSBColorSpace.getInstance();
         LinkedList<ColorIcon> m = new LinkedList<ColorIcon>();
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-        m.add(new ColorIcon(null, labels.getToolTipTextProperty("attribute.color.noColor")));
+        m.add(new ColorIcon(new Color(0,true), labels.getToolTipTextProperty("attribute.color.noColor")));
 
         for (int b = 10; b >= 0; b--) {
             Color c = new Color(grayCS, new float[]{b / 10f}, 1f);
@@ -229,11 +234,12 @@ public class ButtonFactory {
         m = new LinkedList<ColorIcon>();
         for (ColorIcon ci : HSB_COLORS) {
             if (ci.getColor() == null) {
-                m.add(new ColorIcon(null, labels.getToolTipTextProperty("attribute.color.noColor")));
+                m.add(new ColorIcon(new Color(0,true), labels.getToolTipTextProperty("attribute.color.noColor")));
             } else {
-                Color c = ci.getColor().getColorSpace() == grayCS //
-                        ? new Color(ci.getColor().getGreen(), ci.getColor().getGreen(), ci.getColor().getGreen())//workaround for rounding error
-                        : new Color(ci.getColor().getRGB());
+                Color c=ci.getColor();
+                 c = c.getColorSpace() == grayCS //
+                        ? new Color(c.getGreen(), c.getGreen(), c.getGreen(),c.getAlpha())//workaround for rounding error
+                        : new Color(c.getRed(),c.getGreen(),c.getBlue(),c.getAlpha());
                 m.add(new ColorIcon(c,//
                         labels.getFormatted("attribute.color.rgbComponents.toolTipText", c.getRed(), c.getGreen(), c.getBlue())));
             }
@@ -627,8 +633,9 @@ public class ButtonFactory {
         for (ColorIcon swatch : swatches) {
             AttributeAction a;
             HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey, Object>(defaultAttributes);
-            attributes.put(attributeKey, swatch.getColor());
-            if (swatch.getColor() == null) {
+            Color swatchColor=swatch.getColor();
+            attributes.put(attributeKey, swatchColor);
+            if (swatchColor == null||swatchColor.getAlpha()==0) {
                 hasNullColor = true;
             }
             popupButton.add(a =
@@ -857,8 +864,9 @@ public class ButtonFactory {
             AttributeAction a;
             HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey, Object>(defaultAttributes);
             if (swatch != null) {
-                attributes.put(attributeKey, swatch.getColor());
-                if (swatch.getColor() == null) {
+                Color swatchColor=swatch.getColor();
+                attributes.put(attributeKey, swatchColor);
+                if (swatchColor == null||swatchColor.getAlpha()==0) {
                     hasNullColor = true;
                 }
                 popupButton.add(a =
@@ -914,6 +922,78 @@ public class ButtonFactory {
         popupButton.setFocusable(false);
 
         dsp.add(new SelectionComponentRepainter(editor, popupButton));
+        return popupButton;
+    }
+
+    public static JPopupButton createSelectionColorChooserButton(final DrawingEditor editor,
+            final AttributeKey<Color> attributeKey, String labelKey,
+            ResourceBundleUtil labels, Map<AttributeKey, Object> defaultAttributes,
+            Shape colorShape, final java.util.List<Disposable> dsp) {
+        return createSelectionColorChooserButton(
+                editor, attributeKey, labelKey, labels, defaultAttributes, colorShape, dsp, null);
+    }
+
+    public static JPopupButton createSelectionColorChooserButton(final DrawingEditor editor,
+            final AttributeKey<Color> attributeKey, String labelKey,
+            ResourceBundleUtil labels, Map<AttributeKey, Object> defaultAttributes,
+            Shape colorShape, @Nullable final java.util.List<Disposable> dsp, @Nullable final Class uiclass) {
+
+        JPopupButton popupButton;
+
+        popupButton = new JPopupButton();
+        labels.configureToolBarButton(popupButton, labelKey);
+        popupButton.setFocusable(true);
+        popupButton.setRequestFocusEnabled(false);
+
+        // We lazily initialize the popup menu because creating a JColorChooser
+        // takes a lot of time.
+        JComponentPopup popupMenu = new JComponentPopup() {
+
+            private JColorChooser colorChooser;
+
+            @Override
+            public void show(Component invoker, int x, int y) {
+                if (colorChooser==null) {
+                    initialize();
+                }
+                Color c;
+                if (editor.getActiveView()!=null&&editor.getActiveView().getSelectionCount()>0) {
+                    c=editor.getActiveView().getSelectedFigures().iterator().next().get(attributeKey);
+                } else {
+                    c=editor.getDefaultAttribute(attributeKey);
+                }
+                colorChooser.setColor(c==null?new Color(0,true):c);
+                super.show(invoker, x, y);
+            }
+
+            private void initialize() {
+                colorChooser = new JColorChooser();
+                colorChooser.setOpaque(true);
+                colorChooser.setBackground(Color.WHITE);
+                if (uiclass != null) {
+                    try {
+                        colorChooser.setUI((ColorChooserUI) Methods.invokeStatic(uiclass, "createUI", new Class[]{JComponent.class}, new Object[]{colorChooser}));
+                    } catch (NoSuchMethodException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                dsp.add(new SelectionColorChooserHandler(editor, attributeKey, colorChooser, this));
+                add(colorChooser);
+            }
+        };
+
+
+        popupButton.setPopupMenu(popupMenu);
+        popupButton.setPopupAlpha(1.0f);// must be set after we set the popup menu
+        Icon icon = new SelectionColorIcon(editor,
+                attributeKey,
+                labels.getIconProperty(labelKey, ButtonFactory.class).getImage(),
+                colorShape);
+        popupButton.setIcon(icon);
+        popupButton.setDisabledIcon(icon);
+        popupButton.setFocusable(false);
+
+        if (dsp!=null){dsp.add(new SelectionComponentRepainter(editor, popupButton));}
         return popupButton;
     }
 
@@ -1050,8 +1130,9 @@ public class ButtonFactory {
             DrawingAttributeAction a;
             HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey, Object>(defaultAttributes);
             if (swatch != null) {
-                attributes.put(attributeKey, swatch.getColor());
-                if (swatch.getColor() == null) {
+                Color swatchColor=swatch.getColor();
+                attributes.put(attributeKey, swatchColor);
+                if (swatchColor == null||swatchColor.getAlpha()==0) {
                     hasNullColor = true;
                 }
                 popupButton.add(a =
@@ -1110,6 +1191,77 @@ public class ButtonFactory {
             dsp.add(new SelectionComponentRepainter(editor, popupButton));
         }
 
+        return popupButton;
+    }
+    public static JPopupButton createDrawingColorChooserButton(final DrawingEditor editor,
+            final AttributeKey<Color> attributeKey, String labelKey,
+            ResourceBundleUtil labels, Map<AttributeKey, Object> defaultAttributes,
+            Shape colorShape, final java.util.List<Disposable> dsp) {
+        return createSelectionColorChooserButton(
+                editor, attributeKey, labelKey, labels, defaultAttributes, colorShape, dsp, null);
+    }
+
+    public static JPopupButton createDrawingColorChooserButton(final DrawingEditor editor,
+            final AttributeKey<Color> attributeKey, String labelKey,
+            ResourceBundleUtil labels, Map<AttributeKey, Object> defaultAttributes,
+            Shape colorShape, @Nullable final java.util.List<Disposable> dsp, @Nullable final Class uiclass) {
+
+        JPopupButton popupButton;
+
+        popupButton = new JPopupButton();
+        labels.configureToolBarButton(popupButton, labelKey);
+        popupButton.setFocusable(true);
+        popupButton.setRequestFocusEnabled(false);
+
+        // We lazily initialize the popup menu because creating a JColorChooser
+        // takes a lot of time.
+        JComponentPopup popupMenu = new JComponentPopup() {
+
+            private JColorChooser colorChooser;
+
+            @Override
+            public void show(Component invoker, int x, int y) {
+                if (colorChooser==null) {
+                    initialize();
+                }
+                Color c;
+                if (editor.getActiveView()!=null) {
+                    c=editor.getActiveView().getDrawing().get(attributeKey);
+                } else {
+                    c=editor.getDefaultAttribute(attributeKey);
+                }
+                colorChooser.setColor(c==null?new Color(0,true):c);
+                super.show(invoker, x, y);
+            }
+
+            private void initialize() {
+                colorChooser = new JColorChooser();
+                colorChooser.setOpaque(true);
+                colorChooser.setBackground(Color.WHITE);
+                if (uiclass != null) {
+                    try {
+                        colorChooser.setUI((ColorChooserUI) Methods.invokeStatic(uiclass, "createUI", new Class[]{JComponent.class}, new Object[]{colorChooser}));
+                    } catch (NoSuchMethodException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                dsp.add(new SelectionColorChooserHandler(editor, attributeKey, colorChooser, this));
+                add(colorChooser);
+            }
+        };
+
+
+        popupButton.setPopupMenu(popupMenu);
+        popupButton.setPopupAlpha(1.0f);// must be set after we set the popup menu
+        Icon icon = new SelectionColorIcon(editor,
+                attributeKey,
+                labels.getIconProperty(labelKey, ButtonFactory.class).getImage(),
+                colorShape);
+        popupButton.setIcon(icon);
+        popupButton.setDisabledIcon(icon);
+        popupButton.setFocusable(false);
+
+        if (dsp!=null){dsp.add(new SelectionComponentRepainter(editor, popupButton));}
         return popupButton;
     }
 
@@ -1458,7 +1610,7 @@ public class ButtonFactory {
         labels.configureToolBarButton(fontPopupButton, "attribute.font");
         fontPopupButton.setFocusable(false);
 
-        JPopupMenu popupMenu = new JPopupMenu();
+        JComponentPopup popupMenu = new JComponentPopup();
         JFontChooser fontChooser = new JFontChooser();
         dsp.add(new FontChooserHandler(editor, key, fontChooser, popupMenu));
 

@@ -129,7 +129,7 @@ public class AttributeAction extends AbstractSelectedAction {
             public void redo() {
                 super.redo();
                 for (Figure figure : selectedFigures) {
-                    restoreData.add(figure.getAttributesRestoreData());
+                    //restoreData.add(figure.getAttributesRestoreData());
                     figure.willChange();
                     for (Map.Entry<AttributeKey, Object> entry : a.entrySet()) {
                         figure.set(entry.getKey(), entry.getValue());

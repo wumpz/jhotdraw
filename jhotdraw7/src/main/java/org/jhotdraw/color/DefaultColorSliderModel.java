@@ -15,6 +15,7 @@ package org.jhotdraw.color;
 
 import java.awt.Color;
 import java.awt.color.ColorSpace;
+import java.awt.color.ICC_ColorSpace;
 import java.util.LinkedList;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -37,10 +38,12 @@ public class DefaultColorSliderModel extends AbstractColorSlidersModel {
      */
     protected DefaultBoundedRangeModel[] componentModels;
 
+    /** Creates a color slider model with an ICC sRGB color space. */
     public DefaultColorSliderModel() {
-        setColorSpace(HSBColorSpace.getInstance());
+        setColorSpace(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_sRGB));
     }
 
+    /** Creates a color slider model with the specified color space. */
     public DefaultColorSliderModel(ColorSpace sys) {
         setColorSpace(sys);
     }
@@ -53,6 +56,13 @@ public class DefaultColorSliderModel extends AbstractColorSlidersModel {
 
         for (int i = 0; i < componentModels.length; i++) {
             componentModels[i] = new DefaultBoundedRangeModel();
+            if ((colorSpace.getMaxValue(i)-colorSpace.getMinValue(i))>=10f) {
+                componentModels[i].setMinimum((int)colorSpace.getMinValue(i));
+                componentModels[i].setMaximum((int)colorSpace.getMaxValue(i));
+            } else {
+                componentModels[i].setMinimum((int)(colorSpace.getMinValue(i)*100f));
+                componentModels[i].setMaximum((int)(colorSpace.getMaxValue(i)*100f));
+            }
             final int componentIndex = i;
             componentModels[i].addChangeListener(
                     new ChangeListener() {
@@ -122,11 +132,11 @@ public class DefaultColorSliderModel extends AbstractColorSlidersModel {
         componentModels[componentIndex].setValue(value);
     }
 
-    protected void addColorSlider(JSlider slider) {
+    public void addColorSlider(JSlider slider) {
         sliders.add(slider);
     }
 
-    protected void removeColorSlider(JSlider slider) {
+    public void removeColorSlider(JSlider slider) {
         sliders.remove(slider);
     }
 
