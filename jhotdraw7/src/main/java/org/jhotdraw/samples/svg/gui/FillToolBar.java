@@ -95,7 +95,7 @@ public class FillToolBar extends AbstractToolBar {
                  */
                 btn = ButtonFactory.createSelectionColorChooserButton(editor,
                         FILL_COLOR, "attribute.fillColor", labels,
-                        defaultAttributes, new Rectangle(3, 3, 10, 10), disposables, PaletteColorChooserUI.class);
+                        defaultAttributes, new Rectangle(3, 3, 10, 10), PaletteColorChooserUI.class, disposables);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                 //((JPopupButton) btn).setAction(null, null);
                 gbc = new GridBagConstraints();
@@ -170,7 +170,7 @@ public class FillToolBar extends AbstractToolBar {
                 p1.add(colorField, gbc);
                  btn = ButtonFactory.createSelectionColorChooserButton(editor,
                         FILL_COLOR, "attribute.fillColor", labels,
-                        defaultAttributes, new Rectangle(3, 3, 10, 10), disposables, PaletteColorChooserUI.class);
+                        defaultAttributes, new Rectangle(3, 3, 10, 10), PaletteColorChooserUI.class, disposables);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                 //((JPopupButton) btn).setAction(null, null);
                 gbc = new GridBagConstraints();

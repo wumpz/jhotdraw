@@ -229,14 +229,16 @@ public class DefaultDrawingView
                 AttributeKey a = e.getAttribute();
                 if (a.equals(CANVAS_HEIGHT) || a.equals(CANVAS_WIDTH)) {
                     validateViewTranslation();
-                    repaint();
-                } else if (a.equals(CANVAS_FILL_COLOR) || a.equals(CANVAS_FILL_OPACITY)) {
-                    repaint();
-                } else {
+                }
+                if (e.getInvalidatedArea()!=null) {
                     repaintDrawingArea(e.getInvalidatedArea());
+                } else {
+                    repaintDrawingArea(viewToDrawing(getCanvasViewBounds()));
                 }
             } else {
-                repaintDrawingArea(e.getInvalidatedArea());
+                if (e.getInvalidatedArea() != null) {
+                    repaintDrawingArea(e.getInvalidatedArea());
+                }
             }
         }
 

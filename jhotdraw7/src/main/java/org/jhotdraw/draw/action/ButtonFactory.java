@@ -767,7 +767,7 @@ public class ButtonFactory {
             DrawingEditor editor, AttributeKey<Color> attributeKey,
             java.util.List<ColorIcon> swatches, int columnCount,
             String labelKey, ResourceBundleUtil labels,
-            Map<AttributeKey, Object> defaultAttributes) {
+            @Nullable Map<AttributeKey, Object> defaultAttributes) {
         return createSelectionColorButton(editor, attributeKey,
                 swatches, columnCount, labelKey, labels, defaultAttributes,
                 new Rectangle(1, 17, 20, 4));
@@ -808,7 +808,7 @@ public class ButtonFactory {
             DrawingEditor editor, AttributeKey<Color> attributeKey,
             java.util.List<ColorIcon> swatches, int columnCount,
             String labelKey, ResourceBundleUtil labels,
-            Map<AttributeKey, Object> defaultAttributes,
+            @Nullable Map<AttributeKey, Object> defaultAttributes,
             Shape colorShape) {
         return createSelectionColorButton(editor, attributeKey,
                 swatches, columnCount, labelKey, labels, defaultAttributes,
@@ -850,7 +850,7 @@ public class ButtonFactory {
             DrawingEditor editor, AttributeKey<Color> attributeKey,
             java.util.List<ColorIcon> swatches, int columnCount,
             String labelKey, ResourceBundleUtil labels,
-            Map<AttributeKey, Object> defaultAttributes,
+            @Nullable Map<AttributeKey, Object> defaultAttributes,
             Shape colorShape, java.util.List<Disposable> dsp) {
         final JPopupButton popupButton = new JPopupButton();
         popupButton.setPopupAlpha(1f);
@@ -930,13 +930,13 @@ public class ButtonFactory {
             ResourceBundleUtil labels, Map<AttributeKey, Object> defaultAttributes,
             Shape colorShape, final java.util.List<Disposable> dsp) {
         return createSelectionColorChooserButton(
-                editor, attributeKey, labelKey, labels, defaultAttributes, colorShape, dsp, null);
+                editor, attributeKey, labelKey, labels, defaultAttributes, colorShape, null, dsp);
     }
 
     public static JPopupButton createSelectionColorChooserButton(final DrawingEditor editor,
             final AttributeKey<Color> attributeKey, String labelKey,
             ResourceBundleUtil labels, Map<AttributeKey, Object> defaultAttributes,
-            Shape colorShape, @Nullable final java.util.List<Disposable> dsp, @Nullable final Class uiclass) {
+            Shape colorShape, @Nullable final Class uiclass, @Nullable final java.util.List<Disposable> dsp) {
 
         JPopupButton popupButton;
 
@@ -1116,7 +1116,7 @@ public class ButtonFactory {
             DrawingEditor editor, AttributeKey<Color> attributeKey,
             java.util.List<ColorIcon> swatches, int columnCount,
             String labelKey, ResourceBundleUtil labels,
-            Map<AttributeKey, Object> defaultAttributes,
+            @Nullable Map<AttributeKey, Object> defaultAttributes,
             Shape colorShape, java.util.List<Disposable> dsp) {
         final JPopupButton popupButton = new JPopupButton();
         popupButton.setPopupAlpha(1f);
@@ -1195,16 +1195,16 @@ public class ButtonFactory {
     }
     public static JPopupButton createDrawingColorChooserButton(final DrawingEditor editor,
             final AttributeKey<Color> attributeKey, String labelKey,
-            ResourceBundleUtil labels, Map<AttributeKey, Object> defaultAttributes,
-            Shape colorShape, final java.util.List<Disposable> dsp) {
+            ResourceBundleUtil labels, @Nullable Map<AttributeKey, Object> defaultAttributes,
+            Shape colorShape, @Nullable final java.util.List<Disposable> dsp) {
         return createSelectionColorChooserButton(
-                editor, attributeKey, labelKey, labels, defaultAttributes, colorShape, dsp, null);
+                editor, attributeKey, labelKey, labels, defaultAttributes, colorShape,  null, dsp);
     }
 
     public static JPopupButton createDrawingColorChooserButton(final DrawingEditor editor,
             final AttributeKey<Color> attributeKey, String labelKey,
-            ResourceBundleUtil labels, Map<AttributeKey, Object> defaultAttributes,
-            Shape colorShape, @Nullable final java.util.List<Disposable> dsp, @Nullable final Class uiclass) {
+            ResourceBundleUtil labels, @Nullable Map<AttributeKey, Object> defaultAttributes,
+            Shape colorShape, @Nullable final Class uiclass, @Nullable final java.util.List<Disposable> dsp) {
 
         JPopupButton popupButton;
 
@@ -1245,7 +1245,7 @@ public class ButtonFactory {
                         ex.printStackTrace();
                     }
                 }
-                dsp.add(new SelectionColorChooserHandler(editor, attributeKey, colorChooser, this));
+                dsp.add(new DrawingColorChooserHandler(editor, attributeKey, colorChooser, this));
                 add(colorChooser);
             }
         };
@@ -1253,7 +1253,7 @@ public class ButtonFactory {
 
         popupButton.setPopupMenu(popupMenu);
         popupButton.setPopupAlpha(1.0f);// must be set after we set the popup menu
-        Icon icon = new SelectionColorIcon(editor,
+        Icon icon = new DrawingColorIcon(editor,
                 attributeKey,
                 labels.getIconProperty(labelKey, ButtonFactory.class).getImage(),
                 colorShape);

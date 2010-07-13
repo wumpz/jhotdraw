@@ -68,9 +68,9 @@ public class CanvasToolBar extends AbstractToolBar {
                 AbstractSelectedAction d;
 
                 // Fill color
-                btn = ButtonFactory.createDrawingColorButton(editor,
-                        CANVAS_FILL_COLOR, ButtonFactory.HSB_COLORS_AS_RGB, ButtonFactory.HSB_COLORS_AS_RGB_COLUMN_COUNT,
-                        "attribute.canvasFillColor", labels, null, new Rectangle(3, 3, 10, 10), disposables);
+                 btn = ButtonFactory.createDrawingColorChooserButton(editor,
+                        CANVAS_FILL_COLOR, "attribute.canvasFillColor", labels,
+                        null, new Rectangle(3, 3, 10, 10), PaletteColorChooserUI.class, disposables);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                 disposables.add(new DrawingComponentRepainter(editor, btn));
                 ((JPopupButton) btn).setAction(null, null);
@@ -207,9 +207,9 @@ public class CanvasToolBar extends AbstractToolBar {
                 gbc.fill = GridBagConstraints.HORIZONTAL;
                 gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                 p1.add(colorField, gbc);
-                btn = ButtonFactory.createDrawingColorButton(editor,
-                        CANVAS_FILL_COLOR, ButtonFactory.HSB_COLORS_AS_RGB, ButtonFactory.HSB_COLORS_AS_RGB_COLUMN_COUNT,
-                        "attribute.canvasFillColor", labels, null, new Rectangle(3, 3, 10, 10), disposables);
+                 btn = ButtonFactory.createDrawingColorChooserButton(editor,
+                        CANVAS_FILL_COLOR, "attribute.canvasFillColor", labels,
+                        null, new Rectangle(3, 3, 10, 10), PaletteColorChooserUI.class, disposables);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                 disposables.add(new DrawingComponentRepainter(editor, btn));
                 ((JPopupButton) btn).setAction(null, null);
