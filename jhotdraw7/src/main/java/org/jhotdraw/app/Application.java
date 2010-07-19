@@ -278,66 +278,80 @@ public interface Application {
     public void clearRecentURIs();
 
     /**
-     * Creates a file menu for the specified view.
-     * Returns null, if the menu is empty.
+     * Creates a file menu for the specified view or for the entire application.
+     *
+     * @param v A view or null.
+     * @return A JMenu or null, if the menu is empty.
      */
     @Nullable public JMenu createFileMenu(@Nullable View v);
 
     /**
-     * Creates an edit menu for the specified view.
-     * Returns null, if the menu is empty.
+     * Creates an edit menu for the specified view or for the entire application.
+     *
+     * @param v A view or null.
+     * @return A JMenu or null, if the menu is empty.
      */
     @Nullable public JMenu createEditMenu(@Nullable View v);
 
     /**
-     * Creates a view menu for the specified view.
-     * Returns null, if the menu is empty.
+     * Creates a view menu for the specified view or for the entire application.
+     *
+     * @param v A view or null.
+     * @return A JMenu or null, if the menu is empty.
      */
     @Nullable public JMenu createViewMenu(@Nullable View v);
 
     /**
-     * Creates a window menu for the specified view.
-     * Returns null, if the menu is empty.
+     * Creates a window menu for the specified view or for the entire application.
+     *
+     * @param v A view or null.
+     * @return A JMenu or null, if the menu is empty.
      */
     @Nullable public JMenu createWindowMenu(@Nullable View v);
 
     /** 
-     * Creates a help menu for the specified view.
-     * Returns null, if the menu is empty.
+     * Creates a help menu for the specified view of for the entire application.
+     *
+     * @param v A view or null.
+     * @return A JMenu or null, if the menu is empty.
      */
     @Nullable public JMenu createHelpMenu(@Nullable View v);
 
     /**
-     * Gets the open chooser.
+     * Gets an open chooser for the specified view or for the entire application.
      *
-     * @param v View or null for application-wide chooser.
+     * @param v A view or null.
+     * @return A chooser.
      */
     public URIChooser getOpenChooser(@Nullable View v);
 
     /**
-     * Gets the save chooser.
+     * Gets a save chooser for the specified view or for the entire application.
      *
-     * @param v View or null for application-wide chooser.
+     * @param v A view or null.
+     * @return A chooser.
      */
     public URIChooser getSaveChooser(@Nullable View v);
 
     /**
-     * Gets the export chooser.
+     * Gets an export chooser for the specified view or for the entire application.
      *
-     * @param v View or null for application-wide chooser.
+     * @param v A view or null.
+     * @return A chooser.
      */
     public URIChooser getExportChooser(@Nullable View v);
     /**
-     * Gets the import chooser.
+     * Gets an import chooser for the specified view or for the entire application.
      *
-     * @param v View or null for application-wide chooser.
+     * @param v A view or null.
+     * @return A chooser.
      */
     public URIChooser getImportChooser(@Nullable View v);
 
     /**
-     * Gets the action map.
+     * Gets an action map for the specified view or for the entire application.
      *
-     * @param v View or null for application-wide action map.
+     * @param v A view or null
      */
     public ActionMap getActionMap(@Nullable View v);
 }
