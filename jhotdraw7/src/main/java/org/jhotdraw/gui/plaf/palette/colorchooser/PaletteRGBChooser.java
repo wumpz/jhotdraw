@@ -12,10 +12,10 @@
  */
 package org.jhotdraw.gui.plaf.palette.colorchooser;
 
-import ch.randelshofer.quaqua.*;
 import java.awt.*;
 import java.awt.color.ICC_ColorSpace;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.*;
 import javax.swing.colorchooser.*;
 import javax.swing.plaf.*;
@@ -117,7 +117,7 @@ public class PaletteRGBChooser extends AbstractColorChooserPanel implements UIRe
         redField.setMinimumSize(redField.getPreferredSize());
         greenField.setMinimumSize(greenField.getPreferredSize());
         blueField.setMinimumSize(blueField.getPreferredSize());
-        VisualMargin bm = new VisualMargin(false, false, true, false);
+        EmptyBorder bm = new EmptyBorder(0,0,0,0);
         redLabel.setBorder(bm);
         greenLabel.setBorder(bm);
         blueLabel.setBorder(bm);

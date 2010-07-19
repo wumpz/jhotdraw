@@ -1,5 +1,5 @@
 /*
- * @(#)SliderThumbIcon.java
+ * @(#)PaletteSliderThumbIcon.java
  *
  * Copyright (c) 2008 by the original authors of JHotDraw
  * and all its contributors.
@@ -16,6 +16,7 @@ package org.jhotdraw.gui.plaf.palette;
 
 import java.awt.*;
 import javax.swing.*;
+import org.jhotdraw.util.Images;
 
 /**
  * An Icon with different visuals reflecting the state of the slider
@@ -24,7 +25,7 @@ import javax.swing.*;
  * @author  Werner Randelshofer
  * @version $Id$
  */
-public class SliderThumbIcon extends MultiIcon {
+public class PaletteSliderThumbIcon extends MultiIcon {
     private final static int E = 0;
     private final static int EP = 1;
     private final static int D = 2;
@@ -38,7 +39,7 @@ public class SliderThumbIcon extends MultiIcon {
      * If an icon is null, an icon is derived for the state from the
      * other icons.
      */
-    public SliderThumbIcon(Icon e, Icon ep, Icon d, Icon i, Icon di) {
+    public PaletteSliderThumbIcon(Icon e, Icon ep, Icon d, Icon i, Icon di) {
         super(new Icon[] {e, ep, d, i, di});
     }
     /**
@@ -56,7 +57,7 @@ public class SliderThumbIcon extends MultiIcon {
      * If an array element is null, an icon is derived for the state from the
      * other icons.
      */
-    public SliderThumbIcon(Image[] images) {
+    public PaletteSliderThumbIcon(Image[] images) {
         super(images);
     }
     /**
@@ -64,7 +65,7 @@ public class SliderThumbIcon extends MultiIcon {
      * All icons must have the same dimensions.
      * If an icon is null, nothing is drawn for this state.
      */
-    public SliderThumbIcon(Icon[] icons) {
+    public PaletteSliderThumbIcon(Icon[] icons) {
         super(icons);
     }
     
@@ -72,10 +73,24 @@ public class SliderThumbIcon extends MultiIcon {
      * Creates a new instance.
      * The icon representations are created lazily from the image.
      */
-    public SliderThumbIcon(Image tiledImage, int tileCount, boolean isTiledHorizontaly) {
+    public PaletteSliderThumbIcon(Image tiledImage, int tileCount, boolean isTiledHorizontaly) {
         super(tiledImage, tileCount, isTiledHorizontaly);
     }
+
+    /**
+     * Creates a new instance.
+     * The icon representations are created lazily from the specified resource.
+     *
+     * @param resource A resource URL.
+     * @param tileCount The number of tiles.
+     * @param isTiledHorizontaly True if the image is to be tilled horizontally,
+     * false for vertically.
+     */
+    public PaletteSliderThumbIcon(String resource, int tileCount, boolean isTiledHorizontaly) {
+        super(Images.createImage(PaletteSliderThumbIcon.class.getResource(resource)), tileCount, isTiledHorizontaly);
+    }
     
+    @Override
     protected void generateMissingIcons() {
         Icon[] oldIcons;
         if (icons.length != 6) {

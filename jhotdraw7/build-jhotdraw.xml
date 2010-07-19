@@ -4,7 +4,7 @@
     <target name="init">
         <!-- properties for copyright and versioning -->
         <property name="author" value="the authors and contributors of JHotDraw"/>
-        <property name="version" value="7 rev662"/>
+        <property name="version" value="7 rev663"/>
 
         <!-- build properties -->
         <property name="libdir" value="lib"/>

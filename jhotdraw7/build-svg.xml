@@ -32,6 +32,7 @@
          >
             <classpath path="${libdir}/java_30.zip"/>
             <include name="org/jhotdraw/samples/svg/SVGApplet.java"/> 
+            <include name="org/jhotdraw/gui/plaf/palette/**/*.java"/>
             <include name="net/n3/nanoxml/*.java"/> 
         </javac>
         <copy todir="${classdir}">
@@ -43,6 +44,10 @@
                 <include name="org/jhotdraw/app/Label*.properties"/>
 
                 <include name="org/jhotdraw/gui/Label*.properties"/>
+                
+                <include name="org/jhotdraw/gui/plaf/palette/images/*" />
+
+                <include name="org/jhotdraw/color/*.icc" />
 
                 <include name="org/jhotdraw/draw/Label*.properties"/>
                 <include name="org/jhotdraw/draw/action/images/*.png"/>
@@ -101,11 +106,16 @@
             <classpath path="${libdir}/quaqua.jar"/>
             <classpath path="${libdir}/java_30.zip"/>
             <include name="org/jhotdraw/samples/svg/Main.java"/>
+            <include name="org/jhotdraw/gui/plaf/palette/**/*.java"/>
             <include name="org/jhotdraw/samples/svg/DrawProject.java"/> 
             <include name="net/n3/nanoxml/*.java"/> 
         </javac>
-        <copy todir="${classdir}/org/jhotdraw/app/action/images">
-            <fileset dir="${srcdir}/org/jhotdraw/app/action/images" />
+        <copy todir="${classdir}">
+            <fileset dir="${srcdir}">
+                <include name="org/jhotdraw/app/action/images/*" />
+                <include name="org/jhotdraw/gui/plaf/palette/images/*" />
+                <include name="org/jhotdraw/color/*.icc" />
+            </fileset>
         </copy>
         <copy todir="${classdir}/org/jhotdraw/app">
             <fileset dir="${srcdir}/org/jhotdraw/app">
@@ -211,7 +221,7 @@
         </java>
     </target>
     <target name="applet.run-jar" depends="init">
-        <java fork="true" jar="${distdir}/jhotdraw_svg.jar"/>
+        <java fork="true" jar="${distdir}/unsigned/jhotdraw_svg.jar"/>
     </target>
     <target name="applet.run-compiled" depends="init">
         <java fork="true" classname="org.jhotdraw.samples.svg.SVGApplet">

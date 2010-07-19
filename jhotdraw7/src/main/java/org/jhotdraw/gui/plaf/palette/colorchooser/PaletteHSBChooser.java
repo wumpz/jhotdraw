@@ -13,7 +13,6 @@
  */
 package org.jhotdraw.gui.plaf.palette.colorchooser;
 
-import ch.randelshofer.quaqua.*;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -117,7 +116,7 @@ public class PaletteHSBChooser
         hueField.setMinimumSize(hueField.getPreferredSize());
         saturationField.setMinimumSize(saturationField.getPreferredSize());
         brightnessField.setMinimumSize(brightnessField.getPreferredSize());
-        VisualMargin bm = new VisualMargin(false, false, true, false);
+        EmptyBorder bm = new EmptyBorder(0,0,0,0);
         hueLabel.setBorder(bm);
         saturationLabel.setBorder(bm);
         brightnessLabel.setBorder(bm);

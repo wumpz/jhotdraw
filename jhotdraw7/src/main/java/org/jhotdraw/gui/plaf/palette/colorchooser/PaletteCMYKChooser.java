@@ -13,7 +13,6 @@
  */
 package org.jhotdraw.gui.plaf.palette.colorchooser;
 
-import ch.randelshofer.quaqua.*;
 import java.awt.*;
 import java.io.*;
 import javax.swing.*;
@@ -158,7 +157,7 @@ public class PaletteCMYKChooser
         yellowField.setMinimumSize(yellowField.getPreferredSize());
         blackField.setMinimumSize(blackField.getPreferredSize());
 
-        VisualMargin bm = new VisualMargin(false, false, true, false);
+        EmptyBorder bm = new EmptyBorder(0,0,0,0);
         cyanLabel.setBorder(bm);
         magentaLabel.setBorder(bm);
         yellowLabel.setBorder(bm);

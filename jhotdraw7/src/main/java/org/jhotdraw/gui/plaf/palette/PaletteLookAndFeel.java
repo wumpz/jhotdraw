@@ -19,8 +19,6 @@ import javax.swing.UIDefaults.*;
 import javax.swing.border.Border;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
-import org.jhotdraw.color.ColorSliderUI;
-import org.jhotdraw.util.Images;
 
 /**
  * A LookAndFeel for components in the palette windows of a drawing editor.
@@ -94,25 +92,6 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
             return value;
         }
 
-        /* At this point we know that the value of key was
-         * a LazyValue or an ActiveValue.
-         */
-        if (value instanceof LazyValue) {
-            try {
-                /* If an exception is thrown we'll just put the LazyValue
-                 * back in the table.
-                 */
-                value = ((LazyValue) value).createValue(defaults);
-            } finally {
-                if (value == null) {
-                    defaults.remove(key);
-                } else {
-                    defaults.put(key, value);
-                }
-            }
-        } else {
-            value = ((ActiveValue) value).createValue(defaults);
-        }
         return value;
     }
 
@@ -185,7 +164,7 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
     public static void installBorder(JComponent c, String defaultBorderName) {
         Border b = c.getBorder();
         if (b == null || b instanceof UIResource) {
-        c.setBorder(getInstance().getBorder(defaultBorderName));
+            c.setBorder(getInstance().getBorder(defaultBorderName));
         }
 
     }
@@ -267,10 +246,10 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
         ColorUIResource selectionForeground = black;
 
         ColorUIResource listSelectionBackground = new ColorUIResource(0x3875d7);
-	Object focusCellHighlightBorder = new UIDefaults.ProxyLazyValue(
-			  "javax.swing.plaf.BorderUIResource$LineBorderUIResource",
-			 // null,
-			  new Object[] {listSelectionBackground});
+        Object focusCellHighlightBorder = new UIDefaults.ProxyLazyValue(
+                "javax.swing.plaf.BorderUIResource$LineBorderUIResource",
+                // null,
+                new Object[]{listSelectionBackground});
 
         // *** Shared Insets
         InsetsUIResource zeroInsets = new InsetsUIResource(0, 0, 0, 0);
@@ -323,7 +302,7 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
             "javax.swing.plaf.BorderUIResource$EmptyBorderUIResource",
             new Object[]{0, 0, 0, 0}),
             // *** Lists
-	    "List.focusCellHighlightBorder", focusCellHighlightBorder,
+            "List.focusCellHighlightBorder", focusCellHighlightBorder,
             "List.cellRenderer", new UIDefaults.ProxyLazyValue("org.jhotdraw.gui.plaf.palette.PaletteListCellRenderer"),
             // *** Panels
             "Panel.background", control,
@@ -338,12 +317,12 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
             "Slider.foreground", controlText,
             "Slider.horizontalSize", new DimensionUIResource(100, 20),
             "Slider.verticalSize", new DimensionUIResource(20, 100),
-            "Slider.northThumb.small",
-            new SliderThumbIcon(Images.createImage(
-            ColorSliderUI.class, "/org/jhotdraw/color/images/Slider.northThumbs.small.png"), 6, true),
-            "Slider.westThumb.small",
-            new SliderThumbIcon(Images.createImage(
-            ColorSliderUI.class, "/org/jhotdraw/color/images/Slider.westThumbs.small.png"), 6, true),
+            "Slider.northThumb.small", new UIDefaults.ProxyLazyValue(
+            "org.jhotdraw.gui.plaf.palette.PaletteSliderThumbIcon",
+            new Object[]{"/org/jhotdraw/gui/plaf/palette/images/Slider.northThumbs.small.png", 6, true}),
+            "Slider.westThumb.small", new UIDefaults.ProxyLazyValue(
+            "org.jhotdraw.gui.plaf.palette.PaletteSliderThumbIcon",
+            new Object[]{"/org/jhotdraw/gui/plaf/palette/images/Slider.westThumbs.small.png", 6, true}),
             // *** TabbedPane
             "TabbedPane.font", dialogPlain12,
             "TabbedPane.selectedFont", dialogBold12,
@@ -378,7 +357,6 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
             "ToolBar.border", new UIDefaults.ProxyLazyValue("org.jhotdraw.gui.plaf.palette.PaletteToolBarBorder$UIResource"), //
         //	    "ToolBar.separatorSize", toolBarSeparatorSize,
         };
-
         table.putDefaults(defaults);
     }
 

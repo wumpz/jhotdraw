@@ -14,9 +14,6 @@
 
 package org.jhotdraw.gui.plaf.palette;
 
-import ch.randelshofer.quaqua.border.BackgroundBorder;
-import ch.randelshofer.quaqua.util.Debug;
-import ch.randelshofer.quaqua.color.PaintableColor;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.*;
@@ -76,25 +73,15 @@ public class PalettePanelUI extends BasicPanelUI {
     public void paint(Graphics gr, JComponent c) {
             Graphics2D g = (Graphics2D) gr;
         if (c.isOpaque()) {
-            g.setPaint(PaintableColor.getPaint(c.getBackground(), c));
+            g.setColor(c.getBackground());
             g.fillRect(0, 0, c.getWidth(), c.getHeight());
         }
         
         Border backgroundBorder = null;
         Insets insets = new Insets(0,0,0,0);
-        if (c.getBorder() instanceof BackgroundBorder) {
-            backgroundBorder = ((BackgroundBorder) c.getBorder()).getBackgroundBorder();
-        } else if (c.getBorder() instanceof TitledBorder) {
-            Border titledBorderBorder = ((TitledBorder) c.getBorder()).getBorder();
-            if (titledBorderBorder instanceof BackgroundBorder) {
-                backgroundBorder = ((BackgroundBorder) titledBorderBorder).getBackgroundBorder();
-                insets = c.getBorder().getBorderInsets(c);
-            }
-        }
+
         if (backgroundBorder != null) {
             backgroundBorder.paintBorder(c, gr, insets.left, insets.top, c.getWidth() - insets.left - insets.right, c.getHeight() - insets.top - insets.bottom);
         }
-        
-        Debug.paint(gr, c, this);
     }
 }

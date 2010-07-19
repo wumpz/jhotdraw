@@ -41,6 +41,9 @@ public class Images {
     }
 
     public static Image createImage(URL resource) {
+        if (resource == null) {
+            throw new IllegalArgumentException("resource must not be null");
+        }
         Image image = Toolkit.getDefaultToolkit().createImage(resource);
         return image;
     }

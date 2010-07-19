@@ -50,12 +50,12 @@ public class ColorSliderUI extends BasicSliderUI {
     public static ComponentUI createUI(JComponent b) {
         if (null == UIManager.getIcon("Slider.northThumb.small")) {
             UIManager.put("Slider.northThumb.small",
-                    new SliderThumbIcon(Images.createImage(
+                    new PaletteSliderThumbIcon(Images.createImage(
                     ColorSliderUI.class, "/org/jhotdraw/color/images/Slider.northThumbs.small.png"), 6, true));
         }
         if (null == UIManager.getIcon("Slider.westThumb.small")) {
             UIManager.put("Slider.westThumb.small",
-                    new SliderThumbIcon(Images.createImage(
+                    new PaletteSliderThumbIcon(Images.createImage(
                     ColorSliderUI.class, "/org/jhotdraw/color/images/Slider.westThumbs.small.png"), 6, true));
         }
         return new ColorSliderUI((JSlider) b);

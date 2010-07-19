@@ -37,11 +37,17 @@ public class PaletteColorSliderUI extends ColorSliderUI {
     }
     @Override
     protected Icon getThumbIcon() {
+        String key;
         if (slider.getOrientation() == JSlider.HORIZONTAL) {
-            return PaletteLookAndFeel.getInstance().getIcon("Slider.northThumb.small");
+            key="Slider.northThumb.small";
         } else {
-            return PaletteLookAndFeel.getInstance().getIcon("Slider.westThumb.small");
+            key="Slider.westThumb.small";
         }
+            Icon icon = PaletteLookAndFeel.getInstance().getIcon(key);
+            if (icon==null) {
+                throw new InternalError(key+" missing in PaletteLookAndFeel");
+            }
+            return icon;
     }
 
 }
