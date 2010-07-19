@@ -194,8 +194,6 @@ public class JPopupButton extends javax.swing.JButton {
      * pb.setPopupMenu(new JComponentPopup());
      * pb.add(a component);
      * </pre>
-     *
-     * @see #setCloseAutomatically
      */
     public void add(JComponent submenu) {
         getPopupMenu().add(submenu);

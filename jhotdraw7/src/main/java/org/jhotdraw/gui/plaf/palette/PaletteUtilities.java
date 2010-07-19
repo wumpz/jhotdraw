@@ -130,7 +130,7 @@ public class PaletteUtilities  extends BasicGraphicsUtils {
      * Graphics.
      *
      * @param c JComponent requesting FontMetrics, may be null
-     * @param c Graphics Graphics
+     * @param g Graphics
      * @param font Font to get FontMetrics for
      */
     @SuppressWarnings("deprecation")

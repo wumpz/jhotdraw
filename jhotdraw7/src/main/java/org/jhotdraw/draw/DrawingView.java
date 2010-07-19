@@ -47,9 +47,9 @@ import org.jhotdraw.annotations.Nullable;
  * <li>Invoke {@link Drawing#drawCanvas}.</li>
  * <li>Invoke {@link Constrainer#draw} if a constrainer is set.</li>
  * <li>Invoke {@link Drawing#draw}.</li>
- * <li>Invoke {@link org.jhotdraw.draw.handle.Handle#draw(...)} on the handles
+ * <li>Invoke {@link org.jhotdraw.draw.handle.Handle#draw} on the handles
  * of selected figures.</li>
- * <li>Invoke {@link org.jhotdraw.draw.tool.Tool#draw(...)} if the drawing view
+ * <li>Invoke {@link org.jhotdraw.draw.tool.Tool#draw} if the drawing view
  * is the active view of the {@code DrawingEditor}.</li>
  * </ol>
  *
