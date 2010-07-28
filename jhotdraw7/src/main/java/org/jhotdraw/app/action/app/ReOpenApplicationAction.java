@@ -34,7 +34,7 @@ import org.jhotdraw.app.action.AbstractApplicationAction;
  *
  *
  * @author Werner Randelshofer
- * @version 1.0 2009-12-18 Created.
+ * @version $Id$
  */
 public class ReOpenApplicationAction extends AbstractApplicationAction {
 

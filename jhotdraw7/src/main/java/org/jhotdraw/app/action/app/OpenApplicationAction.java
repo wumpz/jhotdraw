@@ -30,7 +30,7 @@ import org.jhotdraw.app.action.AbstractApplicationAction;
  * {@link org.jhotdraw.app.ApplicationModel#initApplication} is called.
  *
  * @author Werner Randelshofer
- * @version 1.0 2009-12-18 Created.
+ * @version $Id$
  */
 public class OpenApplicationAction extends AbstractApplicationAction {
 

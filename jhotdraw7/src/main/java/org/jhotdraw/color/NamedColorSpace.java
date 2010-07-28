@@ -17,7 +17,7 @@ package org.jhotdraw.color;
  * Interface for {@code ColorSpace} classes which have a name.
  *
  * @author Werner Randelshofer
- * @version 1.0 2010-01-22 Created.
+ * @version $Id$
  */
 public interface NamedColorSpace {
 

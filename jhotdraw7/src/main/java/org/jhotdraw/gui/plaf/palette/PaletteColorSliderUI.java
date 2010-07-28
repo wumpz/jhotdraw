@@ -24,7 +24,7 @@ import org.jhotdraw.color.ColorSliderUI;
  * PaletteColorSliderUI.
  *
  * @author Werner Randelshofer
- * @version 1.0 2010-07-04 Created.
+ * @version $Id$
  */
 public class PaletteColorSliderUI extends ColorSliderUI {
     /** Creates a new instance. */

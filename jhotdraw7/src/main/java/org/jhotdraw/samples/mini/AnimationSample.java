@@ -24,7 +24,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * AnimationSample displays a rotating ellipse figure.
  *
  * @author Werner Randelshofer
- * @version 1.0 2009-10-10 Created.
+ * @version $Id$
  */
 public class AnimationSample extends javax.swing.JFrame {
 

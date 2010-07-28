@@ -24,7 +24,7 @@ import org.jhotdraw.color.CIEXYChromaticityDiagramImageProducer;
  * CIEXYChromaticityDiagram.
  *
  * @author Werner Randelshofer
- * @version 1.0 2010-05-05 Created.
+ * @version $Id$
  */
 public class CIEXYChromaticityDiagram extends javax.swing.JPanel {
     private CIEXYChromaticityDiagramImageProducer imageProducer;

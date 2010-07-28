@@ -20,7 +20,7 @@ import java.awt.datatransfer.Transferable;
  * OSXClipboard.
  *
  * @author Werner Randelshofer
- * @version 1.0 2009-10-12 Created.
+ * @version $Id$
  */
 public class OSXClipboard extends AWTClipboard {
 

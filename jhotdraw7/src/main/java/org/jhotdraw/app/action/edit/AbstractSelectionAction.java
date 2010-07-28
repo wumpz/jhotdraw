@@ -44,7 +44,7 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version 1.0 2010-01-10 Created.
+ * @version $Id$
  */
 public abstract class AbstractSelectionAction extends AbstractAction {
 

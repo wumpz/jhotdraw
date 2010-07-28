@@ -30,7 +30,7 @@ import java.lang.annotation.Target;
  * but allows declaration on types.
  *
  * @author Werner Randelshofer
- * @version 1.0 2010-06-25 Created.
+ * @version $Id$
  */
 @Documented
 @Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER, ElementType.LOCAL_VARIABLE})

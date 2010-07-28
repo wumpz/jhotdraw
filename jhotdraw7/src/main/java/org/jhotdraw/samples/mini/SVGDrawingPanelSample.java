@@ -34,7 +34,7 @@ import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
  * In this case, the application consists of a JFrame with a File menu.
  *
  * @author Werner Randelshofer
- * @version 1.0 2009-09-02 Created.
+ * @version $Id$
  */
 public class SVGDrawingPanelSample extends javax.swing.JFrame {
 

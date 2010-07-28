@@ -26,7 +26,7 @@ import org.jhotdraw.annotations.Nullable;
  *{@code URIChooser} provides a mechanism for the user to choose a URI.
  *
  * @author Werner Randelshofer
- * @version 1.0 2009-12-16 Created.
+ * @version $Id$
  */
 @NotNull
 public interface URIChooser {

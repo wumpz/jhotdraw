@@ -21,7 +21,7 @@ import java.io.IOException;
  * A {@code ColorSpace} for CMYK color components using a generic CMYK profile.
  *
  * @author Werner Randelshofer
- * @version 1.0 2010-01-22 Created.
+ * @version $Id$
  */
 public class CMYKGenericColorSpace extends ICC_ColorSpace {
 

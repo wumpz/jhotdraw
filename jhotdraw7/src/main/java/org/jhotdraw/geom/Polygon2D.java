@@ -167,24 +167,6 @@ public abstract class Polygon2D implements Shape, Cloneable {
     }
 
     /**
-     * Determines whether the specified coordinates are contained in this 
-     * <code>Polygon</code>.
-     * @param x the specified X coordinate to be tested
-     * @param y the specified Y coordinate to be tested
-     * @return {@code true} if this {@code Polygon} contains
-     *         the specified coordinates {@code (x,y)};
-     *         {@code false} otherwise.
-     * @see #contains(double, double)
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>contains(int, int)</code>.
-     * 
-     */
-    @Deprecated
-    public boolean inside(int x, int y) {
-        return contains((double) x, (double) y);
-    }
-
-    /**
      * {@inheritDoc}
      * 
      */

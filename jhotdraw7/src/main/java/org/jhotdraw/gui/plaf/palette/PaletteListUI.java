@@ -25,7 +25,7 @@ import javax.swing.plaf.basic.BasicListUI;
  * PaletteListUI.
  *
  * @author Werner Randelshofer
- * @version 1.0 2010-07-08 Created.
+ * @version $Id$
  */
 public class PaletteListUI extends BasicListUI {
     /**

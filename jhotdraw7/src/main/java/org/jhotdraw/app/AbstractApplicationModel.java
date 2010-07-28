@@ -23,7 +23,7 @@ import org.jhotdraw.gui.URIChooser;
  * This abstract class can be extended to implement an {@link ApplicationModel}.
  *
  * @author Werner Randelshofer
- * @version 1.0 2009-12-19 Created.
+ * @version $Id$
  */
 public abstract class AbstractApplicationModel extends AbstractBean
         implements ApplicationModel {
