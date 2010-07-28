@@ -19,7 +19,7 @@ import javax.swing.*;
 
 /**
  * {@code AppletApplication} handles the lifecycle of a single {@link View}
- * running inside of an Applet.
+ * inside of a Java Applet.
  * <v>
  * FIXME - To be implemented.
  *

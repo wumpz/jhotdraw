@@ -64,12 +64,29 @@ import org.jhotdraw.app.osx.OSXAdapter;
 import org.jhotdraw.net.URIUtil;
 
 /**
- * {@code OSXApplication} handles the lifecycle of {@link View}s using a
- * Mac OS X document interface.
+ * {@code OSXApplication} handles the lifecycle of multiple {@link View}s using
+ * a Mac OS X application interface.
  * <p>
- * An application consists of a screen menu bar and {@code JFrame}s for the
- * {@code View}s. The application also provides floating toolbars and palette
- * windows for the views.
+ * This user interface created by this application follows the guidelines given
+ * in the
+ * <a href="http://developer.apple.com/mac/library/documentation/UserExperience/Conceptual/AppleHIGuidelines/"
+ * >Apple Human Interface Guidelines</a>.
+ * <p>
+ * An application of this type can open multiple {@link View}s. Each view is
+ * shown in a separate {@code JFrame}.
+ * <p>
+ * Conceptually all views share a global 'screen menu bar'. In Swing this is
+ * implemented as multiple JMenuBar instances. There is one JMenuBar for
+ * each opened JFrame, and a special JMenuBar which is shown when all views of
+ * the application are closed.
+ * <p>
+ * The application also provides floating toolbars and palette windows for the
+ * views.
+ * <p>
+ * In order for the screen menu bar and the floating palettes to function
+ * properly, it is essential that all code which opens JFrame's, JDialog's or
+ * JWindow's calls addWindow/Palette and removeWindow/Palette on the application
+ * object.
  * <p>
  * The life cycle of the application is tied to the screen menu bar. Choosing
  * the quit action in the screen menu bar quits the application.

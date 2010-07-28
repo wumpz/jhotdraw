@@ -52,10 +52,17 @@ import org.jhotdraw.app.action.file.NewWindowAction;
 import org.jhotdraw.net.URIUtil;
 
 /**
- * {@code SDIApplication} handles the lifecycle of a {@link View}s
- * using a single document interface (SDI).
+ * {@code SDIApplication} handles the lifecycle of multiple {@link View}s
+ * using a Windows single document interface (SDI).
  * <p>
- * An application consists of independent {@code JFrame}s for each view.
+ * This user interface created by this application follows the guidelines given
+ * in the
+ * <a href="http://msdn.microsoft.com/en-us/library/aa511258.aspx"
+ * >Windows User Experience Interaction Guidelines</a>.
+ * <p>
+ * An application of this type can open multiple {@link View}s. Each view is
+ * shown in a separate {@code JFrame}.
+ * <p>
  * Each JFrame contains a menu bar, toolbars and palette bars for
  * the views.
  * <p>

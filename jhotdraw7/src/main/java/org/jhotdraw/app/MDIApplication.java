@@ -64,8 +64,13 @@ import org.jhotdraw.app.action.file.NewWindowAction;
 import org.jhotdraw.net.URIUtil;
 
 /**
- * {@code MDIApplication} handles the lifecycle of {@link View}s
- * using a multiple document interface (MDI).
+ * {@code MDIApplication} handles the lifecycle of multiple {@link View}s
+ * using a Windows multiple document interface (MDI).
+ * <p>
+ * This user interface created by this application follows the guidelines given
+ * in the
+ * <a href="http://msdn.microsoft.com/en-us/library/aa511258.aspx"
+ * >Windows User Experience Interaction Guidelines</a>.
  * <p>
  * An application consists of a parent {@code JFrame} which holds a {@code JDesktopPane}.
  * The views reside in {@code JInternalFrame}s inside of the {@code JDesktopPane}. 

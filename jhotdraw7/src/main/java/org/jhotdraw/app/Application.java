@@ -33,9 +33,15 @@ import org.jhotdraw.gui.URIChooser;
  * application can handle multiple views at the same time, or only one.
  * <p>
  * Typical document interface styles are the Single Document Interface (SDI),
- * the Multiple Document Interface (MDI) and the Mac OS X Application Document
- * Interface (OSX). Typically, for each of these styles an implementation of
+ * the Multiple Document Interface (MDI) and the Mac OS X Application Interface
+ * (OSX). Typically, for each of these styles an implementation of
  * {@code Application} exists.
+ * <p>
+ * Some applications have to decorate all opened windows and dialogs with
+ * user interface elements and special behaviors. To make this work,
+ * it is essential that all code which opens JFrame's, JDialog's or
+ * JWindow's calls the addWindow/Palette and removeWindow/Palette methods on
+ * the application object.
  * <p>
  * Typical usage of this class:
  * <pre>

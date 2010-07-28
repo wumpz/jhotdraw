@@ -10,7 +10,7 @@
 
         <!-- properties for copyright and versioning -->
         <property name="author" value="the authors and contributors of JHotDraw"/>
-        <property name="version" value="7.4.1"/>
+        <property name="version" value="7.5"/>
     </target>
     <target name="clean" depends="init">
         <delete dir="${classdir}" />
