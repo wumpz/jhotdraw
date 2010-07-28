@@ -175,8 +175,11 @@ public interface View extends Disposable {
     
     /**
      * Executes the specified runnable on the worker thread of the view.
-     * Execution is perfomred sequentially in the same sequence as the
+     * Execution is performed sequentially in the same sequence as the
      * runnables have been passed to this method.
+     * <p>
+     * Use this method for long running tasks which affect the contents
+     * of the view as a whole. For example for loading and saving a document.
      */
     public void execute(Runnable worker);
     

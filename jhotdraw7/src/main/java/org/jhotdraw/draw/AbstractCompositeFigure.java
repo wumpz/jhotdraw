@@ -277,7 +277,7 @@ public abstract class AbstractCompositeFigure
      *
      * @param figure that is part of this composite figure
      */
-    public synchronized void sendToBack(Figure figure) {
+    public void sendToBack(Figure figure) {
         if (basicRemove(figure) != -1) {
             basicAdd(0, figure);
             fireAreaInvalidated(figure.getDrawingArea());
@@ -289,7 +289,7 @@ public abstract class AbstractCompositeFigure
      *
      * @param figure that is part of the drawing
      */
-    public synchronized void bringToFront(Figure figure) {
+    public void bringToFront(Figure figure) {
         if (basicRemove(figure) != -1) {
             basicAdd(figure);
             fireAreaInvalidated(figure.getDrawingArea());
