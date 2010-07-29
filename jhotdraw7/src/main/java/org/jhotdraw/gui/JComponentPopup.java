@@ -18,6 +18,7 @@ import java.awt.Component;
 import java.awt.Toolkit;
 import java.awt.event.AWTEventListener;
 import java.awt.event.MouseEvent;
+import java.security.AccessControlException;
 import javax.swing.JLayeredPane;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
@@ -33,6 +34,8 @@ import javax.swing.SwingUtilities;
  * @version $Id$
  */
 public class JComponentPopup extends JPopupMenu {
+    /** Wether we are permitted to listen on AWT events. */
+    private boolean isAWTEventListenerPermitted = true;
 
     private class Handler implements AWTEventListener {
 
@@ -81,24 +84,30 @@ public class JComponentPopup extends JPopupMenu {
 
     @Override
     public void menuSelectionChanged(boolean isIncluded) {
-        // Don't let the MenuSelectionManager hide this popup.
-        return;
-
-
+        if (isAWTEventListenerPermitted) {
+            // Don't let the MenuSelectionManager hide this popup.
+            return;
+        } else {
+            // Since we are not allowed to use an AWTEventListener we
+            // have to let this event through so that the user has a means
+            // for closing the popup.
+            super.menuSelectionChanged(isIncluded);
+        }
     }
 
     @Override
     public void setVisible(boolean newValue) {
         // Attach/detach AWTEventListener on "visible" property change.
         if (isVisible() != newValue) {
-            if (newValue) {
-                Toolkit.getDefaultToolkit().addAWTEventListener(handler, AWTEvent.MOUSE_EVENT_MASK);
-
-
-            } else {
-                Toolkit.getDefaultToolkit().removeAWTEventListener(handler);
-
-
+            try {
+                if (newValue) {
+                    Toolkit.getDefaultToolkit().addAWTEventListener(handler, AWTEvent.MOUSE_EVENT_MASK);
+                } else {
+                    Toolkit.getDefaultToolkit().removeAWTEventListener(handler);
+                }
+            } catch (AccessControlException e) {
+                // Unsigned Applets are not allowed to use an AWTEventListener.
+                isAWTEventListenerPermitted = false;
             }
             super.setVisible(newValue);
 

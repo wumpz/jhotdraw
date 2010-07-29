@@ -14,6 +14,8 @@
 package org.jhotdraw.gui.plaf.palette;
 
 import java.awt.*;
+import java.util.Enumeration;
+import java.util.ResourceBundle;
 import javax.swing.*;
 import javax.swing.UIDefaults.*;
 import javax.swing.border.Border;
@@ -201,8 +203,18 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
     protected void initComponentDefaults(UIDefaults table) {
         super.initComponentDefaults(table);
 
+        // Add resource bundle to the table.
+        // Since this does not seem to work in sandboxed environments, we check
+        // whether we succeeded and - in case of failure - put the values in
+        // by ourselves.
         table.addResourceBundle("org.jhotdraw.gui.Labels");
-
+        if (table.getString("ColorChooser.rgbSliders") == null) {
+            ResourceBundle rb = ResourceBundle.getBundle("org.jhotdraw.gui.Labels");
+            for (Enumeration<String> keys = rb.getKeys(); keys.hasMoreElements();) {
+                String key = keys.nextElement();
+                table.put(key, rb.getObject(key));
+            }
+        }
         // *** Shared Fonts
         Integer fontPlain = new Integer(Font.PLAIN);
         Integer fontBold = new Integer(Font.BOLD);

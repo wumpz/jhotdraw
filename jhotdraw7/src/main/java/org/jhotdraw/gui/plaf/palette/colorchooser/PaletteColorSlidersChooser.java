@@ -72,9 +72,9 @@ implements UIResource {
         
         slidersComboBox.setFont(laf.getFont("ColorChooser.font"));
 
-        slidersHolder.add(new PaletteRGBChooser(),laf.getString("ColorChooser.rgbSliders"));
-        slidersHolder.add(new PaletteCMYKChooser(),laf.getString("ColorChooser.cmykSliders"));
-        slidersHolder.add(new PaletteHSBChooser(),laf.getString("ColorChooser.hsbSliders"));
+        slidersHolder.add(new PaletteRGBChooser(),""+laf.getString("ColorChooser.rgbSliders"));
+        slidersHolder.add(new PaletteCMYKChooser(),""+laf.getString("ColorChooser.cmykSliders"));
+        slidersHolder.add(new PaletteHSBChooser(),""+laf.getString("ColorChooser.hsbSliders"));
         DefaultComboBoxModel cbm = new DefaultComboBoxModel();
         cbm.addElement(laf.getString("ColorChooser.rgbSliders"));
         cbm.addElement(laf.getString("ColorChooser.cmykSliders"));
