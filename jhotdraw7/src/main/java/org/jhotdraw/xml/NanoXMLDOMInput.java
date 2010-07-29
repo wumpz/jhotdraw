@@ -16,7 +16,6 @@ package org.jhotdraw.xml;
 
 import java.util.*;
 import java.io.*;
-import java.awt.*;
 import net.n3.nanoxml.*;
 import org.jhotdraw.app.Disposable;
 /**
