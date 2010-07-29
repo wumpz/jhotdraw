@@ -461,12 +461,17 @@ public abstract class AbstractCompositeFigure
      */
     @Override
     public void layout() {
+        // Note: We increase and below decrease the changing depth here,
+        //       because we want to ignore change events from our children
+        //       why we lay them out.
+        changingDepth++;
         for (Figure child : getChildren()) {
             if (child instanceof CompositeFigure) {
                 CompositeFigure cf = (CompositeFigure) child;
                 cf.layout();
             }
         }
+        changingDepth--;
         if (getLayouter() != null) {
             Rectangle2D.Double bounds = getBounds();
             Point2D.Double p = new Point2D.Double(bounds.x, bounds.y);

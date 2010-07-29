@@ -338,7 +338,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
     void setFontRenderContext(FontRenderContext frc);
 
     /**
-     * Returns the lock object on which all threads acting in Figures in this
+     * Returns the lock object on which all threads acting on Figures in this
      * drawing synchronize to prevent race conditions.
      */
     Object getLock();
