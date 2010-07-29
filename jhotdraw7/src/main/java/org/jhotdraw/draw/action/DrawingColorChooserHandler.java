@@ -52,7 +52,7 @@ public class DrawingColorChooserHandler extends AbstractDrawingViewAction
     public void actionPerformed(java.awt.event.ActionEvent evt) {
         /*
         if (evt.getActionCommand() == JColorChooser.APPROVE_SELECTION) {
-            applySelectedColorToFigures();
+        applySelectedColorToFigures();
         } else if (evt.getActionCommand() == JColorChooser.CANCEL_SELECTION) {
         }*/
         popupMenu.setVisible(false);
@@ -62,15 +62,15 @@ public class DrawingColorChooserHandler extends AbstractDrawingViewAction
         final Drawing drawing = getView().getDrawing();
 
         Color selectedColor = colorChooser.getColor();
-        if (selectedColor!=null&&selectedColor.getAlpha()==0) {
-            selectedColor=null;
+        if (selectedColor != null && selectedColor.getAlpha() == 0) {
+            selectedColor = null;
         }
 
         final Object restoreData = drawing.getAttributesRestoreData();
-            drawing.willChange();
-            drawing.set(key, selectedColor);
-            drawing.changed();
-        
+        drawing.willChange();
+        drawing.set(key, selectedColor);
+        drawing.changed();
+
         getEditor().setDefaultAttribute(key, selectedColor);
         final Color undoValue = selectedColor;
         UndoableEdit edit = new AbstractUndoableEdit() {
@@ -78,33 +78,33 @@ public class DrawingColorChooserHandler extends AbstractDrawingViewAction
             @Override
             public String getPresentationName() {
                 return AttributeKeys.FONT_FACE.getPresentationName();
-            /*
-            String name = (String) getValue(Actions.UNDO_PRESENTATION_NAME_KEY);
-            if (name == null) {
-            name = (String) getValue(AbstractAction.NAME);
-            }
-            if (name == null) {
-            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-            name = labels.getString("attribute.text");
-            }
-            return name;*/
+                /*
+                String name = (String) getValue(Actions.UNDO_PRESENTATION_NAME_KEY);
+                if (name == null) {
+                name = (String) getValue(AbstractAction.NAME);
+                }
+                if (name == null) {
+                ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+                name = labels.getString("attribute.text");
+                }
+                return name;*/
             }
 
             @Override
             public void undo() {
                 super.undo();
-                    drawing.willChange();
-                    drawing.restoreAttributesTo(restoreData);
-                    drawing.changed();
+                drawing.willChange();
+                drawing.restoreAttributesTo(restoreData);
+                drawing.changed();
             }
 
             @Override
             public void redo() {
                 super.redo();
-                   // restoreData.add(figure.getAttributesRestoreData());
-                    drawing.willChange();
-                    drawing.set(key, undoValue);
-                    drawing.changed();
+                // restoreData.add(figure.getAttributesRestoreData());
+                drawing.willChange();
+                drawing.set(key, undoValue);
+                drawing.changed();
             }
         };
         fireUndoableEditHappened(edit);
@@ -112,14 +112,14 @@ public class DrawingColorChooserHandler extends AbstractDrawingViewAction
 
     @Override
     protected void updateEnabledState() {
-        setEnabled(getEditor().isEnabled());
+        setEnabled(getEditor() != null && getEditor().isEnabled());
         if (getView() != null && colorChooser != null && popupMenu != null) {
             colorChooser.setEnabled(getView().getSelectionCount() > 0);
             popupMenu.setEnabled(getView().getSelectionCount() > 0);
             isUpdating++;
 
-            Color drawingColor=getView().getDrawing().get(key);
-            colorChooser.setColor(drawingColor==null?new Color(0,true):drawingColor);
+            Color drawingColor = getView().getDrawing().get(key);
+            colorChooser.setColor(drawingColor == null ? new Color(0, true) : drawingColor);
 
             isUpdating--;
         }
@@ -128,7 +128,7 @@ public class DrawingColorChooserHandler extends AbstractDrawingViewAction
     @Override
     public void stateChanged(ChangeEvent e) {
         if (isUpdating++ == 0) {
-                applySelectedColorToFigures();
+            applySelectedColorToFigures();
         }
         isUpdating--;
     }
