@@ -19,45 +19,53 @@
 <!-- InstanceEndEditable --></h1>
 </div>
 <div class="article"><!-- InstanceBeginEditable name="articleRegion" -->
+  <h3>JHotDraw&nbsp;7.5.1<br />
+      <font size="-1">2010-08-01</font></h3>
+  <p>Fixes:</p>
+  <ul>
+    <li>Fixes the  color chooser popup when a security manager is active.</li>
+    <li>Improves performance of the AbstractCompositeFigure.layout() method.</li>
+    <li>Fixes painting issues with the background of DefaultDrawingView.</li>
+  </ul>
   <h3>JHotDraw&nbsp;7.5<br />
-    <font size="-1">2010-07-?</font></h3>
+      <font size="-1">2010-07-28</font></h3>
   <p>Enhancements and Changes:</p>
   <ul>
     <li>Drawing Framework<br />
-    InputFormat and OutputFormat work now with URI's instead of files for identifying the storage location of a drawing.<br />
+      InputFormat and OutputFormat work now with URI's instead of files for identifying the storage location of a drawing.<br />
       The ResizeHandleKit supports now aspect preserving resizing by pressing the Alt- or Ctrl-Key.<br />
       The canvas area is now drawn by Drawing instead of DrawingView. <br />
-    The ButtonFactory can now create color chooser popup buttons.<br />
-    DOMStorable is not implemented by the Figure interface anymore allowing the implementation of figures which do not depend on this persistence framework.<br />
+      The ButtonFactory can now create color chooser popup buttons.<br />
+      DOMStorable is not implemented by the Figure interface anymore allowing the implementation of figures which do not depend on this persistence framework.<br />
       <br />
     </li>
     <li>User Interface<br />
-      An UI delegate for JColorChooser has been added to the &quot;Palette&quot; look and feel.<br /> 
+      An UI delegate for JColorChooser has been added to the &quot;Palette&quot; look and feel.<br />
       &nbsp;<br />
     </li>
     <li>Example applications<br />
       The user interface of the SVG example application has been improved.<br />
-        <br />
+       <br />
     </li>
     <li>General<br />
       Java
-    annotations have been added for clarity. @Nullable and @NotNull annotations specify allowed and disallowed occurences of null values. This is work in progress.<br />
-    <br />
+      annotations have been added for clarity. @Nullable and @NotNull annotations specify allowed and disallowed occurences of null values. This is work in progress.<br />
+        <br />
     </li>
     <li>Some changes in the package structure and renamings of classes have been made in order to improve the clarity of the frameworks.</li>
   </ul>
   <h3>JHotDraw&nbsp;7.4<br />
-    <font size="-1">2010-01-16</font></h3>
+      <font size="-1">2010-01-16</font></h3>
   <p>Enhancements:</p>
   <ul>
     <li>Application Framework: <br />
-    The application framework works now with URI objects instead of File objects. This allows the creation of applications which are not file-based, such as network-based applications (browsers) and database-oriented applications.</li>
+      The application framework works now with URI objects instead of File objects. This allows the creation of applications which are not file-based, such as network-based applications (browsers) and database-oriented applications.</li>
   </ul>
   <p>Changes:</p>
   <ul>
     <li>Application Framework<br />
-    Actions in the application framework are now organised in an ActionMap hierarchy.<br />
-    (File-)URIChoosers are now created by the ApplicationModel instead by the View.<br />
+      Actions in the application framework are now organised in an ActionMap hierarchy.<br />
+      (File-)URIChoosers are now created by the ApplicationModel instead by the View.<br />
       <br />
     </li>
     <li>Drawing Framework<br />
@@ -70,7 +78,7 @@
   </ul>
   <p>&nbsp;</p>
   <p><strong>JHotDraw&nbsp;7.3.1<br />
-    <font size="-1">2009-10-18</font></strong></p>
+        <font size="-1">2009-10-18</font></strong></p>
   <p>This version fixes bugs found in 7.3. </p>
   <p>Notable enhancements:</p>
   <ul>
@@ -84,7 +92,7 @@
   </ul>
   <p></p>
   <h3>JHotDraw&nbsp;7.3<br />
-    <font size="-1">2009-10-11</font></h3>
+      <font size="-1">2009-10-11</font></h3>
   <p>Substantial changes and enhancements have been made to fix shortcomings and bugs of the frameworks
     and to improve the usability of drawing editors. </p>
   <p>Please take a look at the <a href="http://www.randelshofer.ch/oop/jhotdraw/changes/jhotdraw_7.2_vs_7.3/changes.html">JDiff report</a> for a detailed description of all API changes between JHotDraw 7.2 and 7.3.</p>
@@ -105,33 +113,33 @@
   </ul>
   <p>Sample applications:</p>
   <ul>
-    <li>SVG Sample: SVG Tiny 1.2 compliance has been improved. The SVGDrawingPanel can now more easily integrated as a component into an application.    </li>
+    <li>SVG Sample: SVG Tiny 1.2 compliance has been improved. The SVGDrawingPanel can now more easily integrated as a component into an application. </li>
   </ul>
   <h3>JHotDraw&nbsp;7.2<br />
-    <font size="-1">2009-05</font> </h3>
+      <font size="-1">2009-05</font> </h3>
   <p>Substantial changes and enhancements have been made to fix shortcomings and bugs of the frameworks
-  and to improve the usability of drawing editors. </p>
+    and to improve the usability of drawing editors. </p>
   <p>Please take a look at the <a href="http://www.randelshofer.ch/oop/jhotdraw/changes/jhotdraw_7.1_vs_7.2/changes.html">JDiff report</a> for a detailed description of all API changes between JHotDraw 7.1 and 7.2.</p>
   <p>Drawing Framework:</p>
   <ul>
     <li>The type safety of figure attributes has been improved, by making use of
-    type tokens in AttributeKey and setter and getter methods with templates in
-    Figure.</li>
+      type tokens in AttributeKey and setter and getter methods with templates in
+      Figure.</li>
     <li>The usability has been improved. Figures indicate there bounds when
-    the mouse is moved over them. A substantial number of user interface classes for the creation of toolbars have been
-    added, and are used by the SVG sample application.</li>
+      the mouse is moved over them. A substantial number of user interface classes for the creation of toolbars have been
+      added, and are used by the SVG sample application.</li>
     <li>Drawing objects can now be serialized using the
-    SerializationInputOutputFormat. This allows to easily implement short-term
-    persistence for drawings (for example for clipboard support).</li>
+      SerializationInputOutputFormat. This allows to easily implement short-term
+      persistence for drawings (for example for clipboard support).</li>
   </ul>
   <p>Application Framework: </p>
   <ul>
     <li>The resource support has been reimplemented to be closer to JSR-296.
-    Resource bundles can now use place holders in their values. The resource
-    keys used by JHotDraw match now with the correspoinding JavaBeans property names.</li>
+      Resource bundles can now use place holders in their values. The resource
+      keys used by JHotDraw match now with the correspoinding JavaBeans property names.</li>
   </ul>
   <h3>JHotDraw&nbsp;7.1<br />
-    <font size="-1">2008-03</font> </h3>
+      <font size="-1">2008-03</font> </h3>
   <p>Substantial changes have been made to fix shortcomings and bugs of the frameworks. </p>
   <p>Please take a look at the <a href="http://www.randelshofer.ch/oop/jhotdraw/changes/jhotdraw_7.0.9_vs_7.1/changes.html">JDiff report</a> for a detailed description of all API changes between JHotDraw 7.0.9 and 7.1.</p>
   <p>Drawing Framework:</p>
@@ -150,20 +158,20 @@
     <li>ODG: This sample is not functional yet. It consists only of a few skeleton classes.</li>
   </ul>
   <h3>JHotDraw&nbsp;7.0.9<br />
-    <font size="-1">2007-06-21</font></h3>
+      <font size="-1">2007-06-21</font></h3>
   <ul>
     <li>Redesigned Undo/Redo handling for Figure attributes.</li>
     <li>Made many incompatible changes in all packages in order to pave the way
-        for SVG support.</li>
+      for SVG support.</li>
     <li>Rewrote the SVG sample application.</li>
     <li>Enhanced the Draw package to make support for transformations on Figures
-        possible, in order to be able to support SVG.</li>
+      possible, in order to be able to support SVG.</li>
     <li>Added Batik gradient classes, in order to be able to support SVG.</li>
     <li>Added new package org.jhotdraw.application based on JSR-296 &quot;appframework&quot;
-        version 0.42. This package will replace org.jhotdraw.app in future versions.    </li>
+      version 0.42. This package will replace org.jhotdraw.app in future versions. </li>
   </ul>
   <h3>JHotDraw&nbsp;7.0.8<br />
-    <font size="-1">2007-01-10</font></h3>
+      <font size="-1">2007-01-10</font></h3>
   <ul>
     <li>Streamlined  interface names and class names to make it easier
       to learn the framework.</li>
@@ -184,34 +192,34 @@
     <li>Fixed guide.</li>
   </ul>
   <h3>JHotDraw&nbsp;7.0.6<br />
-    <font size="-1">2006-08-27</font></h3>
+      <font size="-1">2006-08-27</font></h3>
   <ul>
     <li>Renamed PlasmaDraw to JHotDraw 7.</li>
     <li>Changed copyright notices in all source files.</li>
   </ul>
   <h3>JHotDraw&nbsp;7.0.5<br />
-    <font size="-1">2006-07-30</font></h3>
+      <font size="-1">2006-07-30</font></h3>
   <ul>
     <li>Moved all packages from ch.randelshofer to org.jhotdraw.</li>
     <li>Reimplemented the 'Net' and 'Pert' sample applications.</li>
     <li>Implemented an 'SVG' sample application.</li>
     <li>Fixed  minor issues here and there.</li>
     <li>Added a tweaked version fo NanoXML back into the framework. The tweaked
-        version of NanoXML allows to read XML documents which have a DTD, without
-        opening a network connection to the DTD document and thus improving performance
-        when opening a XML document.<br />
-        Once we figure out, how can use the javax.xml API in a more performant
-        way, we might throw out NanoXML again.</li>
+      version of NanoXML allows to read XML documents which have a DTD, without
+      opening a network connection to the DTD document and thus improving performance
+      when opening a XML document.<br />
+      Once we figure out, how can use the javax.xml API in a more performant
+      way, we might throw out NanoXML again.</li>
   </ul>
   <h3></h3>
   <h3>JHotDraw&nbsp;7.0.4_1<br />
-  <font size="-1">2006-06-26</font></h3>
+      <font size="-1">2006-06-26</font></h3>
   <ul>
     <li>Removed copyright notice of NanoXML and JGoodies Looks from Draw Application
       and Draw Applet.</li>
   </ul>
   <h3>JHotDraw&nbsp;7.0.4<br />
-  <font size="-1">2006-06-25</font></h3>
+      <font size="-1">2006-06-25</font></h3>
   <ul>
     <li>Reorganized package structure.</li>
     <li>Added support for type safe Figure attributes.</li>
