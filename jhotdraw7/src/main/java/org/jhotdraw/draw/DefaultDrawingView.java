@@ -132,22 +132,20 @@ public class DefaultDrawingView
 
     /** Draws the background of the drawing view. */
     protected void drawBackground(Graphics2D g) {
-        // If the drawing has a canvas fill color, but no width or height (meaning
-        // that the canvas is infinitely large), we draw the canvas color.
-        // (We have to take into account that the canvas fill color and its
-        // default value can be null.)
-        // Otherwise we draw the background color of the component.
-
         Color bg = getBackground();
-        if (drawing != null
-                && (drawing.get(CANVAS_WIDTH) == null
-                || drawing.get(CANVAS_HEIGHT) == null)) {
-            bg = (drawing.get(CANVAS_FILL_COLOR) != null)
-                    ? drawing.get(CANVAS_FILL_COLOR)
-                    : (CANVAS_FILL_COLOR.getDefaultValue() != null ? CANVAS_FILL_COLOR.getDefaultValue() : bg);
-        }
         g.setColor(bg);
         g.fillRect(0, 0, getWidth(), getHeight());
+
+        // If the drawing has a width and a height we fill this area with the
+        // background paint.
+        if (drawing != null
+                && drawing.get(CANVAS_WIDTH) != null
+                && drawing.get(CANVAS_HEIGHT) != null) {
+            Rectangle r = drawingToView(new Rectangle2D.Double(0,0,drawing.get(CANVAS_WIDTH),
+                drawing.get(CANVAS_HEIGHT)));
+            g.setPaint(getBackgroundPaint(r.x,r.y));
+            g.fillRect(r.x,r.y,r.width,r.height);
+        }
     }
 
     @Override
@@ -619,7 +617,6 @@ public class DefaultDrawingView
 
             drawing.setFontRenderContext(g.getFontRenderContext());
             drawing.drawCanvas(g);
-
             g.dispose();
         }
     }

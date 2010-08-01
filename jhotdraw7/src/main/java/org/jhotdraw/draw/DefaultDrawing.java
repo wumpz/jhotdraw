@@ -248,18 +248,19 @@ public class DefaultDrawing
         if (get(CANVAS_WIDTH) != null && get(CANVAS_HEIGHT) != null) {
             // Determine canvas color and opacity
             Color canvasColor = get(CANVAS_FILL_COLOR);
-            if (canvasColor != null) {
+            Double fillOpacity = get(CANVAS_FILL_OPACITY);
+            if (canvasColor != null && fillOpacity > 0) {
                 canvasColor = new Color(
                         (canvasColor.getRGB() & 0xffffff)
-                        | ((int) (get(CANVAS_FILL_OPACITY) * 255) << 24), true);
+                        | ((int) (fillOpacity * 255) << 24), true);
+
+                // Fill the canvas
+                Rectangle2D.Double r = new Rectangle2D.Double(
+                        0, 0, get(CANVAS_WIDTH), get(CANVAS_HEIGHT));
+
+                g.setColor(canvasColor);
+                g.fill(r);
             }
-
-            // Fill the canvas
-            Rectangle2D.Double r = new Rectangle2D.Double(
-                    0, 0, get(CANVAS_WIDTH), get(CANVAS_HEIGHT));
-
-            g.setColor(canvasColor);
-            g.fill(r);
         }
     }
 }
