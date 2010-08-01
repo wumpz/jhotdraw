@@ -132,19 +132,39 @@ public class DefaultDrawingView
 
     /** Draws the background of the drawing view. */
     protected void drawBackground(Graphics2D g) {
-        Color bg = getBackground();
-        g.setColor(bg);
-        g.fillRect(0, 0, getWidth(), getHeight());
-
-        // If the drawing has a width and a height we fill this area with the
-        // background paint.
-        if (drawing != null
-                && drawing.get(CANVAS_WIDTH) != null
-                && drawing.get(CANVAS_HEIGHT) != null) {
-            Rectangle r = drawingToView(new Rectangle2D.Double(0,0,drawing.get(CANVAS_WIDTH),
-                drawing.get(CANVAS_HEIGHT)));
-            g.setPaint(getBackgroundPaint(r.x,r.y));
-            g.fillRect(r.x,r.y,r.width,r.height);
+        if (drawing == null) {
+            // there is no drawing and thus no canvas
+            g.setColor(getBackground());
+            g.fillRect(0, 0, getWidth(), getHeight());
+        } else if (drawing.get(CANVAS_WIDTH) == null
+                || drawing.get(CANVAS_HEIGHT) == null) {
+            // the canvas is infinitely large
+            Color canvasColor = drawing.get(CANVAS_FILL_COLOR);
+            double canvasOpacity = drawing.get(CANVAS_FILL_OPACITY);
+            if (canvasColor != null) {
+                if (canvasOpacity == 1) {
+                    g.setColor(new Color(canvasColor.getRGB()));
+                    g.fillRect(0, 0, getWidth(), getHeight());
+                } else {
+                    Point r = drawingToView(new Point2D.Double(0, 0));
+                    g.setPaint(getBackgroundPaint(r.x, r.y));
+                    g.fillRect(0, 0, getWidth(), getHeight());
+                    g.setColor(new Color(canvasColor.getRGB() & 0xfffff | ((int) (canvasOpacity * 256) << 24), true));
+                    g.fillRect(0, 0, getWidth(), getHeight());
+                }
+            } else {
+                Point r = drawingToView(new Point2D.Double(0, 0));
+                g.setPaint(getBackgroundPaint(r.x, r.y));
+                g.fillRect(0, 0, getWidth(), getHeight());
+            }
+        } else {
+            // the canvas has a fixed size
+            g.setColor(getBackground());
+            g.fillRect(0, 0, getWidth(), getHeight());
+            Rectangle r = drawingToView(new Rectangle2D.Double(0, 0, drawing.get(CANVAS_WIDTH),
+                    drawing.get(CANVAS_HEIGHT)));
+            g.setPaint(getBackgroundPaint(r.x, r.y));
+            g.fillRect(r.x, r.y, r.width, r.height);
         }
     }
 
@@ -227,8 +247,9 @@ public class DefaultDrawingView
                 AttributeKey a = e.getAttribute();
                 if (a.equals(CANVAS_HEIGHT) || a.equals(CANVAS_WIDTH)) {
                     validateViewTranslation();
+                    repaint(); // must repaint everything
                 }
-                if (e.getInvalidatedArea()!=null) {
+                if (e.getInvalidatedArea() != null) {
                     repaintDrawingArea(e.getInvalidatedArea());
                 } else {
                     repaintDrawingArea(viewToDrawing(getCanvasViewBounds()));
