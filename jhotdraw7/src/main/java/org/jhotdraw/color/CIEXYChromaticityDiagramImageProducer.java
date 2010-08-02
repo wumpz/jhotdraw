@@ -17,11 +17,9 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.color.ColorSpace;
 import java.awt.color.ICC_ColorSpace;
-import java.awt.geom.AffineTransform;
 import java.awt.image.ColorModel;
 import java.awt.image.MemoryImageSource;
 import java.util.Arrays;
-import org.jhotdraw.samples.color.CIEXYChromaticityDiagram;
 
 /**
  * Produces a CIE xy Chromaticity Diagram.
@@ -153,9 +151,6 @@ public class CIEXYChromaticityDiagramImageProducer extends MemoryImageSource {
         return h;
     }
 
-    public static void main(String[] args) {
-        CIEXYChromaticityDiagram.main(args);
-    }
     public void toRGB(float[] ciexyz, float[] rgb) {
         double X = ciexyz[0];
         double Y = ciexyz[1];
