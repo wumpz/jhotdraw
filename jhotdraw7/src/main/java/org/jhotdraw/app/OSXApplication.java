@@ -305,6 +305,9 @@ public class OSXApplication extends AbstractApplication {
     public void hide(View p) {
         if (p.isShowing()) {
             JFrame f = (JFrame) SwingUtilities.getWindowAncestor(p.getComponent());
+            if (getActiveView()==p) {
+                setActiveView(null);
+            }
             f.setVisible(false);
             removeWindow(f);
             f.remove(p.getComponent());

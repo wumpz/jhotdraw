@@ -236,6 +236,9 @@ public class SDIApplication extends AbstractApplication {
     @Override
     public void hide(View p) {
         if (p.isShowing()) {
+            if (getActiveView()==p) {
+                setActiveView(null);
+            }
             p.setShowing(false);
             JFrame f = (JFrame) SwingUtilities.getWindowAncestor(p.getComponent());
             f.setVisible(false);

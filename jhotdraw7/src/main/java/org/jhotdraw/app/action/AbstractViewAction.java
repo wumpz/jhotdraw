@@ -15,6 +15,8 @@ package org.jhotdraw.app.action;
 
 import java.beans.*;
 import javax.swing.*;
+import org.jhotdraw.annotations.NotNull;
+import org.jhotdraw.annotations.Nullable;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
 
@@ -32,6 +34,7 @@ import org.jhotdraw.app.View;
  * @author Werner Randelshofer
  * @version $Id$
  */
+@NotNull
 public abstract class AbstractViewAction extends AbstractAction {
 
     private Application app;
@@ -136,13 +139,14 @@ public abstract class AbstractViewAction extends AbstractAction {
      * state of the view.
      */
     protected void updateEnabled(boolean oldValue, boolean newValue) {
-        firePropertyChange("enabled", oldValue, newValue && isEnabled());
+        firePropertyChange("enabled", oldValue, isEnabled());
     }
 
     public Application getApplication() {
         return app;
     }
 
+    @Nullable
     public View getActiveView() {
         return (view == null) ? app.getActiveView() : view;
     }
@@ -150,14 +154,17 @@ public abstract class AbstractViewAction extends AbstractAction {
     /**
      * Returns true if the action is enabled.
      * The enabled state of the action depends on the state that has been set
-     * using setEnabled() and on the enabled state of the application.
+     * using setEnabled(), on the enabled state of the application,
+     * on the enabled state of the active view and whether there is an active
+     * view.
      *
      * @return true if the action is enabled, false otherwise
      * @see Action#isEnabled
      */
     @Override
     public boolean isEnabled() {
-        return getActiveView() != null
+        return getApplication().isEnabled() &&
+                getActiveView() != null
                 && getActiveView().isEnabled()
                 && this.enabled;
     }

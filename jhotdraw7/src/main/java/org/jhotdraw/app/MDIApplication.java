@@ -342,6 +342,9 @@ public class MDIApplication extends AbstractApplication {
     public void hide(View v) {
         if (v.isShowing()) {
             JInternalFrame f = (JInternalFrame) SwingUtilities.getRootPane(v.getComponent()).getParent();
+            if (getActiveView()==v) {
+                setActiveView(null);
+            }
             f.setVisible(false);
             f.remove(v.getComponent());
 

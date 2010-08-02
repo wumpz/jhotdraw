@@ -22,6 +22,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
 import java.net.URI;
+import org.jhotdraw.annotations.NotNull;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
 import org.jhotdraw.gui.URIChooser;
@@ -44,6 +45,7 @@ import org.jhotdraw.net.URIUtil;
  * @author  Werner Randelshofer
  * @version $Id$
  */
+@NotNull
 public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewAction {
 
     private Component oldFocusOwner;
@@ -56,13 +58,15 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
     @Override
     public void actionPerformed(ActionEvent evt) {
         final View p = getActiveView();
-        if (p.isEnabled()) {
+        if (p == null || p.isEnabled()) {
             final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
-            Window wAncestor = SwingUtilities.getWindowAncestor(p.getComponent());
+            Window wAncestor = (p == null) ? null : SwingUtilities.getWindowAncestor(p.getComponent());
             oldFocusOwner = (wAncestor == null) ? null : wAncestor.getFocusOwner();
-            p.setEnabled(false);
+            if (p != null) {
+                p.setEnabled(false);
+            }
 
-            if (p.hasUnsavedChanges()) {
+            if (p != null && p.hasUnsavedChanges()) {
                 URI unsavedURI = p.getURI();
                 JOptionPane pane = new JOptionPane(
                         "<html>" + UIManager.getString("OptionPane.css") +//
@@ -96,7 +100,9 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
 
             } else {
                 doIt(p);
-                p.setEnabled(true);
+                if (p != null) {
+                    p.setEnabled(true);
+                }
                 if (oldFocusOwner != null) {
                     oldFocusOwner.requestFocus();
                 }
