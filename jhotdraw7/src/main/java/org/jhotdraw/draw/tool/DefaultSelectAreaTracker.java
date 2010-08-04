@@ -43,7 +43,7 @@ import java.util.*;
  * @see SelectionTool
  *
  * @author Werner Randelshofer
- * @version $Id: DefaultSelectAreaTracker.java -1   $
+ * @version $Id$
  */
 public class DefaultSelectAreaTracker extends AbstractTool implements SelectAreaTracker {
 

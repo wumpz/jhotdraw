@@ -41,7 +41,7 @@ import org.jhotdraw.annotations.NotNull;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version $Id: LineDecoration.java -1   $
+ * @version $Id$
  */
 @NotNull
 public interface LineDecoration

@@ -24,7 +24,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * its position on the drawing.
  *
  * @author  Werner Randelshofer
- * @version $Id: FontSizeLocator.java -1   $
+ * @version $Id$
  */
 public class FontSizeLocator implements Locator {
     

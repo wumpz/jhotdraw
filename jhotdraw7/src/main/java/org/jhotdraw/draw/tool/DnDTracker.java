@@ -36,7 +36,7 @@ import java.awt.geom.Rectangle2D;
  * how it looks.
  *
  * @author Werner Randelshofer
- * @version $Id: DnDTracker.java -1   $
+ * @version $Id$
  */
 public class DnDTracker extends AbstractTool implements DragTracker {
 

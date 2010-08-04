@@ -41,7 +41,7 @@ import org.jhotdraw.draw.*;
  *
  *
  * @author Werner Randelshofer
- * @version $Id: DragTracker.java -1   $
+ * @version $Id$
  */
 @NotNull
 public interface DragTracker extends Tool {

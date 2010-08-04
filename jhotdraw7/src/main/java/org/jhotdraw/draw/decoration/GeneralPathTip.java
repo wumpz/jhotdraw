@@ -20,7 +20,7 @@ import java.awt.geom.*;
  * A {@link LineDecoration} which draws a general path.
  *
  * @author  Werner Randelshofer
- * @version $Id: GeneralPathTip.java -1   $
+ * @version $Id$
  */
 public class GeneralPathTip extends AbstractLineDecoration {
     private Path2D.Double path;

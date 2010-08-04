@@ -23,7 +23,7 @@ import org.jhotdraw.xml.*;
  * 
  * 
  * @author Werner Randelshofer
- * @version $Id: BezierPointLocator.java -1   $
+ * @version $Id$
  */
 public class BezierPointLocator extends AbstractLocator {
     private int index;

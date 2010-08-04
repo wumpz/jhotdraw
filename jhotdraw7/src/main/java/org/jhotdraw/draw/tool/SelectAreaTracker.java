@@ -31,7 +31,7 @@ import org.jhotdraw.annotations.NotNull;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version $Id: SelectAreaTracker.java -1   $
+ * @version $Id$
  */
 @NotNull
 public interface SelectAreaTracker extends Tool {

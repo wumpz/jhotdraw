@@ -23,7 +23,7 @@ import org.jhotdraw.xml.DOMStorable;
  * A {@link LineDecoration} which draws an arrow tip.
  *
  * @author Werner Randelshofer
- * @version $Id: ArrowTip.java -1   $
+ * @version $Id$
  */
 public class ArrowTip extends AbstractLineDecoration
         implements DOMStorable {

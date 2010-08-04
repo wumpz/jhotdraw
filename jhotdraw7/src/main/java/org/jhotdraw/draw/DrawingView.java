@@ -109,7 +109,6 @@ import org.jhotdraw.annotations.Nullable;
  * Observer: {@link org.jhotdraw.draw.event.HandleListener};
  * Event: {@link org.jhotdraw.draw.event.HandleEvent};
  * Concrete Observer: {@link DrawingView}.
- * <hr>
  *
  * <p><em>Strategy</em><br>
  * Editing can be constrained by a constrainer which is associated to a

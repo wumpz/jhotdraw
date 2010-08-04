@@ -34,7 +34,7 @@ import org.jhotdraw.annotations.NotNull;
  *
  *
  * @author Werner Randelshofer
- * @version $Id: HandleTracker.java -1   $
+ * @version $Id$
  */
 @NotNull
 public interface HandleTracker extends Tool {

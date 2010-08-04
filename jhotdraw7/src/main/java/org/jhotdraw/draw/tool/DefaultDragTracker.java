@@ -43,7 +43,7 @@ import java.util.*;
  * @see SelectionTool
  *
  * @author Werner Randelshofer
- * @version $Id: DefaultDragTracker.java -1   $
+ * @version $Id$
  */
 public class DefaultDragTracker extends AbstractTool implements DragTracker {
 

@@ -29,7 +29,7 @@ import org.jhotdraw.xml.*;
  * XXX - The angle should be perpendicular to the path.
  *
  * @author  Werner Randelshofer
- * @version $Id: BezierLabelLocator.java -1   $
+ * @version $Id$
  */
 public class BezierLabelLocator implements Locator, DOMStorable {
     private double relativePosition;

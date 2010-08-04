@@ -25,7 +25,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * This abstract class can be extended to implement a {@link LineDecoration}.
  *
  * @author Werner Randelshofer
- * @version $Id: AbstractLineDecoration.java -1   $
+ * @version $Id$
  */
 public abstract class AbstractLineDecoration implements LineDecoration {
     /**

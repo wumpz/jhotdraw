@@ -14,7 +14,6 @@
 
 package org.jhotdraw.draw.locator;
 
-import org.jhotdraw.draw.locator.RelativeLocator;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.DecoratedFigure;
 import java.awt.geom.*;
@@ -33,7 +32,7 @@ import java.awt.geom.*;
  *
  * <hr>
  * @author Werner Randelshofer
- * @version $Id: RelativeDecoratorLocator.java -1   $
+ * @version $Id$
  */
 public class RelativeDecoratorLocator extends RelativeLocator {
     private boolean isQuadratic;
