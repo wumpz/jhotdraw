@@ -249,7 +249,7 @@ public class BezierDemo extends javax.swing.JPanel {
         Point2D.Double[] d = { //  Digitized points 
         };
         BezierPath digi = new BezierPath();
-        digi.addAll(Arrays.asList(d));
+        digi.addPolyline(Arrays.asList(d));
         Example ex = new Example();
         examples.add(ex);
         ex.digitized = digi;

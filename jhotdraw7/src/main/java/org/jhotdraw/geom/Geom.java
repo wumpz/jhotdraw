@@ -239,9 +239,10 @@ public class Geom {
     }
 
     /**
-     * Returns a point on the edge of the bezier path which crosses the line
-     * from the center of the bezier path to the specified point.
-     * If no edge crosses the line, the nearest C0 control point is returned.
+     * Returns a point on the edge of the shape which crosses the line
+     * from the center of the shape to the specified point.
+     * If no edge crosses of the shape crosses the line, the nearest control
+     * point of the shape is returned.
      */
     public static Point2D.Double chop(Shape shape, Point2D.Double p) {
         Rectangle2D bounds = shape.getBounds2D();

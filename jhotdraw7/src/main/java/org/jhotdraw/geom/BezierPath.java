@@ -23,9 +23,9 @@ import java.util.*;
  * quadratic curves and cubic curves.
  * <p>
  * A BezierPath is defined by its nodes. Each node has three control points:
- * C0, C1, C2. A mask defines which control points are in use. The path passes
- * through C0. C1 controls the curve going towards C0. C2 controls the curve
- * going away from C0.
+ * C0, C1, C2. A mask defines which control points are in use. At a node, 
+ * the path passes through C0. C1 controls the curve going towards C0. C2
+ * controls the curve going away from C0.
  *
  * @author Werner Randelshofer
  * @version $Id$
@@ -245,52 +245,77 @@ public class BezierPath extends ArrayList<BezierPath.Node>
     }
 
     /**
-     * Convenience method for adding a control point with a single
-     * coordinate C0.
+     * Adds a node to the path.
+     * <p>
+     * This is a convenience method for adding a node with a single control
+     * point C0 to the path.
      */
     public void add(Point2D.Double c0) {
         add(new Node(0, c0, c0, c0));
     }
 
-    public void addPoint(double x, double y) {
+    /**
+     * Adds a node to the path.
+     * <p>
+     * This is a convenience method for adding a node with a single control
+     * point C0 to the path.
+     */
+    public void add(double x, double y) {
         add(new Node(0, x, y, x, y, x, y));
     }
 
     /**
-     * Convenience method for adding a control point with three
-     * coordinates C0, C1 and C2 with a mask.
+     * Adds a node to the path.
+     * <p>
+     * This is a convenience method for adding a node with three control points
+     * C0, C1 and C2, and a mask.
+     *
+     * @param ctrlMask An or-combination of C0_MASK,C1_MASK and C2_MASK.
+     * @param c0 The coordinates of the C0 control point.
+     * @param c1 The coordinates of the C1 control point.
+     * @param c2 The coordinates of the C2 control point.
      */
-    public void add(int mask, Point2D.Double c0, Point2D.Double c1, Point2D.Double c2) {
-        add(new Node(mask, c0, c1, c2));
+    public void add(int ctrlMask, Point2D.Double c0, Point2D.Double c1, Point2D.Double c2) {
+        add(new Node(ctrlMask, c0, c1, c2));
     }
 
     /**
-     * Convenience method for adding multiple control points with a single
-     * coordinate C0.
+     * Adds a set of nodes to the path.
+     * <p>
+     * Convenience method for adding multiple nodes with a single control point
+     * C0.
      */
-    public void addAll(Collection<Point2D.Double> points) {
+    public void addPolyline(Collection<Point2D.Double> points) {
         for (Point2D.Double c0 : points) {
             add(new Node(0, c0, c0, c0));
         }
     }
 
     /**
-     * Convenience method for changing a single coordinate of a control point.
+     * Convenience method for changing a single control point of a node.
+     *
+     * @param nodeIndex The index of the node.
+     * @param ctrlIndex Either C0_MASK, C1_MASK or C2_MASK.
+     * @param p The control point. The coordinates will be cloned.
      */
-    public void set(int index, int coord, Point2D.Double p) {
-        Node c = get(index);
-        c.x[coord] = p.x;
-        c.y[coord] = p.y;
+    public void set(int nodeIndex, int ctrlIndex, Point2D.Double p) {
+        Node c = get(nodeIndex);
+        c.x[ctrlIndex] = p.x;
+        c.y[ctrlIndex] = p.y;
     }
 
     /**
-     * Convenience method for getting a single coordinate of a control point.
+     * Convenience method for getting a single control point of a node.
+     *
+     * @param nodeIndex The index of the node.
+     * @param ctrlIndex Either C0_MASK, C1_MASK or C2_MASK.
+     * @return Returns a clone of the control point.
      */
-    public Point2D.Double get(int index, int coord) {
-        Node c = get(index);
+    public Point2D.Double get(int nodeIndex, int ctrlIndex) {
+        Node c = get(nodeIndex);
         return new Point2D.Double(
-                c.x[coord],
-                c.y[coord]);
+                c.x[ctrlIndex],
+                c.y[ctrlIndex]);
     }
 
     /**
@@ -404,30 +429,6 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      */
     public boolean outlineContains(Point2D.Double p, double tolerance) {
         return Shapes.outlineContains(this, p, tolerance);
-        /*
-        validatePath();
-
-        PathIterator i = generalPath.getPathIterator(new AffineTransform(), tolerance);
-
-        double[] coords = new double[6];
-        int type = i.currentSegment(coords);
-        double prevX = coords[0];
-        double prevY = coords[1];
-        i.next();
-        while (! i.isDone()) {
-        i.currentSegment(coords);
-        if (Geom.lineContainsPoint(
-        prevX, prevY, coords[0], coords[1],
-        p.x, p.y, tolerance)
-        ) {
-        return true;
-        }
-        prevX = coords[0];
-        prevY = coords[1];
-        i.next();
-        }
-        return false;
-         */
     }
 
     @Override
@@ -438,35 +439,11 @@ public class BezierPath extends ArrayList<BezierPath.Node>
 
     @Override
     public PathIterator getPathIterator(AffineTransform at) {
-        /*
-        validatePath();
-        PathIterator git = generalPath.getPathIterator(at);
-        PathIterator bit = new BezierPathIterator(this, at);
-        float gcoords[] = new float[6];
-        float bcoords[] = new float[6];
-        int i=0;
-        while (! git.isDone() && ! bit.isDone()) {
-        int gtype = git.currentSegment(gcoords);
-        int btype = bit.currentSegment(bcoords);
-        System.out.println(i+" "+gtype+"["+gcoords[0]+","+gcoords[1]+","+gcoords[2]+","+gcoords[3]+","+gcoords[4]+","+gcoords[5]+
-        "]="+btype+"["+bcoords[0]+","+bcoords[1]+","+bcoords[2]+","+bcoords[3]+","+bcoords[4]+","+bcoords[5]+"]");
-        git.next();
-        bit.next();
-        i++;
-        }
-        System.out.println("- "+git.isDone()+"="+bit.isDone());
-        
-        
-        //  return generalPath.getPathIterator(at);*/
         return new BezierPathIterator(this, at);
     }
 
     @Override
     public PathIterator getPathIterator(AffineTransform at, double flatness) {
-        /*
-        validatePath();
-        return generalPath.getPathIterator(at, flatness);
-         */
         return new FlatteningPathIterator(new BezierPathIterator(this, at), flatness);
     }
 
@@ -689,6 +666,10 @@ public class BezierPath extends ArrayList<BezierPath.Node>
         invalidatePath();
     }
 
+    /**
+     * Sets all values of this bezier path to that bezier path, so that this
+     * path becomes identical to that path.
+     */
     public void setTo(BezierPath that) {
         while (that.size() < size()) {
             remove(size() - 1);
@@ -722,85 +703,11 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      * If no edge crosses the line, the nearest C0 control point is returned.
      */
     public Point2D.Double chop(Point2D.Double p) {
-        validatePath();
-        return Geom.chop(generalPath, p);
-        /*
-        Point2D.Double ctr = getCenter();
-
-        // Chopped point
-        double cx = -1;
-        double cy = -1;
-        double len = Double.MAX_VALUE;
-
-        // Try for points along edge
-        validatePath();
-        PathIterator i = generalPath.getPathIterator(new AffineTransform(), 1);
-        double[] coords = new double[6];
-        int type = i.currentSegment(coords);
-        double prevX = coords[0];
-        double prevY = coords[1];
-        i.next();
-        for (; ! i.isDone(); i.next()) {
-        i.currentSegment(coords);
-        Point2D.Double chop = Geom.intersect(
-        prevX, prevY,
-        coords[0], coords[1],
-        p.x, p.y,
-        ctr.x, ctr.y
-        );
-
-        if (chop != null) {
-        double cl = Geom.length2(chop.x, chop.y, p.x, p.y);
-        if (cl < len) {
-        len = cl;
-        cx = chop.x;
-        cy = chop.y;
-        }
-        }
-
-        prevX = coords[0];
-        prevY = coords[1];
-        }
-
-        //
-        if (isClosed() && size() > 1) {
-        Node first = get(0);
-        Node last = get(size() - 1);
-        Point2D.Double chop = Geom.intersect(
-        first.x[0], first.y[0],
-        last.x[0], last.y[0],
-        p.x, p.y,
-        ctr.x, ctr.y
-        );
-        if (chop != null) {
-        double cl = Geom.length2(chop.x, chop.y, p.x, p.y);
-        if (cl < len) {
-        len = cl;
-        cx = chop.x;
-        cy = chop.y;
-        }
-        }
-        }
-
-
-        // if none found, pick closest vertex
-        if (len == Double.MAX_VALUE) {
-        for (int j = 0, n = size(); j < n; j++) {
-        Node cp = get(j);
-        double l = Geom.length2(cp.x[0], cp.y[0], p.x, p.y);
-        if (l < len) {
-        len = l;
-        cx = cp.x[0];
-        cy = cp.y[0];
-        }
-        }
-        }
-        return new Point2D.Double(cx, cy);
-         */
+        return Geom.chop(this, p);
     }
 
     /**
-     * Return the index of the control point that is furthest from the center
+     * Return the index of the node that is the furthest away from the center
      **/
     public int indexOfOutermostNode() {
         if (outer == -1) {
@@ -1052,6 +959,12 @@ public class BezierPath extends ArrayList<BezierPath.Node>
         return i + 1;
     }
 
+    /**
+     * Adds the first node to the bezier path.
+     * <p>
+     * This is a convenience method for adding the first node with a single
+     * control point C0 to the bezier path.
+     */
     public void moveTo(double x1, double y1) {
         if (size() != 0) {
             throw new IllegalPathStateException("moveTo only allowed when empty");
@@ -1061,6 +974,17 @@ public class BezierPath extends ArrayList<BezierPath.Node>
         add(node);
     }
 
+    /**
+     * Adds a (at least) linear 'curve' to the bezier path.
+     * <p>
+     * If the previous node has no C2 control point the line will be straight
+     * (linear), otherwise the line will be quadratic.
+     * <p>
+     * This is a convenience method for adding a node with a single control
+     * point C0.
+     * <p>
+     * The bezier path must already have at least one node.
+     */
     public void lineTo(double x1, double y1) {
         if (size() == 0) {
             throw new IllegalPathStateException("lineTo only allowed when not empty");
@@ -1069,6 +993,17 @@ public class BezierPath extends ArrayList<BezierPath.Node>
         add(new Node(x1, y1));
     }
 
+    /**
+     * Adds a (at least) quadratic curve to the bezier path.
+     * <p>
+     * If the previous node has no C2 control point the line will be quadratic
+     * otherwise the line will be cubic.
+     * <p>
+     * This is a convenience method for adding a node with control point C0 and
+     * C1 (incoming curve) to the bezier path.
+     * <p>
+     * The bezier path must already have at least one node.
+     */
     public void quadTo(double x1, double y1,
             double x2, double y2) {
         if (size() == 0) {
@@ -1078,6 +1013,15 @@ public class BezierPath extends ArrayList<BezierPath.Node>
         add(new Node(C1_MASK, x2, y2, x1, y1, x2, y2));
     }
 
+    /**
+     * Adds a cubic curve to the bezier path.
+     * <p>
+     * This is a convenience method for adding a node with control point C0 and
+     * C1 (incoming curve) to the bezier path, and also specifying the control
+     * point C2 (outgoing curve) of the previous node.
+     * <p>
+     * The bezier path must already have at least one node.
+     */
     public void curveTo(double x1, double y1,
             double x2, double y2,
             double x3, double y3) {
@@ -1268,7 +1212,12 @@ public class BezierPath extends ArrayList<BezierPath.Node>
     }
 
     /**
-     * Creates a polygon array of the bezier path.
+     * Creates a polygon/polyline array of the bezier path which only includes
+     * the C0 control points of the bezier nodes.
+     * <p>
+     * If the bezier path is closed, the array describes a polygon.
+     * If the bezier path is open, the array describes a polyline.
+     * <p>
      * @return Point array.
      */
     public Point2D.Double[] toPolygonArray() {

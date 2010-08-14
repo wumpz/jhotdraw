@@ -256,7 +256,7 @@ public class BezierTool extends AbstractTool {
                 figurePath.remove(nodeCountBeforeDrag - 1);
             }
             BezierPath fittedPath = calculateFittedCurve(digitizedPath);
-            //figurePath.addAll(digitizedPath);
+            //figurePath.addPolyline(digitizedPath);
             figurePath.addAll(fittedPath);
             createdFigure.setBezierPath(figurePath);
             createdFigure.changed();
