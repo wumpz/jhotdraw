@@ -227,9 +227,11 @@ public abstract class AbstractCompositeFigure
      * @see #add
      */
     public void removeAll(Collection<? extends Figure> figures) {
-        for (Figure f : figures) {
+        willChange();
+        for (Figure f : new LinkedList<Figure>(figures)) {
             remove(f);
         }
+        changed();
     }
 
     /**
@@ -239,14 +241,7 @@ public abstract class AbstractCompositeFigure
      */
     @Override
     public void removeAllChildren() {
-        willChange();
-        for (Figure f : new LinkedList<Figure>(getChildren())) {
-            if (getDrawing() != null) {
-                f.removeNotify(getDrawing());
-            }
-            int index = basicRemove(f);
-        }
-        changed();
+        removeAll(getChildren());
     }
 
     /**
