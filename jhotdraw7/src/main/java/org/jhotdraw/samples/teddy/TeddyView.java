@@ -209,7 +209,16 @@ public class TeddyView extends AbstractView {
 
     @Override
     public void read(URI f, URIChooser chooser) throws IOException {
-        read(f, ((CharacterSetAccessory) ((JFileURIChooser) chooser).getAccessory()).getCharacterSet());
+        String characterSet;
+        if (chooser == null//
+                || !(chooser instanceof JFileURIChooser) //
+                || !(((JFileURIChooser) chooser).getAccessory() instanceof CharacterSetAccessory)//
+                ) {
+            characterSet = prefs.get("characterSet", "UTF-8");
+        } else {
+            characterSet = ((CharacterSetAccessory) ((JFileURIChooser) chooser).getAccessory()).getCharacterSet();
+        }
+        read(f, characterSet);
     }
 
     public void read(URI f, String characterSet) throws IOException {
@@ -236,8 +245,19 @@ public class TeddyView extends AbstractView {
 
     @Override
     public void write(URI f, URIChooser chooser) throws IOException {
+        String characterSet, lineSeparator;
+        if (chooser == null//
+                || !(chooser instanceof JFileURIChooser) //
+                || !(((JFileURIChooser) chooser).getAccessory() instanceof CharacterSetAccessory)//
+                ) {
+            characterSet = prefs.get("characterSet", "UTF-8");
+            lineSeparator = prefs.get("lineSeparator", "\n");
+        } else {
+            characterSet = ((CharacterSetAccessory) ((JFileURIChooser) chooser).getAccessory()).getCharacterSet();
+            lineSeparator = ((CharacterSetAccessory) ((JFileURIChooser) chooser).getAccessory()).getLineSeparator();
+        }
 
-        write(f, ((CharacterSetAccessory) ((JFileURIChooser) chooser).getAccessory()).getCharacterSet(), ((CharacterSetAccessory) ((JFileURIChooser) chooser).getAccessory()).getLineSeparator());
+        write(f, characterSet, lineSeparator);
     }
 
     public void write(URI f, String characterSet, String lineSeparator) throws IOException {

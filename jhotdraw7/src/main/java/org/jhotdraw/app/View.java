@@ -161,6 +161,16 @@ public interface View extends Disposable {
      */
     public void clear();
     
+    /**
+     * Whether the view is clear.
+     * <p>
+     * If this method returns true, {@link org.jhotdraw.app.action.file.OpenFileAction}
+     * and similar actions may choose to open a file in this view, instead of
+     * opening a new view.
+     * 
+     * @return True if the view can be reused by open actions.
+     */
+    public boolean isEmpty();
     
     /**
      * Returns true, if the view has unsaved changes.

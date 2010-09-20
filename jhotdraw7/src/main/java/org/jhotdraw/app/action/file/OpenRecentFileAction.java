@@ -60,8 +60,8 @@ public class OpenRecentFileAction extends AbstractApplicationAction {
             // Search for an empty view
             View emptyView = app.getActiveView();
             if (emptyView == null
-                    || emptyView.getURI() != null
-                    || emptyView.hasUnsavedChanges()) {
+                     || !emptyView.isEmpty()
+                    || !emptyView.isEnabled()) {
                 emptyView = null;
             }
 
@@ -87,8 +87,7 @@ public class OpenRecentFileAction extends AbstractApplicationAction {
         int multipleOpenId = 1;
         for (View aView : app.views()) {
             if (aView != view
-                    && aView.getURI() != null
-                    && aView.getURI().equals(uri)) {
+                    && aView.isEmpty()) {
                 multipleOpenId = Math.max(multipleOpenId, aView.getMultipleOpenId() + 1);
             }
         }

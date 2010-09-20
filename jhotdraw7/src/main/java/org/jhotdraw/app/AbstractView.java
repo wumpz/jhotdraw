@@ -174,6 +174,11 @@ public abstract class AbstractView extends JPanel implements View {
     public JComponent getComponent() {
         return this;
     }
+    @Override
+    public boolean isEmpty() {
+        return getURI()==null&&!hasUnsavedChanges();
+    }
+
     /**
      * Returns true, if the view has unsaved changes.
      * This is a bound property.
