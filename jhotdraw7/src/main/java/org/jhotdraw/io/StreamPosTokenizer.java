@@ -496,6 +496,7 @@ public class StreamPosTokenizer
      * @see        java.io.StreamTokenizer#sval
      * @see        java.io.StreamTokenizer#ttype
      */
+    @SuppressWarnings("empty-statement")
     public int nextToken() throws IOException {
         if (pushedBack) {
             pushedBack = false;
@@ -936,7 +937,7 @@ public class StreamPosTokenizer
         if ((ctype & CT_COMMENT) != 0) {
             while ((c = read()) != '\n' && c != '\r' && c >= 0);
             peekc = c;
-            lineno++;
+            //lineno++;  removed because it counts line break twice
             return nextToken();
         }
         
