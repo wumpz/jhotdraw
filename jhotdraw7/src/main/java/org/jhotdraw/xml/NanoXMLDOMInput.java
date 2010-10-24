@@ -253,13 +253,13 @@ public class NanoXMLDOMInput implements DOMInput, Disposable {
         String id = getAttribute("id", null);
 
         if (ref != null && id != null) {
-            throw new IOException("Element has both an id and a ref attribute: <" + getTagName() + " id=" + id + " ref=" + ref + ">");
+            throw new IOException("Element has both an id and a ref attribute: <" + getTagName() + " id=\"" + id + "\" ref=\"" + ref + "\"> in line number "+current.getLineNr());
         }
         if (id != null && idobjects.containsKey(id)) {
-            throw new IOException("Duplicate id attribute: <" + getTagName() + " id=" + id + ">");
+            throw new IOException("Duplicate id attribute: <" + getTagName() + " id=\"" + id + "\"> in line number "+current.getLineNr());
         }
         if (ref != null && !idobjects.containsKey(ref)) {
-            throw new IOException("Illegal ref attribute value: <" + getTagName() + " ref=" + ref + ">");
+            throw new IOException("Referenced element not found: <" + getTagName() + " ref=\"" + ref + "\"> in line number "+current.getLineNr());
         }
 
         // Keep track of objects which have an ID
