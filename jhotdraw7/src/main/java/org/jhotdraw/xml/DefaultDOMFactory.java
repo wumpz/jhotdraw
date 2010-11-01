@@ -103,7 +103,7 @@ public class DefaultDOMFactory extends JavaPrimitivesDOMFactory {
     
     @Override
     public String getName(Object o) {
-        String name = classToNameMap.get(o.getClass());
+        String name = (o==null) ? null : classToNameMap.get(o.getClass());
         if (name == null) {
             name=super.getName(o);
         }
