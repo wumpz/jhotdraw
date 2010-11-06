@@ -93,7 +93,7 @@ import org.jhotdraw.net.URIUtil;
  * <p>
  * The screen menu bar has the following standard menus:
  * <pre>
- * "Application-Name" File Window</pre>
+ * "Application-Name" &nbsp; File &nbsp; Edit &nbsp; Window</pre>
  *
  * The first menu, is the <b>application menu</b>. It has the following standard
  * menu items: 
@@ -113,15 +113,38 @@ import org.jhotdraw.net.URIUtil;
  *
  * The <b>file menu</b> has the following standard menu items:
  * <pre>
+ *  Clear ({@link ClearFileAction#ID}})
  *  New ({@link NewFileAction#ID}})
+ *  New Window ({@link NewWindowAction#ID}})
+ *  Load... ({@link LoadFileAction#ID}})
  *  Open... ({@link OpenFileAction#ID}})
+ *  Load Directory... ({@link LoadDirectoryAction#ID}})
+ *  Open Directory... ({@link OpenDirectoryAction#ID}})
+ *  Load Recent &gt; "Filename" ({@link org.jhotdraw.app.action.file.LoadRecentFileAction#ID})
  *  Open Recent &gt; "Filename" ({@link org.jhotdraw.app.action.file.OpenRecentFileAction#ID})
  *  -
  *  Close ({@link CloseFileAction#ID})
  *  Save ({@link SaveFileAction#ID})
  *  Save As... ({@link SaveFileAsAction#ID})
- *  -
+ *  Export... ({@link ExportFileAction#ID})
  *  Print... ({@link PrintFileAction#ID})
+ * </pre>
+ *
+ * The <b>edit menu</b> has the following standard menu items:
+ * <pre>
+ *  Undo ({@link UndoAction#ID}})
+ *  Redo ({@link RedoAction#ID}})
+ *  -
+ *  Cut ({@link CutAction#ID}})
+ *  Copy ({@link CopyAction#ID}})
+ *  Paste ({@link PasteAction#ID}})
+ *  Duplicate ({@link DuplicateAction#ID}})
+ *  Delete... ({@link DeleteAction#ID}})
+ *  -
+ *  Select All ({@link SelectAllAction#ID}})
+ *  Clear Selection ({@link ClearSelectionAction#ID}})
+ *  -
+ *  Find ({@link AbstractFindAction#ID}})
  * </pre>
  *
  * The <b>window menu</b> has the following standard menu items:
@@ -129,7 +152,9 @@ import org.jhotdraw.net.URIUtil;
  *  Minimize ({@link MinimizeWindowAction#ID})
  *  Zoom ({@link MaximizeWindowAction#ID})
  *  -
- *  "Filename" ({@link FocusWindowAction#ID})
+ *  "Filename" ({@link FocusWindowAction})
+ *  -
+ *  "Palette" ({@link TogglePaletteAction})
  * </pre>
  *
  * The menus provided by the {@code ApplicationModel} are inserted between

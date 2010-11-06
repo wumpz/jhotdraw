@@ -75,6 +75,63 @@ import org.jhotdraw.net.URIUtil;
  * <p>
  * The life cycle of the application is tied to the JFrame. Closing the JFrame
  * quits the application.
+ * <p>
+ * The menu bar of a JFrame has the following standard menus:
+ * <pre>
+ * File &nbsp; Edit &nbsp; View &nbsp; Help</pre>
+ *
+ * The <b>file menu</b> has the following standard menu items:
+ * <pre>
+ *  Clear ({@link ClearFileAction#ID}})
+ *  New ({@link NewFileAction#ID}})
+ *  New Window ({@link NewWindowAction#ID}})
+ *  Load... ({@link LoadFileAction#ID}})
+ *  Open... ({@link OpenFileAction#ID}})
+ *  Load Directory... ({@link LoadDirectoryAction#ID}})
+ *  Open Directory... ({@link OpenDirectoryAction#ID}})
+ *  Load Recent &gt; "Filename" ({@link org.jhotdraw.app.action.file.LoadRecentFileAction#ID})
+ *  Open Recent &gt; "Filename" ({@link org.jhotdraw.app.action.file.OpenRecentFileAction#ID})
+ *  -
+ *  Save ({@link SaveFileAction#ID})
+ *  Save As... ({@link SaveFileAsAction#ID})
+ *  Export... ({@link ExportFileAction#ID})
+ *  Print... ({@link PrintFileAction#ID})
+ *  -
+ *  Close ({@link CloseFileAction#ID})
+ * </pre>
+ *
+ * The <b>edit menu</b> has the following standard menu items:
+ * <pre>
+ *  Undo ({@link UndoAction#ID}})
+ *  Redo ({@link RedoAction#ID}})
+ *  -
+ *  Cut ({@link CutAction#ID}})
+ *  Copy ({@link CopyAction#ID}})
+ *  Paste ({@link PasteAction#ID}})
+ *  Duplicate ({@link DuplicateAction#ID}})
+ *  Delete... ({@link DeleteAction#ID}})
+ *  -
+ *  Select All ({@link SelectAllAction#ID}})
+ *  Clear Selection ({@link ClearSelectionAction#ID}})
+ *  -
+ *  Find ({@link AbstractFindAction#ID}})
+ *  -
+ *  Preferences... ({@link AbstractPreferencesAction#ID})
+ * </pre>
+ *
+ * The <b>view menu</b> has the following standard menu items:
+ * <pre>
+ *  "Toolbar" ({@link ToggleVisibleAction})
+ * </pre>
+ *
+ * The <b>view menu</b> has the following standard menu items:
+ * <pre>
+ *  About ({@link AboutAction#ID})
+ * </pre>
+ *
+ * The menus provided by the {@code ApplicationModel} are inserted between
+ * the file menu and the window menu. In case the application model supplies
+ * a menu with the title "Help", it is inserted after the window menu.
  *
  * @author Werner Randelshofer
  * @version $Id$
@@ -431,7 +488,7 @@ public class SDIApplication extends AbstractApplication {
     }
 
     /**
-     * Creates the window menu.
+     * Creates the view menu.
      * 
      * @param view The View
      * @return A JMenu or null, if the menu doesn't have any items.

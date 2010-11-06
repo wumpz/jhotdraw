@@ -86,14 +86,20 @@ import org.jhotdraw.net.URIUtil;
  *
  * The <b>file menu</b> has the following standard menu items:
  * <pre>
+ *  Clear ({@link ClearFileAction#ID}})
  *  New ({@link NewFileAction#ID}})
+ *  New Window ({@link NewWindowAction#ID}})
+ *  Load... ({@link LoadFileAction#ID}})
  *  Open... ({@link OpenFileAction#ID}})
- *  Open Recent &gt; "Filename" ({@link org.jhotdraw.app.action.file.OpenRecentFileAction#ID}})
+ *  Load Directory... ({@link LoadDirectoryAction#ID}})
+ *  Open Directory... ({@link OpenDirectoryAction#ID}})
+ *  Load Recent &gt; "Filename" ({@link org.jhotdraw.app.action.file.LoadRecentFileAction#ID})
+ *  Open Recent &gt; "Filename" ({@link org.jhotdraw.app.action.file.OpenRecentFileAction#ID})
  *  -
  *  Close ({@link CloseFileAction#ID})
  *  Save ({@link SaveFileAction#ID})
  *  Save As... ({@link SaveFileAsAction#ID})
- *  -
+ *  Export... ({@link ExportFileAction#ID})
  *  Print... ({@link PrintFileAction#ID})
  *  -
  *  Exit ({@link ExitAction#ID})
@@ -101,15 +107,32 @@ import org.jhotdraw.net.URIUtil;
  *
  * The <b>edit menu</b> has the following standard menu items:
  * <pre>
+ *  Undo ({@link UndoAction#ID}})
+ *  Redo ({@link RedoAction#ID}})
+ *  -
+ *  Cut ({@link CutAction#ID}})
+ *  Copy ({@link CopyAction#ID}})
+ *  Paste ({@link PasteAction#ID}})
+ *  Duplicate ({@link DuplicateAction#ID}})
+ *  Delete... ({@link DeleteAction#ID}})
+ *  -
+ *  Select All ({@link SelectAllAction#ID}})
+ *  Clear Selection ({@link ClearSelectionAction#ID}})
+ *  -
+ *  Find ({@link AbstractFindAction#ID}})
+ *  -
  *  Settings ({@link AbstractPreferencesAction#ID})
  * </pre>
  *
  * The <b>window menu</b> has the following standard menu items:
  * <pre>
- *  Minimize ({@link MinimizeWindowAction#ID})
- *  Maximize ({@link MaximizeWindowAction#ID})
+ *  Arrange Cascade ({@link ArrangeWindowsAction#CASCADE_ID})
+ *  Arrange Vertical ({@link ArrangeWindowsAction#VERTICAL_ID})
+ *  Arrange Horizontal ({@link ArrangeWindowsAction#HORIZONTAL_ID})
  *  -
- *  "Filename" ({@link FocusWindowAction#ID})
+ *  "Filename" ({@link FocusWindowAction})
+ *  -
+ *  "Toolbar" ({@link ToggleToolBarAction})
  * </pre>
  *
  * The <b>help menu</b> has the following standard menu items:
