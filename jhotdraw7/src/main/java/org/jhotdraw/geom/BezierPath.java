@@ -31,7 +31,7 @@ import java.util.*;
  * @version $Id$
  */
 public class BezierPath extends ArrayList<BezierPath.Node>
-        implements Shape, Serializable {
+        implements Shape, Serializable, Cloneable {
 
     /** Constant for having only control point C0 in effect. C0 is the point
      * through whitch the curve passes. */

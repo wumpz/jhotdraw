@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.app.action.window;
 
 import org.jhotdraw.util.*;
@@ -31,10 +30,11 @@ import org.jhotdraw.net.URIUtil;
  * @version $Id$
  */
 public class FocusWindowAction extends AbstractAction {
+
     public final static String ID = "window.focus";
     private View view;
     private PropertyChangeListener ppc;
-    
+
     /** Creates a new instance. */
     public FocusWindowAction(View view) {
         this.view = view;
@@ -42,19 +42,22 @@ public class FocusWindowAction extends AbstractAction {
         labels.configureAction(this, ID);
         //setEnabled(false);
         setEnabled(view != null);
-        
-        view.addPropertyChangeListener(ppc = new PropertyChangeListener() {
+
+        ppc = new PropertyChangeListener() {
+
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
                 String name = evt.getPropertyName();
                 if (name.equals(View.TITLE_PROPERTY)) {
                     putValue(Action.NAME,
-                            evt.getNewValue()
-                                );
+                            evt.getNewValue());
                 }
             }
-        });
+        };
+        if (view != null) {
+            view.addPropertyChangeListener(ppc);
+        }
     }
 
     public void dispose() {
@@ -79,7 +82,7 @@ public class FocusWindowAction extends AbstractAction {
             return super.getValue(key);
         }
     }
-    
+
     private String getTitle() {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         String title = labels.getString("unnamedFile");
@@ -96,34 +99,34 @@ public class FocusWindowAction extends AbstractAction {
             title = (labels.getFormatted("internalFrame.title", title, view.getApplication().getName(), view.getMultipleOpenId()));
         }
         return title;
-        
+
     }
+
     private JFrame getFrame() {
         return (JFrame) SwingUtilities.getWindowAncestor(
-                view.getComponent()
-                );
+                view.getComponent());
     }
+
     private Component getRootPaneContainer() {
         return SwingUtilities.getRootPane(
-                view.getComponent()
-                ).getParent();
+                view.getComponent()).getParent();
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent evt) {
         /*
         JFrame frame = getFrame();
         if (frame != null) {
-            frame.setExtendedState(frame.getExtendedState() & ~Frame.ICONIFIED);
-            frame.toFront();
-            frame.requestFocus();
-            JRootPane rp = SwingUtilities.getRootPane(view.getComponent());
-            if (rp != null && (rp.getParent() instanceof JInternalFrame)) {
-                ((JInternalFrame) rp.getParent()).toFront();
-            }
-            view.getComponent().requestFocus();
+        frame.setExtendedState(frame.getExtendedState() & ~Frame.ICONIFIED);
+        frame.toFront();
+        frame.requestFocus();
+        JRootPane rp = SwingUtilities.getRootPane(view.getComponent());
+        if (rp != null && (rp.getParent() instanceof JInternalFrame)) {
+        ((JInternalFrame) rp.getParent()).toFront();
+        }
+        view.getComponent().requestFocus();
         } else {
-            Toolkit.getDefaultToolkit().beep();
+        Toolkit.getDefaultToolkit().beep();
         }*/
         Component rpContainer = getRootPaneContainer();
         if (rpContainer instanceof Frame) {

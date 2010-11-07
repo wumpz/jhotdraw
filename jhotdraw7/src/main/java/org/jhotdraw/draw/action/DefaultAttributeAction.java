@@ -70,8 +70,8 @@ public class DefaultAttributeAction extends AbstractSelectedAction {
         editor.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                if (evt.getPropertyName().equals(DefaultAttributeAction.this.keys[0])) {
-                    putValue("attribute_"+DefaultAttributeAction.this.keys[0], evt.getNewValue());
+                if (evt.getPropertyName().equals(DefaultAttributeAction.this.keys[0].getKey())) {
+                    putValue("attribute_"+DefaultAttributeAction.this.keys[0].getKey(), evt.getNewValue());
                 }
             }
             

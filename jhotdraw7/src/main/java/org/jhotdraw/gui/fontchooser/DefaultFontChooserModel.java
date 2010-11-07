@@ -363,7 +363,7 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 // Fonts on Windows Vista
                 "Segoe Print",
                 "Segoe Script")));
-        
+
         // Monospaced
         root.add(
                 new FontCollectionNode(labels.getString("FontCollection.monospaced"), collectFamiliesNamed(families,
@@ -393,7 +393,7 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "DotumChe",
                 "Miriam Fixed",
                 "Rod")));
-        
+
         // Decorative
         root.add(
                 new FontCollectionNode(labels.getString("FontCollection.decorative"), collectFamiliesNamed(families,
@@ -484,8 +484,7 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "Showcard Gothic",
                 "Slimbach-Black",
                 "Slimbach-BlackItalic",
-                "Snap ITC"
-                // Fonts on Windows Vista:
+                "Snap ITC" // Fonts on Windows Vista:
                 )));
         root.add(
                 new FontCollectionNode(labels.getString("FontCollection.symbols"), collectFamiliesNamed(families,
@@ -506,10 +505,8 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 //
                 // Fonts on Windows XP:
 
-                "Bookshelf Symbol"
-                //
+                "Bookshelf Symbol" //
                 // Fonts on Windows Vista:
-
                 )));
 
         // Collect font families, which are not in one of the other collections
@@ -553,18 +550,16 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
         boolean result = true;
         if (node instanceof FontFaceNode) {
             result &= ((FontFaceNode) node).isEditable();
-            node =
-                    (MutableTreeNode) node.getParent();
+            node = (MutableTreeNode) node.getParent();
         }
 
         if (result && (node instanceof FontFamilyNode)) {
             result &= ((FontFamilyNode) node).isEditable();
-            node =
-                    (MutableTreeNode) node.getParent();
+            node = (MutableTreeNode) node.getParent();
         }
 
         if (result && (node instanceof FontCollectionNode)) {
-            result &= ((FontFamilyNode) node).isEditable();
+            result &= ((FontCollectionNode) node).isEditable();
         }
 
         return result;
