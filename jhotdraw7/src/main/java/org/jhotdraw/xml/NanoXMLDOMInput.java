@@ -270,8 +270,11 @@ public class NanoXMLDOMInput implements DOMInput, Disposable {
             if (id != null) {
                 idobjects.put(id, o);
             }
+            if (o instanceof DOMStorable) {
+                ((DOMStorable) o).read(this);
+            }
         }
-        
+
         closeElement();
         return o;
     }

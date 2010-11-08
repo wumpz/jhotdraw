@@ -14,6 +14,7 @@
 
 package org.jhotdraw.xml;
 
+import java.beans.XMLDecoder;
 import java.io.IOException;
 
 /**
@@ -63,12 +64,15 @@ public interface DOMFactory {
      */
     public void write(DOMOutput out, Object object) throws IOException;
 
-    /** Reads the specified object from DOMInput.
+    /** Reads the specified object from {@code DOMInput}.
      * <p>
-     * This method is only ever called from DOMInput. You should never call
+     * This method is only ever called from {@code DOMInput}. You should never call
      * this method directly.
+     * <p>
+     * If the object returned by this method is an instanceof {@link DOMStorable}
+     * then {@code DOMInput} invokes its read method.
      *
-     * @param in The DOMInput object which creates the object from an element
+     * @param in The {@code DOMInput} object which creates the object from an element
      * in a DOM.
      */
     public Object read(DOMInput in) throws IOException;

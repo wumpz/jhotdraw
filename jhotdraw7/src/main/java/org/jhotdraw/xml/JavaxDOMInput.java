@@ -341,6 +341,9 @@ public class JavaxDOMInput implements DOMInput {
             if (id != null) {
                 idobjects.put(id, o);
             }
+            if (o instanceof DOMStorable) {
+                ((DOMStorable) o).read(this);
+            }
         }
 
         closeElement();

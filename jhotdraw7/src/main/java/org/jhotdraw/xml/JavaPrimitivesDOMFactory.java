@@ -329,7 +329,6 @@ public class JavaPrimitivesDOMFactory implements DOMFactory {
             o = a;
         } else {
             o = create(in.getTagName());
-            ((DOMStorable) o).read(in);
         }
         return o;
     }
