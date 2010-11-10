@@ -48,11 +48,13 @@ import java.util.*;
  */
 public class DefaultDragTracker extends AbstractTool implements DragTracker {
 
-    @Nullable protected Figure anchorFigure;
+    @Nullable
+    protected Figure anchorFigure;
     /**
      * The drag rectangle encompasses the bounds of all dragged figures.
      */
-    @Nullable protected Rectangle2D.Double dragRect;
+    @Nullable
+    protected Rectangle2D.Double dragRect;
     /**
      * The previousOrigin holds the origin of all dragged figures of the
      * previous mouseDragged event. This coordinate is constrained using
@@ -77,6 +79,8 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
      */
     protected Point2D.Double anchorPoint;
     private boolean isDragging;
+    @Nullable
+    private HashSet<Figure> transformedFigures;
 
     /** Creates a new instance. */
     public DefaultDragTracker(Figure figure) {
@@ -111,24 +115,29 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
         if (!view.getSelectedFigures().isEmpty()) {
 
             dragRect = null;
+            transformedFigures = new HashSet<Figure>();
             for (Figure f : view.getSelectedFigures()) {
-                if (dragRect == null) {
-                    dragRect = f.getBounds();
-                } else {
-                    dragRect.add(f.getBounds());
+                if (f.isTransformable()) {
+                    transformedFigures.add(f);
+                    if (dragRect == null) {
+                        dragRect = f.getBounds();
+                    } else {
+                        dragRect.add(f.getBounds());
+                    }
                 }
             }
 
-
-            anchorPoint = previousPoint = view.viewToDrawing(anchor);
-            anchorOrigin = previousOrigin = new Point2D.Double(dragRect.x, dragRect.y);
+            if (dragRect != null) {
+                anchorPoint = previousPoint = view.viewToDrawing(anchor);
+                anchorOrigin = previousOrigin = new Point2D.Double(dragRect.x, dragRect.y);
+            }
         }
     }
 
     @Override
     public void mouseDragged(MouseEvent evt) {
         DrawingView view = getView();
-        if (!view.getSelectedFigures().isEmpty()) {
+        if (!transformedFigures.isEmpty()) {
             if (isDragging == false) {
                 isDragging = true;
                 updateCursor(editor.findView((Container) evt.getSource()), new Point(evt.getX(), evt.getY()));
@@ -149,7 +158,7 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
                     constrainedRect.x - previousOrigin.x,
                     constrainedRect.y - previousOrigin.y);
             Constrainer c = view.getConstrainer();
-            for (Figure f : view.getSelectedFigures()) {
+            for (Figure f : transformedFigures) {
                 f.willChange();
                 f.transform(tx);
                 f.changed();
@@ -164,24 +173,23 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
     public void mouseReleased(MouseEvent evt) {
         super.mouseReleased(evt);
         DrawingView view = getView();
-        if (!view.getSelectedFigures().isEmpty()) {
+        if (!transformedFigures.isEmpty()) {
             isDragging = false;
             int x = evt.getX();
             int y = evt.getY();
             updateCursor(editor.findView((Container) evt.getSource()), new Point(x, y));
             Point2D.Double newPoint = view.viewToDrawing(new Point(x, y));
 
-            Collection<Figure> draggedFigures = new LinkedList<Figure>(view.getSelectedFigures());
-            Figure dropTarget = getDrawing().findFigureExcept(newPoint, draggedFigures);
+            Figure dropTarget = getDrawing().findFigureExcept(newPoint, transformedFigures);
             if (dropTarget != null) {
-                boolean snapBack = dropTarget.handleDrop(newPoint, draggedFigures, view);
+                boolean snapBack = dropTarget.handleDrop(newPoint, transformedFigures, view);
                 if (snapBack) {
                     AffineTransform tx = new AffineTransform();
                     tx.translate(
                             anchorOrigin.x - previousOrigin.x,
                             anchorOrigin.y - previousOrigin.y);
                     Constrainer c = view.getConstrainer();
-                    for (Figure f : draggedFigures) {
+                    for (Figure f : transformedFigures) {
                         f.willChange();
                         f.transform(tx);
                         f.changed();
@@ -200,12 +208,13 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
                     -anchorOrigin.y + previousOrigin.y);
             if (!tx.isIdentity()) {
                 getDrawing().fireUndoableEditHappened(new TransformEdit(
-                        draggedFigures, tx));
+                        transformedFigures, tx));
             }
         }
         Rectangle r = new Rectangle(anchor.x, anchor.y, 0, 0);
         r.add(evt.getX(), evt.getY());
         maybeFireBoundsInvalidated(r);
+        transformedFigures = null;
         fireToolDone();
     }
 

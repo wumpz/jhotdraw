@@ -44,10 +44,12 @@ public class ResizeHandleKit {
      * figure and adds them to the provided collection.
      */
     static public void addCornerResizeHandles(Figure f, Collection<Handle> handles) {
-        handles.add(southEast(f));
-        handles.add(southWest(f));
-        handles.add(northEast(f));
-        handles.add(northWest(f));
+        if (f.isTransformable()) {
+            handles.add(southEast(f));
+            handles.add(southWest(f));
+            handles.add(northEast(f));
+            handles.add(northWest(f));
+        }
     }
 
     /**
@@ -55,10 +57,12 @@ public class ResizeHandleKit {
      * the north, south, east, and west of the figure.
      */
     static public void addEdgeResizeHandles(Figure f, Collection<Handle> handles) {
-        handles.add(south(f));
-        handles.add(north(f));
-        handles.add(east(f));
-        handles.add(west(f));
+        if (f.isTransformable()) {
+            handles.add(south(f));
+            handles.add(north(f));
+            handles.add(east(f));
+            handles.add(west(f));
+        }
     }
 
     /**
@@ -67,8 +71,10 @@ public class ResizeHandleKit {
      */
     static public void addResizeHandles(Figure f, Collection<Handle> handles) {
         handles.add(new BoundsOutlineHandle(f));
-        addCornerResizeHandles(f, handles);
-        addEdgeResizeHandles(f, handles);
+        if (f.isTransformable()) {
+            addCornerResizeHandles(f, handles);
+            addEdgeResizeHandles(f, handles);
+        }
     }
 
     static public Handle south(Figure owner) {
@@ -113,6 +119,8 @@ public class ResizeHandleKit {
         protected Rectangle2D.Double sb;
         /** Aspect ratio on track start. */
         double aspectRatio;
+        /** Caches the value returned by getOwner().isTransformable(): */
+        private boolean isTransformableCache;
 
         ResizeHandle(Figure owner, Locator loc) {
             super(owner, loc);
@@ -152,6 +160,11 @@ public class ResizeHandleKit {
 
         @Override
         public void trackStart(Point anchor, int modifiersEx) {
+            isTransformableCache = getOwner().isTransformable();
+            if (!isTransformableCache) {
+                return;
+            }
+
             geometry = getOwner().getTransformRestoreData();
             Point location = getLocation();
             sx = -anchor.x + location.x;
@@ -162,29 +175,31 @@ public class ResizeHandleKit {
 
         @Override
         public void trackStep(Point anchor, Point lead, int modifiersEx) {
-            if (getOwner().isTransformable()) {
-                Point2D.Double p = view.viewToDrawing(new Point(lead.x + sx, lead.y + sy));
-                view.getConstrainer().constrainPoint(p);
+            if (!isTransformableCache) {
+                return;
+            }
+            Point2D.Double p = view.viewToDrawing(new Point(lead.x + sx, lead.y + sy));
+            view.getConstrainer().constrainPoint(p);
 
-                if (getOwner().get(TRANSFORM) != null) {
-                    try {
-                        getOwner().get(TRANSFORM).inverseTransform(p, p);
-                    } catch (NoninvertibleTransformException ex) {
-                        if (DEBUG) {
-                            ex.printStackTrace();
-                        }
+            if (getOwner().get(TRANSFORM) != null) {
+                try {
+                    getOwner().get(TRANSFORM).inverseTransform(p, p);
+                } catch (NoninvertibleTransformException ex) {
+                    if (DEBUG) {
+                        ex.printStackTrace();
                     }
                 }
-                trackStepNormalized(p, (modifiersEx & (InputEvent.ALT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK)) != 0);
             }
+            trackStepNormalized(p, (modifiersEx & (InputEvent.ALT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK)) != 0);
         }
 
         @Override
         public void trackEnd(Point anchor, Point lead, int modifiersEx) {
-            if (getOwner().isTransformable()) {
-                fireUndoableEditHappened(
-                        new TransformRestoreEdit(getOwner(), geometry, getOwner().getTransformRestoreData()));
+            if (!isTransformableCache) {
+                return;
             }
+            fireUndoableEditHappened(
+                    new TransformRestoreEdit(getOwner(), geometry, getOwner().getTransformRestoreData()));
         }
 
         protected void trackStepNormalized(Point2D.Double p, boolean keepAspect) {
@@ -223,6 +238,10 @@ public class ResizeHandleKit {
 
         @Override
         public void keyPressed(KeyEvent evt) {
+            if (!getOwner().isTransformable()) {
+                evt.consume();
+                return;
+            }
             Rectangle2D.Double r = getOwner().getBounds();
 
             switch (evt.getKeyCode()) {
@@ -279,6 +298,11 @@ public class ResizeHandleKit {
 
         @Override
         public void keyPressed(KeyEvent evt) {
+            if (!getOwner().isTransformable()) {
+                evt.consume();
+                return;
+            }
+
             Rectangle2D.Double r = getOwner().getBounds();
 
             switch (evt.getKeyCode()) {
@@ -325,6 +349,10 @@ public class ResizeHandleKit {
 
         @Override
         public void keyPressed(KeyEvent evt) {
+            if (!getOwner().isTransformable()) {
+                evt.consume();
+                return;
+            }
             Rectangle2D.Double r = getOwner().getBounds();
 
             switch (evt.getKeyCode()) {
@@ -381,6 +409,10 @@ public class ResizeHandleKit {
 
         @Override
         public void keyPressed(KeyEvent evt) {
+            if (!getOwner().isTransformable()) {
+                evt.consume();
+                return;
+            }
             Rectangle2D.Double r = getOwner().getBounds();
 
             switch (evt.getKeyCode()) {
@@ -447,6 +479,10 @@ public class ResizeHandleKit {
 
         @Override
         public void keyPressed(KeyEvent evt) {
+            if (!getOwner().isTransformable()) {
+                evt.consume();
+                return;
+            }
             Rectangle2D.Double r = getOwner().getBounds();
 
             switch (evt.getKeyCode()) {
@@ -503,6 +539,10 @@ public class ResizeHandleKit {
 
         @Override
         public void keyPressed(KeyEvent evt) {
+            if (!getOwner().isTransformable()) {
+                evt.consume();
+                return;
+            }
             Rectangle2D.Double r = getOwner().getBounds();
 
             switch (evt.getKeyCode()) {
@@ -561,6 +601,10 @@ public class ResizeHandleKit {
 
         @Override
         public void keyPressed(KeyEvent evt) {
+            if (!getOwner().isTransformable()) {
+                evt.consume();
+                return;
+            }
             Rectangle2D.Double r = getOwner().getBounds();
 
             switch (evt.getKeyCode()) {
@@ -617,6 +661,10 @@ public class ResizeHandleKit {
 
         @Override
         public void keyPressed(KeyEvent evt) {
+            if (!getOwner().isTransformable()) {
+                evt.consume();
+                return;
+            }
             Rectangle2D.Double r = getOwner().getBounds();
 
             switch (evt.getKeyCode()) {

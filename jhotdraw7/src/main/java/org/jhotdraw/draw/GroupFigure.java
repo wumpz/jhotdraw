@@ -41,4 +41,17 @@ public class GroupFigure extends AbstractCompositeFigure {
         Rectangle2D.Double r = getBounds();
         return Geom.angleToPoint(r, Geom.pointToAngle(r, from));
     }
+
+    /** Returns true if all children of the group are transformable. */
+    @Override
+    public boolean isTransformable() {
+        for (Figure f : children) {
+            if (! f.isTransformable()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
 }

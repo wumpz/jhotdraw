@@ -36,7 +36,7 @@ public class RectangleFigure extends AbstractAttributedFigure {
     public RectangleFigure(double x, double y, double width, double height) {
         rectangle = new Rectangle2D.Double(x, y, width, height);
     }
-    
+
     // DRAWING
     @Override
     protected void drawFill(Graphics2D g) {
