@@ -23,7 +23,7 @@ import javax.swing.text.*;
  * @version $Id$
  */
 public class NumberedParagraphView extends ParagraphView {
-    public static short NUMBERS_WIDTH=30;
+    public final static short NUMBERS_WIDTH=30;
     private static Font numberFont = new Font("Dialog",Font.PLAIN,10);
     private NumberedViewFactory viewFactory;
     public NumberedParagraphView(Element e, NumberedViewFactory viewFactory) {

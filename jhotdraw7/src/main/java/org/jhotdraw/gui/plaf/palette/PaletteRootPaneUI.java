@@ -16,7 +16,6 @@ package org.jhotdraw.gui.plaf.palette;
 import java.awt.*;
 import java.io.Serializable;
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.BasicRootPaneUI;
 
@@ -34,6 +33,7 @@ public class PaletteRootPaneUI extends BasicRootPaneUI {
         return rootPaneUI;
     }
 
+    @Override
     public void installUI(JComponent c) {
         super.installUI(c);
         c.setLayout(new PaletteRootLayout((JRootPane) c));
@@ -68,12 +68,13 @@ public class PaletteRootPaneUI extends BasicRootPaneUI {
          * is being used
          * @return a Dimension object containing the layout's preferred size
          */
+        @Override
         public Dimension preferredLayoutSize(Container parent) {
             Dimension rd, mbd;
             Insets i = rootPane.getInsets();
             Container contentPane = rootPane.getContentPane();
             JMenuBar menuBar = rootPane.getJMenuBar();
-            if (contentPane != null && contentPane.isVisible()) {
+            if (contentPane.isVisible()) {
                 rd = contentPane.getPreferredSize();
             } else {
                 rd = new Dimension(0, contentPane.getPreferredSize().height);

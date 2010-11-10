@@ -14,11 +14,11 @@
 
 package org.jhotdraw.draw.event;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.*;
 import java.awt.geom.*;
 import java.util.*;
-import org.jhotdraw.annotations.NotNull;
-import org.jhotdraw.annotations.Nullable;
+
 /**
  * An {@code EventObject} sent to {@link FigureListener}s.
  *
@@ -38,7 +38,6 @@ import org.jhotdraw.annotations.Nullable;
  * @author Werner Randelshofer
  * @version $Id$
  */
-@NotNull
 public class FigureEvent extends EventObject {
     private Rectangle2D.Double invalidatedArea;
     private AttributeKey attribute;

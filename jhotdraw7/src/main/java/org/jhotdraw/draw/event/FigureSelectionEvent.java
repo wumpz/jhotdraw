@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.draw.event;
 
 import org.jhotdraw.draw.*;
@@ -34,8 +33,9 @@ import java.util.*;
  * @version $Id$
  */
 public class FigureSelectionEvent extends java.util.EventObject {
-private Set<Figure> oldValue;
-private Set<Figure> newValue;
+
+    private Set<Figure> oldValue;
+    private Set<Figure> newValue;
 
     /** Creates a new instance. */
     public FigureSelectionEvent(DrawingView source, Set<Figure> oldValue, Set<Figure> newValue) {
@@ -43,14 +43,15 @@ private Set<Figure> newValue;
         this.oldValue = oldValue;
         this.newValue = newValue;
     }
-    
+
     public DrawingView getView() {
         return (DrawingView) source;
     }
-    
+
     public Set<Figure> getOldSelection() {
         return oldValue;
     }
+
     public Set<Figure> getNewSelection() {
         return newValue;
     }

@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.samples.svg.figures;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.handle.HandleAttributeKeys;
 import org.jhotdraw.draw.handle.AbstractHandle;
 import org.jhotdraw.draw.*;
@@ -27,7 +28,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * @version $Id$
  */
 public class ConvexHullOutlineHandle extends AbstractHandle {
-    private Shape outline;
+    @Nullable private Shape outline;
 
     private AttributeKey<Stroke> stroke1Enabled;
     private AttributeKey<Stroke> stroke2Enabled;

@@ -14,6 +14,7 @@
 
 package org.jhotdraw.draw;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.tool.Tool;
 import org.jhotdraw.draw.event.FigureListener;
 import org.jhotdraw.draw.event.FigureEvent;
@@ -31,7 +32,7 @@ import java.util.*;
  * @version $Id$
  */
 public class LabelFigure extends TextFigure implements FigureListener {
-    private TextHolderFigure target;
+    @Nullable private TextHolderFigure target;
     
     /** Creates a new instance. */
     public LabelFigure() {

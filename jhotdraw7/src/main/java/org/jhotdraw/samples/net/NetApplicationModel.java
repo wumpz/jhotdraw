@@ -99,7 +99,7 @@ public class NetApplicationModel extends DefaultApplicationModel {
     @Override
     public void initView(Application a, View p) {
         if (a.isSharingToolsAmongViews()) {
-            ((NetView) p).setDrawingEditor(getSharedEditor());
+            ((NetView) p).setEditor(getSharedEditor());
         }
     }
 
@@ -139,7 +139,7 @@ public class NetApplicationModel extends DefaultApplicationModel {
         if (p == null) {
             editor = getSharedEditor();
         } else {
-            editor = p.getDrawingEditor();
+            editor = p.getEditor();
         }
 
         LinkedList<JToolBar> list = new LinkedList<JToolBar>();

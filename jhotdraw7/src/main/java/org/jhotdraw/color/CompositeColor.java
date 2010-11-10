@@ -14,6 +14,7 @@
 
 package org.jhotdraw.color;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.Color;
 import java.awt.color.ColorSpace;
 
@@ -36,7 +37,7 @@ public class CompositeColor extends Color {
      * @see #getRGBColorComponents
      * @see #getRGBComponents
      */
-    private float fvalue[] = null;
+    @Nullable private float fvalue[] = null;
     /**
      * The alpha value as a <code>float</code> component.
      * If <code>frgbvalue</code> is <code>null</code>, this is not valid
@@ -54,7 +55,7 @@ public class CompositeColor extends Color {
      * @see #getColorSpace
      * @see #getColorComponents
      */
-    private ColorSpace cs = null;
+    @Nullable private ColorSpace cs = null;
 
     /**
      * Creates a color in the specified <code>ColorSpace</code>

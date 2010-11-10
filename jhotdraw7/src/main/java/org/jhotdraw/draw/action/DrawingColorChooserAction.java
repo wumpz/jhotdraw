@@ -14,6 +14,7 @@
 
 package org.jhotdraw.draw.action;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.util.*;
 import java.awt.*;
 import javax.swing.*;
@@ -35,17 +36,17 @@ public class DrawingColorChooserAction extends EditorColorChooserAction {
         this(editor, key, null, null);
     }
     /** Creates a new instance. */
-    public DrawingColorChooserAction(DrawingEditor editor, AttributeKey<Color> key, Icon icon) {
+    public DrawingColorChooserAction(DrawingEditor editor, AttributeKey<Color> key, @Nullable Icon icon) {
         this(editor, key, null, icon);
     }
     /** Creates a new instance. */
-    public DrawingColorChooserAction(DrawingEditor editor, AttributeKey<Color> key, String name) {
+    public DrawingColorChooserAction(DrawingEditor editor, AttributeKey<Color> key, @Nullable String name) {
         this(editor, key, name, null);
     }
-    public DrawingColorChooserAction(DrawingEditor editor, final AttributeKey<Color> key, String name, Icon icon) {
+    public DrawingColorChooserAction(DrawingEditor editor, final AttributeKey<Color> key, @Nullable String name, @Nullable Icon icon) {
         this(editor, key, name, icon, new HashMap<AttributeKey,Object>());
     }
-    public DrawingColorChooserAction(DrawingEditor editor, final AttributeKey<Color> key, String name, Icon icon,
+    public DrawingColorChooserAction(DrawingEditor editor, final AttributeKey<Color> key, @Nullable String name, @Nullable Icon icon,
             Map<AttributeKey,Object> fixedAttributes) {
         super(editor, key, name, icon, fixedAttributes);
     }

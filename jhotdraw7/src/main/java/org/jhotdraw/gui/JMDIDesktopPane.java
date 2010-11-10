@@ -15,6 +15,7 @@
 
 package org.jhotdraw.gui;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import javax.swing.*;
 import java.awt.*;
 import java.beans.*;
@@ -307,11 +308,13 @@ class MDIDesktopManager extends DefaultDesktopManager {
         this.desktop = newDesktop;
     }
     
+    @Override
     public void endResizingFrame(JComponent f) {
         super.endResizingFrame(f);
         resizeDesktop();
     }
     
+    @Override
     public void endDraggingFrame(JComponent f) {
         super.endDraggingFrame(f);
         resizeDesktop();
@@ -344,6 +347,7 @@ class MDIDesktopManager extends DefaultDesktopManager {
         }
     }
     
+    @Nullable
     public JScrollPane getScrollPane() {
         if (desktop.getParent() instanceof JViewport) {
             JViewport viewPort = (JViewport)desktop.getParent();

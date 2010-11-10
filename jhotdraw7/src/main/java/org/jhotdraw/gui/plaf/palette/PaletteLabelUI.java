@@ -27,7 +27,7 @@ import javax.swing.plaf.basic.*;
  */
 public class PaletteLabelUI extends BasicLabelUI {
 
-    protected static PaletteLabelUI labelUI = new PaletteLabelUI();
+    protected final static PaletteLabelUI labelUI = new PaletteLabelUI();
     /* These rectangles/insets are allocated once for this shared LabelUI
      * implementation.  Re-using rectangles rather than allocating
      * them in each getPreferredSize call sped up the method substantially.

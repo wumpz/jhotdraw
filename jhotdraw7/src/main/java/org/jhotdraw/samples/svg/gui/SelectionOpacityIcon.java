@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.*;
 import java.net.*;
 import org.jhotdraw.draw.*;
@@ -29,7 +30,7 @@ public class SelectionOpacityIcon extends javax.swing.ImageIcon {
     private DrawingEditor editor;
     private AttributeKey<Double> opacityKey;
     private AttributeKey<Color> fillColorKey;
-    private AttributeKey<Color> strokeColorKey;
+    @Nullable private AttributeKey<Color> strokeColorKey;
     private Shape fillShape;
     private Shape strokeShape;
 
@@ -44,7 +45,7 @@ public class SelectionOpacityIcon extends javax.swing.ImageIcon {
             DrawingEditor editor,
             AttributeKey<Double> opacityKey,
             AttributeKey<Color> fillColorKey,
-            AttributeKey<Color> strokeColorKey,
+            @Nullable AttributeKey<Color> strokeColorKey,
             URL imageLocation,
             Shape fillShape,
             Shape strokeShape) {
@@ -61,7 +62,7 @@ public class SelectionOpacityIcon extends javax.swing.ImageIcon {
             DrawingEditor editor,
             AttributeKey<Double> opacityKey,
             AttributeKey<Color> fillColorKey,
-            AttributeKey<Color> strokeColorKey,
+            @Nullable AttributeKey<Color> strokeColorKey,
             Image image,
             Shape fillShape,
             Shape strokeShape) {

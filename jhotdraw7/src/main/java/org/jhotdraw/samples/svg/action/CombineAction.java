@@ -56,6 +56,7 @@ public class CombineAction extends AbstractSelectedAction {
 
         labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         labels.configureAction(this, ID);
+        updateEnabledState();
     }
 
     @Override

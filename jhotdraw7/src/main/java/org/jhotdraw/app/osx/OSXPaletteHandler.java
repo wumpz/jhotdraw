@@ -14,11 +14,13 @@
 
 package org.jhotdraw.app.osx;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import org.jhotdraw.app.OSXApplication;
 import org.jhotdraw.app.View;
+
 /**
  * Hides all registered floating palettes, if none of the registered view
  * windows have focus anymore.
@@ -70,7 +72,7 @@ public class OSXPaletteHandler {
         timer.setRepeats(false);
     }
     
-    public void add(Window window, View view) {
+    public void add(Window window, @Nullable View view) {
         window.addWindowFocusListener(focusHandler);
         windows.put(window, view);
     }

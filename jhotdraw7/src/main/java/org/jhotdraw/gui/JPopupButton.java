@@ -94,8 +94,7 @@ public class JPopupButton extends javax.swing.JButton {
                     while (srcLPChild.getParent() != srcLP) {
                         srcLPChild = srcLPChild.getParent();
                     }
-                    if (srcLPChild == null || srcLP.getLayer(srcLPChild) < JLayeredPane.POPUP_LAYER) {
-
+                    if (srcLP.getLayer(srcLPChild) < JLayeredPane.POPUP_LAYER) {
                         popupMenu.setVisible(false);
                     }
                 }

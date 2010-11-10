@@ -19,6 +19,7 @@ import java.io.*;
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
+import javax.annotation.Nullable;
 import org.jhotdraw.gui.Worker;
 
 /**
@@ -48,8 +49,8 @@ import org.jhotdraw.gui.Worker;
  */
 public class ImageTool extends CreationTool {
 
-    protected FileDialog fileDialog;
-    protected JFileChooser fileChooser;
+    @Nullable protected FileDialog fileDialog;
+    @Nullable protected JFileChooser fileChooser;
     protected boolean useFileDialog;
     protected Thread workerThread;
 

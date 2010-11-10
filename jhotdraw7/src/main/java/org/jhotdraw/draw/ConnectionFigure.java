@@ -14,11 +14,10 @@
 
 package org.jhotdraw.draw;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.liner.Liner;
 import org.jhotdraw.draw.connector.Connector;
 import java.awt.geom.*;
-import org.jhotdraw.annotations.NotNull;
-import org.jhotdraw.annotations.Nullable;
 import org.jhotdraw.geom.*;
 
 /**
@@ -60,7 +59,6 @@ import org.jhotdraw.geom.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
-@NotNull
 public interface ConnectionFigure
         extends Figure {
     // DRAWING

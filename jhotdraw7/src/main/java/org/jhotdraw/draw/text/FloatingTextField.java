@@ -14,6 +14,7 @@
 
 package org.jhotdraw.draw.text;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.event.FigureListener;
 import org.jhotdraw.draw.event.FigureAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
@@ -49,7 +50,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * @version $Id: FloatingTextField.java -1   $
  */
 public  class FloatingTextField {
-    private TextHolderFigure editedFigure;
+    @Nullable private TextHolderFigure editedFigure;
     private JTextField   textField;
     private DrawingView   view;
     private FigureListener figureHandler = new FigureAdapter() {
@@ -61,13 +62,6 @@ public  class FloatingTextField {
     
     public FloatingTextField() {
         textField = new JTextField(20);
-    }
-    
-    /**
-     * Creates the overlay for the given Component.
-     */
-    public void createOverlay(DrawingView view) {
-        createOverlay(view, null);
     }
     
     public void requestFocus() {

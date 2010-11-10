@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.samples.svg.figures;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.handle.ResizeHandleKit;
 import org.jhotdraw.draw.handle.Handle;
@@ -37,11 +38,11 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     /**
      * This is used to perform faster drawing and hit testing.
      */
-    private transient Shape cachedTransformedShape;
+    @Nullable private transient Shape cachedTransformedShape;
     /**
      * This is used to perform faster hit testing.
      */
-    private transient Shape cachedHitShape;
+    @Nullable private transient Shape cachedHitShape;
 
     /** Creates a new instance. */
     public SVGEllipseFigure() {

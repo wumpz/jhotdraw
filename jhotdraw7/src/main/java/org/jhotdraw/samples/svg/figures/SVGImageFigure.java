@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.samples.svg.figures;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.handle.ResizeHandleKit;
 import org.jhotdraw.draw.handle.Handle;
@@ -47,21 +48,21 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     /**
      * This is used to perform faster drawing.
      */
-    private transient Shape cachedTransformedShape;
+    @Nullable private transient Shape cachedTransformedShape;
     /**
      * This is used to perform faster hit testing.
      */
-    private transient Shape cachedHitShape;
+    @Nullable private transient Shape cachedHitShape;
     /**
      * The image data. This can be null, if the image was created from a
      * BufferedImage.
      */
-    private byte[] imageData;
+    @Nullable private byte[] imageData;
     /**
      * The buffered image. This can be null, if we haven't yet parsed the
      * imageData.
      */
-    private BufferedImage bufferedImage;
+    @Nullable private BufferedImage bufferedImage;
 
     /** Creates a new instance. */
     public SVGImageFigure() {

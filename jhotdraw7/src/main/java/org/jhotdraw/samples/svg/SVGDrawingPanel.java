@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.samples.svg;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ContainerEvent;
@@ -66,10 +67,10 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 public class SVGDrawingPanel extends JPanel implements Disposable {
 
     private UndoRedoManager undoManager;
-    private DrawingEditor editor;
+    @Nullable private DrawingEditor editor;
     private ResourceBundleUtil labels;
     private Preferences prefs;
-    private ContainerListener containerHandler;
+    @Nullable private ContainerListener containerHandler;
 
     public UndoRedoManager getUndoRedoManager() {
         return undoManager;
@@ -246,11 +247,11 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
         return view;
     }
 
-    public DrawingEditor getEditor() {
+    @Nullable public DrawingEditor getEditor() {
         return editor;
     }
 
-    public void setEditor(DrawingEditor newValue) {
+    public void setEditor(@Nullable DrawingEditor newValue) {
         DrawingEditor oldValue = editor;
         if (oldValue != null) {
             oldValue.remove(view);

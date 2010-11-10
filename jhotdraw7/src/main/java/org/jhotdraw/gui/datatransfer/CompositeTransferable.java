@@ -17,8 +17,9 @@ package org.jhotdraw.gui.datatransfer;
 import java.awt.datatransfer.*;
 import java.util.*;
 import java.io.*;
+
 /**
- *
+ * ComoositeTransferable.
  *
  * @author  Werner Randelshofer
  */

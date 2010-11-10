@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.app.action;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.beans.*;
 import javax.swing.*;
 import org.jhotdraw.app.Application;
@@ -42,8 +43,8 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  */
 public abstract class AbstractApplicationAction extends AbstractAction implements Disposable {
 
-    private Application app;
-    private PropertyChangeListener applicationListener;
+    @Nullable private Application app;
+    @Nullable private PropertyChangeListener applicationListener;
 
     /** Creates a new instance. */
     public AbstractApplicationAction(Application app) {

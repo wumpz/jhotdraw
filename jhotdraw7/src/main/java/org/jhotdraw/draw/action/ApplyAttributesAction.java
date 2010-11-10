@@ -34,7 +34,7 @@ public class ApplyAttributesAction extends AbstractSelectedAction {
     public ApplyAttributesAction(DrawingEditor editor) {
         super(editor);
         labels.configureAction(this, "edit.applyAttributes");
-        setEnabled(true);
+        updateEnabledState();
     }
 
     /**

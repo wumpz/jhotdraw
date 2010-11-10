@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.draw.handle;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.event.BezierNodeEdit;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.util.*;
@@ -30,13 +31,13 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * of a bezier path.
  *
  * @author Werner Randelshofer
- * @version $Id: BezierControlPointHandle.java -1   $
+ * @version $Id$
  */
 public class BezierControlPointHandle extends AbstractHandle {
 
     protected int index,  controlPointIndex;
     private CompositeEdit edit;
-    private Figure transformOwner;
+    @Nullable private Figure transformOwner;
     private BezierPath.Node oldNode;
 
     /** Creates a new instance. */
@@ -79,6 +80,7 @@ public class BezierControlPointHandle extends AbstractHandle {
         }
     }
 
+    @Nullable
     protected BezierPath.Node getBezierNode() {
         return getBezierFigure().getNodeCount() > index ? getBezierFigure().getNode(index) : null;
     }

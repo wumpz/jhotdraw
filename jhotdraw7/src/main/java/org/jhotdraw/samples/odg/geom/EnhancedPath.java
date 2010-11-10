@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.samples.odg.geom;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.*;
@@ -69,11 +70,11 @@ public class EnhancedPath extends ArrayList<EnhancedPath.Segment>
     /**
      * We cache a Path2D.Double instance to speed up Shape operations.
      */
-    private transient Path2D.Double generalPath;
+    @Nullable private transient Path2D.Double generalPath;
     /**
      * We cache a Rectangle2D.Double instance to speed up getBounds operations.
      */
-    private transient Rectangle2D.Double bounds;
+    @Nullable private transient Rectangle2D.Double bounds;
     /**
      * The winding rule for filling the bezier path.
      */

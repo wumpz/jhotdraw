@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.draw;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.tool.Tool;
 import org.jhotdraw.draw.tool.TextEditingTool;
 import org.jhotdraw.draw.handle.FontSizeHandle;
@@ -47,7 +48,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
     protected Point2D.Double origin = new Point2D.Double();
     protected boolean editable = true;
     // cache of the TextFigure's layout
-    transient protected TextLayout textLayout;
+    @Nullable transient protected TextLayout textLayout;
 
     /** Creates a new instance. */
     public TextFigure() {

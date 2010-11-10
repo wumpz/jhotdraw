@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.event.SelectionComponentRepainter;
 import org.jhotdraw.draw.event.FigureAttributeEditorHandler;
 import org.jhotdraw.draw.event.SelectionComponentDisplayer;
@@ -40,7 +41,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  */
 public class FillToolBar extends AbstractToolBar {
 
-    private SelectionComponentDisplayer displayer;
+    @Nullable private SelectionComponentDisplayer displayer;
 
     /** Creates new instance. */
     public FillToolBar() {

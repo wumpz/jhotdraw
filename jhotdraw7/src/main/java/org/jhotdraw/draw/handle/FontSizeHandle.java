@@ -28,7 +28,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * {@link TextHolderFigure}.
  *
  * @author Werner Randelshofer
- * @version $Id: FontSizeHandle.java -1   $
+ * @version $Id$
  */
 public class FontSizeHandle extends LocatorHandle {
 

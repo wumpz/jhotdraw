@@ -46,7 +46,7 @@ public class SlantedLiner
     
     @Override
     public Collection<Handle> createHandles(BezierPath path) {
-        return null;
+        return Collections.emptyList();
     }
     
     @Override

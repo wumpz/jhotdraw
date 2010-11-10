@@ -14,6 +14,7 @@
 
 package org.jhotdraw.draw.handle;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.event.TransformRestoreEdit;
 import org.jhotdraw.draw.*;
 import java.awt.*;
@@ -28,10 +29,10 @@ import org.jhotdraw.geom.*;
  * the handle to rotate the BezierFigure without scaling it.
  *
  * @author Werner Randelshofer.
- * @version $Id: BezierScaleHandle.java -1   $
+ * @version $Id$
  */
 public class BezierScaleHandle extends AbstractHandle {
-    private Point location;
+    @Nullable private Point location;
     private Object restoreData;
     private AffineTransform transform;
     private Point2D.Double center;

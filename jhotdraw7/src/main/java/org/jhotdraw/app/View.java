@@ -14,13 +14,12 @@
 
 package org.jhotdraw.app;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.gui.URIChooser;
 import java.io.*;
 import java.beans.*;
 import java.net.URI;
 import javax.swing.*;
-import org.jhotdraw.annotations.NotNull;
-import org.jhotdraw.annotations.Nullable;
 
 /**
  * A <em>view</em> paints a document on a {@code JComponent} within an
@@ -83,7 +82,6 @@ import org.jhotdraw.annotations.Nullable;
  * @author Werner Randelshofer
  * @version $Id$
  */
-@NotNull
 public interface View extends Disposable {
     /**
      * The name of the uri property.
@@ -116,7 +114,7 @@ public interface View extends Disposable {
     /**
      * Gets the application to which this view belongs.
      */
-    public Application getApplication();
+    @Nullable public Application getApplication();
     
     /**
      * Sets the application of the view.
@@ -124,7 +122,7 @@ public interface View extends Disposable {
      * Application.remove().
      * This is a bound property.
      */
-    public void setApplication(Application newValue);
+    public void setApplication(@Nullable Application newValue);
     
     /**
      * Returns the visual component of the view.

@@ -23,6 +23,7 @@ import java.lang.reflect.*;
  * @author  Werner Randelshofer
  * @version $Id$
  */
+
 @SuppressWarnings("unchecked")
 public class Methods {
     /**

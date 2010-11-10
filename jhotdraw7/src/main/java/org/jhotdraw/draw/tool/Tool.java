@@ -15,12 +15,12 @@
 
 package org.jhotdraw.draw.tool;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.ToolListener;
 import java.awt.*;
 import java.awt.event.*;
-import org.jhotdraw.annotations.NotNull;
-import org.jhotdraw.annotations.Nullable;
+
 /**
  * A <em>tool</em> defines a mode of a {@link DrawingEditor}. All input events
  * targeted to the active {@link DrawingView} of the drawing editor are 
@@ -73,7 +73,6 @@ import org.jhotdraw.annotations.Nullable;
  * @author Werner Randelshofer
  * @version $Id$
  */
-@NotNull
 public interface Tool extends MouseListener, MouseMotionListener, KeyListener {
     
     /**

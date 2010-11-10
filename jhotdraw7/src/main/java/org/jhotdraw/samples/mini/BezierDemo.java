@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.samples.mini;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
@@ -35,8 +36,8 @@ public class BezierDemo extends javax.swing.JPanel {
 
         double error;
         BezierPath digitized = new BezierPath();
-        BezierPath bezier;
-        ArrayList<ArrayList<Point2D.Double>> segments;
+        @Nullable BezierPath bezier;
+        @Nullable ArrayList<ArrayList<Point2D.Double>> segments;
 
         public void invalidate() {
             bezier = null;

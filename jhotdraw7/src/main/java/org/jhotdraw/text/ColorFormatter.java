@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.text;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.Color;
 import java.awt.color.ColorSpace;
 import java.text.DecimalFormat;
@@ -109,7 +110,7 @@ public class ColorFormatter extends DefaultFormatter {
     /**
      * Specifies the last used input format.
      */
-    protected Format lastUsedInputFormat = null;
+    @Nullable protected Format lastUsedInputFormat = null;
     /**
      * This regular expression is used for parsing the RGB_HEX format.
      */

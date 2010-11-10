@@ -13,10 +13,9 @@
  */
 package org.jhotdraw.app.action;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.beans.*;
 import javax.swing.*;
-import org.jhotdraw.annotations.NotNull;
-import org.jhotdraw.annotations.Nullable;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
 
@@ -34,7 +33,6 @@ import org.jhotdraw.app.View;
  * @author Werner Randelshofer
  * @version $Id$
  */
-@NotNull
 public abstract class AbstractViewAction extends AbstractAction {
 
     private Application app;
@@ -65,7 +63,7 @@ public abstract class AbstractViewAction extends AbstractAction {
     };
 
     /** Creates a new instance which acts on the specified view of the application. */
-    public AbstractViewAction(Application app, View view) {
+    public AbstractViewAction(Application app, @Nullable View view) {
         this.app = app;
         this.view = view;
         this.enabled = true;

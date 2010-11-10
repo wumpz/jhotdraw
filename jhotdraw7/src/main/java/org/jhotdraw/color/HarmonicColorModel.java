@@ -14,6 +14,7 @@
 
 package org.jhotdraw.color;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.Color;
 import java.awt.color.ColorSpace;
 import java.beans.PropertyChangeListener;
@@ -44,8 +45,8 @@ public interface HarmonicColorModel extends ListModel {
     public boolean isAdjusting();
     
     public boolean add(Color c);
-    public void set(int index, Color color);
-    public Color get(int index);
+    public void set(int index, @Nullable Color color);
+    @Nullable public Color get(int index);
     public float[] RGBtoComponent(int rgb, float[] hsb);
     public int componentToRGB(float h, float s, float b);
 

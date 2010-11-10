@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.draw.action;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
@@ -47,8 +48,9 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
 public abstract class AbstractSelectedAction
         extends AbstractAction implements Disposable {
 
+    @Nullable
     private DrawingEditor editor;
-    transient private DrawingView activeView;
+    @Nullable transient private DrawingView activeView;
     protected ResourceBundleUtil labels =
             ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
 
@@ -83,14 +85,14 @@ public abstract class AbstractSelectedAction
 
         }
     };
-    private EventHandler eventHandler = new EventHandler();
+    @Nullable private EventHandler eventHandler = new EventHandler();
 
     /** Creates an action which acts on the selected figures on the current view
      * of the specified editor.
      */
     public AbstractSelectedAction(DrawingEditor editor) {
         setEditor(editor);
-        updateEnabledState();
+        //updateEnabledState();
     }
 
     /** Updates the enabled state of this action to reflect the enabled state
@@ -99,8 +101,8 @@ public abstract class AbstractSelectedAction
      */
     protected void updateEnabledState() {
         if (getView() != null) {
-            setEnabled(getView().isEnabled() &&
-                    getView().getSelectionCount() > 0);
+            setEnabled(getView().isEnabled()
+                    && getView().getSelectionCount() > 0);
         } else {
             setEnabled(false);
         }
@@ -111,7 +113,7 @@ public abstract class AbstractSelectedAction
         setEditor(null);
     }
 
-    public void setEditor(DrawingEditor editor) {
+    public void setEditor(@Nullable DrawingEditor editor) {
         if (eventHandler != null) {
             unregisterEventHandler();
         }
@@ -122,14 +124,17 @@ public abstract class AbstractSelectedAction
         }
     }
 
+    @Nullable
     public DrawingEditor getEditor() {
         return editor;
     }
 
+    @Nullable
     protected DrawingView getView() {
         return (editor == null) ? null : editor.getActiveView();
     }
 
+    @Nullable
     protected Drawing getDrawing() {
         return (getView() == null) ? null : getView().getDrawing();
     }

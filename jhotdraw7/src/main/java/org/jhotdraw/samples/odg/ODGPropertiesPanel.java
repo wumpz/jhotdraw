@@ -63,9 +63,9 @@ public class ODGPropertiesPanel extends javax.swing.JPanel {
     
     public void setEditor(DrawingEditor editor) {
         this.editor = editor;
-        linkFieldHandler.setDrawingEditor(editor);
-        opacitySliderHandler.setDrawingEditor(editor);
-        opacityFieldHandler.setDrawingEditor(editor);
+        linkFieldHandler.setEditor(editor);
+        opacitySliderHandler.setEditor(editor);
+        opacityFieldHandler.setEditor(editor);
     }
     
     public void setView(DrawingView view) {

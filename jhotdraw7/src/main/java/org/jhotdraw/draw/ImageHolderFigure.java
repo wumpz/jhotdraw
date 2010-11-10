@@ -14,10 +14,9 @@
 
 package org.jhotdraw.draw;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.image.*;
 import java.io.*;
-import org.jhotdraw.annotations.NotNull;
-import org.jhotdraw.annotations.Nullable;
 
 /**
  * The interface of a {@link Figure} which has some editable image contents.
@@ -48,7 +47,6 @@ import org.jhotdraw.annotations.Nullable;
  * @author Werner Randelshofer
  * @version $Id$
  */
-@NotNull
 public interface ImageHolderFigure extends Figure {
     /**
      * Loads an image from a File.

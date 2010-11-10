@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.app;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.app.action.app.AbstractPreferencesAction;
 import org.jhotdraw.app.action.window.ToggleToolBarAction;
 import org.jhotdraw.app.action.window.FocusWindowAction;
@@ -413,7 +414,7 @@ public class MDIApplication extends AbstractApplication {
     /**
      * Creates a menu bar.
      */
-    protected JMenuBar createMenuBar(View v) {
+    protected JMenuBar createMenuBar(@Nullable View v) {
         JMenuBar mb = new JMenuBar();
 
         // Get menus from application model

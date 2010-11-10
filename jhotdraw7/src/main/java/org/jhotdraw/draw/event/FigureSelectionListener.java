@@ -15,7 +15,8 @@
 
 package org.jhotdraw.draw.event;
 
-import org.jhotdraw.annotations.NotNull;
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 
 /**
  * Interface implemented by observers of selection changes in 
@@ -34,7 +35,6 @@ import org.jhotdraw.annotations.NotNull;
  * @author Werner Randelshofer
  * @version $Id$
  */
-@NotNull
 public interface FigureSelectionListener extends java.util.EventListener {
     public void selectionChanged(FigureSelectionEvent evt);
 }

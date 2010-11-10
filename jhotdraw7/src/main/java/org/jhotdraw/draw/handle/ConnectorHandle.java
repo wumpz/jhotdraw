@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.draw.handle;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.ConnectionFigure;
@@ -27,7 +28,7 @@ import java.awt.geom.*;
  * new {@link ConnectionFigure} by dragging the handle to another connector.
  *
  * @author Werner Randelshofer.
- * @version $Id: ConnectorHandle.java -1   $
+ * @version $Id$
  */
 public class ConnectorHandle extends AbstractHandle {
 
@@ -46,11 +47,11 @@ public class ConnectorHandle extends AbstractHandle {
     /**
      * The current connectable Figure.
      */
-    private Figure connectableFigure;
+    @Nullable private Figure connectableFigure;
     /**
      * The current connectable Connector.
      */
-    private Connector connectableConnector;
+    @Nullable private Connector connectableConnector;
     /**
      * All connectors of the connectable Figure.
      */
@@ -194,23 +195,23 @@ public class ConnectorHandle extends AbstractHandle {
         return (ConnectionFigure) prototype.clone();
     }
 
-    protected void setConnection(ConnectionFigure newConnection) {
+    protected void setConnection(@Nullable ConnectionFigure newConnection) {
         createdConnection = newConnection;
     }
 
-    protected ConnectionFigure getConnection() {
+    @Nullable protected ConnectionFigure getConnection() {
         return createdConnection;
     }
 
-    protected Figure getTargetFigure() {
+    @Nullable protected Figure getTargetFigure() {
         return connectableFigure;
     }
 
-    protected void setTargetFigure(Figure newTargetFigure) {
+    protected void setTargetFigure(@Nullable Figure newTargetFigure) {
         connectableFigure = newTargetFigure;
     }
 
-    private Figure findConnectableFigure(Point2D.Double p, Drawing drawing) {
+    @Nullable private Figure findConnectableFigure(Point2D.Double p, Drawing drawing) {
         for (Figure figure : drawing.getFiguresFrontToBack()) {
             if (!figure.includes(getConnection()) &&
                     figure.isConnectable() &&
@@ -225,7 +226,7 @@ public class ConnectorHandle extends AbstractHandle {
     /**
      * Finds a connection end figure.
      */
-    protected Connector findConnectableConnector(Figure connectableFigure, Point2D.Double p) {
+    @Nullable protected Connector findConnectableConnector(Figure connectableFigure, Point2D.Double p) {
         Connector target = (connectableFigure == null) ? null : connectableFigure.findConnector(p, getConnection());
 
         if ((connectableFigure != null) && connectableFigure.isConnectable() && !connectableFigure.includes(getOwner()) && getConnection().canConnect(connector, target)) {

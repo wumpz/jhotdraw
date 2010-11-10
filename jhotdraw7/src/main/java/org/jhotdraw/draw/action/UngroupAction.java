@@ -32,9 +32,11 @@ public class UngroupAction extends GroupAction {
     public UngroupAction(DrawingEditor editor) {
         super(editor, new GroupFigure(), false);
         labels.configureAction(this, ID);
+        updateEnabledState();
     }
     public UngroupAction(DrawingEditor editor, CompositeFigure prototype) {
         super(editor, prototype, false);
         labels.configureAction(this, ID);
+        updateEnabledState();
     }
 }

@@ -35,6 +35,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
     /** Creates a new instance. */
     public AlignAction(DrawingEditor editor) {
         super(editor);
+        updateEnabledState();
     }
     @Override
     public void updateEnabledState() {

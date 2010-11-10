@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.samples.odg.io;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.draw.io.InputFormat;
 import java.awt.datatransfer.*;
@@ -30,6 +31,7 @@ import static org.jhotdraw.samples.odg.ODGConstants.*;
 import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
 import org.jhotdraw.samples.odg.figures.*;
 import org.jhotdraw.samples.odg.geom.*;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * ODGInputFormat.
@@ -69,13 +71,15 @@ public class ODGInputFormat implements InputFormat {
     public JComponent getInputFormatAccessory() {
         return null;
     }
+
     @Override
     public void read(URI uri, Drawing drawing) throws IOException {
-        read(new File(uri),drawing);
+        read(new File(uri), drawing);
     }
+
     @Override
     public void read(URI uri, Drawing drawing, boolean replace) throws IOException {
-        read(new File(uri),drawing, replace);
+        read(new File(uri), drawing, replace);
     }
 
     public void read(File file, Drawing drawing) throws IOException {
@@ -87,14 +91,14 @@ public class ODGInputFormat implements InputFormat {
         try {
             read(in, drawing, replace);
         } finally {
-                in.close();
+            in.close();
         }
     }
 
     @Override
     public boolean isDataFlavorSupported(DataFlavor flavor) {
-        return flavor.getPrimaryType().equals("application") &&
-                flavor.getSubType().equals("vnd.oasis.opendocument.graphics");
+        return flavor.getPrimaryType().equals("application")
+                && flavor.getSubType().equals("vnd.oasis.opendocument.graphics");
     }
 
     @Override
@@ -210,19 +214,19 @@ public class ODGInputFormat implements InputFormat {
             if (children.hasNext()) {
                 stack.push(children);
             }
-            if (node.getName() != null &&
-                    node.getName().equals("drawing") &&
-                    (node.getNamespace() == null ||
-                    node.getNamespace().equals(OFFICE_NAMESPACE))) {
+            if (node.getName() != null
+                    && node.getName().equals("drawing")
+                    && (node.getNamespace() == null
+                    || node.getNamespace().equals(OFFICE_NAMESPACE))) {
                 drawingElem = node;
                 break;
             }
         }
 
-        if (drawingElem.getName() == null ||
-                !drawingElem.getName().equals("drawing") ||
-                (drawingElem.getNamespace() != null &&
-                !drawingElem.getNamespace().equals(OFFICE_NAMESPACE))) {
+        if (drawingElem.getName() == null
+                || !drawingElem.getName().equals("drawing")
+                || (drawingElem.getNamespace() != null
+                && !drawingElem.getNamespace().equals(OFFICE_NAMESPACE))) {
             throw new IOException("'office:drawing' element expected: " + drawingElem.getName());
         }
 
@@ -280,8 +284,8 @@ public class ODGInputFormat implements InputFormat {
         for (IXMLElement node : elem.getChildren()) {
             if (node instanceof IXMLElement) {
                 IXMLElement child = (IXMLElement) node;
-                if (child.getNamespace() == null ||
-                        child.getNamespace().equals(DRAWING_NAMESPACE)) {
+                if (child.getNamespace() == null
+                        || child.getNamespace().equals(DRAWING_NAMESPACE)) {
                     String name = child.getName();
                     if (name.equals("page")) {
                         readPageElement(child);
@@ -360,6 +364,7 @@ public class ODGInputFormat implements InputFormat {
     /**
      * Reads an ODG element.
      */
+    @Nullable
     private ODGFigure readElement(IXMLElement elem)
             throws IOException {
         /*
@@ -388,8 +393,8 @@ public class ODGInputFormat implements InputFormat {
         </define>
          */
         ODGFigure f = null;
-        if (elem.getNamespace() == null ||
-                elem.getNamespace().equals(DRAWING_NAMESPACE)) {
+        if (elem.getNamespace() == null
+                || elem.getNamespace().equals(DRAWING_NAMESPACE)) {
             String name = elem.getName();
             if (name.equals("caption")) {
                 f = readCaptionElement(elem);
@@ -441,12 +446,12 @@ public class ODGInputFormat implements InputFormat {
 
     private ODGFigure readEllipseElement(IXMLElement elem)
             throws IOException {
-        return null;
+        throw new UnsupportedOperationException("not implemented");
     }
 
     private ODGFigure readCircleElement(IXMLElement elem)
             throws IOException {
-        return null;
+        throw new UnsupportedOperationException("not implemented");
     }
 
     /** A <draw:custom-shape> represents a shape that is capable of rendering
@@ -475,6 +480,7 @@ public class ODGInputFormat implements InputFormat {
         return figure;
     }
 
+    @Nullable
     private ODGFigure readEnhancedGeometryElement(
             IXMLElement elem,
             Map<AttributeKey, Object> a,
@@ -686,10 +692,7 @@ public class ODGInputFormat implements InputFormat {
      * @param elem A &lt;frame&gt; element.
      */
     private ODGFigure readFrameElement(IXMLElement elem) throws IOException {
-        if (DEBUG) {
-            System.out.println("ODGInputFormat.readFrameElement(" + elem + ") not implemented.");
-        }
-        return null;
+        throw new UnsupportedOperationException("not implemented.");
     }
 
     /**
@@ -855,26 +858,22 @@ public class ODGInputFormat implements InputFormat {
 
     private ODGFigure readRectElement(IXMLElement elem)
             throws IOException {
-        System.out.println("ODGInputFormat.readRectElement(" + elem + "):null - not implemented");
-        return null;
+        throw new UnsupportedOperationException("ODGInputFormat.readRectElement(" + elem + "):null - not implemented");
     }
 
     private ODGFigure readRegularPolygonElement(IXMLElement elem)
             throws IOException {
-        System.out.println("ODGInputFormat.readRegularPolygonElement(" + elem + "):null - not implemented");
-        return null;
+        throw new UnsupportedOperationException("ODGInputFormat.readRegularPolygonElement(" + elem + "):null - not implemented");
     }
 
     private ODGFigure readMeasureElement(IXMLElement elem)
             throws IOException {
-        System.out.println("ODGInputFormat.readMeasureElement(" + elem + "):null - not implemented");
-        return null;
+        throw new UnsupportedOperationException("ODGInputFormat.readMeasureElement(" + elem + "):null - not implemented");
     }
 
     private ODGFigure readCaptionElement(IXMLElement elem)
             throws IOException {
-        System.out.println("ODGInputFormat.readCaptureElement(" + elem + "):null - not implemented");
-        return null;
+        throw new UnsupportedOperationException("ODGInputFormat.readCaptureElement(" + elem + "):null - not implemented");
     }
 
     /**
@@ -1514,8 +1513,8 @@ public class ODGInputFormat implements InputFormat {
                     if (path.size() > 1) {
                         BezierPath.Node first = path.get(0);
                         BezierPath.Node last = path.get(path.size() - 1);
-                        if (first.x[0] == last.x[0] &&
-                                first.y[0] == last.y[0]) {
+                        if (first.x[0] == last.x[0]
+                                && first.y[0] == last.y[0]) {
                             if ((last.mask & BezierPath.C1_MASK) != 0) {
                                 first.mask |= BezierPath.C1_MASK;
                                 first.x[1] = last.x[1];

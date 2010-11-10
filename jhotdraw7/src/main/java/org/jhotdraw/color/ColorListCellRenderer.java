@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.color;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.*;
 import javax.swing.*;
 
@@ -29,7 +30,7 @@ public class ColorListCellRenderer extends DefaultListCellRenderer {
 
         private Color color;
 
-        public void setColor(Color newValue) {
+        public void setColor(@Nullable Color newValue) {
             color = newValue;
         }
 

@@ -1,5 +1,8 @@
 package org.jhotdraw.io;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+import edu.umd.cs.findbugs.annotations.Nullable;
+
 /**
  * Encodes and decodes to and from Base64 notation.
  *
@@ -265,6 +268,7 @@ public class Base64 {
      * @see Base64#DONT_BREAK_LINES
      * @since 2.0
      */
+    @Nullable
     public static String encodeObject(java.io.Serializable serializableObject, int options) {
         // Streams
         java.io.ByteArrayOutputStream baos = null;
@@ -395,6 +399,7 @@ public class Base64 {
      * @see Base64#DONT_BREAK_LINES
      * @since 2.0
      */
+    @Nullable
     public static String encodeBytes(byte[] source, int off, int len, int options) {
         // Isolate options
         int dontBreakLines = (options & DONT_BREAK_LINES);
@@ -572,6 +577,7 @@ public class Base64 {
      * @return decoded data
      * @since 1.3
      */
+    @Nullable
     public static byte[] decode(byte[] source, int off, int len) {
         int len34 = len * 3 / 4;
         byte[] outBuff = new byte[len34]; // Upper limit on size of output
@@ -622,6 +628,7 @@ public class Base64 {
      * @return the decoded data
      * @since 1.4
      */
+    @Nullable
     public static byte[] decode(String s) {
         byte[] bytes;
         try {
@@ -693,6 +700,7 @@ public class Base64 {
      * @return The decoded and deserialized object
      * @since 1.5
      */
+    @Nullable
     public static Object decodeToObject(String encodedObject) {
         // Decode and gunzip if necessary
         byte[] objBytes = decode(encodedObject);
@@ -801,6 +809,7 @@ public class Base64 {
      *
      * @since 2.1
      */
+    @Nullable
     public static byte[] decodeFromFile(String filename) {
         byte[] decodedData = null;
         Base64.InputStream bis = null;
@@ -838,7 +847,9 @@ public class Base64 {
         } // end catch: IOException
         finally {
             try {
-                if (bis!=null) bis.close();
+                if (bis != null) {
+                    bis.close();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -856,6 +867,7 @@ public class Base64 {
      *
      * @since 2.1
      */
+    @Nullable
     public static String encodeFromFile(String filename) {
         String encodedData = null;
         Base64.InputStream bis = null;
@@ -1108,7 +1120,7 @@ public class Base64 {
 
         private boolean encode;
         private int position;
-        private byte[] buffer;
+        @Nullable private byte[] buffer;
         private int bufferLength;
         private int lineLength;
         private boolean breakLines;

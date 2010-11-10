@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.samples.odg.figures;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.connector.Connector;
@@ -42,7 +43,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
     /**
      * This cachedPath is used for drawing.
      */
-    private transient Path2D.Double cachedPath;
+    @Nullable private transient Path2D.Double cachedPath;
     //private transient Rectangle2D.Double cachedDrawingArea;
     private final static boolean DEBUG = false;
 

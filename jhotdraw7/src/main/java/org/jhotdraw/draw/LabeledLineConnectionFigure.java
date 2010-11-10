@@ -14,6 +14,7 @@
 
 package org.jhotdraw.draw;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.layouter.Layouter;
 import org.jhotdraw.draw.event.FigureAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
@@ -46,7 +47,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
     
     private Layouter layouter;
     private ArrayList<Figure> children = new ArrayList<Figure>();
-    private transient Rectangle2D.Double cachedDrawingArea;
+    @Nullable private transient Rectangle2D.Double cachedDrawingArea;
     
     /**
      * Handles figure changes in the children.

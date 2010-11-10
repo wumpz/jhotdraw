@@ -83,6 +83,7 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
             DOMFactory factory,
             String description, String fileExtension, String mimeType) {
         this.factory = factory;
+        this.description = description;
         this.fileExtension = fileExtension;
         this.mimeType = mimeType;
         try {

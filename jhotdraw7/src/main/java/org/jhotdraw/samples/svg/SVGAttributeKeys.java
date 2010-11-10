@@ -14,6 +14,7 @@
 
 package org.jhotdraw.samples.svg;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.util.ResourceBundleUtil;
@@ -120,6 +121,7 @@ public class SVGAttributeKeys extends AttributeKeys {
      * FILL_GRADIENT, FILL_OPACITY, FILL_PAINT and the bounds of the figure.
      * Returns null if the figure is not filled.
      */
+    @Nullable
     public static Paint getFillPaint(Figure f) {
         double opacity = f.get(FILL_OPACITY);
         if (f.get(FILL_GRADIENT) != null) {
@@ -140,6 +142,7 @@ public class SVGAttributeKeys extends AttributeKeys {
      * STROKE_GRADIENT, STROKE_OPACITY, STROKE_PAINT and the bounds of the figure.
      * Returns null if the figure is not filled.
      */
+    @Nullable
     public static Paint getStrokePaint(Figure f) {
         double opacity = f.get(STROKE_OPACITY);
         if (f.get(STROKE_GRADIENT) != null) {

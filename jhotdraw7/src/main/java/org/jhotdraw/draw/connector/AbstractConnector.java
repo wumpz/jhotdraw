@@ -14,6 +14,7 @@
 
 package org.jhotdraw.draw.connector;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.*;
 import java.io.IOException;
 import java.awt.*;
@@ -34,7 +35,7 @@ public class AbstractConnector implements Connector, DOMStorable {
     /**
      * The owner of the connector
      */
-    private Figure owner;
+    @Nullable private Figure owner;
     /**
      * Whether we should connect to the figure or to its decorator.
      */

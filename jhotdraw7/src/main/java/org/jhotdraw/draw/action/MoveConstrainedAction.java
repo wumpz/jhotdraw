@@ -32,6 +32,7 @@ public abstract class MoveConstrainedAction extends AbstractSelectedAction {
     public MoveConstrainedAction(DrawingEditor editor, TranslationDirection dir) {
         super(editor);
         this.dir = dir;
+        updateEnabledState();
     }
 
     @Override

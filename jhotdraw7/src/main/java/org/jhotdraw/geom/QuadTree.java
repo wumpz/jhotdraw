@@ -15,6 +15,7 @@
 
 package org.jhotdraw.geom;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.geom.*;
 import java.util.*;
 /**
@@ -124,10 +125,10 @@ public class QuadTree<T> {
          */
         private HashMap<T,Rectangle2D.Double> objects;
         
-        private QuadNode northEast;
-        private QuadNode northWest;
-        private QuadNode southEast;
-        private QuadNode southWest;
+        @Nullable private QuadNode northEast;
+        @Nullable private QuadNode northWest;
+        @Nullable private QuadNode southEast;
+        @Nullable private QuadNode southWest;
         
         
         public QuadNode(Rectangle2D.Double bounds) {

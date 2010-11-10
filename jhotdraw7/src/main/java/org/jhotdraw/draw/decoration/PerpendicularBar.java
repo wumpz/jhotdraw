@@ -15,7 +15,6 @@ package org.jhotdraw.draw.decoration;
 
 import org.jhotdraw.draw.*;
 import java.awt.geom.Path2D;
-
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 import org.jhotdraw.xml.DOMStorable;

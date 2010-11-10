@@ -14,6 +14,7 @@
 
 package org.jhotdraw.samples.svg.io;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.*;
@@ -87,7 +88,7 @@ public interface SVGFigureFactory {
      * @param attributes Figure attributes.
      */
     public Figure createImage(double x, double y, double width, double height, 
-           byte[] imageData, BufferedImage bufferedImage, Map<AttributeKey,Object> attributes);
+           @Nullable byte[] imageData, @Nullable BufferedImage bufferedImage, Map<AttributeKey,Object> attributes);
 
 
     public Gradient createLinearGradient(

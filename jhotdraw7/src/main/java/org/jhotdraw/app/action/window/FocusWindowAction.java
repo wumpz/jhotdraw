@@ -13,8 +13,8 @@
  */
 package org.jhotdraw.app.action.window;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.util.*;
-
 import java.beans.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -36,7 +36,7 @@ public class FocusWindowAction extends AbstractAction {
     private PropertyChangeListener ppc;
 
     /** Creates a new instance. */
-    public FocusWindowAction(View view) {
+    public FocusWindowAction(@Nullable View view) {
         this.view = view;
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
@@ -64,7 +64,7 @@ public class FocusWindowAction extends AbstractAction {
         setView(null);
     }
 
-    public void setView(View newValue) {
+    public void setView(@Nullable View newValue) {
         if (view != null) {
             view.removePropertyChangeListener(ppc);
         }

@@ -15,6 +15,7 @@
 
 import java.beans.*;
 
+
 public class DefaultDrawingViewBeanInfo extends SimpleBeanInfo {
     
     // Bean descriptor information will be obtained from introspection.//GEN-FIRST:BeanDescriptor

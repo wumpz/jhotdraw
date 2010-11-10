@@ -14,6 +14,7 @@
 
 package org.jhotdraw.draw;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import javax.swing.event.*;
 import org.jhotdraw.beans.*;
 
@@ -31,7 +32,7 @@ public abstract class AbstractConstrainer extends AbstractBean implements Constr
      * event's only (read-only) state is the source property.  The source
      * of events generated here is always "this".
      */
-    protected transient ChangeEvent changeEvent = null;
+    @Nullable protected transient ChangeEvent changeEvent = null;
 
     
     /** Creates a new instance. */

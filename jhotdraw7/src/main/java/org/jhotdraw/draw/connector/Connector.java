@@ -20,7 +20,7 @@ import org.jhotdraw.draw.*;
 import java.awt.*;
 import java.awt.geom.*;
 import java.io.*;
-import org.jhotdraw.annotations.NotNull;
+
 /**
  * A <em>connector</em> knows how to locate the start point or the end point
  * of a {@link ConnectionFigure} on a connected figure.
@@ -52,7 +52,6 @@ import org.jhotdraw.annotations.NotNull;
  * @author Werner Randelshofer
  * @version $Id$
  */
-@NotNull
 public interface Connector extends Cloneable, Serializable {
     
     /**

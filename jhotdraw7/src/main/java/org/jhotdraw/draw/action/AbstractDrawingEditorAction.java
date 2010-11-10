@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.draw.action;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
@@ -51,7 +52,7 @@ public abstract class AbstractDrawingEditorAction extends AbstractAction {
             }
         }
     };
-    private EventHandler eventHandler = new EventHandler();
+    @Nullable private EventHandler eventHandler = new EventHandler();
 
     /** Creates a new instance. */
     public AbstractDrawingEditorAction(DrawingEditor editor) {

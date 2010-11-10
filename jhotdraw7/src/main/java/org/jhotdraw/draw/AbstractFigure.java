@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.draw;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.tool.Tool;
 import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.connector.ChopRectangleConnector;
@@ -45,7 +46,7 @@ public abstract class AbstractFigure
         implements Figure {
 
     protected EventListenerList listenerList = new EventListenerList();
-    private Drawing drawing;
+    @Nullable private Drawing drawing;
     private boolean isSelectable = true;
     private boolean isRemovable = true;
     private boolean isVisible = true;
@@ -339,11 +340,6 @@ public abstract class AbstractFigure
         return that;
     }
 
-    public final AbstractFigure basicClone(HashMap<Figure, Figure> oldToNew) {
-        // XXX - Delete me
-        return null;
-    }
-
     @Override
     public void remap(Map<Figure, Figure> oldToNew, boolean disconnectIfNotInMap) {
     }
@@ -450,7 +446,7 @@ public abstract class AbstractFigure
     }
 
     @Override
-    public Figure findFigureInside(Point2D.Double p) {
+    @Nullable public Figure findFigureInside(Point2D.Double p) {
         return (contains(p)) ? this : null;
     }
 

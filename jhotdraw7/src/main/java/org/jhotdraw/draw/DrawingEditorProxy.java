@@ -14,6 +14,7 @@
 
 package org.jhotdraw.draw;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.tool.Tool;
 import java.awt.Container;
 import java.awt.Cursor;
@@ -60,7 +61,7 @@ public class DrawingEditorProxy extends AbstractBean implements DrawingEditor {
     /**
      * Sets the target of the proxy.
      */
-    public void setTarget(DrawingEditor newValue) {
+    public void setTarget(@Nullable DrawingEditor newValue) {
         if (target != null) {
             target.removePropertyChangeListener(forwarder);
         }
@@ -72,7 +73,7 @@ public class DrawingEditorProxy extends AbstractBean implements DrawingEditor {
     /**
      * Gets the target of the proxy.
      */
-    public DrawingEditor getTarget() {
+    @Nullable public DrawingEditor getTarget() {
         return target;
     }
     

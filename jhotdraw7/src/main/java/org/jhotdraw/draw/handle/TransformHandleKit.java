@@ -30,7 +30,7 @@ import static org.jhotdraw.draw.handle.HandleAttributeKeys.*;
  * its <code>transform</code> method.
  * 
  * 
- * @author Werntransformr
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class TransformHandleKit {

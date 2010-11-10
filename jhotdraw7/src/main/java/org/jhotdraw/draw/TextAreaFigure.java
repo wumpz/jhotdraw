@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.draw;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.tool.TextAreaEditingTool;
 import org.jhotdraw.draw.tool.Tool;
 import org.jhotdraw.draw.handle.Handle;
@@ -68,7 +69,7 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
     /**
      * This is a cached value to improve the performance of method isTextOverflow();
      */
-    private Boolean isTextOverflow;
+    @Nullable private Boolean isTextOverflow;
 
     /** Creates a new instance. */
     public TextAreaFigure() {
@@ -148,7 +149,7 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
      *        values
      * @return Returns the actual bounds of the paragraph.
      */
-    private Rectangle2D.Double drawParagraph(Graphics2D g, AttributedCharacterIterator styledText,
+    private Rectangle2D.Double drawParagraph(@Nullable Graphics2D g, AttributedCharacterIterator styledText,
             float verticalPos, float maxVerticalPos, float leftMargin, float rightMargin, float[] tabStops, int tabCount) {
         // This method is based on the code sample given
         // in the class comment of java.awt.font.LineBreakMeasurer, 

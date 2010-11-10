@@ -30,6 +30,7 @@ public class IncreaseHandleDetailLevelAction extends AbstractSelectedAction {
         labels.configureAction(this, ID);
         //putValue(AbstractAction.NAME, labels.getString("editSelectSame"));
         //  putValue(AbstractAction.MNEMONIC_KEY, labels.getString("editSelectSameMnem"));
+        updateEnabledState();
     }
     
     @Override

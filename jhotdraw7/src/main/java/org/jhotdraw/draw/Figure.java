@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.draw;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.tool.Tool;
 import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.handle.Handle;
@@ -24,8 +25,6 @@ import java.beans.PropertyChangeListener;
 import java.util.*;
 import javax.swing.*;
 import java.io.*;
-import org.jhotdraw.annotations.NotNull;
-import org.jhotdraw.annotations.Nullable;
 import org.jhotdraw.geom.*;
 
 /**
@@ -111,7 +110,6 @@ import org.jhotdraw.geom.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
-@NotNull
 public interface Figure extends Cloneable, Serializable {
     // PROPERTIES
     /** The name of the "connectable" property. */
@@ -384,7 +382,7 @@ public interface Figure extends Cloneable, Serializable {
     /**
      * Returns a tooltip for the specified location on the figure.
      */
-    public String getToolTipText(Point2D.Double p);
+    @Nullable public String getToolTipText(Point2D.Double p);
 
     // CONNECTING 
     /**
@@ -401,7 +399,7 @@ public interface Figure extends Cloneable, Serializable {
      * unknown. This allows for specific connectors for different 
      * connection figures.
      */
-    public Connector findConnector(Point2D.Double p, @Nullable ConnectionFigure prototype);
+    @Nullable public Connector findConnector(Point2D.Double p, @Nullable ConnectionFigure prototype);
 
     /**
      * Gets a compatible connector.

@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.draw;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.handle.MoveHandle;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.event.FigureAdapter;
@@ -117,7 +118,7 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
      *
      * @param	newPresentationFigure	figure which renders the container
      */
-    public GraphicalCompositeFigure(Figure newPresentationFigure) {
+    public GraphicalCompositeFigure(@Nullable Figure newPresentationFigure) {
         super();
         setPresentationFigure(newPresentationFigure);
     }

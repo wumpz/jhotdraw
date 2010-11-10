@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.app.action;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.gui.event.*;
@@ -22,7 +23,6 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
 import java.net.URI;
-import org.jhotdraw.annotations.NotNull;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
 import org.jhotdraw.gui.URIChooser;
@@ -45,10 +45,9 @@ import org.jhotdraw.net.URIUtil;
  * @author  Werner Randelshofer
  * @version $Id$
  */
-@NotNull
 public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewAction {
 
-    private Component oldFocusOwner;
+    @Nullable private Component oldFocusOwner;
 
     /** Creates a new instance. */
     public AbstractSaveUnsavedChangesAction(Application app, View view) {
@@ -148,7 +147,7 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
         }
     }
 
-    protected void saveViewToURI(final View p, final URI uri, final URIChooser chooser) {
+    protected void saveViewToURI(final View p, final URI uri, @Nullable final URIChooser chooser) {
         p.execute(new Worker() {
 
             @Override

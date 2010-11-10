@@ -13,14 +13,13 @@
  */
 package org.jhotdraw.draw;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.tool.Tool;
 import java.awt.*;
 import java.beans.*;
 import java.util.*;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
-import org.jhotdraw.annotations.NotNull;
-import org.jhotdraw.annotations.Nullable;
 
 /**
  * A <em>drawing editor</em> coordinates drawing tools and drawing views.
@@ -86,7 +85,6 @@ import org.jhotdraw.annotations.Nullable;
  * @author Werner Randelshofer
  * @version $Id$
  */
-@NotNull
 public interface DrawingEditor {
 
     /**
@@ -177,7 +175,7 @@ public interface DrawingEditor {
      * This is used by Tool to identify the view of which it has received
      * an event.
      */
-    public DrawingView findView(Container c);
+    @Nullable public DrawingView findView(Container c);
 
     /**
      * Sets a default attribute of the editor.
@@ -187,14 +185,14 @@ public interface DrawingEditor {
      * Fires a property change event with the name of the attribute key,
      * and the prefix {@code "defaultAttribute."}.
      */
-    public <T> void setDefaultAttribute(AttributeKey<T> key, T value);
+    public <T> void setDefaultAttribute(AttributeKey<T> key, @Nullable T value);
 
     /**
      * Gets a default attribute from the editor.
      * The default attribute will be used by creation tools, to create a new
      * figure.
      */
-    public <T> T getDefaultAttribute(AttributeKey<T> key);
+    @Nullable public <T> T getDefaultAttribute(AttributeKey<T> key);
 
     /**
      * Applies the default attributes to the specified figure.

@@ -14,8 +14,8 @@
 
 package org.jhotdraw.draw;
 
-import org.jhotdraw.annotations.NotNull;
-import org.jhotdraw.annotations.Nullable;
+import edu.umd.cs.findbugs.annotations.Nullable;
+
 
 /**
  * A <em>decorated figure</em> can be decorated with another {@link Figure},
@@ -38,7 +38,6 @@ import org.jhotdraw.annotations.Nullable;
  * @author Werner Randelshofer
  * @version $Id$
  */
-@NotNull
 public interface DecoratedFigure extends Figure {
     /**
      * Sets a decorator Figure, for example a visual adornment to this Figure.

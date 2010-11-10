@@ -14,7 +14,7 @@
 
 package org.jhotdraw.app;
 
-import org.jhotdraw.annotations.NotNull;
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 /**
  * Interface for objects which explicitly must be disposed to free resources.
@@ -22,7 +22,6 @@ import org.jhotdraw.annotations.NotNull;
  * @author Werner Randelshofer
  * @version $Id$
  */
-@NotNull
 public interface Disposable {
     /** Disposes of all resources held by this object so that they can be
      * garbage collected.

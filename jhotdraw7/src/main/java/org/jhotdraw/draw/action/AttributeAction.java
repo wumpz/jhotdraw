@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.draw.action;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import javax.swing.undo.*;
 import org.jhotdraw.app.action.ActionUtil;
 import javax.swing.*;
@@ -38,20 +39,20 @@ public class AttributeAction extends AbstractSelectedAction {
     }
 
     /** Creates a new instance. */
-    public AttributeAction(DrawingEditor editor, AttributeKey key, Object value, Icon icon) {
+    public AttributeAction(DrawingEditor editor, AttributeKey key, Object value, @Nullable Icon icon) {
         this(editor, key, value, null, icon);
     }
 
     /** Creates a new instance. */
-    public AttributeAction(DrawingEditor editor, AttributeKey key, Object value, String name) {
+    public AttributeAction(DrawingEditor editor, AttributeKey key, Object value, @Nullable String name) {
         this(editor, key, value, name, null);
     }
 
-    public AttributeAction(DrawingEditor editor, AttributeKey key, Object value, String name, Icon icon) {
+    public AttributeAction(DrawingEditor editor, AttributeKey key, Object value, @Nullable String name, @Nullable Icon icon) {
         this(editor, key, value, name, icon, null);
     }
 
-    public AttributeAction(DrawingEditor editor, AttributeKey key, Object value, String name, Icon icon, Action compatibleTextAction) {
+    public AttributeAction(DrawingEditor editor, AttributeKey key, Object value, @Nullable String name, @Nullable Icon icon, @Nullable Action compatibleTextAction) {
         super(editor);
         this.attributes = new HashMap<AttributeKey, Object>();
         attributes.put(key, value);
@@ -59,10 +60,10 @@ public class AttributeAction extends AbstractSelectedAction {
         putValue(AbstractAction.NAME, name);
         putValue(AbstractAction.SMALL_ICON, icon);
         putValue(ActionUtil.UNDO_PRESENTATION_NAME_KEY, key.getPresentationName());
-        setEnabled(true);
+        updateEnabledState();
     }
 
-    public AttributeAction(DrawingEditor editor, Map<AttributeKey, Object> attributes, String name, Icon icon) {
+    public AttributeAction(DrawingEditor editor, @Nullable Map<AttributeKey, Object> attributes, @Nullable String name, @Nullable Icon icon) {
         super(editor);
         this.attributes = (attributes == null) ? new HashMap<AttributeKey, Object>() : attributes;
 

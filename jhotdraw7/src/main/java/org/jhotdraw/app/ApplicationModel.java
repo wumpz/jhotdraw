@@ -14,10 +14,9 @@
 
 package org.jhotdraw.app;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.util.*;
 import javax.swing.*;
-import org.jhotdraw.annotations.NotNull;
-import org.jhotdraw.annotations.Nullable;
 import org.jhotdraw.gui.URIChooser;
 /**
  * {@code ApplicationModel} provides meta-data for an {@link Application},
@@ -36,7 +35,6 @@ import org.jhotdraw.gui.URIChooser;
  * @author Werner Randelshofer.
  * @version $Id$
  */
-@NotNull
 public interface ApplicationModel {
     /**
      * Returns the name of the application.

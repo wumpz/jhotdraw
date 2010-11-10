@@ -14,7 +14,6 @@
 
 package org.jhotdraw.gui.plaf.palette;
 
-
 import javax.swing.*;
 import java.awt.*;
 

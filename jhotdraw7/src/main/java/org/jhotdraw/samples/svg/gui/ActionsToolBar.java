@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -43,9 +44,7 @@ import org.jhotdraw.samples.svg.figures.*;
  * @version $Id$
  */
 public class ActionsToolBar extends AbstractToolBar {
-
-    private ToggleGridAction toggleGridAction;
-    private UndoRedoManager undoManager;
+    @Nullable private UndoRedoManager undoManager;
     private ArrayList<Action> actions;
     private JPopupButton popupButton;
 
@@ -56,7 +55,7 @@ public class ActionsToolBar extends AbstractToolBar {
     }
 
     @Override
-    public void setEditor(DrawingEditor newValue) {
+    public void setEditor(@Nullable DrawingEditor newValue) {
         if (this.editor != null && undoManager != null) {
             this.removePropertyChangeListener(getEventHandler());
         }
@@ -221,10 +220,6 @@ public class ActionsToolBar extends AbstractToolBar {
                 }
             }
         }
-    }
-
-    public ToggleGridAction getToggleGridAction() {
-        return toggleGridAction;
     }
 
     /** This method is called from within the constructor to

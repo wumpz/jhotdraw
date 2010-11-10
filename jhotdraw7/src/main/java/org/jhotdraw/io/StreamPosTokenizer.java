@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.io;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.io.*;
 import java.util.Vector;
 
@@ -28,9 +29,10 @@ import java.util.Vector;
  * @version $Id$
  */
 
+
 public class StreamPosTokenizer
         /*extends StreamTokenizer*/ {
-    private Reader reader = null;
+    @Nullable private Reader reader = null;
     
     /**
      * Position of the next character that will be read from the file.

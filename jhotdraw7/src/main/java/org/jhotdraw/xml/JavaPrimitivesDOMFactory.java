@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.xml;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.IOException;
@@ -263,6 +264,7 @@ public class JavaPrimitivesDOMFactory implements DOMFactory {
     }
 
     @Override
+    @Nullable
     public Object read(DOMInput in) throws IOException {
         Object o;
 

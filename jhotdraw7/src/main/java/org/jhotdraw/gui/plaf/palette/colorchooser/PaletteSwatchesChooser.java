@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.gui.plaf.palette.colorchooser;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.Color;
 import javax.swing.Icon;
 import javax.swing.ListModel;
@@ -138,7 +139,7 @@ public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
         });
     }
 
-    public void setColorToModel(Color color) {
+    public void setColorToModel(@Nullable Color color) {
         getColorSelectionModel().setSelectedColor(color);
     }
 }

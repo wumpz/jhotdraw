@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.draw.handle;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.TransformRestoreEdit;
 import org.jhotdraw.draw.event.TransformEdit;
@@ -32,7 +33,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  */
 public abstract class AbstractRotateHandle extends AbstractHandle {
 
-    private Point location;
+    @Nullable private Point location;
     private Object restoreData;
     private AffineTransform transform;
     private Point2D.Double center;

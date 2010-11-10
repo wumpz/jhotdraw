@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.app;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.util.*;
 import javax.swing.*;
 
@@ -34,19 +35,19 @@ public class EmptyApplicationModel
 
     /** Returns an empty ActionMap. */
     @Override
-    public ActionMap createActionMap(Application a, View v) {
+    public ActionMap createActionMap(Application a, @Nullable View v) {
         return new ActionMap();
     }
 
     /** Returns an empty unmodifiable list. */
     @Override
-    public List<JToolBar> createToolBars(Application app, View v) {
+    public List<JToolBar> createToolBars(Application app, @Nullable View v) {
         return Collections.emptyList();
     }
 
     /** Returns an empty modifiable list. */
     @Override
-    public List<JMenu> createMenus(Application a, View v) {
+    public List<JMenu> createMenus(Application a, @Nullable View v) {
         LinkedList<JMenu> menus = new LinkedList<JMenu>();
         JMenu m;
         if ((m=createFileMenu(a,v))!=null) {
@@ -68,23 +69,23 @@ public class EmptyApplicationModel
     }
 
     /** Returns null. */
-    protected JMenu createFileMenu(Application app, View view) {
+    @Nullable protected JMenu createFileMenu(Application app, @Nullable View view) {
         return null;
     }
     /** Returns null. */
-    protected JMenu createEditMenu(Application app, View view) {
+    @Nullable protected JMenu createEditMenu(Application app, @Nullable View view) {
         return null;
     }
     /** Returns null. */
-    protected JMenu createViewMenu(Application app, View view) {
+    @Nullable protected JMenu createViewMenu(Application app, @Nullable View view) {
         return null;
     }
     /** Returns null. */
-    protected JMenu createWindowMenu(Application app, View view) {
+    @Nullable protected JMenu createWindowMenu(Application app, @Nullable View view) {
         return null;
     }
     /** Returns null. */
-    protected JMenu createHelpMenu(Application app, View view) {
+    @Nullable protected JMenu createHelpMenu(Application app, @Nullable View view) {
         return null;
     }
 }

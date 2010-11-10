@@ -14,6 +14,7 @@
 
 package org.jhotdraw.gui.plaf.palette;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.gui.plaf.palette.colorchooser.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -24,6 +25,7 @@ import javax.swing.event.*;
 import javax.swing.plaf.*;
 import java.security.*;
 import java.util.*;
+
 /**
  * PaletteColorChooserUI.
  *
@@ -31,12 +33,12 @@ import java.util.*;
  * @version $Id$
  */
 public class PaletteColorChooserUI extends ColorChooserUI {
-    protected PaletteColorChooserMainPanel mainPanel;
-    protected JColorChooser chooser;
+    @Nullable protected PaletteColorChooserMainPanel mainPanel;
+    @Nullable protected JColorChooser chooser;
     protected ChangeListener previewListener;
     protected PropertyChangeListener propertyChangeListener;
-    protected AbstractColorChooserPanel[] defaultChoosers;
-    protected JComponent previewPanel;
+    @Nullable protected AbstractColorChooserPanel[] defaultChoosers;
+    @Nullable protected JComponent previewPanel;
     private static TransferHandler defaultTransferHandler = new ColorTransferHandler();
     private MouseListener previewMouseListener;
     
@@ -172,7 +174,8 @@ public class PaletteColorChooserUI extends ColorChooserUI {
         }
         
         previewPanel = chooser.getPreviewPanel();
-        if ((previewPanel != null) && (mainPanel != null) && (chooser != null) && (previewPanel.getSize().getHeight()+previewPanel.getSize().getWidth() == 0)) {
+        if ((previewPanel != null) && (mainPanel != null) //
+                && (previewPanel.getSize().getHeight()+previewPanel.getSize().getWidth() == 0)) {
             mainPanel.setPreviewPanel(null);
             return;
         }

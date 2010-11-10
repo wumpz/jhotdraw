@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.geom;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.*;
 import java.awt.geom.*;
 import static java.lang.Math.*;
@@ -541,10 +542,11 @@ public class Geom {
 
     /**
      * Standard line intersection algorithm
-     * Return the point of intersection if it exists, else null
+     * Return the point of intersection if it exists, else null.
      **/
-    // from Doug Lea's PolygonFigure
+    @Nullable
     public static Point intersect(int xa, // line 1 point 1 x
+            // from Doug Lea's PolygonFigure
             int ya, // line 1 point 1 y
             int xb, // line 1 point 2 x
             int yb, // line 1 point 2 y
@@ -571,8 +573,8 @@ public class Geom {
 
         if (denom == 0.0) { // parallel
             if (rnum == 0.0) { // coincident; pick one end of first line
-                if ((xa < xb && (xb < xc || xb < xd)) ||
-                        (xa > xb && (xb > xc || xb > xd))) {
+                if ((xa < xb && (xb < xc || xb < xd))
+                        || (xa > xb && (xb > xc || xb > xd))) {
                     return new Point(xb, yb);
                 } else {
                     return new Point(xa, ya);
@@ -600,6 +602,7 @@ public class Geom {
      * Return the point of intersection if it exists, else null
      **/
     // from Doug Lea's PolygonFigure
+    @Nullable
     public static Point2D.Double intersect(double xa, // line 1 point 1 x
             double ya, // line 1 point 1 y
             double xb, // line 1 point 2 x
@@ -627,8 +630,8 @@ public class Geom {
 
         if (denom == 0.0) { // parallel
             if (rnum == 0.0) { // coincident; pick one end of first line
-                if ((xa < xb && (xb < xc || xb < xd)) ||
-                        (xa > xb && (xb > xc || xb > xd))) {
+                if ((xa < xb && (xb < xc || xb < xd))
+                        || (xa > xb && (xb > xc || xb > xd))) {
                     return new Point2D.Double(xb, yb);
                 } else {
                     return new Point2D.Double(xa, ya);
@@ -651,6 +654,7 @@ public class Geom {
         }
     }
 
+    @Nullable
     public static Point2D.Double intersect(
             double xa, // line 1 point 1 x
             double ya, // line 1 point 1 y
@@ -680,8 +684,8 @@ public class Geom {
 
         if (denom == 0.0) { // parallel
             if (rnum == 0.0) { // coincident; pick one end of first line
-                if ((xa < xb && (xb < xc || xb < xd)) ||
-                        (xa > xb && (xb > xc || xb > xd))) {
+                if ((xa < xb && (xb < xc || xb < xd))
+                        || (xa > xb && (xb > xc || xb > xd))) {
                     return new Point2D.Double(xb, yb);
                 } else {
                     return new Point2D.Double(xa, ya);
@@ -703,10 +707,10 @@ public class Geom {
             double px = xa + (xb - xa) * r;
             double py = ya + (yb - ya) * r;
 
-            if (length(xa, ya, px, py) <= limit ||
-                    length(xb, yb, px, py) <= limit ||
-                    length(xc, yc, px, py) <= limit ||
-                    length(xd, yd, px, py) <= limit) {
+            if (length(xa, ya, px, py) <= limit
+                    || length(xb, yb, px, py) <= limit
+                    || length(xc, yc, px, py) <= limit
+                    || length(xd, yd, px, py) <= limit) {
                 return new Point2D.Double(px, py);
             }
 
@@ -780,14 +784,14 @@ public class Geom {
         double yd = yc - yi;
         return sqrt(xd * xd + yd * yd);
 
-    /*
-    for directional version, instead use
-    double snum =  (ya-yc) * (xb-xa) - (xa-xc) * (yb-ya);
-    double s = snum / l2;
+        /*
+        for directional version, instead use
+        double snum =  (ya-yc) * (xb-xa) - (xa-xc) * (yb-ya);
+        double s = snum / l2;
 
-    double l = sqrt((double)l2);
-    return = s * l;
-     */
+        double l = sqrt((double)l2);
+        return = s * l;
+         */
     }
 
     /**
@@ -832,10 +836,10 @@ public class Geom {
      * @return true if r1 contains r2.
      */
     public static boolean contains(Rectangle2D.Double r1, Rectangle2D.Double r2) {
-        return (r2.x >= r1.x &&
-                r2.y >= r1.y &&
-                (r2.x + max(0, r2.width)) <= r1.x + max(0, r1.width) &&
-                (r2.y + max(0, r2.height)) <= r1.y + max(0, r1.height));
+        return (r2.x >= r1.x
+                && r2.y >= r1.y
+                && (r2.x + max(0, r2.width)) <= r1.x + max(0, r1.width)
+                && (r2.y + max(0, r2.height)) <= r1.y + max(0, r1.height));
     }
 
     /**
@@ -850,10 +854,10 @@ public class Geom {
      * @return true if r1 contains r2.
      */
     public static boolean contains(Rectangle2D r1, Rectangle2D r2) {
-        return (r2.getX()) >= r1.getX() &&
-                r2.getY() >= r1.getY() &&
-                (r2.getX() + max(0, r2.getWidth())) <= r1.getX() + max(0, r1.getWidth()) &&
-                (r2.getY() + max(0, r2.getHeight())) <= r1.getY() + max(0, r1.getHeight());
+        return (r2.getX()) >= r1.getX()
+                && r2.getY() >= r1.getY()
+                && (r2.getX() + max(0, r2.getWidth())) <= r1.getX() + max(0, r1.getWidth())
+                && (r2.getY() + max(0, r2.getHeight())) <= r1.getY() + max(0, r1.getHeight());
     }
 }
 

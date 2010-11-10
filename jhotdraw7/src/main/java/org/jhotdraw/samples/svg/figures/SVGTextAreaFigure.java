@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.samples.svg.figures;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.tool.Tool;
 import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.handle.ResizeHandleKit;
@@ -46,12 +47,12 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
     /**
      * This is a cached value to improve the performance of method isTextOverflow();
      */
-    private Boolean isTextOverflow;
+    @Nullable private Boolean isTextOverflow;
     /**
      * This is used to perform faster drawing and hit testing.
      */
-    private transient Rectangle2D.Double cachedDrawingArea;
-    private transient Shape cachedTextShape;
+    @Nullable private transient Rectangle2D.Double cachedDrawingArea;
+    @Nullable private transient Shape cachedTextShape;
 
     /** Creates a new instance. */
     public SVGTextAreaFigure() {
@@ -188,7 +189,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
      *        values
      * @return Returns the actual bounds of the paragraph.
      */
-    private Rectangle2D.Double appendParagraph(Path2D.Double shape,
+    private Rectangle2D.Double appendParagraph(@Nullable Path2D.Double shape,
             AttributedCharacterIterator styledText,
             float verticalPos, float maxVerticalPos,
             float leftMargin, float rightMargin,

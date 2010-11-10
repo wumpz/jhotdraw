@@ -22,7 +22,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * {@link BezierFigure} to make adjustments easier.
  *
  * @author Werner Randelshofer
- * @version $Id: BezierOutlineHandle.java -1   $
+ * @version $Id$
  */
 public class BezierOutlineHandle extends AbstractHandle {
 

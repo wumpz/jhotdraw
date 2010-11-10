@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.draw.handle;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.HandleListener;
 import org.jhotdraw.draw.event.HandleEvent;
@@ -34,14 +35,14 @@ import java.util.*;
 public abstract class AbstractHandle implements Handle, FigureListener {
 
     final private Figure owner;
-    protected DrawingView view;
+    @Nullable protected DrawingView view;
     /** Holds the tool tip text. By default a handle has no tool tip text. */
     private String toolTipText;
     protected EventListenerList listenerList = new EventListenerList();
     /**
      * The bounds of the abstract handle.
      */
-    private Rectangle bounds;
+    @Nullable private Rectangle bounds;
 
     /** Creates a new instance. */
     public AbstractHandle(Figure owner) {
@@ -78,11 +79,11 @@ public abstract class AbstractHandle implements Handle, FigureListener {
     }
 
     @Override
-    public void setView(DrawingView view) {
+    public void setView(@Nullable DrawingView view) {
         this.view = view;
     }
 
-    public DrawingView getView() {
+    @Nullable public DrawingView getView() {
         return view;
     }
 

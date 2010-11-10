@@ -34,6 +34,7 @@ public abstract class MoveAction extends AbstractSelectedAction {
         super(editor);
         this.dx = dx;
         this.dy = dy;
+        updateEnabledState();
     }
     
     @Override

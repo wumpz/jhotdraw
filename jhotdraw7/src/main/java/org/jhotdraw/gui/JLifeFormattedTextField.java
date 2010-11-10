@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.gui;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.text.*;
 import java.util.*;
 import javax.swing.*;
@@ -31,7 +32,7 @@ public class JLifeFormattedTextField extends JFormattedTextField {
     /**
      * Last valid value.
      */
-    private Object value;
+    @Nullable private Object value;
 
     /** The DocumentHandler listens for document changes while the user is
      * editing the field.

@@ -4,7 +4,7 @@
     <target name="init">
         <!-- properties for copyright and versioning -->
         <property name="author" value="the authors and contributors of JHotDraw"/>
-        <property name="version" value="7.5.1"/>
+        <property name="version" value="7rev693"/>
 
         <!-- build properties -->
         <property name="libdir" value="lib"/>
@@ -37,6 +37,8 @@
             <classpath>
                 <pathelement location="${libdir}/quaqua.jar"/>
                 <pathelement location="${libdir}/java_30.zip"/>
+                <pathelement location="${libdir}/annotations.jar"/>
+                <pathelement location="${libdir}/jsr305.jar"/>
             </classpath>
         </javadoc>
     </target>

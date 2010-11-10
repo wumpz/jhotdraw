@@ -15,12 +15,12 @@
 
 package org.jhotdraw.draw.handle;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.HandleListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
-import org.jhotdraw.annotations.NotNull;
 
 /**
  * A <em>handle</em> is used to change one aspect of a {@link Figure} by direct
@@ -73,7 +73,6 @@ import org.jhotdraw.annotations.NotNull;
  * @author Werner Randelshofer
  * @version $Id$
  */
-@NotNull
 public interface Handle extends KeyListener {
     /**
      * Returns the owner of this handle.
@@ -82,7 +81,7 @@ public interface Handle extends KeyListener {
     /**
      * Sets the view of the handle.
      */
-    public void setView(DrawingView view);
+    public void setView(@Nullable DrawingView view);
     /**
      * Adds a listener for this handle.
      */
@@ -177,9 +176,9 @@ public interface Handle extends KeyListener {
     /**
      * Creates secondary handles.
      */
-    public Collection<Handle> createSecondaryHandles();
+    @Nullable public Collection<Handle> createSecondaryHandles();
     /**
      * Returns a tooltip for the specified location.
      */
-    public String getToolTipText(Point p);
+    @Nullable public String getToolTipText(Point p);
 }

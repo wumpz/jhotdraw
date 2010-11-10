@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.gui.plaf.palette;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Insets;
@@ -33,7 +34,7 @@ public class BackdropBorder implements Border {
         this(null, backgroundBorder);
     }
 
-    public BackdropBorder(Border foregroundBorder, Border backgroundBorder) {
+    public BackdropBorder(@Nullable Border foregroundBorder, Border backgroundBorder) {
         this.foregroundBorder = foregroundBorder;
         this.backgroundBorder = backgroundBorder;
     }
@@ -69,7 +70,7 @@ public class BackdropBorder implements Border {
             this(null, backgroundBorder);
         }
 
-        public UIResource(Border foregroundBorder, Border backgroundBorder) {
+        public UIResource(@Nullable Border foregroundBorder, Border backgroundBorder) {
             super(foregroundBorder, backgroundBorder);
         }
     }

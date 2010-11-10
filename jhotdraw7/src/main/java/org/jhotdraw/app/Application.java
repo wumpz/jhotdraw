@@ -13,13 +13,12 @@
  */
 package org.jhotdraw.app;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.*;
 import java.beans.*;
 import java.util.*;
 import javax.swing.*;
 import java.net.URI;
-import org.jhotdraw.annotations.NotNull;
-import org.jhotdraw.annotations.Nullable;
 import org.jhotdraw.gui.URIChooser;
 
 /**
@@ -70,7 +69,6 @@ import org.jhotdraw.gui.URIChooser;
  * @author Werner Randelshofer
  * @version $Id$
  */
-@NotNull
 public interface Application {
 
     /**
@@ -169,7 +167,7 @@ public interface Application {
      * <p>
      * This is a bound property. 
      */
-    public View getActiveView();
+    @Nullable public View getActiveView();
 
     /**
      * Returns the enabled state of the application.

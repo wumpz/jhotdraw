@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.gui.fontchooser;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.text.Collator;
 import java.util.*;
 import javax.swing.tree.MutableTreeNode;
@@ -26,6 +27,8 @@ import javax.swing.tree.TreeNode;
  * @version $Id$
  */
 public class FontFamilyNode implements MutableTreeNode, Comparable<FontFamilyNode>, Cloneable {
+
+    @Nullable
     private FontCollectionNode parent;
     private String name;
     private ArrayList<FontFaceNode> children = new ArrayList<FontFaceNode>();
@@ -60,7 +63,7 @@ public class FontFamilyNode implements MutableTreeNode, Comparable<FontFamilyNod
     public String getName() {
         return name;
     }
-    
+
     @Override
     public String toString() {
         return name;
@@ -69,7 +72,7 @@ public class FontFamilyNode implements MutableTreeNode, Comparable<FontFamilyNod
     public void add(FontFaceNode newChild) {
         insert(newChild, getChildCount());
     }
-    
+
     @Override
     public void insert(MutableTreeNode newChild, int index) {
         FontFamilyNode oldParent = (FontFamilyNode) newChild.getParent();
@@ -82,21 +85,21 @@ public class FontFamilyNode implements MutableTreeNode, Comparable<FontFamilyNod
 
     @Override
     public void remove(int childIndex) {
-	MutableTreeNode child = (MutableTreeNode)getChildAt(childIndex);
-	children.remove(childIndex);
-	child.setParent(null);
+        MutableTreeNode child = (MutableTreeNode) getChildAt(childIndex);
+        children.remove(childIndex);
+        child.setParent(null);
     }
 
     @Override
     public void remove(MutableTreeNode aChild) {
-	if (aChild == null) {
-	    throw new IllegalArgumentException("argument is null");
-	}
+        if (aChild == null) {
+            throw new IllegalArgumentException("argument is null");
+        }
 
-	if (!isNodeChild(aChild)) {
-	    throw new IllegalArgumentException("argument is not a child");
-	}
-	remove(getIndex(aChild));	// linear search
+        if (!isNodeChild(aChild)) {
+            throw new IllegalArgumentException("argument is not a child");
+        }
+        remove(getIndex(aChild));	// linear search
     }
 
     @Override
@@ -106,13 +109,13 @@ public class FontFamilyNode implements MutableTreeNode, Comparable<FontFamilyNod
 
     @Override
     public void removeFromParent() {
-	if (parent != null) {
-	    parent.remove(this);
-	}
+        if (parent != null) {
+            parent.remove(this);
+        }
     }
 
     @Override
-    public void setParent(MutableTreeNode newParent) {
+    public void setParent(@Nullable MutableTreeNode newParent) {
         this.parent = (FontCollectionNode) newParent;
     }
 
@@ -127,6 +130,7 @@ public class FontFamilyNode implements MutableTreeNode, Comparable<FontFamilyNod
     }
 
     @Override
+    @Nullable
     public TreeNode getParent() {
         return parent;
     }
@@ -150,15 +154,14 @@ public class FontFamilyNode implements MutableTreeNode, Comparable<FontFamilyNod
     public Enumeration children() {
         return Collections.enumeration(children);
     }
-    
+
     public java.util.List<FontFaceNode> faces() {
         return Collections.unmodifiableList(children);
     }
-    
+
     //
     //  Child Queries
     //
-
     /**
      * Returns true if <code>aNode</code> is a child of this node.  If
      * <code>aNode</code> is null, this method returns false.
@@ -167,28 +170,30 @@ public class FontFamilyNode implements MutableTreeNode, Comparable<FontFamilyNod
      *  		<code>aNode</code> is null
      */
     public boolean isNodeChild(TreeNode aNode) {
-	boolean retval;
+        boolean retval;
 
-	if (aNode == null) {
-	    retval = false;
-	} else {
-	    if (getChildCount() == 0) {
-		retval = false;
-	    } else {
-		retval = (aNode.getParent() == this);
-	    }
-	}
+        if (aNode == null) {
+            retval = false;
+        } else {
+            if (getChildCount() == 0) {
+                retval = false;
+            } else {
+                retval = (aNode.getParent() == this);
+            }
+        }
 
-	return retval;
+        return retval;
     }
+
     public boolean isEditable() {
         return true;
     }
-    
+
     @Override
     public int hashCode() {
         return name.hashCode();
     }
+
     @Override
     public boolean equals(Object o) {
         if (o instanceof FontFamilyNode) {

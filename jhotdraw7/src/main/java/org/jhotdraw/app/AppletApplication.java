@@ -14,6 +14,7 @@
 
 package org.jhotdraw.app;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.*;
 import javax.swing.*;
 
@@ -28,7 +29,7 @@ import javax.swing.*;
  */
 public class AppletApplication extends AbstractApplication {
     private JApplet applet;
-    private View view;
+    @Nullable private View view;
     
     /** Creates a new instance of AppletApplication */
     public AppletApplication(JApplet applet) {

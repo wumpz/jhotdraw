@@ -14,7 +14,7 @@
 
 package org.jhotdraw.draw.tool;
 
-import org.jhotdraw.annotations.NotNull;
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 /**
  * A <em>select area tracker</em> provides the behavior for selecting figures
@@ -33,7 +33,6 @@ import org.jhotdraw.annotations.NotNull;
  * @author Werner Randelshofer
  * @version $Id$
  */
-@NotNull
 public interface SelectAreaTracker extends Tool {
 
 }

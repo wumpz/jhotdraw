@@ -13,14 +13,13 @@
  */
 package org.jhotdraw.gui;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.Component;
 import java.awt.HeadlessException;
 import java.awt.event.ActionListener;
 import java.net.URI;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
-import org.jhotdraw.annotations.NotNull;
-import org.jhotdraw.annotations.Nullable;
 
 /**
  *{@code URIChooser} provides a mechanism for the user to choose a URI.
@@ -28,7 +27,6 @@ import org.jhotdraw.annotations.Nullable;
  * @author Werner Randelshofer
  * @version $Id$
  */
-@NotNull
 public interface URIChooser {
     // ************************
     // ***** Dialog Types *****
@@ -89,14 +87,14 @@ public interface URIChooser {
      * @see #setSelectedURI
      * @return the selected uri
      */
-    public URI getSelectedURI();
+    @Nullable public URI getSelectedURI();
 
     /**
      * Sets the selected URI.
      *
      * @param uri the selected uri
      */
-    public void setSelectedURI(URI uri);
+    public void setSelectedURI(@Nullable URI uri);
 
     /**
      * Returns the type of this dialog.  The default is

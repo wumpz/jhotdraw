@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.geom;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
@@ -295,7 +296,7 @@ public abstract class Polygon2D implements Shape, Cloneable {
          *
          * 
          */
-        protected Rectangle2D.Double bounds;
+        @Nullable protected Rectangle2D.Double bounds;
 
         public Double() {
             xpoints = new double[MIN_LENGTH];
@@ -489,6 +490,7 @@ public abstract class Polygon2D implements Shape, Cloneable {
             return (cross == null || !cross.isEmpty());
         }
 
+        @Nullable
         private Crossings getCrossings(double xlo, double ylo,
                 double xhi, double yhi) {
             Crossings cross = new Crossings.EvenOdd(xlo, ylo, xhi, yhi);
@@ -605,7 +607,7 @@ public abstract class Polygon2D implements Shape, Cloneable {
          * The bounds of this {@code Polygon}.
          * This value can be null.
          */
-        protected Rectangle2D.Float bounds;
+        @Nullable protected Rectangle2D.Float bounds;
 
         public Float() {
             xpoints = new float[MIN_LENGTH];
@@ -811,6 +813,7 @@ public abstract class Polygon2D implements Shape, Cloneable {
             return (cross == null || !cross.isEmpty());
         }
 
+        @Nullable
         private Crossings getCrossings(float xlo, float ylo,
                 float xhi, float yhi) {
             Crossings cross = new Crossings.EvenOdd(xlo, ylo, xhi, yhi);

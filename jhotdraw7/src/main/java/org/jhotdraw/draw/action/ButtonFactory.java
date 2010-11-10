@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.draw.action;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.app.action.edit.PasteAction;
 import org.jhotdraw.app.action.edit.CutAction;
 import org.jhotdraw.app.action.edit.CopyAction;
@@ -35,8 +36,6 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.plaf.ColorChooserUI;
 import javax.swing.text.*;
-import org.jhotdraw.annotations.NotNull;
-import org.jhotdraw.annotations.Nullable;
 import org.jhotdraw.app.action.*;
 import org.jhotdraw.app.Disposable;
 import org.jhotdraw.color.HSBColorSpace;
@@ -63,7 +62,6 @@ import org.jhotdraw.gui.JFontChooser;
  * @author Werner Randelshofer
  * @version $Id$
  */
-@NotNull
 public class ButtonFactory {
 
     /**
@@ -576,7 +574,7 @@ public class ButtonFactory {
             DrawingEditor editor, AttributeKey<Color> attributeKey,
             java.util.List<ColorIcon> swatches, int columnCount,
             String labelKey, ResourceBundleUtil labels,
-            Map<AttributeKey, Object> defaultAttributes) {
+            @Nullable Map<AttributeKey, Object> defaultAttributes) {
         return createEditorColorButton(editor, attributeKey,
                 swatches, columnCount, labelKey, labels, defaultAttributes,
                 new Rectangle(1, 17, 20, 4));
@@ -617,7 +615,7 @@ public class ButtonFactory {
             DrawingEditor editor, AttributeKey<Color> attributeKey,
             java.util.List<ColorIcon> swatches, int columnCount,
             String labelKey, ResourceBundleUtil labels,
-            Map<AttributeKey, Object> defaultAttributes,
+            @Nullable Map<AttributeKey, Object> defaultAttributes,
             Shape colorShape) {
         final JPopupButton popupButton = new JPopupButton();
         popupButton.setPopupAlpha(1f);
@@ -1049,7 +1047,7 @@ public class ButtonFactory {
             DrawingEditor editor, AttributeKey<Color> attributeKey,
             java.util.List<ColorIcon> swatches, int columnCount,
             String labelKey, ResourceBundleUtil labels,
-            Map<AttributeKey, Object> defaultAttributes) {
+           @Nullable Map<AttributeKey, Object> defaultAttributes) {
         return createDrawingColorButton(editor, attributeKey,
                 swatches, columnCount, labelKey, labels, defaultAttributes,
                 new Rectangle(1, 17, 20, 4));

@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.app.action.edit;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
@@ -74,7 +75,7 @@ public class DeleteAction extends TextAction {
      * @param target The target of the action. Specify null for the currently
      * focused component.
      */
-    public DeleteAction(JComponent target) {
+    public DeleteAction(@Nullable JComponent target) {
         super(ID);
         this.target = target;
         if (target != null) {

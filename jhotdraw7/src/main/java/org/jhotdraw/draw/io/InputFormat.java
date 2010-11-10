@@ -14,13 +14,12 @@
 
 package org.jhotdraw.draw.io;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.*;
 import java.awt.datatransfer.*;
 import java.io.*;
 import java.net.URI;
 import javax.swing.*;
-import org.jhotdraw.annotations.NotNull;
-import org.jhotdraw.annotations.Nullable;
 
 /**
  * An <em>input format</em> implements a strategy for reading a {@link Drawing}
@@ -46,7 +45,6 @@ import org.jhotdraw.annotations.Nullable;
  * @author Werner Randelshofer
  * @version $Id$
  */
-@NotNull
 public interface InputFormat {
     /**
      * Return a FileFilter that can be used to identify files which can be read

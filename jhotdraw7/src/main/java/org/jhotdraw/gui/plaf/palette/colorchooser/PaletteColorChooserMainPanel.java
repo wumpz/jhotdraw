@@ -14,6 +14,7 @@
 
 package org.jhotdraw.gui.plaf.palette.colorchooser;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.colorchooser.*;
@@ -45,7 +46,7 @@ public class PaletteColorChooserMainPanel extends javax.swing.JPanel {
 tabbedPane.putClientProperty("Palette.TabbedPane.paintContentBorder", false);
     }
     
-    public void setPreviewPanel(JComponent c) {
+    public void setPreviewPanel(@Nullable JComponent c) {
         // there is no preview panel
     }
     

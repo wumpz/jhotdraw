@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.samples.svg;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.tool.CreationTool;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.*;
@@ -42,8 +43,8 @@ import org.jhotdraw.samples.svg.io.SVGZInputFormat;
  */
 public class SVGCreateFromFileTool extends CreationTool {
 
-    protected FileDialog fileDialog;
-    protected JFileChooser fileChooser;
+    @Nullable protected FileDialog fileDialog;
+    @Nullable protected JFileChooser fileChooser;
     protected Thread workerThread;
     protected CompositeFigure groupPrototype;
     protected ImageHolderFigure imagePrototype;

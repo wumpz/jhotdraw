@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.draw;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.event.FigureSelectionListener;
 import org.jhotdraw.draw.handle.Handle;
 import java.awt.*;
@@ -21,8 +22,6 @@ import java.awt.event.*;
 import java.util.*;
 import java.beans.*;
 import javax.swing.*;
-import org.jhotdraw.annotations.NotNull;
-import org.jhotdraw.annotations.Nullable;
 
 /**
  * A <em>drawing view</em> paints a {@link Drawing} on a {@code JComponent}.
@@ -119,7 +118,6 @@ import org.jhotdraw.annotations.Nullable;
  * @author Werner Randelshofer
  * @version $Id$
  */
-@NotNull
 public interface DrawingView {
 
     /**
@@ -174,8 +172,7 @@ public interface DrawingView {
      * Sets and installs another drawing in the view.
      * This is a bound property.
      */
-    @Nullable
-    public void setDrawing(Drawing d);
+    public void setDrawing(@Nullable Drawing d);
 
     /**
      * Sets the cursor of the DrawingView.
@@ -245,7 +242,7 @@ public interface DrawingView {
     /**
      * Sets the active handle.
      */
-    public void setActiveHandle(Handle newValue);
+    public void setActiveHandle(@Nullable Handle newValue);
 
     /**
      * Gets the active handle.

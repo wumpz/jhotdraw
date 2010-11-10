@@ -15,7 +15,6 @@ package org.jhotdraw.draw.layouter;
 
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.CompositeFigure;
-import org.jhotdraw.draw.layouter.AbstractLayouter;
 import java.awt.geom.*;
 import org.jhotdraw.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
@@ -44,6 +43,7 @@ public class VerticalLayouter extends AbstractLayouter {
      */
     private Alignment defaultAlignment = Alignment.BLOCK;
 
+    @Override
     public Rectangle2D.Double calculateLayout(CompositeFigure layoutable, Point2D.Double anchor, Point2D.Double lead) {
         Insets2D.Double layoutInsets = layoutable.get(LAYOUT_INSETS);
         if (layoutInsets == null) {

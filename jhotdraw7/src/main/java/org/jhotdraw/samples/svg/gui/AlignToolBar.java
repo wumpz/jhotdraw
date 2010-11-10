@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.event.SelectionComponentDisplayer;
 import javax.swing.border.*;
 import org.jhotdraw.util.*;
@@ -31,7 +32,7 @@ import org.jhotdraw.gui.plaf.palette.*;
  */
 public class AlignToolBar extends AbstractToolBar {
 
-    private SelectionComponentDisplayer displayer;
+    @Nullable private SelectionComponentDisplayer displayer;
 
     /** Creates new instance. */
     public AlignToolBar() {

@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.samples.svg.figures;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.BezierNodeHandle;
@@ -35,7 +36,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  */
 public class SVGBezierFigure extends BezierFigure {
 
-    private transient Rectangle2D.Double cachedDrawingArea;
+    @Nullable private transient Rectangle2D.Double cachedDrawingArea;
 
     /** Creates a new instance. */
     public SVGBezierFigure() {

@@ -30,6 +30,7 @@ public class SelectSameAction extends AbstractSelectedAction {
     public SelectSameAction(DrawingEditor editor) {
         super(editor);
         labels.configureAction(this, ID);
+        updateEnabledState();
     }
     
     @Override

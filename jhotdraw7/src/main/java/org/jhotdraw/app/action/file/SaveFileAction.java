@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.app.action.file;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import java.awt.*;
 import java.awt.event.*;
@@ -106,7 +107,8 @@ public class SaveFileAction extends AbstractViewAction {
         }
     }
 
-    protected void saveViewToURI(final View view, final URI file, final URIChooser chooser) {
+    protected void saveViewToURI(final View view, final URI file,
+            @Nullable final URIChooser chooser) {
         view.execute(new Worker() {
 
             @Override

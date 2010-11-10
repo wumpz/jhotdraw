@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.draw;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.layouter.Layouter;
 import org.jhotdraw.draw.event.FigureAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
@@ -60,11 +61,11 @@ public abstract class AbstractCompositeFigure
     /**
      * Caches the drawing area to improve the performance of method {@link #getDrawingArea}.
      */
-    protected transient Rectangle2D.Double cachedDrawingArea;
+    @Nullable protected transient Rectangle2D.Double cachedDrawingArea;
     /**
      * Caches the bounds to improve the performance of method {@link #getBounds}.
      */
-    protected transient Rectangle2D.Double cachedBounds;
+    @Nullable protected transient Rectangle2D.Double cachedBounds;
     /**
      * Handles figure changes in the children.
      */
@@ -402,7 +403,7 @@ public abstract class AbstractCompositeFigure
     }
 
     @Override
-    public Figure findFigureInside(Point2D.Double p) {
+    @Nullable public Figure findFigureInside(Point2D.Double p) {
         if (getDrawingArea().contains(p)) {
             Figure found = null;
             for (Figure child : getChildrenFrontToBack()) {
@@ -417,7 +418,7 @@ public abstract class AbstractCompositeFigure
         return null;
     }
 
-    public Figure findChild(Point2D.Double p) {
+    @Nullable public Figure findChild(Point2D.Double p) {
         if (getBounds().contains(p)) {
             Figure found = null;
             for (Figure child : getChildrenFrontToBack()) {

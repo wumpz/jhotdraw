@@ -128,15 +128,6 @@ public class ColorTrackImageProducer extends MemoryImageSource {
         }
     }
     
-    public void setBaseComponents(BoundedRangeModel[] components) {
-        isDirty = true;
-        //isDirty = isDirty || colorizer.needsRegeneration(this.baseRGB, baseRGB);
-        //this.baseRGB = baseRGB;
-        for (int i=0; i < components.length; i++) {
-            baseComponents[i] = components[i].getValue() / (float) components[i].getMaximum();
-        }
-    }
-    
     public void setColorSliderModel(ColorSliderModel colorizer) {
         this.colorizer = colorizer;
         isDirty = true;

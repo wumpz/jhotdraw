@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.app;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.Container;
 import java.awt.Window;
 import java.beans.PropertyChangeEvent;
@@ -135,7 +136,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
      * 
      * @param newValue Active view, can be null.
      */
-    public void setActiveView(View newValue) {
+    public void setActiveView(@Nullable View newValue) {
         View oldValue = activeView;
         if (activeView != null) {
             activeView.deactivate();
@@ -152,7 +153,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
      * 
      * @return The active view can be null.
      */
-    @Override
+    @Override @Nullable 
     public View getActiveView() {
         return activeView;
     }
@@ -280,7 +281,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     public void addWindow(Window window, View p) {
     }
 
-    protected Action getAction(View view, String actionID) {
+    protected Action getAction(@Nullable View view, String actionID) {
         return getActionMap(view).get(actionID);
     }
 
@@ -361,7 +362,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
                 Collections.unmodifiableList(recentFiles));
     }
 
-    protected JMenu createOpenRecentFileMenu(View view) {
+    protected JMenu createOpenRecentFileMenu(@Nullable View view) {
         JMenuItem mi;
         JMenu m;
 
@@ -559,7 +560,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
      * Gets the action map.
      */
     @Override
-    public ActionMap getActionMap(View v) {
+    public ActionMap getActionMap(@Nullable View v) {
         return (v == null) ? actionMap : v.getActionMap();
     }
 }

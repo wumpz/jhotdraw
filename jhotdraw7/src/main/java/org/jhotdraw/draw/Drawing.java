@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.draw;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.Graphics2D;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
@@ -24,8 +25,6 @@ import java.util.*;
 import javax.swing.undo.*;
 import javax.swing.event.*;
 import java.io.*;
-import org.jhotdraw.annotations.NotNull;
-import org.jhotdraw.annotations.Nullable;
 
 /**
  * A <em>drawing</em> is a container for {@link Figure}s. A drawing can hold
@@ -86,7 +85,6 @@ import org.jhotdraw.annotations.Nullable;
  * @author Werner Randelshofer
  * @version $Id$
  */
-@NotNull
 public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
 
     /** Draws on the <em>canvas area</em>. The canvas is the background area
@@ -241,29 +239,29 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * Use {@link #findFigureInside} If you need to descend into children of
      * composite figures.
      */
-    Figure findFigure(Point2D.Double p);
+    @Nullable Figure findFigure(Point2D.Double p);
 
     /**
      * Finds a top level Figure. Use this call for hit detection that
      * should not descend into the figure's children.
      */
-    Figure findFigureExcept(Point2D.Double p, Figure ignore);
+    @Nullable Figure findFigureExcept(Point2D.Double p, Figure ignore);
 
     /**
      * Finds a top level Figure. Use this call for hit detection that
      * should not descend into the figure's children.
      */
-    Figure findFigureExcept(Point2D.Double p, Collection<? extends Figure> ignore);
+    @Nullable Figure findFigureExcept(Point2D.Double p, Collection<? extends Figure> ignore);
 
     /**
      * Finds a top level Figure which is behind the specified Figure.
      */
-    Figure findFigureBehind(Point2D.Double p, Figure figure);
+    @Nullable Figure findFigureBehind(Point2D.Double p, Figure figure);
 
     /**
      * Finds a top level Figure which is behind the specified Figures.
      */
-    Figure findFigureBehind(Point2D.Double p, Collection<? extends Figure> figures);
+    @Nullable Figure findFigureBehind(Point2D.Double p, Collection<? extends Figure> figures);
 
     /**
      * Returns a list of the figures in Z-Order from front to back.

@@ -17,6 +17,8 @@ package org.jhotdraw.io;
 import javax.swing.event.*;
 import javax.swing.BoundedRangeModel;
 import java.io.*;
+import edu.umd.cs.findbugs.annotations.NonNull;
+import edu.umd.cs.findbugs.annotations.Nullable;
 /**
  * This input stream implements the BoundedRangeModel and allows
  * the observation of the input reading process.
@@ -30,19 +32,19 @@ import java.io.*;
 public class BoundedRangeInputStream
 extends FilterInputStream
 implements BoundedRangeModel {
-    private int nread_ = 0;
-    private int size_ = 0;
-    private boolean valueIsAdjusting_;
+    private int nread = 0;
+    private int size = 0;
+    private boolean valueIsAdjusting;
     
     /**
      * Only one ChangeEvent is needed per model instance since the
      * event's only (read-only) state is the source property.  The source
      * of events generated here is always "this".
      */
-    protected transient ChangeEvent changeEvent_ = null;
+    @Nullable protected transient ChangeEvent changeEvent = null;
     
     /** The listeners waiting for model changes. */
-    protected EventListenerList listenerList_ = new EventListenerList();
+    protected EventListenerList listenerList = new EventListenerList();
     
     /**
      * Create a new instance.
@@ -50,9 +52,9 @@ implements BoundedRangeModel {
     public BoundedRangeInputStream(InputStream in) {
         super(in);
         try
-        { size_ = in.available(); }
+        { size = in.available(); }
         catch(IOException ioe)
-        { size_ = 0; }
+        { size = 0; }
     }
     
     /**
@@ -108,7 +110,7 @@ implements BoundedRangeModel {
     public synchronized void reset()
     throws IOException {
         in.reset();
-        nread_ = size_-in.available();
+        nread = size-in.available();
         fireStateChanged();
     }
     /**
@@ -119,9 +121,9 @@ implements BoundedRangeModel {
      */
     private void incrementValue(int inc) {
         if (inc > 0) {
-            nread_+=inc;
-            if (nread_ > size_)
-            { size_ = nread_; }
+            nread+=inc;
+            if (nread > size)
+            { size = nread; }
             fireStateChanged();
         }
     }
@@ -165,7 +167,7 @@ implements BoundedRangeModel {
      * @see #setExtent
      */
     @Override
-    public int getMaximum() { return size_; }
+    public int getMaximum() { return size; }
     
     
     /**
@@ -185,7 +187,7 @@ implements BoundedRangeModel {
      */
     @Override
     public void setMaximum(int newMaximum) {
-        size_ = newMaximum;
+        size = newMaximum;
         fireStateChanged();
     }
     
@@ -201,7 +203,7 @@ implements BoundedRangeModel {
      * @see     #setValue
      */
     @Override
-    public int getValue() { return nread_; }
+    public int getValue() { return nread; }
     
     
     /**
@@ -246,7 +248,7 @@ implements BoundedRangeModel {
      */
     @Override
     public void setValueIsAdjusting(boolean b)
-    { valueIsAdjusting_ = b; }
+    { valueIsAdjusting = b; }
     
     
     /**
@@ -258,7 +260,7 @@ implements BoundedRangeModel {
      */
     @Override
     public boolean getValueIsAdjusting()
-    { return valueIsAdjusting_; }
+    { return valueIsAdjusting; }
     
     
     /**
@@ -299,7 +301,7 @@ implements BoundedRangeModel {
      */
     @Override
     public void addChangeListener(ChangeListener l) {
-        listenerList_.add(ChangeListener.class, l);
+        listenerList.add(ChangeListener.class, l);
     }
     
     
@@ -312,7 +314,7 @@ implements BoundedRangeModel {
      */
     @Override
     public void removeChangeListener(ChangeListener l) {
-        listenerList_.remove(ChangeListener.class, l);
+        listenerList.remove(ChangeListener.class, l);
     }
     
     
@@ -323,13 +325,13 @@ implements BoundedRangeModel {
      * @see EventListenerList
      */
     protected void fireStateChanged() {
-        Object[] listeners = listenerList_.getListenerList();
+        Object[] listeners = listenerList.getListenerList();
         for (int i = listeners.length - 2; i >= 0; i -=2 ) {
             if (listeners[i] == ChangeListener.class) {
-                if (changeEvent_ == null) {
-                    changeEvent_ = new ChangeEvent(this);
+                if (changeEvent == null) {
+                    changeEvent = new ChangeEvent(this);
                 }
-                ((ChangeListener)listeners[i+1]).stateChanged(changeEvent_);
+                ((ChangeListener)listeners[i+1]).stateChanged(changeEvent);
             }
         }
     }

@@ -96,7 +96,9 @@ public class ViewSourceAction extends AbstractViewAction {
                         if (newDrawing != null) {
                             newDrawing.addUndoableEditListener(undoableEditHandler);
                         }
-                        updateSource(newDrawing, ta);
+                        if (newDrawing!=null) {
+                            updateSource(newDrawing, ta);
+                        }
                     } else if (evt.getPropertyName() == View.TITLE_PROPERTY) {
                         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
                         dialog.setTitle(labels.getFormatted("view.viewSource.titleText", v.getTitle()));

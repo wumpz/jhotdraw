@@ -19,8 +19,9 @@ import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.border.*;
 import javax.swing.plaf.basic.*;
+
 /**
- * QuaquaPanelUI.
+ * PalettePanelUI.
  *
  * @author  Werner Randelshofer
  * @version $Id$

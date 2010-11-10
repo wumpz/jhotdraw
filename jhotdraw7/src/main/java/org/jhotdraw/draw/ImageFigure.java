@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.draw;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.connector.ChopRectangleConnector;
 import org.jhotdraw.draw.connector.Connector;
 import java.awt.*;
@@ -46,12 +47,12 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
      * The image data. This can be null, if the image was created from a
      * BufferedImage.
      */
-    private byte[] imageData;
+    @Nullable private byte[] imageData;
     /**
      * The buffered image. This can be null, if we haven't yet parsed the
      * imageData.
      */
-    private transient BufferedImage bufferedImage;
+    @Nullable private transient BufferedImage bufferedImage;
 
     /** Creates a new instance. */
     public ImageFigure() {

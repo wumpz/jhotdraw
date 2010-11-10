@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.draw.handle;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.event.BezierNodeEdit;
 import org.jhotdraw.draw.*;
 import javax.swing.undo.AbstractUndoableEdit;
@@ -32,14 +33,14 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  *
  *
  * @author Werner Randelshofer
- * @version $Id: BezierNodeHandle.java -1   $
+ * @version $Id$
  */
 public class BezierNodeHandle extends AbstractHandle {
 
     protected int index;
     private CompositeEdit edit;
     private BezierPath.Node oldNode;
-    private Figure transformOwner;
+    @Nullable private Figure transformOwner;
 
     /** Creates a new instance. */
     public BezierNodeHandle(BezierFigure owner, int index) {
@@ -111,6 +112,7 @@ public class BezierNodeHandle extends AbstractHandle {
         }
     }
 
+    @Nullable
     protected BezierPath.Node getBezierNode() {
         return getOwner().getNodeCount() > index ? getOwner().getNode(index) : null;
     }

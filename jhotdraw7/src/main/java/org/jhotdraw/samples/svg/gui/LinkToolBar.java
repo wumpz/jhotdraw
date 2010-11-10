@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.event.FigureAttributeEditorHandler;
 import org.jhotdraw.draw.event.SelectionComponentDisplayer;
 import javax.swing.border.*;
@@ -37,7 +38,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  */
 public class LinkToolBar extends AbstractToolBar {
 
-    private SelectionComponentDisplayer displayer;
+    @Nullable private SelectionComponentDisplayer displayer;
     private ResourceBundleUtil labels;
 
     /** Creates new instance. */

@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.draw.text;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.event.FigureListener;
 import org.jhotdraw.draw.event.FigureAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
@@ -56,8 +57,8 @@ public class FloatingTextArea {
     /**
      * The drawing view.
      */
-    protected DrawingView view;
-    private TextHolderFigure editedFigure;
+    @Nullable protected DrawingView view;
+    @Nullable private TextHolderFigure editedFigure;
     private FigureListener figureHandler = new FigureAdapter() {
 
         @Override
@@ -98,7 +99,7 @@ public class FloatingTextArea {
      * @param view the DrawingView
      * @param figure the figure holding the text
      */
-    public void createOverlay(DrawingView view, TextHolderFigure figure) {
+    public void createOverlay(DrawingView view, @Nullable TextHolderFigure figure) {
         view.getComponent().add(editScrollContainer, 0);
         editedFigure = figure;
         this.view = view;

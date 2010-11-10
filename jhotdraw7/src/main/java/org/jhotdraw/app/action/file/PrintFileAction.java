@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.app.action.file;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
@@ -59,7 +60,7 @@ public class PrintFileAction extends AbstractViewAction {
     public final static String ID = "file.print";
 
     /** Creates a new instance. */
-    public PrintFileAction(Application app, View view) {
+    public PrintFileAction(Application app, @Nullable View view) {
         super(app, view);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);

@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.app.action.edit;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.*;
 import java.awt.datatransfer.*;
 import java.awt.event.*;
@@ -51,7 +52,7 @@ public class PasteAction extends AbstractSelectionAction {
      * @param target The target of the action. Specify null for the currently
      * focused component.
      */
-    public PasteAction(JComponent target) {
+    public PasteAction(@Nullable JComponent target) {
         super(target);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);

@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.draw.tool;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.event.ToolEvent;
@@ -271,6 +272,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
      * <p>
      * The implementation of this class returns null.
      */
+    @Nullable
     protected InputMap createInputMap() {
         return null;
     }
@@ -280,6 +282,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
      * <p>
      * The implementation of this class returns null.
      */
+    @Nullable
     protected ActionMap createActionMap() {
         return null;
     }
@@ -421,8 +424,8 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
             canvasBounds.height += d.get(CANVAS_HEIGHT);
         }
         if (!canvasBounds.contains(invalidatedArea)) {
-           fireBoundsInvalidated(invalidatedArea);
-           }
+            fireBoundsInvalidated(invalidatedArea);
+        }
     }
 
     /**

@@ -14,6 +14,7 @@
 
 package org.jhotdraw.gui.plaf.palette;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.lang.reflect.*;
 import javax.swing.*;
 import javax.swing.plaf.*;
@@ -29,7 +30,7 @@ public class PaletteLazyActionMap extends ActionMapUIResource {
      * Object to invoke <code>loadActionMap</code> on. This may be
      * a Class object.
      */
-    private transient Object _loader;
+    @Nullable private transient Object loader;
 
     /**
      * Installs an ActionMap that will be populated by invoking the
@@ -78,7 +79,7 @@ public class PaletteLazyActionMap extends ActionMapUIResource {
 
 
     private PaletteLazyActionMap(Class loader) {
-        _loader = loader;
+        this.loader = loader;
     }
 
     public void put(Action action) {
@@ -135,11 +136,11 @@ public class PaletteLazyActionMap extends ActionMapUIResource {
 
     @SuppressWarnings("unchecked")
     private void loadIfNecessary() {
-        if (_loader != null) {
-            Object loader = _loader;
+        if (loader != null) {
+            Object ldr = loader;
 
-            _loader = null;
-            Class klass = (Class)loader;
+            loader = null;
+            Class klass = (Class)ldr;
             try {
                 Method method = klass.getDeclaredMethod("loadActionMap",
                                       new Class[] { PaletteLazyActionMap.class  });

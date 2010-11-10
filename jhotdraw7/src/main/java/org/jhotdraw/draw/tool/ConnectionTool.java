@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.draw.tool;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.connector.Connector;
 import javax.swing.undo.*;
@@ -51,19 +52,19 @@ public class ConnectionTool extends AbstractTool {
      * These attributes override the default attributes of the
      * DrawingEditor.
      */
-    private Map<AttributeKey, Object> prototypeAttributes;
+    @Nullable private Map<AttributeKey, Object> prototypeAttributes;
     /**
      * The Connector at the start point of the connection.
      */
-    protected Connector startConnector;
+    @Nullable protected Connector startConnector;
     /**
      * The Connector at the end point of the connection.
      */
-    protected Connector endConnector;
+    @Nullable protected Connector endConnector;
     /**
      * The created figure.
      */
-    protected ConnectionFigure createdFigure;
+    @Nullable protected ConnectionFigure createdFigure;
     /**
      * the prototypical figure that is used to create new
      * connections.
@@ -72,13 +73,13 @@ public class ConnectionTool extends AbstractTool {
     /**
      * The figure for which we enabled drawing of connectors.
      */
-    protected Figure targetFigure;
+    @Nullable protected Figure targetFigure;
     protected Collection<Connector> connectors = Collections.emptyList();
     /**
      * A localized name for this tool. The presentationName is displayed by the
      * UndoableEdit.
      */
-    private String presentationName;
+    @Nullable private String presentationName;
     /**
      * If this is set to false, the CreationTool does not fire toolDone
      * after a new Figure has been created. This allows to create multiple
@@ -92,11 +93,11 @@ public class ConnectionTool extends AbstractTool {
         this(prototype, null, null);
     }
 
-    public ConnectionTool(ConnectionFigure prototype, Map<AttributeKey, Object> attributes) {
+    public ConnectionTool(ConnectionFigure prototype, @Nullable Map<AttributeKey, Object> attributes) {
         this(prototype, attributes, null);
     }
 
-    public ConnectionTool(ConnectionFigure prototype, Map<AttributeKey, Object> attributes, String presentationName) {
+    public ConnectionTool(ConnectionFigure prototype, @Nullable Map<AttributeKey, Object> attributes, @Nullable String presentationName) {
         this.prototype = prototype;
         this.prototypeAttributes = attributes;
         if (presentationName == null) {
@@ -110,7 +111,7 @@ public class ConnectionTool extends AbstractTool {
         this(prototypeClassName, null, null);
     }
 
-    public ConnectionTool(String prototypeClassName, Map<AttributeKey, Object> attributes, String presentationName) {
+    public ConnectionTool(String prototypeClassName, @Nullable Map<AttributeKey, Object> attributes, @Nullable String presentationName) {
         try {
             this.prototype = (ConnectionFigure) Class.forName(prototypeClassName).newInstance();
         } catch (Exception e) {
@@ -304,8 +305,8 @@ public class ConnectionTool extends AbstractTool {
             r.grow(ANCHOR_WIDTH, ANCHOR_WIDTH);
             fireAreaInvalidated(r);
             startConnector = endConnector = null;
-            createdFigure = null;
             creationFinished(createdFigure);
+            createdFigure = null;
         } else {
             if (isToolDoneAfterCreation()) {
                 fireToolDone();

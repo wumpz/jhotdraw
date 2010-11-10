@@ -15,6 +15,7 @@
 
 package org.jhotdraw.xml;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.io.IOException;
 
 /**
@@ -46,15 +47,15 @@ public interface DOMInput {
     /**
      * Gets an attribute of the current element of the DOM Document.
      */
-    public String getAttribute(String name, String defaultValue);
+    @Nullable public String getAttribute(String name, @Nullable  String defaultValue);
     /**
      * Gets the text of the current element of the DOM Document.
      */
-    public String getText();
+    @Nullable public String getText();
     /**
      * Gets the text of the current element of the DOM Document.
      */
-    public String getText(String defaultValue);
+    @Nullable public String getText(@Nullable String defaultValue);
     
     /**
      * Gets an attribute of the current element of the DOM Document.

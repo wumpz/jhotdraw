@@ -226,26 +226,6 @@ public class NetView extends AbstractView {
     }
 
     /**
-     * Sets a drawing editor for the view.
-     */
-    public void setDrawingEditor(DrawingEditor newValue) {
-        if (editor != null) {
-            editor.remove(view);
-        }
-        editor = newValue;
-        if (editor != null) {
-            editor.add(view);
-        }
-    }
-
-    /**
-     * Gets the drawing editor of the view.
-     */
-    public DrawingEditor getDrawingEditor() {
-        return editor;
-    }
-
-    /**
      * Clears the view.
      */
     @Override

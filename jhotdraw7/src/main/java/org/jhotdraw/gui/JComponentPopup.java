@@ -63,7 +63,7 @@ public class JComponentPopup extends JPopupMenu {
                     while (srcLPChild.getParent() != srcLP) {
                         srcLPChild = srcLPChild.getParent();
                     }
-                    if (srcLPChild == null || srcLP.getLayer(srcLPChild) < JLayeredPane.POPUP_LAYER) {
+                    if (srcLP.getLayer(srcLPChild) < JLayeredPane.POPUP_LAYER) {
                         JComponentPopup.this.setVisible(false);
                     }
                 }
@@ -111,7 +111,7 @@ public class JComponentPopup extends JPopupMenu {
                     while (srcLPChild.getParent() != srcLP) {
                         srcLPChild = srcLPChild.getParent();
                     }
-                    if (srcLPChild == null || srcLP.getLayer(srcLPChild) < JLayeredPane.POPUP_LAYER) {
+                    if (srcLP.getLayer(srcLPChild) < JLayeredPane.POPUP_LAYER) {
                         JComponentPopup.this.setVisible(false);
                     }
                 }

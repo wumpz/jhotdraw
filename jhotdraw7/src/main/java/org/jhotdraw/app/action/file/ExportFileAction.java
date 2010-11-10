@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.app.action.file;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.gui.event.*;
 import org.jhotdraw.util.*;
@@ -90,7 +91,7 @@ public class ExportFileAction extends AbstractViewAction {
     }
 
     protected void exportView(final View view, final URI uri,
-            final URIChooser chooser) {
+            @Nullable final URIChooser chooser) {
         view.execute(new Worker() {
 
             @Override

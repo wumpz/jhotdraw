@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.draw.action;
 
 import java.util.*;
@@ -25,39 +24,42 @@ import org.jhotdraw.draw.*;
  * @version $Id$
  */
 public class BringToFrontAction extends AbstractSelectedAction {
-    
-       public static String ID = "edit.bringToFront";
-       
+
+    public final static String ID = "edit.bringToFront";
+
     /** Creates a new instance. */
     public BringToFrontAction(DrawingEditor editor) {
         super(editor);
         labels.configureAction(this, ID);
+        updateEnabledState();
     }
-    
+
     @Override
     public void actionPerformed(java.awt.event.ActionEvent e) {
         final DrawingView view = getView();
         final LinkedList<Figure> figures = new LinkedList<Figure>(view.getSelectedFigures());
         bringToFront(view, figures);
         fireUndoableEditHappened(new AbstractUndoableEdit() {
+
             @Override
             public String getPresentationName() {
-       return labels.getTextProperty(ID);
+                return labels.getTextProperty(ID);
             }
+
             @Override
             public void redo() throws CannotRedoException {
                 super.redo();
                 BringToFrontAction.bringToFront(view, figures);
             }
+
             @Override
             public void undo() throws CannotUndoException {
                 super.undo();
                 SendToBackAction.sendToBack(view, figures);
             }
-        }
-        
-        );
+        });
     }
+
     public static void bringToFront(DrawingView view, Collection<Figure> figures) {
         Drawing drawing = view.getDrawing();
         Iterator i = drawing.sort(figures).iterator();
@@ -66,5 +68,4 @@ public class BringToFrontAction extends AbstractSelectedAction {
             drawing.bringToFront(figure);
         }
     }
-    
 }

@@ -13,11 +13,10 @@
  */
 package org.jhotdraw.draw;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.io.Serializable;
 import java.util.*;
 import javax.swing.undo.*;
-import org.jhotdraw.annotations.NotNull;
-import org.jhotdraw.annotations.Nullable;
 import org.jhotdraw.util.*;
 
 /**
@@ -39,7 +38,6 @@ import org.jhotdraw.util.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
-@NotNull
 public class AttributeKey<T> implements Serializable {
 
     /**

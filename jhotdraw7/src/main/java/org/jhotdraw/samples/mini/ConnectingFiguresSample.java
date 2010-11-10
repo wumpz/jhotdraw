@@ -13,10 +13,7 @@
  */
 package org.jhotdraw.samples.mini;
 
-import org.jhotdraw.draw.TextAreaFigure;
-import org.jhotdraw.draw.LineConnectionFigure;
 import org.jhotdraw.draw.liner.ElbowLiner;
-import org.jhotdraw.draw.ConnectionFigure;
 import java.awt.geom.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;

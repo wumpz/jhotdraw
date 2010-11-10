@@ -26,7 +26,7 @@ import static org.jhotdraw.color.HarmonicColorModel.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class DefaultHarmonicColorModel extends AbstractListModel implements HarmonicColorModel {
+public class DefaultHarmonicColorModel extends AbstractListModel implements HarmonicColorModel, Cloneable {
 
     protected PropertyChangeSupport propertySupport = new PropertyChangeSupport(this);
     private ArrayList<Color> colors;

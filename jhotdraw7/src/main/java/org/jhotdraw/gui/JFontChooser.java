@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.gui;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.*;
@@ -87,7 +88,7 @@ public class JFontChooser extends JComponent {
     public static final int ERROR_OPTION = -1;
     private int returnValue = ERROR_OPTION;
     // DIALOG
-    private JDialog dialog = null;
+    @Nullable private JDialog dialog = null;
     /**
      * This future is used to load fonts lazily
      */
@@ -284,7 +285,7 @@ public class JFontChooser extends JComponent {
      * 
      * @return The selected font, or null, if no font is selected.
      */
-    public TreePath getSelectionPath() {
+    @Nullable public TreePath getSelectionPath() {
         return selectionPath;
     }
 
@@ -299,7 +300,7 @@ public class JFontChooser extends JComponent {
      * @param newValue The new selected font, or null if no font is to be
      * selected..
      */
-    public void setSelectionPath(TreePath newValue) {
+    public void setSelectionPath(@Nullable TreePath newValue) {
         TreePath oldValue = selectionPath;
         this.selectionPath = newValue;
         firePropertyChange(SELECTION_PATH_PROPERTY, oldValue, newValue);

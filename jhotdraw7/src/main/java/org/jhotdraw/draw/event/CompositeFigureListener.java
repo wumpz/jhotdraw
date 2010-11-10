@@ -16,7 +16,6 @@
 package org.jhotdraw.draw.event;
 
 import java.util.*;
-import org.jhotdraw.annotations.NotNull;
 
 /**
  * Interface implemented by observers of {@link org.jhotdraw.draw.CompositeFigure}.
@@ -33,7 +32,6 @@ import org.jhotdraw.annotations.NotNull;
  * @author Werner Randelshofer
  * @version $Id$
  */
-@NotNull
 public interface CompositeFigureListener extends EventListener {
     /**
      * Sent when a figure was added.

@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.app;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.net.URI;
 import java.util.*;
 import javax.swing.*;
@@ -34,7 +35,7 @@ public abstract class AbstractView extends JPanel implements View {
      * controlled manner. This executor ensures that all background tasks
      * are executed sequentually.
      */
-    protected ExecutorService executor;
+    @Nullable protected ExecutorService executor;
     /**
      * This is set to true, if the view has unsaved changes.
      */
@@ -57,7 +58,7 @@ public abstract class AbstractView extends JPanel implements View {
      */
     private String title;
     /** List of objects that need to be disposed when this view is disposed. */
-    private LinkedList<Disposable> disposables;
+    @Nullable private LinkedList<Disposable> disposables;
     /**
      * The URI of the view.
      * Has a null value, if the view has not been loaded from a URI
@@ -196,7 +197,7 @@ public abstract class AbstractView extends JPanel implements View {
 
     /**
      * Executes the specified runnable on the worker thread of the view.
-     * Execution is perfomred sequentially in the same sequence as the
+     * Execution is performed sequentially in the same sequence as the
      * runnables have been passed to this method.
      */
     @Override

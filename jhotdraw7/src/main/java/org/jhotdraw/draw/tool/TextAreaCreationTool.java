@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.draw.tool;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.text.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.text.FloatingTextArea;
@@ -81,12 +82,12 @@ import org.jhotdraw.util.ResourceBundleUtil;
 public class TextAreaCreationTool extends CreationTool implements ActionListener {
 
     private FloatingTextArea textArea;
-    private TextHolderFigure typingTarget;
+    @Nullable private TextHolderFigure typingTarget;
     /**
      * Rubberband color of the tool. When this is null, the tool does not
      * draw a rubberband.
      */
-    private Color rubberbandColor = null;
+    @Nullable private Color rubberbandColor = null;
 
     /** Creates a new instance. */
     public TextAreaCreationTool(TextHolderFigure prototype) {

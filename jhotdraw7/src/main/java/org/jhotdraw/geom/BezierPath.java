@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.geom;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.*;
 import java.awt.geom.*;
 import java.io.Serializable;
@@ -49,11 +50,11 @@ public class BezierPath extends ArrayList<BezierPath.Node>
     /**
      * We cache a Path2D.Double instance to speed up Shape operations.
      */
-    private transient Path2D.Double generalPath;
+    @Nullable private transient Path2D.Double generalPath;
     /**
      * We cache a Rectangle2D.Double instance to speed up getBounds operations.
      */
-    private transient Rectangle2D.Double bounds;
+    @Nullable private transient Rectangle2D.Double bounds;
     /**
      * We cache the index of the outermost node to speed up method indexOfOutermostNode();
      */
@@ -736,6 +737,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      *
      * @param relative a value between 0 and 1.
      */
+    @Nullable
     public Point2D.Double getPointOnPath(double relative, double flatness) {
         // This method works only for straight lines
         if (size() == 0) {

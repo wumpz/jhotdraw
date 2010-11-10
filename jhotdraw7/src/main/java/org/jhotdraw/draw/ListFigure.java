@@ -14,6 +14,7 @@
 
 package org.jhotdraw.draw;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.layouter.VerticalLayouter;
 import org.jhotdraw.geom.*;
 
@@ -29,7 +30,7 @@ extends GraphicalCompositeFigure {
     public ListFigure() {
         this(null);
     }
-    public ListFigure(Figure presentationFigure) {
+    public ListFigure(@Nullable Figure presentationFigure) {
         super(presentationFigure); 
         setLayouter(new VerticalLayouter());
         set(LAYOUT_INSETS, new Insets2D.Double(4,8,4,8));

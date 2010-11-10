@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.color;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.*;
 import java.awt.color.ColorSpace;
 import java.awt.event.*;
@@ -43,7 +44,7 @@ public class JColorWheel extends JPanel {
     private Type type = Type.POLAR;
     private ColorSpace sys;
     protected Insets wheelInsets;
-    protected Image colorWheelImage;
+    @Nullable protected Image colorWheelImage;
     protected AbstractColorWheelImageProducer colorWheelProducer;
     protected ColorSliderModel model;
     /** Radial color component index. */

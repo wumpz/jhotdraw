@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.draw.action;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
@@ -45,8 +46,8 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
 public abstract class AbstractDrawingViewAction extends AbstractAction implements Disposable {
 
     private DrawingEditor editor;
-    private DrawingView specificView;
-    transient private DrawingView activeView;
+    @Nullable private DrawingView specificView;
+    @Nullable transient private DrawingView activeView;
 
     private class EventHandler implements PropertyChangeListener {
 
@@ -73,24 +74,24 @@ public abstract class AbstractDrawingViewAction extends AbstractAction implement
             return AbstractDrawingViewAction.this+"^$EventHandler";
         }
     };
-    private EventHandler eventHandler = new EventHandler();
+    @Nullable private EventHandler eventHandler = new EventHandler();
 
     /**
      * Creates a view action which acts on the current view of the editor.
      */
-    public AbstractDrawingViewAction(DrawingEditor editor) {
+    public AbstractDrawingViewAction(@Nullable DrawingEditor editor) {
         setEditor(editor);
     }
 
     /**
      * Creates a view action which acts on the specified view.
      */
-    public AbstractDrawingViewAction(DrawingView view) {
+    public AbstractDrawingViewAction(@Nullable DrawingView view) {
         this.specificView = view;
         registerEventHandler();
     }
 
-    protected void setEditor(DrawingEditor newValue) {
+    protected void setEditor(@Nullable DrawingEditor newValue) {
         if (eventHandler != null) {
             unregisterEventHandler();
         }
@@ -101,7 +102,7 @@ public abstract class AbstractDrawingViewAction extends AbstractAction implement
         }
     }
 
-    protected DrawingEditor getEditor() {
+    @Nullable protected DrawingEditor getEditor() {
         return editor;
     }
 

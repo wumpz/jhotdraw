@@ -14,6 +14,7 @@
 
 package org.jhotdraw.app.action.window;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -32,7 +33,7 @@ public class MaximizeWindowAction extends AbstractViewAction {
     public final static String ID = "window.maximize";
     
     /** Creates a new instance. */
-    public MaximizeWindowAction(Application app, View view) {
+    public MaximizeWindowAction(Application app, @Nullable View view) {
         super(app, view);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);

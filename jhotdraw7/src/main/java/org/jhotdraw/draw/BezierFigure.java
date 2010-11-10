@@ -14,6 +14,7 @@
 
 package org.jhotdraw.draw;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.connector.ChopBezierConnector;
 import org.jhotdraw.draw.handle.TransformHandleKit;
@@ -72,7 +73,7 @@ public class BezierFigure extends AbstractAttributedFigure {
      * The cappedPath BezierPath is derived from variable path.
      * We cache it to increase the drawing speed of the figure.
      */
-    private transient BezierPath cappedPath;
+    @Nullable private transient BezierPath cappedPath;
     
     
     /**

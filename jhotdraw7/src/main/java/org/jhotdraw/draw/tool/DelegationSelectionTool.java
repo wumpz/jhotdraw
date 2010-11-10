@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.draw.tool;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.handle.Handle;
 import java.awt.*;
@@ -52,11 +53,11 @@ public class DelegationSelectionTool extends SelectionTool {
      * We use this timer, to show a popup menu, when the user presses the
      * mouse key for a second without moving the mouse.
      */
-    private javax.swing.Timer popupTimer;
+    @Nullable private javax.swing.Timer popupTimer;
     /**
      * When the popup menu is visible, we do not track mouse movements.
      */
-    private JPopupMenu popupMenu;
+    @Nullable private JPopupMenu popupMenu;
     /**
      * We store the last mouse click here, to support multi-click behavior,
      * that is, a behavior that is invoked, when the user clicks multiple on
@@ -191,7 +192,7 @@ public class DelegationSelectionTool extends SelectionTool {
         }
     }
 
-    protected void showPopupMenu(Figure figure, Point p, Component c) {
+    protected void showPopupMenu(@Nullable Figure figure, Point p, Component c) {
         if (DEBUG) {
             System.out.println("DelegationSelectionTool.showPopupMenu " + figure);
         }

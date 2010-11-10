@@ -33,7 +33,7 @@ public class PickAttributesAction extends AbstractSelectedAction {
     public PickAttributesAction(DrawingEditor editor) {
         super(editor);
         labels.configureAction(this, "edit.pickAttributes");
-        setEnabled(true);
+        updateEnabledState();
     }
     
     /**
