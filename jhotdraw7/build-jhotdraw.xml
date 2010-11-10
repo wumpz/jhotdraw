@@ -52,6 +52,8 @@
          >
             <classpath path="${libdir}/quaqua.jar"/>
             <classpath path="${libdir}/java_30.zip"/>
+            <classpath path="${libdir}/annotations.jar"/>
+            <classpath path="${libdir}/jsr305.jar"/>
             <include name="**/*.java"/>
         </javac>
         <copy todir="${classdir}">

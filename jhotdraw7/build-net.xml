@@ -30,6 +30,8 @@
                 encoding="UTF-8"
          >
             <classpath path="${libdir}/java_30.zip"/>
+            <classpath path="${libdir}/annotations.jar"/>
+            <classpath path="${libdir}/jsr305.jar"/>
             <include name="org/jhotdraw/samples/net/NetApplet.java"/> 
             <include name="net/n3/nanoxml/*.java"/> 
         </javac>
@@ -114,6 +116,8 @@
          >
             <classpath path="${libdir}/quaqua.jar"/>
             <classpath path="${libdir}/java_30.zip"/>
+            <classpath path="${libdir}/annotations.jar"/>
+            <classpath path="${libdir}/jsr305.jar"/>
             <include name="net/n3/nanoxml/*.java"/> 
             <include name="org/jhotdraw/samples/net/Main.java"/> 
             <include name="org/jhotdraw/samples/net/NetProject.java"/> 
@@ -235,7 +239,7 @@
         </java>
     </target>
     <target name="applet.run-jar" depends="init">
-        <java fork="true" jar="${distdir}/jhotdraw_net.jar"/>
+        <java fork="true" jar="${distdir}/unsigned/jhotdraw_net.jar"/>
     </target>
     <target name="applet.run-compiled" depends="init">
         <java fork="true" classname="org.jhotdraw.samples.net.NetApplet">

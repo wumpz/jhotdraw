@@ -31,6 +31,8 @@
                 encoding="UTF-8"
          >
             <classpath path="${libdir}/quaqua.jar"/>
+            <classpath path="${libdir}/annotations.jar"/>
+            <classpath path="${libdir}/jsr305.jar"/>
             <include name="org/jhotdraw/samples/teddy/Main.java"/> 
             <include name="org/jhotdraw/samples/teddy/TeddyProject.java"/> 
         </javac>

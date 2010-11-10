@@ -31,6 +31,8 @@
                 encoding="UTF-8"
          >
             <classpath path="${libdir}/java_30.zip"/>
+            <classpath path="${libdir}/annotations.jar"/>
+            <classpath path="${libdir}/jsr305.jar"/>
             <include name="org/jhotdraw/samples/svg/SVGApplet.java"/> 
             <include name="org/jhotdraw/gui/plaf/palette/**/*.java"/>
             <include name="net/n3/nanoxml/*.java"/> 
@@ -105,6 +107,8 @@
          >
             <classpath path="${libdir}/quaqua.jar"/>
             <classpath path="${libdir}/java_30.zip"/>
+            <classpath path="${libdir}/annotations.jar"/>
+            <classpath path="${libdir}/jsr305.jar"/>
             <include name="org/jhotdraw/samples/svg/Main.java"/>
             <include name="org/jhotdraw/gui/plaf/palette/**/*.java"/>
             <include name="org/jhotdraw/samples/svg/DrawProject.java"/> 
