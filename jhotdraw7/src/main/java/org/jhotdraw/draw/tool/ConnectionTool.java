@@ -52,19 +52,23 @@ public class ConnectionTool extends AbstractTool {
      * These attributes override the default attributes of the
      * DrawingEditor.
      */
-    @Nullable private Map<AttributeKey, Object> prototypeAttributes;
+    @Nullable
+    private Map<AttributeKey, Object> prototypeAttributes;
     /**
      * The Connector at the start point of the connection.
      */
-    @Nullable protected Connector startConnector;
+    @Nullable
+    protected Connector startConnector;
     /**
      * The Connector at the end point of the connection.
      */
-    @Nullable protected Connector endConnector;
+    @Nullable
+    protected Connector endConnector;
     /**
      * The created figure.
      */
-    @Nullable protected ConnectionFigure createdFigure;
+    @Nullable
+    protected ConnectionFigure createdFigure;
     /**
      * the prototypical figure that is used to create new
      * connections.
@@ -73,13 +77,15 @@ public class ConnectionTool extends AbstractTool {
     /**
      * The figure for which we enabled drawing of connectors.
      */
-    @Nullable protected Figure targetFigure;
+    @Nullable
+    protected Figure targetFigure;
     protected Collection<Connector> connectors = Collections.emptyList();
     /**
      * A localized name for this tool. The presentationName is displayed by the
      * UndoableEdit.
      */
-    @Nullable private String presentationName;
+    @Nullable
+    private String presentationName;
     /**
      * If this is set to false, the CreationTool does not fire toolDone
      * after a new Figure has been created. This allows to create multiple
@@ -305,8 +311,9 @@ public class ConnectionTool extends AbstractTool {
             r.grow(ANCHOR_WIDTH, ANCHOR_WIDTH);
             fireAreaInvalidated(r);
             startConnector = endConnector = null;
-            creationFinished(createdFigure);
+            Figure finishedFigure = createdFigure;
             createdFigure = null;
+            creationFinished(finishedFigure);
         } else {
             if (isToolDoneAfterCreation()) {
                 fireToolDone();
