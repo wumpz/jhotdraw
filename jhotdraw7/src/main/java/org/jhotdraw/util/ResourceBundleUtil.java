@@ -450,7 +450,7 @@ public class ResourceBundleUtil implements Serializable {
             action.putValue(Action.SHORT_DESCRIPTION, shortDescription);
         }
         action.putValue(Action.ACCELERATOR_KEY, getAcceleratorProperty(argument));
-        action.putValue(Action.MNEMONIC_KEY, getMnemonicProperty(argument));
+        action.putValue(Action.MNEMONIC_KEY, Integer.valueOf(getMnemonicProperty(argument)));
         action.putValue(Action.SMALL_ICON, getIconProperty(argument, baseClass));
     }
 

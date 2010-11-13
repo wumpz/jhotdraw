@@ -85,7 +85,6 @@ public class TextCreationTool extends CreationTool implements ActionListener {
      */
     @Override
     public void mousePressed(MouseEvent e) {
-        TextHolderFigure textHolder = null;
         // Note: The search sequence used here, must be
         // consistent with the search sequence used by the
         // HandleTracker, SelectAreaTracker, DelegationSelectionTool, SelectionTool.
@@ -109,15 +108,6 @@ public class TextCreationTool extends CreationTool implements ActionListener {
             pressedFigure = getDrawing().findFigureInside(p);
         }
 
-        if (pressedFigure instanceof TextHolderFigure) {
-            textHolder = ((TextHolderFigure) pressedFigure).getLabelFor();
-                textHolder = null;
-        }
-        if (textHolder != null) {
-            beginEdit(textHolder);
-            updateCursor(getView(), e.getPoint());
-                    return;
-        }
         if (typingTarget != null) {
             endEdit();
             if (isToolDoneAfterCreation()) {
@@ -127,7 +117,7 @@ public class TextCreationTool extends CreationTool implements ActionListener {
             super.mousePressed(e);
             // update view so the created figure is drawn before the floating text
             // figure is overlaid. 
-            textHolder = (TextHolderFigure)getCreatedFigure();
+            TextHolderFigure textHolder = (TextHolderFigure)getCreatedFigure();
             getView().clearSelection();
             getView().addToSelection(textHolder);
             beginEdit(textHolder);

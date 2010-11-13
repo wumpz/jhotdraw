@@ -120,8 +120,6 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
      */
     @Override
     public void mousePressed(MouseEvent e) {
-        TextHolderFigure textHolder = null;
-
         // Note: The search sequence used here, must be
         // consistent with the search sequence used by the
         // HandleTracker, SelectAreaTracker, DelegationSelectionTool, SelectionTool.
@@ -146,16 +144,6 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
         }
 
         // 
-        if (pressedFigure instanceof TextHolderFigure) {
-            textHolder = (TextHolderFigure) pressedFigure;
-                textHolder = null;
-        }
-
-        if (textHolder != null) {
-            createdFigure = null;
-            beginEdit(textHolder);
-            return;
-        }
         if (typingTarget != null) {
             endEdit();
             if (isToolDoneAfterCreation()) {
