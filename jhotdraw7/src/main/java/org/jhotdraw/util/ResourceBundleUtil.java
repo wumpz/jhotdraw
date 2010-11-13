@@ -265,7 +265,7 @@ public class ResourceBundleUtil implements Serializable {
                 System.err.println("Warning ResourceBundleUtil[" + baseName + "] \"" + key + "\" not found.");
                 //e.printStackTrace();
             }
-            return new Integer(-1);
+            return -1;
         }
     }
 
@@ -450,7 +450,7 @@ public class ResourceBundleUtil implements Serializable {
             action.putValue(Action.SHORT_DESCRIPTION, shortDescription);
         }
         action.putValue(Action.ACCELERATOR_KEY, getAcceleratorProperty(argument));
-        action.putValue(Action.MNEMONIC_KEY, new Integer(getMnemonicProperty(argument)));
+        action.putValue(Action.MNEMONIC_KEY, getMnemonicProperty(argument));
         action.putValue(Action.SMALL_ICON, getIconProperty(argument, baseClass));
     }
 

@@ -80,7 +80,7 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
                 };
                 pane.setOptions(options);
                 pane.setInitialValue(options[0]);
-                pane.putClientProperty("Quaqua.OptionPane.destructiveOption", new Integer(2));
+                pane.putClientProperty("Quaqua.OptionPane.destructiveOption", 2);
                 JSheet.showSheet(pane, p.getComponent(), new SheetListener() {
 
                     @Override

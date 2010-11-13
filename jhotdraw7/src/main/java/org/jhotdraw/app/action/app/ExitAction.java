@@ -98,7 +98,7 @@ public class ExitAction extends AbstractApplicationAction {
                     Object[] options = {labels.getString("application.exit.saveOption"), labels.getString("application.exit.cancelOption"), labels.getString("application.exit.dontSaveOption")};
                     pane.setOptions(options);
                     pane.setInitialValue(options[0]);
-                    pane.putClientProperty("Quaqua.OptionPane.destructiveOption", new Integer(2));
+                    pane.putClientProperty("Quaqua.OptionPane.destructiveOption", 2);
                     JSheet.showSheet(pane, unsavedView.getComponent(), new SheetListener() {
 
                     @Override
@@ -128,7 +128,7 @@ public class ExitAction extends AbstractApplicationAction {
                     pane.setOptions(options);
                     pane.setInitialValue(options[0]);
                     pane.putClientProperty(
-                            "Quaqua.OptionPane.destructiveOption", new Integer(2));
+                            "Quaqua.OptionPane.destructiveOption", 2);
                     JDialog dialog = pane.createDialog(app.getComponent(), null);
                     Rectangle screenBounds = dialog.getGraphicsConfiguration().getBounds();
                     if (app.getComponent() == null || !screenBounds.contains(app.getComponent().getBounds())) {
@@ -199,7 +199,7 @@ public class ExitAction extends AbstractApplicationAction {
             Object[] options = {labels.getString("application.exit.saveOption"), labels.getString("application.exit.cancelOption"), labels.getString("application.exit.dontSaveOption")};
             pane.setOptions(options);
             pane.setInitialValue(options[0]);
-            pane.putClientProperty("Quaqua.OptionPane.destructiveOption", new Integer(2));
+            pane.putClientProperty("Quaqua.OptionPane.destructiveOption", 2);
             JSheet.showSheet(pane, unsavedView.getComponent(), new SheetListener() {
 
                 @Override

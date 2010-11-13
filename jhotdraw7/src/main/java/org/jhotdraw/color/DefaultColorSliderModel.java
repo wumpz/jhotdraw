@@ -91,7 +91,7 @@ public class DefaultColorSliderModel extends AbstractColorSlidersModel {
         }
         slider.setModel(getBoundedRangeModel(componentIndex));
         slider.putClientProperty("colorSliderModel", this);
-        slider.putClientProperty("colorComponentIndex", new Integer(componentIndex));
+        slider.putClientProperty("colorComponentIndex", componentIndex);
         addColorSlider(slider);
     }
 
@@ -141,7 +141,7 @@ public class DefaultColorSliderModel extends AbstractColorSlidersModel {
     }
 
     protected void fireColorChanged(int componentIndex) {
-        Integer index = new Integer(componentIndex);
+        Integer index = componentIndex;
         Color value = getColor();
         for (JSlider slider : sliders) {
             slider.putClientProperty("colorComponentChange", index);

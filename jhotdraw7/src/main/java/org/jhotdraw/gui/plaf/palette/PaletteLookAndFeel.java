@@ -217,8 +217,8 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
             }
         }
         // *** Shared Fonts
-        Integer fontPlain = new Integer(Font.PLAIN);
-        Integer fontBold = new Integer(Font.BOLD);
+        Integer fontPlain = Font.PLAIN;
+        Integer fontBold = Font.BOLD;
         Object dialogPlain11 = new ProxyLazyValue(
                 "javax.swing.plaf.FontUIResource",
                 null,

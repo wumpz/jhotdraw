@@ -48,7 +48,7 @@ public class PaletteColorSliderModel extends DefaultColorSliderModel {
         slider.setModel(brm);
         
         slider.putClientProperty("colorSliderModel", this);
-        slider.putClientProperty("colorComponentIndex", new Integer(componentIndex));
+        slider.putClientProperty("colorComponentIndex", componentIndex);
         addColorSlider(slider);
     }
 

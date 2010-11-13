@@ -476,7 +476,7 @@ public class StreamPosTokenizer
     }
     /** Unread */
     private void unread(int c) {
-        unread.addElement(new Integer(c));
+        unread.addElement(c);
         readpos--;
     }
     

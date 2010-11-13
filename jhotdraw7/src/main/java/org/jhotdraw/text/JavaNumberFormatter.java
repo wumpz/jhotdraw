@@ -285,7 +285,7 @@ public class JavaNumberFormatter extends DefaultFormatter {
                 if (valueClass == Integer.class) {
                     int v = Integer.parseInt(text);
                     v = (int) (v / multiplier);
-                    value = new Integer(v);
+                    value = v;
                 } else if (valueClass == Long.class) {
                     long v = Long.parseLong(text);
                     v = (long) (v / multiplier);

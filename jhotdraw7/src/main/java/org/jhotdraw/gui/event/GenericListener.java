@@ -165,7 +165,7 @@ public abstract class GenericListener {
         }
 
         protected Integer proxyHashCode(Object proxy) {
-            return new Integer(System.identityHashCode(proxy));
+            return System.identityHashCode(proxy);
         }
 
         protected Boolean proxyEquals(Object proxy, Object other) {

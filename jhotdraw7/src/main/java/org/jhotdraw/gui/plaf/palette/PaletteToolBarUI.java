@@ -63,7 +63,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
     @Nullable protected ContainerListener toolBarContListener;
     @Nullable protected FocusListener toolBarFocusListener;
     @Nullable private Handler handler;
-    protected Integer constraintBeforeFloating = new Integer(0);
+    protected Integer constraintBeforeFloating = 0;
     // Rollover button implementation.
     private static String IS_ROLLOVER = "JToolBar.isRollover";
     /*private*/ static String IS_DIVIDER_DRAWN = "Palette.ToolBar.isDividerDrawn";
@@ -167,7 +167,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
         dragWindow = null;
         dockingSource = null;
 
-        c.putClientProperty(FOCUSED_COMP_INDEX, new Integer(focusedCompIndex));
+        c.putClientProperty(FOCUSED_COMP_INDEX, focusedCompIndex);
     }
 
     protected void installDefaults() {
@@ -818,7 +818,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
                 Integer constraint = getDockingConstraint(dockingSource,
                         p);
                 if (constraint == null) {
-                    constraint = new Integer(0);
+                    constraint = 0;
                 }
                 int orientation = mapConstraintToOrientation(constraint);
                 setOrientation(orientation);
@@ -912,7 +912,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
         if (lm instanceof BoxLayout) {
             for (int i = 0, n = dockingSource.getComponentCount(); i < n; i++) {
                 if (dockingSource.getComponent(i) == toolBar) {
-                    constraint = new Integer(i);
+                    constraint = i;
                     break;
                 }
             }
@@ -930,7 +930,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
                 Component child = dockingSource.getComponent(i);
                 Point childP = new Point(p.x - child.getX(), p.y - child.getY());
                 if (child.contains(childP)) {
-                    return new Integer(Math.min(n - 1, (childP.x <= child.getWidth()) ? i : i + 1));
+                    return Math.min(n - 1, (childP.x <= child.getWidth()) ? i : i + 1);
                 }
             }
             if (dockingSource.getComponentCount() == 0
