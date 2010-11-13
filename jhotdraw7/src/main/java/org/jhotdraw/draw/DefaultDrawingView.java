@@ -758,9 +758,9 @@ public class DefaultDrawingView
             drawingBufferNV.flush();
             drawingBufferNV = null;
         }
-        if (drawingBufferNV != null) {
-            drawingBufferNV.flush();
-            drawingBufferNV = null;
+        if (drawingBufferV != null) {
+            drawingBufferV.flush();
+            drawingBufferV = null;
         }
     }
 
