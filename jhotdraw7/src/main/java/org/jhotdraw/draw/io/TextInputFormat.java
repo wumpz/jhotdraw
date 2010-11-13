@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.draw.io;
 
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
@@ -48,11 +47,11 @@ import org.jhotdraw.geom.Dimension2DDouble;
  * @version $Id$
  */
 public class TextInputFormat implements InputFormat {
+
     /**
      * The prototype for creating a figure that holds the imported text.
      */
     private TextHolderFigure prototype;
-    
     /**
      * Format description used for the file filter.
      */
@@ -70,14 +69,14 @@ public class TextInputFormat implements InputFormat {
      * lines of text.
      */
     private boolean isMultiline;
-    
+
     /** Creates a new image output format for text, for a figure that can not.
      * hold multiple lines of text.
      */
     public TextInputFormat(TextHolderFigure prototype) {
         this(prototype, "Text", "Text", "txt", false);
     }
-    
+
     /** Creates a new image output format for the specified image format.
      *
      * @param formatName The format name for the javax.imageio.ImageIO object.
@@ -96,21 +95,21 @@ public class TextInputFormat implements InputFormat {
         this.fileExtension = fileExtension;
         this.isMultiline = isMultiline;
     }
-    
+
     @Override
     public javax.swing.filechooser.FileFilter getFileFilter() {
         return new ExtensionFileFilter(description, fileExtension);
     }
-    
+
     public String getFileExtension() {
         return fileExtension;
     }
-    
+
     @Override
     public JComponent getInputFormatAccessory() {
         return null;
     }
-    
+
     @Override
     public void read(URI uri, Drawing drawing) throws IOException {
         read(new File(uri), drawing);
@@ -124,11 +123,16 @@ public class TextInputFormat implements InputFormat {
     public void read(File file, Drawing drawing) throws IOException {
         read(file, drawing, true);
     }
-    
+
     public void read(File file, Drawing drawing, boolean replace) throws IOException {
-        read(new FileInputStream(file), drawing, replace);
+        InputStream in = new FileInputStream(file);
+        try {
+            read(in, drawing, replace);
+        } finally {
+            in.close();
+        }
     }
-    
+
     @Override
     public void read(InputStream in, Drawing drawing, boolean replace) throws IOException {
         if (replace) {
@@ -136,12 +140,12 @@ public class TextInputFormat implements InputFormat {
         }
         drawing.basicAddAll(0, createTextHolderFigures(in));
     }
-    
+
     public LinkedList<Figure> createTextHolderFigures(InputStream in) throws IOException {
         LinkedList<Figure> list = new LinkedList<Figure>();
-        
+
         BufferedReader r = new BufferedReader(new InputStreamReader(in, "UTF8"));
-        
+
         if (isMultiline) {
             TextHolderFigure figure = (TextHolderFigure) prototype.clone();
             StringBuilder buf = new StringBuilder();
@@ -154,10 +158,9 @@ public class TextInputFormat implements InputFormat {
             figure.setText(buf.toString());
             Dimension2DDouble s = figure.getPreferredSize();
             figure.setBounds(
-                    new Point2D.Double(0,0),
+                    new Point2D.Double(0, 0),
                     new Point2D.Double(
-                    s.width, s.height
-                    ));
+                    s.width, s.height));
         } else {
             double y = 0;
             for (String line = null; line != null; line = r.readLine()) {
@@ -165,10 +168,9 @@ public class TextInputFormat implements InputFormat {
                 figure.setText(line);
                 Dimension2DDouble s = figure.getPreferredSize();
                 figure.setBounds(
-                        new Point2D.Double(0,y),
+                        new Point2D.Double(0, y),
                         new Point2D.Double(
-                        s.width, s.height
-                        ));
+                        s.width, s.height));
                 list.add(figure);
                 y += s.height;
             }
@@ -178,16 +180,16 @@ public class TextInputFormat implements InputFormat {
         }
         return list;
     }
-    
+
     @Override
     public boolean isDataFlavorSupported(DataFlavor flavor) {
         return flavor.equals(DataFlavor.stringFlavor);
     }
-    
+
     @Override
     public void read(Transferable t, Drawing drawing, boolean replace) throws UnsupportedFlavorException, IOException {
         String text = (String) t.getTransferData(DataFlavor.stringFlavor);
-        
+
         LinkedList<Figure> list = new LinkedList<Figure>();
         if (isMultiline) {
             TextHolderFigure figure = (TextHolderFigure) prototype.clone();
@@ -195,10 +197,9 @@ public class TextInputFormat implements InputFormat {
             Dimension2DDouble s = figure.getPreferredSize();
             figure.willChange();
             figure.setBounds(
-                    new Point2D.Double(0,0),
+                    new Point2D.Double(0, 0),
                     new Point2D.Double(
-                    s.width, s.height
-                    ));
+                    s.width, s.height));
             figure.changed();
             list.add(figure);
         } else {
@@ -210,10 +211,9 @@ public class TextInputFormat implements InputFormat {
                 y += s.height;
                 figure.willChange();
                 figure.setBounds(
-                        new Point2D.Double(0,0+y),
+                        new Point2D.Double(0, 0 + y),
                         new Point2D.Double(
-                        s.width, s.height+y
-                        ));
+                        s.width, s.height + y));
                 figure.changed();
                 list.add(figure);
             }
