@@ -177,7 +177,7 @@ public class NanoXMLDOMOutput implements DOMOutput, Disposable {
      */
     @Override
     public void addAttribute(String name, boolean value) {
-        current.setAttribute(name, new Boolean(value).toString());
+        current.setAttribute(name, Boolean.valueOf(value).toString());
     }
     /**
      * Adds an attribute to current element of the DOM Document.

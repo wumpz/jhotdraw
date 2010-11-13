@@ -293,7 +293,7 @@ public class Methods {
     throws NoSuchMethodException {
         try {
             Method method =  obj.getClass().getMethod(methodName,  new Class[] { Boolean.TYPE} );
-           return method.invoke(obj, new Object[] { new Boolean(newValue)});
+           return method.invoke(obj, new Object[] { newValue});
         } catch (IllegalAccessException e) {
             throw new NoSuchMethodException(methodName+" is not accessible");
         } catch (InvocationTargetException e) {

@@ -735,7 +735,7 @@ public class OSXApplication extends AbstractApplication {
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
             if (name.equals(View.HAS_UNSAVED_CHANGES_PROPERTY)) {
-                frame.getRootPane().putClientProperty("windowModified", new Boolean(view.hasUnsavedChanges()));
+                frame.getRootPane().putClientProperty("windowModified", view.hasUnsavedChanges());
             } else if (name.equals(View.URI_PROPERTY) || name.equals(View.TITLE_PROPERTY)) {
                 updateViewTitle(view, frame);
             }
