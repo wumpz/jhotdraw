@@ -85,7 +85,7 @@ public class SVGTextFigure
     
     // SHAPE AND BOUNDS
     public void setCoordinates(Point2D.Double[] coordinates) {
-        this.coordinates = coordinates;
+        this.coordinates = coordinates.clone();
         invalidate();
     }
     
@@ -98,7 +98,7 @@ public class SVGTextFigure
     }
     
     public void setRotates(double[] rotates) {
-        this.rotates = rotates;
+        this.rotates = rotates.clone();
         invalidate();
     }
     public double[] getRotates() {

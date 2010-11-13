@@ -48,21 +48,25 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     /**
      * This is used to perform faster drawing.
      */
-    @Nullable private transient Shape cachedTransformedShape;
+    @Nullable
+    private transient Shape cachedTransformedShape;
     /**
      * This is used to perform faster hit testing.
      */
-    @Nullable private transient Shape cachedHitShape;
+    @Nullable
+    private transient Shape cachedHitShape;
     /**
      * The image data. This can be null, if the image was created from a
      * BufferedImage.
      */
-    @Nullable private byte[] imageData;
+    @Nullable
+    private byte[] imageData;
     /**
      * The buffered image. This can be null, if we haven't yet parsed the
      * imageData.
      */
-    @Nullable private BufferedImage bufferedImage;
+    @Nullable
+    private BufferedImage bufferedImage;
 
     /** Creates a new instance. */
     public SVGImageFigure() {
@@ -359,6 +363,11 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
 
     /**
      * Sets the image.
+     * <p>
+     * Note: For performance reasons this method stores a reference to the
+     * imageData array instead of cloning it. Do not modify the imageData
+     * array after invoking this method.
+     *
      *
      * @param imageData The image data. If this is null, a buffered image must
      * be provided.
@@ -376,6 +385,10 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     /**
      * Sets the image data.
      * This clears the buffered image.
+     * <p>
+     * Note: For performance reasons this method stores a reference to the
+     * imageData array instead of cloning it. Do not modify the imageData
+     * array after invoking this method.
      */
     public void setImageData(byte[] imageData) {
         willChange();
@@ -401,6 +414,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
      * image from the image data.
      */
     @Override
+    @Nullable
     public BufferedImage getBufferedImage() {
         if (bufferedImage == null && imageData != null) {
             //System.out.println("recreateing bufferedImage");
@@ -420,8 +434,13 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     /**
      * Gets the image data. If necessary, this method creates the image
      * data from the buffered image.
+     * <p>
+     * Note: For performance reasons this method returns a reference to
+     * the internally used image data array instead of cloning it. Do not
+     * modify this array.
      */
     @Override
+    @Nullable
     public byte[] getImageData() {
         if (bufferedImage != null && imageData == null) {
             try {

@@ -64,7 +64,7 @@ public class DefaultAttributeAction extends AbstractSelectedAction {
             AttributeKey[] keys, @Nullable String name, @Nullable Icon icon,
             @Nullable Map<AttributeKey,Object> fixedAttributes) {
         super(editor);
-        this.keys = keys;
+        this.keys = keys.clone();
         putValue(AbstractAction.NAME, name);
         putValue(AbstractAction.SMALL_ICON, icon);
         setEnabled(true);

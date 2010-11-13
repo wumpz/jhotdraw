@@ -50,9 +50,9 @@ public class LinearGradient implements Gradient {
         this.y1 = y1;
         this.x2 = x2;
         this.y2 = y2;
-        this.stopOffsets = stopOffsets;
-        this.stopColors = stopColors;
-        this.stopOpacities = stopOpacities;
+        this.stopOffsets = stopOffsets.clone();
+        this.stopColors = stopColors.clone();
+        this.stopOpacities = stopOpacities.clone();
         this.isRelativeToFigureBounds = isRelativeToFigureBounds;
         this.transform = tx;
     }
@@ -63,9 +63,9 @@ public class LinearGradient implements Gradient {
         this.y2 = y2;
     }
     public void setStops(double[] offsets, Color[] colors, double[] stopOpacities) {
-        this.stopOffsets = offsets;
-        this.stopColors = colors;
-        this.stopOpacities = stopOpacities;
+        this.stopOffsets = offsets.clone();
+        this.stopColors = colors.clone();
+        this.stopOpacities = stopOpacities.clone();
     }
     public void setRelativeToFigureBounds(boolean b) {
         isRelativeToFigureBounds = b;

@@ -31,7 +31,7 @@ public abstract class AbstractTransferable implements Transferable {
     }
     /** Creates a new instance. */
     public AbstractTransferable(DataFlavor[] flavors) {
-        this.flavors = flavors;
+        this.flavors = flavors.clone();
     }
 
     @Override

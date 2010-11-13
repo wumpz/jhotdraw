@@ -55,7 +55,7 @@ public abstract class MultiIcon implements Icon {
      * other icons.
      */
     public MultiIcon(Icon[] icons) {
-        this.icons = icons;
+        this.icons = icons.clone();
         generateMissingIcons();
     }
 

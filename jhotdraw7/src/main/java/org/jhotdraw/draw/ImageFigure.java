@@ -47,12 +47,14 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
      * The image data. This can be null, if the image was created from a
      * BufferedImage.
      */
-    @Nullable private byte[] imageData;
+    @Nullable
+    private byte[] imageData;
     /**
      * The buffered image. This can be null, if we haven't yet parsed the
      * imageData.
      */
-    @Nullable private transient BufferedImage bufferedImage;
+    @Nullable
+    private transient BufferedImage bufferedImage;
 
     /** Creates a new instance. */
     public ImageFigure() {
@@ -79,8 +81,8 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
             drawStroke(g);
         }
         if (get(TEXT_COLOR) != null) {
-            if (get(TEXT_SHADOW_COLOR) != null &&
-                    get(TEXT_SHADOW_OFFSET) != null) {
+            if (get(TEXT_SHADOW_COLOR) != null
+                    && get(TEXT_SHADOW_OFFSET) != null) {
                 Dimension2DDouble d = get(TEXT_SHADOW_OFFSET);
                 g.translate(d.width, d.height);
                 g.setColor(get(TEXT_SHADOW_COLOR));
@@ -252,6 +254,10 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
     /**
      * Sets the image data.
      * This clears the buffered image.
+     * <p>
+     * Note: For performance reasons this method stores a reference to the
+     * imageData array instead of cloning it. Do not modify the image data array
+     * after invoking this method.
      */
     public void setImageData(byte[] imageData) {
         willChange();
@@ -277,6 +283,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
      * image from the image data.
      */
     @Override
+    @Nullable
     public BufferedImage getBufferedImage() {
         if (bufferedImage == null && imageData != null) {
             try {
@@ -295,8 +302,13 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
     /**
      * Gets the image data. If necessary, this method creates the image
      * data from the buffered image.
+     * <p>
+     * Note: For performance reasons this method returns a reference to
+     * the internally used image data array instead of cloning it. Do not
+     * modify this array.
      */
     @Override
+    @Nullable
     public byte[] getImageData() {
         if (bufferedImage != null && imageData == null) {
             try {

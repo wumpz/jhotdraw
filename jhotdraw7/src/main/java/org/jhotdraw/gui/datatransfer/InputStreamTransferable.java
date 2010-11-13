@@ -30,6 +30,14 @@ public class InputStreamTransferable extends AbstractTransferable {
     public InputStreamTransferable(DataFlavor flavor, byte[] data) {
         this(new DataFlavor[] { flavor }, data);
     }
+    /**
+     * Note: For performance reasons this method stores a reference to the
+     * data array instead of cloning it. Do not modify the data array after
+     * invoking this method.
+     * 
+     * @param flavors
+     * @param data
+     */
     public InputStreamTransferable(DataFlavor[] flavors, byte[] data) {
         super(flavors);
         this.data = data;

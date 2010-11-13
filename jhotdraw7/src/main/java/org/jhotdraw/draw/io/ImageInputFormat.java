@@ -106,8 +106,8 @@ public class ImageInputFormat implements InputFormat {
         this.prototype = prototype;
         this.formatName = formatName;
         this.description = description;
-        this.fileExtensions = fileExtensions;
-        this.mimeTypes = mimeTypes;
+        this.fileExtensions = fileExtensions.clone();
+        this.mimeTypes = mimeTypes.clone();
     }
 
     @Override
@@ -116,7 +116,7 @@ public class ImageInputFormat implements InputFormat {
     }
 
     public String[] getFileExtensions() {
-        return fileExtensions;
+        return fileExtensions.clone();
     }
 
     @Override

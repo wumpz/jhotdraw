@@ -51,9 +51,9 @@ public class RadialGradient implements Gradient {
         this.fx = fx;
         this.fy = fy;
         this.r = r;
-        this.stopOffsets = stopOffsets;
-        this.stopColors = stopColors;
-        this.stopOpacities = stopOpacities;
+        this.stopOffsets = stopOffsets.clone();
+        this.stopColors = stopColors.clone();
+        this.stopOpacities = stopOpacities.clone();
         this.isRelativeToFigureBounds = isRelativeToFigureBounds;
         this.transform = tx;
     }
@@ -63,9 +63,9 @@ public class RadialGradient implements Gradient {
         this.r = r;
     }
     public void setStops(double[] offsets, Color[] colors, double[] stopOpacities) {
-        this.stopOffsets = offsets;
-        this.stopColors = colors;
-        this.stopOpacities = stopOpacities;
+        this.stopOffsets = offsets.clone();
+        this.stopColors = colors.clone();
+        this.stopOpacities = stopOpacities.clone();
     }
     public void setRelativeToFigureBounds(boolean b) {
         isRelativeToFigureBounds = b;
