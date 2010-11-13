@@ -204,9 +204,6 @@ public class ColorSliderUI extends BasicSliderUI {
          */
         g.setColor(foreground);
 
-        maj = slider.getMajorTickSpacing();
-        min = slider.getMinorTickSpacing();
-
         if (slider.getOrientation() == JSlider.HORIZONTAL) {
             g.translate(0, tickBounds.y);
 
@@ -555,9 +552,6 @@ public class ColorSliderUI extends BasicSliderUI {
             if (thumbRect.contains(currentMouseX, currentMouseY)) {
                 super.mousePressed(e);
             } else {
-                Dimension sbSize = slider.getSize();
-                int direction = POSITIVE_SCROLL;
-
                 switch (slider.getOrientation()) {
                     case JSlider.VERTICAL:
                         slider.setValue(valueForYPosition(currentMouseY));

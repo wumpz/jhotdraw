@@ -65,10 +65,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
         }
 
         double grow = AttributeKeys.getPerpendicularFillGrowth(this);
-        double growx, growy;
-        if (grow == 0d) {
-            growx = growy = 0d;
-        } else {
+        if (grow != 0d) {
             double w = r.width / 2d;
             double h = r.height / 2d;
             double lineLength = Math.sqrt(w * w + h * h);
@@ -76,6 +73,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
             double yb = scale * w;
             double xa = scale * h;
 
+            double growx, growy;
             growx = ((yb * yb) / xa + xa);
             growy = ((xa * xa) / yb + yb);
 
@@ -102,10 +100,8 @@ public class DiamondFigure extends AbstractAttributedFigure {
         }
 
         double grow = AttributeKeys.getPerpendicularDrawGrowth(this);
-        double growx, growy;
-        if (grow == 0d) {
-            growx = growy = 0d;
-        } else {
+        if (grow != 0d) {
+            double growx, growy;
             double w = r.width / 2d;
             double h = r.height / 2d;
             double lineLength = Math.sqrt(w * w + h * h);

@@ -64,7 +64,6 @@ public class PertView extends AbstractView {
     public PertView() {
         initComponents();
 
-        JPanel zoomButtonPanel = new JPanel(new BorderLayout());
         scrollPane.setLayout(new PlacardScrollPaneLayout());
         scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 

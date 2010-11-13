@@ -226,7 +226,6 @@ public class JHarmonicColorWheel extends JColorWheel {
             Ellipse2D.Float oval = new Ellipse2D.Float(0, 0, 0, 0);
 
             float[] comp = null;
-            float wheelBrightness = model.getBoundedRangeModel(2).getValue() / 100f;
             for (int i = harmonicModel.size() - 1; i >= 0; i--) {
                 if (harmonicModel.get(i) != null) {
                     Point p = getColorLocation(harmonicModel.get(i));

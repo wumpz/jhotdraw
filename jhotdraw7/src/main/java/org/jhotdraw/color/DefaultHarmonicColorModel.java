@@ -54,7 +54,6 @@ public class DefaultHarmonicColorModel extends AbstractListModel implements Harm
         while (colors.size() > newValue) {
             colors.remove(colors.size() - 1);
         }
-        ColorSpace sys = sliderModel.getColorSpace();
         while (colors.size() < newValue) {
             colors.add(null);
         }

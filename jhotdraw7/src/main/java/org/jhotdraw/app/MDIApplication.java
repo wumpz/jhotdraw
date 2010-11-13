@@ -490,7 +490,6 @@ public class MDIApplication extends AbstractApplication {
 
     @Override
     public JMenu createFileMenu(View view) {
-        JMenuBar mb = new JMenuBar();
         JMenu m;
 
         m = new JMenu();
@@ -551,8 +550,6 @@ public class MDIApplication extends AbstractApplication {
 
     @Override
     public JMenu createWindowMenu(View view) {
-        ApplicationModel mo = getModel();
-
         JMenu m;
         JMenuItem mi;
 
@@ -611,8 +608,6 @@ public class MDIApplication extends AbstractApplication {
 
     @Override
     public JMenu createHelpMenu(View view) {
-        ApplicationModel mo = getModel();
-
         JMenu m;
         JMenuItem mi;
 
@@ -645,13 +640,10 @@ public class MDIApplication extends AbstractApplication {
 
         protected void updateWindowMenu() {
             JMenu m = windowMenu;
-            ApplicationModel mo = getModel();
             m.removeAll();
-
             m.add(getAction(view, ArrangeWindowsAction.CASCADE_ID));
             m.add(getAction(view, ArrangeWindowsAction.VERTICAL_ID));
             m.add(getAction(view, ArrangeWindowsAction.HORIZONTAL_ID));
-
             m.addSeparator();
             for (Iterator i = views().iterator(); i.hasNext();) {
                 View pr = (View) i.next();

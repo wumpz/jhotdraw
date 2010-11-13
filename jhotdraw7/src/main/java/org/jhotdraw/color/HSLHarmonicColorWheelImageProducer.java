@@ -127,7 +127,6 @@ public class HSLHarmonicColorWheelImageProducer extends PolarColorWheelImageProd
 
     @Override
     public void generateColorWheel() {
-        float radius = (float) Math.min(w, h);
         for (int index = 0; index < pixels.length; index++) {
             if (alphas[index] != 0) {
                 pixels[index] = alphas[index] | 0xffffff & ColorUtil.toRGB(colorSpace, angulars[index], radials[index], brights[index]);
@@ -149,9 +148,7 @@ public class HSLHarmonicColorWheelImageProducer extends PolarColorWheelImageProd
         float saturation = hsb[1];
         float brightness = hsb[2];
         float radius = Math.min(w, h) / 2f;
-        float radiusH = radius / 2f;
 
-        saturation = Math.max(0f, Math.min(1f, saturation));
         brightness = Math.max(0f, Math.min(1f, brightness));
 
         Point p;

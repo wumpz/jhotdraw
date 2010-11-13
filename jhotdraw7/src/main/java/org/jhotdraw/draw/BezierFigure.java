@@ -401,7 +401,6 @@ public class BezierFigure extends AbstractAttributedFigure {
      * Adds a node to the list of points.
      */
     public void addNode(final int index, BezierPath.Node p) {
-        final BezierPath.Node newPoint = new BezierPath.Node(p);
         path.add(index, p);
         invalidate();
     }

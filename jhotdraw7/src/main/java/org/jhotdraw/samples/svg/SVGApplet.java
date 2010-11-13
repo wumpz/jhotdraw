@@ -287,7 +287,6 @@ public class SVGApplet extends JApplet {
      */
     protected SVGDrawingPanel createDrawingComponent() {
         SVGDrawingPanel p = new SVGDrawingPanel();
-        DefaultDrawingEditor editor = new DefaultDrawingEditor();
         p.setEditor(new DefaultDrawingEditor());
 
         return p;
@@ -315,7 +314,6 @@ public class SVGApplet extends JApplet {
     protected Drawing loadDrawing(ProgressIndicator progress) throws IOException {
         Drawing drawing = createDrawing();
         if (getParameter("datafile") != null) {
-            ByteArrayOutputStream buf = new ByteArrayOutputStream();
             URL url = new URL(getDocumentBase(), getParameter("datafile"));
             URLConnection uc = url.openConnection();
 

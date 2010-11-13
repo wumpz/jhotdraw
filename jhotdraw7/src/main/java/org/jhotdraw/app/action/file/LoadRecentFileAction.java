@@ -141,7 +141,6 @@ public class LoadRecentFileAction extends AbstractSaveUnsavedChangesAction {
 
             @Override
             protected void failed(Throwable error) {
-                final Application app = getApplication();
                 error.printStackTrace();
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
 

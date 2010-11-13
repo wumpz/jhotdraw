@@ -54,7 +54,8 @@ public class DefaultDrawingView
      * Set this to true to turn on debugging output on System.out.
      */
     private final static boolean DEBUG = false;
-    @Nullable private Drawing drawing;
+    @Nullable
+    private Drawing drawing;
     /**
      * Holds the selected figures in an ordered put. The ordering reflects
      * the sequence that was used to select the figures.
@@ -68,11 +69,13 @@ public class DefaultDrawingView
     private Handle activeHandle;
     private LinkedList<Handle> secondaryHandles = new LinkedList<Handle>();
     private boolean handlesAreValid = true;
-    @Nullable private transient Dimension cachedPreferredSize;
+    @Nullable
+    private transient Dimension cachedPreferredSize;
     private double scaleFactor = 1;
     private Point translation = new Point(0, 0);
     private int detailLevel;
-    @Nullable private DrawingEditor editor;
+    @Nullable
+    private DrawingEditor editor;
     private JLabel emptyDrawingLabel;
     protected BufferedImage backgroundTile;
     private FigureListener handleInvalidator = new FigureAdapter() {
@@ -82,14 +85,17 @@ public class DefaultDrawingView
             invalidateHandles();
         }
     };
-    @Nullable private transient Rectangle2D.Double cachedDrawingArea;
+    @Nullable
+    private transient Rectangle2D.Double cachedDrawingArea;
     public final static String DRAWING_DOUBLE_BUFFERED_PROPERTY = "drawingDoubleBuffered";
     /** Whether the drawing is double buffered*/
     private boolean isDrawingDoubleBuffered = true;
     /** The drawingBuffer holds a rendered image of the drawing (in view coordinates). */
-    @Nullable private VolatileImage drawingBufferV;
+    @Nullable
+    private VolatileImage drawingBufferV;
     /** The drawingBuffer holds a rendered image of the drawing (in view coordinates). */
-    @Nullable private BufferedImage drawingBufferNV;
+    @Nullable
+    private BufferedImage drawingBufferNV;
     /** Holds the drawing area (in view coordinates) which is in the drawing buffer. */
     private Rectangle bufferedArea = new Rectangle();
     /** Holds the drawing area (in view coordinates) which has not been redrawn yet in the drawing buffer. */
@@ -315,7 +321,8 @@ public class DefaultDrawingView
         setLayout(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    @Override @Nullable
+    @Override
+    @Nullable
     public Drawing getDrawing() {
         return drawing;
     }
@@ -351,7 +358,6 @@ public class DefaultDrawingView
      */
     @Override
     public void paintComponent(Graphics gr) {
-        long start = System.currentTimeMillis();
         Graphics2D g = (Graphics2D) gr;
         setViewRenderingHints(g);
         drawBackground(g);
@@ -850,16 +856,7 @@ public class DefaultDrawingView
             figure.removeFigureListener(handleInvalidator);
             fireSelectionChanged(oldSelection, newSelection);
             repaint();
-
         }
-
-
-
-
-
-
-
-
     }
 
     /**
@@ -1167,7 +1164,6 @@ public class DefaultDrawingView
     @Override
     public Dimension getPreferredSize() {
         if (cachedPreferredSize == null) {
-            long start = System.currentTimeMillis();
             Rectangle2D.Double r = getDrawingArea();
             Double cw = getDrawing() == null ? null : getDrawing().get(CANVAS_WIDTH);
             Double ch = getDrawing() == null ? null : getDrawing().get(CANVAS_HEIGHT);
@@ -1224,20 +1220,17 @@ public class DefaultDrawingView
         Rectangle2D.Double da = getDrawingArea();
         Rectangle r = new Rectangle((int) (da.x * scaleFactor), (int) (da.y * scaleFactor), (int) (da.width * scaleFactor), (int) (da.height * scaleFactor));
 
-        int cw, ch;
         Double cwd = getDrawing().get(CANVAS_WIDTH);
         Double chd = getDrawing().get(CANVAS_HEIGHT);
         if (cwd == null || chd == null) {
             // The canvas size is not explicitly specified.
-
-            cw = Math.max(width - insets.left - insets.right, (int) ((Math.max(0, da.x) + da.width) * scaleFactor));
-            ch = Math.max(height - insets.top - insets.bottom, (int) ((Math.max(0, da.y) + da.height) * scaleFactor));
 
             //Place the canvas at the top left
             translation.x = insets.top;
             translation.y = insets.left;
         } else {
             // The canvas size is explicitly specified.
+            int cw, ch;
             cw = (int) (cwd * scaleFactor);
             ch = (int) (chd * scaleFactor);
 
@@ -1248,7 +1241,6 @@ public class DefaultDrawingView
             if (ch < height) {
                 translation.y = insets.top + (height - insets.top - insets.bottom - ch) / -2;
             }
-
         }
 
         if (r.y + r.height - translation.y > (height - insets.bottom)) {
@@ -1354,14 +1346,8 @@ public class DefaultDrawingView
         if (newValue != detailLevel) {
             detailLevel = newValue;
             invalidateHandles();
-
             validateHandles();
-
         }
-
-
-
-
     }
 
     @Override
@@ -1379,7 +1365,6 @@ public class DefaultDrawingView
 
     @Override
     public void delete() {
-        final LinkedList<CompositeFigureEvent> deletionEvents = new LinkedList<CompositeFigureEvent>();
         final java.util.List<Figure> deletedFigures = drawing.sort(getSelectedFigures());
 
         // Abort, if not all of the selected figures may be removed from the
@@ -1388,12 +1373,7 @@ public class DefaultDrawingView
             if (!f.isRemovable()) {
                 getToolkit().beep();
                 return;
-
             }
-
-
-
-
         }
 
         // Get z-indices of deleted figures
@@ -1435,7 +1415,6 @@ public class DefaultDrawingView
                         < deletedFigureIndices.length; i++) {
                     drawing.remove(deletedFigures.get(i));
                 }
-
             }
         });
     }

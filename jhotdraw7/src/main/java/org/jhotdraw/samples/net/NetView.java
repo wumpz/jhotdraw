@@ -66,7 +66,6 @@ public class NetView extends AbstractView {
     public NetView() {
         initComponents();
 
-        JPanel zoomButtonPanel = new JPanel(new BorderLayout());
         scrollPane.setLayout(new PlacardScrollPaneLayout());
         scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 

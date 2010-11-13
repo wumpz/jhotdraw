@@ -187,7 +187,6 @@ public class OSXApplication extends AbstractApplication {
         paletteHandler = new OSXPaletteHandler(this);
 
         initLabels();
-        ApplicationModel m = getModel();
 
         paletteActions = new LinkedList<Action>();
         setActionMap(createModelActionMap(model));
@@ -292,7 +291,7 @@ public class OSXApplication extends AbstractApplication {
             } while (moved);
             f.setLocation(loc);
 
-            FrameHandler frameHandler = new FrameHandler(f, view);
+            new FrameHandler(f, view);
             addWindow(f, view);
 
             f.getContentPane().add(view.getComponent());
@@ -440,7 +439,6 @@ public class OSXApplication extends AbstractApplication {
 
     @Override
     public JMenu createFileMenu(View view) {
-        JMenuBar mb = new JMenuBar();
         JMenu m;
 
         m = new JMenu();
@@ -686,7 +684,6 @@ public class OSXApplication extends AbstractApplication {
             JMenuItem mi;
 
             m.removeAll();
-            ApplicationModel model = getModel();
             mi = m.add(getAction(view, MinimizeWindowAction.ID));
             mi.setIcon(null);
             mi = m.add(getAction(view, MaximizeWindowAction.ID));

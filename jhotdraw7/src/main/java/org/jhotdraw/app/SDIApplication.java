@@ -390,7 +390,6 @@ public class SDIApplication extends AbstractApplication {
 
     @Override
     public JMenu createFileMenu(View view) {
-        JMenuBar mb = new JMenuBar();
         JMenu m;
 
         m = new JMenu();

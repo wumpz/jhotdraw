@@ -343,7 +343,6 @@ public class SVGOutputFormat implements OutputFormat {
 
     protected void writePolygonElement(IXMLElement parent, SVGPathFigure f) throws IOException {
         LinkedList<Point2D.Double> points = new LinkedList<Point2D.Double>();
-        BezierPath[] beziers = new BezierPath[f.getChildCount()];
         for (int i = 0, n = f.getChildCount(); i < n; i++) {
             BezierPath bezier = ((BezierFigure) f.getChild(i)).getBezierPath();
             for (BezierPath.Node node : bezier) {
@@ -371,7 +370,6 @@ public class SVGOutputFormat implements OutputFormat {
 
     protected void writePolylineElement(IXMLElement parent, SVGPathFigure f) throws IOException {
         LinkedList<Point2D.Double> points = new LinkedList<Point2D.Double>();
-        BezierPath[] beziers = new BezierPath[f.getChildCount()];
         for (int i = 0, n = f.getChildCount(); i < n; i++) {
             BezierPath bezier = ((BezierFigure) f.getChild(i)).getBezierPath();
             for (BezierPath.Node node : bezier) {

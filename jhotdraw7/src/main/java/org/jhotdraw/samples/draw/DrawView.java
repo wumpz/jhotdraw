@@ -67,7 +67,6 @@ public class DrawView extends AbstractView {
     public DrawView() {
         initComponents();
         
-        JPanel zoomButtonPanel = new JPanel(new BorderLayout());
         scrollPane.setLayout(new PlacardScrollPaneLayout());
         scrollPane.setBorder(new EmptyBorder(0,0,0,0));
         

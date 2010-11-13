@@ -108,7 +108,6 @@ public class QuantizingColorWheelImageProducer extends AbstractColorWheelImagePr
         }
 
         float[] components = new float[colorSpace.getNumComponents()];
-        float radius = (float) Math.min(w, h);
         for (int index = 0; index < pixels.length; index++) {
             if (alphas[index] != 0) {
                 components[angularIndex] = angulars[index];

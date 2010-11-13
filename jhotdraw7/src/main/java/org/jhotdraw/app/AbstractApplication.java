@@ -376,7 +376,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         m.setIcon(null);
         m.add(getAction(view, ClearRecentFilesMenuAction.ID));
 
-        OpenRecentMenuHandler handler = new OpenRecentMenuHandler(m, view);
+        new OpenRecentMenuHandler(m, view);
         return m;
     }
 

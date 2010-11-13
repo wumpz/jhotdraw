@@ -55,13 +55,6 @@ public class ColorSquareImageProducer extends AbstractColorWheelImageProducer {
         alphas = new int[w * h];
         float radius = getRadius();
 
-        // blend is used to create a linear alpha gradient of two extra pixels
-        float blend = (radius + 2f) / radius - 1f;
-
-        // Center of the color wheel circle
-        int cx = w / 2;
-        int cy = h / 2;
-
         float maxR = colorSpace.getMaxValue(radialIndex);
         float minR = colorSpace.getMinValue(radialIndex);
         float extentR = maxR - minR;
@@ -109,7 +102,6 @@ public class ColorSquareImageProducer extends AbstractColorWheelImageProducer {
         }
 
         float[] components = new float[colorSpace.getNumComponents()];
-        float radius = (float) Math.min(w, h);
         for (int index = 0; index < pixels.length; index++) {
             if (alphas[index] != 0) {
                 components[angularIndex] = angulars[index];

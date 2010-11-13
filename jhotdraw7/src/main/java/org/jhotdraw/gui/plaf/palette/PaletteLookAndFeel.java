@@ -231,18 +231,6 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
                 "javax.swing.plaf.FontUIResource",
                 null,
                 new Object[]{"Verdana", fontPlain, 12});
-        Object serifPlain12 = new ProxyLazyValue(
-                "javax.swing.plaf.FontUIResource",
-                null,
-                new Object[]{"Serif", fontPlain, 12});
-        Object sansSerifPlain12 = new ProxyLazyValue(
-                "javax.swing.plaf.FontUIResource",
-                null,
-                new Object[]{"SansSerif", fontPlain, 12});
-        Object monospacedPlain12 = new ProxyLazyValue(
-                "javax.swing.plaf.FontUIResource",
-                null,
-                new Object[]{"MonoSpaced", fontPlain, 12});
         Object dialogBold12 = new ProxyLazyValue(
                 "javax.swing.plaf.FontUIResource",
                 null,
@@ -266,7 +254,6 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
 
         // *** Shared Insets
         InsetsUIResource zeroInsets = new InsetsUIResource(0, 0, 0, 0);
-        InsetsUIResource twoInsets = new InsetsUIResource(2, 2, 2, 2);
 
         // *** Shared Borders
 	/*Object buttonBorder = 

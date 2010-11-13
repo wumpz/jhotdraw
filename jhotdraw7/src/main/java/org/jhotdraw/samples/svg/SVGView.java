@@ -60,8 +60,6 @@ public class SVGView extends AbstractView {
     public SVGView() {
         initComponents();
 
-        JPanel zoomButtonPanel = new JPanel(new BorderLayout());
-
         undo = svgPanel.getUndoRedoManager();
         Drawing oldDrawing = svgPanel.getDrawing();
         svgPanel.setDrawing(createDrawing());
