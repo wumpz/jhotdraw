@@ -11,7 +11,6 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.color;
 
 import edu.umd.cs.findbugs.annotations.Nullable;
@@ -27,6 +26,7 @@ import java.awt.color.ColorSpace;
  * @version $Id$
  */
 public class CompositeColor extends Color {
+
     /**
      * The color value in the native <code>ColorSpace</code> as
      * <code>float</code> components (no alpha).
@@ -37,7 +37,8 @@ public class CompositeColor extends Color {
      * @see #getRGBColorComponents
      * @see #getRGBComponents
      */
-    @Nullable private float fvalue[] = null;
+    @Nullable
+    private float fvalue[] = null;
     /**
      * The alpha value as a <code>float</code> component.
      * If <code>frgbvalue</code> is <code>null</code>, this is not valid
@@ -55,7 +56,8 @@ public class CompositeColor extends Color {
      * @see #getColorSpace
      * @see #getColorComponents
      */
-    @Nullable private ColorSpace cs = null;
+    @Nullable
+    private ColorSpace cs = null;
 
     /**
      * Creates a color in the specified <code>ColorSpace</code>
@@ -76,33 +78,35 @@ public class CompositeColor extends Color {
      * @see #getColorComponents
      */
     public CompositeColor(ColorSpace cspace, float components[], float alpha) {
-        super(((int)(alpha*255)<<24)|ColorUtil.toRGB(cspace, components),true);
+        super(((int) (alpha * 255) << 24) | ColorUtil.toRGB(cspace, components), true);
         boolean rangeError = false;
-        String badComponentString = "";
+        StringBuilder badComponentString = new StringBuilder();
         int n = cspace.getNumComponents();
         fvalue = new float[n];
         for (int i = 0; i < n; i++) {
             if (components[i] < cspace.getMinValue(i) || components[i] > cspace.getMaxValue(i)) {
                 rangeError = true;
-                badComponentString = badComponentString + "Component " + i
-                                     + " ";
+                badComponentString.append("Component ");
+                badComponentString.append(i);
+                badComponentString.append(' ');
             } else {
                 fvalue[i] = components[i];
             }
         }
         if (alpha < 0.0 || alpha > 1.0) {
             rangeError = true;
-            badComponentString = badComponentString + "Alpha";
+            badComponentString.append("Alpha");
         } else {
             falpha = alpha;
         }
         if (rangeError) {
             throw new IllegalArgumentException(
-                "Color parameter outside of expected range: " +
-                badComponentString);
+                    "Color parameter outside of expected range: "
+                    + badComponentString);
         }
-	cs = cspace;
+        cs = cspace;
     }
+
     /**
      * Returns a <code>float</code> array containing the color and alpha
      * components of the <code>Color</code>, in the
@@ -121,8 +125,9 @@ public class CompositeColor extends Color {
      */
     @Override
     public float[] getComponents(float[] compArray) {
-        if (fvalue == null)
+        if (fvalue == null) {
             return getRGBComponents(compArray);
+        }
         float[] f;
         int n = fvalue.length;
         if (compArray == null) {
@@ -154,8 +159,9 @@ public class CompositeColor extends Color {
      */
     @Override
     public float[] getColorComponents(float[] compArray) {
-        if (fvalue == null)
+        if (fvalue == null) {
             return getRGBColorComponents(compArray);
+        }
         float[] f;
         int n = fvalue.length;
         if (compArray == null) {
@@ -168,6 +174,7 @@ public class CompositeColor extends Color {
         }
         return f;
     }
+
     /**
      * Returns a <code>float</code> array containing the color and alpha
      * components of the <code>Color</code>, in the
@@ -192,9 +199,9 @@ public class CompositeColor extends Color {
         float f[];
         if (fvalue == null) {
             f = new float[3];
-            f[0] = ((float)getRed())/255f;
-            f[1] = ((float)getGreen())/255f;
-            f[2] = ((float)getBlue())/255f;
+            f[0] = ((float) getRed()) / 255f;
+            f[1] = ((float) getGreen()) / 255f;
+            f[2] = ((float) getBlue()) / 255f;
         } else {
             f = fvalue;
         }
@@ -203,11 +210,11 @@ public class CompositeColor extends Color {
         if (compArray == null) {
             compArray = new float[tmpout.length + 1];
         }
-        for (int i = 0 ; i < tmpout.length ; i++) {
+        for (int i = 0; i < tmpout.length; i++) {
             compArray[i] = tmpout[i];
         }
         if (fvalue == null) {
-            compArray[tmpout.length] = ((float)getAlpha())/255f;
+            compArray[tmpout.length] = ((float) getAlpha()) / 255f;
         } else {
             compArray[tmpout.length] = falpha;
         }
@@ -237,9 +244,9 @@ public class CompositeColor extends Color {
         float f[];
         if (fvalue == null) {
             f = new float[3];
-            f[0] = ((float)getRed())/255f;
-            f[1] = ((float)getGreen())/255f;
-            f[2] = ((float)getBlue())/255f;
+            f[0] = ((float) getRed()) / 255f;
+            f[1] = ((float) getGreen()) / 255f;
+            f[2] = ((float) getBlue()) / 255f;
         } else {
             f = fvalue;
         }
@@ -248,7 +255,7 @@ public class CompositeColor extends Color {
         if (compArray == null) {
             return tmpout;
         }
-        for (int i = 0 ; i < tmpout.length ; i++) {
+        for (int i = 0; i < tmpout.length; i++) {
             compArray[i] = tmpout[i];
         }
         return compArray;
@@ -265,6 +272,4 @@ public class CompositeColor extends Color {
         }
         return cs;
     }
-
-
 }
