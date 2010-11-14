@@ -17,6 +17,7 @@ package org.jhotdraw.geom;
 
 import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.geom.*;
+import java.io.Serializable;
 import java.util.*;
 /**
  * A QuadTree allows to quickly find an object on a two-dimensional space.
@@ -29,7 +30,7 @@ import java.util.*;
  * @author  Werner Randelshofer
  * @version $Id$
  */
-public class QuadTree<T> {
+public class QuadTree<T> implements Serializable {
     private HashMap<T,Rectangle2D.Double> outside = new HashMap<T,Rectangle2D.Double>();
     private QuadNode root;
     private int maxCapacity = 32;
@@ -114,7 +115,7 @@ public class QuadTree<T> {
         return result;
     }
     
-    private class QuadNode {
+    private class QuadNode implements Serializable {
         private Rectangle2D.Double bounds;
         /**
          * We store an object into this map, if 1) the bounds of the object

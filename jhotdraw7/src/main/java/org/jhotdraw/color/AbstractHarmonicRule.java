@@ -20,7 +20,7 @@ import edu.umd.cs.findbugs.annotations.NonNull;
  * AbstractHarmonicRule.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public abstract class AbstractHarmonicRule implements HarmonicRule {
     protected int baseIndex;

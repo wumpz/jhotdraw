@@ -21,6 +21,7 @@ import org.jhotdraw.draw.event.FigureEvent;
 import java.io.IOException;
 import java.awt.*;
 import java.awt.geom.*;
+import java.io.Serializable;
 import java.util.*;
 import javax.swing.event.*;
 
@@ -69,7 +70,7 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
      */
     private PresentationFigureHandler presentationFigureHandler = new PresentationFigureHandler(this);
 
-    private static class PresentationFigureHandler extends FigureAdapter implements UndoableEditListener {
+    private static class PresentationFigureHandler extends FigureAdapter implements UndoableEditListener, Serializable {
 
         private GraphicalCompositeFigure owner;
 

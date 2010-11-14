@@ -24,6 +24,7 @@ import org.jhotdraw.util.*;
 import java.util.*;
 import java.awt.*;
 import java.awt.geom.*;
+import java.io.Serializable;
 import javax.swing.event.*;
 
 /**
@@ -53,7 +54,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
      * Handles figure changes in the children.
      */
     private ChildHandler childHandler = new ChildHandler(this);
-    private static class ChildHandler extends FigureAdapter implements UndoableEditListener {
+    private static class ChildHandler extends FigureAdapter implements UndoableEditListener, Serializable {
         private LabeledLineConnectionFigure owner;
         private ChildHandler(LabeledLineConnectionFigure owner) {
             this.owner = owner;
