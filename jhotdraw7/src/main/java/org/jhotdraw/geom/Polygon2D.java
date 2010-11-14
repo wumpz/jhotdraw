@@ -905,7 +905,7 @@ public abstract class Polygon2D implements Shape, Cloneable {
         }
     }
 
-    class PolygonPathIteratorDouble implements PathIterator {
+    static class PolygonPathIteratorDouble implements PathIterator {
 
         Polygon2D.Double poly;
         AffineTransform transform;
@@ -1015,7 +1015,7 @@ public abstract class Polygon2D implements Shape, Cloneable {
         }
     }
 
-    class PolygonPathIteratorFloat implements PathIterator {
+    static class PolygonPathIteratorFloat implements PathIterator {
 
         Polygon2D.Float poly;
         AffineTransform transform;

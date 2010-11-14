@@ -774,7 +774,7 @@ public class OSXApplication extends AbstractApplication {
         }
     }
 
-    private class QuitHandler {
+    private static class QuitHandler {
 
         /** This method is invoked, when the user has selected the Quit menu item.
          *

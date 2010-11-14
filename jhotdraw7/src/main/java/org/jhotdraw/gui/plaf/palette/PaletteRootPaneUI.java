@@ -53,7 +53,7 @@ public class PaletteRootPaneUI extends BasicRootPaneUI {
      * has been added to the <code>java.beans</code> package.
      * Please see {@link java.beans.XMLEncoder}.
      */
-    protected class PaletteRootLayout implements LayoutManager2, Serializable {
+    protected static class PaletteRootLayout implements LayoutManager2, Serializable {
 
         private JRootPane rootPane;
 
