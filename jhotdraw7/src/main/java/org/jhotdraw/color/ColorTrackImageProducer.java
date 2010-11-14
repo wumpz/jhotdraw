@@ -30,8 +30,6 @@ import javax.swing.*;
 public class ColorTrackImageProducer extends MemoryImageSource {
     private int[] pixels;
     private int w, h;
-    private float[] baseComponents;
-    private int component;
     private int trackBuffer;
     private ColorSliderModel colorizer = new DefaultColorSliderModel(ColorSpace.getInstance(ColorSpace.CS_sRGB));
     private boolean isDirty = true;

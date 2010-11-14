@@ -31,7 +31,6 @@ import org.jhotdraw.app.View;
 public class OSXPaletteHandler {
     private HashSet<Window> palettes = new HashSet<Window>();
     private HashMap<Window,View> windows = new HashMap<Window,View>();
-    private static OSXPaletteHandler instance;
     private javax.swing.Timer timer;
     private OSXApplication app;
     private WindowFocusListener focusHandler = new WindowFocusListener() {

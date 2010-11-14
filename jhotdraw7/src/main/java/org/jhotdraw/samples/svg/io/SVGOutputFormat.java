@@ -42,8 +42,6 @@ import static org.jhotdraw.samples.svg.SVGConstants.*;
  * @version $Id$
  */
 public class SVGOutputFormat implements OutputFormat {
-
-    private URL url;
     /**
      * This is a counter used to create the next unique identification.
      */

@@ -31,7 +31,6 @@ public class ToolBarPrefsHandler implements ComponentListener, AncestorListener 
     private JToolBar toolbar;
     private String prefsPrefix;
     private Preferences prefs;
-    private boolean firstTimeShown;
     
     public ToolBarPrefsHandler(JToolBar toolbar, String prefsPrefix, Preferences prefs) {
         this.toolbar = toolbar;
