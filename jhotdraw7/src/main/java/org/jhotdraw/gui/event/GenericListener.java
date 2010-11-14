@@ -175,8 +175,8 @@ public abstract class GenericListener {
         protected String proxyToString(Object proxy) {
             return proxy.getClass().getName() + '@' + Integer.toHexString(proxy.hashCode());
         }
-        private final static Character char_0 = new Character((char) 0);
-        private final static Byte byte_0 = new Byte((byte) 0);
+        private final static Character char_0 = (char) 0;
+        private final static Byte byte_0 = (byte) 0;
 
         @Nullable
         private final static Object nullValueOf(Class rt) {

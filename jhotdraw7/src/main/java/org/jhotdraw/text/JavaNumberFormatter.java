@@ -289,7 +289,7 @@ public class JavaNumberFormatter extends DefaultFormatter {
                 } else if (valueClass == Long.class) {
                     long v = Long.parseLong(text);
                     v = (long) (v / multiplier);
-                    value = new Long(v);
+                    value = v;
                 } else if (valueClass == Float.class) {
                     float v = Float.parseFloat(text);
                     v = (float) (v / multiplier);
@@ -301,11 +301,11 @@ public class JavaNumberFormatter extends DefaultFormatter {
                 } else if (valueClass == Byte.class) {
                     byte v = Byte.parseByte(text);
                     v = (byte) (v / multiplier);
-                    value = new Byte(v);
+                    value = v;
                 } else if (valueClass == Short.class) {
                     short v = Short.parseShort(text);
                     v = (short) (v / multiplier);
-                    value = new Short(v);
+                    value = v;
                 } else {
                     throw new ParseException("Unsupported value class " + valueClass, 0);
                 }
