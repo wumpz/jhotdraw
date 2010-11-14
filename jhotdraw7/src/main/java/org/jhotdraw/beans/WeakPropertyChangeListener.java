@@ -44,6 +44,7 @@
  */
 package org.jhotdraw.beans;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.beans.*;
 import java.lang.ref.*;
 
@@ -101,6 +102,7 @@ public class WeakPropertyChangeListener implements PropertyChangeListener {
      *
      * @return The target or null.
      */
+    @Nullable
     public PropertyChangeListener getTarget() {
         return weakRef.get();
     }

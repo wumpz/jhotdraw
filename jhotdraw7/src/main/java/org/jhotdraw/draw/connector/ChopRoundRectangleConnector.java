@@ -70,7 +70,6 @@ public class ChopRoundRectangleConnector extends ChopRectangleConnector {
         inner.width += gw * 2;
         inner.height += gh * 2;
         
-        double angle = Geom.pointToAngle(outer, from);
         Point2D.Double p = Geom.angleToPoint(outer, Geom.pointToAngle(outer, from));
         
         if (p.x == outer.x

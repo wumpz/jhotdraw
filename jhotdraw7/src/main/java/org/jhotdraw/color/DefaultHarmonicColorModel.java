@@ -24,7 +24,7 @@ import static org.jhotdraw.color.HarmonicColorModel.*;
  * DefaultHarmonicColorModel.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class DefaultHarmonicColorModel extends AbstractListModel implements HarmonicColorModel, Cloneable {
 

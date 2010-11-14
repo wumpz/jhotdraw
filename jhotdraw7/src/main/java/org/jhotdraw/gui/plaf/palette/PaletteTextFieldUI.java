@@ -24,7 +24,7 @@ import javax.swing.text.*;
  * PaletteTextFieldUI.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class PaletteTextFieldUI extends BasicTextFieldUI {
 

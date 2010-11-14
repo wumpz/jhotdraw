@@ -28,7 +28,7 @@ import javax.swing.event.ChangeListener;
  * having a ColorSliderUI.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public interface ColorSliderModel {
     /**

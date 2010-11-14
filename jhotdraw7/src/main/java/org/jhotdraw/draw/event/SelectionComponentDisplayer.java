@@ -29,7 +29,7 @@ import org.jhotdraw.draw.*;
  * itself if the component no longer exists.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class SelectionComponentDisplayer
         implements PropertyChangeListener, FigureSelectionListener {
@@ -100,6 +100,7 @@ public class SelectionComponentDisplayer
         }
     }
 
+    @Nullable
     protected JComponent getComponent() {
         return weakRef.get();
     }

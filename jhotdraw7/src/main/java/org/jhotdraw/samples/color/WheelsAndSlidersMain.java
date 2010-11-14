@@ -27,7 +27,7 @@ import javax.swing.event.*;
  * A demo of color wheels and color sliders using all kinds of color systems.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class WheelsAndSlidersMain extends javax.swing.JPanel {
 

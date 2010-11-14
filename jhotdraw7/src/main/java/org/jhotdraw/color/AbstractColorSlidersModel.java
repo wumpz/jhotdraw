@@ -21,7 +21,7 @@ import org.jhotdraw.beans.*;
  * AbstractColorSlidersModel.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public abstract class AbstractColorSlidersModel extends AbstractBean implements ColorSliderModel {
 

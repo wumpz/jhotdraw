@@ -24,7 +24,7 @@ import org.jhotdraw.draw.*;
  * on the current view of the editor.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class DrawingComponentRepainter extends FigureAdapter
         implements PropertyChangeListener, Disposable {

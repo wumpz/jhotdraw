@@ -402,8 +402,6 @@ public class JSheet extends JDialog {
             installSheet();
             getContentPane().setVisible(false);
 
-            final long startTime = System.currentTimeMillis();
-            final long endTime = startTime + 300;
             final Rectangle endBounds = getBounds();
             int parentWidth = getParent().getWidth();
             final Rectangle startBounds = new Rectangle(

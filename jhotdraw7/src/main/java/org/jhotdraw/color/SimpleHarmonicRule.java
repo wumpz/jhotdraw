@@ -19,7 +19,7 @@ import java.awt.Color;
  * SimpleHarmonicRule.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class SimpleHarmonicRule extends AbstractHarmonicRule {
 

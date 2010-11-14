@@ -22,7 +22,7 @@ import org.jhotdraw.gui.plaf.palette.*;
  * A ToolBar with disclosure functionality.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class JDisclosureToolBar extends JToolBar {
 
@@ -89,7 +89,6 @@ public class JDisclosureToolBar extends JToolBar {
 
         removeAll();
         JComponent c = getDisclosedComponent(newValue);
-        GridBagLayout layout = (GridBagLayout) getLayout();
         GridBagConstraints gbc = new GridBagConstraints();
         if (c != null) {
             gbc = new GridBagConstraints();

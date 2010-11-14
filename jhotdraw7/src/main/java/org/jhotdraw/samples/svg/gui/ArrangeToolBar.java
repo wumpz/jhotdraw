@@ -42,7 +42,6 @@ public class ArrangeToolBar extends AbstractToolBar {
 
     @Override
     public void setEditor(DrawingEditor newValue) {
-        DrawingEditor oldValue = getEditor();
         if (displayer != null) {
             displayer.dispose();
             displayer = null;

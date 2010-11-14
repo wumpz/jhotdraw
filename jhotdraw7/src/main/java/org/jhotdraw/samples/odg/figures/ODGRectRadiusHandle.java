@@ -76,8 +76,6 @@ public class ODGRectRadiusHandle extends AbstractHandle {
 
     @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
-        int dx = lead.x - anchor.x;
-        int dy = lead.y - anchor.y;
         ODGRectFigure odgRect = (ODGRectFigure) getOwner();
         odgRect.willChange();
         Point2D.Double p = view.viewToDrawing(lead);

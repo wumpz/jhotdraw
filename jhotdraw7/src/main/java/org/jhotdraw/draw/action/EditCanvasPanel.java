@@ -29,7 +29,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * @see org.jhotdraw.draw.Drawing
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 @SuppressWarnings("unchecked")
 public class EditCanvasPanel extends javax.swing.JPanel {

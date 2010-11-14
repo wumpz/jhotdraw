@@ -20,7 +20,7 @@ import javax.swing.plaf.LabelUI;
  * PaletteFontChooserPreviewPanel.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class PaletteFontChooserPreviewPanel extends javax.swing.JPanel {
     

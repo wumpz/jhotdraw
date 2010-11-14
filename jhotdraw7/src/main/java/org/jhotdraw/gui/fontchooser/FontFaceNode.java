@@ -24,7 +24,7 @@ import javax.swing.tree.TreeNode;
  * A FontFaceNode is a MutableTreeNode which does not allow children.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class FontFaceNode implements MutableTreeNode, Comparable<FontFaceNode>, Cloneable {
 

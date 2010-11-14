@@ -56,7 +56,6 @@ public class FontToolBar extends AbstractToolBar {
 
     @Override
     public void setEditor(DrawingEditor newValue) {
-        DrawingEditor oldValue = getEditor();
         if (displayer != null) {
             displayer.dispose();
             displayer = null;

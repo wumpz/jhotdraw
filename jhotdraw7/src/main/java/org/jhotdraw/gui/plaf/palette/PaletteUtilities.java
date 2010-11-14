@@ -22,7 +22,7 @@ import javax.swing.plaf.basic.BasicGraphicsUtils;
  * PaletteUtilities.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class PaletteUtilities  extends BasicGraphicsUtils {
 

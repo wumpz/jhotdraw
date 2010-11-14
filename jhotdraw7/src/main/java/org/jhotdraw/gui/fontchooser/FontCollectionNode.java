@@ -27,7 +27,7 @@ import javax.swing.tree.TreeNode;
  * as child nodes.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class FontCollectionNode implements MutableTreeNode, Comparable<FontCollectionNode>, Cloneable {
 

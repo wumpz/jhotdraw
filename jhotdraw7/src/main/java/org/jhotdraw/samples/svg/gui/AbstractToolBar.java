@@ -28,7 +28,7 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * AbstractToolBar.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements Disposable {
 

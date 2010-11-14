@@ -92,8 +92,6 @@ public class TriangleFigure extends AbstractAttributedFigure {
     
     @Override
     protected void drawFill(Graphics2D g) {
-        Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
-        
         Shape triangle = getBezierPath();
         double grow = AttributeKeys.getPerpendicularFillGrowth(this);
         if (grow != 0d) {

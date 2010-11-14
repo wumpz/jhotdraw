@@ -23,7 +23,7 @@ package org.jhotdraw.draw;
  * @see Constrainer
  * 
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public enum RotationDirection {
     CLOCKWISE,

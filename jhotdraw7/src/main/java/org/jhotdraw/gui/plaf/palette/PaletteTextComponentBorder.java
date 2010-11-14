@@ -29,7 +29,7 @@ import javax.swing.plaf.UIResource;
  * PaletteTextComponentBorder.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class PaletteTextComponentBorder implements Border, UIResource {
 
@@ -39,7 +39,6 @@ public class PaletteTextComponentBorder implements Border, UIResource {
     @Override
     public void paintBorder(Component c, Graphics gr, int x, int y, int width, int height) {
         Graphics2D g = (Graphics2D) gr;
-        JComponent jc = (JComponent) c;
         int borderColor;
         float[] stops;
         Color[] stopColors;

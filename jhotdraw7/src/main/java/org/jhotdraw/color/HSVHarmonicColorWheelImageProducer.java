@@ -20,7 +20,7 @@ import java.awt.Point;
  * HarmonicColorWheelImageProducer.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class HSVHarmonicColorWheelImageProducer extends PolarColorWheelImageProducer {
 
@@ -128,7 +128,6 @@ public class HSVHarmonicColorWheelImageProducer extends PolarColorWheelImageProd
 
     @Override
     public void generateColorWheel() {
-        float radius = (float) Math.min(w, h);
         for (int index = 0; index < pixels.length; index++) {
             if (alphas[index] != 0) {
                 pixels[index] = alphas[index] | 0xffffff & ColorUtil.toRGB(colorSpace,angulars[index], radials[index], brights[index]);

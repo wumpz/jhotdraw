@@ -97,7 +97,6 @@ public class ODGApplicationModel extends DefaultApplicationModel {
         // AttributeKeys for the entitie sets
         HashMap<AttributeKey, Object> attributes;
 
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
 
         ButtonFactory.addSelectionToolTo(tb, editor, createDrawingActions(editor), createSelectionActions(editor));
@@ -121,7 +120,6 @@ public class ODGApplicationModel extends DefaultApplicationModel {
      * Creates toolbar buttons and adds them to the specified JToolBar
      */
     private void addAttributesButtonsTo(JToolBar bar, DrawingEditor editor) {
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         JButton b;
 
         b = bar.add(new PickAttributesAction(editor));
@@ -205,7 +203,6 @@ public class ODGApplicationModel extends DefaultApplicationModel {
     public ActionMap createActionMap(Application a, View v) {
         ActionMap m = super.createActionMap(a, v);
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
         AbstractAction aa;
 
         m.put(ExportFileAction.ID, new ExportFileAction(a, v));

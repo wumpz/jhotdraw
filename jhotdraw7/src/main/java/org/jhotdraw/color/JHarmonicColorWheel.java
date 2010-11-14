@@ -26,7 +26,7 @@ import javax.swing.event.*;
  * FIXME - This is an experimental class. Do not use it.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class JHarmonicColorWheel extends JColorWheel {
 

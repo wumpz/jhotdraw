@@ -53,7 +53,6 @@ public class ColorSquareImageProducer extends AbstractColorWheelImageProducer {
         radials = new float[w * h];
         angulars = new float[w * h];
         alphas = new int[w * h];
-        float radius = getRadius();
 
         float maxR = colorSpace.getMaxValue(radialIndex);
         float minR = colorSpace.getMinValue(radialIndex);

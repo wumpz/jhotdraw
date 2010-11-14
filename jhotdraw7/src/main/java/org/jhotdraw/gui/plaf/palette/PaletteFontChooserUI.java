@@ -32,7 +32,7 @@ import org.jhotdraw.gui.plaf.FontChooserUI;
  * PaletteFontChooserUI.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class PaletteFontChooserUI extends FontChooserUI {
 
@@ -107,7 +107,6 @@ public class PaletteFontChooserUI extends FontChooserUI {
         previewPanel = new PaletteFontChooserPreviewPanel();
         fc.add(previewPanel, BorderLayout.NORTH);
 
-        FontChooserModel model = fontChooser.getModel();
         updateCollectionList();
         updateFamilyList();
         updateFaceList();
@@ -337,7 +336,6 @@ public class PaletteFontChooserUI extends FontChooserUI {
     }
 
     private void doFamilyChanged() {
-        FontChooserModel model = fontChooser.getModel();
         JList list = selectionPanel.getFamilyList();
 
         TreePath path = fontChooser.getSelectionPath();

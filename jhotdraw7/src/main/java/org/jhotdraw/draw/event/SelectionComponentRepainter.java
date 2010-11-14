@@ -24,7 +24,7 @@ import org.jhotdraw.draw.*;
  * and of its views based on the current selection.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class SelectionComponentRepainter extends FigureAdapter
         implements PropertyChangeListener, FigureSelectionListener, Disposable {

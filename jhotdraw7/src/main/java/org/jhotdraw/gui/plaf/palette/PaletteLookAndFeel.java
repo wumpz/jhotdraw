@@ -27,7 +27,7 @@ import javax.swing.plaf.basic.*;
  * A LookAndFeel for components in the palette windows of a drawing editor.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class PaletteLookAndFeel extends BasicLookAndFeel {
 

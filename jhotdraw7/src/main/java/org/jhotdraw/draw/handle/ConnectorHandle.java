@@ -100,8 +100,6 @@ public class ConnectorHandle extends AbstractHandle {
     public void trackStart(Point anchor, int modifiersEx) {
         setConnection(createConnection());
 
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-
         Point2D.Double p = getLocationOnDrawing();
         getConnection().setStartPoint(p);
         getConnection().setEndPoint(p);

@@ -21,7 +21,7 @@ import javax.swing.*;
  * DisclosureIcon.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class DisclosureIcon implements Icon {
     /**

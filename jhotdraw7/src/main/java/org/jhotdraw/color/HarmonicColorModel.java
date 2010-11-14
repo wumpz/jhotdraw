@@ -24,7 +24,7 @@ import javax.swing.ListModel;
  * HarmonicColorModel.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public interface HarmonicColorModel extends ListModel {
     public final static String COLOR_SPACE_PROPERTY = "colorSpace";

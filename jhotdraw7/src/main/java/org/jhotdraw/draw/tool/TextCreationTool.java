@@ -89,25 +89,6 @@ public class TextCreationTool extends CreationTool implements ActionListener {
         // consistent with the search sequence used by the
         // HandleTracker, SelectAreaTracker, DelegationSelectionTool, SelectionTool.
 
-        // If possible, continue to work with the current selection
-        DrawingView v = getView();
-        Point2D.Double p = v.viewToDrawing(e.getPoint());
-        Figure pressedFigure = null;
-        if (true /*isSelectBehindEnabled()*/) {
-            for (Figure f : v.getSelectedFigures()) {
-                if (f.contains(p)) {
-                    pressedFigure = f;
-                    break;
-                }
-            }
-        }
-
-        // If the point is not contained in the current selection,
-        // search for a figure in the drawing.
-        if (pressedFigure == null) {
-            pressedFigure = getDrawing().findFigureInside(p);
-        }
-
         if (typingTarget != null) {
             endEdit();
             if (isToolDoneAfterCreation()) {

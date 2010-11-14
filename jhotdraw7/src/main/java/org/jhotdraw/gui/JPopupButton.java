@@ -80,7 +80,6 @@ public class JPopupButton extends javax.swing.JButton {
                 // We are interested in MouseEvents only
                 return;
             }
-            MouseEvent me = (MouseEvent) ev;
             Component src = (Component) ev.getSource();
 
             // Close popup only on mouse press on a component which has
@@ -176,7 +175,6 @@ public class JPopupButton extends javax.swing.JButton {
 
     /** Adds a sub-menu to the popup menu. */
     public void add(JMenu submenu) {
-        JMenuItem item = getPopupMenu().add(submenu);
         updateItemFont(submenu);
     }
 

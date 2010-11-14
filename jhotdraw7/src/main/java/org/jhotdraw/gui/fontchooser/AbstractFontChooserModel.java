@@ -22,7 +22,7 @@ import javax.swing.tree.*;
  * AbstractFontChooserModel.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public abstract class AbstractFontChooserModel implements FontChooserModel {
     /** Listeners. */

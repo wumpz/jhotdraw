@@ -23,7 +23,7 @@ import javax.swing.plaf.basic.BasicRootPaneUI;
  * PaletteRootPaneUI.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class PaletteRootPaneUI extends BasicRootPaneUI {
 

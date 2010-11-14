@@ -21,7 +21,7 @@ import java.awt.color.ColorSpace;
  * HSLHarmonicColorWheelImageProducer.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class HSLHarmonicColorWheelImageProducer extends PolarColorWheelImageProducer {
 
@@ -145,7 +145,6 @@ public class HSLHarmonicColorWheelImageProducer extends PolarColorWheelImageProd
     @Override
     public Point getColorLocation(float[] hsb) {
         float hue = hsb[0];
-        float saturation = hsb[1];
         float brightness = hsb[2];
         float radius = Math.min(w, h) / 2f;
 

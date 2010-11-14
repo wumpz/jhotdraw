@@ -20,7 +20,7 @@ import javax.swing.plaf.ComponentUI;
  * FontChooserUI.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class FontChooserUI extends ComponentUI {
 

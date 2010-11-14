@@ -19,7 +19,7 @@ import java.awt.Color;
  * HarmonicRule.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public interface HarmonicRule {
     

@@ -29,7 +29,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * can rotate a {@link Figure}.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public abstract class AbstractRotateHandle extends AbstractHandle {
 
@@ -131,7 +131,6 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
         location = new Point(lead.x, lead.y);
         Point2D.Double leadPoint = view.viewToDrawing(lead);
         double stepTheta = Geom.angle(center.x, center.y, leadPoint.x, leadPoint.y);
-        double stepLength = Geom.length(center.x, center.y, leadPoint.x, leadPoint.y);
 
         double currentTheta = view.getConstrainer().constrainAngle(stepTheta - startTheta);
 

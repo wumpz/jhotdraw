@@ -25,7 +25,7 @@ import org.jhotdraw.gui.JFontChooser;
  * FontChooserHandler.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class FontChooserHandler extends AbstractSelectedAction
         implements PropertyChangeListener {

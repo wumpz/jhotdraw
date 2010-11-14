@@ -40,7 +40,6 @@ public class Shapes {
         PathIterator i = shape.getPathIterator(new AffineTransform(), tolerance);
         if (! i.isDone()) {
             double[] coords = new double[6];
-            int type = i.currentSegment(coords);
             double prevX = coords[0];
             double prevY = coords[1];
             i.next();

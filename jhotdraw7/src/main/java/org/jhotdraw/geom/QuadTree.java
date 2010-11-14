@@ -239,7 +239,6 @@ public class QuadTree<T> implements Serializable {
         }
         public void findIntersects(Rectangle2D.Double r, HashSet<T> result) {
             if (bounds.intersects(r)) {
-                int oldSize = result.size();
                 for (Map.Entry<T,Rectangle2D.Double> entry : objects.entrySet()) {
                     if (entry.getValue().intersects(r)) {
                         result.add(entry.getKey());

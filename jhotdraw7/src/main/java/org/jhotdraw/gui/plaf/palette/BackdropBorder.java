@@ -23,7 +23,7 @@ import javax.swing.border.Border;
  * BackdropBorder.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class BackdropBorder implements Border {
 

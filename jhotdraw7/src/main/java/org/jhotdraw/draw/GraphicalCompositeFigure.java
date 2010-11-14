@@ -319,7 +319,6 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
                 getPresentationFigure().set(key, newValue);
             }
             super.set(key, newValue);
-            Object oldValue = attributes.put(key, newValue);
         }
     }
 

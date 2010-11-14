@@ -311,9 +311,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
         if (getLayouter() != null) {
             Rectangle2D.Double bounds = getBounds();
             Point2D.Double p = new Point2D.Double(bounds.x, bounds.y);
-            Rectangle2D.Double r = getLayouter().layout(
-                    this, p, p
-                    );
+            getLayouter().layout(this, p, p);
             invalidate();
         }
     }

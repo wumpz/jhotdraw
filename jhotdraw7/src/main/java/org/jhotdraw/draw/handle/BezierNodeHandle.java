@@ -135,8 +135,6 @@ public class BezierNodeHandle extends AbstractHandle {
     public void trackStart(Point anchor, int modifiersEx) {
         BezierFigure figure = getOwner();
         view.getDrawing().fireUndoableEditHappened(edit = new CompositeEdit("Punkt verschieben"));
-        Point2D.Double location = view.getConstrainer().constrainPoint(view.viewToDrawing(getLocation()));
-        Point2D.Double p = view.getConstrainer().constrainPoint(view.viewToDrawing(anchor));
         oldNode = figure.getNode(index);
         fireHandleRequestSecondaryHandles();
     }

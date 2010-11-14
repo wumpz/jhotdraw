@@ -39,7 +39,7 @@ import javax.swing.plaf.*;
  * its border.
  * 
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
 
@@ -410,16 +410,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
         if (border != null) {
             return (Border) border;
         }
-        UIDefaults table = UIManager.getLookAndFeelDefaults();
         return new EmptyBorder(0, 0, 0, 0);
-        /*
-        return new CompoundBorder(new BasicBorders.RolloverButtonBorder(
-        table.getColor("controlShadow"),
-        table.getColor("controlDkShadow"),
-        table.getColor("controlHighlight"),
-        table.getColor("controlLtHighlight")),
-        new BasicBorders.RolloverMarginBorder());
-         */
     }
 
     /**
@@ -436,32 +427,14 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
         if (border != null) {
             return (Border) border;
         }
-        UIDefaults table = UIManager.getLookAndFeelDefaults();
         return new EmptyBorder(0, 0, 0, 0);
-        /*
-        return new CompoundBorder(new BasicBorders.ButtonBorder(
-        table.getColor("Button.shadow"),
-        table.getColor("Button.darkShadow"),
-        table.getColor("Button.light"),
-        table.getColor("Button.highlight")),
-        new BasicBorders.RolloverMarginBorder());
-         */
     }
 
     /**
      * Creates a non rollover border for Toggle buttons in the toolbar.
      */
     private Border createNonRolloverToggleBorder() {
-        UIDefaults table = UIManager.getLookAndFeelDefaults();
         return new EmptyBorder(0, 0, 0, 0);
-        /*
-        return new CompoundBorder(new BasicBorders.RadioButtonBorder(
-        table.getColor("ToggleButton.shadow"),
-        table.getColor("ToggleButton.darkShadow"),
-        table.getColor("ToggleButton.light"),
-        table.getColor("ToggleButton.highlight")),
-        new BasicBorders.RolloverMarginBorder());
-         */
     }
 
     /**

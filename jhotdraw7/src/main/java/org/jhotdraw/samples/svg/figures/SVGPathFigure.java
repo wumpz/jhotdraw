@@ -359,7 +359,6 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
 
                 @Override
                 public void actionPerformed(ActionEvent evt) {
-                    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
                     willChange();
                     fireUndoableEditHappened(
                             TRANSFORM.setUndoable(SVGPathFigure.this, null));

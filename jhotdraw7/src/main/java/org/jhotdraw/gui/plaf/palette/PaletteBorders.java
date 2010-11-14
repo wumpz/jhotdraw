@@ -19,7 +19,7 @@ import edu.umd.cs.findbugs.annotations.NonNull;
  * PaletteBorders.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class PaletteBorders {
 

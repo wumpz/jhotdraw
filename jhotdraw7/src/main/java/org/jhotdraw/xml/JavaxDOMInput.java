@@ -318,8 +318,6 @@ public class JavaxDOMInput implements DOMInput {
         openElement(index);
         Object o;
 
-        String tagName = getTagName();
-
         String ref = getAttribute("ref", null);
         String id = getAttribute("id", null);
 

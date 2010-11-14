@@ -75,7 +75,6 @@ public class PertApplicationModel extends DefaultApplicationModel {
     public ActionMap createActionMap(Application a, View v) {
         ActionMap m = super.createActionMap(a, v);
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.pert.Labels");
         AbstractAction aa;
 
         m.put(ExportFileAction.ID, new ExportFileAction(a, v));
@@ -136,7 +135,6 @@ public class PertApplicationModel extends DefaultApplicationModel {
     @Override
     public java.util.List<JToolBar> createToolBars(Application a, View pr) {
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.pert.Labels");
         PertView p = (PertView) pr;
 
         DrawingEditor editor;
@@ -166,7 +164,6 @@ public class PertApplicationModel extends DefaultApplicationModel {
     @Override
     public java.util.List<JMenu> createMenus(Application a, View v) {
         // FIXME - Add code for unconfiguring the menus!! We leak memory!
-        PertView p = (PertView) v;
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
 
         //  JMenuBar mb = new JMenuBar();

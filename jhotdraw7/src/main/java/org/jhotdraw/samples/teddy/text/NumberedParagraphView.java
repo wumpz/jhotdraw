@@ -53,7 +53,7 @@ public class NumberedParagraphView extends ParagraphView {
                 g.setColor(Color.gray);
                 int lineAscent = g.getFontMetrics().getAscent();
                 g.setFont(numberFont);
-                int numberAscent = g.getFontMetrics().getAscent();
+                //int numberAscent = g.getFontMetrics().getAscent();
                 int lineNumber = getDocument().
                         getDefaultRootElement().
                         getElementIndex(getStartOffset());

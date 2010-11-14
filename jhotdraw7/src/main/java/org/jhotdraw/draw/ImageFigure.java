@@ -185,7 +185,6 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
     // EDITING
     @Override
     public Collection<Action> getActions(Point2D.Double p) {
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         LinkedList<Action> actions = new LinkedList<Action>();
         return actions;
     }

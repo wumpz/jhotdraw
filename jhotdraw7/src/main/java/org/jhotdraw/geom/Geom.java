@@ -257,7 +257,6 @@ public class Geom {
         // Try for points along edge
         PathIterator i = shape.getPathIterator(new AffineTransform(), 1);
         double[] coords = new double[6];
-        int type = i.currentSegment(coords);
         double prevX = coords[0];
         double prevY = coords[1];
         double moveToX = prevX;

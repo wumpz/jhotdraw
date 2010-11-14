@@ -75,7 +75,7 @@ public class Bezier {
      */
     public static BezierPath fitBezierPath(java.util.List<Point2D.Double> digitizedPoints, double error) {
         // Split into segments at corners
-        ArrayList<ArrayList<Point2D.Double>> segments = new ArrayList<ArrayList<Point2D.Double>>();
+        ArrayList<ArrayList<Point2D.Double>> segments;
         segments = splitAtCorners(digitizedPoints, 77 / 180d * Math.PI, error * error);
         
         // Clean up the data in the segments
@@ -121,8 +121,8 @@ public class Bezier {
                             fittedPath.add(new BezierPath.Node(seg.get(0)));
                         }
                         /*  Unit tangent vectors at endpoints */
-                        Point2D.Double tHat1 = new Point2D.Double();
-                        Point2D.Double tHat2 = new Point2D.Double();
+                        Point2D.Double tHat1;
+                        Point2D.Double tHat2;
                         tHat1 = computeLeftTangent(seg, 0);
                         tHat2 = computeRightTangent(seg, seg.size() - 1);
 
@@ -377,7 +377,7 @@ public class Bezier {
         int nPts;		/*  Number of points in subset  */
         double iterationError; /* Error below which you try iterating  */
         int maxIterations = 4; /*  Max times to try iterating  */
-        Point2D.Double tHatCenter = new Point2D.Double(); /* Unit tangent vector at splitPoint */
+        Point2D.Double tHatCenter; /* Unit tangent vector at splitPoint */
         int i;
 
         // clone unit tangent vectors, so that we can alter their coordinates
@@ -482,7 +482,7 @@ public class Bezier {
      * @param end Index to "left" end of region.
      */
     private static Point2D.Double computeLeftTangent(ArrayList<Point2D.Double> d, int end) {
-        Point2D.Double tHat1 = new Point2D.Double();
+        Point2D.Double tHat1;
         tHat1 = v2SubII(d.get(end + 1), d.get(end));
         tHat1 = v2Normalize(tHat1);
         return tHat1;
@@ -495,7 +495,7 @@ public class Bezier {
      * @param end Index to "right" end of region.
      */
     private static Point2D.Double computeRightTangent(ArrayList<Point2D.Double> d, int end) {
-        Point2D.Double tHat2 = new Point2D.Double();
+        Point2D.Double tHat2;
         tHat2 = v2SubII(d.get(end - 1), d.get(end));
         tHat2 = v2Normalize(tHat2);
         return tHat2;
@@ -508,7 +508,7 @@ public class Bezier {
      * @param center Index to "center" end of region.
      */
     private static Point2D.Double computeCenterTangent(ArrayList<Point2D.Double> d, int center) {
-        Point2D.Double V1 = new Point2D.Double(), V2 = new Point2D.Double(),
+        Point2D.Double V1, V2,
                 tHatCenter = new Point2D.Double();
 
         V1 = v2SubII(d.get(center - 1), d.get(center));
@@ -578,7 +578,7 @@ public class Bezier {
     private static double newtonRaphsonRootFind(Point2D.Double[] Q, Point2D.Double P, double u) {
         double numerator, denominator;
         Point2D.Double[] Q1 = new Point2D.Double[3], Q2 = new Point2D.Double[2];	/*  Q' and Q''			*/
-        Point2D.Double Q_u = new Point2D.Double(), Q1_u = new Point2D.Double(), Q2_u = new Point2D.Double(); /*u evaluated at Q, Q', & Q''	*/
+        Point2D.Double Q_u, Q1_u, Q2_u; /*u evaluated at Q, Q', & Q''	*/
         double uPrime;		/*  Improved u	*/
         int i;
 
@@ -629,8 +629,8 @@ public class Bezier {
         int i;
         double maxDist;		/*  Maximum error */
         double dist;		/*  Current error */
-        Point2D.Double P = new Point2D.Double(); /*  Point on curve */
-        Point2D.Double v = new Point2D.Double(); /*  Vector from point to curve */
+        Point2D.Double P; /*  Point on curve */
+        Point2D.Double v; /*  Vector from point to curve */
 
         splitPoint[0] = (last - first + 1) / 2;
         maxDist = 0.0;

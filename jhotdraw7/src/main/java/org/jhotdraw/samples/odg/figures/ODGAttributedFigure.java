@@ -118,7 +118,6 @@ public abstract class ODGAttributedFigure extends AbstractAttributedFigure imple
             ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
             actions.add(new AbstractAction(labels.getString("edit.removeTransform.text")) {
                 public void actionPerformed(ActionEvent evt) {
-                    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
                     willChange();
                     fireUndoableEditHappened(
                             TRANSFORM.setUndoable(ODGAttributedFigure.this, null)

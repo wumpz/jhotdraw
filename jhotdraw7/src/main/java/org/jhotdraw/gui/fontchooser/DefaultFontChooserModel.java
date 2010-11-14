@@ -38,7 +38,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * </pre>
  * 
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class DefaultFontChooserModel extends AbstractFontChooserModel {
 

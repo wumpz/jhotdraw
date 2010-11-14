@@ -24,7 +24,7 @@ import javax.swing.plaf.basic.*;
  * PaletteSliderUI.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class PaletteSliderUI extends BasicSliderUI {
     private final static float[] enabledStops = new float[]{0f, 0.35f, 0.351f, 1f};
@@ -44,7 +44,6 @@ public class PaletteSliderUI extends BasicSliderUI {
     protected void installDefaults( JSlider slider ) {
         super.installDefaults(slider);
         
-        PaletteLookAndFeel laf = PaletteLookAndFeel.getInstance();
         PaletteLookAndFeel.installBorder(slider, "Slider.border");
         PaletteLookAndFeel.installColors(slider, "Slider.background", "Slider.foreground");
     }
@@ -91,7 +90,7 @@ public class PaletteSliderUI extends BasicSliderUI {
 
         if ( slider.getOrientation() == JSlider.HORIZONTAL ) {
             pad = trackBuffer;
-            cx = pad;
+            //cx = pad;
             cy = (trackBounds.height / 2) - 2;
             cw = trackBounds.width;
 
@@ -111,7 +110,7 @@ public class PaletteSliderUI extends BasicSliderUI {
         else {
             pad = trackBuffer;
             cx = (trackBounds.width / 2) - 2;
-            cy = pad;
+            //cy = pad;
             ch = trackBounds.height;
             g.setColor(new Color(slider.isEnabled() ? 0x888888 : 0xaaaaaa));
             g.drawRoundRect( trackBounds.x + cx, trackBounds.y, 5, ch, 5, 5);

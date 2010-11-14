@@ -74,7 +74,6 @@ public class NetApplicationModel extends DefaultApplicationModel {
     public ActionMap createActionMap(Application a, View v) {
         ActionMap m = super.createActionMap(a, v);
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.net.Labels");
         AbstractAction aa;
 
         m.put(ExportFileAction.ID, new ExportFileAction(a, v));
@@ -108,7 +107,6 @@ public class NetApplicationModel extends DefaultApplicationModel {
         HashMap<AttributeKey, Object> attributes;
 
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.net.Labels");
-        ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
 
         ButtonFactory.addSelectionToolTo(tb, editor);
         tb.addSeparator();
@@ -132,7 +130,6 @@ public class NetApplicationModel extends DefaultApplicationModel {
     @Override
     public java.util.List<JToolBar> createToolBars(Application a, View pr) {
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.net.Labels");
         NetView p = (NetView) pr;
 
         DrawingEditor editor;
@@ -162,7 +159,6 @@ public class NetApplicationModel extends DefaultApplicationModel {
     @Override
     public java.util.List<JMenu> createMenus(Application a, View v) {
         // FIXME - Add code for unconfiguring the menus!! We leak memory!
-        NetView p = (NetView) v;
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
 
         //  JMenuBar mb = new JMenuBar();

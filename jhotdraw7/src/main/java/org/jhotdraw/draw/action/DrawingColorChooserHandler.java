@@ -25,7 +25,7 @@ import org.jhotdraw.draw.*;
  * DrawingColorChooserHandler.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class DrawingColorChooserHandler extends AbstractDrawingViewAction
         implements ChangeListener {

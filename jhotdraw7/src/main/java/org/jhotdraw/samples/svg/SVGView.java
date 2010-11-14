@@ -77,7 +77,6 @@ public class SVGView extends AbstractView {
 
     @Override
     public void dispose() {
-        DrawingEditor e = getEditor();
         clear();
 
         undo.removePropertyChangeListener(propertyHandler);

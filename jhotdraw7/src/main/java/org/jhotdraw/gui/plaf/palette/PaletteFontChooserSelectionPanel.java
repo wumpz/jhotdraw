@@ -23,7 +23,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * PaletteFontChooserSelectionPanel.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class PaletteFontChooserSelectionPanel extends javax.swing.JPanel {
 private ResourceBundleUtil labels;

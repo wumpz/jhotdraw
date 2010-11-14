@@ -127,8 +127,6 @@ public class JFontChooser extends JComponent {
     @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if (evt.getPropertyName() == "ancestor" && evt.getNewValue() != null) {
-                    Component ancestor = (Component) evt.getNewValue();
-
                     try {
                         ((DefaultFontChooserModel) model).setFonts(getAllFonts());
                     } catch (Exception ex) {
@@ -319,10 +317,7 @@ public class JFontChooser extends JComponent {
 
     @Override
                 public Font[] call() throws Exception {
-                    long start = System.currentTimeMillis();
                     Font[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
-                    long end = System.currentTimeMillis();
-                    //System.out.println("JFontChooser has loaded all fonts. Elapsed:"+(end-start));
 
                     // get rid of bogus fonts
                     ArrayList<Font> goodFonts = new ArrayList<Font>(fonts.length);

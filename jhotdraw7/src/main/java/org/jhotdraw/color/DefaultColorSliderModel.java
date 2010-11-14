@@ -24,7 +24,7 @@ import javax.swing.event.*;
  * DefaultColorSliderModel.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class DefaultColorSliderModel extends AbstractColorSlidersModel {
 

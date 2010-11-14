@@ -23,7 +23,7 @@ import java.awt.*;
  * the desired values using {@link DrawingEditor#setHandleAttribute(org.jhotdraw.draw.AttributeKey, java.lang.Object)}.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class HandleAttributeKeys {
     /** Fill color of disabled handles. */

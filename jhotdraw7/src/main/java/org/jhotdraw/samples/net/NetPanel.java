@@ -174,7 +174,6 @@ public class NetPanel extends JPanel  {
         HashMap<AttributeKey,Object> attributes;
         
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.net.Labels");
-        ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         
         ButtonFactory.addSelectionToolTo(tb, editor);
         tb.addSeparator();

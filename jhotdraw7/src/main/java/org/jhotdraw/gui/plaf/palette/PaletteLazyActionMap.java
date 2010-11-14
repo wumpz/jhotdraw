@@ -23,7 +23,7 @@ import javax.swing.plaf.*;
  * QuaquaLazyActionMap.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class PaletteLazyActionMap extends ActionMapUIResource {
     /**

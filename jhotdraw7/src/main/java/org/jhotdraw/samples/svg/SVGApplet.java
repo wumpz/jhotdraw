@@ -340,7 +340,6 @@ public class SVGApplet extends JApplet {
 
                 // Read the data using all supported input formats
                 // until we succeed
-                final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
                 IOException formatException = null;
                 for (InputFormat format : drawing.getInputFormats()) {
                     try {

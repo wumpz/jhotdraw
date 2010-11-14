@@ -255,7 +255,7 @@ public class DrawLiveConnectApplet extends JApplet {
                 methodName = methodName.substring(0, methodName.indexOf('(') - 1);
             }
             JSObject win = JSObject.getWindow(this);
-            Object result = win.call(methodName, new Object[]{getData()});
+            win.call(methodName, new Object[]{getData()});
         } catch (Throwable t) {
             TextFigure tf = new TextFigure("Fehler: " + t);
             AffineTransform tx = new AffineTransform();

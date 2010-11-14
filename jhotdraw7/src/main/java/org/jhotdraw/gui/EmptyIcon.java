@@ -22,7 +22,7 @@ import javax.swing.Icon;
  * EmptyIcon.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class EmptyIcon implements Icon {
     private int width;

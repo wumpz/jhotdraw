@@ -22,7 +22,7 @@ import javax.swing.plaf.basic.*;
  * ButtonUI for palette components.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class PaletteButtonUI extends BasicButtonUI {
     // Shared UI object

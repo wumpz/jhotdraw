@@ -89,7 +89,6 @@ public class PaletteToolBarBorder
                         
                         String theTitle = c.getName();
                         if (theTitle != null) {
-                            Font f = c.getFont();
                             FontMetrics fm = g.getFontMetrics();
                             int titleW;
                             titleW = barH - 8;

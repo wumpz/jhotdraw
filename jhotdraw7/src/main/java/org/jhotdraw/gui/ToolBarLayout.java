@@ -21,7 +21,7 @@ import java.io.Serializable;
  * to their preferred size.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class ToolBarLayout implements LayoutManager2, Serializable {
 

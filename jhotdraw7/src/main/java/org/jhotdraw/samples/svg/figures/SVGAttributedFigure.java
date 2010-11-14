@@ -113,7 +113,6 @@ public abstract class SVGAttributedFigure extends AbstractAttributedFigure {
             actions.add(new AbstractAction(labels.getString("edit.removeTransform.text")) {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
-                    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
                     willChange();
                     fireUndoableEditHappened(
                             TRANSFORM.setUndoable(SVGAttributedFigure.this, null)

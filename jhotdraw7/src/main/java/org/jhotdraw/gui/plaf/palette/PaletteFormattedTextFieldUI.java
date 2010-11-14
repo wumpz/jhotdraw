@@ -25,7 +25,7 @@ import javax.swing.text.*;
  * PaletteFormattedTextFieldUI.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class PaletteFormattedTextFieldUI extends BasicFormattedTextFieldUI {
     private Color errorIndicatorForeground;

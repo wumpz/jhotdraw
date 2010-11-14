@@ -21,7 +21,7 @@ import javax.swing.*;
  * ColorListCellRenderer.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class ColorListCellRenderer extends DefaultListCellRenderer {
 

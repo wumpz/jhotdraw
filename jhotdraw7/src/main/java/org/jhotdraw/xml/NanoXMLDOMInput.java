@@ -248,8 +248,6 @@ public class NanoXMLDOMInput implements DOMInput, Disposable {
         openElement(index);
         Object o;
         
-        String tagName = getTagName();
-
         String ref = getAttribute("ref", null);
         String id = getAttribute("id", null);
 

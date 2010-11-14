@@ -29,7 +29,7 @@ import javax.swing.plaf.UIResource;
  * PaletteButtonBorder.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class PaletteButtonBorder implements Border, UIResource {
 

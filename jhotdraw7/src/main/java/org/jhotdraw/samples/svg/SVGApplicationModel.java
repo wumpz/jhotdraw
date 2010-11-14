@@ -86,8 +86,6 @@ public class SVGApplicationModel extends DefaultApplicationModel {
     @Override
     public ActionMap createActionMap(Application a, View v) {
         ActionMap m = super.createActionMap(a, v);
-        ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         AbstractAction aa;
 
         m.put(ClearSelectionAction.ID, new ClearSelectionAction());
@@ -147,8 +145,6 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         Action action;
 
         ResourceBundleUtil appLabels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
-        ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-        ResourceBundleUtil svgLabels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
 
         m = new JMenu();
         appLabels.configureMenu(m, "view");
@@ -161,7 +157,6 @@ public class SVGApplicationModel extends DefaultApplicationModel {
     @Override
     protected JMenu createEditMenu(Application a, View v) {
         ResourceBundleUtil appLabels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
-        ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
 
         JMenu m = a.createEditMenu(v);
         if (m == null) {

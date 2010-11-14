@@ -28,7 +28,7 @@ import javax.swing.event.*;
  *
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id$
  */
 public class JMixer extends javax.swing.JPanel {
 
@@ -115,18 +115,9 @@ public class JMixer extends javax.swing.JPanel {
 
         harmonicWheel.setColorSpace(HSLColorSpace.getInstance());
 
-        ColorSliderModel m = harmonicWheel.getModel();
         scrollPane.setPreferredSize(new Dimension(100, 100));
         swatchesList.setModel((ListModel) harmonicWheel.getHarmonicColorModel());
         swatchesList.setCellRenderer(new ColorListCellRenderer());
-
-        harmonicWheel.getHarmonicColorModel().addPropertyChangeListener(new PropertyChangeListener() {
-
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                String name = evt.getPropertyName();
-            }
-        });
 
         sliderModel = new DefaultColorSliderModel(harmonicWheel.getHarmonicColorModel().getColorSpace());
         sliderModel.configureSlider(1, saturationSlider);

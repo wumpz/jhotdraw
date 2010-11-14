@@ -758,7 +758,6 @@ public class BezierPath extends ArrayList<BezierPath.Node>
         double pos = 0;
         double[] coords = new double[6];
         PathIterator i = generalPath.getPathIterator(new AffineTransform(), flatness);
-        int type = i.currentSegment(coords);
         double prevX = coords[0];
         double prevY = coords[1];
         i.next();
@@ -795,7 +794,6 @@ public class BezierPath extends ArrayList<BezierPath.Node>
         double len = 0;
         PathIterator i = generalPath.getPathIterator(new AffineTransform(), flatness);
         double[] coords = new double[6];
-        int type = i.currentSegment(coords);
         double prevX = coords[0];
         double prevY = coords[1];
         i.next();

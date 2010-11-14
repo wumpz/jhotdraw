@@ -157,7 +157,6 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
             tx.translate(
                     constrainedRect.x - previousOrigin.x,
                     constrainedRect.y - previousOrigin.y);
-            Constrainer c = view.getConstrainer();
             for (Figure f : transformedFigures) {
                 f.willChange();
                 f.transform(tx);
@@ -188,7 +187,6 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
                     tx.translate(
                             anchorOrigin.x - previousOrigin.x,
                             anchorOrigin.y - previousOrigin.y);
-                    Constrainer c = view.getConstrainer();
                     for (Figure f : transformedFigures) {
                         f.willChange();
                         f.transform(tx);

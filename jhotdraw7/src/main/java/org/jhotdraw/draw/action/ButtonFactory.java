@@ -206,7 +206,7 @@ public class ButtonFactory {
         HSBColorSpace hsbCS = HSBColorSpace.getInstance();
         LinkedList<ColorIcon> m = new LinkedList<ColorIcon>();
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-        m.add(new ColorIcon(new Color(0,true), labels.getToolTipTextProperty("attribute.color.noColor")));
+        m.add(new ColorIcon(new Color(0, true), labels.getToolTipTextProperty("attribute.color.noColor")));
 
         for (int b = 10; b >= 0; b--) {
             Color c = new Color(grayCS, new float[]{b / 10f}, 1f);
@@ -232,12 +232,12 @@ public class ButtonFactory {
         m = new LinkedList<ColorIcon>();
         for (ColorIcon ci : HSB_COLORS) {
             if (ci.getColor() == null) {
-                m.add(new ColorIcon(new Color(0,true), labels.getToolTipTextProperty("attribute.color.noColor")));
+                m.add(new ColorIcon(new Color(0, true), labels.getToolTipTextProperty("attribute.color.noColor")));
             } else {
-                Color c=ci.getColor();
-                 c = c.getColorSpace() == grayCS //
-                        ? new Color(c.getGreen(), c.getGreen(), c.getGreen(),c.getAlpha())//workaround for rounding error
-                        : new Color(c.getRed(),c.getGreen(),c.getBlue(),c.getAlpha());
+                Color c = ci.getColor();
+                c = c.getColorSpace() == grayCS //
+                        ? new Color(c.getGreen(), c.getGreen(), c.getGreen(), c.getAlpha())//workaround for rounding error
+                        : new Color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha());
                 m.add(new ColorIcon(c,//
                         labels.getFormatted("attribute.color.rgbComponents.toolTipText", c.getRed(), c.getGreen(), c.getBlue())));
             }
@@ -333,10 +333,8 @@ public class ButtonFactory {
         t = new JToggleButton();
         final JToggleButton defaultToolButton = t;
 
-        ToolListener toolHandler;
-        if (tb.getClientProperty("toolHandler") instanceof ToolListener) {
-            toolHandler = (ToolListener) tb.getClientProperty("toolHandler");
-        } else {
+        if (!(tb.getClientProperty("toolHandler") instanceof ToolListener)) {
+            ToolListener toolHandler;
             toolHandler = new ToolAdapter() {
 
                 @Override
@@ -475,9 +473,7 @@ public class ButtonFactory {
      * Creates toolbar buttons and adds them to the specified JToolBar
      */
     public static void addAttributesButtonsTo(JToolBar bar, DrawingEditor editor) {
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         JButton b;
-
         b = bar.add(new PickAttributesAction(editor));
         b.setFocusable(false);
         b = bar.add(new ApplyAttributesAction(editor));
@@ -631,9 +627,9 @@ public class ButtonFactory {
         for (ColorIcon swatch : swatches) {
             AttributeAction a;
             HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey, Object>(defaultAttributes);
-            Color swatchColor=swatch.getColor();
+            Color swatchColor = swatch.getColor();
             attributes.put(attributeKey, swatchColor);
-            if (swatchColor == null||swatchColor.getAlpha()==0) {
+            if (swatchColor == null || swatchColor.getAlpha() == 0) {
                 hasNullColor = true;
             }
             popupButton.add(a =
@@ -862,9 +858,9 @@ public class ButtonFactory {
             AttributeAction a;
             HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey, Object>(defaultAttributes);
             if (swatch != null) {
-                Color swatchColor=swatch.getColor();
+                Color swatchColor = swatch.getColor();
                 attributes.put(attributeKey, swatchColor);
-                if (swatchColor == null||swatchColor.getAlpha()==0) {
+                if (swatchColor == null || swatchColor.getAlpha() == 0) {
                     hasNullColor = true;
                 }
                 popupButton.add(a =
@@ -951,16 +947,16 @@ public class ButtonFactory {
 
             @Override
             public void show(Component invoker, int x, int y) {
-                if (colorChooser==null) {
+                if (colorChooser == null) {
                     initialize();
                 }
                 Color c;
-                if (editor.getActiveView()!=null&&editor.getActiveView().getSelectionCount()>0) {
-                    c=editor.getActiveView().getSelectedFigures().iterator().next().get(attributeKey);
+                if (editor.getActiveView() != null && editor.getActiveView().getSelectionCount() > 0) {
+                    c = editor.getActiveView().getSelectedFigures().iterator().next().get(attributeKey);
                 } else {
-                    c=editor.getDefaultAttribute(attributeKey);
+                    c = editor.getDefaultAttribute(attributeKey);
                 }
-                colorChooser.setColor(c==null?new Color(0,true):c);
+                colorChooser.setColor(c == null ? new Color(0, true) : c);
                 super.show(invoker, x, y);
             }
 
@@ -991,7 +987,9 @@ public class ButtonFactory {
         popupButton.setDisabledIcon(icon);
         popupButton.setFocusable(false);
 
-        if (dsp!=null){dsp.add(new SelectionComponentRepainter(editor, popupButton));}
+        if (dsp != null) {
+            dsp.add(new SelectionComponentRepainter(editor, popupButton));
+        }
         return popupButton;
     }
 
@@ -1047,7 +1045,7 @@ public class ButtonFactory {
             DrawingEditor editor, AttributeKey<Color> attributeKey,
             java.util.List<ColorIcon> swatches, int columnCount,
             String labelKey, ResourceBundleUtil labels,
-           @Nullable Map<AttributeKey, Object> defaultAttributes) {
+            @Nullable Map<AttributeKey, Object> defaultAttributes) {
         return createDrawingColorButton(editor, attributeKey,
                 swatches, columnCount, labelKey, labels, defaultAttributes,
                 new Rectangle(1, 17, 20, 4));
@@ -1128,9 +1126,9 @@ public class ButtonFactory {
             DrawingAttributeAction a;
             HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey, Object>(defaultAttributes);
             if (swatch != null) {
-                Color swatchColor=swatch.getColor();
+                Color swatchColor = swatch.getColor();
                 attributes.put(attributeKey, swatchColor);
-                if (swatchColor == null||swatchColor.getAlpha()==0) {
+                if (swatchColor == null || swatchColor.getAlpha() == 0) {
                     hasNullColor = true;
                 }
                 popupButton.add(a =
@@ -1191,12 +1189,13 @@ public class ButtonFactory {
 
         return popupButton;
     }
+
     public static JPopupButton createDrawingColorChooserButton(final DrawingEditor editor,
             final AttributeKey<Color> attributeKey, String labelKey,
             ResourceBundleUtil labels, @Nullable Map<AttributeKey, Object> defaultAttributes,
             Shape colorShape, @Nullable final java.util.List<Disposable> dsp) {
         return createSelectionColorChooserButton(
-                editor, attributeKey, labelKey, labels, defaultAttributes, colorShape,  null, dsp);
+                editor, attributeKey, labelKey, labels, defaultAttributes, colorShape, null, dsp);
     }
 
     public static JPopupButton createDrawingColorChooserButton(final DrawingEditor editor,
@@ -1219,16 +1218,16 @@ public class ButtonFactory {
 
             @Override
             public void show(Component invoker, int x, int y) {
-                if (colorChooser==null) {
+                if (colorChooser == null) {
                     initialize();
                 }
                 Color c;
-                if (editor.getActiveView()!=null) {
-                    c=editor.getActiveView().getDrawing().get(attributeKey);
+                if (editor.getActiveView() != null) {
+                    c = editor.getActiveView().getDrawing().get(attributeKey);
                 } else {
-                    c=editor.getDefaultAttribute(attributeKey);
+                    c = editor.getDefaultAttribute(attributeKey);
                 }
-                colorChooser.setColor(c==null?new Color(0,true):c);
+                colorChooser.setColor(c == null ? new Color(0, true) : c);
                 super.show(invoker, x, y);
             }
 
@@ -1259,7 +1258,9 @@ public class ButtonFactory {
         popupButton.setDisabledIcon(icon);
         popupButton.setFocusable(false);
 
-        if (dsp!=null){dsp.add(new SelectionComponentRepainter(editor, popupButton));}
+        if (dsp != null) {
+            dsp.add(new SelectionComponentRepainter(editor, popupButton));
+        }
         return popupButton;
     }
 
@@ -1708,8 +1709,6 @@ public class ButtonFactory {
      * Creates toolbar buttons and adds them to the specified JToolBar.
      */
     public static void addAlignmentButtonsTo(JToolBar bar, final DrawingEditor editor, java.util.List<Disposable> dsp) {
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-
         AbstractSelectedAction d;
         bar.add(d = new AlignAction.West(editor)).setFocusable(false);
         dsp.add(d);
