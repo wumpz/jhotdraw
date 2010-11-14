@@ -47,7 +47,8 @@ import org.jhotdraw.net.URIUtil;
  */
 public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewAction {
 
-    @Nullable private Component oldFocusOwner;
+    @Nullable
+    private Component oldFocusOwner;
 
     /** Creates a new instance. */
     public AbstractSaveUnsavedChangesAction(Application app, View view) {
@@ -165,12 +166,7 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
 
             @Override
             protected void failed(Throwable value) {
-                String message;
-                if ((value instanceof Throwable) && ((Throwable) value).getMessage() != null) {
-                    message = ((Throwable) value).getMessage();
-                } else {
-                    message = value.toString();
-                }
+                String message = (value.getMessage() != null) ? value.getMessage() : value.toString();
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
                 JSheet.showMessageSheet(getActiveView().getComponent(),
                         "<html>" + UIManager.getString("OptionPane.css")

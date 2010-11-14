@@ -281,15 +281,12 @@ public class ODGInputFormat implements InputFormat {
         </define>
          */
 
-        for (IXMLElement node : elem.getChildren()) {
-            if (node instanceof IXMLElement) {
-                IXMLElement child = (IXMLElement) node;
-                if (child.getNamespace() == null
-                        || child.getNamespace().equals(DRAWING_NAMESPACE)) {
-                    String name = child.getName();
-                    if (name.equals("page")) {
-                        readPageElement(child);
-                    }
+        for (IXMLElement child : elem.getChildren()) {
+            if (child.getNamespace() == null
+                    || child.getNamespace().equals(DRAWING_NAMESPACE)) {
+                String name = child.getName();
+                if (name.equals("page")) {
+                    readPageElement(child);
                 }
             }
         }
@@ -350,13 +347,10 @@ public class ODGInputFormat implements InputFormat {
         • Animations
         • Presentation notes
          */
-        for (IXMLElement node : elem.getChildren()) {
-            if (node instanceof IXMLElement) {
-                IXMLElement child = (IXMLElement) node;
-                ODGFigure figure = readElement(child);
-                if (figure != null) {
-                    figures.add(figure);
-                }
+        for (IXMLElement child : elem.getChildren()) {
+            ODGFigure figure = readElement(child);
+            if (figure != null) {
+                figures.add(figure);
             }
         }
     }
@@ -708,13 +702,10 @@ public class ODGInputFormat implements InputFormat {
             throws IOException {
         CompositeFigure g = createGroupFigure();
 
-        for (IXMLElement node : elem.getChildren()) {
-            if (node instanceof IXMLElement) {
-                IXMLElement child = (IXMLElement) node;
-                Figure childFigure = readElement(child);
-                if (childFigure != null) {
-                    g.basicAdd(childFigure);
-                }
+        for (IXMLElement child : elem.getChildren()) {
+            Figure childFigure = readElement(child);
+            if (childFigure != null) {
+                g.basicAdd(childFigure);
             }
         }
         /*

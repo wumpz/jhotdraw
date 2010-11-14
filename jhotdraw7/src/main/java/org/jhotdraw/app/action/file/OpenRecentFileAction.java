@@ -130,14 +130,7 @@ public class OpenRecentFileAction extends AbstractApplicationAction {
             @Override
             protected void failed(Throwable value) {
                 value.printStackTrace();
-                String message = null;
-                if (value instanceof Throwable) {
-                    ((Throwable) value).printStackTrace();
-                    message = ((Throwable) value).getMessage();
-                    if (message == null) {
-                        message = value.toString();
-                    }
-                }
+                String message = value.getMessage() != null ? value.getMessage() : value.toString();
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
                 JSheet.showMessageSheet(view.getComponent(),
                         "<html>" + UIManager.getString("OptionPane.css")

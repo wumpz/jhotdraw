@@ -134,12 +134,7 @@ public class SaveFileAction extends AbstractViewAction {
             @Override
             protected void failed(Throwable value) {
                 value.printStackTrace();
-                String message;
-                if ((value instanceof Throwable) && ((Throwable) value).getMessage() != null) {
-                    message = ((Throwable) value).getMessage();
-                } else {
-                    message = value.toString();
-                }
+                String message = value.getMessage() != null ? value.getMessage() : value.toString();
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
                 JSheet.showMessageSheet(getActiveView().getComponent(),
                         "<html>" + UIManager.getString("OptionPane.css")

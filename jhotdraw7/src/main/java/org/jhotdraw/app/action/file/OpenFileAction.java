@@ -157,16 +157,7 @@ public class OpenFileAction extends AbstractApplicationAction {
                 value.printStackTrace();
                 view.setEnabled(true);
                 app.setEnabled(true);
-                String message;
-                if ((value instanceof Throwable) && ((Throwable) value).getMessage() != null) {
-                    message = ((Throwable) value).getMessage();
-                    ((Throwable) value).printStackTrace();
-                } else if ((value instanceof Throwable)) {
-                    message = value.toString();
-                    ((Throwable) value).printStackTrace();
-                } else {
-                    message = value.toString();
-                }
+                String message = value.getMessage() != null ? value.getMessage() : value.toString();
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
                 JSheet.showMessageSheet(view.getComponent(),
                         "<html>" + UIManager.getString("OptionPane.css")
