@@ -461,7 +461,7 @@ public interface Figure extends Cloneable, Serializable {
      * such as children and decorators. The cloned figure does not clone
      * the list of FigureListeners from its original. 
      */
-    public Object clone();
+    public Figure clone();
 
     /**
      * After cloning a collection of figures, the ConnectionFigures contained
