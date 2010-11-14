@@ -40,7 +40,7 @@ public class AttributeToggler<T> extends AbstractAction {
     private AttributeKey<T> key;
     private T value1;
     private T value2;
-    private Action compatibleTextAction;
+    @Nullable private Action compatibleTextAction;
     
     /** Creates a new instance. */
     public AttributeToggler(DrawingEditor editor, AttributeKey<T> key, T value1, T value2) {

@@ -36,7 +36,7 @@ import org.jhotdraw.app.View;
 public abstract class AbstractViewAction extends AbstractAction {
 
     private Application app;
-    private View view;
+    @Nullable private View view;
     private String propertyName;
     public final static String VIEW_PROPERTY = "view";
     public final static String ENABLED_PROPERTY = "enabled";

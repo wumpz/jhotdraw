@@ -102,21 +102,12 @@ public class PaletteCMYKChooser
 
         /* Unfortunately the following does not work due to Java bug #4760025 as
          * described at http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4760025*/
-        InputStream in = null;
         try {
             ccModel = new PaletteColorSliderModel(new CMYKGenericColorSpace());
         } catch (IOException e) {
             System.err.println("Warning: " + getClass() + " couldn't load \"Generic CMYK Profile.icc\".");
             //e.printStackTrace();
             ccModel = new PaletteColorSliderModel(new CMYKNominalColorSpace());
-        } finally {
-            try {
-                if (in != null) {
-                    in.close();
-                }
-            } catch (IOException e) {
-                // suppress
-            }
         }
 
         ccModel.configureSlider(0, cyanSlider);

@@ -32,7 +32,7 @@ import org.jhotdraw.draw.*;
  */
 public class DefaultAttributeAction extends AbstractSelectedAction {
     private AttributeKey[] keys;
-    private Map<AttributeKey,Object> fixedAttributes;
+    @Nullable private Map<AttributeKey,Object> fixedAttributes;
     
     
     /** Creates a new instance. */

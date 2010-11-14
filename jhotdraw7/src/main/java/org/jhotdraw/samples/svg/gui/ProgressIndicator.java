@@ -63,7 +63,7 @@ public class ProgressIndicator extends javax.swing.JPanel {
         return messageLabel.getText();
     }
 
-    public void setNote(final String newValue) {
+    public void setNote(@Nullable final String newValue) {
         String oldValue = noteLabel.getText();
         noteLabel.setText(newValue);
         if (oldValue == null || newValue == null && oldValue != newValue) {

@@ -32,7 +32,7 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  */
 public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements Disposable {
 
-    protected DrawingEditor editor;
+    @Nullable protected DrawingEditor editor;
     @Nullable private JComponent[] panels;
     protected Preferences prefs;
     protected PropertyChangeListener eventHandler;

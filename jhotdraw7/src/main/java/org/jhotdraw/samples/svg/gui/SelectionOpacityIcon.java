@@ -27,10 +27,12 @@ import org.jhotdraw.draw.*;
  */
 public class SelectionOpacityIcon extends javax.swing.ImageIcon {
 
+    @Nullable
     private DrawingEditor editor;
     private AttributeKey<Double> opacityKey;
     private AttributeKey<Color> fillColorKey;
-    @Nullable private AttributeKey<Color> strokeColorKey;
+    @Nullable
+    private AttributeKey<Color> strokeColorKey;
     private Shape fillShape;
     private Shape strokeShape;
 

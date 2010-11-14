@@ -35,7 +35,7 @@ public class ConnectorHandle extends AbstractHandle {
     /**
      * Holds the ConnectionFigure which is currently being created.
      */
-    private ConnectionFigure createdConnection;
+    @Nullable private ConnectionFigure createdConnection;
     /**
      * The prototype for the ConnectionFigure to be created
      */

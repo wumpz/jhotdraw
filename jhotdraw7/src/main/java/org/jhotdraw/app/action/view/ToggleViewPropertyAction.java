@@ -14,6 +14,7 @@
 
 package org.jhotdraw.app.action.view;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.event.*;
 import java.beans.*;
 import org.jhotdraw.app.Application;
@@ -83,7 +84,8 @@ public class ToggleViewPropertyAction extends AbstractViewAction {
             throw error;
         }
     }
-    
+
+    @Nullable
     private Object getCurrentValue() {
         View p = getActiveView();
         if (p != null) {

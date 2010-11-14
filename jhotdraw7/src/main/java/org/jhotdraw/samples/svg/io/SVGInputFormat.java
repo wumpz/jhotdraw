@@ -215,7 +215,10 @@ public class SVGInputFormat implements InputFormat {
      */
     @Override
     public void read(InputStream in, Drawing drawing, boolean replace) throws IOException {
-        long start = System.currentTimeMillis();
+        long start;
+        if (DEBUG) {
+            start = System.currentTimeMillis();
+        }
         this.figures = new LinkedList<Figure>();
         IXMLParser parser;
         try {
@@ -225,10 +228,14 @@ public class SVGInputFormat implements InputFormat {
             e.initCause(ex);
             throw e;
         }
-        System.out.println("SVGInputFormat parser created " + (System.currentTimeMillis() - start));
+        if (DEBUG) {
+            System.out.println("SVGInputFormat parser created " + (System.currentTimeMillis() - start));
+        }
         IXMLReader reader = new StdXMLReader(in);
         parser.setReader(reader);
-        System.out.println("SVGInputFormat reader created " + (System.currentTimeMillis() - start));
+        if (DEBUG) {
+            System.out.println("SVGInputFormat reader created " + (System.currentTimeMillis() - start));
+        }
         try {
             document = (IXMLElement) parser.parse();
         } catch (XMLException ex) {
@@ -236,7 +243,9 @@ public class SVGInputFormat implements InputFormat {
             e.initCause(ex);
             throw e;
         }
-        System.out.println("SVGInputFormat document created " + (System.currentTimeMillis() - start));
+        if (DEBUG) {
+            System.out.println("SVGInputFormat document created " + (System.currentTimeMillis() - start));
+        }
 
         // Search for the first 'svg' element in the XML document
         // in preorder sequence
@@ -282,8 +291,8 @@ public class SVGInputFormat implements InputFormat {
 
         readElement(svg);
 
-        long end = System.currentTimeMillis();
         if (DEBUG) {
+            long end = System.currentTimeMillis();
             System.out.println("SVGInputFormat elapsed:" + (end - start));
         }
         /*if (DEBUG) System.out.println("SVGInputFormat read:"+(end1-start));

@@ -27,7 +27,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  */
 public class ColorIcon implements javax.swing.Icon {
 
-    private Color fillColor;
+    @Nullable private Color fillColor;
     private static BufferedImage noColorImage;
     private int width;
     private int height;

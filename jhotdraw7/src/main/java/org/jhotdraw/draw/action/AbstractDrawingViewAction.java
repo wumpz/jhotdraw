@@ -45,7 +45,7 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  */
 public abstract class AbstractDrawingViewAction extends AbstractAction implements Disposable {
 
-    private DrawingEditor editor;
+    @Nullable private DrawingEditor editor;
     @Nullable private DrawingView specificView;
     @Nullable transient private DrawingView activeView;
 
@@ -106,6 +106,7 @@ public abstract class AbstractDrawingViewAction extends AbstractAction implement
         return editor;
     }
 
+    @Nullable
     protected DrawingView getView() {
         return (specificView != null || editor==null) ? specificView : editor.getActiveView();
     }

@@ -28,7 +28,7 @@ import javax.swing.border.Border;
 public class BackdropBorder implements Border {
 
     private Border backgroundBorder;
-    private Border foregroundBorder;
+    @Nullable private Border foregroundBorder;
 
     public BackdropBorder(Border backgroundBorder) {
         this(null, backgroundBorder);

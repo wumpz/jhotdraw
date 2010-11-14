@@ -64,7 +64,7 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
      * an own presentation but present only the sum of all its
      * children.
      */
-    private Figure presentationFigure;
+    @Nullable private Figure presentationFigure;
     /**
      * Handles figure changes in the children.
      */
@@ -255,7 +255,7 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
      * 
      * @param newPresentationFigure	figure takes over the presentation tasks
      */
-    public void setPresentationFigure(Figure newPresentationFigure) {
+    public void setPresentationFigure(@Nullable Figure newPresentationFigure) {
         if (this.presentationFigure != null) {
             this.presentationFigure.removeFigureListener(presentationFigureHandler);
             if (getDrawing() != null) {

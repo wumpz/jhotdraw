@@ -77,12 +77,13 @@ public class PalettePanelUI extends BasicPanelUI {
             g.setColor(c.getBackground());
             g.fillRect(0, 0, c.getWidth(), c.getHeight());
         }
-        
+        /*
         Border backgroundBorder = null;
         Insets insets = new Insets(0,0,0,0);
 
         if (backgroundBorder != null) {
             backgroundBorder.paintBorder(c, gr, insets.left, insets.top, c.getWidth() - insets.left - insets.right, c.getHeight() - insets.top - insets.bottom);
         }
+        */
     }
 }

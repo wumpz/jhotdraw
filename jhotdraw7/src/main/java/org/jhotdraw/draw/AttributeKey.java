@@ -47,7 +47,7 @@ public class AttributeKey<T> implements Serializable {
     /**
      * Holds the default value.
      */
-    private T defaultValue;
+    @Nullable private T defaultValue;
     /**
      * Specifies whether null values are allowed.
      */

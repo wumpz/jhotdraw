@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.app.action.edit;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.event.*;
 import javax.swing.*;
 import java.beans.*;
@@ -44,6 +45,7 @@ public class RedoAction extends AbstractViewAction {
     private ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
     private PropertyChangeListener redoActionPropertyListener = new PropertyChangeListener() {
 
+        @Override
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
             if (name == AbstractAction.NAME) {
@@ -55,7 +57,7 @@ public class RedoAction extends AbstractViewAction {
     };
 
     /** Creates a new instance. */
-    public RedoAction(Application app, View view) {
+    public RedoAction(Application app, @Nullable View view) {
         super(app, view);
         labels.configureAction(this, ID);
     }
@@ -105,6 +107,7 @@ public class RedoAction extends AbstractViewAction {
         }
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
         Action realAction = getRealRedoAction();
         if (realAction != null && realAction!=this) {
@@ -112,6 +115,7 @@ public class RedoAction extends AbstractViewAction {
         }
     }
 
+    @Nullable
     private Action getRealRedoAction() {
         return (getActiveView() == null) ? null : getActiveView().getActionMap().get(ID);
     }

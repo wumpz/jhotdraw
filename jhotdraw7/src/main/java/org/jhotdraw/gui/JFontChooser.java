@@ -62,11 +62,11 @@ public class JFontChooser extends JComponent {
     /**
      * Holds the selected path of the JFontChooser.
      */
-    private TreePath selectionPath;
+    @Nullable private TreePath selectionPath;
     /**
      * Holds the selected font of the JFontChooser.
      */
-    private Font selectedFont;
+    @Nullable private Font selectedFont;
     /**
      * Holds the model of the JFontChooser.
      */
@@ -363,7 +363,7 @@ public class JFontChooser extends JComponent {
      * 
      * @return The selected font, or null, if no font is selected.
      */
-    public Font getSelectedFont() {
+    @Nullable public Font getSelectedFont() {
         return selectedFont;
     }
 
@@ -379,7 +379,7 @@ public class JFontChooser extends JComponent {
      * @param newValue The new selected font, or null if no font is to be
      * selected.
      */
-    public void setSelectedFont(Font newValue) {
+    public void setSelectedFont(@Nullable Font newValue) {
         Font oldValue = selectedFont;
         this.selectedFont = newValue;
         firePropertyChange(SELECTED_FONT_PROPERTY, oldValue, newValue);
@@ -394,7 +394,7 @@ public class JFontChooser extends JComponent {
      * 
      * @param newValue
      */
-    protected void updateSelectionPath(Font newValue) {
+    protected void updateSelectionPath(@Nullable Font newValue) {
         if (newValue == null || selectionPath == null || selectionPath.getPathCount() != 4 ||
                 !((FontFaceNode) selectionPath.getLastPathComponent()).getFont().getFontName().equals(newValue.getFontName())) {
             if (newValue == null) {

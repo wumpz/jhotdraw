@@ -28,7 +28,7 @@ public class ColorListCellRenderer extends DefaultListCellRenderer {
     
     private static class ColorIcon implements Icon {
 
-        private Color color;
+        @Nullable private Color color;
 
         public void setColor(@Nullable Color newValue) {
             color = newValue;

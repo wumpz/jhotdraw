@@ -41,8 +41,8 @@ import java.util.*;
 public class FigureEvent extends EventObject {
     private Rectangle2D.Double invalidatedArea;
     private AttributeKey attribute;
-    private Object oldValue;
-    private Object newValue;
+    @Nullable private Object oldValue;
+    @Nullable private Object newValue;
     
     /**
      * Constructs an event for the given source Figure.

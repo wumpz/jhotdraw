@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.app.action.edit;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.event.*;
 import javax.swing.*;
 import java.beans.*;
@@ -55,7 +56,7 @@ public class UndoAction extends AbstractViewAction {
     };
 
     /** Creates a new instance. */
-    public UndoAction(Application app, View view) {
+    public UndoAction(Application app, @Nullable View view) {
         super(app, view);
         labels.configureAction(this, ID);
     }
@@ -113,6 +114,7 @@ public class UndoAction extends AbstractViewAction {
         }
     }
 
+    @Nullable
     private Action getRealUndoAction() {
         return (getActiveView() == null) ? null : getActiveView().getActionMap().get(ID);
     }

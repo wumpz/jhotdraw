@@ -32,7 +32,7 @@ import org.jhotdraw.net.URIUtil;
 public class FocusWindowAction extends AbstractAction {
 
     public final static String ID = "window.focus";
-    private View view;
+    @Nullable private View view;
     private PropertyChangeListener ppc;
 
     /** Creates a new instance. */

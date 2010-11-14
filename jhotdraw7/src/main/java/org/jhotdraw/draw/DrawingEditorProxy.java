@@ -43,7 +43,7 @@ import org.jhotdraw.beans.AbstractBean;
  * @version $Id$
  */
 public class DrawingEditorProxy extends AbstractBean implements DrawingEditor {
-    private DrawingEditor target;
+    @Nullable private DrawingEditor target;
 
     private class Forwarder implements PropertyChangeListener, Serializable {
     @Override
@@ -102,7 +102,8 @@ public class DrawingEditorProxy extends AbstractBean implements DrawingEditor {
     public void setActiveView(DrawingView newValue) {
         target.setActiveView(newValue);
     }
-    
+
+    @Nullable
     public DrawingView getFocusedView() {
         return (target == null) ? null : target.getActiveView();
     }

@@ -66,7 +66,7 @@ public class DefaultDrawingView
     private Constrainer visibleConstrainer = new GridConstrainer(8, 8);
     private Constrainer invisibleConstrainer = new GridConstrainer();
     private Handle secondaryHandleOwner;
-    private Handle activeHandle;
+    @Nullable private Handle activeHandle;
     private LinkedList<Handle> secondaryHandles = new LinkedList<Handle>();
     private boolean handlesAreValid = true;
     @Nullable

@@ -50,8 +50,16 @@ public class SaveFileAction extends AbstractViewAction {
     private Component oldFocusOwner;
 
     /** Creates a new instance. */
-    public SaveFileAction(Application app, View view) {
+    public SaveFileAction(Application app, @Nullable View view) {
         this(app, view, false);
+    }
+
+    /** Creates a new instance. */
+    public SaveFileAction(Application app, @Nullable View view, boolean saveAs) {
+        super(app, view);
+        this.saveAs = saveAs;
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
+        labels.configureAction(this, ID);
     }
 
     protected URIChooser getChooser(View view) {
@@ -63,17 +71,12 @@ public class SaveFileAction extends AbstractViewAction {
         return chsr;
     }
 
-    /** Creates a new instance. */
-    public SaveFileAction(Application app, View view, boolean saveAs) {
-        super(app, view);
-        this.saveAs = saveAs;
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
-        labels.configureAction(this, ID);
-    }
-
     @Override
     public void actionPerformed(ActionEvent evt) {
         final View view = getActiveView();
+        if (view == null) {
+            return;
+        }
         if (view.isEnabled()) {
             oldFocusOwner = SwingUtilities.getWindowAncestor(view.getComponent()).getFocusOwner();
             view.setEnabled(false);

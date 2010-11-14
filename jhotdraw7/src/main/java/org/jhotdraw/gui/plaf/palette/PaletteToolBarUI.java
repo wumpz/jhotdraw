@@ -1407,7 +1407,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
 
         Color borderColor = Color.gray;
         int orientation = toolBar.getOrientation();
-        Point offset; // offset of the mouse cursor inside the DragWindow
+        @Nullable Point offset; // offset of the mouse cursor inside the DragWindow
 
         DragWindow(Window w) {
             super(w);

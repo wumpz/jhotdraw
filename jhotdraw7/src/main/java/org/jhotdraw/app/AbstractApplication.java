@@ -51,7 +51,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     protected ResourceBundleUtil labels;
     protected ApplicationModel model;
     private Preferences prefs;
-    private View activeView;
+    @Nullable private View activeView;
     public final static String VIEW_COUNT_PROPERTY = "viewCount";
     private LinkedList<URI> recentFiles = new LinkedList<URI>();
     private final static int maxRecentFilesCount = 10;
@@ -385,9 +385,9 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
 
         private JMenu openRecentMenu;
         private LinkedList<Action> openRecentActions = new LinkedList<Action>();
-        private View view;
+        @Nullable private View view;
 
-        public OpenRecentMenuHandler(JMenu openRecentMenu, View view) {
+        public OpenRecentMenuHandler(JMenu openRecentMenu, @Nullable View view) {
             this.openRecentMenu = openRecentMenu;
             this.view = view;
             if (view != null) {
