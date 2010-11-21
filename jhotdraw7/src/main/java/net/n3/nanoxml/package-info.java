@@ -1,9 +1,8 @@
 /*
   @(#)package.html	1.60 98/01/27
 
- * Copyright (c) 2009 by the original authors of JHotDraw
- * and all its contributors.
- * All rights reserved.
+ * Copyright (c) 2009 by the original authors of JHotDraw and all its
+ * contributors. All rights reserved.
  *
  * The copyright of this software is owned by the authors and
  * contributors of the JHotDraw project ("the copyright holders").
