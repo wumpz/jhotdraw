@@ -19,6 +19,7 @@ import java.util.*;
 import java.awt.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * EditorColorChooserAction.
@@ -30,8 +31,8 @@ import org.jhotdraw.draw.*;
  * @version $Id$
  */
 public class EditorColorChooserAction extends AttributeAction {
-    protected AttributeKey<Color> key;
 
+    protected AttributeKey<Color> key;
     protected static JColorChooser colorChooser;
 
     /** Creates a new instance. */
@@ -70,6 +71,8 @@ public class EditorColorChooserAction extends AttributeAction {
         }
         Color initialColor = getInitialColor();
         // FIXME - Reuse colorChooser object instead of calling static method here.
+        ResourceBundleUtil labels =
+                ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         Color chosenColor = JColorChooser.showDialog((Component) e.getSource(), labels.getString("attribute.color.text"), initialColor);
         if (chosenColor != null) {
             HashMap<AttributeKey, Object> attr = new HashMap<AttributeKey, Object>(attributes);

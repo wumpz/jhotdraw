@@ -35,12 +35,13 @@ public class Main {
         } else {
             app = new SDIApplication();
         }
+            app = new MDIApplication();
         
         
         DefaultApplicationModel model = new NetApplicationModel();
         model.setName("JHotDraw Net");
         model.setVersion(Main.class.getPackage().getImplementationVersion());
-        model.setCopyright("Copyright 2006-2009 (c) by the authors of JHotDraw and all its contributors.\n" +
+        model.setCopyright("Copyright 2006-2010 (c) by the authors of JHotDraw and all its contributors.\n" +
                 "This software is licensed under LGPL and Creative Commons 3.0 Attribution.");
         model.setViewClassName("org.jhotdraw.samples.net.NetView");
         app.setModel(model);

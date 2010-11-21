@@ -28,12 +28,12 @@ import java.util.*;
 public class CombineAction extends GroupAction {
 
     public final static String ID = "edit.combinePaths";
+    private ResourceBundleUtil labels =
+            ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
 
     /** Creates a new instance. */
     public CombineAction(DrawingEditor editor) {
         super(editor, new ODGPathFigure());
-
-        labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
         labels.configureAction(this, ID);
     }
 

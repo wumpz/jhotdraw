@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.samples.svg.action;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
@@ -46,7 +47,7 @@ public class ViewSourceAction extends AbstractViewAction {
     private final static String DIALOG_CLIENT_PROPERTY = "view.viewSource.dialog";
 
     /** Creates a new instance. */
-    public ViewSourceAction(Application app, View view) {
+    public ViewSourceAction(Application app, @Nullable View view) {
         super(app, view);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         labels.configureAction(this, ID);

@@ -16,6 +16,7 @@ package org.jhotdraw.samples.svg.action;
 
 import org.jhotdraw.draw.*;
 import org.jhotdraw.samples.svg.figures.*;
+import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * SplitPathsAction.
@@ -25,6 +26,8 @@ import org.jhotdraw.samples.svg.figures.*;
  */
 public class SplitAction extends CombineAction {
     public final static String ID = "edit.splitPath";
+    private ResourceBundleUtil labels =
+            ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
     
     /** Creates a new instance. */
     public SplitAction(DrawingEditor editor) {

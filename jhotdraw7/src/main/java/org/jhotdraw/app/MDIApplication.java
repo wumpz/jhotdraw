@@ -366,7 +366,7 @@ public class MDIApplication extends AbstractApplication {
     public void hide(View v) {
         if (v.isShowing()) {
             JInternalFrame f = (JInternalFrame) SwingUtilities.getRootPane(v.getComponent()).getParent();
-            if (getActiveView()==v) {
+            if (getActiveView() == v) {
                 setActiveView(null);
             }
             f.setVisible(false);
@@ -428,7 +428,9 @@ public class MDIApplication extends AbstractApplication {
         String viewMenuText = labels.getString("view.text");
         String windowMenuText = labels.getString("window.text");
         String helpMenuText = labels.getString("help.text");
-        for (JMenu mm : getModel().createMenus(this, v)) {
+        LinkedList<JMenu> ll = new LinkedList<JMenu>();
+        getModel().getMenuBuilder().addOtherMenus(ll, this, v);
+        for (JMenu mm : ll) {
             String text = mm.getText();
             if (text == null) {
                 mm.setText("-null-");
@@ -489,19 +491,19 @@ public class MDIApplication extends AbstractApplication {
     }
 
     @Override
+    @Nullable
     public JMenu createFileMenu(View view) {
         JMenu m;
 
         m = new JMenu();
         labels.configureMenu(m, "file");
-        addAction(m, view, ClearFileAction.ID);
-        addAction(m, view, NewFileAction.ID);
-        addAction(m, view, NewWindowAction.ID);
+        MenuBuilder mb = model.getMenuBuilder();
+        mb.addClearFileItems(m, this, view);
+        mb.addNewFileItems(m, this, view);
+        mb.addNewWindowItems(m, this, view);
 
-        addAction(m, view, LoadFileAction.ID);
-        addAction(m, view, OpenFileAction.ID);
-        addAction(m, view, LoadDirectoryAction.ID);
-        addAction(m, view, OpenDirectoryAction.ID);
+        mb.addLoadFileItems(m, this, view);
+        mb.addOpenFileItems(m, this, view);
 
         if (getAction(view, LoadFileAction.ID) != null ||//
                 getAction(view, OpenFileAction.ID) != null ||//
@@ -510,16 +512,18 @@ public class MDIApplication extends AbstractApplication {
             m.add(createOpenRecentFileMenu(view));
         }
         maybeAddSeparator(m);
-        addAction(m, view, CloseFileAction.ID);
-        addAction(m, view, SaveFileAction.ID);
-        addAction(m, view, SaveFileAsAction.ID);
-        addAction(m, view, ExportFileAction.ID);
-        addAction(m, view, PrintFileAction.ID);
+
+        mb.addCloseFileItems(m, this, view);
+        mb.addSaveFileItems(m, this, view);
+        mb.addExportFileItems(m, this, view);
+        mb.addPrintFileItems(m, this, view);
+
+        mb.addOtherFileItems(m, this, view);
 
         maybeAddSeparator(m);
-        addAction(m, view, ExitAction.ID);
+        mb.addExitItems(m, this, view);
 
-        return m;
+        return (m.getItemCount() == 0) ? null : m;
     }
 
     /**
@@ -544,11 +548,19 @@ public class MDIApplication extends AbstractApplication {
     }
 
     @Override
-    public JMenu createViewMenu(View v) {
-        return null;
+    @Nullable
+    public JMenu createViewMenu(final View view) {
+        JMenu m = new JMenu();
+        labels.configureMenu(m, "view");
+
+        MenuBuilder mb = model.getMenuBuilder();
+        mb.addOtherViewItems(m, this, view);
+
+        return (m.getItemCount() > 0) ? m : null;
     }
 
     @Override
+    @Nullable
     public JMenu createWindowMenu(View view) {
         JMenu m;
         JMenuItem mi;
@@ -573,12 +585,16 @@ public class MDIApplication extends AbstractApplication {
             }
         }
 
+        MenuBuilder mb = model.getMenuBuilder();
+        mb.addOtherWindowItems(m, this, view);
+
         addPropertyChangeListener(new WindowMenuHandler(windowMenu, view));
 
-        return m;
+        return (m.getItemCount() == 0) ? null : m;
     }
 
     @Override
+    @Nullable
     public JMenu createEditMenu(View view) {
 
         JMenu m;
@@ -586,44 +602,40 @@ public class MDIApplication extends AbstractApplication {
         Action a;
         m = new JMenu();
         labels.configureMenu(m, "edit");
-        addAction(m, view, UndoAction.ID);
-        addAction(m, view, RedoAction.ID);
-
+        MenuBuilder mb = model.getMenuBuilder();
+        mb.addUndoItems(m, this, view);
         maybeAddSeparator(m);
-
-        addAction(m, view, CutAction.ID);
-        addAction(m, view, CopyAction.ID);
-        addAction(m, view, PasteAction.ID);
-        addAction(m, view, DuplicateAction.ID);
-        addAction(m, view, DeleteAction.ID);
+        mb.addClipboardItems(m, this, view);
         maybeAddSeparator(m);
-        addAction(m, view, SelectAllAction.ID);
-        addAction(m, view, ClearSelectionAction.ID);
+        mb.addSelectionItems(m, this, view);
         maybeAddSeparator(m);
-        addAction(m, view, AbstractFindAction.ID);
+        mb.addFindItems(m, this, view);
         maybeAddSeparator(m);
-        addAction(m, view, AbstractPreferencesAction.ID);
-        return (m.getPopupMenu().getComponentCount() == 0) ? null : m;
+        mb.addOtherEditItems(m, this, view);
+        maybeAddSeparator(m);
+        mb.addPreferencesItems(m, this, view);
+        return (m.getItemCount() == 0) ? null : m;
     }
 
     @Override
     public JMenu createHelpMenu(View view) {
-        JMenu m;
-        JMenuItem mi;
-
-        m = new JMenu();
+        JMenu m = new JMenu();
         labels.configureMenu(m, "help");
-        addAction(m, view, AboutAction.ID);
-        return m;
+
+        MenuBuilder mb = model.getMenuBuilder();
+        mb.addHelpItems(m, this, view);
+        mb.addAboutItems(m, this, view);
+
+        return (m.getItemCount() == 0) ? null : m;
     }
 
     /** Updates the menu items in the "Window" menu. */
     private class WindowMenuHandler implements PropertyChangeListener {
 
         private JMenu windowMenu;
-        private View view;
+        @Nullable private View view;
 
-        public WindowMenuHandler(JMenu windowMenu, View view) {
+        public WindowMenuHandler(JMenu windowMenu, @Nullable View view) {
             this.windowMenu = windowMenu;
             this.view = view;
             MDIApplication.this.addPropertyChangeListener(this);

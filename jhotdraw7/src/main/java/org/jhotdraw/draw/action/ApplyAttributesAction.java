@@ -17,6 +17,7 @@ import org.jhotdraw.draw.event.FigureSelectionEvent;
 import org.jhotdraw.undo.*;
 import java.util.*;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.util.ResourceBundleUtil;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
@@ -33,6 +34,7 @@ public class ApplyAttributesAction extends AbstractSelectedAction {
     /** Creates a new instance. */
     public ApplyAttributesAction(DrawingEditor editor) {
         super(editor);
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         labels.configureAction(this, "edit.applyAttributes");
         updateEnabledState();
     }
@@ -53,6 +55,7 @@ public class ApplyAttributesAction extends AbstractSelectedAction {
     public void applyAttributes() {
         DrawingEditor editor = getEditor();
 
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         CompositeEdit edit = new CompositeEdit(labels.getString("edit.applyAttributes.text"));
         DrawingView view = getView();
         view.getDrawing().fireUndoableEditHappened(edit);

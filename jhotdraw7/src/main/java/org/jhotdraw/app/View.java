@@ -160,10 +160,14 @@ public interface View extends Disposable {
     public void clear();
     
     /**
-     * Whether the view is clear.
+     * Whether the view is empty. A view is considered empty if the application
+     * has implicit consent from the user to reuse or destroy the view at any
+     * time. For example, an application may open an empty view immediately
+     * after startup. If the user chooses to open a document, the document is
+     * opened in this view rather than in a new view.
      * <p>
      * If this method returns true, {@link org.jhotdraw.app.action.file.OpenFileAction}
-     * and similar actions may choose to open a file in this view, instead of
+     * and similar actions will open a file in this view, instead of
      * opening a new view.
      * 
      * @return True if the view can be reused by open actions.

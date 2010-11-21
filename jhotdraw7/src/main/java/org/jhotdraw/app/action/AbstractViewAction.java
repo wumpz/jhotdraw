@@ -78,7 +78,7 @@ public abstract class AbstractViewAction extends AbstractAction {
      * Updates the listeners of this action depending on the current view
      * of the application.
      */
-    protected void updateView(View oldValue, View newValue) {
+    protected void updateView(@Nullable View oldValue, @Nullable View newValue) {
         // We only need to do this, if the view has not been explicitly set
         if (view == null) {
             if (oldValue != null) {

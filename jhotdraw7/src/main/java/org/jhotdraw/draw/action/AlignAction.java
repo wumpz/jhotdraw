@@ -31,6 +31,8 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public abstract class AlignAction extends AbstractSelectedAction {
+    protected ResourceBundleUtil labels =
+            ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
     
     /** Creates a new instance. */
     public AlignAction(DrawingEditor editor) {

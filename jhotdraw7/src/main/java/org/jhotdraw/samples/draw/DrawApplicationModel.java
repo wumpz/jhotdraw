@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.samples.draw;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.tool.CreationTool;
 import org.jhotdraw.draw.tool.BezierTool;
 import org.jhotdraw.draw.tool.TextCreationTool;
@@ -60,7 +61,7 @@ public class DrawApplicationModel extends DefaultApplicationModel {
     }
 
     @Override
-    public void initView(Application a, View p) {
+    public void initView(Application a,View p) {
         if (a.isSharingToolsAmongViews()) {
             ((DrawView) p).setEditor(getSharedEditor());
         }
@@ -72,7 +73,7 @@ public class DrawApplicationModel extends DefaultApplicationModel {
      * values.
      */
     @Override
-    public List<JToolBar> createToolBars(Application a, View pr) {
+    public List<JToolBar> createToolBars(Application a, @Nullable View pr) {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         DrawView p = (DrawView) pr;
 
@@ -142,14 +143,14 @@ public class DrawApplicationModel extends DefaultApplicationModel {
     }
 
     @Override
-    public URIChooser createOpenChooser(Application a, View v) {
+    public URIChooser createOpenChooser(Application a, @Nullable View v) {
         JFileURIChooser c = new JFileURIChooser();
         c.addChoosableFileFilter(new ExtensionFileFilter("Drawing .xml","xml"));
         return c;
     }
 
     @Override
-    public URIChooser createSaveChooser(Application a, View v) {
+    public URIChooser createSaveChooser(Application a, @Nullable View v) {
         JFileURIChooser c = new JFileURIChooser();
         c.addChoosableFileFilter(new ExtensionFileFilter("Drawing .xml","xml"));
         return c;

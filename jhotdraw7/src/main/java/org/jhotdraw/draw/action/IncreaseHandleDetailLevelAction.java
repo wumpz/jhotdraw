@@ -15,6 +15,7 @@
 package org.jhotdraw.draw.action;
 
 import org.jhotdraw.draw.*;
+import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * SelectSameAction.
@@ -27,6 +28,8 @@ public class IncreaseHandleDetailLevelAction extends AbstractSelectedAction {
     /** Creates a new instance. */
     public IncreaseHandleDetailLevelAction(DrawingEditor editor) {
         super(editor);
+        ResourceBundleUtil labels =
+            ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         labels.configureAction(this, ID);
         //putValue(AbstractAction.NAME, labels.getString("editSelectSame"));
         //  putValue(AbstractAction.MNEMONIC_KEY, labels.getString("editSelectSameMnem"));

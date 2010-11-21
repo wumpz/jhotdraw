@@ -14,6 +14,7 @@
 
 package org.jhotdraw.samples.teddy.action;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.app.*;
 import org.jhotdraw.samples.teddy.*;
 import java.awt.event.*;
@@ -31,7 +32,7 @@ public class FindAction extends AbstractFindAction {
     /**
      * Creates a new instance.
      */
-    public FindAction(Application app, View v) {
+    public FindAction(Application app, @Nullable View v) {
         super(app,v);
     }
     

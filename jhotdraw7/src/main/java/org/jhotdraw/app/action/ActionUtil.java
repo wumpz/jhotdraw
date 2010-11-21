@@ -14,6 +14,8 @@
 
 package org.jhotdraw.app.action;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import javax.swing.*;
 
 /**

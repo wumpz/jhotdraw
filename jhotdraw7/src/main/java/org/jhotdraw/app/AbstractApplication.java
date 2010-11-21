@@ -1,15 +1,12 @@
 /*
  * @(#)AbstractApplication.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw
- * and all its contributors.
- * All rights reserved.
+ * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its 
+ * contributors. All rights reserved.
  *
- * The copyright of this software is owned by the authors and  
- * contributors of the JHotDraw project ("the copyright holders").  
- * You may not use, copy or modify this software, except in  
- * accordance with the license agreement you entered into with  
- * the copyright holders. For details see accompanying license terms. 
+ * You may not use, copy or modify this file, except in compliance with the
+ * license agreement you entered into with the copyright holders. For details
+ * see accompanying license terms.
  */
 package org.jhotdraw.app;
 
@@ -51,7 +48,8 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     protected ResourceBundleUtil labels;
     protected ApplicationModel model;
     private Preferences prefs;
-    @Nullable private View activeView;
+    @Nullable
+    private View activeView;
     public final static String VIEW_COUNT_PROPERTY = "viewCount";
     private LinkedList<URI> recentFiles = new LinkedList<URI>();
     private final static int maxRecentFilesCount = 10;
@@ -153,7 +151,8 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
      * 
      * @return The active view can be null.
      */
-    @Override @Nullable 
+    @Override
+    @Nullable
     public View getActiveView() {
         return activeView;
     }
@@ -278,7 +277,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     }
 
     @Override
-    public void addWindow(Window window, View p) {
+    public void addWindow(Window window, @Nullable View p) {
     }
 
     protected Action getAction(@Nullable View view, String actionID) {
@@ -286,7 +285,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     }
 
     /** Adds the specified action as a menu item to the supplied menu. */
-    protected void addAction(JMenu m, View view, String actionID) {
+    protected void addAction(JMenu m, @Nullable View view, String actionID) {
         addAction(m, getAction(view, actionID));
     }
 
@@ -316,9 +315,13 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     }
 
     /** Adds a separator to the supplied menu. The separator will only
-    be added, if additional items are added using addAction. */
+    be added, if the previous item is not a separator. */
     protected void maybeAddSeparator(JMenu m) {
-        m.putClientProperty("needsSeparator", Boolean.TRUE);
+        JPopupMenu pm = m.getPopupMenu();
+        if (pm.getComponentCount() > 0 //
+                && !(pm.getComponent(pm.getComponentCount() - 1) instanceof JSeparator)) {
+            m.addSeparator();
+        }
     }
 
     @Override
@@ -385,7 +388,8 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
 
         private JMenu openRecentMenu;
         private LinkedList<Action> openRecentActions = new LinkedList<Action>();
-        @Nullable private View view;
+        @Nullable
+        private View view;
 
         public OpenRecentMenuHandler(JMenu openRecentMenu, @Nullable View view) {
             this.openRecentMenu = openRecentMenu;

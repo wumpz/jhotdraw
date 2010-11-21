@@ -14,6 +14,7 @@
 
 package org.jhotdraw.app.action.view;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.event.*;
 import java.beans.*;
 import org.jhotdraw.app.Application;
@@ -44,10 +45,10 @@ public class ViewPropertyAction extends AbstractViewAction {
     };
     
     /** Creates a new instance. */
-    public ViewPropertyAction(Application app, View view, String propertyName, Object propertyValue) {
+    public ViewPropertyAction(Application app, @Nullable View view, String propertyName, Object propertyValue) {
         this(app, view, propertyName, propertyValue.getClass(), propertyValue);
     }
-    public ViewPropertyAction(Application app, View view, String propertyName, Class propertyClass, Object propertyValue) {
+    public ViewPropertyAction(Application app, @Nullable View view, String propertyName, Class propertyClass, Object propertyValue) {
         super(app, view);
         this.propertyName = propertyName;
         this.parameterClass = new Class[] { propertyClass };

@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.app;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.app.action.app.AbstractPreferencesAction;
 import org.jhotdraw.app.action.window.ToggleVisibleAction;
 import org.jhotdraw.app.action.file.SaveFileAsAction;
@@ -329,7 +330,9 @@ public class SDIApplication extends AbstractApplication {
         String viewMenuText = labels.getString("view.text");
         String windowMenuText = labels.getString("window.text");
         String helpMenuText = labels.getString("help.text");
-        for (JMenu mm : getModel().createMenus(this, v)) {
+        LinkedList<JMenu> ll = new LinkedList<JMenu>();
+        getModel().getMenuBuilder().addOtherMenus(ll, this, v);
+        for (JMenu mm : ll) {
             String text = mm.getText();
             if (text == null) {
             } else if (text.equals(fileMenuText)) {
@@ -389,39 +392,41 @@ public class SDIApplication extends AbstractApplication {
     }
 
     @Override
+    @Nullable
     public JMenu createFileMenu(View view) {
         JMenu m;
 
         m = new JMenu();
         labels.configureMenu(m, "file");
-        addAction(m, view, ClearFileAction.ID);
-        addAction(m, view, NewFileAction.ID);
-        addAction(m, view, NewWindowAction.ID);
+        MenuBuilder mb = model.getMenuBuilder();
+        mb.addClearFileItems(m, this, view);
+        mb.addNewFileItems(m, this, view);
+        mb.addNewWindowItems(m, this, view);
 
-        addAction(m, view, LoadFileAction.ID);
-        addAction(m, view, OpenFileAction.ID);
-        addAction(m, view, LoadDirectoryAction.ID);
-        addAction(m, view, OpenDirectoryAction.ID);
+        mb.addLoadFileItems(m, this, view);
+        mb.addOpenFileItems(m, this, view);
 
         if (getAction(view, LoadFileAction.ID) != null ||//
                 getAction(view, OpenFileAction.ID) != null ||//
                 getAction(view, LoadDirectoryAction.ID) != null ||//
                 getAction(view, OpenDirectoryAction.ID) != null) {
-            m.add(createOpenRecentFileMenu(null));
+            m.add(createOpenRecentFileMenu(view));
         }
         maybeAddSeparator(m);
-        addAction(m, view, SaveFileAction.ID);
-        addAction(m, view, SaveFileAsAction.ID);
-        addAction(m, view, ExportFileAction.ID);
-        addAction(m, view, PrintFileAction.ID);
+
+        mb.addSaveFileItems(m, this, view);
+        mb.addExportFileItems(m, this, view);
+        mb.addPrintFileItems(m, this, view);
+
+        mb.addOtherFileItems(m, this, view);
 
         maybeAddSeparator(m);
-        addAction(m, view, CloseFileAction.ID);
+        mb.addCloseFileItems(m, this, view);
 
-        return m;
+        return (m.getItemCount() == 0) ? null : m;
     }
 
-    @Override
+    @Override @Nullable
     public JMenu createEditMenu(View view) {
 
         JMenu m;
@@ -429,24 +434,19 @@ public class SDIApplication extends AbstractApplication {
         Action a;
         m = new JMenu();
         labels.configureMenu(m, "edit");
-        addAction(m, view, UndoAction.ID);
-        addAction(m, view, RedoAction.ID);
-
+        MenuBuilder mb = model.getMenuBuilder();
+        mb.addUndoItems(m, this, view);
         maybeAddSeparator(m);
-
-        addAction(m, view, CutAction.ID);
-        addAction(m, view, CopyAction.ID);
-        addAction(m, view, PasteAction.ID);
-        addAction(m, view, DuplicateAction.ID);
-        addAction(m, view, DeleteAction.ID);
+        mb.addClipboardItems(m, this, view);
         maybeAddSeparator(m);
-        addAction(m, view, SelectAllAction.ID);
-        addAction(m, view, ClearSelectionAction.ID);
+        mb.addSelectionItems(m, this, view);
         maybeAddSeparator(m);
-        addAction(m, view, AbstractFindAction.ID);
+        mb.addFindItems(m, this, view);
         maybeAddSeparator(m);
-        addAction(m, view, AbstractPreferencesAction.ID);
-        return (m.getPopupMenu().getComponentCount() == 0) ? null : m;
+        mb.addOtherEditItems(m, this, view);
+        maybeAddSeparator(m);
+        mb.addPreferencesItems(m, this, view);
+        return (m.getItemCount() == 0) ? null : m;
     }
 
     /**
@@ -482,9 +482,17 @@ public class SDIApplication extends AbstractApplication {
     }
 
     @Override
-    public JMenu createWindowMenu(View view) {
-        return null;
+    @Nullable
+    public JMenu createWindowMenu(final View view) {
+        JMenu m = new JMenu();
+        labels.configureMenu(m, "window");
+
+        MenuBuilder mb = model.getMenuBuilder();
+        mb.addOtherWindowItems(m, this, view);
+
+        return (m.getItemCount() > 0) ? m : null;
     }
+
 
     /**
      * Creates the view menu.
@@ -516,7 +524,10 @@ public class SDIApplication extends AbstractApplication {
             }
         }
 
-        return (m.getPopupMenu().getComponentCount() > 0) ? m : null;
+        MenuBuilder mb = model.getMenuBuilder();
+        mb.addOtherViewItems(m, this, view);
+
+        return (m.getItemCount() > 0) ? m : null;
     }
 
     @Override

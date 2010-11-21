@@ -51,8 +51,6 @@ public abstract class AbstractSelectedAction
     @Nullable
     private DrawingEditor editor;
     @Nullable transient private DrawingView activeView;
-    protected ResourceBundleUtil labels =
-            ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
 
     private class EventHandler implements PropertyChangeListener, FigureSelectionListener, Serializable {
 

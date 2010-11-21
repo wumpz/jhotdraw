@@ -89,23 +89,8 @@ public interface ApplicationModel {
      */
     public List<JToolBar> createToolBars(Application a, @Nullable View v);
     
-    /**
-     * Creates menus.
-     * <p>
-     * Depending on the document interface of the application, this method
-     * may be invoked only once for the application, or for each opened view.
-     * <p>
-     * If this method creates a menu with the same title as a standard menu
-     * created by {@code Application}, the menu created by this method is used.
-     * This method can create a standard menu from scratch, or call one of the
-     * createMenu-methods in {@code Application} and add additional items
-     * to the menu.
-     * 
-     * @param a Application.
-     * @param v The view for which the toolbars need to be created, or null
-     * if the menus are shared by multiple views.
-     */
-    public List<JMenu> createMenus(Application a, @Nullable View v);
+    /** Returns the abstract factory for building application menus. */
+    public MenuBuilder getMenuBuilder();
 
     /**
      * Creates an open chooser.

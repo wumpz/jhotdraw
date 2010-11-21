@@ -256,6 +256,25 @@ public class OSXApplication extends AbstractApplication {
     @Override
     public void removeWindow(Window window) {
         if (window instanceof JFrame) {
+            
+            // Unlink all menu items from action objects
+            JMenuBar mb = ((JFrame) window).getJMenuBar();
+            Stack<JMenu> s = new Stack<JMenu>();
+            for (int i = 0, n = mb.getMenuCount(); i < n; ++i) {
+                if (mb.getMenu(i) != null) {
+                    s.push(mb.getMenu(i));
+                }
+            }
+            while (!s.isEmpty()) {
+                JPopupMenu m = s.pop().getPopupMenu();
+                for (int i = 0, n = m.getComponentCount(); i < n; ++i) {
+                    if (m.getComponent(i) instanceof JMenu) {
+                        s.push((JMenu) m.getComponent(i));
+                    } else if (m.getComponent(i) instanceof AbstractButton) {
+                        ((AbstractButton) m.getComponent(i)).setAction(null);
+                    }
+                }
+            }
             // We explicitly set the JMenuBar to null to facilitate garbage
             // collection
             ((JFrame) window).setJMenuBar(null);
@@ -330,7 +349,7 @@ public class OSXApplication extends AbstractApplication {
     public void hide(View p) {
         if (p.isShowing()) {
             JFrame f = (JFrame) SwingUtilities.getWindowAncestor(p.getComponent());
-            if (getActiveView()==p) {
+            if (getActiveView() == p) {
                 setActiveView(null);
             }
             f.setVisible(false);
@@ -357,7 +376,9 @@ public class OSXApplication extends AbstractApplication {
         String viewMenuText = labels.getString("view.text");
         String windowMenuText = labels.getString("window.text");
         String helpMenuText = labels.getString("help.text");
-        for (JMenu mm : getModel().createMenus(this, v)) {
+        LinkedList<JMenu> ll = new LinkedList<JMenu>();
+        getModel().getMenuBuilder().addOtherMenus(ll, this, v);
+        for (JMenu mm : ll) {
             String text = mm.getText();
             if (text == null) {
                 mm.setText("-null-");
@@ -418,8 +439,15 @@ public class OSXApplication extends AbstractApplication {
     }
 
     @Override
-    public JMenu createViewMenu(View view) {
-        return null;
+    @Nullable
+    public JMenu createViewMenu(final View view) {
+        JMenu m = new JMenu();
+        labels.configureMenu(m, "view");
+
+        MenuBuilder mb = model.getMenuBuilder();
+        mb.addOtherViewItems(m, this, view);
+
+        return (m.getItemCount() > 0) ? m : null;
     }
 
     @Override
@@ -432,71 +460,80 @@ public class OSXApplication extends AbstractApplication {
         labels.configureMenu(m, "window");
         m.addSeparator();
 
+        MenuBuilder mb = model.getMenuBuilder();
+        mb.addOtherWindowItems(m, this, view);
+
         new WindowMenuHandler(windowMenu, view);
 
-        return m;
+
+        return (m.getItemCount() == 0) ? null : m;
     }
 
     @Override
+    @Nullable
     public JMenu createFileMenu(View view) {
         JMenu m;
 
         m = new JMenu();
         labels.configureMenu(m, "file");
-        addAction(m, view, ClearFileAction.ID);
-        addAction(m, view, NewFileAction.ID);
-        addAction(m, view, NewWindowAction.ID);
+        MenuBuilder mb = model.getMenuBuilder();
+        mb.addClearFileItems(m, this, view);
+        mb.addNewFileItems(m, this, view);
+        mb.addNewWindowItems(m, this, view);
 
-        addAction(m, view, LoadFileAction.ID);
-        addAction(m, view, OpenFileAction.ID);
-        addAction(m, view, LoadDirectoryAction.ID);
-        addAction(m, view, OpenDirectoryAction.ID);
+        mb.addLoadFileItems(m, this, view);
+        mb.addOpenFileItems(m, this, view);
 
         if (getAction(view, LoadFileAction.ID) != null ||//
                 getAction(view, OpenFileAction.ID) != null ||//
                 getAction(view, LoadDirectoryAction.ID) != null ||//
                 getAction(view, OpenDirectoryAction.ID) != null) {
-            m.add(createOpenRecentFileMenu(null));
+            m.add(createOpenRecentFileMenu(view));
         }
         maybeAddSeparator(m);
 
-        addAction(m, view, CloseFileAction.ID);
-        addAction(m, view, SaveFileAction.ID);
-        addAction(m, view, SaveFileAsAction.ID);
-        addAction(m, view, ExportFileAction.ID);
-        addAction(m, view, PrintFileAction.ID);
+        mb.addCloseFileItems(m, this, view);
+        mb.addSaveFileItems(m, this, view);
+        mb.addExportFileItems(m, this, view);
+        mb.addPrintFileItems(m, this, view);
 
-        return (m.getPopupMenu().getComponentCount() == 0) ? null : m;
+        mb.addOtherFileItems(m, this, view);
+
+        return (m.getItemCount() == 0) ? null : m;
     }
 
     @Override
+    @Nullable
     public JMenu createEditMenu(View view) {
+
         JMenu m;
         JMenuItem mi;
         Action a;
         m = new JMenu();
         labels.configureMenu(m, "edit");
-        addAction(m, view, UndoAction.ID);
-        addAction(m, view, RedoAction.ID);
+        MenuBuilder mb = model.getMenuBuilder();
+        mb.addUndoItems(m, this, view);
+        maybeAddSeparator(m);
+        mb.addClipboardItems(m, this, view);
+        maybeAddSeparator(m);
+        mb.addSelectionItems(m, this, view);
+        maybeAddSeparator(m);
+        mb.addFindItems(m, this, view);
+        maybeAddSeparator(m);
+        mb.addOtherEditItems(m, this, view);
 
-        maybeAddSeparator(m);
-
-        addAction(m, view, CutAction.ID);
-        addAction(m, view, CopyAction.ID);
-        addAction(m, view, PasteAction.ID);
-        addAction(m, view, DuplicateAction.ID);
-        addAction(m, view, DeleteAction.ID);
-        maybeAddSeparator(m);
-        addAction(m, view, SelectAllAction.ID);
-        addAction(m, view, ClearSelectionAction.ID);
-        maybeAddSeparator(m);
-        addAction(m, view, AbstractFindAction.ID);
-        return (m.getPopupMenu().getComponentCount() == 0) ? null : m;
+        return (m.getItemCount() == 0) ? null : m;
     }
 
     @Override
-    public JMenu createHelpMenu(View p) {
-        return null;
+    public JMenu createHelpMenu(View view) {
+        JMenu m = new JMenu();
+        labels.configureMenu(m, "help");
+
+        MenuBuilder mb = model.getMenuBuilder();
+        mb.addHelpItems(m, this, view);
+
+        return (m.getItemCount() == 0) ? null : m;
     }
 
     protected void initScreenMenuBar() {
@@ -568,7 +605,7 @@ public class OSXApplication extends AbstractApplication {
                     PreferencesUtil.installPalettePrefsHandler(prefs, "toolbar." + i, d, x);
                     x += d.getWidth();
 
-                    TogglePaletteAction tpa=new TogglePaletteAction(OSXApplication.this, d, tb.getName());
+                    TogglePaletteAction tpa = new TogglePaletteAction(OSXApplication.this, d, tb.getName());
                     palettes.add(d);
                     if (prefs.getBoolean("toolbar." + i + ".visible", true)) {
                         addPalette(d);
@@ -659,9 +696,10 @@ public class OSXApplication extends AbstractApplication {
     private class WindowMenuHandler implements PropertyChangeListener, Disposable {
 
         private JMenu windowMenu;
-        @Nullable private View view;
+        @Nullable
+        private View view;
 
-        public WindowMenuHandler(JMenu windowMenu, View view) {
+        public WindowMenuHandler(JMenu windowMenu, @Nullable View view) {
             this.windowMenu = windowMenu;
             this.view = view;
             OSXApplication.this.addPropertyChangeListener(this);
@@ -683,6 +721,7 @@ public class OSXApplication extends AbstractApplication {
             JMenu m = windowMenu;
             JMenuItem mi;
 
+            // FIXME - We leak memory here!!
             m.removeAll();
             mi = m.add(getAction(view, MinimizeWindowAction.ID));
             mi.setIcon(null);
@@ -704,6 +743,9 @@ public class OSXApplication extends AbstractApplication {
                     m.add(cbmi);
                 }
             }
+
+            MenuBuilder mb = model.getMenuBuilder();
+            mb.addOtherWindowItems(m, OSXApplication.this, view);
         }
 
         @Override

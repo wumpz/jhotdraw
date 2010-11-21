@@ -14,6 +14,7 @@
 
 package org.jhotdraw.app.action.file;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.app.*;
 import org.jhotdraw.gui.URIChooser;
 import org.jhotdraw.util.ResourceBundleUtil;
@@ -38,7 +39,7 @@ public class LoadDirectoryAction extends LoadFileAction {
     public final static String ID = "file.loadDirectory";
 
     /** Creates a new instance. */
-    public LoadDirectoryAction(Application app, View view) {
+    public LoadDirectoryAction(Application app, @Nullable View view) {
         super(app, view);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);

@@ -16,6 +16,7 @@ package org.jhotdraw.draw.action;
 import java.util.*;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * ToFrontAction.
@@ -30,6 +31,8 @@ public class BringToFrontAction extends AbstractSelectedAction {
     /** Creates a new instance. */
     public BringToFrontAction(DrawingEditor editor) {
         super(editor);
+        ResourceBundleUtil labels =
+                ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         labels.configureAction(this, ID);
         updateEnabledState();
     }
@@ -43,6 +46,8 @@ public class BringToFrontAction extends AbstractSelectedAction {
 
             @Override
             public String getPresentationName() {
+                ResourceBundleUtil labels =
+                        ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
                 return labels.getTextProperty(ID);
             }
 

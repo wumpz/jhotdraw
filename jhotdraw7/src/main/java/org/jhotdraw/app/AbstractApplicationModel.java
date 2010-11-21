@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.app;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.beans.*;
 import java.util.*;
 import javax.swing.*;
@@ -124,10 +125,7 @@ public abstract class AbstractApplicationModel extends AbstractBean
      * Creates toolbars for the application.
      */
     @Override
-    public abstract List<JToolBar> createToolBars(Application a, View p);
-
-    @Override
-    public abstract List<JMenu> createMenus(Application a, View p);
+    public abstract List<JToolBar> createToolBars(Application a, @Nullable View p);
 
     /** This method is empty. */
     @Override
@@ -148,13 +146,13 @@ public abstract class AbstractApplicationModel extends AbstractBean
     }
 
     @Override
-    public URIChooser createOpenChooser(Application a, View v) {
+    public URIChooser createOpenChooser(Application a, @Nullable View v) {
         URIChooser c = new JFileURIChooser();
 
         return c;
     }
     @Override
-    public URIChooser createOpenDirectoryChooser(Application a, View v) {
+    public URIChooser createOpenDirectoryChooser(Application a, @Nullable View v) {
         JFileURIChooser c = new JFileURIChooser();
         c.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         return c;
@@ -162,19 +160,19 @@ public abstract class AbstractApplicationModel extends AbstractBean
 
 
     @Override
-    public URIChooser createSaveChooser(Application a, View v) {
+    public URIChooser createSaveChooser(Application a, @Nullable View v) {
         JFileURIChooser c = new JFileURIChooser();
         return c;
     }
     /** Returns createOpenChooser. */
     @Override
-    public URIChooser createImportChooser(Application a, View v) {
+    public URIChooser createImportChooser(Application a, @Nullable View v) {
         return createOpenChooser(a,v);
     }
 
     /** Returns createSaveChooser. */
     @Override
-    public URIChooser createExportChooser(Application a, View v) {
+    public URIChooser createExportChooser(Application a, @Nullable View v) {
         return createSaveChooser(a,v);
     }
 

@@ -51,7 +51,7 @@ public class ExportFileAction extends AbstractViewAction {
     private Component oldFocusOwner;
 
     /** Creates a new instance. */
-    public ExportFileAction(Application app, View view) {
+    public ExportFileAction(Application app, @Nullable View view) {
         super(app, view);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);

@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.samples.teddy.action;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.app.*;
 import org.jhotdraw.app.action.*;
 import org.jhotdraw.samples.teddy.*;
@@ -34,7 +35,7 @@ public class ToggleStatusBarAction extends AbstractViewAction {
     /**
      * Creates a new instance.
      */
-    public ToggleStatusBarAction(Application app, View view) {
+    public ToggleStatusBarAction(Application app, @Nullable View view) {
         super(app, view);
         labels.configureAction(this, ID);
         setPropertyName("statusBarVisible");

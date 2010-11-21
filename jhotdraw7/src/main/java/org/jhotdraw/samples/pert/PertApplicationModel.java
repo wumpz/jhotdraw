@@ -13,6 +13,7 @@
  */
 package org.jhotdraw.samples.pert;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.app.action.view.ViewPropertyAction;
 import org.jhotdraw.app.action.view.ToggleViewPropertyAction;
 import org.jhotdraw.app.action.file.ExportFileAction;
@@ -72,7 +73,7 @@ public class PertApplicationModel extends DefaultApplicationModel {
     }
 
     @Override
-    public ActionMap createActionMap(Application a, View v) {
+    public ActionMap createActionMap(Application a, @Nullable View v) {
         ActionMap m = super.createActionMap(a, v);
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         AbstractAction aa;
@@ -82,7 +83,7 @@ public class PertApplicationModel extends DefaultApplicationModel {
         drawLabels.configureAction(aa, "view.toggleGrid");
         for (double sf : scaleFactors) {
             m.put((int) (sf * 100) + "%",
-                    aa = new ViewPropertyAction(a, v, "scaleFactor", Double.TYPE, new Double(sf)));
+                    aa = new ViewPropertyAction(a, v, DrawingView.SCALE_FACTOR_PROPERTY, Double.TYPE, new Double(sf)));
             aa.putValue(Action.NAME, (int) (sf * 100) + " %");
 
         }
@@ -97,7 +98,7 @@ public class PertApplicationModel extends DefaultApplicationModel {
     }
 
     @Override
-    public void initView(Application a, View p) {
+    public void initView(Application a, @Nullable View p) {
         if (a.isSharingToolsAmongViews()) {
             ((PertView) p).setEditor(getSharedEditor());
         }
@@ -133,7 +134,7 @@ public class PertApplicationModel extends DefaultApplicationModel {
      * values.
      */
     @Override
-    public java.util.List<JToolBar> createToolBars(Application a, View pr) {
+    public java.util.List<JToolBar> createToolBars(Application a, @Nullable View pr) {
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         PertView p = (PertView) pr;
 
@@ -161,50 +162,39 @@ public class PertApplicationModel extends DefaultApplicationModel {
         return list;
     }
 
+    /** Creates the MenuBuilder. */
     @Override
-    public java.util.List<JMenu> createMenus(Application a, View v) {
-        // FIXME - Add code for unconfiguring the menus!! We leak memory!
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
+    protected MenuBuilder createMenuBuilder() {
+        return new DefaultMenuBuilder() {
 
-        //  JMenuBar mb = new JMenuBar();
-        LinkedList<JMenu> mb = new LinkedList<JMenu>();
-        JMenu m, m2;
-        JMenuItem mi;
-        JRadioButtonMenuItem rbmi;
-        JCheckBoxMenuItem cbmi;
-        ButtonGroup group;
-
-        m = a.createViewMenu(v);
-        if (m == null) {
-            m = new JMenu();
-            labels.configureMenu(m, "view");
-        }
-        ActionMap am = a.getActionMap(v);
-        cbmi = new JCheckBoxMenuItem(am.get("view.toggleGrid"));
-        ActionUtil.configureJCheckBoxMenuItem(cbmi, am.get("view.toggleGrid"));
-        m.add(cbmi);
-        m2 = new JMenu("Zoom");
-        for (double sf : scaleFactors) {
-            String id = (int) (sf * 100) + "%";
+            @Override
+            public void addOtherViewItems(JMenu m, Application app, @Nullable View v) {
+                ActionMap am = app.getActionMap(v);
+                JCheckBoxMenuItem cbmi;
+                cbmi = new JCheckBoxMenuItem(am.get("view.toggleGrid"));
+                ActionUtil.configureJCheckBoxMenuItem(cbmi, am.get("view.toggleGrid"));
+                m.add(cbmi);
+                JMenu m2 = new JMenu("Zoom");
+                for (double sf : scaleFactors) {
+                    String id = (int) (sf * 100) + "%";
             cbmi = new JCheckBoxMenuItem(am.get(id));
             ActionUtil.configureJCheckBoxMenuItem(cbmi, am.get(id));
             m2.add(cbmi);
-        }
-        m.add(m2);
-        mb.add(m);
-
-        return mb;
+                }
+                m.add(m2);
+            }
+        };
     }
 
     @Override
-    public URIChooser createOpenChooser(Application a, View v) {
+    public URIChooser createOpenChooser(Application a, @Nullable View v) {
         JFileURIChooser c = new JFileURIChooser();
         c.addChoosableFileFilter(new ExtensionFileFilter("Pert Diagram", "xml"));
         return c;
     }
 
     @Override
-    public URIChooser createSaveChooser(Application a, View v) {
+    public URIChooser createSaveChooser(Application a, @Nullable View v) {
         JFileURIChooser c = new JFileURIChooser();
         c.addChoosableFileFilter(new ExtensionFileFilter("Pert Diagram", "xml"));
         return c;

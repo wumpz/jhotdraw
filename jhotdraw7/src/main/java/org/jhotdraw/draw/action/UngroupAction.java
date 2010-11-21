@@ -11,10 +11,10 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-
 package org.jhotdraw.draw.action;
 
 import org.jhotdraw.draw.*;
+import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * UngroupAction.
@@ -23,19 +23,22 @@ import org.jhotdraw.draw.*;
  * @version $Id$
  */
 public class UngroupAction extends GroupAction {
+
     public final static String ID = "edit.ungroupSelection";
-    
     /** Creates a new instance. */
     private CompositeFigure prototype;
-    
+
     /** Creates a new instance. */
     public UngroupAction(DrawingEditor editor) {
         super(editor, new GroupFigure(), false);
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         labels.configureAction(this, ID);
         updateEnabledState();
     }
+
     public UngroupAction(DrawingEditor editor, CompositeFigure prototype) {
         super(editor, prototype, false);
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         labels.configureAction(this, ID);
         updateEnabledState();
     }

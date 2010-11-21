@@ -22,10 +22,6 @@ import javax.swing.*;
  * nor overrides the menu bars, nor creates tool bars.
  * <p>
  * The {@code createActionMap} method of this model returns an empty ActionMap.
- * <p>
- * The {@code createMenu...} methods of this model return null, resulting in
- * a set of default menu bars created by the {@link Application} which holds
- * this model.
  *
  * @author Werner Randelshofer.
  * @version $Id$
@@ -45,47 +41,8 @@ public class EmptyApplicationModel
         return Collections.emptyList();
     }
 
-    /** Returns an empty modifiable list. */
     @Override
-    public List<JMenu> createMenus(Application a, @Nullable View v) {
-        LinkedList<JMenu> menus = new LinkedList<JMenu>();
-        JMenu m;
-        if ((m=createFileMenu(a,v))!=null) {
-            menus.add(m);
-        }
-        if ((m=createEditMenu(a,v))!=null) {
-            menus.add(m);
-        }
-        if ((m=createViewMenu(a,v))!=null) {
-            menus.add(m);
-        }
-        if ((m=createWindowMenu(a,v))!=null) {
-            menus.add(m);
-        }
-        if ((m=createHelpMenu(a,v))!=null) {
-            menus.add(m);
-        }
-        return menus;
-    }
-
-    /** Returns null. */
-    @Nullable protected JMenu createFileMenu(Application app, @Nullable View view) {
-        return null;
-    }
-    /** Returns null. */
-    @Nullable protected JMenu createEditMenu(Application app, @Nullable View view) {
-        return null;
-    }
-    /** Returns null. */
-    @Nullable protected JMenu createViewMenu(Application app, @Nullable View view) {
-        return null;
-    }
-    /** Returns null. */
-    @Nullable protected JMenu createWindowMenu(Application app, @Nullable View view) {
-        return null;
-    }
-    /** Returns null. */
-    @Nullable protected JMenu createHelpMenu(Application app, @Nullable View view) {
-        return null;
+    public MenuBuilder getMenuBuilder() {
+        return new EmptyMenuBuilder();
     }
 }

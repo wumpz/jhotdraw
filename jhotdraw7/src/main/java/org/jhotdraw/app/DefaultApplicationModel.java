@@ -64,6 +64,7 @@ import org.jhotdraw.app.action.edit.ClearSelectionAction;
  */
 public class DefaultApplicationModel
         extends AbstractApplicationModel {
+    @Nullable private MenuBuilder menuBuilder;
 
     /**
      * Does nothing.
@@ -103,50 +104,21 @@ public class DefaultApplicationModel
         return Collections.emptyList();
     }
 
+    /** Creates the DefaultMenuBuilder. */
+    protected MenuBuilder createMenuBuilder() {
+        return new DefaultMenuBuilder();
+    }
+
     @Override
-    public List<JMenu> createMenus(Application a, @Nullable View v) {
-        LinkedList<JMenu> menus = new LinkedList<JMenu>();
-        JMenu m;
-        if ((m = createFileMenu(a, v)) != null) {
-            menus.add(m);
+    public MenuBuilder getMenuBuilder() {
+        if (menuBuilder==null) {
+            menuBuilder=createMenuBuilder();
         }
-        if ((m = createEditMenu(a, v)) != null) {
-            menus.add(m);
-        }
-        if ((m = createViewMenu(a, v)) != null) {
-            menus.add(m);
-        }
-        if ((m = createWindowMenu(a, v)) != null) {
-            menus.add(m);
-        }
-        if ((m = createHelpMenu(a, v)) != null) {
-            menus.add(m);
-        }
-        return menus;
+        return menuBuilder;
     }
 
-    /** Returns null. */
-    @Nullable protected JMenu createFileMenu(Application app, @Nullable View view) {
-        return null;
+    public void setMenuBuilder(@Nullable MenuBuilder newValue) {
+        menuBuilder = newValue;
     }
 
-    /** Returns null. */
-    @Nullable protected JMenu createEditMenu(Application app, @Nullable View view) {
-        return null;
-    }
-
-    /** Returns null. */
-    @Nullable protected JMenu createViewMenu(Application app, @Nullable View view) {
-        return null;
-    }
-
-    /** Returns null. */
-    @Nullable protected JMenu createWindowMenu(Application app, @Nullable View view) {
-        return null;
-    }
-
-    /** Returns null. */
-    @Nullable protected JMenu createHelpMenu(Application app, @Nullable View view) {
-        return null;
-    }
 }

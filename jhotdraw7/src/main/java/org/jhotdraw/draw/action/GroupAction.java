@@ -16,6 +16,7 @@ package org.jhotdraw.draw.action;
 import org.jhotdraw.draw.*;
 import java.util.*;
 import javax.swing.undo.*;
+import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * GroupAction.
@@ -46,6 +47,8 @@ public class GroupAction extends AbstractSelectedAction {
         super(editor);
         this.prototype = prototype;
         this.isGroupingAction = isGroupingAction;
+        ResourceBundleUtil labels =
+                ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         labels.configureAction(this, ID);
         updateEnabledState();
     }
@@ -64,10 +67,10 @@ public class GroupAction extends AbstractSelectedAction {
     }
 
     protected boolean canUngroup() {
-        return getView() != null &&
-                getView().getSelectionCount() == 1 &&
-                prototype != null && 
-                getView().getSelectedFigures().iterator().next().getClass().equals(
+        return getView() != null
+                && getView().getSelectionCount() == 1
+                && prototype != null
+                && getView().getSelectedFigures().iterator().next().getClass().equals(
                 prototype.getClass());
     }
 
@@ -82,6 +85,8 @@ public class GroupAction extends AbstractSelectedAction {
 
                     @Override
                     public String getPresentationName() {
+                        ResourceBundleUtil labels =
+                                ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
                         return labels.getString("edit.groupSelection.text");
                     }
 
@@ -114,6 +119,8 @@ public class GroupAction extends AbstractSelectedAction {
 
                     @Override
                     public String getPresentationName() {
+                        ResourceBundleUtil labels =
+                                ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
                         return labels.getString("edit.ungroupSelection.text");
                     }
 
