@@ -17,7 +17,7 @@ import javax.swing.*;
 import javax.swing.text.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.DrawingAttributeEditorHandler;
-import org.jhotdraw.gui.JAttributeSlider;
+import org.jhotdraw.draw.gui.JAttributeSlider;
 import org.jhotdraw.text.JavaNumberFormatter;
 import org.jhotdraw.util.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
@@ -132,7 +132,7 @@ public class EditCanvasPanel extends javax.swing.JPanel {
         colorLabel = new javax.swing.JLabel();
         colorButton = new javax.swing.JButton();
         opacityLabel = new javax.swing.JLabel();
-        opacityField = new org.jhotdraw.gui.JAttributeTextField<Double>();
+        opacityField = new org.jhotdraw.draw.gui.JAttributeTextField<Double>();
         opacityPopupButton = new org.jhotdraw.gui.JPopupButton();
 
         setLayout(new java.awt.GridBagLayout());
@@ -177,7 +177,7 @@ public class EditCanvasPanel extends javax.swing.JPanel {
     private javax.swing.ButtonGroup bgColorButtonGroup;
     private javax.swing.JButton colorButton;
     private javax.swing.JLabel colorLabel;
-    private org.jhotdraw.gui.JAttributeTextField opacityField;
+    private org.jhotdraw.draw.gui.JAttributeTextField opacityField;
     private javax.swing.JLabel opacityLabel;
     private org.jhotdraw.gui.JPopupButton opacityPopupButton;
     // End of variables declaration//GEN-END:variables

@@ -10,6 +10,8 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
+import org.jhotdraw.draw.gui.JAttributeTextField;
+import org.jhotdraw.draw.gui.JAttributeTextArea;
 import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.draw.event.FigureAttributeEditorHandler;
 import org.jhotdraw.draw.event.SelectionComponentDisplayer;

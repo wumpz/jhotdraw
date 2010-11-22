@@ -10,6 +10,8 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
+import org.jhotdraw.draw.gui.JAttributeTextField;
+import org.jhotdraw.draw.gui.JAttributeSlider;
 import org.jhotdraw.draw.event.DrawingAttributeEditorHandler;
 import org.jhotdraw.draw.event.DrawingComponentRepainter;
 import org.jhotdraw.text.JavaNumberFormatter;

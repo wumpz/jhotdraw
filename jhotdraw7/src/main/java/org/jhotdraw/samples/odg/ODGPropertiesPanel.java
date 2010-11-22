@@ -11,6 +11,7 @@
 
 package org.jhotdraw.samples.odg;
 
+import org.jhotdraw.draw.gui.JAttributeSlider;
 import org.jhotdraw.draw.event.FigureAttributeEditorHandler;
 import org.jhotdraw.text.JavaNumberFormatter;
 import java.awt.*;
@@ -81,9 +82,9 @@ public class ODGPropertiesPanel extends javax.swing.JPanel {
         java.awt.GridBagConstraints gridBagConstraints;
 
         linkLabel = new javax.swing.JLabel();
-        linkField = new org.jhotdraw.gui.JAttributeTextField();
+        linkField = new org.jhotdraw.draw.gui.JAttributeTextField();
         opacityLabel = new javax.swing.JLabel();
-        opacityField = new org.jhotdraw.gui.JAttributeTextField();
+        opacityField = new org.jhotdraw.draw.gui.JAttributeTextField();
         opacityPopupButton = new org.jhotdraw.gui.JPopupButton();
 
         setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -112,9 +113,9 @@ public class ODGPropertiesPanel extends javax.swing.JPanel {
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private org.jhotdraw.gui.JAttributeTextField linkField;
+    private org.jhotdraw.draw.gui.JAttributeTextField linkField;
     private javax.swing.JLabel linkLabel;
-    private org.jhotdraw.gui.JAttributeTextField opacityField;
+    private org.jhotdraw.draw.gui.JAttributeTextField opacityField;
     private javax.swing.JLabel opacityLabel;
     private org.jhotdraw.gui.JPopupButton opacityPopupButton;
     // End of variables declaration//GEN-END:variables

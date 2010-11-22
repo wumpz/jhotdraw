@@ -66,12 +66,12 @@
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="org.jhotdraw.gui.JAttributeTextField" name="opacityField">
+    <Component class="org.jhotdraw.draw.gui.JAttributeTextField" name="opacityField">
       <Properties>
         <Property name="columns" type="int" value="3"/>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new org.jhotdraw.gui.JAttributeTextField&lt;Double&gt;()"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new org.jhotdraw.draw.gui.JAttributeTextField&lt;Double&gt;()"/>
       </AuxValues>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">

@@ -8,7 +8,7 @@
  * license agreement you entered into with the copyright holders. For details
  * see accompanying license terms.
  */
-package org.jhotdraw.gui;
+package org.jhotdraw.draw.gui;
 
 import java.beans.*;
 

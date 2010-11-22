@@ -1,62 +1,59 @@
 /*
- * @(#)JAttributeSliderBeanInfo.java
+ * @(#)JAttributeTextFieldBeanInfo.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
+ * Copyright (c) 2009-2010 by the original authors of JHotDraw and all its
  * contributors. All rights reserved.
  *
  * You may not use, copy or modify this file, except in compliance with the 
  * license agreement you entered into with the copyright holders. For details
  * see accompanying license terms.
  */
-package org.jhotdraw.gui;
+package org.jhotdraw.draw.gui;
 
 import java.beans.*;
 
 /**
- * BeanInfo for JDoubleAttributeSlider.
+ * BeanInfo for JAttributeTextField.
  *
  * @author  Werner Randelshofer
  * @version $Id$
  */
-public class JAttributeSliderBeanInfo extends SimpleBeanInfo {
-    
+public class JAttributeTextFieldBeanInfo extends SimpleBeanInfo {
+
     // Bean descriptor information will be obtained from introspection.//GEN-FIRST:BeanDescriptor
     private static BeanDescriptor beanDescriptor = null;
     private static BeanDescriptor getBdescriptor(){
 //GEN-HEADEREND:BeanDescriptor
-        
+
         // Here you can add code for customizing the BeanDescriptor.
-         if (beanDescriptor == null) beanDescriptor = new BeanDescriptor(JAttributeTextFieldBeanInfo.class);
-         beanDescriptor.setValue("isContainer", Boolean.FALSE);
-     beanDescriptor.setDisplayName("JDoubleAttributeSlider");
-        
+        if (beanDescriptor == null) {
+            beanDescriptor = new BeanDescriptor(JAttributeTextFieldBeanInfo.class);
+        }
+        beanDescriptor.setValue("isContainer", Boolean.FALSE);
+        beanDescriptor.setDisplayName("JAttributeTextField");
+
         return beanDescriptor;     }//GEN-LAST:BeanDescriptor
-    
-    
     // Properties information will be obtained from introspection.//GEN-FIRST:Properties
     private static PropertyDescriptor[] properties = null;
     private static PropertyDescriptor[] getPdescriptor(){//GEN-HEADEREND:Properties
-        
+
         // Here you can add code for customizing the properties array.
-        
+
         return properties;     }//GEN-LAST:Properties
-    
     // Event set information will be obtained from introspection.//GEN-FIRST:Events
     private static EventSetDescriptor[] eventSets = null;
     private static EventSetDescriptor[] getEdescriptor(){//GEN-HEADEREND:Events
-        
+
         // Here you can add code for customizing the event sets array.
-        
+
         return eventSets;     }//GEN-LAST:Events
-    
     // Method information will be obtained from introspection.//GEN-FIRST:Methods
     private static MethodDescriptor[] methods = null;
     private static MethodDescriptor[] getMdescriptor(){//GEN-HEADEREND:Methods
-        
+
         // Here you can add code for customizing the methods array.
-        
+
         return methods;     }//GEN-LAST:Methods
-    
     private static java.awt.Image iconColor16 = null;//GEN-BEGIN:IconsDef
     private static java.awt.Image iconColor32 = null;
     private static java.awt.Image iconMono16 = null;
@@ -65,17 +62,12 @@ public class JAttributeSliderBeanInfo extends SimpleBeanInfo {
     private static String iconNameC32 = null;
     private static String iconNameM16 = null;
     private static String iconNameM32 = null;//GEN-END:Icons
-    
     private static int defaultPropertyIndex = -1;//GEN-BEGIN:Idx
     private static int defaultEventIndex = -1;//GEN-END:Idx
-    
-    
+
 //GEN-FIRST:Superclass
-    
     // Here you can add code for customizing the Superclass BeanInfo.
-    
 //GEN-LAST:Superclass
-    
     /**
      * Gets the bean's <code>BeanDescriptor</code>s.
      *
@@ -87,7 +79,7 @@ public class JAttributeSliderBeanInfo extends SimpleBeanInfo {
     public BeanDescriptor getBeanDescriptor() {
         return getBdescriptor();
     }
-    
+
     /**
      * Gets the bean's <code>PropertyDescriptor</code>s.
      *
@@ -104,7 +96,7 @@ public class JAttributeSliderBeanInfo extends SimpleBeanInfo {
     public PropertyDescriptor[] getPropertyDescriptors() {
         return getPdescriptor();
     }
-    
+
     /**
      * Gets the bean's <code>EventSetDescriptor</code>s.
      *
@@ -116,7 +108,7 @@ public class JAttributeSliderBeanInfo extends SimpleBeanInfo {
     public EventSetDescriptor[] getEventSetDescriptors() {
         return getEdescriptor();
     }
-    
+
     /**
      * Gets the bean's <code>MethodDescriptor</code>s.
      *
@@ -128,7 +120,7 @@ public class JAttributeSliderBeanInfo extends SimpleBeanInfo {
     public MethodDescriptor[] getMethodDescriptors() {
         return getMdescriptor();
     }
-    
+
     /**
      * A bean may have a "default" property that is the property that will
      * mostly commonly be initially chosen for update by human's who are
@@ -141,7 +133,7 @@ public class JAttributeSliderBeanInfo extends SimpleBeanInfo {
     public int getDefaultPropertyIndex() {
         return defaultPropertyIndex;
     }
-    
+
     /**
      * A bean may have a "default" event that is the event that will
      * mostly commonly be used by human's when using the bean.
@@ -153,7 +145,7 @@ public class JAttributeSliderBeanInfo extends SimpleBeanInfo {
     public int getDefaultEventIndex() {
         return defaultEventIndex;
     }
-    
+
     /**
      * This method returns an image object that can be used to
      * represent the bean in toolboxes, toolbars, etc.   Icon images
@@ -177,42 +169,46 @@ public class JAttributeSliderBeanInfo extends SimpleBeanInfo {
      */
     @Override
     public java.awt.Image getIcon(int iconKind) {
-        switch ( iconKind ) {
+        switch (iconKind) {
             case ICON_COLOR_16x16:
-                if ( iconNameC16 == null )
+                if (iconNameC16 == null) {
                     return null;
-                else {
-                    if( iconColor16 == null )
-                        iconColor16 = loadImage( iconNameC16 );
+                } else {
+                    if (iconColor16 == null) {
+                        iconColor16 = loadImage(iconNameC16);
+                    }
                     return iconColor16;
                 }
             case ICON_COLOR_32x32:
-                if ( iconNameC32 == null )
+                if (iconNameC32 == null) {
                     return null;
-                else {
-                    if( iconColor32 == null )
-                        iconColor32 = loadImage( iconNameC32 );
+                } else {
+                    if (iconColor32 == null) {
+                        iconColor32 = loadImage(iconNameC32);
+                    }
                     return iconColor32;
                 }
             case ICON_MONO_16x16:
-                if ( iconNameM16 == null )
+                if (iconNameM16 == null) {
                     return null;
-                else {
-                    if( iconMono16 == null )
-                        iconMono16 = loadImage( iconNameM16 );
+                } else {
+                    if (iconMono16 == null) {
+                        iconMono16 = loadImage(iconNameM16);
+                    }
                     return iconMono16;
                 }
             case ICON_MONO_32x32:
-                if ( iconNameM32 == null )
+                if (iconNameM32 == null) {
                     return null;
-                else {
-                    if( iconMono32 == null )
-                        iconMono32 = loadImage( iconNameM32 );
+                } else {
+                    if (iconMono32 == null) {
+                        iconMono32 = loadImage(iconNameM32);
+                    }
                     return iconMono32;
                 }
-            default: return null;
+            default:
+                return null;
         }
     }
-    
 }
 

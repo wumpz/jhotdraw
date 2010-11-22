@@ -8,10 +8,12 @@
  * license agreement you entered into with the copyright holders. For details
  * see accompanying license terms.
  */
-package org.jhotdraw.gui;
+package org.jhotdraw.draw.gui;
 
 import java.awt.*;
 import javax.swing.*;
+import org.jhotdraw.gui.AttributeEditor;
+import org.jhotdraw.gui.JLifeFormattedTextArea;
 import org.jhotdraw.util.*;
 
 /**
@@ -20,7 +22,7 @@ import org.jhotdraw.util.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class JAttributeTextField<T> extends JLifeFormattedTextField implements AttributeEditor<T> {
+public class JAttributeTextArea<T> extends JLifeFormattedTextArea implements AttributeEditor<T> {
 
     /**
      * This variable is set to true, when the figures, which are currently
@@ -29,7 +31,7 @@ public class JAttributeTextField<T> extends JLifeFormattedTextField implements A
     private boolean isMultipleValues;
 
     /** Creates new instance. */
-    public JAttributeTextField() {
+    public JAttributeTextArea() {
     }
 
     @Override
