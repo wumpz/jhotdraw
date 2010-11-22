@@ -291,7 +291,7 @@ public interface MenuBuilder {
      * <p>
      * Most applications use this method for adding items to the second section
      * of the "Window" menu. (The first section usually contains application
-     * specific items). Some applications, such as {@link SDIApplication) add
+     * specific items). Some applications, such as {@link SDIApplication} add
      * these items to the "View" menu.
      *
      * @param m A (potentially non-empty) menu.

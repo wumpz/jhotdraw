@@ -11,7 +11,6 @@
 
 package org.jhotdraw.xml;
 
-import java.beans.XMLDecoder;
 import java.io.IOException;
 
 /**
