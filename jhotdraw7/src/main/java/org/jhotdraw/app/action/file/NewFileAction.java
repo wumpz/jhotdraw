@@ -51,21 +51,21 @@ public class NewFileAction extends AbstractApplicationAction {
     @Override
     public void actionPerformed(ActionEvent evt) {
         Application app = getApplication();
-        final View newP = app.createView();
+        final View newView = app.createView();
         int multiOpenId = 1;
         for (View existingP : app.views()) {
             if (existingP.getURI() == null) {
                 multiOpenId = Math.max(multiOpenId, existingP.getMultipleOpenId() + 1);
             }
         }
-        newP.setMultipleOpenId(multiOpenId);
-        app.add(newP);
-        newP.execute(new Runnable() {
+        newView.setMultipleOpenId(multiOpenId);
+        app.add(newView);
+        newView.execute(new Runnable() {
             @Override
             public void run() {
-                newP.clear();
+                newView.clear();
             }
         });
-        app.show(newP);
+        app.show(newView);
     }
 }

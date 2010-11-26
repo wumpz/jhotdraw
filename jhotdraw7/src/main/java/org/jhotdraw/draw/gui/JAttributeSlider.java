@@ -41,7 +41,7 @@ public class JAttributeSlider extends JSlider implements AttributeEditor<Double>
     @Override
     public void setAttributeValue(Double newValue) {
         attributeValue = newValue;
-        setValue((int) (newValue * scaleFactor));
+        setValue(attributeValue == null ? 0 : (int) (attributeValue * scaleFactor));
     }
 
     @Override

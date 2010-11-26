@@ -508,9 +508,9 @@ public class SDIApplication extends AbstractApplication {
         JCheckBoxMenuItem cbmi;
 
         m = new JMenu();
+        labels.configureMenu(m, "view");
         if (viewActions != null && viewActions.size() > 0) {
             m2 = (viewActions.size() == 1) ? m : new JMenu(labels.getString("toolBars"));
-            labels.configureMenu(m, "view");
             for (Action a : viewActions) {
                 cbmi = new JCheckBoxMenuItem(a);
                 ActionUtil.configureJCheckBoxMenuItem(cbmi, a);

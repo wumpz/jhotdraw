@@ -70,19 +70,28 @@ public class SVGApplicationModel extends DefaultApplicationModel {
     @Override
     public void initView(Application a, View view) {
         SVGView v = (SVGView) view;
+        DrawingEditor editor;
         if (a.isSharingToolsAmongViews()) {
-            v.setEditor(getSharedEditor());
+            v.setEditor(editor=getSharedEditor());
         } else {
-            v.setEditor(new DefaultDrawingEditor());
+            v.setEditor(editor=new DefaultDrawingEditor());
         }
 
         AbstractSelectedAction action;
-        view.getActionMap().put(SelectSameAction.ID, action = new SelectSameAction(v.getEditor()));
-        view.addDisposable(action);
+        ActionMap m =view.getActionMap();
+        m.put(SelectSameAction.ID,new SelectSameAction(editor));
+        m.put(GroupAction.ID,new GroupAction(editor, new SVGGroupFigure()));
+        m.put(UngroupAction.ID,new UngroupAction(editor, new SVGGroupFigure()));
+        m.put(CombineAction.ID,new CombineAction(editor));
+        m.put(SplitAction.ID,new SplitAction(editor));
+        m.put(BringToFrontAction.ID,new BringToFrontAction(editor));
+        m.put(SendToBackAction.ID,new SendToBackAction(editor));
+        //view.addDisposable(action);
     }
 
     @Override
-    public ActionMap createActionMap(Application a, @Nullable View v) {
+    public ActionMap createActionMap(Application a, @Nullable View view) {
+        SVGView v = (SVGView) view;
         ActionMap m = super.createActionMap(a, v);
         AbstractAction aa;
 
@@ -94,35 +103,22 @@ public class SVGApplicationModel extends DefaultApplicationModel {
             m.put(UndoAction.ID, svgView.getUndoManager().getUndoAction());
             m.put(RedoAction.ID, svgView.getUndoManager().getRedoAction());
         }
+
+        DrawingEditor editor;
+        if (a.isSharingToolsAmongViews()) {
+            editor=getSharedEditor();
+        } else {
+           editor = (v == null) ? null : v.getEditor();
+        }
+        m.put(SelectSameAction.ID,new SelectSameAction(editor));
+        m.put(GroupAction.ID,new GroupAction(editor, new SVGGroupFigure()));
+        m.put(UngroupAction.ID,new UngroupAction(editor, new SVGGroupFigure()));
+        m.put(CombineAction.ID,new CombineAction(editor));
+        m.put(SplitAction.ID,new SplitAction(editor));
+        m.put(BringToFrontAction.ID,new BringToFrontAction(editor));
+        m.put(SendToBackAction.ID,new SendToBackAction(editor));
+
         return m;
-    }
-
-    public Collection<Action> createDrawingActions(Application app, DrawingEditor editor) {
-        LinkedList<Action> a = new LinkedList<Action>();
-        a.add(new CutAction());
-        a.add(new CopyAction());
-        a.add(new PasteAction());
-        a.add(new SelectAllAction());
-        a.add(new ClearSelectionAction());
-        a.add(new SelectSameAction(editor));
-        return a;
-    }
-
-    public static Collection<Action> createSelectionActions(DrawingEditor editor) {
-        LinkedList<Action> a = new LinkedList<Action>();
-        a.add(new DuplicateAction());
-
-        a.add(null); // separator
-        a.add(new GroupAction(editor, new SVGGroupFigure()));
-        a.add(new UngroupAction(editor, new SVGGroupFigure()));
-        a.add(new CombineAction(editor));
-        a.add(new SplitAction(editor));
-
-        a.add(null); // separator
-        a.add(new BringToFrontAction(editor));
-        a.add(new SendToBackAction(editor));
-
-        return a;
     }
 
     /** Creates the MenuBuilder. */

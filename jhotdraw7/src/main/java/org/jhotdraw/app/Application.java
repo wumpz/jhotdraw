@@ -11,11 +11,14 @@
 package org.jhotdraw.app;
 
 import edu.umd.cs.findbugs.annotations.Nullable;
-import java.awt.*;
-import java.beans.*;
-import java.util.*;
-import javax.swing.*;
+import java.awt.Component;
+import java.awt.Window;
+import java.beans.PropertyChangeListener;
 import java.net.URI;
+import java.util.Collection;
+import java.util.List;
+import javax.swing.ActionMap;
+import javax.swing.JMenu;
 import org.jhotdraw.gui.URIChooser;
 
 /**
@@ -106,10 +109,13 @@ public interface Application {
 
     /**
      * Starts the application.
-     * This usually creates a new view, and adds it to the application.
+     * This usually creates at least one view, and adds it to the application.
      * <code>init()</code> must have been invoked before the application is started.
+     *
+     * @param uris Upon launch, the application may be requested to open views
+     *             for a given list of URI's.
      */
-    public void start();
+    public void start(List<URI> uris);
 
     /**
      * Stops the application without saving any unsaved views.

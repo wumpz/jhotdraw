@@ -91,7 +91,8 @@ public class FocusWindowAction extends AbstractAction {
             if (view.hasUnsavedChanges()) {
                 title += "*";
             }
-            title = (labels.getFormatted("internalFrame.title", title, view.getApplication().getName(), view.getMultipleOpenId()));
+            title = (labels.getFormatted("internalFrame.title", title,
+                    view.getApplication() == null?"":view.getApplication().getName(), view.getMultipleOpenId()));
         }
         return title;
 

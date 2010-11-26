@@ -15,7 +15,10 @@ import java.awt.Container;
 import java.awt.Window;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
 import java.net.URISyntaxException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jhotdraw.beans.*;
 import org.jhotdraw.gui.Worker;
 import org.jhotdraw.util.*;
@@ -36,6 +39,10 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
 
 /**
  * This abstract class can be extended to implement an {@link Application}.
+ * <p>
+ * {@code AbstractApplication} supports the command line parameter
+ * {@code -open filename} to open views for specific URI's upon launch of
+ * the application.
  *
  * @author Werner Randelshofer
  * @version $Id$
@@ -80,29 +87,57 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     }
 
     @Override
-    public void start() {
-        final View v = createView();
-        add(v);
-        v.setEnabled(false);
-        show(v);
+    public void start(List<URI> uris) {
+        if (uris.isEmpty()) {
+            final View v = createView();
+            add(v);
+            v.setEnabled(false);
+            show(v);
 
-        // Set the start view immediately active, so that
-        // ApplicationOpenFileAction picks it up on Mac OS X.
-        setActiveView(v);
+            // Set the start view immediately active, so that
+            // ApplicationOpenFileAction picks it up on Mac OS X.
+            setActiveView(v);
 
-        v.execute(new Worker<Object>() {
+            v.execute(new Worker<Object>() {
 
-            @Override
-            public Object construct() {
-                v.clear();
-                return null;
+                @Override
+                public Object construct() {
+                    v.clear();
+                    return null;
+                }
+
+                @Override
+                public void finished() {
+                    v.setEnabled(true);
+                }
+            });
+        } else {
+            for (final URI uri : uris) {
+                final View v = createView();
+                add(v);
+                v.setEnabled(false);
+                show(v);
+
+                // Set the start view immediately active, so that
+                // ApplicationOpenFileAction picks it up on Mac OS X.
+                setActiveView(v);
+
+                v.execute(new Worker<Object>() {
+
+                    @Override
+                    public Object construct() throws Exception {
+                        v.read(uri, null);
+                        return null;
+                    }
+
+                    @Override
+                    public void finished() {
+                        v.setURI(uri);
+                        v.setEnabled(true);
+                    }
+                });
             }
-
-            @Override
-            public void finished() {
-                v.setEnabled(true);
-            }
-        });
+        }
     }
 
     @Override
@@ -243,17 +278,55 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         return new JFrame();
     }
 
+    /** Launches the application.
+     *
+     * @param args This implementation supports the command-line parameter "-open"
+     * which can be followed by one or more filenames or URI's.
+     */
     @Override
     public void launch(String[] args) {
         configure(args);
+
+        // Get URI's from command line
+        final List<URI> uris = getOpenURIsFromMainArgs(args);
+
         SwingUtilities.invokeLater(new Runnable() {
 
             @Override
             public void run() {
                 init();
-                start();
+                start(uris);
             }
         });
+    }
+
+    /** Parses the arguments to the main method and returns a list of URI's
+     * for which views need to be opened upon launch of the application.
+     * <p>
+     * This implementation supports the command-line parameter "-open"
+     * which can be followed by one or more filenames or URI's.
+     * <p>
+     * This method is invoked from the {@code Application.launch} method.
+     *
+     * @param args Arguments to the main method.
+     * @return A list of URI's parsed from the arguments. Returns an empty list
+     * if no URI's shall be opened.
+     */
+    protected List<URI> getOpenURIsFromMainArgs(String[] args) {
+        LinkedList<URI> uris = new LinkedList<URI>();
+        for (int i = 0; i < args.length; ++i) {
+            if (args[i].equals("-open")) {
+                for (++i; i < args.length; ++i) {
+                    if (args[i].startsWith("-")) {
+                        break;
+                    }
+                    URI uri;
+                    uri = new File(args[i]).toURI();
+                    uris.add(uri);
+                }
+            }
+        }
+        return uris;
     }
 
     protected void initLabels() {
