@@ -10,7 +10,7 @@
 
         <!-- properties for copyright and versioning -->
         <property name="author" value="the authors and contributors of JHotDraw"/>
-        <property name="version" value="7.5"/>
+        <property name="version" value="7.6"/>
     </target>
     <target name="clean" depends="init">
         <delete dir="${classdir}" />
@@ -24,6 +24,8 @@
                 encoding="UTF-8"
          >
             <classpath path="${libdir}/quaqua.jar"/>
+            <classpath path="${libdir}/annotations.jar"/>
+            <classpath path="${libdir}/jsr305.jar"/>
             <include name="org/jhotdraw/samples/mini/BezierDemo.java"/> 
         </javac>
         <copy todir="${classdir}/org/jhotdraw/geom">
