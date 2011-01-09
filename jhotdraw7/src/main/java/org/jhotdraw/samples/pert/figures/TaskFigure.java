@@ -92,8 +92,6 @@ public class TaskFigure extends GraphicalCompositeFigure {
         ListFigure attributeCompartment = new ListFigure();
         SeparatorLineFigure separator1 = new SeparatorLineFigure();
 
-        applyAttributes(getPresentationFigure());
-
         add(nameCompartment);
         add(separator1);
         add(attributeCompartment);
@@ -119,7 +117,6 @@ public class TaskFigure extends GraphicalCompositeFigure {
         startTimeFigure.setText("0");
         startTimeFigure.setAttributeEnabled(FONT_BOLD, false);
 
-        applyAttributes(this);
         setAttributeEnabled(STROKE_DASHES, false);
 
         ResourceBundleUtil labels =
@@ -223,15 +220,6 @@ public class TaskFigure extends GraphicalCompositeFigure {
 
     private TextFigure getStartTimeFigure() {
         return (TextFigure) ((ListFigure) getChild(2)).getChild(1);
-    }
-
-    @SuppressWarnings("unchecked")
-    private void applyAttributes(Figure f) {
-        Map<AttributeKey, Object> attr = ((AbstractAttributedFigure) getPresentationFigure()).getAttributes();
-        for (Map.Entry<AttributeKey, Object> entry : attr.entrySet()) {
-            f.set(entry.getKey(), entry.getValue());
-        }
-
     }
 
     @Override

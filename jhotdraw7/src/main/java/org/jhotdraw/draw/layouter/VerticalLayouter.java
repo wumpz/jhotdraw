@@ -61,6 +61,7 @@ public class VerticalLayouter extends AbstractLayouter {
         return layoutBounds;
     }
 
+    @Override
     public Rectangle2D.Double layout(CompositeFigure layoutable, Point2D.Double anchor, Point2D.Double lead) {
         Insets2D.Double layoutInsets = layoutable.get(LAYOUT_INSETS);
         Alignment compositeAlignment = layoutable.get(COMPOSITE_ALIGNMENT);

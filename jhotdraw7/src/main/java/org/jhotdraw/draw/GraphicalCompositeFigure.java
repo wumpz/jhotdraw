@@ -284,7 +284,7 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
         return presentationFigure;
     }
 
-    @Override
+    @Override @SuppressWarnings("unchecked")
     public GraphicalCompositeFigure clone() {
         GraphicalCompositeFigure that = (GraphicalCompositeFigure) super.clone();
         that.presentationFigure = (this.presentationFigure == null)
@@ -293,6 +293,8 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
         if (that.presentationFigure != null) {
             that.presentationFigure.addFigureListener(that.presentationFigureHandler);
         }
+        that.attributes=(HashMap<AttributeKey, Object>) this.attributes.clone();
+        that.forbiddenAttributes= this.forbiddenAttributes==null?null:(HashSet<AttributeKey>) this.forbiddenAttributes.clone();
         return that;
     }
 
@@ -315,7 +317,8 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
             if (getPresentationFigure() != null) {
                 getPresentationFigure().set(key, newValue);
             }
-            super.set(key, newValue);
+            T oldValue = (T) key.put(attributes, newValue);
+            fireAttributeChanged(key, oldValue, newValue);
         }
     }
 

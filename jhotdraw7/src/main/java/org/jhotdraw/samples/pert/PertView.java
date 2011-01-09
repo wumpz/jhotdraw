@@ -94,8 +94,8 @@ public class PertView extends AbstractView {
         placardPanel.add(pButton, BorderLayout.EAST);
         scrollPane.add(placardPanel, JScrollPane.LOWER_LEFT_CORNER);
 
-        setGridVisible(preferences.getBoolean("view.gridVisible", false));
-        setScaleFactor(preferences.getDouble("view.scaleFactor", 1d));
+        //setGridVisible(preferences.getBoolean("view.gridVisible", false));
+        //setScaleFactor(preferences.getDouble("view.scaleFactor", 1d));
     }
 
     /**

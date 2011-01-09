@@ -32,7 +32,6 @@ public class Main {
         } else {
             app = new SDIApplication();
         }
-            app = new MDIApplication();
         
         
         DefaultApplicationModel model = new NetApplicationModel();
