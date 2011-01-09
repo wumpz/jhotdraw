@@ -196,6 +196,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
     @Override
         public String toString() {
             StringBuilder buf = new StringBuilder();
+            buf.append(super.toString());
             buf.append('[');
             for (int i = 0; i < 3; i++) {
                 if (i != 0) {
