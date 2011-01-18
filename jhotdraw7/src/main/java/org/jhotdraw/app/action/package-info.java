@@ -6,14 +6,13 @@
  * You may not use, copy or modify this file, except in compliance with the
  * license agreement you entered into with the copyright holders. For details
  * see accompanying license terms.
+ */
+/**
+ * Provides abstract actions for document oriented applications.
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
-
-/**
-Provides abstract actions for document oriented applications.
-*/
+ */
 @DefaultAnnotation(NonNull.class)
 package org.jhotdraw.app.action;
 

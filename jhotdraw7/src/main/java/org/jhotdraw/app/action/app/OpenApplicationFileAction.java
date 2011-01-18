@@ -128,6 +128,7 @@ public class OpenApplicationFileAction extends AbstractApplicationAction {
             @Override
             protected void done(Object value) {
                 view.setURI(uri);
+                app.addRecentURI(uri);
                 Frame w = (Frame) SwingUtilities.getWindowAncestor(view.getComponent());
                 if (w != null) {
                     w.setExtendedState(w.getExtendedState() & ~Frame.ICONIFIED);

@@ -6,18 +6,15 @@
  * You may not use, copy or modify this file, except in compliance with the
  * license agreement you entered into with the copyright holders. For details
  * see accompanying license terms.
+ */
+/**
+ * Provides Actions which act on an application object.
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
-
-/**
-Provides Actions which act on an application object.
-*/
+ */
 @DefaultAnnotation(NonNull.class)
 package org.jhotdraw.app.action.app;
 
 import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
 import edu.umd.cs.findbugs.annotations.NonNull;
-
-

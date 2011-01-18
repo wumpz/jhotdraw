@@ -206,7 +206,8 @@ public class OSXApplication extends AbstractApplication {
 
     protected void initLookAndFeel() {
         try {
-            UIManager.setLookAndFeel("ch.randelshofer.quaqua.QuaquaLookAndFeel");
+            String lafName=(String)Methods.invokeStatic("ch.randelshofer.quaqua.QuaquaManager","getLookAndFeelClassName");
+            UIManager.setLookAndFeel(lafName);
         } catch (Exception e) {
             e.printStackTrace();
         }
