@@ -34,7 +34,20 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * submenu of the File menu. The action and the menu item is automatically
  * created by the application, when the {@code ApplicationModel} provides a
  * {@code LoadFileAction}.
+ * <hr>
+ * <b>Features</b>
  *
+ * <p><em>Open last URI on launch</em><br>
+ * {@code LoadRecentFileAction} supplies data for this feature by calling
+ * {@link Application#addRecentURI} when it successfully loaded a file.
+ * See {@link org.jhotdraw.app} for a description of the feature.
+ * </p>
+ *
+ * <p><em>Allow multiple views per URI</em><br>
+ * When the feature is disabled, {@code LoadRecentFileAction} prevents loading an URI which
+ * is opened in another view.<br>
+ * See {@link org.jhotdraw.app} for a description of the feature.
+ * </p>
  *
  * @author Werner Randelshofer.
  * @version $Id$
@@ -69,6 +82,16 @@ public class LoadRecentFileAction extends AbstractSaveUnsavedChangesAction {
     public void doIt(View v) {
         final Application app = getApplication();
 
+        // Prevent same URI from being opened more than once
+        if (!getApplication().getModel().isAllowMultipleViewsPerURI()) {
+            for (View vw : getApplication().getViews()) {
+                if (vw.getURI() != null && vw.getURI().equals(uri)) {
+                    vw.getComponent().requestFocus();
+                    return;
+                }
+            }
+        }
+
         // Search for an empty view
         if (v == null) {
             View emptyView = app.getActiveView();
@@ -87,6 +110,7 @@ public class LoadRecentFileAction extends AbstractSaveUnsavedChangesAction {
         }
         final View view = v;
         app.setEnabled(true);
+        view.setEnabled(false);
 
         // If there is another view with the same file we set the multiple open
         // id of our view to max(multiple open id) + 1.
@@ -125,16 +149,14 @@ public class LoadRecentFileAction extends AbstractSaveUnsavedChangesAction {
             protected void done(Object value) {
                 final Application app = getApplication();
                 view.setURI(uri);
-                view.setEnabled(true);
+                app.addRecentURI(uri);
                 Frame w = (Frame) SwingUtilities.getWindowAncestor(view.getComponent());
                 if (w != null) {
                     w.setExtendedState(w.getExtendedState() & ~Frame.ICONIFIED);
                     w.toFront();
                 }
                 view.getComponent().requestFocus();
-                if (app != null) {
-                    app.setEnabled(true);
-                }
+                app.setEnabled(true);
             }
 
             @Override
@@ -153,6 +175,11 @@ public class LoadRecentFileAction extends AbstractSaveUnsavedChangesAction {
                         // app.dispose(view);
                     }
                 });
+            }
+
+            @Override
+            protected void finished() {
+                view.setEnabled(true);
             }
         });
     }

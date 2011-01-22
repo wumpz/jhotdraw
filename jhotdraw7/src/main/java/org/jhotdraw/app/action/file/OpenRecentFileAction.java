@@ -33,6 +33,20 @@ import org.jhotdraw.net.URIUtil;
  * submenu of the File menu. The action and the menu item is automatically
  * created by the application, when the {@code ApplicationModel} provides a
  * {@code OpenFileAction}.
+ * <hr>
+ * <b>Features</b>
+ *
+ * <p><em>Allow multiple views per URI</em><br>
+ * When the feature is disabled, {@code OpenRecentFileAction} prevents opening
+ * an URI which is opened in another view.<br>
+ * See {@link org.jhotdraw.app} for a description of the feature.
+ * </p>
+ *
+ * <p><em>Open last URI on launch</em><br>
+ * {@code OpenRecentFileAction} supplies data for this feature by calling
+ * {@link Application#addRecentURI} when it successfully opened a file.
+ * See {@link org.jhotdraw.app} for a description of the feature.
+ * </p>
  *
  * @author Werner Randelshofer.
  * @version $Id$
@@ -53,6 +67,17 @@ public class OpenRecentFileAction extends AbstractApplicationAction {
     public void actionPerformed(ActionEvent evt) {
         final Application app = getApplication();
         if (app.isEnabled()) {
+        // Prevent same URI from being opened more than once
+        if (!getApplication().getModel().isAllowMultipleViewsPerURI()) {
+            for (View vw : getApplication().getViews()) {
+                if (vw.getURI() != null && vw.getURI().equals(uri)) {
+                    vw.getComponent().requestFocus();
+                    return;
+                }
+            }
+        }
+
+
             app.setEnabled(false);
             // Search for an empty view
             View emptyView = app.getActiveView();
@@ -120,6 +145,7 @@ public class OpenRecentFileAction extends AbstractApplicationAction {
                     w.setExtendedState(w.getExtendedState() & ~Frame.ICONIFIED);
                     w.toFront();
                 }
+                app.addRecentURI(uri);
                 view.setEnabled(true);
                 view.getComponent().requestFocus();
             }

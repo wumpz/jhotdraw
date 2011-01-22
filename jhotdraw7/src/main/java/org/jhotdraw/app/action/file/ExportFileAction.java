@@ -38,6 +38,14 @@ import org.jhotdraw.net.URIUtil;
  * If you want this behavior in your application, you have to create an action
  * with this ID and put it in your {@code ApplicationModel} in method
  * {@link ApplicationModel#initApplication}. 
+ * <hr>
+ * <b>Features</b>
+ *
+ * <p><em>Allow multiple views for URI</em><br>
+ * When the feature is disabled, {@code ExportFileAction} prevents exporting to an URI which
+ * is opened in another view.<br>
+ * See {@link org.jhotdraw.app} for a description of the feature.
+ * </p>
  *
  * @author Werner Randelshofer
  * @version $Id$
@@ -71,10 +79,25 @@ public class ExportFileAction extends AbstractViewAction {
                 public void optionSelected(final SheetEvent evt) {
                     if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
                         final URI uri = evt.getChooser().getSelectedURI();
-                        if (evt.getChooser()instanceof JFileURIChooser) {
-                        exportView(view, uri, evt.getChooser());
+
+                            // Prevent same URI from being opened more than once
+                            if (!getApplication().getModel().isAllowMultipleViewsPerURI()) {
+                                for (View v : getApplication().getViews()) {
+                                    if (v != view && v.getURI() != null && v.getURI().equals(uri)) {
+                                        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
+                                        JSheet.showMessageSheet(view.getComponent(), labels.getFormatted("file.export.couldntExportIntoOpenFile.message", evt.getFileChooser().getSelectedFile().getName()));
+
+                                        view.setEnabled(true);
+                                        return;
+                                    }
+                                }
+                            }
+
+
+                        if (evt.getChooser() instanceof JFileURIChooser) {
+                            exportView(view, uri, evt.getChooser());
                         } else {
-                        exportView(view, uri, null);
+                            exportView(view, uri, null);
                         }
                     } else {
                         view.setEnabled(true);
@@ -93,7 +116,7 @@ public class ExportFileAction extends AbstractViewAction {
 
             @Override
             protected Object construct() throws IOException {
-                view.write(uri,chooser);
+                view.write(uri, chooser);
                 return null;
             }
 
@@ -103,9 +126,9 @@ public class ExportFileAction extends AbstractViewAction {
                 ((Throwable) value).printStackTrace();
                 // FIXME localize this error messsage
                 JSheet.showMessageSheet(view.getComponent(),
-                        "<html>" + UIManager.getString("OptionPane.css") +
-                        "<b>Couldn't export to the file \"" + URIUtil.getName(uri) + "\".<p>" +
-                        "Reason: " + value,
+                        "<html>" + UIManager.getString("OptionPane.css")
+                        + "<b>Couldn't export to the file \"" + URIUtil.getName(uri) + "\".<p>"
+                        + "Reason: " + value,
                         JOptionPane.ERROR_MESSAGE);
             }
 

@@ -37,6 +37,20 @@ import org.jhotdraw.net.URIUtil;
  * If you want this behavior in your application, you have to create an action
  * with this ID and put it in your {@code ApplicationModel} in method
  * {@link org.jhotdraw.app.ApplicationModel#initApplication}.
+ * <hr>
+ * <b>Features</b>
+ *
+ * <p><em>Allow multiple views per URI</em><br>
+ * When the feature is disabled, {@code OpenApplicationFileAction} prevents
+ * opening an URI which is opened in another view.<br>
+ * See {@link org.jhotdraw.app} for a description of the feature.
+ * </p>
+ *
+ * <p><em>Open last URI on launch</em><br>
+ * {@code OpenApplicationFileAction} supplies data for this feature by calling
+ * {@link Application#addRecentURI} when it successfully loaded a file.
+ * See {@link org.jhotdraw.app} for a description of the feature.
+ * </p>
  *
  * @author  Werner Randelshofer
  * @version $Id$
@@ -65,6 +79,19 @@ public class OpenApplicationFileAction extends AbstractApplicationAction {
         final String filename = evt.getActionCommand();
 
         if (app.isEnabled()) {
+            URI uri = new File(filename).toURI();
+
+            // Prevent same URI from being opened more than once
+            if (!app.getModel().isAllowMultipleViewsPerURI()) {
+                for (View v : app.getViews()) {
+                    if (v.getURI() != null && v.getURI().equals(uri)) {
+                        v.getComponent().requestFocus();
+                        return;
+                    }
+                }
+            }
+
+
             app.setEnabled(false);
             // Search for an empty view
             View emptyView = app.getActiveView();
@@ -82,7 +109,7 @@ public class OpenApplicationFileAction extends AbstractApplicationAction {
             } else {
                 p = emptyView;
             }
-            openView(p, new File(filename).toURI());
+            openView(p, uri);
         }
     }
 

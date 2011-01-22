@@ -313,15 +313,18 @@ public interface View extends Disposable {
     public void removeDisposable(Disposable disposable);
 
     /**
-     * Returns the uri which holds the document of the view.
+     * Returns the URI which holds the document of the view.
+     * <p>
+     * The URI is used by the <em>Allow multiple views per URI</em> feature.
+     * See {@link org.jhotdraw.app}.
      */
-    public URI getURI();
+    @Nullable public URI getURI();
 
     /**
      * Sets the uri of the view.
      * This is a bound property.
      */
-    public void setURI(URI newValue);
+    public void setURI(@Nullable URI newValue);
 
     /**
      * Returns true, if this view can be saved to the specified URI.

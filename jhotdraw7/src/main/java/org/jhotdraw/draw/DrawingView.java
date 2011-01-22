@@ -36,7 +36,7 @@ import javax.swing.*;
  * To support editing, a drawing view needs to be added to a {@link DrawingEditor}.
  * The current {@link org.jhotdraw.draw.tool.Tool} of the drawing editor
  * receives mouse and key events from all drawing views of the drawing editor.
- * When added to an editor, the drawing view paints the current {@link Tool} on
+ * When added to an editor, the drawing view paints the current {@link org.jhotdraw.draw.tool.Tool} on
  * top of the drawing. The selected figures and handles can be the targets of
  * the current tool of the drawing editor.
  * <p>

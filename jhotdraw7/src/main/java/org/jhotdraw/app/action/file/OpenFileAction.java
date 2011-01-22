@@ -41,6 +41,20 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * create a new view for each opened file. This action goes together with
  * {@link NewFileAction}, {@link OpenDirectoryAction} and {@link CloseFileAction}.
  * This action should not be used together with {@link LoadFileAction}.
+ * <hr>
+ * <b>Features</b>
+ *
+ *<p><em>Allow multiple views per URI</em><br>
+ * When the feature is disabled, {@code OpenFileAction} prevents opening an URI
+ * which* is opened in another view.<br>
+ * See {@link org.jhotdraw.app} for a description of the feature.
+ * </p>
+ *
+ * <p><em>Open last URI on launch</em><br>
+ * {@code OpenFileAction} supplies data for this feature by calling
+ * {@link Application#addRecentURI} when it successfully opened a file.
+ * See {@link org.jhotdraw.app} for a description of the feature.
+ * </p>
  *
  * @author  Werner Randelshofer
  * @version $Id$
@@ -88,7 +102,24 @@ public class OpenFileAction extends AbstractApplicationAction {
             chooser.setDialogType(JFileChooser.OPEN_DIALOG);
             if (showDialog(chooser, app.getComponent()) == JFileChooser.APPROVE_OPTION) {
                 app.show(view);
-                openViewFromURI(view, chooser.getSelectedURI(), chooser);
+
+                URI uri = chooser.getSelectedURI();
+
+                // Prevent same URI from being opened more than once
+                if (!getApplication().getModel().isAllowMultipleViewsPerURI()) {
+                    for (View v : getApplication().getViews()) {
+                        if (v.getURI() != null && v.getURI().equals(uri)) {
+                            v.getComponent().requestFocus();
+                            if (disposeView) {
+                                app.dispose(view);
+                            }
+                            app.setEnabled(true);
+                            return;
+                        }
+                    }
+                }
+
+                openViewFromURI(view, uri, chooser);
             } else {
                 if (disposeView) {
                     app.dispose(view);
@@ -212,7 +243,7 @@ public class OpenFileAction extends AbstractApplicationAction {
         }
 
         JDialog dialog;
-        Window window = (parent==null ||(parent instanceof Window)) ? (Window) parent : SwingUtilities.getWindowAncestor(parent);
+        Window window = (parent == null || (parent instanceof Window)) ? (Window) parent : SwingUtilities.getWindowAncestor(parent);
         if (window instanceof Frame) {
             dialog = new JDialog((Frame) window, title, true);
         } else {

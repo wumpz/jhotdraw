@@ -61,7 +61,7 @@ public abstract class AbstractView extends JPanel implements View {
      * Has a null value, if the view has not been loaded from a URI
      * or has not been saved yet.
      */
-    protected URI uri;
+    @Nullable protected URI uri;
 
     /**
      * Creates a new instance.
@@ -128,12 +128,12 @@ public abstract class AbstractView extends JPanel implements View {
     }
 
     @Override
-    public URI getURI() {
+   @Nullable public URI getURI() {
         return uri;
     }
 
     @Override
-    public void setURI(URI newValue) {
+    public void setURI(@Nullable URI newValue) {
         URI oldValue = uri;
         uri = newValue;
         if (preferences != null && newValue != null) {

@@ -31,6 +31,8 @@ public abstract class AbstractApplicationModel extends AbstractBean
     protected String copyright;
     protected Class viewClass;
     protected String viewClassName;
+    protected boolean allowMultipleViewsForURI = true;
+    protected boolean openLastURIOnLaunch = false;
     public final static String NAME_PROPERTY = "name";
     public final static String VERSION_PROPERTY = "version";
     public final static String COPYRIGHT_PROPERTY = "copyright";
@@ -128,6 +130,7 @@ public abstract class AbstractApplicationModel extends AbstractBean
     @Override
     public void initView(Application a, View p) {
     }
+
     /** This method is empty. */
     @Override
     public void destroyView(Application a, View p) {
@@ -137,6 +140,7 @@ public abstract class AbstractApplicationModel extends AbstractBean
     @Override
     public void initApplication(Application a) {
     }
+
     /** This method is empty. */
     @Override
     public void destroyApplication(Application a) {
@@ -148,6 +152,7 @@ public abstract class AbstractApplicationModel extends AbstractBean
 
         return c;
     }
+
     @Override
     public URIChooser createOpenDirectoryChooser(Application a, @Nullable View v) {
         JFileURIChooser c = new JFileURIChooser();
@@ -155,23 +160,59 @@ public abstract class AbstractApplicationModel extends AbstractBean
         return c;
     }
 
-
     @Override
     public URIChooser createSaveChooser(Application a, @Nullable View v) {
         JFileURIChooser c = new JFileURIChooser();
         return c;
     }
+
     /** Returns createOpenChooser. */
     @Override
     public URIChooser createImportChooser(Application a, @Nullable View v) {
-        return createOpenChooser(a,v);
+        return createOpenChooser(a, v);
     }
 
     /** Returns createSaveChooser. */
     @Override
     public URIChooser createExportChooser(Application a, @Nullable View v) {
-        return createSaveChooser(a,v);
+        return createSaveChooser(a, v);
     }
 
-  
+    /** 
+     * {@inheritDoc}
+     * The default value is true.
+     */
+    @Override
+    public boolean isOpenLastURIOnLaunch() {
+        return openLastURIOnLaunch;
+    }
+
+    /**
+     * {@inheritDoc}
+     * The default value is true.
+     */
+    @Override
+    public boolean isAllowMultipleViewsPerURI() {
+        return allowMultipleViewsForURI;
+    }
+
+    /** Whether the application may open multiple views for the same URI.
+     * <p>
+     * The default value is true.
+     *
+     * @param allowMultipleViewsForURI
+     */
+    public void setAllowMultipleViewsForURI(boolean allowMultipleViewsForURI) {
+        this.allowMultipleViewsForURI = allowMultipleViewsForURI;
+    }
+
+    /** Whether the application should open the last opened URI on launch.
+     * <p>
+     * The default value is false.
+     *
+     * @param openLastURIOnLaunch
+     */
+    public void setOpenLastURIOnLaunch(boolean openLastURIOnLaunch) {
+        this.openLastURIOnLaunch = openLastURIOnLaunch;
+    }
 }

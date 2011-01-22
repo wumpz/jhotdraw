@@ -15,6 +15,7 @@ import java.util.List;
 import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import org.jhotdraw.app.action.app.AboutAction;
 import org.jhotdraw.app.action.app.AbstractPreferencesAction;
 import org.jhotdraw.app.action.app.ExitAction;
@@ -48,6 +49,8 @@ import org.jhotdraw.app.action.file.SaveFileAsAction;
  * @version 1.0 2010-11-14 Created.
  */
 public class DefaultMenuBuilder implements MenuBuilder {
+    /** Whether icons in menu items shall be removed. */
+    public boolean suppressIcons;
 
     /** Adds items for the following actions to the menu:
      * <ul>
@@ -59,7 +62,7 @@ public class DefaultMenuBuilder implements MenuBuilder {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(AbstractPreferencesAction.ID))) {
-            m.add(a);
+            add(m,a);
         }
     }
 
@@ -73,7 +76,7 @@ public class DefaultMenuBuilder implements MenuBuilder {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(ExitAction.ID))) {
-            m.add(a);
+            add(m,a);
         }
     }
 
@@ -87,7 +90,7 @@ public class DefaultMenuBuilder implements MenuBuilder {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(ClearFileAction.ID))) {
-            m.add(a);
+            add(m,a);
         }
     }
 
@@ -101,7 +104,7 @@ public class DefaultMenuBuilder implements MenuBuilder {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(NewWindowAction.ID))) {
-            m.add(a);
+            add(m,a);
         }
     }
 
@@ -115,7 +118,7 @@ public class DefaultMenuBuilder implements MenuBuilder {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(NewFileAction.ID))) {
-            m.add(a);
+            add(m,a);
         }
     }
 
@@ -130,10 +133,10 @@ public class DefaultMenuBuilder implements MenuBuilder {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(LoadFileAction.ID))) {
-            m.add(a);
+            add(m,a);
         }
         if (null != (a = am.get(LoadDirectoryAction.ID))) {
-            m.add(a);
+            add(m,a);
         }
     }
 
@@ -148,10 +151,10 @@ public class DefaultMenuBuilder implements MenuBuilder {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(OpenFileAction.ID))) {
-            m.add(a);
+            add(m,a);
         }
         if (null != (a = am.get(OpenDirectoryAction.ID))) {
-            m.add(a);
+            add(m,a);
         }
     }
 
@@ -165,7 +168,7 @@ public class DefaultMenuBuilder implements MenuBuilder {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(CloseFileAction.ID))) {
-            m.add(a);
+            add(m,a);
         }
     }
 
@@ -180,10 +183,10 @@ public class DefaultMenuBuilder implements MenuBuilder {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(SaveFileAction.ID))) {
-            m.add(a);
+            add(m,a);
         }
         if (null != (a = am.get(SaveFileAsAction.ID))) {
-            m.add(a);
+            add(m,a);
         }
     }
 
@@ -197,7 +200,7 @@ public class DefaultMenuBuilder implements MenuBuilder {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(ExportFileAction.ID))) {
-            m.add(a);
+            add(m,a);
         }
     }
 
@@ -211,7 +214,7 @@ public class DefaultMenuBuilder implements MenuBuilder {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(PrintFileAction.ID))) {
-            m.add(a);
+            add(m,a);
         }
     }
 
@@ -231,10 +234,10 @@ public class DefaultMenuBuilder implements MenuBuilder {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(UndoAction.ID))) {
-            m.add(a);
+            add(m,a);
         }
         if (null != (a = am.get(RedoAction.ID))) {
-            m.add(a);
+            add(m,a);
         }
     }
 
@@ -252,19 +255,19 @@ public class DefaultMenuBuilder implements MenuBuilder {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(CutAction.ID))) {
-            m.add(a);
+            add(m,a);
         }
         if (null != (a = am.get(CopyAction.ID))) {
-            m.add(a);
+            add(m,a);
         }
         if (null != (a = am.get(PasteAction.ID))) {
-            m.add(a);
+            add(m,a);
         }
         if (null != (a = am.get(DuplicateAction.ID))) {
-            m.add(a);
+            add(m,a);
         }
         if (null != (a = am.get(DeleteAction.ID))) {
-            m.add(a);
+            add(m,a);
         }
     }
 
@@ -279,10 +282,10 @@ public class DefaultMenuBuilder implements MenuBuilder {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(SelectAllAction.ID))) {
-            m.add(a);
+            add(m,a);
         }
         if (null != (a = am.get(ClearSelectionAction.ID))) {
-            m.add(a);
+            add(m,a);
         }
     }
 
@@ -296,7 +299,7 @@ public class DefaultMenuBuilder implements MenuBuilder {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(AbstractFindAction.ID))) {
-            m.add(a);
+            add(m,a);
         }
     }
 
@@ -335,7 +338,29 @@ public class DefaultMenuBuilder implements MenuBuilder {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(AboutAction.ID))) {
-            m.add(a);
+            add(m,a);
         }
+    }
+
+    public boolean isSuppressIcons() {
+        return suppressIcons;
+    }
+
+    public void setSuppressIcons(boolean suppressIcons) {
+        this.suppressIcons = suppressIcons;
+    }
+
+
+
+    /** Adds an action to a menu. Returns the menu item that was added.
+     * This method is invoked for each action that is added to a menu.
+     * Override this method to customize the menu item that is being created.
+     */
+    protected JMenuItem add(JMenu m, Action a) {
+        JMenuItem item=m.add(a);
+        if (suppressIcons) {
+            item.setIcon(null);
+        }
+        return item;
     }
 }

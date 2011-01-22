@@ -195,7 +195,6 @@ public class MDIApplication extends AbstractApplication {
         PreferencesUtil.installFramePrefsHandler(prefs, "parentFrame", parentFrame);
 
         parentFrame.setVisible(true);
-        model.initApplication(this);
     }
 
     protected ActionMap createModelActionMap(ApplicationModel mo) {
@@ -611,6 +610,7 @@ public class MDIApplication extends AbstractApplication {
         mb.addOtherEditItems(m, this, view);
         maybeAddSeparator(m);
         mb.addPreferencesItems(m, this, view);
+        removeTrailingSeparators(m);
         return (m.getItemCount() == 0) ? null : m;
     }
 

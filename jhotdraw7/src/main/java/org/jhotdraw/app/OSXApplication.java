@@ -189,7 +189,6 @@ public class OSXApplication extends AbstractApplication {
         setActionMap(createModelActionMap(model));
         initPalettes(paletteActions);
         initScreenMenuBar();
-        model.initApplication(this);
     }
 
     @Override
@@ -519,7 +518,7 @@ public class OSXApplication extends AbstractApplication {
         mb.addFindItems(m, this, view);
         maybeAddSeparator(m);
         mb.addOtherEditItems(m, this, view);
-
+        removeTrailingSeparators(m);
         return (m.getItemCount() == 0) ? null : m;
     }
 

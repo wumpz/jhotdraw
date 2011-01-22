@@ -41,7 +41,7 @@ import org.jhotdraw.net.URIUtil;
 /**
  * Provides a view on a drawing.
  * <p>
- * See {@link View} interface on how this view interacts with an application.
+ * See {@link org.jhotdraw.app.View} interface on how this view interacts with an application.
  *
  * @author Werner Randelshofer
  * @version $Id$

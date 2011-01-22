@@ -42,4 +42,7 @@ public class EmptyApplicationModel
     public MenuBuilder getMenuBuilder() {
         return new EmptyMenuBuilder();
     }
+
+
+
 }

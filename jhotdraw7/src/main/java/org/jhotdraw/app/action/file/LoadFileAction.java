@@ -44,6 +44,22 @@ import org.jhotdraw.net.URIUtil;
  * {@link LoadDirectoryAction} and {@link CloseFileAction}.
  * This action should not be used together with {@link OpenFileAction}.
  *
+ * <hr>
+ * <b>Features</b>
+ *
+ * <p><em>Open last URI on launch</em><br>
+ * When the application is started, the last opened URI is opened in a view.<br>
+ * {@code LoadFileAction} supplies data for this feature by calling
+ * {@link Application#addRecentURI} when it successfully loaded a file.
+ * See {@link org.jhotdraw.app} for a description of the feature.
+ * </p>
+ *
+ * <p><em>Allow multiple views per URI</em><br>
+ * When the feature is disabled, {@code LoadFileAction} prevents exporting to an URI which
+ * is opened in another view.<br>
+ * See {@link org.jhotdraw.app} for a description of the feature.
+ * </p>
+ *
  * @author  Werner Randelshofer
  * @version $Id$
  */
@@ -71,29 +87,40 @@ public class LoadFileAction extends AbstractSaveUnsavedChangesAction {
     @Override
     public void doIt(final View view) {
         URIChooser fileChooser = getChooser(view);
-            Window wAncestor = SwingUtilities.getWindowAncestor(view.getComponent());
-            final Component oldFocusOwner = (wAncestor == null) ? null : wAncestor.getFocusOwner();
+        Window wAncestor = SwingUtilities.getWindowAncestor(view.getComponent());
+        final Component oldFocusOwner = (wAncestor == null) ? null : wAncestor.getFocusOwner();
 
-                    JSheet.showOpenSheet(fileChooser, view.getComponent(), new SheetListener() {
+        JSheet.showOpenSheet(fileChooser, view.getComponent(), new SheetListener() {
 
             @Override
-                public void optionSelected(final SheetEvent evt) {
-                    if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
-                        final URI uri;
-                        if ((evt.getChooser() instanceof JFileURIChooser) && evt.getFileChooser().getFileFilter() instanceof ExtensionFileFilter) {
-                            uri = ((ExtensionFileFilter) evt.getFileChooser().getFileFilter()).makeAcceptable(evt.getFileChooser().getSelectedFile()).toURI();
-                        } else {
-                            uri = evt.getChooser().getSelectedURI();
-                        }
-                        loadViewFromURI(view, uri, evt.getChooser());
+            public void optionSelected(final SheetEvent evt) {
+                if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
+                    final URI uri;
+                    if ((evt.getChooser() instanceof JFileURIChooser) && evt.getFileChooser().getFileFilter() instanceof ExtensionFileFilter) {
+                        uri = ((ExtensionFileFilter) evt.getFileChooser().getFileFilter()).makeAcceptable(evt.getFileChooser().getSelectedFile()).toURI();
                     } else {
-                        view.setEnabled(true);
-                        if (oldFocusOwner != null) {
-                            oldFocusOwner.requestFocus();
+                        uri = evt.getChooser().getSelectedURI();
+                    }
+
+                    // Prevent same URI from being opened more than once
+                    if (!getApplication().getModel().isAllowMultipleViewsPerURI()) {
+                        for (View v : getApplication().getViews()) {
+                            if (v != view && v.getURI() != null && v.getURI().equals(uri)) {
+                                v.getComponent().requestFocus();
+                                return;
+                            }
                         }
                     }
+
+                    loadViewFromURI(view, uri, evt.getChooser());
+                } else {
+                    view.setEnabled(true);
+                    if (oldFocusOwner != null) {
+                        oldFocusOwner.requestFocus();
+                    }
                 }
-            });
+            }
+        });
     }
 
     public void loadViewFromURI(final View view, final URI uri, final URIChooser chooser) {
@@ -119,9 +146,9 @@ public class LoadFileAction extends AbstractSaveUnsavedChangesAction {
             protected void failed(Throwable value) {
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
                 JSheet.showMessageSheet(view.getComponent(),
-                        "<html>" + UIManager.getString("OptionPane.css") +
-                        "<b>" + labels.getFormatted("file.load.couldntLoad.message", URIUtil.getName(uri)) + "</b><p>" +
-                        ((value == null) ? "" : value),
+                        "<html>" + UIManager.getString("OptionPane.css")
+                        + "<b>" + labels.getFormatted("file.load.couldntLoad.message", URIUtil.getName(uri)) + "</b><p>"
+                        + ((value == null) ? "" : value),
                         JOptionPane.ERROR_MESSAGE, new SheetListener() {
 
                     @Override
@@ -131,7 +158,6 @@ public class LoadFileAction extends AbstractSaveUnsavedChangesAction {
                     }
                 });
             }
-
         });
     }
 }

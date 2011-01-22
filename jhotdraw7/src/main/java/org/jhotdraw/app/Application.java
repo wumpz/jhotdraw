@@ -42,6 +42,9 @@ import org.jhotdraw.gui.URIChooser;
  * JWindow's calls the addWindow/Palette and removeWindow/Palette methods on
  * the application object.
  * <p>
+ * Unless stated otherwise all methods must be called from the AWT Event
+ * Dispatcher Thread.
+ * <p>
  * Typical usage of this class:
  * <pre>
  * public class MyMainClass {
@@ -57,6 +60,16 @@ import org.jhotdraw.gui.URIChooser;
  *     } 
  * </pre>
  * <hr>
+ * <b>Features</b>
+ *
+ * <p><em>Open last URI on launch</em><br>
+ * When the application is launched, it opens the last opened URI in a view.<br>
+ * {@code Application} also provides an API for data suppliers in {@link #addRecentURI},
+ * {@link #getRecentURIs}, {@link #clearRecentURIs}.<br>
+ * See {@link org.jhotdraw.app} for a description of the feature.
+ * </p>
+ *
+ * <hr>
  * <b>Design Patterns</b>
  *
  * <p><em>Framework</em><br>
@@ -67,7 +80,7 @@ import org.jhotdraw.gui.URIChooser;
  *
  * <p><em>Abstract Factory</em><br>
  * {@code MenuBuilder} is used by {@code Application} for creating menu items.
- * The {@code MenuBuilder} is provided by {@code ApplicationModel}.
+ * The {@code MenuBuilder} is provided by {@code ApplicationModel}.<br>
  * Abstract Factory: {@link MenuBuilder}<br>
  * Client: {@link Application}.
  * <hr>
@@ -88,29 +101,47 @@ public interface Application {
 
     /**
      * Launches the application from the main method.
-     * This method is typically invoked on the main Thread.
-     * This will invoke configure() on the current thread and then 
-     * init() and start() on the AWT Event Dispatcher Thread.
+     * <p>
+     * This method must be called from the main thread of the application.
+     * <p>
+     * Implementations of this method must invoke {@code configure()} on the
+     * current thread and then {@code init(); applicationModel.initApplication(this);
+     * start();} on the AWT Event Dispatcher Thread.
+     * <p>
+     * The launch method determines which URI's it wants to supply to the start()
+     * method. Typically, if URI's have been passed in the {@code args}
+     * parameter, they are passed on to the start() method. Otherwise, if the
+     * property {@code openLastURIOnLaunch} of the application model is true,
+     * the last opened URI is passed to the start method.
+     * <p>
+     * This method implements behavior for the <em>Open last URI on launch</em> feature.
+     * See {@link org.jhotdraw.app}.
      */
     public void launch(String[] args);
 
     /**
      * Configures the application using the provided arguments array.
+     * <p>
+     * This method must be called from the main thread of the application.
      */
     public void configure(String[] args);
 
     /**
      * Initializes the application.
-     * <code>configure()</code> should have been invoked before the application
-     * is inited. Alternatively an application can be configured using setter
-     * methods.
+     * <p>
+     * By convention this method is only called after {@link #configure} has
+     * been called.
      */
     public void init();
 
     /**
      * Starts the application.
-     * This usually creates at least one view, and adds it to the application.
-     * <code>init()</code> must have been invoked before the application is started.
+     * <p>
+     * This method creates a view for each supplied URI, and adds it to the application.
+     * If no URI has been supplied, this method may open an empty view.
+     * <p>
+     * By convention this method is only called after {@link #init} has
+     * been called.
      *
      * @param uris Upon launch, the application may be requested to open views
      *             for a given list of URI's.
@@ -119,11 +150,21 @@ public interface Application {
 
     /**
      * Stops the application without saving any unsaved views.
-     * <code>init()</code> must have been invoked before the application is stopped.
+     * <p>
+     * By convention this method is only called after {@link #init} has
+     * been called.
+     * <p>
+     * This method must be called from AWT Event Dispatcher Thread.
      */
     public void stop();
+
     /**
-     * Destroys the application and calls System.exit(0).
+     * Stops the application and then calls System.exit(0).
+     * <p>
+     * By convention this method is only called after {@link #init} has
+     * been called.
+     * <p>
+     * This method must be called from AWT Event Dispatcher Thread.
      */
     public void destroy();
 
@@ -176,7 +217,8 @@ public interface Application {
      * <p>
      * This is a bound property. 
      */
-    @Nullable public View getActiveView();
+    @Nullable
+    public View getActiveView();
 
     /**
      * Returns the enabled state of the application.
@@ -246,7 +288,8 @@ public interface Application {
      * This may return null, if the application is not represented by a component
      * of its own on the user interface.
      */
-    @Nullable public Component getComponent();
+    @Nullable
+    public Component getComponent();
 
     /**
      * Adds a palette window to the application.
@@ -273,20 +316,30 @@ public interface Application {
     public void removeWindow(Window window);
 
     /**
-     * Returns the recently opened URIs.
-     * By convention, this is an immutable list.
+     * Returns the recently opened URIs. By convention, this is an unmodifiable list.
+     * The first item in the list is the most recently opened URI.
+     * <p>
+     * The most recent URI is used by the <em>Open last URI on launch</em> feature.
+     * See {@link org.jhotdraw.app}.
      */
     public java.util.List<URI> getRecentURIs();
 
     /**
-     * Appends a URI to the list of recent URIs.
+     * Adds an URI to the start of the list of recent URIs.
+     * <p>
      * This fires a property change event for the property "recentURIs".
+     * <p>
+     * The most recent URI is used by the <em>Open last URI on launch</em> feature.
+     * See {@link org.jhotdraw.app}.
      */
     public void addRecentURI(URI uri);
 
     /**
      * Clears the list of recent URIs.
      * This fires a property change event for the property "recentURIs".
+     * <p>
+     * The most recent URI is used by the <em>Open last URI on launch</em> feature.
+     * See {@link org.jhotdraw.app}.
      */
     public void clearRecentURIs();
 
@@ -296,7 +349,8 @@ public interface Application {
      * @param v A view or null.
      * @return A JMenu or null, if the menu is empty.
      */
-    @Nullable public JMenu createFileMenu(@Nullable View v);
+    @Nullable
+    public JMenu createFileMenu(@Nullable View v);
 
     /**
      * Creates an edit menu for the specified view or for the entire application.
@@ -304,7 +358,8 @@ public interface Application {
      * @param v A view or null.
      * @return A JMenu or null, if the menu is empty.
      */
-    @Nullable public JMenu createEditMenu(@Nullable View v);
+    @Nullable
+    public JMenu createEditMenu(@Nullable View v);
 
     /**
      * Creates a view menu for the specified view or for the entire application.
@@ -312,7 +367,8 @@ public interface Application {
      * @param v A view or null.
      * @return A JMenu or null, if the menu is empty.
      */
-    @Nullable public JMenu createViewMenu(@Nullable View v);
+    @Nullable
+    public JMenu createViewMenu(@Nullable View v);
 
     /**
      * Creates a window menu for the specified view or for the entire application.
@@ -320,7 +376,8 @@ public interface Application {
      * @param v A view or null.
      * @return A JMenu or null, if the menu is empty.
      */
-    @Nullable public JMenu createWindowMenu(@Nullable View v);
+    @Nullable
+    public JMenu createWindowMenu(@Nullable View v);
 
     /** 
      * Creates a help menu for the specified view of for the entire application.
@@ -328,7 +385,8 @@ public interface Application {
      * @param v A view or null.
      * @return A JMenu or null, if the menu is empty.
      */
-    @Nullable public JMenu createHelpMenu(@Nullable View v);
+    @Nullable
+    public JMenu createHelpMenu(@Nullable View v);
 
     /**
      * Gets an open chooser for the specified view or for the entire application.
@@ -353,6 +411,7 @@ public interface Application {
      * @return A chooser.
      */
     public URIChooser getExportChooser(@Nullable View v);
+
     /**
      * Gets an import chooser for the specified view or for the entire application.
      *
@@ -367,4 +426,11 @@ public interface Application {
      * @param v A view or null
      */
     public ActionMap getActionMap(@Nullable View v);
+
+    /** Returns an unmodifiable list of all views of the application.
+     * <p>
+     * The list of views is used by the <em>Allow multiple views per URI</em> feature.
+     * See {@link org.jhotdraw.app}.
+     */
+    public List<View> getViews();
 }

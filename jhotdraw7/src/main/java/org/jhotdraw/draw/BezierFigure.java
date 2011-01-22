@@ -40,10 +40,6 @@ import org.jhotdraw.xml.DOMOutput;
  * A straight path segment can be added by clicking on the drawing area.
  * Curved segments can be added by dragging the mouse pointer over the
  * drawing area.
- * <p> 
- * To creation of the BezierFigure can be finished by adding a segment
- * which closes the path, or by double clicking on the drawing area, or by
- * selecting a different tool in the DrawingEditor.
  * 
  * <hr>
  * <b>Design Patterns</b>

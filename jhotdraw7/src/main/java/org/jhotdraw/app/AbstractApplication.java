@@ -17,8 +17,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.net.URISyntaxException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jhotdraw.beans.*;
 import org.jhotdraw.gui.Worker;
 import org.jhotdraw.util.*;
@@ -44,6 +42,24 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * {@code -open filename} to open views for specific URI's upon launch of
  * the application.
  *
+ * <hr>
+ * <b>Features</b>
+ *
+ * <p><em>Open last URI on launch</em><br>
+ * When the application is started, the last opened URI is opened in a view.<br>
+ * The following methods participate in this feature:<br>
+ * Data suppliers {@link #addRecentURI}, {@link #getRecentURIs}.<br>
+ * Behavior: {@link #start}.<br>
+ * See {@link org.jhotdraw.app} for a list of participating classes.
+ *
+ * <p><em>Allow multiple views for URI</em><br>
+ * Allows opening the same URI in multiple views.
+ * When the feature is disabled, opening multiple views is prevented, and saving
+ * to a file for which a view is currently open is prevented.<br>
+ * The following methods participate in this feature:<br>
+ * Data suppliers {@link #getViews}.
+ * See {@link org.jhotdraw.app} for a list of participating classes.
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
@@ -58,7 +74,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     @Nullable
     private View activeView;
     public final static String VIEW_COUNT_PROPERTY = "viewCount";
-    private LinkedList<URI> recentFiles = new LinkedList<URI>();
+    private LinkedList<URI> recentURIs = new LinkedList<URI>();
     private final static int maxRecentFilesCount = 10;
     private ActionMap actionMap;
     private URIChooser openChooser;
@@ -70,7 +86,9 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     public AbstractApplication() {
     }
 
-    @Override
+    /**
+     * Initializes the application after it has been configured.
+     */
     public void init() {
         prefs = PreferencesUtil.userNodeForPackage((getModel() == null) ? getClass() : getModel().getClass());
         int count = prefs.getInt("recentFileCount", 0);
@@ -78,7 +96,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
             String path = prefs.get("recentFile." + i, null);
             if (path != null) {
                 try {
-                    recentFiles.add(new URI(path));
+                    recentURIs.add(new URI(path));
                 } catch (URISyntaxException ex) {
                     // Silently don't add this URI
                 }
@@ -86,6 +104,9 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void start(List<URI> uris) {
         if (uris.isEmpty()) {
@@ -97,7 +118,6 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
             // Set the start view immediately active, so that
             // ApplicationOpenFileAction picks it up on Mac OS X.
             setActiveView(v);
-
             v.execute(new Worker<Object>() {
 
                 @Override
@@ -131,8 +151,17 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
                     }
 
                     @Override
-                    public void finished() {
+                    protected void done(Object value) {
                         v.setURI(uri);
+                    }
+
+                    @Override
+                    protected void failed(Throwable error) {
+                        v.clear();
+                    }
+
+                    @Override
+                    public void finished() {
                         v.setEnabled(true);
                     }
                 });
@@ -245,6 +274,11 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         }
     }
 
+    @Override
+    public List<View> getViews() {
+        return Collections.unmodifiableList(views);
+    }
+
     protected abstract ActionMap createViewActionMap(View p);
 
     @Override
@@ -288,14 +322,25 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         configure(args);
 
         // Get URI's from command line
-        final List<URI> uris = getOpenURIsFromMainArgs(args);
+        List<URI> uris = getOpenURIsFromMainArgs(args);
+        final LinkedList<URI> startUris;
+        if (uris.isEmpty()) {
+            startUris=new LinkedList<URI>();
+            if (model.isOpenLastURIOnLaunch() && !recentURIs.isEmpty()) {
+                startUris.add(recentURIs.getFirst());
+            }
+        } else {
+            startUris=new LinkedList<URI>(uris);
+        }
 
         SwingUtilities.invokeLater(new Runnable() {
 
             @Override
             public void run() {
                 init();
-                start(uris);
+                // Call this right after init.
+                model.initApplication(AbstractApplication.this);
+                start(startUris);
             }
         });
     }
@@ -333,7 +378,9 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
     }
 
-    @Override
+    /**
+     * Configures the application using the provided arguments array.
+     */
     public void configure(String[] args) {
     }
 
@@ -397,45 +444,52 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         }
     }
 
+    protected void removeTrailingSeparators(JMenu m) {
+        JPopupMenu pm = m.getPopupMenu();
+        for (int i = pm.getComponentCount() - 1; i > 0 && (pm.getComponent(i) instanceof JSeparator); i--) {
+            pm.remove(i);
+        }
+    }
+
     @Override
     public java.util.List<URI> getRecentURIs() {
-        return Collections.unmodifiableList(recentFiles);
+        return Collections.unmodifiableList(recentURIs);
     }
 
     @Override
     public void clearRecentURIs() {
         @SuppressWarnings("unchecked")
-        java.util.List<URI> oldValue = (java.util.List<URI>) recentFiles.clone();
-        recentFiles.clear();
-        prefs.putInt("recentFileCount", recentFiles.size());
-        firePropertyChange("recentFiles",
+        java.util.List<URI> oldValue = (java.util.List<URI>) recentURIs.clone();
+        recentURIs.clear();
+        prefs.putInt("recentFileCount", recentURIs.size());
+        firePropertyChange(RECENT_URIS_PROPERTY,
                 Collections.unmodifiableList(oldValue),
-                Collections.unmodifiableList(recentFiles));
+                Collections.unmodifiableList(recentURIs));
     }
 
     @Override
     public void addRecentURI(URI uri) {
         @SuppressWarnings("unchecked")
-        java.util.List<URI> oldValue = (java.util.List<URI>) recentFiles.clone();
-        if (recentFiles.contains(uri)) {
-            recentFiles.remove(uri);
+        java.util.List<URI> oldValue = (java.util.List<URI>) recentURIs.clone();
+        if (recentURIs.contains(uri)) {
+            recentURIs.remove(uri);
         }
-        recentFiles.addFirst(uri);
-        if (recentFiles.size() > maxRecentFilesCount) {
-            recentFiles.removeLast();
+        recentURIs.addFirst(uri);
+        if (recentURIs.size() > maxRecentFilesCount) {
+            recentURIs.removeLast();
         }
 
-        prefs.putInt("recentFileCount", recentFiles.size());
+        prefs.putInt("recentFileCount", recentURIs.size());
         int i = 0;
-        for (URI f : recentFiles) {
+        for (URI f : recentURIs) {
             prefs.put("recentFile." + i, f.toString());
             i++;
         }
 
-        firePropertyChange("recentFiles", oldValue, 0);
-        firePropertyChange("recentFiles",
+        firePropertyChange(RECENT_URIS_PROPERTY, oldValue, 0);
+        firePropertyChange(RECENT_URIS_PROPERTY,
                 Collections.unmodifiableList(oldValue),
-                Collections.unmodifiableList(recentFiles));
+                Collections.unmodifiableList(recentURIs));
     }
 
     protected JMenu createOpenRecentFileMenu(@Nullable View view) {
@@ -477,7 +531,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
-            if (name == "recentFiles") {
+            if (name == RECENT_URIS_PROPERTY) {
                 updateOpenRecentMenu();
             }
         }

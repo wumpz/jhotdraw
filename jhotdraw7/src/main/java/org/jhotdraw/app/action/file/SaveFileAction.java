@@ -36,6 +36,20 @@ import org.jhotdraw.net.URIUtil;
  * If you want this behavior in your application, you have to create it
  * and put it in your {@code ApplicationModel} in method
  * {@link ApplicationModel#initApplication}.
+ * <hr>
+ * <b>Features</b>
+ *
+ * <p><em>Allow multiple views per URI</em><br>
+ * When the feature is disabled, {@code SaveFileAction} prevents saving to
+ * an URI which is opened in another view.<br>
+ * See {@link org.jhotdraw.app} for a description of the feature.
+ * </p>
+ *
+ * <p><em>Open last URI on launch</em><br>
+ * {@code SaveFileAction} supplies data for this feature by calling
+ * {@link Application#addRecentURI} when it successfully saved a file.
+ * See {@link org.jhotdraw.app} for a description of the feature.
+ * </p>
  *
  * @author  Werner Randelshofer
  * @version $Id$
@@ -94,6 +108,20 @@ public class SaveFileAction extends AbstractViewAction {
                             } else {
                                 uri = evt.getChooser().getSelectedURI();
                             }
+
+                            // Prevent same URI from being opened more than once
+                            if (!getApplication().getModel().isAllowMultipleViewsPerURI()) {
+                                for (View v : getApplication().getViews()) {
+                                    if (v != view && v.getURI() != null && v.getURI().equals(uri)) {
+                                        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
+                                        JSheet.showMessageSheet(view.getComponent(), labels.getFormatted("file.saveAs.couldntSaveIntoOpenFile.message", evt.getFileChooser().getSelectedFile().getName()));
+
+                                        view.setEnabled(true);
+                                        return;
+                                    }
+                                }
+                            }
+
                             saveViewToURI(view, uri, evt.getChooser());
                         } else {
                             view.setEnabled(true);

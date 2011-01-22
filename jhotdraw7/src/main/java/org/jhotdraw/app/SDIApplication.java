@@ -155,7 +155,6 @@ public class SDIApplication extends AbstractApplication {
         prefs = PreferencesUtil.userNodeForPackage((getModel() == null) ? getClass() : getModel().getClass());
         initLabels();
         setActionMap(createModelActionMap(model));
-        model.initApplication(this);
     }
 
     @Override
@@ -443,6 +442,8 @@ public class SDIApplication extends AbstractApplication {
         mb.addOtherEditItems(m, this, view);
         maybeAddSeparator(m);
         mb.addPreferencesItems(m, this, view);
+        removeTrailingSeparators(m);
+
         return (m.getItemCount() == 0) ? null : m;
     }
 
