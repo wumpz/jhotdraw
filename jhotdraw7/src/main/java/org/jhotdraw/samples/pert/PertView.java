@@ -36,7 +36,9 @@ import org.jhotdraw.draw.action.*;
 import org.jhotdraw.gui.URIChooser;
 
 /**
- * A view for Pert diagrams.
+ * Provides a view on a Pert drawing.
+ * <p>
+ * See {@link View} interface on how this view interacts with an application.
  *
  * @author Werner Randelshofer
  * @version $Id$

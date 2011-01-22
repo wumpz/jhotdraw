@@ -14,15 +14,9 @@ import edu.umd.cs.findbugs.annotations.Nullable;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import org.jhotdraw.app.action.file.ExportFileAction;
-import org.jhotdraw.app.action.edit.PasteAction;
-import org.jhotdraw.app.action.edit.CutAction;
-import org.jhotdraw.app.action.edit.CopyAction;
-import org.jhotdraw.app.action.edit.DuplicateAction;
 import org.jhotdraw.app.action.edit.ClearSelectionAction;
-import org.jhotdraw.app.action.edit.SelectAllAction;
 import org.jhotdraw.samples.svg.action.*;
 import org.jhotdraw.samples.svg.figures.*;
-import org.jhotdraw.util.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -37,7 +31,9 @@ import org.jhotdraw.gui.JFileURIChooser;
 import org.jhotdraw.gui.URIChooser;
 
 /**
- * SVGApplicationModel.
+ * Provides meta-data and factory methods for an application.
+ * <p>
+ * See {@link ApplicationModel} on how this class interacts with an application.
  *
  * @author Werner Randelshofer.
  * @version $Id$

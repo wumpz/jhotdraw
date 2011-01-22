@@ -14,7 +14,10 @@ package org.jhotdraw.samples.teddy;
 import org.jhotdraw.app.*;
 
 /**
- * Main class.
+ * Main entry point of the Teddy sample application. Creates an {@link Application}
+ * depending on the operating system we run, sets the {@link TeddyApplicationModel}
+ * and then launches the application. The application then creates
+ * {@link TeddyView}s and menu bars as specified by the application model.
  *
  * @author Werner Randelshofer.
  * @version $Id$

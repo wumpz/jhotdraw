@@ -14,7 +14,10 @@ package org.jhotdraw.samples.svg;
 import org.jhotdraw.app.*;
 import org.jhotdraw.util.ResourceBundleUtil;
 /**
- * Main.
+ * Main entry point of the SVG sample application. Creates an {@link Application}
+ * depending on the operating system we run, sets the {@link SVGApplicationModel}
+ * and then launches the application. The application then creates
+ * {@link SVGView}s and menu bars as specified by the application model.
  *
  * @author Werner Randelshofer.
  * @version $Id$

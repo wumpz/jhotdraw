@@ -13,7 +13,10 @@ package org.jhotdraw.samples.net;
 
 import org.jhotdraw.app.*;
 /**
- * Main.
+ * Main entry point of the Net sample application. Creates an {@link Application}
+ * depending on the operating system we run, sets the {@link NetApplicationModel}
+ * and then launches the application. The application then creates
+ * {@link NetView}s and menu bars as specified by the application model.
  *
  * @author Werner Randelshofer.
  * @version $Id$

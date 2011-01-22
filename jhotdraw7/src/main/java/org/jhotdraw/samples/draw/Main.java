@@ -14,7 +14,10 @@ package org.jhotdraw.samples.draw;
 import org.jhotdraw.util.ResourceBundleUtil;
 import org.jhotdraw.app.*;
 /**
- * Main.
+ * Main entry point of the Draw sample application. Creates an {@link Application}
+ * depending on the operating system we run, sets the {@link DrawApplicationModel}
+ * and then launches the application. The application then creates
+ * {@link DrawView}s and menu bars as specified by the application model.
  *
  * @author Werner Randelshofer.
  * @version $Id$

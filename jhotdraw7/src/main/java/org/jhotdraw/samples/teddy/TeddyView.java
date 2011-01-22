@@ -33,7 +33,9 @@ import org.jhotdraw.gui.URIChooser;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 
 /**
- * TeddyView.
+ * Provides a view on a text document.
+ * <p>
+ * See {@link View} interface on how this view interacts with an application.
  *
  * @author Werner Randelshofer
  * @version $Id$

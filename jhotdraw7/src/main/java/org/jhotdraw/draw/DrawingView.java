@@ -22,22 +22,29 @@ import javax.swing.*;
 
 /**
  * A <em>drawing view</em> paints a {@link Drawing} on a {@code JComponent}.
+ * <p>
  * A drawing view can hold only one drawing at a time, but a drawing can be in
  * multiple drawing views at the same time.
- * <p>
- * To support editing, a drawing view needs to be added to a {@link DrawingEditor}.
- * The current {@link org.jhotdraw.draw.tool.Tool} of the drawing editor
- * receives mouse and key events from all drawing views of the drawing editor.
  * <p>
  * {@code DrawingView} can paint the drawing with a scale factor. It supports
  * conversion between view coordinates and drawing coordinates.
  * <p>
- * DrawingView maintains a selection of the {@link Figure}s contained in the
- * drawing. The selected figures can be the target of the current tool
- * of the drawing editor.
+ * {@code DrawingView} maintains a selection of the {@link Figure}s contained in
+ * the drawing. When a figure is selected, the drawing view request {@link Handle}s
+ * from the figure and draws them on top of the drawing.
  * <p>
- * The painting process of {@code DrawingView} view usually involves the
- * following steps:
+ * To support editing, a drawing view needs to be added to a {@link DrawingEditor}.
+ * The current {@link org.jhotdraw.draw.tool.Tool} of the drawing editor
+ * receives mouse and key events from all drawing views of the drawing editor.
+ * When added to an editor, the drawing view paints the current {@link Tool} on
+ * top of the drawing. The selected figures and handles can be the targets of
+ * the current tool of the drawing editor.
+ * <p>
+ * Editing operations can be constrained, for example by a grid. The constraints
+ * are defined by a {@link Constrainer} object. Handles and tools should take
+ * the constrainer of the drawing view into account when editing a figure.
+ * <p>
+ * The painting process of {@code DrawingView} view involves the following steps:
  * <ol>
  * <li>Paint the background of the drawing view.</li>
  * <li>Invoke {@link Drawing#drawCanvas}.</li>

@@ -18,10 +18,11 @@ import java.util.*;
 import org.jhotdraw.app.action.*;
 import org.jhotdraw.gui.JFileURIChooser;
 import org.jhotdraw.samples.teddy.action.*;
-import org.jhotdraw.util.*;
 
 /**
- * TeddyApplicationModel.
+ * Provides meta-data and factory methods for an application.
+ * <p>
+ * See {@link ApplicationModel} on how this class interacts with an application.
  *
  * @author Werner Randelshofer
  * @version $Id$

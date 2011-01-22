@@ -32,7 +32,9 @@ import org.jhotdraw.samples.net.figures.*;
 import org.jhotdraw.util.*;
 
 /**
- * NetApplicationModel.
+ * Provides factory methods for creating views, menu bars and toolbars.
+ * <p>
+ * See {@link ApplicationModel} on how this class interacts with an application.
  * 
  * @author Werner Randelshofer.
  * @version $Id$

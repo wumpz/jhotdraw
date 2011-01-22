@@ -16,7 +16,10 @@ import org.jhotdraw.app.DefaultApplicationModel;
 import org.jhotdraw.app.OSXApplication;
 import org.jhotdraw.app.SDIApplication;
 /**
- * Main.
+ * Main entry point of the Pert sample application. Creates an {@link Application}
+ * depending on the operating system we run, sets the {@link PertApplicationModel}
+ * and then launches the application. The application then creates
+ * {@link PertView}s and menu bars as specified by the application model.
  *
  * @author Werner Randelshofer.
  * @version $Id$

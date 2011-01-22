@@ -45,8 +45,10 @@ import org.jhotdraw.gui.JFileURIChooser;
 import org.jhotdraw.gui.URIChooser;
 
 /**
- * A view for ODG drawings.
- *
+ * Provides a view on a ODG drawing.
+ * <p>
+ * See {@link View} interface on how this view interacts with an application.
+*
  * @author Werner Randelshofer
  * @version $Id$
  */

@@ -34,7 +34,9 @@ import org.jhotdraw.gui.URIChooser;
 import org.jhotdraw.net.URIUtil;
 
 /**
- * A view for SVG drawings.
+ * Provides a view on a SVG drawing.
+ * <p>
+ * See {@link View} interface on how this view interacts with an application.
  *
  * @author Werner Randelshofer
  * @version $Id$
