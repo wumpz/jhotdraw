@@ -114,7 +114,8 @@ public interface Application {
      * property {@code openLastURIOnLaunch} of the application model is true,
      * the last opened URI is passed to the start method.
      * <p>
-     * This method implements behavior for the <em>Open last URI on launch</em> feature.
+     * This method implements behavior for the following features:
+     * <em>Launch application</em>, <em>Open last URI on launch</em>.
      * See {@link org.jhotdraw.app}.
      */
     public void launch(String[] args);
@@ -123,6 +124,10 @@ public interface Application {
      * Configures the application using the provided arguments array.
      * <p>
      * This method must be called from the main thread of the application.
+     * <p>
+     * This method implements behavior for the following feature:
+     * <em>Open URIs from command line on launch</em>.
+     * See {@link org.jhotdraw.app}.
      */
     public void configure(String[] args);
 
@@ -142,6 +147,10 @@ public interface Application {
      * <p>
      * By convention this method is only called after {@link #init} has
      * been called.
+     * <p>
+     * This method implements behavior for the following feature:
+     * <em>Open URI on launch</em>.
+     * See {@link org.jhotdraw.app}.
      *
      * @param uris Upon launch, the application may be requested to open views
      *             for a given list of URI's.
@@ -329,6 +338,9 @@ public interface Application {
      * <p>
      * This fires a property change event for the property "recentURIs".
      * <p>
+     * The recent URIs are persisted (for example using the Java Preferences API)
+     * so that they are available on the next launch of the application.
+     * <p>
      * The most recent URI is used by the <em>Open last URI on launch</em> feature.
      * See {@link org.jhotdraw.app}.
      */
@@ -337,6 +349,9 @@ public interface Application {
     /**
      * Clears the list of recent URIs.
      * This fires a property change event for the property "recentURIs".
+     * <p>
+     * The recent URIs are persisted (for example using the Java Preferences API)
+     * so that they are available on the next launch of the application.
      * <p>
      * The most recent URI is used by the <em>Open last URI on launch</em> feature.
      * See {@link org.jhotdraw.app}.

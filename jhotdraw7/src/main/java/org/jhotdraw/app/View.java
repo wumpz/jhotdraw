@@ -153,6 +153,10 @@ public interface View extends Disposable {
      * Clears the view, for example by emptying the contents of
      * the view, or by reading a template contents from a file.
      * By convention this method is never invoked on the AWT Event Dispatcher Thread.
+     * <p>
+     * This method implements behavior for the following feature:
+     * <em>Open URI on launch</em>.
+     * See {@link org.jhotdraw.app}.
      */
     public void clear();
     
@@ -355,6 +359,10 @@ public interface View extends Disposable {
      * Reads the view from the specified URI.
      * <p>
      * By convention this method is never invoked on the AWT Event Dispatcher Thread.
+     * <p>
+     * This method implements behavior for the following feature:
+     * <em>Open URI on launch</em>.
+     * See {@link org.jhotdraw.app}.
      *
      * @param uri The location where to write the view.
      * @param chooser The chooser which was used for selecting the URI. This
