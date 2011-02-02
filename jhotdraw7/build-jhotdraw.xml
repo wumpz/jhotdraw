@@ -4,7 +4,7 @@
     <target name="init">
         <!-- properties for copyright and versioning -->
         <property name="author" value="the authors and contributors of JHotDraw"/>
-        <property name="version" value="7.6"/>
+        <property name="version" value="7rev733"/>
 
         <!-- build properties -->
         <property name="libdir" value="lib"/>
@@ -27,6 +27,7 @@
         windowtitle="JHotDraw ${version}"
         maxmemory="256M"
         overview="${srcdir}/org/jhotdraw/overview.html"
+        charset="UTF-8"
         >
             <packageset dir="${srcdir}">
                 <include name="org/jhotdraw/**"/>

@@ -89,6 +89,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     /**
      * Initializes the application after it has been configured.
      */
+    @Override
     public void init() {
         prefs = PreferencesUtil.userNodeForPackage((getModel() == null) ? getClass() : getModel().getClass());
         int count = prefs.getInt("recentFileCount", 0);
@@ -322,16 +323,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         configure(args);
 
         // Get URI's from command line
-        List<URI> uris = getOpenURIsFromMainArgs(args);
-        final LinkedList<URI> startUris;
-        if (uris.isEmpty()) {
-            startUris=new LinkedList<URI>();
-            if (model.isOpenLastURIOnLaunch() && !recentURIs.isEmpty()) {
-                startUris.add(recentURIs.getFirst());
-            }
-        } else {
-            startUris=new LinkedList<URI>(uris);
-        }
+        final List<URI> uris = getOpenURIsFromMainArgs(args);
 
         SwingUtilities.invokeLater(new Runnable() {
 
@@ -340,6 +332,19 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
                 init();
                 // Call this right after init.
                 model.initApplication(AbstractApplication.this);
+
+                // Get start URIs
+                final LinkedList<URI> startUris;
+                if (uris.isEmpty()) {
+                    startUris = new LinkedList<URI>();
+                    if (model.isOpenLastURIOnLaunch() && !recentURIs.isEmpty()) {
+                        startUris.add(recentURIs.getFirst());
+                    }
+                } else {
+                    startUris = new LinkedList<URI>(uris);
+                }
+
+                // Start with start URIs
                 start(startUris);
             }
         });
@@ -381,6 +386,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     /**
      * Configures the application using the provided arguments array.
      */
+    @Override
     public void configure(String[] args) {
     }
 
