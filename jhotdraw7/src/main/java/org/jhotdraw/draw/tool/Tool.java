@@ -19,19 +19,24 @@ import java.awt.*;
 import java.awt.event.*;
 
 /**
- * A <em>tool</em> defines a mode of a {@link DrawingEditor}. All input events
- * targeted to the active {@link DrawingView} of the drawing editor are 
- * forwarded to its current tool.
- * <p>
- * Tools inform listeners when they are done with an interaction by calling
- * the ToolListener's toolDone() method. The Tools are created once and reused.
- * They are initialized/deinitialized with activate()/deactivate().
+ * A <em>tool</em> defines an editing mode of a {@link DrawingEditor}.
  * <p>
  * Tools are used for user interaction. Unlike figures, a tool works with
- * the user interface coordinates of the DrawingView. The user interface 
+ * the user interface coordinates of a {@link DrawingView}. The user interface
  * coordinates are expressed in integer pixels.
  * <p>
- * A Tool forwards UndoableEdit events to the Drawing object onto which it
+ * When a tool is set on a drawing editor using {@code setTool}, the drawing
+ * editor registers the tool as a listener for mouse and keyboard events on all
+ * drawing views. The tool processes these events and perform edit operations
+ * on the figures of the drawing, on the drawing itself or even on the drawing
+ * view.
+ * <p>
+ * Tools inform listeners when they are done with an interaction by calling
+ * the ToolListener's {@code toolDone()} method.
+ * <p>
+ * In a typical application, tools are created once and reused.
+ * <p>
+ * A tool forwards UndoableEdit events to the Drawing object onto which it
  * is performing changes.
  * <p>
  * If a tool does not handle a specific keyboard event, it looks up the
