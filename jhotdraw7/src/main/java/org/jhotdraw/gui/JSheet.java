@@ -998,9 +998,16 @@ public class JSheet extends JDialog {
         }
     }
 
-    private static JSheet createSheet(final JOptionPane pane, Component parentComponent,
+    private static JSheet createSheet(final JOptionPane pane, Component parent,
             int style) {
-        Window window = getWindowForComponent(parentComponent);
+        // If the parent is on a popup menu retrieve its invoker
+        JPopupMenu popup = parent instanceof JPopupMenu ? (JPopupMenu) parent
+                : (JPopupMenu) SwingUtilities.getAncestorOfClass(JPopupMenu.class, parent);
+        if (popup != null) {
+            parent = popup.getInvoker();
+        }
+
+        Window window = getWindowForComponent(parent);
         final JSheet sheet;
         boolean isUndecorated;
         if (window instanceof Frame) {
@@ -1173,6 +1180,13 @@ public class JSheet extends JDialog {
             chooser.setDialogType(JFileChooser.CUSTOM_DIALOG);
         }
 
+        // If the parent is on a popup menu retrieve its invoker
+        JPopupMenu popup = parent instanceof JPopupMenu ? (JPopupMenu) parent
+                : (JPopupMenu) SwingUtilities.getAncestorOfClass(JPopupMenu.class, parent);
+        if (popup != null) {
+            parent = popup.getInvoker();
+        }
+
         // Begin Create Dialog
         Frame frame = parent instanceof Frame ? (Frame) parent
                 : (Frame) SwingUtilities.getAncestorOfClass(Frame.class, parent);
@@ -1232,6 +1246,13 @@ public class JSheet extends JDialog {
             chooser.setApproveButtonText(approveButtonText);
             chooser.setDialogType(URIChooser.CUSTOM_DIALOG);
         }
+        // If the parent is on a popup menu retrieve its invoker
+        JPopupMenu popup = parent instanceof JPopupMenu ? (JPopupMenu) parent
+                : (JPopupMenu) SwingUtilities.getAncestorOfClass(JPopupMenu.class, parent);
+        if (popup != null) {
+            parent = popup.getInvoker();
+        }
+
 
         // Begin Create Dialog
         Frame frame = parent instanceof Frame ? (Frame) parent
