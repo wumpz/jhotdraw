@@ -32,7 +32,7 @@ public class ColorToolTipTextFormatter extends ColorFormatter {
     private ResourceBundleUtil labels;
 
     public ColorToolTipTextFormatter() {
-        labels = ResourceBundleUtil.getBundle("/org/jhotdraw.draw.Labels");
+        labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
     }
 
     @Override
