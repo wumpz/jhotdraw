@@ -15,7 +15,6 @@ import java.awt.*;
 import java.awt.color.ColorSpace;
 import java.awt.color.ICC_ColorSpace;
 import java.awt.color.ICC_Profile;
-import java.io.IOException;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -91,7 +90,7 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
         try {
             chooserPanel.add(createColorWheelChooser(new ICC_ColorSpace(ICC_Profile.getInstance(WheelsAndSlidersMain.class.getResourceAsStream("/org/jhotdraw/color/Munsell CIELab_to_UPLab.icc"))), 2, 1, 0, JColorWheel.Type.SQUARE));
             chooserPanel.add(createColorWheelChooser(new ICC_ColorSpace(ICC_Profile.getInstance(WheelsAndSlidersMain.class.getResourceAsStream("/org/jhotdraw/color/Munsell CIELab_to_UPLab2.icc"))), 2, 1, 0, JColorWheel.Type.SQUARE));
-        } catch (IOException ex) {
+        } catch (Throwable ex) {
             ex.printStackTrace();
         }
 //      chooserPanel.add(createColorWheelChooser("Munsell CIELab_to_UPLab.icc","Munsell UP LAB"),2,1,0,JColorWheel.Type.COMPLEX));
