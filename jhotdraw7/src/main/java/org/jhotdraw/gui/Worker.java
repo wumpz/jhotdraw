@@ -103,7 +103,7 @@ public abstract class Worker<T> implements Runnable {
      * Get the value produced by the worker thread, or null if it
      * hasn't been constructed yet.
      */
-    protected synchronized T getValue() {
+    public synchronized T getValue() {
         return value;
     }
 
