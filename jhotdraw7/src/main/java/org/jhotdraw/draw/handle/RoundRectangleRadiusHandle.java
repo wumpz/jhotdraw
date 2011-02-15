@@ -17,7 +17,7 @@ import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.geom.*;
-import org.jhotdraw.beans.PropertyChangeEdit;
+import org.jhotdraw.undo.PropertyChangeEdit;
 
 /**
  * A {@link Handle} to manipulate the corner radius of a

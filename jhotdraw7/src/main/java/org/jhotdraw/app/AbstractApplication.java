@@ -158,6 +158,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
 
                     @Override
                     protected void failed(Throwable error) {
+                        error.printStackTrace();
                         v.clear();
                     }
 

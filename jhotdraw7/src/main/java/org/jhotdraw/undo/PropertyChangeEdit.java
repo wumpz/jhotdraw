@@ -8,8 +8,9 @@
  * license agreement you entered into with the copyright holders. For details
  * see accompanying license terms.
  */
-package org.jhotdraw.beans;
+package org.jhotdraw.undo;
 
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
@@ -44,48 +45,17 @@ public class PropertyChangeEdit extends AbstractUndoableEdit {
     private String presentationName;
 
     /** Creates a new PropertyChangeEdit. */
-    public <T> PropertyChangeEdit(Object source, String propertyName, Class<T> type, T oldValue, T newValue) {
+    public PropertyChangeEdit(Object source, String propertyName, Object oldValue, Object newValue) {
+        this(source,propertyName,propertyNameToPresentationName(propertyName),oldValue,newValue);
+    }
+    
+    /** Creates a new PropertyChangeEdit. */
+    public PropertyChangeEdit(Object source, String propertyName, String presentationName, Object oldValue, Object newValue) {
         this.source = source;
-        this.propertyName = this.presentationName = propertyName;
-        this.type = type;
+        this.propertyName = propertyName;
+        this.presentationName = presentationName;
         this.oldValue = oldValue;
         this.newValue = newValue;
-
-    }
-
-    /** Creates a new PropertyChangeEdit. */
-    public PropertyChangeEdit(Object source, String propertyName, boolean oldValue, boolean newValue) {
-        this(source, propertyName, Boolean.TYPE, oldValue, newValue);
-    }
-
-    /** Creates a new PropertyChangeEdit. */
-    public PropertyChangeEdit(Object source, String propertyName, int oldValue, int newValue) {
-        this(source, propertyName, Integer.TYPE, oldValue, newValue);
-    }
-
-    /** Creates a new PropertyChangeEdit. */
-    public PropertyChangeEdit(Object source, String propertyName, long oldValue, long newValue) {
-        this(source, propertyName, Long.TYPE, oldValue, newValue);
-    }
-
-    /** Creates a new PropertyChangeEdit. */
-    public PropertyChangeEdit(Object source, String propertyName, float oldValue, float newValue) {
-        this(source, propertyName, Float.TYPE, oldValue, newValue);
-    }
-
-    /** Creates a new PropertyChangeEdit. */
-    public PropertyChangeEdit(Object source, String propertyName, double oldValue, double newValue) {
-        this(source, propertyName, Double.TYPE, oldValue, newValue);
-    }
-
-    /** Creates a new PropertyChangeEdit. */
-    public PropertyChangeEdit(Object source, String propertyName, char oldValue, char newValue) {
-        this(source, propertyName, Character.TYPE, oldValue, newValue);
-    }
-
-    /** Creates a new PropertyChangeEdit. */
-    public PropertyChangeEdit(Object source, String propertyName, String oldValue, String newValue) {
-        this(source, propertyName, String.class, oldValue, newValue);
     }
 
     /**
@@ -95,7 +65,8 @@ public class PropertyChangeEdit extends AbstractUndoableEdit {
      */
     protected Method getSetter() {
         try {
-            return source.getClass().getMethod("set" + Character.toUpperCase(propertyName.charAt(0)) + propertyName.substring(1), type);
+            PropertyDescriptor desc=new PropertyDescriptor(propertyName,source.getClass());
+            return desc.getWriteMethod();
         } catch (Exception e) {
             InternalError ie = new InternalError("Couldn't find setter for property \"" + propertyName + "\" in " + source);
             ie.initCause(e);
@@ -167,5 +138,24 @@ public class PropertyChangeEdit extends AbstractUndoableEdit {
     @Override
     public String toString() {
         return super.toString() + " [" + propertyName + "," + oldValue + "," + newValue + "]";
+    }
+
+    /** Converts a property name into a presentation name. */
+    public static String propertyNameToPresentationName(String s) {
+        StringBuilder b = new StringBuilder();
+        boolean wasUpperCase = true;
+        for (int i = 0; i < s.length(); i++) {
+            if (Character.isUpperCase(s.charAt(i))) {
+                if (!wasUpperCase) {
+                    b.append(' ');
+                }
+                wasUpperCase = true;
+            } else {
+                wasUpperCase = false;
+            }
+            b.append(i==0?Character.toUpperCase(s.charAt(i)):s.charAt(i));
+
+        }
+        return b.toString();
     }
 }
