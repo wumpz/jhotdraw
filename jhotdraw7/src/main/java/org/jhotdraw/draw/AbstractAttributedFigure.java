@@ -217,7 +217,7 @@ public abstract class AbstractAttributedFigure extends AbstractFigure implements
     protected void readAttributes(DOMInput in) throws IOException {
         if (in.getElementCount("a") > 0) {
             in.openElement("a");
-            for (int i=in.getElementCount() - 1; i >= 0; i-- ) {
+            for (int i=0,n=in.getElementCount(); i < n; i++) {
                 in.openElement(i);
                 String name = in.getTagName();
                 Object value = in.readObject();
