@@ -116,6 +116,20 @@ public class Methods {
      *
      * @param clazz The class on which to invoke the method.
      * @param methodName The name of the method.
+     * @param type The parameter type.
+     * @param value The parameter value.
+     * @return The return value of the method.
+     * @return NoSuchMethodException if the method does not exist or is not accessible.
+     */
+    public static Object invokeStatic(Class clazz, String methodName, Class type, Object value)
+    throws NoSuchMethodException {
+        return invokeStatic(clazz,methodName,new Class[]{type},new Object[]{value});
+    }
+    /**
+     * Invokes the specified parameterless method if it exists.
+     *
+     * @param clazz The class on which to invoke the method.
+     * @param methodName The name of the method.
      * @param types The parameter types.
      * @param values The parameter values.
      * @return The return value of the method.

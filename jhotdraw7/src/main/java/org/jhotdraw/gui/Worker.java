@@ -11,6 +11,7 @@
 package org.jhotdraw.gui;
 
 import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 /**
@@ -51,8 +52,11 @@ public abstract class Worker<T> implements Runnable {
 
             @Override
             public void run() {
-                done(getValue());
-                finished();
+                try {
+                    done(getValue());
+                } finally {
+                    finished();
+                }
             }
         });
     }
@@ -60,7 +64,8 @@ public abstract class Worker<T> implements Runnable {
     /**
      * Compute the value to be returned by the <code>get</code> method.
      */
-    @Nullable protected abstract T construct() throws Exception;
+    @Nullable
+    protected abstract T construct() throws Exception;
 
     /**
      * Called on the event dispatching thread (not on the worker thread)
@@ -85,6 +90,7 @@ public abstract class Worker<T> implements Runnable {
      * @param error The error thrown by construct.
      */
     protected void failed(Throwable error) {
+        JOptionPane.showMessageDialog(null, error.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         error.printStackTrace();
     }
 
