@@ -7,7 +7,7 @@
 
   <groupId>org.jhotdraw</groupId>
   <artifactId>jhotdraw</artifactId>
-  <version>7.6.0</version>
+  <version>7.6.0-SNAPSHOT</version>
 
   <name>JHotDraw 7</name>
   <description>JHotDraw 7 is a two-dimensional graphics framework for structured drawing editors. It can be used to create many different editors from a simple doodle program up to full fledged diagram editors and vector animation tools.</description>
