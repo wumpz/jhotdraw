@@ -70,15 +70,16 @@ public class ExportFileAction extends AbstractViewAction {
 
             oldFocusOwner = SwingUtilities.getWindowAncestor(view.getComponent()).getFocusOwner();
             view.setEnabled(false);
+            try {
 
-            URIChooser fileChooser = getApplication().getExportChooser(view);
+                URIChooser fileChooser = getApplication().getExportChooser(view);
 
-            JSheet.showSheet(fileChooser, view.getComponent(), labels.getString("filechooser.export"), new SheetListener() {
+                JSheet.showSheet(fileChooser, view.getComponent(), labels.getString("filechooser.export"), new SheetListener() {
 
-                @Override
-                public void optionSelected(final SheetEvent evt) {
-                    if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
-                        final URI uri = evt.getChooser().getSelectedURI();
+                    @Override
+                    public void optionSelected(final SheetEvent evt) {
+                        if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
+                            final URI uri = evt.getChooser().getSelectedURI();
 
                             // Prevent same URI from being opened more than once
                             if (!getApplication().getModel().isAllowMultipleViewsPerURI()) {
@@ -94,19 +95,23 @@ public class ExportFileAction extends AbstractViewAction {
                             }
 
 
-                        if (evt.getChooser() instanceof JFileURIChooser) {
-                            exportView(view, uri, evt.getChooser());
+                            if (evt.getChooser() instanceof JFileURIChooser) {
+                                exportView(view, uri, evt.getChooser());
+                            } else {
+                                exportView(view, uri, null);
+                            }
                         } else {
-                            exportView(view, uri, null);
-                        }
-                    } else {
-                        view.setEnabled(true);
-                        if (oldFocusOwner != null) {
-                            oldFocusOwner.requestFocus();
+                            view.setEnabled(true);
+                            if (oldFocusOwner != null) {
+                                oldFocusOwner.requestFocus();
+                            }
                         }
                     }
-                }
-            });
+                });
+            } catch (Error err) {
+                view.setEnabled(true);
+                throw err;
+            }
         }
     }
 
