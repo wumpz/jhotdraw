@@ -53,7 +53,7 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  * @version $Id$
  */
 public class DeleteAction extends TextAction {
-
+    /** The ID for this action. */
     public final static String ID = "edit.delete";
     /** The target of the action or null if the action acts on the currently
      * focused component.
@@ -64,7 +64,7 @@ public class DeleteAction extends TextAction {
 
     /** Creates a new instance which acts on the currently focused component. */
     public DeleteAction() {
-        this(null);
+        this(null,ID);
     }
 
     /** Creates a new instance which acts on the specified component.
@@ -73,7 +73,15 @@ public class DeleteAction extends TextAction {
      * focused component.
      */
     public DeleteAction(@Nullable JComponent target) {
-        super(ID);
+        this(target,ID);
+    }
+    /** Creates a new instance which acts on the specified component.
+     *
+     * @param target The target of the action. Specify null for the currently
+     * focused component.
+     */
+    protected DeleteAction(@Nullable JComponent target, String id) {
+        super(id);
         this.target = target;
         if (target != null) {
             // Register with a weak reference on the JComponent.
