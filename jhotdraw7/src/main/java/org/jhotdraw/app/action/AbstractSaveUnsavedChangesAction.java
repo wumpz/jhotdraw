@@ -54,10 +54,18 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
 
     @Override
     public void actionPerformed(ActionEvent evt) {
-        final View v = getActiveView();
-        if (v == null) {
+        Application app=getApplication();
+         View av = getActiveView();
+        if (av == null) {
+            if (isMayCreateView()) {
+             av=   app.createView();
+             app.add(av);
+             app.show(av);
+            } else {
             return;
+            }
         }
+        final View v=av;
         if (v.isEnabled()) {
             final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
             Window wAncestor = SwingUtilities.getWindowAncestor(v.getComponent());
@@ -180,6 +188,7 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
             }
         });
     }
+    
 
     protected abstract void doIt(View p);
 }

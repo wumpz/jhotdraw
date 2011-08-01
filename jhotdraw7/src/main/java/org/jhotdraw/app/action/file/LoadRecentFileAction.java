@@ -61,6 +61,7 @@ public class LoadRecentFileAction extends AbstractSaveUnsavedChangesAction {
     public LoadRecentFileAction(Application app, @Nullable View view, URI uri) {
         super(app, view);
         this.uri = uri;
+        setMayCreateView(true);
         putValue(Action.NAME, URIUtil.getName(uri));
     }
 

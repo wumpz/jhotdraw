@@ -1,7 +1,7 @@
 /*
  * @(#)Application.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
+ * Copyright (c) 1996-2011 by the original authors of JHotDraw and all its
  * contributors. All rights reserved.
  *
  * You may not use, copy or modify this file, except in compliance with the 
@@ -180,6 +180,9 @@ public interface Application {
     /**
      * Creates a new view for this application and initializes it, by calling
      * {@link View#init}.
+     * The view has not been added to the application yet. 
+     * To make the view usable with this application, call {@link #add(View)}.
+     * To make it visible, first call {@code add(View)}, then {@link #show(View)}.
      */
     public View createView();
 

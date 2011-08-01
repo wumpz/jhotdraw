@@ -35,6 +35,8 @@ public abstract class AbstractViewAction extends AbstractAction {
     private Application app;
     @Nullable private View view;
     private String propertyName;
+    /** Set this to true if the action may create a new view if none exists.*/
+    private boolean mayCreateView;
     public final static String VIEW_PROPERTY = "view";
     public final static String ENABLED_PROPERTY = "enabled";
     private PropertyChangeListener applicationListener = new PropertyChangeListener() {
@@ -159,8 +161,8 @@ public abstract class AbstractViewAction extends AbstractAction {
     @Override
     public boolean isEnabled() {
         return getApplication().isEnabled() &&
-                getActiveView() != null
-                && getActiveView().isEnabled()
+               (isMayCreateView()|| getActiveView() != null
+                && getActiveView().isEnabled())
                 && this.enabled;
     }
 
@@ -183,6 +185,16 @@ public abstract class AbstractViewAction extends AbstractAction {
         firePropertyChange(ENABLED_PROPERTY,
                 Boolean.valueOf(oldValue && projIsEnabled),
                 Boolean.valueOf(newValue && projIsEnabled));
-
     }
+    
+    /** Set this to true if the action may create a new view if none exists.
+     * If this is false, the action will be disabled, if no view is available.
+     */
+    protected void setMayCreateView(boolean b) {
+        mayCreateView=b;
+    } 
+    /** Returns to true if the action may create a new view if none exists.*/
+    protected boolean isMayCreateView() {
+        return mayCreateView;
+    } 
 }
