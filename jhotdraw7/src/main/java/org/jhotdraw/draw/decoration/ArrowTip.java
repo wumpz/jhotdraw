@@ -17,8 +17,16 @@ import org.jhotdraw.xml.DOMOutput;
 import org.jhotdraw.xml.DOMStorable;
 
 /**
- * A {@link LineDecoration} which draws an arrow tip.
- *
+ * A {@link LineDecoration} which can draws an arrow tip. 
+ * <p>
+ * The shape of the arrow can be controlled with three parameters:
+ * <ul>
+ * <li>angle - the angle in radians at which the two legs of the arrow meet.</li>
+ * <li>outer radius - the length of the two legs of the arrow.</li>
+ * <li>inner radius - the distance from the tip of the arrow to the point where
+ * its end meets the line.</li>
+ * </ul>
+ * 
  * @author Werner Randelshofer
  * @version $Id$
  */
@@ -79,6 +87,18 @@ public class ArrowTip extends AbstractLineDecoration
         double offset = (isStroked()) ? 0.5 : -0.1;
 
         return innerRadius + offset;
+    }
+
+    public double getAngle() {
+        return angle;
+    }
+
+    public double getInnerRadius() {
+        return innerRadius;
+    }
+
+    public double getOuterRadius() {
+        return outerRadius;
     }
 
     @Override
