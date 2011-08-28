@@ -233,7 +233,7 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
                 }
             }
             // If there is only one layout element on the line, and we are
-            // drawing, then honor alignemnt
+            // drawing, then honor alignment
             if (first == layouts.size() - 1 && g != null) {
                 switch (get(TEXT_ALIGNMENT)) {
                     case TRAILING:
