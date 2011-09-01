@@ -78,7 +78,7 @@ public class LoadFileAction extends AbstractSaveUnsavedChangesAction {
     protected URIChooser getChooser(View view) {
         URIChooser chsr = (URIChooser) (view.getComponent()).getClientProperty("loadChooser");
         if (chsr == null) {
-            chsr = getApplication().getModel().createSaveChooser(getApplication(), view);
+            chsr = getApplication().getModel().createOpenChooser(getApplication(), view);
             view.getComponent().putClientProperty("loadChooser", chsr);
         }
         return chsr;
