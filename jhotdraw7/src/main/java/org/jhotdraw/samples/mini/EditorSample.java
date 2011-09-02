@@ -18,8 +18,8 @@ import org.jhotdraw.draw.*;
 import org.jhotdraw.geom.*;
 
 /**
- * Example showing how to create an editor that can edit multiple
- * drawing views. For simplicity, the editor can create rectangle figures only.
+ * Example showing how to create an editor that can edit figures on a drawing
+ * using the DelegationSelectionTool.
  *
  * @author Werner Randelshofer
  * @version $Id$
