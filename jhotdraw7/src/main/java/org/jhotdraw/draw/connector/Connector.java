@@ -37,7 +37,8 @@ import java.io.*;
  * at each connected figure.<br>
  * Contract: {@link org.jhotdraw.draw.Figure},
  * {@link ConnectionFigure},
- * {@link Connector}.
+ * {@link Connector},
+ * {@link org.jhotdraw.draw.tool.ConnectionTool}.
  *
  * <p><em>Strategy</em><br>
  * The location of the start and end points of a connection figure are determined

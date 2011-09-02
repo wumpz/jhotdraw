@@ -72,7 +72,8 @@ import org.jhotdraw.geom.*;
  * at each connected figure.<br>
  * Contract: {@link org.jhotdraw.draw.Figure},
  * {@link ConnectionFigure},
- * {@link org.jhotdraw.draw.connector.Connector}.
+ * {@link org.jhotdraw.draw.connector.Connector},
+ * {@link org.jhotdraw.draw.tool.ConnectionTool}.
  *
  * <p><em>Decorator</em><br>
  * Decorated figures can be adorned with another figure.<br>

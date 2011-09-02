@@ -39,8 +39,9 @@ import org.jhotdraw.geom.*;
  * the start or end point of the connection is handled by a connector object
  * at each connected figure.<br>
  * Contract: {@link org.jhotdraw.draw.Figure},
- * {@link ConnectionFigure},
- * {@link Connector}.
+ * {@link org.jhotdraw.draw.ConnectionFigure},
+ * {@link org.jhotdraw.draw.connector.Connector},
+ * {@link org.jhotdraw.draw.tool.ConnectionTool}.
  *
  * <p><em>Strategy</em><br>
  * The control points of the bezier path of a connection figure can be laid out

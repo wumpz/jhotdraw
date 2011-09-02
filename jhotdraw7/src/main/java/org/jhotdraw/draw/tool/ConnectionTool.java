@@ -36,6 +36,17 @@ import java.util.*;
  * If the ConnectionTool finds a Connector at this location, it uses it
  * as the end point of the connection and creates a ConnectionFigure.</li>
  * </ol>
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p><em>Framework</em><br>
+ * Two figures can be connected using a connection figure.  The location of
+ * the start or end point of the connection is handled by a connector object
+ * at each connected figure.<br>
+ * Contract: {@link org.jhotdraw.draw.Figure},
+ * {@link org.jhotdraw.draw.ConnectionFigure},
+ * {@link org.jhotdraw.draw.connector.Connector},
+ * {@link org.jhotdraw.draw.tool.ConnectionTool}.
  *
  * @author Werner Randelshofer
  * @version $Id$

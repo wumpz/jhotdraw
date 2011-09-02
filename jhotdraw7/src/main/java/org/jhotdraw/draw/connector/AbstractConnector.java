@@ -73,6 +73,8 @@ public class AbstractConnector implements Connector, DOMStorable {
     
     /**
      * Tests if a point is contained in the connector.
+     * This implementation tests if the point is contained by the figure
+     * object, which owns this connector.
      */
     @Override
     public boolean contains(Point2D.Double p) {
