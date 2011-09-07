@@ -598,11 +598,22 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         }
     }
 
+    /** Gets an open chooser for the specified view or for the application.
+     * <p>
+     * If the chooser has an accessory panel, it can access the view using
+     * the client property "view" on the component of the chooser. It can 
+     * access the application using the client property "application" on the
+     * chooser.
+     * </p>
+     * 
+     * @param v The view. Specify null to get a chooser for the application.
+     */
     @Override
     public URIChooser getOpenChooser(View v) {
         if (v == null) {
             if (openChooser == null) {
                 openChooser = model.createOpenChooser(this, null);
+                openChooser.getComponent().putClientProperty("application", this);
                 List<URI> ruris = getRecentURIs();
                 if (ruris.size() > 0) {
                     try {
@@ -618,6 +629,8 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
             if (chooser == null) {
                 chooser = model.createOpenChooser(this, v);
                 v.getComponent().putClientProperty("openChooser", chooser);
+                chooser.getComponent().putClientProperty("view", v);
+                chooser.getComponent().putClientProperty("application", this);
                 List<URI> ruris = getRecentURIs();
                 if (ruris.size() > 0) {
                     try {
@@ -631,11 +644,22 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         }
     }
 
+    /** Gets a save chooser for the specified view or for the application.
+     * <p>
+     * If the chooser has an accessory panel, it can access the view using
+     * the client property "view" on the component of the chooser. It can 
+     * access the application using the client property "application" on the
+     * chooser.
+     * </p>
+     * 
+     * @param v The view. Specify null to get a chooser for the application.
+     */
     @Override
     public URIChooser getSaveChooser(View v) {
         if (v == null) {
             if (saveChooser == null) {
                 saveChooser = model.createSaveChooser(this, null);
+                saveChooser.getComponent().putClientProperty("application", this);
             }
             return saveChooser;
         } else {
@@ -643,6 +667,8 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
             if (chooser == null) {
                 chooser = model.createSaveChooser(this, v);
                 v.getComponent().putClientProperty("saveChooser", chooser);
+                chooser.getComponent().putClientProperty("view", v);
+                chooser.getComponent().putClientProperty("application", this);
                 try {
                     chooser.setSelectedURI(v.getURI());
                 } catch (IllegalArgumentException e) {
@@ -653,11 +679,22 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         }
     }
 
+    /** Gets an import chooser for the specified view or for the application.
+     * <p>
+     * If the chooser has an accessory panel, it can access the view using
+     * the client property "view" on the component of the chooser. It can 
+     * access the application using the client property "application" on the
+     * chooser.
+     * </p>
+     * 
+     * @param v The view. Specify null to get a chooser for the application.
+     */
     @Override
     public URIChooser getImportChooser(View v) {
         if (v == null) {
             if (importChooser == null) {
                 importChooser = model.createImportChooser(this, null);
+                importChooser.getComponent().putClientProperty("application", this);
             }
             return importChooser;
         } else {
@@ -665,16 +702,29 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
             if (chooser == null) {
                 chooser = model.createImportChooser(this, v);
                 v.getComponent().putClientProperty("importChooser", chooser);
+                chooser.getComponent().putClientProperty("view", v);
+                chooser.getComponent().putClientProperty("application", this);
             }
             return chooser;
         }
     }
 
+    /** Gets an export chooser for the specified view or for the application.
+     * <p>
+     * If the chooser has an accessory panel, it can access the view using
+     * the client property "view" on the component of the chooser. It can 
+     * access the application using the client property "application" on the
+     * chooser.
+     * </p>
+     * 
+     * @param v The view. Specify null to get a chooser for the application.
+     */
     @Override
     public URIChooser getExportChooser(View v) {
         if (v == null) {
             if (exportChooser == null) {
                 exportChooser = model.createExportChooser(this, null);
+                exportChooser.getComponent().putClientProperty("application", this);
             }
             return exportChooser;
         } else {
@@ -682,6 +732,8 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
             if (chooser == null) {
                 chooser = model.createExportChooser(this, v);
                 v.getComponent().putClientProperty("exportChooser", chooser);
+                chooser.getComponent().putClientProperty("view", v);
+                chooser.getComponent().putClientProperty("application", this);
             }
             return chooser;
         }
