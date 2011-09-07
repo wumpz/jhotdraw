@@ -244,11 +244,8 @@ public class OpenFileAction extends AbstractApplicationAction {
 
         JDialog dialog;
         Window window = (parent == null || (parent instanceof Window)) ? (Window) parent : SwingUtilities.getWindowAncestor(parent);
-        if (window instanceof Frame) {
-            dialog = new JDialog((Frame) window, title, true);
-        } else {
-            dialog = new JDialog((Dialog) window, title, true);
-        }
+        dialog = new JDialog(window, title, Dialog.ModalityType.APPLICATION_MODAL);
+
         dialog.setComponentOrientation(chooser.getComponent().getComponentOrientation());
 
         Container contentPane = dialog.getContentPane();

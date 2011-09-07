@@ -57,7 +57,7 @@ public class ViewSourceAction extends AbstractViewAction {
         Drawing drawing = v.getDrawing();
         final JDialog dialog;
         if (v.getClientProperty(DIALOG_CLIENT_PROPERTY) == null) {
-            dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(v.getComponent()));
+            dialog = new JDialog(SwingUtilities.getWindowAncestor(v.getComponent()));
             v.putClientProperty(DIALOG_CLIENT_PROPERTY, dialog);
             dialog.setTitle(labels.getFormatted("view.viewSource.titleText", v.getTitle()));
             dialog.setResizable(true);
