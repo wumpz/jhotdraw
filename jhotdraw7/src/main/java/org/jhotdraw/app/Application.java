@@ -69,15 +69,15 @@ import org.jhotdraw.gui.URIChooser;
  * See {@link org.jhotdraw.app} for a description of the feature.
  * </p>
  *
- * <hr>
- * <b>Design Patterns</b>
- *
- * <p><em>Framework</em><br>
- * The interfaces and classes listed below together with the {@code Action}
- * classes in the org.jhotddraw.app.action package define the contracts of a
- * framework for document oriented applications:<br>
- * Contract: {@link Application}, {@link ApplicationModel}, {@link View}.
- *
+     * <hr>
+     * <b>Design Patterns</b>
+     *
+     * <p><em>Framework</em><br>
+     * The interfaces and classes listed below together with the {@code Action}
+     * classes in the org.jhotddraw.app.action package define the contracts of a
+     * framework for document oriented applications:<br>
+     * Contract: {@link Application}, {@link ApplicationModel}, {@link View}.
+     *
  * <p><em>Abstract Factory</em><br>
  * {@code MenuBuilder} is used by {@code Application} for creating menu items.
  * The {@code MenuBuilder} is provided by {@code ApplicationModel}.<br>
