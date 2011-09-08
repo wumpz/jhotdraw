@@ -35,6 +35,10 @@ import org.jhotdraw.net.URIUtil;
  * This action is called when the user selects the Export item in the File
  * menu. The menu item is automatically created by the application.
  * <p>
+ * When the {@code proposeFileName} property is set on the action, the action
+ * will propose the file name without an extension in the URI chooser.
+ * Otherwise, the file name will be left empty.
+ * <p>
  * If you want this behavior in your application, you have to create an action
  * with this ID and put it in your {@code ApplicationModel} in method
  * {@link ApplicationModel#initApplication}. 
@@ -54,12 +58,34 @@ public class ExportFileAction extends AbstractViewAction {
 
     public final static String ID = "file.export";
     private Component oldFocusOwner;
+    private boolean proposeFileName;
 
     /** Creates a new instance. */
     public ExportFileAction(Application app, @Nullable View view) {
+        this(app,view,false);
+    }
+    public ExportFileAction(Application app, @Nullable View view, boolean proposeFileName) {
         super(app, view);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
+        this.proposeFileName=proposeFileName;
+    }
+
+    /** Whether the export file action shall propose a file name or shall
+     * leave the filename empty.
+     * @return True if filename is proposed.
+     */
+    public boolean isProposeFileName() {
+        return proposeFileName;
+    }
+
+    /** Whether the export file action shall propose a file name or shall
+     * leave the filename empty.
+     * 
+     * @param newValue True if filename shall be proposed.
+     */
+    public void setProposeFileName(boolean newValue) {
+        this.proposeFileName = newValue;
     }
 
     @Override
@@ -71,9 +97,26 @@ public class ExportFileAction extends AbstractViewAction {
             oldFocusOwner = SwingUtilities.getWindowAncestor(view.getComponent()).getFocusOwner();
             view.setEnabled(false);
             try {
-
                 URIChooser fileChooser = getApplication().getExportChooser(view);
+                if (proposeFileName) {
+                    // => try to propose file name without extension
+                    URI uri = view.getURI();
+                    if (uri != null) {
+                        try {
 
+                            File file = new File(uri);
+                            String name = file.getName();
+                            int p = name.lastIndexOf('.');
+                            if (p != -1) {
+                                name = name.substring(0, p);
+                                file = new File(file.getParent(), name);
+                                uri = file.toURI();
+                            }
+                        } catch (IllegalArgumentException e) {
+                        }
+                    }
+                    fileChooser.setSelectedURI(uri);
+                }
                 JSheet.showSheet(fileChooser, view.getComponent(), labels.getString("filechooser.export"), new SheetListener() {
 
                     @Override

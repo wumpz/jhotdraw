@@ -10,6 +10,7 @@
  */
 package org.jhotdraw.gui;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.io.File;
 import java.net.URI;
 import javax.swing.JComponent;
@@ -24,11 +25,11 @@ import javax.swing.JFileChooser;
 public class JFileURIChooser extends JFileChooser implements URIChooser {
 
     @Override
-    public void setSelectedURI(URI uri) {
-        setSelectedFile(new File(uri));
+    public void setSelectedURI(@Nullable URI uri) {
+        setSelectedFile(uri==null?null:new File(uri));
     }
 
-    @Override
+    @Override @Nullable
     public URI getSelectedURI() {
         return getSelectedFile() == null ? null : getSelectedFile().toURI();
     }
