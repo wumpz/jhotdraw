@@ -180,8 +180,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
 
     /**
      * Sets the text shown by the text figure.
-     * This is a convenience method for calling willChange,
-     * AttribuTEXT.basicSet, changed.
+     * This is a convenience method for calling {@code set(TEXT,newText)}.
      */
     @Override
     public void setText(String newText) {

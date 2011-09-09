@@ -24,7 +24,7 @@ import org.jhotdraw.util.*;
  * is returned by Figure.get, if a Figure does not have an attribute
  * of the specified key.
  * <p>
- * The following code example shows how to basicSet and get an attribute on a Figure.
+ * The following code example shows how to set and get an attribute on a Figure.
  * <pre>
  * Figure aFigure;
  * AttributeKeys.STROKE_COLOR.put(aFigure, Color.blue);

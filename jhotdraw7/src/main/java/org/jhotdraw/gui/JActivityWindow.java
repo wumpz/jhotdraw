@@ -240,7 +240,7 @@ public class JActivityWindow extends javax.swing.JFrame {
     @Override
     public Dimension getPreferredSize() {
         Dimension d = super.getPreferredSize();
-        d.height = Math.min(400, d.height);
+        d.height = Math.min(600, d.height);
         return d;
     }
 

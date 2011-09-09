@@ -27,7 +27,7 @@ import org.jhotdraw.gui.ActivityModel;
 public class ActivityMonitorSample extends javax.swing.JFrame {
 
     private ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-
+private int count;
     /** Creates new form ActivityMonitorSample */
     public ActivityMonitorSample() {
         initComponents();
@@ -288,8 +288,8 @@ private void startPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s
     final boolean willFail = errorCheckBox.isSelected();
     final boolean willWarn = warningCheckBox.isSelected();
     String owner = ownerGroup.getSelection().getActionCommand();
-    final ActivityModel pm = new DefaultActivityModel(owner, "Task in " + owner + (willFail ? " will fail" : "") + (willWarn ? " will warn" : ""));
-    pm.setIndeterminate(true);
+    final ActivityModel pm = new DefaultActivityModel(owner, "Task #"+(++count)+", in group " + owner + (willFail ? ", will fail" : "") + (willWarn ? ", will warn" : ""));
+    pm.setIndeterminate(false);
     pm.setCancelable(cancelableCheckBox.isSelected());
     pm.setNote("Waiting for processor");
     Runnable r = new Runnable() {
@@ -313,7 +313,7 @@ private void startPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s
                     } catch (InterruptedException ex) {
                         // ignore
                     }
-                    if (willFail& Math.random()<0.5) break;
+                    if (willFail& Math.random()<0.3) break;
                 }
                 if (pm.isCanceled()) {
                     pm.setNote("Canceled.");
