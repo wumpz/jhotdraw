@@ -10,6 +10,7 @@
  */
 package org.jhotdraw.gui;
 
+import java.awt.Dimension;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -57,11 +58,11 @@ public class JActivityIndicator extends javax.swing.JPanel {
 
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
-            if (evt.getPropertyName()==ActivityModel.INDETERMINATE_PROPERTY) {
-            updateIndeterminate();
+            if (evt.getPropertyName() == ActivityModel.INDETERMINATE_PROPERTY) {
+                updateIndeterminate();
             }
-            if (evt.getPropertyName()==ActivityModel.NOTE_PROPERTY) {
-            updateToolTip();
+            if (evt.getPropertyName() == ActivityModel.NOTE_PROPERTY) {
+                updateToolTip();
             }
         }
     }
@@ -72,11 +73,10 @@ public class JActivityIndicator extends javax.swing.JPanel {
 
     /** Creates new form JActivityIndicator */
     public JActivityIndicator() {
- labels=ResourceBundleUtil.getBundle("org.jhotdraw.gui.Labels");
-                initComponents();
+        labels = ResourceBundleUtil.getBundle("org.jhotdraw.gui.Labels");
+        initComponents();
         setActivityManager(ActivityManager.getInstance());
-       
-        
+
     }
 
     public ActivityManager getActivityManager() {
@@ -92,6 +92,8 @@ public class JActivityIndicator extends javax.swing.JPanel {
             manager.addActivityManagerListener(handler);
         }
         updateActivityModels();
+        updateProgressBar();
+        updateToolTip();
     }
 
     public Object getActivityOwner() {
@@ -123,7 +125,7 @@ public class JActivityIndicator extends javax.swing.JPanel {
     }
 
     private void updateActivityModels() {
-        for (ActivityModel pm:models) {
+        for (ActivityModel pm : models) {
             pm.removePropertyChangeListener(handler);
         }
         models.clear();
@@ -139,37 +141,48 @@ public class JActivityIndicator extends javax.swing.JPanel {
         updateToolTip();
     }
 
+    @Override
+    public Dimension getPreferredSize() {
+        return progressBar.getPreferredSize();
+    }
+
     private void updateProgressBar() {
         if (models.isEmpty()) {
             progressBar.setModel(new DefaultBoundedRangeModel());
             progressBar.setEnabled(false);
+            progressBar.setVisible(false);
         } else if (models.size() == 1) {
             progressBar.setModel(models.get(0));
             progressBar.setEnabled(true);
+            progressBar.setVisible(true);
         } else {
             progressBar.setModel(new DefaultBoundedRangeModel());
             progressBar.setEnabled(true);
+            progressBar.setVisible(true);
         }
     }
+
     private void updateToolTip() {
         if (models.isEmpty()) {
             setToolTipText(labels.getString("ActivityIndicator.noActivities.toolTipText"));
         } else if (models.size() == 1) {
-            setToolTipText(labels.getString("ActivityIndicator.oneActivity.toolTipText"));
+            setToolTipText(models.get(0).getTitle());
+            //setToolTipText(labels.getString("ActivityIndicator.oneActivity.toolTipText"));
         } else {
             setToolTipText(labels.getFormatted("ActivityIndicator.nActivities.toolTipText", models.size()));
         }
     }
 
     private void updateIndeterminate() {
-            if (models.size()==0)
+        if (models.size() == 0) {
             progressBar.setIndeterminate(false);
-else            if (models.size()==1)
+        } else if (models.size() == 1) {
             progressBar.setIndeterminate(models.get(0).isIndeterminate());
-            else
+        } else {
             progressBar.setIndeterminate(true);
+        }
     }
-    
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
