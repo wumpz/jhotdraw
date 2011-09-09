@@ -11,6 +11,9 @@
 package org.jhotdraw.app.action.file;
 
 import edu.umd.cs.findbugs.annotations.Nullable;
+import java.net.URISyntaxException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.gui.event.*;
 import org.jhotdraw.util.*;
@@ -19,10 +22,12 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
 import java.net.URI;
+import java.util.prefs.Preferences;
 import org.jhotdraw.app.*;
 import org.jhotdraw.app.action.AbstractViewAction;
 import org.jhotdraw.gui.JFileURIChooser;
 import org.jhotdraw.gui.URIChooser;
+import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.net.URIUtil;
 
 /**
@@ -62,13 +67,14 @@ public class ExportFileAction extends AbstractViewAction {
 
     /** Creates a new instance. */
     public ExportFileAction(Application app, @Nullable View view) {
-        this(app,view,false);
+        this(app, view, false);
     }
+
     public ExportFileAction(Application app, @Nullable View view, boolean proposeFileName) {
         super(app, view);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
-        this.proposeFileName=proposeFileName;
+        this.proposeFileName = proposeFileName;
     }
 
     /** Whether the export file action shall propose a file name or shall
@@ -100,42 +106,54 @@ public class ExportFileAction extends AbstractViewAction {
                 URIChooser fileChooser = getApplication().getExportChooser(view);
                 if (proposeFileName) {
                     // => try to propose file name without extension
-                    URI uri = view.getURI();
-                    if (uri != null) {
+                    URI proposedURI = view.getURI();
+                    if (proposedURI != null) {
                         try {
+                            URI selectedURI = fileChooser.getSelectedURI();
 
-                            File file = new File(uri);
+                            File selectedFolder;
+                            if (selectedURI == null) {
+                                Preferences prefs = Preferences.userNodeForPackage(getApplication().getModel().getClass());
+                                try {
+                                    selectedURI = new URI(//
+                                            prefs.get("recentExportFile", new File(proposedURI).getParentFile().toURI().toString())//
+                                            );
+                                    selectedFolder = new File(selectedURI).getParentFile();
+                                } catch (URISyntaxException ex) {
+                                    // selectedURI is null
+                                    selectedFolder = new File(proposedURI).getParentFile();
+                                }
+                            } else {
+                                selectedFolder = new File(selectedURI).getParentFile();
+                            }
+
+                            File file = new File(selectedFolder,new File(proposedURI).getName());
+                            
                             String name = file.getName();
                             int p = name.lastIndexOf('.');
                             if (p != -1) {
                                 name = name.substring(0, p);
-                                file = new File(file.getParent(), name);
-                                uri = file.toURI();
+                                file = new File(selectedFolder, name);
+                                proposedURI = file.toURI();
                             }
                         } catch (IllegalArgumentException e) {
                         }
                     }
-                    fileChooser.setSelectedURI(uri);
+                    fileChooser.setSelectedURI(proposedURI);
                 }
                 JSheet.showSheet(fileChooser, view.getComponent(), labels.getString("filechooser.export"), new SheetListener() {
 
                     @Override
                     public void optionSelected(final SheetEvent evt) {
                         if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
-                            final URI uri = evt.getChooser().getSelectedURI();
-
-                            // Prevent same URI from being opened more than once
-                            if (!getApplication().getModel().isAllowMultipleViewsPerURI()) {
-                                for (View v : getApplication().getViews()) {
-                                    if (v != view && v.getURI() != null && v.getURI().equals(uri)) {
-                                        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
-                                        JSheet.showMessageSheet(view.getComponent(), labels.getFormatted("file.export.couldntExportIntoOpenFile.message", evt.getFileChooser().getSelectedFile().getName()));
-
-                                        view.setEnabled(true);
-                                        return;
-                                    }
-                                }
+                            URI uri = evt.getChooser().getSelectedURI();
+                            if ((evt.getChooser() instanceof JFileURIChooser) && evt.getFileChooser().getFileFilter() instanceof ExtensionFileFilter) {
+                                uri = ((ExtensionFileFilter) evt.getFileChooser().getFileFilter()).makeAcceptable(evt.getFileChooser().getSelectedFile()).toURI();
+                            } else {
+                                uri = evt.getChooser().getSelectedURI();
                             }
+                            Preferences prefs = Preferences.userNodeForPackage(getApplication().getModel().getClass());
+                            prefs.put("recentExportFile", uri.toString());
 
 
                             if (evt.getChooser() instanceof JFileURIChooser) {
