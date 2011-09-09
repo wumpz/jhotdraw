@@ -101,13 +101,24 @@ public interface ActivityModel extends BoundedRangeModel {
      * Specifies the additional note that is displayed along with the
      * progress message. Used, for example, to show which file 
      * is currently being copied during a multiple-file copy.
+     * <p>
+     * Only set a note if you have something important to tell.
+     * Setting a note is a time consuming operation because the GUI components
+     * ensure that the note is displayed on the screen before they let the
+     * activity model continue.
      *
      * @param note  a String specifying the note to display
      * @see #getNote
      */
     public void setNote(String note);
 
-    /** Sets a formatted note. */
+    /** Sets a formatted note. 
+     * <p>
+     * Only set a note if you have something important to tell.
+     * Setting a note is a time consuming operation because the GUI components
+     * ensure that the note is displayed on the screen before they let the
+     * activity model continue.
+     */
     public void printf(String format, Object... args);
 
     /**
@@ -122,7 +133,7 @@ public interface ActivityModel extends BoundedRangeModel {
     /**
      * Specifies the additional warning message that is displayed along with the
      * progress message. Used, for example, to show which files couldn't
-     * be copied during a multiple-file copy..
+     * be copied during a multiple-file copy.
      *
      * @param message  a String specifying the message to display, or null
      * if there is no warning.
