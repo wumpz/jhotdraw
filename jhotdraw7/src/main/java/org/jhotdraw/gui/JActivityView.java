@@ -145,21 +145,23 @@ public class JActivityView extends javax.swing.JPanel {
     private void updateWarning() {
         String txt = model.getWarning();
         warningLabel.setText(txt);
-        boolean b = txt != null;
-        if (warningLabel.isVisible() != b) {
-            warningLabel.setVisible(b);
-            revalidate();
-        }
+        updateLabelVisibility();
     }
 
     private void updateError() {
         String txt = model.getError();
         errorLabel.setText(txt);
-        boolean b = txt != null;
-        if (errorLabel.isVisible() != b) {
-            errorLabel.setVisible(b);
-            revalidate();
-        }
+        updateLabelVisibility();
+    }
+
+    private void updateLabelVisibility() {
+        boolean isError = model.getError() != null;
+        boolean isWarning = model.getWarning() != null;
+
+        errorLabel.setVisible(isError);
+        warningLabel.setVisible(!isError && isWarning);
+        noteLabel.setVisible(!isError && !isWarning);
+        revalidate();
     }
 
     private void updateCancelable() {
