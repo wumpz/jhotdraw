@@ -380,6 +380,16 @@ public interface DrawingView {
 
     /**
      * Returns the JComponent of the drawing view.
+     * <p>
+     * The drawing framework supports only two use cases, where this 
+     * component may be accessed:
+     * <ul>
+     * <li>The component can be used to add the drawing view to a parent Swing
+     * component.</li>
+     * <li>The currently active {@link org.jhotdraw.draw.tool.Tool} may add 
+     * child components to the drawing view. The tool <b>must</b> remove these
+     * components when it becomes inactive.</li>
+     * </ul>
      */
     public JComponent getComponent();
 

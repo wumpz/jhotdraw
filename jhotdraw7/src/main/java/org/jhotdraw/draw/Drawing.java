@@ -51,6 +51,14 @@ import java.io.*;
  * {@link org.jhotdraw.draw.io.OutputFormat}s, allowing to read and write a drawing from/to a
  * stream, a file or the clipboard.</li>
  * </ul>
+ * Note that there are some restrictions too. Here are some things that a
+ * drawing is not allowed to do:
+ * <ul>
+ * <li>A drawing may not access {@code DrawingView}, {@code DrawingEditor} or
+ * {@code Tool}. The drawing framework is built on the assumption that a
+ * drawing can be rendered at any time without the need for the creation of 
+ * views and editing tools.</li>
+ * </ul>
  *
  * <hr>
  * <b>Design Patterns</b>

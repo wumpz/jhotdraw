@@ -50,6 +50,14 @@ import org.jhotdraw.geom.*;
  *
  * <li>A figure can create a clone of itself.</li>
  * </ul>
+ * Note that there are some restrictions too. Here are some things that a
+ * figure is not allowed to do:
+ * <ul>
+ * <li>A figure may not access {@code DrawingView}, {@code DrawingEditor} or
+ * {@code Tool}. The drawing framework is built on the assumption that a
+ * drawing can be rendered at any time without the need for the creation of 
+ * views and editing tools.</li>
+ * </ul>
  * 
  *
  * <hr>
