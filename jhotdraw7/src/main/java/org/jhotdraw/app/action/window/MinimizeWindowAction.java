@@ -35,12 +35,13 @@ public class MinimizeWindowAction extends AbstractViewAction {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
-    
+
     private JFrame getFrame() {
         return (JFrame) SwingUtilities.getWindowAncestor(
                 getActiveView().getComponent()
                 );
     }
+    
     @Override
     public void actionPerformed(ActionEvent evt) {
         JFrame frame = getFrame();
