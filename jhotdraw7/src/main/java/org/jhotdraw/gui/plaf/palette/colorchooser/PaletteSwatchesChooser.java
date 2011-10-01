@@ -75,10 +75,10 @@ public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
     private final static int HSB_COLORS_AS_RGB_COLUMN_COUNT = 12;
 
     static {
+        // FIXME - Move this into a lazy initializer
         HSBColorSpace hsbCS = HSBColorSpace.getInstance();
         LinkedList<ColorIcon> m = new LinkedList<ColorIcon>();
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.gui.Labels");
-        m.add(new ColorIcon(new Color(0, true), labels.getToolTipTextProperty("ColorChooser.colorSwatch.noColor")));
 
         for (int s = 2; s <= 8; s += 2) {
             for (int h = 0; h < 12; h++) {
@@ -94,6 +94,7 @@ public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
                         labels.getFormatted("ColorChooser.colorSwatch.hsbComponents.toolTipText", h * 360 / 12, 100, b * 10)));
             }
         }
+        m.add(new ColorIcon(new Color(0, true), labels.getToolTipTextProperty("ColorChooser.colorSwatch.noColor")));
         HSB_COLORS = Collections.unmodifiableList(m);
 
         m = new LinkedList<ColorIcon>();
@@ -129,7 +130,7 @@ public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
         setLayout(new java.awt.GridBagLayout());
 
         jList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jList.setLayoutOrientation(javax.swing.JList.HORIZONTAL_WRAP);
+        jList.setLayoutOrientation(javax.swing.JList.VERTICAL_WRAP);
         add(jList, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -150,7 +151,7 @@ public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
                 int closestIndex = -1;
                 for (int i = 0, n = m.getSize(); i < n; i++) {
                     ColorIcon item = (ColorIcon) m.getElementAt(i);
-                    Color ic = item.getColor();
+                    Color ic = item==null?null:item.getColor();
                     int squaredDistance;
                     if (ic == null||ic.getAlpha()!=ma) {
                         squaredDistance = Integer.MAX_VALUE;
@@ -197,7 +198,16 @@ public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
         initComponents();
         setUI(PalettePanelUI.createUI(this));
         jList.setUI((ListUI) PaletteListUI.createUI(jList));
-        jList.setListData(HSB_COLORS_AS_RGB.toArray());
+        Object[] byRows=HSB_COLORS_AS_RGB.toArray();
+        Object[] byColumns=new Object[byRows.length];
+        for (int y=0,my=byRows.length/HSB_COLORS_AS_RGB_COLUMN_COUNT;y<my;y++) {
+        for (int x=0;x< HSB_COLORS_AS_RGB_COLUMN_COUNT;x++) {
+            if (x*my+y<byColumns.length)
+                byColumns[x*my+y]=byRows[y*HSB_COLORS_AS_RGB_COLUMN_COUNT+x];
+        }
+        }
+        byColumns[byColumns.length-1]=byRows[byRows.length-1];
+        jList.setListData(byColumns);
         jList.setVisibleRowCount(HSB_COLORS_AS_RGB.size() / HSB_COLORS_AS_RGB_COLUMN_COUNT);
         jList.addListSelectionListener(new ListSelectionListener() {
 
