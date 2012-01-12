@@ -172,6 +172,9 @@ public class ExportFileAction extends AbstractViewAction {
             } catch (Error err) {
                 view.setEnabled(true);
                 throw err;
+            } catch (Throwable err) {
+                view.setEnabled(true);
+                err.printStackTrace();
             }
         }
     }
