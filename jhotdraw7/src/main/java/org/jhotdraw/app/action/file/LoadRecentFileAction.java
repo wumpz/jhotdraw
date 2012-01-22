@@ -65,20 +65,6 @@ public class LoadRecentFileAction extends AbstractSaveUnsavedChangesAction {
         putValue(Action.NAME, URIUtil.getName(uri));
     }
 
-    /**
-     * Returns true if the action is enabled.
-     * The enabled state of the action depends on the state that has been set
-     * with setEnabled() and on the enabled state of the application.
-     *
-     * @return true if the action is enabled, false otherwise
-     */
-    @Override
-    public boolean isEnabled() {
-        return getApplication().isEnabled()
-                && (getActiveView() == null || getActiveView().isEnabled())
-                && this.enabled;
-    }
-
     @Override
     public void doIt(View v) {
         final Application app = getApplication();
