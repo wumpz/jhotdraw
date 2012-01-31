@@ -1,5 +1,5 @@
 /*
- * @(#)JActivityWindow.java  1.1 2002-07-28
+ * @(#)JActivityWindow.java  
  *
  * Copyright (c) 2011 by the original authors of JHotDraw and all its
  * contributors. All rights reserved.
