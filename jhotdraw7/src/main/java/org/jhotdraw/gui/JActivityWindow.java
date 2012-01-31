@@ -18,7 +18,6 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.TimerTask;
 import java.util.prefs.Preferences;
 import javax.swing.*;
 import javax.swing.plaf.metal.*;
@@ -136,6 +135,7 @@ public class JActivityWindow extends javax.swing.JFrame {
     public JActivityWindow(ActivityManager pm) {
         labels = ResourceBundleUtil.getBundle("org.jhotdraw.gui.Labels");
         initComponents();
+        setFocusable(false); // needed for Mac OS X
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         progressPanel = new javax.swing.JPanel() {
 
