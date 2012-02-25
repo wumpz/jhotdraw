@@ -44,10 +44,12 @@ import java.util.*;
  * @version $Id$
  */
 public class DefaultHandleTracker extends AbstractTool implements HandleTracker {
+
     /** Last dragged mouse location. This variable is only non-null when
      * the mouse is being pressed or dragged.
      */
-    @Nullable private Point dragLocation;
+    @Nullable
+    private Point dragLocation;
     private Handle masterHandle;
     private HandleMulticaster multicaster;
     /**
@@ -59,7 +61,8 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
      * The hover Figure is the figure, over which the mouse is currently
      * hovering.
      */
-    @Nullable private Figure hoverFigure = null;
+    @Nullable
+    private Figure hoverFigure = null;
 
     /** Creates a new instance. */
     public DefaultHandleTracker(Handle handle) {
@@ -94,16 +97,22 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
     @Override
     public void activate(DrawingEditor editor) {
         super.activate(editor);
-        getView().setCursor(masterHandle.getCursor());
-        getView().setActiveHandle(masterHandle);
+        DrawingView v = getView();
+        if (v != null) {
+            v.setCursor(masterHandle.getCursor());
+            v.setActiveHandle(masterHandle);
+        }
         clearHoverHandles();
     }
 
     @Override
     public void deactivate(DrawingEditor editor) {
         super.deactivate(editor);
-        getView().setCursor(Cursor.getDefaultCursor());
-        getView().setActiveHandle(null);
+        DrawingView v = getView();
+        if (v != null) {
+            v.setCursor(Cursor.getDefaultCursor());
+            v.setActiveHandle(null);
+        }
         clearHoverHandles();
         dragLocation = null;
     }

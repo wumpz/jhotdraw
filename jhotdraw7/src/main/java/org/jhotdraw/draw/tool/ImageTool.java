@@ -77,6 +77,8 @@ public class ImageTool extends CreationTool {
     @Override
     public void activate(DrawingEditor editor) {
         super.activate(editor);
+        final DrawingView v=getView();
+        if (v==null)return;
 
         if (workerThread != null) {
             try {
@@ -95,7 +97,7 @@ public class ImageTool extends CreationTool {
                 file = null;
             }
         } else {
-            if (getFileChooser().showOpenDialog(getView().getComponent()) == JFileChooser.APPROVE_OPTION) {
+            if (getFileChooser().showOpenDialog(v.getComponent()) == JFileChooser.APPROVE_OPTION) {
                 file = getFileChooser().getSelectedFile();
             } else {
                 file = null;
@@ -121,7 +123,7 @@ public class ImageTool extends CreationTool {
                             ((ImageHolderFigure) createdFigure).setImage(loaderFigure.getImageData(), loaderFigure.getBufferedImage());
                         }
                     } catch (IOException ex) {
-                        JOptionPane.showMessageDialog(getView().getComponent(),
+                        JOptionPane.showMessageDialog(v.getComponent(),
                                 ex.getMessage(),
                                 null,
                                 JOptionPane.ERROR_MESSAGE);
@@ -131,7 +133,7 @@ public class ImageTool extends CreationTool {
                 @Override
                 protected void failed(Throwable value) {
                     Throwable t = (Throwable) value;
-                    JOptionPane.showMessageDialog(getView().getComponent(),
+                    JOptionPane.showMessageDialog(v.getComponent(),
                             t.getMessage(),
                             null,
                             JOptionPane.ERROR_MESSAGE);

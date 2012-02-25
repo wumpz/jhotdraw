@@ -170,8 +170,9 @@ public class CreationTool extends AbstractTool {
     @Override
     public void activate(DrawingEditor editor) {
         super.activate(editor);
-        //getView().clearSelection();
-        getView().setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+        if (getView() != null) {
+            getView().setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+        }
     }
 
     @Override
