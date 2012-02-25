@@ -144,6 +144,7 @@ public class LoadFileAction extends AbstractSaveUnsavedChangesAction {
 
             @Override
             protected void failed(Throwable value) {
+                value.printStackTrace();
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
                 JSheet.showMessageSheet(view.getComponent(),
                         "<html>" + UIManager.getString("OptionPane.css")
