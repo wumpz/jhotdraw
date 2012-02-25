@@ -43,12 +43,12 @@ public class DefaultActivityModel extends DefaultBoundedRangeModel implements Ac
     }
 
     /** Creates a new DefaultActivityModel. */
-    public DefaultActivityModel(Object owner, String title, String note, int min, int max) {
+    public DefaultActivityModel(Object owner, String title, @Nullable String note, int min, int max) {
         this(owner, title, note, min, max, false);
     }
 
     /** Creates a new DefaultActivityModel. */
-    public DefaultActivityModel(Object owner, String title, final String note, final int min, final int max, final boolean isIndeterminate) {
+    public DefaultActivityModel(Object owner, String title, @Nullable String note, int min, final int max, final boolean isIndeterminate) {
         super(min, 0, min, max);
         this.owner = owner;
         this.title = title;
