@@ -71,7 +71,7 @@ public class FocusWindowAction extends AbstractAction {
 
     @Override
     public Object getValue(String key) {
-        if (key == Action.NAME && view != null) {
+        if (Action.NAME.equals(key) && view != null) {
             return getTitle();
         } else {
             return super.getValue(key);

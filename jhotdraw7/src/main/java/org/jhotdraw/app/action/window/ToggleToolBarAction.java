@@ -47,7 +47,7 @@ public class ToggleToolBarAction extends AbstractAction {
     @Override
     public void putValue(String key, Object newValue) {
         super.putValue(key, newValue);
-        if (key == ActionUtil.SELECTED_KEY) {
+        if (ActionUtil.SELECTED_KEY.equals(key)) {
             if (toolBar != null) {
                 toolBar.setVisible((Boolean) newValue);
             }
