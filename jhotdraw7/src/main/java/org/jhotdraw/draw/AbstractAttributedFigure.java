@@ -106,7 +106,7 @@ public abstract class AbstractAttributedFigure extends AbstractFigure implements
             g.setColor(get(FILL_COLOR));
             drawFill(g);
         }
-        if (get(STROKE_COLOR) != null && get(STROKE_WIDTH) > 0d) {
+        if (get(STROKE_COLOR) != null && get(STROKE_WIDTH) >= 0d) {
             g.setStroke(AttributeKeys.getStroke(this));
             g.setColor(get(STROKE_COLOR));
             

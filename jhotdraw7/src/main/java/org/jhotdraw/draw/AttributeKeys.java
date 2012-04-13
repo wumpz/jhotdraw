@@ -433,7 +433,7 @@ public class AttributeKeys {
                 return new BasicStroke((float) strokeWidth,
                         f.get(STROKE_CAP),
                         f.get(STROKE_JOIN),
-                        miterLimit,
+                        Math.max(1,miterLimit),
                         dashes, Math.max(0, (float) (dashPhase * dashFactor)));
             //not reached
 
@@ -443,7 +443,7 @@ public class AttributeKeys {
                         (float) strokeWidth,
                         f.get(STROKE_CAP),
                         f.get(STROKE_JOIN),
-                        miterLimit,
+                        Math.max(1,miterLimit),
                         dashes, Math.max(0, (float) (dashPhase * dashFactor)));
             //not reached
         }

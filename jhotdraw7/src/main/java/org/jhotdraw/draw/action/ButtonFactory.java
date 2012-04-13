@@ -1276,7 +1276,7 @@ public class ButtonFactory {
     public static JPopupButton createStrokeWidthButton(DrawingEditor editor) {
         return createStrokeWidthButton(
                 editor,
-                new double[]{0.5d, 1d, 2d, 3d, 5d, 9d, 13d},
+                new double[]{0d, 0.5d, 1d, 2d, 3d, 5d, 9d, 13d},
                 ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels"));
     }
 
