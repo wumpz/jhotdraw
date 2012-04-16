@@ -742,7 +742,7 @@ public class DefaultDrawingView
 
     protected void repaintDrawingArea(Rectangle2D.Double r) {
         Rectangle vr = drawingToView(r);
-        vr.grow(1, 1);
+        vr.grow(2, 2);
         dirtyArea.add(vr);
 
         repaint(vr);
