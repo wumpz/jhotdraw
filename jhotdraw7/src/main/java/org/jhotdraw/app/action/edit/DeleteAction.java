@@ -89,7 +89,7 @@ public class DeleteAction extends TextAction {
 
                 @Override
                 public void propertyChange(PropertyChangeEvent evt) {
-                    if (evt.getPropertyName().equals("enabled")) {
+                    if ("enabled".equals(evt.getPropertyName())) {
                         setEnabled((Boolean) evt.getNewValue());
                     }
                 }

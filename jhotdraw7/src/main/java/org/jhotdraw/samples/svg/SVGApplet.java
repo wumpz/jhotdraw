@@ -192,7 +192,7 @@ public class SVGApplet extends JApplet {
 
                     @Override
                     public void actionPerformed(ActionEvent evt) {
-                        if (evt.getActionCommand().equals("close")) {
+                        if ("close".equals(evt.getActionCommand())) {
                             close();
                         }
                     }

@@ -136,7 +136,7 @@ public class ViewToolBar extends AbstractToolBar {
 
                     @Override
                     public void propertyChange(PropertyChangeEvent evt) {
-                        if (evt.getPropertyName().equals("value")) {
+                        if ("value".equals(evt.getPropertyName())) {
                             if (evt.getNewValue() != null) {
                                 constrainer.setWidth((Double) evt.getNewValue());
                                 constrainer.setHeight((Double) evt.getNewValue());
@@ -186,7 +186,7 @@ public class ViewToolBar extends AbstractToolBar {
 
                     @Override
                     public void propertyChange(PropertyChangeEvent evt) {
-                        if (evt.getPropertyName().equals("value")) {
+                        if ("value".equals(evt.getPropertyName())) {
                             if (evt.getNewValue() != null) {
                                 view.setScaleFactor((Double) evt.getNewValue());
                             }

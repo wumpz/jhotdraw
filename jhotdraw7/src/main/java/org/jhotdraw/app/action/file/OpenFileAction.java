@@ -214,10 +214,10 @@ public class OpenFileAction extends AbstractApplicationAction {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (e.getActionCommand().equals("CancelSelection")) {
+                if ("CancelSelection".equals(e.getActionCommand())) {
                     returnValue[0] = JFileChooser.CANCEL_OPTION;
                     dialog.setVisible(false);
-                } else if (e.getActionCommand().equals("ApproveSelection")) {
+                } else if ("ApproveSelection".equals(e.getActionCommand())) {
                     returnValue[0] = JFileChooser.APPROVE_OPTION;
                     dialog.setVisible(false);
                 }

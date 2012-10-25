@@ -30,7 +30,7 @@ public class CharacterSetAccessory extends javax.swing.JPanel {
 
     /** Creates a new instance. */
     public CharacterSetAccessory() {
-        if (UIManager.getLookAndFeel().getID().toLowerCase().equals("aqua")) {
+        if ("aqua".equals(UIManager.getLookAndFeel().getID().toLowerCase())) {
             initComponents();
         } else {
             initComponentsWin();
@@ -43,11 +43,11 @@ public class CharacterSetAccessory extends javax.swing.JPanel {
         fetchAvailableCharSets();
 
         String lineSeparator = prefs.get("lineSeparator", "\n");
-        if (lineSeparator.equals("\r")) {
+        if ("\r".equals(lineSeparator)) {
             lineSepCombo.setSelectedIndex(0);
-        } else if (lineSeparator.equals("\n")) {
+        } else if ("\n".equals(lineSeparator)) {
             lineSepCombo.setSelectedIndex(1);
-        } else if (lineSeparator.equals("\r\n")) {
+        } else if ("\r\n".equals(lineSeparator)) {
             lineSepCombo.setSelectedIndex(2);
         }
     }

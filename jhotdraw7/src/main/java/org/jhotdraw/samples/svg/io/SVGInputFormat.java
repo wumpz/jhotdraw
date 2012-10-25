@@ -391,53 +391,53 @@ public class SVGInputFormat implements InputFormat {
                 if (DEBUG) {
                     System.err.println("SVGInputFormat warning: skipping nameless element at line " + elem.getLineNr());
                 }
-            } else if (name.equals("a")) {
+            } else if ("a".equals(name)) {
                 f = readAElement(elem);
-            } else if (name.equals("circle")) {
+            } else if ("circle".equals(name)) {
                 f = readCircleElement(elem);
-            } else if (name.equals("defs")) {
+            } else if ("defs".equals(name)) {
                 readDefsElement(elem);
                 f = null;
-            } else if (name.equals("ellipse")) {
+            } else if ("ellipse".equals(name)) {
                 f = readEllipseElement(elem);
-            } else if (name.equals("g")) {
+            } else if ("g".equals(name)) {
                 f = readGElement(elem);
-            } else if (name.equals("image")) {
+            } else if ("image".equals(name)) {
                 f = readImageElement(elem);
-            } else if (name.equals("line")) {
+            } else if ("line".equals(name)) {
                 f = readLineElement(elem);
-            } else if (name.equals("linearGradient")) {
+            } else if ("linearGradient".equals(name)) {
                 readLinearGradientElement(elem);
                 f = null;
-            } else if (name.equals("path")) {
+            } else if ("path".equals(name)) {
                 f = readPathElement(elem);
-            } else if (name.equals("polygon")) {
+            } else if ("polygon".equals(name)) {
                 f = readPolygonElement(elem);
-            } else if (name.equals("polyline")) {
+            } else if ("polyline".equals(name)) {
                 f = readPolylineElement(elem);
-            } else if (name.equals("radialGradient")) {
+            } else if ("radialGradient".equals(name)) {
                 readRadialGradientElement(elem);
                 f = null;
-            } else if (name.equals("rect")) {
+            } else if ("rect".equals(name)) {
                 f = readRectElement(elem);
-            } else if (name.equals("solidColor")) {
+            } else if ("solidColor".equals(name)) {
                 readSolidColorElement(elem);
                 f = null;
-            } else if (name.equals("svg")) {
+            } else if ("svg".equals(name)) {
                 f = readSVGElement(elem);
                 //f = readGElement(elem);
-            } else if (name.equals("switch")) {
+            } else if ("switch".equals(name)) {
                 f = readSwitchElement(elem);
-            } else if (name.equals("text")) {
+            } else if ("text".equals(name)) {
                 f = readTextElement(elem);
-            } else if (name.equals("textArea")) {
+            } else if ("textArea".equals(name)) {
                 f = readTextAreaElement(elem);
-            } else if (name.equals("title")) {
+            } else if ("title".equals(name)) {
                 //FIXME - Implement reading of title element
                 //f = readTitleElement(elem);
-            } else if (name.equals("use")) {
+            } else if ("use".equals(name)) {
                 f = readUseElement(elem);
-            } else if (name.equals("style")) {
+            } else if ("style".equals(name)) {
                 // Nothing to do, style elements have been already
                 // processed in method flattenStyles
             } else {
@@ -640,10 +640,10 @@ public class SVGInputFormat implements InputFormat {
 
         String rxValue = readAttribute(elem, "rx", "none");
         String ryValue = readAttribute(elem, "ry", "none");
-        if (rxValue.equals("none")) {
+        if ("none".equals(rxValue)) {
             rxValue = ryValue;
         }
-        if (ryValue.equals("none")) {
+        if ("none".equals(ryValue)) {
             ryValue = rxValue;
         }
         double rx = toNumber(elem, rxValue.equals("none") ? "0" : rxValue);
@@ -927,7 +927,7 @@ public class SVGInputFormat implements InputFormat {
                 for (IXMLElement node : elem.getChildren()) {
                     if (node.getName() == null) {
                         doc.insertString(0, toText(elem, node.getContent()), null);
-                    } else if (node.getName().equals("tspan")) {
+                    } else if ("tspan".equals(node.getName())) {
                         readTSpanElement((IXMLElement) node, doc);
                     } else {
                         if (DEBUG) {
@@ -975,9 +975,9 @@ public class SVGInputFormat implements InputFormat {
                 for (IXMLElement node : elem.getChildren()) {
                     if (node.getName() == null) {
                         doc.insertString(doc.getLength(), toText(elem, node.getContent()), null);
-                    } else if (node.getName().equals("tbreak")) {
+                    } else if ("tbreak".equals(node.getName())) {
                         doc.insertString(doc.getLength(), "\n", null);
-                    } else if (node.getName().equals("tspan")) {
+                    } else if ("tspan".equals(node.getName())) {
                         readTSpanElement((IXMLElement) node, doc);
                     } else {
                         if (DEBUG) {
@@ -1165,14 +1165,14 @@ public class SVGInputFormat implements InputFormat {
     private String readInheritAttribute(IXMLElement elem, String attributeName, @Nullable String defaultValue) {
         if (elem.hasAttribute(attributeName, SVG_NAMESPACE)) {
             String value = elem.getAttribute(attributeName, SVG_NAMESPACE, null);
-            if (value.equals("inherit")) {
+            if ("inherit".equals(value)) {
                 return readInheritAttribute(elem.getParent(), attributeName, defaultValue);
             } else {
                 return value;
             }
         } else if (elem.hasAttribute(attributeName)) {
             String value = elem.getAttribute(attributeName, "");
-            if (value.equals("inherit")) {
+            if ("inherit".equals(value)) {
                 return readInheritAttribute(elem.getParent(), attributeName, defaultValue);
             } else {
                 return value;
@@ -1196,12 +1196,12 @@ public class SVGInputFormat implements InputFormat {
         String value = null;
         if (elem.hasAttribute(attributeName, SVG_NAMESPACE)) {
             value = elem.getAttribute(attributeName, SVG_NAMESPACE, null);
-            if (value.equals("inherit")) {
+            if ("inherit".equals(value)) {
                 return readInheritColorAttribute(elem.getParent(), attributeName, defaultValue);
             }
         } else if (elem.hasAttribute(attributeName)) {
             value = elem.getAttribute(attributeName, "");
-            if (value.equals("inherit")) {
+            if ("inherit".equals(value)) {
                 return readInheritColorAttribute(elem.getParent(), attributeName, defaultValue);
             }
         } else if (elem.getParent() != null
@@ -1239,7 +1239,7 @@ public class SVGInputFormat implements InputFormat {
             value = defaultValue;
         }
 
-        if (value.equals("inherit")) {
+        if ("inherit".equals(value)) {
             return readInheritFontSizeAttribute(elem.getParent(), attributeName, defaultValue);
         } else if (SVG_ABSOLUTE_FONT_SIZES.containsKey(value)) {
             return SVG_ABSOLUTE_FONT_SIZES.get(value);
@@ -1262,14 +1262,14 @@ public class SVGInputFormat implements InputFormat {
     private String readAttribute(IXMLElement elem, String attributeName, @Nullable String defaultValue) {
         if (elem.hasAttribute(attributeName, SVG_NAMESPACE)) {
             String value = elem.getAttribute(attributeName, SVG_NAMESPACE, null);
-            if (value.equals("inherit")) {
+            if ("inherit".equals(value)) {
                 return readAttribute(elem.getParent(), attributeName, defaultValue);
             } else {
                 return value;
             }
         } else if (elem.hasAttribute(attributeName)) {
             String value = elem.getAttribute(attributeName, null);
-            if (value.equals("inherit")) {
+            if ("inherit".equals(value)) {
                 return readAttribute(elem.getParent(), attributeName, defaultValue);
             } else {
                 return value;
@@ -1954,9 +1954,9 @@ public class SVGInputFormat implements InputFormat {
         value = readInheritAttribute(elem, "display-align", "auto");
         // XXX - Implement me properly
         if (!value.equals("auto")) {
-            if (value.equals("center")) {
+            if ("center".equals(value)) {
                 TEXT_ANCHOR.put(a, TextAnchor.MIDDLE);
-            } else if (value.equals("before")) {
+            } else if ("before".equals(value)) {
                 TEXT_ANCHOR.put(a, TextAnchor.END);
             }
         }
@@ -3120,9 +3120,9 @@ public class SVGInputFormat implements InputFormat {
 
         str = str.trim().toLowerCase();
 
-        if (str.equals("none")) {
+        if ("none".equals(str)) {
             return null;
-        } else if (str.equals("currentcolor")) {
+        } else if ("currentcolor".equals(str)) {
             String currentColor = readInheritAttribute(elem, "color", "black");
             if (currentColor == null || currentColor.trim().toLowerCase().equals("currentColor")) {
                 return null;
@@ -3186,7 +3186,7 @@ public class SVGInputFormat implements InputFormat {
         }
 
         str = str.trim().toLowerCase();
-        if (str.equals("currentcolor")) {
+        if ("currentcolor".equals(str)) {
             String currentColor = readInheritAttribute(elem, "color", "black");
             if (currentColor == null || currentColor.trim().toLowerCase().equals("currentColor")) {
                 return null;
@@ -3263,9 +3263,9 @@ public class SVGInputFormat implements InputFormat {
      */
     private String toText(IXMLElement elem, String value) throws IOException {
         String space = readInheritAttribute(elem, "xml:space", "default");
-        if (space.equals("default")) {
+        if ("default".equals(space)) {
             return value.trim().replaceAll("\\s++", " ");
-        } else /*if (space.equals("preserve"))*/ {
+        } else /*if ("preserve".equals(space))*/ {
             return value;
         }
     }
@@ -3297,7 +3297,7 @@ public class SVGInputFormat implements InputFormat {
                 if (tt.nextToken() != '(') {
                     throw new IOException("'(' not found in transform " + str);
                 }
-                if (type.equals("matrix")) {
+                if ("matrix".equals(type)) {
                     double[] m = new double[6];
                     for (int i = 0; i < 6; i++) {
                         if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
@@ -3307,7 +3307,7 @@ public class SVGInputFormat implements InputFormat {
                     }
                     t.concatenate(new AffineTransform(m));
 
-                } else if (type.equals("translate")) {
+                } else if ("translate".equals(type)) {
                     double tx, ty;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
                         throw new IOException("X-translation value not found in transform " + str);
@@ -3321,7 +3321,7 @@ public class SVGInputFormat implements InputFormat {
                     }
                     t.translate(tx, ty);
 
-                } else if (type.equals("scale")) {
+                } else if ("scale".equals(type)) {
                     double sx, sy;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
                         throw new IOException("X-scale value not found in transform " + str);
@@ -3335,7 +3335,7 @@ public class SVGInputFormat implements InputFormat {
                     }
                     t.scale(sx, sy);
 
-                } else if (type.equals("rotate")) {
+                } else if ("rotate".equals(type)) {
                     double angle, cx, cy;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
                         throw new IOException("Angle value not found in transform " + str);
@@ -3354,7 +3354,7 @@ public class SVGInputFormat implements InputFormat {
                     t.rotate(angle * Math.PI / 180d, cx, cy);
 
 
-                } else if (type.equals("skewX")) {
+                } else if ("skewX".equals(type)) {
                     double angle;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
                         throw new IOException("Skew angle not found in transform " + str);
@@ -3363,7 +3363,7 @@ public class SVGInputFormat implements InputFormat {
                     t.concatenate(new AffineTransform(
                             1, 0, Math.tan(angle * Math.PI / 180), 1, 0, 0));
 
-                } else if (type.equals("skewY")) {
+                } else if ("skewY".equals(type)) {
                     double angle;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
                         throw new IOException("Skew angle not found in transform " + str);
@@ -3372,7 +3372,7 @@ public class SVGInputFormat implements InputFormat {
                     t.concatenate(new AffineTransform(
                             1, Math.tan(angle * Math.PI / 180), 0, 1, 0, 0));
 
-                } else if (type.equals("ref")) {
+                } else if ("ref".equals(type)) {
                     System.err.println("SVGInputFormat warning: ignored ref(...) transform attribute in element " + elem);
                     while (tt.nextToken() != ')' && tt.ttype != StreamPosTokenizer.TT_EOF) {
                         // ignore tokens between brackets

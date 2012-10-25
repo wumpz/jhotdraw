@@ -163,9 +163,9 @@ public class ODGStylesReader {
     public void read(IXMLElement root) throws IOException {
         String name = root.getName();
         String ns = root.getNamespace();
-        if (name.equals("document-content") && (ns == null || ns.equals(OFFICE_NAMESPACE))) {
+        if ("document-content".equals(name) && (ns == null || ns.equals(OFFICE_NAMESPACE))) {
             readDocumentContentElement(root);
-        } else if (name.equals("document-styles") && (ns == null || ns.equals(OFFICE_NAMESPACE))) {
+        } else if ("document-styles".equals(name) && (ns == null || ns.equals(OFFICE_NAMESPACE))) {
             readDocumentStylesElement(root);
         } else {
             if (DEBUG) {
@@ -212,13 +212,13 @@ public class ODGStylesReader {
             for (IXMLElement child : elem.getChildren()) {
                 String ns = child.getNamespace();
                 String name = child.getName();
-                if (name.equals("drawing-page-properties") && (ns == null || ns.equals(STYLE_NAMESPACE))) {
+                if ("drawing-page-properties".equals(name) && (ns == null || ns.equals(STYLE_NAMESPACE))) {
                     readDrawingPagePropertiesElement(child, a);
-                } else if (name.equals("graphic-properties") && (ns == null || ns.equals(STYLE_NAMESPACE))) {
+                } else if ("graphic-properties".equals(name) && (ns == null || ns.equals(STYLE_NAMESPACE))) {
                     readGraphicPropertiesElement(child, a);
-                } else if (name.equals("paragraph-properties") && (ns == null || ns.equals(STYLE_NAMESPACE))) {
+                } else if ("paragraph-properties".equals(name) && (ns == null || ns.equals(STYLE_NAMESPACE))) {
                     readParagraphPropertiesElement(child, a);
-                } else if (name.equals("text-properties") && (ns == null || ns.equals(STYLE_NAMESPACE))) {
+                } else if ("text-properties".equals(name) && (ns == null || ns.equals(STYLE_NAMESPACE))) {
                     readTextPropertiesElement(child, a);
                 } else {
                     if (DEBUG) {
@@ -242,11 +242,11 @@ public class ODGStylesReader {
         for (IXMLElement child : elem.getChildren()) {
             String ns = child.getNamespace();
             String name = child.getName();
-            if (name.equals("automatic-styles") && (ns == null || ns.equals(OFFICE_NAMESPACE))) {
+            if ("automatic-styles".equals(name) && (ns == null || ns.equals(OFFICE_NAMESPACE))) {
                 readAutomaticStylesElement(child);
-            } else if (name.equals("master-styles") && (ns == null || ns.equals(OFFICE_NAMESPACE))) {
+            } else if ("master-styles".equals(name) && (ns == null || ns.equals(OFFICE_NAMESPACE))) {
                 readStylesElement(child);
-            } else if (name.equals("styles") && (ns == null || ns.equals(OFFICE_NAMESPACE))) {
+            } else if ("styles".equals(name) && (ns == null || ns.equals(OFFICE_NAMESPACE))) {
                 readStylesElement(child);
             }
 
@@ -274,11 +274,11 @@ public class ODGStylesReader {
         for (IXMLElement child : elem.getChildren()) {
             String ns = child.getNamespace();
             String name = child.getName();
-            if (name.equals("styles") && (ns == null || ns.equals(OFFICE_NAMESPACE))) {
+            if ("styles".equals(name) && (ns == null || ns.equals(OFFICE_NAMESPACE))) {
                 readStylesElement(child);
-            } else if (name.equals("automatic-styles") && (ns == null || ns.equals(OFFICE_NAMESPACE))) {
+            } else if ("automatic-styles".equals(name) && (ns == null || ns.equals(OFFICE_NAMESPACE))) {
                 readAutomaticStylesElement(child);
-            } else if (name.equals("master-styles") && (ns == null || ns.equals(OFFICE_NAMESPACE))) {
+            } else if ("master-styles".equals(name) && (ns == null || ns.equals(OFFICE_NAMESPACE))) {
                 readMasterStylesElement(child);
             } else {
                 if (DEBUG) {
@@ -410,13 +410,13 @@ public class ODGStylesReader {
             for (IXMLElement child : elem.getChildren()) {
                 String ns = child.getNamespace();
                 String name = child.getName();
-                if (name.equals("drawing-page-properties") && (ns == null || ns.equals(STYLE_NAMESPACE))) {
+                if ("drawing-page-properties".equals(name) && (ns == null || ns.equals(STYLE_NAMESPACE))) {
                     readDrawingPagePropertiesElement(child, a);
-                } else if (name.equals("graphic-properties") && (ns == null || ns.equals(STYLE_NAMESPACE))) {
+                } else if ("graphic-properties".equals(name) && (ns == null || ns.equals(STYLE_NAMESPACE))) {
                     readGraphicPropertiesElement(child, a);
-                } else if (name.equals("paragraph-properties") && (ns == null || ns.equals(STYLE_NAMESPACE))) {
+                } else if ("paragraph-properties".equals(name) && (ns == null || ns.equals(STYLE_NAMESPACE))) {
                     readParagraphPropertiesElement(child, a);
-                } else if (name.equals("text-properties") && (ns == null || ns.equals(STYLE_NAMESPACE))) {
+                } else if ("text-properties".equals(name) && (ns == null || ns.equals(STYLE_NAMESPACE))) {
                     readTextPropertiesElement(child, a);
                 } else {
                     if (DEBUG) {
@@ -453,23 +453,23 @@ public class ODGStylesReader {
         for (IXMLElement child : elem.getChildren()) {
             String ns = child.getNamespace();
             String name = child.getName();
-            if (name.equals("default-style") && (ns == null || ns.equals(STYLE_NAMESPACE))) {
+            if ("default-style".equals(name) && (ns == null || ns.equals(STYLE_NAMESPACE))) {
                 readDefaultStyleElement(child, styles);
-            } else if (name.equals("layer-set") && (ns == null || ns.equals(DRAWING_NAMESPACE))) {
+            } else if ("layer-set".equals(name) && (ns == null || ns.equals(DRAWING_NAMESPACE))) {
                 readLayerSetElement(child, styles);
-            } else if (name.equals("list-style") && (ns == null || ns.equals(TEXT_NAMESPACE))) {
+            } else if ("list-style".equals(name) && (ns == null || ns.equals(TEXT_NAMESPACE))) {
                 readListStyleElement(child, styles);
-            } else if (name.equals("marker") && (ns == null || ns.equals(DRAWING_NAMESPACE))) {
+            } else if ("marker".equals(name) && (ns == null || ns.equals(DRAWING_NAMESPACE))) {
                 readMarkerElement(child, styles);
-            } else if (name.equals("master-page") && (ns == null || ns.equals(STYLE_NAMESPACE))) {
+            } else if ("master-page".equals(name) && (ns == null || ns.equals(STYLE_NAMESPACE))) {
                 readMasterPageElement(child, styles);
-            } else if (name.equals("page-layout") && (ns == null || ns.equals(STYLE_NAMESPACE))) {
+            } else if ("page-layout".equals(name) && (ns == null || ns.equals(STYLE_NAMESPACE))) {
                 readPageLayoutElement(child, styles);
-                //} else if (name.equals("paragraph-properties") && (ns == null || ns.equals(STYLE_NAMESPACE))) {
+                //} else if ("paragraph-properties".equals(name) && (ns == null || ns.equals(STYLE_NAMESPACE))) {
                 //    readParagraphPropertiesElement(child, styles);
-            } else if (name.equals("style") && (ns == null || ns.equals(STYLE_NAMESPACE))) {
+            } else if ("style".equals(name) && (ns == null || ns.equals(STYLE_NAMESPACE))) {
                 readStyleElement(child, styles);
-                //} else if (name.equals("text-properties") && (ns == null || ns.equals(STYLE_NAMESPACE))) {
+                //} else if ("text-properties".equals(name) && (ns == null || ns.equals(STYLE_NAMESPACE))) {
                 //    readTextPropertiesElement(child, styles);
             } else {
                 if (DEBUG) {

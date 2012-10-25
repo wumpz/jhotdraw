@@ -453,29 +453,29 @@ public class ColorSliderUI extends BasicSliderUI {
         public void propertyChange(PropertyChangeEvent e) {
             String propertyName = e.getPropertyName();
 
-            if (propertyName.equals("Frame.active")) {
+            if ("Frame.active".equals(propertyName)) {
                 //calculateGeometry();
                 slider.repaint();
-            } else if (propertyName.equals("colorSliderModel")) {
+            } else if ("colorSliderModel".equals(propertyName)) {
                 if (colorTrackImageProducer != null) {
                     colorTrackImageProducer.setColorSliderModel(((ColorSliderModel) e.getNewValue()));
                     if (colorTrackImageProducer.needsGeneration()) {
                         slider.repaint();
                     }
                 }
-            } else if (propertyName.equals("snapToTicks")) {
+            } else if ("snapToTicks".equals(propertyName)) {
                 if (colorTrackImageProducer != null) {
                     colorTrackImageProducer.markAsDirty();
                     slider.repaint();
                 }
-            } else if (propertyName.equals("colorComponentIndex")) {
+            } else if ("colorComponentIndex".equals(propertyName)) {
                 if (colorTrackImageProducer != null && e.getNewValue() != null) {
                     colorTrackImageProducer.setColorComponentIndex(((Integer) e.getNewValue()).intValue());
                     if (colorTrackImageProducer.needsGeneration()) {
                         slider.repaint();
                     }
                 }
-            } else if (propertyName.equals("colorComponentChange")) {
+            } else if ("colorComponentChange".equals(propertyName)) {
                 Integer value = (Integer) e.getNewValue();
                 if (value != null && colorTrackImageProducer != null) {
                     colorTrackImageProducer.componentChanged(value.intValue());
@@ -483,7 +483,7 @@ public class ColorSliderUI extends BasicSliderUI {
                         slider.repaint();
                     }
                 }
-            } else if (propertyName.equals("colorComponentValue")) {
+            } else if ("colorComponentValue".equals(propertyName)) {
                 Integer value = (Integer) slider.getClientProperty("colorComponentChange");
                 if (value != null && colorTrackImageProducer != null) {
                     colorTrackImageProducer.componentChanged(value.intValue());
@@ -491,7 +491,7 @@ public class ColorSliderUI extends BasicSliderUI {
                         slider.repaint();
                     }
                 }
-            } else if (propertyName.equals("orientation")) {
+            } else if ("orientation".equals(propertyName)) {
                 if (slider.getOrientation() == JSlider.HORIZONTAL) {
                     slider.setBorder(new EmptyBorder(0, 1, -1, 1));
                 } else {

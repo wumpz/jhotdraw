@@ -268,7 +268,7 @@ public class PaletteColorChooserUI extends ColorChooserUI {
                     installPreviewPanel();
                 }
             }
-            if (name.equals("componentOrientation")) {
+            if ("componentOrientation".equals(name)) {
                 ComponentOrientation o = (ComponentOrientation)e.getNewValue();
                 JColorChooser cc = (JColorChooser)e.getSource();
                 if (o != (ComponentOrientation)e.getOldValue()) {

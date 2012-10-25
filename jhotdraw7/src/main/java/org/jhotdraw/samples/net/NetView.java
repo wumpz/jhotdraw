@@ -106,7 +106,7 @@ public class NetView extends AbstractView {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 String name = evt.getPropertyName();
-                if (name.equals("scaleFactor")) {
+                if ("scaleFactor".equals(name)) {
                     preferences.putDouble("view.scaleFactor", (Double) evt.getNewValue());
                     firePropertyChange("scaleFactor", evt.getOldValue(), evt.getNewValue());
                 }

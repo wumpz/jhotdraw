@@ -146,11 +146,11 @@ public abstract class GenericListener {
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
             if (method.getDeclaringClass() == Object.class) {
                 String methodName = method.getName();
-                if (methodName.equals("hashCode")) {
+                if ("hashCode".equals(methodName)) {
                     return proxyHashCode(proxy);
-                } else if (methodName.equals("equals")) {
+                } else if ("equals".equals(methodName)) {
                     return proxyEquals(proxy, args[0]);
-                } else if (methodName.equals("toString")) {
+                } else if ("toString".equals(methodName)) {
                     return proxyToString(proxy);
                 }
             }

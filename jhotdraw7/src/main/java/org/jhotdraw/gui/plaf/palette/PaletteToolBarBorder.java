@@ -170,7 +170,7 @@ public class PaletteToolBarBorder
      */
     private String clippedText(String text, FontMetrics fm,
             int availTextWidth) {
-        if ((text == null) || (text.equals(""))) {
+        if ((text == null) || ("".equals(text))) {
             return "";
         }
         int textWidth = SwingUtilities.computeStringWidth(fm, text);

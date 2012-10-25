@@ -197,7 +197,7 @@ public class SVGApplicationModel extends DefaultApplicationModel {
 
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                if (evt.getPropertyName().equals("fileFilterChanged")) {
+                if ("fileFilterChanged".equals(evt.getPropertyName())) {
                     InputFormat inputFormat = fileFilterInputFormatMap.get(evt.getNewValue());
                     c.setAccessory((inputFormat == null) ? null : inputFormat.getInputFormatAccessory());
                 }

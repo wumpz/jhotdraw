@@ -260,7 +260,7 @@ public class StdXMLReader
             break;
          }
 
-         if (key.toString().equals("encoding")) {
+         if ("encoding".equals(key.toString())) {
             return str.substring(index, index2);
          }
 

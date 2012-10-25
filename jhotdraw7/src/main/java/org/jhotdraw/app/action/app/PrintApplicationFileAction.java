@@ -74,7 +74,7 @@ public class PrintApplicationFileAction extends PrintFileAction {
             protected void done(Object value) {
                 p.setURI(new File(filename).toURI());
                 p.setEnabled(false);
-                if (System.getProperty("apple.awt.graphics.UseQuartz", "false").equals("true")) {
+                if ("true".equals(System.getProperty("apple.awt.graphics.UseQuartz", "false"))) {
                     printQuartz(p);
                 } else {
                     printJava2D(p);

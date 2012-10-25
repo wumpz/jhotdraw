@@ -409,7 +409,7 @@ public class NonValidator
             str = XMLUtil.scanIdentifier(reader);
             XMLUtil.skipWhitespace(reader, null);
 
-            if (! str.equals("FIXED")) {
+            if (! "FIXED".equals(str)) {
                XMLUtil.skipWhitespace(reader, null);
 
                str = XMLUtil.read(reader, '%');

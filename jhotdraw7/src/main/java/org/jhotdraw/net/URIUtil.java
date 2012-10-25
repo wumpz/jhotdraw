@@ -27,7 +27,7 @@ public class URIUtil {
 
     /** Returns the name of an URI for display in the title bar of a window. */
     public static String getName(URI uri) {
-        if (uri.getScheme()!=null&&uri.getScheme().equals("file")) {
+        if (uri.getScheme()!=null&&"file".equals(uri.getScheme())) {
             return new File(uri).getName();
         }
         return uri.toString();

@@ -40,13 +40,13 @@ public class FontFaceNode implements MutableTreeNode, Comparable<FontFaceNode>, 
         if (p != -1) {
             name = name.substring(p + 1);
             String lcName = name.toLowerCase();
-            if (lcName.equals("plain")) {
+            if ("plain".equals(lcName)) {
                 name = "Plain";
-            } else if (lcName.equals("bolditalic")) {
+            } else if ("bolditalic".equals(lcName)) {
                 name = "Bold Italic";
-            } else if (lcName.equals("italic")) {
+            } else if ("italic".equals(lcName)) {
                 name = "Italic";
-            } else if (lcName.equals("bold")) {
+            } else if ("bold".equals(lcName)) {
                 name = "Bold";
             }
         } else {

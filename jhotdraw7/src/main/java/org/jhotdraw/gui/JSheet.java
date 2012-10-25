@@ -1207,7 +1207,7 @@ public class JSheet extends JDialog {
             @Override
             public void actionPerformed(ActionEvent evt) {
                 int option;
-                if (evt.getActionCommand().equals("ApproveSelection")) {
+                if ("ApproveSelection".equals(evt.getActionCommand())) {
                     option = JFileChooser.APPROVE_OPTION;
                 } else {
                     option = JFileChooser.CANCEL_OPTION;
@@ -1276,7 +1276,7 @@ public class JSheet extends JDialog {
             @Override
             public void actionPerformed(ActionEvent evt) {
                 int option;
-                if (evt.getActionCommand().equals("ApproveSelection")) {
+                if ("ApproveSelection".equals(evt.getActionCommand())) {
                     option = JFileChooser.APPROVE_OPTION;
                 } else {
                     option = JFileChooser.CANCEL_OPTION;

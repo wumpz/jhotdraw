@@ -181,7 +181,7 @@ public class ResourceBundleUtil implements Serializable {
             }
 
             // Do post-processing depending on placeholder format 
-            if (placeholderFormat.equals("accelerator")) {
+            if ("accelerator".equals(placeholderFormat)) {
                 // Localize the keywords shift, control, ctrl, meta, alt, altGraph
                 StringBuilder b = new StringBuilder();
                 for (String s : placeholderValue.split(" ")) {
@@ -279,7 +279,7 @@ public class ResourceBundleUtil implements Serializable {
         try {
             String rsrcName = getStringRecursive(key + ".icon");
 
-            if (rsrcName.equals("")) {
+            if ("".equals(rsrcName)) {
                 return null;
             }
 

@@ -514,7 +514,7 @@ public class StdXMLParser
          String value = (String) attrValues.elementAt(i);
          String type = (String) attrTypes.elementAt(i);
 
-         if (key.equals("xmlns")) {
+         if ("xmlns".equals(key)) {
             defaultNamespace = value;
          } else if (key.startsWith("xmlns:")) {
             namespaces.put(key.substring(6), value);
@@ -676,7 +676,7 @@ public class StdXMLParser
       String key = XMLUtil.scanIdentifier(this.reader);
       XMLUtil.skipWhitespace(this.reader, null);
 
-      if (! XMLUtil.read(this.reader, '&').equals("=")) {
+      if (! "=".equals(XMLUtil.read(this.reader, '&'))) {
          XMLUtil.errorExpectedInput(reader.getSystemID(),
                                     reader.getLineNr(),
                                     "`='");

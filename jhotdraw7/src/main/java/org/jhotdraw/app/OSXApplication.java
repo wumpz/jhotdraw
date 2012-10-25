@@ -335,7 +335,7 @@ public class OSXApplication extends AbstractApplication {
 
         // Adds a proxy icon for the file to the title bar
         // See http://developer.apple.com/technotes/tn2007/tn2196.html#WINDOW_DOCUMENTFILE
-        if (uri != null && uri.getScheme() != null && uri.getScheme().equals("file")) {
+        if (uri != null && uri.getScheme() != null && "file".equals(uri.getScheme())) {
             f.getRootPane().putClientProperty("Window.documentFile", new File(uri));
         } else {
             f.getRootPane().putClientProperty("Window.documentFile", null);

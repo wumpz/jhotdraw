@@ -109,12 +109,12 @@ public class PaletteLabelUI extends BasicLabelUI {
 
         String style = (String) l.getClientProperty("Quaqua.Label.style");
         if (style != null) {
-            if (style.equals("emboss") &&
+            if ("emboss".equals(style) &&
                     UIManager.getColor("Label.embossForeground") != null) {
                 g.setColor(UIManager.getColor("Label.embossForeground"));
                 PaletteUtilities.drawString(g, s, mnemIndex, textX, textY + 1);
 
-            } else if (style.equals("shadow") &&
+            } else if ("shadow".equals(style) &&
                     UIManager.getColor("Label.shadowForeground") != null) {
                 g.setColor(UIManager.getColor("Label.shadowForeground"));
                 PaletteUtilities.drawString(g, s, mnemIndex, textX, textY + 1);
@@ -162,7 +162,7 @@ public class PaletteLabelUI extends BasicLabelUI {
     public void propertyChange(PropertyChangeEvent evt) {
         String name = evt.getPropertyName();
 
-        if (name.equals("JComponent.sizeVariant")) {
+        if ("JComponent.sizeVariant".equals(name)) {
 //            QuaquaUtilities.applySizeVariant((JLabel) evt.getSource());
         } else {
             super.propertyChange(evt);

@@ -323,7 +323,7 @@ public class MDIApplication extends AbstractApplication {
                 @Override
                 public void propertyChange(PropertyChangeEvent evt) {
                     String name = evt.getPropertyName();
-                    if (name.equals("selected")) {
+                    if ("selected".equals(name)) {
                         if (evt.getNewValue().equals(Boolean.TRUE)) {
                             setActiveView(v);
                         } else {

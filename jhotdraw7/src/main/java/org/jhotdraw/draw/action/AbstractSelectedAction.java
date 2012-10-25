@@ -64,7 +64,7 @@ public abstract class AbstractSelectedAction
                     activeView.addPropertyChangeListener(this);
                 }
                 updateEnabledState();
-            } else if (evt.getPropertyName().equals("enabled")) {
+            } else if ("enabled".equals(evt.getPropertyName())) {
                 updateEnabledState();
             }
         }

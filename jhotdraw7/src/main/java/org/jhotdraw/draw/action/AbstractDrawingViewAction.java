@@ -50,7 +50,7 @@ public abstract class AbstractDrawingViewAction extends AbstractAction implement
 
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
-            if (evt.getPropertyName().equals("enabled")) {
+            if ("enabled".equals(evt.getPropertyName())) {
                 updateEnabledState();
             } else if (evt.getPropertyName() == DrawingEditor.ACTIVE_VIEW_PROPERTY) {
                 if (activeView != null) {

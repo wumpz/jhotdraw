@@ -44,7 +44,7 @@ public abstract class AbstractDrawingEditorAction extends AbstractAction {
 
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
-            if (evt.getPropertyName().equals("enabled")) {
+            if ("enabled".equals(evt.getPropertyName())) {
                 updateEnabledState();
             }
         }

@@ -67,7 +67,7 @@ public class PrintFileAction extends AbstractViewAction {
     public void actionPerformed(ActionEvent evt) {
         PrintableView view = (PrintableView)getActiveView();
         view.setEnabled(false);
-        if (System.getProperty("apple.awt.graphics.UseQuartz", "false").equals("true")) {
+        if ("true".equals(System.getProperty("apple.awt.graphics.UseQuartz", "false"))) {
             printQuartz(view);
         } else {
             printJava2D(view);

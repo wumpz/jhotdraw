@@ -366,7 +366,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     protected List<URI> getOpenURIsFromMainArgs(String[] args) {
         LinkedList<URI> uris = new LinkedList<URI>();
         for (int i = 0; i < args.length; ++i) {
-            if (args[i].equals("-open")) {
+            if ("-open".equals(args[i])) {
                 for (++i; i < args.length; ++i) {
                     if (args[i].startsWith("-")) {
                         break;

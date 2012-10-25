@@ -137,10 +137,10 @@ public class ODGInputFormat implements InputFormat {
         try {
             ZipInputStream zin = new ZipInputStream(new ByteArrayInputStream(tmp));
             for (ZipEntry entry; null != (entry = zin.getNextEntry());) {
-                if (entry.getName().equals("content.xml")) {
+                if ("content.xml".equals(entry.getName())) {
                     contentIn = new ByteArrayInputStream(
                             readAllBytes(zin));
-                } else if (entry.getName().equals("styles.xml")) {
+                } else if ("styles.xml".equals(entry.getName())) {
                     stylesIn = new ByteArrayInputStream(
                             readAllBytes(zin));
                 }
@@ -282,7 +282,7 @@ public class ODGInputFormat implements InputFormat {
             if (child.getNamespace() == null
                     || child.getNamespace().equals(DRAWING_NAMESPACE)) {
                 String name = child.getName();
-                if (name.equals("page")) {
+                if ("page".equals(name)) {
                     readPageElement(child);
                 }
             }
@@ -387,33 +387,33 @@ public class ODGInputFormat implements InputFormat {
         if (elem.getNamespace() == null
                 || elem.getNamespace().equals(DRAWING_NAMESPACE)) {
             String name = elem.getName();
-            if (name.equals("caption")) {
+            if ("caption".equals(name)) {
                 f = readCaptionElement(elem);
-            } else if (name.equals("circle")) {
+            } else if ("circle".equals(name)) {
                 f = readCircleElement(elem);
-            } else if (name.equals("connector")) {
+            } else if ("connector".equals(name)) {
                 f = readCircleElement(elem);
-            } else if (name.equals("custom-shape")) {
+            } else if ("custom-shape".equals(name)) {
                 f = readCustomShapeElement(elem);
-            } else if (name.equals("ellipse")) {
+            } else if ("ellipse".equals(name)) {
                 f = readEllipseElement(elem);
-            } else if (name.equals("frame")) {
+            } else if ("frame".equals(name)) {
                 f = readFrameElement(elem);
-            } else if (name.equals("g")) {
+            } else if ("g".equals(name)) {
                 f = readGElement(elem);
-            } else if (name.equals("line")) {
+            } else if ("line".equals(name)) {
                 f = readLineElement(elem);
-            } else if (name.equals("measure")) {
+            } else if ("measure".equals(name)) {
                 f = readMeasureElement(elem);
-            } else if (name.equals("path")) {
+            } else if ("path".equals(name)) {
                 f = readPathElement(elem);
-            } else if (name.equals("polygon")) {
+            } else if ("polygon".equals(name)) {
                 f = readPolygonElement(elem);
-            } else if (name.equals("polyline")) {
+            } else if ("polyline".equals(name)) {
                 f = readPolylineElement(elem);
-            } else if (name.equals("rect")) {
+            } else if ("rect".equals(name)) {
                 f = readRectElement(elem);
-            } else if (name.equals("regularPolygon")) {
+            } else if ("regularPolygon".equals(name)) {
                 f = readRegularPolygonElement(elem);
             } else {
                 if (DEBUG) {
@@ -533,9 +533,9 @@ public class ODGInputFormat implements InputFormat {
         // FIXME - Implement Concentric Gradient Allowed
 
         ODGFigure figure;
-        if (type.equals("rectangle")) {
+        if ("rectangle".equals(type)) {
             figure = createEnhancedGeometryRectangleFigure(figureBounds, a);
-        } else if (type.equals("ellipse")) {
+        } else if ("ellipse".equals(type)) {
             figure = createEnhancedGeometryEllipseFigure(figureBounds, a);
         } else {
             System.out.println("ODGInputFormat.readEnhancedGeometryElement not implemented for " + elem);
@@ -925,7 +925,7 @@ public class ODGInputFormat implements InputFormat {
 
     private static double toUnitFactor(String str) throws IOException {
         double scaleFactor;
-        if (str.equals("px")) {
+        if ("px".equals(str)) {
             scaleFactor = 1d;
         } else if (str.endsWith("pt")) {
             scaleFactor = 1.25;
@@ -1322,7 +1322,7 @@ public class ODGInputFormat implements InputFormat {
                 if (tt.nextToken() != '(') {
                     throw new IOException("'(' not found in transform " + str);
                 }
-                if (type.equals("matrix")) {
+                if ("matrix".equals(type)) {
                     double[] m = new double[6];
                     for (int i = 0; i < 6; i++) {
                         if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
@@ -1332,7 +1332,7 @@ public class ODGInputFormat implements InputFormat {
                     }
                     t.preConcatenate(new AffineTransform(m));
 
-                } else if (type.equals("translate")) {
+                } else if ("translate".equals(type)) {
                     double tx, ty;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
                         throw new IOException("X-translation value not found in transform " + str);
@@ -1359,7 +1359,7 @@ public class ODGInputFormat implements InputFormat {
                     t2.translate(tx, ty);
                     t.preConcatenate(t2);
 
-                } else if (type.equals("scale")) {
+                } else if ("scale".equals(type)) {
                     double sx, sy;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
                         throw new IOException("X-scale value not found in transform " + str);
@@ -1375,7 +1375,7 @@ public class ODGInputFormat implements InputFormat {
                     t2.scale(sx, sy);
                     t.preConcatenate(t2);
 
-                } else if (type.equals("rotate")) {
+                } else if ("rotate".equals(type)) {
                     double angle, cx, cy;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
                         throw new IOException("Angle value not found in transform " + str);
@@ -1386,7 +1386,7 @@ public class ODGInputFormat implements InputFormat {
                     t.preConcatenate(t2);
 
 
-                } else if (type.equals("skewX")) {
+                } else if ("skewX".equals(type)) {
                     double angle;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
                         throw new IOException("Skew angle not found in transform " + str);
@@ -1395,7 +1395,7 @@ public class ODGInputFormat implements InputFormat {
                     t.preConcatenate(new AffineTransform(
                             1, 0, Math.tan(angle * Math.PI / 180), 1, 0, 0));
 
-                } else if (type.equals("skewY")) {
+                } else if ("skewY".equals(type)) {
                     double angle;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
                         throw new IOException("Skew angle not found in transform " + str);

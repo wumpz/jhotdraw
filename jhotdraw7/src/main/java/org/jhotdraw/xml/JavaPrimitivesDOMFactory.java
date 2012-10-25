@@ -266,61 +266,61 @@ public class JavaPrimitivesDOMFactory implements DOMFactory {
         Object o;
 
         String tagName = in.getTagName();
-        if (tagName.equals("null")) {
+        if ("null".equals(tagName)) {
             o = null;
-        } else if (tagName.equals("boolean")) {
+        } else if ("boolean".equals(tagName)) {
             o = Boolean.valueOf(in.getText());
-        } else if (tagName.equals("byte")) {
+        } else if ("byte".equals(tagName)) {
             o = Byte.decode(in.getText());
-        } else if (tagName.equals("short")) {
+        } else if ("short".equals(tagName)) {
             o = Short.decode(in.getText());
-        } else if (tagName.equals("int")) {
+        } else if ("int".equals(tagName)) {
             o = Integer.decode(in.getText());
-        } else if (tagName.equals("long")) {
+        } else if ("long".equals(tagName)) {
             o = Long.decode(in.getText());
-        } else if (tagName.equals("float")) {
+        } else if ("float".equals(tagName)) {
             o = new Float(Float.parseFloat(in.getText()));
-        } else if (tagName.equals("double")) {
+        } else if ("double".equals(tagName)) {
             o = new Double(Double.parseDouble(in.getText()));
-        } else if (tagName.equals("string")) {
+        } else if ("string".equals(tagName)) {
             o = in.getText();
-        } else if (tagName.equals("enum")) {
+        } else if ("enum".equals(tagName)) {
             o = createEnum(in.getAttribute("type", (String) null), in.getText());
-        } else if (tagName.equals("color")) {
+        } else if ("color".equals(tagName)) {
             o = new Color(in.getAttribute("rgba", 0xff));
-        } else if (tagName.equals("font")) {
+        } else if ("font".equals(tagName)) {
             o = new Font(in.getAttribute("name", "Dialog"), in.getAttribute("style", 0), in.getAttribute("size", 0));
-        } else if (tagName.equals("byteArray")) {
+        } else if ("byteArray".equals(tagName)) {
             byte[] a = new byte[in.getElementCount()];
             for (int i = 0; i < a.length; i++) {
                 a[i] = ((Byte) in.readObject(i)).byteValue();
             }
             o = a;
-        } else if (tagName.equals("shortArray")) {
+        } else if ("shortArray".equals(tagName)) {
             short[] a = new short[in.getElementCount()];
             for (int i = 0; i < a.length; i++) {
                 a[i] = ((Short) in.readObject(i)).shortValue();
             }
             o = a;
-        } else if (tagName.equals("intArray")) {
+        } else if ("intArray".equals(tagName)) {
             int[] a = new int[in.getElementCount()];
             for (int i = 0; i < a.length; i++) {
                 a[i] = ((Integer) in.readObject(i)).intValue();
             }
             o = a;
-        } else if (tagName.equals("longArray")) {
+        } else if ("longArray".equals(tagName)) {
             long[] a = new long[in.getElementCount()];
             for (int i = 0; i < a.length; i++) {
                 a[i] = ((Long) in.readObject(i)).longValue();
             }
             o = a;
-        } else if (tagName.equals("floatArray")) {
+        } else if ("floatArray".equals(tagName)) {
             float[] a = new float[in.getElementCount()];
             for (int i = 0; i < a.length; i++) {
                 a[i] = ((Float) in.readObject(i)).floatValue();
             }
             o = a;
-        } else if (tagName.equals("doubleArray")) {
+        } else if ("doubleArray".equals(tagName)) {
             double[] a = new double[in.getElementCount()];
             for (int i = 0; i < a.length; i++) {
                 a[i] = ((Double) in.readObject(i)).doubleValue();

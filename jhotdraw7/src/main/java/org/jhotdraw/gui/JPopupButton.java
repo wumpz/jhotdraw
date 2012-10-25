@@ -48,7 +48,7 @@ public class JPopupButton extends javax.swing.JButton {
 
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
-            if (evt.getPropertyName().equals("enabled")) {
+            if ("enabled".equals(evt.getPropertyName())) {
                 setEnabled(((Boolean) evt.getNewValue()).booleanValue());
             } else {
                 repaint();
