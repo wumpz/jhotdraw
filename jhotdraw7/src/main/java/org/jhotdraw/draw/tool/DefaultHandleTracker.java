@@ -18,6 +18,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Point2D;
 import java.util.*;
+import org.jhotdraw.draw.event.HandleEvent;
+import org.jhotdraw.draw.event.HandleListener;
 
 /**
  * DefaultHandleTracker implements interactions with the handles of a Figure.
@@ -45,6 +47,26 @@ import java.util.*;
  */
 public class DefaultHandleTracker extends AbstractTool implements HandleTracker {
 
+    private class EventHandler implements HandleListener {
+
+        @Override
+        public void areaInvalidated(HandleEvent e) {
+            // empty
+        }
+
+        @Override
+        public void handleRequestRemove(HandleEvent e) {
+            fireToolDone();
+        }
+
+        @Override
+        public void handleRequestSecondaryHandles(HandleEvent e) {
+            // empty
+        }
+        
+    }
+    private EventHandler eventHandler=new EventHandler();
+    
     /** Last dragged mouse location. This variable is only non-null when
      * the mouse is being pressed or dragged.
      */
@@ -103,6 +125,7 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
             v.setActiveHandle(masterHandle);
         }
         clearHoverHandles();
+        masterHandle.addHandleListener(eventHandler);
     }
 
     @Override
@@ -115,6 +138,7 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
         }
         clearHoverHandles();
         dragLocation = null;
+        masterHandle.removeHandleListener(eventHandler);
     }
 
     @Override

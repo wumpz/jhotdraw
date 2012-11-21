@@ -26,7 +26,8 @@ import org.jhotdraw.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
- * A {@link Handle} which allows to interactively change a node of a bezier path.
+ * A {@link Handle} which allows to interactively change a node of a bezier
+ * path.
  *
  *
  * @author Werner Randelshofer
@@ -37,9 +38,12 @@ public class BezierNodeHandle extends AbstractHandle {
     protected int index;
     private CompositeEdit edit;
     private BezierPath.Node oldNode;
-    @Nullable private Figure transformOwner;
+    @Nullable
+    private Figure transformOwner;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public BezierNodeHandle(BezierFigure owner, int index) {
         this(owner, index, owner);
     }
@@ -54,8 +58,10 @@ public class BezierNodeHandle extends AbstractHandle {
     @Override
     public void dispose() {
         super.dispose();
-        transformOwner.removeFigureListener(this);
-        transformOwner = null;
+        if (transformOwner != null) {
+            transformOwner.removeFigureListener(this);
+            transformOwner = null;
+        }
     }
 
     /**
@@ -77,14 +83,14 @@ public class BezierNodeHandle extends AbstractHandle {
         }
         if (size > index) {
             BezierPath.Node v = f.getNode(index);
-            if (v.mask == 0 ||
-                    index == 0 && v.mask == BezierPath.C1_MASK && !isClosed ||
-                    index == size - 1 && v.mask == BezierPath.C2_MASK && !isClosed) {
+            if (v.mask == 0
+                    || index == 0 && v.mask == BezierPath.C1_MASK && !isClosed
+                    || index == size - 1 && v.mask == BezierPath.C2_MASK && !isClosed) {
                 drawRectangle(g, fillColor, strokeColor);
-            } else if (v.mask == BezierPath.C1_MASK ||
-                    v.mask == BezierPath.C2_MASK ||
-                    index == 0 && !isClosed ||
-                    index == size - 1 && !isClosed) {
+            } else if (v.mask == BezierPath.C1_MASK
+                    || v.mask == BezierPath.C2_MASK
+                    || index == 0 && !isClosed
+                    || index == size - 1 && !isClosed) {
                 drawDiamond(g, fillColor, strokeColor);
             } else {
                 drawCircle(g, fillColor, strokeColor);
@@ -171,12 +177,12 @@ public class BezierNodeHandle extends AbstractHandle {
     @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         final BezierFigure f = getOwner();
-             BezierPath.Node oldValue = (BezierPath.Node) oldNode.clone();;
-             BezierPath.Node newValue = f.getNode(index);
+        BezierPath.Node oldValue = (BezierPath.Node) oldNode.clone();;
+        BezierPath.Node newValue = f.getNode(index);
 
         // Change node type
-        if ((modifiersEx & (InputEvent.META_DOWN_MASK | InputEvent.CTRL_DOWN_MASK | InputEvent.ALT_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK)) != 0 &&
-                (modifiersEx & InputEvent.BUTTON2_MASK) == 0) {
+        if ((modifiersEx & (InputEvent.META_DOWN_MASK | InputEvent.CTRL_DOWN_MASK | InputEvent.ALT_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK)) != 0
+                && (modifiersEx & InputEvent.BUTTON2_MASK) == 0) {
             f.willChange();
             if (index > 0 && index < f.getNodeCount() || f.isClosed()) {
                 newValue.mask = (newValue.mask + 3) % 4;
@@ -189,48 +195,46 @@ public class BezierNodeHandle extends AbstractHandle {
             f.changed();
             fireHandleRequestSecondaryHandles();
         }
-            view.getDrawing().fireUndoableEditHappened(new BezierNodeEdit(f, index, oldValue, newValue) {
+        view.getDrawing().fireUndoableEditHappened(new BezierNodeEdit(f, index, oldValue, newValue) {
+            @Override
+            public void redo() throws CannotRedoException {
+                super.redo();
+                fireHandleRequestSecondaryHandles();
+            }
 
-                @Override
-                public void redo() throws CannotRedoException {
-                    super.redo();
-                    fireHandleRequestSecondaryHandles();
-                }
-
-                @Override
-                public void undo() throws CannotUndoException {
-                    super.undo();
-                    fireHandleRequestSecondaryHandles();
-                }
-            });
-            view.getDrawing().fireUndoableEditHappened(edit);
+            @Override
+            public void undo() throws CannotUndoException {
+                super.undo();
+                fireHandleRequestSecondaryHandles();
+            }
+        });
+        view.getDrawing().fireUndoableEditHappened(edit);
     }
 
     @Override
     public boolean isCombinableWith(Handle h) {
         /*
-        if (super.isCombinableWith(h)) {
-        BezierNodeHandle that = (BezierNodeHandle) h;
-        return that.index == this.index &&
-        that.getOwner().getNodeCount() ==
-        this.getOwner().getNodeCount();
-        }*/
+         if (super.isCombinableWith(h)) {
+         BezierNodeHandle that = (BezierNodeHandle) h;
+         return that.index == this.index &&
+         that.getOwner().getNodeCount() ==
+         this.getOwner().getNodeCount();
+         }*/
         return false;
     }
 
     @Override
     public void trackDoubleClick(Point p, int modifiersEx) {
         final BezierFigure f = getOwner();
-        if (f.getNodeCount() > 2 &&
-                (modifiersEx &
-                (InputEvent.META_DOWN_MASK | InputEvent.CTRL_DOWN_MASK | InputEvent.ALT_DOWN_MASK)) == 0) {
+        if (f.getNodeCount() > 2
+                && (modifiersEx
+                & (InputEvent.META_DOWN_MASK | InputEvent.CTRL_DOWN_MASK | InputEvent.ALT_DOWN_MASK)) == 0) {
             Rectangle invalidatedArea = getDrawingArea();
             f.willChange();
             final BezierPath.Node removedNode = f.removeNode(index);
             f.changed();
             fireHandleRequestRemove(invalidatedArea);
             fireUndoableEditHappened(new AbstractUndoableEdit() {
-
                 @Override
                 public String getPresentationName() {
                     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
@@ -265,13 +269,13 @@ public class BezierNodeHandle extends AbstractHandle {
         BezierFigure f = getOwner();
         LinkedList<Handle> list = new LinkedList<Handle>();
         BezierPath.Node v = f.getNode(index);
-        if ((v.mask & BezierPath.C1_MASK) != 0 &&
-                (index != 0 || f.isClosed())) {
+        if ((v.mask & BezierPath.C1_MASK) != 0
+                && (index != 0 || f.isClosed())) {
             list.add(new BezierControlPointHandle(f, index, 1, getTransformOwner()));
         }
-        if ((v.mask & BezierPath.C2_MASK) != 0 &&
-                (index < f.getNodeCount() - 1 ||
-                f.isClosed())) {
+        if ((v.mask & BezierPath.C2_MASK) != 0
+                && (index < f.getNodeCount() - 1
+                || f.isClosed())) {
             list.add(new BezierControlPointHandle(f, index, 2, getTransformOwner()));
         }
         if (index > 0 || f.isClosed()) {
@@ -342,11 +346,10 @@ public class BezierNodeHandle extends AbstractHandle {
                 f.changed();
                 fireHandleRequestRemove(invalidatedArea);
                 fireUndoableEditHappened(new AbstractUndoableEdit() {
-
                     @Override
                     public String getPresentationName() {
                         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-                        return labels.getString("edit.bezierPath.joinSegment.text");
+                        return labels.getString("edit.bezierPath.joinSegments.text");
                     }
 
                     @Override
@@ -370,6 +373,11 @@ public class BezierNodeHandle extends AbstractHandle {
                     }
                 });
                 evt.consume();
+
+                // At this point, the handle is no longer valid, and
+                // handles at higher node indices have become invalid too.
+                fireHandleRequestRemove(invalidatedArea);
+
                 break;
         }
     }

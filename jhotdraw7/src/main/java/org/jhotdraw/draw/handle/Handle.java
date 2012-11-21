@@ -120,7 +120,7 @@ public interface Handle extends KeyListener {
     public void invalidate();
     
     /**
-     * Disposes the resources aquired by the handler.
+     * Disposes the resources acquired by the handler.
      */
     public void dispose();
     
