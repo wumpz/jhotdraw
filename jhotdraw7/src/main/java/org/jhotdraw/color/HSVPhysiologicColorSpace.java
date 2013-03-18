@@ -19,7 +19,7 @@ import java.awt.color.ColorSpace;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class HSVPhysiologicColorSpace extends ColorSpace implements NamedColorSpace {
+public class HSVPhysiologicColorSpace extends AbstractNamedColorSpace {
 
     private static HSVPhysiologicColorSpace instance;
 
@@ -35,7 +35,7 @@ public class HSVPhysiologicColorSpace extends ColorSpace implements NamedColorSp
     }
 
     @Override
-    public float[] toRGB(float[] components) {
+    public float[] toRGB(float[] components, float[] rgb) {
         float hue = components[0];
         float saturation = components[1];
         float value = components[2];
@@ -138,11 +138,14 @@ public class HSVPhysiologicColorSpace extends ColorSpace implements NamedColorSp
                 break;
         }
 
-        return new float[]{red, green, blue};
+        rgb[0] = red;
+        rgb[1] = green;
+        rgb[2] = blue;
+        return rgb;
     }
 
     @Override
-    public float[] fromRGB(float[] rgbvalue) {
+    public float[] fromRGB(float[] rgbvalue, float[] component) {
         float r = rgbvalue[0];
         float g = rgbvalue[1];
         float b = rgbvalue[2];
@@ -178,24 +181,12 @@ public class HSVPhysiologicColorSpace extends ColorSpace implements NamedColorSp
             saturation = (max - min) / max;
         }
 
-        return new float[]{
-                    hue / 360f,
-                    saturation,
-                    value};
+        component[0] = hue / 360f;
+        component[1] = saturation;
+        component[2] = value;
+        return component;
     }
 
-
-    @Override
-    public float[] toCIEXYZ(float[] colorvalue) {
-        float[] rgb = toRGB(colorvalue);
-        return ColorSpace.getInstance(CS_sRGB).toCIEXYZ(rgb);
-    }
-
-    @Override
-    public float[] fromCIEXYZ(float[] colorvalue) {
-        float[] sRGB = ColorSpace.getInstance(ColorSpace.CS_sRGB).fromCIEXYZ(colorvalue);
-        return fromRGB(sRGB);
-    }
 
     @Override
     public String getName(int idx) {

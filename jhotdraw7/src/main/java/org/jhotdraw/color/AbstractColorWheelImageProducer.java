@@ -13,6 +13,7 @@ package org.jhotdraw.color;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.color.ColorSpace;
+import java.awt.geom.Point2D;
 import java.awt.image.ColorModel;
 import java.awt.image.MemoryImageSource;
 
@@ -75,8 +76,11 @@ public abstract class AbstractColorWheelImageProducer extends MemoryImageSource 
         }
     }
 
-    public int getRadius() {
-        return Math.min(w, h) / 2 - 2;
+    public float getRadius() {
+        return Math.min(w, h) * 0.5f - 2;
+    }
+    public Point2D.Float getCenter() {
+        return new Point2D.Float(w*0.5f, h*0.5f);
     }
 
     protected abstract void generateColorWheel();

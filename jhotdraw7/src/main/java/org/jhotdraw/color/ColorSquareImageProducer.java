@@ -98,12 +98,13 @@ public class ColorSquareImageProducer extends AbstractColorWheelImageProducer {
         }
 
         float[] components = new float[colorSpace.getNumComponents()];
+        float[] rgb=new float[3];
         for (int index = 0; index < pixels.length; index++) {
             if (alphas[index] != 0) {
                 components[angularIndex] = angulars[index];
                 components[radialIndex] = radials[index];
                 components[verticalIndex] = verticalValue;
-                pixels[index] = (alphas[index] | 0xffffff) & ColorUtil.toRGB(colorSpace,components);
+                pixels[index] = (alphas[index] | 0xffffff) & ColorUtil.CStoRGB24(colorSpace,components,rgb);
             }
         }
         newPixels();

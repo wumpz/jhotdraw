@@ -11,7 +11,7 @@
 package org.jhotdraw.color;
 
 import java.awt.color.ColorSpace;
-
+import static java.lang.Math.*;
 /**
  * The 1976 CIE L*CHa*b* color space (CIELCH).
  * <p>
@@ -28,7 +28,7 @@ import java.awt.color.ColorSpace;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class CIELCHabColorSpace extends ColorSpace implements NamedColorSpace {
+public class CIELCHabColorSpace extends AbstractNamedColorSpace {
 
     /** The XYZ coordinates of the CIE Standard Illuminant D65 reference white.*/
     private final static double[] D65 = {0.9505d, 1d, 1.0890d};
@@ -52,8 +52,9 @@ public class CIELCHabColorSpace extends ColorSpace implements NamedColorSpace {
     }
 
     @Override
-    public float[] toRGB(float[] colorvalue) {
-        float[] ciexyz = toCIEXYZ(colorvalue);
+    public float[] toRGB(float[] colorvalue, float[] rgb) {
+        float[] ciexyz =rgb;//reuse array
+        toCIEXYZ(colorvalue,ciexyz);
 
         // Convert to sRGB as described in
         // http://www.w3.org/Graphics/Color/sRGB.html
@@ -87,14 +88,16 @@ public class CIELCHabColorSpace extends ColorSpace implements NamedColorSpace {
             Bs = Math.min(1, Math.max(0, Bs));
         }
 
-        return new float[]{(float)Rs, (float)Gs, (float)Bs};
+        rgb[0]=(float)Rs;
+        rgb[1]=(float)Gs;
+        rgb[2]=(float)Bs;
+        return rgb;
         //       return sRGB.fromCIEXYZ(ciexyz);
     }
 
     @Override
-    public float[] fromRGB(float[] rgbvalue) {
-        float[] ciexyz = sRGB.fromRGB(rgbvalue);
-        return fromCIEXYZ(ciexyz);
+    public float[] fromRGB(float[] rgb, float[] colorvalue) {
+        return fromCIEXYZ(ColorUtil.RGBtoCIEXYZ(rgb,colorvalue),colorvalue);
     }
 
     /**
@@ -132,10 +135,10 @@ public class CIELCHabColorSpace extends ColorSpace implements NamedColorSpace {
      * @return CIEXYZ color value.
      */
     @Override
-    public float[] toCIEXYZ(float[] colorvalue) {
+    public float[] toCIEXYZ(float[] colorvalue, float[] xyz) {
         double L = colorvalue[0];
         double C = colorvalue[1];
-        double H = colorvalue[2];
+        double H = colorvalue[2]/180*PI;
         double a = C * Math.cos(H);
         double b = C * Math.sin(H);
 
@@ -171,11 +174,12 @@ public class CIELCHabColorSpace extends ColorSpace implements NamedColorSpace {
         double Y = yr * Yr;
         double Z = zr * Zr;
 
-        return new float[]{(float)X, (float)Y, (float)Z};
+        xyz[0]=(float)X;xyz[1]=(float)Y;xyz[2]=(float)Z;
+        return xyz;
     }
 
     /**
-     * XYT to Lab.
+     * XYZ to Lab.
      * <pre>
      * L = 116*fy - 16
      * a = 500 * (fx - fy)
@@ -207,10 +211,10 @@ public class CIELCHabColorSpace extends ColorSpace implements NamedColorSpace {
      * @return Lab color value.
      */
     @Override
-    public float[] fromCIEXYZ(float[] colorvalue) {
-        double X = colorvalue[0];
-        double Y = colorvalue[1];
-        double Z = colorvalue[2];
+    public float[] fromCIEXYZ(float[] xyz, float[] colorvalue) {
+        double X = xyz[0];
+        double Y = xyz[1];
+        double Z = xyz[2];
 
         double xr = X / Xr;
         double yr = Y / Yr;
@@ -240,8 +244,10 @@ public class CIELCHabColorSpace extends ColorSpace implements NamedColorSpace {
         double C = Math.sqrt(a*a+b*b);
         double H = Math.atan2(b, a);
 
-        return new float[]{(float)L, (float)C, (float)H};
-
+        colorvalue[0]=(float)L;
+        colorvalue[1]=(float)C;
+        colorvalue[2]=(float)(H*180/PI);
+return colorvalue;
     }
 
     @Override
@@ -255,7 +261,7 @@ public class CIELCHabColorSpace extends ColorSpace implements NamedColorSpace {
             case 0:
                 return 0f;
             case 1:
-                return -127f;
+                return 0f;
             case 2:
                 return 0f;
         }
@@ -268,9 +274,9 @@ public class CIELCHabColorSpace extends ColorSpace implements NamedColorSpace {
             case 0:
                 return 100f;
             case 1:
-                return 128f;
+                return 127f;
             case 2:
-                return 320f;
+                return 360f;
         }
         throw new IllegalArgumentException("Illegal component:" + component);
     }

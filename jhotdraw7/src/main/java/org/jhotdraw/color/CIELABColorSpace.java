@@ -13,54 +13,55 @@ package org.jhotdraw.color;
 import java.awt.color.ColorSpace;
 
 /**
- * The 1976 CIE L*a*b* color space (CIELAB).
- * <p>
- * The L* coordinate of an object is the lightness intensity as measured on a
- * scale from 0 to 100, where 0 represents black and 100 represents white.
- * <p>
- * The a* coordinate of an object represents the position of the object’s color
- * on a pure green and pure red scale, where -127 represents pure green and +127
- * represents pure red.
- * <p>
- * The b* coordinate represents the position of the object’s color on a pure
- * blue and pure yellow scale, where -127 represents pure blue and +127
- * represents pure yellow.
- * <p>
- * The distance that can be calculated between two colors, is directly
- * proportional to the difference between the two colors as perceived by the
- * human eye.
- * <p>
- * The above description has been derived from
- * <a href="http://www.optelvision.com/documents/optel-vision-s-explanation-on-cielab-color-space.pdf">
+ * The 1976 CIE L*a*b* color space (CIELAB). <p> The L* coordinate of an object
+ * is the lightness intensity as measured on a scale from 0 to 100, where 0
+ * represents black and 100 represents white. <p> The a* coordinate of an object
+ * represents the position of the object’s color on a pure green and pure red
+ * scale, where -127 represents pure green and +127 represents pure red. <p> The
+ * b* coordinate represents the position of the object’s color on a pure blue
+ * and pure yellow scale, where -127 represents pure blue and +127 represents
+ * pure yellow. <p> The distance that can be calculated between two colors, is
+ * directly proportional to the difference between the two colors as perceived
+ * by the human eye. <p> The above description has been derived from <a
+ * href="http://www.optelvision.com/documents/optel-vision-s-explanation-on-cielab-color-space.pdf">
  * http://www.optelvision.com/documents/optel-vision-s-explanation-on-cielab-color-space.pdf
  * </a>
  *
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class CIELABColorSpace extends ColorSpace implements NamedColorSpace {
+public class CIELABColorSpace extends AbstractNamedColorSpace {
 
-    /** The XYZ coordinates of the CIE Standard Illuminant D65 reference white.*/
+    /**
+     * The XYZ coordinates of the CIE Standard Illuminant D65 reference white.
+     */
     private final static double[] D65 = {0.9505d, 1d, 1.0890d};
-
-    /** The X coordinate of the reference white.*/
+    /**
+     * The X coordinate of the reference white.
+     */
     private double Xw;
-    /** The Y coordinate of the reference white.*/
+    /**
+     * The Y coordinate of the reference white.
+     */
     private double Yw;
-    /** The Z coordinate of the reference white.*/
+    /**
+     * The Z coordinate of the reference white.
+     */
     private double Zw;
-
-    /** Epsilon */
+    /**
+     * Epsilon
+     */
     private final static double eps = 216d / 24389d;
     private final static double k = 24389d / 27d;
-    private final static ColorSpace sRGB = ColorSpace.getInstance(ColorSpace.CS_sRGB);
 
     public enum OutsideGamutHandling {
 
         CLAMP,
         LEAVE_OUTSIDE
     };
-    /** By default, clamps non-displayable RGB values. */
+    /**
+     * By default, clamps non-displayable RGB values.
+     */
     private OutsideGamutHandling outsideGamutHandling = OutsideGamutHandling.CLAMP;
 
     public CIELABColorSpace() {
@@ -72,8 +73,9 @@ public class CIELABColorSpace extends ColorSpace implements NamedColorSpace {
     }
 
     @Override
-    public float[] toRGB(float[] colorvalue) {
-        float[] ciexyz = toCIEXYZ(colorvalue);
+    public float[] toRGB(float[] colorvalue, float[] rgb) {
+        float[] ciexyz=rgb;
+        toCIEXYZ(colorvalue,ciexyz);
 
         // Convert to sRGB as described in
         // http://www.w3.org/Graphics/Color/sRGB.html
@@ -110,14 +112,16 @@ public class CIELABColorSpace extends ColorSpace implements NamedColorSpace {
         }
 
 
-        return new float[]{(float) Rs, (float) Gs, (float) Bs};
-        //       return sRGB.fromCIEXYZ(ciexyz);
+        rgb[0]=(float) Rs;
+        rgb[1]=(float) Gs;
+        rgb[2]=(float) Bs;
+        return rgb;
     }
 
     @Override
-    public float[] fromRGB(float[] rgbvalue) {
-        float[] ciexyz = sRGB.fromRGB(rgbvalue);
-        return fromCIEXYZ(ciexyz);
+    public float[] fromRGB(float[] rgb, float[] component) {
+        ColorUtil.RGBtoCIEXYZ(rgb, rgb);
+        return fromCIEXYZ(rgb, component);
     }
 
     /**
@@ -126,8 +130,7 @@ public class CIELABColorSpace extends ColorSpace implements NamedColorSpace {
      * X = xr*Xw;
      * Y = yr*Yw;
      * Z = zr*Zw;
-     * </pre>
-     * where
+     * </pre> where
      * <pre>
      * xr = fx^3, if fx^3 &gt; eps
      *    = (116*fx - 16)/k, if fx^3 &lt;= eps
@@ -155,7 +158,7 @@ public class CIELABColorSpace extends ColorSpace implements NamedColorSpace {
      * @return CIEXYZ color value.
      */
     @Override
-    public float[] toCIEXYZ(float[] colorvalue) {
+    public float[] toCIEXYZ(float[] colorvalue, float[] xyz) {
         double L = colorvalue[0];
         double a = colorvalue[1];
         double b = colorvalue[2];
@@ -192,17 +195,17 @@ public class CIELABColorSpace extends ColorSpace implements NamedColorSpace {
         double Y = yr * Yw;
         double Z = zr * Zw;
 
-        return new float[]{(float) X, (float) Y, (float) Z};
+        xyz[0]=(float) X; xyz[1]=(float) Y;xyz[2]=(float) Z;
+        return xyz;
     }
 
     /**
-     * XYT to Lab.
+     * XYZ to Lab.
      * <pre>
      * L = 116*fy - 16
      * a = 500 * (fx - fy)
      * b = 200 * (fy - fz)
-     * </pre>
-     * where
+     * </pre> where
      * <pre>
      * fx = xr^(1/3), if xr &gt; eps
      *    = (k*xr + 16) / 116 if xr &lt;= eps
@@ -228,7 +231,7 @@ public class CIELABColorSpace extends ColorSpace implements NamedColorSpace {
      * @return Lab color value.
      */
     @Override
-    public float[] fromCIEXYZ(float[] colorvalue) {
+    public float[] fromCIEXYZ(float[] colorvalue, float[] xyz) {
         double X = colorvalue[0];
         double Y = colorvalue[1];
         double Z = colorvalue[2];
@@ -258,7 +261,10 @@ public class CIELABColorSpace extends ColorSpace implements NamedColorSpace {
         double a = 500d * (fx - fy);
         double b = 200d * (fy - fz);
 
-        return new float[]{(float) L, (float) a, (float) b};
+        xyz[0] = (float) L;
+        xyz[1] = (float) a;
+        xyz[2] = (float) b;
+        return xyz;
     }
 
     @Override

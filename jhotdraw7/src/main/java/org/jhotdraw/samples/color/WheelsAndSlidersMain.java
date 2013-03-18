@@ -15,6 +15,8 @@ import java.awt.*;
 import java.awt.color.ColorSpace;
 import java.awt.color.ICC_ColorSpace;
 import java.awt.color.ICC_Profile;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -60,7 +62,9 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
     }
     private Handler handler;
 
-    /** Creates new form. */
+    /**
+     * Creates new form.
+     */
     public WheelsAndSlidersMain() {
         initComponents();
 
@@ -69,35 +73,41 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
 
         previewLabel.setOpaque(true);
 
-//        chooserPanel.add(createColorWheelChooser(new HSVRGBColorSpace()));
+        // RGB panels
+        chooserPanel.add(createSliderChooser(ColorSpace.getInstance(ColorSpace.CS_sRGB)));
+        chooserPanel.add(createColorWheelChooser(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_sRGB), 0, 1, 2, JColorWheel.Type.SQUARE));
+        //chooserPanel.add(createColorWheelChooser(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_LINEAR_RGB), 0, 1, 2, JColorWheel.Type.SQUARE));
+
+        // CMYK
+        //chooserPanel.add(createSliderChooser(CMYKGenericColorSpace.getInstance()));
+        chooserPanel.add(createSliderChooser(CMYKNominalColorSpace.getInstance()));
+
+        // Empty panel
+        chooserPanel.add(new JPanel());
+
+        
+        // HSB, HSV, HSL, ... variants
         chooserPanel.add(createColorWheelChooser(HSBColorSpace.getInstance()));
-        chooserPanel.add(createColorWheelChooser(HSVColorSpace.getInstance(),1,0,2,JColorWheel.Type.SQUARE,false,false));
+        chooserPanel.add(createColorWheelChooser(HSVColorSpace.getInstance()));
         chooserPanel.add(createColorWheelChooser(HSLColorSpace.getInstance()));
         chooserPanel.add(createColorWheelChooser(HSLColorSpace.getInstance(), 0, 2, 1));
-        CIELABColorSpace cielab=new CIELABColorSpace();
-        cielab.setOutsideGamutHandling(CIELABColorSpace.OutsideGamutHandling.LEAVE_OUTSIDE);
-        chooserPanel.add(createColorWheelChooser(cielab,1,2,0,JColorWheel.Type.COMPLEX));
-  //      chooserPanel.add(new JPanel());
         chooserPanel.add(createColorWheelChooser(HSVPhysiologicColorSpace.getInstance()));
         chooserPanel.add(createColorWheelChooser(HSLPhysiologicColorSpace.getInstance()));
         chooserPanel.add(createColorWheelChooser(HSLPhysiologicColorSpace.getInstance(), 0, 2, 1));
-        chooserPanel.add(createColorWheelChooser(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_LINEAR_RGB),0,1,2,JColorWheel.Type.SQUARE));
-        chooserPanel.add(createColorWheelChooser(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_CIEXYZ),1,0,2,JColorWheel.Type.SQUARE));
-        chooserPanel.add(createColorWheelChooser(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_PYCC),1,2,0,JColorWheel.Type.SQUARE));
         chooserPanel.add(new JPanel());
-        chooserPanel.add(createColorWheelChooser(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_sRGB),0,1,2,JColorWheel.Type.SQUARE));
-        
-        try {
-            chooserPanel.add(createColorWheelChooser(new ICC_ColorSpace(ICC_Profile.getInstance(WheelsAndSlidersMain.class.getResourceAsStream("/org/jhotdraw/color/Munsell CIELab_to_UPLab.icc"))), 2, 1, 0, JColorWheel.Type.SQUARE));
-            chooserPanel.add(createColorWheelChooser(new ICC_ColorSpace(ICC_Profile.getInstance(WheelsAndSlidersMain.class.getResourceAsStream("/org/jhotdraw/color/Munsell CIELab_to_UPLab2.icc"))), 2, 1, 0, JColorWheel.Type.SQUARE));
-        } catch (Throwable ex) {
-            ex.printStackTrace();
-        }
-//      chooserPanel.add(createColorWheelChooser("Munsell CIELab_to_UPLab.icc","Munsell UP LAB"),2,1,0,JColorWheel.Type.COMPLEX));
-        chooserPanel.add(createSliderChooser(ColorSpace.getInstance(ColorSpace.CS_sRGB)));
-        chooserPanel.add(createSliderChooser(CMYKGenericColorSpace.getInstance()));
-        chooserPanel.add(createSliderChooser(CMYKNominalColorSpace.getInstance()));
- //       chooserPanel.add(createSliderChooser("Munsell CIELab_to_UPLab.icc","Munsell UP LAB")));
+
+        // CIELAB
+        ColorSpace cs;
+        cs = new CIELABColorSpace();
+        chooserPanel.add(createColorWheelChooser(cs, 1, 2, 0, JColorWheel.Type.SQUARE));
+        cs = new CIELCHabColorSpace();
+        chooserPanel.add(createColorWheelChooser(cs, 2, 1, 0, JColorWheel.Type.POLAR));
+
+
+        // CIEXYZ
+        chooserPanel.add(createColorWheelChooser(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_CIEXYZ), 1, 0, 2, JColorWheel.Type.SQUARE));
+        chooserPanel.add(createColorWheelChooser(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_PYCC), 1, 2, 0, JColorWheel.Type.SQUARE));
+
     }
 
     private JPanel createColorWheelChooser(ColorSpace sys) {
@@ -107,12 +117,14 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
     private JPanel createColorWheelChooser(ColorSpace sys, int angularIndex, int radialIndex, int verticalIndex) {
         return createColorWheelChooser(sys, angularIndex, radialIndex, verticalIndex, JColorWheel.Type.POLAR);
     }
+
     private JPanel createColorWheelChooser(ColorSpace sys, int angularIndex, int radialIndex, int verticalIndex, JColorWheel.Type type) {
-        return createColorWheelChooser(sys, angularIndex, radialIndex, verticalIndex, type,false,false);
+        return createColorWheelChooser(sys, angularIndex, radialIndex, verticalIndex, type, false, false);
     }
-    private JPanel createColorWheelChooser(ColorSpace sys, int angularIndex, int radialIndex, int verticalIndex, JColorWheel.Type type, boolean flipX,boolean flipY) {
+
+    private JPanel createColorWheelChooser(ColorSpace sys, int angularIndex, int radialIndex, int verticalIndex, JColorWheel.Type type, boolean flipX, boolean flipY) {
         JPanel p = new JPanel(new BorderLayout());
-        DefaultColorSliderModel m = new DefaultColorSliderModel(sys);
+        final DefaultColorSliderModel m = new DefaultColorSliderModel(sys);
         models.add(m);
         m.addChangeListener(handler);
         JColorWheel w = new JColorWheel();
@@ -120,14 +132,35 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
         w.setAngularComponentIndex(angularIndex);
         w.setRadialComponentIndex(radialIndex);
         w.setVerticalComponentIndex(verticalIndex);
-w.setFlipX(flipX);
-w.setFlipY(flipY);
+        w.setFlipX(flipX);
+        w.setFlipY(flipY);
         w.setModel(m);
         JSlider s = new JSlider(JSlider.VERTICAL);
         m.configureSlider(verticalIndex, s);
         p.add(new JLabel("<html>" + ColorUtil.getName(sys) + "<br>α:" + angularIndex + " r:" + radialIndex + " v:" + verticalIndex), BorderLayout.NORTH);
         p.add(w, BorderLayout.CENTER);
         p.add(s, BorderLayout.EAST);
+
+        JPanel pp = new JPanel();
+        p.add(pp, BorderLayout.SOUTH);
+        for (int i = 0; i < m.getComponentCount(); i++) {
+            final int comp = i;
+            final JTextField tf = new JTextField();
+            tf.setEditable(false);
+            tf.setColumns(4);
+            ChangeListener cl=new ChangeListener() {
+                NumberFormat df = NumberFormat.getNumberInstance();
+
+                @Override
+                public void stateChanged(ChangeEvent e) {
+                    df.setMaximumFractionDigits(3);
+                    tf.setText(df.format(m.getComponent(comp)));
+                }
+            };
+            cl.stateChanged(null);
+            m.addChangeListener(cl);
+            pp.add(tf);
+        }
         return p;
     }
 
@@ -136,32 +169,63 @@ w.setFlipY(flipY);
     }
 
     private JPanel createSliderChooser(ColorSpace sys, boolean vertical) {
-        JPanel p = new JPanel(new GridLayout(vertical ? 1 : 0, vertical ? 0 : 1));
-        DefaultColorSliderModel m = new DefaultColorSliderModel(sys);
+        JPanel p = new JPanel(new GridBagLayout());
+        final DefaultColorSliderModel m = new DefaultColorSliderModel(sys);
 
         models.add(m);
+        GridBagConstraints gbc = new GridBagConstraints();
         if (!vertical) {
+            gbc.gridx = 0;
+            gbc.gridy = 0;
             p.add(new JLabel(
-                    "<html>" + ColorUtil.getName(sys)), BorderLayout.NORTH);
+                    "<html>" + ColorUtil.getName(sys)), gbc);
         }
         m.addChangeListener(handler);
 
-        for (int i = 0;
-                i < m.getComponentCount();
-                i++) {
+
+        for (int i = 0; i < m.getComponentCount(); i++) {
+            final int comp = i;
             JSlider s = new JSlider(JSlider.HORIZONTAL);
             s.setMajorTickSpacing(50);
             s.setPaintTicks(true);
             s.setOrientation(vertical ? JSlider.VERTICAL : JSlider.HORIZONTAL);
-            m.configureSlider(i, s);
-            p.add(s);
+            m.configureSlider(comp, s);
+            if (vertical) {
+                gbc.gridx = i;
+                gbc.gridy = 0;
+            } else {
+                gbc.gridy = i + 1;
+                gbc.gridx = 0;
+            }
+            p.add(s, gbc);
+            final JTextField tf = new JTextField();
+            tf.setEditable(false);
+            tf.setColumns(4);
+            ChangeListener cl=new ChangeListener() {
+                NumberFormat df = NumberFormat.getNumberInstance();
+
+                @Override
+                public void stateChanged(ChangeEvent e) {
+                    df.setMaximumFractionDigits(3);
+                    tf.setText(df.format(m.getComponent(comp)));
+                }
+            };
+            cl.stateChanged(null);
+            m.addChangeListener(cl);
+            if (vertical) {
+                gbc.gridx = i;
+                gbc.gridy = 1;
+            } else {
+                gbc.gridy = i + 1;
+                gbc.gridx = 1;
+            }
+            p.add(tf, gbc);
         }
         return p;
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
-
             @Override
             public void run() {
                 JFrame f = new JFrame("Color Wheels, Squares and Sliders");
@@ -177,10 +241,10 @@ w.setFlipY(flipY);
 
     }
 
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

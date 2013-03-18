@@ -4,7 +4,7 @@
  * Copyright (c) 2008 by the original authors of JHotDraw and all its
  * contributors. All rights reserved.
  *
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * license agreement you entered into with the copyright holders. For details
  * see accompanying license terms.
  */
@@ -18,7 +18,8 @@ import java.awt.color.ColorSpace;
  * HSLHarmonicColorWheelImageProducer.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id: HSLHarmonicColorWheelImageProducer.java 717 2010-11-21
+ * 12:30:57Z rawcoder $
  */
 public class HSLHarmonicColorWheelImageProducer extends PolarColorWheelImageProducer {
 
@@ -124,9 +125,14 @@ public class HSLHarmonicColorWheelImageProducer extends PolarColorWheelImageProd
 
     @Override
     public void generateColorWheel() {
+        float[] components = new float[3];
+        float[] rgb = new float[3];
         for (int index = 0; index < pixels.length; index++) {
             if (alphas[index] != 0) {
-                pixels[index] = alphas[index] | 0xffffff & ColorUtil.toRGB(colorSpace, angulars[index], radials[index], brights[index]);
+                components[0] = angulars[index];
+                components[1] = radials[index];
+                components[2] = brights[index];
+                pixels[index] = alphas[index] | 0xffffff & ColorUtil.CStoRGB24(colorSpace, components, rgb);
             }
         }
         newPixels();
@@ -169,10 +175,10 @@ public class HSLHarmonicColorWheelImageProducer extends PolarColorWheelImageProd
             hue += 1f;
         }
         hsb = new float[]{
-                    hue,
-                    1f,
-                    1f - sat
-                };
+            hue,
+            1f,
+            1f - sat
+        };
 
         return hsb;
     }

@@ -22,7 +22,7 @@ import java.awt.color.ColorSpace;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class CMYKNominalColorSpace extends ColorSpace implements NamedColorSpace {
+public class CMYKNominalColorSpace extends AbstractNamedColorSpace {
 
     private static CMYKNominalColorSpace instance;
 
@@ -38,7 +38,7 @@ public class CMYKNominalColorSpace extends ColorSpace implements NamedColorSpace
     }
 
     @Override
-    public float[] toRGB(float[] component) {
+    public float[] toRGB(float[] component, float[] rgb) {
         float cyan, magenta, yellow, black;
 
         cyan = component[0];
@@ -57,11 +57,12 @@ public class CMYKNominalColorSpace extends ColorSpace implements NamedColorSpace
         blue = Math.min(1f, Math.max(0f, blue));
 
 
-        return new float[]{red, green, blue};
+        rgb[0]=red;rgb[1]= green;rgb[2]= blue;
+        return rgb;
     }
 
     @Override
-    public float[] fromRGB(float[] rgbvalue) {
+    public float[] fromRGB(float[] rgbvalue, float[] colorvalue) {
         float r = rgbvalue[0];
         float g = rgbvalue[1];
         float b = rgbvalue[2];
@@ -90,19 +91,8 @@ public class CMYKNominalColorSpace extends ColorSpace implements NamedColorSpace
         magenta = Math.min(1f, Math.max(0f, magenta));
         black = Math.min(1f, Math.max(0f, black));
 
-        return new float[]{cyan, magenta, yellow, black};
-    }
-
-    @Override
-    public float[] toCIEXYZ(float[] colorvalue) {
-        float[] rgb = toRGB(colorvalue);
-        return ColorSpace.getInstance(CS_sRGB).toCIEXYZ(rgb);
-    }
-
-    @Override
-    public float[] fromCIEXYZ(float[] colorvalue) {
-        float[] sRGB = ColorSpace.getInstance(ColorSpace.CS_sRGB).fromCIEXYZ(colorvalue);
-        return fromRGB(sRGB);
+        colorvalue[0]=cyan;colorvalue[1]= magenta;colorvalue[2]= yellow;colorvalue[3]= black;
+        return colorvalue;
     }
 
     @Override

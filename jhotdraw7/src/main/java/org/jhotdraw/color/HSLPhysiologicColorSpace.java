@@ -13,13 +13,14 @@ package org.jhotdraw.color;
 import java.awt.color.ColorSpace;
 
 /**
- * A HSL color space with physiologic opposites in the hue color wheel:
- * red is opposite green and yellow is opposite blue.
+ * A HSL color space with physiologic opposites in the hue color wheel: red is
+ * opposite green and yellow is opposite blue.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id: HSLPhysiologicColorSpace.java 717 2010-11-21 12:30:57Z rawcoder
+ * $
  */
-public class HSLPhysiologicColorSpace extends ColorSpace implements NamedColorSpace {
+public class HSLPhysiologicColorSpace extends AbstractNamedColorSpace {
 
     private static HSLPhysiologicColorSpace instance;
 
@@ -35,7 +36,7 @@ public class HSLPhysiologicColorSpace extends ColorSpace implements NamedColorSp
     }
 
     @Override
-    public float[] toRGB(float[] components) {
+    public float[] toRGB(float[] components, float[] rgb) {
         float hue = components[0];
         float saturation = components[1];
         float lightness = components[2];
@@ -63,20 +64,20 @@ public class HSLPhysiologicColorSpace extends ColorSpace implements NamedColorSp
             hueDeg += 360f;
         }
         // compute hi and f from hue
-       // float f;
+        // float f;
         float hk = hue - (float) Math.floor(hue); // / 360f;
         if (hueDeg < 120f) { // red to yellow
             hk /= 2f;
         } else if (hueDeg < 160f) { // yellow to green
-            hk = (hk - 120f/360f) * 3f/2f + 60f/360f;
+            hk = (hk - 120f / 360f) * 3f / 2f + 60f / 360f;
         } else if (hueDeg < 220f) { // green to cyan
-            hk = (hk - 160f/360f) + 120f/360f;
+            hk = (hk - 160f / 360f) + 120f / 360f;
         } else if (hueDeg < 280f) { // cyan to blue
-            hk = (hk - 220f/360f) + 180f/360f;
+            hk = (hk - 220f / 360f) + 180f / 360f;
         } else if (hueDeg < 340f) { // blue to purple
-            hk = (hk - 280f/360f) + 240f/360f;
+            hk = (hk - 280f / 360f) + 240f / 360f;
         } else { // purple to red
-            hk = (hk - 340f/360f) *3f + 300f/360f;
+            hk = (hk - 340f / 360f) * 3f + 300f / 360f;
         }
 
         // compute p and q from saturation and lightness
@@ -142,12 +143,14 @@ public class HSLPhysiologicColorSpace extends ColorSpace implements NamedColorSp
             blue = p;
         }
 
-        return new float[]{red, green, blue};
+        rgb[0] = red;
+        rgb[1] = green;
+        rgb[2] = blue;
+        return rgb;
     }
 
-
     @Override
-    public float[] fromRGB(float[] rgbvalue) {
+    public float[] fromRGB(float[] rgbvalue, float[] component) {
         float r = rgbvalue[0];
         float g = rgbvalue[1];
         float b = rgbvalue[2];
@@ -185,22 +188,10 @@ public class HSLPhysiologicColorSpace extends ColorSpace implements NamedColorSp
             saturation = (max - min) / (2 - (max + min));
         }
 
-        return new float[]{
-                    hue / 360f,
-                    saturation,
-                    luminance};
-    }
-
-    @Override
-    public float[] toCIEXYZ(float[] colorvalue) {
-        float[] rgb = toRGB(colorvalue);
-        return ColorSpace.getInstance(CS_sRGB).toCIEXYZ(rgb);
-    }
-
-    @Override
-    public float[] fromCIEXYZ(float[] colorvalue) {
-        float[] sRGB = ColorSpace.getInstance(ColorSpace.CS_sRGB).fromCIEXYZ(colorvalue);
-        return fromRGB(sRGB);
+        component[0] = hue / 360f;
+        component[1] = saturation;
+        component[2] = luminance;
+        return component;
     }
 
     @Override
@@ -237,6 +228,7 @@ public class HSLPhysiologicColorSpace extends ColorSpace implements NamedColorSp
 
         return getClass().getSimpleName().hashCode();
     }
+
     @Override
     public String getName() {
         return "physiologic HSL";

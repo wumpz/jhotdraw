@@ -29,12 +29,17 @@ import org.jhotdraw.text.ColorToolTipTextFormatter;
 public class ColorUtil {
 
     private static ColorToolTipTextFormatter formatter;
+    private final static ColorSpace sRGB = ColorSpace.getInstance(ColorSpace.CS_sRGB);
 
-    /** Prevent instance creation. */
+    /**
+     * Prevent instance creation.
+     */
     private ColorUtil() {
     }
 
-    /** Returns the color components in the specified color space from a {@code Color} object.
+    /**
+     * Returns the color components in the specified color space from a
+     * {@code Color} object.
      */
     public static float[] fromColor(ColorSpace colorSpace, Color c) {
         if (isEqual(c.getColorSpace(), colorSpace)) {
@@ -45,41 +50,52 @@ public class ColorUtil {
         }
     }
 
-    /** Returns a color object from color components in the specified color space.
+    /**
+     * Returns a color object from color components in the specified color
+     * space.
      */
     public static Color toColor(ColorSpace colorSpace, float... components) {
         return new CompositeColor(colorSpace, components, 1f);
 
     }
 
-    /** Returns the color components in the specified color space from an
-     * rgb value.
+    /**
+     * Returns the color components in the specified color space from an rgb
+     * value.
      */
     public static float[] fromRGB(ColorSpace colorSpace, int rgb) {
         return fromRGB(colorSpace, (rgb >>> 16) & 0xff, (rgb >>> 8) & 0xff, rgb & 0xff);
     }
 
-    /** Returns the color components in the specified color space from
-     * RGB values.
+    /**
+     * Returns the color components in the specified color space from RGB
+     * values.
      */
     public static float[] fromRGB(ColorSpace colorSpace, int r, int g, int b) {
         return colorSpace.fromRGB(new float[]{r / 255f, g / 255f, b / 255f});
     }
 
-    /** Returns an rgb value from color components in the specified color space.
+    /**
+     * Returns an rgb value from color components in the specified color space.
      */
-    public static int toRGB(ColorSpace colorSpace, float... components) {
-        float[] rgb = colorSpace.toRGB(components);
+    public static int toRGB24(ColorSpace colorSpace, float... components) {
+        return CStoRGB24(colorSpace, components, new float[3]);
+    }
+
+    public static int CStoRGB24(ColorSpace colorSpace, float[] components, float[] rgb) {
+        CStoRGB(colorSpace, components, rgb);
 
         // If the color is not displayable in RGB, we return transparent black.
-        if (rgb[0]<0f||rgb[1]<0f||rgb[2]<0f||rgb[0]>1f||rgb[1]>1f||rgb[2]>1f) {
+        if (rgb[0] < 0f || rgb[1] < 0f || rgb[2] < 0f || rgb[0] > 1f || rgb[1] > 1f || rgb[2] > 1f) {
             return 0;
         }
         return 0xff000000 | ((int) (rgb[0] * 255f) << 16) | ((int) (rgb[1] * 255f) << 8) | (int) (rgb[2] * 255f);
     }
 
-    /** Returns a tool tip text for the specified color with information
-     * in the color space of the color. */
+    /**
+     * Returns a tool tip text for the specified color with information in the
+     * color space of the color.
+     */
     public static String toToolTipText(Color c) {
         if (formatter == null) {
             formatter = new ColorToolTipTextFormatter();
@@ -93,7 +109,9 @@ public class ColorUtil {
         }
     }
 
-    /** Returns true, if the two color spaces are equal. */
+    /**
+     * Returns true, if the two color spaces are equal.
+     */
     public static boolean isEqual(ColorSpace a, ColorSpace b) {
         if ((a instanceof ICC_ColorSpace) && (b instanceof ICC_ColorSpace)) {
             ICC_ColorSpace aicc = (ICC_ColorSpace) a;
@@ -106,8 +124,10 @@ public class ColorUtil {
         }
     }
 
-    /** Returns the name of the color space. If the color space is an {@code ICC_ColorSpace}
-     * the name is retrieved from the "desc" data element of the color profile.
+    /**
+     * Returns the name of the color space. If the color space is an
+     * {@code ICC_ColorSpace} the name is retrieved from the "desc" data element
+     * of the color profile.
      *
      * @param a A ColorSpace.
      * @return The name.
@@ -159,16 +179,116 @@ public class ColorUtil {
             return a.getClass().getSimpleName();
         }
     }
+
     /**
      * Blackens the specified color by casting a black shadow of the specified
      * amount on the color.
      */
     public static Color shadow(Color c, int amount) {
-       return new Color(
-        Math.max(0, c.getRed() - amount),
-        Math.max(0, c.getGreen() - amount),
-        Math.max(0, c.getBlue() - amount),
-        c.getAlpha()
-        );
+        return new Color(
+                Math.max(0, c.getRed() - amount),
+                Math.max(0, c.getGreen() - amount),
+                Math.max(0, c.getBlue() - amount),
+                c.getAlpha());
+    }
+
+    /**
+     * Faster toRGB method which uses the provided output array.
+     */
+    public static void CStoRGB(ColorSpace cs, float[] colorvalue, float[] rgb) {
+        if (cs.isCS_sRGB()) {
+            System.arraycopy(colorvalue,0,rgb,0,3);
+        } else if (cs instanceof NamedColorSpace) {
+            CStoRGB((NamedColorSpace) cs, colorvalue, rgb);
+        } else {
+            float[] tmp = cs.toRGB(colorvalue);
+            System.arraycopy(tmp, 0, rgb, 0, tmp.length);
+        }
+    }
+
+    /**
+     * Faster fromRGB method which uses the provided output array.
+     */
+    public static float[] CSfromRGB(ColorSpace cs, float[] rgb, float[] colorvalue) {
+        if (cs instanceof NamedColorSpace) {
+            CSfromRGB((NamedColorSpace) cs, rgb, colorvalue);
+        } else {
+            float[] tmp = cs.fromRGB(rgb);
+            System.arraycopy(tmp, 0, colorvalue, 0, tmp.length);
+        }
+        return colorvalue;
+    }
+
+    /**
+     * Faster toCIEXYZ method which uses the provided output array.
+     */
+    public static float[] CStoCIEXYZ(ColorSpace cs, float[] colorvalue, float[] xyz) {
+        if (cs instanceof NamedColorSpace) {
+            CStoCIEXYZ((NamedColorSpace) cs, colorvalue, xyz);
+        } else {
+            float[] tmp = cs.toCIEXYZ(colorvalue);
+            System.arraycopy(tmp, 0, xyz, 0, tmp.length);
+        }
+        return xyz;
+    }
+
+    /**
+     * Faster fromCIEXYZ method which uses the provided output array.
+     */
+    public static float[] CSfromCIEXYZ(ColorSpace cs, float[] xyz, float[] colorvalue) {
+        if (cs instanceof NamedColorSpace) {
+            CSfromCIEXYZ((NamedColorSpace) cs, xyz, colorvalue);
+        } else {
+            float[] tmp = cs.toRGB(xyz);
+            System.arraycopy(tmp, 0, colorvalue, 0, tmp.length);
+        }
+        return colorvalue;
+    }
+
+    /**
+     * Faster toRGB method which uses the provided output array.
+     */
+    public static float[] CStoRGB(NamedColorSpace cs, float[] colorvalue, float[] rgb) {
+        cs.toRGB(colorvalue, rgb);
+        return rgb;
+    }
+
+    /**
+     * Faster CIEXYZtoRGB method which uses the provided output array.
+     */
+    public static float[] CIEXYZtoRGB(float[] xyz, float[] rgb) {
+        float[] tmp = sRGB.fromCIEXYZ(xyz);
+        System.arraycopy(tmp, 0, rgb, 0, 3);
+        return rgb;
+    }
+
+    /**
+     * Faster RGBtoCIEXYZ method which uses the provided output array.
+     */
+    public static float[] RGBtoCIEXYZ(float[] rgb, float[] xyz) {
+        float[] tmp = sRGB.toCIEXYZ(rgb);
+        System.arraycopy(tmp, 0, xyz, 0, 3);
+        return xyz;
+    }
+
+    /**
+     * Faster fromRGB method which uses the provided output array.
+     */
+    public static void CSfromRGB(NamedColorSpace cs, float[] rgb, float[] colorvalue) {
+        cs.fromRGB(rgb, colorvalue);
+    }
+
+    /**
+     * Faster toCIEXYZ method which uses the provided output array.
+     */
+    public static void CStoCIEXYZ(NamedColorSpace cs, float[] colorvalue, float[] xyz) {
+        cs.toCIEXYZ(colorvalue, xyz);
+    }
+
+    /**
+     * Faster fromCIEXYZ method which uses the provided output array.
+     */
+    public static void CSfromCIEXYZ(NamedColorSpace cs, float[] xyz, float[] colorvalue) {
+        cs.fromCIEXYZ(xyz, xyz);
     }
 }

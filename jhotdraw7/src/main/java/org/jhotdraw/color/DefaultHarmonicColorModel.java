@@ -128,7 +128,7 @@ public class DefaultHarmonicColorModel extends AbstractListModel implements Harm
 
     @Override
     public int componentToRGB(float h, float s, float b) {
-        return ColorUtil.toRGB(sliderModel.getColorSpace(), h,s,b);
+        return ColorUtil.toRGB24(sliderModel.getColorSpace(), h,s,b);
     }
 
     @Override

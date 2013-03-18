@@ -14,13 +14,13 @@ import java.awt.Color;
 import java.awt.color.ColorSpace;
 
 /**
- * A HSB color space with additive complements in the hue color wheel:
- * red is opposite cyan, magenta is opposite green, blue is opposite yellow.
+ * A HSB color space with additive complements in the hue color wheel: red is
+ * opposite cyan, magenta is opposite green, blue is opposite yellow.
  *
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class HSBColorSpace extends ColorSpace implements NamedColorSpace {
+public class HSBColorSpace extends AbstractNamedColorSpace {
 
     private static HSBColorSpace instance;
 
@@ -36,35 +36,23 @@ public class HSBColorSpace extends ColorSpace implements NamedColorSpace {
     }
 
     @Override
-    public float[] toRGB(float[] c) {
+    public float[] toRGB(float[] c, float[] component) {
         int rgb = Color.HSBtoRGB(c[0], c[1], c[2]);
 
-        return new float[]{//
-                    ((rgb & 0xff0000) >> 16) / 255f,//
-                    ((rgb & 0xff00) >> 8) / 255f,//
-                    (rgb & 0xff) / 255f//
-                };
+        component[0] = ((rgb & 0xff0000) >> 16) / 255f;
+        component[1] = ((rgb & 0xff00) >> 8) / 255f;
+        component[2] = (rgb & 0xff) / 255f;
+        return component;
     }
 
     @Override
-    public float[] fromRGB(float[] rgbvalue) {
-        return Color.RGBtoHSB(//
-                (int) (rgbvalue[0] * 255),//
-                (int) (rgbvalue[1] * 255),//
-                (int) (rgbvalue[2] * 255),//
-                new float[3]);
-    }
-
-    @Override
-    public float[] toCIEXYZ(float[] colorvalue) {
-        float[] rgb = toRGB(colorvalue);
-        return ColorSpace.getInstance(CS_sRGB).toCIEXYZ(rgb);
-    }
-
-    @Override
-    public float[] fromCIEXYZ(float[] colorvalue) {
-        float[] sRGB = ColorSpace.getInstance(ColorSpace.CS_sRGB).fromCIEXYZ(colorvalue);
-        return fromRGB(sRGB);
+    public float[] fromRGB(float[] rgb, float[] component) {
+        Color.RGBtoHSB(//
+                (int) (rgb[0] * 255),//
+                (int) (rgb[1] * 255),//
+                (int) (rgb[2] * 255),//
+                component);
+        return component;
     }
 
     @Override
@@ -101,6 +89,7 @@ public class HSBColorSpace extends ColorSpace implements NamedColorSpace {
 
         return getClass().getSimpleName().hashCode();
     }
+
     @Override
     public String getName() {
         return "HSB";

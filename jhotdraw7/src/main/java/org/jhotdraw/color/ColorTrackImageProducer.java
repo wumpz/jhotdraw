@@ -85,13 +85,14 @@ public class ColorTrackImageProducer extends MemoryImageSource {
     
     private void generateHorizontalColorTrack() {
         float[] components = colorizer.getComponents();
+        float[] rgb=new float[3];
         ColorSpace cs = colorizer.getColorSpace();
         int offset = trackBuffer / 2;
         float minv = cs.getMinValue(componentIndex);
         float maxv = cs.getMaxValue(componentIndex);
         for (int x = 0, n = w - trackBuffer - 1; x <= n; x++) {
             components[componentIndex] =  (x / (float) n)*(maxv-minv)+minv;
-            pixels[x + offset] = ColorUtil.toRGB(cs,components);
+            pixels[x + offset] = ColorUtil.CStoRGB24(cs,components,rgb);
         }
         for (int x=0; x < offset; x++) {
             pixels[x] = pixels[offset];
@@ -103,6 +104,7 @@ public class ColorTrackImageProducer extends MemoryImageSource {
     }
     private void generateVerticalColorTrack() {
         float[] components = colorizer.getComponents();
+        float[] rgb=new float[3];
         ColorSpace cs = colorizer.getColorSpace();
         int offset = trackBuffer / 2;
         float minv = cs.getMinValue(componentIndex);
@@ -110,7 +112,7 @@ public class ColorTrackImageProducer extends MemoryImageSource {
         for (int y = 0, n = h - trackBuffer - 1; y <= n; y++) {
             // Note: removed + minv - minv from formula below
             components[componentIndex] =  maxv - (y / (float) n)*(maxv-minv);
-            pixels[(y + offset) * w] = ColorUtil.toRGB(cs,components);
+            pixels[(y + offset) * w] = ColorUtil.CStoRGB24(cs,components,rgb);
         }
         for (int y=0; y < offset; y++) {
             pixels[y * w] = pixels[offset * w];

@@ -75,7 +75,7 @@ public class CompositeColor extends Color {
      * @see #getColorComponents
      */
     public CompositeColor(ColorSpace cspace, float components[], float alpha) {
-        super(((int) (alpha * 255) << 24) | ColorUtil.toRGB(cspace, components), true);
+        super(((int) (alpha * 255) << 24) | ColorUtil.toRGB24(cspace, components), true);
         boolean rangeError = false;
         StringBuilder badComponentString = new StringBuilder();
         int n = cspace.getNumComponents();

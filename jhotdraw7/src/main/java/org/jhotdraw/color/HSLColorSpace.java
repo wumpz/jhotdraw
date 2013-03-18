@@ -11,15 +11,16 @@
 package org.jhotdraw.color;
 
 import java.awt.color.ColorSpace;
+import static java.lang.Math.*;
 
 /**
- * A HSL color space with additive complements in the hue color wheel:
- * red is opposite cyan, magenta is opposite green, blue is opposite yellow.
+ * A HSL color space with additive complements in the hue color wheel: red is
+ * opposite cyan, magenta is opposite green, blue is opposite yellow.
  *
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class HSLColorSpace extends ColorSpace implements NamedColorSpace {
+public class HSLColorSpace extends AbstractNamedColorSpace {
 
     private static HSLColorSpace instance;
 
@@ -35,7 +36,7 @@ public class HSLColorSpace extends ColorSpace implements NamedColorSpace {
     }
 
     @Override
-    public float[] toRGB(float[] components) {
+    public float[] toRGB(float[] components, float[] rgb) {
         float hue = components[0];
         float saturation = components[1];
         float lightness = components[2];
@@ -109,11 +110,14 @@ public class HSLColorSpace extends ColorSpace implements NamedColorSpace {
         }
 
 
-        return new float[]{red, green, blue};
+        rgb[0]=clamp(red,0,1);
+        rgb[1]=clamp(green,0,1);
+        rgb[2]=clamp(blue,0,1);
+        return rgb;
     }
 
     @Override
-    public float[] fromRGB(float[] rgbvalue) {
+    public float[] fromRGB(float[] rgbvalue, float[] component) {
         float r = rgbvalue[0];
         float g = rgbvalue[1];
         float b = rgbvalue[2];
@@ -147,22 +151,10 @@ public class HSLColorSpace extends ColorSpace implements NamedColorSpace {
             saturation = (max - min) / (2 - (max + min));
         }
 
-        return new float[]{
-                    hue / 360f,
-                    saturation,
-                    luminance};
-    }
-
-    @Override
-    public float[] toCIEXYZ(float[] colorvalue) {
-        float[] rgb = toRGB(colorvalue);
-        return ColorSpace.getInstance(CS_sRGB).toCIEXYZ(rgb);
-    }
-
-    @Override
-    public float[] fromCIEXYZ(float[] colorvalue) {
-        float[] sRGB = ColorSpace.getInstance(ColorSpace.CS_sRGB).fromCIEXYZ(colorvalue);
-        return fromRGB(sRGB);
+        component[0] = hue / 360f;
+        component[1] = saturation;
+        component[2] = luminance;
+        return component;
     }
 
     @Override
@@ -199,8 +191,13 @@ public class HSLColorSpace extends ColorSpace implements NamedColorSpace {
 
         return getClass().getSimpleName().hashCode();
     }
+
     @Override
     public String getName() {
         return "HSL";
+    }
+    
+    private static float clamp(float v, float minv, float maxv) {
+        return max(minv,min(v,maxv));
     }
 }

@@ -36,6 +36,7 @@ public class JColorWheel extends JPanel {
 
         POLAR,
         SQUARE,
+        DISK,
         COMPLEX;
     }
     private Type type = Type.POLAR;
@@ -197,6 +198,9 @@ public class JColorWheel extends JPanel {
             case SQUARE:
                 p = new ColorSquareImageProducer(model.getColorSpace(), w, h, isFlipX, isFlipY);
                 break;
+            case DISK:
+                p = new DiskColorWheelImageProducer(model.getColorSpace(), w, h, isFlipX, isFlipY);
+                break;
             case COMPLEX:
                 p = new ComplexColorWheelImageProducer(model.getColorSpace(), w, h, isFlipX, isFlipY);
                 break;
@@ -253,7 +257,7 @@ public class JColorWheel extends JPanel {
                 wheelInsets.top + h / 2);
     }
 
-    protected int getRadius() {
+    protected float getRadius() {
         return colorWheelProducer.getRadius();
     }
 
