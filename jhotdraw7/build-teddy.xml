@@ -117,7 +117,7 @@
         </signjar>        
     </target>
     <target name="application.run-jar" depends="init">
-        <java fork="true" jar="${distdir}/JHotDraw Teddy.jar">
+        <java fork="true" jar="${distdir}/unsigned/JHotDraw Teddy.jar">
             <jvmarg value="-Xdock:name=JHotDraw Teddy"/>
             <jvmarg value="-Dlocale=en"/>
             <jvmarg value="-Dapple.awt.graphics.UseQuartz=false"/>
@@ -138,6 +138,22 @@
             <jvmarg value="-Djava.library.path=${libdir}"/>
         </java>
     </target>
+    <target name="application.run-compiled CrossPlatform" depends="init">
+        <java fork="true" classname="org.jhotdraw.samples.teddy.Main">
+            <classpath>
+                <path path="${classdir}"/>
+                <fileset dir="${libdir}">
+                    <include name="*.jar"/>
+                </fileset>
+            </classpath>
+            <jvmarg value="-Xdock:name=JHotDraw Teddy"/>
+            <jvmarg value="-Dlocale=en"/>
+            <jvmarg value="-Dapple.awt.graphics.UseQuartz=false"/>
+            <jvmarg value="-Djava.library.path=${libdir}"/>
+            <arg value="-app"/>
+            <arg value="cross"/>
+        </java>
+    </target>
     <target name="application.run-jarsigned" depends="init">
         <java fork="true" jar="${distdir}/JHotDraw Teddy.jar">
             <jvmarg value="-Xdock:name=JHotDraw Teddy"/>
@@ -150,14 +166,14 @@
         <delete file="${distdir}/jhotdraw_teddy.jar" />
         <delete file="${distdir}/jhotdraw_teddy.jar.pack.gz" />
         <delete file="${distdir}/JHotDraw Teddy.jar" />
-        <delete file="${distdir}/libquaqua.jnilib" />
-        <delete file="${distdir}/libquaqua64.jnilib" />
+        <delete file="${distdir}/libquaqua.*lib" />
+        <delete file="${distdir}/libquaqua64.*lib" />
     </target>
     <target name="distsigned" depends="init,application.jarsigned">
         <delete file="${distdir}/jhotdraw_teddy.jar" />
         <delete file="${distdir}/jhotdraw_teddy.jar.pack.gz" />
         <delete file="${distdir}/JHotDraw Teddy.jar" />
-        <delete file="${distdir}/libquaqua.jnilib" />
-        <delete file="${distdir}/libquaqua64.jnilib" />
+        <delete file="${distdir}/libquaqua.*lib" />
+        <delete file="${distdir}/libquaqua64.*lib" />
     </target>
 </project>

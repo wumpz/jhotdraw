@@ -267,17 +267,34 @@ public class ResourceBundleUtil implements Serializable {
     }
 
     /**
-     * Get an image icon from the ResourceBundle.
+     * Get a small image icon from the ResourceBundle for use on a {@code JMenuItem}.
      * <br>Convenience method .
      *
-     * @param key The key of the property. This method appends ".icon" to the key.
+     * @param key The key of the property. 
+     *        This method appends ".smallIcon" to the key.
      * @return The value of the property. Returns null
      *          if the property is missing.
      */
     @Nullable
-    public ImageIcon getIconProperty(String key, Class baseClass) {
+    public ImageIcon getSmallIconProperty(String key, Class baseClass) {
+        return getIconProperty(key,".smallIcon",baseClass);
+    }
+    /**
+     * Get a large image icon from the ResourceBundle for use on a {@code JButton}.
+     * <br>Convenience method .
+     *
+     * @param key The key of the property. 
+     *         This method appends ".largeIcon" to the key.
+     * @return The value of the property. Returns null
+     *          if the property is missing.
+     */
+    @Nullable
+    public ImageIcon getLargeIconProperty(String key, Class baseClass) {
+        return getIconProperty(key,".largeIcon",baseClass);
+    }
+    private ImageIcon getIconProperty(String key, String suffix, Class baseClass) {
         try {
-            String rsrcName = getStringRecursive(key + ".icon");
+            String rsrcName = getStringRecursive(key + suffix);
 
             if ("".equals(rsrcName)) {
                 return null;
@@ -285,12 +302,12 @@ public class ResourceBundleUtil implements Serializable {
 
             URL url = baseClass.getResource(rsrcName);
             if (isVerbose && url == null) {
-                System.err.println("Warning ResourceBundleUtil[" + baseName + "].getIconProperty \"" + key + ".icon\" resource:" + rsrcName + " not found.");
+                System.err.println("Warning ResourceBundleUtil[" + baseName + "].getIconProperty \"" + key + suffix +"\" resource:" + rsrcName + " not found.");
             }
             return (url == null) ? null : new ImageIcon(url);
         } catch (MissingResourceException e) {
             if (isVerbose) {
-                System.err.println("Warning ResourceBundleUtil[" + baseName + "].getIconProperty \"" + key + ".icon\" not found.");
+                System.err.println("Warning ResourceBundleUtil[" + baseName + "].getIconProperty \"" + key + suffix + "\" not found.");
                 //e.printStackTrace();
             }
             return null;
@@ -448,7 +465,8 @@ public class ResourceBundleUtil implements Serializable {
         }
         action.putValue(Action.ACCELERATOR_KEY, getAcceleratorProperty(argument));
         action.putValue(Action.MNEMONIC_KEY, Integer.valueOf(getMnemonicProperty(argument)));
-        action.putValue(Action.SMALL_ICON, getIconProperty(argument, baseClass));
+        action.putValue(Action.SMALL_ICON, getSmallIconProperty(argument, baseClass));
+        action.putValue(Action.LARGE_ICON_KEY, getLargeIconProperty(argument, baseClass));
     }
 
     public void configureButton(AbstractButton button, String argument) {
@@ -459,7 +477,7 @@ public class ResourceBundleUtil implements Serializable {
         button.setText(getTextProperty(argument));
         //button.setACCELERATOR_KEY, getAcceleratorProperty(argument));
         //action.putValue(Action.MNEMONIC_KEY, new Integer(getMnemonicProperty(argument)));
-        button.setIcon(getIconProperty(argument, baseClass));
+        button.setIcon(getLargeIconProperty(argument, baseClass));
         button.setToolTipText(getToolTipTextProperty(argument));
     }
 
@@ -468,9 +486,9 @@ public class ResourceBundleUtil implements Serializable {
     }
 
     public void configureToolBarButton(AbstractButton button, String argument, Class baseClass) {
-        Icon icon = getIconProperty(argument, baseClass);
+        Icon icon = getLargeIconProperty(argument, baseClass);
         if (icon != null) {
-            button.setIcon(getIconProperty(argument, baseClass));
+            button.setIcon(getLargeIconProperty(argument, baseClass));
             button.setText(null);
         } else {
             button.setIcon(null);
@@ -479,13 +497,16 @@ public class ResourceBundleUtil implements Serializable {
         button.setToolTipText(getToolTipTextProperty(argument));
     }
 
+    /** Configures a menu item with a text, an accelerator, a mnemonic and
+     * a menu icon.
+     */
     public void configureMenu(JMenuItem menu, String argument) {
         menu.setText(getTextProperty(argument));
         if (!(menu instanceof JMenu)) {
             menu.setAccelerator(getAcceleratorProperty(argument));
         }
         menu.setMnemonic(getMnemonicProperty(argument));
-        menu.setIcon(getIconProperty(argument, baseClass));
+        menu.setIcon(getLargeIconProperty(argument, baseClass));
     }
 
     public JMenuItem createMenuItem(Action a, String baseName) {

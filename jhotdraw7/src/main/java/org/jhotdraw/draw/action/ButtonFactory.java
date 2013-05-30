@@ -670,7 +670,7 @@ public class ButtonFactory {
         a.putValue(Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.colorChooser"));
         Icon icon = new EditorColorIcon(editor,
                 attributeKey,
-                labels.getIconProperty(labelKey, ButtonFactory.class).getImage(),
+                labels.getLargeIconProperty(labelKey, ButtonFactory.class).getImage(),
                 colorShape);
         popupButton.setIcon(icon);
         popupButton.setDisabledIcon(icon);
@@ -906,7 +906,7 @@ public class ButtonFactory {
         labels.configureToolBarButton(popupButton, labelKey);
         Icon icon = new SelectionColorIcon(editor,
                 attributeKey,
-                labels.getIconProperty(labelKey, ButtonFactory.class).getImage(),
+                labels.getLargeIconProperty(labelKey, ButtonFactory.class).getImage(),
                 colorShape);
         popupButton.setIcon(icon);
         popupButton.setDisabledIcon(icon);
@@ -980,7 +980,7 @@ public class ButtonFactory {
         popupButton.setPopupAlpha(1.0f);// must be set after we set the popup menu
         Icon icon = new SelectionColorIcon(editor,
                 attributeKey,
-                labels.getIconProperty(labelKey, ButtonFactory.class).getImage(),
+                labels.getLargeIconProperty(labelKey, ButtonFactory.class).getImage(),
                 colorShape);
         popupButton.setIcon(icon);
         popupButton.setDisabledIcon(icon);
@@ -1176,7 +1176,7 @@ public class ButtonFactory {
         a.putValue(Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.colorChooser"));
         Icon icon = new DrawingColorIcon(editor,
                 attributeKey,
-                labels.getIconProperty(labelKey, ButtonFactory.class).getImage(),
+                labels.getLargeIconProperty(labelKey, ButtonFactory.class).getImage(),
                 colorShape);
         popupButton.setIcon(icon);
         popupButton.setDisabledIcon(icon);
@@ -1251,7 +1251,7 @@ public class ButtonFactory {
         popupButton.setPopupAlpha(1.0f);// must be set after we set the popup menu
         Icon icon = new DrawingColorIcon(editor,
                 attributeKey,
-                labels.getIconProperty(labelKey, ButtonFactory.class).getImage(),
+                labels.getLargeIconProperty(labelKey, ButtonFactory.class).getImage(),
                 colorShape);
         popupButton.setIcon(icon);
         popupButton.setDisabledIcon(icon);

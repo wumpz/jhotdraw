@@ -49,9 +49,6 @@ import org.jhotdraw.app.action.file.SaveFileAsAction;
  * @version 1.0 2010-11-14 Created.
  */
 public class DefaultMenuBuilder implements MenuBuilder {
-    /** Whether icons in menu items shall be removed. */
-    public boolean suppressIcons;
-
     /** Adds items for the following actions to the menu:
      * <ul>
      * <li>{@link AbstractPreferencesAction}</li>
@@ -342,25 +339,12 @@ public class DefaultMenuBuilder implements MenuBuilder {
         }
     }
 
-    public boolean isSuppressIcons() {
-        return suppressIcons;
-    }
-
-    public void setSuppressIcons(boolean suppressIcons) {
-        this.suppressIcons = suppressIcons;
-    }
-
-
-
     /** Adds an action to a menu. Returns the menu item that was added.
      * This method is invoked for each action that is added to a menu.
      * Override this method to customize the menu item that is being created.
      */
     protected JMenuItem add(JMenu m, Action a) {
         JMenuItem item=m.add(a);
-        if (suppressIcons) {
-            item.setIcon(null);
-        }
         return item;
     }
 }

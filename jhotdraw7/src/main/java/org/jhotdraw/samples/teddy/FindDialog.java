@@ -8,6 +8,8 @@ package org.jhotdraw.samples.teddy;
 
 import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import org.jhotdraw.app.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.samples.teddy.regex.*;
@@ -107,7 +109,6 @@ public class FindDialog extends javax.swing.JDialog {
         replaceScrollPane = new javax.swing.JScrollPane();
         replaceField = new javax.swing.JTextArea();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Find");
 
         findLabel.setText(labels.getString("find.findLabel.text")); // NOI18N
@@ -132,6 +133,7 @@ public class FindDialog extends javax.swing.JDialog {
         });
         buttonPanel.add(replaceButton);
 
+        replaceAndFindButton.setMnemonic(labels.getString("find.replaceAndFind.mnemonic").charAt(0));
         replaceAndFindButton.setText(labels.getString("find.replaceAndFind.text")); // NOI18N
         replaceAndFindButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -140,6 +142,7 @@ public class FindDialog extends javax.swing.JDialog {
         });
         buttonPanel.add(replaceAndFindButton);
 
+        previousButton.setMnemonic(labels.getString("find.previous.mnemonic").charAt(0));
         previousButton.setText(labels.getString("find.previous.text")); // NOI18N
         previousButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -148,6 +151,7 @@ public class FindDialog extends javax.swing.JDialog {
         });
         buttonPanel.add(previousButton);
 
+        nextButton.setMnemonic(labels.getString("find.next.mnemonic").charAt(0));
         nextButton.setText(labels.getString("find.next.text")); // NOI18N
         nextButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -205,7 +209,7 @@ public class FindDialog extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(buttonPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 684, Short.MAX_VALUE))
+                        .addComponent(buttonPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(11, 11, 11)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -213,7 +217,7 @@ public class FindDialog extends javax.swing.JDialog {
                             .addComponent(findLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(optionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+                            .addComponent(optionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(replaceScrollPane)
                             .addComponent(findScrollPane))))
                 .addContainerGap())

@@ -136,6 +136,10 @@ public interface Application {
      * <p>
      * By convention this method is only called after {@link #configure} has
      * been called.
+     * <p>
+     * Typically in this method, the Application sets property name identifier
+     * for application-specific properties in {@code ResourceBundleUtil}.
+     * For example with {@code ResourceBundleUtil.putPropertyNameModifier("os", "mac", "default");}
      */
     public void init();
 
