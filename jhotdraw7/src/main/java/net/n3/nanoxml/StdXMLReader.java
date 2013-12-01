@@ -43,6 +43,7 @@ import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayDeque;
 import java.util.Stack;
 
 
@@ -80,7 +81,7 @@ public class StdXMLReader
    /**
     * The stack of readers.
     */
-   private Stack readers;
+   private ArrayDeque<StackedReader> readers;
 
 
    /**
@@ -117,8 +118,7 @@ public class StdXMLReader
       StdXMLReader r = new StdXMLReader(new FileInputStream(filename));
       r.setSystemID(filename);
 
-      for (int i = 0; i < r.readers.size(); i++) {
-         StackedReader sr = (StackedReader) r.readers.elementAt(i);
+      for (StackedReader sr : r.readers) {
          sr.systemId = r.currentReader.systemId;
       }
 
@@ -160,7 +160,7 @@ public class StdXMLReader
       }
 
       this.currentReader = new StackedReader();
-      this.readers = new Stack();
+      this.readers = new ArrayDeque<StackedReader>();
       Reader reader = this.openStream(publicID, systemIDasURL.toString());
       this.currentReader.lineReader = new LineNumberReader(reader);
       this.currentReader.pbReader
@@ -176,7 +176,7 @@ public class StdXMLReader
    public StdXMLReader(Reader reader)
    {
       this.currentReader = new StackedReader();
-      this.readers = new Stack();
+      this.readers = new ArrayDeque<StackedReader>();
       this.currentReader.lineReader = new LineNumberReader(reader);
       this.currentReader.pbReader
          = new PushbackReader(this.currentReader.lineReader, 2);
@@ -350,7 +350,7 @@ public class StdXMLReader
       StringBuffer charsRead = new StringBuffer();
       Reader reader = this.stream2reader(stream, charsRead);
       this.currentReader = new StackedReader();
-      this.readers = new Stack();
+      this.readers = new ArrayDeque<StackedReader>();
       this.currentReader.lineReader = new LineNumberReader(reader);
       this.currentReader.pbReader
          = new PushbackReader(this.currentReader.lineReader, 2);
@@ -380,12 +380,12 @@ public class StdXMLReader
       int ch = this.currentReader.pbReader.read();
 
       while (ch < 0) {
-         if (this.readers.empty()) {
+         if (this.readers.isEmpty()) {
             throw new IOException("Unexpected EOF");
          }
 
          this.currentReader.pbReader.close();
-         this.currentReader = (StackedReader) this.readers.pop();
+         this.currentReader = this.readers.pop();
          ch = this.currentReader.pbReader.read();
       }
 
@@ -426,12 +426,12 @@ public class StdXMLReader
       int ch = this.currentReader.pbReader.read();
 
       while (ch < 0) {
-         if (this.readers.empty()) {
+         if (this.readers.isEmpty()) {
             return true;
          }
 
          this.currentReader.pbReader.close();
-         this.currentReader = (StackedReader) this.readers.pop();
+         this.currentReader = this.readers.pop();
          ch = this.currentReader.pbReader.read();
       }
 
@@ -555,6 +555,7 @@ public class StdXMLReader
    /**
     * Returns the current "level" of the stream on the stack of streams.
     */
+    @Override
    public int getStreamLevel()
    {
       return this.readers.size();
@@ -564,10 +565,11 @@ public class StdXMLReader
    /**
     * Returns the line number of the data in the current stream.
     */
+    @Override
    public int getLineNr()
    {
       if (this.currentReader.lineReader == null) {
-         StackedReader sr = (StackedReader) this.readers.peek();
+         StackedReader sr = this.readers.peek();
 
          if (sr.lineReader == null) {
             return 0;

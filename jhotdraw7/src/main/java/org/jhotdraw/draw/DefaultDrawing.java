@@ -1,12 +1,9 @@
 /*
  * @(#)DefaultDrawing.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.draw;
 
@@ -18,13 +15,10 @@ import org.jhotdraw.geom.Geom;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
- * A default implementation of {@link Drawing} useful for drawings which
- * contain only a few figures.
- * <p>
- * For larger drawings, {@link QuadTreeDrawing} is recommended.
- * <p>
- * FIXME - Maybe we should rename this class to SimpleDrawing or we should
- * get rid of this class altogether.
+ * A default implementation of {@link Drawing} useful for drawings which contain
+ * only a few figures. <p> For larger drawings, {@link QuadTreeDrawing} is
+ * recommended. <p> FIXME - Maybe we should rename this class to SimpleDrawing
+ * or we should get rid of this class altogether.
  *
  *
  * @author Werner Randelshofer
@@ -33,9 +27,13 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 public class DefaultDrawing
         extends AbstractDrawing {
 
+    private final static long serialVersionUID = 1L;
+    
     private boolean needsSorting = false;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public DefaultDrawing() {
     }
 
@@ -193,8 +191,8 @@ public class DefaultDrawing
     }
 
     /**
-     * Returns an iterator to iterate in
-     * Z-order front to back over the children.
+     * Returns an iterator to iterate in Z-order front to back over the
+     * children.
      */
     @Override
     public java.util.List<Figure> getFiguresFrontToBack() {
@@ -221,7 +219,7 @@ public class DefaultDrawing
     }
 
     @Override
-    protected void setAttributeOnChildren(AttributeKey key, Object newValue) {
+    protected <T> void setAttributeOnChildren(AttributeKey<T> key, T newValue) {
         // empty
     }
 

@@ -1,12 +1,9 @@
 /*
  * @(#)SVGRectRadiusHandle.java
  *
- * Copyright (c) 2006-2008 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 2006-2008 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.figures;
 
@@ -46,12 +43,12 @@ public class SVGRectRadiusHandle extends AbstractHandle {
     public void draw(Graphics2D g) {
         if (getEditor().getTool().supportsHandleInteraction()) {
             drawDiamond(g,
-                    (Color) getEditor().getHandleAttribute(HandleAttributeKeys.ATTRIBUTE_HANDLE_FILL_COLOR),
-                    (Color) getEditor().getHandleAttribute(HandleAttributeKeys.ATTRIBUTE_HANDLE_STROKE_COLOR));
+                    getEditor().getHandleAttribute(HandleAttributeKeys.ATTRIBUTE_HANDLE_FILL_COLOR),
+                    getEditor().getHandleAttribute(HandleAttributeKeys.ATTRIBUTE_HANDLE_STROKE_COLOR));
         } else {
             drawDiamond(g,
-                    (Color) getEditor().getHandleAttribute(HandleAttributeKeys.ATTRIBUTE_HANDLE_FILL_COLOR_DISABLED),
-                    (Color) getEditor().getHandleAttribute(HandleAttributeKeys.ATTRIBUTE_HANDLE_STROKE_COLOR_DISABLED));
+                    getEditor().getHandleAttribute(HandleAttributeKeys.ATTRIBUTE_HANDLE_FILL_COLOR_DISABLED),
+                    getEditor().getHandleAttribute(HandleAttributeKeys.ATTRIBUTE_HANDLE_STROKE_COLOR_DISABLED));
         }
     }
 

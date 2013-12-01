@@ -1,12 +1,9 @@
 /**
  * @(#)AbstractRotateHandle.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
 
@@ -60,12 +57,12 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
     public void draw(Graphics2D g) {
         if (getEditor().getTool().supportsHandleInteraction()) {
             drawCircle(g,
-                    (Color) getEditor().getHandleAttribute(HandleAttributeKeys.ROTATE_HANDLE_FILL_COLOR),
-                    (Color) getEditor().getHandleAttribute(HandleAttributeKeys.ROTATE_HANDLE_STROKE_COLOR));
+                    getEditor().getHandleAttribute(HandleAttributeKeys.ROTATE_HANDLE_FILL_COLOR),
+                    getEditor().getHandleAttribute(HandleAttributeKeys.ROTATE_HANDLE_STROKE_COLOR));
         } else {
             drawCircle(g,
-                    (Color) getEditor().getHandleAttribute(HandleAttributeKeys.ROTATE_HANDLE_FILL_COLOR_DISABLED),
-                    (Color) getEditor().getHandleAttribute(HandleAttributeKeys.ROTATE_HANDLE_STROKE_COLOR_DISABLED));
+                    getEditor().getHandleAttribute(HandleAttributeKeys.ROTATE_HANDLE_FILL_COLOR_DISABLED),
+                    getEditor().getHandleAttribute(HandleAttributeKeys.ROTATE_HANDLE_STROKE_COLOR_DISABLED));
         }
     }
 

@@ -1,12 +1,10 @@
 /*
  * @(#)SVGInputFormat.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  *
  * You may not use, copy or modify this file, except in compliance with the
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.io;
 
@@ -124,7 +122,7 @@ public class SVGInputFormat implements InputFormat {
          * XXX - use a more sophisticated variable here
          */
         public boolean isPreserveAspectRatio = true;
-        private HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey, Object>();
+        private HashMap<AttributeKey<?>, Object> attributes = new HashMap<AttributeKey<?>, Object>();
 
         @Override
         public String toString() {
@@ -475,7 +473,7 @@ public class SVGInputFormat implements InputFormat {
      */
     private Figure readGElement(IXMLElement elem)
             throws IOException {
-        HashMap<AttributeKey, Object> a = new HashMap<AttributeKey, Object>();
+        HashMap<AttributeKey<?>, Object> a = new HashMap<AttributeKey<?>, Object>();
         readCoreAttributes(elem, a);
         readOpacityAttribute(elem, a);
         CompositeFigure g = factory.createG(a);
@@ -502,7 +500,7 @@ public class SVGInputFormat implements InputFormat {
      */
     private Figure readAElement(IXMLElement elem)
             throws IOException {
-        HashMap<AttributeKey, Object> a = new HashMap<AttributeKey, Object>();
+        HashMap<AttributeKey<?>, Object> a = new HashMap<AttributeKey<?>, Object>();
         readCoreAttributes(elem, a);
         CompositeFigure g = factory.createG(a);
 
@@ -627,7 +625,7 @@ public class SVGInputFormat implements InputFormat {
      */
     private Figure readRectElement(IXMLElement elem)
             throws IOException {
-        HashMap<AttributeKey, Object> a = new HashMap<AttributeKey, Object>();
+        HashMap<AttributeKey<?>, Object> a = new HashMap<AttributeKey<?>, Object>();
         readCoreAttributes(elem, a);
         readTransformAttribute(elem, a);
         readOpacityAttribute(elem, a);
@@ -659,7 +657,7 @@ public class SVGInputFormat implements InputFormat {
      */
     private Figure readCircleElement(IXMLElement elem)
             throws IOException {
-        HashMap<AttributeKey, Object> a = new HashMap<AttributeKey, Object>();
+        HashMap<AttributeKey<?>, Object> a = new HashMap<AttributeKey<?>, Object>();
         readCoreAttributes(elem, a);
         readTransformAttribute(elem, a);
         readOpacityAttribute(elem, a);
@@ -679,7 +677,7 @@ public class SVGInputFormat implements InputFormat {
      */
     private Figure readEllipseElement(IXMLElement elem)
             throws IOException {
-        HashMap<AttributeKey, Object> a = new HashMap<AttributeKey, Object>();
+        HashMap<AttributeKey<?>, Object> a = new HashMap<AttributeKey<?>, Object>();
         readCoreAttributes(elem, a);
         readTransformAttribute(elem, a);
         readOpacityAttribute(elem, a);
@@ -700,7 +698,7 @@ public class SVGInputFormat implements InputFormat {
      */
     private Figure readImageElement(IXMLElement elem)
             throws IOException {
-        HashMap<AttributeKey, Object> a = new HashMap<AttributeKey, Object>();
+        HashMap<AttributeKey<?>, Object> a = new HashMap<AttributeKey<?>, Object>();
         readCoreAttributes(elem, a);
         readTransformAttribute(elem, a);
         readOpacityAttribute(elem, a);
@@ -790,7 +788,7 @@ public class SVGInputFormat implements InputFormat {
      */
     private Figure readLineElement(IXMLElement elem)
             throws IOException {
-        HashMap<AttributeKey, Object> a = new HashMap<AttributeKey, Object>();
+        HashMap<AttributeKey<?>, Object> a = new HashMap<AttributeKey<?>, Object>();
         readCoreAttributes(elem, a);
         readTransformAttribute(elem, a);
         readOpacityAttribute(elem, a);
@@ -823,7 +821,7 @@ public class SVGInputFormat implements InputFormat {
      */
     private Figure readPolylineElement(IXMLElement elem)
             throws IOException {
-        HashMap<AttributeKey, Object> a = new HashMap<AttributeKey, Object>();
+        HashMap<AttributeKey<?>, Object> a = new HashMap<AttributeKey<?>, Object>();
         readCoreAttributes(elem, a);
         readTransformAttribute(elem, a);
         readOpacityAttribute(elem, a);
@@ -841,7 +839,7 @@ public class SVGInputFormat implements InputFormat {
      */
     private Figure readPolygonElement(IXMLElement elem)
             throws IOException {
-        HashMap<AttributeKey, Object> a = new HashMap<AttributeKey, Object>();
+        HashMap<AttributeKey<?>, Object> a = new HashMap<AttributeKey<?>, Object>();
         readCoreAttributes(elem, a);
         readTransformAttribute(elem, a);
         readOpacityAttribute(elem, a);
@@ -859,7 +857,7 @@ public class SVGInputFormat implements InputFormat {
      */
     private Figure readPathElement(IXMLElement elem)
             throws IOException {
-        HashMap<AttributeKey, Object> a = new HashMap<AttributeKey, Object>();
+        HashMap<AttributeKey<?>, Object> a = new HashMap<AttributeKey<?>, Object>();
         readCoreAttributes(elem, a);
         readTransformAttribute(elem, a);
         readOpacityAttribute(elem, a);
@@ -877,7 +875,7 @@ public class SVGInputFormat implements InputFormat {
      */
     private Figure readTextElement(IXMLElement elem)
             throws IOException {
-        HashMap<AttributeKey, Object> a = new HashMap<AttributeKey, Object>();
+        HashMap<AttributeKey<?>, Object> a = new HashMap<AttributeKey<?>, Object>();
         readCoreAttributes(elem, a);
         readTransformAttribute(elem, a);
         readOpacityAttribute(elem, a);
@@ -928,7 +926,7 @@ public class SVGInputFormat implements InputFormat {
                     if (node.getName() == null) {
                         doc.insertString(0, toText(elem, node.getContent()), null);
                     } else if ("tspan".equals(node.getName())) {
-                        readTSpanElement((IXMLElement) node, doc);
+                        readTSpanElement(node, doc);
                     } else {
                         if (DEBUG) {
                             System.out.println("SVGInputFormat unsupported text node <" + node.getName() + ">");
@@ -951,7 +949,7 @@ public class SVGInputFormat implements InputFormat {
      */
     private Figure readTextAreaElement(IXMLElement elem)
             throws IOException {
-        HashMap<AttributeKey, Object> a = new HashMap<AttributeKey, Object>();
+        HashMap<AttributeKey<?>, Object> a = new HashMap<AttributeKey<?>, Object>();
         readCoreAttributes(elem, a);
         readTransformAttribute(elem, a);
         readOpacityAttribute(elem, a);
@@ -978,7 +976,7 @@ public class SVGInputFormat implements InputFormat {
                     } else if ("tbreak".equals(node.getName())) {
                         doc.insertString(doc.getLength(), "\n", null);
                     } else if ("tspan".equals(node.getName())) {
-                        readTSpanElement((IXMLElement) node, doc);
+                        readTSpanElement(node, doc);
                     } else {
                         if (DEBUG) {
                             System.out.println("SVGInputFormat unknown  text node " + node.getName());
@@ -1008,7 +1006,7 @@ public class SVGInputFormat implements InputFormat {
             } else {
                 for (IXMLElement node : elem.getChildren()) {
                     if (node.getName() != null && node.getName().equals("tspan")) {
-                        readTSpanElement((IXMLElement) node, doc);
+                        readTSpanElement(node, doc);
                     } else {
                         if (DEBUG) {
                             System.out.println("SVGInputFormat unknown text node " + node.getName());
@@ -1121,9 +1119,9 @@ public class SVGInputFormat implements InputFormat {
     @SuppressWarnings("unchecked")
     private Figure readUseElement(IXMLElement elem)
             throws IOException {
-        HashMap<AttributeKey, Object> a = new HashMap<AttributeKey, Object>();
+        HashMap<AttributeKey<?>, Object> a = new HashMap<AttributeKey<?>, Object>();
         readCoreAttributes(elem, a);
-        HashMap<AttributeKey, Object> a2 = new HashMap<AttributeKey, Object>();
+        HashMap<AttributeKey<?>, Object> a2 = new HashMap<AttributeKey<?>, Object>();
         readTransformAttribute(elem, a);
         readOpacityAttribute(elem, a2);
         readUseShapeAttributes(elem, a2);
@@ -1139,9 +1137,9 @@ public class SVGInputFormat implements InputFormat {
             } else {
                 Figure obj = readElement(refElem);
                 if (obj != null) {
-                    Figure figure = (Figure) obj.clone();
-                    for (Map.Entry<AttributeKey, Object> entry : a2.entrySet()) {
-                        figure.set(entry.getKey(), entry.getValue());
+                    Figure figure = obj.clone();
+                    for (Map.Entry<AttributeKey<?>, Object> entry : a2.entrySet()) {
+                        figure.set((AttributeKey<Object>)entry.getKey(), entry.getValue());
                     }
 
                     AffineTransform tx =
@@ -1873,7 +1871,7 @@ public class SVGInputFormat implements InputFormat {
     /* Reads core attributes as listed in
      * http://www.w3.org/TR/SVGMobile12/feature.html#CoreAttribute
      */
-    private void readCoreAttributes(IXMLElement elem, HashMap<AttributeKey, Object> a)
+    private void readCoreAttributes(IXMLElement elem, HashMap<AttributeKey<?>, Object> a)
             throws IOException {
         // read "id" or "xml:id"
         //identifiedElements.putx(elem.get("id"), elem);
@@ -1901,7 +1899,7 @@ public class SVGInputFormat implements InputFormat {
     /* Reads object/group opacity as described in
      * http://www.w3.org/TR/SVGMobile12/painting.html#groupOpacity
      */
-    private void readOpacityAttribute(IXMLElement elem, Map<AttributeKey, Object> a)
+    private void readOpacityAttribute(IXMLElement elem, Map<AttributeKey<?>, Object> a)
             throws IOException {
         //'opacity'
         //Value:  	<opacity-value> | inherit
@@ -1924,7 +1922,7 @@ public class SVGInputFormat implements InputFormat {
      * http://www.w3.org/TR/SVGMobile12/feature.html#Text
      */
 
-    private void readTextAttributes(IXMLElement elem, Map<AttributeKey, Object> a)
+    private void readTextAttributes(IXMLElement elem, Map<AttributeKey<?>, Object> a)
             throws IOException {
         Object value;
 
@@ -1979,7 +1977,7 @@ public class SVGInputFormat implements InputFormat {
      * http://www.w3.org/TR/SVGMobile12/feature.html#TextFlow
      */
 
-    private void readTextFlowAttributes(IXMLElement elem, HashMap<AttributeKey, Object> a)
+    private void readTextFlowAttributes(IXMLElement elem, HashMap<AttributeKey<?>, Object> a)
             throws IOException {
         Object value;
 
@@ -2002,7 +2000,7 @@ public class SVGInputFormat implements InputFormat {
      * http://www.w3.org/TR/SVGMobile12/coords.html#TransformAttribute
      */
 
-    private void readTransformAttribute(IXMLElement elem, HashMap<AttributeKey, Object> a)
+    private void readTransformAttribute(IXMLElement elem, HashMap<AttributeKey<?>, Object> a)
             throws IOException {
         String value;
         value = readAttribute(elem, "transform", "none");
@@ -2015,7 +2013,7 @@ public class SVGInputFormat implements InputFormat {
 
     private void readSolidColorElement(IXMLElement elem)
             throws IOException {
-        HashMap<AttributeKey, Object> a = new HashMap<AttributeKey, Object>();
+        HashMap<AttributeKey<?>, Object> a = new HashMap<AttributeKey<?>, Object>();
         readCoreAttributes(elem, a);
 
         // 'solid-color'
@@ -2050,7 +2048,7 @@ public class SVGInputFormat implements InputFormat {
 
     /** Reads shape attributes.
      */
-    private void readShapeAttributes(IXMLElement elem, HashMap<AttributeKey, Object> a)
+    private void readShapeAttributes(IXMLElement elem, HashMap<AttributeKey<?>, Object> a)
             throws IOException {
         Object objectValue;
         String value;
@@ -2250,7 +2248,7 @@ public class SVGInputFormat implements InputFormat {
     /* Reads shape attributes for the SVG "use" element.
      */
 
-    private void readUseShapeAttributes(IXMLElement elem, HashMap<AttributeKey, Object> a)
+    private void readUseShapeAttributes(IXMLElement elem, HashMap<AttributeKey<?>, Object> a)
             throws IOException {
         Object objectValue;
         String value;
@@ -2465,7 +2463,7 @@ public class SVGInputFormat implements InputFormat {
 
     /** Reads line and polyline attributes.
      */
-    private void readLineAttributes(IXMLElement elem, HashMap<AttributeKey, Object> a)
+    private void readLineAttributes(IXMLElement elem, HashMap<AttributeKey<?>, Object> a)
             throws IOException {
         Object objectValue;
         String value;
@@ -2665,7 +2663,7 @@ public class SVGInputFormat implements InputFormat {
     /* Reads viewport attributes.
      */
 
-    private void readViewportAttributes(IXMLElement elem, HashMap<AttributeKey, Object> a)
+    private void readViewportAttributes(IXMLElement elem, HashMap<AttributeKey<?>, Object> a)
             throws IOException {
         Object value;
         Double doubleValue;
@@ -2833,7 +2831,7 @@ public class SVGInputFormat implements InputFormat {
      */
     private void readLinearGradientElement(IXMLElement elem)
             throws IOException {
-        HashMap<AttributeKey, Object> a = new HashMap<AttributeKey, Object>();
+        HashMap<AttributeKey<?>, Object> a = new HashMap<AttributeKey<?>, Object>();
         readCoreAttributes(elem, a);
 
         double x1 = toLength(elem, readAttribute(elem, "x1", "0"), 0.01);
@@ -2917,7 +2915,7 @@ public class SVGInputFormat implements InputFormat {
      */
     private void readRadialGradientElement(IXMLElement elem)
             throws IOException {
-        HashMap<AttributeKey, Object> a = new HashMap<AttributeKey, Object>();
+        HashMap<AttributeKey<?>, Object> a = new HashMap<AttributeKey<?>, Object>();
         readCoreAttributes(elem, a);
 
         double cx = toLength(elem, readAttribute(elem, "cx", "0.5"), 0.01);
@@ -2994,7 +2992,7 @@ public class SVGInputFormat implements InputFormat {
      * http://www.w3.org/TR/SVGMobile12/feature.html#Font
      */
 
-    private void readFontAttributes(IXMLElement elem, Map<AttributeKey, Object> a)
+    private void readFontAttributes(IXMLElement elem, Map<AttributeKey<?>, Object> a)
             throws IOException {
         String value;
         double doubleValue;

@@ -1,12 +1,9 @@
 /*
  * @(#)SelectionColorChooserAction.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 
 package org.jhotdraw.draw.action;
@@ -28,6 +25,7 @@ import org.jhotdraw.draw.*;
  * @version $Id$
  */
 public class SelectionColorChooserAction extends EditorColorChooserAction {
+    private final static long serialVersionUID = 1L;
     
     /** Creates a new instance. */
     public SelectionColorChooserAction(DrawingEditor editor, AttributeKey<Color> key) {
@@ -42,10 +40,10 @@ public class SelectionColorChooserAction extends EditorColorChooserAction {
         this(editor, key, name, null);
     }
     public SelectionColorChooserAction(DrawingEditor editor, final AttributeKey<Color> key, @Nullable String name, @Nullable Icon icon) {
-        this(editor, key, name, icon, new HashMap<AttributeKey,Object>());
+        this(editor, key, name, icon, new HashMap<AttributeKey<?>,Object>());
     }
     public SelectionColorChooserAction(DrawingEditor editor, final AttributeKey<Color> key, @Nullable String name, @Nullable Icon icon,
-            @Nullable Map<AttributeKey,Object> fixedAttributes) {
+            @Nullable Map<AttributeKey<?>,Object> fixedAttributes) {
         super(editor, key, name, icon, fixedAttributes);
     }
     

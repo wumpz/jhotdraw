@@ -32,6 +32,7 @@ import org.jhotdraw.gui.plaf.palette.PaletteTextFieldUI;
  * @version $Id$
  */
 public class PaletteRGBChooser extends AbstractColorChooserPanel implements UIResource {
+    private final static long serialVersionUID = 1L;
 
     private ColorSliderModel ccModel = new PaletteColorSliderModel(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_sRGB));
     private int updateRecursion;

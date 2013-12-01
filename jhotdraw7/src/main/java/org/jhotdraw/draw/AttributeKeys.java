@@ -1,12 +1,9 @@
 /*
  * @(#)AttributeKeys.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.draw;
 
@@ -327,13 +324,13 @@ public class AttributeKeys {
     /**
      * A put with all attributes defined by this class.
      */
-    public final static Set<AttributeKey> supportedAttributes;
-    public final static Map<String, AttributeKey> supportedAttributeMap;
+    public final static Set<AttributeKey<?>> supportedAttributes;
+    public final static Map<String, AttributeKey<?>> supportedAttributeMap;
 
 
     static {
-        HashSet<AttributeKey> as = new HashSet<AttributeKey>();
-        as.addAll(Arrays.asList(new AttributeKey[]{
+        HashSet<AttributeKey<?>> as = new HashSet<AttributeKey<?>>();
+        as.addAll(Arrays.asList(new AttributeKey<?>[]{
                     FILL_COLOR,
                     FILL_UNDER_STROKE,
                     STROKE_COLOR,
@@ -363,11 +360,14 @@ public class AttributeKeys {
                     ORIENTATION,
                     WINDING_RULE,}));
         supportedAttributes = Collections.unmodifiableSet(as);
-        HashMap<String, AttributeKey> am = new HashMap<String, AttributeKey>();
-        for (AttributeKey a : as) {
+        HashMap<String, AttributeKey<?>> am = new HashMap<String, AttributeKey<?>>();
+        for (AttributeKey<?> a : as) {
             am.put(a.getKey(), a);
         }
-        supportedAttributeMap = Collections.unmodifiableMap(am);
+        // XXX Redundant cast needed, becaues Collections.unmodifiableMap loses the <?>
+        @SuppressWarnings("cast")
+        Map<String, AttributeKey<?>> sam = (Map<String, AttributeKey<?>>)Collections.unmodifiableMap(am);
+        supportedAttributeMap = sam;
     }
 
     /**

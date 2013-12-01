@@ -1,12 +1,9 @@
 /*
  * @(#)PaletteToolBarBorder.java
  *
- * Copyright (c) 2008 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 2008 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.gui.plaf.palette;
 
@@ -25,6 +22,7 @@ public class PaletteToolBarBorder
         extends AbstractBorder
         implements SwingConstants {
 
+    private final static long serialVersionUID = 1L;
     private final static float[] enabledStops = new float[]{0f, 0.5f, 1f};
     private final static Color[] enabledStopColors = new Color[]{new Color(0xf8f8f8), new Color(0xc8c8c8), new Color(0xf8f8f8)};
     private final static float[] selectedStops = new float[]{0f, 0.1f, 0.9f, 1f};
@@ -190,5 +188,6 @@ public class PaletteToolBarBorder
     }
 
     public static class UIResource extends PaletteToolBarBorder implements javax.swing.plaf.UIResource {
+    private final static long serialVersionUID = 1L;
     }
 }

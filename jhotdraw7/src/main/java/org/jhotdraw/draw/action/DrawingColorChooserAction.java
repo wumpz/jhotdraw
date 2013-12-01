@@ -1,12 +1,9 @@
 /*
  * @(#)DrawingColorChooserAction.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.draw.action;
 
@@ -28,6 +25,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class DrawingColorChooserAction extends EditorColorChooserAction {
+    private final static long serialVersionUID = 1L;
 
     /** Creates a new instance. */
     public DrawingColorChooserAction(DrawingEditor editor, AttributeKey<Color> key) {
@@ -45,11 +43,11 @@ public class DrawingColorChooserAction extends EditorColorChooserAction {
     }
 
     public DrawingColorChooserAction(DrawingEditor editor, final AttributeKey<Color> key, @Nullable String name, @Nullable Icon icon) {
-        this(editor, key, name, icon, new HashMap<AttributeKey, Object>());
+        this(editor, key, name, icon, new HashMap<AttributeKey<?>, Object>());
     }
 
     public DrawingColorChooserAction(DrawingEditor editor, final AttributeKey<Color> key, @Nullable String name, @Nullable Icon icon,
-            Map<AttributeKey, Object> fixedAttributes) {
+            Map<AttributeKey<?>, Object> fixedAttributes) {
         super(editor, key, name, icon, fixedAttributes);
     }
 
@@ -64,7 +62,7 @@ public class DrawingColorChooserAction extends EditorColorChooserAction {
                 ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         Color chosenColor = JColorChooser.showDialog((Component) e.getSource(), labels.getString("attribute.color.text"), initialColor);
         if (chosenColor != null) {
-            HashMap<AttributeKey, Object> attr = new HashMap<AttributeKey, Object>(attributes);
+            HashMap<AttributeKey<?>, Object> attr = new HashMap<AttributeKey<?>, Object>(attributes);
             attr.put(key, chosenColor);
             HashSet<Figure> figures = new HashSet<Figure>();
             figures.add(getView().getDrawing());

@@ -1,12 +1,9 @@
 /**
  * @(#)QuaquaLazyActionMap.java
  *
- * Copyright (c) 2008 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 2008 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 
 package org.jhotdraw.gui.plaf.palette;
@@ -23,6 +20,7 @@ import javax.swing.plaf.*;
  * @version $Id$
  */
 public class PaletteLazyActionMap extends ActionMapUIResource {
+    private final static long serialVersionUID = 1L;
     /**
      * Object to invoke <code>loadActionMap</code> on. This may be
      * a Class object.
@@ -42,7 +40,7 @@ public class PaletteLazyActionMap extends ActionMapUIResource {
      * @param defaultsKey Key to use to defaults table to check for
      *        existing map and what resulting Map will be registered on.
      */
-    static void installLazyActionMap(JComponent c, Class loaderClass,
+    static void installLazyActionMap(JComponent c, Class<?> loaderClass,
                                      String defaultsKey) {
         ActionMap map = (ActionMap)UIManager.get(defaultsKey);
         if (map == null) {
@@ -64,7 +62,7 @@ public class PaletteLazyActionMap extends ActionMapUIResource {
      * @param defaultsKey Key to use to defaults table to check for
      *        existing map and what resulting Map will be registered on.
      */
-    static ActionMap getActionMap(Class loaderClass,
+    static ActionMap getActionMap(Class<?> loaderClass,
                                   String defaultsKey) {
         ActionMap map = (ActionMap)UIManager.get(defaultsKey);
         if (map == null) {
@@ -75,7 +73,7 @@ public class PaletteLazyActionMap extends ActionMapUIResource {
     }
 
 
-    private PaletteLazyActionMap(Class loader) {
+    private PaletteLazyActionMap(Class<?> loader) {
         this.loader = loader;
     }
 
@@ -137,10 +135,10 @@ public class PaletteLazyActionMap extends ActionMapUIResource {
             Object ldr = loader;
 
             loader = null;
-            Class klass = (Class)ldr;
+            Class<?> klass = (Class)ldr;
             try {
                 Method method = klass.getDeclaredMethod("loadActionMap",
-                                      new Class[] { PaletteLazyActionMap.class  });
+                                      new Class<?>[] { PaletteLazyActionMap.class  });
                 method.invoke(klass, new Object[] { this });
             } catch (NoSuchMethodException nsme) {
                 assert false : "LazyActionMap unable to load actions " +

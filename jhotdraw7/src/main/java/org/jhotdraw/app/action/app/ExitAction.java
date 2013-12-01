@@ -1,12 +1,9 @@
 /*
  * @(#)ExitAction.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.app.action.app;
 
@@ -41,6 +38,7 @@ import org.jhotdraw.net.URIUtil;
  * @version $Id$
  */
 public class ExitAction extends AbstractApplicationAction {
+    public final static long serialVersionUID = 1L;
 
     public final static String ID = "application.exit";
     private Component oldFocusOwner;
@@ -267,7 +265,7 @@ public class ExitAction extends AbstractApplicationAction {
 
     protected void saveToFile(final URI uri, @Nullable final URIChooser chooser) {
         final View v = unsavedView;
-        v.execute(new Worker() {
+        v.execute(new Worker<Object>() {
 
             @Override
             protected Object construct() throws IOException {
@@ -304,7 +302,7 @@ public class ExitAction extends AbstractApplicationAction {
 
     protected void saveToFileAndReviewNext(final URI uri, @Nullable final URIChooser chooser) {
         final View v = unsavedView;
-        v.execute(new Worker() {
+        v.execute(new Worker<Object>() {
 
             @Override
             protected Object construct() throws IOException {

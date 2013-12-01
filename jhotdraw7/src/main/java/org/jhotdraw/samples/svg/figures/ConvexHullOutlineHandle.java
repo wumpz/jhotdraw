@@ -1,12 +1,9 @@
 /*
  * @(#)BoundsOutlineHandle.java
  *
- * Copyright (c) 2007-2008 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 2007-2008 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.figures;
 
@@ -159,15 +156,15 @@ public class ConvexHullOutlineHandle extends AbstractHandle {
         Color strokeColor2;
 
         if (getEditor().getTool().supportsHandleInteraction()) {
-            stroke1 = (Stroke) getEditor().getHandleAttribute(stroke1Enabled);
-            strokeColor1 = (Color) getEditor().getHandleAttribute(strokeColor1Enabled);
-            stroke2 = (Stroke) getEditor().getHandleAttribute(stroke2Enabled);
-            strokeColor2 = (Color) getEditor().getHandleAttribute(strokeColor2Enabled);
+            stroke1 = getEditor().getHandleAttribute(stroke1Enabled);
+            strokeColor1 = getEditor().getHandleAttribute(strokeColor1Enabled);
+            stroke2 = getEditor().getHandleAttribute(stroke2Enabled);
+            strokeColor2 = getEditor().getHandleAttribute(strokeColor2Enabled);
         } else {
-            stroke1 = (Stroke) getEditor().getHandleAttribute(stroke1Disabled);
-            strokeColor1 = (Color) getEditor().getHandleAttribute(strokeColor1Disabled);
-            stroke2 = (Stroke) getEditor().getHandleAttribute(stroke2Disabled);
-            strokeColor2 = (Color) getEditor().getHandleAttribute(strokeColor2Disabled);
+            stroke1 = getEditor().getHandleAttribute(stroke1Disabled);
+            strokeColor1 = getEditor().getHandleAttribute(strokeColor1Disabled);
+            stroke2 = getEditor().getHandleAttribute(stroke2Disabled);
+            strokeColor2 = getEditor().getHandleAttribute(strokeColor2Disabled);
         }
         if (stroke1 != null && strokeColor1 != null) {
             g.setStroke(stroke1);

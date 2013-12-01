@@ -1,18 +1,17 @@
 /*
  * @(#)ConvexHull.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  *
  * You may not use, copy or modify this file, except in compliance with the
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.geom;
 
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Shape;
+import java.awt.geom.Path2D;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.util.Arrays;
@@ -48,11 +47,18 @@ public class ConvexHull {
      * @param points
      * @return convex hull of the points as a Polygon2D object.
      */
-    public static Polygon2D.Double getConvexHullPath2D(List<Point2D.Double> points) {
-        Polygon2D.Double convexHull = new Polygon2D.Double();
+    public static Path2D.Double getConvexHullPath2D(List<Point2D.Double> points) {
+        Path2D.Double convexHull = new Path2D.Double();
+        boolean first = true;
         for (Point p : getConvexHull(points.toArray(new Point[points.size()]))) {
-            convexHull.add(p);
+            if (first) {
+                convexHull.moveTo(p.x, p.y);
+                first = false;
+            } else {
+                convexHull.lineTo(p.x, p.y);
+            }
         }
+        convexHull.closePath();
         return convexHull;
     }
 
@@ -62,7 +68,7 @@ public class ConvexHull {
      * @param shape an arbitray shape
      * @return convex hull of the points as a Polygon2D object.
      */
-    public static Polygon2D.Double getConvexHullPath2D(Shape shape) {
+    public static Path2D.Double getConvexHullPath2D(Shape shape) {
         List<Point2D.Double> points = new LinkedList<Point2D.Double>();
         double[] coords = new double[6];
         for (PathIterator i = shape.getPathIterator(null); !i.isDone(); i.next()) {
@@ -85,10 +91,17 @@ public class ConvexHull {
             }
 
         }
-        Polygon2D.Double convexHull = new Polygon2D.Double();
+        Path2D.Double convexHull = new Path2D.Double();
+        boolean first = true;
         for (Point2D.Double p : getConvexHull2D(points.toArray(new Point2D.Double[points.size()]))) {
-            convexHull.add(p);
+            if (first) {
+                convexHull.moveTo(p.x, p.y);
+                first = false;
+            } else {
+                convexHull.lineTo(p.x, p.y);
+            }
         }
+        convexHull.closePath();
         return convexHull;
     }
 
@@ -128,7 +141,7 @@ public class ConvexHull {
         Point[] sorted = points.clone();
         Arrays.sort(sorted, new Comparator<Point>() {
 
-    @Override
+            @Override
             public int compare(Point o1, Point o2) {
                 int v = o1.x - o2.x;
                 return (v == 0) ? o1.y - o2.y : v;
@@ -169,14 +182,14 @@ public class ConvexHull {
 
     /**
      * Returns true, if the three given points make a right turn.
-     * 
+     *
      * @param p1 first point
      * @param p2 second point
      * @param p3 third point
      * @return true if right turn.
      */
     public static boolean isRightTurn(Point p1, Point p2, Point p3) {
-        if (p1.equals(p2)||p2.equals(p3)) {
+        if (p1.equals(p2) || p2.equals(p3)) {
             // no right turn if points are at same location
             return false;
         }
@@ -199,7 +212,8 @@ public class ConvexHull {
         // Sort points from left to right O(n log n)
         Point2D.Double[] sorted = points.clone();
         Arrays.sort(sorted, new Comparator<Point2D.Double>() {
-    @Override
+
+            @Override
             public int compare(Point2D.Double o1, Point2D.Double o2) {
                 double v = o1.x - o2.x;
                 if (v == 0) {
@@ -250,11 +264,11 @@ public class ConvexHull {
      * @return true if right turn.
      */
     public static boolean isRightTurn2D(Point.Double p1, Point.Double p2, Point.Double p3) {
-        if (p1.equals(p2)||p2.equals(p3)) {
+        if (p1.equals(p2) || p2.equals(p3)) {
             // no right turn if points are at same location
             return false;
         }
-        
+
         double val = (p2.x * p3.y + p1.x * p2.y + p3.x * p1.y) - (p2.x * p1.y + p3.x * p2.y + p1.x * p3.y);
         return val > 0;
     }

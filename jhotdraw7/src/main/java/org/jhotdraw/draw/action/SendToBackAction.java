@@ -1,12 +1,9 @@
 /*
  * @(#)SendToBackAction.java
  *
- * Copyright (c) 2003-2008 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 2003-2008 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.draw.action;
 
@@ -22,6 +19,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class SendToBackAction extends AbstractSelectedAction {
+    private final static long serialVersionUID = 1L;
 
     public final static String ID = "edit.sendToBack";
 
@@ -40,6 +38,7 @@ public class SendToBackAction extends AbstractSelectedAction {
         final LinkedList<Figure> figures = new LinkedList<Figure>(view.getSelectedFigures());
         sendToBack(view, figures);
         fireUndoableEditHappened(new AbstractUndoableEdit() {
+    private final static long serialVersionUID = 1L;
 
             @Override
             public String getPresentationName() {
@@ -62,11 +61,9 @@ public class SendToBackAction extends AbstractSelectedAction {
         });
     }
 
-    public static void sendToBack(DrawingView view, Collection figures) {
-        Iterator i = figures.iterator();
+    public static void sendToBack(DrawingView view, Collection<Figure> figures) {
         Drawing drawing = view.getDrawing();
-        while (i.hasNext()) {
-            Figure figure = (Figure) i.next();
+        for (Figure figure : figures) { // XXX Shouldn't the figures be sorted here back to front?
             drawing.sendToBack(figure);
         }
     }

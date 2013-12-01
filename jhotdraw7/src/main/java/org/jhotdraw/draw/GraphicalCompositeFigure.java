@@ -1,12 +1,9 @@
 /*
  * @(#)GraphicalCompositeFigure.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.draw;
 
@@ -52,9 +49,10 @@ import org.jhotdraw.xml.DOMOutput;
  * @version $Id$
  */
 public class GraphicalCompositeFigure extends AbstractCompositeFigure {
+    private final static long serialVersionUID = 1L;
 
-    protected HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey, Object>();
-    private HashSet<AttributeKey> forbiddenAttributes;
+    protected HashMap<AttributeKey<?>, Object> attributes = new HashMap<AttributeKey<?>, Object>();
+    private HashSet<AttributeKey<?>> forbiddenAttributes;
     /**
      * Figure which performs all presentation tasks for this
      * BasicCompositeFigure as CompositeFigures usually don't have
@@ -68,6 +66,7 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
     private PresentationFigureHandler presentationFigureHandler = new PresentationFigureHandler(this);
 
     private static class PresentationFigureHandler extends FigureAdapter implements UndoableEditListener, Serializable {
+    private final static long serialVersionUID = 1L;
 
         private GraphicalCompositeFigure owner;
 
@@ -289,12 +288,12 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
         GraphicalCompositeFigure that = (GraphicalCompositeFigure) super.clone();
         that.presentationFigure = (this.presentationFigure == null)
                 ? null
-                : (Figure) this.presentationFigure.clone();
+                : this.presentationFigure.clone();
         if (that.presentationFigure != null) {
             that.presentationFigure.addFigureListener(that.presentationFigureHandler);
         }
-        that.attributes=(HashMap<AttributeKey, Object>) this.attributes.clone();
-        that.forbiddenAttributes= this.forbiddenAttributes==null?null:(HashSet<AttributeKey>) this.forbiddenAttributes.clone();
+        that.attributes=(HashMap<AttributeKey<?>, Object>) this.attributes.clone();
+        that.forbiddenAttributes= this.forbiddenAttributes==null?null:(HashSet<AttributeKey<?>>) this.forbiddenAttributes.clone();
         return that;
     }
 
@@ -317,14 +316,14 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
             if (getPresentationFigure() != null) {
                 getPresentationFigure().set(key, newValue);
             }
-            T oldValue = (T) key.put(attributes, newValue);
+            T oldValue = key.put(attributes, newValue);
             fireAttributeChanged(key, oldValue, newValue);
         }
     }
 
-    public void setAttributeEnabled(AttributeKey key, boolean b) {
+    public void setAttributeEnabled(AttributeKey<?> key, boolean b) {
         if (forbiddenAttributes == null) {
-            forbiddenAttributes = new HashSet<AttributeKey>();
+            forbiddenAttributes = new HashSet<AttributeKey<?>>();
         }
         if (b) {
             forbiddenAttributes.remove(key);
@@ -352,8 +351,8 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
      */
     @SuppressWarnings("unchecked")
     protected void applyAttributesTo(Figure that) {
-        for (Map.Entry<AttributeKey, Object> entry : attributes.entrySet()) {
-            that.set(entry.getKey(), entry.getValue());
+        for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
+            that.set((AttributeKey<Object>)entry.getKey(), entry.getValue());
         }
     }
 
@@ -361,8 +360,8 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
         Figure prototype = (Figure) out.getPrototype();
 
         boolean isElementOpen = false;
-        for (Map.Entry<AttributeKey, Object> entry : attributes.entrySet()) {
-            AttributeKey key = entry.getKey();
+        for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
+            AttributeKey<?> key = entry.getKey();
             if (forbiddenAttributes == null
                     || !forbiddenAttributes.contains(key)) {
                 @SuppressWarnings("unchecked")
@@ -395,11 +394,11 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
                 in.openElement(i);
                 String name = in.getTagName();
                 Object value = in.readObject();
-                AttributeKey key = getAttributeKey(name);
+                AttributeKey<?> key = getAttributeKey(name);
                 if (key != null && key.isAssignable(value)) {
                     if (forbiddenAttributes == null
                             || !forbiddenAttributes.contains(key)) {
-                        set(key, value);
+                        set((AttributeKey<Object>)key, value);
                     }
                 }
                 in.closeElement();
@@ -420,13 +419,13 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
         writeAttributes(out);
     }
 
-    protected AttributeKey getAttributeKey(String name) {
+    protected AttributeKey<?> getAttributeKey(String name) {
         return AttributeKeys.supportedAttributeMap.get(name);
     }
 
     @Override
-    public Map<AttributeKey, Object> getAttributes() {
-        return new HashMap<AttributeKey, Object>(attributes);
+    public Map<AttributeKey<?>, Object> getAttributes() {
+        return new HashMap<AttributeKey<?>, Object>(attributes);
     }
 
     /**

@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -169,7 +170,7 @@ public class XMLWriter
       } else {
          this.writer.print('<');
          this.writer.print(xml.getFullName());
-         Vector nsprefixes = new Vector();
+         ArrayList<String> nsprefixes = new ArrayList<String>();
 
          if (xml.getNamespace() != null) {
             if (xml.getName().equals(xml.getFullName())) {
@@ -177,16 +178,13 @@ public class XMLWriter
             } else {
                String prefix = xml.getFullName();
                prefix = prefix.substring(0, prefix.indexOf(':'));
-               nsprefixes.addElement(prefix);
+               nsprefixes.add(prefix);
                this.writer.print(" xmlns:" + prefix);
                this.writer.print("=\"" + xml.getNamespace() + "\"");
             }
          }
 
-         Iterator enm = xml.iterateAttributeNames();
-
-         while (enm.hasNext()) {
-            String key = (String) enm.next();
+         for (String key : xml.iterableAttributeNames()) {
             int index = key.indexOf(':');
 
             if (index >= 0) {
@@ -198,16 +196,13 @@ public class XMLWriter
                   if (! nsprefixes.contains(prefix)) {
                      this.writer.print(" xmlns:" + prefix);
                      this.writer.print("=\"" + namespace + '"');
-                     nsprefixes.addElement(prefix);
+                     nsprefixes.add(prefix);
                   }
                }
             }
          }
 
-         enm = xml.iterateAttributeNames();
-
-         while (enm.hasNext()) {
-            String key = (String) enm.next();
+         for (String key : xml.iterableAttributeNames()) {
             String value = xml.getAttribute(key, null);
             this.writer.print(" " + key + "=\"");
             this.writeEncoded(value);
@@ -230,10 +225,7 @@ public class XMLWriter
                writer.println();
             }
 
-            enm = xml.iterateChildren();
-
-            while (enm.hasNext()) {
-               IXMLElement child = (IXMLElement) enm.next();
+            for (IXMLElement child : xml.iterableChildren()) {
                this.write(child, prettyPrint, indent + 4,
                           collapseEmptyElements);
             }

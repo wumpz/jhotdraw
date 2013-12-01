@@ -1,12 +1,9 @@
 /*
  * @(#)AbstractCompositeFigure.java
  *
- * Copyright (c) 2007-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 2007-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.draw;
 
@@ -69,6 +66,7 @@ public abstract class AbstractCompositeFigure
     protected EventHandler eventHandler;
 
     protected class EventHandler extends FigureAdapter implements UndoableEditListener, Serializable {
+    public final static long serialVersionUID = 1L;
 
         @Override
         public void figureRequestRemove(FigureEvent e) {
@@ -351,8 +349,8 @@ public abstract class AbstractCompositeFigure
     }
 
     @Override
-    public Map<AttributeKey, Object> getAttributes() {
-        return new HashMap<AttributeKey, Object>();
+    public Map<AttributeKey<?>, Object> getAttributes() {
+        return new HashMap<AttributeKey<?>, Object>();
     }
 
     @Override
@@ -548,8 +546,9 @@ public abstract class AbstractCompositeFigure
 
     @Override
     public void restoreTransformTo(Object geometry) {
-        LinkedList list = (LinkedList) geometry;
-        Iterator i = list.iterator();
+        @SuppressWarnings("unchecked")
+        LinkedList<Object> list = (LinkedList<Object>) geometry;
+        Iterator<Object> i = list.iterator();
         for (Figure child : getChildren()) {
             child.restoreTransformTo(i.next());
         }
@@ -600,7 +599,7 @@ public abstract class AbstractCompositeFigure
         that.children = new ArrayList<Figure>();
         that.eventHandler = that.createEventHandler();
         for (Figure thisChild : this.children) {
-            Figure thatChild = (Figure) thisChild.clone();
+            Figure thatChild = thisChild.clone();
             that.children.add(thatChild);
             thatChild.addFigureListener(that.eventHandler);
         }

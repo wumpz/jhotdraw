@@ -1,12 +1,9 @@
 /*
  * @(#)QuadTree.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 
 
@@ -28,6 +25,7 @@ import java.util.*;
  * @version $Id$
  */
 public class QuadTree<T> implements Serializable {
+    private final static long serialVersionUID = 1L;
     private HashMap<T,Rectangle2D.Double> outside = new HashMap<T,Rectangle2D.Double>();
     private QuadNode root;
     private int maxCapacity = 32;
@@ -113,6 +111,7 @@ public class QuadTree<T> implements Serializable {
     }
     
     private class QuadNode implements Serializable {
+    private final static long serialVersionUID = 1L;
         private Rectangle2D.Double bounds;
         /**
          * We store an object into this map, if 1) the bounds of the object

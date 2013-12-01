@@ -1,12 +1,10 @@
 /*
  * @(#)AbstractApplicationModel.java
  * 
- * Copyright (c) 2009-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
+ * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
  * 
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.app;
 
@@ -29,7 +27,7 @@ public abstract class AbstractApplicationModel extends AbstractBean
     protected String name;
     protected String version;
     protected String copyright;
-    protected Class viewClass;
+    protected Class<?> viewClass;
     protected String viewClassName;
     protected boolean allowMultipleViewsForURI = true;
     protected boolean openLastURIOnLaunch = false;
@@ -88,13 +86,13 @@ public abstract class AbstractApplicationModel extends AbstractBean
     /**
      * Use this method only, if setViewClassName() does not suit you.
      */
-    public void setViewClass(Class newValue) {
-        Class oldValue = viewClass;
+    public void setViewClass(Class<?> newValue) {
+        Class<?> oldValue = viewClass;
         viewClass = newValue;
         firePropertyChange(VIEW_CLASS_PROPERTY, oldValue, newValue);
     }
 
-    public Class getViewClass() {
+    public Class<?> getViewClass() {
         if (viewClass == null) {
             if (viewClassName != null) {
                 try {

@@ -1,8 +1,7 @@
 /*
  * @(#)JActivityIndicator.java
  * 
- * Copyright (c) 2011 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
+ * Copyright (c) 2011 The authors and contributors of JHotDraw.
  * 
  * You may not use, copy or modify this file, except in compliance with the  
  * license agreement you entered into with the copyright holders. For details
@@ -37,6 +36,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version 1.0 2011-09-08 Created.
  */
 public class JActivityIndicator extends javax.swing.JPanel {
+    private final static long serialVersionUID = 1L;
 
     private ArrayList<ActivityModel> models = new ArrayList<ActivityModel>();
 

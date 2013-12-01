@@ -1,8 +1,8 @@
 /* Werner Randelshofer 2009-06-01
  * Removed finalize method. Added dispose method.
-/* Werner Randelshofer 2006-11-28
+ /* Werner Randelshofer 2006-11-28
  * Added method getDoubleAttribue(String name, Map valueSet, String defaultKey, boolean allowLiterals);
-/* Werner Randelshofer 2006-11-26
+ /* Werner Randelshofer 2006-11-26
  * Added method getAttribute(String name, String namespace, Map valueSet, String defaultKey, boolean allowLiterals);
  */
 /* XMLElement.java                                                 NanoXML/Java
@@ -32,18 +32,15 @@
  *
  *  3. This notice may not be removed or altered from any source distribution.
  */
-
 package net.n3.nanoxml;
-
 
 import java.io.CharArrayWriter;
 import java.io.Serializable;
 import java.util.*;
 
-
 /**
- * XMLElement is an XML element. The standard NanoXML builder generates a
- * tree of such elements.
+ * XMLElement is an XML element. The standard NanoXML builder generates a tree
+ * of such elements.
  *
  * @see net.n3.nanoxml.StdXMLBuilder
  *
@@ -52,81 +49,59 @@ import java.util.*;
  */
 @SuppressWarnings("unchecked")
 public class XMLElement implements IXMLElement, Serializable {
-    
+
     /**
      * Necessary for serialization.
      */
     static final long serialVersionUID = -2383376380548624920L;
-    
-    
     /**
      * No line number defined.
      */
     public static final int NO_LINE = -1;
-    
-    
     /**
      * The parent element.
      */
     private IXMLElement parent;
-    
-    
     /**
      * The attributes of the element.
      */
-    private ArrayList attributes;
-    
-    
+    private ArrayList<XMLAttribute> attributes;
     /**
      * The child iterator.
      */
     private ArrayList<IXMLElement> children;
-    
-    
     /**
      * The name of the element.
      */
     private String name;
-    
-    
     /**
      * The full name of the element.
      */
     private String fullName;
-    
-    
     /**
      * The namespace URI.
      */
     private String namespace;
-    
-    
     /**
      * The content of the element.
      */
     private String content;
-    
-    
     /**
      * The system ID of the source data where this element is located.
      */
     private String systemID;
-    
-    
     /**
      * The line in the source data where this element starts.
      */
     private int lineNr;
-    
-    
+
     /**
      * Creates an empty element to be used for #PCDATA content.
      */
     public XMLElement() {
         this(null, null, null, NO_LINE);
     }
-    
-    
+
     /**
      * Creates an empty element.
      *
@@ -135,48 +110,45 @@ public class XMLElement implements IXMLElement, Serializable {
     public XMLElement(String fullName) {
         this(fullName, null, null, NO_LINE);
     }
-    
-    
+
     /**
      * Creates an empty element.
      *
      * @param fullName the name of the element.
      * @param systemID the system ID of the XML data where the element starts.
-     * @param lineNr   the line in the XML data where the element starts.
+     * @param lineNr the line in the XML data where the element starts.
      */
     public XMLElement(String fullName,
             String systemID,
-            int    lineNr) {
+            int lineNr) {
         this(fullName, null, systemID, lineNr);
     }
-    
-    
+
     /**
      * Creates an empty element.
      *
-     * @param fullName  the full name of the element
+     * @param fullName the full name of the element
      * @param namespace the namespace URI.
      */
     public XMLElement(String fullName,
             String namespace) {
         this(fullName, namespace, null, NO_LINE);
     }
-    
-    
+
     /**
      * Creates an empty element.
      *
-     * @param fullName  the full name of the element
+     * @param fullName the full name of the element
      * @param namespace the namespace URI.
-     * @param systemID  the system ID of the XML data where the element starts.
-     * @param lineNr    the line in the XML data where the element starts.
+     * @param systemID the system ID of the XML data where the element starts.
+     * @param lineNr the line in the XML data where the element starts.
      */
     public XMLElement(String fullName,
             String namespace,
             String systemID,
-            int    lineNr) {
-        this.attributes = new ArrayList();
-        this.children = new ArrayList(8);
+            int lineNr) {
+        this.attributes = new ArrayList<XMLAttribute>();
+        this.children = new ArrayList<IXMLElement>(8);
         this.fullName = fullName;
         if (namespace == null) {
             this.name = fullName;
@@ -194,16 +166,14 @@ public class XMLElement implements IXMLElement, Serializable {
         this.systemID = systemID;
         this.parent = null;
     }
-    
-    
+
     /**
      * Creates an element to be used for #PCDATA content.
      */
     public IXMLElement createPCDataElement() {
         return new XMLElement();
     }
-    
-    
+
     /**
      * Creates an empty element.
      *
@@ -212,67 +182,53 @@ public class XMLElement implements IXMLElement, Serializable {
     public IXMLElement createElement(String fullName) {
         return new XMLElement(fullName);
     }
-    
-    
+
     /**
      * Creates an empty element.
      *
      * @param fullName the name of the element.
      * @param systemID the system ID of the XML data where the element starts.
-     * @param lineNr   the line in the XML data where the element starts.
+     * @param lineNr the line in the XML data where the element starts.
      */
     public IXMLElement createElement(String fullName,
             String systemID,
-            int    lineNr) {
+            int lineNr) {
         return new XMLElement(fullName, systemID, lineNr);
     }
-    
-    
+
     /**
      * Creates an empty element.
      *
-     * @param fullName  the full name of the element
+     * @param fullName the full name of the element
      * @param namespace the namespace URI.
      */
     public IXMLElement createElement(String fullName,
             String namespace) {
         return new XMLElement(fullName, namespace);
     }
-    
-    
+
     /**
      * Creates an empty element.
      *
-     * @param fullName  the full name of the element
+     * @param fullName the full name of the element
      * @param namespace the namespace URI.
-     * @param systemID  the system ID of the XML data where the element starts.
-     * @param lineNr    the line in the XML data where the element starts.
+     * @param systemID the system ID of the XML data where the element starts.
+     * @param lineNr the line in the XML data where the element starts.
      */
     public IXMLElement createElement(String fullName,
             String namespace,
             String systemID,
-            int    lineNr) {
+            int lineNr) {
         return new XMLElement(fullName, namespace, systemID, lineNr);
     }
-    
-    
+
     /**
-     * Cleans up the object when it's destroyed.
-     * /
-    protected void finalize() throws Throwable {
-        this.attributes.clear();
-        this.attributes = null;
-        this.children = null;
-        this.fullName = null;
-        this.name = null;
-        this.namespace = null;
-        this.content = null;
-        this.systemID = null;
-        this.parent = null;
-        super.finalize();
-    }*/
-    
-    
+     * Cleans up the object when it's destroyed. / protected void finalize()
+     * throws Throwable { this.attributes.clear(); this.attributes = null;
+     * this.children = null; this.fullName = null; this.name = null;
+     * this.namespace = null; this.content = null; this.systemID = null;
+     * this.parent = null; super.finalize(); }
+     */
     /**
      * Returns the parent element. This method returns null for the root
      * element.
@@ -280,8 +236,7 @@ public class XMLElement implements IXMLElement, Serializable {
     public IXMLElement getParent() {
         return this.parent;
     }
-    
-    
+
     /**
      * Returns the full name (i.e. the name including an eventual namespace
      * prefix) of the element.
@@ -291,8 +246,7 @@ public class XMLElement implements IXMLElement, Serializable {
     public String getFullName() {
         return this.fullName;
     }
-    
-    
+
     /**
      * Returns the name of the element.
      *
@@ -301,19 +255,17 @@ public class XMLElement implements IXMLElement, Serializable {
     public String getName() {
         return this.name;
     }
-    
-    
+
     /**
      * Returns the namespace of the element.
      *
      * @return the namespace, or null if no namespace is associated with the
-     *         element.
+     * element.
      */
     public String getNamespace() {
         return this.namespace;
     }
-    
-    
+
     /**
      * Sets the full name. This method also sets the short name and clears the
      * namespace URI.
@@ -325,12 +277,11 @@ public class XMLElement implements IXMLElement, Serializable {
         this.fullName = name;
         this.namespace = null;
     }
-    
-    
+
     /**
      * Sets the name.
      *
-     * @param fullName  the non-null full name.
+     * @param fullName the non-null full name.
      * @param namespace the namespace URI, which may be null.
      */
     public void setName(String fullName,
@@ -344,8 +295,7 @@ public class XMLElement implements IXMLElement, Serializable {
         this.fullName = fullName;
         this.namespace = namespace;
     }
-    
-    
+
     /**
      * Adds a child element.
      *
@@ -355,20 +305,19 @@ public class XMLElement implements IXMLElement, Serializable {
         if (child == null) {
             throw new IllegalArgumentException("child must not be null");
         }
-        if ((child.getName() == null) && (! this.children.isEmpty())) {
-            IXMLElement lastChild = (IXMLElement) this.children.get(this.children.size() - 1);
-            
+        if ((child.getName() == null) && (!this.children.isEmpty())) {
+            IXMLElement lastChild = this.children.get(this.children.size() - 1);
+
             if (lastChild.getName() == null) {
                 lastChild.setContent(lastChild.getContent()
-                + child.getContent());
+                        + child.getContent());
                 return;
             }
         }
-        ((XMLElement)child).parent = this;
+        ((XMLElement) child).parent = this;
         this.children.add(child);
     }
-    
-    
+
     /**
      * Inserts a child element.
      *
@@ -376,23 +325,22 @@ public class XMLElement implements IXMLElement, Serializable {
      * @param index where to put the child.
      */
     public void insertChild(IXMLElement child,
-            int         index) {
+            int index) {
         if (child == null) {
             throw new IllegalArgumentException("child must not be null");
         }
-        if ((child.getName() == null) && (! this.children.isEmpty())) {
-            IXMLElement lastChild = (IXMLElement) this.children.get(this.children.size() - 1);
+        if ((child.getName() == null) && (!this.children.isEmpty())) {
+            IXMLElement lastChild = this.children.get(this.children.size() - 1);
             if (lastChild.getName() == null) {
                 lastChild.setContent(lastChild.getContent()
-                + child.getContent());
+                        + child.getContent());
                 return;
             }
         }
         ((XMLElement) child).parent = this;
         this.children.add(index, child);
     }
-    
-    
+
     /**
      * Removes a child element.
      *
@@ -404,48 +352,46 @@ public class XMLElement implements IXMLElement, Serializable {
         }
         this.children.remove(child);
     }
-    
-    
+
     /**
      * Removes the child located at a certain index.
      *
      * @param index the index of the child, where the first child has index 0.
      */
+    @Override
     public void removeChildAtIndex(int index) {
         this.children.remove(index);
     }
-    
-    
+
     /**
      * Returns an enumeration of all child iterator.
      *
      * @return the non-null enumeration
      */
-    public Iterator iterateChildren() {
-        return this.children.iterator();
+    @Override
+    public Iterable<IXMLElement> iterableChildren() {
+        return this.children;
     }
-    
-    
+
     /**
      * Returns whether the element is a leaf element.
      *
      * @return true if the element has no children.
      */
+    @Override
     public boolean isLeaf() {
         return this.children.isEmpty();
     }
-    
-    
+
     /**
      * Returns whether the element has children.
      *
      * @return true if the element has children.
      */
     public boolean hasChildren() {
-        return (! this.children.isEmpty());
+        return (!this.children.isEmpty());
     }
-    
-    
+
     /**
      * Returns the number of children.
      *
@@ -454,18 +400,16 @@ public class XMLElement implements IXMLElement, Serializable {
     public int getChildrenCount() {
         return this.children.size();
     }
-    
-    
+
     /**
      * Returns a vector containing all the child iterator.
      *
      * @return the vector.
      */
-    public ArrayList getChildren() {
+    public ArrayList<IXMLElement> getChildren() {
         return this.children;
     }
-    
-    
+
     /**
      * Returns the child at a specific index.
      *
@@ -473,15 +417,15 @@ public class XMLElement implements IXMLElement, Serializable {
      *
      * @return the non-null child
      *
-     * @throws java.lang.ArrayIndexOutOfBoundsException
-     *		if the index is out of bounds.
+     * @throws java.lang.ArrayIndexOutOfBoundsException if the index is out of
+     * bounds.
      */
+    @Override
     public IXMLElement getChildAtIndex(int index)
-    throws ArrayIndexOutOfBoundsException {
-        return (IXMLElement) this.children.get(index);
+            throws ArrayIndexOutOfBoundsException {
+        return this.children.get(index);
     }
-    
-    
+
     /**
      * Searches a child element.
      *
@@ -489,10 +433,9 @@ public class XMLElement implements IXMLElement, Serializable {
      *
      * @return the child element, or null if no such child was found.
      */
+    @Override
     public IXMLElement getFirstChildNamed(String name) {
-        Iterator enm = this.children.iterator();
-        while (enm.hasNext()) {
-            IXMLElement child = (IXMLElement) enm.next();
+        for (IXMLElement child : children) {
             String childName = child.getFullName();
             if ((childName != null) && childName.equals(name)) {
                 return child;
@@ -500,21 +443,19 @@ public class XMLElement implements IXMLElement, Serializable {
         }
         return null;
     }
-    
-    
+
     /**
      * Searches a child element.
      *
-     * @param name      the name of the child to search for.
+     * @param name the name of the child to search for.
      * @param namespace the namespace, which may be null.
      *
      * @return the child element, or null if no such child was found.
      */
+    @Override
     public IXMLElement getFirstChildNamed(String name,
             String namespace) {
-        Iterator enm = this.children.iterator();
-        while (enm.hasNext()) {
-            IXMLElement child = (IXMLElement) enm.next();
+        for (IXMLElement child : children) {
             String str = child.getName();
             boolean found = (str != null) && (str.equals(name));
             str = child.getNamespace();
@@ -529,8 +470,7 @@ public class XMLElement implements IXMLElement, Serializable {
         }
         return null;
     }
-    
-    
+
     /**
      * Returns a vector of all child iterator named <I>name</I>.
      *
@@ -538,11 +478,10 @@ public class XMLElement implements IXMLElement, Serializable {
      *
      * @return the non-null vector of child iterator.
      */
-    public ArrayList getChildrenNamed(String name) {
-        ArrayList result = new ArrayList(this.children.size());
-        Iterator enm = this.children.iterator();
-        while (enm.hasNext()) {
-            IXMLElement child = (IXMLElement) enm.next();
+    @Override
+    public ArrayList<IXMLElement> getChildrenNamed(String name) {
+        ArrayList<IXMLElement> result = new ArrayList<IXMLElement>(this.children.size());
+        for (IXMLElement child : children) {
             String childName = child.getFullName();
             if ((childName != null) && childName.equals(name)) {
                 result.add(child);
@@ -550,22 +489,19 @@ public class XMLElement implements IXMLElement, Serializable {
         }
         return result;
     }
-    
-    
+
     /**
      * Returns a vector of all child iterator named <I>name</I>.
      *
-     * @param name      the name of the children to search for.
+     * @param name the name of the children to search for.
      * @param namespace the namespace, which may be null.
      *
      * @return the non-null vector of child iterator.
      */
-    public ArrayList getChildrenNamed(String name,
+    public ArrayList<IXMLElement> getChildrenNamed(String name,
             String namespace) {
-        ArrayList result = new ArrayList(this.children.size());
-        Iterator enm = this.children.iterator();
-        while (enm.hasNext()) {
-            IXMLElement child = (IXMLElement) enm.next();
+        ArrayList<IXMLElement> result = new ArrayList<IXMLElement>(children.size());
+        for (IXMLElement child : children) {
             String str = child.getName();
             boolean found = (str != null) && (str.equals(name));
             str = child.getNamespace();
@@ -574,15 +510,14 @@ public class XMLElement implements IXMLElement, Serializable {
             } else {
                 found &= str.equals(namespace);
             }
-            
+
             if (found) {
                 result.add(child);
             }
         }
         return result;
     }
-    
-    
+
     /**
      * Searches an attribute.
      *
@@ -591,17 +526,14 @@ public class XMLElement implements IXMLElement, Serializable {
      * @return the attribute, or null if the attribute does not exist.
      */
     private XMLAttribute findAttribute(String fullName) {
-        Iterator enm = this.attributes.iterator();
-        while (enm.hasNext()) {
-            XMLAttribute attr = (XMLAttribute) enm.next();
+        for (XMLAttribute attr : attributes) {
             if (attr.getFullName().equals(fullName)) {
                 return attr;
             }
         }
         return null;
     }
-    
-    
+
     /**
      * Searches an attribute.
      *
@@ -612,46 +544,44 @@ public class XMLElement implements IXMLElement, Serializable {
      */
     private XMLAttribute findAttribute(String name,
             String namespace) {
-        Iterator enm = this.attributes.iterator();
-        while (enm.hasNext()) {
-            XMLAttribute attr = (XMLAttribute) enm.next();
+        for (XMLAttribute attr : attributes) {
             boolean found = attr.getName().equals(name);
             if (namespace == null) {
                 found &= (attr.getNamespace() == null);
             } else {
                 found &= namespace.equals(attr.getNamespace());
             }
-            
+
             if (found) {
                 return attr;
             }
         }
         return null;
     }
-    
-    
+
     /**
      * Returns the number of attributes.
      */
+    @Override
     public int getAttributeCount() {
         return this.attributes.size();
     }
-    
-    
+
     /**
      * @deprecated As of NanoXML/Java 2.1, replaced by
-     *             {@link #getAttribute(java.lang.String,java.lang.String)}
-     * Returns the value of an attribute.
+     *             {@link #getAttribute(java.lang.String,java.lang.String)} Returns the
+     * value of an attribute.
      *
      * @param name the non-null name of the attribute.
      *
      * @return the value, or null if the attribute does not exist.
      */
+    @Deprecated
+    @Override
     public String getAttribute(String name) {
         return this.getAttribute(name, null);
     }
-    
-    
+
     /**
      * Returns the value of an attribute.
      *
@@ -660,6 +590,7 @@ public class XMLElement implements IXMLElement, Serializable {
      *
      * @return the value, or defaultValue if the attribute does not exist.
      */
+    @Override
     public String getAttribute(String name,
             String defaultValue) {
         XMLAttribute attr = this.findAttribute(name);
@@ -669,8 +600,7 @@ public class XMLElement implements IXMLElement, Serializable {
             return attr.getValue();
         }
     }
-    
-    
+
     /**
      * Returns the value of an attribute.
      *
@@ -690,11 +620,12 @@ public class XMLElement implements IXMLElement, Serializable {
             return attr.getValue();
         }
     }
+
     /**
-     * Returns an attribute of the element.
-     * If the attribute doesn't exist, <code>defaultValue</code> is returned.
+     * Returns an attribute of the element. If the attribute doesn't exist,
+     * <code>defaultValue</code> is returned.
      *
-     * @param name         The name of the attribute.
+     * @param name The name of the attribute.
      * @param namespace the namespace URI, which may be null.
      * @param defaultValue Key to use if the attribute is missing.
      *
@@ -713,7 +644,7 @@ public class XMLElement implements IXMLElement, Serializable {
             }
         }
     }
-    
+
     /**
      * Returns the value of an attribute.
      *
@@ -723,12 +654,11 @@ public class XMLElement implements IXMLElement, Serializable {
      * @return the value, or defaultValue if the attribute does not exist.
      */
     public int getAttribute(String name,
-            int    defaultValue) {
+            int defaultValue) {
         String value = this.getAttribute(name, Integer.toString(defaultValue));
         return Integer.parseInt(value);
     }
-    
-    
+
     /**
      * Returns the value of an attribute.
      *
@@ -740,49 +670,44 @@ public class XMLElement implements IXMLElement, Serializable {
      */
     public int getAttribute(String name,
             String namespace,
-            int    defaultValue) {
+            int defaultValue) {
         String value = this.getAttribute(name, namespace,
                 Integer.toString(defaultValue));
         return Integer.parseInt(value);
     }
+
     /**
-     * Returns an attribute by looking up a key in a hashtable.
-     * If the attribute doesn't exist, the value corresponding to defaultKey
-     * is returned.
-     * <P>
-     * As an example, if valueSet contains the mapping <code>"one" =&gt;
-     * "1"</code>
-     * and the element contains the attribute <code>attr="one"</code>, then
+     * Returns an attribute by looking up a key in a hashtable. If the attribute
+     * doesn't exist, the value corresponding to defaultKey is returned. <P> As
+     * an example, if valueSet contains the mapping
+     * <code>"one" =&gt;
+     * "1"</code> and the element contains the attribute
+     * <code>attr="one"</code>, then
      * <code>getAttribute("attr", mapping, defaultKey, false)</code> returns
      * <code>"1"</code>.
      *
-     * @param name
-     *     The name of the attribute.
+     * @param name The name of the attribute.
      * @param namespace the namespace URI, which may be null.
-     * @param valueSet
-     *     HashMap mapping keySet().iterator to values.
-     * @param defaultKey
-     *     Key to use if the attribute is missing.
+     * @param valueSet HashMap mapping keySet().iterator to values.
+     * @param defaultKey Key to use if the attribute is missing.
      *
-     * </dl><dl><dt><b>Preconditions:</b></dt><dd>
-     * <ul><li><code>name != null</code>
-     *     <li><code>name</code> is a valid XML identifier
-     *     <li><code>valueSet</code> != null
-     *     <li>the keySet().iterator of <code>valueSet</code> are strings
-     * </ul></dd></dl><dl>
+     * </dl><dl><dt><b>Preconditions:</b></dt><dd> <ul><li><code>name != null</code> <li><code>name</code>
+     * is a valid XML identifier <li><code>valueSet</code> != null <li>the
+     * keySet().iterator of
+     * <code>valueSet</code> are strings </ul></dd></dl><dl>
      *
      */
-    public Object getAttribute(String name, String namespace,
-            Map valueSet,
-            String    defaultKey) {
+    @Override
+    public <T> T getAttribute(String name, String namespace,
+            Map<String,T> valueSet,
+            String defaultKey) {
         String key = this.getAttribute(name, namespace, null);
-        if (key == null || ! valueSet.containsKey(key)) {
+        if (key == null || !valueSet.containsKey(key)) {
             return valueSet.get(defaultKey);
         }
         return valueSet.get(key);
     }
-    
-    
+
     /**
      * Returns the type of an attribute.
      *
@@ -790,6 +715,7 @@ public class XMLElement implements IXMLElement, Serializable {
      *
      * @return the type, or null if the attribute does not exist.
      */
+    @Override
     public String getAttributeType(String name) {
         XMLAttribute attr = this.findAttribute(name);
         if (attr == null) {
@@ -798,8 +724,7 @@ public class XMLElement implements IXMLElement, Serializable {
             return attr.getType();
         }
     }
-    
-    
+
     /**
      * Returns the namespace of an attribute.
      *
@@ -815,8 +740,7 @@ public class XMLElement implements IXMLElement, Serializable {
             return attr.getNamespace();
         }
     }
-    
-    
+
     /**
      * Returns the type of an attribute.
      *
@@ -834,8 +758,7 @@ public class XMLElement implements IXMLElement, Serializable {
             return attr.getType();
         }
     }
-    
-    
+
     /**
      * Sets an attribute.
      *
@@ -852,8 +775,7 @@ public class XMLElement implements IXMLElement, Serializable {
             attr.setValue(value);
         }
     }
-    
-    
+
     /**
      * Sets an attribute.
      *
@@ -874,75 +796,72 @@ public class XMLElement implements IXMLElement, Serializable {
             attr.setValue(value);
         }
     }
-    
-    
+
     /**
      * Removes an attribute.
      *
      * @param name the non-null name of the attribute.
      */
+    @Override
     public void removeAttribute(String name) {
-        for (int i = 0; i < this.attributes.size(); i++) {
-            XMLAttribute attr = (XMLAttribute) this.attributes.get(i);
+        for (int i = 0; i < attributes.size(); i++) {
+            XMLAttribute attr = attributes.get(i);
             if (attr.getFullName().equals(name)) {
-                this.attributes.remove(i);
+                attributes.remove(i);
                 return;
             }
         }
     }
-    
-    
+
     /**
      * Removes an attribute.
      *
      * @param name the non-null name of the attribute.
      * @param namespace the namespace URI of the attribute, which may be null.
      */
+    @Override
     public void removeAttribute(String name,
             String namespace) {
-        for (int i = 0; i < this.attributes.size(); i++) {
-            XMLAttribute attr = (XMLAttribute) this.attributes.get(i);
+        for (int i = 0; i < attributes.size(); i++) {
+            XMLAttribute attr = attributes.get(i);
             boolean found = attr.getName().equals(name);
             if (namespace == null) {
                 found &= (attr.getNamespace() == null);
             } else {
                 found &= attr.getNamespace().equals(namespace);
             }
-            
+
             if (found) {
-                this.attributes.remove(i);
+                attributes.remove(i);
                 return;
             }
         }
     }
-    
-    
+
     /**
      * Returns an enumeration of all attribute names.
      *
      * @return the non-null enumeration.
      */
-    public Iterator iterateAttributeNames() {
-        ArrayList result = new ArrayList();
-        Iterator enm = this.attributes.iterator();
-        while (enm.hasNext()) {
-            XMLAttribute attr = (XMLAttribute) enm.next();
+    @Override
+    public Iterable<String> iterableAttributeNames() {
+        ArrayList<String> result = new ArrayList<String>();
+        for (XMLAttribute attr : attributes) {
             result.add(attr.getFullName());
         }
-        return result.iterator();
+        return result;
     }
-    
-    
+
     /**
      * Returns whether an attribute exists.
      *
      * @return true if the attribute exists.
      */
+    @Override
     public boolean hasAttribute(String name) {
         return this.findAttribute(name) != null;
     }
-    
-    
+
     /**
      * Returns whether an attribute exists.
      *
@@ -952,8 +871,7 @@ public class XMLElement implements IXMLElement, Serializable {
             String namespace) {
         return this.findAttribute(name, namespace) != null;
     }
-    
-    
+
     /**
      * Returns all attributes as a Properties object.
      *
@@ -961,15 +879,12 @@ public class XMLElement implements IXMLElement, Serializable {
      */
     public Properties getAttributes() {
         Properties result = new Properties();
-        Iterator enm = this.attributes.iterator();
-        while (enm.hasNext()) {
-            XMLAttribute attr = (XMLAttribute) enm.next();
+        for (XMLAttribute attr : attributes) {
             result.put(attr.getFullName(), attr.getValue());
         }
         return result;
     }
-    
-    
+
     /**
      * Returns all attributes in a specific namespace as a Properties object.
      *
@@ -979,9 +894,7 @@ public class XMLElement implements IXMLElement, Serializable {
      */
     public Properties getAttributesInNamespace(String namespace) {
         Properties result = new Properties();
-        Iterator enm = this.attributes.iterator();
-        while (enm.hasNext()) {
-            XMLAttribute attr = (XMLAttribute) enm.next();
+        for (XMLAttribute attr : attributes) {
             if (namespace == null) {
                 if (attr.getNamespace() == null) {
                     result.put(attr.getName(), attr.getValue());
@@ -994,8 +907,7 @@ public class XMLElement implements IXMLElement, Serializable {
         }
         return result;
     }
-    
-    
+
     /**
      * Returns the system ID of the data where the element started.
      *
@@ -1006,8 +918,7 @@ public class XMLElement implements IXMLElement, Serializable {
     public String getSystemID() {
         return this.systemID;
     }
-    
-    
+
     /**
      * Returns the line number in the data where the element started.
      *
@@ -1019,21 +930,19 @@ public class XMLElement implements IXMLElement, Serializable {
     public int getLineNr() {
         return this.lineNr;
     }
-    
-    
+
     /**
      * Return the #PCDATA content of the element. If the element has a
-     * combination of #PCDATA content and child iterator, the #PCDATA
-     * sections can be retrieved as unnamed child objects. In this case,
-     * this method returns null.
+     * combination of #PCDATA content and child iterator, the #PCDATA sections
+     * can be retrieved as unnamed child objects. In this case, this method
+     * returns null.
      *
      * @return the content.
      */
     public String getContent() {
         return this.content;
     }
-    
-    
+
     /**
      * Sets the #PCDATA content. It is an error to call this method with a
      * non-null value if there are child objects.
@@ -1043,8 +952,7 @@ public class XMLElement implements IXMLElement, Serializable {
     public void setContent(String content) {
         this.content = content;
     }
-    
-    
+
     /**
      * Returns true if the element equals another element.
      *
@@ -1057,35 +965,32 @@ public class XMLElement implements IXMLElement, Serializable {
             return false;
         }
     }
-    
-    
+
     /**
      * Returns true if the element equals another element.
      *
      * @param elt the element to compare to
      */
     public boolean equalsXMLElement(IXMLElement elt) {
-        if (! this.name.equals(elt.getName())) {
+        if (!this.name.equals(elt.getName())) {
             return false;
         }
         if (this.attributes.size() != elt.getAttributeCount()) {
             return false;
         }
-        Iterator enm = this.attributes.iterator();
-        while (enm.hasNext()) {
-            XMLAttribute attr = (XMLAttribute) enm.next();
-            if (! elt.hasAttribute(attr.getName(), attr.getNamespace())) {
+        for (XMLAttribute attr : attributes) {
+            if (!elt.hasAttribute(attr.getName(), attr.getNamespace())) {
                 return false;
             }
             String value = elt.getAttribute(attr.getName(),
                     attr.getNamespace(),
                     null);
-            if (! attr.getValue().equals(value)) {
+            if (!attr.getValue().equals(value)) {
                 return false;
             }
             String type = elt.getAttributeType(attr.getName(),
                     attr.getNamespace());
-            if (! attr.getType().equals(type)) {
+            if (!attr.getType().equals(type)) {
                 return false;
             }
         }
@@ -1095,29 +1000,31 @@ public class XMLElement implements IXMLElement, Serializable {
         for (int i = 0; i < this.children.size(); i++) {
             IXMLElement child1 = this.getChildAtIndex(i);
             IXMLElement child2 = elt.getChildAtIndex(i);
-            
-            if (! child1.equalsXMLElement(child2)) {
+
+            if (!child1.equalsXMLElement(child2)) {
                 return false;
             }
         }
         return true;
     }
-    
+
     // BEGIN PATCH Werner Randelshofer
     public String toString() {
         CharArrayWriter buf = new CharArrayWriter();
-       XMLWriter w = new XMLWriter(buf);
-       try {
-       w.write(this);
-       } catch (java.io.IOException e) {
-           InternalError error = new InternalError("toString failed");
-           error.initCause(e);
-           throw error;
-       }
-       return buf.toString();
+        XMLWriter w = new XMLWriter(buf);
+        try {
+            w.write(this);
+        } catch (java.io.IOException e) {
+            InternalError error = new InternalError("toString failed");
+            error.initCause(e);
+            throw error;
+        }
+        return buf.toString();
     }
 
-    /** Gets rid of the XMLElement and of all its children. */
+    /**
+     * Gets rid of the XMLElement and of all its children.
+     */
     public void dispose() {
         if (children != null) {
             for (IXMLElement c : children) {

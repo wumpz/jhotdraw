@@ -1,12 +1,9 @@
 /*
  * @(#)DefaultAttributeAction.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.draw.action;
 
@@ -28,46 +25,47 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class DefaultAttributeAction extends AbstractSelectedAction {
+    private final static long serialVersionUID = 1L;
 
-    private AttributeKey[] keys;
+    private AttributeKey<?>[] keys;
     @Nullable
-    private Map<AttributeKey, Object> fixedAttributes;
+    private Map<AttributeKey<?>, Object> fixedAttributes;
 
     /** Creates a new instance. */
-    public DefaultAttributeAction(DrawingEditor editor, AttributeKey key) {
+    public DefaultAttributeAction(DrawingEditor editor, AttributeKey<?> key) {
         this(editor, key, null, null);
     }
 
-    public DefaultAttributeAction(DrawingEditor editor, AttributeKey key, @Nullable Map<AttributeKey, Object> fixedAttributes) {
-        this(editor, new AttributeKey[]{key}, null, null, fixedAttributes);
+    public DefaultAttributeAction(DrawingEditor editor, AttributeKey<?> key, @Nullable Map<AttributeKey<?>, Object> fixedAttributes) {
+        this(editor, new AttributeKey<?>[]{key}, null, null, fixedAttributes);
     }
 
-    public DefaultAttributeAction(DrawingEditor editor, AttributeKey[] keys) {
+    public DefaultAttributeAction(DrawingEditor editor, AttributeKey<?>[] keys) {
         this(editor, keys, null, null);
     }
 
     /** Creates a new instance. */
-    public DefaultAttributeAction(DrawingEditor editor, AttributeKey key, @Nullable Icon icon) {
+    public DefaultAttributeAction(DrawingEditor editor, AttributeKey<?> key, @Nullable Icon icon) {
         this(editor, key, null, icon);
     }
 
     /** Creates a new instance. */
-    public DefaultAttributeAction(DrawingEditor editor, AttributeKey key, @Nullable String name) {
+    public DefaultAttributeAction(DrawingEditor editor, AttributeKey<?> key, @Nullable String name) {
         this(editor, key, name, null);
     }
 
-    public DefaultAttributeAction(DrawingEditor editor, AttributeKey key, @Nullable String name, @Nullable Icon icon) {
-        this(editor, new AttributeKey[]{key}, name, icon);
+    public DefaultAttributeAction(DrawingEditor editor, AttributeKey<?> key, @Nullable String name, @Nullable Icon icon) {
+        this(editor, new AttributeKey<?>[]{key}, name, icon);
     }
 
-    public DefaultAttributeAction(DrawingEditor editor, AttributeKey[] keys,
+    public DefaultAttributeAction(DrawingEditor editor, AttributeKey<?>[] keys,
             @Nullable String name, @Nullable Icon icon) {
-        this(editor, keys, name, icon, new HashMap<AttributeKey, Object>());
+        this(editor, keys, name, icon, new HashMap<AttributeKey<?>, Object>());
     }
 
     public DefaultAttributeAction(DrawingEditor editor,
-            AttributeKey[] keys, @Nullable String name, @Nullable Icon icon,
-            @Nullable Map<AttributeKey, Object> fixedAttributes) {
+            AttributeKey<?>[] keys, @Nullable String name, @Nullable Icon icon,
+            @Nullable Map<AttributeKey<?>, Object> fixedAttributes) {
         super(editor);
         this.keys = keys.clone();
         putValue(AbstractAction.NAME, name);
@@ -103,15 +101,13 @@ public class DefaultAttributeAction extends AbstractSelectedAction {
         CompositeEdit edit = new CompositeEdit("attributes");
         fireUndoableEditHappened(edit);
         DrawingEditor editor = getEditor();
-        Iterator i = getView().getSelectedFigures().iterator();
-        while (i.hasNext()) {
-            Figure figure = (Figure) i.next();
+        for (Figure figure :getView().getSelectedFigures()) {
             figure.willChange();
             for (int j = 0; j < keys.length; j++) {
-                figure.set(keys[j], editor.getDefaultAttribute(keys[j]));
+                figure.set((AttributeKey<Object>)keys[j], editor.getDefaultAttribute(keys[j]));
             }
-            for (Map.Entry<AttributeKey, Object> entry : fixedAttributes.entrySet()) {
-                figure.set(entry.getKey(), entry.getValue());
+            for (Map.Entry<AttributeKey<?>, Object> entry : fixedAttributes.entrySet()) {
+                figure.set((AttributeKey<Object>)entry.getKey(), entry.getValue());
 
             }
             figure.changed();

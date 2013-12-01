@@ -1,12 +1,9 @@
 /*
  * @(#)BezierNodeHandle.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
 
@@ -75,11 +72,11 @@ public class BezierNodeHandle extends AbstractHandle {
         Color fillColor;
         Color strokeColor;
         if (getEditor().getTool().supportsHandleInteraction()) {
-            fillColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_NODE_HANDLE_FILL_COLOR);
-            strokeColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_NODE_HANDLE_STROKE_COLOR);
+            fillColor = getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_NODE_HANDLE_FILL_COLOR);
+            strokeColor = getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_NODE_HANDLE_STROKE_COLOR);
         } else {
-            fillColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_NODE_HANDLE_FILL_COLOR_DISABLED);
-            strokeColor = (Color) getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_NODE_HANDLE_STROKE_COLOR_DISABLED);
+            fillColor = getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_NODE_HANDLE_FILL_COLOR_DISABLED);
+            strokeColor = getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_NODE_HANDLE_STROKE_COLOR_DISABLED);
         }
         if (size > index) {
             BezierPath.Node v = f.getNode(index);
@@ -196,6 +193,7 @@ public class BezierNodeHandle extends AbstractHandle {
             fireHandleRequestSecondaryHandles();
         }
         view.getDrawing().fireUndoableEditHappened(new BezierNodeEdit(f, index, oldValue, newValue) {
+    private final static long serialVersionUID = 1L;
             @Override
             public void redo() throws CannotRedoException {
                 super.redo();
@@ -235,6 +233,7 @@ public class BezierNodeHandle extends AbstractHandle {
             f.changed();
             fireHandleRequestRemove(invalidatedArea);
             fireUndoableEditHappened(new AbstractUndoableEdit() {
+    private final static long serialVersionUID = 1L;
                 @Override
                 public String getPresentationName() {
                     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
@@ -346,6 +345,7 @@ public class BezierNodeHandle extends AbstractHandle {
                 f.changed();
                 fireHandleRequestRemove(invalidatedArea);
                 fireUndoableEditHappened(new AbstractUndoableEdit() {
+    private final static long serialVersionUID = 1L;
                     @Override
                     public String getPresentationName() {
                         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");

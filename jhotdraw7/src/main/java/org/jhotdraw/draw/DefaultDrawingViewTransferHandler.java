@@ -1,12 +1,9 @@
 /*
  * @(#)DefaultDrawingViewTransferHandler.java
  *
- * Copyright (c) 2007-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 2007-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.draw;
 
@@ -44,19 +41,23 @@ import org.jhotdraw.util.ReversedList;
  * Default TransferHandler for DrawingView objects.
  *
  * @author Werner Randelshofer
- * @version $Id$
+ * @version $Id: DefaultDrawingViewTransferHandler.java 717 2010-11-21 12:30:57Z
+ * rawcoder $
  */
 public class DefaultDrawingViewTransferHandler extends TransferHandler {
 
+    private final static long serialVersionUID = 1L;
     private final static boolean DEBUG = false;
     /**
-     * We keep the exported figures in this list, so that we don't need to
-     * rely on figure selection, when method exportDone is called.
+     * We keep the exported figures in this list, so that we don't need to rely
+     * on figure selection, when method exportDone is called.
      */
     @Nullable
     private HashSet<Figure> exportedFigures;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public DefaultDrawingViewTransferHandler() {
     }
 
@@ -70,7 +71,10 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
         return importData((JComponent) support.getComponent(), support.getTransferable(), new HashSet<Figure>(), support.getDropLocation() == null ? null : support.getDropLocation().getDropPoint());
     }
 
-    /** Imports data and stores the transferred figures into the supplied transferFigures collection. */
+    /**
+     * Imports data and stores the transferred figures into the supplied
+     * transferFigures collection.
+     */
     @SuppressWarnings("unchecked")
     protected boolean importData(final JComponent comp, Transferable t, final HashSet<Figure> transferFigures, @Nullable final Point dropPoint) {
         if (DEBUG) {
@@ -119,6 +123,8 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                                         transferFigures.addAll(importedFigures);
                                         moveToDropPoint(comp, transferFigures, dropPoint);
                                         drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
+
+                                            private final static long serialVersionUID = 1L;
 
                                             @Override
                                             public String getPresentationName() {
@@ -176,6 +182,8 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                                         transferFigures.addAll(importedFigures);
                                         moveToDropPoint(comp, transferFigures, dropPoint);
                                         drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
+
+                                            private final static long serialVersionUID = 1L;
 
                                             @Override
                                             public String getPresentationName() {
@@ -251,6 +259,8 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                                     moveToDropPoint(comp, transferFigures, dropPoint);
 
                                     drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
+
+                                        private final static long serialVersionUID = 1L;
 
                                         @Override
                                         public String getPresentationName() {
@@ -465,6 +475,8 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                 drawing.removeAll(selectedFigures);
                 drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
 
+                    private final static long serialVersionUID = 1L;
+
                     @Override
                     public String getPresentationName() {
                         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
@@ -606,8 +618,9 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
     }
 
     /**
-     * This is the default drag handler for drag and drop operations that
-     * use the <code>TransferHandler</code>.
+     * This is the default drag handler for drag and drop operations that use
+     * the
+     * <code>TransferHandler</code>.
      */
     private static class DragHandler
             implements DragGestureListener, DragSourceListener {
@@ -699,6 +712,8 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
     }
 
     private static class SwingDragGestureRecognizer extends DragGestureRecognizer {
+
+        private final static long serialVersionUID = 1L;
 
         SwingDragGestureRecognizer(DragGestureListener dgl) {
             super(DragSource.getDefaultDragSource(), null, NONE, dgl);

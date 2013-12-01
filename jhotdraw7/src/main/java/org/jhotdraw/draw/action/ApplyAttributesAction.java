@@ -1,12 +1,9 @@
 /*
  * @(#)ApplyAttributesAction.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.draw.action;
 
@@ -24,9 +21,10 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * @version $Id$
  */
 public class ApplyAttributesAction extends AbstractSelectedAction {
+    private final static long serialVersionUID = 1L;
 
-    private Set<AttributeKey> excludedAttributes = new HashSet<AttributeKey>(
-            Arrays.asList(new AttributeKey[]{TRANSFORM, TEXT}));
+    private Set<AttributeKey<?>> excludedAttributes = new HashSet<AttributeKey<?>>(
+            Arrays.asList(new AttributeKey<?>[]{TRANSFORM, TEXT}));
 
     /** Creates a new instance. */
     public ApplyAttributesAction(DrawingEditor editor) {
@@ -39,8 +37,8 @@ public class ApplyAttributesAction extends AbstractSelectedAction {
     /**
      * Set of attributes that is excluded when applying default attributes.
      */
-    public void setExcludedAttributes(Set<AttributeKey> a) {
-        this.excludedAttributes = a;
+    public void setExcludedAttributes(Set<AttributeKey<?>> a) {
+        this.excludedAttributes = new HashSet<AttributeKey<?>>(a);
     }
 
     @Override
@@ -59,9 +57,9 @@ public class ApplyAttributesAction extends AbstractSelectedAction {
 
         for (Figure figure : view.getSelectedFigures()) {
             figure.willChange();
-            for (Map.Entry<AttributeKey, Object> entry : editor.getDefaultAttributes().entrySet()) {
+            for (Map.Entry<AttributeKey<?>, Object> entry : editor.getDefaultAttributes().entrySet()) {
                 if (!excludedAttributes.contains(entry.getKey())) {
-                    figure.set(entry.getKey(), entry.getValue());
+                    figure.set((AttributeKey<Object>)entry.getKey(), entry.getValue());
                 }
             }
             figure.changed();

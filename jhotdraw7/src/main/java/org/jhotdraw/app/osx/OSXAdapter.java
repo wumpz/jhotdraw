@@ -1,12 +1,10 @@
 /*
  * @(#)OSXAdapter.java
  *
- * Copyright (c) 2009-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
+ * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
  *
  * You may not use, copy or modify this file, except in compliance with the
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  *
  * This class has been derived from class OSXAdapter 2.0 by Apple Inc.
  * http://developer.apple.com/mac/library/samplecode/OSXAdapter/listing3.html
@@ -146,7 +144,7 @@ public class OSXAdapter implements InvocationHandler {
         // If we're setting a handler, enable the About menu item by calling
         // com.apple.eawt.Application reflectively
         try {
-            Method enableAboutMethod = macOSXApplication.getClass().getDeclaredMethod("setEnabledAboutMenu", new Class[]{boolean.class});
+            Method enableAboutMethod = macOSXApplication.getClass().getDeclaredMethod("setEnabledAboutMenu", new Class<?>[]{boolean.class});
             enableAboutMethod.invoke(macOSXApplication, new Object[]{Boolean.valueOf(enableAboutMenu)});
         } catch (Exception ex) {
             System.err.println("OSXAdapter could not access the About Menu");
@@ -168,7 +166,7 @@ public class OSXAdapter implements InvocationHandler {
         // If we're setting a handler, enable the Preferences menu item by calling
         // com.apple.eawt.Application reflectively
         try {
-            Method enablePrefsMethod = macOSXApplication.getClass().getDeclaredMethod("setEnabledPreferencesMenu", new Class[]{boolean.class});
+            Method enablePrefsMethod = macOSXApplication.getClass().getDeclaredMethod("setEnabledPreferencesMenu", new Class<?>[]{boolean.class});
             enablePrefsMethod.invoke(macOSXApplication, new Object[]{Boolean.valueOf(enablePrefsMenu)});
         } catch (Exception ex) {
             System.err.println("OSXAdapter could not access the Preferences Menu");
@@ -238,14 +236,14 @@ public class OSXAdapter implements InvocationHandler {
     @SuppressWarnings("unchecked")
     public static void setHandler(OSXAdapter adapter) {
         try {
-            Class applicationClass = Class.forName("com.apple.eawt.Application");
+            Class<?> applicationClass = Class.forName("com.apple.eawt.Application");
             if (macOSXApplication == null) {
-                macOSXApplication = applicationClass.getConstructor((Class[]) null).newInstance((Object[]) null);
+                macOSXApplication = applicationClass.getConstructor((Class<?>[]) null).newInstance((Object[]) null);
             }
-            Class applicationListenerClass = Class.forName("com.apple.eawt.ApplicationListener");
-            Method addListenerMethod = applicationClass.getDeclaredMethod("addApplicationListener", new Class[]{applicationListenerClass});
+            Class<?> applicationListenerClass = Class.forName("com.apple.eawt.ApplicationListener");
+            Method addListenerMethod = applicationClass.getDeclaredMethod("addApplicationListener", new Class<?>[]{applicationListenerClass});
             // Create a proxy object around this handler that can be reflectively added as an Apple ApplicationListener
-            Object osxAdapterProxy = Proxy.newProxyInstance(OSXAdapter.class.getClassLoader(), new Class[]{applicationListenerClass}, adapter);
+            Object osxAdapterProxy = Proxy.newProxyInstance(OSXAdapter.class.getClassLoader(), new Class<?>[]{applicationListenerClass}, adapter);
             addListenerMethod.invoke(macOSXApplication, new Object[]{osxAdapterProxy});
         } catch (ClassNotFoundException cnfe) {
             System.err.println("This version of Mac OS X does not support the Apple EAWT.  ApplicationEvent handling has been disabled (" + cnfe + ")");
@@ -327,7 +325,7 @@ public class OSXAdapter implements InvocationHandler {
     protected void setApplicationEventHandled(Object event, boolean handled) {
         if (event != null) {
             try {
-                Method setHandledMethod = event.getClass().getDeclaredMethod("setHandled", new Class[]{boolean.class});
+                Method setHandledMethod = event.getClass().getDeclaredMethod("setHandled", new Class<?>[]{boolean.class});
                 // If the target method returns a boolean, use that as a hint
                 setHandledMethod.invoke(event, new Object[]{Boolean.valueOf(handled)});
             } catch (Exception ex) {

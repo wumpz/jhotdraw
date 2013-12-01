@@ -1,12 +1,9 @@
 /*
  * @(#)ODGInputFormat.java
  *
- * Copyright (c) 2007-2008 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 2007-2008 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.samples.odg.io;
 
@@ -28,7 +25,6 @@ import static org.jhotdraw.samples.odg.ODGConstants.*;
 import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
 import org.jhotdraw.samples.odg.figures.*;
 import org.jhotdraw.samples.odg.geom.*;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * ODGInputFormat.
@@ -196,7 +192,7 @@ public class ODGInputFormat implements InputFormat {
         // Search for the first 'office:drawing' element in the XML document
         // in preorder sequence
         IXMLElement drawingElem = document;
-        Stack<Iterator> stack = new Stack<Iterator>();
+        Stack<Iterator<IXMLElement>> stack = new Stack<Iterator<IXMLElement>>();
         LinkedList<IXMLElement> ll = new LinkedList<IXMLElement>();
         ll.add(document);
         stack.push(ll.iterator());
@@ -455,7 +451,7 @@ public class ODGInputFormat implements InputFormat {
     private ODGFigure readCustomShapeElement(IXMLElement elem)
             throws IOException {
         String styleName = elem.getAttribute("style-name", DRAWING_NAMESPACE, null);
-        Map<AttributeKey, Object> a = styles.getAttributes(styleName, "graphic");
+        Map<AttributeKey<?>, Object> a = styles.getAttributes(styleName, "graphic");
 
         Rectangle2D.Double figureBounds = new Rectangle2D.Double(
                 toLength(elem.getAttribute("x", SVG_NAMESPACE, "0"), 1),
@@ -474,7 +470,7 @@ public class ODGInputFormat implements InputFormat {
     @Nullable
     private ODGFigure readEnhancedGeometryElement(
             IXMLElement elem,
-            Map<AttributeKey, Object> a,
+            Map<AttributeKey<?>, Object> a,
             Rectangle2D.Double figureBounds)
             throws IOException {
         /* The <draw:enhanced-geometry> element contains the geometry for a
@@ -551,7 +547,7 @@ public class ODGInputFormat implements InputFormat {
      * Creates a Ellipse figure.
      */
     private ODGFigure createEnhancedGeometryEllipseFigure(
-            Rectangle2D.Double bounds, Map<AttributeKey, Object> a)
+            Rectangle2D.Double bounds, Map<AttributeKey<?>, Object> a)
             throws IOException {
         ODGEllipseFigure figure = new ODGEllipseFigure();
         figure.setBounds(bounds);
@@ -563,7 +559,7 @@ public class ODGInputFormat implements InputFormat {
      * Creates a Rect figure.
      */
     private ODGFigure createEnhancedGeometryRectangleFigure(
-            Rectangle2D.Double bounds, Map<AttributeKey, Object> a)
+            Rectangle2D.Double bounds, Map<AttributeKey<?>, Object> a)
             throws IOException {
         ODGRectFigure figure = new ODGRectFigure();
         figure.setBounds(bounds);
@@ -576,7 +572,7 @@ public class ODGInputFormat implements InputFormat {
      */
     private ODGFigure createLineFigure(
             Point2D.Double p1, Point2D.Double p2,
-            Map<AttributeKey, Object> a)
+            Map<AttributeKey<?>, Object> a)
             throws IOException {
         ODGPathFigure figure = new ODGPathFigure();
         figure.setBounds(p1, p2);
@@ -589,7 +585,7 @@ public class ODGInputFormat implements InputFormat {
      */
     private ODGFigure createPolylineFigure(
             Point2D.Double[] points,
-            Map<AttributeKey, Object> a)
+            Map<AttributeKey<?>, Object> a)
             throws IOException {
         ODGPathFigure figure = new ODGPathFigure();
         ODGBezierFigure bezier = new ODGBezierFigure();
@@ -607,7 +603,7 @@ public class ODGInputFormat implements InputFormat {
      */
     private ODGFigure createPolygonFigure(
             Point2D.Double[] points,
-            Map<AttributeKey, Object> a)
+            Map<AttributeKey<?>, Object> a)
             throws IOException {
         ODGPathFigure figure = new ODGPathFigure();
         ODGBezierFigure bezier = new ODGBezierFigure();
@@ -626,7 +622,7 @@ public class ODGInputFormat implements InputFormat {
      */
     private ODGFigure createPathFigure(
             BezierPath[] paths,
-            Map<AttributeKey, Object> a)
+            Map<AttributeKey<?>, Object> a)
             throws IOException {
         ODGPathFigure figure = new ODGPathFigure();
         figure.removeAllChildren();
@@ -741,7 +737,7 @@ public class ODGInputFormat implements InputFormat {
                 toLength(elem.getAttribute("y2", SVG_NAMESPACE, "0"), 1));
 
         String styleName = elem.getAttribute("style-name", DRAWING_NAMESPACE, null);
-        Map<AttributeKey, Object> a = styles.getAttributes(styleName, "graphic");
+        Map<AttributeKey<?>, Object> a = styles.getAttributes(styleName, "graphic");
 
         ODGFigure f = createLineFigure(p1, p2, a);
 
@@ -758,7 +754,7 @@ public class ODGInputFormat implements InputFormat {
         }
         String styleName = elem.getAttribute("style-name", DRAWING_NAMESPACE, null);
 
-        HashMap<AttributeKey, Object> a = new HashMap<AttributeKey, Object>();
+        HashMap<AttributeKey<?>, Object> a = new HashMap<AttributeKey<?>, Object>();
         a.putAll(styles.getAttributes(styleName, "graphic"));
         readCommonDrawingShapeAttributes(elem, a);
 
@@ -798,7 +794,7 @@ public class ODGInputFormat implements InputFormat {
         }
         String styleName = elem.getAttribute("style-name", DRAWING_NAMESPACE, null);
 
-        HashMap<AttributeKey, Object> a = new HashMap<AttributeKey, Object>();
+        HashMap<AttributeKey<?>, Object> a = new HashMap<AttributeKey<?>, Object>();
         a.putAll(styles.getAttributes(styleName, "graphic"));
         readCommonDrawingShapeAttributes(elem, a);
 
@@ -836,7 +832,7 @@ public class ODGInputFormat implements InputFormat {
         }
         String styleName = elem.getAttribute("style-name", DRAWING_NAMESPACE, null);
 
-        HashMap<AttributeKey, Object> a = new HashMap<AttributeKey, Object>();
+        HashMap<AttributeKey<?>, Object> a = new HashMap<AttributeKey<?>, Object>();
         a.putAll(styles.getAttributes(styleName, "graphic"));
         readCommonDrawingShapeAttributes(elem, a);
 
@@ -1236,7 +1232,7 @@ public class ODGInputFormat implements InputFormat {
         }
     }
 
-    private void readCommonDrawingShapeAttributes(IXMLElement elem, HashMap<AttributeKey, Object> a) throws IOException {
+    private void readCommonDrawingShapeAttributes(IXMLElement elem, HashMap<AttributeKey<?>, Object> a) throws IOException {
         // The attribute draw:name assigns a name to the drawing shape.
         NAME.put(a, elem.getAttribute("name", DRAWING_NAMESPACE, null));
 

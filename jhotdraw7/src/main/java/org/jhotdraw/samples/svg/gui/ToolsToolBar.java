@@ -1,12 +1,9 @@
 /*
  * @(#)DrawToolsPane.java
  *
- * Copyright (c) 2007-2008 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 2007-2008 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.gui;
 
@@ -36,6 +33,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * @version $Id$
  */
 public class ToolsToolBar extends AbstractToolBar {
+    private final static long serialVersionUID = 1L;
 
     /** Creates new instance. */
     public ToolsToolBar() {
@@ -71,7 +69,7 @@ public class ToolsToolBar extends AbstractToolBar {
                     TextAreaCreationTool textAreaTool;
                     SVGCreateFromFileTool imageTool;
 
-                    HashMap<AttributeKey, Object> attributes;
+                    HashMap<AttributeKey<?>, Object> attributes;
                     btn = ButtonFactory.addSelectionToolTo(this, editor,
                             ButtonFactory.createDrawingActions(editor, disposables),
                             createSelectionActions(editor));
@@ -83,7 +81,7 @@ public class ToolsToolBar extends AbstractToolBar {
                     p.add(btn, gbc);
                     labels.configureToolBarButton(btn, "selectionTool");
 
-                    attributes = new HashMap<AttributeKey, Object>();
+                    attributes = new HashMap<AttributeKey<?>, Object>();
                     btn = ButtonFactory.addToolTo(this, editor, creationTool = new CreationTool(new SVGRectFigure(), attributes), "createRectangle", labels);
                     creationTool.setToolDoneAfterCreation(false);
                     btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
@@ -111,7 +109,7 @@ public class ToolsToolBar extends AbstractToolBar {
                     gbc.insets = new Insets(3, 3, 0, 0);
                     p.add(btn, gbc);
 
-                    attributes = new HashMap<AttributeKey, Object>();
+                    attributes = new HashMap<AttributeKey<?>, Object>();
                     attributes.put(AttributeKeys.FILL_COLOR, null);
                     attributes.put(PATH_CLOSED, false);
                     btn = ButtonFactory.addToolTo(this, editor, creationTool = new CreationTool(new SVGPathFigure(), attributes), "createLine", labels);
@@ -132,7 +130,7 @@ public class ToolsToolBar extends AbstractToolBar {
                     gbc.insets = new Insets(0, 3, 0, 0);
                     p.add(btn, gbc);
 
-                    attributes = new HashMap<AttributeKey, Object>();
+                    attributes = new HashMap<AttributeKey<?>, Object>();
                     attributes.put(AttributeKeys.FILL_COLOR, Color.black);
                     attributes.put(AttributeKeys.STROKE_COLOR, null);
                     btn = ButtonFactory.addToolTo(this, editor, textTool = new TextCreationTool(new SVGTextFigure(), attributes), "createText", labels);
@@ -155,7 +153,7 @@ public class ToolsToolBar extends AbstractToolBar {
                     gbc.insets = new Insets(3, 3, 0, 0);
                     p.add(btn, gbc);
 
-                    attributes = new HashMap<AttributeKey, Object>();
+                    attributes = new HashMap<AttributeKey<?>, Object>();
                     attributes.put(AttributeKeys.FILL_COLOR, null);
                     attributes.put(AttributeKeys.STROKE_COLOR, null);
                     btn = ButtonFactory.addToolTo(this, editor, imageTool = new SVGCreateFromFileTool(new SVGImageFigure(), new SVGGroupFigure(), attributes), "createImage", labels);

@@ -1,12 +1,9 @@
 /*
  * @(#)BezierTool.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.draw.tool;
 
@@ -32,13 +29,14 @@ import org.jhotdraw.geom.*;
  * @version $Id$
  */
 public class BezierTool extends AbstractTool {
+    private final static long serialVersionUID = 1L;
 
     /**
      * Set this to true to turn on debugging output on System.out.
      */
     private final static boolean DEBUG = false;
     @Nullable private Boolean finishWhenMouseReleased;
-    @Nullable protected Map<AttributeKey, Object> attributes;
+    @Nullable protected Map<AttributeKey<?>, Object> attributes;
     private boolean isToolDoneAfterCreation;
     /**
      * The prototype for new figures.
@@ -64,11 +62,11 @@ public class BezierTool extends AbstractTool {
     }
 
     /** Creates a new instance. */
-    public BezierTool(BezierFigure prototype, @Nullable Map<AttributeKey, Object> attributes) {
+    public BezierTool(BezierFigure prototype, @Nullable Map<AttributeKey<?>, Object> attributes) {
         this(prototype, attributes, null);
     }
 
-    public BezierTool(BezierFigure prototype, @Nullable Map<AttributeKey, Object> attributes, @Nullable String name) {
+    public BezierTool(BezierFigure prototype, @Nullable Map<AttributeKey<?>, Object> attributes, @Nullable String name) {
         this.prototype = prototype;
         this.attributes = attributes;
         if (name == null) {
@@ -149,11 +147,11 @@ public class BezierTool extends AbstractTool {
 
     @SuppressWarnings("unchecked")
     protected BezierFigure createFigure() {
-        BezierFigure f = (BezierFigure) prototype.clone();
+        BezierFigure f = prototype.clone();
         getEditor().applyDefaultAttributesTo(f);
         if (attributes != null) {
-            for (Map.Entry<AttributeKey, Object> entry : attributes.entrySet()) {
-                f.set(entry.getKey(), entry.getValue());
+            for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
+                f.set((AttributeKey<Object>)entry.getKey(), entry.getValue());
             }
         }
         return f;
@@ -221,6 +219,7 @@ public class BezierTool extends AbstractTool {
         final Drawing addedDrawing = creationView.getDrawing();
         final DrawingView addedView = creationView;
         getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
+    private final static long serialVersionUID = 1L;
 
             @Override
             public String getPresentationName() {

@@ -26,6 +26,7 @@ import javax.swing.JComponent;
  * @version 1.0 2011-07-28 Created.
  */
 public class RemoveAction extends DeleteAction {
+    public final static long serialVersionUID = 1L;
      /** The ID for this action. */
     public final static String ID = "edit.remove";
     

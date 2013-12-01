@@ -1,12 +1,9 @@
  /*
  * @(#)SVGImage.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.figures;
 
@@ -37,6 +34,7 @@ import org.jhotdraw.geom.*;
  * @version $Id$
  */
 public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, ImageHolderFigure {
+    private final static long serialVersionUID = 1L;
 
     /**
      * This rectangle describes the bounds into which we draw the image.
@@ -270,6 +268,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         LinkedList<Action> actions = new LinkedList<Action>();
         if (get(TRANSFORM) != null) {
             actions.add(new AbstractAction(labels.getString("edit.removeTransform.text")) {
+    private final static long serialVersionUID = 1L;
 
                 @Override
                 public void actionPerformed(ActionEvent evt) {
@@ -284,6 +283,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
             if (rectangle.width != bufferedImage.getWidth()
                     || rectangle.height != bufferedImage.getHeight()) {
                 actions.add(new AbstractAction(labels.getString("edit.setToImageSize.text")) {
+    private final static long serialVersionUID = 1L;
 
                     @Override
                     public void actionPerformed(ActionEvent evt) {
@@ -304,6 +304,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
             double figureRatio = rectangle.height / rectangle.width;
             if (Math.abs(imageRatio - figureRatio) > 0.001) {
                 actions.add(new AbstractAction(labels.getString("edit.adjustHeightToImageAspect.text")) {
+    private final static long serialVersionUID = 1L;
 
                     @Override
                     public void actionPerformed(ActionEvent evt) {
@@ -317,6 +318,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
                     }
                 });
                 actions.add(new AbstractAction(labels.getString("edit.adjustWidthToImageAspect.text")) {
+    private final static long serialVersionUID = 1L;
 
                     @Override
                     public void actionPerformed(ActionEvent evt) {

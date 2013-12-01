@@ -1,12 +1,9 @@
 /*
  * @(#)AttributeAction.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.draw.action;
 
@@ -26,32 +23,33 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class AttributeAction extends AbstractSelectedAction {
+    private final static long serialVersionUID = 1L;
 
-    protected Map<AttributeKey, Object> attributes;
+    protected Map<AttributeKey<?>, Object> attributes;
 
     /** Creates a new instance. */
     /** Creates a new instance. */
-    public AttributeAction(DrawingEditor editor, AttributeKey key, Object value) {
+    public <T> AttributeAction(DrawingEditor editor, AttributeKey<T> key, @Nullable T value) {
         this(editor, key, value, null, null);
     }
 
     /** Creates a new instance. */
-    public AttributeAction(DrawingEditor editor, AttributeKey key, Object value, @Nullable Icon icon) {
+    public <T> AttributeAction(DrawingEditor editor, AttributeKey<T> key, @Nullable T value, @Nullable Icon icon) {
         this(editor, key, value, null, icon);
     }
 
     /** Creates a new instance. */
-    public AttributeAction(DrawingEditor editor, AttributeKey key, Object value, @Nullable String name) {
+    public <T> AttributeAction(DrawingEditor editor, AttributeKey<T> key, @Nullable T value, @Nullable String name) {
         this(editor, key, value, name, null);
     }
 
-    public AttributeAction(DrawingEditor editor, AttributeKey key, Object value, @Nullable String name, @Nullable Icon icon) {
+    public <T> AttributeAction(DrawingEditor editor, AttributeKey<T> key, @Nullable T value, @Nullable String name, @Nullable Icon icon) {
         this(editor, key, value, name, icon, null);
     }
 
-    public AttributeAction(DrawingEditor editor, AttributeKey key, Object value, @Nullable String name, @Nullable Icon icon, @Nullable Action compatibleTextAction) {
+    public <T> AttributeAction(DrawingEditor editor, AttributeKey<T> key, @Nullable T value, @Nullable String name, @Nullable Icon icon, @Nullable Action compatibleTextAction) {
         super(editor);
-        this.attributes = new HashMap<AttributeKey, Object>();
+        this.attributes = new HashMap<AttributeKey<?>, Object>();
         attributes.put(key, value);
 
         putValue(AbstractAction.NAME, name);
@@ -60,9 +58,9 @@ public class AttributeAction extends AbstractSelectedAction {
         updateEnabledState();
     }
 
-    public AttributeAction(DrawingEditor editor, @Nullable Map<AttributeKey, Object> attributes, @Nullable String name, @Nullable Icon icon) {
+    public AttributeAction(DrawingEditor editor, @Nullable Map<AttributeKey<?>, Object> attributes, @Nullable String name, @Nullable Icon icon) {
         super(editor);
-        this.attributes = (attributes == null) ? new HashMap<AttributeKey, Object>() : attributes;
+        this.attributes = (attributes == null) ? new HashMap<AttributeKey<?>, Object>() : attributes;
 
         putValue(AbstractAction.NAME, name);
         putValue(AbstractAction.SMALL_ICON, icon);
@@ -82,9 +80,9 @@ public class AttributeAction extends AbstractSelectedAction {
      * @param figures The figures to which the attributes are applied.
      */
     @SuppressWarnings("unchecked")
-    public void applyAttributesTo(final Map<AttributeKey, Object> a, Set<Figure> figures) {
-        for (Map.Entry<AttributeKey, Object> entry : a.entrySet()) {
-            getEditor().setDefaultAttribute(entry.getKey(), entry.getValue());
+    public void applyAttributesTo(final Map<AttributeKey<?>, Object> a, Set<Figure> figures) {
+        for (Map.Entry<AttributeKey<?>, Object> entry : a.entrySet()) {
+            getEditor().setDefaultAttribute((AttributeKey<Object>)entry.getKey(), entry.getValue());
         }
 
         final ArrayList<Figure> selectedFigures = new ArrayList<Figure>(figures);
@@ -92,12 +90,13 @@ public class AttributeAction extends AbstractSelectedAction {
         for (Figure figure : selectedFigures) {
             restoreData.add(figure.getAttributesRestoreData());
             figure.willChange();
-            for (Map.Entry<AttributeKey, Object> entry : a.entrySet()) {
-                figure.set(entry.getKey(), entry.getValue());
+            for (Map.Entry<AttributeKey<?>, Object> entry : a.entrySet()) {
+                figure.set((AttributeKey<Object>)entry.getKey(), entry.getValue());
             }
             figure.changed();
         }
         UndoableEdit edit = new AbstractUndoableEdit() {
+    private final static long serialVersionUID = 1L;
 
             @Override
             public String getPresentationName() {
@@ -129,8 +128,8 @@ public class AttributeAction extends AbstractSelectedAction {
                 for (Figure figure : selectedFigures) {
                     //restoreData.add(figure.getAttributesRestoreData());
                     figure.willChange();
-                    for (Map.Entry<AttributeKey, Object> entry : a.entrySet()) {
-                        figure.set(entry.getKey(), entry.getValue());
+                    for (Map.Entry<AttributeKey<?>, Object> entry : a.entrySet()) {
+                        figure.set((AttributeKey<Object>)entry.getKey(), entry.getValue());
                     }
                     figure.changed();
                 }

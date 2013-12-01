@@ -1,12 +1,9 @@
 /*
  * @(#)CreationTool.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.draw.tool;
 
@@ -56,13 +53,14 @@ import org.jhotdraw.util.*;
  * @version $Id$
  */
 public class CreationTool extends AbstractTool {
+    private final static long serialVersionUID = 1L;
 
     /**
      * Attributes to be applied to the created ConnectionFigure.
      * These attributes override the default attributes of the
      * DrawingEditor.
      */
-    @Nullable protected Map<AttributeKey, Object> prototypeAttributes;
+    @Nullable protected Map<AttributeKey<?>, Object> prototypeAttributes;
     /**
      * A localized name for this tool. The presentationName is displayed by the
      * UndoableEdit.
@@ -97,11 +95,11 @@ public class CreationTool extends AbstractTool {
         this(prototypeClassName, null, null);
     }
 
-    public CreationTool(String prototypeClassName, @Nullable Map<AttributeKey, Object> attributes) {
+    public CreationTool(String prototypeClassName, @Nullable Map<AttributeKey<?>, Object> attributes) {
         this(prototypeClassName, attributes, null);
     }
 
-    public CreationTool(String prototypeClassName, @Nullable Map<AttributeKey, Object> attributes, @Nullable String name) {
+    public CreationTool(String prototypeClassName, @Nullable Map<AttributeKey<?>, Object> attributes, @Nullable String name) {
         try {
             this.prototype = (Figure) Class.forName(prototypeClassName).newInstance();
         } catch (Exception e) {
@@ -139,7 +137,7 @@ public class CreationTool extends AbstractTool {
      * @param attributes The CreationTool applies these attributes to the
      * prototype after having applied the default attributes from the DrawingEditor.
      */
-    public CreationTool(Figure prototype, @Nullable Map<AttributeKey, Object> attributes) {
+    public CreationTool(Figure prototype, @Nullable Map<AttributeKey<?>, Object> attributes) {
         this(prototype, attributes, null);
     }
 
@@ -153,7 +151,8 @@ public class CreationTool extends AbstractTool {
      * @deprecated This constructor might go away, because the name parameter
      * is not used.
      */
-    public CreationTool(Figure prototype, @Nullable Map<AttributeKey, Object> attributes, @Nullable String name) {
+    @Deprecated
+    public CreationTool(Figure prototype, @Nullable Map<AttributeKey<?>, Object> attributes, @Nullable String name) {
         this.prototype = prototype;
         this.prototypeAttributes = attributes;
         if (name == null) {
@@ -239,6 +238,7 @@ public class CreationTool extends AbstractTool {
                 final Figure addedFigure = createdFigure;
                 final Drawing addedDrawing = getDrawing();
                 getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
+    private final static long serialVersionUID = 1L;
 
                     @Override
                     public String getPresentationName() {
@@ -272,11 +272,11 @@ public class CreationTool extends AbstractTool {
 
     @SuppressWarnings("unchecked")
     protected Figure createFigure() {
-        Figure f = (Figure) prototype.clone();
+        Figure f = prototype.clone();
         getEditor().applyDefaultAttributesTo(f);
         if (prototypeAttributes != null) {
-            for (Map.Entry<AttributeKey, Object> entry : prototypeAttributes.entrySet()) {
-                f.set(entry.getKey(), entry.getValue());
+            for (Map.Entry<AttributeKey<?>, Object> entry : prototypeAttributes.entrySet()) {
+                f.set((AttributeKey<Object>)entry.getKey(), entry.getValue());
             }
         }
         return f;

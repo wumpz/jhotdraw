@@ -1,12 +1,9 @@
 /*
  * @(#)TextCreationTool.java
  *
- * Copyright (c) 2009-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 
 
@@ -60,6 +57,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class TextCreationTool extends CreationTool implements ActionListener {
+    private final static long serialVersionUID = 1L;
     @Nullable private FloatingTextField   textField;
     @Nullable private TextHolderFigure  typingTarget;
     
@@ -68,7 +66,7 @@ public class TextCreationTool extends CreationTool implements ActionListener {
         super(prototype);
     }
     /** Creates a new instance. */
-    public TextCreationTool(TextHolderFigure prototype, Map<AttributeKey,Object> attributes) {
+    public TextCreationTool(TextHolderFigure prototype, Map<AttributeKey<?>,Object> attributes) {
         super(prototype, attributes);
     }
     
@@ -139,7 +137,7 @@ public class TextCreationTool extends CreationTool implements ActionListener {
                 typingTarget.setText(newText);
             } else {
                 if (createdFigure != null) {
-                    getDrawing().remove((Figure)getAddedFigure());
+                    getDrawing().remove(getAddedFigure());
                 // XXX - Fire undoable edit here!!
                 } else {
                     typingTarget.setText("");
@@ -147,6 +145,7 @@ public class TextCreationTool extends CreationTool implements ActionListener {
                 }
             }
             UndoableEdit edit = new AbstractUndoableEdit() {
+    private final static long serialVersionUID = 1L;
 
                 @Override
                 public String getPresentationName() {

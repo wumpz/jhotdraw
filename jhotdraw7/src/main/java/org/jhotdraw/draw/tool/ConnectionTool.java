@@ -1,12 +1,9 @@
 /*
  * @(#)ConnectionTool.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.draw.tool;
 
@@ -52,6 +49,7 @@ import java.util.*;
  * @version $Id$
  */
 public class ConnectionTool extends AbstractTool {
+    private final static long serialVersionUID = 1L;
 
     /** FIXME - The ANCHOR_WIDTH value must be retrieved from the DrawingEditor */
     private final static int ANCHOR_WIDTH = 6;
@@ -61,7 +59,7 @@ public class ConnectionTool extends AbstractTool {
      * DrawingEditor.
      */
     @Nullable
-    private Map<AttributeKey, Object> prototypeAttributes;
+    private Map<AttributeKey<?>, Object> prototypeAttributes;
     /**
      * The Connector at the start point of the connection.
      */
@@ -107,11 +105,11 @@ public class ConnectionTool extends AbstractTool {
         this(prototype, null, null);
     }
 
-    public ConnectionTool(ConnectionFigure prototype, @Nullable Map<AttributeKey, Object> attributes) {
+    public ConnectionTool(ConnectionFigure prototype, @Nullable Map<AttributeKey<?>, Object> attributes) {
         this(prototype, attributes, null);
     }
 
-    public ConnectionTool(ConnectionFigure prototype, @Nullable Map<AttributeKey, Object> attributes, @Nullable String presentationName) {
+    public ConnectionTool(ConnectionFigure prototype, @Nullable Map<AttributeKey<?>, Object> attributes, @Nullable String presentationName) {
         this.prototype = prototype;
         this.prototypeAttributes = attributes;
         if (presentationName == null) {
@@ -125,7 +123,7 @@ public class ConnectionTool extends AbstractTool {
         this(prototypeClassName, null, null);
     }
 
-    public ConnectionTool(String prototypeClassName, @Nullable Map<AttributeKey, Object> attributes, @Nullable String presentationName) {
+    public ConnectionTool(String prototypeClassName, @Nullable Map<AttributeKey<?>, Object> attributes, @Nullable String presentationName) {
         try {
             this.prototype = (ConnectionFigure) Class.forName(prototypeClassName).newInstance();
         } catch (Exception e) {
@@ -291,6 +289,7 @@ public class ConnectionTool extends AbstractTool {
             final Figure addedFigure = createdFigure;
             final Drawing addedDrawing = getDrawing();
             getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
+    private final static long serialVersionUID = 1L;
 
                 @Override
                 public String getPresentationName() {
@@ -354,8 +353,8 @@ public class ConnectionTool extends AbstractTool {
         ConnectionFigure f = (ConnectionFigure) prototype.clone();
         getEditor().applyDefaultAttributesTo(f);
         if (prototypeAttributes != null) {
-            for (Map.Entry<AttributeKey, Object> entry : prototypeAttributes.entrySet()) {
-                f.set(entry.getKey(), entry.getValue());
+            for (Map.Entry<AttributeKey<?>, Object> entry : prototypeAttributes.entrySet()) {
+                f.set((AttributeKey<Object>)entry.getKey(), entry.getValue());
             }
         }
         return f;

@@ -1,12 +1,9 @@
 /*
  * @(#)MoveHandle.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
 
@@ -60,12 +57,12 @@ public class MoveHandle extends LocatorHandle {
     public void draw(Graphics2D g) {
         if (getOwner().isTransformable()) {
             drawRectangle(g,
-                    (Color) getEditor().getHandleAttribute(HandleAttributeKeys.MOVE_HANDLE_FILL_COLOR),
-                    (Color) getEditor().getHandleAttribute(HandleAttributeKeys.MOVE_HANDLE_STROKE_COLOR));
+                    getEditor().getHandleAttribute(HandleAttributeKeys.MOVE_HANDLE_FILL_COLOR),
+                    getEditor().getHandleAttribute(HandleAttributeKeys.MOVE_HANDLE_STROKE_COLOR));
         } else {
             drawRectangle(g,
-                    (Color) getEditor().getHandleAttribute(HandleAttributeKeys.NULL_HANDLE_FILL_COLOR),
-                    (Color) getEditor().getHandleAttribute(HandleAttributeKeys.NULL_HANDLE_STROKE_COLOR));
+                    getEditor().getHandleAttribute(HandleAttributeKeys.NULL_HANDLE_FILL_COLOR),
+                    getEditor().getHandleAttribute(HandleAttributeKeys.NULL_HANDLE_STROKE_COLOR));
         }
     }
 

@@ -1,12 +1,10 @@
 /*
  * @(#)PaletteColorChooserUI.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  *
  * You may not use, copy or modify this file, except in compliance with the
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 
 package org.jhotdraw.gui.plaf.palette;
@@ -57,7 +55,7 @@ public class PaletteColorChooserUI extends ColorChooserUI {
         chooser.setChooserPanels(defaultChoosers);
         
         installPreviewPanel();
-                AbstractColorChooserPanel[] newPanels = (AbstractColorChooserPanel[]) chooser.getChooserPanels();
+                AbstractColorChooserPanel[] newPanels = chooser.getChooserPanels();
                 updateColorChooserPanels(oldPanels, newPanels);
         
         // Note: install listeners only after we have fully installed
@@ -94,7 +92,7 @@ public class PaletteColorChooserUI extends ColorChooserUI {
             }
         }
         //AbstractColorChooserPanel[] panels = new AbstractColorChooserPanel[defaultChoosers.length];
-        return (AbstractColorChooserPanel[]) panels.toArray(new AbstractColorChooserPanel[panels.size()]);
+        return panels.toArray(new AbstractColorChooserPanel[panels.size()]);
     }
     
     
@@ -279,6 +277,7 @@ public class PaletteColorChooserUI extends ColorChooserUI {
         }
     }
     static class ColorTransferHandler extends TransferHandler implements UIResource {
+    private final static long serialVersionUID = 1L;
 
         ColorTransferHandler() {
             super("color");

@@ -42,7 +42,8 @@ import java.io.PrintWriter;
 public class XMLException
    extends Exception
 {
-
+    public final static long serialVersionUID = 1L;
+    
    /**
     * The message of the exception.
     */

@@ -1,12 +1,9 @@
 /*
  * @(#)SVGTextArea.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.figures;
 
@@ -37,6 +34,7 @@ import org.jhotdraw.geom.*;
  */
 public class SVGTextAreaFigure extends SVGAttributedFigure
         implements SVGFigure, TextHolderFigure {
+    private final static long serialVersionUID = 1L;
 
     private Rectangle2D.Double bounds = new Rectangle2D.Double();
     private boolean editable = true;
@@ -199,7 +197,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
         int[] tabLocations = new int[tabCount + 1];
 
         int i = 0;
-        for (char c = styledText.first(); c != styledText.DONE; c = styledText.next()) {
+        for (char c = styledText.first(); c != CharacterIterator.DONE; c = styledText.next()) {
             if (c == '\t') {
                 tabLocations[i++] = styledText.getIndex();
             }
@@ -371,7 +369,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
 
     @Override
     public String getText() {
-        return (String) get(TEXT);
+        return get(TEXT);
     }
 
     @Override

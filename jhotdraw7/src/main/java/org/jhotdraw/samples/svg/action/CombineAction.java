@@ -1,12 +1,9 @@
 /*
  * @(#)CombinePathsAction.java
  *
- * Copyright (c) 2006-2008 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 2006-2008 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.action;
 
@@ -28,6 +25,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * @version $Id$
  */
 public class CombineAction extends AbstractSelectedAction {
+    private final static long serialVersionUID = 1L;
 
     public final static String ID = "edit.combinePaths";
     private CompositeFigure prototype;
@@ -117,6 +115,7 @@ public class CombineAction extends AbstractSelectedAction {
             final CompositeFigure group = (CompositeFigure) prototype.clone();
             combinePaths(view, group, ungroupedPaths, ungroupedPathsIndices[0]);
             UndoableEdit edit = new AbstractUndoableEdit() {
+    private final static long serialVersionUID = 1L;
 
                 @Override
                 public String getPresentationName() {
@@ -157,8 +156,8 @@ public class CombineAction extends AbstractSelectedAction {
             int index = drawing.indexOf(group);
             for (Figure f : group.getChildren()) {
                 SVGPathFigure path = new SVGPathFigure(true);
-                for (Map.Entry<AttributeKey, Object> entry : group.getAttributes().entrySet()) {
-                    path.set(entry.getKey(), entry.getValue());
+                for (Map.Entry<AttributeKey<?>, Object> entry : group.getAttributes().entrySet()) {
+                    path.set((AttributeKey<Object>)entry.getKey(), entry.getValue());
                 }
                 ungroupedPaths.add(path);
                 ungroupedPathsIndices[i] = index + i;
@@ -167,6 +166,7 @@ public class CombineAction extends AbstractSelectedAction {
             }
             splitPath(view, group, ungroupedPaths, ungroupedPathsIndices, ungroupedPathsChildCounts);
             UndoableEdit edit = new AbstractUndoableEdit() {
+    private final static long serialVersionUID = 1L;
 
                 @Override
                 public String getPresentationName() {
@@ -228,8 +228,8 @@ public class CombineAction extends AbstractSelectedAction {
                 break;
             }
         }
-        for (Map.Entry<AttributeKey, Object> entry : figures.iterator().next().getAttributes().entrySet()) {
-            group.set(entry.getKey(), entry.getValue());
+        for (Map.Entry<AttributeKey<?>, Object> entry : figures.iterator().next().getAttributes().entrySet()) {
+            group.set((AttributeKey<Object>)entry.getKey(), entry.getValue());
         }
 
         // In case all figures have the same transforms, we set it here.

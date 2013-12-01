@@ -1,15 +1,13 @@
 /*
  * @(#)DefaultDrawingEditor.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.draw;
 
+import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.app.action.edit.PasteAction;
 import org.jhotdraw.app.action.edit.CutAction;
 import org.jhotdraw.app.action.edit.DeleteAction;
@@ -41,9 +39,10 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * @version $Id$
  */
 public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor {
-
-    private HashMap<AttributeKey, Object> defaultAttributes = new HashMap<AttributeKey, Object>();
-    private HashMap<AttributeKey, Object> handleAttributes = new HashMap<AttributeKey, Object>();
+    private final static long serialVersionUID = 1L;
+    
+    private HashMap<AttributeKey<?>, Object> defaultAttributes = new HashMap<AttributeKey<?>, Object>();
+    private HashMap<AttributeKey<?>, Object> handleAttributes = new HashMap<AttributeKey<?>, Object>();
     private Tool tool;
     private HashSet<DrawingView> views;
     private DrawingView activeView;
@@ -89,7 +88,7 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
 
     @Override
         public void focusGained(FocusEvent e) {
-            setActiveView((DrawingView) findView((Container) e.getSource()));
+            setActiveView(findView((Container) e.getSource()));
         }
 
     @Override
@@ -176,8 +175,8 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
     @SuppressWarnings("unchecked")
     @Override
     public void applyDefaultAttributesTo(Figure f) {
-        for (Map.Entry<AttributeKey, Object> entry : defaultAttributes.entrySet()) {
-            f.set(entry.getKey(), entry.getValue());
+        for (Map.Entry<AttributeKey<?>, Object> entry : defaultAttributes.entrySet()) {
+            f.set((AttributeKey<Object>)entry.getKey(), entry.getValue());
         }
     }
 
@@ -191,7 +190,7 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
     }
 
     @Override
-    public void setDefaultAttribute(AttributeKey key, Object newValue) {
+    public <T> void setDefaultAttribute(AttributeKey<T> key, @Nullable T newValue) {
         Object oldValue = defaultAttributes.put(key, newValue);
         firePropertyChange(DEFAULT_ATTRIBUTE_PROPERTY_PREFIX+key.getKey(), oldValue, newValue);
     }
@@ -260,12 +259,14 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
     }
 
     @Override
-    public Map<AttributeKey, Object> getDefaultAttributes() {
-        return Collections.unmodifiableMap(defaultAttributes);
+    public Map<AttributeKey<?>, Object> getDefaultAttributes() {
+        @SuppressWarnings("cast")
+        Map<AttributeKey<?>, Object> m = (Map<AttributeKey<?>, Object>) Collections.unmodifiableMap(defaultAttributes);
+        return m;
     }
 
     @Override
-    public void setHandleAttribute(AttributeKey key, Object value) {
+    public <T> void setHandleAttribute(AttributeKey<T> key, T value) {
         handleAttributes.put(key, value);
     }
 

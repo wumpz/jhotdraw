@@ -1,12 +1,9 @@
 /*
  * @(#)SVGOutputFormat.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.io;
 
@@ -183,7 +180,7 @@ public class SVGOutputFormat implements OutputFormat {
 
     protected IXMLElement createCircle(IXMLElement doc,
             double cx, double cy, double r,
-            Map<AttributeKey, Object> attributes) throws IOException {
+            Map<AttributeKey<?>, Object> attributes) throws IOException {
         IXMLElement elem = doc.createElement("circle");
         writeAttribute(elem, "cx", cx, 0d);
         writeAttribute(elem, "cy", cy, 0d);
@@ -195,7 +192,7 @@ public class SVGOutputFormat implements OutputFormat {
     }
 
     protected IXMLElement createG(IXMLElement doc,
-            Map<AttributeKey, Object> attributes) throws IOException {
+            Map<AttributeKey<?>, Object> attributes) throws IOException {
         IXMLElement elem = doc.createElement("g");
         writeOpacityAttribute(elem, attributes);
         return elem;
@@ -268,7 +265,7 @@ public class SVGOutputFormat implements OutputFormat {
 
     protected IXMLElement createEllipse(IXMLElement doc,
             double cx, double cy, double rx, double ry,
-            Map<AttributeKey, Object> attributes) throws IOException {
+            Map<AttributeKey<?>, Object> attributes) throws IOException {
         IXMLElement elem = doc.createElement("ellipse");
         writeAttribute(elem, "cx", cx, 0d);
         writeAttribute(elem, "cy", cy, 0d);
@@ -302,7 +299,7 @@ public class SVGOutputFormat implements OutputFormat {
     protected IXMLElement createImage(IXMLElement doc,
             double x, double y, double w, double h,
             byte[] imageData,
-            Map<AttributeKey, Object> attributes) throws IOException {
+            Map<AttributeKey<?>, Object> attributes) throws IOException {
         IXMLElement elem = doc.createElement("image");
         writeAttribute(elem, "x", x, 0d);
         writeAttribute(elem, "y", y, 0d);
@@ -327,7 +324,7 @@ public class SVGOutputFormat implements OutputFormat {
 
     protected IXMLElement createPath(IXMLElement doc,
             BezierPath[] beziers,
-            Map<AttributeKey, Object> attributes) throws IOException {
+            Map<AttributeKey<?>, Object> attributes) throws IOException {
         IXMLElement elem = doc.createElement("path");
         writeShapeAttributes(elem, attributes);
         writeOpacityAttribute(elem, attributes);
@@ -353,7 +350,7 @@ public class SVGOutputFormat implements OutputFormat {
 
     protected IXMLElement createPolygon(IXMLElement doc,
             Point2D.Double[] points,
-            Map<AttributeKey, Object> attributes)
+            Map<AttributeKey<?>, Object> attributes)
             throws IOException {
         IXMLElement elem = doc.createElement("polygon");
         writeAttribute(elem, "points", toPoints(points), null);
@@ -380,7 +377,7 @@ public class SVGOutputFormat implements OutputFormat {
 
     protected IXMLElement createPolyline(IXMLElement doc,
             Point2D.Double[] points,
-            Map<AttributeKey, Object> attributes) throws IOException {
+            Map<AttributeKey<?>, Object> attributes) throws IOException {
 
         IXMLElement elem = doc.createElement("polyline");
         writeAttribute(elem, "points", toPoints(points), null);
@@ -404,7 +401,7 @@ public class SVGOutputFormat implements OutputFormat {
 
     protected IXMLElement createLine(IXMLElement doc,
             double x1, double y1, double x2, double y2,
-            Map<AttributeKey, Object> attributes) throws IOException {
+            Map<AttributeKey<?>, Object> attributes) throws IOException {
         IXMLElement elem = doc.createElement("line");
         writeAttribute(elem, "x1", x1, 0d);
         writeAttribute(elem, "y1", y1, 0d);
@@ -432,7 +429,7 @@ public class SVGOutputFormat implements OutputFormat {
     protected IXMLElement createRect(IXMLElement doc,
             double x, double y, double width, double height,
             double rx, double ry,
-            Map<AttributeKey, Object> attributes)
+            Map<AttributeKey<?>, Object> attributes)
             throws IOException {
         IXMLElement elem = doc.createElement("rect");
         writeAttribute(elem, "x", x, 0d);
@@ -468,7 +465,7 @@ public class SVGOutputFormat implements OutputFormat {
     protected IXMLElement createText(IXMLElement doc,
             Point2D.Double[] coordinates, double[] rotate,
             StyledDocument text,
-            Map<AttributeKey, Object> attributes) throws IOException {
+            Map<AttributeKey<?>, Object> attributes) throws IOException {
         IXMLElement elem = doc.createElement("text");
         StringBuilder bufX = new StringBuilder();
         StringBuilder bufY = new StringBuilder();
@@ -534,7 +531,7 @@ public class SVGOutputFormat implements OutputFormat {
     protected IXMLElement createTextArea(IXMLElement doc,
             double x, double y, double w, double h,
             StyledDocument text,
-            Map<AttributeKey, Object> attributes)
+            Map<AttributeKey<?>, Object> attributes)
             throws IOException {
         IXMLElement elem = doc.createElement("textArea");
         writeAttribute(elem, "x", toNumber(x), "0");
@@ -572,7 +569,7 @@ public class SVGOutputFormat implements OutputFormat {
     // ------------
     /* Writes shape attributes.
      */
-    protected void writeShapeAttributes(IXMLElement elem, Map<AttributeKey, Object> m)
+    protected void writeShapeAttributes(IXMLElement elem, Map<AttributeKey<?>, Object> m)
             throws IOException {
         Color color;
         String value;
@@ -814,7 +811,7 @@ public class SVGOutputFormat implements OutputFormat {
     /* Writes the opacity attribute.
      */
 
-    protected void writeOpacityAttribute(IXMLElement elem, Map<AttributeKey, Object> m)
+    protected void writeOpacityAttribute(IXMLElement elem, Map<AttributeKey<?>, Object> m)
             throws IOException {
         //'opacity'
         //Value:  	<opacity-value> | inherit
@@ -837,7 +834,7 @@ public class SVGOutputFormat implements OutputFormat {
      *
      */
 
-    protected void writeTransformAttribute(IXMLElement elem, Map<AttributeKey, Object> a)
+    protected void writeTransformAttribute(IXMLElement elem, Map<AttributeKey<?>, Object> a)
             throws IOException {
         AffineTransform t = TRANSFORM.get(a);
         if (t != null) {
@@ -848,7 +845,7 @@ public class SVGOutputFormat implements OutputFormat {
      * http://www.w3.org/TR/SVGMobile12/feature.html#Font
      */
 
-    private void writeFontAttributes(IXMLElement elem, Map<AttributeKey, Object> a)
+    private void writeFontAttributes(IXMLElement elem, Map<AttributeKey<?>, Object> a)
             throws IOException {
         String value;
         double doubleValue;
@@ -930,7 +927,7 @@ public class SVGOutputFormat implements OutputFormat {
     /* Writes viewport attributes.
      */
 
-    private void writeViewportAttributes(IXMLElement elem, Map<AttributeKey, Object> a)
+    private void writeViewportAttributes(IXMLElement elem, Map<AttributeKey<?>, Object> a)
             throws IOException {
         Object value;
         Double doubleValue;

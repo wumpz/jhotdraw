@@ -1,12 +1,9 @@
 /*
  * @(#)ODGStylesReader.java
  *
- * Copyright (c) 2007 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 2007 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.samples.odg.io;
 
@@ -32,7 +29,8 @@ public class ODGStylesReader {
 
     private final static boolean DEBUG = false;
 
-    private static class Style extends HashMap<AttributeKey, Object> {
+    private static class Style extends HashMap<AttributeKey<?>, Object> {
+    private final static long serialVersionUID = 1L;
 
         public String name;
         public String family;
@@ -75,7 +73,7 @@ public class ODGStylesReader {
         reset();
     }
 
-    public Map<AttributeKey, Object> getAttributes(String styleName, String familyName) {
+    public Map<AttributeKey<?>, Object> getAttributes(String styleName, String familyName) {
         //String key = familyName+"-"+styleName;
         String key = styleName;
         Style style;
@@ -91,8 +89,8 @@ public class ODGStylesReader {
         if (style.parentName == null) {
             return style;
         } else {
-            HashMap<AttributeKey, Object> a = new HashMap<AttributeKey, Object>();
-            Map<AttributeKey, Object> parentAttributes = getAttributes(style.parentName, familyName);
+            HashMap<AttributeKey<?>, Object> a = new HashMap<AttributeKey<?>, Object>();
+            Map<AttributeKey<?>, Object> parentAttributes = getAttributes(style.parentName, familyName);
             a.putAll(parentAttributes);
             a.putAll(style);
             return a;
@@ -298,7 +296,7 @@ public class ODGStylesReader {
      *
      * @param elem A &lt;style:drawing-page-properties&gt; element.
      */
-    private void readDrawingPagePropertiesElement(IXMLElement elem, HashMap<AttributeKey, Object> a) throws IOException {
+    private void readDrawingPagePropertiesElement(IXMLElement elem, HashMap<AttributeKey<?>, Object> a) throws IOException {
         if (DEBUG) {
             System.out.println("ODGStylesReader unsupported <" + elem.getName() + "> element.");
         }
@@ -311,12 +309,12 @@ public class ODGStylesReader {
      *
      * @param elem A &lt;style:graphic-properties&gt; element.
      */
-    private void readGraphicPropertiesElement(IXMLElement elem, HashMap<AttributeKey, Object> a) throws IOException {
+    private void readGraphicPropertiesElement(IXMLElement elem, HashMap<AttributeKey<?>, Object> a) throws IOException {
         // The attribute draw:stroke specifies the style of the stroke on the current object. The value
         // none means that no stroke is drawn, and the value solid means that a solid stroke is drawn. If
         // the value is dash, the stroke referenced by the draw:stroke-dash property is drawn.
         if (elem.hasAttribute("stroke", DRAWING_NAMESPACE)) {
-            STROKE_STYLE.put(a, (StrokeStyle) elem.getAttribute("stroke", DRAWING_NAMESPACE, STROKE_STYLES, null));
+            STROKE_STYLE.put(a, elem.getAttribute("stroke", DRAWING_NAMESPACE, STROKE_STYLES, null));
         }
         // The attribute svg:stroke-width specifies the width of the stroke on
         // the current object.
@@ -347,7 +345,7 @@ public class ODGStylesReader {
         //  • hatch:    the drawing object is filled with the hatch specified by
         //              the draw:fill-hatch-name attribute.
         if (elem.hasAttribute("fill", DRAWING_NAMESPACE)) {
-            FILL_STYLE.put(a, (FillStyle) elem.getAttribute("fill", DRAWING_NAMESPACE, FILL_STYLES, null));
+            FILL_STYLE.put(a, elem.getAttribute("fill", DRAWING_NAMESPACE, FILL_STYLES, null));
         }
         // The attribute draw:fill-color specifies the color of the fill for a
         // graphic object. It is used only if the draw:fill attribute has the
@@ -592,7 +590,7 @@ public class ODGStylesReader {
      * @param elem A &lt;paragraph-properties&gt; element.
      * @param a Style attributes to be filled in by this method.
      */
-    private void readParagraphPropertiesElement(IXMLElement elem, HashMap<AttributeKey, Object> a) throws IOException {
+    private void readParagraphPropertiesElement(IXMLElement elem, HashMap<AttributeKey<?>, Object> a) throws IOException {
         //if (DEBUG) System.out.println("ODGStylesReader unsupported <"+elem.getName()+"> element.");
     }
 
@@ -609,7 +607,7 @@ public class ODGStylesReader {
      * @param elem A &lt;paragraph-properties&gt; element.
      * @param a Style attributes to be filled in by this method.
      */
-    private void readTextPropertiesElement(IXMLElement elem, HashMap<AttributeKey, Object> a) throws IOException {
+    private void readTextPropertiesElement(IXMLElement elem, HashMap<AttributeKey<?>, Object> a) throws IOException {
         //if (DEBUG) System.out.println("ODGStylesReader unsupported <"+elem.getName()+"> element.");
     }
 

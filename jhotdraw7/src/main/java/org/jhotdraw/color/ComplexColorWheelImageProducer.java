@@ -1,12 +1,9 @@
 /*
  * @(#)ColorWheelImageProducer.java
  *
- * Copyright (c) 2008 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 2008 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.color;
 
@@ -117,8 +114,8 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
                 scale = (1 - r) + scale * r;
 
                 // perform distortion
-                radials[index] = max(minR,min((float) ((kx / scale + 1) / 2 * extentR + minR),maxR));
-                angulars[index] = max(minA,min((float) ((ky / scale + 1) / 2 * extentA + minA),maxA));
+                radials[index] = max(minR,min((kx / scale + 1) / 2 * extentR + minR,maxR));
+                angulars[index] = max(minA,min((ky / scale + 1) / 2 * extentA + minA,maxA));
             }
         }
         isLookupValid = true;
@@ -246,8 +243,8 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
         scale = (1 - r) + scale * r;
 
         // perform distortion
-        radial = (float) ((kx / scale + 1) / 2 * extentR + minR);
-        angular = (float) ((ky / scale + 1) / 2 * extentA + minA);
+        radial = (kx / scale + 1) / 2 * extentR + minR;
+        angular = (ky / scale + 1) / 2 * extentA + minA;
 
 
 

@@ -1,12 +1,9 @@
 /*
  * @(#)AbstractConnectionHandle.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
 
@@ -215,12 +212,12 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
 
         if (getTarget() == null) {
             drawCircle(g,
-                    (Color) getEditor().getHandleAttribute(HandleAttributeKeys.DISCONNECTED_CONNECTION_HANDLE_FILL_COLOR),
-                    (Color) getEditor().getHandleAttribute(HandleAttributeKeys.DISCONNECTED_CONNECTION_HANDLE_STROKE_COLOR));
+                    getEditor().getHandleAttribute(HandleAttributeKeys.DISCONNECTED_CONNECTION_HANDLE_FILL_COLOR),
+                    getEditor().getHandleAttribute(HandleAttributeKeys.DISCONNECTED_CONNECTION_HANDLE_STROKE_COLOR));
         } else {
             drawCircle(g,
-                    (Color) getEditor().getHandleAttribute(HandleAttributeKeys.CONNECTED_CONNECTION_HANDLE_FILL_COLOR),
-                    (Color) getEditor().getHandleAttribute(HandleAttributeKeys.CONNECTED_CONNECTION_HANDLE_STROKE_COLOR));
+                    getEditor().getHandleAttribute(HandleAttributeKeys.CONNECTED_CONNECTION_HANDLE_FILL_COLOR),
+                    getEditor().getHandleAttribute(HandleAttributeKeys.CONNECTED_CONNECTION_HANDLE_STROKE_COLOR));
         }
     }
 
@@ -254,7 +251,7 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
     @Override
     final public Collection<Handle> createSecondaryHandles() {
         LinkedList<Handle> list = new LinkedList<Handle>();
-        if (((ConnectionFigure) getOwner()).getLiner() == null && savedLiner == null) {
+        if (getOwner().getLiner() == null && savedLiner == null) {
             int index = getBezierNodeIndex();
             BezierFigure f = getBezierFigure();
             BezierPath.Node v = f.getNode(index);
@@ -294,7 +291,7 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
     @Override
     @Nullable
     public String getToolTipText(Point p) {
-        ConnectionFigure f = (ConnectionFigure) getOwner();
+        ConnectionFigure f = getOwner();
         if (f.getLiner() == null && savedLiner == null) {
             ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
             BezierPath.Node node = getBezierNode();

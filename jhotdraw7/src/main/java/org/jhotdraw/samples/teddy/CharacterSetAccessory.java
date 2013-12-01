@@ -1,12 +1,10 @@
 /*
  * @(#)CharacterSetAccessory.java
  *
- * Copyright (c) 2005 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
+ * Copyright (c) 2005 The authors and contributors of JHotDraw.
  *
  * You may not use, copy or modify this file, except in compliance with the
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.samples.teddy;
 
@@ -24,6 +22,7 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * @version $Id$
  */
 public class CharacterSetAccessory extends javax.swing.JPanel {
+    private final static long serialVersionUID = 1L;
 
     private final static Preferences prefs = PreferencesUtil.userNodeForPackage(TeddyView.class);
     private static Object[] availableCharSets;
@@ -54,7 +53,7 @@ public class CharacterSetAccessory extends javax.swing.JPanel {
 
     public void fetchAvailableCharSets() {
         if (availableCharSets == null) {
-            new Worker() {
+            new Worker<Object>() {
 
                 @Override
                 public Object construct() {

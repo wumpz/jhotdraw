@@ -1,12 +1,10 @@
 /*
  * @(#)ResourceBundleUtil.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  *
  * You may not use, copy or modify this file, except in compliance with the
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.util;
 
@@ -60,6 +58,7 @@ import java.net.*;
  * @version $Id$
  */
 public class ResourceBundleUtil implements Serializable {
+    public final static long serialVersionUID = 1L;
 
     private final static HashSet<String> acceleratorKeys = new HashSet<String>(
             Arrays.asList(new String[]{
@@ -70,7 +69,7 @@ public class ResourceBundleUtil implements Serializable {
     /** The locale. */
     private Locale locale;
     /** The base class */
-    private Class baseClass = getClass();
+    private Class<?> baseClass = getClass();
     /**
      * The base name of the resource bundle.
      */
@@ -276,7 +275,7 @@ public class ResourceBundleUtil implements Serializable {
      *          if the property is missing.
      */
     @Nullable
-    public ImageIcon getSmallIconProperty(String key, Class baseClass) {
+    public ImageIcon getSmallIconProperty(String key, Class<?> baseClass) {
         return getIconProperty(key,".smallIcon",baseClass);
     }
     /**
@@ -289,10 +288,10 @@ public class ResourceBundleUtil implements Serializable {
      *          if the property is missing.
      */
     @Nullable
-    public ImageIcon getLargeIconProperty(String key, Class baseClass) {
+    public ImageIcon getLargeIconProperty(String key, Class<?> baseClass) {
         return getIconProperty(key,".largeIcon",baseClass);
     }
-    private ImageIcon getIconProperty(String key, String suffix, Class baseClass) {
+    private ImageIcon getIconProperty(String key, String suffix, Class<?> baseClass) {
         try {
             String rsrcName = getStringRecursive(key + suffix);
 
@@ -445,11 +444,11 @@ public class ResourceBundleUtil implements Serializable {
         return getBundle(baseName, LocaleUtil.getDefault());
     }
 
-    public void setBaseClass(Class baseClass) {
+    public void setBaseClass(Class<?> baseClass) {
         this.baseClass = baseClass;
     }
 
-    public Class getBaseClass() {
+    public Class<?> getBaseClass() {
         return baseClass;
     }
 
@@ -457,7 +456,7 @@ public class ResourceBundleUtil implements Serializable {
         configureAction(action, argument, getBaseClass());
     }
 
-    public void configureAction(Action action, String argument, Class baseClass) {
+    public void configureAction(Action action, String argument, Class<?> baseClass) {
         action.putValue(Action.NAME, getTextProperty(argument));
         String shortDescription = getToolTipTextProperty(argument);
         if (shortDescription != null && shortDescription.length() > 0) {
@@ -473,7 +472,7 @@ public class ResourceBundleUtil implements Serializable {
         configureButton(button, argument, getBaseClass());
     }
 
-    public void configureButton(AbstractButton button, String argument, Class baseClass) {
+    public void configureButton(AbstractButton button, String argument, Class<?> baseClass) {
         button.setText(getTextProperty(argument));
         //button.setACCELERATOR_KEY, getAcceleratorProperty(argument));
         //action.putValue(Action.MNEMONIC_KEY, new Integer(getMnemonicProperty(argument)));
@@ -485,7 +484,7 @@ public class ResourceBundleUtil implements Serializable {
         configureToolBarButton(button, argument, getBaseClass());
     }
 
-    public void configureToolBarButton(AbstractButton button, String argument, Class baseClass) {
+    public void configureToolBarButton(AbstractButton button, String argument, Class<?> baseClass) {
         Icon icon = getLargeIconProperty(argument, baseClass);
         if (icon != null) {
             button.setIcon(getLargeIconProperty(argument, baseClass));

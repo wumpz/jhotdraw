@@ -1,12 +1,9 @@
 /*
  * @(#)ClearFileAction.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 
 package org.jhotdraw.app.action.file;
@@ -38,6 +35,7 @@ import org.jhotdraw.app.action.AbstractSaveUnsavedChangesAction;
  * @version $Id$
  */
 public class ClearFileAction extends AbstractSaveUnsavedChangesAction {
+    public final static long serialVersionUID = 1L;
     public final static String ID = "file.clear";
     
     /** Creates a new instance. */
@@ -49,7 +47,7 @@ public class ClearFileAction extends AbstractSaveUnsavedChangesAction {
     
     @Override public void doIt(final View view) {
         view.setEnabled(false);
-        view.execute(new Worker() {
+        view.execute(new Worker<Object>() {
             @Override
             public Object construct() {
                 view.clear();

@@ -1,12 +1,9 @@
 /*
  * @(#)DrawView.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  *
  */
 package org.jhotdraw.samples.draw;
@@ -47,7 +44,8 @@ import org.jhotdraw.net.URIUtil;
  * @version $Id$
  */
 public class DrawView extends AbstractView {
-    
+      private final static long serialVersionUID = 1L;
+  
     /**
      * Each DrawView uses its own undo redo manager.
      * This allows for undoing and redoing actions per view.

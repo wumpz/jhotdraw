@@ -1,8 +1,7 @@
 /*
  * @(#)WeakPropertyChangeListener.java
  * 
- * Copyright (c) 2009-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
+ * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
  * 
  * The copyright of this software is owned by the authors and  
  * contributors of the JHotDraw project ("the copyright holders").  
@@ -77,7 +76,7 @@ public class WeakPropertyChangeListener implements PropertyChangeListener {
         // Remove ourselves from the source
         Object src = event.getSource();
         try {
-            src.getClass().getMethod("removePropertyChangeListener", new Class[] {PropertyChangeListener.class}).invoke(src, this);
+            src.getClass().getMethod("removePropertyChangeListener", new Class<?>[] {PropertyChangeListener.class}).invoke(src, this);
         } catch (Exception ex) {
             InternalError ie = new InternalError("Could not remove WeakPropertyChangeListener from "+src+".");
             ie.initCause(ex);
@@ -87,7 +86,7 @@ public class WeakPropertyChangeListener implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent event) {
-        PropertyChangeListener listener = (PropertyChangeListener) weakRef.get();
+        PropertyChangeListener listener = weakRef.get();
         if (listener == null) {
             removeFromSource(event);
             return;

@@ -1,12 +1,9 @@
 /*
  * @(#)NetApplicationModel.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.samples.net;
 
@@ -40,6 +37,7 @@ import org.jhotdraw.util.*;
  * @version $Id$
  */
 public class NetApplicationModel extends DefaultApplicationModel {
+    private final static long serialVersionUID = 1L;
 
     private final static double[] scaleFactors = {5, 4, 3, 2, 1.5, 1.25, 1, 0.75, 0.5, 0.25, 0.10};
 
@@ -104,20 +102,20 @@ public class NetApplicationModel extends DefaultApplicationModel {
 
     private void addCreationButtonsTo(JToolBar tb, final DrawingEditor editor) {
         // AttributeKeys for the entitie sets
-        HashMap<AttributeKey, Object> attributes;
+        HashMap<AttributeKey<?>, Object> attributes;
 
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.net.Labels");
 
         ButtonFactory.addSelectionToolTo(tb, editor);
         tb.addSeparator();
 
-        attributes = new HashMap<AttributeKey, Object>();
+        attributes = new HashMap<AttributeKey<?>, Object>();
         attributes.put(AttributeKeys.FILL_COLOR, Color.white);
         attributes.put(AttributeKeys.STROKE_COLOR, Color.black);
         attributes.put(AttributeKeys.TEXT_COLOR, Color.black);
         ButtonFactory.addToolTo(tb, editor, new TextCreationTool(new NodeFigure(), attributes), "edit.createNode", labels);
 
-        attributes = new HashMap<AttributeKey, Object>();
+        attributes = new HashMap<AttributeKey<?>, Object>();
         attributes.put(AttributeKeys.STROKE_COLOR, new Color(0x000099));
         ButtonFactory.addToolTo(tb, editor, new ConnectionTool(new LineConnectionFigure(), attributes), "edit.createLink", labels);
     }

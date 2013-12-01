@@ -1,12 +1,10 @@
 /*
  * @(#)LinkHandle.java
  *
- * Copyright (c) 2009-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
+ * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
  *
  * You may not use, copy or modify this file, except in compliance with the
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 
 package org.jhotdraw.samples.svg.figures;
@@ -43,7 +41,7 @@ public class LinkHandle extends AbstractHandle {
     @Override public void draw(Graphics2D g) {
         Figure o = getOwner();
         if (o.get(LINK)!=null&&o.get(LINK).trim().length()>0) {
-            g.setColor((Color) getEditor().getHandleAttribute(HandleAttributeKeys.OVERFLOW_HANDLE_STROKE_COLOR));
+            g.setColor(getEditor().getHandleAttribute(HandleAttributeKeys.OVERFLOW_HANDLE_STROKE_COLOR));
             Rectangle r = basicGetBounds();
             g.drawLine(r.x+(r.width/2)-1, r.y, r.x, r.y);
             g.drawLine(r.x, r.y, r.x, r.y+r.height-1);

@@ -1,12 +1,9 @@
 /*
  * @(#)BezierPath.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.geom;
 
@@ -30,6 +27,7 @@ import java.util.*;
  */
 public class BezierPath extends ArrayList<BezierPath.Node>
         implements Shape, Serializable, Cloneable {
+    private final static long serialVersionUID=1L;
 
     /** Constant for having only control point C0 in effect. C0 is the point
      * through whitch the curve passes. */
@@ -77,6 +75,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      * </ul>
      */
     public static class Node implements Cloneable, Serializable {
+    private final static long serialVersionUID=1L;
 
         /**
          * This mask is used to describe which control points in addition to

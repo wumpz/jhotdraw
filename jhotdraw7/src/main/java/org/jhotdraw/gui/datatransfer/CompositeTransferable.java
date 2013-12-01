@@ -1,12 +1,9 @@
 /*
  * @(#)CompositeTransferable.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 
 package org.jhotdraw.gui.datatransfer;
@@ -50,7 +47,7 @@ public class CompositeTransferable implements Transferable, ClipboardOwner {
      */
     @Override
     public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
-        Transferable t = (Transferable) transferables.get(flavor);
+        Transferable t = transferables.get(flavor);
         if (t == null) throw new UnsupportedFlavorException(flavor);
         return t.getTransferData(flavor);
     }
@@ -63,7 +60,7 @@ public class CompositeTransferable implements Transferable, ClipboardOwner {
      */
     @Override
     public DataFlavor[] getTransferDataFlavors() {
-        return (DataFlavor[]) flavors.toArray(new DataFlavor[transferables.size()]);
+        return flavors.toArray(new DataFlavor[transferables.size()]);
     }
     
     /**

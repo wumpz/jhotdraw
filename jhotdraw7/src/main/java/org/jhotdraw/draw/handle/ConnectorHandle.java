@@ -1,12 +1,9 @@
 /*
  * @(#)ConnectorHandle.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
 
@@ -85,10 +82,10 @@ public class ConnectorHandle extends AbstractHandle {
                     getEditor().getHandleAttribute(HandleAttributeKeys.CONNECTED_CONNECTOR_HANDLE_FILL_COLOR),
                     getEditor().getHandleAttribute(HandleAttributeKeys.CONNECTED_CONNECTOR_HANDLE_STROKE_COLOR));
             Point p = view.drawingToView(createdConnection.getEndPoint());
-            g.setColor((Color) getEditor().getHandleAttribute(HandleAttributeKeys.CONNECTED_CONNECTOR_HANDLE_FILL_COLOR));
+            g.setColor(getEditor().getHandleAttribute(HandleAttributeKeys.CONNECTED_CONNECTOR_HANDLE_FILL_COLOR));
             int width = getHandlesize();
             g.fillOval(p.x - width / 2, p.y - width / 2, width, width);
-            g.setColor((Color) getEditor().getHandleAttribute(HandleAttributeKeys.CONNECTED_CONNECTOR_HANDLE_STROKE_COLOR));
+            g.setColor(getEditor().getHandleAttribute(HandleAttributeKeys.CONNECTED_CONNECTOR_HANDLE_STROKE_COLOR));
             g.drawOval(p.x - width / 2, p.y - width / 2, width, width);
         }
     }
@@ -151,6 +148,7 @@ public class ConnectorHandle extends AbstractHandle {
             view.clearSelection();
             view.addToSelection(c);
             view.getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
+    private final static long serialVersionUID = 1L;
 
                 @Override
                 public String getPresentationName() {

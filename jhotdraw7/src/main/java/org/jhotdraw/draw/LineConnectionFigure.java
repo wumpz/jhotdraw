@@ -1,12 +1,9 @@
 /*
  * @(#)BezierBezierLineConnection.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.draw;
 
@@ -41,6 +38,7 @@ import org.jhotdraw.xml.DOMOutput;
  */
 public class LineConnectionFigure extends LineFigure
         implements ConnectionFigure {
+    private final static long serialVersionUID = 1L;
 
     /** The name of the JaveBeans property {@code liner}. */
     public final static String LINER_PROPERTY = "liner";
@@ -54,6 +52,7 @@ public class LineConnectionFigure extends LineFigure
     private ConnectionHandler connectionHandler = new ConnectionHandler(this);
 
     private static class ConnectionHandler extends FigureAdapter implements Serializable {
+    private final static long serialVersionUID = 1L;
 
         private LineConnectionFigure owner;
 
@@ -343,7 +342,7 @@ public class LineConnectionFigure extends LineFigure
         LineConnectionFigure that = (LineConnectionFigure) super.clone();
         that.connectionHandler = new ConnectionHandler(that);
         if (this.liner != null) {
-            that.liner = (Liner) this.liner.clone();
+            that.liner = this.liner.clone();
         }
         // FIXME - For safety reasons, we clone the connectors, but they would
         // work, if we continued to use them. Maybe we should state somewhere
@@ -372,13 +371,13 @@ public class LineConnectionFigure extends LineFigure
         Figure newStartFigure = null;
         Figure newEndFigure = null;
         if (getStartFigure() != null) {
-            newStartFigure = (Figure) oldToNew.get(getStartFigure());
+            newStartFigure = oldToNew.get(getStartFigure());
             if (newStartFigure == null && !disconnectIfNotInMap) {
                 newStartFigure = getStartFigure();
             }
         }
         if (getEndFigure() != null) {
-            newEndFigure = (Figure) oldToNew.get(getEndFigure());
+            newEndFigure = oldToNew.get(getEndFigure());
             if (newEndFigure == null && !disconnectIfNotInMap) {
                 newEndFigure = getEndFigure();
             }
@@ -420,6 +419,7 @@ public class LineConnectionFigure extends LineFigure
             if (index != -1) {
                 final BezierPath.Node newNode = getNode(index);
                 fireUndoableEditHappened(new AbstractUndoableEdit() {
+    private final static long serialVersionUID = 1L;
 
                     @Override
                     public void redo() throws CannotRedoException {

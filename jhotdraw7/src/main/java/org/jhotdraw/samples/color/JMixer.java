@@ -1,12 +1,10 @@
 /**
  * @(#)JMixer.java
  *
- * Copyright (c) 2008 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
+ * Copyright (c) 2008 The authors and contributors of JHotDraw.
  *
  * You may not use, copy or modify this file, except in compliance with the
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.samples.color;
 
@@ -28,6 +26,7 @@ import javax.swing.event.*;
  * @version $Id$
  */
 public class JMixer extends javax.swing.JPanel {
+    private final static long serialVersionUID = 1L;
 
     private JList swatchesList;
     private DefaultColorSliderModel sliderModel;
@@ -90,6 +89,7 @@ public class JMixer extends javax.swing.JPanel {
 
         // Create a list, overriding the getToolTipText() method
         swatchesList = new JList() {
+    private final static long serialVersionUID = 1L;
             // This method is called as the cursor moves within the list.
 
             @Override

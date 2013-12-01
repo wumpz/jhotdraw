@@ -1,12 +1,10 @@
 /*
  * @(#)SVGDrawingPanelSample.java
  * 
- * Copyright (c) 2009-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
+ * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
  * 
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.samples.mini;
 
@@ -34,6 +32,7 @@ import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
  * @version $Id$
  */
 public class SVGDrawingPanelSample extends javax.swing.JFrame {
+    private final static long serialVersionUID = 1L;
 
     /** Holds the file chooser for opening a file. */
     private JFileChooser openChooser;
@@ -120,7 +119,7 @@ public class SVGDrawingPanelSample extends javax.swing.JFrame {
             svgPanel.setEnabled(false);
             final File selectedFile = fc.getSelectedFile();
             final InputFormat selectedFormat = fileFilterInputFormatMap.get(fc.getFileFilter());
-            new Worker() {
+            new Worker<Object>() {
 
                 @Override
                 protected Object construct() throws IOException {
@@ -166,7 +165,7 @@ public class SVGDrawingPanelSample extends javax.swing.JFrame {
                 selectedFile = fc.getSelectedFile();
             }
             final OutputFormat selectedFormat = fileFilterOutputFormatMap.get(fc.getFileFilter());
-            new Worker() {
+            new Worker<Object>() {
 
                 @Override
                 protected Object construct() throws IOException {

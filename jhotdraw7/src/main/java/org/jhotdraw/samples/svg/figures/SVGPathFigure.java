@@ -1,12 +1,9 @@
 /*
  * @(#)SVGPathFigure.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.figures;
 
@@ -34,6 +31,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * @version $Id$
  */
 public class SVGPathFigure extends AbstractAttributedCompositeFigure implements SVGFigure {
+    private final static long serialVersionUID = 1L;
 
     /**
      * This cached path is used for drawing.
@@ -177,7 +175,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
             } else if (get(STROKE_CAP) != BasicStroke.CAP_BUTT) {
                 width += strokeTotalWidth * 2;
             }
-            Shape gp = (Path2D.Double) getPath();
+            Shape gp = getPath();
             Rectangle2D strokeRect = new Rectangle2D.Double(0, 0, width, width);
             AffineTransform tx = get(TRANSFORM);
             if (tx != null) {
@@ -239,8 +237,8 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
 
     @Override
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
-        if (getChildCount() == 1 && ((SVGBezierFigure) getChild(0)).getNodeCount() <= 2) {
-            SVGBezierFigure b = (SVGBezierFigure) getChild(0);
+        if (getChildCount() == 1 && getChild(0).getNodeCount() <= 2) {
+            SVGBezierFigure b = getChild(0);
             b.setBounds(anchor, lead);
             invalidate();
         } else {
@@ -353,6 +351,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         LinkedList<Action> actions = new LinkedList<Action>();
         if (get(TRANSFORM) != null) {
             actions.add(new AbstractAction(labels.getString("edit.removeTransform.text")) {
+    private final static long serialVersionUID = 1L;
 
                 @Override
                 public void actionPerformed(ActionEvent evt) {
@@ -363,6 +362,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
                 }
             });
             actions.add(new AbstractAction(labels.getString("edit.flattenTransform.text")) {
+    private final static long serialVersionUID = 1L;
 
                 @Override
                 public void actionPerformed(ActionEvent evt) {
@@ -370,6 +370,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
                     //TransformEdit edit = new TransformEdit(SVGPathFigure.this, )
                     final Object restoreData = getTransformRestoreData();
                     UndoableEdit edit = new AbstractUndoableEdit() {
+    private final static long serialVersionUID = 1L;
 
                         @Override
                         public String getPresentationName() {
@@ -402,6 +403,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         }
         if (getChild(getChildCount() - 1).get(PATH_CLOSED)) {
             actions.add(new AbstractAction(labels.getString("attribute.openPath.text")) {
+    private final static long serialVersionUID = 1L;
 
                 @Override
                 public void actionPerformed(ActionEvent evt) {
@@ -415,6 +417,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
             });
         } else {
             actions.add(new AbstractAction(labels.getString("attribute.closePath.text")) {
+    private final static long serialVersionUID = 1L;
 
                 @Override
                 public void actionPerformed(ActionEvent evt) {
@@ -429,6 +432,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         }
         if (get(WINDING_RULE) != WindingRule.EVEN_ODD) {
             actions.add(new AbstractAction(labels.getString("attribute.windingRule.evenOdd.text")) {
+    private final static long serialVersionUID = 1L;
 
                 @Override
                 public void actionPerformed(ActionEvent evt) {
@@ -440,6 +444,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
             });
         } else {
             actions.add(new AbstractAction(labels.getString("attribute.windingRule.nonZero.text")) {
+    private final static long serialVersionUID = 1L;
 
                 @Override
                 public void actionPerformed(ActionEvent evt) {

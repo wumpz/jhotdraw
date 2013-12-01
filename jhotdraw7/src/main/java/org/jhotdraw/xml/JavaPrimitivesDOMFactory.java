@@ -1,12 +1,10 @@
 /*
  * @(#)JavaPrimitivesDOMFactory.java
  * 
- * Copyright (c) 2009-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
+ * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
  * 
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.xml;
 
@@ -145,21 +143,21 @@ public class JavaPrimitivesDOMFactory implements DOMFactory {
         }
     }
 
-    protected String getEnumName(Enum o) {
+    protected String getEnumName(Enum<?> o) {
         return escape(o.getClass().getName());
     }
 
-    protected String getEnumValue(Enum o) {
+    protected String getEnumValue(Enum<?> o) {
         return o.name();
     }
 
     @SuppressWarnings("unchecked")
-    protected Enum createEnum(String name, String value) {
+    protected <E extends Enum<E>> Enum<E> createEnum(String name, String value) {
         name = unescape(name);
 
-        Class enumClass;
+        Class<E> enumClass;
         try {
-            enumClass = Class.forName(name);
+            enumClass = (Class<E>) Class.forName(name);
         } catch (ClassNotFoundException ex) {
             throw new IllegalArgumentException("Class not found for Enum with name:" + name);
         }
@@ -252,7 +250,7 @@ public class JavaPrimitivesDOMFactory implements DOMFactory {
             out.addAttribute("style", f.getStyle());
             out.addAttribute("size", f.getSize());
         } else if (o instanceof Enum) {
-            Enum e = (Enum) o;
+            Enum<?> e = (Enum<?>) o;
             out.addAttribute("type", getEnumName(e));
             out.addText(getEnumValue(e));
         } else {

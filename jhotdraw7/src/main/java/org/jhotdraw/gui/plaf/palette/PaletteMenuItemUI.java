@@ -1,12 +1,9 @@
 /*
  * @(#)PaletteMenuItemUI.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 
 package org.jhotdraw.gui.plaf.palette;
@@ -40,7 +37,7 @@ public class PaletteMenuItemUI extends javax.swing.plaf.basic.BasicMenuItemUI {
                                                      Icon arrowIcon,
                                                      int defaultTextIconGap) {
         JMenuItem b = (JMenuItem) c;
-        Icon icon = (Icon) b.getIcon(); 
+        Icon icon = b.getIcon(); 
         if (icon == null) {
             return new Dimension(22, 22);
         }
@@ -55,7 +52,7 @@ public class PaletteMenuItemUI extends javax.swing.plaf.basic.BasicMenuItemUI {
 
         // Paint the icon
         //((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        Icon icon = (Icon) b.getIcon(); 
+        Icon icon = b.getIcon(); 
         if (icon != null) {
         icon.paintIcon(b, g, 1, 1);
         }

@@ -1,12 +1,9 @@
 /*
  * @(#)SVGFigureFactory.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 
 package org.jhotdraw.samples.svg.io;
@@ -35,41 +32,41 @@ import org.jhotdraw.samples.svg.*;
 public interface SVGFigureFactory {
     public Figure createRect(
             double x, double y, double width, double height, double rx, double ry, 
-            Map<AttributeKey,Object> attributes);
+            Map<AttributeKey<?>,Object> attributes);
     
     public Figure createCircle(
             double cx, double cy, double r, 
-            Map<AttributeKey,Object> attributes);
+            Map<AttributeKey<?>,Object> attributes);
     
     public Figure createEllipse(
             double cx, double cy, double rx, double ry, 
-            Map<AttributeKey,Object> attributes);
+            Map<AttributeKey<?>,Object> attributes);
 
     public Figure createLine(
             double x1, double y1, double x2, double y2, 
-            Map<AttributeKey,Object> attributes);
+            Map<AttributeKey<?>,Object> attributes);
 
     public Figure createPolyline(
             Point2D.Double[] points, 
-            Map<AttributeKey,Object> attributes);
+            Map<AttributeKey<?>,Object> attributes);
     
     public Figure createPolygon(
             Point2D.Double[] points, 
-            Map<AttributeKey,Object> attributes);
+            Map<AttributeKey<?>,Object> attributes);
 
     public Figure createPath(
             BezierPath[] beziers, 
-            Map<AttributeKey,Object> attributes);
+            Map<AttributeKey<?>,Object> attributes);
 
-    public CompositeFigure createG(Map<AttributeKey,Object> attributes);
+    public CompositeFigure createG(Map<AttributeKey<?>,Object> attributes);
     
     public Figure createText(
             Point2D.Double[] coordinates, double[] rotate,
             StyledDocument text,  
-            Map<AttributeKey,Object> attributes);
+            Map<AttributeKey<?>,Object> attributes);
     
     public Figure createTextArea(double x, double y, double w, double h, 
-            StyledDocument doc, Map<AttributeKey,Object> attributes);
+            StyledDocument doc, Map<AttributeKey<?>,Object> attributes);
 
     /**
      * Creates a Figure from an image element.
@@ -85,7 +82,7 @@ public interface SVGFigureFactory {
      * @param attributes Figure attributes.
      */
     public Figure createImage(double x, double y, double width, double height, 
-           @Nullable byte[] imageData, @Nullable BufferedImage bufferedImage, Map<AttributeKey,Object> attributes);
+           @Nullable byte[] imageData, @Nullable BufferedImage bufferedImage, Map<AttributeKey<?>,Object> attributes);
 
 
     public Gradient createLinearGradient(

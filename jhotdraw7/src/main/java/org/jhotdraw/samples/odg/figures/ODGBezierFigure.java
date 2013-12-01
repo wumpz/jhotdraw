@@ -1,12 +1,9 @@
 /*
  * @(#)ODGBezierFigure.java
  *
- * Copyright (c) 2007 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 2007 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.samples.odg.figures;
 
@@ -30,6 +27,7 @@ import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
  * @version $Id$
  */
 public class ODGBezierFigure extends BezierFigure {
+    private final static long serialVersionUID = 1L;
 
     @Nullable private transient Rectangle2D.Double cachedDrawingArea;
 
@@ -68,6 +66,7 @@ public class ODGBezierFigure extends BezierFigure {
             if (index != -1) {
                 final BezierPath.Node newNode = getNode(index);
                 fireUndoableEditHappened(new AbstractUndoableEdit() {
+    private final static long serialVersionUID = 1L;
 
                     @Override
                     public void redo() throws CannotRedoException {
@@ -116,7 +115,7 @@ public class ODGBezierFigure extends BezierFigure {
             if (get(TRANSFORM) == null) {
                 cachedDrawingArea = path.getBounds2D();
             } else {
-                BezierPath p2 = (BezierPath) path.clone();
+                BezierPath p2 = path.clone();
                 p2.transform(get(TRANSFORM));
                 cachedDrawingArea = p2.getBounds2D();
             }

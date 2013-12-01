@@ -1,12 +1,9 @@
 /*
  * @(#)FigureChangeEvent.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 
 package org.jhotdraw.draw.event;
@@ -36,8 +33,9 @@ import java.util.*;
  * @version $Id$
  */
 public class FigureEvent extends EventObject {
+    private final static long serialVersionUID=1L;
     private Rectangle2D.Double invalidatedArea;
-    private AttributeKey attribute;
+    private AttributeKey<?> attribute;
     @Nullable private Object oldValue;
     @Nullable private Object newValue;
     
@@ -53,7 +51,7 @@ public class FigureEvent extends EventObject {
     /**
      * Constructs an event for the given source Figure.
      */
-    public FigureEvent(Figure source, AttributeKey attribute, @Nullable Object oldValue, @Nullable Object newValue) {
+    public FigureEvent(Figure source, AttributeKey<?> attribute, @Nullable Object oldValue, @Nullable Object newValue) {
         super(source);
         this.attribute = attribute;
         this.oldValue = oldValue;
@@ -75,7 +73,7 @@ public class FigureEvent extends EventObject {
         return invalidatedArea;
     }
     
-    public AttributeKey getAttribute() {
+    public AttributeKey<?> getAttribute() {
         return attribute;
     }
     @Nullable

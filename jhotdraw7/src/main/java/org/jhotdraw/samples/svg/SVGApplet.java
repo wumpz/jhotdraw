@@ -1,12 +1,10 @@
 /*
  * @(#)SVGApplet.java
  *
- * Copyright (c) 2006-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
+ * Copyright (c) 2006-2010 The authors and contributors of JHotDraw.
  *
  * You may not use, copy or modify this file, except in compliance with the
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.samples.svg;
 
@@ -49,6 +47,7 @@ import org.jhotdraw.samples.svg.gui.*;
  * @version $Id$
  */
 public class SVGApplet extends JApplet {
+    private final static long serialVersionUID = 1L;
 
     private SVGDrawingPanel drawingComponent;
     /**
@@ -137,10 +136,10 @@ public class SVGApplet extends JApplet {
 
         // Load the drawing using a worker thread
         // --------------------------------------
-        new Worker() {
+        new Worker<Drawing>() {
 
             @Override
-            protected Object construct() throws Exception {
+            protected Drawing construct() throws Exception {
                 Thread t = new Thread() {
 
                     @Override
@@ -150,7 +149,7 @@ public class SVGApplet extends JApplet {
                 };
                 t.start();
                 progress.setNote(labels.getString("progressLoading"));
-                Object drawing = loadDrawing(progress);
+                Drawing drawing = loadDrawing(progress);
                 progress.setNote(labels.getString("progressOpeningEditor"));
                 progress.setIndeterminate(true);
                 t.join();
@@ -158,20 +157,14 @@ public class SVGApplet extends JApplet {
             }
 
             @Override
-            protected void done(Object result) {
+            protected void done(Drawing result) {
                 Container c = getContentPane();
                 c.setLayout(new BorderLayout());
                 c.removeAll();
                 c.add(drawingComponent.getComponent());
                 initComponents();
                 if (result != null) {
-                    if (result instanceof Drawing) {
-                        setDrawing((Drawing) result);
-                    } else if (result instanceof Throwable) {
-                        setDrawing(createDrawing());
-                        getDrawing().add(new SVGTextFigure(result.toString()));
-                        ((Throwable) result).printStackTrace();
-                    }
+                        setDrawing(result);
                 }
                 drawingComponent.revalidate();
             }
@@ -181,7 +174,7 @@ public class SVGApplet extends JApplet {
                 Container c = getContentPane();
                 c.setLayout(new BorderLayout());
                 c.removeAll();
-                Throwable error = (Throwable) result;
+                Throwable error = result;
                 error.printStackTrace();
                 String message = (error.getMessage() == null) ? error.toString() : error.getMessage();
                 MessagePanel mp = new MessagePanel(

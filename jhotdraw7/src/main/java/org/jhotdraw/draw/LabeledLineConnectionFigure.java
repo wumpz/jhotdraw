@@ -1,12 +1,9 @@
 /*
  * @(#)LabeledLineConnection.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 
 package org.jhotdraw.draw;
@@ -43,6 +40,7 @@ import javax.swing.event.*;
 public class LabeledLineConnectionFigure extends LineConnectionFigure
         implements CompositeFigure {
     
+    private final static long serialVersionUID = 1L;
     private Layouter layouter;
     private ArrayList<Figure> children = new ArrayList<Figure>();
     @Nullable private transient Rectangle2D.Double cachedDrawingArea;
@@ -52,6 +50,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
      */
     private ChildHandler childHandler = new ChildHandler(this);
     private static class ChildHandler extends FigureAdapter implements UndoableEditListener, Serializable {
+    private final static long serialVersionUID = 1L;
         private LabeledLineConnectionFigure owner;
         private ChildHandler(LabeledLineConnectionFigure owner) {
             this.owner = owner;
@@ -397,7 +396,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
         that.childHandler = new ChildHandler(that);
         that.children = new ArrayList<Figure>();
         for (Figure thisChild : this.children) {
-            Figure thatChild = (Figure) thisChild.clone();
+            Figure thatChild = thisChild.clone();
             that.children.add(thatChild);
             thatChild.addFigureListener(that.childHandler);
         }

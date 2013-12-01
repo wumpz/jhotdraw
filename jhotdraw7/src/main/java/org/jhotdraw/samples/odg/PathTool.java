@@ -1,12 +1,9 @@
 /*
  * @(#)PathTool.java
  *
- * Copyright (c) 2007 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 2007 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 
 package org.jhotdraw.samples.odg;
@@ -23,6 +20,7 @@ import java.util.*;
  * @version $Id$
  */
 public class PathTool extends BezierTool {
+    private final static long serialVersionUID = 1L;
     /**
      * Set this to true to turn on debugging output on System.out.
      */
@@ -37,17 +35,17 @@ public class PathTool extends BezierTool {
         this(pathPrototype, bezierPrototype, null);
     }
     /** Creates a new instance. */
-    public PathTool(SVGPathFigure pathPrototype, SVGBezierFigure bezierPrototype, @Nullable Map<AttributeKey,Object> attributes) {
+    public PathTool(SVGPathFigure pathPrototype, SVGBezierFigure bezierPrototype, @Nullable Map<AttributeKey<?>,Object> attributes) {
         super(bezierPrototype, attributes);
         this.pathPrototype = pathPrototype;
     }
     @SuppressWarnings("unchecked")
     protected SVGPathFigure createPath() {
-        SVGPathFigure f = (SVGPathFigure) pathPrototype.clone();
+        SVGPathFigure f = pathPrototype.clone();
         getEditor().applyDefaultAttributesTo(f);
         if (attributes != null) {
-            for (Map.Entry<AttributeKey, Object> entry : attributes.entrySet()) {
-                f.set(entry.getKey(), entry.getValue());
+            for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
+                f.set((AttributeKey<Object>)entry.getKey(), entry.getValue());
             }
         }
         return f;

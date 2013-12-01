@@ -32,10 +32,7 @@ package net.n3.nanoxml;
 import java.io.Reader;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Properties;
-import java.util.Stack;
+import java.util.*;
 
 
 /**
@@ -61,13 +58,13 @@ public class NonValidator
     * Contains the default values for attributes for the different element
     * types.
     */
-   protected Hashtable attributeDefaultValues;
+   protected HashMap<String,Object> attributeDefaultValues;
 
 
    /**
     * The stack of elements to be processed.
     */
-   protected Stack currentElements;
+   protected ArrayDeque<Properties> currentElements;
 
 
    /**
@@ -75,8 +72,8 @@ public class NonValidator
     */
    public NonValidator()
    {
-      this.attributeDefaultValues = new Hashtable();
-      this.currentElements = new Stack();
+      this.attributeDefaultValues = new HashMap<String,Object>();
+      this.currentElements = new ArrayDeque<Properties>();
       this.parameterEntityResolver = new XMLEntityResolver();
    }
 
@@ -587,8 +584,8 @@ public class NonValidator
                                           String     systemId,
                                           int        lineNr)
    {
-      Properties props = (Properties) this.currentElements.pop();
-      Enumeration enm = props.keys();
+      Properties props = this.currentElements.pop();
+      Enumeration<Object> enm = props.keys();
 
       while (enm.hasMoreElements()) {
          String key = (String) enm.nextElement();
@@ -610,7 +607,7 @@ public class NonValidator
                               String systemId,
                               int    lineNr)
    {
-      Properties props = (Properties) this.currentElements.peek();
+      Properties props = this.currentElements.peek();
 
       if (props.containsKey(key)) {
          props.remove(key);

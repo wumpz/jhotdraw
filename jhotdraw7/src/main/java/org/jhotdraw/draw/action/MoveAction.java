@@ -1,12 +1,9 @@
 /*
  * @(#)MoveAction.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.draw.action;
 
@@ -56,6 +53,7 @@ public abstract class MoveAction extends AbstractSelectedAction {
     }
 
     public static class East extends MoveAction {
+    private final static long serialVersionUID = 1L;
 
         public final static String ID = "edit.moveEast";
 
@@ -67,6 +65,7 @@ public abstract class MoveAction extends AbstractSelectedAction {
     }
 
     public static class West extends MoveAction {
+    private final static long serialVersionUID = 1L;
 
         public final static String ID = "edit.moveWest";
 
@@ -78,6 +77,7 @@ public abstract class MoveAction extends AbstractSelectedAction {
     }
 
     public static class North extends MoveAction {
+    private final static long serialVersionUID = 1L;
 
         public final static String ID = "edit.moveNorth";
 
@@ -89,6 +89,7 @@ public abstract class MoveAction extends AbstractSelectedAction {
     }
 
     public static class South extends MoveAction {
+    private final static long serialVersionUID = 1L;
 
         public final static String ID = "edit.moveSouth";
 

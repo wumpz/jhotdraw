@@ -1,12 +1,9 @@
 /*
  * @(#)DefaultSVGFigureFactory.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 
 package org.jhotdraw.samples.svg.io;
@@ -34,7 +31,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
     }
     
     @Override
-    public Figure createRect(double x, double y, double w, double h, double rx, double ry, Map<AttributeKey, Object> a) {
+    public Figure createRect(double x, double y, double w, double h, double rx, double ry, Map<AttributeKey<?>, Object> a) {
         SVGRectFigure figure = new SVGRectFigure();
         figure.setBounds(new Point2D.Double(x,y),new Point2D.Double(x+w,y+h));
         figure.setArc(rx, ry);
@@ -43,12 +40,12 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
     }
     
     @Override
-    public Figure createCircle(double cx, double cy, double r, Map<AttributeKey, Object> a) {
+    public Figure createCircle(double cx, double cy, double r, Map<AttributeKey<?>, Object> a) {
         return createEllipse(cx, cy, r, r, a);
     }
     
     @Override
-    public Figure createEllipse(double cx, double cy, double rx, double ry, Map<AttributeKey, Object> a) {
+    public Figure createEllipse(double cx, double cy, double rx, double ry, Map<AttributeKey<?>, Object> a) {
         SVGEllipseFigure figure = new SVGEllipseFigure(cx-rx, cy-ry, rx*2d, ry*2d);
         figure.setAttributes(a);
         return figure;
@@ -57,7 +54,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
     @Override
     public Figure createLine(
             double x1, double y1, double x2, double y2,
-            Map<AttributeKey,Object> a) {
+            Map<AttributeKey<?>,Object> a) {
         SVGPathFigure figure = new SVGPathFigure();
         figure.removeAllChildren();
         SVGBezierFigure bf = new SVGBezierFigure();
@@ -69,7 +66,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
     }
     
     @Override
-    public Figure createPolyline(Point2D.Double[] points, Map<AttributeKey, Object> a) {
+    public Figure createPolyline(Point2D.Double[] points, Map<AttributeKey<?>, Object> a) {
         SVGPathFigure figure = new SVGPathFigure();
         figure.removeAllChildren();
         SVGBezierFigure bf = new SVGBezierFigure();
@@ -82,7 +79,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
     }
     
     @Override
-    public Figure createPolygon(Point2D.Double[] points, Map<AttributeKey, Object> a) {
+    public Figure createPolygon(Point2D.Double[] points, Map<AttributeKey<?>, Object> a) {
         SVGPathFigure figure = new SVGPathFigure();
         figure.removeAllChildren();
         SVGBezierFigure bf = new SVGBezierFigure();
@@ -95,7 +92,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
         return figure;
     }
     @Override
-    public Figure createPath(BezierPath[] beziers, Map<AttributeKey, Object> a) {
+    public Figure createPath(BezierPath[] beziers, Map<AttributeKey<?>, Object> a) {
         SVGPathFigure figure = new SVGPathFigure();
         figure.removeAllChildren();
         for (int i=0; i < beziers.length; i++) {
@@ -108,7 +105,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
     }
     
     @Override
-    public CompositeFigure createG(Map<AttributeKey, Object> a) {
+    public CompositeFigure createG(Map<AttributeKey<?>, Object> a) {
         SVGGroupFigure figure = new SVGGroupFigure();
         figure.setAttributes(a);
         return figure;
@@ -116,7 +113,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
     
     @Override
     public Figure createImage(double x, double y, double w, double h, 
-            byte[] imageData, BufferedImage bufferedImage, Map<AttributeKey, Object> a) {
+            byte[] imageData, BufferedImage bufferedImage, Map<AttributeKey<?>, Object> a) {
         SVGImageFigure figure = new SVGImageFigure();
         figure.setBounds(new Point2D.Double(x,y),new Point2D.Double(x+w,y+h));
         figure.setImage(imageData, bufferedImage);
@@ -124,7 +121,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
         return figure;
     }
     @Override
-    public Figure createTextArea(double x, double y, double w, double h, StyledDocument doc, Map<AttributeKey, Object> attributes) {
+    public Figure createTextArea(double x, double y, double w, double h, StyledDocument doc, Map<AttributeKey<?>, Object> attributes) {
         SVGTextAreaFigure figure = new SVGTextAreaFigure();
         figure.setBounds(new Point2D.Double(x,y),new Point2D.Double(x+w,y+h));
         try {
@@ -139,7 +136,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
     }
     
     @Override
-    public Figure createText(Point2D.Double[] coordinates, double[] rotates, StyledDocument text, Map<AttributeKey, Object> a) {
+    public Figure createText(Point2D.Double[] coordinates, double[] rotates, StyledDocument text, Map<AttributeKey<?>, Object> a) {
         SVGTextFigure figure = new SVGTextFigure();
         figure.setCoordinates(coordinates);
         figure.setRotates(rotates);

@@ -190,7 +190,7 @@ public interface IXMLElement
     *
     * @return the non-null enumeration
     */
-   public Iterator<IXMLElement> iterateChildren();
+   public Iterable<IXMLElement> iterableChildren();
 
 
    /**
@@ -299,6 +299,7 @@ public interface IXMLElement
     *
     * @return the value, or null if the attribute does not exist.
     */
+   @Deprecated
    public String getAttribute(String name);
 
 
@@ -380,8 +381,8 @@ public interface IXMLElement
      * </ul></dd></dl><dl>
      *
      */
-    public Object getAttribute(String name, String namespace,
-                               Map valueSet,
+    public <T> T getAttribute(String name, String namespace,
+                               Map<String,T> valueSet,
                                String    defaultKey);
     
 
@@ -474,7 +475,7 @@ public interface IXMLElement
     *
     * @return the non-null enumeration.
     */
-   public Iterator<String> iterateAttributeNames();
+   public Iterable<String> iterableAttributeNames();
 
 
    /**

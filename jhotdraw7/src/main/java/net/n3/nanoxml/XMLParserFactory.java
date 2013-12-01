@@ -140,7 +140,7 @@ public class XMLParserFactory {
             throws ClassNotFoundException,
             InstantiationException,
             IllegalAccessException {
-        Class cls = Class.forName(className);
+        Class<?> cls = Class.forName(className);
         IXMLParser parser = (IXMLParser) cls.newInstance();
         parser.setBuilder(builder);
         parser.setValidator(new NonValidator());

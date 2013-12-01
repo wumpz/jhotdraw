@@ -1,12 +1,10 @@
 /*
  * @(#)SerializationInputOutputFormat.java
  * 
- * Copyright (c) 2009-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
+ * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
  * 
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.draw.io;
 
@@ -123,8 +121,8 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
             ObjectInputStream oin = new ObjectInputStream(in);
             Drawing d = (Drawing) oin.readObject();
             if (replace) {
-                for (Map.Entry<AttributeKey, Object> e : d.getAttributes().entrySet()) {
-                    drawing.set(e.getKey(), e.getValue());
+                for (Map.Entry<AttributeKey<?>, Object> e : d.getAttributes().entrySet()) {
+                    drawing.set((AttributeKey<Object>)e.getKey(), e.getValue());
                 }
             }
             for (Figure f : d.getChildren()) {
@@ -149,8 +147,8 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
             Drawing d = (Drawing) t.getTransferData(dataFlavor);
 
             if (replace) {
-                for (Map.Entry<AttributeKey, Object> e : d.getAttributes().entrySet()) {
-                    drawing.set(e.getKey(), e.getValue());
+                for (Map.Entry<AttributeKey<?>, Object> e : d.getAttributes().entrySet()) {
+                    drawing.set((AttributeKey<Object>)e.getKey(), e.getValue());
                 }
             }
             for (Figure f : d.getChildren()) {
@@ -200,7 +198,7 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
         HashMap<Figure, Figure> originalToDuplicateMap = new HashMap<Figure, Figure>(figures.size());
         final ArrayList<Figure> duplicates = new ArrayList<Figure>(figures.size());
         for (Figure f : figures) {
-            Figure df = (Figure) f.clone();
+            Figure df = f.clone();
             d.add(df);
             duplicates.add(df);
             originalToDuplicateMap.put(f, df);

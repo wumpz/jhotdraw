@@ -1,12 +1,9 @@
 /*
  * @(#)StrokeToolBar.java
  *
- * Copyright (c) 2007-2008 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 2007-2008 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.gui;
 
@@ -39,6 +36,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * @version $Id$
  */
 public class StrokeToolBar extends AbstractToolBar {
+    private final static long serialVersionUID = 1L;
 
     @Nullable private SelectionComponentDisplayer displayer;
 
@@ -84,7 +82,7 @@ public class StrokeToolBar extends AbstractToolBar {
                 AbstractButton btn;
 
                 // Stroke color
-                Map<AttributeKey, Object> defaultAttributes = new HashMap<AttributeKey, Object>();
+                Map<AttributeKey<?>, Object> defaultAttributes = new HashMap<AttributeKey<?>, Object>();
                 STROKE_GRADIENT.put(defaultAttributes, null);
                 btn = ButtonFactory.createSelectionColorChooserButton(editor,
                         STROKE_COLOR, "attribute.strokeColor", labels,
@@ -184,7 +182,7 @@ public class StrokeToolBar extends AbstractToolBar {
                 AbstractButton btn;
 
                 // Stroke color field and button
-                Map<AttributeKey, Object> defaultAttributes = new HashMap<AttributeKey, Object>();
+                Map<AttributeKey<?>, Object> defaultAttributes = new HashMap<AttributeKey<?>, Object>();
                 STROKE_GRADIENT.put(defaultAttributes, null);
                 JAttributeTextField<Color> colorField = new JAttributeTextField<Color>();
                 colorField.setColumns(7);

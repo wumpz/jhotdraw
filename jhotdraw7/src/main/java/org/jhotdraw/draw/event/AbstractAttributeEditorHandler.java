@@ -1,12 +1,10 @@
 /*
  * @(#)AbstractAttributeEditorHandler.java
  * 
- * Copyright (c) 2009-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
+ * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
  * 
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.draw.event;
 
@@ -57,7 +55,7 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
     protected AttributeKey<T> attributeKey;
     protected int updateDepth;
     @Nullable protected LinkedList<Object> attributeRestoreData = new LinkedList<Object>();
-    protected Map<AttributeKey, Object> defaultAttributes;
+    protected Map<AttributeKey<?>, Object> defaultAttributes;
     
     /**
      * If this variable is put to true, the attribute editor updates the
@@ -114,6 +112,7 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
     private EventHandler eventHandler;
 
     private static class UndoableAttributeEdit<T> extends AbstractUndoableEdit {
+    private final static long serialVersionUID = 1L;
 
         private Set<Figure> editedFigures;
         private AttributeKey<T> attributeKey;
@@ -169,9 +168,9 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
     }
 
     @SuppressWarnings("unchecked")
-    public AbstractAttributeEditorHandler(AttributeKey<T> key, @Nullable Map<AttributeKey, Object> defaultAttributes, AttributeEditor<T> attributeEditor, @Nullable DrawingEditor drawingEditor, boolean updateDrawingEditorDefaults) {
+    public AbstractAttributeEditorHandler(AttributeKey<T> key, @Nullable Map<AttributeKey<?>, Object> defaultAttributes, AttributeEditor<T> attributeEditor, @Nullable DrawingEditor drawingEditor, boolean updateDrawingEditorDefaults) {
         eventHandler = new EventHandler();
-        this.defaultAttributes = (Map<AttributeKey, Object>) ((defaultAttributes == null) ? Collections.emptyMap() : defaultAttributes);
+        this.defaultAttributes = (Map<AttributeKey<?>, Object>) ((defaultAttributes == null) ? Collections.emptyMap() : defaultAttributes);
         attributeEditor.setAttributeValue(key.getDefaultValue());
         setAttributeKey(key);
         setAttributeEditor(attributeEditor);
@@ -361,8 +360,8 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
                 for (Figure f : figures) {
                     f.willChange();
                     f.set(attributeKey, value);
-                    for (Map.Entry<AttributeKey, Object> entry : defaultAttributes.entrySet()) {
-                        f.set(entry.getKey(), entry.getValue());
+                    for (Map.Entry<AttributeKey<?>, Object> entry : defaultAttributes.entrySet()) {
+                        f.set((AttributeKey<Object>)entry.getKey(), entry.getValue());
                     }
                     f.changed();
                 }

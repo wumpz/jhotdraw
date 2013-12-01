@@ -1,12 +1,9 @@
 /*
  * @(#)UndoRedoManager.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 
 package org.jhotdraw.undo;
@@ -26,6 +23,7 @@ import org.jhotdraw.util.*;
  * @version $Id$
  */
 public class UndoRedoManager extends UndoManager {//javax.swing.undo.UndoManager {
+    private final static long serialVersionUID = 1L;
     protected PropertyChangeSupport propertySupport = new PropertyChangeSupport(this);
     private final static boolean DEBUG = false;
     
@@ -54,6 +52,7 @@ public class UndoRedoManager extends UndoManager {//javax.swing.undo.UndoManager
      * disables the Undo and Redo functions of the manager.
      */
     public final static UndoableEdit DISCARD_ALL_EDITS = new AbstractUndoableEdit() {
+    private final static long serialVersionUID = 1L;
     @Override
         public boolean canUndo() {
             return false;
@@ -69,6 +68,7 @@ public class UndoRedoManager extends UndoManager {//javax.swing.undo.UndoManager
      */
     private class UndoAction
             extends AbstractAction {
+    private final static long serialVersionUID = 1L;
         public UndoAction() {
             labels.configureAction(this, "edit.undo");
             setEnabled(false);
@@ -94,6 +94,8 @@ public class UndoRedoManager extends UndoManager {//javax.swing.undo.UndoManager
      */
     private class RedoAction
             extends AbstractAction {
+            private final static long serialVersionUID = 1L;
+
         public RedoAction() {
             labels.configureAction(this, "edit.redo");
             setEnabled(false);

@@ -1,12 +1,9 @@
 /*
  * @(#)LabelFigure.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 
 package org.jhotdraw.draw;
@@ -29,6 +26,7 @@ import java.util.*;
  * @version $Id$
  */
 public class LabelFigure extends TextFigure implements FigureListener {
+    private final static long serialVersionUID = 1L;
     @Nullable private TextHolderFigure target;
     
     /** Creates a new instance. */
@@ -96,7 +94,7 @@ public class LabelFigure extends TextFigure implements FigureListener {
     public void remap(Map<Figure,Figure> oldToNew, boolean disconnectIfNotInMap) {
         super.remap(oldToNew, disconnectIfNotInMap);
         if (target != null) {
-            Figure newTarget = (Figure) oldToNew.get(target);
+            Figure newTarget = oldToNew.get(target);
             if (newTarget != null) {
                 target.removeFigureListener(this);
                 target = (TextHolderFigure) newTarget;

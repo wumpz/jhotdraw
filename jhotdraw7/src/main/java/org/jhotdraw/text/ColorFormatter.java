@@ -1,12 +1,10 @@
 /*
  * @(#)ColorFormatter.java
  * 
- * Copyright (c) 2009-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
+ * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
  * 
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.text;
 
@@ -86,6 +84,7 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * @version $Id$
  */
 public class ColorFormatter extends DefaultFormatter {
+    public final static long serialVersionUID = 1L;
 
     /**
      * Specifies the formats supported by ColorFormatter.

@@ -1,12 +1,9 @@
 /*
  * @(#)AttributeToggler.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 
 package org.jhotdraw.draw.action;
@@ -33,6 +30,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class AttributeToggler<T> extends AbstractAction {
+    private final static long serialVersionUID = 1L;
     private DrawingEditor editor;
     private AttributeKey<T> key;
     private T value1;
@@ -71,10 +69,10 @@ public class AttributeToggler<T> extends AbstractAction {
         }
         
         // Determine the new value
-        Iterator i = getView().getSelectedFigures().iterator();
+        Iterator<Figure> i = getView().getSelectedFigures().iterator();
         T toggleValue = value1;
         if (i.hasNext()) {
-            Figure f = (Figure) i.next();
+            Figure f = i.next();
             Object attr = f.get(key);
             if (value1 == null && attr == null ||
                     (value1 != null && attr != null && attr.equals(value1))) {
@@ -93,6 +91,7 @@ public class AttributeToggler<T> extends AbstractAction {
             figure.changed();
         }
         UndoableEdit edit = new AbstractUndoableEdit() {
+    private final static long serialVersionUID = 1L;
             @Override
             public String getPresentationName() {
                 String name = (String) getValue(ActionUtil.UNDO_PRESENTATION_NAME_KEY);

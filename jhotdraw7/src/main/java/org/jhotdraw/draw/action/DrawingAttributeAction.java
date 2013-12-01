@@ -1,12 +1,9 @@
 /*
  * @(#)AttributeAction.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.draw.action;
 
@@ -25,8 +22,9 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class DrawingAttributeAction extends AbstractDrawingViewAction {
+    private final static long serialVersionUID = 1L;
 
-    protected Map<AttributeKey, Object> attributes;
+    protected Map<AttributeKey<?>, Object> attributes;
 
     /** Creates a new instance. */
     /** Creates a new instance. */
@@ -50,7 +48,7 @@ public class DrawingAttributeAction extends AbstractDrawingViewAction {
 
     public <T> DrawingAttributeAction(DrawingEditor editor, AttributeKey<T> key, @Nullable T value, @Nullable String name, @Nullable Icon icon, @Nullable Action compatibleTextAction) {
         super(editor);
-        this.attributes = new HashMap<AttributeKey, Object>();
+        this.attributes = new HashMap<AttributeKey<?>, Object>();
         attributes.put(key, value);
 
         putValue(AbstractAction.NAME, name);
@@ -58,7 +56,7 @@ public class DrawingAttributeAction extends AbstractDrawingViewAction {
         setEnabled(true);
     }
 
-    public DrawingAttributeAction(DrawingEditor editor, Map<AttributeKey, Object> attributes, String name, Icon icon) {
+    public DrawingAttributeAction(DrawingEditor editor, Map<AttributeKey<?>, Object> attributes, String name, Icon icon) {
         super(editor);
         this.attributes = attributes;
 
@@ -74,12 +72,13 @@ public class DrawingAttributeAction extends AbstractDrawingViewAction {
         final Figure drawing = getView().getDrawing();
         restoreData.add(drawing.getAttributesRestoreData());
         drawing.willChange();
-        for (Map.Entry<AttributeKey, Object> entry : attributes.entrySet()) {
-            drawing.set(entry.getKey(), entry.getValue());
+        for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
+            drawing.set((AttributeKey<Object>)entry.getKey(), entry.getValue());
         }
         drawing.changed();
 
         UndoableEdit edit = new AbstractUndoableEdit() {
+    private final static long serialVersionUID = 1L;
 
             @Override
             public String getPresentationName() {
@@ -110,8 +109,8 @@ public class DrawingAttributeAction extends AbstractDrawingViewAction {
                 super.redo();
                 //restoreData.add(drawing.getAttributesRestoreData());
                 drawing.willChange();
-                for (Map.Entry<AttributeKey, Object> entry : attributes.entrySet()) {
-                    drawing.set(entry.getKey(), entry.getValue());
+                for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
+                    drawing.set((AttributeKey<Object>)entry.getKey(), entry.getValue());
                 }
                 drawing.changed();
             }

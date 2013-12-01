@@ -1,12 +1,9 @@
 /*
  * @(#)GridConstrainer.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.draw;
 
@@ -20,6 +17,7 @@ import java.awt.geom.*;
  * @version $Id$
  */
 public class GridConstrainer extends AbstractConstrainer {
+    private final static long serialVersionUID = 1L;
 
     /**
      * The width of a minor grid cell.
@@ -399,8 +397,8 @@ public class GridConstrainer extends AbstractConstrainer {
 
                     point.x = width * i;
                     t.transform(point, viewPoint);
-                    g.drawLine((int) viewPoint.x, (int) viewBounds.y,
-                            (int) viewPoint.x, (int) (viewBounds.y + viewBounds.height));
+                    g.drawLine((int) viewPoint.x, viewBounds.y,
+                            (int) viewPoint.x, viewBounds.y + viewBounds.height);
                 }
             } else if (width * majorGridSpacing * view.getScaleFactor() > 2) {
                 g.setColor(majorColor);
@@ -408,8 +406,8 @@ public class GridConstrainer extends AbstractConstrainer {
                     if (i % majorGridSpacing == 0) {
                         point.x = width * i;
                         t.transform(point, viewPoint);
-                        g.drawLine((int) viewPoint.x, (int) viewBounds.y,
-                                (int) viewPoint.x, (int) (viewBounds.y + viewBounds.height));
+                        g.drawLine((int) viewPoint.x, viewBounds.y,
+                                (int) viewPoint.x, viewBounds.y + viewBounds.height);
                     }
                 }
             }
@@ -423,8 +421,8 @@ public class GridConstrainer extends AbstractConstrainer {
 
                     point.y = height * i;
                     t.transform(point, viewPoint);
-                    g.drawLine((int) viewBounds.x, (int) viewPoint.y,
-                            (int) (viewBounds.x + viewBounds.width), (int) viewPoint.y);
+                    g.drawLine(viewBounds.x, (int) viewPoint.y,
+                            viewBounds.x + viewBounds.width, (int) viewPoint.y);
                 }
             } else if (height * majorGridSpacing * view.getScaleFactor() > 2) {
                 g.setColor(majorColor);
@@ -432,8 +430,8 @@ public class GridConstrainer extends AbstractConstrainer {
                     if (i % majorGridSpacing == 0) {
                         point.y = height * i;
                         t.transform(point, viewPoint);
-                        g.drawLine((int) viewBounds.x, (int) viewPoint.y,
-                                (int) (viewBounds.x + viewBounds.width), (int) viewPoint.y);
+                        g.drawLine(viewBounds.x, (int) viewPoint.y,
+                                viewBounds.x + viewBounds.width, (int) viewPoint.y);
                     }
                 }
             }

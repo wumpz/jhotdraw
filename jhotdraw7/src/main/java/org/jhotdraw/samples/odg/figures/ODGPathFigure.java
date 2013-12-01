@@ -1,12 +1,9 @@
 /*
  * @(#)ODGPathFigure.java
  *
- * Copyright (c) 2007 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 2007 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.samples.odg.figures;
 
@@ -36,6 +33,7 @@ import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
  * @version $Id$
  */
 public class ODGPathFigure extends AbstractAttributedCompositeFigure implements ODGFigure {
+    private final static long serialVersionUID = 1L;
 
     /**
      * This cachedPath is used for drawing.
@@ -159,7 +157,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
             } else if (get(STROKE_CAP) != BasicStroke.CAP_BUTT) {
                 width += strokeTotalWidth * 2;
             }
-            Path2D.Double gp = (Path2D.Double) getPath();
+            Path2D.Double gp = getPath();
             Rectangle2D strokeRect = new Rectangle2D.Double(0, 0, width, width);
             if (get(TRANSFORM) != null) {
                 gp = (Path2D.Double) gp.clone();
@@ -217,8 +215,8 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
 
     @Override
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
-        if (getChildCount() == 1 && ((ODGBezierFigure) getChild(0)).getNodeCount() <= 2) {
-            ODGBezierFigure b = (ODGBezierFigure) getChild(0);
+        if (getChildCount() == 1 && getChild(0).getNodeCount() <= 2) {
+            ODGBezierFigure b = getChild(0);
             b.setBounds(anchor, lead);
             invalidate();
         } else {
@@ -332,6 +330,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
         LinkedList<Action> actions = new LinkedList<Action>();
         if (get(TRANSFORM) != null) {
             actions.add(new AbstractAction(labels.getString("edit.removeTransform.text")) {
+    private final static long serialVersionUID = 1L;
 
                 @Override
                 public void actionPerformed(ActionEvent evt) {
@@ -342,6 +341,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
                 }
             });
             actions.add(new AbstractAction(labels.getString("edit.flattenTransform.text")) {
+    private final static long serialVersionUID = 1L;
 
                 @Override
                 public void actionPerformed(ActionEvent evt) {
@@ -349,6 +349,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
                     //TransformEdit edit = new TransformEdit(ODGPathFigure.this, )
                     final Object restoreData = getTransformRestoreData();
                     UndoableEdit edit = new AbstractUndoableEdit() {
+    private final static long serialVersionUID = 1L;
 
                         @Override
                         public String getPresentationName() {
@@ -380,6 +381,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
             });
         }
         actions.add(new AbstractAction(labels.getString("closePath")) {
+    private final static long serialVersionUID = 1L;
 
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -392,6 +394,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
             }
         });
         actions.add(new AbstractAction(labels.getString("openPath")) {
+    private final static long serialVersionUID = 1L;
 
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -404,6 +407,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
             }
         });
         actions.add(new AbstractAction(labels.getString("windingRule.evenOdd")) {
+    private final static long serialVersionUID = 1L;
 
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -414,6 +418,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
             }
         });
         actions.add(new AbstractAction(labels.getString("windingRule.nonZero")) {
+    private final static long serialVersionUID = 1L;
 
             @Override
             public void actionPerformed(ActionEvent evt) {

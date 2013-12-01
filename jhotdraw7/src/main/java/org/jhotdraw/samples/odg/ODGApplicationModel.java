@@ -1,12 +1,9 @@
 /*
  * @(#)ODGApplicationModel.java
  *
- * Copyright (c) 2007 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 2007 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.samples.odg;
 
@@ -46,6 +43,7 @@ import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
  * @version $Id$
  */
 public class ODGApplicationModel extends DefaultApplicationModel {
+    private final static long serialVersionUID = 1L;
 
     private final static double[] scaleFactors = {5, 4, 3, 2, 1.5, 1.25, 1, 0.75, 0.5, 0.25, 0.10};
     /**
@@ -95,23 +93,23 @@ public class ODGApplicationModel extends DefaultApplicationModel {
 
     private void addCreationButtonsTo(JToolBar tb, final DrawingEditor editor) {
         // AttributeKeys for the entitie sets
-        HashMap<AttributeKey, Object> attributes;
+        HashMap<AttributeKey<?>, Object> attributes;
 
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
 
         ButtonFactory.addSelectionToolTo(tb, editor, createDrawingActions(editor), createSelectionActions(editor));
         tb.addSeparator();
 
-        attributes = new HashMap<AttributeKey, Object>();
+        attributes = new HashMap<AttributeKey<?>, Object>();
         ButtonFactory.addToolTo(tb, editor, new CreationTool(new ODGRectFigure(), attributes), "edit.createRectangle", drawLabels);
-        attributes = new HashMap<AttributeKey, Object>();
+        attributes = new HashMap<AttributeKey<?>, Object>();
         attributes.put(AttributeKeys.FILL_COLOR, null);
         attributes.put(AttributeKeys.STROKE_COLOR, Color.black);
         ButtonFactory.addToolTo(tb, editor, new CreationTool(new ODGPathFigure(), attributes), "edit.createLine", drawLabels);
-        attributes = new HashMap<AttributeKey, Object>();
+        attributes = new HashMap<AttributeKey<?>, Object>();
         attributes.put(AttributeKeys.FILL_COLOR, Color.black);
         attributes.put(AttributeKeys.STROKE_COLOR, null);
-        attributes = new HashMap<AttributeKey, Object>();
+        attributes = new HashMap<AttributeKey<?>, Object>();
         attributes.put(AttributeKeys.FILL_COLOR, null);
         attributes.put(AttributeKeys.STROKE_COLOR, null);
     }
@@ -137,14 +135,14 @@ public class ODGApplicationModel extends DefaultApplicationModel {
 
     private void addColorButtonsTo(JToolBar bar, DrawingEditor editor) {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-        HashMap<AttributeKey, Object> defaultAttributes = new HashMap<AttributeKey, Object>();
+        HashMap<AttributeKey<?>, Object> defaultAttributes = new HashMap<AttributeKey<?>, Object>();
         STROKE_GRADIENT.put(defaultAttributes, (Gradient) null);
         bar.add(
                 ButtonFactory.createEditorColorButton(editor,
                 STROKE_COLOR, ButtonFactory.WEBSAVE_COLORS, ButtonFactory.WEBSAVE_COLORS_COLUMN_COUNT,
                 "attribute.strokeColor", labels,
                 defaultAttributes));
-        defaultAttributes = new HashMap<AttributeKey, Object>();
+        defaultAttributes = new HashMap<AttributeKey<?>, Object>();
         FILL_GRADIENT.put(defaultAttributes, (Gradient) null);
         bar.add(
                 ButtonFactory.createEditorColorButton(editor,

@@ -1,12 +1,9 @@
 /*
  * @(#)BezierFigure.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.draw;
 
@@ -57,6 +54,7 @@ import org.jhotdraw.xml.DOMOutput;
  * @version $Id$
  */
 public class BezierFigure extends AbstractAttributedFigure {
+                    private final static long serialVersionUID = 1L;
 
     /**
      * The BezierPath.
@@ -276,11 +274,11 @@ public class BezierFigure extends AbstractAttributedFigure {
      * Returns a clone of the bezier path of this figure.
      */
     public BezierPath getBezierPath() {
-        return (BezierPath) path.clone();
+        return path.clone();
     }
 
     public void setBezierPath(BezierPath newValue) {
-        path = (BezierPath) newValue.clone();
+        path = newValue.clone();
         this.setClosed(newValue.isClosed());
     }
 
@@ -289,7 +287,7 @@ public class BezierFigure extends AbstractAttributedFigure {
     }
 
     public boolean isClosed() {
-        return (Boolean) get(PATH_CLOSED);
+        return get(PATH_CLOSED);
     }
 
     public void setClosed(boolean newValue) {
@@ -340,7 +338,7 @@ public class BezierFigure extends AbstractAttributedFigure {
      */
     protected BezierPath getCappedPath() {
         if (cappedPath == null) {
-            cappedPath = (BezierPath) path.clone();
+            cappedPath = path.clone();
             if (isClosed()) {
                 cappedPath.setClosed(true);
             } else {
@@ -585,7 +583,7 @@ public class BezierFigure extends AbstractAttributedFigure {
     @Override
     public BezierFigure clone() {
         BezierFigure that = (BezierFigure) super.clone();
-        that.path = (BezierPath) this.path.clone();
+        that.path = this.path.clone();
         that.invalidate();
         return that;
     }
@@ -652,6 +650,7 @@ public class BezierFigure extends AbstractAttributedFigure {
             if (index != -1) {
                 final BezierPath.Node newNode = getNode(index);
                 fireUndoableEditHappened(new AbstractUndoableEdit() {
+                    private final static long serialVersionUID = 1L;
 
                     @Override
                     public String getPresentationName() {

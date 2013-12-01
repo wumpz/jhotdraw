@@ -1,12 +1,9 @@
 /**
  * @(#)PaletteToolBarUI.java
  *
- * Copyright (c) 2008 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 2008 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.gui.plaf.palette;
 
@@ -442,12 +439,14 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
         Window window = SwingUtilities.getWindowAncestor(toolbar);
         JFrame frame = new JFrame(toolbar.getName(),
                 (window != null) ? window.getGraphicsConfiguration() : null) {
+    private final static long serialVersionUID = 1L;
             // Override createRootPane() to automatically resize
             // the frame when contents change
 
             @Override
             protected JRootPane createRootPane() {
                 JRootPane rootPane = new JRootPane() {
+    private final static long serialVersionUID = 1L;
 
                     private boolean packing = false;
 
@@ -479,6 +478,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
      */
     protected RootPaneContainer createFloatingWindow(JToolBar toolbar) {
         class ToolBarDialog extends JDialog {
+    private final static long serialVersionUID = 1L;
 
             public ToolBarDialog(@Nullable Frame owner, String title, boolean modal) {
                 super(owner, title, modal);
@@ -493,6 +493,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
             @Override
             protected JRootPane createRootPane() {
                 JRootPane rootPane = new JRootPane() {
+    private final static long serialVersionUID = 1L;
 
                     private boolean packing = false;
 
@@ -663,7 +664,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
         if (c instanceof AbstractButton) {
             AbstractButton b = (AbstractButton) c;
 
-            Border border = (Border) borderTable.get(b);
+            Border border = borderTable.get(b);
             if (border == null || border instanceof UIResource) {
                 borderTable.put(b, b.getBorder());
             }
@@ -704,7 +705,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
         if (c instanceof AbstractButton) {
             AbstractButton b = (AbstractButton) c;
 
-            Border border = (Border) borderTable.get(b);
+            Border border = borderTable.get(b);
             if (border == null || border instanceof UIResource) {
                 borderTable.put(b, b.getBorder());
             }
@@ -738,10 +739,10 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
         if (c instanceof AbstractButton) {
             AbstractButton b = (AbstractButton) c;
 
-            Border border = (Border) borderTable.remove(b);
+            Border border = borderTable.remove(b);
             b.setBorder(border);
 
-            Boolean value = (Boolean) rolloverTable.remove(b);
+            Boolean value = rolloverTable.remove(b);
             if (value != null) {
                 b.setRolloverEnabled(value.booleanValue());
             }
@@ -1060,6 +1061,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
     }
 
     private static class Actions extends /*UI*/ AbstractAction {
+    private final static long serialVersionUID = 1L;
 
         private static final String NAVIGATE_RIGHT = "navigateRight";
         private static final String NAVIGATE_LEFT = "navigateLeft";
@@ -1401,6 +1403,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
     }
 
     protected class DragWindow extends JWindow {
+    private final static long serialVersionUID = 1L;
 
         Color borderColor = Color.gray;
         int orientation = toolBar.getOrientation();
@@ -1410,6 +1413,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
             super(w);
 
             getContentPane().add(new JPanel() {
+    private final static long serialVersionUID = 1L;
 
                 @Override
                 public void paintComponent(Graphics g) {

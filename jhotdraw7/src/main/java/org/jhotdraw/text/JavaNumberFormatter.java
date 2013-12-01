@@ -1,12 +1,10 @@
 /*
  * @(#)JavaNumberFormatter.java
  * 
- * Copyright (c) 2009-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
+ * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
  * 
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.text;
 
@@ -28,12 +26,15 @@ import javax.swing.text.DefaultFormatterFactory;
  * @version $Id$
  */
 public class JavaNumberFormatter extends DefaultFormatter {
+    private final static long serialVersionUID = 1L;
 
     /**
      * Specifies whether the formatter allows null values.
      */
     private boolean allowsNullValue = false;
+    @SuppressWarnings("rawtypes")
     private Comparable min;
+    @SuppressWarnings("rawtypes")
     private Comparable max;
     @Nullable private String unit;
     private DecimalFormat decimalFormat;
@@ -99,6 +100,7 @@ public class JavaNumberFormatter extends DefaultFormatter {
      * @param minimum Minimum legal value that can be input
      * @see #setValueClass
      */
+    @SuppressWarnings("rawtypes")
     public void setMinimum(Comparable minimum) {
         if (getValueClass() == null && minimum != null) {
             setValueClass(minimum.getClass());
@@ -111,7 +113,8 @@ public class JavaNumberFormatter extends DefaultFormatter {
      *
      * @return Minimum legal value that can be input
      */
-    public Comparable getMinimum() {
+    @SuppressWarnings("rawtypes")
+    public  Comparable getMinimum() {
         return min;
     }
 
@@ -124,6 +127,7 @@ public class JavaNumberFormatter extends DefaultFormatter {
      * @param max Maximum legal value that can be input
      * @see #setValueClass
      */
+    @SuppressWarnings("rawtypes")
     public void setMaximum(Comparable max) {
         if (getValueClass() == null && max != null) {
             setValueClass(max.getClass());
@@ -136,6 +140,7 @@ public class JavaNumberFormatter extends DefaultFormatter {
      *
      * @return Maximum legal value that can be input
      */
+    @SuppressWarnings("rawtypes")
     public Comparable getMaximum() {
         return max;
     }
@@ -275,7 +280,7 @@ public class JavaNumberFormatter extends DefaultFormatter {
             }
         }
 
-        Class valueClass = getValueClass();
+        Class<?> valueClass = getValueClass();
         Object value;
         if (valueClass != null) {
             try {
@@ -293,7 +298,7 @@ public class JavaNumberFormatter extends DefaultFormatter {
                     value = new Float(v);
                 } else if (valueClass == Double.class) {
                     double v = Double.parseDouble(text);
-                    v = (double) (v / multiplier);
+                    v = (v / multiplier);
                     value = new Double(v);
                 } else if (valueClass == Byte.class) {
                     byte v = Byte.parseByte(text);
@@ -333,7 +338,7 @@ public class JavaNumberFormatter extends DefaultFormatter {
     @SuppressWarnings("unchecked")
     boolean isValidValue(Object value, boolean wantsCCE) {
         try {
-            if (min != null && min.compareTo(value) > 0) {
+            if (min != null && min.compareTo((Number)value) > 0) {
                 return false;
             }
         } catch (ClassCastException cce) {
@@ -344,7 +349,7 @@ public class JavaNumberFormatter extends DefaultFormatter {
         }
 
         try {
-            if (max != null && max.compareTo(value) < 0) {
+            if (max != null && max.compareTo((Number)value) < 0) {
                 return false;
             }
         } catch (ClassCastException cce) {

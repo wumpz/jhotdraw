@@ -1,12 +1,9 @@
 /*
  * @(#)AttributeKey.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.draw;
 
@@ -36,6 +33,7 @@ import org.jhotdraw.util.*;
  * @version $Id$
  */
 public class AttributeKey<T> implements Serializable {
+    private final static long serialVersionUID=1L;
 
     /**
      * Holds a String representation of the attribute key.
@@ -158,7 +156,7 @@ public class AttributeKey<T> implements Serializable {
      */
     @SuppressWarnings("unchecked")
     @Nullable
-    public T get(Map<AttributeKey, Object> a) {
+    public T get(Map<AttributeKey<?>, Object> a) {
         return a.containsKey(this) ? (T) a.get(this) : defaultValue;
     }
 
@@ -196,7 +194,7 @@ public class AttributeKey<T> implements Serializable {
         f.set(this, value);
 
         UndoableEdit edit = new AbstractUndoableEdit() {
-
+        private final static long serialVersionUID = 1L;
             @Override
             public String getPresentationName() {
                 return AttributeKey.this.getPresentationName();
@@ -249,7 +247,7 @@ public class AttributeKey<T> implements Serializable {
      * @param a the map
      * @param value the attribute value
      */
-    public void putClone(Map<AttributeKey, Object> a, @Nullable T value) {
+    public void putClone(Map<AttributeKey<?>, Object> a, @Nullable T value) {
         try {
             put(a, value == null ? null : clazz.cast(Methods.invoke(value, "clone")));
 
@@ -270,7 +268,7 @@ public class AttributeKey<T> implements Serializable {
      */
     @SuppressWarnings("unchecked")
     @Nullable
-    public T put(Map<AttributeKey, Object> a, @Nullable T value) {
+    public T put(Map<AttributeKey<?>, Object> a, @Nullable T value) {
         if (value == null && !isNullValueAllowed) {
             throw new NullPointerException("Null value not allowed for AttributeKey " + key);
         }

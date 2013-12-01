@@ -1,12 +1,9 @@
 /*
  * @(#)NanoXMLDOMInput.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 
 package org.jhotdraw.xml;
@@ -42,7 +39,7 @@ public class NanoXMLDOMInput implements DOMInput, Disposable {
     /**
      * The current node used for input.
      */
-    private XMLElement current;
+    private IXMLElement current;
     
     /**
      * The factory used to create objects from XML tag names.
@@ -52,7 +49,7 @@ public class NanoXMLDOMInput implements DOMInput, Disposable {
     /**
      * The stack.
      */
-    private Stack<XMLElement> stack = new Stack<XMLElement>();
+    private Stack<IXMLElement> stack = new Stack<IXMLElement>();
     
     public NanoXMLDOMInput(DOMFactory factory, InputStream in) throws IOException {
         this(factory, new InputStreamReader(in, "UTF8"));
@@ -99,11 +96,11 @@ public class NanoXMLDOMInput implements DOMInput, Disposable {
     @Override
     public java.util.List<String> getInheritedAttribute(String name) {
         LinkedList<String> values = new LinkedList<String>();
-        for (XMLElement node: stack) {
-            String value = (String) node.getAttribute(name,null);
+        for (IXMLElement node: stack) {
+            String value = node.getAttribute(name,null);
             values.add(value);
         }
-        String value = (String) current.getAttribute(name,null);
+        String value = current.getAttribute(name,null);
         values.add(value);
         return values;
     }
@@ -127,15 +124,15 @@ public class NanoXMLDOMInput implements DOMInput, Disposable {
      */
     @Override
     public int getAttribute(String name, int defaultValue) {
-        String value = (String) current.getAttribute(name, null);
-        return (value == null || value.length() == 0) ? defaultValue : (int) Long.decode(value).intValue();
+        String value = current.getAttribute(name, null);
+        return (value == null || value.length() == 0) ? defaultValue : Long.decode(value).intValue();
     }
     /**
      * Gets an attribute of the current element of the DOM Document.
      */
     @Override
     public double getAttribute(String name, double defaultValue) {
-        String value = (String) current.getAttribute(name, null);
+        String value = current.getAttribute(name, null);
         return (value == null || value.length() == 0) ? defaultValue : Double.parseDouble(value);
     }
     /**
@@ -143,7 +140,7 @@ public class NanoXMLDOMInput implements DOMInput, Disposable {
      */
     @Override
     public boolean getAttribute(String name, boolean defaultValue) {
-        String value = (String) current.getAttribute(name, null);
+        String value = current.getAttribute(name, null);
         return (value == null || value.length() == 0) ? defaultValue : Boolean.valueOf(value).booleanValue();
     }
     
@@ -162,9 +159,8 @@ public class NanoXMLDOMInput implements DOMInput, Disposable {
     @Override
     public int getElementCount(String tagName) {
         int count = 0;
-        ArrayList list = current.getChildren();
-        for (int i=0; i < list.size(); i++) {
-            XMLElement node = (XMLElement) list.get(i);
+        ArrayList<IXMLElement> list = current.getChildren();
+        for (IXMLElement node: list) {
             if (node.getName().equals(tagName)) {
                 count++;
             }
@@ -178,8 +174,8 @@ public class NanoXMLDOMInput implements DOMInput, Disposable {
     @Override
     public void openElement(int index) {
         stack.push(current);
-        ArrayList list = current.getChildren();
-        current = (XMLElement) list.get(index);
+        ArrayList<IXMLElement> list = current.getChildren();
+        current = list.get(index);
     }
     
     /**
@@ -187,9 +183,8 @@ public class NanoXMLDOMInput implements DOMInput, Disposable {
      */
     @Override
     public void openElement(String tagName) throws IOException {
-        ArrayList list = current.getChildren();
-        for (int i=0; i < list.size(); i++) {
-            XMLElement node = (XMLElement) list.get(i);
+        ArrayList<IXMLElement> list = current.getChildren();
+        for (IXMLElement node :list) {
             if (node.getName().equals(tagName)) {
                 stack.push(current);
                 current = node;
@@ -205,9 +200,8 @@ public class NanoXMLDOMInput implements DOMInput, Disposable {
     @Override
     public void openElement(String tagName, int index) throws IOException {
         int count = 0;
-        ArrayList list = current.getChildren();
-        for (int i=0; i < list.size(); i++) {
-            XMLElement node = (XMLElement) list.get(i);
+        ArrayList<IXMLElement> list = current.getChildren();
+        for (IXMLElement node : list) {
             if (node.getName().equals(tagName)) {
                 if (count++ == index) {
                     stack.push(current);

@@ -1,12 +1,9 @@
 /*
  * @(#)JFontChooser.java
  *
- * Copyright (c) 2008 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 2008 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.gui;
 
@@ -31,6 +28,7 @@ import org.jhotdraw.gui.plaf.palette.PaletteFontChooserUI;
  * @version $Id$
  */
 public class JFontChooser extends JComponent {
+    private final static long serialVersionUID = 1L;
 
     /**
      * @see #getUIClassID

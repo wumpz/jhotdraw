@@ -1,12 +1,10 @@
 /*
  * @(#)PropertyChangeEdit.java
  * 
- * Copyright (c) 2009-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
+ * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
  * 
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.undo;
 
@@ -23,6 +21,7 @@ import javax.swing.undo.UndoableEdit;
  * @version $Id$
  */
 public class PropertyChangeEdit extends AbstractUndoableEdit {
+    private final static long serialVersionUID = 1L;
 
     /**
      * The object to be provided as the "source" of the JavaBeans property.
@@ -41,7 +40,7 @@ public class PropertyChangeEdit extends AbstractUndoableEdit {
      */
     private Object newValue;
     /** The type of the property. */
-    private Class type;
+    private Class<?> type;
     private String presentationName;
 
     /** Creates a new PropertyChangeEdit. */

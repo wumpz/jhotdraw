@@ -1,12 +1,9 @@
 /*
  * @(#)AbstractAttributedCompositeFigure.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.draw;
 
@@ -28,20 +25,20 @@ import org.jhotdraw.xml.DOMOutput;
  */
 public abstract class AbstractAttributedCompositeFigure extends AbstractCompositeFigure {
 
-    private HashMap<AttributeKey, Object> attributes = new HashMap<AttributeKey, Object>();
+    private HashMap<AttributeKey<?>, Object> attributes = new HashMap<AttributeKey<?>, Object>();
     /**
      * Forbidden attributes can't be put by the put() operation.
      * They can only be changed by put().
      */
-    private HashSet<AttributeKey> forbiddenAttributes;
+    private HashSet<AttributeKey<?>> forbiddenAttributes;
 
     /** Creates a new instance. */
     public AbstractAttributedCompositeFigure() {
     }
 
-    public void setAttributeEnabled(AttributeKey key, boolean b) {
+    public void setAttributeEnabled(AttributeKey<?> key, boolean b) {
         if (forbiddenAttributes == null) {
-            forbiddenAttributes = new HashSet<AttributeKey>();
+            forbiddenAttributes = new HashSet<AttributeKey<?>>();
         }
         if (b) {
             forbiddenAttributes.remove(key);
@@ -50,20 +47,20 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
         }
     }
 
-    public boolean isAttributeEnabled(AttributeKey key) {
+    public <T> boolean isAttributeEnabled(AttributeKey<?> key) {
         return forbiddenAttributes == null || !forbiddenAttributes.contains(key);
     }
 
     @SuppressWarnings("unchecked")
-    public void setAttributes(Map<AttributeKey, Object> map) {
-        for (Map.Entry<AttributeKey, Object> entry : map.entrySet()) {
-            set(entry.getKey(), entry.getValue());
+    public void setAttributes(Map<AttributeKey<?>, Object> map) {
+        for (Map.Entry<AttributeKey<?>, Object> entry : map.entrySet()) {
+            set((AttributeKey<Object>)entry.getKey(), entry.getValue());
         }
     }
 
     @Override
-    public Map<AttributeKey, Object> getAttributes() {
-        return new HashMap<AttributeKey, Object>(attributes);
+    public Map<AttributeKey<?>, Object> getAttributes() {
+        return (Map<AttributeKey<?>, Object>)new HashMap<AttributeKey<?>, Object>(attributes);
     }
 
     /**
@@ -74,7 +71,8 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
     @Override
     public <T> void set(AttributeKey<T> key, T newValue) {
         if (forbiddenAttributes == null || !forbiddenAttributes.contains(key)) {
-            Object oldValue = attributes.put(key, newValue);
+            @SuppressWarnings("unchecked")
+            T oldValue = (T)attributes.put(key, newValue);
             setAttributeOnChildren(key, newValue);
             fireAttributeChanged(key, oldValue, newValue);
         }
@@ -97,7 +95,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
     @Override
     public Object getAttributesRestoreData() {
         LinkedList<Object> list = new LinkedList<Object>();
-        list.add(new HashMap<AttributeKey, Object>(getAttributes()));
+        list.add(new HashMap<AttributeKey<?>, Object>(getAttributes()));
         for (Figure child : getChildren()) {
             list.add(child.getAttributesRestoreData());
         }
@@ -109,7 +107,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
     public void restoreAttributesTo(Object restoreData) {
         Iterator<Object> i = ((LinkedList<Object>) restoreData).iterator();
         attributes.clear();
-        setAttributes((Map<AttributeKey, Object>) i.next());
+        setAttributes((Map<AttributeKey<?>, Object>) i.next());
         for (Figure child : getChildren()) {
             child.restoreAttributesTo(i.next());
         }
@@ -195,9 +193,9 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
     @Override
     public AbstractAttributedCompositeFigure clone() {
         AbstractAttributedCompositeFigure that = (AbstractAttributedCompositeFigure) super.clone();
-        that.attributes = new HashMap<AttributeKey, Object>(this.attributes);
+        that.attributes = new HashMap<AttributeKey<?>, Object>(this.attributes);
         if (this.forbiddenAttributes != null) {
-            that.forbiddenAttributes = new HashSet<AttributeKey>(this.forbiddenAttributes);
+            that.forbiddenAttributes = new HashSet<AttributeKey<?>>(this.forbiddenAttributes);
         }
         return that;
     }
@@ -206,8 +204,8 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
         Figure prototype = (Figure) out.getPrototype();
 
         boolean isElementOpen = false;
-        for (Map.Entry<AttributeKey, Object> entry : attributes.entrySet()) {
-            AttributeKey key = entry.getKey();
+        for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
+            AttributeKey<?> key = entry.getKey();
             if (forbiddenAttributes == null || !forbiddenAttributes.contains(key)) {
                 @SuppressWarnings("unchecked")
                 Object prototypeValue = prototype.get(key);
@@ -239,10 +237,10 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
                 in.openElement(i);
                 String name = in.getTagName();
                 Object value = in.readObject();
-                AttributeKey key = getAttributeKey(name);
+                AttributeKey<?> key = getAttributeKey(name);
                 if (key != null && key.isAssignable(value)) {
                     if (forbiddenAttributes == null || !forbiddenAttributes.contains(key)) {
-                        set(key, value);
+                        set((AttributeKey<Object>) key, value);
                     }
                 }
                 in.closeElement();
@@ -251,7 +249,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
         }
     }
 
-    protected AttributeKey getAttributeKey(String name) {
+    protected AttributeKey<?> getAttributeKey(String name) {
         return AttributeKeys.supportedAttributeMap.get(name);
     }
 
@@ -260,8 +258,8 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
      */
     @SuppressWarnings("unchecked")
     protected void applyAttributesTo(Figure that) {
-        for (Map.Entry<AttributeKey, Object> entry : attributes.entrySet()) {
-            that.set(entry.getKey(), entry.getValue());
+        for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
+            that.set((AttributeKey<Object>)entry.getKey(), entry.getValue());
         }
     }
 
@@ -285,7 +283,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
         }
     }
 
-    public boolean hasAttribute(AttributeKey key) {
+    public <T> boolean hasAttribute(AttributeKey<T> key) {
         return attributes.containsKey(key);
     }
 }

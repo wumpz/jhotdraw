@@ -31,6 +31,7 @@ package net.n3.nanoxml;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayDeque;
 import java.util.Stack;
 
 
@@ -51,7 +52,7 @@ public class StdXMLBuilder
    /**
     * This stack contains the current element and its parents.
     */
-   private Stack stack;
+   private ArrayDeque<IXMLElement> stack;
 
 
    /**
@@ -111,7 +112,7 @@ public class StdXMLBuilder
    public void startBuilding(String systemID,
                              int    lineNr)
    {
-      this.stack = new Stack();
+      this.stack = new ArrayDeque<IXMLElement>();
       this.root = null;
    }
 
@@ -159,10 +160,10 @@ public class StdXMLBuilder
       IXMLElement elt = this.prototype.createElement(fullName, nsURI,
                                                      systemID, lineNr);
 
-      if (this.stack.empty()) {
+      if (this.stack.isEmpty()) {
          this.root = elt;
       } else {
-         IXMLElement top = (IXMLElement) this.stack.peek();
+         IXMLElement top = this.stack.peek();
          top.addChild(elt);
       }
 
@@ -208,7 +209,7 @@ public class StdXMLBuilder
                           String nsPrefix,
                           String nsURI)
    {
-      IXMLElement elt = (IXMLElement) this.stack.pop();
+      IXMLElement elt = this.stack.pop();
 
       if (elt.getChildrenCount() == 1) {
          IXMLElement child = elt.getChildAtIndex(0);
@@ -251,7 +252,7 @@ public class StdXMLBuilder
          fullName = nsPrefix + ':' + key;
       }
 
-      IXMLElement top = (IXMLElement) this.stack.peek();
+      IXMLElement top = this.stack.peek();
 
       if (top.hasAttribute(fullName)) {
          throw new XMLParseException(top.getSystemID(),
@@ -313,8 +314,8 @@ public class StdXMLBuilder
       IXMLElement elt = this.prototype.createElement(null, systemID, lineNr);
       elt.setContent(str.toString());
 
-      if (! this.stack.empty()) {
-         IXMLElement top = (IXMLElement) this.stack.peek();
+      if (! this.stack.isEmpty()) {
+         IXMLElement top = this.stack.peek();
          top.addChild(elt);
       }
    }

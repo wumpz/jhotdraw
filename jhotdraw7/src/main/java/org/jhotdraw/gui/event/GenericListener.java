@@ -1,12 +1,9 @@
 /*
  * @(#)GenericListener.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.gui.event;
 
@@ -69,7 +66,7 @@ public abstract class GenericListener {
      * This version looks up the listener and target Methods, so you don't have to.
      */
     public static Object create(
-            Class listenerInterface,
+            Class<?> listenerInterface,
             String listenerMethodName,
             Object target,
             String targetMethodName) {
@@ -81,7 +78,7 @@ public abstract class GenericListener {
 
         // Nothing found? Search a target method with no parameters
         if (targetMethod == null) {
-            targetMethod = getTargetMethod(target, targetMethodName, new Class[0]);
+            targetMethod = getTargetMethod(target, targetMethodName, new Class<?>[0]);
         }
 
         // Still nothing found? We give up.
@@ -131,9 +128,9 @@ public abstract class GenericListener {
             }
         };
 
-        Class cls = listenerMethod.getDeclaringClass();
+        Class<?> cls = listenerMethod.getDeclaringClass();
         ClassLoader cl = cls.getClassLoader();
-        return Proxy.newProxyInstance(cl, new Class[]{cls}, handler);
+        return Proxy.newProxyInstance(cl, new Class<?>[]{cls}, handler);
     }
 
     /**
@@ -176,7 +173,7 @@ public abstract class GenericListener {
         private final static Byte byte_0 = (byte) 0;
 
         @Nullable
-        private final static Object nullValueOf(Class rt) {
+        private final static Object nullValueOf(Class<?> rt) {
             if (!rt.isPrimitive()) {
                 return null;
             } else if (rt == void.class) {
@@ -193,7 +190,7 @@ public abstract class GenericListener {
     }
 
     /* Helper methods for "EZ" version of create(): */
-    private static Method getListenerMethod(Class listenerInterface,
+    private static Method getListenerMethod(Class<?> listenerInterface,
             String listenerMethodName) {
         // given the arguments to create(), find out which listener is desired:
         Method[] m = listenerInterface.getMethods();
@@ -256,19 +253,19 @@ public abstract class GenericListener {
 
     @Nullable
     private static Method raiseToPublicClass(Method m) {
-        Class c = m.getDeclaringClass();
+        Class<?> c = m.getDeclaringClass();
         if (Modifier.isPublic(m.getModifiers())
                 && Modifier.isPublic(c.getModifiers())) {
             return m; // yes!
         }        // search for a public version which m overrides
-        Class sc = c.getSuperclass();
+        Class<?> sc = c.getSuperclass();
         if (sc != null) {
             Method sm = raiseToPublicClass(m, sc);
             if (sm != null) {
                 return sm;
             }
         }
-        Class[] ints = c.getInterfaces();
+        Class<?>[] ints = c.getInterfaces();
         for (int i = 0; i < ints.length; i++) {
             Method im = raiseToPublicClass(m, ints[i]);
             if (im != null) {
@@ -281,7 +278,7 @@ public abstract class GenericListener {
 
     @SuppressWarnings("unchecked")
     @Nullable
-    private static Method raiseToPublicClass(Method m, Class c) {
+    private static Method raiseToPublicClass(Method m, Class<?> c) {
         try {
             Method sm = c.getMethod(m.getName(), m.getParameterTypes());
             return raiseToPublicClass(sm);

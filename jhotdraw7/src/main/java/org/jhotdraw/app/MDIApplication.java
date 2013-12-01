@@ -1,12 +1,9 @@
 /*
  * @(#)MDIApplication.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 package org.jhotdraw.app;
 
@@ -149,6 +146,7 @@ import org.jhotdraw.net.URIUtil;
  * @version $Id$
  */
 public class MDIApplication extends AbstractApplication {
+    public final static long serialVersionUID = 1L;
 
     private JFrame parentFrame;
     private JScrollPane scrollPane;
@@ -274,8 +272,7 @@ public class MDIApplication extends AbstractApplication {
             boolean moved;
             do {
                 moved = false;
-                for (Iterator i = views().iterator(); i.hasNext();) {
-                    View aView = (View) i.next();
+                for (View aView : views()) {
                     if (aView != v && aView.isShowing()
                             && SwingUtilities.getRootPane(aView.getComponent()).getParent().
                             getLocation().equals(loc)) {
@@ -654,8 +651,7 @@ public class MDIApplication extends AbstractApplication {
             m.add(getAction(view, ArrangeWindowsAction.VERTICAL_ID));
             m.add(getAction(view, ArrangeWindowsAction.HORIZONTAL_ID));
             m.addSeparator();
-            for (Iterator i = views().iterator(); i.hasNext();) {
-                View pr = (View) i.next();
+            for (View pr: views()) {
                 if (getAction(pr, FocusWindowAction.ID) != null) {
                     m.add(getAction(pr, FocusWindowAction.ID));
                 }
@@ -673,6 +669,7 @@ public class MDIApplication extends AbstractApplication {
 
     /** This transfer handler opens a new view for each dropped file. */
     private class DropFileTransferHandler extends TransferHandler {
+    public final static long serialVersionUID = 1L;
 
         @Override
         public boolean canImport(JComponent comp, DataFlavor[] transferFlavors) {

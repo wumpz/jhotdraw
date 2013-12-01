@@ -32,6 +32,7 @@ package net.n3.nanoxml;
 import java.util.Hashtable;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.HashMap;
 
 
 /**
@@ -48,7 +49,7 @@ public class XMLEntityResolver
    /**
     * The entities.
     */
-   private Hashtable entities;
+   private HashMap<String,Object> entities;
 
 
    /**
@@ -56,7 +57,7 @@ public class XMLEntityResolver
     */
    public XMLEntityResolver()
    {
-      this.entities = new Hashtable();
+      this.entities = new HashMap<String,Object>();
       this.entities.put("amp", "&#38;");
       this.entities.put("quot", "&#34;");
       this.entities.put("apos", "&#39;");

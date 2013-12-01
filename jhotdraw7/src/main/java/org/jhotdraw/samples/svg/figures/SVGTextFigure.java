@@ -1,12 +1,9 @@
 /*
  * @(#)SVGText.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
- * contributors. All rights reserved.
- *
+ * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the 
- * license agreement you entered into with the copyright holders. For details
- * see accompanying license terms.
+ * accompanying license terms.
  */
 
 package org.jhotdraw.samples.svg.figures;
@@ -45,6 +42,7 @@ public class SVGTextFigure
         extends SVGAttributedFigure
         implements TextHolderFigure, SVGFigure {
     
+    private final static long serialVersionUID = 1L;
     protected Point2D.Double[] coordinates = new Point2D.Double[] { new Point2D.Double() };
     protected double[] rotates = new double[] { 0 };
     private boolean editable = true;
@@ -99,7 +97,7 @@ public class SVGTextFigure
         invalidate();
     }
     public double[] getRotates() {
-        return (double[]) rotates.clone();
+        return rotates.clone();
     }
     
     @Override
@@ -270,7 +268,7 @@ public class SVGTextFigure
     
     @Override
     public Object getTransformRestoreData() {
-        Point2D.Double[] restoredCoordinates = (Point2D.Double[]) this.coordinates.clone();
+        Point2D.Double[] restoredCoordinates = this.coordinates.clone();
         for (int i=0; i < this.coordinates.length; i++) {
             restoredCoordinates[i] = (Point2D.Double) this.coordinates[i].clone();
         }
@@ -288,7 +286,7 @@ public class SVGTextFigure
      */
     @Override
     public String getText() {
-        return (String) get(TEXT);
+        return get(TEXT);
     }
     @Override
     public <T> void set(AttributeKey<T> key, T newValue) {
@@ -460,7 +458,7 @@ public class SVGTextFigure
         for (int i=0; i < this.coordinates.length; i++) {
             that.coordinates[i] = (Point2D.Double) this.coordinates[i].clone();
         }
-        that.rotates = (double[]) this.rotates.clone();
+        that.rotates = this.rotates.clone();
         that.cachedBounds = null;
         that.cachedDrawingArea = null;
         that.cachedTextShape = null;
