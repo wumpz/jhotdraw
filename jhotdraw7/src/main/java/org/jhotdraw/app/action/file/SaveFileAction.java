@@ -135,16 +135,15 @@ public class SaveFileAction extends AbstractViewAction {
 
     protected void saveViewToURI(final View view, final URI file,
             @Nullable final URIChooser chooser) {
-        view.execute(new Worker<Object>() {
+        view.execute(new BackgroundTask() {
 
             @Override
-            protected Object construct() throws IOException {
+            protected void construct() throws IOException {
                 view.write(file, chooser);
-                return null;
             }
 
             @Override
-            protected void done(Object value) {
+            protected void done() {
                 view.setURI(file);
                 view.markChangesAsSaved();
                 int multiOpenId = 1;

@@ -22,6 +22,7 @@ import org.jhotdraw.draw.gui.JAttributeSlider;
 import org.jhotdraw.text.JavaNumberFormatter;
 import org.jhotdraw.util.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.gui.Dialogs;
 
 /**
  * The EditCanvasPanel can be used to edit the attributes of a Drawing.
@@ -123,38 +124,7 @@ public class EditCanvasPanel extends javax.swing.JPanel {
         f.setVisible(true);
     }
 
-    private static class ColorTracker implements ActionListener, Serializable {
-
-        private final static long serialVersionUID = 1L;
-        JColorChooser chooser;
-        Color color;
-
-        public ColorTracker(JColorChooser c) {
-            chooser = c;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            color = chooser.getColor();
-        }
-
-        public Color getColor() {
-            return color;
-        }
-    }
-
-    private Color showColorChooserDialog(Component component,
-            String title, Color initialColor) throws HeadlessException {
-
-        final JColorChooser pane = colorChooser;
-
-        ColorTracker ok = new ColorTracker(pane);
-        JDialog dialog = JColorChooser.createDialog(component, title, true, pane, ok, null);
-
-        dialog.setVisible(true); // blocks until user brings dialog down...
-
-        return ok.getColor();
-    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -202,7 +172,7 @@ public class EditCanvasPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
     private void colorButtonPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_colorButtonPerformed
         if (drawing != null) {
-            Color color = showColorChooserDialog(this, labels.getString("attribute.backgroundColor"),
+            Color color = Dialogs.showColorChooserDialog(colorChooser,this, labels.getString("attribute.backgroundColor"),
                     drawing.get(CANVAS_FILL_COLOR));
             colorButton.setBackground(color);
             updateDrawing();

@@ -158,10 +158,10 @@ public class PrintFileAction extends AbstractViewAction {
                 pageAttr);
 
         getActiveView().setEnabled(false);
-        new Worker<Object>() {
+        new BackgroundTask() {
 
             @Override
-            protected Object construct() throws PrinterException {
+            protected void construct() throws PrinterException {
 
                 // Compute page format from settings of the print job
                 Paper paper = new Paper();
@@ -205,7 +205,6 @@ public class PrintFileAction extends AbstractViewAction {
                 } finally {
                     pj.end();
                 }
-                return null;
             }
 
             @Override

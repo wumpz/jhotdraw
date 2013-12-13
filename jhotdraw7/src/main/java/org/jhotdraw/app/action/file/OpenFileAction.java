@@ -145,10 +145,10 @@ public class OpenFileAction extends AbstractApplicationAction {
         view.setEnabled(false);
 
         // Open the file
-        view.execute(new Worker<Object>() {
+        view.execute(new BackgroundTask() {
 
             @Override
-            public Object construct() throws IOException {
+            public void construct() throws IOException {
                 boolean exists = true;
                 try {
                     exists = new File(uri).exists();
@@ -156,7 +156,6 @@ public class OpenFileAction extends AbstractApplicationAction {
                 }
                 if (exists) {
                     view.read(uri, chooser);
-                    return null;
                 } else {
                     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
                     throw new IOException(labels.getFormatted("file.open.fileDoesNotExist.message", URIUtil.getName(uri)));
@@ -164,7 +163,7 @@ public class OpenFileAction extends AbstractApplicationAction {
             }
 
             @Override
-            protected void done(Object value) {
+            protected void done() {
                 final Application app = getApplication();
                 view.setURI(uri);
                 view.setEnabled(true);

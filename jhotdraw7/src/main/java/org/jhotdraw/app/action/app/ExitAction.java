@@ -265,16 +265,15 @@ public class ExitAction extends AbstractApplicationAction {
 
     protected void saveToFile(final URI uri, @Nullable final URIChooser chooser) {
         final View v = unsavedView;
-        v.execute(new Worker<Object>() {
+        v.execute(new BackgroundTask() {
 
             @Override
-            protected Object construct() throws IOException {
+            protected void construct() throws IOException {
                 v.write(uri, chooser);
-                return null;
             }
 
             @Override
-            protected void done(Object value) {
+            protected void done() {
                 v.setURI(uri);
                 doExit();
             }
@@ -302,16 +301,15 @@ public class ExitAction extends AbstractApplicationAction {
 
     protected void saveToFileAndReviewNext(final URI uri, @Nullable final URIChooser chooser) {
         final View v = unsavedView;
-        v.execute(new Worker<Object>() {
+        v.execute(new BackgroundTask() {
 
             @Override
-            protected Object construct() throws IOException {
+            protected void construct() throws IOException {
                 v.write(uri, chooser);
-                return null;
             }
 
             @Override
-            protected void done(Object value) {
+            protected void done() {
                 v.setURI(uri);
                 getApplication().dispose(unsavedView);
                 reviewNext();

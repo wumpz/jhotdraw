@@ -125,16 +125,15 @@ public class LoadFileAction extends AbstractSaveUnsavedChangesAction {
         view.setEnabled(false);
 
         // Open the file
-        view.execute(new Worker<Object>() {
+        view.execute(new BackgroundTask() {
 
             @Override
-            protected Object construct() throws IOException {
+            protected void construct() throws IOException {
                 view.read(uri, chooser);
-                return null;
             }
 
             @Override
-            protected void done(Object value) {
+            protected void done() {
                 view.setURI(uri);
                 view.setEnabled(true);
                 getApplication().addRecentURI(uri);

@@ -14,6 +14,7 @@ import org.jhotdraw.util.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
 import org.jhotdraw.app.action.AbstractSaveUnsavedChangesAction;
+import org.jhotdraw.gui.BackgroundTask;
 
 /**
  * Clears (empties) the contents of the active view.
@@ -47,11 +48,10 @@ public class ClearFileAction extends AbstractSaveUnsavedChangesAction {
     
     @Override public void doIt(final View view) {
         view.setEnabled(false);
-        view.execute(new Worker<Object>() {
+        view.execute(new BackgroundTask() {
             @Override
-            public Object construct() {
+            public void construct() {
                 view.clear();
-                return null;
             }
             @Override
             public void finished() {

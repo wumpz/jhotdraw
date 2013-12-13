@@ -53,10 +53,10 @@ public class CharacterSetAccessory extends javax.swing.JPanel {
 
     public void fetchAvailableCharSets() {
         if (availableCharSets == null) {
-            new Worker<Object>() {
+            new BackgroundTask() {
 
                 @Override
-                public Object construct() {
+                public void construct() {
                     SortedMap<String, Charset> sm = Charset.availableCharsets();
                     LinkedList<String> list = new LinkedList<String>();
                     for (String key : sm.keySet()) {
@@ -66,7 +66,6 @@ public class CharacterSetAccessory extends javax.swing.JPanel {
                     }
                     availableCharSets = list.toArray();
                     Arrays.sort(availableCharSets);
-                    return null;
                 }
 
                 @Override

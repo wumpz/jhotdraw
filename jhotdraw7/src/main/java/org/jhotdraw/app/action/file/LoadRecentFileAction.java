@@ -110,10 +110,10 @@ public class LoadRecentFileAction extends AbstractSaveUnsavedChangesAction {
         view.setMultipleOpenId(multipleOpenId);
 
         // Open the file
-        view.execute(new Worker<Object>() {
+        view.execute(new BackgroundTask() {
 
             @Override
-            protected Object construct() throws IOException {
+            protected void construct() throws IOException {
                 boolean exists = true;
                 try {
                     File f = new File(uri);
@@ -123,7 +123,6 @@ public class LoadRecentFileAction extends AbstractSaveUnsavedChangesAction {
                 }
                 if (exists) {
                     view.read(uri, null);
-                    return null;
                 } else {
                     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
                     throw new IOException(labels.getFormatted("file.load.fileDoesNotExist.message", URIUtil.getName(uri)));
@@ -131,7 +130,7 @@ public class LoadRecentFileAction extends AbstractSaveUnsavedChangesAction {
             }
 
             @Override
-            protected void done(Object value) {
+            protected void done() {
                 final Application app = getApplication();
                 view.setURI(uri);
                 app.addRecentURI(uri);

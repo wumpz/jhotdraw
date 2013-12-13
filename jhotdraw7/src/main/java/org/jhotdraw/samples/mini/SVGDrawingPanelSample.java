@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
+import org.jhotdraw.gui.BackgroundTask;
 import org.jhotdraw.gui.Worker;
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 
@@ -119,16 +120,15 @@ public class SVGDrawingPanelSample extends javax.swing.JFrame {
             svgPanel.setEnabled(false);
             final File selectedFile = fc.getSelectedFile();
             final InputFormat selectedFormat = fileFilterInputFormatMap.get(fc.getFileFilter());
-            new Worker<Object>() {
+            new BackgroundTask() {
 
                 @Override
-                protected Object construct() throws IOException {
+                protected void construct() throws IOException {
                     svgPanel.read(selectedFile.toURI(), selectedFormat);
-                    return null;
                 }
 
                 @Override
-                protected void done(Object value) {
+                protected void done() {
                     file = selectedFile;
                     setTitle(file.getName());
                 }
@@ -165,16 +165,15 @@ public class SVGDrawingPanelSample extends javax.swing.JFrame {
                 selectedFile = fc.getSelectedFile();
             }
             final OutputFormat selectedFormat = fileFilterOutputFormatMap.get(fc.getFileFilter());
-            new Worker<Object>() {
+            new BackgroundTask() {
 
                 @Override
-                protected Object construct() throws IOException {
+                protected void construct() throws IOException {
                     svgPanel.write(selectedFile.toURI(), selectedFormat);
-                    return null;
                 }
 
                 @Override
-                protected void done(Object value) {
+                protected void done() {
                     file = selectedFile;
                     setTitle(file.getName());
                 }

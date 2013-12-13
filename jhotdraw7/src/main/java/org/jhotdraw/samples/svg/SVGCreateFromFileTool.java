@@ -16,6 +16,7 @@ import java.io.*;
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
+import org.jhotdraw.gui.BackgroundTask;
 import org.jhotdraw.gui.Worker;
 import org.jhotdraw.samples.svg.io.SVGInputFormat;
 import org.jhotdraw.samples.svg.io.SVGZInputFormat;
@@ -160,17 +161,16 @@ public class SVGCreateFromFileTool extends CreationTool {
             } else {
                 prototype = imagePrototype;
                 final ImageHolderFigure loaderFigure = ((ImageHolderFigure) prototype.clone());
-                Worker<Object> worker;
-                worker = new Worker<Object>() {
+                BackgroundTask worker;
+                worker = new BackgroundTask() {
 
                     @Override
-                    protected Object construct() throws IOException {
+                    protected void construct() throws IOException {
                         loaderFigure.loadImage(file);
-                        return null;
                     }
 
                     @Override
-                    protected void done(Object value) {
+                    protected void done() {
                         try {
                             if (createdFigure == null) {
                                 ((ImageHolderFigure) prototype).setImage(loaderFigure.getImageData(), loaderFigure.getBufferedImage());

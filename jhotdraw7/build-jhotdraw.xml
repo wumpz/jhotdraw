@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Builds the "JHotDraw" jar file. -->
-<project name="build-jhotdraw" default="all" basedir=".">
+<project name="JHotdDraw" default="all" basedir=".">
     <target name="init">
         <!-- properties for copyright and versioning -->
+        <property name="name" value="${ant.project.name}"/>
         <property name="author" value="the authors and contributors of JHotDraw"/>
         <property name="version" value="7rev758"/>
 

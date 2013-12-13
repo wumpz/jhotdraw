@@ -150,16 +150,15 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
     }
 
     protected void saveViewToURI(final View v, final URI uri, @Nullable final URIChooser chooser) {
-        v.execute(new Worker<Object>() {
+        v.execute(new BackgroundTask() {
 
             @Override
-            protected Object construct() throws IOException {
+            protected void construct() throws IOException {
                 v.write(uri, chooser);
-                return null;
             }
 
             @Override
-            protected void done(Object value) {
+            protected void done() {
                 v.setURI(uri);
                 v.markChangesAsSaved();
                 doIt(v);

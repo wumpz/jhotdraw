@@ -179,12 +179,11 @@ public class ExportFileAction extends AbstractViewAction {
 
     protected void exportView(final View view, final URI uri,
             @Nullable final URIChooser chooser) {
-        view.execute(new Worker<Object>() {
+        view.execute(new BackgroundTask() {
 
             @Override
-            protected Object construct() throws IOException {
+            protected void construct() throws IOException {
                 view.write(uri, chooser);
-                return null;
             }
 
             @Override

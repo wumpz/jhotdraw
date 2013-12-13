@@ -16,6 +16,7 @@ import org.jhotdraw.app.Application;
 import org.jhotdraw.app.PrintableView;
 import org.jhotdraw.app.View;
 import org.jhotdraw.app.action.file.PrintFileAction;
+import org.jhotdraw.gui.BackgroundTask;
 
 /**
  * Prints a file for which a print request was sent to the application.
@@ -60,16 +61,15 @@ public class PrintApplicationFileAction extends PrintFileAction {
         p.setEnabled(false);
         app.add(p);
 //            app.show(p);
-        p.execute(new Worker<Object>() {
+        p.execute(new BackgroundTask() {
 
             @Override
-            public Object construct() throws IOException {
+            public void construct() throws IOException {
                 p.read(new File(filename).toURI(), null);
-                return null;
             }
 
             @Override
-            protected void done(Object value) {
+            protected void done() {
                 p.setURI(new File(filename).toURI());
                 p.setEnabled(false);
                 if ("true".equals(System.getProperty("apple.awt.graphics.UseQuartz", "false"))) {

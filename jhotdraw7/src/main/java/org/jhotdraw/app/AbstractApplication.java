@@ -30,6 +30,7 @@ import org.jhotdraw.app.action.file.LoadDirectoryAction;
 import org.jhotdraw.app.action.file.LoadFileAction;
 import org.jhotdraw.app.action.file.LoadRecentFileAction;
 import org.jhotdraw.app.action.file.OpenRecentFileAction;
+import org.jhotdraw.gui.BackgroundTask;
 import org.jhotdraw.gui.URIChooser;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 
@@ -117,12 +118,11 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
             // Set the start view immediately active, so that
             // ApplicationOpenFileAction picks it up on Mac OS X.
             setActiveView(v);
-            v.execute(new Worker<Object>() {
+            v.execute(new BackgroundTask() {
 
                 @Override
-                public Object construct() {
+                public void construct() {
                     v.clear();
-                    return null;
                 }
 
                 @Override
@@ -141,16 +141,15 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
                 // ApplicationOpenFileAction picks it up on Mac OS X.
                 setActiveView(v);
 
-                v.execute(new Worker<Object>() {
+                v.execute(new BackgroundTask() {
 
                     @Override
-                    public Object construct() throws Exception {
+                    public void construct() throws Exception {
                         v.read(uri, null);
-                        return null;
                     }
 
                     @Override
-                    protected void done(Object value) {
+                    protected void done() {
                         v.setURI(uri);
                     }
 

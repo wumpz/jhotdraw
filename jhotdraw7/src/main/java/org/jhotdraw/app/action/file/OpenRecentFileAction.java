@@ -16,6 +16,7 @@ import java.net.URI;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
 import org.jhotdraw.app.action.AbstractApplicationAction;
+import org.jhotdraw.gui.BackgroundTask;
 import org.jhotdraw.gui.JSheet;
 import org.jhotdraw.gui.Worker;
 import org.jhotdraw.gui.event.SheetEvent;
@@ -115,10 +116,10 @@ public class OpenRecentFileAction extends AbstractApplicationAction {
         view.setEnabled(false);
 
         // Open the file
-        view.execute(new Worker<Object>() {
+        view.execute(new BackgroundTask() {
 
             @Override
-            protected Object construct() throws IOException {
+            protected void construct() throws IOException {
                 boolean exists = true;
                 try {
                     File f = new File(uri);
@@ -128,7 +129,6 @@ public class OpenRecentFileAction extends AbstractApplicationAction {
                 }
                 if (exists) {
                     view.read(uri, null);
-                    return null;
                 } else {
                     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
                     throw new IOException(labels.getFormatted("file.open.fileDoesNotExist.message", URIUtil.getName(uri)));
@@ -136,7 +136,7 @@ public class OpenRecentFileAction extends AbstractApplicationAction {
             }
 
             @Override
-            protected void done(Object value) {
+            protected void done() {
                 view.setURI(uri);
                 Frame w = (Frame) SwingUtilities.getWindowAncestor(view.getComponent());
                 if (w != null) {
