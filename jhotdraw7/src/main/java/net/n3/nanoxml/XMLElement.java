@@ -402,9 +402,9 @@ public class XMLElement implements IXMLElement, Serializable {
     }
 
     /**
-     * Returns a vector containing all the child iterator.
+     * Returns a list containing all the child iterator.
      *
-     * @return the vector.
+     * @return the list.
      */
     public ArrayList<IXMLElement> getChildren() {
         return this.children;
@@ -472,11 +472,11 @@ public class XMLElement implements IXMLElement, Serializable {
     }
 
     /**
-     * Returns a vector of all child iterator named <I>name</I>.
+     * Returns a list of all child iterator named <I>name</I>.
      *
      * @param name the full name of the children to search for.
      *
-     * @return the non-null vector of child iterator.
+     * @return the non-null list of child iterator.
      */
     @Override
     public ArrayList<IXMLElement> getChildrenNamed(String name) {
@@ -491,12 +491,12 @@ public class XMLElement implements IXMLElement, Serializable {
     }
 
     /**
-     * Returns a vector of all child iterator named <I>name</I>.
+     * Returns a list of all child iterator named <I>name</I>.
      *
      * @param name the name of the children to search for.
      * @param namespace the namespace, which may be null.
      *
-     * @return the non-null vector of child iterator.
+     * @return the non-null list of child iterator.
      */
     public ArrayList<IXMLElement> getChildrenNamed(String name,
             String namespace) {

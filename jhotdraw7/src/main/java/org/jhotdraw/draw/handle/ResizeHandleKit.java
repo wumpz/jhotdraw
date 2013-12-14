@@ -47,7 +47,7 @@ public class ResizeHandleKit {
     }
 
     /**
-     * Fills the given Vector with handles at each
+     * Fills the given collection with handles at each
      * the north, south, east, and west of the figure.
      */
     static public void addEdgeResizeHandles(Figure f, Collection<Handle> handles) {
@@ -60,7 +60,7 @@ public class ResizeHandleKit {
     }
 
     /**
-     * Fills the given Vector with handles at each
+     * Fills the given collection with handles at each
      * the north, south, east, and west of the figure.
      */
     static public void addResizeHandles(Figure f, Collection<Handle> handles) {

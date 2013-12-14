@@ -9,7 +9,7 @@ package org.jhotdraw.io;
 
 import edu.umd.cs.findbugs.annotations.Nullable;
 import java.io.*;
-import java.util.Vector;
+import java.util.LinkedList;
 
 /**
  * This extension of <code>StreamTokenizer</code> keeps track
@@ -39,7 +39,7 @@ public class StreamPosTokenizer
      * rlw
      */
     private int startpos = -1, endpos = -1;
-    private Vector<Integer> unread = new Vector<Integer>();
+    private LinkedList<Integer> unread = new LinkedList<Integer>();
     
     private char buf[] = new char[20];
     
@@ -460,8 +460,7 @@ public class StreamPosTokenizer
         // rlw
         int data;
         if (unread.size() > 0) {
-            data = unread.lastElement().intValue();
-            unread.removeElementAt(unread.size() - 1);
+            data = unread.removeLast();
         } else {
             data = reader.read();
         }
@@ -470,7 +469,7 @@ public class StreamPosTokenizer
     }
     /** Unread */
     private void unread(int c) {
-        unread.addElement(c);
+        unread.add(c);
         readpos--;
     }
     

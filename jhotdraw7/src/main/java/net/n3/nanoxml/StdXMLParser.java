@@ -29,13 +29,10 @@
 package net.n3.nanoxml;
 
 
-import java.io.IOException;
-import java.io.CharArrayReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Properties;
-import java.util.Vector;
 
 
 /**

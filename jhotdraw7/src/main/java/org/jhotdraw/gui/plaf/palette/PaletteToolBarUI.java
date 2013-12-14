@@ -15,7 +15,6 @@ import java.awt.event.*;
 
 import java.beans.*;
 
-import java.util.Hashtable;
 import java.util.HashMap;
 
 import javax.swing.border.*;
@@ -85,7 +84,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
     private static Border nonRolloverToggleBorder;
     private boolean rolloverBorders = false;
     private HashMap<AbstractButton, Border> borderTable = new HashMap<AbstractButton, Border>();
-    private Hashtable<AbstractButton, Boolean> rolloverTable = new Hashtable<AbstractButton, Boolean>();
+    private HashMap<AbstractButton, Boolean> rolloverTable = new HashMap<AbstractButton, Boolean>();
     /**
      * As of Java 2 platform v1.3 this previously undocumented field is no
      * longer used.
@@ -674,7 +673,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
                 b.setBorder(getRolloverBorder(b));
             }
 
-            rolloverTable.put(b, b.isRolloverEnabled() ? Boolean.TRUE : Boolean.FALSE);
+            rolloverTable.put(b, b.isRolloverEnabled() );
             b.setRolloverEnabled(true);
         }
     }

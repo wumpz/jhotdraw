@@ -218,9 +218,9 @@ public interface IXMLElement
 
 
    /**
-    * Returns a vector containing all the child elements.
+    * Returns a list containing all the child elements.
     *
-    * @return the vector.
+    * @return the list.
     */
    public ArrayList<IXMLElement> getChildren();
 
@@ -262,22 +262,22 @@ public interface IXMLElement
 
 
    /**
-    * Returns a vector of all child elements named <I>name</I>.
+    * Returns a list of all child elements named <I>name</I>.
     *
     * @param name the full name of the children to search for.
     *
-    * @return the non-null vector of child elements.
+    * @return the non-null list of child elements.
     */
    public ArrayList<IXMLElement> getChildrenNamed(String name);
 
 
    /**
-    * Returns a vector of all child elements named <I>name</I>.
+    * Returns a list of all child elements named <I>name</I>.
     *
     * @param name      the name of the children to search for.
     * @param namespace the namespace, which may be null.
     *
-    * @return the non-null vector of child elements.
+    * @return the non-null list of child elements.
     */
    public ArrayList<IXMLElement> getChildrenNamed(String name,
                                   String namespace);

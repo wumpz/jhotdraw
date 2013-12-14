@@ -47,7 +47,7 @@ public class TransformHandleKit {
     }
 
     /**
-     * Fills the given Vector with handles at each
+     * Fills the given collection with handles at each
      * the north, south, east, and west of the figure.
      */
     static public void addEdgeTransformHandles(Figure f, Collection<Handle> handles) {

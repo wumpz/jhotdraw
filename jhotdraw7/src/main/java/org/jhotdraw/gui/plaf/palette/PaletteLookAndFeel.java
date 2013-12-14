@@ -75,7 +75,7 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
     }
 
     /**
-     * Looks up up the given key in our Hashtable and resolves LazyValues
+     * Looks up up the given key in our map and resolves LazyValues
      * or ActiveValues.
      */
     public Object get(Object key) {
@@ -206,8 +206,7 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
         table.addResourceBundle("org.jhotdraw.gui.Labels");
         if (table.getString("ColorChooser.rgbSliders") == null) {
             ResourceBundle rb = ResourceBundle.getBundle("org.jhotdraw.gui.Labels");
-            for (Enumeration<String> keys = rb.getKeys(); keys.hasMoreElements();) {
-                String key = keys.nextElement();
+            for (String key : rb.keySet()) {
                 table.put(key, rb.getObject(key));
             }
         }
