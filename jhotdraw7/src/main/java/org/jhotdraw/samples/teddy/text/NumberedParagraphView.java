@@ -30,7 +30,7 @@ public class NumberedParagraphView extends ParagraphView {
     /**
      * Gets the left inset.
      *
-     * @return the inset >= 0
+     * @return the inset &gt;= 0
      */
     @Override
     protected short getLeftInset() {

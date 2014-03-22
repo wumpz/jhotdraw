@@ -25,7 +25,7 @@ import java.util.*;
  * PERCENTAGE  {num}%
  * DIMENSION  {num}{ident}
  * URI  url\({w}{string}{w}\)
- * |url\({w}([!#$%&*-~]|{nonascii}|{escape})*{w}\)
+ * |url\({w}([!#$%&amp;*-~]|{nonascii}|{escape})*{w}\)
  * UNICODE-RANGE  U\+[0-9A-F?]{1,6}(-[0-9A-F]{1,6})?
  * CDO  <!--
  * CDC  -->

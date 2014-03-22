@@ -1069,7 +1069,7 @@ public class JSheet extends JDialog {
 
     /**
      * Displays a "Save File" file chooser sheet. Note that the text that
-     * appears in the approve button is determined by the L&F.
+     * appears in the approve button is determined by the L&amp;F.
      *
      * @param parent the parent component of the dialog, can
      * be <code>null</code>.
@@ -1082,7 +1082,7 @@ public class JSheet extends JDialog {
 
     /**
      * Displays an "Open File" file chooser sheet. Note that the text that
-     * appears in the approve button is determined by the L&F.
+     * appears in the approve button is determined by the L&amp;F.
      *
      * @param parent the parent component of the dialog, can
      * be <code>null</code>.
@@ -1095,7 +1095,7 @@ public class JSheet extends JDialog {
 
     /**
      * Displays a "Save File" file chooser sheet. Note that the text that
-     * appears in the approve button is determined by the L&F.
+     * appears in the approve button is determined by the L&amp;F.
      *
      * @param parent the parent component of the dialog, can
      * be <code>null</code>.
@@ -1108,7 +1108,7 @@ public class JSheet extends JDialog {
 
     /**
      * Displays an "Open File" file chooser sheet. Note that the text that
-     * appears in the approve button is determined by the L&F.
+     * appears in the approve button is determined by the L&amp;F.
      *
      * @param parent the parent component of the dialog, can
      * be <code>null</code>.

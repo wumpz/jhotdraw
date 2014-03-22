@@ -78,6 +78,7 @@ public abstract class AbstractApplicationModel extends AbstractBean
 
     /**
      * Use this method for best application startup performance.
+     * @param newValue the class name
      */
     public void setViewClassName(String newValue) {
         String oldValue = viewClassName;
@@ -87,6 +88,7 @@ public abstract class AbstractApplicationModel extends AbstractBean
 
     /**
      * Use this method only, if setViewClassName() does not suit you.
+     * @param newValue the class
      */
     public void setViewClass(Class<?> newValue) {
         Class<?> oldValue = viewClass;
@@ -200,7 +202,7 @@ public abstract class AbstractApplicationModel extends AbstractBean
      * <p>
      * The default value is true.
      *
-     * @param allowMultipleViewsForURI
+     * @param allowMultipleViewsForURI the value
      */
     public void setAllowMultipleViewsForURI(boolean allowMultipleViewsForURI) {
         this.allowMultipleViewsForURI = allowMultipleViewsForURI;

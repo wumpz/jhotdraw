@@ -51,34 +51,48 @@ public interface ApplicationModel {
 
     /**
      * Returns the name of the application.
+     * @return the value
      */
     public String getName();
 
     /**
      * Returns the version of the application.
+     * @return the value
      */
     public String getVersion();
 
     /**
      * Returns the copyright of the application.
+     * @return the value
      */
     public String getCopyright();
 
     /**
      * Creates a new view for the application.
+     * @return the created view
      */
     public View createView();
 
-    /** Inits the application. */
+    /** Initializes the application.
+     * @param a the application
+     */
     public void initApplication(Application a);
 
-    /** Destroys the application. */
+    /** Destroys the application. 
+     * @param a the application
+    */
     public void destroyApplication(Application a);
 
-    /** Inits the supplied view for the application. */
+    /** Initializes the supplied view for the application. 
+     * @param a the application
+     * @param v the view
+    */
     public void initView(Application a, View v);
 
-    /** Destroys the supplied view. */
+    /** Destroys the supplied view. 
+     * @param a the application
+     * @param v the view
+     */
     public void destroyView(Application a, View v);
 
     /** Creates an action map.
@@ -93,6 +107,7 @@ public interface ApplicationModel {
      * @param a Application.
      * @param v The view for which the toolbars need to be created, or null
      * if the actions are shared by multiple views.
+     * @return the created map
      */
     public ActionMap createActionMap(Application a, @Nullable View v);
 
@@ -105,6 +120,7 @@ public interface ApplicationModel {
      * @param a Application.
      * @param v The view for which the toolbars need to be created, or null
      * if the toolbars are shared by multiple views.
+     * @return the created tool bars
      */
     public List<JToolBar> createToolBars(Application a, @Nullable View v);
 
@@ -117,6 +133,7 @@ public interface ApplicationModel {
      * @param a Application.
      * @param v The view for which the chooser needs to be created, or null
      * if the chooser is shared by multiple views.
+     * @return the created chooser
      */
     public URIChooser createOpenChooser(Application a, @Nullable View v);
 
@@ -126,6 +143,7 @@ public interface ApplicationModel {
      * @param a Application.
      * @param v The view for which the chooser needs to be created, or null
      * if the chooser is shared by multiple views.
+     * @return the created chooser
      */
     public URIChooser createOpenDirectoryChooser(Application a, @Nullable View v);
 
@@ -135,6 +153,7 @@ public interface ApplicationModel {
      * @param a Application.
      * @param v The view for which the chooser needs to be created, or null
      * if the chooser is shared by multiple views.
+     * @return the created chooser
      */
     public URIChooser createSaveChooser(Application a, @Nullable View v);
 
@@ -144,6 +163,7 @@ public interface ApplicationModel {
      * @param a Application.
      * @param v The view for which the chooser needs to be created, or null
      * if the chooser is shared by multiple views.
+     * @return the created chooser
      */
     public URIChooser createImportChooser(Application a, @Nullable View v);
 
@@ -153,6 +173,7 @@ public interface ApplicationModel {
      * @param a Application.
      * @param v The view for which the chooser needs to be created, or null
      * if the chooser is shared by multiple views.
+     * @return the created chooser
      */
     public URIChooser createExportChooser(Application a, @Nullable View v);
 

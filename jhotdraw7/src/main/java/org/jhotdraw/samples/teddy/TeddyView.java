@@ -32,7 +32,7 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
 /**
  * Provides a view on a text document.
  * <p>
- * See {@link View} interface on how this view interacts with an application.
+ * See {@link org.jhotdraw.app.View} interface on how this view interacts with an application.
  *
  * @author Werner Randelshofer
  * @version $Id$
@@ -421,7 +421,7 @@ public class TeddyView extends AbstractView {
     /**
      * Determines the number of lines contained in the area.
      *
-     * @return the number of lines > 0
+     * @return the number of lines &gt; 0
      */
     public int getLineCount() {
         Element map = getDocument().getDefaultRootElement();

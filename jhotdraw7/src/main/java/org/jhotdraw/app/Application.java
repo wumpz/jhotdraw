@@ -114,6 +114,7 @@ public interface Application {
      * This method implements behavior for the following features:
      * <em>Launch application</em>, <em>Open last URI on launch</em>.
      * See {@link org.jhotdraw.app}.
+     * @param args The arguments of the main method
      */
     public void launch(String[] args);
 
@@ -125,6 +126,7 @@ public interface Application {
      * This method implements behavior for the following feature:
      * <em>Open URIs from command line on launch</em>.
      * See {@link org.jhotdraw.app}.
+     * @param args The arguments of the main method
      */
     public void configure(String[] args);
 
@@ -184,6 +186,7 @@ public interface Application {
      * The view has not been added to the application yet. 
      * To make the view usable with this application, call {@link #add(View)}.
      * To make it visible, first call {@code add(View)}, then {@link #show(View)}.
+     * @return the created view
      */
     public View createView();
 
@@ -191,34 +194,40 @@ public interface Application {
      * Adds a view to this application.
      * Fires a "documentCount" property change event.
      * Invokes method setApplication(this) on the view object.
+     * @param v the view
      */
-    public void add(View p);
+    public void add(View v);
 
     /**
      * Removes a view from this application and removes it from the users
      * view.
      * Fires a "documentCount" property change event.
      * Invokes method setApplication(null) on the view object.
+     * @param v the view
      */
-    public void remove(View p);
+    public void remove(View v);
 
     /**
      * Shows a view.
+     * @param v the view
      */
-    public void show(View p);
+    public void show(View v);
 
     /**
      * Hides a view.
+     * @param v the view
      */
-    public void hide(View p);
+    public void hide(View v);
 
     /**
      * This is a convenience method for removing a view and disposing it.
+     * @param v the view
      */
-    public void dispose(View p);
+    public void dispose(View v);
 
     /**
      * Returns a read only collection view of the views of this application.
+     * @return the views
      */
     public Collection<View> views();
 
@@ -229,12 +238,14 @@ public interface Application {
      * application has no view.
      * <p>
      * This is a bound property. 
+     * @return the active view or null
      */
     @Nullable
     public View getActiveView();
 
     /**
      * Returns the enabled state of the application.
+     * @return the value
      */
     public boolean isEnabled();
 
@@ -253,46 +264,55 @@ public interface Application {
      * perform the action and then enable the application again.
      *
      * This is a bound property.
+     * @param newValue the value
      */
     public void setEnabled(boolean newValue);
 
     /**
      * Adds a property change listener.
+     * @param l the listener
      */
     public void addPropertyChangeListener(PropertyChangeListener l);
 
     /**
      * Removes a property change listener.
+     * @param l the listener
      */
     public void removePropertyChangeListener(PropertyChangeListener l);
 
     /**
      * Returns the name of the application.
+     * @return the value
      */
     public String getName();
 
     /**
      * Returns the version of the application.
+     * @return the value
      */
     public String getVersion();
 
     /**
      * Returns the copyright of the application.
+     * @return the value
      */
     public String getCopyright();
 
     /**
      * Sets the application model.
+     * @param newValue the value
      */
     public void setModel(ApplicationModel newValue);
 
     /**
      * Returns the application model.
+     * @return the value
      */
     public ApplicationModel getModel();
 
     /**
      * Returns true, if this application shares tools among multiple views.
+     * @return the value
      */
     public boolean isSharingToolsAmongViews();
 
@@ -300,17 +320,20 @@ public interface Application {
      * Returns the application component. 
      * This may return null, if the application is not represented by a component
      * of its own on the user interface.
+     * @return the value
      */
     @Nullable
     public Component getComponent();
 
     /**
      * Adds a palette window to the application.
+     * @param palette the palette
      */
     public void addPalette(Window palette);
 
     /**
      * Removes a palette window from the application.
+     * @param palette the palette
      */
     public void removePalette(Window palette);
 
@@ -325,6 +348,7 @@ public interface Application {
 
     /**
      * Removes a (non-palette) window from the application.
+     * @param window the window
      */
     public void removeWindow(Window window);
 
@@ -334,6 +358,7 @@ public interface Application {
      * <p>
      * The most recent URI is used by the <em>Open last URI on launch</em> feature.
      * See {@link org.jhotdraw.app}.
+     * @return the recently opened URIs
      */
     public java.util.List<URI> getRecentURIs();
 
@@ -347,6 +372,7 @@ public interface Application {
      * <p>
      * The most recent URI is used by the <em>Open last URI on launch</em> feature.
      * See {@link org.jhotdraw.app}.
+     * @param uri the value
      */
     public void addRecentURI(URI uri);
 
@@ -443,6 +469,7 @@ public interface Application {
      * Gets an action map for the specified view or for the entire application.
      *
      * @param v A view or null
+     * @return the action map
      */
     public ActionMap getActionMap(@Nullable View v);
 
@@ -450,6 +477,7 @@ public interface Application {
      * <p>
      * The list of views is used by the <em>Allow multiple views per URI</em> feature.
      * See {@link org.jhotdraw.app}.
+     * @return the views
      */
     public List<View> getViews();
 }

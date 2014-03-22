@@ -38,7 +38,7 @@ public class FontFormatter extends DefaultFormatter {
     /**
      * Map of generic font families.
      * By default, holds a map of HTML generic font families.
-     * <a href="http://www.w3.org/TR/CSS2/fonts.html#generic-font-families"/>
+     * <a href="http://www.w3.org/TR/CSS2/fonts.html#generic-font-families">
      * http://www.w3.org/TR/CSS2/fonts.html#generic-font-families</a>.
      */
     @Nullable private HashMap<String, Font> genericFontFamilies = new HashMap<String, Font>();

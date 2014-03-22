@@ -304,13 +304,13 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
     }
 
     /** Override this method to create a tool-specific input map, which
-     * overrides the input map of the drawing edtior.
+     * overrides the input map of the drawing editor.
      * <p>
      * The implementation of this class creates an input map for the following
      * action ID's:
      * <ul>
      * <li>DeleteAction</li>
-     * <li>SelectAllAction/li>
+     * <li>SelectAllAction</li>
      * <li>IncreaseHandleDetailLevelAction</li>
      * <li>MoveConstrainedAction.West, .East, .North, .South</li>
      * <li>MoveAction.West, .East, .North, .South</li>
@@ -361,13 +361,13 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
     }
 
     /** Override this method to create a tool-specific action map, which
-     * overrides the action map of the drawing edtior.
+     * overrides the action map of the drawing editor.
      * <p>
      * The implementation of this class creates an action map which maps
      * the following action ID's to the classes which define them:
      * <ul>
      * <li>DeleteAction</li>
-     * <li>SelectAllAction/li>
+     * <li>SelectAllAction</li>
      * <li>IncreaseHandleDetailLevelAction</li>
      * <li>MoveConstrainedAction.West, .East, .North, .South</li>
      * <li>MoveAction.West, .East, .North, .South</li>

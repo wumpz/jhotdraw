@@ -121,7 +121,7 @@ public class AttributeKeys {
      * is 2.
      * <p>
      * FIXME - This is not flexible enough. Lets replace this with a
-     * STROKE_STRIPES_ARRAY<Double[]> and a IS_STROKE_STRIPES_FACTOR.
+     * STROKE_STRIPES_ARRAY&lt;Double[]&gt; and a IS_STROKE_STRIPES_FACTOR.
      */
     public static final AttributeKey<Double> STROKE_INNER_WIDTH_FACTOR = new AttributeKey<Double>("innerStrokeWidthFactor", Double.class, 2d, false, labels);
     /**

@@ -52,12 +52,12 @@ public class PaletteUtilities  extends BasicGraphicsUtils {
     }
 
     /**
-     * Draw a string with the graphics <code>g</code> at location
-     * (<code>x</code>, <code>y</code>)
-     * just like <code>g.drawString</code> would.
-     * The character at index <code>underlinedIndex</code>
-     * in text will be underlined. If <code>index</code> is beyond the
-     * bounds of <code>text</code> (including < 0), nothing will be
+     * Draw a string with the graphics {@code g} at location
+     * ({@code x}, {@code y})
+     * just like {@code g.drawString} would.
+     * The character at index {@code underlinedIndex}
+     * in text will be underlined. If {@code index} is beyond the
+     * bounds of {@code text} (including &lt; 0), nothing will be
      * underlined.
      *
      * @param g Graphics to draw with

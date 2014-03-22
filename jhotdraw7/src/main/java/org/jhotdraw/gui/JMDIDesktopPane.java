@@ -26,7 +26,7 @@ import java.beans.*;
  * @author Werner Randelshofer
  * Original version by 
  * Wolfram Kaiser (adapted from an article in JavaWorld), 
- * C.L.Gilbert <dnoyeb@users.sourceforge.net>
+ * C.L.Gilbert &lt;dnoyeb@users.sourceforge.net&gt;
  * @version $Id$
  */
 public class JMDIDesktopPane extends JDesktopPane implements Arrangeable {

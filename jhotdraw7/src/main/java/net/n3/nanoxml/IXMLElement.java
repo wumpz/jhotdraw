@@ -359,11 +359,11 @@ public interface IXMLElement
      * If the attribute doesn't exist, the value corresponding to defaultKey
      * is returned.
      * <P>
-     * As an example, if valueSet contains the mapping <code>"one" =&gt;
-     * "1"</code>
-     * and the element contains the attribute <code>attr="one"</code>, then
-     * <code>getAttribute("attr", mapping, defaultKey, false)</code> returns
-     * <code>"1"</code>.
+     * As an example, if valueSet contains the mapping {@code "one" =&gt;
+     * "1"}
+     * and the element contains the attribute {@code attr="one"}, then
+     * {@code getAttribute("attr", mapping, defaultKey, false)} returns
+     * {@code "1"}.
      *
      * @param name
      *     The name of the attribute.
@@ -373,12 +373,12 @@ public interface IXMLElement
      * @param defaultKey
      *     Key to use if the attribute is missing.
      *
-     * </dl><dl><dt><b>Preconditions:</b></dt><dd>
-     * <ul><li><code>name != null</code>
-     *     <li><code>name</code> is a valid XML identifier
-     *     <li><code>valueSet</code> != null
-     *     <li>the keySet().iterator of <code>valueSet</code> are strings
-     * </ul></dd></dl><dl>
+     * <dl><dt><b>Preconditions:</b></dt><dd>
+     * <ul><li>{@code name != null}
+     *     <li>{@code name} is a valid XML identifier
+     *     <li>{@code valueSet} != null
+     *     <li>the keySet().iterator of {@code valueSet} are strings
+     * </ul></dd></dl>
      *
      */
     public <T> T getAttribute(String name, String namespace,
@@ -388,7 +388,7 @@ public interface IXMLElement
 
     /**
      * Returns an attribute of the element.
-     * If the attribute doesn't exist, <code>defaultValue</code> is returned.
+     * If the attribute doesn't exist, {@code defaultValue} is returned.
      *
      * @param name         The name of the attribute.
      * @param namespace the namespace URI, which may be null.

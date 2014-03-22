@@ -353,6 +353,9 @@ public class DefaultMenuBuilder implements MenuBuilder {
     /** Adds an action to a menu. Returns the menu item that was added.
      * This method is invoked for each action that is added to a menu.
      * Override this method to customize the menu item that is being created.
+     * @param m the menu
+     * @param a the action
+     * @return the added menu item
      */
     protected JMenuItem add(JMenu m, Action a) {
         JMenuItem item=m.add(a);

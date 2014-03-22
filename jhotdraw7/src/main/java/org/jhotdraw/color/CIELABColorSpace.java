@@ -134,7 +134,7 @@ public class CIELABColorSpace extends AbstractNamedColorSpace {
      * xr = fx^3, if fx^3 &gt; eps
      *    = (116*fx - 16)/k, if fx^3 &lt;= eps
      *
-     * yr = ((L+16)/116)^3, if L > k*eps
+     * yr = ((L+16)/116)^3, if L &gt; k*eps
      *    = L/k, if L &lt;= k*eps
      *
      * zr = fz^3, if fz^3 &gt; eps

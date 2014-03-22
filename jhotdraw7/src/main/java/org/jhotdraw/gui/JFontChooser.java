@@ -150,7 +150,7 @@ public class JFontChooser extends JComponent {
     }
 
     /**
-     * Returns the look and feel (L&F) object that renders this component.
+     * Returns the look and feel (L&amp;F) object that renders this component.
      *
      * @return the PanelUI object that renders this component
      * @since 1.4
@@ -160,9 +160,9 @@ public class JFontChooser extends JComponent {
     }
 
     /**
-     * Sets the look and feel (L&F) object that renders this component.
+     * Sets the look and feel (L&amp;F) object that renders this component.
      *
-     * @param ui  the PanelUI L&F object
+     * @param ui  the PanelUI L&amp;F object
      * @see UIDefaults#getUI
      */
     public void setUI(FontChooserUI ui) {
@@ -170,7 +170,7 @@ public class JFontChooser extends JComponent {
     }
 
     /**
-     * Returns a string that specifies the name of the L&F class
+     * Returns a string that specifies the name of the L&amp;F class
      * that renders this component.
      *
      * @return "FontChooserUI"

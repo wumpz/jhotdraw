@@ -1283,16 +1283,18 @@ public class ODGInputFormat implements InputFormat {
      * The value of this attribute is a list of transform definitions, which are applied to the drawing shape
      * in the order in which they are listed. The transform definitions in the list must be separated by a
      * white space and/or a comma. The types of transform definitions available include:
-     * • matrix(<a> <b> <c> <d> <e> <f>), which specifies a transformation in the form of a
+     * <ul>
+     * <li>{@code matrix(a b c d e f)}, which specifies a transformation in the form of a
      * transformation matrix of six values. matrix(a,b,c,d,e,f) is the equivalent of applying the
-     * transformation matrix [a b c d e f].
-     * • translate(<tx> [<ty>]), which specifies a translation by tx and ty.
-     * • scale(<sx> [<sy>]), which specifies a scale operation by sx and sy. If <sy> is not
-     * provided, it is assumed to be equal to <sx>.
-     * • rotate(<rotate-angle>), which specifies a rotation by <rotate-angle> about the
-     * origin of the shapes coordinate system.
-     * • skewX(<skew-angle>), which specifies a skew transformation along the X axis.
-     * • skewY(<skew-angle>), which specifies a skew transformation along the Y axis.
+     * transformation matrix [a b c d e f].</li>
+     * <li>{@code translate(tx [ty])}, which specifies a translation by tx and ty.</li>
+     * <li>{@code scale(sx [sy])}, which specifies a scale operation by sx and sy. If {cpde sy} is not
+     * provided, it is assumed to be equal to {@code sx}.</li>
+     * <li>{@code rotate(rotateangle)}, which specifies a rotation by {@code rotateangle} about the
+     * origin of the shapes coordinate system.</li>
+     * <li>{@code skewX(skewangle)}, which specifies a skew transformation along the X axis.</li>
+     * <li>{cpde skewY(skewangle)}, which specifies a skew transformation along the Y axis.</li>
+     * </ul>
      */
     public static AffineTransform toTransform(String str) throws IOException {
         AffineTransform t = new AffineTransform();

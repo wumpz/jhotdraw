@@ -22,7 +22,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * <p>
  * Example:
  * <pre>
- *   private static FutureTask<Font[]> future = new FutureTask<Font[]>(new Callable<Font[]>() {
+ *   private static FutureTask&lt;Font[]&gt; future = new FutureTask&lt;Font[]&gt;(new Callable&lt;Font[]&gt;() {
  *
  *      public Font[] call() throws Exception {
  *          return GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();

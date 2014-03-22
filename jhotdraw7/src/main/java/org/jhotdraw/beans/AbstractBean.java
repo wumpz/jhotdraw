@@ -27,7 +27,7 @@ public class AbstractBean extends Object implements java.io.Serializable, Clonea
      * Adds a {@code PropertyChangeListener} which can optionally be wrapped
      * into a {@code WeakPropertyChangeListener}.
      *
-     * @param listener
+     * @param listener the listener
      */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         propertySupport.addPropertyChangeListener(listener);
@@ -37,7 +37,8 @@ public class AbstractBean extends Object implements java.io.Serializable, Clonea
      * Adds a {@code PropertyChangeListener} which can optionally be wrapped
      * into a {@code WeakPropertyChangeListener}.
      *
-     * @param listener
+     * @param propertyName the property name
+     * @param listener the listener
      */
     public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         propertySupport.addPropertyChangeListener(propertyName, listener);
@@ -48,7 +49,7 @@ public class AbstractBean extends Object implements java.io.Serializable, Clonea
      * wrapped into a {@code WeakPropertyChangeListener}, the
      * {@code WeakPropertyChangeListener} is removed.
      *
-     * @param listener
+     * @param listener the listener
      */
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         // Removes a property change listener from our list.
@@ -75,7 +76,8 @@ public class AbstractBean extends Object implements java.io.Serializable, Clonea
      * wrapped into a {@code WeakPropertyChangeListener}, the
      * {@code WeakPropertyChangeListener} is removed.
      *
-     * @param listener
+     * @param propertyName the property name
+     * @param listener the listener
      */
     public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         // Removes a property change listener from our list.

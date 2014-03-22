@@ -408,12 +408,19 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         return getActionMap(view).get(actionID);
     }
 
-    /** Adds the specified action as a menu item to the supplied menu. */
+    /** Adds the specified action as a menu item to the supplied menu.
+     * @param m the menu
+     * @param view the view
+     * @param actionID the action id
+    */
     protected void addAction(JMenu m, @Nullable View view, String actionID) {
         addAction(m, getAction(view, actionID));
     }
 
-    /** Adds the specified action as a menu item to the supplied menu. */
+    /** Adds the specified action as a menu item to the supplied menu.
+     * @param m the menu
+     * @param a the action
+     */
     protected void addAction(JMenu m, Action a) {
         if (a != null) {
             if (m.getClientProperty("needsSeparator") == Boolean.TRUE) {
@@ -427,7 +434,10 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         }
     }
 
-    /** Adds the specified action as a menu item to the supplied menu. */
+    /** Adds the specified action as a menu item to the supplied menu.
+     * @param m the menu
+     * @param mi the menu item 
+    */
     protected void addMenuItem(JMenu m, JMenuItem mi) {
         if (mi != null) {
             if (m.getClientProperty("needsSeparator") == Boolean.TRUE) {
@@ -439,7 +449,9 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     }
 
     /** Adds a separator to the supplied menu. The separator will only
-    be added, if the previous item is not a separator. */
+     * be added, if the previous item is not a separator.
+     * @param m the menu
+     */
     protected void maybeAddSeparator(JMenu m) {
         JPopupMenu pm = m.getPopupMenu();
         if (pm.getComponentCount() > 0 //
@@ -738,6 +750,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
 
     /**
      * Sets the application-wide action map.
+     * @param m the map
      */
     public void setActionMap(ActionMap m) {
         actionMap = m;
@@ -745,6 +758,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
 
     /**
      * Gets the action map.
+     * @return the map
      */
     @Override
     public ActionMap getActionMap(@Nullable View v) {

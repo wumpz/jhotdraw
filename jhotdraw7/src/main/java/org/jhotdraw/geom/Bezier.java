@@ -50,7 +50,7 @@ public class Bezier {
     /**
      * Fits a bezier path to the specified list of digitized points.
      * <p>
-     * This is a convenience method for calling fitCubicSegments(List<Point2D.Double>, double);
+     * This is a convenience method for calling {@link #fitBezierPath}
      * 
      * @param digitizedPoints digited points.
      * @param error the maximal allowed error between the bezier path and the
@@ -131,7 +131,7 @@ public class Bezier {
     /**
      * Fits a bezier path to the specified list of digitized points.
      * <p>
-     * This is a convenience method for calling fitCubicSegments(List<Point2D.Double>, double);
+     * This is a convenience method for calling {@link #fitBezierPath}.
      * 
      * @param digitizedPoints digited points.
      * @param error the maximal allowed error between the bezier path and the

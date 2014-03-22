@@ -52,7 +52,7 @@ implements BoundedRangeModel {
     }
     
     /**
-     * Overrides <code>FilterInputStream.read</code>
+     * Overrides {@code FilterInputStream.read}
      * to update the value after the read.
      */
     @Override
@@ -64,7 +64,7 @@ implements BoundedRangeModel {
         return c;
     }
     /**
-     * Overrides <code>FilterInputStream.read</code>
+     * Overrides {@code FilterInputStream.read}
      * to update the value after the read.
      */
     @Override
@@ -76,7 +76,7 @@ implements BoundedRangeModel {
     }
     
     /**
-     * Overrides <code>FilterInputStream.read</code>
+     * Overrides {@code FilterInputStream.read}
      * to update the value after the read.
      */
     @Override
@@ -87,7 +87,7 @@ implements BoundedRangeModel {
         return nr;
     }
     /**
-     * Overrides <code>FilterInputStream.skip</code>
+     * Overrides {@code FilterInputStream.skip}
      * to update the value after the skip.
      */
     @Override
@@ -97,7 +97,7 @@ implements BoundedRangeModel {
         return nr;
     }
     /**
-     * Overrides <code>FilterInputStream.reset</code>
+     * Overrides {@code FilterInputStream.reset}
      * to reset the progress monitor as well as the stream.
      */
     @Override
@@ -139,7 +139,7 @@ implements BoundedRangeModel {
      * other three properties may be changed as well, to ensure
      * that:
      * <pre>
-     * minimum <= value <= value+extent <= maximum
+     * minimum &lt;= value &lt;= value+extent &lt;= maximum
      * </pre>
      * <p>
      * Notifies any listeners if the model changes.
@@ -170,7 +170,7 @@ implements BoundedRangeModel {
      * Sets the model's maximum to <I>newMaximum</I>. The other
      * three properties may be changed as well, to ensure that
      * <pre>
-     * minimum <= value <= value+extent <= maximum
+     * minimum &lt;= value &lt;= value+extent &lt;= maximum
      * </pre>
      * <p>
      * Notifies any listeners if the model changes.
@@ -190,8 +190,8 @@ implements BoundedRangeModel {
      * Returns the current read position.
      *
      * Returns the model's current value.  Note that the upper
-     * limit on the model's value is <code>maximum - extent</code>
-     * and the lower limit is <code>minimum</code>.
+     * limit on the model's value is {@code maximum - extent}
+     * and the lower limit is {@code minimum}.
      *
      * @return  the model's value
      * @see     #setValue
@@ -203,16 +203,16 @@ implements BoundedRangeModel {
     /**
      * Ignored: The value is always zero.
      *
-     * Sets the model's current value to <code>newValue</code> if <code>newValue</code>
+     * Sets the model's current value to {@code newValue} if {@code newValue}
      * satisfies the model's constraints. Those constraints are:
      * <pre>
-     * minimum <= value <= value+extent <= maximum
+     * minimum &lt;= value &lt;= value+extent &lt;= maximum
      * </pre>
-     * Otherwise, if <code>newValue</code> is less than <code>minimum</code>
-     * it's set to <code>minimum</code>, if its greater than
-     * <code>maximum</code> then it's set to <code>maximum</code>, and
-     * if it's greater than <code>value+extent</code> then it's set to
-     * <code>value+extent</code>.
+     * Otherwise, if {@code newValue} is less than {@code minimum}
+     * it's set to {@code minimum}, if its greater than
+     * {@code maximum} then it's set to {@code maximum}, and
+     * if it's greater than {@code value+extent} then it's set to
+     * {@code value+extent}.
      * <p>
      * When a BoundedRange model is used with a scrollbar the value
      * specifies the origin of the scrollbar knob (aka the "thumb" or

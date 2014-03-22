@@ -35,7 +35,7 @@ public class JEditorArea extends JEditorPane {
      * Sets the line-wrapping policy of the text area.  If set
      * to true the lines will be wrapped if they are too long
      * to fit within the allocated width.  If set to false,
-     * the lines will always be unwrapped.  A <code>PropertyChange</code>
+     * the lines will always be unwrapped.  A {@code PropertyChange}
      * event ("lineWrap") is fired when the policy is changed.
      * By default this property is false.
      *
@@ -94,8 +94,8 @@ public class JEditorArea extends JEditorPane {
      * and Swing</A> for more information.     
      *
      * @param str the text to use as the replacement
-     * @param start the start position >= 0
-     * @param end the end position >= start
+     * @param start the start position &gt;= 0
+     * @param end the end position &gt;= start
      * @exception IllegalArgumentException  if part of the range is an
      *  invalid position in the model
      */
@@ -123,8 +123,8 @@ public class JEditorArea extends JEditorPane {
      * Translates an offset into the components text to a 
      * line number.
      *
-     * @param offset the offset >= 0
-     * @return the line number >= 0
+     * @param offset the offset &gt;= 0
+     * @return the line number &gt;= 0
      * @exception BadLocationException thrown if the offset is
      *   less than zero or greater than the document length.
      */
@@ -143,8 +143,8 @@ public class JEditorArea extends JEditorPane {
     /**
      * Determines the offset of the start of the given line.
      *
-     * @param line  the line number to translate >= 0
-     * @return the offset >= 0
+     * @param line  the line number to translate &gt;= 0
+     * @return the offset &gt;= 0
      * @exception BadLocationException thrown if the line is
      * less than zero or greater or equal to the number of
      * lines contained in the document (as reported by 
